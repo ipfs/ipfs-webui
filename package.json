@@ -1,0 +1,19 @@
+{
+  "name": "prototype0",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "browserify": "^4.1.8",
+    "cssmin": "^0.4.1",
+    "http-server": "^0.6.1",
+    "less": "^1.7.0",
+    "react": "^0.11.2",
+    "uglify-js": "^2.4.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juan Benet <juan@benet.ai> (http://juan.benet.ai/)"
+}
