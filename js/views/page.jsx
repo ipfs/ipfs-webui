@@ -3,6 +3,7 @@ module.exports = React.createClass({
 
   render: function() {
     return (
+    <div>
       <div className="container">
         <nav className="navbar" role="navigation">
           <div className="container-fluid">
@@ -21,10 +22,6 @@ module.exports = React.createClass({
 
 
             <div className="collapse navbar-collapse" id="navbar-collapse">
-              <ul className="nav navbar-nav navbar-left">
-                <li><a id="key">QmT8uptFpXSmk63VtU8VPy4AGHEbAA7rQWFYJKDggSd2xN</a></li>
-              </ul>
-
               <ul className="nav navbar-nav navbar-right">
 
                 <li><a href="/home"><i className="fa fa-desktop"></i> Home</a></li>
@@ -41,13 +38,20 @@ module.exports = React.createClass({
             </div>
           </div>
         </nav>
-
-      <div className="navhr"></div>
-
-      <div className="main-content">
-        {this.props.children}
       </div>
+
+      <div className="navhr" style={{margin: "10px 0px 30px"}}></div>
+
+        {/*<div className="col-12 text-center webui-idbanner">
+          <a id="key">QmT8uptFpXSmk63VtU8VPy4AGHEbAA7rQWFYJKDggSd2xN</a>
+        </div>*/}
+
+      <div className="container">
+        <div className="col-12">
+          {this.props.children}
+        </div>
       </div>
+    </div>
     )
   }
 })
