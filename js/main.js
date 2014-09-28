@@ -1,9 +1,7 @@
 var React = require('react')
-var page = require('./views/page.jsx')
-
+var home = require('./pages/home.jsx')
 
 // jquery entry point.
 $(document).ready(function() {
-  var id = document.getElementById('page')
-  React.renderComponent(page, id)
+  React.renderComponent(home, document.getElementById('page'))
 })
