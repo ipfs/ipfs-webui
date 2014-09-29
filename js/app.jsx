@@ -1,8 +1,8 @@
 var React = require('react')
-var Router = require('react-router-component')
-var Locations = Router.Locations
-var Location = Router.Location
-var NotFound = Router.NotFound
+var Router = require('react-router')
+var Routes = Router.Routes
+var Route = Router.Route
+var NotFound = Router.NotFoundRoute
 var Page = require('./views/page.jsx')
 var HomePage = require('./pages/home.jsx')
 var PeersPage = require('./pages/peers.jsx')
@@ -13,11 +13,11 @@ module.exports = React.createClass({
 
     return (
       <Page>
-        <Locations>
-          <Location path="/" handler={HomePage} />
-          <Location path="/peers" handler={PeersPage} />
+        <Routes location="history">
+          <Route name="home" path="/" handler={HomePage} />
+          <Route name="peers" path="/peers" handler={PeersPage} />
           <NotFound handler={NotFoundPage} />
-        </Locations>
+        </Routes>
       </Page>
     )
   }
