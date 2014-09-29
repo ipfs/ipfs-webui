@@ -3,11 +3,13 @@ var Nav = require('../views/nav.jsx')
 var PeerList = require('../views/peerlist.jsx')
 var SwarmVis = require('../views/swarmvis.jsx')
 
-module.exports = (
+module.exports = React.createClass({
+  render: function() {
+    return (
   <div className="row">
     <div className="col-sm-8 col-sm-offset-2">
 
-      <Nav activeKey={1} />
+      <Nav activeKey={2} />
 
       <SwarmVis />
 
@@ -32,4 +34,6 @@ module.exports = (
 
     </div>
   </div>
-)
+    )
+  }
+})

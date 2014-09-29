@@ -71,6 +71,7 @@ gulp.task('watch', function() {
 gulp.task('server', function() {
   connect.server({
     root: 'build',
+    fallback: 'build/index.html',
     port: 8000,
     livereload: true
   })

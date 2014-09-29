@@ -4,7 +4,9 @@
   "description": "A frontend for IPFS",
   "main": "index.js",
   "dependencies": {
-    "react-bootstrap": "^0.12.0"
+    "react-async": "^1.0.2",
+    "react-bootstrap": "^0.12.0",
+    "react-router-component": "^0.20.1"
   },
   "devDependencies": {
     "del": "^0.1.3",

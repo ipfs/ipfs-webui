@@ -1,10 +1,8 @@
 var React = require('react')
-var Page = require('./views/page.jsx')
-var home = require('./pages/home.jsx')
-var peers = require('./pages/peers.jsx')
+var App = require('./app.jsx')
 
 // jquery entry point.
 $(document).ready(function() {
-  var content = home
-  React.renderComponent(Page({}, content), document.getElementById('page'))
+  var appEl = document.getElementById('webui-app')
+  React.renderComponent(App(), appEl)
 })

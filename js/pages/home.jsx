@@ -1,11 +1,16 @@
 var React = require('react')
+var Nav = require('../views/nav.jsx')
 var NodeProps = require('../views/nodeprops.jsx')
 var TabbedArea = require('react-bootstrap/TabbedArea')
 var TabPane = require('react-bootstrap/TabPane')
 
-module.exports = (
+module.exports = React.createClass({
+  render: function() {
+    return (
   <div className="row">
     <div className="col-sm-8 col-sm-offset-2">
+
+      <Nav activeKey={1} />
 
       <TabbedArea bsStyle="pills" defaultActiveKey={1} animation={false}>
         <TabPane key={1} tab="Node Info">
@@ -24,4 +29,6 @@ module.exports = (
 
     </div>
   </div>
-)
+    )
+  }
+})
