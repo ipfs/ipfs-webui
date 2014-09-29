@@ -4,7 +4,6 @@ var Table = require('react-bootstrap/Table')
 module.exports = React.createClass({
 
   render: function() {
-    console.log(this.props.table)
     return (
       <Table responsive>
         <tbody>
