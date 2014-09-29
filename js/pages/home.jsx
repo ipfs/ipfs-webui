@@ -3,7 +3,6 @@ var Page = require('../views/page.jsx')
 var NodeProps = require('../views/nodeprops.jsx')
 var TabbedArea = require('react-bootstrap/TabbedArea')
 var TabPane = require('react-bootstrap/TabPane')
-var code = React.DOM.code
 
 module.exports = (
   <Page>
@@ -16,8 +15,8 @@ module.exports = (
           <div className="panel panel-default">
             {NodeProps({
               node: {
-                id: code({className: "multihash"},"QmT8uptFpXSmk63VtU8VPy4AGHEbAA7rQWFYJKDggSd2xN"),
-                address: code({className: "multiaddr"}, "/ip4/10.20.30.40/tcp/4001"),
+                id: "QmT8uptFpXSmk63VtU8VPy4AGHEbAA7rQWFYJKDggSd2xN",
+                address: "/ip4/10.20.30.40/tcp/4001",
             }})}
           </div>
 
