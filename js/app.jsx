@@ -6,6 +6,7 @@ var NotFound = Router.NotFoundRoute
 var Page = require('./views/page.jsx')
 var HomePage = require('./pages/home.jsx')
 var PeersPage = require('./pages/peers.jsx')
+var FilesPage = require('./pages/files.jsx')
 var NotFoundPage = require('./pages/notfound.jsx')
 
 module.exports = React.createClass({
@@ -16,6 +17,7 @@ module.exports = React.createClass({
         <Routes location="history">
           <Route name="home" path="/" handler={HomePage} />
           <Route name="peers" path="/peers" handler={PeersPage} />
+          <Route name="files" path="/files" handler={FilesPage} />
           <NotFound handler={NotFoundPage} />
         </Routes>
       </Page>
