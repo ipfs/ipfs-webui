@@ -3,6 +3,7 @@ var Router = require('react-router')
 var Routes = Router.Routes
 var Route = Router.Route
 var NotFound = Router.NotFoundRoute
+var Redirect = Router.Redirect
 var Page = require('./views/page.jsx')
 var HomePage = require('./pages/home.jsx')
 var PeersPage = require('./pages/peers.jsx')
@@ -19,6 +20,7 @@ module.exports = React.createClass({
           <Route name="peers" path="/peers" handler={PeersPage} />
           <Route name="files" path="/files" handler={FilesPage} />
           <NotFound handler={NotFoundPage} />
+          <Redirect path="/index.html" to="home" />
         </Routes>
       </Page>
     )

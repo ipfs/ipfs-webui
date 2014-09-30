@@ -8,10 +8,12 @@ var uglify = require('gulp-uglify')
 var imagemin = require('gulp-imagemin')
 var sourcemaps = require('gulp-sourcemaps')
 var connect = require('gulp-connect')
+var rename = require('gulp-rename')
 var source = require('vinyl-source-stream')
 var browserify = require('browserify')
 var reactify = require('reactify')
 var del = require('del')
+var NwBuilder = require('node-webkit-builder')
 
 var paths = {
   build: 'build/',
@@ -61,6 +63,8 @@ gulp.task('html', function() {
     .pipe(gulp.dest('build/'))
 })
 
+gulp.task('compile', ['js', 'css', 'img', 'html'])
+
 gulp.task('watch', function() {
   gulp.watch(paths.js, ['js'])
   gulp.watch(paths.css, ['css'])
@@ -77,4 +81,14 @@ gulp.task('server', function() {
   })
 })
 
-gulp.task('default', ['watch', 'js', 'css', 'img', 'html', 'server'])
+gulp.task('build', ['compile'], function() {
+  gulp.src('nw-package.json')
+    .pipe(rename('package.json'))
+    .pipe(gulp.dest('build'))
+
+  var nw = new NwBuilder({ files: ['build/**'] })
+  nw.on('log', console.log)
+  nw.build()
+})
+
+gulp.task('default', ['watch', 'compile', 'server'])
