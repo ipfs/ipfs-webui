@@ -87,7 +87,10 @@ gulp.task('build', ['compile'], function() {
     .pipe(gulp.dest('build'))
 
   stream.on('end', function() {
-    var nw = new NwBuilder({ files: ['build/**', '!build/node-ipfs/**'] })
+    var nw = new NwBuilder({
+      files: ['build/**', '!build/node-ipfs/**'],
+      platforms: ['osx', 'win', 'linux32', 'linux64']
+    })
     nw.build(function(err) {
       if(err) console.error(err)
     })
