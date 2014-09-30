@@ -82,13 +82,16 @@ gulp.task('server', function() {
 })
 
 gulp.task('build', ['compile'], function() {
-  gulp.src('nw-package.json')
+  var stream = gulp.src('nw-package.json')
     .pipe(rename('package.json'))
     .pipe(gulp.dest('build'))
 
-  var nw = new NwBuilder({ files: ['build/**'] })
-  nw.on('log', console.log)
-  nw.build()
+  stream.on('end', function() {
+    var nw = new NwBuilder({ files: ['build/**', '!build/node-ipfs/**'] })
+    nw.build(function(err) {
+      if(err) console.error(err)
+    })
+  }) 
 })
 
 gulp.task('default', ['watch', 'compile', 'server'])
