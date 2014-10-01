@@ -3,6 +3,72 @@ var Nav = require('../views/nav.jsx')
 var FileList = require('../views/filelist.jsx')
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    var files = JSON.parse(localStorage.files || '[]')
+
+    return {
+      files: files,
+      adding: false
+    }
+  },
+
+  addFile: function(e) {
+    e.preventDefault()
+
+    var state = this.state
+    if(state.adding) return
+
+    state.adding = true
+    this.setState(state)
+
+    return
+  },
+
+  onFileChange: function(e) {
+    var files = e.target.files
+    if(!files || !files[0]) return
+    var file = files[0]
+    console.log('adding file: ', file)
+    console.log(this.props.ipfs)
+
+    var reader = new FileReader
+    reader.onload = function() {
+      var data = reader.result
+      data = new window.Buffer(data.substr(data.indexOf(',') + 1), 'base64')
+
+      console.log('data: ', data)
+
+      this.props.ipfs.add(data, function(err, res) {
+        console.log('ipfs.add: ', err, res)
+        if(err || !res) return this.error(err)
+
+        res = res.toString()
+        console.log(res)
+
+        if(res.indexOf('addFile error:') === 0) return this.error(res)
+
+        file.id = res.split(' ')[1].trim()
+        var metadata = {
+          id: file.id,
+          name: file.name,
+          type: file.type,
+          size: file.size
+        }
+
+        var nextFiles = this.state.files.concat([metadata])
+        localStorage.files = JSON.stringify(nextFiles)
+        this.setState({ files: nextFiles, adding: false })
+      }.bind(this))
+    }.bind(this)
+    // TODO: use array buffers instead of base64 strings
+    reader.readAsDataURL(file)
+  },
+
+  error: function(err) {
+    console.error(err)
+    // TODO
+  },
+
   render: function() {
     //  TODO: add file view to show content of selected file
     
@@ -12,15 +78,19 @@ module.exports = React.createClass({
 
       <Nav activeKey={3} />
 
+      <div className="actions">
+        <button className="btn btn-link add-file" style={{display: this.state.adding ? 'none' : 'inline'}} onClick={this.addFile}>
+          <strong><i className="fa fa-plus-circle"></i> Add a file</strong>
+        </button>
+        <input type="file" className="file-select" style={{display: !this.state.adding ? 'none' : 'inline'}} onChange={this.onFileChange}/>
+      </div>
+      <br/>
+
       <div className="panel panel-default">
         {FileList({
-          files: [
-            {name: 'test.txt', id: "Qaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},
-            {name: 'helloworld.go', id: "Qbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}
-          ]
+          files: this.state.files
         })}
       </div>
-
     </div>
   </div>
     )

@@ -18,6 +18,12 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script>
+    if(process) {
+      window.ipfsRpc = require('ipfs-rpc')
+      window.Buffer = Buffer
+    }
+  </script>
   <script src="/static/bundle.min.js"></script>
 
 </head>

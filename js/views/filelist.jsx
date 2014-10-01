@@ -16,14 +16,14 @@ module.exports = React.createClass({
           </tr>
         </thead>
         <tbody>
-        {files.map(function(file) {
+        {files ? files.map(function(file) {
           return (
             <tr className="webui-file">
-              <td>{addr(file.name)}</td>
+              <td><strong>{file.name}</strong></td>
               <td>{addr(file.id)}</td>
             </tr>
           )
-        })}
+        }) : void 0}
         </tbody>
       </Table>
     )
