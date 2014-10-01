@@ -64,6 +64,21 @@ module.exports = React.createClass({
     reader.readAsDataURL(file)
   },
 
+  onFileClick: function(e) {
+    var el = $(e.target)
+    while(!el.hasClass('webui-file')) el = el.parent()
+    var id = el.find('.webui-address').text(),
+        type = el.attr('data-type')
+
+    console.log('clicked', id, type)
+
+    this.props.ipfs.cat(id, function(err, res) {
+      if(err) return this.error(err)
+      // TODO: show file in iframe instead of navigating
+      window.location = 'data:' + type + ';base64,' + res.toString('base64')
+    }.bind(this))
+  },
+
   error: function(err) {
     console.error(err)
     // TODO
@@ -88,7 +103,8 @@ module.exports = React.createClass({
 
       <div className="panel panel-default">
         {FileList({
-          files: this.state.files
+          files: this.state.files,
+          click: this.onFileClick
         })}
       </div>
     </div>

@@ -6,11 +6,13 @@ module.exports = React.createClass({
 
   render: function() {
     var files = this.props.files
+    var click = (this.props.click && typeof this.props.click === 'function') ? this.props.click : function(){}
 
     return (
       <Table responsive className="table-hover">
         <thead>
           <tr>
+            <th></th>
             <th>Name</th>
             <th>ID</th>
           </tr>
@@ -18,8 +20,9 @@ module.exports = React.createClass({
         <tbody>
         {files ? files.map(function(file) {
           return (
-            <tr className="webui-file">
-              <td><strong>{file.name}</strong></td>
+            <tr className="webui-file" data-type={file.type} onClick={click}>
+              <td><i className="fa fa-file"></i></td>
+              <td>{file.name}</td>
               <td>{addr(file.id)}</td>
             </tr>
           )
