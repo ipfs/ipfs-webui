@@ -88,7 +88,7 @@ gulp.task('build', ['compile'], function() {
 
   stream.on('end', function() {
     var nw = new NwBuilder({
-      files: ['build/**', '!build/node-ipfs/**'],
+      files: ['build/**', '!build/ipfs-webui/**'],
       platforms: ['osx', 'win', 'linux32', 'linux64']
     })
     nw.build(function(err) {
