@@ -28,24 +28,17 @@ module.exports = React.createClass({
     var files = e.target.files
     if(!files || !files[0]) return
     var file = files[0]
+    var t = this
     console.log('adding file: ', file)
-    console.log(this.props.ipfs)
 
-    var reader = new FileReader
-    reader.onload = function() {
-      var data = reader.result
-      data = new window.Buffer(data.substr(data.indexOf(',') + 1), 'base64')
-
-      console.log('data: ', data)
-
-      this.props.ipfs.add(data, function(err, res) {
-        console.log('ipfs.add: ', err, res)
-        if(err || !res) return this.error(err)
+    function add(data) {
+      t.props.ipfs.add(data, function(err, res) {
+        if(err || !res) return t.error(err)
 
         res = res.toString()
         console.log(res)
 
-        if(res.indexOf('addFile error:') === 0) return this.error(res)
+        if(res.indexOf('addFile error:') === 0) return t.error(res)
 
         file.id = res.split(' ')[1].trim()
         var metadata = {
@@ -55,13 +48,25 @@ module.exports = React.createClass({
           size: file.size
         }
 
-        var nextFiles = this.state.files.concat([metadata])
+        var nextFiles = t.state.files.concat([metadata])
         localStorage.files = JSON.stringify(nextFiles)
-        this.setState({ files: nextFiles, adding: false })
-      }.bind(this))
-    }.bind(this)
-    // TODO: use array buffers instead of base64 strings
-    reader.readAsDataURL(file)
+        t.setState({ files: nextFiles, adding: false })
+      })
+    }
+
+    if(file.path) {
+      add(file.path)
+
+    } else {
+      var reader = new FileReader
+      reader.onload = function() {
+        var data = reader.result
+        data = new window.Buffer(data.substr(data.indexOf(',') + 1), 'base64')
+        add(data)
+      }.bind(this)
+      // TODO: use array buffers instead of base64 strings
+      reader.readAsDataURL(file)
+    }
   },
 
   onFileClick: function(e) {
