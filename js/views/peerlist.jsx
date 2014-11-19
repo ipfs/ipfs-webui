@@ -5,10 +5,16 @@ var addr = require('./typography.jsx').addr
 module.exports = React.createClass({
 
   render: function() {
-    var peers = this.props.peers
-    var table = peers.map(function(peer) {
-      return [addr(peer.id), addr(peer.address)]
-    })
+    var peers = this.props.peers.Strings
+    if(peers) {
+      console.log(peers)
+      peers = peers.map(function(peer) {
+        var i = peer.lastIndexOf('/');
+        return { address: peer.substr(0, i), id: peer.substr(i+1) }
+      })
+    } else {
+      peers = []
+    }
 
     return (
       <Table responsive className="table-hover">

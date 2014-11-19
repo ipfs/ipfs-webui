@@ -4,6 +4,27 @@ var PeerList = require('../views/peerlist.jsx')
 var SwarmVis = require('../views/swarmvis.jsx')
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    var t = this
+
+    t.props.ipfs.swarm.peers(function(err, peers) {
+      if(!err) t.setState({ peers: peers })
+    });
+
+    t.props.pollInterval = setInterval(function() {
+      t.props.ipfs.swarm.peers(function(err, peers) {
+        peers = peers.sort();
+        if(!err) t.setState({ peers: peers })
+      });
+    }, 1000)
+
+    return { peers: [] }
+  },
+
+  componentWillUnmount: function() {
+    clearInterval(this.props.pollInterval)
+  },
+
   render: function() {
     return (
   <div className="row">
@@ -11,24 +32,9 @@ module.exports = React.createClass({
 
       <Nav activeKey={2} />
 
-      <SwarmVis />
-
       <div className="panel panel-default">
         {PeerList({
-          peers: [
-            {id: "Qaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-             address: "/ip4/100.200.100.200/tcp/5678" },
-            {id: "Qbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-             address: "/ip4/100.200.100.200/tcp/5679" },
-            {id: "Qaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-             address: "/ip4/100.200.100.200/tcp/5678" },
-            {id: "Qbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-             address: "/ip4/100.200.100.200/tcp/5679" },
-            {id: "Qaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-             address: "/ip4/100.200.100.200/tcp/5678" },
-            {id: "Qbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-             address: "/ip4/100.200.100.200/tcp/5679" },
-          ]
+          peers: this.state.peers
         })}
       </div>
 
