@@ -5,13 +5,13 @@ var addr = require('./typography.jsx').addr
 module.exports = React.createClass({
 
   render: function() {
-    var node = this.props.node
+    var node = this.props || {}
+    console.log(node)
     var table = [
-      ["Node ID", addr(node.id)],
-      ["Address", addr(node.address)],
-      ["Version", addr(node.version)],
+      ["Node ID", addr(node.ID)],
+      ["Version", addr(node.AgentVersion)]
     ]
 
-    return PropTable({table: table})
+    return PropTable({ table: table }) 
   }
 })
