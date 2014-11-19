@@ -4,10 +4,18 @@ var FileList = require('../views/filelist.jsx')
 
 module.exports = React.createClass({
   getInitialState: function() {
+    var t = this
+
     var files = JSON.parse(localStorage.files || '[]')
+
+    t.props.ipfs.pin.list(function(err, pinned) {
+      if(err || !pinned) return t.error(err)
+      t.setState({ pinned: pinned.Keys })
+    })
 
     return {
       files: files,
+      pinned: [],
       adding: false
     }
   },
@@ -35,20 +43,14 @@ module.exports = React.createClass({
       t.props.ipfs.add(data, function(err, res) {
         if(err || !res) return t.error(err)
 
-        res = res.toString()
-        console.log(res)
-
-        if(res.indexOf('addFile error:') === 0) return t.error(res)
-
-        file.id = res.split(' ')[1].trim()
         var metadata = {
-          id: file.id,
-          name: file.name,
+          id: res.Objects[0].Hash,
+          name: res.Names[0] || file.name,
           type: file.type,
           size: file.size
         }
 
-        var nextFiles = t.state.files.concat([metadata])
+        var nextFiles = (t.state.files || []).concat([metadata])
         localStorage.files = JSON.stringify(nextFiles)
         t.setState({ files: nextFiles, adding: false })
       })
@@ -61,27 +63,12 @@ module.exports = React.createClass({
       var reader = new FileReader
       reader.onload = function() {
         var data = reader.result
-        data = new window.Buffer(data.substr(data.indexOf(',') + 1), 'base64')
+        data = new Buffer(data.substr(data.indexOf(',') + 1), 'base64')
         add(data)
       }.bind(this)
       // TODO: use array buffers instead of base64 strings
       reader.readAsDataURL(file)
     }
-  },
-
-  onFileClick: function(e) {
-    var el = $(e.target)
-    while(!el.hasClass('webui-file')) el = el.parent()
-    var id = el.find('.webui-address').text(),
-        type = el.attr('data-type')
-
-    console.log('clicked', id, type)
-
-    this.props.ipfs.cat(id, function(err, res) {
-      if(err) return this.error(err)
-      // TODO: show file in iframe instead of navigating
-      window.location = 'data:' + type + ';base64,' + res.toString('base64')
-    }.bind(this))
   },
 
   error: function(err) {
@@ -107,10 +94,13 @@ module.exports = React.createClass({
       <br/>
 
       <div className="panel panel-default">
-        {FileList({
-          files: this.state.files,
-          click: this.onFileClick
-        })}
+        {FileList({ files: this.state.files })}
+      </div>
+      <br/>
+
+      <h3>Pinned Files</h3>
+      <div className="panel panel-default">
+        {FileList({ files: this.state.pinned, namesHidden: true })}
       </div>
     </div>
   </div>
