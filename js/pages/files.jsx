@@ -13,11 +13,22 @@ module.exports = React.createClass({
       t.setState({ pinned: pinned.Keys })
     })
 
+    t.props.pollInterval = setInterval(function() {
+      t.props.ipfs.pin.list(function(err, pinned) {
+        if(err || !pinned) return t.error(err)
+        t.setState({ pinned: pinned.Keys })
+      })
+    }, 1000)
+
     return {
       files: files,
       pinned: [],
       adding: false
     }
+  },
+
+  componentWillUnmount: function() {
+    clearInterval(this.props.pollInterval)
   },
 
   addFile: function(e) {
