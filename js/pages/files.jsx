@@ -10,13 +10,13 @@ module.exports = React.createClass({
 
     t.props.ipfs.pin.list(function(err, pinned) {
       if(err || !pinned) return t.error(err)
-      t.setState({ pinned: pinned.Keys })
+      t.setState({ pinned: pinned.Keys.sort() })
     })
 
     t.props.pollInterval = setInterval(function() {
       t.props.ipfs.pin.list(function(err, pinned) {
         if(err || !pinned) return t.error(err)
-        t.setState({ pinned: pinned.Keys })
+        t.setState({ pinned: pinned.Keys.sort() })
       })
     }, 1000)
 
