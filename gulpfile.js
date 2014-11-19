@@ -53,7 +53,7 @@ gulp.task('css', function() {
 
 gulp.task('img', function() {
   return gulp.src(paths.img)
-    .pipe(imagemin({optimizationLevel: 5}))
+    //.pipe(imagemin({optimizationLevel: 5}))
     .pipe(gulp.dest('build/static'))
     .pipe(connect.reload())
 })
