@@ -5,6 +5,20 @@ var TabbedArea = require('react-bootstrap/TabbedArea')
 var TabPane = require('react-bootstrap/TabPane')
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    var t = this
+    var id = t.props.ipfs.id(function(err, id) {
+      console.log(id)
+      if(!err) t.setState(id)
+    });
+
+    return {
+      ID: '',
+      Addresses: [],
+      AgentVersion: ''
+    }
+  },
+
   render: function() {
     return (
   <div className="row">
@@ -16,8 +30,9 @@ module.exports = React.createClass({
       <div className="panel panel-default">
         {NodeProps({
           node: {
-            id: "QmT8uptFpXSmk63VtU8VPy4AGHEbAA7rQWFYJKDggSd2xN",
-            address: "/ip4/10.20.30.40/tcp/4001",
+            id: this.state.ID,
+            address: this.state.Addresses[this.state.Addresses.length-1],
+            version: this.state.AgentVersion,
           }
         })}
       </div>

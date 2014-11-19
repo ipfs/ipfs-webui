@@ -9,6 +9,7 @@ module.exports = React.createClass({
     var table = [
       ["Node ID", addr(node.id)],
       ["Address", addr(node.address)],
+      ["Version", addr(node.version)],
     ]
 
     return PropTable({table: table})
