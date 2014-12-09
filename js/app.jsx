@@ -8,6 +8,7 @@ var Page = require('./views/page.jsx')
 var HomePage = require('./pages/home.jsx')
 var ConnectionsPage = require('./pages/connections.jsx')
 var FilesPage = require('./pages/files.jsx')
+var ObjectsPage = require('./pages/objects.jsx')
 var NotFoundPage = require('./pages/notfound.jsx')
 var ipfs = require('ipfs-api')
 
@@ -27,6 +28,8 @@ module.exports = React.createClass({
           <Route name="home" path="/" handler={HomePage} ipfs={this.state.ipfs} />
           <Route name="connections" path="/connections" handler={ConnectionsPage} ipfs={this.state.ipfs} />
           <Route name="files" path="/files" handler={FilesPage} ipfs={this.state.ipfs} />
+          <Route name="objects" path="/objects" handler={ObjectsPage} ipfs={this.state.ipfs} />
+          <Route name="object" path="/objects/:hash" handler={ObjectsPage} ipfs={this.state.ipfs} />
           <NotFound handler={NotFoundPage} />
           <Redirect path="/index.html" to="home" />
         </Routes>

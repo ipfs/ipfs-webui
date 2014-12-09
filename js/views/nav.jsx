@@ -10,6 +10,7 @@ module.exports = React.createClass({
         <NavItem key={1} href="/"><i className="fa fa-desktop"></i> Home</NavItem>
         <NavItem key={2} href="/connections"><i className="fa fa-share-alt"></i> Connections</NavItem>
         <NavItem key={3} href="/files"><i className="fa fa-copy"></i> Files</NavItem>
+        <NavItem key={4} href="/objects"><i className="fa fa-cubes"></i> Objects</NavItem>
       </Nav>
     )
   }
