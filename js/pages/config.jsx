@@ -15,7 +15,10 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var config = this.state.config ? Config(this.state.config) : null
+    var config = this.state.config ? Config({
+      config: this.state.config,
+      ipfs: this.props.ipfs
+    }) : null
 
     return (
       <div className="row">
