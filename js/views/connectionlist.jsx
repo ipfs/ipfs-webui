@@ -21,6 +21,16 @@ var Connection = React.createClass({
         open: true,
         peer: peer
       })
+
+      var address = t.props.Address.split('/')[2]
+      $.get('https://freegeoip.net/json/' + address, function(res) {
+        var location = res.city
+        if(res.region_code) location += ', ' + res.region_code
+        location += ', ' + res.country_name
+
+        t.state.peer.location = location
+        t.setState({ peer: t.state.peer })
+      })
     })
   },
 

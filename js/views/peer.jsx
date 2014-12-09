@@ -9,6 +9,9 @@ module.exports = React.createClass({
         <br/>
         <ul className="list-group">
           <li className="list-group-item">
+            <strong>Location: </strong> {this.props.location}
+          </li>
+          <li className="list-group-item">
             <strong>Bytes Sent: </strong> {this.props.BytesSent || 0}
           </li>
           <li className="list-group-item">
