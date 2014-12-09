@@ -9,10 +9,16 @@ module.exports = React.createClass({
 
     var getPeers = function() {
       t.props.ipfs.swarm.peers(function(err, res) {
+        if(err) return console.error(err);
+
         var peers = res.Peers.sort(function(a, b) {
           return a.ID > b.ID ? 1 : -1
         })
-        if(!err) t.setState({ peers: peers })
+        peers.map(function(peer) {
+          peer.ipfs = t.props.ipfs
+        })
+
+        t.setState({ peers: peers })
       })
     }
 
@@ -33,6 +39,7 @@ module.exports = React.createClass({
 
       <Nav activeKey={2} />
 
+      <h4>Connected to {this.state.peers.length} peer{this.state.peers.length !== 1 ? 's' : ''}</h4>
       <div className="panel panel-default">
         {ConnectionList({
           peers: this.state.peers
