@@ -8,7 +8,7 @@ module.exports = React.createClass({
     return (
       <Nav bsStyle="tabs" activeKey={this.props.activeKey}  style={{"margin-bottom": "60px"}}>
         <NavItem key={1} href="/"><i className="fa fa-desktop"></i> Home</NavItem>
-        <NavItem key={2} href="/peers"><i className="fa fa-share-alt"></i> Peers</NavItem>
+        <NavItem key={2} href="/connections"><i className="fa fa-share-alt"></i> Connections</NavItem>
         <NavItem key={3} href="/files"><i className="fa fa-copy"></i> Files</NavItem>
       </Nav>
     )

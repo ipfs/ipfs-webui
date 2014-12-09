@@ -1,22 +1,23 @@
 var React = require('react')
 var Nav = require('../views/nav.jsx')
-var PeerList = require('../views/peerlist.jsx')
+var ConnectionList = require('../views/connectionlist.jsx')
 var SwarmVis = require('../views/swarmvis.jsx')
 
 module.exports = React.createClass({
   getInitialState: function() {
     var t = this
 
-    t.props.ipfs.swarm.peers(function(err, peers) {
-      if(!err) t.setState({ peers: peers })
-    });
-
-    t.props.pollInterval = setInterval(function() {
-      t.props.ipfs.swarm.peers(function(err, peers) {
-        peers = peers.sort();
+    var getPeers = function() {
+      t.props.ipfs.swarm.peers(function(err, res) {
+        var peers = res.Peers.sort(function(a, b) {
+          return a.ID > b.ID ? 1 : -1
+        })
         if(!err) t.setState({ peers: peers })
-      });
-    }, 1000)
+      })
+    }
+
+    getPeers()
+    t.props.pollInterval = setInterval(getPeers, 1000)
 
     return { peers: [] }
   },
@@ -33,7 +34,7 @@ module.exports = React.createClass({
       <Nav activeKey={2} />
 
       <div className="panel panel-default">
-        {PeerList({
+        {ConnectionList({
           peers: this.state.peers
         })}
       </div>
