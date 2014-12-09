@@ -25,14 +25,9 @@ module.exports = React.createClass({
               {this.props.Links.map(function(link) {
                 var path = '/objects/' + link.Hash
 
-                function handleLink(e) {
-                  window.history.pushState('', link.Hash, path)
-                  e.preventDefault()
-                }
-
                 return <tr>
-                  <td><a href={path} onClick={handleLink}>{link.Name}</a></td>
-                  <td><a href={path} onClick={handleLink}>{addr(link.Hash)}</a></td>
+                  <td><a href={path}>{link.Name}</a></td>
+                  <td><a href={path}>{addr(link.Hash)}</a></td>
                   <td>{link.Size}</td>
                 </tr>
               })}
