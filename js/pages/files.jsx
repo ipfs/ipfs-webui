@@ -8,21 +8,25 @@ module.exports = React.createClass({
 
     var files = JSON.parse(localStorage.files || '[]')
 
-    t.props.ipfs.pin.list(function(err, pinned) {
-      if(err || !pinned) return t.error(err)
-      t.setState({ pinned: pinned.Keys.sort() })
-    })
-
-    t.props.pollInterval = setInterval(function() {
+    function getFiles() {
       t.props.ipfs.pin.list(function(err, pinned) {
         if(err || !pinned) return t.error(err)
         t.setState({ pinned: pinned.Keys.sort() })
       })
-    }, 1000)
+
+      t.props.ipfs.pin.list('recursive', function(err, pinned) {
+        if(err || !pinned) return t.error(err)
+        t.setState({ local: pinned.Keys.sort() })
+      })
+    }
+
+    getFiles()
+    t.props.pollInterval = setInterval(getFiles, 1000)
 
     return {
       files: files,
       pinned: [],
+      local: [],
       adding: false
     }
   },
@@ -109,6 +113,12 @@ module.exports = React.createClass({
       <h3>Pinned Files</h3>
       <div className="panel panel-default">
         {FileList({ files: this.state.pinned, namesHidden: true })}
+      </div>
+      <br />
+
+      <h3>All Local Files</h3>
+      <div className="panel panel-default">
+        {FileList({ files: this.state.local, namesHidden: true })}
       </div>
     </div>
   </div>
