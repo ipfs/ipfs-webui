@@ -18,9 +18,7 @@ function linkHandler()  {
     if (event.defaultPrevented)
       return
 
-    Router.transitionTo(href)
     event.preventDefault()
-    event.stopPropagation()
     return false
   });
 }

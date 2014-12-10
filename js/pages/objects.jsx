@@ -8,22 +8,45 @@ module.exports = React.createClass({
 
   getInitialState: function() {
     console.log(this)
-    var hash = this.getParams().hash
+    var hash = this.getParams().hash.replace(/[.]/g, '/')
     if(hash) this.getObject(hash)
 
-    return { object: null, hash: '' }
+    return { object: null, hash: hash || '' }
   },
 
-  getObject: function(hash) {
-    console.log('getObject:', hash)
+  handleLink: function(e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    var target = $(e.target)
+    if(!target.attr('data-name') && !target.attr('data-hash')) target = target.parent()
+    var hash = target.attr('data-name')
+    if(hash) hash = this.state.hash + '/' + hash
+    else hash = target.attr('data-hash')
+    this.setState({ hash: hash })
+    this.getObject(hash)
+  },
+
+  handleBack: function(e) {
+    var hash = this.state.hash
+    var slashIndex = hash.lastIndexOf('/')
+    if(slashIndex === -1) return
+    hash = hash.substr(0, slashIndex)
+    this.setState({ hash: hash })
+    this.getObject(hash)
+  },
+
+  getObject: function(path) {
+    console.log('getObject:', path)
+
     var t = this
-    t.props.ipfs.object.get(hash, function(err, res) {
+    t.props.ipfs.object.get(path, function(err, res) {
       if(err) return console.error(err)
 
-      var path = '/objects/' + hash
-      if(window.location.pathname !== path)
-        window.history.pushState('', hash, path)
-      t.setState({ object: res, hash: hash })
+      var url = '/objects/' + path.replace(/[\/]/g, '.')
+      if(window.location.pathname !== url)
+        window.history.pushState('', path, url)
+      t.setState({ object: res })
     })
   },
 
@@ -31,10 +54,16 @@ module.exports = React.createClass({
     var hash = $(e.target).val().trim()
     console.log('handleHash:', hash)
     if(hash) this.getObject(hash)
+    this.setState({ hash: hash })
   },
 
   render: function() {
-    var object = this.state.object ? Object(this.state.object) : null
+    var object = this.state.object ? Object({
+      object: this.state.object,
+      handleLink: this.handleLink,
+      handleBack: this.handleBack,
+      path: this.state.hash
+    }) : null
 
     return (
       <div className="row">

@@ -9,5 +9,4 @@ $(document).ready(function() {
   Router.run(routes, Router.HistoryLocation, function(Handler) {
     React.render(Handler(), appEl)
   })
-  linkHandler()
 })
