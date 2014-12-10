@@ -20,31 +20,38 @@ module.exports = React.createClass({
       )
     }
 
+    var links = <div className="padded"><span>This object has no links</span></div>
+    if(this.props.object.Links.length > 0) {
+      links = (
+        <div className="table-responsive">
+          <table className="table table-hover filelist">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Hash</th>
+                <th>Size</th>
+              </tr>
+            </thead>
+            <tbody>
+            {this.props.object.Links.map(function(link) {
+              return <tr>
+                <td><a href="#" data-name={link.Name} data-hash={link.Hash} onClick={handleLink}>{link.Name}</a></td>
+                <td><a href="#" data-name={link.Name} data-hash={link.Hash} onClick={handleLink}>{addr(link.Hash)}</a></td>
+                <td>{link.Size}</td>
+              </tr>
+            })}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+
     return (
       <div className="webui-object">
         {back}
         <h4>Links</h4>
         <div className="panel panel-default">
-          <div className="table-responsive">
-            <table className="table table-hover filelist">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Hash</th>
-                  <th>Size</th>
-                </tr>
-              </thead>
-              <tbody>
-              {this.props.object.Links.map(function(link) {
-                return <tr>
-                  <td><a href="#" data-name={link.Name} data-hash={link.Hash} onClick={handleLink}>{link.Name}</a></td>
-                  <td><a href="#" data-name={link.Name} data-hash={link.Hash} onClick={handleLink}>{addr(link.Hash)}</a></td>
-                  <td>{link.Size}</td>
-                </tr>
-              })}
-              </tbody>
-            </table>
-          </div>
+          {links}
         </div>
         <br/>
         <h4>Data <span className="small">({size} bytes)</span></h4>
