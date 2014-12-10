@@ -26,8 +26,6 @@ module.exports = React.createClass({
   <div className="row">
     <div className="col-sm-10 col-sm-offset-1">
 
-      <Nav activeKey={1} />
-
       <h3>Node Info</h3>
       <div className="panel panel-default">
         {NodeProps(this.state)}

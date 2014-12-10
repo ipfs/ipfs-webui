@@ -1,5 +1,4 @@
 var Router = require('react-router')
-module.exports = linkHandler
 
 function linkHandler()  {
 
@@ -9,6 +8,7 @@ function linkHandler()  {
   $(document.body).on('click', 'a', function(event) {
 
     var href = $(this).attr('href')
+    console.log(href)
 
     // pass through if external or static
     if (external.test(href) || static.test(href))
@@ -20,6 +20,9 @@ function linkHandler()  {
 
     Router.transitionTo(href)
     event.preventDefault()
+    event.stopPropagation()
     return false
   });
 }
+
+module.exports = linkHandler

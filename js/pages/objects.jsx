@@ -4,9 +4,11 @@ var Nav = require('../views/nav.jsx')
 var Object = require('../views/object.jsx')
 
 module.exports = React.createClass({
+  mixins: [ Router.State ],
+
   getInitialState: function() {
     console.log(this)
-    var hash = this.props.params.hash
+    var hash = this.getParams().hash
     if(hash) this.getObject(hash)
 
     return { object: null, hash: '' }
@@ -20,7 +22,7 @@ module.exports = React.createClass({
 
       var path = '/objects/' + hash
       if(window.location.pathname !== path)
-        window.history.pushState('', hash, url)
+        window.history.pushState('', hash, path)
       t.setState({ object: res, hash: hash })
     })
   },
@@ -37,9 +39,6 @@ module.exports = React.createClass({
     return (
       <div className="row">
         <div className="col-sm-10 col-sm-offset-1">
-
-          <Nav activeKey={4} />
-
           <div className="input-group">
             <span className="input-group-addon input-lg">/ipfs/</span>
             <input type="text" className="form-control input-lg" placeholder="Enter the hash or path of an object" onChange={this.handleHash} value={this.state.hash}/>

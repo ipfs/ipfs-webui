@@ -23,9 +23,6 @@ module.exports = React.createClass({
     return (
       <div className="row">
         <div className="col-sm-10 col-sm-offset-1">
-
-          <Nav activeKey={5} />
-
           {config}
         </div>
       </div>

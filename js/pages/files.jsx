@@ -93,9 +93,6 @@ module.exports = React.createClass({
     return (
   <div className="row">
     <div className="col-sm-10 col-sm-offset-1">
-
-      <Nav activeKey={3} />
-
       <div className="actions">
         <button className="btn btn-link add-file" style={{display: this.state.adding ? 'none' : 'inline'}} onClick={this.addFile}>
           <strong><i className="fa fa-plus-circle"></i> Add a file</strong>

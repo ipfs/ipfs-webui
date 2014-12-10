@@ -1,18 +1,17 @@
 var React = require('react')
-var Nav = require('react-bootstrap/Nav')
-var NavItem = require('react-bootstrap/NavItem')
+var Link = require('react-router').Link
 
 module.exports = React.createClass({
 
   render: function() {
     return (
-      <Nav bsStyle="tabs" activeKey={this.props.activeKey}  style={{"margin-bottom": "60px"}}>
-        <NavItem key={1} href="/"><i className="fa fa-desktop"></i> Home</NavItem>
-        <NavItem key={2} href="/connections"><i className="fa fa-share-alt"></i> Connections</NavItem>
-        <NavItem key={3} href="/files"><i className="fa fa-copy"></i> Files</NavItem>
-        <NavItem key={4} href="/objects"><i className="fa fa-cubes"></i> Objects</NavItem>
-        <NavItem key={5} href="/config"><i className="fa fa-gear"></i> Config</NavItem>
-      </Nav>
+      <ul className="nav nav-tabs" style={{"margin-bottom": "60px"}}>
+        <li><Link to="home"><i className="fa fa-desktop"></i> Home</Link></li>
+        <li><Link to="connections"><i className="fa fa-share-alt"></i> Connections</Link></li>
+        <li><Link to="files"><i className="fa fa-copy"></i> Files</Link></li>
+        <li><Link to="objects"><i className="fa fa-cubes"></i> Objects</Link></li>
+        <li><Link to="config"><i className="fa fa-gear"></i> Config</Link></li>
+      </ul>
     )
   }
 })

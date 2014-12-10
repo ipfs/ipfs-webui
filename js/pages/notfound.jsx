@@ -7,8 +7,6 @@ module.exports = React.createClass({
   <div className="row">
     <div className="col-sm-10 col-sm-offset-1">
 
-      <Nav />
-
       <h1>404 - Not Found</h1>
 
       <p><a href="/">Go to console home</a></p>

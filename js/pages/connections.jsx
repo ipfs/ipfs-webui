@@ -37,8 +37,6 @@ module.exports = React.createClass({
   <div className="row">
     <div className="col-sm-10 col-sm-offset-1">
 
-      <Nav activeKey={2} />
-
       <h4>Connected to {this.state.peers.length} peer{this.state.peers.length !== 1 ? 's' : ''}</h4>
       <div className="panel panel-default">
         {ConnectionList({

@@ -1,4 +1,5 @@
 var React = require('react')
+var Link = require('react-router').Link
 var addr = require('./typography.jsx').addr
 
 module.exports = React.createClass({
@@ -26,8 +27,8 @@ module.exports = React.createClass({
                 var path = '/objects/' + link.Hash
 
                 return <tr>
-                  <td><a href={path}>{link.Name}</a></td>
-                  <td><a href={path}>{addr(link.Hash)}</a></td>
+                  <td><Link to="object" params={{hash: link.Hash}}>{link.Name}</Link></td>
+                  <td><Link to="object" params={{hash: link.Hash}}>{addr(link.Hash)}</Link></td>
                   <td>{link.Size}</td>
                 </tr>
               })}

@@ -1,5 +1,9 @@
 var React = require('react')
 var Nav = require('./nav.jsx')
+var RouteHandler = require('react-router').RouteHandler
+
+// TODO: get this address from a config
+var ipfs = require('ipfs-api')('localhost', 5001)
 
 // var Navbar = require('react-bootstrap/Navbar')
 // var Nav = require('react-bootstrap/Nav')
@@ -8,12 +12,12 @@ var Nav = require('./nav.jsx')
 module.exports = React.createClass({
   getInitialState: function() {
     var t = this
-    t.props.ipfs.version(function(err, res) {
+    ipfs.version(function(err, res) {
       if(err) return console.error(err)
       t.setState({ version: res.Version })
     })
 
-    t.props.ipfs.update.check(function(err, res) {
+    ipfs.update.check(function(err, res) {
       console.log(err, res)
       if(!err) t.setState({ updateAvailable: true })
     })
@@ -27,7 +31,7 @@ module.exports = React.createClass({
 
   update: function() {
     var t = this
-    t.props.ipfs.update.apply(function(err, res) {
+    ipfs.update.apply(function(err, res) {
       console.log(err, res)
       t.setState({ updating: false })
       if(!err) window.location = window.location.toString()
@@ -97,7 +101,10 @@ module.exports = React.createClass({
 
       <div className="container">
         {update}
-        {this.props.children}
+
+        <div className="col-sm-10 col-sm-offset-1"><Nav/></div>
+
+        <RouteHandler ipfs={ipfs}/>
       </div>
     </div>
     )
