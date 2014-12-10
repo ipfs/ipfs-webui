@@ -8,10 +8,10 @@ module.exports = React.createClass({
 
   getInitialState: function() {
     console.log(this)
-    var hash = this.getParams().hash.replace(/[.]/g, '/')
+    var hash = (this.getParams().hash || '').replace(/[.]/g, '/')
     if(hash) this.getObject(hash)
 
-    return { object: null, hash: hash || '' }
+    return { object: null, hash: hash }
   },
 
   handleLink: function(e) {

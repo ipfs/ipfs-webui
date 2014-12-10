@@ -4,8 +4,7 @@ var addr = require('./typography.jsx').addr
 module.exports = React.createClass({
 
   render: function() {
-    // convert from base64 length to real length
-    var size = Math.floor(this.props.object.Data.length * 4/3)
+    var size = atob(this.props.object.Data).length - 2
     var data = 'data:text/plain;base64,' + this.props.object.Data.substr(0, 10000)
     var handleLink = this.props.handleLink
 
