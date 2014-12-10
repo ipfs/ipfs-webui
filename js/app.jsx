@@ -24,7 +24,7 @@ module.exports = React.createClass({
   render: function() {
 
     return (
-      <Page>
+      <Page ipfs={this.state.ipfs}>
         <Routes location="history">
           <Route name="home" path="/" handler={HomePage} ipfs={this.state.ipfs} />
           <Route name="connections" path="/connections" handler={ConnectionsPage} ipfs={this.state.ipfs} />

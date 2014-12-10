@@ -6,8 +6,49 @@ var Nav = require('./nav.jsx')
 // var NavItem = require('react-bootstrap/NavItem')
 
 module.exports = React.createClass({
+  getInitialState: function() {
+    var t = this
+    t.props.ipfs.version(function(err, res) {
+      if(err) return console.error(err)
+      t.setState({ version: res.Version })
+    })
+
+    t.props.ipfs.update.check(function(err, res) {
+      console.log(err, res)
+      if(!err) t.setState({ updateAvailable: true })
+    })
+
+    return {
+      version: '',
+      updateAvailable: false,
+      updating: false
+    }
+  },
+
+  update: function() {
+    var t = this
+    t.props.ipfs.update.apply(function(err, res) {
+      console.log(err, res)
+      t.setState({ updating: false })
+      if(!err) window.location = window.location.toString()
+    })
+    t.setState({ updating: true })
+  },
 
   render: function() {
+    var update = null
+    if(this.state.updateAvailable) {
+      var updateButtonClass = 'btn btn-link'
+      if(this.state.updating) updateButtonClass += ' disabled'
+
+      update = (
+        <div className="alert alert-warning">
+          <span><i className="fa fa-warning"></i> A new version of IPFS is available. </span>
+          <button className={updateButtonClass} onClick={this.update}>Click here to update.</button>
+        </div>
+      )
+    }
+
     return (
     <div>
       <div className="container">
@@ -23,6 +64,10 @@ module.exports = React.createClass({
             <a className="navbar-brand selected" href="/">
               <img src="/static/img/ipfs-logo-128.png" />
             </a>
+          </div>
+
+          <div className="navbar-left">
+            <span className="webui-version">{this.state.version}</span>
           </div>
 
           <div className="collapse navbar-collapse" id="navbar-collapse">
@@ -51,6 +96,7 @@ module.exports = React.createClass({
         </div>*/}
 
       <div className="container">
+        {update}
         {this.props.children}
       </div>
     </div>
