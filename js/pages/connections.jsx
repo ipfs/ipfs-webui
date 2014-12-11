@@ -36,19 +36,15 @@ module.exports = React.createClass({
             getLocation(peer.Address, function(err, res) {
               if(err) return console.error(err)
 
-              peer.location = res.formatted
+              peer.location = res
               t.state.locations[peer.ID] = res
               t.setState({
-                peers: this.state.peers,
-                locations: this.state.locations
+                peers: peers,
+                locations: t.state.locations
               })
             })
-          } else {
-            peer.location = location.formatted
           }
         })
-
-        t.setState({ peers: peers })
       })
     }
 
@@ -77,8 +73,44 @@ module.exports = React.createClass({
         })}
       </div>
 
+      <Globe peers={this.state.peers} />
+
     </div>
   </div>
     )
+  }
+})
+
+var Globe = React.createClass({
+  getInitialState: function() {
+    return { globe: null }
+  },
+
+  componentDidMount: function() {
+    console.log('mount')
+    var globe = new DAT.Globe(this.getDOMNode(), {
+      imgDir: '/static/img/'
+    })
+    globe.animate()
+    this.setState({ globe: globe })
+  },
+
+  addPoints: function() {
+    console.log(this.props.peers)
+    var data = []
+    this.props.peers.forEach(function(peer) {
+      if(peer.location)
+        data.push(peer.location.latitude, peer.location.longitude, 0.1)
+    })
+
+    if(!this.state.globe) return
+    console.log('adding new data to globe:', data)
+    this.state.globe.addData(data, { format: 'magnitude' })
+    this.state.globe.createPoints()
+  },
+
+  render: function() {
+    this.addPoints()
+    return <div></div>
   }
 })

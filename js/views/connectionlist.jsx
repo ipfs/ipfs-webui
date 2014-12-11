@@ -6,7 +6,6 @@ var Peer = require('./peer.jsx')
 
 var Connection = React.createClass({
   getInitialState: function() {
-    console.log(this.props)
     return { open: false }
   },
 
@@ -16,8 +15,6 @@ var Connection = React.createClass({
     var t = this
     t.props.ipfs.id(t.props.ID, function(err, peer) {
       if(err) return console.error(err)
-
-      console.log(peer)
 
       t.setState({
         open: true,
@@ -29,7 +26,9 @@ var Connection = React.createClass({
   render: function() {
     var peer = this.state.open ? Peer({
       peer: this.state.peer,
-      location: this.props.location
+      location: this.props.location,
+      bytesRead: this.props.BytesRead,
+      bytesWritten: this.props.BytesWritten
     }) : null
     var className = 'webui-connection list-group-item'
     if(this.state.open) className += ' active'
