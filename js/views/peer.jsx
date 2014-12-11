@@ -4,6 +4,8 @@ var addr = require('./typography.jsx').addr
 module.exports = React.createClass({
 
   render: function() {
+    console.log(this.props)
+
     return (
       <div className="webui-peer">
         <br/>
@@ -12,28 +14,28 @@ module.exports = React.createClass({
             <strong>Location: </strong> {this.props.location}
           </li>
           <li className="list-group-item">
-            <strong>Bytes Sent: </strong> {this.props.BytesSent || 0}
+            <strong>Bytes Sent: </strong> {this.props.peer.BytesSent || 0}
           </li>
           <li className="list-group-item">
-            <strong>Bytes Received: </strong> {this.props.BytesReceived || 0}
+            <strong>Bytes Received: </strong> {this.props.peer.BytesReceived || 0}
           </li>
           <li className="list-group-item">
-            <strong>Agent Version: </strong> {this.props.AgentVersion}
+            <strong>Agent Version: </strong> {this.props.peer.AgentVersion}
           </li>
           <li className="list-group-item">
-            <strong>Protocol Version: </strong> {this.props.ProtocolVersion}
+            <strong>Protocol Version: </strong> {this.props.peer.ProtocolVersion}
           </li>
           <li className="list-group-item">
             <strong>Public Key: </strong>
             <div className="panel panel-default" style={{height: '200px'}}>
-              <textarea className="textarea-panel" readonly>{this.props.PublicKey}</textarea>
+              <textarea className="textarea-panel" readonly>{this.props.peer.PublicKey}</textarea>
             </div>
           </li>
         </ul>
 
         <h4>Network Addresses</h4>
         <ul className="list-group">
-          {this.props.Addresses.map(function(address) {
+          {this.props.peer.Addresses.map(function(address) {
             if(address) {
               return <li className="list-group-item">{addr(address)}</li>
             }

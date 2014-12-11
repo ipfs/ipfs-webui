@@ -6,6 +6,7 @@ var Peer = require('./peer.jsx')
 
 var Connection = React.createClass({
   getInitialState: function() {
+    console.log(this.props)
     return { open: false }
   },
 
@@ -17,25 +18,19 @@ var Connection = React.createClass({
       if(err) return console.error(err)
 
       console.log(peer)
+
       t.setState({
         open: true,
         peer: peer
-      })
-
-      var address = t.props.Address.split('/')[2]
-      $.get('https://freegeoip.net/json/' + address, function(res) {
-        var location = res.city
-        if(res.region_code) location += ', ' + res.region_code
-        location += ', ' + res.country_name
-
-        t.state.peer.location = location
-        t.setState({ peer: t.state.peer })
       })
     })
   },
 
   render: function() {
-    var peer = this.state.open ? Peer(this.state.peer) : null
+    var peer = this.state.open ? Peer({
+      peer: this.state.peer,
+      location: this.props.location
+    }) : null
     var className = 'webui-connection list-group-item'
     if(this.state.open) className += ' active'
 

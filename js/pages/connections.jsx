@@ -3,6 +3,20 @@ var Nav = require('../views/nav.jsx')
 var ConnectionList = require('../views/connectionlist.jsx')
 var SwarmVis = require('../views/swarmvis.jsx')
 
+function getLocation(multiaddr, cb) {
+  var address = multiaddr.split('/')[2]
+
+  // TODO: pick a random host from a list
+  $.get('http://104.131.90.88:8080/json/' + address, function(res) {
+    var location = res.country_name
+    if(res.region_code) location = res.region_code + ', ' + location
+    if(res.city) location = res.city + ', ' + location
+
+    res.formatted = location
+    cb(null, res)
+  })
+}
+
 module.exports = React.createClass({
   getInitialState: function() {
     var t = this
@@ -16,6 +30,22 @@ module.exports = React.createClass({
         })
         peers.map(function(peer) {
           peer.ipfs = t.props.ipfs
+
+          var location = t.state.locations[peer.ID]
+          if(!location) {
+            getLocation(peer.Address, function(err, res) {
+              if(err) return console.error(err)
+
+              peer.location = res.formatted
+              t.state.locations[peer.ID] = res
+              t.setState({
+                peers: this.state.peers,
+                locations: this.state.locations
+              })
+            })
+          } else {
+            peer.location = location.formatted
+          }
         })
 
         t.setState({ peers: peers })
@@ -25,7 +55,10 @@ module.exports = React.createClass({
     getPeers()
     t.props.pollInterval = setInterval(getPeers, 1000)
 
-    return { peers: [] }
+    return {
+      peers: [],
+      locations: {}
+    }
   },
 
   componentWillUnmount: function() {
