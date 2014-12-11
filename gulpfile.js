@@ -19,6 +19,7 @@ var paths = {
   build: 'build/',
   main: ['./js/main.js'],
   js: ['js/**/*.js', 'js/**/*.jsx'],
+  static: ['static/**/*'],
   img: ['static/**/*.png'],
   css: ['less/**/*.less'],
   html: ['html/**/*.html'],
@@ -58,12 +59,18 @@ gulp.task('img', function() {
     .pipe(connect.reload())
 })
 
+gulp.task('static', function() {
+  return gulp.src(paths.static)
+    .pipe(gulp.dest('build/static'))
+    .pipe(connect.reload())
+})
+
 gulp.task('html', function() {
   return gulp.src(paths.html)
     .pipe(gulp.dest('build/'))
 })
 
-gulp.task('compile', ['js', 'css', 'img', 'html'])
+gulp.task('compile', ['js', 'css', 'img', 'static', 'html'])
 
 gulp.task('watch', function() {
   gulp.watch(paths.js, ['js'])
