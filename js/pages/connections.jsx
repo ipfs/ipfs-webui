@@ -100,7 +100,7 @@ var Globe = React.createClass({
     var data = []
     this.props.peers.forEach(function(peer) {
       if(peer.location)
-        data.push(peer.location.latitude, peer.location.longitude, 0.1)
+        data.push(peer.location.latitude, peer.location.longitude, 0.25)
     })
 
     if(!this.state.globe) return
