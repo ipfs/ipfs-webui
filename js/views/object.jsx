@@ -54,6 +54,7 @@ module.exports = React.createClass({
         </div>
         <br/>
         <h4>Data <span className="small">({size} bytes)</span></h4>
+        <a href={"http://localhost:5001/ipfs/"+this.props.path}>Raw</a>
         <div className="panel panel-default">
           <iframe src={data} className="panel-inner"></iframe>
         </div>
