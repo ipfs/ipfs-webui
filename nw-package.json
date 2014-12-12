@@ -12,7 +12,7 @@
   "webkit": {
   },
   "dependencies": {
-    "ipfs-api": "^0.0.5"
+    "ipfs-api": "^0.0.6"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
