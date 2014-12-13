@@ -10,6 +10,7 @@ module.exports = React.createClass({
         <li><Link to="connections"><i className="fa fa-share-alt"></i> Connections</Link></li>
         <li><Link to="files"><i className="fa fa-copy"></i> Files</Link></li>
         <li><Link to="objects"><i className="fa fa-cubes"></i> Objects</Link></li>
+        <li><Link to="bitswap"><i className="fa fa-exchange"></i> Bitswap</Link></li>
         <li><Link to="config"><i className="fa fa-gear"></i> Config</Link></li>
       </ul>
     )
