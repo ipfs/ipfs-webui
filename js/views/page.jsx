@@ -5,10 +5,6 @@ var RouteHandler = require('react-router').RouteHandler
 // TODO: get this address from a config
 var ipfs = require('ipfs-api')('localhost', 5001)
 
-// var Navbar = require('react-bootstrap/Navbar')
-// var Nav = require('react-bootstrap/Nav')
-// var NavItem = require('react-bootstrap/NavItem')
-
 module.exports = React.createClass({
   getInitialState: function() {
     var t = this
