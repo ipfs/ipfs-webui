@@ -4,6 +4,7 @@ var RouteHandler = require('react-router').RouteHandler
 
 // TODO: get this address from a config
 var ipfs = require('ipfs-api')('localhost', 5001)
+var ipfsHost = 'localhost:5001'
 
 module.exports = React.createClass({
   getInitialState: function() {
@@ -100,7 +101,7 @@ module.exports = React.createClass({
 
         <div className="col-sm-10 col-sm-offset-1"><Nav/></div>
 
-        <RouteHandler ipfs={ipfs}/>
+        <RouteHandler ipfs={ipfs} host={ipfsHost}/>
       </div>
     </div>
     )

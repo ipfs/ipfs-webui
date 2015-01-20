@@ -12,6 +12,7 @@ var ObjectsPage = require('./pages/objects.jsx')
 var BitswapPage = require('./pages/bitswap.jsx')
 var RoutingPage = require('./pages/routing.jsx')
 var ConfigPage = require('./pages/config.jsx')
+var LogPage = require('./pages/logs.jsx')
 var NotFoundPage = require('./pages/notfound.jsx')
 
 module.exports = (
@@ -24,6 +25,7 @@ module.exports = (
     <Route name="bitswap" handler={BitswapPage} />
     <Route name="routing" handler={RoutingPage} />
     <Route name="config" handler={ConfigPage} />
+    <Route name="logs" handler={LogPage} />
     <NotFoundRoute handler={HomePage} />
     <Redirect from="/index.html" to="home" />
   </Route>
