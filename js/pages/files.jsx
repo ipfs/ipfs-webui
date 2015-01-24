@@ -59,8 +59,8 @@ module.exports = React.createClass({
         if(err || !res) return t.error(err)
 
         var metadata = {
-          id: res.Objects[0].Hash,
-          name: res.Names[0] || file.name,
+          id: res.Hash,
+          name: res.Name || file.name,
           type: file.type,
           size: file.size
         }
