@@ -11,12 +11,12 @@ module.exports = React.createClass({
         <br/>
         <ul className="list-group">
           <li className="list-group-item">
-            <strong>Location: </strong> {this.props.location.formatted}
+            <strong>Location: </strong> {this.props.location.formatted || 'Unknown'}
           </li>
-          <li className="list-group-item">
+          <li className="list-group-item hidden">
             <strong>Bytes Sent: </strong> {this.props.bytesWritten}
           </li>
-          <li className="list-group-item">
+          <li className="list-group-item hidden">
             <strong>Bytes Received: </strong> {this.props.bytesRead}
           </li>
           <li className="list-group-item">
