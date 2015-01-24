@@ -39,6 +39,7 @@ module.exports = React.createClass({
         })
         peers.map(function(peer) {
           peer.ipfs = t.props.ipfs
+          peer.location = { formatted: '' }
 
           var location = t.state.locations[peer.ID]
           if(!location) {
@@ -108,7 +109,7 @@ var Globe = React.createClass({
     console.log(this.props.peers)
     var data = []
     this.props.peers.forEach(function(peer) {
-      if(peer.location)
+      if(peer.location && peer.location.latitude && peer.location.longitude)
         data.push(peer.location.latitude, peer.location.longitude, 0.25)
     })
 
