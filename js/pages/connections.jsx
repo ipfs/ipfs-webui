@@ -109,7 +109,7 @@ var Globe = React.createClass({
   componentDidMount: function() {
     console.log('mount')
     var globe = new DAT.Globe(this.getDOMNode(), {
-      imgDir: './static/img/'
+      imgDir: '/ipfs/QmeduV8JLPLB7bPqwmteZuMh9716NCDENQ4Hrhwv5d346r/'
     })
     globe.animate()
     this.setState({ globe: globe })
