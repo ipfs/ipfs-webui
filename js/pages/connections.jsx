@@ -3,12 +3,17 @@ var Nav = require('../views/nav.jsx')
 var ConnectionList = require('../views/connectionlist.jsx')
 var SwarmVis = require('../views/swarmvis.jsx')
 
-function getLocation(multiaddr, cb) {
-  var address = multiaddr.split('/')[2]
+function getLocation(multiaddrs, cb) {
+  var address = multiaddrs[0].split('/')[2]
 
   // TODO: pick a random host from a list
   $.get('http://freegeoip.net/json/' + address, function(res) {
     var location = res.country_name
+    if(!location) {
+      if(multiaddrs.length > 1)
+        return getLocation(multiaddrs.slice(1), cb);
+      return cb(null, res);
+    }
     if(res.region_code) location = res.region_code + ', ' + location
     if(res.city) location = res.city + ', ' + location
 
@@ -32,7 +37,6 @@ module.exports = React.createClass({
             ID: peer.substr(slashIndex+1)
           }
         });
-        console.log(peers)
 
         peers = peers.sort(function(a, b) {
           return a.ID > b.ID ? 1 : -1
@@ -43,16 +47,22 @@ module.exports = React.createClass({
 
           var location = t.state.locations[peer.ID]
           if(!location) {
-            getLocation(peer.Address, function(err, res) {
+            t.state.locations[peer.ID] = {}
+            t.props.ipfs.id(peer.ID, function(err, id) {
               if(err) return console.error(err)
 
-              peer.location = res
-              t.state.locations[peer.ID] = res
-              t.setState({
-                peers: peers,
-                locations: t.state.locations
+              getLocation(id.Addresses, function(err, res) {
+                if(err) return console.error(err)
+
+                peer.location = res
+                t.state.locations[peer.ID] = res
+                t.setState({
+                  peers: peers,
+                  locations: t.state.locations,
+                  nonce: t.state.nonce++
+                })
               })
-            })
+            });
           }
         })
       })
@@ -63,7 +73,8 @@ module.exports = React.createClass({
 
     return {
       peers: [],
-      locations: {}
+      locations: {},
+      nonce: 0
     }
   },
 
