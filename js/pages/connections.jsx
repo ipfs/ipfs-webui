@@ -8,12 +8,11 @@ function getLocation(multiaddrs, cb) {
 
   // TODO: pick a random host from a list
   $.get('http://freegeoip.net/json/' + address, function(res) {
-    var location = res.country_name
-    if(!location) {
-      if(multiaddrs.length > 1)
+    if(!res.country_name && multiaddrs.length > 1)
         return getLocation(multiaddrs.slice(1), cb);
-      return cb(null, res);
-    }
+    
+    var location = 'Earth'
+    if(res.country_name) location = res.country_name + ', ' + location
     if(res.region_code) location = res.region_code + ', ' + location
     if(res.city) location = res.city + ', ' + location
 
