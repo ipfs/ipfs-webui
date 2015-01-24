@@ -7,7 +7,7 @@ function getLocation(multiaddr, cb) {
   var address = multiaddr.split('/')[2]
 
   // TODO: pick a random host from a list
-  $.get('http://104.131.90.88:8080/json/' + address, function(res) {
+  $.get('http://freegeoip.net/json/' + address, function(res) {
     var location = res.country_name
     if(res.region_code) location = res.region_code + ', ' + location
     if(res.city) location = res.city + ', ' + location
@@ -25,7 +25,16 @@ module.exports = React.createClass({
       t.props.ipfs.swarm.peers(function(err, res) {
         if(err) return console.error(err);
 
-        var peers = res.Peers.sort(function(a, b) {
+        var peers = res.Strings.map(function(peer) {
+          var slashIndex = peer.lastIndexOf('/');
+          return {
+            Address: peer.substr(0, slashIndex),
+            ID: peer.substr(slashIndex+1)
+          }
+        });
+        console.log(peers)
+
+        peers = peers.sort(function(a, b) {
           return a.ID > b.ID ? 1 : -1
         })
         peers.map(function(peer) {
