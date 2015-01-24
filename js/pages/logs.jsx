@@ -2,7 +2,7 @@ var React = require('react')
 
 module.exports = React.createClass({
   render: function() {
-    var url = 'http://' + this.props.host + '/api/v0/log/read?enc=text'
+    var url = 'http://' + this.props.host + '/api/v0/log/tail?enc=text'
     return (
     <div className="row">
       <div className="col-sm-10 col-sm-offset-1">
