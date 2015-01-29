@@ -15,13 +15,15 @@ var ConfigPage = require('./pages/config.jsx')
 var LogPage = require('./pages/logs.jsx')
 var NotFoundPage = require('./pages/notfound.jsx')
 
+var initialPath = window.location.pathname
+
 module.exports = (
-  <Route handler={Page} path="/">
+  <Route handler={Page} path={initialPath}>
     <DefaultRoute name="home" handler={HomePage} />
     <Route name="connections" handler={ConnectionsPage} />
     <Route name="files" handler={FilesPage} />
     <Route name="objects" handler={ObjectsPage} />
-    <Route name="object" path="/objects/:hash" handler={ObjectsPage} />
+    <Route name="object" path={initialPath+"/objects/:hash"} handler={ObjectsPage} />
     <Route name="bitswap" handler={BitswapPage} />
     <Route name="routing" handler={RoutingPage} />
     <Route name="config" handler={ConfigPage} />
