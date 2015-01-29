@@ -3,8 +3,8 @@ var Nav = require('./nav.jsx')
 var RouteHandler = require('react-router').RouteHandler
 
 // TODO: get this address from a config
-var ipfs = require('ipfs-api')('localhost', 5001)
-var ipfsHost = 'localhost:5001'
+var ipfs = require('ipfs-api')(window.location.hostname, window.location.port)
+var ipfsHost = window.location.host
 
 module.exports = React.createClass({
   getInitialState: function() {
