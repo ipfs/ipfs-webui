@@ -1,6 +1,7 @@
 var React = require('react')
 var Nav = require('./nav.jsx')
 var RouteHandler = require('react-router').RouteHandler
+var Link = require('react-router').Link
 
 // TODO: get this address from a config
 var ipfs = require('ipfs-api')(window.location.hostname, window.location.port)
@@ -62,9 +63,9 @@ module.exports = React.createClass({
               <span className="icon-bar"></span>
               <span className="icon-bar"></span>
             </button>
-            <a className="navbar-brand selected" href="/">
+            <Link className="navbar-brand selected" to="home">
               <img src="./static/img/ipfs-logo-128.png" />
-            </a>
+            </Link>
           </div>
 
           <div className="navbar-left">
