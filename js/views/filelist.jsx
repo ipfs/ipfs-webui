@@ -24,9 +24,9 @@ module.exports = React.createClass({
 
           return (
             <tr className="webui-file" data-type={file.type}>
-              <td><a href={'http://localhost:5001/ipfs/'+file.id}><i className="fa fa-file"></i></a></td>
-              <td className="filelist-name"><a href={'http://localhost:5001/ipfs/'+file.id}>{file.name}</a></td>
-              <td><a href={'http://localhost:5001/ipfs/'+file.id}>{addr(file.id)}</a></td>
+              <td><a target="_blank" href={'http://localhost:5001/ipfs/'+file.id}><i className="fa fa-file"></i></a></td>
+              <td className="filelist-name"><a target="_blank" href={'http://localhost:5001/ipfs/'+file.id}>{file.name}</a></td>
+              <td><a target="_blank" href={'http://localhost:5001/ipfs/'+file.id}>{addr(file.id)}</a></td>
             </tr>
           )
         }) : void 0}
