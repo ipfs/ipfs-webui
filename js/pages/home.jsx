@@ -57,7 +57,7 @@ module.exports = React.createClass({
         {Table({ table: this.state.Addresses })}
       </div>
 
-      <div className="well">
+      <div className="well hidden">
         <h4>HTTP Gateway</h4>
         <div className="checkbox">
           <label>
