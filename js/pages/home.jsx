@@ -4,26 +4,50 @@ var NodeProps = require('../views/nodeprops.jsx')
 var Table = require('../views/table.jsx')
 var TabbedArea = require('react-bootstrap/TabbedArea')
 var TabPane = require('react-bootstrap/TabPane')
+var Peer = require('../views/peer.jsx')
+var getLocation = require('../getlocation.js')
 
 module.exports = React.createClass({
   getInitialState: function() {
     var t = this
-    t.props.ipfs.id(function(err, id) {
-      if(err || !id) return console.error(err)
-      t.setState(id)
-    });
+    t.props.ipfs.id(function(err, peer) {
+      if(err || !peer) return console.error(err)
+      t.setState({
+        node: {
+          peer: peer,
+          location: {}
+        }
+      })
+
+      getLocation(peer.Addresses, function(err, location) {
+        if(err || !location) return console.error(err)
+        t.setState({
+          node: {
+            peer: peer,
+            location: location
+          }
+        })
+      })
+    })
 
     t.props.ipfs.config.get('Gateway.Enabled', function(err, enabled) {
       if(err) return console.error(err);
       t.setState({ GatewayEnabled: enabled.Value });
-    });
+    })
 
     return {
-      ID: '',
-      Addresses: [],
-      AgentVersion: '',
+      node: {
+        peer: {
+          ID: '',
+          PublicKey: '',
+          Addresses: [],
+          AgentVersion: '',
+          ProtocolVersion: ''
+        },
+        location: { formatted: '' }
+      },
       GatewayEnabled: false,
-      GatewayUrl: 'http://localhost:8888/'
+      GatewayUrl: 'http://localhost:8080/'
     }
   },
 
@@ -48,14 +72,7 @@ module.exports = React.createClass({
     <div className="col-sm-10 col-sm-offset-1">
 
       <h3>Node Info</h3>
-      <div className="panel panel-default">
-        {NodeProps(this.state)}
-      </div>
-
-      <h4>Network Addresses</h4>
-      <div className="panel panel-default">
-        {Table({ table: this.state.Addresses })}
-      </div>
+      {Peer(this.state.node)}
 
       <div className="well hidden">
         <h4>HTTP Gateway</h4>
