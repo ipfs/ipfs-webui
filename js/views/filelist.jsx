@@ -22,11 +22,12 @@ module.exports = React.createClass({
         {files ? files.map(function(file) {
           if(typeof file === 'string') file = { id: file }
 
+          // TODO: get gateway path from config instead of using hardcoded localhost:8080
           return (
             <tr className="webui-file" data-type={file.type}>
-              <td><a target="_blank" href={'http://localhost:5001/ipfs/'+file.id}><i className="fa fa-file"></i></a></td>
-              <td className="filelist-name"><a target="_blank" href={'http://localhost:5001/ipfs/'+file.id}>{file.name}</a></td>
-              <td><a target="_blank" href={'http://localhost:5001/ipfs/'+file.id}>{addr(file.id)}</a></td>
+              <td><a target="_blank" href={'http://localhost:8080/ipfs/'+file.id}><i className="fa fa-file"></i></a></td>
+              <td className="filelist-name"><a target="_blank" href={'http://localhost:8080/ipfs/'+file.id}>{file.name}</a></td>
+              <td><a target="_blank" href={'http://localhost:8080/ipfs/'+file.id}>{addr(file.id)}</a></td>
             </tr>
           )
         }) : void 0}
