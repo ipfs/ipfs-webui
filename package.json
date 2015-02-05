@@ -8,7 +8,7 @@
     "react-bootstrap": "^0.12.0",
     "react-router": "^0.11.4",
     "react": "^0.12.1",
-    "ipfs-api": "0.0.6"
+    "ipfs-api": "^1.0.2"
   },
   "devDependencies": {
     "browserify": "^8.1.1",
