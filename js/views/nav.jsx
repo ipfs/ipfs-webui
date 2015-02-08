@@ -5,16 +5,40 @@ module.exports = React.createClass({
 
   render: function() {
     return (
-      <ul className="nav nav-tabs" style={{"margin-bottom": "60px"}}>
-        <li><Link to="home"><i className="fa fa-desktop"></i> Home</Link></li>
-        <li><Link to="connections"><i className="fa fa-share-alt"></i> Connections</Link></li>
-        <li><Link to="files"><i className="fa fa-copy"></i> Files</Link></li>
-        <li><Link to="objects"><i className="fa fa-cubes"></i> DAG</Link></li>
-        <li className="hidden"><Link to="bitswap"><i className="fa fa-exchange"></i> Bitswap</Link></li>
-        <li className="hidden"><Link to="routing"><i className="fa fa-cloud"></i> Routing</Link></li>
-        <li><Link to="config"><i className="fa fa-gear"></i> Config</Link></li>
-        <li><Link to="logs"><i className="fa fa-list"></i> Logs</Link></li>
-      </ul>
+      <div className="row">
+        <ul id="side" className="nav nav-sidebar">
+          <li className="active">
+            <Link className="link" to="home">
+              <span className="icon glyphicon glyphicon-record" aria-hidden="true"></span> Home
+            </Link>
+          </li>
+          <li>
+            <Link className="link" to="connections">
+              <span className="icon glyphicon glyphicon-globe" aria-hidden="true"></span> Connections
+            </Link>
+          </li>
+          <li>
+            <Link className="link" to="files">
+              <span className="icon glyphicon glyphicon-file" aria-hidden="true"></span> Files
+            </Link>
+          </li>
+          <li>
+            <Link className="link" to="objects">
+              <span className="icon glyphicon glyphicon-list-alt" aria-hidden="true"></span> DAG
+            </Link>
+          </li>
+          <li>
+            <Link className="link" to="config">
+              <span className="icon glyphicon glyphicon-cog" aria-hidden="true"></span> Config
+            </Link>
+          </li>
+          <li>
+            <Link className="link" to="logs">
+              <span className="icon glyphicon glyphicon-paperclip" aria-hidden="true"></span> Logs
+            </Link>
+          </li>
+        </ul>
+      </div>
     )
   }
 })

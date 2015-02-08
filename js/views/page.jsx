@@ -16,8 +16,7 @@ module.exports = React.createClass({
     })
 
     ipfs.update.check(function(err, res) {
-      console.log(err, res)
-      if(!err) t.setState({ updateAvailable: true })
+      if(!err && typeof res === 'object') t.setState({ updateAvailable: true })
     })
 
     return {
@@ -39,6 +38,7 @@ module.exports = React.createClass({
 
   render: function() {
     var update = null
+    console.log(this.state)
     if(this.state.updateAvailable) {
       var updateButtonClass = 'btn btn-link'
       if(this.state.updating) updateButtonClass += ' disabled'
@@ -53,56 +53,71 @@ module.exports = React.createClass({
 
     return (
     <div>
-      <div className="container">
-        <nav className="navbar" role="navigation">
+      <div className="bs-navbar">
+      <nav className="navbar navbar-inverse navbar-fixed-top">
+        {/* We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. */}
+        <div className="container-fluid">
+            <div className="row">
+                  <div className="col-sm-3 col-md-2 branding">
+                    <div className="row">
+                          <div className="navbar-header">
+                            <a className="navbar-brand col-xs-12" href="#">
+                              <img src="./static/img/logo.png" alt="IPFS" className="img-responsive logo"/><span className="sr-only">IPFS</span>
+                            </a>
+                          </div>
+                       </div>
+                  </div>
+                  <div className="col-sm-9 col-md-10">
+                    <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#bs4" aria-expanded="false">
+                          <span className="sr-only">Toggle navigation</span>
+                          <span className="icon-bar"></span>
+                          <span className="icon-bar"></span>
+                          <span className="icon-bar"></span>
+                      </button>
+                        <ul className="nav navbar-nav navbar-right">
+                          <li>
+                              <a href="#">
+                                  <img src="./static/img/help.png" alt="Help" className="img-responsive icon"/><span className="sr-only">Help</span>
+                              </a>
+                          </li>
+                          <li>
+                              <a href="#">
+                                  <img src="./static/img/info.png" alt="Informations" className="img-responsive icon"/><span className="sr-only">Informations</span>
+                              </a>
+                          </li>
+                          <li>
+                              <a href="#">
+                                  <img src="./static/img/git.png" alt="Github" className="img-responsive icon"/><span className="sr-only">Github</span>
+                              </a>
+                          </li>
+                          <li>
+                              <a href="#">
+                                  <img src="./static/img/bug.png" alt="Report a bug" className="img-responsive icon"/><span className="sr-only">Report a bug</span>
+                              </a>
+                          </li>
+                        </ul>
+                   
+                  </div>
+               </div>
+        </div>
+      </nav>
+      </div>{/* end navbar */}
 
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>
-            <Link className="navbar-brand selected" to="home">
-              <img src="./static/img/ipfs-logo-128.png" />
-            </Link>
+
+      <div className="container-fluid">
+        <div className="row">
+
+          <div className="navbar-collapse collapse in" id="bs4">
+            <div className="col-sm-3 col-md-2 sidebar">
+              <Nav/>
+            </div>{/* end row */}
+          </div>{/* end navbar collapse */}
+
+          <div className="col-sm-9 col-sm-push-3 col-md-10 col-md-push-2">
+            {update}
+            <RouteHandler ipfs={ipfs} host={ipfsHost}/>
           </div>
-
-          <div className="navbar-left">
-            <span className="webui-version">{this.state.version}</span>
-          </div>
-
-          <div className="collapse navbar-collapse" id="navbar-collapse">
-            <ul className="nav navbar-nav navbar-right">
-              <li><a href="/about" target="_blank"
-                data-toggle="tooltip" data-placement="bottom"
-                title="About IPFS"><i className="single fa fa-info-circle"></i></a></li>
-              <li><a href="/help" target="_blank"
-                data-toggle="tooltip" data-placement="bottom"
-                title="Docs &amp; Help"><i className="single fa fa-life-saver"></i></a></li>
-              <li><a href="https://github.com/jbenet/go-ipfs" target="_blank"
-                data-toggle="tooltip" data-placement="bottom"
-                title="Github Repository"><i className="single fa fa-github"></i></a></li>
-              <li><a href="https://github.com/jbenet/go-ipfs/issues/new" target="_blank"
-                data-toggle="tooltip" data-placement="bottom"
-                title="Report Bugs"><i className="single fa fa-bug"></i></a></li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-
-      <div className="navhr" style={{margin: "10px 0px 30px"}}></div>
-
-        {/*<div className="col-12 text-center webui-idbanner">
-          <a id="key">QmT8uptFpXSmk63VtU8VPy4AGHEbAA7rQWFYJKDggSd2xN</a>
-        </div>*/}
-
-      <div className="container">
-        {update}
-
-        <div className="col-sm-10 col-sm-offset-1"><Nav/></div>
-
-        <RouteHandler ipfs={ipfs} host={ipfsHost}/>
+        </div>
       </div>
     </div>
     )

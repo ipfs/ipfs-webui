@@ -36,7 +36,7 @@ module.exports = React.createClass({
 
         <h4>Network Addresses</h4>
         <ul className="list-group">
-          {this.props.peer.Addresses.map(function(address) {
+          {(this.props.peer.Addresses || []).map(function(address) {
             if(address) {
               return <li className="list-group-item">{addr(address)}</li>
             }
