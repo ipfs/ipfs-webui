@@ -1,3 +1,11 @@
+p {
+  margin: 0 0 4px;
+}
+
+.box {
+  margin-bottom: 40px;
+}
+
 .webui-address {
   font-size: 12px;
   word-wrap: break-word;
@@ -34,14 +42,26 @@
   h4 {
     font-weight: bold;
   }
+  .box {
+    border: none;
+    margin-bottom: inherit;
+  }
 }
 .webui-connection.active,
 .webui-connection.active:active,
 .webui-connection.active:focus,
 .webui-connection.active:hover {
   color: inherit;
-  background-color: #eee;
-  border-color: #aaa;
+  background-color: #fff;
+  border: none;
+}
+
+.webui-peer {
+  .addresses {
+    p {
+      margin: 8px 0;
+    }
+  }
 }
 
 .textarea-panel,
@@ -106,4 +126,25 @@
 .centered {
   margin-left: auto;
   margin-right: auto;
+}
+
+.textarea-panel {
+  background: #f2f6fd;
+
+  textarea {
+    padding: 14px 20px;
+  }
+}
+
+strong {
+  font-weight: 600;
+  color: #7a8394;
+}
+
+a.copy {
+  float: right;
+  size: 0.8em;
+  color: #ddd;
+  position: relative;
+  top: -1em;
 }

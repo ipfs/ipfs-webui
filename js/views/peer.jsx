@@ -6,43 +6,34 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div className="webui-peer">
+        <div className="box">
+        <p>
+          <strong>Peer ID: </strong> {this.props.peer.ID}
+        </p>
         <br/>
-        <ul className="list-group">
-          <li className="list-group-item">
-            <strong>Peer ID: </strong> {this.props.peer.ID}
-          </li>
-          <li className="list-group-item">
-            <strong>Location: </strong> {this.props.location.formatted || 'Unknown'}
-          </li>
-          <li className="list-group-item hidden">
-            <strong>Bytes Sent: </strong> {this.props.bytesWritten || ''}
-          </li>
-          <li className="list-group-item hidden">
-            <strong>Bytes Received: </strong> {this.props.bytesRead || ''}
-          </li>
-          <li className="list-group-item">
-            <strong>Agent Version: </strong> {this.props.peer.AgentVersion || ''}
-          </li>
-          <li className="list-group-item">
-            <strong>Protocol Version: </strong> {this.props.peer.ProtocolVersion || ''}
-          </li>
-          <li className="list-group-item">
-            <strong>Public Key: </strong>
-            <div className="panel panel-default" style={{height: '200px'}}>
-              <pre className="panel-inner">{this.props.peer.PublicKey || ''}</pre>
-            </div>
-          </li>
-        </ul>
+        <p>
+          <strong>Location: </strong> {this.props.location.formatted || 'Unknown'}
+        </p>
+        <p>
+          <strong>Agent Version: </strong> {this.props.peer.AgentVersion || ''}
+        </p>
+        <p>
+          <strong>Protocol Version: </strong> {this.props.peer.ProtocolVersion || ''}
+        </p>
+        <br/>
+        <p>
+          <strong>Public Key:</strong>
+          <div className="panel textarea-panel"><textarea className="panel-inner" style={{height: '210px'}} value={this.props.peer.PublicKey || ''} readonly/></div>
+          <a href="#" className="copy">Copy to clipboard</a>
+        </p>
+        </div>
 
         <h4>Network Addresses</h4>
-        <ul className="list-group">
+        <div className="box addresses">
           {(this.props.peer.Addresses || []).map(function(address) {
-            if(address) {
-              return <li className="list-group-item">{addr(address)}</li>
-            }
+            if(address) return <p>{address}</p>
           })}
-        </ul>
-        <br/>
+        </div>
       </div>
     )
   }
