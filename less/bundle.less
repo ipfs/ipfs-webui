@@ -39,12 +39,32 @@ p {
 }
 
 .webui-connection {
+  margin-bottom: 6px;
+  border-radius: 4px;
+  padding: 2px 6px;
+
   h4 {
     font-weight: bold;
   }
   .box {
     border: none;
     margin-bottom: inherit;
+  }
+  button.btn-link {
+    text-align: left;
+    padding: 6px;
+    width: 100%;
+    outline: none;
+    > strong {
+      color: #85dede;
+    }
+    > i.fa {
+      position: absolute;
+      right: 12px;
+      top: 22px;
+      color: #ddd;
+      font-size: 25px;
+    }
   }
 }
 .webui-connection.active,
@@ -53,7 +73,12 @@ p {
 .webui-connection.active:hover {
   color: inherit;
   background-color: #fff;
-  border: none;
+  border-color: #ddd;
+  button.btn-link {
+    i.fa:before {
+      content: "\f106";
+    }
+  }
 }
 
 .webui-peer {
@@ -147,4 +172,8 @@ a.copy {
   color: #ddd;
   position: relative;
   top: -1em;
+}
+
+.globe-container {
+  max-height: 500px;
 }

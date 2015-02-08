@@ -36,7 +36,10 @@ var Connection = React.createClass({
     return (
       <li className={className}>
         <button className="btn btn-link" onClick={this.handleClick}>
-          <strong>{this.props.ID}</strong> - {this.props.Address}
+          <strong>{this.props.ID}</strong>
+          <br/>
+          <span>{this.props.Address}</span>
+          <i className="icon fa fa-lg fa-angle-down"></i>
         </button>
         {peer}
       </li>

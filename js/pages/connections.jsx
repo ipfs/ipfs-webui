@@ -67,17 +67,16 @@ module.exports = React.createClass({
   render: function() {
     return (
   <div className="row">
-    <div className="col-sm-10 col-sm-offset-1">
-
+    <div className="col-sm-6">
+      <Globe peers={this.state.peers} />
+    </div>
+    <div className="col-sm-6">
       <h4>Connected to {this.state.peers.length} peer{this.state.peers.length !== 1 ? 's' : ''}</h4>
-      <div className="panel panel-default">
+      <div>
         {ConnectionList({
           peers: this.state.peers
         })}
       </div>
-
-      <Globe peers={this.state.peers} />
-
     </div>
   </div>
     )
@@ -114,6 +113,6 @@ var Globe = React.createClass({
 
   render: function() {
     this.addPoints()
-    return <div></div>
+    return <div className="globe-container"></div>
   }
 })
