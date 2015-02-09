@@ -36,6 +36,7 @@ module.exports = React.createClass({
               getLocation(id.Addresses, function(err, res) {
                 if(err) return console.error(err)
 
+                res = res || {}
                 peer.location = res
                 t.state.locations[peer.ID] = res
                 t.setState({
