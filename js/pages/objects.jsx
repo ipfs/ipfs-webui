@@ -50,11 +50,14 @@ module.exports = React.createClass({
     })
   },
 
-  handleHash: function(e) {
+  updateHash: function(e) {
     var hash = $(e.target).val().trim()
-    console.log('handleHash:', hash)
-    if(hash) this.getObject(hash)
+    console.log('updateHash:', hash)
     this.setState({ hash: hash })
+  },
+
+  update: function(e) {
+    if(this.state.hash) this.getObject(this.state.hash)
   },
 
   render: function() {
@@ -67,14 +70,21 @@ module.exports = React.createClass({
 
     return (
       <div className="row">
-        <div className="col-sm-10 col-sm-offset-1">
-          <div className="input-group">
-            <span className="input-group-addon input-lg">/ipfs/</span>
-            <input type="text" className="form-control input-lg" placeholder="Enter the hash or path of an object" onChange={this.handleHash} value={this.state.hash}/>
+        <div className="col-sm-10 col-sm-offset-1 webui-dag">
+          <div className="row">
+            <h4>Enter hash or path</h4>
+            <div className="path row">
+              <div className="col-xs-11">
+                <input type="text" className="form-control input-lg" onChange={this.updateHash} value={this.state.hash}/>
+              </div>
+              <button className="btn btn-primary go col-xs-1" onClick={this.update}>GO</button>
+            </div>
           </div>
-          <br/>
-
-          {object}
+          <div className="row">
+            <div className="col-xs-12">
+              {object}
+            </div>
+          </div>
         </div>
       </div>
     )

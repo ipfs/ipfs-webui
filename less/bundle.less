@@ -30,6 +30,29 @@ p {
 
 .webui-file {
   cursor: pointer;
+
+  a {color: inherit;}
+
+  .type {
+    display: inline-block;
+    padding: 6px 6px 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 11px;
+    border: 1px solid #dedede;
+    border-radius: 3px;
+    line-height: 0.5em;
+  }
+  .action-cell {
+    width: 120px;
+    .separator {
+      display: inline-block;
+      margin: 0 10px;
+    }
+  }
+}
+.webui-file:hover {
+  a {color: #78c1c1;}
 }
 
 .filelist.filelist-names-hidden {
@@ -119,6 +142,17 @@ p {
 }
 
 .webui-object {
+  >.row {
+    position: relative;
+  }
+  .link-buttons {
+    position: absolute;
+    right: 0;
+    top: 0;
+    > .btn {
+      margin-right: 5px;
+    }
+  }
   .data {
     height: 480px;
   }
@@ -176,4 +210,48 @@ a.copy {
 
 .globe-container {
   max-height: 500px;
+}
+
+.file-add-container {
+  text-align: center;
+  padding: 42px;
+  border: 1px dashed #ccc;
+  margin: 20px 0;
+  height: 190px;
+  position: relative;
+  .file-add-container-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -10;
+  }
+  .file-add-container-inner.hover {
+    background: #f2f6fd;
+  }
+}
+
+.webui-dag {
+  .path {
+    .col-xs-11 {
+      padding-right: 5px;
+    }
+  }
+  >.row {
+    margin-bottom: 40px;
+  }
+}
+
+.webui-logs {
+  position: relative;
+  .actions {
+    position: absolute;
+    right: 0;
+    top: 12px;
+    padding-right: 10px;
+    button {
+      margin-right: 5px;
+    }
+  }
 }

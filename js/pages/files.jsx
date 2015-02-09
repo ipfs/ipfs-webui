@@ -27,7 +27,8 @@ module.exports = React.createClass({
       files: files,
       pinned: [],
       local: [],
-      adding: false
+      adding: false,
+      dragging: false
     }
   },
 
@@ -47,8 +48,34 @@ module.exports = React.createClass({
     return
   },
 
+  onDragOver: function(e) {
+    if(!this.state.dragging) {
+      this.setState({ dragging: true })
+      $(e.target).addClass('hover')
+    }
+    e.stopPropagation()
+    e.preventDefault()
+  },
+
+  onDragLeave: function(e) {
+    if(this.state.dragging) {
+      this.setState({ dragging: false })
+      $(e.target).removeClass('hover')
+    }
+    e.stopPropagation()
+    e.preventDefault()
+  },
+  
+  onDrop: function(e) {
+    this.setState({ dragging: false })
+    $(e.target).removeClass('hover')
+    e.stopPropagation()
+    e.preventDefault()
+    this.onFileChange(e)
+  },
+  
   onFileChange: function(e) {
-    var files = e.target.files
+    var files = e.target.files || e.dataTransfer.files
     if(!files || !files[0]) return
     var file = files[0]
     var t = this
@@ -57,6 +84,7 @@ module.exports = React.createClass({
     function add(data) {
       t.props.ipfs.add(data, function(err, res) {
         if(err || !res) return t.error(err)
+        res = res[0]
 
         var metadata = {
           id: res.Hash,
@@ -92,15 +120,23 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    //  TODO: add file view to show content of selected file
-    
     return (
   <div className="row">
     <div className="col-sm-10 col-sm-offset-1">
-      <div className="actions">
-        <button className="btn btn-link add-file" style={{display: this.state.adding ? 'none' : 'inline'}} onClick={this.addFile}>
-          <strong><i className="fa fa-plus-circle"></i> Add a file</strong>
-        </button>
+      <div className="file-add-container" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}>
+        <div className={"file-add-container-inner "+(this.state.dragging ? "hover" : "")}></div>
+        <div className={this.state.dragging ? "hidden" : ""}>
+          <p><strong>Drag-and-drop your files here</strong></p>
+          <p><span>or</span></p>
+          <p>
+            <button className="btn btn-second add-file" style={{display: this.state.adding ? 'none' : 'inline'}} onClick={this.addFile}>
+              Select files...
+            </button>
+          </p>
+        </div>
+        <div className={!this.state.dragging ? "hidden" : ""}>
+          <p><strong>Drop your file here to add it to IPFS</strong></p>
+        </div>
         <input type="file" className="file-select" style={{display: !this.state.adding ? 'none' : 'inline'}} onChange={this.onFileChange}/>
       </div>
       <br/>

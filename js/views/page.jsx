@@ -61,9 +61,9 @@ module.exports = React.createClass({
                   <div className="col-sm-3 col-md-2 branding">
                     <div className="row">
                           <div className="navbar-header">
-                            <a className="navbar-brand col-xs-12" href="#">
+                            <Link className="navbar-brand col-xs-12" to="home">
                               <img src="./static/img/logo.png" alt="IPFS" className="img-responsive logo"/><span className="sr-only">IPFS</span>
-                            </a>
+                            </Link>
                           </div>
                        </div>
                   </div>
@@ -76,22 +76,23 @@ module.exports = React.createClass({
                       </button>
                         <ul className="nav navbar-nav navbar-right">
                           <li>
-                              <a href="#">
+                              <a href="http://ipfs.io" target="_blank" data-toggle="tooltip" data-placement="bottom" title="About IPFS">
                                   <img src="./static/img/help.png" alt="Help" className="img-responsive icon"/><span className="sr-only">Help</span>
                               </a>
                           </li>
+                          {/* TODO: point this to help page once we have one
                           <li>
                               <a href="#">
                                   <img src="./static/img/info.png" alt="Informations" className="img-responsive icon"/><span className="sr-only">Informations</span>
                               </a>
-                          </li>
+                          </li>*/}
                           <li>
-                              <a href="#">
+                              <a href="https://github.com/jbenet/go-ipfs" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Github Repository">
                                   <img src="./static/img/git.png" alt="Github" className="img-responsive icon"/><span className="sr-only">Github</span>
                               </a>
                           </li>
                           <li>
-                              <a href="#">
+                              <a href="https://github.com/jbenet/go-ipfs/issues/new" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Report Bugs">
                                   <img src="./static/img/bug.png" alt="Report a bug" className="img-responsive icon"/><span className="sr-only">Report a bug</span>
                               </a>
                           </li>

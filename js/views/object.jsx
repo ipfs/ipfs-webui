@@ -35,7 +35,7 @@ module.exports = React.createClass({
             {this.props.object.Links.map(function(link) {
               return <tr>
                 <td><a href="#" data-name={link.Name} data-hash={link.Hash} onClick={handleLink}>{link.Name}</a></td>
-                <td><a href="#" data-name={link.Name} data-hash={link.Hash} onClick={handleLink}>{addr(link.Hash)}</a></td>
+                <td><a href="#" data-name={link.Name} data-hash={link.Hash} onClick={handleLink}>{link.Hash}</a></td>
                 <td>{link.Size}</td>
               </tr>
             })}
@@ -49,16 +49,25 @@ module.exports = React.createClass({
     var gatewayPath = "http://localhost:8080/ipfs/"
     return (
       <div className="webui-object">
-        {back}
-        <h4>Links</h4>
-        <div className="panel panel-default">
-          {links}
+        <div className="row">
+          {back}
+          <h4>Links</h4>
+          <div className="link-buttons">
+            <a href={gatewayPath+this.props.path} target="_blank" className="btn btn-info">RAW</a>
+            <a href={gatewayPath+this.props.path+'?dl=1'} target="_blank" className="btn btn-second">Download</a>
+            <button className="btn btn-third"><i className="fa fa-lg fa-thumb-tack"></i></button>
+          </div>
+          <br/>
+          <div className="panel panel-default">
+            {links}
+          </div>
         </div>
         <br/>
-        <h4>Data <span className="small">({size} bytes)</span></h4>
-        <a href={gatewayPath+this.props.path}>Raw</a>
-        <div className="panel panel-default data">
-          <iframe src={data} className="panel-inner"></iframe>
+        <div className="row">
+          <h4>Data <span className="small">({size} bytes)</span></h4>
+          <div className="panel panel-default data">
+            <iframe src={data} className="panel-inner"></iframe>
+          </div>
         </div>
       </div>
     )
