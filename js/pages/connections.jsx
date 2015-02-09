@@ -84,7 +84,7 @@ module.exports = React.createClass({
 })
 
 var pathSplit = window.location.pathname.split('/')
-var texturePath = '/'+pathSplit[1]+'/'+pathSplit[2]+'/img'
+var texturePath = '/'+pathSplit[1]+'/'+pathSplit[2]+'/static/img/'
 
 var Globe = React.createClass({
   getInitialState: function() {
