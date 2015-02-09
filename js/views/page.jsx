@@ -58,7 +58,7 @@ module.exports = React.createClass({
         {/* We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. */}
         <div className="container-fluid">
             <div className="row">
-                  <div className="col-sm-3 col-md-2 branding">
+                  <div className="col-sm-2 branding">
                     <div className="row">
                           <div className="navbar-header">
                             <Link className="navbar-brand col-xs-12" to="home">
@@ -67,7 +67,7 @@ module.exports = React.createClass({
                           </div>
                        </div>
                   </div>
-                  <div className="col-sm-9 col-md-10">
+                  <div className="col-sm-10">
                     <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#bs4" aria-expanded="false">
                           <span className="sr-only">Toggle navigation</span>
                           <span className="icon-bar"></span>
@@ -80,12 +80,11 @@ module.exports = React.createClass({
                                   <img src="./static/img/help.png" alt="Help" className="img-responsive icon"/><span className="sr-only">Help</span>
                               </a>
                           </li>
-                          {/* TODO: point this to help page once we have one
                           <li>
-                              <a href="#">
-                                  <img src="./static/img/info.png" alt="Informations" className="img-responsive icon"/><span className="sr-only">Informations</span>
+                              <a href="#"  target="_blank" data-toggle="tooltip" data-placement="bottom" title="Documentation">
+                                  <img src="./static/img/info.png" alt="Documentation" className="img-responsive icon"/><span className="sr-only">Documentation</span>
                               </a>
-                          </li>*/}
+                          </li>
                           <li>
                               <a href="https://github.com/jbenet/go-ipfs" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Github Repository">
                                   <img src="./static/img/git.png" alt="Github" className="img-responsive icon"/><span className="sr-only">Github</span>
@@ -109,12 +108,12 @@ module.exports = React.createClass({
         <div className="row">
 
           <div className="navbar-collapse collapse in" id="bs4">
-            <div className="col-sm-3 col-md-2 sidebar">
+            <div className="col-sm-2 sidebar">
               <Nav/>
             </div>{/* end row */}
           </div>{/* end navbar collapse */}
 
-          <div className="col-sm-9 col-sm-push-3 col-md-10 col-md-push-2">
+          <div className="col-sm-10 col-sm-push-2">
             {update}
             <RouteHandler ipfs={ipfs} host={ipfsHost}/>
           </div>

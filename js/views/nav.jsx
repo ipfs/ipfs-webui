@@ -34,7 +34,7 @@ module.exports = React.createClass({
           </li>
           <li>
             <Link className="link" to="logs">
-              <span className="icon glyphicon glyphicon-paperclip" aria-hidden="true"></span> Logs
+              <span className="icon glyphicon glyphicon-list" aria-hidden="true"></span> Logs
             </Link>
           </li>
         </ul>
