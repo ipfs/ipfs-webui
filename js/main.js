@@ -6,7 +6,7 @@ var linkHandler = require('./linkhandler.js')
 // jquery entry point.
 $(document).ready(function() {
   var appEl = document.getElementById('webui-app')
-  Router.run(routes, Router.HistoryLocation, function(Handler) {
+  Router.run(routes, function(Handler) {
     React.render(Handler(), appEl)
   })
 })

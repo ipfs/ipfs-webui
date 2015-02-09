@@ -43,9 +43,7 @@ module.exports = React.createClass({
     t.props.ipfs.object.get(path, function(err, res) {
       if(err) return console.error(err)
 
-      var url = '/objects/' + path.replace(/[\/]/g, '.')
-      if(window.location.pathname !== url)
-        window.history.pushState('', path, url)
+      window.location = '#/objects/' + path
       t.setState({ object: res })
     })
   },
