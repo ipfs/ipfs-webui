@@ -36,9 +36,9 @@ module.exports = React.createClass({
           var gatewayPath = 'http://localhost:8080/ipfs/' + file.id
           return (
             <tr className="webui-file" data-type={file.type}>
-              <td><a target="_blank" href={gatewayPath}><span className="type">{type}</span></a></td>
+              <td><span className="type">{type}</span></td>
               <td className="filelist-name"><a target="_blank" href={gatewayPath}>{file.name}</a></td>
-              <td><a target="_blank" href={gatewayPath}>{file.id}</a></td>
+              <td><code>{file.id}</code></td>
               <td className="action-cell">
                 <a target="_blank" href={gatewayPath}>RAW</a>
                 <span className="separator">|</span>
