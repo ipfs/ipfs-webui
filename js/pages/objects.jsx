@@ -55,6 +55,7 @@ module.exports = React.createClass({
   },
 
   update: function(e) {
+    if(e.which && e.which !== 13) return
     if(this.state.hash) this.getObject(this.state.hash)
   },
 
@@ -73,7 +74,7 @@ module.exports = React.createClass({
             <h4>Enter hash or path</h4>
             <div className="path row">
               <div className="col-xs-11">
-                <input type="text" className="form-control input-lg" onChange={this.updateHash} value={this.state.hash}/>
+                <input type="text" className="form-control input-lg" onChange={this.updateHash} onKeyPress={this.update} value={this.state.hash} placeholder="Enter hash or path: /ipfs/QmBpath..."/>
               </div>
               <button className="btn btn-primary go col-xs-1" onClick={this.update}>GO</button>
             </div>
