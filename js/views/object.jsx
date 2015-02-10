@@ -9,7 +9,8 @@ module.exports = React.createClass({
     var handleLink = this.props.handleLink
 
     var back = null
-    if(this.props.path.indexOf('/') !== -1) {
+    var withoutPrefix = this.props.path.replace(/^\/ip[fn]s\//, '')
+    if(withoutPrefix.indexOf('/') !== -1) {
       back = (
         <div>
           <button className="btn btn-primary" onClick={this.props.handleBack}>

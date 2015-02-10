@@ -68,10 +68,10 @@ module.exports = React.createClass({
   render: function() {
     return (
   <div className="row">
-    <div className="col-sm-6">
+    <div className="col-sm-6 globe-column">
       <Globe peers={this.state.peers} />
     </div>
-    <div className="col-sm-6">
+    <div className="col-sm-6 col-sm-push-6">
       <h4>Connected to {this.state.peers.length} peer{this.state.peers.length !== 1 ? 's' : ''}</h4>
       <div>
         {ConnectionList({
@@ -93,12 +93,15 @@ var Globe = React.createClass({
   },
 
   componentDidMount: function() {
+    var t = this
     console.log('mount')
-    var globe = new DAT.Globe(this.getDOMNode(), {
-      imgDir: texturePath
-    })
-    globe.animate()
-    this.setState({ globe: globe })
+    setTimeout(function() {
+      var globe = new DAT.Globe(t.getDOMNode(), {
+        imgDir: texturePath
+      })
+      globe.animate()
+      t.setState({ globe: globe })
+    }, 50)
   },
 
   addPoints: function() {
@@ -117,6 +120,6 @@ var Globe = React.createClass({
 
   render: function() {
     this.addPoints()
-    return <div className="globe-container"></div>
+    return <div className="globe-container" style={{width:'100%', 'height': '600px'}}></div>
   }
 })

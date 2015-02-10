@@ -7,8 +7,7 @@ module.exports = React.createClass({
   mixins: [ Router.State ],
 
   getInitialState: function() {
-    console.log(this)
-    var hash = (this.getParams().hash || '').replace(/[.]/g, '/')
+    var hash = window.location.hash.substr('/objects'.length+1)
     if(hash) this.getObject(hash)
 
     return { object: null, hash: hash }
@@ -43,6 +42,7 @@ module.exports = React.createClass({
     t.props.ipfs.object.get(path, function(err, res) {
       if(err) return console.error(err)
 
+      if(path[0] === '/') path = path.slice(1)
       window.location = '#/objects/' + path
       t.setState({ object: res })
     })
