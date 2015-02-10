@@ -20,6 +20,8 @@ module.exports = (
     <DefaultRoute name="home" handler={HomePage} />
     <Route name="connections" handler={ConnectionsPage} />
     <Route name="files" handler={FilesPage} />
+    <Route name="files-pinned" path="/files/pinned" handler={FilesPage} />
+    <Route name="files-all" path="/files/all" handler={FilesPage} />
     <Route name="objects" handler={ObjectsPage} />
     <Route name="object" path="/objects/:hash" handler={ObjectsPage} />
     <Route name="bitswap" handler={BitswapPage} />

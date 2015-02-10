@@ -34,6 +34,7 @@ module.exports = React.createClass({
 
           // TODO: get gateway path from config instead of using hardcoded localhost:8080
           var gatewayPath = 'http://localhost:8080/ipfs/' + file.id
+          var dagPath = '#/objects/' + file.id
           return (
             <tr className="webui-file" data-type={file.type}>
               <td><span className="type">{type}</span></td>
@@ -41,6 +42,8 @@ module.exports = React.createClass({
               <td><code>{file.id}</code></td>
               <td className="action-cell">
                 <a target="_blank" href={gatewayPath}>RAW</a>
+                <span className="separator">|</span>
+                <a href={dagPath}>DAG</a>
                 <span className="separator">|</span>
                 <a><i className="fa fa-thumb-tack" data-toggle="tooltip" data-placement="right" title="" data-original-title="Unpin"></i></a>
               </td>
