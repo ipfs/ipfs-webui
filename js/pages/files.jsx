@@ -27,7 +27,6 @@ module.exports = React.createClass({
       files: files,
       pinned: [],
       local: [],
-      adding: false,
       dragging: false
     }
   },
@@ -38,13 +37,7 @@ module.exports = React.createClass({
 
   addFile: function(e) {
     e.preventDefault()
-
-    var state = this.state
-    if(state.adding) return
-
-    state.adding = true
-    this.setState(state)
-
+    $(this.getDOMNode()).find('.file-select').click()
     return
   },
 
@@ -97,7 +90,6 @@ module.exports = React.createClass({
         localStorage.files = JSON.stringify(nextFiles)
         t.setState({
           files: nextFiles,
-          adding: false,
           confirm: metadata.name
         })
 
@@ -137,7 +129,7 @@ module.exports = React.createClass({
           <p><strong>Drag-and-drop your files here</strong></p>
           <p><span>or</span></p>
           <p>
-            <button className="btn btn-second add-file" style={{display: this.state.adding ? 'none' : 'inline'}} onClick={this.addFile}>
+            <button className="btn btn-second add-file" onClick={this.addFile}>
               Select files...
             </button>
           </p>
@@ -148,7 +140,7 @@ module.exports = React.createClass({
         <div className={!this.state.confirm ? "hidden" : ""}>
           <p><i className="fa fa-lg fa-thumbs-up"></i> Added <strong>{this.state.confirm}</strong></p>
         </div>
-        <input type="file" className="file-select" style={{display: !this.state.adding ? 'none' : 'inline'}} onChange={this.onFileChange}/>
+        <input type="file" className="file-select" style={{display: 'none'}} onChange={this.onFileChange}/>
       </div>
       <br/>
 
