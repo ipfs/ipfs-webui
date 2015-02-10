@@ -127,9 +127,9 @@ module.exports = React.createClass({
   <div className="row">
     <div className="col-sm-10 col-sm-offset-1">
       <ul className="nav nav-tabs">
-        <li role="presentation" className={tab === 'files' ? 'active' : ''}><a href="/#/files">Files</a></li>
-        <li role="presentation" className={tab === 'pinned' ? 'active' : ''}><a href="/#/files/pinned">Pinned</a></li>
-        <li role="presentation" className={tab === 'all' ? 'active' : ''}><a href="/#/files/all">All</a></li>
+        <li role="presentation" className={tab === 'files' ? 'active' : ''}><a href="#/files">Files</a></li>
+        <li role="presentation" className={tab === 'pinned' ? 'active' : ''}><a href="#/files/pinned">Pinned</a></li>
+        <li role="presentation" className={tab === 'all' ? 'active' : ''}><a href="#/files/all">All</a></li>
       </ul>
 
       <div className={tab !== 'files' ? 'hidden' : ''}>
