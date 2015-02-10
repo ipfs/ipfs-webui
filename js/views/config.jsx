@@ -12,9 +12,21 @@ module.exports = React.createClass({
     }
   },
 
+  componentDidMount: function() {
+    this.updateHeight()
+  },
+
+  updateHeight: function() {
+    var el = $(this.getDOMNode()).find('textarea')
+    el.height('1px')
+    el.height(el.get(0).scrollHeight)
+  },
+
   handleChange: function(e) {
     var text = e.target.value
     var error
+
+    this.updateHeight()
 
     try {
       JSON.parse(text)
@@ -51,9 +63,19 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var buttonClass = 'btn btn-success'
+    var buttonClass = 'btn btn-success pull-right'
     if(this.state.error || this.state.saving || this.state.saved)
       buttonClass += ' disabled'
+
+    var saveButton = (
+      <div>
+        <button className={buttonClass} onClick={this.save}>
+          <i className={'fa ' + (this.state.saved ? 'fa-check' : 'fa-save')}></i>&nbsp;
+          {this.state.saving ? 'Saving...' : this.state.saved ? 'Saved' : 'Save'}
+        </button>
+        <div className="clear"></div>
+      </div>
+    )
 
     var error = null
     if(this.state.error) {
@@ -72,15 +94,16 @@ module.exports = React.createClass({
       <div className="webui-config">
         <h3>Config</h3>
         <br/>
-        <div className="panel panel-default padded" style={{height: '600px'}}>
-          <textarea className="panel-inner" onChange={this.handleChange}>{this.state.body}</textarea>
+        {saveButton}
+        <div className="textarea-panel panel panel-default padded">
+          <textarea className="panel-inner" spellCheck="false" onChange={this.handleChange}>
+            {this.state.body}
+          </textarea>
         </div>
         {error}
-        <button className={buttonClass} onClick={this.save}>
-          <i className={'fa ' + (this.state.saved ? 'fa-check' : 'fa-save')}></i>&nbsp;
-          {this.state.saving ? 'Saving...' : this.state.saved ? 'Saved' : 'Save'}
-        </button>
+        {saveButton}
         <div style={{height: '50px'}}></div>
+        <br/>
       </div>
     )
   }

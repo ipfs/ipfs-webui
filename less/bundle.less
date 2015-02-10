@@ -6,6 +6,15 @@ p {
   margin-bottom: 40px;
 }
 
+.clear {
+  clear: both;
+  height: 10px;
+}
+
+.btn:focus {
+  outline: none !important;
+}
+
 .webui-address {
   font-size: 12px;
   word-wrap: break-word;
@@ -116,6 +125,8 @@ p {
   border: none;
   width: 100%;
   height: 100%;
+  font-family: monospace;
+  resize:none;
 }
 
 .webui-config-item {
@@ -187,9 +198,16 @@ p {
 
 .textarea-panel {
   background: #f2f6fd;
+  width: auto;
+  overflow-x: scroll;
+  overflow-y: auto;
 
   textarea {
+    font-size: 1em;
     padding: 14px 20px;
+    margin: 0 auto;
+    display: block;
+    overflow-y: hidden;
   }
 }
 
@@ -248,8 +266,8 @@ a.copy {
     right: 0;
     top: 12px;
     padding-right: 10px;
-    button {
-      margin-right: 5px;
-    }
+  }
+  button {
+    margin-right: 5px;
   }
 }
