@@ -95,7 +95,15 @@ module.exports = React.createClass({
 
         var nextFiles = (t.state.files || []).concat([metadata])
         localStorage.files = JSON.stringify(nextFiles)
-        t.setState({ files: nextFiles, adding: false })
+        t.setState({
+          files: nextFiles,
+          adding: false,
+          confirm: metadata.name
+        })
+
+        setTimeout(function() {
+          t.setState({ confirm: null })
+        }, 6000)
       })
     }
 
@@ -125,7 +133,7 @@ module.exports = React.createClass({
     <div className="col-sm-10 col-sm-offset-1">
       <div className="file-add-container" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}>
         <div className={"file-add-container-inner "+(this.state.dragging ? "hover" : "")}></div>
-        <div className={this.state.dragging ? "hidden" : ""}>
+        <div className={(this.state.dragging || this.state.confirm) ? "hidden" : ""}>
           <p><strong>Drag-and-drop your files here</strong></p>
           <p><span>or</span></p>
           <p>
@@ -136,6 +144,9 @@ module.exports = React.createClass({
         </div>
         <div className={!this.state.dragging ? "hidden" : ""}>
           <p><strong>Drop your file here to add it to IPFS</strong></p>
+        </div>
+        <div className={!this.state.confirm ? "hidden" : ""}>
+          <p><i className="fa fa-lg fa-thumbs-up"></i> Added <strong>{this.state.confirm}</strong></p>
         </div>
         <input type="file" className="file-select" style={{display: !this.state.adding ? 'none' : 'inline'}} onChange={this.onFileChange}/>
       </div>
