@@ -89,7 +89,8 @@ module.exports = React.createClass({
       object: this.state.object,
       handleLink: this.handleLink,
       handleBack: this.handleBack,
-      path: this.state.hash
+      path: this.state.hash,
+      gateway: this.props.gateway
     }) : null
 
     return (

@@ -48,8 +48,7 @@ module.exports = React.createClass({
             if(lastDot !== -1) type = file.name.substr(lastDot+1, 4).toUpperCase()
           }
 
-          // TODO: get gateway path from config instead of using hardcoded localhost:8080
-          var gatewayPath = 'http://localhost:8080/ipfs/' + file.id
+          var gatewayPath = t.props.gateway+'/ipfs/'+file.id
           var dagPath = '#/objects/' + file.id
           return (
             <tr className="webui-file" data-type={file.type}>
@@ -61,7 +60,7 @@ module.exports = React.createClass({
                 <span className="separator">|</span>
                 <a href={dagPath}>DAG</a>
                 <span className="separator">|</span>
-                <a href="#" onClick={t.unpin} data-hash={file.id}><i className="fa fa-remove" data-toggle="tooltip" data-placement="right" title="" data-original-title="Unpin"></i></a>
+                <a href="#" onClick={t.unpin} data-hash={file.id}><i className="fa fa-remove" data-toggle="tooltip" data-placement="right" title="" data-original-title="Remove"></i></a>
               </td>
             </tr>
           )

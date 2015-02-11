@@ -47,8 +47,7 @@ module.exports = React.createClass({
       )
     }
 
-    // TODO: get gateway path from config
-    var gatewayPath = "http://localhost:8080/ipfs/"
+    var gatewayPath = this.props.gateway+'/ipfs/'
     return (
       <div className="webui-object">
         <div className="row">
@@ -57,7 +56,7 @@ module.exports = React.createClass({
           <div className="link-buttons">
             <a href={gatewayPath+this.props.path} target="_blank" className="btn btn-info">RAW</a>
             <a href={gatewayPath+this.props.path+'?dl=1'} target="_blank" className="btn btn-second">Download</a>
-            <button className="btn btn-third"><i className="fa fa-lg fa-thumb-tack"></i></button>
+            <button className="btn btn-third hidden"><i className="fa fa-lg fa-thumb-tack"></i></button>
           </div>
           <br/>
           <div className="panel panel-default">

@@ -3,13 +3,27 @@ var Nav = require('./nav.jsx')
 var RouteHandler = require('react-router').RouteHandler
 var Link = require('react-router').Link
 
-// TODO: get this address from a config
-var ipfs = require('ipfs-api')(window.location.hostname, window.location.port)
+var host = window.location.hostname
+var port = window.location.port
+if(localStorage.daemon) {
+  host = localStorage.daemon.host
+  port = localStorage.daemon.port
+}
+var ipfs = require('ipfs-api')(host, port)
 var ipfsHost = window.location.host
 
 module.exports = React.createClass({
   getInitialState: function() {
     var t = this
+
+    ipfs.config.get('Addresses.Gateway', function(err, res) {
+      if(err || !res) return console.error(err)
+
+      var split = res.Value.split('/')
+      var host = split[2], port = split[4]
+      t.setState({ gateway: 'http://'+host+':'+port })
+    })
+
     ipfs.version(function(err, res) {
       if(err) return console.error(err)
       t.setState({ version: res.Version })
@@ -22,7 +36,8 @@ module.exports = React.createClass({
     return {
       version: '',
       updateAvailable: false,
-      updating: false
+      updating: false,
+      gateway: 'http://127.0.0.1:8080'
     }
   },
 
@@ -126,7 +141,7 @@ module.exports = React.createClass({
 
           <div className="col-sm-10 col-sm-push-2">
             {update}
-            <RouteHandler ipfs={ipfs} host={ipfsHost}/>
+            <RouteHandler ipfs={ipfs} host={ipfsHost} gateway={this.state.gateway} />
           </div>
         </div>
       </div>

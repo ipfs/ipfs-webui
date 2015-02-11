@@ -154,21 +154,35 @@ module.exports = React.createClass({
         <br/>
 
         <div className="panel panel-default">
-          {FileList({ files: this.state.files, ipfs: this.props.ipfs })}
+          {FileList({
+            files: this.state.files,
+            ipfs: this.props.ipfs,
+            gateway: this.props.gateway
+          })}
         </div>
       </div>
 
       <div className={tab !== 'pinned' ? 'hidden' : ''}>
         <h3>Pinned Files</h3>
         <div className="panel panel-default">
-          {FileList({ files: this.state.pinned, namesHidden: true, ipfs: this.props.ipfs })}
+          {FileList({
+            files: this.state.pinned,
+            namesHidden: true,
+            ipfs: this.props.ipfs,
+            gateway: this.props.gateway
+          })}
         </div>
       </div>
 
       <div className={tab !== 'all' ? 'hidden' : ''}>
         <h3>All Local Files</h3>
         <div className="panel panel-default">
-          {FileList({ files: this.state.local, namesHidden: true, ipfs: this.props.ipfs })}
+          {FileList({
+            files: this.state.local,
+            namesHidden: true,
+            ipfs: this.props.ipfs,
+            gateway: this.props.gateway
+          })}
         </div>
       </div>
     </div>
