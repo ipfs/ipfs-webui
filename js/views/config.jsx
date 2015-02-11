@@ -12,6 +12,13 @@ module.exports = React.createClass({
     }
   },
 
+  reset: function() {
+    this.setState({
+      body: JSON.stringify(this.props.config, null, '\t'),
+      error: null
+    })
+  },
+
   componentDidMount: function() {
     this.updateHeight()
   },
@@ -67,11 +74,15 @@ module.exports = React.createClass({
     if(this.state.error || this.state.saving || this.state.saved)
       buttonClass += ' disabled'
 
-    var saveButton = (
-      <div>
+    var buttons = (
+      <div className="controls">
         <button className={buttonClass} onClick={this.save}>
           <i className={'fa ' + (this.state.saved ? 'fa-check' : 'fa-save')}></i>&nbsp;
           {this.state.saving ? 'Saving...' : this.state.saved ? 'Saved' : 'Save'}
+        </button>
+        <button className="btn btn-primary pull-right" onClick={this.reset}>
+          <i className="fa fa-recycle"></i>&nbsp;
+          Reset
         </button>
         <div className="clear"></div>
       </div>
@@ -81,11 +92,10 @@ module.exports = React.createClass({
     if(this.state.error) {
       error = (
         <div>
-          <span className="text-danger">
+          <span className="text-danger pull-left">
             <strong>Error in config: </strong>
             <span>{this.state.error}</span>
           </span>
-          <br/><br/>
         </div>
       )
     }
@@ -94,14 +104,13 @@ module.exports = React.createClass({
       <div className="webui-config">
         <h3>Config</h3>
         <br/>
-        {saveButton}
+        {error}
+        {buttons}
         <div className="textarea-panel panel panel-default padded">
-          <textarea className="panel-inner" spellCheck="false" onChange={this.handleChange}>
-            {this.state.body}
-          </textarea>
+          <textarea className="panel-inner" spellCheck="false" onChange={this.handleChange} value={this.state.body} />
         </div>
         {error}
-        {saveButton}
+        {buttons}
         <div style={{height: '50px'}}></div>
         <br/>
       </div>

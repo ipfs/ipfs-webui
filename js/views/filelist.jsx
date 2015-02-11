@@ -8,7 +8,22 @@ module.exports = React.createClass({
     $(this.getDOMNode()).find('[data-toggle="tooltip"]').tooltip()
   },
 
+
+  unpin: function(e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    var el = $(e.target)
+    var hash = el.attr('data-hash')
+    if(!hash) hash = el.parent().attr('data-hash')
+
+    this.props.ipfs.pin.remove(hash, function(err, res) {
+      console.log(err, res)
+    })
+  },
+
   render: function() {
+    var t = this
     var files = this.props.files
     var className = "table-hover filelist"
     if(this.props.namesHidden) className += ' filelist-names-hidden'
@@ -46,7 +61,7 @@ module.exports = React.createClass({
                 <span className="separator">|</span>
                 <a href={dagPath}>DAG</a>
                 <span className="separator">|</span>
-                <a><i className="fa fa-thumb-tack" data-toggle="tooltip" data-placement="right" title="" data-original-title="Unpin"></i></a>
+                <a href="#" onClick={t.unpin} data-hash={file.id}><i className="fa fa-remove" data-toggle="tooltip" data-placement="right" title="" data-original-title="Unpin"></i></a>
               </td>
             </tr>
           )
