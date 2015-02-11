@@ -84,7 +84,8 @@ module.exports = React.createClass({
           size: file.size
         }
 
-        var nextFiles = (t.state.files || []).concat([metadata])
+        var nextFiles = (t.state.files || [])
+        nextFiles.unshift(metadata)
         localStorage.files = JSON.stringify(nextFiles)
         t.setState({
           files: nextFiles,
