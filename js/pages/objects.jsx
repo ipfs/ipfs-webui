@@ -6,13 +6,21 @@ var Object = require('../views/object.jsx')
 module.exports = React.createClass({
   mixins: [ Router.State ],
 
+  componentDidMount: function() {
+    window.addEventListener('hashchange', this.handleHashChange)
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('hashchange', this.handleHashChange)
+  },
+
   getInitialState: function() {
     var hash = window.location.hash.substr('/objects'.length+1)
-    hash = (hash || '').replace(/[.]/g, '/')
+    hash = (hash || '').replace(/[\\]/g, '/')
     if(hash.split('/')[0].length === 0) hash = hash.slice(1)
     if(hash) this.getObject(hash)
 
-    return { object: null, hash: hash }
+    return { object: null, hash: hash, hashInput: hash }
   },
 
   handleLink: function(e) {
@@ -25,7 +33,16 @@ module.exports = React.createClass({
     var hash = target.attr('data-name')
     if(hash) hash = this.state.hash + '/' + hash
     else hash = target.attr('data-hash')
-    this.setState({ hash: hash })
+    this.setState({ hash: hash, hashInput: hash })
+    this.getObject(hash)
+  },
+
+  handleHashChange: function() {
+    console.log('handleHashChange: ' + this.state.hash + ' ' + window.location.hash)
+    var hash = window.location.hash
+    if(!/^#\/objects/.test(hash)) return
+    hash = hash.substring('#/objects'.length+1).replace(/\\/g, '/')
+    this.setState({ hash: hash, hashInput: hash })
     this.getObject(hash)
   },
 
@@ -41,12 +58,16 @@ module.exports = React.createClass({
   getObject: function(path) {
     console.log('getObject:', path)
 
+    if(path[0] === '/' && !/^\/ip[fn]s\//.test(path)) {
+      path = path.slice(1)
+      this.setState({ hash: path })
+    }
+
     var t = this
     t.props.ipfs.object.get(path, function(err, res) {
       if(err) return console.error(err)
 
-      if(path[0] === '/') path = path.slice(1)
-      path = path.replace(/[\/]/g, '.')
+      path = path.replace(/[\/]/g, '\\')
       window.location = '#/objects/' + path
       t.setState({ object: res })
     })
@@ -54,20 +75,20 @@ module.exports = React.createClass({
 
   updateHash: function(e) {
     var hash = $(e.target).val().trim()
-    console.log('updateHash:', hash)
-    this.setState({ hash: hash })
+    this.setState({ hashInput: hash })
   },
 
   update: function(e) {
     if(e.which && e.which !== 13) return
-    if(this.state.hash) this.getObject(this.state.hash)
+    this.setState({ hash: this.state.hashInput })
+    if(this.state.hashInput) this.getObject(this.state.hashInput)
   },
 
   render: function() {
     var object = this.state.object ? Object({
       object: this.state.object,
-      handleLink: this.handleLink.bind(this),
-      handleBack: this.handleBack.bind(this),
+      handleLink: this.handleLink,
+      handleBack: this.handleBack,
       path: this.state.hash
     }) : null
 
@@ -78,7 +99,7 @@ module.exports = React.createClass({
             <h4>Enter hash or path</h4>
             <div className="path row">
               <div className="col-xs-11">
-                <input type="text" className="form-control input-lg" onChange={this.updateHash} onKeyPress={this.update} value={this.state.hash} placeholder="Enter hash or path: /ipfs/QmBpath..."/>
+                <input type="text" className="form-control input-lg" onChange={this.updateHash} onKeyPress={this.update} value={this.state.hashInput} placeholder="Enter hash or path: /ipfs/QmBpath..."/>
               </div>
               <button className="btn btn-primary go col-xs-1" onClick={this.update}>GO</button>
             </div>

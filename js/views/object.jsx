@@ -10,7 +10,8 @@ module.exports = React.createClass({
 
     var back = null
     var withoutPrefix = this.props.path.replace(/^\/ip[fn]s\//, '')
-    if(withoutPrefix.indexOf('/') !== -1) {
+    var slashIndex = withoutPrefix.indexOf('/')
+    if(slashIndex !== -1 && slashIndex !== withoutPrefix.length-1) {
       back = (
         <div>
           <button className="btn btn-primary" onClick={this.props.handleBack}>
