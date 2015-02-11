@@ -23,20 +23,6 @@ module.exports = React.createClass({
     return { object: null, hash: hash, hashInput: hash }
   },
 
-  handleLink: function(e) {
-    e.preventDefault()
-    e.stopPropagation()
-
-    var target = $(e.target)
-    if(!target.attr('data-name') && !target.attr('data-hash')) target = target.parent()
-    console.log(target.attr('data-name'), target.attr('data-hash'))
-    var hash = target.attr('data-name')
-    if(hash) hash = this.state.hash + '/' + hash
-    else hash = target.attr('data-hash')
-    this.setState({ hash: hash, hashInput: hash })
-    this.getObject(hash)
-  },
-
   handleHashChange: function() {
     console.log('handleHashChange: ' + this.state.hash + ' ' + window.location.hash)
     var hash = window.location.hash
@@ -68,7 +54,8 @@ module.exports = React.createClass({
       if(err) return console.error(err)
 
       path = path.replace(/[\/]/g, '\\')
-      window.location = '#/objects/' + path
+      var hash = '#/objects/' + path
+      window.location = hash
       t.setState({ object: res })
     })
   },
@@ -87,7 +74,6 @@ module.exports = React.createClass({
   render: function() {
     var object = this.state.object ? Object({
       object: this.state.object,
-      handleLink: this.handleLink,
       handleBack: this.handleBack,
       path: this.state.hash,
       gateway: this.props.gateway

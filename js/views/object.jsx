@@ -6,7 +6,6 @@ module.exports = React.createClass({
   render: function() {
     var size = atob(this.props.object.Data).length - 2
     var data = 'data:text/plain;base64,' + this.props.object.Data.substr(0, 10000)
-    var handleLink = this.props.handleLink
 
     var back = null
     var withoutPrefix = this.props.path.replace(/^\/ip[fn]s\//, '')
@@ -35,9 +34,17 @@ module.exports = React.createClass({
             </thead>
             <tbody>
             {this.props.object.Links.map(function(link) {
+              var path = window.location.hash
+              if(link.Name) path += '\\' + link.Name
+              else {
+                var split = path.split('/')
+                split[split.length-1] = link.Hash
+                path = split.join('/')
+              }
+
               return <tr>
-                <td><a href="#" data-name={link.Name} data-hash={link.Hash} onClick={handleLink}>{link.Name}</a></td>
-                <td><a href="#" data-name={link.Name} data-hash={link.Hash} onClick={handleLink}>{link.Hash}</a></td>
+                <td><a href={path} data-name={link.Name} data-hash={link.Hash}>{link.Name}</a></td>
+                <td><a href={path} data-name={link.Name} data-hash={link.Hash}>{link.Hash}</a></td>
                 <td>{link.Size}</td>
               </tr>
             })}
