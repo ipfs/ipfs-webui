@@ -9,4 +9,6 @@ $(document).ready(function() {
   Router.run(routes, function(Handler) {
     React.render(Handler(), appEl)
   })
+
+  ZeroClipboard.config({ swfPath: './static/js/ZeroClipboard.swf' })
 })

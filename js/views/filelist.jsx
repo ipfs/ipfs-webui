@@ -1,5 +1,6 @@
 var React = require('react')
 var Table = require('react-bootstrap/Table')
+var copier = require('./copier.jsx')
 
 module.exports = React.createClass({
 
@@ -18,7 +19,7 @@ module.exports = React.createClass({
           <tr>
             <th>Type</th>
             <th className="filelist-name">Name</th>
-            <th>ID</th>
+            <th className="id-cell">ID</th>
             <th className="action-cell">Actions</th>
           </tr>
         </thead>
@@ -39,7 +40,7 @@ module.exports = React.createClass({
             <tr className="webui-file" data-type={file.type}>
               <td><span className="type">{type}</span></td>
               <td className="filelist-name"><a target="_blank" href={gatewayPath}>{file.name}</a></td>
-              <td><code>{file.id}</code></td>
+              <td className="id-cell"><code>{file.id}</code>&nbsp;<copier copyText={file.id}><i className="fa fa-copy"></i></copier></td>
               <td className="action-cell">
                 <a target="_blank" href={gatewayPath}>RAW</a>
                 <span className="separator">|</span>

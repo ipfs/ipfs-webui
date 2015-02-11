@@ -11,6 +11,18 @@ p {
   height: 10px;
 }
 
+.copier {
+  outline: none;
+  color: #aaa;
+}
+.copier:focus {
+  outline: none;
+}
+.copier.disabled {
+  color: #ccc;
+  text-decoration: none;
+}
+
 .btn:focus {
   outline: none !important;
 }
@@ -56,6 +68,10 @@ p {
       display: inline-block;
       margin: 0 10px;
     }
+  }
+  .id-cell {
+    width: 55%;
+    min-width: 422px;
   }
 }
 .webui-file:hover {
@@ -116,6 +132,14 @@ p {
   .addresses {
     p {
       margin: 8px 0;
+    }
+  }
+  .pubkey-copy {
+    .copier {
+      float: right;
+      size: 0.8em;
+      position: relative;
+      top: -1em;
     }
   }
 }
@@ -221,14 +245,6 @@ p {
 strong {
   font-weight: 600;
   color: #7a8394;
-}
-
-a.copy {
-  float: right;
-  size: 0.8em;
-  color: #ddd;
-  position: relative;
-  top: -1em;
 }
 
 .globe-container {
