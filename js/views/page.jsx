@@ -26,6 +26,11 @@ module.exports = React.createClass({
     }
   },
 
+  showDAG: function() {
+    var path = $(this.getDOMNode()).find('.dag-path').val()
+    window.location = '#/objects/' + path.replace(/\//g, '\\')
+  },
+
   update: function() {
     var t = this
     ipfs.update.apply(function(err, res) {
@@ -74,6 +79,12 @@ module.exports = React.createClass({
                           <span className="icon-bar"></span>
                           <span className="icon-bar"></span>
                       </button>
+                      <form className="navbar-form navbar-left col-xs-6">
+                        <div className="form-group">
+                          <input type="text" className="form-control dag-path" placeholder="Enter a hash or path" />
+                        </div>
+                        <button className="btn btn-third btn-xs" onClick={this.showDAG}>GO</button>
+                      </form>
                         <ul className="nav navbar-nav navbar-right">
                           <li>
                               <a href="http://ipfs.io" target="_blank" data-toggle="tooltip" data-placement="bottom" title="About IPFS">
