@@ -42,19 +42,17 @@ module.exports = React.createClass({
   },
 
   onDragOver: function(e) {
-    if(!this.state.dragging) {
-      this.setState({ dragging: true })
-      $(e.target).addClass('hover')
-    }
+    console.log('dragover')
+    this.setState({ dragging: true })
+    $(e.target).addClass('hover')
     e.stopPropagation()
     e.preventDefault()
   },
 
   onDragLeave: function(e) {
-    if(this.state.dragging) {
-      this.setState({ dragging: false })
-      $(e.target).removeClass('hover')
-    }
+    console.log('dragleave')
+    this.setState({ dragging: false })
+    $(e.target).removeClass('hover')
     e.stopPropagation()
     e.preventDefault()
   },
@@ -133,13 +131,14 @@ module.exports = React.createClass({
       </ul>
 
       <div className={tab !== 'files' ? 'hidden' : ''}>
-        <div className="file-add-container" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}>
+        <div className="file-add-container">
+          <div className="file-add-target" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}></div>
           <div className={"file-add-container-inner "+(this.state.dragging ? "hover" : "")}></div>
           <div className={(this.state.dragging || this.state.confirm) ? "hidden" : ""}>
             <p><strong>Drag-and-drop your files here</strong></p>
             <p><span>or</span></p>
             <p>
-              <button className="btn btn-second add-file" onClick={this.addFile}>
+              <button className="btn btn-second add-file" onClick={this.addFile} onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}>
                 Select files...
               </button>
             </p>
@@ -155,21 +154,21 @@ module.exports = React.createClass({
         <br/>
 
         <div className="panel panel-default">
-          {FileList({ files: this.state.files })}
+          {FileList({ files: this.state.files, ipfs: this.props.ipfs })}
         </div>
       </div>
 
       <div className={tab !== 'pinned' ? 'hidden' : ''}>
         <h3>Pinned Files</h3>
         <div className="panel panel-default">
-          {FileList({ files: this.state.pinned, namesHidden: true })}
+          {FileList({ files: this.state.pinned, namesHidden: true, ipfs: this.props.ipfs })}
         </div>
       </div>
 
       <div className={tab !== 'all' ? 'hidden' : ''}>
         <h3>All Local Files</h3>
         <div className="panel panel-default">
-          {FileList({ files: this.state.local, namesHidden: true })}
+          {FileList({ files: this.state.local, namesHidden: true, ipfs: this.props.ipfs })}
         </div>
       </div>
     </div>
