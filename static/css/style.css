@@ -14,8 +14,8 @@ body {
 /*
  * TPFS stuff
  */
- 
-/*  titles */ 
+
+/*  titles */
 h1, h2, h3,
 h4, h5, h6 {
 	 color:#586071;
@@ -61,7 +61,7 @@ strong {color:#7a8394;}
 
 
 /*
- * navbar 
+ * navbar
  */
 .navbar-inverse {background:#33373f;}
 .navbar {
@@ -75,12 +75,12 @@ strong {color:#7a8394;}
     width: 100% !important;
 }
 .navbar-brand {
-    float: left;
+  float: left;
 	height: 50px;
-	padding: 15px 15px;
+	padding: 12px 20px;
 	font-size: 18px;
 	line-height: 32px;
-	text-align:center !important;
+	text-align:left;
 	color:#85dede;
 	margin-left:0 !important;
 }
@@ -91,9 +91,7 @@ strong {color:#7a8394;}
 }
 .navbar-fixed-top {position:fixed !important;}
 .logo {
-	height:18px;
-	width:30px;
-	margin:0 auto 0 !important;
+	height:25px;
 }
 li a img.icon {
 	opacity:0.4 !important;
@@ -103,7 +101,7 @@ li a:hover img.icon {
 }
 
 /*
- * sidebar 
+ * sidebar
  */
 .bottom {
 	bottom: 0;
@@ -112,9 +110,11 @@ li a:hover img.icon {
 	text-align:left;
 }
 .bottom a:hover {background:none !important;}
-ul#side li.bottom span {margin:0 10% 0 10% !important;}
+ul#side li.bottom span {
+  margin:0 20px !important;
+}
 
-ul#side li span.icon {margin:0 10% 0 15%;}
+ul#side li span.icon {margin:0 5% 0 15%;}
 ul#side li a {padding:20px 0;}
 .navbar-inverse .navbar-toggle {border-color: #5f697d;}
 .navbar-toggle {
@@ -134,8 +134,8 @@ ul#side li a {padding:20px 0;}
 }
 
 
-/* 
- * buttons 
+/*
+ * buttons
  */
 
 /* success */
@@ -265,9 +265,9 @@ thead {border-bottom:2px solid #eaecf0 !important;}
 .table-striped>tbody>tr:nth-of-type(odd) {
     background-color: #fff !important;
 }
-.table>tbody>tr>td, 
-.table>tbody>tr>th, 
-.table>tfoot>tr>td, 
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
 .table>tfoot>tr>th {border-color:transparent !important;}
 
 /*
@@ -346,16 +346,16 @@ li.active a span.icon-log { background-position:bottom;}
   padding: 20px;
 }
 @media (max-width: 768px) {
-body {padding-top:136px;}
+body {padding-top:49px;}
 .nav li {
 	position: relative;
 	display: block;
 	width: 7%;
-	float: left;	
+	float: left;
 }
 ul#side {
 	width:100%;
-	background-color:#eaecf0;	
+	background-color:#eaecf0;
 }
 ul#side li {width:100%;}
 .nav-sidebar {
@@ -372,7 +372,7 @@ ul#side li {width:100%;}
     padding-right: 40px;
     padding-left: 40px;
 }
-  
+
 }
 .main .page-header {
   margin-top: 0;
@@ -382,7 +382,7 @@ ul#side li {width:100%;}
 	position: relative;
 	display: block;
 	width: 10%;
-	float: left;	
+	float: left;
 }
 .sidebar {
 	margin:auto 0 !important;

@@ -88,19 +88,13 @@ module.exports = React.createClass({
                        </div>
                   </div>
                   <div className="col-sm-10">
-                    <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#bs4" aria-expanded="false">
-                          <span className="sr-only">Toggle navigation</span>
-                          <span className="icon-bar"></span>
-                          <span className="icon-bar"></span>
-                          <span className="icon-bar"></span>
-                      </button>
-                      <form className="navbar-form navbar-left col-xs-6">
+                      <form className="navbar-form navbar-left collapse navbar-collapse col-xs-6">
                         <div className="form-group">
                           <input type="text" className="form-control dag-path" placeholder="Enter a hash or path" />
                         </div>
                         <button className="btn btn-third btn-xs" onClick={this.showDAG}>GO</button>
                       </form>
-                        <ul className="nav navbar-nav navbar-right">
+                        <ul className="nav navbar-nav navbar-right collapse navbar-collapse">
                           <li>
                               <a href="http://ipfs.io" target="_blank" data-toggle="tooltip" data-placement="bottom" title="About IPFS">
                                   <img src="./static/img/help.png" alt="Help" className="img-responsive icon"/><span className="sr-only">Help</span>
@@ -122,7 +116,7 @@ module.exports = React.createClass({
                               </a>
                           </li>
                         </ul>
-                   
+
                   </div>
                </div>
         </div>
