@@ -86,10 +86,9 @@ gulp.task('server', function() {
     fallback: 'build/index.html',
     port: 8000,
     livereload: true,
-	middleware: function(connect, opts) {
-		console.log("middle")
-		return [ipfs_static]
-	}
+    middleware: function(connect, opts) {
+      return [ipfs_static]
+    }
   })
 })
 
