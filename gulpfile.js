@@ -14,7 +14,7 @@ var browserify = require('browserify')
 var reactify = require('reactify')
 var del = require('del')
 var NwBuilder = require('node-webkit-builder')
-var ipfs_static = require('ipfs-node-server-static')('localhost', 5001);
+var ipfs_static = require('ipfs-node-server-static')('localhost', 5001, {api: true});
 
 var paths = {
   build: 'build/',
