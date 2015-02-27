@@ -4,7 +4,7 @@ var RouteHandler = require('react-router').RouteHandler
 var Link = require('react-router').Link
 
 var host = window.location.hostname
-var port = window.location.port
+var port = window.location.port || 80
 if(localStorage.daemon) {
   host = localStorage.daemon.host
   port = localStorage.daemon.port
