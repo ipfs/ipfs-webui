@@ -17,7 +17,7 @@ build/static/bundle.min.js: $(gulp) $(shell find js html less)
 $(gulp):
 	npm install
 
-publish: build
+publish: clean build
 	ipfs add -r -q build | tail -n1 >versions/current
 	cp -r static versions/`cat versions/current`
 	cat versions/current >>versions/history
