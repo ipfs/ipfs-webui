@@ -1,6 +1,6 @@
 {
   "name": "ipfs-webui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A frontend for IPFS",
   "main": "index.js",
   "dependencies": {
