@@ -19,7 +19,7 @@ $(gulp):
 
 publish: clean build
 	ipfs add -r -q build | tail -n1 >versions/current
-	cp -r static versions/`cat versions/current`
+	cp -r build versions/`cat versions/current`
 	cat versions/current >>versions/history
 	@export hash=`cat versions/current`; \
 		echo "here are the links:"; \
