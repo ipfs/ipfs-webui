@@ -5,7 +5,7 @@ module.exports = React.createClass({
 
   render: function() {
     var size = this.props.object.Data.length - 2
-    var data = 'data:text/plain;base64,' + new Buffer(this.props.object.Data.substr(0, 10000), 'binary').toString('base64')
+    var data = 'data:text/plain;charset=utf8;base64,' + new Buffer(this.props.object.Data.substr(0, 10000), 'utf-8').toString('base64')
 
     var back = null
     var withoutPrefix = this.props.path.replace(/^\/ip[fn]s\//, '')
