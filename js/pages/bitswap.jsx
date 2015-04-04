@@ -1,14 +1,13 @@
 var React = require('react')
-var Router = require('react-router')
 var FileList = require('../views/filelist.jsx')
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     var t = this
 
-    var update = function() {
-      t.props.ipfs.send('bitswap/wantlist', null, null, null, function(err, res) {
-        if(err) return console.error(err)
+    var update = function () {
+      t.props.ipfs.send('bitswap/wantlist', null, null, null, function (err, res) {
+        if (err) return console.error(err)
         t.setState({ wantlist: res })
       })
     }
@@ -21,11 +20,11 @@ module.exports = React.createClass({
     }
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     clearInterval(this.props.pollInterval)
   },
 
-  render: function() {
+  render: function () {
     var wantlist = this.state.wantlist
 
     return (

@@ -1,13 +1,12 @@
 var React = require('react')
 var Table = require('react-bootstrap/lib/Table')
 
-module.exports = React.createClass({
-
-  render: function() {
+var PropTable = React.createClass({
+  render: function () {
     return (
       <Table responsive>
         <tbody>
-          {this.props.table.map(function(val) {
+          {this.props.table.map(function (val) {
             return (
               <tr>
                 <td className="text-left"><strong>{val[0]}</strong></td>
@@ -22,3 +21,5 @@ module.exports = React.createClass({
 
   }
 })
+
+module.exports = PropTable

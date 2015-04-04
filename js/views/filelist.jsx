@@ -1,32 +1,32 @@
 var React = require('react')
 var Table = require('react-bootstrap/lib/Table')
 var copier = require('./copier.jsx')
+var $ = window.$
 
-module.exports = React.createClass({
+var FileList = React.createClass({
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     $(this.getDOMNode()).find('[data-toggle="tooltip"]').tooltip()
   },
 
-
-  unpin: function(e) {
+  unpin: function (e) {
     e.preventDefault()
     e.stopPropagation()
 
     var el = $(e.target)
     var hash = el.attr('data-hash')
-    if(!hash) hash = el.parent().attr('data-hash')
+    if (!hash) hash = el.parent().attr('data-hash')
 
-    this.props.ipfs.pin.remove(hash, function(err, res) {
+    this.props.ipfs.pin.remove(hash, function (err, res) {
       console.log(err, res)
     })
   },
 
-  render: function() {
+  render: function () {
     var t = this
     var files = this.props.files
-    var className = "table-hover filelist"
-    if(this.props.namesHidden) className += ' filelist-names-hidden'
+    var className = 'table-hover filelist'
+    if (this.props.namesHidden) className += ' filelist-names-hidden'
 
     return (
       <Table responsive className={className}>
@@ -39,16 +39,16 @@ module.exports = React.createClass({
           </tr>
         </thead>
         <tbody>
-        {files ? files.map(function(file) {
-          if(typeof file === 'string') file = { id: file }
+        {files ? files.map(function (file) {
+          if (typeof file === 'string') file = { id: file }
 
           var type = '?'
-          if(file.name) {
+          if (file.name) {
             var lastDot = file.name.lastIndexOf('.')
-            if(lastDot !== -1) type = file.name.substr(lastDot+1, 4).toUpperCase()
+            if (lastDot !== -1) type = file.name.substr(lastDot + 1, 4).toUpperCase()
           }
 
-          var gatewayPath = t.props.gateway+'/ipfs/'+file.id
+          var gatewayPath = t.props.gateway + '/ipfs/' + file.id
           var dagPath = '#/objects/' + file.id
           return (
             <tr className="webui-file" data-type={file.type}>
@@ -70,3 +70,5 @@ module.exports = React.createClass({
     )
   }
 })
+
+module.exports = FileList

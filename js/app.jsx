@@ -30,7 +30,7 @@ module.exports = (
     <Route name="routing" handler={RoutingPage} />
     <Route name="config" handler={ConfigPage} />
     <Route name="logs" handler={LogPage} />
-    <NotFoundRoute handler={HomePage} />
+    <NotFoundRoute handler={NotFoundPage} />
     <Redirect from="/index.html" to="home" />
   </Route>
 )

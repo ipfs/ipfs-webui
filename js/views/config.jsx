@@ -1,9 +1,8 @@
 var React = require('react')
-var addr = require('./typography.jsx').addr
-var Editable = require('./editable.jsx')
+var $ = window.$
 
 module.exports = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return {
       body: JSON.stringify(this.props.config, null, '\t'),
       error: null,
@@ -12,24 +11,24 @@ module.exports = React.createClass({
     }
   },
 
-  reset: function() {
+  reset: function () {
     this.setState({
       body: JSON.stringify(this.props.config, null, '\t'),
       error: null
     })
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     this.updateHeight()
   },
 
-  updateHeight: function() {
+  updateHeight: function () {
     var el = $(this.getDOMNode()).find('textarea')
     el.height('1px')
     el.height(el.get(0).scrollHeight)
   },
 
-  handleChange: function(e) {
+  handleChange: function (e) {
     var text = e.target.value
     var error
 
@@ -47,7 +46,7 @@ module.exports = React.createClass({
     })
   },
 
-  save: function(e) {
+  save: function (e) {
     var t = this
     t.setState({
       body: t.state.body,
@@ -56,12 +55,13 @@ module.exports = React.createClass({
 
     console.log(t.state.body)
 
-    t.props.ipfs.config.replace(new Buffer(t.state.body), function(err) {
+    t.props.ipfs.config.replace(new Buffer(t.state.body), function (err) {
       var newState = { saving: false }
-      if(err) newState.error = err.message
-      else {
+      if (err) {
+        newState.error = err.message
+      } else {
         newState.saved = true
-        setTimeout(function() {
+        setTimeout(function () {
           t.setState({ saved: false })
         }, 4000)
       }
@@ -69,10 +69,11 @@ module.exports = React.createClass({
     })
   },
 
-  render: function() {
+  render: function () {
     var buttonClass = 'btn btn-success pull-right'
-    if(this.state.error || this.state.saving || this.state.saved)
+    if (this.state.error || this.state.saving || this.state.saved) {
       buttonClass += ' disabled'
+    }
 
     var buttons = (
       <div className="controls">
@@ -89,7 +90,7 @@ module.exports = React.createClass({
     )
 
     var error = null
-    if(this.state.error) {
+    if (this.state.error) {
       error = (
         <div>
           <span className="text-danger pull-left">

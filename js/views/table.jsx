@@ -2,13 +2,12 @@ var React = require('react')
 var Table = require('react-bootstrap/lib/Table')
 var addr = require('./typography.jsx').addr
 
-module.exports = React.createClass({
-
-  render: function() {
+var Table = React.createClass({
+  render: function () {
     return (
       <Table responsive>
         <tbody>
-          {this.props.table.map(function(val) {
+          {this.props.table.map(function (val) {
             return (
               <tr><td>{addr(val)}</td></tr>
             )
@@ -20,3 +19,5 @@ module.exports = React.createClass({
 
   }
 })
+
+module.exports = Table

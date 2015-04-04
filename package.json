@@ -30,14 +30,20 @@
     "gulp-uglify": "^1.1.0",
     "ipfs-node-server-static": "^1.1.2",
     "node-webkit-builder": "^1.0.11",
+    "pre-commit": "^1.0.6",
     "react-tools": "^0.13.1",
     "reactify": "^1.1.0",
+    "standard": "^3.3.2",
     "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "gulp"
+    "dev": "gulp",
+    "lint": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "author": "Juan Benet <juan@benet.ai> (http://juan.benet.ai/)",
   "repository": {
     "type": "git",

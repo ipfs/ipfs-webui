@@ -1,9 +1,9 @@
 var React = require('react')
 var Link = require('react-router').Link
 
-module.exports = React.createClass({
+var Nav = React.createClass({
 
-  render: function() {
+  render: function () {
     return (
       <div className="row">
         <ul id="side" className="nav nav-sidebar">
@@ -42,3 +42,5 @@ module.exports = React.createClass({
     )
   }
 })
+
+module.exports = Nav

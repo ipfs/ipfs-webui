@@ -1,17 +1,12 @@
 var React = require('react')
-var Nav = require('../views/nav.jsx')
-var NodeProps = require('../views/nodeprops.jsx')
-var Table = require('../views/table.jsx')
-var TabbedArea = require('react-bootstrap/lib/TabbedArea')
-var TabPane = require('react-bootstrap/lib/TabPane')
 var Peer = require('../views/peer.jsx')
 var getLocation = require('../getlocation.js')
 
-module.exports = React.createClass({
-  getInitialState: function() {
+var Home = React.createClass({
+  getInitialState: function () {
     var t = this
-    t.props.ipfs.id(function(err, peer) {
-      if(err || !peer) return console.error(err)
+    t.props.ipfs.id(function (err, peer) {
+      if (err || !peer) return console.error(err)
       t.setState({
         node: {
           peer: peer,
@@ -19,8 +14,8 @@ module.exports = React.createClass({
         }
       })
 
-      getLocation(peer.Addresses, function(err, location) {
-        if(err || !location) return console.error(err)
+      getLocation(peer.Addresses, function (err, location) {
+        if (err || !location) return console.error(err)
         t.setState({
           node: {
             peer: peer,
@@ -30,9 +25,9 @@ module.exports = React.createClass({
       })
     })
 
-    t.props.ipfs.config.get('Gateway.Enabled', function(err, enabled) {
-      if(err) return console.error(err);
-      t.setState({ GatewayEnabled: enabled.Value });
+    t.props.ipfs.config.get('Gateway.Enabled', function (err, enabled) {
+      if (err) return console.error(err)
+      t.setState({ GatewayEnabled: enabled.Value })
     })
 
     return {
@@ -51,42 +46,45 @@ module.exports = React.createClass({
     }
   },
 
-  onGatewayChange: function(e) {
-    var t = this;
-    var enabled = !t.state.GatewayEnabled;
-    var api = enabled ? t.props.ipfs.gateway.enable : t.props.ipfs.gateway.disable;
-    api(function(err) {
-      if(err) return console.error(err);
-      t.setState({ GatewayEnabled: enabled });
-    });
+  onGatewayChange: function (e) {
+    var t = this
+    var enabled = !t.state.GatewayEnabled
+    var api = enabled ? t.props.ipfs.gateway.enable : t.props.ipfs.gateway.disable
+    api(function (err) {
+      if (err) return console.error(err)
+      t.setState({ GatewayEnabled: enabled })
+    })
   },
 
-  render: function() {
-    var gatewayEnabled = this.state.GatewayEnabled;
-    var gatewayLink;
-    if(gatewayEnabled)
+  render: function () {
+    var gatewayEnabled = this.state.GatewayEnabled
+    var gatewayLink
+    if (gatewayEnabled) {
       gatewayLink = <a href={this.state.GatewayUrl}>Go to gateway</a>
+    }
 
     return (
-  <div className="row">
-    <div className="col-sm-10 col-sm-offset-1">
+      <div className="row">
+        <div className="col-sm-10 col-sm-offset-1">
 
-      <h3>Node Info</h3>
-      <Peer {...this.state.node} />
+          <h3>Node Info</h3>
+          <Peer {...this.state.node} />
 
-      <div className="well hidden">
-        <h4>HTTP Gateway</h4>
-        <div className="checkbox">
-          <label>
-            <input type="checkbox" className="gateway-toggle" checked={gatewayEnabled} onChange={this.onGatewayChange}/>
-            <strong>Enabled</strong>
-          </label>
+          <div className="well hidden">
+            <h4>HTTP Gateway</h4>
+            <div className="checkbox">
+              <label>
+                <input type="checkbox" className="gateway-toggle" checked={gatewayEnabled} onChange={this.onGatewayChange}/>
+                <strong>Enabled</strong>
+              </label>
+            </div>
+            {gatewayLink}
+          </div>
+
         </div>
-        {gatewayLink}
       </div>
-
-    </div>
-  </div>
     )
   }
 })
+
+module.exports = Home

@@ -1,9 +1,9 @@
 var React = require('react')
-var addr = require('./typography.jsx').addr
+// var addr = require('./typography.jsx').addr
 var copier = require('./copier.jsx')
 
-module.exports = React.createClass({
-  render: function() {
+var Peer = React.createClass({
+  render: function () {
     return (
       <div className="webui-peer">
         <div className="box info">
@@ -35,8 +35,9 @@ module.exports = React.createClass({
 
         <h4>Network Addresses</h4>
         <div className="box addresses">
-          {(this.props.peer.Addresses || []).map(function(address) {
-            if(address) return (
+          {(this.props.peer.Addresses || []).map(function (address) {
+            if (!address) return
+            return (
               <p>
                 <code>{address}</code>&nbsp;
                 <copier copyText={address}><i className="fa fa-copy" /></copier>
@@ -48,3 +49,5 @@ module.exports = React.createClass({
     )
   }
 })
+
+module.exports = Peer
