@@ -12,6 +12,7 @@ var rename = require('gulp-rename')
 var source = require('vinyl-source-stream')
 var browserify = require('browserify')
 var reactify = require('reactify')
+var open = require('gulp-open')
 var del = require('del')
 var NwBuilder = require('node-webkit-builder')
 var ipfs_static = require('ipfs-node-server-static')('localhost', 5001, {api: true});
@@ -25,6 +26,8 @@ var paths = {
   css: ['less/**/*.less'],
   html: ['html/**/*.html'],
 }
+
+var server_port = process.env.PORT || 8000;
 
 gulp.task('clean', function(cb) {
   del([paths.build], cb)
@@ -84,7 +87,7 @@ gulp.task('server', function() {
   connect.server({
     root: 'build',
     fallback: 'build/index.html',
-    port: 8000,
+    port: server_port,
     livereload: true,
     middleware: function(connect, opts) {
       return [ipfs_static]
@@ -105,7 +108,15 @@ gulp.task('build', ['compile'], function() {
     nw.build(function(err) {
       if(err) console.error(err)
     })
-  }) 
+  })
 })
 
-gulp.task('default', ['watch', 'compile', 'server'])
+gulp.task('open', function(){
+  var options = {
+    url: 'http://localhost:' + server_port
+  };
+  gulp.src('./html/index.html')
+  .pipe(open('', options));
+});
+
+gulp.task('default', ['watch', 'compile', 'server', 'open'])

@@ -3,11 +3,12 @@
 
 ## Dev
 
-```
+```bash
 git clone https://github.com/protocol/ipfs-webui
 cd ipfs-webui
 npm install
-node_modules/.bin/gulp
+# Runs server on port 8000. Set env PORT to change.
+npm run dev
 ```
 
-Then open a browser at <http://localhost:8000>
+This will open a browser at <http://localhost:8000>
