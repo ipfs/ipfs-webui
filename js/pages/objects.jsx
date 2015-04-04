@@ -1,7 +1,7 @@
 var React = require('react')
 var Router = require('react-router')
 var Nav = require('../views/nav.jsx')
-var Object = require('../views/object.jsx')
+var ObjectView = require('../views/object.jsx')
 
 module.exports = React.createClass({
   mixins: [ Router.State ],
@@ -72,12 +72,10 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var object = this.state.object ? Object({
-      object: this.state.object,
-      handleBack: this.handleBack,
-      path: this.state.hash,
-      gateway: this.props.gateway
-    }) : null
+    var object = this.state.object ?
+      <ObjectView object={this.state.object} handleBack={this.handleBack}
+        path={this.state.hash} gateway={this.props.gateway} />
+      : null;
 
     return (
       <div className="row">
