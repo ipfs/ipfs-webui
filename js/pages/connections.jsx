@@ -25,6 +25,8 @@ var Connections = React.createClass({
     var getPeers = function () {
       t.props.ipfs.swarm.peers(function (err, res) {
         if (err) return console.error(err)
+        // If we've unmounted, abort
+        if (!t.isMounted()) return
 
         var peers = res.Strings.map(function (peer) {
           var slashIndex = peer.lastIndexOf('/')
@@ -49,6 +51,8 @@ var Connections = React.createClass({
 
               getLocation(id.Addresses, function (err, res) {
                 if (err) return console.error(err)
+                // If we've unmounted, abort
+                if (!t.isMounted()) return
 
                 res = res || {}
                 peer.location = res
