@@ -1,5 +1,5 @@
 var React = require('react')
-var Table = require('react-bootstrap/Table')
+var Table = require('react-bootstrap/lib/Table')
 var addr = require('./typography.jsx').addr
 
 var Peer = require('./peer.jsx')
@@ -24,12 +24,14 @@ var Connection = React.createClass({
   },
 
   render: function() {
-    var peer = this.state.open ? Peer({
-      peer: this.state.peer,
-      location: this.props.location,
-      bytesRead: this.props.BytesRead,
-      bytesWritten: this.props.BytesWritten
-    }) : null
+    var peer = this.state.open ?
+      <Peer
+        peer={this.state.peer}
+        location={this.props.location}
+        bytesRead={this.props.BytesRead}
+        bytesWritten={this.props.BytesWritten} />
+      : null;
+
     var className = 'webui-connection list-group-item'
     if(this.state.open) className += ' active'
 
@@ -47,16 +49,18 @@ var Connection = React.createClass({
   }
 })
 
-module.exports = React.createClass({
+var ConnectionList = React.createClass({
   render: function() {
     var peers = this.props.peers || []
 
     return (
       <ul className="list-group">
-        {peers.map(function(peer) {
-          return Connection(peer)
+        {peers.map(function(peer, i) {
+          return <Connection {...peer} key={i} />
         })}
       </ul>
     )
   }
 })
+
+module.exports = ConnectionList;

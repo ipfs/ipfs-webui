@@ -1,6 +1,6 @@
 var React = require('react')
-var TabbedArea = require('react-bootstrap/TabbedArea')
-var TabPane = require('react-bootstrap/TabPane')
+var TabbedArea = require('react-bootstrap/lib/TabbedArea')
+var TabPane = require('react-bootstrap/lib/TabPane')
 
 module.exports = React.createClass({
 

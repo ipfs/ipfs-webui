@@ -270,11 +270,13 @@ strong {
 
 .globe-container {
   max-height: 500px;
-}
-
-.globe-column {
-  position: fixed;
-  left: 13%;
+  position: relative;
+  .theme-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor:pointer;
+  }
 }
 
 .file-add-container {
