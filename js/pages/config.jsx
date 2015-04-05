@@ -1,5 +1,5 @@
 var React = require('react')
-var Config = require('../views/config.jsx')
+var ConfigView = require('../views/config.jsx')
 
 var Config = React.createClass({
   getInitialState: function () {
@@ -14,7 +14,7 @@ var Config = React.createClass({
 
   render: function () {
     var config = this.state.config ?
-      <Config config={this.state.config} ipfs={this.props.ipfs} />
+      <ConfigView config={this.state.config} ipfs={this.props.ipfs} />
       : null
 
     return (
