@@ -19,7 +19,7 @@ var ipfs_static = require('ipfs-node-server-static')('localhost', 5001, {api: tr
 
 var paths = {
   build: 'build/',
-  main: ['./js/main.js'],
+  main: ['./js/main.jsx'],
   js: ['js/**/*.js', 'js/**/*.jsx'],
   static: ['static/**/*'],
   img: ['static/**/*.png'],

@@ -2,8 +2,8 @@ var React = require('react')
 var Nav = require('../views/nav.jsx')
 var NodeProps = require('../views/nodeprops.jsx')
 var Table = require('../views/table.jsx')
-var TabbedArea = require('react-bootstrap/TabbedArea')
-var TabPane = require('react-bootstrap/TabPane')
+var TabbedArea = require('react-bootstrap/lib/TabbedArea')
+var TabPane = require('react-bootstrap/lib/TabPane')
 var Peer = require('../views/peer.jsx')
 var getLocation = require('../getlocation.js')
 
@@ -72,13 +72,13 @@ module.exports = React.createClass({
     <div className="col-sm-10 col-sm-offset-1">
 
       <h3>Node Info</h3>
-      {Peer(this.state.node)}
+      <Peer {...this.state.node} />
 
       <div className="well hidden">
         <h4>HTTP Gateway</h4>
         <div className="checkbox">
           <label>
-            <input type="checkbox" class="gateway-toggle" checked={gatewayEnabled} onChange={this.onGatewayChange}/>
+            <input type="checkbox" className="gateway-toggle" checked={gatewayEnabled} onChange={this.onGatewayChange}/>
             <strong>Enabled</strong>
           </label>
         </div>

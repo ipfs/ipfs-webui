@@ -1,5 +1,5 @@
 var React = require('react')
-var Table = require('react-bootstrap/Table')
+var Table = require('react-bootstrap/lib/Table')
 var copier = require('./copier.jsx')
 
 module.exports = React.createClass({

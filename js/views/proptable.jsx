@@ -1,5 +1,5 @@
 var React = require('react')
-var Table = require('react-bootstrap/Table')
+var Table = require('react-bootstrap/lib/Table')
 
 module.exports = React.createClass({
 
