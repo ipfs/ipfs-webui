@@ -113,7 +113,7 @@ gulp.task('open', function () {
   var options = {
     url: 'http://localhost:' + server_port
   }
-  gulp.src('./html/index.html')
+  gulp.src('./index.html')
     .pipe(open('', options))
 })
 

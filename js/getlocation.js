@@ -1,5 +1,7 @@
 'use strict'
 
+var $ = require('jquery')
+
 function isLocal (address) {
   var split = address.split('.')
   if (split[0] === '10') return true
@@ -14,7 +16,7 @@ var getLocation = module.exports = function (multiaddrs, cb) {
   var address = multiaddrs[0].split('/')[2]
   if (isLocal(address)) return getLocation(multiaddrs.slice(1), cb)
 
-  window.$.get('http://freegeoip.net/json/' + address, function (res) {
+  $.get('http://freegeoip.net/json/' + address, function (res) {
     if (!res.country_name && multiaddrs.length > 1) {
       return getLocation(multiaddrs.slice(1), cb)
     }

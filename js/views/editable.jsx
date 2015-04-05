@@ -1,5 +1,5 @@
 var React = require('react')
-var $ = window.$
+var $ = require('jquery')
 
 function format (value) {
   value = value.trim()

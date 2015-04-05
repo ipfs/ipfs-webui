@@ -1,6 +1,6 @@
 'use strict'
 // var Router = require('react-router')
-var $ = window.$
+var $ = require('jquery')
 
 function linkHandler () {
   var external = /^(https?:)?\/\//i

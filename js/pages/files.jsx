@@ -1,7 +1,7 @@
 var React = require('react')
 var FileList = require('../views/filelist.jsx')
 var LocalStorage = require('../utils/localStorage')
-var $ = window.$
+var $ = require('jquery')
 
 var Files = React.createClass({
   getInitialState: function () {

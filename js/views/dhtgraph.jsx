@@ -1,5 +1,5 @@
 var React = require('react')
-var d3 = window.d3
+var d3 = require('d3')
 
 var diameter = 500,
   radius = diameter / 2,
