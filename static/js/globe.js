@@ -187,7 +187,6 @@ DAT.Globe = function (container, opts) {
     opts.animated = opts.animated || false
     this.is_animated = opts.animated
     opts.format = opts.format || 'magnitude'; // other option is 'legend'
-    console.log(opts.format)
     if (opts.format === 'magnitude') {
       step = 3
       colorFnWrapper = function (data, i) {

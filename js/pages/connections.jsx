@@ -1,6 +1,5 @@
 'use strict'
 var React = require('react/addons')
-var PureRenderMixin = React.addons.PureRenderMixin
 var LocalStorageMixin = require('react-localstorage')
 var ConnectionList = require('../views/connectionlist.jsx')
 var getLocation = require('../getlocation.js')
@@ -119,7 +118,7 @@ var Globe = React.createClass({
       this.createGlobe()
     }
 
-    this.addPoints(this.state.globe)
+    this.addPoints()
   },
 
   addPoints: function () {
