@@ -23,7 +23,7 @@ app.get('(/)?', function (req, res) {
 })
 
 // proxy the bundle
-app.get('/bundle.js', function (req, res) {
+app.get('/bundle.min.js', function (req, res) {
   http.get(webpackURL + req.url, function (resp) {
     resp.pipe(res)
   })
