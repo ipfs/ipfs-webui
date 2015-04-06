@@ -96,7 +96,7 @@ var Connections = React.createClass({
 
 var Globe = React.createClass({
 
-  mixins: [PureRenderMixin, LocalStorageMixin],
+  mixins: [LocalStorageMixin],
 
   getInitialState: function () {
     return {
