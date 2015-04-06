@@ -4,11 +4,11 @@ var webpack = require('webpack')
 // Production build
 module.exports = {
   context: __dirname,
-  entry: [
-    './js/main.jsx'
-  ],
+  entry: {
+    bundle: './js/main.jsx'
+  },
   output: {
-    path: __dirname + '/dist',
+    path: __dirname + '/build',
     filename: '[name].min.js'
   },
   module: {

@@ -24,7 +24,8 @@ module.exports = _.extend({}, require('./webpack.config.js'), {
   output: {
     path: '/',
     library: '[name]',
-    filename: '[name].js'
+    // not actually minified but it keeps us from having to make two index.html files
+    filename: '[name].min.js'
   },
   plugins: [
     new webpack.optimize.DedupePlugin(),
@@ -34,6 +35,8 @@ module.exports = _.extend({}, require('./webpack.config.js'), {
         NODE_ENV: JSON.stringify('development')
       }
     }),
+    // Jacked this from webpack source so we can get progress without having to pass
+    // the --progress option, which can't be sent if we're using the WebpackDevServer API
     new webpack.ProgressPlugin(function (percentage, msg) {
       if (percentage < 1) {
         percentage = Math.floor(percentage * 100)

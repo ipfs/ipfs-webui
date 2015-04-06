@@ -56,7 +56,6 @@
     "reactify": "^1.1.0",
     "standard": "^3.3.2",
     "style-loader": "^0.9.0",
-    "superagent": "^1.1.0",
     "transform-loader": "^0.2.1",
     "url-loader": "^0.5.5",
     "vinyl-source-stream": "^1.1.0",
@@ -65,8 +64,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "gulp",
-    "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress",
+    "dev": "node dev.js",
     "lint": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard"
   },
   "pre-commit": [

@@ -3,4 +3,3 @@ node_modules/
 .module-cache
 cache/
 npm-debug.log
-dist/
