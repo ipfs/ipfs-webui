@@ -2,9 +2,8 @@ var React = require('react')
 var TabbedArea = require('react-bootstrap/lib/TabbedArea')
 var TabPane = require('react-bootstrap/lib/TabPane')
 
-module.exports = React.createClass({
-
-  render: function() {
+var Swarmvis = React.createClass({
+  render: function () {
     return (
     <div className="webui-swarm-vis">
       <TabbedArea bsStyle="pills" defaultActiveKey={1} animation={false}>
@@ -24,3 +23,5 @@ module.exports = React.createClass({
 
   }
 })
+
+module.exports = Swarmvis

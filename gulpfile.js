@@ -15,7 +15,7 @@ var reactify = require('reactify')
 var open = require('gulp-open')
 var del = require('del')
 var NwBuilder = require('node-webkit-builder')
-var ipfs_static = require('ipfs-node-server-static')('localhost', 5001, {api: true});
+var ipfs_static = require('ipfs-node-server-static')('localhost', 5001, {api: true})
 
 var paths = {
   build: 'build/',
@@ -27,13 +27,13 @@ var paths = {
   html: ['html/**/*.html'],
 }
 
-var server_port = process.env.PORT || 8000;
+var server_port = process.env.PORT || 8000
 
-gulp.task('clean', function(cb) {
+gulp.task('clean', function (cb) {
   del([paths.build], cb)
 })
 
-gulp.task('js', function() {
+gulp.task('js', function () {
   return browserify(paths.main)
     .transform(reactify)
     .bundle()
@@ -45,78 +45,76 @@ gulp.task('js', function() {
     // .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/static'))
 })
-
-gulp.task('css', function() {
+gulp.task('css', function () {
   return gulp.src(paths.css)
     .pipe(sourcemaps.init())
-      .pipe(less())
-      .pipe(cssmin())
-      .pipe(concat('bundle.min.css'))
+    .pipe(less())
+    .pipe(cssmin())
+    .pipe(concat('bundle.min.css'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('build/static'))
 })
-
-gulp.task('img', function() {
+gulp.task('img', function () {
   return gulp.src(paths.img)
-    //.pipe(imagemin({optimizationLevel: 5}))
+    // .pipe(imagemin({optimizationLevel: 5}))
     .pipe(gulp.dest('build/static'))
     .pipe(connect.reload())
 })
-
-gulp.task('static', function() {
+gulp.task('static', function () {
   return gulp.src(paths.static)
     .pipe(gulp.dest('build/static'))
     .pipe(connect.reload())
 })
-
-gulp.task('html', function() {
+gulp.task('html', function () {
   return gulp.src(paths.html)
     .pipe(gulp.dest('build/'))
 })
-
-gulp.task('compile', ['js', 'css', 'img', 'static', 'html'])
-
-gulp.task('watch', function() {
+gulp.task('compile', [
+  'js',
+  'css',
+  'img',
+  'static',
+  'html'
+])
+gulp.task('watch', function () {
   gulp.watch(paths.js, ['js'])
   gulp.watch(paths.css, ['css'])
   gulp.watch(paths.img, ['img'])
   gulp.watch(paths.html, ['html'])
 })
-
-gulp.task('server', function() {
+gulp.task('server', function () {
   connect.server({
     root: 'build',
     fallback: 'build/index.html',
     port: server_port,
     livereload: true,
-    middleware: function(connect, opts) {
+    middleware: function (connect, opts) {
       return [ipfs_static]
     }
   })
 })
-
-gulp.task('build', ['compile'], function() {
+gulp.task('build', ['compile'], function () {
   var stream = gulp.src('nw-package.json')
     .pipe(rename('package.json'))
     .pipe(gulp.dest('build'))
 
-  stream.on('end', function() {
+  stream.on('end', function () {
     var nw = new NwBuilder({
       files: ['build/**', '!build/ipfs-webui/**'],
       platforms: ['osx', 'win', 'linux32', 'linux64']
     })
-    nw.build(function(err) {
+    nw.build(function (err) {
       if(err) console.error(err)
     })
   })
 })
 
-gulp.task('open', function(){
+gulp.task('open', function () {
   var options = {
     url: 'http://localhost:' + server_port
-  };
+  }
   gulp.src('./html/index.html')
-  .pipe(open('', options));
-});
+    .pipe(open('', options))
+})
 
 gulp.task('default', ['watch', 'compile', 'server', 'open'])

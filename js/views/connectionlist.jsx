@@ -1,20 +1,17 @@
 var React = require('react')
-var Table = require('react-bootstrap/lib/Table')
-var addr = require('./typography.jsx').addr
-
 var Peer = require('./peer.jsx')
 
 var Connection = React.createClass({
-  getInitialState: function() {
+  getInitialState: function () {
     return { open: false }
   },
 
-  handleClick: function(e) {
-    if(this.state.open) return this.setState({ open: false })
+  handleClick: function (e) {
+    if (this.state.open) return this.setState({ open: false })
 
     var t = this
-    t.props.ipfs.id(t.props.ID, function(err, peer) {
-      if(err) return console.error(err)
+    t.props.ipfs.id(t.props.ID, function (err, peer) {
+      if (err) return console.error(err)
 
       t.setState({
         open: true,
@@ -23,17 +20,17 @@ var Connection = React.createClass({
     })
   },
 
-  render: function() {
+  render: function () {
     var peer = this.state.open ?
       <Peer
         peer={this.state.peer}
         location={this.props.location}
         bytesRead={this.props.BytesRead}
         bytesWritten={this.props.BytesWritten} />
-      : null;
+      : null
 
     var className = 'webui-connection list-group-item'
-    if(this.state.open) className += ' active'
+    if (this.state.open) className += ' active'
 
     return (
       <li className={className}>
@@ -50,12 +47,12 @@ var Connection = React.createClass({
 })
 
 var ConnectionList = React.createClass({
-  render: function() {
+  render: function () {
     var peers = this.props.peers || []
 
     return (
       <ul className="list-group">
-        {peers.map(function(peer, i) {
+        {peers.map(function (peer, i) {
           return <Connection {...peer} key={i} />
         })}
       </ul>
@@ -63,4 +60,4 @@ var ConnectionList = React.createClass({
   }
 })
 
-module.exports = ConnectionList;
+module.exports = ConnectionList

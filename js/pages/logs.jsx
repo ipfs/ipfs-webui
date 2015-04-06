@@ -1,28 +1,29 @@
 var React = require('react')
+var $ = window.$
 
 var MAXSIZE = 1000
 
-module.exports = React.createClass({
-  getInitialState: function() {
+var Logs = React.createClass({
+  getInitialState: function () {
     var t = this
-    var req = this.props.ipfs.log.tail(function(err, stream) {
-      if(err) return console.error(err)
+    var req = this.props.ipfs.log.tail(function (err, stream) {
+      if (err) return console.error(err)
 
       var container = $(t.getDOMNode()).find('.textarea-panel').get(0)
 
-      stream.on('data', function(chunk) {
+      stream.on('data', function (chunk) {
         var parts = chunk.toString().split('}')
         var buf = ''
 
-        parts.forEach(function(part) {
-          buf += part+'}'
+        parts.forEach(function (part) {
+          buf += part + '}'
           try {
             var obj = JSON.parse(buf)
             t.state.log.push(obj)
-            if(t.state.log.length > MAXSIZE) t.state.log.shift()
+            if (t.state.log.length > MAXSIZE) t.state.log.shift()
             t.setState({ log: t.state.log, nonce: t.state.nonce + 1 })
-            if(t.state.tailing) container.scrollTop = container.scrollHeight
-          } catch(e){}
+            if (t.state.tailing) container.scrollTop = container.scrollHeight
+          } catch(e) {}
         })
       })
     })
@@ -35,27 +36,28 @@ module.exports = React.createClass({
     }
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     this.state.request.destroy()
   },
 
-  clear: function() {
+  clear: function () {
     this.setState({ log: [] })
   },
 
-  toggleTail: function() {
+  toggleTail: function () {
     this.setState({ tailing: !this.state.tailing })
   },
 
-  getUrl: function() {
+  getUrl: function () {
     return 'http://' + this.props.host + '/api/v0/log/tail?enc=text'
   },
 
-  render: function() {
+  render: function () {
     var buttons = (
       <div className="buttons">
         <button className="btn btn-second" onClick={this.clear}>Clear</button>
-        <button className={"btn btn-second "+(this.state.tailing ? "active" : "")} data-toggle="button" aria-pressed={this.state.tailing} onClick={this.toggleTail}>Tail</button>
+        <button className={'btn btn-second ' + (this.state.tailing ? 'active' : '')}
+          data-toggle="button" aria-pressed={this.state.tailing} onClick={this.toggleTail}>Tail</button>
       </div>
     )
 
@@ -67,7 +69,7 @@ module.exports = React.createClass({
         <br/>
 
         <div className="textarea-panel panel panel-default padded" style={{height: '600px'}}>
-          {this.state.log.map(function(event) {
+          {this.state.log.map(function (event) {
             return <pre key={event.time}>{JSON.stringify(event, null, '  ')}</pre>
           })}
         </div>
@@ -79,3 +81,5 @@ module.exports = React.createClass({
     )
   }
 })
+
+module.exports = Logs

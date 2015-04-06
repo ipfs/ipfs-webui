@@ -1,21 +1,22 @@
 var React = require('react')
-var Nav = require('../views/nav.jsx')
 var FileList = require('../views/filelist.jsx')
+var LocalStorage = require('../utils/localStorage')
+var $ = window.$
 
-module.exports = React.createClass({
-  getInitialState: function() {
+var Files = React.createClass({
+  getInitialState: function () {
     var t = this
 
-    var files = JSON.parse(localStorage.files || '[]')
+    var files = LocalStorage.get('files') || []
 
-    function getFiles() {
-      t.props.ipfs.pin.list(function(err, pinned) {
-        if(err || !pinned) return t.error(err)
+    function getFiles () {
+      t.props.ipfs.pin.list(function (err, pinned) {
+        if (err || !pinned) return t.error(err)
         t.setState({ pinned: pinned.Keys.sort() })
       })
 
-      t.props.ipfs.pin.list('recursive', function(err, pinned) {
-        if(err || !pinned) return t.error(err)
+      t.props.ipfs.pin.list('recursive', function (err, pinned) {
+        if (err || !pinned) return t.error(err)
         t.setState({ local: pinned.Keys.sort() })
       })
     }
@@ -31,17 +32,17 @@ module.exports = React.createClass({
     }
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     clearInterval(this.props.pollInterval)
   },
 
-  addFile: function(e) {
+  addFile: function (e) {
     e.preventDefault()
     $(this.getDOMNode()).find('.file-select').click()
     return
   },
 
-  onDragOver: function(e) {
+  onDragOver: function (e) {
     console.log('dragover')
     this.setState({ dragging: true })
     $(e.target).addClass('hover')
@@ -49,32 +50,32 @@ module.exports = React.createClass({
     e.preventDefault()
   },
 
-  onDragLeave: function(e) {
+  onDragLeave: function (e) {
     console.log('dragleave')
     this.setState({ dragging: false })
     $(e.target).removeClass('hover')
     e.stopPropagation()
     e.preventDefault()
   },
-  
-  onDrop: function(e) {
+
+  onDrop: function (e) {
     this.setState({ dragging: false })
     $(e.target).removeClass('hover')
     e.stopPropagation()
     e.preventDefault()
     this.onFileChange(e)
   },
-  
-  onFileChange: function(e) {
+
+  onFileChange: function (e) {
     var files = e.target.files || e.dataTransfer.files
-    if(!files || !files[0]) return
+    if (!files || !files[0]) return
     var file = files[0]
     var t = this
     console.log('adding file: ', file)
 
-    function add(data) {
-      t.props.ipfs.add(data, function(err, res) {
-        if(err || !res) return t.error(err)
+    function add (data) {
+      t.props.ipfs.add(data, function (err, res) {
+        if (err || !res) return t.error(err)
         res = res[0]
 
         var metadata = {
@@ -86,39 +87,39 @@ module.exports = React.createClass({
 
         var nextFiles = (t.state.files || [])
         nextFiles.unshift(metadata)
-        localStorage.files = JSON.stringify(nextFiles)
+        LocalStorage.set('files', nextFiles)
         t.setState({
           files: nextFiles,
           confirm: metadata.name
         })
 
-        setTimeout(function() {
+        setTimeout(function () {
           t.setState({ confirm: null })
         }, 6000)
       })
     }
 
-    if(file.path) {
+    if (file.path) {
       add(file.path)
 
     } else {
-      var reader = new FileReader
-      reader.onload = function() {
+      var reader = new window.FileReader()
+      reader.onload = function () {
         var data = reader.result
         data = new Buffer(data.substr(data.indexOf(',') + 1), 'base64')
         add(data)
-      }.bind(this)
+      }
       // TODO: use array buffers instead of base64 strings
       reader.readAsDataURL(file)
     }
   },
 
-  error: function(err) {
+  error: function (err) {
     console.error(err)
     // TODO
   },
 
-  render: function() {
+  render: function () {
     var tab = window.location.hash.split('/')
     tab = tab.length >= 3 ? tab[2] : tab[1]
 
@@ -134,8 +135,8 @@ module.exports = React.createClass({
       <div className={tab !== 'files' ? 'hidden' : ''}>
         <div className="file-add-container">
           <div className="file-add-target" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}></div>
-          <div className={"file-add-container-inner "+(this.state.dragging ? "hover" : "")}></div>
-          <div className={(this.state.dragging || this.state.confirm) ? "hidden" : ""}>
+          <div className={'file-add-container-inner ' + (this.state.dragging ? 'hover' : '')}></div>
+          <div className={(this.state.dragging || this.state.confirm) ? 'hidden' : ''}>
             <p><strong>Drag-and-drop your files here</strong></p>
             <p><span>or</span></p>
             <p>
@@ -144,10 +145,10 @@ module.exports = React.createClass({
               </button>
             </p>
           </div>
-          <div className={!this.state.dragging ? "hidden" : ""}>
+          <div className={!this.state.dragging ? 'hidden' : ''}>
             <p><strong>Drop your file here to add it to IPFS</strong></p>
           </div>
-          <div className={!this.state.confirm ? "hidden" : ""}>
+          <div className={!this.state.confirm ? 'hidden' : ''}>
             <p><i className="fa fa-lg fa-thumbs-up"></i> Added <strong>{this.state.confirm}</strong></p>
           </div>
           <input type="file" className="file-select" style={{display: 'none'}} onChange={this.onFileChange}/>
@@ -191,3 +192,5 @@ module.exports = React.createClass({
     )
   }
 })
+
+module.exports = Files

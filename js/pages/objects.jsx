@@ -1,57 +1,57 @@
 var React = require('react')
 var Router = require('react-router')
-var Nav = require('../views/nav.jsx')
+var $ = window.$
 var ObjectView = require('../views/object.jsx')
 
 module.exports = React.createClass({
   mixins: [ Router.State ],
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     window.addEventListener('hashchange', this.handleHashChange)
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     window.removeEventListener('hashchange', this.handleHashChange)
   },
 
-  getInitialState: function() {
-    var hash = window.location.hash.substr('/objects'.length+1)
+  getInitialState: function () {
+    var hash = window.location.hash.substr('/objects'.length + 1)
     hash = (hash || '').replace(/[\\]/g, '/')
-    if(hash.split('/')[0].length === 0) hash = hash.slice(1)
-    if(hash) this.getObject(hash)
+    if (hash.split('/')[0].length === 0) hash = hash.slice(1)
+    if (hash) this.getObject(hash)
 
     return { object: null, hash: hash, hashInput: hash }
   },
 
-  handleHashChange: function() {
+  handleHashChange: function () {
     console.log('handleHashChange: ' + this.state.hash + ' ' + window.location.hash)
     var hash = window.location.hash
-    if(!/^#\/objects/.test(hash)) return
-    hash = hash.substring('#/objects'.length+1).replace(/\\/g, '/')
+    if (!/^#\/objects/.test(hash)) return
+    hash = hash.substring('#/objects'.length + 1).replace(/\\/g, '/')
     this.setState({ hash: hash, hashInput: hash })
     this.getObject(hash)
   },
 
-  handleBack: function(e) {
+  handleBack: function (e) {
     var hash = this.state.hash
     var slashIndex = hash.lastIndexOf('/')
-    if(slashIndex === -1) return
+    if (slashIndex === -1) return
     hash = hash.substr(0, slashIndex)
     this.setState({ hash: hash })
     this.getObject(hash)
   },
 
-  getObject: function(path) {
+  getObject: function (path) {
     console.log('getObject:', path)
 
-    if(path[0] === '/' && !/^\/ip[fn]s\//.test(path)) {
+    if (path[0] === '/' && !/^\/ip[fn]s\//.test(path)) {
       path = path.slice(1)
       this.setState({ hash: path })
     }
 
     var t = this
-    t.props.ipfs.object.get(path, function(err, res) {
-      if(err) return console.error(err)
+    t.props.ipfs.object.get(path, function (err, res) {
+      if (err) return console.error(err)
 
       path = path.replace(/[\/]/g, '\\')
       var hash = '#/objects/' + path
@@ -60,22 +60,22 @@ module.exports = React.createClass({
     })
   },
 
-  updateHash: function(e) {
+  updateHash: function (e) {
     var hash = $(e.target).val().trim()
     this.setState({ hashInput: hash })
   },
 
-  update: function(e) {
-    if(e.which && e.which !== 13) return
+  update: function (e) {
+    if (e.which && e.which !== 13) return
     this.setState({ hash: this.state.hashInput })
-    if(this.state.hashInput) this.getObject(this.state.hashInput)
+    if (this.state.hashInput) this.getObject(this.state.hashInput)
   },
 
-  render: function() {
+  render: function () {
     var object = this.state.object ?
       <ObjectView object={this.state.object} handleBack={this.handleBack}
         path={this.state.hash} gateway={this.props.gateway} />
-      : null;
+      : null
 
     return (
       <div className="row">

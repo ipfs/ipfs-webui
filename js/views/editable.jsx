@@ -1,39 +1,40 @@
 var React = require('react')
+var $ = window.$
 
-function format(value) {
+function format (value) {
   value = value.trim()
-  if(value.length > 600) value = value.substr(0, 597) + '...'
+  if (value.length > 600) value = value.substr(0, 597) + '...'
   return value
 }
 
-module.exports = React.createClass({
-  getInitialState: function() {
+var Editable = React.createClass({
+  getInitialState: function () {
     this.props.value = JSON.stringify(this.props.value).trim()
     return {}
   },
 
-  convertToInput: function(e) {
+  convertToInput: function (e) {
     var target = $(e.target)
-    if(target.hasClass('webui-editable-input')) return
+    if (target.hasClass('webui-editable-input')) return
 
     var text = this.props.value
     var input = $('<input type="text" class="form-control webui-editable-input">')
-    if(text.length > 110) input = $('<textarea class="webui-editable-input" cols="100" rows="10">')
+    if (text.length > 110) input = $('<textarea class="webui-editable-input" cols="100" rows="10">')
 
     input.val(text)
     target.replaceWith(input)
 
-    var interval = setInterval(function() {
-      if(this.convertToText({target: input})) clearInterval(interval)
+    var interval = setInterval(function () {
+      if (this.convertToText({target: input})) clearInterval(interval)
     }.bind(this), 40)
   },
 
-  convertToText: function(e) {
+  convertToText: function (e) {
     var input = $(e.target)
-    if(!input.hasClass('webui-editable-input')) return false
-    if(input.is(':active') || input.is(':hover') || input.is(':focus')) return false
+    if (!input.hasClass('webui-editable-input')) return false
+    if (input.is(':active') || input.is(':hover') || input.is(':focus')) return false
 
-    if(this.props.value !== input.val()) {
+    if (this.props.value !== input.val()) {
       this.submit(input.val())
     }
 
@@ -47,16 +48,16 @@ module.exports = React.createClass({
     return true
   },
 
-  submit: function(value) {
+  submit: function (value) {
     this.props.value = value
     console.log(value)
 
-    this.props.ipfs.config.set(this.props.key, value, function(err, res) {
+    this.props.ipfs.config.set(this.props.key, value, function (err, res) {
       console.log(err, res)
     })
   },
 
-  render: function() {
+  render: function () {
     return (
       <div>
         <div className="webui-editable" onMouseOver={this.convertToInput} onMouseOut={this.convertToText}>
@@ -66,3 +67,5 @@ module.exports = React.createClass({
     )
   }
 })
+
+module.exports = Editable

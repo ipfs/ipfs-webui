@@ -1,36 +1,39 @@
 var React = require('react')
 var Nav = require('./nav.jsx')
 var RouteHandler = require('react-router').RouteHandler
+var LocalStorage = require('../utils/localStorage')
 var Link = require('react-router').Link
+var $ = window.$
 
 var host = window.location.hostname
 var port = window.location.port || 80
-if(localStorage.daemon) {
-  host = localStorage.daemon.host
-  port = localStorage.daemon.port
+var daemonConf = LocalStorage.get('daemon')
+if (daemonConf) {
+  host = daemonConf.host
+  port = daemonConf.port
 }
 var ipfs = require('ipfs-api')(host, port)
 var ipfsHost = window.location.host
 
-module.exports = React.createClass({
-  getInitialState: function() {
+var Page = React.createClass({
+  getInitialState: function () {
     var t = this
 
-    ipfs.config.get('Addresses.Gateway', function(err, res) {
-      if(err || !res) return console.error(err)
+    ipfs.config.get('Addresses.Gateway', function (err, res) {
+      if (err || !res) return console.error(err)
 
       var split = res.Value.split('/')
       var host = split[2], port = split[4]
-      t.setState({ gateway: 'http://'+host+':'+port })
+      t.setState({ gateway: 'http://' + host + ':' + port })
     })
 
-    ipfs.version(function(err, res) {
-      if(err) return console.error(err)
+    ipfs.version(function (err, res) {
+      if (err) return console.error(err)
       t.setState({ version: res.Version })
     })
 
-    ipfs.update.check(function(err, res) {
-      if(!err && typeof res === 'object') t.setState({ updateAvailable: true })
+    ipfs.update.check(function (err, res) {
+      if (!err && typeof res === 'object') t.setState({ updateAvailable: true })
     })
 
     return {
@@ -41,27 +44,27 @@ module.exports = React.createClass({
     }
   },
 
-  showDAG: function() {
+  showDAG: function () {
     var path = $(this.getDOMNode()).find('.dag-path').val()
     window.location = '#/objects/' + path.replace(/\//g, '\\')
   },
 
-  update: function() {
+  update: function () {
     var t = this
-    ipfs.update.apply(function(err, res) {
+    ipfs.update.apply(function (err, res) {
       console.log(err, res)
       t.setState({ updating: false })
-      if(!err) window.location = window.location.toString()
+      if (!err) window.location = window.location.toString()
     })
     t.setState({ updating: true })
   },
 
-  render: function() {
+  render: function () {
     var update = null
     console.log(this.state)
-    if(this.state.updateAvailable) {
+    if (this.state.updateAvailable) {
       var updateButtonClass = 'btn btn-link'
-      if(this.state.updating) updateButtonClass += ' disabled'
+      if (this.state.updating) updateButtonClass += ' disabled'
 
       update = (
         <div className="alert alert-warning">
@@ -101,7 +104,7 @@ module.exports = React.createClass({
                               </a>
                           </li>
                           <li>
-                              <a href="#"  target="_blank" data-toggle="tooltip" data-placement="bottom" title="Documentation">
+                              <a href="#" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Documentation">
                                   <img src="./static/img/info.png" alt="Documentation" className="img-responsive icon"/><span className="sr-only">Documentation</span>
                               </a>
                           </li>
@@ -123,7 +126,6 @@ module.exports = React.createClass({
       </nav>
       </div>{/* end navbar */}
 
-
       <div className="container-fluid">
         <div className="row">
 
@@ -143,3 +145,5 @@ module.exports = React.createClass({
     )
   }
 })
+
+module.exports = Page
