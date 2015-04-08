@@ -1,6 +1,5 @@
 'use strict'
 var React = require('react/addons')
-var PureRenderMixin = React.addons.PureRenderMixin
 var LocalStorageMixin = require('react-localstorage')
 var ConnectionList = require('../views/connectionlist.jsx')
 var getLocation = require('../getlocation.js')
@@ -25,6 +24,8 @@ var Connections = React.createClass({
     var getPeers = function () {
       t.props.ipfs.swarm.peers(function (err, res) {
         if (err) return console.error(err)
+        // If we've unmounted, abort
+        if (!t.isMounted()) return
 
         var peers = res.Strings.map(function (peer) {
           var slashIndex = peer.lastIndexOf('/')
@@ -49,6 +50,8 @@ var Connections = React.createClass({
 
               getLocation(id.Addresses, function (err, res) {
                 if (err) return console.error(err)
+                // If we've unmounted, abort
+                if (!t.isMounted()) return
 
                 res = res || {}
                 peer.location = res
@@ -92,7 +95,7 @@ var Connections = React.createClass({
 
 var Globe = React.createClass({
 
-  mixins: [PureRenderMixin, LocalStorageMixin],
+  mixins: [LocalStorageMixin],
 
   getInitialState: function () {
     return {
@@ -115,7 +118,7 @@ var Globe = React.createClass({
       this.createGlobe()
     }
 
-    this.addPoints(this.state.globe)
+    this.addPoints()
   },
 
   addPoints: function () {

@@ -1,7 +1,7 @@
 var React = require('react')
 var $ = require('jquery')
 
-module.exports = React.createClass({
+var ConfigView = React.createClass({
   getInitialState: function () {
     return {
       body: JSON.stringify(this.props.config, null, '\t'),
@@ -118,3 +118,5 @@ module.exports = React.createClass({
     )
   }
 })
+
+module.exports = ConfigView

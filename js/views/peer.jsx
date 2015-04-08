@@ -35,10 +35,10 @@ var Peer = React.createClass({
 
         <h4>Network Addresses</h4>
         <div className="box addresses">
-          {(this.props.peer.Addresses || []).map(function (address) {
+          {(this.props.peer.Addresses || []).map(function (address, i) {
             if (!address) return
             return (
-              <p>
+              <p key={i}>
                 <code>{address}</code>&nbsp;
                 <copier copyText={address}><i className="fa fa-copy" /></copier>
               </p>
