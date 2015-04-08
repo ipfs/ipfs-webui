@@ -1,5 +1,5 @@
 var React = require('react')
-var $ = window.$
+var $ = require('jquery')
 
 var MAXSIZE = 1000
 

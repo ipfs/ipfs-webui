@@ -1,6 +1,6 @@
 var React = require('react')
 var Router = require('react-router')
-var $ = window.$
+var $ = require('jquery')
 var ObjectView = require('../views/object.jsx')
 
 module.exports = React.createClass({

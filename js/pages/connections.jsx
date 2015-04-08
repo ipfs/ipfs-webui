@@ -6,6 +6,9 @@ var ConnectionList = require('../views/connectionlist.jsx')
 var getLocation = require('../getlocation.js')
 var debug = require('debug')('ipfs:pages:connections')
 var _ = require('lodash')
+var DATGlobe = require('globe')
+// Displays webgl warning message if not present
+require('static/js/Detector.js')
 
 var Connections = React.createClass({
   getInitialState: function () {
@@ -131,7 +134,7 @@ var Globe = React.createClass({
     if (this.state.theme === 'dark') texturePath += 'dark-'
 
     debug('mounting globe')
-    this.globe = new window.DAT.Globe(this.refs.globe.getDOMNode(), {
+    this.globe = new DATGlobe(this.refs.globe.getDOMNode(), {
       imgDir: texturePath
     })
     this.globe.animate()

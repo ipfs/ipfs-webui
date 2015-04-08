@@ -3,7 +3,7 @@ var Nav = require('./nav.jsx')
 var RouteHandler = require('react-router').RouteHandler
 var LocalStorage = require('../utils/localStorage')
 var Link = require('react-router').Link
-var $ = window.$
+var $ = require('jquery')
 
 var host = window.location.hostname
 var port = window.location.port || 80

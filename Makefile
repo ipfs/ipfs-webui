@@ -1,20 +1,22 @@
 
-gulp = node_modules/.bin/gulp
+webpack = node_modules/.bin/webpack
 local="http://localhost:8080/ipfs/"
 gway="http://gateway.ipfs.io/ipfs/"
 
 clean:
 	rm -rf build
 
-serve: $(gulp)
-	$(gulp)
+serve: $(webpack)
+	node dev
 
-build: build/static/bundle.min.js
+build: build/bundle.min.js
 
-build/static/bundle.min.js: $(gulp) $(shell find js html less)
-	$(gulp) build
+build/bundle.min.js: $(webpack)
+	$(webpack)
+	cp -r static build/static
+	cp static/html/index.html build
 
-$(gulp):
+$(webpack):
 	npm install
 
 publish: clean build

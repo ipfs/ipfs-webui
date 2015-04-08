@@ -1,9 +1,15 @@
 'use strict'
+// These use style-loader so they will create <style> tags in the DOM
+require('font-awesome-webpack')
+require('node_modules/bootstrap/dist/css/bootstrap.min.css')
+require('less/bundle.less')
+require('static/css/style.css')
+
+// Regular includes
 var React = require('react')
 var Router = require('react-router')
 var routes = require('./app.jsx')
-var $ = window.$
-var ZeroClipboard = window.ZeroClipboard
+var $ = require('jquery')
 
 // var linkHandler = require('./linkhandler.js')
 if (process.env.NODE_ENV !== 'production') {
@@ -16,6 +22,4 @@ $(document).ready(function () {
   Router.run(routes, function (Handler) {
     React.render(<Handler />, appEl)
   })
-
-  ZeroClipboard.config({ swfPath: './static/js/ZeroClipboard.swf' })
 })

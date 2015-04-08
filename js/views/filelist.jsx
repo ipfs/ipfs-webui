@@ -1,7 +1,7 @@
 var React = require('react')
 var Table = require('react-bootstrap/lib/Table')
 var copier = require('./copier.jsx')
-var $ = window.$
+var $ = require('jquery')
 
 var FileList = React.createClass({
 

@@ -1,6 +1,6 @@
 var React = require('react')
-var $ = window.$
-var ZeroClipboard = window.ZeroClipboard
+var $ = require('jquery')
+var ZeroClipboard = require('zeroclipboard')
 
 module.exports = React.createClass({
   getInitialState: function () {
