@@ -18,7 +18,7 @@ var FileList = React.createClass({
     var hash = el.attr('data-hash')
     if (!hash) hash = el.parent().attr('data-hash')
 
-    this.props.ipfs.pin.remove(hash, function (err, res) {
+    this.props.ipfs.pin.remove(hash, {r: true}, function (err, res) {
       console.log(err, res)
     })
   },
