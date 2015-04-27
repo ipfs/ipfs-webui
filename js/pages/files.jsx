@@ -12,12 +12,12 @@ var Files = React.createClass({
     function getFiles () {
       t.props.ipfs.pin.list(function (err, pinned) {
         if (err || !pinned) return t.error(err)
-        t.setState({ pinned: pinned.Keys.sort() })
+        t.setState({ pinned: Object.keys(pinned.Keys).sort() })
       })
 
       t.props.ipfs.pin.list('recursive', function (err, pinned) {
         if (err || !pinned) return t.error(err)
-        t.setState({ local: pinned.Keys.sort() })
+        t.setState({ local: Object.keys(pinned.Keys).sort() })
       })
     }
 
