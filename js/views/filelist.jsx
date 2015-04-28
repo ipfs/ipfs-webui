@@ -1,6 +1,7 @@
 var React = require('react')
 var Table = require('react-bootstrap/lib/Table')
 var copier = require('./copier.jsx')
+var _ = require('lodash')
 var $ = require('jquery')
 require('bootstrap') // attaches to jquery
 
@@ -40,28 +41,27 @@ var FileList = React.createClass({
           </tr>
         </thead>
         <tbody>
-        {files ? files.map(function (file) {
-          if (typeof file === 'string') file = { id: file }
-
+        {files ? _.map(files, function (file) {
           var type = '?'
-          if (file.name) {
-            var lastDot = file.name.lastIndexOf('.')
-            if (lastDot !== -1) type = file.name.substr(lastDot + 1, 4).toUpperCase()
+
+          if (file.Name) {
+            var lastDot = file.Name.lastIndexOf('.')
+            if (lastDot !== -1) type = file.Name.substr(lastDot + 1, 4).toUpperCase()
           }
 
-          var gatewayPath = t.props.gateway + '/ipfs/' + file.id
-          var dagPath = '#/objects/' + file.id
+          var gatewayPath = t.props.gateway + '/ipfs/' + file.Hash
+          var dagPath = '#/objects/' + file.Hash
           return (
-            <tr className="webui-file" data-type={file.type} key={file.id}>
+            <tr className="webui-file" data-type={file.type} key={file.Hash}>
               <td><span className="type">{type}</span></td>
-              <td className="filelist-name"><a target="_blank" href={gatewayPath}>{file.name}</a></td>
-              <td className="id-cell"><code>{file.id}</code>&nbsp;<copier copyText={file.id}><i className="fa fa-copy"></i></copier></td>
+              <td className="filelist-name"><a target="_blank" href={gatewayPath}>{file.Name}</a></td>
+              <td className="id-cell"><code>{file.Hash}</code>&nbsp;<copier copyText={file.Hash}><i className="fa fa-copy"></i></copier></td>
               <td className="action-cell">
                 <a target="_blank" href={gatewayPath}>RAW</a>
                 <span className="separator">|</span>
                 <a href={dagPath}>DAG</a>
                 <span className="separator">|</span>
-                <a href="#" onClick={t.unpin} data-hash={file.id}><i className="fa fa-remove" data-toggle="tooltip" data-placement="right" title="" data-original-title="Remove"></i></a>
+                <a href="#" onClick={t.unpin} data-hash={file.Hash}><i className="fa fa-remove" data-toggle="tooltip" data-placement="right" title="" data-original-title="Remove"></i></a>
               </td>
             </tr>
           )

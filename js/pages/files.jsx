@@ -1,35 +1,36 @@
 var React = require('react')
 var FileList = require('../views/filelist.jsx')
 var LocalStorage = require('../utils/localStorage')
+var _ = require('lodash')
 var $ = require('jquery')
 
 var Files = React.createClass({
   getInitialState: function () {
-    var t = this
 
-    var files = LocalStorage.get('files') || []
-
-    function getFiles () {
-      t.props.ipfs.pin.list(function (err, pinned) {
-        if (err || !pinned) return t.error(err)
-        t.setState({ pinned: Object.keys(pinned.Keys).sort() })
-      })
-
-      t.props.ipfs.pin.list('recursive', function (err, pinned) {
-        if (err || !pinned) return t.error(err)
-        t.setState({ local: Object.keys(pinned.Keys).sort() })
-      })
-    }
-
-    getFiles()
-    t.pollInterval = setInterval(getFiles, 1000)
+    this.getFiles()
 
     return {
-      files: files,
-      pinned: [],
-      local: [],
+      files: [],
       dragging: false
     }
+  },
+
+  getFiles: function  () {
+    var t = this
+
+    t.props.ipfs.pin.list('recursive', function (err, pinned) {
+      t.props.ipfs.ls(_.keys(pinned.Keys), function (err, nodes) {
+        _.forEach(nodes.Objects, function (node) {
+          var newfiles = {}
+          _.forEach(node.Links, function (link) {
+            if (link.Name) {
+              newfiles[link.Hash] = link
+            }
+            t.setState({ files: _.merge(t.state.files, newfiles)})
+          })
+        })
+      })
+    })
   },
 
   componentWillUnmount: function () {
@@ -78,30 +79,45 @@ var Files = React.createClass({
         if (err || !res) return t.error(err)
         res = res[0]
 
-        var metadata = {
-          id: res.Hash,
-          name: res.Name || file.name,
-          type: file.type,
-          size: file.size
-        }
+        // TODO make size part of return for add request?
+        t.props.ipfs.object.stat(res.Hash, function (err, stat) {
+          if (err || !res) return t.error(err)
 
-        var nextFiles = (t.state.files || [])
-        nextFiles.unshift(metadata)
-        LocalStorage.set('files', nextFiles)
-        t.setState({
-          files: nextFiles,
-          confirm: metadata.name
+          var wrap = new Buffer(JSON.stringify({
+            Data: "\b\u0001", // TODO, maybe not use hard-coded unixfs protobuf
+            Links: [
+              {
+                Hash: res.Hash,
+                Name: file.name,
+                Size: stat.CumulativeSize
+              }
+            ]}))
+
+          t.props.ipfs.object.put(wrap, "json", function (err, res) {
+            if (err || !res) return t.error(err)
+
+            // recursively pin the wrapping directory
+            t.props.ipfs.pin.add(res.Hash, {"recursive": true}, function (err, res) {
+              if (err || !res) return t.error(err)
+
+              // success
+              t.setState({
+                confirm: file.Name || file.name
+              })
+
+              setTimeout(function () {
+                t.setState({ confirm: null })
+              }, 6000)
+
+              t.getFiles()
+            })
+          })
         })
-
-        setTimeout(function () {
-          t.setState({ confirm: null })
-        }, 6000)
       })
     }
 
     if (file.path) {
       add(file.path)
-
     } else {
       var reader = new window.FileReader()
       reader.onload = function () {
@@ -126,12 +142,6 @@ var Files = React.createClass({
     return (
   <div className="row">
     <div className="col-sm-10 col-sm-offset-1">
-      <ul className="nav nav-tabs">
-        <li role="presentation" className={tab === 'files' ? 'active' : ''}><a href="#/files">Files</a></li>
-        <li role="presentation" className={tab === 'pinned' ? 'active' : ''}><a href="#/files/pinned">Pinned</a></li>
-        <li role="presentation" className={tab === 'all' ? 'active' : ''}><a href="#/files/all">All</a></li>
-      </ul>
-
       <div className={tab !== 'files' ? 'hidden' : ''}>
         <div className="file-add-container">
           <div className="file-add-target" onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}></div>
@@ -156,21 +166,7 @@ var Files = React.createClass({
         <br/>
 
         <div className="panel panel-default">
-          <FileList files={this.state.files} ipfs={this.props.ipfs} gateway={this.props.gateway} />
-        </div>
-      </div>
-
-      <div className={tab !== 'pinned' ? 'hidden' : ''}>
-        <h3>Pinned Files</h3>
-        <div className="panel panel-default">
-          <FileList files={this.state.pinned} namesHidden={true} ipfs={this.props.ipfs} gateway={this.props.gateway} />
-        </div>
-      </div>
-
-      <div className={tab !== 'all' ? 'hidden' : ''}>
-        <h3>All Local Files</h3>
-        <div className="panel panel-default">
-          <FileList files={this.state.local} namesHidden={true} ipfs={this.props.ipfs} gateway={this.props.gateway} />
+          <FileList files={_.values(this.state.files)} ipfs={this.props.ipfs} gateway={this.props.gateway} />
         </div>
       </div>
     </div>
