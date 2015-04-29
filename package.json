@@ -15,6 +15,7 @@
     "react": "^0.13.1",
     "react-async": "^2.1.0",
     "react-bootstrap": "^0.20.1",
+    "react-d3": "^0.3.1",
     "react-localstorage": "^0.2.2",
     "react-router": "^0.13.2",
     "three": "^0.66.0",

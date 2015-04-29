@@ -13,6 +13,7 @@ var BitswapPage = require('./pages/bitswap.jsx')
 var RoutingPage = require('./pages/routing.jsx')
 var ConfigPage = require('./pages/config.jsx')
 var LogPage = require('./pages/logs.jsx')
+var MetricsPage = require('./pages/metrics.jsx');
 var NotFoundPage = require('./pages/notfound.jsx')
 
 module.exports = (
@@ -30,6 +31,7 @@ module.exports = (
     <Route name="routing" handler={RoutingPage} />
     <Route name="config" handler={ConfigPage} />
     <Route name="logs" handler={LogPage} />
+    <Route name="metrics" handler={MetricsPage} />
     <NotFoundRoute handler={NotFoundPage} />
     <Redirect from="/index.html" to="home" />
   </Route>

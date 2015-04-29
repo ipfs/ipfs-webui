@@ -37,6 +37,11 @@ var Nav = React.createClass({
               <span className="icon fa fa-list" aria-hidden="true"></span> Logs
             </Link>
           </li>
+          <li>
+            <Link className="link" to="metrics">
+              <span className="icon fa fa-list" aria-hidden="true"></span> Metrics
+            </Link>
+          </li>
         </ul>
       </div>
     )
