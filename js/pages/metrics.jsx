@@ -7,7 +7,7 @@ var Metrics = React.createClass({
   getInitialState: function () {
     var t = this;
 
-    var zero =  { x: 0, y: 0 };
+    var zero =  { x: new Date(), y: 0 };
     var generalData = [
       {name:"Alloc", values: [zero]   }, // react-d3 somehow dislikes empty values
       // {name:"TotalAlloc", values: [zero] },
@@ -49,19 +49,19 @@ var Metrics = React.createClass({
         // console.log("xhr succeeded");
 
         generalData.forEach(function(elem, idx) {
-          elem.values.push({x:elem.values.length, y:resp.memstats[elem.name]});
+          elem.values.push({x:new Date(), y:resp.memstats[elem.name]});
         });
 
         accessData.forEach(function(elem, idx) {
-          elem.values.push({x:elem.values.length, y:resp.memstats[elem.name]});
+          elem.values.push({x:new Date(), y:resp.memstats[elem.name]});
         });
 
         heapData.forEach(function(elem, idx) {
-          elem.values.push({x:elem.values.length, y:resp.memstats[elem.name]});
+          elem.values.push({x:new Date(), y:resp.memstats[elem.name]});
         });
 
         stackData.forEach(function(elem, idx) {
-          elem.values.push({x:elem.values.length, y:resp.memstats[elem.name]});
+          elem.values.push({x:new Date(), y:resp.memstats[elem.name]});
         });
 
         t.setState({
