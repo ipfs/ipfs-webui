@@ -1,6 +1,7 @@
 'use strict'
 
-var $ = require('jquery')
+var geoip = require('ipfs-geoip')
+var GEOIP_ROOT = 'QmaFjNciRUCdD9PxdLu22rUjMs5hJGDgCstrthrEXw4akB'
 
 function isLocal (address) {
   var split = address.split('.')
@@ -11,14 +12,18 @@ function isLocal (address) {
   return false
 }
 
-var getLocation = module.exports = function (multiaddrs, cb) {
+var getLocation = module.exports = function (ipfs, multiaddrs, cb) {
   if (multiaddrs.length === 0) return cb(null, null)
   var address = multiaddrs[0].split('/')[2]
-  if (isLocal(address)) return getLocation(multiaddrs.slice(1), cb)
+  if (isLocal(address)) return getLocation(ipfs, multiaddrs.slice(1), cb)
 
-  $.get('http://freegeoip.net/json/' + address, function (res) {
+  geoip.lookup(ipfs, GEOIP_ROOT, address, function (err, res) {
+    if (err) {
+      throw err
+    }
+
     if (!res.country_name && multiaddrs.length > 1) {
-      return getLocation(multiaddrs.slice(1), cb)
+      return getLocation(ipfs, multiaddrs.slice(1), cb)
     }
 
     var location = 'Earth'
