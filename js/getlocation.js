@@ -1,7 +1,6 @@
 'use strict'
 
 var geoip = require('ipfs-geoip')
-var GEOIP_ROOT = 'QmaFjNciRUCdD9PxdLu22rUjMs5hJGDgCstrthrEXw4akB'
 
 function isLocal (address) {
   var split = address.split('.')
@@ -17,7 +16,7 @@ var getLocation = module.exports = function (ipfs, multiaddrs, cb) {
   var address = multiaddrs[0].split('/')[2]
   if (isLocal(address)) return getLocation(ipfs, multiaddrs.slice(1), cb)
 
-  geoip.lookup(ipfs, GEOIP_ROOT, address, function (err, res) {
+  geoip.lookup(ipfs, address, function (err, res) {
     if (err) {
       throw err
     }
