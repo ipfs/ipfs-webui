@@ -14,7 +14,7 @@ var Home = React.createClass({
         }
       })
 
-      getLocation(peer.Addresses, function (err, location) {
+      getLocation(t.props.ipfs, peer.Addresses, function (err, location) {
         if (err || !location) return console.error(err)
         t.setState({
           node: {

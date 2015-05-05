@@ -48,7 +48,7 @@ var Connections = React.createClass({
             t.props.ipfs.id(peer.ID, function (err, id) {
               if (err) return console.error(err)
 
-              getLocation(id.Addresses, function (err, res) {
+              getLocation(t.props.ipfs, id.Addresses, function (err, res) {
                 if (err) return console.error(err)
                 // If we've unmounted, abort
                 if (!t.isMounted()) return
