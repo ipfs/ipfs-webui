@@ -62,15 +62,14 @@ var ObjectView = React.createClass({
       )
     }
 
-    var gatewayPath = this.props.gateway + '/ipfs/'
     return (
       <div className='webui-object'>
         <div className='row'>
           {back}
           <h4>Links</h4>
           <div className='link-buttons'>
-            <a href={gatewayPath + this.props.path} target='_blank' className='btn btn-info'>RAW</a>
-            <a href={gatewayPath + this.props.path + '?dl=1'} target='_blank' className='btn btn-second'>Download</a>
+            <a href={this.props.gateway + this.props.path} target='_blank' className='btn btn-info'>RAW</a>
+            <a href={this.props.gateway + this.props.path + '?dl=1'} target='_blank' className='btn btn-second'>Download</a>
             <button className='btn btn-third hidden'><i className='fa fa-lg fa-thumb-tack'></i></button>
           </div>
           <br/>
