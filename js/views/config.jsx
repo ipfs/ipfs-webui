@@ -2,6 +2,11 @@ var React = require('react')
 var $ = require('jquery')
 
 var ConfigView = React.createClass({
+  displayName: 'ConfigView',
+  propTypes: {
+    config: React.PropTypes.object
+  },
+
   getInitialState: function () {
     return {
       body: JSON.stringify(this.props.config, null, '\t'),
@@ -76,16 +81,16 @@ var ConfigView = React.createClass({
     }
 
     var buttons = (
-      <div className="controls">
+      <div className='controls'>
         <button className={buttonClass} onClick={this.save}>
           <i className={'fa ' + (this.state.saved ? 'fa-check' : 'fa-save')}></i>&nbsp;
           {this.state.saving ? 'Saving...' : this.state.saved ? 'Saved' : 'Save'}
         </button>
-        <button className="btn btn-primary pull-right" onClick={this.reset}>
-          <i className="fa fa-recycle"></i>&nbsp;
+        <button className='btn btn-primary pull-right' onClick={this.reset}>
+          <i className='fa fa-recycle'></i>&nbsp;
           Reset
         </button>
-        <div className="clear"></div>
+        <div className='clear'></div>
       </div>
     )
 
@@ -93,7 +98,7 @@ var ConfigView = React.createClass({
     if (this.state.error) {
       error = (
         <div>
-          <span className="text-danger pull-left">
+          <span className='text-danger pull-left'>
             <strong>Error in config: </strong>
             <span>{this.state.error}</span>
           </span>
@@ -102,13 +107,13 @@ var ConfigView = React.createClass({
     }
 
     return (
-      <div className="webui-config">
+      <div className='webui-config'>
         <h3>Config</h3>
         <br/>
         {error}
         {buttons}
-        <div className="textarea-panel panel panel-default padded">
-          <textarea className="panel-inner" spellCheck="false" onChange={this.handleChange} value={this.state.body} />
+        <div className='textarea-panel panel panel-default padded'>
+          <textarea className='panel-inner' spellCheck='false' onChange={this.handleChange} value={this.state.body} />
         </div>
         {error}
         {buttons}

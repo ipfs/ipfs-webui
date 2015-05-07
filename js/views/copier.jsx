@@ -3,6 +3,13 @@ var $ = require('jquery')
 var ZeroClipboard = require('zeroclipboard')
 
 module.exports = React.createClass({
+  displayName: 'Copier',
+  propTypes: {
+    copyText: React.PropTypes.string,
+    tooltip: React.PropTypes.object,
+    tooltipClicked: React.PropTypes.bool,
+    children: React.PropTypes.array
+  },
   getInitialState: function () {
     return { clicked: false }
   },
@@ -34,9 +41,9 @@ module.exports = React.createClass({
 
   render: function () {
     return (
-      <a href="#" className={'copier' + (this.state.clicked ? ' disabled' : '')}
-          data-clipboard-text={this.props.copyText} onClick={this.onClick} data-toggle="tooltip"
-          data-placement="bottom" title="Copy to clipboard">
+      <a href='#' className={'copier' + (this.state.clicked ? ' disabled' : '')}
+          data-clipboard-text={this.props.copyText} onClick={this.onClick} data-toggle='tooltip'
+          data-placement='bottom' title='Copy to clipboard'>
         {this.props.children || 'Copy to clipboard'}
       </a>
     )

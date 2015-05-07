@@ -8,6 +8,12 @@ function format (value) {
 }
 
 var Editable = React.createClass({
+  displayName: 'Editable',
+  propTypes: {
+    ipfs: React.PropTypes.object,
+    key: React.PropTypes.any,
+    value: React.PropTypes.string
+  },
   getInitialState: function () {
     this.props.value = JSON.stringify(this.props.value).trim()
     return {}
@@ -60,7 +66,7 @@ var Editable = React.createClass({
   render: function () {
     return (
       <div>
-        <div className="webui-editable" onMouseOver={this.convertToInput} onMouseOut={this.convertToText}>
+        <div className='webui-editable' onMouseOver={this.convertToInput} onMouseOut={this.convertToText}>
           {format(this.props.value)}
         </div>
       </div>

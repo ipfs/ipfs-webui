@@ -17,6 +17,10 @@ function idToAngle (id) {
 }
 
 var Routing = React.createClass({
+  displayName: 'Routing',
+  propTypes: {
+    ipfs: React.PropTypes.object
+  },
   getInitialState: function () {
     var t = this
 
@@ -47,8 +51,8 @@ var Routing = React.createClass({
 
   render: function () {
     return (
-      <div className="row">
-        <div className="col-sm-10 col-sm-offset-1">
+      <div className='row'>
+        <div className='col-sm-10 col-sm-offset-1'>
           <DHTGraph peers={this.state.peers}/>
         </div>
       </div>

@@ -4,6 +4,10 @@ var $ = require('jquery')
 var ObjectView = require('../views/object.jsx')
 
 module.exports = React.createClass({
+  displayName: 'Objects',
+  propTypes: {
+    gateway: React.PropTypes.string
+  },
   mixins: [ Router.State ],
 
   componentDidMount: function () {
@@ -78,19 +82,19 @@ module.exports = React.createClass({
       : null
 
     return (
-      <div className="row">
-        <div className="col-sm-10 col-sm-offset-1 webui-dag">
-          <div className="row">
+      <div className='row'>
+        <div className='col-sm-10 col-sm-offset-1 webui-dag'>
+          <div className='row'>
             <h4>Enter hash or path</h4>
-            <div className="path row">
-              <div className="col-xs-11">
-                <input type="text" className="form-control input-lg" onChange={this.updateHash} onKeyPress={this.update} value={this.state.hashInput} placeholder="Enter hash or path: /ipfs/QmBpath..."/>
+            <div className='path row'>
+              <div className='col-xs-11'>
+                <input type='text' className='form-control input-lg' onChange={this.updateHash} onKeyPress={this.update} value={this.state.hashInput} placeholder='Enter hash or path: /ipfs/QmBpath...'/>
               </div>
-              <button className="btn btn-primary go col-xs-1" onClick={this.update}>GO</button>
+              <button className='btn btn-primary go col-xs-1' onClick={this.update}>GO</button>
             </div>
           </div>
-          <div className="row">
-            <div className="col-xs-12">
+          <div className='row'>
+            <div className='col-xs-12'>
               {object}
             </div>
           </div>

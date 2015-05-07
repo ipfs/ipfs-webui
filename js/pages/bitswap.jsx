@@ -2,6 +2,10 @@ var React = require('react')
 var FileList = require('../views/filelist.jsx')
 
 module.exports = React.createClass({
+  displayName: 'Bitswap',
+  propTypes: {
+    pollInterval: React.PropTypes.func
+  },
   getInitialState: function () {
     var t = this
 
@@ -28,8 +32,8 @@ module.exports = React.createClass({
     var wantlist = this.state.wantlist
 
     return (
-      <div className="row">
-        <div className="col-sm-10 col-sm-offset-1">
+      <div className='row'>
+        <div className='col-sm-10 col-sm-offset-1'>
           <h3>Bitswap</h3>
           <br/>
 
@@ -38,8 +42,8 @@ module.exports = React.createClass({
               <strong>Wantlist</strong>&nbsp;
               <small>({wantlist.length} file{wantlist.length !== 1 ? 's' : ''})</small>
             </h4>
-            <div className="panel panel-default">
-              <FileList className="panel-inner" files={wantlist} namesHidden={true}/>
+            <div className='panel panel-default'>
+              <FileList className='panel-inner' files={wantlist} namesHidden={true}/>
             </div>
           </div>
           <br/>
