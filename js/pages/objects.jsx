@@ -48,8 +48,8 @@ module.exports = React.createClass({
   getObject: function (path) {
     console.log('getObject:', path)
 
-    if (path[0] === '/' && !/^\/ip[fn]s\//.test(path)) {
-      path = path.slice(1)
+    if (path[0] != '/') {
+      path = "/ipfs/" + path
       this.setState({ hash: path })
     }
 
