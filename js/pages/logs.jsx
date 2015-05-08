@@ -4,6 +4,11 @@ var $ = require('jquery')
 var MAXSIZE = 1000
 
 var Logs = React.createClass({
+  displayName: 'Logs',
+  propTypes: {
+    ipfs: React.PropTypes.object,
+    host: React.PropTypes.string
+  },
   getInitialState: function () {
     var t = this
     var req = this.props.ipfs.log.tail(function (err, stream) {
@@ -54,27 +59,27 @@ var Logs = React.createClass({
 
   render: function () {
     var buttons = (
-      <div className="buttons">
-        <button className="btn btn-second" onClick={this.clear}>Clear</button>
+      <div className='buttons'>
+        <button className='btn btn-second' onClick={this.clear}>Clear</button>
         <button className={'btn btn-second ' + (this.state.tailing ? 'active' : '')}
-          data-toggle="button" aria-pressed={this.state.tailing} onClick={this.toggleTail}>Tail</button>
+          data-toggle='button' aria-pressed={this.state.tailing} onClick={this.toggleTail}>Tail</button>
       </div>
     )
 
     return (
-    <div className="row">
-      <div className="col-sm-10 col-sm-offset-1 webui-logs">
+    <div className='row'>
+      <div className='col-sm-10 col-sm-offset-1 webui-logs'>
         <h3>Event Log</h3>
-        <div className="actions">{buttons}</div>
+        <div className='actions'>{buttons}</div>
         <br/>
 
-        <div className="textarea-panel panel panel-default padded" style={{height: '600px'}}>
+        <div className='textarea-panel panel panel-default padded' style={{height: '600px'}}>
           {this.state.log.map(function (event) {
             return <pre key={event.time}>{JSON.stringify(event, null, '  ')}</pre>
           })}
         </div>
 
-        <div className="pull-right">{buttons}</div>
+        <div className='pull-right'>{buttons}</div>
         <br/>
       </div>
     </div>

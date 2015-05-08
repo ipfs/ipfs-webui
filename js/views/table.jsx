@@ -3,6 +3,11 @@ var Table = require('react-bootstrap/lib/Table')
 var addr = require('./typography.jsx').addr
 
 var Table = React.createClass({
+  displayName: 'Table',
+  propTypes: {
+    table: React.PropTypes.array,
+    children: React.PropTypes.array
+  },
   render: function () {
     return (
       <Table responsive>

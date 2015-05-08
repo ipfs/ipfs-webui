@@ -7,6 +7,10 @@ var diameter = 500,
   center = radius + margin / 2
 
 var DHTGraph = React.createClass({
+  displayName: 'DHTGraph',
+  propTypes: {
+    peers: React.PropTypes.array
+  },
   getInitialState: function () {
     return { initialized: false }
   },
@@ -80,7 +84,7 @@ var DHTGraph = React.createClass({
 
   render: function () {
     if (this.state.initialized) this.update()
-    return <div className="dht-graph centered"></div>
+    return <div className='dht-graph centered'></div>
   }
 })
 

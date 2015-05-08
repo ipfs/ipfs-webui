@@ -16,21 +16,21 @@ var LogPage = require('./pages/logs.jsx')
 var NotFoundPage = require('./pages/notfound.jsx')
 
 module.exports = (
-  <Route handler={Page} path="/">
-    <DefaultRoute name="home" handler={HomePage} />
-    <Route name="connections" handler={ConnectionsPage} />
-    <Route name="files" handler={FilesPage} />
-    <Route name="files-pinned" path="/files/pinned" handler={FilesPage} />
-    <Route name="files-all" path="/files/all" handler={FilesPage} />
-    <Route name="objects" handler={ObjectsPage} />
-    <Route name="object" path="/objects/:hash" handler={ObjectsPage} />
-    <Route name="object-ipfs" path="/objects/ipfs/:hash" handler={ObjectsPage} />
-    <Route name="object-ipns" path="/objects/ipns/:hash" handler={ObjectsPage} />
-    <Route name="bitswap" handler={BitswapPage} />
-    <Route name="routing" handler={RoutingPage} />
-    <Route name="config" handler={ConfigPage} />
-    <Route name="logs" handler={LogPage} />
+  <Route handler={Page} path='/'>
+    <DefaultRoute name='home' handler={HomePage} />
+    <Route name='connections' handler={ConnectionsPage} />
+    <Route name='files' handler={FilesPage} />
+    <Route name='files-pinned' path='/files/pinned' handler={FilesPage} />
+    <Route name='files-all' path='/files/all' handler={FilesPage} />
+    <Route name='objects' handler={ObjectsPage} />
+    <Route name='object' path='/objects/:hash' handler={ObjectsPage} />
+    <Route name='object-ipfs' path='/objects/ipfs/:hash' handler={ObjectsPage} />
+    <Route name='object-ipns' path='/objects/ipns/:hash' handler={ObjectsPage} />
+    <Route name='bitswap' handler={BitswapPage} />
+    <Route name='routing' handler={RoutingPage} />
+    <Route name='config' handler={ConfigPage} />
+    <Route name='logs' handler={LogPage} />
     <NotFoundRoute handler={NotFoundPage} />
-    <Redirect from="/index.html" to="home" />
+    <Redirect from='/index.html' to='home' />
   </Route>
 )

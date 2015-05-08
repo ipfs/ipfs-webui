@@ -3,6 +3,7 @@ var Peer = require('../views/peer.jsx')
 var getLocation = require('../getlocation.js')
 
 var Home = React.createClass({
+  displayName: 'Home',
   getInitialState: function () {
     var t = this
     t.props.ipfs.id(function (err, peer) {
@@ -64,17 +65,17 @@ var Home = React.createClass({
     }
 
     return (
-      <div className="row">
-        <div className="col-sm-10 col-sm-offset-1">
+      <div className='row'>
+        <div className='col-sm-10 col-sm-offset-1'>
 
           <h3>Node Info</h3>
           <Peer {...this.state.node} />
 
-          <div className="well hidden">
+          <div className='well hidden'>
             <h4>HTTP Gateway</h4>
-            <div className="checkbox">
+            <div className='checkbox'>
               <label>
-                <input type="checkbox" className="gateway-toggle" checked={gatewayEnabled} onChange={this.onGatewayChange}/>
+                <input type='checkbox' className='gateway-toggle' checked={gatewayEnabled} onChange={this.onGatewayChange}/>
                 <strong>Enabled</strong>
               </label>
             </div>

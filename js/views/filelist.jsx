@@ -5,6 +5,12 @@ var $ = require('jquery')
 require('bootstrap') // attaches to jquery
 
 var FileList = React.createClass({
+  displayName: 'FileList',
+  propTypes: {
+    ipfs: React.PropTypes.object,
+    files: React.PropTypes.array,
+    namesHidden: React.PropTypes.bool
+  },
 
   componentDidMount: function () {
     $(this.getDOMNode()).find('[data-toggle="tooltip"]').tooltip()
@@ -34,9 +40,9 @@ var FileList = React.createClass({
         <thead>
           <tr>
             <th>Type</th>
-            <th className="filelist-name">Name</th>
-            <th className="id-cell">ID</th>
-            <th className="action-cell">Actions</th>
+            <th className='filelist-name'>Name</th>
+            <th className='id-cell'>ID</th>
+            <th className='action-cell'>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -52,16 +58,16 @@ var FileList = React.createClass({
           var gatewayPath = t.props.gateway + '/ipfs/' + file.id
           var dagPath = '#/objects/' + file.id
           return (
-            <tr className="webui-file" data-type={file.type} key={file.id}>
-              <td><span className="type">{type}</span></td>
-              <td className="filelist-name"><a target="_blank" href={gatewayPath}>{file.name}</a></td>
-              <td className="id-cell"><code>{file.id}</code>&nbsp;<copier copyText={file.id}><i className="fa fa-copy"></i></copier></td>
-              <td className="action-cell">
-                <a target="_blank" href={gatewayPath}>RAW</a>
-                <span className="separator">|</span>
+            <tr className='webui-file' data-type={file.type} key={file.id}>
+              <td><span className='type'>{type}</span></td>
+              <td className='filelist-name'><a target='_blank' href={gatewayPath}>{file.name}</a></td>
+              <td className='id-cell'><code>{file.id}</code>&nbsp;<copier copyText={file.id}><i className='fa fa-copy'></i></copier></td>
+              <td className='action-cell'>
+                <a target='_blank' href={gatewayPath}>RAW</a>
+                <span className='separator'>|</span>
                 <a href={dagPath}>DAG</a>
-                <span className="separator">|</span>
-                <a href="#" onClick={t.unpin} data-hash={file.id}><i className="fa fa-remove" data-toggle="tooltip" data-placement="right" title="" data-original-title="Remove"></i></a>
+                <span className='separator'>|</span>
+                <a href='#' onClick={t.unpin} data-hash={file.id}><i className='fa fa-remove' data-toggle='tooltip' data-placement='right' title='' data-original-title='Remove'></i></a>
               </td>
             </tr>
           )
