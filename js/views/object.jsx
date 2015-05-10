@@ -62,6 +62,36 @@ var ObjectView = React.createClass({
       )
     }
 
+    var obj = this.props.object
+
+    var resolved = obj.Resolved ?
+      <div>
+        <h4>IPFS Permalink</h4>
+        <div className='panel panel-default'>
+          <div className='padded'>
+            <a href={obj.Resolved.urlify()}>
+              {obj.Resolved.toString()}
+            </a>
+          </div>
+        </div>
+      </div>
+      : null
+
+    var displayData = size ?
+      <div>
+        <h4>Data <span className='small'>({size} bytes)</span></h4>
+        <div className='panel panel-default data'>
+          <iframe src={data} className='panel-inner'></iframe>
+        </div>
+      </div>
+      :
+      <div>
+        <h4>Data</h4>
+        <div className='padded panel panel-default'>
+          <span>This object has no data</span>
+        </div>
+      </div>
+
     return (
       <div className='webui-object'>
         <div className='row'>
@@ -79,10 +109,8 @@ var ObjectView = React.createClass({
         </div>
         <br/>
         <div className='row'>
-          <h4>Data <span className='small'>({size} bytes)</span></h4>
-          <div className='panel panel-default data'>
-            <iframe src={data} className='panel-inner'></iframe>
-          </div>
+          {displayData}
+          {resolved}
         </div>
       </div>
     )

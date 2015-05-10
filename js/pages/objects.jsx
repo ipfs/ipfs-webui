@@ -32,7 +32,10 @@ module.exports = React.createClass({
     var hash = window.location.hash
     if (!/^#\/objects/.test(hash)) return
     hash = hash.substring('#/objects'.length + 1).replace(/\\/g, '/')
-    this.setState({ hash: hash, hashInput: hash })
+    this.setState({ hash: hash,
+                    hashInput: hash,
+                    object: null,
+                    error: null})
     this.getObject(hash)
   },
 
@@ -45,22 +48,56 @@ module.exports = React.createClass({
     this.getObject(hash)
   },
 
-  getObject: function (path) {
-    console.log('getObject:', path)
+  parsePath: function (path) {
+    var pathObj = new function () {
+      return {
+        toString: function () {
+          return '/' + this.protocol + '/' + this.name + this.path
+        },
+        urlify: function () {
+          return '#/objects/' + this.toString().replace(/[\/]/g, '\\')
+        }
+      }
+    }
+    var parts = path.split('/')
 
-    if (path[0] != '/') {
-      path = "/ipfs/" + path
-      this.setState({ hash: path })
+    if (!parts[0]) {
+      pathObj.protocol = parts[1]
+      pathObj.name = parts[2]
+      pathObj.path = parts.slice(3).join('/')
+    } else {
+      pathObj.protocol = 'ipfs'
+      pathObj.name = parts[0]
+      pathObj.path = parts.slice(1).join('/')
+    }
+    if (pathObj.path) {
+      pathObj.path = '/' + pathObj.path
     }
 
+    return pathObj
+  },
+
+  getObject: function (path) {
+    console.log('getObject:', path)
+    var parsedPath = this.parsePath(path)
     var t = this
     t.props.ipfs.object.get(path, function (err, res) {
-      if (err) return console.error(err)
+      if (err) return t.setState({ error: err })
 
-      path = path.replace(/[\/]/g, '\\')
-      var hash = '#/objects/' + path
-      window.location = hash
-      t.setState({ object: res })
+      // don't change until object is recieved
+      window.location = parsedPath.urlify()
+
+      if (parsedPath.protocol === 'ipns') {
+        // also resolve the name
+        t.props.ipfs.name.resolve(parsedPath.name, function (err, res2) {
+          if (err) return t.setState({ error: err })
+
+          res.Resolved = t.parsePath(res2.Key + parsedPath.path)
+          t.setState({ object: res })
+        })
+      } else {
+        t.setState({ object: res })
+      }
     })
   },
 
@@ -76,9 +113,22 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var object = this.state.object ?
-      <ObjectView object={this.state.object} handleBack={this.handleBack}
-        path={this.state.hash} gateway={this.props.gateway} />
+    var error = this.state.error ?
+      <div className='row'>
+        <h4>Error</h4>
+        <div className='panel panel-default padded'>
+          {this.state.error.Message}
+        </div>
+      </div>
+      : null
+
+    var object = !error && this.state.object ?
+      <div className='row'>
+        <div className='col-xs-12'>
+          <ObjectView object={this.state.object} handleBack={this.handleBack}
+            path={this.state.hash} gateway={this.props.gateway} />
+        </div>
+      </div>
       : null
 
     return (
@@ -93,11 +143,8 @@ module.exports = React.createClass({
               <button className='btn btn-primary go col-xs-1' onClick={this.update}>GO</button>
             </div>
           </div>
-          <div className='row'>
-            <div className='col-xs-12'>
-              {object}
-            </div>
-          </div>
+          {error}
+          {object}
         </div>
       </div>
     )
