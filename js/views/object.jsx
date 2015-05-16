@@ -1,34 +1,34 @@
 var React = require('react')
+var Link = require('react-router').Link
 
 var ObjectView = React.createClass({
   displayName: 'ObjectView',
   propTypes: {
-    path: React.PropTypes.string,
+    path: React.PropTypes.object,
+    permalink: React.PropTypes.object,
     gateway: React.PropTypes.string,
     object: React.PropTypes.object,
-    handleBack: React.PropTypes.func
+    loadPeers: React.PropTypes.func
   },
   render: function () {
     var size = this.props.object.Data.length - 2
     var data = 'data:text/plain;charset=utf8;base64,' + new Buffer(this.props.object.Data.substr(0, 10000), 'utf-8').toString('base64')
 
-    var back = null
-    var withoutPrefix = this.props.path.replace(/^\/ip[fn]s\//, '')
-    var slashIndex = withoutPrefix.indexOf('/')
-    if (slashIndex !== -1 && slashIndex !== withoutPrefix.length - 1) {
-      back = (
-        <div>
-          <button className='btn btn-primary' onClick={this.props.handleBack}>
-            <i className='fa fa-arrow-left'></i> Back to parent object
-          </button>
-        </div>
-      )
-    }
+    var t = this
+    var parent = this.props.path.parent()
+    var parentlink = parent ?
+        <Link className='btn btn-primary' to='objects' params={{tab: 'object', path: parent.urlify()}}>
+          <i className='fa fa-arrow-up'></i> Parent object
+        </Link>
+      : null
 
-    var links = <div className='padded'><span>This object has no links</span></div>
+    var links = <div className='padded'><strong>This object has no links</strong></div>
     if (this.props.object.Links.length > 0) {
-      links = (
-        <div className='table-responsive'>
+      links = [
+        <li className='list-group-item'>
+          <strong>Object links</strong>
+        </li>,
+        <div className='table-responsive links-panel'>
           <table className='table table-hover filelist'>
             <thead>
               <tr>
@@ -39,19 +39,19 @@ var ObjectView = React.createClass({
             </thead>
             <tbody>
             {this.props.object.Links.map(function (link) {
-              var path = window.location.hash
-              if (link.Name) {
-                path += '\\' + link.Name
-              } else {
-                var split = path.split('/')
-                split[split.length - 1] = link.Hash
-                path = split.join('/')
-              }
-
+              var path = t.props.path.append(link.Name).urlify()
               return (
                 <tr>
-                  <td><a href={path} data-name={link.Name} data-hash={link.Hash}>{link.Name}</a></td>
-                  <td><a href={path} data-name={link.Name} data-hash={link.Hash}>{link.Hash}</a></td>
+                  <td>
+                    <Link to='objects' params={{tab: 'object', path: path}}>
+                      {link.Name}
+                    </Link>
+                  </td>
+                  <td>
+                    <Link to='objects' params={{tab: 'object', path: path}}>
+                      {link.Hash}
+                    </Link>
+                  </td>
                   <td>{link.Size}</td>
                 </tr>
               )
@@ -59,58 +59,52 @@ var ObjectView = React.createClass({
             </tbody>
           </table>
         </div>
-      )
+
+      ]
     }
-
-    var obj = this.props.object
-
-    var resolved = obj.Resolved ?
-      <div>
-        <h4>IPFS Permalink</h4>
-        <div className='panel panel-default'>
-          <div className='padded'>
-            <a href={obj.Resolved.urlify()}>
-              {obj.Resolved.toString()}
-            </a>
-          </div>
-        </div>
-      </div>
+    var resolved = this.props.permalink ?
+      <li className='list-group-item'>
+        <span>permalink: </span>
+        <Link to='objects' params={{tab: 'object', path: this.props.permalink.urlify()}}>
+          {this.props.permalink.toString()}
+        </Link>
+      </li>
       : null
 
     var displayData = size ?
-      <div>
-        <h4>Data <span className='small'>({size} bytes)</span></h4>
-        <div className='panel panel-default data'>
-          <iframe src={data} className='panel-inner'></iframe>
-        </div>
-      </div>
+      [<li className='list-group-item'>
+        <p>
+          <strong>Object data ({size} bytes)</strong>
+        </p>
+      </li>,
+      <li className='list-group-item data'>
+        <iframe src={data} className='panel-inner'></iframe>
+      </li>]
       :
-      <div>
-        <h4>Data</h4>
-        <div className='padded panel panel-default'>
-          <span>This object has no data</span>
-        </div>
-      </div>
+      <li className='list-group-item'>
+        <strong>This object has no data</strong>
+      </li>
 
     return (
       <div className='webui-object'>
         <div className='row'>
-          {back}
-          <h4>Links</h4>
+          <h4>Object</h4>
           <div className='link-buttons'>
-            <a href={this.props.gateway + this.props.path} target='_blank' className='btn btn-info'>RAW</a>
+            {parentlink}
+            <a href={this.props.gateway + this.props.path} target='_blank' className='btn btn-info btn-second'>RAW</a>
             <a href={this.props.gateway + this.props.path + '?dl=1'} target='_blank' className='btn btn-second'>Download</a>
             <button className='btn btn-third hidden'><i className='fa fa-lg fa-thumb-tack'></i></button>
           </div>
           <br/>
           <div className='panel panel-default'>
-            {links}
+            <ul className='list-group'>
+              {links}
+              {displayData}
+            </ul>
           </div>
-        </div>
-        <br/>
-        <div className='row'>
-          {displayData}
-          {resolved}
+          <div className='panel panel-default'>
+            {resolved}
+          </div>
         </div>
       </div>
     )

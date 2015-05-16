@@ -1,7 +1,7 @@
 'use strict'
 var React = require('react/addons')
 var ConnectionList = require('../views/connectionlist.jsx')
-var Globe = require('./globe.jsx')
+var Globe = require('../views/globe.jsx')
 var getLocation = require('../getlocation.js')
 var Connections = React.createClass({
   displayName: 'Connections',

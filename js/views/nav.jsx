@@ -23,7 +23,7 @@ var Nav = React.createClass({
             </Link>
           </li>
           <li>
-            <Link className='link' to='objects'>
+            <Link className='link' to='objects' params={{tab: 'object'}}>
               <span className='icon fa fa-list-alt' aria-hidden='true'></span> DAG
             </Link>
           </li>
