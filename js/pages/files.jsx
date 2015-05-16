@@ -27,7 +27,6 @@ var Files = React.createClass({
     }
 
     getFiles()
-    t.pollInterval = setInterval(getFiles, 1000)
 
     return {
       files: files,
