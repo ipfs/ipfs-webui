@@ -24,8 +24,9 @@ var Page = React.createClass({
       if (err || !res) return console.error(err)
 
       var split = res.Value.split('/')
-      var host = split[2], port = split[4]
-      t.setState({ gateway: 'http://' + host + ':' + port })
+      var port = split[4]
+
+      t.setState({ gateway: 'http://' + window.location.hostname + ':' + port })
     })
 
     ipfs.version(function (err, res) {
