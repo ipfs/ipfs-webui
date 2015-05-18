@@ -94,11 +94,20 @@ p {
   a {color: #78c1c1;}
 }
 
+.links-panel {
+  margin: 8px;
+}
+
+.links-panel > .filelist {
+	margin-bottom: 0px;
+}
+
 .filelist.filelist-names-hidden {
   .filelist-name {
     display: none;
   }
 }
+
 
 .webui-connection {
   margin-bottom: 6px;
@@ -210,8 +219,11 @@ p {
     position: absolute;
     right: 0;
     top: 0;
+    > a {
+        color: #fff;
+    }
     > .btn {
-      margin-right: 5px;
+      margin-left: 5px;
     }
   }
   .data {
@@ -319,6 +331,10 @@ strong {
   }
   >.row {
     margin-bottom: 40px;
+  }
+  .go {
+    display: block;
+    width: 100%;
   }
 }
 

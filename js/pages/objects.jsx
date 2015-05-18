@@ -2,6 +2,7 @@ var React = require('react')
 var Router = require('react-router')
 var $ = require('jquery')
 var ObjectView = require('../views/object.jsx')
+var upath = require('../utils/path.js')
 
 module.exports = React.createClass({
   displayName: 'Objects',
@@ -11,75 +12,89 @@ module.exports = React.createClass({
   mixins: [ Router.State ],
 
   componentDidMount: function () {
-    window.addEventListener('hashchange', this.handleHashChange)
+    window.addEventListener('hashchange', this.updateState)
   },
 
   componentWillUnmount: function () {
-    window.removeEventListener('hashchange', this.handleHashChange)
+    window.removeEventListener('hashchange', this.updateState)
+  },
+
+  getStateFromRoute: function () {
+    var params = this.context.router.getCurrentParams()
+    var state = {}
+    if (params.path) {
+      var path = upath.parse(params.path)
+      state.path = path
+      this.getObject(state.path)
+      state.pathInput = path.toString()
+    }
+    // reset between reloads
+    return state
+  },
+
+  updateState: function () {
+    this.setState(this.getStateFromRoute())
   },
 
   getInitialState: function () {
-    var hash = window.location.hash.substr('/objects'.length + 1)
-    hash = (hash || '').replace(/[\\]/g, '/')
-    if (hash.split('/')[0].length === 0) hash = hash.slice(1)
-    if (hash) this.getObject(hash)
-
-    return { object: null, hash: hash, hashInput: hash }
-  },
-
-  handleHashChange: function () {
-    console.log('handleHashChange: ' + this.state.hash + ' ' + window.location.hash)
-    var hash = window.location.hash
-    if (!/^#\/objects/.test(hash)) return
-    hash = hash.substring('#/objects'.length + 1).replace(/\\/g, '/')
-    this.setState({ hash: hash, hashInput: hash })
-    this.getObject(hash)
-  },
-
-  handleBack: function (e) {
-    var hash = this.state.hash
-    var slashIndex = hash.lastIndexOf('/')
-    if (slashIndex === -1) return
-    hash = hash.substr(0, slashIndex)
-    this.setState({ hash: hash })
-    this.getObject(hash)
+    return this.getStateFromRoute()
   },
 
   getObject: function (path) {
-    console.log('getObject:', path)
-
-    if (path[0] != '/') {
-      path = "/ipfs/" + path
-      this.setState({ hash: path })
-    }
-
     var t = this
-    t.props.ipfs.object.get(path, function (err, res) {
-      if (err) return console.error(err)
-
-      path = path.replace(/[\/]/g, '\\')
-      var hash = '#/objects/' + path
-      window.location = hash
-      t.setState({ object: res })
+    t.props.ipfs.object.get(path.toString(), function (err, res) {
+      if (err) return t.setState({ error: err })
+      t.setState({ object: res,
+                   permalink: null})
+      if (path.protocol === 'ipns') {
+        // also resolve the name
+        t.props.ipfs.name.resolve(path.name, function (err, resolved) {
+          if (err) return t.setState({ error: err })
+          var permalink = upath.parse(resolved.Path).append(path.path)
+          t.setState({ permalink: permalink })
+        })
+      }
     })
   },
 
-  updateHash: function (e) {
-    var hash = $(e.target).val().trim()
-    this.setState({ hashInput: hash })
+  updatePath: function (e) {
+    var path = $(e.target).val().trim()
+    this.setState({ pathInput: path })
   },
 
   update: function (e) {
     if (e.which && e.which !== 13) return
-    this.setState({ hash: this.state.hashInput })
-    if (this.state.hashInput) this.getObject(this.state.hashInput)
+    var params = this.context.router.getCurrentParams()
+    params.path = upath.parse(this.state.pathInput).urlify()
+    this.context.router.transitionTo('objects', params)
   },
 
   render: function () {
-    var object = this.state.object ?
-      <ObjectView object={this.state.object} handleBack={this.handleBack}
-        path={this.state.hash} gateway={this.props.gateway} />
+    var error = this.state.error ?
+      <div className='row'>
+        <h4>Error</h4>
+        <div className='panel panel-default padded'>
+          {this.state.error.Message}
+        </div>
+      </div>
       : null
+
+    // TODO add provider-view here
+    var views = {
+      object: (!error && this.state.object ?
+        <div className='row'>
+          <div className='col-xs-12'>
+            <ObjectView
+              object={this.state.object}
+              path={this.state.path}
+              permalink={this.state.permalink}
+              gateway={this.props.gateway} />
+          </div>
+        </div> : null)
+    }
+
+    var params = this.context.router.getCurrentParams()
+    var tab = params.tab
 
     return (
       <div className='row'>
@@ -87,17 +102,19 @@ module.exports = React.createClass({
           <div className='row'>
             <h4>Enter hash or path</h4>
             <div className='path row'>
-              <div className='col-xs-11'>
-                <input type='text' className='form-control input-lg' onChange={this.updateHash} onKeyPress={this.update} value={this.state.hashInput} placeholder='Enter hash or path: /ipfs/QmBpath...'/>
+              <div className='col-xs-10'>
+                <input type='text' className='form-control input-lg' onChange={this.updatePath} onKeyPress={this.update} value={this.state.pathInput} placeholder='Enter hash or path: /ipfs/QmBpath...'/>
               </div>
-              <button className='btn btn-primary go col-xs-1' onClick={this.update}>GO</button>
+              <div className='col-xs-2'>
+                <button className='btn btn-primary go'
+                        onClick={this.update}>
+                  GO
+                </button>
+              </div>
             </div>
           </div>
-          <div className='row'>
-            <div className='col-xs-12'>
-              {object}
-            </div>
-          </div>
+          {error}
+          {views[tab]}
         </div>
       </div>
     )
