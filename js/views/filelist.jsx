@@ -1,6 +1,5 @@
 var React = require('react')
 var Table = require('react-bootstrap/lib/Table')
-var copier = require('./copier.jsx')
 var $ = require('jquery')
 require('bootstrap') // attaches to jquery
 
@@ -61,7 +60,7 @@ var FileList = React.createClass({
             <tr className='webui-file' data-type={file.type} key={file.id}>
               <td><span className='type'>{type}</span></td>
               <td className='filelist-name'><a target='_blank' href={gatewayPath}>{file.name}</a></td>
-              <td className='id-cell'><code>{file.id}</code>&nbsp;<copier copyText={file.id}><i className='fa fa-copy'></i></copier></td>
+              <td className='id-cell'><code>{file.id}</code></td>
               <td className='action-cell'>
                 <a target='_blank' href={gatewayPath}>RAW</a>
                 <span className='separator'>|</span>
