@@ -1,5 +1,6 @@
 var React = require('react')
 var Link = require('react-router').Link
+var upath = require('../utils/path.js')
 
 var ObjectView = React.createClass({
   displayName: 'ObjectView',
@@ -39,7 +40,13 @@ var ObjectView = React.createClass({
             </thead>
             <tbody>
             {this.props.object.Links.map(function (link) {
-              var path = t.props.path.append(link.Name).urlify()
+              var path
+              if (link.Name) {
+                path = t.props.path.append(link.Name).urlify()
+              } else { // support un-named links
+                path = upath.parse(link.Hash).urlify()
+              }
+
               return (
                 <tr>
                   <td>
