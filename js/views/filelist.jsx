@@ -1,6 +1,7 @@
 var React = require('react')
 var Table = require('react-bootstrap/lib/Table')
 var $ = require('jquery')
+window.jQuery = $
 require('bootstrap') // attaches to jquery
 
 var FileList = React.createClass({

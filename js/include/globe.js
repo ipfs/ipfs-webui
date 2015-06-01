@@ -12,9 +12,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var DAT = DAT || {}
+var THREE = require('three')
 
-DAT.Globe = function (container, opts) {
+module.exports = function (container, opts) {
   opts = opts || {}
 
   var colorFn = opts.colorFn || function (x) {
