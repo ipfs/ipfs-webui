@@ -1,15 +1,15 @@
 {
   "name": "ipfs-webui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A frontend for IPFS",
-  "main": "index.js",
+  "main": "js/main.jsx",
   "dependencies": {
     "bootstrap": "^3.3.4",
     "d3": "^3.5.5",
     "debug": "^2.1.3",
     "font-awesome": "^4.3.0",
     "font-awesome-webpack": "0.0.3",
-    "ipfs-api": "^1.2.0",
+    "ipfs-api": "^1.1.4",
     "ipfs-geoip": "^1.4.3",
     "jquery": "^2.1.3",
     "lodash": "^3.6.0",
@@ -18,13 +18,13 @@
     "react-bootstrap": "^0.20.1",
     "react-localstorage": "^0.2.2",
     "react-router": "^0.13.2",
-    "three": "^0.66.0",
-    "zeroclipboard": "^2.2.0"
+    "three": "^0.66.0"
   },
   "devDependencies": {
     "babel-core": "^5.0.8",
     "babel-loader": "^5.0.0",
     "brfs": "^1.4.0",
+    "browserify": "^10.2.3",
     "css-loader": "^0.9.1",
     "exports-loader": "^0.6.2",
     "expose-loader": "^0.6.0",
@@ -39,6 +39,7 @@
     "pre-commit": "^1.0.6",
     "raw-loader": "^0.5.1",
     "react-hot-loader": "^1.2.4",
+    "reactify": "^1.1.1",
     "standard": "^3.3.2",
     "style-loader": "^0.9.0",
     "transform-loader": "^0.2.1",
@@ -50,6 +51,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node dev.js",
     "lint": "git diff --name-only --cached --relative | egrep .jsx?$ | xargs --no-run-if-empty standard"
+  },
+  "standard": {
+    "ignore": [
+      "js/include"
+    ]
   },
   "pre-commit": [
     "lint"
