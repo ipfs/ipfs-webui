@@ -7,25 +7,15 @@ clean:
 	rm -rf build
 	rm -rf publish
 
-serve: $(webpack)
-	node dev
-
-build: build/bundle.min.js
-
-build/bundle.min.js: $(webpack)
-	$(webpack)
-	cp -r static build/static
-	cp html/index.html build
-
-$(webpack):
-	npm install
+serve:
+	node_modules/.bin/bygg serve
 
 publish: clean
 	npm install
 	mkdir publish
 	cp -r static publish
 	cp -r html/index.html publish
-	node_modules/.bin/browserify --ignore='less/bundle.less' -t reactify . > publish/bundle.js
+	node_modules/.bin/browserify -t reactify . > publish/bundle.js
 	node_modules/.bin/lessc less/bundle.less > publish/style.css
 	ipfs add -r -q publish | tail -n1 >versions/current
 
