@@ -1,17 +1,12 @@
 var React = require('react')
 var Nav = require('./nav.jsx')
 var RouteHandler = require('react-router').RouteHandler
-var LocalStorage = require('../utils/localStorage')
 var Link = require('react-router').Link
 var $ = require('jquery')
 
 var host = window.location.hostname
 var port = window.location.port || 80
-var daemonConf = LocalStorage.get('daemon')
-if (daemonConf) {
-  host = daemonConf.host
-  port = daemonConf.port
-}
+
 var ipfs = require('ipfs-api')(host, port)
 var ipfsHost = window.location.host
 
