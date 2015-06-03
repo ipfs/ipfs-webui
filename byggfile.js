@@ -16,6 +16,7 @@ bygg.task('serve', function () {
     .pipe(bygg.write('build/'))
     .pipe(serve(3000, function (app) {
       var opts = url.parse('http://localhost:5001/api')
+      opts.headers = {'referer': 'http://localhost:5001/'}
       return app
         .use('/api', proxy(opts))
     }))
