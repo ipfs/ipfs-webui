@@ -106,12 +106,12 @@ var Page = React.createClass({
                               </a>
                           </li>
                           <li>
-                              <a href='https://github.com/jbenet/go-ipfs' target='_blank' data-toggle='tooltip' data-placement='bottom' title='Github Repository'>
+                              <a href='https://github.com/ipfs/webui' target='_blank' data-toggle='tooltip' data-placement='bottom' title='Github Repository'>
                                   <img src='./static/img/git.png' alt='Github' className='img-responsive icon'/><span className='sr-only'>Github</span>
                               </a>
                           </li>
                           <li>
-                              <a href='https://github.com/jbenet/go-ipfs/issues/new' target='_blank' data-toggle='tooltip' data-placement='bottom' title='Report Bugs'>
+                              <a href='https://github.com/ipfs/webui/issues/new' target='_blank' data-toggle='tooltip' data-placement='bottom' title='Report Bugs'>
                                   <img src='./static/img/bug.png' alt='Report a bug' className='img-responsive icon'/><span className='sr-only'>Report a bug</span>
                               </a>
                           </li>
