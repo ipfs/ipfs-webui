@@ -33,6 +33,7 @@ module.exports = {
     if (string[0] === '\\') {
       string = string.replace(/[\\]/g, '/')
     }
+
     var proto, name, path
     var parts = string.split('/')
 

@@ -4,3 +4,8 @@ node_modules/
 cache/
 npm-debug.log
 publish
+browserify-cache.json
+*node_modules
+.modified
+dist/default_apps.json
+dist/js/script.js

@@ -1,0 +1,35 @@
+{
+  "name": "ipfs-webui-dag",
+  "version": "0.3.0",
+  "description": "A frontend for IPFS",
+  "main": "index.jsx",
+  "dependencies": {
+    "ipfs-web-app": "^0.1.0",
+    "bootstrap": "^3.3.4",
+    "react": "0.13.1"
+  },
+  "devDependencies": {
+    "browserify": "10.2.3",
+    "less": "2.5.0",
+    "pre-commit": "1.0.6",
+    "reactify": "1.1.1",
+    "standard": "3.3.2"
+  },
+  "ipfs-web-app": {
+    "displayname": "DAG",
+    "icon": "fa-list-alt",
+    "build": {
+      "dist/js/script.js": "browserify -t reactify index.jsx",
+      "dist/css/style.css": "lessc style/style.less"
+    }
+  },
+  "keywords": [
+    "ipfs",
+    "webui"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ipfs/webui/issues"
+  },
+  "homepage": "https://github.com/ipfs/webui"
+}
