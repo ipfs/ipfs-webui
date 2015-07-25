@@ -6,6 +6,7 @@ var _ = require('lodash')
 
 var Navigation = React.createClass({
   displayName: 'Navigation',
+  mixins: [React.addons.LinkedStateMixin],
 
   propTypes: {
     ipfs: React.PropTypes.object,
@@ -19,6 +20,7 @@ var Navigation = React.createClass({
   getInitialState: function () {
     return {
       version: '',
+      addrbar: '',
       active: null,
       activePath: null,
       updateAvailable: false,
@@ -42,8 +44,14 @@ var Navigation = React.createClass({
     }
   },
 
-  showDAG: function () {
-    ipfsapp.link('/DAG/' + $(this.getDOMNode()).find('.dag-path').val())
+  showDAG: function (e) {
+    var path = this.state.addrbar
+    if (path[0] === '/') {
+      path = path.substr(1)
+    }
+    this.setState({ addrbar: '' })
+    ipfsapp.link('/DAG/' + path)
+    e.preventDefault()
   },
 
   update: function () {
@@ -62,7 +70,7 @@ var Navigation = React.createClass({
       frame.contentWindow.postMessage(['follow', path], '*')
       return this.appframes[hash]
     } else {
-      var appframe = ipfsapp.load(hash,
+      var appframe = ipfsapp.load(window.location.pathname + hash,
                                   path,
                                   this.props.ipfs,
                                   $('#content').get(0))
@@ -136,7 +144,10 @@ var Navigation = React.createClass({
                   <div className='col-sm-10'>
                       <form className='navbar-form navbar-left collapse navbar-collapse col-xs-6'>
                         <div className='form-group'>
-                          <input type='text' className='form-control dag-path' placeholder='Enter a hash or path' />
+                          <input type='text'
+                            valueLink={this.linkState('addrbar')}
+                            className='form-control dag-path'
+                            placeholder='Enter a hash or path' />
                         </div>
                         <button className='btn btn-third btn-xs' onClick={this.showDAG}>GO</button>
                       </form>
@@ -190,18 +201,25 @@ var Navigation = React.createClass({
 })
 
 ipfsapp.define({
-  init: function (ipfs) {
+  init: function (ipfs, path) {
     var self = this
     request('default_apps.json', function (err, res) {
       if (err) throw err
-      var apps = JSON.parse(res.body)
+      var apps = {}
+      _.forEach(JSON.parse(res.body), function (app) {
+        apps[app.displayname] = app
+      })
       self.ref = React.render(<Navigation apps={apps} ipfs={ipfs} />,
-                              document.getElementById('navigation'))
-      ipfsapp.link('/Files')
+                              document.getElementById('mount'))
+      self.follow(path)
     })
   },
   follow: function (path) {
-    this.ref.setProps({path: path})
+    if (path) {
+      this.ref.setProps({path: path})
+    } else {
+      ipfsapp.link('/Home')
+    }
   },
   resolve: function (relative) {
     return '/' + this.ref.props.path.split('/')[1] + '/' + relative

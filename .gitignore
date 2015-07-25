@@ -7,5 +7,9 @@ publish
 browserify-cache.json
 *node_modules
 .modified
+dist/apps
 dist/default_apps.json
-dist/js/script.js
+dist/script.js
+dist/style.css
+**/dist/script.js
+**/dist/style.css

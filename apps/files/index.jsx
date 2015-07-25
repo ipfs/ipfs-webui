@@ -191,14 +191,14 @@ ipfsapp.define({
                               gateway='http://localhost:5001'
                               ipfs={ipfs}
                               path={path} />,
-                            document.getElementById('home'))
-    if (!path) {
-      ipfsapp.link('files')
-    } else {
-      this.follow(path)
-    }
+                            document.getElementById('mount'))
+    this.follow(path)
   },
   follow: function (path) {
-    this.ref.setState({ tab: path })
+    if (path) {
+      this.ref.setState({ tab: path })
+    } else {
+      ipfsapp.link('files')
+    }
   }
 })

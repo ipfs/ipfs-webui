@@ -96,6 +96,6 @@ var Connections = React.createClass({
 ipfsapp.define({
   init: function (ipfs) {
     React.render(<Connections ipfs={ipfs} />,
-                 document.getElementById('connections'))
+                 document.getElementById('mount'))
   }
 })

@@ -92,6 +92,6 @@ var Home = React.createClass({
 ipfsapp.define({
   init: function (ipfs) {
     React.render(<Home ipfs={ipfs} path={[]} />,
-                            document.getElementById('home'))
+                 document.getElementById('mount'))
   }
 })

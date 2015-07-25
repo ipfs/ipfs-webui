@@ -19,10 +19,11 @@
   },
   "ipfs-web-app": {
     "displayname": "Connections",
+    "sort": 1,
     "icon": "fa-globe",
     "build": {
-      "dist/js/script.js": "browserify -t reactify index.jsx",
-      "dist/css/style.css": "lessc style/style.less"
+      "dist/script.js": "browserify -t reactify index.jsx",
+      "dist/style.css": "lessc style/style.less"
     }
   },
   "keywords": [

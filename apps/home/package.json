@@ -17,11 +17,12 @@
     "standard": "3.3.2"
   },
   "ipfs-web-app": {
+    "sort": 0,
     "displayname": "Home",
     "icon": "fa-dot-circle-o",
     "build": {
-      "dist/js/script.js": "browserify -t reactify index.jsx",
-      "dist/css/style.css": "lessc style/style.less"
+      "dist/script.js": "browserify -t reactify index.jsx",
+      "dist/style.css": "lessc style/style.less"
     }
   },
   "keywords": [

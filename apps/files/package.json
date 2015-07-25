@@ -20,10 +20,11 @@
   },
   "ipfs-web-app": {
     "displayname": "Files",
+    "sort": 2,
     "icon": "fa-file",
     "build": {
-      "dist/js/script.js": "browserify -t reactify index.jsx",
-      "dist/css/style.css": "lessc style/style.less"
+      "dist/script.js": "browserify -t reactify index.jsx",
+      "dist/style.css": "lessc style/style.less"
     }
   },
   "keywords": [

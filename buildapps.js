@@ -5,7 +5,7 @@ var Q = require('kew')
 var sink = require('stream-sink')
 var read = require('recursive-readdir')
 
-var DefaultApps = {}
+var DefaultApps = []
 var Cached = {}
 
 try {
@@ -16,7 +16,7 @@ try {
   DefaultApps = JSON.parse(fs.readFileSync('dist/default_apps.json', 'utf-8'))
 } catch (e) {}
 
-var run = function (command, opts) {
+var run = function (command, opts, cb) {
   console.log('$ ' + command)
 
   var split = command.split(' ')
@@ -37,12 +37,23 @@ var latestChange = function (path, cb) {
   })
 }
 
+var update = function (apps, app) {
+  for (var i = 0 ; i < apps.length ; i++) {
+    if (apps[i].displayname === app.displayname) {
+      apps[i] = app
+      return
+    }
+  }
+  apps.push(app)
+}
+
 run('ls apps').pipe(sink()).on('data', function (appdirs) {
   var apps = _.filter(appdirs.split('\n'), function (x) { return x })
 
   Q.all(_.map(apps, function (appdir) {
     var def = Q.defer()
-    var path = process.cwd() + '/apps/' + appdir
+    var relative = 'apps/' + appdir
+    var path = process.cwd() + '/' + relative
 
     latestChange(path, function (latestchange) {
       if (!Cached[path] || (Cached[path] < latestchange)) {
@@ -51,13 +62,33 @@ run('ls apps').pipe(sink()).on('data', function (appdirs) {
             var match = (str + '').match(/app published as (.*)/)
             if (match) {
               var conf = JSON.parse(fs.readFileSync(path + '/package.json'))
+              var name = conf['ipfs-web-app'].displayname
 
-              DefaultApps[conf['ipfs-web-app'].displayname] = {
+              update(DefaultApps, {
                 icon: conf['ipfs-web-app'].icon,
-                hash: match[1]
-              }
+                sort: conf['ipfs-web-app'].sort,
+                displayname: name,
+                hash: relative
+              })
+
               Cached[path] = (new Date()).getTime()
-              def.resolve()
+
+              var tmpdir = '/tmp/ipfsapp-' + name
+              var destination = 'dist/' + relative
+
+              // copy the app
+              run('cp -R ' + path + '/dist ' + tmpdir)
+                .once('close', function () {
+                  // remove old version
+                  run('rm -Rf ' + destination)
+                    .once('close', function () {
+                      // move the copy
+                      run('mv ' + tmpdir + ' ' + destination)
+                        .once('close', function () {
+                          def.resolve()
+                        })
+                    })
+                })
             }
           })
       } else {
@@ -68,6 +99,10 @@ run('ls apps').pipe(sink()).on('data', function (appdirs) {
   })).then(function (result) {
     console.log('done')
     fs.writeFileSync('.modified', JSON.stringify(Cached) + '\n')
-    fs.writeFileSync('dist/default_apps.json', JSON.stringify(DefaultApps) + '\n')
+
+    var sortedApps = _.sortBy(DefaultApps, 'sort')
+
+    fs.writeFileSync('dist/default_apps.json',
+                     JSON.stringify(sortedApps) + '\n')
   })
 })

@@ -36,7 +36,8 @@ var DAG = React.createClass({
     t.props.ipfs.object.get(path.toString(), function (err, res) {
       if (err) return t.setState({ error: err })
 
-      t.setState({ object: res,
+      t.setState({ error: null,
+                   object: res,
                    permalink: null})
       if (path.protocol === 'ipns') {
         // also resolve the name
@@ -62,7 +63,7 @@ var DAG = React.createClass({
 
   render: function () {
     var error = this.state.error ?
-      <div className='row'>
+      <div className='col-xs-12'>
         <h4>Error</h4>
         <div className='panel panel-default padded'>
           {this.state.error.Message}
@@ -86,28 +87,30 @@ var DAG = React.createClass({
     var tab = 'object'
 
     return (
-      <div className='row'>
-        <div className='webui-dag'>
+      <div className='webui-dag'>
+        <div className='row'>
           <div className='col-xs-10'>
             <h4>Enter hash or path</h4>
           </div>
-          <div className='path'>
-            <div className='col-xs-10'>
-              <input type='text'
-                valueLink={this.linkState('pathInput')}
-                className='form-control input-lg'
-                onKeyPress={this.update}
-                placeholder='Enter hash or path: /ipfs/QmBpath...'/>
-            </div>
-            <div className='col-xs-2'>
-              <button className='btn btn-primary go'
-                onClick={this.update}>
-                GO
-              </button>
-            </div>
+        </div>
+        <div className='row'>
+          <div className='col-xs-10'>
+            <input type='text'
+              valueLink={this.linkState('pathInput')}
+              className='form-control input-lg'
+              onKeyPress={this.update}
+              placeholder='Enter hash or path: /ipfs/QmBpath...'/>
           </div>
-          {error}
+          <div className='col-xs-2'>
+            <button className='btn btn-primary go'
+              onClick={this.update}>
+              GO
+            </button>
+          </div>
           {views[tab]}
+        </div>
+        <div className='row'>
+          {error}
         </div>
       </div>
     )
@@ -117,7 +120,7 @@ var DAG = React.createClass({
 ipfsapp.define({
   init: function (ipfs, path) {
     this.ref = React.render(<DAG ipfs={ipfs} />,
-                       document.getElementById('home'))
+                       document.getElementById('mount'))
     this.follow(path)
   },
   follow: function (path) {
