@@ -17,7 +17,7 @@
     "react-bootstrap": "0.20.1",
     "react-localstorage": "0.2.2",
     "react-router": "0.13.2",
-    "three": "0.66.0"
+    "three": "^0.71.0"
   },
   "devDependencies": {
     "6to5ify": "4.1.1",
@@ -35,7 +35,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node dev.js",
+    "dev": "node_modules/.bin/bygg serve",
     "lint": "git diff --name-only --cached --relative | egrep .jsx?$ | xargs --no-run-if-empty standard"
   },
   "standard": {
