@@ -9,6 +9,7 @@
     "debug": "^2.2.0",
     "font-awesome": "4.3.0",
     "ipfs-geoip": "^1.4.3",
+    "ipfs-webui-common": "0.0.1",
     "jquery": "^2.1.3",
     "lodash": "3.6.0",
     "react": "0.13.1"
@@ -27,6 +28,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node buildapps.js ; ipfs-web-app run",
+    "publish": "node buildapps.js ; ipfs-web-app publish",
     "lint": "git diff --name-only --cached --relative | egrep .jsx?$ | xargs --no-run-if-empty standard"
   },
   "standard": {

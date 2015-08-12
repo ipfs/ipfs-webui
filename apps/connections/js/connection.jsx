@@ -1,5 +1,5 @@
 var React = require('react')
-var Peer = require('../../../js/views/peer.jsx')
+var Peer = require('ipfs-webui-common').Peer
 
 var Connection = React.createClass({
   displayName: 'Connection',

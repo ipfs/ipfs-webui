@@ -5,12 +5,10 @@
   "main": "index.jsx",
   "dependencies": {
     "bootstrap": "^3.3.4",
-    "font-awesome": "^4.3.0",
     "ipfs-geoip": "^1.4.3",
     "ipfs-web-app": "^0.1.0",
     "ipfs-webui-common": "^0.0.3",
-    "react": "0.13.1",
-    "react-bootstrap": "^0.24.0"
+    "react": "0.13.1"
   },
   "devDependencies": {
     "browserify": "10.2.3",
@@ -20,9 +18,9 @@
     "standard": "3.3.2"
   },
   "ipfs-web-app": {
-    "displayname": "Files",
-    "sort": 2,
-    "icon": "fa-file",
+    "sort": 4,
+    "displayname": "Logs",
+    "icon": "fa-list",
     "build": {
       "dist/script.js": "browserify -t reactify index.jsx",
       "dist/style.css": "lessc style/style.less"

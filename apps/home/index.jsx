@@ -1,6 +1,7 @@
+var common = require('ipfs-webui-common')
 var React = require('react')
-var Peer = require('../../js/views/peer.jsx')
-var getLocation = require('../../js/utils/getlocation.js')
+var Peer = common.Peer
+var getLocation = common.getLocation
 var ipfsapp = require('ipfs-web-app')
 
 var Home = React.createClass({

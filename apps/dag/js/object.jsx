@@ -1,5 +1,5 @@
 var React = require('react')
-var upath = require('../../../js/utils/path.js')
+var upath = require('ipfs-webui-common').Path
 var ipfsapp = require('ipfs-web-app')
 
 var ObjectView = React.createClass({

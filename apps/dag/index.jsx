@@ -1,7 +1,7 @@
 var React = require('react/addons')
 var ObjectView = require('./js/object.jsx')
 var ipfsapp = require('ipfs-web-app')
-var upath = require('../../js/utils/path.js')
+var upath = require('ipfs-webui-common').Path
 
 var DAG = React.createClass({
   displayName: 'Objects',

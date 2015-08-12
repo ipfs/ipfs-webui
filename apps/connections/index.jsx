@@ -1,8 +1,9 @@
 'use strict'
+var Common = require('ipfs-webui-common')
 var React = require('react/addons')
 var ConnectionList = require('./js/connectionlist.jsx')
 var Globe = require('./js/globe.jsx')
-var getLocation = require('../../js/utils/getlocation.js')
+var getLocation = Common.getLocation
 var ipfsapp = require('ipfs-web-app')
 
 var Connections = React.createClass({

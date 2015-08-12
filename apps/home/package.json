@@ -7,6 +7,7 @@
     "bootstrap": "^3.3.4",
     "ipfs-geoip": "^1.4.3",
     "ipfs-web-app": "^0.1.0",
+    "ipfs-webui-common": "^0.0.3",
     "react": "0.13.1"
   },
   "devDependencies": {
