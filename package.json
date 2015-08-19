@@ -1,14 +1,13 @@
 {
   "name": "ipfs-webui",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A frontend for IPFS",
-  "main": "js/main.jsx",
   "dependencies": {
     "bootstrap": "3.3.4",
     "d3": "3.5.5",
     "debug": "2.1.3",
     "font-awesome": "4.3.0",
-    "ipfs-api": "1.1.4",
+    "ipfs-api": "2.1.6",
     "ipfs-geoip": "1.4.3",
     "jquery": "2.1.3",
     "lodash": "3.6.0",
@@ -17,7 +16,7 @@
     "react-bootstrap": "0.20.1",
     "react-localstorage": "0.2.2",
     "react-router": "0.13.2",
-    "three": "0.66.0"
+    "three": "^0.71.0"
   },
   "devDependencies": {
     "6to5ify": "4.1.1",
@@ -35,8 +34,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node dev.js",
-    "lint": "git diff --name-only --cached --relative | egrep .jsx?$ | xargs --no-run-if-empty standard"
+    "dev": "node_modules/.bin/bygg serve",
+    "lint": "./node_modules/.bin/standard js"
   },
   "standard": {
     "ignore": [
