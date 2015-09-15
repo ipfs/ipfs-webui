@@ -43,7 +43,7 @@ var Page = React.createClass({
 
   showDAG: function () {
     var path = $(this.getDOMNode()).find('.dag-path').val()
-    window.location = '#/objects/' + path.replace(/\//g, '\\')
+    window.location = '#/objects/object/' + path.replace(/\//g, '\\')
   },
 
   update: function () {
