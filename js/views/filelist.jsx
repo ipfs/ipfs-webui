@@ -56,7 +56,7 @@ var FileList = React.createClass({
           }
 
           var gatewayPath = t.props.gateway + '/ipfs/' + file.id
-          var dagPath = '#/objects/' + file.id
+          var dagPath = '#/objects/object/' + file.id
           return (
             <tr className='webui-file' data-type={file.type} key={file.id}>
               <td><span className='type'>{type}</span></td>
