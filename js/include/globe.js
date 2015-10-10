@@ -154,7 +154,7 @@ module.exports = function (container, opts) {
     mesh.scale.set(1.1, 1.1, 1.1)
     scene.add(mesh)
 
-    geometry = new THREE.CubeGeometry(0.75, 0.75, 1)
+    geometry = new THREE.BoxGeometry(0.75, 0.75, 1)
     geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, -0.5))
 
     point = new THREE.Mesh(geometry)
@@ -288,7 +288,7 @@ module.exports = function (container, opts) {
 
     }
 
-    THREE.GeometryUtils.merge(subgeo, point)
+    subgeo.merge(point.geometry, point.matrix)
   }
 
   function onMouseDown (event) {
