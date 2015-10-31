@@ -11,30 +11,32 @@ var Logs = React.createClass({
   },
   getInitialState: function () {
     var t = this
-    var req = this.props.ipfs.log.tail(function (err, stream) {
-      if (err) return console.error(err)
+    var req = null
+    // TODO: fix this
+    // var req = this.props.ipfs.log.tail(function (err, stream) {
+    //   if (err) return console.error(err)
 
-      var container = $(t.getDOMNode()).find('.textarea-panel').get(0)
+    //   var container = $(t.getDOMNode()).find('.textarea-panel').get(0)
 
-      stream.on('data', function (chunk) {
-        var parts = chunk.toString().split('}')
-        var buf = ''
+    //   stream.on('data', function (chunk) {
+    //     var parts = chunk.toString().split('}')
+    //     var buf = ''
 
-        parts.forEach(function (part) {
-          buf += part + '}'
-          try {
-            var obj = JSON.parse(buf)
-            t.state.log.push(obj)
-            if (t.state.log.length > MAXSIZE) t.state.log.shift()
-            t.setState({ log: t.state.log, nonce: t.state.nonce + 1 })
-            if (t.state.tailing) container.scrollTop = container.scrollHeight
-          } catch(e) {}
-        })
-      })
-    })
+    //     parts.forEach(function (part) {
+    //       buf += part + '}'
+    //       try {
+    //         var obj = JSON.parse(buf)
+    //         t.state.log.push(obj)
+    //         if (t.state.log.length > MAXSIZE) t.state.log.shift()
+    //         t.setState({ log: t.state.log, nonce: t.state.nonce + 1 })
+    //         if (t.state.tailing) container.scrollTop = container.scrollHeight
+    //       } catch(e) {}
+    //     })
+    //   })
+    // })
 
     return {
-      log: [],
+      log: [{"webui logs":"are temporarily disabled due to a logging bug. instead, use commandline (ipfs log)"}],
       tailing: true,
       nonce: 0,
       request: req
@@ -42,11 +44,14 @@ var Logs = React.createClass({
   },
 
   componentWillUnmount: function () {
-    this.state.request.destroy()
+    if (this.state.request) {
+      this.state.request.destroy()
+    }
   },
 
   clear: function () {
-    this.setState({ log: [] })
+    // TODO: uncomment this when logs fixed.
+    // this.setState({ log: [] })
   },
 
   toggleTail: function () {
