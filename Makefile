@@ -7,13 +7,23 @@ clean:
 	rm -rf build
 	rm -rf publish
 
-deps: node_modules package.json
+deps: node_modules
+
+node_modules: package.json
 	npm install
+	touch node_modules
+
+build:
+	node_modules/.bin/bygg build
 
 serve:
 	node_modules/.bin/bygg serve
 
-publish_dir: deps
+publish_dir_bygg: deps build
+	rm -rf publish
+	cp -r build publish
+
+publish_dir_browserify: deps
 	rm -rf publish
 	mkdir -p publish
 	cp -r static publish
@@ -21,7 +31,7 @@ publish_dir: deps
 	node_modules/.bin/browserify -t reactify . > publish/bundle.js
 	node_modules/.bin/lessc less/bundle.less > publish/style.css
 
-publish: publish_dir
+publish: publish_dir_bygg
 	ipfs add -r -q publish | tail -n1 >versions/current
 
 	cp -r publish versions/`cat versions/current`
@@ -31,3 +41,5 @@ publish: publish_dir
 		echo $(local)$$hash; \
 		echo $(gway)$$hash; \
 		echo "now must add webui hash to go-ipfs: $$hash"
+
+.PHONY: build serve clean
