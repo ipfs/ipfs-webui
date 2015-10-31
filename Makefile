@@ -7,16 +7,21 @@ clean:
 	rm -rf build
 	rm -rf publish
 
+deps: node_modules package.json
+	npm install
+
 serve:
 	node_modules/.bin/bygg serve
 
-publish: clean
-	npm install
-	mkdir publish
+publish_dir: deps
+	rm -rf publish
+	mkdir -p publish
 	cp -r static publish
 	cp -r html/index.html publish
 	node_modules/.bin/browserify -t reactify . > publish/bundle.js
 	node_modules/.bin/lessc less/bundle.less > publish/style.css
+
+publish: publish_dir
 	ipfs add -r -q publish | tail -n1 >versions/current
 
 	cp -r publish versions/`cat versions/current`
