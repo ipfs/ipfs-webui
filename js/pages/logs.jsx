@@ -12,6 +12,7 @@ var Logs = React.createClass({
   getInitialState: function () {
     var t = this
     var req = null
+    // TODO: fix this
     // var req = this.props.ipfs.log.tail(function (err, stream) {
     //   if (err) return console.error(err)
 
@@ -35,7 +36,7 @@ var Logs = React.createClass({
     // })
 
     return {
-      log: [{"logs":"are disabled due to a logging bug."}],
+      log: [{"webui logs":"are temporarily disabled due to a logging bug. instead, use commandline (ipfs log)"}],
       tailing: true,
       nonce: 0,
       request: req
@@ -43,11 +44,14 @@ var Logs = React.createClass({
   },
 
   componentWillUnmount: function () {
-    this.state.request.destroy()
+    if (this.state.request) {
+      this.state.request.destroy()
+    }
   },
 
   clear: function () {
-    this.setState({ log: [] })
+    // TODO: uncomment this when logs fixed.
+    // this.setState({ log: [] })
   },
 
   toggleTail: function () {
