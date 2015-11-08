@@ -1,4 +1,5 @@
 var React = require('react')
+var ReactDOM = require('react-dom')
 var $ = require('jquery')
 
 var ConfigView = React.createClass({
@@ -28,7 +29,7 @@ var ConfigView = React.createClass({
   },
 
   updateHeight: function () {
-    var el = $(this.getDOMNode()).find('textarea')
+    var el = $(ReactDOM.findDOMNode(this)).find('textarea')
     el.height('1px')
     el.height(el.get(0).scrollHeight)
   },

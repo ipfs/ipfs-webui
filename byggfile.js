@@ -35,6 +35,8 @@ var build = function (optimize) {
 
   var assets = bygg
     .files('static/*/*')
+  var fonts = bygg
+    .files('node_modules/font-awesome/fonts/*')
 
   var styles = bygg
     .files('less/bundle.less')
@@ -47,7 +49,7 @@ var build = function (optimize) {
       dest: 'bundle.js',
       extensions: ['.js', '.jsx'],
       configure: function (b) {
-        b.transform('6to5ify')
+        b.transform('babelify')
       }
     }))
     .pipe(rename('js/main.js', 'bundle.js'))
@@ -56,6 +58,7 @@ var build = function (optimize) {
     html,
     assets,
     styles,
-    scripts
+    scripts,
+    fonts
   )
 }

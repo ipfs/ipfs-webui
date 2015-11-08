@@ -8,9 +8,14 @@ var Config = React.createClass({
   },
   getInitialState: function () {
     var t = this
-    t.props.ipfs.config.show(function (err, config) {
-      console.log(err, config)
-      if (!err) t.setState({ config: config })
+    t.props.ipfs.config.show(function (err, configStream) {
+      var config = ''
+      configStream.on('data', function (chunk) {
+        config += chunk.toString()
+      })
+      configStream.on('end', function () {
+        t.setState({config: JSON.parse(config)})
+      })
     })
 
     return { config: null }

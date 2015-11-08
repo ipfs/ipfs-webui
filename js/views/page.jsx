@@ -1,4 +1,5 @@
 var React = require('react')
+var ReactDOM = require('react-dom')
 var Nav = require('./nav.jsx')
 var RouteHandler = require('react-router').RouteHandler
 var Link = require('react-router').Link
@@ -42,14 +43,13 @@ var Page = React.createClass({
   },
 
   showDAG: function () {
-    var path = $(this.getDOMNode()).find('.dag-path').val()
+    var path = $(ReactDOM.findDOMNode(this)).find('.dag-path').val()
     window.location = '#/objects/object/' + path.replace(/\//g, '\\')
   },
 
   update: function () {
     var t = this
     ipfs.update.apply(function (err, res) {
-      console.log(err, res)
       t.setState({ updating: false })
       if (!err) window.location = window.location.toString()
     })
@@ -58,7 +58,6 @@ var Page = React.createClass({
 
   render: function () {
     var update = null
-    console.log(this.state)
     if (this.state.updateAvailable) {
       var updateButtonClass = 'btn btn-link'
       if (this.state.updating) updateButtonClass += ' disabled'

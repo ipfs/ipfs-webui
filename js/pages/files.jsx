@@ -1,4 +1,5 @@
 var React = require('react')
+var ReactDOM = require('react-dom')
 var FileList = require('../views/filelist.jsx')
 var LocalStorage = require('../utils/localStorage')
 var $ = require('jquery')
@@ -42,7 +43,7 @@ var Files = React.createClass({
 
   addFile: function (e) {
     e.preventDefault()
-    $(this.getDOMNode()).find('.file-select').click()
+    $(ReactDOM.findDOMNode(this)).find('.file-select').click()
     return
   },
 

@@ -28,7 +28,7 @@ publish_dir_browserify: deps
 	mkdir -p publish
 	cp -r static publish
 	cp -r html/index.html publish
-	node_modules/.bin/browserify -t reactify . > publish/bundle.js
+	node_modules/.bin/browserify -t babelify . > publish/bundle.js
 	node_modules/.bin/lessc less/bundle.less > publish/style.css
 
 publish: publish_dir_bygg

@@ -24,10 +24,10 @@ var Peer = React.createClass({
             <strong>Protocol Version: </strong> <code>{this.props.peer.ProtocolVersion || ''}</code>
           </p>
           <br />
-          <p>
+          <div>
             <strong>Public Key:</strong>
             <pre className='panel textarea-panel'>{this.props.peer.PublicKey || ''}</pre>
-          </p>
+          </div>
         </div>
 
         <h4>Network Addresses</h4>

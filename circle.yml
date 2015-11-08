@@ -1,0 +1,8 @@
+machine:
+  node:
+    version: stable
+
+test:
+  override:
+    - npm run lint
+    - npm run build

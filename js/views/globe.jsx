@@ -1,4 +1,4 @@
-var React = require('react/addons')
+var React = require('react')
 var DATGlobe = require('../include/globe.js')
 var LocalStorageMixin = require('react-localstorage')
 var debug = require('debug')('ipfs:pages:connections')
@@ -53,8 +53,7 @@ var Globe = React.createClass({
     if (this.state.theme === 'dark') texturePath += 'dark-'
 
     debug('mounting globe')
-    console.log(DATGlobe)
-    this.globe = new DATGlobe(this.refs.globe.getDOMNode(), {
+    this.globe = new DATGlobe(this.refs.globe, {
       imgDir: texturePath
     })
     this.globe.animate()

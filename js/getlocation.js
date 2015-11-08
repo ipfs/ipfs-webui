@@ -3,6 +3,9 @@
 var geoip = require('ipfs-geoip')
 
 function isLocal (address) {
+  // IP6
+  if (address === '::1') return true
+
   var split = address.split('.')
   if (split[0] === '10') return true
   if (split[0] === '127') return true
