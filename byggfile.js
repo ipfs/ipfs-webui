@@ -11,12 +11,17 @@ var rename = require('bygg-plugins-light/rename')
 var proxy = require('proxy-middleware')
 var url = require('url')
 
+var HOST = 'http://localhost:5001'
+
 bygg.task('serve', function () {
   return build()
     .pipe(bygg.write('build/'))
     .pipe(serve(3000, function (app) {
-      var opts = url.parse('http://localhost:5001/api')
-      opts.headers = {'referer': 'http://localhost:5001/'}
+      var opts = url.parse(HOST + '/api')
+      opts.headers = {
+        referer: HOST + '/',
+        origin: HOST
+      }
       return app
         .use('/api', proxy(opts))
     }))
