@@ -26,10 +26,11 @@ var Home = React.createClass({
       })
     })
 
-    t.props.ipfs.config.get('Gateway.Enabled', function (err, enabled) {
-      if (err) return console.error(err)
-      t.setState({ GatewayEnabled: enabled.Value })
-    })
+    // Fix: The request always fails, not sure why (was broken before already)
+    // t.props.ipfs.config.get('Gateway.Enabled', function (err, enabled) {
+    //   if (err) return console.error(err)
+    //   t.setState({ GatewayEnabled: enabled.Value })
+    // })
 
     return {
       node: {

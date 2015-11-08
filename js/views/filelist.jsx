@@ -1,4 +1,5 @@
 var React = require('react')
+var ReactDOM = require('react-dom')
 var Table = require('react-bootstrap/lib/Table')
 var $ = require('jquery')
 window.jQuery = $
@@ -13,7 +14,7 @@ var FileList = React.createClass({
   },
 
   componentDidMount: function () {
-    $(this.getDOMNode()).find('[data-toggle="tooltip"]').tooltip()
+    $(ReactDOM.findDOMNode(this)).find('[data-toggle="tooltip"]').tooltip()
   },
 
   unpin: function (e) {

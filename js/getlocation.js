@@ -13,8 +13,10 @@ function isLocal (address) {
 
 var getLocation = module.exports = function (ipfs, multiaddrs, cb) {
   if (multiaddrs.length === 0) return cb(null, null)
-  var address = multiaddrs[0].split('/')[2]
-  if (isLocal(address)) return getLocation(ipfs, multiaddrs.slice(1), cb)
+  var current = multiaddrs[0].split('/')
+  var address = current[2]
+  // No support for ip6 lookups currently
+  if (isLocal(address) || current[1] === 'ip6') return getLocation(ipfs, multiaddrs.slice(1), cb)
 
   geoip.lookup(ipfs, address, function (err, res) {
     if (err) {

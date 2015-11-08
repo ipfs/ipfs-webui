@@ -1,5 +1,5 @@
 'use strict'
-var React = require('react/addons')
+var React = require('react')
 var ConnectionList = require('../views/connectionlist.jsx')
 var Globe = require('../views/globe.jsx')
 var getLocation = require('../getlocation.js')
