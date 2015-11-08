@@ -30,9 +30,10 @@ var Page = React.createClass({
       t.setState({ version: res.Version })
     })
 
-    ipfs.update.check(function (err, res) {
-      if (!err && typeof res === 'object') t.setState({ updateAvailable: true })
-    })
+    // Not currently available
+    // ipfs.update.check(function (err, res) {
+    //  if (!err && typeof res === 'object') t.setState({ updateAvailable: true })
+    // })
 
     return {
       version: '',
@@ -97,11 +98,6 @@ var Page = React.createClass({
                           <li>
                               <a href='http://ipfs.io' target='_blank' data-toggle='tooltip' data-placement='bottom' title='About IPFS'>
                                   <img src='./static/img/help.png' alt='Help' className='img-responsive icon'/><span className='sr-only'>Help</span>
-                              </a>
-                          </li>
-                          <li>
-                              <a href='#' target='_blank' data-toggle='tooltip' data-placement='bottom' title='Documentation'>
-                                  <img src='./static/img/info.png' alt='Documentation' className='img-responsive icon'/><span className='sr-only'>Documentation</span>
                               </a>
                           </li>
                           <li>
