@@ -2,7 +2,7 @@
 var React = require('react')
 var ConnectionList = require('../views/connectionlist.jsx')
 var Globe = require('../views/globe.jsx')
-var getLocation = require('../getlocation.js')
+var getLocation = require('ipfs-geoip').lookupPretty
 var Connections = React.createClass({
   displayName: 'Connections',
   propTypes: {
