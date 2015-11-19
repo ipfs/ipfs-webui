@@ -1,6 +1,6 @@
 var React = require('react')
 var Peer = require('../views/peer.jsx')
-var getLocation = require('../getlocation.js')
+var getLocation = require('ipfs-geoip').lookupPretty
 
 var Home = React.createClass({
   displayName: 'Home',
