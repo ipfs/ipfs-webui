@@ -4,6 +4,7 @@ var Nav = require('./nav.jsx')
 var RouteHandler = require('react-router').RouteHandler
 var Link = require('react-router').Link
 var $ = require('jquery')
+var i18n = require('../utils/i18n.js')
 
 var host = window.location.hostname
 var port = window.location.port || 80
@@ -65,7 +66,7 @@ var Page = React.createClass({
 
       update = (
         <div className='alert alert-warning'>
-          <span><i className='fa fa-warning'></i> A new version of IPFS is available. </span>
+          <span><i className='fa fa-warning'></i> {i18n.t('A new version of IPFS is available.')} </span>
           <button className={updateButtonClass} onClick={this.update}>Click here to update.</button>
         </div>
       )
@@ -82,7 +83,7 @@ var Page = React.createClass({
                     <div className='row'>
                           <div className='navbar-header'>
                             <Link className='navbar-brand col-xs-12' to='home'>
-                              <img src='./static/img/logo.png' alt='IPFS' className='img-responsive logo'/><span className='sr-only'>IPFS</span>
+                              <img src='./static/img/logo.png' alt='IPFS' className='img-responsive logo'/><span className='sr-only'>{i18n.t('IPFS')}</span>
                             </Link>
                           </div>
                        </div>
@@ -90,24 +91,24 @@ var Page = React.createClass({
                   <div className='col-sm-10'>
                       <form className='navbar-form navbar-left collapse navbar-collapse col-xs-6'>
                         <div className='form-group'>
-                          <input type='text' className='form-control dag-path' placeholder='Enter a hash or path' />
+                          <input type='text' className='form-control dag-path' placeholder={i18n.t('Enter a hash or path')} />
                         </div>
-                        <button className='btn btn-third btn-xs' onClick={this.showDAG}>GO</button>
+                        <button className='btn btn-third btn-xs' onClick={this.showDAG}>{i18n.t('GO')}</button>
                       </form>
                         <ul className='nav navbar-nav navbar-right collapse navbar-collapse'>
                           <li>
-                              <a href='http://ipfs.io' target='_blank' data-toggle='tooltip' data-placement='bottom' title='About IPFS'>
-                                  <img src='./static/img/help.png' alt='Help' className='img-responsive icon'/><span className='sr-only'>Help</span>
+                              <a href='http://ipfs.io' target='_blank' data-toggle='tooltip' data-placement='bottom' title={i18n.t('About IPFS')}>
+                                  <img src='./static/img/help.png' alt='Help' className='img-responsive icon'/><span className='sr-only'>{i18n.t('Help')}</span>
                               </a>
                           </li>
                           <li>
-                              <a href='https://github.com/ipfs/webui' target='_blank' data-toggle='tooltip' data-placement='bottom' title='Github Repository'>
-                                  <img src='./static/img/git.png' alt='Github' className='img-responsive icon'/><span className='sr-only'>Github</span>
+                              <a href='https://github.com/ipfs/webui' target='_blank' data-toggle='tooltip' data-placement='bottom' title={i18n.t('Github Repository')}>
+                                  <img src='./static/img/git.png' alt='Github' className='img-responsive icon'/><span className='sr-only'>{i18n.t('Github')}</span>
                               </a>
                           </li>
                           <li>
-                              <a href='https://github.com/ipfs/webui/issues/new' target='_blank' data-toggle='tooltip' data-placement='bottom' title='Report Bugs'>
-                                  <img src='./static/img/bug.png' alt='Report a bug' className='img-responsive icon'/><span className='sr-only'>Report a bug</span>
+                              <a href='https://github.com/ipfs/webui/issues/new' target='_blank' data-toggle='tooltip' data-placement='bottom' title={i18n.t('Report Bugs')}>
+                                  <img src='./static/img/bug.png' alt='Report a bug' className='img-responsive icon'/><span className='sr-only'>{i18n.t('Report a bug')}</span>
                               </a>
                           </li>
                         </ul>

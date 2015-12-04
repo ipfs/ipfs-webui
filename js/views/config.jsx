@@ -1,6 +1,7 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
 var $ = require('jquery')
+var i18n = require('../utils/i18n.js')
 
 var ConfigView = React.createClass({
   displayName: 'ConfigView',
@@ -85,11 +86,11 @@ var ConfigView = React.createClass({
       <div className='controls'>
         <button className={buttonClass} onClick={this.save}>
           <i className={'fa ' + (this.state.saved ? 'fa-check' : 'fa-save')}></i>&nbsp;
-          {this.state.saving ? 'Saving...' : this.state.saved ? 'Saved' : 'Save'}
+          {this.state.saving ? i18n.t('Saving...') : this.state.saved ? i18n.t('Saved') : i18n.t('Save')}
         </button>
         <button className='btn btn-primary pull-right' onClick={this.reset}>
           <i className='fa fa-recycle'></i>&nbsp;
-          Reset
+          {i18n.t('Reset')}
         </button>
         <div className='clear'></div>
       </div>
@@ -100,7 +101,7 @@ var ConfigView = React.createClass({
       error = (
         <div>
           <span className='text-danger pull-left'>
-            <strong>Error in config: </strong>
+            <strong>{i18n.t('Error in config:')} </strong>
             <span>{this.state.error}</span>
           </span>
         </div>
@@ -109,7 +110,7 @@ var ConfigView = React.createClass({
 
     return (
       <div className='webui-config'>
-        <h3>Config</h3>
+        <h3>{i18n.t('Config')}</h3>
         <br/>
         {error}
         {buttons}

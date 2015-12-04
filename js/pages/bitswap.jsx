@@ -1,5 +1,6 @@
 var React = require('react')
 var FileList = require('../views/filelist.jsx')
+var i18n = require('../utils/i18n.js')
 
 module.exports = React.createClass({
   displayName: 'Bitswap',
@@ -34,13 +35,13 @@ module.exports = React.createClass({
     return (
       <div className='row'>
         <div className='col-sm-10 col-sm-offset-1'>
-          <h3>Bitswap</h3>
+          <h3>{i18n.t('Bitswap')}</h3>
           <br/>
 
           <div>
             <h4>
-              <strong>Wantlist</strong>&nbsp;
-              <small>({wantlist.length} file{wantlist.length !== 1 ? 's' : ''})</small>
+              <strong>{i18n.t('Wantlist')}</strong>&nbsp;
+              <small>({i18n.t('X file', { postProcess: 'sprintf', sprintf: [wantlist.length], count: wantlist.length })})</small>
             </h4>
             <div className='panel panel-default'>
               <FileList className='panel-inner' files={wantlist} namesHidden={true}/>

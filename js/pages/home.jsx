@@ -1,6 +1,7 @@
 var React = require('react')
 var Peer = require('../views/peer.jsx')
 var getLocation = require('ipfs-geoip').lookupPretty
+var i18n = require('../utils/i18n.js')
 
 var Home = React.createClass({
   displayName: 'Home',
@@ -62,22 +63,22 @@ var Home = React.createClass({
     var gatewayEnabled = this.state.GatewayEnabled
     var gatewayLink
     if (gatewayEnabled) {
-      gatewayLink = <a href={this.state.GatewayUrl}>Go to gateway</a>
+      gatewayLink = <a href={this.state.GatewayUrl}>{i18n.t('Go to gateway')}</a>
     }
 
     return (
       <div className='row'>
         <div className='col-sm-10 col-sm-offset-1'>
 
-          <h3>Node Info</h3>
+          <h3>{i18n.t('Node Info')}</h3>
           <Peer {...this.state.node} />
 
           <div className='well hidden'>
-            <h4>HTTP Gateway</h4>
+            <h4>{i18n.t('HTTP Gateway')}</h4>
             <div className='checkbox'>
               <label>
                 <input type='checkbox' className='gateway-toggle' checked={gatewayEnabled} onChange={this.onGatewayChange}/>
-                <strong>Enabled</strong>
+                <strong>{i18n.t('Enabled')}</strong>
               </label>
             </div>
             {gatewayLink}

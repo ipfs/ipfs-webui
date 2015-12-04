@@ -4,6 +4,7 @@ var Table = require('react-bootstrap/lib/Table')
 var $ = require('jquery')
 window.jQuery = $
 require('bootstrap') // attaches to jquery
+var i18n = require('../utils/i18n.js')
 
 var FileList = React.createClass({
   displayName: 'FileList',
@@ -40,10 +41,10 @@ var FileList = React.createClass({
       <Table responsive className={className}>
         <thead>
           <tr>
-            <th>Type</th>
-            <th className='filelist-name'>Name</th>
-            <th className='id-cell'>ID</th>
-            <th className='action-cell'>Actions</th>
+            <th>{i18n.t('Type')}</th>
+            <th className='filelist-name'>{i18n.t('Name')}</th>
+            <th className='id-cell'>{i18n.t('ID')}</th>
+            <th className='action-cell'>{i18n.t('Actions')}</th>
           </tr>
         </thead>
         <tbody>
@@ -64,11 +65,11 @@ var FileList = React.createClass({
               <td className='filelist-name'><a target='_blank' href={gatewayPath}>{file.name}</a></td>
               <td className='id-cell'><code>{file.id}</code></td>
               <td className='action-cell'>
-                <a target='_blank' href={gatewayPath}>RAW</a>
+                <a target='_blank' href={gatewayPath}>{i18n.t('RAW')}</a>
                 <span className='separator'>|</span>
-                <a href={dagPath}>DAG</a>
+                <a href={dagPath}>{i18n.t('DAG')}</a>
                 <span className='separator'>|</span>
-                <a href='#' onClick={t.unpin} data-hash={file.id}><i className='fa fa-remove' data-toggle='tooltip' data-placement='right' title='' data-original-title='Remove'></i></a>
+                <a href='#' onClick={t.unpin} data-hash={file.id}><i className='fa fa-remove' data-toggle='tooltip' data-placement='right' title='' data-original-title={i18n.t('Remove')}></i></a>
               </td>
             </tr>
           )

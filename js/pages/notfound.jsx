@@ -1,4 +1,5 @@
 var React = require('react')
+var i18n = require('../utils/i18n.js')
 
 var NotFound = React.createClass({
   displayName: 'NotFound',
@@ -7,9 +8,9 @@ var NotFound = React.createClass({
       <div className='row'>
         <div className='col-sm-10 col-sm-offset-1'>
 
-          <h1>404 - Not Found</h1>
+          <h1>{i18n.t('404 - Not Found')}</h1>
 
-          <p><a href='#/'>Go to console home</a></p>
+          <p><a href='#/'>{i18n.t('Go to console home')}</a></p>
 
         </div>
       </div>
