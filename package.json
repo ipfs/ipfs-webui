@@ -15,7 +15,7 @@
     "react-bootstrap": "0.27.3",
     "react-dom": "0.14.2",
     "react-localstorage": "0.2.8",
-    "react-router": "0.13.5",
+    "react-router": "1.0.1",
     "three": "0.73.0"
   },
   "devDependencies": {
