@@ -3,6 +3,7 @@ var Router = require('react-router')
 var $ = require('jquery')
 var ObjectView = require('../views/object.jsx')
 var upath = require('../utils/path.js')
+var i18n = require('../utils/i18n.js')
 
 module.exports = React.createClass({
   displayName: 'Objects',
@@ -72,7 +73,7 @@ module.exports = React.createClass({
   render: function () {
     var error = this.state.error ?
       <div className='row'>
-        <h4>Error</h4>
+        <h4>{i18n.t('Error')}</h4>
         <div className='panel panel-default padded'>
           {this.state.error.Message}
         </div>
@@ -100,15 +101,15 @@ module.exports = React.createClass({
       <div className='row'>
         <div className='col-sm-10 col-sm-offset-1 webui-dag'>
           <div className='row'>
-            <h4>Enter hash or path</h4>
+            <h4>{i18n.t('Enter hash or path')}</h4>
             <div className='path row'>
               <div className='col-xs-10'>
-                <input type='text' className='form-control input-lg' onChange={this.updatePath} onKeyPress={this.update} value={this.state.pathInput} placeholder='Enter hash or path: /ipfs/QmBpath...'/>
+                <input type='text' className='form-control input-lg' onChange={this.updatePath} onKeyPress={this.update} value={this.state.pathInput} placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')}/>
               </div>
               <div className='col-xs-2'>
                 <button className='btn btn-primary go'
                         onClick={this.update}>
-                  GO
+                  {i18n.t('GO')}
                 </button>
               </div>
             </div>

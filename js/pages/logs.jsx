@@ -1,5 +1,6 @@
 var React = require('react')
 var $ = require('jquery')
+var i18n = require('../utils/i18n.js')
 
 var MAXSIZE = 1000
 
@@ -36,7 +37,7 @@ var Logs = React.createClass({
     // })
 
     return {
-      log: [{"webui logs":"are temporarily disabled due to a logging bug. instead, use commandline (ipfs log)"}],
+      log: [{"webui logs" : i18n.t('are temporarily disabled due to a logging bug. instead, use commandline (ipfs log)')}],
       tailing: true,
       nonce: 0,
       request: req
@@ -65,16 +66,16 @@ var Logs = React.createClass({
   render: function () {
     var buttons = (
       <div className='buttons'>
-        <button className='btn btn-second' onClick={this.clear}>Clear</button>
+        <button className='btn btn-second' onClick={this.clear}>{i18n.t('Clear')}</button>
         <button className={'btn btn-second ' + (this.state.tailing ? 'active' : '')}
-          data-toggle='button' aria-pressed={this.state.tailing} onClick={this.toggleTail}>Tail</button>
+          data-toggle='button' aria-pressed={this.state.tailing} onClick={this.toggleTail}>{i18n.t('Tail')}</button>
       </div>
     )
 
     return (
     <div className='row'>
       <div className='col-sm-10 col-sm-offset-1 webui-logs'>
-        <h3>Event Log</h3>
+        <h3>{i18n.t('Event Log')}</h3>
         <div className='actions'>{buttons}</div>
         <br/>
 

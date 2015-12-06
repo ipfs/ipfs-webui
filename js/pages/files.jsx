@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom')
 var FileList = require('../views/filelist.jsx')
 var LocalStorage = require('../utils/localStorage')
 var $ = require('jquery')
+var i18n = require('../utils/i18n.js')
 
 var Files = React.createClass({
   displayName: 'Files',
@@ -132,9 +133,9 @@ var Files = React.createClass({
   <div className='row'>
     <div className='col-sm-10 col-sm-offset-1'>
       <ul className='nav nav-tabs'>
-        <li role='presentation' className={tab === 'files' ? 'active' : ''}><a href='#/files'>Files</a></li>
-        <li role='presentation' className={tab === 'pinned' ? 'active' : ''}><a href='#/files/pinned'>Pinned</a></li>
-        <li role='presentation' className={tab === 'all' ? 'active' : ''}><a href='#/files/all'>All</a></li>
+        <li role='presentation' className={tab === 'files' ? 'active' : ''}><a href='#/files'>{i18n.t('Files')}</a></li>
+        <li role='presentation' className={tab === 'pinned' ? 'active' : ''}><a href='#/files/pinned'>{i18n.t('Pinned')}</a></li>
+        <li role='presentation' className={tab === 'all' ? 'active' : ''}><a href='#/files/all'>{i18n.t('All')}</a></li>
       </ul>
 
       <div className={tab !== 'files' ? 'hidden' : ''}>
@@ -142,19 +143,19 @@ var Files = React.createClass({
           <div className='file-add-target' onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}></div>
           <div className={'file-add-container-inner ' + (this.state.dragging ? 'hover' : '')}></div>
           <div className={(this.state.dragging || this.state.confirm) ? 'hidden' : ''}>
-            <p><strong>Drag-and-drop your files here</strong></p>
-            <p><span>or</span></p>
+            <p><strong>{i18n.t('Drag-and-drop your files here')}</strong></p>
+            <p><span>{i18n.t('or')}</span></p>
             <p>
               <button className='btn btn-second add-file' onClick={this.addFile} onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}>
-                Select files...
+                {i18n.t('Select files...')}
               </button>
             </p>
           </div>
           <div className={!this.state.dragging ? 'hidden' : ''}>
-            <p><strong>Drop your file here to add it to IPFS</strong></p>
+            <p><strong>{i18n.t('Drop your file here to add it to IPFS')}</strong></p>
           </div>
           <div className={!this.state.confirm ? 'hidden' : ''}>
-            <p><i className='fa fa-lg fa-thumbs-up'></i> Added <strong>{this.state.confirm}</strong></p>
+            <p><i className='fa fa-lg fa-thumbs-up'></i> {i18n.t('Added')} <strong>{this.state.confirm}</strong></p>
           </div>
           <input type='file' className='file-select' style={{display: 'none'}} onChange={this.onFileChange}/>
         </div>
@@ -166,14 +167,14 @@ var Files = React.createClass({
       </div>
 
       <div className={tab !== 'pinned' ? 'hidden' : ''}>
-        <h3>Pinned Files</h3>
+        <h3>{i18n.t('Pinned Files')}</h3>
         <div className='panel panel-default'>
           <FileList files={this.state.pinned} namesHidden={true} ipfs={this.props.ipfs} gateway={this.props.gateway} />
         </div>
       </div>
 
       <div className={tab !== 'all' ? 'hidden' : ''}>
-        <h3>All Local Files</h3>
+        <h3>{i18n.t('All Local Files')}</h3>
         <div className='panel panel-default'>
           <FileList files={this.state.local} namesHidden={true} ipfs={this.props.ipfs} gateway={this.props.gateway} />
         </div>

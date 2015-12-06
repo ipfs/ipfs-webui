@@ -1,4 +1,5 @@
 var React = require('react')
+var i18n = require('../utils/i18n.js')
 
 var Peer = React.createClass({
   displayName: 'Peer',
@@ -11,26 +12,26 @@ var Peer = React.createClass({
       <div className='webui-peer'>
         <div className='box info'>
           <p>
-            <strong>Peer ID: </strong> <code>{this.props.peer.ID}</code>&nbsp;
+            <strong>{i18n.t('Peer ID:')} </strong> <code>{this.props.peer.ID}</code>&nbsp;
           </p>
           <br />
           <p>
-            <strong>Location: </strong> {this.props.location.formatted || 'Unknown'}
+            <strong>{i18n.t('Location:')} </strong> {this.props.location.formatted || i18n.t('Unknown')}
           </p>
           <p>
-            <strong>Agent Version: </strong> <code>{this.props.peer.AgentVersion || ''}</code>
+            <strong>{i18n.t('Agent Version:')} </strong> <code>{this.props.peer.AgentVersion || ''}</code>
           </p>
           <p>
-            <strong>Protocol Version: </strong> <code>{this.props.peer.ProtocolVersion || ''}</code>
+            <strong>{i18n.t('Protocol Version:')} </strong> <code>{this.props.peer.ProtocolVersion || ''}</code>
           </p>
           <br />
           <div>
-            <strong>Public Key:</strong>
+            <strong>{i18n.t('Public Key:')}</strong>
             <pre className='panel textarea-panel'>{this.props.peer.PublicKey || ''}</pre>
           </div>
         </div>
 
-        <h4>Network Addresses</h4>
+        <h4>{i18n.t('Network Addresses')}</h4>
         <div className='box addresses'>
           {(this.props.peer.Addresses || []).map(function (address, i) {
             if (!address) return

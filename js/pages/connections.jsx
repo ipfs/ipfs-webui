@@ -3,6 +3,8 @@ var React = require('react')
 var ConnectionList = require('../views/connectionlist.jsx')
 var Globe = require('../views/globe.jsx')
 var getLocation = require('ipfs-geoip').lookupPretty
+var i18n = require('../utils/i18n.js')
+
 var Connections = React.createClass({
   displayName: 'Connections',
   propTypes: {
@@ -81,7 +83,7 @@ var Connections = React.createClass({
           <Globe peers={this.state.peers} />
         </div>
         <div className='col-sm-6'>
-          <h4>Connected to {this.state.peers.length} peer{this.state.peers.length !== 1 ? 's' : ''}</h4>
+          <h4>{i18n.t('Connected to X peer', { postProcess: 'sprintf', sprintf: [this.state.peers.length], count: this.state.peers.length })}</h4>
           <div>
             <ConnectionList peers={this.state.peers} />
           </div>
