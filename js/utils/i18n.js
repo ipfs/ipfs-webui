@@ -1,7 +1,7 @@
 var i18n = require('i18next-client');
 
 i18n.init({
-  lngWhiteList: ['en', 'cs'],
+  lngWhiteList: ['en', 'cs', 'de'],
   fallbackLng: 'en',
   resGetPath: '/static/locale/webui-%{lng}.json',
   interpolationPrefix: '%{',
