@@ -8,7 +8,7 @@
     "debug": "2.2.0",
     "font-awesome": "4.5.0",
     "i18next-client": "1.11.1",
-    "ipfs-api": "2.7.0",
+    "ipfs-api": "2.9.14",
     "ipfs-geoip": "1.4.5",
     "jquery": "2.1.4",
     "lodash": "3.10.1",
