@@ -71,27 +71,28 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var error = this.state.error ?
-      <div className='row'>
-        <h4>{i18n.t('Error')}</h4>
-        <div className='panel panel-default padded'>
-          {this.state.error.Message}
+    var error = this.state.error
+      ? <div className='row'>
+          <h4>{i18n.t('Error')}</h4>
+          <div className='panel panel-default padded'>
+            {this.state.error.Message}
+          </div>
         </div>
-      </div>
       : null
 
     // TODO add provider-view here
     var views = {
-      object: (!error && this.state.object ?
-        <div className='row'>
-          <div className='col-xs-12'>
-            <ObjectView
-              object={this.state.object}
-              path={this.state.path}
-              permalink={this.state.permalink}
-              gateway={this.props.gateway} />
+      object: (!error && this.state.object
+        ? <div className='row'>
+            <div className='col-xs-12'>
+              <ObjectView
+                object={this.state.object}
+                path={this.state.path}
+                permalink={this.state.permalink}
+                gateway={this.props.gateway} />
+            </div>
           </div>
-        </div> : null)
+        : null)
     }
 
     var params = this.context.router.getCurrentParams()

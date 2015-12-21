@@ -23,7 +23,6 @@ var PropTable = React.createClass({
         </tbody>
       </Table>
     )
-
   }
 })
 

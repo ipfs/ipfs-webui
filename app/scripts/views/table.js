@@ -2,7 +2,7 @@ var React = require('react')
 var Table = require('react-bootstrap/lib/Table')
 var addr = require('./typography').addr
 
-var Table = React.createClass({
+module.exports = React.createClass({
   displayName: 'Table',
   propTypes: {
     table: React.PropTypes.array,
@@ -21,8 +21,5 @@ var Table = React.createClass({
         </tbody>
       </Table>
     )
-
   }
 })
-
-module.exports = Table

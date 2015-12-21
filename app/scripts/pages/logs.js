@@ -1,8 +1,7 @@
 var React = require('react')
-var $ = require('jquery')
 var i18n = require('../utils/i18n.js')
 
-var MAXSIZE = 1000
+// var MAXSIZE = 1000
 
 var Logs = React.createClass({
   displayName: 'Logs',
@@ -11,7 +10,7 @@ var Logs = React.createClass({
     host: React.PropTypes.string
   },
   getInitialState: function () {
-    var t = this
+    // var t = this
     var req = null
     // TODO: fix this
     // var req = this.props.ipfs.log.tail(function (err, stream) {
@@ -37,7 +36,7 @@ var Logs = React.createClass({
     // })
 
     return {
-      log: [{"webui logs" : i18n.t('are temporarily disabled due to a logging bug. instead, use commandline (ipfs log)')}],
+      log: [{'webui logs': i18n.t('are temporarily disabled due to a logging bug. instead, use commandline (ipfs log)')}],
       tailing: true,
       nonce: 0,
       request: req

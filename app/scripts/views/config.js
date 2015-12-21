@@ -43,7 +43,7 @@ var ConfigView = React.createClass({
 
     try {
       JSON.parse(text)
-    } catch(e) {
+    } catch (e) {
       error = e.message
     }
 

@@ -18,8 +18,8 @@ var ObjectView = React.createClass({
 
     var t = this
     var parent = this.props.path.parent()
-    var parentlink = parent ?
-        <Link className='btn btn-primary' to='objects' params={{tab: 'object', path: parent.urlify()}}>
+    var parentlink = parent
+      ? <Link className='btn btn-primary' to='objects' params={{tab: 'object', path: parent.urlify()}}>
           <i className='fa fa-arrow-up'></i> {i18n.t('Parent object')}
         </Link>
       : null
@@ -70,28 +70,28 @@ var ObjectView = React.createClass({
 
       ]
     }
-    var resolved = this.props.permalink ?
-      <li className='list-group-item'>
-        <span>{i18n.t('permalink:')} </span>
-        <Link to='objects' params={{tab: 'object', path: this.props.permalink.urlify()}}>
-          {this.props.permalink.toString()}
-        </Link>
-      </li>
+    var resolved = this.props.permalink
+      ? <li className='list-group-item'>
+          <span>{i18n.t('permalink:')} </span>
+          <Link to='objects' params={{tab: 'object', path: this.props.permalink.urlify()}}>
+            {this.props.permalink.toString()}
+          </Link>
+        </li>
       : null
 
-    var displayData = size ?
-      [<li className='list-group-item'>
-        <p>
-          <strong>{i18n.t('Object data (%s bytes)', { postProcess: 'sprintf', sprintf: [size] })}</strong>
-        </p>
-      </li>,
-      <li className='list-group-item data'>
-        <iframe src={data} className='panel-inner'></iframe>
-      </li>]
-      :
-      <li className='list-group-item'>
-        <strong>{i18n.t('This object has no data')}</strong>
-      </li>
+    var displayData = size
+      ? [<li className='list-group-item'>
+          <p>
+            <strong>{i18n.t('Object data (%s bytes)', { postProcess: 'sprintf', sprintf: [size] })}</strong>
+          </p>
+        </li>,
+        <li className='list-group-item data'>
+          <iframe src={data} className='panel-inner'></iframe>
+        </li>
+      ]
+      : <li className='list-group-item'>
+          <strong>{i18n.t('This object has no data')}</strong>
+        </li>
 
     return (
       <div className='webui-object'>

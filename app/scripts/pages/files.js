@@ -107,7 +107,6 @@ var Files = React.createClass({
 
     if (file.path) {
       add(file.path)
-
     } else {
       var reader = new window.FileReader()
       reader.onload = function () {
@@ -169,14 +168,14 @@ var Files = React.createClass({
       <div className={tab !== 'pinned' ? 'hidden' : ''}>
         <h3>{i18n.t('Pinned Files')}</h3>
         <div className='panel panel-default'>
-          <FileList files={this.state.pinned} namesHidden={true} ipfs={this.props.ipfs} gateway={this.props.gateway} />
+          <FileList files={this.state.pinned} namesHidden ipfs={this.props.ipfs} gateway={this.props.gateway} />
         </div>
       </div>
 
       <div className={tab !== 'all' ? 'hidden' : ''}>
         <h3>{i18n.t('All Local Files')}</h3>
         <div className='panel panel-default'>
-          <FileList files={this.state.local} namesHidden={true} ipfs={this.props.ipfs} gateway={this.props.gateway} />
+          <FileList files={this.state.local} namesHidden ipfs={this.props.ipfs} gateway={this.props.gateway} />
         </div>
       </div>
     </div>

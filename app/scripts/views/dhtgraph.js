@@ -51,16 +51,16 @@ var DHTGraph = React.createClass({
         .attr('r', 12)
         .attr('transform', function (d) { return 'rotate(' + d.pos + ')translate(' + radius + ')' })
 
-    /*main.append('g').selectAll('text')
-      .data(data)
-      .enter().append('text')
-        .attr('class', 'label')
-        .attr('x', function (d){ return radius * Math.cos(d.pos / 180 * Math.PI) })
-        .attr('y', function (d){ return radius * Math.sin(d.pos / 180 * Math.PI) })
-        .attr('text-anchor', 'middle')
-        .attr('dx', 32)
-        .attr('dy', 4)
-        .text(function (d){ return d.id })*/
+    // main.append('g').selectAll('text')
+    //   .data(data)
+    //   .enter().append('text')
+    //     .attr('class', 'label')
+    //     .attr('x', function (d){ return radius * Math.cos(d.pos / 180 * Math.PI) })
+    //     .attr('y', function (d){ return radius * Math.sin(d.pos / 180 * Math.PI) })
+    //     .attr('text-anchor', 'middle')
+    //     .attr('dx', 32)
+    //     .attr('dy', 4)
+    //     .text(function (d){ return d.id })
 
     d3.select(window.frameElement).style('height', (diameter + margin) + 'px')
   },

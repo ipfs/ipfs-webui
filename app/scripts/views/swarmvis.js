@@ -21,7 +21,6 @@ var Swarmvis = React.createClass({
       </TabbedArea>
     </div>
     )
-
   }
 })
 
