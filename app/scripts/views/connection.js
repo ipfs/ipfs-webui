@@ -1,5 +1,5 @@
 var React = require('react')
-var Peer = require('./peer1')
+var Peer = require('./peer')
 
 var Connection = React.createClass({
   displayName: 'Connection',
