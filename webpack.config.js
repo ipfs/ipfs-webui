@@ -8,7 +8,8 @@ var config = createConfig({
 
 // Handle js-ipfs-api
 config.module.loaders.push({
-  test: 'node_modules/ipfs-api/.*\.js',
+  test: /\.js$/,
+  include: /node_modules\/(hoek|qs|wreck|boom|ipfs-api)/,
   loader: 'babel-loader'
 })
 

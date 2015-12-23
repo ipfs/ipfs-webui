@@ -1,7 +1,7 @@
-build/
 node_modules/
 static/fonts
 .module-cache
 cache/
 npm-debug.log
 publish
+public/*.*

@@ -62,7 +62,7 @@
     "test": "karma start --single-run=true karma.conf.js",
     "start": "webpack-dev-server",
     "lint": "eslint .",
-    "build": "webpack"
+    "build": "NODE_ENV=production webpack"
   },
   "standard": {
     "ignore": [
