@@ -1,7 +1,7 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
 var Router = require('react-router')
-var routes = require('./app')
+var routes = require('./routes')
 
 // var linkHandler = require('./linkhandler.js')
 if (process.env.NODE_ENV !== 'production') {

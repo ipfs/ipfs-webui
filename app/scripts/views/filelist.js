@@ -1,10 +1,7 @@
 var React = require('react')
-var ReactDOM = require('react-dom')
-var Table = require('react-bootstrap/lib/Table')
 var $ = require('jquery')
-window.jQuery = $
-require('bootstrap') // attaches to jquery
 var i18n = require('../utils/i18n.js')
+var {Table, Tooltip, OverlayTrigger} = require('react-bootstrap')
 
 var FileList = React.createClass({
   displayName: 'FileList',
@@ -12,10 +9,6 @@ var FileList = React.createClass({
     ipfs: React.PropTypes.object,
     files: React.PropTypes.array,
     namesHidden: React.PropTypes.bool
-  },
-
-  componentDidMount: function () {
-    $(ReactDOM.findDOMNode(this)).find('[data-toggle="tooltip"]').tooltip()
   },
 
   unpin: function (e) {
@@ -59,6 +52,11 @@ var FileList = React.createClass({
 
           var gatewayPath = t.props.gateway + '/ipfs/' + file.id
           var dagPath = '#/objects/object/' + file.id
+
+          var tooltip = (
+            <Tooltip>{i18n.t('Remove')}</Tooltip>
+          )
+
           return (
             <tr className='webui-file' data-type={file.type} key={file.id}>
               <td><span className='type'>{type}</span></td>
@@ -69,7 +67,11 @@ var FileList = React.createClass({
                 <span className='separator'>|</span>
                 <a href={dagPath}>{i18n.t('DAG')}</a>
                 <span className='separator'>|</span>
-                <a href='#' onClick={t.unpin} data-hash={file.id}><i className='fa fa-remove' data-toggle='tooltip' data-placement='right' title='' data-original-title={i18n.t('Remove')}></i></a>
+                <a href='#' onClick={t.unpin} data-hash={file.id}>
+                  <OverlayTrigger placement='right' overlay={tooltip}>
+                    <i className='fa fa-remove'></i>
+                  </OverlayTrigger>
+                </a>
               </td>
             </tr>
           )
