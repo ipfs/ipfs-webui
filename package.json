@@ -64,12 +64,6 @@
     "lint": "eslint .",
     "build": "NODE_ENV=production webpack"
   },
-  "standard": {
-    "ignore": [
-      "versions",
-      "js/include"
-    ]
-  },
   "pre-commit": [
     "lint"
   ],
