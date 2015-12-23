@@ -1,4 +1,3 @@
-'use strict'
 // var Router = require('react-router')
 var $ = require('jquery')
 

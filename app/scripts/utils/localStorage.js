@@ -1,4 +1,3 @@
-'use strict'
 var _ = require('lodash')
 
 // Utility to make interacting with localstorage less painful.

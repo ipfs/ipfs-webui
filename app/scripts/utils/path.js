@@ -1,5 +1,3 @@
-'use strict'
-
 function Path (protocol, name, path) {
   this.protocol = protocol
   this.name = name

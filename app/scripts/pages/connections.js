@@ -1,4 +1,3 @@
-'use strict'
 var React = require('react')
 var ConnectionList = require('../views/connectionlist')
 var Globe = require('../views/globe')

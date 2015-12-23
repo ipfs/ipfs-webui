@@ -1,4 +1,3 @@
-'use strict'
 /**
  * dat.globe Javascript WebGL Globe Toolkit
  * http://dataarts.github.com/dat.globe
