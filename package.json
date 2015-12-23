@@ -9,7 +9,6 @@
     "font-awesome": "^4.5.0",
     "i18next-client": "^1.11.1",
     "ipfs-api": "^2.10.0",
-    "ipfs-geoip": "^1.4.5",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
     "react": "^0.14.2",

@@ -1,6 +1,6 @@
 var React = require('react')
 var Peer = require('../views/peer')
-var getLocation = require('ipfs-geoip').lookupPretty
+// var getLocation = require('ipfs-geoip').lookupPretty
 var i18n = require('../utils/i18n.js')
 
 var Home = React.createClass({
@@ -16,15 +16,15 @@ var Home = React.createClass({
         }
       })
 
-      getLocation(t.props.ipfs, peer.Addresses, function (err, location) {
-        if (err || !location) return console.error(err)
-        t.setState({
-          node: {
-            peer: peer,
-            location: location
-          }
-        })
-      })
+      // getLocation(t.props.ipfs, peer.Addresses, function (err, location) {
+      //   if (err || !location) return console.error(err)
+      //   t.setState({
+      //     node: {
+      //       peer: peer,
+      //       location: location
+      //     }
+      //   })
+      // })
     })
 
     // Fix: The request always fails, not sure why (was broken before already)

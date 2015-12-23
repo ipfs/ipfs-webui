@@ -2,7 +2,7 @@
 var React = require('react')
 var ConnectionList = require('../views/connectionlist')
 var Globe = require('../views/globe')
-var getLocation = require('ipfs-geoip').lookupPretty
+// var getLocation = require('ipfs-geoip').lookupPretty
 var i18n = require('../utils/i18n.js')
 
 var Connections = React.createClass({
@@ -42,28 +42,28 @@ var Connections = React.createClass({
           peer.ipfs = t.props.ipfs
           peer.location = { formatted: '' }
 
-          var location = t.state.locations[peer.ID]
-          if (!location) {
-            t.state.locations[peer.ID] = {}
-            t.props.ipfs.id(peer.ID, function (err, id) {
-              if (err) return console.error(err)
+          // var location = t.state.locations[peer.ID]
+          // if (!location) {
+          //   t.state.locations[peer.ID] = {}
+          //   t.props.ipfs.id(peer.ID, function (err, id) {
+          //     if (err) return console.error(err)
 
-              getLocation(t.props.ipfs, id.Addresses, function (err, res) {
-                if (err) return console.error(err)
-                // If we've unmounted, abort
-                if (!t.isMounted()) return
+          //     getLocation(t.props.ipfs, id.Addresses, function (err, res) {
+          //       if (err) return console.error(err)
+          //       // If we've unmounted, abort
+          //       if (!t.isMounted()) return
 
-                res = res || {}
-                peer.location = res
-                t.state.locations[peer.ID] = res
-                t.setState({
-                  peers: peers,
-                  locations: t.state.locations,
-                  nonce: t.state.nonce++
-                })
-              })
-            })
-          }
+          //       res = res || {}
+          //       peer.location = res
+          //       t.state.locations[peer.ID] = res
+          //       t.setState({
+          //         peers: peers,
+          //         locations: t.state.locations,
+          //         nonce: t.state.nonce++
+          //       })
+          //     })
+          //   })
+          // }
         })
       })
     }
