@@ -2,7 +2,7 @@ var createConfig = require('hjs-webpack')
 
 var config = createConfig({
   in: './app/scripts/main.js',
-  out: 'public',
+  out: 'dist',
   clearBeforeBuild: '!(locale|img|favicon.ico)'
 })
 

@@ -20,5 +20,5 @@ $ npm start
 
 ```bash
 $ npm run build
-# The result will be in /public
+# The result will be in /dist
 ```

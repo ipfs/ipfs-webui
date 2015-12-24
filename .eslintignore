@@ -1,4 +1,4 @@
 app/scripts/include/*.js
 node_modules
 versions
-public
+dist
