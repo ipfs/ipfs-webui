@@ -1,4 +1,4 @@
-var _ = require('lodash')
+import _ from 'lodash'
 
 // Utility to make interacting with localstorage less painful.
 var ls = process.browser && window.localStorage

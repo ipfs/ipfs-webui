@@ -1,6 +1,6 @@
-var React = require('react')
-var Link = require('react-router').Link
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import {Link} from 'react-router'
+import i18n from '../utils/i18n.js'
 
 var Nav = React.createClass({
   displayName: 'Nav',

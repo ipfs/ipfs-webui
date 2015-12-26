@@ -1,6 +1,6 @@
-var React = require('react')
-var FileList = require('../views/filelist')
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import FileList from '../views/filelist'
+import i18n from '../utils/i18n.js'
 
 module.exports = React.createClass({
   displayName: 'Bitswap',

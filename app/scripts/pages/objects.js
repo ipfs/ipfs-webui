@@ -1,9 +1,9 @@
-var React = require('react')
-var Router = require('react-router')
-var $ = require('jquery')
-var ObjectView = require('../views/object')
-var upath = require('../utils/path.js')
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import Router from 'react-router'
+import $ from 'jquery'
+import ObjectView from '../views/object'
+import upath from '../utils/path.js'
+import i18n from '../utils/i18n.js'
 
 module.exports = React.createClass({
   displayName: 'Objects',

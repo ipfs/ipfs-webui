@@ -1,5 +1,5 @@
-// var Router = require('react-router')
-var $ = require('jquery')
+// import Router from 'react-router'
+import $ from 'jquery'
 
 function linkHandler () {
   var external = /^(https?:)?\/\//i

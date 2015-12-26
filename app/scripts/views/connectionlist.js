@@ -1,5 +1,5 @@
-var React = require('react')
-var Connection = require('./connection')
+import React from 'react'
+import Connection from './connection'
 
 var ConnectionList = React.createClass({
   displayName: 'ConnectionList',

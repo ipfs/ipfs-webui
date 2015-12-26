@@ -1,5 +1,5 @@
-var React = require('react')
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import i18n from '../utils/i18n.js'
 
 var Peer = React.createClass({
   displayName: 'Peer',

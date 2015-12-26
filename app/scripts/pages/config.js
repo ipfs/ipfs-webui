@@ -1,5 +1,5 @@
-var React = require('react')
-var ConfigView = require('../views/config')
+import React from 'react'
+import ConfigView from '../views/config'
 
 var Config = React.createClass({
   displayName: 'Config',
@@ -7,16 +7,11 @@ var Config = React.createClass({
     ipfs: React.PropTypes.object
   },
   getInitialState: function () {
-    var t = this
-    t.props.ipfs.config.show(function (err, configStream) {
-      if (err) console.log(err)
+    this.props.ipfs.config.show((err, configStream) => {
+      if (err) return console.log(err)
 
-      var config = ''
-      configStream.on('data', function (chunk) {
-        config += chunk.toString()
-      })
-      configStream.on('end', function () {
-        t.setState({config: JSON.parse(config)})
+      this.setState({
+        config: JSON.parse(configStream.toString())
       })
     })
 

@@ -1,5 +1,5 @@
-var React = require('react')
-var DHTGraph = require('../views/dhtgraph')
+import React from 'react'
+import DHTGraph from '../views/dhtgraph'
 
 var base58Chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 var base58Index = {}

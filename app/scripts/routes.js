@@ -1,19 +1,16 @@
-var React = require('react')
-var Router = require('react-router')
-var Route = Router.Route
-var DefaultRoute = Router.DefaultRoute
-var NotFoundRoute = Router.NotFoundRoute
-var Redirect = Router.Redirect
-var Page = require('./views/page')
-var HomePage = require('./pages/home')
-var ConnectionsPage = require('./pages/connections')
-var FilesPage = require('./pages/files')
-var ObjectsPage = require('./pages/objects')
-var BitswapPage = require('./pages/bitswap')
-var RoutingPage = require('./pages/routing')
-var ConfigPage = require('./pages/config')
-var LogPage = require('./pages/logs')
-var NotFoundPage = require('./pages/notfound')
+import React from 'react'
+import {Route, DefaultRoute, NotFoundRoute, Redirect} from 'react-router'
+
+import Page from './views/page'
+import HomePage from './pages/home'
+import ConnectionsPage from './pages/connections'
+import FilesPage from './pages/files'
+import ObjectsPage from './pages/objects'
+import BitswapPage from './pages/bitswap'
+import RoutingPage from './pages/routing'
+import ConfigPage from './pages/config'
+import LogPage from './pages/logs'
+import NotFoundPage from './pages/notfound'
 
 require('../styles/bundle.less')
 

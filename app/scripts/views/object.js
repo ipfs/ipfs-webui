@@ -1,7 +1,7 @@
-var React = require('react')
-var Link = require('react-router').Link
-var upath = require('../utils/path.js')
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import {Link} from 'react-router'
+import upath from '../utils/path.js'
+import i18n from '../utils/i18n.js'
 
 var ObjectView = React.createClass({
   displayName: 'ObjectView',

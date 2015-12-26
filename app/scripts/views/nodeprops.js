@@ -1,6 +1,6 @@
-var React = require('react')
-var PropTable = require('./proptable')
-var addr = require('./typography').addr
+import React from 'react'
+import PropTable from './proptable'
+import {addr} from './typography'
 
 var NodeProps = React.createClass({
 

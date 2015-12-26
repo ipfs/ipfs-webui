@@ -1,8 +1,8 @@
-var React = require('react')
-var ConnectionList = require('../views/connectionlist')
-var Globe = require('../views/globe')
-// var getLocation = require('ipfs-geoip').lookupPretty
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import ConnectionList from '../views/connectionlist'
+import Globe from '../views/globe'
+// import {lookupPretty as getLocation} from 'ipfs-geoip'
+import i18n from '../utils/i18n.js'
 
 var Connections = React.createClass({
   displayName: 'Connections',

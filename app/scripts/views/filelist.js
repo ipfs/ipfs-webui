@@ -1,7 +1,7 @@
-var React = require('react')
-var $ = require('jquery')
-var i18n = require('../utils/i18n.js')
-var {Table, Tooltip, OverlayTrigger} = require('react-bootstrap')
+import React from 'react'
+import $ from 'jquery'
+import i18n from '../utils/i18n.js'
+import {Table, Tooltip, OverlayTrigger} from 'react-bootstrap'
 
 var FileList = React.createClass({
   displayName: 'FileList',

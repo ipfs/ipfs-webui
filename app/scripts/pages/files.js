@@ -1,9 +1,9 @@
-var React = require('react')
-var ReactDOM = require('react-dom')
-var FileList = require('../views/filelist')
-var LocalStorage = require('../utils/localStorage')
-var $ = require('jquery')
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import FileList from '../views/filelist'
+import LocalStorage from '../utils/localStorage'
+import $ from 'jquery'
+import i18n from '../utils/i18n.js'
 
 var Files = React.createClass({
   displayName: 'Files',

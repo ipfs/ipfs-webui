@@ -1,11 +1,12 @@
-var React = require('react')
-var DATGlobe = require('../include/globe.js')
-var LocalStorageMixin = require('react-localstorage')
-var debug = require('debug')('ipfs:pages:connections')
-var _ = require('lodash')
+import React from 'react'
+import DATGlobe from '../include/globe.js'
+import LocalStorageMixin from 'react-localstorage'
+import Debug from 'debug'
+import _ from 'lodash'
 // Displays webgl warning message if not present
 require('../include/Detector.js')
 
+const debug = Debug('ipfs:pages:connections')
 var Globe = React.createClass({
   displayName: 'Globe',
   propTypes: {

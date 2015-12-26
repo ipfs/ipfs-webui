@@ -1,5 +1,5 @@
-var React = require('react')
-var Peer = require('./peer')
+import React from 'react'
+import Peer from './peer'
 
 var Connection = React.createClass({
   displayName: 'Connection',

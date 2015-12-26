@@ -1,10 +1,9 @@
-var React = require('react')
-var ReactDOM = require('react-dom')
-var Nav = require('./nav')
-var RouteHandler = require('react-router').RouteHandler
-var Link = require('react-router').Link
-var $ = require('jquery')
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Nav from './nav'
+import {RouteHandler, Link} from 'react-router'
+import $ from 'jquery'
+import i18n from '../utils/i18n.js'
 
 var host = window.location.hostname
 var port = window.location.port || 80

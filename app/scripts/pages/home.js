@@ -1,7 +1,7 @@
-var React = require('react')
-var Peer = require('../views/peer')
-// var getLocation = require('ipfs-geoip').lookupPretty
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import Peer from '../views/peer'
+// import {lookupPretty as getLocation} from 'ipfs-geoip'
+import i18n from '../utils/i18n.js'
 
 var Home = React.createClass({
   displayName: 'Home',

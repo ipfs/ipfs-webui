@@ -11,7 +11,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-var THREE = require('three')
+import THREE from 'three'
 
 module.exports = function (container, opts) {
   opts = opts || {}

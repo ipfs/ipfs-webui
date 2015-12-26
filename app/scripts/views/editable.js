@@ -1,5 +1,5 @@
-var React = require('react')
-var $ = require('jquery')
+import React from 'react'
+import $ from 'jquery'
 
 function format (value) {
   value = value.trim()

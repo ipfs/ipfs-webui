@@ -1,5 +1,5 @@
-var React = require('react')
-var Table = require('react-bootstrap/lib/Table')
+import React from 'react'
+import Table from 'react-bootstrap/lib/Table'
 
 var PropTable = React.createClass({
   displayName: 'PropTable',

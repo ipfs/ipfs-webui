@@ -1,9 +1,9 @@
-var React = require('react')
-var ReactDOM = require('react-dom')
-var Router = require('react-router')
-var routes = require('./routes')
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Router from 'react-router'
+import routes from './routes'
 
-// var linkHandler = require('./linkhandler.js')
+// import linkHandler from './linkhandler.js'
 if (process.env.NODE_ENV !== 'production') {
   window.uiDebug = require('debug')
 }

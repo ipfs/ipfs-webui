@@ -1,6 +1,6 @@
-var React = require('react')
-var Table = require('react-bootstrap/lib/Table')
-var addr = require('./typography').addr
+import React from 'react'
+import Table from 'react-bootstrap/lib/Table'
+import {addr} from './typography'
 
 module.exports = React.createClass({
   displayName: 'Table',

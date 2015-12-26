@@ -1,6 +1,6 @@
-var React = require('react')
-var TabbedArea = require('react-bootstrap/lib/TabbedArea')
-var TabPane = require('react-bootstrap/lib/TabPane')
+import React from 'react'
+import TabbedArea from 'react-bootstrap/lib/TabbedArea'
+import TabPane from 'react-bootstrap/lib/TabPane'
 
 var Swarmvis = React.createClass({
   displayName: 'Swarmvis',
