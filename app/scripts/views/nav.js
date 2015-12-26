@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router'
 import i18n from '../utils/i18n.js'
 
-var Nav = React.createClass({
+export default React.createClass({
   displayName: 'Nav',
   render: function () {
     return (
@@ -43,5 +43,3 @@ var Nav = React.createClass({
     )
   }
 })
-
-module.exports = Nav

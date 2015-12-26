@@ -2,7 +2,7 @@ import React from 'react'
 import TabbedArea from 'react-bootstrap/lib/TabbedArea'
 import TabPane from 'react-bootstrap/lib/TabPane'
 
-var Swarmvis = React.createClass({
+export default React.createClass({
   displayName: 'Swarmvis',
   render: function () {
     return (
@@ -23,5 +23,3 @@ var Swarmvis = React.createClass({
     )
   }
 })
-
-module.exports = Swarmvis

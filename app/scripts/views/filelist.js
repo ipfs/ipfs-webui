@@ -3,7 +3,7 @@ import $ from 'jquery'
 import i18n from '../utils/i18n.js'
 import {Table, Tooltip, OverlayTrigger} from 'react-bootstrap'
 
-var FileList = React.createClass({
+export default React.createClass({
   displayName: 'FileList',
   propTypes: {
     ipfs: React.PropTypes.object,
@@ -81,5 +81,3 @@ var FileList = React.createClass({
     )
   }
 })
-
-module.exports = FileList

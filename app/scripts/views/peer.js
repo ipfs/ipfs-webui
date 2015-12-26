@@ -1,7 +1,7 @@
 import React from 'react'
 import i18n from '../utils/i18n.js'
 
-var Peer = React.createClass({
+export default React.createClass({
   displayName: 'Peer',
   propTypes: {
     peer: React.PropTypes.object,
@@ -46,5 +46,3 @@ var Peer = React.createClass({
     )
   }
 })
-
-module.exports = Peer

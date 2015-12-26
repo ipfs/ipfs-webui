@@ -1,7 +1,7 @@
 import React from 'react'
 import Table from 'react-bootstrap/lib/Table'
 
-var PropTable = React.createClass({
+export default React.createClass({
   displayName: 'PropTable',
   propTypes: {
     table: React.PropTypes.array,
@@ -25,5 +25,3 @@ var PropTable = React.createClass({
     )
   }
 })
-
-module.exports = PropTable

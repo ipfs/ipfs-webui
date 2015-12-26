@@ -5,7 +5,7 @@ import ObjectView from '../views/object'
 import upath from '../utils/path.js'
 import i18n from '../utils/i18n.js'
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName: 'Objects',
   propTypes: {
     gateway: React.PropTypes.string

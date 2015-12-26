@@ -2,7 +2,7 @@ import React from 'react'
 import Table from 'react-bootstrap/lib/Table'
 import {addr} from './typography'
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName: 'Table',
   propTypes: {
     table: React.PropTypes.array,

@@ -24,4 +24,4 @@ i18next
     nsseparator: '>'
   })
 
-module.exports = i18next
+export default i18next

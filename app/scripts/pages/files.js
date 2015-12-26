@@ -5,7 +5,7 @@ import LocalStorage from '../utils/localStorage'
 import $ from 'jquery'
 import i18n from '../utils/i18n.js'
 
-var Files = React.createClass({
+export default React.createClass({
   displayName: 'Files',
   propTypes: {
     ipfs: React.PropTypes.object,
@@ -183,5 +183,3 @@ var Files = React.createClass({
     )
   }
 })
-
-module.exports = Files

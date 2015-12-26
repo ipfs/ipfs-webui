@@ -1,7 +1,7 @@
 // import Router from 'react-router'
 import $ from 'jquery'
 
-function linkHandler () {
+export default function linkHandler () {
   var external = /^(https?:)?\/\//i
   var staticLink = /^\/static\//i
 
@@ -19,5 +19,3 @@ function linkHandler () {
     return false
   })
 }
-
-module.exports = linkHandler

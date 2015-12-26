@@ -3,7 +3,7 @@ import i18n from '../utils/i18n.js'
 
 // var MAXSIZE = 1000
 
-var Logs = React.createClass({
+export default React.createClass({
   displayName: 'Logs',
   propTypes: {
     ipfs: React.PropTypes.object,
@@ -91,5 +91,3 @@ var Logs = React.createClass({
     )
   }
 })
-
-module.exports = Logs

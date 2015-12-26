@@ -6,7 +6,7 @@ var radius = diameter / 2
 var margin = 60
 var center = radius + margin / 2
 
-var DHTGraph = React.createClass({
+export default React.createClass({
   displayName: 'DHTGraph',
   propTypes: {
     peers: React.PropTypes.array
@@ -87,5 +87,3 @@ var DHTGraph = React.createClass({
     return <div className='dht-graph centered'></div>
   }
 })
-
-module.exports = DHTGraph

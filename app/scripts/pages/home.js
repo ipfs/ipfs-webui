@@ -3,7 +3,7 @@ import Peer from '../views/peer'
 // import {lookupPretty as getLocation} from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
 
-var Home = React.createClass({
+export default React.createClass({
   displayName: 'Home',
   getInitialState: function () {
     var t = this
@@ -89,5 +89,3 @@ var Home = React.createClass({
     )
   }
 })
-
-module.exports = Home

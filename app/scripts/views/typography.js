@@ -1,6 +1,5 @@
 import React from 'react'
 
-var t = module.exports = {}
-t.addr = function (addr) {
+export function addr (addr) {
   return <code className='webui-address'>{addr}</code>
 }

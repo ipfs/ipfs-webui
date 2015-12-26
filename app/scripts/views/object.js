@@ -3,7 +3,7 @@ import {Link} from 'react-router'
 import upath from '../utils/path.js'
 import i18n from '../utils/i18n.js'
 
-var ObjectView = React.createClass({
+export default React.createClass({
   displayName: 'ObjectView',
   propTypes: {
     path: React.PropTypes.object,
@@ -118,5 +118,3 @@ var ObjectView = React.createClass({
     )
   }
 })
-
-module.exports = ObjectView

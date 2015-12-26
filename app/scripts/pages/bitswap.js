@@ -2,7 +2,7 @@ import React from 'react'
 import FileList from '../views/filelist'
 import i18n from '../utils/i18n.js'
 
-module.exports = React.createClass({
+export default React.createClass({
   displayName: 'Bitswap',
   propTypes: {
     pollInterval: React.PropTypes.func

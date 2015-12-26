@@ -1,7 +1,7 @@
 import React from 'react'
 import ConfigView from '../views/config'
 
-var Config = React.createClass({
+export default React.createClass({
   displayName: 'Config',
   propTypes: {
     ipfs: React.PropTypes.object
@@ -32,5 +32,3 @@ var Config = React.createClass({
     )
   }
 })
-
-module.exports = Config

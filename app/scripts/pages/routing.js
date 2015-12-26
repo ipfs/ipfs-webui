@@ -16,7 +16,7 @@ function idToAngle (id) {
   return angle * Math.PI * 2
 }
 
-var Routing = React.createClass({
+export default React.createClass({
   displayName: 'Routing',
   propTypes: {
     ipfs: React.PropTypes.object
@@ -59,5 +59,3 @@ var Routing = React.createClass({
     )
   }
 })
-
-module.exports = Routing

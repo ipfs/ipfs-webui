@@ -14,7 +14,7 @@ import NotFoundPage from './pages/notfound'
 
 require('../styles/bundle.less')
 
-module.exports = (
+export default (
   <Route handler={Page} path='/'>
     <DefaultRoute name='home' handler={HomePage} />
     <Route name='connections' handler={ConnectionsPage} />

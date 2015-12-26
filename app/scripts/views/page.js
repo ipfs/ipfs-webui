@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 var ipfs = require('ipfs-api')(host, port)
 var ipfsHost = window.location.host
 
-var Page = React.createClass({
+export default React.createClass({
   displayName: 'Page',
   getInitialState: function () {
     var t = this
@@ -142,5 +142,3 @@ var Page = React.createClass({
     )
   }
 })
-
-module.exports = Page

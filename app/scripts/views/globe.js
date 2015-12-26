@@ -7,7 +7,8 @@ import _ from 'lodash'
 require('../include/Detector.js')
 
 const debug = Debug('ipfs:pages:connections')
-var Globe = React.createClass({
+
+export default React.createClass({
   displayName: 'Globe',
   propTypes: {
     peers: React.PropTypes.array
@@ -88,5 +89,3 @@ var Globe = React.createClass({
     )
   }
 })
-
-module.exports = Globe

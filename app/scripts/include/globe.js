@@ -13,7 +13,7 @@
 
 import THREE from 'three'
 
-module.exports = function (container, opts) {
+export default function (container, opts) {
   opts = opts || {}
 
   var colorFn = opts.colorFn || function (x) {

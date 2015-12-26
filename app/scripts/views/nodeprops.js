@@ -2,8 +2,7 @@ import React from 'react'
 import PropTable from './proptable'
 import {addr} from './typography'
 
-var NodeProps = React.createClass({
-
+export default React.createClass({
   render: function () {
     var node = this.props || {}
     console.log(node)
@@ -15,5 +14,3 @@ var NodeProps = React.createClass({
     return PropTable({ table: table })
   }
 })
-
-module.exports = NodeProps

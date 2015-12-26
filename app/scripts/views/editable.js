@@ -7,7 +7,7 @@ function format (value) {
   return value
 }
 
-var Editable = React.createClass({
+export default React.createClass({
   displayName: 'Editable',
   propTypes: {
     ipfs: React.PropTypes.object,
@@ -73,5 +73,3 @@ var Editable = React.createClass({
     )
   }
 })
-
-module.exports = Editable

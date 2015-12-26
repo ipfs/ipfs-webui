@@ -1,7 +1,7 @@
 import React from 'react'
 import Peer from './peer'
 
-var Connection = React.createClass({
+export default React.createClass({
   displayName: 'Connection',
   propTypes: {
     location: React.PropTypes.object,
@@ -52,5 +52,3 @@ var Connection = React.createClass({
     )
   }
 })
-
-module.exports = Connection

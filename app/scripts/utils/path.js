@@ -25,28 +25,26 @@ function Path (protocol, name, path) {
   }
 }
 
-module.exports = {
-  parse: function (string) {
-    if (!string) return null
-    if (string[0] === '\\') {
-      string = string.replace(/[\\]/g, '/')
-    }
-    var proto, name, path
-    var parts = string.split('/')
-
-    if (!parts[0]) {
-      proto = parts[1]
-      name = parts[2]
-      path = parts.slice(3).join('/')
-    } else {
-      proto = 'ipfs'
-      name = parts[0]
-      path = parts.slice(1).join('/')
-    }
-    if (path) {
-      path = '/' + path
-    }
-
-    return new Path(proto, name, path)
+export function parse (string) {
+  if (!string) return null
+  if (string[0] === '\\') {
+    string = string.replace(/[\\]/g, '/')
   }
+  var proto, name, path
+  var parts = string.split('/')
+
+  if (!parts[0]) {
+    proto = parts[1]
+    name = parts[2]
+    path = parts.slice(3).join('/')
+  } else {
+    proto = 'ipfs'
+    name = parts[0]
+    path = parts.slice(1).join('/')
+  }
+  if (path) {
+    path = '/' + path
+  }
+
+  return new Path(proto, name, path)
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import Connection from './connection'
 
-var ConnectionList = React.createClass({
+export default React.createClass({
   displayName: 'ConnectionList',
   propTypes: {
     peers: React.PropTypes.array
@@ -18,5 +18,3 @@ var ConnectionList = React.createClass({
     )
   }
 })
-
-module.exports = ConnectionList

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import $ from 'jquery'
 import i18n from '../utils/i18n.js'
 
-var ConfigView = React.createClass({
+export default React.createClass({
   displayName: 'ConfigView',
   propTypes: {
     config: React.PropTypes.object
@@ -125,5 +125,3 @@ var ConfigView = React.createClass({
     )
   }
 })
-
-module.exports = ConfigView

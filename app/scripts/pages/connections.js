@@ -4,7 +4,7 @@ import Globe from '../views/globe'
 // import {lookupPretty as getLocation} from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
 
-var Connections = React.createClass({
+export default React.createClass({
   displayName: 'Connections',
   propTypes: {
     peers: React.PropTypes.array
@@ -91,5 +91,3 @@ var Connections = React.createClass({
     )
   }
 })
-
-module.exports = Connections

@@ -1,7 +1,7 @@
 var React = require('react')
 var i18n = require('../utils/i18n.js')
 
-var NotFound = React.createClass({
+export default React.createClass({
   displayName: 'NotFound',
   render: function () {
     return (
@@ -17,5 +17,3 @@ var NotFound = React.createClass({
     )
   }
 })
-
-module.exports = NotFound
