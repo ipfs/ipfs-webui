@@ -54,7 +54,7 @@ export default React.createClass({
           var dagPath = '#/objects/object/' + file.id
 
           var tooltip = (
-            <Tooltip>{i18n.t('Remove')}</Tooltip>
+            <Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>
           )
 
           return (
