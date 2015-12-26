@@ -1,69 +1,72 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
+import ReactDOM from 'react-dom'
 import i18n from '../utils/i18n.js'
 
-// var MAXSIZE = 1000
+const MAXSIZE = 1000
 
-export default React.createClass({
-  displayName: 'Logs',
-  propTypes: {
-    ipfs: React.PropTypes.object,
-    host: React.PropTypes.string
-  },
-  getInitialState: function () {
-    // var t = this
-    var req = null
-    // TODO: fix this
-    // var req = this.props.ipfs.log.tail(function (err, stream) {
-    //   if (err) return console.error(err)
+export default class Logs extends Component {
+  static propTypes = {
+    ipfs: PropTypes.object,
+    host: PropTypes.string
+  }
 
-    //   var container = $(t.getDOMNode()).find('.textarea-panel').get(0)
+  state = {
+    log: [],
+    tailing: true,
+    nonce: 0,
+    request: null
+  }
 
-    //   stream.on('data', function (chunk) {
-    //     var parts = chunk.toString().split('}')
-    //     var buf = ''
+  _onLogData = chunk => {
+    this.setState(oldState => {
+      let log = oldState.log
 
-    //     parts.forEach(function (part) {
-    //       buf += part + '}'
-    //       try {
-    //         var obj = JSON.parse(buf)
-    //         t.state.log.push(obj)
-    //         if (t.state.log.length > MAXSIZE) t.state.log.shift()
-    //         t.setState({ log: t.state.log, nonce: t.state.nonce + 1 })
-    //         if (t.state.tailing) container.scrollTop = container.scrollHeight
-    //       } catch(e) {}
-    //     })
-    //   })
-    // })
+      if (log.length > MAXSIZE) log.shift()
 
-    return {
-      log: [{'webui logs': i18n.t('are temporarily disabled due to a logging bug. instead, use commandline (ipfs log)')}],
-      tailing: true,
-      nonce: 0,
-      request: req
-    }
-  },
+      log.push(chunk)
 
-  componentWillUnmount: function () {
+      return {
+        log,
+        nonce: oldState.nonce + 1
+      }
+    })
+  }
+
+  componentWillMount () {
+    const request = this.props.ipfs.log.tail((err, stream) => {
+      if (err) return console.error(err)
+      stream.on('data', this._onLogData)
+    })
+
+    this.setState({request})
+  }
+
+  componentWillUnmount () {
     if (this.state.request) {
       this.state.request.destroy()
+      this.setState({request: null})
     }
-  },
+  }
 
-  clear: function () {
-    // TODO: uncomment this when logs fixed.
-    // this.setState({ log: [] })
-  },
+  componentDidUpdate () {
+    if (this.state.tailing) {
+      const node = ReactDOM.findDOMNode(this)
+      const container = node.getElementsByClassName('textarea-panel')[0]
 
-  toggleTail: function () {
+      container.scrollTop = container.scrollHeight + 30
+    }
+  }
+
+  clear () {
+    this.setState({ log: [] })
+  }
+
+  toggleTail () {
     this.setState({ tailing: !this.state.tailing })
-  },
+  }
 
-  getUrl: function () {
-    return 'http://' + this.props.host + '/api/v0/log/tail?enc=text'
-  },
-
-  render: function () {
-    var buttons = (
+  render () {
+    const buttons = (
       <div className='buttons'>
         <button className='btn btn-second' onClick={this.clear}>{i18n.t('Clear')}</button>
         <button className={'btn btn-second ' + (this.state.tailing ? 'active' : '')}
@@ -78,10 +81,10 @@ export default React.createClass({
         <div className='actions'>{buttons}</div>
         <br/>
 
-        <div className='textarea-panel panel panel-default padded' style={{height: '600px'}}>
-          {this.state.log.map(function (event) {
-            return <pre key={event.time}>{JSON.stringify(event, null, '  ')}</pre>
-          })}
+        <div className='textarea-panel panel panel-default padded'>
+          {this.state.log.map(event => (
+            <pre key={event.time}>{JSON.stringify(event, null, '  ')}</pre>
+          ))}
         </div>
 
         <div className='pull-right'>{buttons}</div>
@@ -90,4 +93,4 @@ export default React.createClass({
     </div>
     )
   }
-})
+}
