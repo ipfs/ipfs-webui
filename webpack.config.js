@@ -21,4 +21,14 @@ config.externals = {
   'require-dir': '{}'
 }
 
+config.resolve = {
+  modulesDirectories: [
+    'node_modules'
+  ],
+  alias: {
+    http: 'stream-http',
+    https: 'https-browserify'
+  }
+}
+
 module.exports = config
