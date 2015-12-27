@@ -3,6 +3,7 @@ import ConnectionList from '../views/connectionlist'
 import Globe from '../views/globe'
 // import {lookupPretty as getLocation} from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
+import {Row, Col} from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Connections',
@@ -77,17 +78,17 @@ export default React.createClass({
 
   render: function () {
     return (
-      <div className='row'>
-        <div className='col-sm-6 globe-column'>
+      <Row>
+        <Col sm={6} className='globe-column'>
           <Globe peers={this.state.peers} />
-        </div>
-        <div className='col-sm-6'>
+        </Col>
+        <Col sm={6}>
           <h4>{i18n.t('Connected to X peer', { postProcess: 'sprintf', sprintf: [this.state.peers.length], count: this.state.peers.length })}</h4>
           <div>
             <ConnectionList peers={this.state.peers} />
           </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
     )
   }
 })

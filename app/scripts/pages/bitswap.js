@@ -1,6 +1,7 @@
 import React from 'react'
 import FileList from '../views/filelist'
 import i18n from '../utils/i18n.js'
+import {Row, Col, Panel} from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Bitswap',
@@ -33,8 +34,8 @@ export default React.createClass({
     var wantlist = this.state.wantlist
 
     return (
-      <div className='row'>
-        <div className='col-sm-10 col-sm-offset-1'>
+      <Row>
+        <Col sm={10} smOffset={1}>
           <h3>{i18n.t('Bitswap')}</h3>
           <br/>
 
@@ -43,13 +44,13 @@ export default React.createClass({
               <strong>{i18n.t('Wantlist')}</strong>&nbsp;
               <small>({i18n.t('X file', { postProcess: 'sprintf', sprintf: [wantlist.length], count: wantlist.length })})</small>
             </h4>
-            <div className='panel panel-default'>
+            <Panel bsStyle={'default'}>
               <FileList className='panel-inner' files={wantlist} namesHidden />
-            </div>
+            </Panel>
           </div>
           <br/>
-        </div>
-      </div>
+        </Col>
+      </Row>
     )
   }
 })

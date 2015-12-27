@@ -1,4 +1,5 @@
 import React from 'react'
+import {Row, Col} from 'react-bootstrap'
 import DHTGraph from '../views/dhtgraph'
 
 var base58Chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
@@ -51,11 +52,11 @@ export default React.createClass({
 
   render: function () {
     return (
-      <div className='row'>
-        <div className='col-sm-10 col-sm-offset-1'>
+      <Row>
+        <Col sm={10} smOffset={1}>
           <DHTGraph peers={this.state.peers}/>
-        </div>
-      </div>
+        </Col>
+      </Row>
     )
   }
 })

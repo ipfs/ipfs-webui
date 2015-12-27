@@ -4,6 +4,7 @@ import FileList from '../views/filelist'
 import LocalStorage from '../utils/localStorage'
 import $ from 'jquery'
 import i18n from '../utils/i18n.js'
+import {Row, Col, Nav, Panel} from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Files',
@@ -129,13 +130,13 @@ export default React.createClass({
     tab = tab.length >= 3 ? tab[2] : tab[1]
 
     return (
-  <div className='row'>
-    <div className='col-sm-10 col-sm-offset-1'>
-      <ul className='nav nav-tabs'>
+  <Row>
+    <Col sm={10} smOffset={1}>
+      <Nav bsStyle={'tabs'}>
         <li role='presentation' className={tab === 'files' ? 'active' : ''}><a href='#/files'>{i18n.t('Files')}</a></li>
         <li role='presentation' className={tab === 'pinned' ? 'active' : ''}><a href='#/files/pinned'>{i18n.t('Pinned')}</a></li>
         <li role='presentation' className={tab === 'all' ? 'active' : ''}><a href='#/files/all'>{i18n.t('All')}</a></li>
-      </ul>
+      </Nav>
 
       <div className={tab !== 'files' ? 'hidden' : ''}>
         <div className='file-add-container'>
@@ -160,26 +161,26 @@ export default React.createClass({
         </div>
         <br/>
 
-        <div className='panel panel-default'>
+        <Panel bsStyle={'default'}>
           <FileList files={this.state.files} ipfs={this.props.ipfs} gateway={this.props.gateway} />
-        </div>
+        </Panel>
       </div>
 
       <div className={tab !== 'pinned' ? 'hidden' : ''}>
         <h3>{i18n.t('Pinned Files')}</h3>
-        <div className='panel panel-default'>
+        <Panel bsStyle={'default'}>
           <FileList files={this.state.pinned} namesHidden ipfs={this.props.ipfs} gateway={this.props.gateway} />
-        </div>
+        </Panel>
       </div>
 
       <div className={tab !== 'all' ? 'hidden' : ''}>
         <h3>{i18n.t('All Local Files')}</h3>
-        <div className='panel panel-default'>
+        <Panel bsStyle={'default'}>
           <FileList files={this.state.local} namesHidden ipfs={this.props.ipfs} gateway={this.props.gateway} />
-        </div>
+        </Panel>
       </div>
-    </div>
-  </div>
+    </Col>
+  </Row>
     )
   }
 })

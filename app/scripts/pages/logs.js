@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 import i18n from '../utils/i18n.js'
+import {Row, Col} from 'react-bootstrap'
 
 const MAXSIZE = 1000
 
@@ -75,8 +76,8 @@ export default class Logs extends Component {
     )
 
     return (
-    <div className='row'>
-      <div className='col-sm-10 col-sm-offset-1 webui-logs'>
+    <Row>
+      <Col sm={10} smOffset={1} className={'webui-logs'}>
         <h3>{i18n.t('Event Log')}</h3>
         <div className='actions'>{buttons}</div>
         <br/>
@@ -89,8 +90,8 @@ export default class Logs extends Component {
 
         <div className='pull-right'>{buttons}</div>
         <br/>
-      </div>
-    </div>
+      </Col>
+    </Row>
     )
   }
 }
