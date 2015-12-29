@@ -12,7 +12,7 @@
     "ipfs-geoip": "1.4.5",
     "jquery": "2.1.4",
     "lodash": "3.10.1",
-    "react": "0.14.2",
+    "react": "0.14.5",
     "react-bootstrap": "0.27.3",
     "react-dom": "0.14.2",
     "react-localstorage": "0.2.8",
