@@ -8,6 +8,14 @@
 
 Make sure [node.js](https://nodejs.org/) and [npm](https://docs.npmjs.com/) are installed and in your path.
 
+When developing the WebUI you will need an ipfs daemon running with API access on port `5001`, as well as the following configuration set, otherwise you will not be able to communicate with the ipfs node.
+
+```bash
+$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000"]'
+$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
+$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'
+```
+
 ```bash
 $ git clone https://github.com/ipfs/webui
 $ cd webui
