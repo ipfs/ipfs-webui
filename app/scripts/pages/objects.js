@@ -4,6 +4,7 @@ import $ from 'jquery'
 import ObjectView from '../views/object'
 import upath from '../utils/path.js'
 import i18n from '../utils/i18n.js'
+import {Row, Col, Button} from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Objects',
@@ -99,26 +100,26 @@ export default React.createClass({
     var tab = params.tab
 
     return (
-      <div className='row'>
-        <div className='col-sm-10 col-sm-offset-1 webui-dag'>
-          <div className='row'>
+      <Row>
+        <Col sm={10} smOffset={1} className={'webui-dag'}>
+          <Row>
             <h4>{i18n.t('Enter hash or path')}</h4>
-            <div className='path row'>
-              <div className='col-xs-10'>
+            <Row className='path'>
+              <Col xs={10}>
                 <input type='text' className='form-control input-lg' onChange={this.updatePath} onKeyPress={this.update} value={this.state.pathInput} placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')}/>
-              </div>
-              <div className='col-xs-2'>
-                <button className='btn btn-primary go'
+              </Col>
+              <Col xs={2}>
+                <Button bsStyle={'primary'} className={'go'}
                         onClick={this.update}>
                   {i18n.t('GO')}
-                </button>
-              </div>
-            </div>
-          </div>
+                </Button>
+              </Col>
+            </Row>
+          </Row>
           {error}
           {views[tab]}
-        </div>
-      </div>
+        </Col>
+      </Row>
     )
   }
 })

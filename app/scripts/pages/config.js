@@ -1,5 +1,6 @@
 import React from 'react'
 import ConfigView from '../views/config'
+import {Row, Col} from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Config',
@@ -24,11 +25,11 @@ export default React.createClass({
       : null
 
     return (
-      <div className='row'>
-        <div className='col-sm-10 col-sm-offset-1'>
+      <Row>
+        <Col sm={10} smOffset={1}>
           {config}
-        </div>
-      </div>
+        </Col>
+      </Row>
     )
   }
 })

@@ -2,6 +2,7 @@ import React from 'react'
 import Peer from '../views/peer'
 // import {lookupPretty as getLocation} from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
+import {Row, Col, Well} from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Home',
@@ -67,13 +68,13 @@ export default React.createClass({
     }
 
     return (
-      <div className='row'>
-        <div className='col-sm-10 col-sm-offset-1'>
+      <Row>
+        <Col sm={10} smOffset={1}>
 
           <h3>{i18n.t('Node Info')}</h3>
           <Peer {...this.state.node} />
 
-          <div className='well hidden'>
+          <Well className='hidden'>
             <h4>{i18n.t('HTTP Gateway')}</h4>
             <div className='checkbox'>
               <label>
@@ -82,10 +83,10 @@ export default React.createClass({
               </label>
             </div>
             {gatewayLink}
-          </div>
+          </Well>
 
-        </div>
-      </div>
+        </Col>
+      </Row>
     )
   }
 })
