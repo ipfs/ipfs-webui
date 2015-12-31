@@ -1,12 +1,11 @@
 // import Router from 'react-router'
-import $ from 'jquery'
 
 export default function linkHandler () {
   var external = /^(https?:)?\/\//i
   var staticLink = /^\/static\//i
 
-  $(document.body).on('click', 'a', function (event) {
-    var href = $(this).attr('href')
+  document.body.getElementByTagName('a').onclick = function (event) {
+    var href = this.getAttribute('href')
     console.log(href)
 
     // pass through if external or static
@@ -17,5 +16,5 @@ export default function linkHandler () {
 
     event.preventDefault()
     return false
-  })
+  }
 }
