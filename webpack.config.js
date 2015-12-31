@@ -3,6 +3,11 @@ var createConfig = require('hjs-webpack')
 var config = createConfig({
   in: './app/scripts/main.js',
   out: 'dist',
+  html: function (ctx) {
+    return ctx.defaultTemplate({
+      publicPath: ''
+    })
+  },
   clearBeforeBuild: '!(locale|img|favicon.ico)'
 })
 
