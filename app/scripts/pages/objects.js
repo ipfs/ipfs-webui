@@ -2,7 +2,7 @@ import React from 'react'
 import Router from 'react-router'
 import $ from 'jquery'
 import ObjectView from '../views/object'
-import upath from '../utils/path.js'
+import {parse} from '../utils/path.js'
 import i18n from '../utils/i18n.js'
 import {Row, Col, Button} from 'react-bootstrap'
 
@@ -25,7 +25,7 @@ export default React.createClass({
     var params = this.context.router.getCurrentParams()
     var state = {}
     if (params.path) {
-      var path = upath.parse(params.path)
+      var path = parse(params.path)
       state.path = path
       this.getObject(state.path)
       state.pathInput = path.toString()
@@ -52,7 +52,7 @@ export default React.createClass({
         // also resolve the name
         t.props.ipfs.name.resolve(path.name, function (err, resolved) {
           if (err) return t.setState({ error: err })
-          var permalink = upath.parse(resolved.Path).append(path.path)
+          var permalink = parse(resolved.Path).append(path.path)
           t.setState({ permalink: permalink })
         })
       }
@@ -67,7 +67,7 @@ export default React.createClass({
   update: function (e) {
     if (e.which && e.which !== 13) return
     var params = this.context.router.getCurrentParams()
-    params.path = upath.parse(this.state.pathInput).urlify()
+    params.path = parse(this.state.pathInput).urlify()
     this.context.router.transitionTo('objects', params)
   },
 
