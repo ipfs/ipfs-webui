@@ -9,7 +9,7 @@ export default React.createClass({
   },
   getInitialState: function () {
     this.props.ipfs.config.show((err, configStream) => {
-      if (err) return console.log(err)
+      if (err) return console.error(err)
 
       this.setState({
         config: JSON.parse(configStream.toString())

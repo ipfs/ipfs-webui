@@ -20,7 +20,7 @@ export default React.createClass({
     if (!hash) hash = el.parent().attr('data-hash')
 
     this.props.ipfs.pin.remove(hash, {r: true}, function (err, res) {
-      console.log(err, res)
+      if (err) return console.error(err)
     })
   },
 

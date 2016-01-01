@@ -1,6 +1,10 @@
 import React from 'react'
 import {Row, Col} from 'react-bootstrap'
+import debug from 'debug'
+
 import DHTGraph from '../views/dhtgraph'
+
+const log = debug('pages:routing')
 
 var base58Chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 var base58Index = {}
@@ -40,7 +44,7 @@ export default React.createClass({
           }
         })
 
-        console.log(peers)
+        log('peers', peers)
         t.setState({ peers: peers })
       })
     })

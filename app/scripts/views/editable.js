@@ -1,5 +1,8 @@
 import React from 'react'
 import $ from 'jquery'
+import debug from 'debug'
+
+const log = debug('editable')
 
 function format (value) {
   value = value.trim()
@@ -56,10 +59,10 @@ export default React.createClass({
 
   submit: function (value) {
     this.props.value = value
-    console.log(value)
 
     this.props.ipfs.config.set(this.props.key, value, function (err, res) {
-      console.log(err, res)
+      if (err) return console.error(err)
+      log('submitted:', res)
     })
   },
 
