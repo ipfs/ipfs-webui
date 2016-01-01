@@ -11,7 +11,7 @@ export default React.createClass({
 
   getInitialState: function () {
     return {
-      body: JSON.stringify(this.props.config, null, '\t'),
+      body: JSON.stringify(this.props.config, null, '  '),
       error: null,
       saving: false,
       saved: false
@@ -20,7 +20,7 @@ export default React.createClass({
 
   reset: function () {
     this.setState({
-      body: JSON.stringify(this.props.config, null, '\t'),
+      body: JSON.stringify(this.props.config, null, '  '),
       error: null
     })
   },

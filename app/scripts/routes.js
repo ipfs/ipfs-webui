@@ -12,8 +12,6 @@ import ConfigPage from './pages/config'
 import LogPage from './pages/logs'
 import NotFoundPage from './pages/notfound'
 
-require('../styles/bundle.less')
-
 export default (
   <Route handler={Page} path='/'>
     <DefaultRoute name='home' handler={HomePage} />
