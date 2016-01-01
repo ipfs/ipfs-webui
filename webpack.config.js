@@ -1,7 +1,7 @@
 var createConfig = require('hjs-webpack')
 
 var config = createConfig({
-  in: './app/scripts/main.js',
+  in: './app/scripts/app.js',
   out: 'dist',
   html: function (ctx) {
     return ctx.defaultTemplate({
