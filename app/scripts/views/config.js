@@ -11,7 +11,7 @@ export default React.createClass({
 
   getInitialState: function () {
     return {
-      body: JSON.stringify(this.props.config, null, '  '),
+      body: JSON.stringify(this.props.config, null, 2),
       error: null,
       saving: false,
       saved: false
@@ -20,7 +20,7 @@ export default React.createClass({
 
   reset: function () {
     this.setState({
-      body: JSON.stringify(this.props.config, null, '  '),
+      body: JSON.stringify(this.props.config, null, 2),
       error: null
     })
   },
@@ -59,8 +59,6 @@ export default React.createClass({
       body: t.state.body,
       saving: true
     })
-
-    console.log(t.state.body)
 
     t.props.ipfs.config.replace(new Buffer(t.state.body), function (err) {
       var newState = { saving: false }
