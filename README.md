@@ -9,7 +9,7 @@
 
 > The web interface for [IPFS](https://ipfs.io/)
 
-IPFS Webui is a web interface for IPFS, the Interplanetary File System. With the interface, you can check on your node info, network addresses, see connections on a globe visually, seee your files, look at your config and logs without needing to touch the CLI, and more. This interface uses the [js-ipfs-api](//github.com/ipfs/js-ipfs-api) for all of its heavy lifting.
+IPFS Webui is a web interface for IPFS, the Interplanetary File System. With the interface, you can check on your node info, network addresses, see connections on a globe visually, see your files, look at your config and logs without needing to touch the CLI, and more. This interface uses the [js-ipfs-api](//github.com/ipfs/js-ipfs-api) for all of its heavy lifting.
 
 The webui is a **work-in-progress**. Follow the [development](#development) processes below to check it out.
 
