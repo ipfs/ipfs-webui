@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, DefaultRoute, NotFoundRoute, Redirect} from 'react-router'
+import {Route, IndexRoute, Redirect} from 'react-router'
 
 import Page from './views/page'
 import HomePage from './pages/home'
@@ -13,18 +13,21 @@ import LogPage from './pages/logs'
 import NotFoundPage from './pages/notfound'
 
 export default (
-  <Route handler={Page} path='/'>
-    <DefaultRoute name='home' handler={HomePage} />
-    <Route name='connections' handler={ConnectionsPage} />
-    <Route name='files' handler={FilesPage} />
-    <Route name='files-pinned' path='/files/pinned' handler={FilesPage} />
-    <Route name='files-all' path='/files/all' handler={FilesPage} />
-    <Route name='objects' path='/objects/:tab/:path?' handler={ObjectsPage} />
-    <Route name='bitswap' handler={BitswapPage} />
-    <Route name='routing' handler={RoutingPage} />
-    <Route name='config' handler={ConfigPage} />
-    <Route name='logs' handler={LogPage} />
-    <NotFoundRoute handler={NotFoundPage} />
-    <Redirect from='/index.html' to='home' />
+  <Route component={Page} path='/'>
+    <IndexRoute component={HomePage}/>
+    <Route path='home' component={HomePage} />
+
+    <Route path='connections' component={ConnectionsPage} />
+    <Route path='files' component={FilesPage} />
+    <Route path='files/pinned' component={FilesPage} />
+    <Route path='files/all' component={FilesPage} />
+    <Route path='objects(/:path)' component={ObjectsPage} />
+    <Route path='bitswap' component={BitswapPage} />
+    <Route path='routing' component={RoutingPage} />
+    <Route path='config' component={ConfigPage} />
+    <Route path='logs' component={LogPage} />
+
+    <Route path='*' component={NotFoundPage} />
+    <Redirect from='/index.html' to='/home' />
   </Route>
 )

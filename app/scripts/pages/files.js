@@ -1,16 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import $ from 'jquery'
+import {Row, Col, Nav, NavItem, Panel} from 'react-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
+
 import FileList from '../views/filelist'
 import LocalStorage from '../utils/localStorage'
-import $ from 'jquery'
 import i18n from '../utils/i18n.js'
-import {Row, Col, Nav, Panel} from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Files',
   propTypes: {
     ipfs: React.PropTypes.object,
-    gateway: React.PropTypes.string
+    gateway: React.PropTypes.string,
+    location: React.PropTypes.object
   },
   getInitialState: function () {
     var t = this
@@ -125,62 +128,130 @@ export default React.createClass({
     // TODO
   },
 
-  render: function () {
-    var tab = window.location.hash.split('/')
-    tab = tab.length >= 3 ? tab[2] : tab[1]
+  _renderTitle () {
+    switch (this.props.location.pathname) {
+      case '/files':
+        return this._renderAdder()
+      case '/files/pinned':
+        return <h3>{i18n.t('Pinned Files')}</h3>
+      case '/files/all':
+        return <h3>{i18n.t('All Local Files')}</h3>
+      default:
+        return ''
+    }
+  },
 
+  _renderAdder () {
     return (
-  <Row>
-    <Col sm={10} smOffset={1}>
-      <Nav bsStyle={'tabs'}>
-        <li role='presentation' className={tab === 'files' ? 'active' : ''}><a href='#/files'>{i18n.t('Files')}</a></li>
-        <li role='presentation' className={tab === 'pinned' ? 'active' : ''}><a href='#/files/pinned'>{i18n.t('Pinned')}</a></li>
-        <li role='presentation' className={tab === 'all' ? 'active' : ''}><a href='#/files/all'>{i18n.t('All')}</a></li>
-      </Nav>
-
-      <div className={tab !== 'files' ? 'hidden' : ''}>
-        <div className='file-add-container'>
-          <div className='file-add-target' onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}></div>
-          <div className={'file-add-container-inner ' + (this.state.dragging ? 'hover' : '')}></div>
-          <div className={(this.state.dragging || this.state.confirm) ? 'hidden' : ''}>
-            <p><strong>{i18n.t('Drag-and-drop your files here')}</strong></p>
-            <p><span>{i18n.t('or')}</span></p>
-            <p>
-              <button className='btn btn-second add-file' onClick={this.addFile} onDragOver={this.onDragOver} onDragLeave={this.onDragLeave} onDrop={this.onDrop}>
-                {i18n.t('Select files...')}
-              </button>
-            </p>
-          </div>
-          <div className={!this.state.dragging ? 'hidden' : ''}>
-            <p><strong>{i18n.t('Drop your file here to add it to IPFS')}</strong></p>
-          </div>
-          <div className={!this.state.confirm ? 'hidden' : ''}>
-            <p><i className='fa fa-lg fa-thumbs-up'></i> {i18n.t('Added')} <strong>{this.state.confirm}</strong></p>
-          </div>
-          <input type='file' className='file-select' style={{display: 'none'}} onChange={this.onFileChange}/>
+      <div className='file-add-container'>
+        <div
+            className='file-add-target'
+            onDragOver={this.onDragOver}
+            onDragLeave={this.onDragLeave}
+            onDrop={this.onDrop}
+        >
         </div>
-        <br/>
-
-        <Panel bsStyle={'default'}>
-          <FileList files={this.state.files} ipfs={this.props.ipfs} gateway={this.props.gateway} />
-        </Panel>
+        <div className={'file-add-container-inner ' + (this.state.dragging ? 'hover' : '')}></div>
+        <div className={(this.state.dragging || this.state.confirm) ? 'hidden' : ''}>
+          <p>
+            <strong>{i18n.t('Drag-and-drop your files here')}</strong>
+          </p>
+          <p>
+            <span>{i18n.t('or')}</span>
+          </p>
+          <p>
+            <button
+                className='btn btn-second add-file'
+                onClick={this.addFile}
+                onDragOver={this.onDragOver}
+                onDragLeave={this.onDragLeave}
+                onDrop={this.onDrop}
+            >
+              {i18n.t('Select files...')}
+            </button>
+          </p>
+        </div>
+        <div className={!this.state.dragging ? 'hidden' : ''}>
+          <p>
+            <strong>{i18n.t('Drop your file here to add it to IPFS')}</strong>
+          </p>
+        </div>
+        <div className={!this.state.confirm ? 'hidden' : ''}>
+          <p>
+            <i className='fa fa-lg fa-thumbs-up'></i> {i18n.t('Added')} <strong>{this.state.confirm}</strong>
+          </p>
+        </div>
+        <input
+            type='file'
+            className='file-select'
+            style={{display: 'none'}}
+            onChange={this.onFileChange}
+        />
       </div>
+    )
+  },
 
-      <div className={tab !== 'pinned' ? 'hidden' : ''}>
-        <h3>{i18n.t('Pinned Files')}</h3>
-        <Panel bsStyle={'default'}>
-          <FileList files={this.state.pinned} namesHidden ipfs={this.props.ipfs} gateway={this.props.gateway} />
-        </Panel>
-      </div>
+  _renderPanel () {
+    switch (this.props.location.pathname) {
+      case '/files':
+        return (
+          <Panel bsStyle={'default'}>
+            <FileList
+                files={this.state.files}
+                ipfs={this.props.ipfs}
+                gateway={this.props.gateway}
+            />
+          </Panel>
+        )
+      case '/files/pinned':
+        return (
+          <Panel bsStyle={'default'}>
+            <FileList
+                files={this.state.pinned}
+                namesHidden
+                ipfs={this.props.ipfs}
+                gateway={this.props.gateway}
+            />
+          </Panel>
+        )
+      case '/files/all':
+        return (
+          <Panel bsStyle={'default'}>
+            <FileList
+                files={this.state.local}
+                namesHidden
+                ipfs={this.props.ipfs}
+                gateway={this.props.gateway}
+            />
+          </Panel>
+        )
+      default:
+        return ''
+    }
+  },
 
-      <div className={tab !== 'all' ? 'hidden' : ''}>
-        <h3>{i18n.t('All Local Files')}</h3>
-        <Panel bsStyle={'default'}>
-          <FileList files={this.state.local} namesHidden ipfs={this.props.ipfs} gateway={this.props.gateway} />
-        </Panel>
-      </div>
-    </Col>
-  </Row>
+  render: function () {
+    return (
+      <Row>
+        <Col sm={10} smOffset={1}>
+          <Nav bsStyle='tabs'>
+            <LinkContainer to='/files'>
+              <NavItem>{i18n.t('Files')}</NavItem>
+            </LinkContainer>
+            <LinkContainer to='/files/pinned'>
+              <NavItem>{i18n.t('Pinned')}</NavItem>
+            </LinkContainer>
+            <LinkContainer to='/files/all'>
+              <NavItem>{i18n.t('All')}</NavItem>
+            </LinkContainer>
+          </Nav>
+
+          <div className={this.state.selected}>
+            {this._renderTitle()}
+            {this._renderPanel()}
+          </div>
+        </Col>
+      </Row>
     )
   }
 })

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router'
-import upath from '../utils/path.js'
+import {parse} from '../utils/path.js'
 import i18n from '../utils/i18n.js'
 
 export default React.createClass({
@@ -19,7 +19,7 @@ export default React.createClass({
     var t = this
     var parent = this.props.path.parent()
     var parentlink = parent
-      ? <Link className='btn btn-primary' to='objects' params={{tab: 'object', path: parent.urlify()}}>
+      ? <Link className='btn btn-primary' to={`/objects/${parent.urlify()}`}>
           <i className='fa fa-arrow-up'></i> {i18n.t('Parent object')}
         </Link>
       : null
@@ -45,18 +45,18 @@ export default React.createClass({
               if (link.Name) {
                 path = t.props.path.append(link.Name).urlify()
               } else { // support un-named links
-                path = upath.parse(link.Hash).urlify()
+                path = parse(link.Hash).urlify()
               }
 
               return (
                 <tr>
                   <td>
-                    <Link to='objects' params={{tab: 'object', path: path}}>
+                    <Link to={`/objects/${path}`}>
                       {link.Name}
                     </Link>
                   </td>
                   <td>
-                    <Link to='objects' params={{tab: 'object', path: path}}>
+                    <Link to={`/objects/${path}`}>
                       {link.Hash}
                     </Link>
                   </td>
@@ -73,7 +73,7 @@ export default React.createClass({
     var resolved = this.props.permalink
       ? <li className='list-group-item'>
           <span>{i18n.t('permalink:')} </span>
-          <Link to='objects' params={{tab: 'object', path: this.props.permalink.urlify()}}>
+          <Link to={`/objects/${this.props.permalink.urlify()}`}>
             {this.props.permalink.toString()}
           </Link>
         </li>

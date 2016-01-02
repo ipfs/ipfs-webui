@@ -51,7 +51,7 @@ export default React.createClass({
           }
 
           var gatewayPath = t.props.gateway + '/ipfs/' + file.id
-          var dagPath = '#/objects/object/' + file.id
+          var dagPath = '#/objects/' + file.id
 
           var tooltip = (
             <Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>
