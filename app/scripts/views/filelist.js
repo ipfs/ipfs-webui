@@ -1,34 +1,28 @@
-import React from 'react'
-import $ from 'jquery'
+import React, { Component } from 'react'
 import i18n from '../utils/i18n.js'
 import {Table, Tooltip, OverlayTrigger} from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'FileList',
-  propTypes: {
-    ipfs: React.PropTypes.object,
-    files: React.PropTypes.array,
-    namesHidden: React.PropTypes.bool
-  },
+function getExtention (name, defaultExt = '?') {
+  if (!name) {
+    return defaultExt
+  }
 
-  unpin: function (e) {
-    e.preventDefault()
-    e.stopPropagation()
+  const ext = name.split('.').pop()
 
-    var el = $(e.target)
-    var hash = el.attr('data-hash')
-    if (!hash) hash = el.parent().attr('data-hash')
+  if (ext === name) {
+    return defaultExt
+  } else {
+    return ext.toUpperCase()
+  }
+}
 
-    this.props.ipfs.pin.remove(hash, {r: true}, function (err, res) {
-      console.log(err, res)
-    })
-  },
-
-  render: function () {
-    var t = this
+export default class FileList extends Component {
+  render () {
     var files = this.props.files
     var className = 'table-hover filelist'
-    if (this.props.namesHidden) className += ' filelist-names-hidden'
+    if (this.props.namesHidden) {
+      className += ' filelist-names-hidden'
+    }
 
     return (
       <Table responsive className={className}>
@@ -41,43 +35,61 @@ export default React.createClass({
           </tr>
         </thead>
         <tbody>
-        {files ? files.map(function (file) {
-          if (typeof file === 'string') file = { id: file }
-
-          var type = '?'
-          if (file.name) {
-            var lastDot = file.name.lastIndexOf('.')
-            if (lastDot !== -1) type = file.name.substr(lastDot + 1, 4).toUpperCase()
+        {files ? files.map(file => {
+          if (typeof file === 'string') {
+            file = { id: file }
           }
 
-          var gatewayPath = t.props.gateway + '/ipfs/' + file.id
-          var dagPath = '#/objects/' + file.id
-
-          var tooltip = (
-            <Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>
-          )
+          var dagPath = `#/objects/${file.id}`
+          var gatewayPath = `${this.props.gateway}/ipfs/${file.id}`
+          var unpin = (e) => {
+            e.preventDefault()
+            this.props.ipfs.pin.remove(file.id, {r: true}, function (err, res) {
+              console.log(err, res)
+            })
+          }
 
           return (
-            <tr className='webui-file' data-type={file.type} key={file.id}>
-              <td><span className='type'>{type}</span></td>
-              <td className='filelist-name'><a target='_blank' href={gatewayPath}>{file.name}</a></td>
-              <td className='id-cell'><code>{file.id}</code></td>
-              <td className='action-cell'>
-                <a target='_blank' href={gatewayPath}>{i18n.t('RAW')}</a>
-                <span className='separator'>|</span>
-                <a href={dagPath}>{i18n.t('DAG')}</a>
-                <span className='separator'>|</span>
-                <a href='#' onClick={t.unpin} data-hash={file.id}>
-                  <OverlayTrigger placement='right' overlay={tooltip}>
-                    <i className='fa fa-remove'></i>
-                  </OverlayTrigger>
-                </a>
-              </td>
-            </tr>
+            <FileItem {...{gatewayPath, dagPath, file, unpin}} />
           )
         }) : void 0}
         </tbody>
       </Table>
     )
   }
-})
+}
+
+FileList.propTypes = {
+  ipfs: React.PropTypes.object,
+  files: React.PropTypes.array,
+  namesHidden: React.PropTypes.bool,
+  gateway: React.PropTypes.string
+}
+
+const FileItem = ({gatewayPath, dagPath, file, unpin}) => {
+  var type = getExtention(file.name)
+  var tooltip = (
+    <Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>
+  )
+
+  return (
+    <tr className='webui-file' data-type={file.type} key={file.id}>
+      <td><span className='type'>{type}</span></td>
+      <td className='filelist-name'><a target='_blank' href={gatewayPath}>{file.name}</a></td>
+      <td className='id-cell'><code>{file.id}</code></td>
+      <td className='action-cell'>
+        <a target='_blank' href={gatewayPath}>{i18n.t('RAW')}</a>
+        <span className='separator'>|</span>
+        <a href={dagPath}>{i18n.t('DAG')}</a>
+        <span className='separator'>|</span>
+        <a href='#' onClick={unpin}>
+          <OverlayTrigger placement='right' overlay={tooltip}>
+            {/* The block element is required otherwise the overlay is *over* the icon */}
+            <div style={{display: 'inline-block'}}><i className='fa fa-remove'></i></div>
+          </OverlayTrigger>
+        </a>
+      </td>
+    </tr>
+  )
+}
+
