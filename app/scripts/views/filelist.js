@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import i18n from '../utils/i18n.js'
 import {Table} from 'react-bootstrap'
 import FileItem from './fileitem'
+import Debug from 'debug'
+
+const debug = Debug('ipfs:views:filelist')
 
 export default class FileList extends Component {
   static propTypes = {
@@ -40,7 +43,9 @@ export default class FileList extends Component {
           const unpin = (e) => {
             e.preventDefault()
             this.props.ipfs.pin.remove(file.id, {r: true}, (err, res) => {
-              console.log(err, res)
+              if (err) {
+                debug(err.message)
+              }
             })
           }
 
