@@ -111,7 +111,8 @@ export default React.createClass({
         {error}
         {buttons}
         <div className='textarea-panel panel panel-default padded'>
-          <textarea ref='textareaConfig' className='panel-inner' style={{height: this.state.height}} spellCheck='false' onChange={this.handleChange} value={this.state.body} />
+          <textarea ref='textareaConfig' className='panel-inner' style={{height: this.state.height}}
+            spellCheck='false' onChange={this.handleChange} value={this.state.body} />
         </div>
         {error}
         {buttons}
