@@ -1,6 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import $ from 'jquery'
 import i18n from '../utils/i18n.js'
 
 export default React.createClass({
@@ -14,7 +12,8 @@ export default React.createClass({
       body: JSON.stringify(this.props.config, null, 2),
       error: null,
       saving: false,
-      saved: false
+      saved: false,
+      height: 0
     }
   },
 
@@ -30,9 +29,8 @@ export default React.createClass({
   },
 
   updateHeight: function () {
-    var el = $(ReactDOM.findDOMNode(this)).find('textarea')
-    el.height('1px')
-    el.height(el.get(0).scrollHeight)
+    var el = this.refs.textareaConfig
+    this.setState({height: el.scrollHeight})
   },
 
   handleChange: function (e) {
@@ -113,7 +111,7 @@ export default React.createClass({
         {error}
         {buttons}
         <div className='textarea-panel panel panel-default padded'>
-          <textarea className='panel-inner' spellCheck='false' onChange={this.handleChange} value={this.state.body} />
+          <textarea ref='textareaConfig' className='panel-inner' style={{height: this.state.height}} spellCheck='false' onChange={this.handleChange} value={this.state.body} />
         </div>
         {error}
         {buttons}
