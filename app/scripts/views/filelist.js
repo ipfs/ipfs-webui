@@ -1,25 +1,20 @@
 import React, { Component } from 'react'
 import i18n from '../utils/i18n.js'
-import {Table, Tooltip, OverlayTrigger} from 'react-bootstrap'
-
-function getExtention (name, defaultExt = '?') {
-  if (!name) {
-    return defaultExt
-  }
-
-  const ext = name.split('.').pop()
-
-  if (ext === name) {
-    return defaultExt
-  } else {
-    return ext.toUpperCase()
-  }
-}
+import {Table} from 'react-bootstrap'
+import FileItem from './fileitem'
 
 export default class FileList extends Component {
+  static propTypes = {
+    ipfs: React.PropTypes.object,
+    files: React.PropTypes.array,
+    namesHidden: React.PropTypes.bool,
+    gateway: React.PropTypes.string
+  }
+
   render () {
-    var files = this.props.files
-    var className = 'table-hover filelist'
+    const files = this.props.files
+    let className = 'table-hover filelist'
+
     if (this.props.namesHidden) {
       className += ' filelist-names-hidden'
     }
@@ -40,11 +35,11 @@ export default class FileList extends Component {
             file = { id: file }
           }
 
-          var dagPath = `#/objects/${file.id}`
-          var gatewayPath = `${this.props.gateway}/ipfs/${file.id}`
-          var unpin = (e) => {
+          const dagPath = `#/objects/${file.id}`
+          const gatewayPath = `${this.props.gateway}/ipfs/${file.id}`
+          const unpin = (e) => {
             e.preventDefault()
-            this.props.ipfs.pin.remove(file.id, {r: true}, function (err, res) {
+            this.props.ipfs.pin.remove(file.id, {r: true}, (err, res) => {
               console.log(err, res)
             })
           }
@@ -58,38 +53,3 @@ export default class FileList extends Component {
     )
   }
 }
-
-FileList.propTypes = {
-  ipfs: React.PropTypes.object,
-  files: React.PropTypes.array,
-  namesHidden: React.PropTypes.bool,
-  gateway: React.PropTypes.string
-}
-
-const FileItem = ({gatewayPath, dagPath, file, unpin}) => {
-  var type = getExtention(file.name)
-  var tooltip = (
-    <Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>
-  )
-
-  return (
-    <tr className='webui-file' data-type={file.type} key={file.id}>
-      <td><span className='type'>{type}</span></td>
-      <td className='filelist-name'><a target='_blank' href={gatewayPath}>{file.name}</a></td>
-      <td className='id-cell'><code>{file.id}</code></td>
-      <td className='action-cell'>
-        <a target='_blank' href={gatewayPath}>{i18n.t('RAW')}</a>
-        <span className='separator'>|</span>
-        <a href={dagPath}>{i18n.t('DAG')}</a>
-        <span className='separator'>|</span>
-        <a href='#' onClick={unpin}>
-          <OverlayTrigger placement='right' overlay={tooltip}>
-            {/* The block element is required otherwise the overlay is *over* the icon */}
-            <div style={{display: 'inline-block'}}><i className='fa fa-remove'></i></div>
-          </OverlayTrigger>
-        </a>
-      </td>
-    </tr>
-  )
-}
-
