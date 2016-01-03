@@ -1,9 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Nav from './nav'
 import {Link} from 'react-router'
-import $ from 'jquery'
-
 import i18n from '../utils/i18n.js'
 import {parse} from '../utils/path'
 
@@ -59,7 +56,7 @@ export default React.createClass({
   },
 
   showDAG: function () {
-    var path = $(ReactDOM.findDOMNode(this)).find('.dag-path').val()
+    var path = this.refs.dagPath.value
     this.context.router.push(`/objects/${parse(path).urlify()}`)
   },
 
@@ -105,7 +102,7 @@ export default React.createClass({
                   <div className='col-sm-10'>
                       <form className='navbar-form navbar-left collapse navbar-collapse col-xs-6'>
                         <div className='form-group'>
-                          <input type='text' className='form-control dag-path' placeholder={i18n.t('Enter a hash or path')} />
+                          <input type='text' className='form-control' ref='dagPath' placeholder={i18n.t('Enter a hash or path')} />
                         </div>
                         <button className='btn btn-third btn-xs' onClick={this.showDAG}>{i18n.t('GO')}</button>
                       </form>
