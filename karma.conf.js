@@ -1,4 +1,4 @@
-var webpackConfig = require('./webpack.config')
+var webpackConfig = require('./make-config')(true)
 
 module.exports = function (config) {
   config.set({
