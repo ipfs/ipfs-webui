@@ -1,5 +1,4 @@
 import React from 'react'
-import Router from 'react-router'
 import $ from 'jquery'
 import ObjectView from '../views/object'
 import {parse} from '../utils/path.js'
@@ -8,10 +7,15 @@ import {Row, Col, Button} from 'react-bootstrap'
 
 export default React.createClass({
   displayName: 'Objects',
-  propTypes: {
-    gateway: React.PropTypes.string
+
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
   },
-  mixins: [ Router.State ],
+
+  propTypes: {
+    gateway: React.PropTypes.string,
+    params: React.PropTypes.object
+  },
 
   componentDidMount: function () {
     window.addEventListener('hashchange', this.updateState)
@@ -22,7 +26,7 @@ export default React.createClass({
   },
 
   getStateFromRoute: function () {
-    var params = this.context.router.getCurrentParams()
+    const params = this.props.params
     var state = {}
     if (params.path) {
       var path = parse(params.path)
@@ -66,9 +70,13 @@ export default React.createClass({
 
   update: function (e) {
     if (e.which && e.which !== 13) return
-    var params = this.context.router.getCurrentParams()
+    const params = this.props.params
     params.path = parse(this.state.pathInput).urlify()
-    this.context.router.transitionTo('objects', params)
+
+    const route = ['/objects']
+    if (params.path) route.push(params.path)
+
+    this.context.router.push(route.join('/'))
   },
 
   render: function () {
@@ -82,8 +90,7 @@ export default React.createClass({
       : null
 
     // TODO add provider-view here
-    var views = {
-      object: (!error && this.state.object
+    var views = (!error && this.state.object
         ? <div className='row'>
             <div className='col-xs-12'>
               <ObjectView
@@ -94,10 +101,6 @@ export default React.createClass({
             </div>
           </div>
         : null)
-    }
-
-    var params = this.context.router.getCurrentParams()
-    var tab = params.tab
 
     return (
       <Row>
@@ -117,7 +120,7 @@ export default React.createClass({
             </Row>
           </Row>
           {error}
-          {views[tab]}
+          {views}
         </Col>
       </Row>
     )

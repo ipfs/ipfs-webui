@@ -1,4 +1,4 @@
-var webpackConfig = require('./webpack.config')
+var webpackConfig = require('./make-config')(true)
 
 module.exports = function (config) {
   config.set({
@@ -10,11 +10,11 @@ module.exports = function (config) {
     frameworks: [ 'mocha' ],
 
     files: [
-      'tests.webpack.js'
+      'test/setup.js'
     ],
 
     preprocessors: {
-      'tests.webpack.js': [ 'webpack', 'sourcemap' ]
+      'test/setup.js': ['webpack', 'sourcemap']
     },
 
     reporters: [ 'dots' ],

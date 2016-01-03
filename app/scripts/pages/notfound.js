@@ -1,7 +1,8 @@
-var React = require('react')
-var Row = require('react-bootstrap').Row
-var Col = require('react-bootstrap').Col
-var i18n = require('../utils/i18n.js')
+import React from 'react'
+import {Row, Col} from 'react-bootstrap'
+import i18n from '../utils/i18n.js'
+
+import {Link} from 'react-router'
 
 export default React.createClass({
   displayName: 'NotFound',
@@ -9,11 +10,12 @@ export default React.createClass({
     return (
       <Row>
         <Col sm={10} smOffset={1}>
-
           <h1>{i18n.t('404 - Not Found')}</h1>
-
-          <p><a href='#/'>{i18n.t('Go to console home')}</a></p>
-
+          <p>
+            <Link to='/'>
+              {i18n.t('Go to console home')}
+            </Link>
+          </p>
         </Col>
       </Row>
     )

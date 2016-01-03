@@ -1,9 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Nav from './nav'
-import {RouteHandler, Link} from 'react-router'
+import {Link} from 'react-router'
 import $ from 'jquery'
+
 import i18n from '../utils/i18n.js'
+import {parse} from '../utils/path'
 
 var host = window.location.hostname
 var port = window.location.port || 80
@@ -18,6 +20,14 @@ var ipfsHost = window.location.host
 
 export default React.createClass({
   displayName: 'Page',
+
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+  propTypes: {
+    children: React.PropTypes.object
+  },
+
   getInitialState: function () {
     var t = this
 
@@ -50,7 +60,7 @@ export default React.createClass({
 
   showDAG: function () {
     var path = $(ReactDOM.findDOMNode(this)).find('.dag-path').val()
-    window.location = '#/objects/object/' + path.replace(/\//g, '\\')
+    this.context.router.push(`/objects/${parse(path).urlify()}`)
   },
 
   update: function () {
@@ -86,7 +96,7 @@ export default React.createClass({
                   <div className='col-sm-2 branding'>
                     <div className='row'>
                           <div className='navbar-header'>
-                            <Link className='navbar-brand col-xs-12' to='home'>
+                            <Link className='navbar-brand col-xs-12' to='/'>
                               <img src={require('../../img/logo.png')} alt='IPFS' className='img-responsive logo'/><span className='sr-only'>{i18n.t('IPFS')}</span>
                             </Link>
                           </div>
@@ -134,7 +144,9 @@ export default React.createClass({
 
           <div className='col-sm-10 col-sm-push-2'>
             {update}
-            <RouteHandler ipfs={ipfs} host={ipfsHost} gateway={this.state.gateway} />
+            {this.props.children && React.cloneElement(
+               this.props.children, {ipfs: ipfs, host: ipfsHost, gateway: this.state.gateway}
+            )}
           </div>
         </div>
       </div>
