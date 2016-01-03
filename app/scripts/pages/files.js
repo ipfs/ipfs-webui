@@ -1,6 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import $ from 'jquery'
 import {Row, Col, Nav, NavItem, Panel} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 
@@ -48,14 +46,12 @@ export default React.createClass({
 
   addFile: function (e) {
     e.preventDefault()
-    $(ReactDOM.findDOMNode(this)).find('.file-select').click()
-    return
+    this.refs.fileSelect.click()
   },
 
   onDragOver: function (e) {
     console.log('dragover')
     this.setState({ dragging: true })
-    $(e.target).addClass('hover')
     e.stopPropagation()
     e.preventDefault()
   },
@@ -63,14 +59,12 @@ export default React.createClass({
   onDragLeave: function (e) {
     console.log('dragleave')
     this.setState({ dragging: false })
-    $(e.target).removeClass('hover')
     e.stopPropagation()
     e.preventDefault()
   },
 
   onDrop: function (e) {
     this.setState({ dragging: false })
-    $(e.target).removeClass('hover')
     e.stopPropagation()
     e.preventDefault()
     this.onFileChange(e)
@@ -183,6 +177,7 @@ export default React.createClass({
         </div>
         <input
             type='file'
+            ref='fileSelect'
             className='file-select'
             style={{display: 'none'}}
             onChange={this.onFileChange}
