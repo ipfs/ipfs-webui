@@ -26,7 +26,7 @@
     "babel": "^6.3.13",
     "babel-core": "^6.3.21",
     "babel-eslint": "^5.0.0-beta6",
-    "babel-loader": "^6.2.0",
+    "babel-loader": "^6.2.1",
     "babel-plugin-transform-react-display-name": "^6.3.13",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
