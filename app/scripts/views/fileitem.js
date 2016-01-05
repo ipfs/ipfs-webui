@@ -1,9 +1,10 @@
 import React from 'react'
 import i18n from '../utils/i18n.js'
 import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap'
+import fileExtention from '../utils/fileExtention'
 
 export default ({gatewayPath, dagPath, file, unpin}) => {
-  var type = getExtention(file.name)
+  var type = fileExtention(file.name)
   var tooltip = (
     <Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>
   )
@@ -26,19 +27,5 @@ export default ({gatewayPath, dagPath, file, unpin}) => {
       </td>
     </tr>
   )
-}
-
-function getExtention (name, defaultExt = '?') {
-  if (!name) {
-    return defaultExt
-  }
-
-  const ext = name.split('.').pop()
-
-  if (ext === name) {
-    return defaultExt
-  } else {
-    return ext.toUpperCase()
-  }
 }
 
