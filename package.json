@@ -10,7 +10,7 @@
     "i18next-browser-languagedetector": "^0.0.11",
     "i18next-localstorage-cache": "^0.0.4",
     "i18next-sprintf-postprocessor": "^0.0.6",
-    "i18next-xhr-backend": "^0.0.5",
+    "i18next-xhr-backend": "^0.1.0",
     "ipfs-api": "^2.10.0",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
