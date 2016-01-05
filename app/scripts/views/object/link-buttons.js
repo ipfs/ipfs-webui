@@ -4,7 +4,7 @@ import Path from '../../utils/path'
 import i18n from '../../utils/i18n'
 import ParentLink from './parent-link'
 
-const LinkButtons = ({gateway, path, parent}) => {
+const LinkButtons = ({gateway, path}) => {
   return (
     <div className='link-buttons'>
       <ParentLink parent={path.parent()} />
