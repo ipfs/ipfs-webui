@@ -28,7 +28,7 @@ describe('ObjectLink', () => {
     const el = shallowRender(<ObjectLink path={path} link={{Hash: 'Qm', Size: 2}}/>)
 
     expect(el).to.contain(
-      <Link to='objects/\ipfs\Qm'>12</Link>
+      <Link to='objects/\ipfs\Qm'>Qm</Link>
     )
   })
 })
