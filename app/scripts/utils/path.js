@@ -1,26 +1,28 @@
-function Path (protocol, name, path) {
-  this.protocol = protocol
-  this.name = name
-  this.path = path
-
-  this.parent = function () {
-    var slashIdx = this.path.lastIndexOf('/')
-    if (slashIdx === -1) return null
-    return new Path(protocol, name, this.path.substr(0, slashIdx))
+export default class Path {
+  constructor (protocol, name, path) {
+    this.protocol = protocol
+    this.name = name
+    this.path = path
   }
 
-  this.append = function (fragment) {
+  parent () {
+    var slashIdx = this.path.lastIndexOf('/')
+    if (slashIdx === -1) return null
+    return new Path(this.protocol, this.name, this.path.substr(0, slashIdx))
+  }
+
+  append (fragment) {
     if (fragment[0] !== '/') {
       fragment = '/' + fragment
     }
-    return new Path(protocol, name, this.path + fragment)
+    return new Path(this.protocol, this.name, this.path + fragment)
   }
 
-  this.toString = function () {
+  toString () {
     return '/' + this.protocol + '/' + this.name + this.path
   }
 
-  this.urlify = function () {
+  urlify () {
     return this.toString().replace(/[\/]/g, '\\')
   }
 }

@@ -1,42 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import {Table} from 'react-bootstrap'
-import {join} from 'path'
 
-import {parse} from '../utils/path'
 import i18n from '../utils/i18n'
 import Icon from './icon'
-
-const RawData = ({data, limit = 10000}) => {
-  const buf = new Buffer(data.substr(0, limit), 'utf-8')
-  const content = `data:text/plain;charset=utf8;base64,${buf.toString('base64')}`
-
-  return (
-    <iframe src={content} className='panel-inner'></iframe>
-  )
-}
-
-const ObjectLink = ({path, link}) => {
-  let url = link.Name ? path.append(link.Name) : parse(link.Hash)
-  url = url.urlify()
-  url = join('objects', url)
-
-  return (
-    <tr>
-      <td>
-        <Link to={url}>
-          {link.Name}
-        </Link>
-      </td>
-      <td>
-        <Link to={url}>
-        {link.Hash}
-        </Link>
-      </td>
-      <td>{link.Size}</td>
-    </tr>
-  )
-}
+import RawData from './object/raw-data'
+import ObjectLink from './object/object-link'
 
 const ObjectLinks = ({path, links}) => {
   return (
