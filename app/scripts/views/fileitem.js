@@ -10,7 +10,7 @@ export default ({gatewayPath, dagPath, file, unpin}) => {
   )
 
   return (
-    <tr className='webui-file' data-type={file.type} key={file.id}>
+    <tr className='webui-file' data-type={file.type}>
       <td><span className='type'>{type}</span></td>
       <td className='filelist-name'><a target='_blank' href={gatewayPath}>{file.name}</a></td>
       <td className='id-cell'><code>{file.id}</code></td>

@@ -22,6 +22,28 @@ export default class FileList extends Component {
       className += ' filelist-names-hidden'
     }
 
+    const createFile = file => {
+      if (typeof file === 'string') {
+        file = { id: file }
+      }
+
+      const dagPath = `#/objects/${file.id}`
+      const gatewayPath = `${this.props.gateway}/ipfs/${file.id}`
+      const unpin = (e) => {
+        e.preventDefault()
+        this.props.ipfs.pin.remove(file.id, {r: true}, (err, res) => {
+          if (err) {
+            // TODO Handle error and display to the user
+            error(err)
+          }
+        })
+      }
+
+      return (
+        <FileItem key={file.id} {...{gatewayPath, dagPath, file, unpin}} />
+      )
+    }
+
     return (
       <Table responsive className={className}>
         <thead>
@@ -33,26 +55,7 @@ export default class FileList extends Component {
           </tr>
         </thead>
         <tbody>
-        {files ? files.map(file => {
-          if (typeof file === 'string') {
-            file = { id: file }
-          }
-
-          const dagPath = `#/objects/${file.id}`
-          const gatewayPath = `${this.props.gateway}/ipfs/${file.id}`
-          const unpin = (e) => {
-            e.preventDefault()
-            this.props.ipfs.pin.remove(file.id, {r: true}, (err, res) => {
-              if (err) {
-                debug(err.message)
-              }
-            })
-          }
-
-          return (
-            <FileItem {...{gatewayPath, dagPath, file, unpin}} />
-          )
-        }) : void 0}
+          {files ? files.map(createFile) : void 0}
         </tbody>
       </Table>
     )
