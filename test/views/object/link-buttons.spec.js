@@ -1,5 +1,6 @@
 import {expect, shallowRender} from '../../test-helpers'
 import React from 'react'
+import {Button} from 'react-bootstrap'
 
 import Path, {parse} from '../../../app/scripts/utils/path'
 
@@ -16,15 +17,24 @@ describe('LinkButtons', () => {
     )
 
     expect(el).to.contain(
-      <a href='gate/ipfs/hello/world/data' className='btn btn-info btn-second' target='_blank'>
+      <Button
+          bsStyle='info'
+          className='btn-second'
+          href='gate/ipfs/hello/world/data'
+          target='_blank'
+      >
         RAW
-      </a>
+      </Button>
     )
 
     expect(el).to.contain(
-      <a href='gate/ipfs/hello/world/data?dl=1' className='btn btn-second' target='_blank'>
+      <Button
+          href='gate/ipfs/hello/world/data?dl=1'
+          className='btn-second'
+          target='_blank'
+      >
         Download
-      </a>
+      </Button>
     )
   })
 })

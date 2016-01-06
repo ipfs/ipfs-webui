@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react'
-import {Link} from 'react-router'
+import {LinkContainer} from 'react-router-bootstrap'
+import {Button} from 'react-bootstrap'
 
 import Path from '../../utils/path'
 import i18n from '../../utils/i18n'
@@ -9,9 +10,11 @@ const ParentLink = ({parent}) => {
   if (!parent) return <span></span>
 
   return (
-    <Link className='btn btn-primary' to={`/objects/${parent.urlify()}`}>
-      <Icon glyph='arrow-up' /> {i18n.t('Parent object')}
-    </Link>
+    <LinkContainer to={`/objects/${parent.urlify()}`}>
+      <Button bsStyle='primary'>
+        <Icon glyph='arrow-up' /> {i18n.t('Parent object')}
+      </Button>
+    </LinkContainer>
   )
 }
 

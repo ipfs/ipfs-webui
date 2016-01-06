@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {Button} from 'react-bootstrap'
 
 import Path from '../../utils/path'
 import i18n from '../../utils/i18n'
@@ -8,19 +9,22 @@ const LinkButtons = ({gateway, path}) => {
   return (
     <div className='link-buttons'>
       <ParentLink parent={path.parent()} />
-      <a
+
+      <Button
+          bsStyle='info'
+          className='btn-second'
           href={gateway + path}
           target='_blank'
-          className='btn btn-info btn-second'
       >
         {i18n.t('RAW')}
-      </a>
-      <a
+      </Button>
+      <Button
+          className='btn-second'
           href={gateway + path + '?dl=1'}
           target='_blank'
-          className='btn btn-second'>
+        >
         {i18n.t('Download')}
-      </a>
+      </Button>
     </div>
   )
 }

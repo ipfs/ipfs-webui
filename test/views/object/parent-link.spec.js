@@ -1,6 +1,7 @@
 import {expect, shallowRender} from '../../test-helpers'
 import React from 'react'
-import {Link} from 'react-router'
+import {LinkContainer} from 'react-router-bootstrap'
+import {Button} from 'react-bootstrap'
 
 import {parse} from '../../../app/scripts/utils/path'
 import Icon from '../../../app/scripts/views/icon'
@@ -12,9 +13,11 @@ describe('ParentLink', () => {
     const el = shallowRender(<ParentLink parent={path}/>)
 
     expect(el).to.eql(
-      <Link className='btn btn-primary' to='/objects/\ipfs\hi\hello\world' >
-        <Icon glyph='arrow-up' /> Parent object
-      </Link>
+      <LinkContainer to='/objects/\ipfs\hi\hello\world' >
+        <Button bsStyle='primary'>
+          <Icon glyph='arrow-up' /> Parent object
+        </Button>
+      </LinkContainer>
     )
   })
 
