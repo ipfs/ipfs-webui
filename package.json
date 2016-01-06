@@ -14,7 +14,7 @@
     "ipfs-api": "^2.10.0",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
-    "react": "^0.14.2",
+    "react": "^0.14.6",
     "react-bootstrap": "^0.28.1",
     "react-dom": "^0.14.2",
     "react-localstorage": "^0.2.8",
