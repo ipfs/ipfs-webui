@@ -4,9 +4,7 @@ import i18n from '../../utils/i18n'
 import RawData from './raw-data'
 
 const DisplayData = ({data}) => {
-  const size = data && data.length - 2
-
-  if (!size) {
+  if (!data || data.length < 3) {
     return (
       <li className='list-group-item'>
         <strong>{i18n.t('This object has no data')}</strong>
@@ -21,7 +19,7 @@ const DisplayData = ({data}) => {
           <strong>
             {i18n.t('Object data (%s bytes)', {
               postProcess: 'sprintf',
-              sprintf: [size] })
+              sprintf: [data.length - 2] })
             }
           </strong>
         </p>
