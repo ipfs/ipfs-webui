@@ -1,3 +1,5 @@
+require('babel-polyfill')
+
 // This gets replaced by karma webpack with the updated files on rebuild
 var __karmaWebpackManifest__ = []
 

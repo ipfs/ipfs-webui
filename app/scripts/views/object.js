@@ -1,120 +1,42 @@
-import React from 'react'
-import {Link} from 'react-router'
-import {parse} from '../utils/path.js'
-import i18n from '../utils/i18n.js'
+import React, {Component, PropTypes} from 'react'
 
-export default React.createClass({
-  displayName: 'ObjectView',
-  propTypes: {
-    path: React.PropTypes.object,
-    permalink: React.PropTypes.object,
-    gateway: React.PropTypes.string,
-    object: React.PropTypes.object,
-    loadPeers: React.PropTypes.func
-  },
-  render: function () {
-    var size = this.props.object.Data.length - 2
-    var data = 'data:text/plain;charset=utf8;base64,' + new Buffer(this.props.object.Data.substr(0, 10000), 'utf-8').toString('base64')
+import i18n from '../utils/i18n'
+import Path from '../utils/path'
 
-    var t = this
-    var parent = this.props.path.parent()
-    var parentlink = parent
-      ? <Link className='btn btn-primary' to={`/objects/${parent.urlify()}`}>
-          <i className='fa fa-arrow-up'></i> {i18n.t('Parent object')}
-        </Link>
-      : null
+import PermaLink from './object/perma-link'
+import DisplayData from './object/display-data'
+import LinkButtons from './object/link-buttons'
+import Links from './object/links'
 
-    var links = <div className='padded'><strong>{i18n.t('This object has no links')}</strong></div>
-    if (this.props.object.Links.length > 0) {
-      links = [
-        <li className='list-group-item'>
-          <strong>{i18n.t('Object links')}</strong>
-        </li>,
-        <div className='table-responsive links-panel'>
-          <table className='table table-hover filelist'>
-            <thead>
-              <tr>
-                <th>{i18n.t('Name')}</th>
-                <th>{i18n.t('Hash')}</th>
-                <th>{i18n.t('Size')}</th>
-              </tr>
-            </thead>
-            <tbody>
-            {this.props.object.Links.map(function (link) {
-              var path
-              if (link.Name) {
-                path = t.props.path.append(link.Name).urlify()
-              } else { // support un-named links
-                path = parse(link.Hash).urlify()
-              }
+export default class ObjectView extends Component {
+  static propTypes = {
+    path: PropTypes.instanceOf(Path).isRequired,
+    permalink: PropTypes.instanceOf(Path),
+    gateway: PropTypes.string.isRequired,
+    object: PropTypes.shape({
+      Data: PropTypes.string,
+      Links: PropTypes.array
+    }).isRequired
+  }
 
-              return (
-                <tr>
-                  <td>
-                    <Link to={`/objects/${path}`}>
-                      {link.Name}
-                    </Link>
-                  </td>
-                  <td>
-                    <Link to={`/objects/${path}`}>
-                      {link.Hash}
-                    </Link>
-                  </td>
-                  <td>{link.Size}</td>
-                </tr>
-              )
-            })}
-            </tbody>
-          </table>
-        </div>
-
-      ]
-    }
-    var resolved = this.props.permalink
-      ? <li className='list-group-item'>
-          <span>{i18n.t('permalink:')} </span>
-          <Link to={`/objects/${this.props.permalink.urlify()}`}>
-            {this.props.permalink.toString()}
-          </Link>
-        </li>
-      : null
-
-    var displayData = size
-      ? [<li className='list-group-item'>
-          <p>
-            <strong>{i18n.t('Object data (%s bytes)', { postProcess: 'sprintf', sprintf: [size] })}</strong>
-          </p>
-        </li>,
-        <li className='list-group-item data'>
-          <iframe src={data} className='panel-inner'></iframe>
-        </li>
-      ]
-      : <li className='list-group-item'>
-          <strong>{i18n.t('This object has no data')}</strong>
-        </li>
+  render () {
+    const {object, path, permalink, gateway} = this.props
 
     return (
       <div className='webui-object'>
         <div className='row'>
           <h4>{i18n.t('Object')}</h4>
-          <div className='link-buttons'>
-            {parentlink}
-            <a href={this.props.gateway + this.props.path} target='_blank' className='btn btn-info btn-second'>{i18n.t('RAW')}</a>
-            <a href={this.props.gateway + this.props.path + '?dl=1'} target='_blank' className='btn btn-second'>{i18n.t('Download')}</a>
-            <button className='btn btn-third hidden'><i className='fa fa-lg fa-thumb-tack'></i></button>
-          </div>
+          <LinkButtons gateway={gateway} path={path} />
           <br/>
           <div className='panel panel-default'>
             <ul className='list-group'>
-              {links}
-              {displayData}
+              <Links path={path} links={object.Links} />
+              <DisplayData data={object.Data}/>
             </ul>
           </div>
-          <div className='panel panel-default'>
-            {resolved}
-          </div>
+          <PermaLink url={permalink} />
         </div>
       </div>
     )
   }
-})
+}
