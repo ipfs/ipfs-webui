@@ -15,7 +15,7 @@
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
     "react": "^0.14.2",
-    "react-bootstrap": "^0.28.1",
+    "react-bootstrap": "^0.28.2",
     "react-dom": "^0.14.2",
     "react-localstorage": "^0.2.8",
     "react-router": "^2.0.0-rc4",
