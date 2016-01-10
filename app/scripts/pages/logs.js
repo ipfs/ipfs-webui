@@ -9,14 +9,14 @@ export default class Logs extends Component {
   static propTypes = {
     ipfs: PropTypes.object,
     host: PropTypes.string
-  }
+  };
 
   state = {
     log: [],
     tailing: true,
     nonce: 0,
     request: null
-  }
+  };
 
   _onLogData = chunk => {
     this.setState(oldState => {
@@ -31,7 +31,7 @@ export default class Logs extends Component {
         nonce: oldState.nonce + 1
       }
     })
-  }
+  };
 
   componentWillMount () {
     const request = this.props.ipfs.log.tail((err, stream) => {

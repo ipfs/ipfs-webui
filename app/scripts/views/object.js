@@ -17,7 +17,7 @@ export default class ObjectView extends Component {
       Data: PropTypes.string,
       Links: PropTypes.array
     }).isRequired
-  }
+  };
 
   render () {
     const {object, path, permalink, gateway} = this.props
