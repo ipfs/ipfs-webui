@@ -1,7 +1,7 @@
 import React from 'react'
 import ConnectionList from '../views/connectionlist'
 import Globe from '../views/globe'
-// import {lookupPretty as getLocation} from 'ipfs-geoip'
+import {lookupPretty as getLocation} from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
 import {Row, Col} from 'react-bootstrap'
 
@@ -38,32 +38,34 @@ export default React.createClass({
         peers = peers.sort(function (a, b) {
           return a.ID > b.ID ? 1 : -1
         })
-        peers.map(function (peer) {
+        peers.forEach(function (peer, i) {
           peer.ipfs = t.props.ipfs
           peer.location = { formatted: '' }
 
-          // var location = t.state.locations[peer.ID]
-          // if (!location) {
-          //   t.state.locations[peer.ID] = {}
-          //   t.props.ipfs.id(peer.ID, function (err, id) {
-          //     if (err) return console.error(err)
+          var location = t.state.locations[peer.ID]
+          if (!location) {
+            t.state.locations[peer.ID] = {}
+            t.props.ipfs.id(peer.ID, function (err, id) {
+              if (err) return console.error(err)
 
-          //     getLocation(t.props.ipfs, id.Addresses, function (err, res) {
-          //       if (err) return console.error(err)
-          //       // If we've unmounted, abort
-          //       if (!t.isMounted()) return
+              getLocation(t.props.ipfs, id.Addresses, function (err, res) {
+                if (err) return console.error(err)
+                // If we've unmounted, abort
+                if (!t.isMounted()) return
 
-          //       res = res || {}
-          //       peer.location = res
-          //       t.state.locations[peer.ID] = res
-          //       t.setState({
-          //         peers: peers,
-          //         locations: t.state.locations,
-          //         nonce: t.state.nonce++
-          //       })
-          //     })
-          //   })
-          // }
+                res = res || {}
+                peer.location = res
+                var locations = t.state.locations
+                locations[peer.ID] = res
+                peers[i] = peer
+                t.setState({
+                  peers: peers,
+                  locations: locations,
+                  nonce: t.state.nonce++
+                })
+              })
+            })
+          }
         })
       })
     }
