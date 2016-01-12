@@ -1,75 +1,80 @@
 import React from 'react'
-import $ from 'jquery'
 import ObjectView from '../views/object'
 import {parse} from '../utils/path.js'
 import i18n from '../utils/i18n.js'
 import {Row, Col, Button} from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'Objects',
-
-  contextTypes: {
+export
+default class Objects extends React.Component {
+  constructor () {
+    super()
+    this.state = this._getStateFromRoute.bind(this)
+  }
+  static displayName = 'Objects';
+  static contextTypes = {
     router: React.PropTypes.object.isRequired
-  },
-
-  propTypes: {
+  };
+  static propTypes = {
     gateway: React.PropTypes.string,
-    params: React.PropTypes.object
-  },
+    params: React.PropTypes.object,
+    ipfs: React.PropTypes.object
+  };
 
-  componentDidMount: function () {
-    window.addEventListener('hashchange', this.updateState)
-  },
+  componentDidMount () {
+    window.addEventListener('hashchange', this._updateState)
+  }
 
-  componentWillUnmount: function () {
-    window.removeEventListener('hashchange', this.updateState)
-  },
+  componentWillUnmount () {
+    window.removeEventListener('hashchange', this._updateState)
+  }
 
-  getStateFromRoute: function () {
+  _getStateFromRoute = () => {
     const params = this.props.params
-    var state = {}
+    let state = {}
     if (params.path) {
-      var path = parse(params.path)
+      const path = parse(params.path)
       state.path = path
-      this.getObject(state.path)
+      this._getObject(state.path)
       state.pathInput = path.toString()
     }
     // reset between reloads
     return state
-  },
+  };
 
-  updateState: function () {
-    this.setState(this.getStateFromRoute())
-  },
+  _updateState = () => {
+    this.setState(this._getStateFromRoute)
+  };
 
-  getInitialState: function () {
-    return this.getStateFromRoute()
-  },
-
-  getObject: function (path) {
-    var t = this
-    t.props.ipfs.object.get(path.toString(), function (err, res) {
-      if (err) return t.setState({ error: err })
-      t.setState({ object: res,
-                   permalink: null})
+  _getObject = path => {
+    this.props.ipfs.object.get(path.toString(), (error, object) => {
+      if (error) {
+        return this.setState({
+          error
+        })
+      }
+      this.setState({
+        permalink: null,
+        object
+      })
       if (path.protocol === 'ipns') {
         // also resolve the name
-        t.props.ipfs.name.resolve(path.name, function (err, resolved) {
-          if (err) return t.setState({ error: err })
-          var permalink = parse(resolved.Path).append(path.path)
-          t.setState({ permalink: permalink })
+        this.props.ipfs.name.resolve(path.name, (error, resolved) => {
+          if (error) {
+            return this.setState({
+              error
+            })
+          }
+          const permalink = parse(resolved.Path).append(path.path)
+          this.setState({
+            permalink
+          })
         })
       }
     })
-  },
+  };
 
-  updatePath: function (e) {
-    var path = $(e.target).val().trim()
-    this.setState({ pathInput: path })
-  },
-
-  update: function (e) {
-    if (e.which && e.which !== 13) return
+  _update = event => {
+    if (event.which && event.which !== 13) return
     const params = this.props.params
     params.path = parse(this.state.pathInput).urlify()
 
@@ -77,30 +82,26 @@ export default React.createClass({
     if (params.path) route.push(params.path)
 
     this.context.router.push(route.join('/'))
-  },
+  };
 
-  render: function () {
-    var error = this.state.error
-      ? <div className='row'>
-          <h4>{i18n.t('Error')}</h4>
-          <div className='panel panel-default padded'>
-            {this.state.error.Message}
-          </div>
+  render () {
+    const error = this.state.error ? (<div className='row'>
+        <h4>{i18n.t('Error')}</h4>
+        <div className='panel panel-default padded'>
+          {this.state.error.Message}
         </div>
-      : null
+      </div>) : null
 
     // TODO add provider-view here
-    var views = (!error && this.state.object
-        ? <div className='row'>
-            <div className='col-xs-12'>
-              <ObjectView
-                object={this.state.object}
-                path={this.state.path}
-                permalink={this.state.permalink}
-                gateway={this.props.gateway} />
-            </div>
-          </div>
-        : null)
+    const views = (!error && this.state.object ? <div className='row'>
+        <div className='col-xs-12'>
+          <ObjectView
+            object={this.state.object}
+            path={this.state.path}
+            permalink={this.state.permalink}
+            gateway={this.props.gateway} />
+        </div>
+      </div> : null)
 
     return (
       <Row>
@@ -109,11 +110,17 @@ export default React.createClass({
             <h4>{i18n.t('Enter hash or path')}</h4>
             <Row className='path'>
               <Col xs={10}>
-                <input type='text' className='form-control input-lg' onChange={this.updatePath} onKeyPress={this.update} value={this.state.pathInput} placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')}/>
+                <input
+                  type='text'
+                  className='form-control input-lg'
+                  onChange={event => this.setState({pathInput: event.target.value.trim()})}
+                  onKeyPress={this._update}
+                  value={this.state.pathInput}
+                  placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')}/>
               </Col>
               <Col xs={2}>
                 <Button bsStyle={'primary'} className={'go'}
-                        onClick={this.update}>
+                  onClick={this._update}>
                   {i18n.t('GO')}
                 </Button>
               </Col>
@@ -125,4 +132,4 @@ export default React.createClass({
       </Row>
     )
   }
-})
+}

@@ -1,43 +1,34 @@
-import React from 'react'
-import {Row, Col} from 'react-bootstrap'
+import React, {Component} from 'react'
+import {
+  Row, Col
+}
+from 'react-bootstrap'
 import debug from 'debug'
-
 import DHTGraph from '../views/dhtgraph'
+import {idToAngle} from '../utils/common'
 
 const log = debug('pages:routing')
 
-var base58Chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
-var base58Index = {}
-for (var i = 0; i < base58Chars.length; i++) {
-  base58Index[base58Chars[i]] = i / 58
-}
+export
+default class Routing extends Component {
+  state = {
+    peers: []
+  };
 
-function idToAngle (id) {
-  var sub = id.substr(2, 4)
-  var angle = 0
-  for (var i = 0; i < sub.length; i++) {
-    angle += base58Index[sub[i]] * (1 / Math.pow(58, i))
-  }
-  return angle * Math.PI * 2
-}
-
-export default React.createClass({
-  displayName: 'Routing',
-  propTypes: {
+  static displayName = 'Routing';
+  static propTypes = {
     ipfs: React.PropTypes.object
-  },
-  getInitialState: function () {
-    var t = this
+  };
 
-    t.props.ipfs.id(function (err, id) {
+  componentDidMount () {
+    this.props.ipfs.id((err, id) => {
       if (err) return console.error(err)
-
-      t.props.ipfs.swarm.peers(function (err, res) {
+      this.props.ipfs.swarm.peers((err, res) => {
         if (err) return console.error(err)
 
-        var peers = res.Peers || []
+        let peers = res.Peers || []
         peers.push(id)
-        peers = peers.map(function (peer) {
+        peers = peers.map(peer => {
           return {
             pos: idToAngle(peer.ID),
             id: peer.ID
@@ -45,16 +36,14 @@ export default React.createClass({
         })
 
         log('peers', peers)
-        t.setState({ peers: peers })
+        this.setState({
+          peers
+        })
       })
     })
+  }
 
-    return {
-      peers: []
-    }
-  },
-
-  render: function () {
+  render () {
     return (
       <Row>
         <Col sm={10} smOffset={1}>
@@ -63,4 +52,4 @@ export default React.createClass({
       </Row>
     )
   }
-})
+}

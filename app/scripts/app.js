@@ -1,7 +1,6 @@
 import React from 'react'
-import {render} from 'react-dom'
-import Router, {hashHistory} from 'react-router'
-
+import { render } from 'react-dom'
+import Router from 'react-router'
 import routes from './routes'
 
 require('../styles/app.less')
@@ -10,8 +9,4 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = true
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const root = document.getElementById('root')
-
-  render(<Router history={hashHistory} routes={routes} />, root)
-})
+document.addEventListener('DOMContentLoaded', () => render(<Router history={Router.hashHistory} routes={routes} />, document.getElementById('root')))

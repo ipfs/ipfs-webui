@@ -1,21 +1,22 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
 import {Link} from 'react-router'
 
 import i18n from '../utils/i18n'
 import Icon from './icon'
 
-function NavItem ({title, url, icon}) {
-  return (
-    <Link className='link' to={url} activeClassName='active'>
-      <Icon glyph={icon} /> {i18n.t(title)}
-    </Link>
-  )
+export
+default class NavItem extends Component {
+  static displayName = 'NavItem';
+  static propTypes = {
+    title: React.PropTypes.string.isRequired,
+    url: React.PropTypes.string.isRequired,
+    icon: React.PropTypes.string.isRequired
+  };
+  render () {
+    return (
+        <Link className='link' to={this.props.url} activeClassName='active'>
+            <Icon glyph={this.props.icon} /> {i18n.t(this.props.title)}
+        </Link>
+    )
+  }
 }
-
-NavItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired
-}
-
-export default NavItem
