@@ -4,7 +4,10 @@ module.exports = function makeConfig (isDev) {
   var config = createConfig({
     isDev: isDev,
     in: './app/scripts/app.js',
-    out: 'dist',
+    out: './dist',
+    output: {
+      publicPath: ''
+    },
     html: function (ctx) {
       return ctx.defaultTemplate({
         publicPath: ''
