@@ -1,6 +1,6 @@
 import React from 'react'
 import Peer from '../views/peer'
-// import {lookupPretty as getLocation} from 'ipfs-geoip'
+import {lookupPretty as getLocation} from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
 import {Row, Col, Well} from 'react-bootstrap'
 
@@ -10,6 +10,7 @@ export default React.createClass({
     var t = this
     t.props.ipfs.id(function (err, peer) {
       if (err || !peer) return console.error(err)
+      if (!t.isMounted()) return
       t.setState({
         node: {
           peer: peer,
@@ -17,22 +18,24 @@ export default React.createClass({
         }
       })
 
-      // getLocation(t.props.ipfs, peer.Addresses, function (err, location) {
-      //   if (err || !location) return console.error(err)
-      //   t.setState({
-      //     node: {
-      //       peer: peer,
-      //       location: location
-      //     }
-      //   })
-      // })
+      getLocation(t.props.ipfs, peer.Addresses, function (err, location) {
+        if (err || !location) return console.error(err)
+        if (!t.isMounted()) return
+        t.setState({
+          node: {
+            peer: peer,
+            location: location
+          }
+        })
+      })
     })
 
-    // Fix: The request always fails, not sure why (was broken before already)
-    // t.props.ipfs.config.get('Gateway.Enabled', function (err, enabled) {
-    //   if (err) return console.error(err)
-    //   t.setState({ GatewayEnabled: enabled.Value })
-    // })
+    t.props.ipfs.config.get('Gateway', function (err, {Value}) {
+      if (err) return console.error(err)
+      t.setState({
+        GatewayEnabled: !!Value
+      })
+    })
 
     return {
       node: {
@@ -74,7 +77,7 @@ export default React.createClass({
           <h3>{i18n.t('Node Info')}</h3>
           <Peer {...this.state.node} />
 
-          <Well className='hidden'>
+          <Well>
             <h4>{i18n.t('HTTP Gateway')}</h4>
             <div className='checkbox'>
               <label>
