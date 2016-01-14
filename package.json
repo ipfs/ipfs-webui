@@ -23,7 +23,7 @@
     "three": "^0.73.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.2.1",
+    "autoprefixer": "^6.3.0",
     "babel": "^6.3.13",
     "babel-core": "^6.4.0",
     "babel-eslint": "^5.0.0-beta6",
