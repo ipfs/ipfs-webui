@@ -16,14 +16,16 @@ import debug from 'debug'
 
 const log = debug('globe:scripts')
 
-export default function (container, opts) {
+export
+default
+function(container, opts) {
   opts = opts || {}
 
-  var colorFn = opts.colorFn || function (x) {
-      var c = new THREE.Color()
-      c.setHSL((0.6 - (x * 0.5)), 1.0, 0.5)
-      return c
-    }
+  var colorFn = opts.colorFn || function(x) {
+    var c = new THREE.Color()
+    c.setHSL((0.6 - (x * 0.5)), 1.0, 0.5)
+    return c
+  }
   var imgDir = opts.imgDir || '/globe/'
 
   var Shaders = {
@@ -108,7 +110,7 @@ export default function (container, opts) {
   var padding = 40
   var PI_HALF = Math.PI / 2
 
-  function init () {
+  function init() {
     container.style.color = '#fff'
     container.style.font = '13px/20px Arial, sans-serif'
 
@@ -183,7 +185,7 @@ export default function (container, opts) {
     container.addEventListener('mouseout', onMouseOutRenderer)
   }
 
-  function addData (data, opts) {
+  function addData(data, opts) {
     var lat, lng, size, color, i, step, colorFnWrapper
 
     opts.animated = opts.animated || false
@@ -191,12 +193,12 @@ export default function (container, opts) {
     opts.format = opts.format || 'magnitude'; // other option is 'legend'
     if (opts.format === 'magnitude') {
       step = 3
-      colorFnWrapper = function (data, i) {
+      colorFnWrapper = function(data, i) {
         return colorFn(data[i + 2])
       }
     } else if (opts.format === 'legend') {
       step = 4
-      colorFnWrapper = function (data, i) {
+      colorFnWrapper = function(data, i) {
         return colorFn(data[i + 3])
       }
     } else {
@@ -241,7 +243,7 @@ export default function (container, opts) {
     }
   }
 
-  function createPoints () {
+  function createPoints() {
     if (this._baseGeometry !== undefined) {
       if (this.is_animated === false) {
         this.points = new THREE.Mesh(this._baseGeometry, new THREE.MeshBasicMaterial({
@@ -272,7 +274,7 @@ export default function (container, opts) {
     }
   }
 
-  function addPoint (lat, lng, size, color, subgeo) {
+  function addPoint(lat, lng, size, color, subgeo) {
     var phi = (90 - lat) * Math.PI / 180
     var theta = (180 - lng) * Math.PI / 180
 
@@ -293,7 +295,7 @@ export default function (container, opts) {
     subgeo.merge(point.geometry, point.matrix)
   }
 
-  function onMouseDown (event) {
+  function onMouseDown(event) {
     event.preventDefault()
 
     container.addEventListener('mousemove', onMouseMove, false)
@@ -309,7 +311,7 @@ export default function (container, opts) {
     container.style.cursor = 'move'
   }
 
-  function onMouseMove (event) {
+  function onMouseMove(event) {
     mouse.x = -event.clientX
     mouse.y = event.clientY
 
@@ -322,29 +324,29 @@ export default function (container, opts) {
     target.y = target.y < -PI_HALF ? -PI_HALF : target.y
   }
 
-  function onMouseUp (event) {
+  function onMouseUp(event) {
     container.removeEventListener('mousemove', onMouseMove, false)
     container.removeEventListener('mouseup', onMouseUp, false)
     container.removeEventListener('mouseout', onMouseOut, false)
     container.style.cursor = 'auto'
   }
 
-  function onMouseOut (event) {
+  function onMouseOut(event) {
     overRenderer = false
     container.removeEventListener('mousemove', onMouseMove, false)
     container.removeEventListener('mouseup', onMouseUp, false)
     container.removeEventListener('mouseout', onMouseOut, false)
   }
 
-  function onMouseOverRenderer (event) {
+  function onMouseOverRenderer(event) {
     overRenderer = true
   }
 
-  function onMouseOutRenderer (event) {
+  function onMouseOutRenderer(event) {
     overRenderer = false
   }
 
-  function onMouseWheel (event) {
+  function onMouseWheel(event) {
     event.preventDefault()
     if (overRenderer) {
       zoom(event.wheelDeltaY * 0.3)
@@ -352,7 +354,7 @@ export default function (container, opts) {
     return false
   }
 
-  function onDocumentKeyDown (event) {
+  function onDocumentKeyDown(event) {
     switch (event.keyCode) {
       case 38:
         zoom(100)
@@ -365,24 +367,24 @@ export default function (container, opts) {
     }
   }
 
-  function onWindowResize (event) {
+  function onWindowResize(event) {
     camera.aspect = container.offsetWidth / container.offsetHeight
     camera.updateProjectionMatrix()
     renderer.setSize(container.offsetWidth, container.offsetHeight)
   }
 
-  function zoom (delta) {
+  function zoom(delta) {
     distanceTarget -= delta
     distanceTarget = distanceTarget > 1000 ? 1000 : distanceTarget
     distanceTarget = distanceTarget < 350 ? 350 : distanceTarget
   }
 
-  function animate () {
+  function animate() {
     requestAnimationFrame(animate)
     render()
   }
 
-  function render () {
+  function render() {
     zoom(curZoomSpeed)
 
     rotation.x += (target.x - rotation.x) * 0.1
@@ -398,26 +400,26 @@ export default function (container, opts) {
     renderer.render(scene, camera)
   }
 
-  function removeReferences (removeme) {
+  function removeReferences(removeme) {
     try {
-      removeme.traverse(function (ob) {
+      removeme.traverse(function(ob) {
         try {
           renderer.deallocateObject(ob)
-        } catch(e) {}
+        } catch (e) {}
         try {
           ob.geometry.deallocate()
-        } catch(e) {}
+        } catch (e) {}
         try {
           ob.material.deallocate()
-        } catch(e) {}
+        } catch (e) {}
         try {
           ob.deallocate()
-        } catch(e) {}
+        } catch (e) {}
       })
-    } catch(e) {}
+    } catch (e) {}
   }
 
-  function dispose () {
+  function dispose() {
     onMouseOut()
     container.removeEventListener('mouseover', onMouseOverRenderer)
     container.removeEventListener('mouseout', onMouseOutRenderer)
@@ -431,11 +433,11 @@ export default function (container, opts) {
   init()
   this.animate = animate
 
-  this.__defineGetter__('time', function () {
+  this.__defineGetter__('time', function() {
     return this._time || 0
   })
 
-  this.__defineSetter__('time', function (t) {
+  this.__defineSetter__('time', function(t) {
     var validMorphs = []
     var morphDict = this.points.morphTargetDictionary
     for (var k in morphDict) {

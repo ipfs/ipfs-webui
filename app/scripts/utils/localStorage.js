@@ -5,31 +5,30 @@ const log = debug('utils:localStorage')
 const warn = debug('utils:localStorage:warn')
 
 // Utility to make interacting with localstorage less painful.
-var ls = process.browser && window.localStorage
+const ls = process.browser && window.localStorage
 
 // LS API is obnoxious this way
-var translations = {
+const translations = {
   get: 'getItem',
   set: 'setItem',
   remove: 'removeItem'
 }
-var operations = ['getItem', 'setItem', 'clear', 'removeItem'].concat(_.keys(translations))
+const operations = ['getItem', 'setItem', 'clear', 'removeItem'].concat(_.keys(translations))
 
-_.each(operations, function (op) {
-  var opName = translations[op] || op
-  module.exports[op] = doOperation.bind(null, opName)
-})
+_.each(operations, op => module.exports[op] = () => doOperation(translations[op] || op))
 
-function doOperation (op) {
-  if (!ls) return
-  var args = _.toArray(arguments).slice(1)
+const doOperation = op => {
+  if (!ls) {
+    return
+  }
+  const args = _.toArray(arguments).slice(1)
+
   // Allow setting objects directly
   if (op === 'setItem' && args[1] !== 'string') {
     args[1] = JSON.stringify(args[1])
   }
-
   try {
-    var result = ls[op].apply(ls, args)
+    let result = ls[op].apply(ls, args)
     // If getting, attempt to parse
     if (op === 'getItem') {
       try {
@@ -38,7 +37,6 @@ function doOperation (op) {
         log('Unable to parse result as json. Message: %s', e.message)
       }
     }
-
     return result
   } catch (e) {
     warn(e.message)

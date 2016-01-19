@@ -1,84 +1,93 @@
 import React from 'react'
 import ConnectionList from '../views/connectionlist'
 import Globe from '../views/globe'
-import {lookupPretty as getLocation} from 'ipfs-geoip'
+import {
+  lookupPretty as getLocation
+}
+from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
-import {Row, Col} from 'react-bootstrap'
+import {
+  Row, Col
+}
+from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'Connections',
-  propTypes: {
-    peers: React.PropTypes.array
-  },
-  getInitialState: function () {
-    return {
-      peers: [],
-      locations: {},
-      nonce: 0
-    }
-  },
+export
+default class Connections extends React.Component {
+  state = {
+    peers: [],
+    locations: {},
+    nonce: 0
+  };
 
-  componentDidMount: function () {
-    var t = this
+  static displayName = 'Connections';
+  static propTypes = {
+    peers: React.PropTypes.array,
+    ipfs: React.PropTypes.object
+  };
 
-    var getPeers = function () {
-      t.props.ipfs.swarm.peers(function (err, res) {
-        if (err) return console.error(err)
+  componentDidMount () {
+    this.mounted = true
+    this.pollInterval = setInterval(() => this.getPeers(), 1000)
+    this.getPeers()
+  }
+
+  componentWillUnmount () {
+    this.mounted = false
+    clearInterval(this.pollInterval)
+  }
+
+  getPeers () {
+    this.props.ipfs.swarm.peers((err, res) => {
+      if (err) return console.error(err)
         // If we've unmounted, abort
-        if (!t.isMounted()) return
+      if (!this.mounted) return
 
-        var peers = res.Strings.map(function (peer) {
-          var slashIndex = peer.lastIndexOf('/')
-          return {
-            Address: peer.substr(0, slashIndex),
-            ID: peer.substr(slashIndex + 1)
-          }
-        })
+      let peers = res.Strings.map(peer => {
+        let slashIndex = peer.lastIndexOf('/')
+        return {
+          Address: peer.substr(0, slashIndex),
+          ID: peer.substr(slashIndex + 1)
+        }
+      })
 
-        peers = peers.sort(function (a, b) {
-          return a.ID > b.ID ? 1 : -1
-        })
-        peers.forEach(function (peer, i) {
-          peer.ipfs = t.props.ipfs
-          peer.location = { formatted: '' }
+      peers = peers.sort((a, b) => {
+        return a.ID > b.ID ? 1 : -1
+      })
+      peers.forEach((peer, i) => {
+        peer.ipfs = this.props.ipfs
+        peer.location = {
+          formatted: ''
+        }
 
-          var location = t.state.locations[peer.ID]
-          if (!location) {
-            t.state.locations[peer.ID] = {}
-            t.props.ipfs.id(peer.ID, function (err, id) {
+        let location = this.state.locations[peer.ID]
+        if (!location) {
+          this.state.locations[peer.ID] = {}
+          this.props.ipfs.id(peer.ID, (err, id) => {
+            if (err) return console.error(err)
+
+            getLocation(this.props.ipfs, id.Addresses, (err, res) => {
               if (err) return console.error(err)
-
-              getLocation(t.props.ipfs, id.Addresses, function (err, res) {
-                if (err) return console.error(err)
                 // If we've unmounted, abort
-                if (!t.isMounted()) return
+              if (!this.mounted) return
 
-                res = res || {}
-                peer.location = res
-                var locations = t.state.locations
-                locations[peer.ID] = res
-                peers[i] = peer
-                t.setState({
-                  peers: peers,
-                  locations: locations,
-                  nonce: t.state.nonce++
-                })
+              res = res || {}
+              peer.location = res
+              let locations = this.state.locations
+              locations[peer.ID] = res
+              peers[i] = peer
+              this.setState({
+                peers,
+                locations,
+                nonce: this.state.nonce++
               })
             })
-          }
-        })
+          })
+        }
       })
-    }
+    })
+  }
 
-    t.pollInterval = setInterval(getPeers, 1000)
-    getPeers()
-  },
-
-  componentWillUnmount: function () {
-    clearInterval(this.pollInterval)
-  },
-
-  render: function () {
+  render () {
     return (
       <Row>
         <Col sm={6} className='globe-column'>
@@ -93,4 +102,4 @@ export default React.createClass({
       </Row>
     )
   }
-})
+}

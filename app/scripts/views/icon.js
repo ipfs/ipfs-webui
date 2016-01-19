@@ -1,20 +1,17 @@
-import React, {PropTypes} from 'react'
+import React, {Component} from 'react'
 import classNames from 'classnames'
 
-function Icon ({glyph, large = false}) {
-  const className = classNames('icon', 'fa', `fa-${glyph}`, {
-    'fa-lg': large
-  })
-
-  return (
-    <span className={className} aria-hidden='true'>
-    </span>
-  )
+export
+default class Icon extends Component {
+  static displayName = 'Icon';
+  static propTypes = {
+    glyph: React.PropTypes.string.isRequired,
+    large: React.PropTypes.bool
+  };
+  render () {
+    const className = classNames('icon', 'fa', `fa-${this.props.glyph}`, {
+      'fa-lg': this.props.large
+    })
+    return <span className={className} aria-hidden='true'/>
+  }
 }
-
-Icon.propTypes = {
-  glyph: PropTypes.string.isRequired,
-  large: PropTypes.bool
-}
-
-export default Icon

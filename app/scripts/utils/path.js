@@ -1,4 +1,5 @@
-export default class Path {
+export
+default class Path {
   constructor (protocol, name, path) {
     this.protocol = protocol
     this.name = name
@@ -6,7 +7,7 @@ export default class Path {
   }
 
   parent () {
-    var slashIdx = this.path.lastIndexOf('/')
+    let slashIdx = this.path.lastIndexOf('/')
     if (slashIdx === -1) return null
     return new Path(this.protocol, this.name, this.path.substr(0, slashIdx))
   }
@@ -27,13 +28,15 @@ export default class Path {
   }
 }
 
-export function parse (string) {
+export
+function parse (string) {
   if (!string) return null
   if (string[0] === '\\') {
     string = string.replace(/[\\]/g, '/')
   }
-  var proto, name, path
-  var parts = string.split('/')
+
+  let proto, name, path
+  const parts = string.split('/')
 
   if (!parts[0]) {
     proto = parts[1]
@@ -47,6 +50,5 @@ export function parse (string) {
   if (path) {
     path = '/' + path
   }
-
   return new Path(proto, name, path)
 }

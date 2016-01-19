@@ -1,44 +1,46 @@
-import React from 'react'
+import React, {Component} from 'react'
 import FileList from '../views/filelist'
 import i18n from '../utils/i18n.js'
 import {Row, Col, Panel} from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'Bitswap',
-  propTypes: {
-    pollInterval: React.PropTypes.func
-  },
-  getInitialState: function () {
-    var t = this
+export
+default class Bitswap extends Component {
+  state = {
+    wantlist: []
+  };
 
-    var update = function () {
-      t.props.ipfs.send('bitswap/wantlist', null, null, null, function (err, res) {
-        if (err) return console.error(err)
-        t.setState({ wantlist: res })
+  static displayName = 'Bitswap';
+  static propTypes = {
+    pollInterval: React.PropTypes.func,
+    ipfs: React.PropTypes.object
+  };
+
+  componentDidMount () {
+    this.props.pollInterval = setInterval(() => this.update(), 1000)
+    this.update()
+  }
+
+  update () {
+    this.props.ipfs.send('bitswap/wantlist', null, null, null, (err, wantlist) => {
+      if (err) return console.error(err)
+      this.setState({
+        wantlist
       })
-    }
+    })
+  }
 
-    update()
-    t.props.pollInterval = setInterval(update, 1000)
-
-    return {
-      wantlist: []
-    }
-  },
-
-  componentWillUnmount: function () {
+  componentWillUnmount () {
     clearInterval(this.props.pollInterval)
-  },
+  }
 
-  render: function () {
-    var wantlist = this.state.wantlist
+  render () {
+    const wantlist = this.state.wantlist
 
     return (
       <Row>
         <Col sm={10} smOffset={1}>
           <h3>{i18n.t('Bitswap')}</h3>
           <br/>
-
           <div>
             <h4>
               <strong>{i18n.t('Wantlist')}</strong>&nbsp;
@@ -53,4 +55,4 @@ export default React.createClass({
       </Row>
     )
   }
-})
+}
