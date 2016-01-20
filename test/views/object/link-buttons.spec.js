@@ -1,40 +1,32 @@
-import {expect, shallowRender} from '../../test-helpers'
+import {expect} from 'chai'
+import {shallow} from 'enzyme'
 import React from 'react'
-import {Button} from 'react-bootstrap'
 
 import Path, {parse} from '../../../app/scripts/utils/path'
 
-import ParentLink from '../../../app/scripts/views/object/parent-link'
 import LinkButtons from '../../../app/scripts/views/object/link-buttons'
 
 describe('LinkButtons', () => {
   it('renders', () => {
     const path = parse('/ipfs/hello/world/data')
-    const el = shallowRender(<LinkButtons path={path} gateway='gate' />)
+    const el = shallow(<LinkButtons path={path} gateway='gate' />)
 
-    expect(el).to.contain(
-      <ParentLink parent={new Path('ipfs', 'hello', '/world')} />
-    )
+    expect(
+      el.find('ParentLink')
+    ).to.have.prop('parent').eql(new Path('ipfs', 'hello', '/world'))
 
-    expect(el).to.contain(
-      <Button
-          bsStyle='info'
-          className='btn-second'
-          href='gate/ipfs/hello/world/data'
-          target='_blank'
-      >
-        RAW
-      </Button>
-    )
+    expect(
+      el.find('Button').get(0)
+    ).to.have.prop('href', 'gate/ipfs/hello/world/data')
+    expect(
+      el.find('Button').get(0)
+    ).to.have.text('RAW')
 
-    expect(el).to.contain(
-      <Button
-          href='gate/ipfs/hello/world/data?dl=1'
-          className='btn-second'
-          target='_blank'
-      >
-        Download
-      </Button>
-    )
+    expect(
+      el.find('Button').get(1)
+    ).to.have.prop('href', 'gate/ipfs/hello/world/data?dl=1')
+    expect(
+      el.find('Button').get(1)
+    ).to.have.text('Download')
   })
 })

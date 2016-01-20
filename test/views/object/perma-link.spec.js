@@ -1,6 +1,6 @@
-import {expect, shallowRender} from '../../test-helpers'
+import {expect} from 'chai'
+import {shallow} from 'enzyme'
 import React from 'react'
-import {Link} from 'react-router'
 
 import {parse} from '../../../app/scripts/utils/path'
 import PermaLink from '../../../app/scripts/views/object/perma-link'
@@ -8,18 +8,15 @@ import PermaLink from '../../../app/scripts/views/object/perma-link'
 describe('PermaLink', () => {
   it('renders a given url', () => {
     const path = parse('/ipfs/hello/world')
-    const el = shallowRender(<PermaLink url={path} />)
+    const el = shallow(<PermaLink url={path} />)
 
-    expect(el).to.contain(
-      <Link to='/objects/\ipfs\hello\world'>/ipfs/hello/world</Link>
-    )
+    expect(el.find('Link')).to.have.prop('to', '/objects/\\ipfs\\hello\\world')
+    expect(el.find('Link').get(0)).to.have.text('/ipfs/hello/world')
   })
 
   it('renders an empty span if no url given', () => {
-    const el = shallowRender(<PermaLink />)
+    const el = shallow(<PermaLink />)
 
-    expect(el).to.be.eql(
-      <span></span>
-    )
+    expect(el.find('span')).to.have.text('')
   })
 })

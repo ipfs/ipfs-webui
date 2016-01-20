@@ -24,11 +24,17 @@ module.exports = function makeConfig (isDev) {
   })
 
   config.externals = {
+    // Needed for js-ipfs-api
     net: '{}',
     fs: '{}',
     tls: '{}',
     console: '{}',
-    'require-dir': '{}'
+    'require-dir': '{}',
+    // Needed for enzyme
+    jsdom: 'window',
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': 'window',
+    'text-encoding': 'window'
   }
 
   config.resolve = {
@@ -37,9 +43,13 @@ module.exports = function makeConfig (isDev) {
     ],
     alias: {
       http: 'stream-http',
-      https: 'https-browserify'
+      https: 'https-browserify',
+      sinon: 'sinon/pkg/sinon'
     }
   }
+
+  config.module.noParse = config.module.noParse || []
+  config.module.noParse.push(/node_modules\/sinon\//)
 
   return config
 }

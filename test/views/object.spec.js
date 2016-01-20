@@ -1,18 +1,15 @@
-import {expect, shallowRender} from '../test-helpers'
+import {expect} from 'chai'
+import {shallow} from 'enzyme'
 import React from 'react'
 
 import {parse} from '../../app/scripts/utils/path'
 import ObjectView from '../../app/scripts/views/object'
 
-import Links from '../../app/scripts/views/object/links'
-import DisplayData from '../../app/scripts/views/object/display-data'
-import PermaLink from '../../app/scripts/views/object/perma-link'
-
 describe('Object', () => {
   it('renders', () => {
     const path = parse('/ipfs/hello/world')
     const permalink = parse('/perma/hello/world')
-    const el = shallowRender(
+    const el = shallow(
       <ObjectView
           path={path}
           permalink={permalink}
@@ -21,20 +18,9 @@ describe('Object', () => {
       />
     )
 
-    expect(el).to.contain(
-      <h4>Object</h4>
-    )
-
-    expect(el).to.contain(
-      <Links path={path} links={[]} />
-    )
-
-    expect(el).to.contain(
-      <DisplayData data='hello' />
-    )
-
-    expect(el).to.contain(
-      <PermaLink url={permalink} />
-    )
+    expect(el.find('h4')).to.have.text('Object')
+    expect(el.find('Links')).to.have.prop('links').eql([])
+    expect(el.find('DisplayData')).to.have.prop('data', 'hello')
+    expect(el.find('PermaLink')).to.have.prop('url', permalink)
   })
 })

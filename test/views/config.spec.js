@@ -1,4 +1,5 @@
-import {expect, shallowRender} from '../test-helpers'
+import {expect} from 'chai'
+import {shallow} from 'enzyme'
 import React from 'react'
 
 import ConfigView from '../../app/scripts/views/config'
@@ -6,17 +7,8 @@ import ConfigView from '../../app/scripts/views/config'
 describe('ConfigView', () => {
   it('renders the given config', () => {
     const config = {a: true, b: {c: 'hello'}}
-    const el = shallowRender(<ConfigView config={config}/>)
+    const el = shallow(<ConfigView config={config}/>)
 
-    expect(el).to.contain(
-      <textarea
-          ref='configTextarea'
-          className='panel-inner'
-          spellCheck='false'
-          style={{height: 0}}
-          onChange={() => {}}
-          value={JSON.stringify(config, null, 2)}
-      />
-    )
+    expect(el.find('textarea')).to.have.prop('value', JSON.stringify(config, null, 2))
   })
 })

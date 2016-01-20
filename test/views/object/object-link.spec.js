@@ -1,6 +1,6 @@
-import {expect, shallowRender} from '../../test-helpers'
+import {expect} from 'chai'
+import {shallow} from 'enzyme'
 import React from 'react'
-import {Link} from 'react-router'
 
 import {parse} from '../../../app/scripts/utils/path'
 import ObjectLink from '../../../app/scripts/views/object/object-link'
@@ -8,27 +8,18 @@ import ObjectLink from '../../../app/scripts/views/object/object-link'
 describe('ObjectLink', () => {
   it('renders the given link', () => {
     const path = parse('/ipfs/hello/world')
-    const el = shallowRender(<ObjectLink path={path} link={{Name: 'hi', Hash: '12', Size: 2}}/>)
+    const el = shallow(<ObjectLink path={path} link={{Name: 'hi', Hash: '12', Size: 2}}/>)
 
-    expect(el).to.eql(
-      <tr>
-        <td>
-          <Link to='objects/\ipfs\hello\world\hi'>hi</Link>
-        </td>
-        <td>
-          <Link to='objects/\ipfs\hello\world\hi'>12</Link>
-        </td>
-        <td>2</td>
-      </tr>
-    )
+    expect(el.find('Link')).to.have.length(2)
+    expect(el.find('Link').get(0)).to.have.prop('to', 'objects/\\ipfs\\hello\\world\\hi')
+    expect(el.find('Link').get(0)).to.have.text('hi')
   })
 
   it('renders links without a name', () => {
     const path = parse('/ipfs/hello/world')
-    const el = shallowRender(<ObjectLink path={path} link={{Hash: 'Qm', Size: 2}}/>)
+    const el = shallow(<ObjectLink path={path} link={{Hash: 'Qm', Size: 2}}/>)
 
-    expect(el).to.contain(
-      <Link to='objects/\ipfs\Qm'>Qm</Link>
-    )
+    expect(el.find('Link').get(0)).to.have.prop('to', 'objects/\\ipfs\\Qm')
+    expect(el.find('Link').get(0)).to.have.text('Qm')
   })
 })
