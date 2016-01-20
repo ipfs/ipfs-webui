@@ -13,7 +13,7 @@ export default class FileList extends Component {
     files: React.PropTypes.array,
     namesHidden: React.PropTypes.bool,
     gateway: React.PropTypes.string
-  }
+  };
 
   render () {
     const files = this.props.files

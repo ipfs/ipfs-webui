@@ -10,8 +10,10 @@ describe('ConfigView', () => {
 
     expect(el).to.contain(
       <textarea
+          ref='textareaConfig'
           className='panel-inner'
           spellCheck='false'
+          style={{height: 0}}
           onChange={() => {}}
           value={JSON.stringify(config, null, 2)}
       />
