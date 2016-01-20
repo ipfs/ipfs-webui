@@ -1,12 +1,12 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {Row, Col} from 'react-bootstrap'
 import i18n from '../utils/i18n.js'
-
 import {Link} from 'react-router'
 
-export default React.createClass({
-  displayName: 'NotFound',
-  render: function () {
+export
+default class NotFound extends Component {
+  static displayName = 'NotFound';
+  render () {
     return (
       <Row>
         <Col sm={10} smOffset={1}>
@@ -20,4 +20,4 @@ export default React.createClass({
       </Row>
     )
   }
-})
+}

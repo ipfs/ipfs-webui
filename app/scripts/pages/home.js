@@ -1,82 +1,95 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Peer from '../views/peer'
-import {lookupPretty as getLocation} from 'ipfs-geoip'
+import {
+  lookupPretty as getLocation
+}
+from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
 import {Row, Col, Well} from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'Home',
-  getInitialState: function () {
-    var t = this
-    t.props.ipfs.id(function (err, peer) {
+export
+default class Home extends Component {
+  state = {
+    node: {
+      peer: {
+        ID: '',
+        PublicKey: '',
+        Addresses: [],
+        AgentVersion: '',
+        ProtocolVersion: ''
+      },
+      location: {
+        formatted: ''
+      }
+    },
+    GatewayEnabled: false,
+    GatewayUrl: 'http://localhost:8080/'
+  };
+
+  static displayName = 'Home';
+  static propTypes = {
+    ipfs: React.PropTypes.object
+  };
+
+  componentDidMount () {
+    this.mounted = true
+
+    this.props.ipfs.id((err, peer) => {
       if (err || !peer) return console.error(err)
-      if (!t.isMounted()) return
-      t.setState({
+      if (!this.mounted) return
+      this.setState({
         node: {
-          peer: peer,
+          peer,
           location: {}
         }
       })
-
-      getLocation(t.props.ipfs, peer.Addresses, function (err, location) {
+      getLocation(this.props.ipfs, peer.Addresses, (err, location) => {
         if (err || !location) return console.error(err)
-        if (!t.isMounted()) return
-        t.setState({
+        if (!this.mounted) return
+        this.setState({
           node: {
-            peer: peer,
-            location: location
+            peer,
+            location
           }
         })
       })
     })
 
-    t.props.ipfs.config.get('Gateway', function (err, {Value}) {
+    this.props.ipfs.config.get('Gateway', (err, {
+      Value
+    }) => {
       if (err) return console.error(err)
-      t.setState({
+      this.setState({
         GatewayEnabled: !!Value
       })
     })
 
-    return {
-      node: {
-        peer: {
-          ID: '',
-          PublicKey: '',
-          Addresses: [],
-          AgentVersion: '',
-          ProtocolVersion: ''
-        },
-        location: { formatted: '' }
-      },
-      GatewayEnabled: false,
-      GatewayUrl: 'http://localhost:8080/'
-    }
-  },
+    return
+  }
 
-  onGatewayChange: function (e) {
-    var t = this
-    var enabled = !t.state.GatewayEnabled
-    var api = enabled ? t.props.ipfs.gateway.enable : t.props.ipfs.gateway.disable
-    api(function (err) {
+  componentWillUnmount () {
+    this.mounted = false
+  }
+
+  onGatewayChange () {
+    const GatewayEnabled = !this.state.GatewayEnabled
+    const api = GatewayEnabled ? this.props.ipfs.gateway.enable : this.props.ipfs.gateway.disable
+    api(err => {
       if (err) return console.error(err)
-      t.setState({ GatewayEnabled: enabled })
+      this.setState({
+        GatewayEnabled
+      })
     })
-  },
+  }
 
-  render: function () {
-    var gatewayEnabled = this.state.GatewayEnabled
-    var gatewayLink
-    if (gatewayEnabled) {
-      gatewayLink = <a href={this.state.GatewayUrl}>{i18n.t('Go to gateway')}</a>
-    }
-
+  render () {
+    const gatewayEnabled = this.state.GatewayEnabled
+    const gatewayLink = gatewayEnabled ? <a href={this.state.GatewayUrl}>{i18n.t('Go to gateway')}</a> : null
     return (
       <Row>
         <Col sm={10} smOffset={1}>
-
           <h3>{i18n.t('Node Info')}</h3>
           <Peer {...this.state.node} />
-
           <Well>
             <h4>{i18n.t('HTTP Gateway')}</h4>
             <div className='checkbox'>
@@ -87,9 +100,8 @@ export default React.createClass({
             </div>
             {gatewayLink}
           </Well>
-
         </Col>
       </Row>
     )
   }
-})
+}

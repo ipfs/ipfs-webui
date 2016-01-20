@@ -1,13 +1,16 @@
-import React from 'react'
+import React, {Component} from 'react'
 import i18n from '../utils/i18n.js'
 
-export default React.createClass({
-  displayName: 'Peer',
-  propTypes: {
+export
+default class Peer extends Component {
+  static displayName = 'Peer';
+  static propTypes = {
+    table: React.PropTypes.object,
+    children: React.PropTypes.object,
     peer: React.PropTypes.object,
     location: React.PropTypes.object
-  },
-  render: function () {
+  };
+  render () {
     return (
       <div className='webui-peer'>
         <div className='box info'>
@@ -30,10 +33,9 @@ export default React.createClass({
             <pre className='panel textarea-panel'>{this.props.peer.PublicKey || ''}</pre>
           </div>
         </div>
-
         <h4>{i18n.t('Network Addresses')}</h4>
         <div className='box addresses'>
-          {(this.props.peer.Addresses || []).map(function (address, i) {
+          {(this.props.peer.Addresses || []).map((address, i) => {
             if (!address) return
             return (
               <p key={i}>
@@ -45,4 +47,4 @@ export default React.createClass({
       </div>
     )
   }
-})
+}

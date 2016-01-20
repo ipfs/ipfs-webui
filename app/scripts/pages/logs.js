@@ -1,11 +1,18 @@
-import React, {Component, PropTypes} from 'react'
+import React, {
+  Component, PropTypes
+}
+from 'react'
 import ReactDOM from 'react-dom'
 import i18n from '../utils/i18n.js'
-import {Row, Col} from 'react-bootstrap'
+import {
+  Row, Col
+}
+from 'react-bootstrap'
 
 const MAXSIZE = 1000
 
-export default class Logs extends Component {
+export
+default class Logs extends Component {
   static propTypes = {
     ipfs: PropTypes.object,
     host: PropTypes.string
@@ -38,21 +45,29 @@ export default class Logs extends Component {
     const request = this.props.ipfs.log.tail((err, stream) => {
       if (err) return console.error(err)
       stream.on('data', this._onLogData)
-      this.setState({stream})
+      this.setState({
+        stream
+      })
     })
 
-    this.setState({request})
+    this.setState({
+      request
+    })
   }
 
   componentWillUnmount () {
     if (this.state.request) {
       this.state.request.destroy()
-      this.setState({request: null})
+      this.setState({
+        request: null
+      })
     }
 
     if (this.state.stream) {
       this.state.stream.removeAllListeners('data')
-      this.setState({stream: null})
+      this.setState({
+        stream: null
+      })
     }
   }
 
@@ -65,40 +80,30 @@ export default class Logs extends Component {
     }
   }
 
-  clear () {
-    this.setState({ log: [] })
-  }
-
-  toggleTail () {
-    this.setState({ tailing: !this.state.tailing })
-  }
-
   render () {
     const buttons = (
       <div className='buttons'>
-        <button className='btn btn-second' onClick={this.clear}>{i18n.t('Clear')}</button>
+        <button className='btn btn-second' onClick={() => this.setState({ log: [] })}>{i18n.t('Clear')}</button>
         <button className={'btn btn-second ' + (this.state.tailing ? 'active' : '')}
-          data-toggle='button' aria-pressed={this.state.tailing} onClick={this.toggleTail}>{i18n.t('Tail')}</button>
+          data-toggle='button' aria-pressed={this.state.tailing} onClick={() => this.setState({ tailing: !this.state.tailing })}>{i18n.t('Tail')}</button>
       </div>
     )
 
     return (
-    <Row>
-      <Col sm={10} smOffset={1} className={'webui-logs'}>
-        <h3>{i18n.t('Event Log')}</h3>
-        <div className='actions'>{buttons}</div>
-        <br/>
-
-        <div className='textarea-panel panel panel-default padded'>
-          {this.state.log.map(event => (
-            <pre key={event.time}>{JSON.stringify(event, null, '  ')}</pre>
-          ))}
-        </div>
-
-        <div className='pull-right'>{buttons}</div>
-        <br/>
-      </Col>
-    </Row>
+      <Row>
+        <Col sm={10} smOffset={1} className={'webui-logs'}>
+          <h3>{i18n.t('Event Log')}</h3>
+          <div className='actions'>{buttons}</div>
+          <br/>
+          <div className='textarea-panel panel panel-default padded'>
+            {this.state.log.map(event => (
+              <pre key={event.time}>{JSON.stringify(event, null, '  ')}</pre>
+            ))}
+          </div>
+          <div className='pull-right'>{buttons}</div>
+          <br/>
+        </Col>
+      </Row>
     )
   }
 }

@@ -9,123 +9,111 @@ import i18n from '../utils/i18n.js'
 
 const log = debug('pages:files')
 
-export default React.createClass({
-  displayName: 'Files',
-  propTypes: {
+export
+default class Files extends React.Component {
+  state = {
+    files: LocalStorage.get('files') || [],
+    pinned: [],
+    local: [],
+    dragging: false
+  };
+
+  static displayName = 'Files';
+  static propTypes = {
     ipfs: React.PropTypes.object,
     gateway: React.PropTypes.string,
     location: React.PropTypes.object
-  },
-  getInitialState: function () {
-    var t = this
+  };
 
-    var files = LocalStorage.get('files') || []
+  componentDidMount () {
+    this.getFiles()
+  }
 
-    function getFiles () {
-      t.props.ipfs.pin.list(function (err, pinned) {
-        if (err || !pinned) return t.error(err)
-        t.setState({ pinned: Object.keys(pinned.Keys).sort() })
-      })
-
-      t.props.ipfs.pin.list('recursive', function (err, pinned) {
-        if (err || !pinned) return t.error(err)
-        t.setState({ local: Object.keys(pinned.Keys).sort() })
-      })
-    }
-
-    getFiles()
-
-    return {
-      files: files,
-      pinned: [],
-      local: [],
-      dragging: false
-    }
-  },
-
-  componentWillUnmount: function () {
+  componentWillUnmount () {
     clearInterval(this.pollInterval)
-  },
+  }
 
-  addFile: function (e) {
-    e.preventDefault()
+  getFiles = () => {
+    this.props.ipfs.pin.list((err, pinned) => {
+      if (err || !pinned) return this.error(err)
+      this.setState({
+        pinned: Object.keys(pinned.Keys).sort()
+      })
+    })
+    this.props.ipfs.pin.list('recursive', (err, pinned) => {
+      if (err || !pinned) return this.error(err)
+      this.setState({
+        local: Object.keys(pinned.Keys).sort()
+      })
+    })
+  };
+
+  addFile (event) {
+    event.preventDefault()
     this.refs.fileSelect.click()
-  },
+  }
 
-  onDragOver: function (e) {
-    log('dragover')
-    this.setState({ dragging: true })
-    e.stopPropagation()
-    e.preventDefault()
-  },
+  onDrop (event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.setState({
+      dragging: false
+    })
+    this.onFileChange.bind(this, event)
+  }
 
-  onDragLeave: function (e) {
-    log('dragleave')
-    this.setState({ dragging: false })
-    e.stopPropagation()
-    e.preventDefault()
-  },
-
-  onDrop: function (e) {
-    this.setState({ dragging: false })
-    e.stopPropagation()
-    e.preventDefault()
-    this.onFileChange(e)
-  },
-
-  onFileChange: function (e) {
-    var files = e.target.files || e.dataTransfer.files
+  onFileChange (event) {
+    const files = event.target.files || event.dataTransfer.files
     if (!files || !files[0]) return
     var file = files[0]
-    var t = this
     log('adding file: ', file)
 
-    function add (data) {
-      t.props.ipfs.add(data, function (err, res) {
-        if (err || !res) return t.error(err)
+    const add = data => {
+      this.props.ipfs.add(data, (err, res) => {
+        if (err || !res) return this.error(err)
         res = res[0]
 
-        var metadata = {
+        const metadata = {
           id: res.Hash,
           name: res.Name || file.name,
           type: file.type,
           size: file.size
         }
 
-        var nextFiles = (t.state.files || [])
+        let nextFiles = (this.state.files || [])
         nextFiles.unshift(metadata)
         LocalStorage.set('files', nextFiles)
-        t.setState({
+        this.setState({
           files: nextFiles,
           confirm: metadata.name
         })
 
-        setTimeout(function () {
-          t.setState({ confirm: null })
-        }, 6000)
+        setTimeout(() => this.setState({
+          confirm: null
+        }), 6000)
       })
     }
 
     if (file.path) {
       add(file.path)
     } else {
-      var reader = new window.FileReader()
-      reader.onload = function () {
-        var data = reader.result
+      const reader = new window.FileReader()
+      reader.onload = () => {
+        let data = reader.result
         data = new Buffer(data.substr(data.indexOf(',') + 1), 'base64')
         add(data)
       }
       // TODO: use array buffers instead of base64 strings
       reader.readAsDataURL(file)
     }
-  },
+  }
 
-  error: function (err) {
+  error (err) {
     console.error(err)
     // TODO
-  },
+  }
 
-  _renderTitle () {
+  _renderTitle = () => {
     switch (this.props.location.pathname) {
       case '/files':
         return this._renderAdder()
@@ -136,16 +124,16 @@ export default React.createClass({
       default:
         return ''
     }
-  },
+  };
 
-  _renderAdder () {
+  _renderAdder = () => {
     return (
       <div className='file-add-container'>
         <div
-            className='file-add-target'
-            onDragOver={this.onDragOver}
-            onDragLeave={this.onDragLeave}
-            onDrop={this.onDrop}
+          className={'file-add-target ' + (this.state.dragging ? 'hover' : null)}
+          onDragOver={() => this.setState({dragging: true})}
+          onDragLeave={() => this.setState({dragging: false})}
+          onDrop={this.onDrop.bind(this)}
         >
         </div>
         <div className={'file-add-container-inner ' + (this.state.dragging ? 'hover' : '')}></div>
@@ -158,11 +146,11 @@ export default React.createClass({
           </p>
           <p>
             <button
-                className='btn btn-second add-file'
-                onClick={this.addFile}
-                onDragOver={this.onDragOver}
-                onDragLeave={this.onDragLeave}
-                onDrop={this.onDrop}
+              className={'btn btn-second add-file ' + (this.state.dragging ? 'hover' : null)}
+              onClick={this.addFile.bind(this)}
+              onDragOver={() => this.setState({dragging: true})}
+              onDragLeave={() => this.setState({dragging: false})}
+              onDrop={this.onDrop.bind(this)}
             >
               {i18n.t('Select files...')}
             </button>
@@ -179,17 +167,17 @@ export default React.createClass({
           </p>
         </div>
         <input
-            type='file'
-            ref='fileSelect'
-            className='file-select'
-            style={{display: 'none'}}
-            onChange={this.onFileChange}
+          type='file'
+          ref='fileSelect'
+          className='file-select'
+          style={{display: 'none'}}
+          onChange={this.onFileChange.bind(this)}
         />
       </div>
     )
-  },
+  };
 
-  _renderPanel () {
+  _renderPanel = () => {
     switch (this.props.location.pathname) {
       case '/files':
         return (
@@ -226,9 +214,9 @@ export default React.createClass({
       default:
         return ''
     }
-  },
+  };
 
-  render: function () {
+  render () {
     return (
       <Row>
         <Col sm={10} smOffset={1}>
@@ -243,7 +231,6 @@ export default React.createClass({
               <NavItem>{i18n.t('All')}</NavItem>
             </LinkContainer>
           </Nav>
-
           <div className={this.state.selected}>
             {this._renderTitle()}
             {this._renderPanel()}
@@ -252,4 +239,4 @@ export default React.createClass({
       </Row>
     )
   }
-})
+}

@@ -1,15 +1,17 @@
-import {expect, shallowRender} from '../test-helpers'
+import {expect} from 'chai'
+import {shallow} from 'enzyme'
 import React from 'react'
 
 import Icon from '../../app/scripts/views/icon'
 
 describe('Icon', () => {
   it('renders the given glyph', () => {
-    const el = shallowRender(<Icon glyph='list'/>)
-    expect(el).to.eql(<span aria-hidden='true' className='icon fa fa-list'></span>)
+    const el = shallow(<Icon glyph='list'/>)
+    expect(el).to.have.className('icon fa fa-list')
   })
+
   it('renders the given glyph with a large option', () => {
-    const el = shallowRender(<Icon glyph='list' large/>)
-    expect(el).to.eql(<span aria-hidden='true' className='icon fa fa-list fa-lg'></span>)
+    const el = shallow(<Icon glyph='list' large/>)
+    expect(el).to.have.className('icon fa fa-list fa-lg')
   })
 })

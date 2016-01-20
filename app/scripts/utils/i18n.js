@@ -24,4 +24,5 @@ i18next
     nsseparator: '>'
   })
 
-export default i18next
+export
+default i18next

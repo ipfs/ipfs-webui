@@ -1,8 +1,8 @@
-import {expect, shallowRender} from '../../test-helpers'
+import {expect} from 'chai'
+import {shallow} from 'enzyme'
 import React from 'react'
 
 import {parse} from '../../../app/scripts/utils/path'
-import ObjectLink from '../../../app/scripts/views/object/object-link'
 import ObjectLinks from '../../../app/scripts/views/object/object-links'
 
 describe('ObjectLinks', () => {
@@ -17,18 +17,11 @@ describe('ObjectLinks', () => {
       Hash: 'Qp',
       Size: 3
     }]
-    const el = shallowRender(<ObjectLinks path={path} links={links}/>)
+    const el = shallow(<ObjectLinks path={path} links={links}/>)
 
-    expect(el).to.contain(
-      <strong>Object links</strong>
-    )
+    expect(el.find('strong')).to.have.text('Object links')
+    expect(el.find('th').first()).to.have.text('Name')
 
-    expect(el).to.contain(
-      <th>Name</th>
-    )
-
-    expect(el).to.contain(
-      <ObjectLink link={links[0]} path={path} />
-    )
+    expect(el.find('ObjectLink').first()).to.have.prop('link').eql(links[0])
   })
 })
