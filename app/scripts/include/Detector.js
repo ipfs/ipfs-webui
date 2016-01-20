@@ -39,15 +39,12 @@ var Detector = {
         '<a href="http://www.mozilla.com/en-US/firefox/new/">Firefox 4</a> or',
         '<a href="http://nightly.webkit.org/">Webkit Nightly (Mac)</a>'
       ].join('\n');
-
     }
 
     return domElement;
-
   },
 
-  addGetWebGLMessage: function(parameters) {
-
+  addGetWebGLMessage: function (parameters) {
     var parent, id, domElement;
 
     parameters = parameters || {};

@@ -88,10 +88,10 @@ default class Page extends React.Component {
                     <div className='col-sm-10'>
                         <form className='navbar-form navbar-left collapse navbar-collapse col-xs-6'>
                           <div className='form-group'>
-                            <input type='text' ref='dag-path' className='form-control dag-path' placeholder={i18n.t('Enter a hash or path')} />
+                            <input type='text' ref='dagPath' className='form-control dag-path' placeholder={i18n.t('Enter a hash or path')} />
                           </div>
                           <button className='btn btn-third btn-xs'
-                            onClick={() => this.context.router.push(`/objects/${parse(this.refs['dag-path'].val()).urlify()}`)}>
+                            onClick={() => this.context.router.push(`/objects/${parse(this.refs.dagPath.val()).urlify()}`)}>
                             {i18n.t('GO')}
                           </button>
                         </form>

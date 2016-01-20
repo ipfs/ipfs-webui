@@ -10,7 +10,7 @@ describe('ConfigView', () => {
 
     expect(el).to.contain(
       <textarea
-          ref='config-textarea'
+          ref='configTextarea'
           className='panel-inner'
           spellCheck='false'
           style={{height: 0}}

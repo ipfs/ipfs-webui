@@ -50,7 +50,7 @@ default class Files extends React.Component {
 
   addFile (event) {
     event.preventDefault()
-    this.refs['file-select'].click()
+    this.refs.fileSelect.click()
   }
 
   onDrop (event) {
@@ -168,7 +168,7 @@ default class Files extends React.Component {
         </div>
         <input
           type='file'
-          ref='file-select'
+          ref='fileSelect'
           className='file-select'
           style={{display: 'none'}}
           onChange={this.onFileChange.bind(this)}

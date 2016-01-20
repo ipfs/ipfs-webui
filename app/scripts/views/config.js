@@ -19,7 +19,7 @@ default class ConfigView extends Component {
   };
 
   updateHeight = () => {
-    const el = this.refs['config-textarea']
+    const el = this.refs.configTextarea
     this.setState({height: el.scrollHeight})
   };
 
@@ -112,7 +112,7 @@ default class ConfigView extends Component {
         {buttons}
         <div className='textarea-panel panel panel-default padded'>
           <textarea
-              ref='config-textarea'
+              ref='configTextarea'
               className='panel-inner'
               spellCheck='false'
               style={{height: this.state.height}}
