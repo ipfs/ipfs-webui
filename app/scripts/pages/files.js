@@ -1,10 +1,13 @@
 import React from 'react'
 import {Row, Col, Nav, NavItem, Panel} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
+import debug from 'debug'
 
 import FileList from '../views/filelist'
 import LocalStorage from '../utils/localStorage'
 import i18n from '../utils/i18n.js'
+
+const log = debug('pages:files')
 
 export default React.createClass({
   displayName: 'Files',
@@ -50,14 +53,14 @@ export default React.createClass({
   },
 
   onDragOver: function (e) {
-    console.log('dragover')
+    log('dragover')
     this.setState({ dragging: true })
     e.stopPropagation()
     e.preventDefault()
   },
 
   onDragLeave: function (e) {
-    console.log('dragleave')
+    log('dragleave')
     this.setState({ dragging: false })
     e.stopPropagation()
     e.preventDefault()
@@ -75,7 +78,7 @@ export default React.createClass({
     if (!files || !files[0]) return
     var file = files[0]
     var t = this
-    console.log('adding file: ', file)
+    log('adding file: ', file)
 
     function add (data) {
       t.props.ipfs.add(data, function (err, res) {

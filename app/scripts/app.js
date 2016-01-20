@@ -7,7 +7,7 @@ import routes from './routes'
 require('../styles/app.less')
 
 if (process.env.NODE_ENV !== 'production') {
-  window.uiDebug = require('debug')
+  localStorage.debug = true
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -9,14 +9,15 @@ export default class Logs extends Component {
   static propTypes = {
     ipfs: PropTypes.object,
     host: PropTypes.string
-  }
+  };
 
   state = {
     log: [],
     tailing: true,
     nonce: 0,
-    request: null
-  }
+    request: null,
+    stream: null
+  };
 
   _onLogData = chunk => {
     this.setState(oldState => {
@@ -31,12 +32,13 @@ export default class Logs extends Component {
         nonce: oldState.nonce + 1
       }
     })
-  }
+  };
 
   componentWillMount () {
     const request = this.props.ipfs.log.tail((err, stream) => {
       if (err) return console.error(err)
       stream.on('data', this._onLogData)
+      this.setState({stream})
     })
 
     this.setState({request})
@@ -46,6 +48,11 @@ export default class Logs extends Component {
     if (this.state.request) {
       this.state.request.destroy()
       this.setState({request: null})
+    }
+
+    if (this.state.stream) {
+      this.state.stream.removeAllListeners('data')
+      this.setState({stream: null})
     }
   }
 

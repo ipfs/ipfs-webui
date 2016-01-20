@@ -1,4 +1,8 @@
 import _ from 'lodash'
+import debug from 'debug'
+
+const log = debug('utils:localStorage')
+const warn = debug('utils:localStorage:warn')
 
 // Utility to make interacting with localstorage less painful.
 var ls = process.browser && window.localStorage
@@ -30,11 +34,13 @@ function doOperation (op) {
     if (op === 'getItem') {
       try {
         result = JSON.parse(result)
-      } catch (e) {}
+      } catch (e) {
+        log('Unable to parse result as json. Message: %s', e.message)
+      }
     }
 
     return result
   } catch (e) {
-    console.warn('LocalStorage error: ' + e.message)
+    warn(e.message)
   }
 }
