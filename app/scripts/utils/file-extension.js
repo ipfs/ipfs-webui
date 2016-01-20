@@ -1,4 +1,4 @@
-export default function fileExtention (name, defaultExt = '?') {
+export default function fileExtension (name, defaultExt = '?') {
   if (!name) {
     return defaultExt
   }
@@ -11,4 +11,3 @@ export default function fileExtention (name, defaultExt = '?') {
     return ext.toUpperCase()
   }
 }
-

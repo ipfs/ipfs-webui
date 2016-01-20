@@ -1,10 +1,10 @@
 import React from 'react'
 import i18n from '../utils/i18n.js'
 import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap'
-import fileExtention from '../utils/fileExtention'
+import fileExtension from '../utils/file-extension'
 
 export default ({gatewayPath, dagPath, file, unpin}) => {
-  var type = fileExtention(file.name)
+  var type = fileExtension(file.name)
   var tooltip = (
     <Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>
   )
@@ -28,4 +28,3 @@ export default ({gatewayPath, dagPath, file, unpin}) => {
     </tr>
   )
 }
-

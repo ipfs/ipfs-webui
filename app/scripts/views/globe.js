@@ -1,12 +1,12 @@
 import React from 'react'
 import DATGlobe from '../include/globe.js'
 import LocalStorageMixin from 'react-localstorage'
-import Debug from 'debug'
+import debug from 'debug'
 import _ from 'lodash'
 // Displays webgl warning message if not present
 require('../include/Detector.js')
 
-const debug = Debug('ipfs:pages:connections')
+const log = debug('pages:connections')
 
 export default React.createClass({
   displayName: 'Globe',
@@ -31,7 +31,7 @@ export default React.createClass({
 
   componentDidUpdate: function (prevProps, prevState) {
     if (prevState.theme !== this.state.theme) {
-      debug('disposing globe')
+      log('disposing globe')
       this.globe && this.globe.dispose()
       this.createGlobe()
     }
@@ -44,7 +44,7 @@ export default React.createClass({
     if (!this.globe || !data.length) return
     // TODO find difference between old points and new points
     // and only add the new ones. THREE might be doing this internally.
-    debug('adding %d points, %j', data.length, data)
+    log('adding %d points, %j', data.length, data)
     this.globe.addData(data, { format: 'magnitude' })
     this.globe.createPoints()
   },
@@ -54,7 +54,7 @@ export default React.createClass({
     var texturePath = window.location.pathname + slash + 'img/'
     if (this.state.theme === 'dark') texturePath += 'dark-'
 
-    debug('mounting globe')
+    log('mounting globe')
     this.globe = new DATGlobe(this.refs.globe, {
       imgDir: texturePath
     })
