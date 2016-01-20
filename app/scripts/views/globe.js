@@ -6,7 +6,7 @@ import _ from 'lodash'
 // Displays webgl warning message if not present
 require('../include/Detector.js')
 
-const log = debug('globe')
+const log = debug('pages:connections')
 
 export default React.createClass({
   displayName: 'Globe',

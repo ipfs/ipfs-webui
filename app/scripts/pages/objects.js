@@ -1,5 +1,4 @@
 import React from 'react'
-import $ from 'jquery'
 import ObjectView from '../views/object'
 import {parse} from '../utils/path.js'
 import i18n from '../utils/i18n.js'
@@ -64,7 +63,7 @@ export default React.createClass({
   },
 
   updatePath: function (e) {
-    var path = $(e.target).val().trim()
+    var path = e.target.value.trim()
     this.setState({ pathInput: path })
   },
 

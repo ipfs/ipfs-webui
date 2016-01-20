@@ -1,34 +1,49 @@
-import React from 'react'
-import $ from 'jquery'
+import React, { Component } from 'react'
 import i18n from '../utils/i18n.js'
-import {Table, Tooltip, OverlayTrigger} from 'react-bootstrap'
+import {Table} from 'react-bootstrap'
+import FileItem from './fileitem'
+import debug from 'debug'
 
-export default React.createClass({
-  displayName: 'FileList',
-  propTypes: {
+const log = debug('views:filelist')
+log.error = debug('views:filelist:error')
+
+export default class FileList extends Component {
+  static propTypes = {
     ipfs: React.PropTypes.object,
     files: React.PropTypes.array,
-    namesHidden: React.PropTypes.bool
-  },
+    namesHidden: React.PropTypes.bool,
+    gateway: React.PropTypes.string
+  };
 
-  unpin: function (e) {
-    e.preventDefault()
-    e.stopPropagation()
+  render () {
+    const files = this.props.files
+    let className = 'table-hover filelist'
 
-    var el = $(e.target)
-    var hash = el.attr('data-hash')
-    if (!hash) hash = el.parent().attr('data-hash')
+    if (this.props.namesHidden) {
+      className += ' filelist-names-hidden'
+    }
 
-    this.props.ipfs.pin.remove(hash, {r: true}, function (err, res) {
-      if (err) return console.error(err)
-    })
-  },
+    const createFile = file => {
+      if (typeof file === 'string') {
+        file = { id: file }
+      }
 
-  render: function () {
-    var t = this
-    var files = this.props.files
-    var className = 'table-hover filelist'
-    if (this.props.namesHidden) className += ' filelist-names-hidden'
+      const dagPath = `#/objects/${file.id}`
+      const gatewayPath = `${this.props.gateway}/ipfs/${file.id}`
+      const unpin = (e) => {
+        e.preventDefault()
+        this.props.ipfs.pin.remove(file.id, {r: true}, (err, res) => {
+          if (err) {
+            // TODO Handle error and display to the user
+            log.error(err)
+          }
+        })
+      }
+
+      return (
+        <FileItem key={file.id} {...{gatewayPath, dagPath, file, unpin}} />
+      )
+    }
 
     return (
       <Table responsive className={className}>
@@ -41,43 +56,9 @@ export default React.createClass({
           </tr>
         </thead>
         <tbody>
-        {files ? files.map(function (file) {
-          if (typeof file === 'string') file = { id: file }
-
-          var type = '?'
-          if (file.name) {
-            var lastDot = file.name.lastIndexOf('.')
-            if (lastDot !== -1) type = file.name.substr(lastDot + 1, 4).toUpperCase()
-          }
-
-          var gatewayPath = t.props.gateway + '/ipfs/' + file.id
-          var dagPath = '#/objects/' + file.id
-
-          var tooltip = (
-            <Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>
-          )
-
-          return (
-            <tr className='webui-file' data-type={file.type} key={file.id}>
-              <td><span className='type'>{type}</span></td>
-              <td className='filelist-name'><a target='_blank' href={gatewayPath}>{file.name}</a></td>
-              <td className='id-cell'><code>{file.id}</code></td>
-              <td className='action-cell'>
-                <a target='_blank' href={gatewayPath}>{i18n.t('RAW')}</a>
-                <span className='separator'>|</span>
-                <a href={dagPath}>{i18n.t('DAG')}</a>
-                <span className='separator'>|</span>
-                <a href='#' onClick={t.unpin} data-hash={file.id}>
-                  <OverlayTrigger placement='right' overlay={tooltip}>
-                    <i className='fa fa-remove'></i>
-                  </OverlayTrigger>
-                </a>
-              </td>
-            </tr>
-          )
-        }) : void 0}
+          {files ? files.map(createFile) : void 0}
         </tbody>
       </Table>
     )
   }
-})
+}
