@@ -4,7 +4,6 @@ import {LinkContainer} from 'react-router-bootstrap'
 import debug from 'debug'
 
 import FileList from '../views/filelist'
-import LocalStorage from '../utils/localStorage'
 import i18n from '../utils/i18n.js'
 
 const log = debug('pages:files')
@@ -12,9 +11,8 @@ const log = debug('pages:files')
 export
 default class Files extends React.Component {
   state = {
-    files: LocalStorage.get('files') || [],
     pinned: [],
-    local: [],
+    files: [],
     dragging: false
   };
 
@@ -33,36 +31,53 @@ default class Files extends React.Component {
     clearInterval(this.pollInterval)
   }
 
-  getFiles = () => {
+  getFiles () {
     this.props.ipfs.pin.list((err, pinned) => {
       if (err || !pinned) return this.error(err)
       this.setState({
         pinned: Object.keys(pinned.Keys).sort()
       })
     })
+
     this.props.ipfs.pin.list('recursive', (err, pinned) => {
       if (err || !pinned) return this.error(err)
       this.setState({
-        local: Object.keys(pinned.Keys).sort()
+        files: Object.keys(pinned.Keys).sort()
       })
+    })
+  }
+
+  _onAddFile = event => {
+    event.preventDefault()
+    this.refs.fileSelect.click()
+  };
+
+  _onDragOver = event => {
+    event.stopPropagation()
+    event.preventDefault()
+    this.setState({
+      dragging: true
     })
   };
 
-  addFile (event) {
-    event.preventDefault()
-    this.refs.fileSelect.click()
-  }
-
-  onDrop (event) {
+  _onDragLeave = event => {
     event.stopPropagation()
     event.preventDefault()
     this.setState({
       dragging: false
     })
-    this.onFileChange.bind(this, event)
-  }
+  };
 
-  onFileChange (event) {
+  _onDrop = event => {
+    event.stopPropagation()
+    event.preventDefault()
+    this.setState({
+      dragging: false
+    })
+    this._onFileChange(event)
+  };
+
+  _onFileChange = event => {
     const files = event.target.files || event.dataTransfer.files
     if (!files || !files[0]) return
     var file = files[0]
@@ -73,19 +88,8 @@ default class Files extends React.Component {
         if (err || !res) return this.error(err)
         res = res[0]
 
-        const metadata = {
-          id: res.Hash,
-          name: res.Name || file.name,
-          type: file.type,
-          size: file.size
-        }
-
-        let nextFiles = (this.state.files || [])
-        nextFiles.unshift(metadata)
-        LocalStorage.set('files', nextFiles)
         this.setState({
-          files: nextFiles,
-          confirm: metadata.name
+          confirm: res.Name || file.name
         })
 
         setTimeout(() => this.setState({
@@ -106,7 +110,9 @@ default class Files extends React.Component {
       // TODO: use array buffers instead of base64 strings
       reader.readAsDataURL(file)
     }
-  }
+
+    this.getFiles()
+  };
 
   error (err) {
     console.error(err)
@@ -116,11 +122,9 @@ default class Files extends React.Component {
   _renderTitle = () => {
     switch (this.props.location.pathname) {
       case '/files':
-        return this._renderAdder()
+        return <h3>{i18n.t('All Local Files')}</h3>
       case '/files/pinned':
         return <h3>{i18n.t('Pinned Files')}</h3>
-      case '/files/all':
-        return <h3>{i18n.t('All Local Files')}</h3>
       default:
         return ''
     }
@@ -131,9 +135,9 @@ default class Files extends React.Component {
       <div className='file-add-container'>
         <div
           className={'file-add-target ' + (this.state.dragging ? 'hover' : null)}
-          onDragOver={() => this.setState({dragging: true})}
-          onDragLeave={() => this.setState({dragging: false})}
-          onDrop={this.onDrop.bind(this)}
+          onDragOver={this._onDragOver}
+          onDragLeave={this._onDragLeave}
+          onDrop={this._onDrop}
         >
         </div>
         <div className={'file-add-container-inner ' + (this.state.dragging ? 'hover' : '')}></div>
@@ -147,10 +151,10 @@ default class Files extends React.Component {
           <p>
             <button
               className={'btn btn-second add-file ' + (this.state.dragging ? 'hover' : null)}
-              onClick={this.addFile.bind(this)}
+              onClick={this._onAddFile}
               onDragOver={() => this.setState({dragging: true})}
               onDragLeave={() => this.setState({dragging: false})}
-              onDrop={this.onDrop.bind(this)}
+              onDrop={this._onDrop}
             >
               {i18n.t('Select files...')}
             </button>
@@ -171,7 +175,7 @@ default class Files extends React.Component {
           ref='fileSelect'
           className='file-select'
           style={{display: 'none'}}
-          onChange={this.onFileChange.bind(this)}
+          onChange={this._onFileChange}
         />
       </div>
     )
@@ -184,6 +188,7 @@ default class Files extends React.Component {
           <Panel bsStyle={'default'}>
             <FileList
                 files={this.state.files}
+                namesHidden
                 ipfs={this.props.ipfs}
                 gateway={this.props.gateway}
             />
@@ -200,17 +205,6 @@ default class Files extends React.Component {
             />
           </Panel>
         )
-      case '/files/all':
-        return (
-          <Panel bsStyle={'default'}>
-            <FileList
-                files={this.state.local}
-                namesHidden
-                ipfs={this.props.ipfs}
-                gateway={this.props.gateway}
-            />
-          </Panel>
-        )
       default:
         return ''
     }
@@ -220,15 +214,13 @@ default class Files extends React.Component {
     return (
       <Row>
         <Col sm={10} smOffset={1}>
+          {this._renderAdder()}
           <Nav bsStyle='tabs'>
             <LinkContainer to='/files'>
-              <NavItem>{i18n.t('Files')}</NavItem>
+              <NavItem>{i18n.t('All Files')}</NavItem>
             </LinkContainer>
             <LinkContainer to='/files/pinned'>
-              <NavItem>{i18n.t('Pinned')}</NavItem>
-            </LinkContainer>
-            <LinkContainer to='/files/all'>
-              <NavItem>{i18n.t('All')}</NavItem>
+              <NavItem>{i18n.t('Pinned Files')}</NavItem>
             </LinkContainer>
           </Nav>
           <div className={this.state.selected}>
