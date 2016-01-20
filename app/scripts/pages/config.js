@@ -1,13 +1,22 @@
-import React from 'react'
+import React, {Component} from 'react'
 import ConfigView from '../views/config'
-import {Row, Col} from 'react-bootstrap'
+import {
+  Row, Col
+}
+from 'react-bootstrap'
 
-export default React.createClass({
-  displayName: 'Config',
-  propTypes: {
+export
+default class Config extends Component {
+  static displayName = 'Config';
+  static propTypes = {
     ipfs: React.PropTypes.object
-  },
-  getInitialState: function () {
+  };
+
+  state = {
+    config: null
+  };
+
+  componentDidMount () {
     this.props.ipfs.config.show((err, configStream) => {
       if (err) return console.error(err)
 
@@ -15,21 +24,17 @@ export default React.createClass({
         config: JSON.parse(configStream.toString())
       })
     })
+  }
 
-    return { config: null }
-  },
-
-  render: function () {
-    var config = this.state.config
-      ? <ConfigView config={this.state.config} ipfs={this.props.ipfs} />
-      : null
+  render () {
+    if (!this.state.config) return null
 
     return (
       <Row>
         <Col sm={10} smOffset={1}>
-          {config}
+          <ConfigView config={this.state.config} ipfs={this.props.ipfs} />
         </Col>
       </Row>
     )
   }
-})
+}

@@ -1,47 +1,54 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Peer from './peer'
 
-export default React.createClass({
-  displayName: 'Connection',
-  propTypes: {
+export
+default class Connection extends Component {
+  static displayName = 'Connection';
+  static propTypes = {
+    ipfs: React.PropTypes.object,
     location: React.PropTypes.object,
     BytesRead: React.PropTypes.number,
     BytesWritten: React.PropTypes.number,
     ID: React.PropTypes.string,
     Address: React.PropTypes.string
-  },
-  getInitialState: function () {
-    return { open: false }
-  },
-  handleClick: function (e) {
-    if (this.state.open) return this.setState({ open: false })
+  };
 
-    var t = this
-    t.props.ipfs.id(t.props.ID, function (err, peer) {
+  state = {
+    open: false
+  };
+
+  _handleClick = () => {
+    if (this.state.open) {
+      return this.setState({
+        open: false
+      })
+    }
+    this.props.ipfs.id(this.props.ID, (err, peer) => {
       if (err) return console.error(err)
-
-      t.setState({
+      this.setState({
         open: true,
-        peer: peer
+        peer
       })
     })
-  },
+  };
 
-  render: function () {
-    var peer = this.state.open
-      ? <Peer
-        peer={this.state.peer}
-        location={this.props.location}
-        bytesRead={this.props.BytesRead}
-        bytesWritten={this.props.BytesWritten} />
-      : null
+  render () {
+    let peer = ''
 
-    var className = 'webui-connection list-group-item'
-    if (this.state.open) className += ' active'
+    if (this.state.open) {
+      peer = (
+          <Peer
+              peer={this.state.peer}
+              location={this.props.location}
+              bytesRead={this.props.BytesRead}
+              bytesWritten={this.props.BytesWritten}
+          />
+        )
+    }
 
     return (
-      <li className={className}>
-        <button className='btn btn-link' onClick={this.handleClick}>
+      <li className={'webui-connection list-group-item ' + (this.state.open ? 'active' : '')}>
+        <button className='btn btn-link' onClick={this._handleClick}>
           <strong>{this.props.ID}</strong>
           <br/>
           <span>{this.props.Address}</span>
@@ -51,4 +58,4 @@ export default React.createClass({
       </li>
     )
   }
-})
+}

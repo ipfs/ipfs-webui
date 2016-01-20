@@ -1,103 +1,103 @@
-import React from 'react'
+import React, {Component} from 'react'
 import i18n from '../utils/i18n.js'
+import classNames from 'classnames'
 
-export default React.createClass({
-  displayName: 'ConfigView',
-  propTypes: {
-    config: React.PropTypes.object
-  },
+export
+default class ConfigView extends Component {
+  static displayName = 'ConfigView';
+  static propTypes = {
+    config: React.PropTypes.object,
+    ipfs: React.PropTypes.object
+  };
 
-  getInitialState: function () {
-    return {
-      body: JSON.stringify(this.props.config, null, 2),
-      error: null,
-      saving: false,
-      saved: false,
-      height: 0
-    }
-  },
+  state = {
+    body: JSON.stringify(this.props.config, null, 2),
+    error: null,
+    saving: false,
+    saved: false,
+    height: 0
+  };
 
-  reset: function () {
-    this.setState({
-      body: JSON.stringify(this.props.config, null, 2),
-      error: null
-    })
-  },
-
-  componentDidMount: function () {
-    this.updateHeight()
-  },
-
-  updateHeight: function () {
-    var el = this.refs.textareaConfig
+  updateHeight = () => {
+    const el = this.refs['config-textarea']
     this.setState({height: el.scrollHeight})
-  },
+  };
 
-  handleChange: function (e) {
-    var text = e.target.value
-    var error
+  componentDidMount () {
+    this.updateHeight()
+  }
 
+  handleChange (event) {
+    const body = event.target.value
+    let error
     this.updateHeight()
 
     try {
-      JSON.parse(text)
+      JSON.parse(body)
     } catch (e) {
       error = e.message
     }
 
     this.setState({
-      error: error,
-      body: text
+      error,
+      body
     })
-  },
+  }
 
-  save: function (e) {
-    var t = this
-    t.setState({
-      body: t.state.body,
+  save (event) {
+    this.setState({
       saving: true
     })
 
-    t.props.ipfs.config.replace(new Buffer(t.state.body), function (err) {
-      var newState = { saving: false }
+    this.props.ipfs.config.replace(new Buffer(this.state.body), err => {
+      let newState = {
+        saving: false
+      }
       if (err) {
         newState.error = err.message
       } else {
         newState.saved = true
-        setTimeout(function () {
-          t.setState({ saved: false })
-        }, 4000)
+        setTimeout(() => this.setState({
+          saved: false
+        }), 4000)
       }
-      t.setState(newState)
+      this.setState(newState)
     })
-  },
+  }
 
-  render: function () {
-    var buttonClass = 'btn btn-success pull-right'
-    if (this.state.error || this.state.saving || this.state.saved) {
-      buttonClass += ' disabled'
-    }
+  render () {
+    const buttonClass = classNames(
+      'btn',
+      'btn-success',
+      'pull-right', {
+        disabled: this.state.error || this.state.saving || this.state.saved
+      }
+    )
 
-    var buttons = (
+    const iconClass = classNames('fa', {
+      'fa-check': this.state.saved,
+      'fa-save': !this.state.saved
+    })
+    const buttons = (
       <div className='controls'>
-        <button className={buttonClass} onClick={this.save}>
-          <i className={'fa ' + (this.state.saved ? 'fa-check' : 'fa-save')}></i>&nbsp;
+        <button className={buttonClass} onClick={this.save.bind(this)}>
+          <i className={iconClass}></i>&nbsp;
           {this.state.saving ? i18n.t('Saving...') : this.state.saved ? i18n.t('Saved') : i18n.t('Save')}
         </button>
-        <button className='btn btn-primary pull-right' onClick={this.reset}>
+        <button className='btn btn-primary pull-right' onClick={() => this.setState({body: JSON.stringify(this.props.config, null, 2), error: null})}>
           <i className='fa fa-recycle'></i>&nbsp;
           {i18n.t('Reset')}
         </button>
-        <div className='clear'></div>
+        <div className='clear'/>
       </div>
     )
 
-    var error = null
+    let error
     if (this.state.error) {
       error = (
         <div>
           <span className='text-danger pull-left'>
-            <strong>{i18n.t('Error in config:')} </strong>
+            <strong>{i18n.t('Error in config:')}</strong>
             <span>{this.state.error}</span>
           </span>
         </div>
@@ -111,14 +111,20 @@ export default React.createClass({
         {error}
         {buttons}
         <div className='textarea-panel panel panel-default padded'>
-          <textarea ref='textareaConfig' className='panel-inner' style={{height: this.state.height}}
-            spellCheck='false' onChange={this.handleChange} value={this.state.body} />
+          <textarea
+              ref='config-textarea'
+              className='panel-inner'
+              spellCheck='false'
+              style={{height: this.state.height}}
+              onChange={this.handleChange.bind(this)}
+              value={this.state.body}
+          />
         </div>
         {error}
         {buttons}
-        <div style={{height: '50px'}}></div>
+        <div style={{height: '50px'}} />
         <br/>
       </div>
     )
   }
-})
+}

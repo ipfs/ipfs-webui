@@ -1,55 +1,59 @@
-import React from 'react'
+import React, {Component} from 'react'
 import d3 from 'd3'
 
-var diameter = 500
-var radius = diameter / 2
-var margin = 60
-var center = radius + margin / 2
+const diameter = 500
+const radius = diameter / 2
+const margin = 60
+const center = radius + margin / 2
 
-export default React.createClass({
-  displayName: 'DHTGraph',
-  propTypes: {
+export
+default class DHTGraph extends Component {
+  state = {
+    initialized: false
+  };
+
+  static displayName = 'DHTGraph';
+  static propTypes = {
     peers: React.PropTypes.array
-  },
-  getInitialState: function () {
-    return { initialized: false }
-  },
+  };
 
-  update: function () {
-    var data = this.props.peers
-    var svg = this.state.svg
+  update = () => {
+    const data = this.props.peers
+    let svg = this.state.svg
 
     svg.append('circle')
       .attr('r', radius)
       .attr('class', 'outer')
 
-    var main = svg.append('g')
+    let main = svg.append('g')
 
-    function projection (d) {
-      var a = d.pos / 180 * Math.PI
+    const projection = d => {
+      let a = d.pos / 180 * Math.PI
       return [radius * Math.cos(a), radius * Math.sin(a)]
     }
 
-    var line = d3.svg.line()
+    const line = d3.svg.line()
       .interpolate('bundle')
       .tension(0.6)
 
     main.append('g').selectAll('path')
       .data(data.slice(1))
       .enter().append('path')
-        .attr('class', 'link')
-        .attr('d', function (d) {
-          var start = projection(d)
-          var end = projection(data[0])
-          return line([ start, [0, 0], end ])
-        })
+      .attr('class', 'link')
+      .attr('d', d => {
+        let start = projection(d)
+        let end = projection(data[0])
+        return line([start, [0, 0], end])
+      })
 
     main.append('g').selectAll('circle')
       .data(data)
       .enter().append('circle')
-        .attr('class', 'node')
-        .attr('r', 12)
-        .attr('transform', function (d) { return 'rotate(' + d.pos + ')translate(' + radius + ')' })
+      .attr('class', 'node')
+      .attr('r', 12)
+      .attr('transform', d => {
+        return 'rotate(' + d.pos + ')translate(' + radius + ')'
+      })
 
     // main.append('g').selectAll('text')
     //   .data(data)
@@ -61,29 +65,29 @@ export default React.createClass({
     //     .attr('dx', 32)
     //     .attr('dy', 4)
     //     .text(function (d){ return d.id })
-
     d3.select(window.frameElement).style('height', (diameter + margin) + 'px')
-  },
+  };
 
-  componentDidMount: function () {
-    var svg = d3.select('.dht-graph').append('svg')
-        .attr('width', diameter + margin)
-        .attr('height', diameter + margin)
-        .attr('class', 'centered')
-        .style('display', 'block')
+  componentDidMount () {
+    const svg = d3.select('.dht-graph')
+      .append('svg')
+      .attr('width', diameter + margin)
+      .attr('height', diameter + margin)
+      .attr('class', 'centered')
+      .style('display', 'block')
       .append('g')
-        .attr('transform', 'translate(' + center + ',' + center + ')')
+      .attr('transform', 'translate(' + center + ',' + center + ')')
 
     this.setState({
       initialized: true,
-      svg: svg
+      svg
     })
 
     this.update()
-  },
-
-  render: function () {
-    if (this.state.initialized) this.update()
-    return <div className='dht-graph centered'></div>
   }
-})
+
+  render () {
+    if (this.state.initialized) this.update()
+    return <div className='dht-graph centered'/>
+  }
+}
