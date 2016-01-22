@@ -5,8 +5,9 @@
   ],
   "env": {
     "development": {
+      "presets": ["react-hmre"],
       "plugins": [
-        "transform-react-display-name",
+        "transform-react-display-name"
       ]
     }
   }
