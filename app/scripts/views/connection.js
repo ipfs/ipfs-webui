@@ -13,7 +13,11 @@ default class Connection extends Component {
   render () {
     return (
       <tr>
-        <td>{this.props.ID.substring(2, 10)}</td>
+        <td>
+          <span className='hash'>
+            {this.props.ID}
+          </span>
+        </td>
         <td>{this.props.Address}</td>
         <td>{this.props.AgentVersion}</td>
         <td>{this.props.ProtocolVersion}</td>
