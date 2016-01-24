@@ -1,9 +1,6 @@
 body {
   padding-top: 70px;
-  font-size: 14px;
-  font-weight: normal !important;
   color: #929db1;
-  font-family: Myriad Pro, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* header style */
@@ -229,17 +226,6 @@ ul#side li a {
 }
 .btn-link:hover, .btn-link:active, .btn-link:focus {
   color: #78c1c1;
-}
-
-/* table */
-thead {
-  border-bottom: 2px solid #eaecf0 !important;
-}
-.table-striped>tbody>tr:nth-of-type(odd) {
-  background-color: #fff !important;
-}
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th {
-  border-color: transparent !important;
 }
 
 /*
@@ -501,50 +487,6 @@ p {
   }
 }
 
-.webui-connection {
-  margin-bottom: 6px;
-  border-radius: 4px;
-  padding: 2px 6px;
-
-  h4 {
-    font-weight: bold;
-  }
-  .box {
-    border: none;
-    margin-bottom: inherit;
-  }
-  button.btn-link {
-    text-align: left;
-    padding: 6px;
-    width: 100%;
-    outline: none;
-    color: #498D96;
-    > strong {
-      color: #498D96;
-    }
-    > i.fa {
-      position: absolute;
-      right: 12px;
-      top: 22px;
-      color: #ddd;
-      font-size: 25px;
-    }
-  }
-}
-.webui-connection.active,
-.webui-connection.active:active,
-.webui-connection.active:focus,
-.webui-connection.active:hover {
-  color: inherit;
-  background-color: #fff;
-  border-color: #ddd;
-  button.btn-link {
-    i.fa:before {
-      content: "\f106";
-    }
-  }
-}
-
 .webui-peer {
   .addresses {
     p {
@@ -567,7 +509,7 @@ p {
   border: none;
   width: 100%;
   height: 100%;
-  font-family: monospace;
+  font-family: @font-family-monospace;
   resize:none;
 }
 
@@ -642,7 +584,7 @@ p {
   }
 
   .label {
-    font-family: sans-serif;
+    font-family: @font-family-sans-serif;
     fill: #6bd;
   }
 }
@@ -667,15 +609,9 @@ p {
   }
 }
 
-.globe-container {
-  max-height: 500px;
-  position: relative;
-  .theme-toggle {
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor:pointer;
-  }
+.globe-link {
+  font-size: 14px;
+  text-transform: none;
 }
 
 .file-add-container {
@@ -742,4 +678,9 @@ p {
   .textarea-panel {
     height: 600px;
   }
+}
+
+.hash {
+  font-family: @font-family-monospace;
+  font-size: 12px;
 }
