@@ -24,7 +24,6 @@ default (
     <Route path='connections' component={ConnectionsPage} />
     <Route path='files' component={FilesPage} />
     <Route path='files/pinned' component={FilesPage} />
-    <Route path='files/all' component={FilesPage} />
     <Route path='objects(/:path)' component={ObjectsPage} />
     <Route path='bitswap' component={BitswapPage} />
     <Route path='routing' component={RoutingPage} />
