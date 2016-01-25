@@ -12,14 +12,12 @@ const LinkButtons = ({gateway, path}) => {
 
       <Button
           bsStyle='info'
-          className='btn-second'
           href={gateway + path}
           target='_blank'
       >
         {i18n.t('RAW')}
       </Button>
       <Button
-          className='btn-second'
           href={gateway + path + '?dl=1'}
           target='_blank'
         >

@@ -120,7 +120,7 @@ default class Objects extends React.Component {
                   placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')}/>
               </Col>
               <Col xs={2}>
-                <Button bsStyle={'primary'} className={'go'}
+                <Button bsStyle='primary' className='go' bsSize='large'
                   onClick={this._update}>
                   {i18n.t('GO')}
                 </Button>

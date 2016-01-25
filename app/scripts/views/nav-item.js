@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router'
+import {LinkContainer} from 'react-router-bootstrap'
+import {NavItem} from 'react-bootstrap'
 
 import i18n from '../utils/i18n'
 import Icon from './icon'
 
 export
-default class NavItem extends Component {
+default class NavigationItem extends Component {
   static displayName = 'NavItem';
   static propTypes = {
     title: React.PropTypes.string.isRequired,
@@ -14,9 +15,11 @@ default class NavItem extends Component {
   };
   render () {
     return (
-        <Link className='link' to={this.props.url} activeClassName='active'>
+        <LinkContainer className='link' to={this.props.url}>
+          <NavItem>
             <Icon glyph={this.props.icon} /> {i18n.t(this.props.title)}
-        </Link>
+          </NavItem>
+        </LinkContainer>
     )
   }
 }

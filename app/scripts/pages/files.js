@@ -7,7 +7,6 @@ import _ from 'lodash'
 import bl from 'bl'
 import Markdown from 'react-remarkable'
 
-import i18n from '../utils/i18n.js'
 import FilesExplorer from '../components/files-explorer'
 import Icon from '../views/icon'
 import RawData from '../views/object/raw-data'
