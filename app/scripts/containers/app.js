@@ -16,7 +16,7 @@ class App extends Component {
     // Injected by React Router
     children: PropTypes.node,
     params: PropTypes.object,
-    location: PropTypes.objec
+    location: PropTypes.object
   };
 
   handleChange = (nextValue) => {
