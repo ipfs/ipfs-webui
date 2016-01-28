@@ -1,12 +1,9 @@
 import React, {Component} from 'react'
 import i18n from '../utils/i18n.js'
 
-export
-default class Peer extends Component {
+export default class Peer extends Component {
   static displayName = 'Peer';
   static propTypes = {
-    table: React.PropTypes.object,
-    children: React.PropTypes.object,
     peer: React.PropTypes.object,
     location: React.PropTypes.object
   };
@@ -34,16 +31,12 @@ default class Peer extends Component {
           </div>
         </div>
         <h4>{i18n.t('Network Addresses')}</h4>
-        <div className='box addresses'>
+        <pre className='box addresses'>
           {(this.props.peer.Addresses || []).map((address, i) => {
             if (!address) return
-            return (
-              <p key={i}>
-                <code>{address}</code>&nbsp;
-              </p>
-            )
+            return `${address}\n`
           })}
-        </div>
+        </pre>
       </div>
     )
   }
