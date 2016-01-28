@@ -1,11 +1,8 @@
 import React from 'react'
-import {
-  Route, IndexRoute, Redirect
-}
-from 'react-router'
+import {Route, IndexRoute, Redirect} from 'react-router'
 
-import Page from './views/page'
-import HomePage from './pages/home'
+import App from './containers/app'
+import HomePage from './containers/home'
 import ConnectionsPage from './pages/connections'
 import FilesPage from './pages/files'
 import ObjectsPage from './pages/objects'
@@ -15,9 +12,8 @@ import ConfigPage from './pages/config'
 import LogPage from './pages/logs'
 import NotFoundPage from './pages/notfound'
 
-export
-default (
-  <Route component={Page} path='/'>
+export default (
+  <Route path='/' component={App}>
     <IndexRoute component={HomePage}/>
     <Route path='home' component={HomePage} />
 
