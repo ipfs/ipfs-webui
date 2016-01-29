@@ -97,7 +97,7 @@ default class ConfigView extends Component {
       error = (
         <div>
           <span className='text-danger pull-left'>
-            <strong>{i18n.t('Error in config:')}</strong>
+            <strong>{i18n.t('Error in config')}</strong>
             <span>{this.state.error}</span>
           </span>
         </div>

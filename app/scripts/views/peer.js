@@ -1,42 +1,59 @@
 import React, {Component} from 'react'
+import {Row} from 'react-bootstrap'
+
 import i18n from '../utils/i18n.js'
+
+const LabeledProp = ({title, children}) => {
+  return (
+    <Row>
+      <strong>
+        {`${i18n.t(title)}: `}
+      </strong>
+      {children}
+    </Row>
+  )
+}
 
 export default class Peer extends Component {
   static displayName = 'Peer';
+
   static propTypes = {
     peer: React.PropTypes.object,
     location: React.PropTypes.object
   };
+
   render () {
+    const {peer, location} = this.props
+
     return (
       <div className='webui-peer'>
-        <div className='box info'>
-          <p>
-            <strong>{i18n.t('Peer ID:')} </strong> <code>{this.props.peer.ID}</code>&nbsp;
-          </p>
-          <br />
-          <p>
-            <strong>{i18n.t('Location:')} </strong> {this.props.location.formatted || i18n.t('Unknown')}
-          </p>
-          <p>
-            <strong>{i18n.t('Agent Version:')} </strong> <code>{this.props.peer.AgentVersion || ''}</code>
-          </p>
-          <p>
-            <strong>{i18n.t('Protocol Version:')} </strong> <code>{this.props.peer.ProtocolVersion || ''}</code>
-          </p>
-          <br />
-          <div>
-            <strong>{i18n.t('Public Key:')}</strong>
-            <pre className='panel textarea-panel'>{this.props.peer.PublicKey || ''}</pre>
-          </div>
-        </div>
-        <h4>{i18n.t('Network Addresses')}</h4>
-        <pre className='box addresses'>
-          {(this.props.peer.Addresses || []).map((address, i) => {
-            if (!address) return
-            return `${address}\n`
-          })}
-        </pre>
+        <Row>
+          <h3>{i18n.t('Node Info')}</h3>
+        </Row>
+
+        <LabeledProp title='Peer ID'>
+          <code>{peer.ID}</code>
+        </LabeledProp>
+
+        <LabeledProp title='Location'>
+          {location.formatted || i18n.t('Unknown')}
+        </LabeledProp>
+
+        <LabeledProp title='Agent Version'>
+          <code>{peer.AgentVersion || ''}</code>
+        </LabeledProp>
+
+        <LabeledProp title='Protocol Version'>
+          <code>{peer.ProtocolVersion || ''}</code>
+        </LabeledProp>
+
+        <LabeledProp title='Network Addresses'>
+          <pre className='box addresses'>
+            {(peer.Addresses || []).map((address, i) => {
+              return address ? `${address}\n` : ''
+            })}
+          </pre>
+        </LabeledProp>
       </div>
     )
   }
