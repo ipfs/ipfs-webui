@@ -54,7 +54,7 @@ class App extends Component {
     if (!errorMessage) return null
 
     return (
-      <p style={{ backgroundColor: '#e99', padding: 10 }}>
+        <p style={{backgroundColor: '#e99'}}>
         <b>{errorMessage}</b>
         {' '}
         <a
