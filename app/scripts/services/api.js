@@ -8,7 +8,7 @@ const api = new API(host, port)
 export const fetchId = () => {
   return new Promise((resolve, reject) => {
     api.id((err, response) => {
-      if (err) return reject({error: err.message || 'Failed api call'})
+      if (err) return reject(err.message || 'Failed api call')
       resolve({response})
     })
   })
