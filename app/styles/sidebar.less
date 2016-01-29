@@ -1,4 +1,3 @@
-@highlightColor: #02AADB;
 @sidebarBackground: #333A4D;
 
 .sidebar {
@@ -24,6 +23,7 @@
         padding: 15px 40px;
         transition: all .2s ease-in-out;
         letter-spacing: 1px;
+        font-size: 14px;
 
         .icon {
           font-size: 14px;
@@ -32,14 +32,14 @@
         }
 
         &:hover {
-          background-color: @highlightColor;
+          background-color: @brand-primary;
           color: #FFFFFF;
         }
       }
 
       &.active {
         a {
-          background-color: @highlightColor;
+          background-color: @brand-primary;
           color: #FFFFFF;
           font-weight: 500;
 
@@ -57,8 +57,9 @@
   }
 
   .branding {
+    background: #303548;
     height: 3 * 18px;
-    margin-bottom: 9px;
+    margin-bottom: 2.5 * 18px;
   }
 
   a.navbar-brand {
@@ -69,6 +70,8 @@
     color: #FFFFFF;
     font-weight: 600;
     font-size: 18px;
+    line-height: 18px;
+    vertical-align: middle;
     letter-spacing: 2px;
   }
 }

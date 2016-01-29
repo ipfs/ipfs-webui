@@ -6,9 +6,7 @@ import i18n from '../utils/i18n.js'
 const LabeledProp = ({title, children}) => {
   return (
     <Row>
-      <strong>
-        {`${i18n.t(title)}: `}
-      </strong>
+      <h5>{i18n.t(title)}</h5>
       {children}
     </Row>
   )
@@ -28,7 +26,7 @@ export default class Peer extends Component {
     return (
       <div className='webui-peer'>
         <Row>
-          <h3>{i18n.t('Node Info')}</h3>
+          <h2>{i18n.t('Node Info')}</h2>
         </Row>
 
         <LabeledProp title='Peer ID'>

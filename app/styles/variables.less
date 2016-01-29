@@ -14,7 +14,7 @@
 @gray-light:             lighten(@gray-base, 46.7%); // #777
 @gray-lighter:           lighten(@gray-base, 93.5%); // #eee
 
-@brand-primary:         darken(#428bca, 6.5%); // #337ab7
+@brand-primary:         #02AADB; // #337ab7
 @brand-success:         #5cb85c;
 @brand-info:            #5bc0de;
 @brand-warning:         #f0ad4e;
@@ -28,7 +28,7 @@
 //** Background color for `<body>`.
 @body-bg:               #fff;
 //** Global text color on `<body>`.
-@text-color:            @gray-dark;
+@text-color:            #2e364b;
 
 //** Global textual link color.
 @link-color:            @brand-primary;
@@ -42,13 +42,13 @@
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-@font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
+@font-family-sans-serif:  "Roboto", Helvetica, Arial, sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
-@font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
+@font-family-monospace:   "Roboto Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
 @font-family-base:        @font-family-sans-serif;
 
-@font-size-base:          14px;
+@font-size-base:          17px;
 @font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
 @font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
 
@@ -829,15 +829,16 @@
 //
 //##
 
-@code-color:                  #c7254e;
-@code-bg:                     #f9f2f4;
+@code-color:                  #788d9e;
+@code-bg:                     #fff;
+@code-border-color:           #ecf1f5;
 
 @kbd-color:                   #fff;
 @kbd-bg:                      #333;
 
-@pre-bg:                      #f5f5f5;
-@pre-color:                   @gray-dark;
-@pre-border-color:            #ccc;
+@pre-bg:                      #fff;
+@pre-color:                   @code-color;
+@pre-border-color:            @code-border-color;
 @pre-scrollable-max-height:   340px;
 
 
