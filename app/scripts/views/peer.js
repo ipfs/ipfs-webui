@@ -26,7 +26,7 @@ export default class Peer extends Component {
     return (
       <div className='webui-peer'>
         <Row>
-          <h2>{i18n.t('Node Info')}</h2>
+          <h3>{i18n.t('Node Info')}</h3>
         </Row>
 
         <LabeledProp title='Peer ID'>
