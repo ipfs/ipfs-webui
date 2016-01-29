@@ -9,7 +9,7 @@ const PermaLink = ({url}) => {
 
   return (
     <li className='list-group-item'>
-      <span>{i18n.t('permalink:')}</span>
+      <span>{i18n.t('permalink')}</span>
       <Link to={`/objects/${url.urlify()}`}>
         {url.toString()}
       </Link>
