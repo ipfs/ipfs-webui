@@ -5,6 +5,23 @@ import {connect} from 'react-redux'
 import Peer from '../views/peer'
 import {loadHomePage} from '../actions'
 
+const Welcome = () => {
+  return (
+    <Row className='welcome'>
+      <h1>Welcome to IPFS</h1>
+      <p>
+        This is your central control point for IPFS on your machine.
+        If you want to learn more you can visit our
+        {' '}
+        <a href='https://ipfs.io'>website</a>, IRC channel <code>#ipfs</code>
+        on freenode or our
+        {' '}
+        <a href='https://github.com/ipfs'>GitHub organization</a>.
+      </p>
+    </Row>
+  )
+}
+
 class Home extends Component {
   static propTypes = {
     loadHomePage: PropTypes.func.isRequired,
@@ -17,11 +34,18 @@ class Home extends Component {
 
   render () {
     return (
-      <Row>
-        <Col sm={10} smOffset={1}>
-          <Peer peer={this.props.node} location={{}}/>
-        </Col>
-      </Row>
+      <div>
+        <div className='welcome-header'>
+          IPFS Dashboard
+        </div>
+        <div className='welcome-img'></div>
+        <Row>
+          <Col sm={10} smOffset={1}>
+            <Welcome />
+            <Peer peer={this.props.node} location={{}}/>
+          </Col>
+        </Row>
+      </div>
     )
   }
 }

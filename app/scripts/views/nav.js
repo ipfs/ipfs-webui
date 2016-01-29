@@ -6,7 +6,7 @@ import NavItem from './nav-item'
 
 const tabs = [{
   title: 'home',
-  icon: 'dot-circle-o'
+  icon: 'home'
 }, {
   title: 'connections',
   icon: 'globe'

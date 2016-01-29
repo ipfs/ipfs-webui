@@ -1,0 +1,74 @@
+@highlightColor: #02AADB;
+@sidebarBackground: #333A4D;
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding: 0;
+  overflow-x: hidden;
+  // Scrollable contents if viewport is shorter than content.
+  overflow-y: auto;
+  background-color: @sidebarBackground;
+  height: 100%;
+
+  .nav {
+    li {
+      a {
+        color: #FDFFFE;
+        text-transform: uppercase;
+        font-weight: 300;
+        padding: 15px 40px;
+        transition: all .2s ease-in-out;
+        letter-spacing: 1px;
+
+        .icon {
+          font-size: 14px;
+          padding-right: 5px;
+          color: #B4D4ED;
+        }
+
+        &:hover {
+          background-color: @highlightColor;
+          color: #FFFFFF;
+        }
+      }
+
+      &.active {
+        a {
+          background-color: @highlightColor;
+          color: #FFFFFF;
+          font-weight: 500;
+
+          .icon {
+            color: #FFFFFF;
+          }
+        }
+      }
+    }
+  }
+
+  .nav-stacked > li {
+    margin-top: 0;
+    border-top: 1px solid #303548;
+  }
+
+  .branding {
+    height: 3 * 18px;
+    margin-bottom: 9px;
+  }
+
+  a.navbar-brand {
+    padding: 18px 0;
+    width: 100%;
+    display: block;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+}
