@@ -1,234 +1,265 @@
 import React from 'react'
-import {Row, Col, Nav, NavItem, Panel} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
+import {Row, Col, Modal, Button, Input} from 'react-bootstrap'
 import debug from 'debug'
+import {join} from 'path'
+import map from 'map-async'
+import _ from 'lodash'
+import bl from 'bl'
+import Markdown from 'react-remarkable'
 
-import FileList from '../views/filelist'
-import i18n from '../utils/i18n.js'
+import FilesExplorer from '../components/files-explorer'
+import Icon from '../views/icon'
+import RawData from '../views/object/raw-data'
 
 const log = debug('pages:files')
+log.error = debug('pages:files:error')
 
-export
-default class Files extends React.Component {
-  state = {
-    pinned: [],
-    files: [],
-    dragging: false
-  };
+function isDirectory ({Type}) {
+  return Type === 'directory'
+}
 
-  static displayName = 'Files';
-  static propTypes = {
-    ipfs: React.PropTypes.object,
-    gateway: React.PropTypes.string,
-    location: React.PropTypes.object
-  };
+const extensions = {
+  markdown: ['md', 'markdown'],
+  image: ['png', 'jpg', 'jpeg', 'gif']
+}
 
-  componentDidMount () {
-    this.getFiles()
+function getExtension (name) {
+  name = name.toLowerCase()
+
+  const i = name.lastIndexOf('.')
+  return name.substring(i + 1)
+}
+
+function getRenderer (ext) {
+  return _.findKey(extensions, elem => {
+    return _.includes(elem, ext)
+  })
+}
+
+const renderers = {
+  markdown (name, ext, data) {
+    return <Markdown source={data.toString()} />
+  },
+  image (name, ext, data) {
+    const blob = new Blob([data], {type: `image/${ext}`})
+    const urlCreator = window.URL || window.webkitURL
+    const imageUrl = urlCreator.createObjectURL(blob)
+    // `data:image;${ext};base64,${data.toString('base64')}`
+    return (
+      <img
+          src={imageUrl}
+          style={{overflow: 'auto', width: '100%', height: '100%'}}
+      />
+    )
   }
+}
 
-  componentWillUnmount () {
-    clearInterval(this.pollInterval)
+function FileRenderer ({name, data}) {
+  if (!name || !data) return null
+
+  const ext = getExtension(name)
+  const renderer = getRenderer(ext)
+
+  if (renderers[renderer]) return renderers[renderer](name, ext, data)
+
+  return <RawData data={data.toString()} />
+}
+
+export default class Files extends React.Component {
+  static displayName = 'Files';
+
+  static propTypes = {
+    ipfs: React.PropTypes.object
+  };
+
+  state = {
+    files: [],
+    root: '/',
+    showModalFolder: false,
+    showModalFile: false,
+    file: {}
+  };
+
+  onRowClick = file => {
+    if (isDirectory(file)) {
+      this.setRoot(join(this.state.root, file.Name))
+    } else {
+      const filePath = join(this.state.root, file.Name)
+      this.props.ipfs.files.read(filePath, (err, stream) => {
+        if (err) return log.error(err)
+
+        stream.pipe(bl((err, data) => {
+          if (err) return log.error(err)
+
+          this.setState({
+            showModalFile: true,
+            file: {
+              ...file,
+              Data: data
+            }
+          })
+        }))
+      })
+    }
+  };
+
+  onParentClick = root => {
+    this.setRoot(root)
+  };
+
+  onFolderAdd = name => {
+    this.props.ipfs.files.mkdir(name, err => {
+      if (err) return log.error(err)
+      this.getFiles()
+    })
+  };
+
+  onModalHide = () => {
+    this.setState({showModalFolder: false})
+    const folderName = this.refs.modalInput.refs.input.value
+
+    if (_.isEmpty(folderName)) return log.error('Can not create empty folder')
+    this.onFolderAdd(join(this.state.root, folderName))
+  };
+
+  setRoot (newRoot) {
+    if (newRoot === '.') newRoot = '/'
+    this.setState({root: newRoot}, () => this.getFiles())
   }
 
   getFiles () {
-    this.props.ipfs.pin.list((err, pinned) => {
-      if (err || !pinned) return this.error(err)
-      this.setState({
-        pinned: Object.keys(pinned.Keys).sort()
-      })
-    })
+    const {ipfs} = this.props
+    const {root} = this.state
 
-    this.props.ipfs.pin.list('recursive', (err, pinned) => {
-      if (err || !pinned) return this.error(err)
-      this.setState({
-        files: Object.keys(pinned.Keys).sort()
-      })
-    })
-  }
+    ipfs.files.ls(root, (err, result) => {
+      if (err || !result) return log.error(err)
+      const files = _.sortBy(result.Entries, 'Name') || []
 
-  _onAddFile = event => {
-    event.preventDefault()
-    this.refs.fileSelect.click()
-  };
-
-  _onDragOver = event => {
-    event.stopPropagation()
-    event.preventDefault()
-    this.setState({
-      dragging: true
-    })
-  };
-
-  _onDragLeave = event => {
-    event.stopPropagation()
-    event.preventDefault()
-    this.setState({
-      dragging: false
-    })
-  };
-
-  _onDrop = event => {
-    event.stopPropagation()
-    event.preventDefault()
-    this.setState({
-      dragging: false
-    })
-    this._onFileChange(event)
-  };
-
-  _onFileChange = event => {
-    const files = event.target.files || event.dataTransfer.files
-    if (!files || !files[0]) return
-    var file = files[0]
-    log('adding file: ', file)
-
-    const add = data => {
-      this.props.ipfs.add(data, (err, res) => {
-        if (err || !res) return this.error(err)
-        res = res[0]
-
-        this.setState({
-          confirm: res.Name || file.name
+      map(
+        files,
+        (file, done) => {
+          ipfs.files.stat(join(root, file.Name), (err, stats) => {
+            if (err) return done(err)
+            done(null, Object.assign({}, file, stats))
+          })
+        },
+        (err, stats) => {
+          if (err) return log.error(err)
+          this.setState({
+            files: stats
+          })
         })
-
-        setTimeout(() => this.setState({
-          confirm: null
-        }), 6000)
-      })
-    }
-
-    if (file.path) {
-      add(file.path)
-    } else {
-      const reader = new window.FileReader()
-      reader.onload = () => {
-        let data = reader.result
-        data = new Buffer(data.substr(data.indexOf(',') + 1), 'base64')
-        add(data)
-      }
-      // TODO: use array buffers instead of base64 strings
-      reader.readAsDataURL(file)
-    }
-
-    this.getFiles()
-  };
-
-  error (err) {
-    console.error(err)
-    // TODO
+    })
   }
 
-  _renderTitle = () => {
-    switch (this.props.location.pathname) {
-      case '/files':
-        return <h3>{i18n.t('All Local Files')}</h3>
-      case '/files/pinned':
-        return <h3>{i18n.t('Pinned Files')}</h3>
-      default:
-        return ''
-    }
-  };
+  componentDidMount () {
+    this.getFiles()
 
-  _renderAdder = () => {
-    return (
-      <div className='file-add-container'>
-        <div
-          className={'file-add-target ' + (this.state.dragging ? 'hover' : null)}
-          onDragOver={this._onDragOver}
-          onDragLeave={this._onDragLeave}
-          onDrop={this._onDrop}
-        >
-        </div>
-        <div className={'file-add-container-inner ' + (this.state.dragging ? 'hover' : '')}></div>
-        <div className={(this.state.dragging || this.state.confirm) ? 'hidden' : ''}>
-          <p>
-            <strong>{i18n.t('Drag-and-drop your files here')}</strong>
-          </p>
-          <p>
-            <span>{i18n.t('or')}</span>
-          </p>
-          <p>
-            <button
-              className={'btn btn-second add-file ' + (this.state.dragging ? 'hover' : null)}
-              onClick={this._onAddFile}
-              onDragOver={() => this.setState({dragging: true})}
-              onDragLeave={() => this.setState({dragging: false})}
-              onDrop={this._onDrop}
-            >
-              {i18n.t('Select files...')}
-            </button>
-          </p>
-        </div>
-        <div className={!this.state.dragging ? 'hidden' : ''}>
-          <p>
-            <strong>{i18n.t('Drop your file here to add it to IPFS')}</strong>
-          </p>
-        </div>
-        <div className={!this.state.confirm ? 'hidden' : ''}>
-          <p>
-            <i className='fa fa-lg fa-thumbs-up'></i> {i18n.t('Added')} <strong>{this.state.confirm}</strong>
-          </p>
-        </div>
-        <input
-          type='file'
-          ref='fileSelect'
-          className='file-select'
-          style={{display: 'none'}}
-          onChange={this._onFileChange}
-        />
-      </div>
-    )
-  };
+    this.setState({fetchIntervall: setInterval(() => this.getFiles(), 5000)})
+  }
 
-  _renderPanel = () => {
-    switch (this.props.location.pathname) {
-      case '/files':
-        return (
-          <Panel bsStyle={'default'}>
-            <FileList
-                files={this.state.files}
-                namesHidden
-                ipfs={this.props.ipfs}
-                gateway={this.props.gateway}
-            />
-          </Panel>
-        )
-      case '/files/pinned':
-        return (
-          <Panel bsStyle={'default'}>
-            <FileList
-                files={this.state.pinned}
-                namesHidden
-                ipfs={this.props.ipfs}
-                gateway={this.props.gateway}
-            />
-          </Panel>
-        )
-      default:
-        return ''
-    }
-  };
+  componentWillUnmount () {
+    clearInterval(this.state.fetchIntervall)
+  }
 
   render () {
+    const parts = {}
+    const partsList = _.compact(this.state.root.split('/'))
+    partsList.map((part, i) => {
+      if (i === partsList.length - 1) {
+        parts[part] = null
+      } else {
+        parts[part] = '/' + partsList.slice(0, i + 1).join('/')
+      }
+    })
+
+    const breadcrumbs = _(parts)
+      .map((root, part) => {
+        if (!root) {
+          return [
+            <Icon key='last-0' glyph='angle-right' />,
+            <span key='last-1'>{part}</span>
+          ]
+        }
+
+        return [
+          <Icon key={`${root}-0`} glyph='angle-right' />,
+          <a
+              key={`${root}-1`}
+              onClick={this.onParentClick.bind(this, root)}
+              className='crumb-link'>
+            {part}
+          </a>
+        ]
+      })
+      .flatten()
+      .value()
+
+    if (_.isEmpty(partsList)) {
+      breadcrumbs.unshift(
+        <span key='-1'>IPFS</span>
+      )
+    } else {
+      breadcrumbs.unshift(
+          <a
+              key='-1'
+              onClick={this.onParentClick.bind(null, '/')}
+              className='crumb-link'>
+            IPFS
+          </a>
+      )
+    }
     return (
-      <Row>
-        <Col sm={10} smOffset={1}>
-          {this._renderAdder()}
-          <Nav bsStyle='tabs'>
-            <LinkContainer to='/files'>
-              <NavItem>{i18n.t('All Files')}</NavItem>
-            </LinkContainer>
-            <LinkContainer to='/files/pinned'>
-              <NavItem>{i18n.t('Pinned Files')}</NavItem>
-            </LinkContainer>
-          </Nav>
-          <div className={this.state.selected}>
-            {this._renderTitle()}
-            {this._renderPanel()}
-          </div>
-        </Col>
-      </Row>
+      <div>
+        <Row>
+          <Col sm={10} smOffset={1}>
+            <Row>
+              <Col sm={8} className='breadcrumbs'>
+                {breadcrumbs}
+              </Col>
+              <Col sm={4} className='actions'>
+                <a onClick={() => this.setState({showModalFolder: true})}>
+                  <Icon glyph='plus'/> Add Directory
+                </a>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={12}>
+                <FilesExplorer
+                    files={this.state.files}
+                    onRowClick={this.onRowClick} />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Modal
+            show={this.state.showModalFolder}
+            onHide={() => this.setState({showModalFolder: false})}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Directory to {this.state.root}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Input type='text' ref='modalInput' />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle='primary' onClick={this.onModalHide}>Add</Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal
+            bsSize='large'
+            dialogClassName='modal-file-content'
+            show={this.state.showModalFile}
+            onHide={() => this.setState({showModalFile: false})}>
+          <Modal.Header closeButton>
+            <Modal.Title>{this.state.file.Name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <FileRenderer
+                name={this.state.file.Name}
+                data={this.state.file.Data} />
+          </Modal.Body>
+        </Modal>
+      </div>
     )
   }
 }

@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import i18n from '../utils/i18n.js'
 
-export
-default class Peer extends Component {
+export default class Peer extends Component {
   static displayName = 'Peer';
   static propTypes = {
     table: React.PropTypes.object,
@@ -13,36 +12,35 @@ default class Peer extends Component {
   render () {
     return (
       <div className='webui-peer'>
-        <div className='box info'>
+        <div className='info'>
           <p>
-            <strong>{i18n.t('Peer ID:')} </strong> <code>{this.props.peer.ID}</code>&nbsp;
+            <strong>{i18n.t('Peer ID')} </strong> <code>{this.props.peer.ID}</code>&nbsp;
           </p>
           <br />
           <p>
-            <strong>{i18n.t('Location:')} </strong> {this.props.location.formatted || i18n.t('Unknown')}
+            <strong>{i18n.t('Location')} </strong> {this.props.location.formatted || i18n.t('Unknown')}
           </p>
           <p>
-            <strong>{i18n.t('Agent Version:')} </strong> <code>{this.props.peer.AgentVersion || ''}</code>
+            <strong>{i18n.t('Agent Version')} </strong> <code>{this.props.peer.AgentVersion || ''}</code>
           </p>
           <p>
-            <strong>{i18n.t('Protocol Version:')} </strong> <code>{this.props.peer.ProtocolVersion || ''}</code>
+            <strong>{i18n.t('Protocol Version')} </strong> <code>{this.props.peer.ProtocolVersion || ''}</code>
           </p>
           <br />
           <div>
-            <strong>{i18n.t('Public Key:')}</strong>
-            <pre className='panel textarea-panel'>{this.props.peer.PublicKey || ''}</pre>
+            <h4>{i18n.t('Public Key')}</h4>
+            <pre>{this.props.peer.PublicKey || ''}</pre>
           </div>
-        </div>
-        <h4>{i18n.t('Network Addresses')}</h4>
-        <div className='box addresses'>
-          {(this.props.peer.Addresses || []).map((address, i) => {
-            if (!address) return
-            return (
-              <p key={i}>
-                <code>{address}</code>&nbsp;
-              </p>
-            )
-          })}
+          <br />
+          <div>
+            <h4>{i18n.t('Network Addresses')}</h4>
+            <pre className='box addresses'>
+              {(this.props.peer.Addresses || []).map(address => {
+                if (!address) return
+                return address + '\n'
+              })}
+            </pre>
+          </div>
         </div>
       </div>
     )
