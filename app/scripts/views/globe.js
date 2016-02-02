@@ -70,12 +70,12 @@ default class Globe extends Component {
 
   render () {
     return (
-        <div className='globe-container'>
-            <div ref='globe' style={{width: '100%', height: '600px'}} />
-            <div className='theme-toggle' onClick={() => this.setState({theme: (this.state.theme === 'dark' ? 'light' : 'dark')})} >
-              <i className='fa fa-exchange' />
-            </div>
+      <div className='globe-container'>
+        <div ref='globe' style={{width: '100%', height: '600px'}} />
+        <div className='theme-toggle' onClick={() => this.setState({theme: (this.state.theme === 'dark' ? 'light' : 'dark')})} >
+          <i className='fa fa-exchange' />
         </div>
-      )
+      </div>
+    )
   }
 }

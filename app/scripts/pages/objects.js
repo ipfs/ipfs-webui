@@ -87,22 +87,23 @@ default class Objects extends React.Component {
 
   render () {
     const error = this.state.error ? (<div className='row'>
-        <h4>{i18n.t('Error')}</h4>
-        <div className='panel panel-default padded'>
-          {this.state.error.Message}
-        </div>
-      </div>) : null
+      <h4>{i18n.t('Error')}</h4>
+      <div className='panel panel-default padded'>
+        {this.state.error.Message}
+      </div>
+    </div>) : null
 
     // TODO add provider-view here
     const views = (!error && this.state.object ? <div className='row'>
-        <div className='col-xs-12'>
-          <ObjectView
-            object={this.state.object}
-            path={this.state.path}
-            permalink={this.state.permalink}
-            gateway={this.props.gateway} />
-        </div>
-      </div> : null)
+      <div className='col-xs-12'>
+        <ObjectView
+          object={this.state.object}
+          path={this.state.path}
+          permalink={this.state.permalink}
+          gateway={this.props.gateway}
+        />
+      </div>
+    </div> : null)
 
     return (
       <Row>
@@ -117,11 +118,15 @@ default class Objects extends React.Component {
                   onChange={event => this.setState({pathInput: event.target.value.trim()})}
                   onKeyPress={this._update}
                   value={this.state.pathInput}
-                  placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')}/>
+                  placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')}
+                />
               </Col>
               <Col xs={2}>
-                <Button bsStyle={'primary'} className={'go'}
-                  onClick={this._update}>
+                <Button
+                  bsStyle={'primary'}
+                  className={'go'}
+                  onClick={this._update}
+                >
                   {i18n.t('GO')}
                 </Button>
               </Col>

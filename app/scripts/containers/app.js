@@ -54,12 +54,13 @@ class App extends Component {
     if (!errorMessage) return null
 
     return (
-        <p style={{backgroundColor: '#e99'}}>
+      <p style={{backgroundColor: '#e99'}}>
         <b>{errorMessage}</b>
         {' '}
         <a
           href='#'
-          onClick={this.handleDismissClick}>
+          onClick={this.handleDismissClick}
+        >
           Dismiss
         </a>
       </p>

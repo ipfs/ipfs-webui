@@ -84,8 +84,14 @@ default class Logs extends Component {
     const buttons = (
       <div className='buttons'>
         <button className='btn btn-second' onClick={() => this.setState({ log: [] })}>{i18n.t('Clear')}</button>
-        <button className={'btn btn-second ' + (this.state.tailing ? 'active' : '')}
-          data-toggle='button' aria-pressed={this.state.tailing} onClick={() => this.setState({ tailing: !this.state.tailing })}>{i18n.t('Tail')}</button>
+        <button
+          className={'btn btn-second ' + (this.state.tailing ? 'active' : '')}
+          data-toggle='button'
+          aria-pressed={this.state.tailing}
+          onClick={() => this.setState({ tailing: !this.state.tailing })}
+        >
+          {i18n.t('Tail')}
+        </button>
       </div>
     )
 

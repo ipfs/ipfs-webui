@@ -38,10 +38,11 @@ export default class Navigation extends Component {
       const title = tab.title.substring(0, 1).toUpperCase() + tab.title.substring(1)
       return (
         <NavItem
-            key={idx}
-            title={title}
-            url={url}
-            icon={tab.icon} />
+          key={idx}
+          title={title}
+          url={url}
+          icon={tab.icon}
+        />
       )
     })
 
