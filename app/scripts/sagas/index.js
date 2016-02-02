@@ -7,8 +7,7 @@ const {id} = actions
 
 // ---------- Subroutines
 
-function * fetchId () {
-  console.log('api', api)
+export function * fetchId () {
   yield put(id.request())
   const {response, error} = yield call(api.fetchId)
 
@@ -19,20 +18,20 @@ function * fetchId () {
   }
 }
 
-function * loadId () {
+export function * loadId () {
   yield call(fetchId)
 }
 
 // ---------- Watchers
 
-function * watchNavigate () {
+export function * watchNavigate () {
   while (true) {
     const {pathname} = yield take(actions.NAVIGATE)
     yield history.push(pathname)
   }
 }
 
-function * watchLoadHomePage () {
+export function * watchLoadHomePage () {
   while (true) {
     yield take(actions.LOAD_HOME_PAGE)
 

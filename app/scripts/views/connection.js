@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import Peer from './peer'
+// import Peer from './peer'
 
 export
 default class Connection extends Component {
