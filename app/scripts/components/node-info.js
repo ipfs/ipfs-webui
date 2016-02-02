@@ -1,36 +1,43 @@
 import React, {Component} from 'react'
-import {Row} from 'react-bootstrap'
+import {Row, Col} from 'react-bootstrap'
 
 import i18n from '../utils/i18n.js'
 
 const LabeledProp = ({title, children}) => {
   return (
     <Row>
-      <h5>{i18n.t(title)}</h5>
-      {children}
+      <Col sm={12}>
+        <strong>{`${i18n.t(title)}: `}</strong>
+        {children}
+      </Col>
     </Row>
   )
 }
 
-export default class Peer extends Component {
-  static displayName = 'Peer';
+export default class NodeInfo extends Component {
+  static displayName = 'NodeInfo';
 
   static propTypes = {
-    peer: React.PropTypes.object,
+    data: React.PropTypes.object,
     location: React.PropTypes.object
   };
 
+  static defaultProps = {
+    data: {},
+    location: {
+      formatted: ''
+    }
+  };
+
   render () {
-    const {peer, location} = this.props
+    const {data, location} = this.props
 
     return (
-      <div className='webui-peer'>
-        <Row>
-          <h3>{i18n.t('Node Info')}</h3>
-        </Row>
+      <Col sm={12} className='webui-peer'>
+        <h3>{i18n.t('Node Info')}</h3>
 
         <LabeledProp title='Peer ID'>
-          <code>{peer.ID}</code>
+          <code>{data.ID}</code>
         </LabeledProp>
 
         <LabeledProp title='Location'>
@@ -38,21 +45,21 @@ export default class Peer extends Component {
         </LabeledProp>
 
         <LabeledProp title='Agent Version'>
-          <code>{peer.AgentVersion || ''}</code>
+          <code>{data.AgentVersion || ''}</code>
         </LabeledProp>
 
         <LabeledProp title='Protocol Version'>
-          <code>{peer.ProtocolVersion || ''}</code>
+          <code>{data.ProtocolVersion || ''}</code>
         </LabeledProp>
 
         <LabeledProp title='Network Addresses'>
           <pre className='box addresses'>
-            {(peer.Addresses || []).map((address, i) => {
+            {(data.Addresses || []).map((address, i) => {
               return address ? `${address}\n` : ''
             })}
           </pre>
         </LabeledProp>
-      </div>
+      </Col>
     )
   }
 }
