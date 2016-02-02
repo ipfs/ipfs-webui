@@ -35,16 +35,16 @@ default class Connection extends Component {
   render () {
     let peer = ''
 
-    if (this.state.open) {
-      peer = (
-          <Peer
-              peer={this.state.peer}
-              location={this.props.location}
-              bytesRead={this.props.BytesRead}
-              bytesWritten={this.props.BytesWritten}
-          />
-        )
-    }
+    // if (this.state.open) {
+    //   peer = (
+    //    <Peer
+    //      peer={this.state.peer}
+    //      location={this.props.location}
+    //      bytesRead={this.props.BytesRead}
+    //     bytesWritten={this.props.BytesWritten}
+    //     />
+    //   )
+    // }
 
     return (
       <li className={'webui-connection list-group-item ' + (this.state.open ? 'active' : '')}>

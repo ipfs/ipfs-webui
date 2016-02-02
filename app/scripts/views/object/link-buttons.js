@@ -11,18 +11,18 @@ const LinkButtons = ({gateway, path}) => {
       <ParentLink parent={path.parent()} />
 
       <Button
-          bsStyle='info'
-          className='btn-second'
-          href={gateway + path}
-          target='_blank'
+        bsStyle='info'
+        className='btn-second'
+        href={gateway + path}
+        target='_blank'
       >
         {i18n.t('RAW')}
       </Button>
       <Button
-          className='btn-second'
-          href={gateway + path + '?dl=1'}
-          target='_blank'
-        >
+        className='btn-second'
+        href={gateway + path + '?dl=1'}
+        target='_blank'
+      >
         {i18n.t('Download')}
       </Button>
     </div>

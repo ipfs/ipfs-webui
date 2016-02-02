@@ -17,7 +17,8 @@ requestAnimationFrame(() => {
     <Root
       store={store}
       history={history}
-      routes={routes} />,
+      routes={routes}
+    />,
     document.getElementById('root')
   )
 })

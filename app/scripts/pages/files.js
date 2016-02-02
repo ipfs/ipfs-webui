@@ -187,10 +187,10 @@ default class Files extends React.Component {
         return (
           <Panel bsStyle={'default'}>
             <FileList
-                files={this.state.files}
-                namesHidden
-                ipfs={this.props.ipfs}
-                gateway={this.props.gateway}
+              files={this.state.files}
+              namesHidden
+              ipfs={this.props.ipfs}
+              gateway={this.props.gateway}
             />
           </Panel>
         )
@@ -198,10 +198,10 @@ default class Files extends React.Component {
         return (
           <Panel bsStyle={'default'}>
             <FileList
-                files={this.state.pinned}
-                namesHidden
-                ipfs={this.props.ipfs}
-                gateway={this.props.gateway}
+              files={this.state.pinned}
+              namesHidden
+              ipfs={this.props.ipfs}
+              gateway={this.props.gateway}
             />
           </Panel>
         )

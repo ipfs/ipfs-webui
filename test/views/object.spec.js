@@ -11,10 +11,10 @@ describe('Object', () => {
     const permalink = parse('/perma/hello/world')
     const el = shallow(
       <ObjectView
-          path={path}
-          permalink={permalink}
-          gateway='gateway'
-          object={{Links: [], Data: 'hello'}}
+        path={path}
+        permalink={permalink}
+        gateway='gateway'
+        object={{Links: [], Data: 'hello'}}
       />
     )
 
