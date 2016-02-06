@@ -3,7 +3,7 @@ import {take, put, call, fork} from 'redux-saga'
 import {history, api} from '../services'
 import * as actions from '../actions'
 
-const {id} = actions
+const {id, logs} = actions
 
 // ---------- Subroutines
 
@@ -18,8 +18,22 @@ export function * fetchId () {
   }
 }
 
+export function * watchLogs (source) {
+  let msg = yield call(source.nextMessage())
+
+  while (msg) {
+    yield put(logs.recieve(msg))
+    msg = yield call(source.nextMessage())
+  }
+}
+
 export function * loadId () {
   yield call(fetchId)
+}
+
+export function * getLogs () {
+  const source = yield call(api.createLogSource)
+  yield fork(watchLogs, source)
 }
 
 // ---------- Watchers
@@ -39,7 +53,16 @@ export function * watchLoadHomePage () {
   }
 }
 
+export function * watchLoadLogsPage () {
+  while (true) {
+    yield take(actions.LOAD_LOGS_PAGE)
+
+    yield fork(getLogs)
+  }
+}
+
 export default function * root (getState) {
   yield fork(watchNavigate)
   yield fork(watchLoadHomePage)
+  yield fork(watchLoadLogsPage)
 }

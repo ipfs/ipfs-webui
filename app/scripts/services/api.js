@@ -13,3 +13,38 @@ export const fetchId = () => {
     })
   })
 }
+
+export const fetchLogStream = () => {
+  return new Promise((resolve, reject) => {
+    api.log.tail((err, response) => {
+      if (err) return reject(err.message || 'Failed to tail logs')
+      resolve({response})
+    })
+  })
+}
+
+export const createLogSource = () => {
+  let deferred
+
+  fetchLogStream().then(stream => {
+    stream.on('data', msg => {
+      if (deferred) {
+        deferred.resolve(msg)
+      }
+    })
+  })
+
+  return {
+    nextMessage () {
+      if (!deferred) {
+        deferred = {}
+        deferred.promise = new Promise((resolve, reject) => {
+          deferred.resolve = resolve
+          deferred.reject = reject
+        })
+      }
+
+      return deferred.promise
+    }
+  }
+}
