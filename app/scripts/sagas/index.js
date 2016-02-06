@@ -19,11 +19,11 @@ export function * fetchId () {
 }
 
 export function * watchLogs (source) {
-  let msg = yield call(source.nextMessage())
+  let response = yield call(source.nextMessage)
 
-  while (msg) {
-    yield put(logs.recieve(msg))
-    msg = yield call(source.nextMessage())
+  while (response) {
+    yield put(logs.receive(response))
+    response = yield call(source.nextMessage)
   }
 }
 
@@ -32,6 +32,7 @@ export function * loadId () {
 }
 
 export function * getLogs () {
+  console.log('getLogs')
   const source = yield call(api.createLogSource)
   yield fork(watchLogs, source)
 }

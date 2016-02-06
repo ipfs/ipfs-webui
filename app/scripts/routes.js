@@ -9,7 +9,7 @@ import ObjectsPage from './pages/objects'
 import BitswapPage from './pages/bitswap'
 import RoutingPage from './pages/routing'
 import ConfigPage from './pages/config'
-import LogPage from './pages/logs'
+import LogPage from './containers/logs'
 import NotFoundPage from './pages/notfound'
 
 export default (

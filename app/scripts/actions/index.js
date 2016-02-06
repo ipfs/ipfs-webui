@@ -33,7 +33,7 @@ export const id = {
 }
 
 export const logs = {
-  recieve: msg => action(LOGS.RECEIVE, {msg})
+  receive: response => action(LOGS.RECEIVE, {response})
 }
 
 export const updateRouterState = state => action(UPDATE_ROUTER_STATE, {state})

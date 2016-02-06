@@ -16,9 +16,9 @@ export const fetchId = () => {
 
 export const fetchLogStream = () => {
   return new Promise((resolve, reject) => {
-    api.log.tail((err, response) => {
+    api.log.tail((err, stream) => {
       if (err) return reject(err.message || 'Failed to tail logs')
-      resolve({response})
+      resolve(stream)
     })
   })
 }
@@ -30,6 +30,7 @@ export const createLogSource = () => {
     stream.on('data', msg => {
       if (deferred) {
         deferred.resolve(msg)
+        deferred = null
       }
     })
   })

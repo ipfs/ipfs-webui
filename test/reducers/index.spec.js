@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {range, last} from 'lodash'
 
 import * as reducers from '../../app/scripts/reducers'
 import * as actions from '../../app/scripts/actions'
@@ -15,6 +16,29 @@ describe('reducers', () => {
       expect(
         reducers.id({}, actions.id.success({node: 1}))
       ).to.be.eql({node: 1})
+    })
+  })
+
+  describe('logs', () => {
+    it('returns the initial state', () => {
+      expect(
+        reducers.logs(undefined, {})
+      ).to.be.eql([])
+    })
+
+    it('handles response', () => {
+      expect(
+        reducers.logs([1], actions.logs.receive({hello: 'world'}))
+      ).to.be.eql([1, {hello: 'world'}])
+    })
+
+    it('only keeps 200 entries', () => {
+      const state = reducers.logs(range(200), actions.logs.receive(-1))
+      const state2 = reducers.logs(state, actions.logs.receive(-2))
+      expect(state).to.have.length(200)
+      expect(state2).to.have.length(200)
+      expect(last(state)).to.be.eql(-1)
+      expect(last(state2)).to.be.eql(-2)
     })
   })
 
