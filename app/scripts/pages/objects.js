@@ -61,7 +61,7 @@ default class Objects extends React.Component {
     })
   };
 
-  _update = event => {
+  _update = (event) => {
     if (event.which && event.which !== 13) return
     const params = this.props.params
     params.path = parse(this.state.pathInput).urlify()
@@ -115,7 +115,7 @@ default class Objects extends React.Component {
                 <input
                   type='text'
                   className='form-control input-lg'
-                  onChange={event => this.setState({pathInput: event.target.value.trim()})}
+                  onChange={(event) => this.setState({pathInput: event.target.value.trim()})}
                   onKeyPress={this._update}
                   value={this.state.pathInput}
                   placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')}

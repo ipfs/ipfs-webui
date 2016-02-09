@@ -5,7 +5,9 @@ const FAILURE = 'FAILURE'
 function createRequestTypes (base) {
   const res = {}
   const types = [REQUEST, SUCCESS, FAILURE]
-  types.forEach(type => res[type] = `${base}_${type}`)
+  types.forEach((type) => {
+    res[type] = `${base}_${type}`
+  })
 
   return res
 }
@@ -28,16 +30,16 @@ function action (type, payload = {}) {
 
 export const id = {
   request: () => action(ID.REQUEST),
-  success: response => action(ID.SUCCESS, {response}),
-  failure: error => action(ID.FAILURE, {error})
+  success: (response) => action(ID.SUCCESS, {response}),
+  failure: (error) => action(ID.FAILURE, {error})
 }
 
 export const logs = {
-  receive: response => action(LOGS.RECEIVE, {response})
+  receive: (response) => action(LOGS.RECEIVE, {response})
 }
 
-export const updateRouterState = state => action(UPDATE_ROUTER_STATE, {state})
-export const navigate = pathname => action(NAVIGATE, {pathname})
+export const updateRouterState = (state) => action(UPDATE_ROUTER_STATE, {state})
+export const navigate = (pathname) => action(NAVIGATE, {pathname})
 export const loadHomePage = () => action(LOAD_HOME_PAGE)
 export const loadLogsPage = () => action(LOAD_LOGS_PAGE)
 

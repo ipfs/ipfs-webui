@@ -32,7 +32,6 @@ export function * loadId () {
 }
 
 export function * getLogs () {
-  console.log('getLogs')
   const source = yield call(api.createLogSource)
   yield fork(watchLogs, source)
 }

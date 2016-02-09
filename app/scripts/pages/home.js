@@ -74,7 +74,7 @@ default class Home extends Component {
   onGatewayChange () {
     const GatewayEnabled = !this.state.GatewayEnabled
     const api = GatewayEnabled ? this.props.ipfs.gateway.enable : this.props.ipfs.gateway.disable
-    api(err => {
+    api((err) => {
       if (err) return console.error(err)
       this.setState({
         GatewayEnabled

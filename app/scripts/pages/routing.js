@@ -28,7 +28,7 @@ default class Routing extends Component {
 
         let peers = res.Peers || []
         peers.push(id)
-        peers = peers.map(peer => {
+        peers = peers.map((peer) => {
           return {
             pos: idToAngle(peer.ID),
             id: peer.ID

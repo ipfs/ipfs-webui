@@ -47,12 +47,12 @@ default class Files extends React.Component {
     })
   }
 
-  _onAddFile = event => {
+  _onAddFile = (event) => {
     event.preventDefault()
     this.refs.fileSelect.click()
   };
 
-  _onDragOver = event => {
+  _onDragOver = (event) => {
     event.stopPropagation()
     event.preventDefault()
     this.setState({
@@ -60,7 +60,7 @@ default class Files extends React.Component {
     })
   };
 
-  _onDragLeave = event => {
+  _onDragLeave = (event) => {
     event.stopPropagation()
     event.preventDefault()
     this.setState({
@@ -68,7 +68,7 @@ default class Files extends React.Component {
     })
   };
 
-  _onDrop = event => {
+  _onDrop = (event) => {
     event.stopPropagation()
     event.preventDefault()
     this.setState({
@@ -77,13 +77,13 @@ default class Files extends React.Component {
     this._onFileChange(event)
   };
 
-  _onFileChange = event => {
+  _onFileChange = (event) => {
     const files = event.target.files || event.dataTransfer.files
     if (!files || !files[0]) return
     var file = files[0]
     log('adding file: ', file)
 
-    const add = data => {
+    const add = (data) => {
       this.props.ipfs.add(data, (err, res) => {
         if (err || !res) return this.error(err)
         res = res[0]

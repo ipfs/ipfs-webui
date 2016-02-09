@@ -26,8 +26,8 @@ export const fetchLogStream = () => {
 export const createLogSource = () => {
   let deferred
 
-  fetchLogStream().then(stream => {
-    stream.on('data', msg => {
+  fetchLogStream().then((stream) => {
+    stream.on('data', (msg) => {
       if (deferred) {
         deferred.resolve(msg)
         deferred = null

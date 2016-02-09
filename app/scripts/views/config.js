@@ -49,7 +49,7 @@ default class ConfigView extends Component {
       saving: true
     })
 
-    this.props.ipfs.config.replace(new Buffer(this.state.body), err => {
+    this.props.ipfs.config.replace(new Buffer(this.state.body), (err) => {
       let newState = {
         saving: false
       }
