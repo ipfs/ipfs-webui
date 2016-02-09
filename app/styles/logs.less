@@ -1,3 +1,7 @@
+.AutoSizerWrapper {
+  height: 80vh;
+}
+
 .FlexTable {
   width: 100%;
 }
@@ -38,8 +42,6 @@ VirtualScroll__innerScrollContainer {
 .log-entry {
   border-bottom: 1px solid @gray-lighter;
   font-size: 13px;
-  min-height: 60px;
-  height: 60px;
 }
 
 .log-entry-time {
@@ -47,13 +49,26 @@ VirtualScroll__innerScrollContainer {
 }
 
 .log-entry-event {
-  overflow: auto;
+  overflow: hidden;
 }
 
 .log-entry-details {
-  overflow: auto;
-  height: 60px;
+  overflow: hidden;
+
+  pre.json-pretty {
+    font-family: @font-family-sans-serif;
+    color: @text-color;
+    border: none;
+    font-size: 13px;
+    padding: 0;
+    margin: 0;
+
+    .json-key {
+      font-weight: bold;
+    }
+  }
 }
+
 .log-controller {
   height: 40px;
 }

@@ -1,19 +1,7 @@
 import React, {Component, PropTypes} from 'react'
-import {FlexTable, FlexColumn} from 'react-virtualized'
-import {map, isEqual, startsWith} from 'lodash'
-
-const DetailsList = ({data}) => {
-  const entries = map(data, (value, key) => (
-    <div key={key}>
-      <strong>{key}:</strong> {JSON.stringify(value)}
-    </div>
-  ))
-  return (
-    <div className='details-view'>
-      {entries}
-    </div>
-  )
-}
+import {FlexTable, FlexColumn, AutoSizer} from 'react-virtualized'
+import {isEqual, startsWith, isPlainObject, reduce} from 'lodash'
+import JSONPretty from 'react-json-pretty'
 
 const pad = (val) => {
   let res = val.toString()
@@ -50,7 +38,7 @@ const detailsCellGetter = (dataKey, rowData, columnData) => {
 }
 
 const detailsCellRenderer = (cellData, cellDataKey, rowData, rowIndex, columnData) => {
-  return <DetailsList data={cellData} />
+  return <JSONPretty json={cellData} />
 }
 
 export default class LogViewer extends Component {
@@ -76,7 +64,20 @@ export default class LogViewer extends Component {
   };
 
   _getDatum = (list, index) => {
-    return list[index % list.length]
+    return list[index]
+  };
+
+  _getRowHeight = (list, index) => {
+    const {time, system, event, ...details} = this._getDatum(list, index)
+    const count = reduce(details, (sum, value, key) => {
+      if (isPlainObject(value)) {
+        return sum + Object.keys(value).length
+      }
+
+      return sum + 1
+    }, 0)
+
+    return count * 25 + 70
   };
 
   shouldComponentUpdate (nextProps) {
@@ -88,43 +89,48 @@ export default class LogViewer extends Component {
     const rowsCount = list.length
     const scrollToIndex = this.props.tail ? list.length - 1 : undefined
     const rowGetter = (index) => this._getDatum(list, index)
+    const getRowHeight = (index) => this._getRowHeight(list, index)
 
     return (
-      <FlexTable
-        ref='table'
-        className='log-viewer'
-        headerHeight={40}
-        height={500}
-        noRowsRenderer={this._noRowsRenderer}
-        rowsCount={rowsCount}
-        rowHeight={60}
-        rowGetter={rowGetter}
-        rowClassName='log-entry'
-        scrollToIndex={scrollToIndex}
-      >
-        <FlexColumn
-          label='Timestamp'
-          cellDataGetter={(_, {time}, __) => timestamp(time)}
-          cellClassName='log-entry-time'
-          dataKey='time'
-          width={150}
-        />
-        <FlexColumn
-          label='System [Event]'
-          cellClassName='log-entry-event'
-          cellDataGetter={eventCellGetter}
-          cellRenderer={eventCellRenderer}
-          dataKey='event'
-          width={300}
-        />
-        <FlexColumn
-          label='Details'
-          cellClassName='log-entry-details'
-          cellDataGetter={detailsCellGetter}
-          cellRenderer={detailsCellRenderer}
-          dataKey='system'
-        />
-      </FlexTable>
+      <div className='AutoSizerWrapper'>
+        <AutoSizer >
+          <FlexTable
+            ref='table'
+            className='log-viewer'
+            headerHeight={40}
+            height={500}
+            noRowsRenderer={this._noRowsRenderer}
+            rowsCount={rowsCount}
+            rowHeight={getRowHeight}
+            rowGetter={rowGetter}
+            rowClassName='log-entry'
+            scrollToIndex={scrollToIndex}
+          >
+            <FlexColumn
+              label='Timestamp'
+              cellDataGetter={(_, {time}, __) => timestamp(time)}
+              cellClassName='log-entry-time'
+              dataKey='time'
+              width={150}
+            />
+            <FlexColumn
+              label='System [Event]'
+              cellClassName='log-entry-event'
+              cellDataGetter={eventCellGetter}
+              cellRenderer={eventCellRenderer}
+              dataKey='event'
+              width={300}
+            />
+            <FlexColumn
+              label='Details'
+              cellClassName='log-entry-details'
+              cellDataGetter={detailsCellGetter}
+              cellRenderer={detailsCellRenderer}
+              dataKey='system'
+            />
+          </FlexTable>
+        </AutoSizer>
+      </div>
     )
   }
 }
