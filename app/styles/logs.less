@@ -1,6 +1,49 @@
-.logs {
-  .textarea-panel {
-    height: 80vh;
-    overflow-y: scroll;
-  }
+.FlexTable {
+  width: 100%;
+}
+
+.FlexTable__headerRow {
+  font-weight: 700;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+
+.VirtualScroll {
+  width: 100%;
+  position: relative;
+  overflow: auto;
+  outline: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.VirtualScroll__row {
+  position: absolute;
+}
+
+VirtualScroll__innerScrollContainer {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.FlexTable__row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+
+.log-entry {
+  border-bottom: 1px solid @gray-lighter;
+  font-size: 13px;
+}
+
+.log-entry-time {
+  text-align: left;
+}
+
+.log-entry-system {
+  text-align: center;
 }

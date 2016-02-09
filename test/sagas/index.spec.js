@@ -1,12 +1,12 @@
 import {expect} from 'chai'
-import {put, take, fork, call} from 'redux-saga'
+import {put, take, fork, call, cancel} from 'redux-saga'
+import {createMockTask} from 'redux-saga/lib/testUtils'
 
 import * as actions from '../../app/scripts/actions'
 import {
   fetchId,
   loadId,
   watchLogs,
-  getLogs,
   watchLoadHomePage,
   watchLoadLogsPage,
   watchNavigate
@@ -44,16 +44,6 @@ describe('sagas', () => {
       next = generator.next(actions.id.failure('error'))
       expect(next.value).to.be.eql(put(actions.id.failure('error')))
     })
-  })
-
-  it('getLogs', () => {
-    const generator = getLogs(getState)
-
-    let next = generator.next()
-    expect(next.value).to.be.eql(call(api.createLogSource))
-
-    next = generator.next('source')
-    expect(next.value).to.be.eql(fork(watchLogs, 'source'))
   })
 
   it('loadId', () => {
@@ -98,10 +88,25 @@ describe('sagas', () => {
     const generator = watchLoadLogsPage(getState)
 
     let next = generator.next()
-    expect(next.value).to.be.eql(take(actions.LOAD_LOGS_PAGE))
+    expect(next.value)
+      .to.be.eql(call(api.createLogSource))
 
-    next = generator.next()
-    expect(next.value).to.be.eql(fork(getLogs))
+    next = generator.next('source')
+    expect(next.value)
+      .to.be.eql(take(actions.LOAD_LOGS_PAGE))
+
+    next = generator.next('source')
+    expect(next.value)
+      .to.be.eql(fork(watchLogs, 'source'))
+
+    const watcher = createMockTask()
+    next = generator.next(watcher)
+    expect(next.value)
+      .to.be.eql(take(actions.LEAVE_LOGS_PAGE))
+
+    next = generator.next(watcher)
+    expect(next.value)
+      .to.be.eql(cancel(watcher))
   })
 
   it('watchNavigate', () => {

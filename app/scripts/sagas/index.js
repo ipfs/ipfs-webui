@@ -1,4 +1,11 @@
-import {take, put, call, fork} from 'redux-saga'
+import {
+  take,
+  put,
+  call,
+  fork,
+  cancel,
+  SagaCancellationException
+} from 'redux-saga'
 
 import {history, api} from '../services'
 import * as actions from '../actions'
@@ -19,21 +26,22 @@ export function * fetchId () {
 }
 
 export function * watchLogs (source) {
-  let response = yield call(source.nextMessage)
+  try {
+    let response = yield call(source.nextMessage)
 
-  while (response) {
-    yield put(logs.receive(response))
-    response = yield call(source.nextMessage)
+    while (response) {
+      yield put(logs.receive(response))
+      response = yield call(source.nextMessage)
+    }
+  } catch (err) {
+    if (err instanceof SagaCancellationException) {
+      yield put(logs.cancel())
+    }
   }
 }
 
 export function * loadId () {
   yield call(fetchId)
-}
-
-export function * getLogs () {
-  const source = yield call(api.createLogSource)
-  yield fork(watchLogs, source)
 }
 
 // ---------- Watchers
@@ -54,10 +62,14 @@ export function * watchLoadHomePage () {
 }
 
 export function * watchLoadLogsPage () {
-  while (true) {
-    yield take(actions.LOAD_LOGS_PAGE)
+  const source = yield call(api.createLogSource)
 
-    yield fork(getLogs)
+  while (yield take(actions.LOAD_LOGS_PAGE)) {
+    const logsWatcher = yield fork(watchLogs, source)
+
+    yield take(actions.LEAVE_LOGS_PAGE)
+
+    yield cancel(logsWatcher)
   }
 }
 
