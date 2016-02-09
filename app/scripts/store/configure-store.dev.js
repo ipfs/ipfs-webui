@@ -2,13 +2,12 @@ import {createStore, applyMiddleware, compose} from 'redux'
 import createLogger from 'redux-logger'
 import saga from 'redux-saga'
 
-import DevTools from '../containers/dev-tools'
 import rootReducer from '../reducers'
 import rootSaga from '../sagas'
 
 const finalCreateStore = compose(
   applyMiddleware(saga(rootSaga), createLogger()),
-  DevTools.instrument()
+  window.devToolsExtension ? window.devToolsExtension() : (f) => f
 )(createStore)
 
 export default function configureStore (initialState) {

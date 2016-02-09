@@ -1,5 +1,25 @@
-if (process.env.NODE_ENV === 'production') {
-  module.exports = require('./root.prod')
-} else {
-  module.exports = require('./root.dev')
+import React, {Component, PropTypes} from 'react'
+import {Provider} from 'react-redux'
+import {Router} from 'react-router'
+
+export default class Root extends Component {
+  static propTypes = {
+    store: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    routes: PropTypes.object.isRequired
+  };
+
+  render () {
+    const {store, history, routes} = this.props
+
+    return (
+      <Provider store={store}>
+        <div>
+          <Router history={history}>
+            {routes}
+          </Router>
+        </div>
+      </Provider>
+    )
+  }
 }
