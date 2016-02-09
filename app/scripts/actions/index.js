@@ -16,7 +16,9 @@ export const ID = createRequestTypes('ID')
 
 export const LOGS = {
   RECEIVE: 'LOGS_RECEIVE',
-  CANCEL: 'LOGS_CANCEL'
+  CANCEL: 'LOGS_CANCEL',
+  TOGGLE_TAIL: 'TOGGLE_TAIL',
+  SELECT_SYSTEM: 'SELECT_SYSTEM'
 }
 
 export const UPDATE_ROUTER_STATE = 'UPDATE_ROUTER_STATE'
@@ -38,7 +40,9 @@ export const id = {
 
 export const logs = {
   receive: (response) => action(LOGS.RECEIVE, {response}),
-  cancel: () => action(LOGS.CANCEL)
+  cancel: () => action(LOGS.CANCEL),
+  toggleTail: () => action(LOGS.TOGGLE_TAIL),
+  selectSystem: (system) => action(LOGS.SELECT_SYSTEM, {system})
 }
 
 export const updateRouterState = (state) => action(UPDATE_ROUTER_STATE, {state})

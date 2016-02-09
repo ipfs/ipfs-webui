@@ -23,22 +23,27 @@ describe('reducers', () => {
     it('returns the initial state', () => {
       expect(
         reducers.logs(undefined, {})
-      ).to.be.eql([])
+      ).to.have.all.keys([
+        'list',
+        'systems',
+        'selectedSystem',
+        'tail'
+      ])
     })
 
     it('handles response', () => {
       expect(
-        reducers.logs([1], actions.logs.receive({hello: 'world'}))
-      ).to.be.eql([1, {hello: 'world'}])
+        reducers.logs({list: [1]}, actions.logs.receive({hello: 'world'}))
+      ).to.have.property('list').eql([1, {hello: 'world'}])
     })
 
-    it('only keeps 200 entries', () => {
-      const state = reducers.logs(range(200), actions.logs.receive(-1))
+    it('only keeps 500 entries', () => {
+      const state = reducers.logs({list: range(500)}, actions.logs.receive(-1))
       const state2 = reducers.logs(state, actions.logs.receive(-2))
-      expect(state).to.have.length(200)
-      expect(state2).to.have.length(200)
-      expect(last(state)).to.be.eql(-1)
-      expect(last(state2)).to.be.eql(-2)
+      expect(state.list).to.have.length(500)
+      expect(state2.list).to.have.length(500)
+      expect(last(state.list)).to.be.eql(-1)
+      expect(last(state2.list)).to.be.eql(-2)
     })
   })
 

@@ -1,12 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {FlexTable, FlexColumn} from 'react-virtualized'
-import {Button} from 'react-bootstrap'
-import {map} from 'lodash'
+import {map, isEqual, startsWith} from 'lodash'
 
 const DetailsList = ({data}) => {
   const entries = map(data, (value, key) => (
     <div key={key}>
-      <strong>{key}:</strong> {value}
+      <strong>{key}:</strong> {JSON.stringify(value)}
     </div>
   ))
   return (
@@ -33,32 +32,39 @@ const timestamp = (time) => {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
+const eventCellGetter = (dataKey, {event, system}, columnData) => {
+  return {event, system}
+}
+
+const eventCellRenderer = ({event, system}, cellDataKey, rowData, rowIndex, columnData) => {
+  return (
+    <span>
+      <strong>{system}</strong> [{event}]
+    </span>
+  )
+}
+
 const detailsCellGetter = (dataKey, rowData, columnData) => {
   const {time, system, event, ...details} = rowData
   return details
 }
 
-const detailsCellRender = (cellData, cellDataKey, rowData, rowIndex, columnData) => {
+const detailsCellRenderer = (cellData, cellDataKey, rowData, rowIndex, columnData) => {
   return <DetailsList data={cellData} />
 }
 
 export default class LogViewer extends Component {
   static propTypes = {
-    list: PropTypes.array
+    list: PropTypes.array,
+    tail: PropTypes.bool,
+    selectedSystem: PropTypes.string
   };
 
   static defaultProps = {
-    list: []
-  };
-
-  state = {
-    tail: true
-  };
-
-  _toggleTail = () => {
-    this.setState(({tail}) => {
-      return {tail: !tail}
-    })
+    list: [],
+    systems: [],
+    selectedSystem: '',
+    tail: false
   };
 
   _noRowsRenderer = () => {
@@ -69,70 +75,56 @@ export default class LogViewer extends Component {
     )
   };
 
-  _getDatum = (index) => {
-    const {list} = this.props
-
+  _getDatum = (list, index) => {
     return list[index % list.length]
   };
 
-  _getRowHeight = (index) => {
-    const datum = this._getDatum(index)
-    const detailsCount = Math.max(Object.keys(datum).length - 5, 0)
-
-    return 50 + detailsCount * 20
-  };
+  shouldComponentUpdate (nextProps) {
+    return !isEqual(nextProps, this.props)
+  }
 
   render () {
-    const rowsCount = this.props.list.length
-    const scrollToIndex = this.state.tail ? this.props.list.length - 1 : undefined
+    const list = this.props.list.filter((elem) => startsWith(elem.system, this.props.selectedSystem))
+    const rowsCount = list.length
+    const scrollToIndex = this.props.tail ? list.length - 1 : undefined
+    const rowGetter = (index) => this._getDatum(list, index)
 
     return (
-      <div>
-        <div className='button-row'>
-          <Button
-            bsStyle='info'
-            bsSize='small'
-            active={this.state.tail}
-            onClick={this._toggleTail}
-          >
-            Tail Log
-          </Button>
-        </div>
-        <FlexTable
-          ref='table'
-          className='log-viewer'
-          headerHeight={40}
-          height={500}
-          noRowsRenderer={this._noRowsRenderer}
-          rowsCount={rowsCount}
-          rowHeight={this._getRowHeight}
-          rowGetter={this._getDatum}
-          rowClassName='log-entry'
-          scrollToIndex={scrollToIndex}
-        >
-          <FlexColumn
-            label='Timestamp'
-            cellDataGetter={(_, {time}, __) => timestamp(time)}
-            cellClassName='log-entry-time'
-            dataKey='time'
-            width={150}
-          />
-          <FlexColumn
-            label='Event'
-            cellClassName='log-entry-event'
-            cellDataGetter={(_, {system, event}, __) => `${system}.${event}`}
-            dataKey='event'
-            width={300}
-          />
-          <FlexColumn
-            label='Details'
-            cellDataGetter={detailsCellGetter}
-            cellRenderer={detailsCellRender}
-            dataKey='system'
-            width={500}
-          />
-        </FlexTable>
-      </div>
+      <FlexTable
+        ref='table'
+        className='log-viewer'
+        headerHeight={40}
+        height={500}
+        noRowsRenderer={this._noRowsRenderer}
+        rowsCount={rowsCount}
+        rowHeight={60}
+        rowGetter={rowGetter}
+        rowClassName='log-entry'
+        scrollToIndex={scrollToIndex}
+      >
+        <FlexColumn
+          label='Timestamp'
+          cellDataGetter={(_, {time}, __) => timestamp(time)}
+          cellClassName='log-entry-time'
+          dataKey='time'
+          width={150}
+        />
+        <FlexColumn
+          label='System [Event]'
+          cellClassName='log-entry-event'
+          cellDataGetter={eventCellGetter}
+          cellRenderer={eventCellRenderer}
+          dataKey='event'
+          width={300}
+        />
+        <FlexColumn
+          label='Details'
+          cellClassName='log-entry-details'
+          cellDataGetter={detailsCellGetter}
+          cellRenderer={detailsCellRenderer}
+          dataKey='system'
+        />
+      </FlexTable>
     )
   }
 }

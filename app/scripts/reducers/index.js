@@ -1,8 +1,7 @@
 import {combineReducers} from 'redux'
 import {includes} from 'lodash'
 import * as ActionTypes from '../actions'
-
-const LOG_MAX_SIZE = 200
+import {LOG_SYSTEMS, LOG_MAX_SIZE} from './constants'
 
 export function id (state = {}, action) {
   if (includes(ActionTypes.ID, action.type) &&
@@ -13,13 +12,42 @@ export function id (state = {}, action) {
   return state
 }
 
-export function logs (state = [], action) {
+const logsDefaultState = {
+  list: [],
+  systems: LOG_SYSTEMS,
+  selectedSystem: 'dht',
+  tail: true
+}
+
+export function logs (state = logsDefaultState, action) {
   if (action.type === ActionTypes.LOGS.RECEIVE &&
       action.response) {
-    if (state.length < LOG_MAX_SIZE) {
-      return [...state, action.response]
+    const {response} = action
+
+    if (state.list.length < LOG_MAX_SIZE) {
+      return {
+        ...state,
+        list: [...state.list, response]
+      }
     } else {
-      return [...state.slice(1), action.response]
+      return {
+        ...state,
+        list: [...state.list.slice(1), response]
+      }
+    }
+  }
+
+  if (action.type === ActionTypes.LOGS.TOGGLE_TAIL) {
+    return {
+      ...state,
+      tail: !state.tail
+    }
+  }
+
+  if (action.type === ActionTypes.LOGS.SELECT_SYSTEM) {
+    return {
+      ...state,
+      selectedSystem: action.system
     }
   }
 
