@@ -3,8 +3,7 @@ import {
   put,
   call,
   fork,
-  cancel,
-  SagaCancellationException
+  race
 } from 'redux-saga'
 
 import {history, api} from '../services'
@@ -16,32 +15,33 @@ const {id, logs} = actions
 
 export function * fetchId () {
   yield put(id.request())
-  const {response, error} = yield call(api.fetchId)
 
-  if (response) {
-    yield put(id.success(response))
-  } else {
-    yield put(id.failure(error))
-  }
-}
-
-export function * watchLogs (source) {
   try {
-    let response = yield call(source.nextMessage)
-
-    while (response) {
-      yield put(logs.receive(response))
-      response = yield call(source.nextMessage)
-    }
+    const response = yield call(api.id)
+    yield put(id.success(response))
   } catch (err) {
-    if (err instanceof SagaCancellationException) {
-      yield put(logs.cancel())
-    }
+    yield put(id.failure(err.message))
   }
 }
 
 export function * loadId () {
   yield call(fetchId)
+}
+
+export function * watchLogs ({getNext}) {
+  let cancel
+  let data
+
+  while (!cancel) {
+    ({data, cancel} = yield race({
+      data: call(getNext),
+      cancel: take(actions.LEAVE_LOGS_PAGE)
+    }))
+
+    yield put(logs.receive(data))
+  }
+
+  yield put(logs.cancel())
 }
 
 // ---------- Watchers
@@ -62,14 +62,9 @@ export function * watchLoadHomePage () {
 }
 
 export function * watchLoadLogsPage () {
-  const source = yield call(api.createLogSource)
-
   while (yield take(actions.LOAD_LOGS_PAGE)) {
-    const logsWatcher = yield fork(watchLogs, source)
-
-    yield take(actions.LEAVE_LOGS_PAGE)
-
-    yield cancel(logsWatcher)
+    const source = yield call(api.createLogSource)
+    yield fork(watchLogs, source)
   }
 }
 

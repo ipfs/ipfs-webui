@@ -1,51 +1,83 @@
+import API from 'ipfs-api'
+import {CANCEL} from 'redux-saga'
+
 const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
 const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || 80)
+const localApi = new API(host, port)
 
-import API from 'ipfs-api'
+let logSource
 
-const api = new API(host, port)
-
-export const fetchId = () => {
-  return new Promise((resolve, reject) => {
-    api.id((err, response) => {
-      if (err) return reject(err.message || 'Failed api call')
-      resolve({response})
-    })
-  })
+function cancellablePromise (p, doCancel) {
+  p[CANCEL] = doCancel
+  return p
 }
 
-export const fetchLogStream = () => {
-  return new Promise((resolve, reject) => {
-    api.log.tail((err, stream) => {
-      if (err) return reject(err.message || 'Failed to tail logs')
-      resolve(stream)
-    })
-  })
-}
+function streamToIterator (ref) {
+  const messageQueue = []
+  const resolveQueue = []
 
-export const createLogSource = () => {
-  let deferred
-
-  fetchLogStream().then((stream) => {
-    stream.on('data', (msg) => {
-      if (deferred) {
-        deferred.resolve(msg)
-        deferred = null
-      }
-    })
-  })
-
-  return {
-    nextMessage () {
-      if (!deferred) {
-        deferred = {}
-        deferred.promise = new Promise((resolve, reject) => {
-          deferred.resolve = resolve
-          deferred.reject = reject
-        })
-      }
-
-      return deferred.promise
+  const handleMsg = (msg) => {
+    // anyone waiting for a message ?
+    if (resolveQueue.length) {
+      const nextResolve = resolveQueue.shift()
+      nextResolve(msg)
+    } else {
+      // no one is waiting ? queue the event
+      messageQueue.push(msg)
     }
   }
+
+  const listenerID = ref.on('data', (msg) => {
+    handleMsg(msg)
+  })
+
+  ref.on('error', (err) => {
+    handleMsg(err)
+  })
+
+  ref.on('end', () => {
+    handleMsg(new Error('Stream ended'))
+  })
+
+  function close () {
+    ref.removeListener('data', listenerID)
+  }
+
+  return {
+    getNext () {
+      // do we have queued messages ?
+      if (messageQueue.length) {
+        const val = messageQueue.shift()
+        let promise
+        if (val instanceof Error) {
+          promise = Promise.reject(val)
+        } else {
+          promise = Promise.resolve(val)
+        }
+        return cancellablePromise(promise, close)
+      }
+
+      return cancellablePromise(
+        new Promise(resolve => resolveQueue.push(resolve)),
+        close
+      )
+    }
+  }
+}
+
+function logSourceMaker (api) {
+  return api.log.tail().then((stream) => {
+    stream.on('end', () => {
+      logSource = null
+    })
+    return streamToIterator(stream)
+  })
+}
+
+export const id = localApi.id
+
+export const createLogSource = (api = localApi) => {
+  if (!logSource) logSource = logSourceMaker(api)
+
+  return logSource
 }
