@@ -20,6 +20,8 @@ const timestamp = (time) => {
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`
 }
 
+const timestampCellGetter = (_, {time}, __) => timestamp(time)
+
 const eventCellGetter = (dataKey, {event, system}, columnData) => {
   return {event, system}
 }
@@ -108,7 +110,7 @@ export default class LogViewer extends Component {
           >
             <FlexColumn
               label='Timestamp'
-              cellDataGetter={(_, {time}, __) => timestamp(time)}
+              cellDataGetter={timestampCellGetter}
               cellClassName='log-entry-time'
               dataKey='time'
               width={150}
