@@ -1,11 +1,20 @@
 import API from 'ipfs-api'
 import {CANCEL} from 'redux-saga'
+import {keyBy} from 'lodash'
 
 const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
 const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || 80)
 const localApi = new API(host, port)
 
 let logSource
+
+function splitId (id) {
+  const index = id.lastIndexOf('/')
+  return {
+    address: id.substring(0, index).replace(/\/ipfs$/, ''),
+    id: id.substring(index + 1)
+  }
+}
 
 function cancellablePromise (p, doCancel) {
   p[CANCEL] = doCancel
@@ -82,4 +91,24 @@ export const createLogSource = (api = localApi) => {
   if (!logSource) logSource = logSourceMaker(api)
 
   return logSource
+}
+
+export const peerIds = (api = localApi) => {
+  return api.swarm.peers().then(({Strings}) => {
+    return Strings.map(splitId)
+  })
+}
+
+export const peerDetails = (ids, api = localApi) => {
+  return Promise.all(
+    ids.map(({id, address}) => {
+      return api.id(id).then((details) => ({
+        ...details,
+        id,
+        address
+      }))
+    }))
+    .then((details) => {
+      return keyBy(details, 'id')
+    })
 }

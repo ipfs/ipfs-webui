@@ -8,7 +8,7 @@ const tabs = [{
   title: 'home',
   icon: 'home'
 }, {
-  title: 'connections',
+  title: 'peers',
   icon: 'globe'
 }, {
   title: 'files',

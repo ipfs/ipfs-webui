@@ -9,7 +9,7 @@ import {
 import {history, api} from '../services'
 import * as actions from '../actions'
 
-const {id, logs} = actions
+const {id, logs, peerIds, peerDetails} = actions
 
 // ---------- Subroutines
 
@@ -26,6 +26,29 @@ export function * fetchId () {
 
 export function * loadId () {
   yield call(fetchId)
+}
+
+export function * fetchPeerDetails (ids) {
+  yield put(peerDetails.request())
+
+  try {
+    const details = yield call(api.peerDetails, ids)
+    yield put(peerDetails.success(details))
+  } catch (err) {
+    yield put(peerDetails.failure(err.message))
+  }
+}
+
+export function * fetchPeerIds () {
+  yield put(peerIds.request())
+
+  try {
+    const ids = yield call(api.peerIds)
+    yield put(peerIds.success(ids))
+    yield call(fetchPeerDetails, ids)
+  } catch (err) {
+    yield put(peerIds.failure(err.message))
+  }
 }
 
 export function * watchLogs ({getNext}) {
@@ -70,8 +93,19 @@ export function * watchLoadLogsPage () {
   }
 }
 
-export default function * root (getState) {
-  yield fork(watchNavigate)
+export function * watchLoadPeersPage () {
+  while (yield take(actions.LOAD_PEERS_PAGE)) {
+    yield fork(fetchPeerIds)
+  }
+}
+
+export function * watchLoadPages () {
   yield fork(watchLoadHomePage)
   yield fork(watchLoadLogsPage)
+  yield fork(watchLoadPeersPage)
+}
+
+export default function * root (getState) {
+  yield fork(watchNavigate)
+  yield fork(watchLoadPages)
 }

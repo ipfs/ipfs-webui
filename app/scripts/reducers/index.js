@@ -12,6 +12,31 @@ export function id (state = {}, action) {
   return state
 }
 
+const peersDefaultState = {
+  details: {},
+  ids: []
+}
+
+export function peers (state = peersDefaultState, action) {
+  if (includes(ActionTypes.PEER_IDS, action.type) &&
+      action.response) {
+    return {
+      ...state,
+      ids: action.response
+    }
+  }
+
+  if (includes(ActionTypes.PEER_DETAILS, action.type) &&
+      action.response) {
+    return {
+      ...state,
+      details: action.response
+    }
+  }
+
+  return state
+}
+
 const logsDefaultState = {
   list: [],
   systems: LOG_SYSTEMS,
@@ -77,6 +102,7 @@ export function router (state = {pathname: '/'}, action) {
 
 const rootReducer = combineReducers({
   id,
+  peers,
   logs,
   errorMessage,
   router

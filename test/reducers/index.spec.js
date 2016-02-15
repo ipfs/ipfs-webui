@@ -19,6 +19,38 @@ describe('reducers', () => {
     })
   })
 
+  describe('peers', () => {
+    it('returns the initial state', () => {
+      expect(
+        reducers.peers(undefined, {})
+      ).to.be.eql({ids: [], details: {}})
+    })
+
+    it('handles peerIds response', () => {
+      expect(
+        reducers.peers({
+          ids: [{id: 2}],
+          details: {}
+        }, actions.peerIds.success([{id: 1}]))
+      ).to.be.eql({
+        ids: [{id: 1}],
+        details: {}
+      })
+    })
+
+    it('handles peerDetails response', () => {
+      expect(
+        reducers.peers({
+          ids: [{id: 1}],
+          details: {}
+        }, actions.peerDetails.success({1: {}}))
+      ).to.be.eql({
+        ids: [{id: 1}],
+        details: {1: {}}
+      })
+    })
+  })
+
   describe('logs', () => {
     it('returns the initial state', () => {
       expect(

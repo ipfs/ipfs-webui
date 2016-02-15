@@ -21,11 +21,15 @@ export const LOGS = {
   SELECT_SYSTEM: 'SELECT_SYSTEM'
 }
 
+export const PEER_IDS = createRequestTypes('PEER_IDS')
+export const PEER_DETAILS = createRequestTypes('PEER_DETAILS')
+
 export const UPDATE_ROUTER_STATE = 'UPDATE_ROUTER_STATE'
 export const NAVIGATE = 'NAVIGATE'
 export const LOAD_HOME_PAGE = 'LOAD_HOME_PAGE'
 export const LOAD_LOGS_PAGE = 'LOAD_LOGS_PAGE'
 export const LEAVE_LOGS_PAGE = 'LEAVE_LOGS_PAGE'
+export const LOAD_PEERS_PAGE = 'LOAD_PEERS_PAGE'
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 
 function action (type, payload = {}) {
@@ -45,10 +49,23 @@ export const logs = {
   selectSystem: (system) => action(LOGS.SELECT_SYSTEM, {system})
 }
 
+export const peerIds = {
+  request: () => action(PEER_IDS.REQUEST),
+  success: (response) => action(PEER_IDS.SUCCESS, {response}),
+  failure: (error) => action(PEER_IDS.FAILURE, {error})
+}
+
+export const peerDetails = {
+  request: () => action(PEER_DETAILS.REQUEST),
+  success: (response) => action(PEER_DETAILS.SUCCESS, {response}),
+  failure: (error) => action(PEER_DETAILS.FAILURE, {error})
+}
+
 export const updateRouterState = (state) => action(UPDATE_ROUTER_STATE, {state})
 export const navigate = (pathname) => action(NAVIGATE, {pathname})
 export const loadHomePage = () => action(LOAD_HOME_PAGE)
 export const loadLogsPage = () => action(LOAD_LOGS_PAGE)
 export const leaveLogsPage = () => action(LEAVE_LOGS_PAGE)
+export const loadPeersPage = () => action(LOAD_PEERS_PAGE)
 
 export const resetErrorMessage = () => action(RESET_ERROR_MESSAGE)

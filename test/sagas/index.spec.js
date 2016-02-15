@@ -5,6 +5,8 @@ import * as actions from '../../app/scripts/actions'
 import {
   fetchId,
   loadId,
+  fetchPeerIds,
+  fetchPeerDetails,
   watchLogs,
   watchLoadHomePage,
   watchLoadLogsPage,
@@ -50,6 +52,65 @@ describe('sagas', () => {
 
     let next = generator.next()
     expect(next.value).to.be.eql(call(fetchId))
+  })
+
+  describe('fetchPeerIds', () => {
+    it('success', () => {
+      const generator = fetchPeerIds(getState)
+
+      let next = generator.next()
+      expect(next.value).to.be.eql(put(actions.peerIds.request()))
+
+      next = generator.next()
+      expect(next.value).to.be.eql(call(api.peerIds))
+
+      next = generator.next('hello')
+      expect(next.value).to.be.eql(put(actions.peerIds.success('hello')))
+
+      next = generator.next()
+      expect(next.value).to.be.eql(call(fetchPeerDetails, 'hello'))
+    })
+
+    it('failure', () => {
+      const generator = fetchPeerIds(getState)
+
+      let next = generator.next()
+      expect(next.value).to.be.eql(put(actions.peerIds.request()))
+
+      next = generator.next()
+      expect(next.value).to.be.eql(call(api.peerIds))
+
+      next = generator.throw(new Error('error'))
+      expect(next.value).to.be.eql(put(actions.peerIds.failure('error')))
+    })
+  })
+
+  describe('fetchPeerDetails', () => {
+    it('success', () => {
+      const generator = fetchPeerDetails([])
+
+      let next = generator.next()
+      expect(next.value).to.be.eql(put(actions.peerDetails.request()))
+
+      next = generator.next()
+      expect(next.value).to.be.eql(call(api.peerDetails, []))
+
+      next = generator.next('hello')
+      expect(next.value).to.be.eql(put(actions.peerDetails.success('hello')))
+    })
+
+    it('failure', () => {
+      const generator = fetchPeerDetails([])
+
+      let next = generator.next()
+      expect(next.value).to.be.eql(put(actions.peerDetails.request()))
+
+      next = generator.next()
+      expect(next.value).to.be.eql(call(api.peerDetails, []))
+
+      next = generator.throw(new Error('error'))
+      expect(next.value).to.be.eql(put(actions.peerDetails.failure('error')))
+    })
   })
 
   it('watchLogs', () => {
