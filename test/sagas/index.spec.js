@@ -25,9 +25,9 @@ describe('sagas', () => {
       expect(next.value).to.be.eql(put(actions.id.request()))
 
       next = generator.next()
-      expect(next.value).to.be.eql(call(api.fetchId))
+      expect(next.value).to.be.eql(call(api.id))
 
-      next = generator.next(actions.id.success('hello'))
+      next = generator.next('hello')
       expect(next.value).to.be.eql(put(actions.id.success('hello')))
     })
 
@@ -38,9 +38,9 @@ describe('sagas', () => {
       expect(next.value).to.be.eql(put(actions.id.request()))
 
       next = generator.next()
-      expect(next.value).to.be.eql(call(api.fetchId))
+      expect(next.value).to.be.eql(call(api.id))
 
-      next = generator.next(actions.id.failure('error'))
+      next = generator.throw(new Error('error'))
       expect(next.value).to.be.eql(put(actions.id.failure('error')))
     })
   })
@@ -52,28 +52,35 @@ describe('sagas', () => {
     expect(next.value).to.be.eql(call(fetchId))
   })
 
-  it.only('watchLogs', () => {
+  it('watchLogs', () => {
     const source = {
       getNext () {
         return 1
       }
     }
     const generator = watchLogs(source)
-
-    let next = generator.next()
-    expect(next.value).to.be.eql(race({
+    const racer = race({
       data: call(source.getNext),
       cancel: take(actions.LEAVE_LOGS_PAGE)
-    }))
+    })
 
-    next = generator.next('log')
+    let next = generator.next()
+    expect(next.value).to.be.eql(racer)
+
+    next = generator.next({data: 'log'})
     expect(next.value).to.be.eql(put(actions.logs.receive('log')))
-    console.log(next.value)
-    //next = generator.next()
-    //expect(next.value).to.be.eql(call(source.getNext))
 
-    //next = generator.next('log2')
-    //expect(next.value).to.be.eql(put(actions.logs.receive('log2')))
+    next = generator.next()
+    expect(next.value).to.be.eql(racer)
+
+    next = generator.next({data: 'log2'})
+    expect(next.value).to.be.eql(put(actions.logs.receive('log2')))
+
+    next = generator.next()
+    expect(next.value).to.be.eql(racer)
+
+    next = generator.next({cancel: true})
+    expect(next.value).to.be.eql(put(actions.logs.cancel()))
   })
 
   it('watchLoadHomePage', () => {
@@ -91,11 +98,11 @@ describe('sagas', () => {
 
     let next = generator.next()
     expect(next.value)
-      .to.be.eql(call(api.createLogSource))
+      .to.be.eql(take(actions.LOAD_LOGS_PAGE))
 
     next = generator.next('source')
     expect(next.value)
-      .to.be.eql(take(actions.LOAD_LOGS_PAGE))
+      .to.be.eql(call(api.createLogSource))
 
     next = generator.next('source')
     expect(next.value)

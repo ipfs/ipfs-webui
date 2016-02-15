@@ -38,7 +38,9 @@ export function * watchLogs ({getNext}) {
       cancel: take(actions.LEAVE_LOGS_PAGE)
     }))
 
-    yield put(logs.receive(data))
+    if (data) {
+      yield put(logs.receive(data))
+    }
   }
 
   yield put(logs.cancel())

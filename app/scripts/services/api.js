@@ -58,7 +58,7 @@ function streamToIterator (ref) {
       }
 
       return cancellablePromise(
-        new Promise(resolve => resolveQueue.push(resolve)),
+        new Promise((resolve) => resolveQueue.push(resolve)),
         close
       )
     }
@@ -73,6 +73,8 @@ function logSourceMaker (api) {
     return streamToIterator(stream)
   })
 }
+
+// -- Public Interface
 
 export const id = localApi.id
 
