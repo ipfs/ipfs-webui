@@ -82,55 +82,63 @@ export default class LogViewer extends Component {
     return count * 25 + 70
   };
 
+  _createTable = (list) => {
+    const rowsCount = list.length
+    const scrollToIndex = this.props.tail ? list.length - 1 : undefined
+    const rowGetter = (index) => this._getDatum(list, index)
+    const getRowHeight = (index) => this._getRowHeight(list, index)
+
+    return ({width, height}) => (
+      <FlexTable
+        ref='table'
+        className='log-viewer'
+        headerHeight={40}
+        width={width}
+        height={height}
+        noRowsRenderer={this._noRowsRenderer}
+        rowsCount={rowsCount}
+        rowHeight={getRowHeight}
+        rowGetter={rowGetter}
+        rowClassName='log-entry'
+        scrollToIndex={scrollToIndex}
+      >
+        <FlexColumn
+          label='Timestamp'
+          cellDataGetter={timestampCellGetter}
+          cellClassName='log-entry-time'
+          dataKey='time'
+          width={150}
+        />
+        <FlexColumn
+          label='System [Event]'
+          cellClassName='log-entry-event'
+          cellDataGetter={eventCellGetter}
+          cellRenderer={eventCellRenderer}
+          dataKey='event'
+          width={300}
+        />
+        <FlexColumn
+          label='Details'
+          cellClassName='log-entry-details'
+          cellDataGetter={detailsCellGetter}
+          cellRenderer={detailsCellRenderer}
+          dataKey='system'
+        />
+      </FlexTable>
+    )
+  };
+
   shouldComponentUpdate (nextProps) {
     return !isEqual(nextProps, this.props)
   }
 
   render () {
     const list = this.props.list.filter((elem) => startsWith(elem.system, this.props.selectedSystem))
-    const rowsCount = list.length
-    const scrollToIndex = this.props.tail ? list.length - 1 : undefined
-    const rowGetter = (index) => this._getDatum(list, index)
-    const getRowHeight = (index) => this._getRowHeight(list, index)
 
     return (
       <div className='AutoSizerWrapper'>
-        <AutoSizer >
-          <FlexTable
-            ref='table'
-            className='log-viewer'
-            headerHeight={40}
-            height={500}
-            noRowsRenderer={this._noRowsRenderer}
-            rowsCount={rowsCount}
-            rowHeight={getRowHeight}
-            rowGetter={rowGetter}
-            rowClassName='log-entry'
-            scrollToIndex={scrollToIndex}
-          >
-            <FlexColumn
-              label='Timestamp'
-              cellDataGetter={timestampCellGetter}
-              cellClassName='log-entry-time'
-              dataKey='time'
-              width={150}
-            />
-            <FlexColumn
-              label='System [Event]'
-              cellClassName='log-entry-event'
-              cellDataGetter={eventCellGetter}
-              cellRenderer={eventCellRenderer}
-              dataKey='event'
-              width={300}
-            />
-            <FlexColumn
-              label='Details'
-              cellClassName='log-entry-details'
-              cellDataGetter={detailsCellGetter}
-              cellRenderer={detailsCellRenderer}
-              dataKey='system'
-            />
-          </FlexTable>
+        <AutoSizer>
+          {this._createTable(list)}
         </AutoSizer>
       </div>
     )

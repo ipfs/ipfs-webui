@@ -4,7 +4,7 @@ import {
   call,
   fork,
   race
-} from 'redux-saga'
+} from 'redux-saga/effects'
 
 import {history, api} from '../services'
 import * as actions from '../actions'

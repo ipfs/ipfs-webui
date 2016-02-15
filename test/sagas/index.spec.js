@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import {put, take, fork, call, race} from 'redux-saga'
+import {put, take, fork, call, race} from 'redux-saga/effects'
 
 import * as actions from '../../app/scripts/actions'
 import {
