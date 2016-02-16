@@ -13,8 +13,9 @@ export function id (state = {}, action) {
 }
 
 const peersDefaultState = {
+  ids: [],
   details: {},
-  ids: []
+  locations: {}
 }
 
 export function peers (state = peersDefaultState, action) {
@@ -31,6 +32,14 @@ export function peers (state = peersDefaultState, action) {
     return {
       ...state,
       details: action.response
+    }
+  }
+
+  if (includes(ActionTypes.PEER_LOCATIONS, action.type) &&
+      action.response) {
+    return {
+      ...state,
+      locations: action.response
     }
   }
 

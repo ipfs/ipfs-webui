@@ -4,7 +4,6 @@
   "description": "A frontend for IPFS",
   "dependencies": {
     "bootstrap": "^3.3.5",
-    "color-hash": "^1.0.3",
     "d3": "^3.5.6",
     "font-awesome": "^4.5.0",
     "i18next": "^2.0.22",
@@ -22,6 +21,7 @@
     "react-bootstrap": "^0.28.1",
     "react-copy-to-clipboard": "^4.0.2",
     "react-dom": "^0.14.2",
+    "react-faux-dom": "^2.1.1",
     "react-json-pretty": "^1.2.0",
     "react-redux": "^4.1.1",
     "react-router": "^2.0.0-rc4",
@@ -29,7 +29,7 @@
     "react-virtualized": "^5.0.1",
     "redux": "^3.3.1",
     "redux-saga": "^0.8.1",
-    "three": "^0.74.0"
+    "topojson": "^1.6.24"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",

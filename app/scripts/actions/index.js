@@ -23,6 +23,7 @@ export const LOGS = {
 
 export const PEER_IDS = createRequestTypes('PEER_IDS')
 export const PEER_DETAILS = createRequestTypes('PEER_DETAILS')
+export const PEER_LOCATIONS = createRequestTypes('PEER_LOCATIONS')
 
 export const UPDATE_ROUTER_STATE = 'UPDATE_ROUTER_STATE'
 export const NAVIGATE = 'NAVIGATE'
@@ -59,6 +60,12 @@ export const peerDetails = {
   request: () => action(PEER_DETAILS.REQUEST),
   success: (response) => action(PEER_DETAILS.SUCCESS, {response}),
   failure: (error) => action(PEER_DETAILS.FAILURE, {error})
+}
+
+export const peerLocations = {
+  request: () => action(PEER_LOCATIONS.REQUEST),
+  success: (response) => action(PEER_LOCATIONS.SUCCESS, {response}),
+  failure: (error) => action(PEER_LOCATIONS.FAILURE, {error})
 }
 
 export const updateRouterState = (state) => action(UPDATE_ROUTER_STATE, {state})

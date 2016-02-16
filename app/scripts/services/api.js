@@ -112,3 +112,33 @@ export const peerDetails = (ids, api = localApi) => {
       return keyBy(details, 'id')
     })
 }
+
+export const peerLocations = (ids, api = localApi) => {
+  return Promise.all(
+    ids
+      .filter(({address}) => {
+        // Only ip4 and ip6 addresses
+        return address.match(/ip[4,6]/)
+      })
+      .map(({id, address}) => {
+        const [, ip] = address.match(/ip[4,6]\/([^\/]*)\//)
+        return fetch(`http://ip-api.com/json/${ip}`, {mode: 'cors'})
+          .then((res) => {
+            if (res.headers.get('content-type') &&
+               res.headers.get('content-type').toLowerCase().indexOf('application/json') >= 0) {
+              return res.json()
+            } else {
+              throw new TypeError()
+            }
+          })
+          .then((location) => {
+            return {
+              ...location,
+              id
+            }
+          })
+      })
+  ).then((locations) => {
+    return keyBy(locations, 'id')
+  })
+}

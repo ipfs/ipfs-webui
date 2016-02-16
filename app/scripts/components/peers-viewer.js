@@ -6,6 +6,14 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 
 import Identicon from './identicon'
 
+const locationDataGetter = (dataKey, rowData) => {
+  if (rowData && rowData.location) {
+    return `${rowData.location.city}, ${rowData.location.country}`
+  }
+
+  return '-'
+}
+
 const idCellRenderer = (id, cellDataKey, rowData, rowIndex, columnData) => {
   const tp = <Tooltip id={id}>{id}</Tooltip>
   return (
@@ -23,7 +31,8 @@ const idCellRenderer = (id, cellDataKey, rowData, rowIndex, columnData) => {
 export default class PeersViewer extends Component {
   static propTypes = {
     ids: PropTypes.array.isRequired,
-    details: PropTypes.object
+    details: PropTypes.object,
+    locations: PropTypes.object
   };
 
   _noRowsRenderer = () => {
@@ -46,7 +55,7 @@ export default class PeersViewer extends Component {
       return (
         <FlexTable
           ref='table'
-          className='peers-viewer'
+          className='peers-viewer-table'
           headerHeight={40}
           headerClassName='peers-viewer-header'
           width={width}
@@ -72,6 +81,7 @@ export default class PeersViewer extends Component {
           />
           <FlexColumn
             label='Location'
+            cellDataGetter={locationDataGetter}
             cellClassName='location-entry'
             dataKey='location'
             width={250}
@@ -94,16 +104,17 @@ export default class PeersViewer extends Component {
   render () {
     const list = this.props.ids.map((peer) => {
       const details = this.props.details[peer.id]
-      // const color = colorHash(peer.id)
-      if (details) {
-        return details
-      }
+      const location = this.props.locations[peer.id]
 
-      return peer
+      let res = peer
+      if (details) res = details
+      res.location = location
+
+      return res
     })
 
     return (
-      <div className='AutoSizerWrapper'>
+      <div className='peers-viewer'>
         <AutoSizer>
           {this._createTable(list)}
         </AutoSizer>

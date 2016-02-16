@@ -3,14 +3,15 @@ import {connect} from 'react-redux'
 import {Row, Col} from 'react-bootstrap'
 
 import {loadPeersPage} from '../actions'
-import i18n from '../utils/i18n'
 import PeersViewer from '../components/peers-viewer'
+import World from '../components/world'
 
 class Peers extends Component {
   static propTypes = {
     loadPeersPage: PropTypes.func.isRequired,
     ids: PropTypes.array.isRequired,
-    details: PropTypes.object.isRequired
+    details: PropTypes.object.isRequired,
+    locations: PropTypes.object.isRequired
   };
 
   componentWillMount () {
@@ -20,9 +21,12 @@ class Peers extends Component {
   render () {
     return (
       <Row>
-        <Col sm={10} smOffset={1}>
-          <h3>{i18n.t('Peers')}</h3>
-          <PeersViewer ids={this.props.ids} details={this.props.details}/>
+        <Col sm={12}>
+          <World locations={this.props.locations}/>
+          <PeersViewer
+            ids={this.props.ids}
+            details={this.props.details}
+            locations={this.props.locations}/>
         </Col>
       </Row>
     )

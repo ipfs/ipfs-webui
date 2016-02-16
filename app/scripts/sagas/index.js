@@ -9,7 +9,7 @@ import {
 import {history, api} from '../services'
 import * as actions from '../actions'
 
-const {id, logs, peerIds, peerDetails} = actions
+const {id, logs, peerIds, peerDetails, peerLocations} = actions
 
 // ---------- Subroutines
 
@@ -26,6 +26,17 @@ export function * fetchId () {
 
 export function * loadId () {
   yield call(fetchId)
+}
+
+export function * fetchPeerLocations (ids) {
+  yield put(peerLocations.request())
+
+  try {
+    const locations = yield call(api.peerLocations, ids)
+    yield put(peerLocations.success(locations))
+  } catch (err) {
+    yield put(peerLocations.failure(err.message))
+  }
 }
 
 export function * fetchPeerDetails (ids) {
@@ -45,7 +56,8 @@ export function * fetchPeerIds () {
   try {
     const ids = yield call(api.peerIds)
     yield put(peerIds.success(ids))
-    yield call(fetchPeerDetails, ids)
+    yield fork(fetchPeerDetails, ids)
+    yield fork(fetchPeerLocations, ids)
   } catch (err) {
     yield put(peerIds.failure(err.message))
   }
