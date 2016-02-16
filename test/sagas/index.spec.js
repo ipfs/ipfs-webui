@@ -7,6 +7,7 @@ import {
   loadId,
   fetchPeerIds,
   fetchPeerDetails,
+  fetchPeerLocations,
   watchLogs,
   watchLoadHomePage,
   watchLoadLogsPage,
@@ -68,7 +69,10 @@ describe('sagas', () => {
       expect(next.value).to.be.eql(put(actions.peerIds.success('hello')))
 
       next = generator.next()
-      expect(next.value).to.be.eql(call(fetchPeerDetails, 'hello'))
+      expect(next.value).to.be.eql(fork(fetchPeerDetails, 'hello'))
+
+      next = generator.next()
+      expect(next.value).to.be.eql(fork(fetchPeerLocations, 'hello'))
     })
 
     it('failure', () => {
@@ -110,6 +114,34 @@ describe('sagas', () => {
 
       next = generator.throw(new Error('error'))
       expect(next.value).to.be.eql(put(actions.peerDetails.failure('error')))
+    })
+  })
+
+  describe('fetchPeerLocations', () => {
+    it('success', () => {
+      const generator = fetchPeerLocations([])
+
+      let next = generator.next()
+      expect(next.value).to.be.eql(put(actions.peerLocations.request()))
+
+      next = generator.next()
+      expect(next.value).to.be.eql(call(api.peerLocations, []))
+
+      next = generator.next('hello')
+      expect(next.value).to.be.eql(put(actions.peerLocations.success('hello')))
+    })
+
+    it('failure', () => {
+      const generator = fetchPeerLocations([])
+
+      let next = generator.next()
+      expect(next.value).to.be.eql(put(actions.peerLocations.request()))
+
+      next = generator.next()
+      expect(next.value).to.be.eql(call(api.peerLocations, []))
+
+      next = generator.throw(new Error('error'))
+      expect(next.value).to.be.eql(put(actions.peerLocations.failure('error')))
     })
   })
 

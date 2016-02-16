@@ -22,7 +22,7 @@ class Peers extends Component {
     return (
       <Row>
         <Col sm={12}>
-          <World locations={this.props.locations}/>
+          <World locations={this.props.locations} peersCount={this.props.ids.length}/>
           <PeersViewer
             ids={this.props.ids}
             details={this.props.details}

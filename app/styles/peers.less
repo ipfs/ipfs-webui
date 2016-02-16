@@ -31,13 +31,33 @@
   height: 55vh;
   background: #23293f;
   margin-bottom: 5vh;
+  display: flex;
 
   .world-locations-base {
     fill: @brand-primary;
-    fill-opacity: 50%;
+    fill-opacity: 20%;
   }
 
   .world-locations-center {
     fill: @brand-primary;
+  }
+
+  .world-peers-counter {
+    color: #FFF;
+    font-size: @font-size-base;
+    margin: 0 auto 20px;
+    text-align: center;
+    align-self: flex-end;
+
+    .counter {
+      font-size: @font-size-h2;
+      font-weight: 500;
+    }
+
+    .label {
+      font-size: @font-size-h5;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
   }
 }

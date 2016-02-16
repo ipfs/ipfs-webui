@@ -23,7 +23,7 @@ describe('reducers', () => {
     it('returns the initial state', () => {
       expect(
         reducers.peers(undefined, {})
-      ).to.be.eql({ids: [], details: {}})
+      ).to.be.eql({ids: [], details: {}, locations: {}})
     })
 
     it('handles peerIds response', () => {
@@ -47,6 +47,20 @@ describe('reducers', () => {
       ).to.be.eql({
         ids: [{id: 1}],
         details: {1: {}}
+      })
+    })
+
+    it('handles peerLocations response', () => {
+      expect(
+        reducers.peers({
+          ids: [{id: 1}],
+          details: {},
+          locations: {}
+        }, actions.peerLocations.success({1: {}}))
+      ).to.be.eql({
+        ids: [{id: 1}],
+        details: {},
+        locations: {1: {}}
       })
     })
   })

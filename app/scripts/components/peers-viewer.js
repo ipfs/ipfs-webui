@@ -5,13 +5,21 @@ import {OverlayTrigger, Tooltip} from 'react-bootstrap'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
 import Identicon from './identicon'
+import Flag from './flag'
 
 const locationDataGetter = (dataKey, rowData) => {
-  if (rowData && rowData.location) {
-    return `${rowData.location.city}, ${rowData.location.country}`
-  }
+  return rowData.location
+}
 
-  return '-'
+const locationCellRenderer = (location, cellDataKey, rowData, rowIndex, columnData) => {
+  if (!location) return '-'
+
+  return (
+    <div>
+      <Flag country={location.countryCode} />
+      {location.city}, {location.country}
+    </div>
+  )
 }
 
 const idCellRenderer = (id, cellDataKey, rowData, rowIndex, columnData) => {
@@ -25,6 +33,19 @@ const idCellRenderer = (id, cellDataKey, rowData, rowIndex, columnData) => {
         </div>
       </CopyToClipboard>
     </OverlayTrigger>
+  )
+}
+
+const agentCellRenderer = (agent, cellDataKey, rowData, rowIndex, columnData) => {
+  if (!agent) return '-'
+
+  const [base, version] = agent.split('/')
+
+  return (
+    <span>
+      <strong>{base}</strong>
+      /{version}
+    </span>
   )
 }
 
@@ -82,6 +103,7 @@ export default class PeersViewer extends Component {
           <FlexColumn
             label='Location'
             cellDataGetter={locationDataGetter}
+            cellRenderer={locationCellRenderer}
             cellClassName='location-entry'
             dataKey='location'
             width={250}
@@ -89,6 +111,7 @@ export default class PeersViewer extends Component {
           <FlexColumn
             label='Agent'
             cellClassName='agent-entry'
+            cellRenderer={agentCellRenderer}
             dataKey='AgentVersion'
             width={250}
           />

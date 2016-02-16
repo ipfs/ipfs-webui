@@ -122,6 +122,7 @@ export const peerLocations = (ids, api = localApi) => {
       })
       .map(({id, address}) => {
         const [, ip] = address.match(/ip[4,6]\/([^\/]*)\//)
+        // TODO: Replace with ipfs based location database
         return fetch(`http://ip-api.com/json/${ip}`, {mode: 'cors'})
           .then((res) => {
             if (res.headers.get('content-type') &&
