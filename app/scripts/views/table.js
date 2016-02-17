@@ -15,7 +15,7 @@ default class TableView extends Component {
       <Table responsive>
         <tbody>
           {this.props.table.map((val, i) => {
-            return <tr key={i}><td key={i}>{addr(val)}</td></tr>
+            return <tr key={i}><td>{addr(val)}</td></tr>
           })}
           {this.props.children}
         </tbody>
