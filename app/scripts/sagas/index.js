@@ -5,6 +5,7 @@ import {
   fork,
   race
 } from 'redux-saga/effects'
+import {reduce, find} from 'lodash'
 
 import {history, api} from '../services'
 import * as actions from '../actions'
@@ -28,11 +29,24 @@ export function * loadId () {
   yield call(fetchId)
 }
 
-export function * fetchPeerLocations (ids) {
+export function * fetchPeerLocations (ids, getState) {
   yield put(peerLocations.request())
 
   try {
-    const locations = yield call(api.peerLocations, ids)
+    const newLocations = yield call(api.peerLocations, ids)
+    const peers = getState().peers
+
+    const locations = reduce({
+      ...peers.locations,
+      ...newLocations
+    }, (acc, location) => {
+      const id = location.id
+      if (find(peers.ids, {id})) {
+        acc[id] = location
+      }
+      return acc
+    }, {})
+
     yield put(peerLocations.success(locations))
   } catch (err) {
     yield put(peerLocations.failure(err.message))
@@ -50,14 +64,23 @@ export function * fetchPeerDetails (ids) {
   }
 }
 
-export function * fetchPeerIds () {
+function missingLocations (ids, state) {
+  if (!state.peers.locations) return ids
+
+  const locations = state.peers.locations
+  return ids.filter(({id}) => {
+    return !locations[id]
+  })
+}
+
+export function * fetchPeerIds (getState) {
   yield put(peerIds.request())
 
   try {
     const ids = yield call(api.peerIds)
     yield put(peerIds.success(ids))
     yield fork(fetchPeerDetails, ids)
-    yield fork(fetchPeerLocations, ids)
+    yield fork(fetchPeerLocations, missingLocations(ids, getState()), getState)
   } catch (err) {
     yield put(peerIds.failure(err.message))
   }
@@ -105,19 +128,19 @@ export function * watchLoadLogsPage () {
   }
 }
 
-export function * watchLoadPeersPage () {
+export function * watchLoadPeersPage (getState) {
   while (yield take(actions.LOAD_PEERS_PAGE)) {
-    yield fork(fetchPeerIds)
+    yield fork(fetchPeerIds, getState)
   }
 }
 
-export function * watchLoadPages () {
+export function * watchLoadPages (getState) {
   yield fork(watchLoadHomePage)
   yield fork(watchLoadLogsPage)
-  yield fork(watchLoadPeersPage)
+  yield fork(watchLoadPeersPage, getState)
 }
 
 export default function * root (getState) {
   yield fork(watchNavigate)
-  yield fork(watchLoadPages)
+  yield fork(watchLoadPages, getState)
 }

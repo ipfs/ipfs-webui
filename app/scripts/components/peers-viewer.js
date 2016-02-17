@@ -12,7 +12,7 @@ const locationDataGetter = (dataKey, rowData) => {
 }
 
 const locationCellRenderer = (location, cellDataKey, rowData, rowIndex, columnData) => {
-  if (!location) return '-'
+  if (!location || !location.countryCode) return '-'
 
   return (
     <div>
