@@ -57,7 +57,14 @@ describe('sagas', () => {
 
   describe('fetchPeerIds', () => {
     it('success', () => {
-      const generator = fetchPeerIds(getState)
+      const stateGetter = () => ({
+        peers: {
+          ids: [{id: 1}, {id: 2}],
+          locations: {1: {id: 1, val: 'hello'}}
+        }
+      })
+
+      const generator = fetchPeerIds(stateGetter)
 
       let next = generator.next()
       expect(next.value).to.be.eql(put(actions.peerIds.request()))
@@ -65,15 +72,16 @@ describe('sagas', () => {
       next = generator.next()
       expect(next.value).to.be.eql(call(api.peerIds))
 
-      next = generator.next('hello')
-      expect(next.value).to.be.eql(put(actions.peerIds.success('hello')))
+      next = generator.next([{id: 3}])
+      expect(next.value).to.be.eql(put(actions.peerIds.success([{id: 3}])))
 
       next = generator.next()
-      expect(next.value).to.be.eql(fork(fetchPeerDetails, 'hello'))
+      expect(next.value).to.be.eql(fork(fetchPeerDetails, [{id: 3}]))
 
       next = generator.next()
-      console.log(next.value)
-      expect(next.value).to.be.eql(fork(fetchPeerLocations, 'hello', getState))
+      expect(
+        next.value
+      ).to.be.eql(fork(fetchPeerLocations, [{id: 3}], stateGetter))
     })
 
     it('failure', () => {
