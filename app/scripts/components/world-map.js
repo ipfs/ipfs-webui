@@ -83,5 +83,5 @@ export default class WorldMap extends Component {
 
   render () {
     return <AutoSizer>{this._renderMap}</AutoSizer>
-  }
+  };
 }
