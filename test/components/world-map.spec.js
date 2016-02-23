@@ -17,8 +17,8 @@ describe('WorldMap', () => {
     const p = el.instance().props
 
     c.forEach((coordinates, i) => {
-      expect(coordinates[0]).to.equal(p[i][0])
-      expect(coordinates[1]).to.equal(p[i][1])
+      expect(coordinates[0]).to.equal(p.coordinates[i][0])
+      expect(coordinates[1]).to.equal(p.coordinates[i][1])
     })
   })
 })
