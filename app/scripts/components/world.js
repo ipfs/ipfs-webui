@@ -2,8 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import {map, isEqual} from 'lodash'
 import WorldMap from './world-map'
 
-import worldData from '../../data/world.json'
-
 export default class World extends Component {
   static propTypes = {
     peersCount: PropTypes.number,
@@ -26,7 +24,7 @@ export default class World extends Component {
 
     return (
       <div className='world'>
-        <WorldMap coordinates={coordinates}></WorldMap>
+        <WorldMap coordinates={coordinates}/>
         <div className='world-peers-counter'>
           <div className='counter'>{this.props.peersCount}</div>
           <div className='label'>Peers</div>

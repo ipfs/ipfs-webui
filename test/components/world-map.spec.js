@@ -1,6 +1,5 @@
 import {expect} from 'chai'
 import {render} from 'enzyme'
-import sinon from 'sinon'
 import React from 'react'
 
 import WorldMap from '../../app/scripts/components/world-map'
