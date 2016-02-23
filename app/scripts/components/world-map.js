@@ -79,9 +79,9 @@ export default class WorldMap extends Component {
       .attr('class', 'world-locations-center')
 
     return el.node().toReact()
-  }
+  };
 
   render () {
     return <AutoSizer>{this._renderMap}</AutoSizer>
-  };
+  }
 }
