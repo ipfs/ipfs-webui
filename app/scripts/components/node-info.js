@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PropTypes, Component} from 'react'
 import {Row, Col} from 'react-bootstrap'
 
 import i18n from '../utils/i18n.js'
@@ -14,12 +14,17 @@ const LabeledProp = ({title, children}) => {
   )
 }
 
+LabeledProp.prototype.propTypes = {
+  title: PropTypes.string,
+  children: PropTypes.any
+}
+
 export default class NodeInfo extends Component {
   static displayName = 'NodeInfo';
 
   static propTypes = {
-    data: React.PropTypes.object,
-    location: React.PropTypes.object
+    data: PropTypes.object,
+    location: PropTypes.object
   };
 
   static defaultProps = {

@@ -12,12 +12,18 @@ const locationDataGetter = (dataKey, rowData) => {
 }
 
 const locationCellRenderer = (location, cellDataKey, rowData, rowIndex, columnData) => {
-  if (!location || !location.countryCode) return '-'
+  if (!location || !location.country_code) return '-'
+  let text = ''
+
+  const {city, country_name: country, country_code: code} = location
+  if (city) text += city
+  if (city && country) text += ', '
+  if (country) text += country
 
   return (
     <div>
-      <Flag country={location.countryCode} />
-      {location.city}, {location.country}
+      <Flag country={code} />
+      {text}
     </div>
   )
 }

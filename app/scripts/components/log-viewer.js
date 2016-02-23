@@ -26,7 +26,8 @@ const eventCellGetter = (dataKey, {event, system}, columnData) => {
   return {event, system}
 }
 
-const eventCellRenderer = ({event, system}, cellDataKey, rowData, rowIndex, columnData) => {
+const eventCellRenderer = (data, cellDataKey, rowData, rowIndex, columnData) => {
+  const {event, system} = data
   return (
     <span>
       <strong>{system}</strong> [{event}]

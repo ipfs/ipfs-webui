@@ -1,12 +1,22 @@
 import API from 'ipfs-api'
 import {CANCEL} from 'redux-saga'
-import {keyBy} from 'lodash'
+import {keyBy, compact} from 'lodash'
+import {lookup} from 'ipfs-geoip'
 
 const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
 const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || 80)
 const localApi = new API(host, port)
 
 let logSource
+
+function lookupIP (api, ip) {
+  return new Promise((resolve, reject) => {
+    lookup(api, ip, (err, result) => {
+      if (err) return reject(err)
+      resolve(result)
+    })
+  })
+}
 
 function splitId (id) {
   const index = id.lastIndexOf('/')
@@ -123,23 +133,18 @@ export const peerLocations = (ids, api = localApi) => {
       .map(({id, address}) => {
         const [, ip] = address.match(/ip[4,6]\/([^\/]*)\//)
         // TODO: Replace with ipfs based location database
-        return fetch(`http://ip-api.com/json/${ip}`, {mode: 'cors'})
-          .then((res) => {
-            if (res.headers.get('content-type') &&
-               res.headers.get('content-type').toLowerCase().indexOf('application/json') >= 0) {
-              return res.json()
-            } else {
-              throw new TypeError()
-            }
-          })
+        return lookupIP(api, ip)
           .then((location) => {
             return {
               ...location,
               id
             }
           })
+          .catch(() => {
+            return
+          })
       })
   ).then((locations) => {
-    return keyBy(locations, 'id')
+    return keyBy(compact(locations), 'id')
   })
 }

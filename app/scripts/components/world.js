@@ -96,8 +96,8 @@ export default class World extends Component {
 
   render () {
     // Draw peer locations
-    const locations = map(this.props.locations, ({lon, lat}) => {
-      return [lon, lat]
+    const locations = map(this.props.locations, ({longitude, latitude}) => {
+      return [longitude, latitude]
     })
 
     return (
