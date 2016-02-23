@@ -3,14 +3,16 @@ import {
   put,
   call,
   fork,
-  race
+  race,
+  select
 } from 'redux-saga/effects'
 import {reduce, find} from 'lodash'
 
 import {history, api} from '../services'
 import * as actions from '../actions'
+import {delay} from '../utils/promise'
 
-const {id, logs, peerIds, peerDetails, peerLocations} = actions
+const {id, logs, peerIds, peerDetails, peerLocations, peers} = actions
 
 // ---------- Subroutines
 
@@ -29,12 +31,12 @@ export function * loadId () {
   yield call(fetchId)
 }
 
-export function * fetchPeerLocations (ids, getState) {
+export function * fetchPeerLocations (ids) {
   yield put(peerLocations.request())
 
   try {
     const newLocations = yield call(api.peerLocations, ids)
-    const peers = getState().peers
+    const {peers} = yield select()
 
     const locations = reduce({
       ...peers.locations,
@@ -57,11 +59,33 @@ export function * fetchPeerDetails (ids) {
   yield put(peerDetails.request())
 
   try {
-    const details = yield call(api.peerDetails, ids)
+    const newDetails = yield call(api.peerDetails, ids)
+    const {peers} = yield select()
+
+    const details = reduce({
+      ...peers.details,
+      ...newDetails
+    }, (acc, detail) => {
+      const id = detail.id
+      if (find(peers.ids, {id})) {
+        acc[id] = detail
+      }
+      return acc
+    }, {})
+
     yield put(peerDetails.success(details))
   } catch (err) {
     yield put(peerDetails.failure(err.message))
   }
+}
+
+function missingDetails (ids, state) {
+  if (!state.peers.details) return ids
+
+  const details = state.peers.details
+  return ids.filter(({id}) => {
+    return !details[id]
+  })
 }
 
 function missingLocations (ids, state) {
@@ -73,17 +97,38 @@ function missingLocations (ids, state) {
   })
 }
 
-export function * fetchPeerIds (getState) {
+export function * fetchPeerIds () {
   yield put(peerIds.request())
 
   try {
     const ids = yield call(api.peerIds)
     yield put(peerIds.success(ids))
-    yield fork(fetchPeerDetails, ids)
-    yield fork(fetchPeerLocations, missingLocations(ids, getState()), getState)
+
+    const state = yield select()
+
+    yield fork(fetchPeerDetails, missingDetails(ids, state))
+    yield fork(fetchPeerLocations, missingLocations(ids, state))
   } catch (err) {
     yield put(peerIds.failure(err.message))
   }
+}
+
+export function * watchPeers () {
+  let cancel
+  yield call(fetchPeerIds)
+
+  while (!cancel) {
+    ({cancel} = yield race({
+      delay: call(delay, 5000),
+      cancel: take(actions.LEAVE_PEERS_PAGE)
+    }))
+
+    if (!cancel) {
+      yield call(fetchPeerIds)
+    }
+  }
+
+  yield put(peers.cancel())
 }
 
 export function * watchLogs ({getNext}) {
@@ -128,19 +173,19 @@ export function * watchLoadLogsPage () {
   }
 }
 
-export function * watchLoadPeersPage (getState) {
+export function * watchLoadPeersPage () {
   while (yield take(actions.LOAD_PEERS_PAGE)) {
-    yield fork(fetchPeerIds, getState)
+    yield fork(watchPeers)
   }
 }
 
-export function * watchLoadPages (getState) {
+export function * watchLoadPages () {
   yield fork(watchLoadHomePage)
   yield fork(watchLoadLogsPage)
-  yield fork(watchLoadPeersPage, getState)
+  yield fork(watchLoadPeersPage)
 }
 
-export default function * root (getState) {
+export default function * root () {
   yield fork(watchNavigate)
-  yield fork(watchLoadPages, getState)
+  yield fork(watchLoadPages)
 }

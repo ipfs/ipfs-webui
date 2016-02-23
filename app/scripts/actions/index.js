@@ -21,6 +21,10 @@ export const LOGS = {
   SELECT_SYSTEM: 'SELECT_SYSTEM'
 }
 
+export const PEERS = {
+  CANCEL: 'PEERS_CANCEL'
+}
+
 export const PEER_IDS = createRequestTypes('PEER_IDS')
 export const PEER_DETAILS = createRequestTypes('PEER_DETAILS')
 export const PEER_LOCATIONS = createRequestTypes('PEER_LOCATIONS')
@@ -31,6 +35,7 @@ export const LOAD_HOME_PAGE = 'LOAD_HOME_PAGE'
 export const LOAD_LOGS_PAGE = 'LOAD_LOGS_PAGE'
 export const LEAVE_LOGS_PAGE = 'LEAVE_LOGS_PAGE'
 export const LOAD_PEERS_PAGE = 'LOAD_PEERS_PAGE'
+export const LEAVE_PEERS_PAGE = 'LEAVE_PEERS_PAGE'
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 
 function action (type, payload = {}) {
@@ -48,6 +53,10 @@ export const logs = {
   cancel: () => action(LOGS.CANCEL),
   toggleTail: () => action(LOGS.TOGGLE_TAIL),
   selectSystem: (system) => action(LOGS.SELECT_SYSTEM, {system})
+}
+
+export const peers = {
+  cancel: () => action(PEERS.CANCEL)
 }
 
 export const peerIds = {
@@ -74,5 +83,6 @@ export const loadHomePage = () => action(LOAD_HOME_PAGE)
 export const loadLogsPage = () => action(LOAD_LOGS_PAGE)
 export const leaveLogsPage = () => action(LEAVE_LOGS_PAGE)
 export const loadPeersPage = () => action(LOAD_PEERS_PAGE)
+export const leavePeersPage = () => action(LEAVE_PEERS_PAGE)
 
 export const resetErrorMessage = () => action(RESET_ERROR_MESSAGE)

@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import {put, take, fork, call, race} from 'redux-saga/effects'
+import {put, take, fork, call, race, select} from 'redux-saga/effects'
 
 import * as actions from '../../app/scripts/actions'
 import {
@@ -8,21 +8,19 @@ import {
   fetchPeerIds,
   fetchPeerDetails,
   fetchPeerLocations,
+  watchPeers,
   watchLogs,
   watchLoadHomePage,
   watchLoadLogsPage,
   watchNavigate
 } from '../../app/scripts/sagas'
 import {api, history} from '../../app/scripts/services'
-
-const id = {}
-const state = {id}
-const getState = () => state
+import {delay} from '../../app/scripts/utils/promise'
 
 describe('sagas', () => {
   describe('fetchId', () => {
     it('success', () => {
-      const generator = fetchId(getState)
+      const generator = fetchId()
 
       let next = generator.next()
       expect(next.value).to.be.eql(put(actions.id.request()))
@@ -35,7 +33,7 @@ describe('sagas', () => {
     })
 
     it('failure', () => {
-      const generator = fetchId(getState)
+      const generator = fetchId()
 
       let next = generator.next()
       expect(next.value).to.be.eql(put(actions.id.request()))
@@ -49,7 +47,7 @@ describe('sagas', () => {
   })
 
   it('loadId', () => {
-    const generator = loadId(getState)
+    const generator = loadId()
 
     let next = generator.next()
     expect(next.value).to.be.eql(call(fetchId))
@@ -57,14 +55,13 @@ describe('sagas', () => {
 
   describe('fetchPeerIds', () => {
     it('success', () => {
-      const stateGetter = () => ({
+      const state = {
         peers: {
           ids: [{id: 1}, {id: 2}],
           locations: {1: {id: 1, val: 'hello'}}
         }
-      })
-
-      const generator = fetchPeerIds(stateGetter)
+      }
+      const generator = fetchPeerIds()
 
       let next = generator.next()
       expect(next.value).to.be.eql(put(actions.peerIds.request()))
@@ -76,16 +73,19 @@ describe('sagas', () => {
       expect(next.value).to.be.eql(put(actions.peerIds.success([{id: 3}])))
 
       next = generator.next()
+      expect(next.value).to.be.eql(select())
+
+      next = generator.next(state)
       expect(next.value).to.be.eql(fork(fetchPeerDetails, [{id: 3}]))
 
       next = generator.next()
       expect(
         next.value
-      ).to.be.eql(fork(fetchPeerLocations, [{id: 3}], stateGetter))
+      ).to.be.eql(fork(fetchPeerLocations, [{id: 3}]))
     })
 
     it('failure', () => {
-      const generator = fetchPeerIds(getState)
+      const generator = fetchPeerIds()
 
       let next = generator.next()
       expect(next.value).to.be.eql(put(actions.peerIds.request()))
@@ -100,16 +100,28 @@ describe('sagas', () => {
 
   describe('fetchPeerDetails', () => {
     it('success', () => {
-      const generator = fetchPeerDetails([])
+      const state = {
+        peers: {
+          ids: [{id: 1}, {id: 2}],
+          details: {1: {id: 1, val: 'hello'}}
+        }
+      }
+      const generator = fetchPeerDetails([{id: 2}])
 
       let next = generator.next()
       expect(next.value).to.be.eql(put(actions.peerDetails.request()))
 
       next = generator.next()
-      expect(next.value).to.be.eql(call(api.peerDetails, []))
+      expect(next.value).to.be.eql(call(api.peerDetails, [{id: 2}]))
 
-      next = generator.next('hello')
-      expect(next.value).to.be.eql(put(actions.peerDetails.success('hello')))
+      next = generator.next({2: {id: 2, val: 'world'}})
+      expect(next.value).to.be.eql(select())
+
+      next = generator.next(state)
+      expect(next.value).to.be.eql(put(actions.peerDetails.success({
+        1: {id: 1, val: 'hello'},
+        2: {id: 2, val: 'world'}
+      })))
     })
 
     it('failure', () => {
@@ -128,13 +140,13 @@ describe('sagas', () => {
 
   describe('fetchPeerLocations', () => {
     it('success', () => {
-      const stateGetter = () => ({
+      const state = {
         peers: {
           ids: [{id: 1}, {id: 2}],
           locations: {1: {id: 1, val: 'hello'}}
         }
-      })
-      const generator = fetchPeerLocations([{id: 2}], stateGetter)
+      }
+      const generator = fetchPeerLocations([{id: 2}])
 
       let next = generator.next()
       expect(next.value).to.be.eql(put(actions.peerLocations.request()))
@@ -143,6 +155,9 @@ describe('sagas', () => {
       expect(next.value).to.be.eql(call(api.peerLocations, [{id: 2}]))
 
       next = generator.next({2: {id: 2, val: 'world'}})
+      expect(next.value).to.be.eql(select())
+
+      next = generator.next(state)
       expect(next.value).to.be.eql(put(actions.peerLocations.success({
         1: {id: 1, val: 'hello'},
         2: {id: 2, val: 'world'}
@@ -161,6 +176,35 @@ describe('sagas', () => {
       next = generator.throw(new Error('error'))
       expect(next.value).to.be.eql(put(actions.peerLocations.failure('error')))
     })
+  })
+
+  it('watchPeers', () => {
+    const generator = watchPeers()
+    const racer = race({
+      delay: call(delay, 5000),
+      cancel: take(actions.LEAVE_PEERS_PAGE)
+    })
+
+    let next = generator.next({})
+    expect(next.value).to.be.eql(call(fetchPeerIds))
+
+    next = generator.next()
+    expect(next.value).to.be.eql(racer)
+
+    next = generator.next({})
+    expect(next.value).to.be.eql(call(fetchPeerIds))
+
+    next = generator.next()
+    expect(next.value).to.be.eql(racer)
+
+    next = generator.next({})
+    expect(next.value).to.be.eql(call(fetchPeerIds))
+
+    next = generator.next()
+    expect(next.value).to.be.eql(racer)
+
+    next = generator.next({cancel: true})
+    expect(next.value).to.be.eql(put(actions.peers.cancel()))
   })
 
   it('watchLogs', () => {
@@ -195,7 +239,7 @@ describe('sagas', () => {
   })
 
   it('watchLoadHomePage', () => {
-    const generator = watchLoadHomePage(getState)
+    const generator = watchLoadHomePage()
 
     let next = generator.next()
     expect(next.value).to.be.eql(take(actions.LOAD_HOME_PAGE))
@@ -205,7 +249,7 @@ describe('sagas', () => {
   })
 
   it('watchLoadLogsPage', () => {
-    const generator = watchLoadLogsPage(getState)
+    const generator = watchLoadLogsPage()
 
     let next = generator.next()
     expect(next.value)
@@ -221,7 +265,7 @@ describe('sagas', () => {
   })
 
   it('watchNavigate', () => {
-    const generator = watchNavigate(getState)
+    const generator = watchNavigate()
 
     let next = generator.next()
     expect(next.value).to.be.eql(take(actions.NAVIGATE))
