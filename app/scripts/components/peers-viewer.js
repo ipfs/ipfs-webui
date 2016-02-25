@@ -7,54 +7,6 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import Identicon from './identicon'
 import Flag from './flag'
 
-const locationDataGetter = (dataKey, rowData) => {
-  return rowData.location
-}
-
-const locationCellRenderer = (location, cellDataKey, rowData, rowIndex, columnData) => {
-  if (!location || !location.country_code) return '-'
-  let text = ''
-
-  const {city, country_name: country, country_code: code} = location
-  if (city) text += city
-  if (city && country) text += ', '
-  if (country) text += country
-
-  return (
-    <div>
-      <Flag country={code} />
-      {text}
-    </div>
-  )
-}
-
-const idCellRenderer = (id, cellDataKey, rowData, rowIndex, columnData) => {
-  const tp = <Tooltip id={id}>{id}</Tooltip>
-  return (
-    <OverlayTrigger placement='top' overlay={tp}>
-      <CopyToClipboard text={id}>
-        <div className='id-entry-wrapper'>
-          <Identicon id={id.substring(2)} />
-          {id.substring(2, 10)}
-        </div>
-      </CopyToClipboard>
-    </OverlayTrigger>
-  )
-}
-
-const agentCellRenderer = (agent, cellDataKey, rowData, rowIndex, columnData) => {
-  if (!agent) return '-'
-
-  const [base, version] = agent.split('/')
-
-  return (
-    <span>
-      <strong>{base}</strong>
-      /{version}
-    </span>
-  )
-}
-
 export default class PeersViewer extends Component {
   static propTypes = {
     ids: PropTypes.array.isRequired,
@@ -62,6 +14,53 @@ export default class PeersViewer extends Component {
     locations: PropTypes.object
   };
 
+  _locationDataGetter = (dataKey, rowData) => {
+    return rowData.location
+  }
+
+  _idCellRenderer = (id) => {
+    const tp = <Tooltip id={id}>{id}</Tooltip>
+    return (
+      <OverlayTrigger placement='top' overlay={tp}>
+        <CopyToClipboard text={id}>
+          <div className='id-entry-wrapper'>
+            <Identicon id={id.substring(2)} />
+            {id.substring(2, 10)}
+          </div>
+        </CopyToClipboard>
+      </OverlayTrigger>
+    )
+  }
+
+  _locationCellRenderer = (location) => {
+    if (!location || !location.country_code) return '-'
+    let text = ''
+
+    const {city, country_name: country, country_code: code} = location
+    if (city) text += city
+    if (city && country) text += ', '
+    if (country) text += country
+
+    return (
+      <div>
+        <Flag country={code} />
+        {text}
+      </div>
+    )
+  }
+
+  _agentCellRenderer = (agent) => {
+    if (!agent) return '-'
+
+    const [base, version] = agent.split('/')
+
+    return (
+      <span>
+        <strong>{base}</strong>
+        /{version}
+      </span>
+    )
+  }
   _noRowsRenderer = () => {
     return (
       <div className='peers-empty'>
@@ -70,14 +69,12 @@ export default class PeersViewer extends Component {
     )
   };
 
-  _getDatum = (list, index) => {
-    return list[index]
-  };
-
   _createTable = (list) => {
     return ({width, height}) => {
       const rowsCount = list.length
-      const rowGetter = (index) => this._getDatum(list, index)
+      const rowGetter = (index) => {
+        return list[index]
+      }
 
       return (
         <FlexTable
@@ -96,7 +93,7 @@ export default class PeersViewer extends Component {
           <FlexColumn
             label='ID'
             cellClassName='id-entry'
-            cellRenderer={idCellRenderer}
+            cellRenderer={this._idCellRenderer}
             dataKey='id'
             width={150}
           />
@@ -108,8 +105,8 @@ export default class PeersViewer extends Component {
           />
           <FlexColumn
             label='Location'
-            cellDataGetter={locationDataGetter}
-            cellRenderer={locationCellRenderer}
+            cellDataGetter={this._locationDataGetter}
+            cellRenderer={this._locationCellRenderer}
             cellClassName='location-entry'
             dataKey='location'
             width={250}
@@ -117,7 +114,7 @@ export default class PeersViewer extends Component {
           <FlexColumn
             label='Agent'
             cellClassName='agent-entry'
-            cellRenderer={agentCellRenderer}
+            cellRenderer={this._agentCellRenderer}
             dataKey='AgentVersion'
             width={250}
           />
