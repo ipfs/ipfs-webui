@@ -25,7 +25,7 @@ The [CONTRIBUTING](CONTRIBUTING.md) file has more information relevant to this r
 
 ## Development
 
-Make sure [node.js](https://nodejs.org/) and [npm](https://docs.npmjs.com/) are installed and in your path.
+Make sure [node.js](https://nodejs.org/) version 4+ and [npm](https://docs.npmjs.com/) version 3+ are installed and in your path.
 
 ### Config
 
