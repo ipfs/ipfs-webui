@@ -1,7 +1,8 @@
 import API from 'ipfs-api'
 import {CANCEL} from 'redux-saga'
-import {keyBy, compact} from 'lodash'
+import {keyBy, compact, sortBy} from 'lodash'
 import {lookup} from 'ipfs-geoip'
+import {join} from 'path'
 
 const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
 const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || 80)
@@ -147,4 +148,20 @@ export const peerLocations = (ids, api = localApi) => {
   ).then((locations) => {
     return keyBy(compact(locations), 'id')
   })
+}
+
+export const files = {
+  list (root, api = localApi) {
+    return api.files.ls(root)
+      .then((res) => {
+        const files = sortBy(res.Entries, 'Name') || []
+
+        return Promise.all(files.map((file) => {
+          return api.files.stat(join(root, file.Name))
+            .then((stats) => {
+              return {...file, ...stats}
+            })
+        }))
+      })
+  }
 }

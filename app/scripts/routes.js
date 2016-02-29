@@ -5,6 +5,7 @@ import App from './containers/app'
 import HomePage from './containers/home'
 import LogPage from './containers/logs'
 import PeersPage from './containers/peers'
+import FilesPage from './containers/files'
 import NotFoundPage from './components/notfound'
 
 export default (
@@ -13,6 +14,7 @@ export default (
     <Route path='home' component={HomePage} />
 
     <Route path='peers' component={PeersPage} />
+    <Route path='files' component={FilesPage} />
     <Route path='logs' component={LogPage} />
 
     <Route path='*' component={NotFoundPage} />

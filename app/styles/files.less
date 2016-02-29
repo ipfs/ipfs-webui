@@ -1,0 +1,49 @@
+.files-explorer {
+  .files-tree {
+    thead {
+      font-size: 13px;
+      font-weight: 400;
+      color: @gray-light;
+    }
+
+    tr.file-row {
+      &:hover {
+        cursor: pointer;
+        background-color: #F6FBFE;
+      }
+
+      td {
+        line-height: 28px;
+        margin: 9px 0;
+        font-weight: 300;
+        font-size: 14px;
+
+        .icon {
+          margin-right: 10px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .action-bar {
+    a:hover {
+      cursor: pointer;
+    }
+  }
+
+  .breadcrumbs {
+    font-size: 16px;
+    height: 40px;
+    font-weight: 500;
+
+    .icon {
+      padding: 0 10px;
+      font-size: 16px;
+    }
+
+    a.crumb-link:hover {
+      cursor: pointer
+    }
+  }
+}

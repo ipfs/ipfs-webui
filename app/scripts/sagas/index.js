@@ -12,7 +12,15 @@ import {history, api} from '../services'
 import * as actions from '../actions'
 import {delay} from '../utils/promise'
 
-const {id, logs, peerIds, peerDetails, peerLocations, peers} = actions
+const {
+  id,
+  logs,
+  peerIds,
+  peerDetails,
+  peerLocations,
+  peers,
+  filesList
+} = actions
 
 // ---------- Subroutines
 
@@ -131,6 +139,42 @@ export function * watchPeers () {
   yield put(peers.cancel())
 }
 
+export function * fetchFiles () {
+  yield put(filesList.request())
+
+  try {
+    const {files} = yield select()
+    const res = yield call(api.files.list, files.root)
+    yield put(filesList.success(res))
+  } catch (err) {
+    yield put(filesList.failure(err.message))
+  }
+}
+
+export function * watchFiles () {
+  let cancel
+  yield call(fetchFiles)
+
+  while (!cancel) {
+    ({cancel} = yield race({
+      delay: call(delay, 10000),
+      cancel: take(actions.LEAVE_FILES_PAGE)
+    }))
+
+    if (!cancel) {
+      yield call(fetchFiles)
+    }
+  }
+
+  yield put(fetchFiles.cancel())
+}
+
+export function * watchFilesRoot () {
+  while (yield take(actions.FILES.SET_ROOT)) {
+    yield fork(fetchFiles)
+  }
+}
+
 export function * watchLogs ({getNext}) {
   let cancel
   let data
@@ -166,6 +210,19 @@ export function * watchLoadHomePage () {
   }
 }
 
+export function * watchLoadPeersPage () {
+  while (yield take(actions.LOAD_PEERS_PAGE)) {
+    yield fork(watchPeers)
+  }
+}
+
+export function * watchLoadFilesPage () {
+  while (yield take(actions.LOAD_FILES_PAGE)) {
+    yield fork(watchFiles)
+    yield fork(watchFilesRoot)
+  }
+}
+
 export function * watchLoadLogsPage () {
   while (yield take(actions.LOAD_LOGS_PAGE)) {
     const source = yield call(api.createLogSource)
@@ -173,16 +230,11 @@ export function * watchLoadLogsPage () {
   }
 }
 
-export function * watchLoadPeersPage () {
-  while (yield take(actions.LOAD_PEERS_PAGE)) {
-    yield fork(watchPeers)
-  }
-}
-
 export function * watchLoadPages () {
   yield fork(watchLoadHomePage)
-  yield fork(watchLoadLogsPage)
   yield fork(watchLoadPeersPage)
+  yield fork(watchLoadFilesPage)
+  yield fork(watchLoadLogsPage)
 }
 
 export default function * root () {

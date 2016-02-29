@@ -29,9 +29,18 @@ export const PEER_IDS = createRequestTypes('PEER_IDS')
 export const PEER_DETAILS = createRequestTypes('PEER_DETAILS')
 export const PEER_LOCATIONS = createRequestTypes('PEER_LOCATIONS')
 
+export const FILES_LIST = createRequestTypes('FILES_LIST')
+
+export const FILES = {
+  CANCEL: 'FILES_CANCEL',
+  SET_ROOT: 'FILES_SET_ROOT'
+}
+
 export const UPDATE_ROUTER_STATE = 'UPDATE_ROUTER_STATE'
 export const NAVIGATE = 'NAVIGATE'
 export const LOAD_HOME_PAGE = 'LOAD_HOME_PAGE'
+export const LOAD_FILES_PAGE = 'LOAD_FILES_PAGE'
+export const LEAVE_FILES_PAGE = 'LEAVE_FILES_PAGE'
 export const LOAD_LOGS_PAGE = 'LOAD_LOGS_PAGE'
 export const LEAVE_LOGS_PAGE = 'LEAVE_LOGS_PAGE'
 export const LOAD_PEERS_PAGE = 'LOAD_PEERS_PAGE'
@@ -77,9 +86,24 @@ export const peerLocations = {
   failure: (error) => action(PEER_LOCATIONS.FAILURE, {error})
 }
 
+export const filesList = {
+  request: () => action(FILES_LIST.REQUEST),
+  success: (response) => action(FILES_LIST.SUCCESS, {response}),
+  failure: (error) => action(FILES_LIST.FAILURE, {error})
+}
+
+export const files = {
+  cancel: () => action(FILES.CANCEL)
+}
+
 export const updateRouterState = (state) => action(UPDATE_ROUTER_STATE, {state})
 export const navigate = (pathname) => action(NAVIGATE, {pathname})
+
+export const filesSetRoot = (root) => action(FILES.SET_ROOT, {root})
+
 export const loadHomePage = () => action(LOAD_HOME_PAGE)
+export const loadFilesPage = () => action(LOAD_FILES_PAGE)
+export const leaveFilesPage = () => action(LEAVE_FILES_PAGE)
 export const loadLogsPage = () => action(LOAD_LOGS_PAGE)
 export const leaveLogsPage = () => action(LEAVE_LOGS_PAGE)
 export const loadPeersPage = () => action(LOAD_PEERS_PAGE)

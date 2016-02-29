@@ -16,7 +16,7 @@ export default class PeersViewer extends Component {
 
   _locationDataGetter = (dataKey, rowData) => {
     return rowData.location
-  }
+  };
 
   _idCellRenderer = (id) => {
     const tp = <Tooltip id={id}>{id}</Tooltip>
@@ -30,7 +30,7 @@ export default class PeersViewer extends Component {
         </CopyToClipboard>
       </OverlayTrigger>
     )
-  }
+  };
 
   _locationCellRenderer = (location) => {
     if (!location || !location.country_code) return '-'
@@ -47,7 +47,7 @@ export default class PeersViewer extends Component {
         {text}
       </div>
     )
-  }
+  };
 
   _agentCellRenderer = (agent) => {
     if (!agent) return '-'
@@ -60,7 +60,8 @@ export default class PeersViewer extends Component {
         /{version}
       </span>
     )
-  }
+  };
+
   _noRowsRenderer = () => {
     return (
       <div className='peers-empty'>
