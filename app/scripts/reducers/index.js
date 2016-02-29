@@ -48,7 +48,8 @@ export function peers (state = peersDefaultState, action) {
 
 const filesDefaultState = {
   list: [],
-  root: '/'
+  root: '/',
+  tmpDir: null
 }
 
 export function files (state = filesDefaultState, action) {
@@ -64,6 +65,33 @@ export function files (state = filesDefaultState, action) {
     return {
       ...state,
       root: action.root
+    }
+  }
+
+  if (ActionTypes.FILES.ADD_TMP_DIR === action.type) {
+    return {
+      ...state,
+      tmpDir: {
+        root: action.root,
+        name: ''
+      }
+    }
+  }
+
+  if (ActionTypes.FILES.RM_TMP_DIR === action.type) {
+    return {
+      ...state,
+      tmpDir: null
+    }
+  }
+
+  if (ActionTypes.FILES.SET_TMP_DIR_NAME === action.type) {
+    return {
+      ...state,
+      tmpDir: {
+        ...state.tmpDir,
+        name: action.name
+      }
     }
   }
 

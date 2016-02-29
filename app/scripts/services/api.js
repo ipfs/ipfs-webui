@@ -163,5 +163,8 @@ export const files = {
             })
         }))
       })
+  },
+  mkdir (name, api = localApi) {
+    return api.files.mkdir(name)
   }
 }

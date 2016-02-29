@@ -30,10 +30,15 @@ export const PEER_DETAILS = createRequestTypes('PEER_DETAILS')
 export const PEER_LOCATIONS = createRequestTypes('PEER_LOCATIONS')
 
 export const FILES_LIST = createRequestTypes('FILES_LIST')
+export const FILES_MKDIR = createRequestTypes('FILES_MKDIR')
 
 export const FILES = {
   CANCEL: 'FILES_CANCEL',
-  SET_ROOT: 'FILES_SET_ROOT'
+  SET_ROOT: 'FILES_SET_ROOT',
+  ADD_TMP_DIR: 'FILES_ADD_TMP_DIR',
+  RM_TMP_DIR: 'FILES_RM_TMP_DIR',
+  SET_TMP_DIR_NAME: 'FILES_SET_TMP_DIR_NAME',
+  CREATE_DIR: 'FILES_CREATE_DIR'
 }
 
 export const UPDATE_ROUTER_STATE = 'UPDATE_ROUTER_STATE'
@@ -92,6 +97,12 @@ export const filesList = {
   failure: (error) => action(FILES_LIST.FAILURE, {error})
 }
 
+export const filesMkdir = {
+  request: () => action(FILES_MKDIR.REQUEST),
+  success: () => action(FILES_MKDIR.SUCCESS),
+  failure: (error) => action(FILES_MKDIR.FAILURE, {error})
+}
+
 export const files = {
   cancel: () => action(FILES.CANCEL)
 }
@@ -100,6 +111,10 @@ export const updateRouterState = (state) => action(UPDATE_ROUTER_STATE, {state})
 export const navigate = (pathname) => action(NAVIGATE, {pathname})
 
 export const filesSetRoot = (root) => action(FILES.SET_ROOT, {root})
+export const filesAddTmpDir = (root) => action(FILES.ADD_TMP_DIR, {root})
+export const filesRmTmpDir = () => action(FILES.RM_TMP_DIR)
+export const filesSetTmpDirName = (name) => action(FILES.SET_TMP_DIR_NAME, {name})
+export const filesCreateDir = () => action(FILES.CREATE_DIR)
 
 export const loadHomePage = () => action(LOAD_HOME_PAGE)
 export const loadFilesPage = () => action(LOAD_FILES_PAGE)

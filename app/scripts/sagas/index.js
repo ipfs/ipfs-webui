@@ -7,6 +7,7 @@ import {
   select
 } from 'redux-saga/effects'
 import {reduce, find} from 'lodash'
+import {join} from 'path'
 
 import {history, api} from '../services'
 import * as actions from '../actions'
@@ -19,7 +20,9 @@ const {
   peerDetails,
   peerLocations,
   peers,
-  filesList
+  filesList,
+  filesMkdir,
+  filesRmTmpDir
 } = actions
 
 // ---------- Subroutines
@@ -166,12 +169,30 @@ export function * watchFiles () {
     }
   }
 
-  yield put(fetchFiles.cancel())
+  yield put(actions.files.cancel())
 }
 
 export function * watchFilesRoot () {
   while (yield take(actions.FILES.SET_ROOT)) {
     yield fork(fetchFiles)
+  }
+}
+
+export function * watchCreateDir () {
+  filesMkdir.request()
+
+  while (yield take(actions.FILES.CREATE_DIR)) {
+    try {
+      const {files} = yield select()
+      const name = join(files.tmpDir.root, files.tmpDir.name)
+      yield call(api.files.mkdir, name)
+
+      yield fork(fetchFiles)
+      yield put(filesMkdir.success())
+      yield put(filesRmTmpDir())
+    } catch (err) {
+      yield put(filesMkdir.failure(err.message))
+    }
   }
 }
 
@@ -220,6 +241,7 @@ export function * watchLoadFilesPage () {
   while (yield take(actions.LOAD_FILES_PAGE)) {
     yield fork(watchFiles)
     yield fork(watchFilesRoot)
+    yield fork(watchCreateDir)
   }
 }
 

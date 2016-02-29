@@ -14,7 +14,14 @@ export default class FilesExplorer extends Component {
   static propTypes = {
     files: PropTypes.array.isRequired,
     root: PropTypes.string.isRequired,
-    setRoot: PropTypes.func.isRequired
+    tmpDir: PropTypes.shape({
+      root: PropTypes.string.isRequired,
+      name: PropTypes.string
+    }),
+    setRoot: PropTypes.func.isRequired,
+    addTmpDir: PropTypes.func.isRequired,
+    setTmpDirName: PropTypes.func.isRequired,
+    createDir: PropTypes.func.isRequired
   };
 
   _onRowClick = (file) => {
@@ -27,8 +34,12 @@ export default class FilesExplorer extends Component {
     }
   };
 
+  _onAddDirectory = (event) => {
+    this.props.addTmpDir(this.props.root)
+  };
+
   render () {
-    const {files, root, setRoot} = this.props
+    const {files, root, setRoot, tmpDir} = this.props
 
     return (
       <div className='files-explorer'>
@@ -41,15 +52,18 @@ export default class FilesExplorer extends Component {
                   root={root}
                   setRoot={setRoot}
                 />
-                <ActionBar />
+                <ActionBar
+                  onAddDirectory={this._onAddDirectory}/>
               </Col>
             </Row>
             <Row>
               <Col sm={12}>
                 <Tree
                   files={files}
+                  tmpDir={tmpDir}
                   onRowClick={this._onRowClick}
-                  />
+                  onTmpDirChange={this.props.setTmpDirName}
+                  onCreateDir={this.props.createDir}/>
               </Col>
             </Row>
           </Col>
