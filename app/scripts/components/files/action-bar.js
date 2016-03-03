@@ -4,14 +4,14 @@ import Icon from '../../views/icon'
 
 export default class ActionBar extends Component {
   static propTypes = {
-    onAddDirectory: PropTypes.func.isRequired
+    onCreateDir: PropTypes.func.isRequired
   };
 
   render () {
     return (
       <div className='action-bar'>
-        <a onClick={this.props.onAddDirectory}>
-          <Icon glyph='plus'/> Add Directory
+        <a onClick={this.props.onCreateDir}>
+          <Icon glyph='plus'/> Create Folder
         </a>
       </div>
     )

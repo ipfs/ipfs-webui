@@ -19,9 +19,10 @@ export default class FilesExplorer extends Component {
       name: PropTypes.string
     }),
     setRoot: PropTypes.func.isRequired,
-    addTmpDir: PropTypes.func.isRequired,
+    createTmpDir: PropTypes.func.isRequired,
     setTmpDirName: PropTypes.func.isRequired,
-    createDir: PropTypes.func.isRequired
+    createDir: PropTypes.func.isRequired,
+    rmTmpDir: PropTypes.func.isRequired
   };
 
   _onRowClick = (file) => {
@@ -34,8 +35,12 @@ export default class FilesExplorer extends Component {
     }
   };
 
-  _onAddDirectory = (event) => {
-    this.props.addTmpDir(this.props.root)
+  _onCreateDir = (event) => {
+    this.props.createTmpDir(this.props.root)
+  };
+
+  _onCancelCreateDir = (event) => {
+    this.props.rmTmpDir()
   };
 
   render () {
@@ -53,7 +58,7 @@ export default class FilesExplorer extends Component {
                   setRoot={setRoot}
                 />
                 <ActionBar
-                  onAddDirectory={this._onAddDirectory}/>
+                  onCreateDir={this._onCreateDir}/>
               </Col>
             </Row>
             <Row>
@@ -63,7 +68,8 @@ export default class FilesExplorer extends Component {
                   tmpDir={tmpDir}
                   onRowClick={this._onRowClick}
                   onTmpDirChange={this.props.setTmpDirName}
-                  onCreateDir={this.props.createDir}/>
+                  onCreateDir={this.props.createDir}
+                  onCancelCreateDir={this._onCancelCreateDir}/>
               </Col>
             </Row>
           </Col>

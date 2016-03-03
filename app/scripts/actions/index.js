@@ -35,7 +35,7 @@ export const FILES_MKDIR = createRequestTypes('FILES_MKDIR')
 export const FILES = {
   CANCEL: 'FILES_CANCEL',
   SET_ROOT: 'FILES_SET_ROOT',
-  ADD_TMP_DIR: 'FILES_ADD_TMP_DIR',
+  CREATE_TMP_DIR: 'FILES_CREATE_TMP_DIR',
   RM_TMP_DIR: 'FILES_RM_TMP_DIR',
   SET_TMP_DIR_NAME: 'FILES_SET_TMP_DIR_NAME',
   CREATE_DIR: 'FILES_CREATE_DIR'
@@ -111,7 +111,7 @@ export const updateRouterState = (state) => action(UPDATE_ROUTER_STATE, {state})
 export const navigate = (pathname) => action(NAVIGATE, {pathname})
 
 export const filesSetRoot = (root) => action(FILES.SET_ROOT, {root})
-export const filesAddTmpDir = (root) => action(FILES.ADD_TMP_DIR, {root})
+export const filesCreateTmpDir = (root) => action(FILES.CREATE_TMP_DIR, {root})
 export const filesRmTmpDir = () => action(FILES.RM_TMP_DIR)
 export const filesSetTmpDirName = (name) => action(FILES.SET_TMP_DIR_NAME, {name})
 export const filesCreateDir = () => action(FILES.CREATE_DIR)

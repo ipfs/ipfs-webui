@@ -60,6 +60,7 @@ export default class Breadcrumbs extends Component {
               return [
                 <Icon key={`${root}-0`} glyph='angle-right' />,
                 <Breadcrumb
+                  key={`${root}-1`}
                   path={root}
                   onClick={this.props.setRoot}
                   text={part}/>
@@ -75,6 +76,7 @@ export default class Breadcrumbs extends Component {
     } else {
       breadcrumbs.unshift(
         <Breadcrumb
+          key='-2'
           path='/'
           onClick={this.props.setRoot}
           text='IPFS'/>

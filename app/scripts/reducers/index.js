@@ -68,7 +68,7 @@ export function files (state = filesDefaultState, action) {
     }
   }
 
-  if (ActionTypes.FILES.ADD_TMP_DIR === action.type) {
+  if (ActionTypes.FILES.CREATE_TMP_DIR === action.type) {
     return {
       ...state,
       tmpDir: {

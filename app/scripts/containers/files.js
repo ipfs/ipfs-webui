@@ -7,9 +7,10 @@ import {
   loadFilesPage,
   leaveFilesPage,
   filesSetRoot,
-  filesAddTmpDir,
+  filesCreateTmpDir,
   filesSetTmpDirName,
-  filesCreateDir
+  filesCreateDir,
+  filesRmTmpDir
 } from '../actions'
 
 class Files extends Component {
@@ -23,9 +24,10 @@ class Files extends Component {
       name: PropTypes.string
     }),
     filesSetRoot: PropTypes.func.isRequired,
-    filesAddTmpDir: PropTypes.func.isRequired,
+    filesCreateTmpDir: PropTypes.func.isRequired,
     filesSetTmpDirName: PropTypes.func.isRequired,
-    filesCreateDir: PropTypes.func.isRequired
+    filesCreateDir: PropTypes.func.isRequired,
+    filesRmTmpDir: PropTypes.func.isRequired
   };
 
   componentWillMount () {
@@ -45,9 +47,10 @@ class Files extends Component {
             root={this.props.root}
             tmpDir={this.props.tmpDir}
             setRoot={this.props.filesSetRoot}
-            addTmpDir={this.props.filesAddTmpDir}
+            createTmpDir={this.props.filesCreateTmpDir}
             setTmpDirName={this.props.filesSetTmpDirName}
-            createDir={this.props.filesCreateDir}/>
+            createDir={this.props.filesCreateDir}
+            rmTmpDir={this.props.filesRmTmpDir}/>
         </Col>
       </Row>
     )
@@ -68,7 +71,8 @@ export default connect(mapStateToProps, {
   loadFilesPage,
   leaveFilesPage,
   filesSetRoot,
-  filesAddTmpDir,
+  filesCreateTmpDir,
   filesSetTmpDirName,
-  filesCreateDir
+  filesCreateDir,
+  filesRmTmpDir
 })(Files)
