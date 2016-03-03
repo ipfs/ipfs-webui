@@ -14,7 +14,7 @@ describe('reducers', () => {
 
     it('handles response', () => {
       expect(
-        reducers.id({}, actions.id.success({node: 1}))
+        reducers.id({}, actions.home.id.success({node: 1}))
       ).to.be.eql({node: 1})
     })
   })
@@ -31,7 +31,7 @@ describe('reducers', () => {
         reducers.peers({
           ids: [{id: 2}],
           details: {}
-        }, actions.peerIds.success([{id: 1}]))
+        }, actions.peers.peerIds.success([{id: 1}]))
       ).to.be.eql({
         ids: [{id: 1}],
         details: {}
@@ -43,7 +43,7 @@ describe('reducers', () => {
         reducers.peers({
           ids: [{id: 1}],
           details: {}
-        }, actions.peerDetails.success({1: {}}))
+        }, actions.peers.peerDetails.success({1: {}}))
       ).to.be.eql({
         ids: [{id: 1}],
         details: {1: {}}
@@ -56,7 +56,7 @@ describe('reducers', () => {
           ids: [{id: 1}],
           details: {},
           locations: {}
-        }, actions.peerLocations.success({1: {}}))
+        }, actions.peers.peerLocations.success({1: {}}))
       ).to.be.eql({
         ids: [{id: 1}],
         details: {},
@@ -79,13 +79,13 @@ describe('reducers', () => {
 
     it('handles response', () => {
       expect(
-        reducers.logs({list: [1]}, actions.logs.receive({hello: 'world'}))
+        reducers.logs({list: [1]}, actions.logs.logs.receive({hello: 'world'}))
       ).to.have.property('list').eql([1, {hello: 'world'}])
     })
 
     it('only keeps 500 entries', () => {
-      const state = reducers.logs({list: range(500)}, actions.logs.receive(-1))
-      const state2 = reducers.logs(state, actions.logs.receive(-2))
+      const state = reducers.logs({list: range(500)}, actions.logs.logs.receive(-1))
+      const state2 = reducers.logs(state, actions.logs.logs.receive(-2))
       expect(state.list).to.have.length(500)
       expect(state2.list).to.have.length(500)
       expect(last(state.list)).to.be.eql(-1)
@@ -105,7 +105,7 @@ describe('reducers', () => {
         reducers.errorMessage({
           error: ':('
         }, {
-          type: actions.RESET_ERROR_MESSAGE
+          type: actions.errors.RESET_ERROR_MESSAGE
         })
       ).to.be.eql(null)
     })
@@ -128,7 +128,7 @@ describe('reducers', () => {
 
     it('handles route updates', () => {
       expect(
-        reducers.router({}, actions.updateRouterState({
+        reducers.router({}, actions.router.updateRouterState({
           pathname: '/hello'
         }))
       ).to.be.eql({pathname: '/hello'})

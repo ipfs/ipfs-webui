@@ -2,29 +2,28 @@ import React, {Component, PropTypes} from 'react'
 import {Row, Col} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
-import {loadLogsPage, leaveLogsPage, logs} from '../actions'
+import {pages, logs} from '../actions'
 import i18n from '../utils/i18n.js'
-import LogViewer from '../components/log-viewer'
+import LogViewer from './log-viewer'
 import LogController from '../components/log-controller'
 
 class Logs extends Component {
   static propTypes = {
-    loadLogsPage: PropTypes.func.isRequired,
-    leaveLogsPage: PropTypes.func.isRequired,
+    load: PropTypes.func.isRequired,
+    leave: PropTypes.func.isRequired,
     toggleTail: PropTypes.func.isRequired,
     selectLogSystem: PropTypes.func.isRequired,
-    logs: PropTypes.array.isRequired,
     tail: PropTypes.bool.isRequired,
     systems: PropTypes.array.isRequired,
     selectedSystem: PropTypes.string.isRequired
   };
 
   componentWillMount () {
-    this.props.loadLogsPage()
+    this.props.load()
   }
 
   componentWillUnmount () {
-    this.props.leaveLogsPage()
+    this.props.leave()
   }
 
   render () {
@@ -38,10 +37,7 @@ class Logs extends Component {
             systems={this.props.systems}
             selectedSystem={this.props.selectedSystem}
             selectLogSystem={this.props.selectLogSystem} />
-          <LogViewer
-            list={this.props.logs}
-            tail={this.props.tail}
-            selectedSystem={this.props.selectedSystem} />
+          <LogViewer/>
         </Col>
       </Row>
     )
@@ -50,7 +46,6 @@ class Logs extends Component {
 
 function mapStateToProps (state) {
   return {
-    logs: state.logs.list,
     tail: state.logs.tail,
     systems: state.logs.systems,
     selectedSystem: state.logs.selectedSystem
@@ -58,8 +53,7 @@ function mapStateToProps (state) {
 }
 
 export default connect(mapStateToProps, {
-  loadLogsPage,
-  leaveLogsPage,
-  toggleTail: logs.toggleTail,
-  selectLogSystem: logs.selectSystem
+  ...pages.logs,
+  toggleTail: logs.logs.toggleTail,
+  selectLogSystem: logs.logs.selectSystem
 })(Logs)

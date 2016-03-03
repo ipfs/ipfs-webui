@@ -23,26 +23,26 @@ describe('sagas', () => {
       const generator = fetchId()
 
       let next = generator.next()
-      expect(next.value).to.be.eql(put(actions.id.request()))
+      expect(next.value).to.be.eql(put(actions.home.id.request()))
 
       next = generator.next()
       expect(next.value).to.be.eql(call(api.id))
 
       next = generator.next('hello')
-      expect(next.value).to.be.eql(put(actions.id.success('hello')))
+      expect(next.value).to.be.eql(put(actions.home.id.success('hello')))
     })
 
     it('failure', () => {
       const generator = fetchId()
 
       let next = generator.next()
-      expect(next.value).to.be.eql(put(actions.id.request()))
+      expect(next.value).to.be.eql(put(actions.home.id.request()))
 
       next = generator.next()
       expect(next.value).to.be.eql(call(api.id))
 
       next = generator.throw(new Error('error'))
-      expect(next.value).to.be.eql(put(actions.id.failure('error')))
+      expect(next.value).to.be.eql(put(actions.home.id.failure('error')))
     })
   })
 
@@ -64,13 +64,13 @@ describe('sagas', () => {
       const generator = fetchPeerIds()
 
       let next = generator.next()
-      expect(next.value).to.be.eql(put(actions.peerIds.request()))
+      expect(next.value).to.be.eql(put(actions.peers.peerIds.request()))
 
       next = generator.next()
       expect(next.value).to.be.eql(call(api.peerIds))
 
       next = generator.next([{id: 3}])
-      expect(next.value).to.be.eql(put(actions.peerIds.success([{id: 3}])))
+      expect(next.value).to.be.eql(put(actions.peers.peerIds.success([{id: 3}])))
 
       next = generator.next()
       expect(next.value).to.be.eql(select())
@@ -88,13 +88,13 @@ describe('sagas', () => {
       const generator = fetchPeerIds()
 
       let next = generator.next()
-      expect(next.value).to.be.eql(put(actions.peerIds.request()))
+      expect(next.value).to.be.eql(put(actions.peers.peerIds.request()))
 
       next = generator.next()
       expect(next.value).to.be.eql(call(api.peerIds))
 
       next = generator.throw(new Error('error'))
-      expect(next.value).to.be.eql(put(actions.peerIds.failure('error')))
+      expect(next.value).to.be.eql(put(actions.peers.peerIds.failure('error')))
     })
   })
 
@@ -109,7 +109,7 @@ describe('sagas', () => {
       const generator = fetchPeerDetails([{id: 2}])
 
       let next = generator.next()
-      expect(next.value).to.be.eql(put(actions.peerDetails.request()))
+      expect(next.value).to.be.eql(put(actions.peers.peerDetails.request()))
 
       next = generator.next()
       expect(next.value).to.be.eql(call(api.peerDetails, [{id: 2}]))
@@ -118,7 +118,7 @@ describe('sagas', () => {
       expect(next.value).to.be.eql(select())
 
       next = generator.next(state)
-      expect(next.value).to.be.eql(put(actions.peerDetails.success({
+      expect(next.value).to.be.eql(put(actions.peers.peerDetails.success({
         1: {id: 1, val: 'hello'},
         2: {id: 2, val: 'world'}
       })))
@@ -128,13 +128,13 @@ describe('sagas', () => {
       const generator = fetchPeerDetails([])
 
       let next = generator.next()
-      expect(next.value).to.be.eql(put(actions.peerDetails.request()))
+      expect(next.value).to.be.eql(put(actions.peers.peerDetails.request()))
 
       next = generator.next()
       expect(next.value).to.be.eql(call(api.peerDetails, []))
 
       next = generator.throw(new Error('error'))
-      expect(next.value).to.be.eql(put(actions.peerDetails.failure('error')))
+      expect(next.value).to.be.eql(put(actions.peers.peerDetails.failure('error')))
     })
   })
 
@@ -149,7 +149,7 @@ describe('sagas', () => {
       const generator = fetchPeerLocations([{id: 2}])
 
       let next = generator.next()
-      expect(next.value).to.be.eql(put(actions.peerLocations.request()))
+      expect(next.value).to.be.eql(put(actions.peers.peerLocations.request()))
 
       next = generator.next()
       expect(next.value).to.be.eql(call(api.peerLocations, [{id: 2}]))
@@ -158,7 +158,7 @@ describe('sagas', () => {
       expect(next.value).to.be.eql(select())
 
       next = generator.next(state)
-      expect(next.value).to.be.eql(put(actions.peerLocations.success({
+      expect(next.value).to.be.eql(put(actions.peers.peerLocations.success({
         1: {id: 1, val: 'hello'},
         2: {id: 2, val: 'world'}
       })))
@@ -168,13 +168,13 @@ describe('sagas', () => {
       const generator = fetchPeerLocations([])
 
       let next = generator.next()
-      expect(next.value).to.be.eql(put(actions.peerLocations.request()))
+      expect(next.value).to.be.eql(put(actions.peers.peerLocations.request()))
 
       next = generator.next()
       expect(next.value).to.be.eql(call(api.peerLocations, []))
 
       next = generator.throw(new Error('error'))
-      expect(next.value).to.be.eql(put(actions.peerLocations.failure('error')))
+      expect(next.value).to.be.eql(put(actions.peers.peerLocations.failure('error')))
     })
   })
 
@@ -182,7 +182,7 @@ describe('sagas', () => {
     const generator = watchPeers()
     const racer = race({
       delay: call(delay, 5000),
-      cancel: take(actions.LEAVE_PEERS_PAGE)
+      cancel: take(actions.pages.PEERS.LEAVE)
     })
 
     let next = generator.next({})
@@ -204,7 +204,7 @@ describe('sagas', () => {
     expect(next.value).to.be.eql(racer)
 
     next = generator.next({cancel: true})
-    expect(next.value).to.be.eql(put(actions.peers.cancel()))
+    expect(next.value).to.be.eql(put(actions.peers.peers.cancel()))
   })
 
   it('watchLogs', () => {
@@ -216,33 +216,33 @@ describe('sagas', () => {
     const generator = watchLogs(source)
     const racer = race({
       data: call(source.getNext),
-      cancel: take(actions.LEAVE_LOGS_PAGE)
+      cancel: take(actions.pages.LOGS.LEAVE)
     })
 
     let next = generator.next()
     expect(next.value).to.be.eql(racer)
 
     next = generator.next({data: 'log'})
-    expect(next.value).to.be.eql(put(actions.logs.receive('log')))
+    expect(next.value).to.be.eql(put(actions.logs.logs.receive('log')))
 
     next = generator.next()
     expect(next.value).to.be.eql(racer)
 
     next = generator.next({data: 'log2'})
-    expect(next.value).to.be.eql(put(actions.logs.receive('log2')))
+    expect(next.value).to.be.eql(put(actions.logs.logs.receive('log2')))
 
     next = generator.next()
     expect(next.value).to.be.eql(racer)
 
     next = generator.next({cancel: true})
-    expect(next.value).to.be.eql(put(actions.logs.cancel()))
+    expect(next.value).to.be.eql(put(actions.logs.logs.cancel()))
   })
 
   it('watchLoadHomePage', () => {
     const generator = watchLoadHomePage()
 
     let next = generator.next()
-    expect(next.value).to.be.eql(take(actions.LOAD_HOME_PAGE))
+    expect(next.value).to.be.eql(take(actions.pages.HOME.LOAD))
 
     next = generator.next()
     expect(next.value).to.be.eql(fork(loadId))
@@ -253,7 +253,7 @@ describe('sagas', () => {
 
     let next = generator.next()
     expect(next.value)
-      .to.be.eql(take(actions.LOAD_LOGS_PAGE))
+      .to.be.eql(take(actions.pages.LOGS.LOAD))
 
     next = generator.next('source')
     expect(next.value)
@@ -268,7 +268,7 @@ describe('sagas', () => {
     const generator = watchNavigate()
 
     let next = generator.next()
-    expect(next.value).to.be.eql(take(actions.NAVIGATE))
+    expect(next.value).to.be.eql(take(actions.router.NAVIGATE))
 
     next = generator.next({pathname: '/hello'})
     expect(next.value).to.be.eql(history.push('/hello'))

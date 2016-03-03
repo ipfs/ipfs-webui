@@ -14,15 +14,19 @@ import * as actions from '../actions'
 import {delay} from '../utils/promise'
 
 const {
-  id,
-  logs,
-  peerIds,
-  peerDetails,
-  peerLocations,
-  peers,
-  filesList,
-  filesMkdir,
-  filesRmTmpDir
+  home: {id},
+  logs: {logs},
+  peers: {
+    peerIds,
+    peerDetails,
+    peerLocations,
+    peers
+  },
+  files: {
+    filesList,
+    filesMkdir,
+    filesRmTmpDir
+  }
 } = actions
 
 // ---------- Subroutines
@@ -131,7 +135,7 @@ export function * watchPeers () {
   while (!cancel) {
     ({cancel} = yield race({
       delay: call(delay, 5000),
-      cancel: take(actions.LEAVE_PEERS_PAGE)
+      cancel: take(actions.pages.PEERS.LEAVE)
     }))
 
     if (!cancel) {
@@ -161,7 +165,7 @@ export function * watchFiles () {
   while (!cancel) {
     ({cancel} = yield race({
       delay: call(delay, 10000),
-      cancel: take(actions.LEAVE_FILES_PAGE)
+      cancel: take(actions.pages.FILES.LEAVE)
     }))
 
     if (!cancel) {
@@ -169,11 +173,11 @@ export function * watchFiles () {
     }
   }
 
-  yield put(actions.files.cancel())
+  yield put(actions.files.files.cancel())
 }
 
 export function * watchFilesRoot () {
-  while (yield take(actions.FILES.SET_ROOT)) {
+  while (yield take(actions.files.FILES.SET_ROOT)) {
     yield fork(fetchFiles)
   }
 }
@@ -181,7 +185,7 @@ export function * watchFilesRoot () {
 export function * watchCreateDir () {
   filesMkdir.request()
 
-  while (yield take(actions.FILES.CREATE_DIR)) {
+  while (yield take(actions.files.FILES.CREATE_DIR)) {
     try {
       const {files} = yield select()
       const name = join(files.tmpDir.root, files.tmpDir.name)
@@ -203,7 +207,7 @@ export function * watchLogs ({getNext}) {
   while (!cancel) {
     ({data, cancel} = yield race({
       data: call(getNext),
-      cancel: take(actions.LEAVE_LOGS_PAGE)
+      cancel: take(actions.pages.LOGS.LEAVE)
     }))
 
     if (data) {
@@ -218,27 +222,27 @@ export function * watchLogs ({getNext}) {
 
 export function * watchNavigate () {
   while (true) {
-    const {pathname} = yield take(actions.NAVIGATE)
+    const {pathname} = yield take(actions.router.NAVIGATE)
     yield history.push(pathname)
   }
 }
 
 export function * watchLoadHomePage () {
   while (true) {
-    yield take(actions.LOAD_HOME_PAGE)
+    yield take(actions.pages.HOME.LOAD)
 
     yield fork(loadId)
   }
 }
 
 export function * watchLoadPeersPage () {
-  while (yield take(actions.LOAD_PEERS_PAGE)) {
+  while (yield take(actions.pages.PEERS.LOAD)) {
     yield fork(watchPeers)
   }
 }
 
 export function * watchLoadFilesPage () {
-  while (yield take(actions.LOAD_FILES_PAGE)) {
+  while (yield take(actions.pages.FILES.LOAD)) {
     yield fork(watchFiles)
     yield fork(watchFilesRoot)
     yield fork(watchCreateDir)
@@ -246,7 +250,7 @@ export function * watchLoadFilesPage () {
 }
 
 export function * watchLoadLogsPage () {
-  while (yield take(actions.LOAD_LOGS_PAGE)) {
+  while (yield take(actions.pages.LOGS.LOAD)) {
     const source = yield call(api.createLogSource)
     yield fork(watchLogs, source)
   }

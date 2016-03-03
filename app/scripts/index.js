@@ -12,7 +12,6 @@ import '../styles/app.less'
 const store = configureStore()
 
 requestAnimationFrame(() => {
-  console.log('rendering', !!routes, !!Root)
   render(
     <Root
       store={store}

@@ -1,18 +1,17 @@
 import React, {PropTypes, Component} from 'react'
 import {Row, Col} from 'react-bootstrap'
-import debug from 'debug'
+import {connect} from 'react-redux'
 import {join} from 'path'
 
-import Tree from './tree'
-import ActionBar from './action-bar'
-import Breadcrumbs from './breadcrumbs'
+import {files} from '../actions'
 
-const log = debug('pages:files')
-log.error = debug('pages:files:error')
+import Tree from './../components/files/tree'
+import ActionBar from './../components/files/action-bar'
+import Breadcrumbs from './../components/files/breadcrumbs'
 
-export default class FilesExplorer extends Component {
+class FilesExplorer extends Component {
   static propTypes = {
-    files: PropTypes.array.isRequired,
+    list: PropTypes.array.isRequired,
     root: PropTypes.string.isRequired,
     tmpDir: PropTypes.shape({
       root: PropTypes.string.isRequired,
@@ -44,7 +43,7 @@ export default class FilesExplorer extends Component {
   };
 
   render () {
-    const {files, root, setRoot, tmpDir} = this.props
+    const {list, root, setRoot, tmpDir} = this.props
 
     return (
       <div className='files-explorer'>
@@ -53,7 +52,7 @@ export default class FilesExplorer extends Component {
             <Row>
               <Col sm={12}>
                 <Breadcrumbs
-                  files={files}
+                  files={list}
                   root={root}
                   setRoot={setRoot}
                 />
@@ -64,7 +63,7 @@ export default class FilesExplorer extends Component {
             <Row>
               <Col sm={12}>
                 <Tree
-                  files={files}
+                  files={list}
                   tmpDir={tmpDir}
                   onRowClick={this._onRowClick}
                   onTmpDirChange={this.props.setTmpDirName}
@@ -78,3 +77,17 @@ export default class FilesExplorer extends Component {
     )
   }
 }
+
+function mapStateToProps (state) {
+  const {files} = state
+
+  return files
+}
+
+export default connect(mapStateToProps, {
+  setRoot: files.filesSetRoot,
+  createTmpDir: files.filesCreateTmpDir,
+  setTmpDirName: files.filesSetTmpDirName,
+  createDir: files.filesCreateDir,
+  rmTmpDir: files.filesRmTmpDir
+})(FilesExplorer)

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {navigate, updateRouterState, resetErrorMessage} from '../actions'
+import {errors, router} from '../actions'
 import {Grid, Row, Col} from 'react-bootstrap'
 
 import Nav from '../views/nav'
@@ -96,7 +96,7 @@ function mapStateToProps (state) {
 }
 
 export default connect(mapStateToProps, {
-  navigate,
-  updateRouterState,
-  resetErrorMessage
+  navigate: router.navigate,
+  updateRouterState: router.updateRouterState,
+  resetErrorMessage: errors.resetErrorMessage
 })(App)

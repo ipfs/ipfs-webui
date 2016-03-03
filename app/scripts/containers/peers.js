@@ -2,25 +2,25 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Row, Col} from 'react-bootstrap'
 
-import {loadPeersPage, leavePeersPage} from '../actions'
+import {pages} from '../actions'
 import PeersViewer from '../components/peers-viewer'
 import World from '../components/world'
 
 class Peers extends Component {
   static propTypes = {
-    loadPeersPage: PropTypes.func.isRequired,
-    leavePeersPage: PropTypes.func.isRequired,
+    load: PropTypes.func.isRequired,
+    leave: PropTypes.func.isRequired,
     ids: PropTypes.array.isRequired,
     details: PropTypes.object.isRequired,
     locations: PropTypes.object.isRequired
   };
 
   componentWillMount () {
-    this.props.loadPeersPage()
+    this.props.load()
   }
 
   componentWillUnmount () {
-    this.props.leavePeersPage()
+    this.props.leave()
   }
 
   render () {
@@ -43,6 +43,5 @@ function mapStateToProps (state) {
 }
 
 export default connect(mapStateToProps, {
-  loadPeersPage,
-  leavePeersPage
+  ...pages.peers
 })(Peers)

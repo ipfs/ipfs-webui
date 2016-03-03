@@ -4,7 +4,7 @@ import * as ActionTypes from '../actions'
 import {LOG_SYSTEMS, LOG_MAX_SIZE} from './constants'
 
 export function id (state = {}, action) {
-  if (includes(ActionTypes.ID, action.type) &&
+  if (includes(ActionTypes.home.ID, action.type) &&
       action.response) {
     return Object.assign({}, state, action.response)
   }
@@ -19,7 +19,7 @@ const peersDefaultState = {
 }
 
 export function peers (state = peersDefaultState, action) {
-  if (includes(ActionTypes.PEER_IDS, action.type) &&
+  if (includes(ActionTypes.peers.PEER_IDS, action.type) &&
       action.response) {
     return {
       ...state,
@@ -27,7 +27,7 @@ export function peers (state = peersDefaultState, action) {
     }
   }
 
-  if (includes(ActionTypes.PEER_DETAILS, action.type) &&
+  if (includes(ActionTypes.peers.PEER_DETAILS, action.type) &&
       action.response) {
     return {
       ...state,
@@ -35,7 +35,7 @@ export function peers (state = peersDefaultState, action) {
     }
   }
 
-  if (includes(ActionTypes.PEER_LOCATIONS, action.type) &&
+  if (includes(ActionTypes.peers.PEER_LOCATIONS, action.type) &&
       action.response) {
     return {
       ...state,
@@ -53,7 +53,7 @@ const filesDefaultState = {
 }
 
 export function files (state = filesDefaultState, action) {
-  if (includes(ActionTypes.FILES_LIST, action.type) &&
+  if (includes(ActionTypes.files.FILES_LIST, action.type) &&
       action.response) {
     return {
       ...state,
@@ -61,14 +61,14 @@ export function files (state = filesDefaultState, action) {
     }
   }
 
-  if (ActionTypes.FILES.SET_ROOT === action.type) {
+  if (ActionTypes.files.FILES.SET_ROOT === action.type) {
     return {
       ...state,
       root: action.root
     }
   }
 
-  if (ActionTypes.FILES.CREATE_TMP_DIR === action.type) {
+  if (ActionTypes.files.FILES.CREATE_TMP_DIR === action.type) {
     return {
       ...state,
       tmpDir: {
@@ -78,14 +78,14 @@ export function files (state = filesDefaultState, action) {
     }
   }
 
-  if (ActionTypes.FILES.RM_TMP_DIR === action.type) {
+  if (ActionTypes.files.FILES.RM_TMP_DIR === action.type) {
     return {
       ...state,
       tmpDir: null
     }
   }
 
-  if (ActionTypes.FILES.SET_TMP_DIR_NAME === action.type) {
+  if (ActionTypes.files.FILES.SET_TMP_DIR_NAME === action.type) {
     return {
       ...state,
       tmpDir: {
@@ -101,12 +101,12 @@ export function files (state = filesDefaultState, action) {
 const logsDefaultState = {
   list: [],
   systems: LOG_SYSTEMS,
-  selectedSystem: 'dht',
+  selectedSystem: 'bitswap',
   tail: true
 }
 
 export function logs (state = logsDefaultState, action) {
-  if (action.type === ActionTypes.LOGS.RECEIVE &&
+  if (action.type === ActionTypes.logs.LOGS.RECEIVE &&
       action.response) {
     const {response} = action
 
@@ -123,14 +123,14 @@ export function logs (state = logsDefaultState, action) {
     }
   }
 
-  if (action.type === ActionTypes.LOGS.TOGGLE_TAIL) {
+  if (action.type === ActionTypes.logs.LOGS.TOGGLE_TAIL) {
     return {
       ...state,
       tail: !state.tail
     }
   }
 
-  if (action.type === ActionTypes.LOGS.SELECT_SYSTEM) {
+  if (action.type === ActionTypes.logs.LOGS.SELECT_SYSTEM) {
     return {
       ...state,
       selectedSystem: action.system
@@ -143,7 +143,7 @@ export function logs (state = logsDefaultState, action) {
 export function errorMessage (state = null, action) {
   const {type, error} = action
 
-  if (type === ActionTypes.RESET_ERROR_MESSAGE) {
+  if (type === ActionTypes.errors.RESET_ERROR_MESSAGE) {
     return null
   } else if (error) {
     return error
@@ -154,7 +154,7 @@ export function errorMessage (state = null, action) {
 
 export function router (state = {pathname: '/'}, action) {
   switch (action.type) {
-    case ActionTypes.UPDATE_ROUTER_STATE:
+    case ActionTypes.router.UPDATE_ROUTER_STATE:
       return action.state
     default:
       return state

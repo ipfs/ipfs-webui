@@ -3,16 +3,21 @@ import {Row, Col} from 'react-bootstrap'
 import {connect} from 'react-redux'
 
 import Welcome from '../components/welcome'
-import {loadHomePage} from '../actions'
+import {pages} from '../actions'
 
 class Home extends Component {
   static propTypes = {
-    loadHomePage: PropTypes.func.isRequired,
+    load: PropTypes.func.isRequired,
+    leave: PropTypes.func.isRequired,
     node: PropTypes.object.isRequired
   };
 
   componentWillMount () {
-    this.props.loadHomePage()
+    this.props.load()
+  }
+
+  componentWillUnmount () {
+    this.props.leave()
   }
 
   render () {
@@ -35,5 +40,5 @@ function mapStateToProps (state) {
 }
 
 export default connect(mapStateToProps, {
-  loadHomePage
+  ...pages.home
 })(Home)

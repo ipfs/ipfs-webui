@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {FlexTable, FlexColumn, AutoSizer} from 'react-virtualized'
 import {isEqual, startsWith, isPlainObject, reduce} from 'lodash-es'
 import JSONPretty from 'react-json-pretty'
+import {connect} from 'react-redux'
 
 const pad = (val) => {
   let res = val.toString()
@@ -44,7 +45,7 @@ const detailsCellRenderer = (cellData, cellDataKey, rowData, rowIndex, columnDat
   return <JSONPretty json={cellData} />
 }
 
-export default class LogViewer extends Component {
+class LogViewer extends Component {
   static propTypes = {
     list: PropTypes.array,
     tail: PropTypes.bool,
@@ -124,6 +125,7 @@ export default class LogViewer extends Component {
           cellDataGetter={detailsCellGetter}
           cellRenderer={detailsCellRenderer}
           dataKey='system'
+          width={600}
         />
       </FlexTable>
     )
@@ -145,3 +147,13 @@ export default class LogViewer extends Component {
     )
   }
 }
+
+function mapStateToProps ({logs}) {
+  return {
+    list: logs.list,
+    tail: logs.tail,
+    selectedSystem: logs.selectedSystem
+  }
+}
+
+export default connect(mapStateToProps)(LogViewer)
