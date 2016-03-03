@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import _ from 'lodash'
+import {chain, isEmpty, compact} from 'lodash-es'
 
 import Icon from '../../views/icon'
 
@@ -39,7 +39,7 @@ export default class Breadcrumbs extends Component {
   render () {
     const {root} = this.props
     const parts = {}
-    const partsList = _.compact(root.split('/'))
+    const partsList = compact(root.split('/'))
     partsList.map((part, i) => {
       if (i === partsList.length - 1) {
         parts[part] = null
@@ -48,7 +48,7 @@ export default class Breadcrumbs extends Component {
       }
     })
 
-    const breadcrumbs = _(parts)
+    const breadcrumbs = chain(parts)
             .map((root, part) => {
               if (!root) {
                 return [
@@ -69,7 +69,7 @@ export default class Breadcrumbs extends Component {
             .flatten()
             .value()
 
-    if (_.isEmpty(partsList)) {
+    if (isEmpty(partsList)) {
       breadcrumbs.unshift(
         <span key='-1'>IPFS</span>
       )

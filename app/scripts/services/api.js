@@ -1,6 +1,6 @@
 import API from 'ipfs-api'
 import {CANCEL} from 'redux-saga'
-import {keyBy, compact, sortBy} from 'lodash'
+import {keyBy, compact, sortBy} from 'lodash-es'
 import {lookup} from 'ipfs-geoip'
 import {join} from 'path'
 

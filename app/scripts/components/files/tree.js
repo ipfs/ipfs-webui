@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {Table} from 'react-bootstrap'
-import {isEmpty} from 'lodash'
+import {isEmpty} from 'lodash-es'
 
 import RowInput from './tree/row-input'
 import Row from './tree/row'

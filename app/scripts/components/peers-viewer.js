@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {FlexTable, FlexColumn, AutoSizer} from 'react-virtualized'
-import {isEqual} from 'lodash'
+import {isEqual} from 'lodash-es'
 import {OverlayTrigger, Tooltip} from 'react-bootstrap'
 import CopyToClipboard from 'react-copy-to-clipboard'
 

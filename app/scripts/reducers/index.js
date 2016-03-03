@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux'
-import {includes} from 'lodash'
+import {includes} from 'lodash-es'
 import * as ActionTypes from '../actions'
 import {LOG_SYSTEMS, LOG_MAX_SIZE} from './constants'
 

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import classNames from 'classnames'
-import {isEqual} from 'lodash'
+import {isEqual} from 'lodash-es'
 
 export default class Flag extends Component {
   static propTypes = {

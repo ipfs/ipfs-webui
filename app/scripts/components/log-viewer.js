@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {FlexTable, FlexColumn, AutoSizer} from 'react-virtualized'
-import {isEqual, startsWith, isPlainObject, reduce} from 'lodash'
+import {isEqual, startsWith, isPlainObject, reduce} from 'lodash-es'
 import JSONPretty from 'react-json-pretty'
 
 const pad = (val) => {

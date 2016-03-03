@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-import {map, isEqual} from 'lodash'
+import {map} from 'lodash-es'
 import WorldMap from './world-map'
 
 export default class World extends Component {
@@ -12,10 +12,6 @@ export default class World extends Component {
     peersCount: 0,
     locations: {}
   };
-
-  shouldComponentUpdate (nextProps) {
-    return !isEqual(nextProps, this.props)
-  }
 
   render () {
     const coordinates = map(this.props.locations, ({longitude, latitude}) => {

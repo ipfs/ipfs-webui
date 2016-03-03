@@ -19,7 +19,7 @@ module.exports = function makeConfig (isDev) {
   // Handle js-ipfs-api
   config.module.loaders.push({
     test: /\.js$/,
-    include: /node_modules\/(hoek|qs|wreck|boom|ipfs-api|ipfs-geoip)/,
+    include: /node_modules\/(hoek|qs|wreck|boom|ipfs-api|ipfs-geoip|lodash-es)/,
     loader: 'babel-loader'
   })
 
@@ -38,9 +38,6 @@ module.exports = function makeConfig (isDev) {
   }
 
   config.resolve = {
-    modulesDirectories: [
-      'node_modules'
-    ],
     alias: {
       http: 'stream-http',
       https: 'https-browserify',

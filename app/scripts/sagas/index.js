@@ -6,7 +6,7 @@ import {
   race,
   select
 } from 'redux-saga/effects'
-import {reduce, find} from 'lodash'
+import {reduce, find} from 'lodash-es'
 import {join} from 'path'
 
 import {history, api} from '../services'
