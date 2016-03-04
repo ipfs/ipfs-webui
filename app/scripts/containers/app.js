@@ -90,7 +90,7 @@ class App extends Component {
 
 function mapStateToProps (state) {
   return {
-    errorMessage: state.errorMessage,
+    errorMessage: state.errors,
     inputValue: state.router.pathname.substring(1)
   }
 }
