@@ -24,7 +24,7 @@
   "devDependencies": {
     "autoprefixer": "^6.3.1",
     "babel": "^6.3.13",
-    "babel-core": "^6.4.0",
+    "babel-core": "^6.6.5",
     "babel-eslint": "^5.0.0-beta6",
     "babel-loader": "^6.2.1",
     "babel-plugin-transform-react-display-name": "^6.3.13",
