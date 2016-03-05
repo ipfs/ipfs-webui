@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {errors, router} from '../actions'
 import {Grid, Row, Col} from 'react-bootstrap'
+import ReduxToastr, {toastr} from 'react-redux-toastr'
 
+import {errors, router} from '../actions'
 import Nav from '../views/nav'
 
 class App extends Component {
@@ -23,11 +24,6 @@ class App extends Component {
     this.props.navigate(`/${nextValue}`)
   };
 
-  handleDismissClick = (event) => {
-    this.props.resetErrorMessage()
-    event.preventDefault()
-  };
-
   componentWillMount () {
     const {params, location: {pathname}} = this.props
 
@@ -38,7 +34,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const {params, location: {pathname}} = this.props
+    const {params, location: {pathname}, errorMessage} = this.props
 
     if (pathname !== nextProps.location.pathname) {
       this.props.updateRouterState({
@@ -46,25 +42,15 @@ class App extends Component {
         params
       })
     }
-  }
 
-  renderErrorMessage () {
-    const {errorMessage} = this.props
-
-    if (!errorMessage) return null
-
-    return (
-      <p style={{backgroundColor: '#e99'}}>
-        <b>{errorMessage}</b>
-        {' '}
-        <a
-          href='#'
-          onClick={this.handleDismissClick}
-        >
-          Dismiss
-        </a>
-      </p>
-    )
+    if (nextProps.errorMessage &&
+        errorMessage !== nextProps.errorMessage) {
+      toastr.error(nextProps.errorMessage, {
+        onHideComplete: () => {
+          this.props.resetErrorMessage()
+        }
+      })
+    }
   }
 
   render () {
@@ -72,7 +58,10 @@ class App extends Component {
 
     return (
       <Grid fluid>
-        {this.renderErrorMessage()}
+        <ReduxToastr
+          timeOut={5000}
+          newestOnTop={false}
+          position='top-right'/>
         <Row>
           <div className='navbar-collapse collapse in'>
             <Col sm={2} className='sidebar'>

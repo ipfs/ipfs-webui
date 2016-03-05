@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "d3": "^3.5.16",
+    "fbjs": "^0.3.2",
     "flag-icon-css": "^1.0.0",
     "font-awesome": "^4.5.0",
     "i18next": "^2.2.0",
@@ -26,6 +27,7 @@
     "react-faux-dom": "^2.2.0",
     "react-json-pretty": "^1.2.0",
     "react-redux": "^4.4.0",
+    "react-redux-toastr": "^2.1.0",
     "react-router": "^2.0.0",
     "react-select": "^1.0.0-beta9",
     "react-virtualized": "^5.2.1",

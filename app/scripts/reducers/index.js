@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux'
+import {reducer as toastr} from 'react-redux-toastr'
 
 import id from './id'
 import peers from './peers'
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   files,
   logs,
   errors,
-  router
+  router,
+  toastr
 })
 
 export default rootReducer
