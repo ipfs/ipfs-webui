@@ -12,7 +12,10 @@ import {
   watchLogs,
   watchLoadHomePage,
   watchLoadLogsPage,
-  watchNavigate
+  watchNavigate,
+  watchSaveConfig,
+  loadConfig,
+  saveConfig
 } from '../../app/scripts/sagas'
 import {api, history} from '../../app/scripts/services'
 import {delay} from '../../app/scripts/utils/promise'
@@ -272,5 +275,49 @@ describe('sagas', () => {
 
     next = generator.next({pathname: '/hello'})
     expect(next.value).to.be.eql(history.push('/hello'))
+  })
+
+  describe('config', () => {
+    const configActions = actions.config
+
+    it('should loadConfig', () => {
+      const generator = loadConfig()
+      const ipfsConfig = call(api.getConfig)
+      expect(generator.next().value).to.deep.eql(ipfsConfig)
+
+      expect(generator.next().value.PUT.type)
+      .to.eql(configActions.CONFIG.INITIALIZE_CONFIG)
+
+      expect(generator.next().value)
+      .to.deep.eql(fork(watchSaveConfig))
+    })
+
+    it('should saveConfig', () => {
+      const generator = saveConfig()
+
+      expect(generator.next().value)
+      .to.deep.equal(put(configActions.config.saving(true)))
+
+      expect(generator.next().value)
+      .to.deep.equal(select())
+
+      const state = {
+        config: {
+          draft: '{ "draft": "draft" }'
+        }
+      }
+      expect(generator.next(state).value)
+      .to.deep.equal(call(api.saveConfig, state.config.draft))
+
+      expect(generator.next().value)
+      .to.deep
+      .equal(put(configActions.config.save(JSON.parse(state.config.draft))))
+
+      expect(generator.next().value)
+      .to.deep.equal(put(configActions.config.markSaved(true)))
+
+      expect(generator.next().value)
+      .to.deep.equal(put(configActions.config.saving(false)))
+    })
   })
 })

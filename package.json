@@ -29,6 +29,7 @@
     "react-redux": "^4.4.0",
     "react-redux-toastr": "^2.1.0",
     "react-router": "^2.0.0",
+    "react-textarea-autosize": "3.3.0",
     "react-select": "^1.0.0-beta9",
     "react-virtualized": "^5.2.1",
     "redux": "^3.3.1",

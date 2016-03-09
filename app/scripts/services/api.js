@@ -168,3 +168,12 @@ export const files = {
     return api.files.mkdir(name)
   }
 }
+
+export const getConfig = (api = localApi) => {
+  return api.config.show()
+  .then((res) => JSON.parse(res.toString()))
+}
+
+export const saveConfig = (config, api = localApi) => {
+  return api.config.replace(new Buffer(config))
+}
