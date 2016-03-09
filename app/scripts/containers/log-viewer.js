@@ -37,8 +37,12 @@ const eventCellRenderer = (data, cellDataKey, rowData, rowIndex, columnData) => 
 }
 
 const detailsCellGetter = (dataKey, rowData, columnData) => {
-  const {time, system, event, ...details} = rowData
-  return details
+  return {
+    ...rowData,
+    time: undefined,
+    system: undefined,
+    event: undefined
+  }
 }
 
 const detailsCellRenderer = (cellData, cellDataKey, rowData, rowIndex, columnData) => {
@@ -72,7 +76,13 @@ class LogViewer extends Component {
   };
 
   _getRowHeight = (list, index) => {
-    const {time, system, event, ...details} = this._getDatum(list, index)
+    const details = {
+      ...this._getDatum(list, index),
+      time: undefined,
+      system: undefined,
+      event: undefined
+    }
+
     const count = reduce(details, (sum, value, key) => {
       if (isPlainObject(value)) {
         return sum + Object.keys(value).length
