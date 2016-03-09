@@ -6,6 +6,8 @@ import {
   race,
   select
 } from 'redux-saga/effects'
+import { takeLatest } from 'redux-saga'
+
 import {reduce, find} from 'lodash-es'
 import {join} from 'path'
 
@@ -26,7 +28,9 @@ const {
     filesList,
     filesMkdir,
     filesRmTmpDir
-  }
+  },
+  config: {config},
+  errors
 } = actions
 
 // ---------- Subroutines
@@ -126,6 +130,43 @@ export function * fetchPeerIds () {
   } catch (err) {
     yield put(peerIds.failure(err.message))
   }
+}
+
+export function * loadConfig () {
+  try {
+    const ipfsConfig = yield call(api.getConfig)
+
+    yield put(config.initializeConfig(ipfsConfig))
+    yield fork(watchSaveConfig)
+  } catch (err) {
+    yield put(config.failure(err.message))
+  }
+}
+
+export function * leaveConfig () {
+  yield put(errors.resetErrorMessage())
+  yield put(config.markSaved(false))
+}
+
+export function * saveConfigDraft (action) {
+  yield put(config.saveDraft(action.config))
+}
+
+export function * saveConfig () {
+  yield put(config.saving(true))
+  const state = yield select()
+  const configStr = state.config.draft
+
+  try {
+    yield call(api.saveConfig, configStr)
+
+    yield put(config.save(JSON.parse(configStr)))
+    yield put(config.markSaved(true))
+  } catch (err) {
+    yield put(config.failure(err.message))
+  }
+
+  yield put(config.saving(false))
 }
 
 export function * watchPeers () {
@@ -256,14 +297,32 @@ export function * watchLoadLogsPage () {
   }
 }
 
+export function * watchLoadConfigPage () {
+  yield * takeLatest(actions.pages.CONFIG.LOAD, loadConfig)
+}
+
+export function * watchLeaveConfigPage () {
+  yield * takeLatest(actions.pages.CONFIG.LEAVE, leaveConfig)
+}
+
 export function * watchLoadPages () {
   yield fork(watchLoadHomePage)
   yield fork(watchLoadPeersPage)
   yield fork(watchLoadFilesPage)
   yield fork(watchLoadLogsPage)
+  yield fork(watchLoadConfigPage)
+}
+
+export function * watchLeavePages () {
+  yield fork(watchLeaveConfigPage)
+}
+
+export function * watchSaveConfig () {
+  yield * takeLatest(actions.config.CONFIG.SAVE_CONFIG_CLICK, saveConfig)
 }
 
 export default function * root () {
   yield fork(watchNavigate)
   yield fork(watchLoadPages)
+  yield fork(watchLeavePages)
 }

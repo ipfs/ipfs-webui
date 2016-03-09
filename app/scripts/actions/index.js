@@ -18,6 +18,7 @@ import * as home from './home'
 import * as peers from './peers'
 import * as files from './files'
 import * as logs from './logs'
+import * as config from './config'
 
 export {
   pages,
@@ -27,5 +28,6 @@ export {
   home,
   peers,
   files,
-  logs
+  logs,
+  config
 }
