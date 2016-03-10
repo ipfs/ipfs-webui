@@ -17,7 +17,7 @@ export default (
 
     <Route path='peers' component={PeersPage} />
     <Route path='files' component={FilesPage} />
-    <Route path='files/preview/:path' component={FilesPreviewPage}/>
+    <Route path='files/preview' component={FilesPreviewPage}/>
 
     <Route path='config' component={ConfigPage} />
     <Route path='logs' component={LogPage} />

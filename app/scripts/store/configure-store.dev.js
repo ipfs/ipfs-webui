@@ -1,4 +1,6 @@
 import {createStore, applyMiddleware, compose} from 'redux'
+import {browserHistory} from 'react-router'
+import {routerMiddleware} from 'react-router-redux'
 import createLogger from 'redux-logger'
 import saga from 'redux-saga'
 
@@ -6,7 +8,7 @@ import rootReducer from '../reducers'
 import rootSaga from '../sagas'
 
 const finalCreateStore = compose(
-  applyMiddleware(saga(rootSaga), createLogger()),
+  applyMiddleware(saga(rootSaga), routerMiddleware(browserHistory), createLogger()),
   window.devToolsExtension ? window.devToolsExtension() : (f) => f
 )(createStore)
 

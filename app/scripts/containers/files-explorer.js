@@ -32,7 +32,7 @@ class FilesExplorer extends Component {
     deselect: PropTypes.func.isRequired,
     deselectAll: PropTypes.func.isRequired,
     createFiles: PropTypes.func.isRequired,
-    navigate: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired
   };
 
   _onRowClick = (file, shiftKey) => {
@@ -56,13 +56,18 @@ class FilesExplorer extends Component {
   };
 
   _onRowDoubleClick = (file) => {
-    const {root, deselectAll, setRoot, navigate} = this.props
+    const {root, deselectAll, setRoot, push} = this.props
     const filePath = join(root, file.Name)
     deselectAll()
     if (file.Type === 'directory') {
       setRoot(filePath)
     } else {
-      navigate('/files/preview/' + encodeURIComponent(filePath))
+      push({
+        pathname: '/files/preview',
+        query: {
+          name: filePath
+        }
+      })
     }
   };
 
@@ -149,5 +154,5 @@ export default connect(mapStateToProps, {
   deselect: files.filesDeselect,
   deselectAll: files.filesDeselectAll,
   createFiles: files.filesCreateFiles,
-  navigate: router.navigate
+  push: router.push
 })(FilesExplorer)

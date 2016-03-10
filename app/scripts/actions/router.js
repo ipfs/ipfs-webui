@@ -1,7 +1,3 @@
-import {action} from './utils'
+import {push, replace, go, goBack, goForward} from 'react-router-redux'
 
-export const UPDATE_ROUTER_STATE = 'UPDATE_ROUTER_STATE'
-export const NAVIGATE = 'NAVIGATE'
-
-export const updateRouterState = (state) => action(UPDATE_ROUTER_STATE, {state})
-export const navigate = (pathname) => action(NAVIGATE, {pathname})
+export {push, replace, go, goBack, goForward}

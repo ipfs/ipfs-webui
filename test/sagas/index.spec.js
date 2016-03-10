@@ -17,7 +17,7 @@ import {
   loadConfig,
   saveConfig
 } from '../../app/scripts/sagas'
-import {api, history} from '../../app/scripts/services'
+import {api} from '../../app/scripts/services'
 import {delay} from '../../app/scripts/utils/promise'
 
 describe('sagas', () => {

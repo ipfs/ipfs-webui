@@ -11,7 +11,7 @@ import { takeLatest } from 'redux-saga'
 import {reduce, find} from 'lodash-es'
 import {join} from 'path'
 
-import {history, api} from '../services'
+import {api} from '../services'
 import * as actions from '../actions'
 import {delay} from '../utils/promise'
 
@@ -31,7 +31,7 @@ const {
     filesRmTmpDir,
     filesDeselectAll,
     createFiles,
-    readFile
+    readFile: readFileAction
   },
   config: {config},
   errors
@@ -52,6 +52,19 @@ export function * fetchId () {
 
 export function * loadId () {
   yield call(fetchId)
+}
+
+export function * readFile () {
+  try {
+    const {routing} = yield select()
+    yield put(readFileAction.request())
+    const {name} = routing.locationBeforeTransitions.query
+    const result = yield call(api.files.read, name)
+
+    yield put(readFileAction.success(result))
+  } catch (err) {
+    yield put(readFileAction.failure(err.message))
+  }
 }
 
 export function * fetchPeerLocations (ids) {
@@ -278,20 +291,6 @@ export function * watchRmDir () {
   }
 }
 
-export function * watchReadFile () {
-  while (true) {
-    try {
-      const {file} = yield take(actions.files.FILES.READ_FILE)
-      yield put(readFile.request())
-      const result = yield call(api.files.read, file)
-
-      yield put(readFile.success(result))
-    } catch (err) {
-      yield put(readFile.failure(err.message))
-    }
-  }
-}
-
 export function * watchLogs ({getNext}) {
   let cancel
   let data
@@ -311,13 +310,6 @@ export function * watchLogs ({getNext}) {
 }
 
 // ---------- Watchers
-
-export function * watchNavigate () {
-  while (true) {
-    const {pathname} = yield take(actions.router.NAVIGATE)
-    yield history.push(pathname)
-  }
-}
 
 export function * watchLoadHomePage () {
   while (true) {
@@ -345,7 +337,7 @@ export function * watchLoadFilesPage () {
 
 export function * watchLoadFilesPreviewPage () {
   while (yield take(actions.pages.PREVIEW.LOAD)) {
-    yield fork(watchReadFile)
+    yield fork(readFile)
   }
 }
 
@@ -382,7 +374,6 @@ export function * watchSaveConfig () {
 }
 
 export default function * root () {
-  yield fork(watchNavigate)
   yield fork(watchLoadPages)
   yield fork(watchLeavePages)
 }

@@ -1,7 +1,6 @@
 // Broken because of https://phabricator.babeljs.io/T2877
 // export * from './pages'
 // export * from './errors'
-// export * from './router'
 
 // export * from './home'
 // export * from './peers'

@@ -3,13 +3,7 @@ import {last} from 'lodash-es'
 import {connect} from 'react-redux'
 import {Row, Col} from 'react-bootstrap'
 
-import {pages, files} from '../actions'
-
-function parseFile (pathname) {
-  // /files/preview/%2Fmy%2Ffile.jpg
-  const encoded = last(pathname.split('/'), 2)
-  return decodeURIComponent(encoded)
-}
+import {pages} from '../actions'
 
 function getExtension (name) {
   name = name.toLowerCase()
@@ -21,7 +15,7 @@ function getExtension (name) {
 class FilesPreview extends Component {
   static propTypes = {
     // state
-    pathname: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     preview: PropTypes.shape({
       name: PropTypes.string.isRequired,
       content: PropTypes.instanceOf(Buffer).isRequired
@@ -33,7 +27,6 @@ class FilesPreview extends Component {
 
   componentWillMount () {
     this.props.load()
-    this.props.readFile(parseFile(this.props.pathname))
   }
 
   _preview () {
@@ -52,7 +45,7 @@ class FilesPreview extends Component {
   }
 
   render () {
-    const file = parseFile(this.props.pathname)
+    const file = this.props.name
     const preview = this._preview()
     return (
       <Row>
@@ -65,14 +58,13 @@ class FilesPreview extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, ownProps) {
   return {
-    pathname: state.router.pathname,
+    name: ownProps.location.query.name,
     preview: state.files.preview
   }
 }
 
 export default connect(mapStateToProps, {
-  readFile: files.filesReadFile,
   load: pages.preview.load
 })(FilesPreview)

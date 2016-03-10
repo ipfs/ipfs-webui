@@ -5,16 +5,13 @@ import ReduxToastr, {toastr} from 'react-redux-toastr'
 import {DragDropContext} from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 
-import {errors, router} from '../actions'
+import {errors} from '../actions'
 import Nav from '../views/nav'
 
 class App extends Component {
   static propTypes = {
     // Injected by React Redux
     errorMessage: PropTypes.string,
-    inputValue: PropTypes.string.isRequired,
-    navigate: PropTypes.func.isRequired,
-    updateRouterState: PropTypes.func.isRequired,
     resetErrorMessage: PropTypes.func.isRequired,
     // Injected by React Router
     children: PropTypes.node,
@@ -22,31 +19,10 @@ class App extends Component {
     location: PropTypes.object
   };
 
-  handleChange = (nextValue) => {
-    this.props.navigate(`/${nextValue}`)
-  };
-
-  componentWillMount () {
-    const {params, location: {pathname}} = this.props
-
-    this.props.updateRouterState({
-      pathname,
-      params
-    })
-  }
-
   componentWillReceiveProps (nextProps) {
-    const {params, location: {pathname}, errorMessage} = this.props
+    const {errorMessage} = this.props
 
-    if (pathname !== nextProps.location.pathname) {
-      this.props.updateRouterState({
-        pathname,
-        params
-      })
-    }
-
-    if (nextProps.errorMessage &&
-        errorMessage !== nextProps.errorMessage) {
+    if (nextProps.errorMessage && errorMessage !== nextProps.errorMessage) {
       toastr.error(nextProps.errorMessage, {
         onHideComplete: () => {
           this.props.resetErrorMessage()
@@ -81,13 +57,10 @@ class App extends Component {
 
 function mapStateToProps (state) {
   return {
-    errorMessage: state.errors,
-    inputValue: state.router.pathname.substring(1)
+    errorMessage: state.errors
   }
 }
 
 export default DragDropContext(HTML5Backend)(connect(mapStateToProps, {
-  navigate: router.navigate,
-  updateRouterState: router.updateRouterState,
   resetErrorMessage: errors.resetErrorMessage
 })(App))

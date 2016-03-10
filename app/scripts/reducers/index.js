@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux'
 import {reducer as toastr} from 'react-redux-toastr'
+import {routerReducer} from 'react-router-redux'
 
 import id from './id'
 import peers from './peers'
@@ -7,7 +8,6 @@ import files from './files'
 import config from './config'
 import logs from './logs'
 import errors from './errors'
-import router from './router'
 
 const rootReducer = combineReducers({
   id,
@@ -16,8 +16,8 @@ const rootReducer = combineReducers({
   logs,
   errors,
   config,
-  router,
-  toastr
+  toastr,
+  routing: routerReducer
 })
 
 export default rootReducer
