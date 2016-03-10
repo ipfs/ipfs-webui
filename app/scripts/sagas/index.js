@@ -29,7 +29,8 @@ const {
     filesMkdir,
     filesRmDir,
     filesRmTmpDir,
-    filesDeselectAll
+    filesDeselectAll,
+    createFiles
   },
   config: {config},
   errors
@@ -243,6 +244,22 @@ export function * watchCreateDir () {
   }
 }
 
+export function * watchCreateFiles () {
+  createFiles.request()
+
+  while (true) {
+    try {
+      const {root, files} = yield take(actions.files.FILES.CREATE_FILES)
+      yield call(api.files.createFiles, root, files)
+
+      yield fork(fetchFiles)
+      yield put(createFiles.success())
+    } catch (err) {
+      yield put(createFiles.failure(err.message))
+    }
+  }
+}
+
 export function * watchRmDir () {
   filesRmDir.request()
 
@@ -310,6 +327,7 @@ export function * watchLoadFilesPage () {
     yield fork(watchFilesRoot)
     yield fork(watchCreateDir)
     yield fork(watchRmDir)
+    yield fork(watchCreateFiles)
   }
 }
 

@@ -169,6 +169,13 @@ export const files = {
   },
   rmdir (name, api = localApi) {
     return api.files.rm(name, {recursive: true})
+  },
+  createFiles (root, files, api = localApi) {
+    // root is the directory we want to store the files in
+    return Promise.all(files.map((file) => {
+      const target = join(root, file.name)
+      return api.files.write(target, file.content, {create: true})
+    }))
   }
 }
 

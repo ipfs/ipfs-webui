@@ -1,12 +1,43 @@
 import React, {PropTypes, Component} from 'react'
 import {Table} from 'react-bootstrap'
-import {isEmpty, includes} from 'lodash-es'
+import {isEmpty, includes, map} from 'lodash-es'
 import {join} from 'path'
+import {DropTarget} from 'react-dnd'
+import {NativeTypes} from 'react-dnd-html5-backend'
+import classnames from 'classnames'
 
 import RowInput from './tree/row-input'
 import Row from './tree/row'
 
-export default class Tree extends Component {
+function readAsBuffer (file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      resolve({
+        content: new Buffer(reader.result),
+        name: file.name
+      })
+    }
+    reader.onerror = (event) => {
+      reject(reader.error)
+    }
+
+    reader.readAsArrayBuffer(file)
+  })
+}
+
+const fileTarget = {
+  drop (props, monitor) {
+    console.log(monitor.getItem())
+    Promise
+      .all(map(monitor.getItem().files, readAsBuffer))
+      .then((files) => {
+        props.onCreateFiles(files)
+      })
+  }
+}
+
+class Tree extends Component {
   static propTypes = {
     files: PropTypes.array,
     selectedFiles: PropTypes.array,
@@ -19,7 +50,12 @@ export default class Tree extends Component {
     onRowDoubleClick: PropTypes.func,
     onTmpDirChange: PropTypes.func.isRequired,
     onCreateDir: PropTypes.func.isRequired,
-    onCancelCreateDir: PropTypes.func.isRequired
+    onCancelCreateDir: PropTypes.func.isRequired,
+    onCreateFiles: PropTypes.func.isRequired,
+    // react-dnd
+    connectDropTarget: PropTypes.func.isRequired,
+    isOver: PropTypes.bool.isRequired,
+    canDrop: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -70,18 +106,37 @@ export default class Tree extends Component {
         onDoubleClick={this.props.onRowDoubleClick}/>
     )).concat([tmpDir])
 
-    return (
-      <Table responsive className='files-tree'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Size</th>
-          </tr>
-        </thead>
-        <tbody>
-          {files}
-        </tbody>
-      </Table>
+    const {isOver, canDrop} = this.props
+    const className = classnames('files-drop', {isOver, canDrop})
+
+    return this.props.connectDropTarget(
+      <div>
+        <div className={className}>
+          {!isOver && canDrop && 'Drag your files here'}
+          {isOver && 'Drop your files'}
+        </div>
+        <Table responsive className='files-tree'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            {files}
+          </tbody>
+        </Table>
+      </div>
     )
   }
 }
+
+export default DropTarget(
+  NativeTypes.FILE,
+  fileTarget,
+  (connect, monitor) => ({
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    canDrop: monitor.canDrop()
+  })
+)(Tree)

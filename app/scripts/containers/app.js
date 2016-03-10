@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Grid, Row, Col} from 'react-bootstrap'
 import ReduxToastr, {toastr} from 'react-redux-toastr'
+import {DragDropContext} from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 
 import {errors, router} from '../actions'
 import Nav from '../views/nav'
@@ -84,8 +86,8 @@ function mapStateToProps (state) {
   }
 }
 
-export default connect(mapStateToProps, {
+export default DragDropContext(HTML5Backend)(connect(mapStateToProps, {
   navigate: router.navigate,
   updateRouterState: router.updateRouterState,
   resetErrorMessage: errors.resetErrorMessage
-})(App)
+})(App))

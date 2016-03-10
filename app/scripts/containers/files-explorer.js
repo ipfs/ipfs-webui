@@ -30,7 +30,8 @@ class FilesExplorer extends Component {
     rmTmpDir: PropTypes.func.isRequired,
     select: PropTypes.func.isRequired,
     deselect: PropTypes.func.isRequired,
-    deselectAll: PropTypes.func.isRequired
+    deselectAll: PropTypes.func.isRequired,
+    createFiles: PropTypes.func.isRequired
   };
 
   _onRowClick = (file, shiftKey) => {
@@ -66,6 +67,10 @@ class FilesExplorer extends Component {
 
   _onCreateDir = (event) => {
     this.props.createTmpDir(this.props.root)
+  };
+
+  _onCreateFiles = (files) => {
+    this.props.createFiles(this.props.root, files)
   };
 
   _onCancelCreateDir = (event) => {
@@ -115,7 +120,8 @@ class FilesExplorer extends Component {
                   onRowDoubleClick={this._onRowDoubleClick}
                   onTmpDirChange={this.props.setTmpDirName}
                   onCreateDir={this.props.createDir}
-                  onCancelCreateDir={this._onCancelCreateDir}/>
+                  onCancelCreateDir={this._onCancelCreateDir}
+                  onCreateFiles={this._onCreateFiles}/>
               </Col>
             </Row>
           </Col>
@@ -140,5 +146,6 @@ export default connect(mapStateToProps, {
   rmTmpDir: files.filesRmTmpDir,
   select: files.filesSelect,
   deselect: files.filesDeselect,
-  deselectAll: files.filesDeselectAll
+  deselectAll: files.filesDeselectAll,
+  createFiles: files.filesCreateFiles
 })(FilesExplorer)

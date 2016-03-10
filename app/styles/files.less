@@ -1,6 +1,24 @@
 .files-explorer {
   user-select: none;
 
+  .files-drop {
+    &.canDrop,
+    &.isOver {
+      position: absolute;
+      z-index: 10;
+      height: 100%;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      border: 5px dashed @gray-light;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      min-height: 400px;
+    }
+  }
+
   .files-tree {
     thead {
       font-size: 13px;
