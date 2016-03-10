@@ -166,6 +166,9 @@ export const files = {
   },
   mkdir (name, api = localApi) {
     return api.files.mkdir(name)
+  },
+  rmdir (name, api = localApi) {
+    return api.files.rm(name, {recursive: true})
   }
 }
 

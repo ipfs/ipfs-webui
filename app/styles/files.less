@@ -1,4 +1,6 @@
 .files-explorer {
+  user-select: none;
+
   .files-tree {
     thead {
       font-size: 13px;
@@ -13,7 +15,7 @@
       }
 
       &.selected {
-        background-color: #F6FBFE;
+        background-color: #E7F4FF;
       }
 
       td {
@@ -31,8 +33,27 @@
   }
 
   .action-bar {
-    a:hover {
-      cursor: pointer;
+    display: flex;
+    flex: 1 0 auto;
+
+    a {
+      font-size: 13px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .icon {
+        padding-right: 5px;
+      }
+    }
+
+    .action-bar-general-actions {
+      flex: 1;
+    }
+
+    .action-bar-file-actions {
+      flex: 0 1 auto;
     }
   }
 

@@ -27,7 +27,9 @@ const {
   files: {
     filesList,
     filesMkdir,
-    filesRmTmpDir
+    filesRmDir,
+    filesRmTmpDir,
+    filesDeselectAll
   },
   config: {config},
   errors
@@ -241,6 +243,26 @@ export function * watchCreateDir () {
   }
 }
 
+export function * watchRmDir () {
+  filesRmDir.request()
+
+  while (yield take(actions.files.FILES.REMOVE_DIR)) {
+    try {
+      const {files} = yield select()
+
+      for (let file of files.selected) {
+        yield call(api.files.rmdir, file)
+      }
+
+      yield fork(fetchFiles)
+      yield put(filesRmDir.success())
+      yield put(filesDeselectAll())
+    } catch (err) {
+      yield put(filesRmDir.failure(err.message))
+    }
+  }
+}
+
 export function * watchLogs ({getNext}) {
   let cancel
   let data
@@ -287,6 +309,7 @@ export function * watchLoadFilesPage () {
     yield fork(watchFiles)
     yield fork(watchFilesRoot)
     yield fork(watchCreateDir)
+    yield fork(watchRmDir)
   }
 }
 

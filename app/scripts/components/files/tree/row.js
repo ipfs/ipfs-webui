@@ -22,10 +22,12 @@ export default class Row extends Component {
   };
 
   _onClick = (event) => {
-    this.props.onClick(this.props.file)
+    event.preventDefault()
+    this.props.onClick(this.props.file, event.shiftKey)
   };
 
   _onDoubleClick = (event) => {
+    event.preventDefault()
     this.props.onDoubleClick(this.props.file)
   };
 

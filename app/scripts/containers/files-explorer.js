@@ -3,6 +3,7 @@ import {Row, Col} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import {join} from 'path'
 import {includes} from 'lodash-es'
+import {toastr} from 'react-redux-toastr'
 
 import {files} from '../actions'
 
@@ -25,19 +26,29 @@ class FilesExplorer extends Component {
     createTmpDir: PropTypes.func.isRequired,
     setTmpDirName: PropTypes.func.isRequired,
     createDir: PropTypes.func.isRequired,
+    removeDir: PropTypes.func.isRequired,
     rmTmpDir: PropTypes.func.isRequired,
     select: PropTypes.func.isRequired,
     deselect: PropTypes.func.isRequired,
     deselectAll: PropTypes.func.isRequired
   };
 
-  _onRowClick = (file) => {
-    const {root, selected, select, deselect} = this.props
+  _onRowClick = (file, shiftKey) => {
+    const {
+      root,
+      selected,
+      select,
+      deselect,
+      deselectAll
+    } = this.props
     const filePath = join(root, file.Name)
 
-    if (includes(selected, filePath)) {
+    if (shiftKey) {
+      select(filePath)
+    } else if (includes(selected, filePath)) {
       deselect(filePath)
     } else {
+      deselectAll()
       select(filePath)
     }
   };
@@ -61,6 +72,18 @@ class FilesExplorer extends Component {
     this.props.rmTmpDir()
   };
 
+  _onRemoveDir = () => {
+    const {selected, removeDir} = this.props
+    const count = selected.length
+    const plural = count > 1 ? 'files' : 'file'
+    const msg = `Are you sure you want to delete ${count} ${plural}?`
+    toastr.confirm(msg, {
+      onOk () {
+        removeDir()
+      }
+    })
+  };
+
   render () {
     const {list, root, setRoot, tmpDir, selected} = this.props
 
@@ -76,7 +99,9 @@ class FilesExplorer extends Component {
                   setRoot={setRoot}
                 />
                 <ActionBar
-                  onCreateDir={this._onCreateDir}/>
+                  selectedFiles={selected}
+                  onCreateDir={this._onCreateDir}
+                  onRemoveDir={this._onRemoveDir}/>
               </Col>
             </Row>
             <Row>
@@ -111,6 +136,7 @@ export default connect(mapStateToProps, {
   createTmpDir: files.filesCreateTmpDir,
   setTmpDirName: files.filesSetTmpDirName,
   createDir: files.filesCreateDir,
+  removeDir: files.filesRemoveDir,
   rmTmpDir: files.filesRmTmpDir,
   select: files.filesSelect,
   deselect: files.filesDeselect,
