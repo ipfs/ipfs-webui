@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "description": "A frontend for IPFS",
   "dependencies": {
+    "bl": "^1.1.2",
     "bootstrap": "^3.3.6",
     "d3": "^3.5.16",
     "fbjs": "^0.8.0-alpha.3",

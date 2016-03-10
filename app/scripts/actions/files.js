@@ -4,6 +4,7 @@ export const FILES_LIST = createRequestTypes('FILES_LIST')
 export const FILES_MKDIR = createRequestTypes('FILES_MKDIR')
 export const FILES_RMDIR = createRequestTypes('FILES_RMDIR')
 export const FILES_CREATE_FILES = createRequestTypes('FILES_CREATE_FILES')
+export const FILES_READ_FILE = createRequestTypes('FILES_READ_FILE')
 
 export const FILES = {
   CANCEL: 'FILES_CANCEL',
@@ -16,7 +17,8 @@ export const FILES = {
   SELECT_FILE: 'SELECT_FILE',
   DESELECT_FILE: 'DESELECT_FILE',
   DESELECT_ALL_FILE: 'DESELECT_ALL_FILE',
-  CREATE_FILES: 'CREATE_FILES'
+  CREATE_FILES: 'CREATE_FILES',
+  READ_FILE: 'READ_FILE'
 }
 
 export const filesList = {
@@ -43,6 +45,12 @@ export const createFiles = {
   failure: (error) => action(FILES_CREATE_FILES.FAILURE, {error})
 }
 
+export const readFile = {
+  request: () => action(FILES_READ_FILE.REQUEST),
+  success: (response) => action(FILES_READ_FILE.SUCCESS, {response}),
+  failure: (error) => action(FILES_READ_FILE.FAILURE, {error})
+}
+
 export const files = {
   cancel: () => action(FILES.CANCEL)
 }
@@ -59,3 +67,4 @@ export const filesDeselect = (file) => action(FILES.DESELECT_FILE, {file})
 export const filesDeselectAll = () => action(FILES.DESELECT_ALL_FILE)
 
 export const filesCreateFiles = (root, files) => action(FILES.CREATE_FILES, {root, files})
+export const filesReadFile = (file) => action(FILES.READ_FILE, {file})

@@ -30,7 +30,8 @@ const {
     filesRmDir,
     filesRmTmpDir,
     filesDeselectAll,
-    createFiles
+    createFiles,
+    readFile
   },
   config: {config},
   errors
@@ -227,10 +228,9 @@ export function * watchFilesRoot () {
 }
 
 export function * watchCreateDir () {
-  filesMkdir.request()
-
   while (yield take(actions.files.FILES.CREATE_DIR)) {
     try {
+      yield put(filesMkdir.request())
       const {files} = yield select()
       const name = join(files.tmpDir.root, files.tmpDir.name)
       yield call(api.files.mkdir, name)
@@ -245,11 +245,10 @@ export function * watchCreateDir () {
 }
 
 export function * watchCreateFiles () {
-  createFiles.request()
-
   while (true) {
     try {
       const {root, files} = yield take(actions.files.FILES.CREATE_FILES)
+      yield put(createFiles.request())
       yield call(api.files.createFiles, root, files)
 
       yield fork(fetchFiles)
@@ -261,10 +260,9 @@ export function * watchCreateFiles () {
 }
 
 export function * watchRmDir () {
-  filesRmDir.request()
-
   while (yield take(actions.files.FILES.REMOVE_DIR)) {
     try {
+      yield put(filesRmDir.request())
       const {files} = yield select()
 
       for (let file of files.selected) {
@@ -276,6 +274,20 @@ export function * watchRmDir () {
       yield put(filesDeselectAll())
     } catch (err) {
       yield put(filesRmDir.failure(err.message))
+    }
+  }
+}
+
+export function * watchReadFile () {
+  while (true) {
+    try {
+      const {file} = yield take(actions.files.FILES.READ_FILE)
+      yield put(readFile.request())
+      const result = yield call(api.files.read, file)
+
+      yield put(readFile.success(result))
+    } catch (err) {
+      yield put(readFile.failure(err.message))
     }
   }
 }
@@ -331,6 +343,12 @@ export function * watchLoadFilesPage () {
   }
 }
 
+export function * watchLoadFilesPreviewPage () {
+  while (yield take(actions.pages.PREVIEW.LOAD)) {
+    yield fork(watchReadFile)
+  }
+}
+
 export function * watchLoadLogsPage () {
   while (yield take(actions.pages.LOGS.LOAD)) {
     const source = yield call(api.createLogSource)
@@ -350,6 +368,7 @@ export function * watchLoadPages () {
   yield fork(watchLoadHomePage)
   yield fork(watchLoadPeersPage)
   yield fork(watchLoadFilesPage)
+  yield fork(watchLoadFilesPreviewPage)
   yield fork(watchLoadLogsPage)
   yield fork(watchLoadConfigPage)
 }

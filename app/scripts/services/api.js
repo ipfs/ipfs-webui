@@ -3,12 +3,22 @@ import {CANCEL} from 'redux-saga'
 import {keyBy, compact, sortBy} from 'lodash-es'
 import {lookup} from 'ipfs-geoip'
 import {join} from 'path'
+import bl from 'bl'
 
 const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
 const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || 80)
 const localApi = new API(host, port)
 
 let logSource
+
+function collect (stream) {
+  return new Promise((resolve, reject) => {
+    stream.pipe(bl((err, buf) => {
+      if (err) return reject(err)
+      resolve(buf)
+    }))
+  })
+}
 
 function lookupIP (api, ip) {
   return new Promise((resolve, reject) => {
@@ -176,6 +186,14 @@ export const files = {
       const target = join(root, file.name)
       return api.files.write(target, file.content, {create: true})
     }))
+  },
+  read (name, api = localApi) {
+    return api.files.read(name)
+      .then(collect)
+      .then((content) => ({
+        name,
+        content
+      }))
   }
 }
 

@@ -5,7 +5,7 @@ import {join} from 'path'
 import {includes} from 'lodash-es'
 import {toastr} from 'react-redux-toastr'
 
-import {files} from '../actions'
+import {files, router} from '../actions'
 
 import Tree from './../components/files/tree'
 import ActionBar from './../components/files/action-bar'
@@ -31,7 +31,8 @@ class FilesExplorer extends Component {
     select: PropTypes.func.isRequired,
     deselect: PropTypes.func.isRequired,
     deselectAll: PropTypes.func.isRequired,
-    createFiles: PropTypes.func.isRequired
+    createFiles: PropTypes.func.isRequired,
+    navigate: PropTypes.func.isRequired
   };
 
   _onRowClick = (file, shiftKey) => {
@@ -55,13 +56,13 @@ class FilesExplorer extends Component {
   };
 
   _onRowDoubleClick = (file) => {
-    const {root, deselectAll, setRoot} = this.props
-
+    const {root, deselectAll, setRoot, navigate} = this.props
+    const filePath = join(root, file.Name)
     deselectAll()
     if (file.Type === 'directory') {
-      setRoot(join(root, file.Name))
+      setRoot(filePath)
     } else {
-      // TODO: File Preview
+      navigate('/files/preview/' + encodeURIComponent(filePath))
     }
   };
 
@@ -147,5 +148,6 @@ export default connect(mapStateToProps, {
   select: files.filesSelect,
   deselect: files.filesDeselect,
   deselectAll: files.filesDeselectAll,
-  createFiles: files.filesCreateFiles
+  createFiles: files.filesCreateFiles,
+  navigate: router.navigate
 })(FilesExplorer)
