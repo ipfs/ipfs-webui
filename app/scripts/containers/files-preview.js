@@ -1,9 +1,8 @@
 import React, {Component, PropTypes} from 'react'
-import {last} from 'lodash-es'
 import {connect} from 'react-redux'
-import {Row, Col} from 'react-bootstrap'
 
-import {pages} from '../actions'
+import {pages, router} from '../actions'
+import Icon from '../views/icon'
 
 function getExtension (name) {
   name = name.toLowerCase()
@@ -22,12 +21,19 @@ class FilesPreview extends Component {
     }),
     // actions
     readFile: PropTypes.func.isRequired,
-    load: PropTypes.func.isRequired
+    load: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   };
 
   componentWillMount () {
     this.props.load()
   }
+
+  _onClose = (event) => {
+    event.preventDefault()
+
+    this.props.goBack()
+  };
 
   _preview () {
     if (!this.props.preview) return
@@ -48,12 +54,17 @@ class FilesPreview extends Component {
     const file = this.props.name
     const preview = this._preview()
     return (
-      <Row>
-        <Col sm={10} smOffset={1}>
-          <h3>Preview of {file}</h3>
+      <div className='files-preview'>
+        <div className='files-preview-header'>
+          <h3>{file}</h3>
+          <a onClick={this._onClose} className='close'>
+            <Icon glyph='close' />
+          </a>
+        </div>
+        <div className='files-preview-area'>
           {preview}
-        </Col>
-      </Row>
+        </div>
+      </div>
     )
   }
 }
@@ -66,5 +77,6 @@ function mapStateToProps (state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  load: pages.preview.load
+  load: pages.preview.load,
+  goBack: router.goBack
 })(FilesPreview)

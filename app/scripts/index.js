@@ -2,7 +2,7 @@ import 'babel-polyfill'
 
 import React from 'react'
 import {render} from 'react-dom'
-import {browserHistory} from 'react-router'
+import {hashHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
 
 import routes from './routes'
@@ -11,7 +11,7 @@ import configureStore from './store/configure-store'
 import '../styles/app.less'
 
 const store = configureStore()
-const history = syncHistoryWithStore(browserHistory, store)
+const history = syncHistoryWithStore(hashHistory, store)
 
 requestAnimationFrame(() => {
   render(

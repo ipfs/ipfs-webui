@@ -12,7 +12,6 @@ import {
   watchLogs,
   watchLoadHomePage,
   watchLoadLogsPage,
-  watchNavigate,
   watchSaveConfig,
   loadConfig,
   saveConfig
@@ -265,16 +264,6 @@ describe('sagas', () => {
     next = generator.next('source')
     expect(next.value)
       .to.be.eql(fork(watchLogs, 'source'))
-  })
-
-  it('watchNavigate', () => {
-    const generator = watchNavigate()
-
-    let next = generator.next()
-    expect(next.value).to.be.eql(take(actions.router.NAVIGATE))
-
-    next = generator.next({pathname: '/hello'})
-    expect(next.value).to.be.eql(history.push('/hello'))
   })
 
   describe('config', () => {

@@ -1,5 +1,5 @@
 import {createStore, applyMiddleware} from 'redux'
-import {browserHistory} from 'react-router'
+import {hashHistory} from 'react-router'
 import {routerMiddlware} from 'react-router-redux'
 import saga from 'redux-saga'
 
@@ -8,7 +8,7 @@ import rootSaga from '../sagas'
 
 const finalCreateStore = applyMiddleware(
   saga(rootSaga),
-  routerMiddlware(browserHistory)
+  routerMiddlware(hashHistory)
 )(createStore)
 
 export default function configureStore (initialState) {

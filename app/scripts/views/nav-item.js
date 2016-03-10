@@ -15,7 +15,10 @@ default class NavigationItem extends Component {
   };
   render () {
     return (
-      <LinkContainer className='link' to={this.props.url}>
+      <LinkContainer
+        className='link'
+        to={this.props.url}
+        onlyActiveOnIndex={false}>
         <NavItem>
           <Icon glyph={this.props.icon} /> {i18n.t(this.props.title)}
         </NavItem>

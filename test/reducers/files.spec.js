@@ -11,7 +11,8 @@ describe('reducers - files', () => {
       list: [],
       root: '/',
       tmpDir: null,
-      selected: []
+      selected: [],
+      preview: null
     })
   })
 

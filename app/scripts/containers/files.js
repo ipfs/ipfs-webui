@@ -8,7 +8,8 @@ import {pages} from '../actions'
 class Files extends Component {
   static propTypes = {
     load: PropTypes.func.isRequired,
-    leave: PropTypes.func.isRequired
+    leave: PropTypes.func.isRequired,
+    children: PropTypes.node
   };
 
   componentWillMount () {
@@ -24,6 +25,7 @@ class Files extends Component {
       <Row>
         <Col sm={10} smOffset={1}>
           <Explorer />
+          {this.props.children}
         </Col>
       </Row>
     )

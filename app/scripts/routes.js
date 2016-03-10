@@ -6,7 +6,7 @@ import HomePage from './containers/home'
 import LogPage from './containers/logs'
 import PeersPage from './containers/peers'
 import FilesPage from './containers/files'
-import FilesPreviewPage from './components/files-preview'
+import FilesPreviewPage from './containers/files-preview'
 import ConfigPage from './containers/config'
 import NotFoundPage from './components/notfound'
 
@@ -16,8 +16,9 @@ export default (
     <Route path='home' component={HomePage} />
 
     <Route path='peers' component={PeersPage} />
-    <Route path='files' component={FilesPage} />
-    <Route path='files/preview' component={FilesPreviewPage}/>
+    <Route path='files' component={FilesPage}>
+      <Route path='preview' component={FilesPreviewPage}/>
+    </Route>
 
     <Route path='config' component={ConfigPage} />
     <Route path='logs' component={LogPage} />
