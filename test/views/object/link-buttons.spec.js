@@ -16,17 +16,17 @@ describe('LinkButtons', () => {
     ).to.have.prop('parent').eql(new Path('ipfs', 'hello', '/world'))
 
     expect(
-      el.find('Button').get(0)
+      el.find('Button').at(0)
     ).to.have.prop('href', 'gate/ipfs/hello/world/data')
     expect(
-      el.find('Button').get(0)
+      el.find('Button').at(0).children()
     ).to.have.text('RAW')
 
     expect(
-      el.find('Button').get(1)
+      el.find('Button').at(1)
     ).to.have.prop('href', 'gate/ipfs/hello/world/data?dl=1')
     expect(
-      el.find('Button').get(1)
+      el.find('Button').at(1).children()
     ).to.have.text('Download')
   })
 })

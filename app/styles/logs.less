@@ -1,0 +1,47 @@
+.AutoSizerWrapper {
+  flex: 1 1 auto;
+  min-height: 70vh;
+}
+
+.log-entry {
+  border-bottom: 1px solid @gray-lighter;
+  font-size: 13px;
+}
+
+.log-entry-time {
+  text-align: left;
+}
+
+.log-entry-event {
+  overflow: hidden;
+}
+
+.log-entry-details {
+  overflow: hidden;
+
+  pre.json-pretty {
+    font-family: @font-family-sans-serif;
+    color: @text-color;
+    border: none;
+    font-size: 13px;
+    padding: 0;
+    margin: 0;
+
+    .json-key {
+      font-weight: bold;
+    }
+  }
+}
+
+.log-controller {
+  height: 40px;
+}
+
+.systems-select {
+  width: 200px;
+  float: left;
+}
+
+.tail-button {
+  float: right;
+}

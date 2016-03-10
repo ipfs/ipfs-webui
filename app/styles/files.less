@@ -1,0 +1,92 @@
+.files-explorer {
+  user-select: none;
+
+  .files-drop {
+    &.canDrop,
+    &.isOver {
+      position: absolute;
+      z-index: 10;
+      height: 100%;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      border: 5px dashed @gray-light;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      min-height: 400px;
+    }
+  }
+
+  .files-tree {
+    thead {
+      font-size: 13px;
+      font-weight: 400;
+      color: @gray-light;
+    }
+
+    tr.file-row {
+      &:hover {
+        cursor: pointer;
+        background-color: #F6FBFE;
+      }
+
+      &.selected {
+        background-color: #E7F4FF;
+      }
+
+      td {
+        line-height: 28px;
+        margin: 9px 0;
+        font-weight: 300;
+        font-size: 14px;
+
+        .icon {
+          margin-right: 10px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .action-bar {
+    display: flex;
+    flex: 1 0 auto;
+
+    a {
+      font-size: 13px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .icon {
+        padding-right: 5px;
+      }
+    }
+
+    .action-bar-general-actions {
+      flex: 1;
+    }
+
+    .action-bar-file-actions {
+      flex: 0 1 auto;
+    }
+  }
+
+  .breadcrumbs {
+    font-size: 16px;
+    height: 40px;
+    font-weight: 500;
+
+    .icon {
+      padding: 0 10px;
+      font-size: 16px;
+    }
+
+    a.crumb-link:hover {
+      cursor: pointer
+    }
+  }
+}

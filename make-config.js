@@ -3,7 +3,7 @@ var createConfig = require('hjs-webpack')
 module.exports = function makeConfig (isDev) {
   var config = createConfig({
     isDev: isDev,
-    in: './app/scripts/app.js',
+    in: './app/scripts/index.js',
     out: './dist',
     output: {
       publicPath: ''
@@ -19,7 +19,7 @@ module.exports = function makeConfig (isDev) {
   // Handle js-ipfs-api
   config.module.loaders.push({
     test: /\.js$/,
-    include: /node_modules\/(hoek|qs|wreck|boom|ipfs-api)/,
+    include: /node_modules\/(hoek|qs|wreck|boom|ipfs-api|ipfs-geoip|lodash-es)/,
     loader: 'babel-loader'
   })
 
@@ -38,9 +38,6 @@ module.exports = function makeConfig (isDev) {
   }
 
   config.resolve = {
-    modulesDirectories: [
-      'node_modules'
-    ],
     alias: {
       http: 'stream-http',
       https: 'https-browserify',

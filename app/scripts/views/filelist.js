@@ -36,7 +36,7 @@ default class FileList extends Component {
         </thead>
         <tbody>
           {
-            files ? files.map(file => {
+            files ? files.map((file) => {
               if (typeof file === 'string') {
                 file = {id: file}
               }

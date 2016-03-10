@@ -1,4 +1,5 @@
-app/scripts/include/*.js
 node_modules
 versions
 dist
+app/scripts/pages/*.js
+app/scripts/views/*.js

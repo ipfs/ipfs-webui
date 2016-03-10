@@ -12,18 +12,16 @@ default class PropTable extends Component {
     return (
       <Table responsive>
         <tbody>
-          {
-            this.props.table.map(val => {
-              return (
-                <tr>
-                  <td className='text-left'><strong>{val[0]}</strong></td>
-                  <td className='text-right'>{val[1]}</td>
-                </tr>
+          {this.props.table.map((val) => {
+            return (
+              <tr>
+                <td className='text-left'><strong>{val[0]}</strong></td>
+                <td className='text-right'>{val[1]}</td>
+              </tr>
               )
-            })
-          }
+          })}
           {this.props.children}
-         </tbody>
+        </tbody>
       </Table>
     )
   }

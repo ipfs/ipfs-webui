@@ -11,7 +11,7 @@ describe('PermaLink', () => {
     const el = shallow(<PermaLink url={path} />)
 
     expect(el.find('Link')).to.have.prop('to', '/objects/\\ipfs\\hello\\world')
-    expect(el.find('Link').get(0)).to.have.text('/ipfs/hello/world')
+    expect(el.find('Link').at(0).children()).to.have.text('/ipfs/hello/world')
   })
 
   it('renders an empty span if no url given', () => {

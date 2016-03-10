@@ -1,0 +1,78 @@
+@sidebarBackground: #333A4D;
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding: 0;
+  overflow-x: hidden;
+  // Scrollable contents if viewport is shorter than content.
+  overflow-y: auto;
+  background-color: @sidebarBackground;
+  height: 100%;
+  width: 200px;
+
+  .nav {
+    li {
+      a {
+        color: #FDFFFE;
+        text-transform: uppercase;
+        font-weight: 300;
+        padding: 15px 40px;
+        transition: all .2s ease-in-out;
+        letter-spacing: 1px;
+        font-size: 14px;
+
+        .icon {
+          font-size: 14px;
+          padding-right: 5px;
+          color: #B4D4ED;
+        }
+
+        &:hover {
+          background-color: @brand-primary;
+          color: #FFFFFF;
+        }
+      }
+
+      &.active {
+        a {
+          background-color: @brand-primary;
+          color: #FFFFFF;
+          font-weight: 500;
+
+          .icon {
+            color: #FFFFFF;
+          }
+        }
+      }
+    }
+  }
+
+  .nav-stacked > li {
+    margin-top: 0;
+    border-top: 1px solid #303548;
+  }
+
+  .branding {
+    background: #303548;
+    height: 3 * 18px;
+    margin-bottom: 2.5 * 18px;
+  }
+
+  a.navbar-brand {
+    padding: 18px 0;
+    width: 100%;
+    display: block;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 18px;
+    vertical-align: middle;
+    letter-spacing: 2px;
+  }
+}
