@@ -1,6 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {Table} from 'react-bootstrap'
-import {isEmpty} from 'lodash-es'
+import {isEmpty, includes} from 'lodash-es'
+import {join} from 'path'
 
 import RowInput from './tree/row-input'
 import Row from './tree/row'
@@ -8,19 +9,25 @@ import Row from './tree/row'
 export default class Tree extends Component {
   static propTypes = {
     files: PropTypes.array,
+    selectedFiles: PropTypes.array,
     tmpDir: PropTypes.shape({
       root: PropTypes.string.isRequired,
       name: PropTypes.string
     }),
+    root: PropTypes.string,
     onRowClick: PropTypes.func,
+    onRowDoubleClick: PropTypes.func,
     onTmpDirChange: PropTypes.func.isRequired,
     onCreateDir: PropTypes.func.isRequired,
     onCancelCreateDir: PropTypes.func.isRequired
   };
 
   static defaultProps = {
+    root: '/',
     files: [],
-    onRowClick () {}
+    selectedFiles: [],
+    onRowClick () {},
+    onRowDoubleClick () {}
   };
 
   _onTmpDirChange = ({target}) => {
@@ -33,6 +40,11 @@ export default class Tree extends Component {
     } else {
       this.props.onCreateDir()
     }
+  };
+
+  _isSelected = (file) => {
+    const {selectedFiles, root} = this.props
+    return includes(selectedFiles, join(root, file.Name))
   };
 
   render () {
@@ -53,7 +65,9 @@ export default class Tree extends Component {
       <Row
         key={i}
         file={file}
-        onClick={this.props.onRowClick}/>
+        selected={this._isSelected(file)}
+        onClick={this.props.onRowClick}
+        onDoubleClick={this.props.onRowDoubleClick}/>
     )).concat([tmpDir])
 
     return (

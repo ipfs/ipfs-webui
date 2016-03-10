@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import pretty from 'prettysize'
+import classnames from 'classnames'
 
 import Icon from '../../../views/icon'
 
@@ -11,17 +12,31 @@ function renderType (type) {
 export default class Row extends Component {
   static propTypes = {
     file: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    onDoubleClick: PropTypes.func.isRequired,
+    selected: PropTypes.bool
+  };
+
+  static defaultProps = {
+    selected: false
   };
 
   _onClick = (event) => {
     this.props.onClick(this.props.file)
   };
 
+  _onDoubleClick = (event) => {
+    this.props.onDoubleClick(this.props.file)
+  };
+
   render () {
-    const {file} = this.props
+    const {file, selected} = this.props
+    const className = classnames('file-row', {selected})
     return (
-      <tr onDoubleClick={this._onClick} className='file-row'>
+      <tr
+        onClick={this._onClick}
+        onDoubleClick={this._onDoubleClick}
+        className={className}>
         <td>
           {renderType(file.Type)}
           {file.Name}

@@ -9,7 +9,10 @@ export const FILES = {
   CREATE_TMP_DIR: 'FILES_CREATE_TMP_DIR',
   RM_TMP_DIR: 'FILES_RM_TMP_DIR',
   SET_TMP_DIR_NAME: 'FILES_SET_TMP_DIR_NAME',
-  CREATE_DIR: 'FILES_CREATE_DIR'
+  CREATE_DIR: 'FILES_CREATE_DIR',
+  SELECT_FILE: 'SELECT_FILE',
+  DESELECT_FILE: 'DESELECT_FILE',
+  DESELECT_ALL_FILE: 'DESELECT_ALL_FILE'
 }
 
 export const filesList = {
@@ -33,3 +36,7 @@ export const filesCreateTmpDir = (root) => action(FILES.CREATE_TMP_DIR, {root})
 export const filesRmTmpDir = () => action(FILES.RM_TMP_DIR)
 export const filesSetTmpDirName = (name) => action(FILES.SET_TMP_DIR_NAME, {name})
 export const filesCreateDir = () => action(FILES.CREATE_DIR)
+
+export const filesSelect = (file) => action(FILES.SELECT_FILE, {file})
+export const filesDeselect = (file) => action(FILES.DESELECT_FILE, {file})
+export const filesDeselectAll = () => action(FILES.DESELECT_ALL_FILE)

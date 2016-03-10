@@ -1,10 +1,11 @@
-import {includes} from 'lodash-es'
+import {includes, reject} from 'lodash-es'
 import {files as actions} from '../actions'
 
 const defaultState = {
   list: [],
   root: '/',
-  tmpDir: null
+  tmpDir: null,
+  selected: []
 }
 
 export default function files (state = defaultState, action) {
@@ -47,6 +48,27 @@ export default function files (state = defaultState, action) {
         ...state.tmpDir,
         name: action.name
       }
+    }
+  }
+
+  if (actions.FILES.SELECT_FILE === action.type) {
+    return {
+      ...state,
+      selected: [...state.selected, action.file]
+    }
+  }
+
+  if (actions.FILES.DESELECT_FILE === action.type) {
+    return {
+      ...state,
+      selected: reject(state.selected, (f) => f === action.file)
+    }
+  }
+
+  if (actions.FILES.DESELECT_ALL_FILE === action.type) {
+    return {
+      ...state,
+      selected: []
     }
   }
 
