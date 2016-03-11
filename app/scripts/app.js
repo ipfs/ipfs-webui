@@ -12,6 +12,5 @@ if (process.env.NODE_ENV !== 'production') {
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root')
-  console.log(root, Router, hashHistory, routes)
   render(<Router history={hashHistory} routes={routes} />, root)
 })

@@ -14,7 +14,7 @@ i18next
     fallbackLng: 'en',
     load: 'languageOnly',
     backend: {
-      loadPath: '/locale/webui-{{lng}}.json',
+      loadPath: 'locale/webui-{{lng}}.json',
       allowMultiloading: false
     },
     interpolation: {
