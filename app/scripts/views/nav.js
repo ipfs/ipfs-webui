@@ -26,9 +26,6 @@ default class Nav extends Component {
     }, {
       title: 'config',
       icon: 'cog'
-    }, {
-      title: 'logs',
-      icon: 'list'
     }]
 
     return (

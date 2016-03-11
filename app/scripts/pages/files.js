@@ -11,7 +11,6 @@ const log = debug('pages:files')
 export
 default class Files extends React.Component {
   state = {
-    pinned: [],
     files: [],
     dragging: false
   };
@@ -27,20 +26,10 @@ default class Files extends React.Component {
     this.getFiles()
   }
 
-  componentWillUnmount () {
-    clearInterval(this.pollInterval)
-  }
-
   getFiles () {
-    this.props.ipfs.pin.list((err, pinned) => {
-      if (err || !pinned) return this.error(err)
-      this.setState({
-        pinned: Object.keys(pinned.Keys).sort()
-      })
-    })
-
     this.props.ipfs.pin.list('recursive', (err, pinned) => {
       if (err || !pinned) return this.error(err)
+
       this.setState({
         files: Object.keys(pinned.Keys).sort()
       })
@@ -116,15 +105,12 @@ default class Files extends React.Component {
 
   error (err) {
     console.error(err)
-    // TODO
   }
 
   _renderTitle = () => {
     switch (this.props.location.pathname) {
       case '/files':
         return <h3>{i18n.t('All Local Files')}</h3>
-      case '/files/pinned':
-        return <h3>{i18n.t('Pinned Files')}</h3>
       default:
         return ''
     }
@@ -194,17 +180,6 @@ default class Files extends React.Component {
             />
           </Panel>
         )
-      case '/files/pinned':
-        return (
-          <Panel bsStyle={'default'}>
-            <FileList
-              files={this.state.pinned}
-              namesHidden
-              ipfs={this.props.ipfs}
-              gateway={this.props.gateway}
-            />
-          </Panel>
-        )
       default:
         return ''
     }
@@ -218,9 +193,6 @@ default class Files extends React.Component {
           <Nav bsStyle='tabs'>
             <LinkContainer to='/files'>
               <NavItem>{i18n.t('All Files')}</NavItem>
-            </LinkContainer>
-            <LinkContainer to='/files/pinned'>
-              <NavItem>{i18n.t('Pinned Files')}</NavItem>
             </LinkContainer>
           </Nav>
           <div className={this.state.selected}>

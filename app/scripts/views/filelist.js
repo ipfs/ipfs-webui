@@ -28,8 +28,6 @@ default class FileList extends Component {
       <Table responsive className={'table-hover filelist ' + (this.props.namesHidden ? 'filelist-names-hidden' : null)} >
         <thead>
           <tr>
-            <th>{i18n.t('Type')}</th>
-            <th className='filelist-name'>{i18n.t('Name')}</th>
             <th className='id-cell'>{i18n.t('ID')}</th>
             <th className='action-cell'>{i18n.t('Actions')}</th>
           </tr>
@@ -40,17 +38,11 @@ default class FileList extends Component {
               if (typeof file === 'string') {
                 file = {id: file}
               }
-              let type = '?'
-              if (file.name) {
-                let lastDot = file.name.lastIndexOf('.')
-                if (lastDot !== -1) type = file.name.substr(lastDot + 1, 4).toUpperCase()
-              }
               let gatewayPath = this.props.gateway + '/ipfs/' + file.id
               let dagPath = '#/objects/' + file.id
+
               return (
                 <tr className='webui-file' data-type={file.type} key={file.id}>
-                  <td><span className='type'>{type}</span></td>
-                  <td className='filelist-name'><a target='_blank' href={gatewayPath}>{file.name}</a></td>
                   <td className='id-cell'><code>{file.id}</code></td>
                   <td className='action-cell'>
                     <a target='_blank' href={gatewayPath}>{i18n.t('RAW')}</a>
