@@ -11,7 +11,8 @@ class FilesPreview extends Component {
     name: PropTypes.string.isRequired,
     preview: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      content: PropTypes.instanceOf(Buffer).isRequired
+      content: PropTypes.instanceOf(Buffer).isRequired,
+      stats: PropTypes.object
     }),
     // actions
     load: PropTypes.func.isRequired,
@@ -36,6 +37,7 @@ class FilesPreview extends Component {
   render () {
     const {name} = this.props
     const content = this.props.preview ? this.props.preview.content : null
+    const stats = this.props.preview ? this.props.preview.stats : {}
 
     return (
       <div className='files-preview'>
@@ -46,7 +48,7 @@ class FilesPreview extends Component {
           </a>
         </div>
         <div className='files-preview-area'>
-          <Preview name={name} content={content}/>
+          <Preview name={name} content={content} stats={stats}/>
         </div>
       </div>
     )

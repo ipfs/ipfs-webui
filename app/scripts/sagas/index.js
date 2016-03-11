@@ -60,9 +60,12 @@ export function * readFile () {
     const {routing} = yield select()
     yield put(readFileAction.request())
     const {name} = routing.locationBeforeTransitions.query
-    const result = yield call(api.files.read, name)
+    const stats = yield call(api.files.stat, name)
 
-    yield put(readFileAction.success(result))
+    yield put(readFileAction.success({
+      name,
+      stats
+    }))
   } catch (err) {
     yield put(readFileAction.failure(err.message))
   }
