@@ -14,9 +14,9 @@ default class NavItem extends Component {
   };
   render () {
     return (
-        <Link className='link' to={this.props.url} activeClassName='active'>
-            <Icon glyph={this.props.icon} /> {i18n.t(this.props.title)}
-        </Link>
+      <Link className='link' to={this.props.url} activeClassName='active'>
+        <Icon glyph={this.props.icon} /> {i18n.t(this.props.title)}
+      </Link>
     )
   }
 }

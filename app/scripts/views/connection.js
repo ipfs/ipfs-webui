@@ -37,13 +37,13 @@ default class Connection extends Component {
 
     if (this.state.open) {
       peer = (
-          <Peer
-              peer={this.state.peer}
-              location={this.props.location}
-              bytesRead={this.props.BytesRead}
-              bytesWritten={this.props.BytesWritten}
-          />
-        )
+        <Peer
+          peer={this.state.peer}
+          location={this.props.location}
+          bytesRead={this.props.BytesRead}
+          bytesWritten={this.props.BytesWritten}
+        />
+      )
     }
 
     return (

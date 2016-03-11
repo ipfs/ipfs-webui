@@ -49,7 +49,7 @@ default class ConfigView extends Component {
       saving: true
     })
 
-    this.props.ipfs.config.replace(new Buffer(this.state.body), err => {
+    this.props.ipfs.config.replace(new Buffer(this.state.body), (err) => {
       let newState = {
         saving: false
       }
@@ -112,12 +112,12 @@ default class ConfigView extends Component {
         {buttons}
         <div className='textarea-panel panel panel-default padded'>
           <textarea
-              ref='configTextarea'
-              className='panel-inner'
-              spellCheck='false'
-              style={{height: this.state.height}}
-              onChange={this.handleChange.bind(this)}
-              value={this.state.body}
+            ref='configTextarea'
+            className='panel-inner'
+            spellCheck='false'
+            style={{height: this.state.height}}
+            onChange={this.handleChange.bind(this)}
+            value={this.state.body}
           />
         </div>
         {error}

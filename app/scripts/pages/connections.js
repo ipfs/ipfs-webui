@@ -42,7 +42,7 @@ default class Connections extends React.Component {
         // If we've unmounted, abort
       if (!this.mounted) return
 
-      let peers = res.Strings.map(peer => {
+      let peers = res.Strings.map((peer) => {
         let slashIndex = peer.lastIndexOf('/')
         return {
           Address: peer.substr(0, slashIndex),

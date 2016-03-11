@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 import i18n from '../utils/i18n.js'
 import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap'
 import fileExtension from '../utils/file-extension'
 
-export default ({gatewayPath, dagPath, file, unpin}) => {
+const FileItem = ({gatewayPath, dagPath, file, unpin}) => {
   var type = fileExtension(file.name)
   var tooltip = (
     <Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>
@@ -28,3 +28,12 @@ export default ({gatewayPath, dagPath, file, unpin}) => {
     </tr>
   )
 }
+
+FileItem.prototype.propTypes = {
+  gatewayPath: PropTypes.string,
+  dagPath: PropTypes.string,
+  file: PropTypes.object,
+  unpin: PropTypes.func
+}
+
+export default FileItem

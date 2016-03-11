@@ -11,11 +11,11 @@ default class ConnectionList extends Component {
     const peers = this.props.peers || []
 
     return (
-        <ul className='list-group'>
-            {peers.map((peer, i) => {
-              return <Connection {...peer} key={i} />
-            })}
-        </ul>
+      <ul className='list-group'>
+        {peers.map((peer, i) => {
+          return <Connection {...peer} key={i} />
+        })}
+      </ul>
     )
   }
 }

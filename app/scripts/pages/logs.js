@@ -26,8 +26,8 @@ default class Logs extends Component {
     stream: null
   };
 
-  _onLogData = chunk => {
-    this.setState(oldState => {
+  _onLogData = (chunk) => {
+    this.setState((oldState) => {
       let log = oldState.log
 
       if (log.length > MAXSIZE) log.shift()
@@ -96,8 +96,10 @@ default class Logs extends Component {
           <div className='actions'>{buttons}</div>
           <br/>
           <div className='textarea-panel panel panel-default padded'>
-            {this.state.log.map(event => (
-              <pre key={event.time}>{JSON.stringify(event, null, '  ')}</pre>
+            {this.state.log.map((event) => (
+              <pre key={event.time}>
+                {JSON.stringify(event, null, '  ')}
+              </pre>
             ))}
           </div>
           <div className='pull-right'>{buttons}</div>

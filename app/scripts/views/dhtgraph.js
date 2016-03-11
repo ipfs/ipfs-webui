@@ -27,7 +27,7 @@ default class DHTGraph extends Component {
 
     let main = svg.append('g')
 
-    const projection = d => {
+    const projection = (d) => {
       let a = d.pos / 180 * Math.PI
       return [radius * Math.cos(a), radius * Math.sin(a)]
     }
@@ -40,7 +40,7 @@ default class DHTGraph extends Component {
       .data(data.slice(1))
       .enter().append('path')
       .attr('class', 'link')
-      .attr('d', d => {
+      .attr('d', (d) => {
         let start = projection(d)
         let end = projection(data[0])
         return line([start, [0, 0], end])
@@ -51,7 +51,7 @@ default class DHTGraph extends Component {
       .enter().append('circle')
       .attr('class', 'node')
       .attr('r', 12)
-      .attr('transform', d => {
+      .attr('transform', (d) => {
         return 'rotate(' + d.pos + ')translate(' + radius + ')'
       })
 

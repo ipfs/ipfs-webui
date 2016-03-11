@@ -3,5 +3,8 @@
   "extends": ["standard", "standard-react"],
   "env": {
     "browser": true
+  },
+  "rules": {
+    "react/jsx-no-bind": 1
   }
 }

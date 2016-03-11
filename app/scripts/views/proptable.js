@@ -13,7 +13,7 @@ default class PropTable extends Component {
       <Table responsive>
         <tbody>
           {
-            this.props.table.map(val => {
+            this.props.table.map((val) => {
               return (
                 <tr>
                   <td className='text-left'><strong>{val[0]}</strong></td>
@@ -23,7 +23,7 @@ default class PropTable extends Component {
             })
           }
           {this.props.children}
-         </tbody>
+        </tbody>
       </Table>
     )
   }

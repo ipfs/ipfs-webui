@@ -32,24 +32,24 @@ default class Nav extends Component {
     }]
 
     return (
-        <div className='row'>
-          <ul id='side' className='nav nav-sidebar'>
-              {
-                tabs.map((tab, idx) => {
-                  const url = tab.url ? tab.url : ('/' + tab.title)
-                  const title = tab.title.substring(0, 1).toUpperCase() + tab.title.substring(1)
-                  return (
-                    <li key={idx}>
-                      <NavItem
-                          title={title}
-                          url={url}
-                          icon={tab.icon} />
-                    </li>
-                  )
-                })
-              }
-          </ul>
-        </div>
+      <div className='row'>
+        <ul id='side' className='nav nav-sidebar'>
+          {
+            tabs.map((tab, idx) => {
+              const url = tab.url ? tab.url : ('/' + tab.title)
+              const title = tab.title.substring(0, 1).toUpperCase() + tab.title.substring(1)
+              return (
+                <li key={idx}>
+                  <NavItem
+                    title={title}
+                    url={url}
+                    icon={tab.icon}/>
+                </li>
+              )
+            })
+          }
+        </ul>
+      </div>
     )
   }
 }

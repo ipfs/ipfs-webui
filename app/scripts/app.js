@@ -1,6 +1,6 @@
 import React from 'react'
 import {render} from 'react-dom'
-import Router, {hashHistory} from 'react-router'
+import {Router, hashHistory} from 'react-router'
 
 import routes from './routes'
 
@@ -12,5 +12,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root')
+  console.log(root, Router, hashHistory, routes)
   render(<Router history={hashHistory} routes={routes} />, root)
 })
