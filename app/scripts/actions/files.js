@@ -18,7 +18,8 @@ export const FILES = {
   DESELECT_FILE: 'DESELECT_FILE',
   DESELECT_ALL_FILE: 'DESELECT_ALL_FILE',
   CREATE_FILES: 'CREATE_FILES',
-  READ_FILE: 'READ_FILE'
+  READ_FILE: 'READ_FILE',
+  CLEAR_FILE: 'CLEAR_FILE'
 }
 
 export const filesList = {
@@ -68,3 +69,4 @@ export const filesDeselectAll = () => action(FILES.DESELECT_ALL_FILE)
 
 export const filesCreateFiles = (root, files) => action(FILES.CREATE_FILES, {root, files})
 export const filesReadFile = (file) => action(FILES.READ_FILE, {file})
+export const filesClearFile = () => action(FILES.CLEAR_FILE)

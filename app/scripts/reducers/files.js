@@ -80,5 +80,12 @@ export default function files (state = defaultState, action) {
     }
   }
 
+  if (actions.FILES.CLEAR_FILE === action.type) {
+    return {
+      ...state,
+      preview: null
+    }
+  }
+
   return state
 }

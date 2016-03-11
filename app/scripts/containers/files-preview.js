@@ -3,13 +3,7 @@ import {connect} from 'react-redux'
 
 import {pages, router} from '../actions'
 import Icon from '../views/icon'
-
-function getExtension (name) {
-  name = name.toLowerCase()
-
-  const i = name.lastIndexOf('.')
-  return name.substring(i + 1)
-}
+import Preview from '../components/preview'
 
 class FilesPreview extends Component {
   static propTypes = {
@@ -20,13 +14,17 @@ class FilesPreview extends Component {
       content: PropTypes.instanceOf(Buffer).isRequired
     }),
     // actions
-    readFile: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
+    leave: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired
   };
 
   componentWillMount () {
     this.props.load()
+  }
+
+  componentWillUnmount () {
+    this.props.leave()
   }
 
   _onClose = (event) => {
@@ -35,34 +33,20 @@ class FilesPreview extends Component {
     this.props.goBack()
   };
 
-  _preview () {
-    if (!this.props.preview) return
-    const {preview} = this.props
-    const ext = getExtension(preview.name)
-    const blob = new Blob([preview.content], {type: `image/${ext}`})
-    const urlCreator = window.URL || window.webkitURL
-    const imageUrl = urlCreator.createObjectURL(blob)
-
-    return (
-      <img
-        alt={preview.name}
-        src={imageUrl}/>
-    )
-  }
-
   render () {
-    const file = this.props.name
-    const preview = this._preview()
+    const {name} = this.props
+    const content = this.props.preview ? this.props.preview.content : null
+
     return (
       <div className='files-preview'>
         <div className='files-preview-header'>
-          <h3>{file}</h3>
+          <h3>{name}</h3>
           <a onClick={this._onClose} className='close'>
             <Icon glyph='close' />
           </a>
         </div>
         <div className='files-preview-area'>
-          {preview}
+          <Preview name={name} content={content}/>
         </div>
       </div>
     )
@@ -78,5 +62,6 @@ function mapStateToProps (state, ownProps) {
 
 export default connect(mapStateToProps, {
   load: pages.preview.load,
+  leave: pages.preview.leave,
   goBack: router.goBack
 })(FilesPreview)

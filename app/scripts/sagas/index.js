@@ -31,7 +31,8 @@ const {
     filesRmTmpDir,
     filesDeselectAll,
     createFiles,
-    readFile: readFileAction
+    readFile: readFileAction,
+    filesClearFile
   },
   config: {config},
   errors
@@ -356,6 +357,12 @@ export function * watchLeaveConfigPage () {
   yield * takeLatest(actions.pages.CONFIG.LEAVE, leaveConfig)
 }
 
+export function * watchLeavePreviewPage () {
+  while (yield take(actions.pages.PREVIEW.LEAVE)) {
+    yield put(filesClearFile())
+  }
+}
+
 export function * watchLoadPages () {
   yield fork(watchLoadHomePage)
   yield fork(watchLoadPeersPage)
@@ -367,6 +374,7 @@ export function * watchLoadPages () {
 
 export function * watchLeavePages () {
   yield fork(watchLeaveConfigPage)
+  yield fork(watchLeavePreviewPage)
 }
 
 export function * watchSaveConfig () {
