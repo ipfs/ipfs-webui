@@ -1,0 +1,51 @@
+import {put, call, select, fork} from 'redux-saga/effects'
+import {takeLatest} from 'redux-saga'
+
+import * as actions from '../../actions'
+import {api} from '../../services'
+
+const {
+  config: {config, CONFIG},
+  errors
+} = actions
+
+export function * saveConfigDraft (action) {
+  yield put(config.saveDraft(action.config))
+}
+
+export function * saveConfig () {
+  yield put(config.saving(true))
+  const state = yield select()
+  const configStr = state.config.draft
+
+  try {
+    yield call(api.saveConfig, configStr)
+
+    yield put(config.save(JSON.parse(configStr)))
+    yield put(config.markSaved(true))
+  } catch (err) {
+    yield put(config.failure(err.message))
+  }
+
+  yield put(config.saving(false))
+}
+
+export function * watchSaveConfig () {
+  yield * takeLatest(CONFIG.SAVE_CONFIG_CLICK, saveConfig)
+}
+
+export function * load () {
+  try {
+    const ipfsConfig = yield call(api.getConfig)
+
+    yield put(config.initializeConfig(ipfsConfig))
+    yield fork(watchSaveConfig)
+  } catch (err) {
+    yield put(config.failure(err.message))
+  }
+}
+
+export function * leave () {
+  yield put(errors.resetErrorMessage())
+  yield put(config.markSaved(false))
+}

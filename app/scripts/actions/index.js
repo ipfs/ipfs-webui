@@ -21,15 +21,12 @@ import * as preview from './preview'
 import * as logs from './logs'
 import * as config from './config'
 
-export {
-  pages,
-  errors,
-  router,
-
-  home,
-  peers,
-  files,
-  preview,
-  logs,
-  config
-}
+export {pages}
+export {errors}
+export {router}
+export {home}
+export {peers}
+export {files}
+export {preview}
+export {logs}
+export {config}
