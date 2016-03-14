@@ -21,6 +21,7 @@
     "is-binary": "^0.1.0",
     "lodash-es": "^4.6.1",
     "md5": "^2.1.0",
+    "multiaddr": "^1.3.0",
     "pnglib": "0.0.1",
     "prettysize": "0.0.3",
     "react": "^0.14.7",

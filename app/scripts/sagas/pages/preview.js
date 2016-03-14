@@ -2,6 +2,7 @@ import {put, call, select, fork, take} from 'redux-saga/effects'
 
 import {preview} from '../../actions'
 import {api} from '../../services'
+import {loadConfig} from '../config'
 
 export function * stat () {
   try {
@@ -40,6 +41,7 @@ export function * watchRead () {
 
 export function * load () {
   yield fork(stat)
+  yield fork(loadConfig)
   yield fork(watchRead)
 }
 

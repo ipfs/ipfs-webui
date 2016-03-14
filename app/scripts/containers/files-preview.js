@@ -1,10 +1,26 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
+import multiaddr from 'multiaddr'
 
 import {pages, router, preview} from '../actions'
 import Icon from '../views/icon'
 import Preview from '../components/preview'
 import shouldPureComponentUpdate from '../utils/pure'
+
+function getGatewayPath (config) {
+  if (!config.Addressess || !config.Addressess.Gateway) {
+    return
+  }
+
+  const addr = multiaddr(config.Addressess.Gateway)
+
+  // We need an address of the format /ip4/127.0.0.1/tcp/8080
+  if (addr.protoNames() !== ['ip4', 'tcp']) {
+    return
+  }
+  const {address, port} = addr.nodeAddress()
+  return `http://${address}:${port}`
+}
 
 class FilesPreview extends Component {
   static propTypes = {
@@ -15,8 +31,9 @@ class FilesPreview extends Component {
       content: PropTypes.instanceOf(Buffer),
       stats: PropTypes.object
     }),
+    config: PropTypes.object.isRequired,
     // actions
-    load: PropTypes.func.isRequired,
+    load: PropTypes.func.isRequirred,
     leave: PropTypes.func.isRequired,
     read: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired
@@ -42,6 +59,7 @@ class FilesPreview extends Component {
     const {name, read} = this.props
     const content = this.props.preview ? this.props.preview.content : null
     const stats = this.props.preview ? this.props.preview.stats : {}
+    const gatewayPath = getGatewayPath(config)
 
     return (
       <div className='files-preview'>
@@ -56,7 +74,8 @@ class FilesPreview extends Component {
             name={name}
             content={content}
             stats={stats}
-            read={read}/>
+            read={read}
+            gatewayPath={gatewayPath}/>
         </div>
       </div>
     )
@@ -66,7 +85,8 @@ class FilesPreview extends Component {
 function mapStateToProps (state, ownProps) {
   return {
     name: ownProps.location.query.name,
-    preview: state.preview
+    preview: state.preview,
+    config: state.config.config
   }
 }
 

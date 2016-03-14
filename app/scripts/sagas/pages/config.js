@@ -1,8 +1,9 @@
-import {put, call, select, fork} from 'redux-saga/effects'
+import {put, call, select, fork, take} from 'redux-saga/effects'
 import {takeLatest} from 'redux-saga'
 
 import * as actions from '../../actions'
 import {api} from '../../services'
+import {loadConfig} from '../config'
 
 const {
   config: {config, CONFIG},
@@ -34,15 +35,15 @@ export function * watchSaveConfig () {
   yield * takeLatest(CONFIG.SAVE_CONFIG_CLICK, saveConfig)
 }
 
-export function * load () {
-  try {
-    const ipfsConfig = yield call(api.getConfig)
+export function * initConfig () {
+  const {response} = yield take(config.load.SUCCESS)
+  yield put(config.initializeConfig(response))
+}
 
-    yield put(config.initializeConfig(ipfsConfig))
-    yield fork(watchSaveConfig)
-  } catch (err) {
-    yield put(config.failure(err.message))
-  }
+export function * load () {
+  yield fork(initConfig)
+  yield fork(loadConfig)
+  yield fork(watchSaveConfig)
 }
 
 export function * leave () {
