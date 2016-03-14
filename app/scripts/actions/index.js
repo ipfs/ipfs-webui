@@ -5,6 +5,7 @@
 // export * from './home'
 // export * from './peers'
 // export * from './files'
+// export * from './preview'
 // export * from './logs'
 
 // Workaround
@@ -16,6 +17,7 @@ import * as router from './router'
 import * as home from './home'
 import * as peers from './peers'
 import * as files from './files'
+import * as preview from './preview'
 import * as logs from './logs'
 import * as config from './config'
 
@@ -27,6 +29,7 @@ export {
   home,
   peers,
   files,
+  preview,
   logs,
   config
 }

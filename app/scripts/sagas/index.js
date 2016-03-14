@@ -34,6 +34,7 @@ const {
     readFile: readFileAction,
     filesClearFile
   },
+  preview,
   config: {config},
   errors
 } = actions
@@ -53,22 +54,6 @@ export function * fetchId () {
 
 export function * loadId () {
   yield call(fetchId)
-}
-
-export function * readFile () {
-  try {
-    const {routing} = yield select()
-    yield put(readFileAction.request())
-    const {name} = routing.locationBeforeTransitions.query
-    const stats = yield call(api.files.stat, name)
-
-    yield put(readFileAction.success({
-      name,
-      stats
-    }))
-  } catch (err) {
-    yield put(readFileAction.failure(err.message))
-  }
 }
 
 export function * fetchPeerLocations (ids) {
@@ -151,6 +136,34 @@ export function * fetchPeerIds () {
   } catch (err) {
     yield put(peerIds.failure(err.message))
   }
+}
+
+export function * stat () {
+  try {
+    yield put(preview.requests.stat.request())
+
+    const {routing} = yield select()
+    const {name} = routing.locationBeforeTransitions.query
+    const stats = yield call(api.files.stat, name)
+
+    yield put(preview.requests.stat.success({
+      name,
+      stats
+    }))
+  } catch (err) {
+    yield put(preview.requests.stat.failure(err.message))
+  }
+}
+
+export function * watchReadFile ()
+
+export function * loadPreview () {
+  yield fork(stat)
+  // TODO READ FILE
+}
+
+export function * leavePreview () {
+  yield put(preview.clear())
 }
 
 export function * loadConfig () {
@@ -339,10 +352,8 @@ export function * watchLoadFilesPage () {
   }
 }
 
-export function * watchLoadFilesPreviewPage () {
-  while (yield take(actions.pages.PREVIEW.LOAD)) {
-    yield fork(readFile)
-  }
+export function * watchLoadPreviewPage () {
+  yield * takeLatest(actions.pages.PREVIEW.LOAD, loadPreview)
 }
 
 export function * watchLoadLogsPage () {
@@ -361,9 +372,7 @@ export function * watchLeaveConfigPage () {
 }
 
 export function * watchLeavePreviewPage () {
-  while (yield take(actions.pages.PREVIEW.LEAVE)) {
-    yield put(filesClearFile())
-  }
+  yield * takeLatest(actions.pages.PREVIEW.LEAVE, leavePreview)
 }
 
 export function * watchLoadPages () {

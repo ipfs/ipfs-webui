@@ -5,8 +5,7 @@ const defaultState = {
   list: [],
   root: '/',
   tmpDir: null,
-  selected: [],
-  preview: null
+  selected: []
 }
 
 export default function files (state = defaultState, action) {
@@ -70,20 +69,6 @@ export default function files (state = defaultState, action) {
     return {
       ...state,
       selected: []
-    }
-  }
-
-  if (actions.FILES_READ_FILE.SUCCESS === action.type) {
-    return {
-      ...state,
-      preview: action.response
-    }
-  }
-
-  if (actions.FILES.CLEAR_FILE === action.type) {
-    return {
-      ...state,
-      preview: null
     }
   }
 
