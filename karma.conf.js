@@ -3,11 +3,11 @@ var webpackConfig = require('./make-config')(true)
 module.exports = function (config) {
   config.set({
 
-    browsers: [ process.env.CONTINUOUS_INTEGRATION ? 'Firefox' : 'Chrome' ],
+    browsers: [process.env.CONTINUOUS_INTEGRATION ? 'Firefox' : 'Chrome'],
 
     singleRun: false,
 
-    frameworks: [ 'mocha' ],
+    frameworks: ['mocha'],
 
     files: [
       'test/setup.js'
@@ -17,7 +17,11 @@ module.exports = function (config) {
       'test/setup.js': ['webpack', 'sourcemap']
     },
 
-    reporters: [ 'dots' ],
+    reporters: ['mocha-own'],
+
+    mochaOwnReporter: {
+      reporter: 'spec'
+    },
 
     webpack: webpackConfig,
 
