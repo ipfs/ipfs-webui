@@ -9,18 +9,18 @@ const defaultState = {
 
 export default function (state = defaultState, action) {
   switch (action.type) {
-    case actions.requests.stat.SUCCESS:
+    case actions.requests.PREVIEW_STAT.SUCCESS:
       return {
         ...state,
         name: action.response.name,
         stats: action.response.stats
       }
-    case actions.requests.read.SUCCESS:
+    case actions.requests.PREVIEW_READ.SUCCESS:
       return {
         ...state,
         content: action.response
       }
-    case actions.clear:
+    case actions.PREVIEW.CLEAR:
       return {
         ...defaultState
       }

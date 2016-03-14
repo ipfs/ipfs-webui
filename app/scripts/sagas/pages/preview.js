@@ -1,4 +1,4 @@
-import {put, call, select, fork} from 'redux-saga/effects'
+import {put, call, select, fork, take} from 'redux-saga/effects'
 
 import {preview} from '../../actions'
 import {api} from '../../services'
@@ -19,9 +19,28 @@ export function * stat () {
     yield put(preview.requests.stat.failure(err.message))
   }
 }
+
+export function * read (name) {
+  try {
+    yield put(preview.requests.read.request())
+
+    const content = yield call(api.files.read, name)
+
+    yield put(preview.requests.read.success(content))
+  } catch (err) {
+    yield put(preview.requests.read.failure(err.message))
+  }
+}
+
+export function * watchRead () {
+  const {name} = yield take(preview.PREVIEW.READ)
+
+  yield fork(read, name)
+}
+
 export function * load () {
   yield fork(stat)
-  // TODO READ FILE
+  yield fork(watchRead)
 }
 
 export function * leave () {

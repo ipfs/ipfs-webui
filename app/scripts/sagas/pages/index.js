@@ -20,7 +20,7 @@ const loaders = {
 }
 
 export default function * watchPages () {
-  yield * Object.keys(loaders)
+  yield Object.keys(loaders)
     .reduce((acc, name) => {
       const loader = loaders[name]
 
@@ -32,7 +32,7 @@ export default function * watchPages () {
 
       if (loader.leave) {
         acc.push(fork(function * () {
-          yield * takeLatest(pages[name.toUpperCase()].LOAD, loader.leave)
+          yield * takeLatest(pages[name.toUpperCase()].LEAVE, loader.leave)
         }))
       }
 

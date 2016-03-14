@@ -1,9 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
-import {pages, router} from '../actions'
+import {pages, router, preview} from '../actions'
 import Icon from '../views/icon'
 import Preview from '../components/preview'
+import shouldPureComponentUpdate from '../utils/pure'
 
 class FilesPreview extends Component {
   static propTypes = {
@@ -11,14 +12,17 @@ class FilesPreview extends Component {
     name: PropTypes.string.isRequired,
     preview: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      content: PropTypes.instanceOf(Buffer).isRequired,
+      content: PropTypes.instanceOf(Buffer),
       stats: PropTypes.object
     }),
     // actions
     load: PropTypes.func.isRequired,
     leave: PropTypes.func.isRequired,
+    read: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired
   };
+
+  shouldComponentUpdate = shouldPureComponentUpdate
 
   componentWillMount () {
     this.props.load()
@@ -35,7 +39,7 @@ class FilesPreview extends Component {
   };
 
   render () {
-    const {name} = this.props
+    const {name, read} = this.props
     const content = this.props.preview ? this.props.preview.content : null
     const stats = this.props.preview ? this.props.preview.stats : {}
 
@@ -48,7 +52,11 @@ class FilesPreview extends Component {
           </a>
         </div>
         <div className='files-preview-area'>
-          <Preview name={name} content={content} stats={stats}/>
+          <Preview
+            name={name}
+            content={content}
+            stats={stats}
+            read={read}/>
         </div>
       </div>
     )
@@ -58,12 +66,13 @@ class FilesPreview extends Component {
 function mapStateToProps (state, ownProps) {
   return {
     name: ownProps.location.query.name,
-    preview: state.files.preview
+    preview: state.preview
   }
 }
 
 export default connect(mapStateToProps, {
   load: pages.preview.load,
   leave: pages.preview.leave,
+  read: preview.read,
   goBack: router.goBack
 })(FilesPreview)
