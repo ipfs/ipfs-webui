@@ -7,17 +7,23 @@ import Icon from '../views/icon'
 import Preview from '../components/preview'
 import shouldPureComponentUpdate from '../utils/pure'
 
-function getGatewayPath (config) {
-  if (!config.Addressess || !config.Addressess.Gateway) {
+function getGatewayUrl (config) {
+  if (!config.Addresses) {
     return
   }
 
-  const addr = multiaddr(config.Addressess.Gateway)
+  if (!config.Addresses.Gateway) {
+    return false
+  }
+
+  const addr = multiaddr(config.Addresses.Gateway)
 
   // We need an address of the format /ip4/127.0.0.1/tcp/8080
-  if (addr.protoNames() !== ['ip4', 'tcp']) {
-    return
+  const protos = addr.protoNames()
+  if (protos[0] !== 'ip4' || protos[1] !== 'tcp') {
+    return false
   }
+
   const {address, port} = addr.nodeAddress()
   return `http://${address}:${port}`
 }
@@ -33,7 +39,7 @@ class FilesPreview extends Component {
     }),
     config: PropTypes.object.isRequired,
     // actions
-    load: PropTypes.func.isRequirred,
+    load: PropTypes.func.isRequired,
     leave: PropTypes.func.isRequired,
     read: PropTypes.func.isRequired,
     goBack: PropTypes.func.isRequired
@@ -59,7 +65,7 @@ class FilesPreview extends Component {
     const {name, read} = this.props
     const content = this.props.preview ? this.props.preview.content : null
     const stats = this.props.preview ? this.props.preview.stats : {}
-    const gatewayPath = getGatewayPath(config)
+    const gatewayUrl = getGatewayUrl(this.props.config)
 
     return (
       <div className='files-preview'>
@@ -75,7 +81,7 @@ class FilesPreview extends Component {
             content={content}
             stats={stats}
             read={read}
-            gatewayPath={gatewayPath}/>
+            gatewayUrl={gatewayUrl}/>
         </div>
       </div>
     )

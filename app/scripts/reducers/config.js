@@ -42,6 +42,11 @@ export default function config (state = configDefaultState, action) {
         ...state,
         draft: JSON.stringify(state.config, undefined, 2)
       }
+    case CONFIG.LOAD.SUCCESS:
+      return {
+        ...state,
+        config: action.response
+      }
     default:
       return state
   }

@@ -36,7 +36,7 @@ export function * watchSaveConfig () {
 }
 
 export function * initConfig () {
-  const {response} = yield take(config.load.SUCCESS)
+  const {response} = yield take(CONFIG.LOAD.SUCCESS)
   yield put(config.initializeConfig(response))
 }
 

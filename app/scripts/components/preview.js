@@ -49,15 +49,17 @@ const renderers = {
   },
 
   video (name, stats, gatewayUrl, read, content) {
-    if (!gatewayUrl) {
+    if (gatewayUrl === false) {
       toastr.error('Video preview requires the gateway to be running. Please check your configuration.')
       return
+    } else if (!gatewayUrl || !stats.Hash) {
+      return loading
     }
 
     const src = `${gatewayUrl}/ipfs/${stats.Hash}`
     const ext = getExtension(name)
     const type = `video/${ext}`
-    return Promise.resolve(
+    return (
       <Video controls>
         <source src={src} type={type} />
       </Video>
