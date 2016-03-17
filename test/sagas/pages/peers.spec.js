@@ -136,7 +136,7 @@ describe('sagas - pages - peers', () => {
       )
 
       expect(
-        generator.throw(new Error('error'))
+        generator.throw(new Error('error')).value
       ).to.be.eql(
         put(actions.peerDetails.failure('error'))
       )
@@ -197,9 +197,9 @@ describe('sagas - pages - peers', () => {
       )
 
       expect(
-        generator.throw(new Error('error'))
+        generator.throw(new Error('error')).value
       ).to.be.eql(
-        put(actions.peerLocations.failure('erorr'))
+        put(actions.peerLocations.failure('error'))
       )
     })
   })
