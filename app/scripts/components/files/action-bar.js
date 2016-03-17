@@ -17,13 +17,13 @@ export default class ActionBar extends Component {
     if (!isEmpty(selectedFiles)) {
       const length = selectedFiles.length
       const plural = length > 1 ? 's' : ''
-      const count = `${length} file${plural}`
+      const count = `${length} element${plural}`
 
       fileActions = (
         <div className='action-bar-file-actions'>
           <a onClick={onRemoveDir}>
             <Icon glyph='minus'/>
-            Remove {count}
+            Delete {count}
           </a>
         </div>
       )

@@ -38,8 +38,8 @@ export default class CreateDirInput extends Component {
 
   render () {
     return (
-      <tr className='file-row tmp-dir-row'>
-        <td>
+      <div className='file-row tmp-dir-row'>
+        <div className='input'>
           <Icon glyph='folder' large />
           <input
             ref='tmpDirInput'
@@ -48,10 +48,8 @@ export default class CreateDirInput extends Component {
             onChange={this.props.onChange}
             onKeyUp={this._onKeyUp}
             onBlur={this.props.onBlur}/>
-        </td>
-        <td>
-        </td>
-      </tr>
+        </div>
+      </div>
     )
   }
 }

@@ -1,5 +1,4 @@
 import React, {PropTypes, Component} from 'react'
-import {Table} from 'react-bootstrap'
 import {isEmpty, includes, map} from 'lodash-es'
 import {join} from 'path'
 import {DropTarget} from 'react-dnd'
@@ -8,6 +7,7 @@ import classnames from 'classnames'
 
 import RowInput from './tree/row-input'
 import Row from './tree/row'
+import FilesContextMenu from './context-menu'
 
 function readAsBuffer (file) {
   return new Promise((resolve, reject) => {
@@ -47,11 +47,13 @@ class Tree extends Component {
     }),
     root: PropTypes.string,
     onRowClick: PropTypes.func,
+    onRowContextMenu: PropTypes.func,
     onRowDoubleClick: PropTypes.func,
     onTmpDirChange: PropTypes.func.isRequired,
     onCreateDir: PropTypes.func.isRequired,
     onCancelCreateDir: PropTypes.func.isRequired,
     onCreateFiles: PropTypes.func.isRequired,
+    onRemoveDir: PropTypes.func.isRequired,
     // react-dnd
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
@@ -63,6 +65,7 @@ class Tree extends Component {
     files: [],
     selectedFiles: [],
     onRowClick () {},
+    onRowContextMenu () {},
     onRowDoubleClick () {}
   };
 
@@ -103,7 +106,9 @@ class Tree extends Component {
         file={file}
         selected={this._isSelected(file)}
         onClick={this.props.onRowClick}
-        onDoubleClick={this.props.onRowDoubleClick}/>
+        onContextMenu={this.props.onRowContextMenu}
+        onDoubleClick={this.props.onRowDoubleClick}
+        onRemoveDir={this.props.onRemoveDir}/>
     )).concat([tmpDir])
 
     const {isOver, canDrop} = this.props
@@ -115,17 +120,16 @@ class Tree extends Component {
           {!isOver && canDrop && 'Drag your files here'}
           {isOver && 'Drop your files'}
         </div>
-        <Table responsive className='files-tree'>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Size</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className='files-tree'>
+          <div className='files-tree-header'>
+            <div className='item'>Name</div>
+            <div className='item'>Size</div>
+          </div>
+          <div className='files-tree-body'>
             {files}
-          </tbody>
-        </Table>
+          </div>
+        </div>
+        <FilesContextMenu />
       </div>
     )
   }

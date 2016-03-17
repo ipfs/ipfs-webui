@@ -1,6 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import pretty from 'prettysize'
 import classnames from 'classnames'
+import {ContextMenuLayer} from 'react-contextmenu'
 
 import Icon from '../../../views/icon'
 
@@ -9,11 +10,13 @@ function renderType (type) {
   return <Icon glyph='file' large />
 }
 
-export default class Row extends Component {
+class Row extends Component {
   static propTypes = {
     file: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
+    onContextMenu: PropTypes.func.isRequired,
     onDoubleClick: PropTypes.func.isRequired,
+    onRemoveDir: PropTypes.func.isRequired,
     selected: PropTypes.bool
   };
 
@@ -26,6 +29,11 @@ export default class Row extends Component {
     this.props.onClick(this.props.file, event.shiftKey)
   };
 
+  _onContextMenu = (event) => {
+    event.preventDefault()
+    this.props.onContextMenu(this.props.file, event.shiftKey)
+  };
+
   _onDoubleClick = (event) => {
     event.preventDefault()
     this.props.onDoubleClick(this.props.file)
@@ -35,18 +43,24 @@ export default class Row extends Component {
     const {file, selected} = this.props
     const className = classnames('file-row', {selected})
     return (
-      <tr
+      <div
         onClick={this._onClick}
+        onContextMenu={this._onContextMenu}
         onDoubleClick={this._onDoubleClick}
         className={className}>
-        <td>
+        <div className='name'>
           {renderType(file.Type)}
           {file.Name}
-        </td>
-        <td>
+        </div>
+        <div className='size'>
           {file.Type === 'directory' ? '-' : pretty(file.Size)}
-        </td>
-      </tr>
+        </div>
+      </div>
     )
   }
 }
+
+export default ContextMenuLayer('files-context-menu', (props) => ({
+  file: props.file,
+  onRemove: props.onRemoveDir
+}))(Row)

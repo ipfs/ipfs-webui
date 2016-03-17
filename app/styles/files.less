@@ -20,13 +20,30 @@
   }
 
   .files-tree {
-    thead {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+
+    .files-tree-header {
       font-size: 13px;
       font-weight: 400;
       color: @gray-light;
+      display: flex;
+      flex: 1 0 auto;
+      align-items: space-between;
+      height: 36px;
+      line-height: 36px;
+
+      .item {
+        flex: 1;
+      }
     }
 
-    tr.file-row {
+    .file-row {
+      display: flex;
+      flex: 1 0 auto;
+      border-bottom: 1px solid @gray-lighter;
+
       &:hover {
         cursor: pointer;
         background-color: #F6FBFE;
@@ -36,11 +53,14 @@
         background-color: #E7F4FF;
       }
 
-      td {
+      .name,
+      .size,
+      .input {
         line-height: 28px;
         margin: 9px 0;
         font-weight: 300;
         font-size: 14px;
+        flex: 1;
 
         .icon {
           margin-right: 10px;

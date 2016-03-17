@@ -44,18 +44,35 @@ class FilesExplorer extends Component {
       deselectAll
     } = this.props
     const filePath = join(root, file.Name)
+    const currentlySelected = includes(selected, filePath)
 
-    if (shiftKey) {
-      select(filePath)
-    } else if (includes(selected, filePath)) {
+    if (currentlySelected) {
       deselect(filePath)
+    } else if (shiftKey && !currentlySelected) {
+      select(filePath)
     } else {
       deselectAll()
       select(filePath)
     }
   };
 
-  _onRowDoubleClick = (file) => {
+  _onRowContextMenu = (file, shiftKey) => {
+    const {
+      root,
+      select,
+      deselectAll
+    } = this.props
+    const filePath = join(root, file.Name)
+
+    if (shiftKey) {
+      select(filePath)
+    } else {
+      deselectAll()
+      select(filePath)
+    }
+  };
+
+  _onRowDoubleClick = (file, shiftKey) => {
     const {root, deselectAll, setRoot, push} = this.props
     const filePath = join(root, file.Name)
     deselectAll()
@@ -123,11 +140,13 @@ class FilesExplorer extends Component {
                   root={root}
                   selectedFiles={selected}
                   onRowClick={this._onRowClick}
+                  onRowContextMenu={this._onRowContextMenu}
                   onRowDoubleClick={this._onRowDoubleClick}
                   onTmpDirChange={this.props.setTmpDirName}
                   onCreateDir={this.props.createDir}
                   onCancelCreateDir={this._onCancelCreateDir}
-                  onCreateFiles={this._onCreateFiles}/>
+                  onCreateFiles={this._onCreateFiles}
+                  onRemoveDir={this._onRemoveDir}/>
               </Col>
             </Row>
           </Col>
