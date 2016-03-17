@@ -37,6 +37,12 @@ export const filesRmDir = {
   failure: (error) => action(FILES_RMDIR.FAILURE, {error})
 }
 
+export const createFiles = {
+  request: () => action(FILES_CREATE_FILES.REQUEST),
+  success: () => action(FILES_CREATE_FILES.SUCCESS),
+  failure: (error) => action(FILES_CREATE_FILES.FAILURE, {error})
+}
+
 export const files = {
   cancel: () => action(FILES.CANCEL)
 }

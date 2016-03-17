@@ -16,7 +16,6 @@ class FilesContextMenu extends Component {
   };
 
   render () {
-    console.log(this.props)
     return (
       <ContextMenu identifier='files-context-menu'>
         <MenuItem onClick={this._onDelete}>

@@ -117,7 +117,6 @@ function getRenderer (name) {
 
 function render (name, stats, gatewayUrl, read, content) {
   return getRenderer(name)(name, stats, gatewayUrl, function (name) {
-    console.log('Calling READ', arguments, new Error().stack)
     read(name)
   }, content)
 }
@@ -134,7 +133,6 @@ export default class Preview extends Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render () {
-    console.log('RENDERING', this.props)
     return (
       <div className='preview'>
         {render(this.props.name, this.props.stats, this.props.gatewayUrl, this.props.read, this.props.content)}

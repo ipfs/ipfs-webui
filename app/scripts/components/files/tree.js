@@ -28,7 +28,6 @@ function readAsBuffer (file) {
 
 const fileTarget = {
   drop (props, monitor) {
-    console.log(monitor.getItem())
     Promise
       .all(map(monitor.getItem().files, readAsBuffer))
       .then((files) => {
