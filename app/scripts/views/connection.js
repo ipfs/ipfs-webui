@@ -50,7 +50,7 @@ default class Connection extends Component {
       <li className={'webui-connection list-group-item ' + (this.state.open ? 'active' : '')}>
         <button className='btn btn-link' onClick={this._handleClick}>
           <strong>{this.props.ID}</strong>
-          <br/>
+          <br />
           <span>{this.props.Address}</span>
           <i className='icon fa fa-lg fa-angle-down'></i>
         </button>

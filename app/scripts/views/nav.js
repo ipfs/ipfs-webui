@@ -40,7 +40,7 @@ default class Nav extends Component {
                   <NavItem
                     title={title}
                     url={url}
-                    icon={tab.icon}/>
+                    icon={tab.icon} />
                 </li>
               )
             })

@@ -28,11 +28,11 @@ default class ObjectView extends Component {
         <div className='row'>
           <h4>{i18n.t('Object')}</h4>
           <LinkButtons gateway={gateway} path={path} />
-          <br/>
+          <br />
           <div className='panel panel-default'>
             <ul className='list-group'>
               <Links path={path} links={object.Links} />
-              <DisplayData data={object.Data}/>
+              <DisplayData data={object.Data} />
             </ul>
           </div>
           <PermaLink url={permalink} />

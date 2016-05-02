@@ -88,6 +88,6 @@ default class DHTGraph extends Component {
 
   render () {
     if (this.state.initialized) this.update()
-    return <div className='dht-graph centered'/>
+    return <div className='dht-graph centered' />
   }
 }

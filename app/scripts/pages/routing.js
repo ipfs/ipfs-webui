@@ -47,7 +47,7 @@ default class Routing extends Component {
     return (
       <Row>
         <Col sm={10} smOffset={1}>
-          <DHTGraph peers={this.state.peers}/>
+          <DHTGraph peers={this.state.peers} />
         </Col>
       </Row>
     )
