@@ -38,7 +38,7 @@
     "chai": "^3.4.1",
     "chai-enzyme": "^0.4.1",
     "cheerio": "^0.20.0",
-    "classnames": "^2.2.2",
+    "classnames": "^2.2.5",
     "css-loader": "^0.23.0",
     "debug": "^2.2.0",
     "enzyme": "^2.1.0",
