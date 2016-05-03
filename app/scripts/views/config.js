@@ -88,7 +88,7 @@ default class ConfigView extends Component {
           <i className='fa fa-recycle'></i>&nbsp;
           {i18n.t('Reset')}
         </button>
-        <div className='clear'/>
+        <div className='clear' />
       </div>
     )
 
@@ -107,7 +107,7 @@ default class ConfigView extends Component {
     return (
       <div className='webui-config'>
         <h3>{i18n.t('Config')}</h3>
-        <br/>
+        <br />
         {error}
         {buttons}
         <div className='textarea-panel panel panel-default padded'>
@@ -123,7 +123,7 @@ default class ConfigView extends Component {
         {error}
         {buttons}
         <div style={{height: '50px'}} />
-        <br/>
+        <br />
       </div>
     )
   }

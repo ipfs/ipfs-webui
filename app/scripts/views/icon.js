@@ -12,6 +12,6 @@ default class Icon extends Component {
     const className = classNames('icon', 'fa', `fa-${this.props.glyph}`, {
       'fa-lg': this.props.large
     })
-    return <span className={className} aria-hidden='true'/>
+    return <span className={className} aria-hidden='true' />
   }
 }

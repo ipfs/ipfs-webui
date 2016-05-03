@@ -40,7 +40,7 @@ default class Bitswap extends Component {
       <Row>
         <Col sm={10} smOffset={1}>
           <h3>{i18n.t('Bitswap')}</h3>
-          <br/>
+          <br />
           <div>
             <h4>
               <strong>{i18n.t('Wantlist')}</strong>&nbsp;
@@ -50,7 +50,7 @@ default class Bitswap extends Component {
               <FileList className='panel-inner' files={wantlist} namesHidden />
             </Panel>
           </div>
-          <br/>
+          <br />
         </Col>
       </Row>
     )

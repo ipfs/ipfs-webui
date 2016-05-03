@@ -117,7 +117,7 @@ default class Objects extends React.Component {
                   onChange={(event) => this.setState({pathInput: event.target.value.trim()})}
                   onKeyPress={this._update}
                   value={this.state.pathInput}
-                  placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')}/>
+                  placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')} />
               </Col>
               <Col xs={2}>
                 <Button bsStyle={'primary'} className={'go'}

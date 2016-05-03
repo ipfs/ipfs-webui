@@ -94,7 +94,7 @@ default class Logs extends Component {
         <Col sm={10} smOffset={1} className={'webui-logs'}>
           <h3>{i18n.t('Event Log')}</h3>
           <div className='actions'>{buttons}</div>
-          <br/>
+          <br />
           <div className='textarea-panel panel panel-default padded'>
             {this.state.log.map((event) => (
               <pre key={event.time}>
@@ -103,7 +103,7 @@ default class Logs extends Component {
             ))}
           </div>
           <div className='pull-right'>{buttons}</div>
-          <br/>
+          <br />
         </Col>
       </Row>
     )

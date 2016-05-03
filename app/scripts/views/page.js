@@ -86,7 +86,7 @@ default class Page extends React.Component {
                   <div className='row'>
                     <div className='navbar-header'>
                       <Link className='navbar-brand col-xs-12' to='/'>
-                        <img src={require('../../img/logo.png')} alt='IPFS' className='img-responsive logo'/>
+                        <img src={require('../../img/logo.png')} alt='IPFS' className='img-responsive logo' />
                         <span className='sr-only'>{i18n.t('IPFS')}</span>
                       </Link>
                     </div>
@@ -105,19 +105,19 @@ default class Page extends React.Component {
                   <ul className='nav navbar-nav navbar-right collapse navbar-collapse'>
                     <li>
                       <a href='http://ipfs.io' target='_blank' data-toggle='tooltip' data-placement='bottom' title={i18n.t('About IPFS')}>
-                        <img src={require('../../img/help.png')} alt='Help' className='img-responsive icon'/>
+                        <img src={require('../../img/help.png')} alt='Help' className='img-responsive icon' />
                         <span className='sr-only'>{i18n.t('Help')}</span>
                       </a>
                     </li>
                     <li>
                       <a href='https://github.com/ipfs/webui' target='_blank' data-toggle='tooltip' data-placement='bottom' title={i18n.t('Github Repository')}>
-                        <img src={require('../../img/git.png')} alt='Github' className='img-responsive icon'/>
+                        <img src={require('../../img/git.png')} alt='Github' className='img-responsive icon' />
                         <span className='sr-only'>{i18n.t('Github')}</span>
                       </a>
                     </li>
                     <li>
                       <a href='https://github.com/ipfs/webui/issues/new' target='_blank' data-toggle='tooltip' data-placement='bottom' title={i18n.t('Report Bugs')}>
-                        <img src={require('../../img/bug.png')} alt='Report a bug' className='img-responsive icon'/>
+                        <img src={require('../../img/bug.png')} alt='Report a bug' className='img-responsive icon' />
                         <span className='sr-only'>{i18n.t('Report a bug')}</span>
                       </a>
                     </li>
@@ -131,7 +131,7 @@ default class Page extends React.Component {
           <div className='row'>
             <div className='navbar-collapse collapse in' id='bs4'>
               <div className='col-sm-2 sidebar'>
-                <Nav/>
+                <Nav />
               </div>{/* end row */}
             </div>{/* end navbar collapse */}
             <div className='col-sm-10 col-sm-push-2'>

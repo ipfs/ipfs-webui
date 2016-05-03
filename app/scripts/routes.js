@@ -18,7 +18,7 @@ import NotFoundPage from './pages/notfound'
 export
 default (
   <Route component={Page} path='/'>
-    <IndexRoute component={HomePage}/>
+    <IndexRoute component={HomePage} />
     <Route path='home' component={HomePage} />
 
     <Route path='connections' component={ConnectionsPage} />
