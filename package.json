@@ -34,7 +34,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.0.1",
     "babel-preset-stage-0": "^6.3.13",
-    "babel-runtime": "^6.3.19",
+    "babel-runtime": "^6.6.1",
     "chai": "^3.4.1",
     "chai-enzyme": "^0.4.1",
     "cheerio": "^0.20.0",
