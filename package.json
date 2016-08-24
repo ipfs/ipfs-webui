@@ -19,7 +19,7 @@
     "react-dom": "^0.14.2",
     "react-localstorage": "^0.2.8",
     "react-router": "^2.0.0-rc4",
-    "three": "^0.74.0"
+    "three": "^0.80.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
