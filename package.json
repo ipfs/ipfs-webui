@@ -11,7 +11,7 @@
     "i18next-localstorage-cache": "^0.2.2",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "i18next-xhr-backend": "^0.5.3",
-    "ipfs-api": "^3.0.2",
+    "ipfs-api": "^8.0.0",
     "ipfs-geoip": "^2.0.0",
     "lodash": "^4.2.0",
     "react": "^0.14.7",
