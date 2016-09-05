@@ -39,7 +39,7 @@
     "chai-enzyme": "^0.4.1",
     "cheerio": "^0.20.0",
     "classnames": "^2.2.2",
-    "css-loader": "^0.23.0",
+    "css-loader": "^0.25.0",
     "debug": "^2.2.0",
     "enzyme": "^2.1.0",
     "eslint": "^2.9.0",
