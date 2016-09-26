@@ -43,7 +43,7 @@
     "debug": "^2.2.0",
     "enzyme": "^2.1.0",
     "eslint": "^2.9.0",
-    "eslint-config-standard": "^5.1.0",
+    "eslint-config-standard": "^6.1.0",
     "eslint-config-standard-react": "^2.3.0",
     "eslint-plugin-promise": "^1.1.0",
     "eslint-plugin-react": "^4.2.1",
