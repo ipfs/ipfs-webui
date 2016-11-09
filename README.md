@@ -13,7 +13,7 @@ IPFS Webui is a web interface for IPFS, the Interplanetary File System. With the
 
 The webui is a **work-in-progress**. Follow the [development](#development) processes below to check it out.
 
-Otherwise, if you're curious about IPFS, head over to [ipfs/ipfs](//github.com/ipfs/ifps), or to the [golang](//github.com/ipfs/go-ipfs) or [nodejs](//github.com/ipfs/js-ipfs) implementations. The [website](https://ipfs.io) also has a host of resources on how to get started.
+Otherwise, if you're curious about IPFS, head over to [ipfs/ipfs](//github.com/ipfs/ipfs), or to the [golang](//github.com/ipfs/go-ipfs) or [nodejs](//github.com/ipfs/js-ipfs) implementations. The [website](https://ipfs.io) also has a host of resources on how to get started.
 
 ## Contribute
 
