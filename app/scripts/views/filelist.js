@@ -12,13 +12,16 @@ default class FileList extends Component {
     gateway: React.PropTypes.string
   };
 
-  _unpin (event, hash) {
+  _unpin (hash, event) {
     event.preventDefault()
     event.stopPropagation()
     this.props.ipfs.pin.remove(hash, {
       r: true
     }, (err, res) => {
       if (err) return console.error(err)
+      // TODO: This is not a solution. We have to reload the list from pages/files.js
+      // and force a reload of this Component.
+      alert('The file has been unpinned. Please reload to see changes.')
     })
   }
 
