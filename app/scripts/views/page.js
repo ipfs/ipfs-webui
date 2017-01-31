@@ -98,7 +98,7 @@ default class Page extends React.Component {
                       <input type='text' ref='dagPath' className='form-control dag-path' placeholder={i18n.t('Enter a hash or path')} />
                     </div>
                     <button className='btn btn-third btn-xs'
-                      onClick={() => this.context.router.push(`/objects/${parse(this.refs.dagPath.val()).urlify()}`)}>
+                      onClick={() => this.context.router.push(`/objects/${parse(this.refs.dagPath.value).urlify()}`)}>
                       {i18n.t('GO')}
                     </button>
                   </form>
