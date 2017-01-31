@@ -15,7 +15,7 @@ default class Page extends React.Component {
     version: '',
     updateAvailable: false,
     updating: false,
-    gateway: 'http://127.0.0.1:8080'
+    gateway: '//127.0.0.1:8080'
   };
 
   static displayName = 'Page';
@@ -38,7 +38,7 @@ default class Page extends React.Component {
       const split = res.Value.split('/')
       const port = split[4]
       this.setState({
-        gateway: 'http://' + window.location.hostname + ':' + port
+        gateway: '//' + window.location.hostname + ':' + port
       })
     })
   }
@@ -104,7 +104,7 @@ default class Page extends React.Component {
                   </form>
                   <ul className='nav navbar-nav navbar-right collapse navbar-collapse'>
                     <li>
-                      <a href='http://ipfs.io' target='_blank' data-toggle='tooltip' data-placement='bottom' title={i18n.t('About IPFS')}>
+                      <a href='https://ipfs.io' target='_blank' data-toggle='tooltip' data-placement='bottom' title={i18n.t('About IPFS')}>
                         <img src={require('../../img/help.png')} alt='Help' className='img-responsive icon' />
                         <span className='sr-only'>{i18n.t('Help')}</span>
                       </a>
