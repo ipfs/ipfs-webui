@@ -11,14 +11,12 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import THREE from 'three'
+const THREE = require('three')
 import debug from 'debug'
 
 const log = debug('globe:scripts')
 
-export
-default
-function(container, opts) {
+export default function(container, opts) {
   opts = opts || {}
 
   var colorFn = opts.colorFn || function(x) {

@@ -21,8 +21,8 @@ i18next
       escapeValue: false
     },
     keyseparator: '<',
-    nsseparator: '>'
+    nsseparator: '>',
+    compatibilityJSON: 'v2'
   })
 
-export
-default i18next
+export default i18next

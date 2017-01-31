@@ -8,11 +8,11 @@ export default class Home extends Component {
   state = {
     node: {
       peer: {
-        ID: '',
-        PublicKey: '',
-        Addresses: [],
-        AgentVersion: '',
-        ProtocolVersion: ''
+        id: '',
+        publicKey: '',
+        addresses: [],
+        agentVersion: '',
+        protocolVersion: ''
       },
       location: {
         formatted: ''
@@ -37,7 +37,7 @@ export default class Home extends Component {
           location: {}
         }
       })
-      getLocation(this.props.ipfs, peer.Addresses, (err, location) => {
+      getLocation(this.props.ipfs, peer.addresses, (err, location) => {
         if (err || !location) return console.error(err)
         if (!this.mounted) return
         this.setState({

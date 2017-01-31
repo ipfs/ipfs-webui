@@ -49,20 +49,19 @@ default class ConfigView extends Component {
       saving: true
     })
 
-    this.props.ipfs.config.replace(new Buffer(this.state.body), (err) => {
+    const body = JSON.parse(this.state.body)
+
+    this.props.ipfs.config.replace(body).then(() => {
       let newState = {
-        saving: false
+        saving: false,
+        saved: true
       }
-      if (err) {
-        newState.error = err.message
-      } else {
-        newState.saved = true
-        setTimeout(() => this.setState({
-          saved: false
-        }), 4000)
-      }
+
+      setTimeout(() => this.setState({
+        saved: false
+      }), 4000)
       this.setState(newState)
-    })
+    }).catch((error) => this.setState({error}))
   }
 
   render () {
@@ -81,11 +80,11 @@ default class ConfigView extends Component {
     const buttons = (
       <div className='controls'>
         <button className={buttonClass} onClick={this.save.bind(this)}>
-          <i className={iconClass}></i>&nbsp;
+          <i className={iconClass} />&nbsp;
           {this.state.saving ? i18n.t('Saving...') : this.state.saved ? i18n.t('Saved') : i18n.t('Save')}
         </button>
         <button className='btn btn-primary pull-right' onClick={() => this.setState({body: JSON.stringify(this.props.config, null, 2), error: null})}>
-          <i className='fa fa-recycle'></i>&nbsp;
+          <i className='fa fa-recycle' />&nbsp;
           {i18n.t('Reset')}
         </button>
         <div className='clear' />
@@ -97,7 +96,7 @@ default class ConfigView extends Component {
       error = (
         <div>
           <span className='text-danger pull-left'>
-            <strong>{i18n.t('Error in config:')}</strong>
+            <strong>{i18n.t('Error in config')}</strong>
             <span>{this.state.error}</span>
           </span>
         </div>

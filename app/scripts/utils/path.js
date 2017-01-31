@@ -24,7 +24,7 @@ default class Path {
   }
 
   urlify () {
-    return this.toString().replace(/[\/]/g, '\\')
+    return this.toString().replace(/[/]/g, '\\')
   }
 }
 

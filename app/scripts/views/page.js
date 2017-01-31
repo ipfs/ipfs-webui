@@ -34,8 +34,14 @@ default class Page extends React.Component {
       })
     })
     ipfs.config.get('Addresses.Gateway', (err, res) => {
-      if (err || !res) return console.error(err)
-      const split = res.Value.split('/')
+      if (err) {
+        return console.error(err)
+      }
+      if (res == null) {
+        return console.error(new Error('No Gateway found'))
+      }
+
+      const split = res.split('/')
       const port = split[4]
       this.setState({
         gateway: '//' + window.location.hostname + ':' + port
@@ -64,7 +70,7 @@ default class Page extends React.Component {
       update = (
         <div className='alert alert-warning'>
           <span>
-            <i className='fa fa-warning'></i>
+            <i className='fa fa-warning' />
             {i18n.t('A new version of IPFS is available.')}
           </span>
           <button

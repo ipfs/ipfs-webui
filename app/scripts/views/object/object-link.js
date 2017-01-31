@@ -1,11 +1,13 @@
 import React, {PropTypes} from 'react'
 import {join} from 'path'
 import {Link} from 'react-router'
+import mh from 'multihashes'
 
 import Path, {parse} from '../../utils/path'
 
 const ObjectLink = ({path, link}) => {
-  let url = link.Name ? path.append(link.Name) : parse(link.Hash)
+  let hash = mh.toB58String(link.multihash)
+  let url = link.name ? path.append(link.name) : parse(hash)
   url = url.urlify()
   url = join('objects', url)
 
@@ -13,15 +15,15 @@ const ObjectLink = ({path, link}) => {
     <tr>
       <td>
         <Link to={url}>
-          {link.Name}
+          {link.name}
         </Link>
       </td>
       <td>
         <Link to={url}>
-        {link.Hash}
+          {hash}
         </Link>
       </td>
-      <td>{link.Size}</td>
+      <td>{link.size}</td>
     </tr>
   )
 }
@@ -29,9 +31,9 @@ const ObjectLink = ({path, link}) => {
 ObjectLink.propTypes = {
   path: PropTypes.instanceOf(Path).isRequired,
   link: PropTypes.shape({
-    Hash: PropTypes.string.isRequired,
-    Size: PropTypes.number.isRequired,
-    Name: PropTypes.string
+    multihash: PropTypes.instanceOf(Buffer).isRequired,
+    size: PropTypes.number.isRequired,
+    name: PropTypes.string
   }).isRequired
 }
 

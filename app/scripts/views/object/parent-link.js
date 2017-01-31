@@ -7,7 +7,7 @@ import i18n from '../../utils/i18n'
 import Icon from '../icon'
 
 const ParentLink = ({parent}) => {
-  if (!parent) return <span></span>
+  if (!parent) return null
 
   return (
     <LinkContainer to={`/objects/${parent.urlify()}`}>
