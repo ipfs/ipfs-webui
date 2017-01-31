@@ -16,6 +16,6 @@ describe('ParentLink', () => {
   it('renders an empty span if no url is provided', () => {
     const el = shallow(<ParentLink />)
 
-    expect(el.find('span')).to.have.text('')
+    expect(el.find('span')).to.have.length(0)
   })
 })
