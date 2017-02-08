@@ -17,6 +17,6 @@ describe('PermaLink', () => {
   it('renders an empty span if no url given', () => {
     const el = shallow(<PermaLink />)
 
-    expect(el.find('span')).to.have.text('')
+    expect(el.find('span')).to.have.length(0)
   })
 })

@@ -17,7 +17,7 @@ default class Config extends Component {
   };
 
   componentDidMount () {
-    this.props.ipfs.config.show((err, configStream) => {
+    this.props.ipfs.config.get((err, configStream) => {
       if (err) return console.error(err)
 
       this.setState({

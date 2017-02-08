@@ -15,8 +15,8 @@ default class ObjectView extends Component {
     permalink: PropTypes.instanceOf(Path),
     gateway: PropTypes.string.isRequired,
     object: PropTypes.shape({
-      Data: PropTypes.string,
-      Links: PropTypes.array
+      data: PropTypes.string,
+      links: PropTypes.array
     }).isRequired
   };
 
@@ -31,8 +31,8 @@ default class ObjectView extends Component {
           <br />
           <div className='panel panel-default'>
             <ul className='list-group'>
-              <Links path={path} links={object.Links} />
-              <DisplayData data={object.Data} />
+              <Links path={path} links={object.links} />
+              <DisplayData data={object.data} />
             </ul>
           </div>
           <PermaLink url={permalink} />

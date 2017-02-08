@@ -27,13 +27,12 @@ default class Files extends React.Component {
   }
 
   getFiles () {
-    this.props.ipfs.pin.list('recursive', (err, pinned) => {
-      if (err || !pinned) return this.error(err)
-
-      this.setState({
-        files: Object.keys(pinned.Keys).sort()
+    this.props.ipfs.pin.ls({type: 'recursive'})
+      .then((pinned) => {
+        this.setState({
+          files: Object.keys(pinned).sort()
+        })
       })
-    })
   }
 
   _onAddFile = (event) => {
@@ -124,9 +123,8 @@ default class Files extends React.Component {
           onDragOver={this._onDragOver}
           onDragLeave={this._onDragLeave}
           onDrop={this._onDrop}
-        >
-        </div>
-        <div className={'file-add-container-inner ' + (this.state.dragging ? 'hover' : '')}></div>
+        />
+        <div className={'file-add-container-inner ' + (this.state.dragging ? 'hover' : '')} />
         <div className={(this.state.dragging || this.state.confirm) ? 'hidden' : ''}>
           <p>
             <strong>{i18n.t('Drag-and-drop your files here')}</strong>
@@ -153,7 +151,7 @@ default class Files extends React.Component {
         </div>
         <div className={!this.state.confirm ? 'hidden' : ''}>
           <p>
-            <i className='fa fa-lg fa-thumbs-up'></i> {i18n.t('Added')} <strong>{this.state.confirm}</strong>
+            <i className='fa fa-lg fa-thumbs-up' /> {i18n.t('Added')} <strong>{this.state.confirm}</strong>
           </p>
         </div>
         <input

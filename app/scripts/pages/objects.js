@@ -34,31 +34,23 @@ default class Objects extends React.Component {
   };
 
   _getObject = (props, path) => {
-    props.ipfs.object.get(path.toString(), (error, object) => {
-      if (error) {
-        return this.setState({
-          error
-        })
-      }
+    const p = path.toString().replace(/^\/ipfs\//, '')
+    props.ipfs.object.get(p).then((object) => {
       this.setState({
         permalink: null,
         object
       })
+
       if (path.protocol === 'ipns') {
         // also resolve the name
-        props.ipfs.name.resolve(path.name, (error, resolved) => {
-          if (error) {
-            return this.setState({
-              error
-            })
-          }
-          const permalink = parse(resolved.Path).append(path.path)
+        return props.ipfs.name.resolve(path.name).then((resolved) => {
+          const permalink = parse(resolved.path).append(path.path)
           this.setState({
             permalink
           })
         })
       }
-    })
+    }).catch((error) => this.setState({error}))
   };
 
   _update = (event) => {
@@ -69,7 +61,10 @@ default class Objects extends React.Component {
     const route = ['/objects']
     if (params.path) route.push(params.path)
 
-    this.context.router.push(route.join('/'))
+    const r = route.join('/')
+    if ('#' + r !== window.location.hash) {
+      this.context.router.push(r)
+    }
   };
 
   constructor (props) {
@@ -78,10 +73,12 @@ default class Objects extends React.Component {
   }
 
   componentDidMount () {
+    this.mounted = true
     window.addEventListener('hashchange', this._updateState)
   }
 
   componentWillUnmount () {
+    this.mounted = false
     window.removeEventListener('hashchange', this._updateState)
   }
 
@@ -89,7 +86,7 @@ default class Objects extends React.Component {
     const error = this.state.error ? (<div className='row'>
       <h4>{i18n.t('Error')}</h4>
       <div className='panel panel-default padded'>
-        {this.state.error.Message}
+        {this.state.error}
       </div>
     </div>) : null
 

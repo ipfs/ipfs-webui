@@ -37,49 +37,40 @@ default class Connections extends React.Component {
   }
 
   getPeers () {
-    this.props.ipfs.swarm.peers((err, res) => {
+    this.props.ipfs.swarm.peers((err, peers) => {
       if (err) return console.error(err)
         // If we've unmounted, abort
       if (!this.mounted) return
 
-      let peers = res.Strings.map((peer) => {
-        let slashIndex = peer.lastIndexOf('/')
-        return {
-          Address: peer.substr(0, slashIndex),
-          ID: peer.substr(slashIndex + 1)
-        }
+      peers = peers.sort((a, b) => {
+        return a.peer.toB58String() > b.peer.toB58String() ? 1 : -1
       })
 
-      peers = peers.sort((a, b) => {
-        return a.ID > b.ID ? 1 : -1
-      })
       peers.forEach((peer, i) => {
         peer.ipfs = this.props.ipfs
         peer.location = {
           formatted: ''
         }
 
-        let location = this.state.locations[peer.ID]
+        let id = peer.peer.toB58String()
+        let location = this.state.locations[id]
         if (!location) {
-          this.state.locations[peer.ID] = {}
-          this.props.ipfs.id(peer.ID, (err, id) => {
+          this.state.locations[id] = {}
+          const addr = peer.addr.toString()
+          getLocation(this.props.ipfs, [addr], (err, res) => {
             if (err) return console.error(err)
+            // If we've unmounted, abort
+            if (!this.mounted) return
 
-            getLocation(this.props.ipfs, id.Addresses, (err, res) => {
-              if (err) return console.error(err)
-                // If we've unmounted, abort
-              if (!this.mounted) return
-
-              res = res || {}
-              peer.location = res
-              let locations = this.state.locations
-              locations[peer.ID] = res
-              peers[i] = peer
-              this.setState({
-                peers,
-                locations,
-                nonce: this.state.nonce++
-              })
+            res = res || {}
+            peer.location = res
+            let locations = this.state.locations
+            locations[id] = res
+            peers[i] = peer
+            this.setState({
+              peers,
+              locations,
+              nonce: this.state.nonce++
             })
           })
         }

@@ -7,10 +7,10 @@ default class Connection extends Component {
   static propTypes = {
     ipfs: React.PropTypes.object,
     location: React.PropTypes.object,
-    BytesRead: React.PropTypes.number,
-    BytesWritten: React.PropTypes.number,
-    ID: React.PropTypes.string,
-    Address: React.PropTypes.string
+    bytesRead: React.PropTypes.number,
+    bytesWritten: React.PropTypes.number,
+    peer: React.PropTypes.object,
+    addr: React.PropTypes.object
   };
 
   state = {
@@ -23,7 +23,9 @@ default class Connection extends Component {
         open: false
       })
     }
-    this.props.ipfs.id(this.props.ID, (err, peer) => {
+
+    const id = this.props.peer.toB58String()
+    this.props.ipfs.id(id, (err, peer) => {
       if (err) return console.error(err)
       this.setState({
         open: true,
@@ -40,19 +42,20 @@ default class Connection extends Component {
         <Peer
           peer={this.state.peer}
           location={this.props.location}
-          bytesRead={this.props.BytesRead}
-          bytesWritten={this.props.BytesWritten}
+          bytesRead={this.props.bytesRead}
+          bytesWritten={this.props.bytesWritten}
         />
       )
     }
 
+    const id = this.props.peer.toB58String()
     return (
       <li className={'webui-connection list-group-item ' + (this.state.open ? 'active' : '')}>
         <button className='btn btn-link' onClick={this._handleClick}>
-          <strong>{this.props.ID}</strong>
+          <strong>{id}</strong>
           <br />
-          <span>{this.props.Address}</span>
-          <i className='icon fa fa-lg fa-angle-down'></i>
+          <span>{this.props.addr.toString()}</span>
+          <i className='icon fa fa-lg fa-angle-down' />
         </button>
         {peer}
       </li>

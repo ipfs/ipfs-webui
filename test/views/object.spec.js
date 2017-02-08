@@ -14,7 +14,7 @@ describe('Object', () => {
         path={path}
         permalink={permalink}
         gateway='gateway'
-        object={{Links: [], Data: 'hello'}}
+        object={{links: [], data: 'hello'}}
       />
     )
 

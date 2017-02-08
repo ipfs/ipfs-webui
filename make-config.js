@@ -19,7 +19,7 @@ module.exports = function makeConfig (isDev) {
   // Handle js-ipfs-api
   config.module.loaders.push({
     test: /\.js$/,
-    include: /node_modules\/(hoek|qs|wreck|boom|ipfs-api|ipfs-geoip)/,
+    include: /node_modules\/(promisify-es6|qs|ipfs*|is-ipfs|libp2p*|ipld*|multi*|cid|peer-id|peer-info)/,
     loader: 'babel-loader'
   })
 
@@ -32,6 +32,7 @@ module.exports = function makeConfig (isDev) {
     'require-dir': '{}',
     // Needed for enzyme
     jsdom: 'window',
+    'react/addons': true,
     'react/lib/ExecutionEnvironment': true,
     'react/lib/ReactContext': 'window',
     'text-encoding': 'window'

@@ -20,7 +20,7 @@ const ObjectLinks = ({path, links}) => {
           </tr>
         </thead>
         <tbody>
-      {links.map((link) => <ObjectLink key={link.Hash} path={path} link={link} />)}
+          {links.map((link) => <ObjectLink key={link.multihash} path={path} link={link} />)}
         </tbody>
       </Table>
     </div>
@@ -30,9 +30,9 @@ const ObjectLinks = ({path, links}) => {
 ObjectLinks.propTypes = {
   path: PropTypes.instanceOf(Path).isRequired,
   links: PropTypes.arrayOf(PropTypes.shape({
-    Hash: PropTypes.string.isRequired,
-    Size: PropTypes.number.isRequired,
-    Name: PropTypes.string
+    multihash: PropTypes.instanceOf(Buffer).isRequired,
+    size: PropTypes.number.isRequired,
+    name: PropTypes.string
   })).isRequired
 }
 
