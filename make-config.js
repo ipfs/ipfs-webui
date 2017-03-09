@@ -19,7 +19,7 @@ module.exports = function makeConfig (isDev) {
   // Handle js-ipfs-api
   config.module.loaders.push({
     test: /\.js$/,
-    include: /node_modules\/(hoek|qs|wreck|boom|ipfs-api|ipfs-geoip|lodash-es)/,
+    include: /node_modules\/(hoek|qs|wreck|boom|lodash-es|ipfs*|libp2p*|ipld*|multi*|promisify-es6|cid*|peer*|is-ipfs)/,
     loader: 'babel-loader'
   })
 
