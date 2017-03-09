@@ -12,12 +12,12 @@ import NotFoundPage from './components/notfound'
 
 export default (
   <Route path='/' component={App}>
-    <IndexRoute component={HomePage}/>
+    <IndexRoute component={HomePage} />
     <Route path='home' component={HomePage} />
 
     <Route path='peers' component={PeersPage} />
     <Route path='files' component={FilesPage}>
-      <Route path='preview' component={FilesPreviewPage}/>
+      <Route path='preview' component={FilesPreviewPage} />
     </Route>
 
     <Route path='config' component={ConfigPage} />

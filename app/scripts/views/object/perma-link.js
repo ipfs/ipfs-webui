@@ -5,7 +5,7 @@ import i18n from '../../utils/i18n'
 import Path from '../../utils/path'
 
 const PermaLink = ({url}) => {
-  if (!url) return <span></span>
+  if (!url) return <span />
 
   return (
     <li className='list-group-item'>

@@ -56,7 +56,7 @@ class ConfigContainer extends Component {
         <Col sm={10} smOffset={1}>
           <div className='webui-config'>
             <h3>{i18n.t('Config')}</h3>
-            <br/>
+            <br />
             {buttons}
             <div style={{height: '50px'}} />
             <ConfigText
@@ -67,7 +67,7 @@ class ConfigContainer extends Component {
             />
             {buttons}
             <div style={{height: '50px'}} />
-            <br/>
+            <br />
           </div>
         </Col>
       </Row>

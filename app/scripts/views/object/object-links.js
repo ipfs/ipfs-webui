@@ -20,7 +20,7 @@ const ObjectLinks = ({path, links}) => {
           </tr>
         </thead>
         <tbody>
-      {links.map((link) => <ObjectLink key={link.Hash} path={path} link={link} />)}
+          {links.map((link) => <ObjectLink key={link.Hash} path={path} link={link} />)}
         </tbody>
       </Table>
     </div>

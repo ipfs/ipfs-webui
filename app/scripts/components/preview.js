@@ -44,7 +44,7 @@ const renderers = {
     const imageUrl = urlCreator.createObjectURL(blob)
 
     return (
-      <img alt={name} src={imageUrl}/>
+      <img alt={name} src={imageUrl} />
     )
   },
 

@@ -77,10 +77,10 @@ describe('PeersViewer', () => {
       const list = [1, 2]
       const s = sinon.sandbox.create()
 
-      s.stub(peersViewer, '_idCellRenderer').returns(<div className={'foo'}/>)
-      s.stub(peersViewer, '_locationDataGetter').returns(<div className={'foo'}/>)
-      s.stub(peersViewer, '_locationCellRenderer').returns(<div className={'foo'}/>)
-      s.stub(peersViewer, '_agentCellRenderer').returns(<div className={'foo'}/>)
+      s.stub(peersViewer, '_idCellRenderer').returns(<div className={'foo'} />)
+      s.stub(peersViewer, '_locationDataGetter').returns(<div className={'foo'} />)
+      s.stub(peersViewer, '_locationCellRenderer').returns(<div className={'foo'} />)
+      s.stub(peersViewer, '_agentCellRenderer').returns(<div className={'foo'} />)
 
       const el = render(peersViewer._createTable(list)({
         width: 1000,
@@ -139,7 +139,7 @@ describe('PeersViewer', () => {
       const el = shallow(<PeersViewer
         ids={ids}
         details={details}
-        locations={locations}/>
+        locations={locations} />
       )
 
       expect(el.find('AutoSizer').length).to.equal(1)

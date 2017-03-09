@@ -22,7 +22,7 @@ export default class ActionBar extends Component {
       fileActions = (
         <div className='action-bar-file-actions'>
           <a onClick={onRemoveDir}>
-            <Icon glyph='minus'/>
+            <Icon glyph='minus' />
             Delete {count}
           </a>
         </div>
@@ -33,7 +33,7 @@ export default class ActionBar extends Component {
       <div className='action-bar'>
         <div className='action-bar-general-actions'>
           <a onClick={onCreateDir}>
-            <Icon glyph='plus'/> Create Folder
+            <Icon glyph='plus' /> Create Folder
           </a>
         </div>
         {fileActions}

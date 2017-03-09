@@ -27,7 +27,7 @@ export default class Welcome extends Component {
           </Col>
         </Row>
         <Row>
-          <NodeInfo data={this.props.node} location={this.props.location}/>
+          <NodeInfo data={this.props.node} location={this.props.location} />
         </Row>
       </div>
     )

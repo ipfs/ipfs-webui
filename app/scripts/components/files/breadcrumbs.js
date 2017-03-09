@@ -27,7 +27,6 @@ class Breadcrumb extends Component {
 
 export default class Breadcrumbs extends Component {
   static propTypes = {
-    files: PropTypes.array.isRequired,
     root: PropTypes.string,
     setRoot: PropTypes.func.isRequired
   };
@@ -63,7 +62,7 @@ export default class Breadcrumbs extends Component {
                   key={`${root}-1`}
                   path={root}
                   onClick={this.props.setRoot}
-                  text={part}/>
+                  text={part} />
               ]
             })
             .flatten()
@@ -79,7 +78,7 @@ export default class Breadcrumbs extends Component {
           key='-2'
           path='/'
           onClick={this.props.setRoot}
-          text='IPFS'/>
+          text='IPFS' />
       )
     }
 

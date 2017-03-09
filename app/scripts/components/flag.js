@@ -28,7 +28,7 @@ export default class Flag extends Component {
     }
 
     return (
-      <span className={className} style={style}></span>
+      <span className={className} style={style} />
     )
   }
 }

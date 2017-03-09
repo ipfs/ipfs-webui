@@ -16,7 +16,7 @@ class Row extends Component {
     onClick: PropTypes.func.isRequired,
     onContextMenu: PropTypes.func.isRequired,
     onDoubleClick: PropTypes.func.isRequired,
-    onRemoveDir: PropTypes.func.isRequired,
+    // onRemoveDir: PropTypes.func.isRequired,
     selected: PropTypes.bool
   };
 
@@ -61,6 +61,6 @@ class Row extends Component {
 }
 
 export default ContextMenuLayer('files-context-menu', (props) => ({
-  file: props.file,
-  onRemove: props.onRemoveDir
+  file: props.file// ,
+  // onRemove: props.onRemoveDir
 }))(Row)

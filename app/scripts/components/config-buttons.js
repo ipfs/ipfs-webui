@@ -32,14 +32,14 @@ default class ConfigButtons extends Component {
     return (
       <div className='controls'>
         <button className={buttonClass} onClick={this.props.saveClick}>
-          <i className={iconClass}></i>&nbsp;
+          <i className={iconClass} />&nbsp;
           {this.props.saving ? i18n.t('Saving...') : this.props.saved ? i18n.t('Saved') : i18n.t('Save')}
         </button>
         <button className='btn btn-primary pull-right' onClick={this.props.resetDraft}>
-          <i className='fa fa-recycle'></i>&nbsp;
+          <i className='fa fa-recycle' />&nbsp;
           {i18n.t('Reset')}
         </button>
-        <div className='clear'/>
+        <div className='clear' />
       </div>
     )
   }

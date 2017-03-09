@@ -6,7 +6,7 @@ import World from '../../app/scripts/components/world'
 
 describe('World', () => {
   it('should have the correct defaults', () => {
-    const el = shallow(<World/>)
+    const el = shallow(<World />)
     expect(el.find('WorldMap').length).to.equal(1)
 
     var inst = el.instance()
@@ -16,7 +16,7 @@ describe('World', () => {
   })
 
   it('should set peersCount', () => {
-    const el = shallow(<World peersCount={1337}/>)
+    const el = shallow(<World peersCount={1337} />)
     expect(el.find('.counter').node.props.children).to.equal(1337)
   })
 })

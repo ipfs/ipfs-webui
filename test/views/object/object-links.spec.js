@@ -17,7 +17,7 @@ describe('ObjectLinks', () => {
       Hash: 'Qp',
       Size: 3
     }]
-    const el = shallow(<ObjectLinks path={path} links={links}/>)
+    const el = shallow(<ObjectLinks path={path} links={links} />)
 
     expect(el.find('strong')).to.have.text('Object links')
     expect(el.find('th').first()).to.have.text('Name')

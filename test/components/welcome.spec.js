@@ -9,7 +9,7 @@ describe('Welcome', () => {
     const node = { node: 'node' }
     const location = { location: 'location' }
 
-    const el = shallow(<Welcome node={node} location={location}/>)
+    const el = shallow(<Welcome node={node} location={location} />)
 
     expect(el.find('NodeInfo')).to.have.prop('data').eql(node)
     expect(el.find('NodeInfo')).to.have.prop('location').eql(location)

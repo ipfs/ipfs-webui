@@ -8,7 +8,7 @@ import ParentLink from '../../../app/scripts/views/object/parent-link'
 describe('ParentLink', () => {
   it('renders with a url', () => {
     const path = parse('/ipfs/hi/hello/world')
-    const el = shallow(<ParentLink parent={path}/>)
+    const el = shallow(<ParentLink parent={path} />)
 
     expect(el.find('LinkContainer')).to.have.prop('to', '/objects/\\ipfs\\hi\\hello\\world')
   })

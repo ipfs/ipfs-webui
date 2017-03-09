@@ -129,7 +129,7 @@ class FilesExplorer extends Component {
                 <ActionBar
                   selectedFiles={selected}
                   onCreateDir={this._onCreateDir}
-                  onRemoveDir={this._onRemoveDir}/>
+                  onRemoveDir={this._onRemoveDir} />
               </Col>
             </Row>
             <Row>
@@ -146,7 +146,7 @@ class FilesExplorer extends Component {
                   onCreateDir={this.props.createDir}
                   onCancelCreateDir={this._onCancelCreateDir}
                   onCreateFiles={this._onCreateFiles}
-                  onRemoveDir={this._onRemoveDir}/>
+                  onRemoveDir={this._onRemoveDir} />
               </Col>
             </Row>
           </Col>

@@ -24,7 +24,7 @@ class Home extends Component {
     return (
       <Row>
         <Col sm={10} smOffset={1}>
-          <Welcome node={this.props.node} location={{}}/>
+          <Welcome node={this.props.node} location={{}} />
         </Col>
       </Row>
     )

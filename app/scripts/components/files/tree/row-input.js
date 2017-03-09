@@ -47,7 +47,7 @@ export default class CreateDirInput extends Component {
             value={this.props.value}
             onChange={this.props.onChange}
             onKeyUp={this._onKeyUp}
-            onBlur={this.props.onBlur}/>
+            onBlur={this.props.onBlur} />
         </div>
       </div>
     )

@@ -20,7 +20,7 @@ export default class World extends Component {
 
     return (
       <div className='world'>
-        <WorldMap coordinates={coordinates}/>
+        <WorldMap coordinates={coordinates} />
         <div className='world-peers-counter'>
           <div className='counter'>{this.props.peersCount}</div>
           <div className='label'>Peers</div>

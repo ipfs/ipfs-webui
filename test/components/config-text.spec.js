@@ -22,8 +22,8 @@ describe('ConfigText', () => {
       }
 
       configText.handleChange(event)
-      expect(configText.props.saveDraft.called).to.be.true
-      expect(configText.props.markSaved.called).to.be.true
+      expect(configText.props.saveDraft.called).to.be.eql(true)
+      expect(configText.props.markSaved.called).to.be.eql(true)
     })
   })
 

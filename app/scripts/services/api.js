@@ -142,7 +142,7 @@ export const peerLocations = (ids, api = localApi) => {
         return address.match(/ip[4,6]/)
       })
       .map(({id, address}) => {
-        const [, ip] = address.match(/ip[4,6]\/([^\/]*)\//)
+        const [, ip] = address.match(/ip[4,6]\/([^/]*)\//)
         // TODO: Replace with ipfs based location database
         return lookupIP(api, ip)
           .then((location) => {
@@ -152,7 +152,7 @@ export const peerLocations = (ids, api = localApi) => {
             }
           })
           .catch(() => {
-            return
+
           })
       })
   ).then((locations) => {

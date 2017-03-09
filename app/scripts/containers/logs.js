@@ -37,7 +37,7 @@ class Logs extends Component {
             systems={this.props.systems}
             selectedSystem={this.props.selectedSystem}
             selectLogSystem={this.props.selectLogSystem} />
-          <LogViewer/>
+          <LogViewer />
         </Col>
       </Row>
     )

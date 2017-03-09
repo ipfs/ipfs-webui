@@ -51,6 +51,7 @@ class Tree extends Component {
     onTmpDirChange: PropTypes.func.isRequired,
     onCreateDir: PropTypes.func.isRequired,
     onCancelCreateDir: PropTypes.func.isRequired,
+    // eslint-disable-next-line
     onCreateFiles: PropTypes.func.isRequired,
     onRemoveDir: PropTypes.func.isRequired,
     // react-dnd
@@ -107,7 +108,7 @@ class Tree extends Component {
         onClick={this.props.onRowClick}
         onContextMenu={this.props.onRowContextMenu}
         onDoubleClick={this.props.onRowDoubleClick}
-        onRemoveDir={this.props.onRemoveDir}/>
+        onRemoveDir={this.props.onRemoveDir} />
     )).concat([tmpDir])
 
     const {isOver, canDrop} = this.props

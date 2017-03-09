@@ -5,7 +5,7 @@ const RawData = ({data, limit = 10000}) => {
   const content = `data:text/plain;charset=utf8;base64,${buf.toString('base64')}`
 
   return (
-    <iframe src={content} className='panel-inner'></iframe>
+    <iframe src={content} className='panel-inner' />
   )
 }
 

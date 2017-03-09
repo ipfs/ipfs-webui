@@ -18,7 +18,7 @@ const ObjectLink = ({path, link}) => {
       </td>
       <td>
         <Link to={url}>
-        {link.Hash}
+          {link.Hash}
         </Link>
       </td>
       <td>{link.Size}</td>

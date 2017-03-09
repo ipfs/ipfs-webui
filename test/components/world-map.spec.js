@@ -8,12 +8,12 @@ describe('WorldMap', () => {
   const c = [[12, 14]]
 
   it('should render an svg', () => {
-    const el = render(<WorldMap coordinates={c}/>)
+    const el = render(<WorldMap coordinates={c} />)
     expect(el.find('svg').length).to.equal(1)
   })
 
   it('should have the correct coordinates', () => {
-    const el = shallow(<WorldMap coordinates={c}/>)
+    const el = shallow(<WorldMap coordinates={c} />)
     const p = el.instance().props
 
     c.forEach((coordinates, i) => {

@@ -21,7 +21,7 @@ export default class Identicon extends Component {
         className='identicon'
         width={size}
         height={size}
-        src={`data:image/png;base64,${data}`}/>
+        src={`data:image/png;base64,${data}`} />
     )
   }
 }

@@ -81,7 +81,7 @@ class FilesPreview extends Component {
             content={content}
             stats={stats}
             read={read}
-            gatewayUrl={gatewayUrl}/>
+            gatewayUrl={gatewayUrl} />
         </div>
       </div>
     )

@@ -14,9 +14,9 @@ class App extends Component {
     errorMessage: PropTypes.string,
     resetErrorMessage: PropTypes.func.isRequired,
     // Injected by React Router
-    children: PropTypes.node,
-    params: PropTypes.object,
-    location: PropTypes.object
+    children: PropTypes.node
+    // params: PropTypes.object,
+    // location: PropTypes.object
   };
 
   componentWillReceiveProps (nextProps) {
@@ -39,7 +39,7 @@ class App extends Component {
         <ReduxToastr
           timeOut={5000}
           newestOnTop={false}
-          position='top-right'/>
+          position='top-right' />
         <Row>
           <div className='navbar-collapse collapse in'>
             <Col sm={2} className='sidebar'>
