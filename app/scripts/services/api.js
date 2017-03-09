@@ -29,14 +29,6 @@ function lookupIP (api, ip) {
   })
 }
 
-function splitId (id) {
-  const index = id.lastIndexOf('/')
-  return {
-    address: id.substring(0, index).replace(/\/ipfs$/, ''),
-    id: id.substring(index + 1)
-  }
-}
-
 function cancellablePromise (p, doCancel) {
   p[CANCEL] = doCancel
   return p
@@ -115,8 +107,11 @@ export const createLogSource = (api = localApi) => {
 }
 
 export const peerIds = (api = localApi) => {
-  return api.swarm.peers().then(({Strings}) => {
-    return Strings.map(splitId)
+  return api.swarm.peers().then((ids) => {
+    return keyBy(ids.map((id) => ({
+      id: id.peer.toB58String(),
+      ...id
+    })), 'id')
   })
 }
 
@@ -134,30 +129,24 @@ export const peerDetails = (ids, api = localApi) => {
     })
 }
 
-export const peerLocations = (ids, api = localApi) => {
+export const peerLocations = (ids, details, api = localApi) => {
   return Promise.all(
     ids
-      .filter(({address}) => {
+      .filter((id) => {
+        const address = details[id].addr.toString()
         // Only ip4 and ip6 addresses
         return address.match(/ip[4,6]/)
       })
-      .map(({id, address}) => {
+      .map((id) => {
+        const address = details[id].addr.toString()
         const [, ip] = address.match(/ip[4,6]\/([^/]*)\//)
-        // TODO: Replace with ipfs based location database
-        return lookupIP(api, ip)
-          .then((location) => {
-            return {
-              ...location,
-              id
-            }
-          })
-          .catch(() => {
 
-          })
+        return lookupIP(api, ip).then((location) => ({
+          ...location,
+          id
+        })).catch(() => {})
       })
-  ).then((locations) => {
-    return keyBy(compact(locations), 'id')
-  })
+  ).then((locations) => keyBy(compact(locations), 'id'))
 }
 
 export const files = {
@@ -199,10 +188,10 @@ export const files = {
 }
 
 export const getConfig = (api = localApi) => {
-  return api.config.show()
+  return api.config.get()
   .then((res) => JSON.parse(res.toString()))
 }
 
 export const saveConfig = (config, api = localApi) => {
-  return api.config.replace(new Buffer(config))
+  return api.config.replace(config)
 }

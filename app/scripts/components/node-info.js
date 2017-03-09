@@ -42,7 +42,7 @@ export default class NodeInfo extends Component {
         <h3>{i18n.t('Node Info')}</h3>
 
         <LabeledProp title='Peer ID'>
-          <code>{data.ID}</code>
+          <code>{data.id}</code>
         </LabeledProp>
 
         <LabeledProp title='Location'>
@@ -50,16 +50,16 @@ export default class NodeInfo extends Component {
         </LabeledProp>
 
         <LabeledProp title='Agent Version'>
-          <code>{data.AgentVersion || ''}</code>
+          <code>{data.agentVersion || ''}</code>
         </LabeledProp>
 
         <LabeledProp title='Protocol Version'>
-          <code>{data.ProtocolVersion || ''}</code>
+          <code>{data.protocolVersion || ''}</code>
         </LabeledProp>
 
         <LabeledProp title='Network Addresses'>
           <pre className='box addresses'>
-            {(data.Addresses || []).map((address, i) => {
+            {(data.addresses || []).map((address, i) => {
               return address ? `${address}\n` : ''
             })}
           </pre>

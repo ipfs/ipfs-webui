@@ -3026,9 +3026,9 @@ icss-replace-symbols@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/icss-replace-symbols/-/icss-replace-symbols-1.0.2.tgz#cb0b6054eb3af6edc9ab1d62d01933e2d4c8bfa5"
 
-identicon.js@^1.1.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/identicon.js/-/identicon.js-1.3.0.tgz#7bfbb386b775e0781a955578bab71e824e6869e0"
+identicon.js@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/identicon.js/-/identicon.js-1.1.0.tgz#b78af6d5749177d01699a4163e698d0a199f721b"
 
 ieee754@^1.1.4:
   version "1.1.8"
@@ -5981,9 +5981,9 @@ toggle-selection@^1.0.3:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/toggle-selection/-/toggle-selection-1.0.5.tgz#726c703de607193a73c32c7df49cd24950fc574f"
 
-topojson@^1.6.24:
-  version "1.6.27"
-  resolved "https://registry.yarnpkg.com/topojson/-/topojson-1.6.27.tgz#adbe33a67e2f1673d338df12644ad20fc20b42ed"
+topojson@1.5.24:
+  version "1.6.24"
+  resolved "https://registry.yarnpkg.com/topojson/-/topojson-1.6.24.tgz#713a966e450a183327f5f157a6556fba2b87b320"
   dependencies:
     d3 "3"
     d3-geo-projection "0.2"

@@ -15,7 +15,7 @@
     "i18next-localstorage-cache": "^0.2.2",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "i18next-xhr-backend": "^0.5.3",
-    "identicon.js": "^1.1.0",
+    "identicon.js": "1.1.0",
     "ipfs-api": "^12.1.7",
     "ipfs-geoip": "^2.0.0",
     "is-binary": "^0.1.0",
@@ -42,9 +42,10 @@
     "react-syntax-highlighter": "^1.1.2",
     "react-textarea-autosize": "3.3.0",
     "react-virtualized": "^5.5.3",
+    "readable-stream": "1.1.14",
     "redux": "^3.3.1",
     "redux-saga": "^0.9.4",
-    "topojson": "^1.6.24"
+    "topojson": "1.5.24"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",

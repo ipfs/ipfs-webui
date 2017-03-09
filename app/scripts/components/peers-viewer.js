@@ -18,6 +18,10 @@ export default class PeersViewer extends Component {
     return rowData.location
   };
 
+  _addressDataGetter = (dataKey, rowData) => {
+    return rowData.addr && rowData.addr.toString()
+  }
+
   _idCellRenderer = (id) => {
     const tp = <Tooltip id={id}>{id}</Tooltip>
     return (
@@ -101,7 +105,8 @@ export default class PeersViewer extends Component {
           <FlexColumn
             label='Network Address'
             cellClassName='address-entry'
-            dataKey='address'
+            cellDataGetter={this._addressDataGetter}
+            dataKey='addr'
             width={250}
           />
           <FlexColumn
@@ -116,7 +121,7 @@ export default class PeersViewer extends Component {
             label='Agent'
             cellClassName='agent-entry'
             cellRenderer={this._agentCellRenderer}
-            dataKey='AgentVersion'
+            dataKey='agentVersion'
             width={250}
           />
         </FlexTable>
@@ -130,14 +135,14 @@ export default class PeersViewer extends Component {
 
   render () {
     const list = this.props.ids.map((peer) => {
-      const details = this.props.details[peer.id]
-      const location = this.props.locations[peer.id]
+      const details = this.props.details[peer]
+      const location = this.props.locations[peer]
 
-      let res = peer
-      if (details) res = details
-      res.location = location
-
-      return res
+      return {
+        id: peer,
+        ...details,
+        location: location
+      }
     })
 
     return (
