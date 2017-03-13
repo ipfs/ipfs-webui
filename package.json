@@ -45,7 +45,7 @@
     "readable-stream": "1.1.14",
     "redux": "^3.3.1",
     "redux-saga": "^0.9.4",
-    "topojson": "1.5.24"
+    "topojson": "1.6.24"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
