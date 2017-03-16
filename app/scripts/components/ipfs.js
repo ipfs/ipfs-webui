@@ -1,4 +1,5 @@
 import React from 'react'
+import {toastr} from 'react-redux-toastr'
 
 const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
 const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || 80)
@@ -17,16 +18,21 @@ export const withIpfs = (Component) => {
 
     componentDidMount () {
       ipfs.version((err, res) => {
-        if (err) return console.error(err)
+        if (err) {
+          console.error(err)
+          return toastr.error('Failed to determine local IPFS version. Is the IPFS daemon running?')
+        }
         version = res.Version
         this.setState({version: res.Version})
       })
       ipfs.config.get('Addresses.Gateway', (err, res) => {
         if (err) {
-          return console.error(err)
+          console.error(err)
+          return toastr.error('Failed to get configured IPFS gateway. Is the IPFS daemon running?')
         }
         if (res == null) {
-          return console.error(new Error('No Gateway found'))
+          console.error(new Error('No Gateway found'))
+          return toastr.error('Missing IPFS gateway configuration')
         }
 
         const split = res.split('/')
