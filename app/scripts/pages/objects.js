@@ -3,9 +3,9 @@ import ObjectView from '../views/object'
 import {parse} from '../utils/path.js'
 import i18n from '../utils/i18n.js'
 import {Row, Col, Button} from 'react-bootstrap'
+import {withIpfs} from '../components/ipfs'
 
-export
-default class Objects extends React.Component {
+class Objects extends React.Component {
   static displayName = 'Objects';
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -131,3 +131,5 @@ default class Objects extends React.Component {
     )
   }
 }
+
+export default withIpfs(Objects)

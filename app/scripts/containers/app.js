@@ -1,88 +1,50 @@
-import React from 'react'
-import Nav from './nav'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import ReduxToastr, {toastr} from 'react-redux-toastr'
+import {DragDropContext} from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import {Link} from 'react-router'
-
 import i18n from '../utils/i18n.js'
 import {parse} from '../utils/path'
+import {errors} from '../actions'
+import Nav from '../views/nav'
 
-const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
-const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || 80)
-const ipfs = require('ipfs-api')(host, port)
-
-export
-default class Page extends React.Component {
-  state = {
-    version: '',
-    updateAvailable: false,
-    updating: false,
-    gateway: '//127.0.0.1:8080'
-  };
-
-  static displayName = 'Page';
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
+class App extends Component {
   static propTypes = {
-    children: React.PropTypes.object
-  };
-
-  componentDidMount () {
-    ipfs.version((err, res) => {
-      if (err) return console.error(err)
-      this.setState({
-        version: res.Version
-      })
-    })
-    ipfs.config.get('Addresses.Gateway', (err, res) => {
-      if (err) {
-        return console.error(err)
-      }
-      if (res == null) {
-        return console.error(new Error('No Gateway found'))
-      }
-
-      const split = res.split('/')
-      const port = split[4]
-      this.setState({
-        gateway: '//' + window.location.hostname + ':' + port
-      })
-    })
+    // Injected by React Redux
+    errorMessage: PropTypes.string,
+    resetErrorMessage: PropTypes.func.isRequired,
+    // Injected by React Router
+    children: PropTypes.node
+    // params: PropTypes.object,
+    // location: PropTypes.object
   }
 
-  update () {
-    ipfs.update.apply((err, res) => {
-      this.setState({
-        updating: false
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const {errorMessage} = this.props
+
+    if (nextProps.errorMessage && errorMessage !== nextProps.errorMessage) {
+      toastr.error(nextProps.errorMessage, {
+        onHideComplete: () => {
+          this.props.resetErrorMessage()
+        }
       })
-      if (!err) window.location = window.location.toString()
-    })
-    this.setState({
-      updating: true
-    })
+    }
   }
 
   render () {
-    let update = null
-    if (this.state.updateAvailable) {
-      let updateButtonClass = 'btn btn-link'
-      if (this.state.updating) updateButtonClass += ' disabled'
+    const {children} = this.props
 
-      update = (
-        <div className='alert alert-warning'>
-          <span>
-            <i className='fa fa-warning' />
-            {i18n.t('A new version of IPFS is available.')}
-          </span>
-          <button
-            className={updateButtonClass}
-            onClick={this.update.bind(this)}>
-            Click here to update.
-          </button>
-        </div>
-      )
-    }
     return (
       <div>
+        <ReduxToastr
+          timeOut={5000}
+          newestOnTop={false}
+          position='top-right' />
         <div className='bs-navbar'>
           <nav className='navbar navbar-inverse navbar-fixed-top'>
             {/* We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. */}
@@ -141,10 +103,7 @@ default class Page extends React.Component {
               </div>{/* end row */}
             </div>{/* end navbar collapse */}
             <div className='col-sm-10 col-sm-push-2'>
-              {update}
-              {this.props.children && React.cloneElement(
-                 this.props.children, {ipfs: ipfs, host: host, gateway: this.state.gateway}
-               )}
+              {children}
             </div>
           </div>
         </div>
@@ -152,3 +111,13 @@ default class Page extends React.Component {
     )
   }
 }
+
+function mapStateToProps (state) {
+  return {
+    errorMessage: state.errors
+  }
+}
+
+export default DragDropContext(HTML5Backend)(connect(mapStateToProps, {
+  resetErrorMessage: errors.resetErrorMessage
+})(App))

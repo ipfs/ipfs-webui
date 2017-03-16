@@ -1,8 +1,27 @@
 import React, {Component} from 'react'
+import {Row, Nav} from 'react-bootstrap'
+
 import NavItem from './nav-item'
 
-export
-default class Nav extends Component {
+const tabs = [{
+  title: 'home',
+  icon: 'dot-circle-o'
+}, {
+  title: 'connections',
+  icon: 'globe'
+}, {
+  title: 'files',
+  icon: 'file'
+}, {
+  title: 'DAG',
+  url: 'objects',
+  icon: 'list-alt'
+}, {
+  title: 'config',
+  icon: 'cog'
+}]
+
+export default class Navigation extends Component {
   static displayName = 'Nav';
 
   static contextTypes: {
@@ -10,43 +29,25 @@ default class Nav extends Component {
   };
 
   render () {
-    const tabs = [{
-      title: 'home',
-      icon: 'dot-circle-o'
-    }, {
-      title: 'connections',
-      icon: 'globe'
-    }, {
-      title: 'files',
-      icon: 'file'
-    }, {
-      title: 'DAG',
-      url: 'objects',
-      icon: 'list-alt'
-    }, {
-      title: 'config',
-      icon: 'cog'
-    }]
+    const items = tabs.map((tab, idx) => {
+      const url = tab.url ? tab.url : ('/' + tab.title)
+      const title = tab.title.substring(0, 1).toUpperCase() + tab.title.substring(1)
+      return (
+        <NavItem
+          key={idx}
+          title={title}
+          url={url}
+          icon={tab.icon}
+        />
+      )
+    })
 
     return (
-      <div className='row'>
-        <ul id='side' className='nav nav-sidebar'>
-          {
-            tabs.map((tab, idx) => {
-              const url = tab.url ? tab.url : ('/' + tab.title)
-              const title = tab.title.substring(0, 1).toUpperCase() + tab.title.substring(1)
-              return (
-                <li key={idx}>
-                  <NavItem
-                    title={title}
-                    url={url}
-                    icon={tab.icon} />
-                </li>
-              )
-            })
-          }
-        </ul>
-      </div>
+      <Row>
+        <Nav id='side' className='nav-sidebar'>
+          {items}
+        </Nav>
+      </Row>
     )
   }
 }

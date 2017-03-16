@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import FileList from '../views/filelist'
 import i18n from '../utils/i18n.js'
 import {Row, Col, Panel} from 'react-bootstrap'
+import {withIpfs} from '../components/ipfs'
 
-export
-default class Bitswap extends Component {
+class Bitswap extends Component {
   state = {
     wantlist: []
   };
@@ -56,3 +56,5 @@ default class Bitswap extends Component {
     )
   }
 }
+
+export default withIpfs(Bitswap)

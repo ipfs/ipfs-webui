@@ -10,9 +10,9 @@ import {
   Row, Col
 }
 from 'react-bootstrap'
+import {withIpfs} from '../components/ipfs'
 
-export
-default class Connections extends React.Component {
+class Connections extends React.Component {
   state = {
     peers: [],
     locations: {},
@@ -94,3 +94,5 @@ default class Connections extends React.Component {
     )
   }
 }
+
+export default withIpfs(Connections)

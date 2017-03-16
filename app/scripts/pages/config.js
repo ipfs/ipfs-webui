@@ -4,9 +4,9 @@ import {
   Row, Col
 }
 from 'react-bootstrap'
+import {withIpfs} from '../components/ipfs'
 
-export
-default class Config extends Component {
+class Config extends Component {
   static displayName = 'Config';
   static propTypes = {
     ipfs: React.PropTypes.object
@@ -38,3 +38,5 @@ default class Config extends Component {
     )
   }
 }
+
+export default withIpfs(Config)
