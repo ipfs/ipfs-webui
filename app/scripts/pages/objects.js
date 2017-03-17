@@ -16,13 +16,12 @@ class Objects extends React.Component {
     ipfs: React.PropTypes.object
   };
 
-  _getStateFromRoute = (props) => {
-    const {params} = props
+  _getStateFromRoute = (params, ipfs) => {
     let state = {}
     if (params.path) {
       const path = parse(params.path)
       state.path = path
-      this._getObject(props, state.path)
+      this._getObject(ipfs, state.path)
       state.pathInput = path.toString()
     }
     // reset between reloads
@@ -30,12 +29,13 @@ class Objects extends React.Component {
   };
 
   _updateState = () => {
-    this.setState(this._getStateFromRoute(this.props))
+    const {params, ipfs} = this.props
+    this.setState(this._getStateFromRoute(params, ipfs))
   };
 
-  _getObject = (props, path) => {
+  _getObject = (ipfs, path) => {
     const p = path.toString().replace(/^\/ipfs\//, '')
-    props.ipfs.object.get(p).then((object) => {
+    ipfs.object.get(p).then((object) => {
       this.setState({
         permalink: null,
         object
@@ -43,7 +43,7 @@ class Objects extends React.Component {
 
       if (path.protocol === 'ipns') {
         // also resolve the name
-        return props.ipfs.name.resolve(path.name).then((resolved) => {
+        return ipfs.name.resolve(path.name).then((resolved) => {
           const permalink = parse(resolved.path).append(path.path)
           this.setState({
             permalink
@@ -69,7 +69,8 @@ class Objects extends React.Component {
 
   constructor (props) {
     super()
-    this.state = this._getStateFromRoute(props)
+    const {params, ipfs} = props
+    this.state = this._getStateFromRoute(params, ipfs)
   }
 
   componentDidMount () {

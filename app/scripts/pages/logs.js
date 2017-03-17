@@ -14,8 +14,7 @@ const MAXSIZE = 1000
 
 class Logs extends Component {
   static propTypes = {
-    ipfs: PropTypes.object,
-    host: PropTypes.string
+    ipfs: PropTypes.object
   };
 
   state = {

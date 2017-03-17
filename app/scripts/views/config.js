@@ -79,7 +79,7 @@ default class ConfigView extends Component {
     })
     const buttons = (
       <div className='controls'>
-        <button className={buttonClass} onClick={this.save.bind(this)}>
+        <button className={buttonClass} onClick={(event) => this.save(event)}>
           <i className={iconClass} />&nbsp;
           {this.state.saving ? i18n.t('Saving...') : this.state.saved ? i18n.t('Saved') : i18n.t('Save')}
         </button>
@@ -115,7 +115,7 @@ default class ConfigView extends Component {
             className='panel-inner'
             spellCheck='false'
             style={{height: this.state.height}}
-            onChange={this.handleChange.bind(this)}
+            onChange={(event) => this.handleChange(event)}
             value={this.state.body}
           />
         </div>
