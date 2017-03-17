@@ -37,7 +37,7 @@
     "react-syntax-highlighter": "^5.0.0",
     "readable-stream": "^1.1.14",
     "redux": "^3.3.1",
-    "redux-saga": "^0.9.4",
+    "redux-saga": "^0.14.3",
     "three": "^0.84.0"
   },
   "devDependencies": {
