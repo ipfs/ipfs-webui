@@ -8,14 +8,13 @@ import {
   Row, Col
 }
 from 'react-bootstrap'
+import {withIpfs} from '../components/ipfs'
 
 const MAXSIZE = 1000
 
-export
-default class Logs extends Component {
+class Logs extends Component {
   static propTypes = {
-    ipfs: PropTypes.object,
-    host: PropTypes.string
+    ipfs: PropTypes.object
   };
 
   state = {
@@ -109,3 +108,5 @@ default class Logs extends Component {
     )
   }
 }
+
+export default withIpfs(Logs)

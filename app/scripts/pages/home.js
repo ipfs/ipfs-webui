@@ -3,8 +3,9 @@ import Peer from '../views/peer'
 import {lookupPretty as getLocation} from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
 import {Row, Col} from 'react-bootstrap'
+import {withIpfs} from '../components/ipfs'
 
-export default class Home extends Component {
+class Home extends Component {
   state = {
     node: {
       peer: {
@@ -65,3 +66,5 @@ export default class Home extends Component {
     )
   }
 }
+
+export default withIpfs(Home)

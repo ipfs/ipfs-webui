@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import DATGlobe from '../include/globe.js'
 import debug from 'debug'
-import _ from 'lodash'
+import { forEach, flatten, values } from 'lodash-es'
 // Displays webgl warning message if not present
 require('../include/Detector.js')
 
@@ -58,14 +58,14 @@ default class Globe extends Component {
 
   _parsePeers (peers) {
     let data = {}
-    _.forEach(this.props.peers, (peer, i) => {
+    forEach(this.props.peers, (peer, i) => {
       if (!(peer.location && peer.location.latitude && peer.location.longitude)) return
       let key = peer.location.latitude + '|' + peer.location.longitude
       if (!data[key]) data[key] = 0
       data[key] = [peer.location.latitude, peer.location.longitude, Math.min(10, data[key] + 0.1)]
     })
 
-    return _.flatten(_.values(data))
+    return flatten(values(data))
   }
 
   render () {

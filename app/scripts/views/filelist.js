@@ -49,7 +49,7 @@ default class FileList extends Component {
                     <span className='separator'>|</span>
                     <a href={dagPath}>{i18n.t('DAG')}</a>
                     <span className='separator'>|</span>
-                    <a href='#' onClick={this._unpin.bind(this, file.id)}>
+                    <a href='#' onClick={(event) => this._unpin(event, file.id)}>
                       <OverlayTrigger placement='right' overlay={<Tooltip id={file.id}>{i18n.t('Remove')}</Tooltip>}>
                         <i className='fa fa-remove' />
                       </OverlayTrigger>

@@ -5,8 +5,6 @@ export
 default class Peer extends Component {
   static displayName = 'Peer';
   static propTypes = {
-    table: React.PropTypes.object,
-    children: React.PropTypes.object,
     peer: React.PropTypes.object,
     location: React.PropTypes.object
   };

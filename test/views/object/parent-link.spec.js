@@ -13,9 +13,9 @@ describe('ParentLink', () => {
     expect(el.find('LinkContainer')).to.have.prop('to', '/objects/\\ipfs\\hi\\hello\\world')
   })
 
-  it('renders an empty span if no url is provided', () => {
+  it('renders nothing if no url is provided', () => {
     const el = shallow(<ParentLink />)
 
-    expect(el.find('span')).to.have.length(0)
+    expect(el.find('LinkContainer')).to.have.length(0)
   })
 })

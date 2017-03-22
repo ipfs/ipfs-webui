@@ -6,11 +6,11 @@ from 'react-bootstrap'
 import debug from 'debug'
 import DHTGraph from '../views/dhtgraph'
 import {idToAngle} from '../utils/common'
+import {withIpfs} from '../components/ipfs'
 
 const log = debug('pages:routing')
 
-export
-default class Routing extends Component {
+class Routing extends Component {
   state = {
     peers: []
   };
@@ -53,3 +53,5 @@ default class Routing extends Component {
     )
   }
 }
+
+export default withIpfs(Routing)
