@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import {Buffer} from 'safe-buffer'
 
 const RawData = ({data, limit = 10000}) => {
   const buf = new Buffer(data.substr(0, limit), 'utf-8')

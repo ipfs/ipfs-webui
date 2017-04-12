@@ -4,6 +4,7 @@ import {join} from 'path'
 import {DropTarget} from 'react-dnd'
 import {NativeTypes} from 'react-dnd-html5-backend'
 import classnames from 'classnames'
+import {Buffer} from 'safe-buffer'
 
 import RowInput from './tree/row-input'
 import Row from './tree/row'
