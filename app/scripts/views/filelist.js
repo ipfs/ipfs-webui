@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import i18n from '../utils/i18n.js'
 import {Table, Tooltip, OverlayTrigger} from 'react-bootstrap'
 
@@ -6,10 +7,10 @@ export
 default class FileList extends Component {
   static displayName = 'FileList';
   static propTypes = {
-    ipfs: React.PropTypes.object,
-    files: React.PropTypes.array,
-    namesHidden: React.PropTypes.bool,
-    gateway: React.PropTypes.string
+    ipfs: PropTypes.object,
+    files: PropTypes.array,
+    namesHidden: PropTypes.bool,
+    gateway: PropTypes.string
   };
 
   _unpin (event, hash) {

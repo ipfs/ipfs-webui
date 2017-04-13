@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {
   Row, Col
 }
@@ -17,7 +18,7 @@ class Routing extends Component {
 
   static displayName = 'Routing';
   static propTypes = {
-    ipfs: React.PropTypes.object
+    ipfs: PropTypes.object
   };
 
   componentDidMount () {

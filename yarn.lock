@@ -210,9 +210,9 @@ async-each@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
 
-async@^2.1.2, async@^2.1.4, async@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.1.5.tgz#e587c68580994ac67fc56ff86d3ac56bdbe810bc"
+async@^2.1.2, async@^2.1.4, async@^2.1.5, async@^2.2.0, async@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.3.0.tgz#1013d1051047dd320fe24e494d5c66ecaf6147d9"
   dependencies:
     lodash "^4.14.0"
 
@@ -934,21 +934,7 @@ babel-template@^6.24.1:
     babylon "^6.11.0"
     lodash "^4.2.0"
 
-babel-traverse@^6.23.1:
-  version "6.23.1"
-  resolved "https://registry.yarnpkg.com/babel-traverse/-/babel-traverse-6.23.1.tgz#d3cb59010ecd06a97d81310065f966b699e14f48"
-  dependencies:
-    babel-code-frame "^6.22.0"
-    babel-messages "^6.23.0"
-    babel-runtime "^6.22.0"
-    babel-types "^6.23.0"
-    babylon "^6.15.0"
-    debug "^2.2.0"
-    globals "^9.0.0"
-    invariant "^2.2.0"
-    lodash "^4.2.0"
-
-babel-traverse@^6.24.1:
+babel-traverse@^6.23.1, babel-traverse@^6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-traverse/-/babel-traverse-6.24.1.tgz#ab36673fd356f9a0948659e7b338d5feadb31695"
   dependencies:
@@ -962,18 +948,9 @@ babel-traverse@^6.24.1:
     invariant "^2.2.0"
     lodash "^4.2.0"
 
-babel-types@^6.19.0, babel-types@^6.24.1:
+babel-types@^6.19.0, babel-types@^6.23.0, babel-types@^6.24.1:
   version "6.24.1"
   resolved "https://registry.yarnpkg.com/babel-types/-/babel-types-6.24.1.tgz#a136879dc15b3606bda0d90c1fc74304c2ff0975"
-  dependencies:
-    babel-runtime "^6.22.0"
-    esutils "^2.0.2"
-    lodash "^4.2.0"
-    to-fast-properties "^1.0.1"
-
-babel-types@^6.23.0:
-  version "6.23.0"
-  resolved "https://registry.yarnpkg.com/babel-types/-/babel-types-6.23.0.tgz#bb17179d7538bad38cd0c9e115d340f77e7e9acf"
   dependencies:
     babel-runtime "^6.22.0"
     esutils "^2.0.2"
@@ -1358,7 +1335,7 @@ chownr@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181"
 
-cids@~0.4.1:
+cids@^0.4.2, cids@~0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/cids/-/cids-0.4.2.tgz#f1414e78fa466fe97a7ce9cd6c03892993bef307"
   dependencies:
@@ -1645,6 +1622,13 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
   dependencies:
     create-hash "^1.1.0"
     inherits "^2.0.1"
+
+create-react-class@^15.5.1, create-react-class@^15.5.2:
+  version "15.5.2"
+  resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.5.2.tgz#6a8758348df660b88326a0e764d569f274aad681"
+  dependencies:
+    fbjs "^0.8.9"
+    object-assign "^4.1.1"
 
 cross-spawn@^5.0.1:
   version "5.1.0"
@@ -1942,9 +1926,9 @@ d3-voronoi@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/d3-voronoi/-/d3-voronoi-1.1.2.tgz#1687667e8f13a2d158c80c1480c5a29cb0d8973c"
 
-d3-zoom@1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/d3-zoom/-/d3-zoom-1.1.3.tgz#0bd488622f22dc0534894f744a40ec979599fdc4"
+d3-zoom@1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/d3-zoom/-/d3-zoom-1.1.4.tgz#903fd2c988b5cace43f00dcf7aae09470c9cc12d"
   dependencies:
     d3-dispatch "1"
     d3-drag "1"
@@ -1952,9 +1936,9 @@ d3-zoom@1.1.3:
     d3-selection "1"
     d3-transition "1"
 
-d3@^4.7.3:
-  version "4.7.3"
-  resolved "https://registry.yarnpkg.com/d3/-/d3-4.7.3.tgz#1bc7b0282b41d97642bdb673372c88e81ecca4a3"
+d3@^4.7.4:
+  version "4.7.4"
+  resolved "https://registry.yarnpkg.com/d3/-/d3-4.7.4.tgz#a2f40eb57decc51bc469010d48ae74a20e025772"
   dependencies:
     d3-array "1.1.1"
     d3-axis "1.0.6"
@@ -1985,7 +1969,7 @@ d3@^4.7.3:
     d3-timer "1.0.5"
     d3-transition "1.0.4"
     d3-voronoi "1.1.2"
-    d3-zoom "1.1.3"
+    d3-zoom "1.1.4"
 
 d@1:
   version "1.0.0"
@@ -2125,9 +2109,9 @@ disposables@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/disposables/-/disposables-1.0.1.tgz#064727a25b54f502bd82b89aa2dfb8df9f1b39e3"
 
-dnd-core@^2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-2.2.4.tgz#a05d49220fb2b05d08b99a00177c01c9a1c445ad"
+dnd-core@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-2.3.0.tgz#f7b29ac37e2c78efe89e911ca5a534f280390450"
   dependencies:
     asap "^2.0.3"
     invariant "^2.0.0"
@@ -2317,9 +2301,9 @@ entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
-enzyme@^2.7.1:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/enzyme/-/enzyme-2.7.1.tgz#76370e1d99e91f73091bb8c4314b7c128cc2d621"
+enzyme@^2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/enzyme/-/enzyme-2.8.1.tgz#53891a75c8fe4d56582c113b3da45713b8215738"
   dependencies:
     cheerio "^0.22.0"
     function.prototype.name "^1.0.0"
@@ -2329,6 +2313,7 @@ enzyme@^2.7.1:
     object.assign "^4.0.4"
     object.entries "^1.0.3"
     object.values "^1.0.3"
+    prop-types "^15.5.4"
     uuid "^2.0.3"
 
 errno@^0.1.1, errno@^0.1.3:
@@ -2637,9 +2622,13 @@ event-emitter@^0.3.4, event-emitter@~0.3.5:
     d "1"
     es5-ext "~0.10.14"
 
-eventemitter3@1.x.x, eventemitter3@^1.1.1:
+eventemitter3@1.x.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-1.2.0.tgz#1c86991d816ad1e504750e73874224ecf3bec508"
+
+eventemitter3@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
 
 events@^1.0.0:
   version "1.1.1"
@@ -2766,9 +2755,9 @@ fastparse@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/fastparse/-/fastparse-1.1.1.tgz#d1e2643b38a94d7583b479060e6c4affc94071f8"
 
-fbjs@^0.8.0-alpha.3, fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.9:
-  version "0.8.11"
-  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.11.tgz#340b590b8a2278a01ef7467c07a16da9b753db24"
+fbjs@^0.8.12, fbjs@^0.8.4, fbjs@^0.8.9:
+  version "0.8.12"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
     core-js "^1.0.0"
     isomorphic-fetch "^2.1.1"
@@ -2792,9 +2781,9 @@ file-entry-cache@^2.0.0:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
 
-file-loader@^0.10.0:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-0.10.1.tgz#815034119891fc6441fb5a64c11bc93c22ddd842"
+file-loader@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-0.11.1.tgz#6b328ee1234a729e4e47d36375dd6d35c0e1db84"
   dependencies:
     loader-utils "^1.0.2"
 
@@ -3235,6 +3224,10 @@ https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
+https-browserify@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
+
 i18next-browser-languagedetector@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-1.0.1.tgz#73e43aa46fc1c909cac6178b9d1b803d02610faa"
@@ -3247,13 +3240,13 @@ i18next-sprintf-postprocessor@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/i18next-sprintf-postprocessor/-/i18next-sprintf-postprocessor-0.2.2.tgz#2e409f1043579382698b6a2da70cdaa551d67ea4"
 
-i18next-xhr-backend@^1.3.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/i18next-xhr-backend/-/i18next-xhr-backend-1.4.0.tgz#2c6e15e52a9a01c73480999fba210e2bee303c05"
+i18next-xhr-backend@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/i18next-xhr-backend/-/i18next-xhr-backend-1.4.1.tgz#ade99356065f51742da9e4bc79c7bb4905a4b91d"
 
-i18next@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-7.1.2.tgz#3a535ac9bb05589645e2caedaeafe3b56931f823"
+i18next@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-7.2.1.tgz#7770df5d319e1f4c530f2c0eea75d0a3d733b3d3"
 
 iconv-lite@0.4, iconv-lite@0.4.15, iconv-lite@~0.4.13:
   version "0.4.15"
@@ -3357,45 +3350,44 @@ ipaddr.js@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/ipaddr.js/-/ipaddr.js-1.2.0.tgz#8aba49c9192799585bdd643e0ccb50e8ae777ba4"
 
-ipfs-api@^12.1.7:
-  version "12.1.7"
-  resolved "https://registry.yarnpkg.com/ipfs-api/-/ipfs-api-12.1.7.tgz#1d58c12683aa12f7529cd52b9dff18bb6915bbaa"
+ipfs-api@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/ipfs-api/-/ipfs-api-14.0.0.tgz#74d69bdff106ab2dac02b6ae60ba3fdf8fd74d71"
   dependencies:
-    async "^2.1.4"
+    async "^2.2.0"
     bs58 "^4.0.0"
-    cids "~0.4.1"
+    cids "~0.4.2"
     concat-stream "^1.6.0"
     detect-node "^2.0.3"
     flatmap "0.0.3"
     glob "^7.1.1"
     glob-escape "0.0.2"
-    ipfs-block "~0.5.5"
-    ipfs-unixfs "~0.1.10"
-    ipld-dag-pb "~0.9.5"
+    ipfs-block "~0.6.0"
+    ipfs-unixfs "~0.1.11"
+    ipld-dag-pb "~0.11.0"
     is-ipfs "~0.3.0"
     isstream "^0.1.2"
     lru-cache "^4.0.2"
-    multiaddr "^2.2.1"
-    multihashes "~0.3.3"
+    multiaddr "^2.3.0"
+    multihashes "~0.4.5"
     multipart-stream "^2.0.1"
     ndjson "^1.5.0"
     once "^1.4.0"
-    peer-id "~0.8.2"
-    peer-info "~0.8.3"
+    peer-id "~0.8.6"
+    peer-info "~0.9.0"
     promisify-es6 "^1.0.2"
     pump "^1.0.2"
-    qs "^6.3.0"
+    qs "^6.4.0"
     readable-stream "1.1.14"
     stream-http "^2.6.3"
     streamifier "^0.1.1"
     tar-stream "^1.5.2"
 
-ipfs-block@~0.5.4, ipfs-block@~0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/ipfs-block/-/ipfs-block-0.5.5.tgz#956a4d1a758c2574fb5362634655ccfa1c0ebd24"
+ipfs-block@~0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/ipfs-block/-/ipfs-block-0.6.0.tgz#fea4abbc7a08f5e173370434825034b678eeb8d0"
   dependencies:
-    async "^2.1.4"
-    multihashing-async "~0.4.2"
+    cids "^0.4.2"
 
 ipfs-geoip@^2.2.0:
   version "2.2.0"
@@ -3405,27 +3397,28 @@ ipfs-geoip@^2.2.0:
     memoizee "^0.4.1"
     multihashes "^0.3.2"
 
-ipfs-unixfs@~0.1.10:
+ipfs-unixfs@~0.1.11:
   version "0.1.11"
   resolved "https://registry.yarnpkg.com/ipfs-unixfs/-/ipfs-unixfs-0.1.11.tgz#4597ea60d3a4c51ed3e05da107e0473b01844bd4"
   dependencies:
     protocol-buffers "^3.2.1"
 
-ipld-dag-pb@~0.9.5:
-  version "0.9.5"
-  resolved "https://registry.yarnpkg.com/ipld-dag-pb/-/ipld-dag-pb-0.9.5.tgz#e8c7dc61a4dd83a8658735559264ee4fedd8b635"
+ipld-dag-pb@~0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/ipld-dag-pb/-/ipld-dag-pb-0.11.0.tgz#0eb1692529aebabafe8f5efb484e374770e00c85"
   dependencies:
-    async "^2.1.4"
+    async "^2.1.5"
+    bs58 "^4.0.0"
     buffer-loader "0.0.1"
-    cids "~0.4.1"
-    ipfs-block "~0.5.4"
+    cids "~0.4.2"
+    ipfs-block "~0.6.0"
     is-ipfs "~0.3.0"
-    multihashes "~0.3.3"
-    multihashing-async "~0.4.2"
+    multihashes "~0.4.4"
+    multihashing-async "~0.4.4"
     protocol-buffers "^3.2.1"
     pull-stream "^3.5.0"
     pull-traverse "^1.0.3"
-    stable "^0.1.5"
+    stable "^0.1.6"
 
 is-absolute-url@^2.0.0:
   version "2.1.0"
@@ -3790,9 +3783,9 @@ karma-webpack@^2.0.2:
     source-map "^0.1.41"
     webpack-dev-middleware "^1.0.11"
 
-karma@^1.4.1:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/karma/-/karma-1.5.0.tgz#9c4c14f0400bef2c04c8e8e6bff59371025cc009"
+karma@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/karma/-/karma-1.6.0.tgz#0e871d4527d5eac56c41d181f03c5c0a7e6dbf3e"
   dependencies:
     bluebird "^3.3.0"
     body-parser "^1.16.1"
@@ -3811,7 +3804,7 @@ karma@^1.4.1:
     lodash "^3.8.0"
     log4js "^0.6.31"
     mime "^1.3.4"
-    minimatch "^3.0.0"
+    minimatch "^3.0.2"
     optimist "^0.6.1"
     qjobs "^1.1.4"
     range-parser "^1.2.0"
@@ -3885,9 +3878,9 @@ libp2p-crypto-secp256k1@^0.1.4:
     safe-buffer "^5.0.1"
     secp256k1 "^3.2.5"
 
-libp2p-crypto@~0.8.4, libp2p-crypto@~0.8.6:
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/libp2p-crypto/-/libp2p-crypto-0.8.7.tgz#be122acf9c62813fea29682b2fc7144da6e503c2"
+libp2p-crypto@~0.8.4, libp2p-crypto@~0.8.7:
+  version "0.8.8"
+  resolved "https://registry.yarnpkg.com/libp2p-crypto/-/libp2p-crypto-0.8.8.tgz#dc8a49cbcedb5239de977619f2d18df9fc110f39"
   dependencies:
     asn1.js "^4.9.1"
     async "^2.1.5"
@@ -4244,9 +4237,9 @@ ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
-multiaddr@^2.2.1, multiaddr@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/multiaddr/-/multiaddr-2.2.2.tgz#bf5bd67e6ccc46f4e7497a7f29fdc60a120c3313"
+multiaddr@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/multiaddr/-/multiaddr-2.3.0.tgz#56634824f48bcbd8405fd5434c31b277424c62fc"
   dependencies:
     bs58 "^4.0.0"
     ip "^1.1.5"
@@ -4267,15 +4260,15 @@ multicodec@~0.1.7:
   dependencies:
     varint "^5.0.0"
 
-multihashes@^0.3.2, multihashes@~0.3.3:
+multihashes@^0.3.2:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/multihashes/-/multihashes-0.3.3.tgz#18d74d8c2393af39aaf0ac8f4fd6d888d43f2f29"
   dependencies:
     bs58 "^4.0.0"
 
-multihashes@~0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/multihashes/-/multihashes-0.4.4.tgz#4761a77d7d27ffc5d7cd8c99c0ef35315b92387a"
+multihashes@~0.4.4, multihashes@~0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/multihashes/-/multihashes-0.4.5.tgz#9b053c51fdc74d771edde20e1bc91d4bbec3fa69"
   dependencies:
     bs58 "^4.0.0"
     varint "^5.0.0"
@@ -4705,21 +4698,22 @@ pbkdf2@^3.0.3:
   dependencies:
     create-hmac "^1.1.2"
 
-peer-id@^0.8.4, peer-id@~0.8.2:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/peer-id/-/peer-id-0.8.4.tgz#b61cad1b9e0a63b365c705de0e555a6a1335786f"
+peer-id@^0.8.6, peer-id@~0.8.6:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/peer-id/-/peer-id-0.8.7.tgz#c9bd9d1588d4ccce71752a9049afa9f10176a33d"
   dependencies:
-    async "^2.1.5"
-    libp2p-crypto "~0.8.6"
-    multihashes "~0.4.4"
+    async "^2.3.0"
+    libp2p-crypto "~0.8.7"
+    lodash "^4.17.4"
+    multihashes "~0.4.5"
 
-peer-info@~0.8.3:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/peer-info/-/peer-info-0.8.4.tgz#a9884787d5345a529236987873c93e3776448e07"
+peer-info@~0.9.0:
+  version "0.9.2"
+  resolved "https://registry.yarnpkg.com/peer-info/-/peer-info-0.9.2.tgz#d79b16b17aff527570b6baea91346349e6b2d0bc"
   dependencies:
     lodash.uniqby "^4.7.0"
-    multiaddr "^2.2.2"
-    peer-id "^0.8.4"
+    multiaddr "^2.3.0"
+    peer-id "^0.8.6"
 
 pem-jwk@^1.5.1:
   version "1.5.1"
@@ -5069,9 +5063,9 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettysize@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/prettysize/-/prettysize-0.0.3.tgz#14afff6a645e591a4ddf1c72919c23b4146181a1"
+prettysize@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/prettysize/-/prettysize-0.1.0.tgz#38ee534e2d298bc945fb7243203dd873cefc9679"
 
 private@^0.1.6:
   version "0.1.7"
@@ -5108,6 +5102,12 @@ promise@~1.3.0:
 promisify-es6@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/promisify-es6/-/promisify-es6-1.0.2.tgz#63093553e39be5036d757b455fb93d155da4b589"
+
+prop-types@^15.0.0, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@~15.5.7:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  dependencies:
+    fbjs "^0.8.9"
 
 protocol-buffers-schema@^3.1.1:
   version "3.1.1"
@@ -5180,7 +5180,7 @@ qjobs@^1.1.4:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/qjobs/-/qjobs-1.1.5.tgz#659de9f2cf8dcc27a1481276f205377272382e73"
 
-qs@6.4.0, qs@^6.3.0, qs@~6.4.0:
+qs@6.4.0, qs@^6.4.0, qs@~6.4.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
 
@@ -5246,9 +5246,9 @@ rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-addons-test-utils@^15.4.2:
-  version "15.4.2"
-  resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.4.2.tgz#93bcaa718fcae7360d42e8fb1c09756cc36302a2"
+react-addons-test-utils@^15.5.1:
+  version "15.5.1"
+  resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.5.1.tgz#e0d258cda2a122ad0dff69f838260d0c3958f5f7"
   dependencies:
     fbjs "^0.8.4"
     object-assign "^4.1.0"
@@ -5267,9 +5267,9 @@ react-bootstrap@^0.30.8:
     uncontrollable "^4.0.1"
     warning "^3.0.0"
 
-react-contextmenu@^2.3.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.3.1.tgz#4159a90f41863556089d12ba50eb102597129b40"
+react-contextmenu@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.4.0.tgz#331f164e8e4e578e0a7becee64d090e4dd16963e"
   dependencies:
     classnames "^2.2.5"
     object-assign "^4.1.0"
@@ -5278,29 +5278,30 @@ react-deep-force-update@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
 
-react-dnd-html5-backend@^2.1.2:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-2.2.4.tgz#6c4a704efaa35cf568f40376ed82b8a3eb3c26df"
+react-dnd-html5-backend@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-2.3.0.tgz#a45ce593f5c6944aa01114b368117c56c954804e"
   dependencies:
     lodash "^4.2.0"
 
-react-dnd@^2.1.3:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-2.2.4.tgz#8982d557cc620b1f201a8b6ebda894b622af903f"
+react-dnd@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-2.3.0.tgz#aede61c06b968554dcf2a2445657cdbb3100be49"
   dependencies:
     disposables "^1.0.1"
-    dnd-core "^2.2.4"
+    dnd-core "^2.3.0"
     hoist-non-react-statics "^1.2.0"
     invariant "^2.1.0"
     lodash "^4.2.0"
 
-react-dom@^15.4.2:
-  version "15.4.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.4.2.tgz#015363f05b0a1fd52ae9efdd3a0060d90695208f"
+react-dom@^15.5.4:
+  version "15.5.4"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.5.4.tgz#ba0c28786fd52ed7e4f2135fe0288d462aef93da"
   dependencies:
-    fbjs "^0.8.1"
+    fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
+    prop-types "~15.5.7"
 
 react-element-to-jsx-string@^5.0.0:
   version "5.0.7"
@@ -5339,24 +5340,25 @@ react-proxy@^1.1.7:
     lodash "^4.6.1"
     react-deep-force-update "^1.0.0"
 
-react-redux-toastr@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/react-redux-toastr/-/react-redux-toastr-5.0.0.tgz#041fea0f0686b633eb8e678e2ec23f219f9ef9d7"
+react-redux-toastr@^6.2.4:
+  version "6.2.4"
+  resolved "https://registry.yarnpkg.com/react-redux-toastr/-/react-redux-toastr-6.2.4.tgz#2c31349fe705a680d324b7c6a2acaf5acbed1b60"
   dependencies:
     classnames "^2.2.3"
-    eventemitter3 "^1.1.1"
-    fbjs "^0.8.0-alpha.3"
-    uuid "^2.0.1"
+    eventemitter3 "^2.0.3"
+    prop-types "^15.5.7"
 
-react-redux@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.3.tgz#86c3b68d56e74294a42e2a740ab66117ef6c019f"
+react-redux@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.4.tgz#1563babadcfb2672f57f9ceaa439fb16bf85d55b"
   dependencies:
+    create-react-class "^15.5.1"
     hoist-non-react-statics "^1.0.3"
     invariant "^2.0.0"
     lodash "^4.2.0"
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
+    prop-types "^15.0.0"
 
 react-router-bootstrap@^0.23.1:
   version "0.23.1"
@@ -5376,13 +5378,20 @@ react-router@3.0.2:
     loose-envify "^1.2.0"
     warning "^3.0.0"
 
-react-syntax-highlighter@^5.0.0:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-5.1.2.tgz#4a2bbdc04a6d81e92b7d8a6c4ae19611583be038"
+react-syntax-highlighter@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-5.3.0.tgz#7b4d37f9bdcb426ab3be7a4b0aa1126cb94f0103"
   dependencies:
     babel-runtime "^6.18.0"
     highlight.js "~9.8.0"
     lowlight "^1.5.0"
+
+react-test-renderer@^15.5.4:
+  version "15.5.4"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.5.4.tgz#d4ebb23f613d685ea8f5390109c2d20fbf7c83bc"
+  dependencies:
+    fbjs "^0.8.9"
+    object-assign "^4.1.0"
 
 react-transform-catch-errors@^1.0.2:
   version "1.0.2"
@@ -5395,13 +5404,14 @@ react-transform-hmr@^1.0.3:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react@^15.4.2:
-  version "15.4.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
+react@^15.5.4:
+  version "15.5.4"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
   dependencies:
-    fbjs "^0.8.4"
+    fbjs "^0.8.9"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
+    prop-types "^15.5.7"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
@@ -5427,7 +5437,7 @@ readable-stream@1.1.14, readable-stream@~1.1.9:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-readable-stream@^2.0.0, "readable-stream@^2.0.0 || ^1.1.13", readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@^2.1.0, readable-stream@^2.1.4, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.2.9:
+readable-stream@^2.0.0, "readable-stream@^2.0.0 || ^1.1.13", readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.5, readable-stream@^2.1.4, readable-stream@^2.1.5, readable-stream@^2.2.2, readable-stream@^2.2.6, readable-stream@^2.2.9:
   version "2.2.9"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.2.9.tgz#cf78ec6f4a6d1eb43d26488cac97f042e74b7fc8"
   dependencies:
@@ -5492,15 +5502,15 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-logger@^2.6.1:
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-2.10.1.tgz#c34931a0e3d91aa12ad95d54a7fe8aa143484110"
+redux-logger@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-3.0.1.tgz#ae8ae4c3c55ed3dd7aa31509f0856c5d3751057a"
   dependencies:
     deep-diff "0.3.4"
 
-redux-saga@^0.14.3:
-  version "0.14.3"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.14.3.tgz#28cd2c5b49cf780a1de25875765724150c630513"
+redux-saga@^0.14.6:
+  version "0.14.6"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.14.6.tgz#bc409aa0edaa4a7234759041cc70da62f37c6f13"
 
 redux@^3.2.0, redux@^3.3.1:
   version "3.6.0"
@@ -5950,7 +5960,7 @@ sshpk@^1.7.0:
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
 
-stable@^0.1.5:
+stable@^0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/stable/-/stable-0.1.6.tgz#910f5d2aed7b520c6e777499c1f32e139fdecb10"
 
@@ -5991,13 +6001,13 @@ stream-browserify@^2.0.1:
     inherits "~2.0.1"
     readable-stream "^2.0.2"
 
-stream-http@^2.3.1, stream-http@^2.6.3:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/stream-http/-/stream-http-2.6.3.tgz#4c3ddbf9635968ea2cfd4e48d43de5def2625ac3"
+stream-http@^2.3.1, stream-http@^2.6.3, stream-http@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/stream-http/-/stream-http-2.7.0.tgz#cec1f4e3b494bc4a81b451808970f8b20b4ed5f6"
   dependencies:
     builtin-status-codes "^3.0.0"
     inherits "^2.0.1"
-    readable-stream "^2.1.0"
+    readable-stream "^2.2.6"
     to-arraybuffer "^1.0.0"
     xtend "^4.0.0"
 
@@ -6381,7 +6391,7 @@ utils-merge@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.0.tgz#0294fb922bb9375153541c4f7096231f287c8af8"
 
-uuid@^2.0.1, uuid@^2.0.3:
+uuid@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
 
@@ -6534,13 +6544,9 @@ window-size@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
 
-wordwrap@0.0.2:
+wordwrap@0.0.2, wordwrap@~0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.2.tgz#b79669bb42ecb409f83d583cad52ca17eaa1643f"
-
-wordwrap@~0.0.2:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-0.0.3.tgz#a3d5da6cd5c0bc0008d37234bbaf1bed63059107"
 
 wordwrap@~1.0.0:
   version "1.0.0"

@@ -1,16 +1,17 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Peer from './peer'
 
 export
 default class Connection extends Component {
   static displayName = 'Connection';
   static propTypes = {
-    ipfs: React.PropTypes.object,
-    location: React.PropTypes.object,
-    bytesRead: React.PropTypes.number,
-    bytesWritten: React.PropTypes.number,
-    peer: React.PropTypes.object,
-    addr: React.PropTypes.object
+    ipfs: PropTypes.object,
+    location: PropTypes.object,
+    bytesRead: PropTypes.number,
+    bytesWritten: PropTypes.number,
+    peer: PropTypes.object,
+    addr: PropTypes.object
   };
 
   state = {

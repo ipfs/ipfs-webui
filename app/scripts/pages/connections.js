@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ConnectionList from '../views/connectionlist'
 import Globe from '../views/globe'
 import {
@@ -21,8 +22,8 @@ class Connections extends React.Component {
 
   static displayName = 'Connections';
   static propTypes = {
-    peers: React.PropTypes.array,
-    ipfs: React.PropTypes.object
+    peers: PropTypes.array,
+    ipfs: PropTypes.object
   };
 
   componentDidMount () {

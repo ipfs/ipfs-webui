@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Peer from '../views/peer'
 import {lookupPretty as getLocation} from 'ipfs-geoip'
 import i18n from '../utils/i18n.js'
@@ -23,7 +24,7 @@ class Home extends Component {
 
   static displayName = 'Home';
   static propTypes = {
-    ipfs: React.PropTypes.object
+    ipfs: PropTypes.object
   };
 
   componentDidMount () {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import DATGlobe from '../include/globe.js'
 import debug from 'debug'
 import { forEach, flatten, values } from 'lodash-es'
@@ -14,7 +15,7 @@ default class Globe extends Component {
   };
   static displayName = 'Globe';
   static propTypes = {
-    peers: React.PropTypes.array
+    peers: PropTypes.array
   };
 
   componentDidMount () {
