@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import i18n from '../utils/i18n.js'
 
 export
 default class Peer extends Component {
   static displayName = 'Peer';
   static propTypes = {
-    peer: React.PropTypes.object,
-    location: React.PropTypes.object
+    peer: PropTypes.object,
+    location: PropTypes.object
   };
   render () {
     return (

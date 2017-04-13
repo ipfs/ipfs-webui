@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import FileList from '../views/filelist'
 import i18n from '../utils/i18n.js'
 import {Row, Col, Panel} from 'react-bootstrap'
@@ -11,8 +12,8 @@ class Bitswap extends Component {
 
   static displayName = 'Bitswap';
   static propTypes = {
-    pollInterval: React.PropTypes.func,
-    ipfs: React.PropTypes.object
+    pollInterval: PropTypes.func,
+    ipfs: PropTypes.object
   };
 
   componentDidMount () {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import ConfigView from '../views/config'
 import {
   Row, Col
@@ -9,7 +10,7 @@ import {withIpfs} from '../components/ipfs'
 class Config extends Component {
   static displayName = 'Config';
   static propTypes = {
-    ipfs: React.PropTypes.object
+    ipfs: PropTypes.object
   };
 
   state = {

@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 export
 default class Icon extends Component {
   static displayName = 'Icon';
   static propTypes = {
-    glyph: React.PropTypes.string.isRequired,
-    large: React.PropTypes.bool
+    glyph: PropTypes.string.isRequired,
+    large: PropTypes.bool
   };
   render () {
     const className = classNames('icon', 'fa', `fa-${this.props.glyph}`, {

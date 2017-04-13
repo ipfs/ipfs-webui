@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import i18n from '../utils/i18n.js'
 import classNames from 'classnames'
 
@@ -6,8 +7,8 @@ export
 default class ConfigView extends Component {
   static displayName = 'ConfigView';
   static propTypes = {
-    config: React.PropTypes.object,
-    ipfs: React.PropTypes.object
+    config: PropTypes.object,
+    ipfs: PropTypes.object
   };
 
   state = {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {Row, Nav} from 'react-bootstrap'
 
 import NavItem from './nav-item'
@@ -24,8 +25,8 @@ const tabs = [{
 export default class Navigation extends Component {
   static displayName = 'Nav';
 
-  static contextTypes: {
-    router: React.PropTypes.object.isRequired
+  static contextTypes = {
+    router: PropTypes.object.isRequired
   };
 
   render () {

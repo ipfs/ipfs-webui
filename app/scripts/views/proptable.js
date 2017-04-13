@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Table from 'react-bootstrap/lib/Table'
 
 export
 default class PropTable extends Component {
   static propTypes = {
-    table: React.PropTypes.array,
-    children: React.PropTypes.array
+    table: PropTypes.array,
+    children: PropTypes.array
   };
 
   render () {

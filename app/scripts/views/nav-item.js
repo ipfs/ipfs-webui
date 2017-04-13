@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {LinkContainer} from 'react-router-bootstrap'
 import {NavItem} from 'react-bootstrap'
 
@@ -9,9 +10,9 @@ export
 default class NavigationItem extends Component {
   static displayName = 'NavItem';
   static propTypes = {
-    title: React.PropTypes.string.isRequired,
-    url: React.PropTypes.string.isRequired,
-    icon: React.PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired
   };
   render () {
     return (

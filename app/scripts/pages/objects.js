@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ObjectView from '../views/object'
 import {parse} from '../utils/path.js'
 import i18n from '../utils/i18n.js'
@@ -8,12 +9,12 @@ import {withIpfs} from '../components/ipfs'
 class Objects extends React.Component {
   static displayName = 'Objects';
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
   static propTypes = {
-    gateway: React.PropTypes.string,
-    params: React.PropTypes.object,
-    ipfs: React.PropTypes.object
+    gateway: PropTypes.string,
+    params: PropTypes.object,
+    ipfs: PropTypes.object
   };
 
   _getStateFromRoute = (params, ipfs) => {

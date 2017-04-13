@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Table from 'react-bootstrap/lib/Table'
 import {addr} from './typography'
 
@@ -6,8 +7,8 @@ export
 default class TableView extends Component {
   static displayName = 'Table';
   static propTypes = {
-    table: React.PropTypes.array,
-    children: React.PropTypes.array
+    table: PropTypes.array,
+    children: PropTypes.array
   };
 
   render () {

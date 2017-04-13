@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import d3 from 'd3'
 
 const diameter = 500
@@ -14,7 +15,7 @@ default class DHTGraph extends Component {
 
   static displayName = 'DHTGraph';
   static propTypes = {
-    peers: React.PropTypes.array
+    peers: PropTypes.array
   };
 
   update = () => {
