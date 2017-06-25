@@ -1,10 +1,12 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import Path, {parse} from '../../../app/scripts/utils/path'
+import Path, {parse} from '../../../src/app/js/utils/path'
 
-import LinkButtons from '../../../app/scripts/views/object/link-buttons'
+import LinkButtons from '../../../src/app/js/views/object/link-buttons'
 
 describe('LinkButtons', () => {
   it('renders', () => {

@@ -1,15 +1,14 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 
-import reducer from '../../app/scripts/reducers/config'
-import {config as actions} from '../../app/scripts/actions'
+import reducer from '../../src/app/js/reducers/config'
+import {config as actions} from '../../src/app/js/actions'
 
 describe('reducers - config', () => {
   it('returns the initial state', () => {
-    expect(
-      reducer(undefined, {})
-    ).to.be.eql({
-      config: {}
-    })
+    expect(reducer(undefined, {}))
+      .to.eql({config: {}})
   })
 
   it('sets config', () => {
@@ -24,8 +23,7 @@ describe('reducers - config', () => {
       }
     }
 
-    expect(
-      reducer({config: {}}, actions.config.load.success(response))
-    ).to.have.property('config').eql(response)
+    expect(reducer({config: {}}, actions.config.load.success(response)))
+      .to.have.property('config').eql(response)
   })
 })

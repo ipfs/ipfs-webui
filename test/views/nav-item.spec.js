@@ -1,8 +1,10 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import NavItem from '../../app/scripts/views/nav-item'
+import NavItem from '../../src/app/js/views/nav-item'
 
 describe('NavItem', () => {
   it('renders', () => {

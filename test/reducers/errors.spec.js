@@ -1,7 +1,9 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 
-import reducer from '../../app/scripts/reducers/errors'
-import {errors as actions} from '../../app/scripts/actions'
+import reducer from '../../src/app/js/reducers/errors'
+import {errors as actions} from '../../src/app/js/actions'
 
 describe('reducers - errors ', () => {
   it('returns the initial state', () => {

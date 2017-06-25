@@ -1,11 +1,13 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 import mh from 'multihashes'
 
-import {parse} from '../../../app/scripts/utils/path'
+import {parse} from '../../../src/app/js/utils/path'
 
-import Links from '../../../app/scripts/views/object/links'
+import Links from '../../../src/app/js/views/object/links'
 
 describe('Links', () => {
   it('renders', () => {

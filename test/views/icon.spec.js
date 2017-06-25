@@ -1,8 +1,10 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import Icon from '../../app/scripts/views/icon'
+import Icon from '../../src/app/js/views/icon'
 
 describe('Icon', () => {
   it('renders the given glyph', () => {

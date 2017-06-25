@@ -1,8 +1,10 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import ConfigView from '../../app/scripts/views/config'
+import ConfigView from '../../src/app/js/views/config'
 
 describe('ConfigView', () => {
   it('renders the given config', () => {

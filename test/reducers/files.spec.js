@@ -1,7 +1,9 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 
-import reducer from '../../app/scripts/reducers/files'
-import {files as actions} from '../../app/scripts/actions'
+import reducer from '../../src/app/js/reducers/files'
+import {files as actions} from '../../src/app/js/actions'
 
 describe('reducers - files', () => {
   it('returns the initial state', () => {

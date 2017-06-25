@@ -1,9 +1,11 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import {parse} from '../../../app/scripts/utils/path'
-import ParentLink from '../../../app/scripts/views/object/parent-link'
+import {parse} from '../../../src/app/js/utils/path'
+import ParentLink from '../../../src/app/js/views/object/parent-link'
 
 describe('ParentLink', () => {
   it('renders with a url', () => {

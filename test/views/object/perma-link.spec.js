@@ -1,11 +1,13 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import {parse} from '../../../app/scripts/utils/path'
-import PermaLink from '../../../app/scripts/views/object/perma-link'
+import {parse} from '../../../src/app/js/utils/path'
+import PermaLink from '../../../src/app/js/views/object/perma-link'
 
-describe('PermaLink', () => {
+describe.skip('PermaLink', () => {
   it('renders a given url', () => {
     const path = parse('/ipfs/hello/world')
     const el = shallow(<PermaLink url={path} />)

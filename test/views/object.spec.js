@@ -1,9 +1,11 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import {parse} from '../../app/scripts/utils/path'
-import ObjectView from '../../app/scripts/views/object'
+import {parse} from '../../src/app/js/utils/path'
+import ObjectView from '../../src/app/js/views/object'
 
 describe('Object', () => {
   it('renders', () => {
