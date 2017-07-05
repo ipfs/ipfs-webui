@@ -22,7 +22,7 @@ const LinkButtons = ({gateway, path}) => {
         className='btn-second'
         href={gateway + path + '?dl=1'}
         target='_blank'
-        >
+      >
         {i18n.t('Download')}
       </Button>
     </div>

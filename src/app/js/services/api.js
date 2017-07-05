@@ -60,7 +60,7 @@ export const files = {
 
 export const getConfig = (api = localApi) => {
   return api.config.get()
-  .then((res) => JSON.parse(res.toString()))
+    .then((res) => JSON.parse(res.toString()))
 }
 
 export const saveConfig = (config, api = localApi) => {

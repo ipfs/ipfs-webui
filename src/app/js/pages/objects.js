@@ -123,13 +123,13 @@ class Objects extends React.Component {
   }
 }
 
-Object.displayName = 'Objects'
+Objects.displayName = 'Objects'
 
-Object.contextTypes = {
+Objects.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-Object.propTypes = {
+Objects.propTypes = {
   gateway: PropTypes.string,
   params: PropTypes.object,
   ipfs: PropTypes.object

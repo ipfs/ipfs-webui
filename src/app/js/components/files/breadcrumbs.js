@@ -39,25 +39,25 @@ class Breadcrumbs extends Component {
     })
 
     const breadcrumbs = chain(parts)
-            .map((root, part) => {
-              if (!root) {
-                return [
-                  <Icon key='last-0' glyph='angle-right' />,
-                  <span key='last-1'>{part}</span>
-                ]
-              }
+      .map((root, part) => {
+        if (!root) {
+          return [
+            <Icon key='last-0' glyph='angle-right' />,
+            <span key='last-1'>{part}</span>
+          ]
+        }
 
-              return [
-                <Icon key={`${root}-0`} glyph='angle-right' />,
-                <Breadcrumb
-                  key={`${root}-1`}
-                  path={root}
-                  onClick={this.props.setRoot}
-                  text={part} />
-              ]
-            })
-            .flatten()
-            .value()
+        return [
+          <Icon key={`${root}-0`} glyph='angle-right' />,
+          <Breadcrumb
+            key={`${root}-1`}
+            path={root}
+            onClick={this.props.setRoot}
+            text={part} />
+        ]
+      })
+      .flatten()
+      .value()
 
     if (isEmpty(partsList)) {
       breadcrumbs.unshift(

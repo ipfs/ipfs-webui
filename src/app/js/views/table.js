@@ -18,8 +18,8 @@ class TableView extends Component {
   }
 }
 
-Table.displayName = 'Table'
-Table.propTypes = {
+TableView.displayName = 'Table'
+TableView.propTypes = {
   table: PropTypes.array,
   children: PropTypes.array
 }
