@@ -1,7 +1,9 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 
-import reducer from '../../app/scripts/reducers/preview'
-import {preview as actions} from '../../app/scripts/actions'
+import reducer from '../../src/app/js/reducers/preview'
+import {preview as actions} from '../../src/app/js/actions'
 
 describe('reducers - preview', () => {
   it('returns the initial state', () => {

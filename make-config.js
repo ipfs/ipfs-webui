@@ -1,14 +1,14 @@
-var createConfig = require('hjs-webpack')
+const createConfig = require('hjs-webpack')
 
-module.exports = function makeConfig (isDev) {
-  var config = createConfig({
+module.exports = (isDev) => {
+  const config = createConfig({
     isDev: isDev,
-    in: './app/scripts/index.js',
+    in: './src/app/js/index.js',
     out: './dist',
     output: {
       publicPath: ''
     },
-    html: function (ctx) {
+    html: (ctx) => {
       return ctx.defaultTemplate({
         publicPath: ''
       })

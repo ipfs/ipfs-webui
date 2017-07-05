@@ -1,4 +1,1 @@
-app/scripts/include/*.js
-node_modules
-versions
-dist
+versions/

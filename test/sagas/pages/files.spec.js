@@ -1,9 +1,11 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai'
 import {put, call, select} from 'redux-saga/effects'
 
-import {api} from '../../../app/scripts/services'
-import {fetchFiles} from '../../../app/scripts/sagas/pages/files'
-import {files as actions} from '../../../app/scripts/actions'
+import {api} from '../../../src/app/js/services'
+import {fetchFiles} from '../../../src/app/js/sagas/pages/files'
+import {files as actions} from '../../../src/app/js/actions'
 
 describe('sagas - pages - files', () => {
   it('fetchFiles success', () => {
