@@ -8,14 +8,8 @@
   "scripts": {
     "test": "karma start --single-run=true karma.conf.js",
     "start": "hjs-dev-server",
-    "lint": "standard",
+    "lint": "eslint .",
     "build": "NODE_ENV=production webpack"
-  },
-  "standard": {
-    "parser": "babel-eslint",
-    "ignore": [
-      "versions"
-    ]
   },
   "dependencies": {
     "bl": "^1.2.1",
