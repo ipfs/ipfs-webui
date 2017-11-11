@@ -1,9 +1,10 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import ReduxToastr, {toastr} from 'react-redux-toastr'
 import {DragDropContext} from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import {Link} from 'react-router'
+import {Link, withRouter} from 'react-router-dom'
 import i18n from '../utils/i18n.js'
 import {parse} from '../utils/path'
 import {errors} from '../actions'
@@ -20,6 +21,10 @@ class App extends Component {
         }
       })
     }
+  }
+
+  goToHashOrPath = () => {
+    this.context.router.history.push(`/objects${parse(this.refs.dagPath.value).urlify()}`)
   }
 
   render () {
@@ -49,10 +54,10 @@ class App extends Component {
                 <div className='col-sm-10'>
                   <form className='navbar-form navbar-left collapse navbar-collapse col-xs-6'>
                     <div className='form-group'>
-                      <input type='text' ref='dagPath' className='form-control dag-path' placeholder={i18n.t('Enter a hash or path')} />
+                      <input type='text' ref='dagPath' className='form-control dag-path' placeholder={i18n.t('Enter a hash')} />
                     </div>
                     <button className='btn btn-third btn-xs'
-                      onClick={() => this.context.router.push(`/objects/${parse(this.refs.dagPath.value).urlify()}`)}>
+                      onClick={this.goToHashOrPath}>
                       {i18n.t('GO')}
                     </button>
                   </form>
@@ -118,6 +123,6 @@ function mapStateToProps (state) {
   }
 }
 
-export default DragDropContext(HTML5Backend)(connect(mapStateToProps, {
+export default withRouter(DragDropContext(HTML5Backend)(connect(mapStateToProps, {
   resetErrorMessage: errors.resetErrorMessage
-})(App))
+})(App)))

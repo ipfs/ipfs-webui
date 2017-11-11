@@ -1,4 +1,4 @@
-import {put, call, select, fork, take} from 'redux-saga/effects'
+import {put, call, fork, take} from 'redux-saga/effects'
 
 import {preview} from '../../actions'
 import {api} from '../../services'
@@ -8,8 +8,7 @@ export function * stat () {
   try {
     yield put(preview.requests.stat.request())
 
-    const {routing} = yield select()
-    const {name} = routing.locationBeforeTransitions.query
+    const {name} = yield take(preview.PREVIEW.READ)
     const stats = yield call(api.files.stat, name)
 
     yield put(preview.requests.stat.success({

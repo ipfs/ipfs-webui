@@ -1,11 +1,12 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {join} from 'path'
 import multiaddr from 'multiaddr'
 
-import {pages, router, preview} from '../actions'
-import Icon from '../views/icon'
+import {pages, preview} from '../actions'
 import Preview from '../components/preview'
-import shouldPureComponentUpdate from '../utils/pure'
+import Breadcrumbs from './../components/files/breadcrumbs'
 
 function getGatewayUrl (config) {
   if (!config.Addresses) {
@@ -29,16 +30,6 @@ function getGatewayUrl (config) {
 }
 
 class FilesPreview extends Component {
-  _onClose = (event) => {
-    event.preventDefault()
-
-    this.props.goBack()
-  }
-
-  shouldComponentUpdate () {
-    shouldPureComponentUpdate()
-  }
-
   componentWillMount () {
     this.props.load()
   }
@@ -48,19 +39,17 @@ class FilesPreview extends Component {
   }
 
   render () {
-    const {name, read} = this.props
+    const {name, read, history} = this.props
     const content = this.props.preview ? this.props.preview.content : null
     const stats = this.props.preview ? this.props.preview.stats : {}
     const gatewayUrl = getGatewayUrl(this.props.config)
 
     return (
-      <div className='files-preview'>
-        <div className='files-preview-header'>
-          <h3>{name}</h3>
-          <a onClick={this._onClose} className='close'>
-            <Icon glyph='close' />
-          </a>
-        </div>
+      <div className='files'>
+        <Breadcrumbs
+          root={name}
+          history={history}
+        />
         <div className='files-preview-area'>
           <Preview
             name={name}
@@ -83,16 +72,16 @@ FilesPreview.propTypes = {
     stats: PropTypes.object
   }),
   config: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   // actions
   load: PropTypes.func.isRequired,
   leave: PropTypes.func.isRequired,
-  read: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired
+  read: PropTypes.func.isRequired
 }
 
 function mapStateToProps (state, ownProps) {
   return {
-    name: ownProps.location.query.name,
+    name: join('/', ownProps.match.params[0]),
     preview: state.preview,
     config: state.config.config
   }
@@ -101,6 +90,5 @@ function mapStateToProps (state, ownProps) {
 export default connect(mapStateToProps, {
   load: pages.preview.load,
   leave: pages.preview.leave,
-  read: preview.read,
-  goBack: router.goBack
+  read: preview.read
 })(FilesPreview)

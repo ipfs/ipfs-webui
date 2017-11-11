@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 
 import i18n from '../utils/i18n'
 import Path from '../utils/path'
@@ -36,7 +37,7 @@ ObjectView.propTypes = {
   permalink: PropTypes.instanceOf(Path),
   gateway: PropTypes.string.isRequired,
   object: PropTypes.shape({
-    data: PropTypes.string,
+    data: PropTypes.object,
     links: PropTypes.array
   }).isRequired
 }

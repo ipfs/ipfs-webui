@@ -6,7 +6,7 @@ import {withIpfs} from '../components/ipfs'
 
 class Config extends Component {
   constructor (props) {
-    super(constructor)
+    super(props)
     this.state = { config: null }
   }
 

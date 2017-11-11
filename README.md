@@ -3,20 +3,14 @@
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://ipn.io)
 [![](https://img.shields.io/badge/project-IPFS-blue.svg?style=flat-square)](http://ipfs.io/)
 [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs)
-[![Dependency Status](https://david-dm.org/ipfs/webui.svg?style=flat-square)](https://david-dm.org/ipfs/webui)
-[![Circle CI](https://img.shields.io/circleci/project/ipfs/webui/master.svg?style=flat-square)](https://circleci.com/gh/ipfs/webui)
-[![Travis CI](https://img.shields.io/travis/ipfs/webui/master.svg?style=flat-square)](https://travis-ci.org/ipfs/webui)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui?ref=badge_shield)
+[![](https://david-dm.org/ipfs/webui.svg?style=flat-square)](https://david-dm.org/ipfs/webui)
+[![](https://img.shields.io/circleci/project/ipfs/webui/master.svg?style=flat-square)](https://circleci.com/gh/ipfs/webui)
+[![](https://img.shields.io/travis/ipfs/webui/master.svg?style=flat-square)](https://travis-ci.org/ipfs/webui)
+[![](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui?ref=badge_shield)
 
-> The web interface for [IPFS](https://ipfs.io/)
-
-IPFS Webui is a web interface for IPFS, the Interplanetary File System. With the interface, you can check on your node info, network addresses, see connections on a globe visually, see your files, look at your config and logs without needing to touch the CLI, and more. This interface uses the [js-ipfs-api](//github.com/ipfs/js-ipfs-api) for all of its heavy lifting.
-
-# Status
+> IPFS Webui is a web interface for [IPFS](https://ipfs.io), the Interplanetary File System. With the interface, you can check on your node info, network addresses, see connections on a globe visually, see your files, look at your config and logs without needing to touch the CLI, and more. This interface uses the [js-ipfs-api](//github.com/ipfs/js-ipfs-api) for all of its heavy lifting.
 
 The webui is a **work-in-progress**. Follow the [development](#development) processes below to check it out.
-
-Otherwise, if you're curious about IPFS, head over to [ipfs/ipfs](//github.com/ipfs/ipfs), or to the [golang](//github.com/ipfs/go-ipfs) or [nodejs](//github.com/ipfs/js-ipfs) implementations. The [website](https://ipfs.io) also has a host of resources on how to get started.
 
 # Usage
 
@@ -65,7 +59,7 @@ It might be a good idea to copy the `.ipfs/config` file somewhere with a useful 
 
 # Development
 
-Make sure [node.js](https://nodejs.org/) version 4+ and [npm](https://docs.npmjs.com/) version 3+ are installed and in your path.
+Make sure [node.js](https://nodejs.org/) version 6 and [npm](https://docs.npmjs.com/) version 3+ are installed and in your path.
 
 # Contribute
 

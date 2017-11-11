@@ -12,7 +12,7 @@ describe('ParentLink', () => {
     const path = parse('/ipfs/hi/hello/world')
     const el = shallow(<ParentLink parent={path} />)
 
-    expect(el.find('LinkContainer')).to.have.prop('to', '/objects/\\ipfs\\hi\\hello\\world')
+    expect(el.find('LinkContainer')).to.have.prop('to', '/objects/ipfs/hi/hello/world')
   })
 
   it('renders nothing if no url is provided', () => {

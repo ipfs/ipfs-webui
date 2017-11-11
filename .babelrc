@@ -1,13 +1,12 @@
 {
-  "presets": ["es2015", "stage-0", "react"],
+  "presets": ["@babel/env", "@babel/stage-0", "@babel/react"],
   "plugins": [
-    "transform-runtime"
+    "@babel/transform-runtime"
   ],
   "env": {
     "development": {
-      "presets": ["react-hmre"],
       "plugins": [
-        "transform-react-display-name"
+        "@babel/transform-react-display-name"
       ]
     }
   }

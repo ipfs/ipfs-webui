@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react'
-
+import React from 'react'
+import PropTypes from 'prop-types'
 import i18n from '../../utils/i18n'
 import RawData from './raw-data'
 
@@ -32,7 +32,7 @@ const DisplayData = ({data}) => {
 }
 
 DisplayData.propTypes = {
-  data: PropTypes.string
+  data: PropTypes.object
 }
 
 export default DisplayData

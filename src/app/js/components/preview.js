@@ -1,14 +1,12 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {findKey, includes} from 'lodash-es'
 import Highlight from 'react-syntax-highlighter'
 import isBinary from 'is-binary'
 import Video from 'react-html5video'
 import {toastr} from 'react-redux-toastr'
-
 import 'react-html5video/dist/styles.css'
-
 import languages from '../constants/languages'
-import shouldPureComponentUpdate from '../utils/pure'
 
 const loading = (<div className='preview loading'>Loading</div>)
 
@@ -120,10 +118,6 @@ function render (name, stats, gatewayUrl, read, content) {
 }
 
 class Preview extends Component {
-  shouldComponentUpdate () {
-    shouldPureComponentUpdate()
-  }
-
   render () {
     return (
       <div className='preview'>

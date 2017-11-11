@@ -1,13 +1,17 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {ContextMenu, MenuItem} from 'react-contextmenu'
 
 class FilesContextMenu extends Component {
   render () {
-    const {selectedFiles, onRemoveDir} = this.props
+    const {selectedFiles, onRemoveDir, onMoveDir} = this.props
     return (
       <ContextMenu id='files-context-menu'>
         <MenuItem onClick={onRemoveDir}>
           {selectedFiles.length > 1 ? `Delete ${selectedFiles.length} files` : 'Delete'}
+        </MenuItem>
+        <MenuItem onClick={onMoveDir}>
+          Rename
         </MenuItem>
       </ContextMenu>
     )
@@ -16,7 +20,8 @@ class FilesContextMenu extends Component {
 
 FilesContextMenu.propTypes = {
   selectedFiles: PropTypes.array.isRequired,
-  onRemoveDir: PropTypes.func
+  onRemoveDir: PropTypes.func,
+  onMoveDir: PropTypes.func.isRequired
 }
 
 export default FilesContextMenu

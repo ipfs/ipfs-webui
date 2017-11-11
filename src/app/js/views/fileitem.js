@@ -1,7 +1,8 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import i18n from '../utils/i18n.js'
 import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap'
-import fileExtension from '../utils/file-extension'
+import {fileExtension} from '../utils/files'
 
 const FileItem = ({gatewayPath, dagPath, file, unpin}) => {
   var type = fileExtension(file.name)

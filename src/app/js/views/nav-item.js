@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {LinkContainer} from 'react-router-bootstrap'
 import {NavItem} from 'react-bootstrap'
+import {LinkContainer} from 'react-router-bootstrap'
 
 import i18n from '../utils/i18n'
 import Icon from './icon'
@@ -11,8 +11,7 @@ class NavigationItem extends Component {
     return (
       <LinkContainer
         className='link'
-        to={this.props.url}
-        onlyActiveOnIndex={false}>
+        to={this.props.url}>
         <NavItem>
           <Icon glyph={this.props.icon} /> {i18n.t(this.props.title)}
         </NavItem>

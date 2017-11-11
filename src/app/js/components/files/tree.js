@@ -1,31 +1,15 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {isEmpty, includes, map} from 'lodash-es'
 import {join} from 'path'
+import {readAsBuffer} from '../../utils/files'
 import {DropTarget} from 'react-dnd'
 import {NativeTypes} from 'react-dnd-html5-backend'
 import classnames from 'classnames'
-import {Buffer} from 'safe-buffer'
 
 import RowInput from './tree/row-input'
 import Row from './tree/row'
 import FilesContextMenu from './context-menu'
-
-function readAsBuffer (file) {
-  return new Promise((resolve, reject) => {
-    const reader = new window.FileReader()
-    reader.onload = (event) => {
-      resolve({
-        content: new Buffer(reader.result),
-        name: file.name
-      })
-    }
-    reader.onerror = (event) => {
-      reject(reader.error)
-    }
-
-    reader.readAsArrayBuffer(file)
-  })
-}
 
 const fileTarget = {
   drop (props, monitor) {
@@ -100,7 +84,8 @@ class Tree extends Component {
         </div>
         <FilesContextMenu
           selectedFiles={selectedFiles}
-          onRemoveDir={this.props.onRemoveDir} />
+          onRemoveDir={this.props.onRemoveDir}
+          onMoveDir={this.props.onMoveDir} />
       </div>
     )
   }
@@ -122,6 +107,7 @@ Tree.propTypes = {
   onCancelCreateDir: PropTypes.func.isRequired,
   onCreateFiles: PropTypes.func.isRequired,
   onRemoveDir: PropTypes.func.isRequired,
+  onMoveDir: PropTypes.func.isRequired,
   // react-dnd
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,

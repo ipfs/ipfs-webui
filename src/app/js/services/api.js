@@ -34,11 +34,17 @@ export const files = {
         }))
       })
   },
+
   mkdir (name, api = localApi) {
     return api.files.mkdir(name)
   },
+
   rmdir (name, api = localApi) {
     return api.files.rm(name, {recursive: true})
+  },
+
+  mv (from, to, api = localApi) {
+    return api.files.mv([from, to])
   },
 
   createFiles (root, files, api = localApi) {

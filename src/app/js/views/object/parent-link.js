@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import {LinkContainer} from 'react-router-bootstrap'
 import {Button} from 'react-bootstrap'
 
@@ -10,7 +11,7 @@ const ParentLink = ({parent}) => {
   if (!parent) return null
 
   return (
-    <LinkContainer to={`/objects/${parent.urlify()}`}>
+    <LinkContainer to={`/objects${parent.urlify()}`}>
       <Button bsStyle='primary'>
         <Icon glyph='arrow-up' /> {i18n.t('Parent object')}
       </Button>
