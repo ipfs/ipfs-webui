@@ -6,6 +6,7 @@
 [![Dependency Status](https://david-dm.org/ipfs/webui.svg?style=flat-square)](https://david-dm.org/ipfs/webui)
 [![Circle CI](https://img.shields.io/circleci/project/ipfs/webui/master.svg?style=flat-square)](https://circleci.com/gh/ipfs/webui)
 [![Travis CI](https://img.shields.io/travis/ipfs/webui/master.svg?style=flat-square)](https://travis-ci.org/ipfs/webui)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui?ref=badge_shield)
 
 > The web interface for [IPFS](https://ipfs.io/)
 
@@ -77,3 +78,5 @@ The [CONTRIBUTING](CONTRIBUTING.md) file has more information relevant to this r
 # License
 
 [MIT License](LICENSE)
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui?ref=badge_large)
