@@ -80,7 +80,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "exports-loader": "^0.6.4",
     "file-loader": "^1.1.5",
-    "hjs-webpack": "https://github.com/hacdias/hjs-webpack/tarball/master",
+    "hjs-webpack": "^9.2.0",
     "https-browserify": "^1.0.0",
     "imports-loader": "^0.7.1",
     "json-loader": "^0.5.7",
