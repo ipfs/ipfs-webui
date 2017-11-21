@@ -71,37 +71,38 @@ class FilesExplorer extends Component {
       list
     } = this.props
 
-    let fi = 0
-    let la = list.indexOf(toFile)
+    const selectedName = basename(selected[0])
 
-    for (let i = 0; i < list.length; i++) {
-      if (list[i].Name !== basename(selected[0])) {
-        continue
-      }
+    let first = 0
+    let last = list.indexOf(toFile)
 
-      if (la > i) {
-        fi = i + 1
-      } else {
-        fi = la
-        la = i - 1
-      }
-      break
+    let i = list.findIndex((el, index) => {
+      return el.Name === selectedName
+    })
+
+    if (last > i) {
+      first = i + 1
+    } else {
+      first = last
+      last = i - 1
     }
 
-    this.selectAllBetween(fi, la)
+    this.selectAllBetween(first, last)
   }
 
-  selectAllBetween = (fi, la) => {
+  selectAllBetween = (first, last) => {
     const {
       root,
       list,
       select
     } = this.props
 
-    for (let i = fi; i <= la; i++) {
-      const filePath = join(root, list[i].Name)
+    list.filter((el, index) => {
+      return index >= first && index <= last
+    }).forEach(el => {
+      const filePath = join(root, el.Name)
       select(filePath)
-    }
+    })
   }
 
   _onRowClick = (file, shiftKey, ctrlKey) => {
