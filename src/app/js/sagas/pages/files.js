@@ -97,10 +97,27 @@ export function * watchRmDir () {
   }
 }
 
+export function * watchMvDir () {
+  while (true) {
+    try {
+      yield put(filesActions.filesMvDir.request())
+      const {from, to} = yield take(filesActions.FILES.MV_DIR)
+      yield call(api.files.mv, from, to)
+
+      yield fork(fetchFiles)
+      yield put(filesActions.filesMvDir.request())
+      yield put(filesActions.filesDeselectAll())
+    } catch (err) {
+      yield put(filesActions.filesMvDir.failure(err.message))
+    }
+  }
+}
+
 export function * load () {
   yield fork(watchFiles)
   yield fork(watchFilesRoot)
   yield fork(watchCreateDir)
   yield fork(watchRmDir)
+  yield fork(watchMvDir)
   yield fork(watchCreateFiles)
 }

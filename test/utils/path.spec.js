@@ -38,7 +38,7 @@ describe('Path', () => {
   describe('urlify', () => {
     it('returns an escaped version of toString', () => {
       const p = new Path('http', 'hi', '/world/hello')
-      expect(p.urlify()).to.be.eql('\\http\\hi\\world\\hello')
+      expect(p.urlify()).to.be.eql('/http/hi/world/hello')
     })
   })
 

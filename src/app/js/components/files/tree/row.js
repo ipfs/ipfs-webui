@@ -1,4 +1,5 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import pretty from 'prettysize'
 import classnames from 'classnames'
 import {ContextMenuTrigger} from 'react-contextmenu'
@@ -15,7 +16,11 @@ function renderType (type) {
 class Row extends Component {
   _onClick = (event) => {
     event.preventDefault()
-    this.props.onClick(this.props.file, event.shiftKey)
+    this.props.onClick(
+      this.props.file,
+      event.shiftKey,
+      event.ctrlKey || event.metaKey
+    )
   }
 
   _onContextMenu = (event) => {

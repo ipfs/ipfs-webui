@@ -2,12 +2,6 @@ machine:
   node:
     version: stable
 
-dependencies:
-  override:
-    # Ensure latest npm to avoid https://github.com/npm/npm/issues/10026
-    - npm install -g npm
-    - npm install
-
 test:
   override:
     - npm run lint

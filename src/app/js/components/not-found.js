@@ -1,7 +1,7 @@
 import React from 'react'
 import {Row, Col} from 'react-bootstrap'
 import i18n from '../utils/i18n.js'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 
 export default function NotFound () {
   return (

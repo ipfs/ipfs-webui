@@ -1,22 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ObjectView from '../views/object'
-import {parse} from '../utils/path.js'
-import i18n from '../utils/i18n.js'
+import {parse} from '../utils/path'
+import {join} from 'path'
+import i18n from '../utils/i18n'
 import {Row, Col, Button} from 'react-bootstrap'
 import {withIpfs} from '../components/ipfs'
 
 class Objects extends React.Component {
   constructor (props) {
     super(props)
-    const {params, ipfs} = props
-    this.state = this._getStateFromRoute(params, ipfs)
+    const {match, ipfs} = props
+    this.state = this._getStateFromRoute(match.params, ipfs)
   }
 
   _getStateFromRoute = (params, ipfs) => {
     let state = {}
-    if (params.path) {
-      const path = parse(params.path)
+    if (params[0]) {
+      const path = parse(join('/', params[0]))
       state.path = path
       this._getObject(ipfs, state.path)
       state.pathInput = path.toString()
@@ -26,8 +27,8 @@ class Objects extends React.Component {
   }
 
   _updateState = () => {
-    const {params, ipfs} = this.props
-    this.setState(this._getStateFromRoute(params, ipfs))
+    const {match, ipfs} = this.props
+    this.setState(this._getStateFromRoute(match.params, ipfs))
   };
 
   _getObject = (ipfs, path) => {
@@ -49,17 +50,16 @@ class Objects extends React.Component {
     if (event.which && event.which !== 13) {
       return
     }
-    const params = this.props.params
+    const params = this.props.match.params
     params.path = parse(this.state.pathInput).urlify()
 
-    const route = ['/objects']
+    let route = '/objects'
     if (params.path) {
-      route.push(params.path)
+      route += params.path
     }
 
-    const r = route.join('/')
-    if ('#' + r !== window.location.hash) {
-      this.context.router.push(r)
+    if ('#' + route !== window.location.hash) {
+      this.context.router.history.push(route)
     }
   }
 
@@ -96,7 +96,7 @@ class Objects extends React.Component {
       <Row>
         <Col sm={10} smOffset={1} className={'webui-dag'}>
           <Row>
-            <h4>{i18n.t('Enter hash or path')}</h4>
+            <h4>{i18n.t('Enter a hash')}</h4>
             <Row className='path'>
               <Col xs={10}>
                 <input
@@ -105,7 +105,7 @@ class Objects extends React.Component {
                   onChange={(event) => this.setState({pathInput: event.target.value.trim()})}
                   onKeyPress={this._update}
                   value={this.state.pathInput}
-                  placeholder={i18n.t('Enter hash or path: /ipfs/QmBpath...')} />
+                  placeholder={i18n.t('Enter a hash: QmS4ustL54u...')} />
               </Col>
               <Col xs={2}>
                 <Button bsStyle={'primary'} className={'go'}
@@ -131,7 +131,7 @@ Objects.contextTypes = {
 
 Objects.propTypes = {
   gateway: PropTypes.string,
-  params: PropTypes.object,
+  match: PropTypes.object,
   ipfs: PropTypes.object
 }
 

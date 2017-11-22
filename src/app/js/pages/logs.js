@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import i18n from '../utils/i18n.js'
 import { Row, Col } from 'react-bootstrap'

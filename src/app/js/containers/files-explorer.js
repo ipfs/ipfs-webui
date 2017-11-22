@@ -1,18 +1,111 @@
-import React, {PropTypes, Component} from 'react'
-import {Row, Col} from 'react-bootstrap'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {join} from 'path'
+import {join, dirname, basename} from 'path'
 import {includes} from 'lodash-es'
 import {toastr} from 'react-redux-toastr'
-
-import {files, router} from '../actions'
+import {withRouter} from 'react-router'
+import {pages, files} from '../actions'
 
 import Tree from './../components/files/tree'
 import ActionBar from './../components/files/action-bar'
 import Breadcrumbs from './../components/files/breadcrumbs'
 
 class FilesExplorer extends Component {
-  _onRowClick = (file, shiftKey) => {
+  componentWillMount () {
+    this.props.load()
+  }
+
+  componentDidMount () {
+    const path = this.props.match.params[0]
+    const {setRoot} = this.props
+
+    if (path) {
+      setRoot(join('/', path))
+    } else {
+      setRoot('/')
+    }
+
+    document.addEventListener('keydown', this._onKeyDown)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const locationChanged = nextProps.location !== this.props.location
+    const {setRoot} = this.props
+
+    if (locationChanged) {
+      setRoot(join('/', nextProps.match.params[0]))
+    }
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('keydown', this._onKeyDown)
+    this.props.leave()
+  }
+
+  _onKeyDown = (event) => {
+    const {deselectAll} = this.props
+
+    switch (event.which) {
+      case 27:
+        // Escape
+        event.preventDefault()
+        deselectAll()
+        break
+      case 46:
+        // Delete
+        event.preventDefault()
+        this._onRemoveDir()
+        break
+      case 113:
+        // F2
+        event.preventDefault()
+        this._onMoveDir()
+        break
+    }
+  }
+
+  selectRangeFromCurrent = (toFile) => {
+    const {
+      selected,
+      list
+    } = this.props
+
+    const selectedName = basename(selected[0])
+
+    let first = 0
+    let last = list.indexOf(toFile)
+
+    let i = list.findIndex((el, index) => {
+      return el.Name === selectedName
+    })
+
+    if (last > i) {
+      first = i + 1
+    } else {
+      first = last
+      last = i - 1
+    }
+
+    this.selectAllBetween(first, last)
+  }
+
+  selectAllBetween = (first, last) => {
+    const {
+      root,
+      list,
+      select
+    } = this.props
+
+    list.filter((el, index) => {
+      return index >= first && index <= last
+    }).forEach(el => {
+      const filePath = join(root, el.Name)
+      select(filePath)
+    })
+  }
+
+  _onRowClick = (file, shiftKey, ctrlKey) => {
     const {
       root,
       selected,
@@ -20,13 +113,16 @@ class FilesExplorer extends Component {
       deselect,
       deselectAll
     } = this.props
+
     const filePath = join(root, file.Name)
     const currentlySelected = includes(selected, filePath)
 
     if (currentlySelected) {
       deselect(filePath)
-    } else if (shiftKey && !currentlySelected) {
+    } else if (ctrlKey && !currentlySelected) {
       select(filePath)
+    } else if (shiftKey && !currentlySelected && selected.length === 1) {
+      this.selectRangeFromCurrent(file)
     } else {
       deselectAll()
       select(filePath)
@@ -54,18 +150,14 @@ class FilesExplorer extends Component {
   }
 
   _onRowDoubleClick = (file, shiftKey) => {
-    const {root, deselectAll, setRoot, push} = this.props
+    const {root, deselectAll, history} = this.props
     const filePath = join(root, file.Name)
     deselectAll()
+
     if (file.Type === 'directory') {
-      setRoot(filePath)
+      history.push(join('/files/explorer', filePath))
     } else {
-      push({
-        pathname: '/files/preview',
-        query: {
-          name: filePath
-        }
-      })
+      history.push(join('/files/preview', filePath))
     }
   }
 
@@ -93,45 +185,49 @@ class FilesExplorer extends Component {
     })
   }
 
+  _onMoveDir = () => {
+    const {selected, moveDir} = this.props
+    const count = selected.length
+
+    if (count !== 1) {
+      return
+    }
+
+    const oldName = selected[0]
+    // TODO: prettier prompt
+    const newName = join(dirname(oldName), window.prompt('Insert the name name:'))
+    moveDir(oldName, newName)
+  }
+
   render () {
-    const {list, root, setRoot, tmpDir, selected} = this.props
+    const {list, root, tmpDir, selected, history} = this.props
 
     return (
-      <div className='files-explorer'>
-        <Row>
-          <Col sm={12}>
-            <Row>
-              <Col sm={12}>
-                <Breadcrumbs
-                  files={list}
-                  root={root}
-                  setRoot={setRoot}
-                />
-                <ActionBar
-                  selectedFiles={selected}
-                  onCreateDir={this._onCreateDir}
-                  onRemoveDir={this._onRemoveDir} />
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={12}>
-                <Tree
-                  files={list}
-                  tmpDir={tmpDir}
-                  root={root}
-                  selectedFiles={selected}
-                  onRowClick={this._onRowClick}
-                  onRowContextMenu={this._onRowContextMenu}
-                  onRowDoubleClick={this._onRowDoubleClick}
-                  onTmpDirChange={this.props.setTmpDirName}
-                  onCreateDir={this.props.createDir}
-                  onCancelCreateDir={this._onCancelCreateDir}
-                  onCreateFiles={this._onCreateFiles}
-                  onRemoveDir={this._onRemoveDir} />
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+      <div className='files'>
+        <Breadcrumbs
+          root={root}
+          history={history}
+        />
+        <ActionBar
+          selectedFiles={selected}
+          onCreateDir={this._onCreateDir}
+          onRemoveDir={this._onRemoveDir}
+          onMoveDir={this._onMoveDir}
+          onCreateFiles={this._onCreateFiles} />
+        <Tree
+          files={list}
+          tmpDir={tmpDir}
+          root={root}
+          selectedFiles={selected}
+          onRowClick={this._onRowClick}
+          onRowContextMenu={this._onRowContextMenu}
+          onRowDoubleClick={this._onRowDoubleClick}
+          onTmpDirChange={this.props.setTmpDirName}
+          onCreateDir={this.props.createDir}
+          onCancelCreateDir={this._onCancelCreateDir}
+          onCreateFiles={this._onCreateFiles}
+          onRemoveDir={this._onRemoveDir}
+          onMoveDir={this._onMoveDir} />
       </div>
     )
   }
@@ -145,6 +241,10 @@ FilesExplorer.propTypes = {
     root: PropTypes.string.isRequired,
     name: PropTypes.string
   }),
+  location: PropTypes.object.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.object.isRequired
+  }),
   selected: PropTypes.array.isRequired,
   // actions
   setRoot: PropTypes.func.isRequired,
@@ -152,30 +252,36 @@ FilesExplorer.propTypes = {
   setTmpDirName: PropTypes.func.isRequired,
   createDir: PropTypes.func.isRequired,
   removeDir: PropTypes.func.isRequired,
+  moveDir: PropTypes.func.isRequired,
   rmTmpDir: PropTypes.func.isRequired,
   select: PropTypes.func.isRequired,
   deselect: PropTypes.func.isRequired,
   deselectAll: PropTypes.func.isRequired,
   createFiles: PropTypes.func.isRequired,
-  push: PropTypes.func.isRequired
+  history: PropTypes.object.isRequired,
+  load: PropTypes.func.isRequired,
+  leave: PropTypes.func.isRequired
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, ownProps) {
   const {files} = state
 
-  return files
+  return {
+    ...files
+  }
 }
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   setRoot: files.filesSetRoot,
   createTmpDir: files.filesCreateTmpDir,
   setTmpDirName: files.filesSetTmpDirName,
   createDir: files.filesCreateDir,
   removeDir: files.filesRemoveDir,
+  moveDir: files.filesMoveDir,
   rmTmpDir: files.filesRmTmpDir,
   select: files.filesSelect,
   deselect: files.filesDeselect,
   deselectAll: files.filesDeselectAll,
   createFiles: files.filesCreateFiles,
-  push: router.push
-})(FilesExplorer)
+  ...pages.files
+})(FilesExplorer))
