@@ -15,7 +15,7 @@ class FilesContextMenu extends Component {
         </MenuItem>
         {selectedFiles.length === 1 && onCopyHash ? (
           <MenuItem onClick={onCopyHash}>
-            Copy hash to clipboard
+            Copy hash
           </MenuItem>
         ) : null}
       </ContextMenu>
