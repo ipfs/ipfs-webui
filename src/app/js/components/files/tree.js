@@ -6,6 +6,7 @@ import {readAsBuffer} from '../../utils/files'
 import {DropTarget} from 'react-dnd'
 import {NativeTypes} from 'react-dnd-html5-backend'
 import classnames from 'classnames'
+import CopyText from 'react-copy-text'
 
 import RowInput from './tree/row-input'
 import Row from './tree/row'
@@ -22,6 +23,8 @@ const fileTarget = {
 }
 
 class Tree extends Component {
+  state = {copyHash: ''}
+
   _onTmpDirChange = ({target}) => {
     this.props.onTmpDirChange(target.value)
   }
@@ -37,6 +40,17 @@ class Tree extends Component {
   _isSelected = (file) => {
     const {selectedFiles, root} = this.props
     return includes(selectedFiles, join(root, file.Name))
+  }
+
+  _onCopyHash = () => {
+    const { files, selectedFiles } = this.props
+    const name = selectedFiles[0].split('/').pop()
+    const file = files.find((f) => f.Name === name)
+    this.setState({copyHash: file.Hash})
+  }
+
+  _onCopiedHash = () => {
+    this.setState({copyHash: ''})
   }
 
   render () {
@@ -85,7 +99,9 @@ class Tree extends Component {
         <FilesContextMenu
           selectedFiles={selectedFiles}
           onRemoveDir={this.props.onRemoveDir}
-          onMoveDir={this.props.onMoveDir} />
+          onMoveDir={this.props.onMoveDir}
+          onCopyHash={this._onCopyHash} />
+        <CopyText text={this.state.copyHash} onCopied={this._onCopiedHash} />
       </div>
     )
   }

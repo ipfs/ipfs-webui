@@ -4,7 +4,7 @@ import {ContextMenu, MenuItem} from 'react-contextmenu'
 
 class FilesContextMenu extends Component {
   render () {
-    const {selectedFiles, onRemoveDir, onMoveDir} = this.props
+    const {selectedFiles, onRemoveDir, onMoveDir, onCopyHash} = this.props
     return (
       <ContextMenu id='files-context-menu'>
         <MenuItem onClick={onRemoveDir}>
@@ -13,6 +13,11 @@ class FilesContextMenu extends Component {
         <MenuItem onClick={onMoveDir}>
           Rename
         </MenuItem>
+        {selectedFiles.length === 1 && onCopyHash ? (
+          <MenuItem onClick={onCopyHash}>
+            Copy hash
+          </MenuItem>
+        ) : null}
       </ContextMenu>
     )
   }
@@ -20,6 +25,7 @@ class FilesContextMenu extends Component {
 
 FilesContextMenu.propTypes = {
   selectedFiles: PropTypes.array.isRequired,
+  onCopyHash: PropTypes.func,
   onRemoveDir: PropTypes.func,
   onMoveDir: PropTypes.func.isRequired
 }
