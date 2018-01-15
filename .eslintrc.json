@@ -1,7 +1,0 @@
-{
-	"parser": "babel-eslint",
-	"extends": ["standard", "standard-react"],
-	"rules": {
-		"react/no-unused-prop-types": "warn"
-	}
-}
