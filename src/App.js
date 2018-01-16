@@ -10,7 +10,7 @@ import {
   PaneContainer
 } from 'ipfs-react-components'
 
-import Files from './panes/Files'
+import Files from './screens/Files'
 import Info from './panes/Info'
 import Peers from './panes/Peers'
 import NotFound from './panes/NotFound'

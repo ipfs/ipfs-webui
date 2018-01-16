@@ -5,7 +5,6 @@ import prettyBytes from 'pretty-bytes'
 import {
   Pane,
   Header,
-  Popup,
   InfoBlock
 } from 'ipfs-react-components'
 
@@ -71,7 +70,6 @@ export default class Info extends Component {
   render () {
     return (
       <Pane class={'node'}>
-        <Popup />
         <Header title='Your Node' />
 
         <div className='main'>

@@ -9,37 +9,28 @@ import {
   Footer
 } from 'ipfs-react-components'
 
-export default class Files extends Component {
+export default class Listing extends Component {
   static propTypes = {
-    match: PropTypes.object.isRequired,
-    utility: PropTypes.object.isRequired
+    utility: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
+    root: PropTypes.string.isRequired
   }
 
   state = {
-    files: [],
-    root: '/'
-  }
-
-  constructor (props) {
-    super(props)
-    let root = props.match.params[0] || '/'
-    if (!root.endsWith('/')) {
-      root += '/'
-    }
-    this.state.root = root
+    files: []
   }
 
   componentDidMount () {
-    this.props.utility.list(this.state.root)
+    this.props.utility.list(this.props.root)
       .then(res => { this.setState({files: res}) })
   }
 
   navigate = (name) => {
-    this.props.history.push(`/files${this.state.root}${name}`)
+    this.props.navigate(`/files${this.props.root}${name}`)
   }
 
   open = (name, hash) => {
-    alert('Open ' + hash)
+    alert('Open ' + name)
     console.log(name)
   }
 
@@ -62,9 +53,11 @@ export default class Files extends Component {
       )
     })
 
+    const name = this.props.root.split('/').pop() || 'Files'
+
     return (
-      <Pane class='peers'>
-        <Header title='Files' />
+      <Pane class='files'>
+        <Header title={name} />
         <div className='main'>
           {files}
         </div>
