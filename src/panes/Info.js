@@ -57,7 +57,7 @@ export default class Info extends Component {
 
     this.setState(obj)
   }
-  
+
   componentDidMount () {
     this.props.poller.on('change', this.setStats)
     this.setStats(this.props.poller.stats)

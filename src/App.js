@@ -26,7 +26,7 @@ const options = [{
 }, {
   title: 'Peers',
   icon: 'pulse',
-  path: '/peers',
+  path: '/peers'
 },
 {
   title: 'Settings',
@@ -42,7 +42,7 @@ class App extends Component {
     this.files = new FilesUtility(props.api)
   }
 
-  render() {
+  render () {
     const menu = []
 
     options.forEach((option) => {
@@ -69,7 +69,7 @@ class App extends Component {
           <Route exact path='/peers' component={() => <Peers poller={this.poller} />} />
           <Route path='/files(.*)' component={(props) => <Files {...props} utility={this.files} />} />
 
-          <Route path='*' component={NotFound}/>
+          <Route path='*' component={NotFound} />
         </Switch>
       </PaneContainer>
     )

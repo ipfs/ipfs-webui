@@ -78,4 +78,3 @@ export default class Files extends Component {
     )
   }
 }
-
