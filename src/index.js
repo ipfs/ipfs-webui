@@ -7,6 +7,9 @@ import { HashRouter } from 'react-router-dom'
 import '../node_modules/normalize.css/normalize.css'
 import './styles/app.css'
 
+import '../node_modules/noty/lib/noty.css'
+import '../node_modules/noty/lib/themes/mint.css'
+
 let host = window.location.hostname
 let port = 5001
 

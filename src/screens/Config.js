@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import { success, error } from '../utils/notification'
+
 import {
   Pane,
   Header,
   Footer,
-  IconButton
+  IconButton,
+  TextArea
 } from 'ipfs-react-components'
 
 export default class Config extends Component {
   state = {
     currentConfig: '',
-    editing: ''
+    editing: '',
+    error: null
   }
 
   componentDidMount () {
@@ -29,11 +33,23 @@ export default class Config extends Component {
   }
 
   save = () => {
-    console.log(this.props.save(JSON.parse(this.state.editing)))
+    this.props.save(JSON.parse(this.state.editing))
+      .then(() => { success('Configuration saved!') })
+      .catch(error)
   }
 
-  update = (event) => {
-    this.setState({ editing: event.target.value })
+  update = (value) => {
+    const state = {
+      editing: value
+    }
+
+    try {
+      JSON.parse(value)
+    } catch (error) {
+      state.error = error.toString()
+    }
+
+    this.setState(state)
   }
 
   render () {
@@ -42,7 +58,10 @@ export default class Config extends Component {
         <Header title='Settings' />
 
         <div className='main'>
-          <textarea value={this.state.editing} onChange={this.update} />
+          { this.state.error !== null &&
+            <p>{this.state.error}</p>
+          }
+          <TextArea value={this.state.editing} onChange={this.update} />
         </div>
 
         <Footer>

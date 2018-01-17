@@ -11,6 +11,7 @@
     "ipfs-stats": "^1.0.4",
     "moment": "^2.20.1",
     "normalize.css": "^7.0.0",
+    "noty": "^3.2.0-beta",
     "pretty-bytes": "^4.0.2",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
