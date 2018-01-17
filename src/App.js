@@ -14,10 +14,9 @@ import {getConfig, saveConfig} from './utils/config'
 
 import Files from './screens/Files'
 import Config from './screens/Config'
-
+import Peers from './screens/Peers'
 import Info from './screens/Info'
-import Peers from './panes/Peers'
-import NotFound from './panes/NotFound'
+import NotFound from './screens/NotFound'
 
 const options = [{
   title: 'Info',
