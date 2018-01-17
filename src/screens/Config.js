@@ -29,13 +29,16 @@ export default class Config extends Component {
   }
 
   reset = () => {
-    this.setState({ editing: this.state.currentConfig })
+    this.setState({
+      editing: this.state.currentConfig,
+      error: null
+    })
   }
 
   save = () => {
     this.props.save(JSON.parse(this.state.editing))
       .then(() => { success('Configuration saved!') })
-      .catch(error)
+      .catch(e => { error(e.toString()) })
   }
 
   update = (value) => {

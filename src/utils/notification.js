@@ -1,5 +1,8 @@
 import Noty from 'noty'
 
+import '../../node_modules/noty/lib/noty.css'
+import '../../node_modules/noty/lib/themes/mint.css'
+
 const defaults = {
   type: 'info',
   layout: 'topRight',

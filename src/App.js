@@ -15,7 +15,7 @@ import {getConfig, saveConfig} from './utils/config'
 import Files from './screens/Files'
 import Config from './screens/Config'
 
-import Info from './panes/Info'
+import Info from './screens/Info'
 import Peers from './panes/Peers'
 import NotFound from './panes/NotFound'
 
@@ -31,8 +31,15 @@ const options = [{
   title: 'Peers',
   icon: 'pulse',
   path: '/peers'
-},
-{
+}, {
+  title: 'DAG',
+  icon: 'panel',
+  path: '/dag'
+}, {
+  title: 'Logs',
+  icon: 'receipt',
+  path: '/logs'
+}, {
   title: 'Settings',
   path: '/settings',
   icon: 'settings'

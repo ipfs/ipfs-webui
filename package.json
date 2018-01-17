@@ -8,7 +8,7 @@
     "ipfs-api": "^17.3.0",
     "ipfs-files-utility": "^1.0.0",
     "ipfs-react-components": "hacdias/ipfs-react-components",
-    "ipfs-stats": "^1.0.4",
+    "ipfs-stats": "^1.1.3",
     "moment": "^2.20.1",
     "normalize.css": "^7.0.0",
     "noty": "^3.2.0-beta",
