@@ -1,0 +1,16 @@
+.panes {
+  width: 100vw;
+  height: 100vh;
+}
+
+.panes .pane {
+  flex-grow: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.pane .footer {
+  left: 4em;
+  width: calc(100% - calc(4em + 17px));
+  right: 17px;
+}
