@@ -10,7 +10,11 @@ import {
   PaneContainer
 } from 'ipfs-react-components'
 
+import {getConfig, saveConfig} from './utils/config'
+
 import Files from './screens/Files'
+import Config from './screens/Config'
+
 import Info from './panes/Info'
 import Peers from './panes/Peers'
 import NotFound from './panes/NotFound'
@@ -68,6 +72,12 @@ class App extends Component {
           <Route exact path='/' component={() => <Info poller={this.poller} />} />
           <Route exact path='/peers' component={() => <Peers poller={this.poller} />} />
           <Route path='/files(.*)' component={(props) => <Files {...props} utility={this.files} />} />
+
+          <Route exact path='/settings' component={
+            () => {
+              return <Config get={getConfig(this.props.api)} save={saveConfig(this.props.api)} />
+            }
+          } />
 
           <Route path='*' component={NotFound} />
         </Switch>
