@@ -39,14 +39,14 @@ class Tree extends Component {
 
   _isSelected = (file) => {
     const {selectedFiles, root} = this.props
-    return includes(selectedFiles, join(root, file.Name))
+    return includes(selectedFiles, join(root, file.name))
   }
 
   _onCopyHash = () => {
     const { files, selectedFiles } = this.props
     const name = selectedFiles[0].split('/').pop()
-    const file = files.find((f) => f.Name === name)
-    this.setState({copyHash: file.Hash})
+    const file = files.find((f) => f.name === name)
+    this.setState({copyHash: file.hash})
   }
 
   _onCopiedHash = () => {

@@ -23,7 +23,7 @@
     "i18next-localstorage-cache": "^1.1.1",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "i18next-xhr-backend": "^1.5.1",
-    "ipfs-api": "^17.3.0",
+    "ipfs-api": "^18.1.1",
     "ipfs-geoip": "^2.3.0",
     "is-binary": "^0.1.0",
     "lodash-es": "^4.17.4",
@@ -44,11 +44,11 @@
     "react-router-bootstrap": "^0.24.4r",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.8",
-    "react-syntax-highlighter": "^6.1.1",
+    "react-syntax-highlighter": "^7.0.1",
     "readable-stream": "^2.3.3",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "three": "^0.89.0"
+    "three": "^0.90.0"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.37",

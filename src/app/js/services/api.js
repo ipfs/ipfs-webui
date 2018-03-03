@@ -24,10 +24,10 @@ export const files = {
   list (root, api = localApi) {
     return api.files.ls(root)
       .then((res) => {
-        const files = sortBy(res.Entries, 'Name') || []
+        const files = sortBy(res, 'name') || []
 
         return Promise.all(files.map((file) => {
-          return api.files.stat(join(root, file.Name))
+          return api.files.stat(join(root, file.name))
             .then((stats) => {
               return {...file, ...stats}
             })
