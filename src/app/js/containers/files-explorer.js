@@ -77,7 +77,7 @@ class FilesExplorer extends Component {
     let last = list.indexOf(toFile)
 
     let i = list.findIndex((el, index) => {
-      return el.Name === selectedName
+      return el.name === selectedName
     })
 
     if (last > i) {
@@ -100,7 +100,7 @@ class FilesExplorer extends Component {
     list.filter((el, index) => {
       return index >= first && index <= last
     }).forEach(el => {
-      const filePath = join(root, el.Name)
+      const filePath = join(root, el.name)
       select(filePath)
     })
   }
@@ -114,7 +114,7 @@ class FilesExplorer extends Component {
       deselectAll
     } = this.props
 
-    const filePath = join(root, file.Name)
+    const filePath = join(root, file.name)
     const currentlySelected = includes(selected, filePath)
 
     if (currentlySelected) {
@@ -136,7 +136,7 @@ class FilesExplorer extends Component {
       select,
       deselectAll
     } = this.props
-    const filePath = join(root, file.Name)
+    const filePath = join(root, file.name)
     const currentlySelected = includes(selected, filePath)
 
     if (shiftKey) {
@@ -151,10 +151,10 @@ class FilesExplorer extends Component {
 
   _onRowDoubleClick = (file, shiftKey) => {
     const {root, deselectAll, history} = this.props
-    const filePath = join(root, file.Name)
+    const filePath = join(root, file.name)
     deselectAll()
 
-    if (file.Type === 'directory') {
+    if (file.type === 'directory') {
       history.push(join('/files/explorer', filePath))
     } else {
       history.push(join('/files/preview', filePath))

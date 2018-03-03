@@ -44,11 +44,11 @@ class Row extends Component {
           onDoubleClick={this._onDoubleClick}
           className={className}>
           <div className='name'>
-            {renderType(file.Type)}
-            {file.Name}
+            {renderType(file.type)}
+            {file.name}
           </div>
           <div className='size'>
-            {file.Type === 'directory' ? '-' : pretty(file.Size)}
+            {file.type === 'directory' ? '-' : pretty(file.size)}
           </div>
         </div>
       </ContextMenuTrigger>
