@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {findKey, includes} from 'lodash-es'
 import Highlight from 'react-syntax-highlighter'
 import isBinary from 'is-binary'
-import Video from 'react-html5video'
+import { DefaultPlayer as Video } from 'react-html5video'
 import {toastr} from 'react-redux-toastr'
 import 'react-html5video/dist/styles.css'
 import languages from '../constants/languages'
@@ -48,17 +48,34 @@ const renderers = {
     if (gatewayUrl === false) {
       toastr.error('Video preview requires the gateway to be running. Please check your configuration.')
       return
-    } else if (!gatewayUrl || !stats.Hash) {
+    } else if (!gatewayUrl || !stats.hash) {
       return loading
     }
 
-    const src = `${gatewayUrl}/ipfs/${stats.Hash}`
+    const src = `${gatewayUrl}/ipfs/${stats.hash}`
     const ext = getExtension(name)
     const type = `video/${ext}`
+
+    console.log(src)
+    console.log(type)
+
     return (
       <Video controls>
         <source src={src} type={type} />
       </Video>
+    )
+  },
+
+  pdf (name, stats, gatewayUrl, read, content) {
+    if (gatewayUrl === false) {
+      toastr.error('Video preview requires the gateway to be running. Please check your configuration.')
+      return
+    } else if (!gatewayUrl || !stats.hash) {
+      return loading
+    }
+
+    return (
+      <object data={`${gatewayUrl}/ipfs/${stats.hash}`} type='application/pdf' />
     )
   },
 
@@ -92,7 +109,8 @@ const renderers = {
 
 const types = {
   image: ['jpg', 'jpeg', 'png', 'gif'],
-  video: ['mp4', 'mov', 'avi']
+  video: ['mp4', 'mov', 'avi'],
+  pdf: ['pdf']
 }
 
 function getType (ext) {
