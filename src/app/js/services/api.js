@@ -1,20 +1,10 @@
 import API from 'ipfs-api'
 import {sortBy} from 'lodash-es'
 import {join} from 'path'
-import bl from 'bl'
 
 const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
 const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || (window.location.protocol === 'https:' ? 443 : 80))
 const localApi = new API(host, port)
-
-function collect (stream) {
-  return new Promise((resolve, reject) => {
-    stream.pipe(bl((err, buf) => {
-      if (err) return reject(err)
-      resolve(buf)
-    }))
-  })
-}
 
 // -- Public Interface
 
@@ -60,7 +50,7 @@ export const files = {
   },
 
   read (name, api = localApi) {
-    return api.files.read(name).then(collect)
+    return api.files.read(name)
   }
 }
 
