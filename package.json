@@ -12,7 +12,6 @@
     "build": "NODE_ENV=production webpack"
   },
   "dependencies": {
-    "bl": "^1.2.1",
     "bootstrap": "^3.3.7",
     "create-react-class": "^15.6.2",
     "d3": "^4.12.2",
