@@ -4,11 +4,9 @@ import {preview} from '../../actions'
 import {api} from '../../services'
 import {loadConfig} from '../config'
 
-export function * stat () {
+export function * stat (name) {
   try {
     yield put(preview.requests.stat.request())
-
-    const {name} = yield take(preview.PREVIEW.READ)
     const stats = yield call(api.files.stat, name)
 
     yield put(preview.requests.stat.success({
@@ -32,6 +30,12 @@ export function * read (name) {
   }
 }
 
+export function * watchStat () {
+  const {name} = yield take(preview.PREVIEW.STAT)
+
+  yield fork(stat, name)
+}
+
 export function * watchRead () {
   const {name} = yield take(preview.PREVIEW.READ)
 
@@ -39,8 +43,8 @@ export function * watchRead () {
 }
 
 export function * load () {
-  yield fork(stat)
   yield fork(loadConfig)
+  yield fork(watchStat)
   yield fork(watchRead)
 }
 

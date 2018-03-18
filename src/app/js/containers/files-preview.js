@@ -32,6 +32,7 @@ function getGatewayUrl (config) {
 class FilesPreview extends Component {
   componentWillMount () {
     this.props.load()
+    this.props.stat(this.props.name)
   }
 
   componentWillUnmount () {
@@ -76,6 +77,7 @@ FilesPreview.propTypes = {
   // actions
   load: PropTypes.func.isRequired,
   leave: PropTypes.func.isRequired,
+  stat: PropTypes.func.isRequired,
   read: PropTypes.func.isRequired
 }
 
@@ -90,5 +92,6 @@ function mapStateToProps (state, ownProps) {
 export default connect(mapStateToProps, {
   load: pages.preview.load,
   leave: pages.preview.leave,
+  stat: preview.stat,
   read: preview.read
 })(FilesPreview)

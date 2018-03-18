@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import {findKey, includes} from 'lodash-es'
 import Highlight from 'react-syntax-highlighter'
 import isBinary from 'is-binary'
-import Video from 'react-html5video'
 import {toastr} from 'react-redux-toastr'
-import 'react-html5video/dist/styles.css'
 import languages from '../constants/languages'
 
 const loading = (<div className='preview loading'>Loading</div>)
@@ -48,17 +46,50 @@ const renderers = {
     if (gatewayUrl === false) {
       toastr.error('Video preview requires the gateway to be running. Please check your configuration.')
       return
-    } else if (!gatewayUrl || !stats.Hash) {
+    } else if (!gatewayUrl || !stats.hash) {
       return loading
     }
 
-    const src = `${gatewayUrl}/ipfs/${stats.Hash}`
+    const src = `${gatewayUrl}/ipfs/${stats.hash}`
     const ext = getExtension(name)
     const type = `video/${ext}`
+
     return (
-      <Video controls>
+      <video controls>
         <source src={src} type={type} />
-      </Video>
+      </video>
+    )
+  },
+
+  audio (name, stats, gatewayUrl, read, content) {
+    if (gatewayUrl === false) {
+      toastr.error('Audio preview requires the gateway to be running. Please check your configuration.')
+      return
+    } else if (!gatewayUrl || !stats.hash) {
+      return loading
+    }
+
+    const src = `${gatewayUrl}/ipfs/${stats.hash}`
+    const ext = getExtension(name)
+    const type = `audio/${ext}`
+
+    return (
+      <audio width='100%' controls>
+        <source src={src} type={type} />
+      </audio>
+    )
+  },
+
+  pdf (name, stats, gatewayUrl, read, content) {
+    if (gatewayUrl === false) {
+      toastr.error('PDF preview requires the gateway to be running. Please check your configuration.')
+      return
+    } else if (!gatewayUrl || !stats.hash) {
+      return loading
+    }
+
+    return (
+      <object width='100%' height='500px' data={`${gatewayUrl}/ipfs/${stats.hash}`} type='application/pdf' />
     )
   },
 
@@ -92,7 +123,9 @@ const renderers = {
 
 const types = {
   image: ['jpg', 'jpeg', 'png', 'gif'],
-  video: ['mp4', 'mov', 'avi']
+  video: ['mp4', 'mov', 'avi'],
+  audio: ['mp3', 'wav', 'flac'],
+  pdf: ['pdf']
 }
 
 function getType (ext) {
