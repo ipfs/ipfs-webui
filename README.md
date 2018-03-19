@@ -57,10 +57,20 @@ It might be a good idea to copy the `.ipfs/config` file somewhere with a useful 
 # The result will be in /dist
 ```
 
+# Release a new version of the WebUI.
+
+When a new version is ready, make sure to:
+
+- 1. bundle
+- 2. add to IPFS
+- 3. pin to the gateways
+- 4. update the hash at:
+  - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L23
+  - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
+
 # Development
 
 Make sure [node.js](https://nodejs.org/) version 6 and [npm](https://docs.npmjs.com/) version 3+ are installed and in your path.
-
 # Contribute
 
 [![](https://cdn.rawgit.com/jbenet/contribute-ipfs-gif/master/img/contribute.gif)](https://github.com/ipfs/community/blob/master/contributing.md)
