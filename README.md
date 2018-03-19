@@ -64,7 +64,8 @@ When a new version is ready, make sure to:
 - 1. bundle
 - 2. add to IPFS
 - 3. pin to the gateways
-- 4. update the hash at:
+- 4. add the new version to https://github.com/ipfs-shipyard/ipfs-webui/tree/master/versions
+- 5. update the hash at:
   - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L23
   - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
 
