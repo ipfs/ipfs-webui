@@ -1,16 +1,16 @@
-# IPFS webui
+# IPFS WebUI
 
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://ipn.io)
 [![](https://img.shields.io/badge/project-IPFS-blue.svg?style=flat-square)](http://ipfs.io/)
 [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs)
-[![](https://david-dm.org/ipfs/webui.svg?style=flat-square)](https://david-dm.org/ipfs/webui)
-[![](https://img.shields.io/circleci/project/ipfs/webui/master.svg?style=flat-square)](https://circleci.com/gh/ipfs/webui)
-[![](https://img.shields.io/travis/ipfs/webui/master.svg?style=flat-square)](https://travis-ci.org/ipfs/webui)
+[![](https://david-dm.org/ipfs-shipyard/ipfs-webui.svg?style=flat-square)](https://david-dm.org/ipfs-shipyard/ipfs-webui)
+[![](https://img.shields.io/circleci/project/ipfs-shipyard/ipfs-webui/master.svg?style=flat-square)](https://circleci.com/gh/ipfs-shipyard/ipfs-webui)
+[![](https://img.shields.io/travis/ipfs-shipyard/ipfs-webui/master.svg?style=flat-square)](https://travis-ci.org/ipfs-shipyard/ipfs-webui)
 [![](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fipfs%2Fwebui?ref=badge_shield)
 
-> IPFS Webui is a web interface for [IPFS](https://ipfs.io), the Interplanetary File System. With the interface, you can check on your node info, network addresses, see connections on a globe visually, see your files, look at your config and logs without needing to touch the CLI, and more. This interface uses the [js-ipfs-api](//github.com/ipfs/js-ipfs-api) for all of its heavy lifting.
+> IPFS WebUI is a web interface for [IPFS](https://ipfs.io), the Interplanetary File System. With the interface, you can check on your node info, network addresses, see connections on a globe visually, see your files, look at your config and logs without needing to touch the CLI, and more. This interface uses the [js-ipfs-api](//github.com/ipfs/js-ipfs-api) for all of its heavy lifting.
 
-The webui is a **work-in-progress**. Follow the [development](#development) processes below to check it out.
+The WebUI is a **work-in-progress**. Follow the [development](#development) processes below to check it out.
 
 # Usage
 
