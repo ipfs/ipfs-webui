@@ -2,8 +2,8 @@
 
 import {expect} from 'chai'
 
-import reducer from '../../src/app/js/reducers/files'
-import {files as actions} from '../../src/app/js/actions'
+import reducer from '../../src/js/reducers/files'
+import {files as actions} from '../../src/js/actions'
 
 describe('reducers - files', () => {
   it('returns the initial state', () => {

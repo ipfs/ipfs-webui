@@ -3,7 +3,7 @@ const createConfig = require('hjs-webpack')
 module.exports = (isDev) => {
   const config = createConfig({
     isDev: isDev,
-    in: './src/app/js/index.js',
+    in: './src/js/index.js',
     out: './dist',
     output: {
       publicPath: ''

@@ -2,8 +2,8 @@
 
 import {expect} from 'chai'
 
-import reducer from '../../src/app/js/reducers/preview'
-import {preview as actions} from '../../src/app/js/actions'
+import reducer from '../../src/js/reducers/preview'
+import {preview as actions} from '../../src/js/actions'
 
 describe('reducers - preview', () => {
   it('returns the initial state', () => {

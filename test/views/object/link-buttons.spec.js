@@ -4,9 +4,9 @@ import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import Path, {parse} from '../../../src/app/js/utils/path'
+import Path, {parse} from '../../../src/js/utils/path'
 
-import LinkButtons from '../../../src/app/js/views/object/link-buttons'
+import LinkButtons from '../../../src/js/views/object/link-buttons'
 
 describe('LinkButtons', () => {
   it('renders', () => {

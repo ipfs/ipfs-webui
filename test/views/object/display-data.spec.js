@@ -4,7 +4,7 @@ import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import DisplayData from '../../../src/app/js/views/object/display-data'
+import DisplayData from '../../../src/js/views/object/display-data'
 
 describe('DisplayData', () => {
   it('renders the given data', () => {

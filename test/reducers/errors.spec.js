@@ -2,8 +2,8 @@
 
 import {expect} from 'chai'
 
-import reducer from '../../src/app/js/reducers/errors'
-import {errors as actions} from '../../src/app/js/actions'
+import reducer from '../../src/js/reducers/errors'
+import {errors as actions} from '../../src/js/actions'
 
 describe('reducers - errors ', () => {
   it('returns the initial state', () => {
