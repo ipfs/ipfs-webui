@@ -5,8 +5,8 @@ import {shallow} from 'enzyme'
 import React from 'react'
 import mh from 'multihashes'
 
-import {parse} from '../../../src/app/js/utils/path'
-import ObjectLinks from '../../../src/app/js/views/object/object-links'
+import {parse} from '../../../src/js/utils/path'
+import ObjectLinks from '../../../src/js/views/object/object-links'
 
 describe('ObjectLinks', () => {
   it('renders the given links', () => {

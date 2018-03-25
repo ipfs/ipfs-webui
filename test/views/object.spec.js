@@ -4,8 +4,8 @@ import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import {parse} from '../../src/app/js/utils/path'
-import ObjectView from '../../src/app/js/views/object'
+import {parse} from '../../src/js/utils/path'
+import ObjectView from '../../src/js/views/object'
 
 describe('Object', () => {
   it('renders', () => {

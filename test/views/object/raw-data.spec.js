@@ -4,7 +4,7 @@ import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import RawData from '../../../src/app/js/views/object/raw-data'
+import RawData from '../../../src/js/views/object/raw-data'
 
 describe('RawData', () => {
   it('renders the given data', () => {

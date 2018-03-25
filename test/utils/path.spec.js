@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import {expect} from 'chai'
-import Path, {parse} from '../../src/app/js/utils/path'
+import Path, {parse} from '../../src/js/utils/path'
 
 describe('Path', () => {
   it('constructor', () => {

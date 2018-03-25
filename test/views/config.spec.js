@@ -4,7 +4,7 @@ import {expect} from 'chai'
 import {mount} from 'enzyme'
 import React from 'react'
 
-import ConfigView from '../../src/app/js/views/config'
+import ConfigView from '../../src/js/views/config'
 
 describe('ConfigView', () => {
   it('renders the given config', () => {

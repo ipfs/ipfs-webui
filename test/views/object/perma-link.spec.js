@@ -4,8 +4,8 @@ import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import {parse} from '../../../src/app/js/utils/path'
-import PermaLink from '../../../src/app/js/views/object/perma-link'
+import {parse} from '../../../src/js/utils/path'
+import PermaLink from '../../../src/js/views/object/perma-link'
 
 describe.skip('PermaLink', () => {
   it('renders a given url', () => {

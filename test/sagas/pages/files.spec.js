@@ -3,9 +3,9 @@
 import {expect} from 'chai'
 import {put, call, select} from 'redux-saga/effects'
 
-import {api} from '../../../src/app/js/services'
-import {fetchFiles} from '../../../src/app/js/sagas/pages/files'
-import {files as actions} from '../../../src/app/js/actions'
+import {api} from '../../../src/js/services'
+import {fetchFiles} from '../../../src/js/sagas/pages/files'
+import {files as actions} from '../../../src/js/actions'
 
 describe('sagas - pages - files', () => {
   it('fetchFiles success', () => {

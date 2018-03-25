@@ -4,7 +4,7 @@ import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import TableView from '../../src/app/js/views/table'
+import TableView from '../../src/js/views/table'
 
 describe('TableView', () => {
   it('renders a table with multiple rows and children', () => {
