@@ -6,11 +6,13 @@ import {pages} from '../../actions'
 import * as home from './home'
 import * as files from './files'
 import * as preview from './preview'
+import * as config from './config'
 
 const loaders = {
   home,
   files,
-  preview
+  preview,
+  config
 }
 
 export default function * watchPages () {
