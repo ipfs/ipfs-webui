@@ -1,56 +1,25 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import Peer from '../views/peer'
-import {lookupPretty as getLocation} from 'ipfs-geoip'
-import i18n from '../utils/i18n.js'
 import {Row, Col} from 'react-bootstrap'
+import {connect} from 'react-redux'
+import i18n from '../utils/i18n.js'
+import {pages} from '../actions'
+import Peer from '../views/peer'
 
 class Home extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      node: {
-        peer: {
-          id: '',
-          publicKey: '',
-          addresses: [],
-          agentVersion: '',
-          protocolVersion: ''
-        },
-        location: {
-          formatted: ''
-        }
-      }
-    }
-  }
+  static propTypes = {
+    load: PropTypes.func.isRequired,
+    leave: PropTypes.func.isRequired,
+    node: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
+  };
 
-  componentDidMount () {
-    this.mounted = true
-
-    this.props.ipfs.id((err, peer) => {
-      if (err || !peer) return console.error(err)
-      if (!this.mounted) return
-      this.setState({
-        node: {
-          peer,
-          location: {}
-        }
-      })
-      getLocation(this.props.ipfs, peer.addresses, (err, location) => {
-        if (err || !location) return console.error(err)
-        if (!this.mounted) return
-        this.setState({
-          node: {
-            peer,
-            location
-          }
-        })
-      })
-    })
+  componentWillMount () {
+    this.props.load()
   }
 
   componentWillUnmount () {
-    this.mounted = false
+    this.props.leave()
   }
 
   render () {
@@ -58,11 +27,20 @@ class Home extends Component {
       <Row>
         <Col sm={10} smOffset={1}>
           <h3>{i18n.t('Node Info')}</h3>
-          <Peer {...this.state.node} />
+          <Peer peer={this.props.node} location={this.props.location} />
         </Col>
       </Row>
     )
   }
 }
 
-export default Home
+function mapStateToProps (state) {
+  return {
+    node: state.home.id,
+    location: state.home.location
+  }
+}
+
+export default connect(mapStateToProps, {
+  ...pages.home
+})(Home)

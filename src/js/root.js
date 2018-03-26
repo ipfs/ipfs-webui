@@ -5,11 +5,11 @@ import {ConnectedRouter} from 'react-router-redux'
 import {Route, Switch, Redirect} from 'react-router'
 
 import App from './containers/app'
+import Home from './containers/home'
 import Files from './containers/files'
 import NotFoundPage from './components/not-found'
 
 /* Legacy pages */
-import HomePage from './pages/home'
 import ConnectionsPage from './pages/connections'
 import ObjectsPage from './pages/objects'
 import BitswapPage from './pages/bitswap'
@@ -27,7 +27,7 @@ export default function Root (props) {
           <Switch>
             <Redirect exact from='/' to='/home' />
             <Redirect exact from='/index.html' to='/home' />
-            <Route exact path='/home' component={HomePage} />
+            <Route exact path='/home' component={Home} />
             <Route path='/connections' component={ConnectionsPage} />
             <Route path='/files' component={Files} />
             <Route path='/objects/(.*)?' component={ObjectsPage} />

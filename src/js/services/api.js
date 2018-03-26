@@ -1,6 +1,7 @@
 import API from 'ipfs-api'
 import {sortBy} from 'lodash-es'
 import {join} from 'path'
+import {lookupPretty} from 'ipfs-geoip'
 
 const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
 const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || (window.location.protocol === 'https:' ? 443 : 80))
@@ -61,4 +62,16 @@ export const getConfig = (api = localApi) => {
 
 export const saveConfig = (config, api = localApi) => {
   return api.config.replace(config)
+}
+
+export const getLocation = (addresses, api = localApi) => {
+  return new Promise((resolve, reject) => {
+    lookupPretty(api, addresses, (err, location) => {
+      if (err || !location) {
+        return reject(err)
+      }
+
+      resolve(location)
+    })
+  })
 }

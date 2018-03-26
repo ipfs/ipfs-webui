@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {Row, Col} from 'react-bootstrap'
 import {Route, Switch, Redirect} from 'react-router'
 
-import Explorer from './files/explorer'
-import Preview from './files/preview'
+import Explorer from './files-explorer'
+import Preview from './files-preview'
 
 class Files extends Component {
   render () {

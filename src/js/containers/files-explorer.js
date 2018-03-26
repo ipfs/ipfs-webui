@@ -5,11 +5,11 @@ import {join, dirname, basename} from 'path'
 import {includes} from 'lodash-es'
 import {toastr} from 'react-redux-toastr'
 import {withRouter} from 'react-router'
-import {pages, files} from './../../actions'
+import {pages, files} from './../actions'
 
-import Tree from './../../components/files/tree'
-import ActionBar from './../../components/files/action-bar'
-import Breadcrumbs from './../../components/files/breadcrumbs'
+import Tree from './../components/files/tree'
+import ActionBar from './../components/files/action-bar'
+import Breadcrumbs from './../components/files/breadcrumbs'
 
 class FilesExplorer extends Component {
   componentWillMount () {
