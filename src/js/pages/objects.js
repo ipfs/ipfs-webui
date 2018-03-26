@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ObjectView from '../views/object'
+import ObjectView from '../components/object'
 import {parse} from '../utils/path'
 import {join} from 'path'
 import i18n from '../utils/i18n'

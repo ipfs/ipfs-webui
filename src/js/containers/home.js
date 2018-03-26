@@ -4,7 +4,7 @@ import {Row, Col} from 'react-bootstrap'
 import {connect} from 'react-redux'
 import i18n from '../utils/i18n.js'
 import {pages} from '../actions'
-import Peer from '../views/peer'
+import Peer from '../components/peer'
 
 class Home extends Component {
   static propTypes = {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {isEmpty, map} from 'lodash-es'
 import {readAsBuffer} from '../../utils/files'
 
-import Icon from '../../views/icon'
+import Icon from '../../components/icon'
 
 class ActionBar extends Component {
   _onUploadClick = event => {

@@ -8,7 +8,7 @@ import {Link, withRouter} from 'react-router-dom'
 import i18n from '../utils/i18n.js'
 import {parse} from '../utils/path'
 import {errors} from '../actions'
-import Nav from '../views/nav'
+import Nav from '../components/nav'
 
 class App extends Component {
   componentWillReceiveProps (nextProps) {

@@ -6,7 +6,7 @@ import React from 'react'
 import mh from 'multihashes'
 
 import {parse} from '../../../src/js/utils/path'
-import ObjectLinks from '../../../src/js/views/object/object-links'
+import ObjectLinks from '../../../src/js/components/object/object-links'
 
 describe('ObjectLinks', () => {
   it('renders the given links', () => {

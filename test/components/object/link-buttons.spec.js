@@ -6,7 +6,7 @@ import React from 'react'
 
 import Path, {parse} from '../../../src/js/utils/path'
 
-import LinkButtons from '../../../src/js/views/object/link-buttons'
+import LinkButtons from '../../../src/js/components/object/link-buttons'
 
 describe('LinkButtons', () => {
   it('renders', () => {

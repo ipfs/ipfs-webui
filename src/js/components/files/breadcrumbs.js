@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {chain, isEmpty, compact} from 'lodash-es'
 import {join} from 'path'
 
-import Icon from '../../views/icon'
+import Icon from '../../components/icon'
 
 class Breadcrumb extends Component {
   _onClick = (event) => {

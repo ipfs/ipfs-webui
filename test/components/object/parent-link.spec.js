@@ -5,7 +5,7 @@ import {shallow} from 'enzyme'
 import React from 'react'
 
 import {parse} from '../../../src/js/utils/path'
-import ParentLink from '../../../src/js/views/object/parent-link'
+import ParentLink from '../../../src/js/components/object/parent-link'
 
 describe('ParentLink', () => {
   it('renders with a url', () => {
