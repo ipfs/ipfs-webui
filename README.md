@@ -61,13 +61,13 @@ It might be a good idea to copy the `.ipfs/config` file somewhere with a useful 
 
 When a new version is ready, make sure to:
 
-- 1. bundle
-- 2. add to IPFS
-- 3. pin to the gateways
-- 4. add the new version to https://github.com/ipfs-shipyard/ipfs-webui/tree/master/versions
-- 5. update the hash at:
-  - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L23
-  - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
+1. bundle
+1. add to IPFS
+1. pin to the gateways
+1. add the new version to https://github.com/ipfs-shipyard/ipfs-webui/tree/master/versions
+1. update the hash at:
+   - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L23
+   - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
 
 # Development
 
