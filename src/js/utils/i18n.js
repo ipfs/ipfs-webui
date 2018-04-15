@@ -10,7 +10,7 @@ i18next
   .use(LanguageDetector)
   .use(sprintf)
   .init({
-    lngWhiteList: ['en', 'cs', 'de', 'pl', 'fr'],
+    lngWhiteList: ['en', 'cs', 'de', 'pl', 'fr', 'pt'],
     fallbackLng: 'en',
     load: 'languageOnly',
     backend: {
