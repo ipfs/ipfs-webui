@@ -1,23 +1,13 @@
 /* global it beforeAll afterAll, expect */
-import Path from 'path'
-import Http from 'http'
-import ecstatic from 'ecstatic'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import puppeteer from 'puppeteer'
 import App from './App'
 
-let browser, server
+let browser
 
-beforeAll(async () => {
-  server = Http.createServer(ecstatic({root: Path.join(__dirname, '..', 'build')})).listen(3001)
-  browser = await puppeteer.launch()
-})
-
-afterAll(() => {
-  server.close()
-  browser.close()
-})
+beforeAll(async () => { browser = await puppeteer.launch() })
+afterAll(() => browser.close())
 
 it('example test', async () => {
   const page = await browser.newPage()
