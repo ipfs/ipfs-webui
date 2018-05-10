@@ -8,10 +8,6 @@ const bundle = createAsyncResourceBundle({
   checkIfOnline: false
 })
 
-// bundle.init = store => {
-//   setInterval(() => store.dispatch({ type: 'PEERS_POLL' }), 1000)
-// }
-
 bundle.reactPeersFetch = createSelector(
   'selectPeersShouldUpdate',
   'selectIpfsReady',
