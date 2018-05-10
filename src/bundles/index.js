@@ -1,11 +1,10 @@
-import { composeBundles, debugBundle, appTimeBundle, onlineBundle } from 'redux-bundler'
+import { composeBundles } from 'redux-bundler'
 import ipfsBundle from './ipfs'
 import peersBundle from './peers'
+import routesBundle from './routes'
 
 export default composeBundles(
-  debugBundle,
-  appTimeBundle,
-  onlineBundle,
   ipfsBundle,
-  peersBundle
+  peersBundle,
+  routesBundle
 )

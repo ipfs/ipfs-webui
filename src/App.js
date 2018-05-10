@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
-import { HashRouter as Router, Route } from 'react-router-dom'
 import { connect } from 'redux-bundler-react'
 import NavBar from './navigation/NavBar'
-import StatusPage from './status/StatusPage'
-import FilesPage from './files/FilesPage'
-import IpldPage from './ipld/IpldPage'
-import PeersPage from './peers/PeersPage'
-import SettingsPage from './settings/SettingsPage'
+import navHelper from 'internal-nav-helper'
 
 class App extends Component {
   componentWillMount () {
@@ -14,23 +9,20 @@ class App extends Component {
   }
 
   render () {
+    const Page = this.props.route
     return (
-      <Router>
+      <div onClick={navHelper(this.props.doUpdateUrl)}>
         <div className='sans-serif flex'>
           <div className='w-25'>
             <NavBar />
           </div>
           <div className='flex-auto'>
-            <Route exact path='/' component={StatusPage} />
-            <Route path='/files' component={FilesPage} />
-            <Route path='/ipld' component={IpldPage} />
-            <Route path='/peers' component={PeersPage} />
-            <Route path='/settings' component={SettingsPage} />
+            <Page />
           </div>
         </div>
-      </Router>
+      </div>
     )
   }
 }
 
-export default connect('doInitIpfs', App)
+export default connect('selectRoute', 'doUpdateUrl', 'doInitIpfs', App)

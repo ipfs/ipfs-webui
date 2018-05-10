@@ -1,5 +1,11 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+
+const NavLink = ({to, className, activeClassName, children}) => {
+  const {hash} = window.location
+  const href = `#${to}`
+  const cls = hash === href ? className + ' ' + activeClassName : className
+  return <a href={href} className={cls}>{children}</a>
+}
 
 export default () => (
   <nav>

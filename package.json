@@ -11,6 +11,8 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "feather-route-matcher": "^3.0.0",
+    "internal-nav-helper": "^1.0.2",
     "ipfs-css": "^0.3.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
