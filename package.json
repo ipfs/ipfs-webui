@@ -8,11 +8,13 @@
     "lint": "standard",
     "test": "run-p --race test:*",
     "test:serve": "ecstatic build --cache=0 --port=3001",
-    "test:run": "react-scripts test --env=jsdom",
+    "test:run": "react-scripts test",
     "analyze": "source-map-explorer build/static/js/main.*",
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "internal-nav-helper": "^1.0.2",
     "ipfs-css": "^0.3.1",
     "milliseconds": "^1.0.3",
@@ -21,6 +23,7 @@
     "react-dom": "^16.3.2",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
+    "react-test-renderer": "^16.3.2",
     "redux-bundler": "^21.2.0",
     "redux-bundler-react": "^1.0.0",
     "tachyons": "^4.9.1",

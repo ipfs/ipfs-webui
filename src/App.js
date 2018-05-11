@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
+import AsyncRequestLoader from './loader/AsyncRequestLoader'
 
 export class App extends Component {
   static propTypes = {
@@ -23,12 +24,15 @@ export class App extends Component {
     return (
       <div onClick={navHelper(this.props.doUpdateUrl)}>
         <div className='sans-serif flex'>
-          <div className='w-25'>
+          <div style={{width: 240}}>
             <NavBar />
           </div>
           <div className='flex-auto pa3'>
             <Page />
           </div>
+        </div>
+        <div className='absolute top-0 left-0 pa2'>
+          <AsyncRequestLoader />
         </div>
       </div>
     )
