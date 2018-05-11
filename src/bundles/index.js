@@ -2,11 +2,11 @@ import { composeBundles } from 'redux-bundler'
 import ipfsBundle from './ipfs'
 import peersBundle from './peers'
 import routesBundle from './routes'
-import liveUpdateBundle from './live-update'
+import appIdle from './app-idle'
 
 export default composeBundles(
   ipfsBundle,
   peersBundle,
   routesBundle,
-  liveUpdateBundle
+  appIdle({idleTimeout: 5000})
 )
