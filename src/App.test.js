@@ -1,6 +1,6 @@
 /* global it beforeAll afterAll, expect */
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { shallow } from 'enzyme'
 import puppeteer from 'puppeteer'
 import { App } from './App'
 
@@ -50,15 +50,10 @@ it('example test', async () => {
 })
 
 it('renders without crashing', () => {
-  const div = document.createElement('div')
-
   const noop = () => {}
   const Page = () => 'test'
 
-  ReactDOM.render(
-    <App doInitIpfs={noop} doUpdateUrl={noop} route={Page} />,
-    div
+  shallow(
+    <App doInitIpfs={noop} doUpdateUrl={noop} route={Page} />
   )
-
-  ReactDOM.unmountComponentAtNode(div)
 })
