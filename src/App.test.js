@@ -2,7 +2,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import puppeteer from 'puppeteer'
-import App from './App'
+import { App } from './App'
 
 let browser
 
@@ -51,6 +51,14 @@ it('example test', async () => {
 
 it('renders without crashing', () => {
   const div = document.createElement('div')
-  ReactDOM.render(<App />, div)
+
+  const noop = () => {}
+  const Page = () => 'test'
+
+  ReactDOM.render(
+    <App doInitIpfs={noop} doUpdateUrl={noop} route={Page} />,
+    div
+  )
+
   ReactDOM.unmountComponentAtNode(div)
 })
