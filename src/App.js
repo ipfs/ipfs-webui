@@ -1,9 +1,19 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
 
-class App extends Component {
+export class App extends Component {
+  static propTypes = {
+    doInitIpfs: PropTypes.func.isRequired,
+    doUpdateUrl: PropTypes.func.isRequired,
+    route: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.element
+    ]).isRequired
+  }
+
   componentWillMount () {
     this.props.doInitIpfs()
   }
