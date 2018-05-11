@@ -5,6 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "standard",
     "test": "run-p --race test:*",
     "test:serve": "ecstatic build --cache=0 --port=3001",
     "test:run": "react-scripts test --env=jsdom",
