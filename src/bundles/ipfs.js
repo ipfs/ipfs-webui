@@ -21,7 +21,7 @@ export default {
     dispatch({ type: 'IPFS_INIT_STARTED' })
 
     try {
-      root.ipfs = await getIpfs()
+      root.ipfs = await getIpfs({ api: true })
     } catch (err) {
       return dispatch({ type: 'IPFS_INIT_FAILED', payload: err })
     }

@@ -26,7 +26,7 @@
     "redux-bundler-react": "^1.0.0",
     "tachyons": "^4.9.1",
     "window-or-global": "^1.0.1",
-    "window.ipfs-fallback": "^1.0.0"
+    "window.ipfs-fallback": "^1.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
