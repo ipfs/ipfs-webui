@@ -12,7 +12,6 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "feather-route-matcher": "^3.0.0",
     "internal-nav-helper": "^1.0.2",
     "ipfs-css": "^0.3.1",
     "milliseconds": "^1.0.3",
@@ -21,7 +20,7 @@
     "react-dom": "^16.3.2",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
-    "redux-bundler": "^21.1.0",
+    "redux-bundler": "^21.2.0",
     "redux-bundler-react": "^1.0.0",
     "tachyons": "^4.9.1",
     "window-or-global": "^1.0.1",

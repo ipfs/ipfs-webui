@@ -1,19 +1,9 @@
-import { createSelector } from 'redux-bundler'
-import createRouteMatcher from 'feather-route-matcher'
+import { createRouteBundle } from 'redux-bundler'
 import StatusPage from '../status/StatusPage'
 import FilesPage from '../files/FilesPage'
 import IpldPage from '../ipld/IpldPage'
 import PeersPage from '../peers/PeersPage'
 import SettingsPage from '../settings/SettingsPage'
-
-function createRouteBundle (routes, routeInfoSelector = 'selectPathname') {
-  return {
-    name: 'routes',
-    selectRouteInfo: createSelector(routeInfoSelector, createRouteMatcher(routes)),
-    selectRouteParams: createSelector('selectRouteInfo', ({ params }) => params),
-    selectRoute: createSelector('selectRouteInfo', ({ page }) => page)
-  }
-}
 
 export default createRouteBundle({
   '/files': FilesPage,
@@ -23,4 +13,4 @@ export default createRouteBundle({
   '/settings': SettingsPage,
   '/': StatusPage,
   '': StatusPage
-}, 'selectHash')
+}, { routeInfoSelector: 'selectHash' })
