@@ -1,12 +1,13 @@
 /* global it beforeAll afterAll, expect */
 import React from 'react'
 import { shallow } from 'enzyme'
-import puppeteer from 'puppeteer'
+import ms from 'milliseconds'
+import { launch } from './puppeteer'
 import { App } from './App'
 
 let browser
 
-beforeAll(async () => { browser = await puppeteer.launch() })
+beforeAll(async () => { browser = await launch() })
 afterAll(() => browser.close())
 
 it('example test', async () => {
@@ -47,7 +48,7 @@ it('example test', async () => {
   title = await page.$('[data-id=title]')
   titleText = await page.evaluate(el => el.innerHTML, title)
   expect(titleText).toBe('Status')
-})
+}, ms.minutes(1))
 
 it('renders without crashing', () => {
   const noop = () => {}

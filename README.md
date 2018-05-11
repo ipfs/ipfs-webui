@@ -1,5 +1,7 @@
 # WebUI CRA
 
+[![Build Status](https://travis-ci.org/tableflip/ipfs-webui-cra.svg?branch=master)](https://travis-ci.org/tableflip/ipfs-webui-cra)
+
 > WebUI reboot with create-react-app
 
 ## Install
