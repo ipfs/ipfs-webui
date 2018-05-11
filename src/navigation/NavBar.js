@@ -1,6 +1,12 @@
 import React from 'react'
+import ipfsLogo from './ipfs-logo.svg'
 
-const NavLink = ({to, className, activeClassName, children}) => {
+const NavLink = ({
+  to,
+  children,
+  className = 'db pv4 white tc link',
+  activeClassName = 'bg-navy-muted'
+}) => {
   const {hash} = window.location
   const href = `#${to}`
   const cls = hash === href ? className + ' ' + activeClassName : className
@@ -8,11 +14,14 @@ const NavLink = ({to, className, activeClassName, children}) => {
 }
 
 export default () => (
-  <nav>
-    <NavLink exact className='db pa1' activeClassName='active' to='/'>Status</NavLink>
-    <NavLink className='db pa1' activeClassName='active' to='/files'>Files</NavLink>
-    <NavLink className='db pa1' activeClassName='active' to='/ipld'>IPLD</NavLink>
-    <NavLink className='db pa1' activeClassName='active' to='/peers'>Peers</NavLink>
-    <NavLink className='db pa1' activeClassName='active' to='/settings'>Settings</NavLink>
-  </nav>
+  <div className='white pv3' style={{background: '#0E3A52', height: '100vh'}}>
+    <img className='db center' style={{height: 70}} src={ipfsLogo} alt='IPFS' />
+    <nav className='db pt4'>
+      <NavLink to='/'>Status</NavLink>
+      <NavLink to='/files'>Files</NavLink>
+      <NavLink to='/ipld'>IPLD</NavLink>
+      <NavLink to='/peers'>Peers</NavLink>
+      <NavLink to='/settings'>Settings</NavLink>
+    </nav>
+  </div>
 )

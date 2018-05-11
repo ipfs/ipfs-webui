@@ -26,7 +26,7 @@ export class App extends Component {
           <div className='w-25'>
             <NavBar />
           </div>
-          <div className='flex-auto'>
+          <div className='flex-auto pa3'>
             <Page />
           </div>
         </div>
