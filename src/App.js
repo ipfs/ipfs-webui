@@ -22,12 +22,12 @@ export class App extends Component {
   render () {
     const Page = this.props.route
     return (
-      <div onClick={navHelper(this.props.doUpdateUrl)}>
-        <div className='sans-serif flex'>
-          <div style={{width: 240}}>
+      <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
+        <div className='dt dt--fixed' style={{minHeight: '100vh'}}>
+          <div className='dtc v-top' style={{width: 240, background: '#0E3A52'}}>
             <NavBar />
           </div>
-          <div className='flex-auto pa3'>
+          <div className='dtc v-top pa3'>
             <Page />
           </div>
         </div>
