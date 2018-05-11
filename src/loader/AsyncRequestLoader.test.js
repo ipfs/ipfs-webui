@@ -2,18 +2,17 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { AsyncRequestLoader } from './AsyncRequestLoader'
-import { Loader } from './Loader'
 
-it('renders nothing if there are no async requests', () => {
+it('hidden if there are no async requests', () => {
   const wrapper = shallow(
     <AsyncRequestLoader asyncActive={false} />
   )
-  expect(wrapper.getElement()).toBe(null)
+  expect(wrapper.find('.o-0').exists()).toBe(true)
 })
 
-it('renders a Loader if there are pending requests', () => {
+it('visible if there are pending requests', () => {
   const wrapper = shallow(
     <AsyncRequestLoader asyncActive />
   )
-  expect(wrapper.is(Loader)).toBe(true)
+  expect(wrapper.find('.o-100').exists()).toBe(true)
 })

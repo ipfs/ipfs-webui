@@ -1,9 +1,17 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
+import debounce from 'react-debounce-render'
 import { Loader } from './Loader'
 
-export const AsyncRequestLoader = ({asyncActive}) => {
-  return asyncActive ? <Loader title='Fetching data...' /> : null
-}
+export const AsyncRequestLoader = ({asyncActive}) => (
+  <div
+    title={asyncActive ? 'Fetching data...' : null}
+    className={asyncActive ? 'o-100' : 'o-0'}
+    style={{transition: 'opacity 500ms linear'}}>
+    <Loader />
+  </div>
+)
 
-export default connect('selectAsyncActive', AsyncRequestLoader)
+const deboucedComponent = debounce(AsyncRequestLoader, 1000, {leading: true})
+
+export default connect('selectAsyncActive', deboucedComponent)
