@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
+import IpldExploreForm from './ipld/IpldExploreForm'
 import AsyncRequestLoader from './loader/AsyncRequestLoader'
 
 export class App extends Component {
@@ -27,8 +28,13 @@ export class App extends Component {
           <div className='dtc v-top' style={{width: 240, background: '#0E3A52'}}>
             <NavBar />
           </div>
-          <div className='dtc v-top pa3'>
-            <Page />
+          <div className='dtc v-top'>
+            <div style={{background: '#F0F6FA'}}>
+              <IpldExploreForm />
+            </div>
+            <main className='pa3'>
+              <Page />
+            </main>
           </div>
         </div>
         <div className='absolute top-0 left-0 pa2'>

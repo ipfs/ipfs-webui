@@ -18,3 +18,7 @@
 .fill-current-color {
   fill: currentColor;
 }
+
+.placeholder-light::placeholder{
+  color: #CAD3D8;
+}
