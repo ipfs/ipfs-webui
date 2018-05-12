@@ -2,6 +2,11 @@ import React from 'react'
 import { connect } from 'redux-bundler-react'
 import StrokeDecentralized from '../icons/StrokeDecentralization'
 
+function ensureLeadingSlash (str) {
+  if (str.startsWith('/')) return str
+  return `/${str}`
+}
+
 class IpldExploreForm extends React.Component {
   constructor (props) {
     super(props)
@@ -15,7 +20,7 @@ class IpldExploreForm extends React.Component {
   onSubmit (evt) {
     evt.preventDefault()
     const {path} = this.state
-    const hash = path ? `#/ipld/${path}` : `#/ipld`
+    const hash = path ? `#/ipld${ensureLeadingSlash(path)}` : `#/ipld`
     console.log('GO', hash)
     this.props.doUpdateHash(hash)
   }

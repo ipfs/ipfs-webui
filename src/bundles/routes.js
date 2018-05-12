@@ -7,8 +7,7 @@ import SettingsPage from '../settings/SettingsPage'
 
 export default createRouteBundle({
   '/files': FilesPage,
-  '/ipld': IpldPage,
-  '/ipld/:path': IpldPage,
+  '/ipld*': IpldPage,
   '/peers': PeersPage,
   '/settings': SettingsPage,
   '/': StatusPage,
