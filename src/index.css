@@ -10,3 +10,11 @@
 .focus-outline:focus {
   outline: solid 1px rgba(255,255,255,0.5);
 }
+
+.stroke-current-color {
+  stroke: currentColor;
+}
+
+.fill-current-color {
+  fill: currentColor;
+}
