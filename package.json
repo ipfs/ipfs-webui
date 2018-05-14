@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "cp config/webpack.config.prod.js node_modules/react-scripts/config/",
     "build": "react-scripts build",
     "build:icons": "svgr -d src/icons node_modules/ipfs-css/icons && standard --fix src/icons/*",
-    "lint": "standard",
+    "lint": "standard src",
     "test": "run-p --race test:serve test:run",
     "test:coverage": "run-p --race test:serve \"test:run -- --coverage\"",
     "test:serve": "ecstatic build --cache=0 --port=3001",
@@ -35,6 +36,7 @@
     "redux-bundler-react": "^1.0.0",
     "svgr": "^1.9.1",
     "tachyons": "^4.9.1",
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "window-or-global": "^1.0.1",
     "window.ipfs-fallback": "^1.1.0"
   },

@@ -5,7 +5,8 @@ import { decodeCid } from '../lib/cid'
 class IpldPage extends React.Component {
   render () {
     const {path} = this.props.routeParams
-    const cidStr = path ? path.substring(1) : null // todo detect all the things (/ipfs /ipns etc)
+    // todo detect all the things (/ipfs /ipns etc)
+    const cidStr = path ? path.replace('/ipfs', '').substring(1) : null
     let cidErr = null
     let cidInfo = null
     try {
