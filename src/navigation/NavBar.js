@@ -4,7 +4,7 @@ import StrokeMarketing from '../icons/StrokeMarketing'
 import StrokeWeb from '../icons/StrokeWeb'
 import StrokeCube from '../icons/StrokeCube'
 import StrokeSettings from '../icons/StrokeSettings'
-import StrokeDecentralization from '../icons/StrokeDecentralization'
+import StrokeIpld from '../icons/StrokeIpld'
 
 const NavLink = ({
   to,
@@ -44,7 +44,7 @@ export default () => (
     <nav className='db pt4' role='menubar'>
       <NavLink to='/' exact icon={StrokeMarketing}>Status</NavLink>
       <NavLink to='/files' icon={StrokeWeb}>Files</NavLink>
-      <NavLink to='/ipld' icon={StrokeDecentralization}>IPLD</NavLink>
+      <NavLink to='/ipld' icon={StrokeIpld}>IPLD</NavLink>
       <NavLink to='/peers' icon={StrokeCube}>Peers</NavLink>
       <NavLink to='/settings' icon={StrokeSettings}>Settings</NavLink>
     </nav>

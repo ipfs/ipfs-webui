@@ -20,7 +20,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "internal-nav-helper": "^1.0.2",
-    "ipfs-css": "^0.3.1",
+    "ipfs-css": "^0.4.0",
     "milliseconds": "^1.0.3",
     "multibase": "^0.4.0",
     "multicodec": "^0.2.6",

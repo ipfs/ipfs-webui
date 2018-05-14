@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import StrokeDecentralized from '../icons/StrokeDecentralization'
+import StrokeIpld from '../icons/StrokeIpld'
 
 function ensureLeadingSlash (str) {
   if (str.startsWith('/')) return str
@@ -42,7 +42,7 @@ class IpldExploreForm extends React.Component {
         </div>
         <div className='dtc v-top' style={{width: 120}}>
           <button type='submit' className='button-reset dib lh-copy pv1 pl2 pr3 ba f6 focus-outline' style={{color: '#89A0AC', background: '#CFDDE4', borderColor: '#C6D3DA', borderRadius: '0 3px 3px 0'}}>
-            <StrokeDecentralized style={{height: 24}} className='dib fill-current-color v-mid' />
+            <StrokeIpld style={{height: 24}} className='dib fill-current-color v-mid' />
             <span className='ml2'>Explore</span>
           </button>
         </div>
