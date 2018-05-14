@@ -36,6 +36,7 @@ class IpldPage extends React.Component {
             <p className='red f5 mb0'>{cidErr.message}</p>
           </section>
         )}
+        <h1 data-id='title'>IPLD</h1>
       </div>
     )
   }
