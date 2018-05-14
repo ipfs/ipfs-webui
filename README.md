@@ -1,15 +1,24 @@
-# WebUI CRA
+# IPFS WebUI Next
 
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg?style=flat-square)](http://ipn.io)
+[![](https://img.shields.io/badge/project-IPFS-blue.svg?style=flat-square)](http://ipfs.io/)
+[![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg?style=flat-square)](http://webchat.freenode.net/?channels=%23ipfs)
 [![Build Status](https://travis-ci.org/tableflip/ipfs-webui-cra.svg?branch=master)](https://travis-ci.org/tableflip/ipfs-webui-cra)
 
-> WebUI reboot with create-react-app
+> IPFS WebUI reboot. A new frontend for your IPFS node.
+
+## This is pre-release software.
+
+The current IPFS webui is here: https://github.com/ipfs-shipyard/ipfs-webui
+
+This repo is part of the IPFS GUI redesign project, described here: https://github.com/ipfs-shipyard/pm-ipfs-gui
 
 ## Install
 
 Clone this repo, and ensure you have the following installed:
 
-* Node.js @ 10+
-* npm @ 6+
+* `node` @ 10+
+* `npm` @ 6+
 
 In the project directory, install dependencies:
 
@@ -18,6 +27,8 @@ npm install
 ```
 
 ### Develop
+
+This app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#table-of-contents).
 
 Run the following command to build the app, start a development server on http://localhost:3000 and enable hot code reloading:
 
@@ -70,6 +81,11 @@ Note that you'll need to build the application first.
 ## Contribute
 
 Feel free to dive in! [Open an issue](https://github.com/ipfs-shipyard/TBC/issues/new) or submit PRs.
+
+To contribute to IPFS in general, see the [contributing guide](https://github.com/ipfs/community/blob/master/contributing.md).
+
+[![](https://cdn.rawgit.com/jbenet/contribute-ipfs-gif/master/img/contribute.gif)](https://github.com/ipfs/community/blob/master/contributing.md)
+
 
 ## License
 
