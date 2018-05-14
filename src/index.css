@@ -8,7 +8,8 @@
 
 :focus .focus-outline,
 .focus-outline:focus {
-  outline: solid 1px rgba(255,255,255,0.5);
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(201, 210, 215, .25);
 }
 
 .stroke-current-color {

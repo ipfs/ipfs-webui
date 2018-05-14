@@ -9,6 +9,7 @@ import StrokeDecentralization from '../icons/StrokeDecentralization'
 const NavLink = ({
   to,
   icon,
+  exact,
   children,
   className = 'dt dt--fixed pv3 mb2 white link focus-outline f5 hover-bg-white-10',
   activeClassName = 'bg-white-10'
@@ -16,7 +17,7 @@ const NavLink = ({
   const Svg = icon
   const {hash} = window.location
   const href = `#${to}`
-  const active = hash === href
+  const active = exact ? hash === href : hash && hash.startsWith(href)
   const cls = active ? className + ' ' + activeClassName : className
   return (
     <a href={href} className={cls} role='menuitem'>
@@ -41,7 +42,7 @@ export default () => (
       <img className='db center' style={{height: 70}} src={ipfsLogo} alt='IPFS' />
     </a>
     <nav className='db pt4' role='menubar'>
-      <NavLink to='/' icon={StrokeMarketing}>Status</NavLink>
+      <NavLink to='/' exact icon={StrokeMarketing}>Status</NavLink>
       <NavLink to='/files' icon={StrokeWeb}>Files</NavLink>
       <NavLink to='/ipld' icon={StrokeDecentralization}>IPLD</NavLink>
       <NavLink to='/peers' icon={StrokeCube}>Peers</NavLink>

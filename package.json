@@ -15,11 +15,15 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "cids": "^0.5.3",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "internal-nav-helper": "^1.0.2",
     "ipfs-css": "^0.3.1",
     "milliseconds": "^1.0.3",
+    "multibase": "^0.4.0",
+    "multicodec": "^0.2.6",
+    "multihashes": "^0.4.13",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-debounce-render": "^4.0.1",

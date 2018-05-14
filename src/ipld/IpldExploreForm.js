@@ -21,7 +21,6 @@ class IpldExploreForm extends React.Component {
     evt.preventDefault()
     const {path} = this.state
     const hash = path ? `#/ipld${ensureLeadingSlash(path)}` : `#/ipld`
-    console.log('GO', hash)
     this.props.doUpdateHash(hash)
   }
 
@@ -37,12 +36,12 @@ class IpldExploreForm extends React.Component {
       <form className='black-80 dt dt--fixed' style={{padding: '20px 40px', maxWidth: 560}} onSubmit={this.onSubmit}>
         <div className='dtc v-top'>
           <div className='relative'>
-            <input id='ipfs-path' className='input-reset ba pa2 mb2 db w-100 f6 br-0 placeholder-light' style={{borderColor: '#C6D3DA', borderRadius: '3px 0 0 3px'}} type='text' placeholder='/ipfs/QmHash' aria-describedby='name-desc' onChange={this.onChange} value={this.state.path} />
+            <input id='ipfs-path' className='input-reset ba pa2 mb2 db w-100 f6 br-0 placeholder-light focus-outline' style={{borderColor: '#C6D3DA', borderRadius: '3px 0 0 3px'}} type='text' placeholder='/ipfs/QmHash' aria-describedby='name-desc' onChange={this.onChange} value={this.state.path} />
             <small id='ipfs-path-desc' className='o-0 absolute f6 black-60 db mb2'>Paste in a CID or IPFS path</small>
           </div>
         </div>
         <div className='dtc v-top' style={{width: 120}}>
-          <button type='submit' className='button-reset dib lh-copy pv1 pl2 pr3 ba f6' style={{color: '#89A0AC', background: '#CFDDE4', borderColor: '#C6D3DA', borderRadius: '0 3px 3px 0'}}>
+          <button type='submit' className='button-reset dib lh-copy pv1 pl2 pr3 ba f6 focus-outline' style={{color: '#89A0AC', background: '#CFDDE4', borderColor: '#C6D3DA', borderRadius: '0 3px 3px 0'}}>
             <StrokeDecentralized style={{height: 24}} className='dib fill-current-color v-mid' />
             <span className='ml2'>Explore</span>
           </button>

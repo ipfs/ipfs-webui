@@ -25,14 +25,14 @@ export class App extends Component {
     return (
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
         <div className='dt dt--fixed' style={{minHeight: '100vh'}}>
-          <div className='dtc v-top' style={{width: 240, background: '#0E3A52'}}>
+          <div className='dtc v-top bg-navy' style={{width: 240}}>
             <NavBar />
           </div>
           <div className='dtc v-top'>
             <div style={{background: '#F0F6FA'}}>
               <IpldExploreForm />
             </div>
-            <main className='pa3'>
+            <main className='pa4'>
               <Page />
             </main>
           </div>
