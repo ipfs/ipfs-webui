@@ -13,7 +13,9 @@
     "test:serve": "ecstatic build --cache=0 --port=3001",
     "test:run": "react-scripts test",
     "analyze": "source-map-explorer build/static/js/main.*",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
     "cids": "^0.5.3",
@@ -41,7 +43,14 @@
     "window.ipfs-fallback": "^1.1.0"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^3.4.4",
+    "@storybook/addon-actions": "^3.4.4",
+    "@storybook/addon-links": "^3.4.4",
+    "@storybook/addons": "^3.4.4",
+    "@storybook/react": "^3.4.4",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^7.2.3",
+    "babel-runtime": "^6.26.0",
     "ecstatic": "^3.2.0",
     "eslint": "^4.19.1",
     "eslint-plugin-react": "^7.8.1",
