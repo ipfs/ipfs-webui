@@ -1,14 +1,8 @@
 import React from 'react'
 import { decodeCid } from '../../lib/cid'
 
-const CidInfo = ({cid, className, ...props}) => {
-  let cidErr = null
-  let cidInfo = null
-  try {
-    cidInfo = cid ? decodeCid(cid) : null
-  } catch (err) {
-    cidErr = err
-  }
+function extractInfo (cid) {
+  const cidInfo = decodeCid(cid)
   const hashFn = cidInfo.multihash.name
   const hashFnCode = cidInfo.multihash.code.toString('16')
   const hashLengthCode = cidInfo.multihash.length.toString('16')
@@ -22,6 +16,26 @@ const CidInfo = ({cid, className, ...props}) => {
     resultArray[chunkIndex].push(item)
     return resultArray
   }, [])
+  const humanReadable = `${cidInfo.multibase.name} - cidv${cidInfo.cid.version} - ${cidInfo.cid.codec} - ${hashFn}-${hashLengthInBits}-${hashValue}`
+  return {
+    hashFn,
+    hashFnCode,
+    hashLengthCode,
+    hashLengthInBits,
+    hashValue,
+    hashValueIn32CharChunks,
+    humanReadable
+  }
+}
+
+const CidInfo = ({cid, className, ...props}) => {
+  let cidErr = null
+  let cidInfo = null
+  try {
+    cidInfo = cid ? extractInfo(cid) : null
+  } catch (err) {
+    cidErr = err
+  }
   return !cid ? null : (
     <section className={`bg-light-gray pa3 sans-serif ${className}`}>
       <label className='db'>
@@ -31,8 +45,8 @@ const CidInfo = ({cid, className, ...props}) => {
       </label>
       {!cidInfo ? null : (
         <div>
-          <div className='f5 sans-serif fw5 ma0 pv2 dib overflow-x-auto w-100 truncate'>
-            {`${cidInfo.multibase.name} - cidv${cidInfo.cid.version} - ${cidInfo.cid.codec} - ${cidInfo.multihash.name}-${cidInfo.multihash.length * 8}-${cidInfo.multihash.digest.toString('hex')}`}
+          <div className='f6 sans-serif fw4 ma0 pv2 dib overflow-x-auto w-100 truncate'>
+            {cidInfo.humanReadable}
           </div>
           <div className='fw2 ma0 gray ttu f7 tracked'>base - ver -  codec - multihash</div>
           <a
@@ -43,19 +57,19 @@ const CidInfo = ({cid, className, ...props}) => {
           <div>
             <div className='dib monospace f6 pt2 tr dark-gray lh-title ph2'>
               <code className='gray'>0x</code>
-              <span className='orange'>{hashFnCode}</span>
-              <span className='green'>{hashLengthCode}</span>
-              {hashValueIn32CharChunks.map(chunk => (
+              <span className='orange'>{cidInfo.hashFnCode}</span>
+              <span className='green'>{cidInfo.hashLengthCode}</span>
+              {cidInfo.hashValueIn32CharChunks.map(chunk => (
                 <span>{chunk.join('')}<br /></span>
               ))}
               <div className='tl lh-copy'>
                 <a className='db link orange pt2' href='https://github.com/multiformats/multihash/blob/master/hashtable.csv'>
                   <code className='gray'>0x</code>
-                  <code>{hashFnCode}</code> = {hashFn}
+                  <code>{cidInfo.hashFnCode}</code> = {cidInfo.hashFn}
                 </a>
                 <div className='green'>
                   <code className='gray'>0x</code>
-                  <code>{hashLengthCode}</code> = {hashLengthInBits} bits</div>
+                  <code>{cidInfo.hashLengthCode}</code> = {cidInfo.hashLengthInBits} bits</div>
               </div>
             </div>
           </div>

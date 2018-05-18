@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import CidInfo from './CidInfo'
 
-storiesOf('CidInfo', module)
+storiesOf('Cid Info', module)
   .add('cid v0 dag-pb', () => (
     <CidInfo className='ma2' cid='QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW' />
   ))
