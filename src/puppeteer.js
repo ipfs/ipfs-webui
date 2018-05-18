@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer'
 
-const debug = process.env.DEBUG === 'true'
+export const debug = process.env.DEBUG === 'true'
+export const appUrl = process.env.URL || 'http://localhost:3000'
 
 // puppeteer.launch opts
 // see: https://github.com/GoogleChrome/puppeteer/blob/v1.3.0/docs/api.md#puppeteerlaunchoptions
