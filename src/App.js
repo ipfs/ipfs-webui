@@ -17,7 +17,6 @@ export class App extends Component {
   }
 
   componentWillMount () {
-    // beeep
     this.props.doInitIpfs()
   }
 

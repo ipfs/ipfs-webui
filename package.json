@@ -9,7 +9,7 @@
     "build:icons": "svgr -d src/icons node_modules/ipfs-css/icons && standard --fix src/icons/*",
     "lint": "standard src",
     "test": "react-scripts test",
-    "test:coverage": "npm run test:run -- --coverage\"",
+    "test:coverage": "npm test -- --coverage",
     "test:serve": "ecstatic build --cache=0 --port=3001",
     "test:ci": "URL=http://localhost:3001 run-p --race test:serve test",
     "analyze": "source-map-explorer build/static/js/main.*",
