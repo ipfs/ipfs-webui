@@ -44,7 +44,14 @@ The following command will run the app tests, watch source files and re-run the 
 npm test
 ```
 
-In a continuous integration environment this will automatically do a single run of the tests and exit.
+The tests include both isolated unit tests and end-to-end tests so they require an http server be running to serve the app. In dev, run `npm start` in another shell before starting the tests.
+
+In a continuous integration environment this will ensure the app builds, start an http server and do a single run of the tests and exit:
+
+```sh
+npm run build
+npm run test:ci
+```
 
 To do a single run of the tests and generate a coverage report, run the following:
 
@@ -54,7 +61,7 @@ npm run test:coverage
 
 ### Lint
 
-The following command will perform linting on the code:
+The following command will perform [`standard`](https://standardjs.com/) linting on the code:
 
 ```sh
 npm run lint
