@@ -39,10 +39,10 @@ export default function Breadcrumbs ({path, onClick, className = '', ...props}) 
     res.push(<span className='mh1' key={`${index}divisor`}>></span>)
   })
 
-  res.push(<a key='last-link'>{last.name}</a>)
+  res.push(<a key='last-link' aria-current='page'>{last.name}</a>)
 
   return (
-    <div className={cls} {...props}>{res}</div>
+    <nav aria-label='Breadcrumb' className={cls} {...props}>{res}</nav>
   )
 }
 
