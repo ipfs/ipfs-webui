@@ -7,6 +7,11 @@ import './FilesList.css'
 class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
+    onShare: PropTypes.func.isRequired,
+    onIPLD: PropTypes.func.isRequired,
+    onRename: PropTypes.func.isRequired,
+    onDownload: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired
   }
 
@@ -40,6 +45,18 @@ class FileList extends React.Component {
     this.setState({selected: selected})
   }
 
+  selectedMenu = () => {
+    if (this.state.selected.length === 0) {
+      return null
+    }
+
+    return (
+      <div className='SelectedMenu fixed bottom-0 right-0 w-100'>
+        HELLO
+      </div>
+    )
+  }
+
   render () {
     let {className} = this.props
     className = `FilesList sans-serif border-box w-100 ${className}`
@@ -67,6 +84,7 @@ class FileList extends React.Component {
           <div className='pa2 f6 w-10'>Peers</div>
         </header>
         {files}
+        {this.selectedMenu()}
       </section>
     )
   }

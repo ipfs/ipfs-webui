@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import './Breadcrumbs.css'
 
 function makeBread (root) {
-  if (root.endsWith('/'))
+  if (root.endsWith('/')) {
     root = root.substring(0, root.length - 1)
+  }
 
-  if (root.startsWith('/'))
+  if (root.startsWith('/')) {
     root = root.substring(1, root.length)
+  }
 
   let parts = root.split('/').map(part => {
     return {
@@ -36,7 +38,7 @@ export default function Breadcrumbs ({path, onClick, className = '', ...props}) 
 
   bread.forEach((link, index) => {
     res.push(<a className='pointer' key={`${index}link`} onClick={() => { onClick(link.path) }}>{link.name}</a>)
-    res.push(<span className='mh1' key={`${index}divisor`}>></span>)
+    res.push(<span className='mh1' key={`${index}divider`}>></span>)
   })
 
   res.push(<a key='last-link' aria-current='page'>{last.name}</a>)

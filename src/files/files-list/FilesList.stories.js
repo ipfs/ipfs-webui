@@ -34,6 +34,13 @@ const filesList = [
 storiesOf('Files List', module)
   .add('Colors', () => (
     <div className='ma2'>
-      <FilesList files={filesList} />
+      <FilesList
+        files={filesList}
+        onShare={action('Share')}
+        onIPLD={action('Inspect IPLD')}
+        onRename={action('Rename')}
+        onDownload={action('Download')}
+        onDelete={action('Delete')}
+      />
     </div>
   ))
