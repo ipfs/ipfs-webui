@@ -23,6 +23,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "internal-nav-helper": "^1.0.2",
     "ipfs-css": "^0.4.0",
+    "lodash.uniqueid": "^4.0.1",
     "milliseconds": "^1.0.3",
     "multibase": "^0.4.0",
     "multicodec": "^0.2.6",
