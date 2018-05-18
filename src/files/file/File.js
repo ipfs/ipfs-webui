@@ -6,53 +6,51 @@ import StrokeFolder from '../../icons/StrokeFolder'
 import StrokeDocument from  '../../icons/StrokeDocument'
 import './File.css'
 
-class File extends React.Component {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    hash: PropTypes.string.isRequired,
-    status: PropTypes.number
+const File = (props) => {
+  let {selected, name, status, size, hash, onSelect} = props
+
+  let className = 'File flex bt'
+
+  if (props.selected) {
+    className += ' selected'
   }
 
-  static defaultProps = {
-    status: null
+  if (status !== null) {
+    status = status + '%'
   }
 
-  state = {
-    selected: false
+  const select = (select) => {
+    onSelect(hash, select)
   }
 
-  changeSelectedState = (selected) => {
-    this.setState({ selected: selected })
-  }
-
-  render () {
-    let className = 'File flex bt'
-
-    if (this.state.selected) {
-      className += ' selected'
-    }
-
-    let status = null
-    if (this.props.status !== null) {
-      status = this.props.status + '%'
-    }
-
-    return (
-      <div className={className}>
-        <div className='pa2 w2'>
-          <Checkbox onChange={this.changeSelectedState} />
-        </div>
-        <div className='name flex-grow-1 pa2 w-40'>
-          {this.props.name}
-        </div>
-        <div className='status pa2 w-30'>{status}</div>
-        <div className='size pa2 w-10'>{prettyBytes(this.props.size)}</div>
-        <div className='pa2 w-10'>Peers</div>
+  return (
+    <div className={className}>
+      <div className='pa2 w2'>
+        <Checkbox checked={selected} onChange={select} />
       </div>
-    ) 
-  }
+      <div className='name flex-grow-1 pa2 w-40'>
+        {name}
+      </div>
+      <div className='status pa2 w-30'>{status}</div>
+      <div className='size pa2 w-10'>{prettyBytes(size)}</div>
+      <div className='pa2 w-10'>Peers</div>
+    </div>
+  ) 
+}
+
+File.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
+  hash: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired,
+  status: PropTypes.number,
+
+  onSelect: PropTypes.func.isRequired
+}
+
+File.defaultProps = {
+  status: null
 }
 
 export default File
