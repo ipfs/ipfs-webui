@@ -9,9 +9,9 @@ const CidInfo = ({cid, className, ...props}) => {
   } catch (err) {
     cidErr = err
   }
-  const hashFnCode = cidInfo.cid.hash[0]
-  const hashLengthCode = cidInfo.cid.hash[1]
   const hashFn = cidInfo.multihash.name
+  const hashFnCode = cidInfo.multihash.code.toString('16')
+  const hashLengthCode = cidInfo.multihash.length.toString('16')
   const hashLengthInBits = cidInfo.multihash.length * 8
   const hashValue = cidInfo.multihash.digest.toString('hex')
   const hashValueIn32CharChunks = hashValue.split('').reduce((resultArray, item, index) => {
@@ -42,14 +42,20 @@ const CidInfo = ({cid, className, ...props}) => {
           </a>
           <div>
             <div className='dib monospace f6 pt2 tr dark-gray lh-title ph2'>
+              <code className='gray'>0x</code>
               <span className='orange'>{hashFnCode}</span>
               <span className='green'>{hashLengthCode}</span>
               {hashValueIn32CharChunks.map(chunk => (
                 <span>{chunk.join('')}<br /></span>
               ))}
               <div className='tl lh-copy'>
-                <div className='orange pt2'><code>{hashFnCode}</code> = {hashFn}</div>
-                <div className='green'><code>{hashLengthCode}</code> = {hashLengthInBits} bits</div>
+                <a className='db link orange pt2' href='https://github.com/multiformats/multihash/blob/master/hashtable.csv'>
+                  <code className='gray'>0x</code>
+                  <code>{hashFnCode}</code> = {hashFn}
+                </a>
+                <div className='green'>
+                  <code className='gray'>0x</code>
+                  <code>{hashLengthCode}</code> = {hashLengthInBits} bits</div>
               </div>
             </div>
           </div>

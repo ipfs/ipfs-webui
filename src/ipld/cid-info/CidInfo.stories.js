@@ -17,7 +17,6 @@ storiesOf('CidInfo', module)
   .add('cid v1 raw blake2b-512', () => (
     <CidInfo className='ma2' cid='z4QM3CM1XM3U62Yf7KNUzBpMPrjTAdeKJnp75JNkRQGeYk15w1hFt2z4ayjP33dBwuqsGz54hH47FMKi7LQ6iRNh8i2gUKDt' />
   ))
-
   .add('cid error', () => (
     <CidInfo className='ma2' cid='🚀' />
   ))
