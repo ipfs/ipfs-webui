@@ -3,21 +3,21 @@ import PropTypes from 'prop-types'
 import Tick from '../../icons/GlyphSmallTick'
 import './Checkbox.css'
 
-import uniqueId from 'lodash.uniqueid'
-
 const Checkbox = ({className = '', label = '', disabled = false, onChange, ...props}) => {
-  const id = uniqueId('checkbox')
-  className = `Checkbox sans-serif ${className}`
+  className = `Checkbox pointer dib sans-serif ${className}`
 
   const change = (event) => {
     onChange(event.target.checked)
   }
 
   return (
-    <div className={className} {...props} >
-      <input type='checkbox' disabled={disabled} id={id} onChange={change} />
-      <label htmlFor={id} ><Tick className='w1 h1' fill='#69C4CD' viewBox='25 25 50 50' />{label}</label>
-    </div>
+    <label className={className} {...props}>
+      <input type='checkbox' disabled={disabled} onChange={change} />
+      <span className='dib v-mid br1 w1 h1 mr1'>
+        <Tick className='w1 h1' fill='#69C4CD' viewBox='25 25 50 50' />
+      </span>
+      <span className='v-mid'>{label}</span>
+    </label>
   )
 }
 
