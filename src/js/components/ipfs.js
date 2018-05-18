@@ -6,7 +6,7 @@ const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.loca
 const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || (window.location.protocol === 'https:' ? 443 : 80))
 const protocol = (process.env.NODE_ENV !== 'production') ? 'http' : (window.location.protocol === 'https:' ? 'https' : 'http')
 
-const ipfs = require('ipfs-api')(host, port, protocol)
+const ipfs = require('ipfs-api')(host, port, {protocol: protocol})
 
 let version = ''
 let gateway = '//127.0.0.1:8080'
