@@ -12,9 +12,9 @@ const Checkbox = ({className = '', label = '', disabled = false, onChange, ...pr
 
   return (
     <label className={className} {...props}>
-      <input type='checkbox' disabled={disabled} onChange={change} />
+      <input className='absolute o-0' type='checkbox' disabled={disabled} onChange={change} />
       <span className='dib v-mid br1 w1 h1 mr1'>
-        <Tick className='w1 h1' fill='#69C4CD' viewBox='25 25 50 50' />
+        <Tick className='w1 h1 o-0 fill-aqua' viewBox='25 25 50 50' />
       </span>
       <span className='v-mid'>{label}</span>
     </label>
