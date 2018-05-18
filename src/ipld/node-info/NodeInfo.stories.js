@@ -13,6 +13,7 @@ storiesOf('IPLD Node Info', module)
       className='ma2'
       size='10016715'
       links={links}
+      data='{"type":"directory","blockSizes":[]}'
       type='MerkleDAG Protobuf'
       cid='QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW' />
   ))
