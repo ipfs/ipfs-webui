@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
+import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 import File from '../file/File'
 import './FilesList.css'
 
@@ -50,9 +51,32 @@ class FileList extends React.Component {
       return null
     }
 
+    const unselectAll = () => this.selectAll(false)
+
     return (
-      <div className='SelectedMenu fixed bottom-0 right-0 w-100'>
-        HELLO
+      <div className='SelectedMenu bt fixed bottom-0 right-0 w-100'>
+        <div className='flex items-center justify-between'>
+          <div>
+            <div className='flex items-center'>
+              <div className='SelectedCount relative f3 fw6 w2 h2 dib br-100'>
+                <span className='absolute'>{this.state.selected.length}</span>
+              </div>
+              <div>
+                <p className='ma0'>File selected</p>
+                <p className='ma0 f6'>Total size: </p>
+              </div>
+            </div>
+          </div>
+          <div>
+            Action Buttons
+          </div>
+          <div>
+            <span onClick={unselectAll} className='pointer flex items-center'>
+              <span className='mr2'>Deselect all</span>
+              <GlyphSmallCancel onClick={unselectAll} className='w1' fill='#F26148' viewBox='37 37 28 28' />
+            </span>
+          </div>
+        </div>
       </div>
     )
   }
