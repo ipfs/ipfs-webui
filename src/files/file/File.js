@@ -10,7 +10,7 @@ import './File.css'
 const File = (props) => {
   let {selected, name, status, size, hash, onSelect} = props
 
-  let className = 'File flex bt'
+  let className = 'File flex bt pv2'
 
   if (props.selected) {
     className += ' selected'
