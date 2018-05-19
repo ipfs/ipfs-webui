@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import prettyBytes from 'pretty-bytes'
 import Checkbox from '../../components/checkbox/Checkbox'
+import ProgressBar from '../progress-bar/ProgressBar'
 import StrokeFolder from '../../icons/StrokeFolder'
 import StrokeDocument from  '../../icons/StrokeDocument'
 import './File.css'
@@ -16,7 +17,10 @@ const File = (props) => {
   }
 
   if (status !== null) {
-    status = status + '%'
+    size = 'N/A'
+    status = <ProgressBar width='w-75' progress={status} />
+  } else {
+    size = prettyBytes(size)
   }
 
   const select = (select) => {
@@ -32,7 +36,7 @@ const File = (props) => {
         {name}
       </div>
       <div className='status pa2 w-30'>{status}</div>
-      <div className='size pa2 w-10'>{prettyBytes(size)}</div>
+      <div className='size pa2 w-10'>{size}</div>
       <div className='pa2 w-10'>Peers</div>
     </div>
   ) 

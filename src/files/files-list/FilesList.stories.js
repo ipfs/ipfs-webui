@@ -32,7 +32,7 @@ const filesList = [
 ]
 
 storiesOf('Files List', module)
-  .add('Colors', () => (
+  .add('Default', () => (
     <div className='ma2'>
       <FilesList
         files={filesList}

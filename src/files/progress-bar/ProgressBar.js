@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './ProgressBar.css'
 
-const ProgressBar = ({bg, className, progress, ...props}) => {
+const ProgressBar = ({bg, className, width, progress, ...props}) => {
   return (
-    <div className={`ProgressBar w-100 h1 sans-serif br-pill dib ${className}`} {...props}>
+    <div className={`ProgressBar h1 sans-serif br-pill dib ${className} ${width}`} {...props}>
       <div className={`br-pill h1 ${bg}`} style={{width: `${progress}%`}} />
     </div>
   )
@@ -13,11 +13,13 @@ const ProgressBar = ({bg, className, progress, ...props}) => {
 ProgressBar.propTypes = {
   className: PropTypes.string,
   bg: PropTypes.string,
+  width: PropTypes.string,
   progress: PropTypes.number.isRequired
 }
 
 ProgressBar.defaultProps = {
   className: '',
+  width: 'w-100',
   bg: 'bg-aqua'
 }
 
