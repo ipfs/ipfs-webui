@@ -26,7 +26,7 @@ storiesOf('IPLD Node Info', module)
       className='ma2'
       cid={dagNodeB.multihash}
       size={dagNodeB.size}
-      links={dagNodeC.links}
+      links={dagNodeB.links}
       data='{"type":"directory","blockSizes":[]}'
       type='MerkleDAG Protobuf' />
   ))
