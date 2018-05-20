@@ -2,7 +2,40 @@ import React from 'react'
 import filesize from 'filesize'
 const humansize = filesize.partial({round: 0})
 
-const ObjectInfo = ({className, type, cid, size, data, links, ...props}) => {
+class LinkRow extends React.Component {
+  constructor (props) {
+    super(props)
+    this.onClick = this.onClick.bind(this)
+  }
+
+  onClick () {
+    const {onClick, link} = this.props
+    onClick(link)
+  }
+
+  render () {
+    const {index, link} = this.props
+    const {name, size, multihash} = link
+    return (
+      <tr className='pointer striped--light-gray' onClick={this.onClick} key={`${multihash}-${name}`}>
+        <td className='pv1 ph2 silver truncate monospace tr f7'>
+          {index}
+        </td>
+        <td className='pv1 ph2 dark-gray truncate teal'>
+          {name}
+        </td>
+        <td className='pv1 pr4 mid-gray truncate monospace tr f7' title={`${size} B`}>
+          {humansize(size)}
+        </td>
+        <td className='pv1 pr2 mid-gray monospace f7'>
+          {multihash}
+        </td>
+      </tr>
+    )
+  }
+}
+
+const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...props}) => {
   return (
     <section className={`bg-light-gray pa4 sans-serif ${className}`} {...props}>
       <h2 className='ma0 lh-title pb3 f4 fw4'>
@@ -49,21 +82,8 @@ const ObjectInfo = ({className, type, cid, size, data, links, ...props}) => {
               </tr>
             </thead>
             <tbody className='fw4'>
-              {links.map(({name, size, multihash}, i) => (
-                <tr className='pointer striped--light-gray' key={`${multihash}-${name}`}>
-                  <td className='pv1 ph2 silver truncate monospace tr f7' title='Link index'>
-                    {i}
-                  </td>
-                  <td className='pv1 ph2 dark-gray truncate teal'>
-                    {name}
-                  </td>
-                  <td className='pv1 pr4 mid-gray truncate monospace tr f7' title={`${size} B`}>
-                    {humansize(size)}
-                  </td>
-                  <td className='pv1 pr2 mid-gray monospace f7'>
-                    {multihash}
-                  </td>
-                </tr>
+              {links.map((link, i) => (
+                <LinkRow link={link} index={i} onClick={onLinkClick} />
               ))}
             </tbody>
           </table>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 import { checkA11y } from '@storybook/addon-a11y'
 
 import ObjectInfo from './ObjectInfo'
@@ -19,7 +20,8 @@ storiesOf('IPLD Node Info', module)
       size={dagNodeA.size}
       links={dagNodeA.links}
       data='{"type":"directory","blockSizes":[]}'
-      type='MerkleDAG Protobuf' />
+      type='MerkleDAG Protobuf'
+      onLinkClick={action('link clicked')} />
   ))
   .add('cid v0 dag-pb 36 links...', () => (
     <ObjectInfo
@@ -28,7 +30,8 @@ storiesOf('IPLD Node Info', module)
       size={dagNodeB.size}
       links={dagNodeB.links}
       data='{"type":"directory","blockSizes":[]}'
-      type='MerkleDAG Protobuf' />
+      type='MerkleDAG Protobuf'
+      onLinkClick={action('link clicked')} />
   ))
   .add('cid v0 dag-pb 1240 links...', () => (
     <ObjectInfo
@@ -37,5 +40,6 @@ storiesOf('IPLD Node Info', module)
       size={dagNodeC.size}
       links={dagNodeC.links}
       data='{"type":"directory","blockSizes":[]}'
-      type='MerkleDAG Protobuf' />
+      type='MerkleDAG Protobuf'
+      onLinkClick={action('link clicked')} />
   ))
