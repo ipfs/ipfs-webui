@@ -2,15 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import prettyBytes from 'pretty-bytes'
 import Checkbox from '../../components/checkbox/Checkbox'
-import ProgressBar from '../progress-bar/ProgressBar'
-import StrokeFolder from '../../icons/StrokeFolder'
-import StrokeDocument from  '../../icons/StrokeDocument'
+import extToPic from './ext-to-pic'
+import Status from '../status/Status'
 import './File.css'
 
 const File = (props) => {
   let {selected, name, status, size, hash, onSelect} = props
 
-  let className = 'File flex bt pv2'
+  let className = 'File flex items-center bt pv2'
 
   if (props.selected) {
     className += ' selected'
@@ -18,7 +17,7 @@ const File = (props) => {
 
   if (status !== null) {
     size = 'N/A'
-    status = <ProgressBar width='w-75' progress={status} />
+    status = <Status progress={status} cancel={() => {}} speed={40} />
   } else {
     size = prettyBytes(size)
   }
@@ -32,12 +31,14 @@ const File = (props) => {
       <div className='pa2 w2'>
         <Checkbox checked={selected} onChange={select} />
       </div>
-      <div className='name flex-grow-1 pa2 w-40'>
+      <div className='name flex items-center flex-grow-1 pa2 w-40'>
+        <div className='dib icon'>
+          {extToPic(props)}
+        </div>
         {name}
       </div>
       <div className='status pa2 w-30'>{status}</div>
       <div className='size pa2 w-10'>{size}</div>
-      <div className='pa2 w-10'>Peers</div>
     </div>
   ) 
 }
@@ -49,7 +50,6 @@ File.propTypes = {
   hash: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   status: PropTypes.number,
-
   onSelect: PropTypes.func.isRequired
 }
 

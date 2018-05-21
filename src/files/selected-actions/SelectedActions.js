@@ -6,6 +6,7 @@ import StrokeShare from '../../icons/StrokeShare'
 import StrokePencil from '../../icons/StrokePencil'
 import StrokeIpld from '../../icons/StrokeIpld'
 import StrokeTrash from '../../icons/StrokeTrash'
+import StrokeDownload from '../../icons/StrokeDownload'
 import './SelectedActions.css'
 
 const SelectedActions = ({count, size, unselect, remove, share, download, rename, inspect, className, ...props}) => {
@@ -26,26 +27,27 @@ const SelectedActions = ({count, size, unselect, remove, share, download, rename
           </div>
         </div>
         <div className='flex'>
-          <div className='pointer tc mh1' onClick={share}>
+          <div className='pointer tc mh2' onClick={share}>
             <StrokeShare className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Share</p>
           </div>
           { count === 1 &&
             [
-              <div className='pointer tc mh1' onClick={inspect}>
+              <div className='pointer tc mh2' onClick={inspect}>
                 <StrokeIpld className='w3' fill='#A4BFCC' />
                 <p className='ma0 f6'>Inspect IPLD</p>
               </div>,
-              <div className='pointer tc mh1' onClick={rename}>
+              <div className='pointer tc mh2' onClick={rename}>
                 <StrokePencil className='w3' fill='#A4BFCC' />
                 <p className='ma0 f6'>Rename</p>
               </div>
             ]
           }
-          <div className='pointer tc mh1' onClick={download}>
+          <div className='pointer tc mh2' onClick={download}>
+            <StrokeDownload className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Download</p>
           </div>
-          <div className='pointer tc mh1' onClick={remove}>
+          <div className='pointer tc mh2' onClick={remove}>
             <StrokeTrash className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Delete</p>
           </div>

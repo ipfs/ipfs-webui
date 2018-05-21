@@ -55,6 +55,7 @@ class FileList extends React.Component {
 
     return (
       <SelectedActions
+        className='fixed bottom-0 right-0'
         unselectAll={unselectAll}
         count={this.state.selected.length}
         size={0}
@@ -79,14 +80,13 @@ class FileList extends React.Component {
 
     return (
       <section className={className}>
-        <header className='gray flex items-center'>
-          <div className='pa2 w2'>
+        <header className='gray pv3 flex items-center'>
+          <div className='ph2 w2'>
             <Checkbox checked={this.state.selected.length === this.props.files.length} onChange={this.selectAll} />
           </div>
-          <div className='pa2 f6 flex-grow-1 w-40'>File name</div>
-          <div className='pa2 f6 w-30'>Status</div>
-          <div className='pa2 f6 w-10'>Size</div>
-          <div className='pa2 f6 w-10'>Peers</div>
+          <div className='ph2 f6 flex-grow-1 w-40'>File name</div>
+          <div className='ph2 f6 w-30'>Status</div>
+          <div className='ph2 f6 w-10'>Size</div>
         </header>
         {files}
         {this.selectedMenu()}

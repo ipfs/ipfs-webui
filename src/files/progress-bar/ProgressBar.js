@@ -5,7 +5,7 @@ import './ProgressBar.css'
 const ProgressBar = ({bg, className, width, progress, ...props}) => {
   return (
     <div className={`ProgressBar h1 sans-serif br-pill dib ${className} ${width}`} {...props}>
-      <div className={`br-pill h1 ${bg}`} style={{width: `${progress}%`}} />
+      <div className={`br-pill h-100 ${bg}`} style={{width: `${progress}%`}} />
     </div>
   )
 }

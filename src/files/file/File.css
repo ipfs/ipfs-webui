@@ -10,7 +10,15 @@
   color: #656464;
 }
 
+.File .ProgressBar {
+  height: 11px;
+}
+
 .File .status,
 .File .size {
   color: #A0B8C5;
+}
+
+.File .icon {
+  width: 3.25rem;
 }
