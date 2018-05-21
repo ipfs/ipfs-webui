@@ -5,7 +5,7 @@ import FilesList from './FilesList'
 
 const filesList = [
   {
-    name: 'File 1.txt',
+    name: 'xkiahsuah.txt',
     type: 'file',
     size: 584451,
     hash: 'Qm1',
@@ -37,7 +37,7 @@ storiesOf('Files List', module)
       <FilesList
         files={filesList}
         onShare={action('Share')}
-        onIPLD={action('Inspect IPLD')}
+        onInspect={action('Inspect')}
         onRename={action('Rename')}
         onDownload={action('Download')}
         onDelete={action('Delete')}
