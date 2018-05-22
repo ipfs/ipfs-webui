@@ -37,18 +37,21 @@ const CidInfo = ({cid, className, ...props}) => {
     cidErr = err
   }
   return !cid ? null : (
-    <section className={`bg-light-gray pa3 sans-serif ${className}`}>
-      <label className='db'>
-        <a className='tracked ttu f6 fw2 teal-muted hover-aqua link' href='https://github.com/ipld/cid#human-readable-cids'>
-          Human readable CID
+    <section className={`ph3 pv4 sans-serif ${className}`} {...props}>
+      <label className='db pb2'>
+        <a className='tracked ttu f5 fw2 teal-muted hover-aqua link' href='https://github.com/ipld/cid#human-readable-cids'>
+          CID info
         </a>
       </label>
       {!cidInfo ? null : (
         <div>
-          <div className='f6 sans-serif fw4 ma0 pv2 dib overflow-x-auto w-100 truncate'>
+          <div className='f7 monospace fw4 ma0 pb2 truncate gray'>
+            {cid}
+          </div>
+          <div className='f6 sans-serif fw4 ma0 pb2 truncate'>
             {cidInfo.humanReadable}
           </div>
-          <div className='fw2 ma0 gray ttu f7 tracked'>base - ver -  codec - multihash</div>
+          <div className='fw2 ma0 gray ttu f7 tracked'>base - version -  codec - multihash</div>
           <a
             href='https://github.com/multiformats/multihash#visual-examples'
             className='dib tracked ttu f6 fw2 teal-muted hover-aqua link pt4'>
@@ -60,7 +63,7 @@ const CidInfo = ({cid, className, ...props}) => {
               <span className='orange'>{cidInfo.hashFnCode}</span>
               <span className='green'>{cidInfo.hashLengthCode}</span>
               {cidInfo.hashValueIn32CharChunks.map(chunk => (
-                <span>{chunk.join('')}<br /></span>
+                <span key={chunk.join('')}>{chunk.join('')}<br /></span>
               ))}
               <div className='tl lh-copy'>
                 <a className='db link orange pt2' href='https://github.com/multiformats/multihash/blob/master/hashtable.csv'>
@@ -77,7 +80,7 @@ const CidInfo = ({cid, className, ...props}) => {
       )}
       {!cidErr ? null : (
         <div>
-          <div className='f5 sans-serif fw5 ma0 pv2 dib overflow-x-auto w-100 truncate'>
+          <div className='f5 sans-serif fw5 ma0 pv2 truncate navy'>
             {cid}
           </div>
           <div className='red fw2 ma0 f7'>{cidErr.message}</div>

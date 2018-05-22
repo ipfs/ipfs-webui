@@ -44,7 +44,7 @@ export default () => (
     <nav className='db pt4' role='menubar'>
       <NavLink to='/' exact icon={StrokeMarketing}>Status</NavLink>
       <NavLink to='/files' icon={StrokeWeb}>Files</NavLink>
-      <NavLink to='/ipld' icon={StrokeIpld}>IPLD</NavLink>
+      <NavLink to='/explore' icon={StrokeIpld}>IPLD</NavLink>
       <NavLink to='/peers' icon={StrokeCube}>Peers</NavLink>
       <NavLink to='/settings' icon={StrokeSettings}>Settings</NavLink>
     </nav>
