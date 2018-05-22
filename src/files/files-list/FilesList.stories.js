@@ -8,6 +8,7 @@ storiesOf('Files List', module)
   .add('Default', () => (
     <div className='ma2'>
       <FilesList
+        root='/'
         files={fixture}
         onShare={action('Share')}
         onInspect={action('Inspect')}

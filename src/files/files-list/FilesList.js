@@ -18,6 +18,12 @@ function compare (a, b, asc) {
   }
 }
 
+function join (a, b) {
+  if (a.endsWith('/')) a = a.slice(0, -1)
+  if (b.startsWith('/')) b = b.slice(1)
+  return `${a}/${b}`
+}
+
 class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
@@ -27,7 +33,8 @@ class FileList extends React.Component {
     onDownload: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
-    files: PropTypes.array.isRequired
+    files: PropTypes.array.isRequired,
+    root: PropTypes.string.isRequired
   }
 
   static defaultProps = {
@@ -64,14 +71,14 @@ class FileList extends React.Component {
 
   generateAction = (fn) => {
     return () => {
-      this.props[fn](this.state.selected)
+      this.props[fn](this.selectedFiles.map(f => join(this.props.root, f.name)))
     }
   }
 
-  sizeOfSelected = () => {
+  get selectedFiles () {
     return this.state.selected.map(hash => {
       return this.props.files.find(el => el.hash === hash)
-    }).reduce((a, b) => a + b.size, 0)
+    })
   }
 
   selectedMenu = () => {
@@ -80,6 +87,7 @@ class FileList extends React.Component {
     }
 
     const unselectAll = () => this.selectAll(false)
+    const size = this.selectedFiles.reduce((a, b) => a + b.size, 0)
 
     return (
       <SelectedActions
@@ -91,7 +99,7 @@ class FileList extends React.Component {
         download={this.generateAction('onDownload')}
         inspect={this.generateAction('onInspect')}
         count={this.state.selected.length}
-        size={this.sizeOfSelected()}
+        size={size}
       />
     )
   }

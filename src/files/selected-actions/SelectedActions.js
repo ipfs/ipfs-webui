@@ -32,16 +32,16 @@ const SelectedActions = ({count, size, unselect, remove, share, download, rename
             <p className='ma0 f6'>Share</p>
           </div>
           { count === 1 &&
-            [
-              <div className='pointer tc mh2' onClick={inspect}>
-                <StrokeIpld className='w3' fill='#A4BFCC' />
-                <p className='ma0 f6'>Inspect IPLD</p>
-              </div>,
-              <div className='pointer tc mh2' onClick={rename}>
-                <StrokePencil className='w3' fill='#A4BFCC' />
-                <p className='ma0 f6'>Rename</p>
-              </div>
-            ]
+            <div className='pointer tc mh2' onClick={inspect}>
+              <StrokeIpld className='w3' fill='#A4BFCC' />
+              <p className='ma0 f6'>Inspect IPLD</p>
+            </div>
+          }
+          { count === 1 &&
+            <div className='pointer tc mh2' onClick={rename}>
+              <StrokePencil className='w3' fill='#A4BFCC' />
+              <p className='ma0 f6'>Rename</p>
+            </div>
           }
           <div className='pointer tc mh2' onClick={download}>
             <StrokeDownload className='w3' fill='#A4BFCC' />
