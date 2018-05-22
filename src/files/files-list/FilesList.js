@@ -142,7 +142,7 @@ class FileList extends React.Component {
 
   render () {
     let {className} = this.props
-    className = `FilesList sans-serif border-box w-100 ${className}`
+    className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
     return (
       <section className={className}>
