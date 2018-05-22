@@ -7,7 +7,7 @@ import Status from '../status/Status'
 import './File.css'
 
 const File = (props) => {
-  let {selected, name, status, size, hash, onSelect} = props
+  let {selected, name, status, size, hash, onSelect, onNavigate} = props
 
   let className = 'File flex items-center bt pv2'
 
@@ -35,7 +35,7 @@ const File = (props) => {
         <div className='dib icon'>
           {extToPic(props)}
         </div>
-        {name}
+        <span className='pointer' onClick={() => { onNavigate(name) }}>{name}</span>
       </div>
       <div className='status pa2 w-30'>{status}</div>
       <div className='size pa2 w-10'>{size}</div>
@@ -50,7 +50,8 @@ File.propTypes = {
   hash: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
   status: PropTypes.number,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  onNavigate: PropTypes.func.isRequired
 }
 
 File.defaultProps = {

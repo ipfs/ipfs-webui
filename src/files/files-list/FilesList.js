@@ -26,6 +26,7 @@ class FileList extends React.Component {
     onRename: PropTypes.func.isRequired,
     onDownload: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onNavigate: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired
   }
 
@@ -112,6 +113,7 @@ class FileList extends React.Component {
       }
     }).map(file => (
       <File
+        onNavigate={this.props.onNavigate}
         onSelect={this.selectOne}
         selected={this.state.selected.indexOf(file.hash) !== -1}
         key={file.hash}

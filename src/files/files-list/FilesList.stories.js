@@ -41,6 +41,7 @@ storiesOf('Files List', module)
         onRename={action('Rename')}
         onDownload={action('Download')}
         onDelete={action('Delete')}
+        onNavigate={action('Navigate')}
       />
     </div>
   ))
