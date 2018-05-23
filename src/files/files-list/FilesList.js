@@ -33,6 +33,7 @@ class FileList extends React.Component {
     onDownload: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
+    onCancelUpload: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
     root: PropTypes.string.isRequired
   }
@@ -69,9 +70,15 @@ class FileList extends React.Component {
     this.setState({selected: selected})
   }
 
-  generateAction = (fn) => {
+  genActionFromSelected = (fn) => {
     return () => {
       this.props[fn](this.selectedFiles.map(f => join(this.props.root, f.name)))
+    }
+  }
+
+  genActionFromFile = (fn, file) => {
+    return () => {
+      this.props[fn](join(this.props.root, file.name))
     }
   }
 
@@ -93,11 +100,11 @@ class FileList extends React.Component {
       <SelectedActions
         className='fixed bottom-0 right-0'
         unselect={unselectAll}
-        remove={this.generateAction('onDelete')}
-        share={this.generateAction('onShare')}
-        rename={this.generateAction('onRename')}
-        download={this.generateAction('onDownload')}
-        inspect={this.generateAction('onInspect')}
+        remove={this.genActionFromSelected('onDelete')}
+        share={this.genActionFromSelected('onShare')}
+        rename={this.genActionFromSelected('onRename')}
+        download={this.genActionFromSelected('onDownload')}
+        inspect={this.genActionFromSelected('onInspect')}
         count={this.state.selected.length}
         size={size}
       />
@@ -121,8 +128,9 @@ class FileList extends React.Component {
       }
     }).map(file => (
       <File
-        onNavigate={this.props.onNavigate}
         onSelect={this.selectOne}
+        onNavigate={this.genActionFromFile('onNavigate', file)}
+        onCancel={this.genActionFromFile('onCancelUpload', file)}
         selected={this.state.selected.indexOf(file.hash) !== -1}
         key={file.hash}
         {...file}

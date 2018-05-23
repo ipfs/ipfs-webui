@@ -7,7 +7,7 @@ import Status from '../status/Status'
 import './File.css'
 
 const File = (props) => {
-  let {selected, name, status, size, hash, onSelect, onNavigate} = props
+  let {selected, name, speed, status, size, hash, onSelect, onNavigate, onCancel} = props
 
   let className = 'File flex items-center bt pv2'
 
@@ -17,7 +17,7 @@ const File = (props) => {
 
   if (status !== null) {
     size = 'N/A'
-    status = <Status progress={status} cancel={() => {}} speed={40} />
+    status = <Status progress={status} cancel={onCancel} speed={speed} />
   } else {
     size = prettyBytes(size)
   }
@@ -35,12 +35,12 @@ const File = (props) => {
         <div className='dib icon'>
           {extToPic(props)}
         </div>
-        <span className='pointer' onClick={() => { onNavigate(name) }}>{name}</span>
+        <span className='pointer' onClick={onNavigate}>{name}</span>
       </div>
       <div className='status pa2 w-30'>{status}</div>
       <div className='size pa2 w-10'>{size}</div>
     </div>
-  ) 
+  )
 }
 
 File.propTypes = {
@@ -49,9 +49,11 @@ File.propTypes = {
   size: PropTypes.number.isRequired,
   hash: PropTypes.string.isRequired,
   selected: PropTypes.bool.isRequired,
+  speed: PropTypes.number,
   status: PropTypes.number,
   onSelect: PropTypes.func.isRequired,
-  onNavigate: PropTypes.func.isRequired
+  onNavigate: PropTypes.func.isRequired,
+  onCancel: PropTypes.func
 }
 
 File.defaultProps = {

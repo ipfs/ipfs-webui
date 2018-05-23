@@ -10,7 +10,7 @@ export default function Status ({progress, cancel, speed, className, ...props}) 
       <div className='flex-grow-1'>
         <div className='flex f7 justify-between'>
           <span>↑ {prettyBytes(speed)}/s</span>
-          <GlyphSmallCancel width='0.5rem' height='0.5rem' className='pointer' fill='#F26148' viewBox='37 40 27 27' />
+          <GlyphSmallCancel onClick={cancel} width='0.5rem' height='0.5rem' className='pointer' fill='#F26148' viewBox='37 40 27 27' />
         </div>
         <ProgressBar progress={progress} />
       </div>

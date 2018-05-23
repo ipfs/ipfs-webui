@@ -16,6 +16,7 @@ storiesOf('Files', module)
         onDownload={action('Download')}
         onDelete={action('Delete')}
         onNavigate={action('Navigate')}
+        onCancelUpload={action('Cancel Upload')}
       />
     </div>
   ))
