@@ -1,13 +1,7 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
-import {quickSplitPath} from '../lib/path'
-import {explainDagNode} from '../lib/dag'
-import {findFirstLinkInPath} from '../lib/cbor'
-
-/*
-TODO:
-  - this is dag-pg specific, we need dag-cbor and other flavours.
-  - this uses the dag api not the object api so rename.
-*/
+import { quickSplitPath } from '../lib/path'
+import { explainDagNode } from '../lib/dag'
+import { findCid } from '../lib/cbor'
 
 /*
 {
@@ -75,16 +69,3 @@ bundle.reactObjectFetch = createSelector(
 )
 
 export default bundle
-
-async function findCid (getIpfs, node, rootCid, rest) {
-  // until ipfs.dag.resolve is available, we have to walk the path to find the nearest cid.
-  // dag.resolve https://github.com/ipfs/js-ipfs-api/pull/755#issuecomment-386882099
-  const firstLinkCid = findFirstLinkInPath(node, rest)
-  if (!firstLinkCid) {
-    // we're in the right node.
-    return rootCid
-  } else {
-    const {value: nextNode} = await getIpfs().dag.get(firstLinkCid)
-    return findCid(getIpfs, nextNode, firstLinkCid, rest)
-  }
-}
