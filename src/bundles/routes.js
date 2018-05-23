@@ -9,7 +9,6 @@ export default createRouteBundle({
   '/files': FilesPage,
   '/explore*': IpldPage,
   '/files*': FilesPage,
-  '/ipld*': IpldPage,
   '/peers': PeersPage,
   '/settings': SettingsPage,
   '/': StatusPage,

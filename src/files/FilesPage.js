@@ -24,7 +24,7 @@ class FilesPage extends React.Component {
 
   onInspect = (hash) => {
     const {doUpdateHash} = this.props
-    doUpdateHash(`/ipld/ipfs/${hash}`)
+    doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
   render () {
