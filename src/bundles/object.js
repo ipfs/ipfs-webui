@@ -31,27 +31,21 @@ const bundle = createAsyncResourceBundle({
   actionBaseType: 'OBJECT',
   getPromise (args) {
     const {store, getIpfs} = args
-    console.log('fetch ipld', args)
     const hash = store.selectHash()
     const path = hash.replace('/explore', '')
-    const {address, cidOrFqdn} = quickSplitPath(path)
-    console.log('HERE', {cidOrFqdn, hash, path, address})
+    const {address, cidOrFqdn, rest} = quickSplitPath(path)
     return getIpfs().dag.get(address).then(async (res) => {
       if (!res.value) throw new Error('unpackDag expects an object with a `value` property as provided by an ipfs.dag.get response')
       let {value} = res
       const resolved = explainDagNode(value)
       if (resolved.type === 'dag-cbor') {
-        // until ipfs.dag.resolve is available, we have to walk the path to find the nearest cid.
-        // dag.resolve https://github.com/ipfs/js-ipfs-api/pull/755#issuecomment-386882099
-        if (path) {
-          const firstLink = findFirstLinkInPath(value, path)
-          console.log(resolved.type, firstLink, cidOrFqdn)
-          if (!firstLink) {
-            // we're in the right node.
-            resolved.multihash = cidOrFqdn
-          }
-          // const {value: root} = await getIpfs().dag.get(hash)
+        if (!rest) {
+          resolved.multihash = cidOrFqdn
+        } else {
           // apply path to root obj, until you hit a link, or the end of the path
+          const {value: rootNode} = await getIpfs().dag.get(cidOrFqdn)
+          const cid = await findCid(getIpfs, rootNode, cidOrFqdn, rest)
+          resolved.multihash = cid
         }
       }
       console.log({resolved})
@@ -82,3 +76,16 @@ bundle.reactObjectFetch = createSelector(
 )
 
 export default bundle
+
+async function findCid (getIpfs, node, rootCid, rest) {
+  // until ipfs.dag.resolve is available, we have to walk the path to find the nearest cid.
+  // dag.resolve https://github.com/ipfs/js-ipfs-api/pull/755#issuecomment-386882099
+  const firstLinkCid = findFirstLinkInPath(node, rest)
+  if (!firstLinkCid) {
+    // we're in the right node.
+    return rootCid
+  } else {
+    const {value: nextNode} = await getIpfs().dag.get(firstLinkCid)
+    return findCid(getIpfs, nextNode, firstLinkCid, rest)
+  }
+}

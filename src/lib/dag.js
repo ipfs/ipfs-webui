@@ -37,7 +37,7 @@ export function explainDagCbor (obj) {
   }
 }
 
-function toCidStrOrNull (value) {
+export function toCidStrOrNull (value) {
   try {
     const cid = new CID(value)
     return cid.toBaseEncodedString()
