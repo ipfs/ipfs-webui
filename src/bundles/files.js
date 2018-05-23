@@ -61,6 +61,18 @@ bundle.reactFilesFetch = createSelector(
   }
 )
 
-bundle.doFileDelete = ({getIpfs}) => {}
+bundle.doFilesDelete = (files) => ({dispatch, getIpfs, store, ...args}) => {
+  dispatch({ type: 'FILES_DELETE_STARTED' })
+
+  const promises = files.map(file => getIpfs().files.rm(file, { recursive: true }))
+  Promise.all(promises)
+    .then(() => {
+      store.doFetchFiles()
+      dispatch({ type: 'FILES_DELETE_FINISHED' })
+    })
+    .catch((error) => {
+      dispatch({ type: 'FILES_DELETE_ERRORED', payload: error })
+    })
+}
 
 export default bundle

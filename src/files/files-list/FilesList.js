@@ -70,9 +70,20 @@ class FileList extends React.Component {
     this.setState({selected: selected})
   }
 
-  genActionFromSelected = (fn) => {
+  genActionFromSelected = (fn, opts = {}) => {
     return () => {
-      this.props[fn](this.selectedFiles.map(f => join(this.props.root, f.name)))
+      if (opts.unselect) {
+        this.setState({ selected: [] })
+      }
+
+      let data
+      if (opts.hash) {
+        data = this.selectedFiles.map(f => f.hash)
+      } else {
+        data = this.selectedFiles.map(f => join(this.props.root, f.name))
+      }
+
+      this.props[fn](data)
     }
   }
 
@@ -100,11 +111,11 @@ class FileList extends React.Component {
       <SelectedActions
         className='fixed bottom-0 right-0'
         unselect={unselectAll}
-        remove={this.genActionFromSelected('onDelete')}
+        remove={this.genActionFromSelected('onDelete', {unselect: true})}
         share={this.genActionFromSelected('onShare')}
         rename={this.genActionFromSelected('onRename')}
         download={this.genActionFromSelected('onDownload')}
-        inspect={this.genActionFromSelected('onInspect')}
+        inspect={this.genActionFromSelected('onInspect', {hash: true})}
         count={this.state.selected.length}
         size={size}
       />

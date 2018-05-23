@@ -13,12 +13,17 @@ const action = (name) => {
 
 class FilesPage extends React.Component {
   static propTypes = {
-    files: PropTypes.object.isRequired
+    files: PropTypes.object
   }
 
   onLinkClick = (link) => {
     const {doUpdateHash} = this.props
-    doUpdateHash(`/files` + link)
+    doUpdateHash(`/files${link}`)
+  }
+
+  onInspect = (hash) => {
+    const {doUpdateHash} = this.props
+    doUpdateHash(`/ipld/ipfs/${hash}`)
   }
 
   render () {
@@ -34,10 +39,10 @@ class FilesPage extends React.Component {
         root={files.path}
         files={files.files}
         onShare={action('Share')}
-        onInspect={action('Inspect')}
+        onInspect={this.onInspect}
         onRename={action('Rename')}
         onDownload={action('Download')}
-        onDelete={action('Delete')}
+        onDelete={this.props.doFilesDelete}
         onNavigate={this.onLinkClick}
         onCancelUpload={action('Cancel Upload')}
       />
@@ -60,6 +65,7 @@ class FilesPage extends React.Component {
 
 export default connect(
   'doUpdateHash',
+  'doFilesDelete',
   'selectFiles',
   FilesPage
 )
