@@ -4,9 +4,9 @@ import { action } from '@storybook/addon-actions'
 import { checkA11y } from '@storybook/addon-a11y'
 import Breadcrumbs from './Breadcrumbs'
 
-storiesOf('Breadcrumbs', module)
+storiesOf('Files', module)
   .addDecorator(checkA11y)
-  .add('Default', () => (
+  .add('Breadcrumbs', () => (
     <div>
       <Breadcrumbs
         className='ma2'

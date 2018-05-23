@@ -4,8 +4,8 @@ import { action } from '@storybook/addon-actions'
 import FilesList from './FilesList'
 import fixture from './fixtures/root.json'
 
-storiesOf('Files List', module)
-  .add('Default', () => (
+storiesOf('Files', module)
+  .add('Files List', () => (
     <div className='ma2'>
       <FilesList
         root='/'

@@ -152,6 +152,10 @@ class FileList extends React.Component {
     let {className} = this.props
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
+    if (this.state.selected.length !== 0) {
+      className += ' mb6'
+    }
+
     return (
       <section className={className}>
         <header className='gray pv3 flex items-center'>

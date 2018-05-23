@@ -3,8 +3,8 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import SelectedActions from './SelectedActions'
 
-storiesOf('Selected Files Actions', module)
-  .add('One File', () => (
+storiesOf('Files', module)
+  .add('Actions for One File', () => (
     <div className='ma2'>
       <SelectedActions
         count={1}
@@ -18,7 +18,7 @@ storiesOf('Selected Files Actions', module)
       />
     </div>
   ))
-  .add('Multiple Files', () => (
+  .add('Actions for Multiple Files', () => (
     <div className='ma2'>
       <SelectedActions
         count={17}

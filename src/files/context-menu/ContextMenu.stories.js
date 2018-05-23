@@ -4,9 +4,9 @@ import { action } from '@storybook/addon-actions'
 import { checkA11y } from '@storybook/addon-a11y'
 import ContextMenu from './ContextMenu'
 
-storiesOf('Files List', module)
+storiesOf('Files', module)
   .addDecorator(checkA11y)
-  .add('CTX menu', () => (
+  .add('Context Menu', () => (
     <div className='ma2'>
       <ContextMenu
         onShare={action('Share')}
