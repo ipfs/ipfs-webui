@@ -7,7 +7,7 @@ import Status from '../status/Status'
 import './File.css'
 
 const File = (props) => {
-  let {selected, name, speed, status, size, hash, onSelect, onNavigate, onCancel} = props
+  let {selected, name, type, speed, status, size, hash, onSelect, onNavigate, onCancel} = props
 
   let className = 'File flex items-center bt pv2'
 
@@ -20,6 +20,10 @@ const File = (props) => {
     status = <Status progress={status} cancel={onCancel} speed={speed} />
   } else {
     size = prettyBytes(size)
+  }
+
+  if (type === 'directory') {
+    size = ''
   }
 
   const select = (select) => {
