@@ -23,3 +23,7 @@
 .placeholder-light::placeholder{
   color: #CAD3D8;
 }
+
+.no-select {
+  user-select: none;
+}
