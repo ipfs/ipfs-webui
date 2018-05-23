@@ -1,7 +1,7 @@
 import React from 'react'
 import { ObjectInspector, chromeLight } from 'react-inspector'
 import filesize from 'filesize'
-const humansize = filesize.partial({round: 0, unix: true})
+const humansize = filesize.partial({round: 0})
 
 const objectInspectorTheme = {
   ...chromeLight,
@@ -10,8 +10,6 @@ const objectInspectorTheme = {
   TREENODE_FONT_SIZE: '13px',
   TREENODE_LINE_HEIGHT: '19px'
 }
-
-console.log('obj theme', objectInspectorTheme)
 
 const nodeStyles = {
   'dag-cbor': {name: 'CBOR DAG Node', color: '#28CA9F'},

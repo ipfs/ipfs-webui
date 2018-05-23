@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 // import { action } from '@storybook/addon-actions'
 import IpldGraph from './IpldGraph'
 
-storiesOf('Ipld Graph', module)
+storiesOf('IPLD Graph', module)
   .add('3 links', () => (
     <IpldGraph />
   ))
