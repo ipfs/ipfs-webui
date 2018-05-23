@@ -15,10 +15,10 @@ import DocMusic from '../../icons/GlyphDocMusic'
 import DocPicture from '../../icons/GlyphDocPicture'
 import DocText from '../../icons/GlyphDocText'
 
-export default function (file) {
-  const ext = fileExtension(file.name)
+export default function FileIcon ({name, type}) {
+  const ext = fileExtension(name)
 
-  if (file.type === 'directory') {
+  if (type === 'directory') {
     return <Folder className=' fill-aqua' width='2.5rem' />
   }
 

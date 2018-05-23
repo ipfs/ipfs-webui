@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import prettyBytes from 'pretty-bytes'
+import filesize from 'filesize'
 import Checkbox from '../../components/checkbox/Checkbox'
-import extToPic from './ext-to-pic'
+import FileIcon from '../file-icon/FileIcon'
 import Status from '../status/Status'
 import './File.css'
 
@@ -19,7 +19,7 @@ const File = (props) => {
     size = 'N/A'
     status = <Status progress={status} cancel={onCancel} speed={speed} />
   } else {
-    size = prettyBytes(size)
+    size = filesize(size)
   }
 
   if (type === 'directory') {
@@ -37,7 +37,7 @@ const File = (props) => {
       </div>
       <div className='name flex items-center flex-grow-1 pa2 w-40'>
         <div className='dib icon'>
-          {extToPic(props)}
+          <FileIcon name={name} type={type} />
         </div>
         <span className='pointer' onClick={onNavigate}>{name}</span>
       </div>
