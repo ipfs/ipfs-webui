@@ -57,7 +57,7 @@ class FilesPage extends React.Component {
           <Button className='f7'>+ Add to IPFS</Button>
         </div>
         {body}
-        <h1 data-id='title'>Files</h1>
+        <h1 className='dn' data-id='title'>Files</h1>
       </div>
     )
   }
