@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import prettyBytes from 'pretty-bytes'
+import filesize from 'filesize'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 import StrokeShare from '../../icons/StrokeShare'
 import StrokePencil from '../../icons/StrokePencil'
@@ -22,7 +22,7 @@ const SelectedActions = ({count, size, unselect, remove, share, download, rename
             </div>
             <div>
               <p className='ma0'>{text}</p>
-              <p className='Size ma0 mt1 f6'>Total size: {prettyBytes(size)}</p>
+              <p className='Size ma0 mt1 f6'>Total size: {filesize(size)}</p>
             </div>
           </div>
         </div>
