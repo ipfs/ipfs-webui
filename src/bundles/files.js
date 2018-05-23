@@ -61,7 +61,7 @@ bundle.reactFilesFetch = createSelector(
   }
 )
 
-bundle.doFilesDelete = (files) => ({dispatch, getIpfs, store, ...args}) => {
+bundle.doFilesDelete = (files) => ({dispatch, getIpfs, store}) => {
   dispatch({ type: 'FILES_DELETE_STARTED' })
 
   const promises = files.map(file => getIpfs().files.rm(file, { recursive: true }))
@@ -72,6 +72,19 @@ bundle.doFilesDelete = (files) => ({dispatch, getIpfs, store, ...args}) => {
     })
     .catch((error) => {
       dispatch({ type: 'FILES_DELETE_ERRORED', payload: error })
+    })
+}
+
+bundle.doFilesRename = (from, to) => ({dispatch, getIpfs, store}) => {
+  dispatch({ type: 'FILES_RENAME_STARTED' })
+
+  return getIpfs().files.mv([from, to])
+    .then(() => {
+      store.doFetchFiles()
+      dispatch({ type: 'FILES_RENAME_FINISHED' })
+    })
+    .catch((error) => {
+      dispatch({ type: 'FILES_RENAME_ERRORED', payload: error })
     })
 }
 
