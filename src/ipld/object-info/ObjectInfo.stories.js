@@ -19,8 +19,8 @@ storiesOf('IPLD Node Info', module)
       cid={dagNodeA.multihash}
       size={dagNodeA.size}
       links={dagNodeA.links}
-      data='{"type":"directory","blockSizes":[]}'
-      type='MerkleDAG Protobuf'
+      data={dagNodeA.data}
+      type='dag-pb'
       onLinkClick={action('link clicked')} />
   ))
   .add('cid v0 dag-pb 36 links...', () => (
@@ -29,8 +29,8 @@ storiesOf('IPLD Node Info', module)
       cid={dagNodeB.multihash}
       size={dagNodeB.size}
       links={dagNodeB.links}
-      data='{"type":"directory","blockSizes":[]}'
-      type='MerkleDAG Protobuf'
+      data={dagNodeB.data}
+      type='dag-pb'
       onLinkClick={action('link clicked')} />
   ))
   .add('cid v0 dag-pb 1240 links...', () => (
@@ -39,7 +39,7 @@ storiesOf('IPLD Node Info', module)
       cid={dagNodeC.multihash}
       size={dagNodeC.size}
       links={dagNodeC.links}
-      data='{"type":"directory","blockSizes":[]}'
-      type='MerkleDAG Protobuf'
+      data={dagNodeC.data}
+      type='dag-pb'
       onLinkClick={action('link clicked')} />
   ))

@@ -20,7 +20,7 @@ class IpldExploreForm extends React.Component {
   onSubmit (evt) {
     evt.preventDefault()
     const {path} = this.state
-    const hash = path ? `#/ipld${ensureLeadingSlash(path)}` : `#/ipld`
+    const hash = path ? `#/explore${ensureLeadingSlash(path)}` : `#/explore`
     this.props.doUpdateHash(hash)
   }
 
