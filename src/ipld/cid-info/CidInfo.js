@@ -48,13 +48,13 @@ const CidInfo = ({cid, className, ...props}) => {
           <div className='f7 monospace fw4 ma0 pb2 truncate gray'>
             {cid}
           </div>
-          <div className='f6 sans-serif fw4 ma0 pb2 truncate'>
+          <div className='f6 sans-serif fw4 ma0 pb2 truncate' id='CidInfo-human-readable-cid'>
             {cidInfo.humanReadable}
           </div>
-          <div className='fw2 ma0 gray ttu f7 tracked'>base - version -  codec - multihash</div>
+          <label htmlFor='CidInfo-human-readable-cid' className='db fw2 ma0 gray ttu f7 tracked'>base - version -  codec - multihash</label>
           <a
             href='https://github.com/multiformats/multihash#visual-examples'
-            className='dib tracked ttu f6 fw2 teal-muted hover-aqua link pt4'>
+            className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt4'>
             multihash
           </a>
           <div>
@@ -62,17 +62,23 @@ const CidInfo = ({cid, className, ...props}) => {
               <code className='gray'>0x</code>
               <span className='orange'>{cidInfo.hashFnCode}</span>
               <span className='green'>{cidInfo.hashLengthCode}</span>
-              {cidInfo.hashValueIn32CharChunks.map(chunk => (
-                <span key={chunk.join('')}>{chunk.join('')}<br /></span>
-              ))}
+              <span id='CidInfo-multihash'>
+                {cidInfo.hashValueIn32CharChunks.map(chunk => (
+                  <span key={chunk.join('')}>{chunk.join('')}<br /></span>
+                ))}
+              </span>
+              <label htmlFor='CidInfo-multihash' className='sans-serif fw2 ma0 gray ttu f7 tracked'>
+                hash digest
+              </label>
               <div className='tl lh-copy'>
                 <a className='db link orange pt2' href='https://github.com/multiformats/multihash/blob/master/hashtable.csv'>
                   <code className='gray'>0x</code>
                   <code>{cidInfo.hashFnCode}</code> = {cidInfo.hashFn}
                 </a>
-                <div className='green'>
+                <div id='CidInfo-multihash' className='green'>
                   <code className='gray'>0x</code>
-                  <code>{cidInfo.hashLengthCode}</code> = {cidInfo.hashLengthInBits} bits</div>
+                  <code>{cidInfo.hashLengthCode}</code> = {cidInfo.hashLengthInBits} bits
+                </div>
               </div>
             </div>
           </div>

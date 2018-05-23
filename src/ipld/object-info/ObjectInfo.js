@@ -1,7 +1,17 @@
 import React from 'react'
-import { ObjectInspector } from 'react-inspector'
+import { ObjectInspector, chromeLight } from 'react-inspector'
 import filesize from 'filesize'
 const humansize = filesize.partial({round: 0, unix: true})
+
+const objectInspectorTheme = {
+  ...chromeLight,
+  BASE_FONT_SIZE: '13px',
+  BASE_LINE_HEIGHT: '19px',
+  TREENODE_FONT_SIZE: '13px',
+  TREENODE_LINE_HEIGHT: '19px'
+}
+
+console.log('obj theme', objectInspectorTheme)
 
 const nodeStyles = {
   'dag-cbor': {name: 'CBOR DAG Node', color: '#28CA9F'},
@@ -61,7 +71,7 @@ const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...pr
   return (
     <section className={`pa4 sans-serif ${className}`} {...props}>
       <h2 className='ma0 lh-title f4 fw4 pb2' title={type}>
-        <DagNodeIcon type={type} className='v-mid mr3' />
+        <DagNodeIcon type={type} className='mr3' style={{verticalAlign: -8}} />
         <span className='v-mid'>
           {nameForNode(type)}
         </span>
@@ -69,7 +79,6 @@ const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...pr
       <div className='f6'>
         {!cid ? null : (
           <div className='dt dt--fixed pt2'>
-            {/* <label className='dtc' style={{width: 48}}>CID</label> */}
             <label className='dtc gray' style={{width: 48}}>CID</label>
             <div className='dtc truncate navy monospace'>{cid}</div>
           </div>
@@ -82,7 +91,6 @@ const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...pr
         )}
         <div className='dt dt--fixed pt2'>
           <label className='dtc gray' style={{width: 48}}>Data</label>
-          {/* <label className='dtc' style={{width: 48}}>Data</label> */}
           { data ? null : (
             <div className='dtc mid-gray'>
               No data
@@ -90,27 +98,26 @@ const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...pr
           )}
         </div>
         { !data ? null : (
-          <div className='pa3 mt2 bg-white'>
-            <ObjectInspector data={data} />
+          <div className='pa3 mt2 bg-white f5'>
+            <ObjectInspector data={data} theme={objectInspectorTheme} />
           </div>
         )}
         <div className='dt dt--fixed pt2'>
           <label className='dtc gray' style={{width: 48}}>Links</label>
-          {/* <label className='dtc' style={{width: 48}}>Links</label> */}
           <div className='dtc mid-gray'>
-            { links ? links.length : 'No Links' }
+            { links ? (<code>{links.length}</code>) : 'No Links' }
           </div>
         </div>
       </div>
       { !links || !links.length ? null : (
-        <div className='bg-white mt2 overflow-auto'>
+        <div className='bg-white mt2' style={{overflowX: 'hidden', overflowY: 'auto'}}>
           <table className='lh-copy tl f6 w-100 dt--fixed' cellSpacing='0'>
             <thead>
               <tr>
-                <th className='fw4 bb b--black-20 pv2 ph2' style={{width: '45px'}} />
-                <th className='fw4 bb b--black-20 pv2 w-30 ph2' style={{width: '190px'}}>Name</th>
-                <th className='fw4 bb b--black-20 pv2 pr4 tr' style={{width: '100px'}}>Size</th>
-                <th className='fw4 bb b--black-20 pv2' >CID</th>
+                <th className='mid-gray fw4 bb b--black-10 pv2 ph2' style={{width: '45px'}} />
+                <th className='mid-gray fw4 bb b--black-10 pv2 w-30 ph2' style={{width: '190px'}}>Name</th>
+                <th className='mid-gray fw4 bb b--black-10 pv2 pr4 tr' style={{width: '100px'}}>Size</th>
+                <th className='mid-gray fw4 bb b--black-10 pv2' >CID</th>
               </tr>
             </thead>
             <tbody className='fw4'>

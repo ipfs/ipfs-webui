@@ -48,7 +48,6 @@ const bundle = createAsyncResourceBundle({
           resolved.multihash = cid
         }
       }
-      console.log({resolved})
       return {
         path,
         resolved,
