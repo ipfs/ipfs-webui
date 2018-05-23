@@ -32,7 +32,7 @@ export class App extends Component {
             <div style={{background: '#F0F6FA'}}>
               <IpldExploreForm />
             </div>
-            <main className='pa3'>
+            <main style={{padding: '40px'}}>
               <Page />
             </main>
           </div>
