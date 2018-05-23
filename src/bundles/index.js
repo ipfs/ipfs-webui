@@ -6,6 +6,7 @@ import appIdle from './app-idle'
 import peersBundle from './peers'
 import routesBundle from './routes'
 import redirectsBundle from './redirects'
+import filesBundle from './files'
 
 export default composeBundles(
   appIdle({idleTimeout: 5000}),
@@ -13,5 +14,6 @@ export default composeBundles(
   objectBundle,
   peersBundle,
   routesBundle,
-  redirectsBundle
+  redirectsBundle,
+  filesBundle
 )
