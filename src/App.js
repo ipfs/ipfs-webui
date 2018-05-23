@@ -45,4 +45,10 @@ export class App extends Component {
   }
 }
 
-export default connect('selectRoute', 'doUpdateUrl', 'doInitIpfs', App)
+export default connect(
+  'selectRoute',
+  'doUpdateUrl',
+  'doInitIpfs',
+  'doGetGatewayUrl',
+  App
+)

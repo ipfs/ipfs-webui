@@ -4,6 +4,7 @@ import { connect } from 'redux-bundler-react'
 import Button from '../components/button/Button'
 import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
+import FilePreview from './file-preview/FilePreview'
 
 const action = (name) => {
   return (...args) => {
@@ -47,7 +48,7 @@ class FilesPage extends React.Component {
         onCancelUpload={action('Cancel Upload')}
       />
     } else {
-      body = <p>File Preview</p>
+      body = <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
     }
 
     return (
@@ -67,5 +68,6 @@ export default connect(
   'doUpdateHash',
   'doFilesDelete',
   'selectFiles',
+  'selectGatewayUrl',
   FilesPage
 )

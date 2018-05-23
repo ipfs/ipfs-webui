@@ -5,16 +5,18 @@ const bundle = createAsyncResourceBundle({
   actionBaseType: 'FILES',
   getPromise: (args) => {
     const {store, getIpfs} = args
-    const path = store.selectRouteParams().path
+    let path = store.selectRouteParams().path
 
     if (!path) {
       store.doUpdateHash('/files/')
       return Promise.resolve()
     }
 
+    path = decodeURIComponent(path)
+
     return getIpfs().files.stat(path)
-      .then(stat => {
-        if (stat.type === 'directory') {
+      .then(stats => {
+        if (stats.type === 'directory') {
           return getIpfs().files.ls(path, {l: true}).then((res) => {
             // FIX: open PR on js-ipfs-api
             if (res) {
@@ -31,15 +33,14 @@ const bundle = createAsyncResourceBundle({
             }
           })
         } else {
-          return getIpfs().files.read(path).then(buf => {
-            stat.content = buf
+          stats.name = path
 
-            return {
-              path: path,
-              type: 'file',
-              file: stat
-            }
-          })
+          return {
+            path: path,
+            type: 'file',
+            stats: stats,
+            read: () => getIpfs().files.read(path)
+          }
         }
       })
   },
