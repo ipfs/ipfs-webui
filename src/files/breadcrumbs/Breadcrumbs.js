@@ -7,10 +7,6 @@ function makeBread (root) {
     root = root.substring(0, root.length - 1)
   }
 
-  if (root.startsWith('/')) {
-    root = root.substring(1, root.length)
-  }
-
   let parts = root.split('/').map(part => {
     return {
       name: part,
@@ -18,7 +14,7 @@ function makeBread (root) {
     }
   })
 
-  parts[0].path = `/${parts[0].path}`
+  parts[0].name = 'Root'
 
   for (let i = 1; i < parts.length; i++) {
     parts[i] = {
