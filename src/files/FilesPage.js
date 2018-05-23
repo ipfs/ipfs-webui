@@ -12,6 +12,12 @@ const action = (name) => {
   }
 }
 
+const empty = (
+  <div>
+    <h2>It seems a bit lonely here :(</h2>
+  </div>
+)
+
 class FilesPage extends React.Component {
   static propTypes = {
     files: PropTypes.object
@@ -36,17 +42,21 @@ class FilesPage extends React.Component {
 
     let body
     if (files.type === 'directory') {
-      body = <FilesList
-        root={files.path}
-        files={files.files}
-        onShare={action('Share')}
-        onInspect={this.onInspect}
-        onRename={action('Rename')}
-        onDownload={action('Download')}
-        onDelete={this.props.doFilesDelete}
-        onNavigate={this.onLinkClick}
-        onCancelUpload={action('Cancel Upload')}
-      />
+      if (files.files.length === 0) {
+        body = empty
+      } else {
+        body = <FilesList
+          root={files.path}
+          files={files.files}
+          onShare={action('Share')}
+          onInspect={this.onInspect}
+          onRename={action('Rename')}
+          onDownload={action('Download')}
+          onDelete={this.props.doFilesDelete}
+          onNavigate={this.onLinkClick}
+          onCancelUpload={action('Cancel Upload')}
+        />
+      }
     } else {
       body = <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
     }
