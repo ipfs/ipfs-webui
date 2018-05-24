@@ -40,7 +40,8 @@ class FilesPreview extends React.Component {
       case 'pdf':
         return (
           <object width='100%' height='500px' data={src} type='application/pdf'>
-       
+            If you're seeing this, is because your browser doesn't support previwing
+            PDF files.
           </object>
         )
       case 'video':
