@@ -23,7 +23,7 @@ class FilesPage extends React.Component {
     files: PropTypes.object
   }
 
-  onLinkClick = (link) => {    
+  onLinkClick = (link) => {
     const {doUpdateHash} = this.props
     doUpdateHash(`/files${link}`)
   }
@@ -61,6 +61,7 @@ class FilesPage extends React.Component {
         body = empty
       } else {
         body = <FilesList
+          maxWidth='calc(100% - 240px)'
           root={files.path}
           files={files.files}
           onShare={action('Share')}

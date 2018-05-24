@@ -30,11 +30,13 @@ class FileList extends React.Component {
     onNavigate: PropTypes.func.isRequired,
     onCancelUpload: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
-    root: PropTypes.string.isRequired
+    root: PropTypes.string.isRequired,
+    maxWidth: PropTypes.string
   }
 
   static defaultProps = {
-    className: ''
+    className: '',
+    maxWidth: '100%'
   }
 
   state = {
@@ -105,6 +107,7 @@ class FileList extends React.Component {
     return (
       <SelectedActions
         className='fixed bottom-0 right-0'
+        style={{maxWidth: this.props.maxWidth}}
         unselect={unselectAll}
         remove={this.genActionFromSelected('onDelete', {unselect: true})}
         share={this.genActionFromSelected('onShare')}
