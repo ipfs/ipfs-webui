@@ -33,6 +33,13 @@ class FilesPage extends React.Component {
     doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
+  onRename = ([path]) => {
+    let currentName = path.split('/').pop()
+    let newName = window.prompt("What's the new name?")
+
+    this.props.doFilesRename(path, path.replace(currentName, newName))
+  }
+
   render () {
     const {files} = this.props
 
@@ -52,7 +59,7 @@ class FilesPage extends React.Component {
           files={files.files}
           onShare={action('Share')}
           onInspect={this.onInspect}
-          onRename={action('Rename')}
+          onRename={this.onRename}
           onDownload={action('Download')}
           onDelete={this.props.doFilesDelete}
           onNavigate={this.onLinkClick}
@@ -79,6 +86,7 @@ class FilesPage extends React.Component {
 export default connect(
   'doUpdateHash',
   'doFilesDelete',
+  'doFilesRename',
   'selectFiles',
   'selectGatewayUrl',
   FilesPage
