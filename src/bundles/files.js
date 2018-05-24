@@ -13,6 +13,8 @@ const bundle = createAsyncResourceBundle({
       return Promise.resolve()
     }
 
+    // FIX: dirs with actually encoded names
+    // will get decoded... it shouldn't happen
     path = decodeURIComponent(path)
 
     return getIpfs().files.stat(path)
