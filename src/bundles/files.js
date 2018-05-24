@@ -1,4 +1,5 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
+import { join } from '../lib/path'
 
 const bundle = createAsyncResourceBundle({
   name: 'files',
@@ -100,6 +101,20 @@ bundle.doFilesMakeDir = (path) => ({dispatch, getIpfs, store}) => {
     .catch((error) => {
       dispatch({ type: 'FILES_MKDIR_ERRORED', payload: error })
     })
+}
+
+bundle.doFilesWrite = (root, files) => ({dispatch, getIpfs, store}) => {
+  dispatch({ type: 'FILES_WRITE_STARTED' })
+
+  return Promise.all(files.map((file) => {
+    const target = join(root, file.name)
+    return getIpfs().files.write(target, file.content, { create: true })
+  })).then(() => {
+    store.doFetchFiles()
+    dispatch({ type: 'FILES_WRITE_FINISHED' })
+  }).catch((error) => {
+    dispatch({ type: 'FILES_WRITE_ERRORED', payload: error })
+  })
 }
 
 export default bundle

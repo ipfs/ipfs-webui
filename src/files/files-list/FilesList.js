@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
+import { join } from '../../lib/path'
 import './FilesList.css'
 
 const ORDER_BY_NAME = 'name'
@@ -16,12 +17,6 @@ function compare (a, b, asc) {
   } else {
     return 0
   }
-}
-
-function join (a, b) {
-  if (a.endsWith('/')) a = a.slice(0, -1)
-  if (b.startsWith('/')) b = b.slice(1)
-  return `${a}/${b}`
 }
 
 class FileList extends React.Component {
