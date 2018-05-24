@@ -89,4 +89,17 @@ bundle.doFilesRename = (from, to) => ({dispatch, getIpfs, store}) => {
     })
 }
 
+bundle.doFilesMakeDir = (path) => ({dispatch, getIpfs, store}) => {
+  dispatch({ type: 'FILES_MKDIR_STARTED' })
+
+  return getIpfs().files.mkdir(path, { parents: true })
+    .then(() => {
+      store.doFetchFiles()
+      dispatch({ type: 'FILES_MKDIR_FINISHED' })
+    })
+    .catch((error) => {
+      dispatch({ type: 'FILES_MKDIR_ERRORED', payload: error })
+    })
+}
+
 export default bundle
