@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
-import Button from '../components/button/Button'
 import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
+import FileInput from './file-input/FileInput'
 
 const action = (name) => {
   return (...args) => {
@@ -42,6 +42,10 @@ class FilesPage extends React.Component {
     }
   }
 
+  onFilesUpload = (files) => {
+    this.props.doFilesWrite(this.props.files.path, files)
+  }
+
   render () {
     const {files} = this.props
 
@@ -76,7 +80,7 @@ class FilesPage extends React.Component {
       <div>
         <div className='flex items-center justify-between mb4'>
           <Breadcrumbs path={files.path} onClick={this.onLinkClick} />
-          <Button className='f7'>+ Add to IPFS</Button>
+          <FileInput upload={this.onFilesUpload} />
         </div>
         {body}
         <h1 data-id='title'>Files</h1>
@@ -89,6 +93,7 @@ export default connect(
   'doUpdateHash',
   'doFilesDelete',
   'doFilesRename',
+  'doFilesWrite',
   'selectFiles',
   'selectGatewayUrl',
   FilesPage
