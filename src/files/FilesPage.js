@@ -23,6 +23,11 @@ class FilesPage extends React.Component {
     files: PropTypes.object
   }
 
+  state = {
+    clipboard: [],
+    copy: false
+  }
+
   onLinkClick = (link) => {
     const {doUpdateHash} = this.props
     doUpdateHash(`/files${link}`)
@@ -44,6 +49,14 @@ class FilesPage extends React.Component {
 
   onFilesUpload = (files) => {
     this.props.doFilesWrite(this.props.files.path, files)
+  }
+
+  componentWillMount () {
+    console.log('WUOLL MOUNT')
+  }
+
+  componentWillUnmount () {
+    console.log('WILL UNMOUNT')
   }
 
   render () {

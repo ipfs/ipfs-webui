@@ -79,30 +79,29 @@ bundle.doFilesDelete = (files) => ({dispatch, getIpfs, store}) => {
     })
 }
 
-bundle.doFilesRename = (from, to) => ({dispatch, getIpfs, store}) => {
-  dispatch({ type: 'FILES_RENAME_STARTED' })
+function runAndFetch ({ dispatch, getIpfs, store }, type, action, args) {
+  dispatch({ type: `${type}_STARTED` })
 
-  return getIpfs().files.mv([from, to])
+  return getIpfs().files[action](...args)
     .then(() => {
       store.doFetchFiles()
-      dispatch({ type: 'FILES_RENAME_FINISHED' })
+      dispatch({ type: `${type}_FINISHED` })
     })
     .catch((error) => {
-      dispatch({ type: 'FILES_RENAME_ERRORED', payload: error })
+      dispatch({ type: `${type}_ERRORED`, payload: error })
     })
 }
 
-bundle.doFilesMakeDir = (path) => ({dispatch, getIpfs, store}) => {
-  dispatch({ type: 'FILES_MKDIR_STARTED' })
+bundle.doFilesRename = (from, to) => (args) => {
+  runAndFetch(args, 'FILES_RENAME', 'mv', [[from, to]])
+}
 
-  return getIpfs().files.mkdir(path, { parents: true })
-    .then(() => {
-      store.doFetchFiles()
-      dispatch({ type: 'FILES_MKDIR_FINISHED' })
-    })
-    .catch((error) => {
-      dispatch({ type: 'FILES_MKDIR_ERRORED', payload: error })
-    })
+bundle.doFilesCopy = (from, to) => (args) => {
+  runAndFetch(args, 'FILES_RENAME', 'cp', [[from, to]])
+}
+
+bundle.doFilesMakeDir = (path) => (args) => {
+  runAndFetch(args, 'FILES_MKDIR', 'mkdir', [path, { parents: true }])
 }
 
 bundle.doFilesWrite = (root, files) => ({dispatch, getIpfs, store}) => {
