@@ -37,7 +37,9 @@ class FilesPage extends React.Component {
     const {files} = this.props
 
     if (!files) {
-      return <div />
+      return <div>
+        <h1 data-id='title'>Files</h1>
+      </div>
     }
 
     let body
