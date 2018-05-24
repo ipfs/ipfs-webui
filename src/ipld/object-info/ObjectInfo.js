@@ -16,12 +16,12 @@ const nodeStyles = {
   'dag-pb': {name: 'Protobuf Dag Node', color: '#244e66'}
 }
 
-function nameForNode (type) {
+export function nameForNode (type) {
   const style = nodeStyles[type]
   return (style && style.name) || 'DAG Node'
 }
 
-function colorForNode (type) {
+export function colorForNode (type) {
   const style = nodeStyles[type]
   return (style && style.color) || '#ea5037'
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'redux-bundler-react'
 import CidInfo from './cid-info/CidInfo'
 import ObjectInfo from './object-info/ObjectInfo'
-import IpldGraph from './graph/IpldGraph'
+import IpldGraph from './graph/IpldGraphCytoscape'
 
 class IpldPage extends React.Component {
   constructor (props) {
@@ -37,7 +37,11 @@ class IpldPage extends React.Component {
                 <CidInfo
                   style={{background: '#FBFBFB'}}
                   cid={object.resolved.multihash} />
-                <IpldGraph />
+                <IpldGraph
+                  style={{width: '100%', height: 300}}
+                  path={object.resolved.multihash}
+                  links={object.resolved.links}
+                  onNodeClick={this.onLinkClick} />
               </div>
             ) : null}
           </div>

@@ -1,13 +1,10 @@
 import React from 'react'
 
-const IpldGraph = ({className, root}) => {
+const IpldGraph = ({className, root, links}) => {
   const cls = `tc ma4 ${className}`
   return (
     <div className={cls}>
       <svg width='167' height='217' viewBox='0 0 167 217' xmlns='http://www.w3.org/2000/svg'>
-        <title>
-          IPLD Graph
-        </title>
         <g fill='none' fillRule='evenodd'>
           <g transform='translate(68 74)'>
             <path d='M15.5.5V96' stroke='#979797' strokeWidth='2' strokeLinecap='square' strokeDasharray='1,4' />
