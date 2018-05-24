@@ -23,7 +23,7 @@ class FilesPage extends React.Component {
     files: PropTypes.object
   }
 
-  onLinkClick = (link) => {
+  onLinkClick = (link) => {    
     const {doUpdateHash} = this.props
     doUpdateHash(`/files${link}`)
   }
@@ -34,10 +34,12 @@ class FilesPage extends React.Component {
   }
 
   onRename = ([path]) => {
-    let currentName = path.split('/').pop()
-    let newName = window.prompt("What's the new name?")
+    const oldName = path.split('/').pop()
+    const newName = window.prompt('Insert the new name:')
 
-    this.props.doFilesRename(path, path.replace(currentName, newName))
+    if (newName) {
+      this.props.doFilesRename(path, path.replace(oldName, newName))
+    }
   }
 
   render () {
