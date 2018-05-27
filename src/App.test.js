@@ -19,7 +19,7 @@ it('example test', async () => {
   let titleText = await page.evaluate(el => el.innerHTML, title)
   expect(titleText).toBe('Status')
 
-  await page.click('nav a[href="#/files"]')
+  await page.click('nav a[href="#/files/"]')
 
   title = await page.$('[data-id=title]')
   titleText = await page.evaluate(el => el.innerHTML, title)
