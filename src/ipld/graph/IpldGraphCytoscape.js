@@ -1,20 +1,18 @@
 import React from 'react'
 import cytoscape from 'cytoscape'
 import dagre from 'cytoscape-dagre'
-import prettyHash from 'pretty-hash'
 import {colorForNode} from '../object-info/ObjectInfo'
 
 cytoscape.use(dagre)
 
 const layoutOpts = {
   name: 'dagre',
-  // animate: true,
-  // animationDuration: 300,
-  // animationEasing: 'ease-in-out-sine',
   rankSep: 80,
   nodeSep: 1
 }
-const styleOpts = [ // the stylesheet for the graph
+
+// the stylesheet for the graph
+const styleOpts = [
   {
     selector: 'node',
     style: {
@@ -30,19 +28,18 @@ const styleOpts = [ // the stylesheet for the graph
       'source-distance-from-node': 3,
       'target-distance-from-node': 4,
       'curve-style': 'bezier',
-      'control-point-weight': 1,
+      'control-point-weight': 0.5,
       'width': 1,
       'line-color': '#979797',
       'line-style': 'dotted',
-      // 'target-label': 'data(prettyHash)',
-      'font-family': 'monospace',
+      'target-label': 'data(index)',
+      'font-family': 'Consolas, monaco, monospace',
       'font-size': '8px',
-      'text-rotation': '90deg',
-      // 'target-text-margin-x': '0px',
-      'target-text-margin-y': '45px',
-      'text-halign': 'left',
-      'text-valign': 'bottom',
-      'color': '#243a53'
+      'target-text-margin-x': '-5px',
+      'color': '#ccc',
+      'target-text-margin-y': '-2px',
+      'text-halign': 'center',
+      'text-valign': 'bottom'
     }
   }
 ]
@@ -75,9 +72,10 @@ export default class IpldGraphCytoscape extends React.Component {
 
   renderTree ({path, links, container}) {
     const cyLinks = this.ipfsLinksToCy(path, links)
-    const root = this.makeNode({multihash: path})
+    const root = this.makeNode({multihash: path}, '')
 
-    const elements = [ // list of graph elements to start with
+    // list of graph elements to start with
+    const elements = [
       root,
       ...cyLinks
     ]
@@ -88,7 +86,6 @@ export default class IpldGraphCytoscape extends React.Component {
       style: styleOpts,
       layout: layoutOpts,
       wheelSensitivity: 0.5
-      // autolock: true // nope. breaks everything.
     })
 
     if (this.props.onNodeClick) {
@@ -104,36 +101,35 @@ export default class IpldGraphCytoscape extends React.Component {
 
   ipfsLinksToCy (parent, links) {
     if (!links.length) return
-    const showLinks = links // .slice(0, 6)
-    const edges = showLinks.map(this.makeLink.bind(this, parent))
-    const nodes = showLinks.map(this.makeNode)
+    const edges = links.map(this.makeLink.bind(this, parent))
+    const nodes = links.map(this.makeNode)
     return [...nodes, ...edges]
   }
 
-  makeNode ({multihash, size, name}) {
-    const type = multihash.startsWith('Q') ? 'dag-pb' : 'dag-cbor' // TODO: pass link type info.
+  makeNode ({multihash, size, name}, index) {
+    // TODO: pass link type info.
+    const type = multihash.startsWith('Q') ? 'dag-pb' : 'dag-cbor'
     const bg = colorForNode(type)
     return {
       group: 'nodes',
       data: {
         id: multihash,
-        prettyHash: prettyHash(multihash),
         bg,
         size,
-        name
+        name,
+        index
       }
     }
   }
 
-  makeLink (parent, link) {
-    console.log('makeLink', {parent, link})
+  makeLink (parent, link, index) {
     const {multihash} = link
     return {
       group: 'edges',
       data: {
-        prettyHash: prettyHash(multihash),
         source: parent,
-        target: multihash
+        target: multihash,
+        index
       }
     }
   }
