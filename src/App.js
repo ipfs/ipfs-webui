@@ -49,6 +49,5 @@ export default connect(
   'selectRoute',
   'doUpdateUrl',
   'doInitIpfs',
-  'doGetGatewayUrl',
   App
 )
