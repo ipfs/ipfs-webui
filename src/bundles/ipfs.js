@@ -28,7 +28,7 @@ export default {
 
   selectGatewayUrl: state => state.ipfs.gatewayUrl,
 
-  doInitIpfs: () => async ({ dispatch }) => {
+  doInitIpfs: () => async ({ dispatch, store }) => {
     dispatch({ type: 'IPFS_INIT_STARTED' })
 
     try {
@@ -37,10 +37,11 @@ export default {
       return dispatch({ type: 'IPFS_INIT_FAILED', payload: err })
     }
 
+    store.doGetGatewayUrl()
     dispatch({ type: 'IPFS_INIT_FINISHED' })
   },
 
-  doGetGatewayUrl: () => async ({ dispatch }) => {
+  doGetGatewayUrl: () => async ({ dispatch, getIpfs }) => {
     dispatch({ type: 'IPFS_GATWAY_URL_STARTED' })
 
     getIpfs().config.get('Addresses.Gateway', (err, res) => {
