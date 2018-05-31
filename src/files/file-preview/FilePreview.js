@@ -45,7 +45,6 @@ class FilesPreview extends React.Component {
           </object>
         )
       case 'video':
-        console.log('Ivdeo')
         return (
           <video controls className={className}>
             <source src={src} type={`video/${ext}`} />
