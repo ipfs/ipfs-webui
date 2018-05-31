@@ -29,7 +29,7 @@ const bundle = createAsyncResourceBundle({
     const path = hash.replace('/explore', '')
     const {address, cidOrFqdn, rest} = quickSplitPath(path)
     return getIpfs().dag.get(address).then(async (res) => {
-      if (!res.value) throw new Error('unpackDag expects an object with a `value` property as provided by an ipfs.dag.get response')
+      if (!res.value) throw new Error('expected an object with a `value` property as provided by an ipfs.dag.get response')
       let {value} = res
       const resolved = explainDagNode(value)
       if (resolved.type === 'dag-cbor') {
