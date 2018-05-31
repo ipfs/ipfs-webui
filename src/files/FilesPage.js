@@ -51,14 +51,6 @@ class FilesPage extends React.Component {
     this.props.doFilesWrite(this.props.files.path, files)
   }
 
-  componentWillMount () {
-    console.log('WUOLL MOUNT')
-  }
-
-  componentWillUnmount () {
-    console.log('WILL UNMOUNT')
-  }
-
   render () {
     const {files} = this.props
 
