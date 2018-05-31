@@ -104,13 +104,38 @@ bundle.doFilesMakeDir = (path) => (args) => {
   runAndFetch(args, 'FILES_MKDIR', 'mkdir', [path, { parents: true }])
 }
 
+function readAsBuffer (file) {
+  return new Promise((resolve, reject) => {
+    const reader = new window.FileReader()
+    reader.onload = (event) => {
+      resolve({
+        content: Buffer.from(reader.result),
+        name: file.name
+      })
+    }
+    reader.onerror = (event) => {
+      reject(reader.error)
+    }
+
+    reader.readAsArrayBuffer(file)
+  })
+}
+
 bundle.doFilesWrite = (root, files) => ({dispatch, getIpfs, store}) => {
   dispatch({ type: 'FILES_WRITE_STARTED' })
 
-  return Promise.all(files.map((file) => {
-    const target = join(root, file.name)
-    return getIpfs().files.write(target, file.content, { create: true })
-  })).then(() => {
+  let promises = []
+
+  for (const file of files) {
+    promises.push(readAsBuffer(file))
+  }
+
+  return Promise.all(promises).then(files => {
+    return Promise.all(files.map((file) => {
+      const target = join(root, file.name)
+      return getIpfs().files.write(target, file.content, { create: true })
+    }))
+  }).then(() => {
     store.doFetchFiles()
     dispatch({ type: 'FILES_WRITE_FINISHED' })
   }).catch((error) => {
