@@ -13,31 +13,71 @@ export function isPathInThisNode (node, path) {
   }, node)
 }
 
+// export function findFirstLinkInPath (node, path) {
+//   if (!path) return null
+//   if (!node) return null
+//   const parts = path.split('/').filter(p => !!p)
+//   if (parts.length === 0) return null
+//   let current = node
+//   let link = null
+//   let index = 0
+//   while (current && !link) {
+//     const p = parts[index++]
+//     current = current[p]
+//     link = current ? toCidStrOrNull(current['/']) : null
+//   }
+//   return link
+// }
+
 export function findFirstLinkInPath (node, path) {
   if (!path) return null
   if (!node) return null
   const parts = path.split('/').filter(p => !!p)
   if (parts.length === 0) return null
   let current = node
-  let link = null
+  let linkCid = null
   let index = 0
-  while (current && !link) {
+  while (current && !linkCid) {
     const p = parts[index++]
     current = current[p]
-    link = current ? toCidStrOrNull(current['/']) : null
+    linkCid = current ? toCidStrOrNull(current['/']) : null
   }
-  return link
+  if (!linkCid) return null
+  const linkPath = '/' + parts.slice(0, index).join('/')
+  return {linkCid, linkPath}
 }
 
-export async function findCid (getIpfs, node, rootCid, rest) {
+export async function findCid (getIpfs, cid, path) {
+  const {value: node} = await getIpfs().dag.get(cid)
   // until ipfs.dag.resolve is available, we have to walk the path to find the nearest cid.
   // dag.resolve https://github.com/ipfs/js-ipfs-api/pull/755#issuecomment-386882099
-  const firstLinkCid = findFirstLinkInPath(node, rest)
+  const firstLinkCid = findFirstLinkInPath(node, path)
   if (!firstLinkCid) {
     // we're in the right node.
-    return rootCid
+    return cid
   } else {
-    const {value: nextNode} = await getIpfs().dag.get(firstLinkCid)
-    return findCid(getIpfs, nextNode, firstLinkCid, rest)
+    return findCid(getIpfs, firstLinkCid, path)
   }
 }
+
+export async function findPathBoundaries (getIpfs, cid, path, nodes = []) {
+  const {value: node} = await getIpfs().dag.get(cid)
+  // until ipfs.dag.resolve is available, we have to walk the path to find the nearest cid.
+  // dag.resolve https://github.com/ipfs/js-ipfs-api/pull/755#issuecomment-386882099
+  const firstLinkCid = findFirstLinkInPath(node, path)
+  if (!firstLinkCid) {
+    // we're in the right node.
+    return cid
+  } else {
+    return findCid(getIpfs, firstLinkCid, path)
+  }
+}
+
+/*
+given a path z/woo/haa
+- look up z
+- look up woo
+- look up haa
+
+for
+*/

@@ -58,6 +58,40 @@ const Crumb = ({base, path, node}) => {
     ],
   }
 }
+
+{
+  path: /ipfs/zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a/css,
+  pathBoundaries: [
+    {
+      pathBoundary: zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0
+      cid: zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs
+      type: 'dag-cbor'
+      data: { ... }
+      links: [
+        { name: favourite/0, cid: z2 }
+        { name: favourite/1, cid: z3 }
+        { name: favourite/2, cid: z4 }
+      ]
+    },
+    {
+      path: zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a
+      cid: z2
+      type: 'dag-cbor'
+      links: [
+        { name: a, cid: z5 }
+      ],
+    },
+    {
+      path: zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a/css
+      cid: Qm1
+      type: 'dag-pb'
+      links: [
+        { name: a, cid: z5 }
+      ],
+    }
+  ]
+}
+
 */
 
 const GraphCrumbs = ({crumbInfo}) => {

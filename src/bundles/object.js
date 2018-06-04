@@ -37,8 +37,7 @@ const bundle = createAsyncResourceBundle({
           resolved.multihash = cidOrFqdn
         } else {
           // apply path to root obj, until you hit a link, or the end of the path
-          const {value: rootNode} = await getIpfs().dag.get(cidOrFqdn)
-          const cid = await findCid(getIpfs, rootNode, cidOrFqdn, rest)
+          const cid = await findCid(getIpfs, cidOrFqdn, rest)
           resolved.multihash = cid
         }
       }
