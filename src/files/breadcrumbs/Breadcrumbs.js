@@ -14,14 +14,15 @@ function makeBread (root) {
     }
   })
 
-  parts[0].name = 'Root'
-
   for (let i = 1; i < parts.length; i++) {
     parts[i] = {
       name: parts[i].name,
       path: parts[i - 1].path + '/' + parts[i].path
     }
   }
+
+  parts[0].name = 'Root'
+  parts[0].path = '/'
 
   return parts
 }

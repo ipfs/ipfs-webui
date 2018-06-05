@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
+import { join } from '../../lib/path'
 import './FilesList.css'
 
 const ORDER_BY_NAME = 'name'
@@ -18,12 +19,6 @@ function compare (a, b, asc) {
   }
 }
 
-function join (a, b) {
-  if (a.endsWith('/')) a = a.slice(0, -1)
-  if (b.startsWith('/')) b = b.slice(1)
-  return `${a}/${b}`
-}
-
 class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
@@ -35,11 +30,13 @@ class FileList extends React.Component {
     onNavigate: PropTypes.func.isRequired,
     onCancelUpload: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
-    root: PropTypes.string.isRequired
+    root: PropTypes.string.isRequired,
+    maxWidth: PropTypes.string
   }
 
   static defaultProps = {
-    className: ''
+    className: '',
+    maxWidth: '100%'
   }
 
   state = {
@@ -70,9 +67,20 @@ class FileList extends React.Component {
     this.setState({selected: selected})
   }
 
-  genActionFromSelected = (fn) => {
+  genActionFromSelected = (fn, opts = {}) => {
     return () => {
-      this.props[fn](this.selectedFiles.map(f => join(this.props.root, f.name)))
+      if (opts.unselect) {
+        this.setState({ selected: [] })
+      }
+
+      let data
+      if (opts.hash) {
+        data = this.selectedFiles.map(f => f.hash)
+      } else {
+        data = this.selectedFiles.map(f => join(this.props.root, f.name))
+      }
+
+      this.props[fn](data)
     }
   }
 
@@ -99,12 +107,13 @@ class FileList extends React.Component {
     return (
       <SelectedActions
         className='fixed bottom-0 right-0'
+        style={{maxWidth: this.props.maxWidth}}
         unselect={unselectAll}
-        remove={this.genActionFromSelected('onDelete')}
+        remove={this.genActionFromSelected('onDelete', {unselect: true})}
         share={this.genActionFromSelected('onShare')}
         rename={this.genActionFromSelected('onRename')}
         download={this.genActionFromSelected('onDownload')}
-        inspect={this.genActionFromSelected('onInspect')}
+        inspect={this.genActionFromSelected('onInspect', {hash: true})}
         count={this.state.selected.length}
         size={size}
       />
@@ -132,7 +141,7 @@ class FileList extends React.Component {
         onNavigate={this.genActionFromFile('onNavigate', file)}
         onCancel={this.genActionFromFile('onCancelUpload', file)}
         selected={this.state.selected.indexOf(file.hash) !== -1}
-        key={file.hash}
+        key={window.btoa(file.name)}
         {...file}
       />
     ))
