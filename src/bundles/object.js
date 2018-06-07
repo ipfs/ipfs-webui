@@ -1,6 +1,6 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { quickSplitPath } from '../lib/path'
-import { explainDagNode } from '../lib/dag'
+import { normaliseDagNode } from '../lib/dag'
 import { findCid } from '../lib/cbor'
 
 /*
@@ -31,7 +31,7 @@ const bundle = createAsyncResourceBundle({
     return getIpfs().dag.get(address).then(async (res) => {
       if (!res.value) throw new Error('expected an object with a `value` property as provided by an ipfs.dag.get response')
       let {value} = res
-      const resolved = explainDagNode(value)
+      const resolved = normaliseDagNode(value)
       if (resolved.type === 'dag-cbor') {
         if (!rest) {
           resolved.multihash = cidOrFqdn

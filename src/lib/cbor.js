@@ -1,4 +1,4 @@
-import {toCidStrOrNull} from './dag'
+import { toCidStrOrNull } from './cid'
 
 export function isPathInThisNode (node, path) {
   if (!path) return true
@@ -13,22 +13,6 @@ export function isPathInThisNode (node, path) {
   }, node)
 }
 
-// export function findFirstLinkInPath (node, path) {
-//   if (!path) return null
-//   if (!node) return null
-//   const parts = path.split('/').filter(p => !!p)
-//   if (parts.length === 0) return null
-//   let current = node
-//   let link = null
-//   let index = 0
-//   while (current && !link) {
-//     const p = parts[index++]
-//     current = current[p]
-//     link = current ? toCidStrOrNull(current['/']) : null
-//   }
-//   return link
-// }
-
 export function findFirstLinkInPath (node, path) {
   if (!path) return null
   if (!node) return null
@@ -38,8 +22,8 @@ export function findFirstLinkInPath (node, path) {
   let linkCid = null
   let index = 0
   while (current && !linkCid) {
-    const p = parts[index++]
-    current = current[p]
+    const key = parts[index++]
+    current = current[key]
     linkCid = current ? toCidStrOrNull(current['/']) : null
   }
   if (!linkCid) return null

@@ -1,14 +1,14 @@
 /* global it expect */
-import { findIpldLinks } from './dag'
+import { findDagCborLinks } from './dag'
 
 it('finds minimal ipld links', () => {
   const minimal = {
     '/': 'zdpuAzR6UUgm6FLcpUVPH2U2JGteR8rLrM57BzZqJPnjAmTy4'
   }
-  const res = findIpldLinks(minimal)
+  const res = findDagCborLinks(minimal)
   expect(res.length).toBe(1)
-  expect(res[0].name).toBe('')
-  expect(res[0].multihash).toBe(minimal['/'])
+  expect(res[0].path).toBe('')
+  expect(res[0].target).toBe(minimal['/'])
 })
 
 it('finds nested ipld links', () => {
@@ -21,10 +21,10 @@ it('finds nested ipld links', () => {
       }
     }
   }
-  const res = findIpldLinks(nested)
+  const res = findDagCborLinks(nested)
   expect(res.length).toBe(1)
-  expect(res[0].name).toBe('a/b/c')
-  expect(res[0].multihash).toBe(nested.a.b.c['/'])
+  expect(res[0].path).toBe('a/b/c')
+  expect(res[0].target).toBe(nested.a.b.c['/'])
 })
 
 it('finds multiple ipld links', () => {
@@ -39,12 +39,12 @@ it('finds multiple ipld links', () => {
       '/': 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW'
     }
   }
-  const res = findIpldLinks(multiple)
+  const res = findDagCborLinks(multiple)
   expect(res.length).toBe(2)
-  expect(res[0].name).toBe('a')
-  expect(res[0].multihash).toBe(multiple.a['/'])
-  expect(res[1].name).toBe('c')
-  expect(res[1].multihash).toBe(multiple.c['/'])
+  expect(res[0].path).toBe('a')
+  expect(res[0].target).toBe(multiple.a['/'])
+  expect(res[1].path).toBe('c')
+  expect(res[1].target).toBe(multiple.c['/'])
 })
 
 it('finds ipld links in arrays', () => {
@@ -60,10 +60,10 @@ it('finds ipld links in arrays', () => {
     },
     'nope'
   ]
-  const res = findIpldLinks(arr)
+  const res = findDagCborLinks(arr)
   expect(res.length).toBe(2)
-  expect(res[0].name).toBe('0')
-  expect(res[0].multihash).toBe(arr[0]['/'])
-  expect(res[1].name).toBe('2')
-  expect(res[1].multihash).toBe(arr[2]['/'])
+  expect(res[0].path).toBe('0')
+  expect(res[0].target).toBe(arr[0]['/'])
+  expect(res[1].path).toBe('2')
+  expect(res[1].target).toBe(arr[2]['/'])
 })

@@ -120,7 +120,7 @@ const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...pr
             </thead>
             <tbody className='fw4'>
               {links.map((link, i) => (
-                <LinkRow link={link} index={i} onClick={onLinkClick} key={link.hash + '/' + link.name} />
+                <LinkRow link={link} index={i} onClick={onLinkClick} key={link.multihash + '/' + link.name} />
               ))}
             </tbody>
           </table>

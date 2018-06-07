@@ -5,7 +5,7 @@ it('handles nested ipld links', () => {
   const nested = {
     a: {
       b: {
-        c: {
+        a: {
           '/': 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW'
         }
       }
@@ -15,8 +15,8 @@ it('handles nested ipld links', () => {
   expect(isPathInThisNode(nested, '/')).toBe(true)
   expect(isPathInThisNode(nested, '/a')).toBe(true)
   expect(isPathInThisNode(nested, '/a/b')).toBe(true)
-  // "c" resolves to it's link target QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW, not this node.
-  expect(isPathInThisNode(nested, '/a/b/c')).toBe(false)
+  // "a/b/a" resolves to it's link target QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW, not this node.
+  expect(isPathInThisNode(nested, '/a/b/a')).toBe(false)
 })
 
 it('handles arrays ipld links', () => {
@@ -45,7 +45,7 @@ it('finds links in nested ipld paths', () => {
   const nested = {
     a: {
       b: {
-        c: {
+        a: {
           '/': 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW'
         }
       }
@@ -56,6 +56,6 @@ it('finds links in nested ipld paths', () => {
   expect(findFirstLinkInPath(nested, '/a')).toBe(null)
   expect(findFirstLinkInPath(nested, '/a/b')).toBe(null)
   // "c" resolves to it's link target QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW, not this node.
-  expect(findFirstLinkInPath(nested, '/a/b/c')).toEqual({linkCid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW', linkPath: '/a/b/c'})
-  expect(findFirstLinkInPath(nested, '/a/b/c/d/e')).toEqual({linkCid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW', linkPath: '/a/b/c'})
+  expect(findFirstLinkInPath(nested, '/a/b/a')).toEqual({linkCid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW', linkPath: '/a/b/a'})
+  expect(findFirstLinkInPath(nested, '/a/b/a/c/d')).toEqual({linkCid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW', linkPath: '/a/b/a'})
 })

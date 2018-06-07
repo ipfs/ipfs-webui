@@ -1,5 +1,72 @@
-import { explainDagNode } from './dag'
-import { findFirstLinkInPath } from './cbor'
+import { normaliseDagNode } from './dag'
+
+/**
+ * Walk an IPLD path to find all the nodes and path boundaries it traverses.
+ *
+ * Normalizes nodes into a common structure:
+ *
+ * ```js
+ * { cid: String, type: 'dag-cbor' | 'dag-pb', data: Object, links: [{cid, name}] }
+ * ```
+ *
+ * Path boundaries capture the source and target cid where a path cross a link:
+ *
+ * ```js
+ * { linkPath: 'a/b', source: `zdpHash1` target: `zdpHash2`' }
+ * ```
+ *
+ * Usage:
+ * ```js
+ * const res = resolveIpldPath(getIpfs, 'zdpuHash' '/favourites/0/a/css')
+ * const {value, canonicalPath, nodes, pathBoundaries} = res
+ * ```
+ *
+ * @param {function()} getIpfs ipfs accessor
+ * @param {string} sourceCid the root hash
+ * @param {string} path everything after the hash
+ * @param {Object[]} nodes accumulated node info
+ * @param {Object[]} pathBoundaries accumulated path boundary info
+ * @returns {{value: Object, remainderPath: String, canonicalPath: String, nodes: Object[], pathBoundaries: Object[]}} resolved path info
+ */
+export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pathBoundaries = []) {
+  const {value, remainderPath} = await getIpfs().dag.get(sourceCid, path, {localResolve: true})
+  const node = normaliseDagNode(value, sourceCid)
+  nodes.push(node)
+
+  const link = findPathBoundaryLink(node, path)
+  if (link) {
+    pathBoundaries.push(link)
+    // Go again, using the link.target as the sourceCid, and the remainderPath as the path.
+    return resolveIpldPath(getIpfs, link.target, remainderPath, nodes, pathBoundaries)
+  }
+
+  // we made it to the containing node. Hand back the info
+  const canonicalPath = path ? `${sourceCid}/${path}` : sourceCid
+  return {value, remainderPath, canonicalPath, nodes, pathBoundaries}
+}
+
+/**
+ * Find the link that must be traversed to resolve the path or null if none.
+ *
+ * @param {Object} node a `normalisedDagNode`
+ * @param {Object} path an IPLD path string
+ * @returns {Object} the first link you hit while traversing the path or null
+ */
+export function findPathBoundaryLink (node, path) {
+  if (!path) return null
+  if (!node) return null
+  const {links} = node
+  const normalisedPath = path.startsWith('/') ? path.substring(1) : path
+  const link = links.reduce((longest, link) => {
+    if (link && normalisedPath.startsWith(link.path)) {
+      if (!longest || link.path.length > longest.path.length) {
+        return link
+      }
+    }
+    return longest
+  }, null)
+  return link
+}
 
 /*
   Capture groups 1
@@ -7,7 +74,6 @@ import { findFirstLinkInPath } from './cbor'
   2: CID | fqdn
   3: /rest
 */
-
 const pathRegEx = /(\/(ipns|ipfs|ipld)\/)?([^/]+)(\/.*)?/
 
 export function quickSplitPath (str) {
@@ -20,53 +86,3 @@ export function quickSplitPath (str) {
     address: res[0] // /ipfs/QmHash/foo/bar
   }
 }
-
-// {value, canonicalPath, nodes, pathBoundaries} = resolveIpldPath(getIpfs, '/ipfs/zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a/css')
-
-/**
- * Walk an IPLD path to find all the nodes and path boundaries it traverses.
- * @param {function()} getIpfs ipfs accessor
- * @param {string} sourceCid the root hash
- * @param {string} path everything after the hash
- * @param {Object[]} nodes accumulated node info
- * @param {Object[]} pathBoundaries accumulated path boundary info
- * @returns {{value: Object, remainderPath: String, canonicalPath: String, node: Object[], pathBoundaries: Object[]}} resolved path info
- */
-export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pathBoundaries = []) {
-  const {value, remainderPath} = await getIpfs().dag.get(sourceCid, path, {localResolve: true})
-  const node = explainDagNode(value)
-  node.cid = sourceCid
-  nodes.push(node)
-  const link = findFirstLinkInPath(node, path)
-  if (link) {
-    const {linkCid, linkPath} = link
-    pathBoundaries.push({
-      linkPath,
-      source: node.cid,
-      target: linkCid
-    })
-    return resolveIpldPath(getIpfs, linkCid, remainderPath, nodes, pathBoundaries)
-  }
-  // we made it to the containing node. Hand back the info
-  const canonicalPath = `${sourceCid}/${remainderPath}`
-  return {value: node, remainderPath, canonicalPath, nodes, pathBoundaries}
-}
-
-/*
-/ipfs/zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a/css
-
-const pathBoundaries = [
-  { 'linkPath': '/ipfs/zdpu/favourites/0', source: `zdpu`, target: 'z2'}
-  { 'linkPath': 'a', source: `z2`, target: 'Qm1'}
-  { 'linkPath': 'css', source: `Qm1`, target: 'Qm2'}
-]
-
-const nodes = [
-  {
-    cid: zdpu,
-    type: 'dag-cbor',
-    data: { ... }
-    links: []
-  }
-]
-*/
