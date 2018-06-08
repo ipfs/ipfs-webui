@@ -29,21 +29,26 @@ import { normaliseDagNode } from './dag'
  * @returns {{value: Object, remainderPath: String, canonicalPath: String, nodes: Object[], pathBoundaries: Object[]}} resolved path info
  */
 export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pathBoundaries = []) {
-  const {value, remainderPath} = await getIpfs().dag.get(sourceCid, path, {localResolve: true})
+  // TODO: find out why ipfs.dag.get with localResolve never resolves.
+  // const {value, remainderPath} = await getIpfs().dag.get(sourceCid, path, {localResolve: true})
+  const {value} = await getIpfs().dag.get(sourceCid)
+
   const node = normaliseDagNode(value, sourceCid)
   nodes.push(node)
-  console.log('dag get', {sourceCid, path}, {value, remainderPath}, {node})
+
   const link = findPathBoundaryLink(node, path)
-  console.log('findPathBoundary', {node, path, link})
   if (link) {
     pathBoundaries.push(link)
+    const relPath = path.startsWith('/') ? path.substring(1) : path
+    const remainderPath = relPath.replace(link.path, '')
+    console.log({remainderPath, path, link: link.path})
     // Go again, using the link.target as the sourceCid, and the remainderPath as the path.
     return resolveIpldPath(getIpfs, link.target, remainderPath, nodes, pathBoundaries)
   }
 
   // we made it to the containing node. Hand back the info
-  const canonicalPath = path ? `${sourceCid}/${path}` : sourceCid
-  return {value, remainderPath, canonicalPath, nodes, pathBoundaries}
+  const canonicalPath = path ? `${sourceCid}${path}` : sourceCid
+  return {value, canonicalPath, nodes, pathBoundaries}
 }
 
 /**

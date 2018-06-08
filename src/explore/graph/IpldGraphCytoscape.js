@@ -5,44 +5,45 @@ import {colorForNode} from '../object-info/ObjectInfo'
 
 cytoscape.use(dagre)
 
-const layoutOpts = {
-  name: 'dagre',
-  rankSep: 80,
-  nodeSep: 1
-}
-
-// the stylesheet for the graph
-const styleOpts = [
-  {
-    selector: 'node',
-    style: {
-      shape: 'ellipse',
-      width: '14px',
-      height: '14px',
-      'background-color': 'data(bg)'
-    }
+const graphOpts = {
+  wheelSensitivity: 0.05,
+  layout: {
+    name: 'dagre',
+    rankSep: 80,
+    nodeSep: 1
   },
-  {
-    selector: 'edge',
-    style: {
-      'source-distance-from-node': 3,
-      'target-distance-from-node': 4,
-      'curve-style': 'bezier',
-      'control-point-weight': 0.5,
-      'width': 1,
-      'line-color': '#979797',
-      'line-style': 'dotted',
-      'target-label': 'data(index)',
-      'font-family': 'Consolas, monaco, monospace',
-      'font-size': '8px',
-      'target-text-margin-x': '-5px',
-      'color': '#ccc',
-      'target-text-margin-y': '-2px',
-      'text-halign': 'center',
-      'text-valign': 'bottom'
+  style: [
+    {
+      selector: 'node',
+      style: {
+        shape: 'ellipse',
+        width: '14px',
+        height: '14px',
+        'background-color': 'data(bg)'
+      }
+    },
+    {
+      selector: 'edge',
+      style: {
+        'source-distance-from-node': 3,
+        'target-distance-from-node': 4,
+        'curve-style': 'bezier',
+        'control-point-weight': 0.5,
+        'width': 1,
+        'line-color': '#979797',
+        'line-style': 'dotted',
+        'target-label': 'data(index)',
+        'font-family': 'Consolas, monaco, monospace',
+        'font-size': '8px',
+        'target-text-margin-x': '-5px',
+        'color': '#ccc',
+        'target-text-margin-y': '-2px',
+        'text-halign': 'center',
+        'text-valign': 'bottom'
+      }
     }
-  }
-]
+  ]
+}
 
 export default class IpldGraphCytoscape extends React.Component {
   constructor (props) {
@@ -86,9 +87,7 @@ export default class IpldGraphCytoscape extends React.Component {
     const cy = cytoscape({
       elements: elements,
       container: container,
-      style: styleOpts,
-      layout: layoutOpts,
-      wheelSensitivity: 0.5
+      ...graphOpts
     })
 
     if (this.props.onNodeClick) {
@@ -103,7 +102,6 @@ export default class IpldGraphCytoscape extends React.Component {
   }
 
   ipfsLinksToCy (links) {
-    if (!links.length) return
     const edges = links.map(this.makeLink)
     const nodes = links.map(this.makeNode)
     return [...nodes, ...edges]
