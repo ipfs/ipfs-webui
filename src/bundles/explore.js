@@ -6,7 +6,7 @@ import { resolveIpldPath, quickSplitPath } from '../lib/path'
   loading: false
   data: {
     path: '/ipfs/QmHash/foo/bar'
-    value: {}
+    targetNode: {}
     nodes: []
     pathBoundaries: []
   }

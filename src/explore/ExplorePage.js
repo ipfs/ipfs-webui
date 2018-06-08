@@ -19,9 +19,8 @@ class ExplorePage extends React.Component {
   render () {
     const {explore} = this.props
     if (!explore) return <Loader color='dark' className='tc pv6' style={{transform: 'scale(3)'}} />
-    const {nodes, pathBoundaries} = explore
+    const {targetNode, nodes, pathBoundaries} = explore
     const sourceNode = nodes[0]
-    const targetNode = nodes[explore.nodes.length - 1]
     return (
       <div>
         {pathBoundaries && targetNode ? (
