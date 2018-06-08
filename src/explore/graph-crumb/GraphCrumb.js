@@ -1,107 +1,83 @@
 import React from 'react'
 import Cid from '../../components/cid/Cid'
+import {colorForNode} from '../object-info/ObjectInfo'
 
-const Crumb = ({base, path, node}) => {
-  const parts = path.split('/')
+const GraphCrumb = ({cid, pathBoundaries, hrefBase = '#/explore', ...props}) => {
+  const [first, ...rest] = pathBoundaries
+  const firstHrefBase = calculateHrefBase(hrefBase, cid, pathBoundaries, 0)
   return (
-    <div class="dib">
-
-    </div>
-  )
-}
-// do underlines point to the node type the path contains, or the node type that is resovled if you click on it?
-
-// zdpu..zrvSs / favourites / 0 / a / css / main.css
-// ========================  ==  ==   ---   -------
-
-// zdpu..zrvSs / favourites / 0 / a / css / main.css
-// ============================  ==  ----   --------
-
-/*
-[
-  {
-    path: /ipld/zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs
-    type: dag-cbor
-    links: [
-      { name: favourite/0, cid: z2 }
-      { name: favourite/1, cid: z3 }
-      { name: favourite/2, cid: z4 }
-    ],
-    next: { name: favourite/0, cid: z2 }
-  },
-  {
-    path: /ipld/zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0
-    type: dag-cor
-    cid: z2
-    links: [
-      { name: a, cid: z5 }
-    ],
-    next: { name: a, cid: z5 }
-  },
-  {
-    path: /ipld/zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a
-    type: dag-cor
-    cid: z5
-    links: [
-      { name: css, cid: Qm1 }
-      { name: js, cid: Qm2 }
-      { name: index.html, cid: Qm3 }
-    ],
-    next: { name: css, cid: Qm1 }
-  },
-  {
-    path: /ipld/zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a/css
-    type: dag-pb
-    cid: Qm1
-    links: [
-      { name: main.css, cid: Qm4 }
-    ],
-  }
-}
-
-{
-  path: /ipfs/zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a/css,
-  pathBoundaries: [
-    {
-      pathBoundary: zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0
-      cid: zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs
-      type: 'dag-cbor'
-      data: { ... }
-      links: [
-        { name: favourite/0, cid: z2 }
-        { name: favourite/1, cid: z3 }
-        { name: favourite/2, cid: z4 }
-      ]
-    },
-    {
-      path: zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a
-      cid: z2
-      type: 'dag-cbor'
-      links: [
-        { name: a, cid: z5 }
-      ],
-    },
-    {
-      path: zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs/favourites/0/a/css
-      cid: Qm1
-      type: 'dag-pb'
-      links: [
-        { name: a, cid: z5 }
-      ],
-    }
-  ]
-}
-
-*/
-
-const GraphCrumbs = ({crumbInfo}) => {
-  if (!crumbInfo || crumbInfo.length === 0) return null
-  const [cid, nodes] = crumbInfo
-  return (
-    <div>
-      <Cid value={cid.value} />
+    <div {...props}>
+      <div className='sans-serif'>
+        <NodeUnderline cid={cid}>
+          <a href={firstHrefBase} className='monospace link dark-gray o-50 glow'>
+            <Cid value={cid} />
+          </a>
+          {first ? (
+            <div className='dib'>
+              <Divider />
+              <Path path={first.path} hrefBase={firstHrefBase} sourceCid={cid} />
+            </div>
+          ) : null }
+        </NodeUnderline>
+        {rest.map((link, i) => {
+          const nextHrefBase = calculateHrefBase(hrefBase, cid, pathBoundaries, i + 1)
+          return (
+            <div className='dib' key={i}>
+              <Divider />
+              <NodeUnderline cid={link.source}>
+                <Path
+                  path={link.path}
+                  sourceCid={link.source}
+                  hrefBase={nextHrefBase} />
+              </NodeUnderline>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
 
-export default GraphCrumbs
+function calculateHrefBase (hrefBase, cid, boundaries, boundaryIndex) {
+  const relPath = boundaries.slice(0, boundaryIndex).map(b => b.path).join('/')
+  const cidHref = hrefBase + '/' + cid
+  return relPath ? cidHref + '/' + relPath : cidHref
+}
+
+const NodeUnderline = ({cid, children}) => {
+  // TODO: pass in or calc type
+  const type = cid.startsWith('Qm') ? 'dag-pb' : 'dag-cbor'
+  const color = colorForNode(type)
+  return (
+    <div className='dib overflow-hidden'>
+      <div className='bb bw2 pb1' style={{borderColor: color}}>{children}</div>
+    </div>
+  )
+}
+
+const Path = ({path, hrefBase, sourceCid}) => {
+  const parts = path.split('/').filter(p => !!p)
+  return (
+    <div className='dib'>
+      {parts.map((p, i) => {
+        const relPath = parts.slice(0, i + 1).join('/')
+        const href = `${hrefBase}/${relPath}`
+        return (
+          <div className='dib' key={href}>
+            {i !== 0 && <Divider />}
+            <a
+              className='dib link dark-gray o-50 glow'
+              title={sourceCid + '/' + relPath}
+              href={href}>
+              {p}
+            </a>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+const Divider = () => <div className='dib ph2 gray v-top'>/</div>
+
+export default GraphCrumb

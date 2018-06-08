@@ -41,7 +41,6 @@ export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pat
     pathBoundaries.push(link)
     const relPath = path.startsWith('/') ? path.substring(1) : path
     const remainderPath = relPath.replace(link.path, '')
-    console.log({remainderPath, path, link: link.path})
     // Go again, using the link.target as the sourceCid, and the remainderPath as the path.
     return resolveIpldPath(getIpfs, link.target, remainderPath, nodes, pathBoundaries)
   }

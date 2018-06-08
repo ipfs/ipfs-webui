@@ -13,7 +13,7 @@ const objectInspectorTheme = {
 
 const nodeStyles = {
   'dag-cbor': {name: 'CBOR DAG Node', color: '#28CA9F'},
-  'dag-pb': {name: 'Protobuf Dag Node', color: '#244e66'}
+  'dag-pb': {name: 'Protobuf DAG Node', color: '#244e66'}
 }
 
 export function nameForNode (type) {

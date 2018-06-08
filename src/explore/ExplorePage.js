@@ -3,6 +3,8 @@ import { connect } from 'redux-bundler-react'
 import CidInfo from './cid-info/CidInfo'
 import ObjectInfo from './object-info/ObjectInfo'
 import IpldGraph from './graph/IpldGraphCytoscape'
+import GraphCrumb from './graph-crumb/GraphCrumb'
+import { Loader } from '../loader/Loader'
 
 class ExplorePage extends React.Component {
   constructor (props) {
@@ -16,11 +18,15 @@ class ExplorePage extends React.Component {
   }
   render () {
     const {explore} = this.props
-    console.log('ExplorePage render', explore)
-    if (!explore) return <h1>no explore obj</h1>
-    const targetNode = explore.nodes[explore.nodes.length - 1]
+    if (!explore) return <Loader color='dark' className='tc pv6' style={{transform: 'scale(3)'}} />
+    const {nodes, pathBoundaries} = explore
+    const sourceNode = nodes[0]
+    const targetNode = nodes[explore.nodes.length - 1]
     return (
       <div>
+        {pathBoundaries && targetNode ? (
+          <GraphCrumb className='ml4 mt2 mb3' cid={sourceNode.cid} pathBoundaries={pathBoundaries} />
+        ) : null}
         <div className='dt dt--fixed'>
           <div className='dtc w-two-thirds pr3 v-top'>
             {targetNode ? (
