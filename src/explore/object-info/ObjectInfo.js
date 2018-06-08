@@ -45,20 +45,20 @@ class LinkRow extends React.Component {
 
   render () {
     const {index, link} = this.props
-    const {name, size, multihash} = link
+    const {target, path, size} = link
     return (
-      <tr className='pointer striped--near-white' onClick={this.onClick} key={`${multihash}-${name}`}>
+      <tr className='pointer striped--near-white' onClick={this.onClick}>
         <td className='pv1 ph2 silver truncate monospace tr f7'>
           {index}
         </td>
         <td className='pv1 ph2 dark-gray truncate navy-muted'>
-          {name}
+          {path}
+        </td>
+        <td className='pv1 pr2 mid-gray monospace f7'>
+          {target}
         </td>
         <td className='pv1 pr4 mid-gray truncate monospace tr f7' title={`${size} B`}>
           {size ? humansize(size) : null}
-        </td>
-        <td className='pv1 pr2 mid-gray monospace f7'>
-          {multihash}
         </td>
       </tr>
     )
@@ -114,13 +114,13 @@ const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...pr
               <tr>
                 <th className='mid-gray fw4 bb b--black-10 pv2 ph2' style={{width: '45px'}} />
                 <th className='mid-gray fw4 bb b--black-10 pv2 w-30 ph2' style={{width: '190px'}}>Name</th>
-                <th className='mid-gray fw4 bb b--black-10 pv2 pr4 tr' style={{width: '100px'}}>Size</th>
                 <th className='mid-gray fw4 bb b--black-10 pv2' >CID</th>
+                <th className='mid-gray fw4 bb b--black-10 pv2 pr4 tr' style={{width: '100px'}}>Size</th>
               </tr>
             </thead>
             <tbody className='fw4'>
               {links.map((link, i) => (
-                <LinkRow link={link} index={i} onClick={onLinkClick} key={link.multihash + '/' + link.name} />
+                <LinkRow link={link} index={i} onClick={onLinkClick} key={link.path} />
               ))}
             </tbody>
           </table>

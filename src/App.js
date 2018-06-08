@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
-import IpldExploreForm from './ipld/IpldExploreForm'
+import IpldExploreForm from './explore/IpldExploreForm'
 import AsyncRequestLoader from './loader/AsyncRequestLoader'
 
 export class App extends Component {

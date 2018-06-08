@@ -67,12 +67,15 @@ export default class IpldGraphCytoscape extends React.Component {
   }
 
   render () {
-    return <div ref={this.graphRef} {...this.props} />
+    // pluck out custom props. Pass anything else on
+    const { onNodeClick, path, cid, ...props } = this.props
+    return <div ref={this.graphRef} {...props} />
   }
 
   renderTree ({path, links, container}) {
-    const cyLinks = this.ipfsLinksToCy(path, links)
-    const root = this.makeNode({multihash: path}, '')
+    const cyLinks = this.ipfsLinksToCy(links)
+    // TODO: path is currently alwasys the root cid, but this will change.
+    const root = this.makeNode({target: path}, '')
 
     // list of graph elements to start with
     const elements = [
@@ -92,43 +95,41 @@ export default class IpldGraphCytoscape extends React.Component {
       cy.on('tap', async (e) => {
         const data = e.target.data()
         // map back from cyNode to ipfs link
-        this.props.onNodeClick({name: data.name, multihash: data.id})
+        this.props.onNodeClick({target: data.target, path: data.path})
       })
     }
 
     return cy
   }
 
-  ipfsLinksToCy (parent, links) {
+  ipfsLinksToCy (links) {
     if (!links.length) return
-    const edges = links.map(this.makeLink.bind(this, parent))
+    const edges = links.map(this.makeLink)
     const nodes = links.map(this.makeNode)
     return [...nodes, ...edges]
   }
 
-  makeNode ({multihash, size, name}, index) {
+  makeNode ({target, path}, index) {
     // TODO: pass link type info.
-    const type = multihash.startsWith('Q') ? 'dag-pb' : 'dag-cbor'
+    const type = target.startsWith('Q') ? 'dag-pb' : 'dag-cbor'
     const bg = colorForNode(type)
     return {
       group: 'nodes',
       data: {
-        id: multihash,
+        id: target,
+        path,
         bg,
-        size,
-        name,
         index
       }
     }
   }
 
-  makeLink (parent, link, index) {
-    const {multihash} = link
+  makeLink ({source, target, path}, index) {
     return {
       group: 'edges',
       data: {
-        source: parent,
-        target: multihash,
+        source,
+        target,
         index
       }
     }

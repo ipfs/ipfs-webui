@@ -32,8 +32,9 @@ export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pat
   const {value, remainderPath} = await getIpfs().dag.get(sourceCid, path, {localResolve: true})
   const node = normaliseDagNode(value, sourceCid)
   nodes.push(node)
-
+  console.log('dag get', {sourceCid, path}, {value, remainderPath}, {node})
   const link = findPathBoundaryLink(node, path)
+  console.log('findPathBoundary', {node, path, link})
   if (link) {
     pathBoundaries.push(link)
     // Go again, using the link.target as the sourceCid, and the remainderPath as the path.

@@ -1,13 +1,13 @@
 import { createRouteBundle } from 'redux-bundler'
 import StatusPage from '../status/StatusPage'
 import FilesPage from '../files/FilesPage'
-import IpldPage from '../ipld/IpldPage'
+import ExplorePage from '../explore/ExplorePage'
 import PeersPage from '../peers/PeersPage'
 import SettingsPage from '../settings/SettingsPage'
 
 export default createRouteBundle({
   '/files': FilesPage,
-  '/explore*': IpldPage,
+  '/explore*': ExplorePage,
   '/peers': PeersPage,
   '/settings': SettingsPage,
   '/': StatusPage,

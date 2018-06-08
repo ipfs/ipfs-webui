@@ -4,43 +4,46 @@ import CidInfo from './cid-info/CidInfo'
 import ObjectInfo from './object-info/ObjectInfo'
 import IpldGraph from './graph/IpldGraphCytoscape'
 
-class IpldPage extends React.Component {
+class ExplorePage extends React.Component {
   constructor (props) {
     super(props)
     this.onLinkClick = this.onLinkClick.bind(this)
   }
   onLinkClick (link) {
     const {doUpdateHash, hash} = this.props
-    const {name} = link
-    doUpdateHash(hash + '/' + name)
+    const {path} = link
+    doUpdateHash(hash + '/' + path)
   }
   render () {
-    const {object} = this.props
+    const {explore} = this.props
+    console.log('ExplorePage render', explore)
+    if (!explore) return <h1>no explore obj</h1>
+    const targetNode = explore.nodes[explore.nodes.length - 1]
     return (
       <div>
         <div className='dt dt--fixed'>
           <div className='dtc w-two-thirds pr3 v-top'>
-            {object && object.resolved ? (
+            {targetNode ? (
               <ObjectInfo
                 style={{background: '#FBFBFB'}}
-                cid={object.resolved.multihash}
-                size={object.resolved.size}
-                links={object.resolved.links}
-                data={object.resolved.data || object.resolved}
-                type={object.resolved.type}
+                cid={targetNode.cid}
+                size={targetNode.size}
+                links={targetNode.links}
+                data={targetNode.data}
+                type={targetNode.type}
                 onLinkClick={this.onLinkClick} />
             ) : null}
           </div>
           <div className='dtc w-third v-top'>
-            {object && object.resolved ? (
+            {targetNode ? (
               <div>
                 <CidInfo
                   style={{background: '#FBFBFB'}}
-                  cid={object.resolved.multihash} />
+                  cid={targetNode.cid} />
                 <IpldGraph
                   style={{width: '100%', height: 300}}
-                  path={object.resolved.multihash}
-                  links={object.resolved.links}
+                  path={targetNode.cid}
+                  links={targetNode.links}
                   onNodeClick={this.onLinkClick} />
               </div>
             ) : null}
@@ -52,4 +55,4 @@ class IpldPage extends React.Component {
   }
 }
 
-export default connect('selectRouteParams', 'selectObject', 'selectHash', 'doUpdateHash', IpldPage)
+export default connect('selectRouteParams', 'selectExplore', 'selectHash', 'doUpdateHash', ExplorePage)
