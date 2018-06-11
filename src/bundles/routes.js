@@ -8,6 +8,7 @@ import SettingsPage from '../settings/SettingsPage'
 export default createRouteBundle({
   '/files': FilesPage,
   '/explore*': ExplorePage,
+  '/files*': FilesPage,
   '/peers': PeersPage,
   '/settings': SettingsPage,
   '/': StatusPage,

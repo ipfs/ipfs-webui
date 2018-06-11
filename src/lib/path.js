@@ -92,3 +92,9 @@ export function quickSplitPath (str) {
     address: res[0] // /ipfs/QmHash/foo/bar
   }
 }
+
+export function join (a, b) {
+  if (a.endsWith('/')) a = a.slice(0, -1)
+  if (b.startsWith('/')) b = b.slice(1)
+  return `${a}/${b}`
+}

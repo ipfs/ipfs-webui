@@ -8,6 +8,15 @@ export default {
     if (action.type === 'IPFS_INIT_FINISHED') {
       return { ...state, ipfsReady: true }
     }
+
+    if (action.type === 'IPFS_GATEWAY_URL_FINISHED') {
+      return { ...state, gatewayUrl: action.payload }
+    }
+
+    if (!state.gatewayUrl) {
+      return { ...state, gatewayUrl: 'https://ipfs.io' }
+    }
+
     return state
   },
 
@@ -17,7 +26,9 @@ export default {
 
   selectIpfsReady: state => state.ipfs.ipfsReady,
 
-  doInitIpfs: () => async ({ dispatch }) => {
+  selectGatewayUrl: state => state.ipfs.gatewayUrl,
+
+  doInitIpfs: () => async ({ dispatch, store }) => {
     dispatch({ type: 'IPFS_INIT_STARTED' })
 
     try {
@@ -26,6 +37,23 @@ export default {
       return dispatch({ type: 'IPFS_INIT_FAILED', payload: err })
     }
 
+    store.doGetGatewayUrl()
     dispatch({ type: 'IPFS_INIT_FINISHED' })
+  },
+
+  doGetGatewayUrl: () => async ({ dispatch, getIpfs }) => {
+    dispatch({ type: 'IPFS_GATWAY_URL_STARTED' })
+
+    getIpfs().config.get('Addresses.Gateway', (err, res) => {
+      if (err) {
+        dispatch({ type: 'IPFS_GATWAY_URL_ERRORED', payload: err })
+        return
+      }
+
+      const split = res.split('/')
+      const gateway = '//' + split[2] + ':' + split[4]
+
+      dispatch({ type: 'IPFS_GATWAY_URL_FINISHED', payload: gateway })
+    })
   }
 }

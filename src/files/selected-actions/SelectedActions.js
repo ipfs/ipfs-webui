@@ -12,10 +12,20 @@ import './SelectedActions.css'
 const SelectedActions = ({count, size, unselect, remove, share, download, rename, inspect, className, ...props}) => {
   const text = (count > 1) ? 'Files selected' : 'File selected'
 
+  let singleFileAction = 'disabled o-50'
+  let singleFileTooltip = {
+    title: 'Only available for individual files'
+  }
+
+  if (count === 1) {
+    singleFileAction = 'pointer'
+    singleFileTooltip = {}
+  }
+
   return (
     <div className={`SelectedActions sans-serif bt w-100 pa3 ${className}`}{...props}>
       <div className='flex items-center justify-between'>
-        <div>
+        <div className='w5'>
           <div className='flex items-center'>
             <div className='SelectedCount mr3 relative f3 fw6 w2 h2 dib br-100'>
               <span className='absolute'>{count}</span>
@@ -31,18 +41,6 @@ const SelectedActions = ({count, size, unselect, remove, share, download, rename
             <StrokeShare className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Share</p>
           </div>
-          { count === 1 &&
-            <div className='pointer tc mh2' onClick={inspect}>
-              <StrokeIpld className='w3' fill='#A4BFCC' />
-              <p className='ma0 f6'>Inspect IPLD</p>
-            </div>
-          }
-          { count === 1 &&
-            <div className='pointer tc mh2' onClick={rename}>
-              <StrokePencil className='w3' fill='#A4BFCC' />
-              <p className='ma0 f6'>Rename</p>
-            </div>
-          }
           <div className='pointer tc mh2' onClick={download}>
             <StrokeDownload className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Download</p>
@@ -51,9 +49,17 @@ const SelectedActions = ({count, size, unselect, remove, share, download, rename
             <StrokeTrash className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Delete</p>
           </div>
+          <div className={`tc mh2 ${singleFileAction}`} onClick={inspect} {...singleFileTooltip}>
+            <StrokeIpld className='w3' fill='#A4BFCC' />
+            <p className='ma0 f6'>Inspect IPLD</p>
+          </div>
+          <div className={`tc mh2 ${singleFileAction}`} onClick={rename} {...singleFileTooltip}>
+            <StrokePencil className='w3' fill='#A4BFCC' />
+            <p className='ma0 f6'>Rename</p>
+          </div>
         </div>
-        <div>
-          <span onClick={unselect} className='pointer flex items-center'>
+        <div className='w5'>
+          <span onClick={unselect} className='pointer flex items-center justify-end'>
             <span className='mr2'>Deselect all</span>
             <GlyphSmallCancel onClick={unselect} className='w1' fill='#F26148' viewBox='37 40 27 27' />
           </span>
