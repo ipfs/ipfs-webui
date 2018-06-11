@@ -28,7 +28,7 @@ class ExplorePage extends React.Component {
     const {targetNode, localPath, nodes, pathBoundaries} = explore
     const sourceNode = nodes[0]
     return (
-      <div>
+      <div className='nl3 nt4'>
         {pathBoundaries && targetNode ? (
           <GraphCrumb
             className='ml4 mt2 mb3'

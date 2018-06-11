@@ -9,7 +9,7 @@ import { normaliseDagNode } from './dag'
  * { cid: String, type: 'dag-cbor' | 'dag-pb', data: Object, links: [{cid, name}] }
  * ```
  *
- * Path boundaries capture the source and target cid where a path cross a link:
+ * Path boundaries capture the source and target cid where a path traverses a link:
  *
  * ```js
  * { linkPath: 'a/b', source: `zdpHash1` target: `zdpHash2`' }
@@ -18,15 +18,21 @@ import { normaliseDagNode } from './dag'
  * Usage:
  * ```js
  * const res = resolveIpldPath(getIpfs, 'zdpuHash' '/favourites/0/a/css')
- * const {value, canonicalPath, nodes, pathBoundaries} = res
+ * const {targetNode, canonicalPath, localPath, nodes, pathBoundaries} = res
  * ```
+ * Where:
+ * - `targetNode` is the normalised node that the path lands in.
+ * - `canonicalPath` is the shortest cid + path that can be used to locate the targetNode
+ * - `localPath` is the tail part of the path that is local to the targetNode. May be ''
+ * - `nodes` is the array of nodes that the path traverses.
+ * - `pathBoundaries` is the array of links that the path traverses.
  *
  * @param {function()} getIpfs ipfs accessor
  * @param {string} sourceCid the root hash
  * @param {string} path everything after the hash
  * @param {Object[]} nodes accumulated node info
  * @param {Object[]} pathBoundaries accumulated path boundary info
- * @returns {{value: Object, remainderPath: String, canonicalPath: String, nodes: Object[], pathBoundaries: Object[]}} resolved path info
+ * @returns {{targetNode: Object, canonicalPath: String, localPath: String, nodes: Object[], pathBoundaries: Object[]}} resolved path info
  */
 export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pathBoundaries = []) {
   // TODO: find out why ipfs.dag.get with localResolve never resolves.

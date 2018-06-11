@@ -56,12 +56,3 @@ export async function findPathBoundaries (getIpfs, cid, path, nodes = []) {
     return findCid(getIpfs, firstLinkCid, path)
   }
 }
-
-/*
-given a path z/woo/haa
-- look up z
-- look up woo
-- look up haa
-
-for
-*/

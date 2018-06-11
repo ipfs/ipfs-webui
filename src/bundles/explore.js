@@ -1,15 +1,7 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { resolveIpldPath, quickSplitPath } from '../lib/path'
 
-/*
-How to deal with loading? How to deal with sub node values, vs whole node values.
-
-- page can work with node.
-- graph crumb needs all the intermediate nodes.
-- links change the hash directly, which leads to invalid paths if we're still loading previous.
-
-= hide links while loading (quick fix)
-*/
+// Find all the nodes and path boundaries traversed along a given path
 const bundle = createAsyncResourceBundle({
   name: 'explore',
   actionBaseType: 'EXPLORE',
@@ -18,7 +10,6 @@ const bundle = createAsyncResourceBundle({
     const hash = store.selectHash()
     const path = hash.replace('/explore', '')
     const {cidOrFqdn, rest} = quickSplitPath(path)
-    console.log('explore getPromise', {cidOrFqdn, rest})
     const {targetNode, canonicalPath, localPath, nodes, pathBoundaries} = await resolveIpldPath(getIpfs, cidOrFqdn, rest)
     return {
       path,
@@ -33,6 +24,7 @@ const bundle = createAsyncResourceBundle({
   checkIfOnline: false
 })
 
+// Fetch the explore data when the address in the url hash changes.
 bundle.reactExploreFetch = createSelector(
   'selectExploreIsLoading',
   'selectExploreIsWaitingToRetry',
@@ -47,7 +39,5 @@ bundle.reactExploreFetch = createSelector(
     }
   }
 )
-
-console.log('explore bundle', bundle)
 
 export default bundle
