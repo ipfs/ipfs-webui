@@ -26,6 +26,19 @@ export function colorForNode (type) {
   return (style && style.color) || '#ea5037'
 }
 
+// '/a/b' => ['$', '$.a', '$.a.b']
+// See: https://github.com/xyc/react-inspector#api
+export function toExpandPathsNotation (localPath) {
+  if (!localPath) return []
+  const parts = localPath.split('/')
+  const expandPaths = parts.map((part, i) => {
+    if (!part) return '$'
+    const relPath = parts.slice(0, i).join('.')
+    return `$${relPath}.${part}`
+  })
+  return expandPaths.slice(0, expandPaths.length - 1)
+}
+
 const DagNodeIcon = ({type, ...props}) => (
   <svg {...props} title={nameForNode(type)} width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'>
     <circle cx='15' cy='15' r='15' fillRule='evenodd' fill={colorForNode(type)} />
@@ -65,7 +78,7 @@ class LinkRow extends React.Component {
   }
 }
 
-const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...props}) => {
+const ObjectInfo = ({className, type, cid, localPath, size, data, links, onLinkClick, ...props}) => {
   return (
     <section className={`pa4 sans-serif ${className}`} {...props}>
       <h2 className='ma0 lh-title f4 fw4 pb2' title={type}>
@@ -97,7 +110,7 @@ const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...pr
         </div>
         { !data ? null : (
           <div className='pa3 mt2 bg-white f5'>
-            <ObjectInspector data={data} theme={objectInspectorTheme} />
+            <ObjectInspector data={data} theme={objectInspectorTheme} expandPaths={toExpandPathsNotation(localPath)} />
           </div>
         )}
         <div className='dt dt--fixed pt2'>

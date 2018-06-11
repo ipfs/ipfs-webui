@@ -4,27 +4,37 @@ import CidInfo from './cid-info/CidInfo'
 import ObjectInfo from './object-info/ObjectInfo'
 import IpldGraph from './graph/IpldGraphCytoscape'
 import GraphCrumb from './graph-crumb/GraphCrumb'
-import { Loader } from '../loader/Loader'
 
 class ExplorePage extends React.Component {
   constructor (props) {
     super(props)
     this.onLinkClick = this.onLinkClick.bind(this)
   }
+
   onLinkClick (link) {
-    const {doUpdateHash, hash} = this.props
-    const {path} = link
-    doUpdateHash(hash + '/' + path)
+    const {doUpdateHash, explore} = this.props
+    const {nodes, pathBoundaries} = explore
+    const cid = nodes[0].cid
+    const basePath = pathBoundaries.map(p => p.path).join('/')
+    const path = basePath ? `${basePath}/${link.path}` : link.path
+    // Reliably derive the url from the data, rather than the current hash
+    const hash = `#/explore/${cid}/${path}`
+    doUpdateHash(hash)
   }
+
   render () {
     const {explore} = this.props
-    if (!explore) return <Loader color='dark' className='tc pv6' style={{transform: 'scale(3)'}} />
-    const {targetNode, nodes, pathBoundaries} = explore
+    if (!explore) return <StartExploringPage />
+    const {targetNode, localPath, nodes, pathBoundaries} = explore
     const sourceNode = nodes[0]
     return (
       <div>
         {pathBoundaries && targetNode ? (
-          <GraphCrumb className='ml4 mt2 mb3' cid={sourceNode.cid} pathBoundaries={pathBoundaries} />
+          <GraphCrumb
+            className='ml4 mt2 mb3'
+            cid={sourceNode.cid}
+            pathBoundaries={pathBoundaries}
+            localPath={localPath} />
         ) : null}
         <div className='dt dt--fixed'>
           <div className='dtc w-two-thirds pr3 v-top'>
@@ -32,6 +42,7 @@ class ExplorePage extends React.Component {
               <ObjectInfo
                 style={{background: '#FBFBFB'}}
                 cid={targetNode.cid}
+                localPath={localPath}
                 size={targetNode.size}
                 links={targetNode.links}
                 data={targetNode.data}
@@ -60,4 +71,12 @@ class ExplorePage extends React.Component {
   }
 }
 
-export default connect('selectRouteParams', 'selectExplore', 'selectHash', 'doUpdateHash', ExplorePage)
+const StartExploringPage = () => {
+  return (
+    <div>
+      <h1 data-id='title'>IPLD</h1>
+    </div>
+  )
+}
+
+export default connect('selectRouteParams', 'selectExploreIsLoading', 'selectExplore', 'selectHash', 'doUpdateHash', ExplorePage)

@@ -32,8 +32,6 @@ it('resolves all nodes traversed along a path', async () => {
   const res = await resolveIpldPath(getIpfsMock, cid, path)
 
   expect(dagGetMock.mock.calls.length).toBe(2)
-  expect(res.value).toBe('hello world')
-  // expect(res.remainderPath).toBe('')
   expect(res.canonicalPath).toBe(`${linkCid}/a`)
   expect(res.nodes.length).toBe(2)
   expect(res.nodes[0].type).toBe('dag-cbor')
@@ -72,17 +70,17 @@ it('resolves thru dag-cbor to dag-pb to dag-pb', async () => {
   }
 
   const dagGetRes1 = {
-    // remainderPath: 'pb1',
+    remainderPath: 'pb1',
     value: dagNode1
   }
 
   const dagGetRes2 = {
-    // remainderPath: '',
+    remainderPath: '',
     value: dagNode2
   }
 
   const dagGetRes3 = {
-    // remainderPath: '',
+    remainderPath: '',
     value: dagNode3
   }
 
@@ -93,8 +91,7 @@ it('resolves thru dag-cbor to dag-pb to dag-pb', async () => {
   const res = await resolveIpldPath(getIpfsMock, cid, path)
 
   expect(dagGetMock.mock.calls.length).toBe(3)
-  expect(res.value).toEqual(dagNode3)
-  // expect(res.remainderPath).toBe('')
+  expect(res.targetNode.cid).toEqual(dagNode3.toJSON().multihash)
   expect(res.canonicalPath).toBe(dagNode3.toJSON().multihash)
   expect(res.nodes.length).toBe(3)
   expect(res.nodes[0].type).toBe('dag-cbor')

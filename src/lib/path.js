@@ -48,15 +48,7 @@ export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pat
   // we made it to the containing node. Hand back the info
   const canonicalPath = path ? `${sourceCid}${path}` : sourceCid
   let targetNode = node
-  if (path) {
-    // this could be nicer. This is just a "quick" way to trim the object down
-    // where we've deliberately navigated to a sub path of a cbor node... the
-    // case where the path ends in part way into an object. We could just trim
-    // down the info we have already.
-    const {value: targetValue} = await getIpfs().dag.get(canonicalPath)
-    targetNode = normaliseDagNode(targetValue, sourceCid)
-  }
-  return {targetNode, canonicalPath, nodes, pathBoundaries}
+  return {targetNode, canonicalPath, localPath: path, nodes, pathBoundaries}
 }
 
 /**

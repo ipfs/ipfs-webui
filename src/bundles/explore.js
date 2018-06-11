@@ -2,37 +2,45 @@ import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { resolveIpldPath, quickSplitPath } from '../lib/path'
 
 /*
-{
-  loading: false
-  data: {
-    path: '/ipfs/QmHash/foo/bar'
-    targetNode: {}
-    nodes: []
-    pathBoundaries: []
-  }
-}
+How to deal with loading? How to deal with sub node values, vs whole node values.
+
+- page can work with node.
+- graph crumb needs all the intermediate nodes.
+- links change the hash directly, which leads to invalid paths if we're still loading previous.
+
+= hide links while loading (quick fix)
 */
 const bundle = createAsyncResourceBundle({
   name: 'explore',
   actionBaseType: 'EXPLORE',
-  getPromise: (args) => {
+  getPromise: async (args) => {
     const {store, getIpfs} = args
     const hash = store.selectHash()
     const path = hash.replace('/explore', '')
     const {cidOrFqdn, rest} = quickSplitPath(path)
-    return resolveIpldPath(getIpfs, cidOrFqdn, rest)
+    console.log('explore getPromise', {cidOrFqdn, rest})
+    const {targetNode, canonicalPath, localPath, nodes, pathBoundaries} = await resolveIpldPath(getIpfs, cidOrFqdn, rest)
+    return {
+      path,
+      targetNode,
+      canonicalPath,
+      localPath,
+      nodes,
+      pathBoundaries
+    }
   },
-  staleAfter: 100,
+  staleAfter: Infinity,
   checkIfOnline: false
 })
 
 bundle.reactExploreFetch = createSelector(
-  'selectExploreShouldUpdate',
+  'selectExploreIsLoading',
+  'selectExploreIsWaitingToRetry',
   'selectIpfsReady',
   'selectRouteInfo',
   'selectExplore',
-  (shouldUpdate, ipfsReady, {url, params}, obj) => {
-    if (shouldUpdate && ipfsReady && url.startsWith('/explore') && params.path) {
+  (isLoading, isWaitingToRetry, ipfsReady, {url, params}, obj) => {
+    if (!isLoading && !isWaitingToRetry && ipfsReady && url.startsWith('/explore') && params.path) {
       if (!obj || obj.path !== params.path) {
         return { actionCreator: 'doFetchExplore' }
       }

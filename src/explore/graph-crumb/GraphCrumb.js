@@ -2,8 +2,9 @@ import React from 'react'
 import Cid from '../../components/cid/Cid'
 import {colorForNode} from '../object-info/ObjectInfo'
 
-const GraphCrumb = ({cid, pathBoundaries, hrefBase = '#/explore', ...props}) => {
+const GraphCrumb = ({cid, pathBoundaries, localPath, hrefBase = '#/explore', ...props}) => {
   const [first, ...rest] = pathBoundaries
+  const last = pathBoundaries[pathBoundaries.length - 1]
   const firstHrefBase = calculateHrefBase(hrefBase, cid, pathBoundaries, 0)
   return (
     <div {...props}>
@@ -18,6 +19,12 @@ const GraphCrumb = ({cid, pathBoundaries, hrefBase = '#/explore', ...props}) => 
               <Path path={first.path} hrefBase={firstHrefBase} sourceCid={cid} />
             </div>
           ) : null }
+          {localPath && pathBoundaries.length === 0 ? (
+            <div className='dib'>
+              <Divider />
+              <Path path={localPath} sourceCid={cid} hrefBase={firstHrefBase} />
+            </div>
+          ) : null}
         </NodeUnderline>
         {rest.map((link, i) => {
           const nextHrefBase = calculateHrefBase(hrefBase, cid, pathBoundaries, i + 1)
@@ -33,6 +40,17 @@ const GraphCrumb = ({cid, pathBoundaries, hrefBase = '#/explore', ...props}) => 
             </div>
           )
         })}
+        {localPath && pathBoundaries.length > 0 ? (
+          <div className='dib'>
+            <Divider />
+            <NodeUnderline cid={last.target}>
+              <Path
+                path={localPath}
+                sourceCid={last.target}
+                hrefBase={calculateHrefBase(hrefBase, cid, pathBoundaries, pathBoundaries.length)} />
+            </NodeUnderline>
+          </div>
+        ) : null}
       </div>
     </div>
   )
