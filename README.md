@@ -1,43 +1,71 @@
-# IPFS WebUI Next
+# IPFS WebUI - Next
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/)
-[![](https://img.shields.io/badge/project-IPFS-blue.svg)](http://ipfs.io/)
-[![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs)
-[![Build Status](https://travis-ci.org/ipfs-shipyard/ipfs-webui.svg?branch=revamp)](https://travis-ci.org/ipfs-shipyard/ipfs-webui)
-[![dependencies Status](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp/status.svg)](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp)
+![Screenshot of IPLD explorer page](https://user-images.githubusercontent.com/58871/41230416-a4c93376-6d77-11e8-9cab-0d4a1c103d27.png)
 
 > IPFS WebUI reboot. A new frontend for your IPFS node.
 
-## This is pre-release software.
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/project-IPFS-blue.svg)](http://ipfs.io/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![Build Status](https://travis-ci.org/ipfs-shipyard/ipfs-webui.svg?branch=revamp)](https://travis-ci.org/ipfs-shipyard/ipfs-webui) [![dependencies Status](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp/status.svg)](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp)
+
+## Background
+
+### This is pre-release software.
 
 The current IPFS webui is here: https://github.com/ipfs-shipyard/ipfs-webui
 
 This repo is part of the IPFS GUI redesign project, described here: https://github.com/ipfs-shipyard/pm-ipfs-gui
 
+The app accesses a local IPFS daemon via [`window.ipfs-fallback`](https://github.com/tableflip/window.ipfs-fallback). It will use the `window.ipfs` api provided by the [IPFS Companion](https://github.com/ipfs-shipyard/ipfs-companion) web-extension where available, and fallback to using [js-ipfs-api](https://github.com/ipfs/js-ipfs-api)
+
+The app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#table-of-contents).
+
 ## Install
 
-Clone this repo, and ensure you have the following installed:
-
-* `node` @ 10+
-* `npm` @ 6+
-
-In the project directory, install dependencies:
+With `node` > 8.9 and `npm` @ 6+ installed, run
 
 ```js
 npm install
 ```
 
-### Develop
+## Usage
 
-This app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#table-of-contents).
+When developing you can run the [dev server](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-start), the [unit tests](https://facebook.github.io/jest/), and the [storybook](https://storybook.js.org/) component viewer and see the results of your changes as you save files.
 
-Run the following command to build the app, start a development server on http://localhost:3000 and enable hot code reloading:
+In separate shells run the following:
 
 ```sh
+# Run the unit tests
+npm test
+```
+
+```sh
+# Run the dev server @ http://localhost:3000
 npm start
 ```
 
-### Test
+```sh
+# Run the UI component viewer @ http://localhost:9009
+npm run storybook
+```
+
+## Build
+
+To create an optimized static build of the app, output to the `build` directory:
+
+```sh
+# Build out the html, css & jss to ./build
+npm run build
+```
+
+### Analyze
+
+To inspect the built bundle for bundled modules and their size, first `build` the app then:
+
+```sh
+# Run bundle
+npm run analyze
+```
+
+## Test
 
 The following command will run the app tests, watch source files and re-run the tests when changes are made:
 
@@ -45,22 +73,9 @@ The following command will run the app tests, watch source files and re-run the 
 npm test
 ```
 
-The tests include both isolated unit tests and end-to-end tests so they require an http server be running to serve the app. In dev, run `npm start` in another shell before starting the tests.
+The uses Jest to run the isolated unit tests. Unit test files are located next to the component they test and have the same file name, but with the extension `.test.js`
 
-In a continuous integration environment this will ensure the app builds, start an http server and do a single run of the tests and exit:
-
-```sh
-npm run build
-npm run test:ci
-```
-
-To do a single run of the tests and generate a coverage report, run the following:
-
-```sh
-npm run test:coverage
-```
-
-### Lint
+### Linting
 
 The following command will perform [`standard`](https://standardjs.com/) linting on the code:
 
@@ -68,23 +83,42 @@ The following command will perform [`standard`](https://standardjs.com/) linting
 npm run lint
 ```
 
-### Build
+### End-to-end tests
 
-To create a production ready build of the app, output to `build`, run the following command:
+The end-to-end tests (e2e) test the full app in a headless Chromium browser. They require an http server be running to serve the app.
+
+In dev, run `npm start` in another shell before starting the tests
+
+```
+# Run the end-to-end tests
+npm run test:e2e
+```
+
+By default the test run headless, so you won't see the the browser. To debug test errors, it can be helpful to see the robot clicking around the site. To disable headless mode and see the browser, set the environment variable `DEBUG=true`
+
+```
+# See the end-to-end tests in a browser
+DEBUG=true npm run test:e2e
+```
+
+### CI
+
+In a continuous integration environment we lint the code, run the unit tests, build the app, start an http server and run the unit e2e tests.
 
 ```sh
+npm run lint
+npm test
 npm run build
+npm run test:ci:e2e
 ```
 
-### Analyze
+### Coverage
 
-To inspect the built bundle for bundled modules and their size, run the following:
+To do a single run of the tests and generate a coverage report, run the following:
 
 ```sh
-npm run analyze
+npm run test:coverage
 ```
-
-Note that you'll need to build the application first.
 
 ## Contribute
 

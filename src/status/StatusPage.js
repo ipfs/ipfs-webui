@@ -1,2 +1,11 @@
 import React from 'react'
-export default () => <h1 data-id='title'>Status</h1>
+import { Helmet } from 'react-helmet'
+
+export default () => (
+  <div data-id='StatusPage'>
+    <Helmet>
+      <title>Status - IPFS</title>
+    </Helmet>
+    <h1>Status</h1>
+  </div>
+)

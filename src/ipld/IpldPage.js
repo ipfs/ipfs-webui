@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import CidInfo from './cid-info/CidInfo'
 import ObjectInfo from './object-info/ObjectInfo'
@@ -17,7 +18,10 @@ class IpldPage extends React.Component {
   render () {
     const {object} = this.props
     return (
-      <div>
+      <div data-id='ExplorePage'>
+        <Helmet>
+          <title>Explore - IPFS</title>
+        </Helmet>
         <div className='dt dt--fixed'>
           <div className='dtc w-two-thirds pr3 v-top'>
             {object && object.resolved ? (
@@ -42,7 +46,6 @@ class IpldPage extends React.Component {
             ) : null}
           </div>
         </div>
-        <h1 data-id='title'>IPLD</h1>
       </div>
     )
   }
