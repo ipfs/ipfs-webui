@@ -7,6 +7,7 @@ import peersBundle from './peers'
 import routesBundle from './routes'
 import redirectsBundle from './redirects'
 import filesBundle from './files'
+import configBundle from './config'
 
 export default composeBundles(
   appIdle({idleTimeout: 5000}),
@@ -15,5 +16,6 @@ export default composeBundles(
   peersBundle,
   routesBundle,
   redirectsBundle,
-  filesBundle
+  filesBundle,
+  configBundle
 )
