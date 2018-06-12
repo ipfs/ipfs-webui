@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import CidInfo from './cid-info/CidInfo'
 import ObjectInfo from './object-info/ObjectInfo'
@@ -29,6 +30,9 @@ class ExplorePage extends React.Component {
     const sourceNode = nodes[0]
     return (
       <div className='nl3 nt4'>
+        <Helmet>
+          <title>Explore - IPFS</title>
+        </Helmet>
         {pathBoundaries && targetNode ? (
           <GraphCrumb
             className='ml4 mt2 mb3'
@@ -74,6 +78,9 @@ class ExplorePage extends React.Component {
 const StartExploringPage = () => {
   return (
     <div>
+      <Helmet>
+        <title>Explore - IPFS</title>
+      </Helmet>
       <h1 data-id='title'>IPLD</h1>
     </div>
   )
