@@ -1,4 +1,4 @@
-/* global it beforeAll afterAll, expect */
+/* global it beforeAll afterAll */
 import ms from 'milliseconds'
 import { launch, appUrl } from './puppeteer'
 
@@ -7,36 +7,28 @@ let browser
 beforeAll(async () => { browser = await launch() })
 afterAll(() => browser.close())
 
-it('example test', async () => {
-  const page = await browser.newPage()
-  await page.goto(appUrl)
+it('Navigation test', async () => {
+  // Save 3s per run by using the initial page rather than creating a new one!
+  // const page = await browser.newPage()
+  const page = (await browser.pages())[0]
 
-  await page.waitForSelector('[data-id=StatusPage]')
-  let title = await page.title()
-  expect(title).toBe('Status - IPFS')
+  const waitForTitle = title => page.waitForFunction(`document.title === '${title}'`, {timeout: 5000})
+
+  await page.goto(appUrl)
+  await waitForTitle('Status - IPFS')
 
   await page.click('nav a[href="#/files/"]')
-  await page.waitForSelector('[data-id=FilesPage]')
-  title = await page.title()
-  expect(title).toBe('Files - IPFS')
+  await waitForTitle('Files - IPFS')
 
   await page.click('nav a[href="#/explore"]')
-  await page.waitForSelector('[data-id=ExplorePage]')
-  title = await page.title()
-  expect(title).toBe('Explore - IPFS')
+  await waitForTitle('Explore - IPFS')
 
   await page.click('nav a[href="#/peers"]')
-  await page.waitForSelector('[data-id=PeersPage]')
-  title = await page.title()
-  expect(title).toBe('Peers - IPFS')
+  await waitForTitle('Peers - IPFS')
 
   await page.click('nav a[href="#/settings"]')
-  await page.waitForSelector('[data-id=SettingsPage]')
-  title = await page.title()
-  expect(title).toBe('Settings - IPFS')
+  await waitForTitle('Settings - IPFS')
 
   await page.click('nav a[href="#/"]')
-  await page.waitForSelector('[data-id=StatusPage]')
-  title = await page.title()
-  expect(title).toBe('Status - IPFS')
+  await waitForTitle('Status - IPFS')
 }, ms.minutes(1))
