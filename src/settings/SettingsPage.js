@@ -13,7 +13,7 @@ class SettingsPage extends React.Component {
           <title>Settings - IPFS</title>
         </Helmet>
         <Box>
-          <p className='ma0 pb4 lh-copy teal-muted f6 mw7'>
+          <p className='ma0 pb4 lh-copy charcoal-muted f6 mw7'>
             The go-ipfs config file is a json document. It is read once at node instantiation, either for an offline command, or when starting the daemon. Commands that execute on a running daemon do not read the config file at runtime.
           </p>
           <JsonEditor value={config} />

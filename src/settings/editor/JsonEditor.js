@@ -2,31 +2,34 @@ import React from 'react'
 import AceEditor from 'react-ace'
 
 import 'brace/mode/json'
-import 'brace/theme/solarized_dark'
+import './theme/ipfs_dark'
 
-const JsonEditor = ({value}) => {
-  const valueStr = value ? JSON.stringify(value, null, 2) : ''
-  console.log({value, valueStr})
-  return (
-    <AceEditor
-      mode='json'
-      theme='solarized_dark'
-      width='100%'
-      onLoad={this.onLoad}
-      onChange={this.onChange}
-      fontSize={12}
-      showPrintMargin={false}
-      showGutter
-      highlightActiveLine={false}
-      value={valueStr}
-      setOptions={{
-        enableBasicAutocompletion: false,
-        enableLiveAutocompletion: false,
-        enableSnippets: false,
-        showLineNumbers: true,
-        tabSize: 2
-      }} />
-  )
+class JsonEditor extends React.Component {
+  render () {
+    const {value} = this.props
+    const valueStr = value ? JSON.stringify(value, null, 2) : ''
+    return (
+      <AceEditor
+        mode='json'
+        theme='ipfs_dark'
+        width='100%'
+        height='2100px'
+        onLoad={this.onLoad}
+        onChange={this.onChange}
+        fontSize={12}
+        showPrintMargin={false}
+        showGutter
+        highlightActiveLine={false}
+        value={valueStr}
+        setOptions={{
+          enableBasicAutocompletion: false,
+          enableLiveAutocompletion: false,
+          enableSnippets: false,
+          showLineNumbers: true,
+          tabSize: 2
+        }} />
+    )
+  }
 }
 
 export default JsonEditor
