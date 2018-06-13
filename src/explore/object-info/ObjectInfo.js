@@ -13,17 +13,30 @@ const objectInspectorTheme = {
 
 const nodeStyles = {
   'dag-cbor': {name: 'CBOR DAG Node', color: '#28CA9F'},
-  'dag-pb': {name: 'Protobuf Dag Node', color: '#244e66'}
+  'dag-pb': {name: 'Protobuf DAG Node', color: '#244e66'}
 }
 
-function nameForNode (type) {
+export function nameForNode (type) {
   const style = nodeStyles[type]
   return (style && style.name) || 'DAG Node'
 }
 
-function colorForNode (type) {
+export function colorForNode (type) {
   const style = nodeStyles[type]
   return (style && style.color) || '#ea5037'
+}
+
+// '/a/b' => ['$', '$.a', '$.a.b']
+// See: https://github.com/xyc/react-inspector#api
+export function toExpandPathsNotation (localPath) {
+  if (!localPath) return []
+  const parts = localPath.split('/')
+  const expandPaths = parts.map((part, i) => {
+    if (!part) return '$'
+    const relPath = parts.slice(0, i).join('.')
+    return `$${relPath}.${part}`
+  })
+  return expandPaths.slice(0, expandPaths.length - 1)
 }
 
 const DagNodeIcon = ({type, ...props}) => (
@@ -45,27 +58,27 @@ class LinkRow extends React.Component {
 
   render () {
     const {index, link} = this.props
-    const {name, size, multihash} = link
+    const {target, path, size} = link
     return (
-      <tr className='pointer striped--near-white' onClick={this.onClick} key={`${multihash}-${name}`}>
+      <tr className='pointer striped--near-white' onClick={this.onClick}>
         <td className='pv1 ph2 silver truncate monospace tr f7'>
           {index}
         </td>
         <td className='pv1 ph2 dark-gray truncate navy-muted'>
-          {name}
+          {path}
+        </td>
+        <td className='pv1 pr2 mid-gray monospace f7'>
+          {target}
         </td>
         <td className='pv1 pr4 mid-gray truncate monospace tr f7' title={`${size} B`}>
           {size ? humansize(size) : null}
-        </td>
-        <td className='pv1 pr2 mid-gray monospace f7'>
-          {multihash}
         </td>
       </tr>
     )
   }
 }
 
-const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...props}) => {
+const ObjectInfo = ({className, type, cid, localPath, size, data, links, onLinkClick, ...props}) => {
   return (
     <section className={`pa4 sans-serif ${className}`} {...props}>
       <h2 className='ma0 lh-title f4 fw4 pb2' title={type}>
@@ -97,7 +110,7 @@ const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...pr
         </div>
         { !data ? null : (
           <div className='pa3 mt2 bg-white f5'>
-            <ObjectInspector data={data} theme={objectInspectorTheme} />
+            <ObjectInspector data={data} theme={objectInspectorTheme} expandPaths={toExpandPathsNotation(localPath)} />
           </div>
         )}
         <div className='dt dt--fixed pt2'>
@@ -114,13 +127,13 @@ const ObjectInfo = ({className, type, cid, size, data, links, onLinkClick, ...pr
               <tr>
                 <th className='mid-gray fw4 bb b--black-10 pv2 ph2' style={{width: '45px'}} />
                 <th className='mid-gray fw4 bb b--black-10 pv2 w-30 ph2' style={{width: '190px'}}>Name</th>
-                <th className='mid-gray fw4 bb b--black-10 pv2 pr4 tr' style={{width: '100px'}}>Size</th>
                 <th className='mid-gray fw4 bb b--black-10 pv2' >CID</th>
+                <th className='mid-gray fw4 bb b--black-10 pv2 pr4 tr' style={{width: '100px'}}>Size</th>
               </tr>
             </thead>
             <tbody className='fw4'>
               {links.map((link, i) => (
-                <LinkRow link={link} index={i} onClick={onLinkClick} key={link.hash + '/' + link.name} />
+                <LinkRow link={link} index={i} onClick={onLinkClick} key={link.path} />
               ))}
             </tbody>
           </table>

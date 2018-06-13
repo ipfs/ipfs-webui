@@ -16,7 +16,7 @@ storiesOf('IPLD Node Info', module)
   .add('cid v0 dag-pb', () => (
     <ObjectInfo
       className='ma2'
-      cid={dagNodeA.multihash}
+      cid={dagNodeA.cid}
       size={dagNodeA.size}
       links={dagNodeA.links}
       data={dagNodeA.data}
@@ -26,7 +26,7 @@ storiesOf('IPLD Node Info', module)
   .add('cid v0 dag-pb 36 links...', () => (
     <ObjectInfo
       className='ma2'
-      cid={dagNodeB.multihash}
+      cid={dagNodeB.cid}
       size={dagNodeB.size}
       links={dagNodeB.links}
       data={dagNodeB.data}
@@ -36,7 +36,7 @@ storiesOf('IPLD Node Info', module)
   .add('cid v0 dag-pb 1240 links...', () => (
     <ObjectInfo
       className='ma2'
-      cid={dagNodeC.multihash}
+      cid={dagNodeC.cid}
       size={dagNodeC.size}
       links={dagNodeC.links}
       data={dagNodeC.data}

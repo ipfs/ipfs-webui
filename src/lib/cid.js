@@ -3,6 +3,17 @@ const multihash = require('multihashes')
 const multibaseConstants = require('multibase/src/constants')
 const mutlicodecVarintTable = require('multicodec/src/varint-table')
 
+export function toCidStrOrNull (value) {
+  if (!value) return null
+  try {
+    const cid = new CID(value)
+    return cid.toBaseEncodedString()
+  } catch (err) {
+    console.log('Failed to parse CID', value, err)
+    return null
+  }
+}
+
 export function cidToHuman (value) {
   const data = decodeCid(value)
   return {
