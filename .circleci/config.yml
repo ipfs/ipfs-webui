@@ -26,8 +26,6 @@ jobs:
       - run:
           name: test-e2e
           command: npm run test:e2e:ci
-          environment:
-            NO_SANDBOX: true
       - run:
           name: code-coverage
           command: npm run test:coverage

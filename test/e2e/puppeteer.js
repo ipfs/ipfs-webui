@@ -13,6 +13,5 @@ const defaults = {
 
 export function launch (spec) {
   const opts = Object.assign({}, defaults, spec)
-  console.log('puppeteer opts', opts)
   return puppeteer.launch(opts)
 }
