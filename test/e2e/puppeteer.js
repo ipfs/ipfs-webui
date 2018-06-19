@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer'
-
+console.log('process.env', process.env)
 export const debug = process.env.DEBUG === 'true'
 export const appUrl = process.env.URL || 'http://localhost:3000'
 
