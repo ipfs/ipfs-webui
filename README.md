@@ -43,7 +43,7 @@ It might be a good idea to copy the `.ipfs/config` file somewhere with a useful 
 ## Installation and running
 
 ```bash
-> git clone https://github.com/ipfs/webui
+> git clone https://github.com/ipfs-shipyard/ipfs-webui
 > cd webui
 > npm install
 # Runs server on port 3000.
