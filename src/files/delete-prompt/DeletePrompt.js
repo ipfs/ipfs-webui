@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'w
+import PropTypes from 'prop-types'
 import TrashIcon from '../../icons/StrokeTrash'
 import CancelIcon from '../../icons/GlyphSmallCancel'
 import Button from '../../components/button/Button'
