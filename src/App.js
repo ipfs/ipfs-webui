@@ -24,7 +24,7 @@ export class App extends Component {
     const Page = this.props.route
     return (
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
-        <div className='dt dt--fixed' style={{minHeight: '100vh'}}>
+        <div className='dt dt--fixed' style={{height: '100vh'}}>
           <div className='dtc v-top bg-navy' style={{width: 240}}>
             <NavBar />
           </div>
