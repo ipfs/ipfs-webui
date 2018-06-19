@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer'
-console.log('process.env', process.env)
+
 export const debug = process.env.DEBUG === 'true'
 export const appUrl = process.env.URL || 'http://localhost:3000'
 
@@ -13,5 +13,6 @@ const defaults = {
 
 export function launch (spec) {
   const opts = Object.assign({}, defaults, spec)
+  console.log('puppeteer opts', opts)
   return puppeteer.launch(opts)
 }
