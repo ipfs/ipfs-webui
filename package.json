@@ -7,7 +7,7 @@
     "prebuild": "cp config/webpack.config.prod.js node_modules/react-scripts/config/",
     "build": "react-scripts build",
     "build:icons": "svgr -d src/icons node_modules/ipfs-css/icons && standard --fix src/icons/*",
-    "lint": "standard src",
+    "lint": "standard",
     "test": "react-scripts test",
     "test:coverage": "react-scripts test --coverage",
     "test:serve": "ecstatic build --cache=0 --port=3001",
