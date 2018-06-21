@@ -146,7 +146,7 @@ export default function (opts) {
       'selectPeers',
       'selectPeerBandwidthPeers',
       (peers, bwPeers) => {
-        const peerIds = peers.map(p => p.peer.toB58String())
+        const peerIds = (peers || []).map(p => p.peer.toB58String())
         const added = peerIds.filter(id => !bwPeers.some(p => p.id === id))
         const removed = bwPeers.filter(p => peerIds.every(id => id !== p.id)).map(p => p.id)
 
