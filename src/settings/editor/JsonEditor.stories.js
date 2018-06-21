@@ -9,5 +9,5 @@ import config from './fixtures/example-config.json'
 storiesOf('Config Editor', module)
   .addDecorator(checkA11y)
   .add('edit go-ipfs config', () => (
-    <JsonEditor value={config} />
+    <JsonEditor defaultValue={config} />
   ))

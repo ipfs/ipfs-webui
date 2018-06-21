@@ -6,21 +6,20 @@ import './theme/ipfs_dark'
 
 class JsonEditor extends React.Component {
   render () {
-    const {value} = this.props
-    const valueStr = value ? JSON.stringify(value, null, 2) : ''
+    const {value, readOnly, onChange} = this.props
     return (
       <AceEditor
+        value={value}
+        readOnly={readOnly}
+        onChange={onChange}
         mode='json'
         theme='ipfs_dark'
         width='100%'
         height='2100px'
-        onLoad={this.onLoad}
-        onChange={this.onChange}
         fontSize={12}
         showPrintMargin={false}
         showGutter
         highlightActiveLine={false}
-        value={valueStr}
         setOptions={{
           enableBasicAutocompletion: false,
           enableLiveAutocompletion: false,
