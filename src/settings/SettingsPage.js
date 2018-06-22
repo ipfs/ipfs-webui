@@ -4,10 +4,11 @@ import { connect } from 'redux-bundler-react'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import JsonEditor from './editor/JsonEditor'
+import Tick from '../icons/GlyphSmallTick'
 
 export class SettingsPage extends React.Component {
   render () {
-    const {isLoading, isSaving, hasErrors, hasLocalChanges, hasExternalChanges, config, onChange, onReset, onSave, editorKey} = this.props
+    const {isLoading, isSaving, hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, config, onChange, onReset, onSave, editorKey} = this.props
     return (
       <div data-id='SettingsPage'>
         <Helmet>
@@ -16,13 +17,13 @@ export class SettingsPage extends React.Component {
         <Box>
           <div className='dt dt--fixed'>
             <div className='dtc v-mid' style={{height: 58}}>
-              <SettingsInfo config={config} isLoading={isLoading} hasExternalChanges={hasExternalChanges} />
+              <SettingsInfo config={config} isLoading={isLoading} hasExternalChanges={hasExternalChanges} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} />
             </div>
             <div className='dtc tr' style={{width: 300}}>
               { config ? (
                 <div>
-                  <Button className='ml2' bg='bg-charcoal' disabled={!hasLocalChanges && !hasExternalChanges} onClick={onReset}>Reset</Button>
-                  <Button className='ml2' bg={hasErrors ? 'bg-red-muted' : 'bg-aqua'} disabled={!hasLocalChanges} onClick={onSave}>Save</Button>
+                  <Button className='ml2' bg='bg-charcoal' disabled={isSaving || !hasLocalChanges} onClick={onReset}>Reset</Button>
+                  <SaveButton hasErrors={hasErrors} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} isSaving={isSaving} hasLocalChanges={hasLocalChanges} onClick={onSave} />
                 </div>
               ) : null }
             </div>
@@ -36,18 +37,45 @@ export class SettingsPage extends React.Component {
   }
 }
 
-const SettingsInfo = ({hasExternalChanges, isLoading, config}) => {
+const SaveButton = ({hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLocalChanges, onClick}) => {
+  let bg = 'bg-aqua'
+  if (hasErrors || hasSaveFailed) {
+    bg = 'bg-red-muted'
+  }
+  if (hasSaveSucceded) {
+    bg = 'bg-green'
+  }
+  return (
+    <Button className='ml2' bg={bg} disabled={!hasLocalChanges} onClick={onClick}>
+      {hasSaveSucceded ? <Tick height={16} className='fill-snow' style={{transform: 'scale(3)'}} /> : 'Save'}
+    </Button>
+  )
+}
+
+const SettingsInfo = ({hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config}) => {
   if (!config) {
     return (
       <p className='ma0 lh-copy charcoal f5 mw7'>
         { isLoading ? 'Fetching settings...' : 'Settings not available. Please check your IPFS daemon is running.' }
       </p>
     )
-  }
-  if (hasExternalChanges) {
+  } else if (hasExternalChanges) {
     return (
       <p className='ma0 lh-copy red f5 mw7'>
         The settings have changed, please click <strong>Reset</strong> to update the editor contents.
+      </p>
+    )
+  } else if (hasSaveFailed) {
+    return (
+      <p className='ma0 pb2 lh-copy red fw6 f5 mw7'>
+        An error occured while saving your changes.
+        <span className='db fw4 f6 charcoal-muted'>Check the browser console for more info.</span>
+      </p>
+    )
+  } else if (hasSaveSucceded) {
+    return (
+      <p className='ma0 pb3 lh-copy green fw6 f5 mw7'>
+        Your changes have been saved
       </p>
     )
   }
@@ -61,6 +89,8 @@ const SettingsInfo = ({hasExternalChanges, isLoading, config}) => {
 export class SettingsPageContainer extends React.Component {
   state = {
     isSaving: false,
+    hasSaveFailed: false,
+    hasSaveSucceded: false,
     // valid json?
     hasErrors: false,
     // we edited it
@@ -74,8 +104,9 @@ export class SettingsPageContainer extends React.Component {
   }
 
   onChange = (value) => {
-    console.log('onChange')
     this.setState({
+      hasSaveFailed: false,
+      hasSaveSucceded: false,
       hasErrors: !this.isValidJson(value),
       hasLocalChanges: this.props.config !== value,
       editableConfig: value
@@ -84,6 +115,9 @@ export class SettingsPageContainer extends React.Component {
 
   onReset = () => {
     this.setState({
+      isSaving: false,
+      hasSaveFailed: false,
+      hasSaveSucceded: false,
       hasErrors: false,
       hasLocalChanges: false,
       hasExternalChanges: false,
@@ -93,13 +127,18 @@ export class SettingsPageContainer extends React.Component {
   }
 
   onSave = async () => {
+    if (this.state.isSaving) return console.log('Save ignored, there is a save in progress.')
     this.setState({isSaving: true})
     try {
       await this.props.doSaveConfig(this.state.editableConfig)
     } catch (err) {
       console.log(err)
+      return this.setState({isSaving: false, hasSaveFailed: err})
     }
-    this.setState({isSaving: false})
+    this.setState({hasSaveSucceded: true})
+    setTimeout(() => {
+      this.onReset()
+    }, 1500)
   }
 
   isValidJson (str) {
@@ -129,11 +168,13 @@ export class SettingsPageContainer extends React.Component {
 
   render () {
     const { configIsLoading } = this.props
-    const { isSaving, hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
+    const { isSaving, hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     return (
       <SettingsPage
         isLoading={configIsLoading}
         isSaving={isSaving}
+        hasSaveFailed={hasSaveFailed}
+        hasSaveSucceded={hasSaveSucceded}
         hasErrors={hasErrors}
         hasLocalChanges={hasLocalChanges}
         hasExternalChanges={hasExternalChanges}

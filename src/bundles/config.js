@@ -23,8 +23,8 @@ bundle.selectConfigObject = createSelector(
 bundle.doSaveConfig = (configStr) => async ({dispatch, getIpfs, store}) => {
   dispatch({type: 'CONFIG_SAVE_STARTED'})
   try {
-    JSON.parse(configStr) // is it valid?
-    await getIpfs().config.replace(configStr)
+    const obj = JSON.parse(configStr)
+    await getIpfs().config.replace(obj)
   } catch (err) {
     return dispatch({ type: 'CONFIG_SAVE_ERRORED', payload: {error: err, config: configStr} })
   }
