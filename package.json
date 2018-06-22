@@ -59,6 +59,7 @@
   "devDependencies": {
     "@storybook/addon-a11y": "^3.4.6",
     "@storybook/addon-actions": "^3.4.6",
+    "@storybook/addon-knobs": "^3.4.8",
     "@storybook/addon-links": "^3.4.6",
     "@storybook/addons": "^3.4.6",
     "@storybook/react": "^3.4.6",

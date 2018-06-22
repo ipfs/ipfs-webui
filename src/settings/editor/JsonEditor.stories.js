@@ -6,8 +6,8 @@ import JsonEditor from './JsonEditor'
 
 import config from './fixtures/example-config.json'
 
-storiesOf('Config Editor', module)
+storiesOf('Settings page', module)
   .addDecorator(checkA11y)
-  .add('edit go-ipfs config', () => (
+  .add('JSON editor', () => (
     <JsonEditor defaultValue={config} />
   ))
