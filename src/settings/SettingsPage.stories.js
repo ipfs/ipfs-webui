@@ -18,7 +18,7 @@ storiesOf('Settings page', module)
         hasSaveFailed={boolean('hasSaveFailed', false)}
         hasSaveSucceded={boolean('hasSaveSucceded', false)}
         hasErrors={boolean('hasErrors', false)}
-        hasLocalChanges={boolean('hasLocalChanges', false)}
+        hasLocalChanges={boolean('hasLocalChanges', true)}
         hasExternalChanges={boolean('hasExternalChanges', false)}
         config={JSON.stringify(config, null, 2)}
         editorKey={Date.now()}

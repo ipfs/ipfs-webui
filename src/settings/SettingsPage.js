@@ -15,14 +15,14 @@ export class SettingsPage extends React.Component {
           <title>Settings - IPFS</title>
         </Helmet>
         <Box>
-          <div className='dt dt--fixed'>
-            <div className='dtc v-mid' style={{height: 58}}>
+          <div className='dt dt--fixed pb3'>
+            <div className='dtc v-mid'>
               <SettingsInfo config={config} isLoading={isLoading} hasExternalChanges={hasExternalChanges} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} />
             </div>
-            <div className='dtc tr' style={{width: 300}}>
+            <div className='dtc tr v-btm pt2' style={{width: 240}}>
               { config ? (
                 <div>
-                  <Button className='ml2' bg='bg-charcoal' disabled={isSaving || !hasLocalChanges} onClick={onReset}>Reset</Button>
+                  <Button className='ml3' bg='bg-charcoal' disabled={isSaving || !hasLocalChanges} onClick={onReset}>Reset</Button>
                   <SaveButton hasErrors={hasErrors} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} isSaving={isSaving} hasLocalChanges={hasLocalChanges} onClick={onSave} />
                 </div>
               ) : null }
@@ -47,7 +47,7 @@ const SaveButton = ({hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLoc
   }
   return (
     <Button className='ml2' bg={bg} disabled={!hasLocalChanges} onClick={onClick}>
-      {hasSaveSucceded ? <Tick height={16} className='fill-snow' style={{transform: 'scale(3)'}} /> : 'Save'}
+      {hasSaveSucceded ? <Tick height={16} className='fill-snow' style={{transform: 'scale(3)'}} /> : isSaving ? 'Saving' : 'Save'}
     </Button>
   )
 }
@@ -62,25 +62,26 @@ const SettingsInfo = ({hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoa
   } else if (hasExternalChanges) {
     return (
       <p className='ma0 lh-copy red f5 mw7'>
-        The settings have changed, please click <strong>Reset</strong> to update the editor contents.
+        The settings have changed, please click <strong>Reset</strong> to update the editor contents
       </p>
     )
   } else if (hasSaveFailed) {
     return (
-      <p className='ma0 pb2 lh-copy red fw6 f5 mw7'>
-        An error occured while saving your changes.
+      <p className='ma0 lh-copy red fw6 f5 mw7'>
+        An error occured while saving your changes
         <span className='db fw4 f6 charcoal-muted'>Check the browser console for more info.</span>
       </p>
     )
   } else if (hasSaveSucceded) {
     return (
-      <p className='ma0 pb3 lh-copy green fw6 f5 mw7'>
+      <p className='ma0 lh-copy green fw6 f5 mw7'>
         Your changes have been saved
+        <span className='db fw4 f6 charcoal-muted'>The new settings will be used next time you restart the IPFS daemon.</span>
       </p>
     )
   }
   return (
-    <p className='ma0 pb3 lh-copy charcoal-muted f6 mw7'>
+    <p className='ma0 lh-copy charcoal-muted f6 mw7'>
       The go-ipfs config file is a json document. It is read once at node instantiation, either for an offline command, or when starting the daemon. Commands that execute on a running daemon do not read the config file at runtime.
     </p>
   )
