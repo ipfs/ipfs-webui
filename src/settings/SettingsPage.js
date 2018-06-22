@@ -7,7 +7,7 @@ import JsonEditor from './editor/JsonEditor'
 
 export class SettingsPage extends React.Component {
   render () {
-    const {isSaving, hasErrors, hasLocalChanges, hasExternalChanges, config, onChange, onReset, onSave, editorKey} = this.props
+    const {isLoading, isSaving, hasErrors, hasLocalChanges, hasExternalChanges, config, onChange, onReset, onSave, editorKey} = this.props
     return (
       <div data-id='SettingsPage'>
         <Helmet>
@@ -16,26 +16,46 @@ export class SettingsPage extends React.Component {
         <Box>
           <div className='dt dt--fixed'>
             <div className='dtc v-mid' style={{height: 58}}>
-              {hasExternalChanges ? (
-                <p className='ma0 pb3 lh-copy red f5 mw7'>
-                  The settings have changed, please click <strong>Reset</strong> to update the editor contents.
-                </p>
-              ) : (
-                <p className='ma0 pb3 lh-copy charcoal-muted f6 mw7'>
-                  The go-ipfs config file is a json document. It is read once at node instantiation, either for an offline command, or when starting the daemon. Commands that execute on a running daemon do not read the config file at runtime.
-                </p>
-              )}
+              <SettingsInfo config={config} isLoading={isLoading} hasExternalChanges={hasExternalChanges} />
             </div>
             <div className='dtc tr' style={{width: 300}}>
-              <Button className='ml2' bg='bg-charcoal' disabled={!hasLocalChanges && !hasExternalChanges} onClick={onReset}>Reset</Button>
-              <Button className='ml2' bg={hasErrors ? 'bg-red-muted' : 'bg-aqua'} disabled={!hasLocalChanges} onClick={onSave}>Save</Button>
+              { config ? (
+                <div>
+                  <Button className='ml2' bg='bg-charcoal' disabled={!hasLocalChanges && !hasExternalChanges} onClick={onReset}>Reset</Button>
+                  <Button className='ml2' bg={hasErrors ? 'bg-red-muted' : 'bg-aqua'} disabled={!hasLocalChanges} onClick={onSave}>Save</Button>
+                </div>
+              ) : null }
             </div>
           </div>
-          <JsonEditor value={config} onChange={onChange} readOnly={isSaving} key={editorKey} />
+          {config ? (
+            <JsonEditor value={config} onChange={onChange} readOnly={isSaving} key={editorKey} />
+          ) : null}
         </Box>
       </div>
     )
   }
+}
+
+const SettingsInfo = ({hasExternalChanges, isLoading, config}) => {
+  if (!config) {
+    return (
+      <p className='ma0 lh-copy charcoal f5 mw7'>
+        { isLoading ? 'Fetching settings...' : 'Settings not available. Please check your IPFS daemon is running.' }
+      </p>
+    )
+  }
+  if (hasExternalChanges) {
+    return (
+      <p className='ma0 lh-copy red f5 mw7'>
+        The settings have changed, please click <strong>Reset</strong> to update the editor contents.
+      </p>
+    )
+  }
+  return (
+    <p className='ma0 pb3 lh-copy charcoal-muted f6 mw7'>
+      The go-ipfs config file is a json document. It is read once at node instantiation, either for an offline command, or when starting the daemon. Commands that execute on a running daemon do not read the config file at runtime.
+    </p>
+  )
 }
 
 export class SettingsPageContainer extends React.Component {
@@ -108,9 +128,11 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
+    const { configIsLoading } = this.props
     const { isSaving, hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
-    return editableConfig ? (
+    return (
       <SettingsPage
+        isLoading={configIsLoading}
         isSaving={isSaving}
         hasErrors={hasErrors}
         hasLocalChanges={hasLocalChanges}
@@ -120,7 +142,7 @@ export class SettingsPageContainer extends React.Component {
         onChange={this.onChange}
         onReset={this.onReset}
         onSave={this.onSave} />
-    ) : null
+    )
   }
 }
 
