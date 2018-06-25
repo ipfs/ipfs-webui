@@ -1,11 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { defineMessages, FormattedMessage } from 'react-intl'
 import TrashIcon from '../../icons/StrokeTrash'
 import CancelIcon from '../../icons/GlyphSmallCancel'
 import Button from '../../components/button/Button'
 
+const messages = defineMessages({
+  deleteItem: {
+    id: 'app.deletePrompt.deleteItem',
+    defaultMessage: `Delete {count, plural,
+      one {Item}
+      other {Items}
+    }`
+  },
+  deleteFolder: {
+    id: 'app.deletePrompt.deleteFolder',
+    defaultMessage: `Delete {count, plural,
+      one {Folder}
+      other {Folders}
+    }`
+  },
+  deleteFile: {
+    id: 'app.deletePrompt.deleteFile',
+    defaultMessage: `Delete {count, plural,
+      one {File}
+      other {Files}
+    }`
+  }
+})
+
 const DeletePrompt = ({cancel, action, folders, files, className, ...props}) => {
   className = `${className} w-80 shadow-4 sans-serif relative`
+  
   let what
 
   if (folders > 0) {
@@ -27,7 +53,9 @@ const DeletePrompt = ({cancel, action, folders, files, className, ...props}) => 
           <TrashIcon className='fill-gray w3' />
         </div>
 
-        <p className='charcoal-muted fw5'>Delete {what}</p>
+        <p className='charcoal-muted fw5'>
+          <FormattedMessage {...messages.deleteItem} values={{count: files + folders}} />
+        </p>
 
         <p className='gray w-80 center'>
           Are you sure you want to delete this {what.toLowerCase()}? This action is permanent and cannot be reversed.
