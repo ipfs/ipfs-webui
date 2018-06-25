@@ -214,8 +214,8 @@ it('should periodically update bandwidth for peers', async () => {
     // are fired off at the same time
     createPeerBandwidthBundle({
       peerUpdateConcurrency: totalPeers + 1,
-      minTickResolution: 100,
-      minPeerUpdateInterval: 50
+      tickResolution: 100,
+      peerUpdateInterval: 50
     })
   )({
     peers: { data: peers }

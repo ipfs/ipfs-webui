@@ -24,8 +24,8 @@ export class PeerBandwidthTable extends Component {
   }
 
   onFieldClick = (e) => {
+    const field = e.currentTarget.getAttribute('data-field')
     this.setState(({ sort }) => {
-      const field = e.currentTarget.getAttribute('data-field')
       const direction = sort.field === field ? -sort.direction : -1
       return { sort: { field, direction } }
     })
@@ -50,22 +50,24 @@ export class PeerBandwidthTable extends Component {
     ) : (
       <div>
         <table className='collapse'>
-          <tr className='tl'>
-            <th className='pv2 ph3 w-100'><span className='v-mid'>Peer</span></th>
-            <SortableTableHeader field='rateIn' label='Rate In' sort={sort} onClick={this.onFieldClick} />
-            <SortableTableHeader field='rateOut' label='Rate Out' sort={sort} onClick={this.onFieldClick} />
-            <SortableTableHeader field='totalIn' label='Total In' sort={sort} onClick={this.onFieldClick} />
-            <SortableTableHeader field='totalOut' label='Total Out' sort={sort} onClick={this.onFieldClick} />
-          </tr>
-          {visiblePeers.map((p, i) => (
-            <tr key={p.id} className={i % 2 ? 'bg-snow-muted' : ''}>
-              <td className='pv2 ph3 monospace'>{p.id}</td>
-              <td className='pv2 ph3'>{humansize(parseInt(p.bw.rateIn.toFixed(0), 10))}/s</td>
-              <td className='pv2 ph3'>{humansize(parseInt(p.bw.rateOut.toFixed(0), 10))}/s</td>
-              <td className='pv2 ph3'>{humansize(parseInt(p.bw.totalIn.toFixed(0), 10))}</td>
-              <td className='pv2 ph3'>{humansize(parseInt(p.bw.totalOut.toFixed(0), 10))}</td>
+          <tbody>
+            <tr className='tl'>
+              <th className='pv2 ph3 w-100'><span className='v-mid'>Peer</span></th>
+              <SortableTableHeader field='rateIn' label='Rate In' sort={sort} onClick={this.onFieldClick} />
+              <SortableTableHeader field='rateOut' label='Rate Out' sort={sort} onClick={this.onFieldClick} />
+              <SortableTableHeader field='totalIn' label='Total In' sort={sort} onClick={this.onFieldClick} />
+              <SortableTableHeader field='totalOut' label='Total Out' sort={sort} onClick={this.onFieldClick} />
             </tr>
-          ))}
+            {visiblePeers.map((p, i) => (
+              <tr key={p.id} className={i % 2 ? 'bg-snow-muted' : ''}>
+                <td className='pv2 ph3 monospace'>{p.id}</td>
+                <td className='pv2 ph3 nowrap'>{humansize(parseInt(p.bw.rateIn.toFixed(0), 10))}/s</td>
+                <td className='pv2 ph3 nowrap'>{humansize(parseInt(p.bw.rateOut.toFixed(0), 10))}/s</td>
+                <td className='pv2 ph3 nowrap'>{humansize(parseInt(p.bw.totalIn.toFixed(0), 10))}</td>
+                <td className='pv2 ph3 nowrap'>{humansize(parseInt(p.bw.totalOut.toFixed(0), 10))}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
         {!showAll && hiddenPeers.length ? (
           <p className='sans-serif f5 ma0 pv3 ph2 tc pointer underline-hover navy-muted' onClick={this.onShowAllClick}>...and {hiddenPeers.length} more</p>

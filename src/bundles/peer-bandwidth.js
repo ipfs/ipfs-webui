@@ -16,9 +16,11 @@ export default function (opts) {
   // This implies a loose dependency on an idle action dispatcher that'll fire
   // if no other actions are fired within a certain time period. e.g. the
   // APP_IDLE action that is dispatched from the reactor bundle.
-  opts.minTickResolution = opts.minTickResolution || 1000
+  opts.tickResolution = opts.tickResolution || 1000
   // The minimum time between updates for each peer
-  opts.minPeerUpdateInterval = opts.minPeerUpdateInterval || 5000
+  opts.peerUpdateInterval = opts.peerUpdateInterval || 5000
+  // Inactive peers are de-prioritised
+  opts.inactivePeerUpdateInterval = opts.inactivePeerUpdateInterval || 30000
 
   return {
     name: 'peerBandwidth',
@@ -78,7 +80,7 @@ export default function (opts) {
 
       // For all other actions, only update 'now' if we've exceeded the
       // minimum tick resolution
-      return Date.now() - state.now > opts.minTickResolution
+      return Date.now() - state.now > opts.tickResolution
         ? { ...state, now: Date.now() }
         : state
     },
@@ -101,7 +103,11 @@ export default function (opts) {
         }
 
         const lastAttempt = p => Math.max(p.lastSuccess || 0, p.lastFailure || 0)
-        const isTimeToUpdate = p => lastAttempt(p) + opts.minPeerUpdateInterval < now
+        const isInactive = p => p.bw ? p.bw.rateIn.eq(0) && p.bw.rateOut.eq(0) : false
+        const peerUpdateInterval = p => isInactive(p)
+          ? opts.inactivePeerUpdateInterval
+          : opts.peerUpdateInterval
+        const isTimeToUpdate = p => lastAttempt(p) + peerUpdateInterval(p) < now
         const isNotAlreadyUpdating = p => !updatingPeerIds.includes(p.id)
 
         const peer = peers
@@ -146,7 +152,14 @@ export default function (opts) {
       'selectPeers',
       'selectPeerBandwidthPeers',
       (peers, bwPeers) => {
-        const peerIds = (peers || []).map(p => p.peer.toB58String())
+        const peerIds = (peers || []).reduce((ids, p) => {
+          const id = p.peer.toB58String()
+          if (ids.seen[id]) return ids
+          ids.seen[id] = true
+          ids.unique.push(id)
+          return ids
+        }, { seen: {}, unique: [] }).unique
+
         const added = peerIds.filter(id => !bwPeers.some(p => p.id === id))
         const removed = bwPeers.filter(p => peerIds.every(id => id !== p.id)).map(p => p.id)
 
