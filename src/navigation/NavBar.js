@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'redux-bundler-react'
 import ipfsLogo from './ipfs-logo.svg'
 import StrokeMarketing from '../icons/StrokeMarketing'
 import StrokeWeb from '../icons/StrokeWeb'
@@ -10,8 +11,9 @@ const NavLink = ({
   to,
   icon,
   exact,
+  disabled,
   children,
-  className = 'dt dt--fixed pv3 mb2 white link focus-outline f5 hover-bg-white-10',
+  className = `dt dt--fixed pv3 mb2 white link focus-outline f5 hover-bg-white-10 transition-all ${disabled ? 'o-0' : ''}`,
   activeClassName = 'bg-white-10'
 }) => {
   const Svg = icon
@@ -20,7 +22,7 @@ const NavLink = ({
   const active = exact ? hash === href : hash && hash.startsWith(href)
   const cls = active ? className + ' ' + activeClassName : className
   return (
-    <a href={href} className={cls} role='menuitem'>
+    <a href={disabled ? null : href} className={cls} role='menuitem'>
       <span className='dtc v-mid tr' style={{width: 100}}>
         <Svg
           style={{
@@ -36,7 +38,7 @@ const NavLink = ({
   )
 }
 
-export default () => (
+export const NavBar = ({isSettingsEnabled}) => (
   <div>
     <a href='#/' className='db' style={{paddingTop: 35}}>
       <img className='db center' style={{height: 70}} src={ipfsLogo} alt='IPFS' />
@@ -46,7 +48,16 @@ export default () => (
       <NavLink to='/files/' icon={StrokeWeb}>Files</NavLink>
       <NavLink to='/explore' icon={StrokeIpld}>IPLD</NavLink>
       <NavLink to='/peers' icon={StrokeCube}>Peers</NavLink>
-      <NavLink to='/settings' icon={StrokeSettings}>Settings</NavLink>
+      <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled}>Settings</NavLink>
     </nav>
   </div>
 )
+
+export const NavBarContainer = ({configRaw}) => {
+  const isSettingsEnabled = !!configRaw.data
+  return (
+    <NavBar isSettingsEnabled={isSettingsEnabled} />
+  )
+}
+
+export default connect('selectConfigRaw', NavBarContainer)

@@ -10,7 +10,7 @@ const PAUSE_AFTER_SAVE_MS = 1500
 
 export class SettingsPage extends React.Component {
   render () {
-    const {isLoading, isSaving, hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, config, onChange, onReset, onSave, editorKey} = this.props
+    const {isConfigBlocked, isLoading, isSaving, hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, config, onChange, onReset, onSave, editorKey} = this.props
     return (
       <div data-id='SettingsPage'>
         <Helmet>
@@ -19,7 +19,7 @@ export class SettingsPage extends React.Component {
         <Box>
           <div className='dt dt--fixed pb3'>
             <div className='dtc v-mid'>
-              <SettingsInfo config={config} isLoading={isLoading} hasExternalChanges={hasExternalChanges} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} />
+              <SettingsInfo config={config} isConfigBlocked={isConfigBlocked} isLoading={isLoading} hasExternalChanges={hasExternalChanges} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} />
             </div>
             <div className='dtc tr v-btm pt2' style={{width: 240}}>
               { config ? (
@@ -53,8 +53,14 @@ const SaveButton = ({hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLoc
   )
 }
 
-const SettingsInfo = ({hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config}) => {
-  if (!config) {
+const SettingsInfo = ({isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config}) => {
+  if (isConfigBlocked) {
+    return (
+      <p className='ma0 lh-copy charcoal f5 mw7'>
+        The IPFS config API is not available. Please disable the IPFS Companion web-extension and try again.
+      </p>
+    )
+  } else if (!config) {
     return (
       <p className='ma0 lh-copy charcoal f5 mw7'>
         { isLoading ? 'Fetching settings...' : 'Settings not available. Please check your IPFS daemon is running.' }
@@ -158,13 +164,14 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError } = this.props
+    const { isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
     const isLoading = configIsLoading || (!editableConfig && !configLastError)
     return (
       <SettingsPage
+        isConfigBlocked={isConfigBlocked}
         isLoading={isLoading}
         isSaving={configIsSaving}
         hasSaveFailed={hasSaveFailed}
@@ -183,6 +190,7 @@ export class SettingsPageContainer extends React.Component {
 
 export default connect(
   'selectConfig',
+  'selectIsConfigBlocked',
   'selectConfigLastError',
   'selectConfigIsLoading',
   'selectConfigIsSaving',
