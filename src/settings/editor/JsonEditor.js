@@ -8,7 +8,7 @@ class JsonEditor extends React.Component {
   render () {
     const {value, readOnly, onChange} = this.props
     return (
-      <div className='pt3 bg-navy br2'>
+      <div className='pv3 bg-navy br2'>
         <AceEditor
           value={value}
           readOnly={readOnly}
