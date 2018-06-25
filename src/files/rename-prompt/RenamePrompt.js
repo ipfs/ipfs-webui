@@ -24,7 +24,6 @@ class RenamePrompt extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
-    this.handleKeyPress = this.handleKeyPress.bind(this)
   }
 
   handleChange (event) {
@@ -36,15 +35,8 @@ class RenamePrompt extends React.Component {
     event.preventDefault()
   }
 
-  handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      this.handleSubmit(event)
-    }
-  }
-
   handleCancel = (event) => {
     this.props.cancel()
-    event.stopPropagation()
     event.preventDefault()
   }
 
@@ -53,7 +45,7 @@ class RenamePrompt extends React.Component {
     className = `${className} w-80 shadow-4 sans-serif relative`
 
     return (
-      <form onClick={this.handleSubmit} className={className} style={{maxWidth: '30em'}} {...props}>
+      <form onSubmit={this.handleSubmit} className={className} style={{maxWidth: '30em'}} {...props}>
         <CancelIcon className='absolute pointer w2 h2 top-0 right-0 fill-gray' onClick={this.handleCancel} />
 
         <div className='ph2 pv3 tc'>
@@ -70,13 +62,13 @@ class RenamePrompt extends React.Component {
           <input
             onChange={this.handleChange}
             value={this.state.filename}
-            onKeyPress={this.handleKeyPress}
+            required
             className='input-reset charcoal ba b--black-20 pa2 mb2 db w-75 center'
             type='text' />
         </div>
 
         <div className='flex justify-between pa2' style={{ backgroundColor: '#f4f6f8' }}>
-          <Button className='ma2' bg='bg-gray' onClick={this.handleCancel}>Cancel</Button>
+          <Button className='ma2' type='button' bg='bg-gray' onClick={this.handleCancel}>Cancel</Button>
           <Button className='ma2' bg='bg-aqua'>Save</Button>
         </div>
       </form>
