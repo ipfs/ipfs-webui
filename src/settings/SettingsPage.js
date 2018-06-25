@@ -6,6 +6,8 @@ import Button from '../components/button/Button'
 import JsonEditor from './editor/JsonEditor'
 import Tick from '../icons/GlyphSmallTick'
 
+const PAUSE_AFTER_SAVE_MS = 1500
+
 export class SettingsPage extends React.Component {
   render () {
     const {isLoading, isSaving, hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, config, onChange, onReset, onSave, editorKey} = this.props
@@ -22,7 +24,7 @@ export class SettingsPage extends React.Component {
             <div className='dtc tr v-btm pt2' style={{width: 240}}>
               { config ? (
                 <div>
-                  <Button className='ml3' bg='bg-charcoal' disabled={isSaving || !hasLocalChanges} onClick={onReset}>Reset</Button>
+                  <Button className='ml3' bg='bg-charcoal' disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)} onClick={onReset}>Reset</Button>
                   <SaveButton hasErrors={hasErrors} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} isSaving={isSaving} hasLocalChanges={hasLocalChanges} onClick={onSave} />
                 </div>
               ) : null }
@@ -41,13 +43,12 @@ const SaveButton = ({hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLoc
   let bg = 'bg-aqua'
   if (hasErrors || hasSaveFailed) {
     bg = 'bg-red-muted'
-  }
-  if (hasSaveSucceded) {
+  } else if (hasSaveSucceded) {
     bg = 'bg-green'
   }
   return (
-    <Button className='ml2' bg={bg} disabled={!hasLocalChanges} onClick={onClick}>
-      {hasSaveSucceded ? <Tick height={16} className='fill-snow' style={{transform: 'scale(3)'}} /> : isSaving ? 'Saving' : 'Save'}
+    <Button className='ml2' bg={bg} disabled={!hasLocalChanges || hasErrors} danger={hasErrors} onClick={onClick}>
+      {hasSaveSucceded && !hasSaveFailed ? <Tick height={16} className='fill-snow' style={{transform: 'scale(3)'}} /> : isSaving ? 'Saving' : 'Save'}
     </Button>
   )
 }
@@ -82,16 +83,13 @@ const SettingsInfo = ({hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoa
   }
   return (
     <p className='ma0 lh-copy charcoal-muted f6 mw7'>
-      The go-ipfs config file is a json document. It is read once at node instantiation, either for an offline command, or when starting the daemon. Commands that execute on a running daemon do not read the config file at runtime.
+      The go-ipfs config file is a json document. It is read once at node instantiation. Commands that execute on a running daemon do not read the config file at runtime.
     </p>
   )
 }
 
 export class SettingsPageContainer extends React.Component {
   state = {
-    isSaving: false,
-    hasSaveFailed: false,
-    hasSaveSucceded: false,
     // valid json?
     hasErrors: false,
     // we edited it
@@ -106,8 +104,6 @@ export class SettingsPageContainer extends React.Component {
 
   onChange = (value) => {
     this.setState({
-      hasSaveFailed: false,
-      hasSaveSucceded: false,
       hasErrors: !this.isValidJson(value),
       hasLocalChanges: this.props.config !== value,
       editableConfig: value
@@ -116,9 +112,6 @@ export class SettingsPageContainer extends React.Component {
 
   onReset = () => {
     this.setState({
-      isSaving: false,
-      hasSaveFailed: false,
-      hasSaveSucceded: false,
       hasErrors: false,
       hasLocalChanges: false,
       hasExternalChanges: false,
@@ -127,19 +120,8 @@ export class SettingsPageContainer extends React.Component {
     })
   }
 
-  onSave = async () => {
-    if (this.state.isSaving) return console.log('Save ignored, there is a save in progress.')
-    this.setState({isSaving: true})
-    try {
-      await this.props.doSaveConfig(this.state.editableConfig)
-    } catch (err) {
-      console.log(err)
-      return this.setState({isSaving: false, hasSaveFailed: err})
-    }
-    this.setState({hasSaveSucceded: true})
-    setTimeout(() => {
-      this.onReset()
-    }, 1500)
+  onSave = () => {
+    this.props.doSaveConfig(this.state.editableConfig)
   }
 
   isValidJson (str) {
@@ -151,16 +133,24 @@ export class SettingsPageContainer extends React.Component {
     }
   }
 
+  isRecent (msSinceEpoch) {
+    return msSinceEpoch > Date.now() - PAUSE_AFTER_SAVE_MS
+  }
+
   componentDidUpdate (prevProps) {
+    if (this.props.configSaveLastSuccess !== prevProps.configSaveLastSuccess) {
+      setTimeout(() => this.onReset(), PAUSE_AFTER_SAVE_MS)
+    }
     if (prevProps.config !== this.props.config) {
-      if (!prevProps.config) {
-        // no previous config, so set it.
-        this.setState({
+      // no previous config, or we just saved.
+      if (!prevProps.config || this.isRecent(this.props.configSaveLastSuccess)) {
+        return this.setState({
           editableConfig: this.props.config
         })
-      } else if (this.props.config !== this.state.editableConfig) {
-        // uh oh... something edited the config while we were looking at it.
-        this.setState({
+      }
+      // uh oh... something else edited the config while we were looking at it.
+      if (this.props.config !== this.state.editableConfig) {
+        return this.setState({
           hasExternalChanges: true
         })
       }
@@ -168,12 +158,15 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { configIsLoading } = this.props
-    const { isSaving, hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
+    const { configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError } = this.props
+    const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
+    const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
+    const hasSaveFailed = this.isRecent(configSaveLastError)
+    const isLoading = configIsLoading || (!editableConfig && !configLastError)
     return (
       <SettingsPage
-        isLoading={configIsLoading}
-        isSaving={isSaving}
+        isLoading={isLoading}
+        isSaving={configIsSaving}
         hasSaveFailed={hasSaveFailed}
         hasSaveSucceded={hasSaveSucceded}
         hasErrors={hasErrors}
@@ -188,4 +181,13 @@ export class SettingsPageContainer extends React.Component {
   }
 }
 
-export default connect('selectConfig', 'selectConfigIsLoading', 'doSaveConfig', SettingsPageContainer)
+export default connect(
+  'selectConfig',
+  'selectConfigLastError',
+  'selectConfigIsLoading',
+  'selectConfigIsSaving',
+  'selectConfigSaveLastSuccess',
+  'selectConfigSaveLastError',
+  'doSaveConfig',
+  SettingsPageContainer
+)
