@@ -44,6 +44,7 @@ class RenamePrompt extends React.Component {
 
   handleCancel = (event) => {
     this.props.cancel()
+    event.stopPropagation()
     event.preventDefault()
   }
 
@@ -52,7 +53,7 @@ class RenamePrompt extends React.Component {
     className = `${className} w-80 shadow-4 sans-serif relative`
 
     return (
-      <form className={className} style={{maxWidth: '30em'}} {...props}>
+      <form onClick={this.handleSubmit} className={className} style={{maxWidth: '30em'}} {...props}>
         <CancelIcon className='absolute pointer w2 h2 top-0 right-0 fill-gray' onClick={this.handleCancel} />
 
         <div className='ph2 pv3 tc'>
@@ -76,7 +77,7 @@ class RenamePrompt extends React.Component {
 
         <div className='flex justify-between pa2' style={{ backgroundColor: '#f4f6f8' }}>
           <Button className='ma2' bg='bg-gray' onClick={this.handleCancel}>Cancel</Button>
-          <Button className='ma2' bg='bg-aqua' onClick={this.handleSubmit}>Save</Button>
+          <Button className='ma2' bg='bg-aqua'>Save</Button>
         </div>
       </form>
     )
