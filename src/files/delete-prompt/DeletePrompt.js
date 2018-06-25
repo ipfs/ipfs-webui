@@ -10,7 +10,7 @@ const DeletePrompt = ({cancel, action, folders, files, className, ...props}) => 
 
   if (folders > 0) {
     if (files > 0) {
-      what = 'files'
+      what = 'items'
     } else {
       what = (folders === 1) ? 'folder' : 'folders'
     }
