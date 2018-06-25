@@ -51,7 +51,7 @@ DeletePrompt.propTypes = {
 
 DeletePrompt.defaultProps = {
   className: '',
-  files: 1,
+  files: 0,
   folders: 0
 }
 
