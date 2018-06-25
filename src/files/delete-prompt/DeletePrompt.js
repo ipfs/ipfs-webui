@@ -10,12 +10,12 @@ const DeletePrompt = ({cancel, action, folders, files, className, ...props}) => 
 
   if (folders > 0) {
     if (files > 0) {
-      what = 'items'
+      what = 'Items'
     } else {
-      what = (folders === 1) ? 'folder' : 'folders'
+      what = (folders === 1) ? 'Folder' : 'Folders'
     }
   } else {
-    what = (files === 1) ? 'file' : 'files'
+    what = (files === 1) ? 'File' : 'Files'
   }
 
   return (
@@ -27,10 +27,10 @@ const DeletePrompt = ({cancel, action, folders, files, className, ...props}) => 
           <TrashIcon className='fill-gray w3' />
         </div>
 
-        <p className='charcoal-muted fw5'>Delete Item</p>
+        <p className='charcoal-muted fw5'>Delete {what}</p>
 
         <p className='gray w-80 center'>
-          Are you sure you want to delete this {what}? This action is permanent and cannot be reversed.
+          Are you sure you want to delete this {what.toLowerCase()}? This action is permanent and cannot be reversed.
         </p>
       </div>
 
