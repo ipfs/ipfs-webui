@@ -6,6 +6,6 @@ import DeletePrompt from './DeletePrompt'
 storiesOf('Files', module)
   .add('Delete Prompt', () => (
     <div className='ma2'>
-      <DeletePrompt cancel={action('Cancel')} action={action('Delete')} />
+      <DeletePrompt cancel={action('Cancel')} action={action('Delete')} files={3} folders={2} />
     </div>
   ))

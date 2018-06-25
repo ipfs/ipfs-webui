@@ -4,15 +4,18 @@ import TrashIcon from '../../icons/StrokeTrash'
 import CancelIcon from '../../icons/GlyphSmallCancel'
 import Button from '../../components/button/Button'
 
-const DeletePrompt = ({cancel, action, folder, multiple, className, ...props}) => {
+const DeletePrompt = ({cancel, action, folders, files, className, ...props}) => {
   className = `${className} w-80 shadow-4 sans-serif relative`
-  let what = 'file'
-  if (folder) {
-    what = 'folder'
-  }
+  let what
 
-  if (multiple) {
-    what += 's'
+  if (folders > 0) {
+    if (files > 0) {
+      what = 'files'
+    } else {
+      what = (folders === 1) ? 'folder' : 'folders'
+    }
+  } else {
+    what = (files === 1) ? 'file' : 'files'
   }
 
   return (
@@ -42,14 +45,14 @@ const DeletePrompt = ({cancel, action, folder, multiple, className, ...props}) =
 DeletePrompt.propTypes = {
   cancel: PropTypes.func.isRequired,
   action: PropTypes.func.isRequired,
-  folder: PropTypes.bool,
-  multiple: PropTypes.bool
+  files: PropTypes.number,
+  folders: PropTypes.number
 }
 
 DeletePrompt.defaultProps = {
   className: '',
-  folder: false,
-  multiple: false
+  files: 1,
+  folders: 0
 }
 
 export default DeletePrompt
