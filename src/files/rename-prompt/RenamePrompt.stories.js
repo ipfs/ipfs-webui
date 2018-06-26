@@ -6,6 +6,6 @@ import RenamePrompt from './RenamePrompt'
 storiesOf('Files', module)
   .add('Rename Prompt', () => (
     <div className='ma2'>
-      <RenamePrompt filename='my-agenda.markdown' cancel={action('Cancel')} action={action('Rename')} />
+      <RenamePrompt filename='my-agenda.markdown' onCancel={action('Cancel')} onSubmit={action('Rename')} />
     </div>
   ))

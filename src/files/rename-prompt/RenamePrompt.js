@@ -6,8 +6,8 @@ import Button from '../../components/button/Button'
 
 class RenamePrompt extends React.Component {
   static propTypes = {
-    cancel: PropTypes.func.isRequired,
-    action: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     filename: PropTypes.string.isRequired,
     folder: PropTypes.bool
   }
@@ -31,17 +31,17 @@ class RenamePrompt extends React.Component {
   }
 
   handleSubmit (event) {
-    this.props.action(this.state.filename)
+    this.props.onSubmit(this.state.filename)
     event.preventDefault()
   }
 
   handleCancel = (event) => {
-    this.props.cancel()
+    this.props.onCancel()
     event.preventDefault()
   }
 
   render () {
-    let {cancel, className, action, filename, folder, ...props} = this.props
+    let {onCancel, onSubmit, className, filename, folder, ...props} = this.props
     className = `${className} w-80 shadow-4 sans-serif relative`
 
     return (
