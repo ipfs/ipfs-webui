@@ -24,7 +24,7 @@ class FilesPage extends React.Component {
     clipboard: [],
     copy: false,
     rename: {
-      show: false,
+      isOpen: false,
       path: '',
       filename: ''
     }
@@ -43,7 +43,7 @@ class FilesPage extends React.Component {
   onRename = ([path]) => {
     this.setState({
       rename: {
-        show: true,
+        isOpen: true,
         path: path,
         filename: path.split('/').pop()
       }
@@ -51,7 +51,13 @@ class FilesPage extends React.Component {
   }
 
   onRenameCancel = () => {
-    this.setState({ rename: { show: false, path: '', filename: '' } })
+    this.setState({
+      rename: {
+        isOpen: false,
+        path: '',
+        filename: ''
+      }
+    })
   }
 
   onRenameSubmit = (newName) => {
@@ -101,7 +107,7 @@ class FilesPage extends React.Component {
         ) : null }
 
         <Modal
-          show={this.state.rename.show}
+          show={this.state.rename.isOpen}
           className='fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around'
           backdropClassName='fixed top-0 left-0 right-0 bottom-0 bg-black o-50'
           onBackdropClick={this.onRenameCancel}
