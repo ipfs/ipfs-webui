@@ -51,7 +51,7 @@ const messages = defineMessages({
 })
 
 const DeletePrompt = ({onCancel, onDelete, folders, files, className, ...props}) => {
-  className = `${className} w-80 shadow-4 sans-serif relative`
+  className = `${className} bg-white w-80 shadow-4 sans-serif relative`
   let title, message
 
   if (folders > 0) {
