@@ -26,27 +26,50 @@ const messages = defineMessages({
       one {File}
       other {Files}
     }`
+  },
+  messageItem: {
+    id: 'app.deletePrompt.deleteItem',
+    defaultMessage: `Are you sure you want to delete {count, plural,
+      one {this item}
+      other {these items}
+    }? This action is permanent and cannot be reversed.`
+  },
+  messageFolder: {
+    id: 'app.deletePrompt.deleteItem',
+    defaultMessage: `Are you sure you want to delete {count, plural,
+      one {this folder}
+      other {these folders}
+    }? This action is permanent and cannot be reversed.`
+  },
+  messageFile: {
+    id: 'app.deletePrompt.deleteItem',
+    defaultMessage: `Are you sure you want to delete {count, plural,
+      one {this file}
+      other {these files}
+    }? This action is permanent and cannot be reversed.`
   }
 })
 
-const DeletePrompt = ({cancel, action, folders, files, className, ...props}) => {
+const DeletePrompt = ({onCancel, onDelete, folders, files, className, ...props}) => {
   className = `${className} w-80 shadow-4 sans-serif relative`
-  
-  let what
+  let title, message
 
   if (folders > 0) {
     if (files > 0) {
-      what = 'Items'
+      title = <FormattedMessage {...messages.deleteItem} values={{count: files + folders}} />
+      message = <FormattedMessage {...messages.messageItem} values={{count: files + folders}} />
     } else {
-      what = (folders === 1) ? 'Folder' : 'Folders'
+      title = <FormattedMessage {...messages.deleteFolder} values={{count: folders}} />
+      message = <FormattedMessage {...messages.messageFolder} values={{count: folders}} />
     }
   } else {
-    what = (files === 1) ? 'File' : 'Files'
+    title = <FormattedMessage {...messages.deleteFile} values={{count: files}} />
+    message = <FormattedMessage {...messages.messageFile} values={{count: files}} />
   }
 
   return (
     <div className={className} style={{maxWidth: '30em'}} {...props}>
-      <CancelIcon className='absolute pointer w2 h2 top-0 right-0 fill-gray' onClick={cancel} />
+      <CancelIcon className='absolute pointer w2 h2 top-0 right-0 fill-gray' onClick={onCancel} />
 
       <div className='ph2 pv3 tc'>
         <div className='center bg-snow br-100 flex justify-center items-center' style={{width: '80px', height: '80px'}}>
@@ -54,25 +77,25 @@ const DeletePrompt = ({cancel, action, folders, files, className, ...props}) => 
         </div>
 
         <p className='charcoal-muted fw5'>
-          <FormattedMessage {...messages.deleteItem} values={{count: files + folders}} />
+          {title}
         </p>
 
         <p className='gray w-80 center'>
-          Are you sure you want to delete this {what.toLowerCase()}? This action is permanent and cannot be reversed.
+          {message}
         </p>
       </div>
 
       <div className='flex justify-between pa2' style={{ backgroundColor: '#f4f6f8' }}>
-        <Button className='ma2' bg='bg-gray' onClick={cancel}>Cancel</Button>
-        <Button className='ma2' bg='bg-red' onClick={action}>Delete</Button>
+        <Button className='ma2' bg='bg-gray' onClick={onCancel}>Cancel</Button>
+        <Button className='ma2' bg='bg-red' onClick={onDelete}>Delete</Button>
       </div>
     </div>
   )
 }
 
 DeletePrompt.propTypes = {
-  cancel: PropTypes.func.isRequired,
-  action: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   files: PropTypes.number,
   folders: PropTypes.number
 }
