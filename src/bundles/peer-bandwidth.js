@@ -46,15 +46,18 @@ export default function (opts) {
       }
 
       if (action.type === 'UPDATE_PEER_BANDWIDTH_FINISHED') {
+        const now = Date.now()
         return {
           ...state,
-          now: Date.now(), // Pick up another peer if possible
+          now, // Pick up another peer if possible
           peers: state.peers.map(p => {
             if (p.id !== action.payload.peerId) return p
             return {
               id: action.payload.peerId,
               bw: action.payload.bw,
-              lastSuccess: Date.now()
+              active: action.payload.bw.rateIn.gt(0) || action.payload.bw.rateOut.gt(0),
+              lastSuccess: now,
+              lastAttempt: now
             }
           }),
           updatingPeerIds: state.updatingPeerIds.filter(id => id !== action.payload.peerId)
@@ -62,16 +65,19 @@ export default function (opts) {
       }
 
       if (action.type === 'UPDATE_PEER_BANDWIDTH_FAILED') {
+        const now = Date.now()
         return {
           ...state,
-          now: Date.now(), // Pick up another peer if possible
+          now: now, // Pick up another peer if possible
           peers: state.peers.map(p => {
             if (p.id !== action.payload.peerId) return p
             return {
               id: action.payload.peerId,
               bw: p.bw,
+              active: false,
               lastSuccess: p.lastSuccess,
-              lastFailure: Date.now()
+              lastFailure: now,
+              lastAttempt: now
             }
           }),
           updatingPeerIds: state.updatingPeerIds.filter(id => id !== action.payload.peerId)
@@ -102,11 +108,10 @@ export default function (opts) {
           return null
         }
 
-        const lastAttempt = p => Math.max(p.lastSuccess || 0, p.lastFailure || 0)
-        const isInactive = p => p.bw ? p.bw.rateIn.eq(0) && p.bw.rateOut.eq(0) : false
-        const peerUpdateInterval = p => isInactive(p)
-          ? opts.inactivePeerUpdateInterval
-          : opts.peerUpdateInterval
+        const lastAttempt = p => p.lastAttempt || 0
+        const peerUpdateInterval = p => p.active
+          ? opts.peerUpdateInterval
+          : opts.inactivePeerUpdateInterval
         const isTimeToUpdate = p => lastAttempt(p) + peerUpdateInterval(p) < now
         const isNotAlreadyUpdating = p => !updatingPeerIds.includes(p.id)
 
@@ -161,7 +166,7 @@ export default function (opts) {
         }, { seen: {}, unique: [] }).unique
 
         const added = peerIds.filter(id => !bwPeers.some(p => p.id === id))
-        const removed = bwPeers.filter(p => peerIds.every(id => id !== p.id)).map(p => p.id)
+        const removed = bwPeers.filter(p => !peerIds.some(id => id === p.id)).map(p => p.id)
 
         if (added.length || removed.length) {
           return { type: 'PEER_BANDWIDTH_PEERS_CHANGED', payload: { added, removed } }
