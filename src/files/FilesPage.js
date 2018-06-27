@@ -6,6 +6,8 @@ import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
+import RenamePrompt from './rename-prompt/RenamePrompt'
+import { Modal } from 'react-overlays'
 
 const action = (name) => {
   return (...args) => {
@@ -20,7 +22,12 @@ class FilesPage extends React.Component {
 
   state = {
     clipboard: [],
-    copy: false
+    copy: false,
+    rename: {
+      isOpen: false,
+      path: '',
+      filename: ''
+    }
   }
 
   onLinkClick = (link) => {
@@ -34,12 +41,33 @@ class FilesPage extends React.Component {
   }
 
   onRename = ([path]) => {
-    const oldName = path.split('/').pop()
-    const newName = window.prompt('Insert the new name:')
+    this.setState({
+      rename: {
+        isOpen: true,
+        path: path,
+        filename: path.split('/').pop()
+      }
+    })
+  }
 
-    if (newName) {
-      this.props.doFilesRename(path, path.replace(oldName, newName))
+  onRenameCancel = () => {
+    this.setState({
+      rename: {
+        isOpen: false,
+        path: '',
+        filename: ''
+      }
+    })
+  }
+
+  onRenameSubmit = (newName) => {
+    let {filename, path} = this.state.rename
+
+    if (newName !== '' && newName !== filename) {
+      this.props.doFilesRename(path, path.replace(filename, newName))
     }
+
+    this.onRenameCancel()
   }
 
   onFilesUpload = (files) => {
@@ -77,6 +105,18 @@ class FilesPage extends React.Component {
         {files && files.type === 'file' ? (
           <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
         ) : null }
+
+        <Modal
+          show={this.state.rename.isOpen}
+          className='fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around'
+          backdropClassName='fixed top-0 left-0 right-0 bottom-0 bg-black o-50'
+          onBackdropClick={this.onRenameCancel}
+          onEscapeKeyUp={this.onRenameCancel}>
+          <RenamePrompt
+            filename={this.state.rename.filename}
+            onCancel={this.onRenameCancel}
+            onSubmit={this.onRenameSubmit} />
+        </Modal>
       </div>
     )
   }

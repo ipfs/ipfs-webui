@@ -89,7 +89,8 @@ const SettingsInfo = ({isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSa
   }
   return (
     <p className='ma0 lh-copy charcoal-muted f6 mw7'>
-      The go-ipfs config file is a json document. It is read once at node instantiation. Commands that execute on a running daemon do not read the config file at runtime.
+      The IPFS config file is a json document. It is read once when the IPFS daemon is started.<br />
+      Save your changes then restart the IPFS deamon to apply them.
     </p>
   )
 }
