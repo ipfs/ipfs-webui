@@ -20,6 +20,7 @@
     "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
+    "chart.js": "^2.7.2",
     "cids": "^0.5.3",
     "cytoscape": "^3.2.12",
     "cytoscape-dagre": "^2.2.1",
@@ -38,6 +39,7 @@
     "multihashes": "^0.4.13",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
+    "react-chartjs-2": "^2.7.2",
     "react-debounce-render": "^4.0.1",
     "react-dom": "^16.4.0",
     "react-helmet": "^5.2.0",
@@ -48,6 +50,7 @@
     "react-test-renderer": "^16.4.0",
     "redux-bundler": "^21.2.1",
     "redux-bundler-react": "^1.0.0",
+    "simplify-js": "^1.2.3",
     "svgr": "^1.10.0",
     "tachyons": "^4.9.1",
     "uglifyjs-webpack-plugin": "^1.2.5",
