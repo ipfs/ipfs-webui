@@ -14,6 +14,7 @@
     "test:e2e": "react-scripts test --testMatch **/test/e2e/**/*.test.js",
     "test:e2e:ci": "URL=http://localhost:3001 run-p --race test:serve test:e2e",
     "analyze": "source-map-explorer build/static/js/main.*",
+    "bundlesize": "bundlesize",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
@@ -43,7 +44,8 @@
     "react-helmet": "^5.2.0",
     "react-inspector": "^2.3.0",
     "react-intl": "^2.4.0",
-    "react-router-dom": "^4.3.1",
+    "react-overlays": "^0.8.3",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
     "react-test-renderer": "^16.4.1",
     "redux-bundler": "^21.2.2",
@@ -63,6 +65,7 @@
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-runtime": "^6.26.0",
+    "bundlesize": "^0.17.0",
     "ecstatic": "^3.2.0",
     "eslint": "^4.19.1",
     "eslint-plugin-react": "^7.9.1",
@@ -74,5 +77,15 @@
   "homepage": "./",
   "standard": {
     "parser": "babel-eslint"
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./build/static/js/*.js",
+      "maxSize": "512 kB"
+    },
+    {
+      "path": "./build/static/css/*.css",
+      "maxSize": "18 kB"
+    }
+  ]
 }
