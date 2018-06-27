@@ -88,8 +88,8 @@ const SettingsInfo = ({isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSa
     )
   }
   return (
-    <p className='ma0 lh-copy charcoal-muted f6 mw7'>
-      The IPFS config file is a json document. It is read once when the IPFS daemon is started.<br />
+    <p className='ma0 lh-copy charcoal-muted f6' style={{maxWidth: 580}}>
+      The IPFS config file is a json document. It is read once when the IPFS daemon is started.
       Save your changes then restart the IPFS deamon to apply them.
     </p>
   )
