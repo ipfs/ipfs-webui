@@ -28,21 +28,21 @@ const messages = defineMessages({
     }`
   },
   messageItem: {
-    id: 'app.deletePrompt.deleteItem',
+    id: 'app.deletePrompt.messageItem',
     defaultMessage: `Are you sure you want to delete {count, plural,
       one {this item}
       other {these items}
     }? This action is permanent and cannot be reversed.`
   },
   messageFolder: {
-    id: 'app.deletePrompt.deleteItem',
+    id: 'app.deletePrompt.messageFolder',
     defaultMessage: `Are you sure you want to delete {count, plural,
       one {this folder}
       other {these folders}
     }? This action is permanent and cannot be reversed.`
   },
   messageFile: {
-    id: 'app.deletePrompt.deleteItem',
+    id: 'app.deletePrompt.messageFile',
     defaultMessage: `Are you sure you want to delete {count, plural,
       one {this file}
       other {these files}
