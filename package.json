@@ -45,7 +45,7 @@
     "react-inspector": "^2.3.0",
     "react-intl": "^2.4.0",
     "react-overlays": "^0.8.3",
-    "react-router-dom": "^4.2.2",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-test-renderer": "^16.4.1",
     "redux-bundler": "^21.2.2",
