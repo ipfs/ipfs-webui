@@ -42,7 +42,7 @@ class RenamePrompt extends React.Component {
 
   render () {
     let {onCancel, onSubmit, className, filename, folder, ...props} = this.props
-    className = `${className} w-80 shadow-4 sans-serif relative`
+    className = `${className} bg-white w-80 shadow-4 sans-serif relative`
 
     return (
       <form onSubmit={this.handleSubmit} className={className} style={{maxWidth: '30em'}} {...props}>
