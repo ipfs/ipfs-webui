@@ -52,19 +52,22 @@ const messages = defineMessages({
 
 const DeletePrompt = ({onCancel, onDelete, folders, files, className, ...props}) => {
   className = `${className} bg-white w-80 shadow-4 sans-serif relative`
-  let title, message
+  let title, message, count
 
   if (folders > 0) {
     if (files > 0) {
-      title = <FormattedMessage {...messages.deleteItem} values={{count: files + folders}} />
-      message = <FormattedMessage {...messages.messageItem} values={{count: files + folders}} />
+      title = messages.deleteItem
+      count = files + folders
+      message = messages.messageItem
     } else {
-      title = <FormattedMessage {...messages.deleteFolder} values={{count: folders}} />
-      message = <FormattedMessage {...messages.messageFolder} values={{count: folders}} />
+      title = messages.deleteFolder
+      count = folders
+      message = messages.messageFolder
     }
   } else {
-    title = <FormattedMessage {...messages.deleteFile} values={{count: files}} />
-    message = <FormattedMessage {...messages.messageFile} values={{count: files}} />
+    title = messages.deleteFile
+    count = files
+    message = messages.messageFile
   }
 
   return (
@@ -77,11 +80,11 @@ const DeletePrompt = ({onCancel, onDelete, folders, files, className, ...props})
         </div>
 
         <p className='charcoal-muted fw5'>
-          {title}
+          <FormattedMessage {...title} values={{count: count}} />
         </p>
 
         <p className='gray w-80 center'>
-          {message}
+          <FormattedMessage {...message} values={{count: count}} />
         </p>
       </div>
 
