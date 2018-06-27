@@ -1,6 +1,6 @@
 import { createSelector } from 'redux-bundler'
 
-// Depends on ipfsBundle, peersBundle
+// Depends on ipfsBundle, peersBundle, routesBundle
 export default function (opts) {
   opts = opts || {}
   // Max number of peers to update at once
@@ -144,19 +144,23 @@ export default function (opts) {
     },
 
     reactUpdatePeerBandwidth: createSelector(
+      'selectRouteInfo',
       'selectIpfsReady',
       'selectNextPeerIdForUpdate',
-      (ipfsReady, peerId) => {
-        if (ipfsReady && peerId) {
+      (routeInfo, ipfsReady, peerId) => {
+        if (routeInfo.url === '/' && ipfsReady && peerId) {
           return { actionCreator: 'doUpdatePeerBandwidth', args: [peerId] }
         }
       }
     ),
 
     reactSyncPeers: createSelector(
+      'selectRouteInfo',
       'selectPeers',
       'selectPeerBandwidthPeers',
-      (peers, bwPeers) => {
+      (routeInfo, peers, bwPeers) => {
+        if (routeInfo.url !== '/') return
+
         const peerIds = (peers || []).reduce((ids, p) => {
           const id = p.peer.toB58String()
           if (ids.seen[id]) return ids

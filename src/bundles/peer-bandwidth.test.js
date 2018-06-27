@@ -38,6 +38,8 @@ const mockPeersBundle = {
   }
 }
 
+const mockRoutesBundle = { name: 'routes', selectRouteInfo: _ => ({ url: '/' }) }
+
 const createMockIpfs = (opts) => {
   opts = opts || {}
   opts.minLatency = opts.minLatency || 1
@@ -57,6 +59,7 @@ const createMockIpfs = (opts) => {
 it('should sync added peers', async () => {
   const store = composeBundlesRaw(
     createReactorBundle(),
+    mockRoutesBundle,
     createMockIpfsBundle(createMockIpfs()),
     mockPeersBundle,
     createPeerBandwidthBundle()
@@ -89,6 +92,7 @@ it('should sync removed peers', async () => {
 
   const store = composeBundlesRaw(
     createReactorBundle(),
+    mockRoutesBundle,
     createMockIpfsBundle(createMockIpfs()),
     mockPeersBundle,
     createPeerBandwidthBundle()
@@ -129,6 +133,7 @@ it('should sync added and removed peers', async () => {
 
   const store = composeBundlesRaw(
     createReactorBundle(),
+    mockRoutesBundle,
     createMockIpfsBundle(createMockIpfs()),
     mockPeersBundle,
     createPeerBandwidthBundle()
@@ -173,6 +178,7 @@ it('should get bandwidth for added peers', async () => {
 
   const store = composeBundlesRaw(
     createReactorBundle(),
+    mockRoutesBundle,
     // This IPFS takes at minimum 20ms to respond to a function call
     createMockIpfsBundle(createMockIpfs({ minLatency: 20, maxLatency: 30 })),
     mockPeersBundle,
@@ -208,6 +214,7 @@ it('should periodically update bandwidth for peers', async () => {
 
   const store = composeBundlesRaw(
     createReactorBundle(),
+    mockRoutesBundle,
     createMockIpfsBundle(createMockIpfs({ minLatency: 0, maxLatency: 1 })),
     mockPeersBundle,
     // Up the concurrency value for the bundle so all the bandwidth updates
@@ -255,6 +262,7 @@ it('should update peer bandwidth according to concurrency option', async () => {
 
   const store = composeBundlesRaw(
     createReactorBundle(),
+    mockRoutesBundle,
     createMockIpfsBundle(createMockIpfs({ minLatency: 100, maxLatency: 150 })),
     mockPeersBundle,
     createPeerBandwidthBundle({ peerUpdateConcurrency })
