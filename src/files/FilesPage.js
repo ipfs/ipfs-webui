@@ -35,17 +35,17 @@ class FilesPage extends React.Component {
     doUpdateHash(`/files${link}`)
   }
 
-  onInspect = (hash) => {
+  onInspect = ([file]) => {
     const {doUpdateHash} = this.props
-    doUpdateHash(`/explore/ipfs/${hash}`)
+    doUpdateHash(`/explore/ipfs/${file.hash}`)
   }
 
-  onRename = ([path]) => {
+  onRename = ([file]) => {
     this.setState({
       rename: {
         isOpen: true,
-        path: path,
-        filename: path.split('/').pop()
+        path: file.path,
+        filename: file.path.split('/').pop()
       }
     })
   }

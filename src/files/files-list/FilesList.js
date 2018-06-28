@@ -73,12 +73,12 @@ class FileList extends React.Component {
         this.setState({ selected: [] })
       }
 
-      let data
-      if (opts.hash) {
-        data = this.selectedFiles.map(f => f.hash)
-      } else {
-        data = this.selectedFiles.map(f => join(this.props.root, f.name))
-      }
+      let data = this.selectedFiles.map(f => {
+        return {
+          ...f,
+          path: join(this.props.root, f.name)
+        }
+      })
 
       this.props[fn](data)
     }
@@ -113,7 +113,7 @@ class FileList extends React.Component {
         share={this.genActionFromSelected('onShare')}
         rename={this.genActionFromSelected('onRename')}
         download={this.genActionFromSelected('onDownload')}
-        inspect={this.genActionFromSelected('onInspect', {hash: true})}
+        inspect={this.genActionFromSelected('onInspect')}
         count={this.state.selected.length}
         size={size}
       />
