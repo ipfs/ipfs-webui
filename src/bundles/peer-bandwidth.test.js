@@ -2,8 +2,9 @@
 import { composeBundlesRaw, createReactorBundle } from 'redux-bundler'
 import createPeerBandwidthBundle from './peer-bandwidth'
 import { fakeCid } from '../../test/helpers/cid'
-import { randomInt, randomBig } from '../../test/helpers/random'
+import { randomInt } from '../../test/helpers/random'
 import sleep from '../../test/helpers/sleep'
+import { fakeBandwidth } from '../../test/helpers/bandwidth'
 
 async function fakePeer () {
   const peerId = (await fakeCid()).toBaseEncodedString('base58btc')
@@ -11,11 +12,6 @@ async function fakePeer () {
 }
 
 const fakePeers = (count = 5) => Promise.all(Array(count).fill(0).map(fakePeer))
-
-function fakeBandwidth () {
-  const rb = () => randomBig(0, Number.MAX_VALUE)
-  return { totalIn: rb(), totalOut: rb(), rateIn: rb(), rateOut: rb() }
-}
 
 function createMockIpfsBundle (ipfs) {
   return {

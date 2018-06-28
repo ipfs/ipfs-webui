@@ -20,6 +20,7 @@
     "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
+    "chart.js": "^2.7.2",
     "@svgr/cli": "^2.0.0",
     "cids": "^0.5.3",
     "cytoscape": "^3.2.13",
@@ -38,6 +39,7 @@
     "multicodec": "^0.2.7",
     "multihashes": "^0.4.13",
     "prop-types": "^15.6.2",
+    "react-chartjs-2": "^2.7.2",
     "react": "^16.4.1",
     "react-debounce-render": "^4.0.1",
     "react-dom": "^16.4.1",
@@ -50,6 +52,7 @@
     "react-test-renderer": "^16.4.1",
     "redux-bundler": "^21.2.2",
     "redux-bundler-react": "^1.0.1",
+    "simplify-js": "^1.2.3",
     "tachyons": "^4.10.0",
     "uglifyjs-webpack-plugin": "^1.2.6",
     "video-extensions": "^1.1.0",
