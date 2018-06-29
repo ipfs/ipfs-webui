@@ -32,7 +32,6 @@ export default {
     dispatch({ type: 'IPFS_INIT_STARTED' })
 
     try {
-      // TODO: ipfs-api@22.2 is errors.
       root.ipfs = await getIpfs({ api: true })
     } catch (err) {
       return dispatch({ type: 'IPFS_INIT_FAILED', payload: err })
