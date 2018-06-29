@@ -20,11 +20,10 @@ class JsonEditor extends React.Component {
           fontSize={12}
           showPrintMargin={false}
           showGutter
-          highlightActiveLine={false}
+          editorProps={{
+            $blockScrolling: Infinity
+          }}
           setOptions={{
-            enableBasicAutocompletion: false,
-            enableLiveAutocompletion: false,
-            enableSnippets: false,
             showLineNumbers: true,
             tabSize: 2
           }} />

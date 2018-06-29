@@ -6,7 +6,7 @@ import Button from '../components/button/Button'
 import JsonEditor from './editor/JsonEditor'
 import Tick from '../icons/GlyphSmallTick'
 
-const PAUSE_AFTER_SAVE_MS = 1500
+const PAUSE_AFTER_SAVE_MS = 3000
 
 export class SettingsPage extends React.Component {
   render () {
