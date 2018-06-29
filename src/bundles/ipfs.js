@@ -32,7 +32,8 @@ export default {
     dispatch({ type: 'IPFS_INIT_STARTED' })
 
     try {
-      root.ipfs = await getIpfs({ api: true })
+      // TODO: ipfs-api@22.2 is errors.
+      root.ipfs = await getIpfs({ api: true, cdn: 'https://unpkg.com/ipfs-api@22.1.1/dist/index.min.js' })
     } catch (err) {
       return dispatch({ type: 'IPFS_INIT_FAILED', payload: err })
     }
