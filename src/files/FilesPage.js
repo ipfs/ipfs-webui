@@ -7,6 +7,7 @@ import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
 import RenamePrompt from './rename-prompt/RenamePrompt'
+import DeletePrompt from './delete-prompt/DeletePrompt'
 import { Modal } from 'react-overlays'
 
 const action = (name) => {
@@ -27,6 +28,12 @@ class FilesPage extends React.Component {
       isOpen: false,
       path: '',
       filename: ''
+    },
+    delete: {
+      isOpen: false,
+      paths: [],
+      files: 0,
+      folders: 0
     }
   }
 
@@ -35,17 +42,17 @@ class FilesPage extends React.Component {
     doUpdateHash(`/files${link}`)
   }
 
-  onInspect = (hash) => {
+  onInspect = ([file]) => {
     const {doUpdateHash} = this.props
-    doUpdateHash(`/explore/ipfs/${hash}`)
+    doUpdateHash(`/explore/ipfs/${file.hash}`)
   }
 
-  onRename = ([path]) => {
+  onRename = ([file]) => {
     this.setState({
       rename: {
         isOpen: true,
-        path: path,
-        filename: path.split('/').pop()
+        path: file.path,
+        filename: file.path.split('/').pop()
       }
     })
   }
@@ -68,6 +75,37 @@ class FilesPage extends React.Component {
     }
 
     this.onRenameCancel()
+  }
+
+  onDelete = (files) => {
+    let filesCount = 0
+    let foldersCount = 0
+
+    files.forEach(file => file.type === 'file' ? filesCount++ : foldersCount++)
+
+    this.setState({
+      delete: {
+        isOpen: true,
+        files: filesCount,
+        folders: foldersCount,
+        paths: files.map(f => f.path)
+      }
+    })
+  }
+
+  onDeleteCancel = () => {
+    this.setState({
+      delete: {
+        isOpen: false,
+        files: 0,
+        folders: 0
+      }
+    })
+  }
+
+  onDeleteConfirm = () => {
+    this.props.doFilesDelete(this.state.delete.paths)
+    this.onDeleteCancel()
   }
 
   onFilesUpload = (files) => {
@@ -97,7 +135,7 @@ class FilesPage extends React.Component {
             onInspect={this.onInspect}
             onRename={this.onRename}
             onDownload={action('Download')}
-            onDelete={this.props.doFilesDelete}
+            onDelete={this.onDelete}
             onNavigate={this.onLinkClick}
             onCancelUpload={action('Cancel Upload')}
           />
@@ -111,11 +149,26 @@ class FilesPage extends React.Component {
           className='fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around'
           backdropClassName='fixed top-0 left-0 right-0 bottom-0 bg-black o-50'
           onBackdropClick={this.onRenameCancel}
-          onEscapeKeyUp={this.onRenameCancel}>
+          onEscapeKeyDown={this.onRenameCancel}>
           <RenamePrompt
+            className='outline-0'
             filename={this.state.rename.filename}
             onCancel={this.onRenameCancel}
             onSubmit={this.onRenameSubmit} />
+        </Modal>
+
+        <Modal
+          show={this.state.delete.isOpen}
+          className='fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around'
+          backdropClassName='fixed top-0 left-0 right-0 bottom-0 bg-black o-50'
+          onBackdropClick={this.onDeleteCancel}
+          onEscapeKeyDown={this.onDeleteCancel}>
+          <DeletePrompt
+            className='outline-0'
+            files={this.state.delete.files}
+            folders={this.state.delete.folders}
+            onCancel={this.onDeleteCancel}
+            onDelete={this.onDeleteConfirm} />
         </Modal>
       </div>
     )
