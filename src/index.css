@@ -1,12 +1,10 @@
 @import "../node_modules/tachyons";
 @import "../node_modules/ipfs-css";
 
-:focus .focus-underline,
 .focus-underline:focus {
   text-decoration: underline;
 }
 
-:focus .focus-outline,
 .focus-outline:focus {
   outline: 0;
   box-shadow: 0 0 0 .2rem rgba(201, 210, 215, .4);
