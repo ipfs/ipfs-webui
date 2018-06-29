@@ -24,8 +24,8 @@ export class SettingsPage extends React.Component {
             <div className='dtc tr v-btm pt2' style={{width: 240}}>
               { config ? (
                 <div>
-                  <Button className='ml3' bg='bg-charcoal' disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)} onClick={onReset}>Reset</Button>
-                  <SaveButton hasErrors={hasErrors} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} isSaving={isSaving} hasLocalChanges={hasLocalChanges} onClick={onSave} />
+                  <Button minWidth={100} className='ml3' bg='bg-charcoal' disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)} onClick={onReset}>Reset</Button>
+                  <SaveButton hasErrors={hasErrors} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} isSaving={isSaving} hasLocalChanges={hasLocalChanges} hasExternalChanges={hasExternalChanges} onClick={onSave} />
                 </div>
               ) : null }
             </div>
@@ -39,15 +39,10 @@ export class SettingsPage extends React.Component {
   }
 }
 
-const SaveButton = ({hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLocalChanges, onClick}) => {
-  let bg = 'bg-aqua'
-  if (hasErrors || hasSaveFailed) {
-    bg = 'bg-red-muted'
-  } else if (hasSaveSucceded) {
-    bg = 'bg-green'
-  }
+const SaveButton = ({hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLocalChanges, hasExternalChanges, onClick}) => {
+  const bg = hasSaveSucceded ? 'bg-green' : 'bg-aqua'
   return (
-    <Button className='ml2' bg={bg} disabled={!hasLocalChanges || hasErrors} danger={hasErrors} onClick={onClick}>
+    <Button minWidth={100} className='ml2' bg={bg} disabled={!hasLocalChanges || hasErrors} danger={hasSaveFailed || hasExternalChanges} onClick={onClick}>
       {hasSaveSucceded && !hasSaveFailed ? <Tick height={16} className='fill-snow' style={{transform: 'scale(3)'}} /> : isSaving ? 'Saving' : 'Save'}
     </Button>
   )
