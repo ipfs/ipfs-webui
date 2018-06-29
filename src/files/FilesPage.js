@@ -151,6 +151,7 @@ class FilesPage extends React.Component {
           onBackdropClick={this.onRenameCancel}
           onEscapeKeyDown={this.onRenameCancel}>
           <RenamePrompt
+            className='outline-0'
             filename={this.state.rename.filename}
             onCancel={this.onRenameCancel}
             onSubmit={this.onRenameSubmit} />
@@ -163,6 +164,7 @@ class FilesPage extends React.Component {
           onBackdropClick={this.onDeleteCancel}
           onEscapeKeyDown={this.onDeleteCancel}>
           <DeletePrompt
+            className='outline-0'
             files={this.state.delete.files}
             folders={this.state.delete.folders}
             onCancel={this.onDeleteCancel}
