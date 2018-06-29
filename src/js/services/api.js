@@ -3,8 +3,11 @@ import {sortBy} from 'lodash-es'
 import {join} from 'path'
 
 const host = (process.env.NODE_ENV !== 'production') ? 'localhost' : window.location.hostname
-const port = (process.env.NODE_ENV !== 'production') ? '5001' : (window.location.port || (window.location.protocol === 'https:' ? 443 : 80))
-const localApi = new API(host, port)
+const port = (process.env.NODE_ENV !== 'production') ? '5001' : window.location.port
+
+const localApi = new API(host, port, {
+  protocol: window.location.protocol.slice(0, -1)
+})
 
 // -- Public Interface
 
