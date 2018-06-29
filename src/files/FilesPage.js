@@ -39,6 +39,7 @@ class FilesPage extends React.Component {
 
   onLinkClick = (link) => {
     const {doUpdateHash} = this.props
+    link = link.split('/').map(p => encodeURIComponent(p)).join('/')
     doUpdateHash(`/files${link}`)
   }
 
