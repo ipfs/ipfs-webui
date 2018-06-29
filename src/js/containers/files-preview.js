@@ -4,8 +4,8 @@ import {connect} from 'react-redux'
 import {join} from 'path'
 import multiaddr from 'multiaddr'
 
-import {pages, preview} from '../actions'
-import Preview from '../components/preview'
+import {pages, preview} from './../actions'
+import Preview from './../components/preview'
 import Breadcrumbs from './../components/files/breadcrumbs'
 
 function getGatewayUrl (config) {

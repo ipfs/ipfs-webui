@@ -5,7 +5,7 @@ import {shallow} from 'enzyme'
 import React from 'react'
 
 import {parse} from '../../src/js/utils/path'
-import ObjectView from '../../src/js/views/object'
+import ObjectView from '../../src/js/components/object'
 
 describe('Object', () => {
   it('renders', () => {

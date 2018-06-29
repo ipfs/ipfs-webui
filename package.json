@@ -17,6 +17,7 @@
     "d3": "^5.0.0",
     "fbjs": "^0.8.16",
     "font-awesome": "^4.7.0",
+    "history": "^4.7.2",
     "i18next": "^10.6.0",
     "i18next-browser-languagedetector": "^2.1.0",
     "i18next-localstorage-cache": "^1.1.1",
@@ -43,6 +44,7 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.8",
     "react-syntax-highlighter": "^7.0.2",
+    "react-textarea-autosize": "^6.0.2",
     "readable-stream": "^2.3.5",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
@@ -53,7 +55,6 @@
     "@babel/core": "7.0.0-beta.42",
     "@babel/plugin-transform-react-display-name": "7.0.0-beta.42",
     "@babel/plugin-transform-runtime": "7.0.0-beta.42",
-    "@babel/polyfill": "7.0.0-beta.42",
     "@babel/preset-env": "7.0.0-beta.42",
     "@babel/preset-react": "7.0.0-beta.42",
     "@babel/preset-stage-0": "7.0.0-beta.42",
@@ -101,7 +102,7 @@
     "stream-http": "^2.8.1",
     "style-loader": "^0.20.3",
     "url-loader": "^1.0.1",
-    "webpack": "^3.10.0"
+    "webpack": "^4.2.0"
   },
   "pre-commit": [
     "lint"

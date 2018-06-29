@@ -14,6 +14,7 @@ import * as pages from './pages'
 import * as errors from './errors'
 import * as router from './router'
 
+import * as home from './home'
 import * as files from './files'
 import * as preview from './preview'
 import * as config from './config'
@@ -21,6 +22,7 @@ import * as config from './config'
 export {pages}
 export {errors}
 export {router}
+export {home}
 export {files}
 export {preview}
 export {config}

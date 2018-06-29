@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import FileList from '../views/filelist'
+import FileList from '../components/filelist'
 import i18n from '../utils/i18n.js'
 import {Row, Col, Panel} from 'react-bootstrap'
 import {withIpfs} from '../components/ipfs'

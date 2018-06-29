@@ -5,7 +5,7 @@ import {join, dirname, basename} from 'path'
 import {includes} from 'lodash-es'
 import {toastr} from 'react-redux-toastr'
 import {withRouter} from 'react-router'
-import {pages, files} from '../actions'
+import {pages, files} from './../actions'
 
 import Tree from './../components/files/tree'
 import ActionBar from './../components/files/action-bar'

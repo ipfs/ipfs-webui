@@ -4,7 +4,7 @@ import pretty from 'prettysize'
 import classnames from 'classnames'
 import {ContextMenuTrigger} from 'react-contextmenu'
 
-import Icon from '../../../views/icon'
+import Icon from '../../../components/icon'
 
 function renderType (type) {
   if (type === 'directory') {

@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import { Row, Col } from 'react-bootstrap'
 import debug from 'debug'
-import DHTGraph from '../views/dhtgraph'
+import DHTGraph from '../components/dhtgraph'
 import {idToAngle} from '../utils/common'
 import {withIpfs} from '../components/ipfs'
 

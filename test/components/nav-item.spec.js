@@ -4,7 +4,7 @@ import {expect} from 'chai'
 import {shallow} from 'enzyme'
 import React from 'react'
 
-import NavItem from '../../src/js/views/nav-item'
+import NavItem from '../../src/js/components/nav-item'
 
 describe('NavItem', () => {
   it('renders', () => {

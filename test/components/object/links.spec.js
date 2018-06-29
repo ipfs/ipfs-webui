@@ -7,7 +7,7 @@ import mh from 'multihashes'
 
 import {parse} from '../../../src/js/utils/path'
 
-import Links from '../../../src/js/views/object/links'
+import Links from '../../../src/js/components/object/links'
 
 describe('Links', () => {
   it('renders', () => {
