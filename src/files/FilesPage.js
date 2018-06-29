@@ -10,6 +10,29 @@ import RenamePrompt from './rename-prompt/RenamePrompt'
 import DeletePrompt from './delete-prompt/DeletePrompt'
 import { Modal } from 'react-overlays'
 
+function downloadFile (sUrl, fileName) {
+  var xhr = new window.XMLHttpRequest()
+  xhr.responseType = 'blob'
+  xhr.open('GET', sUrl, true)
+
+  xhr.onload = function (e) {
+    const res = xhr.response
+    const blob = new window.Blob([res])
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+
+    document.body.appendChild(a)
+    a.style = 'display:none'
+    a.href = url
+    a.download = fileName
+    a.click()
+
+    window.URL.revokeObjectURL(url)
+  }
+
+  xhr.send()
+}
+
 const action = (name) => {
   return (...args) => {
     console.log(name, args)
@@ -113,6 +136,11 @@ class FilesPage extends React.Component {
     this.props.doFilesWrite(this.props.files.path, files)
   }
 
+  onDownload = (files) => {
+    this.props.doFilesDownloadLink(files)
+      .then(({url, filename}) => downloadFile(url, filename))
+  }
+
   render () {
     const {files} = this.props
 
@@ -135,7 +163,7 @@ class FilesPage extends React.Component {
             onShare={action('Share')}
             onInspect={this.onInspect}
             onRename={this.onRename}
-            onDownload={action('Download')}
+            onDownload={this.onDownload}
             onDelete={this.onDelete}
             onNavigate={this.onLinkClick}
             onCancelUpload={action('Cancel Upload')}
@@ -181,6 +209,7 @@ export default connect(
   'doFilesDelete',
   'doFilesRename',
   'doFilesWrite',
+  'doFilesDownloadLink',
   'selectFiles',
   'selectGatewayUrl',
   FilesPage
