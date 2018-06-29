@@ -144,14 +144,13 @@ bundle.doFilesWrite = (root, files) => ({dispatch, getIpfs, store}) => {
 function downloadSingle (dispatch, store, file) {
   dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
 
-  const apiUrl = store.selectApiUrl()
   let url, filename
 
   if (file.type === 'directory') {
-    url = `${apiUrl}/api/v0/get?arg=${file.hash}&archive=true&compress=true`
+    url = `${store.selectApiUrl()}/api/v0/get?arg=${file.hash}&archive=true&compress=true`
     filename = `${file.name}.tar.gz`
   } else {
-    url = `${apiUrl}/api/v0/get?arg=${file.hash}&archive=true`
+    url = `${store.selectGatewayUrl()}/ipfs/${file.hash}`
     filename = file.name
   }
 
