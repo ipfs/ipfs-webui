@@ -8,7 +8,7 @@ import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
 import RenamePrompt from './rename-prompt/RenamePrompt'
 import DeletePrompt from './delete-prompt/DeletePrompt'
-import { Modal } from 'react-overlays'
+import Overlay from './overlay/Overlay'
 
 const action = (name) => {
   return (...args) => {
@@ -145,32 +145,22 @@ class FilesPage extends React.Component {
           <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
         ) : null }
 
-        <Modal
-          show={this.state.rename.isOpen}
-          className='fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around'
-          backdropClassName='fixed top-0 left-0 right-0 bottom-0 bg-black o-50'
-          onBackdropClick={this.onRenameCancel}
-          onEscapeKeyDown={this.onRenameCancel}>
+        <Overlay show={this.state.rename.isOpen} onLeave={this.onRenameCancel}>
           <RenamePrompt
             className='outline-0'
             filename={this.state.rename.filename}
             onCancel={this.onRenameCancel}
             onSubmit={this.onRenameSubmit} />
-        </Modal>
+        </Overlay>
 
-        <Modal
-          show={this.state.delete.isOpen}
-          className='fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around'
-          backdropClassName='fixed top-0 left-0 right-0 bottom-0 bg-black o-50'
-          onBackdropClick={this.onDeleteCancel}
-          onEscapeKeyDown={this.onDeleteCancel}>
+        <Overlay show={this.state.delete.isOpen} onLeave={this.onDeleteCancel}>
           <DeletePrompt
             className='outline-0'
             files={this.state.delete.files}
             folders={this.state.delete.folders}
             onCancel={this.onDeleteCancel}
             onDelete={this.onDeleteConfirm} />
-        </Modal>
+        </Overlay>
       </div>
     )
   }
