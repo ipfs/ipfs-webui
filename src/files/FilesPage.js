@@ -10,36 +10,6 @@ import RenamePrompt from './rename-prompt/RenamePrompt'
 import DeletePrompt from './delete-prompt/DeletePrompt'
 import { Modal } from 'react-overlays'
 
-function downloadFile (sUrl, fileName) {
-  let xhr = new window.XMLHttpRequest()
-  let total = 0
-  xhr.responseType = 'blob'
-  xhr.open('GET', sUrl, true)
-
-  xhr.onload = function (e) {
-    const res = xhr.response
-    const blob = new window.Blob([res])
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-
-    document.body.appendChild(a)
-    a.style = 'display:none'
-    a.href = url
-    a.download = fileName
-    a.click()
-
-    window.URL.revokeObjectURL(url)
-  }
-
-  xhr.onprogress = function (e) {
-    total = xhr.getResponseHeader('X-Content-Length')
-    const completed = (e.loaded / total) * 100
-    console.log(completed)
-  }
-
-  xhr.send()
-}
-
 const action = (name) => {
   return (...args) => {
     console.log(name, args)
@@ -54,6 +24,7 @@ class FilesPage extends React.Component {
   state = {
     clipboard: [],
     copy: false,
+    downloadProgress: -1,
     rename: {
       isOpen: false,
       path: '',
@@ -143,9 +114,42 @@ class FilesPage extends React.Component {
     this.props.doFilesWrite(this.props.files.path, files)
   }
 
+  downloadFile = (sUrl, fileName) => {
+    let xhr = new window.XMLHttpRequest()
+    let total = 0
+    xhr.responseType = 'blob'
+    xhr.open('GET', sUrl, true)
+
+    xhr.onload = (e) => {
+      this.setState({ downloadProgress: 100 })
+
+      const res = xhr.response
+      const blob = new window.Blob([res])
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+
+      document.body.appendChild(a)
+      a.style = 'display:none'
+      a.href = url
+      a.download = fileName
+      a.click()
+
+      window.URL.revokeObjectURL(url)
+
+      this.setState({ downloadProgress: -1 })
+    }
+
+    xhr.onprogress = (e) => {
+      total = xhr.getResponseHeader('X-Content-Length')
+      this.setState({ downloadProgress: (e.loaded / total) * 100 })
+    }
+
+    xhr.send()
+  }
+
   onDownload = (files) => {
     this.props.doFilesDownloadLink(files)
-      .then(({url, filename}) => downloadFile(url, filename))
+      .then(({url, filename}) => this.downloadFile(url, filename))
   }
 
   render () {
@@ -167,6 +171,7 @@ class FilesPage extends React.Component {
             maxWidth='calc(100% - 240px)'
             root={files.path}
             files={files.files}
+            downloadProgress={this.state.downloadProgress}
             onShare={action('Share')}
             onInspect={this.onInspect}
             onRename={this.onRename}
