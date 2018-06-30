@@ -49,11 +49,11 @@ const SelectedActions = ({count, size, unselect, remove, share, download, rename
             <StrokeTrash className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Delete</p>
           </div>
-          <div className={`tc mh2 ${singleFileAction}`} onClick={inspect} {...singleFileTooltip}>
+          <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? inspect : null} {...singleFileTooltip}>
             <StrokeIpld className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Inspect IPLD</p>
           </div>
-          <div className={`tc mh2 ${singleFileAction}`} onClick={rename} {...singleFileTooltip}>
+          <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? rename : null} {...singleFileTooltip}>
             <StrokePencil className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Rename</p>
           </div>
