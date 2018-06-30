@@ -7,7 +7,7 @@ import Status from '../status/Status'
 import './File.css'
 
 const File = (props) => {
-  let {selected, name, type, speed, status, size, hash, onSelect, onNavigate, onCancel} = props
+  let {selected, name, type, speed, status, size, onSelect, onNavigate, onCancel} = props
 
   let className = 'File flex items-center bt pv2'
 
@@ -27,7 +27,7 @@ const File = (props) => {
   }
 
   const select = (select) => {
-    onSelect(hash, select)
+    onSelect(name, select)
   }
 
   return (
