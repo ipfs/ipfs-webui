@@ -184,10 +184,11 @@ function downloadMultiple (dispatch, getIpfs, store, files) {
       }
 
       dispatch({ type: 'FILES_DOWNLOAD_LINK_FINISHED' })
+      const multihash = node.toJSON().multihash
 
       return {
-        url: `${apiUrl}/api/v0/get?arg=${node.toJSON().multihash}&archive=true&compress=true`,
-        filename: 'download.tar.gz'
+        url: `${apiUrl}/api/v0/get?arg=${multihash}&archive=true&compress=true`,
+        filename: `download_${multihash}.tar.gz`
       }
     })
 }
