@@ -11,7 +11,8 @@ import DeletePrompt from './delete-prompt/DeletePrompt'
 import { Modal } from 'react-overlays'
 
 function downloadFile (sUrl, fileName) {
-  var xhr = new window.XMLHttpRequest()
+  let xhr = new window.XMLHttpRequest()
+  let total = 0
   xhr.responseType = 'blob'
   xhr.open('GET', sUrl, true)
 
@@ -28,6 +29,12 @@ function downloadFile (sUrl, fileName) {
     a.click()
 
     window.URL.revokeObjectURL(url)
+  }
+
+  xhr.onprogress = function (e) {
+    total = xhr.getResponseHeader('X-Content-Length')
+    const completed = (e.loaded / total) * 100
+    console.log(completed)
   }
 
   xhr.send()
