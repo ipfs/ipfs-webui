@@ -24,6 +24,7 @@ class FilesPage extends React.Component {
   state = {
     clipboard: [],
     copy: false,
+    downloadReq: null,
     downloadProgress: -1,
     rename: {
       isOpen: false,
@@ -120,8 +121,13 @@ class FilesPage extends React.Component {
     xhr.responseType = 'blob'
     xhr.open('GET', sUrl, true)
 
+    this.setState({ downloadReq: xhr })
+
     xhr.onload = (e) => {
-      this.setState({ downloadProgress: 100 })
+      this.setState({
+        downloadProgress: 100,
+        downloadReq: null
+      })
 
       const res = xhr.response
       const blob = new window.Blob([res])
@@ -136,7 +142,9 @@ class FilesPage extends React.Component {
 
       window.URL.revokeObjectURL(url)
 
-      this.setState({ downloadProgress: -1 })
+      setTimeout(() => {
+        this.setState({ downloadProgress: -1 })
+      }, 3000)
     }
 
     xhr.onprogress = (e) => {
@@ -148,6 +156,15 @@ class FilesPage extends React.Component {
   }
 
   onDownload = (files) => {
+    if (this.state.downloadReq != null) {
+      this.state.downloadReq.abort()
+      this.setState({
+        downloadProgress: -1,
+        downloadReq: null
+      })
+      return
+    }
+
     this.props.doFilesDownloadLink(files)
       .then(({url, filename}) => this.downloadFile(url, filename))
   }

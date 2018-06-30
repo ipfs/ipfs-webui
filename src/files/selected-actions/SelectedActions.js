@@ -23,7 +23,9 @@ const SelectedActions = ({count, size, unselect, remove, share, download, downlo
   }
 
   let downloadText = 'Download'
-  if (downloadProgress >= 0) {
+  if (downloadProgress === 100) {
+    downloadText = 'Finished!'
+  } else if (downloadProgress >= 0) {
     downloadText = downloadProgress.toFixed(0) + '%'
   }
 
