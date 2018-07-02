@@ -72,7 +72,11 @@ class FilesPage extends React.Component {
     let {filename, path} = this.state.rename
 
     if (newName !== '' && newName !== filename) {
+      this.refs.filesList.toggleOne(filename, false)
       this.props.doFilesRename(path, path.replace(filename, newName))
+        .then(() => {
+          this.refs.filesList.toggleOne(newName, true)
+        })
     }
 
     this.onRenameCancel()
@@ -105,6 +109,7 @@ class FilesPage extends React.Component {
   }
 
   onDeleteConfirm = () => {
+    this.refs.filesList.toggleAll(false)
     this.props.doFilesDelete(this.state.delete.paths)
     this.onDeleteCancel()
   }
@@ -130,6 +135,7 @@ class FilesPage extends React.Component {
         {files && files.type === 'directory' ? (
           <FilesList
             maxWidth='calc(100% - 240px)'
+            ref='filesList'
             root={files.path}
             files={files.files}
             onShare={action('Share')}

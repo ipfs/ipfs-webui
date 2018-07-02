@@ -81,25 +81,25 @@ function runAndFetch ({ dispatch, getIpfs, store }, type, action, args) {
   dispatch({ type: `${type}_STARTED` })
 
   return getIpfs().files[action](...args)
-    .then(() => {
-      store.doFetchFiles()
-      dispatch({ type: `${type}_FINISHED` })
-    })
     .catch((error) => {
       dispatch({ type: `${type}_ERRORED`, payload: error })
+    })
+    .then(() => {
+      dispatch({ type: `${type}_FINISHED` })
+      return store.doFetchFiles()
     })
 }
 
 bundle.doFilesRename = (from, to) => (args) => {
-  runAndFetch(args, 'FILES_RENAME', 'mv', [[from, to]])
+  return runAndFetch(args, 'FILES_RENAME', 'mv', [[from, to]])
 }
 
 bundle.doFilesCopy = (from, to) => (args) => {
-  runAndFetch(args, 'FILES_RENAME', 'cp', [[from, to]])
+  return runAndFetch(args, 'FILES_RENAME', 'cp', [[from, to]])
 }
 
 bundle.doFilesMakeDir = (path) => (args) => {
-  runAndFetch(args, 'FILES_MKDIR', 'mkdir', [path, { parents: true }])
+  return runAndFetch(args, 'FILES_MKDIR', 'mkdir', [path, { parents: true }])
 }
 
 function readAsBuffer (file) {

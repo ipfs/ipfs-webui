@@ -45,54 +45,44 @@ class FileList extends React.Component {
     sortAsc: true
   }
 
-  selectAll = (checked) => {
+  toggleAll = (checked) => {
     let selected = []
 
     if (checked) {
-      selected = this.props.files.map(file => file.hash)
+      selected = this.props.files.map(file => file.name)
     }
 
     this.setState({ selected: selected })
   }
 
-  selectOne = (hash, select) => {
+  toggleOne = (name, check) => {
     let selected = this.state.selected
 
-    if (select) {
-      selected.push(hash)
+    if (check) {
+      selected.push(name)
     } else {
-      selected.splice(this.state.selected.indexOf(hash), 1)
+      selected.splice(this.state.selected.indexOf(name), 1)
     }
 
     this.setState({selected: selected})
   }
 
-  genActionFromSelected = (fn, opts = {}) => {
-    return () => {
-      if (opts.unselect) {
-        this.setState({ selected: [] })
-      }
+  genActionFromSelected = (fn, opts = {}) => () => {
+    let data = this.selectedFiles.map(f => ({
+      ...f,
+      path: join(this.props.root, f.name)
+    }))
 
-      let data = this.selectedFiles.map(f => {
-        return {
-          ...f,
-          path: join(this.props.root, f.name)
-        }
-      })
-
-      this.props[fn](data)
-    }
+    this.props[fn](data)
   }
 
-  genActionFromFile = (fn, file) => {
-    return () => {
-      this.props[fn](join(this.props.root, file.name))
-    }
+  genActionFromFile = (fn, file) => () => {
+    this.props[fn](join(this.props.root, file.name))
   }
 
   get selectedFiles () {
-    return this.state.selected.map(hash => {
-      return this.props.files.find(el => el.hash === hash)
+    return this.state.selected.map(name => {
+      return this.props.files.find(el => el.name === name)
     })
   }
 
@@ -101,7 +91,7 @@ class FileList extends React.Component {
       return null
     }
 
-    const unselectAll = () => this.selectAll(false)
+    const unselectAll = () => this.toggleAll(false)
     const size = this.selectedFiles.reduce((a, b) => a + b.size, 0)
 
     return (
@@ -109,7 +99,7 @@ class FileList extends React.Component {
         className='fixed bottom-0 right-0'
         style={{maxWidth: this.props.maxWidth}}
         unselect={unselectAll}
-        remove={this.genActionFromSelected('onDelete', {unselect: true})}
+        remove={this.genActionFromSelected('onDelete')}
         share={this.genActionFromSelected('onShare')}
         rename={this.genActionFromSelected('onRename')}
         download={this.genActionFromSelected('onDownload')}
@@ -137,10 +127,10 @@ class FileList extends React.Component {
       }
     }).map(file => (
       <File
-        onSelect={this.selectOne}
+        onSelect={this.toggleOne}
         onNavigate={this.genActionFromFile('onNavigate', file)}
         onCancel={this.genActionFromFile('onCancelUpload', file)}
-        selected={this.state.selected.indexOf(file.hash) !== -1}
+        selected={this.state.selected.indexOf(file.name) !== -1}
         key={window.btoa(file.name)}
         {...file}
       />
@@ -177,7 +167,7 @@ class FileList extends React.Component {
       <section className={className}>
         <header className='gray pv3 flex items-center'>
           <div className='ph2 w2'>
-            <Checkbox checked={this.state.selected.length === this.props.files.length} onChange={this.selectAll} />
+            <Checkbox checked={this.state.selected.length === this.props.files.length} onChange={this.toggleAll} />
           </div>
           <div className='ph2 f6 flex-grow-1 w-40'>
             <span onClick={this.changeSort(ORDER_BY_NAME)} className='pointer'>
