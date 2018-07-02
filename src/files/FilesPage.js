@@ -149,9 +149,9 @@ class FilesPage extends React.Component {
     xhr.onprogress = (e) => {
       // NOTE: Due to Same Origin Policies, this might not
       // always work, mainly when the API is on a different origin.
-      total = xhr.getResponseHeader('Content-Length') ||
+      total = total ||
         xhr.getResponseHeader('X-Content-Length') ||
-        total
+        xhr.getResponseHeader('Content-Length')
 
       this.setState({ downloadProgress: (e.loaded / total) * 100 })
     }
