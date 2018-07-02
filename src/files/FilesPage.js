@@ -8,7 +8,7 @@ import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
 import RenamePrompt from './rename-prompt/RenamePrompt'
 import DeletePrompt from './delete-prompt/DeletePrompt'
-import { Modal } from 'react-overlays'
+import Overlay from './overlay/Overlay'
 
 const action = (name) => {
   return (...args) => {
@@ -24,6 +24,8 @@ class FilesPage extends React.Component {
   state = {
     clipboard: [],
     copy: false,
+    downloadReq: null,
+    downloadProgress: -1,
     rename: {
       isOpen: false,
       path: '',
@@ -39,6 +41,7 @@ class FilesPage extends React.Component {
 
   onLinkClick = (link) => {
     const {doUpdateHash} = this.props
+    link = link.split('/').map(p => encodeURIComponent(p)).join('/')
     doUpdateHash(`/files${link}`)
   }
 
@@ -71,7 +74,11 @@ class FilesPage extends React.Component {
     let {filename, path} = this.state.rename
 
     if (newName !== '' && newName !== filename) {
+      this.refs.filesList.toggleOne(filename, false)
       this.props.doFilesRename(path, path.replace(filename, newName))
+        .then(() => {
+          this.refs.filesList.toggleOne(newName, true)
+        })
     }
 
     this.onRenameCancel()
@@ -104,12 +111,70 @@ class FilesPage extends React.Component {
   }
 
   onDeleteConfirm = () => {
+    this.refs.filesList.toggleAll(false)
     this.props.doFilesDelete(this.state.delete.paths)
     this.onDeleteCancel()
   }
 
   onFilesUpload = (files) => {
     this.props.doFilesWrite(this.props.files.path, files)
+  }
+
+  downloadFile = (sUrl, fileName) => {
+    let xhr = new window.XMLHttpRequest()
+    let total = 0
+    xhr.responseType = 'blob'
+    xhr.open('GET', sUrl, true)
+
+    this.setState({ downloadReq: xhr })
+
+    xhr.onload = (e) => {
+      this.setState({
+        downloadProgress: 100,
+        downloadReq: null
+      })
+
+      const res = xhr.response
+      const blob = new window.Blob([res])
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+
+      document.body.appendChild(a)
+      a.style = 'display:none'
+      a.href = url
+      a.download = fileName
+      a.click()
+
+      window.URL.revokeObjectURL(url)
+
+      setTimeout(() => {
+        this.setState({ downloadProgress: -1 })
+      }, 3000)
+    }
+
+    xhr.onprogress = (e) => {
+      total = e.lengthComputable ? e.total : (total ||
+        xhr.getResponseHeader('X-Content-Length') ||
+        xhr.getResponseHeader('Content-Length'))
+
+      this.setState({ downloadProgress: (e.loaded / total) * 100 })
+    }
+
+    xhr.send()
+  }
+
+  onDownload = (files) => {
+    if (this.state.downloadReq != null) {
+      this.state.downloadReq.abort()
+      this.setState({
+        downloadProgress: -1,
+        downloadReq: null
+      })
+      return
+    }
+
+    this.props.doFilesDownloadLink(files)
+      .then(({url, filename}) => this.downloadFile(url, filename))
   }
 
   render () {
@@ -129,12 +194,14 @@ class FilesPage extends React.Component {
         {files && files.type === 'directory' ? (
           <FilesList
             maxWidth='calc(100% - 240px)'
+            ref='filesList'
             root={files.path}
             files={files.files}
+            downloadProgress={this.state.downloadProgress}
             onShare={action('Share')}
             onInspect={this.onInspect}
             onRename={this.onRename}
-            onDownload={action('Download')}
+            onDownload={this.onDownload}
             onDelete={this.onDelete}
             onNavigate={this.onLinkClick}
             onCancelUpload={action('Cancel Upload')}
@@ -144,32 +211,22 @@ class FilesPage extends React.Component {
           <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
         ) : null }
 
-        <Modal
-          show={this.state.rename.isOpen}
-          className='fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around'
-          backdropClassName='fixed top-0 left-0 right-0 bottom-0 bg-black o-50'
-          onBackdropClick={this.onRenameCancel}
-          onEscapeKeyDown={this.onRenameCancel}>
+        <Overlay show={this.state.rename.isOpen} onLeave={this.onRenameCancel}>
           <RenamePrompt
             className='outline-0'
             filename={this.state.rename.filename}
             onCancel={this.onRenameCancel}
             onSubmit={this.onRenameSubmit} />
-        </Modal>
+        </Overlay>
 
-        <Modal
-          show={this.state.delete.isOpen}
-          className='fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around'
-          backdropClassName='fixed top-0 left-0 right-0 bottom-0 bg-black o-50'
-          onBackdropClick={this.onDeleteCancel}
-          onEscapeKeyDown={this.onDeleteCancel}>
+        <Overlay show={this.state.delete.isOpen} onLeave={this.onDeleteCancel}>
           <DeletePrompt
             className='outline-0'
             files={this.state.delete.files}
             folders={this.state.delete.folders}
             onCancel={this.onDeleteCancel}
             onDelete={this.onDeleteConfirm} />
-        </Modal>
+        </Overlay>
       </div>
     )
   }
@@ -180,6 +237,7 @@ export default connect(
   'doFilesDelete',
   'doFilesRename',
   'doFilesWrite',
+  'doFilesDownloadLink',
   'selectFiles',
   'selectGatewayUrl',
   FilesPage

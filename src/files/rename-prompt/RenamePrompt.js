@@ -63,7 +63,8 @@ class RenamePrompt extends React.Component {
             onChange={this.handleChange}
             value={this.state.filename}
             required
-            className='input-reset charcoal ba b--black-20 pa2 mb2 db w-75 center'
+            autoFocus
+            className='input-reset charcoal ba b--black-20 pa2 mb2 db w-75 center focus-outline'
             type='text' />
         </div>
 
