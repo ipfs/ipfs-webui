@@ -188,7 +188,7 @@ class FilesPage extends React.Component {
         {files ? (
           <div className='flex items-center justify-between mb4'>
             <Breadcrumbs path={files.path} onClick={this.onLinkClick} />
-            <FileInput upload={this.onFilesUpload} />
+            <FileInput onAddFiles={this.onFilesUpload} />
           </div>
         ) : null}
         {files && files.type === 'directory' ? (
