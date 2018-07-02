@@ -115,9 +115,8 @@ class FilesPage extends React.Component {
     this.props.doFilesWrite(this.props.files.path, files)
   }
 
-  downloadFile = (sUrl, fileName) => {
+  downloadFile = (sUrl, fileName, total = 0) => {
     let xhr = new window.XMLHttpRequest()
-    let total = 0
     xhr.responseType = 'blob'
     xhr.open('GET', sUrl, true)
 
@@ -148,7 +147,12 @@ class FilesPage extends React.Component {
     }
 
     xhr.onprogress = (e) => {
-      total = xhr.getResponseHeader('X-Content-Length')
+      // NOTE: Due to Same Origin Policies, this might not
+      // always work, mainly when the API is on a different origin.
+      total = xhr.getResponseHeader('Content-Length') ||
+        xhr.getResponseHeader('X-Content-Length') ||
+        total
+
       this.setState({ downloadProgress: (e.loaded / total) * 100 })
     }
 
@@ -166,7 +170,10 @@ class FilesPage extends React.Component {
     }
 
     this.props.doFilesDownloadLink(files)
-      .then(({url, filename}) => this.downloadFile(url, filename))
+      .then(({url, filename}) => {
+        const total = files.reduce((s, file) => s + file.size, 0)
+        this.downloadFile(url, filename, total)
+      })
   }
 
   render () {
