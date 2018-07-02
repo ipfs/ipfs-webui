@@ -24,6 +24,8 @@ class FilesPage extends React.Component {
   state = {
     clipboard: [],
     copy: false,
+    downloadReq: null,
+    downloadProgress: -1,
     rename: {
       isOpen: false,
       path: '',
@@ -118,6 +120,63 @@ class FilesPage extends React.Component {
     this.props.doFilesWrite(this.props.files.path, files)
   }
 
+  downloadFile = (sUrl, fileName) => {
+    let xhr = new window.XMLHttpRequest()
+    let total = 0
+    xhr.responseType = 'blob'
+    xhr.open('GET', sUrl, true)
+
+    this.setState({ downloadReq: xhr })
+
+    xhr.onload = (e) => {
+      this.setState({
+        downloadProgress: 100,
+        downloadReq: null
+      })
+
+      const res = xhr.response
+      const blob = new window.Blob([res])
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+
+      document.body.appendChild(a)
+      a.style = 'display:none'
+      a.href = url
+      a.download = fileName
+      a.click()
+
+      window.URL.revokeObjectURL(url)
+
+      setTimeout(() => {
+        this.setState({ downloadProgress: -1 })
+      }, 3000)
+    }
+
+    xhr.onprogress = (e) => {
+      total = e.lengthComputable ? e.total : (total ||
+        xhr.getResponseHeader('X-Content-Length') ||
+        xhr.getResponseHeader('Content-Length'))
+
+      this.setState({ downloadProgress: (e.loaded / total) * 100 })
+    }
+
+    xhr.send()
+  }
+
+  onDownload = (files) => {
+    if (this.state.downloadReq != null) {
+      this.state.downloadReq.abort()
+      this.setState({
+        downloadProgress: -1,
+        downloadReq: null
+      })
+      return
+    }
+
+    this.props.doFilesDownloadLink(files)
+      .then(({url, filename}) => this.downloadFile(url, filename))
+  }
+
   render () {
     const {files} = this.props
 
@@ -138,10 +197,11 @@ class FilesPage extends React.Component {
             ref='filesList'
             root={files.path}
             files={files.files}
+            downloadProgress={this.state.downloadProgress}
             onShare={action('Share')}
             onInspect={this.onInspect}
             onRename={this.onRename}
-            onDownload={action('Download')}
+            onDownload={this.onDownload}
             onDelete={this.onDelete}
             onNavigate={this.onLinkClick}
             onCancelUpload={action('Cancel Upload')}
@@ -177,6 +237,7 @@ export default connect(
   'doFilesDelete',
   'doFilesRename',
   'doFilesWrite',
+  'doFilesDownloadLink',
   'selectFiles',
   'selectGatewayUrl',
   FilesPage

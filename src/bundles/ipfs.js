@@ -1,6 +1,23 @@
 import root from 'window-or-global'
 import getIpfs from 'window.ipfs-fallback'
 
+function getURL (dispatch, getIpfs, action, addr) {
+  dispatch({ type: `IPFS_${action}_STARTED` })
+
+  getIpfs().config.get(`Addresses.${addr}`, (err, res) => {
+    if (err) {
+      console.log(err)
+      dispatch({ type: `IPFS_${action}_ERRORED`, payload: err })
+      return
+    }
+
+    const split = res.split('/')
+    const url = '//' + split[2] + ':' + split[4]
+
+    dispatch({ type: `IPFS_${action}_FINISHED`, payload: url })
+  })
+}
+
 export default {
   name: 'ipfs',
 
@@ -11,6 +28,10 @@ export default {
 
     if (action.type === 'IPFS_GATEWAY_URL_FINISHED') {
       return { ...state, gatewayUrl: action.payload }
+    }
+
+    if (action.type === 'IPFS_API_URL_FINISHED') {
+      return { ...state, apiUrl: action.payload }
     }
 
     if (!state.gatewayUrl) {
@@ -28,6 +49,8 @@ export default {
 
   selectGatewayUrl: state => state.ipfs.gatewayUrl,
 
+  selectApiUrl: state => state.ipfs.apiUrl,
+
   doInitIpfs: () => async ({ dispatch, store }) => {
     dispatch({ type: 'IPFS_INIT_STARTED' })
 
@@ -38,22 +61,15 @@ export default {
     }
 
     store.doGetGatewayUrl()
+    store.doGetApiUrl()
     dispatch({ type: 'IPFS_INIT_FINISHED' })
   },
 
   doGetGatewayUrl: () => async ({ dispatch, getIpfs }) => {
-    dispatch({ type: 'IPFS_GATWAY_URL_STARTED' })
+    getURL(dispatch, getIpfs, 'GATEWAY_URL', 'Gateway')
+  },
 
-    getIpfs().config.get('Addresses.Gateway', (err, res) => {
-      if (err) {
-        dispatch({ type: 'IPFS_GATWAY_URL_ERRORED', payload: err })
-        return
-      }
-
-      const split = res.split('/')
-      const gateway = '//' + split[2] + ':' + split[4]
-
-      dispatch({ type: 'IPFS_GATWAY_URL_FINISHED', payload: gateway })
-    })
+  doGetApiUrl: () => async ({ dispatch, getIpfs }) => {
+    getURL(dispatch, getIpfs, 'API_URL', 'API')
   }
 }

@@ -9,7 +9,7 @@ import StrokeTrash from '../../icons/StrokeTrash'
 import StrokeDownload from '../../icons/StrokeDownload'
 import './SelectedActions.css'
 
-const SelectedActions = ({count, size, unselect, remove, share, download, rename, inspect, className, ...props}) => {
+const SelectedActions = ({count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, ...props}) => {
   const text = (count > 1) ? 'Files selected' : 'File selected'
 
   let singleFileAction = 'disabled o-50'
@@ -20,6 +20,13 @@ const SelectedActions = ({count, size, unselect, remove, share, download, rename
   if (count === 1) {
     singleFileAction = 'pointer'
     singleFileTooltip = {}
+  }
+
+  let downloadText = 'Download'
+  if (downloadProgress === 100) {
+    downloadText = 'Finished!'
+  } else if (downloadProgress >= 0) {
+    downloadText = downloadProgress.toFixed(0) + '%'
   }
 
   return (
@@ -43,7 +50,7 @@ const SelectedActions = ({count, size, unselect, remove, share, download, rename
           </div>
           <div className='pointer tc mh2' onClick={download}>
             <StrokeDownload className='w3' fill='#A4BFCC' />
-            <p className='ma0 f6'>Download</p>
+            <p className='ma0 f6'>{downloadText}</p>
           </div>
           <div className='pointer tc mh2' onClick={remove}>
             <StrokeTrash className='w3' fill='#A4BFCC' />
@@ -77,10 +84,12 @@ SelectedActions.propTypes = {
   share: PropTypes.func.isRequired,
   download: PropTypes.func.isRequired,
   rename: PropTypes.func.isRequired,
-  inspect: PropTypes.func.isRequired
+  inspect: PropTypes.func.isRequired,
+  downloadProgress: PropTypes.number
 }
 
 SelectedActions.defaultActions = {
+  downloadProgress: -1,
   className: ''
 }
 

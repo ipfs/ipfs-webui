@@ -141,4 +141,64 @@ bundle.doFilesWrite = (root, files) => ({dispatch, getIpfs, store}) => {
   })
 }
 
+function downloadSingle (dispatch, store, file) {
+  dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
+
+  let url, filename
+
+  if (file.type === 'directory') {
+    url = `${store.selectApiUrl()}/api/v0/get?arg=${file.hash}&archive=true&compress=true`
+    filename = `${file.name}.tar.gz`
+  } else {
+    url = `${store.selectGatewayUrl()}/ipfs/${file.hash}`
+    filename = file.name
+  }
+
+  return Promise.resolve({ url, filename })
+}
+
+function downloadMultiple (dispatch, getIpfs, store, files) {
+  dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
+
+  const apiUrl = store.selectApiUrl()
+
+  if (!apiUrl) {
+    const e = new Error('api url undefined')
+    dispatch({ type: 'FILES_DOWNLOAD_LINK_ERRORED', payload: e })
+    return Promise.reject(e)
+  }
+
+  return getIpfs().object.new('unixfs-dir')
+    .then(async (node) => {
+      for (const file of files) {
+        try {
+          node = await getIpfs().object.patch.addLink(node.toJSON().multihash, {
+            name: file.name,
+            size: file.size,
+            multihash: file.hash
+          })
+        } catch (e) {
+          dispatch({ type: 'FILES_DOWNLOAD_LINK_ERRORED', payload: e })
+          return Promise.reject(e)
+        }
+      }
+
+      dispatch({ type: 'FILES_DOWNLOAD_LINK_FINISHED' })
+      const multihash = node.toJSON().multihash
+
+      return {
+        url: `${apiUrl}/api/v0/get?arg=${multihash}&archive=true&compress=true`,
+        filename: `download_${multihash}.tar.gz`
+      }
+    })
+}
+
+bundle.doFilesDownloadLink = (files) => ({dispatch, getIpfs, store}) => {
+  if (files.length === 1) {
+    return downloadSingle(dispatch, store, files[0])
+  }
+
+  return downloadMultiple(dispatch, getIpfs, store, files)
+}
+
 export default bundle

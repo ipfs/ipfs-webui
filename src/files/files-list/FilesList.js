@@ -31,6 +31,7 @@ class FileList extends React.Component {
     onCancelUpload: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
     root: PropTypes.string.isRequired,
+    downloadProgress: PropTypes.number.isRequired,
     maxWidth: PropTypes.string
   }
 
@@ -105,6 +106,7 @@ class FileList extends React.Component {
         download={this.genActionFromSelected('onDownload')}
         inspect={this.genActionFromSelected('onInspect')}
         count={this.state.selected.length}
+        downloadProgress={this.props.downloadProgress}
         size={size}
       />
     )
