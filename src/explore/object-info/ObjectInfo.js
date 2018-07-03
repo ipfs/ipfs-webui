@@ -12,8 +12,13 @@ const objectInspectorTheme = {
 }
 
 const nodeStyles = {
-  'dag-cbor': {name: 'CBOR DAG Node', color: '#28CA9F'},
-  'dag-pb': {name: 'Protobuf DAG Node', color: '#244e66'}
+  'dag-cbor': {shortName: 'CBOR', name: 'CBOR DAG Node', color: '#28CA9F'},
+  'dag-pb': {shortName: 'PB', name: 'Protobuf DAG Node', color: '#244e66'}
+}
+
+export function shortNameForNode (type) {
+  const style = nodeStyles[type]
+  return (style && style.shortName) || 'DAG'
 }
 
 export function nameForNode (type) {

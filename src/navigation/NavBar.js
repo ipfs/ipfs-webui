@@ -46,7 +46,7 @@ export const NavBar = ({isSettingsEnabled}) => (
     <nav className='db pt4' role='menubar'>
       <NavLink to='/' exact icon={StrokeMarketing}>Status</NavLink>
       <NavLink to='/files/' icon={StrokeWeb}>Files</NavLink>
-      <NavLink to='/explore' icon={StrokeIpld}>IPLD</NavLink>
+      <NavLink to='/explore' icon={StrokeIpld}>Explore</NavLink>
       <NavLink to='/peers' icon={StrokeCube}>Peers</NavLink>
       <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled}>Settings</NavLink>
     </nav>
