@@ -1,0 +1,8 @@
+
+.PeersTable tbody tr:nth-child(odd) {
+  background-color: rgba(154, 212, 219, 0.3);
+}
+
+.PeersTable tbody tr:nth-child(even) {
+  background-color: #fff;
+}
