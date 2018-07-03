@@ -104,3 +104,9 @@ export function join (a, b) {
   if (b.startsWith('/')) b = b.slice(1)
   return `${a}/${b}`
 }
+
+export function dirname (path) {
+  const parts = path.split('/')
+  parts.pop()
+  return parts.join('/') || '/'
+}

@@ -7,7 +7,6 @@ import {Dropdown, DropdownMenu} from '@tableflip/react-dropdown'
 export default class FileInput extends React.Component {
   static propTypes = {
     onAddFiles: PropTypes.func.isRequired,
-    onAddFolder: PropTypes.func.isRequired,
     onAddPath: PropTypes.func.isRequired
   }
 
