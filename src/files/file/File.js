@@ -36,7 +36,7 @@ const File = (props) => {
         <Checkbox checked={selected} onChange={select} />
       </div>
       <div className='name flex items-center flex-grow-1 pa2 w-40'>
-        <div className='dib icon'>
+        <div className='pointer dib icon' onClick={onNavigate}>
           <FileIcon name={name} type={type} />
         </div>
         <span className='pointer' onClick={onNavigate}>{name}</span>
