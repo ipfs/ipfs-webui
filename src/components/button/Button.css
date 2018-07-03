@@ -1,5 +1,4 @@
 .Button {
-  min-width: 140px;
   opacity: 0.9;
 }
 
@@ -15,4 +14,5 @@
 .Button:disabled {
   opacity: 0.8;
   box-shadow: initial;
+  cursor: default;
 }

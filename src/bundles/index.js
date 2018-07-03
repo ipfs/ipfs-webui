@@ -10,6 +10,8 @@ import peerBandwidthBundle from './peer-bandwidth'
 import routesBundle from './routes'
 import redirectsBundle from './redirects'
 import filesBundle from './files'
+import configBundle from './config'
+import configSaveBundle from './config-save'
 
 export default composeBundles(
   appIdle({idleTimeout: 5000}),
@@ -21,5 +23,7 @@ export default composeBundles(
   peerBandwidthBundle(),
   routesBundle,
   redirectsBundle,
-  filesBundle
+  filesBundle,
+  configBundle,
+  configSaveBundle
 )

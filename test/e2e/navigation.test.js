@@ -1,4 +1,4 @@
-/* global it beforeAll afterAll */
+/* global it expect beforeAll afterAll */
 import ms from 'milliseconds'
 import { launch, appUrl } from './puppeteer'
 
@@ -26,8 +26,9 @@ it('Navigation test', async () => {
   await page.click('nav a[href="#/peers"]')
   await waitForTitle('Peers - IPFS')
 
-  await page.click('nav a[href="#/settings"]')
-  await waitForTitle('Settings - IPFS')
+  // No settings tab if IPFS is not available.
+  const settingsLink = await page.$('nav a[href="#/settings"]')
+  expect(settingsLink).toBeNull()
 
   await page.click('nav a[href="#/"]')
   await waitForTitle('Status - IPFS')

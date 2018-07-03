@@ -12,5 +12,7 @@ storiesOf('Button', module)
       <Button className='ma2' bg='bg-orange' onClick={action('orange-click')}>Orange</Button>
       <Button className='ma2' bg='bg-red' onClick={action('red-click')}>Red</Button>
       <Button className='ma2' disabled onClick={action('disabled-click')}>Disabled</Button>
+      <Button className='ma2' minWidth={100} onClick={action('smol-click')}>Smol</Button>
+      <Button className='ma2' onClick={action('smol-click')} style={{background: 'hotpink'}}>Custom</Button>
     </div>
   ))
