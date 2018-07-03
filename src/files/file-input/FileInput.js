@@ -6,8 +6,7 @@ import {Dropdown, DropdownMenu} from '@tableflip/react-dropdown'
 
 export default class FileInput extends React.Component {
   static propTypes = {
-    onAddFiles: PropTypes.func.isRequired,
-    onAddPath: PropTypes.func.isRequired
+    onAddFiles: PropTypes.func.isRequired
   }
 
   state = {
@@ -37,7 +36,6 @@ export default class FileInput extends React.Component {
             <nav className='flex flex-column pa3'>
               <a className='pointer' onClick={() => this.filesInput.click()}>Add file</a>
               <a className='pointer' onClick={() => this.folderInput.click()}>Add folder</a>
-              <a href='#'>Add by IPFS Path</a>
             </nav>
           </DropdownMenu>
         </Dropdown>

@@ -132,12 +132,16 @@ bundle.doFilesWrite = (root, files) => async ({dispatch, getIpfs, store}) => {
     files = await Promise.all(promises)
 
     for (const file of files) {
-      await getIpfs().files.mkdir(join(root, dirname(file.name)), { parents: true })
+      const path = join(root, dirname(file.name))
+      await getIpfs().files.mkdir(path, { parents: true })
     }
 
-    await Promise.all(files.map(file => {
-      const target = join(root, file.name)
-      return getIpfs().files.write(target, file.content, { create: true })
+    await Promise.all(files.map(async file => {
+      const res = await getIpfs().add([file.content])
+      const f = res[res.length - 1]
+      const src = `/ipfs/${f.hash}`
+      const dst = join(root, file.name)
+      await getIpfs().files.cp([src, dst])
     }))
 
     await store.doFetchFiles()
