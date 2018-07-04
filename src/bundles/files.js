@@ -1,5 +1,5 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
-import { join, dirname } from '../lib/path'
+import { join, dirname } from 'path'
 
 const bundle = createAsyncResourceBundle({
   name: 'files',
