@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PencilIcon from '../../icons/StrokePencil'
 import Button from '../../components/button/Button'
-import { Prompt, PromptActions, PromptBody } from '../prompt/Prompt'
+import { Modal, ModalActions, ModalBody } from '../modal/Modal'
 
-class RenamePrompt extends React.Component {
+class RenameModal extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -41,8 +41,8 @@ class RenamePrompt extends React.Component {
     className = `${className} bg-white w-80 shadow-4 sans-serif relative`
 
     return (
-      <Prompt {...props} className={className} onCancel={onCancel}>
-        <PromptBody title={`Rename ${folder ? 'Folder' : 'File'}`} icon={PencilIcon}>
+      <Modal {...props} className={className} onCancel={onCancel}>
+        <ModalBody title={`Rename ${folder ? 'Folder' : 'File'}`} icon={PencilIcon}>
           <p className='gray w-80 center'>
             Choose a new name for this {folder ? 'folder' : 'file'}.
           </p>
@@ -55,15 +55,15 @@ class RenamePrompt extends React.Component {
             autoFocus
             className='input-reset charcoal ba b--black-20 pa2 mb2 db w-75 center focus-outline'
             type='text' />
-        </PromptBody>
+        </ModalBody>
 
-        <PromptActions>
+        <ModalActions>
           <Button className='ma2' bg='bg-gray' onClick={onCancel}>Cancel</Button>
           <Button className='ma2' bg='bg-aqua' onClick={this.onSubmit}>Save</Button>
-        </PromptActions>
-      </Prompt>
+        </ModalActions>
+      </Modal>
     )
   }
 }
 
-export default RenamePrompt
+export default RenameModal

@@ -2,23 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CancelIcon from '../../icons/GlyphSmallCancel'
 
-export const PromptActions = ({ justify, className, children, ...props }) => (
+export const ModalActions = ({ justify, className, children, ...props }) => (
   <div className={`flex justify-${justify} pa2 ${className}`} style={{ backgroundColor: '#f4f6f8' }} {...props}>
     { children }
   </div>
 )
 
-PromptActions.propTypes = {
+ModalActions.propTypes = {
   justify: PropTypes.string,
   className: PropTypes.string
 }
 
-PromptActions.defaultProps = {
+ModalActions.defaultProps = {
   justify: 'between',
   className: ''
 }
 
-export const PromptBody = ({ className, icon, title, children, ...props }) => {
+export const ModalBody = ({ className, icon, title, children, ...props }) => {
   icon = React.createElement(icon, {
     className: 'fill-gray w3'
   })
@@ -36,19 +36,19 @@ export const PromptBody = ({ className, icon, title, children, ...props }) => {
   )
 }
 
-PromptBody.propTypes = {
+ModalBody.propTypes = {
   icon: PropTypes.func.isRequired,
-  title: PropTypes.oneOf([
+  title: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
   ])
 }
 
-PromptBody.defaultProps = {
+ModalBody.defaultProps = {
   className: ''
 }
 
-export const Prompt = ({onCancel, children, className, ...props}) => {
+export const Modal = ({onCancel, children, className, ...props}) => {
   return (
     <div className={`${className} bg-white w-80 shadow-4 sans-serif relative`} style={{maxWidth: '30em'}} {...props}>
       { onCancel &&
@@ -60,13 +60,13 @@ export const Prompt = ({onCancel, children, className, ...props}) => {
   )
 }
 
-Prompt.propTypes = {
+Modal.propTypes = {
   onCancel: PropTypes.func
 }
 
-Prompt.defaultProps = {
+Modal.defaultProps = {
   onCancel: null,
   className: ''
 }
 
-export default Prompt
+export default Modal
