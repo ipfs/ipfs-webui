@@ -137,7 +137,7 @@ bundle.doFilesWrite = (root, files) => async ({dispatch, getIpfs, store}) => {
     }
 
     await Promise.all(files.map(async file => {
-      const res = await getIpfs().add([file.content])
+      const res = await getIpfs().add([file.content], { pin: false })
       const f = res[res.length - 1]
       const src = `/ipfs/${f.hash}`
       const dst = join(root, file.name)

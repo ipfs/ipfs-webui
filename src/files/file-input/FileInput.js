@@ -18,14 +18,10 @@ export default class FileInput extends React.Component {
     this.setState(s => ({ open: !s.open }))
   }
 
-  onFilesInputChange = () => {
-    this.props.onAddFiles(this.filesInput.files)
-    this.filesInput.value = null
-  }
-
-  onFolderInputChange = () => {
-    this.props.onAddFiles(this.folderInput.files)
-    this.folderInput.value = null
+  onInputChange = (input) => () => {
+    this.props.onAddFiles(input.files)
+    input.value = null
+    this.toggleOpen()
   }
 
   render () {
@@ -52,7 +48,7 @@ export default class FileInput extends React.Component {
           className='dn'
           multiple
           ref={el => { this.filesInput = el }}
-          onChange={this.onFilesInputChange} />
+          onChange={this.onInputChange(this.filesInput)} />
 
         <input
           type='file'
@@ -60,7 +56,7 @@ export default class FileInput extends React.Component {
           multiple
           webkitdirectory='true'
           ref={el => { this.folderInput = el }}
-          onChange={this.onFolderInputChange} />
+          onChange={this.onInputChange(this.folderInput)} />
       </div>
     )
   }
