@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import './PeersTable.css'
 
@@ -13,7 +12,7 @@ export class PeersTable extends React.Component {
 
     return (
       <div className='w-100'>
-        <table className='PeersTable f6 collapse'>
+        <table className='PeersTable w-100 f6 collapse'>
           <thead>
             <tr className='gray'>
               <td className='pv2 ph4'>ID</td>
@@ -42,7 +41,4 @@ export class PeersTable extends React.Component {
   }
 }
 
-export default connect(
-  'selectPeers',
-  PeersTable
-)
+export default PeersTable
