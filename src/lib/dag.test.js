@@ -1,11 +1,11 @@
 /* global it expect */
-import { findDagCborLinks } from './dag'
+import { findAndReplaceDagCborLinks } from './dag'
 
 it('finds minimal ipld links', () => {
   const minimal = {
     '/': 'zdpuAzR6UUgm6FLcpUVPH2U2JGteR8rLrM57BzZqJPnjAmTy4'
   }
-  const res = findDagCborLinks(minimal)
+  const res = findAndReplaceDagCborLinks(minimal)
   expect(res.length).toBe(1)
   expect(res[0].path).toBe('')
   expect(res[0].target).toBe(minimal['/'])
@@ -21,7 +21,7 @@ it('finds nested ipld links', () => {
       }
     }
   }
-  const res = findDagCborLinks(nested)
+  const res = findAndReplaceDagCborLinks(nested)
   expect(res.length).toBe(1)
   expect(res[0].path).toBe('a/b/c')
   expect(res[0].target).toBe(nested.a.b.c['/'])
@@ -39,7 +39,7 @@ it('finds multiple ipld links', () => {
       '/': 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW'
     }
   }
-  const res = findDagCborLinks(multiple)
+  const res = findAndReplaceDagCborLinks(multiple)
   expect(res.length).toBe(2)
   expect(res[0].path).toBe('a')
   expect(res[0].target).toBe(multiple.a['/'])
@@ -60,7 +60,7 @@ it('finds ipld links in arrays', () => {
     },
     'nope'
   ]
-  const res = findDagCborLinks(arr)
+  const res = findAndReplaceDagCborLinks(arr)
   expect(res.length).toBe(2)
   expect(res[0].path).toBe('0')
   expect(res[0].target).toBe(arr[0]['/'])
