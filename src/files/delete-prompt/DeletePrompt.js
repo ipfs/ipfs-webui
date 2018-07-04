@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import TrashIcon from '../../icons/StrokeTrash'
-import Prompt from '../prompt/Prompt'
+import Button from '../../components/button/Button'
+import { Prompt, PromptActions, PromptBody } from '../prompt/Prompt'
 
 const messages = defineMessages({
   deleteItem: {
@@ -69,16 +70,17 @@ const DeletePrompt = ({onCancel, onDelete, folders, files, className, ...props})
   }
 
   return (
-    <Prompt {...props}
-      className={className}
-      onCancel={onCancel}
-      onConfirm={onDelete}
-      confirmText='Delete'
-      title={<FormattedMessage {...title} values={{count: count}} />}
-      icon={TrashIcon} >
-      <p className='gray w-80 center'>
-        <FormattedMessage {...message} values={{count: count}} />
-      </p>
+    <Prompt {...props} className={className} onCancel={onCancel} >
+      <PromptBody title={<FormattedMessage {...title} values={{count: count}} />} icon={TrashIcon}>
+        <p className='gray w-80 center'>
+          <FormattedMessage {...message} values={{count: count}} />
+        </p>
+      </PromptBody>
+
+      <PromptActions>
+        <Button className='ma2' bg='bg-gray' onClick={onCancel}>Cancel</Button>
+        <Button className='ma2' bg='bg-red' onClick={onDelete}>Delete</Button>
+      </PromptActions>
     </Prompt>
   )
 }
