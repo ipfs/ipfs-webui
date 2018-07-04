@@ -1,5 +1,5 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
-import { join } from '../lib/path'
+import { join, dirname } from 'path'
 
 const bundle = createAsyncResourceBundle({
   name: 'files',
@@ -108,7 +108,7 @@ function readAsBuffer (file) {
     reader.onload = (event) => {
       resolve({
         content: Buffer.from(reader.result),
-        name: file.name
+        name: file.webkitRelativePath || file.name
       })
     }
     reader.onerror = (event) => {
@@ -119,26 +119,35 @@ function readAsBuffer (file) {
   })
 }
 
-bundle.doFilesWrite = (root, files) => ({dispatch, getIpfs, store}) => {
+bundle.doFilesWrite = (root, files) => async ({dispatch, getIpfs, store}) => {
   dispatch({ type: 'FILES_WRITE_STARTED' })
 
-  let promises = []
+  try {
+    let promises = []
 
-  for (const file of files) {
-    promises.push(readAsBuffer(file))
-  }
+    for (const file of files) {
+      promises.push(readAsBuffer(file))
+    }
 
-  return Promise.all(promises).then(files => {
-    return Promise.all(files.map((file) => {
-      const target = join(root, file.name)
-      return getIpfs().files.write(target, file.content, { create: true })
+    files = await Promise.all(promises)
+
+    for (const file of files) {
+      const path = join(root, dirname(file.name))
+      await getIpfs().files.mkdir(path, { parents: true })
+    }
+
+    await Promise.all(files.map(async file => {
+      const res = await getIpfs().add([file.content], { pin: false })
+      const f = res[res.length - 1]
+      const src = `/ipfs/${f.hash}`
+      const dst = join(root, file.name)
+      await getIpfs().files.cp([src, dst])
     }))
-  }).then(() => {
-    store.doFetchFiles()
-    dispatch({ type: 'FILES_WRITE_FINISHED' })
-  }).catch((error) => {
+
+    await store.doFetchFiles()
+  } catch (error) {
     dispatch({ type: 'FILES_WRITE_ERRORED', payload: error })
-  })
+  }
 }
 
 function downloadSingle (dispatch, store, file) {
