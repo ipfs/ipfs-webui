@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import TrashIcon from '../../icons/StrokeTrash'
-import CancelIcon from '../../icons/GlyphSmallCancel'
-import Button from '../../components/button/Button'
+import Prompt from '../prompt/Prompt'
 
 const messages = defineMessages({
   deleteItem: {
@@ -51,7 +50,6 @@ const messages = defineMessages({
 })
 
 const DeletePrompt = ({onCancel, onDelete, folders, files, className, ...props}) => {
-  className = `${className} bg-white w-80 shadow-4 sans-serif relative`
   let title, message, count
 
   if (folders > 0) {
@@ -71,28 +69,17 @@ const DeletePrompt = ({onCancel, onDelete, folders, files, className, ...props})
   }
 
   return (
-    <div className={className} style={{maxWidth: '30em'}} {...props}>
-      <CancelIcon className='absolute pointer w2 h2 top-0 right-0 fill-gray' onClick={onCancel} />
-
-      <div className='ph2 pv3 tc'>
-        <div className='center bg-snow br-100 flex justify-center items-center' style={{width: '80px', height: '80px'}}>
-          <TrashIcon className='fill-gray w3' />
-        </div>
-
-        <p className='charcoal-muted fw5'>
-          <FormattedMessage {...title} values={{count: count}} />
-        </p>
-
-        <p className='gray w-80 center'>
-          <FormattedMessage {...message} values={{count: count}} />
-        </p>
-      </div>
-
-      <div className='flex justify-between pa2' style={{ backgroundColor: '#f4f6f8' }}>
-        <Button className='ma2' bg='bg-gray' onClick={onCancel}>Cancel</Button>
-        <Button className='ma2' bg='bg-red' onClick={onDelete}>Delete</Button>
-      </div>
-    </div>
+    <Prompt {...props}
+      className={className}
+      onCancel={onCancel}
+      onConfirm={onDelete}
+      confirmText='Delete'
+      title={<FormattedMessage {...title} values={{count: count}} />}
+      icon={TrashIcon} >
+      <p className='gray w-80 center'>
+        <FormattedMessage {...message} values={{count: count}} />
+      </p>
+    </Prompt>
   )
 }
 
