@@ -2,6 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import Box from '../components/box/Box'
+import ErrorBoundary from '../components/error/ErrorBoundary'
 import CidInfo from './cid-info/CidInfo'
 import ObjectInfo, { colorForNode, nameForNode, shortNameForNode } from './object-info/ObjectInfo'
 import IpldGraph from './graph/IpldGraphCytoscape'
@@ -61,11 +62,13 @@ class ExplorePage extends React.Component {
                 <CidInfo
                   style={{background: '#FBFBFB'}}
                   cid={targetNode.cid} />
-                <IpldGraph
-                  style={{width: '100%', height: 300}}
-                  path={targetNode.cid}
-                  links={targetNode.links}
-                  onNodeClick={this.onLinkClick} />
+                <ErrorBoundary>
+                  <IpldGraph
+                    style={{width: '100%', height: 300}}
+                    path={targetNode.cid}
+                    links={targetNode.links}
+                    onNodeClick={this.onLinkClick} />
+                </ErrorBoundary>
               </div>
             ) : null}
           </div>
@@ -106,6 +109,12 @@ const StartExploringPage = () => {
               </li>
               <li>
                 <ExploreSuggestion name='My favourites' cid='zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs' type='dag-cbor' />
+              </li>
+              <li>
+                <ExploreSuggestion name='Project Apollo Archives' cid='QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D' type='dag-pb' />
+              </li>
+              <li>
+                <ExploreSuggestion name='XKCD' cid='QmdmQXB2mzChmMeKY47C43LxUdg1NDJ5MWcKMKxDu7RgQm' type='dag-pb' />
               </li>
             </ul>
           </div>
