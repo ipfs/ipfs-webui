@@ -2,11 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CancelIcon from '../../icons/GlyphSmallCancel'
 
-export const PromptActions = ({ className = '', children, ...props }) => (
-  <div className={`flex justify-between pa2 ${className}`} style={{ backgroundColor: '#f4f6f8' }} {...props}>
+export const PromptActions = ({ justify, className, children, ...props }) => (
+  <div className={`flex justify-${justify} pa2 ${className}`} style={{ backgroundColor: '#f4f6f8' }} {...props}>
     { children }
   </div>
 )
+
+PromptActions.propTypes = {
+  justify: PropTypes.string,
+  className: PropTypes.string
+}
+
+PromptActions.defaultProps = {
+  justify: 'between',
+  className: ''
+}
 
 export const PromptBody = ({ className, icon, title, children, ...props }) => {
   icon = React.createElement(icon, {
