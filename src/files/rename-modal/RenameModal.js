@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PencilIcon from '../../icons/StrokePencil'
-import TextInputModal from '../text-input-modal/TextInputModal'
+import TextInputModal from '../../components/text-input-modal/TextInputModal'
 
 function RenameModal ({onCancel, onSubmit, filename, folder, className, ...props}) {
   return (
