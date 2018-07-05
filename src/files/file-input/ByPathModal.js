@@ -10,6 +10,7 @@ function ByPathModal ({ onCancel, onSubmit, className, ...props }) {
       validate={isIPFS.ipfsPath}
       onCancel={onCancel}
       onSubmit={onSubmit}
+      onPaste={(e) => e.clipboardData.getData('text').trim()}
       className={className}
       title='Add by path'
       description='Insert the path to add.'
