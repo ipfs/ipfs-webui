@@ -1,6 +1,7 @@
 import React from 'react'
 import cytoscape from 'cytoscape'
 import dagre from 'cytoscape-dagre'
+import {getCodecOrNull} from '../../lib/cid'
 import {colorForNode} from '../object-info/ObjectInfo'
 
 cytoscape.use(dagre)
@@ -108,8 +109,7 @@ export default class IpldGraphCytoscape extends React.Component {
   }
 
   makeNode ({target, path}, index) {
-    // TODO: pass link type info.
-    const type = target.startsWith('Q') ? 'dag-pb' : 'dag-cbor'
+    const type = getCodecOrNull(target)
     const bg = colorForNode(type)
     return {
       group: 'nodes',

@@ -1,17 +1,26 @@
-const CID = require('cids')
-const multihash = require('multihashes')
-const multibaseConstants = require('multibase/src/constants')
-const mutlicodecVarintTable = require('multicodec/src/varint-table')
+import CID from 'cids'
+import multihash from 'multihashes'
+import multibaseConstants from 'multibase/src/constants'
+import mutlicodecVarintTable from 'multicodec/src/varint-table'
 
-export function toCidStrOrNull (value) {
+export function toCidOrNull (value) {
   if (!value) return null
   try {
-    const cid = new CID(value)
-    return cid.toBaseEncodedString()
+    return new CID(value)
   } catch (err) {
     console.log('Failed to parse CID', value, err)
     return null
   }
+}
+
+export function getCodecOrNull (value) {
+  const cid = toCidOrNull(value)
+  return cid ? cid.codec : null
+}
+
+export function toCidStrOrNull (value) {
+  const cid = toCidOrNull(value)
+  return cid ? cid.toBaseEncodedString() : null
 }
 
 export function cidToHuman (value) {

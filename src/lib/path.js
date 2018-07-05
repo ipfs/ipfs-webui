@@ -6,7 +6,7 @@ import { normaliseDagNode } from './dag'
  * Normalizes nodes into a common structure:
  *
  * ```js
- * { cid: String, type: 'dag-cbor' | 'dag-pb', data: Object, links: [{cid, name}] }
+ * { cid: String, type: 'dag-cbor' | 'dag-pb', data: *, links: [{cid, name}] }
  * ```
  *
  * Path boundaries capture the source and target cid where a path traverses a link:
