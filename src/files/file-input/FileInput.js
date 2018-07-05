@@ -5,8 +5,7 @@ import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
 import {Dropdown, DropdownMenu} from '@tableflip/react-dropdown'
-
-import Overlay from '../overlay/Overlay'
+import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
 
 export default class FileInput extends React.Component {

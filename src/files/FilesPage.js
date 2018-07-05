@@ -8,7 +8,7 @@ import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
-import Overlay from './overlay/Overlay'
+import Overlay from '../components/overlay/Overlay'
 
 const action = (name) => {
   return (...args) => {
