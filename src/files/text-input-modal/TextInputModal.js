@@ -55,6 +55,18 @@ class TextInputModal extends React.Component {
     }
   }
 
+  get isDisabled () {
+    if (!this.props.validate) {
+      return false
+    }
+
+    if (this.state.value === '') {
+      return true
+    }
+
+    return !this.props.validate(this.state.value)
+  }
+
   render () {
     let {
       onCancel,
@@ -88,7 +100,7 @@ class TextInputModal extends React.Component {
 
         <ModalActions>
           <Button className='ma2' bg='bg-gray' onClick={onCancel}>Cancel</Button>
-          <Button className='ma2' bg='bg-aqua' onClick={this.onSubmit}>{submitText}</Button>
+          <Button className='ma2' bg='bg-aqua' disabled={this.isDisabled} onClick={this.onSubmit}>{submitText}</Button>
         </ModalActions>
       </Modal>
     )
