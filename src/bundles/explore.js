@@ -8,7 +8,7 @@ const bundle = createAsyncResourceBundle({
   getPromise: async (args) => {
     const {store, getIpfs} = args
     const hash = store.selectHash()
-    const path = hash.replace('/explore', '')
+    let path = decodeURIComponent(hash.replace('/explore', ''))
     if (!path) return null
     const {cidOrFqdn, rest} = quickSplitPath(path)
     const {targetNode, canonicalPath, localPath, nodes, pathBoundaries} = await resolveIpldPath(getIpfs, cidOrFqdn, rest)

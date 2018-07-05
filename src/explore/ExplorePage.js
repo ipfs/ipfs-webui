@@ -42,8 +42,8 @@ class ExplorePage extends React.Component {
             pathBoundaries={pathBoundaries}
             localPath={localPath} />
         ) : null}
-        <div className='dt dt--fixed'>
-          <div className='dtc w-two-thirds pr3 v-top'>
+        <div className='dt-l dt--fixed'>
+          <div className='dtc-l w-100 w-two-thirds-l pr3-l v-top'>
             {targetNode ? (
               <ObjectInfo
                 style={{background: '#FBFBFB'}}
@@ -56,20 +56,20 @@ class ExplorePage extends React.Component {
                 onLinkClick={this.onLinkClick} />
             ) : null}
           </div>
-          <div className='dtc w-third v-top'>
+          <div className='dn dtc-l w-third-l v-top'>
             {targetNode ? (
-              <div>
-                <CidInfo
-                  style={{background: '#FBFBFB'}}
-                  cid={targetNode.cid} />
-                <ErrorBoundary>
-                  <IpldGraph
-                    style={{width: '100%', height: 300}}
-                    path={targetNode.cid}
-                    links={targetNode.links}
-                    onNodeClick={this.onLinkClick} />
-                </ErrorBoundary>
-              </div>
+              <CidInfo
+                style={{background: '#FBFBFB', overflow: 'hidden'}}
+                cid={targetNode.cid} />
+            ) : null}
+            {targetNode ? (
+              <ErrorBoundary>
+                <IpldGraph
+                  style={{width: '100%', height: 300}}
+                  path={targetNode.cid}
+                  links={targetNode.links}
+                  onNodeClick={this.onLinkClick} />
+              </ErrorBoundary>
             ) : null}
           </div>
         </div>
