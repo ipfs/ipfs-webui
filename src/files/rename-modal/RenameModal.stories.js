@@ -1,11 +1,11 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import RenamePrompt from './RenamePrompt'
+import RenameModal from './RenameModal'
 
 storiesOf('Files', module)
-  .add('Rename Prompt', () => (
+  .add('Rename Modal', () => (
     <div className='ma2'>
-      <RenamePrompt filename='my-agenda.markdown' onCancel={action('Cancel')} onSubmit={action('Rename')} />
+      <RenameModal filename='my-agenda.markdown' onCancel={action('Cancel')} onSubmit={action('Rename')} />
     </div>
   ))

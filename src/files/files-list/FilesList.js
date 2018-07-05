@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
-import { join } from '../../lib/path'
+import { join } from 'path'
 import './FilesList.css'
 
 const ORDER_BY_NAME = 'name'
