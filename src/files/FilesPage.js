@@ -6,8 +6,8 @@ import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
-import RenamePrompt from './rename-prompt/RenamePrompt'
-import DeletePrompt from './delete-prompt/DeletePrompt'
+import RenameModal from './rename-modal/RenameModal'
+import DeleteModal from './delete-modal/DeleteModal'
 import Overlay from './overlay/Overlay'
 
 const action = (name) => {
@@ -188,7 +188,7 @@ class FilesPage extends React.Component {
         {files ? (
           <div className='flex items-center justify-between mb4'>
             <Breadcrumbs path={files.path} onClick={this.onLinkClick} />
-            <FileInput upload={this.onFilesUpload} />
+            <FileInput onAddFiles={this.onFilesUpload} />
           </div>
         ) : null}
         {files && files.type === 'directory' ? (
@@ -212,7 +212,7 @@ class FilesPage extends React.Component {
         ) : null }
 
         <Overlay show={this.state.rename.isOpen} onLeave={this.onRenameCancel}>
-          <RenamePrompt
+          <RenameModal
             className='outline-0'
             filename={this.state.rename.filename}
             onCancel={this.onRenameCancel}
@@ -220,7 +220,7 @@ class FilesPage extends React.Component {
         </Overlay>
 
         <Overlay show={this.state.delete.isOpen} onLeave={this.onDeleteCancel}>
-          <DeletePrompt
+          <DeleteModal
             className='outline-0'
             files={this.state.delete.files}
             folders={this.state.delete.folders}

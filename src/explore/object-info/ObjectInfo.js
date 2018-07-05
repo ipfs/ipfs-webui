@@ -1,5 +1,5 @@
 import React from 'react'
-import { ObjectInspector, chromeLight } from 'react-inspector'
+import { ObjectInspector, chromeLight } from '@tableflip/react-inspector'
 import filesize from 'filesize'
 const humansize = filesize.partial({round: 0})
 
@@ -115,7 +115,7 @@ const ObjectInfo = ({className, type, cid, localPath, size, data, links, onLinkC
         </div>
         { !data ? null : (
           <div className='pa3 mt2 bg-white f5'>
-            <ObjectInspector data={data} theme={objectInspectorTheme} expandPaths={toExpandPathsNotation(localPath)} />
+            <ObjectInspector showMaxKeys={10} data={data} theme={objectInspectorTheme} expandPaths={toExpandPathsNotation(localPath)} />
           </div>
         )}
         <div className='dt dt--fixed pt2'>

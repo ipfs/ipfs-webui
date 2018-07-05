@@ -6,7 +6,7 @@ import { normaliseDagNode } from './dag'
  * Normalizes nodes into a common structure:
  *
  * ```js
- * { cid: String, type: 'dag-cbor' | 'dag-pb', data: Object, links: [{cid, name}] }
+ * { cid: String, type: 'dag-cbor' | 'dag-pb', data: *, links: [{cid, name}] }
  * ```
  *
  * Path boundaries capture the source and target cid where a path traverses a link:
@@ -97,10 +97,4 @@ export function quickSplitPath (str) {
     rest: res[4], // /foo/bar
     address: res[0] // /ipfs/QmHash/foo/bar
   }
-}
-
-export function join (a, b) {
-  if (a.endsWith('/')) a = a.slice(0, -1)
-  if (b.startsWith('/')) b = b.slice(1)
-  return `${a}/${b}`
 }
