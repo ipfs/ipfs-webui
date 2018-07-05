@@ -29,7 +29,14 @@ export default class FileInput extends React.Component {
       <div>
         <Dropdown>
           <Button className='f7' onClick={this.toggleOpen}>+ Add to IPFS</Button>
-          <DropdownMenu open={this.state.open} width={200} onDismiss={this.toggleOpen} alignRight className='bg-aqua-muted' >
+          <DropdownMenu
+            top={3}
+            className='br2 charcoal'
+            boxShadow='rgba(105, 196, 205, 0.5) 0px 1px 10px 0px'
+            width={200}
+            alignRight
+            open={this.state.open}
+            onDismiss={this.toggleOpen} >
             <nav className='flex flex-column pa2'>
               <a className='dim ma2 pointer flex items-center' onClick={() => this.filesInput.click()}>
                 <DocumentIcon className='fill-aqua w2 mr1' />
