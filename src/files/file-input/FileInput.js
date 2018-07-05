@@ -51,16 +51,16 @@ export default class FileInput extends React.Component {
             alignRight
             open={this.state.dropdown}
             onDismiss={this.toggleDropdown} >
-            <nav className='flex flex-column pa2'>
-              <a className='dim ma2 pointer flex items-center' onClick={() => this.filesInput.click()}>
+            <nav className='flex flex-column'>
+              <a className='bg-animate hover-bg-near-white pa2 pointer flex items-center' onClick={() => this.filesInput.click()}>
                 <DocumentIcon className='fill-aqua w2 mr1' />
                 Add file
               </a>
-              <a className='dim ma2 pointer flex items-center' onClick={() => this.folderInput.click()}>
+              <a className='bg-animate hover-bg-near-white pa2 pointer flex items-center' onClick={() => this.folderInput.click()}>
                 <FolderIcon className='fill-aqua w2 mr1' />
                 Add folder
               </a>
-              <a className='dim ma2 pointer flex items-center' onClick={this.toggleModal}>
+              <a className='bg-animate hover-bg-near-white pa2 pointer flex items-center' onClick={this.toggleModal}>
                 <DecentralizationIcon className='fill-aqua w2 mr1' />
                 Add by path
               </a>
