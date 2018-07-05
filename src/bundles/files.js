@@ -150,6 +150,19 @@ bundle.doFilesWrite = (root, files) => async ({dispatch, getIpfs, store}) => {
   }
 }
 
+bundle.doFilesAddPath = (root, src) => async ({dispatch, getIpfs, store}) => {
+  dispatch({ type: 'FILES_ADD_PATH_STARTED' })
+
+  try {
+    const name = src.split('/').pop()
+    const dst = join(root, name)
+    await getIpfs().files.cp([src, dst])
+    await store.doFetchFiles()
+  } catch (error) {
+    dispatch({ type: 'FILES_ADD_PATH_ERRORED', payload: error })
+  }
+}
+
 function downloadSingle (dispatch, store, file) {
   dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
 
