@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import isIPFS from 'is-ipfs'
 import Icon from '../../icons/StrokeDecentralization'
-import TextInputModal from '../text-input-modal/TextInputModal'
+import TextInputModal from '../../components/text-input-modal/TextInputModal'
 
 function ByPathModal ({ onCancel, onSubmit, className, ...props }) {
   return (
