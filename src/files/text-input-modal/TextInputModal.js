@@ -43,7 +43,17 @@ class TextInputModal extends React.Component {
     }
   }
 
-  validate = () => this.props.validate(this.state.value)
+  get inputClass () {
+    if (!this.props.validate || this.state.value === '') {
+      return ''
+    }
+
+    if (this.props.validate(this.state.value)) {
+      return 'valid-input'
+    } else {
+      return 'invalid-input'
+    }
+  }
 
   render () {
     let {
@@ -66,17 +76,13 @@ class TextInputModal extends React.Component {
             <p className='gray w-80 center'>{description}</p>
           }
 
-          { validate && !validate() &&
-            <p>Invalid Path</p>
-          }
-
           <input
             onChange={this.onChange}
             onKeyPress={this.onKeyPress}
             value={this.state.value}
             required
             autoFocus
-            className='input-reset charcoal ba b--black-20 pa2 mb2 db w-75 center focus-outline'
+            className={`input-reset charcoal ba b--black-20 pa2 mb2 db w-75 center focus-outline ${this.inputClass}`}
             type='text' />
         </ModalBody>
 
