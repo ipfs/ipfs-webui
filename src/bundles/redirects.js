@@ -21,7 +21,7 @@ export default {
     }
   )
 
-  reactToIpfsConnectionFail: createSelector(
-    TODO: // redirect to welcome...
-  )
+  // TODO: redirect to welcome...
+  // reactToIpfsConnectionFail: createSelector(
+  // )
 }
