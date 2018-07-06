@@ -4,12 +4,14 @@ import FilesPage from '../files/LoadableFilesPage'
 import ExplorePage from '../explore/LoadableExplorePage'
 import PeersPage from '../peers/LoadablePeersPage'
 import SettingsPage from '../settings/LoadableSettingsPage'
+import WelcomePage from '../welcome/WelcomePage'
 
 export default createRouteBundle({
   '/explore*': ExplorePage,
   '/files*': FilesPage,
   '/peers': PeersPage,
   '/settings': SettingsPage,
+  '/welcome': WelcomePage,
   '/': StatusPage,
   '': StatusPage
 }, { routeInfoSelector: 'selectHash' })

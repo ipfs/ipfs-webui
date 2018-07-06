@@ -43,6 +43,7 @@
     "milliseconds": "^1.0.3",
     "money-clip": "^2.1.0",
     "multiaddr": "^5.0.0",
+    "multiaddr-to-uri": "^3.0.0",
     "multibase": "^0.4.0",
     "multicodec": "^0.2.7",
     "multihashes": "^0.4.14",

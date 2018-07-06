@@ -1,41 +1,24 @@
 import root from 'window-or-global'
 import getIpfs from 'window.ipfs-fallback'
 
-function getURL (dispatch, getIpfs, action, addr) {
-  dispatch({ type: `IPFS_${action}_STARTED` })
-
-  getIpfs().config.get(`Addresses.${addr}`, (err, res) => {
-    if (err) {
-      console.log(err)
-      dispatch({ type: `IPFS_${action}_ERRORED`, payload: err })
-      return
-    }
-
-    const split = res.split('/')
-    const url = '//' + split[2] + ':' + split[4]
-
-    dispatch({ type: `IPFS_${action}_FINISHED`, payload: url })
-  })
+const defaultState = {
+  apiAddress: '/ip4/127.0.0.1/tcp/5001'
 }
 
 export default {
   name: 'ipfs',
 
-  reducer (state = {}, action) {
-    if (action.type === 'IPFS_INIT_FINISHED') {
-      return { ...state, ipfsReady: true }
+  reducer (state = defaultState, {type, payload, error}) {
+    if (type === 'IPFS_INIT_FINISHED') {
+      return { ...state, ipfsReady: true, identity: payload }
     }
 
-    if (action.type === 'IPFS_GATEWAY_URL_FINISHED') {
-      return { ...state, gatewayUrl: action.payload }
+    if (type === 'IPFS_INIT_FAILED') {
+      return { ...state, ipfsReady: false, error: error }
     }
 
-    if (action.type === 'IPFS_API_URL_FINISHED') {
-      return { ...state, apiUrl: action.payload }
-    }
-
-    if (!state.gatewayUrl) {
-      return { ...state, gatewayUrl: 'https://ipfs.io' }
+    if (type === 'IPFS_API_UPDATED') {
+      return { ...state, apiAddress: payload }
     }
 
     return state
@@ -47,29 +30,22 @@ export default {
 
   selectIpfsReady: state => state.ipfs.ipfsReady,
 
-  selectGatewayUrl: state => state.ipfs.gatewayUrl,
-
-  selectApiUrl: state => state.ipfs.apiUrl,
-
-  doInitIpfs: () => async ({ dispatch, store }) => {
+  doInitIpfs: () => async ({ dispatch, getState }) => {
     dispatch({ type: 'IPFS_INIT_STARTED' })
-
+    const {apiAddress} = getState().ipfs
+    let identity = null
     try {
-      root.ipfs = await getIpfs({ api: true })
-    } catch (err) {
-      return dispatch({ type: 'IPFS_INIT_FAILED', payload: err })
+      root.ipfs = await getIpfs({ api: true, ipfs: apiAddress })
+      // will fail if remote api is not available on default port
+      identity = await root.ipfs.id()
+    } catch (error) {
+      return dispatch({ type: 'IPFS_INIT_FAILED', error })
     }
-
-    store.doGetGatewayUrl()
-    store.doGetApiUrl()
-    dispatch({ type: 'IPFS_INIT_FINISHED' })
+    dispatch({ type: 'IPFS_INIT_FINISHED', payload: identity })
   },
 
-  doGetGatewayUrl: () => async ({ dispatch, getIpfs }) => {
-    getURL(dispatch, getIpfs, 'GATEWAY_URL', 'Gateway')
-  },
-
-  doGetApiUrl: () => async ({ dispatch, getIpfs }) => {
-    getURL(dispatch, getIpfs, 'API_URL', 'API')
+  doUpdateIpfsAPIAddress: (apiAddress) => ({dispatch, store}) => {
+    dispatch({type: 'IPFS_API_UPDATED', payload: apiAddress})
+    store.doInitIpfs()
   }
 }
