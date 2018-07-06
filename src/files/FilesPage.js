@@ -40,6 +40,10 @@ class FilesPage extends React.Component {
   }
 
   onLinkClick = (link) => {
+    if (this.props.files.type === 'directory') {
+      this.filesList.toggleAll(false)
+    }
+
     const {doUpdateHash} = this.props
     link = link.split('/').map(p => encodeURIComponent(p)).join('/')
     doUpdateHash(`/files${link}`)
@@ -74,10 +78,10 @@ class FilesPage extends React.Component {
     let {filename, path} = this.state.rename
 
     if (newName !== '' && newName !== filename) {
-      this.refs.filesList.toggleOne(filename, false)
+      this.filesList.toggleOne(filename, false)
       this.props.doFilesRename(path, path.replace(filename, newName))
         .then(() => {
-          this.refs.filesList.toggleOne(newName, true)
+          this.filesList.toggleOne(newName, true)
         })
     }
 
@@ -111,7 +115,7 @@ class FilesPage extends React.Component {
   }
 
   onDeleteConfirm = () => {
-    this.refs.filesList.toggleAll(false)
+    this.filesList.toggleAll(false)
     this.props.doFilesDelete(this.state.delete.paths)
     this.onDeleteCancel()
   }
@@ -198,7 +202,7 @@ class FilesPage extends React.Component {
         {files && files.type === 'directory' ? (
           <FilesList
             maxWidth='calc(100% - 240px)'
-            ref='filesList'
+            ref={el => { this.filesList = el }}
             root={files.path}
             files={files.files}
             downloadProgress={this.state.downloadProgress}
