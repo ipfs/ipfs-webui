@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import ipfsLogo from './ipfs-logo.svg'
+import ipfsLogoText from './ipfs-logo-text.svg'
 import StrokeMarketing from '../icons/StrokeMarketing'
 import StrokeWeb from '../icons/StrokeWeb'
 import StrokeCube from '../icons/StrokeCube'
@@ -10,6 +11,7 @@ import StrokeIpld from '../icons/StrokeIpld'
 const NavLink = ({
   to,
   icon,
+  open,
   exact,
   disabled,
   children,
@@ -22,8 +24,8 @@ const NavLink = ({
   const active = exact ? hash === href : hash && hash.startsWith(href)
   const cls = active ? className + ' ' + activeClassName : className
   return (
-    <a href={disabled ? null : href} className={cls} role='menuitem'>
-      <span className='dtc v-mid tr' style={{width: 100}}>
+    <a href={disabled ? null : href} className={cls} role='menuitem' title={children}>
+      <span className={`dtc v-mid ${open ? 'tr' : 'tc'}`} style={{width: 100}}>
         <Svg
           style={{
             width: 50,
@@ -32,31 +34,35 @@ const NavLink = ({
           className='fill-current-color' />
       </span>
       <span className='dtc v-mid pl3'>
-        {children}
+        {open ? children : null}
       </span>
     </a>
   )
 }
 
-export const NavBar = ({isSettingsEnabled}) => (
-  <div>
-    <a href='#/' className='db' style={{paddingTop: 35}}>
-      <img className='db center' style={{height: 70}} src={ipfsLogo} alt='IPFS' />
-    </a>
-    <nav className='db pt4' role='menubar'>
-      <NavLink to='/' exact icon={StrokeMarketing}>Status</NavLink>
-      <NavLink to='/files/' icon={StrokeWeb}>Files</NavLink>
-      <NavLink to='/explore' icon={StrokeIpld}>IPLD</NavLink>
-      <NavLink to='/peers' icon={StrokeCube}>Peers</NavLink>
-      <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled}>Settings</NavLink>
-    </nav>
-  </div>
-)
+export const NavBar = ({isSettingsEnabled, open, onToggle}) => {
+  const width = open ? 250 : 100
+  return (
+    <div style={{width}}>
+      <div className='pointer' style={{paddingTop: 35}} onClick={onToggle}>
+        <img className='center' style={{height: 70, display: open ? 'block' : 'none'}} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
+        <img className='center' style={{height: 70, display: open ? 'none' : 'block'}} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
+      </div>
+      <nav className='db pt4' role='menubar'>
+        <NavLink to='/' exact icon={StrokeMarketing} open={open}>Status</NavLink>
+        <NavLink to='/files/' icon={StrokeWeb} open={open}>Files</NavLink>
+        <NavLink to='/explore' icon={StrokeIpld} open={open}>IPLD</NavLink>
+        <NavLink to='/peers' icon={StrokeCube} open={open}>Peers</NavLink>
+        <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>Settings</NavLink>
+      </nav>
+    </div>
+  )
+}
 
-export const NavBarContainer = ({configRaw}) => {
+export const NavBarContainer = ({configRaw, ...props}) => {
   const isSettingsEnabled = !!configRaw.data
   return (
-    <NavBar isSettingsEnabled={isSettingsEnabled} />
+    <NavBar isSettingsEnabled={isSettingsEnabled} {...props} />
   )
 }
 
