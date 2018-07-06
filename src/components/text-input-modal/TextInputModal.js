@@ -7,9 +7,7 @@ class TextInputModal extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    // if onPaste returns a value, it will replace
-    // input's current value.
-    onPaste: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     icon: PropTypes.func.isRequired,
     description: PropTypes.string,
@@ -30,21 +28,19 @@ class TextInputModal extends React.Component {
   }
 
   onChange = (event) => {
-    this.setState({ value: event.target.value })
+    let val = event.target.value
+
+    if (this.props.onChange) {
+      val = this.props.onChange(val)
+    }
+
+    this.setState({ value: val })
   }
 
   onSubmit = () => {
     if (!this.props.validate ||
       (this.props.validate && this.props.validate(this.state.value))) {
       this.props.onSubmit(this.state.value)
-    }
-  }
-
-  onPaste = (event) => {
-    const res = this.props.onPaste(event)
-
-    if (res) {
-      this.setState({ value: res })
     }
   }
 
@@ -81,8 +77,8 @@ class TextInputModal extends React.Component {
   render () {
     let {
       onCancel,
+      onChange,
       onSubmit,
-      onPaste,
       className,
       icon,
       submitText,
