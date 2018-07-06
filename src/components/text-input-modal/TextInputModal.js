@@ -103,7 +103,6 @@ class TextInputModal extends React.Component {
 
           <input
             onChange={this.onChange}
-            onPaste={this.onPaste}
             onKeyPress={this.onKeyPress}
             value={this.state.value}
             required
