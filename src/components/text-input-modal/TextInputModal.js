@@ -13,13 +13,15 @@ class TextInputModal extends React.Component {
     description: PropTypes.string,
     submitText: PropTypes.string,
     validate: PropTypes.func,
-    defaultValue: PropTypes.string
+    defaultValue: PropTypes.string,
+    mustBeDifferent: PropTypes.bool
   }
 
   static defaultProps = {
     className: '',
     defaultValue: '',
-    submitText: 'Save'
+    submitText: 'Save',
+    mustBeDifferent: false
   }
 
   constructor (props) {
@@ -51,7 +53,9 @@ class TextInputModal extends React.Component {
   }
 
   get inputClass () {
-    if (!this.props.validate || this.state.value === '') {
+    if (!this.props.validate ||
+      this.state.value === '' ||
+      (this.props.mustBeDifferent && this.state.value === this.props.defaultValue)) {
       return ''
     }
 
@@ -63,12 +67,13 @@ class TextInputModal extends React.Component {
   }
 
   get isDisabled () {
-    if (!this.props.validate) {
-      return false
+    if (this.state.value === '' ||
+      (this.props.mustBeDifferent && this.state.value === this.props.defaultValue)) {
+      return true
     }
 
-    if (this.state.value === '') {
-      return true
+    if (!this.props.validate) {
+      return false
     }
 
     return !this.props.validate(this.state.value)
