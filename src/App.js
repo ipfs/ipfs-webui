@@ -35,9 +35,7 @@ export class App extends Component {
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
         <div className='flex' style={{minHeight: '100vh'}}>
           <div className='flex-none bg-navy'>
-            <div className=''>
-              <NavBar open={isNavOpen} onToggle={this.onToggleNavbar} />
-            </div>
+            <NavBar open={isNavOpen} onToggle={this.onToggleNavbar} />
           </div>
           <div className='flex-auto'>
             <div style={{background: '#F0F6FA'}}>
