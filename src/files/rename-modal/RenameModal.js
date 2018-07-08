@@ -8,6 +8,7 @@ function RenameModal ({onCancel, onSubmit, filename, folder, className, ...props
     <TextInputModal
       onCancel={onCancel}
       onSubmit={onSubmit}
+      mustBeDifferent
       className={className}
       defaultValue={filename}
       title={`Rename ${folder ? 'Folder' : 'File'}`}
