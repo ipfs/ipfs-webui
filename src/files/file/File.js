@@ -36,10 +36,10 @@ const File = (props) => {
         <Checkbox checked={selected} onChange={select} />
       </div>
       <div className='name flex items-center flex-grow-1 pa2 w-40'>
-        <div className='pointer dib icon' onClick={onNavigate}>
+        <div className='pointer dib icon flex-shrink-0' onClick={onNavigate}>
           <FileIcon name={name} type={type} />
         </div>
-        <span className='pointer' onClick={onNavigate}>{name}</span>
+        <span className='pointer truncate' onClick={onNavigate} title={name}>{name}</span>
       </div>
       <div className='status pa2 w-30'>{status}</div>
       <div className='size pa2 w-10'>{size}</div>
