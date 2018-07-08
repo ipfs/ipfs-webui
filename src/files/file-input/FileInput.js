@@ -24,6 +24,10 @@ export default class FileInput extends React.Component {
   }
 
   toggleModal = () => {
+    if (!this.state.modal) {
+      this.toggleDropdown()
+    }
+
     this.setState(s => ({ modal: !s.modal }))
   }
 
