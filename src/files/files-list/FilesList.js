@@ -133,7 +133,7 @@ class FileList extends React.Component {
         onNavigate={this.genActionFromFile('onNavigate', file)}
         onCancel={this.genActionFromFile('onCancelUpload', file)}
         selected={this.state.selected.indexOf(file.name) !== -1}
-        key={window.btoa(file.name)}
+        key={window.encodeURIComponent(file.name)}
         {...file}
       />
     ))
