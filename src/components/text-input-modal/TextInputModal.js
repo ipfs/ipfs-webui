@@ -7,7 +7,7 @@ class TextInputModal extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     title: PropTypes.string.isRequired,
     icon: PropTypes.func.isRequired,
     description: PropTypes.string,
@@ -83,6 +83,7 @@ class TextInputModal extends React.Component {
     let {
       onCancel,
       onChange,
+      mustBeDifferent,
       onSubmit,
       className,
       icon,
