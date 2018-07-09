@@ -9,6 +9,7 @@ import FileInput from './file-input/FileInput'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
 import Overlay from '../components/overlay/Overlay'
+import { join } from 'path'
 
 const action = (name) => {
   return (...args) => {
@@ -185,6 +186,10 @@ class FilesPage extends React.Component {
       .then(({url, filename}) => this.downloadFile(url, filename))
   }
 
+  onMakeDir = (path) => {
+    this.props.doFilesMakeDir(join(this.props.files.path, path))
+  }
+
   render () {
     const {files} = this.props
 
@@ -196,7 +201,11 @@ class FilesPage extends React.Component {
         {files ? (
           <div className='flex items-center justify-between mb4'>
             <Breadcrumbs path={files.path} onClick={this.onLinkClick} />
-            <FileInput onAddFiles={this.onAddFiles} onAddByPath={this.onAddByPath} />
+
+            <FileInput
+              onMakeDir={this.onMakeDir}
+              onAddFiles={this.onAddFiles}
+              onAddByPath={this.onAddByPath} />
           </div>
         ) : null}
         {files && files.type === 'directory' ? (
@@ -247,6 +256,7 @@ export default connect(
   'doFilesWrite',
   'doFilesAddPath',
   'doFilesDownloadLink',
+  'doFilesMakeDir',
   'selectFiles',
   'selectGatewayUrl',
   FilesPage
