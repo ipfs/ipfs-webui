@@ -1,5 +1,6 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { join, dirname } from 'path'
+import fileReaderPullStream from 'filereader-pull-stream'
 
 const bundle = createAsyncResourceBundle({
   name: 'files',
@@ -102,42 +103,33 @@ bundle.doFilesMakeDir = (path) => (args) => {
   return runAndFetch(args, 'FILES_MKDIR', 'mkdir', [path, { parents: true }])
 }
 
-function readAsBuffer (file) {
-  return new Promise((resolve, reject) => {
-    const reader = new window.FileReader()
-    reader.onload = (event) => {
-      resolve({
-        content: Buffer.from(reader.result),
-        name: file.webkitRelativePath || file.name
-      })
-    }
-    reader.onerror = (event) => {
-      reject(reader.error)
-    }
-
-    reader.readAsArrayBuffer(file)
-  })
+function files2streams (files) {
+  const streams = []
+  let totalSize = 0
+  for (let file of files) {
+    const fileStream = fileReaderPullStream(file, {chunkSize: 32 * 1024 * 1024})
+    streams.push({
+      name: file.webkitRelativePath || file.name,
+      content: fileStream
+    })
+    totalSize += file.size
+  }
+  return { streams, totalSize }
 }
 
 bundle.doFilesWrite = (root, files) => async ({dispatch, getIpfs, store}) => {
   dispatch({ type: 'FILES_WRITE_STARTED' })
 
   try {
-    let promises = []
+    const { streams } = files2streams(files)
 
-    for (const file of files) {
-      promises.push(readAsBuffer(file))
-    }
-
-    files = await Promise.all(promises)
-
-    for (const file of files) {
-      const path = join(root, dirname(file.name))
+    for (const stream of streams) {
+      const path = join(root, dirname(stream.name))
       await getIpfs().files.mkdir(path, { parents: true })
     }
 
-    await Promise.all(files.map(async file => {
-      const res = await getIpfs().add([file.content], { pin: false })
+    await Promise.all(streams.map(async file => {
+      const res = await getIpfs().add(file.content, { pin: false })
       const f = res[res.length - 1]
       const src = `/ipfs/${f.hash}`
       const dst = join(root, file.name)
