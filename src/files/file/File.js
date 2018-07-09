@@ -24,7 +24,8 @@ function File ({
   canDrop,
   connectDropTarget,
   connectDragPreview,
-  connectDragSource
+  connectDragSource,
+  ...props
 }) {
   let className = 'File flex items-center bt pv2'
 
@@ -44,7 +45,7 @@ function File ({
   const navigate = () => onNavigate(path)
 
   return connectDropTarget(connectDragSource(
-    <div className={className}>
+    <div className={className} {...props}>
       <div className='pa2 w2'>
         <Checkbox checked={selected} onChange={select} />
       </div>
