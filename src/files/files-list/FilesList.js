@@ -289,6 +289,7 @@ class FileList extends React.Component {
                 Size {this.sortByIcon(ORDER_BY_SIZE)}
               </span>
             </div>
+            <div className='ph2 f6 w3 dn db-l'>Health</div>
           </header>
           {this.files}
           {this.selectedMenu}

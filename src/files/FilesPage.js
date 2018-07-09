@@ -22,6 +22,7 @@ class FilesPage extends React.Component {
     filesErrors: PropTypes.array.isRequired,
     filesPathFromHash: PropTypes.string,
     writeFilesProgress: PropTypes.number,
+    filesProvs: PropTypes.object,
     gatewayUrl: PropTypes.string.isRequired,
     navbarWidth: PropTypes.number.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
@@ -95,6 +96,7 @@ class FilesPage extends React.Component {
   render () {
     const {
       files,
+      filesProvs,
       writeFilesProgress,
       navbarWidth,
       doFilesDismissErrors,
@@ -103,6 +105,18 @@ class FilesPage extends React.Component {
       doFilesNavigateTo,
       filesErrors: errors
     } = this.props
+
+    if (files && files.content) {
+      files.content = files.content.map(file => {
+        if (filesProvs[file.hash] && filesProvs[file.hash].count) {
+          file.peers = filesProvs[file.hash].count
+        } else {
+          file.peers = 0
+        }
+
+        return file
+      })
+    }
 
     return (
       <div data-id='FilesPage'>
@@ -163,6 +177,7 @@ export default connect(
   'doFilesNavigateTo',
   'selectFiles',
   'selectFilesErrors',
+  'selectFilesProvs',
   'selectGatewayUrl',
   'selectWriteFilesProgress',
   'selectNavbarWidth',

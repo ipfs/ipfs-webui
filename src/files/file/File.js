@@ -4,6 +4,9 @@ import filesize from 'filesize'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
 import Tooltip from '../../components/tooltip/Tooltip'
+import PeersSmallIcon from '../../icons/GlyphPeersSmall'
+import PeersMediumIcon from '../../icons/GlyphPeersMedium'
+import PeersLargeIcon from '../../icons/GlyphPeersLarge'
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
@@ -16,6 +19,7 @@ function File ({
   hash,
   name,
   path,
+  peers,
   type,
   size,
   onSelect,
@@ -65,6 +69,17 @@ function File ({
         </div>
       )}
       <div className='size pa2 w-10 monospace dn db-l'>{size}</div>
+      <div className='pa2 w3 f6 dn db-l'>
+        { peers <= 1 &&
+          <PeersSmallIcon fill='#F26148' width='2.5rem' />
+        }
+        { peers > 1 && peers < 5 &&
+          <PeersMediumIcon fill='#F38F20' width='2.5rem' />
+        }
+        { peers >= 5 &&
+          <PeersLargeIcon className='fill-aqua' width='2.5rem' />
+        }
+      </div>
     </div>
   ))
 }
@@ -75,6 +90,7 @@ File.propTypes = {
   path: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
   hash: PropTypes.string.isRequired,
+  peers: PropTypes.number.isRequired,
   selected: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
   onNavigate: PropTypes.func.isRequired,
