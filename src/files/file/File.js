@@ -11,7 +11,7 @@ const File = (props) => {
 
   let className = 'File flex items-center bt pv2'
 
-  if (props.selected) {
+  if (selected) {
     className += ' selected'
   }
 
