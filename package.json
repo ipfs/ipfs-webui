@@ -20,7 +20,7 @@
     "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
-    "@svgr/cli": "^2.0.0",
+    "@svgr/cli": "^2.1.0",
     "@tableflip/react-dropdown": "^1.1.0",
     "@tableflip/react-inspector": "^2.3.0",
     "brace": "^0.11.1",
@@ -47,7 +47,7 @@
     "react": "^16.4.1",
     "react-ace": "^6.1.4",
     "react-chartjs-2": "^2.7.2",
-    "react-debounce-render": "^4.0.1",
+    "react-debounce-render": "^4.0.2",
     "react-dom": "^16.4.1",
     "react-helmet": "^5.2.0",
     "react-intl": "^2.4.0",
@@ -77,8 +77,8 @@
     "babel-runtime": "^6.26.0",
     "big.js": "^5.1.2",
     "bundlesize": "^0.17.0",
-    "ecstatic": "^3.2.0",
-    "eslint": "^5.0.1",
+    "ecstatic": "^3.2.1",
+    "eslint": "^5.1.0",
     "eslint-plugin-react": "^7.10.0",
     "multihashing-async": "^0.5.1",
     "npm-run-all": "^4.1.3",
