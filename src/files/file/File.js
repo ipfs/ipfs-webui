@@ -98,8 +98,8 @@ class File extends React.Component {
             }} show={this.state.displayTooltip}>{name}</Tooltip>
           }
         </div>
-        <div className='status pa2 w-30'>{status}</div>
-        <div className='size pa2 w-10'>{size}</div>
+        <div className='size pa2 w-10 dn db-l'>{size}</div>
+        <div className='status pa2 w3 dn db-l'>{status}</div>
       </div>
     )
   }

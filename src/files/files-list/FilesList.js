@@ -176,12 +176,12 @@ class FileList extends React.Component {
               File name {this.sortByIcon(ORDER_BY_NAME)}
             </span>
           </div>
-          <div className='ph2 f6 w-30'>Status</div>
-          <div className='ph2 f6 w-10'>
+          <div className='ph2 f6 w-10 dn db-l'>
             <span className='pointer' onClick={this.changeSort(ORDER_BY_SIZE)}>
               Size {this.sortByIcon(ORDER_BY_SIZE)}
             </span>
           </div>
+          <div className='ph2 f6 w3 dn db-l'>Status</div>
         </header>
         {this.generateFiles()}
         {this.selectedMenu()}
