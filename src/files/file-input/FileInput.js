@@ -7,28 +7,40 @@ import DecentralizationIcon from '../../icons/StrokeDecentralization'
 import {Dropdown, DropdownMenu} from '@tableflip/react-dropdown'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
+import NewFolderModal from './NewFolderModal'
+
+const Option = ({children, onClick, className = '', ...props}) => (
+  <a className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>
+    {children}
+  </a>
+)
 
 export default class FileInput extends React.Component {
   static propTypes = {
+    onMakeDir: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
     onAddByPath: PropTypes.func.isRequired
   }
 
   state = {
     dropdown: false,
-    modal: false
+    byPathModal: false,
+    newFolderModal: false
   }
 
   toggleDropdown = () => {
     this.setState(s => ({ dropdown: !s.dropdown }))
   }
 
-  toggleModal = () => {
-    if (!this.state.modal) {
+  toggleModal = (which) => () => {
+    if (!this.state[`${which}Modal`]) {
       this.toggleDropdown()
     }
 
-    this.setState(s => ({ modal: !s.modal }))
+    this.setState(s => {
+      s[`${which}Modal`] = !s[`${which}Modal`]
+      return s
+    })
   }
 
   onInputChange = (input) => () => {
@@ -39,7 +51,12 @@ export default class FileInput extends React.Component {
 
   onAddByPath = (path) => {
     this.props.onAddByPath(path)
-    this.toggleModal()
+    this.toggleModal('byPath')()
+  }
+
+  onMakeDir = (path) => {
+    this.props.onMakeDir(path)
+    this.toggleModal('newFolder')()
   }
 
   render () {
@@ -56,18 +73,22 @@ export default class FileInput extends React.Component {
             open={this.state.dropdown}
             onDismiss={this.toggleDropdown} >
             <nav className='flex flex-column'>
-              <a className='bg-animate hover-bg-near-white pa2 pointer flex items-center' onClick={() => this.filesInput.click()}>
+              <Option onClick={() => this.filesInput.click()}>
                 <DocumentIcon className='fill-aqua w2 mr1' />
                 Add file
-              </a>
-              <a className='bg-animate hover-bg-near-white pa2 pointer flex items-center' onClick={() => this.folderInput.click()}>
+              </Option>
+              <Option onClick={() => this.folderInput.click()}>
                 <FolderIcon className='fill-aqua w2 mr1' />
                 Add folder
-              </a>
-              <a className='bg-animate hover-bg-near-white pa2 pointer flex items-center' onClick={this.toggleModal}>
+              </Option>
+              <Option onClick={this.toggleModal('byPath')}>
                 <DecentralizationIcon className='fill-aqua w2 mr1' />
                 Add by path
-              </a>
+              </Option>
+              <Option className='bt border-snow' onClick={this.toggleModal('newFolder')}>
+                <FolderIcon className='fill-aqua w2 mr1' />
+                New folder
+              </Option>
             </nav>
           </DropdownMenu>
         </Dropdown>
@@ -87,11 +108,18 @@ export default class FileInput extends React.Component {
           ref={el => { this.folderInput = el }}
           onChange={this.onInputChange(this.folderInput)} />
 
-        <Overlay show={this.state.modal} onLeave={this.toggleModal}>
+        <Overlay show={this.state.byPathModal} onLeave={this.toggleModal('byPath')}>
           <ByPathModal
             className='outline-0'
-            onCancel={this.toggleModal}
+            onCancel={this.toggleModal('byPath')}
             onSubmit={this.onAddByPath} />
+        </Overlay>
+
+        <Overlay show={this.state.newFolderModal} onLeave={this.toggleModal('newFolder')}>
+          <NewFolderModal
+            className='outline-0'
+            onCancel={this.toggleModal('newFolder')}
+            onSubmit={this.onMakeDir} />
         </Overlay>
       </div>
     )
