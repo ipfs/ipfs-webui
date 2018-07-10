@@ -50,9 +50,17 @@ class FilesPage extends React.Component {
     doUpdateHash(`/files${link}`)
   }
 
-  onInspect = ([file]) => {
+  onInspect = (data) => {
     const {doUpdateHash} = this.props
-    doUpdateHash(`/explore/ipfs/${file.hash}`)
+    let hash
+
+    if (Array.isArray(data)) {
+      hash = data[0].hash
+    } else {
+      hash = data.hash
+    }
+
+    doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
   onRename = ([file]) => {
@@ -220,8 +228,7 @@ class FilesPage extends React.Component {
             onRename={this.onRename}
             onDownload={this.onDownload}
             onDelete={this.onDelete}
-            onNavigate={this.onLinkClick}
-            onCancelUpload={action('Cancel Upload')}
+            onNavigate={(file) => this.onLinkClick(file.path)}
           />
         ) : null }
         {files && files.type === 'file' ? (
