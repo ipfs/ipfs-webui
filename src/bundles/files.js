@@ -46,7 +46,7 @@ const bundle = createAsyncResourceBundle({
         }
       })
   },
-  staleAfter: 100,
+  staleAfter: 60000,
   checkIfOnline: false
 })
 
@@ -56,8 +56,8 @@ bundle.reactFilesFetch = createSelector(
   'selectRouteInfo',
   'selectFiles',
   (shouldUpdate, ipfsReady, {url, params}, files) => {
-    if (shouldUpdate && ipfsReady && url.startsWith('/files')) {
-      if (!files || files.path !== params.path) {
+    if (ipfsReady && url.startsWith('/files')) {
+      if (shouldUpdate || !files || files.path !== decodeURIComponent(params.path)) {
         return { actionCreator: 'doFetchFiles' }
       }
     }
