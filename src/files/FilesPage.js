@@ -23,10 +23,9 @@ class FilesPage extends React.Component {
   }
 
   state = {
-    clipboard: [],
-    copy: false,
     downloadReq: null,
     downloadProgress: -1,
+    addProgress: null,
     rename: {
       isOpen: false,
       path: '',
@@ -129,10 +128,6 @@ class FilesPage extends React.Component {
     this.onDeleteCancel()
   }
 
-  onAddFiles = (files) => {
-    this.props.doFilesWrite(this.props.files.path, files)
-  }
-
   onAddByPath = (path) => {
     this.props.doFilesAddPath(this.props.files.path, path)
   }
@@ -198,6 +193,15 @@ class FilesPage extends React.Component {
     this.props.doFilesMakeDir(join(this.props.files.path, path))
   }
 
+  onAddFiles = (files) => {
+    this.props.doFilesWrite(this.props.files.path, files, (progress) => {
+      this.setState({ addProgress: progress })
+      if (progress === 100) {
+        setTimeout(() => this.setState({ addProgress: null }), 3000)
+      }
+    })
+  }
+
   render () {
     const {files} = this.props
 
@@ -213,7 +217,8 @@ class FilesPage extends React.Component {
             <FileInput
               onMakeDir={this.onMakeDir}
               onAddFiles={this.onAddFiles}
-              onAddByPath={this.onAddByPath} />
+              onAddByPath={this.onAddByPath}
+              addProgress={this.state.addProgress} />
           </div>
         ) : null}
         {files && files.type === 'directory' ? (
