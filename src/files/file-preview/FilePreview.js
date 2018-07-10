@@ -73,7 +73,7 @@ class FilesPreview extends React.Component {
         }
 
         return (
-          <pre className={`${className} pre`}>
+          <pre className={`${className} overflow-auto monospace`}>
             {this.state.content}
           </pre>
         )
