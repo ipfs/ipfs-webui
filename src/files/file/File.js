@@ -96,7 +96,7 @@ class File extends React.Component {
 
           { this.state.overflow &&
             <Tooltip style={{
-              bottom: '-10px',
+              bottom: '0',
               left: 'calc(50% + 1.125rem)',
               transform: 'translateX(-50%)'
             }} show={this.state.displayTooltip}>{name}</Tooltip>
