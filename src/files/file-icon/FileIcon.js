@@ -2,7 +2,7 @@ import React from 'react'
 import typeFromExt from '../type-from-ext'
 
 import Folder from '../../icons/GlyphFolder'
-import Doc from '../../icons/StrokeDocument'
+import Doc from '../../icons/GlyphDocGeneric'
 import DocMovie from '../../icons/GlyphDocMovie'
 import DocCalc from '../../icons/GlyphDocCalc'
 import DocMusic from '../../icons/GlyphDocMusic'

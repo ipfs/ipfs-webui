@@ -52,7 +52,7 @@ class File extends React.Component {
   }
 
   render () {
-    let {selected, name, type, speed, status, size, onSelect, onNavigate, onCancel} = this.props
+    let {selected, hash, name, type, speed, status, size, onSelect, onNavigate, onCancel} = this.props
 
     let className = 'File flex items-center bt pv2'
 
@@ -64,7 +64,7 @@ class File extends React.Component {
       size = 'N/A'
       status = <Status progress={status} cancel={onCancel} speed={speed} />
     } else {
-      size = filesize(size)
+      size = filesize(size, { round: 0 })
     }
 
     if (type === 'directory') {
@@ -84,12 +84,16 @@ class File extends React.Component {
           <div className='pointer dib icon flex-shrink-0' onClick={onNavigate}>
             <FileIcon name={name} type={type} />
           </div>
-          <span className='pointer truncate'
-            ref={(e) => { this.el = e }}
-            onClick={onNavigate}
-            onMouseOver={this.onMouseOver}
-            onMouseLeave={this.onMouseLeave}
-          >{name}</span>
+          <div className='overflow-hidden'>
+            <div className='pointer truncate'
+              ref={(e) => { this.el = e }}
+              onClick={onNavigate}
+              onMouseOver={this.onMouseOver}
+              onMouseLeave={this.onMouseLeave}
+            >{name}</div>
+            <div className='mt1 gray truncate monospace'>{hash}</div>
+          </div>
+
           { this.state.overflow &&
             <Tooltip style={{
               bottom: '-10px',
@@ -98,7 +102,7 @@ class File extends React.Component {
             }} show={this.state.displayTooltip}>{name}</Tooltip>
           }
         </div>
-        <div className='size pa2 w-10 dn db-l'>{size}</div>
+        <div className='size pa2 w-10 monospace dn db-l'>{size}</div>
         <div className='status pa2 w3 dn db-l'>{status}</div>
       </div>
     )
