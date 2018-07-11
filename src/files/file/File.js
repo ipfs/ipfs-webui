@@ -43,7 +43,6 @@ function File ({selected, hash, name, type, size, onSelect, onInspect, onNavigat
         </div>
       </div>
       <div className='size pa2 w-10 monospace dn db-l'>{size}</div>
-      <div className='status pa2 w3 dn db-l' />
     </div>
   )
 }
