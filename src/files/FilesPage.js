@@ -210,36 +210,40 @@ class FilesPage extends React.Component {
         <Helmet>
           <title>Files - IPFS</title>
         </Helmet>
-        {files ? (
-          <div className='flex flex-wrap items-center justify-between mb3'>
-            <Breadcrumbs className='mb3' path={files.path} onClick={this.onLinkClick} />
+        { files &&
+          <div>
+            <div className='flex flex-wrap items-center justify-between mb3'>
+              <Breadcrumbs className='mb3' path={files.path} onClick={this.onLinkClick} />
 
-            <FileInput
-              className='mb3'
-              onMakeDir={this.onMakeDir}
-              onAddFiles={this.onAddFiles}
-              onAddByPath={this.onAddByPath}
-              addProgress={this.state.addProgress} />
+              { files.type === 'directory' &&
+                <FileInput
+                  className='mb3'
+                  onMakeDir={this.onMakeDir}
+                  onAddFiles={this.onAddFiles}
+                  onAddByPath={this.onAddByPath}
+                  addProgress={this.state.addProgress} />
+              }
+            </div>
+
+            { files.type === 'directory' ? (
+              <FilesList
+                maxWidth='calc(100% - 240px)'
+                ref={el => { this.filesList = el }}
+                root={files.path}
+                files={files.files}
+                downloadProgress={this.state.downloadProgress}
+                onShare={action('Share')}
+                onInspect={this.onInspect}
+                onRename={this.onRename}
+                onDownload={this.onDownload}
+                onDelete={this.onDelete}
+                onNavigate={(file) => this.onLinkClick(file.path)}
+              />
+            ) : (
+              <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
+            )}
           </div>
-        ) : null}
-        {files && files.type === 'directory' ? (
-          <FilesList
-            maxWidth='calc(100% - 240px)'
-            ref={el => { this.filesList = el }}
-            root={files.path}
-            files={files.files}
-            downloadProgress={this.state.downloadProgress}
-            onShare={action('Share')}
-            onInspect={this.onInspect}
-            onRename={this.onRename}
-            onDownload={this.onDownload}
-            onDelete={this.onDelete}
-            onNavigate={(file) => this.onLinkClick(file.path)}
-          />
-        ) : null }
-        {files && files.type === 'file' ? (
-          <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
-        ) : null }
+        }
 
         <Overlay show={this.state.rename.isOpen} onLeave={this.onRenameCancel}>
           <RenameModal
