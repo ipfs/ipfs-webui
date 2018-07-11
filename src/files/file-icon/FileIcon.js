@@ -11,21 +11,21 @@ import DocText from '../../icons/GlyphDocText'
 
 export default function FileIcon ({name, type}) {
   if (type === 'directory') {
-    return <Folder className=' fill-aqua' width='2.5rem' />
+    return <Folder className=' fill-aqua' style={{width: '2.5rem'}} />
   }
 
   switch (typeFromExt(name)) {
     case 'audio':
-      return <DocMusic className='fill-aqua' width='2.5rem' />
+      return <DocMusic className='fill-aqua' style={{width: '2.5rem'}} />
     case 'calc':
-      return <DocCalc className='fill-aqua' width='2.5rem' />
+      return <DocCalc className='fill-aqua' style={{width: '2.5rem'}} />
     case 'video':
-      return <DocMovie className='fill-aqua' width='2.5rem' />
+      return <DocMovie className='fill-aqua' style={{width: '2.5rem'}} />
     case 'text':
-      return <DocText className='fill-aqua' width='2.5rem' />
+      return <DocText className='fill-aqua' style={{width: '2.5rem'}} />
     case 'image':
-      return <DocPicture className='fill-aqua' width='2.5rem' />
+      return <DocPicture className='fill-aqua' style={{width: '2.5rem'}} />
     default:
-      return <Doc className='fill-aqua' width='2.5rem' />
+      return <Doc className='fill-aqua' style={{width: '2.5rem'}} />
   }
 }
