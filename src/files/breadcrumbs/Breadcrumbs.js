@@ -35,7 +35,7 @@ export default function Breadcrumbs ({path, onClick, className = '', ...props}) 
 
   bread.forEach((link, index) => {
     res.push(<a className='pointer' key={`${index}link`} onClick={() => { onClick(link.path) }}>{link.name}</a>)
-    res.push(<span className='mh1' key={`${index}divider`}>></span>)
+    res.push(<span key={`${index}divider`}>></span>)
   })
 
   res.push(<a key='last-link' aria-current='page'>{last.name}</a>)
