@@ -28,13 +28,12 @@ class FilesPreview extends React.Component {
 
     const type = typeFromExt(stats.name)
     const src = `${gatewayUrl}/ipfs/${stats.hash}`
-    const ext = fileExtension(stats.name)
     const className = 'w-100 bg-snow-muted pa2 br2'
     switch (type) {
       case 'audio':
         return (
           <audio width='100%' controls>
-            <source src={src} type={`audio/${ext}`} />
+            <source src={src} />
           </audio>
         )
       case 'pdf':
@@ -47,7 +46,7 @@ class FilesPreview extends React.Component {
       case 'video':
         return (
           <video controls className={className}>
-            <source src={src} type={`video/${ext}`} />
+            <source src={src} />
           </video>
         )
       case 'image':
