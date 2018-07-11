@@ -83,7 +83,7 @@ export default class FileInput extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className={this.props.className}>
         <Dropdown>
           <AddButton progress={this.props.addProgress} onClick={this.toggleDropdown} />
           <DropdownMenu

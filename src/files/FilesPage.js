@@ -211,10 +211,11 @@ class FilesPage extends React.Component {
           <title>Files - IPFS</title>
         </Helmet>
         {files ? (
-          <div className='flex items-center justify-between mb4'>
-            <Breadcrumbs path={files.path} onClick={this.onLinkClick} />
+          <div className='flex flex-wrap items-center justify-between mb3'>
+            <Breadcrumbs className='mb3' path={files.path} onClick={this.onLinkClick} />
 
             <FileInput
+              className='mb3'
               onMakeDir={this.onMakeDir}
               onAddFiles={this.onAddFiles}
               onAddByPath={this.onAddByPath}
