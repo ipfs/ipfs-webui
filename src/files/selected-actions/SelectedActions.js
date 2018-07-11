@@ -32,12 +32,12 @@ const SelectedActions = ({count, size, unselect, remove, share, download, downlo
   return (
     <div className={`SelectedActions sans-serif bt w-100 pa3 ${className}`}{...props}>
       <div className='flex items-center justify-between'>
-        <div className='w5'>
+        <div className='w5-l'>
           <div className='flex items-center'>
-            <div className='SelectedCount mr3 relative f3 fw6 w2 h2 dib br-100'>
+            <div className='SelectedCount mr3 relative f3 fw6 flex-shrink-0 dib br-100'>
               <span className='absolute'>{count}</span>
             </div>
-            <div>
+            <div className='dn db-l'>
               <p className='ma0'>{text}</p>
               <p className='Size ma0 mt1 f6'>Total size: {filesize(size)}</p>
             </div>
@@ -58,16 +58,17 @@ const SelectedActions = ({count, size, unselect, remove, share, download, downlo
           </div>
           <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? inspect : null} {...singleFileTooltip}>
             <StrokeIpld className='w3' fill='#A4BFCC' />
-            <p className='ma0 f6'>Inspect IPLD</p>
+            <p className='ma0 f6'>Inspect</p>
           </div>
           <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? rename : null} {...singleFileTooltip}>
             <StrokePencil className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Rename</p>
           </div>
         </div>
-        <div className='w5'>
+        <div className='w5-l'>
           <span onClick={unselect} className='pointer flex items-center justify-end'>
-            <span className='mr2'>Deselect all</span>
+            <span className='mr2 dn db-l'>Deselect all</span>
+            <span className='mr2 dn db-m'>Clear</span>
             <GlyphSmallCancel onClick={unselect} className='w1' fill='#F26148' viewBox='37 40 27 27' />
           </span>
         </div>
