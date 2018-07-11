@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isBinary from 'is-binary'
-import fileExtension from 'file-extension'
 import typeFromExt from '../type-from-ext'
 
 class FilesPreview extends React.Component {
