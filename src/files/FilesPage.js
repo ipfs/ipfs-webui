@@ -161,7 +161,7 @@ class FilesPage extends React.Component {
 
       setTimeout(() => {
         this.setState({ downloadProgress: -1 })
-      }, 3000)
+      }, 1000)
     }
 
     xhr.onprogress = (e) => {
@@ -197,7 +197,7 @@ class FilesPage extends React.Component {
     this.props.doFilesWrite(this.props.files.path, files, (progress) => {
       this.setState({ addProgress: progress })
       if (progress === 100) {
-        setTimeout(() => this.setState({ addProgress: null }), 3000)
+        setTimeout(() => this.setState({ addProgress: null }), 2000)
       }
     })
   }

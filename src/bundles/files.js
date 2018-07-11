@@ -106,9 +106,15 @@ bundle.doFilesMakeDir = (path) => (args) => {
 function filesToStreams (files) {
   const streams = []
   let totalSize = 0
+  let isDir = false
 
   for (let file of files) {
     const stream = fileReader(file)
+
+    if (file.webkitRelativePath) {
+      isDir = true
+    }
+
     streams.push({
       name: file.webkitRelativePath || file.name,
       content: stream,
@@ -117,14 +123,14 @@ function filesToStreams (files) {
     totalSize += file.size
   }
 
-  return { streams, totalSize }
+  return { streams, totalSize, isDir }
 }
 
 bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({dispatch, getIpfs, store}) => {
   dispatch({ type: 'FILES_WRITE_STARTED' })
 
   try {
-    const { streams, totalSize } = filesToStreams(rawFiles)
+    const { streams, totalSize, isDir } = filesToStreams(rawFiles)
     updateProgress(0)
 
     let sent = 0
@@ -149,6 +155,10 @@ bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({dispatch, getI
 
       sent = sent - alreadySent + file.size
       updateProgress(sent / totalSize * 100)
+
+      if (!isDir) {
+        await store.doMarkFilesAsOutdated()
+      }
     }))
 
     updateProgress(100)
