@@ -1,4 +1,8 @@
 
+.PeersTableContainer {
+  height: 220px;
+}
+
 .PeersTable tbody tr:nth-child(odd) {
   background-color: rgba(154, 212, 219, 0.3);
 }

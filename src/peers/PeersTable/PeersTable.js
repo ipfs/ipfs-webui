@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Table, Column, AutoSizer } from 'react-virtualized'
 import './PeersTable.css'
 
 export class PeersTable extends React.Component {
@@ -11,31 +12,25 @@ export class PeersTable extends React.Component {
     const { peers } = this.props
 
     return (
-      <div className='w-100'>
-        <table className='PeersTable w-100 f6 collapse'>
-          <thead>
-            <tr className='gray'>
-              <td className='pv2 ph4'>ID</td>
-              <td className='pv2 ph4'>Network Address</td>
-              <td className='pv2 ph4'>Location</td>
-            </tr>
-          </thead>
-          <tbody className='lh-copy'>
-            { peers && peers.map((peer, idx) => {
-              const peerId = peer.peer.toB58String()
-              const peerAddress = peer.addr.toString()
-              const peerLocation = '@somewhere'
-
-              return (
-                <tr key={`peer-${idx}`}>
-                  <td className='navy pv2 ph4'>{peerId}</td>
-                  <td className='charcoal-muted pv2 ph4'>{peerAddress}</td>
-                  <td className='navy b pv2 ph4'>{peerLocation}</td>
-                </tr>
-              )
-            }) }
-          </tbody>
-        </table>
+      <div className='PeersTableContainer flex w-100'>
+        { peers && <AutoSizer>
+          {({width}) => (
+            <Table
+              className='PeersTable tl fw4 w-100'
+              headerClassName='teal o-60 fw2 tracked'
+              rowClassName='flex items-center bb b--near-white f6'
+              width={width}
+              height={220}
+              headerHeight={32}
+              rowHeight={32}
+              rowCount={peers.length}
+              rowGetter={({ index }) => peers[index]}>
+              <Column label='ID' dataKey='id' width={430} className='dark-gray monospace' />
+              <Column label='Network address' dataKey='address' width={280} className='silver monospace' />
+              <Column label='Location' dataKey='location' width={220} className='navy-muted b' />
+            </Table>
+          )}
+        </AutoSizer> }
       </div>
     )
   }

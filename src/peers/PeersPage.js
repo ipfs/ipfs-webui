@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet'
 import WorldMap from './WorldMap/WorldMap'
 import PeersTable from './PeersTable/PeersTable'
 
-const PeersPage = ({ peers }) => (
+const PeersPage = ({ peers, tableData }) => (
   <div data-id='PeersPage'>
     <Helmet>
       <title>Peers - IPFS</title>
@@ -14,12 +14,13 @@ const PeersPage = ({ peers }) => (
 
     <div className='bg-snow-muted pa3'>
       <WorldMap peers={peers} />
-      <PeersTable peers={peers} />
+      <PeersTable peers={tableData} />
     </div>
   </div>
 )
 
 export default connect(
   'selectPeers',
+  'selectTableData',
   PeersPage
 )
