@@ -9,7 +9,6 @@ class LinksTable extends React.Component {
 
   render () {
     const {links} = this.props
-    console.log(links[0])
     const headerClassName = 'mid-gray fw2 tracked teal'
     return (
       <AutoSizer>
