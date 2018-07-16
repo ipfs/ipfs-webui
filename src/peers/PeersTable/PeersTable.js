@@ -25,9 +25,9 @@ export class PeersTable extends React.Component {
               rowHeight={32}
               rowCount={peers.length}
               rowGetter={({ index }) => peers[index]}>
-              <Column label='ID' dataKey='id' width={430} className='dark-gray monospace' />
-              <Column label='Network address' dataKey='address' width={280} className='silver monospace' />
-              <Column label='Location' dataKey='location' width={220} className='navy-muted b' />
+              <Column label='ID' dataKey='id' width={430} className='dark-gray monospace pr3 truncate' />
+              <Column label='Network address' dataKey='address' width={280} className='silver monospace pr3 truncate' />
+              <Column label='Location' dataKey='location' width={220} className='navy-muted b truncate' />
             </Table>
           )}
         </AutoSizer> }
