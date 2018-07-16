@@ -33,7 +33,7 @@
     "file-extension": "^4.0.5",
     "filesize": "^3.6.1",
     "internal-nav-helper": "^1.0.2",
-    "ipfs-css": "ipfs-shipyard/ipfs-css#02a7c30",
+    "ipfs-css": "^0.6.0",
     "ipfs-unixfs": "^0.1.15",
     "ipld-dag-pb": "^0.14.5",
     "is-binary": "^0.1.0",
