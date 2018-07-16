@@ -1,79 +1,110 @@
 import { createSelector } from 'redux-bundler'
 import geoip from 'ipfs-geoip'
+import Multiaddr from 'multiaddr'
 
 // Depends on ipfsBundle, peersBundle
 export default function (opts) {
   opts = opts || {}
-  // Max number of flags to retrieve at once
+  // Max number of locations to retrieve concurrently
   opts.concurrency = opts.concurrency || 5
 
-  const defaultState = { locations: {}, queuingPeerIds: [], resolvingPeerIds: [] }
+  const defaultState = {
+    // Peer locations keyed by peer ID then peer address.
+    // i.e. { [peerId]: { [multiaddr]: { state, data?, error? } } }
+    // `state` can be queued, resolving, resolved or failed
+    // `data` is the resolved location data (see ipfs-geoip docs)
+    // `error` is only present if state is 'failed'
+    locations: {},
+    // Peer IDs in the queue for resolving ONE of their queued addresses.
+    // We actually have a queue of queues since each peer may have multiple
+    // addresses to resolve. Peer locations are resolved in PARALLEL but for
+    // any given peer we work our way through it's list of addresses in SERIES
+    // until we find one that resolves.
+    queuingPeers: [],
+    // Peer IDs currently resolving for one of their queued addresses
+    resolvingPeers: []
+  }
 
   return {
     name: 'peerLocations',
 
     reducer (state = defaultState, action) {
       if (action.type === 'PEER_LOCATIONS_PEERS_QUEUED') {
+        const { addrsByPeer, peerByAddr } = action.payload
+
         return {
           ...state,
-          queuingPeerIds: state.queuingPeerIds
-            .concat(action.payload.peers.map(p => p.peer.toB58String())),
-          locations: action.payload.peers.reduce((locs, p) => {
-            locs[p.peer.toB58String()] = { state: 'queued', peer: p }
+          queuingPeers: state.queuingPeers.concat(Object.keys(addrsByPeer)),
+          locations: Object.keys(peerByAddr).reduce((locs, addr) => {
+            const peerId = peerByAddr[addr]
+            locs[peerId] = locs[peerId] || {}
+            locs[peerId][addr] = { state: 'queued' }
             return locs
           }, { ...state.locations })
         }
       }
 
       if (action.type === 'PEER_LOCATIONS_RESOLVE_STARTED') {
-        const peerId = action.payload.peer.peer.toB58String()
-        const nextLocations = { ...state.lcoations }
-
-        nextLocations[peerId] = {
-          ...nextLocations[peerId],
-          state: 'resolving',
-          data: action.payload.location
-        }
+        const { peerId, addr } = action.payload
 
         return {
           ...state,
-          queuingPeerIds: state.queuingPeerIds.filter(id => id !== peerId),
-          resolvingPeerIds: state.resolvingPeerIds.concat(peerId),
-          locations: nextLocations
+          queuingPeers: state.queuingPeers.filter(id => id !== peerId),
+          resolvingPeers: state.resolvingPeers.concat(peerId),
+          locations: {
+            ...state.locations,
+            [peerId]: {
+              ...state.locations[peerId],
+              [addr]: { state: 'resolving' }
+            }
+          }
         }
       }
 
       if (action.type === 'PEER_LOCATIONS_RESOLVE_FINISHED') {
-        const peerId = action.payload.peer.peer.toB58String()
-        const nextLocations = { ...state.lcoations }
-
-        nextLocations[peerId] = {
-          ...nextLocations[peerId],
-          state: 'resolved',
-          data: action.payload.location
-        }
+        const { peerId, addr, location } = action.payload
 
         return {
           ...state,
-          resolvingPeerIds: state.resolvingPeerIds.filter(id => id !== peerId),
-          locations: nextLocations
+          resolvingPeers: state.resolvingPeers.filter(id => id !== peerId),
+          locations: {
+            ...state.locations,
+            [peerId]: {
+              ...state.locations[peerId],
+              [addr]: {
+                state: 'resolved',
+                data: location
+              }
+            }
+          }
         }
       }
 
       if (action.type === 'PEER_LOCATIONS_RESOLVE_FAILED') {
-        const peerId = action.payload.peer.peer.toB58String()
-        const nextLocations = { ...state.lcoations }
+        const { peerId, addr } = action.payload
 
-        nextLocations[peerId] = {
-          ...nextLocations[peerId],
-          state: 'failed',
-          error: action.payload.error
-        }
+        // Is there another queued address for this peer?
+        const hasAlternate = Object.keys(state.locations[peerId])
+          .filter(a => a !== addr)
+          .some(a => state.locations[peerId][a].state === 'queued')
 
         return {
           ...state,
-          resolvingPeerIds: state.resolvingPeerIds.filter(id => id !== peerId),
-          locations: nextLocations
+          resolvingPeers: state.resolvingPeers.filter(id => id !== peerId),
+          // Re-queue the peer if it has another address to try
+          queuingPeers: hasAlternate
+            ? state.queuingPeers.concat(peerId)
+            : state.queuingPeers,
+          locations: {
+            ...state.locations,
+            [peerId]: {
+              ...state.locations[peerId],
+              [addr]: {
+                state: 'failed',
+                error: action.payload.error
+              }
+            }
+          }
         }
       }
 
@@ -81,36 +112,43 @@ export default function (opts) {
     },
 
     // Returns an object of the form:
-    // { [peerId]: { state, peer, data?, error? } }
+    // { [peerId]: { [multiaddr]: { state, data?, error? } } }
     selectPeerLocationsRaw: state => state.peerLocations.locations,
 
     // Select just the data for the peer locations that have been resolved
     // Returns an object of the form:
-    // { [peerId]: { /* location data */ } }
+    // { [peerId]: { [multiaddr]: { /* location data */ } } }
     selectPeerLocations: createSelector(
       'selectPeerLocationsRaw',
-      (peerLocsRaw) => Object.keys(peerLocsRaw).reduce((locs, peerId) => {
-        if (peerLocsRaw[peerId].state === 'resolved') {
-          locs[peerId] = peerLocsRaw[peerId].data
-        }
+      peerLocsRaw => Object.keys(peerLocsRaw).reduce((locs, peerId) => {
+        const addrs = Object.keys(peerLocsRaw[peerId])
+          .filter(a => peerLocsRaw[peerId][a].state === 'resolved')
+
+        if (!addrs.length) return locs
+
+        locs[peerId] = addrs.reduce((loc, a) => {
+          loc[a] = peerLocsRaw[peerId][a].data
+          return loc
+        }, {})
+
         return locs
       }, {})
     ),
 
-    selectPeerLocationsQueuingPeerIds: state => state.peerLocations.queuingPeerIds,
-    selectPeerLocationsResolvingPeerIds: state => state.peerLocations.resolvingPeerIds,
+    selectPeerLocationsQueuingPeers: state => state.peerLocations.queuingPeers,
+    selectPeerLocationsResolvingPeers: state => state.peerLocations.resolvingPeers,
 
-    doResolvePeerLocation: peer => async ({ dispatch, getState, getIpfs }) => {
-      dispatch({ type: 'PEER_LOCATIONS_RESOLVE_STARTED', payload: { peer } })
+    doResolvePeerLocation: ({ peerId, addr }) => async ({ dispatch, getState, getIpfs }) => {
+      dispatch({ type: 'PEER_LOCATIONS_RESOLVE_STARTED', payload: { peerId, addr } })
 
       const ipfs = getIpfs()
       let location
 
       try {
-        const ipv4Tuple = peer.addr.stringTuples().find(isNonHomeIPv4)
+        const ipv4Tuple = Multiaddr(addr).stringTuples().find(isNonHomeIPv4)
 
         if (!ipv4Tuple) {
-          throw new Error(`Unable to resolve location for non-IPv4 address ${peer.addr}`)
+          throw new Error(`Unable to resolve location for non-IPv4 address ${addr}`)
         }
 
         location = await new Promise((resolve, reject) => {
@@ -122,11 +160,14 @@ export default function (opts) {
       } catch (err) {
         return dispatch({
           type: 'PEER_LOCATIONS_RESOLVE_FAILED',
-          payload: { peer, error: err }
+          payload: { peerId, addr, error: err }
         })
       }
 
-      dispatch({ type: 'PEER_LOCATIONS_RESOLVE_FINISHED', payload: { peer, location } })
+      dispatch({
+        type: 'PEER_LOCATIONS_RESOLVE_FINISHED',
+        payload: { peerId, addr, location }
+      })
     },
 
     // Resolve another peer location where there's a peer in the queue and we're
@@ -134,13 +175,15 @@ export default function (opts) {
     reactResolvePeerLocation: createSelector(
       'selectIpfsReady',
       'selectPeerLocationsRaw',
-      'selectPeerLocationsQueuingPeerIds',
-      'selectPeerLocationsResolvingPeerIds',
-      (ipfsReady, peerLocationsRaw, queuingPeerIds, resolvingPeerIds) => {
-        if (ipfsReady && queuingPeerIds.length && resolvingPeerIds.length < opts.concurrency) {
-          const peerId = queuingPeerIds[0]
-          const { peer } = peerLocationsRaw[peerId]
-          return { actionCreator: 'doResolvePeerLocation', args: [peer] }
+      'selectPeerLocationsQueuingPeers',
+      'selectPeerLocationsResolvingPeers',
+      (ipfsReady, peerLocationsRaw, queuingPeers, resolvingPeers) => {
+        if (ipfsReady && queuingPeers.length && resolvingPeers.length < opts.concurrency) {
+          const peerId = queuingPeers[0]
+          const addr = Object.keys(peerLocationsRaw[peerId])
+            .find(a => peerLocationsRaw[peerId][a].state === 'queued')
+          if (!addr) return
+          return { actionCreator: 'doResolvePeerLocation', args: [{ peerId, addr }] }
         }
       }
     ),
@@ -150,16 +193,26 @@ export default function (opts) {
       'selectPeers',
       'selectPeerLocationsRaw',
       (peers, peerLocationsRaw) => {
-        peers = (peers || [])
-          .filter(p => !peerLocationsRaw[p.peer.toB58String()])
-          .filter(p => p.addr.stringTuples().some(isNonHomeIPv4))
+        const payload = (peers || [])
+          .reduce(({ addrsByPeer, peerByAddr }, p) => {
+            const peerId = p.peer.toB58String()
+            const addr = p.addr.toString()
 
-        if (peers.length) {
-          return { type: 'PEER_LOCATIONS_PEERS_QUEUED', payload: { peers } }
+            if (peerLocationsRaw[peerId] && peerLocationsRaw[peerId][addr]) {
+              return { addrsByPeer, peerByAddr }
+            }
+
+            addrsByPeer[peerId] = (addrsByPeer[peerId] || []).concat(addr)
+            peerByAddr[addr] = peerId
+            return { addrsByPeer, peerByAddr }
+          }, { addrsByPeer: {}, peerByAddr: {} })
+
+        if (Object.keys(payload.addrsByPeer).length) {
+          return { type: 'PEER_LOCATIONS_PEERS_QUEUED', payload }
         }
       }
     )
   }
 }
 
-const isNonHomeIPv4 = (t) => t[0] === 4 && t[1] !== '127.0.0.1'
+const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'

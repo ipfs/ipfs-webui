@@ -41,6 +41,7 @@
     "is-binary": "^0.1.0",
     "is-ipfs": "^0.3.2",
     "milliseconds": "^1.0.3",
+    "multiaddr": "^5.0.0",
     "multibase": "^0.4.0",
     "multicodec": "^0.2.7",
     "multihashes": "^0.4.13",
