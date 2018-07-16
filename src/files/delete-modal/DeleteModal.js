@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { defineMessages, FormattedMessage } from 'react-intl'
 import TrashIcon from '../../icons/StrokeTrash'
 import Button from '../../components/button/Button'
-import { Modal, ModalActions, ModalBody } from '../modal/Modal'
+import { Modal, ModalActions, ModalBody } from '../../components/modal/Modal'
 
 const messages = defineMessages({
   deleteItem: {

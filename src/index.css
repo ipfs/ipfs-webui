@@ -10,6 +10,24 @@
   box-shadow: 0 0 0 .2rem rgba(201, 210, 215, .4);
 }
 
+.invalid-input {
+  border-color: #f36149;
+}
+
+.invalid-input:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(243, 97, 73, 0.4);
+}
+
+.valid-input {
+  border-color: #0aca9f;
+}
+
+.valid-input:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(10, 202, 159, 0.4);
+}
+
 .stroke-current-color {
   stroke: currentColor;
 }

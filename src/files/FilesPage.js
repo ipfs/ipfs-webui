@@ -8,7 +8,8 @@ import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
-import Overlay from './overlay/Overlay'
+import Overlay from '../components/overlay/Overlay'
+import { join } from 'path'
 
 const action = (name) => {
   return (...args) => {
@@ -40,6 +41,10 @@ class FilesPage extends React.Component {
   }
 
   onLinkClick = (link) => {
+    if (this.props.files.type === 'directory') {
+      this.filesList.toggleAll(false)
+    }
+
     const {doUpdateHash} = this.props
     link = link.split('/').map(p => encodeURIComponent(p)).join('/')
     doUpdateHash(`/files${link}`)
@@ -74,10 +79,10 @@ class FilesPage extends React.Component {
     let {filename, path} = this.state.rename
 
     if (newName !== '' && newName !== filename) {
-      this.refs.filesList.toggleOne(filename, false)
+      this.filesList.toggleOne(filename, false)
       this.props.doFilesRename(path, path.replace(filename, newName))
         .then(() => {
-          this.refs.filesList.toggleOne(newName, true)
+          this.filesList.toggleOne(newName, true)
         })
     }
 
@@ -111,13 +116,17 @@ class FilesPage extends React.Component {
   }
 
   onDeleteConfirm = () => {
-    this.refs.filesList.toggleAll(false)
+    this.filesList.toggleAll(false)
     this.props.doFilesDelete(this.state.delete.paths)
     this.onDeleteCancel()
   }
 
-  onFilesUpload = (files) => {
+  onAddFiles = (files) => {
     this.props.doFilesWrite(this.props.files.path, files)
+  }
+
+  onAddByPath = (path) => {
+    this.props.doFilesAddPath(this.props.files.path, path)
   }
 
   downloadFile = (sUrl, fileName) => {
@@ -177,6 +186,10 @@ class FilesPage extends React.Component {
       .then(({url, filename}) => this.downloadFile(url, filename))
   }
 
+  onMakeDir = (path) => {
+    this.props.doFilesMakeDir(join(this.props.files.path, path))
+  }
+
   render () {
     const {files} = this.props
 
@@ -188,13 +201,17 @@ class FilesPage extends React.Component {
         {files ? (
           <div className='flex items-center justify-between mb4'>
             <Breadcrumbs path={files.path} onClick={this.onLinkClick} />
-            <FileInput onAddFiles={this.onFilesUpload} />
+
+            <FileInput
+              onMakeDir={this.onMakeDir}
+              onAddFiles={this.onAddFiles}
+              onAddByPath={this.onAddByPath} />
           </div>
         ) : null}
         {files && files.type === 'directory' ? (
           <FilesList
             maxWidth='calc(100% - 240px)'
-            ref='filesList'
+            ref={el => { this.filesList = el }}
             root={files.path}
             files={files.files}
             downloadProgress={this.state.downloadProgress}
@@ -237,7 +254,9 @@ export default connect(
   'doFilesDelete',
   'doFilesRename',
   'doFilesWrite',
+  'doFilesAddPath',
   'doFilesDownloadLink',
+  'doFilesMakeDir',
   'selectFiles',
   'selectGatewayUrl',
   FilesPage
