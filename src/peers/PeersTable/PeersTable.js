@@ -1,12 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Table, Column, AutoSizer } from 'react-virtualized'
+import CountryFlag from 'react-country-flag'
 import './PeersTable.css'
 
 export class PeersTable extends React.Component {
   static propTypes = {
     peers: PropTypes.array
   }
+
+  locationCellRenderer = ({ rowData }) => (
+    <span>
+      { rowData.flagCode ? <CountryFlag code={rowData.flagCode} /> : '🏳️‍🌈' }
+      { rowData.location }
+    </span>
+  )
 
   render () {
     const { peers } = this.props
@@ -27,7 +35,7 @@ export class PeersTable extends React.Component {
               rowGetter={({ index }) => peers[index]}>
               <Column label='ID' dataKey='id' width={430} className='dark-gray monospace pr3 truncate' />
               <Column label='Network address' dataKey='address' width={280} className='silver monospace pr3 truncate' />
-              <Column label='Location' dataKey='location' width={220} className='navy-muted b truncate' />
+              <Column label='Location' cellRenderer={this.locationCellRenderer} dataKey='location' width={220} className='navy-muted b truncate' />
             </Table>
           )}
         </AutoSizer> }

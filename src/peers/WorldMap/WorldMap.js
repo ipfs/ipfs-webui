@@ -11,7 +11,7 @@ import worldData from './world.json'
 
 export class WorldMap extends React.Component {
   static propTypes = {
-    peers: PropTypes.array
+    coordinates: PropTypes.array
   }
 
   renderMap = (height, width, coordinates) => {
@@ -70,7 +70,7 @@ export class WorldMap extends React.Component {
         coordinates: coordinates
       })
       .attr('d', path.pointRadius((d) => 8))
-      .attr('class', 'world-locations-base')
+      .attr('fill', 'rgba(71, 170, 216, 0.2)')
 
     el.append('path')
       .datum({
@@ -78,22 +78,22 @@ export class WorldMap extends React.Component {
         coordinates: coordinates
       })
       .attr('d', path.pointRadius((d) => 2))
-      .attr('class', 'world-locations-center')
+      .attr('fill', '#29B6F4')
 
     return el.node().toReact()
   }
 
   render () {
-    const { peers } = this.props
+    const { coordinates } = this.props
 
     return (
       <div className='MapContainer flex w-100 mb4'>
         <AutoSizer>
-          { ({ height, width }) => this.renderMap(height, width, [0, 0]) }
+          { ({ height, width }) => this.renderMap(height, width, coordinates) }
         </AutoSizer>
 
         <div className='flex flex-auto flex-column items-center self-end pb4'>
-          <div className='f1 gray'>{ peers ? peers.length : 0 }</div>
+          <div className='f1 gray'>{ coordinates ? coordinates.length : 0 }</div>
           <div className='f4 b'>PEERS</div>
         </div>
       </div>

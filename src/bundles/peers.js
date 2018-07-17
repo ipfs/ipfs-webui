@@ -19,6 +19,33 @@ bundle.selectTableData = state => {
   }))
 }
 
+bundle.selectTableData = createSelector(
+  'selectPeers',
+  'selectPeerLocations',
+  (peers, locations) => peers && peers.map((peer, idx) => {
+    const peerId = peer.peer.toB58String()
+    const peerAddress = peer.addr.toString()
+    const peerLocationObj = locations[peerId]
+    const peerCountry = peerLocationObj && peerLocationObj.country_name
+    const peerCity = peerLocationObj && peerLocationObj.city
+    const peerFlagCode = peerLocationObj && peerLocationObj.country_code
+
+    let peerLocation = ''
+    if (peerCity && peerCountry) {
+      peerLocation = `${peerCity}, ${peerCountry}`
+    } else if (peerCountry) {
+      peerLocation = peerCountry
+    }
+
+    return {
+      'id': peerId,
+      'address': peerAddress,
+      'location': peerLocation,
+      'flagCode': peerFlagCode
+    }
+  })
+)
+
 // Update the peers if they are stale (appTime - lastSuccess > staleAfter)
 bundle.reactPeersFetchWhenIdle = createSelector(
   'selectPeersShouldUpdate',
