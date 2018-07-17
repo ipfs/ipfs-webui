@@ -97,7 +97,11 @@ function SortArrow ({ field, sortField, direction }) {
 
 function LocationFlag ({ location }) {
   if (!location) return '🏳️‍🌈'
-  return <span title={location.country}><CountryFlag code={location.country_code} /></span>
+  return (
+    <span title={location.country_name}>
+      <CountryFlag code={location.country_code} />
+    </span>
+  )
 }
 
 export default connect('selectPeerBandwidthPeers', 'selectPeerLocations', PeerBandwidthTable)
