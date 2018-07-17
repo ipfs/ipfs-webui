@@ -28,7 +28,6 @@ class FileList extends React.Component {
     onDownload: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
-    onCancelUpload: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number.isRequired,
@@ -78,7 +77,8 @@ class FileList extends React.Component {
   }
 
   genActionFromFile = (fn, file) => () => {
-    this.props[fn](join(this.props.root, file.name))
+    file.path = join(this.props.root, file.name)
+    this.props[fn](file)
   }
 
   get selectedFiles () {
@@ -131,7 +131,7 @@ class FileList extends React.Component {
       <File
         onSelect={this.toggleOne}
         onNavigate={this.genActionFromFile('onNavigate', file)}
-        onCancel={this.genActionFromFile('onCancelUpload', file)}
+        onInspect={this.genActionFromFile('onInspect', file)}
         selected={this.state.selected.indexOf(file.name) !== -1}
         key={window.encodeURIComponent(file.name)}
         {...file}
@@ -176,8 +176,7 @@ class FileList extends React.Component {
               File name {this.sortByIcon(ORDER_BY_NAME)}
             </span>
           </div>
-          <div className='ph2 f6 w-30'>Status</div>
-          <div className='ph2 f6 w-10'>
+          <div className='ph2 f6 w-10 dn db-l'>
             <span className='pointer' onClick={this.changeSort(ORDER_BY_SIZE)}>
               Size {this.sortByIcon(ORDER_BY_SIZE)}
             </span>

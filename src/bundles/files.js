@@ -1,6 +1,6 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { join, dirname } from 'path'
-import fileReaderPullStream from 'filereader-pull-stream'
+import fileReader from 'pull-file-reader'
 
 const bundle = createAsyncResourceBundle({
   name: 'files',
@@ -46,7 +46,7 @@ const bundle = createAsyncResourceBundle({
         }
       })
   },
-  staleAfter: 60000,
+  staleAfter: Infinity,
   checkIfOnline: false
 })
 
@@ -103,40 +103,66 @@ bundle.doFilesMakeDir = (path) => (args) => {
   return runAndFetch(args, 'FILES_MKDIR', 'mkdir', [path, { parents: true }])
 }
 
-function files2streams (files) {
+function filesToStreams (files) {
   const streams = []
   let totalSize = 0
+  let isDir = false
+
   for (let file of files) {
-    const fileStream = fileReaderPullStream(file, {chunkSize: 32 * 1024 * 1024})
+    const stream = fileReader(file)
+
+    if (file.webkitRelativePath) {
+      isDir = true
+    }
+
     streams.push({
       name: file.webkitRelativePath || file.name,
-      content: fileStream
+      content: stream,
+      size: file.size
     })
     totalSize += file.size
   }
-  return { streams, totalSize }
+
+  return { streams, totalSize, isDir }
 }
 
-bundle.doFilesWrite = (root, files) => async ({dispatch, getIpfs, store}) => {
+bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({dispatch, getIpfs, store}) => {
   dispatch({ type: 'FILES_WRITE_STARTED' })
 
   try {
-    const { streams } = files2streams(files)
+    const { streams, totalSize, isDir } = filesToStreams(rawFiles)
+    updateProgress(0)
 
-    for (const stream of streams) {
-      const path = join(root, dirname(stream.name))
-      await getIpfs().files.mkdir(path, { parents: true })
-    }
+    let sent = 0
 
     await Promise.all(streams.map(async file => {
-      const res = await getIpfs().add(file.content, { pin: false })
-      const f = res[res.length - 1]
-      const src = `/ipfs/${f.hash}`
+      const dir = join(root, dirname(file.name))
+      await getIpfs().files.mkdir(dir, { parents: true })
+      let alreadySent = 0
+
+      const res = await getIpfs().add(file.content, {
+        pin: false,
+        progress: (bytes) => {
+          sent = sent + bytes - alreadySent
+          alreadySent = bytes
+          updateProgress(sent / totalSize * 100)
+        }
+      })
+
+      const src = `/ipfs/${res[res.length - 1].hash}`
       const dst = join(root, file.name)
       await getIpfs().files.cp([src, dst])
+
+      sent = sent - alreadySent + file.size
+      updateProgress(sent / totalSize * 100)
+
+      if (!isDir) {
+        await store.doMarkFilesAsOutdated()
+      }
     }))
 
-    await store.doFetchFiles()
+    updateProgress(100)
+    await store.doMarkFilesAsOutdated()
   } catch (error) {
     dispatch({ type: 'FILES_WRITE_ERRORED', payload: error })
   }

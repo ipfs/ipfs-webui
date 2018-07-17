@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '../../components/button/Button'
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
@@ -15,11 +14,34 @@ const Option = ({children, onClick, className = '', ...props}) => (
   </a>
 )
 
+const AddButton = ({ progress = null, ...props }) => {
+  const sending = progress !== null
+  let cls = 'Button f7 relative transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline'
+  if (sending) {
+    cls += ' bg-grey light-grey'
+  } else {
+    cls += ' pointer bg-aqua white'
+  }
+
+  return (
+    <button disabled={sending} className={cls} style={{width: '120px'}} {...props}>
+      <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
+        {sending ? `${progress.toFixed(0)}%` : '+ Add to IPFS'}
+      </div>&nbsp;
+
+      { sending &&
+        <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{width: `${progress}%`, background: 'rgba(0,0,0,0.1)'}} />
+      }
+    </button>
+  )
+}
+
 export default class FileInput extends React.Component {
   static propTypes = {
     onMakeDir: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
-    onAddByPath: PropTypes.func.isRequired
+    onAddByPath: PropTypes.func.isRequired,
+    addProgress: PropTypes.number
   }
 
   state = {
@@ -61,9 +83,9 @@ export default class FileInput extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className={this.props.className}>
         <Dropdown>
-          <Button className='f7' onClick={this.toggleDropdown}>+ Add to IPFS</Button>
+          <AddButton progress={this.props.addProgress} onClick={this.toggleDropdown} />
           <DropdownMenu
             top={3}
             className='br2 charcoal'
