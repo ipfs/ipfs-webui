@@ -6,7 +6,7 @@ import Multiaddr from 'multiaddr'
 export default function (opts) {
   opts = opts || {}
   // Max number of locations to retrieve concurrently
-  opts.concurrency = opts.concurrency || 5
+  opts.concurrency = opts.concurrency || 10
 
   const defaultState = {
     // Peer locations keyed by peer ID then peer address.
@@ -117,20 +117,13 @@ export default function (opts) {
 
     // Select just the data for the peer locations that have been resolved
     // Returns an object of the form:
-    // { [peerId]: { [multiaddr]: { /* location data */ } } }
+    // { [peerId]: { /* location data */ } }
     selectPeerLocations: createSelector(
       'selectPeerLocationsRaw',
       peerLocsRaw => Object.keys(peerLocsRaw).reduce((locs, peerId) => {
-        const addrs = Object.keys(peerLocsRaw[peerId])
-          .filter(a => peerLocsRaw[peerId][a].state === 'resolved')
-
-        if (!addrs.length) return locs
-
-        locs[peerId] = addrs.reduce((loc, a) => {
-          loc[a] = peerLocsRaw[peerId][a].data
-          return loc
-        }, {})
-
+        const locsByAddr = peerLocsRaw[peerId]
+        const addr = Object.keys(locsByAddr).find(a => locsByAddr[a].state === 'resolved')
+        if (addr) locs[peerId] = peerLocsRaw[peerId][addr].data
         return locs
       }, {})
     ),
@@ -180,9 +173,8 @@ export default function (opts) {
       (ipfsReady, peerLocationsRaw, queuingPeers, resolvingPeers) => {
         if (ipfsReady && queuingPeers.length && resolvingPeers.length < opts.concurrency) {
           const peerId = queuingPeers[0]
-          const addr = Object.keys(peerLocationsRaw[peerId])
-            .find(a => peerLocationsRaw[peerId][a].state === 'queued')
-          if (!addr) return
+          const locsByAddr = peerLocationsRaw[peerId]
+          const addr = Object.keys(locsByAddr).find(a => locsByAddr[a].state === 'queued')
           return { actionCreator: 'doResolvePeerLocation', args: [{ peerId, addr }] }
         }
       }
@@ -193,19 +185,18 @@ export default function (opts) {
       'selectPeers',
       'selectPeerLocationsRaw',
       (peers, peerLocationsRaw) => {
-        const payload = (peers || [])
-          .reduce(({ addrsByPeer, peerByAddr }, p) => {
-            const peerId = p.peer.toB58String()
-            const addr = p.addr.toString()
+        const payload = (peers || []).reduce(({ addrsByPeer, peerByAddr }, p) => {
+          const peerId = p.peer.toB58String()
+          const addr = p.addr.toString()
 
-            if (peerLocationsRaw[peerId] && peerLocationsRaw[peerId][addr]) {
-              return { addrsByPeer, peerByAddr }
-            }
-
-            addrsByPeer[peerId] = (addrsByPeer[peerId] || []).concat(addr)
-            peerByAddr[addr] = peerId
+          if (peerLocationsRaw[peerId] && peerLocationsRaw[peerId][addr]) {
             return { addrsByPeer, peerByAddr }
-          }, { addrsByPeer: {}, peerByAddr: {} })
+          }
+
+          addrsByPeer[peerId] = (addrsByPeer[peerId] || []).concat(addr)
+          peerByAddr[addr] = peerId
+          return { addrsByPeer, peerByAddr }
+        }, { addrsByPeer: {}, peerByAddr: {} })
 
         if (Object.keys(payload.addrsByPeer).length) {
           return { type: 'PEER_LOCATIONS_PEERS_QUEUED', payload }

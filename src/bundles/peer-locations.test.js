@@ -117,7 +117,7 @@ it('should get locations for peers', async () => {
   Object.keys(peerLocs).forEach(peerId => {
     const peer = nextPeers.find(p => p.peer.toB58String() === peerId)
     expect(peer).toBeTruthy()
-    expectLocation(peerLocs[peerId][peer.addr.toString()])
+    expectLocation(peerLocs[peerId])
   })
 })
 
@@ -190,5 +190,5 @@ it('should resolve alternative address for failed address lookup', async () => {
   peerLocs = store.selectPeerLocations()
 
   expect(Object.keys(peerLocs)).toHaveLength(1)
-  expectLocation(peerLocs[nextPeers[1].peer.toB58String()][nextPeers[1].addr.toString()])
+  expectLocation(peerLocs[nextPeers[1].peer.toB58String()])
 })
