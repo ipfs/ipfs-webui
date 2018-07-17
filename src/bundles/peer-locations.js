@@ -131,10 +131,10 @@ export default function (opts) {
     selectPeerCoordinates: createSelector(
       'selectPeerLocations',
       peerLocs => Object.keys(peerLocs).map((peerId, idx) => {
-        const lat = peerLocs[peerId].latitude
         const long = peerLocs[peerId].longitude
+        const lat = peerLocs[peerId].latitude
 
-        return [lat, long]
+        return [long, lat]
       })
     ),
 
