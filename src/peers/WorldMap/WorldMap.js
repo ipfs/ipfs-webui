@@ -15,13 +15,16 @@ export class WorldMap extends React.Component {
   }
 
   renderMap = (height, width, coordinates) => {
+    // https://github.com/d3/d3-geo/blob/master/README.md#geoEquirectangular
     const projection = d3.geoEquirectangular()
       .scale(height / Math.PI)
       .translate([width / 2, height / 2])
       .precision(0.1)
 
+    // https://github.com/d3/d3-geo/blob/master/README.md#paths
     const path = d3.geoPath().projection(projection)
 
+    // https://github.com/d3/d3-geo/blob/master/README.md#geoGraticule
     const graticule = d3.geoGraticule()
 
     const el = d3.select(ReactFauxDOM.createElement('svg'))
@@ -41,7 +44,7 @@ export class WorldMap extends React.Component {
       .attr('cx', 0)
       .attr('cy', 0)
       .attr('r', 1)
-      .attr('style', 'stroke: none; fill: rgba(0, 0, 0, 0.8)')
+      .attr('fill', '#333')
 
     el.append('path')
       .datum(graticule)
@@ -62,7 +65,6 @@ export class WorldMap extends React.Component {
       .attr('d', path)
       .attr('fill', 'none')
       .attr('stroke', 'none')
-      .attr('stroke-width', '0.5px')
 
     el.append('path')
       .datum({
