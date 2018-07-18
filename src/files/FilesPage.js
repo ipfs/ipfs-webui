@@ -232,7 +232,14 @@ class FilesPage extends React.Component {
             { files.type === 'directory' ? (
               <FilesList
                 maxWidth='calc(100% - 240px)'
-                ref={el => { this.filesList = el }}
+                ref={el => {
+                  // TODO: find a better way than exposing a ref.
+                  if (el) {
+                    this.filesList = el.getDecoratedComponentInstance()
+                  } else {
+                    this.filesList = el
+                  }
+                }}
                 root={files.path}
                 files={files.files}
                 downloadProgress={this.state.downloadProgress}
