@@ -42,17 +42,17 @@ async function scanFiles (item, root = '') {
   return files
 }
 
-async function scan (raw) {
+async function scan (files) {
+  let entries = []
   let streams = []
   let totalSize = 0
 
-  for (const file of raw) {
+  for (const file of files) {
     if (file.getAsEntry || file.webkitGetAsEntry) {
-      const entry = getAsEntry(file)
-      const res = await scanFiles(entry, file.name)
-
-      res.forEach(r => totalSize += r.size)
-      streams = streams.concat(res)
+      entries.push({
+        entry: getAsEntry(file),
+        name: file.name
+      })
     } else {
       totalSize += file.size
 
@@ -62,6 +62,12 @@ async function scan (raw) {
         size: file.size
       })
     }
+  }
+
+  for (const entry of entries) {
+    const res = await scanFiles(entry.entry, entry.name)
+    res.forEach(r => { totalSize += r.size })
+    streams = streams.concat(res)
   }
 
   return { streams, totalSize, isDir: false }
