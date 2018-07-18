@@ -184,7 +184,7 @@ class FileList extends React.Component {
     }
 
     return connectDropTarget(
-      <section className={className}>
+      <section className={className} style={{ minHeight: '500px' }}>
         <header className='gray pv3 flex items-center'>
           <div className='ph2 w2'>
             <Checkbox checked={this.state.selected.length === this.props.files.length} onChange={this.toggleAll} />
