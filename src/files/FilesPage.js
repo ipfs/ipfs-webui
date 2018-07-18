@@ -49,14 +49,11 @@ class FilesPage extends React.Component {
     doUpdateHash(`/files${link}`)
   }
 
-  onInspect = (data) => {
+  onInspect = (hash) => {
     const {doUpdateHash} = this.props
-    let hash
 
-    if (Array.isArray(data)) {
-      hash = data[0].hash
-    } else {
-      hash = data.hash
+    if (Array.isArray(hash)) {
+      hash = hash[0].hash
     }
 
     doUpdateHash(`/explore/ipfs/${hash}`)

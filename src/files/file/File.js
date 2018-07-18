@@ -15,6 +15,7 @@ function File ({
   coloured,
   hash,
   name,
+  path,
   type,
   size,
   onSelect,
@@ -39,9 +40,9 @@ function File ({
     size = filesize(size, { round: 0 })
   }
 
-  const select = (select) => {
-    onSelect(name, select)
-  }
+  const select = (select) => onSelect(name, select)
+  const navigate = () => onNavigate(path)
+  const inspect = () => onInspect(hash)
 
   return connectDropTarget(connectDragSource(
     <div className={className}>
@@ -49,16 +50,16 @@ function File ({
         <Checkbox checked={selected} onChange={select} />
       </div>
       <div className='name relative flex items-center flex-grow-1 pa2 w-40'>
-        <div className='pointer dib icon flex-shrink-0' onClick={onNavigate}>
+        <div className='pointer dib icon flex-shrink-0' onClick={navigate}>
           <FileIcon name={name} type={type} />
         </div>
         <div className='f6'>
           <Tooltip text={name}>
-            <div onClick={onNavigate} className='pointer truncate'>{name}</div>
+            <div onClick={navigate} className='pointer truncate'>{name}</div>
           </Tooltip>
 
           <Tooltip text={hash}>
-            <div onClick={onInspect} className='pointer mt1 gray truncate monospace'>{hash}</div>
+            <div onClick={inspect} className='pointer mt1 gray truncate monospace'>{hash}</div>
           </Tooltip>
         </div>
       </div>
@@ -81,7 +82,7 @@ File.propTypes = {
   onMove: PropTypes.func.isRequired,
   coloured: PropTypes.bool,
   translucent: PropTypes.bool,
-
+  // Injected by DragSource and DropTarget
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   isDragging: PropTypes.bool.isRequired,
@@ -127,7 +128,9 @@ const dropTarget = {
     const item = monitor.getItem()
 
     if (item.hasOwnProperty('name')) {
-      return props.type === 'directory' && props.name !== item.name && !props.selected
+      return props.type === 'directory' &&
+        props.name !== item.name &&
+        !props.selected
     }
 
     return props.type === 'directory'

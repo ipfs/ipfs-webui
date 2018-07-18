@@ -53,6 +53,74 @@ class FileList extends React.Component {
     isDragging: false
   }
 
+  get selectedFiles () {
+    return this.state.selected.map(name =>
+      this.props.files.find(el => el.name === name)
+    )
+  }
+
+  get selectedMenu () {
+    if (this.state.selected.length === 0) {
+      return null
+    }
+
+    const unselectAll = () => this.toggleAll(false)
+    const size = this.selectedFiles.reduce((a, b) => a + b.size, 0)
+
+    return (
+      <SelectedActions
+        className='fixed bottom-0 right-0'
+        style={{maxWidth: this.props.maxWidth}}
+        unselect={unselectAll}
+        remove={this.wrapWithSelected('onDelete')}
+        share={this.wrapWithSelected('onShare')}
+        rename={this.wrapWithSelected('onRename')}
+        download={this.wrapWithSelected('onDownload')}
+        inspect={this.wrapWithSelected('onInspect')}
+        count={this.state.selected.length}
+        downloadProgress={this.props.downloadProgress}
+        size={size}
+      />
+    )
+  }
+
+  get files () {
+    const { isOver, canDrop } = this.props
+
+    return this.props.files.sort((a, b) => {
+      if (a.type === b.type) {
+        if (this.state.sortBy === ORDER_BY_NAME) {
+          return compare(a.name, b.name, this.state.sortAsc)
+        } else {
+          return compare(a.size, b.size, this.state.sortAsc)
+        }
+      }
+
+      if (a.type === 'directory') {
+        return -1
+      } else {
+        return 1
+      }
+    }).map(file => (
+      <File
+        onSelect={this.toggleOne}
+        onNavigate={this.props.onNavigate}
+        onInspect={this.props.onInspect}
+        selected={this.state.selected.indexOf(file.name) !== -1}
+        onAddFiles={this.props.onAddFiles}
+        onMove={this.move}
+        key={window.encodeURIComponent(file.name)}
+        setIsDragging={this.isDragging}
+        translucent={this.state.isDragging || (isOver && canDrop)}
+        {...file}
+      />
+    ))
+  }
+
+  wrapWithSelected = (fn) => () => {
+    this.props[fn](this.selectedFiles)
+  }
+
   toggleAll = (checked) => {
     let selected = []
 
@@ -74,50 +142,6 @@ class FileList extends React.Component {
     }
 
     this.setState({selected: selected})
-  }
-
-  genActionFromSelected = (fn, opts = {}) => () => {
-    let data = this.selectedFiles.map(f => ({
-      ...f,
-      path: join(this.props.root, f.name)
-    }))
-
-    this.props[fn](data)
-  }
-
-  genActionFromFile = (fn, { path }) => () => {
-    this.props[fn](path)
-  }
-
-  get selectedFiles () {
-    return this.state.selected.map(name =>
-      this.props.files.find(el => el.name === name)
-    )
-  }
-
-  selectedMenu = () => {
-    if (this.state.selected.length === 0) {
-      return null
-    }
-
-    const unselectAll = () => this.toggleAll(false)
-    const size = this.selectedFiles.reduce((a, b) => a + b.size, 0)
-
-    return (
-      <SelectedActions
-        className='fixed bottom-0 right-0'
-        style={{maxWidth: this.props.maxWidth}}
-        unselect={unselectAll}
-        remove={this.genActionFromSelected('onDelete')}
-        share={this.genActionFromSelected('onShare')}
-        rename={this.genActionFromSelected('onRename')}
-        download={this.genActionFromSelected('onDownload')}
-        inspect={this.genActionFromSelected('onInspect')}
-        count={this.state.selected.length}
-        downloadProgress={this.props.downloadProgress}
-        size={size}
-      />
-    )
   }
 
   move = ([src, dst]) => {
@@ -144,39 +168,6 @@ class FileList extends React.Component {
     }
   }
 
-  generateFiles = () => {
-    const { isOver, canDrop } = this.props
-
-    return this.props.files.sort((a, b) => {
-      if (a.type === b.type) {
-        if (this.state.sortBy === ORDER_BY_NAME) {
-          return compare(a.name, b.name, this.state.sortAsc)
-        } else {
-          return compare(a.size, b.size, this.state.sortAsc)
-        }
-      }
-
-      if (a.type === 'directory') {
-        return -1
-      } else {
-        return 1
-      }
-    }).map(file => (
-      <File
-        onSelect={this.toggleOne}
-        onNavigate={this.genActionFromFile('onNavigate', file)}
-        onInspect={this.genActionFromFile('onInspect', file)}
-        selected={this.state.selected.indexOf(file.name) !== -1}
-        onAddFiles={this.props.onAddFiles}
-        onMove={this.move}
-        key={window.encodeURIComponent(file.name)}
-        setIsDragging={this.isDragging}
-        translucent={this.state.isDragging || (isOver && canDrop)}
-        {...file}
-      />
-    ))
-  }
-
   sortByIcon = (order) => {
     if (this.state.sortBy === order) {
       return (this.state.sortAsc) ? '↑' : '↓'
@@ -185,13 +176,11 @@ class FileList extends React.Component {
     return null
   }
 
-  changeSort = (order) => {
-    return () => {
-      if (order === this.state.sortBy) {
-        this.setState({ sortAsc: !this.state.sortAsc })
-      } else {
-        this.setState({ sortBy: order, sortAsc: true })
-      }
+  changeSort = (order) => () => {
+    if (order === this.state.sortBy) {
+      this.setState({ sortAsc: !this.state.sortAsc })
+    } else {
+      this.setState({ sortBy: order, sortAsc: true })
     }
   }
 
@@ -224,8 +213,8 @@ class FileList extends React.Component {
             </span>
           </div>
         </header>
-        {this.generateFiles()}
-        {this.selectedMenu()}
+        {this.files}
+        {this.selectedMenu}
       </section>
     )
   }
