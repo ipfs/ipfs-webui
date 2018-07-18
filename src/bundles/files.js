@@ -87,7 +87,7 @@ async function runAndFetch ({ dispatch, getIpfs, store }, type, action, args) {
     dispatch({ type: `${type}_ERRORED`, payload: error })
   } finally {
     dispatch({ type: `${type}_FINISHED` })
-    await store.doMarkFilesAsOutdated()
+    await store.doFetchFiles()
   }
 }
 

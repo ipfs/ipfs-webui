@@ -59,10 +59,11 @@ class FileList extends React.Component {
 
   toggleOne = (name, check) => {
     let selected = this.state.selected
+    let index = selected.indexOf(name)
 
-    if (check) {
+    if (check && index < 0) {
       selected.push(name)
-    } else {
+    } else if (index >= 0) {
       selected.splice(this.state.selected.indexOf(name), 1)
     }
 
