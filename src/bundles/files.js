@@ -104,7 +104,7 @@ bundle.doFilesMakeDir = (path) => (args) => {
 }
 
 async function filesToStreams (files) {
-  if (!Array.isArray(files)) {
+  if (files.hasOwnProperty('content')) {
     return files.content
   }
 
