@@ -5,7 +5,7 @@ import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
-import { join, basename } from 'path'
+import { join } from 'path'
 import './FilesList.css'
 
 const ORDER_BY_NAME = 'name'
@@ -24,6 +24,7 @@ function compare (a, b, asc) {
 class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
+    setTogglers: PropTypes.func.isRequired,
     onShare: PropTypes.func.isRequired,
     onInspect: PropTypes.func.isRequired,
     onRename: PropTypes.func.isRequired,
@@ -115,6 +116,10 @@ class FileList extends React.Component {
         {...file}
       />
     ))
+  }
+
+  componentDidMount () {
+    this.props.setTogglers(this.toggleOne, this.toggleAll)
   }
 
   wrapWithSelected = (fn) => () => {

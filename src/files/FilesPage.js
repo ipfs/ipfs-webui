@@ -26,6 +26,8 @@ class FilesPage extends React.Component {
     downloadReq: null,
     downloadProgress: -1,
     addProgress: null,
+    toggleOne: () => {},
+    toggleAll: () => {},
     rename: {
       isOpen: false,
       path: '',
@@ -39,9 +41,16 @@ class FilesPage extends React.Component {
     }
   }
 
+  setTogglers = (one, all) => {
+    this.setState({
+      toggleOne: one,
+      toggleAll: all
+    })
+  }
+
   onLinkClick = (link) => {
     if (this.props.files.type === 'directory') {
-      this.filesList.toggleAll(false)
+      this.state.toggleAll(false)
     }
 
     const {doUpdateHash} = this.props
@@ -83,10 +92,10 @@ class FilesPage extends React.Component {
     let {filename, path} = this.state.rename
 
     if (newName !== '' && newName !== filename) {
-      this.filesList.toggleOne(filename, false)
+      this.state.toggleOne(filename, false)
       this.props.doFilesMove(path, path.replace(filename, newName))
         .then(() => {
-          this.filesList.toggleOne(newName, true)
+          this.state.toggleOne(newName, true)
         })
     }
 
@@ -120,7 +129,7 @@ class FilesPage extends React.Component {
   }
 
   onDeleteConfirm = () => {
-    this.filesList.toggleAll(false)
+    this.state.toggleAll(false)
     this.props.doFilesDelete(this.state.delete.paths)
     this.onDeleteCancel()
   }
@@ -229,14 +238,7 @@ class FilesPage extends React.Component {
             { files.type === 'directory' ? (
               <FilesList
                 maxWidth='calc(100% - 240px)'
-                ref={el => {
-                  // TODO: find a better way than exposing a ref.
-                  if (el) {
-                    this.filesList = el.getDecoratedComponentInstance()
-                  } else {
-                    this.filesList = el
-                  }
-                }}
+                setTogglers={this.setTogglers}
                 root={files.path}
                 files={files.files}
                 downloadProgress={this.state.downloadProgress}
