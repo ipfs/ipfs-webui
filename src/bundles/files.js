@@ -5,7 +5,7 @@ import fileReader from 'pull-file-reader'
 const bundle = createAsyncResourceBundle({
   name: 'files',
   actionBaseType: 'FILES',
-  getPromise: (args) => {
+  getPromise: async (args) => {
     const {store, getIpfs} = args
     let path = store.selectRouteParams().path
 
@@ -16,36 +16,35 @@ const bundle = createAsyncResourceBundle({
 
     path = decodeURIComponent(path)
 
-    return getIpfs().files.stat(path)
-      .then(stats => {
-        if (stats.type === 'directory') {
-          return getIpfs().files.ls(path, {l: true}).then((res) => {
-            if (res) {
-              res = res.map(file => {
-                // FIX: open PR on js-ipfs-api
-                file.type = file.type === 0 ? 'file' : 'directory'
-                file.path = join(path, file.name)
-                return file
-              })
-            }
+    const stats = await getIpfs().files.stat(path)
 
-            return {
-              path: path,
-              type: 'directory',
-              files: res
-            }
-          })
-        } else {
-          stats.name = path
+    if (stats.type === 'directory') {
+      let res = await getIpfs().files.ls(path, {l: true})
 
-          return {
-            path: path,
-            type: 'file',
-            stats: stats,
-            read: () => getIpfs().files.read(path)
-          }
-        }
-      })
+      if (res) {
+        res = res.map(file => {
+          // FIX: open PR on js-ipfs-api
+          file.type = file.type === 0 ? 'file' : 'directory'
+          file.path = join(path, file.name)
+          return file
+        })
+      }
+
+      return {
+        path: path,
+        type: 'directory',
+        files: res
+      }
+    }
+
+    stats.name = path
+
+    return {
+      path: path,
+      type: 'file',
+      stats: stats,
+      read: () => getIpfs().files.read(path)
+    }
   },
   staleAfter: Infinity,
   checkIfOnline: false
@@ -65,31 +64,31 @@ bundle.reactFilesFetch = createSelector(
   }
 )
 
-bundle.doFilesDelete = (files) => ({dispatch, getIpfs, store}) => {
+bundle.doFilesDelete = (files) => async ({dispatch, getIpfs, store}) => {
   dispatch({ type: 'FILES_DELETE_STARTED' })
 
   const promises = files.map(file => getIpfs().files.rm(file, { recursive: true }))
-  Promise.all(promises)
-    .then(() => {
-      store.doFetchFiles()
-      dispatch({ type: 'FILES_DELETE_FINISHED' })
-    })
-    .catch((error) => {
-      dispatch({ type: 'FILES_DELETE_ERRORED', payload: error })
-    })
+
+  try {
+    await Promise.all(promises)
+    dispatch({ type: 'FILES_DELETE_FINISHED' })
+    await store.doMarkFilesAsOutdated()
+  } catch (error) {
+    dispatch({ type: 'FILES_DELETE_ERRORED', payload: error })
+  }
 }
 
-function runAndFetch ({ dispatch, getIpfs, store }, type, action, args) {
+async function runAndFetch ({ dispatch, getIpfs, store }, type, action, args) {
   dispatch({ type: `${type}_STARTED` })
 
-  return getIpfs().files[action](...args)
-    .catch((error) => {
-      dispatch({ type: `${type}_ERRORED`, payload: error })
-    })
-    .then(() => {
-      dispatch({ type: `${type}_FINISHED` })
-      return store.doMarkFilesAsOutdated()
-    })
+  try {
+    await getIpfs().files[action](...args)
+  } catch (error) {
+    dispatch({ type: `${type}_ERRORED`, payload: error })
+  } finally {
+    dispatch({ type: `${type}_FINISHED` })
+    await store.doMarkFilesAsOutdated()
+  }
 }
 
 bundle.doFilesMove = (from, to) => (args) => {
@@ -212,7 +211,7 @@ function downloadSingle (dispatch, store, file) {
   return Promise.resolve({ url, filename })
 }
 
-function downloadMultiple (dispatch, getIpfs, store, files) {
+async function downloadMultiple (dispatch, getIpfs, store, files) {
   dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
 
   const apiUrl = store.selectApiUrl()
@@ -223,29 +222,28 @@ function downloadMultiple (dispatch, getIpfs, store, files) {
     return Promise.reject(e)
   }
 
-  return getIpfs().object.new('unixfs-dir')
-    .then(async (node) => {
-      for (const file of files) {
-        try {
-          node = await getIpfs().object.patch.addLink(node.toJSON().multihash, {
-            name: file.name,
-            size: file.size,
-            multihash: file.hash
-          })
-        } catch (e) {
-          dispatch({ type: 'FILES_DOWNLOAD_LINK_ERRORED', payload: e })
-          return Promise.reject(e)
-        }
-      }
+  let node = await getIpfs().object.new('unixfs-dir')
 
-      dispatch({ type: 'FILES_DOWNLOAD_LINK_FINISHED' })
-      const multihash = node.toJSON().multihash
+  for (const file of files) {
+    try {
+      node = await getIpfs().object.patch.addLink(node.toJSON().multihash, {
+        name: file.name,
+        size: file.size,
+        multihash: file.hash
+      })
+    } catch (e) {
+      dispatch({ type: 'FILES_DOWNLOAD_LINK_ERRORED', payload: e })
+      return Promise.reject(e)
+    }
+  }
 
-      return {
-        url: `${apiUrl}/api/v0/get?arg=${multihash}&archive=true&compress=true`,
-        filename: `download_${multihash}.tar.gz`
-      }
-    })
+  dispatch({ type: 'FILES_DOWNLOAD_LINK_FINISHED' })
+  const multihash = node.toJSON().multihash
+
+  return {
+    url: `${apiUrl}/api/v0/get?arg=${multihash}&archive=true&compress=true`,
+    filename: `download_${multihash}.tar.gz`
+  }
 }
 
 bundle.doFilesDownloadLink = (files) => ({dispatch, getIpfs, store}) => {
