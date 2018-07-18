@@ -10,11 +10,11 @@ const getFileFromEntry = (entry) => new Promise((resolve, reject) => {
   }
 }).catch(() => null)
 
-const getAsEntry = (item) => item.getAsEntry ?
-  item.getAsEntry() :
-  item.webkitGetAsEntry ?
-    item.webkitGetAsEntry() :
-    null
+const getAsEntry = (item) => item.getAsEntry
+  ? item.getAsEntry()
+  : item.webkitGetAsEntry
+    ? item.webkitGetAsEntry()
+    : null
 
 const readEntries = (reader) => new Promise((resolve, reject) => {
   reader.readEntries(resolve, reject)
@@ -66,7 +66,11 @@ async function scan (files) {
 
   for (const entry of entries) {
     const res = await scanFiles(entry.entry, entry.name)
-    res.forEach(r => { totalSize += r.size })
+
+    for (const stream of res) {
+      totalSize += stream.size
+    }
+
     streams = streams.concat(res)
   }
 

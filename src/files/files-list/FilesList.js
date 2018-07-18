@@ -39,7 +39,7 @@ class FileList extends React.Component {
     maxWidth: PropTypes.string,
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
-    connectDropTarget: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired
   }
 
   static defaultProps = {
