@@ -44,7 +44,8 @@ class FileList extends React.Component {
   state = {
     selected: [],
     sortBy: ORDER_BY_NAME,
-    sortAsc: true
+    sortAsc: true,
+    isDragging: false
   }
 
   toggleAll = (checked) => {
@@ -138,6 +139,8 @@ class FileList extends React.Component {
         onAddFiles={this.props.onAddFiles}
         onMove={this.props.onMove}
         key={window.encodeURIComponent(file.name)}
+        setIsDragging={this.isDragging}
+        translucent={this.state.isDragging}
         {...file}
       />
     ))
@@ -159,6 +162,10 @@ class FileList extends React.Component {
         this.setState({ sortBy: order, sortAsc: true })
       }
     }
+  }
+
+  isDragging = (is = true) => {
+    this.setState({ isDragging: is })
   }
 
   render () {

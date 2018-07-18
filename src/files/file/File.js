@@ -9,11 +9,28 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
 import './File.css'
 
-function File ({selected, hash, name, type, size, onSelect, onInspect, onNavigate, isOver, canDrop, connectDropTarget, connectDragSource}) {
+function File ({
+  selected,
+  translucent,
+  coloured,
+  hash,
+  name,
+  type,
+  size,
+  onSelect,
+  onInspect,
+  onNavigate,
+  isOver,
+  canDrop,
+  connectDropTarget,
+  connectDragSource
+}) {
   let className = 'File flex items-center bt pv2'
 
-  if (selected || (isOver && canDrop)) {
-    className += ' selected'
+  if (selected || coloured || (isOver && canDrop)) {
+    className += ' coloured'
+  } else if (translucent) {
+    className += ' o-50'
   }
 
   if (type === 'directory') {
@@ -62,20 +79,30 @@ File.propTypes = {
   onInspect: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
-  
+  coloured: PropTypes.bool,
+  translucent: PropTypes.bool,
+
+  isOver: PropTypes.bool.isRequired,
+  canDrop: PropTypes.bool.isRequired,
+  isDragging: PropTypes.bool.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired
+}
+
+File.defaultProps = {
+  coloured: false,
+  translucent: false
 }
 
 File.TYPE = Symbol('file')
 
 const dragSource = {
   isDragging: (props, monitor) => monitor.getItem().name === props.name,
-  beginDrag: ({ name, type, path }) => ({ name, type, path }),
-  endDrag: (props, monitor) => {
-    // props.onEndDrag(props, monitor)
-    console.log('END DRAG')
-  }
+  beginDrag: ({ name, type, path, setIsDragging }) => {
+    setIsDragging()
+    return { name, type, path } 
+  },
+  endDrag: (props) => { props.setIsDragging(false) }
 }
 
 const dragCollect = (connect, monitor) => ({
