@@ -5,6 +5,9 @@ import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
 import IpldExploreForm from './explore/IpldExploreForm'
 import AsyncRequestLoader from './loader/AsyncRequestLoader'
+import { DragDropContext } from 'react-dnd'
+import { getFilesFromDragEvent } from 'html-dir-content'
+import HTML5Backend from 'react-dnd-html5-backend'
 
 export class App extends Component {
   static propTypes = {
@@ -45,9 +48,24 @@ export class App extends Component {
   }
 }
 
+const overrideDropCaptureHandler = (manager) => {
+  const backend = HTML5Backend(manager)
+  const handler = backend.handleTopDropCapture
+
+  backend.handleTopDropCapture = (e) => {
+    handler.call(backend, e)
+
+    if (backend.currentNativeSource) {
+      backend.currentNativeSource.item.dirContent = getFilesFromDragEvent(e)
+    }
+  }
+
+  return backend
+}
+
 export default connect(
   'selectRoute',
   'doUpdateUrl',
   'doInitIpfs',
-  App
+  DragDropContext(overrideDropCaptureHandler)(App)
 )

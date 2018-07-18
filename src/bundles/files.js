@@ -20,10 +20,11 @@ const bundle = createAsyncResourceBundle({
       .then(stats => {
         if (stats.type === 'directory') {
           return getIpfs().files.ls(path, {l: true}).then((res) => {
-            // FIX: open PR on js-ipfs-api
             if (res) {
               res = res.map(file => {
+                // FIX: open PR on js-ipfs-api
                 file.type = file.type === 0 ? 'file' : 'directory'
+                file.path = join(path, file.name)
                 return file
               })
             }
@@ -103,7 +104,18 @@ bundle.doFilesMakeDir = (path) => (args) => {
   return runAndFetch(args, 'FILES_MKDIR', 'mkdir', [path, { parents: true }])
 }
 
-function filesToStreams (files) {
+async function filesToStreams (files) {
+  let toJoin = ''
+
+  if (files.hasOwnProperty('dirContent') &&
+    files.files.length === 1 &&
+    files.files[0].type === '') {
+    toJoin = files.files[0].name
+    files = await files.dirContent
+  } else if (files.hasOwnProperty('files')) {
+    files = files.files
+  }
+
   const streams = []
   let totalSize = 0
   let isDir = false
@@ -115,11 +127,14 @@ function filesToStreams (files) {
       isDir = true
     }
 
+    const name = file.webkitRelativePath || file.name
+
     streams.push({
-      name: file.webkitRelativePath || file.name,
+      name: toJoin !== '' ? join(toJoin, name) : name,
       content: stream,
       size: file.size
     })
+
     totalSize += file.size
   }
 
@@ -130,7 +145,7 @@ bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({dispatch, getI
   dispatch({ type: 'FILES_WRITE_STARTED' })
 
   try {
-    const { streams, totalSize, isDir } = filesToStreams(rawFiles)
+    const { streams, totalSize, isDir } = await filesToStreams(rawFiles)
     updateProgress(0)
 
     let sent = 0

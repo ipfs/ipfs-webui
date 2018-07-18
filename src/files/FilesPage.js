@@ -193,8 +193,12 @@ class FilesPage extends React.Component {
     this.props.doFilesMakeDir(join(this.props.files.path, path))
   }
 
-  onAddFiles = (files) => {
-    this.props.doFilesWrite(this.props.files.path, files, (progress) => {
+  onAddFiles = (files, root = '') => {
+    if (root === '') {
+      root = this.props.files.path
+    }
+
+    this.props.doFilesWrite(root, files, (progress) => {
       this.setState({ addProgress: progress })
       if (progress === 100) {
         setTimeout(() => this.setState({ addProgress: null }), 2000)
@@ -237,7 +241,8 @@ class FilesPage extends React.Component {
                 onRename={this.onRename}
                 onDownload={this.onDownload}
                 onDelete={this.onDelete}
-                onNavigate={(file) => this.onLinkClick(file.path)}
+                onAddFiles={this.onAddFiles}
+                onNavigate={this.onLinkClick}
               />
             ) : (
               <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
@@ -265,6 +270,22 @@ class FilesPage extends React.Component {
     )
   }
 }
+
+const target = {
+  drop (props) {
+    console.log('DROP')
+    console.log(props)
+  },
+  hover (props, monitor) {
+    console.log(monitor.isOver({ shallow: true }))
+  }
+}
+
+const collect = (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  canDrop: monitor.canDrop()
+})
 
 export default connect(
   'doUpdateHash',

@@ -28,6 +28,7 @@ class FileList extends React.Component {
     onDownload: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
+    onAddFiles: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number.isRequired,
@@ -76,9 +77,8 @@ class FileList extends React.Component {
     this.props[fn](data)
   }
 
-  genActionFromFile = (fn, file) => () => {
-    file.path = join(this.props.root, file.name)
-    this.props[fn](file)
+  genActionFromFile = (fn, { path }) => () => {
+    this.props[fn](path)
   }
 
   get selectedFiles () {
@@ -133,6 +133,7 @@ class FileList extends React.Component {
         onNavigate={this.genActionFromFile('onNavigate', file)}
         onInspect={this.genActionFromFile('onInspect', file)}
         selected={this.state.selected.indexOf(file.name) !== -1}
+        onAddFiles={this.props.onAddFiles}
         key={window.encodeURIComponent(file.name)}
         {...file}
       />
