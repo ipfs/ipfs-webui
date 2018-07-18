@@ -5,7 +5,7 @@ import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
-import { join } from 'path'
+import { join, basename } from 'path'
 import './FilesList.css'
 
 const ORDER_BY_NAME = 'name'
@@ -90,9 +90,9 @@ class FileList extends React.Component {
   }
 
   get selectedFiles () {
-    return this.state.selected.map(name => {
-      return this.props.files.find(el => el.name === name)
-    })
+    return this.state.selected.map(name =>
+      this.props.files.find(el => el.name === name)
+    )
   }
 
   selectedMenu = () => {
@@ -120,6 +120,30 @@ class FileList extends React.Component {
     )
   }
 
+  move = ([src, dst]) => {
+    const selected = this.selectedFiles
+
+    if (selected.length > 0) {
+      const parts = dst.split('/')
+      parts.pop()
+      const basepath = parts.join('/')
+      const toMove = selected.map(({ name, path }) => ([
+        path,
+        join(basepath, name)
+      ]))
+
+      const res = toMove.find(a => a[0] === src)
+      if (!res) {
+        toMove.push([src, dst])
+      }
+
+      this.toggleAll(false)
+      toMove.forEach(op => this.props.onMove(op))
+    } else {
+      this.props.onMove([src, dst])
+    }
+  }
+
   generateFiles = () => {
     const { isOver, canDrop } = this.props
 
@@ -144,7 +168,7 @@ class FileList extends React.Component {
         onInspect={this.genActionFromFile('onInspect', file)}
         selected={this.state.selected.indexOf(file.name) !== -1}
         onAddFiles={this.props.onAddFiles}
-        onMove={this.props.onMove}
+        onMove={this.move}
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
         translucent={this.state.isDragging || (isOver && canDrop)}

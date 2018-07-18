@@ -27,7 +27,7 @@ function File ({
 }) {
   let className = 'File flex items-center bt pv2'
 
-  if (selected || coloured || (isOver && canDrop)) {
+  if ((selected && !translucent) || coloured || (isOver && canDrop)) {
     className += ' coloured'
   } else if (translucent) {
     className += ' o-50'
@@ -127,7 +127,7 @@ const dropTarget = {
     const item = monitor.getItem()
 
     if (item.hasOwnProperty('name')) {
-      return props.type === 'directory' && props.name !== item.name
+      return props.type === 'directory' && props.name !== item.name && !props.selected
     }
 
     return props.type === 'directory'
