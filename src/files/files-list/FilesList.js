@@ -29,6 +29,7 @@ class FileList extends React.Component {
     onDelete: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
+    onMove: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number.isRequired,
@@ -134,6 +135,7 @@ class FileList extends React.Component {
         onInspect={this.genActionFromFile('onInspect', file)}
         selected={this.state.selected.indexOf(file.name) !== -1}
         onAddFiles={this.props.onAddFiles}
+        onMove={this.props.onMove}
         key={window.encodeURIComponent(file.name)}
         {...file}
       />

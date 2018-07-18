@@ -88,11 +88,11 @@ function runAndFetch ({ dispatch, getIpfs, store }, type, action, args) {
     })
     .then(() => {
       dispatch({ type: `${type}_FINISHED` })
-      return store.doFetchFiles()
+      return store.doMarkFilesAsOutdated()
     })
 }
 
-bundle.doFilesRename = (from, to) => (args) => {
+bundle.doFilesMove = (from, to) => (args) => {
   return runAndFetch(args, 'FILES_RENAME', 'mv', [[from, to]])
 }
 

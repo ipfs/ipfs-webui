@@ -87,7 +87,7 @@ class FilesPage extends React.Component {
 
     if (newName !== '' && newName !== filename) {
       this.filesList.toggleOne(filename, false)
-      this.props.doFilesRename(path, path.replace(filename, newName))
+      this.props.doFilesMove(path, path.replace(filename, newName))
         .then(() => {
           this.filesList.toggleOne(newName, true)
         })
@@ -243,6 +243,7 @@ class FilesPage extends React.Component {
                 onDelete={this.onDelete}
                 onAddFiles={this.onAddFiles}
                 onNavigate={this.onLinkClick}
+                onMove={this.props.doFilesMove}
               />
             ) : (
               <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
@@ -290,7 +291,7 @@ const collect = (connect, monitor) => ({
 export default connect(
   'doUpdateHash',
   'doFilesDelete',
-  'doFilesRename',
+  'doFilesMove',
   'doFilesWrite',
   'doFilesAddPath',
   'doFilesDownloadLink',

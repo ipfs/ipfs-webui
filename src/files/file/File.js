@@ -6,6 +6,7 @@ import FileIcon from '../file-icon/FileIcon'
 import Tooltip from '../tooltip/Tooltip'
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
+import { join, basename } from 'path'
 import './File.css'
 
 function File ({selected, hash, name, type, size, onSelect, onInspect, onNavigate, isOver, canDrop, connectDropTarget, connectDragSource}) {
@@ -60,7 +61,8 @@ File.propTypes = {
   onNavigate: PropTypes.func.isRequired,
   onInspect: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
-
+  onMove: PropTypes.func.isRequired,
+  
   connectDropTarget: PropTypes.func.isRequired,
   connectDragSource: PropTypes.func.isRequired
 }
@@ -69,7 +71,7 @@ File.TYPE = Symbol('file')
 
 const dragSource = {
   isDragging: (props, monitor) => monitor.getItem().name === props.name,
-  beginDrag: ({ name, type }) => ({ name, type }),
+  beginDrag: ({ name, type, path }) => ({ name, type, path }),
   endDrag: (props, monitor) => {
     // props.onEndDrag(props, monitor)
     console.log('END DRAG')
@@ -88,7 +90,10 @@ const dropTarget = {
     if (item.hasOwnProperty('files')) {
       props.onAddFiles(item, props.path)
     } else {
-      console.log(item)
+      const src = item.path
+      const dst = join(props.path, basename(item.path))
+
+      props.onMove([src, dst])
     }
   },
   canDrop: (props, monitor) => {
