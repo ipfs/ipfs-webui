@@ -32,7 +32,6 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "file-extension": "^4.0.5",
     "filesize": "^3.6.1",
-    "html-dir-content": "^0.1.3",
     "internal-nav-helper": "^1.0.2",
     "ipfs-geoip": "^2.3.0",
     "ipfs-css": "^0.6.0",

@@ -104,16 +104,8 @@ bundle.doFilesMakeDir = (path) => (args) => {
 }
 
 async function filesToStreams (files) {
-  let toJoin = ''
-
-  if (files.hasOwnProperty('dirContent') &&
-    files.files.length === 1 &&
-    files.files[0].type === '' &&
-    files.files[0].size === 0) {
-    toJoin = files.files[0].name
-    files = await files.dirContent
-  } else if (files.hasOwnProperty('files')) {
-    files = files.files
+  if (!Array.isArray(files)) {
+    return files.content
   }
 
   const streams = []
@@ -127,10 +119,8 @@ async function filesToStreams (files) {
       isDir = true
     }
 
-    const name = file.webkitRelativePath || file.name
-
     streams.push({
-      name: toJoin !== '' ? join(toJoin, name) : name,
+      name: file.webkitRelativePath || file.name,
       content: stream,
       size: file.size
     })
