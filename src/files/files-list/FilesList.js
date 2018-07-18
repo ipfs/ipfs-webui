@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
+import { NativeTypes } from 'react-dnd-html5-backend'
+import { DropTarget } from 'react-dnd'
 import { join } from 'path'
 import './FilesList.css'
 
@@ -33,7 +35,10 @@ class FileList extends React.Component {
     files: PropTypes.array.isRequired,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number.isRequired,
-    maxWidth: PropTypes.string
+    maxWidth: PropTypes.string,
+    isOver: PropTypes.bool.isRequired,
+    canDrop: PropTypes.bool.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -116,6 +121,8 @@ class FileList extends React.Component {
   }
 
   generateFiles = () => {
+    const { isOver, canDrop } = this.props
+
     return this.props.files.sort((a, b) => {
       if (a.type === b.type) {
         if (this.state.sortBy === ORDER_BY_NAME) {
@@ -140,7 +147,7 @@ class FileList extends React.Component {
         onMove={this.props.onMove}
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
-        translucent={this.state.isDragging}
+        translucent={this.state.isDragging || (isOver && canDrop)}
         {...file}
       />
     ))
@@ -169,14 +176,14 @@ class FileList extends React.Component {
   }
 
   render () {
-    let {className} = this.props
+    let {className, connectDropTarget} = this.props
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
     if (this.state.selected.length !== 0) {
       className += ' mb6'
     }
 
-    return (
+    return connectDropTarget(
       <section className={className}>
         <header className='gray pv3 flex items-center'>
           <div className='ph2 w2'>
@@ -200,4 +207,21 @@ class FileList extends React.Component {
   }
 }
 
-export default FileList
+const dropTarget = {
+  drop: ({ onAddFiles }, monitor) => {
+    if (monitor.didDrop()) {
+      return
+    }
+
+    const item = monitor.getItem()
+    onAddFiles(item)
+  }
+}
+
+const dropCollect = (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  canDrop: monitor.canDrop()
+})
+
+export default DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(FileList)

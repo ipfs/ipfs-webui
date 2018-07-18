@@ -272,22 +272,6 @@ class FilesPage extends React.Component {
   }
 }
 
-const target = {
-  drop (props) {
-    console.log('DROP')
-    console.log(props)
-  },
-  hover (props, monitor) {
-    console.log(monitor.isOver({ shallow: true }))
-  }
-}
-
-const collect = (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
-  canDrop: monitor.canDrop()
-})
-
 export default connect(
   'doUpdateHash',
   'doFilesDelete',

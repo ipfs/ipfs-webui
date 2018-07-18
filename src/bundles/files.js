@@ -108,7 +108,8 @@ async function filesToStreams (files) {
 
   if (files.hasOwnProperty('dirContent') &&
     files.files.length === 1 &&
-    files.files[0].type === '') {
+    files.files[0].type === '' &&
+    files.files[0].size === 0) {
     toJoin = files.files[0].name
     files = await files.dirContent
   } else if (files.hasOwnProperty('files')) {

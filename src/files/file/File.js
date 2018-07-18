@@ -100,7 +100,7 @@ const dragSource = {
   isDragging: (props, monitor) => monitor.getItem().name === props.name,
   beginDrag: ({ name, type, path, setIsDragging }) => {
     setIsDragging()
-    return { name, type, path } 
+    return { name, type, path }
   },
   endDrag: (props) => { props.setIsDragging(false) }
 }
