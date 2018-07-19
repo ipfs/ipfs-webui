@@ -68,7 +68,7 @@ const NodeUnderline = ({cid, children}) => {
   const color = colorForNode(type)
   return (
     <div className='dib overflow-hidden'>
-      <div className='bb bw2 pb1' style={{borderColor: color}}>{children}</div>
+      <div className='bb bw1 pb1' style={{borderColor: color}}>{children}</div>
     </div>
   )
 }

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
+import StartExploringPage from './StartExploringPage'
+import ErrorBoundary from '../components/error/ErrorBoundary'
 import CidInfo from './cid-info/CidInfo'
 import ObjectInfo from './object-info/ObjectInfo'
 import IpldGraph from './graph/IpldGraphCytoscape'
@@ -35,13 +37,13 @@ class ExplorePage extends React.Component {
         </Helmet>
         {pathBoundaries && targetNode ? (
           <GraphCrumb
-            className='ml4 mt2 mb3'
+            className='ml4 mt3 mb3'
             cid={sourceNode.cid}
             pathBoundaries={pathBoundaries}
             localPath={localPath} />
         ) : null}
-        <div className='dt dt--fixed'>
-          <div className='dtc w-two-thirds pr3 v-top'>
+        <div className='dt-l dt--fixed'>
+          <div className='dtc-l w-100 w-two-thirds-l pr3-l v-top'>
             {targetNode ? (
               <ObjectInfo
                 style={{background: '#FBFBFB'}}
@@ -54,36 +56,26 @@ class ExplorePage extends React.Component {
                 onLinkClick={this.onLinkClick} />
             ) : null}
           </div>
-          <div className='dtc w-third v-top'>
+          <div className='dn dtc-l w-third-l v-top'>
             {targetNode ? (
-              <div>
-                <CidInfo
-                  style={{background: '#FBFBFB'}}
-                  cid={targetNode.cid} />
+              <CidInfo
+                style={{background: '#FBFBFB', overflow: 'hidden'}}
+                cid={targetNode.cid} />
+            ) : null}
+            {targetNode ? (
+              <ErrorBoundary>
                 <IpldGraph
                   style={{width: '100%', height: 300}}
                   path={targetNode.cid}
                   links={targetNode.links}
                   onNodeClick={this.onLinkClick} />
-              </div>
+              </ErrorBoundary>
             ) : null}
           </div>
         </div>
-        <h1 data-id='title'>IPLD</h1>
       </div>
     )
   }
-}
-
-const StartExploringPage = () => {
-  return (
-    <div>
-      <Helmet>
-        <title>Explore - IPFS</title>
-      </Helmet>
-      <h1 data-id='title'>IPLD</h1>
-    </div>
-  )
 }
 
 export default connect('selectRouteParams', 'selectExploreIsLoading', 'selectExplore', 'selectHash', 'doUpdateHash', ExplorePage)

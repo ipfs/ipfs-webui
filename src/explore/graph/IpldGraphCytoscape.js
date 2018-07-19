@@ -55,15 +55,24 @@ export default class IpldGraphCytoscape extends React.Component {
     this.cy = null
   }
 
+  static getDerivedStateFromProps (props, state) {
+    // TODO: Show that links have been truncated.
+    return {
+      truncatedLinks: props.links.slice(0, 100)
+    }
+  }
+
   componentDidMount () {
-    const {path, links} = this.props
+    const {path} = this.props
+    const {truncatedLinks: links} = this.state
     const container = this.graphRef.current
     this.cy = this.renderTree({path, links, container})
   }
 
   componentDidUpdate () {
     this.cy.destroy()
-    const {path, links} = this.props
+    const {path} = this.props
+    const {truncatedLinks: links} = this.state
     const container = this.graphRef.current
     this.cy = this.renderTree({path, links, container})
   }
