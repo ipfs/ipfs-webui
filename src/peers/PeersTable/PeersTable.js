@@ -9,9 +9,25 @@ export class PeersTable extends React.Component {
     peers: PropTypes.array
   }
 
+  flagRenderer = (flagCode) => {
+    // Check if the OS is Windows to render the flags as SVGs
+    // Windows doesn't render the flags as emojis  ¯\_(ツ)_/¯
+    const isWindows = window.navigator.appVersion.indexOf('Win') !== -1
+
+    if (isWindows) {
+      return (
+        <span className='pr2'>
+          <CountryFlag code={flagCode} svg />
+        </span>
+      )
+    }
+
+    return <CountryFlag code={flagCode} />
+  }
+
   locationCellRenderer = ({ rowData }) => (
     <span>
-      { rowData.flagCode ? <CountryFlag code={rowData.flagCode} /> : '🏳️‍🌈' }
+      { rowData.flagCode ? this.flagRenderer(rowData.flagCode) : '🏳️‍🌈' }
       { rowData.location }
     </span>
   )
