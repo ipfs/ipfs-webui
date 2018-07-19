@@ -9,16 +9,6 @@ const bundle = createAsyncResourceBundle({
   checkIfOnline: false
 })
 
-bundle.selectTableData = state => {
-  const peers = state.peers.data
-
-  return peers && peers.map((peer, idx) => ({
-    'id': peer.peer.toB58String(),
-    'address': peer.addr.toString(),
-    'location': 'New York, United States'
-  }))
-}
-
 bundle.selectTableData = createSelector(
   'selectPeers',
   'selectPeerLocations',
