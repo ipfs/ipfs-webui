@@ -7,6 +7,7 @@ import nodeBandwidthChartBundle from './node-bandwidth-chart'
 import nodeBandwidthBundle from './node-bandwidth'
 import peersBundle from './peers'
 import peerBandwidthBundle from './peer-bandwidth'
+import peerLocationsBundle from './peer-locations'
 import routesBundle from './routes'
 import redirectsBundle from './redirects'
 import filesBundle from './files'
@@ -21,6 +22,7 @@ export default composeBundles(
   nodeBandwidthChartBundle(),
   peersBundle,
   peerBandwidthBundle(),
+  peerLocationsBundle(),
   routesBundle,
   redirectsBundle,
   filesBundle,

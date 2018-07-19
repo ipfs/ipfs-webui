@@ -22,3 +22,7 @@
 .File .icon {
   width: 3.25rem;
 }
+
+.File .name > *:last-child {
+  width: calc(100% - 3.25rem);
+}
