@@ -7,6 +7,10 @@
   transition: .1s ease color;
 }
 
+.Breadcrumbs span {
+  margin: 0 .4rem;
+}
+
 .Breadcrumbs a:hover,
 .Breadcrumbs a:last-of-type {
   color: #656464;

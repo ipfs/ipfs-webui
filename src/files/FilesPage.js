@@ -23,10 +23,9 @@ class FilesPage extends React.Component {
   }
 
   state = {
-    clipboard: [],
-    copy: false,
     downloadReq: null,
     downloadProgress: -1,
+    addProgress: null,
     rename: {
       isOpen: false,
       path: '',
@@ -50,9 +49,17 @@ class FilesPage extends React.Component {
     doUpdateHash(`/files${link}`)
   }
 
-  onInspect = ([file]) => {
+  onInspect = (data) => {
     const {doUpdateHash} = this.props
-    doUpdateHash(`/explore/ipfs/${file.hash}`)
+    let hash
+
+    if (Array.isArray(data)) {
+      hash = data[0].hash
+    } else {
+      hash = data.hash
+    }
+
+    doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
   onRename = ([file]) => {
@@ -121,10 +128,6 @@ class FilesPage extends React.Component {
     this.onDeleteCancel()
   }
 
-  onAddFiles = (files) => {
-    this.props.doFilesWrite(this.props.files.path, files)
-  }
-
   onAddByPath = (path) => {
     this.props.doFilesAddPath(this.props.files.path, path)
   }
@@ -158,7 +161,7 @@ class FilesPage extends React.Component {
 
       setTimeout(() => {
         this.setState({ downloadProgress: -1 })
-      }, 3000)
+      }, 1000)
     }
 
     xhr.onprogress = (e) => {
@@ -190,6 +193,15 @@ class FilesPage extends React.Component {
     this.props.doFilesMakeDir(join(this.props.files.path, path))
   }
 
+  onAddFiles = (files) => {
+    this.props.doFilesWrite(this.props.files.path, files, (progress) => {
+      this.setState({ addProgress: progress })
+      if (progress === 100) {
+        setTimeout(() => this.setState({ addProgress: null }), 2000)
+      }
+    })
+  }
+
   render () {
     const {files} = this.props
 
@@ -198,35 +210,40 @@ class FilesPage extends React.Component {
         <Helmet>
           <title>Files - IPFS</title>
         </Helmet>
-        {files ? (
-          <div className='flex items-center justify-between mb4'>
-            <Breadcrumbs path={files.path} onClick={this.onLinkClick} />
+        { files &&
+          <div>
+            <div className='flex flex-wrap items-center justify-between mb3'>
+              <Breadcrumbs className='mb3' path={files.path} onClick={this.onLinkClick} />
 
-            <FileInput
-              onMakeDir={this.onMakeDir}
-              onAddFiles={this.onAddFiles}
-              onAddByPath={this.onAddByPath} />
+              { files.type === 'directory' &&
+                <FileInput
+                  className='mb3'
+                  onMakeDir={this.onMakeDir}
+                  onAddFiles={this.onAddFiles}
+                  onAddByPath={this.onAddByPath}
+                  addProgress={this.state.addProgress} />
+              }
+            </div>
+
+            { files.type === 'directory' ? (
+              <FilesList
+                maxWidth='calc(100% - 240px)'
+                ref={el => { this.filesList = el }}
+                root={files.path}
+                files={files.files}
+                downloadProgress={this.state.downloadProgress}
+                onShare={action('Share')}
+                onInspect={this.onInspect}
+                onRename={this.onRename}
+                onDownload={this.onDownload}
+                onDelete={this.onDelete}
+                onNavigate={(file) => this.onLinkClick(file.path)}
+              />
+            ) : (
+              <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
+            )}
           </div>
-        ) : null}
-        {files && files.type === 'directory' ? (
-          <FilesList
-            maxWidth='calc(100% - 240px)'
-            ref={el => { this.filesList = el }}
-            root={files.path}
-            files={files.files}
-            downloadProgress={this.state.downloadProgress}
-            onShare={action('Share')}
-            onInspect={this.onInspect}
-            onRename={this.onRename}
-            onDownload={this.onDownload}
-            onDelete={this.onDelete}
-            onNavigate={this.onLinkClick}
-            onCancelUpload={action('Cancel Upload')}
-          />
-        ) : null }
-        {files && files.type === 'file' ? (
-          <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
-        ) : null }
+        }
 
         <Overlay show={this.state.rename.isOpen} onLeave={this.onRenameCancel}>
           <RenameModal
