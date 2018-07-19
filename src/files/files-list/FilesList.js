@@ -35,7 +35,7 @@ class FileList extends React.Component {
     onMove: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
     root: PropTypes.string.isRequired,
-    downloadProgress: PropTypes.number.isRequired,
+    downloadProgress: PropTypes.number,
     maxWidth: PropTypes.string,
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,

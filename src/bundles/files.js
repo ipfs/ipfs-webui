@@ -5,45 +5,44 @@ import fileReader from 'pull-file-reader'
 const bundle = createAsyncResourceBundle({
   name: 'files',
   actionBaseType: 'FILES',
-  getPromise: async (args) => {
-    const {store, getIpfs} = args
+  getPromise: async ({ store, getIpfs }) => {
+    const ipfs = getIpfs()
     let path = store.selectRouteParams().path
 
     if (!path) {
-      store.doUpdateHash('/files/')
-      return Promise.resolve()
+      return store.doUpdateHash('/files/')
     }
 
     path = decodeURIComponent(path)
+    const stats = await ipfs.files.stat(path)
 
-    const stats = await getIpfs().files.stat(path)
-
-    if (stats.type === 'directory') {
-      let res = await getIpfs().files.ls(path, {l: true})
-
-      if (res) {
-        res = res.map(file => {
-          // FIX: open PR on js-ipfs-api
-          file.type = file.type === 0 ? 'file' : 'directory'
-          file.path = join(path, file.name)
-          return file
-        })
-      }
+    if (stats.type === 'file') {
+      stats.name = path
 
       return {
         path: path,
-        type: 'directory',
-        files: res
+        type: 'file',
+        stats: stats,
+        read: () => ipfs.files.read(path)
       }
     }
 
-    stats.name = path
+    // Otherwise get the directory info
+    let res = await ipfs.files.ls(path, {l: true})
+
+    if (res) {
+      res = res.map(file => {
+        // FIX: open PR on js-ipfs-api
+        file.type = file.type === 0 ? 'file' : 'directory'
+        file.path = join(path, file.name)
+        return file
+      })
+    }
 
     return {
       path: path,
-      type: 'file',
-      stats: stats,
-      read: () => getIpfs().files.read(path)
+      type: 'directory',
+      files: res
     }
   },
   staleAfter: Infinity,
@@ -187,7 +186,7 @@ bundle.doFilesAddPath = (root, src) => async ({dispatch, getIpfs, store}) => {
   }
 }
 
-function downloadSingle (dispatch, store, file) {
+async function downloadSingle (dispatch, store, file) {
   dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
 
   let url, filename
@@ -200,7 +199,7 @@ function downloadSingle (dispatch, store, file) {
     filename = file.name
   }
 
-  return Promise.resolve({ url, filename })
+  return { url, filename }
 }
 
 async function downloadMultiple (dispatch, getIpfs, store, files) {
@@ -244,6 +243,50 @@ bundle.doFilesDownloadLink = (files) => ({dispatch, getIpfs, store}) => {
   }
 
   return downloadMultiple(dispatch, getIpfs, store, files)
+}
+
+// needs to be in a browser
+bundle.doFilesDownload = (files, updater = () => {}) => async ({dispatch, getIpfs, store}) => {
+  const { url, filename } = await store.doFilesDownloadLink(files)
+
+  let xhr = new window.XMLHttpRequest()
+  let total = 0
+
+  const abort = () => {
+    xhr.abort()
+    updater(null)
+  }
+
+  xhr.responseType = 'blob'
+  xhr.open('GET', url, true)
+
+  xhr.onload = (e) => {
+    updater(100)
+
+    const res = xhr.response
+    const blob = new window.Blob([res])
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+
+    document.body.appendChild(a)
+    a.style = 'display:none'
+    a.href = url
+    a.download = filename
+    a.click()
+
+    window.URL.revokeObjectURL(url)
+  }
+
+  xhr.onprogress = (e) => {
+    total = e.lengthComputable ? e.total : (total ||
+      xhr.getResponseHeader('X-Content-Length') ||
+      xhr.getResponseHeader('Content-Length'))
+
+    updater((e.loaded / total) * 100)
+  }
+
+  xhr.send()
+  return { abort }
 }
 
 export default bundle
