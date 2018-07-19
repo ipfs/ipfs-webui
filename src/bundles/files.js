@@ -245,48 +245,4 @@ bundle.doFilesDownloadLink = (files) => ({dispatch, getIpfs, store}) => {
   return downloadMultiple(dispatch, getIpfs, store, files)
 }
 
-// needs to be in a browser
-bundle.doFilesDownload = (files, updater = () => {}) => async ({dispatch, getIpfs, store}) => {
-  const { url, filename } = await store.doFilesDownloadLink(files)
-
-  let xhr = new window.XMLHttpRequest()
-  let total = 0
-
-  const abort = () => {
-    xhr.abort()
-    updater(null)
-  }
-
-  xhr.responseType = 'blob'
-  xhr.open('GET', url, true)
-
-  xhr.onload = (e) => {
-    updater(100)
-
-    const res = xhr.response
-    const blob = new window.Blob([res])
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-
-    document.body.appendChild(a)
-    a.style = 'display:none'
-    a.href = url
-    a.download = filename
-    a.click()
-
-    window.URL.revokeObjectURL(url)
-  }
-
-  xhr.onprogress = (e) => {
-    total = e.lengthComputable ? e.total : (total ||
-      xhr.getResponseHeader('X-Content-Length') ||
-      xhr.getResponseHeader('Content-Length'))
-
-    updater((e.loaded / total) * 100)
-  }
-
-  xhr.send()
-  return { abort }
-}
-
 export default bundle

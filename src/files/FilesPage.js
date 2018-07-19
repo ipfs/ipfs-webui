@@ -9,6 +9,7 @@ import FileInput from './file-input/FileInput'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
 import Overlay from '../components/overlay/Overlay'
+import downloadFile from './download-file'
 import { join } from 'path'
 
 const action = (name) => {
@@ -46,7 +47,7 @@ class FilesPage extends React.Component {
     doFilesMove: PropTypes.func.isRequired,
     doFilesWrite: PropTypes.func.isRequired,
     doFilesAddPath: PropTypes.func.isRequired,
-    doFilesDownload: PropTypes.func.isRequired,
+    doFilesDownloadLink: PropTypes.func.isRequired,
     doFilesMakeDir: PropTypes.func.isRequired
   }
 
@@ -120,7 +121,7 @@ class FilesPage extends React.Component {
   }
 
   download = async (files) => {
-    const { doFilesDownload } = this.props
+    const { doFilesDownloadLink } = this.props
     const { downloadProgress, downloadAbort } = this.state
 
     if (downloadProgress !== null) {
@@ -129,7 +130,8 @@ class FilesPage extends React.Component {
     }
 
     const updater = this.makeUpdater('downloadProgress')
-    const {abort} = await doFilesDownload(files, updater)
+    const { url, filename } = await doFilesDownloadLink(files)
+    const { abort } = await downloadFile(url, filename, updater)
     this.setState({ downloadAbort: abort })
   }
 
@@ -231,7 +233,7 @@ export default connect(
   'doFilesMove',
   'doFilesWrite',
   'doFilesAddPath',
-  'doFilesDownload',
+  'doFilesDownloadLink',
   'doFilesMakeDir',
   'selectFiles',
   'selectFilesIsLoading',
