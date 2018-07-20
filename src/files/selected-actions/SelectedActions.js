@@ -9,6 +9,17 @@ import StrokeTrash from '../../icons/StrokeTrash'
 import StrokeDownload from '../../icons/StrokeDownload'
 import './SelectedActions.css'
 
+const downloadText = (value) => {
+  switch (value) {
+    case 100:
+      return 'Finished!'
+    case null:
+      return 'Download'
+    default:
+      return value.toFixed(0) + '%'
+  }
+}
+
 const SelectedActions = ({count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, ...props}) => {
   const text = (count > 1) ? 'Files selected' : 'File selected'
 
@@ -20,13 +31,6 @@ const SelectedActions = ({count, size, unselect, remove, share, download, downlo
   if (count === 1) {
     singleFileAction = 'pointer'
     singleFileTooltip = {}
-  }
-
-  let downloadText = 'Download'
-  if (downloadProgress === 100) {
-    downloadText = 'Finished!'
-  } else if (downloadProgress >= 0) {
-    downloadText = downloadProgress.toFixed(0) + '%'
   }
 
   return (
@@ -50,7 +54,7 @@ const SelectedActions = ({count, size, unselect, remove, share, download, downlo
           </div>
           <div className='pointer tc mh2' onClick={download}>
             <StrokeDownload className='w3' fill='#A4BFCC' />
-            <p className='ma0 f6'>{downloadText}</p>
+            <p className='ma0 f6'>{downloadText(downloadProgress)}</p>
           </div>
           <div className='pointer tc mh2' onClick={remove}>
             <StrokeTrash className='w3' fill='#A4BFCC' />
@@ -90,7 +94,6 @@ SelectedActions.propTypes = {
 }
 
 SelectedActions.defaultActions = {
-  downloadProgress: -1,
   className: ''
 }
 

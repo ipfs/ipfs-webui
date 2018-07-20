@@ -5,6 +5,8 @@ import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
 import IpldExploreForm from './explore/IpldExploreForm'
 import AsyncRequestLoader from './loader/AsyncRequestLoader'
+import { DragDropContext } from 'react-dnd'
+import DnDBackend from './lib/dnd-backend'
 
 export class App extends Component {
   static propTypes = {
@@ -49,5 +51,5 @@ export default connect(
   'selectRoute',
   'doUpdateUrl',
   'doInitIpfs',
-  App
+  DragDropContext(DnDBackend)(App)
 )
