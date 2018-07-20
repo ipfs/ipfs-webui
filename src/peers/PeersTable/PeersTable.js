@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Table, Column, AutoSizer } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
-import './PeersTable.css'
 
 export class PeersTable extends React.Component {
   static propTypes = {
@@ -34,17 +33,18 @@ export class PeersTable extends React.Component {
 
   render () {
     const { peers } = this.props
+    const tableHeight = '220'
 
     return (
-      <div className='PeersTableContainer flex w-100'>
+      <div className='flex w-100' style={{ 'height': `${tableHeight}px` }}>
         { peers && <AutoSizer>
           {({width}) => (
             <Table
-              className='PeersTable tl fw4 w-100'
+              className='tl fw4 w-100'
               headerClassName='teal o-60 fw2 tracked'
               rowClassName='flex items-center bb b--near-white f6'
               width={width}
-              height={220}
+              height={tableHeight}
               headerHeight={32}
               rowHeight={32}
               rowCount={peers.length}

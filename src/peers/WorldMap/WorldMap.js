@@ -6,7 +6,6 @@ import * as d3 from 'd3'
 import * as topojson from 'topojson'
 
 // Static
-import './WorldMap.css'
 import worldData from './world.json'
 
 export class WorldMap extends React.Component {
@@ -89,7 +88,7 @@ export class WorldMap extends React.Component {
     const { coordinates } = this.props
 
     return (
-      <div className='MapContainer flex w-100 mb4'>
+      <div className='flex w-100 mb4' style={{ 'height': '500px' }}>
         <AutoSizer>
           { ({ height, width }) => this.renderMap(height, width, coordinates) }
         </AutoSizer>
