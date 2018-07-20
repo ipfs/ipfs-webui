@@ -19,7 +19,6 @@ const action = (name) => {
 }
 
 const defaultState = {
-  askedFirst: false,
   downloadAbort: null,
   downloadProgress: null,
   addProgress: null,
@@ -40,6 +39,7 @@ const defaultState = {
 
 class FilesPage extends React.Component {
   static propTypes = {
+    routeInfo: PropTypes.object,
     files: PropTypes.object,
     ipfsReady: PropTypes.bool,
     gatewayUrl: PropTypes.string.isRequired,
@@ -72,10 +72,10 @@ class FilesPage extends React.Component {
     doFilesFetch(path)
   }
 
-  componentDidUpdate () {
-    if (this.props.ipfsReady && !this.state.askedFirst) {
-      this.props.doFilesFetch('/')
-      this.setState({ askedFirst: true })
+  componentDidUpdate (prevProps) {
+    if (this.props.ipfsReady && prevProps.files === null) {
+      const path = decodeURIComponent(this.props.routeInfo.params.path)
+      this.props.doFilesFetch(path)
     }
   }
 
@@ -173,8 +173,6 @@ class FilesPage extends React.Component {
   render () {
     const { files } = this.props
 
-    console.log(files)
-
     return (
       <div data-id='FilesPage'>
         <Helmet>
@@ -250,5 +248,6 @@ export default connect(
   'selectFiles',
   'selectGatewayUrl',
   'selectIpfsReady',
+  'selectRouteInfo',
   FilesPage
 )

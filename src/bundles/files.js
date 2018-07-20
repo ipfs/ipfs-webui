@@ -1,18 +1,11 @@
-import { createSelector } from 'redux-bundler'
 import { join, dirname } from 'path'
 import fileReader from 'pull-file-reader'
-
-const defaultState = {
-  path: '/',
-  type: 'directory',
-  files: []
-}
 
 const bundle = {
   name: 'files'
 }
 
-bundle.reducer = (state = defaultState, action) => {
+bundle.reducer = (state = null, action) => {
   if (action.type === 'FILES_FETCH_FINISHED') {
     return action.payload
   }
