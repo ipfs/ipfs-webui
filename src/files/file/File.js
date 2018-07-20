@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
-import Tooltip from '../tooltip/Tooltip'
+import Tooltip from '../../components/tooltip/Tooltip'
 import './File.css'
 
 function File ({selected, hash, name, type, size, onSelect, onInspect, onNavigate}) {

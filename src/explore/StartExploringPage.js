@@ -1,18 +1,21 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import Box from '../components/box/Box'
+import Tooltip from '../components/tooltip/Tooltip'
 import { colorForNode, nameForNode, shortNameForNode } from './object-info/ObjectInfo'
 import ipldLogoSrc from './ipld.svg'
 
 const ExploreSuggestion = ({cid, name, type}) => {
   return (
     <a className='flex items-center lh-copy pa3 ph0-l bb b--black-10 link focus-outline' href={`#/explore/${cid}`}>
-      <span className='flex items-center justify-center w3 h3 br-100 tc' style={{background: colorForNode(type)}}>
+      <span className='flex items-center justify-center w3 h3 flex-shrink-0 br-100 tc' style={{background: colorForNode(type)}}>
         <span className='fw2 f4 snow montserrat' title={nameForNode(type)}>{shortNameForNode(type)}</span>
       </span>
       <span className='pl3 flex-auto'>
         <span className='f5 db black-70'>{name}</span>
-        <span className='f7 db blue monospace'>{cid}</span>
+        <Tooltip text={cid}>
+          <span className='f7 db blue truncate monospace'>{cid}</span>
+        </Tooltip>
       </span>
     </a>
   )
@@ -26,10 +29,10 @@ const StartExploringPage = () => {
       </Helmet>
       <div className=''>
         <div className='db dib-l w-50-l v-top'>
-          <div className='pr5'>
+          <div className='pr5-l'>
             <h1 className='fw2 montserrat'>Explore the Merkle Forest</h1>
             <p className='lh-copy f6 charcoal-muted'>Paste a CID into the explore box above to browse the IPLD node it addresses, or click on an option below.</p>
-            <ul className='list pl0 ma0 measure'>
+            <ul className='list pl0 ma0'>
               <li>
                 <ExploreSuggestion name='The IPLD Website' cid='QmTxRvftPnKeR7iJfeVpfsGCYEwZ92ot9zrTksAWUACTs7' type='dag-pb' />
               </li>
