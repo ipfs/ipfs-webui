@@ -72,10 +72,14 @@ class FilesPage extends React.Component {
     doFilesFetch(path)
   }
 
+  updateFiles = () => {
+    const path = decodeURIComponent(this.props.routeInfo.params.path)
+    return this.props.doFilesFetch(path)
+  }
+
   componentDidUpdate (prevProps) {
     if (this.props.ipfsReady && prevProps.files === null) {
-      const path = decodeURIComponent(this.props.routeInfo.params.path)
-      this.props.doFilesFetch(path)
+      this.updateFiles()
     }
   }
 
@@ -96,6 +100,7 @@ class FilesPage extends React.Component {
     if (newName !== '' && newName !== filename) {
       this.state.toggleOne(filename, false)
       await this.props.doFilesMove(path, path.replace(filename, newName))
+      await this.updateFiles()
       this.state.toggleOne(newName, true)
     }
   }
@@ -116,10 +121,11 @@ class FilesPage extends React.Component {
     })
   }
 
-  delete = () => {
+  delete = async () => {
     this.state.toggleAll(false)
-    this.props.doFilesDelete(this.state.delete.paths)
     this.resetState('delete')
+    await this.props.doFilesDelete(this.state.delete.paths)
+    await this.updateFiles()
   }
 
   makeUpdater = (field) => (value) => {
@@ -153,11 +159,13 @@ class FilesPage extends React.Component {
 
     const updater = this.makeUpdater('addProgress')
     await doFilesWrite(root, raw, updater)
+    await this.updateFiles()
   }
 
-  addByPath = (path) => {
+  addByPath = async (path) => {
     const { doFilesAddPath, files } = this.props
-    doFilesAddPath(files.path, path)
+    await doFilesAddPath(files.path, path)
+    await this.updateFiles()
   }
 
   inspect = (hash) => {

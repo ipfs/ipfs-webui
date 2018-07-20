@@ -15,7 +15,7 @@ bundle.reducer = (state = null, action) => {
 
 bundle.selectFiles = (state) => state.files
 
-bundle.doFilesFetch = (path) => async ({ store, dispatch, getIpfs }) => {
+bundle.doFilesFetch = (path) => async ({ dispatch, getIpfs }) => {
   const ipfs = getIpfs()
   const stats = await ipfs.files.stat(path)
 
@@ -57,43 +57,21 @@ bundle.doFilesFetch = (path) => async ({ store, dispatch, getIpfs }) => {
   })
 }
 
-bundle.doFilesDelete = (files) => async ({dispatch, getIpfs, store}) => {
-  dispatch({ type: 'FILES_DELETE_STARTED' })
-
+bundle.doFilesDelete = (files) => async ({ getIpfs }) => {
   const promises = files.map(file => getIpfs().files.rm(file, { recursive: true }))
-
-  try {
-    await Promise.all(promises)
-    dispatch({ type: 'FILES_DELETE_FINISHED' })
-    await store.doMarkFilesAsOutdated()
-  } catch (error) {
-    dispatch({ type: 'FILES_DELETE_ERRORED', payload: error })
-  }
+  await Promise.all(promises)
 }
 
-async function runAndFetch ({ dispatch, getIpfs, store }, type, action, args) {
-  dispatch({ type: `${type}_STARTED` })
-
-  try {
-    await getIpfs().files[action](...args)
-  } catch (error) {
-    dispatch({ type: `${type}_ERRORED`, payload: error })
-  } finally {
-    dispatch({ type: `${type}_FINISHED` })
-    await store.doFetchFiles()
-  }
+bundle.doFilesMove = (from, to) => ({ getIpfs }) => {
+  return getIpfs().files.mv([from, to])
 }
 
-bundle.doFilesMove = (from, to) => (args) => {
-  return runAndFetch(args, 'FILES_RENAME', 'mv', [[from, to]])
+bundle.doFilesCopy = (from, to) => ({ getIpfs }) => {
+  return getIpfs().files.cp([from, to])
 }
 
-bundle.doFilesCopy = (from, to) => (args) => {
-  return runAndFetch(args, 'FILES_RENAME', 'cp', [[from, to]])
-}
-
-bundle.doFilesMakeDir = (path) => (args) => {
-  return runAndFetch(args, 'FILES_MKDIR', 'mkdir', [path, { parents: true }])
+bundle.doFilesMakeDir = (path) => ({ getIpfs }) => {
+  return getIpfs().files.mkdir(path, { parents: true })
 }
 
 async function filesToStreams (files) {
@@ -124,64 +102,45 @@ async function filesToStreams (files) {
   return { streams, totalSize, isDir }
 }
 
-bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({dispatch, getIpfs, store}) => {
-  dispatch({ type: 'FILES_WRITE_STARTED' })
+bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({ getIpfs }) => {
+  const { streams, totalSize } = await filesToStreams(rawFiles)
+  updateProgress(0)
 
-  try {
-    const { streams, totalSize, isDir } = await filesToStreams(rawFiles)
-    updateProgress(0)
+  let sent = 0
 
-    let sent = 0
+  for (const file of streams) {
+    const dir = join(root, dirname(file.name))
+    await getIpfs().files.mkdir(dir, { parents: true })
+    let alreadySent = 0
 
-    await Promise.all(streams.map(async file => {
-      const dir = join(root, dirname(file.name))
-      await getIpfs().files.mkdir(dir, { parents: true })
-      let alreadySent = 0
-
-      const res = await getIpfs().add(file.content, {
-        pin: false,
-        progress: (bytes) => {
-          sent = sent + bytes - alreadySent
-          alreadySent = bytes
-          updateProgress(sent / totalSize * 100)
-        }
-      })
-
-      const src = `/ipfs/${res[res.length - 1].hash}`
-      const dst = join(root, file.name)
-      await getIpfs().files.cp([src, dst])
-
-      sent = sent - alreadySent + file.size
-      updateProgress(sent / totalSize * 100)
-
-      if (!isDir) {
-        await store.doMarkFilesAsOutdated()
+    const res = await getIpfs().add(file.content, {
+      pin: false,
+      progress: (bytes) => {
+        sent = sent + bytes - alreadySent
+        alreadySent = bytes
+        updateProgress(sent / totalSize * 100)
       }
-    }))
+    })
 
-    updateProgress(100)
-    await store.doMarkFilesAsOutdated()
-  } catch (error) {
-    dispatch({ type: 'FILES_WRITE_ERRORED', payload: error })
-  }
-}
-
-bundle.doFilesAddPath = (root, src) => async ({dispatch, getIpfs, store}) => {
-  dispatch({ type: 'FILES_ADD_PATH_STARTED' })
-
-  try {
-    const name = src.split('/').pop()
-    const dst = join(root, name)
+    const src = `/ipfs/${res[res.length - 1].hash}`
+    const dst = join(root, file.name)
     await getIpfs().files.cp([src, dst])
-    await store.doFetchFiles()
-  } catch (error) {
-    dispatch({ type: 'FILES_ADD_PATH_ERRORED', payload: error })
+
+    sent = sent - alreadySent + file.size
+    updateProgress(sent / totalSize * 100)
   }
+
+  console.log('HEY')
+  updateProgress(100)
 }
 
-async function downloadSingle (dispatch, store, file) {
-  dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
+bundle.doFilesAddPath = (root, src) => async ({ getIpfs }) => {
+  const name = src.split('/').pop()
+  const dst = join(root, name)
+  await getIpfs().files.cp([src, dst])
+}
 
+async function downloadSingle (store, file) {
   let url, filename
 
   if (file.type === 'directory') {
@@ -195,14 +154,11 @@ async function downloadSingle (dispatch, store, file) {
   return { url, filename }
 }
 
-async function downloadMultiple (dispatch, getIpfs, store, files) {
-  dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
-
+async function downloadMultiple (getIpfs, store, files) {
   const apiUrl = store.selectApiUrl()
 
   if (!apiUrl) {
     const e = new Error('api url undefined')
-    dispatch({ type: 'FILES_DOWNLOAD_LINK_ERRORED', payload: e })
     return Promise.reject(e)
   }
 
@@ -216,12 +172,10 @@ async function downloadMultiple (dispatch, getIpfs, store, files) {
         multihash: file.hash
       })
     } catch (e) {
-      dispatch({ type: 'FILES_DOWNLOAD_LINK_ERRORED', payload: e })
       return Promise.reject(e)
     }
   }
 
-  dispatch({ type: 'FILES_DOWNLOAD_LINK_FINISHED' })
   const multihash = node.toJSON().multihash
 
   return {
@@ -230,12 +184,12 @@ async function downloadMultiple (dispatch, getIpfs, store, files) {
   }
 }
 
-bundle.doFilesDownloadLink = (files) => ({dispatch, getIpfs, store}) => {
+bundle.doFilesDownloadLink = (files) => ({ getIpfs, store }) => {
   if (files.length === 1) {
-    return downloadSingle(dispatch, store, files[0])
+    return downloadSingle(store, files[0])
   }
 
-  return downloadMultiple(dispatch, getIpfs, store, files)
+  return downloadMultiple(getIpfs, store, files)
 }
 
 export default bundle
