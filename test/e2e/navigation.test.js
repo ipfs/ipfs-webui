@@ -12,7 +12,7 @@ it('Navigation test', async () => {
   // const page = await browser.newPage()
   const page = (await browser.pages())[0]
 
-  const waitForTitle = title => page.waitForFunction(`document.title === '${title}'`, {timeout: 5000})
+  const waitForTitle = title => page.waitForFunction(`document.title === '${title}'`, {timeout: 60000})
 
   await page.goto(appUrl)
   await waitForTitle('Status - IPFS')
