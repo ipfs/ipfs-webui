@@ -19,6 +19,7 @@ const action = (name) => {
 }
 
 const defaultState = {
+  askedFirst: false,
   downloadAbort: null,
   downloadProgress: null,
   addProgress: null,
@@ -40,7 +41,7 @@ const defaultState = {
 class FilesPage extends React.Component {
   static propTypes = {
     files: PropTypes.object,
-    filesIsLoading: PropTypes.bool.isRequired,
+    ipfsReady: PropTypes.bool,
     gatewayUrl: PropTypes.string.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesDelete: PropTypes.func.isRequired,
@@ -59,15 +60,23 @@ class FilesPage extends React.Component {
 
   makeDir = (path) => this.props.doFilesMakeDir(join(this.props.files.path, path))
 
-  navigate = (link) => {
-    const { doUpdateHash, files } = this.props
+  navigate = (path) => {
+    const { doFilesFetch, doUpdateHash, files } = this.props
 
     if (files.type === 'directory') {
       this.state.toggleAll(false)
     }
 
-    link = link.split('/').map(p => encodeURIComponent(p)).join('/')
+    let link = path.split('/').map(p => encodeURIComponent(p)).join('/')
     doUpdateHash(`/files${link}`)
+    doFilesFetch(path)
+  }
+
+  componentDidUpdate () {
+    if (this.props.ipfsReady && !this.state.askedFirst) {
+      this.props.doFilesFetch('/')
+      this.setState({ askedFirst: true })
+    }
   }
 
   showRenameModal = ([file]) => {
@@ -164,6 +173,8 @@ class FilesPage extends React.Component {
   render () {
     const { files } = this.props
 
+    console.log(files)
+
     return (
       <div data-id='FilesPage'>
         <Helmet>
@@ -235,8 +246,9 @@ export default connect(
   'doFilesAddPath',
   'doFilesDownloadLink',
   'doFilesMakeDir',
+  'doFilesFetch',
   'selectFiles',
-  'selectFilesIsLoading',
   'selectGatewayUrl',
+  'selectIpfsReady',
   FilesPage
 )

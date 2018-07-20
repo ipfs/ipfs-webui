@@ -1,68 +1,68 @@
-import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
+import { createSelector } from 'redux-bundler'
 import { join, dirname } from 'path'
 import fileReader from 'pull-file-reader'
 
-const bundle = createAsyncResourceBundle({
-  name: 'files',
-  actionBaseType: 'FILES',
-  getPromise: async ({ store, getIpfs }) => {
-    const ipfs = getIpfs()
-    let path = store.selectRouteParams().path
+const defaultState = {
+  path: '/',
+  type: 'directory',
+  files: []
+}
 
-    if (!path) {
-      return store.doUpdateHash('/files/')
-    }
+const bundle = {
+  name: 'files'
+}
 
-    path = decodeURIComponent(path)
-    const stats = await ipfs.files.stat(path)
+bundle.reducer = (state = defaultState, action) => {
+  if (action.type === 'FILES_FETCH_FINISHED') {
+    return action.payload
+  }
 
-    if (stats.type === 'file') {
-      stats.name = path
+  return state
+}
 
-      return {
+bundle.selectFiles = (state) => state.files
+
+bundle.doFilesFetch = (path) => async ({ store, dispatch, getIpfs }) => {
+  const ipfs = getIpfs()
+  const stats = await ipfs.files.stat(path)
+
+  if (stats.type === 'file') {
+    stats.name = path
+
+    dispatch({
+      type: 'FILES_FETCH_FINISHED',
+      payload: {
         path: path,
         type: 'file',
         stats: stats,
         read: () => ipfs.files.read(path)
       }
-    }
+    })
 
-    // Otherwise get the directory info
-    let res = await ipfs.files.ls(path, {l: true})
+    return
+  }
 
-    if (res) {
-      res = res.map(file => {
-        // FIX: open PR on js-ipfs-api
-        file.type = file.type === 0 ? 'file' : 'directory'
-        file.path = join(path, file.name)
-        return file
-      })
-    }
+  // Otherwise get the directory info
+  let res = await ipfs.files.ls(path, {l: true})
 
-    return {
+  if (res) {
+    res = res.map(file => {
+      // FIX: open PR on js-ipfs-api
+      file.type = file.type === 0 ? 'file' : 'directory'
+      file.path = join(path, file.name)
+      return file
+    })
+  }
+
+  dispatch({
+    type: 'FILES_FETCH_FINISHED',
+    payload: {
       path: path,
       type: 'directory',
       files: res
     }
-  },
-  staleAfter: Infinity,
-  checkIfOnline: false
-})
-
-bundle.reactFilesFetch = createSelector(
-  'selectFilesIsLoading',
-  'selectFilesShouldUpdate',
-  'selectIpfsReady',
-  'selectRouteInfo',
-  'selectFiles',
-  (isLoading, shouldUpdate, ipfsReady, {url, params}, files) => {
-    if (!isLoading && ipfsReady && url.startsWith('/files')) {
-      if (shouldUpdate || !files || files.path !== decodeURIComponent(params.path)) {
-        return { actionCreator: 'doFetchFiles' }
-      }
-    }
-  }
-)
+  })
+}
 
 bundle.doFilesDelete = (files) => async ({dispatch, getIpfs, store}) => {
   dispatch({ type: 'FILES_DELETE_STARTED' })
