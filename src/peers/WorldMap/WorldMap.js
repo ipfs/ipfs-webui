@@ -10,6 +10,7 @@ import worldData from './world.json'
 
 export class WorldMap extends React.Component {
   static propTypes = {
+    peers: PropTypes.array,
     coordinates: PropTypes.array
   }
 
@@ -85,7 +86,7 @@ export class WorldMap extends React.Component {
   }
 
   render () {
-    const { coordinates } = this.props
+    const { peers, coordinates } = this.props
 
     return (
       <div className='flex w-100 mb4' style={{ 'height': '500px' }}>
@@ -94,7 +95,7 @@ export class WorldMap extends React.Component {
         </AutoSizer>
 
         <div className='flex flex-auto flex-column items-center self-end pb4'>
-          <div className='f1 gray'>{ coordinates ? coordinates.length : 0 }</div>
+          <div className='f1 gray'>{ peers ? peers.length : 0 }</div>
           <div className='f4 b'>PEERS</div>
         </div>
       </div>
