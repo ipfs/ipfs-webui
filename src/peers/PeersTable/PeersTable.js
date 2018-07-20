@@ -33,7 +33,7 @@ export class PeersTable extends React.Component {
 
   render () {
     const { peers } = this.props
-    const tableHeight = '220'
+    const tableHeight = 220
 
     return (
       <div className='flex w-100' style={{ 'height': `${tableHeight}px` }}>
