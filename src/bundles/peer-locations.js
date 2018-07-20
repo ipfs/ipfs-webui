@@ -128,6 +128,16 @@ export default function (opts) {
       }, {})
     ),
 
+    selectPeerCoordinates: createSelector(
+      'selectPeerLocations',
+      peerLocs => Object.keys(peerLocs).map((peerId, idx) => {
+        const long = peerLocs[peerId].longitude
+        const lat = peerLocs[peerId].latitude
+
+        return [long, lat]
+      })
+    ),
+
     selectPeerLocationsQueuingPeers: state => state.peerLocations.queuingPeers,
     selectPeerLocationsResolvingPeers: state => state.peerLocations.resolvingPeers,
 
