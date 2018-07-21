@@ -6,20 +6,21 @@ import { Helmet } from 'react-helmet'
 import WorldMap from './WorldMap/WorldMap'
 import PeersTable from './PeersTable/PeersTable'
 
-const PeersPage = ({ peerCoordinates, tableData }) => (
+const PeersPage = ({ peers, peerCoordinates, tableData }) => (
   <div data-id='PeersPage'>
     <Helmet>
       <title>Peers - IPFS</title>
     </Helmet>
 
     <div className='bg-snow-muted pa3'>
-      <WorldMap coordinates={peerCoordinates} />
+      <WorldMap peers={peers} coordinates={peerCoordinates} />
       <PeersTable peers={tableData} />
     </div>
   </div>
 )
 
 export default connect(
+  'selectPeers',
   'selectPeerCoordinates',
   'selectTableData',
   PeersPage
