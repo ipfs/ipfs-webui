@@ -115,6 +115,7 @@ bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({ getIpfs }) =>
 
     const res = await getIpfs().add(file.content, {
       pin: false,
+      // eslint-disable-next-line
       progress: (bytes) => {
         sent = sent + bytes - alreadySent
         alreadySent = bytes
@@ -130,7 +131,6 @@ bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({ getIpfs }) =>
     updateProgress(sent / totalSize * 100)
   }
 
-  console.log('HEY')
   updateProgress(100)
 }
 

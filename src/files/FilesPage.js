@@ -61,7 +61,7 @@ class FilesPage extends React.Component {
   makeDir = (path) => this.props.doFilesMakeDir(join(this.props.files.path, path))
 
   navigate = (path) => {
-    const { doFilesFetch, doUpdateHash, files } = this.props
+    const { doUpdateHash, files } = this.props
 
     if (files.type === 'directory') {
       this.state.toggleAll(false)
@@ -69,7 +69,6 @@ class FilesPage extends React.Component {
 
     let link = path.split('/').map(p => encodeURIComponent(p)).join('/')
     doUpdateHash(`/files${link}`)
-    doFilesFetch(path)
   }
 
   updateFiles = () => {
@@ -77,8 +76,16 @@ class FilesPage extends React.Component {
     return this.props.doFilesFetch(path)
   }
 
-  componentDidUpdate (prevProps) {
-    if (this.props.ipfsReady && prevProps.files === null) {
+  componentDidMount () {
+    if (this.props.ipfsReady) {
+      this.updateFiles()
+    }
+  }
+
+  componentDidUpdate (prev) {
+    const { ipfsReady, routeInfo } = this.props
+
+    if (ipfsReady && (prev.files === null || routeInfo.params.path !== prev.routeInfo.params.path)) {
       this.updateFiles()
     }
   }
