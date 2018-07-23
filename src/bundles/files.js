@@ -1,19 +1,127 @@
 import { join, dirname } from 'path'
 import fileReader from 'pull-file-reader'
 
-const bundle = {
-  name: 'files'
-}
+function uuid () {
+  var uuid = ''
+  var i
+  var random
+  for (i = 0; i < 32; i++) {
+    random = Math.random() * 16 | 0
 
-bundle.reducer = (state = null, action) => {
-  if (action.type === 'FILES_FETCH_FINISHED') {
-    return action.payload
+    if (i === 8 || i === 12 || i === 16 || i === 20) {
+      uuid += '-'
+    }
+    uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16)
   }
-
-  return state
+  return uuid
 }
 
-bundle.selectFiles = (state) => state.files
+const defaultState = {
+  data: null,
+  error: null,
+  actions: {
+    move: [],
+    copy: [],
+    delete: [],
+    download: [],
+    write: []
+  }
+}
+
+const patterns = {
+  started: /^FILES_(\w+)_STARTED$/,
+  failed: /^FILES_(\w+)_FAILED$/,
+  finished: /^FILES_(\w+)_FINISHED$/,
+  updated: /^FILES_(\w+)_UPDATED$/
+}
+
+const bundle = {
+  name: 'files',
+
+  reducer: (state = defaultState, action) => {
+    if (action.type === 'FILES_FETCH_FINISHED') {
+      return {
+        ...state,
+        data: action.payload
+      }
+    }
+
+    let match
+
+    match = action.type.match(patterns.started)
+    if (match) {
+      const field = match[1].toLowerCase()
+      const { id, ...data } = action.payload
+
+      return {
+        ...state,
+        actions: {
+          ...state.actions,
+          [field]: {
+            ...state.actions[field],
+            [id]: {
+              ...data,
+              type: field,
+              status: 'started',
+              start: Date.now()
+            }
+          }
+        },
+        error: action.payload
+      }
+    }
+
+    match = action.type.match(patterns.failed)
+    if (match) {
+      const field = match[1].toLowerCase()
+      const { id, error } = action.payload
+
+      return {
+        ...state,
+        error: error,
+        actions: {
+          ...state.actions,
+          [field]: {
+            ...state.actions[field],
+            [id]: {
+              ...state.actions[field][id],
+              end: Date.now(),
+              status: 'failed',
+              error: error
+            }
+          }
+        }
+      }
+    }
+
+    match = action.type.match(patterns.finished)
+    if (match) {
+      const field = match[1].toLowerCase()
+      const { id, ...data } = action.payload
+
+      return {
+        ...state,
+        actions: {
+          ...state.actions,
+          [field]: {
+            ...state.actions[field],
+            [id]: {
+              ...state.actions[field][id],
+              ...data,
+              end: Date.now(),
+              status: 'finished'
+            }
+          }
+        },
+        error: action.payload
+      }
+    }
+
+    return state
+  }
+}
+
+bundle.selectFiles = (state) => state.files.data
 
 bundle.doFilesFetch = (path) => async ({ dispatch, getIpfs }) => {
   const ipfs = getIpfs()
@@ -57,24 +165,32 @@ bundle.doFilesFetch = (path) => async ({ dispatch, getIpfs }) => {
   })
 }
 
-bundle.doFilesDelete = (files) => async ({ getIpfs }) => {
-  const promises = files.map(file => getIpfs().files.rm(file, { recursive: true }))
-  await Promise.all(promises)
+const makeAction = (basename, action) => (...args) => async ({ dispatch, getIpfs }) => {
+  const id = uuid()
+  dispatch({ type: `FILES_${basename}_STARTED`, payload: { id } })
+
+  try {
+    await action(getIpfs(), ...args)
+    dispatch({ type: `FILES_${basename}_FINISHED`, payload: { id } })
+  } catch (e) {
+    dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error: e } })
+  } finally {
+
+  }
 }
 
-bundle.doFilesMove = (from, to) => ({ getIpfs }) => {
-  return getIpfs().files.mv([from, to])
-}
+bundle.doFilesDelete = makeAction('DELETE', (ipfs, files) => {
+  const promises = files.map(file => ipfs.files.rm(file, { recursive: true }))
+  return Promise.all(promises)
+})
 
-bundle.doFilesCopy = (from, to) => ({ getIpfs }) => {
-  return getIpfs().files.cp([from, to])
-}
+bundle.doFilesMove = makeAction('MOVE', (ipfs, src, dst) => ipfs.files.mv([src, dst]))
 
-bundle.doFilesMakeDir = (path) => ({ getIpfs }) => {
-  return getIpfs().files.mkdir(path, { parents: true })
-}
+bundle.doFilesCopy = makeAction('COPY', (ipfs, src, dst) => ipfs.files.cp([src, dst]))
 
-async function filesToStreams (files) {
+bundle.doFilesMakeDir = makeAction('MKDIR', (ipfs, path) => ipfs.files.mkdir(path, { parents: true }))
+
+function filesToStreams (files) {
   if (files.hasOwnProperty('content')) {
     return files.content
   }
@@ -102,8 +218,14 @@ async function filesToStreams (files) {
   return { streams, totalSize, isDir }
 }
 
-bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({ getIpfs }) => {
-  const { streams, totalSize } = await filesToStreams(rawFiles)
+bundle.doFilesWrite = (root, rawFiles) => async ({ getIpfs, dispatch }) => {
+  const { streams, totalSize } = filesToStreams(rawFiles)
+
+  const updateProgress = (progress) => {
+    dispatch({ type: 'FILES_WRITE_PROGRESS', payload: { progress } })
+  }
+
+  dispatch({ type: 'FILES_WRITE_STARTED' })
   updateProgress(0)
 
   let sent = 0
@@ -132,6 +254,8 @@ bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({ getIpfs }) =>
   }
 
   updateProgress(100)
+
+  dispatch({ type: 'FILES_WRITE_FINISHED' })
 }
 
 bundle.doFilesAddPath = (root, src) => async ({ getIpfs }) => {
