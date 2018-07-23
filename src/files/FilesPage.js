@@ -107,7 +107,6 @@ class FilesPage extends React.Component {
     if (newName !== '' && newName !== filename) {
       this.state.toggleOne(filename, false)
       await this.props.doFilesMove(path, path.replace(filename, newName))
-      await this.updateFiles()
       this.state.toggleOne(newName, true)
     }
   }
@@ -132,7 +131,6 @@ class FilesPage extends React.Component {
     this.state.toggleAll(false)
     this.resetState('delete')
     await this.props.doFilesDelete(this.state.delete.paths)
-    await this.updateFiles()
   }
 
   makeUpdater = (field) => (value) => {
@@ -164,15 +162,12 @@ class FilesPage extends React.Component {
       root = files.path
     }
 
-    const updater = this.makeUpdater('addProgress')
-    await doFilesWrite(root, raw, updater)
-    await this.updateFiles()
+    await doFilesWrite(root, raw)
   }
 
   addByPath = async (path) => {
     const { doFilesAddPath, files } = this.props
     await doFilesAddPath(files.path, path)
-    await this.updateFiles()
   }
 
   inspect = (hash) => {
@@ -213,7 +208,7 @@ class FilesPage extends React.Component {
                 maxWidth='calc(100% - 240px)'
                 setTogglers={this.setTogglers}
                 root={files.path}
-                files={files.files}
+                files={files.content}
                 downloadProgress={this.state.downloadProgress}
                 onShare={action('Share')}
                 onInspect={this.inspect}
