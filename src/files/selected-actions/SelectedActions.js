@@ -65,7 +65,7 @@ export default class SelectedActions extends React.Component {
     }
 
     if (count === 1) {
-      singleFileAction = 'pointer'
+      singleFileAction = 'pointer grow'
       singleFileTooltip = {}
     }
 
@@ -84,15 +84,15 @@ export default class SelectedActions extends React.Component {
             </div>
           </div>
           <div className='flex'>
-            <div className='pointer tc mh2' onClick={share}>
+            <div className='pointer grow tc mh2' onClick={share}>
               <StrokeShare className='w3' fill='#A4BFCC' />
               <p className='ma0 f6'>Share</p>
             </div>
-            <div className='pointer tc mh2' onClick={download}>
+            <div className='pointer grow tc mh2' onClick={download}>
               <StrokeDownload className='w3' fill='#A4BFCC' />
               <p className='ma0 f6'>{this.downloadText}</p>
             </div>
-            <div className='pointer tc mh2' onClick={remove}>
+            <div className='pointer grow tc mh2' onClick={remove}>
               <StrokeTrash className='w3' fill='#A4BFCC' />
               <p className='ma0 f6'>Delete</p>
             </div>
