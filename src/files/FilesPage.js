@@ -21,7 +21,6 @@ const action = (name) => {
 const defaultState = {
   downloadAbort: null,
   downloadProgress: null,
-  addProgress: null,
   toggleOne: () => {},
   toggleAll: () => {},
   rename: {
@@ -42,6 +41,7 @@ class FilesPage extends React.Component {
     routeInfo: PropTypes.object,
     files: PropTypes.object,
     ipfsReady: PropTypes.bool,
+    writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesDelete: PropTypes.func.isRequired,
@@ -181,7 +181,7 @@ class FilesPage extends React.Component {
   }
 
   render () {
-    const { files } = this.props
+    const { files, writeFilesProgress } = this.props
 
     return (
       <div data-id='FilesPage'>
@@ -199,7 +199,7 @@ class FilesPage extends React.Component {
                   onMakeDir={this.makeDir}
                   onAddFiles={this.add}
                   onAddByPath={this.addByPath}
-                  addProgress={this.state.addProgress} />
+                  addProgress={writeFilesProgress} />
               }
             </div>
 
@@ -259,5 +259,6 @@ export default connect(
   'selectGatewayUrl',
   'selectIpfsReady',
   'selectRouteInfo',
+  'selectWriteFilesProgress',
   FilesPage
 )

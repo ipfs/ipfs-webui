@@ -16,8 +16,10 @@ const make = (basename, action) => (...args) => async (args2) => {
   const { dispatch, getIpfs, getState, store } = args2
   dispatch({ type: `FILES_${basename}_STARTED`, payload: { id } })
 
+  let data
+
   try {
-    const data = await action(getIpfs(), ...args, id, args2)
+    data = await action(getIpfs(), ...args, id, args2)
     dispatch({ type: `FILES_${basename}_FINISHED`, payload: { id, ...data } })
   } catch (error) {
     dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error } })
@@ -26,6 +28,8 @@ const make = (basename, action) => (...args) => async (args2) => {
       await store.doFilesFetch(getState().files.pageContent.path)
     }
   }
+
+  return data
 }
 
 const defaultState = {
@@ -210,10 +214,10 @@ export default {
     return ipfs.files.cp([src, dst])
   }),
 
-  doFilesDownloadLink: make(actions.DOWNLOAD_LINK, (ipfs, files, { store }) => {
+  doFilesDownloadLink: make(actions.DOWNLOAD_LINK, async (ipfs, files, id, { store }) => {
     const apiUrl = store.selectApiUrl()
     const gatewayUrl = store.selectGatewayUrl()
-    return getDownloadLink(files, gatewayUrl, apiUrl)
+    return getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
   }),
 
   doFilesMove: make(actions.MOVE, (ipfs, src, dst) => ipfs.files.mv([src, dst])),
@@ -224,9 +228,14 @@ export default {
 
   selectFiles: (state) => state.files.pageContent,
 
-  selectWriteFileProgress: (state) => {
-    const writes = state.files.ongoing.find(s => s.type === actions.WRITE)
-    const sum = writes.reduce((acc, d) => d.data.progress + acc, 0)
+  selectWriteFilesProgress: (state) => {
+    const writes = state.files.actions.pending.filter(s => s.type === actions.WRITE && s.data.progress)
+
+    if (writes.length === 0) {
+      return null
+    }
+
+    const sum = writes.reduce((acc, s) => s.data.progress + acc, 0)
     return sum / writes.length
   }
 }

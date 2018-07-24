@@ -47,7 +47,8 @@ export default class FileInput extends React.Component {
   state = {
     dropdown: false,
     byPathModal: false,
-    newFolderModal: false
+    newFolderModal: false,
+    force100: false
   }
 
   toggleDropdown = () => {
@@ -63,6 +64,15 @@ export default class FileInput extends React.Component {
       s[`${which}Modal`] = !s[`${which}Modal`]
       return s
     })
+  }
+
+  componentDidUpdate (prev) {
+    if (this.props.addProgress === 100 && prev.addProgress !== 100) {
+      this.setState({ force100: true })
+      setTimeout(() => {
+        this.setState({ force100: false })
+      }, 2000)
+    }
   }
 
   onInputChange = (input) => () => {
@@ -82,10 +92,15 @@ export default class FileInput extends React.Component {
   }
 
   render () {
+    let progress = this.props.addProgress
+    if (this.state.force100) {
+      progress = 100
+    }
+
     return (
       <div className={this.props.className}>
         <Dropdown>
-          <AddButton progress={this.props.addProgress} onClick={this.toggleDropdown} />
+          <AddButton progress={progress} onClick={this.toggleDropdown} />
           <DropdownMenu
             top={3}
             className='br2 charcoal'

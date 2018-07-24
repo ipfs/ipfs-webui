@@ -71,10 +71,10 @@ async function downloadMultiple (files, apiUrl, ipfs) {
   }
 }
 
-export async function getDownloadLink (files, gatewayUrl, apiUrl) {
+export async function getDownloadLink (files, gatewayUrl, apiUrl, ipfs) {
   if (files.length === 1) {
     return downloadSingle(files[0], gatewayUrl, apiUrl)
   }
 
-  return downloadMultiple(files)
+  return downloadMultiple(files, apiUrl, ipfs)
 }
