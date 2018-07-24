@@ -44,7 +44,7 @@ class FilesPage extends React.Component {
     ipfsReady: PropTypes.bool,
     writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
-
+    actionBarWidth: PropTypes.string.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesDelete: PropTypes.func.isRequired,
     doFilesMove: PropTypes.func.isRequired,
@@ -177,7 +177,7 @@ class FilesPage extends React.Component {
   }
 
   render () {
-    const { files, writeFilesProgress } = this.props
+    const { files, writeFilesProgress, actionBarWidth } = this.props
 
     return (
       <div data-id='FilesPage'>
@@ -201,7 +201,7 @@ class FilesPage extends React.Component {
 
             { files.type === 'directory' ? (
               <FilesList
-                maxWidth='calc(100% - 240px)'
+                maxWidth={actionBarWidth}
                 setTogglers={this.setTogglers}
                 root={files.path}
                 files={files.content}
@@ -257,5 +257,6 @@ export default connect(
   'selectIpfsReady',
   'selectRouteInfo',
   'selectWriteFilesProgress',
+  'selectActionBarWidth',
   FilesPage
 )

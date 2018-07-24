@@ -43,7 +43,7 @@ const NavLink = ({
 export const NavBar = ({isSettingsEnabled, open, onToggle}) => {
   const width = open ? 250 : 100
   return (
-    <div style={{width}}>
+    <div id='navbar' style={{width}}>
       <div className='pointer' style={{paddingTop: 35}} onClick={onToggle}>
         <img className='center' style={{height: 70, display: open ? 'block' : 'none'}} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
         <img className='center' style={{height: 70, display: open ? 'none' : 'block'}} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />

@@ -1,5 +1,7 @@
 import { join, dirname } from 'path'
+import ResizeObserver from 'resize-observer-polyfill'
 import { getDownloadLink, filesToStreams } from '../lib/files'
+import { waitForElement } from '../lib/dom'
 
 const actions = {
   FETCH: 'FETCH',
@@ -34,198 +36,227 @@ const make = (basename, action) => (...args) => async (args2) => {
 
 const defaultState = {
   pageContent: null,
+  actionBarWidth: '100%',
   pending: [],
   finished: [],
   failed: []
 }
 
-export default {
-  name: 'files',
+export default (opts = {}) => {
+  return {
+    name: 'files',
 
-  reducer: (state = defaultState, action) => {
-    if (!action.type.startsWith('FILES_')) {
-      return state
-    }
-
-    const [ type, status ] = action.type.split('_').splice(1)
-    const { id, ...data } = action.payload
-
-    if (status === 'STARTED') {
-      return {
-        ...state,
-        pending: [
-          ...state.pending,
-          {
-            type: type,
-            id: id,
-            start: Date.now(),
-            data: data
-          }
-        ]
+    init: async ({ dispatch }) => {
+      if (!opts.navbar) {
+        return
       }
-    } else if (status === 'UPDATED') {
-      const action = state.pending.find(a => a.id === id)
 
-      return {
-        ...state,
-        pending: [
-          ...state.pending.filter(a => a.id !== id),
-          {
-            ...action,
-            data: data
-          }
-        ]
+      const element = await waitForElement(opts.navbar)
+
+      const ro = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const {width} = entry.contentRect
+          dispatch({ type: 'FILES_ACTIONS_WIDTH', payload: `calc(100% - ${width}px)` })
+        }
+      })
+
+      ro.observe(element)
+    },
+
+    reducer: (state = defaultState, action) => {
+      if (!action.type.startsWith('FILES_')) {
+        return state
       }
-    } else if (status === 'FAILED') {
-      const action = state.pending.find(a => a.id === id)
 
-      return {
-        ...state,
-        pending: state.pending.filter(a => a.id !== id),
-        failed: [
-          ...state.failed,
-          {
-            ...action,
-            end: Date.now(),
-            error: data.error
-          }
-        ]
-      }
-    } else if (status === 'FINISHED') {
-      const action = state.pending.find(a => a.id === id)
-      let additional
-
-      if (type === actions.FETCH) {
-        additional = {
-          pageContent: data
+      if (action.type === 'FILES_ACTIONS_WIDTH') {
+        return {
+          ...state,
+          actionBarWidth: action.payload
         }
       }
 
-      return {
-        ...state,
-        ...additional,
-        pending: state.pending.filter(a => a.id !== id),
-        finished: [
-          ...state.finished,
-          {
-            ...action,
-            data: data,
-            end: Date.now()
+      const [ type, status ] = action.type.split('_').splice(1)
+      const { id, ...data } = action.payload
+
+      if (status === 'STARTED') {
+        return {
+          ...state,
+          pending: [
+            ...state.pending,
+            {
+              type: type,
+              id: id,
+              start: Date.now(),
+              data: data
+            }
+          ]
+        }
+      } else if (status === 'UPDATED') {
+        const action = state.pending.find(a => a.id === id)
+
+        return {
+          ...state,
+          pending: [
+            ...state.pending.filter(a => a.id !== id),
+            {
+              ...action,
+              data: data
+            }
+          ]
+        }
+      } else if (status === 'FAILED') {
+        const action = state.pending.find(a => a.id === id)
+
+        return {
+          ...state,
+          pending: state.pending.filter(a => a.id !== id),
+          failed: [
+            ...state.failed,
+            {
+              ...action,
+              end: Date.now(),
+              error: data.error
+            }
+          ]
+        }
+      } else if (status === 'FINISHED') {
+        const action = state.pending.find(a => a.id === id)
+        let additional
+
+        if (type === actions.FETCH) {
+          additional = {
+            pageContent: data
           }
-        ]
+        }
+
+        return {
+          ...state,
+          ...additional,
+          pending: state.pending.filter(a => a.id !== id),
+          finished: [
+            ...state.finished,
+            {
+              ...action,
+              data: data,
+              end: Date.now()
+            }
+          ]
+        }
       }
-    }
 
-    return state
-  },
+      return state
+    },
 
-  doFilesFetch: make(actions.FETCH, async (ipfs, path) => {
-    const stats = await ipfs.files.stat(path)
+    doFilesFetch: make(actions.FETCH, async (ipfs, path) => {
+      const stats = await ipfs.files.stat(path)
 
-    if (stats.type === 'file') {
-      stats.name = path
+      if (stats.type === 'file') {
+        stats.name = path
+
+        return {
+          path: path,
+          type: 'file',
+          stats: stats,
+          read: () => ipfs.files.read(path)
+        }
+      }
+
+      // Otherwise get the directory info
+      let res = await ipfs.files.ls(path, {l: true})
+
+      if (res) {
+        res = res.map(file => {
+          // FIX: open PR on js-ipfs-api
+          file.type = file.type === 0 ? 'file' : 'directory'
+          file.path = join(path, file.name)
+          return file
+        })
+      }
 
       return {
         path: path,
-        type: 'file',
-        stats: stats,
-        read: () => ipfs.files.read(path)
+        type: 'directory',
+        content: res
       }
-    }
+    }),
 
-    // Otherwise get the directory info
-    let res = await ipfs.files.ls(path, {l: true})
+    doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, id, { dispatch }) => {
+      const { streams, totalSize } = await filesToStreams(rawFiles)
 
-    if (res) {
-      res = res.map(file => {
-        // FIX: open PR on js-ipfs-api
-        file.type = file.type === 0 ? 'file' : 'directory'
-        file.path = join(path, file.name)
-        return file
-      })
-    }
+      const updateProgress = (progress) => {
+        dispatch({ type: 'FILES_WRITE_UPDATED', payload: { id: id, progress } })
+      }
 
-    return {
-      path: path,
-      type: 'directory',
-      content: res
-    }
-  }),
+      updateProgress(0)
 
-  doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, id, { dispatch }) => {
-    const { streams, totalSize } = await filesToStreams(rawFiles)
+      let sent = 0
 
-    const updateProgress = (progress) => {
-      dispatch({ type: 'FILES_WRITE_UPDATED', payload: { id: id, progress } })
-    }
+      for (const file of streams) {
+        const dir = join(root, dirname(file.name))
+        await ipfs.files.mkdir(dir, { parents: true })
+        let alreadySent = 0
 
-    updateProgress(0)
+        const res = await ipfs.add(file.content, {
+          pin: false,
+          // eslint-disable-next-line
+          progress: (bytes) => {
+            sent = sent + bytes - alreadySent
+            alreadySent = bytes
+            updateProgress(sent / totalSize * 100)
+          }
+        })
 
-    let sent = 0
+        const src = `/ipfs/${res[res.length - 1].hash}`
+        const dst = join(root, file.name)
+        await ipfs.files.cp([src, dst])
 
-    for (const file of streams) {
-      const dir = join(root, dirname(file.name))
-      await ipfs.files.mkdir(dir, { parents: true })
-      let alreadySent = 0
+        sent = sent - alreadySent + file.size
+        updateProgress(sent / totalSize * 100)
+      }
 
-      const res = await ipfs.add(file.content, {
-        pin: false,
-        // eslint-disable-next-line
-        progress: (bytes) => {
-          sent = sent + bytes - alreadySent
-          alreadySent = bytes
-          updateProgress(sent / totalSize * 100)
-        }
-      })
+      updateProgress(100)
+    }),
 
-      const src = `/ipfs/${res[res.length - 1].hash}`
-      const dst = join(root, file.name)
-      await ipfs.files.cp([src, dst])
+    doFilesDelete: make(actions.DELETE, (ipfs, files) => {
+      const promises = files.map(file => ipfs.files.rm(file, { recursive: true }))
+      return Promise.all(promises)
+    }),
 
-      sent = sent - alreadySent + file.size
-      updateProgress(sent / totalSize * 100)
-    }
+    doFilesAddPath: make(actions.ADD_BY_PATH, (ipfs, root, src) => {
+      const name = src.split('/').pop()
+      const dst = join(root, name)
+      return ipfs.files.cp([src, dst])
+    }),
 
-    updateProgress(100)
-  }),
+    doFilesDownloadLink: make(actions.DOWNLOAD_LINK, async (ipfs, files, id, { store }) => {
+      const apiUrl = store.selectApiUrl()
+      const gatewayUrl = store.selectGatewayUrl()
+      return getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
+    }),
 
-  doFilesDelete: make(actions.DELETE, (ipfs, files) => {
-    const promises = files.map(file => ipfs.files.rm(file, { recursive: true }))
-    return Promise.all(promises)
-  }),
+    doFilesMove: make(actions.MOVE, (ipfs, src, dst) => ipfs.files.mv([src, dst])),
 
-  doFilesAddPath: make(actions.ADD_BY_PATH, (ipfs, root, src) => {
-    const name = src.split('/').pop()
-    const dst = join(root, name)
-    return ipfs.files.cp([src, dst])
-  }),
+    doFilesCopy: make(actions.COPY, (ipfs, src, dst) => ipfs.files.cp([src, dst])),
 
-  doFilesDownloadLink: make(actions.DOWNLOAD_LINK, async (ipfs, files, id, { store }) => {
-    const apiUrl = store.selectApiUrl()
-    const gatewayUrl = store.selectGatewayUrl()
-    return getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
-  }),
+    doFilesMakeDir: make(actions.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(path, { parents: true })),
 
-  doFilesMove: make(actions.MOVE, (ipfs, src, dst) => ipfs.files.mv([src, dst])),
+    selectFiles: (state) => state.files.pageContent,
 
-  doFilesCopy: make(actions.COPY, (ipfs, src, dst) => ipfs.files.cp([src, dst])),
+    selectWriteFilesProgress: (state) => {
+      const writes = state.files.pending.filter(s => s.type === actions.WRITE && s.data.progress)
 
-  doFilesMakeDir: make(actions.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(path, { parents: true })),
+      if (writes.length === 0) {
+        return null
+      }
 
-  selectFiles: (state) => state.files.pageContent,
+      const sum = writes.reduce((acc, s) => s.data.progress + acc, 0)
+      return sum / writes.length
+    },
 
-  selectWriteFilesProgress: (state) => {
-    const writes = state.files.pending.filter(s => s.type === actions.WRITE && s.data.progress)
+    selectFilesHasError: (state) => state.files.failed.length > 0,
 
-    if (writes.length === 0) {
-      return null
-    }
+    selectFilesErrors: (state) => state.files.failed,
 
-    const sum = writes.reduce((acc, s) => s.data.progress + acc, 0)
-    return sum / writes.length
-  },
-
-  selectFilesHasError: (state) => state.files.failed.length > 0,
-
-  selectFilesErrors: (state) => state.files.failed
+    selectActionBarWidth: (state) => state.files.actionBarWidth
+  }
 }
