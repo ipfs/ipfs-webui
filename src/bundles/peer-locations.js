@@ -184,6 +184,12 @@ export default function (opts) {
         if (ipfsReady && queuingPeers.length && resolvingPeers.length < opts.concurrency) {
           const peerId = queuingPeers[0]
           const locsByAddr = peerLocationsRaw[peerId]
+
+          // TODO: what is causing this to fail?
+          if (!locsByAddr) {
+            return
+          }
+
           const addr = Object.keys(locsByAddr).find(a => locsByAddr[a].state === 'queued')
           return { actionCreator: 'doResolvePeerLocation', args: [{ peerId, addr }] }
         }

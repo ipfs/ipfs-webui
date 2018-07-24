@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
+import RenameModal from '../rename-modal/RenameModal'
+import DeleteModal from '../delete-modal/DeleteModal'
+import Overlay from '../../components/overlay/Overlay'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
 import { join } from 'path'
@@ -21,43 +24,55 @@ function compare (a, b, asc) {
   }
 }
 
+const defaultState = {
+  selected: [],
+  sortBy: ORDER_BY_NAME,
+  sortAsc: true,
+  isDragging: false,
+  rename: {
+    isOpen: false,
+    path: '',
+    filename: ''
+  },
+  delete: {
+    isOpen: false,
+    paths: [],
+    files: 0,
+    folders: 0
+  }
+}
+
 class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    setTogglers: PropTypes.func.isRequired,
+    files: PropTypes.array.isRequired,
+    root: PropTypes.string.isRequired,
+    downloadProgress: PropTypes.number,
+    maxWidth: PropTypes.string.isRequired,
+    isOver: PropTypes.bool.isRequired,
+    canDrop: PropTypes.bool.isRequired,
+    connectDropTarget: PropTypes.func.isRequired,
     onShare: PropTypes.func.isRequired,
     onInspect: PropTypes.func.isRequired,
-    onRename: PropTypes.func.isRequired,
     onDownload: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
-    onMove: PropTypes.func.isRequired,
-    files: PropTypes.array.isRequired,
-    root: PropTypes.string.isRequired,
-    downloadProgress: PropTypes.number,
-    maxWidth: PropTypes.string,
-    isOver: PropTypes.bool.isRequired,
-    canDrop: PropTypes.bool.isRequired,
-    connectDropTarget: PropTypes.func.isRequired
+    onMove: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    className: '',
-    maxWidth: '100%'
+    className: ''
   }
 
-  state = {
-    selected: [],
-    sortBy: ORDER_BY_NAME,
-    sortAsc: true,
-    isDragging: false
-  }
+  state = defaultState
+
+  resetState = (field) => this.setState({ [field]: defaultState[field] })
 
   get selectedFiles () {
     return this.state.selected.map(name =>
       this.props.files.find(el => el.name === name)
-    )
+    ).filter(n => n)
   }
 
   get selectedMenu () {
@@ -73,9 +88,9 @@ class FileList extends React.Component {
         className='fixed bottom-0 right-0'
         style={{maxWidth: this.props.maxWidth}}
         unselect={unselectAll}
-        remove={this.wrapWithSelected('onDelete')}
+        remove={this.showDeleteModal}
+        rename={this.showRenameModal}
         share={this.wrapWithSelected('onShare')}
-        rename={this.wrapWithSelected('onRename')}
         download={this.wrapWithSelected('onDownload')}
         inspect={this.wrapWithSelected('onInspect')}
         count={this.state.selected.length}
@@ -118,11 +133,17 @@ class FileList extends React.Component {
     ))
   }
 
-  componentDidMount () {
-    this.props.setTogglers(this.toggleOne, this.toggleAll)
+  componentDidUpdate () {
+    const selected = this.state.selected.filter(name => (
+      this.props.files.find(el => el.name === name)
+    ))
+
+    if (selected.length !== this.state.selected.length) {
+      this.setState({ selected })
+    }
   }
 
-  wrapWithSelected = (fn) => () => {
+  wrapWithSelected = (fn) => async () => {
     this.props[fn](this.selectedFiles)
   }
 
@@ -193,6 +214,51 @@ class FileList extends React.Component {
     this.setState({ isDragging: is })
   }
 
+  showRenameModal = () => {
+    const [file] = this.selectedFiles
+
+    this.setState({
+      rename: {
+        isOpen: true,
+        path: file.path,
+        filename: file.path.split('/').pop()
+      }
+    })
+  }
+
+  rename = async (newName) => {
+    const {filename, path} = this.state.rename
+    this.resetState('rename')
+
+    if (newName !== '' && newName !== filename) {
+      this.toggleOne(filename, false)
+      await this.props.onMove([path, path.replace(filename, newName)])
+      this.toggleOne(newName, true)
+    }
+  }
+
+  showDeleteModal = () => {
+    const files = this.selectedFiles
+    let filesCount = 0
+    let foldersCount = 0
+
+    files.forEach(file => file.type === 'file' ? filesCount++ : foldersCount++)
+
+    this.setState({
+      delete: {
+        isOpen: true,
+        files: filesCount,
+        folders: foldersCount,
+        paths: files.map(f => f.path)
+      }
+    })
+  }
+
+  delete = async () => {
+    this.resetState('delete')
+    await this.props.onDelete(this.state.delete.paths)
+  }
+
   render () {
     let {className, connectDropTarget} = this.props
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
@@ -202,25 +268,44 @@ class FileList extends React.Component {
     }
 
     return connectDropTarget(
-      <section className={className} style={{ minHeight: '500px' }}>
-        <header className='gray pv3 flex items-center'>
-          <div className='ph2 w2'>
-            <Checkbox checked={this.state.selected.length === this.props.files.length} onChange={this.toggleAll} />
-          </div>
-          <div className='ph2 f6 flex-grow-1 w-40'>
-            <span onClick={this.changeSort(ORDER_BY_NAME)} className='pointer'>
-              File name {this.sortByIcon(ORDER_BY_NAME)}
-            </span>
-          </div>
-          <div className='ph2 f6 w-10 dn db-l'>
-            <span className='pointer' onClick={this.changeSort(ORDER_BY_SIZE)}>
-              Size {this.sortByIcon(ORDER_BY_SIZE)}
-            </span>
-          </div>
-        </header>
-        {this.files}
-        {this.selectedMenu}
-      </section>
+      <div>
+        <section className={className} style={{ minHeight: '500px' }}>
+          <header className='gray pv3 flex items-center'>
+            <div className='ph2 w2'>
+              <Checkbox checked={this.state.selected.length === this.props.files.length} onChange={this.toggleAll} />
+            </div>
+            <div className='ph2 f6 flex-grow-1 w-40'>
+              <span onClick={this.changeSort(ORDER_BY_NAME)} className='pointer'>
+                File name {this.sortByIcon(ORDER_BY_NAME)}
+              </span>
+            </div>
+            <div className='ph2 f6 w-10 dn db-l'>
+              <span className='pointer' onClick={this.changeSort(ORDER_BY_SIZE)}>
+                Size {this.sortByIcon(ORDER_BY_SIZE)}
+              </span>
+            </div>
+          </header>
+          {this.files}
+          {this.selectedMenu}
+        </section>
+
+        <Overlay show={this.state.rename.isOpen} onLeave={() => this.resetState('rename')}>
+          <RenameModal
+            className='outline-0'
+            filename={this.state.rename.filename}
+            onCancel={() => this.resetState('rename')}
+            onSubmit={this.rename} />
+        </Overlay>
+
+        <Overlay show={this.state.delete.isOpen} onLeave={() => this.resetState('delete')}>
+          <DeleteModal
+            className='outline-0'
+            files={this.state.delete.files}
+            folders={this.state.delete.folders}
+            onCancel={() => this.resetState('delete')}
+            onDelete={this.delete} />
+        </Overlay>
+      </div>
     )
   }
 }
