@@ -38,11 +38,13 @@ const defaultState = {
 
 class FilesPage extends React.Component {
   static propTypes = {
-    routeInfo: PropTypes.object,
+    routeInfo: PropTypes.object.isRequired,
     files: PropTypes.object,
+    filesErrors: PropTypes.array.isRequired,
     ipfsReady: PropTypes.bool,
     writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
+
     doUpdateHash: PropTypes.func.isRequired,
     doFilesDelete: PropTypes.func.isRequired,
     doFilesMove: PropTypes.func.isRequired,
@@ -72,6 +74,7 @@ class FilesPage extends React.Component {
   }
 
   updateFiles = () => {
+    console.log('UPDATING')
     const path = decodeURIComponent(this.props.routeInfo.params.path)
     return this.props.doFilesFetch(path)
   }
@@ -133,13 +136,6 @@ class FilesPage extends React.Component {
     await this.props.doFilesDelete(this.state.delete.paths)
   }
 
-  makeUpdater = (field) => (value) => {
-    this.setState({ [field]: value })
-    if (value === 100) {
-      setTimeout(() => this.setState({ [field]: null }), 2000)
-    }
-  }
-
   download = async (files) => {
     const { doFilesDownloadLink } = this.props
     const { downloadProgress, downloadAbort } = this.state
@@ -149,7 +145,7 @@ class FilesPage extends React.Component {
       return
     }
 
-    const updater = this.makeUpdater('downloadProgress')
+    const updater = (v) => this.setState({ downloadProgress: v })
     const { url, filename } = await doFilesDownloadLink(files)
     const { abort } = await downloadFile(url, filename, updater)
     this.setState({ downloadAbort: abort })
@@ -256,6 +252,7 @@ export default connect(
   'doFilesMakeDir',
   'doFilesFetch',
   'selectFiles',
+  'selectFilesErrors',
   'selectGatewayUrl',
   'selectIpfsReady',
   'selectRouteInfo',

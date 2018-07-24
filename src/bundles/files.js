@@ -34,11 +34,9 @@ const make = (basename, action) => (...args) => async (args2) => {
 
 const defaultState = {
   pageContent: null,
-  actions: {
-    pending: [],
-    finished: [],
-    failed: []
-  }
+  pending: [],
+  finished: [],
+  failed: []
 }
 
 export default {
@@ -55,55 +53,46 @@ export default {
     if (status === 'STARTED') {
       return {
         ...state,
-        actions: {
-          ...state.actions,
-          pending: [
-            ...state.actions.pending,
-            {
-              type: type,
-              id: id,
-              start: Date.now(),
-              data: data
-            }
-          ]
-        }
+        pending: [
+          ...state.pending,
+          {
+            type: type,
+            id: id,
+            start: Date.now(),
+            data: data
+          }
+        ]
       }
     } else if (status === 'UPDATED') {
-      const action = state.actions.pending.find(a => a.id === id)
+      const action = state.pending.find(a => a.id === id)
 
       return {
         ...state,
-        actions: {
-          ...state.actions,
-          pending: [
-            ...state.actions.pending.filter(a => a.id !== id),
-            {
-              ...action,
-              data: data
-            }
-          ]
-        }
+        pending: [
+          ...state.pending.filter(a => a.id !== id),
+          {
+            ...action,
+            data: data
+          }
+        ]
       }
     } else if (status === 'FAILED') {
-      const action = state.actions.pending.find(a => a.id === id)
+      const action = state.pending.find(a => a.id === id)
 
       return {
         ...state,
-        actions: {
-          ...state.actions,
-          pending: state.actions.pending.filter(a => a.id !== id),
-          failed: [
-            ...state.actions.failed,
-            {
-              ...action,
-              end: Date.now(),
-              error: data.error
-            }
-          ]
-        }
+        pending: state.pending.filter(a => a.id !== id),
+        failed: [
+          ...state.failed,
+          {
+            ...action,
+            end: Date.now(),
+            error: data.error
+          }
+        ]
       }
     } else if (status === 'FINISHED') {
-      const action = state.actions.pending.find(a => a.id === id)
+      const action = state.pending.find(a => a.id === id)
       let additional
 
       if (type === actions.FETCH) {
@@ -115,18 +104,15 @@ export default {
       return {
         ...state,
         ...additional,
-        actions: {
-          ...state.actions,
-          pending: state.actions.pending.filter(a => a.id !== id),
-          finished: [
-            ...state.actions.finished,
-            {
-              ...action,
-              data: data,
-              end: Date.now()
-            }
-          ]
-        }
+        pending: state.pending.filter(a => a.id !== id),
+        finished: [
+          ...state.finished,
+          {
+            ...action,
+            data: data,
+            end: Date.now()
+          }
+        ]
       }
     }
 
@@ -229,7 +215,7 @@ export default {
   selectFiles: (state) => state.files.pageContent,
 
   selectWriteFilesProgress: (state) => {
-    const writes = state.files.actions.pending.filter(s => s.type === actions.WRITE && s.data.progress)
+    const writes = state.files.pending.filter(s => s.type === actions.WRITE && s.data.progress)
 
     if (writes.length === 0) {
       return null
@@ -237,5 +223,9 @@ export default {
 
     const sum = writes.reduce((acc, s) => s.data.progress + acc, 0)
     return sum / writes.length
-  }
+  },
+
+  selectFilesHasError: (state) => state.files.failed.length > 0,
+
+  selectFilesErrors: (state) => state.files.failed
 }

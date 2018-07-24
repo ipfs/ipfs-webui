@@ -25,6 +25,7 @@ export default (srcUrl, filename, updater) => {
     a.click()
 
     window.URL.revokeObjectURL(url)
+    updater(null)
   }
 
   xhr.onprogress = (e) => {
