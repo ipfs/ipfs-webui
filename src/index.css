@@ -36,6 +36,10 @@
   fill: currentColor;
 }
 
+.fill-white {
+  fill: white
+}
+
 .placeholder-light::placeholder{
   color: #CAD3D8;
 }

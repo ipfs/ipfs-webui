@@ -6,6 +6,7 @@ import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
+import Errors from './errors/Errors'
 import downloadFile from './download-file'
 import { join } from 'path'
 import ms from 'milliseconds'
@@ -107,7 +108,15 @@ class FilesPage extends React.Component {
   }
 
   render () {
-    const { files, writeFilesProgress, actionBarWidth, doFilesMove, doFilesDelete } = this.props
+    const {
+      files,
+      writeFilesProgress,
+      actionBarWidth,
+      doFilesDismissErrors,
+      doFilesMove,
+      doFilesDelete,
+      filesErrors: errors
+    } = this.props
 
     return (
       <div data-id='FilesPage'>
@@ -116,6 +125,8 @@ class FilesPage extends React.Component {
         </Helmet>
         { files &&
           <div>
+            <Errors errors={errors} onDismiss={doFilesDismissErrors} />
+
             <div className='flex flex-wrap items-center justify-between mb3'>
               <Breadcrumbs className='mb3' path={files.path} onClick={this.navigate} />
 
@@ -162,6 +173,7 @@ export default connect(
   'doFilesDownloadLink',
   'doFilesMakeDir',
   'doFilesFetch',
+  'doFilesDismissErrors',
   'selectFiles',
   'selectFilesErrors',
   'selectGatewayUrl',

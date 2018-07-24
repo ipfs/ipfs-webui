@@ -3,7 +3,7 @@ import ResizeObserver from 'resize-observer-polyfill'
 import { getDownloadLink, filesToStreams } from '../lib/files'
 import { waitForElement } from '../lib/dom'
 
-const actions = {
+export const actions = {
   FETCH: 'FETCH',
   MOVE: 'MOVE',
   COPY: 'COPY',
@@ -73,6 +73,11 @@ export default (opts = {}) => {
         return {
           ...state,
           actionBarWidth: action.payload
+        }
+      } else if (action.type === 'FILES_DISMISS_ERRORS') {
+        return {
+          ...state,
+          failed: []
         }
       }
 
@@ -240,6 +245,8 @@ export default (opts = {}) => {
     doFilesCopy: make(actions.COPY, (ipfs, src, dst) => ipfs.files.cp([src, dst])),
 
     doFilesMakeDir: make(actions.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(path, { parents: true })),
+
+    doFilesDismissErrors: () => async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
 
     selectFiles: (state) => state.files.pageContent,
 

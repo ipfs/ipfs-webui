@@ -133,7 +133,12 @@ class FileList extends React.Component {
     ))
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (prev) {
+    if (this.props.root !== prev.root) {
+      this.setState({ selected: [] })
+      return
+    }
+
     const selected = this.state.selected.filter(name => (
       this.props.files.find(el => el.name === name)
     ))
