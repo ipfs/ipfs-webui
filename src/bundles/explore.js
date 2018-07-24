@@ -8,7 +8,8 @@ const bundle = createAsyncResourceBundle({
   getPromise: async (args) => {
     const {store, getIpfs} = args
     const hash = store.selectHash()
-    const path = hash.replace('/explore', '')
+    let path = decodeURIComponent(hash.replace('/explore', ''))
+    if (!path) return null
     const {cidOrFqdn, rest} = quickSplitPath(path)
     const {targetNode, canonicalPath, localPath, nodes, pathBoundaries} = await resolveIpldPath(getIpfs, cidOrFqdn, rest)
     return {
@@ -32,7 +33,7 @@ bundle.reactExploreFetch = createSelector(
   'selectRouteInfo',
   'selectExplore',
   (isLoading, isWaitingToRetry, ipfsReady, {url, params}, obj) => {
-    if (!isLoading && !isWaitingToRetry && ipfsReady && url.startsWith('/explore') && params.path) {
+    if (!isLoading && !isWaitingToRetry && ipfsReady && url.startsWith('/explore')) {
       if (!obj || obj.path !== params.path) {
         return { actionCreator: 'doFetchExplore' }
       }

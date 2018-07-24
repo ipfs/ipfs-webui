@@ -9,6 +9,17 @@ import StrokeTrash from '../../icons/StrokeTrash'
 import StrokeDownload from '../../icons/StrokeDownload'
 import './SelectedActions.css'
 
+const downloadText = (value) => {
+  switch (value) {
+    case 100:
+      return 'Finished!'
+    case null:
+      return 'Download'
+    default:
+      return value.toFixed(0) + '%'
+  }
+}
+
 const SelectedActions = ({count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, ...props}) => {
   const text = (count > 1) ? 'Files selected' : 'File selected'
 
@@ -22,22 +33,15 @@ const SelectedActions = ({count, size, unselect, remove, share, download, downlo
     singleFileTooltip = {}
   }
 
-  let downloadText = 'Download'
-  if (downloadProgress === 100) {
-    downloadText = 'Finished!'
-  } else if (downloadProgress >= 0) {
-    downloadText = downloadProgress.toFixed(0) + '%'
-  }
-
   return (
     <div className={`SelectedActions sans-serif bt w-100 pa3 ${className}`}{...props}>
       <div className='flex items-center justify-between'>
-        <div className='w5'>
+        <div className='w5-l'>
           <div className='flex items-center'>
-            <div className='SelectedCount mr3 relative f3 fw6 w2 h2 dib br-100'>
+            <div className='SelectedCount mr3 relative f3 fw6 flex-shrink-0 dib br-100'>
               <span className='absolute'>{count}</span>
             </div>
-            <div>
+            <div className='dn db-l'>
               <p className='ma0'>{text}</p>
               <p className='Size ma0 mt1 f6'>Total size: {filesize(size)}</p>
             </div>
@@ -50,7 +54,7 @@ const SelectedActions = ({count, size, unselect, remove, share, download, downlo
           </div>
           <div className='pointer tc mh2' onClick={download}>
             <StrokeDownload className='w3' fill='#A4BFCC' />
-            <p className='ma0 f6'>{downloadText}</p>
+            <p className='ma0 f6'>{downloadText(downloadProgress)}</p>
           </div>
           <div className='pointer tc mh2' onClick={remove}>
             <StrokeTrash className='w3' fill='#A4BFCC' />
@@ -58,16 +62,17 @@ const SelectedActions = ({count, size, unselect, remove, share, download, downlo
           </div>
           <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? inspect : null} {...singleFileTooltip}>
             <StrokeIpld className='w3' fill='#A4BFCC' />
-            <p className='ma0 f6'>Inspect IPLD</p>
+            <p className='ma0 f6'>Inspect</p>
           </div>
           <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? rename : null} {...singleFileTooltip}>
             <StrokePencil className='w3' fill='#A4BFCC' />
             <p className='ma0 f6'>Rename</p>
           </div>
         </div>
-        <div className='w5'>
+        <div className='w5-l'>
           <span onClick={unselect} className='pointer flex items-center justify-end'>
-            <span className='mr2'>Deselect all</span>
+            <span className='mr2 dn db-l'>Deselect all</span>
+            <span className='mr2 dn db-m'>Clear</span>
             <GlyphSmallCancel onClick={unselect} className='w1' fill='#F26148' viewBox='37 40 27 27' />
           </span>
         </div>
@@ -89,7 +94,6 @@ SelectedActions.propTypes = {
 }
 
 SelectedActions.defaultActions = {
-  downloadProgress: -1,
   className: ''
 }
 

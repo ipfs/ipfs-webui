@@ -1,25 +1,27 @@
 import React from 'react'
-import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
+import { Helmet } from 'react-helmet'
 
-export function PeersPage ({ peers }) {
-  return (
-    <div data-id='PeersPage'>
-      <Helmet>
-        <title>Peers - IPFS</title>
-      </Helmet>
-      <h1 data-id='title'>Peers</h1>
-      {peers ? (
-        peers.map((p, i) => {
-          const id = p.peer.toB58String()
-          return <div key={i}>{id}</div>
-        })
-      ) : null}
+// Components
+import WorldMap from './WorldMap/WorldMap'
+import PeersTable from './PeersTable/PeersTable'
+
+const PeersPage = ({ peers, peerCoordinates, tableData }) => (
+  <div data-id='PeersPage'>
+    <Helmet>
+      <title>Peers - IPFS</title>
+    </Helmet>
+
+    <div className='bg-snow-muted pa3'>
+      <WorldMap peers={peers} coordinates={peerCoordinates} />
+      <PeersTable peers={tableData} />
     </div>
-  )
-}
+  </div>
+)
 
 export default connect(
   'selectPeers',
+  'selectPeerCoordinates',
+  'selectTableData',
   PeersPage
 )

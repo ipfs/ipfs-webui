@@ -2,7 +2,7 @@
   border-color: #DBE0E3;
 }
 
-.File.selected {
+.File.coloured {
   background-color: #F0F6FA;
 }
 
@@ -21,4 +21,8 @@
 
 .File .icon {
   width: 3.25rem;
+}
+
+.File .name > *:last-child {
+  width: calc(100% - 3.25rem);
 }

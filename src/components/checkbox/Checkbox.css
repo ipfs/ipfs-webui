@@ -3,6 +3,11 @@
   box-shadow: inset 0 1px 1px 0px rgba(0,0,0,0.18), 0 1px 0 0px rgba(255,255,255,0.75);
 }
 
+.Checkbox input {
+  top: -99999px;
+  left: -99999px;
+}
+
 .Checkbox input:checked ~ span:first-of-type svg{
   opacity: 1;
 }
