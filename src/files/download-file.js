@@ -1,17 +1,17 @@
-export default (srcUrl, filename, updater) => {
+export default (srcUrl, filename, progressCallback) => {
   let xhr = new window.XMLHttpRequest()
   let total = 0
 
   const abort = () => {
     xhr.abort()
-    updater(null)
+    progressCallback(null)
   }
 
   xhr.responseType = 'blob'
   xhr.open('GET', srcUrl, true)
 
   xhr.onload = (e) => {
-    updater(100)
+    progressCallback(100)
 
     const res = xhr.response
     const blob = new window.Blob([res])
@@ -25,7 +25,7 @@ export default (srcUrl, filename, updater) => {
     a.click()
 
     window.URL.revokeObjectURL(url)
-    updater(null)
+    progressCallback(null)
   }
 
   xhr.onprogress = (e) => {
@@ -33,7 +33,7 @@ export default (srcUrl, filename, updater) => {
       xhr.getResponseHeader('X-Content-Length') ||
       xhr.getResponseHeader('Content-Length'))
 
-    updater((e.loaded / total) * 100)
+    progressCallback((e.loaded / total) * 100)
   }
 
   xhr.send()

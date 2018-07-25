@@ -1,7 +1,9 @@
 import { join, dirname } from 'path'
+import { createSelector } from 'redux-bundler'
 import ResizeObserver from 'resize-observer-polyfill'
 import { getDownloadLink, filesToStreams } from '../lib/files'
 import { waitForElement } from '../lib/dom'
+import ms from 'milliseconds'
 
 export const actions = {
   FETCH: 'FETCH',
@@ -16,7 +18,7 @@ export const actions = {
 
 const make = (basename, action) => (...args) => async (args2) => {
   const id = Symbol(basename)
-  const { dispatch, getIpfs, getState, store } = args2
+  const { dispatch, getIpfs, store } = args2
   dispatch({ type: `FILES_${basename}_STARTED`, payload: { id } })
 
   let data
@@ -28,7 +30,7 @@ const make = (basename, action) => (...args) => async (args2) => {
     dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error } })
   } finally {
     if (basename !== actions.FETCH) {
-      await store.doFilesFetch(getState().files.pageContent.path)
+      await store.doFilesFetch()
     }
   }
 
@@ -44,6 +46,8 @@ const defaultState = {
 }
 
 export default (opts = {}) => {
+  opts.staleAfter = opts.staleAfter || ms.minutes(1)
+
   return {
     name: 'files',
 
@@ -153,7 +157,8 @@ export default (opts = {}) => {
       return state
     },
 
-    doFilesFetch: make(actions.FETCH, async (ipfs, path) => {
+    doFilesFetch: make(actions.FETCH, async (ipfs, id, { store }) => {
+      const path = store.selectFilesPathFromHash()
       const stats = await ipfs.files.stat(path)
 
       if (stats.type === 'file') {
@@ -161,6 +166,7 @@ export default (opts = {}) => {
 
         return {
           path: path,
+          fetched: Date.now(),
           type: 'file',
           stats: stats,
           read: () => ipfs.files.read(path)
@@ -181,6 +187,7 @@ export default (opts = {}) => {
 
       return {
         path: path,
+        fetched: Date.now(),
         type: 'directory',
         content: res
       }
@@ -248,7 +255,20 @@ export default (opts = {}) => {
 
     doFilesDismissErrors: () => async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
 
+    reactFilesFetch: createSelector(
+      'selectFiles',
+      'selectFilesIsFetching',
+      'selectAppTime',
+      (files, isFetching, appTime) => {
+        if (!isFetching && files && appTime - files.fetched >= opts.staleAfter) {
+          return { actionCreator: 'doFilesFetch' }
+        }
+      }
+    ),
+
     selectFiles: (state) => state.files.pageContent,
+
+    selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === actions.FETCH),
 
     selectWriteFilesProgress: (state) => {
       const writes = state.files.pending.filter(s => s.type === actions.WRITE && s.data.progress)
@@ -265,6 +285,15 @@ export default (opts = {}) => {
 
     selectFilesErrors: (state) => state.files.failed,
 
-    selectActionBarWidth: (state) => state.files.actionBarWidth
+    selectActionBarWidth: (state) => state.files.actionBarWidth,
+
+    selectFilesPathFromHash: createSelector(
+      'selectRouteInfo',
+      (routeInfo) => {
+        if (!routeInfo.url.startsWith('/files')) return
+        if (!routeInfo.params.path) return
+        return decodeURIComponent(routeInfo.params.path)
+      }
+    )
   }
 }

@@ -9,7 +9,6 @@ import FileInput from './file-input/FileInput'
 import Errors from './errors/Errors'
 import downloadFile from './download-file'
 import { join } from 'path'
-import ms from 'milliseconds'
 
 const action = (name) => {
   return (...args) => {
@@ -19,9 +18,10 @@ const action = (name) => {
 
 class FilesPage extends React.Component {
   static propTypes = {
-    routeInfo: PropTypes.object.isRequired,
     files: PropTypes.object,
     filesErrors: PropTypes.array.isRequired,
+    filesIsFetching: PropTypes.bool.isRequired,
+    filesPathFromHash: PropTypes.string,
     ipfsReady: PropTypes.bool,
     writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
@@ -47,22 +47,22 @@ class FilesPage extends React.Component {
     this.props.doUpdateHash(`/files${link}`)
   }
 
-  updateFiles = async () => {
-    if (this.props.ipfsReady) {
-      const path = decodeURIComponent(this.props.routeInfo.params.path)
-      await this.props.doFilesFetch(path)
+  updateFiles = () => {
+    const { ipfsReady, filesIsFetching, doFilesFetch } = this.props
+
+    if (ipfsReady && !filesIsFetching) {
+      doFilesFetch()
     }
   }
 
   componentDidMount () {
     this.updateFiles()
-    setInterval(this.updateFiles, ms.minutes(1))
   }
 
   componentDidUpdate (prev) {
-    const { ipfsReady, routeInfo } = this.props
+    const { ipfsReady, filesPathFromHash } = this.props
 
-    if (ipfsReady && (prev.files === null || routeInfo.params.path !== prev.routeInfo.params.path)) {
+    if (ipfsReady && (prev.files === null || filesPathFromHash !== prev.filesPathFromHash)) {
       this.updateFiles()
     }
   }
@@ -82,19 +82,19 @@ class FilesPage extends React.Component {
     this.setState({ downloadAbort: abort })
   }
 
-  add = async (raw, root = '') => {
+  add = (raw, root = '') => {
     const { files, doFilesWrite } = this.props
 
     if (root === '') {
       root = files.path
     }
 
-    await doFilesWrite(root, raw)
+    doFilesWrite(root, raw)
   }
 
-  addByPath = async (path) => {
+  addByPath = (path) => {
     const { doFilesAddPath, files } = this.props
-    await doFilesAddPath(files.path, path)
+    doFilesAddPath(files.path, path)
   }
 
   inspect = (hash) => {
@@ -178,8 +178,9 @@ export default connect(
   'selectFilesErrors',
   'selectGatewayUrl',
   'selectIpfsReady',
-  'selectRouteInfo',
+  'selectFilesIsFetching',
   'selectWriteFilesProgress',
   'selectActionBarWidth',
+  'selectFilesPathFromHash',
   FilesPage
 )
