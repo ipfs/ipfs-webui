@@ -13,6 +13,7 @@ import redirectsBundle from './redirects'
 import filesBundle from './files'
 import configBundle from './config'
 import configSaveBundle from './config-save'
+import navbarBundle from './navbar'
 
 export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
@@ -27,5 +28,6 @@ export default composeBundles(
   redirectsBundle,
   filesBundle({ navbar: '#navbar' }),
   configBundle,
-  configSaveBundle
+  configSaveBundle,
+  navbarBundle
 )

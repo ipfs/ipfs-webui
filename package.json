@@ -66,7 +66,6 @@
     "react-virtualized": "^9.20.0",
     "redux-bundler": "^21.2.2",
     "redux-bundler-react": "^1.0.1",
-    "resize-observer-polyfill": "^1.5.0",
     "simplify-js": "^1.2.3",
     "tachyons": "^4.10.0",
     "topojson": "^3.0.2",

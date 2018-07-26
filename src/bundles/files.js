@@ -1,8 +1,6 @@
 import { join, dirname } from 'path'
 import { createSelector } from 'redux-bundler'
-import ResizeObserver from 'resize-observer-polyfill'
 import { getDownloadLink, filesToStreams } from '../lib/files'
-import { waitForElement } from '../lib/dom'
 import ms from 'milliseconds'
 
 export const actions = {
@@ -39,7 +37,6 @@ const make = (basename, action) => (...args) => async (args2) => {
 
 const defaultState = {
   pageContent: null,
-  actionBarWidth: '100%',
   pending: [],
   finished: [],
   failed: []
@@ -51,34 +48,12 @@ export default (opts = {}) => {
   return {
     name: 'files',
 
-    init: async ({ dispatch }) => {
-      if (!opts.navbar) {
-        return
-      }
-
-      const element = await waitForElement(opts.navbar)
-
-      const ro = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          const {width} = entry.contentRect
-          dispatch({ type: 'FILES_ACTIONS_WIDTH', payload: `calc(100% - ${width}px)` })
-        }
-      })
-
-      ro.observe(element)
-    },
-
     reducer: (state = defaultState, action) => {
       if (!action.type.startsWith('FILES_')) {
         return state
       }
 
-      if (action.type === 'FILES_ACTIONS_WIDTH') {
-        return {
-          ...state,
-          actionBarWidth: action.payload
-        }
-      } else if (action.type === 'FILES_DISMISS_ERRORS') {
+      if (action.type === 'FILES_DISMISS_ERRORS') {
         return {
           ...state,
           failed: []
@@ -284,8 +259,6 @@ export default (opts = {}) => {
     selectFilesHasError: (state) => state.files.failed.length > 0,
 
     selectFilesErrors: (state) => state.files.failed,
-
-    selectActionBarWidth: (state) => state.files.actionBarWidth,
 
     selectFilesPathFromHash: createSelector(
       'selectRouteInfo',
