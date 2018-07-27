@@ -42,7 +42,6 @@ function File ({
 
   const select = (select) => onSelect(name, select)
   const navigate = () => onNavigate(path)
-  const inspect = () => onInspect(hash)
 
   return connectDropTarget(connectDragSource(
     <div className={className}>
@@ -59,7 +58,7 @@ function File ({
           </Tooltip>
 
           <Tooltip text={hash}>
-            <div onClick={inspect} className='pointer mt1 gray truncate monospace'>{hash}</div>
+            <div onClick={navigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
           </Tooltip>
         </div>
       </div>
