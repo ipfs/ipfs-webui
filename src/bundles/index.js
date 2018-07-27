@@ -26,7 +26,7 @@ export default composeBundles(
   peerLocationsBundle(),
   routesBundle,
   redirectsBundle,
-  filesBundle({ navbar: '#navbar' }),
+  filesBundle(),
   configBundle,
   configSaveBundle,
   navbarBundle
