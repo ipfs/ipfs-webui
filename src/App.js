@@ -18,26 +18,17 @@ export class App extends Component {
     ]).isRequired
   }
 
-  state = {
-    isNavOpen: true
-  }
-
-  onToggleNavbar = () => {
-    this.setState(s => ({isNavOpen: !s.isNavOpen}))
-  }
-
   componentWillMount () {
     this.props.doInitIpfs()
   }
 
   render () {
     const Page = this.props.route
-    const {isNavOpen} = this.state
     return (
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
         <div className='flex' style={{minHeight: '100vh'}}>
           <div className='flex-none bg-navy'>
-            <NavBar open={isNavOpen} onToggle={this.onToggleNavbar} />
+            <NavBar />
           </div>
           <div className='flex-auto'>
             <div style={{background: '#F0F6FA'}}>

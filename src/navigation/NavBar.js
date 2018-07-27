@@ -40,10 +40,9 @@ const NavLink = ({
   )
 }
 
-export const NavBar = ({isSettingsEnabled, open, onToggle}) => {
-  const width = open ? 250 : 100
+export const NavBar = ({isSettingsEnabled, width, open, onToggle}) => {
   return (
-    <div style={{width}}>
+    <div id='navbar' style={{width}}>
       <div className='pointer' style={{paddingTop: 35}} onClick={onToggle}>
         <img className='center' style={{height: 70, display: open ? 'block' : 'none'}} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
         <img className='center' style={{height: 70, display: open ? 'none' : 'block'}} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
@@ -59,11 +58,21 @@ export const NavBar = ({isSettingsEnabled, open, onToggle}) => {
   )
 }
 
-export const NavBarContainer = ({configRaw, ...props}) => {
+export const NavBarContainer = ({doToggleNavbar, configRaw, navbarIsOpen, navbarWidth, ...props}) => {
   const isSettingsEnabled = !!configRaw.data
   return (
-    <NavBar isSettingsEnabled={isSettingsEnabled} {...props} />
+    <NavBar
+      isSettingsEnabled={isSettingsEnabled}
+      open={navbarIsOpen}
+      width={navbarWidth}
+      onToggle={doToggleNavbar} />
   )
 }
 
-export default connect('selectConfigRaw', NavBarContainer)
+export default connect(
+  'doToggleNavbar',
+  'selectConfigRaw',
+  'selectNavbarIsOpen',
+  'selectNavbarWidth',
+  NavBarContainer
+)
