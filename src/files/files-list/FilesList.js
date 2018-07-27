@@ -8,7 +8,6 @@ import DeleteModal from '../delete-modal/DeleteModal'
 import Overlay from '../../components/overlay/Overlay'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
-import ContextMenu from '../context-menu/ContextMenu'
 import { join } from 'path'
 import './FilesList.css'
 
@@ -65,71 +64,6 @@ class FileList extends React.Component {
   static defaultProps = {
     className: '',
     maxWidth: '100%'
-  }
-
-  state = {
-    selected: [],
-    contextMenu: {
-      visible: false,
-      top: 0,
-      left: 0
-    },
-    sortBy: ORDER_BY_NAME,
-    sortAsc: true
-  }
-
-  componentDidMount () {
-    window.addEventListener('scroll', this.onScroll)
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('scroll', this.onScroll)
-  }
-
-  onContextMenu = (file) => (event) => {
-    event.preventDefault()
-
-    if (this.state.selected.length >= 1) {
-      this.toggleAll(false)
-    }
-
-    this.toggleOne(file.name, true)
-
-    const clickX = event.clientX
-    const clickY = event.clientY
-    const screenW = window.innerWidth
-    const screenH = window.innerHeight
-    const rootW = 200
-    const rootH = 500
-
-    let left
-    let top
-
-    if ((screenW - clickX) > rootW) {
-      left = clickX + 5
-    } else {
-      left = clickX - rootW - 5
-    }
-
-    if ((screenH - clickY) > rootH) {
-      top = clickY + 5
-    } else {
-      top = clickY - rootH - 5
-    }
-
-    this.setState({
-      contextMenu: {
-        visible: true,
-        top: clickY,
-        left: clickX
-      }
-    })
-  }
-
-  onScroll = () => {
-    if (this.state.contextMenu.visible) {
-      this.setState({ contextMenu: { visible: false } })
-    }
   }
 
   state = defaultState
@@ -192,7 +126,6 @@ class FileList extends React.Component {
         selected={this.state.selected.indexOf(file.name) !== -1}
         onAddFiles={this.props.onAddFiles}
         onMove={this.move}
-        onContextMenu={this.onContextMenu(file)}
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
         translucent={this.state.isDragging || (isOver && canDrop)}
@@ -361,10 +294,6 @@ class FileList extends React.Component {
           {this.files}
           {this.selectedMenu}
         </section>
-
-        { (this.state.contextMenu.visible || null) &&
-          <ContextMenu top={this.state.contextMenu.top} left={this.state.contextMenu.left} />
-        }
 
         <Overlay show={this.state.rename.isOpen} onLeave={() => this.resetState('rename')}>
           <RenameModal
