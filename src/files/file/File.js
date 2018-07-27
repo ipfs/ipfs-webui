@@ -19,11 +19,11 @@ function File ({
   type,
   size,
   onSelect,
-  onInspect,
   onNavigate,
   isOver,
   canDrop,
   connectDropTarget,
+  connectDragPreview,
   connectDragSource
 }) {
   let className = 'File flex items-center bt pv2'
@@ -48,20 +48,22 @@ function File ({
       <div className='pa2 w2'>
         <Checkbox checked={selected} onChange={select} />
       </div>
-      <div className='name relative flex items-center flex-grow-1 pa2 w-40'>
-        <div className='pointer dib icon flex-shrink-0' onClick={navigate}>
-          <FileIcon name={name} type={type} />
-        </div>
-        <div className='f6'>
-          <Tooltip text={name}>
-            <div onClick={navigate} className='pointer truncate'>{name}</div>
-          </Tooltip>
+      {connectDragPreview(
+        <div className='name relative flex items-center flex-grow-1 pa2 w-40'>
+          <div className='pointer dib icon flex-shrink-0' onClick={navigate}>
+            <FileIcon name={name} type={type} />
+          </div>
+          <div className='f6'>
+            <Tooltip text={name}>
+              <div onClick={navigate} className='pointer truncate'>{name}</div>
+            </Tooltip>
 
-          <Tooltip text={hash}>
-            <div onClick={navigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
-          </Tooltip>
+            <Tooltip text={hash}>
+              <div onClick={navigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
+            </Tooltip>
+          </div>
         </div>
-      </div>
+      )}
       <div className='size pa2 w-10 monospace dn db-l'>{size}</div>
     </div>
   ))
@@ -107,6 +109,7 @@ const dragSource = {
 
 const dragCollect = (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+  connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging()
 })
 
