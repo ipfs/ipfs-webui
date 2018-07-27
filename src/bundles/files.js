@@ -35,6 +35,42 @@ const make = (basename, action) => (...args) => async (args2) => {
   return data
 }
 
+const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
+  const path = store.selectFilesPathFromHash()
+  const stats = await ipfs.files.stat(path)
+
+  if (stats.type === 'file') {
+    stats.name = path
+
+    return {
+      path: path,
+      fetched: Date.now(),
+      type: 'file',
+      stats: stats,
+      read: () => ipfs.files.read(path)
+    }
+  }
+
+  // Otherwise get the directory info
+  let res = await ipfs.files.ls(path, {l: true})
+
+  if (res) {
+    res = res.map(file => {
+      // FIX: open PR on js-ipfs-api
+      file.type = file.type === 0 ? 'file' : 'directory'
+      file.path = join(path, file.name)
+      return file
+    })
+  }
+
+  return {
+    path: path,
+    fetched: Date.now(),
+    type: 'directory',
+    content: res
+  }
+})
+
 const defaultState = {
   pageContent: null,
   pending: [],
@@ -44,6 +80,7 @@ const defaultState = {
 
 export default (opts = {}) => {
   opts.staleAfter = opts.staleAfter || ms.minutes(1)
+  opts.baseUrl = opts.baseUrl || '/files'
 
   return {
     name: 'files',
@@ -132,41 +169,14 @@ export default (opts = {}) => {
       return state
     },
 
-    doFilesFetch: make(actions.FETCH, async (ipfs, id, { store }) => {
-      const path = store.selectFilesPathFromHash()
-      const stats = await ipfs.files.stat(path)
+    doFilesFetch: () => async ({ store, ...args }) => {
+      const isReady = store.selectIpfsReady()
+      const isFetching = store.selectFilesIsFetching()
 
-      if (stats.type === 'file') {
-        stats.name = path
-
-        return {
-          path: path,
-          fetched: Date.now(),
-          type: 'file',
-          stats: stats,
-          read: () => ipfs.files.read(path)
-        }
+      if (isReady && !isFetching) {
+        fetchFiles()({ store, ...args })
       }
-
-      // Otherwise get the directory info
-      let res = await ipfs.files.ls(path, {l: true})
-
-      if (res) {
-        res = res.map(file => {
-          // FIX: open PR on js-ipfs-api
-          file.type = file.type === 0 ? 'file' : 'directory'
-          file.path = join(path, file.name)
-          return file
-        })
-      }
-
-      return {
-        path: path,
-        fetched: Date.now(),
-        type: 'directory',
-        content: res
-      }
-    }),
+    },
 
     doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, id, { dispatch }) => {
       const { streams, totalSize } = await filesToStreams(rawFiles)
@@ -230,6 +240,11 @@ export default (opts = {}) => {
 
     doFilesDismissErrors: () => async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
 
+    doFilesNavigateTo: (path) => async ({ store }) => {
+      const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
+      store.doUpdateHash(`${opts.baseUrl}${link}`)
+    },
+
     reactFilesFetch: createSelector(
       'selectFiles',
       'selectFilesIsFetching',
@@ -263,7 +278,7 @@ export default (opts = {}) => {
     selectFilesPathFromHash: createSelector(
       'selectRouteInfo',
       (routeInfo) => {
-        if (!routeInfo.url.startsWith('/files')) return
+        if (!routeInfo.url.startsWith(opts.baseUrl)) return
         if (!routeInfo.params.path) return
         return decodeURIComponent(routeInfo.params.path)
       }

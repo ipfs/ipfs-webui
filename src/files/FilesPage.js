@@ -20,9 +20,7 @@ class FilesPage extends React.Component {
   static propTypes = {
     files: PropTypes.object,
     filesErrors: PropTypes.array.isRequired,
-    filesIsFetching: PropTypes.bool.isRequired,
     filesPathFromHash: PropTypes.string,
-    ipfsReady: PropTypes.bool,
     writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
     navbarWidth: PropTypes.number.isRequired,
@@ -42,28 +40,15 @@ class FilesPage extends React.Component {
 
   makeDir = (path) => this.props.doFilesMakeDir(join(this.props.files.path, path))
 
-  navigate = (path) => {
-    const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
-    this.props.doUpdateHash(`/files${link}`)
-  }
-
-  updateFiles = () => {
-    const { ipfsReady, filesIsFetching, doFilesFetch } = this.props
-
-    if (ipfsReady && !filesIsFetching) {
-      doFilesFetch()
-    }
-  }
-
   componentDidMount () {
-    this.updateFiles()
+    this.props.doFilesFetch()
   }
 
   componentDidUpdate (prev) {
-    const { ipfsReady, filesPathFromHash } = this.props
+    const { filesPathFromHash } = this.props
 
-    if (ipfsReady && (prev.files === null || filesPathFromHash !== prev.filesPathFromHash)) {
-      this.updateFiles()
+    if (prev.files === null || filesPathFromHash !== prev.filesPathFromHash) {
+      this.props.doFilesFetch()
     }
   }
 
@@ -115,6 +100,7 @@ class FilesPage extends React.Component {
       doFilesDismissErrors,
       doFilesMove,
       doFilesDelete,
+      doFilesNavigateTo,
       filesErrors: errors
     } = this.props
 
@@ -128,7 +114,7 @@ class FilesPage extends React.Component {
             <Errors errors={errors} onDismiss={doFilesDismissErrors} />
 
             <div className='flex flex-wrap items-center justify-between mb3'>
-              <Breadcrumbs className='mb3' path={files.path} onClick={this.navigate} />
+              <Breadcrumbs className='mb3' path={files.path} onClick={doFilesNavigateTo} />
 
               { files.type === 'directory' &&
                 <FileInput
@@ -150,7 +136,7 @@ class FilesPage extends React.Component {
                 onInspect={this.inspect}
                 onDownload={this.download}
                 onAddFiles={this.add}
-                onNavigate={this.navigate}
+                onNavigate={doFilesNavigateTo}
                 onDelete={doFilesDelete}
                 onMove={doFilesMove}
               />
@@ -174,11 +160,10 @@ export default connect(
   'doFilesMakeDir',
   'doFilesFetch',
   'doFilesDismissErrors',
+  'doFilesNavigateTo',
   'selectFiles',
   'selectFilesErrors',
   'selectGatewayUrl',
-  'selectIpfsReady',
-  'selectFilesIsFetching',
   'selectWriteFilesProgress',
   'selectNavbarWidth',
   'selectFilesPathFromHash',
