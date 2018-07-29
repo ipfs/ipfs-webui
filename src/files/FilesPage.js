@@ -10,12 +10,6 @@ import Errors from './errors/Errors'
 import downloadFile from './download-file'
 import { join } from 'path'
 
-const action = (name) => {
-  return (...args) => {
-    console.log(name, args)
-  }
-}
-
 class FilesPage extends React.Component {
   static propTypes = {
     files: PropTypes.object,
@@ -132,7 +126,7 @@ class FilesPage extends React.Component {
                 root={files.path}
                 files={files.content}
                 downloadProgress={this.state.downloadProgress}
-                onShare={action('Share')}
+                onShare={() => window.alert('Search is not available, yet!')}
                 onInspect={this.inspect}
                 onDownload={this.download}
                 onAddFiles={this.add}
