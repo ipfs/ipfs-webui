@@ -5,18 +5,11 @@ import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
 import ContextMenu from '../context-menu/ContextMenu'
 import Tooltip from '../../components/tooltip/Tooltip'
+import GlyphDots from '../../icons/GlyphDots'
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
 import './File.css'
-
-const TreeDots = (props) => {
-  return (
-    <svg viewBox='0 0 100 100' {...props}>
-      <path d='M75 50c0-3.75 1.25-6.25 3.75-8.75s5.625-3.75 8.75-3.75c3.75 0 6.25 1.25 8.75 3.75S100 46.875 100 50s-1.25 6.25-3.75 8.75-5.625 3.75-8.75 3.75-6.25-1.25-8.75-3.75S75 53.125 75 50zm-37.5 0c0-3.75 1.25-6.25 3.75-8.75S46.875 37.5 50 37.5c3.75 0 6.25 1.25 8.75 3.75S62.5 46.875 62.5 50s-1.25 6.25-3.75 8.75S53.125 62.5 50 62.5s-6.25-1.25-8.75-3.75S37.5 53.125 37.5 50zM0 50c0-3.75 1.25-6.25 3.75-8.75s5.625-3.75 8.75-3.75c3.75 0 6.25 1.25 8.75 3.75S25 46.875 25 50s-1.25 6.25-3.75 8.75-5.625 3.75-8.75 3.75-6.25-1.25-8.75-3.75S0 53.125 0 50z'/>
-    </svg>
-  )
-}
 
 class File extends React.Component {
   state = {
@@ -34,17 +27,20 @@ class File extends React.Component {
       coloured,
       hash,
       name,
-      path,
       type,
       size,
       onSelect,
       onNavigate,
+      onDelete,
+      onInspect,
+      onRename,
+      onShare,
+      onDownload,
       isOver,
       canDrop,
       connectDropTarget,
       connectDragPreview,
-      connectDragSource,
-      ...props
+      connectDragSource
     } = this.props
 
     let className = 'File flex items-center bt pv2'
@@ -62,7 +58,6 @@ class File extends React.Component {
     }
 
     const select = (select) => onSelect(name, select)
-    const navigate = () => onNavigate(path)
 
     return connectDropTarget(connectDragSource(
       <div className={className}>
@@ -71,24 +66,31 @@ class File extends React.Component {
         </div>
         {connectDragPreview(
           <div className='name relative flex items-center flex-grow-1 pa2 w-40'>
-            <div className='pointer dib icon flex-shrink-0' onClick={navigate}>
+            <div className='pointer dib icon flex-shrink-0' onClick={onNavigate}>
               <FileIcon name={name} type={type} />
             </div>
             <div className='f6'>
               <Tooltip text={name}>
-                <div onClick={navigate} className='pointer truncate'>{name}</div>
+                <div onClick={onNavigate} className='pointer truncate'>{name}</div>
               </Tooltip>
 
               <Tooltip text={hash}>
-                <div onClick={navigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
+                <div onClick={onNavigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
               </Tooltip>
             </div>
           </div>
         )}
         <div className='size pa2 w-10 monospace dn db-l'>{size}</div>
-        <div className='pa2 relative' width='1.5rem'>
-          <TreeDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.toggleIsMenuOpen} />
-          <ContextMenu onDismiss={this.toggleIsMenuOpen} open={this.state.isMenuOpen} />
+        <div className='pa2 relative' style={{width: '2.5rem'}}>
+          <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.toggleIsMenuOpen} />
+          <ContextMenu
+            onDismiss={this.toggleIsMenuOpen}
+            onShare={onShare}
+            onDelete={onDelete}
+            onRename={onRename}
+            onInspect={onInspect}
+            onDownload={onDownload}
+            open={this.state.isMenuOpen} />
         </div>
       </div>
     ))
