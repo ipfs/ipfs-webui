@@ -50,6 +50,7 @@
     "react": "^16.4.1",
     "react-ace": "^6.1.4",
     "react-chartjs-2": "^2.7.2",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-country-flag": "^0.2.0",
     "react-debounce-render": "^4.0.2",
     "react-dnd": "^5.0.0",

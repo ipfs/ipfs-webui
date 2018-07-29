@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import StrokeCopy from '../../icons/StrokeCopy'
 import StrokeShare from '../../icons/StrokeShare'
 import StrokePencil from '../../icons/StrokePencil'
@@ -13,7 +14,7 @@ const Option = ({onClick, children}) => (
   </div>
 )
 
-const Menu = ({onDismiss, ...props}) => {
+const Menu = ({onDismiss, hash, ...props}) => {
   const wrap = (name) => () => {
     onDismiss()
     props[name]()
@@ -40,10 +41,12 @@ const Menu = ({onDismiss, ...props}) => {
         <StrokeIpld className='w2 mr2 fill-aqua' />
         Inspect
       </Option>
-      <Option onClick={wrap('onCopyHash')}>
-        <StrokeCopy className='w2 mr2 fill-aqua' />
-        Copy Hash
-      </Option>
+      <CopyToClipboard text={hash} onCopy={onDismiss}>
+        <Option>
+          <StrokeCopy className='w2 mr2 fill-aqua' />
+          Copy Hash
+        </Option>
+      </CopyToClipboard>
       <Option onClick={wrap('onShare')}>
         <StrokeShare className='w2 mr2 fill-aqua' />
         Share
@@ -65,7 +68,7 @@ ContextMenu.propTypes = {
   onDownload: PropTypes.func.isRequired,
   onInspect: PropTypes.func.isRequired,
   onShare: PropTypes.func.isRequired,
-  onCopyHash: PropTypes.func.isRequired
+  hash: PropTypes.string.isRequired
 }
 
 ContextMenu.defaultProps = {

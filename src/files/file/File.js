@@ -90,6 +90,7 @@ class File extends React.Component {
             onRename={onRename}
             onInspect={onInspect}
             onDownload={onDownload}
+            hash={hash}
             open={this.state.isMenuOpen} />
         </div>
       </div>
