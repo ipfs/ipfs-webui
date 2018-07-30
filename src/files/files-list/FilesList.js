@@ -234,14 +234,12 @@ class FileList extends React.Component {
     })
   }
 
-  rename = async (newName) => {
+  rename = (newName) => {
     const {filename, path} = this.state.rename
     this.resetState('rename')
 
     if (newName !== '' && newName !== filename) {
-      this.toggleOne(filename, false)
-      await this.props.onMove([path, path.replace(filename, newName)])
-      this.toggleOne(newName, true)
+      this.props.onMove([path, path.replace(filename, newName)])
     }
   }
 
@@ -261,11 +259,11 @@ class FileList extends React.Component {
     })
   }
 
-  delete = async () => {
+  delete = () => {
     const { paths } = this.state.delete
 
     this.resetState('delete')
-    await this.props.onDelete(paths)
+    this.props.onDelete(paths)
   }
 
   render () {
