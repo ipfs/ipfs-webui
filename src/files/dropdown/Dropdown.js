@@ -9,7 +9,7 @@ export const Option = ({children, onClick, className = '', ...props}) => (
 
 export const DropdownMenu = ({children, arrowMarginRight, width = 200, ...props}) => (
   <Menu
-    className='br2 charcoal'
+    className='sans-serif br2 charcoal'
     boxShadow='rgba(105, 196, 205, 0.5) 0px 1px 10px 0px'
     width={width}
     arrowAlign='right'
