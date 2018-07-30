@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
-import File from '../file/File'
+import File, { Previous } from '../file/File'
 import RenameModal from '../rename-modal/RenameModal'
 import DeleteModal from '../delete-modal/DeleteModal'
 import Overlay from '../../components/overlay/Overlay'
@@ -46,6 +46,7 @@ class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
+    previous: PropTypes.object,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
     maxWidth: PropTypes.string.isRequired,
@@ -267,7 +268,7 @@ class FileList extends React.Component {
   }
 
   render () {
-    let {className, connectDropTarget} = this.props
+    let {className, previous, connectDropTarget, isOver, canDrop} = this.props
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
     if (this.state.selected.length !== 0) {
@@ -293,6 +294,15 @@ class FileList extends React.Component {
             </div>
             <div className='pa2' style={{width: '2.5rem'}} />
           </header>
+          { previous &&
+            <Previous
+              onNavigate={() => this.props.onNavigate(previous.path)}
+              onAddFiles={this.props.onAddFiles}
+              onMove={this.move}
+              setIsDragging={this.isDragging}
+              translucent={this.state.isDragging || (isOver && canDrop)}
+              {...previous} />
+          }
           {this.files}
           {this.selectedMenu}
         </section>

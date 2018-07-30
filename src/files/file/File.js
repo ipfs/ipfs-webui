@@ -164,3 +164,35 @@ export default DragSource(File.TYPE, dragSource, dragCollect)(
     File
   )
 )
+
+const Prev = ({ translucent, coloured, hash, onNavigate, isOver, canDrop, connectDropTarget }) => {
+  let className = 'File flex items-center bt pv2'
+
+  if (coloured || (isOver && canDrop)) {
+    className += ' coloured'
+  } else if (translucent) {
+    className += ' o-50'
+  }
+
+  return connectDropTarget(
+    <div className={className}>
+      <div className='pa2 w2' />
+      <div className='name relative flex items-center flex-grow-1 pa2 w-40'>
+        <div className='pointer dib icon flex-shrink-0' onClick={onNavigate}>
+          <FileIcon name='..' type='directory' />
+        </div>
+        <div className='f6'>
+          <div onClick={onNavigate} className='pointer truncate'>..</div>
+
+          <Tooltip text={hash}>
+            <div onClick={onNavigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
+          </Tooltip>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const Previous = DropTarget([File.TYPE, NativeTypes.FILE], dropTarget, dropCollect)(
+  Prev
+)

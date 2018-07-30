@@ -63,10 +63,17 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
     })
   }
 
+  const prevPath = dirname(path)
+  const prev = path === '/' ? null : await ipfs.files.stat(prevPath)
+  if (prev) {
+    prev.path = prevPath
+  }
+
   return {
     path: path,
     fetched: Date.now(),
     type: 'directory',
+    prev: prev,
     content: res
   }
 })

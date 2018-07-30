@@ -125,6 +125,7 @@ class FilesPage extends React.Component {
                 maxWidth={`calc(100% - ${navbarWidth}px)`}
                 root={files.path}
                 files={files.content}
+                previous={files.prev}
                 downloadProgress={this.state.downloadProgress}
                 onShare={() => window.alert('Sharing is not available, yet!')}
                 onInspect={this.inspect}
