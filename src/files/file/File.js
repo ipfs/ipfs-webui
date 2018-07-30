@@ -3,29 +3,36 @@ import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
+import ContextMenu from '../context-menu/ContextMenu'
 import Tooltip from '../../components/tooltip/Tooltip'
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
 import './File.css'
 
-function File ({
-  selected,
-  translucent,
-  coloured,
-  hash,
-  name,
-  path,
-  type,
-  size,
-  onSelect,
-  onNavigate,
-  isOver,
-  canDrop,
-  connectDropTarget,
-  connectDragPreview,
-  connectDragSource
-}) {
+const File = (props) => {
+  let {
+    selected,
+    translucent,
+    coloured,
+    hash,
+    name,
+    type,
+    size,
+    onSelect,
+    onNavigate,
+    onDelete,
+    onInspect,
+    onRename,
+    onShare,
+    onDownload,
+    isOver,
+    canDrop,
+    connectDropTarget,
+    connectDragPreview,
+    connectDragSource
+  } = props
+
   let className = 'File flex items-center bt pv2'
 
   if ((selected && !translucent) || coloured || (isOver && canDrop)) {
@@ -41,7 +48,6 @@ function File ({
   }
 
   const select = (select) => onSelect(name, select)
-  const navigate = () => onNavigate(path)
 
   return connectDropTarget(connectDragSource(
     <div className={className}>
@@ -50,21 +56,30 @@ function File ({
       </div>
       {connectDragPreview(
         <div className='name relative flex items-center flex-grow-1 pa2 w-40'>
-          <div className='pointer dib icon flex-shrink-0' onClick={navigate}>
+          <div className='pointer dib icon flex-shrink-0' onClick={onNavigate}>
             <FileIcon name={name} type={type} />
           </div>
           <div className='f6'>
             <Tooltip text={name}>
-              <div onClick={navigate} className='pointer truncate'>{name}</div>
+              <div onClick={onNavigate} className='pointer truncate'>{name}</div>
             </Tooltip>
 
             <Tooltip text={hash}>
-              <div onClick={navigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
+              <div onClick={onNavigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
             </Tooltip>
           </div>
         </div>
       )}
       <div className='size pa2 w-10 monospace dn db-l'>{size}</div>
+      <div className='pa2 relative' style={{width: '2.5rem'}}>
+        <ContextMenu
+          onShare={onShare}
+          onDelete={onDelete}
+          onRename={onRename}
+          onInspect={onInspect}
+          onDownload={onDownload}
+          hash={hash} />
+      </div>
     </div>
   ))
 }
@@ -78,7 +93,6 @@ File.propTypes = {
   selected: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
   onNavigate: PropTypes.func.isRequired,
-  onInspect: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   coloured: PropTypes.bool,

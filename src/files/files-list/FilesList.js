@@ -62,7 +62,8 @@ class FileList extends React.Component {
   }
 
   static defaultProps = {
-    className: ''
+    className: '',
+    maxWidth: '100%'
   }
 
   state = defaultState
@@ -88,8 +89,8 @@ class FileList extends React.Component {
         className='fixed bottom-0 right-0'
         style={{maxWidth: this.props.maxWidth}}
         unselect={unselectAll}
-        remove={this.showDeleteModal}
-        rename={this.showRenameModal}
+        remove={() => this.showDeleteModal(this.selectedFiles)}
+        rename={() => this.showRenameModal(this.selectedFiles)}
         share={this.wrapWithSelected('onShare')}
         download={this.wrapWithSelected('onDownload')}
         inspect={this.wrapWithSelected('onInspect')}
@@ -120,11 +121,15 @@ class FileList extends React.Component {
     }).map(file => (
       <File
         onSelect={this.toggleOne}
-        onNavigate={this.props.onNavigate}
-        onInspect={this.props.onInspect}
-        selected={this.state.selected.indexOf(file.name) !== -1}
+        onNavigate={() => this.props.onNavigate(file.path)}
+        onShare={() => this.props.onShare([file])}
+        onDownload={() => this.props.onDownload([file])}
+        onInspect={() => this.props.onInspect([file])}
+        onDelete={() => this.showDeleteModal([file])}
+        onRename={() => this.showRenameModal([file])}
         onAddFiles={this.props.onAddFiles}
         onMove={this.move}
+        selected={this.state.selected.indexOf(file.name) !== -1}
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
         translucent={this.state.isDragging || (isOver && canDrop)}
@@ -219,9 +224,7 @@ class FileList extends React.Component {
     this.setState({ isDragging: is })
   }
 
-  showRenameModal = () => {
-    const [file] = this.selectedFiles
-
+  showRenameModal = ([file]) => {
     this.setState({
       rename: {
         isOpen: true,
@@ -231,19 +234,16 @@ class FileList extends React.Component {
     })
   }
 
-  rename = async (newName) => {
+  rename = (newName) => {
     const {filename, path} = this.state.rename
     this.resetState('rename')
 
     if (newName !== '' && newName !== filename) {
-      this.toggleOne(filename, false)
-      await this.props.onMove([path, path.replace(filename, newName)])
-      this.toggleOne(newName, true)
+      this.props.onMove([path, path.replace(filename, newName)])
     }
   }
 
-  showDeleteModal = () => {
-    const files = this.selectedFiles
+  showDeleteModal = (files) => {
     let filesCount = 0
     let foldersCount = 0
 
@@ -259,9 +259,11 @@ class FileList extends React.Component {
     })
   }
 
-  delete = async () => {
+  delete = () => {
+    const { paths } = this.state.delete
+
     this.resetState('delete')
-    await this.props.onDelete(this.state.delete.paths)
+    this.props.onDelete(paths)
   }
 
   render () {
@@ -274,7 +276,7 @@ class FileList extends React.Component {
 
     return connectDropTarget(
       <div>
-        <section className={className} style={{ minHeight: '500px' }}>
+        <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '500px' }}>
           <header className='gray pv3 flex items-center'>
             <div className='ph2 w2'>
               <Checkbox checked={this.state.selected.length === this.props.files.length} onChange={this.toggleAll} />
@@ -289,6 +291,7 @@ class FileList extends React.Component {
                 Size {this.sortByIcon(ORDER_BY_SIZE)}
               </span>
             </div>
+            <div className='pa2' style={{width: '2.5rem'}} />
           </header>
           {this.files}
           {this.selectedMenu}

@@ -1,6 +1,10 @@
 @import "../node_modules/tachyons";
 @import "../node_modules/ipfs-css";
 
+body {
+  overflow-y: scroll;
+}
+
 .focus-underline:focus {
   text-decoration: underline;
 }

@@ -3,16 +3,10 @@ import PropTypes from 'prop-types'
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
-import {Dropdown, DropdownMenu} from '@tableflip/react-dropdown'
+import {Dropdown, DropdownMenu, Option} from '../dropdown/Dropdown'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
 import NewFolderModal from './NewFolderModal'
-
-const Option = ({children, onClick, className = '', ...props}) => (
-  <a className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>
-    {children}
-  </a>
-)
 
 const AddButton = ({ progress = null, ...props }) => {
   const sending = progress !== null
@@ -103,30 +97,24 @@ export default class FileInput extends React.Component {
           <AddButton progress={progress} onClick={this.toggleDropdown} />
           <DropdownMenu
             top={3}
-            className='br2 charcoal'
-            boxShadow='rgba(105, 196, 205, 0.5) 0px 1px 10px 0px'
-            width={200}
-            alignRight
             open={this.state.dropdown}
             onDismiss={this.toggleDropdown} >
-            <nav className='flex flex-column'>
-              <Option onClick={() => this.filesInput.click()}>
-                <DocumentIcon className='fill-aqua w2 mr1' />
-                Add file
-              </Option>
-              <Option onClick={() => this.folderInput.click()}>
-                <FolderIcon className='fill-aqua w2 mr1' />
-                Add folder
-              </Option>
-              <Option onClick={this.toggleModal('byPath')}>
-                <DecentralizationIcon className='fill-aqua w2 mr1' />
-                Add by path
-              </Option>
-              <Option className='bt border-snow' onClick={this.toggleModal('newFolder')}>
-                <FolderIcon className='fill-aqua w2 mr1' />
-                New folder
-              </Option>
-            </nav>
+            <Option onClick={() => this.filesInput.click()}>
+              <DocumentIcon className='fill-aqua w2 mr1' />
+              Add file
+            </Option>
+            <Option onClick={() => this.folderInput.click()}>
+              <FolderIcon className='fill-aqua w2 mr1' />
+              Add folder
+            </Option>
+            <Option onClick={this.toggleModal('byPath')}>
+              <DecentralizationIcon className='fill-aqua w2 mr1' />
+              Add by path
+            </Option>
+            <Option className='bt border-snow' onClick={this.toggleModal('newFolder')}>
+              <FolderIcon className='fill-aqua w2 mr1' />
+              New folder
+            </Option>
           </DropdownMenu>
         </Dropdown>
 
