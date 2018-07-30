@@ -126,7 +126,7 @@ class FilesPage extends React.Component {
                 root={files.path}
                 files={files.content}
                 downloadProgress={this.state.downloadProgress}
-                onShare={() => window.alert('Search is not available, yet!')}
+                onShare={() => window.alert('Sharing is not available, yet!')}
                 onInspect={this.inspect}
                 onDownload={this.download}
                 onAddFiles={this.add}

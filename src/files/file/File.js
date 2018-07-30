@@ -5,97 +5,83 @@ import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
 import ContextMenu from '../context-menu/ContextMenu'
 import Tooltip from '../../components/tooltip/Tooltip'
-import GlyphDots from '../../icons/GlyphDots'
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
 import './File.css'
 
-class File extends React.Component {
-  state = {
-    isMenuOpen: false
+const File = (props) => {
+  let {
+    selected,
+    translucent,
+    coloured,
+    hash,
+    name,
+    type,
+    size,
+    onSelect,
+    onNavigate,
+    onDelete,
+    onInspect,
+    onRename,
+    onShare,
+    onDownload,
+    isOver,
+    canDrop,
+    connectDropTarget,
+    connectDragPreview,
+    connectDragSource
+  } = props
+
+  let className = 'File flex items-center bt pv2'
+
+  if ((selected && !translucent) || coloured || (isOver && canDrop)) {
+    className += ' coloured'
+  } else if (translucent) {
+    className += ' o-50'
   }
 
-  toggleIsMenuOpen = () => {
-    this.setState(s => ({ isMenuOpen: !s.isMenuOpen }))
+  if (type === 'directory') {
+    size = ''
+  } else {
+    size = filesize(size, { round: 0 })
   }
 
-  render () {
-    let {
-      selected,
-      translucent,
-      coloured,
-      hash,
-      name,
-      type,
-      size,
-      onSelect,
-      onNavigate,
-      onDelete,
-      onInspect,
-      onRename,
-      onShare,
-      onDownload,
-      isOver,
-      canDrop,
-      connectDropTarget,
-      connectDragPreview,
-      connectDragSource
-    } = this.props
+  const select = (select) => onSelect(name, select)
 
-    let className = 'File flex items-center bt pv2'
-
-    if ((selected && !translucent) || coloured || (isOver && canDrop)) {
-      className += ' coloured'
-    } else if (translucent) {
-      className += ' o-50'
-    }
-
-    if (type === 'directory') {
-      size = ''
-    } else {
-      size = filesize(size, { round: 0 })
-    }
-
-    const select = (select) => onSelect(name, select)
-
-    return connectDropTarget(connectDragSource(
-      <div className={className}>
-        <div className='pa2 w2'>
-          <Checkbox checked={selected} onChange={select} />
-        </div>
-        {connectDragPreview(
-          <div className='name relative flex items-center flex-grow-1 pa2 w-40'>
-            <div className='pointer dib icon flex-shrink-0' onClick={onNavigate}>
-              <FileIcon name={name} type={type} />
-            </div>
-            <div className='f6'>
-              <Tooltip text={name}>
-                <div onClick={onNavigate} className='pointer truncate'>{name}</div>
-              </Tooltip>
-
-              <Tooltip text={hash}>
-                <div onClick={onNavigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
-              </Tooltip>
-            </div>
-          </div>
-        )}
-        <div className='size pa2 w-10 monospace dn db-l'>{size}</div>
-        <div className='pa2 relative' style={{width: '2.5rem'}}>
-          <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.toggleIsMenuOpen} />
-          <ContextMenu
-            onDismiss={this.toggleIsMenuOpen}
-            onShare={onShare}
-            onDelete={onDelete}
-            onRename={onRename}
-            onInspect={onInspect}
-            onDownload={onDownload}
-            hash={hash}
-            open={this.state.isMenuOpen} />
-        </div>
+  return connectDropTarget(connectDragSource(
+    <div className={className}>
+      <div className='pa2 w2'>
+        <Checkbox checked={selected} onChange={select} />
       </div>
-    ))
-  }
+      {connectDragPreview(
+        <div className='name relative flex items-center flex-grow-1 pa2 w-40'>
+          <div className='pointer dib icon flex-shrink-0' onClick={onNavigate}>
+            <FileIcon name={name} type={type} />
+          </div>
+          <div className='f6'>
+            <Tooltip text={name}>
+              <div onClick={onNavigate} className='pointer truncate'>{name}</div>
+            </Tooltip>
+
+            <Tooltip text={hash}>
+              <div onClick={onNavigate} className='pointer mt1 gray truncate monospace'>{hash}</div>
+            </Tooltip>
+          </div>
+        </div>
+      )}
+      <div className='size pa2 w-10 monospace dn db-l'>{size}</div>
+      <div className='pa2 relative' style={{width: '2.5rem'}}>
+        <ContextMenu
+          onShare={onShare}
+          onDelete={onDelete}
+          onRename={onRename}
+          onInspect={onInspect}
+          onDownload={onDownload}
+          hash={hash} />
+      </div>
+    </div>
+  ))
 }
 
 File.propTypes = {
