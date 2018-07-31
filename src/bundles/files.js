@@ -211,7 +211,7 @@ export default (opts = {}) => {
           }
         })
 
-        const src = `/ipfs/${res[res.length - 1].hash}`
+        const src = `/ipfs/${res[0].hash}`
         const dst = join(root, file.name)
         await ipfs.files.cp([src, dst])
 

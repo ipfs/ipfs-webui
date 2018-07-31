@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './ProgressBar.css'
 
-const ProgressBar = ({bg, className, width, progress, ...props}) => {
+const ProgressBar = ({bg, className, style, width, progress, ...props}) => {
   return (
-    <div className={`ProgressBar h1 sans-serif br-pill dib ${className} ${width}`} {...props}>
+    <div className={`ProgressBar h1 sans-serif br-pill dib ${className} ${width}`} style={{background: '#DDE6EB', ...style}} {...props}>
       <div className={`br-pill h-100 ${bg}`} style={{width: `${progress}%`}} />
     </div>
   )

@@ -8,7 +8,6 @@ import Tooltip from '../../components/tooltip/Tooltip'
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
-import './File.css'
 
 const File = (props) => {
   let {
@@ -36,7 +35,7 @@ const File = (props) => {
     connectDragSource
   } = props
 
-  let className = 'File b--light-gray relative flex items-center bt pv1'
+  let className = 'File b--light-gray hide-child-l relative flex items-center bt pv1'
 
   if (selected) {
     className += ' selected'
@@ -56,9 +55,9 @@ const File = (props) => {
 
   const select = (select) => onSelect(name, select)
 
-  const element = (
+  const element = connectDropTarget(
     <div className={className} style={styles}>
-      <div className='CheckboxBox pa2 w2'>
+      <div className='child float-on-left-l pa2 w2' style={selected ? {opacity: '1'} : null}>
         <Checkbox disabled={cantSelect} checked={selected} onChange={select} />
       </div>
       {connectDragPreview(
@@ -91,10 +90,10 @@ const File = (props) => {
   )
 
   if (cantDrag) {
-    return connectDropTarget(element)
+    return element
   }
 
-  return connectDropTarget(connectDragSource(element))
+  return connectDragSource(element)
 }
 
 File.propTypes = {

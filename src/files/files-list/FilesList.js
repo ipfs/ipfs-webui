@@ -9,7 +9,6 @@ import Overlay from '../../components/overlay/Overlay'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
 import { join } from 'path'
-import './FilesList.css'
 
 const ORDER_BY_NAME = 'name'
 const ORDER_BY_SIZE = 'size'
@@ -275,12 +274,14 @@ class FileList extends React.Component {
       className += ' mb6'
     }
 
+    const allSelected = this.state.selected.length === this.props.files.length
+
     return connectDropTarget(
       <div>
         <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '500px' }}>
-          <header className='gray pv3 flex items-center'>
-            <div className='ph2 w2'>
-              <Checkbox checked={this.state.selected.length === this.props.files.length} onChange={this.toggleAll} />
+          <header className='hide-child-l gray pv3 flex items-center'>
+            <div className='child float-on-left-l ph2 w2' style={allSelected ? {opacity: '1'} : null}>
+              <Checkbox checked={allSelected} onChange={this.toggleAll} />
             </div>
             <div className='ph2 f6 flex-grow-1 w-40'>
               <span onClick={this.changeSort(ORDER_BY_NAME)} className='pointer'>
