@@ -267,14 +267,15 @@ class FileList extends React.Component {
   }
 
   render () {
-    let {className, upperDir, connectDropTarget, isOver, canDrop} = this.props
+    let { files, className, upperDir, connectDropTarget, isOver, canDrop } = this.props
+    const { selected, isDragging, rename, delete: deleteModal } = this.state
+    const allSelected = selected.length !== 0 && selected.length === files.length
+
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
-    if (this.state.selected.length !== 0) {
+    if (selected.length !== 0) {
       className += ' mb6'
     }
-
-    const allSelected = this.state.selected.length === this.props.files.length
 
     return connectDropTarget(
       <div>
@@ -302,7 +303,7 @@ class FileList extends React.Component {
               onAddFiles={this.props.onAddFiles}
               onMove={this.move}
               setIsDragging={this.isDragging}
-              translucent={this.state.isDragging || (isOver && canDrop)}
+              translucent={isDragging || (isOver && canDrop)}
               name='..'
               cantDrag
               cantSelect
@@ -312,19 +313,19 @@ class FileList extends React.Component {
           {this.selectedMenu}
         </section>
 
-        <Overlay show={this.state.rename.isOpen} onLeave={() => this.resetState('rename')}>
+        <Overlay show={rename.isOpen} onLeave={() => this.resetState('rename')}>
           <RenameModal
             className='outline-0'
-            filename={this.state.rename.filename}
+            filename={rename.filename}
             onCancel={() => this.resetState('rename')}
             onSubmit={this.rename} />
         </Overlay>
 
-        <Overlay show={this.state.delete.isOpen} onLeave={() => this.resetState('delete')}>
+        <Overlay show={deleteModal.isOpen} onLeave={() => this.resetState('delete')}>
           <DeleteModal
             className='outline-0'
-            files={this.state.delete.files}
-            folders={this.state.delete.folders}
+            files={deleteModal.files}
+            folders={deleteModal.folders}
             onCancel={() => this.resetState('delete')}
             onDelete={this.delete} />
         </Overlay>
