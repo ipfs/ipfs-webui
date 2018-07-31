@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
-import File, { Previous } from '../file/File'
+import File from '../file/File'
 import RenameModal from '../rename-modal/RenameModal'
 import DeleteModal from '../delete-modal/DeleteModal'
 import Overlay from '../../components/overlay/Overlay'
@@ -295,12 +295,16 @@ class FileList extends React.Component {
             <div className='pa2' style={{width: '2.5rem'}} />
           </header>
           { previous &&
-            <Previous
+            <File
               onNavigate={() => this.props.onNavigate(previous.path)}
+              onInspect={() => this.props.onInspect([previous])}
               onAddFiles={this.props.onAddFiles}
               onMove={this.move}
               setIsDragging={this.isDragging}
               translucent={this.state.isDragging || (isOver && canDrop)}
+              name='..'
+              cantDrag
+              cantSelect
               {...previous} />
           }
           {this.files}

@@ -13,11 +13,11 @@ import StrokeDownload from '../../icons/StrokeDownload'
 
 export default class ContextMenu extends React.Component {
   static propTypes = {
-    onDelete: PropTypes.func.isRequired,
-    onRename: PropTypes.func.isRequired,
-    onDownload: PropTypes.func.isRequired,
-    onInspect: PropTypes.func.isRequired,
-    onShare: PropTypes.func.isRequired,
+    onDelete: PropTypes.func,
+    onRename: PropTypes.func,
+    onDownload: PropTypes.func,
+    onInspect: PropTypes.func,
+    onShare: PropTypes.func,
     hash: PropTypes.string.isRequired
   }
 
@@ -42,6 +42,8 @@ export default class ContextMenu extends React.Component {
   }
 
   render () {
+    const { onRename, onDelete, onDownload, onInspect, onShare } = this.props
+
     return (
       <Dropdown>
         <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.toggleDropdown} />
@@ -51,32 +53,42 @@ export default class ContextMenu extends React.Component {
           left='calc(100% - 200px + 0.5rem)'
           open={this.state.dropdown}
           onDismiss={this.toggleDropdown} >
-          <Option onClick={this.wrap('onDelete')}>
-            <StrokeTrash className='w2 mr2 fill-aqua' />
-            Delete
-          </Option>
-          <Option onClick={this.wrap('onRename')}>
-            <StrokePencil className='w2 mr2 fill-aqua' />
-            Rename
-          </Option>
-          <Option onClick={this.wrap('onDownload')}>
-            <StrokeDownload className='w2 mr2 fill-aqua' />
-            Download
-          </Option>
-          <Option onClick={this.wrap('onInspect')}>
-            <StrokeIpld className='w2 mr2 fill-aqua' />
-            Inspect
-          </Option>
+          { onDelete &&
+            <Option onClick={this.wrap('onDelete')}>
+              <StrokeTrash className='w2 mr2 fill-aqua' />
+              Delete
+            </Option>
+          }
+          { onRename &&
+            <Option onClick={this.wrap('onRename')}>
+              <StrokePencil className='w2 mr2 fill-aqua' />
+              Rename
+            </Option>
+          }
+          { onDownload &&
+            <Option onClick={this.wrap('onDownload')}>
+              <StrokeDownload className='w2 mr2 fill-aqua' />
+              Download
+            </Option>
+          }
+          { onInspect &&
+            <Option onClick={this.wrap('onInspect')}>
+              <StrokeIpld className='w2 mr2 fill-aqua' />
+              Inspect
+            </Option>
+          }
           <CopyToClipboard text={this.props.hash} onCopy={this.toggleDropdown}>
             <Option>
               <StrokeCopy className='w2 mr2 fill-aqua' />
               Copy Hash
             </Option>
           </CopyToClipboard>
-          <Option onClick={this.wrap('onShare')}>
-            <StrokeShare className='w2 mr2 fill-aqua' />
-            Share
-          </Option>
+          { onShare &&
+            <Option onClick={this.wrap('onShare')}>
+              <StrokeShare className='w2 mr2 fill-aqua' />
+              Share
+            </Option>
+          }
         </DropdownMenu>
       </Dropdown>
     )

@@ -1,28 +1,16 @@
-.File {
-  border-color: #DBE0E3;
-}
 
-.File.coloured {
-  background-color: #F0F6FA;
-}
+@media screen and (min-width: 60em)  {
+  .File .CheckboxBox {
+    position: absolute;
+    transform: translateX(-100%);
+  }
 
-.File .name {
-  color: #656464;
-}
+  .File .Checkbox {
+    opacity: 0;
+  }
 
-.File .ProgressBar {
-  height: 11px;
-}
-
-.File .status,
-.File .size {
-  color: #A0B8C5;
-}
-
-.File .icon {
-  width: 3.25rem;
-}
-
-.File .name > *:last-child {
-  width: calc(100% - 3.25rem);
+  .File.selected .Checkbox,
+  .File:hover .Checkbox {
+    opacity: 1;
+  }
 }
