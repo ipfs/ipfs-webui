@@ -45,7 +45,7 @@ class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
-    previous: PropTypes.object,
+    upperDir: PropTypes.object,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
     maxWidth: PropTypes.string.isRequired,
@@ -267,7 +267,7 @@ class FileList extends React.Component {
   }
 
   render () {
-    let {className, previous, connectDropTarget, isOver, canDrop} = this.props
+    let {className, upperDir, connectDropTarget, isOver, canDrop} = this.props
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
     if (this.state.selected.length !== 0) {
@@ -295,10 +295,10 @@ class FileList extends React.Component {
             </div>
             <div className='pa2' style={{width: '2.5rem'}} />
           </header>
-          { previous &&
+          { upperDir &&
             <File
-              onNavigate={() => this.props.onNavigate(previous.path)}
-              onInspect={() => this.props.onInspect([previous])}
+              onNavigate={() => this.props.onNavigate(upperDir.path)}
+              onInspect={() => this.props.onInspect([upperDir])}
               onAddFiles={this.props.onAddFiles}
               onMove={this.move}
               setIsDragging={this.isDragging}
@@ -306,7 +306,7 @@ class FileList extends React.Component {
               name='..'
               cantDrag
               cantSelect
-              {...previous} />
+              {...upperDir} />
           }
           {this.files}
           {this.selectedMenu}
