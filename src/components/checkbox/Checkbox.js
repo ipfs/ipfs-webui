@@ -26,14 +26,15 @@ Checkbox.propTypes = {
   label: PropTypes.string,
   disabled: PropTypes.bool,
   checked: PropTypes.bool,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func
 }
 
 Checkbox.defaultProps = {
   className: '',
   label: '',
   disabled: false,
-  checked: null
+  checked: null,
+  onChange: () => {}
 }
 
 export default Checkbox

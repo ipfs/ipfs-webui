@@ -176,7 +176,9 @@ const Prev = ({ translucent, coloured, hash, onNavigate, isOver, canDrop, connec
 
   return connectDropTarget(
     <div className={className}>
-      <div className='pa2 w2' />
+      <div className='pa2 w2'>
+        <Checkbox disabled />
+      </div>
       <div className='name relative flex items-center flex-grow-1 pa2 w-40'>
         <div className='pointer dib icon flex-shrink-0' onClick={onNavigate}>
           <FileIcon name='..' type='directory' />
