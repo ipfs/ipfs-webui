@@ -37,7 +37,7 @@ const StartExploringPage = () => {
                 <ExploreSuggestion name='The IPLD Website' cid='QmTxRvftPnKeR7iJfeVpfsGCYEwZ92ot9zrTksAWUACTs7' type='dag-pb' />
               </li>
               <li>
-                <ExploreSuggestion name='My favourites' cid='zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs' type='dag-cbor' />
+                <ExploreSuggestion name='An Ethereum Block' cid='z43AaGEvwdfzjrCZ3Sq7DKxdDHrwoaPQDtqF4jfdkNEVTiqGVFW' type='eth-block' />
               </li>
               <li>
                 <ExploreSuggestion name='Project Apollo Archives' cid='QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D' type='dag-pb' />

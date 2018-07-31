@@ -12,9 +12,16 @@ const objectInspectorTheme = {
   TREENODE_LINE_HEIGHT: '19px'
 }
 
+// TODO: Use https://github.com/multiformats/multicodec/blob/master/table.csv to get full name.
 const nodeStyles = {
   'dag-cbor': {shortName: 'CBOR', name: 'CBOR DAG Node', color: '#28CA9F'},
-  'dag-pb': {shortName: 'PB', name: 'Protobuf DAG Node', color: '#244e66'}
+  'dag-pb': {shortName: 'PB', name: 'Protobuf DAG Node', color: '#244e66'},
+  'git-raw': {shortName: 'GIT', name: 'Git', color: '#f14e32'},
+  'eth-block': {shortName: 'ETH', name: 'Ethereum Block', color: '#383838'},
+  'eth-block-list': {shortName: 'ETH', name: 'Ethereum Block List', color: '#383838'},
+  'eth-tx-trie': {shortName: 'ETH', name: 'Ethereum Tx Trie', color: '#383838'},
+  'eth-tx': {shortName: 'ETH', name: 'Ethereum Tx', color: '#383838'},
+  'eth-state-trie': {shortName: 'ETH', name: 'Ethereum State Trie', color: '#383838'}
 }
 
 export function shortNameForNode (type) {
@@ -87,7 +94,7 @@ const ObjectInfo = ({className, type, cid, localPath, size, data, links, onLinkC
         </div>
         { !data ? null : (
           <div className='pa3 mt2 bg-white f5'>
-            <ObjectInspector showMaxKeys={10} data={data} theme={objectInspectorTheme} expandPaths={toExpandPathsNotation(localPath)} />
+            <ObjectInspector showMaxKeys={20} data={data} theme={objectInspectorTheme} expandPaths={toExpandPathsNotation(localPath)} />
           </div>
         )}
       </div>

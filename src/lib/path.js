@@ -1,3 +1,5 @@
+import Cid from 'cids'
+import IpldResolver from 'ipld'
 import { normaliseDagNode } from './dag'
 
 /**
@@ -6,7 +8,7 @@ import { normaliseDagNode } from './dag'
  * Normalizes nodes into a common structure:
  *
  * ```js
- * { cid: String, type: 'dag-cbor' | 'dag-pb', data: *, links: [{cid, name}] }
+ * { cid: String, type: 'dag-cbor' | 'dag-pb' | 'git-raw' | ..., data: *, links: [{cid, name}] }
  * ```
  *
  * Path boundaries capture the source and target cid where a path traverses a link:
@@ -37,7 +39,12 @@ import { normaliseDagNode } from './dag'
 export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pathBoundaries = []) {
   // TODO: find out why ipfs.dag.get with localResolve never resolves.
   // const {value, remainderPath} = await getIpfs().dag.get(sourceCid, path, {localResolve: true})
-  const {value} = await getIpfs().dag.get(sourceCid)
+
+  // TODO: use ipfs.dag.get when it gets ipld super powers
+  // SEE: https://github.com/ipfs/js-ipfs-api/pull/755
+  // const {value} = await getIpfs().dag.get(sourceCid)
+
+  const {value} = await ipldGet(getIpfs, sourceCid)
 
   const node = normaliseDagNode(value, sourceCid)
   nodes.push(node)
@@ -97,4 +104,14 @@ export function quickSplitPath (str) {
     rest: res[4], // /foo/bar
     address: res[0] // /ipfs/QmHash/foo/bar
   }
+}
+
+export function ipldGet (getIpfs, cid, path, options) {
+  return new Promise((resolve, reject) => {
+    const ipld = new IpldResolver(getIpfs().block)
+    ipld.get(new Cid(cid), path, options, (err, res) => {
+      if (err) return reject(err)
+      resolve(res)
+    })
+  })
 }

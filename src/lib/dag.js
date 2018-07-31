@@ -17,10 +17,8 @@ export function normaliseDagNode (node, cidStr) {
   if (type === 'dag-pb') {
     return normaliseDagPb(node, cidStr, type)
   }
-  if (type === 'dag-cbor') {
-    return normaliseDagCbor(node, cidStr, type)
-  }
-  return normaliseUnknown(node, cidStr, type)
+  // try cbor style if we don't know any better
+  return normaliseDagCbor(node, cidStr, type)
 }
 
 /*
@@ -108,14 +106,5 @@ export function findAndReplaceDagCborLinks (obj, sourceCid, path = '') {
       .filter(a => !!a)
   } else {
     return []
-  }
-}
-
-export function normaliseUnknown (node, cid, type) {
-  return {
-    cid,
-    type,
-    data: node,
-    links: []
   }
 }

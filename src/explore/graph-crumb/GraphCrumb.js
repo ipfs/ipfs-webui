@@ -1,6 +1,7 @@
 import React from 'react'
 import Cid from '../../components/cid/Cid'
 import {colorForNode} from '../object-info/ObjectInfo'
+import {getCodecOrNull} from '../../lib/cid'
 
 const GraphCrumb = ({cid, pathBoundaries, localPath, hrefBase = '#/explore', ...props}) => {
   const [first, ...rest] = pathBoundaries
@@ -64,7 +65,7 @@ function calculateHrefBase (hrefBase, cid, boundaries, boundaryIndex) {
 
 const NodeUnderline = ({cid, children}) => {
   // TODO: pass in or calc type
-  const type = cid.startsWith('Qm') ? 'dag-pb' : 'dag-cbor'
+  const type = getCodecOrNull(cid)
   const color = colorForNode(type)
   return (
     <div className='dib overflow-hidden'>

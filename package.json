@@ -37,6 +37,7 @@
     "ipfs-css": "^0.6.0",
     "ipfs-geoip": "^2.3.0",
     "ipfs-unixfs": "^0.1.15",
+    "ipld": "^0.17.3",
     "ipld-dag-pb": "^0.14.5",
     "is-binary": "^0.1.0",
     "is-ipfs": "^0.3.2",
