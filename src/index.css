@@ -52,7 +52,7 @@ body {
   user-select: none;
 }
 
-@media screen and (min-width: 60em)  {
+@media screen and (min-width: 65em)  {
   .float-on-left-l {
     position: absolute;
     transform: translateX(-100%);
