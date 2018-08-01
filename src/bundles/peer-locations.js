@@ -1,6 +1,8 @@
 import { createSelector } from 'redux-bundler'
 import geoip from 'ipfs-geoip'
 import Multiaddr from 'multiaddr'
+import ms from 'milliseconds'
+import applyCache from './cache'
 
 // Depends on ipfsBundle, peersBundle
 export default function (opts) {
@@ -25,8 +27,13 @@ export default function (opts) {
     resolvingPeers: []
   }
 
-  return {
+  return applyCache({
     name: 'peerLocations',
+
+    cacheOptions: {
+      version: 1,
+      maxAge: ms.weeks(1)
+    },
 
     reducer (state = defaultState, action) {
       if (action.type === 'PEER_LOCATIONS_PEERS_QUEUED') {
@@ -141,11 +148,22 @@ export default function (opts) {
     selectPeerLocationsQueuingPeers: state => state.peerLocations.queuingPeers,
     selectPeerLocationsResolvingPeers: state => state.peerLocations.resolvingPeers,
 
-    doResolvePeerLocation: ({ peerId, addr }) => async ({ dispatch, getState, getIpfs }) => {
+    doResolvePeerLocation: ({ peerId, addr }) => async ({ dispatch, store, getIpfs }) => {
       dispatch({ type: 'PEER_LOCATIONS_RESOLVE_STARTED', payload: { peerId, addr } })
 
+      const cache = store.selectPeerLocationsCache()
+      let location = await cache.get(peerId)
+
+      if (location) {
+        dispatch({
+          type: 'PEER_LOCATIONS_RESOLVE_FINISHED',
+          payload: { peerId, addr, location }
+        })
+
+        return
+      }
+
       const ipfs = getIpfs()
-      let location
 
       try {
         const ipv4Tuple = Multiaddr(addr).stringTuples().find(isNonHomeIPv4)
@@ -166,6 +184,8 @@ export default function (opts) {
           payload: { peerId, addr, error: err }
         })
       }
+
+      cache.set(peerId, location)
 
       dispatch({
         type: 'PEER_LOCATIONS_RESOLVE_FINISHED',
@@ -219,7 +239,7 @@ export default function (opts) {
         }
       }
     )
-  }
+  })
 }
 
 const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'
