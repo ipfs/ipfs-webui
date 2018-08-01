@@ -7,7 +7,28 @@ import StrokePencil from '../../icons/StrokePencil'
 import StrokeIpld from '../../icons/StrokeIpld'
 import StrokeTrash from '../../icons/StrokeTrash'
 import StrokeDownload from '../../icons/StrokeDownload'
-import './SelectedActions.css'
+
+const styles = {
+  bar: {
+    background: '#F0F6FA',
+    borderColor: '#CFE0E2',
+    color: '#59595A'
+  },
+  count: {
+    backgroundColor: '#69C4CD',
+    color: '#F9FAFB',
+    width: '38px',
+    height: '38px'
+  },
+  countNumber: {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
+  size: {
+    color: '#A4BFCC'
+  }
+}
 
 export default class SelectedActions extends React.Component {
   static propTypes = {
@@ -55,7 +76,7 @@ export default class SelectedActions extends React.Component {
   }
 
   render () {
-    let {count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, ...props} = this.props
+    let {count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, ...props} = this.props
 
     const text = (count > 1) ? 'Files selected' : 'File selected'
 
@@ -70,16 +91,16 @@ export default class SelectedActions extends React.Component {
     }
 
     return (
-      <div className={`SelectedActions sans-serif bt w-100 pa3 ${className}`}{...props}>
+      <div className={`sans-serif bt w-100 pa3 ${className}`} style={{...styles.bar, ...style}} {...props}>
         <div className='flex items-center justify-between'>
           <div className='w5-l'>
             <div className='flex items-center'>
-              <div className='SelectedCount mr3 relative f3 fw6 flex-shrink-0 dib br-100'>
-                <span className='absolute'>{count}</span>
+              <div className='mr3 relative f3 fw6 flex-shrink-0 dib br-100' style={styles.count}>
+                <span className='absolute' style={styles.countNumber}>{count}</span>
               </div>
               <div className='dn db-l'>
                 <p className='ma0'>{text}</p>
-                <p className='Size ma0 mt1 f6'>Total size: {filesize(size)}</p>
+                <p className='ma0 mt1 f6' style={styles.size}>Total size: {filesize(size)}</p>
               </div>
             </div>
           </div>

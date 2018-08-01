@@ -43,27 +43,27 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
   return { url, filename }
 }
 
+export async function makeLinkFromFiles (files, ipfs) {
+  let node = await ipfs.object.new('unixfs-dir')
+
+  for (const file of files) {
+    node = await ipfs.object.patch.addLink(node.toJSON().multihash, {
+      name: file.name,
+      size: file.size,
+      multihash: file.hash
+    })
+  }
+
+  return node.toJSON().multihash
+}
+
 async function downloadMultiple (files, apiUrl, ipfs) {
   if (!apiUrl) {
     const e = new Error('api url undefined')
     return Promise.reject(e)
   }
 
-  let node = await ipfs.object.new('unixfs-dir')
-
-  for (const file of files) {
-    try {
-      node = await ipfs.object.patch.addLink(node.toJSON().multihash, {
-        name: file.name,
-        size: file.size,
-        multihash: file.hash
-      })
-    } catch (e) {
-      return Promise.reject(e)
-    }
-  }
-
-  const multihash = node.toJSON().multihash
+  const multihash = await makeLinkFromFiles(files, ipfs)
 
   return {
     url: `${apiUrl}/api/v0/get?arg=${multihash}&archive=true&compress=true`,

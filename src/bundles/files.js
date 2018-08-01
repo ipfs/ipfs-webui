@@ -63,10 +63,17 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
     })
   }
 
+  const upperPath = dirname(path)
+  const upper = path === '/' ? null : await ipfs.files.stat(upperPath)
+  if (upper) {
+    upper.path = upperPath
+  }
+
   return {
     path: path,
     fetched: Date.now(),
     type: 'directory',
+    upper: upper,
     content: res
   }
 })
@@ -204,7 +211,7 @@ export default (opts = {}) => {
           }
         })
 
-        const src = `/ipfs/${res[res.length - 1].hash}`
+        const src = `/ipfs/${res[0].hash}`
         const dst = join(root, file.name)
         await ipfs.files.cp([src, dst])
 

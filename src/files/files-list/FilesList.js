@@ -9,7 +9,6 @@ import Overlay from '../../components/overlay/Overlay'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
 import { join } from 'path'
-import './FilesList.css'
 
 const ORDER_BY_NAME = 'name'
 const ORDER_BY_SIZE = 'size'
@@ -46,6 +45,7 @@ class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
+    upperDir: PropTypes.object,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
     maxWidth: PropTypes.string.isRequired,
@@ -267,19 +267,22 @@ class FileList extends React.Component {
   }
 
   render () {
-    let {className, connectDropTarget} = this.props
+    let { files, className, upperDir, connectDropTarget, isOver, canDrop } = this.props
+    const { selected, isDragging, rename, delete: deleteModal } = this.state
+    const allSelected = selected.length !== 0 && selected.length === files.length
+
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
-    if (this.state.selected.length !== 0) {
+    if (selected.length !== 0) {
       className += ' mb6'
     }
 
     return connectDropTarget(
       <div>
         <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '500px' }}>
-          <header className='gray pv3 flex items-center'>
-            <div className='ph2 w2'>
-              <Checkbox checked={this.state.selected.length === this.props.files.length} onChange={this.toggleAll} />
+          <header className='hide-child-l gray pv3 flex items-center'>
+            <div className='child float-on-left-l ph2 w2' style={allSelected ? {opacity: '1'} : null}>
+              <Checkbox checked={allSelected} onChange={this.toggleAll} />
             </div>
             <div className='ph2 f6 flex-grow-1 w-40'>
               <span onClick={this.changeSort(ORDER_BY_NAME)} className='pointer'>
@@ -293,23 +296,36 @@ class FileList extends React.Component {
             </div>
             <div className='pa2' style={{width: '2.5rem'}} />
           </header>
+          { upperDir &&
+            <File
+              onNavigate={() => this.props.onNavigate(upperDir.path)}
+              onInspect={() => this.props.onInspect([upperDir])}
+              onAddFiles={this.props.onAddFiles}
+              onMove={this.move}
+              setIsDragging={this.isDragging}
+              translucent={isDragging || (isOver && canDrop)}
+              name='..'
+              cantDrag
+              cantSelect
+              {...upperDir} />
+          }
           {this.files}
           {this.selectedMenu}
         </section>
 
-        <Overlay show={this.state.rename.isOpen} onLeave={() => this.resetState('rename')}>
+        <Overlay show={rename.isOpen} onLeave={() => this.resetState('rename')}>
           <RenameModal
             className='outline-0'
-            filename={this.state.rename.filename}
+            filename={rename.filename}
             onCancel={() => this.resetState('rename')}
             onSubmit={this.rename} />
         </Overlay>
 
-        <Overlay show={this.state.delete.isOpen} onLeave={() => this.resetState('delete')}>
+        <Overlay show={deleteModal.isOpen} onLeave={() => this.resetState('delete')}>
           <DeleteModal
             className='outline-0'
-            files={this.state.delete.files}
-            folders={this.state.delete.folders}
+            files={deleteModal.files}
+            folders={deleteModal.folders}
             onCancel={() => this.resetState('delete')}
             onDelete={this.delete} />
         </Overlay>

@@ -7,6 +7,8 @@ import {Dropdown, DropdownMenu, Option} from '../dropdown/Dropdown'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
 import NewFolderModal from './NewFolderModal'
+import { NativeTypes } from 'react-dnd-html5-backend'
+import { DropTarget } from 'react-dnd'
 
 const AddButton = ({ progress = null, ...props }) => {
   const sending = progress !== null
@@ -30,7 +32,7 @@ const AddButton = ({ progress = null, ...props }) => {
   )
 }
 
-export default class FileInput extends React.Component {
+class FileInput extends React.Component {
   static propTypes = {
     onMakeDir: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
@@ -91,7 +93,7 @@ export default class FileInput extends React.Component {
       progress = 100
     }
 
-    return (
+    return this.props.connectDropTarget(
       <div className={this.props.className}>
         <Dropdown>
           <AddButton progress={progress} onClick={this.toggleDropdown} />
@@ -150,3 +152,21 @@ export default class FileInput extends React.Component {
     )
   }
 }
+
+const dropTarget = {
+  drop: ({ onAddFiles }, monitor) => {
+    if (monitor.didDrop()) {
+      return
+    }
+
+    onAddFiles(monitor.getItem())
+  }
+}
+
+const dropCollect = (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  canDrop: monitor.canDrop()
+})
+
+export default DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(FileInput)
