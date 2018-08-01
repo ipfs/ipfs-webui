@@ -6,6 +6,8 @@ import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
+import Overlay from '../components/overlay/Overlay'
+import ShareModal from './share-modal/ShareModal'
 import Errors from './errors/Errors'
 import downloadFile from './download-file'
 import { join } from 'path'
@@ -29,7 +31,11 @@ class FilesPage extends React.Component {
 
   state = {
     downloadAbort: null,
-    downloadProgress: null
+    downloadProgress: null,
+    share: {
+      isOpen: false,
+      link: ''
+    }
   }
 
   makeDir = (path) => this.props.doFilesMakeDir(join(this.props.files.path, path))
@@ -86,6 +92,24 @@ class FilesPage extends React.Component {
     doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
+  share = async (files) => {
+    this.setState({
+      share: {
+        isOpen: true,
+        link: await this.props.doFilesShareLink(files)
+      }
+    })
+  }
+
+  closeShare = () => {
+    this.setState({
+      share: {
+        isOpen: false,
+        link: ''
+      }
+    })
+  }
+
   render () {
     const {
       files,
@@ -127,7 +151,7 @@ class FilesPage extends React.Component {
                 files={files.content}
                 upperDir={files.upper}
                 downloadProgress={this.state.downloadProgress}
-                onShare={() => window.alert('Sharing is not available, yet!')}
+                onShare={this.share}
                 onInspect={this.inspect}
                 onDownload={this.download}
                 onAddFiles={this.add}
@@ -140,6 +164,13 @@ class FilesPage extends React.Component {
             )}
           </div>
         }
+
+        <Overlay show={this.state.share.isOpen} onLeave={this.closeShare}>
+          <ShareModal
+            className='outline-0'
+            link={this.state.share.link}
+            onLeave={this.closeShare} />
+        </Overlay>
       </div>
     )
   }
@@ -152,6 +183,7 @@ export default connect(
   'doFilesWrite',
   'doFilesAddPath',
   'doFilesDownloadLink',
+  'doFilesShareLink',
   'doFilesMakeDir',
   'doFilesFetch',
   'doFilesDismissErrors',

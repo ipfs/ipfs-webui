@@ -43,7 +43,7 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
   return { url, filename }
 }
 
-export async function makeLinkFromFiles (files, ipfs) {
+export async function makeHashFromFiles (files, ipfs) {
   let node = await ipfs.object.new('unixfs-dir')
 
   for (const file of files) {
@@ -63,7 +63,7 @@ async function downloadMultiple (files, apiUrl, ipfs) {
     return Promise.reject(e)
   }
 
-  const multihash = await makeLinkFromFiles(files, ipfs)
+  const multihash = await makeHashFromFiles(files, ipfs)
 
   return {
     url: `${apiUrl}/api/v0/get?arg=${multihash}&archive=true&compress=true`,
@@ -77,4 +77,16 @@ export async function getDownloadLink (files, gatewayUrl, apiUrl, ipfs) {
   }
 
   return downloadMultiple(files, apiUrl, ipfs)
+}
+
+export async function getShareableLink (files, ipfs) {
+  let hash
+
+  if (files.length === 1) {
+    hash = files[0].hash
+  } else {
+    hash = await makeHashFromFiles(files, ipfs)
+  }
+
+  return `https://ipfs.io/ipfs/${hash}`
 }
