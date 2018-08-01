@@ -26,7 +26,7 @@ const ShareModal = ({onLeave, link, className, ...props}) => {
 
       <ModalActions>
         <Button className='ma2' bg='bg-gray' onClick={onLeave}>Close</Button>
-        <CopyToClipboard text={link}>
+        <CopyToClipboard text={link} onCopy={onLeave}>
           <Button className='ma2'>Copy</Button>
         </CopyToClipboard>
       </ModalActions>
