@@ -13,9 +13,10 @@ import redirectsBundle from './redirects'
 import filesBundle from './files'
 import configBundle from './config'
 import configSaveBundle from './config-save'
+import navbarBundle from './navbar'
 
 export default composeBundles(
-  appIdle({idleTimeout: 5000}),
+  appIdle({ idleTimeout: 5000 }),
   ipfsBundle,
   exploreBundle,
   nodeBandwidthBundle,
@@ -25,7 +26,8 @@ export default composeBundles(
   peerLocationsBundle(),
   routesBundle,
   redirectsBundle,
-  filesBundle,
+  filesBundle(),
   configBundle,
-  configSaveBundle
+  configSaveBundle,
+  navbarBundle
 )

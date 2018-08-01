@@ -1,6 +1,10 @@
 @import "../node_modules/tachyons";
 @import "../node_modules/ipfs-css";
 
+body {
+  overflow-y: scroll;
+}
+
 .focus-underline:focus {
   text-decoration: underline;
 }
@@ -34,6 +38,10 @@
 
 .fill-current-color {
   fill: currentColor;
+}
+
+.fill-white {
+  fill: white
 }
 
 .placeholder-light::placeholder{

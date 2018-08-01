@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@svgr/cli": "^2.1.0",
-    "@tableflip/react-dropdown": "^1.1.0",
+    "@tableflip/react-dropdown": "^1.1.1",
     "@tableflip/react-inspector": "^2.3.0",
     "brace": "^0.11.1",
     "chart.js": "^2.7.2",
@@ -51,6 +51,7 @@
     "react": "^16.4.1",
     "react-ace": "^6.1.4",
     "react-chartjs-2": "^2.7.2",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-country-flag": "^0.2.0",
     "react-debounce-render": "^4.0.2",
     "react-dnd": "^5.0.0",

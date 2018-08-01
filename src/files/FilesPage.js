@@ -6,42 +6,18 @@ import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
-import RenameModal from './rename-modal/RenameModal'
-import DeleteModal from './delete-modal/DeleteModal'
-import Overlay from '../components/overlay/Overlay'
+import Errors from './errors/Errors'
 import downloadFile from './download-file'
 import { join } from 'path'
-
-const action = (name) => {
-  return (...args) => {
-    console.log(name, args)
-  }
-}
-
-const defaultState = {
-  downloadAbort: null,
-  downloadProgress: null,
-  addProgress: null,
-  toggleOne: () => {},
-  toggleAll: () => {},
-  rename: {
-    isOpen: false,
-    path: '',
-    filename: ''
-  },
-  delete: {
-    isOpen: false,
-    paths: [],
-    files: 0,
-    folders: 0
-  }
-}
 
 class FilesPage extends React.Component {
   static propTypes = {
     files: PropTypes.object,
-    filesIsLoading: PropTypes.bool.isRequired,
+    filesErrors: PropTypes.array.isRequired,
+    filesPathFromHash: PropTypes.string,
+    writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
+    navbarWidth: PropTypes.number.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesDelete: PropTypes.func.isRequired,
     doFilesMove: PropTypes.func.isRequired,
@@ -51,72 +27,22 @@ class FilesPage extends React.Component {
     doFilesMakeDir: PropTypes.func.isRequired
   }
 
-  state = defaultState
-
-  resetState = (field) => this.setState({ [field]: defaultState[field] })
-
-  setTogglers = (toggleOne, toggleAll) => this.setState({ toggleOne, toggleAll })
+  state = {
+    downloadAbort: null,
+    downloadProgress: null
+  }
 
   makeDir = (path) => this.props.doFilesMakeDir(join(this.props.files.path, path))
 
-  navigate = (link) => {
-    const { doUpdateHash, files } = this.props
-
-    if (files.type === 'directory') {
-      this.state.toggleAll(false)
-    }
-
-    link = link.split('/').map(p => encodeURIComponent(p)).join('/')
-    doUpdateHash(`/files${link}`)
+  componentDidMount () {
+    this.props.doFilesFetch()
   }
 
-  showRenameModal = ([file]) => {
-    this.setState({
-      rename: {
-        isOpen: true,
-        path: file.path,
-        filename: file.path.split('/').pop()
-      }
-    })
-  }
+  componentDidUpdate (prev) {
+    const { filesPathFromHash } = this.props
 
-  rename = async (newName) => {
-    const {filename, path} = this.state.rename
-    this.resetState('rename')
-
-    if (newName !== '' && newName !== filename) {
-      this.state.toggleOne(filename, false)
-      await this.props.doFilesMove(path, path.replace(filename, newName))
-      this.state.toggleOne(newName, true)
-    }
-  }
-
-  showDeleteModal = (files) => {
-    let filesCount = 0
-    let foldersCount = 0
-
-    files.forEach(file => file.type === 'file' ? filesCount++ : foldersCount++)
-
-    this.setState({
-      delete: {
-        isOpen: true,
-        files: filesCount,
-        folders: foldersCount,
-        paths: files.map(f => f.path)
-      }
-    })
-  }
-
-  delete = () => {
-    this.state.toggleAll(false)
-    this.props.doFilesDelete(this.state.delete.paths)
-    this.resetState('delete')
-  }
-
-  makeUpdater = (field) => (value) => {
-    this.setState({ [field]: value })
-    if (value === 100) {
-      setTimeout(() => this.setState({ [field]: null }), 2000)
+    if (prev.files === null || filesPathFromHash !== prev.filesPathFromHash) {
+      this.props.doFilesFetch()
     }
   }
 
@@ -129,21 +55,20 @@ class FilesPage extends React.Component {
       return
     }
 
-    const updater = this.makeUpdater('downloadProgress')
+    const updater = (v) => this.setState({ downloadProgress: v })
     const { url, filename } = await doFilesDownloadLink(files)
     const { abort } = await downloadFile(url, filename, updater)
     this.setState({ downloadAbort: abort })
   }
 
-  add = async (raw, root = '') => {
+  add = (raw, root = '') => {
     const { files, doFilesWrite } = this.props
 
     if (root === '') {
       root = files.path
     }
 
-    const updater = this.makeUpdater('addProgress')
-    await doFilesWrite(root, raw, updater)
+    doFilesWrite(root, raw)
   }
 
   addByPath = (path) => {
@@ -162,7 +87,16 @@ class FilesPage extends React.Component {
   }
 
   render () {
-    const { files } = this.props
+    const {
+      files,
+      writeFilesProgress,
+      navbarWidth,
+      doFilesDismissErrors,
+      doFilesMove,
+      doFilesDelete,
+      doFilesNavigateTo,
+      filesErrors: errors
+    } = this.props
 
     return (
       <div data-id='FilesPage'>
@@ -171,8 +105,10 @@ class FilesPage extends React.Component {
         </Helmet>
         { files &&
           <div>
+            <Errors errors={errors} onDismiss={doFilesDismissErrors} />
+
             <div className='flex flex-wrap items-center justify-between mb3'>
-              <Breadcrumbs className='mb3' path={files.path} onClick={this.navigate} />
+              <Breadcrumbs className='mb3' path={files.path} onClick={doFilesNavigateTo} />
 
               { files.type === 'directory' &&
                 <FileInput
@@ -180,48 +116,29 @@ class FilesPage extends React.Component {
                   onMakeDir={this.makeDir}
                   onAddFiles={this.add}
                   onAddByPath={this.addByPath}
-                  addProgress={this.state.addProgress} />
+                  addProgress={writeFilesProgress} />
               }
             </div>
 
             { files.type === 'directory' ? (
               <FilesList
-                maxWidth='calc(100% - 240px)'
-                setTogglers={this.setTogglers}
+                maxWidth={`calc(100% - ${navbarWidth}px)`}
                 root={files.path}
-                files={files.files}
+                files={files.content}
                 downloadProgress={this.state.downloadProgress}
-                onShare={action('Share')}
+                onShare={() => window.alert('Sharing is not available, yet!')}
                 onInspect={this.inspect}
-                onRename={this.showRenameModal}
                 onDownload={this.download}
-                onDelete={this.showDeleteModal}
                 onAddFiles={this.add}
-                onNavigate={this.navigate}
-                onMove={this.props.doFilesMove}
+                onNavigate={doFilesNavigateTo}
+                onDelete={doFilesDelete}
+                onMove={doFilesMove}
               />
             ) : (
               <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
             )}
           </div>
         }
-
-        <Overlay show={this.state.rename.isOpen} onLeave={() => this.resetState('rename')}>
-          <RenameModal
-            className='outline-0'
-            filename={this.state.rename.filename}
-            onCancel={() => this.resetState('rename')}
-            onSubmit={this.rename} />
-        </Overlay>
-
-        <Overlay show={this.state.delete.isOpen} onLeave={() => this.resetState('delete')}>
-          <DeleteModal
-            className='outline-0'
-            files={this.state.delete.files}
-            folders={this.state.delete.folders}
-            onCancel={() => this.resetState('delete')}
-            onDelete={this.delete} />
-        </Overlay>
       </div>
     )
   }
@@ -235,8 +152,14 @@ export default connect(
   'doFilesAddPath',
   'doFilesDownloadLink',
   'doFilesMakeDir',
+  'doFilesFetch',
+  'doFilesDismissErrors',
+  'doFilesNavigateTo',
   'selectFiles',
-  'selectFilesIsLoading',
+  'selectFilesErrors',
   'selectGatewayUrl',
+  'selectWriteFilesProgress',
+  'selectNavbarWidth',
+  'selectFilesPathFromHash',
   FilesPage
 )

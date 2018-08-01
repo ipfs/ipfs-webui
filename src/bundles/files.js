@@ -1,248 +1,287 @@
-import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { join, dirname } from 'path'
-import fileReader from 'pull-file-reader'
+import { createSelector } from 'redux-bundler'
+import { getDownloadLink, filesToStreams } from '../lib/files'
+import ms from 'milliseconds'
 
-const bundle = createAsyncResourceBundle({
-  name: 'files',
-  actionBaseType: 'FILES',
-  getPromise: async ({ store, getIpfs }) => {
-    const ipfs = getIpfs()
-    let path = store.selectRouteParams().path
+export const actions = {
+  FETCH: 'FETCH',
+  MOVE: 'MOVE',
+  COPY: 'COPY',
+  DELETE: 'DELETE',
+  MAKE_DIR: 'MAKEDIR',
+  WRITE: 'WRITE',
+  DOWNLOAD_LINK: 'DOWNLOADLINK',
+  ADD_BY_PATH: 'ADDBYPATH'
+}
 
-    if (!path) {
-      return store.doUpdateHash('/files/')
+const make = (basename, action) => (...args) => async (args2) => {
+  const id = Symbol(basename)
+  const { dispatch, getIpfs, store } = args2
+  dispatch({ type: `FILES_${basename}_STARTED`, payload: { id } })
+
+  let data
+
+  try {
+    data = await action(getIpfs(), ...args, id, args2)
+    dispatch({ type: `FILES_${basename}_FINISHED`, payload: { id, ...data } })
+  } catch (error) {
+    dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error } })
+  } finally {
+    if (basename !== actions.FETCH) {
+      await store.doFilesFetch()
     }
+  }
 
-    path = decodeURIComponent(path)
-    const stats = await ipfs.files.stat(path)
+  return data
+}
 
-    if (stats.type === 'file') {
-      stats.name = path
+const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
+  const path = store.selectFilesPathFromHash()
+  const stats = await ipfs.files.stat(path)
 
-      return {
-        path: path,
-        type: 'file',
-        stats: stats,
-        read: () => ipfs.files.read(path)
-      }
-    }
-
-    // Otherwise get the directory info
-    let res = await ipfs.files.ls(path, {l: true})
-
-    if (res) {
-      res = res.map(file => {
-        // FIX: open PR on js-ipfs-api
-        file.type = file.type === 0 ? 'file' : 'directory'
-        file.path = join(path, file.name)
-        return file
-      })
-    }
+  if (stats.type === 'file') {
+    stats.name = path
 
     return {
       path: path,
-      type: 'directory',
-      files: res
-    }
-  },
-  staleAfter: Infinity,
-  checkIfOnline: false
-})
-
-bundle.reactFilesFetch = createSelector(
-  'selectFilesIsLoading',
-  'selectFilesShouldUpdate',
-  'selectIpfsReady',
-  'selectRouteInfo',
-  'selectFiles',
-  (isLoading, shouldUpdate, ipfsReady, {url, params}, files) => {
-    if (!isLoading && ipfsReady && url.startsWith('/files')) {
-      if (shouldUpdate || !files || files.path !== decodeURIComponent(params.path)) {
-        return { actionCreator: 'doFetchFiles' }
-      }
+      fetched: Date.now(),
+      type: 'file',
+      stats: stats,
+      read: () => ipfs.files.read(path)
     }
   }
-)
 
-bundle.doFilesDelete = (files) => async ({dispatch, getIpfs, store}) => {
-  dispatch({ type: 'FILES_DELETE_STARTED' })
+  // Otherwise get the directory info
+  let res = await ipfs.files.ls(path, {l: true})
 
-  const promises = files.map(file => getIpfs().files.rm(file, { recursive: true }))
-
-  try {
-    await Promise.all(promises)
-    dispatch({ type: 'FILES_DELETE_FINISHED' })
-    await store.doMarkFilesAsOutdated()
-  } catch (error) {
-    dispatch({ type: 'FILES_DELETE_ERRORED', payload: error })
-  }
-}
-
-async function runAndFetch ({ dispatch, getIpfs, store }, type, action, args) {
-  dispatch({ type: `${type}_STARTED` })
-
-  try {
-    await getIpfs().files[action](...args)
-  } catch (error) {
-    dispatch({ type: `${type}_ERRORED`, payload: error })
-  } finally {
-    dispatch({ type: `${type}_FINISHED` })
-    await store.doFetchFiles()
-  }
-}
-
-bundle.doFilesMove = (from, to) => (args) => {
-  return runAndFetch(args, 'FILES_RENAME', 'mv', [[from, to]])
-}
-
-bundle.doFilesCopy = (from, to) => (args) => {
-  return runAndFetch(args, 'FILES_RENAME', 'cp', [[from, to]])
-}
-
-bundle.doFilesMakeDir = (path) => (args) => {
-  return runAndFetch(args, 'FILES_MKDIR', 'mkdir', [path, { parents: true }])
-}
-
-async function filesToStreams (files) {
-  if (files.hasOwnProperty('content')) {
-    return files.content
-  }
-
-  const streams = []
-  let totalSize = 0
-  let isDir = false
-
-  for (let file of files) {
-    const stream = fileReader(file)
-
-    if (file.webkitRelativePath) {
-      isDir = true
-    }
-
-    streams.push({
-      name: file.webkitRelativePath || file.name,
-      content: stream,
-      size: file.size
+  if (res) {
+    res = res.map(file => {
+      // FIX: open PR on js-ipfs-api
+      file.type = file.type === 0 ? 'file' : 'directory'
+      file.path = join(path, file.name)
+      return file
     })
-
-    totalSize += file.size
   }
-
-  return { streams, totalSize, isDir }
-}
-
-bundle.doFilesWrite = (root, rawFiles, updateProgress) => async ({dispatch, getIpfs, store}) => {
-  dispatch({ type: 'FILES_WRITE_STARTED' })
-
-  try {
-    const { streams, totalSize, isDir } = await filesToStreams(rawFiles)
-    updateProgress(0)
-
-    let sent = 0
-
-    await Promise.all(streams.map(async file => {
-      const dir = join(root, dirname(file.name))
-      await getIpfs().files.mkdir(dir, { parents: true })
-      let alreadySent = 0
-
-      const res = await getIpfs().add(file.content, {
-        pin: false,
-        progress: (bytes) => {
-          sent = sent + bytes - alreadySent
-          alreadySent = bytes
-          updateProgress(sent / totalSize * 100)
-        }
-      })
-
-      const src = `/ipfs/${res[res.length - 1].hash}`
-      const dst = join(root, file.name)
-      await getIpfs().files.cp([src, dst])
-
-      sent = sent - alreadySent + file.size
-      updateProgress(sent / totalSize * 100)
-
-      if (!isDir) {
-        await store.doMarkFilesAsOutdated()
-      }
-    }))
-
-    updateProgress(100)
-    await store.doMarkFilesAsOutdated()
-  } catch (error) {
-    dispatch({ type: 'FILES_WRITE_ERRORED', payload: error })
-  }
-}
-
-bundle.doFilesAddPath = (root, src) => async ({dispatch, getIpfs, store}) => {
-  dispatch({ type: 'FILES_ADD_PATH_STARTED' })
-
-  try {
-    const name = src.split('/').pop()
-    const dst = join(root, name)
-    await getIpfs().files.cp([src, dst])
-    await store.doFetchFiles()
-  } catch (error) {
-    dispatch({ type: 'FILES_ADD_PATH_ERRORED', payload: error })
-  }
-}
-
-async function downloadSingle (dispatch, store, file) {
-  dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
-
-  let url, filename
-
-  if (file.type === 'directory') {
-    url = `${store.selectApiUrl()}/api/v0/get?arg=${file.hash}&archive=true&compress=true`
-    filename = `${file.name}.tar.gz`
-  } else {
-    url = `${store.selectGatewayUrl()}/ipfs/${file.hash}`
-    filename = file.name
-  }
-
-  return { url, filename }
-}
-
-async function downloadMultiple (dispatch, getIpfs, store, files) {
-  dispatch({ type: 'FILES_DOWNLOAD_LINK_STARTED' })
-
-  const apiUrl = store.selectApiUrl()
-
-  if (!apiUrl) {
-    const e = new Error('api url undefined')
-    dispatch({ type: 'FILES_DOWNLOAD_LINK_ERRORED', payload: e })
-    return Promise.reject(e)
-  }
-
-  let node = await getIpfs().object.new('unixfs-dir')
-
-  for (const file of files) {
-    try {
-      node = await getIpfs().object.patch.addLink(node.toJSON().multihash, {
-        name: file.name,
-        size: file.size,
-        multihash: file.hash
-      })
-    } catch (e) {
-      dispatch({ type: 'FILES_DOWNLOAD_LINK_ERRORED', payload: e })
-      return Promise.reject(e)
-    }
-  }
-
-  dispatch({ type: 'FILES_DOWNLOAD_LINK_FINISHED' })
-  const multihash = node.toJSON().multihash
 
   return {
-    url: `${apiUrl}/api/v0/get?arg=${multihash}&archive=true&compress=true`,
-    filename: `download_${multihash}.tar.gz`
+    path: path,
+    fetched: Date.now(),
+    type: 'directory',
+    content: res
   }
+})
+
+const defaultState = {
+  pageContent: null,
+  pending: [],
+  finished: [],
+  failed: []
 }
 
-bundle.doFilesDownloadLink = (files) => ({dispatch, getIpfs, store}) => {
-  if (files.length === 1) {
-    return downloadSingle(dispatch, store, files[0])
+export default (opts = {}) => {
+  opts.staleAfter = opts.staleAfter || ms.minutes(1)
+  opts.baseUrl = opts.baseUrl || '/files'
+
+  return {
+    name: 'files',
+
+    reducer: (state = defaultState, action) => {
+      if (!action.type.startsWith('FILES_')) {
+        return state
+      }
+
+      if (action.type === 'FILES_DISMISS_ERRORS') {
+        return {
+          ...state,
+          failed: []
+        }
+      }
+
+      const [ type, status ] = action.type.split('_').splice(1)
+      const { id, ...data } = action.payload
+
+      if (status === 'STARTED') {
+        return {
+          ...state,
+          pending: [
+            ...state.pending,
+            {
+              type: type,
+              id: id,
+              start: Date.now(),
+              data: data
+            }
+          ]
+        }
+      } else if (status === 'UPDATED') {
+        const action = state.pending.find(a => a.id === id)
+
+        return {
+          ...state,
+          pending: [
+            ...state.pending.filter(a => a.id !== id),
+            {
+              ...action,
+              data: data
+            }
+          ]
+        }
+      } else if (status === 'FAILED') {
+        const action = state.pending.find(a => a.id === id)
+
+        return {
+          ...state,
+          pending: state.pending.filter(a => a.id !== id),
+          failed: [
+            ...state.failed,
+            {
+              ...action,
+              end: Date.now(),
+              error: data.error
+            }
+          ]
+        }
+      } else if (status === 'FINISHED') {
+        const action = state.pending.find(a => a.id === id)
+        let additional
+
+        if (type === actions.FETCH) {
+          additional = {
+            pageContent: data
+          }
+        }
+
+        return {
+          ...state,
+          ...additional,
+          pending: state.pending.filter(a => a.id !== id),
+          finished: [
+            ...state.finished,
+            {
+              ...action,
+              data: data,
+              end: Date.now()
+            }
+          ]
+        }
+      }
+
+      return state
+    },
+
+    doFilesFetch: () => async ({ store, ...args }) => {
+      const isReady = store.selectIpfsReady()
+      const isFetching = store.selectFilesIsFetching()
+
+      if (isReady && !isFetching) {
+        fetchFiles()({ store, ...args })
+      }
+    },
+
+    doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, id, { dispatch }) => {
+      const { streams, totalSize } = await filesToStreams(rawFiles)
+
+      const updateProgress = (progress) => {
+        dispatch({ type: 'FILES_WRITE_UPDATED', payload: { id: id, progress } })
+      }
+
+      updateProgress(0)
+
+      let sent = 0
+
+      for (const file of streams) {
+        const dir = join(root, dirname(file.name))
+        await ipfs.files.mkdir(dir, { parents: true })
+        let alreadySent = 0
+
+        const res = await ipfs.add(file.content, {
+          pin: false,
+          // eslint-disable-next-line
+          progress: (bytes) => {
+            sent = sent + bytes - alreadySent
+            alreadySent = bytes
+            updateProgress(sent / totalSize * 100)
+          }
+        })
+
+        const src = `/ipfs/${res[res.length - 1].hash}`
+        const dst = join(root, file.name)
+        await ipfs.files.cp([src, dst])
+
+        sent = sent - alreadySent + file.size
+        updateProgress(sent / totalSize * 100)
+      }
+
+      updateProgress(100)
+    }),
+
+    doFilesDelete: make(actions.DELETE, (ipfs, files) => {
+      const promises = files.map(file => ipfs.files.rm(file, { recursive: true }))
+      return Promise.all(promises)
+    }),
+
+    doFilesAddPath: make(actions.ADD_BY_PATH, (ipfs, root, src) => {
+      const name = src.split('/').pop()
+      const dst = join(root, name)
+      return ipfs.files.cp([src, dst])
+    }),
+
+    doFilesDownloadLink: make(actions.DOWNLOAD_LINK, async (ipfs, files, id, { store }) => {
+      const apiUrl = store.selectApiUrl()
+      const gatewayUrl = store.selectGatewayUrl()
+      return getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
+    }),
+
+    doFilesMove: make(actions.MOVE, (ipfs, src, dst) => ipfs.files.mv([src, dst])),
+
+    doFilesCopy: make(actions.COPY, (ipfs, src, dst) => ipfs.files.cp([src, dst])),
+
+    doFilesMakeDir: make(actions.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(path, { parents: true })),
+
+    doFilesDismissErrors: () => async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
+
+    doFilesNavigateTo: (path) => async ({ store }) => {
+      const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
+      store.doUpdateHash(`${opts.baseUrl}${link}`)
+    },
+
+    reactFilesFetch: createSelector(
+      'selectFiles',
+      'selectFilesIsFetching',
+      'selectAppTime',
+      (files, isFetching, appTime) => {
+        if (!isFetching && files && appTime - files.fetched >= opts.staleAfter) {
+          return { actionCreator: 'doFilesFetch' }
+        }
+      }
+    ),
+
+    selectFiles: (state) => state.files.pageContent,
+
+    selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === actions.FETCH),
+
+    selectWriteFilesProgress: (state) => {
+      const writes = state.files.pending.filter(s => s.type === actions.WRITE && s.data.progress)
+
+      if (writes.length === 0) {
+        return null
+      }
+
+      const sum = writes.reduce((acc, s) => s.data.progress + acc, 0)
+      return sum / writes.length
+    },
+
+    selectFilesHasError: (state) => state.files.failed.length > 0,
+
+    selectFilesErrors: (state) => state.files.failed,
+
+    selectFilesPathFromHash: createSelector(
+      'selectRouteInfo',
+      (routeInfo) => {
+        if (!routeInfo.url.startsWith(opts.baseUrl)) return
+        if (!routeInfo.params.path) return
+        return decodeURIComponent(routeInfo.params.path)
+      }
+    )
   }
-
-  return downloadMultiple(dispatch, getIpfs, store, files)
 }
-
-export default bundle

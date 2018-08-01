@@ -9,6 +9,7 @@ storiesOf('Files', module)
       <SelectedActions
         count={1}
         size={345345}
+        downloadProgress={null}
         unselect={action('Unselect All')}
         remove={action('Delete Files')}
         share={action('Share Files')}
@@ -23,6 +24,7 @@ storiesOf('Files', module)
       <SelectedActions
         count={17}
         size={8518484848}
+        downloadProgress={null}
         unselect={action('Unselect All')}
         remove={action('Delete Files')}
         share={action('Share Files')}

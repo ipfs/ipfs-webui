@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './Breadcrumbs.css'
 
 function makeBread (root) {
   if (root.endsWith('/')) {
@@ -28,17 +27,24 @@ function makeBread (root) {
 }
 
 export default function Breadcrumbs ({path, onClick, className = '', ...props}) {
-  const cls = `Breadcrumbs sans-serif f4 ${className}`
+  const cls = `Breadcrumbs sans-serif ${className}`
   const bread = makeBread(path)
   const last = bread.pop()
-  const res = []
 
-  bread.forEach((link, index) => {
-    res.push(<a className='pointer' key={`${index}link`} onClick={() => { onClick(link.path) }}>{link.name}</a>)
-    res.push(<span key={`${index}divider`}>></span>)
-  })
+  const res = bread.map((link, index) => ([
+    <div key={`${index}link`} className='dib bb bw1 pv1' style={{borderColor: '#69c4cd'}}>
+      <a className='pointer dib link dark-gray o-50 glow' onClick={() => onClick(link.path)}>
+        {link.name}
+      </a>
+    </div>,
+    <div key={`${index}divider`} className='dib ph2 pv1 gray v-top'>/</div>
+  ]))
 
-  res.push(<a key='last-link' aria-current='page'>{last.name}</a>)
+  res.push(
+    <div key='last-link' className='dib bb bw1 pv1' style={{borderColor: '#69c4cd'}}>
+      <span className='dib'>{last.name}</span>
+    </div>
+  )
 
   return (
     <nav aria-label='Breadcrumb' className={cls} {...props}>{res}</nav>

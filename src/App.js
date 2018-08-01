@@ -26,15 +26,15 @@ export class App extends Component {
     const Page = this.props.route
     return (
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
-        <div className='dt dt--fixed' style={{height: '100vh'}}>
-          <div className='dtc v-top bg-navy' style={{width: 240}}>
+        <div className='flex' style={{minHeight: '100vh'}}>
+          <div className='flex-none bg-navy'>
             <NavBar />
           </div>
-          <div className='dtc v-top'>
+          <div className='flex-auto'>
             <div style={{background: '#F0F6FA'}}>
               <IpldExploreForm />
             </div>
-            <main style={{padding: '40px'}}>
+            <main className='bg-white' style={{padding: '40px'}}>
               <Page />
             </main>
           </div>
