@@ -1,6 +1,6 @@
 import { join, dirname } from 'path'
 import { createSelector } from 'redux-bundler'
-import { getDownloadLink, filesToStreams } from '../lib/files'
+import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
 import ms from 'milliseconds'
 
 export const actions = {
@@ -238,6 +238,8 @@ export default (opts = {}) => {
       const gatewayUrl = store.selectGatewayUrl()
       return getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
     }),
+
+    doFilesShareLink: make(actions.SHARE_LINK, async (ipfs, files) => getShareableLink(files, ipfs)),
 
     doFilesMove: make(actions.MOVE, (ipfs, src, dst) => ipfs.files.mv([src, dst])),
 
