@@ -31,6 +31,7 @@ export default function (opts) {
     name: 'peerLocations',
 
     cacheOptions: {
+      version: 1,
       maxAge: ms.weeks(1)
     },
 
