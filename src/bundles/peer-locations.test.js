@@ -6,6 +6,10 @@ import { fakeCid } from '../../test/helpers/cid'
 import { randomInt, randomNum } from '../../test/helpers/random'
 import sleep from '../../test/helpers/sleep'
 import { fakeIp4 } from '../../test/helpers/ip'
+import indexedDB from 'fake-indexeddb'
+
+// mock indexedDB
+global.indexedDB = indexedDB
 
 async function fakePeer (data = {}) {
   const peerId = (await fakeCid()).toBaseEncodedString('base58btc')
