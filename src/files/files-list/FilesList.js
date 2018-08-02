@@ -186,7 +186,12 @@ class FileList extends React.Component {
     if (selected.length > 0) {
       const parts = dst.split('/')
       parts.pop()
-      const basepath = parts.join('/')
+      let basepath = parts.join('/')
+
+      if (basepath === '') {
+        basepath = '/'
+      }
+
       const toMove = selected.map(({ name, path }) => ([
         path,
         join(basepath, name)
