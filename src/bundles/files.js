@@ -179,8 +179,9 @@ export default (opts = {}) => {
     doFilesFetch: () => async ({ store, ...args }) => {
       const isReady = store.selectIpfsReady()
       const isFetching = store.selectFilesIsFetching()
+      const path = store.selectFilesPathFromHash()
 
-      if (isReady && !isFetching) {
+      if (isReady && !isFetching && path) {
         fetchFiles()({ store, ...args })
       }
     },

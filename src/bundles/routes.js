@@ -6,7 +6,6 @@ import PeersPage from '../peers/PeersPage'
 import LoadableSettingsPage from '../settings/LoadableSettingsPage'
 
 export default createRouteBundle({
-  '/files': FilesPage,
   '/explore*': ExplorePage,
   '/files*': FilesPage,
   '/peers': PeersPage,

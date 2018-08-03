@@ -10,5 +10,14 @@ export default {
         return { actionCreator: 'doUpdateHash', args: ['#/'] }
       }
     }
+  ),
+
+  reactToEmptyFiles: createSelector(
+    'selectHash',
+    (hash) => {
+      if (hash === '/files') {
+        return { actionCreator: 'doUpdateHash', args: ['#/files/'] }
+      }
+    }
   )
 }
