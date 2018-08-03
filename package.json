@@ -36,6 +36,7 @@
     "internal-nav-helper": "^1.0.2",
     "ipfs-css": "^0.7.0",
     "ipfs-geoip": "^2.3.0",
+    "ipfs-redux-bundle": "ipfs-shipyard/ipfs-redux-bundle#683c04d",
     "ipfs-unixfs": "^0.1.15",
     "ipld-dag-pb": "^0.14.8",
     "is-binary": "^0.1.0",
