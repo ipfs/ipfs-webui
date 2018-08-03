@@ -8,6 +8,6 @@ it('renders without crashing', () => {
   const Page = () => 'test'
 
   shallow(
-    <App doInitIpfs={noop} doUpdateUrl={noop} route={Page} />
+    <App doInitIpfs={noop} doUpdateUrl={noop} route={Page} routeInfo={{url: '/'}} />
   )
 })
