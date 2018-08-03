@@ -35,6 +35,7 @@ export default {
     const {apiAddress} = getState().ipfs
     let identity = null
     try {
+      root.ipfs = null
       root.ipfs = await getIpfs({ api: true, ipfs: apiAddress })
       // will fail if remote api is not available on default port
       identity = await root.ipfs.id()

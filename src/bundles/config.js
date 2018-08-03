@@ -4,10 +4,17 @@ import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 const bundle = createAsyncResourceBundle({
   name: 'config',
   getPromise: async ({getIpfs}) => {
-    // Uint8Array
+    // Uint8Array or Object. SEE: https://github.com/ipfs/js-ipfs-api/issues/822
     const rawConf = await getIpfs().config.get()
+    let conf
+
+    if (rawConf.constructor === Object) {
+      conf = JSON.stringify(conf)
+    } else {
+      conf = rawConf.toString()
+    }
+
     // stringy json for quick compares
-    const conf = rawConf.toString()
     return conf
   },
   staleAfter: 60000,

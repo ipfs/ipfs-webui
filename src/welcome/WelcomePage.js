@@ -1,9 +1,10 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
+import { connect } from 'redux-bundler-react'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 
-export default () => (
+const WelcomePage = ({ doUpdateIpfsAPIAddress }) => (
   <div>
     <Helmet>
       <title>Welcome to IPFS</title>
@@ -31,7 +32,9 @@ export default () => (
           <p>
             If your IPFS node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, please set it here
           </p>
-          <ApiAddressForm defaultValue='/ip4/127.0.0.1/tcp/5001' />
+          <ApiAddressForm
+            defaultValue='/ip4/127.0.0.1/tcp/5001'
+            updateAddress={doUpdateIpfsAPIAddress} />
         </Box>
       </div>
       <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{maxWidth: '40%'}}>
@@ -49,11 +52,42 @@ export default () => (
 )
 
 class ApiAddressForm extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { value: props.defaultValue }
+  }
+
+  onChange = (event) => {
+    let val = event.target.value
+
+    if (this.props.onChange) {
+      val = this.props.onChange(val)
+    }
+
+    this.setState({ value: val })
+  }
+
+  onKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      this.onSubmit(event)
+    }
+  }
+
+  onSubmit = async (event) => {
+    event.preventDefault()
+    this.props.updateAddress(this.state.value)
+  }
+
   render () {
     return (
-      <form>
+      <form onSubmit={this.onSubmit}>
         <label htmlFor='api-address' className='db f7 mb0 ttu tracked charcoal pl1'>API ADDRESS</label>
-        <input id='api-address' type='text' className='w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal' value='/ip4/127.0.0.1/tcp/5001' />
+        <input id='api-address'
+          type='text'
+          className='w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal'
+          onChange={this.onChange}
+          onKeyPress={this.onKeyPress}
+          value={this.state.value} />
         <div className='tr'>
           <Button>Submit</Button>
         </div>
@@ -61,3 +95,5 @@ class ApiAddressForm extends React.Component {
     )
   }
 }
+
+export default connect('doUpdateIpfsAPIAddress', WelcomePage)
