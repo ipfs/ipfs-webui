@@ -22,11 +22,16 @@ export default {
     }
 
     if (type === 'IPFS_API_UPDATED') {
-      return { ...state, apiAddress: payload }
+      return { ...state, apiAddress: payload, error: null }
     }
 
     return state
   },
+
+  persistActions: [
+    'IPFS_INIT_FINISHED',
+    'IPFS_API_UPDATED'
+  ],
 
   getExtraArgs () {
     return { getIpfs: () => root.ipfs }
@@ -43,6 +48,8 @@ export default {
     const {apiAddress} = getState().ipfs
     let identity = null
     try {
+      // root.ipfs needs to be set to null so getIpfs doesn't
+      // use the previous connection.
       root.ipfs = null
       root.ipfs = await getIpfs({ api: true, ipfs: apiAddress })
       // will fail if remote api is not available on default port
