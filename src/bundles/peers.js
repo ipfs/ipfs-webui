@@ -6,6 +6,7 @@ const bundle = createAsyncResourceBundle({
   actionBaseType: 'PEERS',
   getPromise: ({ getIpfs }) => getIpfs().swarm.peers(),
   staleAfter: ms.seconds(10),
+  persist: false,
   checkIfOnline: false
 })
 

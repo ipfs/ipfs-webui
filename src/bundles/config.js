@@ -18,6 +18,7 @@ const bundle = createAsyncResourceBundle({
     return conf
   },
   staleAfter: 60000,
+  persist: false,
   checkIfOnline: false
 })
 
@@ -58,7 +59,7 @@ bundle.reactConfigFetch = createSelector(
 function getURLFromAddress (name, config) {
   try {
     const address = config.Addresses[name]
-    return toUri(address)
+    return toUri(address).replace('tcp://', 'http://')
   } catch (error) {
     console.log(`Failed to get url from Addresses.${name}`, error)
     return null
