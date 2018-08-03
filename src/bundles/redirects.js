@@ -19,9 +19,14 @@ export default {
         return { actionCreator: 'doUpdateHash', args: ['#/files/'] }
       }
     }
-  )
+  ),
 
-  // TODO: redirect to welcome...
-  // reactToIpfsConnectionFail: createSelector(
-  // )
+  reactToIpfsConnectionFail: createSelector(
+    'selectIpfsInitFailed',
+    (failed) => {
+      if (failed) {
+        return { actionCreator: 'doUpdateHash', args: ['#/welcome'] }
+      }
+    }
+  )
 }

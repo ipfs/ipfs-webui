@@ -7,6 +7,7 @@ import IpldExploreForm from './explore/IpldExploreForm'
 import AsyncRequestLoader from './loader/AsyncRequestLoader'
 import { DragDropContext } from 'react-dnd'
 import DnDBackend from './lib/dnd-backend'
+import ComponentLoader from './loader/ComponentLoader'
 
 export class App extends Component {
   static propTypes = {
@@ -15,7 +16,8 @@ export class App extends Component {
     route: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.element
-    ]).isRequired
+    ]).isRequired,
+    routeInfo: PropTypes.object.isRequired
   }
 
   componentWillMount () {
@@ -23,7 +25,8 @@ export class App extends Component {
   }
 
   render () {
-    const Page = this.props.route
+    const { route: Page, ipfsReady, routeInfo: { url } } = this.props
+
     return (
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
         <div className='flex' style={{minHeight: '100vh'}}>
@@ -35,7 +38,10 @@ export class App extends Component {
               <IpldExploreForm />
             </div>
             <main className='bg-white' style={{padding: '40px'}}>
-              <Page />
+              { (ipfsReady || url === '/welcome')
+                ? <Page />
+                : <ComponentLoader pastDelay />
+              }
             </main>
           </div>
         </div>
@@ -49,7 +55,9 @@ export class App extends Component {
 
 export default connect(
   'selectRoute',
+  'selectRouteInfo',
   'doUpdateUrl',
   'doInitIpfs',
+  'selectIpfsReady',
   DragDropContext(DnDBackend)(App)
 )

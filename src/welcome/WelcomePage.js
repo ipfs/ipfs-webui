@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 
-const WelcomePage = ({ doUpdateIpfsAPIAddress }) => (
+const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsApiAddress }) => (
   <div>
     <Helmet>
       <title>Welcome to IPFS</title>
@@ -33,13 +33,12 @@ const WelcomePage = ({ doUpdateIpfsAPIAddress }) => (
             If your IPFS node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, please set it here
           </p>
           <ApiAddressForm
-            defaultValue='/ip4/127.0.0.1/tcp/5001'
+            defaultValue={ipfsApiAddress}
             updateAddress={doUpdateIpfsAPIAddress} />
         </Box>
       </div>
       <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{maxWidth: '40%'}}>
         <Box>
-          {/* <h1 className='montserrat fw2 navy ma0 f3'>Welcome to IPFS</h1> */}
           <p className='mt0'><strong>IPFS is a protocol</strong> that defines a content-addressed file system, coordinates content delivery and combines ideas from Kademlia, BitTorrent, Git and more.</p>
           <p><strong>IPFS is a filesystem.</strong> It has directories and files and mountable filesystem via FUSE.</p>
           <p><strong>IPFS is a web.</strong> Files are accessible via HTTP at <code className='f6'>https://ipfs.io/&lt;path&gt;</code>. Browsers <a className='link blue' target='_blank' rel='noopener noreferrer' href='https://github.com/ipfs-shipyard/ipfs-companion#release-channel'>can be extended</a> to use the <code className='f6'>ipfs://</code> or <code className='f6'>dweb:/ipfs/</code> schemes directly, and hash-addressed content guarantees authenticity</p>
@@ -96,4 +95,8 @@ class ApiAddressForm extends React.Component {
   }
 }
 
-export default connect('doUpdateIpfsAPIAddress', WelcomePage)
+export default connect(
+  'doUpdateIpfsAPIAddress',
+  'selectIpfsApiAddress',
+  WelcomePage
+)

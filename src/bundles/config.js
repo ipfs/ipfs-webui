@@ -4,14 +4,14 @@ import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 const bundle = createAsyncResourceBundle({
   name: 'config',
   getPromise: async ({getIpfs}) => {
-    // Uint8Array or Object. SEE: https://github.com/ipfs/js-ipfs-api/issues/822
+    // SEE: https://github.com/ipfs/js-ipfs-api/issues/822
     const rawConf = await getIpfs().config.get()
     let conf
 
-    if (rawConf.constructor === Object) {
-      conf = JSON.stringify(conf)
-    } else {
+    if (Buffer.isBuffer(rawConf)) {
       conf = rawConf.toString()
+    } else {
+      conf = JSON.stringify(rawConf, null, '\t')
     }
 
     // stringy json for quick compares
@@ -29,7 +29,7 @@ bundle.selectConfigObject = createSelector(
 
 bundle.selectGatewayUrl = createSelector(
   `selectConfigObject`,
-  (config) => getURLFromAddress('Gateway', config)
+  (config) => getURLFromAddress('Gateway', config) || `https://ipfs.io`
 )
 
 bundle.selectApiUrl = createSelector(

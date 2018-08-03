@@ -9,6 +9,10 @@ export default {
   name: 'ipfs',
 
   reducer (state = defaultState, {type, payload, error}) {
+    if (type === 'IPFS_INIT_STARTED') {
+      return { ...state, error: null }
+    }
+
     if (type === 'IPFS_INIT_FINISHED') {
       return { ...state, ipfsReady: true, identity: payload }
     }
@@ -29,6 +33,10 @@ export default {
   },
 
   selectIpfsReady: state => state.ipfs.ipfsReady,
+
+  selectIpfsApiAddress: state => state.ipfs.apiAddress,
+
+  selectIpfsInitFailed: state => !!state.ipfs.error,
 
   doInitIpfs: () => async ({ dispatch, getState }) => {
     dispatch({ type: 'IPFS_INIT_STARTED' })
