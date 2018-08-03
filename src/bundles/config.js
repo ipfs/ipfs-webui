@@ -29,7 +29,7 @@ bundle.selectConfigObject = createSelector(
 
 bundle.selectGatewayUrl = createSelector(
   `selectConfigObject`,
-  (config) => getURLFromAddress('Gateway', config) || `https://ipfs.io`
+  (config) => getURLFromAddress('Gateway', config) || 'https://ipfs.io'
 )
 
 bundle.selectApiUrl = createSelector(
