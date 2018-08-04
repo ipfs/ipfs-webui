@@ -4,7 +4,7 @@ import FilesPage from '../files/LoadableFilesPage'
 import ExplorePage from '../explore/LoadableExplorePage'
 import PeersPage from '../peers/LoadablePeersPage'
 import SettingsPage from '../settings/LoadableSettingsPage'
-import WelcomePage from '../welcome/WelcomePage'
+import WelcomePage from '../welcome/LoadableWelcomePage'
 
 export default createRouteBundle({
   '/explore*': ExplorePage,
