@@ -1,8 +1,8 @@
 import { createRouteBundle } from 'redux-bundler'
-import StatusPage from '../status/StatusPage'
+import StatusPage from '../status/LoadableStatusPage'
 import FilesPage from '../files/LoadableFilesPage'
-import ExplorePage from '../explore/ExplorePage'
-import PeersPage from '../peers/PeersPage'
+import ExplorePage from '../explore/LoadableExplorePage'
+import PeersPage from '../peers/LoadablePeersPage'
 import SettingsPage from '../settings/LoadableSettingsPage'
 
 export default createRouteBundle({
