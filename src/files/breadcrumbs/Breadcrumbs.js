@@ -32,7 +32,7 @@ export default function Breadcrumbs ({path, onClick, className = '', ...props}) 
   const last = bread.pop()
 
   const res = bread.map((link, index) => ([
-    <div key={`${index}link`} className='dib bb bw1 pv1' style={{borderColor: '#69c4cd'}}>
+    <div key={`${index}link`} className='dib bb bw1 pv1' style={{borderColor: '#244e66'}}>
       <a className='pointer dib link dark-gray o-50 glow' onClick={() => onClick(link.path)}>
         {link.name}
       </a>
@@ -41,7 +41,7 @@ export default function Breadcrumbs ({path, onClick, className = '', ...props}) 
   ]))
 
   res.push(
-    <div key='last-link' className='dib bb bw1 pv1' style={{borderColor: '#69c4cd'}}>
+    <div key='last-link' className='dib bb bw1 pv1' style={{borderColor: '#244e66'}}>
       <span className='dib'>{last.name}</span>
     </div>
   )
