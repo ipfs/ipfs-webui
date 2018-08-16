@@ -77,17 +77,17 @@ class FileList extends React.Component {
   }
 
   get selectedMenu () {
-    if (this.state.selected.length === 0) {
-      return null
-    }
-
     const unselectAll = () => this.toggleAll(false)
     const size = this.selectedFiles.reduce((a, b) => a + b.size, 0)
+    const show = this.state.selected.length !== 0
 
     return (
       <SelectedActions
-        className='fixed bottom-0 right-0'
-        style={{maxWidth: this.props.maxWidth}}
+        className={`fixed transition-all bottom-0 right-0`}
+        style={{
+          maxWidth: this.props.maxWidth,
+          transform: `translateY(${show ? '0' : '100%'})`
+        }}
         unselect={unselectAll}
         remove={() => this.showDeleteModal(this.selectedFiles)}
         rename={() => this.showRenameModal(this.selectedFiles)}
