@@ -27,7 +27,7 @@ class FilesPreview extends React.Component {
 
     const type = typeFromExt(stats.name)
     const src = `${gatewayUrl}/ipfs/${stats.hash}`
-    const className = 'w-100 bg-snow-muted pa2 br2'
+    const className = 'mw-100 bg-snow-muted pa2 br2'
     switch (type) {
       case 'audio':
         return (
