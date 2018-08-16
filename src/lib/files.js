@@ -1,5 +1,11 @@
 import fileReader from 'pull-file-reader'
 
+const ignore = [
+  '.DS_Store',
+  'thumbs.db',
+  'desktop.ini'
+]
+
 export async function filesToStreams (files) {
   if (files.hasOwnProperty('content')) {
     // this is a promise
@@ -11,6 +17,10 @@ export async function filesToStreams (files) {
   let isDir = false
 
   for (let file of files) {
+    if (ignore.includes(file.name)) {
+      continue
+    }
+
     const stream = fileReader(file)
 
     if (file.webkitRelativePath) {
