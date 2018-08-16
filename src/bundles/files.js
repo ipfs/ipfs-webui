@@ -52,15 +52,24 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   }
 
   // Otherwise get the directory info
-  let res = await ipfs.files.ls(path, {l: true})
+  const res = await ipfs.files.ls(path, {l: true}) || []
+  const files = []
 
-  if (res) {
-    res = res.map(file => {
-      // FIX: open PR on js-ipfs-api
-      file.type = file.type === 0 ? 'file' : 'directory'
-      file.path = join(path, file.name)
-      return file
-    })
+  for (const f of res) {
+    let file = {
+      ...f,
+      path: join(path, f.name),
+      type: f.type === 0 ? 'file' : 'directory'
+    }
+
+    if (file.type === 'directory') {
+      file = {
+        ...file,
+        ...await ipfs.files.stat(file.path)
+      }
+    }
+
+    files.push(file)
   }
 
   const upperPath = dirname(path)
@@ -74,7 +83,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
     fetched: Date.now(),
     type: 'directory',
     upper: upper,
-    content: res
+    content: files
   }
 })
 
