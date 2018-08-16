@@ -18,6 +18,7 @@ const File = (props) => {
     name,
     type,
     size,
+    cumulativeSize,
     onSelect,
     onNavigate,
     onDelete,
@@ -47,11 +48,7 @@ const File = (props) => {
     className += ' o-50'
   }
 
-  if (type === 'directory') {
-    size = ''
-  } else {
-    size = filesize(size, { round: 0 })
-  }
+  size = filesize(cumulativeSize || size, { round: 0 })
 
   const select = (select) => onSelect(name, select)
 
@@ -101,6 +98,7 @@ File.propTypes = {
   type: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
+  cumulativeSize: PropTypes.number,
   hash: PropTypes.string.isRequired,
   selected: PropTypes.bool,
   onSelect: PropTypes.func,
