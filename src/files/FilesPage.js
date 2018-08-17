@@ -199,7 +199,7 @@ class FilesPage extends React.Component {
           <div>
             <Errors errors={errors} onDismiss={doFilesDismissErrors} />
 
-            <div className='flex flex-wrap items-center justify-between mb3'>
+            <div className='flex flex-wrap justify-between mb3'>
               <Breadcrumbs className='mb3' path={files.path} onClick={doFilesNavigateTo} />
 
               { files.type === 'directory' &&
