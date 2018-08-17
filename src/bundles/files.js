@@ -3,6 +3,8 @@ import { createSelector } from 'redux-bundler'
 import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
 import ms from 'milliseconds'
 
+const isMac = navigator.userAgent.indexOf('Mac') !== -1
+
 export const actions = {
   FETCH: 'FETCH',
   MOVE: 'MOVE',
@@ -20,7 +22,7 @@ export const sorts = {
 }
 
 function compare (a, b, asc) {
-  if (a > b) {
+  if (a.toLowerCase() > b.toLowerCase()) {
     return asc ? 1 : -1
   } else if (a < b) {
     return asc ? -1 : 1
@@ -315,7 +317,7 @@ export default (opts = {}) => {
       return {
         ...pageContent,
         content: pageContent.content.sort((a, b) => {
-          if (a.type === b.type) {
+          if (a.type === b.type || isMac) {
             if (sorting.by === sorts.BY_NAME) {
               return compare(a.name, b.name, sorting.asc)
             } else {
@@ -323,7 +325,6 @@ export default (opts = {}) => {
             }
           }
 
-          // TODO: on OSX ignore
           if (a.type === 'directory') {
             return -1
           } else {
