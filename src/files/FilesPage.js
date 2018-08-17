@@ -8,9 +8,31 @@ import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
 import Overlay from '../components/overlay/Overlay'
 import ShareModal from './share-modal/ShareModal'
+import RenameModal from './rename-modal/RenameModal'
+import DeleteModal from './delete-modal/DeleteModal'
 import Errors from './errors/Errors'
 import downloadFile from './download-file'
 import { join } from 'path'
+
+const defaultState = {
+  downloadAbort: null,
+  downloadProgress: null,
+  share: {
+    isOpen: false,
+    link: ''
+  },
+  rename: {
+    isOpen: false,
+    path: '',
+    filename: ''
+  },
+  delete: {
+    isOpen: false,
+    paths: [],
+    files: 0,
+    folders: 0
+  }
+}
 
 class FilesPage extends React.Component {
   static propTypes = {
@@ -29,14 +51,9 @@ class FilesPage extends React.Component {
     doFilesMakeDir: PropTypes.func.isRequired
   }
 
-  state = {
-    downloadAbort: null,
-    downloadProgress: null,
-    share: {
-      isOpen: false,
-      link: ''
-    }
-  }
+  state = defaultState
+
+  resetState = (field) => this.setState({ [field]: defaultState[field] })
 
   makeDir = (path) => this.props.doFilesMakeDir(join(this.props.files.path, path))
 
@@ -92,22 +109,64 @@ class FilesPage extends React.Component {
     doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
-  share = async (files) => {
+  showShareModal = (files) => {
     this.setState({
       share: {
         isOpen: true,
-        link: await this.props.doFilesShareLink(files)
+        link: 'Generating...'
+      }
+    })
+
+    this.props.doFilesShareLink(files).then(link => {
+      this.setState({
+        share: {
+          isOpen: true,
+          link: link
+        }
+      })
+    })
+  }
+
+  showRenameModal = ([file]) => {
+    this.setState({
+      rename: {
+        isOpen: true,
+        path: file.path,
+        filename: file.path.split('/').pop()
       }
     })
   }
 
-  closeShare = () => {
+  rename = (newName) => {
+    const {filename, path} = this.state.rename
+    this.resetState('rename')
+
+    if (newName !== '' && newName !== filename) {
+      this.props.doFilesMove([path, path.replace(filename, newName)])
+    }
+  }
+
+  showDeleteModal = (files) => {
+    let filesCount = 0
+    let foldersCount = 0
+
+    files.forEach(file => file.type === 'file' ? filesCount++ : foldersCount++)
+
     this.setState({
-      share: {
-        isOpen: false,
-        link: ''
+      delete: {
+        isOpen: true,
+        files: filesCount,
+        folders: foldersCount,
+        paths: files.map(f => f.path)
       }
     })
+  }
+
+  delete = () => {
+    const { paths } = this.state.delete
+
+    this.resetState('delete')
+    this.props.doFilesDelete(paths)
   }
 
   render () {
@@ -117,10 +176,15 @@ class FilesPage extends React.Component {
       navbarWidth,
       doFilesDismissErrors,
       doFilesMove,
-      doFilesDelete,
       doFilesNavigateTo,
       filesErrors: errors
     } = this.props
+
+    const {
+      share,
+      rename,
+      delete: deleteModal
+    } = this.state
 
     return (
       <div data-id='FilesPage'>
@@ -151,12 +215,13 @@ class FilesPage extends React.Component {
                 files={files.content}
                 upperDir={files.upper}
                 downloadProgress={this.state.downloadProgress}
-                onShare={this.share}
+                onShare={this.showShareModal}
                 onInspect={this.inspect}
                 onDownload={this.download}
                 onAddFiles={this.add}
+                onRename={this.showRenameModal}
+                onDelete={this.showDeleteModal}
                 onNavigate={doFilesNavigateTo}
-                onDelete={doFilesDelete}
                 onMove={doFilesMove}
               />
             ) : (
@@ -165,11 +230,28 @@ class FilesPage extends React.Component {
           </div>
         }
 
-        <Overlay show={this.state.share.isOpen} onLeave={this.closeShare}>
+        <Overlay show={share.isOpen} onLeave={() => this.resetState('share')}>
           <ShareModal
             className='outline-0'
-            link={this.state.share.link}
-            onLeave={this.closeShare} />
+            link={share.link}
+            onLeave={() => this.resetState('share')} />
+        </Overlay>
+
+        <Overlay show={rename.isOpen} onLeave={() => this.resetState('rename')}>
+          <RenameModal
+            className='outline-0'
+            filename={rename.filename}
+            onCancel={() => this.resetState('rename')}
+            onSubmit={this.rename} />
+        </Overlay>
+
+        <Overlay show={deleteModal.isOpen} onLeave={() => this.resetState('delete')}>
+          <DeleteModal
+            className='outline-0'
+            files={deleteModal.files}
+            folders={deleteModal.folders}
+            onCancel={() => this.resetState('delete')}
+            onDelete={this.delete} />
         </Overlay>
       </div>
     )

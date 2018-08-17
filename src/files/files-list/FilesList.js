@@ -3,9 +3,6 @@ import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
-import RenameModal from '../rename-modal/RenameModal'
-import DeleteModal from '../delete-modal/DeleteModal'
-import Overlay from '../../components/overlay/Overlay'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
 import { join } from 'path'
@@ -23,24 +20,6 @@ function compare (a, b, asc) {
   }
 }
 
-const defaultState = {
-  selected: [],
-  sortBy: ORDER_BY_NAME,
-  sortAsc: true,
-  isDragging: false,
-  rename: {
-    isOpen: false,
-    path: '',
-    filename: ''
-  },
-  delete: {
-    isOpen: false,
-    paths: [],
-    files: 0,
-    folders: 0
-  }
-}
-
 class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
@@ -49,13 +28,16 @@ class FileList extends React.Component {
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
     maxWidth: PropTypes.string.isRequired,
+    // React Drag'n'Drop
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
     connectDropTarget: PropTypes.func.isRequired,
+    // Actions
     onShare: PropTypes.func.isRequired,
     onInspect: PropTypes.func.isRequired,
     onDownload: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onRename: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
     onMove: PropTypes.func.isRequired
@@ -66,9 +48,12 @@ class FileList extends React.Component {
     maxWidth: '100%'
   }
 
-  state = defaultState
-
-  resetState = (field) => this.setState({ [field]: defaultState[field] })
+  state = {
+    selected: [],
+    sortBy: ORDER_BY_NAME,
+    sortAsc: true,
+    isDragging: false
+  }
 
   get selectedFiles () {
     return this.state.selected.map(name =>
@@ -76,34 +61,7 @@ class FileList extends React.Component {
     ).filter(n => n)
   }
 
-  get selectedMenu () {
-    const unselectAll = () => this.toggleAll(false)
-    const size = this.selectedFiles.reduce((a, b) => a + b.size, 0)
-    const show = this.state.selected.length !== 0
-
-    return (
-      <SelectedActions
-        className={`fixed transition-all bottom-0 right-0`}
-        style={{
-          maxWidth: this.props.maxWidth,
-          transform: `translateY(${show ? '0' : '100%'})`
-        }}
-        unselect={unselectAll}
-        remove={() => this.showDeleteModal(this.selectedFiles)}
-        rename={() => this.showRenameModal(this.selectedFiles)}
-        share={this.wrapWithSelected('onShare')}
-        download={this.wrapWithSelected('onDownload')}
-        inspect={this.wrapWithSelected('onInspect')}
-        count={this.state.selected.length}
-        downloadProgress={this.props.downloadProgress}
-        size={size}
-      />
-    )
-  }
-
-  get files () {
-    const { isOver, canDrop } = this.props
-
+  get orderedFiles () {
     return this.props.files.sort((a, b) => {
       if (a.type === b.type) {
         if (this.state.sortBy === ORDER_BY_NAME) {
@@ -118,15 +76,46 @@ class FileList extends React.Component {
       } else {
         return 1
       }
-    }).map(file => (
+    })
+  }
+
+  get selectedMenu () {
+    const unselectAll = () => this.toggleAll(false)
+    const size = this.selectedFiles.reduce((a, b) => a + (b.size || b.cumulativeSize), 0)
+    const show = this.state.selected.length !== 0
+
+    return (
+      <SelectedActions
+        className={`fixed transition-all bottom-0 right-0`}
+        style={{
+          maxWidth: this.props.maxWidth,
+          transform: `translateY(${show ? '0' : '100%'})`
+        }}
+        unselect={unselectAll}
+        remove={() => this.props.onDelete(this.selectedFiles)}
+        rename={() => this.props.onRename(this.selectedFiles)}
+        share={this.wrapWithSelected('onShare')}
+        download={this.wrapWithSelected('onDownload')}
+        inspect={this.wrapWithSelected('onInspect')}
+        count={this.state.selected.length}
+        downloadProgress={this.props.downloadProgress}
+        size={size}
+      />
+    )
+  }
+
+  get files () {
+    const { isOver, canDrop } = this.props
+
+    return this.orderedFiles.map(file => (
       <File
         onSelect={this.toggleOne}
         onNavigate={() => this.props.onNavigate(file.path)}
         onShare={() => this.props.onShare([file])}
         onDownload={() => this.props.onDownload([file])}
         onInspect={() => this.props.onInspect([file])}
-        onDelete={() => this.showDeleteModal([file])}
-        onRename={() => this.showRenameModal([file])}
+        onDelete={() => this.props.onDelete([file])}
+        onRename={() => this.props.onRename([file])}
         onAddFiles={this.props.onAddFiles}
         onMove={this.move}
         selected={this.state.selected.indexOf(file.name) !== -1}
@@ -229,51 +218,9 @@ class FileList extends React.Component {
     this.setState({ isDragging: is })
   }
 
-  showRenameModal = ([file]) => {
-    this.setState({
-      rename: {
-        isOpen: true,
-        path: file.path,
-        filename: file.path.split('/').pop()
-      }
-    })
-  }
-
-  rename = (newName) => {
-    const {filename, path} = this.state.rename
-    this.resetState('rename')
-
-    if (newName !== '' && newName !== filename) {
-      this.props.onMove([path, path.replace(filename, newName)])
-    }
-  }
-
-  showDeleteModal = (files) => {
-    let filesCount = 0
-    let foldersCount = 0
-
-    files.forEach(file => file.type === 'file' ? filesCount++ : foldersCount++)
-
-    this.setState({
-      delete: {
-        isOpen: true,
-        files: filesCount,
-        folders: foldersCount,
-        paths: files.map(f => f.path)
-      }
-    })
-  }
-
-  delete = () => {
-    const { paths } = this.state.delete
-
-    this.resetState('delete')
-    this.props.onDelete(paths)
-  }
-
   render () {
     let { files, className, upperDir, connectDropTarget, isOver, canDrop } = this.props
-    const { selected, isDragging, rename, delete: deleteModal } = this.state
+    const { selected, isDragging } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
 
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
@@ -317,23 +264,6 @@ class FileList extends React.Component {
           {this.files}
           {this.selectedMenu}
         </section>
-
-        <Overlay show={rename.isOpen} onLeave={() => this.resetState('rename')}>
-          <RenameModal
-            className='outline-0'
-            filename={rename.filename}
-            onCancel={() => this.resetState('rename')}
-            onSubmit={this.rename} />
-        </Overlay>
-
-        <Overlay show={deleteModal.isOpen} onLeave={() => this.resetState('delete')}>
-          <DeleteModal
-            className='outline-0'
-            files={deleteModal.files}
-            folders={deleteModal.folders}
-            onCancel={() => this.resetState('delete')}
-            onDelete={this.delete} />
-        </Overlay>
       </div>
     )
   }
