@@ -39,6 +39,7 @@ class FilesPage extends React.Component {
     files: PropTypes.object,
     filesErrors: PropTypes.array.isRequired,
     filesPathFromHash: PropTypes.string,
+    filesSorting: PropTypes.object.isRequired,
     writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
     navbarWidth: PropTypes.number.isRequired,
@@ -48,7 +49,8 @@ class FilesPage extends React.Component {
     doFilesWrite: PropTypes.func.isRequired,
     doFilesAddPath: PropTypes.func.isRequired,
     doFilesDownloadLink: PropTypes.func.isRequired,
-    doFilesMakeDir: PropTypes.func.isRequired
+    doFilesMakeDir: PropTypes.func.isRequired,
+    doFilesUpdateSorting: PropTypes.func.isRequired
   }
 
   state = defaultState
@@ -177,7 +179,9 @@ class FilesPage extends React.Component {
       doFilesDismissErrors,
       doFilesMove,
       doFilesNavigateTo,
-      filesErrors: errors
+      doFilesUpdateSorting,
+      filesErrors: errors,
+      filesSorting: sort
     } = this.props
 
     const {
@@ -211,7 +215,10 @@ class FilesPage extends React.Component {
             { files.type === 'directory' ? (
               <FilesList
                 maxWidth={`calc(100% - ${navbarWidth}px)`}
+                key={window.encodeURIComponent(files.path)}
                 root={files.path}
+                sort={sort}
+                updateSorting={doFilesUpdateSorting}
                 files={files.content}
                 upperDir={files.upper}
                 downloadProgress={this.state.downloadProgress}
@@ -270,11 +277,13 @@ export default connect(
   'doFilesFetch',
   'doFilesDismissErrors',
   'doFilesNavigateTo',
+  'doFilesUpdateSorting',
   'selectFiles',
   'selectFilesErrors',
   'selectGatewayUrl',
   'selectWriteFilesProgress',
   'selectNavbarWidth',
   'selectFilesPathFromHash',
+  'selectFilesSorting',
   FilesPage
 )

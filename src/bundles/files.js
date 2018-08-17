@@ -14,6 +14,21 @@ export const actions = {
   ADD_BY_PATH: 'ADDBYPATH'
 }
 
+export const sorts = {
+  BY_NAME: 'name',
+  BY_SIZE: 'size'
+}
+
+function compare (a, b, asc) {
+  if (a > b) {
+    return asc ? 1 : -1
+  } else if (a < b) {
+    return asc ? -1 : 1
+  } else {
+    return 0
+  }
+}
+
 const make = (basename, action) => (...args) => async (args2) => {
   const id = Symbol(basename)
   const { dispatch, getIpfs, store } = args2
@@ -89,6 +104,10 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
 
 const defaultState = {
   pageContent: null,
+  sorting: { // TODO: cache this
+    by: sorts.BY_NAME,
+    asc: true
+  },
   pending: [],
   finished: [],
   failed: []
@@ -110,6 +129,13 @@ export default (opts = {}) => {
         return {
           ...state,
           failed: []
+        }
+      }
+
+      if (action.type === 'FILES_UPDATE_SORT') {
+        return {
+          ...state,
+          sorting: action.payload
         }
       }
 
@@ -264,6 +290,10 @@ export default (opts = {}) => {
       store.doUpdateHash(`${opts.baseUrl}${link}`)
     },
 
+    doFilesUpdateSorting: (by, asc) => async ({ dispatch }) => {
+      dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
+    },
+
     reactFilesFetch: createSelector(
       'selectFiles',
       'selectFilesIsFetching',
@@ -275,9 +305,37 @@ export default (opts = {}) => {
       }
     ),
 
-    selectFiles: (state) => state.files.pageContent,
+    selectFiles: (state) => {
+      const { pageContent, sorting } = state.files
+
+      if (pageContent === null || pageContent.type === 'file') {
+        return pageContent
+      }
+
+      return {
+        ...pageContent,
+        content: pageContent.content.sort((a, b) => {
+          if (a.type === b.type) {
+            if (sorting.by === sorts.BY_NAME) {
+              return compare(a.name, b.name, sorting.asc)
+            } else {
+              return compare(a.size, b.size, sorting.asc)
+            }
+          }
+
+          // TODO: on OSX ignore
+          if (a.type === 'directory') {
+            return -1
+          } else {
+            return 1
+          }
+        })
+      }
+    },
 
     selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === actions.FETCH),
+
+    selectFilesSorting: (state) => state.files.sorting,
 
     selectWriteFilesProgress: (state) => {
       const writes = state.files.pending.filter(s => s.type === actions.WRITE && s.data.progress)
