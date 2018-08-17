@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
@@ -46,6 +47,8 @@ class FileList extends React.Component {
     isDragging: false
   }
 
+  filesRefs = {}
+
   // TODO: only recalculate when props change
   get selectedFiles () {
     return this.state.selected.map(name =>
@@ -83,6 +86,7 @@ class FileList extends React.Component {
 
     return files.map(file => (
       <File
+        ref={r => { this.filesRefs[file.name] = r }}
         onSelect={this.toggleOne}
         onNavigate={() => this.props.onNavigate(file.path)}
         onShare={() => this.props.onShare([file])}
@@ -101,6 +105,14 @@ class FileList extends React.Component {
     ))
   }
 
+  componentDidMount () {
+    document.addEventListener('keydown', this.keyHandler)
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('keydown', this.keyHandler)
+  }
+
   componentDidUpdate () {
     const selected = this.state.selected.filter(name => (
       this.props.files.find(el => el.name === name)
@@ -113,6 +125,45 @@ class FileList extends React.Component {
 
   wrapWithSelected = (fn) => async () => {
     this.props[fn](this.selectedFiles)
+  }
+
+  keyHandler = (e) => {
+    const { selected } = this.state
+
+    if (e.key === 'Escape') {
+      return this.toggleAll(false)
+    }
+
+    if (e.key === 'F2' && selected.length === 1) {
+      return this.props.onRename(this.selectedFiles)
+    }
+
+    if (e.key === 'Delete' && selected.length > 0) {
+      return this.props.onDelete(this.selectedFiles)
+    }
+
+    if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && selected.length === 1) {
+      return this.props.onNavigate(this.selectedFiles[0].path)
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      let index = 0
+
+      if (selected.length !== 0) {
+        const name = selected[selected.length - 1]
+        const prev = this.props.files.findIndex(el => el.name === name)
+        index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
+      }
+
+      if (index >= 0 && index < this.props.files.length) {
+        const name = this.props.files[index].name
+        this.toggleAll(false)
+        this.toggleOne(name, true)
+        const domNode = ReactDOM.findDOMNode(this.filesRefs[name])
+        domNode.scrollIntoView()
+      }
+    }
   }
 
   toggleAll = (checked) => {
