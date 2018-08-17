@@ -6,25 +6,18 @@ import File from '../file/File'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
 import { join } from 'path'
-
-const ORDER_BY_NAME = 'name'
-const ORDER_BY_SIZE = 'size'
-
-function compare (a, b, asc) {
-  if (a > b) {
-    return asc ? 1 : -1
-  } else if (a < b) {
-    return asc ? -1 : 1
-  } else {
-    return 0
-  }
-}
+import { sorts } from '../../bundles/files'
 
 class FileList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
     upperDir: PropTypes.object,
+    sort: PropTypes.shape({
+      by: PropTypes.string.isRequired,
+      asc: PropTypes.bool.isRequired
+    }),
+    updateSorting: PropTypes.func.isRequired,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
     maxWidth: PropTypes.string.isRequired,
@@ -50,33 +43,14 @@ class FileList extends React.Component {
 
   state = {
     selected: [],
-    sortBy: ORDER_BY_NAME,
-    sortAsc: true,
     isDragging: false
   }
 
+  // TODO: only recalculate when props change
   get selectedFiles () {
     return this.state.selected.map(name =>
       this.props.files.find(el => el.name === name)
     ).filter(n => n)
-  }
-
-  get orderedFiles () {
-    return this.props.files.sort((a, b) => {
-      if (a.type === b.type) {
-        if (this.state.sortBy === ORDER_BY_NAME) {
-          return compare(a.name, b.name, this.state.sortAsc)
-        } else {
-          return compare(a.size, b.size, this.state.sortAsc)
-        }
-      }
-
-      if (a.type === 'directory') {
-        return -1
-      } else {
-        return 1
-      }
-    })
   }
 
   get selectedMenu () {
@@ -105,9 +79,9 @@ class FileList extends React.Component {
   }
 
   get files () {
-    const { isOver, canDrop } = this.props
+    const { files, isOver, canDrop } = this.props
 
-    return this.orderedFiles.map(file => (
+    return files.map(file => (
       <File
         onSelect={this.toggleOne}
         onNavigate={() => this.props.onNavigate(file.path)}
@@ -127,12 +101,7 @@ class FileList extends React.Component {
     ))
   }
 
-  componentDidUpdate (prev) {
-    if (this.props.root !== prev.root) {
-      this.setState({ selected: [] })
-      return
-    }
-
+  componentDidUpdate () {
     const selected = this.state.selected.filter(name => (
       this.props.files.find(el => el.name === name)
     ))
@@ -199,18 +168,18 @@ class FileList extends React.Component {
   }
 
   sortByIcon = (order) => {
-    if (this.state.sortBy === order) {
-      return (this.state.sortAsc) ? '↑' : '↓'
+    if (this.props.sort.by === order) {
+      return this.props.sort.asc ? '↑' : '↓'
     }
 
     return null
   }
 
   changeSort = (order) => () => {
-    if (order === this.state.sortBy) {
-      this.setState({ sortAsc: !this.state.sortAsc })
+    if (order === this.props.sort.by) {
+      this.props.updateSorting(order, !this.props.sort.asc)
     } else {
-      this.setState({ sortBy: order, sortAsc: true })
+      this.props.updateSorting(order, true)
     }
   }
 
@@ -237,13 +206,13 @@ class FileList extends React.Component {
               <Checkbox checked={allSelected} onChange={this.toggleAll} />
             </div>
             <div className='ph2 f6 flex-grow-1 w-40'>
-              <span onClick={this.changeSort(ORDER_BY_NAME)} className='pointer'>
-                File name {this.sortByIcon(ORDER_BY_NAME)}
+              <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
+                File name {this.sortByIcon(sorts.BY_NAME)}
               </span>
             </div>
             <div className='ph2 f6 w-10 dn db-l'>
-              <span className='pointer' onClick={this.changeSort(ORDER_BY_SIZE)}>
-                Size {this.sortByIcon(ORDER_BY_SIZE)}
+              <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
+                Size {this.sortByIcon(sorts.BY_SIZE)}
               </span>
             </div>
             <div className='pa2' style={{width: '2.5rem'}} />
