@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import HomeIcon from '../../icons/GlyphHome'
 
 function makeBread (root) {
   if (root.endsWith('/')) {
@@ -20,7 +21,7 @@ function makeBread (root) {
     }
   }
 
-  parts[0].name = 'Root'
+  parts[0].name = <HomeIcon viewBox='25 25 100 100' style={{width: '0.9rem', height: '0.9rem'}} />
   parts[0].path = '/'
 
   return parts
