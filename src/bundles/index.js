@@ -1,4 +1,4 @@
-import { composeBundles, createCacheBundle } from 'redux-bundler'
+import { composeBundles } from 'redux-bundler'
 
 import ipfsBundle from 'ipfs-redux-bundle'
 import exploreBundle from './explore'
@@ -14,11 +14,9 @@ import filesBundle from './files'
 import configBundle from './config'
 import configSaveBundle from './config-save'
 import navbarBundle from './navbar'
-import cache from '../utils/cache'
 
 export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
-  createCacheBundle(cache.set),
   ipfsBundle(),
   exploreBundle,
   nodeBandwidthBundle,

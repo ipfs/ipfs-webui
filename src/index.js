@@ -7,15 +7,12 @@ import 'react-virtualized/styles.css'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import getStore from './bundles'
-import cache from './utils/cache'
 
-cache.getAll().then(initialData => {
-  ReactDOM.render(
-    <Provider store={getStore(initialData)}>
-      <IntlProvider locale='en'>
-        <App />
-      </IntlProvider>
-    </Provider>, document.getElementById('root'))
-})
+ReactDOM.render(
+  <Provider store={getStore()}>
+    <IntlProvider locale='en'>
+      <App />
+    </IntlProvider>
+  </Provider>, document.getElementById('root'))
 
 registerServiceWorker()
