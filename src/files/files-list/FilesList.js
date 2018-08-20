@@ -49,7 +49,6 @@ class FileList extends React.Component {
 
   filesRefs = {}
 
-  // TODO: only recalculate when props change
   get selectedFiles () {
     return this.state.selected.map(name =>
       this.props.files.find(el => el.name === name)
@@ -186,7 +185,7 @@ class FileList extends React.Component {
       selected.splice(this.state.selected.indexOf(name), 1)
     }
 
-    this.setState({selected: selected})
+    this.setState({ selected: selected.sort() })
   }
 
   move = ([src, dst]) => {
