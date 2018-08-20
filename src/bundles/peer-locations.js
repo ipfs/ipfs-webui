@@ -1,14 +1,16 @@
 import { createSelector } from 'redux-bundler'
+import { getConfiguredCache } from 'money-clip'
 import geoip from 'ipfs-geoip'
 import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
-import applyCache from './cache'
 
 // Depends on ipfsBundle, peersBundle
 export default function (opts) {
   opts = opts || {}
   // Max number of locations to retrieve concurrently
   opts.concurrency = opts.concurrency || 10
+  // Cache options
+  opts.cache = opts.cache || {}
 
   const defaultState = {
     // Peer locations keyed by peer ID then peer address.
@@ -27,13 +29,15 @@ export default function (opts) {
     resolvingPeers: []
   }
 
-  return applyCache({
+  const cache = getConfiguredCache({
     name: 'peerLocations',
+    version: 1,
+    maxAge: ms.weeks(1),
+    ...opts.cache
+  })
 
-    cacheOptions: {
-      version: 1,
-      maxAge: ms.weeks(1)
-    },
+  return {
+    name: 'peerLocations',
 
     reducer (state = defaultState, action) {
       if (action.type === 'PEER_LOCATIONS_PEERS_QUEUED') {
@@ -151,7 +155,6 @@ export default function (opts) {
     doResolvePeerLocation: ({ peerId, addr }) => async ({ dispatch, store, getIpfs }) => {
       dispatch({ type: 'PEER_LOCATIONS_RESOLVE_STARTED', payload: { peerId, addr } })
 
-      const cache = store.selectPeerLocationsCache()
       let location = await cache.get(peerId)
 
       if (location) {
@@ -239,7 +242,7 @@ export default function (opts) {
         }
       }
     )
-  })
+  }
 }
 
 const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'
