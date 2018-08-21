@@ -20,7 +20,7 @@ const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsAp
           <Box>
             { ipfsReady ? (
               <div>
-                <h1 className='montserrat fw2 navy ma0 f3 yellow'>Your IPFS is running!</h1>
+                <h1 className='montserrat fw2 navy ma0 f3 yellow'>Your IPFS daemon is running!</h1>
                 <p>
                   We could connect successfully to your IPFS daemon. Now, it's time for you to explore
                   your node. Head to <a className='link blue' href='#/files/'>Files page</a> to manage
@@ -32,7 +32,7 @@ const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsAp
               </div>
             ) : (
               <div>
-                <h1 className='montserrat fw2 navy ma0 f3 yellow'>Is your IPFS demon running?</h1>
+                <h1 className='montserrat fw2 navy ma0 f3 yellow'>Is your IPFS daemon running?</h1>
                 <p>
                   Failed to connect to the API. Please check the IPFS daemon is running.
                   Run <code className='f6'>ipfs daemon</code> in a terminal window, as shown below.
