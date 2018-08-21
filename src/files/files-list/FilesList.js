@@ -169,6 +169,10 @@ class FileList extends React.Component {
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
       }
 
+      if (index === -1 && !this.props.upperDir) {
+        return
+      }
+
       if (index >= -1 && index < this.props.files.length) {
         let name
 
