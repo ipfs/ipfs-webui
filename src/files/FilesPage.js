@@ -199,12 +199,12 @@ class FilesPage extends React.Component {
           <div>
             <Errors errors={errors} onDismiss={doFilesDismissErrors} />
 
-            <div className='flex flex-wrap justify-between mb3'>
+            <div className='flex flex-wrap'>
               <Breadcrumbs className='mb3' path={files.path} onClick={doFilesNavigateTo} />
 
               { files.type === 'directory' &&
                 <FileInput
-                  className='mb3'
+                  className='mb3 ml-auto'
                   onMakeDir={this.makeDir}
                   onAddFiles={this.add}
                   onAddByPath={this.addByPath}
