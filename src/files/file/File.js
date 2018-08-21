@@ -12,6 +12,7 @@ import { join, basename } from 'path'
 const File = (props) => {
   let {
     selected,
+    focused,
     translucent,
     coloured,
     hash,
@@ -42,10 +43,17 @@ const File = (props) => {
     className += ' selected'
   }
 
-  if ((selected && !translucent) || coloured || (isOver && canDrop)) {
+  if (focused || (selected && !translucent) || coloured || (isOver && canDrop)) {
     styles.backgroundColor = '#F0F6FA'
   } else if (translucent) {
     className += ' o-50'
+  }
+
+  if (focused) {
+    styles.border = '1px dashed #9ad4db'
+  } else {
+    styles.border = '1px solid transparent'
+    styles.borderTop = '1px solid #eee'
   }
 
   size = filesize(cumulativeSize || size, { round: 0 })
@@ -54,7 +62,7 @@ const File = (props) => {
 
   const element = connectDropTarget(
     <div className={className} style={styles}>
-      <div className='child float-on-left-l pa2 w2' style={selected ? {opacity: '1'} : null}>
+      <div className='child float-on-left-l pa2 w2' style={(selected || focused) ? {opacity: '1'} : null}>
         <Checkbox disabled={cantSelect} checked={selected} onChange={select} />
       </div>
       {connectDragPreview(
@@ -101,6 +109,7 @@ File.propTypes = {
   cumulativeSize: PropTypes.number,
   hash: PropTypes.string.isRequired,
   selected: PropTypes.bool,
+  focused: PropTypes.bool,
   onSelect: PropTypes.func,
   onNavigate: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
