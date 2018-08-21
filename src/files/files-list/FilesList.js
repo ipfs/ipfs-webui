@@ -274,7 +274,7 @@ class FileList extends React.Component {
     }
 
     return connectDropTarget(
-      <div>
+      <div style={{marginBottom: '80px'}}>
         <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '500px' }}>
           <header className='hide-child-l gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
             <div className='child float-on-left-l ph2 w2' style={allSelected ? {opacity: '1'} : null}>
