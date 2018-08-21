@@ -57,7 +57,7 @@ class FileList extends React.Component {
   }
 
   get focusedFile () {
-    if (this.state.focused === -1) {
+    if (this.state.focused === '..') {
       return this.props.upperDir
     }
 
@@ -143,7 +143,7 @@ class FileList extends React.Component {
       return this.setState({ selected: [], focused: null })
     }
 
-    if (e.key === 'F2' && focused !== null && focused !== -1) {
+    if (e.key === 'F2' && focused !== null && focused !== '..') {
       return this.props.onRename([this.focusedFile])
     }
 
@@ -151,7 +151,7 @@ class FileList extends React.Component {
       return this.props.onDelete(this.selectedFiles)
     }
 
-    if (e.key === ' ' && focused !== null && focused !== -1) {
+    if (e.key === ' ' && focused !== null && focused !== '..') {
       e.preventDefault()
       return this.toggleOne(focused, true)
     }
@@ -169,15 +169,19 @@ class FileList extends React.Component {
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
       }
 
-      if (index === -1) {
-        this.setState({ focused: -1 })
-      }
+      if (index >= -1 && index < this.props.files.length) {
+        let name
 
-      if (index >= 0 && index < this.props.files.length) {
-        const name = this.props.files[index].name
+        if (index === -1) {
+          name = '..'
+        } else {
+          name = this.props.files[index].name
+        }
+
         this.setState({ focused: name })
         const domNode = ReactDOM.findDOMNode(this.filesRefs[name])
         domNode.scrollIntoView()
+        domNode.querySelector('input[type="checkbox"]').focus()
       }
     }
   }
@@ -286,6 +290,7 @@ class FileList extends React.Component {
           </header>
           { upperDir &&
             <File
+              ref={r => { this.filesRefs['..'] = r }}
               onNavigate={() => this.props.onNavigate(upperDir.path)}
               onInspect={() => this.props.onInspect([upperDir])}
               onAddFiles={this.props.onAddFiles}
@@ -293,7 +298,7 @@ class FileList extends React.Component {
               setIsDragging={this.isDragging}
               translucent={isDragging || (isOver && canDrop)}
               name='..'
-              focused={this.state.focused === -1}
+              focused={this.state.focused === '..'}
               cantDrag
               cantSelect
               {...upperDir} />

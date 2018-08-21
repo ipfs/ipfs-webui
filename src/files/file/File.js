@@ -62,7 +62,7 @@ const File = (props) => {
 
   const element = connectDropTarget(
     <div className={className} style={styles}>
-      <div className='child float-on-left-l pa2 w2' style={selected ? {opacity: '1'} : null}>
+      <div className='child float-on-left-l pa2 w2' style={(selected || focused) ? {opacity: '1'} : null}>
         <Checkbox disabled={cantSelect} checked={selected} onChange={select} />
       </div>
       {connectDragPreview(
