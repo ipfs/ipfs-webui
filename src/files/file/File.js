@@ -66,17 +66,17 @@ const File = (props) => {
         <Checkbox disabled={cantSelect} checked={selected} onChange={select} />
       </div>
       {connectDragPreview(
-        <div className='relative flex items-center flex-grow-1 ph2 pv1 w-40'>
-          <div className='pointer dib flex-shrink-0 mr2' onClick={onNavigate}>
+        <div onClick={onNavigate} className='relative pointer flex items-center flex-grow-1 ph2 pv1 w-40'>
+          <div className='dib flex-shrink-0 mr2'>
             <FileIcon name={name} type={type} />
           </div>
           <div style={{ width: 'calc(100% - 3.25rem)' }}>
             <Tooltip text={name}>
-              <div onClick={onNavigate} className='f6 pointer truncate' style={{ color: '#656464' }}>{name}</div>
+              <div className='f6 truncate' style={{ color: '#656464' }}>{name}</div>
             </Tooltip>
 
             <Tooltip text={hash}>
-              <div onClick={onNavigate} className='f7 pointer mt1 gray truncate monospace'>{hash}</div>
+              <div className='f7 mt1 gray truncate monospace'>{hash}</div>
             </Tooltip>
           </div>
         </div>
