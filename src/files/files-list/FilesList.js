@@ -44,6 +44,7 @@ class FileList extends React.Component {
 
   state = {
     selected: [],
+    focused: null,
     isDragging: false
   }
 
@@ -53,6 +54,14 @@ class FileList extends React.Component {
     return this.state.selected.map(name =>
       this.props.files.find(el => el.name === name)
     ).filter(n => n)
+  }
+
+  get focusedFile () {
+    if (this.state.focused === -1) {
+      return this.props.upperDir
+    }
+
+    return this.props.files.find(el => el.name === this.state.focused)
   }
 
   get selectedMenu () {
@@ -95,6 +104,7 @@ class FileList extends React.Component {
         onRename={() => this.props.onRename([file])}
         onAddFiles={this.props.onAddFiles}
         onMove={this.move}
+        focused={this.state.focused === file.name}
         selected={this.state.selected.indexOf(file.name) !== -1}
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
@@ -127,38 +137,45 @@ class FileList extends React.Component {
   }
 
   keyHandler = (e) => {
-    const { selected } = this.state
+    const { selected, focused } = this.state
 
     if (e.key === 'Escape') {
-      return this.toggleAll(false)
+      return this.setState({ selected: [], focused: null })
     }
 
-    if (e.key === 'F2' && selected.length === 1) {
-      return this.props.onRename(this.selectedFiles)
+    if (e.key === 'F2' && focused !== null && focused !== -1) {
+      return this.props.onRename([this.focusedFile])
     }
 
     if (e.key === 'Delete' && selected.length > 0) {
       return this.props.onDelete(this.selectedFiles)
     }
 
-    if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && selected.length === 1) {
-      return this.props.onNavigate(this.selectedFiles[0].path)
+    if (e.key === ' ' && focused !== null && focused !== -1) {
+      e.preventDefault()
+      return this.toggleOne(focused, true)
+    }
+
+    if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused !== null) {
+      return this.props.onNavigate(this.focusedFile.path)
     }
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault()
-      let index = 0
+      let index = this.props.upperDir ? -1 : 0
 
-      if (selected.length !== 0) {
-        const name = selected[selected.length - 1]
-        const prev = this.props.files.findIndex(el => el.name === name)
+      if (focused !== null) {
+        const prev = this.props.files.findIndex(el => el.name === focused)
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
+      }
+
+      if (index === -1) {
+        this.setState({ focused: -1 })
       }
 
       if (index >= 0 && index < this.props.files.length) {
         const name = this.props.files[index].name
-        this.toggleAll(false)
-        this.toggleOne(name, true)
+        this.setState({ focused: name })
         const domNode = ReactDOM.findDOMNode(this.filesRefs[name])
         domNode.scrollIntoView()
       }
@@ -251,7 +268,7 @@ class FileList extends React.Component {
     return connectDropTarget(
       <div>
         <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '500px' }}>
-          <header className='hide-child-l gray pv3 flex items-center'>
+          <header className='hide-child-l gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
             <div className='child float-on-left-l ph2 w2' style={allSelected ? {opacity: '1'} : null}>
               <Checkbox checked={allSelected} onChange={this.toggleAll} />
             </div>
@@ -276,6 +293,7 @@ class FileList extends React.Component {
               setIsDragging={this.isDragging}
               translucent={isDragging || (isOver && canDrop)}
               name='..'
+              focused={this.state.focused === -1}
               cantDrag
               cantSelect
               {...upperDir} />
