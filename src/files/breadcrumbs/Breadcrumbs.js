@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import HomeIcon from '../../icons/GlyphHome'
 
 function makeBread (root) {
   if (root.endsWith('/')) {
@@ -21,7 +20,7 @@ function makeBread (root) {
     }
   }
 
-  parts[0].name = <HomeIcon viewBox='25 25 100 100' style={{width: '0.9rem', height: '0.9rem'}} />
+  parts[0].name = 'Home'
   parts[0].path = '/'
 
   return parts
@@ -30,9 +29,8 @@ function makeBread (root) {
 export default function Breadcrumbs ({path, onClick, className = '', ...props}) {
   const cls = `Breadcrumbs sans-serif ${className}`
   const bread = makeBread(path)
-  const last = bread.pop()
 
-  const res = bread.map((link, index) => ([
+  const res = bread.reduce((link, index) => ([
     <div key={`${index}link`} className='dib bb bw1 pv1' style={{borderColor: '#244e66'}}>
       <a className='pointer dib link dark-gray o-50 glow' onClick={() => onClick(link.path)}>
         {link.name}
@@ -41,11 +39,7 @@ export default function Breadcrumbs ({path, onClick, className = '', ...props}) 
     <div key={`${index}divider`} className='dib ph2 pv1 gray v-top'>/</div>
   ]))
 
-  res.push(
-    <div key='last-link' className='dib bb bw1 pv1' style={{borderColor: '#244e66'}}>
-      <span className='dib'>{last.name}</span>
-    </div>
-  )
+  res[res.length - 1].pop()
 
   return (
     <nav aria-label='Breadcrumb' className={cls} {...props}>{res}</nav>

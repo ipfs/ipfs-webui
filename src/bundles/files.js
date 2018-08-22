@@ -291,7 +291,13 @@ export default (opts = {}) => {
 
     doFilesNavigateTo: (path) => async ({ store }) => {
       const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
-      store.doUpdateHash(`${opts.baseUrl}${link}`)
+      const files = store.selectFiles()
+
+      if (files.path === link) {
+        store.doFilesFetch()
+      } else {
+        store.doUpdateHash(`${opts.baseUrl}${link}`)
+      }
     },
 
     doFilesUpdateSorting: (by, asc) => async ({ dispatch }) => {
