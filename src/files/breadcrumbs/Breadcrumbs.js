@@ -30,7 +30,7 @@ export default function Breadcrumbs ({path, onClick, className = '', ...props}) 
   const cls = `Breadcrumbs sans-serif ${className}`
   const bread = makeBread(path)
 
-  const res = bread.reduce((link, index) => ([
+  const res = bread.map((link, index) => ([
     <div key={`${index}link`} className='dib bb bw1 pv1' style={{borderColor: '#244e66'}}>
       <a className='pointer dib link dark-gray o-50 glow' onClick={() => onClick(link.path)}>
         {link.name}
