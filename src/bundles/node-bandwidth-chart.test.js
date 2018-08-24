@@ -76,8 +76,6 @@ it('should truncate data outside of window size', async () => {
     createReactorBundle(),
     mockNodeBandwidthBundle,
     createNodeBandwidthChartBundle({
-      // Ensure none of our data gets simplified away
-      simplify: false,
       windowSize: 100
     })
   )()

@@ -1,17 +1,10 @@
 import { createSelector } from 'redux-bundler'
-import simplify from 'simplify-js'
 
 // Depends on nodeBandwidthBundle
 export default function (opts) {
   opts = opts || {}
   // Only store up to 1 day of data
   opts.windowSize = opts.windowSize || 1000 * 60 * 60 * 24
-  // Enable/disable simplify
-  opts.simplify = opts.simplify == null ? true : opts.simplify
-  // Simplify 1KB variations away
-  opts.simplifyTolerance = opts.simplifyTolerance == null
-    ? 1000
-    : opts.simplifyTolerance
 
   return {
     name: 'nodeBandwidthChart',
@@ -32,17 +25,12 @@ export default function (opts) {
         out: chartData.out.concat({ x: timestamp, y: parseInt(bw.rateOut.toFixed(0), 10) })
       }
 
-      console.log(bw)
-
       const startIndex = chartData.in.findIndex(d => d.x >= timestamp - opts.windowSize)
       if (startIndex > 0) {
         chartData.in = chartData.in.slice(startIndex)
         chartData.out = chartData.out.slice(startIndex)
       }
 
-   
-
-      console.log(chartData)
       dispatch({ type: 'NODE_BANDWIDTH_CHART_DATA_UPDATED', payload: { chartData } })
     },
 
