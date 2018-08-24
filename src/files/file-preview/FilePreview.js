@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import isBinary from 'is-binary'
 import typeFromExt from '../type-from-ext'
+import ComponentLoader from '../../loader/ComponentLoader.js'
 
 class FilesPreview extends React.Component {
   static propTypes = {
@@ -15,11 +16,9 @@ class FilesPreview extends React.Component {
     content: null
   }
 
-  loadContent () {
-    this.props.read()
-      .then(buf => {
-        this.setState({ content: buf.toString('utf-8') })
-      })
+  async loadContent () {
+    const buf = await this.props.read()
+    this.setState({ content: buf.toString('utf-8') })
   }
 
   render () {
@@ -52,8 +51,8 @@ class FilesPreview extends React.Component {
         return <img className={className} alt={stats.name} src={src} />
       default:
         const cantPreview = (
-          <div>
-            Sorry, we can not preview this file..
+          <div class='b'>
+            Sorry, this file can't be previewed <span role='img' aria-label='sad'>😢</span>
           </div>
         )
 
@@ -63,7 +62,7 @@ class FilesPreview extends React.Component {
 
         if (!this.state.content) {
           this.loadContent()
-          return <div>Loading</div>
+          return <ComponentLoader pastDelay />
         }
 
         if (isBinary(this.state.content)) {
