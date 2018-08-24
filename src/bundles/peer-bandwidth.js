@@ -16,9 +16,9 @@ export default function (opts) {
   // This implies a loose dependency on an idle action dispatcher that'll fire
   // if no other actions are fired within a certain time period. e.g. the
   // APP_IDLE action that is dispatched from the reactor bundle.
-  opts.tickResolution = opts.tickResolution || 1000
+  opts.tickResolution = opts.tickResolution || 5000
   // The minimum time between updates for each peer
-  opts.peerUpdateInterval = opts.peerUpdateInterval || 5000
+  opts.peerUpdateInterval = opts.peerUpdateInterval || 10000
   // Inactive peers are de-prioritised
   opts.inactivePeerUpdateInterval = opts.inactivePeerUpdateInterval || 30000
 

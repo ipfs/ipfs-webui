@@ -8,7 +8,7 @@ import ms from 'milliseconds'
 export default function (opts) {
   opts = opts || {}
   // Max number of locations to retrieve concurrently
-  opts.concurrency = opts.concurrency || 10
+  opts.concurrency = opts.concurrency || 5
   // Cache options
   opts.cache = opts.cache || {}
 
@@ -203,8 +203,9 @@ export default function (opts) {
       'selectPeerLocationsRaw',
       'selectPeerLocationsQueuingPeers',
       'selectPeerLocationsResolvingPeers',
-      (ipfsReady, peerLocationsRaw, queuingPeers, resolvingPeers) => {
-        if (ipfsReady && queuingPeers.length && resolvingPeers.length < opts.concurrency) {
+      'selectHash',
+      (ipfsReady, peerLocationsRaw, queuingPeers, resolvingPeers, hash) => {
+        if (ipfsReady && queuingPeers.length && resolvingPeers.length < opts.concurrency && hash === '/peers') {
           const peerId = queuingPeers[0]
           const locsByAddr = peerLocationsRaw[peerId]
 
