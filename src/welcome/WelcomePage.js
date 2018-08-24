@@ -20,11 +20,9 @@ const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsAp
           <Box>
             { ipfsReady ? (
               <div>
-                <h1 className='montserrat fw2 navy ma0 f3 yellow'>Your IPFS daemon is running!</h1>
+                <h1 className='montserrat fw2 navy ma0 f3 green'>Connected to IPFS</h1>
                 <p>
-                  We could connect successfully to your IPFS daemon. Now, it's time for you to explore
-                  your node. Head to <a className='link blue' href='#/files/'>Files page</a> to manage
-                  and store your files, or try adventuring yourself on the <a className='link blue' href='#/explore'>Merkle Forest</a>.
+                  Now, it's time for you to explore your node. Head to <a className='link blue' href='#/files/'>Files page</a> to manage and share your files, or explore the <a className='link blue' href='https://www.youtube.com/watch?v=Bqs_LzBjQyk'>Merkle Forest</a> of peer-hosted hash-linked data via <a className='link blue' href='#/explore'>IPLD explorer</a>.
                 </p>
                 <p>
                   You can always come back to this address to change the IPFS node you're connected to.
