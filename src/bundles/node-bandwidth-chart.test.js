@@ -68,8 +68,8 @@ it('should simplify data points within tolerance', async () => {
   await sleep()
 
   chartData = store.selectNodeBandwidthChartData()
-  expect(chartData.in.length).toEqual(2)
-  expect(chartData.out.length).toEqual(2)
+  expect(chartData.in.length).toEqual(3)
+  expect(chartData.out.length).toEqual(3)
 })
 
 it('should truncate data outside of window size', async () => {
@@ -82,7 +82,7 @@ it('should truncate data outside of window size', async () => {
   )()
 
   let chartData = store.selectNodeBandwidthChartData()
-  expect(chartData.in).toEqual({ in: [], out: [] })
+  expect(chartData).toEqual({ in: [], out: [] })
 
   for (let i = 0, total = randomInt(1, 5); i < total; i++) {
     const bwRaw = { data: fakeBandwidth(), lastSuccess: Date.now() }
@@ -102,5 +102,5 @@ it('should truncate data outside of window size', async () => {
 
   chartData = store.selectNodeBandwidthChartData()
   expect(chartData.in.length).toEqual(1)
-  expect(chartData.out.length).toEqual()
+  expect(chartData.out.length).toEqual(1)
 })
