@@ -21,7 +21,7 @@ it('should accumulate bandwidth changes', async () => {
   )()
 
   let chartData = store.selectNodeBandwidthChartData()
-  expect(chartData).toEqual([])
+  expect(chartData).toEqual({ in: [], out: [] })
 
   const bandwidths = []
 
@@ -45,7 +45,7 @@ it('should simplify data points within tolerance', async () => {
   )()
 
   let chartData = store.selectNodeBandwidthChartData()
-  expect(chartData).toEqual([])
+  expect(chartData).toEqual({ in: [], out: [] })
 
   const bw = fakeBandwidth()
 
