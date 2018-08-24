@@ -22,9 +22,11 @@ export const sorts = {
 }
 
 function compare (a, b, asc) {
-  if (a.toLowerCase() > b.toLowerCase()) {
+  const strings = typeof a === 'string' && typeof b === 'string'
+
+  if (strings ? a.toLowerCase() > b.toLowerCase() : a > b) {
     return asc ? 1 : -1
-  } else if (a < b) {
+  } else if (strings ? a.toLowerCase() < b.toLowerCase() : a < b) {
     return asc ? -1 : 1
   } else {
     return 0
@@ -289,7 +291,13 @@ export default (opts = {}) => {
 
     doFilesNavigateTo: (path) => async ({ store }) => {
       const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
-      store.doUpdateHash(`${opts.baseUrl}${link}`)
+      const files = store.selectFiles()
+
+      if (files.path === link) {
+        store.doFilesFetch()
+      } else {
+        store.doUpdateHash(`${opts.baseUrl}${link}`)
+      }
     },
 
     doFilesUpdateSorting: (by, asc) => async ({ dispatch }) => {

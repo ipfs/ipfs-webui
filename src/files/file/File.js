@@ -12,6 +12,7 @@ import { join, basename } from 'path'
 const File = (props) => {
   let {
     selected,
+    focused,
     translucent,
     coloured,
     hash,
@@ -42,10 +43,17 @@ const File = (props) => {
     className += ' selected'
   }
 
-  if ((selected && !translucent) || coloured || (isOver && canDrop)) {
+  if (focused || (selected && !translucent) || coloured || (isOver && canDrop)) {
     styles.backgroundColor = '#F0F6FA'
   } else if (translucent) {
     className += ' o-50'
+  }
+
+  if (focused) {
+    styles.border = '1px dashed #9ad4db'
+  } else {
+    styles.border = '1px solid transparent'
+    styles.borderTop = '1px solid #eee'
   }
 
   size = filesize(cumulativeSize || size, { round: 0 })
@@ -54,21 +62,21 @@ const File = (props) => {
 
   const element = connectDropTarget(
     <div className={className} style={styles}>
-      <div className='child float-on-left-l pa2 w2' style={selected ? {opacity: '1'} : null}>
+      <div className='child float-on-left-l pa2 w2' style={(selected || focused) ? {opacity: '1'} : null}>
         <Checkbox disabled={cantSelect} checked={selected} onChange={select} />
       </div>
       {connectDragPreview(
-        <div className='relative flex items-center flex-grow-1 ph2 pv1 w-40'>
-          <div className='pointer dib flex-shrink-0 mr2' onClick={onNavigate}>
+        <div onClick={onNavigate} className='relative pointer flex items-center flex-grow-1 ph2 pv1 w-40'>
+          <div className='dib flex-shrink-0 mr2'>
             <FileIcon name={name} type={type} />
           </div>
           <div style={{ width: 'calc(100% - 3.25rem)' }}>
             <Tooltip text={name}>
-              <div onClick={onNavigate} className='f6 pointer truncate' style={{ color: '#656464' }}>{name}</div>
+              <div className='f6 truncate' style={{ color: '#656464' }}>{name}</div>
             </Tooltip>
 
             <Tooltip text={hash}>
-              <div onClick={onNavigate} className='f7 pointer mt1 gray truncate monospace'>{hash}</div>
+              <div className='f7 mt1 gray truncate monospace'>{hash}</div>
             </Tooltip>
           </div>
         </div>
@@ -101,6 +109,7 @@ File.propTypes = {
   cumulativeSize: PropTypes.number,
   hash: PropTypes.string.isRequired,
   selected: PropTypes.bool,
+  focused: PropTypes.bool,
   onSelect: PropTypes.func,
   onNavigate: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,

@@ -20,7 +20,7 @@ function makeBread (root) {
     }
   }
 
-  parts[0].name = 'Root'
+  parts[0].name = 'Home'
   parts[0].path = '/'
 
   return parts
@@ -29,7 +29,6 @@ function makeBread (root) {
 export default function Breadcrumbs ({path, onClick, className = '', ...props}) {
   const cls = `Breadcrumbs sans-serif ${className}`
   const bread = makeBread(path)
-  const last = bread.pop()
 
   const res = bread.map((link, index) => ([
     <div key={`${index}link`} className='dib bb bw1 pv1' style={{borderColor: '#244e66'}}>
@@ -40,11 +39,7 @@ export default function Breadcrumbs ({path, onClick, className = '', ...props}) 
     <div key={`${index}divider`} className='dib ph2 pv1 gray v-top'>/</div>
   ]))
 
-  res.push(
-    <div key='last-link' className='dib bb bw1 pv1' style={{borderColor: '#244e66'}}>
-      <span className='dib'>{last.name}</span>
-    </div>
-  )
+  res[res.length - 1].pop()
 
   return (
     <nav aria-label='Breadcrumb' className={cls} {...props}>{res}</nav>

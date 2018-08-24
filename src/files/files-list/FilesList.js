@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
@@ -43,14 +44,24 @@ class FileList extends React.Component {
 
   state = {
     selected: [],
+    focused: null,
     isDragging: false
   }
 
-  // TODO: only recalculate when props change
+  filesRefs = {}
+
   get selectedFiles () {
     return this.state.selected.map(name =>
       this.props.files.find(el => el.name === name)
     ).filter(n => n)
+  }
+
+  get focusedFile () {
+    if (this.state.focused === '..') {
+      return this.props.upperDir
+    }
+
+    return this.props.files.find(el => el.name === this.state.focused)
   }
 
   get selectedMenu () {
@@ -83,6 +94,7 @@ class FileList extends React.Component {
 
     return files.map(file => (
       <File
+        ref={r => { this.filesRefs[file.name] = r }}
         onSelect={this.toggleOne}
         onNavigate={() => this.props.onNavigate(file.path)}
         onShare={() => this.props.onShare([file])}
@@ -92,6 +104,7 @@ class FileList extends React.Component {
         onRename={() => this.props.onRename([file])}
         onAddFiles={this.props.onAddFiles}
         onMove={this.move}
+        focused={this.state.focused === file.name}
         selected={this.state.selected.indexOf(file.name) !== -1}
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
@@ -99,6 +112,14 @@ class FileList extends React.Component {
         {...file}
       />
     ))
+  }
+
+  componentDidMount () {
+    document.addEventListener('keydown', this.keyHandler)
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('keydown', this.keyHandler)
   }
 
   componentDidUpdate () {
@@ -113,6 +134,60 @@ class FileList extends React.Component {
 
   wrapWithSelected = (fn) => async () => {
     this.props[fn](this.selectedFiles)
+  }
+
+  keyHandler = (e) => {
+    const { selected, focused } = this.state
+
+    if (e.key === 'Escape') {
+      return this.setState({ selected: [], focused: null })
+    }
+
+    if (e.key === 'F2' && focused !== null && focused !== '..') {
+      return this.props.onRename([this.focusedFile])
+    }
+
+    if (e.key === 'Delete' && selected.length > 0) {
+      return this.props.onDelete(this.selectedFiles)
+    }
+
+    if (e.key === ' ' && focused !== null && focused !== '..') {
+      e.preventDefault()
+      return this.toggleOne(focused, true)
+    }
+
+    if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused !== null) {
+      return this.props.onNavigate(this.focusedFile.path)
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      let index = this.props.upperDir ? -1 : 0
+
+      if (focused !== null) {
+        const prev = this.props.files.findIndex(el => el.name === focused)
+        index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
+      }
+
+      if (index === -1 && !this.props.upperDir) {
+        return
+      }
+
+      if (index >= -1 && index < this.props.files.length) {
+        let name
+
+        if (index === -1) {
+          name = '..'
+        } else {
+          name = this.props.files[index].name
+        }
+
+        this.setState({ focused: name })
+        const domNode = ReactDOM.findDOMNode(this.filesRefs[name])
+        domNode.scrollIntoView()
+        domNode.querySelector('input[type="checkbox"]').focus()
+      }
+    }
   }
 
   toggleAll = (checked) => {
@@ -135,7 +210,7 @@ class FileList extends React.Component {
       selected.splice(this.state.selected.indexOf(name), 1)
     }
 
-    this.setState({selected: selected})
+    this.setState({ selected: selected.sort() })
   }
 
   move = ([src, dst]) => {
@@ -199,9 +274,9 @@ class FileList extends React.Component {
     }
 
     return connectDropTarget(
-      <div>
+      <div style={{marginBottom: '80px'}}>
         <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '500px' }}>
-          <header className='hide-child-l gray pv3 flex items-center'>
+          <header className='hide-child-l gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
             <div className='child float-on-left-l ph2 w2' style={allSelected ? {opacity: '1'} : null}>
               <Checkbox checked={allSelected} onChange={this.toggleAll} />
             </div>
@@ -219,6 +294,7 @@ class FileList extends React.Component {
           </header>
           { upperDir &&
             <File
+              ref={r => { this.filesRefs['..'] = r }}
               onNavigate={() => this.props.onNavigate(upperDir.path)}
               onInspect={() => this.props.onInspect([upperDir])}
               onAddFiles={this.props.onAddFiles}
@@ -226,6 +302,7 @@ class FileList extends React.Component {
               setIsDragging={this.isDragging}
               translucent={isDragging || (isOver && canDrop)}
               name='..'
+              focused={this.state.focused === '..'}
               cantDrag
               cantSelect
               {...upperDir} />

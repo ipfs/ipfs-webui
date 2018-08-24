@@ -16,6 +16,7 @@
   opacity: 0.5;
 }
 
+.Checkbox input:focus ~ span:first-of-type,
 .Checkbox input:checked ~ span:first-of-type {
   background-color: #BBE4E8;
 }
