@@ -17,9 +17,14 @@ export class NodeInfo extends Component {
       <Box>
         <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb2'>Node Info</h2>
 
-        <div className='f6'>
-          <Block label='CID' value={ipfsIdentity.id} />
-          <Block label='Public Key' value={ipfsIdentity.publicKey} />
+        <div className='f6 flex'>
+          <div className='w-50 mr3'>
+            <Block label='CID' value={ipfsIdentity.id} />
+            <Block label='Public Key' value={ipfsIdentity.publicKey} />
+          </div>
+          <div className='w-50 ml3'>
+            Right side
+          </div>
         </div>
       </Box>
     )
