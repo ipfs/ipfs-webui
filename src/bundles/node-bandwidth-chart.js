@@ -8,15 +8,15 @@ export default function (opts) {
   opts.windowSize = opts.windowSize || 1000 * 60 * 60 * 24
   // Enable/disable simplify
   opts.simplify = opts.simplify == null ? true : opts.simplify
-  // Simplify 5KB variations away
+  // Simplify 1KB variations away
   opts.simplifyTolerance = opts.simplifyTolerance == null
-    ? 5000
+    ? 1000
     : opts.simplifyTolerance
 
   return {
     name: 'nodeBandwidthChart',
 
-    reducer (state = { data: [] }, action) {
+    reducer (state = { data: { in: [], out: [] } }, action) {
       if (action.type === 'NODE_BANDWIDTH_CHART_DATA_UPDATED') {
         return { ...state, data: action.payload.chartData }
       }
@@ -27,17 +27,22 @@ export default function (opts) {
     selectNodeBandwidthChartData: state => state.nodeBandwidthChart.data,
 
     doUpdateNodeBandwidthChartData: (bw, timestamp, chartData) => ({ dispatch }) => {
-      const total = parseInt(bw.rateIn.add(bw.rateOut).toFixed(0), 10)
-
-      chartData = chartData.concat({ x: timestamp, y: total })
-
-      const startIndex = chartData.findIndex(d => d.x >= timestamp - opts.windowSize)
-      if (startIndex > 0) chartData = chartData.slice(startIndex)
-
-      if (opts.simplify) {
-        chartData = simplify(chartData, opts.simplifyTolerance, true)
+      chartData = {
+        in: chartData.in.concat({ x: timestamp, y: parseInt(bw.rateIn.toFixed(0), 10) }),
+        out: chartData.out.concat({ x: timestamp, y: parseInt(bw.rateOut.toFixed(0), 10) })
       }
 
+      console.log(bw)
+
+      const startIndex = chartData.in.findIndex(d => d.x >= timestamp - opts.windowSize)
+      if (startIndex > 0) {
+        chartData.in = chartData.in.slice(startIndex)
+        chartData.out = chartData.out.slice(startIndex)
+      }
+
+   
+
+      console.log(chartData)
       dispatch({ type: 'NODE_BANDWIDTH_CHART_DATA_UPDATED', payload: { chartData } })
     },
 
@@ -47,7 +52,8 @@ export default function (opts) {
       (bwRaw, chartData) => {
         if (!bwRaw.data) return
 
-        if (!chartData.length || bwRaw.lastSuccess > chartData[chartData.length - 1].x) {
+        // Only tests for .in because it has the same timestamps as .out
+        if (!chartData.in.length || bwRaw.lastSuccess > chartData.in[chartData.in.length - 1].x) {
           return {
             actionCreator: 'doUpdateNodeBandwidthChartData',
             args: [bwRaw.data, bwRaw.lastSuccess, chartData]

@@ -3,12 +3,13 @@ import { Line } from 'react-chartjs-2'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
+import Box from '../components/box/Box'
 
 const humansize = filesize.partial({ round: 0 })
 
 export class NodeBandwidthChart extends Component {
   static propTypes = {
-    nodeBandwidthChartData: PropTypes.array.isRequired,
+    nodeBandwidthChartData: PropTypes.object.isRequired,
     animatedPoints: PropTypes.number
   }
 
@@ -21,25 +22,34 @@ export class NodeBandwidthChart extends Component {
   render () {
     const { nodeBandwidthChartData } = this.props
 
-    if (!nodeBandwidthChartData.length) {
-      return <p className='sans-serif f3 ma0 pv1 ph2 tc'>Loading...</p>
-    }
-
-    const dataset = {
-      label: 'Total bandwidth',
-      data: nodeBandwidthChartData,
-      borderColor: '#69c4cd',
-      backgroundColor: '#9ad4db',
-      pointRadius: 2,
-      cubicInterpolationMode: 'monotone'
-    }
+    const datasets = [
+      {
+        label: 'In bandwidth',
+        data: nodeBandwidthChartData.in,
+        borderColor: '#69c4cd',
+        backgroundColor: '#9ad4db',
+        pointRadius: 2,
+        cubicInterpolationMode: 'monotone'
+      },
+      {
+        label: 'Out bandwidth',
+        data: nodeBandwidthChartData.out,
+        borderColor: '#f39021',
+        backgroundColor: '#f9a13e',
+        pointRadius: 2,
+        cubicInterpolationMode: 'monotone'
+      }
+    ]
 
     const options = {
+      defaultFontFamily: "'Inter UI', system-ui, sans-serif",
       responsive: true,
-      tooltips: { mode: 'nearest' },
+      tooltips: { mode: 'index' },
+      hover: { mode: 'index' },
       scales: {
         xAxes: [{ type: 'time' }],
         yAxes: [{
+          stacked: true,
           ticks: {
             callback: v => humansize(v) + '/s'
           }
@@ -52,15 +62,15 @@ export class NodeBandwidthChart extends Component {
       },
       animation: {
         // Only animate the 500 points
-        duration: nodeBandwidthChartData.length <= this.props.animatedPoints ? 1000 : 0
+        duration: nodeBandwidthChartData.in.length <= this.props.animatedPoints ? 1000 : 0
       }
     }
 
     return (
-      <div>
-        <h2>Node bandwidth usage</h2>
-        <Line data={{ datasets: [dataset] }} options={options} />
-      </div>
+      <Box>
+        <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4'>Bandwidth over time</h2>
+        <Line data={{ datasets }} options={options} />
+      </Box>
     )
   }
 }
