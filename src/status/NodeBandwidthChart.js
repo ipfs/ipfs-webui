@@ -24,7 +24,7 @@ export class NodeBandwidthChart extends Component {
 
     const datasets = [
       {
-        label: 'In bandwidth',
+        label: 'In',
         data: nodeBandwidthChartData.in,
         borderColor: '#69c4cd',
         backgroundColor: '#9ad4db',
@@ -32,7 +32,7 @@ export class NodeBandwidthChart extends Component {
         cubicInterpolationMode: 'monotone'
       },
       {
-        label: 'Out bandwidth',
+        label: 'Out',
         data: nodeBandwidthChartData.out,
         borderColor: '#f39021',
         backgroundColor: '#f9a13e',
@@ -57,8 +57,7 @@ export class NodeBandwidthChart extends Component {
       },
       legend: {
         display: true,
-        position: 'bottom',
-        reverse: true
+        position: 'bottom'
       },
       animation: {
         // Only animate the 500 points
