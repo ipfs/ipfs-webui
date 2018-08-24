@@ -40,7 +40,7 @@ export class PeerBandwidthTable extends Component {
   }
 
   render () {
-    const { peerBandwidthPeers, peerLocations } = this.props
+    const { peerBandwidthPeers, className, peerLocations } = this.props
     const { sort, showAll } = this.state
     const sortedPeers = Array.from(peerBandwidthPeers)
       .filter(p => Boolean(p.bw))
@@ -52,7 +52,7 @@ export class PeerBandwidthTable extends Component {
     return sortedPeers.length === 0 ? (
       <ComponentLoader pastDelay />
     ) : (
-      <Box>
+      <Box className={className}>
         <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4'>Bandwidth by peer</h2>
         <table className='collapse'>
           <tbody>
