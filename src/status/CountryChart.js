@@ -49,7 +49,8 @@ export class CountryChart extends Component {
     const options = {
       responsive: true,
       legend: {
-        display: false
+        display: true,
+        position: 'bottom'
       }
     }
 
@@ -65,7 +66,7 @@ export class CountryChart extends Component {
     }
 
     return (
-      <Box>
+      <Box className={this.props.className}>
         <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4'>
           Distribution of peers
         </h2>

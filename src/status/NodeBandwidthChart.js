@@ -66,7 +66,7 @@ export class NodeBandwidthChart extends Component {
     }
 
     return (
-      <Box>
+      <Box className={this.props.className}>
         <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4'>Bandwidth over time</h2>
         <Line data={{ datasets }} options={options} />
       </Box>

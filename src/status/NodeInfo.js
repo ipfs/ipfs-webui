@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'redux-bundler-react'
 import Box from '../components/box/Box'
 
@@ -9,29 +9,27 @@ const Block = ({label, value}) => (
   </div>
 )
 
-export class NodeInfo extends Component {
-  render () {
-    const {ipfsIdentity} = this.props
-    console.log(this.props)
-    return (
-      <Box>
-        <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb2'>Node Info</h2>
+export function NodeInfo ({ ipfsIdentity, peers }) {
+  return (
+    <Box>
+      <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb2'>Node Info</h2>
 
-        <div className='f6 flex'>
-          <div className='w-50 mr3'>
-            <Block label='CID' value={ipfsIdentity.id} />
-            <Block label='Public Key' value={ipfsIdentity.publicKey} />
-          </div>
-          <div className='w-50 ml3'>
-            Right side
-          </div>
+      <div className='f6 flex'>
+        <div className='w-50 mr3'>
+          <Block label='CID' value={ipfsIdentity.id} />
+          <Block label='Peers' value={peers ? peers.length : 0} />
+          <Block label='Version' value={ipfsIdentity.agentVersion} />
         </div>
-      </Box>
-    )
-  }
+        <div className='w-50 ml3'>
+          Right side
+        </div>
+      </div>
+    </Box>
+  )
 }
 
 export default connect(
   'selectIpfsIdentity',
+  'selectPeers',
   NodeInfo
 )
