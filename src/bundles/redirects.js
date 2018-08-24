@@ -23,8 +23,9 @@ export default {
 
   reactToIpfsConnectionFail: createSelector(
     'selectIpfsInitFailed',
-    (failed) => {
-      if (failed) {
+    'selectHash',
+    (failed, hash) => {
+      if (failed && hash !== '/welcome') {
         return { actionCreator: 'doUpdateHash', args: ['#/welcome'] }
       }
     }

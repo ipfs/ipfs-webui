@@ -33,11 +33,6 @@ bundle.selectGatewayUrl = createSelector(
   (config) => getURLFromAddress('Gateway', config) || 'https://ipfs.io'
 )
 
-bundle.selectApiUrl = createSelector(
-  `selectConfigObject`,
-  (config) => getURLFromAddress('API', config)
-)
-
 // TODO: this is a work-around for IPFS companion blocking the config API
 // see: https://github.com/ipfs-shipyard/ipfs-companion/issues/454
 bundle.selectIsConfigBlocked = createSelector(
