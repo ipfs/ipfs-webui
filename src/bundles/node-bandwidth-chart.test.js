@@ -17,8 +17,7 @@ it('should accumulate bandwidth changes', async () => {
   const store = composeBundlesRaw(
     createReactorBundle(),
     mockNodeBandwidthBundle,
-    // Ensure none of our data gets simplified away
-    createNodeBandwidthChartBundle({ simplify: false })
+    createNodeBandwidthChartBundle()
   )()
 
   let chartData = store.selectNodeBandwidthChartData()
@@ -34,7 +33,8 @@ it('should accumulate bandwidth changes', async () => {
   }
 
   chartData = store.selectNodeBandwidthChartData()
-  expect(chartData.length).toEqual(bandwidths.length)
+  expect(chartData.in.length).toEqual(bandwidths.length)
+  expect(chartData.out.length).toEqual(bandwidths.length)
 })
 
 it('should simplify data points within tolerance', async () => {
@@ -68,7 +68,8 @@ it('should simplify data points within tolerance', async () => {
   await sleep()
 
   chartData = store.selectNodeBandwidthChartData()
-  expect(chartData.length).toEqual(2) // should have simplified third
+  expect(chartData.in.length).toEqual(2)
+  expect(chartData.out.length).toEqual(2)
 })
 
 it('should truncate data outside of window size', async () => {
@@ -81,7 +82,7 @@ it('should truncate data outside of window size', async () => {
   )()
 
   let chartData = store.selectNodeBandwidthChartData()
-  expect(chartData).toEqual([])
+  expect(chartData.in).toEqual({ in: [], out: [] })
 
   for (let i = 0, total = randomInt(1, 5); i < total; i++) {
     const bwRaw = { data: fakeBandwidth(), lastSuccess: Date.now() }
@@ -100,5 +101,6 @@ it('should truncate data outside of window size', async () => {
   await sleep(10)
 
   chartData = store.selectNodeBandwidthChartData()
-  expect(chartData.length).toEqual(1)
+  expect(chartData.in.length).toEqual(1)
+  expect(chartData.out.length).toEqual()
 })
