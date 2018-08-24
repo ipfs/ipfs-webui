@@ -10,6 +10,6 @@ export default () => (
     </Helmet>
     <h1>Status</h1>
     <NodeBandwidthChart />
-    <PeerBandwidthTable />
+    <PeerBandwidthTable className='pa4 mt3' />
   </div>
 )
