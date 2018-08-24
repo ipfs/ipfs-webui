@@ -3,6 +3,8 @@ import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import CountryFlag from 'react-country-flag'
+import Box from '../components/box/Box'
+import ComponentLoader from '../loader/ComponentLoader.js'
 
 const humansize = filesize.partial({round: 0})
 
@@ -48,13 +50,14 @@ export class PeerBandwidthTable extends Component {
     const hiddenPeers = showAll ? [] : sortedPeers.slice(5)
 
     return sortedPeers.length === 0 ? (
-      <p className='sans-serif f3 ma0 pv1 ph2 tc'>Loading...</p>
+      <ComponentLoader pastDelay />
     ) : (
-      <div>
+      <Box>
+        <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4'>Bandwidth by peer</h2>
         <table className='collapse'>
           <tbody>
             <tr className='tl'>
-              <th className='f6 pv2 ph3' colSpan='2'><span className='v-mid'>Peer</span></th>
+              <th className='f6 pv2 pr3 pl0' colSpan='2'><span className='v-mid'>Peer</span></th>
               <SortableTableHeader field='rateIn' label='Rate In' sort={sort} onClick={this.onFieldClick} />
               <SortableTableHeader field='rateOut' label='Rate Out' sort={sort} onClick={this.onFieldClick} />
               <SortableTableHeader field='totalIn' label='Total In' sort={sort} onClick={this.onFieldClick} />
@@ -62,7 +65,7 @@ export class PeerBandwidthTable extends Component {
             </tr>
             {visiblePeers.map((p, i) => (
               <tr key={p.id} className={i % 2 ? 'bg-snow-muted' : ''}>
-                <td className='f6 pv2 pl3 nowrap'><LocationFlag location={peerLocations[p.id]} /></td>
+                <td className='f6 pv2 nowrap'><LocationFlag location={peerLocations[p.id]} /></td>
                 <td className='f6 pv2 ph3 w-100 monospace'>{p.id}</td>
                 <td className='f6 pv2 ph3 nowrap'>{humansize(parseInt(p.bw.rateIn.toFixed(0), 10))}/s</td>
                 <td className='f6 pv2 ph3 nowrap'>{humansize(parseInt(p.bw.rateOut.toFixed(0), 10))}/s</td>
@@ -75,7 +78,7 @@ export class PeerBandwidthTable extends Component {
         {!showAll && hiddenPeers.length ? (
           <p className='sans-serif f5 ma0 pv3 ph2 tc pointer underline-hover navy-muted' onClick={this.onShowAllClick}>...and {hiddenPeers.length} more</p>
         ) : null}
-      </div>
+      </Box>
     )
   }
 }
