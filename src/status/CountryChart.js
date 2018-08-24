@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Pie } from 'react-chartjs-2'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
+import Box from '../components/box/Box'
 
 export class CountryChart extends Component {
   static propTypes = {
@@ -45,6 +46,13 @@ export class CountryChart extends Component {
       label: 'Peer Countries'
     }]
 
+    const options = {
+      responsive: true,
+      legend: {
+        display: false
+      }
+    }
+
     let labels
 
     if (countryRanking.length < 5) {
@@ -57,7 +65,12 @@ export class CountryChart extends Component {
     }
 
     return (
-      <Pie data={{ datasets, labels }} options={{ responsive: true }} />
+      <Box>
+        <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4'>
+          Distribution of peers
+        </h2>
+        <Pie data={{ datasets, labels }} options={options} />
+      </Box>
     )
   }
 }
