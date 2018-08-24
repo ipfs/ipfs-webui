@@ -51,7 +51,7 @@ class FilesPreview extends React.Component {
         return <img className={className} alt={stats.name} src={src} />
       default:
         const cantPreview = (
-          <div class='b'>
+          <div className='b'>
             Sorry, this file can't be previewed <span role='img' aria-label='sad'>😢</span>
           </div>
         )
