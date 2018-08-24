@@ -19,5 +19,15 @@ export default {
         return { actionCreator: 'doUpdateHash', args: ['#/files/'] }
       }
     }
+  ),
+
+  reactToIpfsConnectionFail: createSelector(
+    'selectIpfsInitFailed',
+    'selectHash',
+    (failed, hash) => {
+      if (failed && hash !== '/welcome') {
+        return { actionCreator: 'doUpdateHash', args: ['#/welcome'] }
+      }
+    }
   )
 }

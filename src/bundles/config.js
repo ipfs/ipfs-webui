@@ -1,15 +1,24 @@
+import toUri from 'multiaddr-to-uri'
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
 const bundle = createAsyncResourceBundle({
   name: 'config',
   getPromise: async ({getIpfs}) => {
-    // Uint8Array
+    // SEE: https://github.com/ipfs/js-ipfs-api/issues/822
     const rawConf = await getIpfs().config.get()
+    let conf
+
+    if (Buffer.isBuffer(rawConf)) {
+      conf = rawConf.toString()
+    } else {
+      conf = JSON.stringify(rawConf, null, '\t')
+    }
+
     // stringy json for quick compares
-    const conf = rawConf.toString()
     return conf
   },
   staleAfter: 60000,
+  persist: false,
   checkIfOnline: false
 })
 
@@ -17,6 +26,11 @@ const bundle = createAsyncResourceBundle({
 bundle.selectConfigObject = createSelector(
   `selectConfig`,
   (configStr) => JSON.parse(configStr)
+)
+
+bundle.selectGatewayUrl = createSelector(
+  `selectConfigObject`,
+  (config) => getURLFromAddress('Gateway', config) || 'https://ipfs.io'
 )
 
 // TODO: this is a work-around for IPFS companion blocking the config API
@@ -36,5 +50,15 @@ bundle.reactConfigFetch = createSelector(
     }
   }
 )
+
+function getURLFromAddress (name, config) {
+  try {
+    const address = config.Addresses[name]
+    return toUri(address).replace('tcp://', 'http://')
+  } catch (error) {
+    console.log(`Failed to get url from Addresses.${name}`, error)
+    return null
+  }
+}
 
 export default bundle

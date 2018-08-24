@@ -1,6 +1,6 @@
 import { composeBundles } from 'redux-bundler'
 
-import ipfsBundle from './ipfs'
+import ipfsBundle from 'ipfs-redux-bundle'
 import exploreBundle from './explore'
 import appIdle from './app-idle'
 import nodeBandwidthChartBundle from './node-bandwidth-chart'
@@ -17,7 +17,7 @@ import navbarBundle from './navbar'
 
 export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
-  ipfsBundle,
+  ipfsBundle(),
   exploreBundle,
   nodeBandwidthBundle,
   nodeBandwidthChartBundle(),
