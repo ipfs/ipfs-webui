@@ -50,7 +50,7 @@ const NodeInfo = ({ ipfsIdentity, peers }) => (
         </Block>
         <Block>
           <Label>Addresses</Label>
-          <Value wrap>{ipfsIdentity.addresses.map(addr => <div>{addr}</div>)}</Value>
+          <Value wrap>{ipfsIdentity.addresses.map(addr => <div key={addr}>{addr}</div>)}</Value>
         </Block>
       </div>
     </details>
