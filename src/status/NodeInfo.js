@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
+import ProgressDoughnut from './ProgressDoughnut'
 import Box from '../components/box/Box'
 import 'details-polyfill'
 
@@ -36,8 +37,16 @@ const NodeInfo = ({ ipfsIdentity, peers }) => (
           <Value>{ipfsIdentity.agentVersion}</Value>
         </Block>
       </div>
-      <div className='w-100 w-50-l pl2-l mt3 mt0-l'>
-        Right Side
+      <div className='w-100 w-50-l pl2-l mt3 mt0-l flex justify-between'>
+        <div className='w-third'>
+          <ProgressDoughnut title='Upload Speed' color='#69c4cd' />
+        </div>
+        <div className='w-third'>
+          <ProgressDoughnut title='Download Speed' color='#f39021' />
+        </div>
+        <div className='w-third'>
+          <ProgressDoughnut title='Storage' color='#0b3a53' />
+        </div>
       </div>
     </div>
 
