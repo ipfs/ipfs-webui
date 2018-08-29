@@ -240,6 +240,11 @@ export default (opts = {}) => {
         progress: updateProgress
       })
 
+      if (res.length !== streams.length + 1) {
+        // See https://github.com/ipfs/js-ipfs-api/issues/797
+        throw new Error('Unable to finish upload: IPFS API returned a partial response. Try adding a smaller tree.')
+      }
+
       for (const { path, hash } of res) {
         // Only go for direct children
         if (path.indexOf('/') === -1 && path !== '') {
