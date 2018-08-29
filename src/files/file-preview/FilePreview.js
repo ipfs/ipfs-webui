@@ -37,8 +37,8 @@ class FilesPreview extends React.Component {
       case 'pdf':
         return (
           <object width='100%' height='500px' data={src} type='application/pdf'>
-            If you're seeing this, is because your browser doesn't support previwing
-            PDF files.
+            Your browser does not support PDFs. Please download the PDF to view it:
+            <a href={src} download target='_blank' className='underline-hover navy-muted'>Download PDF</a>.
           </object>
         )
       case 'video':
@@ -51,8 +51,9 @@ class FilesPreview extends React.Component {
         return <img className={className} alt={stats.name} src={src} />
       default:
         const cantPreview = (
-          <div className='b'>
-            Sorry, this file can't be previewed <span role='img' aria-label='sad'>😢</span>
+          <div>
+            <p className='b'>Sorry, this file can't be previewed <span role='img' aria-label='sad'>😢</span></p>
+            <p>Try <a href={src} download target='_blank' className='underline-hover navy-muted' >downloading</a> it instead.</p>
           </div>
         )
 
