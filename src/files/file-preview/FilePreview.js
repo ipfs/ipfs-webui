@@ -53,7 +53,7 @@ class FilesPreview extends React.Component {
         const cantPreview = (
           <div>
             <p className='b'>Sorry, this file can't be previewed <span role='img' aria-label='sad'>😢</span></p>
-            <p>Try <a href={src} download target='_blank' className='underline-hover navy-muted' >downloading</a> it instead.</p>
+            <p>Try <a href={src} download target='_blank' className='link blue' >downloading</a> it instead.</p>
           </div>
         )
 
