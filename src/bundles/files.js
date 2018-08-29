@@ -228,38 +228,28 @@ export default (opts = {}) => {
     doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, id, { dispatch }) => {
       const { streams, totalSize } = await filesToStreams(rawFiles)
 
-      const updateProgress = (progress) => {
-        dispatch({ type: 'FILES_WRITE_UPDATED', payload: { id: id, progress } })
+      const updateProgress = (sent) => {
+        dispatch({ type: 'FILES_WRITE_UPDATED', payload: { id: id, progress: sent / totalSize * 100 } })
       }
 
       updateProgress(0)
 
-      let sent = 0
+      const res = await ipfs.files.add(streams, {
+        pin: false,
+        wrapWithDirectory: true,
+        progress: updateProgress
+      })
 
-      for (const file of streams) {
-        const dir = join(root, dirname(file.name))
-        await ipfs.files.mkdir(dir, { parents: true })
-        let alreadySent = 0
-
-        const res = await ipfs.add(file.content, {
-          pin: false,
-          // eslint-disable-next-line
-          progress: (bytes) => {
-            sent = sent + bytes - alreadySent
-            alreadySent = bytes
-            updateProgress(sent / totalSize * 100)
-          }
-        })
-
-        const src = `/ipfs/${res[0].hash}`
-        const dst = join(root, file.name)
-        await ipfs.files.cp([src, dst])
-
-        sent = sent - alreadySent + file.size
-        updateProgress(sent / totalSize * 100)
+      for (const { path, hash } of res) {
+        // Only go for direct children
+        if (path.indexOf('/') === -1 && path !== '') {
+          const src = `/ipfs/${hash}`
+          const dst = join(root, path)
+          await ipfs.files.cp([src, dst])
+        }
       }
 
-      updateProgress(100)
+      updateProgress(totalSize)
     }),
 
     doFilesDelete: make(actions.DELETE, (ipfs, files) => {

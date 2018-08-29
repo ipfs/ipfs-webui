@@ -28,7 +28,7 @@ export async function filesToStreams (files) {
     }
 
     streams.push({
-      name: file.webkitRelativePath || file.name,
+      path: file.webkitRelativePath || file.name,
       content: stream,
       size: file.size
     })
