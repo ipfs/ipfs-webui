@@ -66,7 +66,13 @@ class FileList extends React.Component {
 
   get selectedMenu () {
     const unselectAll = () => this.toggleAll(false)
-    const size = this.selectedFiles.reduce((a, b) => a + (b.size || b.cumulativeSize), 0)
+    const size = this.selectedFiles.reduce((a, b) => {
+      if (b.cumulativeSize) {
+        return a + b.cumulativeSize
+      }
+
+      return a + b.size
+    }, 0)
     const show = this.state.selected.length !== 0
 
     return (
