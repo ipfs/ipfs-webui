@@ -25,7 +25,7 @@ async function scanFiles (item, root = '') {
     const file = await getFileFromEntry(item)
 
     return [{
-      name: join(root, file.webkitRelativePath || file.name),
+      path: join(root, file.webkitRelativePath || file.name),
       content: fileReader(file),
       size: file.size
     }]
@@ -51,13 +51,13 @@ async function scan (files) {
     if (file.getAsEntry || file.webkitGetAsEntry) {
       entries.push({
         entry: getAsEntry(file),
-        name: file.name
+        path: file.name
       })
     } else {
       totalSize += file.size
 
       streams.push({
-        name: file.webkitRelativePath || file.name,
+        path: file.webkitRelativePath || file.name,
         content: fileReader(file),
         size: file.size
       })
