@@ -4,7 +4,7 @@ import {Doughnut} from 'react-chartjs-2'
 const rotation = (n) => (0.5 + (1 - n)) * Math.PI
 const circumference = (n) => n * 2 * Math.PI
 
-export default function ({ progress = 50, title, color = '#FF6384', howMuchCircunference = 0.7 }) {
+export default function ({ total = 100, filled = 0, title, color = '#FF6384', howMuchCircunference = 0.7 }) {
   const options = {
     legend: {
       display: false
@@ -20,7 +20,7 @@ export default function ({ progress = 50, title, color = '#FF6384', howMuchCircu
   const data = {
     labels: ['Speed', 'Nothing'],
     datasets: [{
-      data: [progress, 100 - progress],
+      data: [filled, total - filled],
       backgroundColor: [color, '#f5f5f5'],
       hoverBackgroundColor: [color, '#f5f5f5']
     }]
