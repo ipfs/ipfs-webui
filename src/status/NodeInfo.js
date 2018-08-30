@@ -15,8 +15,8 @@ const Label = ({ children }) => (
   <label className='dtc silver tracked ttu f7' style={{width: '100px'}}>{children}</label>
 )
 
-const Value = ({ children, wrap = false }) => (
-  <div className={`dtc charcoal monospace ${wrap ? 'word-wrap' : 'truncate'}`}>{children}</div>
+const Value = ({ children, advanced = false }) => (
+  <div className={`dtc charcoal ${advanced ? 'word-wrap f7 lh-copy pa2 bg-light-gray' : 'truncate monospace'}`}>{children}</div>
 )
 
 const Graph = (props) => (
@@ -98,15 +98,15 @@ class NodeInfo extends React.Component {
         </div>
 
         <details className='mt3'>
-          <summary className='pointer monospace outline-0'>Advanced</summary>
+          <summary className='pointer blue outline-0'>Advanced</summary>
           <div className='mt3'>
             <Block>
               <Label>Public Key</Label>
-              <Value wrap>{ipfsIdentity.publicKey}</Value>
+              <Value advanced>{ipfsIdentity.publicKey}</Value>
             </Block>
             <Block>
               <Label>Addresses</Label>
-              <Value wrap>{ipfsIdentity.addresses.map(addr => <div key={addr}>{addr}</div>)}</Value>
+              <Value advanced>{ipfsIdentity.addresses.map(addr => <div key={addr}>{addr}</div>)}</Value>
             </Block>
           </div>
         </details>
