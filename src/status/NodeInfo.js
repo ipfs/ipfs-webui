@@ -16,7 +16,7 @@ const Label = ({ children }) => (
 )
 
 const Value = ({ children, advanced = false }) => (
-  <div className={`dtc charcoal ${advanced ? 'word-wrap f7 lh-copy pa2 bg-light-gray' : 'truncate monospace'}`}>{children}</div>
+  <div className={`dtc charcoal monospace ${advanced ? 'word-wrap f7 lh-copy pa2 bg-light-gray' : 'truncate'}`}>{children}</div>
 )
 
 const Graph = (props) => (
@@ -57,9 +57,27 @@ class NodeInfo extends React.Component {
     }
   }
 
+  getField (obj, field, fn) {
+    if (obj && obj[field]) {
+      if (fn) {
+        return fn(obj[field])
+      }
+
+      return obj[field]
+    }
+
+    return 'Cannot access the API.'
+  }
+
   render () {
     const { ipfsIdentity, stats, peers } = this.props
     const { downSpeed, upSpeed } = this.state
+
+    let addresses = null
+
+    if (ipfsIdentity) {
+      addresses = [...new Set(ipfsIdentity.addresses)].map(addr => <div key={addr}>{addr}</div>)
+    }
 
     return (
       <Box className='f6 pa4'>
@@ -68,7 +86,7 @@ class NodeInfo extends React.Component {
             <Title style={{ marginBottom: '0.5rem' }}>Node Info</Title>
             <Block>
               <Label>CID</Label>
-              <Value>{ipfsIdentity.id}</Value>
+              <Value>{this.getField(ipfsIdentity, 'id')}</Value>
             </Block>
             <Block>
               <Label>Peers</Label>
@@ -76,7 +94,7 @@ class NodeInfo extends React.Component {
             </Block>
             <Block>
               <Label>Version</Label>
-              <Value>{ipfsIdentity.agentVersion}</Value>
+              <Value>{this.getField(ipfsIdentity, 'agentVersion')}</Value>
             </Block>
           </div>
           <div className='w-100 pl2-l flex-wrap flex-no-wrap-l flex justify-between' style={{ maxWidth: '35rem' }}>
@@ -102,11 +120,11 @@ class NodeInfo extends React.Component {
           <div className='mt3'>
             <Block>
               <Label>Public Key</Label>
-              <Value advanced>{ipfsIdentity.publicKey}</Value>
+              <Value advanced>{this.getField(ipfsIdentity, 'publicKey')}</Value>
             </Block>
             <Block>
               <Label>Addresses</Label>
-              <Value advanced>{ipfsIdentity.addresses.map(addr => <div key={addr}>{addr}</div>)}</Value>
+              <Value advanced>{addresses}</Value>
             </Block>
           </div>
         </details>
