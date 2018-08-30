@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import CountryFlag from 'react-country-flag'
 import Box from '../components/box/Box'
+import { Title } from './Commons'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
 const humansize = filesize.partial({round: 0})
@@ -53,7 +54,7 @@ export class PeerBandwidthTable extends Component {
       <ComponentLoader pastDelay />
     ) : (
       <Box className={className}>
-        <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4'>Bandwidth by peer</h2>
+        <Title>Bandwidth by peer</Title>
         <table className='collapse'>
           <tbody>
             <tr className='tl'>

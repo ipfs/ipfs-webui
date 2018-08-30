@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
+import { Title } from './Commons'
 import Box from '../components/box/Box'
 
 const humansize = filesize.partial({ round: 0 })
@@ -67,7 +68,7 @@ export class NodeBandwidthChart extends Component {
 
     return (
       <Box className={`pa4 pr2 ${this.props.className}`}>
-        <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4'>Bandwidth over time</h2>
+        <Title>Bandwidth over time</Title>
         <Line data={{ datasets }} options={options} />
       </Box>
     )
