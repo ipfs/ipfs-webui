@@ -22,7 +22,7 @@ export default function ({ total = 100, title, filled = 0, noSpeed = false, colo
     data: {
       labels: ['Speed', 'Nothing'],
       datasets: [{
-        data: [filled, total - filled],
+        data: [filled, filled > total ? 0 : total - filled],
         backgroundColor: [color, '#f5f5f5'],
         hoverBackgroundColor: [color, '#f5f5f5']
       }]
