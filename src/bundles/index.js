@@ -1,7 +1,7 @@
 import { composeBundles } from 'redux-bundler'
 
 import ipfsBundle from 'ipfs-redux-bundle'
-import exploreBundle from './explore'
+import exploreBundle from '../explore/src/bundles/explore'
 import appIdle from './app-idle'
 import nodeBandwidthChartBundle from './node-bandwidth-chart'
 import nodeBandwidthBundle from './node-bandwidth'

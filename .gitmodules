@@ -1,0 +1,3 @@
+[submodule "src/explore"]
+	path = src/explore
+	url = git@github.com:ipfs-shipyard/ipld-explorer.git
