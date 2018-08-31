@@ -14,10 +14,12 @@ import filesBundle from './files'
 import configBundle from './config'
 import configSaveBundle from './config-save'
 import navbarBundle from './navbar'
+import statsBundle from './stats'
 
 export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
   ipfsBundle(),
+  statsBundle,
   exploreBundle,
   nodeBandwidthBundle,
   nodeBandwidthChartBundle(),

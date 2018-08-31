@@ -58,7 +58,9 @@ function addMockIpfs (page) {
         stat: () => Promise.resolve({})
       },
       stats: {
-        bw: () => Promise.resolve(fakeBandwidth())
+        bw: () => Promise.resolve(fakeBandwidth()),
+        repo: () => Promise.resolve({}),
+        bitswap: () => Promise.resolve({})
       },
       swarm: {
         peers: () => Promise.resolve([])

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Title } from './Commons'
 import { Pie } from 'react-chartjs-2'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
@@ -49,7 +50,8 @@ export class CountryChart extends Component {
     const options = {
       responsive: true,
       legend: {
-        display: false
+        display: true,
+        position: 'bottom'
       }
     }
 
@@ -65,10 +67,8 @@ export class CountryChart extends Component {
     }
 
     return (
-      <Box>
-        <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4'>
-          Distribution of peers
-        </h2>
+      <Box className={this.props.className}>
+        <Title>Distribution of peers</Title>
         <Pie data={{ datasets, labels }} options={options} />
       </Box>
     )
