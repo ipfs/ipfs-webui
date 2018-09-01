@@ -8,6 +8,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
+import { translate } from 'react-i18next'
 
 class FileList extends React.Component {
   static propTypes = {
@@ -269,7 +270,7 @@ class FileList extends React.Component {
   }
 
   render () {
-    let { files, className, upperDir, connectDropTarget, isOver, canDrop } = this.props
+    let { t, files, className, upperDir, connectDropTarget, isOver, canDrop } = this.props
     const { selected, isDragging } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
 
@@ -288,12 +289,12 @@ class FileList extends React.Component {
             </div>
             <div className='ph2 f6 flex-grow-1 w-40'>
               <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
-                File name {this.sortByIcon(sorts.BY_NAME)}
+                {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
               </span>
             </div>
             <div className='ph2 f6 w-10 dn db-l'>
               <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
-                Size {this.sortByIcon(sorts.BY_SIZE)}
+                {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
               </span>
             </div>
             <div className='pa2' style={{ width: '2.5rem' }} />
@@ -338,4 +339,4 @@ const dropCollect = (connect, monitor) => ({
   canDrop: monitor.canDrop()
 })
 
-export default DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(FileList)
+export default DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FileList))

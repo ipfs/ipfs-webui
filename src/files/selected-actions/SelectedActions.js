@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
+import { translate } from 'react-i18next'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 import StrokeShare from '../../icons/StrokeShare'
 import StrokePencil from '../../icons/StrokePencil'
@@ -30,7 +31,7 @@ const styles = {
   }
 }
 
-export default class SelectedActions extends React.Component {
+class SelectedActions extends React.Component {
   static propTypes = {
     count: PropTypes.number.isRequired,
     size: PropTypes.number.isRequired,
@@ -62,27 +63,25 @@ export default class SelectedActions extends React.Component {
 
   get downloadText () {
     if (this.state.force100) {
-      return 'Finished!'
+      return this.props.t('finished')
     }
 
     switch (this.props.downloadProgress) {
       case 100:
-        return 'Finished!'
+        return this.props.t('finished')
       case null:
-        return 'Download'
+        return this.props.t('actions.download')
       default:
         return this.props.downloadProgress.toFixed(0) + '%'
     }
   }
 
   render () {
-    let { count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, ...props } = this.props
-
-    const text = (count > 1) ? 'Files selected' : 'File selected'
+    let { t, tReady, count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, ...props } = this.props
 
     let singleFileAction = 'disabled o-50'
     let singleFileTooltip = {
-      title: 'Only available for individual files'
+      title: t('individualFilesOnly')
     }
 
     if (count === 1) {
@@ -99,15 +98,15 @@ export default class SelectedActions extends React.Component {
                 <span className='absolute' style={styles.countNumber}>{count}</span>
               </div>
               <div className='dn db-l'>
-                <p className='ma0'>{text}</p>
-                <p className='ma0 mt1 f6' style={styles.size}>Total size: {filesize(size)}</p>
+                <p className='ma0'>{t('filesSelected', { count })}</p>
+                <p className='ma0 mt1 f6' style={styles.size}>{t('totalSize', { size: filesize(size) })}</p>
               </div>
             </div>
           </div>
           <div className='flex'>
             <div className='pointer grow tc mh2' onClick={share}>
               <StrokeShare className='w3' fill='#A4BFCC' />
-              <p className='ma0 f6'>Share</p>
+              <p className='ma0 f6'>{t('actions.share')}</p>
             </div>
             <div className='pointer grow tc mh2' onClick={download}>
               <StrokeDownload className='w3' fill='#A4BFCC' />
@@ -115,21 +114,21 @@ export default class SelectedActions extends React.Component {
             </div>
             <div className='pointer grow tc mh2' onClick={remove}>
               <StrokeTrash className='w3' fill='#A4BFCC' />
-              <p className='ma0 f6'>Delete</p>
+              <p className='ma0 f6'>{t('actions.delete')}</p>
             </div>
             <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? inspect : null} {...singleFileTooltip}>
               <StrokeIpld className='w3' fill='#A4BFCC' />
-              <p className='ma0 f6'>Inspect</p>
+              <p className='ma0 f6'>{t('actions.inspect')}</p>
             </div>
             <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? rename : null} {...singleFileTooltip}>
               <StrokePencil className='w3' fill='#A4BFCC' />
-              <p className='ma0 f6'>Rename</p>
+              <p className='ma0 f6'>{t('actions.rename')}</p>
             </div>
           </div>
           <div className='w5-l'>
             <span onClick={unselect} className='pointer flex items-center justify-end'>
-              <span className='mr2 dn db-l'>Deselect all</span>
-              <span className='mr2 dn db-m'>Clear</span>
+              <span className='mr2 dn db-l'>{t('actions.unselectAll')}</span>
+              <span className='mr2 dn db-m'>{t('actions.clear')}</span>
               <GlyphSmallCancel onClick={unselect} className='w1' fill='#F26148' viewBox='37 40 27 27' />
             </span>
           </div>
@@ -138,3 +137,5 @@ export default class SelectedActions extends React.Component {
     )
   }
 }
+
+export default translate('files')(SelectedActions)

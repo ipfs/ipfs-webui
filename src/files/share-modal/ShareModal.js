@@ -2,15 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ShareIcon from '../../icons/StrokeShare'
 import Button from '../../components/button/Button'
+import { translate } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Modal, ModalActions, ModalBody } from '../../components/modal/Modal'
 
-const ShareModal = ({ onLeave, link, className, ...props }) => (
+const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (
   <Modal {...props} className={className} onCancel={onLeave} >
-    <ModalBody title='Share Files' icon={ShareIcon}>
-      <p className='gray w-80 center'>
-        Copy the link below and share it with your friends.
-      </p>
+    <ModalBody title={t('shareModal.title')} icon={ShareIcon}>
+      <p className='gray w-80 center'>{t('shareModal.message')}</p>
 
       <div className='flex center w-100 pa2'>
         <input
@@ -23,9 +22,9 @@ const ShareModal = ({ onLeave, link, className, ...props }) => (
     </ModalBody>
 
     <ModalActions>
-      <Button className='ma2' bg='bg-gray' onClick={onLeave}>Close</Button>
+      <Button className='ma2' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
       <CopyToClipboard text={link} onCopy={onLeave}>
-        <Button className='ma2'>Copy</Button>
+        <Button className='ma2'>{t('actions.copy')}</Button>
       </CopyToClipboard>
     </ModalActions>
   </Modal>
@@ -40,4 +39,4 @@ ShareModal.defaultProps = {
   className: ''
 }
 
-export default ShareModal
+export default translate('files')(ShareModal)

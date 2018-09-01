@@ -1,0 +1,50 @@
+{
+  "title": "Files",
+  "home": "Home",
+  "breadcrumbs": "Breadcrumbs",
+  "finished": "Finished!",
+  "totalSize": "Total size: {{size}}",
+  "filesSelected": "File selected",
+  "filesSelected_plural": "Files selected",
+  "individualFilesOnly": "Only available for individual files",
+  "fileName": "File name",
+  "size": "Size",
+  "actions": {
+    "delete": "Delete",
+    "rename": "Rename",
+    "download": "Download",
+    "inspect": "Inspect",
+    "copyHash": "Copy Hash",
+    "share": "Share",
+    "close": "Close",
+    "copy": "Copy",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "save": "Save",
+    "unselectAll": "Unselect All"
+  },
+  "shareModal": {
+    "title": "Share Files",
+    "message": "Copy the link below and share it with your friends."
+  },
+  "renameModal": {
+    "titleFile": "Rename File",
+    "titleFolder": "Rename Folder",
+    "messageFile": "Choose a new name for this file.",
+    "messageFolder": "Choose a new name for this folder."
+  },
+  "deleteModal": {
+    "titleItem": "Delete Item",
+    "titleItem_plural": "Delete Items",
+    "titleFolder": "Delete Folder",
+    "titleFolder_plural": "Delete Folders",
+    "titleFile": "Delete File",
+    "titleFile_plural": "Delete Files",
+    "messageItem": "Are you sure you want to delete this item? This action is permanent and cannot be reversed.",
+    "messageItem_plural": "Are you sure you want to delete these items? This action is permanent and cannot be reversed.",
+    "messageFolder": "Are you sure you want to delete this folder? This action is permanent and cannot be reversed.",
+    "messageFolder_plural": "Are you sure you want to delete these folders? This action is permanent and cannot be reversed.",
+    "messageFile": "Are you sure you want to delete this file? This action is permanent and cannot be reversed.",
+    "messageFile_plural": "Are you sure you want to delete these files? This action is permanent and cannot be reversed."
+  }
+}

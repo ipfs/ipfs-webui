@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { translate } from 'react-i18next'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import GlyphDots from '../../icons/GlyphDots'
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import StrokeCopy from '../../icons/StrokeCopy'
 import StrokeShare from '../../icons/StrokeShare'
 import StrokePencil from '../../icons/StrokePencil'
@@ -11,7 +12,7 @@ import StrokeIpld from '../../icons/StrokeIpld'
 import StrokeTrash from '../../icons/StrokeTrash'
 import StrokeDownload from '../../icons/StrokeDownload'
 
-export default class ContextMenu extends React.Component {
+class ContextMenu extends React.Component {
   static propTypes = {
     onDelete: PropTypes.func,
     onRename: PropTypes.func,
@@ -42,7 +43,7 @@ export default class ContextMenu extends React.Component {
   }
 
   render () {
-    const { onRename, onDelete, onDownload, onInspect, onShare } = this.props
+    const { t, onRename, onDelete, onDownload, onInspect, onShare } = this.props
 
     return (
       <Dropdown>
@@ -56,37 +57,37 @@ export default class ContextMenu extends React.Component {
           { onDelete &&
             <Option onClick={this.wrap('onDelete')}>
               <StrokeTrash className='w2 mr2 fill-aqua' />
-              Delete
+              {t('actions.delete')}
             </Option>
           }
           { onRename &&
             <Option onClick={this.wrap('onRename')}>
               <StrokePencil className='w2 mr2 fill-aqua' />
-              Rename
+              {t('actions.rename')}
             </Option>
           }
           { onDownload &&
             <Option onClick={this.wrap('onDownload')}>
               <StrokeDownload className='w2 mr2 fill-aqua' />
-              Download
+              {t('actions.download')}
             </Option>
           }
           { onInspect &&
             <Option onClick={this.wrap('onInspect')}>
               <StrokeIpld className='w2 mr2 fill-aqua' />
-              Inspect
+              {t('actions.inspect')}
             </Option>
           }
           <CopyToClipboard text={this.props.hash} onCopy={this.toggleDropdown}>
             <Option>
               <StrokeCopy className='w2 mr2 fill-aqua' />
-              Copy Hash
+              {t('actions.copyHash')}
             </Option>
           </CopyToClipboard>
           { onShare &&
             <Option onClick={this.wrap('onShare')}>
               <StrokeShare className='w2 mr2 fill-aqua' />
-              Share
+              {t('actions.share')}
             </Option>
           }
         </DropdownMenu>
@@ -94,3 +95,5 @@ export default class ContextMenu extends React.Component {
     )
   }
 }
+
+export default translate('files')(ContextMenu)

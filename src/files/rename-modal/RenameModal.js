@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PencilIcon from '../../icons/StrokePencil'
 import TextInputModal from '../../components/text-input-modal/TextInputModal'
+import { translate } from 'react-i18next'
 
-function RenameModal ({ onCancel, onSubmit, filename, folder, className, ...props }) {
+function RenameModal ({ t, tReady, onCancel, onSubmit, filename, folder, className, ...props }) {
   return (
     <TextInputModal
       onCancel={onCancel}
@@ -11,10 +12,10 @@ function RenameModal ({ onCancel, onSubmit, filename, folder, className, ...prop
       mustBeDifferent
       className={className}
       defaultValue={filename}
-      title={`Rename ${folder ? 'Folder' : 'File'}`}
-      description={`Choose a new name for this ${folder ? 'folder' : 'file'}.`}
+      title={folder ? t('renameModal.titleFolder') : t('renameModal.titleFile')}
+      description={folder ? t('renameModal.messageFolder') : t('renameModal.messageFile')}
       icon={PencilIcon}
-      submitText='Save'
+      submitText={t('actions.save')}
       {...props}
     />
   )
@@ -32,4 +33,4 @@ RenameModal.defaultProps = {
   folder: false
 }
 
-export default RenameModal
+export default translate('files')(RenameModal)
