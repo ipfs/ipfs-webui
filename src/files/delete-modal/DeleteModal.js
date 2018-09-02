@@ -6,27 +6,22 @@ import Button from '../../components/button/Button'
 import { Modal, ModalActions, ModalBody } from '../../components/modal/Modal'
 
 const DeleteModal = ({ t, tReady, onCancel, onDelete, folders, files, className, ...props }) => {
-  let title, message
+  let context = 'file'
   const count = files + folders
 
   if (folders > 0) {
     if (files > 0) {
-      title = t('deleteModal.titleItem', { count })
-      message = t('deleteModal.messageItem', { count })
+      context = 'item'
     } else {
-      title = t('deleteModal.titleFolder', { count })
-      message = t('deleteModal.messageFolder', { count })
+      context = 'folder'
     }
-  } else {
-    title = t('deleteModal.titleFile', { count })
-    message = t('deleteModal.messageFile', { count })
   }
 
   return (
     <Modal {...props} className={className} onCancel={onCancel} >
-      <ModalBody title={title} icon={TrashIcon}>
+      <ModalBody title={t('deleteModal.title', { count, context })} icon={TrashIcon}>
         <p className='gray w-80 center'>
-          {message}
+          {t('deleteModal.description', { count, context })}
         </p>
       </ModalBody>
 

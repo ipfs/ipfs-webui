@@ -6,6 +6,8 @@ i18n
   .use(XHR)
   .use(LanguageDetector)
   .init({
+    ns: ['common', 'files'],
+    defaultNS: 'common',
     fallbackLng: 'en',
     debug: true,
     // react i18next special options (optional)

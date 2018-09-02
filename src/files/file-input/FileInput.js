@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { translate } from 'react-i18next'
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
@@ -10,7 +11,7 @@ import NewFolderModal from './NewFolderModal'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
 
-const AddButton = ({ progress = null, ...props }) => {
+const AddButton = translate('files')(({ progress = null, t, tReady, ...props }) => {
   const sending = progress !== null
   let cls = 'Button f7 relative transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline'
   if (sending) {
@@ -22,7 +23,7 @@ const AddButton = ({ progress = null, ...props }) => {
   return (
     <button disabled={sending} className={cls} style={{ width: '120px' }} {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
-        {sending ? `${progress.toFixed(0)}%` : '+ Add to IPFS'}
+        {sending ? `${progress.toFixed(0)}%` : `+ ${t('addToIPFS')}`}
       </div>&nbsp;
 
       { sending &&
@@ -30,7 +31,7 @@ const AddButton = ({ progress = null, ...props }) => {
       }
     </button>
   )
-}
+})
 
 class FileInput extends React.Component {
   static propTypes = {
@@ -88,7 +89,7 @@ class FileInput extends React.Component {
   }
 
   render () {
-    let progress = this.props.addProgress
+    let { progress, t } = this.props
     if (this.state.force100) {
       progress = 100
     }
@@ -103,19 +104,19 @@ class FileInput extends React.Component {
             onDismiss={this.toggleDropdown} >
             <Option onClick={() => this.filesInput.click()}>
               <DocumentIcon className='fill-aqua w2 mr1' />
-              Add file
+              {t('addFile')}
             </Option>
             <Option onClick={() => this.folderInput.click()}>
               <FolderIcon className='fill-aqua w2 mr1' />
-              Add folder
+              {t('addFolder')}
             </Option>
             <Option onClick={this.toggleModal('byPath')}>
               <DecentralizationIcon className='fill-aqua w2 mr1' />
-              Add by path
+              {t('addByPath')}
             </Option>
             <Option className='bt border-snow' onClick={this.toggleModal('newFolder')}>
               <FolderIcon className='fill-aqua w2 mr1' />
-              New folder
+              {t('newFolder')}
             </Option>
           </DropdownMenu>
         </Dropdown>
@@ -169,4 +170,4 @@ const dropCollect = (connect, monitor) => ({
   canDrop: monitor.canDrop()
 })
 
-export default DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(FileInput)
+export default DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FileInput))
