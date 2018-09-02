@@ -38,7 +38,9 @@ class FileInput extends React.Component {
     onMakeDir: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
     onAddByPath: PropTypes.func.isRequired,
-    addProgress: PropTypes.number
+    addProgress: PropTypes.number,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
   state = {

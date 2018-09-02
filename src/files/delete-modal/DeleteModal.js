@@ -37,7 +37,9 @@ DeleteModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   files: PropTypes.number,
-  folders: PropTypes.number
+  folders: PropTypes.number,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
 }
 
 DeleteModal.defaultProps = {

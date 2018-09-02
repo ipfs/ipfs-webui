@@ -32,7 +32,9 @@ const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (
 
 ShareModal.propTypes = {
   onLeave: PropTypes.func.isRequired,
-  link: PropTypes.string
+  link: PropTypes.string,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
 }
 
 ShareModal.defaultProps = {

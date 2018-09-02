@@ -22,7 +22,9 @@ function NewFolderModal ({ t, tReady, onCancel, onSubmit, className, ...props })
 
 NewFolderModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
 }
 
 export default translate('files')(NewFolderModal)

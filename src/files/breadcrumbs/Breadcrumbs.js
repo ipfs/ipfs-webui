@@ -49,7 +49,9 @@ function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
 
 Breadcrumbs.propTypes = {
   path: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
 }
 
 export default translate('files')(Breadcrumbs)

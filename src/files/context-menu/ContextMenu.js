@@ -19,7 +19,9 @@ class ContextMenu extends React.Component {
     onDownload: PropTypes.func,
     onInspect: PropTypes.func,
     onShare: PropTypes.func,
-    hash: PropTypes.string.isRequired
+    hash: PropTypes.string.isRequired,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
   static defaultProps = {

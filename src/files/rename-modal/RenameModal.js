@@ -27,7 +27,9 @@ RenameModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   filename: PropTypes.string.isRequired,
-  folder: PropTypes.bool
+  folder: PropTypes.bool,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
 }
 
 RenameModal.defaultProps = {

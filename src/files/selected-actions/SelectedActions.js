@@ -41,7 +41,9 @@ class SelectedActions extends React.Component {
     download: PropTypes.func.isRequired,
     rename: PropTypes.func.isRequired,
     inspect: PropTypes.func.isRequired,
-    downloadProgress: PropTypes.number
+    downloadProgress: PropTypes.number,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
   static defaultActions = {

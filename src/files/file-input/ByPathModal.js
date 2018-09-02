@@ -24,7 +24,9 @@ function ByPathModal ({ t, tReady, onCancel, onSubmit, className, ...props }) {
 
 ByPathModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
 }
 
 export default translate('files')(ByPathModal)

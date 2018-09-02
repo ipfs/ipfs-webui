@@ -35,7 +35,10 @@ class FileList extends React.Component {
     onRename: PropTypes.func.isRequired,
     onNavigate: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
-    onMove: PropTypes.func.isRequired
+    onMove: PropTypes.func.isRequired,
+    // From i18next
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
   static defaultProps = {

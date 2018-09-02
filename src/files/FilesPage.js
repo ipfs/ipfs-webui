@@ -51,7 +51,9 @@ class FilesPage extends React.Component {
     doFilesAddPath: PropTypes.func.isRequired,
     doFilesDownloadLink: PropTypes.func.isRequired,
     doFilesMakeDir: PropTypes.func.isRequired,
-    doFilesUpdateSorting: PropTypes.func.isRequired
+    doFilesUpdateSorting: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
   state = defaultState

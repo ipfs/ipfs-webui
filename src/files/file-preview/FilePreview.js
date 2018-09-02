@@ -10,7 +10,9 @@ class FilesPreview extends React.Component {
     stats: PropTypes.object.isRequired,
     gatewayUrl: PropTypes.string.isRequired,
     read: PropTypes.func.isRequired,
-    content: PropTypes.object
+    content: PropTypes.object,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
   state = {
