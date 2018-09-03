@@ -6,7 +6,7 @@ i18n
   .use(XHR)
   .use(LanguageDetector)
   .init({
-    ns: ['common', 'files', 'settings', 'peers', 'status'],
+    ns: ['common', 'files', 'settings', 'status', 'peers'],
     defaultNS: 'common',
     fallbackLng: 'en',
     debug: true,

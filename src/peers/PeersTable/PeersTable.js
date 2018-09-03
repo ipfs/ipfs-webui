@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { translate } from 'react-i18next'
 import { Table, Column, AutoSizer } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
 
 export class PeersTable extends React.Component {
   static propTypes = {
-    peers: PropTypes.array
+    peers: PropTypes.array,
+    t: PropTypes.func.isRequired
   }
 
   flagRenderer = (flagCode) => {
@@ -32,7 +34,7 @@ export class PeersTable extends React.Component {
   )
 
   render () {
-    const { peers } = this.props
+    const { peers, t } = this.props
     const tableHeight = 220
 
     return (
@@ -49,9 +51,9 @@ export class PeersTable extends React.Component {
               rowHeight={32}
               rowCount={peers.length}
               rowGetter={({ index }) => peers[index]}>
-              <Column label='ID' dataKey='id' width={430} className='dark-gray monospace pr3 truncate' />
-              <Column label='Network address' dataKey='address' width={280} className='silver monospace pr3 truncate' />
-              <Column label='Location' cellRenderer={this.locationCellRenderer} dataKey='location' width={220} className='navy-muted b truncate' />
+              <Column label={t('id')} dataKey='id' width={430} className='dark-gray monospace ttu pr3 truncate' />
+              <Column label={t('addresses')} dataKey='address' width={280} className='silver monospace ttu pr3 truncate' />
+              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={220} className='navy-muted ttu b truncate' />
             </Table>
           )}
         </AutoSizer> }
@@ -60,4 +62,4 @@ export class PeersTable extends React.Component {
   }
 }
 
-export default PeersTable
+export default translate('peers')(PeersTable)

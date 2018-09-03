@@ -1,3 +1,13 @@
 {
-  "title": "Status"
+  "title": "Status",
+  "peers": "Peers",
+  "addresses": "Addresses",
+  "nodeInfo": "Node Info",
+  "cid": "CID",
+  "version": "Version",
+  "advanced": "Advanced",
+  "publicKey": "Public Key",
+  "bandwidthOverTime": "Bandwidth over time",
+  "bandwidthByPeer": "Bandwidth by peer",
+  "distributionOfPeers": "Distribution of peers"
 }
