@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'redux-bundler-react'
+import { translate } from 'react-i18next'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import CountryFlag from 'react-country-flag'
@@ -41,7 +42,7 @@ export class PeerBandwidthTable extends Component {
   }
 
   render () {
-    const { peerBandwidthPeers, className, peerLocations } = this.props
+    const { t, peerBandwidthPeers, className, peerLocations } = this.props
     const { sort, showAll } = this.state
     const sortedPeers = Array.from(peerBandwidthPeers)
       .filter(p => Boolean(p.bw))
@@ -54,15 +55,15 @@ export class PeerBandwidthTable extends Component {
       <ComponentLoader pastDelay />
     ) : (
       <Box className={className}>
-        <Title>Bandwidth by peer</Title>
+        <Title>{t('bandwidthByPeer')}</Title>
         <table className='collapse'>
           <tbody>
             <tr className='tl'>
-              <th className='f6 pv2 pr3 pl0' colSpan='2'><span className='v-mid'>Peer</span></th>
-              <SortableTableHeader field='rateIn' label='Rate In' sort={sort} onClick={this.onFieldClick} />
-              <SortableTableHeader field='rateOut' label='Rate Out' sort={sort} onClick={this.onFieldClick} />
-              <SortableTableHeader field='totalIn' label='Total In' sort={sort} onClick={this.onFieldClick} />
-              <SortableTableHeader field='totalOut' label='Total Out' sort={sort} onClick={this.onFieldClick} />
+              <th className='f6 pv2 pr3 pl0' colSpan='2'><span className='v-mid'>{t('peer')}</span></th>
+              <SortableTableHeader field='rateIn' label={t('rateIn')} sort={sort} onClick={this.onFieldClick} />
+              <SortableTableHeader field='rateOut' label={t('rateOut')} sort={sort} onClick={this.onFieldClick} />
+              <SortableTableHeader field='totalIn' label={t('totalIn')} sort={sort} onClick={this.onFieldClick} />
+              <SortableTableHeader field='totalOut' label={t('totalOut')} sort={sort} onClick={this.onFieldClick} />
             </tr>
             {visiblePeers.map((p, i) => (
               <tr key={p.id} className={i % 2 ? 'bg-snow-muted' : ''}>
@@ -77,7 +78,7 @@ export class PeerBandwidthTable extends Component {
           </tbody>
         </table>
         {!showAll && hiddenPeers.length ? (
-          <p className='sans-serif f5 ma0 pv3 ph2 tc pointer underline-hover navy-muted' onClick={this.onShowAllClick}>...and {hiddenPeers.length} more</p>
+          <p className='sans-serif f5 ma0 pv3 ph2 tc pointer underline-hover navy-muted' onClick={this.onShowAllClick}>{t('more', { count: hiddenPeers.length })}</p>
         ) : null}
       </Box>
     )
@@ -108,4 +109,8 @@ function LocationFlag ({ location }) {
   )
 }
 
-export default connect('selectPeerBandwidthPeers', 'selectPeerLocations', PeerBandwidthTable)
+export default connect(
+  'selectPeerBandwidthPeers',
+  'selectPeerLocations',
+  translate('status')(PeerBandwidthTable)
+)

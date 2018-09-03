@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
+import { translate } from 'react-i18next'
 import Speedometer from './Speedometer'
 import Box from '../components/box/Box'
 import { Title } from './Commons'
@@ -70,7 +71,7 @@ class NodeInfo extends React.Component {
   }
 
   render () {
-    const { ipfsIdentity, stats, peers } = this.props
+    const { t, ipfsIdentity, stats, peers } = this.props
     const { downSpeed, upSpeed } = this.state
 
     let addresses = null
@@ -85,29 +86,29 @@ class NodeInfo extends React.Component {
           <div className='w-100 w-50-l pr2-l' style={{ maxWidth: '34em' }} >
             <Title style={{ marginBottom: '0.5rem' }}>Node Info</Title>
             <Block>
-              <Label>CID</Label>
+              <Label>{t('cid')}</Label>
               <Value>{this.getField(ipfsIdentity, 'id')}</Value>
             </Block>
             <Block>
-              <Label>Peers</Label>
+              <Label>{t('peers')}</Label>
               <Value>{peers ? peers.length : 0}</Value>
             </Block>
             <Block>
-              <Label>Version</Label>
+              <Label>{t('version')}</Label>
               <Value>{this.getField(ipfsIdentity, 'agentVersion')}</Value>
             </Block>
           </div>
           <div className='w-100 pl2-l flex-wrap flex-no-wrap-l flex justify-between' style={{ maxWidth: '35rem' }}>
             <Graph
-              title='Up Speed'
+              title={t('upSpeed')}
               color='#69c4cd'
               {...upSpeed} />
             <Graph
-              title='Down Speed'
+              title={t('downSpeed')}
               color='#f39021'
               {...downSpeed} />
             <Graph
-              title='Space Used'
+              title={t('spaceUsed')}
               color='#0b3a53'
               noSpeed
               filled={stats ? parseInt(stats.repo.repoSize.toFixed(0), 10) : 0}
@@ -116,14 +117,14 @@ class NodeInfo extends React.Component {
         </div>
 
         <details className='mt3'>
-          <summary className='pointer blue outline-0'>Advanced</summary>
+          <summary className='pointer blue outline-0'>{t('advanced')}</summary>
           <div className='mt3'>
             <Block>
-              <Label>Public Key</Label>
+              <Label>{t('publicKey')}</Label>
               <Value advanced>{this.getField(ipfsIdentity, 'publicKey')}</Value>
             </Block>
             <Block>
-              <Label>Addresses</Label>
+              <Label>{t('addresses')}</Label>
               <Value advanced>{addresses}</Value>
             </Block>
           </div>
@@ -137,5 +138,5 @@ export default connect(
   'selectIpfsIdentity',
   'selectPeers',
   'selectStats',
-  NodeInfo
+  translate('status')(NodeInfo)
 )

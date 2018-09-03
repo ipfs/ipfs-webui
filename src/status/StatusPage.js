@@ -1,14 +1,15 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
+import { translate } from 'react-i18next'
 import CountryChart from './CountryChart'
 import NodeInfo from './NodeInfo'
 import NodeBandwidthChart from './NodeBandwidthChart'
 import PeerBandwidthTable from './PeerBandwidthTable'
 
-export default () => (
+export default translate('status')(({t}) => (
   <div data-id='StatusPage'>
     <Helmet>
-      <title>Status - IPFS</title>
+      <title>{t('title')} - IPFS</title>
     </Helmet>
     <NodeInfo />
     <div className='flex flex-column-s flex-column-m flex-row'>
@@ -21,4 +22,4 @@ export default () => (
     </div>
     <PeerBandwidthTable className='mt3 pa4 overflow-x-auto' />
   </div>
-)
+))
