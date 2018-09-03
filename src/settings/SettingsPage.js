@@ -17,7 +17,7 @@ const SettingsPage = ({
 }) => (
   <div data-id='SettingsPage'>
     <Helmet>
-      <title>Settings - IPFS</title>
+      <title>{t('title')} - IPFS</title>
     </Helmet>
     <Box>
       <div className='dt dt--fixed pb3'>

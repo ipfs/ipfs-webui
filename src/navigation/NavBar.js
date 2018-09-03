@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
+import { translate } from 'react-i18next'
 import ipfsLogo from './ipfs-logo.svg'
 import ipfsLogoText from './ipfs-logo-text.svg'
 import StrokeMarketing from '../icons/StrokeMarketing'
@@ -40,7 +41,7 @@ const NavLink = ({
   )
 }
 
-export const NavBar = ({ isSettingsEnabled, width, open, onToggle }) => {
+export const NavBar = ({t, isSettingsEnabled, width, open, onToggle}) => {
   return (
     <div id='navbar' style={{ width }}>
       <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>
@@ -48,11 +49,11 @@ export const NavBar = ({ isSettingsEnabled, width, open, onToggle }) => {
         <img className='center' style={{ height: 70, display: open ? 'none' : 'block' }} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
       </div>
       <nav className='db pt4' role='menubar'>
-        <NavLink to='/' exact icon={StrokeMarketing} open={open}>Status</NavLink>
-        <NavLink to='/files/' icon={StrokeWeb} open={open}>Files</NavLink>
+        <NavLink to='/' exact icon={StrokeMarketing} open={open}>{t('status:title')}</NavLink>
+        <NavLink to='/files/' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
         <NavLink to='/explore' icon={StrokeIpld} open={open}>Explore</NavLink>
-        <NavLink to='/peers' icon={StrokeCube} open={open}>Peers</NavLink>
-        <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>Settings</NavLink>
+        <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
+        <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>{t('settings:title')}</NavLink>
       </nav>
     </div>
   )
@@ -65,7 +66,8 @@ export const NavBarContainer = ({ doToggleNavbar, configRaw, navbarIsOpen, navba
       isSettingsEnabled={isSettingsEnabled}
       open={navbarIsOpen}
       width={navbarWidth}
-      onToggle={doToggleNavbar} />
+      onToggle={doToggleNavbar}
+      {...props} />
   )
 }
 
@@ -74,5 +76,5 @@ export default connect(
   'selectConfigRaw',
   'selectNavbarIsOpen',
   'selectNavbarWidth',
-  NavBarContainer
+  translate()(NavBarContainer)
 )
