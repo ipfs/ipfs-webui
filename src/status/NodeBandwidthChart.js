@@ -22,14 +22,14 @@ const Tooltip = ({ bw, show, pos }) => {
   return (
     <div id='chartjs-tooltip' className='fixed bg-white pa2 br3 shadow-4' style={{ top: `${pos.top}px`, left: `${pos.left}px` }}>
       <div className='db'>
-        <span className='w2 dib charcoal tr'>in:</span>
-        <span className='f4 ml2 charcoal-muted'>{bw.in[0]}</span>
-        <span className='ml1 charcoal-muted'>{bw.in[1]}/s</span>
+        <span style={{ width: '1.3rem' }} className='f7 dib charcoal tr'>in:</span>
+        <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
+        <span className='f7 charcoal-muted'>{bw.in[1]}/s</span>
       </div>
       <div className='db'>
-        <span className='w2 dib charcoal tr'>out:</span>
-        <span className='f4 ml2 charcoal-muted'>{bw.out[0]}</span>
-        <span className='ml1 charcoal-muted'>{bw.out[1]}/s</span>
+        <span style={{ width: '1.3rem' }} className='f7 dib charcoal tr'>out:</span>
+        <span className='f4 ml1 charcoal-muted'>{bw.out[0]}</span>
+        <span className='f7 charcoal-muted'>{bw.out[1]}/s</span>
       </div>
     </div>
   )
@@ -84,7 +84,7 @@ export class NodeBandwidthChart extends Component {
         mode: 'index',
         enabled: false,
         custom: function (model) {
-          // FIX: this is NOT HAPPENING!?!?!?!
+          // f7 FIX: this is NOT HAPPENING!?!?!?!
           if (model.opacity === 0) {
             updateTooltip(false)
             return
