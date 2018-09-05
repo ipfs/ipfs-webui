@@ -6,6 +6,9 @@ import filesize from 'filesize'
 import { Title } from './Commons'
 import Box from '../components/box/Box'
 
+import Modal from '../components/modal/Modal'
+import Overlay from '../components/overlay/Overlay'
+
 const humansize = filesize.partial({ round: 1, bits: true })
 
 export class NodeBandwidthChart extends Component {
@@ -14,10 +17,16 @@ export class NodeBandwidthChart extends Component {
     animatedPoints: PropTypes.number
   }
 
-  state = {}
+  state = {
+    showModal: true
+  }
 
   static defaultProps = {
     animatedPoints: 500 // Only animate for the first 500 points
+  }
+
+  toggleModal = () => {
+    this.setState(s => ({ showModal: !s.showModal }))
   }
 
   render () {
@@ -71,6 +80,15 @@ export class NodeBandwidthChart extends Component {
       <Box className={`pa4 pr2 ${this.props.className}`}>
         <Title>Bandwidth over time</Title>
         <Line data={{ datasets }} options={options} />
+
+        <Overlay show={this.state.showModal} autoFocus={false}>
+          <Modal onCancel={this.toggleModal} style={{}}>
+            <Box className={`pa4 pr2 ${this.props.className}`}>
+              <Title>Bandwidth over time</Title>
+              <Line data={{ datasets }} options={options} />
+            </Box>
+          </Modal>
+        </Overlay>
       </Box>
     )
   }
