@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { Line } from 'react-chartjs-2'
 import { translate } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
@@ -20,7 +21,7 @@ const Tooltip = ({ bw, show, pos }) => {
   }
 
   return (
-    <div id='chartjs-tooltip' className='fixed bg-white pa2 br3 shadow-4' style={{ top: `${pos.top}px`, left: `${pos.left}px` }}>
+    <div className='fixed bg-white pa2 br3 shadow-4' style={{ top: `${pos.top}px`, left: `${pos.left}px` }}>
       <div className='db'>
         <span style={{ width: '1.3rem' }} className='f7 dib charcoal tr'>in:</span>
         <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
@@ -42,11 +43,40 @@ export class NodeBandwidthChart extends Component {
   }
 
   state = {
-    tooltip: { show: false }
+    tooltip: { show: false },
+    backgrounds: {
+      in: '#9ad4db',
+      out: '#f9a13e'
+    }
   }
 
   static defaultProps = {
     animatedPoints: 500 // Only animate for the first 500 points
+  }
+
+  componentDidMount () {
+    const el = ReactDOM.findDOMNode(this.root)
+
+    if (!el) {
+      return
+    }
+
+    const ctx = el.getContext('2d')
+
+    const gradientIn = ctx.createLinearGradient(el.width / 2, 0, el.width / 2, el.height)
+    gradientIn.addColorStop(0, '#70c5cd')
+    gradientIn.addColorStop(1, '#c6f1f3')
+
+    const gradientOut = ctx.createLinearGradient(el.width / 2, 0, el.width / 2, el.height / 2)
+    gradientOut.addColorStop(0, '#f19237')
+    gradientOut.addColorStop(1, '#f9d1a6')
+
+    this.setState({
+      backgrounds: {
+        in: gradientIn,
+        out: gradientOut
+      }
+    })
   }
 
   render () {
@@ -56,16 +86,16 @@ export class NodeBandwidthChart extends Component {
       {
         label: 'In',
         data: nodeBandwidthChartData.in,
-        borderColor: '#69c4cd',
-        backgroundColor: '#9ad4db',
+        borderColor: this.state.backgrounds.in,
+        backgroundColor: this.state.backgrounds.in,
         pointRadius: 2,
         cubicInterpolationMode: 'monotone'
       },
       {
         label: 'Out',
         data: nodeBandwidthChartData.out,
-        borderColor: '#f39021',
-        backgroundColor: '#f9a13e',
+        borderColor: this.state.backgrounds.out,
+        backgroundColor: this.state.backgrounds.out,
         pointRadius: 2,
         cubicInterpolationMode: 'monotone'
       }
@@ -109,7 +139,7 @@ export class NodeBandwidthChart extends Component {
         yAxes: [{
           stacked: true,
           ticks: {
-            callback: v => humansize(v) + '/s',
+            callback: v => humansize(v) + '/s'
             suggestedMax: 125000
           }
         }]
@@ -128,7 +158,7 @@ export class NodeBandwidthChart extends Component {
       <Box className={`pa4 pr2 ${this.props.className}`}>
         <Title>{t('bandwidthOverTime')}</Title>
         <Tooltip {...this.state.tooltip} />
-        <Line data={{ datasets }} options={options} />
+        <Line data={{ datasets }} options={options} ref={el => { this.root = el }} />
       </Box>
     )
   }
