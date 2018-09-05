@@ -6,7 +6,7 @@ import filesize from 'filesize'
 import { Title } from './Commons'
 import Box from '../components/box/Box'
 
-const humansize = filesize.partial({ round: 0 })
+const humansize = filesize.partial({ round: 1, bits: true })
 
 export class NodeBandwidthChart extends Component {
   static propTypes = {
@@ -52,7 +52,8 @@ export class NodeBandwidthChart extends Component {
         yAxes: [{
           stacked: true,
           ticks: {
-            callback: v => humansize(v) + '/s'
+            callback: v => humansize(v) + '/s',
+            suggestedMax: 125000
           }
         }]
       },
