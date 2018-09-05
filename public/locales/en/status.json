@@ -18,5 +18,5 @@
   "rateOut": "Rate Out",
   "totalIn": "Total In",
   "totalOut": "Total Out",
-  "more": "...and {{count}} more"
+  "more": "...and {count} more"
 }

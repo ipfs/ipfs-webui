@@ -41,7 +41,7 @@ const NavLink = ({
   )
 }
 
-export const NavBar = ({t, isSettingsEnabled, width, open, onToggle}) => {
+export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   return (
     <div id='navbar' style={{ width }}>
       <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>

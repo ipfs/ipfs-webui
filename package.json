@@ -36,6 +36,7 @@
     "filesize": "^3.6.1",
     "i18next": "^11.6.0",
     "i18next-browser-languagedetector": "^2.2.3",
+    "i18next-icu": "^0.6.0",
     "i18next-xhr-backend": "^1.5.1",
     "internal-nav-helper": "^1.0.2",
     "ipfs-css": "^0.9.0",

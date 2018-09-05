@@ -6,7 +6,7 @@ import NodeInfo from './NodeInfo'
 import NodeBandwidthChart from './NodeBandwidthChart'
 import PeerBandwidthTable from './PeerBandwidthTable'
 
-export default translate('status')(({t}) => (
+export default translate('status')(({ t }) => (
   <div data-id='StatusPage'>
     <Helmet>
       <title>{t('title')} - IPFS</title>

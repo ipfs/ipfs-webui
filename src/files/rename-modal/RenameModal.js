@@ -5,7 +5,7 @@ import TextInputModal from '../../components/text-input-modal/TextInputModal'
 import { translate } from 'react-i18next'
 
 function RenameModal ({ t, tReady, onCancel, onSubmit, filename, folder, className, ...props }) {
-  const context = folder ? 'folder' : 'file'
+  const context = folder ? 'Folder' : 'File'
 
   return (
     <TextInputModal
@@ -14,8 +14,8 @@ function RenameModal ({ t, tReady, onCancel, onSubmit, filename, folder, classNa
       mustBeDifferent
       className={className}
       defaultValue={filename}
-      title={t('renameModal.title', { context })}
-      description={t('renameModal.description', { context })}
+      title={t(`renameModal.title${context}`)}
+      description={t(`renameModal.description${context}`)}
       icon={PencilIcon}
       submitText={t('actions.save')}
       {...props}

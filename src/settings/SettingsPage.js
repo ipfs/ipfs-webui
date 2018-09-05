@@ -32,7 +32,7 @@ const SettingsPage = ({
             hasSaveFailed={hasSaveFailed}
             hasSaveSucceded={hasSaveSucceded} />
         </div>
-        <div className='dtc tr v-btm pt2' style={{width: 240}}>
+        <div className='dtc tr v-btm pt2' style={{ width: 240 }}>
           { config ? (
             <div>
               <Button
@@ -68,7 +68,7 @@ const SettingsPage = ({
   </div>
 )
 
-const SaveButton = ({t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLocalChanges, hasExternalChanges, onClick}) => {
+const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLocalChanges, hasExternalChanges, onClick }) => {
   const bg = hasSaveSucceded ? 'bg-green' : 'bg-aqua'
   return (
     <Button
@@ -79,7 +79,7 @@ const SaveButton = ({t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, has
       danger={hasSaveFailed || hasExternalChanges}
       onClick={onClick}>
       { hasSaveSucceded && !hasSaveFailed ? (
-        <Tick height={16} className='fill-snow' style={{transform: 'scale(3)'}} />
+        <Tick height={16} className='fill-snow' style={{ transform: 'scale(3)' }} />
       ) : (
         isSaving ? t('saving') : t('save')
       )}
@@ -87,7 +87,7 @@ const SaveButton = ({t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, has
   )
 }
 
-const SettingsInfo = ({t, isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config}) => {
+const SettingsInfo = ({ t, isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config }) => {
   if (isConfigBlocked) {
     return (
       <p className='ma0 lh-copy charcoal f5 mw7'>
@@ -124,7 +124,7 @@ const SettingsInfo = ({t, isConfigBlocked, hasExternalChanges, hasSaveFailed, ha
     )
   }
   return (
-    <p className='ma0 lh-copy charcoal-muted f6' style={{maxWidth: 580}}>
+    <p className='ma0 lh-copy charcoal-muted f6' style={{ maxWidth: 580 }}>
       {t('ipfsConfigDescription')}
     </p>
   )
