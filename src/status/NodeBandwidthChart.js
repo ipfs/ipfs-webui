@@ -139,7 +139,7 @@ export class NodeBandwidthChart extends Component {
         yAxes: [{
           stacked: true,
           ticks: {
-            callback: v => humansize(v) + '/s'
+            callback: v => humansize(v) + '/s',
             suggestedMax: 125000
           }
         }]
