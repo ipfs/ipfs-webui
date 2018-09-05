@@ -62,7 +62,7 @@ const File = (props) => {
 
   const element = connectDropTarget(
     <div className={className} style={styles}>
-      <div className='child float-on-left-l pa2 w2' style={(selected || focused) ? {opacity: '1'} : null}>
+      <div className='child float-on-left-l pa2 w2' style={(selected || focused) ? { opacity: '1' } : null}>
         <Checkbox disabled={cantSelect} checked={selected} onChange={select} />
       </div>
       {connectDragPreview(
@@ -82,7 +82,7 @@ const File = (props) => {
         </div>
       )}
       <div className='size ph2 pv1 w-10 f6 monospace dn db-l' style={{ color: '#A0B8C5' }}>{size}</div>
-      <div className='ph2 pv1 relative' style={{width: '2.5rem'}}>
+      <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
         <ContextMenu
           onShare={onShare}
           onDelete={onDelete}

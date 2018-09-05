@@ -8,7 +8,7 @@ export const Box = ({
   ...props
 }) => {
   return (
-    <div className={className} style={{background: '#fbfbfb', ...style}}>
+    <div className={className} style={{ background: '#fbfbfb', ...style }}>
       <ErrorBoundary>
         {children}
       </ErrorBoundary>

@@ -29,15 +29,15 @@ export class App extends Component {
 
     return (
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
-        <div className='flex' style={{minHeight: '100vh'}}>
+        <div className='flex' style={{ minHeight: '100vh' }}>
           <div className='flex-none bg-navy'>
             <NavBar />
           </div>
           <div className='flex-auto'>
-            <div style={{background: '#F0F6FA'}}>
+            <div style={{ background: '#F0F6FA' }}>
               <IpldExploreForm />
             </div>
-            <main className='bg-white' style={{padding: '40px'}}>
+            <main className='bg-white' style={{ padding: '40px' }}>
               { (ipfsReady || url === '/welcome')
                 ? <Page />
                 : <ComponentLoader pastDelay />

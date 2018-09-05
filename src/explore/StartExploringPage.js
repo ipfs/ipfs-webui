@@ -5,10 +5,10 @@ import Tooltip from '../components/tooltip/Tooltip'
 import { colorForNode, nameForNode, shortNameForNode } from './object-info/ObjectInfo'
 import ipldLogoSrc from './ipld.svg'
 
-const ExploreSuggestion = ({cid, name, type}) => {
+const ExploreSuggestion = ({ cid, name, type }) => {
   return (
     <a className='flex items-center lh-copy pa3 ph0-l bb b--black-10 link focus-outline' href={`#/explore/${cid}`}>
-      <span className='flex items-center justify-center w3 h3 flex-shrink-0 br-100 tc' style={{background: colorForNode(type)}}>
+      <span className='flex items-center justify-center w3 h3 flex-shrink-0 br-100 tc' style={{ background: colorForNode(type) }}>
         <span className='fw2 f4 snow montserrat' title={nameForNode(type)}>{shortNameForNode(type)}</span>
       </span>
       <span className='pl3 flex-auto'>

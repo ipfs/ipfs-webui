@@ -22,7 +22,7 @@ class FilesPreview extends React.Component {
   }
 
   render () {
-    const {stats, gatewayUrl} = this.props
+    const { stats, gatewayUrl } = this.props
 
     const type = typeFromExt(stats.name)
     const src = `${gatewayUrl}/ipfs/${stats.hash}`

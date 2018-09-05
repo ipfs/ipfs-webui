@@ -56,6 +56,6 @@ it('finds links in nested ipld paths', () => {
   expect(findFirstLinkInPath(nested, '/a')).toBe(null)
   expect(findFirstLinkInPath(nested, '/a/b')).toBe(null)
   // "c" resolves to it's link target QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW, not this node.
-  expect(findFirstLinkInPath(nested, '/a/b/a')).toEqual({linkCid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW', linkPath: '/a/b/a'})
-  expect(findFirstLinkInPath(nested, '/a/b/a/c/d')).toEqual({linkCid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW', linkPath: '/a/b/a'})
+  expect(findFirstLinkInPath(nested, '/a/b/a')).toEqual({ linkCid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW', linkPath: '/a/b/a' })
+  expect(findFirstLinkInPath(nested, '/a/b/a/c/d')).toEqual({ linkCid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW', linkPath: '/a/b/a' })
 })

@@ -140,7 +140,7 @@ class FilesPage extends React.Component {
   }
 
   rename = (newName) => {
-    const {filename, path} = this.state.rename
+    const { filename, path } = this.state.rename
     this.resetState('rename')
 
     if (newName !== '' && newName !== filename) {

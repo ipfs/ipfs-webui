@@ -15,7 +15,7 @@ storiesOf('IPLD Graph', module)
   ))
   .add('cytoscape 8 links', () => (
     <IpldGraphCytoscape
-      style={{width: '50%', height: 500}}
+      style={{ width: '50%', height: 500 }}
       path={dagNodeA.cid}
       links={dagNodeA.links}
       onNodeClick={action('node click')}
@@ -23,14 +23,14 @@ storiesOf('IPLD Graph', module)
   ))
   .add('cytoscape 36 links', () => (
     <IpldGraphCytoscape
-      style={{width: '50%', height: 500}}
+      style={{ width: '50%', height: 500 }}
       path={dagNodeB.cid}
       links={dagNodeB.links}
       onNodeClick={action('node click')} />
   ))
   .add('cytoscape 0 links', () => (
     <IpldGraphCytoscape
-      style={{width: '50%', height: 500}}
+      style={{ width: '50%', height: 500 }}
       path={dagNodeD.cid}
       links={dagNodeD.links}
       onNodeClick={action('node click')} />

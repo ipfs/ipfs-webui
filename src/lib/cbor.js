@@ -28,11 +28,11 @@ export function findFirstLinkInPath (node, path) {
   }
   if (!linkCid) return null
   const linkPath = '/' + parts.slice(0, index).join('/')
-  return {linkCid, linkPath}
+  return { linkCid, linkPath }
 }
 
 export async function findCid (getIpfs, cid, path) {
-  const {value: node} = await getIpfs().dag.get(cid)
+  const { value: node } = await getIpfs().dag.get(cid)
   // until ipfs.dag.resolve is available, we have to walk the path to find the nearest cid.
   // dag.resolve https://github.com/ipfs/js-ipfs-api/pull/755#issuecomment-386882099
   const firstLinkCid = findFirstLinkInPath(node, path)
@@ -45,7 +45,7 @@ export async function findCid (getIpfs, cid, path) {
 }
 
 export async function findPathBoundaries (getIpfs, cid, path, nodes = []) {
-  const {value: node} = await getIpfs().dag.get(cid)
+  const { value: node } = await getIpfs().dag.get(cid)
   // until ipfs.dag.resolve is available, we have to walk the path to find the nearest cid.
   // dag.resolve https://github.com/ipfs/js-ipfs-api/pull/755#issuecomment-386882099
   const firstLinkCid = findFirstLinkInPath(node, path)

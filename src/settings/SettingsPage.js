@@ -10,7 +10,7 @@ const PAUSE_AFTER_SAVE_MS = 3000
 
 export class SettingsPage extends React.Component {
   render () {
-    const {isConfigBlocked, isLoading, isSaving, hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, config, onChange, onReset, onSave, editorKey} = this.props
+    const { isConfigBlocked, isLoading, isSaving, hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, config, onChange, onReset, onSave, editorKey } = this.props
     return (
       <div data-id='SettingsPage'>
         <Helmet>
@@ -21,7 +21,7 @@ export class SettingsPage extends React.Component {
             <div className='dtc v-mid'>
               <SettingsInfo config={config} isConfigBlocked={isConfigBlocked} isLoading={isLoading} hasExternalChanges={hasExternalChanges} hasSaveFailed={hasSaveFailed} hasSaveSucceded={hasSaveSucceded} />
             </div>
-            <div className='dtc tr v-btm pt2' style={{width: 240}}>
+            <div className='dtc tr v-btm pt2' style={{ width: 240 }}>
               { config ? (
                 <div>
                   <Button minWidth={100} className='ml3' bg='bg-charcoal' disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)} onClick={onReset}>Reset</Button>
@@ -39,16 +39,16 @@ export class SettingsPage extends React.Component {
   }
 }
 
-const SaveButton = ({hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLocalChanges, hasExternalChanges, onClick}) => {
+const SaveButton = ({ hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLocalChanges, hasExternalChanges, onClick }) => {
   const bg = hasSaveSucceded ? 'bg-green' : 'bg-aqua'
   return (
     <Button minWidth={100} className='ml2' bg={bg} disabled={!hasLocalChanges || hasErrors} danger={hasSaveFailed || hasExternalChanges} onClick={onClick}>
-      {hasSaveSucceded && !hasSaveFailed ? <Tick height={16} className='fill-snow' style={{transform: 'scale(3)'}} /> : isSaving ? 'Saving' : 'Save'}
+      {hasSaveSucceded && !hasSaveFailed ? <Tick height={16} className='fill-snow' style={{ transform: 'scale(3)' }} /> : isSaving ? 'Saving' : 'Save'}
     </Button>
   )
 }
 
-const SettingsInfo = ({isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config}) => {
+const SettingsInfo = ({ isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config }) => {
   if (isConfigBlocked) {
     return (
       <p className='ma0 lh-copy charcoal f5 mw7'>
@@ -83,7 +83,7 @@ const SettingsInfo = ({isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSa
     )
   }
   return (
-    <p className='ma0 lh-copy charcoal-muted f6' style={{maxWidth: 580}}>
+    <p className='ma0 lh-copy charcoal-muted f6' style={{ maxWidth: 580 }}>
       The IPFS config file is a json document. It is read once when the IPFS daemon is started.
       Save your changes then restart the IPFS daemon to apply them.
     </p>

@@ -2,7 +2,7 @@ import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
 const bundle = createAsyncResourceBundle({
   name: 'stats',
-  getPromise: async ({getIpfs}) => {
+  getPromise: async ({ getIpfs }) => {
     const [bitswap, repo, bw] = await Promise.all([
       getIpfs().stats.bitswap(),
       getIpfs().stats.repo(),

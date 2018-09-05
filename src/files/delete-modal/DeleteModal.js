@@ -50,7 +50,7 @@ const messages = defineMessages({
   }
 })
 
-const DeleteModal = ({onCancel, onDelete, folders, files, className, ...props}) => {
+const DeleteModal = ({ onCancel, onDelete, folders, files, className, ...props }) => {
   let title, message, count
 
   if (folders > 0) {
@@ -71,9 +71,9 @@ const DeleteModal = ({onCancel, onDelete, folders, files, className, ...props}) 
 
   return (
     <Modal {...props} className={className} onCancel={onCancel} >
-      <ModalBody title={<FormattedMessage {...title} values={{count: count}} />} icon={TrashIcon}>
+      <ModalBody title={<FormattedMessage {...title} values={{ count: count }} />} icon={TrashIcon}>
         <p className='gray w-80 center'>
-          <FormattedMessage {...message} values={{count: count}} />
+          <FormattedMessage {...message} values={{ count: count }} />
         </p>
       </ModalBody>
 

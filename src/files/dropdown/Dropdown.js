@@ -1,13 +1,13 @@
 import React from 'react'
-import {Dropdown as Drop, DropdownMenu as Menu} from '@tableflip/react-dropdown'
+import { Dropdown as Drop, DropdownMenu as Menu } from '@tableflip/react-dropdown'
 
-export const Option = ({children, onClick, className = '', ...props}) => (
+export const Option = ({ children, onClick, className = '', ...props }) => (
   <a className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>
     {children}
   </a>
 )
 
-export const DropdownMenu = ({children, arrowMarginRight, width = 200, ...props}) => (
+export const DropdownMenu = ({ children, arrowMarginRight, width = 200, ...props }) => (
   <Menu
     className='sans-serif br2 charcoal'
     boxShadow='rgba(105, 196, 205, 0.5) 0px 1px 10px 0px'

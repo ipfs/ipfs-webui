@@ -28,7 +28,7 @@ function extractInfo (cid) {
   }
 }
 
-const CidInfo = ({cid, className, ...props}) => {
+const CidInfo = ({ cid, className, ...props }) => {
   let cidErr = null
   let cidInfo = null
   try {

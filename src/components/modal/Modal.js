@@ -25,7 +25,7 @@ export const ModalBody = ({ className, icon, title, children, ...props }) => {
 
   return (
     <div className={`ph2 pv3 tc ${className}`} {...props}>
-      <div className='center bg-snow br-100 flex justify-center items-center' style={{width: '80px', height: '80px'}}>
+      <div className='center bg-snow br-100 flex justify-center items-center' style={{ width: '80px', height: '80px' }}>
         {icon}
       </div>
 
@@ -48,9 +48,9 @@ ModalBody.defaultProps = {
   className: ''
 }
 
-export const Modal = ({onCancel, children, className, ...props}) => {
+export const Modal = ({ onCancel, children, className, ...props }) => {
   return (
-    <div className={`${className} bg-white w-80 shadow-4 sans-serif relative`} style={{maxWidth: '30em'}} {...props}>
+    <div className={`${className} bg-white w-80 shadow-4 sans-serif relative`} style={{ maxWidth: '30em' }} {...props}>
       { onCancel &&
         <CancelIcon className='absolute pointer w2 h2 top-0 right-0 fill-gray' onClick={onCancel} />
       }

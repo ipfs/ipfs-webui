@@ -1,6 +1,6 @@
 import React from 'react'
 
-const IpldGraph = ({className, root, links}) => {
+const IpldGraph = ({ className, root, links }) => {
   const cls = `tc ma4 ${className}`
   return (
     <div className={cls}>

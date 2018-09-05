@@ -3,7 +3,7 @@ import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
 const bundle = createAsyncResourceBundle({
   name: 'config',
-  getPromise: async ({getIpfs}) => {
+  getPromise: async ({ getIpfs }) => {
     // SEE: https://github.com/ipfs/js-ipfs-api/issues/822
     const rawConf = await getIpfs().config.get()
     let conf
@@ -37,7 +37,7 @@ bundle.selectGatewayUrl = createSelector(
 // see: https://github.com/ipfs-shipyard/ipfs-companion/issues/454
 bundle.selectIsConfigBlocked = createSelector(
   `selectConfigRaw`,
-  ({errorType}) => errorType === 'Access to config.get API is globally blocked for window.ipfs'
+  ({ errorType }) => errorType === 'Access to config.get API is globally blocked for window.ipfs'
 )
 
 // Fetch the config if we don't have it or it's more than `staleAfter` ms old
