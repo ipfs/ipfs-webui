@@ -8,7 +8,7 @@ import filesize from 'filesize'
 import { Title } from './Commons'
 import Box from '../components/box/Box'
 
-const humansize = filesize.partial({ round: 0, bits: true })
+const humansize = filesize.partial({ round: 1, exponent: 2, bits: true })
 
 const Tooltip = ({ bw, show, pos }) => {
   if (!show) {
@@ -82,13 +82,15 @@ export class NodeBandwidthChart extends Component {
   render () {
     const { t, nodeBandwidthChartData } = this.props
 
+    if (nodeBandwidthChartData.in.length === 0) return null
+
     const datasets = [
       {
         label: 'In',
         data: nodeBandwidthChartData.in,
         borderColor: this.state.backgrounds.in,
         backgroundColor: this.state.backgrounds.in,
-        pointRadius: 2,
+        pointRadius: 1,
         cubicInterpolationMode: 'monotone'
       },
       {
@@ -96,7 +98,7 @@ export class NodeBandwidthChart extends Component {
         data: nodeBandwidthChartData.out,
         borderColor: this.state.backgrounds.out,
         backgroundColor: this.state.backgrounds.out,
-        pointRadius: 2,
+        pointRadius: 1,
         cubicInterpolationMode: 'monotone'
       }
     ]
@@ -135,7 +137,12 @@ export class NodeBandwidthChart extends Component {
       },
       hover: { mode: 'index' },
       scales: {
-        xAxes: [{ type: 'time' }],
+        xAxes: [{
+          type: 'time',
+          time: {
+            minUnit: 'second'
+          }
+        }],
         yAxes: [{
           stacked: true,
           ticks: {
