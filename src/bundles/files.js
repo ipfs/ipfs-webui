@@ -71,7 +71,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   }
 
   // Otherwise get the directory info
-  const res = await ipfs.files.ls(path, {l: true}) || []
+  const res = await ipfs.files.ls(path, { l: true }) || []
   const files = []
 
   for (const f of res) {

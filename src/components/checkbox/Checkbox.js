@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Tick from '../../icons/GlyphSmallTick'
 import './Checkbox.css'
 
-const Checkbox = ({className, label, disabled, checked, onChange, ...props}) => {
+const Checkbox = ({ className, label, disabled, checked, onChange, ...props }) => {
   className = `Checkbox dib sans-serif ${className}`
 
   const change = (event) => {

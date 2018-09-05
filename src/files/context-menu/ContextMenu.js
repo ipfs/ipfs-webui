@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import GlyphDots from '../../icons/GlyphDots'
-import {Dropdown, DropdownMenu, Option} from '../dropdown/Dropdown'
+import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import StrokeCopy from '../../icons/StrokeCopy'

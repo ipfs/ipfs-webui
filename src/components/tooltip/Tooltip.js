@@ -36,8 +36,8 @@ export default class Tool extends React.Component {
   }
 
   render () {
-    const {children, text, ...props} = this.props
-    const {show, overflow} = this.state
+    const { children, text, ...props } = this.props
+    const { show, overflow } = this.state
 
     return (
       <div className='relative' {...props}>

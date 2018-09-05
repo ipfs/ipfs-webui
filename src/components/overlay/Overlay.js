@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Modal } from 'react-overlays'
 
-function Overlay ({children, show, onLeave, className, ...props}) {
+function Overlay ({ children, show, onLeave, className, ...props }) {
   const stopPropagation = (e) => {
     e.stopPropagation()
     e.nativeEvent.stopImmediatePropagation()

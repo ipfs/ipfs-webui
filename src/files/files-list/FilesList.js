@@ -280,10 +280,10 @@ class FileList extends React.Component {
     }
 
     return connectDropTarget(
-      <div style={{marginBottom: '80px'}}>
+      <div style={{ marginBottom: '80px' }}>
         <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '500px' }}>
           <header className='hide-child-l gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
-            <div className='child float-on-left-l ph2 w2' style={allSelected ? {opacity: '1'} : null}>
+            <div className='child float-on-left-l ph2 w2' style={allSelected ? { opacity: '1' } : null}>
               <Checkbox checked={allSelected} onChange={this.toggleAll} />
             </div>
             <div className='ph2 f6 flex-grow-1 w-40'>
@@ -296,7 +296,7 @@ class FileList extends React.Component {
                 Size {this.sortByIcon(sorts.BY_SIZE)}
               </span>
             </div>
-            <div className='pa2' style={{width: '2.5rem'}} />
+            <div className='pa2' style={{ width: '2.5rem' }} />
           </header>
           { upperDir &&
             <File

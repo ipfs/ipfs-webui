@@ -5,7 +5,7 @@ import Button from '../../components/button/Button'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Modal, ModalActions, ModalBody } from '../../components/modal/Modal'
 
-const ShareModal = ({onLeave, link, className, ...props}) => (
+const ShareModal = ({ onLeave, link, className, ...props }) => (
   <Modal {...props} className={className} onCancel={onLeave} >
     <ModalBody title='Share Files' icon={ShareIcon}>
       <p className='gray w-80 center'>

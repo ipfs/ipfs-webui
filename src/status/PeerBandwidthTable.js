@@ -7,7 +7,7 @@ import Box from '../components/box/Box'
 import { Title } from './Commons'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
-const humansize = filesize.partial({round: 0})
+const humansize = filesize.partial({ round: 0 })
 
 export class PeerBandwidthTable extends Component {
   static propTypes = {

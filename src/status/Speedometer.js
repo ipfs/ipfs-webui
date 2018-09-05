@@ -1,5 +1,5 @@
 import React from 'react'
-import {Doughnut} from 'react-chartjs-2'
+import { Doughnut } from 'react-chartjs-2'
 import filesize from 'filesize'
 
 const rotation = (n) => (0.5 + (1 - n)) * Math.PI

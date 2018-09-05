@@ -1,5 +1,5 @@
 /* global it expect jest */
-import {DAGNode} from 'ipld-dag-pb'
+import { DAGNode } from 'ipld-dag-pb'
 import {
   resolveIpldPath,
   findPathBoundaryLink
@@ -7,7 +7,7 @@ import {
 
 it('resolves all nodes traversed along a path', async () => {
   const dagGetMock = jest.fn()
-  const getIpfsMock = () => ({dag: {get: dagGetMock}})
+  const getIpfsMock = () => ({ dag: { get: dagGetMock } })
   const cid = 'zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs'
   const path = '/a/b/a'
   const linkCid = 'zdpuAyzU5ahAKr5YV24J5TqrDX8PhzHLMkxx69oVzkBDWHnjq'
@@ -48,7 +48,7 @@ it('resolves all nodes traversed along a path', async () => {
 
 it('resolves thru dag-cbor to dag-pb to dag-pb', async () => {
   const dagGetMock = jest.fn()
-  const getIpfsMock = () => ({dag: {get: dagGetMock}})
+  const getIpfsMock = () => ({ dag: { get: dagGetMock } })
 
   const cid = 'zdpuAs8sJjcmsPUfB1bUViftCZ8usnvs2cXrPH6MDyT4zrvSs'
   const path = '/a/b/pb1'

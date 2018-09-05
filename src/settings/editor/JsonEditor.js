@@ -6,7 +6,7 @@ import './theme/ipfs_dark'
 
 class JsonEditor extends React.Component {
   render () {
-    const {value, readOnly, onChange} = this.props
+    const { value, readOnly, onChange } = this.props
     return (
       <div className='pv3 bg-navy br2'>
         <AceEditor

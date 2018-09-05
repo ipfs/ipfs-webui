@@ -38,7 +38,7 @@ export class PeersTable extends React.Component {
     return (
       <div className='flex w-100' style={{ 'height': `${tableHeight}px` }}>
         { peers && <AutoSizer>
-          {({width}) => (
+          {({ width }) => (
             <Table
               className='tl fw4 w-100'
               headerClassName='teal o-60 fw2 tracked'

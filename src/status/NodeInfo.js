@@ -12,7 +12,7 @@ const Block = ({ children }) => (
 )
 
 const Label = ({ children }) => (
-  <label className='dtc silver tracked ttu f7' style={{width: '100px'}}>{children}</label>
+  <label className='dtc silver tracked ttu f7' style={{ width: '100px' }}>{children}</label>
 )
 
 const Value = ({ children, advanced = false }) => (

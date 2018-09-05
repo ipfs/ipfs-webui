@@ -15,8 +15,8 @@ class ExplorePage extends React.Component {
   }
 
   onLinkClick (link) {
-    const {doUpdateHash, explore} = this.props
-    const {nodes, pathBoundaries} = explore
+    const { doUpdateHash, explore } = this.props
+    const { nodes, pathBoundaries } = explore
     const cid = nodes[0].cid
     const basePath = pathBoundaries.map(p => p.path).join('/')
     const path = basePath ? `${basePath}/${link.path}` : link.path
@@ -26,9 +26,9 @@ class ExplorePage extends React.Component {
   }
 
   render () {
-    const {explore} = this.props
+    const { explore } = this.props
     if (!explore) return <StartExploringPage />
-    const {targetNode, localPath, nodes, pathBoundaries} = explore
+    const { targetNode, localPath, nodes, pathBoundaries } = explore
     const sourceNode = nodes[0]
     return (
       <div className='nl3 nt4'>
@@ -46,7 +46,7 @@ class ExplorePage extends React.Component {
           <div className='dtc-l w-100 w-two-thirds-l pr3-l v-top'>
             {targetNode ? (
               <ObjectInfo
-                style={{background: '#FBFBFB'}}
+                style={{ background: '#FBFBFB' }}
                 cid={targetNode.cid}
                 localPath={localPath}
                 size={targetNode.size}
@@ -59,13 +59,13 @@ class ExplorePage extends React.Component {
           <div className='dn dtc-l w-third-l v-top'>
             {targetNode ? (
               <CidInfo
-                style={{background: '#FBFBFB', overflow: 'hidden'}}
+                style={{ background: '#FBFBFB', overflow: 'hidden' }}
                 cid={targetNode.cid} />
             ) : null}
             {targetNode ? (
               <ErrorBoundary>
                 <IpldGraph
-                  style={{width: '100%', height: 300}}
+                  style={{ width: '100%', height: 300 }}
                   path={targetNode.cid}
                   links={targetNode.links}
                   onNodeClick={this.onLinkClick} />

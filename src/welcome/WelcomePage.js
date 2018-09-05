@@ -57,7 +57,7 @@ const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsAp
               updateAddress={doUpdateIpfsAPIAddress} />
           </Box>
         </div>
-        <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{maxWidth: '40%'}}>
+        <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{ maxWidth: '40%' }}>
           <Box>
             <p className='mt0'><strong>IPFS is a protocol</strong> that defines a content-addressed file system, coordinates content delivery and combines ideas from Kademlia, BitTorrent, Git and more.</p>
             <p><strong>IPFS is a filesystem.</strong> It has directories and files and mountable filesystem via FUSE.</p>

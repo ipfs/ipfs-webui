@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
-import {Dropdown, DropdownMenu, Option} from '../dropdown/Dropdown'
+import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
 import NewFolderModal from './NewFolderModal'
@@ -20,13 +20,13 @@ const AddButton = ({ progress = null, ...props }) => {
   }
 
   return (
-    <button disabled={sending} className={cls} style={{width: '120px'}} {...props}>
+    <button disabled={sending} className={cls} style={{ width: '120px' }} {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
         {sending ? `${progress.toFixed(0)}%` : '+ Add to IPFS'}
       </div>&nbsp;
 
       { sending &&
-        <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{width: `${progress}%`, background: 'rgba(0,0,0,0.1)'}} />
+        <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{ width: `${progress}%`, background: 'rgba(0,0,0,0.1)' }} />
       }
     </button>
   )

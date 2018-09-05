@@ -19,13 +19,13 @@ const NavLink = ({
   activeClassName = 'bg-white-10'
 }) => {
   const Svg = icon
-  const {hash} = window.location
+  const { hash } = window.location
   const href = `#${to}`
   const active = exact ? hash === href : hash && hash.startsWith(href)
   const cls = active ? className + ' ' + activeClassName : className
   return (
     <a href={disabled ? null : href} className={cls} role='menuitem' title={children}>
-      <span className={`dtc v-mid ${open ? 'tr' : 'tc'}`} style={{width: 100}}>
+      <span className={`dtc v-mid ${open ? 'tr' : 'tc'}`} style={{ width: 100 }}>
         <Svg
           style={{
             width: 50,
@@ -40,12 +40,12 @@ const NavLink = ({
   )
 }
 
-export const NavBar = ({isSettingsEnabled, width, open, onToggle}) => {
+export const NavBar = ({ isSettingsEnabled, width, open, onToggle }) => {
   return (
-    <div id='navbar' style={{width}}>
-      <div className='pointer' style={{paddingTop: 35}} onClick={onToggle}>
-        <img className='center' style={{height: 70, display: open ? 'block' : 'none'}} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
-        <img className='center' style={{height: 70, display: open ? 'none' : 'block'}} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
+    <div id='navbar' style={{ width }}>
+      <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>
+        <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
+        <img className='center' style={{ height: 70, display: open ? 'none' : 'block' }} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
       </div>
       <nav className='db pt4' role='menubar'>
         <NavLink to='/' exact icon={StrokeMarketing} open={open}>Status</NavLink>
@@ -58,7 +58,7 @@ export const NavBar = ({isSettingsEnabled, width, open, onToggle}) => {
   )
 }
 
-export const NavBarContainer = ({doToggleNavbar, configRaw, navbarIsOpen, navbarWidth, ...props}) => {
+export const NavBarContainer = ({ doToggleNavbar, configRaw, navbarIsOpen, navbarWidth, ...props }) => {
   const isSettingsEnabled = !!configRaw.data
   return (
     <NavBar

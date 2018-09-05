@@ -37,7 +37,7 @@ import { normaliseDagNode } from './dag'
 export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pathBoundaries = []) {
   // TODO: find out why ipfs.dag.get with localResolve never resolves.
   // const {value, remainderPath} = await getIpfs().dag.get(sourceCid, path, {localResolve: true})
-  const {value} = await getIpfs().dag.get(sourceCid)
+  const { value } = await getIpfs().dag.get(sourceCid)
 
   const node = normaliseDagNode(value, sourceCid)
   nodes.push(node)
@@ -54,7 +54,7 @@ export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pat
   // we made it to the containing node. Hand back the info
   const canonicalPath = path ? `${sourceCid}${path}` : sourceCid
   let targetNode = node
-  return {targetNode, canonicalPath, localPath: path, nodes, pathBoundaries}
+  return { targetNode, canonicalPath, localPath: path, nodes, pathBoundaries }
 }
 
 /**
@@ -67,7 +67,7 @@ export async function resolveIpldPath (getIpfs, sourceCid, path, nodes = [], pat
 export function findPathBoundaryLink (node, path) {
   if (!path) return null
   if (!node) return null
-  const {links} = node
+  const { links } = node
   const normalisedPath = path.startsWith('/') ? path.substring(1) : path
   const link = links.reduce((longest, link) => {
     if (link && normalisedPath.startsWith(link.path)) {

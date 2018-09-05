@@ -13,15 +13,15 @@ export function cidStartAndEnd (value) {
 }
 
 export function shortCid (value) {
-  const {start, end} = cidStartAndEnd(value)
+  const { start, end } = cidStartAndEnd(value)
   return `${start}…${end}`
 }
 
-const Cid = ({value, title, style, ...props}) => {
+const Cid = ({ value, title, style, ...props }) => {
   style = Object.assign({}, {
     textDecoration: 'none'
   }, style)
-  const {start, end} = cidStartAndEnd(value)
+  const { start, end } = cidStartAndEnd(value)
   return (
     <abbr title={title || value} style={style} {...props}>
       <span>{start}</span>

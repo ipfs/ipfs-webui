@@ -26,12 +26,12 @@ function makeBread (root) {
   return parts
 }
 
-export default function Breadcrumbs ({path, onClick, className = '', ...props}) {
+export default function Breadcrumbs ({ path, onClick, className = '', ...props }) {
   const cls = `Breadcrumbs sans-serif ${className}`
   const bread = makeBread(path)
 
   const res = bread.map((link, index) => ([
-    <div key={`${index}link`} className='dib bb bw1 pv1' style={{borderColor: '#244e66'}}>
+    <div key={`${index}link`} className='dib bb bw1 pv1' style={{ borderColor: '#244e66' }}>
       <a className='pointer dib link dark-gray o-50 glow' onClick={() => onClick(link.path)}>
         {link.name}
       </a>

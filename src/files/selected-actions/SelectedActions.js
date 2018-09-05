@@ -76,7 +76,7 @@ export default class SelectedActions extends React.Component {
   }
 
   render () {
-    let {count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, ...props} = this.props
+    let { count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, ...props } = this.props
 
     const text = (count > 1) ? 'Files selected' : 'File selected'
 
@@ -91,7 +91,7 @@ export default class SelectedActions extends React.Component {
     }
 
     return (
-      <div className={`sans-serif bt w-100 pa3 ${className}`} style={{...styles.bar, ...style}} {...props}>
+      <div className={`sans-serif bt w-100 pa3 ${className}`} style={{ ...styles.bar, ...style }} {...props}>
         <div className='flex items-center justify-between'>
           <div className='w5-l'>
             <div className='flex items-center'>
