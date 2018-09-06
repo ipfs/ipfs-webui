@@ -4,7 +4,7 @@
   "saving": "Sauvegarde ...",
   "reset": "Réinitialiser",
   "fetchingSettings": "Récupération des paramètres...",
-  "configApiNotAvailable": "L'API de configuration d'IPFS n'est pas disponible. Merci de désactiver la web-extension IPFS Companion et de réessayer.",
+  "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
   "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre démon IPFS est en cours d'exécution.",
   "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
   "errorOccured": "Une erreur s'est produite pendant l'enregistrement de vos modifications",
