@@ -84,7 +84,7 @@ class NodeInfo extends React.Component {
       <Box className='f6 pa4'>
         <div className='flex flex-column flex-row-l flex-wrap-l justify-between-l'>
           <div className='w-100 w-50-l pr2-l' style={{ maxWidth: '34em' }} >
-            <Title style={{ marginBottom: '0.5rem' }}>Node Info</Title>
+            <Title style={{ marginBottom: '0.5rem' }}>{t('nodeInfo')}</Title>
             <Block>
               <Label>{t('cid')}</Label>
               <Value>{this.getField(ipfsIdentity, 'id')}</Value>
