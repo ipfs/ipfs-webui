@@ -6,7 +6,7 @@
   "totalSize": "Tamanho total: {size}",
   "filesSelected": "{count, plural, one {Ficheiro selecionado} other {Ficheiros selecionados}}",
   "individualFilesOnly": "Apenas disponível para ficheiros individuais",
-  "fileName": "Nome do ficheiro",
+  "fileName": "Nome",
   "size": "Tamanho",
   "noPDFSupport": "O seu navegador não suporta PDFs. Por favor descarregue o PDF para o poder visualizar:",
   "downloadPDF": "Descarregar PDF.",
