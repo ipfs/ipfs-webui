@@ -103,7 +103,7 @@
   "bundlesize": [
     {
       "path": "./build/static/js/*.js",
-      "maxSize": "512 kB"
+      "maxSize": "600 kB"
     },
     {
       "path": "./build/static/css/*.css",
