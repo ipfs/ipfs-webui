@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isBinary from 'is-binary'
+import { Trans, translate } from 'react-i18next'
 import typeFromExt from '../type-from-ext'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 
@@ -9,7 +10,9 @@ class FilesPreview extends React.Component {
     stats: PropTypes.object.isRequired,
     gatewayUrl: PropTypes.string.isRequired,
     read: PropTypes.func.isRequired,
-    content: PropTypes.object
+    content: PropTypes.object,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
   state = {
@@ -22,7 +25,7 @@ class FilesPreview extends React.Component {
   }
 
   render () {
-    const { stats, gatewayUrl } = this.props
+    const { t, stats, gatewayUrl } = this.props
 
     const type = typeFromExt(stats.name)
     const src = `${gatewayUrl}/ipfs/${stats.hash}`
@@ -37,8 +40,8 @@ class FilesPreview extends React.Component {
       case 'pdf':
         return (
           <object width='100%' height='500px' data={src} type='application/pdf'>
-            Your browser does not support PDFs. Please download the PDF to view it:
-            <a href={src} download target='_blank' className='underline-hover navy-muted'>Download PDF</a>.
+            {t('noPDFSupport')}
+            <a href={src} download target='_blank' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
           </object>
         )
       case 'video':
@@ -52,8 +55,12 @@ class FilesPreview extends React.Component {
       default:
         const cantPreview = (
           <div>
-            <p className='b'>Sorry, this file can't be previewed <span role='img' aria-label='sad'>😢</span></p>
-            <p>Try <a href={src} download target='_blank' className='link blue' >downloading</a> it instead.</p>
+            <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
+            <p>
+              <Trans i18nKey='downloadInstead'>
+                Try <a href={src} download target='_blank' className='link blue' >downloading</a> it instead.
+              </Trans>
+            </p>
           </div>
         )
 
@@ -79,4 +86,4 @@ class FilesPreview extends React.Component {
   }
 }
 
-export default FilesPreview
+export default translate('files')(FilesPreview)

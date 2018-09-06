@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isIPFS from 'is-ipfs'
+import { translate } from 'react-i18next'
 import Icon from '../../icons/StrokeDecentralization'
 import TextInputModal from '../../components/text-input-modal/TextInputModal'
 
-function ByPathModal ({ onCancel, onSubmit, className, ...props }) {
+function ByPathModal ({ t, tReady, onCancel, onSubmit, className, ...props }) {
   return (
     <TextInputModal
       validate={(p) => isIPFS.ipfsPath(p.trim())}
@@ -12,10 +13,10 @@ function ByPathModal ({ onCancel, onSubmit, className, ...props }) {
       onChange={(p) => p.trimStart()}
       onCancel={onCancel}
       className={className}
-      title='Add by path'
-      description='Insert the path to add.'
+      title={t('addByPathModal.title')}
+      description={t('addByPathModal.description')}
       icon={Icon}
-      submitText='Add'
+      submitText={t('actions.add')}
       {...props}
     />
   )
@@ -23,7 +24,9 @@ function ByPathModal ({ onCancel, onSubmit, className, ...props }) {
 
 ByPathModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
 }
 
-export default ByPathModal
+export default translate('files')(ByPathModal)

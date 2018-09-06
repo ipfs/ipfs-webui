@@ -1,0 +1,62 @@
+{
+  "title": "Files",
+  "home": "Home",
+  "breadcrumbs": "Breadcrumbs",
+  "finished": "Finished!",
+  "totalSize": "Total size: {size}",
+  "filesSelected": "{count, plural, one {File selected} other {Files selected}}",
+  "individualFilesOnly": "Only available for individual files",
+  "fileName": "File name",
+  "size": "Size",
+  "noPDFSupport": "Your browser does not support PDFs. Please download the PDF to view it:",
+  "downloadPDF": "Download PDF.",
+  "downloadInstead": "Try <1>downloading</1> it instead.",
+  "cantBePreviewed": "Sorry, this file can't be previewed",
+  "addFile": "Add file",
+  "addFolder": "Add folder",
+  "addByPath": "Add by path",
+  "addToIPFS": "Add to IPFS",
+  "newFolder": "New folder",
+  "actions": {
+    "add": "Add",
+    "delete": "Delete",
+    "rename": "Rename",
+    "download": "Download",
+    "inspect": "Inspect",
+    "copyHash": "Copy Hash",
+    "share": "Share",
+    "close": "Close",
+    "copy": "Copy",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "create": "Create",
+    "save": "Save",
+    "unselectAll": "Unselect All"
+  },
+  "shareModal": {
+    "title": "Share Files",
+    "description": "Copy the link below and share it with your friends."
+  },
+  "renameModal": {
+    "titleFile": "Rename File",
+    "titleFolder": "Rename Folder",
+    "descriptionFile": "Choose a new name for this file.",
+    "descriptionFolder": "Choose a new name for this folder."
+  },
+  "deleteModal": {
+    "titleItem": "{count, plural, one {Delete Item} other {Delete {count} Items}}",
+    "titleFolder": "{count, plural, one {Delete Folder} other {Delete {count} Folders}}",
+    "titleFile": "{count, plural, one {Delete File} other {Delete {count} Files}}",
+    "descriptionItem": "{count, plural, one {Are you sure you want to delete this item? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} items? This action is permanent and cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, one {Are you sure you want to delete this folder? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} folders? This action is permanent and cannot be reversed.}}",
+    "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} files? This action is permanent and cannot be reversed.}}"
+  },
+  "addByPathModal": {
+    "title": "Add by path",
+    "description": "Insert the path to add."
+  },
+  "newFolderModal": {
+    "title": "New folder",
+    "description": "Insert the name of the folder you want to create."
+  }
+}

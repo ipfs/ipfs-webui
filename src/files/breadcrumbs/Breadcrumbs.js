@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { translate } from 'react-i18next'
 
-function makeBread (root) {
+function makeBread (root, t) {
   if (root.endsWith('/')) {
     root = root.substring(0, root.length - 1)
   }
@@ -20,15 +21,15 @@ function makeBread (root) {
     }
   }
 
-  parts[0].name = 'Home'
+  parts[0].name = t('home')
   parts[0].path = '/'
 
   return parts
 }
 
-export default function Breadcrumbs ({ path, onClick, className = '', ...props }) {
+function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
   const cls = `Breadcrumbs sans-serif ${className}`
-  const bread = makeBread(path)
+  const bread = makeBread(path, t)
 
   const res = bread.map((link, index) => ([
     <div key={`${index}link`} className='dib bb bw1 pv1' style={{ borderColor: '#244e66' }}>
@@ -42,11 +43,15 @@ export default function Breadcrumbs ({ path, onClick, className = '', ...props }
   res[res.length - 1].pop()
 
   return (
-    <nav aria-label='Breadcrumb' className={cls} {...props}>{res}</nav>
+    <nav aria-label={t('breadcrumbs')} className={cls} {...props}>{res}</nav>
   )
 }
 
 Breadcrumbs.propTypes = {
   path: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
 }
+
+export default translate('files')(Breadcrumbs)

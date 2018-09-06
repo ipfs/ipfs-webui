@@ -13,6 +13,7 @@ import DeleteModal from './delete-modal/DeleteModal'
 import Errors from './errors/Errors'
 import downloadFile from './download-file'
 import { join } from 'path'
+import { translate } from 'react-i18next'
 
 const defaultState = {
   downloadAbort: null,
@@ -50,7 +51,9 @@ class FilesPage extends React.Component {
     doFilesAddPath: PropTypes.func.isRequired,
     doFilesDownloadLink: PropTypes.func.isRequired,
     doFilesMakeDir: PropTypes.func.isRequired,
-    doFilesUpdateSorting: PropTypes.func.isRequired
+    doFilesUpdateSorting: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
   state = defaultState
@@ -132,6 +135,7 @@ class FilesPage extends React.Component {
   showRenameModal = ([file]) => {
     this.setState({
       rename: {
+        folder: file.type === 'directory',
         isOpen: true,
         path: file.path,
         filename: file.path.split('/').pop()
@@ -181,7 +185,8 @@ class FilesPage extends React.Component {
       doFilesNavigateTo,
       doFilesUpdateSorting,
       filesErrors: errors,
-      filesSorting: sort
+      filesSorting: sort,
+      t
     } = this.props
 
     const {
@@ -193,7 +198,7 @@ class FilesPage extends React.Component {
     return (
       <div data-id='FilesPage'>
         <Helmet>
-          <title>Files - IPFS</title>
+          <title>{t('title')} - IPFS</title>
         </Helmet>
         { files &&
           <div>
@@ -247,6 +252,7 @@ class FilesPage extends React.Component {
         <Overlay show={rename.isOpen} onLeave={() => this.resetState('rename')}>
           <RenameModal
             className='outline-0'
+            folder={rename.folder}
             filename={rename.filename}
             onCancel={() => this.resetState('rename')}
             onSubmit={this.rename} />
@@ -285,5 +291,5 @@ export default connect(
   'selectNavbarWidth',
   'selectFilesPathFromHash',
   'selectFilesSorting',
-  FilesPage
+  translate('files')(FilesPage)
 )

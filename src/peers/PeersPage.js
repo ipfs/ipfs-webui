@@ -1,15 +1,16 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { Helmet } from 'react-helmet'
+import { translate } from 'react-i18next'
 
 // Components
 import WorldMap from './WorldMap/WorldMap'
 import PeersTable from './PeersTable/PeersTable'
 
-const PeersPage = ({ peers, peerCoordinates, tableData }) => (
+const PeersPage = ({ t, peers, peerCoordinates, tableData }) => (
   <div data-id='PeersPage'>
     <Helmet>
-      <title>Peers - IPFS</title>
+      <title>{t('title')} - IPFS</title>
     </Helmet>
 
     <div className='bg-snow-muted pa3'>
@@ -23,5 +24,5 @@ export default connect(
   'selectPeers',
   'selectPeerCoordinates',
   'selectTableData',
-  PeersPage
+  translate('peers')(PeersPage)
 )

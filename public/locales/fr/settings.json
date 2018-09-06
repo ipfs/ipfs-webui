@@ -1,0 +1,15 @@
+{
+  "title": "Paramètres",
+  "save": "Sauvegarder",
+  "saving": "Sauvegarde ...",
+  "reset": "Réinitialiser",
+  "fetchingSettings": "Récupération des paramètres...",
+  "configApiNotAvailable": "L'API de configuration d'IPFS n'est pas disponible. Merci de désactiver la web-extension IPFS Companion et de réessayer.",
+  "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre démon IPFS est en cours d'exécution.",
+  "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
+  "errorOccured": "Une erreur s'est produite pendant l'enregistrement de vos modifications",
+  "checkConsole": "Vérifier la console du navigateur pour plus d'information.",
+  "changesSaved": "Vos modifications ont été enregistrées.",
+  "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain redémarrage du démon IPFS.",
+  "ipfsConfigDescription": "Le fichier de configuration d'IPFS est un document json. Il est parcouru une seule fois au démarrage du démon IPFS. Enregistrez vos modifications puis redémarrez le démon IPFS pour qu'elles soient prises en compte."
+}

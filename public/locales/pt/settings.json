@@ -1,0 +1,15 @@
+{
+  "title": "Configurações",
+  "save": "Guardar",
+  "saving": "Saving...",
+  "reset": "Começar de novo",
+  "fetchingSettings": "A obter as configurações...",
+  "configApiNotAvailable": "A API de configuração do IPFS não está disponível. Por favor desative a extensão IPFS Companion e tente novamente.",
+  "settingsUnavailable": "As configurações não estão disponíveis. Confira, por favor, se o seu nó IPFS está em execução.",
+  "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
+  "errorOccured": "Ocorreu um erro enquanto guardávamos as configurações.",
+  "checkConsole": "Confira a consola de desenvolvedor do seu navegador para mais informações.",
+  "changesSaved": "As suas alterações foram guardadas",
+  "settingsWillBeUsedNextTime": "As novas configurações irão ser utilizadas da próxima vez que reiniciar o seu nó IPFS.",
+  "ipfsConfigDescription": "A configuração do IPFS é um documento json. Apenas é lida quando o nó IPFS é iniciado. Guarde as suas alterações e, de seguida, reinicie o nó IPFS para que estas entrem em efeito."
+}

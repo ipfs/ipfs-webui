@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactFauxDOM from 'react-faux-dom'
 import { AutoSizer } from 'react-virtualized'
+import { translate } from 'react-i18next'
 import * as d3 from 'd3'
 import * as topojson from 'topojson'
 
@@ -86,7 +87,7 @@ export class WorldMap extends React.Component {
   }
 
   render () {
-    const { peers, coordinates } = this.props
+    const { t, peers, coordinates } = this.props
 
     return (
       <div className='flex w-100 mb4' style={{ 'height': '500px' }}>
@@ -96,11 +97,11 @@ export class WorldMap extends React.Component {
 
         <div className='flex flex-auto flex-column items-center self-end pb4'>
           <div className='f1 gray'>{ peers ? peers.length : 0 }</div>
-          <div className='f4 b'>PEERS</div>
+          <div className='f4 b ttu'>{t('peers')}</div>
         </div>
       </div>
     )
   }
 }
 
-export default WorldMap
+export default translate('peers')(WorldMap)

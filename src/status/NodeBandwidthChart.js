@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Line } from 'react-chartjs-2'
+import { translate } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
@@ -21,7 +22,7 @@ export class NodeBandwidthChart extends Component {
   }
 
   render () {
-    const { nodeBandwidthChartData } = this.props
+    const { t, nodeBandwidthChartData } = this.props
 
     const datasets = [
       {
@@ -69,11 +70,11 @@ export class NodeBandwidthChart extends Component {
 
     return (
       <Box className={`pa4 pr2 ${this.props.className}`}>
-        <Title>Bandwidth over time</Title>
+        <Title>{t('bandwidthOverTime')}</Title>
         <Line data={{ datasets }} options={options} />
       </Box>
     )
   }
 }
 
-export default connect('selectNodeBandwidthChartData', NodeBandwidthChart)
+export default connect('selectNodeBandwidthChartData', translate('status')(NodeBandwidthChart))
