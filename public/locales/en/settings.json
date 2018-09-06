@@ -1,7 +1,7 @@
 {
   "title": "Settings",
   "save": "Save",
-  "saving": "Saving",
+  "saving": "Saving...",
   "reset": "Reset",
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the IPFS Companion web-extension and try again.",
