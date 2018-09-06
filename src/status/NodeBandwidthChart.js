@@ -21,7 +21,20 @@ const Tooltip = ({ bw, show, pos }) => {
   }
 
   return (
-    <div className='fixed bg-white pa2 br3 shadow-4' style={{ top: `${pos.top}px`, left: `${pos.left}px` }}>
+    <div className='fixed bg-white pa2 br3' style={{
+      top: `${pos.top}px`,
+      left: `${pos.left}px`,
+      transform: 'translateY(calc(-100% - 20px))',
+      filter: 'drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.2))'
+    }}>
+      <div className='absolute' style={{
+        bottom: '-14px',
+        left: '0',
+        width: '0',
+        height: '0',
+        borderTop: '20px solid white',
+        borderRight: '20px solid transparent'
+      }} />
       <div className='db'>
         <span style={{ width: '1.3rem' }} className='f7 dib charcoal tr'>in:</span>
         <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
@@ -129,8 +142,8 @@ export class NodeBandwidthChart extends Component {
 
           const rect = this._chart.canvas.getBoundingClientRect()
           const pos = {
-            left: rect.left + model.caretX + 10,
-            top: rect.top + model.caretY + 10
+            left: rect.left + model.caretX,
+            top: rect.top + model.caretY
           }
 
           updateTooltip(true, bw, pos)
