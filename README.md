@@ -135,8 +135,8 @@ We use Transifex to help us translate WebUI to another languages. If you're inte
 
 1. Install and set up [command-line client (`tx`)](https://docs.transifex.com/client/installing-the-client)
 2. To download new translations from Transifex: `tx pull -a` 
-  - this should create/update files in `public/locales/*` that need to be commited
-  - if a new language is created, remember to add it to `src/i18n.js`
+    - this should create/update files in `public/locales/*` that need to be commited
+    - if a new language is created, remember to add it to `src/i18n.js`
 
 ## Transifex 101
 
