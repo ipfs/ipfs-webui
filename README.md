@@ -120,6 +120,32 @@ To do a single run of the tests and generate a coverage report, run the followin
 npm run test:coverage
 ```
 
+### i18n
+
+The translations are stored on [./public/locales](./public/locales) and the English version is the source of truth.
+
+We use Transifex to help us translate WebUI to another languages. If you're interesting in contributing, go to [our page on Transifex](https://www.transifex.com/ipfs/ipfs-webui/translate/), create an account, pick up a language and start translating.
+
+#### To Start Translating
+
+1. [Create Transifex account](https://www.transifex.com/signup/?join_project=ipfs-webui) 
+2. Go to https://www.transifex.com/ipfs/ipfs-webui/translate/, pick up the language, and start translating
+       
+#### To Sync Translations
+
+1. Install and set up [command-line client (`tx`)](https://docs.transifex.com/client/installing-the-client)
+2. To download new translations from Transifex: `tx pull -a` 
+  - this should create/update files in `public/locales/*` that need to be commited
+  - if a new language is created, remember to add it to `src/i18n.js`
+
+## Transifex 101
+
+- [Installing the Transifex Client](https://docs.transifex.com/client/installing-the-client)
+- [Understanding `.tx/config` file](https://docs.transifex.com/client/client-configuration#section-tx-config)
+- Manual sync via Transifex Client 
+  -  [Using Transifex with GitHub in Your Development Workflow](https://docs.transifex.com/integrations/github)
+     - [Syncing a local project to Transifex with the Transifex Client](https://docs.transifex.com/integrations/github#section-using-the-client)
+
 ## Contribute
 
 Feel free to dive in! [Open an issue](https://github.com/ipfs-shipyard/TBC/issues/new) or submit PRs.
