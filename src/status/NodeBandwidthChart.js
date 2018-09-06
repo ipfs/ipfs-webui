@@ -90,7 +90,7 @@ export class NodeBandwidthChart extends Component {
         data: nodeBandwidthChartData.in,
         borderColor: this.state.backgrounds.in,
         backgroundColor: this.state.backgrounds.in,
-        pointRadius: 1,
+        pointRadius: 2,
         cubicInterpolationMode: 'monotone'
       },
       {
@@ -98,7 +98,7 @@ export class NodeBandwidthChart extends Component {
         data: nodeBandwidthChartData.out,
         borderColor: this.state.backgrounds.out,
         backgroundColor: this.state.backgrounds.out,
-        pointRadius: 1,
+        pointRadius: 2,
         cubicInterpolationMode: 'monotone'
       }
     ]
@@ -113,26 +113,27 @@ export class NodeBandwidthChart extends Component {
       defaultFontFamily: "'Inter UI', system-ui, sans-serif",
       responsive: true,
       tooltips: {
-        mode: 'index',
+        mode: 'x',
         enabled: false,
         custom: function (model) {
-          // f7 FIX: this is NOT HAPPENING!?!?!?!
+          // FIX: this is NOT HAPPENING!?!?!?!
           if (model.opacity === 0) {
             updateTooltip(false)
             return
           }
 
-          const lines = model.body
-            .map(i => i.lines)
-            .map(l => l[0].split(' ')[1])
-            .map(n => parseInt(n, 10))
+          const bw = {
+            in: model.dataPoints[0].yLabel,
+            out: model.dataPoints[1].yLabel
+          }
 
-          const pos = this._chart.canvas.getBoundingClientRect()
+          const rect = this._chart.canvas.getBoundingClientRect()
+          const pos = {
+            left: rect.left + model.caretX + 10,
+            top: rect.top + model.caretY + 10
+          }
 
-          updateTooltip(true, { in: lines[0], out: lines[1] }, {
-            left: pos.left + model.caretX,
-            top: pos.top + model.caretY
-          })
+          updateTooltip(true, bw, pos)
         }
       },
       hover: { mode: 'index' },
