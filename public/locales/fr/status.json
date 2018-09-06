@@ -1,0 +1,22 @@
+{
+  "title": "Statut",
+  "peer": "Pair",
+  "peers": "Pairs",
+  "addresses": "Adresses",
+  "nodeInfo": "Info du noeud",
+  "cid": "CID",
+  "version": "Version",
+  "advanced": "Avancé",
+  "publicKey": "Clé publique",
+  "upSpeed": "Vitesse envoie",
+  "downSpeed": "Vitesse réception",
+  "spaceUsed": "Espace utilisé",
+  "bandwidthOverTime": "Bande passante dans le temps",
+  "bandwidthByPeer": "Bande passante par pair",
+  "distributionOfPeers": "Répartition des pairs",
+  "rateIn": "Taux entrée",
+  "rateOut": "Taux sortie",
+  "totalIn": "Total entrée",
+  "totalOut": "Total sortie",
+  "more": "...et {count} de plus"
+}

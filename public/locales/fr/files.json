@@ -1,0 +1,62 @@
+{
+  "title": "Fichiers",
+  "home": "Accueil",
+  "breadcrumbs": "Fils d'Ariane",
+  "finished": "Fini!",
+  "totalSize": "Taille totale: {size}",
+  "filesSelected": "{count, plural, one {Fichiers sélectionnés} other {Fichiers sélectionnés}}",
+  "individualFilesOnly": "Disponible uniquement pour les fichiers individuels",
+  "fileName": "Nom de fichier",
+  "size": "Taille",
+  "noPDFSupport": "Votre navigateur ne prend pas en charge les PDF. Merci de télécharger le PDF pour le visualiser:",
+  "downloadPDF": "Télécharger le PDF.",
+  "downloadInstead": "Essayer <1>de le télécharger</1> à la place.",
+  "cantBePreviewed": "Désolé, ce fichier ne peut être prévisualisé",
+  "addFile": "Ajouter un fichier",
+  "addFolder": "Ajouter un répertoire",
+  "addByPath": "Ajouter un chemin",
+  "addToIPFS": "Ajouter à IPFS",
+  "newFolder": "Nouveau répertoire",
+  "actions": {
+    "add": "Ajouter",
+    "delete": "Supprimer",
+    "rename": "Renommer",
+    "download": "Télécharger",
+    "inspect": "Inspecter",
+    "copyHash": "Copier le Hash",
+    "share": "Partager",
+    "close": "Fermer",
+    "copy": "Copier",
+    "cancel": "Annuler",
+    "clear": "Effacer",
+    "create": "Créer",
+    "save": "Sauvegarder",
+    "unselectAll": "Tout désélectionner"
+  },
+  "shareModal": {
+    "title": "Partager les fichiers",
+    "description": "Copier le lien en suivant et le partager avec vos amis."
+  },
+  "renameModal": {
+    "titleFile": "Renommer fichier",
+    "titleFolder": "Renommer répertoire",
+    "descriptionFile": "Choisir un nouveau nom pour ce fichier.",
+    "descriptionFolder": "Choisir un nouveau nom pour ce répertoire."
+  },
+  "deleteModal": {
+    "titleItem": "{count, plural, one {Supprimer l'élément} other {Supprimer {count} éléments}}",
+    "titleFolder": "{count, plural, one {Supprimer le répertoire} other {Supprimer {count} répertoires}}",
+    "titleFile": "{count, plural, one {Supprimer fichier} other {Supprimer {count} fichiers}}",
+    "descriptionItem": "{count, plural, one {Êtes vous sûre de vouloir supprimer cet élément? Cette action est irrévocable et ne peut être annulée.} other {Êtes vous sûre de vouloir supprimer {count} éléments? Cette action est irrévocable et ne peut être annulée.}}",
+    "descriptionFolder": "{count, plural, one {Êtes vous sûre de vouloir supprimer ce répertoire? Cette action est irrévocable et ne peut être annulée.} other {Êtes vous sûre de vouloir supprimer {count} répertoires? Cette action est irrévocable et ne peut être annulée.}}",
+    "descriptionFile": "{count, plural, one {Êtes vous sûre de vouloir supprimer ce fichier? Cette action est irrévocable et ne peut être annulée.} other {Êtes vous sûre de vouloir supprimer {count} fichiers? Cette action est irrévocable et ne peut être annulée.}}"
+  },
+  "addByPathModal": {
+    "title": "Ajouter un chemin",
+    "description": "Insérer le chemin à ajouter"
+  },
+  "newFolderModal": {
+    "title": "Nouveau répertoire",
+    "description": "Insérer le nom du répertoire que vous voulez créer."
+  }
+}
