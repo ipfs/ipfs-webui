@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
-import IpldExploreForm from './explore/IpldExploreForm'
+import { IpldExploreForm } from 'ipld-explorer-components'
 import AsyncRequestLoader from './loader/AsyncRequestLoader'
 import { DragDropContext } from 'react-dnd'
 import DnDBackend from './lib/dnd-backend'
@@ -34,7 +34,7 @@ export class App extends Component {
             <NavBar />
           </div>
           <div className='flex-auto'>
-            <div style={{ background: '#F0F6FA' }}>
+            <div style={{ background: '#F0F6FA', padding: '20px 40px 15px' }}>
               <IpldExploreForm />
             </div>
             <main className='bg-white' style={{ padding: '40px' }}>
