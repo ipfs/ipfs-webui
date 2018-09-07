@@ -124,12 +124,12 @@ npm run test:coverage
 
 The translations are stored on [./public/locales](./public/locales) and the English version is the source of truth.
 
-We use Transifex to help us translate WebUI to another languages. If you're interesting in contributing, go to [our page on Transifex](https://www.transifex.com/ipfs/ipfs-webui/translate/), create an account, pick up a language and start translating.
+We use Transifex to help us translate WebUI to another languages. If you're interested in contributing, go to [our page on Transifex](https://www.transifex.com/ipfs/ipfs-webui/translate/), create an account, pick a language and start translating.
 
 #### To Start Translating
 
 1. [Create Transifex account](https://www.transifex.com/signup/?join_project=ipfs-webui) 
-2. Go to https://www.transifex.com/ipfs/ipfs-webui/translate/, pick up the language, and start translating
+2. Go to https://www.transifex.com/ipfs/ipfs-webui/translate/, pick a language, and start translating
        
 #### To Sync Translations
 
