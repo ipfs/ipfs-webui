@@ -3,29 +3,33 @@ host = https://www.transifex.com
 
 [ipfs-webui.files-json]
 file_filter = public/locales/<lang>/files.json
-minimum_perc = 0
+minimum_perc = 1
 source_file = public/locales/en/files.json
 source_lang = en
+lang_map = zh_CN: zh-CN
 type = KEYVALUEJSON
 
 [ipfs-webui.peers-json]
 file_filter = public/locales/<lang>/peers.json
-minimum_perc = 0
+minimum_perc = 1
 source_file = public/locales/en/peers.json
 source_lang = en
+lang_map = zh_CN: zh-CN
 type = KEYVALUEJSON
 
 [ipfs-webui.settings-json]
 file_filter = public/locales/<lang>/settings.json
-minimum_perc = 0
+minimum_perc = 1
 source_file = public/locales/en/settings.json
 source_lang = en
+lang_map = zh_CN: zh-CN
 type = KEYVALUEJSON
 
 [ipfs-webui.status-json]
 file_filter = public/locales/<lang>/status.json
-minimum_perc = 0
+minimum_perc = 1
 source_file = public/locales/en/status.json
 source_lang = en
+lang_map = zh_CN: zh-CN
 type = KEYVALUEJSON
 
