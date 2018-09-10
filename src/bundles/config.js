@@ -28,6 +28,11 @@ bundle.selectConfigObject = createSelector(
   (configStr) => JSON.parse(configStr)
 )
 
+bundle.selectApiUrl = createSelector(
+  `selectConfigObject`,
+  (config) => getURLFromAddress('API', config) || 'https://ipfs.io'
+)
+
 bundle.selectGatewayUrl = createSelector(
   `selectConfigObject`,
   (config) => getURLFromAddress('Gateway', config) || 'https://ipfs.io'
