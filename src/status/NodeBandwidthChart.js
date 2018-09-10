@@ -14,40 +14,7 @@ const defaultSettings = {
   tooltips: {
     mode: 'x',
     position: 'nearest',
-    enabled: false,
-    custom: function (model) {
-      let tooltip = document.getElementById('node_bw_chart')
-      const data = { show: true }
-
-      if (!tooltip) {
-        tooltip = document.createElement('div')
-        tooltip.id = 'node_bw_chart'
-        document.body.appendChild(tooltip)
-      }
-
-      if (model.opacity === 0) {
-        data.show = false
-      } else {
-        const bw = {
-          in: model.dataPoints[0].yLabel,
-          out: model.dataPoints[1].yLabel
-        }
-
-        const rect = this._chart.canvas.getBoundingClientRect()
-        const pos = {
-          left: rect.left + model.caretX,
-          top: rect.top + model.caretY
-        }
-
-        data.bw = bw
-        data.pos = pos
-      }
-
-      // I know this isn't a very React-y way of doing this, but there was a simple issue:
-      // re-rendering the tooltip was also re-rendering the chart which then lost its focus
-      // state causing the Tooltip to stick and not disappear.
-      ReactDOM.render(<Tooltip {...data} />, tooltip)
-    }
+    enabled: false
   },
   hover: { mode: 'index' },
   scales: {
@@ -71,14 +38,9 @@ const defaultSettings = {
   }
 }
 
-const Tooltip = ({ bw, show, pos }) => {
+const Tooltip = ({ t, bw, show, pos }) => {
   if (!show) {
     return null
-  }
-
-  bw = {
-    in: filesize(bw.in, { round: 0, bits: true, output: 'array' }),
-    out: filesize(bw.out, { round: 0, bits: true, output: 'array' })
   }
 
   return (
@@ -96,22 +58,18 @@ const Tooltip = ({ bw, show, pos }) => {
         borderTop: '20px solid white',
         borderRight: '20px solid transparent'
       }} />
-      <table className='collapse'>
-        <tr>
-          <td className='f7 charcoal tr'>in:</td>
-          <td>
-            <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
-            <span className='f7 charcoal-muted'>{bw.in[1]}/s</span>
-          </td>
-        </tr>
-        <tr>
-          <td className='f7 charcoal tr'>out:</td>
-          <td>
-            <span className='f4 ml1 charcoal-muted'>{bw.out[0]}</span>
-            <span className='f7 charcoal-muted'>{bw.out[1]}/s</span>
-          </td>
-        </tr>
-      </table>
+      <div className='dt'>
+        <div className='dt-row'>
+          <span className='dtc f7 charcoal tr'>{t('in').toLowerCase()}:</span>
+          <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
+          <span className='f7 charcoal-muted'>{bw.in[1]}/s</span>
+        </div>
+        <div className='dt-row'>
+          <span className='dtc f7 charcoal tr'>{t('out').toLowerCase()}:</span>
+          <span className='f4 ml1 charcoal-muted'>{bw.out[0]}</span>
+          <span className='f7 charcoal-muted'>{bw.out[1]}/s</span>
+        </div>
+      </div>
     </div>
   )
 }
@@ -131,7 +89,7 @@ function NodeBandwidthChart ({ t, animatedPoints, nodeBandwidthChartData, classN
     return {
       datasets: [
         {
-          label: 'In',
+          label: t('in'),
           data: nodeBandwidthChartData.in,
           borderColor: gradientIn,
           backgroundColor: gradientIn,
@@ -139,7 +97,7 @@ function NodeBandwidthChart ({ t, animatedPoints, nodeBandwidthChartData, classN
           cubicInterpolationMode: 'monotone'
         },
         {
-          label: 'Out',
+          label: t('out'),
           data: nodeBandwidthChartData.out,
           borderColor: gradientOut,
           backgroundColor: gradientOut,
@@ -156,6 +114,42 @@ function NodeBandwidthChart ({ t, animatedPoints, nodeBandwidthChartData, classN
 
   const options = {
     ...defaultSettings,
+    tooltips: {
+      ...defaultSettings.tooltips,
+      custom: function (model) {
+        let tooltip = document.getElementById('node_bw_chart')
+        const data = { show: true }
+
+        if (!tooltip) {
+          tooltip = document.createElement('div')
+          tooltip.id = 'node_bw_chart'
+          document.body.appendChild(tooltip)
+        }
+
+        if (model.opacity === 0) {
+          data.show = false
+        } else {
+          const bw = {
+            in: filesize(model.dataPoints[0].yLabel, { round: 0, bits: true, output: 'array' }),
+            out: filesize(model.dataPoints[1].yLabel, { round: 0, bits: true, output: 'array' })
+          }
+
+          const rect = this._chart.canvas.getBoundingClientRect()
+          const pos = {
+            left: rect.left + model.caretX,
+            top: rect.top + model.caretY
+          }
+
+          data.bw = bw
+          data.pos = pos
+        }
+
+        // I know this isn't a very React-y way of doing this, but there was a simple issue:
+        // re-rendering the tooltip was also re-rendering the chart which then lost its focus
+        // state causing the Tooltip to stick and not disappear.
+        ReactDOM.render(<Tooltip t={t} {...data} />, tooltip)
+      }
+    },
     animation: {
       // Only animate the 500 points
       duration: nodeBandwidthChartData.in.length <= animatedPoints ? 1000 : 0
