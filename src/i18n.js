@@ -29,7 +29,7 @@ i18n
   .init({
     ns: ['files', 'settings', 'status', 'peers'],
     fallbackLng: 'en',
-    debug: true,
+    debug: process.env.NODE_ENV !== 'production',
     // react i18next special options (optional)
     react: {
       wait: true,
