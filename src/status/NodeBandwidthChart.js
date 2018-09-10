@@ -96,16 +96,22 @@ const Tooltip = ({ bw, show, pos }) => {
         borderTop: '20px solid white',
         borderRight: '20px solid transparent'
       }} />
-      <div className='db'>
-        <span style={{ width: '1.3rem' }} className='f7 dib charcoal tr'>in:</span>
-        <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
-        <span className='f7 charcoal-muted'>{bw.in[1]}/s</span>
-      </div>
-      <div className='db'>
-        <span style={{ width: '1.3rem' }} className='f7 dib charcoal tr'>out:</span>
-        <span className='f4 ml1 charcoal-muted'>{bw.out[0]}</span>
-        <span className='f7 charcoal-muted'>{bw.out[1]}/s</span>
-      </div>
+      <table className='collapse'>
+        <tr>
+          <td className='f7 charcoal tr'>in:</td>
+          <td>
+            <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
+            <span className='f7 charcoal-muted'>{bw.in[1]}/s</span>
+          </td>
+        </tr>
+        <tr>
+          <td className='f7 charcoal tr'>out:</td>
+          <td>
+            <span className='f4 ml1 charcoal-muted'>{bw.out[0]}</span>
+            <span className='f7 charcoal-muted'>{bw.out[1]}/s</span>
+          </td>
+        </tr>
+      </table>
     </div>
   )
 }
