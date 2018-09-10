@@ -56,22 +56,21 @@ export class NodeBandwidthChart extends Component {
   }
 
   state = {
-    tooltip: { show: false },
-    backgrounds: {
-      in: '#9ad4db',
-      out: '#f9a13e'
-    }
+    tooltip: { show: false }
   }
 
   static defaultProps = {
     animatedPoints: 500 // Only animate for the first 500 points
   }
 
-  componentDidMount () {
+  get backgrounds () {
     const el = ReactDOM.findDOMNode(this.root)
 
     if (!el) {
-      return
+      return {
+        in: '#9ad4db',
+        out: '#f9a13e'
+      }
     }
 
     const ctx = el.getContext('2d')
@@ -84,12 +83,10 @@ export class NodeBandwidthChart extends Component {
     gradientOut.addColorStop(0, '#f19237')
     gradientOut.addColorStop(1, '#f9d1a6')
 
-    this.setState({
-      backgrounds: {
-        in: gradientIn,
-        out: gradientOut
-      }
-    })
+    return {
+      in: gradientIn,
+      out: gradientOut
+    }
   }
 
   render () {
@@ -97,20 +94,22 @@ export class NodeBandwidthChart extends Component {
 
     if (nodeBandwidthChartData.in.length === 0) return null
 
+    const backgrounds = this.backgrounds
+
     const datasets = [
       {
         label: 'In',
         data: nodeBandwidthChartData.in,
-        borderColor: this.state.backgrounds.in,
-        backgroundColor: this.state.backgrounds.in,
+        borderColor: backgrounds.in,
+        backgroundColor: backgrounds.in,
         pointRadius: 2,
         cubicInterpolationMode: 'monotone'
       },
       {
         label: 'Out',
         data: nodeBandwidthChartData.out,
-        borderColor: this.state.backgrounds.out,
-        backgroundColor: this.state.backgrounds.out,
+        borderColor: backgrounds.out,
+        backgroundColor: backgrounds.out,
         pointRadius: 2,
         cubicInterpolationMode: 'monotone'
       }
