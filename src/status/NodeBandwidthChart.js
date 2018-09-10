@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { Line } from 'react-chartjs-2'
 import { translate } from 'react-i18next'
@@ -8,7 +8,68 @@ import filesize from 'filesize'
 import { Title } from './Commons'
 import Box from '../components/box/Box'
 
-const humansize = filesize.partial({ round: 1, exponent: 2, bits: true })
+const defaultSettings = {
+  defaultFontFamily: "'Inter UI', system-ui, sans-serif",
+  responsive: true,
+  tooltips: {
+    mode: 'x',
+    position: 'nearest',
+    enabled: false,
+    custom: function (model) {
+      let tooltip = document.getElementById('node_bw_chart')
+      const data = { show: true }
+
+      if (!tooltip) {
+        tooltip = document.createElement('div')
+        tooltip.id = 'node_bw_chart'
+        document.body.appendChild(tooltip)
+      }
+
+      if (model.opacity === 0) {
+        data.show = false
+      } else {
+        const bw = {
+          in: model.dataPoints[0].yLabel,
+          out: model.dataPoints[1].yLabel
+        }
+
+        const rect = this._chart.canvas.getBoundingClientRect()
+        const pos = {
+          left: rect.left + model.caretX,
+          top: rect.top + model.caretY
+        }
+
+        data.bw = bw
+        data.pos = pos
+      }
+
+      // I know this isn't a very React-y way of doing this, but there was a simple issue:
+      // re-rendering the tooltip was also re-rendering the chart which then lost its focus
+      // state causing the Tooltip to stick and not disappear.
+      ReactDOM.render(<Tooltip {...data} />, tooltip)
+    }
+  },
+  hover: { mode: 'index' },
+  scales: {
+    xAxes: [{
+      type: 'time',
+      time: {
+        minUnit: 'second'
+      }
+    }],
+    yAxes: [{
+      stacked: true,
+      ticks: {
+        callback: v => filesize(v, { round: 1, exponent: 2, bits: true }) + '/s',
+        suggestedMax: 125000
+      }
+    }]
+  },
+  legend: {
+    display: true,
+    position: 'bottom'
+  }
+}
 
 const Tooltip = ({ bw, show, pos }) => {
   if (!show) {
@@ -21,8 +82,8 @@ const Tooltip = ({ bw, show, pos }) => {
   }
 
   return (
-    <div className='fixed bg-white pa2 br3' style={{
-      top: `${pos.top}px`,
+    <div className='sans-serif absolute bg-white pa2 br3' style={{
+      top: `${pos.top + window.scrollY}px`,
       left: `${pos.left}px`,
       transform: 'translateY(calc(-100% - 20px))',
       filter: 'drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.2))'
@@ -49,139 +110,67 @@ const Tooltip = ({ bw, show, pos }) => {
   )
 }
 
-export class NodeBandwidthChart extends Component {
-  static propTypes = {
-    nodeBandwidthChartData: PropTypes.object.isRequired,
-    animatedPoints: PropTypes.number
-  }
+function NodeBandwidthChart ({ t, animatedPoints, nodeBandwidthChartData, className }) {
+  const data = (canvas) => {
+    const ctx = canvas.getContext('2d')
 
-  state = {
-    tooltip: { show: false }
-  }
-
-  static defaultProps = {
-    animatedPoints: 500 // Only animate for the first 500 points
-  }
-
-  get backgrounds () {
-    const el = ReactDOM.findDOMNode(this.root)
-
-    if (!el) {
-      return {
-        in: '#9ad4db',
-        out: '#f9a13e'
-      }
-    }
-
-    const ctx = el.getContext('2d')
-
-    const gradientIn = ctx.createLinearGradient(el.width / 2, 0, el.width / 2, el.height)
+    const gradientIn = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height)
     gradientIn.addColorStop(0, '#70c5cd')
     gradientIn.addColorStop(1, '#c6f1f3')
 
-    const gradientOut = ctx.createLinearGradient(el.width / 2, 0, el.width / 2, el.height / 2)
+    const gradientOut = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height / 2)
     gradientOut.addColorStop(0, '#f19237')
     gradientOut.addColorStop(1, '#f9d1a6')
 
     return {
-      in: gradientIn,
-      out: gradientOut
-    }
-  }
-
-  render () {
-    const { t, nodeBandwidthChartData } = this.props
-
-    if (nodeBandwidthChartData.in.length === 0) return null
-
-    const backgrounds = this.backgrounds
-
-    const datasets = [
-      {
-        label: 'In',
-        data: nodeBandwidthChartData.in,
-        borderColor: backgrounds.in,
-        backgroundColor: backgrounds.in,
-        pointRadius: 2,
-        cubicInterpolationMode: 'monotone'
-      },
-      {
-        label: 'Out',
-        data: nodeBandwidthChartData.out,
-        borderColor: backgrounds.out,
-        backgroundColor: backgrounds.out,
-        pointRadius: 2,
-        cubicInterpolationMode: 'monotone'
-      }
-    ]
-
-    const updateTooltip = (show, bw, pos) => {
-      this.setState({
-        tooltip: { show, bw, pos }
-      })
-    }
-
-    const options = {
-      defaultFontFamily: "'Inter UI', system-ui, sans-serif",
-      responsive: true,
-      tooltips: {
-        mode: 'x',
-        enabled: false,
-        custom: function (model) {
-          // FIX: this is NOT HAPPENING!?!?!?!
-          if (model.opacity === 0) {
-            updateTooltip(false)
-            return
-          }
-
-          const bw = {
-            in: model.dataPoints[0].yLabel,
-            out: model.dataPoints[1].yLabel
-          }
-
-          const rect = this._chart.canvas.getBoundingClientRect()
-          const pos = {
-            left: rect.left + model.caretX,
-            top: rect.top + model.caretY
-          }
-
-          updateTooltip(true, bw, pos)
+      datasets: [
+        {
+          label: 'In',
+          data: nodeBandwidthChartData.in,
+          borderColor: gradientIn,
+          backgroundColor: gradientIn,
+          pointRadius: 2,
+          cubicInterpolationMode: 'monotone'
+        },
+        {
+          label: 'Out',
+          data: nodeBandwidthChartData.out,
+          borderColor: gradientOut,
+          backgroundColor: gradientOut,
+          pointRadius: 2,
+          cubicInterpolationMode: 'monotone'
         }
-      },
-      hover: { mode: 'index' },
-      scales: {
-        xAxes: [{
-          type: 'time',
-          time: {
-            minUnit: 'second'
-          }
-        }],
-        yAxes: [{
-          stacked: true,
-          ticks: {
-            callback: v => humansize(v) + '/s',
-            suggestedMax: 125000
-          }
-        }]
-      },
-      legend: {
-        display: true,
-        position: 'bottom'
-      },
-      animation: {
-        // Only animate the 500 points
-        duration: nodeBandwidthChartData.in.length <= this.props.animatedPoints ? 1000 : 0
-      }
+      ]
     }
-
-    return (
-      <Box className={`pa4 pr2 ${this.props.className}`}>
-        <Title>{t('bandwidthOverTime')}</Title>
-        <Tooltip {...this.state.tooltip} />
-        <Line data={{ datasets }} options={options} ref={el => { this.root = el }} />
-      </Box>
-    )
   }
+
+  if (nodeBandwidthChartData.in.length === 0) {
+    return null
+  }
+
+  const options = {
+    ...defaultSettings,
+    animation: {
+      // Only animate the 500 points
+      duration: nodeBandwidthChartData.in.length <= animatedPoints ? 1000 : 0
+    }
+  }
+
+  return (
+    <Box className={`pa4 pr2 ${className}`}>
+      <Title>{t('bandwidthOverTime')}</Title>
+      <Line data={data} options={options} />
+    </Box>
+  )
+}
+
+NodeBandwidthChart.propTypes = {
+  nodeBandwidthChartData: PropTypes.object.isRequired,
+  animatedPoints: PropTypes.number
+}
+
+NodeBandwidthChart.defaultProps = {
+  animatedPoints: 500 // Only animate for the first 500 points
 }
 
 export default connect('selectNodeBandwidthChartData', translate('status')(NodeBandwidthChart))
