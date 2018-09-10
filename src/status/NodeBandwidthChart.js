@@ -74,103 +74,130 @@ const Tooltip = ({ t, bw, show, pos }) => {
   )
 }
 
-function NodeBandwidthChart ({ t, animatedPoints, nodeBandwidthChartData, className }) {
-  const data = (canvas) => {
-    const ctx = canvas.getContext('2d')
+class NodeBandwidthChart extends React.Component {
+  static propTypes = {
+    nodeBandwidthChartData: PropTypes.object.isRequired,
+    animatedPoints: PropTypes.number
+  }
 
-    const gradientIn = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height)
-    gradientIn.addColorStop(0, '#70c5cd')
-    gradientIn.addColorStop(1, '#c6f1f3')
+  static defaultProps = {
+    animatedPoints: 500 // Only animate for the first 500 points
+  }
 
-    const gradientOut = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height / 2)
-    gradientOut.addColorStop(0, '#f19237')
-    gradientOut.addColorStop(1, '#f9d1a6')
+  // getTooltip adds the tooltip element to the DOM if it doesn't
+  // exist yet and returns the element.
+  getTooltip = (t) => {
+    let tooltip = document.getElementById('node_bw_chart')
 
-    return {
-      datasets: [
-        {
-          label: t('in'),
-          data: nodeBandwidthChartData.in,
-          borderColor: gradientIn,
-          backgroundColor: gradientIn,
-          pointRadius: 2,
-          cubicInterpolationMode: 'monotone'
-        },
-        {
-          label: t('out'),
-          data: nodeBandwidthChartData.out,
-          borderColor: gradientOut,
-          backgroundColor: gradientOut,
-          pointRadius: 2,
-          cubicInterpolationMode: 'monotone'
-        }
-      ]
+    if (!tooltip) {
+      tooltip = document.createElement('div')
+      tooltip.id = 'node_bw_chart'
+      document.body.appendChild(tooltip)
     }
+
+    ReactDOM.render(<Tooltip t={t} show={false} />, tooltip)
+    return tooltip
   }
 
-  if (nodeBandwidthChartData.in.length === 0) {
-    return null
-  }
+  // generates tooltip data.
+  data = () => {
+    let { t, nodeBandwidthChartData } = this.props
 
-  const options = {
-    ...defaultSettings,
-    tooltips: {
-      ...defaultSettings.tooltips,
-      custom: function (model) {
-        let tooltip = document.getElementById('node_bw_chart')
-        const data = { show: true }
+    return function (canvas) {
+      const ctx = canvas.getContext('2d')
 
-        if (!tooltip) {
-          tooltip = document.createElement('div')
-          tooltip.id = 'node_bw_chart'
-          document.body.appendChild(tooltip)
-        }
+      const gradientIn = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height)
+      gradientIn.addColorStop(0, '#70c5cd')
+      gradientIn.addColorStop(1, '#c6f1f3')
 
-        if (model.opacity === 0) {
-          data.show = false
-        } else {
-          const bw = {
-            in: filesize(model.dataPoints[0].yLabel, { round: 0, bits: true, output: 'array' }),
-            out: filesize(model.dataPoints[1].yLabel, { round: 0, bits: true, output: 'array' })
+      const gradientOut = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height / 2)
+      gradientOut.addColorStop(0, '#f19237')
+      gradientOut.addColorStop(1, '#f9d1a6')
+
+      return {
+        datasets: [
+          {
+            label: t('in'),
+            data: nodeBandwidthChartData.in,
+            borderColor: gradientIn,
+            backgroundColor: gradientIn,
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone'
+          },
+          {
+            label: t('out'),
+            data: nodeBandwidthChartData.out,
+            borderColor: gradientOut,
+            backgroundColor: gradientOut,
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone'
           }
-
-          const rect = this._chart.canvas.getBoundingClientRect()
-          const pos = {
-            left: rect.left + model.caretX,
-            top: rect.top + model.caretY
-          }
-
-          data.bw = bw
-          data.pos = pos
-        }
-
-        // I know this isn't a very React-y way of doing this, but there was a simple issue:
-        // re-rendering the tooltip was also re-rendering the chart which then lost its focus
-        // state causing the Tooltip to stick and not disappear.
-        ReactDOM.render(<Tooltip t={t} {...data} />, tooltip)
+        ]
       }
-    },
-    animation: {
-      // Only animate the 500 points
-      duration: nodeBandwidthChartData.in.length <= animatedPoints ? 1000 : 0
     }
   }
 
-  return (
-    <Box className={`pa4 pr2 ${className}`}>
-      <Title>{t('bandwidthOverTime')}</Title>
-      <Line data={data} options={options} />
-    </Box>
-  )
-}
+  componentDidMount () {
+    // Setup tooltip
+    this.tooltip = document.createElement('div')
+    this.tooltip.id = 'node_bw_chart'
+    document.body.appendChild(this.tooltip)
+  }
 
-NodeBandwidthChart.propTypes = {
-  nodeBandwidthChartData: PropTypes.object.isRequired,
-  animatedPoints: PropTypes.number
-}
+  componentDidUpdate () {
+    ReactDOM.render(<Tooltip show={false} />, this.tooltip)
+  }
 
-NodeBandwidthChart.defaultProps = {
-  animatedPoints: 500 // Only animate for the first 500 points
+  render () {
+    let { t, animatedPoints, nodeBandwidthChartData, className } = this.props
+
+    if (nodeBandwidthChartData.in.length === 0) {
+      return null
+    }
+
+    const tooltip = this.tooltip
+
+    const options = {
+      ...defaultSettings,
+      tooltips: {
+        ...defaultSettings.tooltips,
+        custom: function (model) {
+          const data = { show: true }
+
+          if (model.opacity === 0) {
+            data.show = false
+          } else {
+            data.bw = {
+              in: filesize(model.dataPoints[0].yLabel, { round: 0, bits: true, output: 'array' }),
+              out: filesize(model.dataPoints[1].yLabel, { round: 0, bits: true, output: 'array' })
+            }
+
+            const rect = this._chart.canvas.getBoundingClientRect()
+            data.pos = {
+              left: rect.left + model.caretX,
+              top: rect.top + model.caretY
+            }
+          }
+
+          // I know this isn't a very React-y way of doing this, but there was a simple issue:
+          // re-rendering the tooltip was also re-rendering the chart which then lost its focus
+          // state causing the Tooltip to stick and not disappear.
+          ReactDOM.render(<Tooltip t={t} {...data} />, tooltip)
+        }
+      },
+      animation: {
+        // Only animate the 500 points
+        duration: nodeBandwidthChartData.in.length <= animatedPoints ? 1000 : 0
+      }
+    }
+
+    return (
+      <Box className={`pa4 pr2 ${className}`}>
+        <Title>{t('bandwidthOverTime')}</Title>
+        <Line data={this.data()} options={options} />
+      </Box>
+    )
+  }
 }
 
 export default connect('selectNodeBandwidthChartData', translate('status')(NodeBandwidthChart))
