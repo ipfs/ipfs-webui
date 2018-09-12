@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import ReactDOM from 'react-dom'
 import { Line } from 'react-chartjs-2'
 import { translate } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
@@ -7,71 +8,197 @@ import filesize from 'filesize'
 import { Title } from './Commons'
 import Box from '../components/box/Box'
 
-const humansize = filesize.partial({ round: 1, bits: true })
+const chartsize = filesize.partial({ round: 1, exponent: 2, bits: true })
+const tootltipSize = filesize.partial({ round: 0, bits: true, output: 'array' })
 
-export class NodeBandwidthChart extends Component {
+const defaultSettings = {
+  defaultFontFamily: "'Inter UI', system-ui, sans-serif",
+  responsive: true,
+  tooltips: {
+    mode: 'x',
+    position: 'nearest',
+    enabled: false
+  },
+  hover: { mode: 'index' },
+  scales: {
+    xAxes: [{
+      type: 'time',
+      time: {
+        minUnit: 'second'
+      }
+    }],
+    yAxes: [{
+      stacked: true,
+      ticks: {
+        callback: v => chartsize(v) + '/s',
+        suggestedMax: 200000,
+        maxTicksLimit: 5
+      }
+    }]
+  },
+  legend: {
+    display: true,
+    position: 'bottom'
+  }
+}
+
+const Tooltip = ({ t, bw, show, pos }) => {
+  if (!show) {
+    return null
+  }
+
+  return (
+    <div className='sans-serif absolute bg-white pa2 br3' style={{
+      top: `${pos.top + window.scrollY}px`,
+      left: `${pos.left}px`,
+      transform: 'translateY(calc(-100% - 20px))',
+      filter: 'drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.2))'
+    }}>
+      <div className='absolute' style={{
+        bottom: '-14px',
+        left: '0',
+        width: '0',
+        height: '0',
+        borderTop: '20px solid white',
+        borderRight: '20px solid transparent'
+      }} />
+      <div className='dt'>
+        <div className='dt-row'>
+          <span className='dtc f7 charcoal tr'>{t('in').toLowerCase()}:</span>
+          <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
+          <span className='f7 charcoal-muted'>{bw.in[1]}/s</span>
+        </div>
+        <div className='dt-row'>
+          <span className='dtc f7 charcoal tr'>{t('out').toLowerCase()}:</span>
+          <span className='f4 ml1 charcoal-muted'>{bw.out[0]}</span>
+          <span className='f7 charcoal-muted'>{bw.out[1]}/s</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+class NodeBandwidthChart extends React.Component {
   static propTypes = {
     nodeBandwidthChartData: PropTypes.object.isRequired,
     animatedPoints: PropTypes.number
   }
 
-  state = {}
-
   static defaultProps = {
     animatedPoints: 500 // Only animate for the first 500 points
   }
 
-  render () {
-    const { t, nodeBandwidthChartData } = this.props
+  // getTooltip adds the tooltip element to the DOM if it doesn't
+  // exist yet and returns the element.
+  getTooltip = (t) => {
+    let tooltip = document.getElementById('node_bw_chart')
 
-    const datasets = [
-      {
-        label: 'In',
-        data: nodeBandwidthChartData.in,
-        borderColor: '#69c4cd',
-        backgroundColor: '#9ad4db',
-        pointRadius: 2,
-        cubicInterpolationMode: 'monotone'
-      },
-      {
-        label: 'Out',
-        data: nodeBandwidthChartData.out,
-        borderColor: '#f39021',
-        backgroundColor: '#f9a13e',
-        pointRadius: 2,
-        cubicInterpolationMode: 'monotone'
+    if (!tooltip) {
+      tooltip = document.createElement('div')
+      tooltip.id = 'node_bw_chart'
+      document.body.appendChild(tooltip)
+    }
+
+    ReactDOM.render(<Tooltip t={t} show={false} />, tooltip)
+    return tooltip
+  }
+
+  // generates tooltip data.
+  data = () => {
+    let { t, nodeBandwidthChartData } = this.props
+
+    return function (canvas) {
+      const ctx = canvas.getContext('2d')
+
+      const gradientIn = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height)
+      gradientIn.addColorStop(0, '#70c5cd')
+      gradientIn.addColorStop(1, '#c6f1f3')
+
+      const gradientOut = ctx.createLinearGradient(canvas.width / 2, 0, canvas.width / 2, canvas.height / 2)
+      gradientOut.addColorStop(0, '#f19237')
+      gradientOut.addColorStop(1, '#f9d1a6')
+
+      return {
+        datasets: [
+          {
+            label: t('in'),
+            data: nodeBandwidthChartData.in,
+            borderColor: gradientIn,
+            backgroundColor: gradientIn,
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone'
+          },
+          {
+            label: t('out'),
+            data: nodeBandwidthChartData.out,
+            borderColor: gradientOut,
+            backgroundColor: gradientOut,
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone'
+          }
+        ]
       }
-    ]
+    }
+  }
+
+  componentDidMount () {
+    // Setup tooltip
+    this.tooltip = document.createElement('div')
+    this.tooltip.id = 'node_bw_chart'
+    document.body.appendChild(this.tooltip)
+  }
+
+  componentDidUpdate () {
+    ReactDOM.render(<Tooltip show={false} />, this.tooltip)
+  }
+
+  render () {
+    let { t, animatedPoints, nodeBandwidthChartData, className } = this.props
+
+    if (nodeBandwidthChartData.in.length === 0) {
+      return null
+    }
+
+    const tooltip = this.tooltip
 
     const options = {
-      defaultFontFamily: "'Inter UI', system-ui, sans-serif",
-      responsive: true,
-      tooltips: { mode: 'index' },
-      hover: { mode: 'index' },
-      scales: {
-        xAxes: [{ type: 'time' }],
-        yAxes: [{
-          stacked: true,
-          ticks: {
-            callback: v => humansize(v) + '/s',
-            suggestedMax: 125000
+      ...defaultSettings,
+      tooltips: {
+        ...defaultSettings.tooltips,
+        custom: function (model) {
+          const data = { show: true }
+
+          if (model.opacity === 0) {
+            data.show = false
+          } else {
+            data.bw = {
+              in: tootltipSize(model.dataPoints[0].yLabel),
+              out: tootltipSize(model.dataPoints[1].yLabel)
+            }
+
+            const rect = this._chart.canvas.getBoundingClientRect()
+            data.pos = {
+              left: rect.left + model.caretX,
+              top: rect.top + model.caretY
+            }
           }
-        }]
-      },
-      legend: {
-        display: true,
-        position: 'bottom'
+
+          // I know this isn't a very React-y way of doing this, but there was a simple issue:
+          // re-rendering the tooltip was also re-rendering the chart which then lost its focus
+          // state causing the Tooltip to stick and not disappear.
+          ReactDOM.render(<Tooltip t={t} {...data} />, tooltip)
+        }
       },
       animation: {
         // Only animate the 500 points
-        duration: nodeBandwidthChartData.in.length <= this.props.animatedPoints ? 1000 : 0
+        duration: nodeBandwidthChartData.in.length <= animatedPoints ? 1000 : 0
       }
     }
 
     return (
-      <Box className={`pa4 pr2 ${this.props.className}`}>
+      <Box className={`pa4 pr2 ${className}`}>
         <Title>{t('bandwidthOverTime')}</Title>
-        <Line data={{ datasets }} options={options} />
+        <Line data={this.data()} options={options} />
       </Box>
     )
   }
