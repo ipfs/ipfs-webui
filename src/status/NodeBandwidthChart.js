@@ -28,7 +28,8 @@ const defaultSettings = {
       stacked: true,
       ticks: {
         callback: v => filesize(v, { round: 1, exponent: 2, bits: true }) + '/s',
-        suggestedMax: 125000
+        suggestedMax: 200000,
+        maxTicksLimit: 5
       }
     }]
   },
