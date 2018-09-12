@@ -15,7 +15,7 @@ export default function ({ total = 100, title, filled = 0, noSpeed = false, colo
         enabled: false
       },
       maintainAspectRatio: false,
-      cutoutPercentage: 75,
+      cutoutPercentage: 80,
       rotation: rotation(0.7),
       circumference: circumference(0.7)
     },
@@ -23,8 +23,9 @@ export default function ({ total = 100, title, filled = 0, noSpeed = false, colo
       labels: ['Speed', 'Nothing'],
       datasets: [{
         data: [filled, filled > total ? 0 : total - filled],
-        backgroundColor: [color, '#f5f5f5'],
-        hoverBackgroundColor: [color, '#f5f5f5']
+        backgroundColor: [color, '#DEDEDE'],
+        hoverBackgroundColor: [color, '#DEDEDE'],
+        borderWidth: [0, 0]
       }]
     }
   }

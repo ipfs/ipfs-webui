@@ -5,7 +5,6 @@ import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import { Title } from './Commons'
-import Box from '../components/box/Box'
 
 const humansize = filesize.partial({ round: 1, bits: true })
 
@@ -69,10 +68,10 @@ export class NodeBandwidthChart extends Component {
     }
 
     return (
-      <Box className={`pa4 pr2 ${this.props.className}`}>
+      <div>
         <Title>{t('bandwidthOverTime')}</Title>
         <Line data={{ datasets }} options={options} />
-      </Box>
+      </div>
     )
   }
 }

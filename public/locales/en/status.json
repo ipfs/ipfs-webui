@@ -4,7 +4,7 @@
   "peers": "Peers",
   "addresses": "Addresses",
   "nodeInfo": "Node Info",
-  "cid": "CID",
+  "peerId": "Peer ID",
   "version": "Version",
   "advanced": "Advanced",
   "publicKey": "Public Key",

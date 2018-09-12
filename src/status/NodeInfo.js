@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
 import Speedometer from './Speedometer'
-import Box from '../components/box/Box'
 import { Title } from './Commons'
 import 'details-polyfill'
 
@@ -17,7 +16,7 @@ const Label = ({ children }) => (
 )
 
 const Value = ({ children, advanced = false }) => (
-  <div className={`dtc charcoal monospace ${advanced ? 'word-wrap f7 lh-copy pa2 bg-light-gray' : 'truncate'}`}>{children}</div>
+  <div className={`dtc charcoal monospace ${advanced ? 'word-wrap f7 lh-copy pa2 bg-white-60' : 'truncate'}`}>{children}</div>
 )
 
 const Graph = (props) => (
@@ -71,22 +70,22 @@ class NodeInfo extends React.Component {
   }
 
   render () {
-    const { t, ipfsIdentity, stats, peers } = this.props
+    const { t, ipfsIdentity, peers } = this.props
     const { downSpeed, upSpeed } = this.state
 
     let addresses = null
 
     if (ipfsIdentity) {
-      addresses = [...new Set(ipfsIdentity.addresses)].map(addr => <div key={addr}>{addr}</div>)
+      addresses = [...new Set(ipfsIdentity.addresses)].sort().map(addr => <div key={addr}>{addr}</div>)
     }
 
     return (
-      <Box className='f6 pa4'>
+      <div className='f6'>
+        <Title>{t('nodeInfo')}</Title>
         <div className='flex flex-column flex-row-l flex-wrap-l justify-between-l'>
-          <div className='w-100 w-50-l pr2-l' style={{ maxWidth: '34em' }} >
-            <Title style={{ marginBottom: '0.5rem' }}>{t('nodeInfo')}</Title>
+          <div className='w-100 w-60-l pr2-l' >
             <Block>
-              <Label>{t('cid')}</Label>
+              <Label>{t('peerId')}</Label>
               <Value>{this.getField(ipfsIdentity, 'id')}</Value>
             </Block>
             <Block>
@@ -97,8 +96,12 @@ class NodeInfo extends React.Component {
               <Label>{t('version')}</Label>
               <Value>{this.getField(ipfsIdentity, 'agentVersion')}</Value>
             </Block>
+            <Block>
+              <Label>{t('provider')}</Label>
+              <Value>{'window.ipfs'}</Value>
+            </Block>
           </div>
-          <div className='w-100 pl2-l flex-wrap flex-no-wrap-l flex justify-between' style={{ maxWidth: '35rem' }}>
+          <div className='w-100 w-40-l pl2-l flex-wrap flex-no-wrap-l flex justify-between'>
             <Graph
               title={t('upSpeed')}
               color='#69c4cd'
@@ -107,12 +110,6 @@ class NodeInfo extends React.Component {
               title={t('downSpeed')}
               color='#f39021'
               {...downSpeed} />
-            <Graph
-              title={t('spaceUsed')}
-              color='#0b3a53'
-              noSpeed
-              filled={stats ? parseInt(stats.repo.repoSize.toFixed(0), 10) : 0}
-              total={stats ? parseInt(stats.repo.storageMax.toFixed(0), 10) : 0} />
           </div>
         </div>
 
@@ -129,7 +126,7 @@ class NodeInfo extends React.Component {
             </Block>
           </div>
         </details>
-      </Box>
+      </div>
     )
   }
 }
@@ -137,6 +134,5 @@ class NodeInfo extends React.Component {
 export default connect(
   'selectIpfsIdentity',
   'selectPeers',
-  'selectStats',
   translate('status')(NodeInfo)
 )

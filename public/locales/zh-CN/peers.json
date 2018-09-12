@@ -1,7 +1,7 @@
 {
-  "title": "Peers",
+  "title": "节点",
   "id": "ID",
-  "peers": "Peers",
-  "addresses": "Addresses",
-  "location": "Location"
+  "peers": "节点",
+  "addresses": "地址",
+  "location": "位置"
 }

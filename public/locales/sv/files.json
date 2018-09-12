@@ -1,62 +1,62 @@
 {
-  "title": "Files",
-  "home": "Home",
-  "breadcrumbs": "Breadcrumbs",
-  "finished": "Finished!",
-  "totalSize": "Total size: {size}",
-  "filesSelected": "{count, plural, one {File selected} other {Files selected}}",
-  "individualFilesOnly": "Only available for individual files",
-  "fileName": "File name",
-  "size": "Size",
-  "noPDFSupport": "Your browser does not support PDFs. Please download the PDF to view it:",
-  "downloadPDF": "Download PDF.",
-  "downloadInstead": "Try <1>downloading</1> it instead.",
-  "cantBePreviewed": "Sorry, this file can't be previewed",
-  "addFile": "Add file",
-  "addFolder": "Add folder",
-  "addByPath": "Add by path",
-  "addToIPFS": "Add to IPFS",
-  "newFolder": "New folder",
+  "title": "Filer",
+  "home": "Hem",
+  "breadcrumbs": "Brödsmulor",
+  "finished": "Klar!",
+  "totalSize": "Total storlek: {size}",
+  "filesSelected": "{count, plural, one {Fil vald} other {Filer valda}}",
+  "individualFilesOnly": "Endast tillgänglig för individuella filer",
+  "fileName": "Filnamn",
+  "size": "Storlek",
+  "noPDFSupport": "Din webbläsare stödjer inte PDF-filer. Var god ladda ner PDF-filen för att läsa den.",
+  "downloadPDF": "Ladda ner PDF.",
+  "downloadInstead": "Försök att <1>ladda ner</1> den istället",
+  "cantBePreviewed": "Tyvärr, denna fil kan inte förhandsgranskas",
+  "addFile": "Lägg till fil",
+  "addFolder": "Lägg till mapp",
+  "addByPath": "Lägg till med filväg",
+  "addToIPFS": "Lägg till i IPFS",
+  "newFolder": "Ny mapp",
   "actions": {
-    "add": "Add",
-    "delete": "Delete",
-    "rename": "Rename",
-    "download": "Download",
-    "inspect": "Inspect",
-    "copyHash": "Copy Hash",
-    "share": "Share",
-    "close": "Close",
-    "copy": "Copy",
-    "cancel": "Cancel",
-    "clear": "Clear",
-    "create": "Create",
-    "save": "Save",
-    "unselectAll": "Unselect All"
+    "add": "Lägg till",
+    "delete": "Ta bort",
+    "rename": "Byt namn",
+    "download": "Ladda ner",
+    "inspect": "Inspektera",
+    "copyHash": "Kopiera hash",
+    "share": "Dela",
+    "close": "Stäng",
+    "copy": "Kopiera",
+    "cancel": "Ångra",
+    "clear": "Rensa",
+    "create": "Skapa",
+    "save": "Spara",
+    "unselectAll": "Avmarkera allt"
   },
   "shareModal": {
-    "title": "Share Files",
-    "description": "Copy the link below and share it with your friends."
+    "title": "Dela filer",
+    "description": "Kopiera länken nedan och dela den med dina vänner"
   },
   "renameModal": {
-    "titleFile": "Rename File",
-    "titleFolder": "Rename Folder",
-    "descriptionFile": "Choose a new name for this file.",
-    "descriptionFolder": "Choose a new name for this folder."
+    "titleFile": "Byt namn på fil",
+    "titleFolder": "Byt namn på mapp",
+    "descriptionFile": "Välj ett namn för denna fil.",
+    "descriptionFolder": "Välj ett namn för denna mapp."
   },
   "deleteModal": {
-    "titleItem": "{count, plural, one {Delete Item} other {Delete {count} Items}}",
-    "titleFolder": "{count, plural, one {Delete Folder} other {Delete {count} Folders}}",
-    "titleFile": "{count, plural, one {Delete File} other {Delete {count} Files}}",
-    "descriptionItem": "{count, plural, one {Are you sure you want to delete this item? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} items? This action is permanent and cannot be reversed.}}",
-    "descriptionFolder": "{count, plural, one {Are you sure you want to delete this folder? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} folders? This action is permanent and cannot be reversed.}}",
-    "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} files? This action is permanent and cannot be reversed.}}"
+    "titleItem": "{count, plural, one {Ta bort föremål} other {Ta bort {count} föremål}}",
+    "titleFolder": "{count, plural, one {Ta bort mapp} other {Ta bort {count} mappar}}",
+    "titleFile": "{count, plural, one {Ta bort fil} other {Ta bort {count} filer}}",
+    "descriptionItem": "{count, plural, one {Är du säker på att du vill ta bort detta föremål? Denna handling är permanent och kan inte ångras.} other {Är du säker på att du vill ta bort {count} föremål? Denna handling är permanent och kan inte ångras.}}",
+    "descriptionFolder": "{count, plural, one {Är du säker på att du vill ta bort denna mapp? Denna handling är permanent och kan inte ångras.} other {Är du säker på att du vill ta bort {count} mappar? Denna handling är permanent och kan inte ångras.}}",
+    "descriptionFile": "{count, plural, one {Är du säker på att du vill ta bort denna fil? Denna handling är permanent och kan inte ångras.} other {Är du säker på att du vill ta bort {count} filer? Denna handling är permanent och kan inte ångras.}}"
   },
   "addByPathModal": {
-    "title": "Add by path",
-    "description": "Insert the path to add."
+    "title": "Lägg till med filväg",
+    "description": "Infoga filvägen för att lägga till."
   },
   "newFolderModal": {
-    "title": "New folder",
-    "description": "Insert the name of the folder you want to create."
+    "title": "Ny mapp",
+    "description": "Infoga namnet på mappen du vill skapa."
   }
 }
