@@ -8,6 +8,7 @@ import Box from '../components/box/Box'
 import { Title } from './Commons'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
+const isWindows = window.navigator.appVersion.indexOf('Win') !== -1
 const humansize = filesize.partial({ round: 0 })
 
 export class PeerBandwidthTable extends Component {
@@ -104,7 +105,7 @@ function LocationFlag ({ location }) {
   if (!location) return '🏳️‍🌈'
   return (
     <span title={location.country_name}>
-      <CountryFlag code={location.country_code} />
+      <CountryFlag code={location.country_code} svg={isWindows} />
     </span>
   )
 }
