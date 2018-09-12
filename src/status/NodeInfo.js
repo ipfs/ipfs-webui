@@ -69,6 +69,11 @@ class NodeInfo extends React.Component {
     return 'Cannot access the API.'
   }
 
+  getVersion (ipfsIdentity) {
+    const raw = this.getField(ipfsIdentity, 'agentVersion')
+    return raw ? raw.split('/').join(' ') : ''
+  }
+
   render () {
     const { t, ipfsIdentity, peers } = this.props
     const { downSpeed, upSpeed } = this.state
@@ -89,16 +94,16 @@ class NodeInfo extends React.Component {
               <Value>{this.getField(ipfsIdentity, 'id')}</Value>
             </Block>
             <Block>
-              <Label>{t('peers')}</Label>
-              <Value>{peers ? peers.length : 0}</Value>
-            </Block>
-            <Block>
               <Label>{t('version')}</Label>
-              <Value>{this.getField(ipfsIdentity, 'agentVersion')}</Value>
+              <Value>{this.getVersion(ipfsIdentity)}</Value>
             </Block>
             <Block>
               <Label>{t('provider')}</Label>
               <Value>{'window.ipfs'}</Value>
+            </Block>
+            <Block>
+              <Label>{t('peers')}</Label>
+              <Value>{peers ? peers.length : 0}</Value>
             </Block>
           </div>
           <div className='w-100 w-40-l pl2-l flex-wrap flex-no-wrap-l flex justify-between'>
@@ -134,5 +139,6 @@ class NodeInfo extends React.Component {
 export default connect(
   'selectIpfsIdentity',
   'selectPeers',
+  'selectStats',
   translate('status')(NodeInfo)
 )
