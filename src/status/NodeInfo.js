@@ -81,7 +81,7 @@ class NodeInfo extends React.Component {
     let addresses = null
 
     if (ipfsIdentity) {
-      addresses = [...new Set(ipfsIdentity.addresses)].sort().map(addr => <div key={addr}>{addr}</div>)
+      addresses = [...new Set(ipfsIdentity.addresses)].sort().map(addr => <Address key={addr} value={addr} />)
     }
 
     return (
@@ -134,6 +134,20 @@ class NodeInfo extends React.Component {
       </div>
     )
   }
+}
+
+const Address = ({ value }) => {
+  const parts = value.split('/')
+  return (
+    <div className='charcoal-muted pb1'>
+      {parts.map((chunk, i) => (
+        <span>
+          <span className={i % 2 || i > 4 ? '' : 'charcoal'}>{chunk}</span>
+          {i < parts.length - 1 ? '/' : ''}
+        </span>
+      ))}
+    </div>
+  )
 }
 
 export default connect(
