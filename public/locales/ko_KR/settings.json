@@ -1,0 +1,15 @@
+{
+  "title": "설정",
+  "save": "저장",
+  "saving": "저장 중…",
+  "reset": "입력 초기화",
+  "fetchingSettings": "설정 가져오는 중...",
+  "configApiNotAvailable": "IPFS 설정 API가 현재 사용 불가능 합니다. “IPFS Companion” 웹 확장프로그램을 비활성화하고 다시 시도해주세요.",
+  "settingsUnavailable": "설정이 현재 불가능합니다. IPFS 데몬이 실행 중인지 확인해보십시오.",
+  "settingsHaveChanged": "세팅이 변경되었습니다. <1>입력 초기화</1>를 눌러, 설정 값을 업데이트 하세요.",
+  "errorOccured": "변경점을 저장하는 도중에 오류가 발생했습니다.",
+  "checkConsole": "더 많은 정보는 웹브라우저 콘솔 화면을 확인하세요.",
+  "changesSaved": "변경점이 성공적으로 저장되었습니다.",
+  "settingsWillBeUsedNextTime": "새로운 설정 값은 IPFS 데몬을 다시 시작하면 적용됩니다.",
+  "ipfsConfigDescription": "IPFS 설정 파일은 json 문서입니다. 이것은 IPFS 데몬이 시작될 때 한 번만 읽힙니다. IPFS 데몬을 다시 시작함으로써, 변경된 설정 값을 적용시킬 수 있습니다."
+}

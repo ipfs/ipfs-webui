@@ -33,3 +33,10 @@ source_lang = en
 lang_map = zh_CN: zh-CN
 type = KEYVALUEJSON
 
+[ipld-explorer.explore-json]
+file_filter = public/locales/<lang>/explore.json
+minimum_perc = 1
+source_file = public/locales/en/explore.json
+source_lang = en
+lang_map = zh_CN: zh-CN
+type = KEYVALUEJSON

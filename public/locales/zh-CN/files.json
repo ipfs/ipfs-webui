@@ -1,62 +1,62 @@
 {
   "title": "文件",
   "home": "主页",
-  "breadcrumbs": "Breadcrumbs",
-  "finished": "Finished!",
-  "totalSize": "Total size: {size}",
-  "filesSelected": "{count, plural, one {File selected} other {Files selected}}",
-  "individualFilesOnly": "Only available for individual files",
-  "fileName": "File name",
+  "breadcrumbs": "导航栏",
+  "finished": "完成！",
+  "totalSize": "总计大小: {size}",
+  "filesSelected": "{count, plural, other {已选择文件}}",
+  "individualFilesOnly": "仅对文件有效",
+  "fileName": "文件名",
   "size": "大小",
-  "noPDFSupport": "Your browser does not support PDFs. Please download the PDF to view it:",
-  "downloadPDF": "Download PDF.",
-  "downloadInstead": "Try <1>downloading</1> it instead.",
-  "cantBePreviewed": "Sorry, this file can't be previewed",
-  "addFile": "Add file",
-  "addFolder": "Add folder",
-  "addByPath": "Add by path",
-  "addToIPFS": "Add to IPFS",
-  "newFolder": "New folder",
+  "noPDFSupport": "您的浏览器不支持阅读PDF文件。请下载后阅读。",
+  "downloadPDF": "下载PDF",
+  "downloadInstead": "请尝试<1>下载</1>",
+  "cantBePreviewed": "对不起，本文件不支持预览。",
+  "addFile": "添加文件",
+  "addFolder": "添加文件夹",
+  "addByPath": "按路径添加",
+  "addToIPFS": "添加到IPFS",
+  "newFolder": "新建文件夹",
   "actions": {
-    "add": "Add",
-    "delete": "Delete",
-    "rename": "Rename",
+    "add": "添加",
+    "delete": "删除",
+    "rename": "重命名",
     "download": "下载",
-    "inspect": "Inspect",
-    "copyHash": "Copy Hash",
-    "share": "Share",
-    "close": "Close",
-    "copy": "Copy",
-    "cancel": "Cancel",
-    "clear": "Clear",
-    "create": "Create",
+    "inspect": "检查",
+    "copyHash": "复制哈希",
+    "share": "共享",
+    "close": "关闭",
+    "copy": "复制",
+    "cancel": "取消",
+    "clear": "清空",
+    "create": "创建",
     "save": "保存",
-    "unselectAll": "Unselect All"
+    "unselectAll": "全部取消选择"
   },
   "shareModal": {
-    "title": "Share Files",
-    "description": "Copy the link below and share it with your friends."
+    "title": "共享文件",
+    "description": "请复制以下链接并与您的朋友分享。"
   },
   "renameModal": {
-    "titleFile": "Rename File",
-    "titleFolder": "Rename Folder",
-    "descriptionFile": "Choose a new name for this file.",
-    "descriptionFolder": "Choose a new name for this folder."
+    "titleFile": "重命名文件",
+    "titleFolder": "重命名文件夹",
+    "descriptionFile": "重命名此文件",
+    "descriptionFolder": "重命名此文件夹"
   },
   "deleteModal": {
-    "titleItem": "{count, plural, one {Delete Item} other {Delete {count} Items}}",
-    "titleFolder": "{count, plural, one {Delete Folder} other {Delete {count} Folders}}",
-    "titleFile": "{count, plural, one {Delete File} other {Delete {count} Files}}",
-    "descriptionItem": "{count, plural, one {Are you sure you want to delete this item? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} items? This action is permanent and cannot be reversed.}}",
-    "descriptionFolder": "{count, plural, one {Are you sure you want to delete this folder? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} folders? This action is permanent and cannot be reversed.}}",
-    "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} files? This action is permanent and cannot be reversed.}}"
+    "titleItem": "{count, plural, other {删除{count}个项目}}",
+    "titleFolder": "{count, plural, other {删除{count}个文件夹}}",
+    "titleFile": "{count, plural, other {删除{count}个文件}}",
+    "descriptionItem": "{count, plural, other {您是否确定要删除{count}个项目？本操作不可撤销。}}",
+    "descriptionFolder": "{count, plural, other {您是否确定要删除{count}个文件夹？本操作不可撤销。}}",
+    "descriptionFile": "{count, plural, other {您是否确定要删除{count}个文件？本操作不可撤销。}}"
   },
   "addByPathModal": {
-    "title": "Add by path",
-    "description": "Insert the path to add."
+    "title": "按路径添加",
+    "description": "输入需要添加的路径"
   },
   "newFolderModal": {
-    "title": "New folder",
-    "description": "Insert the name of the folder you want to create."
+    "title": "新建文件夹",
+    "description": "输入新建文件夹名称"
   }
 }

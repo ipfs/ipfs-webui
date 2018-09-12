@@ -1,0 +1,22 @@
+{
+  "title": "상태",
+  "peer": "피어",
+  "peers": "피어들",
+  "addresses": "주소들",
+  "nodeInfo": "노드 정보",
+  "cid": "CID",
+  "version": "버전",
+  "advanced": "고급설정",
+  "publicKey": "공개키",
+  "upSpeed": "업로드 속도",
+  "downSpeed": "다운로드 속도",
+  "spaceUsed": "사용된 저장용량",
+  "bandwidthOverTime": "대역폭이 사용된 시간",
+  "bandwidthByPeer": "피어의 대역폭",
+  "distributionOfPeers": "피어들의 분산",
+  "rateIn": "Rate In",
+  "rateOut": "Rate Out",
+  "totalIn": "총 들어온 양",
+  "totalOut": "총 나간 양",
+  "more": "...and {count} more"
+}

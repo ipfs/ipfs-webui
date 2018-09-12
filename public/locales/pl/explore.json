@@ -1,0 +1,35 @@
+{
+  "appName": "Przeglądarka IPLD",
+  "tabName": "Przeglądaj",
+  "homeLink": "Home",
+  "UpdateAvailable": {
+    "paragraph1": "A new version of IPLD Explorer is available, <1>please reload</1>"
+  },
+  "StartExploringPage": {
+    "title": "Przeglądarka - IPLD",
+    "header": "Przeglądaj las haszy",
+    "leadParagraph": "Wklej CID aby pobrać dowolny węzeł IPLD lub wybierz jeden z polecanych zbiorów."
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD to <1>model danych dla sieci adresowanej treścią (ang. content-addressed web).</1> Umożliwia traktowanie obiektów połączonych skrótem (haszem) jako podzbiorów jednej przestrzeni danych w której modele danych to instancje IPLD.</0>",
+    "paragraph2": "<0>Adresowanie treścią przy użyciu skrótów funkcji haszujących stało się popularną techniką w rozproszonych systemach takich jak kryptowaluty, systemy kontroli wersji lub systemy dystrybucji treści w internecie. Niestety pomimo podobnej zasady działania, wszystkie te narzędzia używają niekompatybilnych ze sobą struktur danych.</0>",
+    "paragraph3": "<0>Z pomocą przychodzi IPLD: wspólna przestrzeń nazw dla wszystkich protokołów. Dzięki IPLD, linki między obiektami mogą prowadzić przez wiele protokołów, umożliwiając dostęp i przetwarzanie danych w zunifikowany sposób.</0>"
+  },
+  "ExplorePage": {
+    "title": "Przeglądanie - IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "Przeglądaj"
+  },
+  "CidInfo": {
+    "header": "Szczegóły CID",
+    "hashDigest": "wynik funkcji haszującej"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "View on IPFS Gateway"
+  },
+  "base": "baza",
+  "version": "wersja",
+  "codec": "kodek",
+  "multihash": "multihash"
+}
