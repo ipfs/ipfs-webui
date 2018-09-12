@@ -5,9 +5,19 @@ import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
-const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsApiAddress }) => {
+const WelcomePage = ({ doUpdateIpfsApiOpts, ipfsInitFailed, ipfsReady, ipfsApiOpts }) => {
   if (!ipfsInitFailed && !ipfsReady) {
     return <ComponentLoader pastDelay />
+  }
+
+  if (typeof ipfsApiOpts === 'object') {
+    ipfsApiOpts = Object.assign({}, {
+      host: '127.0.0.1',
+      port: '5001',
+      protocol: 'http'
+    }, ipfsApiOpts)
+
+    ipfsApiOpts = `/ip4/${ipfsApiOpts.host}/tcp/${ipfsApiOpts.port}`
   }
 
   return (
@@ -53,8 +63,8 @@ const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsAp
               If your IPFS node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, please set it here
             </p>
             <ApiAddressForm
-              defaultValue={ipfsApiAddress}
-              updateAddress={doUpdateIpfsAPIAddress} />
+              defaultValue={ipfsApiOpts}
+              updateAddress={doUpdateIpfsApiOpts} />
           </Box>
         </div>
         <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{ maxWidth: '40%' }}>
@@ -117,9 +127,9 @@ class ApiAddressForm extends React.Component {
 }
 
 export default connect(
-  'doUpdateIpfsAPIAddress',
+  'doUpdateIpfsApiOpts',
   'selectIpfsInitFailed',
   'selectIpfsReady',
-  'selectIpfsApiAddress',
+  'selectIpfsApiOpts',
   WelcomePage
 )
