@@ -9,6 +9,7 @@ import { Title } from './Commons'
 import Box from '../components/box/Box'
 
 const chartsize = filesize.partial({ round: 1, exponent: 2, bits: true })
+const tootltipSize = filesize.partial({ round: 0, bits: true, output: 'array' })
 
 const defaultSettings = {
   defaultFontFamily: "'Inter UI', system-ui, sans-serif",
@@ -171,8 +172,8 @@ class NodeBandwidthChart extends React.Component {
             data.show = false
           } else {
             data.bw = {
-              in: filesize(model.dataPoints[0].yLabel, { round: 0, bits: true, output: 'array' }),
-              out: filesize(model.dataPoints[1].yLabel, { round: 0, bits: true, output: 'array' })
+              in: tootltipSize(model.dataPoints[0].yLabel),
+              out: tootltipSize(model.dataPoints[1].yLabel)
             }
 
             const rect = this._chart.canvas.getBoundingClientRect()
