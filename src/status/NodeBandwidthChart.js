@@ -8,6 +8,8 @@ import filesize from 'filesize'
 import { Title } from './Commons'
 import Box from '../components/box/Box'
 
+const chartsize = filesize.partial({ round: 1, exponent: 2, bits: true })
+
 const defaultSettings = {
   defaultFontFamily: "'Inter UI', system-ui, sans-serif",
   responsive: true,
@@ -27,7 +29,7 @@ const defaultSettings = {
     yAxes: [{
       stacked: true,
       ticks: {
-        callback: v => filesize(v, { round: 1, exponent: 2, bits: true }) + '/s',
+        callback: v => chartsize(v) + '/s',
         suggestedMax: 200000,
         maxTicksLimit: 5
       }
