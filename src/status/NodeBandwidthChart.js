@@ -152,7 +152,7 @@ class NodeBandwidthChart extends React.Component {
   }
 
   render () {
-    let { t, animatedPoints, nodeBandwidthChartData, className } = this.props
+    let { t, animatedPoints, nodeBandwidthChartData } = this.props
 
     if (nodeBandwidthChartData.in.length === 0) {
       return null
