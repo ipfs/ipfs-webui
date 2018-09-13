@@ -11,6 +11,10 @@ body {
   color: #CAD3D8;
 }
 
+.bg-near-white {
+  background-color: #fbfbfb;
+}
+
 @media screen and (min-width: 65em)  {
   .float-on-left-l {
     position: absolute;

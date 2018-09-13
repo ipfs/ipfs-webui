@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet'
 import { translate } from 'react-i18next'
 
 // Components
+import Box from '../components/box/Box'
 import WorldMap from './WorldMap/WorldMap'
 import PeersTable from './PeersTable/PeersTable'
 
@@ -12,11 +13,10 @@ const PeersPage = ({ t, peers, peerCoordinates, tableData }) => (
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
-
-    <div className='bg-snow-muted pa3'>
+    <Box className='pa3'>
       <WorldMap peers={peers} coordinates={peerCoordinates} />
       <PeersTable peers={tableData} />
-    </div>
+    </Box>
   </div>
 )
 
