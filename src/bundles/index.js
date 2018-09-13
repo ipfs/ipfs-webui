@@ -6,7 +6,6 @@ import appIdle from './app-idle'
 import nodeBandwidthChartBundle from './node-bandwidth-chart'
 import nodeBandwidthBundle from './node-bandwidth'
 import peersBundle from './peers'
-import peerBandwidthBundle from './peer-bandwidth'
 import peerLocationsBundle from './peer-locations'
 import routesBundle from './routes'
 import redirectsBundle from './redirects'
@@ -19,17 +18,16 @@ import statsBundle from './stats'
 export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
   ipfsBundle(),
+  navbarBundle,
+  routesBundle,
+  redirectsBundle,
   statsBundle,
+  filesBundle(),
   exploreBundle,
+  configBundle,
+  configSaveBundle,
   nodeBandwidthBundle,
   nodeBandwidthChartBundle(),
   peersBundle,
-  peerBandwidthBundle(),
-  peerLocationsBundle(),
-  routesBundle,
-  redirectsBundle,
-  filesBundle(),
-  configBundle,
-  configSaveBundle,
-  navbarBundle
+  peerLocationsBundle()
 )

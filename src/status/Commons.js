@@ -1,5 +1,5 @@
 import React from 'react'
 
 export const Title = ({ children, ...props }) => (
-  <h2 className='dib tracked ttu f6 fw2 teal-muted hover-aqua link mt0 mb4' {...props}>{ children }</h2>
+  <h2 className='dib ttu tracked f6 fw4 aqua mt0 mb4' {...props}>{ children }</h2>
 )

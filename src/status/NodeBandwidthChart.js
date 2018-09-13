@@ -6,7 +6,6 @@ import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import { Title } from './Commons'
-import Box from '../components/box/Box'
 
 const chartsize = filesize.partial({ round: 1, exponent: 2, bits: true })
 const tootltipSize = filesize.partial({ round: 0, bits: true, output: 'array' })
@@ -153,7 +152,7 @@ class NodeBandwidthChart extends React.Component {
   }
 
   render () {
-    let { t, animatedPoints, nodeBandwidthChartData, className } = this.props
+    let { t, animatedPoints, nodeBandwidthChartData } = this.props
 
     if (nodeBandwidthChartData.in.length === 0) {
       return null
@@ -196,10 +195,10 @@ class NodeBandwidthChart extends React.Component {
     }
 
     return (
-      <Box className={`pa4 pr2 ${className}`}>
+      <div>
         <Title>{t('bandwidthOverTime')}</Title>
         <Line data={this.data()} options={options} />
-      </Box>
+      </div>
     )
   }
 }

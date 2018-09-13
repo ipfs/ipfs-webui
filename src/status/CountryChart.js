@@ -3,7 +3,6 @@ import { translate } from 'react-i18next'
 import { Title } from './Commons'
 import { Pie } from 'react-chartjs-2'
 import { connect } from 'redux-bundler-react'
-import Box from '../components/box/Box'
 
 const CountryChart = ({ t, peerLocations, className }) => {
   const countryLabels = {}
@@ -60,10 +59,12 @@ const CountryChart = ({ t, peerLocations, className }) => {
   }
 
   return (
-    <Box className={className}>
+    <div>
       <Title>{t('distributionOfPeers')}</Title>
-      <Pie data={{ datasets, labels }} options={options} />
-    </Box>
+      <div className='nl3 nr3'>
+        <Pie data={{ datasets, labels }} options={options} />
+      </div>
+    </div>
   )
 }
 
