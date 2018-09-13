@@ -44,7 +44,7 @@ export default function ({ total = 100, title, filled = 0, noSpeed = false, colo
 
       <div className='absolute' style={{ top: '60%', left: '50%', transform: 'translate(-50%, -50%)' }} >
         <span className='f3'>{data[0]}</span><span className='ml1 f7'>{data[1]}{ noSpeed ? '' : '/s' }</span>
-        <span className='db f7'>{title}</span>
+        <span className='db f7 fw5'>{title}</span>
       </div>
     </div>
   )
