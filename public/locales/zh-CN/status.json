@@ -4,7 +4,7 @@
   "peers": "节点",
   "addresses": "地址",
   "nodeInfo": "节点信息",
-  "cid": "CID",
+  "peerId": "Peer ID",
   "version": "Version",
   "advanced": "Advanced",
   "publicKey": "Public Key",
@@ -18,5 +18,7 @@
   "rateOut": "Rate Out",
   "totalIn": "Total In",
   "totalOut": "Total Out",
-  "more": "...and {count} more"
+  "more": "...and {count} more",
+  "in": "In",
+  "out": "Out"
 }

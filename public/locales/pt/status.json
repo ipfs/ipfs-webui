@@ -4,7 +4,7 @@
   "peers": "Pares",
   "addresses": "Endereços",
   "nodeInfo": "Informação do Nó",
-  "cid": "CID",
+  "peerId": "Peer ID",
   "version": "Versão",
   "advanced": "Avançado",
   "publicKey": "Chave Pública",
@@ -18,5 +18,7 @@
   "rateOut": "Velocidade de Envio",
   "totalIn": "Total Descarregado",
   "totalOut": "Total Enviado",
-  "more": "...e mais{count} pares"
+  "more": "...e mais{count} pares",
+  "in": "In",
+  "out": "Out"
 }

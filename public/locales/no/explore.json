@@ -1,14 +1,14 @@
 {
-  "appName": "IPLD 탐색기",
-  "tabName": "Explore",
-  "homeLink": "Home",
+  "appName": "IPLD Utforsker",
+  "tabName": "Utforsk",
+  "homeLink": "Hjem",
   "UpdateAvailable": {
-    "paragraph1": "A new version of IPLD Explorer is available, <1>please reload</1>"
+    "paragraph1": "En ny versjon av IPLD Utforsker er tilgjengelig, <1>vennligst last inn siden på nytt</1>"
   },
   "StartExploringPage": {
-    "title": "탐색 - IPLD",
-    "header": "Merkle 숲 탐색",
-    "leadParagraph": "Paste a CID into the box to fetch the IPLD node it addresses, or choose a featured dataset."
+    "title": "Utforsk - IPLD",
+    "header": "Explore the Merkle Forest",
+    "leadParagraph": "Lim inn en CID i boksen for å hente IPLD-noden den adresserer, eller velg et utvalgt datasett."
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD is <1>the data model of the content-addressable web.</1> It allows us to treat all hash-linked data structures as subsets of a unified information space, unifying all data models that link data with hashes as instances of IPLD.</0>",
@@ -19,17 +19,17 @@
     "title": "Exploring - IPLD"
   },
   "IpldExploreForm": {
-    "explore": "Explore"
+    "explore": "Utforsk"
   },
   "CidInfo": {
-    "header": "CID 정보",
+    "header": "CID Info",
     "hashDigest": "Hash digest"
   },
   "ObjectInfo": {
-    "gatewayLink": "View on IPFS Gateway"
+    "gatewayLink": "Vis på IPFS Gateway"
   },
   "base": "base",
-  "version": "버전",
+  "version": "versjon",
   "codec": "codec",
   "multihash": "multihash"
 }

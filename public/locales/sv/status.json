@@ -4,7 +4,7 @@
   "peers": "Noder",
   "addresses": "Adresser",
   "nodeInfo": "Nod-info",
-  "cid": "CID",
+  "peerId": "Peer ID",
   "version": "Version",
   "advanced": "Avancerad",
   "publicKey": "Publik nyckel",
@@ -18,5 +18,7 @@
   "rateOut": "Hastighet ut",
   "totalIn": "Total in",
   "totalOut": "Total ut",
-  "more": "...och {count} mer"
+  "more": "...och {count} mer",
+  "in": "In",
+  "out": "Out"
 }
