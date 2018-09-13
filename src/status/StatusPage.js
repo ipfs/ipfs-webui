@@ -4,7 +4,6 @@ import { translate } from 'react-i18next'
 import CountryChart from './CountryChart'
 import NodeInfo from './NodeInfo'
 import NodeBandwidthChart from './NodeBandwidthChart'
-// import PeerBandwidthTable from './PeerBandwidthTable'
 import Box from '../components/box/Box'
 
 export default translate('status')(({ t }) => (
@@ -16,7 +15,7 @@ export default translate('status')(({ t }) => (
       <NodeInfo />
     </Box>
     <Box className='mt3 pa3'>
-      <div className='flex flex-column-s flex-column-m flex-row'>
+      <div className='flex flex-column flex-row-l'>
         <div className='w-100 w-60-l pr0 pr2-l'>
           <NodeBandwidthChart />
         </div>
@@ -25,6 +24,5 @@ export default translate('status')(({ t }) => (
         </div>
       </div>
     </Box>
-    {/* <PeerBandwidthTable className='mt3 pa4 overflow-x-auto' /> */}
   </div>
 ))

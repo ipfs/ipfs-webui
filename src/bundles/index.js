@@ -18,16 +18,16 @@ import statsBundle from './stats'
 export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
   ipfsBundle(),
+  navbarBundle,
+  routesBundle,
+  redirectsBundle,
   statsBundle,
+  filesBundle(),
   exploreBundle,
+  configBundle,
+  configSaveBundle,
   nodeBandwidthBundle,
   nodeBandwidthChartBundle(),
   peersBundle,
-  peerLocationsBundle(),
-  routesBundle,
-  redirectsBundle,
-  filesBundle(),
-  configBundle,
-  configSaveBundle,
-  navbarBundle
+  peerLocationsBundle()
 )
