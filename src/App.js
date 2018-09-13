@@ -35,7 +35,9 @@ export class App extends Component {
           </div>
           <div className='flex-auto'>
             <div style={{ background: '#F0F6FA', padding: '20px 40px 15px' }}>
-              <IpldExploreForm />
+              <div style={{ maxWidth: 560 }}>
+                <IpldExploreForm />
+              </div>
             </div>
             <main className='bg-white' style={{ padding: '40px' }}>
               { (ipfsReady || url === '/welcome')

@@ -1,8 +1,8 @@
 {
   "title": "Status",
   "peer": "Peer",
-  "peers": "Peers",
-  "addresses": "Addresses",
+  "peers": "节点",
+  "addresses": "地址",
   "nodeInfo": "节点信息",
   "cid": "CID",
   "version": "Version",

@@ -27,7 +27,7 @@ i18n
   .use(XHR)
   .use(LanguageDetector)
   .init({
-    ns: ['files', 'settings', 'status', 'peers'],
+    ns: ['status', 'files', 'explore', 'peers', 'settings'],
     fallbackLng: 'en',
     debug: process.env.NODE_ENV !== 'production',
     // react i18next special options (optional)
