@@ -3,5 +3,6 @@
   "peerId": "Peer ID",
   "peers": "Peers",
   "address": "Address",
-  "location": "Location"
+  "location": "Location",
+  "unknownLocation": "Unknown"
 }
