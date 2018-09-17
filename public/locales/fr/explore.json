@@ -1,0 +1,30 @@
+{
+  "appName": "Explorateur IPLD",
+  "StartExploringPage": {
+    "title": "Explorer - IPLD",
+    "header": "Explorer la forêt de Merkle",
+    "leadParagraph": "Collez un CID dans la section appropriée pour récupérer les nœuds IPLD qu'il adresse, ou choisissez des données mises en avant"
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD est <1>le modèle de données du web \"indexé par contenu\".</1> Il nous permet de traiter toutes les structures de données liées par hash, en tant que sous-ensemble d'un espace d'informations unifié, unifiant tous les modèles de données qui associent les données par hash, en tant qu'instances d'IPLD.",
+    "paragraph2": "<0>L’indexation du contenu par hash est devenu largement répandu pour la connexion de données dans les systèmes distribués, de la blockchain sur laquelle est basée votre cryptomonnaie favorite, aux commits qui suivent votre code, jusqu'au contenu du web au sens large. Mais, alors que tous ces outils se basent sur des aspects rudimentaires communs, leurs structures de données sous-jacentes sont spécifiques et ne sont pas interopérables.</0>",
+    "paragraph3": "<0>Entrer dans IPLD: un simple outil pour tous les protocoles fonctionnant avec des hash. Grâce à IPLD, les liens peuvent êtres accessibles à travers les protocoles, vous permettant d'explorer les données sans prendre en compte le protocole sous-jacent.</0>"
+  },
+  "ExplorePage": {
+    "title": "Exploration - IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "Explorer"
+  },
+  "CidInfo": {
+    "header": "Info CID",
+    "hashDigest": "Hash"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "Visualiser sur la passerelle IPFS"
+  },
+  "base": "base",
+  "version": "version",
+  "codec": "codec",
+  "multihash": "multihash"
+}

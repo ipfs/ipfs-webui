@@ -1,7 +1,8 @@
 {
   "title": "Noder",
-  "id": "ID",
+  "peerId": "Peer ID",
   "peers": "Noder",
-  "addresses": "Adresser",
-  "location": "Plats"
+  "address": "Address",
+  "location": "Plats",
+  "unknownLocation": "Unknown"
 }

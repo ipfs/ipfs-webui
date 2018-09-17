@@ -2,25 +2,25 @@
   "title": "Filer",
   "home": "Hjem",
   "breadcrumbs": "Breadcrumbs",
-  "finished": "Finished!",
-  "totalSize": "Total size: {size}",
+  "finished": "Ferdig!",
+  "totalSize": "Total størrelse: {size}",
   "filesSelected": "{count, plural, one {File selected} other {Files selected}}",
-  "individualFilesOnly": "Only available for individual files",
-  "fileName": "File name",
+  "individualFilesOnly": "Kun tilgjengelig for individuelle filer",
+  "fileName": "Filnavn",
   "size": "Størrelse",
-  "noPDFSupport": "Your browser does not support PDFs. Please download the PDF to view it:",
-  "downloadPDF": "Download PDF.",
+  "noPDFSupport": "Nettleseren din støtter ikke PDF-filer. Vennligst last ned PDF-filen for å vise den:",
+  "downloadPDF": "Last ned PDF.",
   "downloadInstead": "Try <1>downloading</1> it instead.",
-  "cantBePreviewed": "Sorry, this file can't be previewed",
+  "cantBePreviewed": "Beklager, denne filen kan ikke forhåndsvises",
   "addFile": "Add file",
   "addFolder": "Add folder",
   "addByPath": "Add by path",
   "addToIPFS": "Add to IPFS",
-  "newFolder": "New folder",
+  "newFolder": "Ny mappe",
   "actions": {
     "add": "Add",
-    "delete": "Delete",
-    "rename": "Rename",
+    "delete": "Slett",
+    "rename": "Gi nytt navn",
     "download": "Laste ned",
     "inspect": "Inspect",
     "copyHash": "Copy Hash",
@@ -38,10 +38,10 @@
     "description": "Copy the link below and share it with your friends."
   },
   "renameModal": {
-    "titleFile": "Rename File",
-    "titleFolder": "Rename Folder",
-    "descriptionFile": "Choose a new name for this file.",
-    "descriptionFolder": "Choose a new name for this folder."
+    "titleFile": "Endre navn på fil",
+    "titleFolder": "Endre navn på mappe",
+    "descriptionFile": "Velg et nytt navn for denne filen.",
+    "descriptionFolder": "Velg et nytt navn for denne mappen."
   },
   "deleteModal": {
     "titleItem": "{count, plural, one {Delete Item} other {Delete {count} Items}}",
@@ -56,7 +56,7 @@
     "description": "Insert the path to add."
   },
   "newFolderModal": {
-    "title": "New folder",
+    "title": "Ny mappe",
     "description": "Insert the name of the folder you want to create."
   }
 }

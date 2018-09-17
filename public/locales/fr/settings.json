@@ -1,15 +1,15 @@
 {
   "title": "Paramètres",
   "save": "Sauvegarder",
-  "saving": "Sauvegarde ...",
+  "saving": "Sauvegarde en cours...",
   "reset": "Réinitialiser",
   "fetchingSettings": "Récupération des paramètres...",
-  "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
-  "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre démon IPFS est en cours d'exécution.",
-  "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
+  "configApiNotAvailable": "L'API de la configuration IPFS n'est pas disponible. Merci de désactiver l'extension IPFS-Companion et de réessayer.",
+  "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre nœud IPFS est en cours d'exécution.",
+  "settingsHaveChanged": "Les paramètres ont changé, merci de cliquer sur<1>Reinitialisation</1>pour mettre à jour les changements",
   "errorOccured": "Une erreur s'est produite pendant l'enregistrement de vos modifications",
   "checkConsole": "Vérifier la console du navigateur pour plus d'information.",
   "changesSaved": "Vos modifications ont été enregistrées.",
-  "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain redémarrage du démon IPFS.",
-  "ipfsConfigDescription": "Le fichier de configuration d'IPFS est un document json. Il est parcouru une seule fois au démarrage du démon IPFS. Enregistrez vos modifications puis redémarrez le démon IPFS pour qu'elles soient prises en compte."
+  "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du nœud IPFS.",
+  "ipfsConfigDescription": "Le fichier de configuration d'IPFS est un document JSON. Il est lu une seule fois au démarrage du nœud IPFS. Enregistrez vos modifications puis redémarrez le nœud IPFS pour qu'elles soient prises en compte."
 }

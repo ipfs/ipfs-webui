@@ -1,7 +1,8 @@
 {
   "title": "피어들",
-  "id": "아이디",
+  "peerId": "Peer ID",
   "peers": "피어들",
-  "addresses": "주소들",
-  "location": "위치"
+  "address": "Address",
+  "location": "위치",
+  "unknownLocation": "Unknown"
 }
