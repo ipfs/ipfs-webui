@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
+import Address from '../components/address/Address'
 import Speedometer from './Speedometer'
 import { Title } from './Commons'
 import 'details-polyfill'
@@ -134,20 +135,6 @@ class NodeInfo extends React.Component {
       </div>
     )
   }
-}
-
-const Address = ({ value }) => {
-  const parts = value.split('/')
-  return (
-    <div className='charcoal-muted pb1'>
-      {parts.map((chunk, i) => (
-        <span>
-          <span className={i % 2 || i > 4 ? '' : 'charcoal'}>{chunk}</span>
-          {i < parts.length - 1 ? '/' : ''}
-        </span>
-      ))}
-    </div>
-  )
 }
 
 export default connect(

@@ -38,14 +38,15 @@ export class WorldMap extends React.Component {
       .attr('id', 'gridpattern')
       .attr('x', 0)
       .attr('y', 0)
-      .attr('width', 3)
-      .attr('height', 3)
+      .attr('width', 5)
+      .attr('height', 5)
       .attr('patternUnits', 'userSpaceOnUse')
       .append('circle')
-      .attr('cx', 0)
-      .attr('cy', 0)
+      .attr('cx', 3)
+      .attr('cy', 3)
       .attr('r', 1)
-      .attr('fill', '#333')
+      .attr('fill', '#AAA')
+      .attr('stroke', '#DDD')
 
     el.append('path')
       .datum(graticule)
@@ -72,16 +73,16 @@ export class WorldMap extends React.Component {
         type: 'MultiPoint',
         coordinates: coordinates
       })
-      .attr('d', path.pointRadius((d) => 8))
-      .attr('fill', 'rgba(71, 170, 216, 0.2)')
+      .attr('d', path.pointRadius((d) => 10))
+      .attr('fill', 'rgba(93, 213, 218, 0.4)')
 
     el.append('path')
       .datum({
         type: 'MultiPoint',
         coordinates: coordinates
       })
-      .attr('d', path.pointRadius((d) => 2))
-      .attr('fill', '#29B6F4')
+      .attr('d', path.pointRadius((d) => 3))
+      .attr('fill', 'rgb(93, 213, 218)')
 
     return el.node().toReact()
   }
@@ -90,13 +91,13 @@ export class WorldMap extends React.Component {
     const { t, peers, coordinates } = this.props
 
     return (
-      <div className='flex w-100 mb4' style={{ 'height': '500px' }}>
+      <div className='flex w-100 mb4' style={{ 'height': '550px' }}>
         <AutoSizer>
           { ({ height, width }) => this.renderMap(height, width, coordinates) }
         </AutoSizer>
 
-        <div className='flex flex-auto flex-column items-center self-end pb4'>
-          <div className='f1 gray'>{ peers ? peers.length : 0 }</div>
+        <div className='flex flex-auto flex-column items-center self-end pb5'>
+          <div className='f1 fw5 aqua'>{ peers ? peers.length : 0 }</div>
           <div className='f4 b ttu'>{t('peers')}</div>
         </div>
       </div>
