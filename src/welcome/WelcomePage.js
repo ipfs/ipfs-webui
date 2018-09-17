@@ -5,7 +5,7 @@ import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
-const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsApiAddress }) => {
+const WelcomePage = ({ doUpdateIpfsApiAddress, ipfsInitFailed, ipfsReady, ipfsApiAddress }) => {
   if (!ipfsInitFailed && !ipfsReady) {
     return <ComponentLoader pastDelay />
   }
@@ -54,7 +54,7 @@ const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsAp
             </p>
             <ApiAddressForm
               defaultValue={ipfsApiAddress}
-              updateAddress={doUpdateIpfsAPIAddress} />
+              updateAddress={doUpdateIpfsApiAddress} />
           </Box>
         </div>
         <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{ maxWidth: '40%' }}>
@@ -117,7 +117,7 @@ class ApiAddressForm extends React.Component {
 }
 
 export default connect(
-  'doUpdateIpfsAPIAddress',
+  'doUpdateIpfsApiAddress',
   'selectIpfsInitFailed',
   'selectIpfsReady',
   'selectIpfsApiAddress',
