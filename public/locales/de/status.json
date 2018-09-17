@@ -5,6 +5,7 @@
   "addresses": "Addressen",
   "nodeInfo": "Node Informationen",
   "peerId": "Peer ID",
+  "api": "API",
   "version": "Version",
   "advanced": "Erweitert",
   "publicKey": "Öffentlicher Schlüssel",

@@ -5,6 +5,7 @@
   "addresses": "地址",
   "nodeInfo": "节点信息",
   "peerId": "Peer ID",
+  "api": "API",
   "version": "Version",
   "advanced": "Advanced",
   "publicKey": "Public Key",

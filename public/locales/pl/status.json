@@ -5,6 +5,7 @@
   "addresses": "Addresses",
   "nodeInfo": "Informacje o węźle",
   "peerId": "Peer ID",
+  "api": "API",
   "version": "Version",
   "advanced": "Advanced",
   "publicKey": "Public Key",
