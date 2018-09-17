@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
 import { Table, Column, AutoSizer } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
@@ -7,7 +8,7 @@ import Address from '../../components/address/Address'
 
 export class PeersTable extends React.Component {
   static propTypes = {
-    peers: PropTypes.array,
+    peersTableData: PropTypes.array,
     t: PropTypes.func.isRequired
   }
 
@@ -40,12 +41,12 @@ export class PeersTable extends React.Component {
   }
 
   render () {
-    const { peers, t } = this.props
+    const { peersTableData, t } = this.props
     const tableHeight = 320
 
     return (
       <div className='flex w-100 bg-white-70' style={{ 'height': `${tableHeight}px` }}>
-        { peers && <AutoSizer>
+        { peersTableData && <AutoSizer>
           {({ width }) => (
             <Table
               className='tl fw4 w-100 f7'
@@ -55,8 +56,8 @@ export class PeersTable extends React.Component {
               height={tableHeight}
               headerHeight={32}
               rowHeight={32}
-              rowCount={peers.length}
-              rowGetter={({ index }) => peers[index]}>
+              rowCount={peersTableData.length}
+              rowGetter={({ index }) => peersTableData[index]}>
               <Column label={t('peerId')} dataKey='id' width={430} className='charcoal monospace pl2 truncate f7' />
               <Column label={t('address')} cellRenderer={this.addressCellRenderer} dataKey='address' width={280} className='pl2' />
               <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={220} className='pl2 f6 navy-muted b truncate' />
@@ -68,4 +69,7 @@ export class PeersTable extends React.Component {
   }
 }
 
-export default translate('peers')(PeersTable)
+export default connect(
+  'selectPeersTableData',
+  translate('peers')(PeersTable)
+)

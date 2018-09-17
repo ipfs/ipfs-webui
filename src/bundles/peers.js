@@ -10,7 +10,7 @@ const bundle = createAsyncResourceBundle({
   checkIfOnline: false
 })
 
-bundle.selectTableData = createSelector(
+bundle.selectPeersTableData = createSelector(
   'selectPeers',
   'selectPeerLocations',
   (peers, locations) => peers && peers.map((peer, idx) => {
