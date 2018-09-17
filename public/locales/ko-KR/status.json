@@ -4,7 +4,7 @@
   "peers": "피어들",
   "addresses": "주소들",
   "nodeInfo": "노드 정보",
-  "cid": "CID",
+  "peerId": "Peer ID",
   "version": "버전",
   "advanced": "고급설정",
   "publicKey": "공개키",
@@ -14,9 +14,11 @@
   "bandwidthOverTime": "대역폭이 사용된 시간",
   "bandwidthByPeer": "피어의 대역폭",
   "distributionOfPeers": "피어들의 분산",
-  "rateIn": "Rate In",
-  "rateOut": "Rate Out",
+  "rateIn": "들어온 비율",
+  "rateOut": "나간 비율",
   "totalIn": "총 들어온 양",
   "totalOut": "총 나간 양",
-  "more": "...and {count} more"
+  "more": "…그리고 {count} 더",
+  "in": "In",
+  "out": "Out"
 }

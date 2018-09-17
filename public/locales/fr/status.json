@@ -4,7 +4,7 @@
   "peers": "Pairs",
   "addresses": "Adresses",
   "nodeInfo": "Info du noeud",
-  "cid": "CID",
+  "peerId": "Peer ID",
   "version": "Version",
   "advanced": "Avancé",
   "publicKey": "Clé publique",
@@ -18,5 +18,7 @@
   "rateOut": "Taux sortie",
   "totalIn": "Total entrée",
   "totalOut": "Total sortie",
-  "more": "...et {count} de plus"
+  "more": "...et {count} de plus",
+  "in": "In",
+  "out": "Out"
 }

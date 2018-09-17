@@ -4,7 +4,7 @@
   "peers": "Peers",
   "addresses": "Addressen",
   "nodeInfo": "Node Informationen",
-  "cid": "CID",
+  "peerId": "Peer ID",
   "version": "Version",
   "advanced": "Erweitert",
   "publicKey": "Öffentlicher Schlüssel",
@@ -18,5 +18,7 @@
   "rateOut": "Rate Out",
   "totalIn": "Total In",
   "totalOut": "Total Out",
-  "more": "...und {count} mehr"
+  "more": "...und {count} mehr",
+  "in": "In",
+  "out": "Out"
 }

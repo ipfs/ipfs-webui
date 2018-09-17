@@ -10,6 +10,7 @@ import eo from 'i18next-icu/locale-data/eo'
 import es from 'i18next-icu/locale-data/es'
 import fr from 'i18next-icu/locale-data/fr'
 import it from 'i18next-icu/locale-data/it'
+import ko from 'i18next-icu/locale-data/ko'
 import nl from 'i18next-icu/locale-data/nl'
 import no from 'i18next-icu/locale-data/no'
 import pl from 'i18next-icu/locale-data/pl'
@@ -22,7 +23,7 @@ import zh from 'i18next-icu/locale-data/zh'
 
 i18n
   .use(new ICU({
-    localeData: [cs, de, en, eo, es, fr, it, nl, no, pl, pt, ru, sl, sv, uk, zh]
+    localeData: [cs, de, en, eo, es, fr, it, ko, nl, no, pl, pt, ru, sl, sv, uk, zh]
   }))
   .use(XHR)
   .use(LanguageDetector)
