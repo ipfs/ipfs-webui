@@ -139,18 +139,38 @@ export default function (opts) {
       }, {})
     ),
 
-    selectPeerCoordinates: createSelector(
-      'selectPeerLocations',
-      peerLocs => Object.keys(peerLocs).map((peerId, idx) => {
-        const long = peerLocs[peerId].longitude
-        const lat = peerLocs[peerId].latitude
+    selectPeerLocationsQueuingPeers: state => state.peerLocations.queuingPeers,
 
-        return [long, lat]
+    selectPeerLocationsResolvingPeers: state => state.peerLocations.resolvingPeers,
+
+    selectPeerLocationsForSwarm: createSelector(
+      'selectPeers',
+      'selectPeerLocations',
+      (peers, locations) => peers && peers.map((peer, idx) => {
+        const peerId = peer.peer.toB58String()
+        const address = peer.addr.toString()
+        const locationObj = locations[peerId]
+        const location = toLocationString(locationObj)
+        const flagCode = locationObj && locationObj.country_code
+        const coordinates = locationObj && [
+          locationObj.longitude,
+          locationObj.latitude
+        ]
+
+        return {
+          peerId,
+          address,
+          location,
+          flagCode,
+          coordinates
+        }
       })
     ),
 
-    selectPeerLocationsQueuingPeers: state => state.peerLocations.queuingPeers,
-    selectPeerLocationsResolvingPeers: state => state.peerLocations.resolvingPeers,
+    selectPeerCoordinates: createSelector(
+      'selectPeerLocationsForSwarm',
+      peers => peers.map(p => p.coordinates).filter(arr => !!arr)
+    ),
 
     doResolvePeerLocation: ({ peerId, addr }) => async ({ dispatch, store, getIpfs }) => {
       dispatch({ type: 'PEER_LOCATIONS_RESOLVE_STARTED', payload: { peerId, addr } })
@@ -246,3 +266,9 @@ export default function (opts) {
 }
 
 const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'
+
+const toLocationString = loc => {
+  if (!loc) return null
+  const { country_name: country, city } = loc
+  return city && country ? `${city}, ${country}` : country
+}
