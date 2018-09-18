@@ -270,5 +270,5 @@ const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'
 const toLocationString = loc => {
   if (!loc) return null
   const { country_name: country, city } = loc
-  return [city, country].join(', ')
+  return city && country ? `${city}, ${country}` : country
 }
