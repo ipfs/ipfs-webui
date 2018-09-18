@@ -8,7 +8,7 @@ import Address from '../../components/address/Address'
 
 export class PeersTable extends React.Component {
   static propTypes = {
-    peersTableData: PropTypes.array,
+    peerLocationsForSwarm: PropTypes.array,
     t: PropTypes.func.isRequired
   }
 
@@ -41,12 +41,12 @@ export class PeersTable extends React.Component {
   }
 
   render () {
-    const { peersTableData, t } = this.props
+    const { peerLocationsForSwarm, t } = this.props
     const tableHeight = 320
 
     return (
       <div className='flex w-100 bg-white-70' style={{ 'height': `${tableHeight}px` }}>
-        { peersTableData && <AutoSizer>
+        { peerLocationsForSwarm && <AutoSizer>
           {({ width }) => (
             <Table
               className='tl fw4 w-100 f7'
@@ -56,9 +56,9 @@ export class PeersTable extends React.Component {
               height={tableHeight}
               headerHeight={32}
               rowHeight={32}
-              rowCount={peersTableData.length}
-              rowGetter={({ index }) => peersTableData[index]}>
-              <Column label={t('peerId')} dataKey='id' width={430} className='charcoal monospace pl2 truncate f7' />
+              rowCount={peerLocationsForSwarm.length}
+              rowGetter={({ index }) => peerLocationsForSwarm[index]}>
+              <Column label={t('peerId')} dataKey='peerId' width={430} className='charcoal monospace pl2 truncate f7' />
               <Column label={t('address')} cellRenderer={this.addressCellRenderer} dataKey='address' width={280} className='pl2' />
               <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={220} className='pl2 f6 navy-muted b truncate' />
             </Table>
@@ -70,6 +70,6 @@ export class PeersTable extends React.Component {
 }
 
 export default connect(
-  'selectPeersTableData',
+  'selectPeerLocationsForSwarm',
   translate('peers')(PeersTable)
 )
