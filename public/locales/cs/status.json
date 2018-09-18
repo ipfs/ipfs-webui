@@ -5,6 +5,7 @@
   "addresses": "Adresa",
   "nodeInfo": "Informace o uzlu",
   "peerId": "Peer ID",
+  "api": "API",
   "version": "Version",
   "advanced": "Advanced",
   "publicKey": "Public Key",
