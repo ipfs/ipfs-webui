@@ -6,7 +6,6 @@ import { translate } from 'react-i18next'
 import * as d3 from 'd3'
 import * as topojson from 'topojson'
 
-// Static
 import worldData from './world.json'
 
 const WorldMap = ({ t }) => {
@@ -98,8 +97,6 @@ const Map = ({ width, height, path }) => {
 
 // Just the dots on the map, this gets called a lot.
 const MapPins = connect('selectPeerCoordinates', ({ width, height, path, peerCoordinates }) => {
-  // https://github.com/d3/d3-geo/blob/master/README.md#geoGraticule
-  // const graticule = d3.geoGraticule()
   const el = d3.select(ReactFauxDOM.createElement('svg'))
     .attr('width', width)
     .attr('height', height)
