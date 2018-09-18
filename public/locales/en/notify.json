@@ -1,0 +1,5 @@
+{
+  "ipfsApiRequestFailed": "IPFS request failed. Please check your daemon is running",
+  "windowIpfsRequestFailed": "IPFS request failed. Please check your IPFS Companion settings",
+  "ipfsIsBack": "Normal IPFS service has resumed. Enjoy!"
+}

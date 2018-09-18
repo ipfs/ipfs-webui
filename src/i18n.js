@@ -28,7 +28,7 @@ i18n
   .use(XHR)
   .use(LanguageDetector)
   .init({
-    ns: ['status', 'files', 'explore', 'peers', 'settings'],
+    ns: ['status', 'files', 'explore', 'peers', 'settings', 'notify'],
     fallbackLng: 'en',
     debug: process.env.NODE_ENV !== 'production',
     backend: {

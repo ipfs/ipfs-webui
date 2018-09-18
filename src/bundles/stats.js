@@ -7,6 +7,7 @@ const bundle = createAsyncResourceBundle({
     return { bw }
   },
   staleAfter: 3000,
+  retryAfter: 3000,
   persist: false,
   checkIfOnline: false
 })

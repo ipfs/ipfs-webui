@@ -169,7 +169,10 @@ export default function (opts) {
 
     selectPeerCoordinates: createSelector(
       'selectPeerLocationsForSwarm',
-      peers => peers.map(p => p.coordinates).filter(arr => !!arr)
+      peers => {
+        if (!peers) return []
+        return peers.map(p => p.coordinates).filter(arr => !!arr)
+      }
     ),
 
     doResolvePeerLocation: ({ peerId, addr }) => async ({ dispatch, store, getIpfs }) => {
