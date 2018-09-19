@@ -37,6 +37,7 @@ const notify = {
     }
 
     if (action.type.match(/_FETCH_FINISHED$/)) {
+      if (action.payload && action.payload.error) return state
       if (state.contentId === 'FETCH_FAILED') {
         return {
           ...state,

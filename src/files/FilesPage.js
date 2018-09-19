@@ -10,7 +10,6 @@ import Overlay from '../components/overlay/Overlay'
 import ShareModal from './share-modal/ShareModal'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
-import Errors from './errors/Errors'
 import downloadFile from './download-file'
 import { join } from 'path'
 import { translate } from 'react-i18next'
@@ -180,11 +179,9 @@ class FilesPage extends React.Component {
       files,
       writeFilesProgress,
       navbarWidth,
-      doFilesDismissErrors,
       doFilesMove,
       doFilesNavigateTo,
       doFilesUpdateSorting,
-      filesErrors: errors,
       filesSorting: sort,
       t
     } = this.props
@@ -202,8 +199,6 @@ class FilesPage extends React.Component {
         </Helmet>
         { files &&
           <div>
-            <Errors errors={errors} onDismiss={doFilesDismissErrors} />
-
             <div className='flex flex-wrap'>
               <Breadcrumbs className='mb3' path={files.path} onClick={doFilesNavigateTo} />
 
@@ -281,11 +276,9 @@ export default connect(
   'doFilesShareLink',
   'doFilesMakeDir',
   'doFilesFetch',
-  'doFilesDismissErrors',
   'doFilesNavigateTo',
   'doFilesUpdateSorting',
   'selectFiles',
-  'selectFilesErrors',
   'selectGatewayUrl',
   'selectWriteFilesProgress',
   'selectNavbarWidth',
