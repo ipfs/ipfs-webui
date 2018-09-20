@@ -26,7 +26,7 @@ const VersionLink = ({ agentVersion }) => {
     return (
       <span>
         {name}
-        {version ? ` v${version}` : ''}
+        <ReleaseLink agent={name} version={version} />
       </span>
     )
   }
@@ -35,9 +35,22 @@ const VersionLink = ({ agentVersion }) => {
       <a href={url} className='link blue' target='_blank'>
         {name}
       </a>
-      {version ? ` v${version}` : ''}
+      <ReleaseLink agent={name} version={version} />
     </span>
   )
+}
+
+const ReleaseLink = ({ agent, version }) => {
+  if (!version) return ''
+  if (agent === 'js-ipfs') {
+    const releaseUrl = `${providers['js-ipfs'].url}/releases/tag/v${version}`
+    return (
+      <a href={releaseUrl} className='link blue ml2' target='_blank'>
+        v{version}
+      </a>
+    )
+  }
+  return ` v${version}`
 }
 
 export default VersionLink
