@@ -1,21 +1,22 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
+import { translate } from 'react-i18next'
 import Toast from './Toast'
 
-const Notify = ({ notify, notifyContent, doNotifyDismiss }) => {
+const Notify = ({ t, notify, notifyI18nKey, doNotifyDismiss }) => {
   const { show, error } = notify
   if (!show) return null
 
   return (
     <Toast error={error} onDismiss={doNotifyDismiss}>
-      {notifyContent}
+      {t(notifyI18nKey)}
     </Toast>
   )
 }
 
 export default connect(
   'selectNotify',
-  'selectNotifyContent',
+  'selectNotifyI18nKey',
   'doNotifyDismiss',
-  Notify
+  translate('notify')(Notify)
 )

@@ -1,5 +1,4 @@
 import { createSelector } from 'redux-bundler'
-import i18n from '../i18n'
 
 /*
 # Notify
@@ -11,7 +10,7 @@ import i18n from '../i18n'
 const defaultState = {
   show: false,
   error: false,
-  contentId: null
+  eventId: null
 }
 
 const notify = {
@@ -22,28 +21,30 @@ const notify = {
       return { ...state, show: false }
     }
 
-    if (action.type.match(/_FETCH_FAILED$/)) {
+    if (action.type.match(/_FETCH_FAILED$/) || action.type.match(/^FILE_\w+_FAILED$/)) {
       if (action.type === 'CONFIG_FETCH_FAILED') {
         // TODO: this avoids flashing the error message when booting with window.ipfs, but it's very loose.
         return state
       }
-      if (state.contentId !== 'FETCH_FAILED') {
+      if (state.eventId !== 'FETCH_FAILED') {
         return {
           ...state,
           show: true,
           error: true,
-          contentId: 'FETCH_FAILED'
+          eventId: 'FETCH_FAILED'
         }
       }
     }
 
-    if (action.type.match(/_FETCH_FINISHED$/)) {
+    if (action.type.match(/_FETCH_FINISHED$/) || action.type.match(/^FILE_\w+_FINISHED$/)) {
+      // Finsihing with an error is not a good finish.
+      // TODO: fix explore bundle to not do that.
       if (action.payload && action.payload.error) return state
-      if (state.contentId === 'FETCH_FAILED') {
+      if (state.eventId === 'FETCH_FAILED') {
         return {
           ...state,
           error: false,
-          contentId: 'FETCH_FINISHED',
+          eventId: 'FETCH_FINISHED',
           lastSuccess: Date.now()
         }
       }
@@ -54,23 +55,26 @@ const notify = {
 
   selectNotify: state => state.notify,
 
-  selectNotifyContent: state => {
-    const { contentId } = state.notify
-    const provider = (state.ipfs && state.ipfs.provider) || 'js-ipfs-api'
+  selectNotifyI18nKey: createSelector(
+    'selectNotify',
+    'selectIpfsProvider',
+    (notify, provider) => {
+      const { eventId } = notify
 
-    if (contentId === 'FETCH_FAILED') {
-      if (provider === 'window.ipfs') {
-        return i18n.t('notify:windowIpfsRequestFailed')
+      if (eventId === 'FETCH_FAILED') {
+        if (provider === 'window.ipfs') {
+          return 'windowIpfsRequestFailed'
+        }
+        return 'ipfsApiRequestFailed'
       }
-      return i18n.t('notify:ipfsApiRequestFailed')
-    }
 
-    if (contentId === 'FETCH_FINISHED') {
-      return i18n.t('notify:ipfsIsBack')
-    }
+      if (eventId === 'FETCH_FINISHED') {
+        return 'ipfsIsBack'
+      }
 
-    return contentId
-  },
+      return eventId
+    }
+  ),
 
   doNotifyDismiss: () => ({ dispatch }) => dispatch({ type: 'NOTIFY_DISMISSED' }),
 
@@ -79,7 +83,7 @@ const notify = {
     'selectAppTime',
     'selectNotify',
     (appTime, notify) => {
-      if (notify.contentId === 'FETCH_FINISHED' && notify.show && appTime - notify.lastSuccess > 3000) {
+      if (notify.eventId === 'FETCH_FINISHED' && notify.show && appTime - notify.lastSuccess > 3000) {
         return { type: 'NOTIFY_DISMISSED' }
       }
     }
