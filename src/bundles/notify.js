@@ -29,6 +29,7 @@ const notify = {
       }
       if (state.contentId !== 'FETCH_FAILED') {
         return {
+          ...state,
           show: true,
           error: true,
           contentId: 'FETCH_FAILED'
@@ -73,10 +74,11 @@ const notify = {
 
   doNotifyDismiss: () => ({ dispatch }) => dispatch({ type: 'NOTIFY_DISMISSED' }),
 
+  // Dismiss the "all ok" message after 3 seconds
   reactNotifyOkDismiss: createSelector(
-    'selectNotify',
     'selectAppTime',
-    (notify, appTime) => {
+    'selectNotify',
+    (appTime, notify) => {
       if (notify.contentId === 'FETCH_FINISHED' && notify.show && appTime - notify.lastSuccess > 3000) {
         return { type: 'NOTIFY_DISMISSED' }
       }
