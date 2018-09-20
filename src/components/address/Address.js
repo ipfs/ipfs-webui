@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Address = ({ value }) => {
+  if (!value) return null
   const parts = value.split('/')
   return (
     <div className='charcoal-muted monospace'>
