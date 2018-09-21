@@ -94,9 +94,9 @@ it('should notify about file errors', async () => {
     notifyBundle
   )()
   expect(store.selectNotify().show).toEqual(false)
-  store.dispatch({ type: 'FILE_WRITE_FAILED', payload: { error: new Error('test') } })
+  store.dispatch({ type: 'FILES_WRITE_FAILED', payload: { error: new Error('test') } })
   expect(store.selectNotify().show).toEqual(true)
   expect(store.selectNotify().error).toEqual(true)
   expect(store.selectNotifyI18nKey()).toEqual('ipfsApiRequestFailed')
-  store.dispatch({ type: 'FILE_WRITE_FINISHED' })
+  store.dispatch({ type: 'FILES_WRITE_FINISHED' })
 })

@@ -4,7 +4,7 @@ import { createSelector } from 'redux-bundler'
 # Notify
 - show error when ipfs goes away.
 - show ok when it comes back.
-- dismiss the the ok after 2s
+- dismiss the the ok after 3s
 */
 
 const defaultState = {
@@ -21,7 +21,7 @@ const notify = {
       return { ...state, show: false }
     }
 
-    if (action.type.match(/_FETCH_FAILED$/) || action.type.match(/^FILE_\w+_FAILED$/)) {
+    if (action.type.match(/_FETCH_FAILED$/) || action.type.match(/^FILES_\w+_FAILED$/)) {
       if (action.type === 'CONFIG_FETCH_FAILED') {
         // TODO: this avoids flashing the error message when booting with window.ipfs, but it's very loose.
         return state
@@ -36,7 +36,7 @@ const notify = {
       }
     }
 
-    if (action.type.match(/_FETCH_FINISHED$/) || action.type.match(/^FILE_\w+_FINISHED$/)) {
+    if (action.type.match(/_FETCH_FINISHED$/) || action.type.match(/^FILES_\w+_FINISHED$/)) {
       // Finsihing with an error is not a good finish.
       // TODO: fix explore bundle to not do that.
       if (action.payload && action.payload.error) return state
