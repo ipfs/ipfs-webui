@@ -26,7 +26,7 @@ export default composeBundles(
   redirectsBundle,
   statsBundle,
   filesBundle(),
-  exploreBundle,
+  exploreBundle(() => import('ipld')),
   configBundle,
   configSaveBundle,
   nodeBandwidthBundle,
