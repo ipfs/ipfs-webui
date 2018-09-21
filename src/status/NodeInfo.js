@@ -89,9 +89,9 @@ class NodeInfo extends React.Component {
 
     return (
       <div className='f6'>
-        <Title>{t('nodeInfo')}</Title>
         <div className='flex flex-column flex-row-l flex-wrap-l justify-between-l'>
           <div className='w-100 w-60-l pr2-l' >
+            <Title>{t('nodeInfo')}</Title>
             <Block>
               <Label>{t('peerId')}</Label>
               <Value>{this.getField(ipfsIdentity, 'id')}</Value>
@@ -118,15 +118,18 @@ class NodeInfo extends React.Component {
               <Value>{peers ? peers.length : 0}</Value>
             </Block>
           </div>
-          <div className='w-100 w-40-l pl2-l flex-wrap flex-no-wrap-l flex justify-between'>
-            <Graph
-              title={t('upSpeed')}
-              color='#69c4cd'
-              {...upSpeed} />
-            <Graph
-              title={t('downSpeed')}
-              color='#f39021'
-              {...downSpeed} />
+          <div className='dn db-l w-100 w-40-l pl2-l'>
+            <Title>{t('networkTraffic')}</Title>
+            <div className='flex-wrap flex-no-wrap-l flex justify-between'>
+              <Graph
+                title={t('upSpeed')}
+                color='#69c4cd'
+                {...upSpeed} />
+              <Graph
+                title={t('downSpeed')}
+                color='#f39021'
+                {...downSpeed} />
+            </div>
           </div>
         </div>
 

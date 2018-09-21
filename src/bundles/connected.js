@@ -6,8 +6,9 @@ const connected = {
   name: 'status',
   selectIpfsConnected: createSelector(
     'selectIpfsReady',
-    'selectStatsIsWaitingToRetry',
-    (ipfsReady, statsError) => ipfsReady && !statsError
+    'selectStatsLastSuccess',
+    'selectStatsLastError',
+    (ipfsReady, lastSuccess, lastError) => ipfsReady && lastSuccess && lastSuccess > lastError
   )
 }
 

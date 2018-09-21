@@ -4,7 +4,6 @@ import { connect } from 'redux-bundler-react'
 import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
 import { IpldExploreForm } from 'ipld-explorer-components'
-import AsyncRequestLoader from './loader/AsyncRequestLoader'
 import { DragDropContext } from 'react-dnd'
 import DnDBackend from './lib/dnd-backend'
 import ComponentLoader from './loader/ComponentLoader'
@@ -51,9 +50,6 @@ export class App extends Component {
               }
             </main>
           </div>
-        </div>
-        <div className='absolute top-0 left-0 pa2'>
-          <AsyncRequestLoader />
         </div>
         <Notify />
       </div>

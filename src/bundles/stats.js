@@ -12,6 +12,8 @@ const bundle = createAsyncResourceBundle({
   checkIfOnline: false
 })
 
+bundle.selectStatsLastSuccess = state => state.stats.lastSuccess
+
 // Fetch the config if we don't have it or it's more than `staleAfter` ms old
 bundle.reactStatsFetch = createSelector(
   'selectStatsShouldUpdate',
