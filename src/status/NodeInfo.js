@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
 import Address from '../components/address/Address'
+import ProviderLink from '../components/provider-link/ProviderLink'
+import VersionLink from '../components/version-link/VersionLink'
 import Speedometer from './Speedometer'
 import { Title } from './Commons'
 import 'details-polyfill'
@@ -76,7 +78,7 @@ class NodeInfo extends React.Component {
   }
 
   render () {
-    const { t, ipfsIdentity, peers } = this.props
+    const { t, ipfsIdentity, ipfsProvider, ipfsApiAddress, peers } = this.props
     const { downSpeed, upSpeed } = this.state
 
     let addresses = null
@@ -87,35 +89,47 @@ class NodeInfo extends React.Component {
 
     return (
       <div className='f6'>
-        <Title>{t('nodeInfo')}</Title>
         <div className='flex flex-column flex-row-l flex-wrap-l justify-between-l'>
           <div className='w-100 w-60-l pr2-l' >
+            <Title>{t('nodeInfo')}</Title>
             <Block>
               <Label>{t('peerId')}</Label>
               <Value>{this.getField(ipfsIdentity, 'id')}</Value>
             </Block>
             <Block>
-              <Label>{t('version')}</Label>
-              <Value>{this.getVersion(ipfsIdentity)}</Value>
+              <Label>{t('api')}</Label>
+              <Value>
+                {ipfsProvider === 'js-ipfs-api' && (
+                  <Address value={ipfsApiAddress} />
+                )}
+                {ipfsProvider !== 'js-ipfs-api' && (
+                  <ProviderLink name={ipfsProvider} />
+                )}
+              </Value>
             </Block>
             <Block>
-              <Label>{t('provider')}</Label>
-              <Value>{'window.ipfs'}</Value>
+              <Label>{t('version')}</Label>
+              <Value>
+                <VersionLink agentVersion={this.getField(ipfsIdentity, 'agentVersion')} />
+              </Value>
             </Block>
             <Block>
               <Label>{t('peers')}</Label>
               <Value>{peers ? peers.length : 0}</Value>
             </Block>
           </div>
-          <div className='w-100 w-40-l pl2-l flex-wrap flex-no-wrap-l flex justify-between'>
-            <Graph
-              title={t('upSpeed')}
-              color='#69c4cd'
-              {...upSpeed} />
-            <Graph
-              title={t('downSpeed')}
-              color='#f39021'
-              {...downSpeed} />
+          <div className='dn db-l w-100 w-40-l pl2-l'>
+            <Title>{t('networkTraffic')}</Title>
+            <div className='flex-wrap flex-no-wrap-l flex justify-between'>
+              <Graph
+                title={t('upSpeed')}
+                color='#69c4cd'
+                {...upSpeed} />
+              <Graph
+                title={t('downSpeed')}
+                color='#f39021'
+                {...downSpeed} />
+            </div>
           </div>
         </div>
 
@@ -126,10 +140,12 @@ class NodeInfo extends React.Component {
               <Label>{t('publicKey')}</Label>
               <Value advanced>{this.getField(ipfsIdentity, 'publicKey')}</Value>
             </Block>
-            <Block>
-              <Label>{t('addresses')}</Label>
-              <Value advanced>{addresses}</Value>
-            </Block>
+            {addresses && addresses.length ? (
+              <Block>
+                <Label>{t('addresses')}</Label>
+                <Value advanced>{addresses}</Value>
+              </Block>
+            ) : null}
           </div>
         </details>
       </div>
@@ -139,6 +155,8 @@ class NodeInfo extends React.Component {
 
 export default connect(
   'selectIpfsIdentity',
+  'selectIpfsProvider',
+  'selectIpfsApiAddress',
   'selectPeers',
   'selectStats',
   translate('status')(NodeInfo)

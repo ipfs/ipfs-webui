@@ -5,7 +5,7 @@ import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
-const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsApiAddress }) => {
+const WelcomePage = ({ doUpdateIpfsApiAddress, ipfsInitFailed, ipfsConnected, ipfsReady, ipfsApiAddress }) => {
   if (!ipfsInitFailed && !ipfsReady) {
     return <ComponentLoader pastDelay />
   }
@@ -18,7 +18,7 @@ const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsAp
       <div className='flex'>
         <div className='flex-auto pr3 lh-copy charcoal'>
           <Box>
-            { ipfsReady ? (
+            { ipfsConnected ? (
               <div>
                 <h1 className='montserrat fw2 navy ma0 f3 green'>Connected to IPFS</h1>
                 <p>
@@ -54,7 +54,7 @@ const WelcomePage = ({ doUpdateIpfsAPIAddress, ipfsInitFailed, ipfsReady, ipfsAp
             </p>
             <ApiAddressForm
               defaultValue={ipfsApiAddress}
-              updateAddress={doUpdateIpfsAPIAddress} />
+              updateAddress={doUpdateIpfsApiAddress} />
           </Box>
         </div>
         <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{ maxWidth: '40%' }}>
@@ -79,11 +79,6 @@ class ApiAddressForm extends React.Component {
 
   onChange = (event) => {
     let val = event.target.value
-
-    if (this.props.onChange) {
-      val = this.props.onChange(val)
-    }
-
     this.setState({ value: val })
   }
 
@@ -117,8 +112,9 @@ class ApiAddressForm extends React.Component {
 }
 
 export default connect(
-  'doUpdateIpfsAPIAddress',
+  'doUpdateIpfsApiAddress',
   'selectIpfsInitFailed',
+  'selectIpfsConnected',
   'selectIpfsReady',
   'selectIpfsApiAddress',
   WelcomePage

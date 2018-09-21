@@ -217,10 +217,11 @@ export default (opts = {}) => {
 
     doFilesFetch: () => async ({ store, ...args }) => {
       const isReady = store.selectIpfsReady()
+      const isConnected = store.selectIpfsConnected()
       const isFetching = store.selectFilesIsFetching()
       const path = store.selectFilesPathFromHash()
 
-      if (isReady && !isFetching && path) {
+      if (isReady && isConnected && !isFetching && path) {
         fetchFiles()({ store, ...args })
       }
     },

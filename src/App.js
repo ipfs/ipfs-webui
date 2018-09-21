@@ -4,10 +4,11 @@ import { connect } from 'redux-bundler-react'
 import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
 import { IpldExploreForm } from 'ipld-explorer-components'
-import AsyncRequestLoader from './loader/AsyncRequestLoader'
 import { DragDropContext } from 'react-dnd'
 import DnDBackend from './lib/dnd-backend'
 import ComponentLoader from './loader/ComponentLoader'
+import Notify from './components/notify/Notify'
+import Connected from './components/connected/Connected'
 
 export class App extends Component {
   static propTypes = {
@@ -34,9 +35,12 @@ export class App extends Component {
             <NavBar />
           </div>
           <div className='flex-auto'>
-            <div style={{ background: '#F0F6FA', padding: '20px 40px 15px' }}>
-              <div style={{ maxWidth: 560 }}>
+            <div className='flex items-center' style={{ background: '#F0F6FA', padding: '20px 40px 15px' }}>
+              <div className='' style={{ width: 560, maxWidth: '80%' }}>
                 <IpldExploreForm />
+              </div>
+              <div className='flex-auto tr'>
+                <Connected />
               </div>
             </div>
             <main className='bg-white' style={{ padding: '40px' }}>
@@ -47,9 +51,7 @@ export class App extends Component {
             </main>
           </div>
         </div>
-        <div className='absolute top-0 left-0 pa2'>
-          <AsyncRequestLoader />
-        </div>
+        <Notify />
       </div>
     )
   }

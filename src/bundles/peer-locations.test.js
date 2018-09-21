@@ -31,6 +31,13 @@ function createMockIpfsBundle (ipfs) {
   }
 }
 
+function createMockConnectedBundle () {
+  return {
+    name: 'connected',
+    selectIpfsConnected: () => true
+  }
+}
+
 const mockPeersBundle = {
   name: 'peers',
   reducer (state = { data: [] }, action) {
@@ -94,6 +101,7 @@ function expectLocation (obj) {
 it('should get locations for peers', async () => {
   const store = composeBundlesRaw(
     createReactorBundle(),
+    createMockConnectedBundle(),
     createMockIpfsBundle(createMockIpfs({ maxLatency: 1 })),
     mockPeersBundle,
     createPeerLocationsBundle({
@@ -128,6 +136,7 @@ it('should get locations for peers', async () => {
 it('should fail on non IPv4 address', async () => {
   const store = composeBundlesRaw(
     createReactorBundle(),
+    createMockConnectedBundle(),
     createMockIpfsBundle(createMockIpfs({ maxLatency: 1 })),
     mockPeersBundle,
     createPeerLocationsBundle({
@@ -168,6 +177,7 @@ it('should fail on non IPv4 address', async () => {
 it('should resolve alternative address for failed address lookup', async () => {
   const store = composeBundlesRaw(
     createReactorBundle(),
+    createMockConnectedBundle(),
     createMockIpfsBundle(createMockIpfs({ maxLatency: 1 })),
     mockPeersBundle,
     createPeerLocationsBundle()

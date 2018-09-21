@@ -5,6 +5,7 @@
   "addresses": "Adresser",
   "nodeInfo": "Nod-info",
   "peerId": "Peer ID",
+  "api": "API",
   "version": "Version",
   "advanced": "Avancerad",
   "publicKey": "Publik nyckel",

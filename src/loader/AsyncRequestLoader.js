@@ -12,6 +12,6 @@ export const AsyncRequestLoader = ({ asyncActive }) => (
   </div>
 )
 
-const deboucedComponent = debounce(AsyncRequestLoader, 1000, { leading: true })
+const debouncedComponent = debounce(AsyncRequestLoader, 1000, { leading: true })
 
-export default connect('selectAsyncActive', deboucedComponent)
+export default connect('selectAsyncActive', debouncedComponent)

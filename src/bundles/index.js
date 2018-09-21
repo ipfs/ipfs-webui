@@ -14,6 +14,9 @@ import configBundle from './config'
 import configSaveBundle from './config-save'
 import navbarBundle from './navbar'
 import statsBundle from './stats'
+import notifyBundle from './notify'
+import connectedBundle from './connected'
+import retryInitBundle from './retry-init'
 
 export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
@@ -29,5 +32,8 @@ export default composeBundles(
   nodeBandwidthBundle,
   nodeBandwidthChartBundle(),
   peersBundle,
-  peerLocationsBundle()
+  peerLocationsBundle(),
+  notifyBundle,
+  connectedBundle,
+  retryInitBundle
 )
