@@ -9,9 +9,9 @@
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/project-IPFS-blue.svg)](http://ipfs.io/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![Build Status](https://travis-ci.org/ipfs-shipyard/ipfs-webui.svg?branch=revamp)](https://travis-ci.org/ipfs-shipyard/ipfs-webui) [![dependencies Status](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp/status.svg)](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp)
 
 
-The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work and it's part of the wider [IPFS GUI project](https://github.com/ipfs/ipfs-gui)
+The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work and it's part of the wider [IPFS GUI project](https://github.com/ipfs/ipfs-gui).
 
-The app uses the IPFS http api to get data from the ipfs node. It will use the `window.ipfs` api provided by the [IPFS Companion](https://github.com/ipfs-shipyard/ipfs-companion) web-extension where available, and fallback to using [js-ipfs-api](https://github.com/ipfs/js-ipfs-api) where not.
+The app uses the IPFS HTTP API to get data from the ipfs node. It will use the `window.ipfs` api provided by the [IPFS Companion](https://github.com/ipfs-shipyard/ipfs-companion) web-extension where available, and fallback to using [js-ipfs-api](https://github.com/ipfs/js-ipfs-api) where not.
 
 The app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#table-of-contents).
 
@@ -19,8 +19,8 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 
 With `node` >= 8.9 and `npm` >= 6.0 installed, run
 
-```js
-npm install
+```sh
+> npm install
 ```
 
 ## Usage
@@ -32,17 +32,17 @@ In separate shells run the following:
 
 ```sh
 # Run the dev server @ http://localhost:3000
-npm start
+> npm start
 ```
 
 ```sh
 # Run the unit tests
-npm test
+> npm test
 ```
 
 ```sh
 # Run the UI component viewer @ http://localhost:9009
-npm run storybook
+> npm run storybook
 ```
 
 ## Config your IPFS Daemon
@@ -75,7 +75,7 @@ To create an optimized static build of the app, output to the `build` directory:
 
 ```sh
 # Build out the html, css & jss to ./build
-npm run build
+> npm run build
 ```
 
 ## Test
@@ -83,36 +83,36 @@ npm run build
 The following command will run the app tests, watch source files and re-run the tests when changes are made:
 
 ```sh
-npm test
+> npm test
 ```
 
-The uses Jest to run the isolated unit tests. Unit test files are located next to the component they test and have the same file name, but with the extension `.test.js`
+The WebUI uses Jest to run the isolated unit tests. Unit test files are located next to the component they test and have the same file name, but with the extension `.test.js`
 
 ## End-to-end tests
 
-The end-to-end tests (e2e) test the full app in a headless Chromium browser. They require an http server be running to serve the app.
+The end-to-end tests (e2e) test the full app in a headless Chromium browser. They require an http server to be running to serve the app.
 
 In dev, run `npm start` in another shell before starting the tests
 
 ```
 # Run the end-to-end tests
-npm run test:e2e
+> npm run test:e2e
 ```
 
 By default the test run headless, so you won't see the the browser. To debug test errors, it can be helpful to see the robot clicking around the site. To disable headless mode and see the browser, set the environment variable `DEBUG=true`
 
 ```
 # See the end-to-end tests in a browser
-DEBUG=true npm run test:e2e
+> DEBUG=true npm run test:e2e
 ```
 
 In a **continuous integration** environment we lint the code, run the unit tests, build the app, start an http server and run the unit e2e tests.
 
 ```sh
-npm run lint
-npm test
-npm run build
-npm run test:ci:e2e
+> npm run lint
+> npm test
+> npm run build
+> npm run test:ci:e2e
 ```
 
 ## Coverage
@@ -120,7 +120,7 @@ npm run test:ci:e2e
 To do a single run of the tests and generate a coverage report, run the following:
 
 ```sh
-npm run test:coverage
+> npm run test:coverage
 ```
 
 ## Lint
@@ -128,7 +128,7 @@ npm run test:coverage
 Perform [`standard`](https://standardjs.com/) linting on the code:
 
 ```sh
-npm run lint
+> npm run lint
 ```
 
 ## Analyze
@@ -137,7 +137,7 @@ To inspect the built bundle for bundled modules and their size, first `build` th
 
 ```sh
 # Run bundle
-npm run analyze
+> npm run analyze
 ```
 
 ## Translations
