@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - 8.11
+  - 8.12
 before_install:
-  - npm i -g npm@6.0.0
+  - npm i -g npm@6.4.1
 env:
   - NO_SANDBOX=true
 install: npm ci
