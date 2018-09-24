@@ -1,6 +1,6 @@
 {
-  "name": "ipfs-webui-next",
-  "version": "0.0.0",
+  "name": "ipfs-webui",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
