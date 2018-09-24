@@ -146,11 +146,6 @@ The translations are stored on [./public/locales](./public/locales) and the Engl
 
 We use Transifex to help us translate WebUI to another languages. If you're interested in contributing, go to [our page on Transifex](https://www.transifex.com/ipfs/ipfs-webui/translate/), create an account, pick a language and start translating.
 
-### To Start Translating
-
-1. [Create Transifex account](https://www.transifex.com/signup/?join_project=ipfs-webui)
-2. Go to https://www.transifex.com/ipfs/ipfs-webui/translate/, pick a language, and start translating
-
 ### To Sync Translations
 
 1. Install and set up [command-line client (`tx`)](https://docs.transifex.com/client/installing-the-client)
@@ -167,7 +162,7 @@ We've split up our files by tab, so you can find the translations files at
 
 ..etc. The filename is the **namespace** that `i18next` will look up to find the keys for the right section.
 
-We define our **source file** to be the `en` locale, in `public/locales/en/*`. Developers should update those files directly and push the changes to Transifex for our lovely team of translators to ruminate on.
+We define our **source file** to be the `en` locale, in `public/locales/en/*`. Developers should update those files directly. Changes to from master branch are fetched by Transifex automatically every day for our lovely team of translators to ruminate on.
 
 All other locales are `pull`ed from Transifex service via the `tx` commandline tool.
 
@@ -189,37 +184,11 @@ tx WARNING:  -> en: public/locales/en/explore.json
 - `-r ipld-explorer.explore-json` means just `explore.json` file. The mappings of resource name to files
 is in the `.tx/config` file.
 
-Now make your changes and add great keys and snappy `en` default values for them. When you are done, commit your changes as per usual, then share them with the translators by pushing them:
+Now make your changes and add great keys and snappy `en` default values for them. When you are done, commit your changes as per usual. Changes to from master branch are fetched by Transifex automatically.
 
-```console
-tx push -r ipld-explorer.explore-json -s
-tx INFO: Pushing resource ipld-explorer.explore-json
-tx INFO: Pushing source file (public/locales/en/explore.json)
-tx INFO: Done.
-```
+For **more info on our i18n process** at IPFS, check out:
 
-- `-r ipld-explorer.explore-json` means push changes in `explore.json`
-- `-s` means push just the source file (`public/locales/en`)
-
-### Language mapping
-
-Transifex use posix style `_` underscores when in it's locale tags to separate language tag and iso region code, so `en_GB`
-denotes `en` or English as the language, and `GB` or Great Britain as the region.
-
-Browsers and the IETF standard use hyphens as the separator, like `en-GB`. i18next looks up languages based on the hyphenated IETF language code, with hyphens rather than undercores so we tell the `tx` client to map those underscored country specific locales to the hypenated version in the config file `.tx/config` by adding:
-
-```
-lang_map = zh_CN: zh-CN, ko_KR: ko-KR
-```
-
-### Transifex 101
-
-- [Installing the Transifex Client](https://docs.transifex.com/client/installing-the-client)
-- [Understanding `.tx/config` file](https://docs.transifex.com/client/client-configuration#section-tx-config)
-- Manual sync via Transifex Client
-  -  [Using Transifex with GitHub in Your Development Workflow](https://docs.transifex.com/integrations/github)
-     - [Syncing a local project to Transifex with the Transifex Client](https://docs.transifex.com/integrations/github#section-using-the-client)
-- [en_US vs. en-US - Which Is Correct?](http://codel10n.com/what-is-correct-locale-tag-en_us-vs-en-us/)
+- https://github.com/ipfs/i18n
 
 ## Releasing a new version of the WebUI.
 
