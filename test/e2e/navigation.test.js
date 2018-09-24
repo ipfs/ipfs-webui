@@ -25,7 +25,7 @@ it('Navigation test: node running', async () => {
 
   await addMockIpfs(page)
 
-  const waitForTitle = title => page.waitForFunction(`document.title === '${title}'`, { timeout: 5000 })
+  const waitForTitle = title => page.waitForFunction(`document.title === '${title}'`, { timeout: 8000 })
 
   await page.goto(appUrl)
   await waitForTitle('Status - IPFS')

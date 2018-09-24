@@ -17,7 +17,7 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 
 ## Install
 
-With `node` >= 8.9 and `npm` >= 6.0 installed, run
+With `node` >= 8.12 and `npm` >= 6.4.1 installed, run
 
 ```sh
 > npm install
