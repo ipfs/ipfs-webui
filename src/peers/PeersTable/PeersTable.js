@@ -46,7 +46,7 @@ export class PeersTable extends React.Component {
 
     return (
       <div className='flex w-100 bg-white-70' style={{ 'height': `${tableHeight}px` }}>
-        { peerLocationsForSwarm && <AutoSizer>
+        { peerLocationsForSwarm && <AutoSizer disableHeight>
           {({ width }) => (
             <Table
               className='tl fw4 w-100 f7'
