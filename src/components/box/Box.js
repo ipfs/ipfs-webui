@@ -1,13 +1,18 @@
 import React from 'react'
+import ErrorBoundary from '../error/ErrorBoundary'
 
-const Box = ({
+export const Box = ({
   className = 'pa4',
   style,
   children,
   ...props
 }) => {
   return (
-    <div className={className} style={{background: '#fbfbfb', ...style}}>{children}</div>
+    <div className={className} style={{ background: '#fbfbfb', ...style }}>
+      <ErrorBoundary>
+        {children}
+      </ErrorBoundary>
+    </div>
   )
 }
 

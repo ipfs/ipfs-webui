@@ -1,45 +1,35 @@
 @import "../node_modules/tachyons";
+/* They forgot to include word break: https://github.com/tachyons-css/tachyons/issues/563 */
+@import "../node_modules/tachyons/src/_word-break.css";
 @import "../node_modules/ipfs-css";
 
-.focus-underline:focus {
-  text-decoration: underline;
-}
-
-.focus-outline:focus {
-  outline: 0;
-  box-shadow: 0 0 0 .2rem rgba(201, 210, 215, .4);
-}
-
-.invalid-input {
-  border-color: #f36149;
-}
-
-.invalid-input:focus {
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(243, 97, 73, 0.4);
-}
-
-.valid-input {
-  border-color: #0aca9f;
-}
-
-.valid-input:focus {
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(10, 202, 159, 0.4);
-}
-
-.stroke-current-color {
-  stroke: currentColor;
-}
-
-.fill-current-color {
-  fill: currentColor;
+body {
+  overflow-y: scroll;
 }
 
 .placeholder-light::placeholder{
   color: #CAD3D8;
 }
 
-.no-select {
-  user-select: none;
+.bg-near-white {
+  background-color: #fbfbfb;
+}
+
+@media screen and (min-width: 65em)  {
+  .float-on-left-l {
+    position: absolute;
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  .hide-child-l .child {
+    opacity: 0;
+    transition: opacity .15s ease-in;
+  }
+  .hide-child-l:hover  .child,
+  .hide-child-l:focus  .child,
+  .hide-child-l:active .child {
+    opacity: 1;
+    transition: opacity .15s ease-in;
+  }
 }

@@ -1,20 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { translate } from 'react-i18next'
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
-import {Dropdown, DropdownMenu} from '@tableflip/react-dropdown'
+import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
 import NewFolderModal from './NewFolderModal'
+import { NativeTypes } from 'react-dnd-html5-backend'
+import { DropTarget } from 'react-dnd'
 
-const Option = ({children, onClick, className = '', ...props}) => (
-  <a className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>
-    {children}
-  </a>
-)
-
-const AddButton = ({ progress = null, ...props }) => {
+const AddButton = translate('files')(({ progress = null, t, tReady, ...props }) => {
   const sending = progress !== null
   let cls = 'Button f7 relative transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline'
   if (sending) {
@@ -24,30 +21,33 @@ const AddButton = ({ progress = null, ...props }) => {
   }
 
   return (
-    <button disabled={sending} className={cls} style={{width: '120px'}} {...props}>
+    <button disabled={sending} className={cls} style={{ width: '120px' }} {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
-        {sending ? `${progress.toFixed(0)}%` : '+ Add to IPFS'}
+        {sending ? `${progress.toFixed(0)}%` : `+ ${t('addToIPFS')}`}
       </div>&nbsp;
 
       { sending &&
-        <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{width: `${progress}%`, background: 'rgba(0,0,0,0.1)'}} />
+        <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{ width: `${progress}%`, background: 'rgba(0,0,0,0.1)' }} />
       }
     </button>
   )
-}
+})
 
-export default class FileInput extends React.Component {
+class FileInput extends React.Component {
   static propTypes = {
     onMakeDir: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
     onAddByPath: PropTypes.func.isRequired,
-    addProgress: PropTypes.number
+    addProgress: PropTypes.number,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
   state = {
     dropdown: false,
     byPathModal: false,
-    newFolderModal: false
+    newFolderModal: false,
+    force100: false
   }
 
   toggleDropdown = () => {
@@ -63,6 +63,15 @@ export default class FileInput extends React.Component {
       s[`${which}Modal`] = !s[`${which}Modal`]
       return s
     })
+  }
+
+  componentDidUpdate (prev) {
+    if (this.props.addProgress === 100 && prev.addProgress !== 100) {
+      this.setState({ force100: true })
+      setTimeout(() => {
+        this.setState({ force100: false })
+      }, 2000)
+    }
   }
 
   onInputChange = (input) => () => {
@@ -82,36 +91,35 @@ export default class FileInput extends React.Component {
   }
 
   render () {
-    return (
+    let { progress, t } = this.props
+    if (this.state.force100) {
+      progress = 100
+    }
+
+    return this.props.connectDropTarget(
       <div className={this.props.className}>
         <Dropdown>
-          <AddButton progress={this.props.addProgress} onClick={this.toggleDropdown} />
+          <AddButton progress={progress} onClick={this.toggleDropdown} />
           <DropdownMenu
             top={3}
-            className='br2 charcoal'
-            boxShadow='rgba(105, 196, 205, 0.5) 0px 1px 10px 0px'
-            width={200}
-            alignRight
             open={this.state.dropdown}
             onDismiss={this.toggleDropdown} >
-            <nav className='flex flex-column'>
-              <Option onClick={() => this.filesInput.click()}>
-                <DocumentIcon className='fill-aqua w2 mr1' />
-                Add file
-              </Option>
-              <Option onClick={() => this.folderInput.click()}>
-                <FolderIcon className='fill-aqua w2 mr1' />
-                Add folder
-              </Option>
-              <Option onClick={this.toggleModal('byPath')}>
-                <DecentralizationIcon className='fill-aqua w2 mr1' />
-                Add by path
-              </Option>
-              <Option className='bt border-snow' onClick={this.toggleModal('newFolder')}>
-                <FolderIcon className='fill-aqua w2 mr1' />
-                New folder
-              </Option>
-            </nav>
+            <Option onClick={() => this.filesInput.click()}>
+              <DocumentIcon className='fill-aqua w2 mr1' />
+              {t('addFile')}
+            </Option>
+            <Option onClick={() => this.folderInput.click()}>
+              <FolderIcon className='fill-aqua w2 mr1' />
+              {t('addFolder')}
+            </Option>
+            <Option onClick={this.toggleModal('byPath')}>
+              <DecentralizationIcon className='fill-aqua w2 mr1' />
+              {t('addByPath')}
+            </Option>
+            <Option className='bt border-snow' onClick={this.toggleModal('newFolder')}>
+              <FolderIcon className='fill-aqua w2 mr1' />
+              {t('newFolder')}
+            </Option>
           </DropdownMenu>
         </Dropdown>
 
@@ -147,3 +155,21 @@ export default class FileInput extends React.Component {
     )
   }
 }
+
+const dropTarget = {
+  drop: ({ onAddFiles }, monitor) => {
+    if (monitor.didDrop()) {
+      return
+    }
+
+    onAddFiles(monitor.getItem())
+  }
+}
+
+const dropCollect = (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  canDrop: monitor.canDrop()
+})
+
+export default DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FileInput))

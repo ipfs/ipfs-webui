@@ -1,29 +1,39 @@
 import { composeBundles } from 'redux-bundler'
 
-import ipfsBundle from './ipfs'
-import exploreBundle from './explore'
+import ipfsBundle from 'ipfs-redux-bundle'
+import { exploreBundle } from 'ipld-explorer-components'
 import appIdle from './app-idle'
 import nodeBandwidthChartBundle from './node-bandwidth-chart'
 import nodeBandwidthBundle from './node-bandwidth'
 import peersBundle from './peers'
-import peerBandwidthBundle from './peer-bandwidth'
+import peerLocationsBundle from './peer-locations'
 import routesBundle from './routes'
 import redirectsBundle from './redirects'
 import filesBundle from './files'
 import configBundle from './config'
 import configSaveBundle from './config-save'
+import navbarBundle from './navbar'
+import statsBundle from './stats'
+import notifyBundle from './notify'
+import connectedBundle from './connected'
+import retryInitBundle from './retry-init'
 
 export default composeBundles(
-  appIdle({idleTimeout: 5000}),
-  ipfsBundle,
-  exploreBundle,
+  appIdle({ idleTimeout: 5000 }),
+  ipfsBundle(),
+  navbarBundle,
+  routesBundle,
+  redirectsBundle,
+  statsBundle,
+  filesBundle(),
+  exploreBundle(() => import('ipld')),
+  configBundle,
+  configSaveBundle,
   nodeBandwidthBundle,
   nodeBandwidthChartBundle(),
   peersBundle,
-  peerBandwidthBundle(),
-  routesBundle,
-  redirectsBundle,
-  filesBundle,
-  configBundle,
-  configSaveBundle
+  peerLocationsBundle(),
+  notifyBundle,
+  connectedBundle,
+  retryInitBundle
 )

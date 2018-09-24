@@ -1,25 +1,22 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { connect } from 'redux-bundler-react'
+import { translate } from 'react-i18next'
 
-export function PeersPage ({ peers }) {
-  return (
-    <div data-id='PeersPage'>
-      <Helmet>
-        <title>Peers - IPFS</title>
-      </Helmet>
-      <h1 data-id='title'>Peers</h1>
-      {peers ? (
-        peers.map((p, i) => {
-          const id = p.peer.toB58String()
-          return <div key={i}>{id}</div>
-        })
-      ) : null}
-    </div>
-  )
-}
+// Components
+import Box from '../components/box/Box'
+import WorldMap from './WorldMap/WorldMap'
+import PeersTable from './PeersTable/PeersTable'
 
-export default connect(
-  'selectPeers',
-  PeersPage
+const PeersPage = ({ t }) => (
+  <div data-id='PeersPage'>
+    <Helmet>
+      <title>{t('title')} - IPFS</title>
+    </Helmet>
+    <Box className='pa3'>
+      <WorldMap />
+      <PeersTable />
+    </Box>
+  </div>
 )
+
+export default translate('peers')(PeersPage)

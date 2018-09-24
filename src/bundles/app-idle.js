@@ -4,7 +4,7 @@ import { debounce, ric, raf } from 'redux-bundler'
 const defaults = {
   idleTimeout: 2000,
   idleAction: 'APP_IDLE',
-  stopWhenTabInactive: true
+  stopWhenTabInactive: false
 }
 
 const ricOptions = { timeout: 500 }

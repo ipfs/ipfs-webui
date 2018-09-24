@@ -1,0 +1,15 @@
+{
+  "title": "Settings",
+  "save": "Shrani",
+  "saving": "Shranjujem...",
+  "reset": "Ponastavi",
+  "fetchingSettings": "Fetching settings...",
+  "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
+  "settingsUnavailable": "Settings not available. Please check your IPFS daemon is running.",
+  "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
+  "errorOccured": "An error occured while saving your changes",
+  "checkConsole": "Check the browser console for more info.",
+  "changesSaved": "Your changes have been saved",
+  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the IPFS daemon.",
+  "ipfsConfigDescription": "The IPFS config file is a json document. It is read once when the IPFS daemon is started. Save your changes then restart the IPFS daemon to apply them."
+}

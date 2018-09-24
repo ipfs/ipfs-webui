@@ -3,15 +3,15 @@ import { connect } from 'redux-bundler-react'
 import debounce from 'react-debounce-render'
 import { Loader } from './Loader'
 
-export const AsyncRequestLoader = ({asyncActive}) => (
+export const AsyncRequestLoader = ({ asyncActive }) => (
   <div
     title={asyncActive ? 'Fetching data...' : null}
     className={asyncActive ? 'o-100' : 'o-0'}
-    style={{transition: 'opacity 500ms linear'}}>
+    style={{ transition: 'opacity 500ms linear' }}>
     <Loader />
   </div>
 )
 
-const deboucedComponent = debounce(AsyncRequestLoader, 1000, {leading: true})
+const debouncedComponent = debounce(AsyncRequestLoader, 1000, { leading: true })
 
-export default connect('selectAsyncActive', deboucedComponent)
+export default connect('selectAsyncActive', debouncedComponent)

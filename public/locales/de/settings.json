@@ -1,0 +1,15 @@
+{
+  "title": "Einstellungen",
+  "save": "Speichern",
+  "saving": "Speichern...",
+  "reset": "Zurücksetzen",
+  "fetchingSettings": "Lade Einstellungen...",
+  "configApiNotAvailable": "Das IPFS Konfigurations API ist nicht verfügbar. Bitte deaktiviere die \"IPFS Begleiter\" Web Erweiterung und versuche es erneut.",
+  "settingsUnavailable": "Einstellungen nicht verfügbar. Bitte überprüfe ob dein IPFS Daemon läuft.",
+  "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
+  "errorOccured": "Beim Speichern deiner Änderungen ist ein Fehler aufgetreten",
+  "checkConsole": "Check the browser console for more info.",
+  "changesSaved": "Deine Änderungen wurden gespeichert",
+  "settingsWillBeUsedNextTime": "Die neuen Einstellungen werden beim nächsten Start des IPFS Daemons verwendet.",
+  "ipfsConfigDescription": "The IPFS config file is a json document. It is read once when the IPFS daemon is started. Save your changes then restart the IPFS daemon to apply them."
+}

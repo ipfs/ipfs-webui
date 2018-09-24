@@ -1,0 +1,8 @@
+{
+  "title": "Peers",
+  "peerId": "Peer ID",
+  "peers": "Peers",
+  "address": "Address",
+  "location": "Lokasjon",
+  "unknownLocation": "Ukjent"
+}

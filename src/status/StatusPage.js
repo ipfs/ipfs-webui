@@ -1,15 +1,28 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
+import { translate } from 'react-i18next'
+import CountryChart from './CountryChart'
+import NodeInfo from './NodeInfo'
 import NodeBandwidthChart from './NodeBandwidthChart'
-import PeerBandwidthTable from './PeerBandwidthTable'
+import Box from '../components/box/Box'
 
-export default () => (
+export default translate('status')(({ t }) => (
   <div data-id='StatusPage'>
     <Helmet>
-      <title>Status - IPFS</title>
+      <title>{t('title')} - IPFS</title>
     </Helmet>
-    <h1>Status</h1>
-    <NodeBandwidthChart />
-    <PeerBandwidthTable />
+    <Box className='pa3'>
+      <NodeInfo />
+    </Box>
+    <Box className='mt3 pa3'>
+      <div className='flex flex-column flex-row-l'>
+        <div className='w-100 w-60-l pr0 pr2-l'>
+          <NodeBandwidthChart />
+        </div>
+        <div className='w-100 w-40-l pl0 pl2-l'>
+          <CountryChart />
+        </div>
+      </div>
+    </Box>
   </div>
-)
+))

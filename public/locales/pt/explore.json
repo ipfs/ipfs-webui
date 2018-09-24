@@ -1,0 +1,30 @@
+{
+  "appName": "Explorador IPLD",
+  "StartExploringPage": {
+    "title": "Explorador - IPLD",
+    "header": "Explore a Floresta de Merkle",
+    "leadParagraph": "Cole um CID na caixa para explorar o nó IPLD a que se refere, ou escolha uma das coleções de dados abaixo."
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD é <1>o modelo de dados endereçável por conteúdos da web</1>. Permite-nos tratar todas as estruturas de dados ligadas por hashes como sub-peças de um sistema de informação unificado, unificando assim todos os modelos de dados que relacionam dados com hashes em instâncias do IPLD.</0>",
+    "paragraph2": "<0>Endereçamento de conteúdo através de hashes tornou-se um sistema de relacionamento de dados bastante utilizado em sistemas distribuídos, desde blockchains na base das suas cryptocurrencies favoritas, às commits do seu trabalho, a qualquer conteúdo da web. No entanto, apesar de todas estas ferramentas se basearem em primitivas comuns, as suas estruturas de dados não são interoperáveis.</0>",
+    "paragraph3": "<0>IPLD: um espaço para todos os protocolos inspirados em hashes. Com o IPLD, pode relacionar diferentes protocolos e navegar entre eles, permitindo que explore os dados independentemente do protocolo subjacente.</0>"
+  },
+  "ExplorePage": {
+    "title": "A Explorar - IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "Explorar"
+  },
+  "CidInfo": {
+    "header": "Info do CID",
+    "hashDigest": "Hash digest"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "Visualizar na Gateway do IPFS"
+  },
+  "base": "base",
+  "version": "versão",
+  "codec": "codec",
+  "multihash": "multihash"
+}

@@ -60,9 +60,9 @@ class TextInputModal extends React.Component {
     }
 
     if (this.props.validate(this.state.value)) {
-      return 'valid-input'
+      return 'b--green-muted focus-outline-green'
     } else {
-      return 'invalid-input'
+      return 'b--red-muted focus-outline-red'
     }
   }
 

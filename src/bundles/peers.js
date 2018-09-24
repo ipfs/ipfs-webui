@@ -6,15 +6,16 @@ const bundle = createAsyncResourceBundle({
   actionBaseType: 'PEERS',
   getPromise: ({ getIpfs }) => getIpfs().swarm.peers(),
   staleAfter: ms.seconds(10),
+  persist: false,
   checkIfOnline: false
 })
 
 // Update the peers if they are stale (appTime - lastSuccess > staleAfter)
 bundle.reactPeersFetchWhenIdle = createSelector(
   'selectPeersShouldUpdate',
-  'selectIpfsReady',
-  (shouldUpdate, ipfsReady) => {
-    if (shouldUpdate && ipfsReady) {
+  'selectIpfsConnected',
+  (shouldUpdate, ipfsConnected) => {
+    if (shouldUpdate && ipfsConnected) {
       return { actionCreator: 'doFetchPeers' }
     }
   }
@@ -25,10 +26,10 @@ bundle.reactPeersFetchWhenActive = createSelector(
   'selectAppTime',
   'selectRouteInfo',
   'selectPeersRaw',
-  'selectIpfsReady',
-  (appTime, routeInfo, peersInfo, ipfsReady) => {
+  'selectIpfsConnected',
+  (appTime, routeInfo, peersInfo, selectIpfsReady, ipfsConnected) => {
     const lastSuccess = peersInfo.lastSuccess || 0
-    if (routeInfo.url === '/peers' && ipfsReady && appTime - lastSuccess > ms.seconds(2)) {
+    if (routeInfo.url === '/peers' && ipfsConnected && !peersInfo.isLoading && appTime - lastSuccess > ms.seconds(5)) {
       return { actionCreator: 'doFetchPeers' }
     }
   }

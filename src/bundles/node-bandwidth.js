@@ -6,6 +6,7 @@ const bundle = createAsyncResourceBundle({
   actionBaseType: 'NODE_BANDWIDTH',
   getPromise: ({ getIpfs }) => getIpfs().stats.bw(),
   staleAfter: ms.seconds(10),
+  persist: false,
   checkIfOnline: false
 })
 

@@ -1,0 +1,62 @@
+{
+  "title": "文件",
+  "home": "主页",
+  "breadcrumbs": "导航栏",
+  "finished": "完成！",
+  "totalSize": "总计大小: {size}",
+  "filesSelected": "{count, plural, other {已选择文件}}",
+  "individualFilesOnly": "仅对文件有效",
+  "fileName": "文件名",
+  "size": "大小",
+  "noPDFSupport": "您的浏览器不支持阅读PDF文件。请下载后阅读。",
+  "downloadPDF": "下载PDF",
+  "downloadInstead": "请尝试<1>下载</1>",
+  "cantBePreviewed": "对不起，本文件不支持预览。",
+  "addFile": "添加文件",
+  "addFolder": "添加文件夹",
+  "addByPath": "按路径添加",
+  "addToIPFS": "添加到IPFS",
+  "newFolder": "新建文件夹",
+  "actions": {
+    "add": "添加",
+    "delete": "删除",
+    "rename": "重命名",
+    "download": "下载",
+    "inspect": "检查",
+    "copyHash": "复制哈希",
+    "share": "共享",
+    "close": "关闭",
+    "copy": "复制",
+    "cancel": "取消",
+    "clear": "清空",
+    "create": "创建",
+    "save": "保存",
+    "unselectAll": "全部取消选择"
+  },
+  "shareModal": {
+    "title": "共享文件",
+    "description": "请复制以下链接并与您的朋友分享。"
+  },
+  "renameModal": {
+    "titleFile": "重命名文件",
+    "titleFolder": "重命名文件夹",
+    "descriptionFile": "重命名此文件",
+    "descriptionFolder": "重命名此文件夹"
+  },
+  "deleteModal": {
+    "titleItem": "{count, plural, other {删除{count}个项目}}",
+    "titleFolder": "{count, plural, other {删除{count}个文件夹}}",
+    "titleFile": "{count, plural, other {删除{count}个文件}}",
+    "descriptionItem": "{count, plural, other {您是否确定要删除{count}个项目？本操作不可撤销。}}",
+    "descriptionFolder": "{count, plural, other {您是否确定要删除{count}个文件夹？本操作不可撤销。}}",
+    "descriptionFile": "{count, plural, other {您是否确定要删除{count}个文件？本操作不可撤销。}}"
+  },
+  "addByPathModal": {
+    "title": "按路径添加",
+    "description": "输入需要添加的路径"
+  },
+  "newFolderModal": {
+    "title": "新建文件夹",
+    "description": "输入新建文件夹名称"
+  }
+}

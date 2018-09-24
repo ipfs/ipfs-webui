@@ -10,7 +10,7 @@ storiesOf('Loader', module)
   .addDecorator(checkA11y)
   .addDecorator(withKnobs)
   .add('ComponentLoader', () => (
-    <div className='sans-serif pa4' style={{height: 400}}>
+    <div className='sans-serif pa4' style={{ height: 400 }}>
       <ComponentLoader
         pastDelay={boolean('pastDelay', true)}
       />

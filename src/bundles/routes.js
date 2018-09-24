@@ -1,16 +1,18 @@
 import { createRouteBundle } from 'redux-bundler'
-import StatusPage from '../status/StatusPage'
-import FilesPage from '../files/FilesPage'
-import ExplorePage from '../explore/ExplorePage'
-import PeersPage from '../peers/PeersPage'
-import LoadableSettingsPage from '../settings/LoadableSettingsPage'
+import StatusPage from '../status/LoadableStatusPage'
+import FilesPage from '../files/LoadableFilesPage'
+import { ExplorePage, StartExploringPage } from 'ipld-explorer-components'
+import PeersPage from '../peers/LoadablePeersPage'
+import SettingsPage from '../settings/LoadableSettingsPage'
+import WelcomePage from '../welcome/LoadableWelcomePage'
 
 export default createRouteBundle({
-  '/files': FilesPage,
+  '/explore': StartExploringPage,
   '/explore*': ExplorePage,
   '/files*': FilesPage,
   '/peers': PeersPage,
-  '/settings': LoadableSettingsPage,
+  '/settings': SettingsPage,
+  '/welcome': WelcomePage,
   '/': StatusPage,
   '': StatusPage
 }, { routeInfoSelector: 'selectHash' })

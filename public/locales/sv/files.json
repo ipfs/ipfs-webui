@@ -1,0 +1,62 @@
+{
+  "title": "Filer",
+  "home": "Hem",
+  "breadcrumbs": "Brödsmulor",
+  "finished": "Klar!",
+  "totalSize": "Total storlek: {size}",
+  "filesSelected": "{count, plural, one {Fil vald} other {Filer valda}}",
+  "individualFilesOnly": "Endast tillgänglig för individuella filer",
+  "fileName": "Filnamn",
+  "size": "Storlek",
+  "noPDFSupport": "Din webbläsare stödjer inte PDF-filer. Var god ladda ner PDF-filen för att läsa den.",
+  "downloadPDF": "Ladda ner PDF.",
+  "downloadInstead": "Försök att <1>ladda ner</1> den istället",
+  "cantBePreviewed": "Tyvärr, denna fil kan inte förhandsgranskas",
+  "addFile": "Lägg till fil",
+  "addFolder": "Lägg till mapp",
+  "addByPath": "Lägg till med filväg",
+  "addToIPFS": "Lägg till i IPFS",
+  "newFolder": "Ny mapp",
+  "actions": {
+    "add": "Lägg till",
+    "delete": "Ta bort",
+    "rename": "Byt namn",
+    "download": "Ladda ner",
+    "inspect": "Inspektera",
+    "copyHash": "Kopiera hash",
+    "share": "Dela",
+    "close": "Stäng",
+    "copy": "Kopiera",
+    "cancel": "Ångra",
+    "clear": "Rensa",
+    "create": "Skapa",
+    "save": "Spara",
+    "unselectAll": "Avmarkera allt"
+  },
+  "shareModal": {
+    "title": "Dela filer",
+    "description": "Kopiera länken nedan och dela den med dina vänner"
+  },
+  "renameModal": {
+    "titleFile": "Byt namn på fil",
+    "titleFolder": "Byt namn på mapp",
+    "descriptionFile": "Välj ett namn för denna fil.",
+    "descriptionFolder": "Välj ett namn för denna mapp."
+  },
+  "deleteModal": {
+    "titleItem": "{count, plural, one {Ta bort föremål} other {Ta bort {count} föremål}}",
+    "titleFolder": "{count, plural, one {Ta bort mapp} other {Ta bort {count} mappar}}",
+    "titleFile": "{count, plural, one {Ta bort fil} other {Ta bort {count} filer}}",
+    "descriptionItem": "{count, plural, one {Är du säker på att du vill ta bort detta föremål? Denna handling är permanent och kan inte ångras.} other {Är du säker på att du vill ta bort {count} föremål? Denna handling är permanent och kan inte ångras.}}",
+    "descriptionFolder": "{count, plural, one {Är du säker på att du vill ta bort denna mapp? Denna handling är permanent och kan inte ångras.} other {Är du säker på att du vill ta bort {count} mappar? Denna handling är permanent och kan inte ångras.}}",
+    "descriptionFile": "{count, plural, one {Är du säker på att du vill ta bort denna fil? Denna handling är permanent och kan inte ångras.} other {Är du säker på att du vill ta bort {count} filer? Denna handling är permanent och kan inte ångras.}}"
+  },
+  "addByPathModal": {
+    "title": "Lägg till med filväg",
+    "description": "Infoga filvägen för att lägga till."
+  },
+  "newFolderModal": {
+    "title": "Ny mapp",
+    "description": "Infoga namnet på mappen du vill skapa."
+  }
+}

@@ -6,65 +6,135 @@ import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
+import Overlay from '../components/overlay/Overlay'
+import ShareModal from './share-modal/ShareModal'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
-import Overlay from '../components/overlay/Overlay'
+import downloadFile from './download-file'
 import { join } from 'path'
+import { translate } from 'react-i18next'
 
-const action = (name) => {
-  return (...args) => {
-    console.log(name, args)
+const defaultState = {
+  downloadAbort: null,
+  downloadProgress: null,
+  share: {
+    isOpen: false,
+    link: ''
+  },
+  rename: {
+    isOpen: false,
+    path: '',
+    filename: ''
+  },
+  delete: {
+    isOpen: false,
+    paths: [],
+    files: 0,
+    folders: 0
   }
 }
 
 class FilesPage extends React.Component {
   static propTypes = {
-    files: PropTypes.object
+    files: PropTypes.object,
+    filesErrors: PropTypes.array.isRequired,
+    filesPathFromHash: PropTypes.string,
+    filesSorting: PropTypes.object.isRequired,
+    writeFilesProgress: PropTypes.number,
+    gatewayUrl: PropTypes.string.isRequired,
+    navbarWidth: PropTypes.number.isRequired,
+    doUpdateHash: PropTypes.func.isRequired,
+    doFilesDelete: PropTypes.func.isRequired,
+    doFilesMove: PropTypes.func.isRequired,
+    doFilesWrite: PropTypes.func.isRequired,
+    doFilesAddPath: PropTypes.func.isRequired,
+    doFilesDownloadLink: PropTypes.func.isRequired,
+    doFilesMakeDir: PropTypes.func.isRequired,
+    doFilesUpdateSorting: PropTypes.func.isRequired,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired
   }
 
-  state = {
-    downloadReq: null,
-    downloadProgress: -1,
-    addProgress: null,
-    rename: {
-      isOpen: false,
-      path: '',
-      filename: ''
-    },
-    delete: {
-      isOpen: false,
-      paths: [],
-      files: 0,
-      folders: 0
+  state = defaultState
+
+  resetState = (field) => this.setState({ [field]: defaultState[field] })
+
+  makeDir = (path) => this.props.doFilesMakeDir(join(this.props.files.path, path))
+
+  componentDidMount () {
+    this.props.doFilesFetch()
+  }
+
+  componentDidUpdate (prev) {
+    const { filesPathFromHash } = this.props
+
+    if (prev.files === null || filesPathFromHash !== prev.filesPathFromHash) {
+      this.props.doFilesFetch()
     }
   }
 
-  onLinkClick = (link) => {
-    if (this.props.files.type === 'directory') {
-      this.filesList.toggleAll(false)
+  download = async (files) => {
+    const { doFilesDownloadLink } = this.props
+    const { downloadProgress, downloadAbort } = this.state
+
+    if (downloadProgress !== null) {
+      downloadAbort()
+      return
     }
 
-    const {doUpdateHash} = this.props
-    link = link.split('/').map(p => encodeURIComponent(p)).join('/')
-    doUpdateHash(`/files${link}`)
+    const updater = (v) => this.setState({ downloadProgress: v })
+    const { url, filename } = await doFilesDownloadLink(files)
+    const { abort } = await downloadFile(url, filename, updater)
+    this.setState({ downloadAbort: abort })
   }
 
-  onInspect = (data) => {
-    const {doUpdateHash} = this.props
-    let hash
+  add = (raw, root = '') => {
+    const { files, doFilesWrite } = this.props
 
-    if (Array.isArray(data)) {
-      hash = data[0].hash
-    } else {
-      hash = data.hash
+    if (root === '') {
+      root = files.path
+    }
+
+    doFilesWrite(root, raw)
+  }
+
+  addByPath = (path) => {
+    const { doFilesAddPath, files } = this.props
+    doFilesAddPath(files.path, path)
+  }
+
+  inspect = (hash) => {
+    const { doUpdateHash } = this.props
+
+    if (Array.isArray(hash)) {
+      hash = hash[0].hash
     }
 
     doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
-  onRename = ([file]) => {
+  showShareModal = (files) => {
+    this.setState({
+      share: {
+        isOpen: true,
+        link: 'Generating...'
+      }
+    })
+
+    this.props.doFilesShareLink(files).then(link => {
+      this.setState({
+        share: {
+          isOpen: true,
+          link: link
+        }
+      })
+    })
+  }
+
+  showRenameModal = ([file]) => {
     this.setState({
       rename: {
+        folder: file.type === 'directory',
         isOpen: true,
         path: file.path,
         filename: file.path.split('/').pop()
@@ -72,31 +142,16 @@ class FilesPage extends React.Component {
     })
   }
 
-  onRenameCancel = () => {
-    this.setState({
-      rename: {
-        isOpen: false,
-        path: '',
-        filename: ''
-      }
-    })
-  }
-
-  onRenameSubmit = (newName) => {
-    let {filename, path} = this.state.rename
+  rename = (newName) => {
+    const { filename, path } = this.state.rename
+    this.resetState('rename')
 
     if (newName !== '' && newName !== filename) {
-      this.filesList.toggleOne(filename, false)
-      this.props.doFilesRename(path, path.replace(filename, newName))
-        .then(() => {
-          this.filesList.toggleOne(newName, true)
-        })
+      this.props.doFilesMove([path, path.replace(filename, newName)])
     }
-
-    this.onRenameCancel()
   }
 
-  onDelete = (files) => {
+  showDeleteModal = (files) => {
     let filesCount = 0
     let foldersCount = 0
 
@@ -112,132 +167,69 @@ class FilesPage extends React.Component {
     })
   }
 
-  onDeleteCancel = () => {
-    this.setState({
-      delete: {
-        isOpen: false,
-        files: 0,
-        folders: 0
-      }
-    })
-  }
+  delete = () => {
+    const { paths } = this.state.delete
 
-  onDeleteConfirm = () => {
-    this.filesList.toggleAll(false)
-    this.props.doFilesDelete(this.state.delete.paths)
-    this.onDeleteCancel()
-  }
-
-  onAddByPath = (path) => {
-    this.props.doFilesAddPath(this.props.files.path, path)
-  }
-
-  downloadFile = (sUrl, fileName) => {
-    let xhr = new window.XMLHttpRequest()
-    let total = 0
-    xhr.responseType = 'blob'
-    xhr.open('GET', sUrl, true)
-
-    this.setState({ downloadReq: xhr })
-
-    xhr.onload = (e) => {
-      this.setState({
-        downloadProgress: 100,
-        downloadReq: null
-      })
-
-      const res = xhr.response
-      const blob = new window.Blob([res])
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-
-      document.body.appendChild(a)
-      a.style = 'display:none'
-      a.href = url
-      a.download = fileName
-      a.click()
-
-      window.URL.revokeObjectURL(url)
-
-      setTimeout(() => {
-        this.setState({ downloadProgress: -1 })
-      }, 1000)
-    }
-
-    xhr.onprogress = (e) => {
-      total = e.lengthComputable ? e.total : (total ||
-        xhr.getResponseHeader('X-Content-Length') ||
-        xhr.getResponseHeader('Content-Length'))
-
-      this.setState({ downloadProgress: (e.loaded / total) * 100 })
-    }
-
-    xhr.send()
-  }
-
-  onDownload = (files) => {
-    if (this.state.downloadReq != null) {
-      this.state.downloadReq.abort()
-      this.setState({
-        downloadProgress: -1,
-        downloadReq: null
-      })
-      return
-    }
-
-    this.props.doFilesDownloadLink(files)
-      .then(({url, filename}) => this.downloadFile(url, filename))
-  }
-
-  onMakeDir = (path) => {
-    this.props.doFilesMakeDir(join(this.props.files.path, path))
-  }
-
-  onAddFiles = (files) => {
-    this.props.doFilesWrite(this.props.files.path, files, (progress) => {
-      this.setState({ addProgress: progress })
-      if (progress === 100) {
-        setTimeout(() => this.setState({ addProgress: null }), 2000)
-      }
-    })
+    this.resetState('delete')
+    this.props.doFilesDelete(paths)
   }
 
   render () {
-    const {files} = this.props
+    const {
+      files,
+      writeFilesProgress,
+      navbarWidth,
+      doFilesMove,
+      doFilesNavigateTo,
+      doFilesUpdateSorting,
+      filesSorting: sort,
+      t
+    } = this.props
+
+    const {
+      share,
+      rename,
+      delete: deleteModal
+    } = this.state
 
     return (
       <div data-id='FilesPage'>
         <Helmet>
-          <title>Files - IPFS</title>
+          <title>{t('title')} - IPFS</title>
         </Helmet>
         { files &&
           <div>
-            <div className='flex flex-wrap items-center justify-between mb3'>
-              <Breadcrumbs className='mb3' path={files.path} onClick={this.onLinkClick} />
+            <div className='flex flex-wrap'>
+              <Breadcrumbs className='mb3' path={files.path} onClick={doFilesNavigateTo} />
 
               { files.type === 'directory' &&
                 <FileInput
-                  className='mb3'
-                  onMakeDir={this.onMakeDir}
-                  onAddFiles={this.onAddFiles}
-                  onAddByPath={this.onAddByPath}
-                  addProgress={this.state.addProgress} />
+                  className='mb3 ml-auto'
+                  onMakeDir={this.makeDir}
+                  onAddFiles={this.add}
+                  onAddByPath={this.addByPath}
+                  addProgress={writeFilesProgress} />
               }
             </div>
 
             { files.type === 'directory' ? (
               <FilesList
-                maxWidth='calc(100% - 240px)'
-                ref={el => { this.filesList = el }}
+                maxWidth={`calc(100% - ${navbarWidth}px)`}
+                key={window.encodeURIComponent(files.path)}
                 root={files.path}
-                files={files.files}
+                sort={sort}
+                updateSorting={doFilesUpdateSorting}
+                files={files.content}
+                upperDir={files.upper}
                 downloadProgress={this.state.downloadProgress}
-                onShare={action('Share')}
-                onInspect={this.onInspect}
-                onRename={this.onRename}
-                onDownload={this.onDownload}
-                onDelete={this.onDelete}
-                onNavigate={(file) => this.onLinkClick(file.path)}
+                onShare={this.showShareModal}
+                onInspect={this.inspect}
+                onDownload={this.download}
+                onAddFiles={this.add}
+                onRename={this.showRenameModal}
+                onDelete={this.showDeleteModal}
+                onNavigate={doFilesNavigateTo}
+                onMove={doFilesMove}
               />
             ) : (
               <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
@@ -245,21 +237,29 @@ class FilesPage extends React.Component {
           </div>
         }
 
-        <Overlay show={this.state.rename.isOpen} onLeave={this.onRenameCancel}>
-          <RenameModal
+        <Overlay show={share.isOpen} onLeave={() => this.resetState('share')}>
+          <ShareModal
             className='outline-0'
-            filename={this.state.rename.filename}
-            onCancel={this.onRenameCancel}
-            onSubmit={this.onRenameSubmit} />
+            link={share.link}
+            onLeave={() => this.resetState('share')} />
         </Overlay>
 
-        <Overlay show={this.state.delete.isOpen} onLeave={this.onDeleteCancel}>
+        <Overlay show={rename.isOpen} onLeave={() => this.resetState('rename')}>
+          <RenameModal
+            className='outline-0'
+            folder={rename.folder}
+            filename={rename.filename}
+            onCancel={() => this.resetState('rename')}
+            onSubmit={this.rename} />
+        </Overlay>
+
+        <Overlay show={deleteModal.isOpen} onLeave={() => this.resetState('delete')}>
           <DeleteModal
             className='outline-0'
-            files={this.state.delete.files}
-            folders={this.state.delete.folders}
-            onCancel={this.onDeleteCancel}
-            onDelete={this.onDeleteConfirm} />
+            files={deleteModal.files}
+            folders={deleteModal.folders}
+            onCancel={() => this.resetState('delete')}
+            onDelete={this.delete} />
         </Overlay>
       </div>
     )
@@ -269,12 +269,20 @@ class FilesPage extends React.Component {
 export default connect(
   'doUpdateHash',
   'doFilesDelete',
-  'doFilesRename',
+  'doFilesMove',
   'doFilesWrite',
   'doFilesAddPath',
   'doFilesDownloadLink',
+  'doFilesShareLink',
   'doFilesMakeDir',
+  'doFilesFetch',
+  'doFilesNavigateTo',
+  'doFilesUpdateSorting',
   'selectFiles',
   'selectGatewayUrl',
-  FilesPage
+  'selectWriteFilesProgress',
+  'selectNavbarWidth',
+  'selectFilesPathFromHash',
+  'selectFilesSorting',
+  translate('files')(FilesPage)
 )

@@ -10,5 +10,24 @@ export default {
         return { actionCreator: 'doUpdateHash', args: ['#/'] }
       }
     }
+  ),
+
+  reactToEmptyFiles: createSelector(
+    'selectHash',
+    (hash) => {
+      if (hash === '/files') {
+        return { actionCreator: 'doUpdateHash', args: ['#/files/'] }
+      }
+    }
+  ),
+
+  reactToIpfsConnectionFail: createSelector(
+    'selectIpfsInitFailed',
+    'selectHash',
+    (failed, hash) => {
+      if (failed && hash !== '/welcome') {
+        return { actionCreator: 'doUpdateHash', args: ['#/welcome'] }
+      }
+    }
   )
 }
