@@ -96,10 +96,10 @@ class ApiAddressForm extends React.Component {
   render () {
     return (
       <form onSubmit={this.onSubmit}>
-        <label htmlFor='api-address' className='db f7 mb0 ttu tracked charcoal pl1'>API ADDRESS</label>
+        <label htmlFor='api-address' className='db f7 mb2 ttu tracked charcoal pl1'>API ADDRESS</label>
         <input id='api-address'
           type='text'
-          className='w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal'
+          className='w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 focus-outline'
           onChange={this.onChange}
           onKeyPress={this.onKeyPress}
           value={this.state.value} />
