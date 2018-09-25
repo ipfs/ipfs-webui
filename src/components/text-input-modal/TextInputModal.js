@@ -108,7 +108,7 @@ class TextInputModal extends React.Component {
             value={this.state.value}
             required
             autoFocus
-            className={`input-reset charcoal ba b--black-20 pa2 mb2 db w-75 center focus-outline ${this.inputClass}`}
+            className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-75 center focus-outline ${this.inputClass}`}
             type='text' />
         </ModalBody>
 
