@@ -5,24 +5,28 @@ import CountryChart from './CountryChart'
 import NodeInfo from './NodeInfo'
 import NodeBandwidthChart from './NodeBandwidthChart'
 import Box from '../components/box/Box'
+import Footer from '../components/footer/Footer'
 
 export default translate('status')(({ t }) => (
   <div data-id='StatusPage'>
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
-    <Box className='pa3'>
+    <Box className='pa3' style={{ minHeight: 238 }}>
       <NodeInfo />
     </Box>
-    <Box className='mt3 pa3'>
+    <Box className='mt3 pa3' >
       <div className='flex flex-column flex-row-l'>
-        <div className='w-100 w-60-l pr0 pr2-l'>
+        <div className='w-100 w-60-l pr0 pr2-l flex-none'>
           <NodeBandwidthChart />
         </div>
-        <div className='w-100 w-40-l pl0 pl2-l'>
+        <div className='w-100 w-40-l pl0 pl2-l flex-none'>
           <CountryChart />
         </div>
       </div>
     </Box>
+    <div className='mt4'>
+      <Footer codeUrl='https://github.com/ipfs-shipyard/ipfs-webui' t={t} />
+    </div>
   </div>
 ))
