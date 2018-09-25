@@ -12,7 +12,7 @@ const PeersPage = ({ t }) => (
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
-    <Box className='pa3'>
+    <Box className='pt3 ph3 pb4'>
       <WorldMap />
       <PeersTable />
     </Box>
