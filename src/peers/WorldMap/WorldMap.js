@@ -8,7 +8,7 @@ import staticMapSrc from './StaticMap.svg'
 
 const WorldMap = ({ t }) => {
   return (
-    <div className='flex w-100 mb4' style={{ 'height': '550px', background: `transparent url(${staticMapSrc}) center` }}>
+    <div className='flex w-100 mb4' style={{ 'height': '550px', background: `transparent url(${staticMapSrc}) center no-repeat` }}>
       <AutoSizer disableHeight>
         { ({ width }) => (
           <GeoPath width={width} height={550}>
