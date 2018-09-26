@@ -42,6 +42,9 @@ const NavLink = ({
 }
 
 export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
+  const codeUrl = 'https://github.com/ipfs-shipyard/ipfs-webui'
+  const bugsUrl = `${codeUrl}/issues`
+
   return (
     <div id='navbar' style={{ width }}>
       <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>
@@ -55,6 +58,12 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
         <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
         <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>{t('settings:title')}</NavLink>
       </nav>
+      { open &&
+      <div className='mt5 flex flex-colum justify-center'>
+        <a className='link white f6 o-50 glow' href={codeUrl} target='_blank'>{t('status:codeLink')}</a>
+        <span className='mh2 white f6 o-50'>|</span>
+        <a className='link white f6 o-50 glow' href={bugsUrl} target='_blank'>{t('status:bugsLink')}</a>
+      </div> }
     </div>
   )
 }

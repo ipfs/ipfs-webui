@@ -5,7 +5,6 @@ import CountryChart from './CountryChart'
 import NodeInfo from './NodeInfo'
 import NodeBandwidthChart from './NodeBandwidthChart'
 import Box from '../components/box/Box'
-import Footer from '../components/footer/Footer'
 
 export default translate('status')(({ t }) => (
   <div data-id='StatusPage'>
@@ -25,8 +24,5 @@ export default translate('status')(({ t }) => (
         </div>
       </div>
     </Box>
-    <div className='mt4'>
-      <Footer codeUrl='https://github.com/ipfs-shipyard/ipfs-webui' t={t} />
-    </div>
   </div>
 ))
