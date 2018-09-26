@@ -22,5 +22,7 @@
   "totalOut": "Total Out",
   "more": "...and {count} more",
   "in": "In",
-  "out": "Out"
+  "out": "Out",
+  "codeLink": "See the code",
+  "bugsLink": "Report a bug"
 }
