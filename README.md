@@ -29,10 +29,14 @@ With `node` >= 8.12 and `npm` >= 6.4.1 installed, run
 
 ## Usage
 
-**When working on the code**, run the [dev server](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-start), the [unit tests](https://facebook.github.io/jest/), and the [storybook](https://storybook.js.org/) component viewer and see the results of your changes as you save files.
+**When working on the code**, run an ipfs daemon, the local [dev server](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-start), the [unit tests](https://facebook.github.io/jest/), and the [storybook](https://storybook.js.org/) component viewer and see the results of your changes as you save files.
 
 In separate shells run the following:
 
+```sh
+# Run IPFS
+> ipfs daemon
+```
 
 ```sh
 # Run the dev server @ http://localhost:3000
@@ -49,29 +53,37 @@ In separate shells run the following:
 > npm run storybook
 ```
 
-## Config your IPFS Daemon
+### Configure IPFS API CORS headers
 
-When developing the WebUI you will need an ipfs daemon running with API access on port `5001`, as well as the following configuration set, otherwise you will not be able to communicate with the ipfs node.
+You must configure your IPFS API at http://127.0.0.1:5001  to allow [cross-origin (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) requests from your dev server at http://localhost:3000
 
-```bash
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000"]'
+Similarly if you want to try out pre-release versions at https://webui.ipfs.io you need to add that as an allowed domain too.
+
+#### Easy mode
+
+Run the **[cors-config.sh](./cors-config.sh)** script with:
+
+```console
+> ./cors-config.sh
+```
+
+#### The manual way
+
+```console
+> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.io"]'
 > ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
 > ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'
 ```
 
-Alternatively, just run the quick config script with:
-
-```bash
-> ./quick-config.sh
-```
+#### Reverting
 
 To reset your config back to the default configuration, run the following command.
 
-```bash
+```console
 > ipfs config --json API.HTTPHeaders {}
 ```
 
-It might be a good idea to copy the `.ipfs/config` file somewhere with a useful name so you can use `ipfs config replace <file>` to switch between dev mode easily.
+You might also like to copy the `~/.ipfs/config` file somewhere with a useful name so you can use `ipfs config replace <file>` to switch your node between default and dev mode easily.
 
 ## Build
 
