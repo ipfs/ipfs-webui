@@ -16,7 +16,7 @@ const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (
           value={link}
           readOnly
           autoFocus
-          className={`input-reset flex-grow-1 charcoal-muted ba b--black-20 pa2 mr2 focus-outline`}
+          className={`input-reset flex-grow-1 charcoal-muted ba b--black-20 br1 pa2 mr2 focus-outline`}
           type='text' />
       </div>
     </ModalBody>
