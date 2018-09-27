@@ -325,7 +325,7 @@ export default (opts = {}) => {
             if (sorting.by === sorts.BY_NAME) {
               return compare(a.name, b.name, sorting.asc)
             } else {
-              return compare(a.size, b.size, sorting.asc)
+              return compare(a.cumulativeSize || a.size, b.cumulativeSize || b.size, sorting.asc)
             }
           }
 
