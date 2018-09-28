@@ -31,13 +31,20 @@ const WelcomePage = ({ doUpdateIpfsApiAddress, ipfsInitFailed, ipfsConnected, ip
             ) : (
               <div>
                 <h1 className='montserrat fw2 navy ma0 f3 yellow'>Is your IPFS daemon running?</h1>
+                <p>Failed to connect to the API.</p>
                 <p>
-                  Failed to connect to the API. Please check the IPFS daemon is running.
-                  Run <code className='f6'>ipfs daemon</code> in a terminal window, as shown below.
+                  Make sure you <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>configure your IPFS API</a> to allow cross-origin (CORS) requests, running the commands below:
                 </p>
-                <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>
-                  Shell
+                <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
+                <div className='bg-black-70 snow pa2 f7'>
+                  <code className='db truncate'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.io"]'</code>
+                  <code className='db truncate'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'</code>
+                  <code className='db truncate'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'</code>
+                </div>
+                <p>
+                  Then, make sure to have an IPFS daemon running in a terminal:
                 </p>
+                <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
                 <div className='bg-black-70 snow pa2 f7'>
                   <code className='db'>$ ipfs daemon</code>
                   <code className='db'>Initializing daemon...</code>
