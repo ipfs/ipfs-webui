@@ -8,8 +8,8 @@ The app should make the following actions **easy** to complete
 - Diagnose when your IPFS daemon isn't running and fix it
 - Find the peer ID of the node you are connected to
 - Find IPLD info about an IPFS path and browse a link
-- Discover and try out experimental IPFS features _missing_ [ipfs-webui#814](https://github.com/ipfs-shipyard/ipfs-webui/issues/814)
-- Find the total size of your IPFS repo _missing_
+- ~~Discover and try out experimental IPFS features~~ _missing feature_ [ipfs-webui#814](https://github.com/ipfs-shipyard/ipfs-webui/issues/814)
+- ~~Find the total size of your IPFS repo~~ _missing feature_ [ipfs-webui#629](https://github.com/ipfs-shipyard/ipfs-webui/issues/629)
 
 More holistically, it should give a feeling of being connected to a network of peers.
 It must not give a sense of "uploading to the cloud", as that is a significant cause

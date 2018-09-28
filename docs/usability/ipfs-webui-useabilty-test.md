@@ -6,6 +6,12 @@
   - _Do they follow the prompts to start their daemon?_
   - _Do they have to go and download go-ipfs first?_
 
+> Are you connected to the IPFS network? How many peers is your node connected to?
+
+  - _Are they and do they say yes?_
+  - _Do they find the peer count?_
+  - _How do they feel about that?_
+
 > Add a picture you'd like to share to your IPFS node
 >
 > Copy the share link and send it to me via email _(or whatever works best for you)_
@@ -43,7 +49,3 @@
 > Pick a dataset from https://archives.ipfs.io/ and explore it the IPLD structure behind it.
 
   - _Do they? ...this requires copy and pasting the cid from the website into the explore form_
-
-> How many peers is your node connected to?
-
-  - _Do they find out? How do they feel about that?_
