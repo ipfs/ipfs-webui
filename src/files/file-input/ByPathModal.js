@@ -11,7 +11,7 @@ function ByPathModal ({ t, tReady, onCancel, onSubmit, className, ...props }) {
       p = `/ipfs/${p}`
     }
 
-    return isIPFS.ipfsPath(p.trim())
+    return isIPFS.ipfsPath(p)
   }
 
   return (
