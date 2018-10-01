@@ -50,20 +50,22 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   const bugsUrl = `${codeUrl}/issues`
 
   return (
-    <div id='navbar' style={{ width }}>
-      <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>
-        <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
-        <img className='center' style={{ height: 70, display: open ? 'none' : 'block' }} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
+    <div id='navbar' className='h-100 fixed flex flex-column justify-between' style={{ width }}>
+      <div className='flex flex-column'>
+        <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>
+          <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
+          <img className='center' style={{ height: 70, display: open ? 'none' : 'block' }} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
+        </div>
+        <nav className='db pt4' role='menubar'>
+          <NavLink to='/' exact icon={StrokeMarketing} open={open}>{t('status:title')}</NavLink>
+          <NavLink to='/files/' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
+          <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
+          <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
+          <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>{t('settings:title')}</NavLink>
+        </nav>
       </div>
-      <nav className='db pt4' role='menubar'>
-        <NavLink to='/' exact icon={StrokeMarketing} open={open}>{t('status:title')}</NavLink>
-        <NavLink to='/files/' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
-        <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
-        <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
-        <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>{t('settings:title')}</NavLink>
-      </nav>
       { open &&
-      <div className='mt5 flex flex-colum justify-center'>
+      <div className='mb3 flex flex-colum justify-center'>
         <a className='link white f6 o-50 glow' href={codeUrl} target='_blank'>{t('status:codeLink')}</a>
         <span className='mh2 white f6 o-50'>|</span>
         <a className='link white f6 o-50 glow' href={bugsUrl} target='_blank'>{t('status:bugsLink')}</a>
