@@ -6,9 +6,17 @@ import Icon from '../../icons/StrokeDecentralization'
 import TextInputModal from '../../components/text-input-modal/TextInputModal'
 
 function ByPathModal ({ t, tReady, onCancel, onSubmit, className, ...props }) {
+  const validatePath = (p) => {
+    if (!p.startsWith('/ipfs/')) {
+      p = `/ipfs/${p}`
+    }
+
+    return isIPFS.ipfsPath(p)
+  }
+
   return (
     <TextInputModal
-      validate={(p) => isIPFS.ipfsPath(p.trim())}
+      validate={(p) => validatePath(p)}
       onSubmit={(p) => onSubmit(p.trim())}
       onChange={(p) => p.trimStart()}
       onCancel={onCancel}
