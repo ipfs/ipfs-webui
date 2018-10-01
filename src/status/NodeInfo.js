@@ -9,7 +9,7 @@ import { Title } from './Commons'
 import 'details-polyfill'
 
 const Block = ({ children }) => (
-  <div className='dt dt--fixed pt2'>
+  <div className='dt dt--fixed pt2 mw9'>
     { children }
   </div>
 )
@@ -90,7 +90,7 @@ class NodeInfo extends React.Component {
     return (
       <div className='f6'>
         <div className='flex flex-column flex-row-l flex-wrap-l justify-between-l'>
-          <div className='w-100 w-60-l pr2-l' >
+          <div className='w-100 w-60-l pr2-l flex-none' >
             <Title>{t('nodeInfo')}</Title>
             <Block>
               <Label>{t('peerId')}</Label>
@@ -118,9 +118,9 @@ class NodeInfo extends React.Component {
               <Value>{peers ? peers.length : 0}</Value>
             </Block>
           </div>
-          <div className='dn db-l w-100 w-40-l pl2-l'>
+          <div className='dn db-l w-100 w-40-l pl2-l flex-none'>
             <Title>{t('networkTraffic')}</Title>
-            <div className='flex-wrap flex-no-wrap-l flex justify-between'>
+            <div className='flex-wrap flex-no-wrap-l flex justify-between' style={{ maxWidth: 400 }}>
               <Graph
                 title={t('upSpeed')}
                 color='#69c4cd'

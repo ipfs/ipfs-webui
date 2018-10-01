@@ -26,12 +26,12 @@ export class App extends Component {
   }
 
   render () {
-    const { route: Page, ipfsReady, routeInfo: { url } } = this.props
+    const { route: Page, ipfsReady, routeInfo: { url }, navbarWidth } = this.props
 
     return (
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
         <div className='flex' style={{ minHeight: '100vh' }}>
-          <div className='flex-none bg-navy'>
+          <div className='flex-none bg-navy' style={{ width: navbarWidth }}>
             <NavBar />
           </div>
           <div className='flex-auto'>
@@ -59,6 +59,7 @@ export class App extends Component {
 
 export default connect(
   'selectRoute',
+  'selectNavbarWidth',
   'selectRouteInfo',
   'doUpdateUrl',
   'doInitIpfs',
