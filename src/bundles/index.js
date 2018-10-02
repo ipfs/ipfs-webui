@@ -17,10 +17,14 @@ import statsBundle from './stats'
 import notifyBundle from './notify'
 import connectedBundle from './connected'
 import retryInitBundle from './retry-init'
+import identityBundle from './identity'
 
 export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
-  ipfsBundle(),
+  ipfsBundle({
+    tryWindow: false
+  }),
+  identityBundle,
   navbarBundle,
   routesBundle,
   redirectsBundle,
