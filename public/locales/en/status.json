@@ -24,5 +24,6 @@
   "in": "In",
   "out": "Out",
   "codeLink": "See the code",
-  "bugsLink": "Report a bug"
+  "bugsLink": "Report a bug",
+  "revision": "Revision"
 }
