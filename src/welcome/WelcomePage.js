@@ -10,45 +10,7 @@ const WelcomePage = ({ doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsConne
     return <ComponentLoader pastDelay />
   }
 
-  const renderConnectionStatus = () => {
-    const isSameOrigin = window.location.origin === apiUrl
-
-    if (ipfsConnected) {
-      return (
-        <div>
-          <h1 className='montserrat fw2 navy ma0 f3 green'>Connected to IPFS</h1>
-          <p>Now, it's time for you to explore your node. Head to <a className='link blue' href='#/files/'>Files page</a> to manage and share your files, or explore the <a className='link blue' href='https://www.youtube.com/watch?v=Bqs_LzBjQyk'>Merkle Forest</a> of peer-hosted hash-linked data via <a className='link blue' href='#/explore'>IPLD explorer</a>.</p>
-          <p>You can always come back to this address to change the IPFS node you're connected to.</p>
-        </div>
-      )
-    }
-
-    return (
-      <div>
-        <h1 className='montserrat fw2 navy ma0 f3 yellow'>Is your IPFS daemon running?</h1>
-        { !isSameOrigin && <div>
-          <p>Failed to connect to the API.</p>
-          <p>Make sure you <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>configure your IPFS API</a> to allow cross-origin (CORS) requests, running the commands below:</p>
-          <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
-          <div className='bg-black-70 snow pa2 f7'>
-            <code className='db truncate'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["{ window.location.origin }", "https://webui.ipfs.io"]'</code>
-            <code className='db truncate'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'</code>
-            <code className='db truncate'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'</code>
-          </div>
-        </div> }
-        <p>{ isSameOrigin ? 'Start' : 'Then, start' } an IPFS daemon in a terminal:</p>
-        <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
-        <div className='bg-black-70 snow pa2 f7'>
-          <code className='db'>$ ipfs daemon</code>
-          <code className='db'>Initializing daemon...</code>
-          <code className='db'>API server listening on /ip4/127.0.0.1/tcp/5001</code>
-        </div>
-        <p className='mt4'>
-          For more info on how to get started with IPFS you can <a className='link blue' href='https://ipfs.io/docs/getting-started/'>read the guide</a>.
-        </p>
-      </div>
-    )
-  }
+  const isSameOrigin = window.location.origin === apiUrl
 
   return (
     <div>
@@ -58,7 +20,7 @@ const WelcomePage = ({ doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsConne
       <div className='flex'>
         <div className='flex-auto pr3 lh-copy charcoal'>
           <Box>
-            { renderConnectionStatus() }
+            <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} />
             <h1 className='montserrat fw2 navy mb0 mt5 f3 yellow'>Is your API on a port other than 5001?</h1>
             <p>If your IPFS node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, please set it here</p>
             <ApiAddressForm
@@ -76,6 +38,44 @@ const WelcomePage = ({ doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsConne
           </Box>
         </div>
       </div>
+    </div>
+  )
+}
+
+const ConnectionStatus = ({ connected, sameOrigin }) => {
+  if (connected) {
+    return (
+      <div>
+        <h1 className='montserrat fw2 navy ma0 f3 green'>Connected to IPFS</h1>
+        <p>Now, it's time for you to explore your node. Head to <a className='link blue' href='#/files/'>Files page</a> to manage and share your files, or explore the <a className='link blue' href='https://www.youtube.com/watch?v=Bqs_LzBjQyk'>Merkle Forest</a> of peer-hosted hash-linked data via <a className='link blue' href='#/explore'>IPLD explorer</a>.</p>
+        <p>You can always come back to this address to change the IPFS node you're connected to.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <h1 className='montserrat fw2 navy ma0 f3 yellow'>Is your IPFS daemon running?</h1>
+      { !sameOrigin && <div>
+        <p>Failed to connect to the API.</p>
+        <p>Make sure you <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>configure your IPFS API</a> to allow cross-origin (CORS) requests, running the commands below:</p>
+        <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
+        <div className='bg-black-70 snow pa2 f7'>
+          <code className='db truncate'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["{ window.location.origin }", "https://webui.ipfs.io"]'</code>
+          <code className='db truncate'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'</code>
+          <code className='db truncate'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'</code>
+        </div>
+      </div> }
+      <p>{ sameOrigin ? 'Start' : 'Then, start' } an IPFS daemon in a terminal:</p>
+      <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
+      <div className='bg-black-70 snow pa2 f7'>
+        <code className='db'>$ ipfs daemon</code>
+        <code className='db'>Initializing daemon...</code>
+        <code className='db'>API server listening on /ip4/127.0.0.1/tcp/5001</code>
+      </div>
+      <p className='mt4'>
+        For more info on how to get started with IPFS you can <a className='link blue' href='https://ipfs.io/docs/getting-started/'>read the guide</a>.
+      </p>
     </div>
   )
 }
