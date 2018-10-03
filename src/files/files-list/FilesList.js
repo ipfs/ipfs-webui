@@ -102,6 +102,14 @@ class FileList extends React.Component {
   get files () {
     const { files, isOver, canDrop } = this.props
 
+    if (!files.length) {
+      return (
+        <div className='pv3 b--light-gray bt tc gray f6'>
+          There are no available files. Add some!
+        </div>
+      )
+    }
+
     return files.map(file => (
       <File
         ref={r => { this.filesRefs[file.name] = r }}

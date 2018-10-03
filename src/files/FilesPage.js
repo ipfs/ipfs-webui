@@ -2,6 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
+import downloadFile from './download-file'
+import { join } from 'path'
+import { translate } from 'react-i18next'
+
+// Components
 import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
@@ -10,9 +15,7 @@ import Overlay from '../components/overlay/Overlay'
 import ShareModal from './share-modal/ShareModal'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
-import downloadFile from './download-file'
-import { join } from 'path'
-import { translate } from 'react-i18next'
+import Box from '../components/box/Box'
 
 const defaultState = {
   downloadAbort: null,
@@ -36,8 +39,9 @@ const defaultState = {
 
 class FilesPage extends React.Component {
   static propTypes = {
+    ipfsProvider: PropTypes.string,
     files: PropTypes.object,
-    filesErrors: PropTypes.array.isRequired,
+    filesErrors: PropTypes.array,
     filesPathFromHash: PropTypes.string,
     filesSorting: PropTypes.object.isRequired,
     writeFilesProgress: PropTypes.number,
@@ -176,6 +180,7 @@ class FilesPage extends React.Component {
 
   render () {
     const {
+      ipfsProvider,
       files,
       writeFilesProgress,
       navbarWidth,
@@ -192,11 +197,44 @@ class FilesPage extends React.Component {
       delete: deleteModal
     } = this.state
 
+    const isCompanion = ipfsProvider === 'window.ipfs'
+
     return (
       <div data-id='FilesPage'>
         <Helmet>
           <title>{t('title')} - IPFS</title>
         </Helmet>
+
+        { isCompanion &&
+          <div className='mb4 tc mid-gray f5'>
+            <Box>
+              <p className='ma0'>As you are using <strong>IPFS Companion</strong>, the files view is limited to files added via the app.</p>
+            </Box>
+          </div> }
+
+        { <div className='mb4 flex'>
+          <div className='flex-auto pr3 lh-copy mid-gray'>
+            <Box>
+              <h1 className='mt0 mb4 montserrat fw4 f3 green'>Welcome to the IPFS Web UI!</h1>
+              <p className='f6'><a href='#/' className='link aqua'>Check the status</a> and various information about your node, such as the current network traffic, bandwith and the distribution of peers by country.</p>
+              <p className='f6'>Easily <a href='#/files' className='link aqua'>manage the files</a> in your IFPS repo. Change their tree, rename them, add files, share or download them.</p>
+              <p className='f6'>You can also <a href='#/explore' className='link aqua'>explore the merkle forest</a> of multiple projects. Even better, explore the ones of your own files!</p>
+              <p className='f6'>See a live map of where the <a href='#/peers' className='link aqua'>peers</a> you are connected to are. You can even check some more basic information about them.</p>
+              <p className='mb4 f6'><a href='#/peers' className='link aqua'>Manage the configuration</a> of your IPFS daemon to better suit your needs.</p>
+              <p className='mb0 f6'>If you want to help push the Web UI forward, <a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link aqua'>check out its code</a> or <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link aqua'>report a bug</a>!</p>
+            </Box>
+          </div>
+          <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{ maxWidth: '40%' }}>
+            <Box>
+              <p className='mt0'><strong>IPFS is a protocol</strong> that defines a content-addressed file system, coordinates content delivery and combines ideas from Kademlia, BitTorrent, Git and more.</p>
+              <p><strong>IPFS is a filesystem.</strong> It has directories and files and mountable filesystem via FUSE.</p>
+              <p><strong>IPFS is a web.</strong> Files are accessible via HTTP at <code className='f6'>https://ipfs.io/&lt;path&gt;</code>. Browsers <a className='link blue' target='_blank' rel='noopener noreferrer' href='https://github.com/ipfs-shipyard/ipfs-companion#release-channel'>can be extended</a> to use the <code className='f6'>ipfs://</code> or <code className='f6'>dweb:/ipfs/</code> schemes directly, and hash-addressed content guarantees authenticity</p>
+              <p><strong>IPFS is p2p.</strong> It supports worldwide peer-to-peer file transfers with a completely decentralized architecture and no central point of failure.</p>
+              <p><strong>IPFS is a CDN.</strong> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and bittorrent-like bandwidth distribution.</p>
+            </Box>
+          </div>
+        </div> }
+
         { files &&
           <div>
             <div className='flex flex-wrap'>
@@ -267,6 +305,7 @@ class FilesPage extends React.Component {
 }
 
 export default connect(
+  'selectIpfsProvider',
   'doUpdateHash',
   'doFilesDelete',
   'doFilesMove',
