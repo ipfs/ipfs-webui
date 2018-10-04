@@ -10,6 +10,9 @@ import StrokeCube from '../icons/StrokeCube'
 import StrokeSettings from '../icons/StrokeSettings'
 import StrokeIpld from '../icons/StrokeIpld'
 
+// Styles
+import './Navbar.css'
+
 const NavLink = ({
   to,
   icon,
@@ -52,7 +55,7 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   const revisionUrl = `${codeUrl}/commit/${gitRevision}`
 
   return (
-    <div id='navbar' className='h-100 fixed flex flex-column justify-between' style={{ width }}>
+    <div className='h-100 fixed flex flex-column justify-between' style={{ width }}>
       <div className='flex flex-column'>
         <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>
           <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
@@ -67,7 +70,7 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
         </nav>
       </div>
       { open &&
-        <div className='mb3 center'>
+        <div className='navbar-footer mb3 center'>
           { gitRevision && <div className='tc mb1'>
             <a className='link white f7 o-80 glow' href={revisionUrl} target='_blank'>{t('status:revision')} {gitRevision}</a>
           </div> }
