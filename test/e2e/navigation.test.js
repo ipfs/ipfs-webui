@@ -46,13 +46,14 @@ it('Navigation test: node running', async () => {
   await waitForTitle('Status - IPFS')
 }, ms.minutes(1))
 
-// Put a minimal mock IPFS instance on the window so we can check pages render.
+// Pretend to be IPFS companion so we can mock out ipfs responses
 // NOTE: this can get fancier as we test more nuances.
 // returns a promise.
 function addMockIpfs (page) {
   return page.evaluateOnNewDocument(mock => {
-    window.ipfs = {
+    const mockIpfs = {
       id: () => Promise.resolve({}),
+      get: () => Promise.resolve({}),
       files: {
         ls: () => Promise.resolve([]),
         stat: () => Promise.resolve({})
@@ -72,6 +73,19 @@ function addMockIpfs (page) {
             API: '/ip4/127.0.0.1/tcp/5001'
           }
         })
+      }
+    }
+    if (!window.chrome) {
+      // window.chrome seems not to be defined when tests are run headless.
+      window.chrome = {}
+    }
+    window.chrome.extension = {
+      getBackgroundPage () {
+        return {
+          ipfsCompanion: {
+            ipfs: mockIpfs
+          }
+        }
       }
     }
   })

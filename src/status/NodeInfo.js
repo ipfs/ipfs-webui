@@ -69,22 +69,22 @@ class NodeInfo extends React.Component {
       return obj[field]
     }
 
-    return 'Cannot access the API.'
+    return ''
   }
 
-  getVersion (ipfsIdentity) {
-    const raw = this.getField(ipfsIdentity, 'agentVersion')
+  getVersion (identity) {
+    const raw = this.getField(identity, 'agentVersion')
     return raw ? raw.split('/').join(' ') : ''
   }
 
   render () {
-    const { t, ipfsIdentity, ipfsProvider, ipfsApiAddress, peers } = this.props
+    const { t, identity, ipfsProvider, ipfsApiAddress, peers } = this.props
     const { downSpeed, upSpeed } = this.state
 
     let addresses = null
 
-    if (ipfsIdentity) {
-      addresses = [...new Set(ipfsIdentity.addresses)].sort().map(addr => <Address key={addr} value={addr} />)
+    if (identity) {
+      addresses = [...new Set(identity.addresses)].sort().map(addr => <Address key={addr} value={addr} />)
     }
 
     return (
@@ -94,7 +94,7 @@ class NodeInfo extends React.Component {
             <Title>{t('nodeInfo')}</Title>
             <Block>
               <Label>{t('peerId')}</Label>
-              <Value>{this.getField(ipfsIdentity, 'id')}</Value>
+              <Value>{this.getField(identity, 'id')}</Value>
             </Block>
             <Block>
               <Label>{t('api')}</Label>
@@ -110,7 +110,7 @@ class NodeInfo extends React.Component {
             <Block>
               <Label>{t('version')}</Label>
               <Value>
-                <VersionLink agentVersion={this.getField(ipfsIdentity, 'agentVersion')} />
+                <VersionLink agentVersion={this.getField(identity, 'agentVersion')} />
               </Value>
             </Block>
             <Block>
@@ -138,7 +138,7 @@ class NodeInfo extends React.Component {
           <div className='mt3'>
             <Block>
               <Label>{t('publicKey')}</Label>
-              <Value advanced>{this.getField(ipfsIdentity, 'publicKey')}</Value>
+              <Value advanced>{this.getField(identity, 'publicKey')}</Value>
             </Block>
             {addresses && addresses.length ? (
               <Block>
@@ -154,7 +154,7 @@ class NodeInfo extends React.Component {
 }
 
 export default connect(
-  'selectIpfsIdentity',
+  'selectIdentity',
   'selectIpfsProvider',
   'selectIpfsApiAddress',
   'selectPeers',

@@ -9,6 +9,9 @@ const providers = {
   },
   'window.ipfs': {
     url: 'https://github.com/ipfs-shipyard/ipfs-companion'
+  },
+  'ipfs-companion': {
+    url: 'https://github.com/ipfs-shipyard/ipfs-companion'
   }
 }
 
