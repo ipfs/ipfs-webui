@@ -293,10 +293,10 @@ const WelcomeInfo = () => (
       <Box>
         <h1 className='mt0 mb4 montserrat fw4 f3 green'>Welcome to the IPFS Web UI!</h1>
         <p className='f6'><a href='#/' className='link aqua'>Check the status</a> and various information about your node, such as the current network traffic, bandwith and the distribution of peers by country.</p>
-        <p className='f6'>Easily <a href='#/files' className='link aqua'>manage the files</a> in your IFPS repo. Change their tree, rename them, add files, share or download them.</p>
+        <p className='f6'>Easily <a href='#/files' className='link aqua'>manage files</a> in your IFPS repo. Drag and drop files to add them and move them around to change the file tree, rename them, share or download them.</p>
         <p className='f6'>You can also <a href='#/explore' className='link aqua'>explore the merkle forest</a> of multiple projects. Even better, explore the ones of your own files!</p>
         <p className='f6'>See a live map of where the <a href='#/peers' className='link aqua'>peers</a> you are connected to are. You can even check some more basic information about them.</p>
-        <p className='mb4 f6'><a href='#/peers' className='link aqua'>Manage the configuration</a> of your IPFS daemon to better suit your needs.</p>
+        <p className='mb4 f6'><a href='#/settings' className='link aqua'>Manage the configuration</a> of your IPFS daemon to better suit your needs.</p>
         <p className='mb0 f6'>If you want to help push the Web UI forward, <a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link aqua'>check out its code</a> or <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link aqua'>report a bug</a>!</p>
       </Box>
     </div>
