@@ -10,6 +10,9 @@ import StrokeCube from '../icons/StrokeCube'
 import StrokeSettings from '../icons/StrokeSettings'
 import StrokeIpld from '../icons/StrokeIpld'
 
+// Styles
+import './Navbar.css'
+
 const NavLink = ({
   to,
   icon,
@@ -48,9 +51,11 @@ const NavLink = ({
 export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   const codeUrl = 'https://github.com/ipfs-shipyard/ipfs-webui'
   const bugsUrl = `${codeUrl}/issues`
+  const gitRevision = process.env.REACT_APP_GIT_REV
+  const revisionUrl = `${codeUrl}/commit/${gitRevision}`
 
   return (
-    <div id='navbar' className='h-100 fixed flex flex-column justify-between' style={{ width }}>
+    <div className='h-100 fixed flex flex-column justify-between' style={{ width }}>
       <div className='flex flex-column'>
         <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>
           <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
@@ -65,11 +70,16 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
         </nav>
       </div>
       { open &&
-      <div className='mb3 flex flex-colum justify-center'>
-        <a className='link white f6 o-50 glow' href={codeUrl} target='_blank'>{t('status:codeLink')}</a>
-        <span className='mh2 white f6 o-50'>|</span>
-        <a className='link white f6 o-50 glow' href={bugsUrl} target='_blank'>{t('status:bugsLink')}</a>
-      </div> }
+        <div className='navbar-footer mb3 center'>
+          { gitRevision && <div className='tc mb1'>
+            <a className='link white f7 o-80 glow' href={revisionUrl} target='_blank'>{t('status:revision')} {gitRevision}</a>
+          </div> }
+          <div className='flex flex-colum'>
+            <a className='link white f7 o-50 glow' href={codeUrl} target='_blank'>{t('status:codeLink')}</a>
+            <span className='mh2 white f7 o-50'>|</span>
+            <a className='link white f7 o-50 glow' href={bugsUrl} target='_blank'>{t('status:bugsLink')}</a>
+          </div>
+        </div> }
     </div>
   )
 }

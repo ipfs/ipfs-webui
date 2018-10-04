@@ -3,9 +3,9 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-scripts start",
     "prebuild": "shx cp config/webpack.config.prod.js node_modules/react-scripts/config/",
-    "build": "react-scripts build",
+    "build": "cross-env REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-scripts build",
     "build:icons": "svgr -d src/icons node_modules/ipfs-css/icons && standard --fix src/icons/*",
     "lint": "standard",
     "test": "react-scripts test",
