@@ -198,7 +198,8 @@ class FilesPage extends React.Component {
     } = this.state
 
     const isCompanion = ipfsProvider === 'window.ipfs'
-    const filesExist = files && files.content.length
+    const filesExist = files && files.content && files.content.length
+    const isRoot = files && files.path === '/'
 
     return (
       <div data-id='FilesPage'>
@@ -220,6 +221,12 @@ class FilesPage extends React.Component {
                   addProgress={writeFilesProgress} />
               }
             </div>
+
+            { isRoot && isCompanion && <CompanionInfo /> }
+
+            { isRoot && !filesExist && !isCompanion && <AddFilesInfo /> }
+
+            { isRoot && !filesExist && <WelcomeInfo /> }
 
             { files.type === 'directory' ? (
               <FilesList
@@ -245,10 +252,6 @@ class FilesPage extends React.Component {
             )}
           </div>
         }
-
-        { isCompanion && <CompanionInfo /> }
-
-        { !filesExist && <WelcomeInfo /> }
 
         <Overlay show={share.isOpen} onLeave={() => this.resetState('share')}>
           <ShareModal
@@ -287,21 +290,30 @@ const CompanionInfo = () => (
   </div>
 )
 
+const AddFilesInfo = () => (
+  <div className='mv4 tc navy f5' >
+    <Box style={{ background: 'rgba(105, 196, 205, 0.1)' }}>
+      <p className='ma0'>Add files to your local IPFS node by clicking the <strong>Add to IPFS</strong> button above.</p>
+    </Box>
+  </div>
+)
+
 const WelcomeInfo = () => (
   <div className='flex'>
     <div className='flex-auto pr3 lh-copy mid-gray'>
       <Box>
-        <h1 className='mt0 mb4 montserrat fw4 f3 green'>Welcome to the IPFS Web UI!</h1>
-        <p className='f6'><a href='#/' className='link aqua'>Check the status</a> and various information about your node, such as the current network traffic, bandwith and the distribution of peers by country.</p>
-        <p className='f6'>Easily <a href='#/files' className='link aqua'>manage files</a> in your IFPS repo. Drag and drop files to add them and move them around to change the file tree, rename them, share or download them.</p>
-        <p className='f6'>You can also <a href='#/explore' className='link aqua'>explore the merkle forest</a> of multiple projects. Even better, explore the ones of your own files!</p>
-        <p className='f6'>See a live map of where the <a href='#/peers' className='link aqua'>peers</a> you are connected to are. You can even check some more basic information about them.</p>
-        <p className='mb4 f6'><a href='#/settings' className='link aqua'>Manage the configuration</a> of your IPFS daemon to better suit your needs.</p>
-        <p className='mb0 f6'>If you want to help push the Web UI forward, <a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link aqua'>check out its code</a> or <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link aqua'>report a bug</a>!</p>
+        <h1 className='mt0 mb4 montserrat fw4 f4 charcoal'>Welcome to the IPFS Web UI</h1>
+        <p className='f5'><a href='#/' className='link blue u b'>Check the status</a> of your node, it's Peer ID and connection info, the network traffic and the number of connected peers.</p>
+        <p className='f5'>Easily <a href='#/files' className='link blue b'>manage files</a> in your IPFS repo. You can drag and drop to add files, move and rename them, delete, share or download them.</p>
+        <p className='f5'>You can <a href='#/explore' className='link blue b'>explore IPLD data</a> that underpins how IPFS works.</p>
+        <p className='f5'>See all of your <a href='#/peers' className='link blue b'>connected peers</a>, geolocated by their IP address.</p>
+        <p className='mb4 f5'><a href='#/settings' className='link blue b'>Review the settings</a> for your IPFS node, and update them to better suit your needs.</p>
+        <p className='mb0 f5'>If you want to help push the Web UI forward, <a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link blue'>check out its code</a> or <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link blue'>report a bug</a>!</p>
       </Box>
     </div>
     <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{ maxWidth: '40%' }}>
       <Box>
+        <h1 className='mt0 mb4 montserrat fw4 f4 charcoal'>What is IPFS?</h1>
         <p className='mt0'><strong>IPFS is a protocol</strong> that defines a content-addressed file system, coordinates content delivery and combines ideas from Kademlia, BitTorrent, Git and more.</p>
         <p><strong>IPFS is a filesystem.</strong> It has directories and files and mountable filesystem via FUSE.</p>
         <p><strong>IPFS is a web.</strong> Files are accessible via HTTP at <code className='f6'>https://ipfs.io/&lt;path&gt;</code>. Browsers <a className='link blue' target='_blank' rel='noopener noreferrer' href='https://github.com/ipfs-shipyard/ipfs-companion#release-channel'>can be extended</a> to use the <code className='f6'>ipfs://</code> or <code className='f6'>dweb:/ipfs/</code> schemes directly, and hash-addressed content guarantees authenticity</p>

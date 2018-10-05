@@ -13,15 +13,15 @@ import { DropTarget } from 'react-dnd'
 
 const AddButton = translate('files')(({ progress = null, t, tReady, ...props }) => {
   const sending = progress !== null
-  let cls = 'Button f7 relative transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline'
+  let cls = 'Button f6 relative transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline'
   if (sending) {
     cls += ' bg-grey light-grey'
   } else {
-    cls += ' pointer bg-aqua white'
+    cls += ' pointer bg-green white'
   }
 
   return (
-    <button disabled={sending} className={cls} style={{ width: '120px' }} {...props}>
+    <button disabled={sending} className={cls} style={{ width: '144px' }} {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
         {sending ? `${progress.toFixed(0)}%` : `+ ${t('addToIPFS')}`}
       </div>&nbsp;
