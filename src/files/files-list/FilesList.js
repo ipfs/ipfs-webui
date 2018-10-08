@@ -8,7 +8,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
-import { translate } from 'react-i18next'
+import { Trans, translate } from 'react-i18next'
 
 class FileList extends React.Component {
   static propTypes = {
@@ -104,9 +104,11 @@ class FileList extends React.Component {
 
     if (!files.length) {
       return (
-        <div className='pv3 b--light-gray bt tc gray f6'>
-          There are no available files. Add some!
-        </div>
+        <Trans i18nKey='filesList.noFiles'>
+          <div className='pv3 b--light-gray bt tc gray f6'>
+            There are no available files. Add some!
+          </div>
+        </Trans>
       )
     }
 
