@@ -4,7 +4,7 @@ import { Title } from './Commons'
 import { Pie } from 'react-chartjs-2'
 import { connect } from 'redux-bundler-react'
 
-const CountryChart = ({ t, peerLocations, className }) => {
+const CountryChart = ({ t, peerLocations, className, doUpdateHash }) => {
   const countryLabels = {}
   const countsByCountry = {}
 
@@ -44,6 +44,19 @@ const CountryChart = ({ t, peerLocations, className }) => {
     legend: {
       display: true,
       position: 'bottom'
+    },
+    tooltips: {
+      displayColors: false,
+      callbacks: {
+        title: (tooltipItem, data) => data.labels[tooltipItem[0].index],
+        label: (tooltipItem, data) => {
+          const percent = data['datasets'][0]['data'][tooltipItem['index']]
+          const count = Math.round((percent * totalCountries) / 100)
+          const peerStr = count === 1 ? t('peer') : t('peers')
+
+          return `${percent}% (${count} ${peerStr})`
+        }
+      }
     }
   }
 
@@ -58,9 +71,11 @@ const CountryChart = ({ t, peerLocations, className }) => {
       .concat('Other')
   }
 
+  const handleClick = () => doUpdateHash('/peers', { replace: true })
+
   return (
     <div>
-      <Title>{t('distributionOfPeers')}</Title>
+      <Title classes='pointer' onClick={handleClick}>{t('distributionOfPeers')}</Title>
       <div className='nl3 nr3'>
         <Pie data={{ datasets, labels }} options={options} />
       </div>
@@ -68,4 +83,8 @@ const CountryChart = ({ t, peerLocations, className }) => {
   )
 }
 
-export default connect('selectPeerLocations', translate('status')(CountryChart))
+export default connect(
+  'selectPeerLocations',
+  'doUpdateHash',
+  translate('status')(CountryChart)
+)
