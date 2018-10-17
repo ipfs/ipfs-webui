@@ -8,7 +8,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
-import { translate } from 'react-i18next'
+import { Trans, translate } from 'react-i18next'
 
 class FileList extends React.Component {
   static propTypes = {
@@ -101,6 +101,16 @@ class FileList extends React.Component {
 
   get files () {
     const { files, isOver, canDrop } = this.props
+
+    if (!files.length) {
+      return (
+        <Trans i18nKey='filesList.noFiles'>
+          <div className='pv3 b--light-gray bt tc gray f6'>
+            There are no available files. Add some!
+          </div>
+        </Trans>
+      )
+    }
 
     return files.map(file => (
       <File
@@ -279,48 +289,42 @@ class FileList extends React.Component {
 
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
-    if (selected.length !== 0) {
-      className += ' mb6'
-    }
-
     return connectDropTarget(
-      <div style={{ marginBottom: '80px' }}>
-        <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '500px' }}>
-          <header className='hide-child-l gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
-            <div className='child float-on-left-l ph2 w2' style={allSelected ? { opacity: '1' } : null}>
-              <Checkbox checked={allSelected} onChange={this.toggleAll} />
-            </div>
-            <div className='ph2 f6 flex-grow-1 w-40'>
-              <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
-                {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
-              </span>
-            </div>
-            <div className='ph2 f6 w-10 dn db-l'>
-              <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
-                {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
-              </span>
-            </div>
-            <div className='pa2' style={{ width: '2.5rem' }} />
-          </header>
-          { upperDir &&
-            <File
-              ref={r => { this.filesRefs['..'] = r }}
-              onNavigate={() => this.props.onNavigate(upperDir.path)}
-              onInspect={() => this.props.onInspect([upperDir])}
-              onAddFiles={this.props.onAddFiles}
-              onMove={this.move}
-              setIsDragging={this.isDragging}
-              translucent={isDragging || (isOver && canDrop)}
-              name='..'
-              focused={this.state.focused === '..'}
-              cantDrag
-              cantSelect
-              {...upperDir} />
-          }
-          {this.files}
-          {this.selectedMenu}
-        </section>
-      </div>
+      <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '130px' }}>
+        <header className='hide-child-l gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
+          <div className='child float-on-left-l ph2 w2' style={allSelected ? { opacity: '1' } : null}>
+            <Checkbox checked={allSelected} onChange={this.toggleAll} />
+          </div>
+          <div className='ph2 f6 flex-grow-1 w-40'>
+            <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
+              {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
+            </span>
+          </div>
+          <div className='ph2 f6 w-10 dn db-l'>
+            <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
+              {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
+            </span>
+          </div>
+          <div className='pa2' style={{ width: '2.5rem' }} />
+        </header>
+        { upperDir &&
+          <File
+            ref={r => { this.filesRefs['..'] = r }}
+            onNavigate={() => this.props.onNavigate(upperDir.path)}
+            onInspect={() => this.props.onInspect([upperDir])}
+            onAddFiles={this.props.onAddFiles}
+            onMove={this.move}
+            setIsDragging={this.isDragging}
+            translucent={isDragging || (isOver && canDrop)}
+            name='..'
+            focused={this.state.focused === '..'}
+            cantDrag
+            cantSelect
+            {...upperDir} />
+        }
+        {this.files}
+        {this.selectedMenu}
+      </section>
     )
   }
 }
