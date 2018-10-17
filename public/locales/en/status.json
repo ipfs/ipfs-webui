@@ -2,6 +2,7 @@
   "title": "Status",
   "peer": "Peer",
   "peers": "Peers",
+  "peersCount": "{count, plural, one {Peer} other {Peers}}",
   "addresses": "Addresses",
   "nodeInfo": "Node Info",
   "peerId": "Peer ID",
