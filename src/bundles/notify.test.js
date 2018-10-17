@@ -16,14 +16,14 @@ const ipfsBundle = (provider = 'js-ipfs-api', opts) => {
   }, opts)
 }
 
-it('should notify about api fetch errors', async () => {
+it('should notify about api stats fetch errors', async () => {
   const store = composeBundlesRaw(
     appTimeBundle,
     ipfsBundle(),
     notifyBundle
   )()
   expect(store.selectNotify().show).toEqual(false)
-  store.dispatch({ type: 'FOO_FETCH_FAILED', payload: { error: new Error('test') } })
+  store.dispatch({ type: 'STATS_FETCH_FAILED', payload: { error: new Error('test') } })
   expect(store.selectNotify().show).toEqual(true)
   expect(store.selectNotify().error).toEqual(true)
   expect(store.selectNotifyI18nKey()).toEqual('ipfsApiRequestFailed')
@@ -36,7 +36,7 @@ it('should notify about window.ipfs fetch errors', async () => {
     notifyBundle
   )()
   expect(store.selectNotify().show).toEqual(false)
-  store.dispatch({ type: 'FOO_FETCH_FAILED' })
+  store.dispatch({ type: 'STATS_FETCH_FAILED' })
   expect(store.selectNotify().show).toEqual(true)
   expect(store.selectNotify().error).toEqual(true)
   expect(store.selectNotifyI18nKey()).toEqual('windowIpfsRequestFailed')
@@ -49,11 +49,11 @@ it('should notify about connection returning after a previous error', async () =
     notifyBundle
   )()
   expect(store.selectNotify().show).toEqual(false)
-  store.dispatch({ type: 'FOO_FETCH_FAILED', payload: { error: new Error('test') } })
+  store.dispatch({ type: 'STATS_FETCH_FAILED', payload: { error: new Error('test') } })
   expect(store.selectNotify().show).toEqual(true)
   expect(store.selectNotify().error).toEqual(true)
   expect(store.selectNotifyI18nKey()).toEqual('ipfsApiRequestFailed')
-  store.dispatch({ type: 'FOO_FETCH_FINISHED' })
+  store.dispatch({ type: 'STATS_FETCH_FINISHED' })
 })
 
 it('should dismiss connection ok message after 3s', async () => {
@@ -69,15 +69,15 @@ it('should dismiss connection ok message after 3s', async () => {
     createReactorBundle()
   )()
   expect(store.selectNotify().show).toEqual(false)
-  store.dispatch({ type: 'FOO_FETCH_FAILED', payload: { error: new Error('test') } })
+  store.dispatch({ type: 'STATS_FETCH_FAILED', payload: { error: new Error('test') } })
   expect(store.selectNotify().show).toEqual(true)
   expect(store.selectNotify().error).toEqual(true)
   expect(store.selectNotifyI18nKey()).toEqual('ipfsApiRequestFailed')
 
-  store.dispatch({ type: 'FOO_FETCH_FINISHED' })
+  store.dispatch({ type: 'STATS_FETCH_FINISHED' })
   expect(store.selectNotify().show).toEqual(true)
   expect(store.selectNotify().error).toEqual(false)
-  expect(store.selectNotify().eventId).toEqual('FETCH_FINISHED')
+  expect(store.selectNotify().eventId).toEqual('STATS_FETCH_FINISHED')
 
   // add 3s to the app time clock
   fakeTime = Date.now() + 3001
@@ -97,6 +97,6 @@ it('should notify about file errors', async () => {
   store.dispatch({ type: 'FILES_WRITE_FAILED', payload: { error: new Error('test') } })
   expect(store.selectNotify().show).toEqual(true)
   expect(store.selectNotify().error).toEqual(true)
-  expect(store.selectNotifyI18nKey()).toEqual('ipfsApiRequestFailed')
+  expect(store.selectNotifyI18nKey()).toEqual('filesEventFailed')
   store.dispatch({ type: 'FILES_WRITE_FINISHED' })
 })
