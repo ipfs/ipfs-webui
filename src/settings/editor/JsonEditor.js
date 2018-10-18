@@ -9,6 +9,7 @@ class JsonEditor extends React.Component {
     const { value, readOnly, onChange } = this.props
     const lineHeight = 16
     const height = Math.max(500, value.split('\n').length * lineHeight)
+
     return (
       <div className='pv3 bg-navy br2'>
         <AceEditor
@@ -22,13 +23,8 @@ class JsonEditor extends React.Component {
           fontSize={12}
           showPrintMargin={false}
           showGutter
-          editorProps={{
-            $blockScrolling: Infinity
-          }}
-          setOptions={{
-            showLineNumbers: true,
-            tabSize: 2
-          }} />
+          editorProps={{ $blockScrolling: Infinity }}
+          setOptions={{ showLineNumbers: true, tabSize: 2 }} />
       </div>
     )
   }
