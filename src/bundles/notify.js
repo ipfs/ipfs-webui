@@ -21,32 +21,30 @@ const notify = {
       return { ...state, show: false }
     }
 
-    if (action.type.match(/_FETCH_FAILED$/) || action.type.match(/^FILES_\w+_FAILED$/)) {
-      if (action.type === 'CONFIG_FETCH_FAILED') {
-        // TODO: this avoids flashing the error message when booting with window.ipfs, but it's very loose.
-        return state
-      }
-      if (state.eventId !== 'FETCH_FAILED') {
-        return {
-          ...state,
-          show: true,
-          error: true,
-          eventId: 'FETCH_FAILED'
-        }
+    if (action.type === 'STATS_FETCH_FAILED') {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        eventId: action.type
       }
     }
 
-    if (action.type.match(/_FETCH_FINISHED$/) || action.type.match(/^FILES_\w+_FINISHED$/)) {
-      // Finsihing with an error is not a good finish.
-      // TODO: fix explore bundle to not do that.
-      if (action.payload && action.payload.error) return state
-      if (state.eventId === 'FETCH_FAILED') {
-        return {
-          ...state,
-          error: false,
-          eventId: 'FETCH_FINISHED',
-          lastSuccess: Date.now()
-        }
+    if (action.type.match(/^FILES_\w+_FAILED$/)) {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        eventId: 'FILES_EVENT_FAILED'
+      }
+    }
+
+    if (action.type === 'STATS_FETCH_FINISHED' && state.eventId === 'STATS_FETCH_FAILED') {
+      return {
+        ...state,
+        error: false,
+        eventId: 'STATS_FETCH_FINISHED',
+        lastSuccess: Date.now()
       }
     }
 
@@ -61,14 +59,15 @@ const notify = {
     (notify, provider) => {
       const { eventId } = notify
 
-      if (eventId === 'FETCH_FAILED') {
-        if (provider === 'window.ipfs') {
-          return 'windowIpfsRequestFailed'
-        }
-        return 'ipfsApiRequestFailed'
+      if (eventId === 'STATS_FETCH_FAILED') {
+        return provider === 'window.ipfs' ? 'windowIpfsRequestFailed' : 'ipfsApiRequestFailed'
       }
 
-      if (eventId === 'FETCH_FINISHED') {
+      if (eventId === 'FILES_EVENT_FAILED') {
+        return 'filesEventFailed'
+      }
+
+      if (eventId === 'STATS_FETCH_FINISHED') {
         return 'ipfsIsBack'
       }
 
@@ -83,7 +82,7 @@ const notify = {
     'selectAppTime',
     'selectNotify',
     (appTime, notify) => {
-      if (notify.eventId === 'FETCH_FINISHED' && notify.show && appTime - notify.lastSuccess > 3000) {
+      if (notify.eventId === 'STATS_FETCH_FINISHED' && notify.show && appTime - notify.lastSuccess > 3000) {
         return { type: 'NOTIFY_DISMISSED' }
       }
     }
