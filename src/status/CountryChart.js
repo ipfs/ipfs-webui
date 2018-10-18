@@ -4,7 +4,7 @@ import { Title } from './Commons'
 import { Pie } from 'react-chartjs-2'
 import { connect } from 'redux-bundler-react'
 
-const CountryChart = ({ t, peerLocations, className, doUpdateHash }) => {
+const CountryChart = ({ t, peerLocations, className }) => {
   const countryLabels = {}
   const countsByCountry = {}
 
@@ -71,11 +71,11 @@ const CountryChart = ({ t, peerLocations, className, doUpdateHash }) => {
       .concat('Other')
   }
 
-  const handleClick = () => doUpdateHash('/peers', { replace: true })
-
   return (
     <div>
-      <Title classes='pointer' onClick={handleClick}>{t('distributionOfPeers')}</Title>
+      <Title>
+        <a className='link aqua' href='#/peers'>{t('distributionOfPeers')}</a>
+      </Title>
       <div className='nl3 nr3'>
         <Pie data={{ datasets, labels }} options={options} />
       </div>
@@ -85,6 +85,5 @@ const CountryChart = ({ t, peerLocations, className, doUpdateHash }) => {
 
 export default connect(
   'selectPeerLocations',
-  'doUpdateHash',
   translate('status')(CountryChart)
 )
