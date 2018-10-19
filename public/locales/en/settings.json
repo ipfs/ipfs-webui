@@ -3,6 +3,15 @@
   "save": "Save",
   "saving": "Saving...",
   "reset": "Reset",
+  "language": "Language: {language}",
+  "languageModal": {
+    "title": "Edit Language",
+    "description": "Choose a language to change the idiom:"
+  },
+  "actions": {
+    "edit": "Edit",
+    "close": "Close"
+  },
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
   "settingsUnavailable": "Settings not available. Please check your IPFS daemon is running.",
