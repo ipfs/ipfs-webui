@@ -36,7 +36,7 @@ export default composeBundles(
   nodeBandwidthBundle,
   nodeBandwidthChartBundle(),
   peersBundle,
-  peerLocationsBundle(),
+  peerLocationsBundle({ concurrency: 1 }),
   notifyBundle,
   connectedBundle,
   retryInitBundle
