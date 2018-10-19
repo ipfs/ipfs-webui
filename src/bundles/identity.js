@@ -18,7 +18,6 @@ bundle.reactIdentityFetch = createSelector(
   'selectIdentityLastSuccess',
   'selectConnectedLastError',
   (connected, isLoading, idLastSuccess, connLastError) => {
-    console.log('reactIdentityFetch', { connected, isLoading, connLastError, idLastSuccess })
     if (connected && !isLoading) {
       if (!idLastSuccess || connLastError > idLastSuccess) {
         return { actionCreator: 'doFetchIdentity' }

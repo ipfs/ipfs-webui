@@ -6,10 +6,10 @@
   "fetchingSettings": "Lade Einstellungen...",
   "configApiNotAvailable": "Das IPFS Konfigurations API ist nicht verfügbar. Bitte deaktiviere die \"IPFS Begleiter\" Web Erweiterung und versuche es erneut.",
   "settingsUnavailable": "Einstellungen nicht verfügbar. Bitte überprüfe ob dein IPFS Daemon läuft.",
-  "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
+  "settingsHaveChanged": "Die Einstellungen haben sich geändert, bitte klicke auf <1>Zurücksetzen</1>, um den Inhalt des Editors zu aktualisieren.",
   "errorOccured": "Beim Speichern deiner Änderungen ist ein Fehler aufgetreten",
-  "checkConsole": "Check the browser console for more info.",
+  "checkConsole": "Öffne deine Browser-Konsole um mehr Informationen zu erhalten.",
   "changesSaved": "Deine Änderungen wurden gespeichert",
   "settingsWillBeUsedNextTime": "Die neuen Einstellungen werden beim nächsten Start des IPFS Daemons verwendet.",
-  "ipfsConfigDescription": "The IPFS config file is a json document. It is read once when the IPFS daemon is started. Save your changes then restart the IPFS daemon to apply them."
+  "ipfsConfigDescription": "Die IPFS-Konfigurationsdatei ist ein Json-Dokument. Es wird einmalig beim Start des IPFS-Daemons gelesen. Speichere deine Änderungen und starte den IPFS-Daemon neu, um sie anzuwenden."
 }

@@ -1,8 +1,8 @@
 {
-  "title": "Peers",
-  "peerId": "Peer ID",
-  "peers": "Peers",
-  "address": "Address",
+  "title": "Uzly",
+  "peerId": "ID uzlu",
+  "peers": "Uzly",
+  "address": "Adresa",
   "location": "Umístění",
   "unknownLocation": "Neznámé"
 }

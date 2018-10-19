@@ -1,0 +1,8 @@
+{
+  "title": "Klient-forbindelser",
+  "peerId": "Klient ID",
+  "peers": "Klient-forbindelser",
+  "address": "Adresse",
+  "location": "Lokation",
+  "unknownLocation": "Ukendt"
+}

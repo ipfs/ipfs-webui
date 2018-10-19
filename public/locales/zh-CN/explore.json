@@ -1,9 +1,9 @@
 {
-  "appName": "IPLD-utforskaren",
+  "appName": "IPLD浏览器",
   "StartExploringPage": {
-    "title": "Utforska - IPLD",
-    "header": "Utforksa Merkle-skogen",
-    "leadParagraph": "Klistrain en CID i rutan för att hämta IPLD-noden den adresserar, eller välj ett presenterat dataset."
+    "title": "Explore - IPLD",
+    "header": "Explore the Merkle Forest",
+    "leadParagraph": "Paste a CID into the box to fetch the IPLD node it addresses, or choose a featured dataset."
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD is <1>the data model of the content-addressable web.</1> It allows us to treat all hash-linked data structures as subsets of a unified information space, unifying all data models that link data with hashes as instances of IPLD.</0>",
@@ -11,20 +11,20 @@
     "paragraph3": "<0>Enter IPLD: a single namespace for all hash-inspired protocols. Through IPLD, links can be traversed across protocols, allowing you to explore data regardless of the underlying protocol.</0>"
   },
   "ExplorePage": {
-    "title": "Utforskar - IPLD"
+    "title": "Exploring - IPLD"
   },
   "IpldExploreForm": {
-    "explore": "Utforska"
+    "explore": "Explore"
   },
   "CidInfo": {
-    "header": "CID-info",
+    "header": "CID Info",
     "hashDigest": "Hash digest"
   },
   "ObjectInfo": {
-    "gatewayLink": "Se på IPFS-gateway"
+    "gatewayLink": "在IPFS网关上查看"
   },
-  "base": "bas",
-  "version": "version",
+  "base": "base",
+  "version": "版本",
   "codec": "codec",
   "multihash": "multihash"
 }

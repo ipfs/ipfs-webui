@@ -1,0 +1,15 @@
+{
+  "title": "Indstillinger",
+  "save": "Gem",
+  "saving": "Gemmer...",
+  "reset": "Nulstil",
+  "fetchingSettings": "Henter indstillinger...",
+  "configApiNotAvailable": "API'et til konfiguration af IPFS er utilgængelig. Venligst, fjern \"IPFS Kompagnon\" web-udvidelsen og prøv igen.",
+  "settingsUnavailable": "Indstillinger er ikke tilgængelige. Venligst, tjek at IPFS baggrunds-processen kører.",
+  "settingsHaveChanged": "Indstillingerne er opdateret, venligst klik på <1>Nulstil</1> for at opdatere editorens indhold.",
+  "errorOccured": "En fejl opstået ved forsøg på at gemme dine ændringer.",
+  "checkConsole": "Tjek din browser-konsol for yderligere info.",
+  "changesSaved": "Dine ændringer er blevet gemt.",
+  "settingsWillBeUsedNextTime": "Dine nye indstillinger bliver taget i brug næste gang du genstarter IPFS baggrundsprocessen.",
+  "ipfsConfigDescription": "Konfigurationsfilen er et json dokument. Det læses en gang når IPFS baggrunds-processen startes. Gem dine ændringer og genstart herefter IPFS baggrundsprocessen for at ibrugtage disse."
+}
