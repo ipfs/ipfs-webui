@@ -58,5 +58,19 @@
   "newFolderModal": {
     "title": "새 폴더",
     "description": "폴더를 생성하기 위해 이름을 입력하세요."
-  }
+  },
+  "welcomeInfo": {
+    "header": "Welcome to the IPFS Web UI",
+    "paragraph1": "<0><0>Check the status</0> of your node, it's Peer ID and connection info, the network traffic and the number of connected peers.</0>",
+    "paragraph2": "<0>Easily <1>manage files</1> in your IPFS repo. You can drag and drop to add files, move and rename them, delete, share or download them.</0>",
+    "paragraph3": "<0>You can <1>explore IPLD data</1> that underpins how IPFS works.</0>",
+    "paragraph4": "<0>See all of your <1>connected peers</1>, geolocated by their IP address.</0>",
+    "paragraph5": "<0><0>Review the settings</0> for your IPFS node, and update them to better suit your needs.</0>",
+    "paragraph6": "<0>If you want to help push the Web UI forward, <1>check out its code</1> or <3>report a bug</3>!</0>"
+  },
+  "filesList": {
+    "noFiles": "<0>No files in this directory. Click the Add to IPFS button to add some.</0>"
+  },
+  "addFilesInfo": "<0>Add files to your local IPFS node by clicking the <1>Add to IPFS</1> button above.</0>",
+  "companionInfo": "<0>As you are using <1>IPFS Companion</1>, the files view is limited to files added while using the extension.</0>"
 }

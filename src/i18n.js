@@ -4,6 +4,7 @@ import XHR from 'i18next-xhr-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
 import cs from 'i18next-icu/locale-data/cs'
+import da from 'i18next-icu/locale-data/da'
 import de from 'i18next-icu/locale-data/de'
 import en from 'i18next-icu/locale-data/en'
 import eo from 'i18next-icu/locale-data/eo'
@@ -23,7 +24,7 @@ import zh from 'i18next-icu/locale-data/zh'
 
 i18n
   .use(new ICU({
-    localeData: [cs, de, en, eo, es, fr, it, ko, nl, no, pl, pt, ru, sl, sv, uk, zh]
+    localeData: [cs, da, de, en, eo, es, fr, it, ko, nl, no, pl, pt, ru, sl, sv, uk, zh]
   }))
   .use(XHR)
   .use(LanguageDetector)

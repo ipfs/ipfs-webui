@@ -1,0 +1,30 @@
+{
+  "appName": "IPLD Udforsker",
+  "StartExploringPage": {
+    "title": "Udforsk - IPLD",
+    "header": "Udforsk Merkle-skoven",
+    "leadParagraph": "Indsæt et CID i boksen for at fremsøge IPLD-klienten som adresseres, eller vælg fra et udstillet datasæt."
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD er <1>datamodellen for det indholds-adresserbare net.</1> Hvilket gør os i stand til at behandle alle hash-linkede data-strukturer som undergrupper hjemhørende under et fælles informations-rum, der kan kombinere alle datamodeller som linker til data via hashes, som instanser af IPLD</0> ",
+    "paragraph2": "<0>Indholdsadressering gennem hashes er blevet en udbredt måde at forbinde data på tværs af distribuerede systemer. Alt lige fra den blockchain der udgør grundlaget for din ynglings cryptovaluta, til indtjekningen af din kodebase, til udveksling af net-indhold på stor skala. Selvom at alle disse værktøjer er bygget på samme fundamentale byggeklodser, så er de underliggende data strukturer ikke kompatible.</0>",
+    "paragraph3": "<0>Træd ind IPLD's verden: Et fælles navngivningsrum til brug for alle hash-inspirerede protokoller. Ved at benytte IPLD, kan links forfølges på tværs af protokoller, hvilket giver dig mulighed for at udforske data uanset hvilken underliggende protokol der benyttes.</0>"
+  },
+  "ExplorePage": {
+    "title": "Udforsker - IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "Udforsk"
+  },
+  "CidInfo": {
+    "header": "CID-info",
+    "hashDigest": "Hash sum"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "Vis med IPFS Gateway"
+  },
+  "base": "base",
+  "version": "version",
+  "codec": "codec",
+  "multihash": "multihash"
+}

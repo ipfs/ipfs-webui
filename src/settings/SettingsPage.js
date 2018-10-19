@@ -32,7 +32,7 @@ const SettingsPage = ({
             hasSaveFailed={hasSaveFailed}
             hasSaveSucceded={hasSaveSucceded} />
         </div>
-        <div className='dtc tr v-btm pt2' style={{ width: 240 }}>
+        <div className='dtc tr v-btm pt2'>
           { config ? (
             <div>
               <Button
