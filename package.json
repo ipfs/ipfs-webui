@@ -41,7 +41,7 @@
     "ipfs-geoip": "^2.3.0",
     "ipfs-redux-bundle": "^4.1.1",
     "ipfs-unixfs": "^0.1.15",
-    "ipld": "^0.17.3",
+    "ipld": "^0.19.1",
     "ipld-explorer-components": "^1.0.0",
     "is-binary": "^0.1.0",
     "is-ipfs": "^0.4.2",
