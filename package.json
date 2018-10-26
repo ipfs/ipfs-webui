@@ -45,6 +45,7 @@
     "ipld-explorer-components": "^1.0.0",
     "is-binary": "^0.1.0",
     "is-ipfs": "^0.4.2",
+    "leveldown": "^4.0.1",
     "milliseconds": "^1.0.3",
     "money-clip": "^2.1.0",
     "multiaddr": "^5.0.0",
