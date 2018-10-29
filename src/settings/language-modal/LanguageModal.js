@@ -8,7 +8,7 @@ import isoLangs from '../utils/iso-langs.json'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../../components/modal/Modal'
-import EditIcon from '../../icons/StrokePencil'
+import SpeakerIcon from '../../icons/StrokeSpeaker'
 import Button from '../../components/button/Button'
 
 const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
@@ -19,13 +19,13 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} >
-      <ModalBody title={t('languageModal.title')} icon={EditIcon}>
+      <ModalBody icon={SpeakerIcon}>
         <p className='gray w-80 center'>{t('languageModal.description')}</p>
-        <div className='flex flex-column pa2'>
+        <div className='pa2 flex flex-wrap'>
           { localesList.map((lang) =>
             <button
               key={`lang-${lang}`}
-              className='ma1 flex bn outline-0 aqua pointer'
+              className='pa2 w-33 flex bn outline-0 aqua pointer'
               onClick={() => handleClick(lang)}>
               { isoLangs[lang].name }
             </button>
