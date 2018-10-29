@@ -22,10 +22,10 @@ import sv from 'i18next-icu/locale-data/sv'
 import uk from 'i18next-icu/locale-data/uk'
 import zh from 'i18next-icu/locale-data/zh'
 
+const localeData = [cs, da, de, en, eo, es, fr, it, ko, nl, no, pl, pt, ru, sl, sv, uk, zh]
+
 i18n
-  .use(new ICU({
-    localeData: [cs, da, de, en, eo, es, fr, it, ko, nl, no, pl, pt, ru, sl, sv, uk, zh]
-  }))
+  .use(new ICU({ localeData: localeData }))
   .use(XHR)
   .use(LanguageDetector)
   .init({
@@ -44,5 +44,7 @@ i18n
       nsMode: 'default'
     }
   })
+
+export const localesList = localeData.map((locale) => locale[0].locale)
 
 export default i18n

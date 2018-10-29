@@ -4,6 +4,9 @@ import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
 import i18n from '../i18n'
 
+// Utils
+import isoLangs from './utils/iso-langs.json'
+
 // Components
 import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
@@ -28,7 +31,7 @@ const SettingsPage = ({
     <Box className='mb3 pa4'>
       <div className='flex justify-between items-center'>
         <p className='ma0 lh-copy charcoal-muted f6'>
-          {t('language', { language: i18n.language })}
+          {t('language', { language: isoLangs[i18n.language].nativeName })}
         </p>
         <Button minWidth={100} onClick={onLanguageEditOpen}>
           {t('actions.edit')}
