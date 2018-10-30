@@ -28,6 +28,8 @@ export const localesList =
   // add here the language variants
   ['zh-CN', 'zh-HK', 'zh-TW']
     .concat(localeData.map((locale) => locale[0].locale))
+    // add here languages you want to exclude
+    .filter(item => !['zh'].includes(item))
     .sort()
 
 i18n
