@@ -2,10 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
-import i18n from '../i18n'
-
-// Utils
-import isoLangs from './utils/iso-langs.json'
+import { getCurrentLanguage } from '../lib/i18n'
 
 // Components
 import Tick from '../icons/GlyphSmallTick'
@@ -31,7 +28,7 @@ const SettingsPage = ({
     <Box className='mb3 pa4'>
       <div className='flex justify-between items-center'>
         <p className='ma0 lh-copy charcoal-muted f6'>
-          {t('language', { language: isoLangs[i18n.language].nativeName })}
+          {t('language', { language: getCurrentLanguage() })}
         </p>
         <Button minWidth={100} onClick={onLanguageEditOpen}>
           {t('actions.edit')}

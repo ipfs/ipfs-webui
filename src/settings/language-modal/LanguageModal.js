@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { translate } from 'react-i18next'
 import i18n, { localesList } from '../../i18n'
-
-// Utils
-import isoLangs from '../utils/iso-langs.json'
+import { getLanguage } from '../../lib/i18n'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../../components/modal/Modal'
@@ -13,6 +11,7 @@ import Button from '../../components/button/Button'
 
 const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
   const handleClick = (lang) => {
+    console.log(lang)
     i18n.changeLanguage(lang)
     onLeave()
   }
@@ -27,7 +26,7 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
               key={`lang-${lang}`}
               className='pa2 w-33 flex bn outline-0 aqua pointer'
               onClick={() => handleClick(lang)}>
-              { isoLangs[lang].name }
+              { getLanguage(lang) }
             </button>
           )}
         </div>
