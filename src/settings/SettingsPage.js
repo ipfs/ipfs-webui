@@ -2,23 +2,25 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
-import { getCurrentLanguage } from '../lib/i18n'
 
 // Components
 import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
+import LanguageSelector from '../components/language-selector/LanguageSelector'
 import JsonEditor from './editor/JsonEditor'
-import Overlay from '../components/overlay/Overlay'
-import LanguageModal from './language-modal/LanguageModal'
 
 const PAUSE_AFTER_SAVE_MS = 3000
+
+const Title = ({ props, children }) => (
+  <h2 className='ttu tracked f6 fw4 aqua mt0 mb3' {...props}>{ children }</h2>
+)
 
 const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
-  config, onChange, onReset, onSave, editorKey, showEditModal, onLanguageEditOpen, onLanguageEditClose
+  config, onChange, onReset, onSave, editorKey
 }) => (
   <div data-id='SettingsPage'>
     <Helmet>
@@ -26,17 +28,12 @@ const SettingsPage = ({
     </Helmet>
 
     <Box className='mb3 pa4'>
-      <div className='flex justify-between items-center'>
-        <p className='ma0 lh-copy charcoal-muted f6'>
-          {t('language', { language: getCurrentLanguage() })}
-        </p>
-        <Button minWidth={100} onClick={onLanguageEditOpen}>
-          {t('actions.edit')}
-        </Button>
-      </div>
+      <Title>{t('language')}</Title>
+      <LanguageSelector />
     </Box>
 
     <Box>
+      <Title>{t('config')}</Title>
       <div className='dt dt--fixed pb3'>
         <div className='dtc v-mid'>
           <SettingsInfo
@@ -82,10 +79,6 @@ const SettingsPage = ({
           key={editorKey} />
       ) : null}
     </Box>
-
-    <Overlay show={showEditModal} onLeave={onLanguageEditClose} >
-      <LanguageModal className='outline-0' onLeave={onLanguageEditClose} />
-    </Overlay>
   </div>
 )
 
@@ -162,14 +155,8 @@ export class SettingsPageContainer extends React.Component {
     // mutable copy of the config
     editableConfig: this.props.config,
     // reset the editor on reset
-    editorKey: Date.now(),
-    // language modal
-    isLanguageModalOpen: false
+    editorKey: Date.now()
   }
-
-  onLanguageEditOpen = () => this.setState({ isLanguageModalOpen: true })
-
-  onLanguageEditClose = () => this.setState({ isLanguageModalOpen: false })
 
   onChange = (value) => {
     this.setState({
@@ -228,7 +215,7 @@ export class SettingsPageContainer extends React.Component {
 
   render () {
     const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError } = this.props
-    const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey, isLanguageModalOpen } = this.state
+    const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
     const isLoading = configIsLoading || (!editableConfig && !configLastError)
@@ -248,11 +235,7 @@ export class SettingsPageContainer extends React.Component {
         editorKey={editorKey}
         onChange={this.onChange}
         onReset={this.onReset}
-        onSave={this.onSave}
-        onLanguageEdit={this.onLanguageEdit}
-        showEditModal={isLanguageModalOpen}
-        onLanguageEditOpen={this.onLanguageEditOpen}
-        onLanguageEditClose={this.onLanguageEditClose} />
+        onSave={this.onSave} />
     )
   }
 }

@@ -3,13 +3,14 @@
   "save": "Save",
   "saving": "Saving...",
   "reset": "Reset",
-  "language": "Language: {language}",
+  "language": "Language",
+  "config": "IPFS Config",
   "languageModal": {
-    "title": "Edit Language",
-    "description": "Choose a language to change the idiom:"
+    "title": "Change Language",
+    "description": "Pick your prefered language"
   },
   "actions": {
-    "edit": "Edit",
+    "edit": "Change",
     "close": "Close"
   },
   "fetchingSettings": "Fetching settings...",
