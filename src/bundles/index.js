@@ -1,5 +1,4 @@
-import { composeBundles } from 'redux-bundler'
-
+import { composeBundles, createCacheBundle } from 'redux-bundler'
 import ipfsBundle from 'ipfs-redux-bundle'
 import { exploreBundle } from 'ipld-explorer-components'
 import appIdle from './app-idle'
@@ -18,8 +17,10 @@ import notifyBundle from './notify'
 import connectedBundle from './connected'
 import retryInitBundle from './retry-init'
 import identityBundle from './identity'
+import bundleCache from '../lib/bundle-cache'
 
 export default composeBundles(
+  createCacheBundle(bundleCache.set),
   appIdle({ idleTimeout: 5000 }),
   ipfsBundle({
     tryWindow: false
@@ -39,5 +40,5 @@ export default composeBundles(
   peerLocationsBundle({ concurrency: 1 }),
   notifyBundle,
   connectedBundle,
-  retryInitBundle
+  retryInitBundle,
 )
