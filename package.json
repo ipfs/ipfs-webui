@@ -91,7 +91,7 @@
     "babel-runtime": "^6.26.0",
     "big.js": "^5.1.2",
     "bundlesize": "^0.17.0",
-    "cids": "^0.5.3",
+    "cids": "^0.5.5",
     "cross-env": "^5.2.0",
     "ecstatic": "^3.3.0",
     "enzyme": "^3.6.0",
