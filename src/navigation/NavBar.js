@@ -39,7 +39,7 @@ const NavLink = ({
   return (
     <a href={disabled ? null : href} className={anchorClass} role='menuitem' title={children}>
       <span className={`dib ${open ? 'dt-l' : ''}`}>
-        <span className={`dib dtc-l v-mid ${open ?'pl3 pl5-l' : 'ph3'}`} style={{width: 50}}>
+        <span className={`dib dtc-l v-mid ${open ? 'pl3 pl5-l' : 'ph3'}`} style={{ width: 50 }}>
           <Svg width='50' className={svgClass} />
         </span>
         <span className={`${open ? 'dib dtc-l' : 'dn'} pl2 pl3-l pr3 tl-l v-mid `}>
@@ -56,7 +56,7 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   const gitRevision = process.env.REACT_APP_GIT_REV
   const revisionUrl = `${codeUrl}/commit/${gitRevision}`
   return (
-    <div className='h-100 fixed-l flex flex-column justify-between' style={{width: 'inherit'}}>
+    <div className='h-100 fixed-l flex flex-column justify-between' style={{ width: 'inherit' }}>
       <div className='flex flex-column'>
         <div className='pointer pv3 pv4-l' onClick={onToggle}>
           <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
