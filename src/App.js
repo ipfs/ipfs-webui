@@ -30,12 +30,12 @@ export class App extends Component {
 
     return (
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
-        <div className='flex' style={{ minHeight: '100vh' }}>
-          <div className='flex-none bg-navy' style={{ width: navbarWidth }}>
+        <div className='flex-ns' style={{ minHeight: '100vh' }}>
+          <div className='flex-none-ns bg-navy w5-l'>
             <NavBar />
           </div>
-          <div className='flex-auto'>
-            <div className='flex items-center' style={{ background: '#F0F6FA', padding: '20px 40px 15px' }}>
+          <div className='flex-auto-ns'>
+            <div className='flex items-center ph3-ns ph4-l' style={{ background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
               <div className='' style={{ width: 560, maxWidth: '80%' }}>
                 <IpldExploreForm />
               </div>
@@ -43,7 +43,7 @@ export class App extends Component {
                 <Connected />
               </div>
             </div>
-            <main className='bg-white' style={{ padding: '40px' }}>
+            <main className='bg-white pa3-ns pa4-l'>
               { (ipfsReady || url === '/welcome')
                 ? <Page />
                 : <ComponentLoader pastDelay />

@@ -53,20 +53,22 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   const bugsUrl = `${codeUrl}/issues`
   const gitRevision = process.env.REACT_APP_GIT_REV
   const revisionUrl = `${codeUrl}/commit/${gitRevision}`
-
   return (
-    <div className='h-100 fixed flex flex-column justify-between' style={{ width }}>
+    <div className='h-100 flex flex-column justify-between' style={{width: 'inherit'}}>
       <div className='flex flex-column'>
-        <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>
+        <div className='pointer pv3 pv4-ns' onClick={onToggle}>
           <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
           <img className='center' style={{ height: 70, display: open ? 'none' : 'block' }} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
         </div>
-        <nav className='db pt4' role='menubar'>
+        <nav className='db' role='menubar'>
           <NavLink to='/' exact icon={StrokeMarketing} open={open}>{t('status:title')}</NavLink>
-          <NavLink to='/files/' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
-          <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
-          <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
-          <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>{t('settings:title')}</NavLink>
+
+{
+          // <NavLink to='/files/' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
+          // <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
+          // <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
+          // <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>{t('settings:title')}</NavLink>
+}
         </nav>
       </div>
       { open &&
