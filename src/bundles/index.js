@@ -40,5 +40,5 @@ export default composeBundles(
   peerLocationsBundle({ concurrency: 1 }),
   notifyBundle,
   connectedBundle,
-  retryInitBundle,
+  retryInitBundle
 )
