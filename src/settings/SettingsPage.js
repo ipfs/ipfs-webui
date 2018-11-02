@@ -35,15 +35,19 @@ const SettingsPage = ({
     <Box>
       <Title>{t('config')}</Title>
       <div className='flex pb3'>
-        <SettingsInfo
-          t={t}
-          tReady={tReady}
-          config={config}
-          isConfigBlocked={isConfigBlocked}
-          isLoading={isLoading}
-          hasExternalChanges={hasExternalChanges}
-          hasSaveFailed={hasSaveFailed}
-          hasSaveSucceded={hasSaveSucceded} />
+        <div className='flex-auto'>
+          <div className='mw7'>
+            <SettingsInfo
+              t={t}
+              tReady={tReady}
+              config={config}
+              isConfigBlocked={isConfigBlocked}
+              isLoading={isLoading}
+              hasExternalChanges={hasExternalChanges}
+              hasSaveFailed={hasSaveFailed}
+              hasSaveSucceded={hasSaveSucceded} />
+          </div>
+        </div>
         { config ? (
           <div className='flex flex-column justify-center flex-row-l items-center-l'>
             <Button
