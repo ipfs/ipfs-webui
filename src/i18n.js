@@ -26,10 +26,11 @@ const localeData = [cs, da, de, en, eo, es, fr, it, ko, nl, no, pl, pt, ru, sl, 
 
 export const localesList =
   // add here the language variants
-  ['zh-CN', 'zh-HK', 'zh-TW']
+  ['ko-KR', 'zh-CN', 'zh-HK', 'zh-TW']
     .concat(localeData.map((locale) => locale[0].locale))
     // add here languages you want to exclude
     .filter(item => !['zh'].includes(item))
+    .filter(item => !['ko'].includes(item))
     .sort()
 
 i18n
