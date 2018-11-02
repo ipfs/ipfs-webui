@@ -1,4 +1,4 @@
-# IPFS WebUI - Next
+# IPFS Web UI
 
 > A web interface to [IPFS](https://ipfs.io).
 >
