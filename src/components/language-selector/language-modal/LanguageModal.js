@@ -11,7 +11,6 @@ import Button from '../../button/Button'
 
 const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
   const handleClick = (lang) => {
-    console.log(lang)
     i18n.changeLanguage(lang)
     onLeave()
   }
