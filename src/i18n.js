@@ -22,18 +22,31 @@ import sv from 'i18next-icu/locale-data/sv'
 import uk from 'i18next-icu/locale-data/uk'
 import zh from 'i18next-icu/locale-data/zh'
 
+const localeData = [cs, da, de, en, eo, es, fr, it, ko, nl, no, pl, pt, ru, sl, sv, uk, zh]
+
+export const localesList =
+  // add here the language variants
+  ['ko-KR', 'zh-CN', 'zh-HK', 'zh-TW']
+    .concat(localeData.map((locale) => locale[0].locale))
+    // add here languages you want to exclude
+    .filter(item => !['ko', 'zh'].includes(item))
+    .sort()
+
 i18n
-  .use(new ICU({
-    localeData: [cs, da, de, en, eo, es, fr, it, ko, nl, no, pl, pt, ru, sl, sv, uk, zh]
-  }))
+  .use(new ICU({ localeData: localeData }))
   .use(XHR)
   .use(LanguageDetector)
   .init({
     ns: ['welcome', 'status', 'files', 'explore', 'peers', 'settings', 'notify'],
-    fallbackLng: 'en',
+    fallbackLng: {
+      'zh-Hans': ['zh-CN', 'en'],
+      'zh-Hant': ['zh-TW', 'en'],
+      'zh': ['zh-CN', 'en'],
+      'default': ['en']
+    },
     debug: process.env.NODE_ENV !== 'production',
     backend: {
-      // ensure a realtive path is used to look up the locales, so it works when used from /ipfs/<cid>
+      // ensure a relative path is used to look up the locales, so it works when used from /ipfs/<cid>
       loadPath: 'locales/{{lng}}/{{ns}}.json'
     },
     // react i18next special options (optional)
