@@ -29,8 +29,7 @@ export const localesList =
   ['ko-KR', 'zh-CN', 'zh-HK', 'zh-TW']
     .concat(localeData.map((locale) => locale[0].locale))
     // add here languages you want to exclude
-    .filter(item => !['zh'].includes(item))
-    .filter(item => !['ko'].includes(item))
+    .filter(item => !['ko', 'zh'].includes(item))
     .sort()
 
 i18n
@@ -40,8 +39,8 @@ i18n
   .init({
     ns: ['welcome', 'status', 'files', 'explore', 'peers', 'settings', 'notify'],
     fallbackLng: {
-      'zh-HANS': ['zh-CN', 'en'],
-      'zh-HANT': ['zh-TW', 'en'],
+      'zh-Hans': ['zh-CN', 'en'],
+      'zh-Hant': ['zh-TW', 'en'],
       'zh': ['zh-CN', 'en'],
       'default': ['en']
     },
