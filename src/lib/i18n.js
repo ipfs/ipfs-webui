@@ -8,6 +8,13 @@ export const getCurrentLanguage = () => {
 
 export const getLanguage = (localeCode) => {
   const info = languages[localeCode]
-  if (!info) return localeCode
+
+  if (!info) {
+    // if we haven't got the info in the `languages.json` we split it to get the language
+    const lang = languages[localeCode.split('-')[0]]
+    // if we have the language we add it, else we fallback to english (Web UI default lang)
+    return (lang && lang.nativeName) || languages['en'].englishName
+  }
+
   return info.nativeName
 }
