@@ -122,13 +122,13 @@ class NodeInfo extends React.Component {
             <Title>{t('networkTraffic')}</Title>
             <div className='flex-wrap flex-no-wrap-l flex justify-between' style={{ maxWidth: 400 }}>
               <Graph
-                title={t('upSpeed')}
-                color='#69c4cd'
-                {...upSpeed} />
-              <Graph
                 title={t('downSpeed')}
-                color='#f39021'
+                color='#69c4cd'
                 {...downSpeed} />
+              <Graph
+                title={t('upSpeed')}
+                color='#f39021'
+                {...upSpeed} />
             </div>
           </div>
         </div>
