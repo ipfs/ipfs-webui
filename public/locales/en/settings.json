@@ -7,7 +7,7 @@
   "config": "IPFS Config",
   "languageModal": {
     "title": "Change Language",
-    "description": "Pick your prefered language"
+    "description": "Pick your preferred language"
   },
   "actions": {
     "edit": "Change",
