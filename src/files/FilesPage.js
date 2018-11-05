@@ -47,7 +47,6 @@ class FilesPage extends React.Component {
     filesSorting: PropTypes.object.isRequired,
     writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
-    navbarWidth: PropTypes.number.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesDelete: PropTypes.func.isRequired,
     doFilesMove: PropTypes.func.isRequired,
@@ -184,7 +183,6 @@ class FilesPage extends React.Component {
       ipfsProvider,
       files,
       writeFilesProgress,
-      navbarWidth,
       doFilesMove,
       doFilesNavigateTo,
       doFilesUpdateSorting,
@@ -231,7 +229,6 @@ class FilesPage extends React.Component {
 
             { files.type === 'directory' ? (
               <FilesList
-                maxWidth={`calc(100% - ${navbarWidth}px)`}
                 key={window.encodeURIComponent(files.path)}
                 root={files.path}
                 sort={sort}
@@ -350,7 +347,6 @@ export default connect(
   'selectFiles',
   'selectGatewayUrl',
   'selectWriteFilesProgress',
-  'selectNavbarWidth',
   'selectFilesPathFromHash',
   'selectFilesSorting',
   translate('files')(FilesPage)
