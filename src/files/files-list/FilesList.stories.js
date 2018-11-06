@@ -1,8 +1,9 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import FilesList from './FilesList'
+import { FilesList } from './FilesList'
 import fixture from './fixtures/root.json'
+import i18n from '../../i18n'
 
 storiesOf('Files', module)
   .add('Files List', () => (
@@ -17,6 +18,6 @@ storiesOf('Files', module)
         onDelete={action('Delete')}
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
-      />
+        t={i18n.getFixedT('en', 'files')} />
     </div>
   ))

@@ -11,7 +11,7 @@ import StrokeSettings from '../icons/StrokeSettings'
 import StrokeIpld from '../icons/StrokeIpld'
 
 // Styles
-import './Navbar.css'
+import './NavBar.css'
 
 const NavLink = ({
   to,

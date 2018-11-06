@@ -1,12 +1,15 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
+import i18n from '../../i18n-decorator'
 import SelectedActions from './SelectedActions'
 
 storiesOf('Files', module)
-  .add('Actions for One File', () => (
-    <div className='ma2'>
+  .addDecorator(i18n)
+  .add('Selected Actions', () => (
+    <div className='ma3'>
       <SelectedActions
+        className='mb4'
         count={1}
         size={345345}
         downloadProgress={null}
@@ -15,12 +18,8 @@ storiesOf('Files', module)
         share={action('Share Files')}
         download={action('Download Files')}
         rename={action('Rename Files')}
-        inspect={action('Inspect Files')}
-      />
-    </div>
-  ))
-  .add('Actions for Multiple Files', () => (
-    <div className='ma2'>
+        inspect={action('Inspect Files')} />
+
       <SelectedActions
         count={17}
         size={8518484848}
@@ -30,7 +29,6 @@ storiesOf('Files', module)
         share={action('Share Files')}
         download={action('Download Files')}
         rename={action('Rename Files')}
-        inspect={action('Inspect Files')}
-      />
-    </div>
+        inspect={action('Inspect Files')} />
+    </div >
   ))
