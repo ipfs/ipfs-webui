@@ -1,4 +1,4 @@
-# IPFS WebUI - Next
+# IPFS Web UI
 
 > A web interface to [IPFS](https://ipfs.io).
 >
@@ -168,6 +168,11 @@ We use Transifex to help us translate WebUI to another languages. If you're inte
 2. To download new translations from Transifex: `tx pull -a`
     - this should create/update files in `public/locales/*` that need to be committed
     - if a new language is created, remember to add it to `src/i18n.js`
+3. If there are new locales, run [`lol`](https://github.com/olizilla/lol) to update our [`languages.json`](src/lib/languages.json)
+
+```console
+npx -q @olizilla/lol public/locales > src/lib/languages.json
+```
 
 ### Namespaces and source files
 
@@ -208,15 +213,14 @@ For **more info on our i18n process** at IPFS, check out:
 
 ## Releasing a new version of the WebUI.
 
-1. Pull latest translations from transifex
-1. Build it
-1. Add to IPFS
-1. Pin to the gateways
+1. `tx pull -a` Pull latest translations from transifex
+1. `npm run build` Build it
+1. `ipfs add -r -Q build` Add to IPFS
+1. Pin to the gateways (#ipfs-pinbot on freenode)
 1. Add the new version to https://github.com/ipfs-shipyard/ipfs-webui/tree/master/versions
 1. Update the hash at:
    - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L23
    - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
-
 
 ## Contribute
 

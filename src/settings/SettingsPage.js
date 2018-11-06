@@ -2,12 +2,19 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
+
+// Components
+import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
+import LanguageSelector from '../components/language-selector/LanguageSelector'
 import JsonEditor from './editor/JsonEditor'
-import Tick from '../icons/GlyphSmallTick'
 
 const PAUSE_AFTER_SAVE_MS = 3000
+
+const Title = ({ props, children }) => (
+  <h2 className='ttu tracked f6 fw4 aqua mt0 mb3' {...props}>{ children }</h2>
+)
 
 const SettingsPage = ({
   t, tReady,
@@ -19,43 +26,50 @@ const SettingsPage = ({
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
+
+    <Box className='mb3 pa4'>
+      <Title>{t('language')}</Title>
+      <LanguageSelector />
+    </Box>
+
     <Box>
-      <div className='dt dt--fixed pb3'>
-        <div className='dtc v-mid'>
-          <SettingsInfo
-            t={t}
-            tReady={tReady}
-            config={config}
-            isConfigBlocked={isConfigBlocked}
-            isLoading={isLoading}
-            hasExternalChanges={hasExternalChanges}
-            hasSaveFailed={hasSaveFailed}
-            hasSaveSucceded={hasSaveSucceded} />
+      <Title>{t('config')}</Title>
+      <div className='flex pb3'>
+        <div className='flex-auto'>
+          <div className='mw7'>
+            <SettingsInfo
+              t={t}
+              tReady={tReady}
+              config={config}
+              isConfigBlocked={isConfigBlocked}
+              isLoading={isLoading}
+              hasExternalChanges={hasExternalChanges}
+              hasSaveFailed={hasSaveFailed}
+              hasSaveSucceded={hasSaveSucceded} />
+          </div>
         </div>
-        <div className='dtc tr v-btm pt2'>
-          { config ? (
-            <div>
-              <Button
-                minWidth={100}
-                className='ml3'
-                bg='bg-charcoal'
-                disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
-                onClick={onReset}>
-                {t('reset')}
-              </Button>
-              <SaveButton
-                t={t}
-                tReady={tReady}
-                hasErrors={hasErrors}
-                hasSaveFailed={hasSaveFailed}
-                hasSaveSucceded={hasSaveSucceded}
-                hasLocalChanges={hasLocalChanges}
-                hasExternalChanges={hasExternalChanges}
-                isSaving={isSaving}
-                onClick={onSave} />
-            </div>
-          ) : null }
-        </div>
+        { config ? (
+          <div className='flex flex-column justify-center flex-row-l items-center-l'>
+            <Button
+              minWidth={100}
+              height={40}
+              bg='bg-charcoal'
+              disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
+              onClick={onReset}>
+              {t('reset')}
+            </Button>
+            <SaveButton
+              t={t}
+              tReady={tReady}
+              hasErrors={hasErrors}
+              hasSaveFailed={hasSaveFailed}
+              hasSaveSucceded={hasSaveSucceded}
+              hasLocalChanges={hasLocalChanges}
+              hasExternalChanges={hasExternalChanges}
+              isSaving={isSaving}
+              onClick={onSave} />
+          </div>
+        ) : null }
       </div>
       {config ? (
         <JsonEditor
@@ -73,7 +87,8 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
   return (
     <Button
       minWidth={100}
-      className='ml2'
+      height={40}
+      className='mt2 mt0-l ml2-l'
       bg={bg}
       disabled={!hasLocalChanges || hasErrors}
       danger={hasSaveFailed || hasExternalChanges}
@@ -124,7 +139,7 @@ const SettingsInfo = ({ t, isConfigBlocked, hasExternalChanges, hasSaveFailed, h
     )
   }
   return (
-    <p className='ma0 lh-copy charcoal-muted f6' style={{ maxWidth: 580 }}>
+    <p className='ma0 mr2 lh-copy charcoal-muted f6'>
       {t('ipfsConfigDescription')}
     </p>
   )

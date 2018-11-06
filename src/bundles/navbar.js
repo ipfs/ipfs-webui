@@ -19,5 +19,5 @@ export default {
 
   selectNavbarIsOpen: state => state.navbar.isOpen,
 
-  selectNavbarWidth: state => state.navbar.isOpen ? 250 : 100
+  selectNavbarWidth: state => state.navbar.isOpen ? 256 : 128
 }
