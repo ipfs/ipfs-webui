@@ -1,6 +1,8 @@
 export default {
   name: 'navbar',
 
+  persistActions: ['NAVBAR_TOGGLE'],
+
   reducer: (state = { isOpen: true }, action) => {
     if (action.type === 'NAVBAR_TOGGLE') {
       return {

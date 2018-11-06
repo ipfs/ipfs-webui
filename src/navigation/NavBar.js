@@ -58,7 +58,7 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   return (
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ width: 'inherit' }}>
       <div className='flex flex-column'>
-        <div className='pointer pv3 pv4-l' onClick={onToggle}>
+        <div className='pointer navy pv3 pv4-l' onClick={onToggle}>
           <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
           <img className='center' style={{ height: 70, display: open ? 'none' : 'block' }} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
         </div>
