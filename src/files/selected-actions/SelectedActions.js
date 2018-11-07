@@ -74,7 +74,7 @@ class SelectedActions extends React.Component {
       case null:
         return this.props.t('actions.download')
       default:
-        return this.props.downloadProgress.toFixed(0) + '%'
+        return this.props.downloadProgress && this.props.downloadProgress.toFixed(0) + '%'
     }
   }
 
