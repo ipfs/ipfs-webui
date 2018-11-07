@@ -1,0 +1,31 @@
+{
+  "title": "Welcome to IPFS",
+  "configureApiPort": {
+    "header": "Is your API on a port other than 5001?",
+    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here</0>"
+  },
+  "apiAddressForm": {
+    "apiLabel": "API ADDRESS",
+    "submitButton": "Submit"
+  },
+  "connected": {
+    "header": "Connected to IPFS",
+    "paragraph1": "<0>Now, it's time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
+    "paragraph2": "<0>You can always come back to this address to change the IPFS node you're connected to.</0>"
+  },
+  "notConnected": {
+    "header": "¿Está funcionando su daemon IPFS?",
+    "paragraph1": "<0>Failed to connect to the API.</0>",
+    "paragraoh2": "<0>Make sure you <1>configure your IPFS API</1> to allow cross-origin (CORS) requests, running the commands below:</0>",
+    "paragraph3": "<0>Start an IPFS daemon in a terminal:</0>",
+    "paragraph4": "<0>For more info on how to get started with IPFS you can <1>read the guide</1>.</0>"
+  },
+  "aboutIpfs": {
+    "header": "What is IPFS?",
+    "paragraph1": "<0><0>IPFS is a protocol</0> that defines a content-addressed file system, coordinates content delivery and combines ideas from Kademlia, BitTorrent, Git and more.</0>",
+    "paragraph2": "<0><0>IPFS is a filesystem.</0> It has directories and files and mountable filesystem via FUSE.</0>",
+    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity</0>",
+    "paragraph4": "<0><0>IPFS is p2p.</0> It supports worldwide peer-to-peer file transfers with a completely decentralized architecture and no central point of failure.</0>",
+    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and bittorrent-like bandwidth distribution.</0>"
+  }
+}

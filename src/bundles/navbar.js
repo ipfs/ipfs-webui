@@ -1,6 +1,8 @@
 export default {
   name: 'navbar',
 
+  persistActions: ['NAVBAR_TOGGLE'],
+
   reducer: (state = { isOpen: true }, action) => {
     if (action.type === 'NAVBAR_TOGGLE') {
       return {
@@ -17,5 +19,5 @@ export default {
 
   selectNavbarIsOpen: state => state.navbar.isOpen,
 
-  selectNavbarWidth: state => state.navbar.isOpen ? 250 : 100
+  selectNavbarWidth: state => state.navbar.isOpen ? 256 : 128
 }

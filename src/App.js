@@ -18,7 +18,8 @@ export class App extends Component {
       PropTypes.func,
       PropTypes.element
     ]).isRequired,
-    routeInfo: PropTypes.object.isRequired
+    routeInfo: PropTypes.object.isRequired,
+    navbarIsOpen: PropTypes.bool.isRequired
   }
 
   componentWillMount () {
@@ -26,24 +27,24 @@ export class App extends Component {
   }
 
   render () {
-    const { route: Page, ipfsReady, routeInfo: { url }, navbarWidth } = this.props
+    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen } = this.props
 
     return (
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
-        <div className='flex' style={{ minHeight: '100vh' }}>
-          <div className='flex-none bg-navy' style={{ width: navbarWidth }}>
+        <div className='flex-l' style={{ minHeight: '100vh' }}>
+          <div className={`flex-none-l bg-navy ${navbarIsOpen ? 'w5-l' : 'w4-l'}`}>
             <NavBar />
           </div>
-          <div className='flex-auto'>
-            <div className='flex items-center' style={{ background: '#F0F6FA', padding: '20px 40px 15px' }}>
-              <div className='' style={{ width: 560, maxWidth: '80%' }}>
+          <div className='flex-auto-l'>
+            <div className='flex items-center ph3 ph4-l' style={{ height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
+              <div style={{ width: 560 }}>
                 <IpldExploreForm />
               </div>
-              <div className='flex-auto tr'>
+              <div className='dn db-ns flex-auto tr'>
                 <Connected />
               </div>
             </div>
-            <main className='bg-white' style={{ padding: '40px' }}>
+            <main className='bg-white pv3 pa3-ns pa4-l'>
               { (ipfsReady || url === '/welcome')
                 ? <Page />
                 : <ComponentLoader pastDelay />
@@ -59,7 +60,7 @@ export class App extends Component {
 
 export default connect(
   'selectRoute',
-  'selectNavbarWidth',
+  'selectNavbarIsOpen',
   'selectRouteInfo',
   'doUpdateUrl',
   'doInitIpfs',

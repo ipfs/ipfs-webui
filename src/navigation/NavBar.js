@@ -30,7 +30,7 @@ const NavLink = ({
   const anchorClass = classnames({
     'bg-white-10': active,
     'o-50 no-pointer-events': disabled
-  }, ['dt dt--fixed pv3 mb2 white no-underline focus-outline f5 hover-bg-white-10'])
+  }, ['dib db-l pv3 white no-underline focus-outline f5 hover-bg-white-10 tc'])
   const svgClass = classnames({
     'o-100': active,
     'o-50': !active
@@ -38,11 +38,13 @@ const NavLink = ({
 
   return (
     <a href={disabled ? null : href} className={anchorClass} role='menuitem' title={children}>
-      <span className={`dtc v-mid ${open ? 'tr' : 'tc'}`} style={{ width: 100 }}>
-        <Svg width='50' className={svgClass} />
-      </span>
-      <span className='dtc v-mid pl3'>
-        {open ? children : null}
+      <span className={`dib ${open ? 'dt-l' : ''}`}>
+        <span className={`dib dtc-l v-mid ${open ? 'pl3 pl5-l' : 'ph3'}`} style={{ width: 50 }}>
+          <Svg width='50' className={svgClass} />
+        </span>
+        <span className={`${open ? 'dib dtc-l' : 'dn'} pl2 pl3-l pr3 tl-l v-mid `}>
+          {children}
+        </span>
       </span>
     </a>
   )
@@ -53,15 +55,14 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   const bugsUrl = `${codeUrl}/issues`
   const gitRevision = process.env.REACT_APP_GIT_REV
   const revisionUrl = `${codeUrl}/commit/${gitRevision}`
-
   return (
-    <div className='h-100 fixed flex flex-column justify-between' style={{ width }}>
+    <div className='h-100 fixed-l flex flex-column justify-between' style={{ width: 'inherit' }}>
       <div className='flex flex-column'>
-        <div className='pointer' style={{ paddingTop: 35 }} onClick={onToggle}>
+        <div className='pointer navy pv3 pv4-l' onClick={onToggle}>
           <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
           <img className='center' style={{ height: 70, display: open ? 'none' : 'block' }} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
         </div>
-        <nav className='db pt4' role='menubar'>
+        <nav className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
           <NavLink to='/' exact icon={StrokeMarketing} open={open}>{t('status:title')}</NavLink>
           <NavLink to='/files/' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
           <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
@@ -70,7 +71,7 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
         </nav>
       </div>
       { open &&
-        <div className='navbar-footer mb3 center'>
+        <div className='dn db-l navbar-footer mb3 center'>
           { gitRevision && <div className='tc mb1'>
             <a className='link white f7 o-80 glow' href={revisionUrl} target='_blank'>{t('status:revision')} {gitRevision}</a>
           </div> }

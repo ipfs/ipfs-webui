@@ -1,0 +1,30 @@
+{
+  "appName": "IPLD Explorer",
+  "StartExploringPage": {
+    "title": "Verken - IPLD",
+    "header": "Verken het Merkle Forest",
+    "leadParagraph": "Plak een CID in het vak om de IPLD node op te halen waar hij naar verwijst of kies een van de aanbevolen datasets."
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD is <1>het data model van het inhoud-adresseerbare web.</1>Hiermee kunnen we alle hash-gekoppelde gegevensstructuren behandelen als onderdeel van een uniforme informatieverzameling, waarbij alle gegevens, die met hashes aan elkaar gekoppeld zijn, verenigd worden als onderdelen van IPLD. </0>",
+    "paragraph2": "<0>Inhoud-adressering via hashes is een veelgebruikte methode geworden voor het verbinden van gegevens in gedistribueerde systemen, van blockchains die je favoriete cryptocurrencies bevatten, tot commits die uw code ondersteunen, tot de inhoud van het web in het algemeen. Hoewel al deze tools gebruik maken van dezelfde basiscomponenten, zijn hun specifieke datastructuren niet compatibel.</0>",
+    "paragraph3": "<0>IPLD lost dit op: een enkel adresbereik voor alle op-hash-geïnspireerde protocollen. Met IPLD kunnen koppelingen gevold worden doorheen verschillende protocollen, zodat je gegevens kan verkennen ongeacht het onderliggende protocol.</0>"
+  },
+  "ExplorePage": {
+    "title": "Verkennen - IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "Verken"
+  },
+  "CidInfo": {
+    "header": "CID info",
+    "hashDigest": "Hash digest"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "Bekijk via de IPFS Gateway"
+  },
+  "base": "basis",
+  "version": "versie",
+  "codec": "codec",
+  "multihash": "multihash"
+}

@@ -1,15 +1,15 @@
 {
-  "title": "Settings",
+  "title": "Nastavení",
   "save": "Uložit",
   "saving": "Ukládám...",
   "reset": "Resetovat",
-  "fetchingSettings": "Fetching settings...",
-  "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
-  "settingsUnavailable": "Settings not available. Please check your IPFS daemon is running.",
-  "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
-  "errorOccured": "An error occured while saving your changes",
-  "checkConsole": "Check the browser console for more info.",
-  "changesSaved": "Your changes have been saved",
-  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the IPFS daemon.",
-  "ipfsConfigDescription": "The IPFS config file is a json document. It is read once when the IPFS daemon is started. Save your changes then restart the IPFS daemon to apply them."
+  "fetchingSettings": "Získávání nastavení...",
+  "configApiNotAvailable": "IPFS API nastavení není dostupný. Prosím vypněte rozšíření \"IFPS Companion\" a zkuste to znovu.",
+  "settingsUnavailable": "Nastavení není dostupný. Prosím zkontrolujte zdali běží IPFS služba.",
+  "settingsHaveChanged": "Nastavení bylo změněno, prosím klikněte na <1>Obnovit</1> pro zaktualizování obsahu editoru",
+  "errorOccured": "V průběhu ukládání vašeho nastavení se vyskytla chyba",
+  "checkConsole": "Zkontrolujte konzoli prohlížeče pro více informací.",
+  "changesSaved": "Vaše nastavení bylo uloženo",
+  "settingsWillBeUsedNextTime": "Nové nastavení se použije při příštím restartu IPFS služby.",
+  "ipfsConfigDescription": "Nastavení IPFS je uloženo jako JSON soubor. Tento soubor je načten jednou při startu IPFS služby. Uložte vaše změny a následně zrestartujte IPFS službu pro aplikaci vašich změn."
 }

@@ -1,5 +1,8 @@
+/* global getComputedStyle */
+
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
@@ -22,7 +25,6 @@ export class FilesList extends React.Component {
     updateSorting: PropTypes.func.isRequired,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
-    maxWidth: PropTypes.string.isRequired,
     // React Drag'n'Drop
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -42,8 +44,7 @@ export class FilesList extends React.Component {
   }
 
   static defaultProps = {
-    className: '',
-    maxWidth: '100%'
+    className: ''
   }
 
   state = {
@@ -79,11 +80,14 @@ export class FilesList extends React.Component {
     }, 0)
     const show = this.state.selected.length !== 0
 
+    // We need this to get the width in ems
+    const innerWidthEm = window.innerWidth / parseFloat(getComputedStyle(document.querySelector('body'))['font-size'])
+
     return (
       <SelectedActions
         className={`fixed transition-all bottom-0 right-0`}
         style={{
-          maxWidth: this.props.maxWidth,
+          maxWidth: innerWidthEm < 60 ? '100%' : `calc(100% - ${this.props.navbarWidth}px)`,
           transform: `translateY(${show ? '0' : '100%'})`
         }}
         unselect={unselectAll}
@@ -346,4 +350,9 @@ const dropCollect = (connect, monitor) => ({
   canDrop: monitor.canDrop()
 })
 
-export default DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FilesList))
+export const StoryFilesList = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FilesList))
+
+export default connect(
+  'selectNavbarWidth',
+  DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FilesList))
+)

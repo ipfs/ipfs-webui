@@ -1,6 +1,13 @@
 [main]
 host = https://www.transifex.com
-lang_map = zh_CN: zh-CN, ko_KR: ko-KR
+lang_map = zh_CN: zh-CN, zh_HK: zh-HK, zh_TW: zh-TW, ko_KR: ko-KR
+
+[ipfs-webui.welcome-json]
+file_filter = public/locales/<lang>/welcome.json
+minimum_perc = 1
+source_file = public/locales/en/welcome.json
+source_lang = en
+type = KEYVALUEJSON
 
 [ipfs-webui.files-json]
 file_filter = public/locales/<lang>/files.json

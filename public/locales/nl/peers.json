@@ -2,7 +2,7 @@
   "title": "Peers",
   "peerId": "Peer ID",
   "peers": "Peers",
-  "address": "Address",
-  "location": "Location",
+  "address": "Adres",
+  "location": "Locatie",
   "unknownLocation": "Onbekend"
 }

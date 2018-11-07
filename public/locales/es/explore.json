@@ -1,0 +1,30 @@
+{
+  "appName": "Explorador IPLD",
+  "StartExploringPage": {
+    "title": "Explorar - IPLD",
+    "header": "Explorar el Merkle Forest",
+    "leadParagraph": "Pegue un CID en el cuadro para obtener el nodo de IPLD al que se dirige, o elija un conjunto de datos destacado."
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD is <1>the data model of the content-addressable web.</1> It allows us to treat all hash-linked data structures as subsets of a unified information space, unifying all data models that link data with hashes as instances of IPLD.</0>",
+    "paragraph2": "<0>Content addressing through hashes has become a widely-used means of connecting data in distributed systems, from the blockchains that run your favorite cryptocurrencies, to the commits that back your code, to the web’s content at large. Yet, whilst all of these tools rely on some common primitives, their specific underlying data structures are not interoperable.</0>",
+    "paragraph3": "<0>Enter IPLD: a single namespace for all hash-inspired protocols. Through IPLD, links can be traversed across protocols, allowing you to explore data regardless of the underlying protocol.</0>"
+  },
+  "ExplorePage": {
+    "title": "Explorando - IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "Explorar"
+  },
+  "CidInfo": {
+    "header": "CID Info",
+    "hashDigest": "Hash digest"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "Ver en entrada IPFS"
+  },
+  "base": "base",
+  "version": "versión",
+  "codec": "codec",
+  "multihash": "multihash"
+}
