@@ -9,23 +9,25 @@ import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
 import JsonEditor from './editor/JsonEditor'
+import DesktopSettings from './DesktopSettings'
+import Title from './Title'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
-const Title = ({ props, children }) => (
-  <h2 className='ttu tracked f6 fw4 aqua mt0 mb3' {...props}>{ children }</h2>
-)
-
-export const SettingsPage = ({
+const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
-  hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
+  hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, hasIpfsDesktop,
   config, onChange, onReset, onSave, editorKey
 }) => (
   <div data-id='SettingsPage'>
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
+
+    { hasIpfsDesktop &&
+      <DesktopSettings />
+    }
 
     <Box className='mb3 pa4'>
       <Title>{t('language')}</Title>
@@ -215,7 +217,7 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError } = this.props
+    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, hasIpfsDesktop } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
@@ -236,7 +238,8 @@ export class SettingsPageContainer extends React.Component {
         editorKey={editorKey}
         onChange={this.onChange}
         onReset={this.onReset}
-        onSave={this.onSave} />
+        onSave={this.onSave}
+        hasIpfsDesktop={hasIpfsDesktop} />
     )
   }
 }
@@ -251,6 +254,7 @@ export default connect(
   'selectConfigIsSaving',
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
+  'selectHasIpfsDesktop',
   'doSaveConfig',
   TranslatedSettingsPage
 )

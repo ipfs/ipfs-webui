@@ -18,6 +18,7 @@ import connectedBundle from './connected'
 import retryInitBundle from './retry-init'
 import identityBundle from './identity'
 import bundleCache from '../lib/bundle-cache'
+import ipfsDesktop from './ipfs-desktop'
 
 export default composeBundles(
   createCacheBundle(bundleCache.set),
@@ -40,5 +41,6 @@ export default composeBundles(
   peerLocationsBundle({ concurrency: 1 }),
   notifyBundle,
   connectedBundle,
-  retryInitBundle
+  retryInitBundle,
+  ipfsDesktop
 )
