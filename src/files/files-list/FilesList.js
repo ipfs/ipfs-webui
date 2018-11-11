@@ -44,7 +44,8 @@ export class FilesList extends React.Component {
   }
 
   static defaultProps = {
-    className: ''
+    className: '',
+    downloadProgress: null
   }
 
   state = {
