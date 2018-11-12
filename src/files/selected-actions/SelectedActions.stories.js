@@ -14,7 +14,6 @@ storiesOf('Files', module)
         className='mb4'
         count={number('Count', 1)}
         size={345345}
-        downloadProgress={null}
         unselect={action('Unselect All')}
         remove={action('Delete Files')}
         share={action('Share Files')}
