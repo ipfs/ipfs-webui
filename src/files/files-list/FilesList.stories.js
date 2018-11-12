@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 import i18nDecorator from '../../i18n-decorator'
 import DndDecorator from '../../dnd-decorator'
 import fixture from './fixtures/root.json'
-import { StoryFilesList as FilesList } from './FilesList'
+import { FilesListWithDropTarget as FilesList } from './FilesList'
 
 storiesOf('Files', module)
   .addDecorator(i18nDecorator)

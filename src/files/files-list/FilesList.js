@@ -351,9 +351,9 @@ const dropCollect = (connect, monitor) => ({
   canDrop: monitor.canDrop()
 })
 
-export const StoryFilesList = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FilesList))
+export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FilesList))
 
 export default connect(
   'selectNavbarWidth',
-  DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FilesList))
+  FilesListWithDropTarget
 )
