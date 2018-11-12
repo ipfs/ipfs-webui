@@ -254,7 +254,7 @@ export default connect(
   'selectConfigIsSaving',
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
-  'selectHasIpfsDesktop',
+  'selectIsIpfsDesktop',
   'doSaveConfig',
   TranslatedSettingsPage
 )
