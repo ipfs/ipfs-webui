@@ -5,6 +5,8 @@ import Box from '../components/box/Box'
 import Checkbox from '../components/checkbox/Checkbox'
 import Title from './Title'
 
+const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+
 const CheckboxSetting = ({ children, title, ...props }) => (
   <div className='mt2'>
     <div className='flex items-center'>
@@ -34,14 +36,14 @@ function DesktopSettings ({ doDesktopSettingsToggle, desktopSettings }) {
         title='Auto add screenshots'
         onChange={() => doDesktopSettingsToggle('screenshotShortcut')}>
         <p className='mb0 mt1 lh-copy'>
-          Use <Key>CTRL/CMD</Key>+<Key>ALT</Key>+<Key>S</Key> to take screenshots and add them to the repository.
+          Use <Key>{isMac ? 'CMD' : 'CTRL'}</Key>+<Key>ALT</Key>+<Key>S</Key> to take screenshots and add them to the repository.
         </p>
       </CheckboxSetting>
       <CheckboxSetting checked={desktopSettings['downloadHashShortcut'] || false}
         title='Download copied hash'
         onChange={() => doDesktopSettingsToggle('downloadHashShortcut')}>
         <p className='mb0 mt1 lh-copy'>
-          Use <Key>CTRL/CMD</Key>+<Key>ALT</Key>+<Key>D</Key> to download the last copied hash.
+          Use <Key>{isMac ? 'CMD' : 'CTRL'}</Key>+<Key>ALT</Key>+<Key>D</Key> to download the last copied hash.
         </p>
       </CheckboxSetting>
     </Box>
