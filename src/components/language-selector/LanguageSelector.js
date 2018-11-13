@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { translate } from 'react-i18next'
 import { getCurrentLanguage } from '../../lib/i18n'
 
 // Components
@@ -29,11 +28,11 @@ class LanguageSelector extends Component {
         </div>
 
         <Overlay show={this.state.isLanguageModalOpen} onLeave={this.onLanguageEditClose} >
-          <LanguageModal className='outline-0' onLeave={this.onLanguageEditClose} />
+          <LanguageModal className='outline-0' onLeave={this.onLanguageEditClose} t={t} />
         </Overlay>
       </div>
     )
   }
 }
 
-export default translate('settings')(LanguageSelector)
+export default LanguageSelector
