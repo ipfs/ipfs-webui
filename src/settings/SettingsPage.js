@@ -241,6 +241,8 @@ export class SettingsPageContainer extends React.Component {
   }
 }
 
+export const TranslatedSettingsPage = translate('settings')(SettingsPageContainer)
+
 export default connect(
   'selectConfig',
   'selectIsConfigBlocked',
@@ -250,5 +252,5 @@ export default connect(
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
   'doSaveConfig',
-  translate('settings')(SettingsPageContainer)
+  TranslatedSettingsPage
 )
