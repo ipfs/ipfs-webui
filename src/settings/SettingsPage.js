@@ -16,7 +16,7 @@ const Title = ({ props, children }) => (
   <h2 className='ttu tracked f6 fw4 aqua mt0 mb3' {...props}>{ children }</h2>
 )
 
-const SettingsPage = ({
+export const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
@@ -29,7 +29,7 @@ const SettingsPage = ({
 
     <Box className='mb3 pa4'>
       <Title>{t('language')}</Title>
-      <LanguageSelector />
+      <LanguageSelector t={t} />
     </Box>
 
     <Box>
@@ -241,6 +241,8 @@ export class SettingsPageContainer extends React.Component {
   }
 }
 
+export const TranslatedSettingsPage = translate('settings')(SettingsPageContainer)
+
 export default connect(
   'selectConfig',
   'selectIsConfigBlocked',
@@ -250,5 +252,5 @@ export default connect(
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
   'doSaveConfig',
-  translate('settings')(SettingsPageContainer)
+  TranslatedSettingsPage
 )

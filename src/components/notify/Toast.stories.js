@@ -6,14 +6,14 @@ import Toast from './Toast'
 
 storiesOf('Toast', module)
   .addDecorator(checkA11y)
-  .add('default', () => (
+  .add('Default', () => (
     <div style={{ height: '100vh' }}>
       <Toast onDismiss={action('cancel')}>
         <b>Hurray!</b> New things are available.
       </Toast>
     </div>
   ))
-  .add('error', () => (
+  .add('Error', () => (
     <div style={{ height: '100vh' }}>
       <Toast onDismiss={action('cancel')} error>
         Oh no! Something dreadful has occured.

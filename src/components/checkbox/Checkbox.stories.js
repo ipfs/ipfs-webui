@@ -16,13 +16,13 @@ storiesOf('Checkbox', module)
       <Checkbox className='ma2' label='Click me!' onChange={action('Checked')} />
     </div>
   ))
+  .add('Disabled', () => (
+    <div>
+      <Checkbox label='Click me!' className='ma2' disabled onChange={action('Checked')} />
+    </div>
+  ))
   .add('Big', () => (
     <div>
       <Checkbox style={bigPicture} label='Click me!' className='ma2' onChange={action('Checked')} />
-    </div>
-  ))
-  .add('Disabled', () => (
-    <div>
-      <Checkbox style={bigPicture} label='Click me!' className='ma2' disabled onChange={action('Checked')} />
     </div>
   ))

@@ -13,7 +13,7 @@ import { join } from 'path'
 import { sorts } from '../../bundles/files'
 import { Trans, translate } from 'react-i18next'
 
-class FileList extends React.Component {
+export class FilesList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
@@ -350,7 +350,9 @@ const dropCollect = (connect, monitor) => ({
   canDrop: monitor.canDrop()
 })
 
+export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FilesList))
+
 export default connect(
   'selectNavbarWidth',
-  DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FileList))
+  FilesListWithDropTarget
 )

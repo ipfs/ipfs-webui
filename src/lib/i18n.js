@@ -7,6 +7,8 @@ export const getCurrentLanguage = () => {
 }
 
 export const getLanguage = (localeCode) => {
+  if (!localeCode) return 'Unknown'
+
   const info = languages[localeCode]
 
   if (!info) {

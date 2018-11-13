@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { translate } from 'react-i18next'
 import i18n, { localesList } from '../../../i18n'
 import { getLanguage } from '../../../lib/i18n'
 
@@ -48,4 +47,4 @@ LanguageModal.defaultProps = {
   className: ''
 }
 
-export default translate('settings')(LanguageModal)
+export default LanguageModal

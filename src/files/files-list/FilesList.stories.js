@@ -1,12 +1,16 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import FilesList from './FilesList'
+import i18nDecorator from '../../i18n-decorator'
+import DndDecorator from '../../dnd-decorator'
 import fixture from './fixtures/root.json'
+import { FilesListWithDropTarget as FilesList } from './FilesList'
 
 storiesOf('Files', module)
+  .addDecorator(i18nDecorator)
+  .addDecorator(DndDecorator)
   .add('Files List', () => (
-    <div className='ma2'>
+    <div className='ma4'>
       <FilesList
         root='/'
         files={fixture}
@@ -17,6 +21,7 @@ storiesOf('Files', module)
         onDelete={action('Delete')}
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
-      />
+        maxWidth={'100%'}
+        sort={{ by: 'name', asc: true }} />
     </div>
   ))

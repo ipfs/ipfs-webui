@@ -68,14 +68,15 @@ class SelectedActions extends React.Component {
       return this.props.t('finished')
     }
 
-    switch (this.props.downloadProgress) {
-      case 100:
-        return this.props.t('finished')
-      case null:
-        return this.props.t('actions.download')
-      default:
-        return this.props.downloadProgress.toFixed(0) + '%'
+    if (!this.props.downloadProgress) {
+      return this.props.t('actions.download')
     }
+
+    if (this.props.downloadProgress === 100) {
+      return this.props.t('finished')
+    }
+
+    return this.props.downloadProgress.toFixed(0) + '%'
   }
 
   render () {
