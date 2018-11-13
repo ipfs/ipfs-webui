@@ -17,7 +17,7 @@ const PAUSE_AFTER_SAVE_MS = 3000
 const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
-  hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, hasIpfsDesktop,
+  hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
   config, onChange, onReset, onSave, editorKey
 }) => (
   <div data-id='SettingsPage'>
@@ -25,7 +25,7 @@ const SettingsPage = ({
       <title>{t('title')} - IPFS</title>
     </Helmet>
 
-    { hasIpfsDesktop &&
+    { isIpfsDesktop &&
       <DesktopSettings />
     }
 
@@ -217,7 +217,7 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, hasIpfsDesktop } = this.props
+    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
@@ -239,7 +239,7 @@ export class SettingsPageContainer extends React.Component {
         onChange={this.onChange}
         onReset={this.onReset}
         onSave={this.onSave}
-        hasIpfsDesktop={hasIpfsDesktop} />
+        isIpfsDesktop={isIpfsDesktop} />
     )
   }
 }
