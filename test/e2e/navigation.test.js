@@ -55,6 +55,7 @@ function addMockIpfs (page) {
       id: () => Promise.resolve({}),
       get: () => Promise.resolve({}),
       files: {
+        get: () => Promise.resolve({}),
         ls: () => Promise.resolve([]),
         stat: () => Promise.resolve({})
       },

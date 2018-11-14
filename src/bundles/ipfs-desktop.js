@@ -11,16 +11,16 @@ if (window.ipfsDesktop) {
       if (!action.type.startsWith('DESKTOP_')) {
         return state
       }
-  
+
       if (action.type === 'DESKTOP_SETTINGS_CHANGED') {
         return action.payload
       }
-  
+
       return state
     },
 
     selectDesktopSettings: state => state.ipfsDesktop,
-  
+
     doDesktopStartListening: () => async ({ dispatch }) => {
       window.ipfsDesktop.onConfigChanged(config => {
         dispatch({
@@ -29,7 +29,7 @@ if (window.ipfsDesktop) {
         })
       })
     },
-  
+
     doDesktopSettingsToggle: (setting) => () => {
       window.ipfsDesktop.toggleSetting(setting)
     },
