@@ -24,7 +24,7 @@ const CheckboxSetting = ({ children, title, ...props }) => (
 
 const Key = ({ children }) => <span className='monospace br2 bg-snow ph1'>{ children }</span>
 
-function DesktopSettings ({ doDesktopSettingsToggle, desktopSettings }) {
+export function DesktopSettings ({ doDesktopSettingsToggle, desktopSettings }) {
   return (
     <Box className='mb3 pa4'>
       <Title>IPFS Desktop</Title>

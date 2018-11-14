@@ -5,6 +5,7 @@ import { action } from '@storybook/addon-actions'
 import { withKnobs, boolean } from '@storybook/addon-knobs'
 import i18n from '../i18n'
 import { SettingsPage } from './SettingsPage'
+import { DesktopSettings } from './DesktopSettings'
 import config from './editor/fixtures/example-config.json'
 
 storiesOf('Settings Page', module)
@@ -26,5 +27,17 @@ storiesOf('Settings Page', module)
         onChange={action('change')}
         onReset={action('reset')}
         onSave={action('save')} />
+    </div>
+  ))
+  .add('Desktop Settings', () => (
+    <div className='sans-serif'>
+      <DesktopSettings
+        doDesktopSettingsToggle={action('toggle')}
+        desktopSettings={{
+          autoLaunch: true,
+          screenshotShortcut: false,
+          downloadHashShortcut: true
+        }}
+      />
     </div>
   ))

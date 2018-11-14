@@ -14,7 +14,7 @@ import Title from './Title'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
-const SettingsPage = ({
+export const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
