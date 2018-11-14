@@ -3,6 +3,16 @@
   "save": "Guardar",
   "saving": "A guardar...",
   "reset": "Começar de novo",
+  "language": "Language",
+  "config": "IPFS Config",
+  "languageModal": {
+    "title": "Change Language",
+    "description": "Pick your preferred language"
+  },
+  "actions": {
+    "edit": "Change",
+    "close": "Fechar"
+  },
   "fetchingSettings": "A obter as configurações...",
   "configApiNotAvailable": "A API de configuração do IPFS não está disponível. Por favor desative a extensão \"IPFS Companion\" e tente novamente.",
   "settingsUnavailable": "As configurações não estão disponíveis. Confira, por favor, se o seu nó IPFS está em execução.",

@@ -3,6 +3,16 @@
   "save": "Spara",
   "saving": "Sparar...",
   "reset": "Återställ",
+  "language": "Language",
+  "config": "IPFS Config",
+  "languageModal": {
+    "title": "Change Language",
+    "description": "Pick your preferred language"
+  },
+  "actions": {
+    "edit": "Change",
+    "close": "Stäng"
+  },
   "fetchingSettings": "Hämtar inställningar...",
   "configApiNotAvailable": "API:n för konfiguration av IPFS är inte tillgänglig. Var god stäng av \"IPFS Companion\"-tillägget och försök igen.",
   "settingsUnavailable": "Inställningar inte tillgängliga. Vänligen försäkra att din IPFS-daemon körs.",

@@ -3,6 +3,16 @@
   "save": "Shrani",
   "saving": "Shranjujem...",
   "reset": "Ponastavi",
+  "language": "Language",
+  "config": "IPFS Config",
+  "languageModal": {
+    "title": "Change Language",
+    "description": "Pick your preferred language"
+  },
+  "actions": {
+    "edit": "Change",
+    "close": "Close"
+  },
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
   "settingsUnavailable": "Settings not available. Please check your IPFS daemon is running.",

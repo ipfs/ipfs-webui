@@ -3,6 +3,16 @@
   "save": "Sauvegarder",
   "saving": "Sauvegarde en cours...",
   "reset": "Réinitialiser",
+  "language": "Langue",
+  "config": "Config IPFS",
+  "languageModal": {
+    "title": "Changer de Langue",
+    "description": "Choisissez votre langue préférée"
+  },
+  "actions": {
+    "edit": "Changer",
+    "close": "Fermer"
+  },
   "fetchingSettings": "Récupération des paramètres...",
   "configApiNotAvailable": "L'API de la configuration IPFS n'est pas disponible. Merci de désactiver l'extension IPFS-Companion et de réessayer.",
   "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre nœud IPFS est en cours d'exécution.",

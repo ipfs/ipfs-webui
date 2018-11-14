@@ -3,6 +3,16 @@
   "save": "저장",
   "saving": "저장 중…",
   "reset": "입력 초기화",
+  "language": "Language",
+  "config": "IPFS Config",
+  "languageModal": {
+    "title": "Change Language",
+    "description": "Pick your preferred language"
+  },
+  "actions": {
+    "edit": "Change",
+    "close": "닫기"
+  },
   "fetchingSettings": "설정 가져오는 중...",
   "configApiNotAvailable": "IPFS 설정 API가 현재 사용 불가능 합니다. “IPFS Companion” 웹 확장프로그램을 비활성화하고 다시 시도해주세요.",
   "settingsUnavailable": "설정이 현재 불가능합니다. IPFS 데몬이 실행 중인지 확인해보십시오.",

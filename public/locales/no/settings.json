@@ -3,13 +3,23 @@
   "save": "Lagre",
   "saving": "Lagrer...",
   "reset": "Tilbakestill",
+  "language": "Språk",
+  "config": "IPFS Konfigurasjon",
+  "languageModal": {
+    "title": "Skifte språk",
+    "description": "Velg ditt foretrukne språk"
+  },
+  "actions": {
+    "edit": "Endre",
+    "close": "Lukk"
+  },
   "fetchingSettings": "Henter innstillinger...",
-  "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
+  "configApiNotAvailable": "IPFS sitt konfigurasjons API er ikke tilgjengelig. Vennligst deaktiver \"IPFS Companion\" Web extension, og prøv på nytt.",
   "settingsUnavailable": "Innstillinger ikke tilgjengelig. Vennligst sjekk at din IPFS daemon kjører.",
-  "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
+  "settingsHaveChanged": "Innstillingene er endret, vennligst klikk <1>Tilbakestill</1> for å oppdatere editor innholdet",
   "errorOccured": "Det oppsto en feil under lagring av endringene",
   "checkConsole": "Sjekk nettleserkonsollen for mer info.",
   "changesSaved": "Dine endringer har blitt lagret",
   "settingsWillBeUsedNextTime": "De nye innstillingene vil bli brukt neste gang du starter din IPFS daemon.",
-  "ipfsConfigDescription": "The IPFS config file is a json document. It is read once when the IPFS daemon is started. Save your changes then restart the IPFS daemon to apply them."
+  "ipfsConfigDescription": "IPFS-konfigurasjonsfilen er et json dokument. Det leses en gang når IPFS daemon starter. Lagre endringene, og start IPFS daemon på nytt for å bruke de."
 }
