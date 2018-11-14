@@ -7,11 +7,36 @@ let bundle = {
 if (window.ipfsDesktop) {
   bundle = {
     ...bundle,
-    reducer: window.ipfsDesktop.reducer,
-    selectDesktopSettings: window.ipfsDesktop.selectDesktopSettings,
-    doDesktopStartListening: window.ipfsDesktop.doDesktopStartListening,
-    doDesktopSettingsToggle: window.ipfsDesktop.doDesktopSettingsToggle,
-    init: window.ipfsDesktop.init
+    reducer: (state = {}, action) => {
+      if (!action.type.startsWith('DESKTOP_')) {
+        return state
+      }
+  
+      if (action.type === 'DESKTOP_SETTINGS_CHANGED') {
+        return action.payload
+      }
+  
+      return state
+    },
+
+    selectDesktopSettings: state => state.ipfsDesktop,
+  
+    doDesktopStartListening: () => async ({ dispatch }) => {
+      window.ipfsDesktop.onConfigChanged(config => {
+        dispatch({
+          type: 'DESKTOP_SETTINGS_CHANGED',
+          payload: config
+        })
+      })
+    },
+  
+    doDesktopSettingsToggle: (setting) => () => {
+      window.ipfsDesktop.toggleSetting(setting)
+    },
+
+    init: store => {
+      store.doDesktopStartListening()
+    }
   }
 }
 
