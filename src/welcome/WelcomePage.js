@@ -70,7 +70,6 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
         <div className='bg-black-70 snow pa2 f7 nowrap overflow-x-scroll'>
           <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["{ window.location.origin }", "https://webui.ipfs.io"]'</code>
           <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'</code>
-          <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'</code>
         </div>
       </div> }
       <Trans i18nKey='notConnected.paragraph3'>
