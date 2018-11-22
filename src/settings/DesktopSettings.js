@@ -1,11 +1,13 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import { translate } from 'react-i18next'
+import { translate, Interpolate } from 'react-i18next'
 import Box from '../components/box/Box'
 import Checkbox from '../components/checkbox/Checkbox'
 import Title from './Title'
 
 const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
+const altKey = isMac ? '⌥ option' : 'ALT'
+const ctrlKey = isMac ? '⌘ command' : 'CTRL'
 
 const CheckboxSetting = ({ children, title, ...props }) => (
   <div className='mt2'>
@@ -24,26 +26,26 @@ const CheckboxSetting = ({ children, title, ...props }) => (
 
 const Key = ({ children }) => <span className='monospace br2 bg-snow ph1'>{ children }</span>
 
-export function DesktopSettings ({ doDesktopSettingsToggle, desktopSettings }) {
+export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }) {
   return (
     <Box className='mb3 pa4'>
-      <Title>IPFS Desktop</Title>
+      <Title>{t('ipfsDesktop')}</Title>
 
       <CheckboxSetting checked={desktopSettings['autoLaunch'] || false}
-        title='Launch on startup'
+        title={t('launchOnStartup')}
         onChange={() => doDesktopSettingsToggle('autoLaunch')} />
       <CheckboxSetting checked={desktopSettings['screenshotShortcut'] || false}
-        title='Auto add screenshots'
+        title={t('autoAddScreenshots')}
         onChange={() => doDesktopSettingsToggle('screenshotShortcut')}>
         <p className='mb0 mt1 lh-copy'>
-          Use <Key>{isMac ? 'CMD' : 'CTRL'}</Key>+<Key>ALT</Key>+<Key>S</Key> to take screenshots and add them to the repository.
+          <Interpolate t={t} i18nKey='autoAddScreenshotsDescription' combo={<span><Key>{ctrlKey}</Key>+<Key>{altKey}</Key>+<Key>S</Key></span>} />
         </p>
       </CheckboxSetting>
       <CheckboxSetting checked={desktopSettings['downloadHashShortcut'] || false}
-        title='Download copied hash'
+        title={t('downloadCopiedHash')}
         onChange={() => doDesktopSettingsToggle('downloadHashShortcut')}>
         <p className='mb0 mt1 lh-copy'>
-          Use <Key>{isMac ? 'CMD' : 'CTRL'}</Key>+<Key>ALT</Key>+<Key>D</Key> to download the last copied hash.
+          <Interpolate t={t} i18nKey='downloadCopiedHashDescription' combo={<span><Key>{ctrlKey}</Key>+<Key>{altKey}</Key>+<Key>D</Key></span>} />
         </p>
       </CheckboxSetting>
     </Box>
