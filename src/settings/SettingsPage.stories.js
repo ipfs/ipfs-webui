@@ -6,7 +6,7 @@ import { withKnobs, boolean } from '@storybook/addon-knobs'
 import i18n from '../i18n'
 import { SettingsPage } from './SettingsPage'
 import i18nDecorator from '../i18n-decorator'
-import { DesktopSettings } from './DesktopSettings'
+import { TranslatedDesktopSettings as DesktopSettings } from './DesktopSettings'
 import config from './editor/fixtures/example-config.json'
 
 storiesOf('Settings Page', module)
@@ -34,14 +34,11 @@ storiesOf('Settings Page', module)
   .add('Desktop Settings', () => (
     <div className='sans-serif'>
       <DesktopSettings
-        tReady
-        t={i18n.getFixedT('en', 'settings')}
         doDesktopSettingsToggle={action('toggle')}
         desktopSettings={{
           autoLaunch: true,
           screenshotShortcut: false,
           downloadHashShortcut: true
-        }}
-      />
+        }} />
     </div>
   ))

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import { translate, Interpolate } from 'react-i18next'
+import { translate, Trans } from 'react-i18next'
 import Box from '../components/box/Box'
 import Checkbox from '../components/checkbox/Checkbox'
 import Title from './Title'
@@ -38,22 +38,32 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
         title={t('autoAddScreenshots')}
         onChange={() => doDesktopSettingsToggle('screenshotShortcut')}>
         <p className='mb0 mt1 lh-copy'>
-          <Interpolate t={t} i18nKey='autoAddScreenshotsDescription' combo={<span><Key>{ctrlKey}</Key>+<Key>{altKey}</Key>+<Key>S</Key></span>} />
+          <Trans
+            i18nKey='autoAddScreenshotsDescription'
+            defaults='Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> to take screenshots and add them to the repository.'
+            values={{ ctrlKey, altKey }}
+            components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
         </p>
       </CheckboxSetting>
       <CheckboxSetting checked={desktopSettings['downloadHashShortcut'] || false}
         title={t('downloadCopiedHash')}
         onChange={() => doDesktopSettingsToggle('downloadHashShortcut')}>
         <p className='mb0 mt1 lh-copy'>
-          <Interpolate t={t} i18nKey='downloadCopiedHashDescription' combo={<span><Key>{ctrlKey}</Key>+<Key>{altKey}</Key>+<Key>D</Key></span>} />
+          <Trans
+            i18nKey='downloadCopiedHashDescription'
+            defaults='Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> to download the last copied hash.'
+            values={{ ctrlKey, altKey }}
+            components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
         </p>
       </CheckboxSetting>
     </Box>
   )
 }
 
+export const TranslatedDesktopSettings = translate('settings')(DesktopSettings)
+
 export default connect(
   'selectDesktopSettings',
   'doDesktopSettingsToggle',
-  translate('settings')(DesktopSettings)
+  TranslatedDesktopSettings
 )

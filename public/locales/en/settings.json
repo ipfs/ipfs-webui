@@ -25,7 +25,7 @@
   "ipfsDesktop": "IPFS Desktop",
   "launchOnStartup": "Launch on startup",
   "autoAddScreenshots": "Auto add screenshots",
-  "autoAddScreenshotsDescription": "Use {{-combo}} to take screenshots and add them to the repository.",
+  "autoAddScreenshotsDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> to take screenshots and add them to the repository.",
   "downloadCopiedHash": "Download copied hash",
-  "downloadCopiedHashDescription": "Use {{-combo}} to download the last copied hash."
+  "downloadCopiedHashDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> to download the last copied hash."
 }
