@@ -5,11 +5,14 @@ import { action } from '@storybook/addon-actions'
 import { withKnobs, boolean } from '@storybook/addon-knobs'
 import i18n from '../i18n'
 import { SettingsPage } from './SettingsPage'
+import i18nDecorator from '../i18n-decorator'
+import { TranslatedDesktopSettings as DesktopSettings } from './DesktopSettings'
 import config from './editor/fixtures/example-config.json'
 
 storiesOf('Settings Page', module)
   .addDecorator(checkA11y)
   .addDecorator(withKnobs)
+  .addDecorator(i18nDecorator)
   .add('Default', () => (
     <div className='sans-serif'>
       <SettingsPage
@@ -26,5 +29,16 @@ storiesOf('Settings Page', module)
         onChange={action('change')}
         onReset={action('reset')}
         onSave={action('save')} />
+    </div>
+  ))
+  .add('Desktop Settings', () => (
+    <div className='sans-serif'>
+      <DesktopSettings
+        doDesktopSettingsToggle={action('toggle')}
+        desktopSettings={{
+          autoLaunch: true,
+          screenshotShortcut: false,
+          downloadHashShortcut: true
+        }} />
     </div>
   ))

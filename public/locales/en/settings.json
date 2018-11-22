@@ -21,5 +21,11 @@
   "checkConsole": "Check the browser console for more info.",
   "changesSaved": "Your changes have been saved",
   "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the IPFS daemon.",
-  "ipfsConfigDescription": "The IPFS config file is a json document. It is read once when the IPFS daemon is started. Save your changes then restart the IPFS daemon to apply them."
+  "ipfsConfigDescription": "The IPFS config file is a json document. It is read once when the IPFS daemon is started. Save your changes then restart the IPFS daemon to apply them.",
+  "ipfsDesktop": "IPFS Desktop",
+  "launchOnStartup": "Launch on startup",
+  "autoAddScreenshots": "Auto add screenshots",
+  "autoAddScreenshotsDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> to take screenshots and add them to the repository.",
+  "downloadCopiedHash": "Download copied hash",
+  "downloadCopiedHashDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> to download the last copied hash."
 }
