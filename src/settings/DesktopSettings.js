@@ -3,11 +3,17 @@ import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
 import Box from '../components/box/Box'
 import Checkbox from '../components/checkbox/Checkbox'
+import Select from '../components/select/Select'
 import Title from './Title'
 
 const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
 const altKey = isMac ? '⌥ option' : 'ALT'
 const ctrlKey = isMac ? '⌘ command' : 'CTRL'
+
+const ipfsBackendOptions = [
+  {value: 'js', label: 'Javascript'},
+  {value: 'go', label: 'GO'}
+]
 
 const CheckboxSetting = ({ children, title, ...props }) => (
   <div className='mt2'>
@@ -28,6 +34,7 @@ const Key = ({ children }) => <span className='monospace br2 bg-snow ph1'>{ chil
 
 export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }) {
   return (
+    <div>
     <Box className='mb3 pa4'>
       <Title>{t('ipfsDesktop')}</Title>
 
@@ -57,6 +64,16 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
         </p>
       </CheckboxSetting>
     </Box>
+    <Box className='mb3 pa4'>
+      <Title>{t('ipfsDesktop') + ' Daemon'}</Title>
+          <Select
+            value={desktopSettings['type']}
+            onChange={() => doDesktopSettingsToggle('type')}
+            options={ipfsBackendOptions}
+            disabled={false}
+            label='IPFS implementation' />
+    </Box>
+    </div>
   )
 }
 

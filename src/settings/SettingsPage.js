@@ -26,7 +26,7 @@ export const SettingsPage = ({
     </Helmet>
 
     { isIpfsDesktop &&
-      <DesktopSettings />
+      <DesktopSettings  />
     }
 
     <Box className='mb3 pa4'>
