@@ -3,17 +3,15 @@ import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
 import Box from '../components/box/Box'
 import Checkbox from '../components/checkbox/Checkbox'
-import Select from '../components/select/Select'
 import Title from './Title'
 
 const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
 const altKey = isMac ? '⌥ option' : 'ALT'
 const ctrlKey = isMac ? '⌘ command' : 'CTRL'
 
-const ipfsBackendOptions = [
-  {value: 'js', label: 'Javascript'},
-  {value: 'go', label: 'GO'}
-]
+const isJavascript = (value) => {
+  return value === 'js'
+}
 
 const CheckboxSetting = ({ children, title, ...props }) => (
   <div className='mt2'>
@@ -65,13 +63,14 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
       </CheckboxSetting>
     </Box>
     <Box className='mb3 pa4'>
-      <Title>{t('ipfsDesktop') + ' Daemon'}</Title>
-          <Select
-            value={desktopSettings['type']}
-            onChange={() => doDesktopSettingsToggle('type')}
-            options={ipfsBackendOptions}
-            disabled={false}
-            label='IPFS implementation' />
+    <span>
+      <CheckboxSetting checked={isJavascript(desktopSettings['type']) || false }
+        title={t('IPFS Implementation')}
+        onChange={() => doDesktopSettingsToggle('type')}>
+        <p className='mb0 mt1 lh-copy'> Enable Javascript </p>
+      </CheckboxSetting>
+      <p> The javascript implementation does not yet have feature parity with the go implementation.  For more info please see:  </p>
+      </span>
     </Box>
     </div>
   )
