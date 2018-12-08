@@ -23,7 +23,9 @@ import ipfsDesktop from './ipfs-desktop'
 export default composeBundles(
   createCacheBundle(bundleCache.set),
   appIdle({ idleTimeout: 5000 }),
-  ipfsBundle(),
+  ipfsBundle({
+    tryWindow: false
+  }),
   identityBundle,
   navbarBundle,
   routesBundle,
