@@ -222,12 +222,13 @@ export default function (opts) {
     // Resolve another peer location where there's a peer in the queue and we're
     // not already resolving more than our allowed concurrency
     reactResolvePeerLocation: createSelector(
+      'selectHash',
       'selectIpfsConnected',
       'selectPeerLocationsRaw',
       'selectPeerLocationsQueuingPeers',
       'selectPeerLocationsResolvingPeers',
-      (ipfsConnected, peerLocationsRaw, queuingPeers, resolvingPeers) => {
-        if (ipfsConnected && queuingPeers.length && resolvingPeers.length < opts.concurrency) {
+      (hash, ipfsConnected, peerLocationsRaw, queuingPeers, resolvingPeers) => {
+        if (hash === '/peers' && ipfsConnected && queuingPeers.length && resolvingPeers.length < opts.concurrency) {
           const peerId = queuingPeers[0]
           const locsByAddr = peerLocationsRaw[peerId]
 

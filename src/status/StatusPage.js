@@ -1,9 +1,11 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { translate } from 'react-i18next'
-import CountryChart from './CountryChart'
+import StatusHeader from './StatusHeader'
 import NodeInfo from './NodeInfo'
+import NodeInfoAdvanced from './NodeInfoAdvanced'
 import NodeBandwidthChart from './NodeBandwidthChart'
+import NetworkTraffic from './NetworkTraffic'
 import Box from '../components/box/Box'
 
 export default translate('status')(({ t }) => (
@@ -11,16 +13,24 @@ export default translate('status')(({ t }) => (
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
-    <Box className='pa3' style={{ minHeight: 238 }}>
-      <NodeInfo />
+    <Box className='pa3' style={{ minHeight: 0 }}>
+      <div className='flex'>
+        <div className='flex-auto'>
+          <StatusHeader />
+          <NodeInfo />
+        </div>
+      </div>
+      <div className='pt2'>
+        <NodeInfoAdvanced />
+      </div>
     </Box>
     <Box className='mt3 pa3' >
       <div className='flex flex-column flex-row-l'>
-        <div className='w-100 w-60-l pr0 pr2-l flex-none'>
+        <div className='pr0 pr2-l flex-auto'>
           <NodeBandwidthChart />
         </div>
-        <div className='w-100 w-40-l pl0 pl2-l flex-none'>
-          <CountryChart />
+        <div className='dn db-l pl3 pr5'>
+          <NetworkTraffic />
         </div>
       </div>
     </Box>
