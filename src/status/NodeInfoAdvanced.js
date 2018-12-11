@@ -4,20 +4,7 @@ import { translate } from 'react-i18next'
 import Address from '../components/address/Address'
 import Details from '../components/details/Details'
 import ProviderLink from '../components/provider-link/ProviderLink'
-
-const Block = ({ children }) => (
-  <div className='dt dt--fixed pt2 mw9'>
-    { children }
-  </div>
-)
-
-const Label = ({ children }) => (
-  <label className='dtc silver tracked ttu f7 lh-copy' style={{ width: '100px' }}>{children}</label>
-)
-
-const Value = ({ children, advanced = false }) => (
-  <div className='dtc charcoal monospace word-wrap f7 lh-copy pa2 bg-white-80'>{children}</div>
-)
+import { Definition, DefinitionList } from '../components/definition/Definition.js'
 
 class NodeInfoAdvanced extends React.Component {
   getField (obj, field, fn) {
@@ -42,31 +29,17 @@ class NodeInfoAdvanced extends React.Component {
     }
     return (
       <Details className='mt3 f6' summaryText={t('advanced')}>
-        <div className='mt3'>
-          <Block>
-            <Label>{t('gateway')}</Label>
-            <Value advanced>{gatewayUrl}</Value>
-          </Block>
-          <Block>
-            <Label>{t('api')}</Label>
-            <Value advanced>
-              {ipfsProvider === 'js-ipfs-api' && (
-                <Address value={ipfsApiAddress} />
-              )}
-              {ipfsProvider !== 'js-ipfs-api' && (
-                <ProviderLink name={ipfsProvider} />
-              )}
-            </Value>
-          </Block>
-          <Block>
-            <Label>{t('addresses')}</Label>
-            <Value advanced>{addresses}</Value>
-          </Block>
-          <Block>
-            <Label>{t('publicKey')}</Label>
-            <Value advanced>{publicKey}</Value>
-          </Block>
-        </div>
+        <DefinitionList className='mt3'>
+          <Definition advanced term={t('gateway')} desc={gatewayUrl} />
+          {ipfsProvider === 'js-ipfs-api' && (
+            <Definition advanced term={t('api')} desc={<Address value={ipfsApiAddress} />} />
+          )}
+          {ipfsProvider !== 'js-ipfs-api' && (
+            <Definition advanced term={t('api')} desc={<ProviderLink name={ipfsProvider} />} />
+          )}
+          <Definition advanced term={t('addresses')} desc={addresses} />
+          <Definition advanced term={t('publicKey')} desc={publicKey} />
+        </DefinitionList>
       </Details>
     )
   }

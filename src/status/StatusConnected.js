@@ -3,7 +3,7 @@ import { translate, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import filesize from 'filesize'
 
-const StatusHeader = ({ peers, repoSize }) => {
+const StatusConnected = ({ peers, repoSize }) => {
   const totalFiles = filesize(repoSize || 0, { round: 0 })
   const totalPeers = (peers && peers.length) || 0
   return (
@@ -26,5 +26,5 @@ const StatusHeader = ({ peers, repoSize }) => {
 export default connect(
   'selectPeers',
   'selectRepoSize',
-  translate('status')(StatusHeader)
+  translate('status')(StatusConnected)
 )
