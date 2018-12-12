@@ -3,28 +3,40 @@ import { translate, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import filesize from 'filesize'
 
-const StatusConnected = ({ peers, repoSize }) => {
-  const totalFiles = filesize(repoSize || 0, { round: 0 })
-  const totalPeers = (peers && peers.length) || 0
+export const StatusConnected = ({ peersCount, repoSize }) => {
+  const humanRepoSize = filesize(repoSize || 0, { round: 0 })
   return (
     <header>
       <h1 className='montserrat fw2 f3 charcoal ma0 pt0 pb2'>
-        <Trans i18nKey='StatusHeader.h1'>Connected to IPFS</Trans>
+        <Trans i18nKey='StatusConnected.header1'>Connected to IPFS</Trans>
       </h1>
-      <a className='dn sans-serif link bg-blue f6 fw4 ph2 pv1 white br2 v-btm ml4 tc' style={{ minWidth: 88 }} href='#/peers'>
-        {totalPeers.toString()} peers
-      </a>
-      <h2 className='montserrat fw4 f5 ma0 pb3'>
-        <Trans i18nKey='StatusHeader.h2'>
-          Hosting <a className='link blue' href='#/files'>{totalFiles} of files</a>. Discovered <a className='link blue' href='#/peers'>{totalPeers.toString()} peers</a>
-        </Trans>
-      </h2>
+      <p className='montserrat fw4 f5 ma0 pb3 lh-copy'>
+        <span className='db dib-ns'>
+          <Trans
+            i18nKey='StatusConnected.paragraph1'
+            defaults='Hosting <0>{repoSize} of files</0>'
+            values={{ repoSize: humanRepoSize }}
+            components={[<a className='link blue' href='#/files'>?</a>]}
+          />
+        </span>
+        <span className='dn di-ns gray'> — </span>
+        <span className='db mt1 mt0-ns dib-ns'>
+          <Trans
+            i18nKey='StatusConnected.paragraph2'
+            defaults='Discovered <0>{peersCount} peers</0>'
+            values={{ peersCount: peersCount.toString() }}
+            components={[<a className='link blue' href='#/peers'>?</a>]}
+          />
+        </span>
+      </p>
     </header>
   )
 }
 
+export const TranslatedStatusConnected = translate('status')(StatusConnected)
+
 export default connect(
-  'selectPeers',
+  'selectPeersCount',
   'selectRepoSize',
-  translate('status')(StatusConnected)
+  TranslatedStatusConnected
 )

@@ -10,6 +10,14 @@ const bundle = createAsyncResourceBundle({
   checkIfOnline: false
 })
 
+bundle.selectPeersCount = createSelector(
+  'selectPeers',
+  (peers) => {
+    if (!Array.isArray(peers)) return 0
+    return peers.length
+  }
+)
+
 // Update the peers if they are stale (appTime - lastSuccess > staleAfter)
 bundle.reactPeersFetchWhenIdle = createSelector(
   'selectPeersShouldUpdate',

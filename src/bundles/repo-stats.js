@@ -3,25 +3,12 @@ import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 const bundle = createAsyncResourceBundle({
   name: 'repoStats',
   getPromise: async ({ getIpfs }) => {
-    const mfsRootStat = await getIpfs().files.stat('/')
-    const repoStats = await getIpfs().repo.stat()
-    console.log({ ...repoStats, mfsRootStat })
-    return { ...repoStats, mfsRootStat }
+    return getIpfs().repo.stat()
   },
   staleAfter: 60000,
   persist: false,
   checkIfOnline: false
 })
-
-bundle.selectMfsCumulativeSize = createSelector(
-  'selectRepoStats',
-  (repoStats) => {
-    if (repoStats && repoStats.mfsRootStat && repoStats.mfsRootStat.cumulativeSize) {
-      return repoStats.mfsRootStat.cumulativeSize
-    }
-    return null
-  }
-)
 
 bundle.selectRepoSize = createSelector(
   'selectRepoStats',

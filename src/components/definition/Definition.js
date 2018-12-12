@@ -14,14 +14,14 @@ export const Definition = ({ term, desc, advanced, termWidth }) => (
 
 Definition.propTypes = {
   term: PropTypes.node.isRequired,
-  desc: PropTypes.node.isRequired,
+  desc: PropTypes.node,
   advanced: PropTypes.bool,
   termWidth: PropTypes.number
 }
 
 export const Term = ({ children, width = 100 }) => {
   return (
-    <dt className='db pb1 pb0-ns dtc-ns silver tracked ttu f7' style={{ width }}>
+    <dt className='db ma0 pb1 pb0-ns dtc-ns silver tracked ttu f7' style={{ width }}>
       {children}
     </dt>
   )
@@ -29,7 +29,7 @@ export const Term = ({ children, width = 100 }) => {
 
 export const Description = ({ children, advanced }) => {
   return (
-    <dd className={`db dtc-ns charcoal monospace ${advanced ? 'word-wrap pa2 f7 bg-white-80' : 'truncate f7 f6-ns'}`}>
+    <dd className={`db dtc-ns ma0 charcoal monospace ${advanced ? 'word-wrap pa2 f7 bg-white-80' : 'truncate f7 f6-ns'}`}>
       {children}
     </dd>
   )
