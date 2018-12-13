@@ -31,12 +31,10 @@ class NodeInfoAdvanced extends React.Component {
       <Details className='mt3 f6' summaryText={t('advanced')}>
         <DefinitionList className='mt3'>
           <Definition advanced term={t('gateway')} desc={gatewayUrl} />
-          {ipfsProvider === 'js-ipfs-api' && (
-            <Definition advanced term={t('api')} desc={<Address value={ipfsApiAddress} />} />
-          )}
-          {ipfsProvider !== 'js-ipfs-api' && (
-            <Definition advanced term={t('api')} desc={<ProviderLink name={ipfsProvider} />} />
-          )}
+          {ipfsProvider === 'js-ipfs-api'
+            ? <Definition advanced term={t('api')} desc={<Address value={ipfsApiAddress} />} />
+            : <Definition advanced term={t('api')} desc={<ProviderLink name={ipfsProvider} />} />
+          }
           <Definition advanced term={t('addresses')} desc={addresses} />
           <Definition advanced term={t('publicKey')} desc={publicKey} />
         </DefinitionList>
