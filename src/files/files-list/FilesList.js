@@ -139,11 +139,11 @@ export class FilesList extends React.Component {
   }
 
   componentDidMount () {
-    document.addEventListener('keydown', this.keyHandler)
+    document.addEventListener('keyup', this.keyHandler)
   }
 
   componentWillUnmount () {
-    document.removeEventListener('keydown', this.keyHandler)
+    document.removeEventListener('keyup', this.keyHandler)
   }
 
   componentDidUpdate () {
