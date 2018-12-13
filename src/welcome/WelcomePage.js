@@ -5,6 +5,7 @@ import { translate, Trans } from 'react-i18next'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
+import Shell from '../components/shell/Shell.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
 const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, ipfsApiAddress }) => {
@@ -63,30 +64,31 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
   return (
     <div>
       <h1 className='montserrat fw2 navy ma0 f3 yellow'>{t('notConnected.header')}</h1>
-      { !sameOrigin && <div>
-        <Trans i18nKey='notConnected.paragraph1'>
-          <p>Failed to connect to the API.</p>
-        </Trans>
-        <Trans i18nKey='notConnected.paragraph2'>
-          <p>Make sure you <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>configure your IPFS API</a> to allow cross-origin (CORS) requests, running the commands below:</p>
-        </Trans>
-        <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
-        <div className='bg-black-70 snow pa2 f7 nowrap overflow-x-scroll'>
-          <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
-          <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'</code>
+      <Trans i18nKey='notConnected.paragraph1'>
+        <p>Failed to connect to the API.</p>
+      </Trans>
+      { !sameOrigin && (
+        <div>
+          <Trans i18nKey='notConnected.paragraph2'>
+            <p>Make sure you <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>configure your IPFS API</a> to allow cross-origin (CORS) requests, running the commands below:</p>
+          </Trans>
+          <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
+          <div className='bg-black-70 snow pa2 f7 nowrap overflow-x-scroll'>
+            <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
+            <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'</code>
+          </div>
         </div>
-      </div> }
+      )}
       <Trans i18nKey='notConnected.paragraph3'>
         <p>Start an IPFS daemon in a terminal:</p>
       </Trans>
-      <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
-      <div className='bg-black-70 snow pa2 f7'>
+      <Shell>
         <code className='db'>$ ipfs daemon</code>
         <code className='db'>Initializing daemon...</code>
         <code className='db'>API server listening on /ip4/127.0.0.1/tcp/5001</code>
-      </div>
+      </Shell>
       <Trans i18nKey='notConnected.paragraph4'>
-        <p className='mt4'>For more info on how to get started with IPFS you can <a className='link blue' href='https://docs.ipfs.io/introduction/usage/'>read the guide</a>.</p>
+        <p>For more info on how to get started with IPFS you can <a className='link blue' href='https://docs.ipfs.io/introduction/usage/'>read the guide</a>.</p>
       </Trans>
     </div>
   )

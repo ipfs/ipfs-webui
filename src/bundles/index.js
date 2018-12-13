@@ -19,6 +19,7 @@ import retryInitBundle from './retry-init'
 import identityBundle from './identity'
 import bundleCache from '../lib/bundle-cache'
 import ipfsDesktop from './ipfs-desktop'
+import repoStats from './repo-stats'
 
 export default composeBundles(
   createCacheBundle(bundleCache.set),
@@ -42,5 +43,6 @@ export default composeBundles(
   notifyBundle,
   connectedBundle,
   retryInitBundle,
-  ipfsDesktop
+  ipfsDesktop,
+  repoStats
 )
