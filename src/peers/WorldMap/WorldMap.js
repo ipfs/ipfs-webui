@@ -1,26 +1,45 @@
 import React from 'react'
 import ReactFauxDOM from 'react-faux-dom'
 import { connect } from 'redux-bundler-react'
-import { AutoSizer } from 'react-virtualized'
 import { translate } from 'react-i18next'
 import * as d3 from 'd3'
 import staticMapSrc from './StaticMap.svg'
 
 const WorldMap = ({ t }) => {
+  // Caluate a sensible size for the map
+  const { innerWidth } = window
+  // the d3 generated svg width includes a lot of ocean, that we crop for now, as it looks weird.
+  const svgWidthOversizeFactor = 1.7
+  // remove a constant amount for the chrome that surronds the map.
+  const sidebarAndPadding = 350
+  const availableWidth = innerWidth - sidebarAndPadding
+  let width = availableWidth * svgWidthOversizeFactor
+  // if the map gets too big the dots get lost in the dot grid, also it just overloads the viewers brain.
+  if (width > 4030) {
+    width = 4030
+  }
+  // if the map gets too small it becomes illegible. There will be some map cropping on mobile.
+  if (width < 700) {
+    width = 700
+  }
+  // the map has a native proportion, so account for that when we set the height.
+  let height = width * 0.273
   return (
-    <div className='flex w-100 mb4' style={{ 'height': '550px', background: `transparent url(${staticMapSrc}) center no-repeat` }}>
-      <AutoSizer disableHeight>
-        { ({ width }) => (
-          <GeoPath width={width} height={550}>
+    <div className='relative'>
+      <div className='mb4 overflow-hidden flex flex-column items-center'>
+        <div style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
+          <GeoPath width={width} height={height}>
             { ({ path }) => (
-              <MapPins height={550} width={width} path={path} />
+              <MapPins width={width} height={height} path={path} />
             )}
           </GeoPath>
-        )}
-      </AutoSizer>
-      <div className='flex flex-auto flex-column items-center self-end pb5'>
-        <div className='f1 fw5 aqua'><PeersCount /></div>
-        <div className='f4 b ttu'>{t('peers')}</div>
+        </div>
+      </div>
+      <div className='absolute bottom-0 left-0 right-0'>
+        <div className='flex flex-auto flex-column items-center self-end pb5-ns'>
+          <div className='f1 fw5 aqua'><PeersCount /></div>
+          <div className='f4 b ttu'>{t('peers')}</div>
+        </div>
       </div>
     </div>
   )
