@@ -35,7 +35,7 @@ export const Description = ({ children, advanced }) => {
   )
 }
 
-// This is here a a reminder that you have to wrap you Definitions
+// This is here as a reminder that you have to wrap you Definitions
 // in a `<dl>`, and as a placeholder in case we want to style the dl element
 // in the future?
 export const DefinitionList = ({ children, className = 'ma0', ...props }) => {

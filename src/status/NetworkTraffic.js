@@ -43,13 +43,13 @@ class NetworkTraffic extends React.Component {
       <div>
         <Title>{t('networkTraffic')}</Title>
         <div className='flex flex-column justify-between' style={{ maxWidth: 400 }}>
-          <div className='mr2 ml2 mt3 mt0-l'>
+          <div className='mh2 mv3 mt0-l'>
             <Speedometer
               title={t('upSpeed')}
               color='#f39021'
               {...upSpeed} />
           </div>
-          <div className='mr2 ml2 mt3 mt0-l'>
+          <div className='mh2 mt3 mt0-l'>
             <Speedometer
               title={t('downSpeed')}
               color='#69c4cd'
