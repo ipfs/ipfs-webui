@@ -37,7 +37,7 @@ const File = (props) => {
     connectDragSource
   } = props
 
-  let className = 'File b--light-gray hide-child-l relative flex items-center bt pv1'
+  let className = 'File b--light-gray hide-child-l relative flex items-center bt'
 
   if (selected) {
     className += ' selected'
@@ -72,16 +72,17 @@ const File = (props) => {
           </div>
           <div style={{ width: 'calc(100% - 3.25rem)' }}>
             <Tooltip text={name}>
-              <div className='f6 truncate' style={{ color: '#656464' }}>{name}</div>
+              <div className='f6 truncate charcoal'>{name}</div>
             </Tooltip>
-
             <Tooltip text={hash}>
               <div className='f7 mt1 gray truncate monospace'>{hash}</div>
             </Tooltip>
           </div>
         </div>
       )}
-      <div className='size ph2 pv1 w-10 f6 monospace dn db-l' style={{ color: '#A0B8C5' }}>{size}</div>
+      <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted'>
+        {size}
+      </div>
       <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
         <ContextMenu
           onShare={onShare}

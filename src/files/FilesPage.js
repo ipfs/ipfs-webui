@@ -201,7 +201,7 @@ class FilesPage extends React.Component {
     const isRoot = files && files.path === '/'
 
     return (
-      <div data-id='FilesPage'>
+      <div data-id='FilesPage' className='mw9 center'>
         <Helmet>
           <title>{t('title')} - IPFS</title>
         </Helmet>

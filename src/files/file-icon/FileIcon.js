@@ -9,7 +9,7 @@ import DocMusic from '../../icons/GlyphDocMusic'
 import DocPicture from '../../icons/GlyphDocPicture'
 import DocText from '../../icons/GlyphDocText'
 
-const style = { width: '2.25rem' }
+const style = { width: 36 }
 
 export default function FileIcon ({ name, type }) {
   if (type === 'directory') {
