@@ -72,11 +72,10 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
           <Trans i18nKey='notConnected.paragraph2'>
             <p>Make sure you <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>configure your IPFS API</a> to allow cross-origin (CORS) requests, running the commands below:</p>
           </Trans>
-          <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
-          <div className='bg-black-70 snow pa2 f7 nowrap overflow-x-scroll'>
+          <Shell>
             <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
             <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'</code>
-          </div>
+          </Shell>
         </div>
       )}
       <Trans i18nKey='notConnected.paragraph3'>
