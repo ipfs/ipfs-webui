@@ -1,28 +1,53 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { translate } from 'react-i18next'
-import CountryChart from './CountryChart'
+import { connect } from 'redux-bundler-react'
+import StatusConnected from './StatusConnected'
+import StatusNotConnected from './StatusNotConnected'
 import NodeInfo from './NodeInfo'
+import NodeInfoAdvanced from './NodeInfoAdvanced'
 import NodeBandwidthChart from './NodeBandwidthChart'
+import NetworkTraffic from './NetworkTraffic'
 import Box from '../components/box/Box'
 
-export default translate('status')(({ t }) => (
-  <div data-id='StatusPage'>
-    <Helmet>
-      <title>{t('title')} - IPFS</title>
-    </Helmet>
-    <Box className='pa3' style={{ minHeight: 238 }}>
-      <NodeInfo />
-    </Box>
-    <Box className='mt3 pa3' >
-      <div className='flex flex-column flex-row-l'>
-        <div className='w-100 w-60-l pr0 pr2-l flex-none'>
-          <NodeBandwidthChart />
+const StatusPage = ({ t, ipfsConnected }) => {
+  return (
+    <div data-id='StatusPage'>
+      <Helmet>
+        <title>{t('title')} - IPFS</title>
+      </Helmet>
+      <Box className='pa3' style={{ minHeight: 0 }}>
+        <div className='flex'>
+          <div className='flex-auto'>
+            { ipfsConnected ? (
+              <div>
+                <StatusConnected />
+                <NodeInfo />
+                <div className='pt2'>
+                  <NodeInfoAdvanced />
+                </div>
+              </div>
+            ) : (
+              <StatusNotConnected />
+            )}
+          </div>
         </div>
-        <div className='w-100 w-40-l pl0 pl2-l flex-none'>
-          <CountryChart />
+      </Box>
+      <Box className='mt3 pa3' style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
+        <div className='flex flex-column flex-row-l'>
+          <div className='pr0 pr2-l flex-auto'>
+            <NodeBandwidthChart />
+          </div>
+          <div className='dn db-l pl3 pr5'>
+            <NetworkTraffic />
+          </div>
         </div>
-      </div>
-    </Box>
-  </div>
-))
+      </Box>
+    </div>
+  )
+}
+
+export default connect(
+  'selectIpfsConnected',
+  translate('status')(StatusPage)
+)

@@ -4,11 +4,24 @@ import ms from 'milliseconds'
 const bundle = createAsyncResourceBundle({
   name: 'peers',
   actionBaseType: 'PEERS',
-  getPromise: ({ getIpfs }) => getIpfs().swarm.peers(),
+  getPromise: ({ getIpfs }) => getIpfs().swarm.peers()
+    .then((peers) => peers.sort((a, b) => {
+      const aAddr = a.addr.toString()
+      const bAddr = b.addr.toString()
+      return aAddr.localeCompare(bAddr, undefined, { numeric: true, sensitivity: 'base' })
+    })),
   staleAfter: ms.seconds(10),
   persist: false,
   checkIfOnline: false
 })
+
+bundle.selectPeersCount = createSelector(
+  'selectPeers',
+  (peers) => {
+    if (!Array.isArray(peers)) return 0
+    return peers.length
+  }
+)
 
 // Update the peers if they are stale (appTime - lastSuccess > staleAfter)
 bundle.reactPeersFetchWhenIdle = createSelector(
