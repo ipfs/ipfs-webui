@@ -57,6 +57,10 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
     )
   }
 
+  const defaultDomains = ['http://127.0.0.1:5001', 'https://webui.ipfs.io']
+  const origin = window.location.origin
+  const addOrigin = defaultDomains.indexOf(origin) === -1
+
   return (
     <div>
       <h1 className='montserrat fw2 navy ma0 f3 yellow'>{t('notConnected.header')}</h1>
@@ -70,7 +74,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
           </Trans>
           <p className='f7 mb0 ttu tracked charcoal pl2 bg-black-20'>Shell</p>
           <div className='bg-black-70 snow pa2 f7 nowrap overflow-x-scroll'>
-            <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["{ window.location.origin }", "https://webui.ipfs.io"]'</code>
+            <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
             <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'</code>
           </div>
         </div>
