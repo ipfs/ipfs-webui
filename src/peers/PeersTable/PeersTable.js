@@ -58,9 +58,9 @@ export class PeersTable extends React.Component {
               rowHeight={36}
               rowCount={peerLocationsForSwarm.length}
               rowGetter={({ index }) => peerLocationsForSwarm[index]}>
-              <Column label={t('peerId')} dataKey='peerId' width={405} className='charcoal monospace pl2 truncate f6' />
-              <Column label={t('address')} cellRenderer={this.addressCellRenderer} dataKey='address' width={290} className='pl2 f6' />
-              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={400} className='pl2 f5 navy-muted fw5 truncate' />
+              <Column label={t('peerId')} dataKey='peerId' width={380} className='charcoal monospace truncate f7 pl2' />
+              <Column label={t('address')} cellRenderer={this.addressCellRenderer} dataKey='address' width={300} className='f6 pl2' />
+              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={400} className='f5 navy-muted fw5 truncate pl2' />
             </Table>
           )}
         </AutoSizer> }
