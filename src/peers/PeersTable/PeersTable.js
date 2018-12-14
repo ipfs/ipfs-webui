@@ -17,7 +17,7 @@ export class PeersTable extends React.Component {
     // Windows doesn't render the flags as emojis  ¯\_(ツ)_/¯
     const isWindows = window.navigator.appVersion.indexOf('Win') !== -1
     return (
-      <span className='pr2'>
+      <span className='pr2 f4'>
         {flagCode ? <CountryFlag code={flagCode} svg={isWindows} /> : '🏳️‍🌈'}
       </span>
     )
@@ -49,18 +49,18 @@ export class PeersTable extends React.Component {
         { peerLocationsForSwarm && <AutoSizer disableHeight>
           {({ width }) => (
             <Table
-              className='tl fw4 w-100 f7'
+              className='tl fw4 w-100 f6'
               headerClassName='aqua fw2 ttu tracked ph2'
               rowClassName={this.rowClassRenderer}
               width={width}
               height={tableHeight}
               headerHeight={32}
-              rowHeight={32}
+              rowHeight={36}
               rowCount={peerLocationsForSwarm.length}
               rowGetter={({ index }) => peerLocationsForSwarm[index]}>
-              <Column label={t('peerId')} dataKey='peerId' width={430} className='charcoal monospace pl2 truncate f7' />
-              <Column label={t('address')} cellRenderer={this.addressCellRenderer} dataKey='address' width={280} className='pl2' />
-              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={220} className='pl2 f6 navy-muted b truncate' />
+              <Column label={t('peerId')} dataKey='peerId' width={380} className='charcoal monospace truncate f7 pl2' />
+              <Column label={t('address')} cellRenderer={this.addressCellRenderer} dataKey='address' width={300} className='f6 pl2' />
+              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={400} className='f5 navy-muted fw5 truncate pl2' />
             </Table>
           )}
         </AutoSizer> }
