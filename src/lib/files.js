@@ -1,4 +1,5 @@
 import fileReader from 'pull-file-reader'
+import CID from 'cids'
 
 const ignore = [
   '.DS_Store',
@@ -54,17 +55,17 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
 }
 
 export async function makeHashFromFiles (files, ipfs) {
-  let node = await ipfs.object.new('unixfs-dir')
+  let cid = await ipfs.object.new('unixfs-dir')
 
   for (const file of files) {
-    node = await ipfs.object.patch.addLink(node.toJSON().multihash, {
+    cid = await ipfs.object.patch.addLink(cid.multihash, {
       name: file.name,
       size: file.size,
-      multihash: file.hash
+      cid: new CID(file.hash)
     })
   }
 
-  return node.toJSON().multihash
+  return cid.toString()
 }
 
 async function downloadMultiple (files, apiUrl, ipfs) {
