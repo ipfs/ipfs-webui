@@ -15,7 +15,7 @@
 
 The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work and it's part of the wider [IPFS GUI project](https://github.com/ipfs/ipfs-gui).
 
-The app uses the IPFS HTTP API to get data from the ipfs node. It will use the `window.ipfs` api provided by the [IPFS Companion](https://github.com/ipfs-shipyard/ipfs-companion) web-extension where available, and fallback to using [js-ipfs-api](https://github.com/ipfs/js-ipfs-api) where not.
+The app uses the IPFS HTTP CLIENT to get data from the ipfs node. It will use the `window.ipfs` api provided by the [IPFS Companion](https://github.com/ipfs-shipyard/ipfs-companion) web-extension where available, and fallback to using [js-ipfs-htt-client](https://github.com/ipfs/js-ipfs-http-client) where not.
 
 The app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#table-of-contents).
 
@@ -212,9 +212,9 @@ For **more info on our i18n process** at IPFS, check out:
 
 ## Releasing a new version of the WebUI.
 
-1. PR master with the result of a `tx pull -a` to pull latest translations from transifex then
+1. PR master with the result of `tx pull -a` to pull the latest translations from transifex
 1. Tag it `npm version`, `git push`, `git push --tags`.
-1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/tree/master/versions
+1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/releases
 1. Wait for master to [build on CI](https://ci.ipfs.team/blue/organizations/jenkins/IPFS%20Shipyard%2Fipfs-webui/activity?branch=master), and grab the CID for the build
 1. Pin it on the IPFS cluster (see #ipfs-pinbot on freenode)
 1. Update the hash at:
