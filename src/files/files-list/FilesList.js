@@ -299,12 +299,12 @@ export class FilesList extends React.Component {
           <div className='child float-on-left-l ph2 w2' style={allSelected ? { opacity: '1' } : null}>
             <Checkbox checked={allSelected} onChange={this.toggleAll} />
           </div>
-          <div className='ph2 f6 flex-grow-1 w-40'>
+          <div className='ph2 f6 flex-auto'>
             <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
               {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
             </span>
           </div>
-          <div className='ph2 f6 w-10 dn db-l'>
+          <div className='pl2 pr4 tr f6 flex-none dn db-l'>
             <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
               {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
             </span>

@@ -20,7 +20,7 @@ export const SettingsPage = ({
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
   config, onChange, onReset, onSave, editorKey
 }) => (
-  <div data-id='SettingsPage'>
+  <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
