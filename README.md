@@ -212,14 +212,16 @@ For **more info on our i18n process** at IPFS, check out:
 
 ## Releasing a new version of the WebUI.
 
-1. `tx pull -a` Pull latest translations from transifex
-1. `npm run build` Build it
-1. `ipfs add -r -Q build` Add to IPFS
-1. Pin to the gateways (#ipfs-pinbot on freenode)
-1. Add the new version to https://github.com/ipfs-shipyard/ipfs-webui/tree/master/versions
+1. PR master with the result of a `tx pull -a` to pull latest translations from transifex then
+1. Tag it `npm version`, `git push`, `git push --tags`.
+1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/tree/master/versions
+1. Wait for master to [build on CI](https://ci.ipfs.team/blue/organizations/jenkins/IPFS%20Shipyard%2Fipfs-webui/activity?branch=master), and grab the CID for the build
+1. Pin it on the IPFS cluster (see #ipfs-pinbot on freenode)
 1. Update the hash at:
    - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L23
    - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
+   - companion https://github.com/ipfs-shipyard/ipfs-companion/blob/master/package.json#L26
+   - desktop https://github.com/ipfs-shipyard/ipfs-desktop/blob/master/package.json#L15
 
 ## Contribute
 
