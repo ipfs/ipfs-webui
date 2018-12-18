@@ -1,31 +1,31 @@
 {
-  "title": "Welcome to IPFS",
+  "title": "Welkom bij IPFS",
   "configureApiPort": {
-    "header": "Is your API on a port other than 5001?",
-    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here</0>"
+    "header": "Is je API poort anders dan 5001?",
+    "paragraph1": "<0>Als je IPFS node geconfigureerd is met een <1>gepersponalseerd API adres</1>, stel het dan hier in.</0>"
   },
   "apiAddressForm": {
-    "apiLabel": "API ADDRESS",
-    "submitButton": "Submit"
+    "apiLabel": "API ADRES",
+    "submitButton": "Verzend"
   },
   "connected": {
-    "header": "Connected to IPFS",
-    "paragraph1": "<0>Now, it's time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
-    "paragraph2": "<0>You can always come back to this address to change the IPFS node you're connected to.</0>"
+    "header": "Verbind met IPFS",
+    "paragraph1": "<0>Verken nu je IPFS node. Ga naar de <1>bestanden pagina</1> om je gedeelde bestanden, het <3>Merkle forest</3>of gedeelde hash-gelinkte data via de <5>IPLD verkenner</5>te verkennen en beheren.</0>",
+    "paragraph2": "<0>Via dit adres kan je steeds de de IPFS node wijzigen waarmee je verbindt.</0>"
   },
   "notConnected": {
     "header": "Draait je IPFS daemon?",
-    "paragraph1": "<0>Failed to connect to the API.</0>",
-    "paragraoh2": "<0>Make sure you <1>configure your IPFS API</1> to allow cross-origin (CORS) requests, running the commands below:</0>",
-    "paragraph3": "<0>Start an IPFS daemon in a terminal:</0>",
-    "paragraph4": "<0>For more info on how to get started with IPFS you can <1>read the guide</1>.</0>"
+    "paragraph1": "<0>Verbinden het de API mislukt.</0>",
+    "paragraoh2": "<0>Configureer zeker je <1>IPFS API</1>om cross-origin (CORS) aanvragen toe te staan. Dit kan met volgende commando's:</0>",
+    "paragraph3": "<0>Start een IPFS daemon in een terminal:</0>",
+    "paragraph4": "<0>Lees <1>de handleiding</1> om te starten met IPFS.</0> "
   },
   "aboutIpfs": {
-    "header": "What is IPFS?",
-    "paragraph1": "<0><0>IPFS is a protocol</0> that defines a content-addressed file system, coordinates content delivery and combines ideas from Kademlia, BitTorrent, Git and more.</0>",
-    "paragraph2": "<0><0>IPFS is a filesystem.</0> It has directories and files and mountable filesystem via FUSE.</0>",
-    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity</0>",
-    "paragraph4": "<0><0>IPFS is p2p.</0> It supports worldwide peer-to-peer file transfers with a completely decentralized architecture and no central point of failure.</0>",
-    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and bittorrent-like bandwidth distribution.</0>"
+    "header": "Wat is IPFS?",
+    "paragraph1": "<0><0>IPFS is een protocol</0> dat een inhoud-geadresseerd file systeem definieert, het ophalen coördineer en ideeën van onder andere Kademlia, BitTorrent en Git combineert.</0>",
+    "paragraph2": "<0><0>IPFS is een bestandssysteem.</0> Het heeft bestanden en mappen en een mountbaar bestandssysteem door gebruik te maken van FUSE.</0>",
+    "paragraph3": "<0><0>IPFS is een web.</0> Bestanden zijn toegankelijk via HTTP gateways zoals <2>https://ipfs.io</2>. Browsers <4>kunnen uitgebreid worden</4> om rechtstreeks gebruik te maken van het <6>ipfs://</6> schema en hash-geadresseerde inhoud verzekerd de authenticiteit van de data</0>",
+    "paragraph4": "<0><0>IPFS is p2p.</0> Het ondersteund wereldwijde peer-to-peer overdracht van bestanden met een volledig gedecentraliseerde architectuur, zonder centrale zwakke punten.</0>",
+    "paragraph5": "<0><0>IPFS is een CDN.</0> Voeg bestanden toe aan je lokale repository en ze zijn wereldwijd beschikbaar met cache-vriendelijke inhoud-hash adressering en bandbreedteverdeling gelijk aan BitTorrent.</0>"
   }
 }

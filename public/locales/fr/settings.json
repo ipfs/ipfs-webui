@@ -21,5 +21,11 @@
   "checkConsole": "Vérifier la console du navigateur pour plus d'information.",
   "changesSaved": "Vos modifications ont été enregistrées.",
   "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du nœud IPFS.",
-  "ipfsConfigDescription": "Le fichier de configuration d'IPFS est un document JSON. Il est lu une seule fois au démarrage du nœud IPFS. Enregistrez vos modifications puis redémarrez le nœud IPFS pour qu'elles soient prises en compte."
+  "ipfsConfigDescription": "Le fichier de configuration d'IPFS est un document JSON. Il est lu une seule fois au démarrage du nœud IPFS. Enregistrez vos modifications puis redémarrez le nœud IPFS pour qu'elles soient prises en compte.",
+  "ipfsDesktop": "Bureau IPFS",
+  "launchOnStartup": "Exécuter au démarrage ",
+  "autoAddScreenshots": "Ajout auto des captures d'écran",
+  "autoAddScreenshotsDescription": "Utilisez la combinaison <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> pour réaliser des captures d'écran et les ajouter au dépôt.",
+  "downloadCopiedHash": "Télécharger le hash copié",
+  "downloadCopiedHashDescription": "Utilisez la combinaison <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> pour télécharger le dernier hash copié."
 }

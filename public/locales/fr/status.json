@@ -5,6 +5,7 @@
   "addresses": "Adresses",
   "nodeInfo": "Info du noeud",
   "peerId": "ID de pair",
+  "gateway": "Passerelle",
   "api": "API",
   "version": "Version",
   "advanced": "Avancé",
@@ -16,7 +17,7 @@
   "bandwidthOverTime": "Bande passante à travers le temps",
   "bandwidthByPeer": "Bande passante par pair",
   "distributionOfPeers": "Répartition des pairs",
-  "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peers)}}",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Pair)} other {{percent}% ({count} Pairs)}}",
   "rateIn": "Taux d'entrée",
   "rateOut": "Taux de sortie",
   "totalIn": "Total d'entrée",
@@ -26,5 +27,15 @@
   "out": "Sortant",
   "codeLink": "Voir le code",
   "bugsLink": "Signaler un bug",
-  "revision": "Révision"
+  "revision": "Révision",
+  "StatusConnected": {
+    "header1": "Connecté à IPFS",
+    "paragraph1": "Hébergement de <0>{repoSize} fichiers</0>",
+    "paragraph2": "{count, plural, one {<0>1 pair</0> découvert} other {<0>{peersCount} pairs</0> découverts}}"
+  },
+  "StatusNotConnected": {
+    "header1": "Échec de connexion à l'API",
+    "paragraph1": "<0>Démarrer un démon IPFS dans un terminal:</0>",
+    "paragraph2": "<0>Pour plus d'informations sur comment démarré avec IPFS vous pouvez <1> lire le manuel</1>.</0>"
+  }
 }

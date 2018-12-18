@@ -1,31 +1,31 @@
 {
-  "title": "Welcome to IPFS",
+  "title": "Bienvenue à IPFS",
   "configureApiPort": {
-    "header": "Is your API on a port other than 5001?",
-    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here</0>"
+    "header": "est-ce que le port de votre API est autre que 5001 ?",
+    "paragraph1": "<0> si votre noeuds IPFS est configuré avec une <1> adresse d'API personalisée </1>, s'il vous plait indiqué le ici </0>"
   },
   "apiAddressForm": {
-    "apiLabel": "API ADDRESS",
-    "submitButton": "Submit"
+    "apiLabel": "Adresse de l'API",
+    "submitButton": "Soumettre"
   },
   "connected": {
-    "header": "Connected to IPFS",
-    "paragraph1": "<0>Now, it's time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
-    "paragraph2": "<0>You can always come back to this address to change the IPFS node you're connected to.</0>"
+    "header": "Connecté à IPFS",
+    "paragraph1": "<0>Maintenant, il est temps pour vous d'explorer votre noeuds.  Entête de page <1> pour configuré, partagé vos fichiers ou exploré <3>la forêt de Merkle</3> de données hébergé et hash-lié via <5>explorateur IPLD</5>.</1>",
+    "paragraph2": "<0>Vous pouvez toujours revenir à cette address pour changer le noeud IPFS où vous êtes connecté.</0>"
   },
   "notConnected": {
     "header": "Votre démon IPFS est-il en cours d'exécution?",
-    "paragraph1": "<0>Failed to connect to the API.</0>",
-    "paragraoh2": "<0>Make sure you <1>configure your IPFS API</1> to allow cross-origin (CORS) requests, running the commands below:</0>",
-    "paragraph3": "<0>Start an IPFS daemon in a terminal:</0>",
-    "paragraph4": "<0>For more info on how to get started with IPFS you can <1>read the guide</1>.</0>"
+    "paragraph1": "<0>Echec de connexion à L'API.</0>",
+    "paragraoh2": "<0>Assurez-vous de <1>configruer votre API IPFS</1>pour autorisé les requêtes cross-origin (CORS), lancé la commande ci-dessous:</0>",
+    "paragraph3": "<0>Démarrer un démon IPFS dans un terminal:</0>",
+    "paragraph4": "<0>Pour plus d'informations sur comment démarré avec IPFS vous pouvez <1> lire le manuel</1>.</0>"
   },
   "aboutIpfs": {
-    "header": "What is IPFS?",
-    "paragraph1": "<0><0>IPFS is a protocol</0> that defines a content-addressed file system, coordinates content delivery and combines ideas from Kademlia, BitTorrent, Git and more.</0>",
-    "paragraph2": "<0><0>IPFS is a filesystem.</0> It has directories and files and mountable filesystem via FUSE.</0>",
-    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity</0>",
-    "paragraph4": "<0><0>IPFS is p2p.</0> It supports worldwide peer-to-peer file transfers with a completely decentralized architecture and no central point of failure.</0>",
-    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and bittorrent-like bandwidth distribution.</0>"
+    "header": "Qu'est-ce que IPFS ?",
+    "paragraph1": "<0><0>IPFS est un protocole</0>qui définit un système de fichier adressable par le contenu, coordine la réception du contenu en combinant plusieur idées comme Kadamélia, BitTorrent, Git et bien plus.</0>",
+    "paragraph2": "<0><0>IPFS est un système de fichiers.</0>Il y a des répertoire et des fichiers montable sur votre système de fichiers via à FUSE.</0>",
+    "paragraph3": "<0><0>IPFS est un réseaux.</0>Les fichiers sont accessible via des passerelles comme <2>https://ipfs.io</2>. Les navigateurs<4>peuvent être équipé d'extension</4> pour utiliser le format <6>ipfs://</6> directement, and adressé des signatures pour garantir l'authenticité du contenu.</0>",
+    "paragraph4": "<0><0>IPFS est réseaux p2p.</0>Il prend en charge les transferts de fichiers peer-to-peer dans le monde entier avec une architecture complètement décentralisée et sans point de défaillance central.</0>",
+    "paragraph5": "<0><0>IPFS est CDN.</0>Ajoutez un fichier à votre référentiel local. Il est désormais disponible dans le monde entier avec un adressage par hachage de contenu convivial pour le cache et une distribution de bande passante de type bittorrent.</0>"
   }
 }

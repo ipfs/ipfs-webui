@@ -3,6 +3,16 @@
   "save": "Uložit",
   "saving": "Ukládám...",
   "reset": "Resetovat",
+  "language": "Jazyk",
+  "config": "IPFS Config",
+  "languageModal": {
+    "title": "Změnit jazyk",
+    "description": "Vyberte váš preferovaný jazyk"
+  },
+  "actions": {
+    "edit": "Změnit",
+    "close": "Zavřít"
+  },
   "fetchingSettings": "Získávání nastavení...",
   "configApiNotAvailable": "IPFS API nastavení není dostupný. Prosím vypněte rozšíření \"IFPS Companion\" a zkuste to znovu.",
   "settingsUnavailable": "Nastavení není dostupný. Prosím zkontrolujte zdali běží IPFS služba.",
@@ -11,5 +21,11 @@
   "checkConsole": "Zkontrolujte konzoli prohlížeče pro více informací.",
   "changesSaved": "Vaše nastavení bylo uloženo",
   "settingsWillBeUsedNextTime": "Nové nastavení se použije při příštím restartu IPFS služby.",
-  "ipfsConfigDescription": "Nastavení IPFS je uloženo jako JSON soubor. Tento soubor je načten jednou při startu IPFS služby. Uložte vaše změny a následně zrestartujte IPFS službu pro aplikaci vašich změn."
+  "ipfsConfigDescription": "Nastavení IPFS je uloženo jako JSON soubor. Tento soubor je načten jednou při startu IPFS služby. Uložte vaše změny a následně zrestartujte IPFS službu pro aplikaci vašich změn.",
+  "ipfsDesktop": "IPFS Desktop",
+  "launchOnStartup": "Spustit při startu",
+  "autoAddScreenshots": "Automaticky přidat screenshoty",
+  "autoAddScreenshotsDescription": "Použijte <0>{ctrlKey}</0>+<2>{altKey}</2>+<3>S</3> pro vytvoření screenshotu a jejich přidání do repozitáře.",
+  "downloadCopiedHash": "Stáhnout zkopírovaný hash",
+  "downloadCopiedHashDescription": "Použijte <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> ke stažení posledního zkopírovaného hash."
 }
