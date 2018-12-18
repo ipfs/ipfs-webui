@@ -42,10 +42,10 @@ export class PeersTable extends React.Component {
 
   render () {
     const { peerLocationsForSwarm, t } = this.props
-    const tableHeight = 320
+    const tableHeight = 400
 
     return (
-      <div className='bg-white-70 center' style={{ 'height': `${tableHeight}px`, maxWidth: 1100 }}>
+      <div className='bg-white-70 center' style={{ 'height': `${tableHeight}px`, maxWidth: 1764 }}>
         { peerLocationsForSwarm && <AutoSizer disableHeight>
           {({ width }) => (
             <Table
@@ -59,8 +59,8 @@ export class PeersTable extends React.Component {
               rowCount={peerLocationsForSwarm.length}
               rowGetter={({ index }) => peerLocationsForSwarm[index]}>
               <Column label={t('peerId')} dataKey='peerId' width={380} className='charcoal monospace truncate f7 pl2' />
-              <Column label={t('address')} cellRenderer={this.addressCellRenderer} dataKey='address' width={300} className='f6 pl2' />
-              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={400} className='f5 navy-muted fw5 truncate pl2' />
+              <Column label={t('address')} cellRenderer={this.addressCellRenderer} dataKey='address' width={300} flexGrow={1} className='f6 pl2' />
+              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={380} flexGrow={1} className='f5 navy-muted fw5 truncate pl2' />
             </Table>
           )}
         </AutoSizer> }
