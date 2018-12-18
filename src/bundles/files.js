@@ -235,7 +235,7 @@ export default (opts = {}) => {
 
       updateProgress(0)
 
-      const res = await ipfs.files.add(streams, {
+      const res = await ipfs.add(streams, {
         pin: false,
         wrapWithDirectory: true,
         progress: updateProgress
