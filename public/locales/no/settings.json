@@ -21,5 +21,11 @@
   "checkConsole": "Sjekk nettleserkonsollen for mer info.",
   "changesSaved": "Dine endringer har blitt lagret",
   "settingsWillBeUsedNextTime": "De nye innstillingene vil bli brukt neste gang du starter din IPFS daemon.",
-  "ipfsConfigDescription": "IPFS-konfigurasjonsfilen er et json dokument. Det leses en gang når IPFS daemon starter. Lagre endringene, og start IPFS daemon på nytt for å bruke de."
+  "ipfsConfigDescription": "IPFS-konfigurasjonsfilen er et json dokument. Det leses en gang når IPFS daemon starter. Lagre endringene, og start IPFS daemon på nytt for å bruke de.",
+  "ipfsDesktop": "IPFS Desktop",
+  "launchOnStartup": "Start ved oppstart",
+  "autoAddScreenshots": "Legg til skjermbilder automatisk",
+  "autoAddScreenshotsDescription": "Bruk <0>{ctrlKey}</0>+<2>{altKey}</2>+<3>S</3> for å ta skjermbilder, og legge de til i oppbevaringsstedet.",
+  "downloadCopiedHash": "Last ned kopiert hash",
+  "downloadCopiedHashDescription": "Bruk <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> for å laste ned den siste kopierte hashen. "
 }

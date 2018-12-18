@@ -3,6 +3,16 @@
   "save": "Speichern",
   "saving": "Speichern...",
   "reset": "Zurücksetzen",
+  "language": "Sprache",
+  "config": "IPFS Konfiguration",
+  "languageModal": {
+    "title": "Sprache ändern",
+    "description": "Wähle deine bevorzugte Sprache"
+  },
+  "actions": {
+    "edit": "Ändern",
+    "close": "Schließen"
+  },
   "fetchingSettings": "Lade Einstellungen...",
   "configApiNotAvailable": "Das IPFS Konfigurations API ist nicht verfügbar. Bitte deaktiviere die \"IPFS Begleiter\" Web Erweiterung und versuche es erneut.",
   "settingsUnavailable": "Einstellungen nicht verfügbar. Bitte überprüfe ob dein IPFS Daemon läuft.",
@@ -11,5 +21,11 @@
   "checkConsole": "Öffne deine Browser-Konsole um mehr Informationen zu erhalten.",
   "changesSaved": "Deine Änderungen wurden gespeichert",
   "settingsWillBeUsedNextTime": "Die neuen Einstellungen werden beim nächsten Start des IPFS Daemons verwendet.",
-  "ipfsConfigDescription": "Die IPFS-Konfigurationsdatei ist ein Json-Dokument. Es wird einmalig beim Start des IPFS-Daemons gelesen. Speichere deine Änderungen und starte den IPFS-Daemon neu, um sie anzuwenden."
+  "ipfsConfigDescription": "Die IPFS-Konfigurationsdatei ist ein Json-Dokument. Es wird einmalig beim Start des IPFS-Daemons gelesen. Speichere deine Änderungen und starte den IPFS-Daemon neu, um sie anzuwenden.",
+  "ipfsDesktop": "IPFS Desktop",
+  "launchOnStartup": "Beim Hochfahren starten",
+  "autoAddScreenshots": "Screenshots automatisch hinzufügen",
+  "autoAddScreenshotsDescription": "Nutze <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> um Screenshots aufzunehmen und zur Ablage hinzuzufügen.",
+  "downloadCopiedHash": "Kopierten Hash herunterladen",
+  "downloadCopiedHashDescription": "Nutze <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> um den zuletzt kopierten Hash herunterzuladen."
 }

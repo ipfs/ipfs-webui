@@ -3,6 +3,16 @@
   "save": "Gem",
   "saving": "Gemmer...",
   "reset": "Nulstil",
+  "language": "Sprog",
+  "config": "IPFS opsætning",
+  "languageModal": {
+    "title": "Ændre sprog",
+    "description": "Vælg dit foretrukne sprog"
+  },
+  "actions": {
+    "edit": "Ændre",
+    "close": "Luk"
+  },
   "fetchingSettings": "Henter indstillinger...",
   "configApiNotAvailable": "API'et til konfiguration af IPFS er utilgængelig. Venligst, fjern \"IPFS Kompagnon\" web-udvidelsen og prøv igen.",
   "settingsUnavailable": "Indstillinger er ikke tilgængelige. Venligst, tjek at IPFS baggrunds-processen kører.",
@@ -11,5 +21,11 @@
   "checkConsole": "Tjek din browser-konsol for yderligere info.",
   "changesSaved": "Dine ændringer er blevet gemt.",
   "settingsWillBeUsedNextTime": "Dine nye indstillinger bliver taget i brug næste gang du genstarter IPFS baggrundsprocessen.",
-  "ipfsConfigDescription": "Konfigurationsfilen er et json dokument. Det læses en gang når IPFS baggrunds-processen startes. Gem dine ændringer og genstart herefter IPFS baggrundsprocessen for at ibrugtage disse."
+  "ipfsConfigDescription": "Konfigurationsfilen er et json dokument. Det læses en gang når IPFS baggrunds-processen startes. Gem dine ændringer og genstart herefter IPFS baggrundsprocessen for at ibrugtage disse.",
+  "ipfsDesktop": "IPFS Skrivebord",
+  "launchOnStartup": "Kør ved opstart",
+  "autoAddScreenshots": "Auto tilføj skærmbilleder",
+  "autoAddScreenshotsDescription": "Benyt <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> for at optage skærmbilleder og tilføje dem til fil-biblioteket.",
+  "downloadCopiedHash": "Download kopierede hash",
+  "downloadCopiedHashDescription": "Benyt <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> for at downloade den kopierede hash."
 }

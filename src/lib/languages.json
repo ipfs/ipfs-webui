@@ -19,11 +19,6 @@
     "nativeName": "English",
     "englishName": "English"
   },
-  "eo": {
-    "locale": "eo",
-    "nativeName": "Esperanto",
-    "englishName": "Esperanto"
-  },
   "es": {
     "locale": "es",
     "nativeName": "Español",
@@ -33,16 +28,6 @@
     "locale": "fr",
     "nativeName": "Français",
     "englishName": "French"
-  },
-  "hr": {
-    "locale": "hr",
-    "nativeName": "Hrvatski",
-    "englishName": "Croatian"
-  },
-  "it": {
-    "locale": "it",
-    "nativeName": "Italiano",
-    "englishName": "Italian"
   },
   "ko-KR": {
     "locale": "ko-KR",
@@ -69,35 +54,15 @@
     "nativeName": "Português",
     "englishName": "Portuguese"
   },
-  "ru": {
-    "locale": "ru",
-    "nativeName": "Русский",
-    "englishName": "Russian"
-  },
-  "sl": {
-    "locale": "sl",
-    "nativeName": "Slovenščina",
-    "englishName": "Slovenian"
-  },
   "sv": {
     "locale": "sv",
     "nativeName": "Svenska",
     "englishName": "Swedish"
   },
-  "uk": {
-    "locale": "uk",
-    "nativeName": "Українська",
-    "englishName": "Ukrainian"
-  },
   "zh-CN": {
     "locale": "zh-CN",
     "nativeName": "中文（中国）",
     "englishName": "Chinese Simplified (China)"
-  },
-  "zh-HK": {
-    "locale": "zh-HK",
-    "nativeName": "中文（香港）",
-    "englishName": "Chinese Traditional (Hong Kong)"
   },
   "zh-TW": {
     "locale": "zh-TW",
