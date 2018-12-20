@@ -225,9 +225,9 @@ For **more info on our i18n process** at IPFS, check out:
 
 ## Contribute
 
-Feel free to dive in! [Open an issue](https://github.com/ipfs-shipyard/ipfs-webiui/issues/new) or submit PRs.
+Feel free to dive in! [Open an issue](https://github.com/ipfs-shipyard/ipfs-webui/issues/new) or submit PRs.
 
-To contribute to IPFS in general, see the [contributing guide](https://github.com/ipfs/community/blob/master/contributing.md).
+To contribute to IPFS in general, see the [contributing guide](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md).
 
 [![](https://cdn.rawgit.com/jbenet/contribute-ipfs-gif/master/img/contribute.gif)](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md)
 
