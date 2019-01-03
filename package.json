@@ -38,7 +38,7 @@
     "i18next-xhr-backend": "^1.5.1",
     "internal-nav-helper": "^1.0.2",
     "ipfs-css": "^0.10.0",
-    "ipfs-geoip": "^2.3.0",
+    "ipfs-geoip": "^3.0.0",
     "ipfs-redux-bundle": "^5.0.0",
     "ipfs-unixfs": "^0.1.15",
     "ipld": "^0.18.0",
