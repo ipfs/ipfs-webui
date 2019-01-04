@@ -266,7 +266,8 @@ export default (opts = {}) => {
     doFilesAddPath: make(actions.ADD_BY_PATH, (ipfs, root, src) => {
       const name = src.split('/').pop()
       const dst = join(root, name)
-      return ipfs.files.cp([src, dst])
+      const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
+      return ipfs.files.cp([srcPath, dst])
     }),
 
     doFilesDownloadLink: make(actions.DOWNLOAD_LINK, async (ipfs, files, id, { store }) => {
