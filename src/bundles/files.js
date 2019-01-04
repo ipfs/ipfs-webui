@@ -241,9 +241,9 @@ export default (opts = {}) => {
         progress: updateProgress
       })
 
-      if (res.length !== streams.length + 1) {
+      if (res.length !== streams.length + 2) {
         // See https://github.com/ipfs/js-ipfs-api/issues/797
-        throw new Error('Unable to finish upload: IPFS API returned a partial response. Try adding a smaller tree.')
+        throw Object.assign(new Error(`API returned a partial response.`), { code: 'ERR_API_RESPONSE' })
       }
 
       for (const { path, hash } of res) {
@@ -251,7 +251,12 @@ export default (opts = {}) => {
         if (path.indexOf('/') === -1 && path !== '') {
           const src = `/ipfs/${hash}`
           const dst = join(root, path)
-          await ipfs.files.cp([src, dst])
+
+          try {
+            await ipfs.files.cp([src, dst])
+          } catch (err) {
+            throw Object.assign(new Error(`Folder already exists.`), { code: 'ERR_FOLDER_EXISTS' })
+          }
         }
       }
 

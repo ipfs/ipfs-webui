@@ -4,13 +4,14 @@ import { createSelector } from 'redux-bundler'
 # Notify
 - show error when ipfs goes away.
 - show ok when it comes back.
-- dismiss the the ok after 3s
+- dismiss the ok after 3s
 */
 
 const defaultState = {
   show: false,
   error: false,
-  eventId: null
+  eventId: null,
+  code: null
 }
 
 const notify = {
@@ -35,7 +36,8 @@ const notify = {
         ...state,
         show: true,
         error: true,
-        eventId: 'FILES_EVENT_FAILED'
+        eventId: 'FILES_EVENT_FAILED',
+        code: action.payload.error.code
       }
     }
 
@@ -57,14 +59,14 @@ const notify = {
     'selectNotify',
     'selectIpfsProvider',
     (notify, provider) => {
-      const { eventId } = notify
+      const { eventId, code } = notify
 
       if (eventId === 'STATS_FETCH_FAILED') {
         return provider === 'window.ipfs' ? 'windowIpfsRequestFailed' : 'ipfsApiRequestFailed'
       }
 
       if (eventId === 'FILES_EVENT_FAILED') {
-        return 'filesEventFailed'
+        return code === 'ERR_FOLDER_EXISTS' ? 'folderExists' : 'filesEventFailed'
       }
 
       if (eventId === 'STATS_FETCH_FINISHED') {
