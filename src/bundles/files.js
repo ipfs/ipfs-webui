@@ -226,7 +226,7 @@ export default (opts = {}) => {
       }
     },
 
-    doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, id, { dispatch }) => {
+    doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, type, id, { dispatch }) => {
       const { streams, totalSize } = await filesToStreams(rawFiles)
 
       const updateProgress = (sent) => {
@@ -241,7 +241,7 @@ export default (opts = {}) => {
         progress: updateProgress
       })
 
-      if (res.length !== streams.length + 2) {
+      if ((type === 'FILE' && res.length !== streams.length + 1) || (type === 'FOLDER' && res.length !== streams.length + 2)) {
         // See https://github.com/ipfs/js-ipfs-api/issues/797
         throw Object.assign(new Error(`API returned a partial response.`), { code: 'ERR_API_RESPONSE' })
       }

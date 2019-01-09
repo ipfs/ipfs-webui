@@ -74,8 +74,8 @@ class FileInput extends React.Component {
     }
   }
 
-  onInputChange = (input) => () => {
-    this.props.onAddFiles(input.files)
+  onInputChange = (input, type) => () => {
+    this.props.onAddFiles(input.files, type)
     input.value = null
     this.toggleDropdown()
   }
@@ -136,7 +136,7 @@ class FileInput extends React.Component {
           multiple
           webkitdirectory='true'
           ref={el => { this.folderInput = el }}
-          onChange={this.onInputChange(this.folderInput)} />
+          onChange={this.onInputChange(this.folderInput, 'FOLDER')} />
 
         <Overlay show={this.state.byPathModal} onLeave={this.toggleModal('byPath')}>
           <ByPathModal

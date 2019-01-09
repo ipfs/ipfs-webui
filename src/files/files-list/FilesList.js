@@ -98,8 +98,7 @@ export class FilesList extends React.Component {
         inspect={this.wrapWithSelected('onInspect')}
         count={this.state.selected.length}
         downloadProgress={this.props.downloadProgress}
-        size={size}
-      />
+        size={size} />
     )
   }
 
@@ -133,8 +132,7 @@ export class FilesList extends React.Component {
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
         translucent={this.state.isDragging || (isOver && canDrop)}
-        {...file}
-      />
+        {...file} />
     ))
   }
 
@@ -340,7 +338,9 @@ const dropTarget = {
     }
 
     const item = monitor.getItem()
-    onAddFiles(item)
+    // https://github.com/react-dnd/react-dnd/issues/840
+    // FIX: This is not safe as some file types do not pass this check
+    onAddFiles(item, item.files[0].type !== '' ? 'FILE' : 'FOLDER')
   }
 }
 
