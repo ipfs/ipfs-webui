@@ -11,6 +11,8 @@ import LanguageSelector from '../components/language-selector/LanguageSelector'
 import JsonEditor from './editor/JsonEditor'
 import DesktopSettings from './DesktopSettings'
 import Title from './Title'
+import Checkbox from '../components/checkbox/Checkbox'
+import Details from '../components/details/Details'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
@@ -18,7 +20,7 @@ export const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
-  config, onChange, onReset, onSave, editorKey
+  config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
@@ -32,6 +34,16 @@ export const SettingsPage = ({
     <Box className='mb3 pa4'>
       <Title>{t('language')}</Title>
       <LanguageSelector t={t} />
+
+      <div className='pt4'>
+        <Title>Analytics</Title>
+        <Checkbox className='dib bg-white pa3' onChange={doToggleAnalytics} checked={analyticsEnabled} label={<span className='fw5 f6'>Help improve this app by sending anonymous usage data.</span>} />
+        <div className='f6 charcoal lh-copy'>
+          <Details summaryText='What data is collected?' className='pt3'>
+            <p>We track... TODO</p>
+          </Details>
+        </div>
+      </div>
     </Box>
 
     <Box>
@@ -141,7 +153,7 @@ const SettingsInfo = ({ t, isConfigBlocked, hasExternalChanges, hasSaveFailed, h
     )
   }
   return (
-    <p className='ma0 mr2 lh-copy charcoal-muted f6'>
+    <p className='ma0 mr2 lh-copy charcoal f6'>
       {t('ipfsConfigDescription')}
     </p>
   )
@@ -217,7 +229,7 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop } = this.props
+    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
@@ -239,7 +251,9 @@ export class SettingsPageContainer extends React.Component {
         onChange={this.onChange}
         onReset={this.onReset}
         onSave={this.onSave}
-        isIpfsDesktop={isIpfsDesktop} />
+        isIpfsDesktop={isIpfsDesktop}
+        analyticsEnabled={analyticsEnabled}
+        doToggleAnalytics={doToggleAnalytics} />
     )
   }
 }
@@ -255,6 +269,8 @@ export default connect(
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
   'selectIsIpfsDesktop',
+  'selectAnalyticsEnabled',
+  'doToggleAnalytics',
   'doSaveConfig',
   TranslatedSettingsPage
 )

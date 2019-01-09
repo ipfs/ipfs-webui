@@ -10,6 +10,9 @@ const createAnalyticsBundle = ({
 }) => {
   return {
     name: 'analytics',
+
+    persistActions: ['ANALYTICS_ENABLED', 'ANALYTICS_DISABLED'],
+
     init: (store) => {
       // const Countly = root.Countly || {}
       Countly.q = Countly.q || []
@@ -20,15 +23,22 @@ const createAnalyticsBundle = ({
       Countly.app_version = appVersion
       Countly.debug = debug
 
-      // Do not track until we have users consent.
-      Countly.require_consent = true
-
       // Don't track clicks as it can include full url.
       // Countly.q.push(['track_clicks']);
       // Countly.q.push(['track_links'])
       Countly.q.push(['track_sessions'])
       Countly.q.push(['track_pageview'])
       Countly.q.push(['track_errors'])
+
+      // Do not track until the user opts in.
+      if (!store.selectAnalyticsEnabled()) {
+        console.log('Analytics OFF!')
+        Countly.q.push(['opt_out'])
+        Countly.ignore_visitor = true
+      } else {
+        console.log('Analytics ON!')
+      }
+
       Countly.init()
 
       store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
@@ -41,6 +51,30 @@ const createAnalyticsBundle = ({
           root.Countly.q.push(['track_pageview', routeInfo.pattern])
         }
       })
+    },
+
+    reducer: (state = { enabled: false }, action) => {
+      if (action.type === 'ANALYTICS_ENABLED') {
+        return { ...state, enabled: true }
+      }
+      if (action.type === 'ANALYTICS_DISABLED') {
+        return { ...state, enabled: false }
+      }
+      return state
+    },
+
+    selectAnalyticsEnabled: (state) => state.analytics.enabled,
+
+    doToggleAnalytics: () => async ({ dispatch, store }) => {
+      console.log('doToggleAnalytics', store.selectAnalyticsEnabled())
+      const enable = !store.selectAnalyticsEnabled()
+      if (enable) {
+        root.Countly.opt_in()
+        dispatch({ type: 'ANALYTICS_ENABLED' })
+      } else {
+        root.Countly.opt_out()
+        dispatch({ type: 'ANALYTICS_DISABLED' })
+      }
     }
   }
 }
