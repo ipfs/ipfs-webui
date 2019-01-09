@@ -20,6 +20,7 @@ import identityBundle from './identity'
 import bundleCache from '../lib/bundle-cache'
 import ipfsDesktop from './ipfs-desktop'
 import repoStats from './repo-stats'
+import createAnalyticsBundle from './analytics'
 
 export default composeBundles(
   createCacheBundle(bundleCache.set),
@@ -44,5 +45,9 @@ export default composeBundles(
   connectedBundle,
   retryInitBundle,
   ipfsDesktop,
-  repoStats
+  repoStats,
+  createAnalyticsBundle({
+    appVersion: process.env.REACT_APP_VERSION,
+    appGitRevision: process.env.REACT_APP_GIT_REV
+  })
 )

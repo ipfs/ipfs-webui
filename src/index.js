@@ -10,6 +10,7 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from './i18n'
 
 async function render () {
+  console.log(`IPFS Web UI v${process.env.REACT_APP_VERSION} - git revision ${process.env.REACT_APP_GIT_REV}`)
   const initialData = await bundleCache.getAll()
   if (initialData && process.env.NODE_ENV !== 'production') {
     console.log('intialising store with data from cache', initialData)
