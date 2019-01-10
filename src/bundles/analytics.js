@@ -66,12 +66,13 @@ const createAnalyticsBundle = ({
     selectAnalyticsEnabled: (state) => state.analytics.enabled,
 
     doToggleAnalytics: () => async ({ dispatch, store }) => {
-      console.log('doToggleAnalytics', store.selectAnalyticsEnabled())
       const enable = !store.selectAnalyticsEnabled()
       if (enable) {
+        console.log('Analytics ON')
         root.Countly.opt_in()
         dispatch({ type: 'ANALYTICS_ENABLED' })
       } else {
+        console.log('Analytics OFF')
         root.Countly.opt_out()
         dispatch({ type: 'ANALYTICS_DISABLED' })
       }
