@@ -1,4 +1,5 @@
 import React from 'react'
+import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import Checkbox from '../../components/checkbox/Checkbox'
@@ -44,13 +45,41 @@ class File extends React.Component {
   }
 
   state = {
-    isContextMenuOpen: false
+    isContextMenuOpen: false,
+    translateX: 0,
+    translateY: 0
   }
 
-  handleContextMenuClick = (ev) => {
-    // This is needed to deal with the clicking on the ContextMenu options
-    if (ev !== undefined && typeof ev !== 'string') ev.preventDefault()
-    this.setState(state => ({ isContextMenuOpen: !state.isContextMenuOpen }))
+  handleCtxRef = (el) => { this.contextMenu = findDOMNode(el) }
+
+  handleCtxLeftClick = (ev) => this.handleContextMenuClick(ev, 'LEFT')
+
+  handleCtxRightClick = (ev) => this.handleContextMenuClick(ev, 'RIGHT')
+
+  handleContextMenuClick = (ev, clickType) => {
+    // This is needed to disable the native OS right-click menu
+    // and deal with the clicking on the ContextMenu options
+    if (ev !== undefined && typeof ev !== 'string') {
+      ev.preventDefault()
+    }
+
+    if (clickType === 'RIGHT') {
+      ev.persist()
+
+      const ctxMenuPosition = this.contextMenu.getBoundingClientRect()
+
+      this.setState(state => ({
+        isContextMenuOpen: !state.isContextMenuOpen,
+        translateX: (ctxMenuPosition.x + ctxMenuPosition.width / 2) - ev.clientX,
+        translateY: (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY
+      }))
+    } else {
+      this.setState(state => ({
+        isContextMenuOpen: !state.isContextMenuOpen,
+        translateX: 0,
+        translateY: 0
+      }))
+    }
   }
 
   render () {
@@ -85,7 +114,7 @@ class File extends React.Component {
     const select = (select) => onSelect(name, select)
 
     const element = connectDropTarget(
-      <div className={className} style={styles} onContextMenu={this.handleContextMenuClick}>
+      <div className={className} style={styles} onContextMenu={this.handleCtxRightClick}>
         <div className='child float-on-left-l pa2 w2' style={(selected || focused) ? { opacity: '1' } : null}>
           <Checkbox disabled={cantSelect} checked={selected} onChange={select} />
         </div>
@@ -109,7 +138,10 @@ class File extends React.Component {
         </div>
         <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
           <ContextMenu
-            handleClick={this.handleContextMenuClick}
+            ref={this.handleCtxRef}
+            handleClick={this.handleCtxLeftClick}
+            translateX={this.state.translateX}
+            translateY={this.state.translateY}
             isOpen={this.state.isContextMenuOpen}
             mousePosition={this.state.mousePosition}
             onShare={onShare}

@@ -16,6 +16,8 @@ class ContextMenu extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool,
     handleClick: PropTypes.func,
+    translateX: PropTypes.number,
+    translateY: PropTypes.number,
     left: PropTypes.number,
     onDelete: PropTypes.func,
     onRename: PropTypes.func,
@@ -45,7 +47,7 @@ class ContextMenu extends React.Component {
   }
 
   render () {
-    const { t, onRename, onDelete, onDownload, onInspect, onShare } = this.props
+    const { t, onRename, onDelete, onDownload, onInspect, onShare, translateX, translateY } = this.props
 
     return (
       <Dropdown>
@@ -54,8 +56,10 @@ class ContextMenu extends React.Component {
           top={-8}
           arrowMarginRight='11px'
           left='calc(100% - 200px + 0.5rem)'
+          translateX={-translateX}
+          translateY={-translateY}
           open={this.props.isOpen}
-          onDismiss={this.props.handleClick} >
+          onDismiss={this.props.handleClick}>
           { onDelete &&
             <Option onClick={this.wrap('onDelete')}>
               <StrokeTrash className='w2 mr2 fill-aqua' />
