@@ -1,6 +1,7 @@
 import { join, dirname } from 'path'
 import { createSelector } from 'redux-bundler'
 import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
+import countDirs from '../lib/count-dirs'
 import ms from 'milliseconds'
 
 const isMac = navigator.userAgent.indexOf('Mac') !== -1
@@ -229,6 +230,13 @@ export default (opts = {}) => {
     doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, type, id, { dispatch }) => {
       const { streams, totalSize } = await filesToStreams(rawFiles)
 
+      // TODO: make file paths absolute before we get here
+      streams.forEach(s => {
+        if (s.path[0] !== '/') {
+          s.path = '/' + s.path
+        }
+      })
+
       const updateProgress = (sent) => {
         dispatch({ type: 'FILES_WRITE_UPDATED', payload: { id: id, progress: sent / totalSize * 100 } })
       }
@@ -241,11 +249,19 @@ export default (opts = {}) => {
         progress: updateProgress
       })
 
-      if ((type === 'FILE' && res.length !== streams.length + 1) || (type === 'FOLDER' && res.length !== streams.length + 2)) {
+      const numberOfFiles = streams.length
+      const numberOfDirs = countDirs(streams)
+      const expectedResponseCount = numberOfFiles + numberOfDirs
+      console.log('added files', res.length, expectedResponseCount, { numberOfFiles, numberOfDirs, expectedResponseCount })
+      console.log(streams.map(s => s.path))
+      console.log('res', res)
+
+      if (res.length !== expectedResponseCount) {
         // See https://github.com/ipfs/js-ipfs-api/issues/797
         throw Object.assign(new Error(`API returned a partial response.`), { code: 'ERR_API_RESPONSE' })
       }
 
+      // FIXME: if all filepaths are absolute this fails to handle individual files.
       for (const { path, hash } of res) {
         // Only go for direct children
         if (path.indexOf('/') === -1 && path !== '') {

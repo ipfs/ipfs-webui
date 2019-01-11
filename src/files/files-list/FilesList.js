@@ -339,8 +339,7 @@ const dropTarget = {
 
     const item = monitor.getItem()
     // https://github.com/react-dnd/react-dnd/issues/840
-    // FIX: This is not safe as some file types do not pass this check
-    onAddFiles(item, item.files[0].type !== '' ? 'FILE' : 'FOLDER')
+    onAddFiles(item, item.files[0].isDirectory ? 'FOLDER' : 'FILE')
   }
 }
 
