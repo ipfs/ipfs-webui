@@ -259,7 +259,6 @@ export default (opts = {}) => {
         throw Object.assign(new Error(`API returned a partial response.`), { code: 'ERR_API_RESPONSE' })
       }
 
-      // FIXME: if all filepaths are absolute this fails to handle individual files.
       for (const { path, hash } of res) {
         // Only go for direct children
         if (path.indexOf('/') === -1 && path !== '') {
