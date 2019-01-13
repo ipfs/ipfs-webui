@@ -98,7 +98,8 @@ export class FilesList extends React.Component {
         inspect={this.wrapWithSelected('onInspect')}
         count={this.state.selected.length}
         downloadProgress={this.props.downloadProgress}
-        size={size} />
+        size={size}
+      />
     )
   }
 
@@ -323,8 +324,7 @@ export class FilesList extends React.Component {
             focused={this.state.focused === '..'}
             cantDrag
             cantSelect
-            {...upperDir}
-          />
+            {...upperDir} />
         }
         {this.files}
         {this.selectedMenu}
