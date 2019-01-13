@@ -227,7 +227,7 @@ export default (opts = {}) => {
       }
     },
 
-    doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, type, id, { dispatch }) => {
+    doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, id, { dispatch }) => {
       const { streams, totalSize } = await filesToStreams(rawFiles)
 
       // Normalise all paths to be relative. Dropped files come as absolute,
@@ -253,9 +253,6 @@ export default (opts = {}) => {
       const numberOfFiles = streams.length
       const numberOfDirs = countDirs(streams)
       const expectedResponseCount = numberOfFiles + numberOfDirs
-      console.log('added files', res.length, expectedResponseCount, { numberOfFiles, numberOfDirs, expectedResponseCount })
-      console.log(streams.map(s => s.path))
-      console.log('res', res)
 
       if (res.length !== expectedResponseCount) {
         // See https://github.com/ipfs/js-ipfs-api/issues/797

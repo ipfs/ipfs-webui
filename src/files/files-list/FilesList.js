@@ -132,7 +132,8 @@ export class FilesList extends React.Component {
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
         translucent={this.state.isDragging || (isOver && canDrop)}
-        {...file} />
+        {...file}
+      />
     ))
   }
 
@@ -322,7 +323,8 @@ export class FilesList extends React.Component {
             focused={this.state.focused === '..'}
             cantDrag
             cantSelect
-            {...upperDir} />
+            {...upperDir}
+          />
         }
         {this.files}
         {this.selectedMenu}
@@ -338,8 +340,7 @@ const dropTarget = {
     }
 
     const item = monitor.getItem()
-    // https://github.com/react-dnd/react-dnd/issues/840
-    onAddFiles(item, item.files[0].isDirectory ? 'FOLDER' : 'FILE')
+    onAddFiles(item)
   }
 }
 

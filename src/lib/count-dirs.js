@@ -8,7 +8,6 @@ import { dirname } from 'path'
 * `/foo` is assumed to be a file `foo` with no extention in the root dir,
 * which would be counted as 1 unigue dir by this function.
 *
-
 * ```js
 * files = [
 *   { path: '/foo/bar/foo.txt', ... }
@@ -27,7 +26,7 @@ function countDirs (files) {
   const paths = files.map(f => f.path)
     .filter(p => !!p)
 
-  // { /foo/bar, /foo/other, /foo/zoom, /aaa/other  }
+  // [ /foo/bar, /foo/other, /foo/zoom, /aaa/other ]
   const directories = new Set()
   paths.forEach(path => findUniqueDirectories(path, directories))
   return directories.size
