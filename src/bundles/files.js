@@ -230,10 +230,11 @@ export default (opts = {}) => {
     doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, type, id, { dispatch }) => {
       const { streams, totalSize } = await filesToStreams(rawFiles)
 
-      // TODO: make file paths absolute before we get here
+      // Normalise all paths to be relative. Dropped files come as absolute,
+      // those added by the file input come as relative paths, so normalise them.
       streams.forEach(s => {
-        if (s.path[0] !== '/') {
-          s.path = '/' + s.path
+        if (s.path[0] === '/') {
+          s.path = s.path.slice(1)
         }
       })
 
@@ -245,7 +246,7 @@ export default (opts = {}) => {
 
       const res = await ipfs.add(streams, {
         pin: false,
-        wrapWithDirectory: true,
+        wrapWithDirectory: false,
         progress: updateProgress
       })
 
@@ -271,6 +272,7 @@ export default (opts = {}) => {
           try {
             await ipfs.files.cp([src, dst])
           } catch (err) {
+            console.log(err, { root, path, src, dst })
             throw Object.assign(new Error(`Folder already exists.`), { code: 'ERR_FOLDER_EXISTS' })
           }
         }
