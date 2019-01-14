@@ -11,6 +11,11 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
 
 class File extends React.Component {
+  constructor (props) {
+    super(props)
+    this.contextMenuRef = React.createRef()
+  }
+
   static propTypes = {
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -50,8 +55,6 @@ class File extends React.Component {
     translateY: 0
   }
 
-  handleCtxRef = (el) => { this.contextMenu = findDOMNode(el) }
-
   handleCtxLeftClick = (ev) => this.handleContextMenuClick(ev, 'LEFT')
 
   handleCtxRightClick = (ev) => this.handleContextMenuClick(ev, 'RIGHT')
@@ -66,7 +69,8 @@ class File extends React.Component {
     if (clickType === 'RIGHT') {
       ev.persist()
 
-      const ctxMenuPosition = this.contextMenu.getBoundingClientRect()
+      const ctxMenu = findDOMNode(this.contextMenuRef.current)
+      const ctxMenuPosition = ctxMenu.getBoundingClientRect()
 
       this.setState(state => ({
         isContextMenuOpen: !state.isContextMenuOpen,
@@ -138,7 +142,7 @@ class File extends React.Component {
         </div>
         <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
           <ContextMenu
-            ref={this.handleCtxRef}
+            ref={this.contextMenuRef}
             handleClick={this.handleCtxLeftClick}
             translateX={this.state.translateX}
             translateY={this.state.translateY}
