@@ -1,0 +1,41 @@
+{
+  "title": "状态",
+  "peer": "节点",
+  "peers": "节点",
+  "addresses": "地址",
+  "nodeInfo": "节点信息",
+  "peerId": "节点ID",
+  "gateway": "网关",
+  "api": "API",
+  "version": "版本",
+  "advanced": "高级",
+  "publicKey": "公钥",
+  "upSpeed": "发送",
+  "downSpeed": "接收",
+  "spaceUsed": "使用空间",
+  "networkTraffic": "网络流量",
+  "bandwidthOverTime": "实时带宽",
+  "bandwidthByPeer": "节点带宽",
+  "distributionOfPeers": "节点分布",
+  "pieChartLabel": "{count, plural, other {{percent}% ({count} 节点)}}",
+  "rateIn": "发送率",
+  "rateOut": "接收率",
+  "totalIn": "总共接收",
+  "totalOut": "总共发送",
+  "more": "...{count} 更多",
+  "in": "接收",
+  "out": "发送",
+  "codeLink": "查看源码",
+  "bugsLink": "报告bug",
+  "revision": "Revision",
+  "StatusConnected": {
+    "header1": "连接到IPFS",
+    "paragraph1": "托管 <0>{repoSize} 文件</0>",
+    "paragraph2": "{count, plural, other {发现 <0>{peersCount} 节点</0>}}"
+  },
+  "StatusNotConnected": {
+    "header1": "无法连接API",
+    "paragraph1": "<0>在终端中启动IPFS守护进程:</0>",
+    "paragraph2": "<0>获取开始使用IPFS的更多信息你可以 <1>阅读此向导</1>.</0>"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "title": "设置",
+  "save": "保存",
+  "saving": "保存中...",
+  "reset": "重置",
+  "language": "语言",
+  "config": "IPFS 设置",
+  "languageModal": {
+    "title": "修改语言",
+    "description": "选择你的首选语言"
+  },
+  "actions": {
+    "edit": "修改",
+    "close": "关闭"
+  },
+  "fetchingSettings": "设置加载中...",
+  "configApiNotAvailable": "IPFS设置API不可用。请关闭浏览器扩展“IPFS伴侣”并重试。",
+  "settingsUnavailable": "设置不可用。请检查你的IPFS守护进程是否正在运行。",
+  "settingsHaveChanged": "设置已被修改，请点击 <1>重置</1> 以刷新编辑器内容。",
+  "errorOccured": "保存变更时发生了一个错误。",
+  "checkConsole": "检查浏览器控制台（Console）以获取更多信息。",
+  "changesSaved": "您的更改已保存",
+  "settingsWillBeUsedNextTime": "新的设置将在你下次重启IPFS守护进程时使用。",
+  "ipfsConfigDescription": "IPFS配置文件是一个JSON格式文档。它在IPFS守护进程启动时读取一次。保存并重启IPFS守护进程以应用你的更改。",
+  "ipfsDesktop": "IPFS 桌面",
+  "launchOnStartup": "启动时运行",
+  "autoAddScreenshots": "自动添加截图",
+  "autoAddScreenshotsDescription": "使用 <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> 截图并将其添加到库中。",
+  "downloadCopiedHash": "下载复制的哈希",
+  "downloadCopiedHashDescription": "使用 <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> 下载最后一个复制的哈希。"
+}
