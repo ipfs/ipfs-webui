@@ -14,6 +14,11 @@ import StrokeDownload from '../../icons/StrokeDownload'
 
 class ContextMenu extends React.Component {
   static propTypes = {
+    isOpen: PropTypes.bool,
+    handleClick: PropTypes.func,
+    translateX: PropTypes.number,
+    translateY: PropTypes.number,
+    left: PropTypes.number,
     onDelete: PropTypes.func,
     onRename: PropTypes.func,
     onDownload: PropTypes.func,
@@ -25,6 +30,7 @@ class ContextMenu extends React.Component {
   }
 
   static defaultProps = {
+    isOpen: false,
     top: 0,
     left: 0,
     right: 'auto',
@@ -35,27 +41,25 @@ class ContextMenu extends React.Component {
     dropdown: false
   }
 
-  toggleDropdown = () => {
-    this.setState(s => ({ dropdown: !s.dropdown }))
-  }
-
   wrap = (name) => () => {
-    this.toggleDropdown()
+    this.props.handleClick()
     this.props[name]()
   }
 
   render () {
-    const { t, onRename, onDelete, onDownload, onInspect, onShare } = this.props
+    const { t, onRename, onDelete, onDownload, onInspect, onShare, translateX, translateY } = this.props
 
     return (
       <Dropdown>
-        <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.toggleDropdown} />
+        <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.props.handleClick} />
         <DropdownMenu
           top={-8}
           arrowMarginRight='11px'
           left='calc(100% - 200px + 0.5rem)'
-          open={this.state.dropdown}
-          onDismiss={this.toggleDropdown} >
+          translateX={-translateX}
+          translateY={-translateY}
+          open={this.props.isOpen}
+          onDismiss={this.props.handleClick}>
           { onDelete &&
             <Option onClick={this.wrap('onDelete')}>
               <StrokeTrash className='w2 mr2 fill-aqua' />
@@ -80,7 +84,7 @@ class ContextMenu extends React.Component {
               {t('actions.inspect')}
             </Option>
           }
-          <CopyToClipboard text={this.props.hash} onCopy={this.toggleDropdown}>
+          <CopyToClipboard text={this.props.hash} onCopy={this.props.handleClick}>
             <Option>
               <StrokeCopy className='w2 mr2 fill-aqua' />
               {t('actions.copyHash')}
