@@ -23,9 +23,9 @@ const readEntries = (reader) => new Promise((resolve, reject) => {
 async function scanFiles (item, root = '') {
   if (!item.isDirectory) {
     const file = await getFileFromEntry(item)
-
+    const path = item.fullPath
     return [{
-      path: join(root, file.webkitRelativePath || file.name),
+      path,
       content: fileReader(file),
       size: file.size
     }]
