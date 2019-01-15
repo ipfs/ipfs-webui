@@ -11,6 +11,7 @@ import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
+import ContextMenu from './context-menu/ContextMenu'
 import Overlay from '../components/overlay/Overlay'
 import ShareModal from './share-modal/ShareModal'
 import RenameModal from './rename-modal/RenameModal'
@@ -35,7 +36,8 @@ const defaultState = {
     paths: [],
     files: 0,
     folders: 0
-  }
+  },
+  isContextMenuOpen: false
 }
 
 class FilesPage extends React.Component {
@@ -178,27 +180,29 @@ class FilesPage extends React.Component {
     this.props.doFilesDelete(paths)
   }
 
+  handleContextMenuClick = (ev) => {
+    // This is needed to disable the native OS right-click menu
+    // and deal with the clicking on the ContextMenu options
+    if (ev !== undefined && typeof ev !== 'string') {
+      ev.preventDefault()
+    }
+
+    this.setState(state => ({ isContextMenuOpen: !state.isContextMenuOpen }))
+  }
+
   render () {
     const {
-      ipfsProvider,
-      files,
-      writeFilesProgress,
-      doFilesMove,
-      doFilesNavigateTo,
-      doFilesUpdateSorting,
-      filesSorting: sort,
-      t
+      ipfsProvider, files, writeFilesProgress, filesSorting: sort, t,
+      doFilesMove, doFilesNavigateTo, doFilesUpdateSorting
     } = this.props
 
-    const {
-      share,
-      rename,
-      delete: deleteModal
-    } = this.state
+    const { share, rename, delete: deleteModal } = this.state
 
     const isCompanion = ipfsProvider === 'window.ipfs'
     const filesExist = files && files.content && files.content.length
     const isRoot = files && files.path === '/'
+
+    console.log('FilesPage files: ', files)
 
     return (
       <div data-id='FilesPage' className='mw9 center'>
@@ -208,17 +212,26 @@ class FilesPage extends React.Component {
 
         { files &&
           <div>
-            <div className='flex flex-wrap'>
-              <Breadcrumbs className='mb3' path={files.path} onClick={doFilesNavigateTo} />
+            <div className='flex flex-wrap items-center mb3'>
+              <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
 
-              { files.type === 'directory' &&
-                <FileInput
-                  className='mb3 ml-auto'
+              { files.type === 'directory'
+                ? <FileInput
+                  className='ml-auto'
                   onMakeDir={this.makeDir}
                   onAddFiles={this.add}
                   onAddByPath={this.addByPath}
                   addProgress={writeFilesProgress} />
-              }
+                : <ContextMenu
+                  className='ml-auto'
+                  handleClick={this.handleContextMenuClick}
+                  isOpen={this.state.isContextMenuOpen}
+                  onShare={() => this.showShareModal(files.extra)}
+                  onDelete={() => this.showDeleteModal(files.extra)}
+                  onRename={() => this.showRenameModal(files.extra)}
+                  onInspect={() => this.inspect(files.extra)}
+                  onDownload={() => this.download(files.extra)}
+                  hash={files.stats.hash} /> }
             </div>
 
             { isRoot && isCompanion && <CompanionInfo /> }
@@ -227,8 +240,8 @@ class FilesPage extends React.Component {
 
             { isRoot && !filesExist && <WelcomeInfo t={t} /> }
 
-            { files.type === 'directory' ? (
-              <FilesList
+            { files.type === 'directory'
+              ? <FilesList
                 key={window.encodeURIComponent(files.path)}
                 root={files.path}
                 sort={sort}
@@ -243,11 +256,8 @@ class FilesPage extends React.Component {
                 onRename={this.showRenameModal}
                 onDelete={this.showDeleteModal}
                 onNavigate={doFilesNavigateTo}
-                onMove={doFilesMove}
-              />
-            ) : (
-              <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} />
-            )}
+                onMove={doFilesMove} />
+              : <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} /> }
           </div>
         }
 

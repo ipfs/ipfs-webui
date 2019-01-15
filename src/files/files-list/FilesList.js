@@ -93,13 +93,12 @@ export class FilesList extends React.Component {
         unselect={unselectAll}
         remove={() => this.props.onDelete(this.selectedFiles)}
         rename={() => this.props.onRename(this.selectedFiles)}
-        share={this.wrapWithSelected('onShare')}
-        download={this.wrapWithSelected('onDownload')}
-        inspect={this.wrapWithSelected('onInspect')}
+        share={() => this.props.onShare(this.selectedFiles)}
+        download={() => this.props.onDownload(this.selectedFiles)}
+        inspect={() => this.props.onInspect(this.selectedFiles)}
         count={this.state.selected.length}
         downloadProgress={this.props.downloadProgress}
-        size={size}
-      />
+        size={size} />
     )
   }
 
@@ -133,8 +132,7 @@ export class FilesList extends React.Component {
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
         translucent={this.state.isDragging || (isOver && canDrop)}
-        {...file}
-      />
+        {...file} />
     ))
   }
 
@@ -154,10 +152,6 @@ export class FilesList extends React.Component {
     if (selected.length !== this.state.selected.length) {
       this.setState({ selected })
     }
-  }
-
-  wrapWithSelected = (fn) => async () => {
-    this.props[fn](this.selectedFiles)
   }
 
   keyHandler = (e) => {
