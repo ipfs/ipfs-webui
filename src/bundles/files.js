@@ -44,6 +44,27 @@ const make = (basename, action) => (...args) => async (args2) => {
   try {
     data = await action(getIpfs(), ...args, id, args2)
     dispatch({ type: `FILES_${basename}_FINISHED`, payload: { id, ...data } })
+
+    // Rename specific logic
+    if (basename === actions.MOVE) {
+      const src = args[0][0]
+      const dst = args[0][1]
+
+      if (src === store.selectFiles().path) {
+        await store.doUpdateHash(`/files${dst}`)
+      }
+    }
+
+    // Delete specific logic
+    if (basename === actions.DELETE) {
+      const src = args[0][0]
+
+      let path = src.split('/')
+      path.pop()
+      path = path.join('/')
+
+      await store.doUpdateHash(`/files${path}`)
+    }
   } catch (error) {
     dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error } })
   } finally {
