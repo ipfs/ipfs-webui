@@ -334,6 +334,7 @@ const dropTarget = {
     }
 
     const item = monitor.getItem()
+
     onAddFiles(item)
   }
 }

@@ -1,34 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { translate } from 'react-i18next'
+// Icons
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
+// Components
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
 import NewFolderModal from './NewFolderModal'
-import { NativeTypes } from 'react-dnd-html5-backend'
-import { DropTarget } from 'react-dnd'
 
 const AddButton = translate('files')(({ progress = null, t, tReady, ...props }) => {
   const sending = progress !== null
-  let cls = 'Button f6 relative transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline'
-  if (sending) {
-    cls += ' bg-grey light-grey'
-  } else {
-    cls += ' pointer bg-green white'
-  }
+  const cls = classnames({
+    'bg-grey light-grey': sending,
+    'pointer bg-green white': !sending
+  }, ['Button f6 relative transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline'])
 
   return (
     <button disabled={sending} className={cls} style={{ width: '144px' }} {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
-        {sending ? `${progress.toFixed(0)}%` : `+ ${t('addToIPFS')}`}
+        { sending ? `${progress.toFixed(0)}%` : `+ ${t('addToIPFS')}` }
       </div>&nbsp;
 
       { sending &&
-        <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{ width: `${progress}%`, background: 'rgba(0,0,0,0.1)' }} />
-      }
+        <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{ width: `${progress}%`, background: 'rgba(0,0,0,0.1)' }} /> }
     </button>
   )
 })
@@ -96,7 +94,7 @@ class FileInput extends React.Component {
       progress = 100
     }
 
-    return this.props.connectDropTarget(
+    return (
       <div className={this.props.className}>
         <Dropdown>
           <AddButton progress={progress} onClick={this.toggleDropdown} />
@@ -156,20 +154,4 @@ class FileInput extends React.Component {
   }
 }
 
-const dropTarget = {
-  drop: ({ onAddFiles }, monitor) => {
-    if (monitor.didDrop()) {
-      return
-    }
-
-    onAddFiles(monitor.getItem())
-  }
-}
-
-const dropCollect = (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
-  canDrop: monitor.canDrop()
-})
-
-export default DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FileInput))
+export default translate('files')(FileInput)
