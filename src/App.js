@@ -24,7 +24,9 @@ export class App extends Component {
       PropTypes.element
     ]).isRequired,
     routeInfo: PropTypes.object.isRequired,
-    navbarIsOpen: PropTypes.bool.isRequired
+    navbarIsOpen: PropTypes.bool.isRequired,
+    // Injected by DropTarget
+    isOver: PropTypes.bool.isRequired
   }
 
   componentWillMount () {
@@ -44,10 +46,12 @@ export class App extends Component {
   }
 
   render () {
-    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget } = this.props
+    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget, isOver } = this.props
 
     return connectDropTarget(
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
+        {/* Tinted overlay that appears when dragging and dropping an item */}
+        { isOver && <div className='w-100 h-100 top-0 left-0 absolute' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
         <div className='flex-l' style={{ minHeight: '100vh' }}>
           <div className={`flex-none-l bg-navy ${navbarIsOpen ? 'w5-l' : 'w4-l'}`}>
             <NavBar />
