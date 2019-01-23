@@ -220,16 +220,17 @@ class FilesPage extends React.Component {
                   onAddFiles={this.add}
                   onAddByPath={this.addByPath}
                   addProgress={writeFilesProgress} />
-                : <ContextMenu
-                  className='ml-auto'
-                  handleClick={this.handleContextMenuClick}
-                  isOpen={this.state.isContextMenuOpen}
-                  onShare={() => this.showShareModal(files.extra)}
-                  onDelete={() => this.showDeleteModal(files.extra)}
-                  onRename={() => this.showRenameModal(files.extra)}
-                  onInspect={() => this.inspect(files.extra)}
-                  onDownload={() => this.download(files.extra)}
-                  hash={files.stats.hash} /> }
+                : <div className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
+                  <ContextMenu
+                    handleClick={this.handleContextMenuClick}
+                    isOpen={this.state.isContextMenuOpen}
+                    onShare={() => this.showShareModal(files.extra)}
+                    onDelete={() => this.showDeleteModal(files.extra)}
+                    onRename={() => this.showRenameModal(files.extra)}
+                    onInspect={() => this.inspect(files.extra)}
+                    onDownload={() => this.download(files.extra)}
+                    hash={files.stats.hash} />
+                </div> }
             </div>
 
             { isRoot && isCompanion && <CompanionInfo /> }
