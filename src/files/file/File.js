@@ -1,14 +1,16 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
+import { join, basename } from 'path'
 import filesize from 'filesize'
+// React DnD
+import { DropTarget, DragSource } from 'react-dnd'
+import { NativeTypes } from 'react-dnd-html5-backend'
+// Components
+import Tooltip from '../../components/tooltip/Tooltip'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
 import ContextMenu from '../context-menu/ContextMenu'
-import Tooltip from '../../components/tooltip/Tooltip'
-import { DropTarget, DragSource } from 'react-dnd'
-import { NativeTypes } from 'react-dnd-html5-backend'
-import { join, basename } from 'path'
 
 class File extends React.Component {
   constructor (props) {
@@ -103,7 +105,7 @@ class File extends React.Component {
     if (focused || (selected && !translucent) || coloured || (isOver && canDrop)) {
       styles.backgroundColor = '#F0F6FA'
     } else if (translucent) {
-      className += ' o-50'
+      className += ' o-70'
     }
 
     if (focused) {
