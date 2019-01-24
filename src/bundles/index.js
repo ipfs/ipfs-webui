@@ -33,7 +33,32 @@ export default composeBundles(
   redirectsBundle,
   statsBundle,
   filesBundle(),
-  exploreBundle(() => import('ipld')),
+  exploreBundle(async () => {
+    const [
+      // IPLD
+      ipld,
+      // IPLD Formats
+      ipldBitcoin, ipldDagCbor, ipldDagPb, ipldGit, ipldRaw, ipldZcash,
+      { ethAccountSnapshot, ethBlock, ethBlockList, ethStateTrie, ethStorageTrie, ethTxTrie, ethTx }
+    ] = await Promise.all([
+      import('ipld'),
+      import('ipld-bitcoin'),
+      import('ipld-dag-cbor'),
+      import('ipld-dag-pb'),
+      import('ipld-git'),
+      import('ipld-raw'),
+      import('ipld-zcash'),
+      import('ipld-ethereum')
+    ])
+
+    return {
+      ipld: ipld,
+      formats: [
+        ipldBitcoin, ipldDagCbor, ipldDagPb, ipldGit, ipldRaw, ipldZcash,
+        ethAccountSnapshot, ethBlock, ethBlockList, ethStateTrie, ethStorageTrie, ethTxTrie, ethTx
+      ]
+    }
+  }),
   configBundle,
   configSaveBundle,
   nodeBandwidthBundle,
