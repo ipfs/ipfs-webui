@@ -29,7 +29,8 @@ class FilesPreview extends React.Component {
 
     const type = typeFromExt(stats.name)
     const src = `${gatewayUrl}/ipfs/${stats.hash}`
-    const className = 'mw-100 bg-snow-muted pa2 br2'
+    const className = 'mw-100 mt3 bg-snow-muted pa2 br2'
+
     switch (type) {
       case 'audio':
         return (
@@ -54,7 +55,7 @@ class FilesPreview extends React.Component {
         return <img className={className} alt={stats.name} src={src} />
       default:
         const cantPreview = (
-          <div>
+          <div className='mt4'>
             <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
             <p>
               <Trans i18nKey='downloadInstead'>

@@ -147,7 +147,6 @@ class File extends React.Component {
             translateX={this.state.translateX}
             translateY={this.state.translateY}
             isOpen={this.state.isContextMenuOpen}
-            mousePosition={this.state.mousePosition}
             onShare={onShare}
             onDelete={onDelete}
             onRename={onRename}

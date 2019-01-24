@@ -25,6 +25,7 @@ class ContextMenu extends React.Component {
     onInspect: PropTypes.func,
     onShare: PropTypes.func,
     hash: PropTypes.string.isRequired,
+    className: PropTypes.string,
     t: PropTypes.func.isRequired,
     tReady: PropTypes.bool.isRequired
   }
@@ -34,6 +35,8 @@ class ContextMenu extends React.Component {
     top: 0,
     left: 0,
     right: 'auto',
+    translateX: 0,
+    translateY: 0,
     className: ''
   }
 
@@ -47,10 +50,10 @@ class ContextMenu extends React.Component {
   }
 
   render () {
-    const { t, onRename, onDelete, onDownload, onInspect, onShare, translateX, translateY } = this.props
+    const { t, onRename, onDelete, onDownload, onInspect, onShare, translateX, translateY, className } = this.props
 
     return (
-      <Dropdown>
+      <Dropdown className={className}>
         <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.props.handleClick} />
         <DropdownMenu
           top={-8}
