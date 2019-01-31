@@ -5,16 +5,13 @@ function getDoNotTrack () {
   return !!root.navigator.doNotTrack
 }
 
-// TODO: we need to record the state of the doNotTrack variable at init time.
-// otherwise we show "enabled" or "disabled" based on that value, but not connected to actual analytic state.
-
 const createAnalyticsBundle = ({
   doNotTrack = getDoNotTrack(),
   countlyUrl = 'http://165.227.180.165',
   appKey = '6b0d302cdd68172cb8810a1845cb9118917efe59',
   appVersion,
   appGitRevision,
-  debug = true
+  debug = false
 }) => {
   return {
     name: 'analytics',
@@ -23,11 +20,11 @@ const createAnalyticsBundle = ({
 
     init: async (store) => {
       if (!root.Countly) {
+        // lasy-load to simplify testing.
         root.Countly = await import('countly-sdk-web')
       }
-      const Countly = root.Countly || {}
+      const Countly = root.Countly
       Countly.q = Countly.q || []
-      root.Countly = Countly
 
       Countly.url = countlyUrl
       Countly.app_key = appKey
@@ -44,8 +41,6 @@ const createAnalyticsBundle = ({
       if (!store.selectAnalyticsEnabled()) {
         Countly.q.push(['opt_out'])
         Countly.ignore_visitor = true
-      } else {
-        console.log('IPFS Web UI: Analytics ON - disable them from the settings page')
       }
 
       Countly.init()

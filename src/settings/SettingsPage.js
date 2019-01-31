@@ -8,11 +8,10 @@ import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
+import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import JsonEditor from './editor/JsonEditor'
 import DesktopSettings from './DesktopSettings'
 import Title from './Title'
-import Checkbox from '../components/checkbox/Checkbox'
-import Details from '../components/details/Details'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
@@ -37,12 +36,7 @@ export const SettingsPage = ({
 
       <div className='pt4'>
         <Title>Analytics</Title>
-        <Checkbox className='dib bg-white pa3' onChange={doToggleAnalytics} checked={analyticsEnabled} label={<span className='fw5 f6'>Help improve this app by sending anonymous usage data.</span>} />
-        <div className='f6 charcoal lh-copy'>
-          <Details summaryText='What data is collected?' className='pt3'>
-            <p>We track... TODO</p>
-          </Details>
-        </div>
+        <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
       </div>
     </Box>
 
