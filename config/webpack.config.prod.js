@@ -22,6 +22,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -326,6 +327,12 @@ module.exports = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
+    }),
+    // Webpack Bundle Analyzer
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled',
+      generateStatsFile: true,
+      statsOptions: { source: false },
     }),
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.

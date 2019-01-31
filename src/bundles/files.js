@@ -1,6 +1,7 @@
 import { join, dirname } from 'path'
 import { createSelector } from 'redux-bundler'
 import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
+import countDirs from '../lib/count-dirs'
 import ms from 'milliseconds'
 
 const isMac = navigator.userAgent.indexOf('Mac') !== -1
@@ -43,6 +44,27 @@ const make = (basename, action) => (...args) => async (args2) => {
   try {
     data = await action(getIpfs(), ...args, id, args2)
     dispatch({ type: `FILES_${basename}_FINISHED`, payload: { id, ...data } })
+
+    // Rename specific logic
+    if (basename === actions.MOVE) {
+      const src = args[0][0]
+      const dst = args[0][1]
+
+      if (src === store.selectFiles().path) {
+        await store.doUpdateHash(`/files${dst}`)
+      }
+    }
+
+    // Delete specific logic
+    if (basename === actions.DELETE) {
+      const src = args[0][0]
+
+      let path = src.split('/')
+      path.pop()
+      path = path.join('/')
+
+      await store.doUpdateHash(`/files${path}`)
+    }
   } catch (error) {
     dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error } })
   } finally {
@@ -66,7 +88,16 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
       fetched: Date.now(),
       type: 'file',
       stats: stats,
-      read: () => ipfs.files.read(path)
+      read: () => ipfs.files.read(path),
+      // TODO - This will be refactored in the future
+      // I'm adding this here to make the file actions work in preview mode
+      extra: [{
+        name: path.split('/').pop(),
+        path: path,
+        type: 'file',
+        size: stats.size,
+        hash: stats.hash
+      }]
     }
   }
 
@@ -229,6 +260,14 @@ export default (opts = {}) => {
     doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, id, { dispatch }) => {
       const { streams, totalSize } = await filesToStreams(rawFiles)
 
+      // Normalise all paths to be relative. Dropped files come as absolute,
+      // those added by the file input come as relative paths, so normalise them.
+      streams.forEach(s => {
+        if (s.path[0] === '/') {
+          s.path = s.path.slice(1)
+        }
+      })
+
       const updateProgress = (sent) => {
         dispatch({ type: 'FILES_WRITE_UPDATED', payload: { id: id, progress: sent / totalSize * 100 } })
       }
@@ -237,11 +276,15 @@ export default (opts = {}) => {
 
       const res = await ipfs.add(streams, {
         pin: false,
-        wrapWithDirectory: true,
+        wrapWithDirectory: false,
         progress: updateProgress
       })
 
-      if (res.length !== streams.length + 2) {
+      const numberOfFiles = streams.length
+      const numberOfDirs = countDirs(streams)
+      const expectedResponseCount = numberOfFiles + numberOfDirs
+
+      if (res.length !== expectedResponseCount) {
         // See https://github.com/ipfs/js-ipfs-api/issues/797
         throw Object.assign(new Error(`API returned a partial response.`), { code: 'ERR_API_RESPONSE' })
       }
@@ -255,6 +298,7 @@ export default (opts = {}) => {
           try {
             await ipfs.files.cp([src, dst])
           } catch (err) {
+            console.log(err, { root, path, src, dst })
             throw Object.assign(new Error(`Folder already exists.`), { code: 'ERR_FOLDER_EXISTS' })
           }
         }

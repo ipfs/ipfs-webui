@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
-import NavBar from './navigation/NavBar'
 import navHelper from 'internal-nav-helper'
 import { IpldExploreForm } from 'ipld-explorer-components'
-import { DragDropContext } from 'react-dnd'
+// React DnD
+import { DragDropContext, DropTarget } from 'react-dnd'
+import { NativeTypes } from 'react-dnd-html5-backend'
 import DnDBackend from './lib/dnd-backend'
+// Components
+import NavBar from './navigation/NavBar'
 import ComponentLoader from './loader/ComponentLoader'
 import Notify from './components/notify/Notify'
 import Connected from './components/connected/Connected'
@@ -14,23 +17,41 @@ export class App extends Component {
   static propTypes = {
     doInitIpfs: PropTypes.func.isRequired,
     doUpdateUrl: PropTypes.func.isRequired,
+    doUpdateHash: PropTypes.func.isRequired,
+    doFilesWrite: PropTypes.func.isRequired,
     route: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.element
     ]).isRequired,
     routeInfo: PropTypes.object.isRequired,
-    navbarIsOpen: PropTypes.bool.isRequired
+    navbarIsOpen: PropTypes.bool.isRequired,
+    // Injected by DropTarget
+    isOver: PropTypes.bool.isRequired
   }
 
   componentWillMount () {
     this.props.doInitIpfs()
   }
 
-  render () {
-    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen } = this.props
+  addFiles = (files) => {
+    const { doFilesWrite, doUpdateHash, routeInfo } = this.props
 
-    return (
+    // Add the dropped files to the root
+    doFilesWrite('/', files)
+
+    // Change to the files pages if the user is not there
+    if (!routeInfo.url.startsWith('/files')) {
+      doUpdateHash('/files')
+    }
+  }
+
+  render () {
+    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget, isOver } = this.props
+
+    return connectDropTarget(
       <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
+        {/* Tinted overlay that appears when dragging and dropping an item */}
+        { isOver && <div className='w-100 h-100 top-0 left-0 absolute' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
         <div className='flex-l' style={{ minHeight: '100vh' }}>
           <div className={`flex-none-l bg-navy ${navbarIsOpen ? 'w5-l' : 'w4-l'}`}>
             <NavBar />
@@ -58,12 +79,34 @@ export class App extends Component {
   }
 }
 
+const dropTarget = {
+  drop: (props, monitor, App) => {
+    if (monitor.didDrop()) {
+      return
+    }
+
+    const item = monitor.getItem()
+
+    App.addFiles(item)
+  }
+}
+
+const dropCollect = (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  canDrop: monitor.canDrop()
+})
+
+export const AppWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(App)
+
 export default connect(
   'selectRoute',
   'selectNavbarIsOpen',
   'selectRouteInfo',
   'doUpdateUrl',
+  'doUpdateHash',
   'doInitIpfs',
+  'doFilesWrite',
   'selectIpfsReady',
-  DragDropContext(DnDBackend)(App)
+  DragDropContext(DnDBackend)(AppWithDropTarget)
 )

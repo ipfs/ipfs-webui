@@ -7,7 +7,7 @@ export const Option = ({ children, onClick, className = '', ...props }) => (
   </a>
 )
 
-export const DropdownMenu = ({ children, arrowMarginRight, width = 200, ...props }) => (
+export const DropdownMenu = ({ children, arrowMarginRight, width = 200, translateX = 0, translateY = 0, ...props }) => (
   <Menu
     className='sans-serif br2 charcoal'
     boxShadow='rgba(105, 196, 205, 0.5) 0px 1px 10px 0px'
@@ -15,7 +15,9 @@ export const DropdownMenu = ({ children, arrowMarginRight, width = 200, ...props
     arrowAlign='right'
     arrowMarginRight={arrowMarginRight || '13px'}
     left={`calc(100% - ${width}px)`}
-    {...props} >
+    translateX={translateX}
+    translateY={translateY}
+    {...props}>
     <nav className='flex flex-column'>
       {children}
     </nav>
