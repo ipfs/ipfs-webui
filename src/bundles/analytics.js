@@ -1,7 +1,15 @@
-import Countly from 'countly-sdk-web'
 import root from 'window-or-global'
 
+function getDoNotTrack () {
+  if (!root.navigator) return false
+  return !!root.navigator.doNotTrack
+}
+
+// TODO: we need to record the state of the doNotTrack variable at init time.
+// otherwise we show "enabled" or "disabled" based on that value, but not connected to actual analytic state.
+
 const createAnalyticsBundle = ({
+  doNotTrack = getDoNotTrack(),
   countlyUrl = 'http://165.227.180.165',
   appKey = '6b0d302cdd68172cb8810a1845cb9118917efe59',
   appVersion,
@@ -13,8 +21,11 @@ const createAnalyticsBundle = ({
 
     persistActions: ['ANALYTICS_ENABLED', 'ANALYTICS_DISABLED'],
 
-    init: (store) => {
-      // const Countly = root.Countly || {}
+    init: async (store) => {
+      if (!root.Countly) {
+        root.Countly = await import('countly-sdk-web')
+      }
+      const Countly = root.Countly || {}
       Countly.q = Countly.q || []
       root.Countly = Countly
 
@@ -30,13 +41,11 @@ const createAnalyticsBundle = ({
       Countly.q.push(['track_pageview'])
       Countly.q.push(['track_errors'])
 
-      // Do not track until the user opts in.
       if (!store.selectAnalyticsEnabled()) {
-        console.log('Analytics OFF!')
         Countly.q.push(['opt_out'])
         Countly.ignore_visitor = true
       } else {
-        console.log('Analytics ON!')
+        console.log('IPFS Web UI: Analytics ON - disable them from the settings page')
       }
 
       Countly.init()
@@ -53,29 +62,62 @@ const createAnalyticsBundle = ({
       })
     },
 
-    reducer: (state = { enabled: false }, action) => {
+    reducer: (state = { doNotTrack, lastEnabledAt: 0, lastDisabledAt: 0 }, action) => {
       if (action.type === 'ANALYTICS_ENABLED') {
-        return { ...state, enabled: true }
+        return { ...state, lastEnabledAt: Date.now() }
       }
       if (action.type === 'ANALYTICS_DISABLED') {
-        return { ...state, enabled: false }
+        return { ...state, lastDisabledAt: Date.now() }
       }
       return state
     },
 
-    selectAnalyticsEnabled: (state) => state.analytics.enabled,
+    selectAnalytics: (state) => state.analytics,
+
+    /*
+      Use the users preference or their global doNotTrack setting.
+    */
+    selectAnalyticsEnabled: (state) => {
+      const { lastEnabledAt, lastDisabledAt, doNotTrack } = state.analytics
+      // where never opted in or out, use their global tracking preference
+      if (!lastEnabledAt && !lastDisabledAt) {
+        return !doNotTrack
+      }
+      // otherwise return their most recent choice.
+      return lastEnabledAt > lastDisabledAt
+    },
+
+    /*
+      Ask the user if we may enable analytics if they have doNotTrack set
+    */
+    selectAnalyticsAskToEnable: (state) => {
+      const { lastEnabledAt, lastDisabledAt, doNotTrack } = state.analytics
+      // user has not explicity chosen
+      if (!lastEnabledAt && !lastDisabledAt) {
+        // ask to enable if doNotTrack is true.
+        return doNotTrack
+      }
+      // user has already made an explicit choice; dont ask again.
+      return false
+    },
 
     doToggleAnalytics: () => async ({ dispatch, store }) => {
       const enable = !store.selectAnalyticsEnabled()
       if (enable) {
-        console.log('Analytics ON')
-        root.Countly.opt_in()
-        dispatch({ type: 'ANALYTICS_ENABLED' })
+        store.doEnableAnalytics()
       } else {
-        console.log('Analytics OFF')
-        root.Countly.opt_out()
-        dispatch({ type: 'ANALYTICS_DISABLED' })
+        store.doDisableAnalytics()
       }
+    },
+
+    doDisableAnalytics: () => async ({ dispatch, store }) => {
+      root.Countly.opt_out()
+      dispatch({ type: 'ANALYTICS_DISABLED' })
+    },
+
+    doEnableAnalytics: () => async ({ dispatch, store }) => {
+      root.Countly.opt_in()
+      dispatch({ type: 'ANALYTICS_ENABLED' })
     }
   }
 }
