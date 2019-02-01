@@ -1,17 +1,21 @@
 /* global getComputedStyle */
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
+import { connect } from 'redux-bundler-react'
+import { Trans, translate } from 'react-i18next'
+import { join } from 'path'
+import classnames from 'classnames'
+import { sorts } from '../../bundles/files'
+// Reac DnD
+import { NativeTypes } from 'react-dnd-html5-backend'
+import { DropTarget } from 'react-dnd'
+// Components
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
-import { NativeTypes } from 'react-dnd-html5-backend'
-import { DropTarget } from 'react-dnd'
-import { join } from 'path'
-import { sorts } from '../../bundles/files'
-import { Trans, translate } from 'react-i18next'
+// Styles
+import './FilesList.css'
 
 export class FilesList extends React.Component {
   static propTypes = {
@@ -281,9 +285,10 @@ export class FilesList extends React.Component {
   }
 
   render () {
-    let { t, files, className, upperDir, connectDropTarget, isOver, canDrop } = this.props
+    let { t, files, className, upperDir, connectDropTarget, isOver, canDrop, filesIsFetching } = this.props
     const { selected, isDragging } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
+    const wrapperAnimClass = classnames({ 'loading': filesIsFetching }, ['wrapper'])
 
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
@@ -305,22 +310,24 @@ export class FilesList extends React.Component {
           </div>
           <div className='pa2' style={{ width: '2.5rem' }} />
         </header>
-        { upperDir &&
-          <File
-            ref={r => { this.filesRefs['..'] = r }}
-            onNavigate={() => this.props.onNavigate(upperDir.path)}
-            onInspect={() => this.props.onInspect([upperDir])}
-            onAddFiles={this.props.onAddFiles}
-            onMove={this.move}
-            setIsDragging={this.isDragging}
-            translucent={isDragging || (isOver && canDrop)}
-            name='..'
-            focused={this.state.focused === '..'}
-            cantDrag
-            cantSelect
-            {...upperDir} />
-        }
-        {this.files}
+        <div className={wrapperAnimClass}>
+          { upperDir &&
+            <File
+              ref={r => { this.filesRefs['..'] = r }}
+              onNavigate={() => this.props.onNavigate(upperDir.path)}
+              onInspect={() => this.props.onInspect([upperDir])}
+              onAddFiles={this.props.onAddFiles}
+              onMove={this.move}
+              setIsDragging={this.isDragging}
+              translucent={isDragging || (isOver && canDrop)}
+              name='..'
+              focused={this.state.focused === '..'}
+              cantDrag
+              cantSelect
+              {...upperDir} />
+          }
+          {this.files}
+        </div>
         {this.selectedMenu}
       </section>
     )
@@ -349,5 +356,6 @@ export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, 
 
 export default connect(
   'selectNavbarWidth',
+  'selectFilesIsFetching',
   FilesListWithDropTarget
 )
