@@ -10,7 +10,6 @@ import DecentralizationIcon from '../../icons/StrokeDecentralization'
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
-import NewFolderModal from './NewFolderModal'
 
 const AddButton = translate('files')(({ progress = null, t, tReady, ...props }) => {
   const sending = progress !== null
@@ -20,7 +19,7 @@ const AddButton = translate('files')(({ progress = null, t, tReady, ...props }) 
   }, ['Button f6 relative transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline'])
 
   return (
-    <button disabled={sending} className={cls} style={{ width: '144px' }} {...props}>
+    <button disabled={sending} className={cls} style={{ width: '120px' }} {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
         { sending ? `${progress.toFixed(0)}%` : `+ ${t('addToIPFS')}` }
       </div>&nbsp;
@@ -33,7 +32,6 @@ const AddButton = translate('files')(({ progress = null, t, tReady, ...props }) 
 
 class FileInput extends React.Component {
   static propTypes = {
-    onMakeDir: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
     onAddByPath: PropTypes.func.isRequired,
     addProgress: PropTypes.number,
@@ -44,7 +42,6 @@ class FileInput extends React.Component {
   state = {
     dropdown: false,
     byPathModal: false,
-    newFolderModal: false,
     force100: false
   }
 
@@ -83,11 +80,6 @@ class FileInput extends React.Component {
     this.toggleModal('byPath')()
   }
 
-  onMakeDir = (path) => {
-    this.props.onMakeDir(path)
-    this.toggleModal('newFolder')()
-  }
-
   render () {
     let { progress, t } = this.props
     if (this.state.force100) {
@@ -114,10 +106,6 @@ class FileInput extends React.Component {
               <DecentralizationIcon className='fill-aqua w2 mr1' />
               {t('addByPath')}
             </Option>
-            <Option className='bt border-snow' onClick={this.toggleModal('newFolder')}>
-              <FolderIcon className='fill-aqua w2 mr1' />
-              {t('newFolder')}
-            </Option>
           </DropdownMenu>
         </Dropdown>
 
@@ -141,13 +129,6 @@ class FileInput extends React.Component {
             className='outline-0'
             onCancel={this.toggleModal('byPath')}
             onSubmit={this.onAddByPath} />
-        </Overlay>
-
-        <Overlay show={this.state.newFolderModal} onLeave={this.toggleModal('newFolder')}>
-          <NewFolderModal
-            className='outline-0'
-            onCancel={this.toggleModal('newFolder')}
-            onSubmit={this.onMakeDir} />
         </Overlay>
       </div>
     )

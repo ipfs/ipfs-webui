@@ -5,7 +5,6 @@ import { connect } from 'redux-bundler-react'
 import downloadFile from './download-file'
 import { join } from 'path'
 import { translate, Trans } from 'react-i18next'
-
 // Components
 import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
@@ -13,15 +12,21 @@ import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
 import ContextMenu from './context-menu/ContextMenu'
 import Overlay from '../components/overlay/Overlay'
+import NewFolderModal from './new-folder-modal/NewFolderModal'
 import ShareModal from './share-modal/ShareModal'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
 import Box from '../components/box/Box'
+// Icons
+import FolderIcon from '../icons/StrokeFolder'
 
 const defaultState = {
   downloadAbort: null,
   downloadProgress: null,
+  newFolder: {
+    isOpen: false
+  },
   share: {
     isOpen: false,
     link: ''
@@ -65,7 +70,10 @@ class FilesPage extends React.Component {
 
   resetState = (field) => this.setState({ [field]: defaultState[field] })
 
-  makeDir = (path) => this.props.doFilesMakeDir(join(this.props.files.path, path))
+  makeDir = (path) => {
+    this.resetState('newFolder')
+    this.props.doFilesMakeDir(join(this.props.files.path, path))
+  }
 
   componentDidMount () {
     this.props.doFilesFetch()
@@ -117,6 +125,14 @@ class FilesPage extends React.Component {
     }
 
     doUpdateHash(`/explore/ipfs/${hash}`)
+  }
+
+  showNewFolderModal = () => {
+    this.setState({
+      newFolder: {
+        isOpen: true
+      }
+    })
   }
 
   showShareModal = (files) => {
@@ -196,7 +212,7 @@ class FilesPage extends React.Component {
       doFilesMove, doFilesNavigateTo, doFilesUpdateSorting
     } = this.props
 
-    const { share, rename, delete: deleteModal } = this.state
+    const { newFolder, share, rename, delete: deleteModal } = this.state
 
     const isCompanion = ipfsProvider === 'window.ipfs'
     const filesExist = files && files.content && files.content.length
@@ -214,12 +230,17 @@ class FilesPage extends React.Component {
               <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
 
               { files.type === 'directory'
-                ? <FileInput
-                  className='ml-auto'
-                  onMakeDir={this.makeDir}
-                  onAddFiles={this.add}
-                  onAddByPath={this.addByPath}
-                  addProgress={writeFilesProgress} />
+                ? <div className='ml-auto flex items-center'>
+                  <span
+                    className='mr3 flex items-center f6 gray pointer'
+                    onClick={() => this.showNewFolderModal()}>
+                    <FolderIcon className='mr1 fill-gray w2 o-80 glow' />{t('newFolder')}
+                  </span>
+                  <FileInput
+                    onAddFiles={this.add}
+                    onAddByPath={this.addByPath}
+                    addProgress={writeFilesProgress} />
+                </div>
                 : <div className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
                   <ContextMenu
                     handleClick={this.handleContextMenuClick}
@@ -259,6 +280,13 @@ class FilesPage extends React.Component {
               : <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} /> }
           </div>
         }
+
+        <Overlay show={newFolder.isOpen} onLeave={() => this.resetState('newFolder')}>
+          <NewFolderModal
+            className='outline-0'
+            onCancel={() => this.resetState('newFolder')}
+            onSubmit={this.makeDir} />
+        </Overlay>
 
         <Overlay show={share.isOpen} onLeave={() => this.resetState('share')}>
           <ShareModal
