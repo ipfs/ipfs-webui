@@ -93,16 +93,16 @@ class SelectedActions extends React.Component {
     }
 
     return (
-      <div className={`sans-serif bt w-100 pa3 ${className}`} style={{ ...styles.bar, ...style }} {...props}>
+      <div className={`sans-serif bt w-100 pa3 ph4-l ${className}`} style={{ ...styles.bar, ...style }} {...props}>
         <div className='flex items-center justify-between'>
           <div className='w5-l'>
             <div className='flex items-center'>
               <div className='mr3 relative f3 fw6 flex-shrink-0 dib br-100' style={styles.count}>
                 <span className='absolute' style={styles.countNumber}>{count}</span>
               </div>
-              <div className='dn db-l'>
+              <div className='dn db-l f6'>
                 <p className='ma0'>{t('filesSelected', { count })}</p>
-                <p className='ma0 mt1 f6' style={styles.size}>{t('totalSize', { size: filesize(size) })}</p>
+                <p className='ma0 mt1' style={styles.size}>{t('totalSize', { size: filesize(size) })}</p>
               </div>
             </div>
           </div>
@@ -129,10 +129,10 @@ class SelectedActions extends React.Component {
             </div>
           </div>
           <div className='w5-l'>
-            <span onClick={unselect} className='pointer flex items-center justify-end'>
+            <span onClick={unselect} className='pointer flex items-center justify-end f6'>
               <span className='mr2 dn db-l'>{t('actions.unselectAll')}</span>
               <span className='mr2 dn db-m'>{t('actions.clear')}</span>
-              <GlyphSmallCancel onClick={unselect} className='w1' fill='#F26148' viewBox='37 40 27 27' />
+              <GlyphSmallCancel onClick={unselect} className='w1' fill='#a3bfcd' viewBox='37 40 27 27' />
             </span>
           </div>
         </div>
