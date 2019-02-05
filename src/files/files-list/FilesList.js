@@ -13,7 +13,7 @@ import { DropTarget } from 'react-dnd'
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
-import LoadingAnimation from '../../components/loading-animation/LoadingAnimation';
+import LoadingAnimation from '../../components/loading-animation/LoadingAnimation'
 
 export class FilesList extends React.Component {
   static propTypes = {
