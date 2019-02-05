@@ -1,9 +1,5 @@
 
-.FilesList .wrapper {
-  position: relative;
-}
-
-.FilesList .wrapper.loading {
+.wrapper.loading {
   overflow: hidden;
   opacity: 0.4;
   background-color: #f0f6fa;
