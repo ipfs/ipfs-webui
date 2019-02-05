@@ -18,7 +18,7 @@ const AnalyticsToggle = ({ doToggleAnalytics, analyticsEnabled, t }) => {
           <p>{t('AnalyticsToggle.paragraph2')}</p>
           <ul>
             { items.map((_, i) => (
-              <li key={i}>
+              <li key={`analytics-item-${i}`}>
                 {t(`AnalyticsToggle.item${i}`)}
               </li>
             ))}

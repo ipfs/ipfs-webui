@@ -20,7 +20,7 @@ const createAnalyticsBundle = ({
 
     init: async (store) => {
       if (!root.Countly) {
-        // lasy-load to simplify testing.
+        // lazy-load to simplify testing.
         root.Countly = await import('countly-sdk-web')
       }
       const Countly = root.Countly

@@ -31,7 +31,7 @@
   "AnalyticsToggle": {
     "label": "Help improve this app by sending anonymous usage data",
     "summary": "What data is collected?",
-    "paragraph1": "IPFS self-hosts a countly instance to record anonymous usage data for this app.",
+    "paragraph1": "IPFS self-hosts a Countly instance to record anonymous usage data for this app.",
     "paragraph2": "The information collected includes:",
     "item0": "A random, generated device ID",
     "item1": "Session duration",
@@ -42,6 +42,6 @@
     "item6": "Browser information",
     "item7": "Which app sections are visited",
     "item8": "App errors",
-    "paragraph3": "No CIDs, filenames, or other personal information are collected. We want metrics to show us which features are useful to helps us prioritise what to work on next, and system configuration information to guide our testing."
+    "paragraph3": "No CIDs, filenames, or other personal information are collected. We want metrics to show us which features are useful to help us prioritise what to work on next, and system configuration information to guide our testing."
   }
 }
