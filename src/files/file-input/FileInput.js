@@ -8,6 +8,7 @@ import FolderIcon from '../../icons/StrokeFolder'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
 // Components
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
+import Button from '../../components/button/Button'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
 
@@ -16,17 +17,17 @@ const AddButton = translate('files')(({ progress = null, t, tReady, ...props }) 
   const cls = classnames({
     'bg-grey light-grey': sending,
     'pointer bg-green white': !sending
-  }, ['Button f6 relative transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline'])
+  }, ['f6 relative'])
 
   return (
-    <button disabled={sending} className={cls} style={{ width: '120px' }} {...props}>
+    <Button disabled={sending} className={cls} minWidth='120px' {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
         { sending ? `${progress.toFixed(0)}%` : `+ ${t('addToIPFS')}` }
       </div>&nbsp;
 
       { sending &&
         <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{ width: `${progress}%`, background: 'rgba(0,0,0,0.1)' }} /> }
-    </button>
+    </Button>
   )
 })
 

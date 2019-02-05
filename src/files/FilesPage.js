@@ -18,6 +18,7 @@ import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
 import Box from '../components/box/Box'
+import Button from '../components/button/Button'
 // Icons
 import FolderIcon from '../icons/StrokeFolder'
 
@@ -231,11 +232,13 @@ class FilesPage extends React.Component {
 
               { files.type === 'directory'
                 ? <div className='ml-auto flex items-center'>
-                  <span
-                    className='mr3 flex items-center f6 gray pointer'
+                  <Button
+                    className='mr1 flex items-center f6 fw3 pointer'
+                    color='charcoal-muted'
+                    bg='bg-transparent'
                     onClick={() => this.showNewFolderModal()}>
-                    <FolderIcon className='mr1 fill-gray w2 o-80 glow' />{t('newFolder')}
-                  </span>
+                    <FolderIcon viewBox='10 15 80 80' height='20px' className='fill-charcoal-muted w2' />{t('newFolder')}
+                  </Button>
                   <FileInput
                     onAddFiles={this.add}
                     onAddByPath={this.addByPath}
