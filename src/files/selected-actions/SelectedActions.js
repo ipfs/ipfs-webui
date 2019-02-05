@@ -132,7 +132,7 @@ class SelectedActions extends React.Component {
             <span onClick={unselect} className='pointer flex items-center justify-end f6'>
               <span className='mr2 dn db-l'>{t('actions.unselectAll')}</span>
               <span className='mr2 dn db-m'>{t('actions.clear')}</span>
-              <GlyphSmallCancel onClick={unselect} className='w1' fill='#a3bfcd' viewBox='37 40 27 27' />
+              <GlyphSmallCancel onClick={unselect} className='fill-gray w1' viewBox='37 40 27 27' />
             </span>
           </div>
         </div>
