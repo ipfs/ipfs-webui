@@ -233,11 +233,12 @@ class FilesPage extends React.Component {
               { files.type === 'directory'
                 ? <div className='ml-auto flex items-center'>
                   <Button
-                    className='mr1 flex items-center f6 fw3 pointer'
+                    className='mr3 f6 pointer'
                     color='charcoal-muted'
                     bg='bg-transparent'
                     onClick={() => this.showNewFolderModal()}>
-                    <FolderIcon viewBox='10 15 80 80' height='20px' className='fill-charcoal-muted w2' />{t('newFolder')}
+                    <FolderIcon viewBox='10 15 80 80' height='20px' className='fill-charcoal-muted w2 v-mid' />
+                    <span className='fw3'>{t('newFolder')}</span>
                   </Button>
                   <FileInput
                     onAddFiles={this.add}

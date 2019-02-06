@@ -12,7 +12,7 @@ import Button from '../../components/button/Button'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
 
-const AddButton = translate('files')(({ progress = null, t, tReady, ...props }) => {
+const AddButton = translate('files')(({ progress = null, t, tReady, i18n, lng, ...props }) => {
   const sending = progress !== null
   const cls = classnames({
     'bg-grey light-grey': sending,
