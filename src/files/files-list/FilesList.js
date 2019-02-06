@@ -287,7 +287,7 @@ export class FilesList extends React.Component {
     const { selected, isDragging } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
 
-    className = `FilesList no-select sans-serif border-box w-100 ${className} ${filesIsFetching && 'relative overflow-hidden'}`
+    className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
     return connectDropTarget(
       <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '130px' }}>

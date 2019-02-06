@@ -1,11 +1,12 @@
 
-.wrapper.loading {
+.LoadingAnimation {
+  position: relative;
   overflow: hidden;
   opacity: 0.4;
   background-color: #f0f6fa;
 }
 
-.loading::after {
+.LoadingAnimationSwipe::after {
   content: "";
   position: absolute;
   top: 0;
@@ -18,10 +19,10 @@
   white 70%,
     transparent 75%
   );
-  animation: progress 1.6s ease-in-out infinite;
+  animation: LoadingAnimationSwipe 1.6s ease-in-out infinite;
 }
 
-@keyframes progress {
+@keyframes LoadingAnimationSwipe {
   0% {
     transform: translate3d(-100%, 0, 0);
   }

@@ -1,13 +1,14 @@
 import React from 'react'
-import classnames from 'classnames'
 import './LoadingAnimation.css'
 
 const LoadingAnimation = ({ loading, children }) => {
-  const wrapperAnimClass = classnames({ 'loading': loading }, ['wrapper'])
+  if (!loading) return children
 
   return (
-    <div className={wrapperAnimClass}>
-      { children }
+    <div className='LoadingAnimation'>
+      <div className='LoadingAnimationSwipe'>
+        { children }
+      </div>
     </div>
   )
 }
