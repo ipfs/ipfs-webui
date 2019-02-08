@@ -53,7 +53,8 @@
   },
   "addByPathModal": {
     "title": "Add from IPFS",
-    "description": "Insert the path to add."
+    "description": "Insert an IPFS path (CID) to add.",
+    "examples": "Examples:"
   },
   "newFolderModal": {
     "title": "New folder",
