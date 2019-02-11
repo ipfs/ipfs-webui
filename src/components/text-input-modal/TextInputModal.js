@@ -10,7 +10,7 @@ class TextInputModal extends React.Component {
     onChange: PropTypes.func,
     title: PropTypes.string.isRequired,
     icon: PropTypes.func.isRequired,
-    description: PropTypes.string,
+    description: PropTypes.node,
     submitText: PropTypes.string,
     validate: PropTypes.func,
     defaultValue: PropTypes.string,
@@ -98,7 +98,9 @@ class TextInputModal extends React.Component {
     return (
       <Modal {...props} className={className} onCancel={onCancel}>
         <ModalBody title={title} icon={icon}>
-          { description &&
+          { description && typeof description === 'object' && description }
+
+          { description && typeof description === 'string' &&
             <p className='gray w-80 center'>{description}</p>
           }
 
