@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { translate } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import GlyphDots from '../../icons/GlyphDots'
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
-
+import GlyphDots from '../../icons/GlyphDots'
 import StrokeCopy from '../../icons/StrokeCopy'
 import StrokeShare from '../../icons/StrokeShare'
 import StrokePencil from '../../icons/StrokePencil'
@@ -19,12 +18,13 @@ class ContextMenu extends React.Component {
     translateX: PropTypes.number,
     translateY: PropTypes.number,
     left: PropTypes.number,
+    showDots: PropTypes.bool,
     onDelete: PropTypes.func,
     onRename: PropTypes.func,
     onDownload: PropTypes.func,
     onInspect: PropTypes.func,
     onShare: PropTypes.func,
-    hash: PropTypes.string.isRequired,
+    hash: PropTypes.string,
     className: PropTypes.string,
     t: PropTypes.func.isRequired,
     tReady: PropTypes.bool.isRequired
@@ -37,6 +37,7 @@ class ContextMenu extends React.Component {
     right: 'auto',
     translateX: 0,
     translateY: 0,
+    showDots: true,
     className: ''
   }
 
@@ -50,11 +51,11 @@ class ContextMenu extends React.Component {
   }
 
   render () {
-    const { t, onRename, onDelete, onDownload, onInspect, onShare, translateX, translateY, className } = this.props
+    const { t, onRename, onDelete, onDownload, onInspect, onShare, translateX, translateY, className, showDots } = this.props
 
     return (
       <Dropdown className={className}>
-        <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.props.handleClick} />
+        { showDots && <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.props.handleClick} /> }
         <DropdownMenu
           top={-8}
           arrowMarginRight='11px'
