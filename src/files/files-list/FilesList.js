@@ -1,11 +1,12 @@
 /* global getComputedStyle */
-import React from 'react'
+import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { Trans, translate } from 'react-i18next'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
+import { List, AutoSizer } from 'react-virtualized'
 // Reac DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
@@ -282,6 +283,38 @@ export class FilesList extends React.Component {
     this.setState({ isDragging: is })
   }
 
+  rowRenderer = ({
+    index, // Index of row
+    isScrolling, // The List is currently being scrolled
+    isVisible, // This row is visible within the List (eg it is not an overscanned row)
+    key, // Unique key within array of rendered rows
+    parent, // Reference to the parent List (instance)
+    style // Style object to be applied to row (to position it);
+    // This must be passed through to the rendered row element.
+  }) => {
+    const { files } = this.props
+
+    return (
+      <File
+        ref={r => { this.filesRefs[files[index].name] = r }}
+        onSelect={this.toggleOne}
+        onNavigate={() => this.props.onNavigate(files[index].path)}
+        onShare={() => this.props.onShare([files[index]])}
+        onDownload={() => this.props.onDownload([files[index]])}
+        onInspect={() => this.props.onInspect([files[index]])}
+        onDelete={() => this.props.onDelete([files[index]])}
+        onRename={() => this.props.onRename([files[index]])}
+        onAddFiles={this.props.onAddFiles}
+        onMove={this.move}
+        focused={this.state.focused === files[index].name}
+        selected={this.state.selected.indexOf(files[index].name) !== -1}
+        key={window.encodeURIComponent(files[index].name)}
+        setIsDragging={this.isDragging}
+        // translucent={this.state.isDragging || (isOver && canDrop)}
+        {...files[index]} />
+    )
+  }
+
   render () {
     let { t, files, className, upperDir, connectDropTarget, isOver, canDrop, filesIsFetching } = this.props
     const { selected, isDragging } = this.state
@@ -308,22 +341,33 @@ export class FilesList extends React.Component {
           <div className='pa2' style={{ width: '2.5rem' }} />
         </header>
         <LoadingAnimation loading={filesIsFetching}>
-          { upperDir &&
-            <File
-              ref={r => { this.filesRefs['..'] = r }}
-              onNavigate={() => this.props.onNavigate(upperDir.path)}
-              onInspect={() => this.props.onInspect([upperDir])}
-              onAddFiles={this.props.onAddFiles}
-              onMove={this.move}
-              setIsDragging={this.isDragging}
-              translucent={isDragging || (isOver && canDrop)}
-              name='..'
-              focused={this.state.focused === '..'}
-              cantDrag
-              cantSelect
-              {...upperDir} />
-          }
-          {this.files}
+          <AutoSizer disableHeight>
+            {({ width }) => (
+              <Fragment>
+                {/* { upperDir && <File
+                  ref={r => { this.filesRefs['..'] = r }}
+                  onNavigate={() => this.props.onNavigate(upperDir.path)}
+                  onInspect={() => this.props.onInspect([upperDir])}
+                  onAddFiles={this.props.onAddFiles}
+                  onMove={this.move}
+                  setIsDragging={this.isDragging}
+                  translucent={isDragging || (isOver && canDrop)}
+                  name='..'
+                  focused={this.state.focused === '..'}
+                  cantDrag
+                  cantSelect
+                  {...upperDir} /> } */}
+
+                <List
+                  className='tl w-100'
+                  width={width}
+                  height={500}
+                  rowCount={files.length}
+                  rowHeight={55.03}
+                  rowRenderer={this.rowRenderer} />
+              </Fragment>
+            )}
+          </AutoSizer>
         </LoadingAnimation>
         {this.selectedMenu}
       </section>
