@@ -1,5 +1,4 @@
 import React from 'react'
-import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { join, basename } from 'path'
 import filesize from 'filesize'
@@ -7,17 +6,12 @@ import filesize from 'filesize'
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 // Components
+import GlyphDots from '../../icons/GlyphDots'
 import Tooltip from '../../components/tooltip/Tooltip'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
-import ContextMenu from '../context-menu/ContextMenu'
 
 class File extends React.Component {
-  constructor (props) {
-    super(props)
-    this.contextMenuRef = React.createRef()
-  }
-
   static propTypes = {
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -31,13 +25,9 @@ class File extends React.Component {
     onNavigate: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
     onMove: PropTypes.func.isRequired,
-    onShare: PropTypes.func,
-    onDelete: PropTypes.func,
-    onRename: PropTypes.func,
-    onInspect: PropTypes.func,
-    onDownload: PropTypes.func,
     coloured: PropTypes.bool,
     translucent: PropTypes.bool,
+    handleContextMenuClick: PropTypes.func,
     // Injected by DragSource and DropTarget
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -51,47 +41,20 @@ class File extends React.Component {
     translucent: false
   }
 
-  state = {
-    isContextMenuOpen: false,
-    translateX: 0,
-    translateY: 0
+  handleCtxLeftClick = (ev) => {
+    const { name, type, size, hash, path } = this.props
+    const dotsPosition = this.dotsWrapper.getBoundingClientRect()
+    this.props.handleContextMenuClick(ev, 'LEFT', { name, size, type, hash, path }, dotsPosition)
   }
 
-  handleCtxLeftClick = (ev) => this.handleContextMenuClick(ev, 'LEFT')
-
-  handleCtxRightClick = (ev) => this.handleContextMenuClick(ev, 'RIGHT')
-
-  handleContextMenuClick = (ev, clickType) => {
-    // This is needed to disable the native OS right-click menu
-    // and deal with the clicking on the ContextMenu options
-    if (ev !== undefined && typeof ev !== 'string') {
-      ev.preventDefault()
-    }
-
-    if (clickType === 'RIGHT') {
-      ev.persist()
-
-      const ctxMenu = findDOMNode(this.contextMenuRef.current)
-      const ctxMenuPosition = ctxMenu.getBoundingClientRect()
-
-      this.setState(state => ({
-        isContextMenuOpen: !state.isContextMenuOpen,
-        translateX: (ctxMenuPosition.x + ctxMenuPosition.width / 2) - ev.clientX,
-        translateY: (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY
-      }))
-    } else {
-      this.setState(state => ({
-        isContextMenuOpen: !state.isContextMenuOpen,
-        translateX: 0,
-        translateY: 0
-      }))
-    }
+  handleCtxRightClick = (ev) => {
+    const { name, type, size, hash, path } = this.props
+    this.props.handleContextMenuClick(ev, 'RIGHT', { name, size, type, hash, path })
   }
 
   render () {
     let {
-      selected, focused, translucent, coloured, hash, name, type, size, cumulativeSize,
-      onSelect, onNavigate, onDelete, onInspect, onRename, onShare, onDownload,
+      selected, focused, translucent, coloured, hash, name, type, size, cumulativeSize, onSelect, onNavigate,
       isOver, canDrop, cantDrag, cantSelect, connectDropTarget, connectDragPreview, connectDragSource,
       styles = {}
     } = this.props
@@ -142,19 +105,8 @@ class File extends React.Component {
         <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted'>
           {size}
         </div>
-        <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
-          <ContextMenu
-            ref={this.contextMenuRef}
-            handleClick={this.handleCtxLeftClick}
-            translateX={this.state.translateX}
-            translateY={this.state.translateY}
-            isOpen={this.state.isContextMenuOpen}
-            onShare={onShare}
-            onDelete={onDelete}
-            onRename={onRename}
-            onInspect={onInspect}
-            onDownload={onDownload}
-            hash={hash} />
+        <div ref={el => { this.dotsWrapper = el }}>
+          <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleCtxLeftClick} />
         </div>
       </div>
     )
