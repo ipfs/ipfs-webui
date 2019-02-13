@@ -105,8 +105,8 @@ class File extends React.Component {
         <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted'>
           {size}
         </div>
-        <div ref={el => { this.dotsWrapper = el }}>
-          <GlyphDots width='1.5rem' className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleCtxLeftClick} />
+        <div ref={el => { this.dotsWrapper = el }} className='ph2' style={{ width: '2.5rem' }}>
+          <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleCtxLeftClick} />
         </div>
       </div>
     )

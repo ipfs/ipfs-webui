@@ -369,7 +369,7 @@ export class FilesList extends React.Component {
         contextMenu: {
           ...state.contextMenu,
           isOpen: !state.contextMenu.isOpen,
-          translateX: (ctxMenuPosition.x + ctxMenuPosition.width / 2) - (dotsPosition && dotsPosition.x) - 11,
+          translateX: (ctxMenuPosition.x + ctxMenuPosition.width / 2) - (dotsPosition && dotsPosition.x) - 19,
           translateY: (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (dotsPosition && dotsPosition.y) - 30,
           currentFile: file
         }
