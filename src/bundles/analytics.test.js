@@ -92,7 +92,7 @@ it('should toggle analytics', async (done) => {
   store.doToggleAnalytics()
   expect(store.selectAnalyticsEnabled()).toBe(false)
 
-  // we calc enabled state from tim diff between lastEnabledAt and lastDisabledAt, so need a pause
+  // we calc enabled state from time diff between lastEnabledAt and lastDisabledAt, so need a pause
   await sleep()
 
   store.doToggleAnalytics()
