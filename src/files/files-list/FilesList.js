@@ -139,36 +139,6 @@ export class FilesList extends React.Component {
     )
   }
 
-  get files () {
-    const { files, isOver, canDrop } = this.props
-
-    if (!files.length) {
-      return (
-        <Trans i18nKey='filesList.noFiles'>
-          <div className='pv3 b--light-gray bt tc gray f6'>
-            There are no available files. Add some!
-          </div>
-        </Trans>
-      )
-    }
-
-    return files.map(file => (
-      <File
-        ref={r => { this.filesRefs[file.name] = r }}
-        onSelect={this.toggleOne}
-        onNavigate={() => this.props.onNavigate(file.path)}
-        onAddFiles={this.props.onAddFiles}
-        onMove={this.move}
-        focused={this.state.focused === file.name}
-        selected={this.state.selected.indexOf(file.name) !== -1}
-        key={window.encodeURIComponent(file.name)}
-        setIsDragging={this.isDragging}
-        translucent={this.state.isDragging || (isOver && canDrop)}
-        handleContextMenuClick={this.handleContextMenuClick}
-        {...file} />
-    ))
-  }
-
   componentDidMount () {
     document.addEventListener('keyup', this.keyHandler)
   }
@@ -313,16 +283,16 @@ export class FilesList extends React.Component {
     this.setState({ isDragging: is })
   }
 
-  rowRenderer = ({
-    index, // Index of row
-    isScrolling, // The List is currently being scrolled
-    isVisible, // This row is visible within the List (eg it is not an overscanned row)
-    key, // Unique key within array of rendered rows
-    parent, // Reference to the parent List (instance)
-    style // Style object to be applied to row (to position it);
-    // This must be passed through to the rendered row element.
-  }) => {
-    const { files } = this.props
+  emptyRowsRenderer = () => (
+    <Trans i18nKey='filesList.noFiles'>
+      <div className='pv3 b--light-gray bt tc gray f6'>
+        There are no available files. Add some!
+      </div>
+    </Trans>
+  )
+
+  rowRenderer = ({ index, isScrolling, isVisible, key, parent }) => {
+    const { files, isOver, canDrop } = this.props
 
     return (
       <File
@@ -336,7 +306,7 @@ export class FilesList extends React.Component {
         key={window.encodeURIComponent(files[index].name)}
         setIsDragging={this.isDragging}
         handleContextMenuClick={this.handleContextMenuClick}
-        // translucent={this.state.isDragging || (isOver && canDrop)}
+        translucent={this.state.isDragging || (isOver && canDrop)}
         {...files[index]} />
     )
   }
@@ -378,8 +348,8 @@ export class FilesList extends React.Component {
   }
 
   render () {
-    let { t, files, className, upperDir, connectDropTarget, isOver, canDrop, filesIsFetching } = this.props
-    const { selected, isDragging } = this.state
+    let { t, files, className, upperDir, connectDropTarget, filesIsFetching } = this.props
+    const { selected } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
 
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
@@ -426,7 +396,8 @@ export class FilesList extends React.Component {
                   height={500}
                   rowCount={files.length}
                   rowHeight={55.03}
-                  rowRenderer={this.rowRenderer} />
+                  rowRenderer={this.rowRenderer}
+                  noRowsRenderer={this.emptyRowsRenderer} />
               </Fragment>
             )}
           </AutoSizer>
