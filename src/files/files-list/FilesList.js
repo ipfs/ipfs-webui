@@ -6,7 +6,7 @@ import { connect } from 'redux-bundler-react'
 import { Trans, translate } from 'react-i18next'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
-import { List, AutoSizer } from 'react-virtualized'
+import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 // Reac DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
@@ -283,27 +283,71 @@ export class FilesList extends React.Component {
     this.setState({ isDragging: is })
   }
 
-  emptyRowsRenderer = () => (
-    <Trans i18nKey='filesList.noFiles'>
-      <div className='pv3 b--light-gray bt tc gray f6'>
-        There are no available files. Add some!
-      </div>
-    </Trans>
-  )
+  emptyRowsRenderer = () => {
+    const { upperDir, isOver, canDrop, onNavigate } = this.props
+    const { isDragging, focused } = this.state
+
+    return (
+      <Fragment>
+        { upperDir && <File
+          ref={r => { this.filesRefs['..'] = r }}
+          onNavigate={() => onNavigate(upperDir.path)}
+          onAddFiles={this.props.onAddFiles}
+          onMove={this.move}
+          setIsDragging={this.isDragging}
+          handleContextMenuClick={this.handleContextMenuClick}
+          translucent={isDragging || (isOver && canDrop)}
+          name='..'
+          focused={focused === '..'}
+          cantDrag
+          cantSelect
+          {...upperDir} /> }
+
+        <Trans i18nKey='filesList.noFiles'>
+          <div className='pv3 b--light-gray bt tc gray f6'>
+            There are no available files. Add some!
+          </div>
+        </Trans>
+      </Fragment>
+    )
+  }
 
   rowRenderer = ({ index, isScrolling, isVisible, key, parent }) => {
-    const { files, isOver, canDrop } = this.props
+    const { files, upperDir, isOver, canDrop } = this.props
+    const { isDragging } = this.state
+
+    if (upperDir) {
+      // We want the `upperDir` to be the first item on the list
+      if (index === 0) {
+        return <File
+          key={key}
+          ref={r => { this.filesRefs['..'] = r }}
+          onNavigate={() => this.props.onNavigate(upperDir.path)}
+          onAddFiles={this.props.onAddFiles}
+          onMove={this.move}
+          setIsDragging={this.isDragging}
+          handleContextMenuClick={this.handleContextMenuClick}
+          translucent={isDragging || (isOver && canDrop)}
+          name='..'
+          focused={this.state.focused === '..'}
+          cantDrag
+          cantSelect
+          {...upperDir} />
+      }
+      // Decrease the index to stay inside the `files` array range
+      index--
+    }
 
     return (
       <File
         ref={r => { this.filesRefs[files[index].name] = r }}
+        key={window.encodeURIComponent(files[index].name)}
         onSelect={this.toggleOne}
         onNavigate={() => this.props.onNavigate(files[index].path)}
         onAddFiles={this.props.onAddFiles}
         onMove={this.move}
         focused={this.state.focused === files[index].name}
         selected={this.state.selected.indexOf(files[index].name) !== -1}
-        key={window.encodeURIComponent(files[index].name)}
         setIsDragging={this.isDragging}
         handleContextMenuClick={this.handleContextMenuClick}
         translucent={this.state.isDragging || (isOver && canDrop)}
@@ -348,9 +392,10 @@ export class FilesList extends React.Component {
   }
 
   render () {
-    let { t, files, className, upperDir, connectDropTarget, filesIsFetching } = this.props
+    let { t, files, className, upperDir, filesIsFetching, connectDropTarget } = this.props
     const { selected } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
+    const rowCount = files.length && upperDir ? files.length + 1 : files.length
 
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
@@ -373,34 +418,25 @@ export class FilesList extends React.Component {
           <div className='pa2' style={{ width: '2.5rem' }} />
         </header>
         <LoadingAnimation loading={filesIsFetching}>
-          <AutoSizer disableHeight>
-            {({ width }) => (
-              <Fragment>
-                {/* { upperDir && <File
-                  ref={r => { this.filesRefs['..'] = r }}
-                  onNavigate={() => this.props.onNavigate(upperDir.path)}
-                  onInspect={() => this.props.onInspect([upperDir])}
-                  onAddFiles={this.props.onAddFiles}
-                  onMove={this.move}
-                  setIsDragging={this.isDragging}
-                  translucent={isDragging || (isOver && canDrop)}
-                  name='..'
-                  focused={this.state.focused === '..'}
-                  cantDrag
-                  cantSelect
-                  {...upperDir} /> } */}
-
-                <List
-                  className='tl w-100'
-                  width={width}
-                  height={500}
-                  rowCount={files.length}
-                  rowHeight={55.03}
-                  rowRenderer={this.rowRenderer}
-                  noRowsRenderer={this.emptyRowsRenderer} />
-              </Fragment>
+          <WindowScroller>
+            {({ height, isScrolling, onChildScroll, scrollTop }) => (
+              <AutoSizer disableHeight>
+                {({ width }) => (
+                  <List
+                    autoHeight
+                    width={width}
+                    height={height}
+                    rowCount={rowCount}
+                    rowHeight={55.03}
+                    rowRenderer={this.rowRenderer}
+                    noRowsRenderer={this.emptyRowsRenderer}
+                    isScrolling={isScrolling}
+                    onScroll={onChildScroll}
+                    scrollTop={scrollTop} />
+                )}
+              </AutoSizer>
             )}
-          </AutoSizer>
+          </WindowScroller>
         </LoadingAnimation>
         {this.contextMenu}
         {this.selectedMenu}
