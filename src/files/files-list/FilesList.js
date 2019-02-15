@@ -21,6 +21,7 @@ export class FilesList extends React.Component {
   constructor (props) {
     super(props)
     this.contextMenuRef = React.createRef()
+    this.listRef = React.createRef()
   }
 
   static propTypes = {
@@ -221,6 +222,7 @@ export class FilesList extends React.Component {
     }
 
     this.setState({ selected: selected })
+    this.listRef.current.forceUpdateGrid()
   }
 
   toggleOne = (name, check) => {
@@ -234,6 +236,7 @@ export class FilesList extends React.Component {
     }
 
     this.setState({ selected: selected.sort() })
+    this.listRef.current.forceUpdateGrid()
   }
 
   move = ([src, dst]) => {
@@ -425,6 +428,7 @@ export class FilesList extends React.Component {
               <AutoSizer disableHeight>
                 {({ width }) => (
                   <List
+                    ref={this.listRef}
                     autoHeight
                     width={width}
                     height={height}
