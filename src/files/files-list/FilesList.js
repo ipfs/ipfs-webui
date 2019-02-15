@@ -119,6 +119,7 @@ export class FilesList extends React.Component {
 
   get contextMenu () {
     const { contextMenu } = this.state
+    const isUpperDir = contextMenu.currentFile && contextMenu.currentFile.type === 'directory' && contextMenu.currentFile.name === '..'
 
     return (
       <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
@@ -128,6 +129,7 @@ export class FilesList extends React.Component {
           translateX={contextMenu.translateX}
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenuClick}
+          isUpperDir={isUpperDir}
           showDots={false}
           onShare={() => this.props.onShare([contextMenu.currentFile])}
           onDelete={() => this.props.onDelete([contextMenu.currentFile])}
@@ -284,7 +286,7 @@ export class FilesList extends React.Component {
   }
 
   emptyRowsRenderer = () => {
-    const { upperDir, isOver, canDrop, onNavigate } = this.props
+    const { upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
     const { isDragging, focused } = this.state
 
     return (
@@ -292,7 +294,7 @@ export class FilesList extends React.Component {
         { upperDir && <File
           ref={r => { this.filesRefs['..'] = r }}
           onNavigate={() => onNavigate(upperDir.path)}
-          onAddFiles={this.props.onAddFiles}
+          onAddFiles={onAddFiles}
           onMove={this.move}
           setIsDragging={this.isDragging}
           handleContextMenuClick={this.handleContextMenuClick}
@@ -313,8 +315,8 @@ export class FilesList extends React.Component {
   }
 
   rowRenderer = ({ index, isScrolling, isVisible, key, parent }) => {
-    const { files, upperDir, isOver, canDrop } = this.props
-    const { isDragging } = this.state
+    const { files, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
+    const { selected, focused, isDragging } = this.state
 
     if (upperDir) {
       // We want the `upperDir` to be the first item on the list
@@ -322,14 +324,14 @@ export class FilesList extends React.Component {
         return <File
           key={key}
           ref={r => { this.filesRefs['..'] = r }}
-          onNavigate={() => this.props.onNavigate(upperDir.path)}
-          onAddFiles={this.props.onAddFiles}
+          onNavigate={() => onNavigate(upperDir.path)}
+          onAddFiles={onAddFiles}
           onMove={this.move}
           setIsDragging={this.isDragging}
           handleContextMenuClick={this.handleContextMenuClick}
           translucent={isDragging || (isOver && canDrop)}
           name='..'
-          focused={this.state.focused === '..'}
+          focused={focused === '..'}
           cantDrag
           cantSelect
           {...upperDir} />
@@ -343,14 +345,14 @@ export class FilesList extends React.Component {
         ref={r => { this.filesRefs[files[index].name] = r }}
         key={window.encodeURIComponent(files[index].name)}
         onSelect={this.toggleOne}
-        onNavigate={() => this.props.onNavigate(files[index].path)}
-        onAddFiles={this.props.onAddFiles}
+        onNavigate={() => onNavigate(files[index].path)}
+        onAddFiles={onAddFiles}
         onMove={this.move}
-        focused={this.state.focused === files[index].name}
-        selected={this.state.selected.indexOf(files[index].name) !== -1}
+        focused={focused === files[index].name}
+        selected={selected.indexOf(files[index].name) !== -1}
         setIsDragging={this.isDragging}
         handleContextMenuClick={this.handleContextMenuClick}
-        translucent={this.state.isDragging || (isOver && canDrop)}
+        translucent={isDragging || (isOver && canDrop)}
         {...files[index]} />
     )
   }
