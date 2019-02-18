@@ -1,7 +1,11 @@
+# Translating the IPFS Web UI
 
+Welcome to the Web UI branch of the [IPFS Translation Project  🌐✍️🖖](https://github.com/ipfs/i18n)
 
+We use [transifex.com](https://www.transifex.com/ipfs/public/) to manage translations. **Please don't edit the locale files directly.**
 
 For more info on our i18n process at IPFS, check out: https://github.com/ipfs/i18n
+
 
 ## Pulling translations from Transifex
 
@@ -15,6 +19,7 @@ For more info on our i18n process at IPFS, check out: https://github.com/ipfs/i1
 npx -q @olizilla/lol public/locales > src/lib/languages.json
 ```
 
+
 ## Namespaces and source files
 
 We've split up our files by tab, so you can find the translations files at
@@ -27,6 +32,7 @@ We've split up our files by tab, so you can find the translations files at
 We define our **source file** to be the `en` locale, in `public/locales/en/*`. Developers should update those files directly. Changes to from master branch are fetched by Transifex automatically every day for our lovely team of translators to ruminate on.
 
 All other locales are `pull`ed from Transifex service via the `tx` commandline tool.
+
 
 ### Adding or updating keys
 
