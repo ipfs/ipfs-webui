@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { join, basename } from 'path'
 import filesize from 'filesize'
+import classnames from 'classnames'
 // React DnD
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -59,7 +60,7 @@ class File extends React.Component {
       styles = {}
     } = this.props
 
-    let className = 'File b--light-gray hide-child-l relative flex items-center bt'
+    let className = 'File b--light-gray relative flex items-center bt'
 
     if (selected) {
       className += ' selected'
@@ -82,9 +83,14 @@ class File extends React.Component {
 
     const select = (select) => onSelect(name, select)
 
+    const checkBoxCls = classnames({
+      'o-70 glow': !cantSelect,
+      'o-1': selected || focused
+    }, ['pa2 w2'])
+
     const element = connectDropTarget(
       <div className={className} style={styles} onContextMenu={this.handleCtxRightClick}>
-        <div className='child float-on-left-l pa2 w2' style={(selected || focused) ? { opacity: '1' } : null}>
+        <div className={checkBoxCls}>
           <Checkbox disabled={cantSelect} checked={selected} onChange={select} />
         </div>
         {connectDragPreview(

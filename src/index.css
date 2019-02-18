@@ -14,22 +14,3 @@ body {
 .bg-near-white {
   background-color: #fbfbfb;
 }
-
-@media screen and (min-width: 65em)  {
-  .float-on-left-l {
-    position: absolute;
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-
-  .hide-child-l .child {
-    opacity: 0;
-    transition: opacity .15s ease-in;
-  }
-  .hide-child-l:hover  .child,
-  .hide-child-l:focus  .child,
-  .hide-child-l:active .child {
-    opacity: 1;
-    transition: opacity .15s ease-in;
-  }
-}

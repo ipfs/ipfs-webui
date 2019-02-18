@@ -4,6 +4,7 @@ import ReactDOM, { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { Trans, translate } from 'react-i18next'
+import classnames from 'classnames'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
@@ -401,13 +402,17 @@ export class FilesList extends React.Component {
     const { selected } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
     const rowCount = files.length && upperDir ? files.length + 1 : files.length
+    const checkBoxCls = classnames({
+      'o-1': allSelected,
+      'o-70': !allSelected
+    }, ['ph2 w2 glow'])
 
     className = `FilesList no-select sans-serif border-box w-100 ${className}`
 
     return connectDropTarget(
       <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '130px' }}>
-        <header className='hide-child-l gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
-          <div className='child float-on-left-l ph2 w2' style={allSelected ? { opacity: '1' } : null}>
+        <header className='gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
+          <div className={checkBoxCls}>
             <Checkbox checked={allSelected} onChange={this.toggleAll} />
           </div>
           <div className='ph2 f6 flex-auto'>
