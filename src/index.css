@@ -14,3 +14,7 @@ body {
 .bg-near-white {
   background-color: #fbfbfb;
 }
+
+html, body, #root {
+  height: 100%;
+}

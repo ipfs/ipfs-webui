@@ -36,6 +36,7 @@ export class FilesList extends React.Component {
     updateSorting: PropTypes.func.isRequired,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
+    filesIsFetching: PropTypes.boolean,
     // React Drag'n'Drop
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -296,7 +297,6 @@ export class FilesList extends React.Component {
     return (
       <Fragment>
         { upperDir && <File
-          ref={r => { this.filesRefs['..'] = r }}
           onNavigate={() => onNavigate(upperDir.path)}
           onAddFiles={onAddFiles}
           onMove={this.move}
@@ -318,46 +318,49 @@ export class FilesList extends React.Component {
     )
   }
 
-  rowRenderer = ({ index, isScrolling, isVisible, key, parent }) => {
+  rowRenderer = ({ index, isScrolling, isVisible, key, parent, style }) => {
     const { files, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
     const { selected, focused, isDragging } = this.state
 
     if (upperDir) {
       // We want the `upperDir` to be the first item on the list
       if (index === 0) {
-        return <File
-          key={key}
-          ref={r => { this.filesRefs['..'] = r }}
-          onNavigate={() => onNavigate(upperDir.path)}
-          onAddFiles={onAddFiles}
-          onMove={this.move}
-          setIsDragging={this.isDragging}
-          handleContextMenuClick={this.handleContextMenuClick}
-          translucent={isDragging || (isOver && canDrop)}
-          name='..'
-          focused={focused === '..'}
-          cantDrag
-          cantSelect
-          {...upperDir} />
+        return (
+          <div key={key} style={style}>
+            <File
+              onNavigate={() => onNavigate(upperDir.path)}
+              onAddFiles={onAddFiles}
+              onMove={this.move}
+              setIsDragging={this.isDragging}
+              handleContextMenuClick={this.handleContextMenuClick}
+              translucent={isDragging || (isOver && canDrop)}
+              name='..'
+              focused={focused === '..'}
+              cantDrag
+              cantSelect
+              {...upperDir} />
+          </div>
+        )
       }
       // Decrease the index to stay inside the `files` array range
       index--
     }
 
     return (
-      <File
-        ref={r => { this.filesRefs[files[index].name] = r }}
-        key={window.encodeURIComponent(files[index].name)}
-        onSelect={this.toggleOne}
-        onNavigate={() => onNavigate(files[index].path)}
-        onAddFiles={onAddFiles}
-        onMove={this.move}
-        focused={focused === files[index].name}
-        selected={selected.indexOf(files[index].name) !== -1}
-        setIsDragging={this.isDragging}
-        handleContextMenuClick={this.handleContextMenuClick}
-        translucent={isDragging || (isOver && canDrop)}
-        {...files[index]} />
+      <div key={key} style={style}>
+        <File
+          {...files[index]}
+          name={`${index} ${files[index].name}`}
+          onSelect={this.toggleOne}
+          onNavigate={() => onNavigate(files[index].path)}
+          onAddFiles={onAddFiles}
+          onMove={this.move}
+          focused={focused === files[index].name}
+          selected={selected.indexOf(files[index].name) !== -1}
+          setIsDragging={this.isDragging}
+          handleContextMenuClick={this.handleContextMenuClick}
+          translucent={isDragging || (isOver && canDrop)} />
+      </div>
     )
   }
 
@@ -407,11 +410,11 @@ export class FilesList extends React.Component {
       'o-70': !allSelected
     }, ['ph2 w2 glow'])
 
-    className = `FilesList no-select sans-serif border-box w-100 ${className}`
+    className = `FilesList no-select sans-serif border-box w-100 flex flex-column ${className}`
 
     return connectDropTarget(
-      <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '130px' }}>
-        <header className='gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
+      <section ref={(el) => { this.root = el }} className={className}>
+        <header className='gray pv3 flex items-center flex-none' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
           <div className={checkBoxCls}>
             <Checkbox checked={allSelected} onChange={this.toggleAll} />
           </div>
@@ -427,28 +430,30 @@ export class FilesList extends React.Component {
           </div>
           <div className='pa2' style={{ width: '2.5rem' }} />
         </header>
-        <LoadingAnimation loading={filesIsFetching}>
-          <WindowScroller>
-            {({ height, isScrolling, onChildScroll, scrollTop }) => (
-              <AutoSizer disableHeight>
-                {({ width }) => (
-                  <List
-                    ref={this.listRef}
-                    autoHeight
-                    width={width}
-                    height={height}
-                    rowCount={rowCount}
-                    rowHeight={55.03}
-                    rowRenderer={this.rowRenderer}
-                    noRowsRenderer={this.emptyRowsRenderer}
-                    isScrolling={isScrolling}
-                    onScroll={onChildScroll}
-                    scrollTop={scrollTop} />
-                )}
-              </AutoSizer>
-            )}
-          </WindowScroller>
-        </LoadingAnimation>
+        <WindowScroller>
+          {({ height, isScrolling, onChildScroll, scrollTop }) => (
+            <div className='flex-auto'>
+              <LoadingAnimation loading={filesIsFetching}>
+                <AutoSizer disableHeight>
+                  {({ width }) => (
+                    <List
+                      ref={this.listRef}
+                      autoHeight
+                      width={width}
+                      height={height}
+                      rowCount={rowCount}
+                      rowHeight={55}
+                      rowRenderer={this.rowRenderer}
+                      noRowsRenderer={this.emptyRowsRenderer}
+                      isScrolling={isScrolling}
+                      onScroll={onChildScroll}
+                      scrollTop={scrollTop} />
+                  )}
+                </AutoSizer>
+              </LoadingAnimation>
+            </div>
+          )}
+        </WindowScroller>
         {this.contextMenu}
         {this.selectedMenu}
       </section>

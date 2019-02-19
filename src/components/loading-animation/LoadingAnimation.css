@@ -4,6 +4,7 @@
   overflow: hidden;
   opacity: 0.4;
   background-color: #f0f6fa;
+  height: 100%;
 }
 
 .LoadingAnimationSwipe::after {

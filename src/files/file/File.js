@@ -79,6 +79,9 @@ class File extends React.Component {
       styles.borderTop = '1px solid #eee'
     }
 
+    styles.height = 55
+    styles.overflow = 'hidden'
+
     size = filesize(cumulativeSize || size, { round: 0 })
 
     const select = (select) => onSelect(name, select)
