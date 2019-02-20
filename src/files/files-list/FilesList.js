@@ -1,6 +1,6 @@
 /* global getComputedStyle */
 import React, { Fragment } from 'react'
-import ReactDOM, { findDOMNode } from 'react-dom'
+import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { Trans, translate } from 'react-i18next'
@@ -62,6 +62,7 @@ export class FilesList extends React.Component {
   state = {
     selected: [],
     focused: null,
+    firstVisibleRow: null,
     isDragging: false,
     contextMenu: {
       isOpen: false,
@@ -145,11 +146,11 @@ export class FilesList extends React.Component {
   }
 
   componentDidMount () {
-    document.addEventListener('keyup', this.keyHandler)
+    document.addEventListener('keydown', this.keyHandler)
   }
 
   componentWillUnmount () {
-    document.removeEventListener('keyup', this.keyHandler)
+    document.removeEventListener('keydown', this.keyHandler)
   }
 
   componentDidUpdate () {
@@ -163,10 +164,12 @@ export class FilesList extends React.Component {
   }
 
   keyHandler = (e) => {
-    const { selected, focused } = this.state
+    const { files, upperDir } = this.props
+    const { selected, focused, firstVisibleRow } = this.state
 
     if (e.key === 'Escape') {
-      return this.setState({ selected: [], focused: null })
+      this.setState({ selected: [], focused: null })
+      return this.listRef.current.forceUpdateGrid()
     }
 
     if (e.key === 'F2' && focused !== null && focused !== '..') {
@@ -188,31 +191,39 @@ export class FilesList extends React.Component {
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault()
-      let index = this.props.upperDir ? -1 : 0
+      let index = upperDir ? -1 : 0
 
       if (focused !== null) {
-        const prev = this.props.files.findIndex(el => el.name === focused)
+        const prev = files.findIndex(el => el.name === focused)
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
       }
 
-      if (index === -1 && !this.props.upperDir) {
+      if (index === -1 && !upperDir) {
         return
       }
 
-      if (index >= -1 && index < this.props.files.length) {
+      if (index >= -1 && index < files.length) {
         let name
 
         if (index === -1) {
           name = '..'
         } else {
-          name = this.props.files[index].name
+          name = files[index].name
+        }
+
+        // If the file we are going to focus is out of view (removed
+        // from the DOM by react-virtualized), focus the first visible file
+        if (!this.filesRefs[name]) {
+          name = files[firstVisibleRow].name
         }
 
         this.setState({ focused: name })
-        const domNode = ReactDOM.findDOMNode(this.filesRefs[name])
-        domNode.scrollIntoView()
+        const domNode = findDOMNode(this.filesRefs[name])
+        domNode.scrollIntoView({ behaviour: 'smooth', block: 'center' })
         domNode.querySelector('input[type="checkbox"]').focus()
       }
+
+      this.listRef.current.forceUpdateGrid()
     }
   }
 
@@ -297,6 +308,7 @@ export class FilesList extends React.Component {
     return (
       <Fragment>
         { upperDir && <File
+          ref={r => { this.filesRefs['..'] = r }}
           onNavigate={() => onNavigate(upperDir.path)}
           onAddFiles={onAddFiles}
           onMove={this.move}
@@ -328,6 +340,7 @@ export class FilesList extends React.Component {
         return (
           <div key={key} style={style}>
             <File
+              ref={r => { this.filesRefs['..'] = r }}
               onNavigate={() => onNavigate(upperDir.path)}
               onAddFiles={onAddFiles}
               onMove={this.move}
@@ -350,7 +363,8 @@ export class FilesList extends React.Component {
       <div key={key} style={style}>
         <File
           {...files[index]}
-          name={`${index} ${files[index].name}`}
+          ref={r => { this.filesRefs[files[index].name] = r }}
+          name={files[index].name}
           onSelect={this.toggleOne}
           onNavigate={() => onNavigate(files[index].path)}
           onAddFiles={onAddFiles}
@@ -363,6 +377,8 @@ export class FilesList extends React.Component {
       </div>
     )
   }
+
+  onRowsRendered = ({ startIndex }) => this.setState({ firstVisibleRow: startIndex })
 
   handleContextMenuClick = (ev, clickType, file, dotsPosition) => {
     // This is needed to disable the native OS right-click menu
@@ -445,6 +461,7 @@ export class FilesList extends React.Component {
                       rowHeight={55}
                       rowRenderer={this.rowRenderer}
                       noRowsRenderer={this.emptyRowsRenderer}
+                      onRowsRendered={this.onRowsRendered}
                       isScrolling={isScrolling}
                       onScroll={onChildScroll}
                       scrollTop={scrollTop} />
