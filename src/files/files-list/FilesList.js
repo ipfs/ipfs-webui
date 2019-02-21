@@ -290,11 +290,15 @@ export class FilesList extends React.Component {
   }
 
   changeSort = (order) => () => {
-    if (order === this.props.sort.by) {
-      this.props.updateSorting(order, !this.props.sort.asc)
+    const { sort, updateSorting } = this.props
+
+    if (order === sort.by) {
+      updateSorting(order, !sort.asc)
     } else {
-      this.props.updateSorting(order, true)
+      updateSorting(order, true)
     }
+
+    this.listRef.current.forceUpdateGrid()
   }
 
   isDragging = (is = true) => {
