@@ -1,19 +1,27 @@
 /* global getComputedStyle */
-
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { connect } from 'redux-bundler-react'
+import ReactDOM, { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
-import Checkbox from '../../components/checkbox/Checkbox'
-import SelectedActions from '../selected-actions/SelectedActions'
-import File from '../file/File'
-import { NativeTypes } from 'react-dnd-html5-backend'
-import { DropTarget } from 'react-dnd'
+import { connect } from 'redux-bundler-react'
+import { Trans, translate } from 'react-i18next'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
-import { Trans, translate } from 'react-i18next'
+// Reac DnD
+import { NativeTypes } from 'react-dnd-html5-backend'
+import { DropTarget } from 'react-dnd'
+// Components
+import Checkbox from '../../components/checkbox/Checkbox'
+import SelectedActions from '../selected-actions/SelectedActions'
+import ContextMenu from '../context-menu/ContextMenu'
+import File from '../file/File'
+import LoadingAnimation from '../../components/loading-animation/LoadingAnimation'
 
 export class FilesList extends React.Component {
+  constructor (props) {
+    super(props)
+    this.contextMenuRef = React.createRef()
+  }
+
   static propTypes = {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
@@ -50,7 +58,13 @@ export class FilesList extends React.Component {
   state = {
     selected: [],
     focused: null,
-    isDragging: false
+    isDragging: false,
+    contextMenu: {
+      isOpen: false,
+      translateX: 0,
+      translateY: 0,
+      currentFile: null
+    }
   }
 
   filesRefs = {}
@@ -102,6 +116,28 @@ export class FilesList extends React.Component {
     )
   }
 
+  get contextMenu () {
+    const { contextMenu } = this.state
+
+    return (
+      <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
+        <ContextMenu
+          ref={this.contextMenuRef}
+          isOpen={contextMenu.isOpen}
+          translateX={contextMenu.translateX}
+          translateY={contextMenu.translateY}
+          handleClick={this.handleContextMenuClick}
+          showDots={false}
+          onShare={() => this.props.onShare([contextMenu.currentFile])}
+          onDelete={() => this.props.onDelete([contextMenu.currentFile])}
+          onRename={() => this.props.onRename([contextMenu.currentFile])}
+          onInspect={() => this.props.onInspect([contextMenu.currentFile])}
+          onDownload={() => this.props.onDownload([contextMenu.currentFile])}
+          hash={contextMenu.currentFile && contextMenu.currentFile.hash} />
+      </div>
+    )
+  }
+
   get files () {
     const { files, isOver, canDrop } = this.props
 
@@ -120,11 +156,6 @@ export class FilesList extends React.Component {
         ref={r => { this.filesRefs[file.name] = r }}
         onSelect={this.toggleOne}
         onNavigate={() => this.props.onNavigate(file.path)}
-        onShare={() => this.props.onShare([file])}
-        onDownload={() => this.props.onDownload([file])}
-        onInspect={() => this.props.onInspect([file])}
-        onDelete={() => this.props.onDelete([file])}
-        onRename={() => this.props.onRename([file])}
         onAddFiles={this.props.onAddFiles}
         onMove={this.move}
         focused={this.state.focused === file.name}
@@ -132,6 +163,7 @@ export class FilesList extends React.Component {
         key={window.encodeURIComponent(file.name)}
         setIsDragging={this.isDragging}
         translucent={this.state.isDragging || (isOver && canDrop)}
+        handleContextMenuClick={this.handleContextMenuClick}
         {...file} />
     ))
   }
@@ -280,8 +312,44 @@ export class FilesList extends React.Component {
     this.setState({ isDragging: is })
   }
 
+  handleContextMenuClick = (ev, clickType, file, dotsPosition) => {
+    // This is needed to disable the native OS right-click menu
+    // and deal with the clicking on the ContextMenu options
+    if (ev !== undefined && typeof ev !== 'string') {
+      ev.preventDefault()
+      ev.persist()
+    }
+
+    const ctxMenu = findDOMNode(this.contextMenuRef.current)
+    const ctxMenuPosition = ctxMenu.getBoundingClientRect()
+
+    if (clickType === 'RIGHT') {
+      this.setState(state => ({
+        ...state,
+        contextMenu: {
+          ...state.contextMenu,
+          isOpen: !state.contextMenu.isOpen,
+          translateX: (ctxMenuPosition.x + ctxMenuPosition.width / 2) - ev.clientX,
+          translateY: (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10,
+          currentFile: file
+        }
+      }))
+    } else {
+      this.setState(state => ({
+        ...state,
+        contextMenu: {
+          ...state.contextMenu,
+          isOpen: !state.contextMenu.isOpen,
+          translateX: (ctxMenuPosition.x + ctxMenuPosition.width / 2) - (dotsPosition && dotsPosition.x) - 19,
+          translateY: (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (dotsPosition && dotsPosition.y) - 30,
+          currentFile: file
+        }
+      }))
+    }
+  }
+
   render () {
-    let { t, files, className, upperDir, connectDropTarget, isOver, canDrop } = this.props
+    let { t, files, className, upperDir, connectDropTarget, isOver, canDrop, filesIsFetching } = this.props
     const { selected, isDragging } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
 
@@ -305,22 +373,25 @@ export class FilesList extends React.Component {
           </div>
           <div className='pa2' style={{ width: '2.5rem' }} />
         </header>
-        { upperDir &&
-          <File
-            ref={r => { this.filesRefs['..'] = r }}
-            onNavigate={() => this.props.onNavigate(upperDir.path)}
-            onInspect={() => this.props.onInspect([upperDir])}
-            onAddFiles={this.props.onAddFiles}
-            onMove={this.move}
-            setIsDragging={this.isDragging}
-            translucent={isDragging || (isOver && canDrop)}
-            name='..'
-            focused={this.state.focused === '..'}
-            cantDrag
-            cantSelect
-            {...upperDir} />
-        }
-        {this.files}
+        <LoadingAnimation loading={filesIsFetching}>
+          { upperDir &&
+            <File
+              ref={r => { this.filesRefs['..'] = r }}
+              onNavigate={() => this.props.onNavigate(upperDir.path)}
+              onInspect={() => this.props.onInspect([upperDir])}
+              onAddFiles={this.props.onAddFiles}
+              onMove={this.move}
+              setIsDragging={this.isDragging}
+              translucent={isDragging || (isOver && canDrop)}
+              name='..'
+              focused={this.state.focused === '..'}
+              cantDrag
+              cantSelect
+              {...upperDir} />
+          }
+          {this.files}
+        </LoadingAnimation>
+        {this.contextMenu}
         {this.selectedMenu}
       </section>
     )
@@ -349,5 +420,6 @@ export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, 
 
 export default connect(
   'selectNavbarWidth',
+  'selectFilesIsFetching',
   FilesListWithDropTarget
 )

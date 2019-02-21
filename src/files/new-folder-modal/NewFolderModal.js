@@ -15,8 +15,7 @@ function NewFolderModal ({ t, tReady, onCancel, onSubmit, className, ...props })
       description={t('newFolderModal.description')}
       icon={FolderIcon}
       submitText={t('actions.create')}
-      {...props}
-    />
+      {...props} />
   )
 }
 

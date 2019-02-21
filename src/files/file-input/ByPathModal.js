@@ -14,6 +14,19 @@ function ByPathModal ({ t, tReady, onCancel, onSubmit, className, ...props }) {
     return isIPFS.ipfsPath(p)
   }
 
+  const getDescription = () => {
+    const codeClass = 'w-90 mb1 pa1 bg-snow f7 charcoal-muted truncate'
+
+    return (
+      <div className='mb3 flex flex-column items-center'>
+        <p className='gray w-80'>{t('addByPathModal.description')}</p>
+        <span className='w-80 mv2 f7 charcoal-muted'>{t('addByPathModal.examples')}</span>
+        <code className={codeClass}>/ipfs/QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V</code>
+        <code className={codeClass}>QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB</code>
+      </div>
+    )
+  }
+
   return (
     <TextInputModal
       validate={(p) => validatePath(p)}
@@ -22,7 +35,7 @@ function ByPathModal ({ t, tReady, onCancel, onSubmit, className, ...props }) {
       onCancel={onCancel}
       className={className}
       title={t('addByPathModal.title')}
-      description={t('addByPathModal.description')}
+      description={getDescription()}
       icon={Icon}
       submitText={t('actions.add')}
       {...props}
