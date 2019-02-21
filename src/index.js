@@ -9,6 +9,11 @@ import bundleCache from './lib/bundle-cache'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './i18n'
 
+const appVersion = process.env.REACT_APP_VERSION
+const gitRevision = process.env.REACT_APP_GIT_REV
+
+console.log(`IPFS Web UI - v${appVersion} - https://github.com/ipfs-shipyard/ipfs-webui/commit/${gitRevision}`)
+
 async function render () {
   const initialData = await bundleCache.getAll()
   if (initialData && process.env.NODE_ENV !== 'production') {
