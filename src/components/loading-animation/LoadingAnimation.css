@@ -2,9 +2,12 @@
 .LoadingAnimation {
   position: relative;
   overflow: hidden;
-  opacity: 0.4;
-  background-color: #f0f6fa;
+  opacity: 0.2;
   height: 100%;
+}
+
+.LoadingAnimation .Checkbox span {
+  opacity: 1 !important;
 }
 
 .LoadingAnimationSwipe::after {
@@ -25,10 +28,10 @@
 
 @keyframes LoadingAnimationSwipe {
   0% {
-    transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0) skew(-20deg);
   }
 
   100% {
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0) skew(0);
   }
 }

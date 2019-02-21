@@ -164,8 +164,13 @@ export class FilesList extends React.Component {
   }
 
   keyHandler = (e) => {
-    const { files, upperDir } = this.props
+    const { files, upperDir, filesIsFetching } = this.props
     const { selected, focused, firstVisibleRow } = this.state
+
+    // Disable keyboard controls if fetching files
+    if (filesIsFetching) {
+      return
+    }
 
     if (e.key === 'Escape') {
       this.setState({ selected: [], focused: null })
@@ -334,7 +339,7 @@ export class FilesList extends React.Component {
     )
   }
 
-  rowRenderer = ({ index, isScrolling, isVisible, key, parent, style }) => {
+  rowRenderer = ({ index, key, style }) => {
     const { files, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
     const { selected, focused, isDragging } = this.state
 
@@ -434,49 +439,52 @@ export class FilesList extends React.Component {
 
     return connectDropTarget(
       <section ref={(el) => { this.root = el }} className={className}>
-        <header className='gray pv3 flex items-center flex-none' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
-          <div className={checkBoxCls}>
-            <Checkbox checked={allSelected} onChange={this.toggleAll} />
-          </div>
-          <div className='ph2 f6 flex-auto'>
-            <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
-              {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
-            </span>
-          </div>
-          <div className='pl2 pr4 tr f6 flex-none dn db-l'>
-            <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
-              {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
-            </span>
-          </div>
-          <div className='pa2' style={{ width: '2.5rem' }} />
-        </header>
-        <WindowScroller>
-          {({ height, isScrolling, onChildScroll, scrollTop }) => (
-            <div className='flex-auto'>
-              <LoadingAnimation loading={filesIsFetching}>
-                <AutoSizer disableHeight>
-                  {({ width }) => (
-                    <List
-                      ref={this.listRef}
-                      autoHeight
-                      width={width}
-                      height={height}
-                      rowCount={rowCount}
-                      rowHeight={55}
-                      rowRenderer={this.rowRenderer}
-                      noRowsRenderer={this.emptyRowsRenderer}
-                      onRowsRendered={this.onRowsRendered}
-                      isScrolling={isScrolling}
-                      onScroll={onChildScroll}
-                      scrollTop={scrollTop} />
-                  )}
-                </AutoSizer>
-              </LoadingAnimation>
-            </div>
-          )}
-        </WindowScroller>
-        {this.contextMenu}
-        {this.selectedMenu}
+        { filesIsFetching
+          ? <LoadingAnimation />
+          : <Fragment>
+            <header className='gray pv3 flex items-center flex-none' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
+              <div className={checkBoxCls}>
+                <Checkbox checked={allSelected} onChange={this.toggleAll} />
+              </div>
+              <div className='ph2 f6 flex-auto'>
+                <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
+                  {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
+                </span>
+              </div>
+              <div className='pl2 pr4 tr f6 flex-none dn db-l'>
+                <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
+                  {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
+                </span>
+              </div>
+              <div className='pa2' style={{ width: '2.5rem' }} />
+            </header>
+            <WindowScroller>
+              {({ height, isScrolling, onChildScroll, scrollTop }) => (
+                <div className='flex-auto'>
+                  <AutoSizer disableHeight>
+                    {({ width }) => (
+                      <List
+                        ref={this.listRef}
+                        autoHeight
+                        width={width}
+                        height={height}
+                        className='outline-0'
+                        rowCount={rowCount}
+                        rowHeight={55}
+                        rowRenderer={this.rowRenderer}
+                        noRowsRenderer={this.emptyRowsRenderer}
+                        onRowsRendered={this.onRowsRendered}
+                        isScrolling={isScrolling}
+                        onScroll={onChildScroll}
+                        scrollTop={scrollTop} />
+                    )}
+                  </AutoSizer>
+                </div>
+              )}
+            </WindowScroller>
+            {this.contextMenu}
+            {this.selectedMenu}
+          </Fragment> }
       </section>
     )
   }
