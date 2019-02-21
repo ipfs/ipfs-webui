@@ -18,7 +18,7 @@ jobs:
     docker:
       - image: olizilla/ipfs-dns-deploy
         environment:
-          DOMAIN: explore.ipld.io
+          DOMAIN: webui.ipfs.io
           BUILD_DIR: build
     steps:
       - attach_workspace:
@@ -34,9 +34,6 @@ jobs:
               --recursive /tmp/workspace/$BUILD_DIR | tail -n1 | cut -d " " -f 2 )
 
             preview_url=https://ipfs.io/ipfs/$hash
-
-            # Preload ipfs hash on the gateway
-            curl --silent --output /dev/null --show-error $preview_url
 
             echo "Website added to IPFS: $preview_url"
 
