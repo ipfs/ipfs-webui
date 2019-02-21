@@ -2,7 +2,6 @@ import { join, dirname } from 'path'
 import { createSelector } from 'redux-bundler'
 import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
 import countDirs from '../lib/count-dirs'
-import ms from 'milliseconds'
 
 const isMac = navigator.userAgent.indexOf('Mac') !== -1
 
@@ -149,7 +148,6 @@ const defaultState = {
 }
 
 export default (opts = {}) => {
-  opts.staleAfter = opts.staleAfter || ms.minutes(1)
   opts.baseUrl = opts.baseUrl || '/files'
 
   return {
@@ -349,17 +347,6 @@ export default (opts = {}) => {
     doFilesUpdateSorting: (by, asc) => async ({ dispatch }) => {
       dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
     },
-
-    reactFilesFetch: createSelector(
-      'selectFiles',
-      'selectFilesIsFetching',
-      'selectAppTime',
-      (files, isFetching, appTime) => {
-        if (!isFetching && files && appTime - files.fetched >= opts.staleAfter) {
-          return { actionCreator: 'doFilesFetch' }
-        }
-      }
-    ),
 
     selectFiles: (state) => {
       const { pageContent, sorting } = state.files
