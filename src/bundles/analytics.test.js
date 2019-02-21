@@ -32,11 +32,11 @@ it('should normalise the doNotTrack state from the navigator.doNotTrack value', 
   let store = createStore()
   // false if not set.
   expect(store.selectAnalytics().doNotTrack).toBe(false)
-  global.navigator = { doNotTrack: 1 }
+  global.navigator = { doNotTrack: '1' }
   store = createStore()
   expect(store.selectAnalytics().doNotTrack).toBe(true)
 
-  global.navigator.doNotTrack = 0
+  global.navigator.doNotTrack = '0'
   store = createStore()
   expect(store.selectAnalytics().doNotTrack).toBe(false)
 })

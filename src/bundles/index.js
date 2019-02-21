@@ -72,6 +72,7 @@ export default composeBundles(
   ipfsDesktop,
   repoStats,
   createAnalyticsBundle({
+    countlyAppKey: window.ipfsDesktop ? '47fbb3db3426d2ae32b3b65fe40c564063d8b55d' : '8fa213e6049bff23b08e5f5fbac89e7c27397612',
     appVersion: process.env.REACT_APP_VERSION,
     appGitRevision: process.env.REACT_APP_GIT_REV
   })

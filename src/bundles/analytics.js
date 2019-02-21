@@ -1,14 +1,21 @@
 import root from 'window-or-global'
 
+const IGNORE_ACTIONS = /^(FILES_FETCH_|FILES_WRITE_UPDATED)/
+const USER_ACTIONS = /^(CONFIG_SAVE_|FILES_|DESKTOP_)/
+
 function getDoNotTrack () {
   if (!root.navigator) return false
-  return !!root.navigator.doNotTrack
+  const value = root.doNotTrack || root.navigator.doNotTrack || root.navigator.msDoNotTrack
+  if (value === '1' || value === 'yes') {
+    return true
+  }
+  return false
 }
 
 const createAnalyticsBundle = ({
   doNotTrack = getDoNotTrack(),
-  countlyUrl = 'http://165.227.180.165',
-  appKey = '6b0d302cdd68172cb8810a1845cb9118917efe59',
+  countlyUrl = 'https://countly.ipfs.io',
+  countlyAppKey,
   appVersion,
   appGitRevision,
   debug = false
@@ -27,7 +34,7 @@ const createAnalyticsBundle = ({
       Countly.q = Countly.q || []
 
       Countly.url = countlyUrl
-      Countly.app_key = appKey
+      Countly.app_key = countlyAppKey
       Countly.app_version = appVersion
       Countly.debug = debug
 
@@ -55,6 +62,19 @@ const createAnalyticsBundle = ({
           root.Countly.q.push(['track_pageview', routeInfo.pattern])
         }
       })
+    },
+
+    // Log interesting actions
+    getMiddleware: () => (store) => next => action => {
+      const res = next(action)
+      if (store.selectAnalyticsEnabled() && !IGNORE_ACTIONS.test(action.type) && USER_ACTIONS.test(action.type)) {
+        root.Countly.q.push(['add_event', {
+          key: action.type,
+          count: 1
+        }])
+      }
+
+      return res
     },
 
     reducer: (state = { doNotTrack, lastEnabledAt: 0, lastDisabledAt: 0 }, action) => {
