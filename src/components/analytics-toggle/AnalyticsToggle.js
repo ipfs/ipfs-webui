@@ -1,4 +1,5 @@
 import React from 'react'
+import { Trans } from 'react-i18next'
 import Checkbox from '../checkbox/Checkbox'
 import Details from '../details/Details'
 
@@ -14,7 +15,11 @@ const AnalyticsToggle = ({ doToggleAnalytics, analyticsEnabled, t }) => {
       } />
       <div className='f6 charcoal lh-copy mw7'>
         <Details summaryText={t('AnalyticsToggle.summary')} className='pt3'>
-          <p>{t('AnalyticsToggle.paragraph1')}</p>
+          <p>
+            <Trans i18nKey='AnalyticsToggle.paragraph1'>
+              IPFS hosts a <a className='link blue' href='https://count.ly/'>Countly</a> instance to record anonymous usage data for this app.
+            </Trans>
+          </p>
           <p>{t('AnalyticsToggle.paragraph2')}</p>
           <ul>
             { items.map((_, i) => (

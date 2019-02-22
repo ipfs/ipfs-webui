@@ -40,7 +40,7 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
 LanguageModal.propTypes = {
   onLeave: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
-  tReady: PropTypes.bool.isRequired
+  tReady: PropTypes.bool
 }
 
 LanguageModal.defaultProps = {
