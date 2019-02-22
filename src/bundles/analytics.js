@@ -2,6 +2,7 @@ import root from 'window-or-global'
 
 const IGNORE_ACTIONS = /^(FILES_FETCH_|FILES_WRITE_UPDATED)/
 const USER_ACTIONS = /^(CONFIG_SAVE_|FILES_|DESKTOP_)/
+const ASYNC_ACTIONS = /^(.+)_(STARTED|FINISHED|FAILED)$/
 
 function getDoNotTrack () {
   if (!root.navigator) return false
@@ -64,17 +65,39 @@ const createAnalyticsBundle = ({
       })
     },
 
-    // Log interesting actions
-    getMiddleware: () => (store) => next => action => {
-      const res = next(action)
-      if (store.selectAnalyticsEnabled() && !IGNORE_ACTIONS.test(action.type) && USER_ACTIONS.test(action.type)) {
-        root.Countly.q.push(['add_event', {
-          key: action.type,
-          count: 1
-        }])
+    // Record durations for user actions
+    getMiddleware: () => (store) => {
+      const EventMap = new Map()
+      return next => action => {
+        const res = next(action)
+        if (store.selectAnalyticsEnabled() && !IGNORE_ACTIONS.test(action.type) && USER_ACTIONS.test(action.type)) {
+          if (ASYNC_ACTIONS.test(action.type)) {
+            const [_, name, state] = ASYNC_ACTIONS.exec(action.type) // eslint-disable-line no-unused-vars
+            if (state === 'STARTED') {
+              EventMap.set(name, root.performance.now())
+            } else {
+              const start = EventMap.get(name)
+              if (!start) {
+                EventMap.delete(name)
+                return
+              }
+              const durationInSeconds = (root.performance.now() - start) / 1000
+              console.log('ASYNC', name, durationInSeconds)
+              root.Countly.q.push(['add_event', {
+                key: state === 'FAILED' ? action.type : name,
+                count: 1,
+                dur: durationInSeconds
+              }])
+            }
+          } else {
+            root.Countly.q.push(['add_event', {
+              key: action.type,
+              count: 1
+            }])
+          }
+        }
+        return res
       }
-
-      return res
     },
 
     reducer: (state = { doNotTrack, lastEnabledAt: 0, lastDisabledAt: 0 }, action) => {
