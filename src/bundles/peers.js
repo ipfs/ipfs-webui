@@ -23,6 +23,22 @@ bundle.selectPeersCount = createSelector(
   }
 )
 
+bundle.doConnectSwarm = addr => async ({ dispatch, getIpfs }) => {
+  dispatch({ type: 'CONNECT_SWARM_STARTED', payload: { addr } })
+  const ipfs = getIpfs()
+
+  try {
+    await ipfs.swarm.connect(addr)
+  } catch (err) {
+    return dispatch({
+      type: 'CONNECT_SWARM_FAILED',
+      payload: { addr, error: err }
+    })
+  }
+
+  dispatch({ type: 'CONNECT_SWARM_FINISHED', payload: { addr } })
+}
+
 // Update the peers if they are stale (appTime - lastSuccess > staleAfter)
 bundle.reactPeersFetchWhenIdle = createSelector(
   'selectPeersShouldUpdate',

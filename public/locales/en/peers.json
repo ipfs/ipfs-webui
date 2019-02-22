@@ -4,5 +4,7 @@
   "peers": "Peers",
   "address": "Address",
   "location": "Location",
-  "unknownLocation": "Unknown"
+  "unknownLocation": "Unknown",
+  "addConnection": "Add Connection",
+  "add": "Add"
 }
