@@ -377,6 +377,11 @@ export default (opts = {}) => {
 
     selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === actions.FETCH),
 
+    selectShowLoadingAnimation: (state) => {
+      const pending = state.files.pending.find(a => a.type === actions.FETCH)
+      return pending ? (Date.now() - pending.start) > 1000 : false
+    },
+
     selectFilesSorting: (state) => state.files.sorting,
 
     selectWriteFilesProgress: (state) => {

@@ -426,7 +426,7 @@ export class FilesList extends React.Component {
   }
 
   render () {
-    let { t, files, className, upperDir, filesIsFetching, connectDropTarget } = this.props
+    let { t, files, className, upperDir, showLoadingAnimation, connectDropTarget } = this.props
     const { selected } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
     const rowCount = files.length && upperDir ? files.length + 1 : files.length
@@ -439,7 +439,7 @@ export class FilesList extends React.Component {
 
     return connectDropTarget(
       <section ref={(el) => { this.root = el }} className={className}>
-        { filesIsFetching
+        { showLoadingAnimation
           ? <LoadingAnimation />
           : <Fragment>
             <header className='gray pv3 flex items-center flex-none' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
@@ -513,5 +513,6 @@ export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, 
 export default connect(
   'selectNavbarWidth',
   'selectFilesIsFetching',
+  'selectShowLoadingAnimation',
   FilesListWithDropTarget
 )
