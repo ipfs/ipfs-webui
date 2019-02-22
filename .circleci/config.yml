@@ -28,7 +28,7 @@ jobs:
           command: |
             # Upload build dir to cluster.ipfs.io
             hash=$(ipfs-cluster-ctl \
-              --quietest \
+              --quieter \
               --host /dnsaddr/cluster.ipfs.io \
               --basic-auth $CLUSTER_USER:$CLUSTER_PASSWORD \
               add --name "$DOMAIN build $CIRCLE_BUILD_NUM" \
