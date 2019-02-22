@@ -16,7 +16,7 @@ jobs:
 
   deploy:
     docker:
-      - image: olizilla/ipfs-dns-deploy
+      - image: olizilla/ipfs-dns-deploy:1.1
         environment:
           DOMAIN: webui.ipfs.io
           BUILD_DIR: build
@@ -34,8 +34,6 @@ jobs:
 
             if [ "$CIRCLE_BRANCH" == "master" ] ; then
               dnslink-dnsimple -d $DOMAIN -r _dnslink -l /ipfs/$hash
-              
-              echo "DNSLink for https://$DOMAIN updated to /ipfs/$hash"
             fi
 
 workflows:
