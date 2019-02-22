@@ -49,7 +49,7 @@ class AddConnection extends React.Component {
             submitText={t('add')}
             icon={Icon}
             title={t('addConnection')}
-            description='Insert the multiaddress of the swarm'
+            description={t('insertSwarmAddress')}
           />
         </Overlay>
       </div>
