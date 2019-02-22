@@ -28,10 +28,11 @@ jobs:
           command: |
             # Upload build dir to cluster.ipfs.io
             hash=$(ipfs-cluster-ctl \
+              --quietest \
               --host /dnsaddr/cluster.ipfs.io \
               --basic-auth $CLUSTER_USER:$CLUSTER_PASSWORD \
-              add --rmin 3 --rmax 3 --name "$DOMAIN" \
-              --recursive /tmp/workspace/$BUILD_DIR | tail -n1 | cut -d " " -f 2 )
+              add --name "$DOMAIN build $CIRCLE_BUILD_NUM" \
+              --recursive /tmp/workspace/$BUILD_DIR )
 
             preview_url=https://ipfs.io/ipfs/$hash
 
