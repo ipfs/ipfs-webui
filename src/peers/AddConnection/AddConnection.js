@@ -33,6 +33,19 @@ class AddConnection extends React.Component {
     }
   }
 
+  getDescription = () => {
+    const { t } = this.props
+    const codeClass = 'w-90 mb1 pa1 bg-snow f7 charcoal-muted truncate'
+
+    return (
+      <div className='mb3 flex flex-column items-center'>
+        <p className='gray w-80'>{t('insertSwarmAddress')}</p>
+        <span className='w-80 mv2 f7 charcoal-muted'>{t('example')}</span>
+        <code className={codeClass}>/ip4/76.176.168.65/tcp/4001/ipfs/QmbBHw1Xx9pUpAbrVZUKTPL5Rsph5Q9GQhRvcWVBPFgGtC</code>
+      </div>
+    )
+  }
+
   render () {
     const { open } = this.state
     const { t } = this.props
@@ -49,7 +62,7 @@ class AddConnection extends React.Component {
             submitText={t('add')}
             icon={Icon}
             title={t('addConnection')}
-            description={t('insertSwarmAddress')}
+            description={this.getDescription()}
           />
         </Overlay>
       </div>

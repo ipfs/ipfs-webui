@@ -50,6 +50,15 @@ const notify = {
       }
     }
 
+    if (action.type === 'SWARM_CONNECT_FAILED' || action.type === 'SWARM_CONNECT_FINISHED') {
+      return {
+        ...state,
+        show: true,
+        error: action.type === 'SWARM_CONNECT_FAILED',
+        eventId: action.type
+      }
+    }
+
     return state
   },
 
@@ -71,6 +80,14 @@ const notify = {
 
       if (eventId === 'STATS_FETCH_FINISHED') {
         return 'ipfsIsBack'
+      }
+
+      if (eventId === 'SWARM_CONNECT_FAILED') {
+        return 'couldntConnectToSwarm'
+      }
+
+      if (eventId === 'SWARM_CONNECT_FINISHED') {
+        return 'connectedToSwarm'
       }
 
       return eventId
