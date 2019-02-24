@@ -16,7 +16,7 @@ jobs:
 
   deploy:
     docker:
-      - image: olizilla/ipfs-dns-deploy
+      - image: olizilla/ipfs-dns-deploy:1.1
         environment:
           DOMAIN: webui.ipfs.io
           BUILD_DIR: build
@@ -24,38 +24,16 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - run:
-          name: Pin website, post notification for PRs or update DNS on master
+          name: Deploy website to IPFS
           command: |
-            # Upload build dir to cluster.ipfs.io
-            hash=$(ipfs-cluster-ctl \
-              --host /dnsaddr/cluster.ipfs.io \
-              --basic-auth $CLUSTER_USER:$CLUSTER_PASSWORD \
-              add --quieter \
-              --name "$DOMAIN build $CIRCLE_BUILD_NUM" \
-              --recursive /tmp/workspace/$BUILD_DIR )
+            pin_name="$DOMAIN build $CIRCLE_BUILD_NUMBER"
 
-            preview_url=https://ipfs.io/ipfs/$hash
+            hash=$(pin-to-cluster.sh "$pin_name" /tmp/workspace/$BUILD_DIR)
 
-            echo "Website added to IPFS: $preview_url"
+            echo "Website added to IPFS: https://ipfs.io/ipfs/$hash"
 
-            if [ ! -z "$CIRCLE_PULL_REQUEST" ] ; then
-              # Add website preview as PR Status - https://developer.github.com/v3/repos/statuses/#create-a-status
-
-              status_url="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/statuses/$CIRCLE_SHA1"
-              params=$(jq --monochrome-output --null-input \
-                --arg target_url $preview_url \
-                '{ "state": "success", "target_url": $target_url, description: "Website added to IPFS", "context": "IPFS" }' )
-
-              echo "Github status update: $params"
-              curl --silent -X POST -H "Authorization: token $GITHUB_TOKEN" -H 'Content-Type: application/json' --data "$params" $status_url
-
-            elif [ "$CIRCLE_BRANCH" == "master" ] ; then
-              # Update DNSLink for domain
-
+            if [ "$CIRCLE_BRANCH" == "master" ] ; then
               dnslink-dnsimple -d $DOMAIN -r _dnslink -l /ipfs/$hash
-
-            else
-              echo "Not a Pull Request or Master branch. Skipping."
             fi
 
 workflows:
