@@ -8,7 +8,15 @@ jobs:
       - run:
           command: npm ci
       - run:
+          command: npm run lint
+      - run:
+          command: npm run test
+      - run:
           command: npm run build
+      - run:
+          command: npm run test:e2e:ci
+      - run:
+          command: npm run bundlesize
       - persist_to_workspace:
           root: .
           paths:
