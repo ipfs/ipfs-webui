@@ -22,6 +22,9 @@ import ipfsDesktop from './ipfs-desktop'
 import repoStats from './repo-stats'
 import createAnalyticsBundle from './analytics'
 
+const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612'
+const COUNTLY_KEY_DESKTOP = '47fbb3db3426d2ae32b3b65fe40c564063d8b55d'
+
 export default composeBundles(
   createCacheBundle(bundleCache.set),
   appIdle({ idleTimeout: 5000 }),
@@ -72,7 +75,7 @@ export default composeBundles(
   ipfsDesktop,
   repoStats,
   createAnalyticsBundle({
-    countlyAppKey: window.ipfsDesktop ? '47fbb3db3426d2ae32b3b65fe40c564063d8b55d' : '8fa213e6049bff23b08e5f5fbac89e7c27397612',
+    countlyAppKey: window.ipfsDesktop ? COUNTLY_KEY_DESKTOP : COUNTLY_KEY_WEBUI,
     appVersion: process.env.REACT_APP_VERSION,
     appGitRevision: process.env.REACT_APP_GIT_REV
   })

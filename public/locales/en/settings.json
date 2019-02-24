@@ -31,7 +31,7 @@
   "AnalyticsToggle": {
     "label": "Help improve this app by sending anonymous usage data",
     "summary": "What data is collected?",
-    "paragraph1": "IPFS hosts a <1>Countly</1> instance to record anonymous usage data for this app.",
+    "paragraph1": "Protocol Labs hosts a <1>Countly</1> instance to record anonymous usage data for this app.",
     "paragraph2": "The information collected includes:",
     "item0": "A random, generated device ID",
     "item1": "Session duration",
