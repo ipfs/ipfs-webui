@@ -6,7 +6,7 @@
   "location": "Location",
   "unknownLocation": "Unknown",
   "addConnection": "Add Connection",
-  "insertSwarmAddress": "Insert the swarm address you want to connect to.",
+  "insertPeerAddress": "Insert the peer address you want to connect to.",
   "add": "Add",
   "example": "Example:"
 }

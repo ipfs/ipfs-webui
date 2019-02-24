@@ -83,11 +83,11 @@ const notify = {
       }
 
       if (eventId === 'SWARM_CONNECT_FAILED') {
-        return 'couldntConnectToSwarm'
+        return 'couldntConnectToPeer'
       }
 
       if (eventId === 'SWARM_CONNECT_FINISHED') {
-        return 'connectedToSwarm'
+        return 'connectedToPeer'
       }
 
       return eventId
