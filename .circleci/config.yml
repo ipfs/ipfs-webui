@@ -3,8 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.15.1-browsers
-        environment:
-          NO_SANDBOX: true
     steps:
       - checkout
       - run:
