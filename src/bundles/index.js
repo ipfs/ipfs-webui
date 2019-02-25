@@ -29,7 +29,12 @@ export default composeBundles(
   createCacheBundle(bundleCache.set),
   appIdle({ idleTimeout: 5000 }),
   ipfsBundle({
-    tryWindow: false
+    tryWindow: false,
+    ipfsConnectionTest: (ipfs) => {
+      // ipfs connection is working if can we fetch the bw stats.
+      // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
+      return ipfs.stats.bw()
+    }
   }),
   identityBundle,
   navbarBundle,
