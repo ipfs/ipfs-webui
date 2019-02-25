@@ -60,7 +60,10 @@ function getURLFromAddress (name, config) {
   try {
     const address = config.Addresses[name]
     return toUri(address).replace('tcp://', 'http://')
-  } catch (_) {
+  } catch (error) {
+    if (config) {
+      console.log(`Failed to get url from Addresses.${name}`, error)
+    }
     return null
   }
 }
