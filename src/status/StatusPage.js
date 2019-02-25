@@ -9,8 +9,9 @@ import NodeInfoAdvanced from './NodeInfoAdvanced'
 import NodeBandwidthChart from './NodeBandwidthChart'
 import NetworkTraffic from './NetworkTraffic'
 import Box from '../components/box/Box'
+import AskToEnable from '../components/ask/AskToEnable'
 
-const StatusPage = ({ t, ipfsConnected }) => {
+const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics, doDisableAnalytics }) => {
   return (
     <div data-id='StatusPage'>
       <Helmet>
@@ -33,6 +34,17 @@ const StatusPage = ({ t, ipfsConnected }) => {
           </div>
         </div>
       </Box>
+      { ipfsConnected && analyticsAskToEnable
+        ? <AskToEnable
+          className='mt3'
+          label={t('AskToEnable.label')}
+          yesLabel={t('AskToEnable.yesLabel')}
+          noLabel={t('AskToEnable.noLabel')}
+          onYes={doEnableAnalytics}
+          onNo={doDisableAnalytics}
+        />
+        : null
+      }
       <Box className='mt3 pa3' style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
         <div className='flex flex-column flex-row-l'>
           <div className='pr0 pr2-l flex-auto'>
@@ -49,5 +61,8 @@ const StatusPage = ({ t, ipfsConnected }) => {
 
 export default connect(
   'selectIpfsConnected',
+  'selectAnalyticsAskToEnable',
+  'doEnableAnalytics',
+  'doDisableAnalytics',
   translate('status')(StatusPage)
 )

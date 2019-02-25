@@ -27,5 +27,21 @@
   "autoAddScreenshots": "Auto add screenshots",
   "autoAddScreenshotsDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> to take screenshots and add them to the repository.",
   "downloadCopiedHash": "Download copied hash",
-  "downloadCopiedHashDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> to download the last copied hash."
+  "downloadCopiedHashDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> to download the last copied hash.",
+  "AnalyticsToggle": {
+    "label": "Help improve this app by sending anonymous usage data",
+    "summary": "What data is collected?",
+    "paragraph1": "Protocol Labs hosts a <1>Countly</1> instance to record anonymous usage data for this app.",
+    "paragraph2": "The information collected includes:",
+    "item0": "A random, generated device ID",
+    "item1": "Session duration",
+    "item2": "Country code & city from IP address. IP address is discarded",
+    "item3": "Operating system and version",
+    "item4": "Display resolution and density",
+    "item5": "Locale (browser language, e.g German)",
+    "item6": "Browser information",
+    "item7": "Which app sections are visited",
+    "item8": "App errors",
+    "paragraph3": "No CIDs, filenames, or other personal information are collected. We want metrics to show us which features are useful to help us prioritise what to work on next, and system configuration information to guide our testing."
+  }
 }
