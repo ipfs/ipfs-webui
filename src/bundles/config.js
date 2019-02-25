@@ -57,13 +57,13 @@ bundle.reactConfigFetch = createSelector(
 )
 
 function getURLFromAddress (name, config) {
+  if (!config) return null
+
   try {
     const address = config.Addresses[name]
     return toUri(address).replace('tcp://', 'http://')
   } catch (error) {
-    if (config) {
-      console.log(`Failed to get url from Addresses.${name}`, error)
-    }
+    console.log(`Failed to get url from Addresses.${name}`, error)
     return null
   }
 }
