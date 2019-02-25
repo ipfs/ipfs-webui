@@ -1,8 +1,8 @@
-.Checkbox span:first-of-type {
+.Checkbox > span:first-of-type {
   background-color: #DDE6EB;
 }
 
-.Checkbox input {
+.Checkbox > input {
   left: -99999px;
 }
 
@@ -10,7 +10,7 @@
   opacity: 1;
 }
 
-.Checkbox input:disabled ~ span:first-of-type {
+.Checkbox > input:disabled ~ span:first-of-type {
   cursor: not-allowed;
   opacity: 0.5;
 }

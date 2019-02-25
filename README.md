@@ -11,11 +11,11 @@
 | ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) |
 
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/project-IPFS-blue.svg)](http://ipfs.io/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![Build Status](https://travis-ci.org/ipfs-shipyard/ipfs-webui.svg?branch=revamp)](https://travis-ci.org/ipfs-shipyard/ipfs-webui) [![dependencies Status](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp/status.svg)](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp)
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![dependencies Status](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp/status.svg)](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp) [![CircleCI](https://img.shields.io/circleci/project/github/ipfs-shipyard/ipfs-webui/master.svg)](https://circleci.com/gh/ipfs-shipyard/ipfs-webui)
 
 The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work and it's part of the wider [IPFS GUI project](https://github.com/ipfs/ipfs-gui).
 
-The app uses the IPFS HTTP CLIENT to get data from the ipfs node. It will use the `window.ipfs` api provided by the [IPFS Companion](https://github.com/ipfs-shipyard/ipfs-companion) web-extension where available, and fallback to using [js-ipfs-http-client](https://github.com/ipfs/js-ipfs-http-client) where not.
+The app uses [`ipfs-http-client`](https://github.com/ipfs/js-ipfs-http-client) to communicate with your local IPFS node.
 
 The app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#table-of-contents).
 
@@ -157,66 +157,18 @@ To inspect the built bundle for bundled modules and their size, first `build` th
 
 ## Translations
 
-The translations are stored on [./public/locales](./public/locales) and the English version is the source of truth.
+The translations are stored on [./public/locales](./public/locales) and the English version is the source of truth. We use Transifex to help us translate WebUI to another languages.
 
-We use Transifex to help us translate WebUI to another languages. If you're interested in contributing, go to [our page on Transifex](https://www.transifex.com/ipfs/ipfs-webui/translate/), create an account, pick a language and start translating.
+**If you're interested in contributing a translation**, go to [our page on Transifex](https://www.transifex.com/ipfs/ipfs-webui/translate/), create an account, pick a language and start translating.
 
-### To Sync Translations
-
-1. Install and set up [command-line client (`tx`)](https://docs.transifex.com/client/installing-the-client)
-2. To download new translations from Transifex: `tx pull -a`
-    - this should create/update files in `public/locales/*` that need to be committed
-    - if a new language is created, remember to add it to `src/i18n.js`
-3. If there are new locales, run [`lol`](https://github.com/olizilla/lol) to update our [`languages.json`](src/lib/languages.json)
-
-```console
-npx -q @olizilla/lol public/locales > src/lib/languages.json
-```
-
-### Namespaces and source files
-
-We've split up our files by tab, so you can find the translations files at
-
-- **Files** `->` `public/locales/en/files.json`
-- **Explore** `->` `public/locales/en/explore.json`
-
-..etc. The filename is the **namespace** that `i18next` will look up to find the keys for the right section.
-
-We define our **source file** to be the `en` locale, in `public/locales/en/*`. Developers should update those files directly. Changes to from master branch are fetched by Transifex automatically every day for our lovely team of translators to ruminate on.
-
-All other locales are `pull`ed from Transifex service via the `tx` commandline tool.
-
-### Adding or updating keys
-
-If you want to add new keys or change existing values in the `en` locale, you should make sure you have the latest from transifex first.
-
-For example, before adding keys to `public/locales/en/explore.json`, first check you've got the latest source file:
-
-```console
-$ tx pull -r ipld-explorer.explore-json -s
-tx INFO: Pulling translations for resource ipld-explorer.explore-json (source: public/locales/en/explore.json)
-tx WARNING:  -> ko_KR: public/locales/ko_KR/explore.json
-tx WARNING:  -> en: public/locales/en/explore.json
-...
-```
-
-- `-s` means "include the source file when pulling", which in our case is the `en` versions.
-- `-r ipld-explorer.explore-json` means just `explore.json` file. The mappings of resource name to files
-is in the `.tx/config` file.
-
-Now make your changes and add great keys and snappy `en` default values for them. When you are done, commit your changes as per usual. Changes to from master branch are fetched by Transifex automatically.
-
-For **more info on our i18n process** at IPFS, check out:
-
-- https://github.com/ipfs/i18n
+You can read more on how we use Transifex and i18next in this app at [`docs/LOCALIZATION.md`](docs/LOCALIZATION.md)
 
 ## Releasing a new version of the WebUI.
 
 1. PR master with the result of `tx pull -a` to pull the latest translations from transifex
 1. Tag it `npm version`, `git push`, `git push --tags`.
 1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/releases
-1. Wait for master to [build on CI](https://ci.ipfs.team/blue/organizations/jenkins/IPFS%20Shipyard%2Fipfs-webui/activity?branch=master), and grab the CID for the build
-1. Pin it on the IPFS cluster (see #ipfs-pinbot on freenode)
+1. Wait for master to [build on CI](https://circleci.com/gh/ipfs-shipyard/ipfs-webui), and grab the CID for the build
 1. Update the hash at:
    - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L23
    - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4

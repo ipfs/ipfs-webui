@@ -8,6 +8,7 @@ import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
+import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import JsonEditor from './editor/JsonEditor'
 import DesktopSettings from './DesktopSettings'
 import Title from './Title'
@@ -18,7 +19,7 @@ export const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
-  config, onChange, onReset, onSave, editorKey
+  config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
@@ -32,6 +33,11 @@ export const SettingsPage = ({
     <Box className='mb3 pa4'>
       <Title>{t('language')}</Title>
       <LanguageSelector t={t} />
+
+      <div className='pt4'>
+        <Title>Analytics</Title>
+        <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
+      </div>
     </Box>
 
     <Box>
@@ -141,7 +147,7 @@ const SettingsInfo = ({ t, isConfigBlocked, hasExternalChanges, hasSaveFailed, h
     )
   }
   return (
-    <p className='ma0 mr2 lh-copy charcoal-muted f6'>
+    <p className='ma0 mr2 lh-copy charcoal f6'>
       {t('ipfsConfigDescription')}
     </p>
   )
@@ -217,7 +223,7 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop } = this.props
+    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
@@ -239,7 +245,9 @@ export class SettingsPageContainer extends React.Component {
         onChange={this.onChange}
         onReset={this.onReset}
         onSave={this.onSave}
-        isIpfsDesktop={isIpfsDesktop} />
+        isIpfsDesktop={isIpfsDesktop}
+        analyticsEnabled={analyticsEnabled}
+        doToggleAnalytics={doToggleAnalytics} />
     )
   }
 }
@@ -255,6 +263,8 @@ export default connect(
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
   'selectIsIpfsDesktop',
+  'selectAnalyticsEnabled',
+  'doToggleAnalytics',
   'doSaveConfig',
   TranslatedSettingsPage
 )

@@ -29,7 +29,7 @@ const bundle = {
       const obj = JSON.parse(configStr)
       await getIpfs().config.replace(obj)
     } catch (err) {
-      return dispatch({ type: 'CONFIG_SAVE_ERRORED', error: err })
+      return dispatch({ type: 'CONFIG_SAVE_FAILED', error: err })
     }
     await store.doMarkConfigAsOutdated()
     dispatch({ type: 'CONFIG_SAVE_FINISHED' })

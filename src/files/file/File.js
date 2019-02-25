@@ -89,7 +89,7 @@ class File extends React.Component {
     const checkBoxCls = classnames({
       'o-70 glow': !cantSelect,
       'o-1': selected || focused
-    }, ['pa2 w2'])
+    }, ['pl2 w2'])
 
     const element = connectDropTarget(
       <div className={className} style={styles} onContextMenu={this.handleCtxRightClick}>

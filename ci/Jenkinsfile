@@ -1,7 +1,0 @@
-website([
-  website: 'webui.ipfs.io',
-  build_directory: 'build/',
-  record: [
-    'master': '_dnslink',
-  ]
-])

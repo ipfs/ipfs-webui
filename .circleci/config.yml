@@ -1,0 +1,57 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.15.1-browsers
+        environment:
+          NO_SANDBOX: true
+    steps:
+      - checkout
+      - run:
+          command: npm ci
+      - run:
+          command: npm run lint
+      - run:
+          command: npm run test
+      - run:
+          command: npm run build
+      - run:
+          command: npm run test:e2e:ci
+      - run:
+          command: npm run bundlesize
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+
+  deploy:
+    docker:
+      - image: olizilla/ipfs-dns-deploy:1.1
+        environment:
+          DOMAIN: webui.ipfs.io
+          BUILD_DIR: build
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Deploy website to IPFS
+          command: |
+            pin_name="$DOMAIN build $CIRCLE_BUILD_NUMBER"
+
+            hash=$(pin-to-cluster.sh "$pin_name" /tmp/workspace/$BUILD_DIR)
+
+            echo "Website added to IPFS: https://ipfs.io/ipfs/$hash"
+
+            if [ "$CIRCLE_BRANCH" == "master" ] ; then
+              dnslink-dnsimple -d $DOMAIN -r _dnslink -l /ipfs/$hash
+            fi
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          context: ipfs-dns-deploy
+          requires:
+            - build

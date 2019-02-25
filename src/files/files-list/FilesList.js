@@ -433,7 +433,7 @@ export class FilesList extends React.Component {
     const checkBoxCls = classnames({
       'o-1': allSelected,
       'o-70': !allSelected
-    }, ['ph2 w2 glow'])
+    }, ['pl2 w2 glow'])
 
     className = `FilesList no-select sans-serif border-box w-100 flex flex-column ${className}`
 
