@@ -1,11 +1,13 @@
 /* global getComputedStyle */
-import React from 'react'
-import ReactDOM, { findDOMNode } from 'react-dom'
+import React, { Fragment } from 'react'
+import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { Trans, translate } from 'react-i18next'
+import classnames from 'classnames'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
+import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 // Reac DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { DropTarget } from 'react-dnd'
@@ -20,6 +22,7 @@ export class FilesList extends React.Component {
   constructor (props) {
     super(props)
     this.contextMenuRef = React.createRef()
+    this.listRef = React.createRef()
   }
 
   static propTypes = {
@@ -33,6 +36,7 @@ export class FilesList extends React.Component {
     updateSorting: PropTypes.func.isRequired,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
+    filesIsFetching: PropTypes.bool,
     // React Drag'n'Drop
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -58,6 +62,7 @@ export class FilesList extends React.Component {
   state = {
     selected: [],
     focused: null,
+    firstVisibleRow: null,
     isDragging: false,
     contextMenu: {
       isOpen: false,
@@ -118,6 +123,7 @@ export class FilesList extends React.Component {
 
   get contextMenu () {
     const { contextMenu } = this.state
+    const isUpperDir = contextMenu.currentFile && contextMenu.currentFile.type === 'directory' && contextMenu.currentFile.name === '..'
 
     return (
       <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
@@ -127,6 +133,7 @@ export class FilesList extends React.Component {
           translateX={contextMenu.translateX}
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenuClick}
+          isUpperDir={isUpperDir}
           showDots={false}
           onShare={() => this.props.onShare([contextMenu.currentFile])}
           onDelete={() => this.props.onDelete([contextMenu.currentFile])}
@@ -136,36 +143,6 @@ export class FilesList extends React.Component {
           hash={contextMenu.currentFile && contextMenu.currentFile.hash} />
       </div>
     )
-  }
-
-  get files () {
-    const { files, isOver, canDrop } = this.props
-
-    if (!files.length) {
-      return (
-        <Trans i18nKey='filesList.noFiles'>
-          <div className='pv3 b--light-gray bt tc gray f6'>
-            There are no available files. Add some!
-          </div>
-        </Trans>
-      )
-    }
-
-    return files.map(file => (
-      <File
-        ref={r => { this.filesRefs[file.name] = r }}
-        onSelect={this.toggleOne}
-        onNavigate={() => this.props.onNavigate(file.path)}
-        onAddFiles={this.props.onAddFiles}
-        onMove={this.move}
-        focused={this.state.focused === file.name}
-        selected={this.state.selected.indexOf(file.name) !== -1}
-        key={window.encodeURIComponent(file.name)}
-        setIsDragging={this.isDragging}
-        translucent={this.state.isDragging || (isOver && canDrop)}
-        handleContextMenuClick={this.handleContextMenuClick}
-        {...file} />
-    ))
   }
 
   componentDidMount () {
@@ -187,10 +164,17 @@ export class FilesList extends React.Component {
   }
 
   keyHandler = (e) => {
-    const { selected, focused } = this.state
+    const { files, upperDir, filesIsFetching } = this.props
+    const { selected, focused, firstVisibleRow } = this.state
+
+    // Disable keyboard controls if fetching files
+    if (filesIsFetching) {
+      return
+    }
 
     if (e.key === 'Escape') {
-      return this.setState({ selected: [], focused: null })
+      this.setState({ selected: [], focused: null })
+      return this.listRef.current.forceUpdateGrid()
     }
 
     if (e.key === 'F2' && focused !== null && focused !== '..') {
@@ -212,31 +196,39 @@ export class FilesList extends React.Component {
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault()
-      let index = this.props.upperDir ? -1 : 0
+      let index = upperDir ? -1 : 0
 
       if (focused !== null) {
-        const prev = this.props.files.findIndex(el => el.name === focused)
+        const prev = files.findIndex(el => el.name === focused)
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
       }
 
-      if (index === -1 && !this.props.upperDir) {
+      if (index === -1 && !upperDir) {
         return
       }
 
-      if (index >= -1 && index < this.props.files.length) {
+      if (index >= -1 && index < files.length) {
         let name
 
         if (index === -1) {
           name = '..'
         } else {
-          name = this.props.files[index].name
+          name = files[index].name
+        }
+
+        // If the file we are going to focus is out of view (removed
+        // from the DOM by react-virtualized), focus the first visible file
+        if (!this.filesRefs[name]) {
+          name = files[firstVisibleRow].name
         }
 
         this.setState({ focused: name })
-        const domNode = ReactDOM.findDOMNode(this.filesRefs[name])
-        domNode.scrollIntoView()
+        const domNode = findDOMNode(this.filesRefs[name])
+        domNode.scrollIntoView({ behaviour: 'smooth', block: 'center' })
         domNode.querySelector('input[type="checkbox"]').focus()
       }
+
+      this.listRef.current.forceUpdateGrid()
     }
   }
 
@@ -248,6 +240,7 @@ export class FilesList extends React.Component {
     }
 
     this.setState({ selected: selected })
+    this.listRef.current.forceUpdateGrid()
   }
 
   toggleOne = (name, check) => {
@@ -261,6 +254,7 @@ export class FilesList extends React.Component {
     }
 
     this.setState({ selected: selected.sort() })
+    this.listRef.current.forceUpdateGrid()
   }
 
   move = ([src, dst]) => {
@@ -301,16 +295,99 @@ export class FilesList extends React.Component {
   }
 
   changeSort = (order) => () => {
-    if (order === this.props.sort.by) {
-      this.props.updateSorting(order, !this.props.sort.asc)
+    const { sort, updateSorting } = this.props
+
+    if (order === sort.by) {
+      updateSorting(order, !sort.asc)
     } else {
-      this.props.updateSorting(order, true)
+      updateSorting(order, true)
     }
+
+    this.listRef.current.forceUpdateGrid()
   }
 
   isDragging = (is = true) => {
     this.setState({ isDragging: is })
   }
+
+  emptyRowsRenderer = () => {
+    const { upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
+    const { isDragging, focused } = this.state
+
+    return (
+      <Fragment>
+        { upperDir && <File
+          ref={r => { this.filesRefs['..'] = r }}
+          onNavigate={() => onNavigate(upperDir.path)}
+          onAddFiles={onAddFiles}
+          onMove={this.move}
+          setIsDragging={this.isDragging}
+          handleContextMenuClick={this.handleContextMenuClick}
+          translucent={isDragging || (isOver && canDrop)}
+          name='..'
+          focused={focused === '..'}
+          cantDrag
+          cantSelect
+          {...upperDir} /> }
+
+        <Trans i18nKey='filesList.noFiles'>
+          <div className='pv3 b--light-gray bt tc gray f6'>
+            There are no available files. Add some!
+          </div>
+        </Trans>
+      </Fragment>
+    )
+  }
+
+  rowRenderer = ({ index, key, style }) => {
+    const { files, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
+    const { selected, focused, isDragging } = this.state
+
+    if (upperDir) {
+      // We want the `upperDir` to be the first item on the list
+      if (index === 0) {
+        return (
+          <div key={key} style={style}>
+            <File
+              ref={r => { this.filesRefs['..'] = r }}
+              onNavigate={() => onNavigate(upperDir.path)}
+              onAddFiles={onAddFiles}
+              onMove={this.move}
+              setIsDragging={this.isDragging}
+              handleContextMenuClick={this.handleContextMenuClick}
+              translucent={isDragging || (isOver && canDrop)}
+              name='..'
+              focused={focused === '..'}
+              cantDrag
+              cantSelect
+              {...upperDir} />
+          </div>
+        )
+      }
+      // Decrease the index to stay inside the `files` array range
+      index--
+    }
+
+    return (
+      <div key={key} style={style}>
+        <File
+          {...files[index]}
+          ref={r => { this.filesRefs[files[index].name] = r }}
+          name={files[index].name}
+          onSelect={this.toggleOne}
+          onNavigate={() => onNavigate(files[index].path)}
+          onAddFiles={onAddFiles}
+          onMove={this.move}
+          focused={focused === files[index].name}
+          selected={selected.indexOf(files[index].name) !== -1}
+          setIsDragging={this.isDragging}
+          handleContextMenuClick={this.handleContextMenuClick}
+          translucent={isDragging || (isOver && canDrop)} />
+      </div>
+    )
+  }
+
+  onRowsRendered = ({ startIndex }) => this.setState({ firstVisibleRow: startIndex })
 
   handleContextMenuClick = (ev, clickType, file, dotsPosition) => {
     // This is needed to disable the native OS right-click menu
@@ -349,50 +426,65 @@ export class FilesList extends React.Component {
   }
 
   render () {
-    let { t, files, className, upperDir, connectDropTarget, isOver, canDrop, filesIsFetching } = this.props
-    const { selected, isDragging } = this.state
+    let { t, files, className, upperDir, showLoadingAnimation, connectDropTarget } = this.props
+    const { selected } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
+    const rowCount = files.length && upperDir ? files.length + 1 : files.length
+    const checkBoxCls = classnames({
+      'o-1': allSelected,
+      'o-70': !allSelected
+    }, ['pl2 w2 glow'])
 
-    className = `FilesList no-select sans-serif border-box w-100 ${className}`
+    className = `FilesList no-select sans-serif border-box w-100 flex flex-column ${className}`
 
     return connectDropTarget(
-      <section ref={(el) => { this.root = el }} className={className} style={{ minHeight: '130px' }}>
-        <header className='hide-child-l gray pv3 flex items-center' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
-          <div className='child float-on-left-l ph2 w2' style={allSelected ? { opacity: '1' } : null}>
-            <Checkbox checked={allSelected} onChange={this.toggleAll} />
-          </div>
-          <div className='ph2 f6 flex-auto'>
-            <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
-              {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
-            </span>
-          </div>
-          <div className='pl2 pr4 tr f6 flex-none dn db-l'>
-            <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
-              {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
-            </span>
-          </div>
-          <div className='pa2' style={{ width: '2.5rem' }} />
-        </header>
-        <LoadingAnimation loading={filesIsFetching}>
-          { upperDir &&
-            <File
-              ref={r => { this.filesRefs['..'] = r }}
-              onNavigate={() => this.props.onNavigate(upperDir.path)}
-              onInspect={() => this.props.onInspect([upperDir])}
-              onAddFiles={this.props.onAddFiles}
-              onMove={this.move}
-              setIsDragging={this.isDragging}
-              translucent={isDragging || (isOver && canDrop)}
-              name='..'
-              focused={this.state.focused === '..'}
-              cantDrag
-              cantSelect
-              {...upperDir} />
-          }
-          {this.files}
-        </LoadingAnimation>
-        {this.contextMenu}
-        {this.selectedMenu}
+      <section ref={(el) => { this.root = el }} className={className}>
+        { showLoadingAnimation
+          ? <LoadingAnimation />
+          : <Fragment>
+            <header className='gray pv3 flex items-center flex-none' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
+              <div className={checkBoxCls}>
+                <Checkbox checked={allSelected} onChange={this.toggleAll} />
+              </div>
+              <div className='ph2 f6 flex-auto'>
+                <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
+                  {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
+                </span>
+              </div>
+              <div className='pl2 pr4 tr f6 flex-none dn db-l'>
+                <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
+                  {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
+                </span>
+              </div>
+              <div className='pa2' style={{ width: '2.5rem' }} />
+            </header>
+            <WindowScroller>
+              {({ height, isScrolling, onChildScroll, scrollTop }) => (
+                <div className='flex-auto'>
+                  <AutoSizer disableHeight>
+                    {({ width }) => (
+                      <List
+                        ref={this.listRef}
+                        autoHeight
+                        width={width}
+                        height={height}
+                        className='outline-0'
+                        rowCount={rowCount}
+                        rowHeight={55}
+                        rowRenderer={this.rowRenderer}
+                        noRowsRenderer={this.emptyRowsRenderer}
+                        onRowsRendered={this.onRowsRendered}
+                        isScrolling={isScrolling}
+                        onScroll={onChildScroll}
+                        scrollTop={scrollTop} />
+                    )}
+                  </AutoSizer>
+                </div>
+              )}
+            </WindowScroller>
+            {this.contextMenu}
+            {this.selectedMenu}
+          </Fragment> }
       </section>
     )
   }
@@ -421,5 +513,6 @@ export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, 
 export default connect(
   'selectNavbarWidth',
   'selectFilesIsFetching',
+  'selectShowLoadingAnimation',
   FilesListWithDropTarget
 )

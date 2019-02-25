@@ -6,7 +6,7 @@
   left: -99999px;
 }
 
-.Checkbox > input:checked ~ span:first-of-type svg {
+.Checkbox input:checked ~ span:first-of-type svg {
   opacity: 1;
 }
 

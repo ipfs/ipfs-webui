@@ -2,7 +2,6 @@ import { join, dirname } from 'path'
 import { createSelector } from 'redux-bundler'
 import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
 import countDirs from '../lib/count-dirs'
-import ms from 'milliseconds'
 
 const isMac = navigator.userAgent.indexOf('Mac') !== -1
 
@@ -104,6 +103,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   // Otherwise get the directory info
   const res = await ipfs.files.ls(path, { l: true }) || []
   const files = []
+  const showStats = res.length < 100
 
   for (const f of res) {
     let file = {
@@ -112,7 +112,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
       type: f.type === 0 ? 'file' : 'directory'
     }
 
-    if (file.type === 'directory') {
+    if (showStats && file.type === 'directory') {
       file = {
         ...file,
         ...await ipfs.files.stat(file.path)
@@ -149,7 +149,6 @@ const defaultState = {
 }
 
 export default (opts = {}) => {
-  opts.staleAfter = opts.staleAfter || ms.minutes(1)
   opts.baseUrl = opts.baseUrl || '/files'
 
   return {
@@ -350,17 +349,6 @@ export default (opts = {}) => {
       dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
     },
 
-    reactFilesFetch: createSelector(
-      'selectFiles',
-      'selectFilesIsFetching',
-      'selectAppTime',
-      (files, isFetching, appTime) => {
-        if (!isFetching && files && appTime - files.fetched >= opts.staleAfter) {
-          return { actionCreator: 'doFilesFetch' }
-        }
-      }
-    ),
-
     selectFiles: (state) => {
       const { pageContent, sorting } = state.files
 
@@ -389,6 +377,11 @@ export default (opts = {}) => {
     },
 
     selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === actions.FETCH),
+
+    selectShowLoadingAnimation: (state) => {
+      const pending = state.files.pending.find(a => a.type === actions.FETCH)
+      return pending ? (Date.now() - pending.start) > 1000 : false
+    },
 
     selectFilesSorting: (state) => state.files.sorting,
 

@@ -14,6 +14,7 @@ import StrokeDownload from '../../icons/StrokeDownload'
 class ContextMenu extends React.Component {
   static propTypes = {
     isOpen: PropTypes.bool,
+    isUpperDir: PropTypes.bool,
     handleClick: PropTypes.func,
     translateX: PropTypes.number,
     translateY: PropTypes.number,
@@ -32,6 +33,7 @@ class ContextMenu extends React.Component {
 
   static defaultProps = {
     isOpen: false,
+    isUpperDir: false,
     top: 0,
     left: 0,
     right: 'auto',
@@ -51,7 +53,7 @@ class ContextMenu extends React.Component {
   }
 
   render () {
-    const { t, onRename, onDelete, onDownload, onInspect, onShare, translateX, translateY, className, showDots } = this.props
+    const { t, onRename, onDelete, onDownload, onInspect, onShare, translateX, translateY, className, showDots, isUpperDir } = this.props
 
     return (
       <Dropdown className={className}>
@@ -64,19 +66,19 @@ class ContextMenu extends React.Component {
           translateY={-translateY}
           open={this.props.isOpen}
           onDismiss={this.props.handleClick}>
-          { onDelete &&
+          { !isUpperDir && onDelete &&
             <Option onClick={this.wrap('onDelete')}>
               <StrokeTrash className='w2 mr2 fill-aqua' />
               {t('actions.delete')}
             </Option>
           }
-          { onRename &&
+          { !isUpperDir && onRename &&
             <Option onClick={this.wrap('onRename')}>
               <StrokePencil className='w2 mr2 fill-aqua' />
               {t('actions.rename')}
             </Option>
           }
-          { onDownload &&
+          { !isUpperDir && onDownload &&
             <Option onClick={this.wrap('onDownload')}>
               <StrokeDownload className='w2 mr2 fill-aqua' />
               {t('actions.download')}
@@ -94,7 +96,7 @@ class ContextMenu extends React.Component {
               {t('actions.copyHash')}
             </Option>
           </CopyToClipboard>
-          { onShare &&
+          { !isUpperDir && onShare &&
             <Option onClick={this.wrap('onShare')}>
               <StrokeShare className='w2 mr2 fill-aqua' />
               {t('actions.share')}

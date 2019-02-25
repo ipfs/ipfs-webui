@@ -49,7 +49,7 @@ export class App extends Component {
     const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget, isOver } = this.props
 
     return connectDropTarget(
-      <div className='sans-serif' onClick={navHelper(this.props.doUpdateUrl)}>
+      <div className='sans-serif h-100' onClick={navHelper(this.props.doUpdateUrl)}>
         {/* Tinted overlay that appears when dragging and dropping an item */}
         { isOver && <div className='w-100 h-100 top-0 left-0 absolute' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
         <div className='flex-l' style={{ minHeight: '100vh' }}>
