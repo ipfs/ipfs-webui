@@ -1,7 +1,6 @@
 /* global it expect beforeAll afterAll */
 import ms from 'milliseconds'
 import { launch, appUrl } from './puppeteer'
-import fakeBandwidth from '../helpers/bandwidth'
 
 let browser
 
@@ -60,7 +59,7 @@ function addMockIpfs (page) {
         stat: () => Promise.resolve({})
       },
       stats: {
-        bw: () => Promise.resolve(fakeBandwidth()),
+        bw: () => Promise.resolve({ totalIn: 10, totalOut: 11, rateIn: 12, rateOut: 13 }),
         repo: () => Promise.resolve({}),
         bitswap: () => Promise.resolve({})
       },
