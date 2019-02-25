@@ -82,7 +82,9 @@ class File extends React.Component {
     styles.height = 55
     styles.overflow = 'hidden'
 
-    size = filesize(cumulativeSize || size, { round: 0 })
+    size = (type === 'directory' && !cumulativeSize)
+      ? '―'
+      : filesize(cumulativeSize || size, { round: 0 })
 
     const select = (select) => onSelect(name, select)
 

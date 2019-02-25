@@ -103,6 +103,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   // Otherwise get the directory info
   const res = await ipfs.files.ls(path, { l: true }) || []
   const files = []
+  const showStats = res.length < 100
 
   for (const f of res) {
     let file = {
@@ -111,7 +112,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
       type: f.type === 0 ? 'file' : 'directory'
     }
 
-    if (file.type === 'directory') {
+    if (showStats && file.type === 'directory') {
       file = {
         ...file,
         ...await ipfs.files.stat(file.path)
