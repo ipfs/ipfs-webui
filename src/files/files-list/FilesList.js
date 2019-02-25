@@ -36,7 +36,7 @@ export class FilesList extends React.Component {
     updateSorting: PropTypes.func.isRequired,
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
-    filesIsFetching: PropTypes.boolean,
+    filesIsFetching: PropTypes.bool,
     // React Drag'n'Drop
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,

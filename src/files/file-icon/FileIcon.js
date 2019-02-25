@@ -11,7 +11,7 @@ import DocText from '../../icons/GlyphDocText'
 
 const style = { width: 36 }
 
-export default function FileIcon ({ name, type, cls }) {
+export default function FileIcon ({ name, type, cls = '' }) {
   if (type === 'directory') {
     return <Folder className={`fill-aqua ${cls}`} style={style} />
   }
