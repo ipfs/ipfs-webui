@@ -82,7 +82,6 @@ const createAnalyticsBundle = ({
                 return
               }
               const durationInSeconds = (root.performance.now() - start) / 1000
-              console.log('ASYNC', name, durationInSeconds)
               root.Countly.q.push(['add_event', {
                 key: state === 'FAILED' ? action.type : name,
                 count: 1,
