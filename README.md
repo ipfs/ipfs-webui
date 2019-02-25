@@ -11,7 +11,7 @@
 | ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) |
 
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/project-IPFS-blue.svg)](http://ipfs.io/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![Build Status](https://travis-ci.org/ipfs-shipyard/ipfs-webui.svg?branch=revamp)](https://travis-ci.org/ipfs-shipyard/ipfs-webui) [![dependencies Status](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp/status.svg)](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp)
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![dependencies Status](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp/status.svg)](https://david-dm.org/ipfs-shipyard/ipfs-webui/revamp) [![CircleCI](https://img.shields.io/circleci/project/github/ipfs-shipyard/ipfs-webui/master.svg)](https://circleci.com/gh/ipfs-shipyard/ipfs-webui)
 
 The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work and it's part of the wider [IPFS GUI project](https://github.com/ipfs/ipfs-gui).
 
@@ -168,8 +168,7 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. PR master with the result of `tx pull -a` to pull the latest translations from transifex
 1. Tag it `npm version`, `git push`, `git push --tags`.
 1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/releases
-1. Wait for master to [build on CI](https://ci.ipfs.team/blue/organizations/jenkins/IPFS%20Shipyard%2Fipfs-webui/activity?branch=master), and grab the CID for the build
-1. Pin it on the IPFS cluster (see #ipfs-pinbot on freenode)
+1. Wait for master to [build on CI](https://circleci.com/gh/ipfs-shipyard/ipfs-webui), and grab the CID for the build
 1. Update the hash at:
    - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L23
    - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
