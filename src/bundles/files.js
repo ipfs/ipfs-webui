@@ -21,18 +21,6 @@ export const sorts = {
   BY_SIZE: 'size'
 }
 
-function compare (a, b, asc) {
-  const strings = typeof a === 'string' && typeof b === 'string'
-
-  if (strings ? a.toLowerCase() > b.toLowerCase() : a > b) {
-    return asc ? 1 : -1
-  } else if (strings ? a.toLowerCase() < b.toLowerCase() : a < b) {
-    return asc ? -1 : 1
-  } else {
-    return 0
-  }
-}
-
 const make = (basename, action) => (...args) => async (args2) => {
   const id = Symbol(basename)
   const { dispatch, getIpfs, store } = args2
@@ -361,9 +349,23 @@ export default (opts = {}) => {
         content: pageContent.content.sort((a, b) => {
           if (a.type === b.type || isMac) {
             if (sorting.by === sorts.BY_NAME) {
-              return compare(a.name, b.name, sorting.asc)
+              a = a.name
+              b = b.name
+
+              return sorting.asc
+                ? a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+                : b.localeCompare(a, undefined, { numeric: true, sensitivity: 'base' })
             } else {
-              return compare(a.cumulativeSize || a.size, b.cumulativeSize || b.size, sorting.asc)
+              a = a.cumulativeSize || a.size
+              b = b.cumulativeSize || b.size
+
+              if (a > b) {
+                return sorting.asc ? 1 : -1
+              } else if (a < b) {
+                return sorting.asc ? -1 : 1
+              } else {
+                return 0
+              }
             }
           }
 
