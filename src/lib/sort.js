@@ -10,6 +10,7 @@ export function sortByName (dir = 1, opts = { numeric: true, sensitivity: 'base'
 
 /**
  * Numerical sort comparator.
+ *
  * @param {Number} dir - sorting direction, 1 for ascending or -1 for descending
  */
 export function sortBySize (dir = 1) {
