@@ -2,6 +2,7 @@ import { join, dirname } from 'path'
 import { createSelector } from 'redux-bundler'
 import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
 import countDirs from '../lib/count-dirs'
+import { sortByName, sortBySize } from '../lib/sort'
 
 const isMac = navigator.userAgent.indexOf('Mac') !== -1
 
@@ -349,23 +350,9 @@ export default (opts = {}) => {
         content: pageContent.content.sort((a, b) => {
           if (a.type === b.type || isMac) {
             if (sorting.by === sorts.BY_NAME) {
-              a = a.name
-              b = b.name
-
-              return sorting.asc
-                ? a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
-                : b.localeCompare(a, undefined, { numeric: true, sensitivity: 'base' })
+              return sortByName(sorting.asc ? 1 : -1)(a.name, b.name)
             } else {
-              a = a.cumulativeSize || a.size
-              b = b.cumulativeSize || b.size
-
-              if (a > b) {
-                return sorting.asc ? 1 : -1
-              } else if (a < b) {
-                return sorting.asc ? -1 : 1
-              } else {
-                return 0
-              }
+              return sortBySize(sorting.asc ? 1 : -1)(a.cumulativeSize || a.size, b.cumulativeSize || b.size)
             }
           }
 
