@@ -5,12 +5,13 @@ const USER_ACTIONS = /^(CONFIG_SAVE_|FILES_|DESKTOP_)/
 const ASYNC_ACTIONS = /^(.+)_(STARTED|FINISHED|FAILED)$/
 
 function getDoNotTrack () {
-  if (!root.navigator) return false
-  const value = root.doNotTrack || root.navigator.doNotTrack || root.navigator.msDoNotTrack
-  if (value === '1' || value === 'yes') {
-    return true
-  }
-  return false
+  // if (!root.navigator) return false
+  // const value = root.doNotTrack || root.navigator.doNotTrack || root.navigator.msDoNotTrack
+  // if (value === '1' || value === 'yes') {
+  //   return true
+  // }
+  // return false
+  return true
 }
 
 const createAnalyticsBundle = ({
