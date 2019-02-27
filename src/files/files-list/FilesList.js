@@ -183,7 +183,7 @@ export class FilesList extends React.Component {
 
     if (e.key === ' ' && focused !== null && focused !== -1) {
       e.preventDefault()
-      return this.toggleOne(focused, true)
+      return this.toggleOne(files[focused].name, true)
     }
 
     if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused !== null) {
@@ -205,11 +205,6 @@ export class FilesList extends React.Component {
       if (index >= -1 && index < files.length) {
         console.log('index', index)
         this.setState({ focused: index })
-
-        // this.listRef.current.scrollToRow(index)
-        // const domNode = findDOMNode(this.filesRefs[name])
-        // domNode.scrollIntoView({ behaviour: 'smooth', block: 'center' })
-        // domNode.querySelector('input[type="checkbox"]').focus()
       }
 
       this.listRef.current.forceUpdateGrid()
