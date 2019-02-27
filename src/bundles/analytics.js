@@ -4,17 +4,7 @@ const IGNORE_ACTIONS = /^(FILES_FETCH_|FILES_WRITE_UPDATED)/
 const USER_ACTIONS = /^(CONFIG_SAVE_|FILES_|DESKTOP_)/
 const ASYNC_ACTIONS = /^(.+)_(STARTED|FINISHED|FAILED)$/
 
-function getDoNotTrack () {
-  if (!root.navigator) return false
-  const value = root.doNotTrack || root.navigator.doNotTrack || root.navigator.msDoNotTrack
-  if (value === '1' || value === 'yes') {
-    return true
-  }
-  return false
-}
-
 const createAnalyticsBundle = ({
-  doNotTrack = getDoNotTrack(),
   countlyUrl = 'https://countly.ipfs.io',
   countlyAppKey,
   appVersion,
@@ -99,7 +89,7 @@ const createAnalyticsBundle = ({
       }
     },
 
-    reducer: (state = { doNotTrack, lastEnabledAt: 0, lastDisabledAt: 0 }, action) => {
+    reducer: (state = { lastEnabledAt: 0, lastDisabledAt: 0 }, action) => {
       if (action.type === 'ANALYTICS_ENABLED') {
         return { ...state, lastEnabledAt: Date.now() }
       }
@@ -112,27 +102,27 @@ const createAnalyticsBundle = ({
     selectAnalytics: (state) => state.analytics,
 
     /*
-      Use the users preference or their global doNotTrack setting.
+      Use the users preference.
     */
     selectAnalyticsEnabled: (state) => {
-      const { lastEnabledAt, lastDisabledAt, doNotTrack } = state.analytics
-      // where never opted in or out, use their global tracking preference
+      const { lastEnabledAt, lastDisabledAt } = state.analytics
+      // where never opted in or out, analytics are disabled by default
       if (!lastEnabledAt && !lastDisabledAt) {
-        return !doNotTrack
+        return false
       }
       // otherwise return their most recent choice.
       return lastEnabledAt > lastDisabledAt
     },
 
     /*
-      Ask the user if we may enable analytics if they have doNotTrack set
+      Ask the user if we may enable analytics.
     */
     selectAnalyticsAskToEnable: (state) => {
-      const { lastEnabledAt, lastDisabledAt, doNotTrack } = state.analytics
-      // user has not explicity chosen
+      const { lastEnabledAt, lastDisabledAt } = state.analytics
+      // user has not explicitly chosen
       if (!lastEnabledAt && !lastDisabledAt) {
-        // ask to enable if doNotTrack is true.
-        return doNotTrack
+        // ask to enable.
+        return true
       }
       // user has already made an explicit choice; dont ask again.
       return false
