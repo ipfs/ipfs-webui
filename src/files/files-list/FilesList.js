@@ -62,7 +62,6 @@ export class FilesList extends React.Component {
   state = {
     selected: [],
     focused: null,
-    firstVisibleRow: null,
     isDragging: false,
     contextMenu: {
       isOpen: false,
@@ -72,8 +71,6 @@ export class FilesList extends React.Component {
     }
   }
 
-  filesRefs = {}
-
   get selectedFiles () {
     return this.state.selected.map(name =>
       this.props.files.find(el => el.name === name)
@@ -81,11 +78,10 @@ export class FilesList extends React.Component {
   }
 
   get focusedFile () {
-    if (this.state.focused === '..') {
-      return this.props.upperDir
-    }
+    const { upperDir, files } = this.props
+    const { focused } = this.state
 
-    return this.props.files.find(el => el.name === this.state.focused)
+    return (upperDir && focused === -1) ? upperDir : files[focused]
   }
 
   get selectedMenu () {
@@ -165,7 +161,7 @@ export class FilesList extends React.Component {
 
   keyHandler = (e) => {
     const { files, upperDir, filesIsFetching } = this.props
-    const { selected, focused, firstVisibleRow } = this.state
+    const { selected, focused } = this.state
 
     // Disable keyboard controls if fetching files
     if (filesIsFetching) {
@@ -177,7 +173,7 @@ export class FilesList extends React.Component {
       return this.listRef.current.forceUpdateGrid()
     }
 
-    if (e.key === 'F2' && focused !== null && focused !== '..') {
+    if (e.key === 'F2' && focused !== null && focused !== -1) {
       return this.props.onRename([this.focusedFile])
     }
 
@@ -185,7 +181,7 @@ export class FilesList extends React.Component {
       return this.props.onDelete(this.selectedFiles)
     }
 
-    if (e.key === ' ' && focused !== null && focused !== '..') {
+    if (e.key === ' ' && focused !== null && focused !== -1) {
       e.preventDefault()
       return this.toggleOne(focused, true)
     }
@@ -199,8 +195,7 @@ export class FilesList extends React.Component {
       let index = upperDir ? -1 : 0
 
       if (focused !== null) {
-        const prev = files.findIndex(el => el.name === focused)
-        index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
+        index = (e.key === 'ArrowDown') ? focused + 1 : focused - 1
       }
 
       if (index === -1 && !upperDir) {
@@ -208,24 +203,13 @@ export class FilesList extends React.Component {
       }
 
       if (index >= -1 && index < files.length) {
-        let name
+        console.log('index', index)
+        this.setState({ focused: index })
 
-        if (index === -1) {
-          name = '..'
-        } else {
-          name = files[index].name
-        }
-
-        // If the file we are going to focus is out of view (removed
-        // from the DOM by react-virtualized), focus the first visible file
-        if (!this.filesRefs[name]) {
-          name = files[firstVisibleRow].name
-        }
-
-        this.setState({ focused: name })
-        const domNode = findDOMNode(this.filesRefs[name])
-        domNode.scrollIntoView({ behaviour: 'smooth', block: 'center' })
-        domNode.querySelector('input[type="checkbox"]').focus()
+        // this.listRef.current.scrollToRow(index)
+        // const domNode = findDOMNode(this.filesRefs[name])
+        // domNode.scrollIntoView({ behaviour: 'smooth', block: 'center' })
+        // domNode.querySelector('input[type="checkbox"]').focus()
       }
 
       this.listRef.current.forceUpdateGrid()
@@ -317,7 +301,6 @@ export class FilesList extends React.Component {
     return (
       <Fragment>
         { upperDir && <File
-          ref={r => { this.filesRefs['..'] = r }}
           onNavigate={() => onNavigate(upperDir.path)}
           onAddFiles={onAddFiles}
           onMove={this.move}
@@ -325,7 +308,7 @@ export class FilesList extends React.Component {
           handleContextMenuClick={this.handleContextMenuClick}
           translucent={isDragging || (isOver && canDrop)}
           name='..'
-          focused={focused === '..'}
+          focused={focused === -1}
           cantDrag
           cantSelect
           {...upperDir} /> }
@@ -349,7 +332,6 @@ export class FilesList extends React.Component {
         return (
           <div key={key} style={style}>
             <File
-              ref={r => { this.filesRefs['..'] = r }}
               onNavigate={() => onNavigate(upperDir.path)}
               onAddFiles={onAddFiles}
               onMove={this.move}
@@ -357,7 +339,7 @@ export class FilesList extends React.Component {
               handleContextMenuClick={this.handleContextMenuClick}
               translucent={isDragging || (isOver && canDrop)}
               name='..'
-              focused={focused === '..'}
+              focused={focused === -1}
               cantDrag
               cantSelect
               {...upperDir} />
@@ -372,13 +354,12 @@ export class FilesList extends React.Component {
       <div key={key} style={style}>
         <File
           {...files[index]}
-          ref={r => { this.filesRefs[files[index].name] = r }}
           name={files[index].name}
           onSelect={this.toggleOne}
           onNavigate={() => onNavigate(files[index].path)}
           onAddFiles={onAddFiles}
           onMove={this.move}
-          focused={focused === files[index].name}
+          focused={focused === index}
           selected={selected.indexOf(files[index].name) !== -1}
           setIsDragging={this.isDragging}
           handleContextMenuClick={this.handleContextMenuClick}
@@ -386,8 +367,6 @@ export class FilesList extends React.Component {
       </div>
     )
   }
-
-  onRowsRendered = ({ startIndex }) => this.setState({ firstVisibleRow: startIndex })
 
   handleContextMenuClick = (ev, clickType, file, dotsPosition) => {
     // This is needed to disable the native OS right-click menu
