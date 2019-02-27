@@ -340,6 +340,7 @@ export default (opts = {}) => {
 
     selectFiles: (state) => {
       const { pageContent, sorting } = state.files
+      const sortDir = sorting.asc ? 1 : -1
 
       if (pageContent === null || pageContent.type === 'file') {
         return pageContent
@@ -350,9 +351,9 @@ export default (opts = {}) => {
         content: pageContent.content.sort((a, b) => {
           if (a.type === b.type || isMac) {
             if (sorting.by === sorts.BY_NAME) {
-              return sortByName(sorting.asc ? 1 : -1)(a.name, b.name)
+              return sortByName(sortDir)(a.name, b.name)
             } else {
-              return sortBySize(sorting.asc ? 1 : -1)(a.cumulativeSize || a.size, b.cumulativeSize || b.size)
+              return sortBySize(sortDir)(a.cumulativeSize || a.size, b.cumulativeSize || b.size)
             }
           }
 
