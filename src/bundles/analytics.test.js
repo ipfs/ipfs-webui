@@ -13,9 +13,6 @@ beforeEach(() => {
 
 afterEach(() => {
   delete global.Countly
-  if (global.navigator && global.navigator.hasOwnProperty('doNotTrack')) {
-    delete global.navigator.doNotTrack
-  }
 })
 
 function createStore (analyticsOpts = {}) {
@@ -28,76 +25,53 @@ function createStore (analyticsOpts = {}) {
   )()
 }
 
-// it('should normalise the doNotTrack state from the navigator.doNotTrack value', () => {
-//   let store = createStore({ doNotTrack: false })
-//   console.log(store.selectAnalytics())
-//   // false if not set.
-//   expect(store.selectAnalytics().doNotTrack).toBe(false)
-//   global.navigator = { doNotTrack: '1' }
-//   store = createStore()
-//   expect(store.selectAnalytics().doNotTrack).toBe(true)
-
-//   global.navigator.doNotTrack = '0'
-//   store = createStore()
-//   expect(store.selectAnalytics().doNotTrack).toBe(false)
-// })
-
-// it('should enable analytics if doNotTrack is falsey', () => {
-//   const store = createStore()
-//   expect(store.selectAnalyticsEnabled()).toBe(true)
-// })
-
-it('should disable analytics if doNotTrack is true', () => {
-  const store = createStore({ doNotTrack: true })
-  expect(store.selectAnalyticsEnabled()).toBe(false)
-})
-
-it('should enable analytics if doNotTrack is true but user has explicitly enabled it', () => {
-  const store = createStore({ doNotTrack: true })
+it('should enable analytics if user has explicitly enabled it', () => {
+  const store = createStore()
   store.doEnableAnalytics()
   expect(store.selectAnalyticsEnabled()).toBe(true)
 })
 
-it('should disable analytics if doNotTrack is falsey but user has explicitly disabled it', () => {
-  const store = createStore({ doNotTrack: false })
+it('should disable analytics if user has explicitly disabled it', () => {
+  const store = createStore()
   store.doDisableAnalytics()
   expect(store.selectAnalyticsEnabled()).toBe(false)
 })
 
-it('should enable selectAnalyticsAskToEnable if doNotTrack is true and user has not explicity enabled or disabled it', () => {
-  const store = createStore({ doNotTrack: true })
+it('should enable selectAnalyticsAskToEnable if user has not explicity enabled or disabled it', () => {
+  const store = createStore()
   expect(store.selectAnalyticsAskToEnable()).toBe(true)
 })
 
-it('should disable selectAnalyticsAskToEnable if doNotTrack is true and user has explicity disabled it', () => {
-  const store = createStore({ doNotTrack: true })
+it('should disable selectAnalyticsAskToEnable if user has explicity disabled it', () => {
+  const store = createStore()
   store.doDisableAnalytics()
   expect(store.selectAnalyticsAskToEnable()).toBe(false)
 })
 
-it('should disable selectAnalyticsAskToEnable if doNotTrack is true and user has explicity enabled it', () => {
-  const store = createStore({ doNotTrack: true })
+it('should disable selectAnalyticsAskToEnable if user has explicity enabled it', () => {
+  const store = createStore()
   store.doEnableAnalytics()
   expect(store.selectAnalyticsAskToEnable()).toBe(false)
 })
 
 it('should disable selectAnalyticsAskToEnable if analytics are enabled', () => {
-  const store = createStore({ doNotTrack: false })
+  const store = createStore()
+  store.doEnableAnalytics()
   expect(store.selectAnalyticsAskToEnable()).toBe(false)
 })
 
 it('should toggle analytics', async (done) => {
-  const store = createStore({ doNotTrack: false })
-  expect(store.selectAnalyticsEnabled()).toBe(true)
+  const store = createStore()
+  expect(store.selectAnalyticsEnabled()).toBe(false)
 
   store.doToggleAnalytics()
-  expect(store.selectAnalyticsEnabled()).toBe(false)
+  expect(store.selectAnalyticsEnabled()).toBe(true)
 
   // we calc enabled state from time diff between lastEnabledAt and lastDisabledAt, so need a pause
   await sleep()
 
   store.doToggleAnalytics()
-  expect(store.selectAnalyticsEnabled()).toBe(true)
+  expect(store.selectAnalyticsEnabled()).toBe(false)
 
   done()
 })
