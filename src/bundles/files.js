@@ -2,6 +2,7 @@ import { join, dirname } from 'path'
 import { createSelector } from 'redux-bundler'
 import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
 import countDirs from '../lib/count-dirs'
+import { sortByName, sortBySize } from '../lib/sort'
 
 const isMac = navigator.userAgent.indexOf('Mac') !== -1
 
@@ -19,18 +20,6 @@ export const actions = {
 export const sorts = {
   BY_NAME: 'name',
   BY_SIZE: 'size'
-}
-
-function compare (a, b, asc) {
-  const strings = typeof a === 'string' && typeof b === 'string'
-
-  if (strings ? a.toLowerCase() > b.toLowerCase() : a > b) {
-    return asc ? 1 : -1
-  } else if (strings ? a.toLowerCase() < b.toLowerCase() : a < b) {
-    return asc ? -1 : 1
-  } else {
-    return 0
-  }
 }
 
 const make = (basename, action) => (...args) => async (args2) => {
@@ -351,6 +340,9 @@ export default (opts = {}) => {
 
     selectFiles: (state) => {
       const { pageContent, sorting } = state.files
+      const sortDir = sorting.asc ? 1 : -1
+      const nameSort = sortByName(sortDir)
+      const sizeSort = sortBySize(sortDir)
 
       if (pageContent === null || pageContent.type === 'file') {
         return pageContent
@@ -361,9 +353,9 @@ export default (opts = {}) => {
         content: pageContent.content.sort((a, b) => {
           if (a.type === b.type || isMac) {
             if (sorting.by === sorts.BY_NAME) {
-              return compare(a.name, b.name, sorting.asc)
+              return nameSort(a.name, b.name)
             } else {
-              return compare(a.cumulativeSize || a.size, b.cumulativeSize || b.size, sorting.asc)
+              return sizeSort(a.cumulativeSize || a.size, b.cumulativeSize || b.size)
             }
           }
 
