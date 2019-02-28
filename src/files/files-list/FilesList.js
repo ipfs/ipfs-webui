@@ -62,6 +62,7 @@ export class FilesList extends React.Component {
   state = {
     selected: [],
     focused: null,
+    scrollToIndex: -1,
     isDragging: false,
     contextMenu: {
       isOpen: false,
@@ -183,6 +184,7 @@ export class FilesList extends React.Component {
 
     if (e.key === ' ' && focused !== null && focused !== -1) {
       e.preventDefault()
+      this.setState({ scrollToIndex: focused })
       return this.toggleOne(files[focused].name, true)
     }
 
@@ -203,8 +205,7 @@ export class FilesList extends React.Component {
       }
 
       if (index >= -1 && index < files.length) {
-        console.log('index', index)
-        this.setState({ focused: index })
+        this.setState({ focused: index, scrollToIndex: index })
       }
 
       this.listRef.current.forceUpdateGrid()
@@ -401,7 +402,7 @@ export class FilesList extends React.Component {
 
   render () {
     let { t, files, className, upperDir, showLoadingAnimation, connectDropTarget } = this.props
-    const { selected } = this.state
+    const { selected, scrollToIndex } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
     const rowCount = files.length && upperDir ? files.length + 1 : files.length
     const checkBoxCls = classnames({
@@ -450,6 +451,7 @@ export class FilesList extends React.Component {
                         onRowsRendered={this.onRowsRendered}
                         isScrolling={isScrolling}
                         onScroll={onChildScroll}
+                        scrollToIndex={scrollToIndex}
                         scrollTop={scrollTop} />
                     )}
                   </AutoSizer>
