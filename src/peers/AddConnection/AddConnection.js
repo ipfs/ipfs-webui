@@ -1,7 +1,7 @@
 import React from 'react'
 import { translate } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import toUri from 'multiaddr-to-uri'
+import isIPFS from 'is-ipfs'
 
 import Icon from '../../icons/StrokeDecentralization'
 import Button from '../../components/button/Button'
@@ -22,15 +22,6 @@ class AddConnection extends React.Component {
   addConnection = (maddr) => {
     this.props.doConnectSwarm(maddr)
     this.toggleModal()
-  }
-
-  validate = (maddr) => {
-    try {
-      toUri(maddr)
-      return true
-    } catch (_) {
-      return false
-    }
   }
 
   getDescription = () => {
@@ -56,7 +47,7 @@ class AddConnection extends React.Component {
 
         <Overlay show={open} onLeave={this.toggleModal}>
           <TextInputModal
-            validate={this.validate}
+            validate={isIPFS.peerMultiaddr}
             onSubmit={this.addConnection}
             onCancel={this.toggleModal}
             submitText={t('add')}
