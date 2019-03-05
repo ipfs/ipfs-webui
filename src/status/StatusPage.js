@@ -2,6 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { translate } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
+import ReactJoyride, { STATUS } from 'react-joyride'
 import StatusConnected from './StatusConnected'
 import StatusNotConnected from './StatusNotConnected'
 import NodeInfo from './NodeInfo'
@@ -10,14 +11,27 @@ import NodeBandwidthChart from './NodeBandwidthChart'
 import NetworkTraffic from './NetworkTraffic'
 import Box from '../components/box/Box'
 import AskToEnable from '../components/ask/AskToEnable'
+import { statusTour } from '../lib/tours'
 
-const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics, doDisableAnalytics }) => {
+const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics, doDisableAnalytics, toursEnabled, doDisableTours }) => {
+  const handleJoyrideCallback = (data) => {
+    const { status, type } = data
+
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      doDisableTours()
+    }
+
+    console.groupCollapsed(type)
+    console.log(data)
+    console.groupEnd()
+  }
+
   return (
     <div data-id='StatusPage'>
       <Helmet>
         <title>{t('title')} - IPFS</title>
       </Helmet>
-      <Box className='pa3' style={{ minHeight: 0 }}>
+      <Box className='pa3 joyride-status-node' style={{ minHeight: 0 }}>
         <div className='flex'>
           <div className='flex-auto'>
             { ipfsConnected ? (
@@ -47,14 +61,23 @@ const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics,
       }
       <Box className='mt3 pa3' style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
         <div className='flex flex-column flex-row-l'>
-          <div className='pr0 pr2-l flex-auto'>
+          <div className='pr0 pr2-l flex-auto joyride-status-bandwith'>
             <NodeBandwidthChart />
           </div>
-          <div className='dn db-l pl3 pr5'>
+          <div className='dn db-l pl3 pr5 joyride-status-traffic'>
             <NetworkTraffic />
           </div>
         </div>
       </Box>
+
+      <ReactJoyride
+        run={toursEnabled}
+        steps={statusTour.steps}
+        styles={statusTour.styles}
+        callback={handleJoyrideCallback}
+        continuous
+        scrollToFirstStep
+        showProgress />
     </div>
   )
 }
@@ -62,7 +85,9 @@ const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics,
 export default connect(
   'selectIpfsConnected',
   'selectAnalyticsAskToEnable',
+  'selectToursEnabled',
   'doEnableAnalytics',
   'doDisableAnalytics',
+  'doDisableTours',
   translate('status')(StatusPage)
 )

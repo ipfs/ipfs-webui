@@ -2,9 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
-import downloadFile from './download-file'
 import { join } from 'path'
 import { translate, Trans } from 'react-i18next'
+import ReactJoyride, { STATUS } from 'react-joyride'
+// Lib
+import { filesTour } from '../lib/tours'
+import downloadFile from './download-file'
 // Components
 import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
@@ -207,10 +210,30 @@ class FilesPage extends React.Component {
     this.setState(state => ({ isContextMenuOpen: !state.isContextMenuOpen }))
   }
 
+  handleClickStart = e => {
+    e.preventDefault()
+
+    this.setState({
+      run: true
+    })
+  }
+
+  handleJoyrideCallback = data => {
+    const { status, type } = data
+
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      this.setState({ run: false })
+    }
+
+    console.groupCollapsed(type)
+    console.log(data)
+    console.groupEnd()
+  }
+
   render () {
     const {
       ipfsProvider, files, writeFilesProgress, filesSorting: sort, t,
-      doFilesMove, doFilesNavigateTo, doFilesUpdateSorting
+      doFilesMove, doFilesNavigateTo, doFilesUpdateSorting, toursEnabled
     } = this.props
 
     const { newFolder, share, rename, delete: deleteModal } = this.state
@@ -228,12 +251,12 @@ class FilesPage extends React.Component {
         { files &&
           <div>
             <div className='flex flex-wrap items-center mb3'>
-              <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
+              <Breadcrumbs className='joyride-files-breadcrumbs' path={files.path} onClick={doFilesNavigateTo} />
 
               { files.type === 'directory'
                 ? <div className='ml-auto flex items-center'>
                   <Button
-                    className='mr3 f6 pointer'
+                    className='mr3 f6 pointer joyride-files-folder'
                     color='charcoal-muted'
                     bg='bg-transparent'
                     onClick={() => this.showNewFolderModal()}>
@@ -241,6 +264,7 @@ class FilesPage extends React.Component {
                     <span className='fw3'>{t('newFolder')}</span>
                   </Button>
                   <FileInput
+                    className='joyride-files-add'
                     onAddFiles={this.add}
                     onAddByPath={this.addByPath}
                     addProgress={writeFilesProgress} />
@@ -316,6 +340,15 @@ class FilesPage extends React.Component {
             onCancel={() => this.resetState('delete')}
             onDelete={this.delete} />
         </Overlay>
+
+        <ReactJoyride
+          run={toursEnabled}
+          steps={filesTour.steps}
+          styles={filesTour.styles}
+          callback={this.handleJoyrideCallback}
+          continuous
+          scrollToFirstStep
+          showProgress />
       </div>
     )
   }
@@ -390,5 +423,6 @@ export default connect(
   'selectWriteFilesProgress',
   'selectFilesPathFromHash',
   'selectFilesSorting',
+  'selectToursEnabled',
   translate('files')(FilesPage)
 )

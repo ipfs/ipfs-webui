@@ -12,6 +12,7 @@ import filesBundle from './files'
 import configBundle from './config'
 import configSaveBundle from './config-save'
 import navbarBundle from './navbar'
+import toursBundle from './tours'
 import statsBundle from './stats'
 import notifyBundle from './notify'
 import connectedBundle from './connected'
@@ -41,6 +42,7 @@ export default composeBundles(
   routesBundle,
   redirectsBundle,
   statsBundle,
+  toursBundle,
   filesBundle(),
   exploreBundle(async () => {
     const [
