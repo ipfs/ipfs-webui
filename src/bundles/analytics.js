@@ -9,7 +9,7 @@ const createAnalyticsBundle = ({
   countlyAppKey,
   appVersion,
   appGitRevision,
-  debug = false
+  debug = true
 }) => {
   return {
     name: 'analytics',
@@ -24,24 +24,25 @@ const createAnalyticsBundle = ({
       const Countly = root.Countly
       Countly.q = Countly.q || []
 
+      Countly.require_consent = true
       Countly.url = countlyUrl
       Countly.app_key = countlyAppKey
       Countly.app_version = appVersion
       Countly.debug = debug
 
-      // Don't track clicks as it can include full url.
-      // Countly.q.push(['track_clicks']);
-      // Countly.q.push(['track_links'])
+      Countly.q.push(['group_features', {
+        activity: ['sessions', 'events', 'views']
+      }])
+
       Countly.q.push(['track_sessions'])
       Countly.q.push(['track_pageview'])
-      Countly.q.push(['track_errors'])
 
-      if (!store.selectAnalyticsEnabled()) {
-        Countly.q.push(['opt_out'])
-        Countly.ignore_visitor = true
-      }
+      // Don't track clicks or links as it can include full url.
+      // Countly.q.push(['track_clicks']);
+      // Countly.q.push(['track_links'])
 
-      Countly.init()
+      // Dont track errors as we can't gurantee they wont include CIDs or other personal info
+      // Countly.q.push(['track_errors'])
 
       store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
         /*
@@ -53,6 +54,15 @@ const createAnalyticsBundle = ({
           root.Countly.q.push(['track_pageview', routeInfo.pattern])
         }
       })
+
+      if (!store.selectAnalyticsEnabled()) {
+        console.log('ANAL OFF', root.Countly)
+      } else {
+        console.log('ANAL ON')
+        Countly.q.push(['add_consent', 'activity'])
+      }
+
+      Countly.init()
     },
 
     // Record durations for user actions
@@ -91,6 +101,7 @@ const createAnalyticsBundle = ({
 
     reducer: (state = { lastEnabledAt: 0, lastDisabledAt: 0 }, action) => {
       if (action.type === 'ANALYTICS_ENABLED') {
+        console.log('ANALYTICS_ENABLED')
         return { ...state, lastEnabledAt: Date.now() }
       }
       if (action.type === 'ANALYTICS_DISABLED') {
@@ -122,7 +133,9 @@ const createAnalyticsBundle = ({
       // user has not explicitly chosen
       if (!lastEnabledAt && !lastDisabledAt) {
         // ask to enable.
-        return true
+        // return true
+        // see: https://github.com/ipfs-shipyard/ipfs-webui/issues/980#issuecomment-467806732
+        return false
       }
       // user has already made an explicit choice; dont ask again.
       return false
@@ -130,6 +143,7 @@ const createAnalyticsBundle = ({
 
     doToggleAnalytics: () => async ({ dispatch, store }) => {
       const enable = !store.selectAnalyticsEnabled()
+      console.log('doToggleAnalytics', enable)
       if (enable) {
         store.doEnableAnalytics()
       } else {
@@ -138,12 +152,12 @@ const createAnalyticsBundle = ({
     },
 
     doDisableAnalytics: () => async ({ dispatch, store }) => {
-      root.Countly.opt_out()
+      root.Countly.q.push(['remove_consent', 'activity'])
       dispatch({ type: 'ANALYTICS_DISABLED' })
     },
 
     doEnableAnalytics: () => async ({ dispatch, store }) => {
-      root.Countly.opt_in()
+      root.Countly.q.push(['add_consent', 'activity'])
       dispatch({ type: 'ANALYTICS_ENABLED' })
     }
   }

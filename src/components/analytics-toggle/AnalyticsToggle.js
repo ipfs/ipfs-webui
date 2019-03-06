@@ -17,7 +17,7 @@ const AnalyticsToggle = ({ doToggleAnalytics, analyticsEnabled, t }) => {
         <Details summaryText={t('AnalyticsToggle.summary')} className='pt3'>
           <p>
             <Trans i18nKey='AnalyticsToggle.paragraph1'>
-              IPFS hosts a <a className='link blue' href='https://count.ly/'>Countly</a> instance to record anonymous usage data for this app.
+              Protocol Labs hosts a <a className='link blue' href='https://count.ly/'>Countly</a> instance to record anonymous usage data for this app.
             </Trans>
           </p>
           <p>{t('AnalyticsToggle.paragraph2')}</p>
