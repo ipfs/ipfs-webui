@@ -55,10 +55,7 @@ const createAnalyticsBundle = ({
         }
       })
 
-      if (!store.selectAnalyticsEnabled()) {
-        console.log('ANAL OFF', root.Countly)
-      } else {
-        console.log('ANAL ON')
+      if (store.selectAnalyticsEnabled()) {
         Countly.q.push(['add_consent', 'activity'])
       }
 
@@ -101,7 +98,6 @@ const createAnalyticsBundle = ({
 
     reducer: (state = { lastEnabledAt: 0, lastDisabledAt: 0 }, action) => {
       if (action.type === 'ANALYTICS_ENABLED') {
-        console.log('ANALYTICS_ENABLED')
         return { ...state, lastEnabledAt: Date.now() }
       }
       if (action.type === 'ANALYTICS_DISABLED') {
