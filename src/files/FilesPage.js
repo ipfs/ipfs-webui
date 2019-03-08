@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { join } from 'path'
 import { translate, Trans } from 'react-i18next'
-import ReactJoyride, { STATUS } from 'react-joyride'
+import ReactJoyride from 'react-joyride'
 // Lib
 import { filesTour } from '../lib/tours'
 import downloadFile from './download-file'
@@ -22,6 +22,7 @@ import DeleteModal from './delete-modal/DeleteModal'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
+import withTour from '../components/tour/withTour'
 // Icons
 import FolderIcon from '../icons/StrokeFolder'
 
@@ -210,30 +211,11 @@ class FilesPage extends React.Component {
     this.setState(state => ({ isContextMenuOpen: !state.isContextMenuOpen }))
   }
 
-  handleClickStart = e => {
-    e.preventDefault()
-
-    this.setState({
-      run: true
-    })
-  }
-
-  handleJoyrideCallback = data => {
-    const { status, type } = data
-
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      this.setState({ run: false })
-    }
-
-    console.groupCollapsed(type)
-    console.log(data)
-    console.groupEnd()
-  }
-
   render () {
     const {
       ipfsProvider, files, writeFilesProgress, filesSorting: sort, t,
-      doFilesMove, doFilesNavigateTo, doFilesUpdateSorting, toursEnabled
+      doFilesMove, doFilesNavigateTo, doFilesUpdateSorting,
+      toursEnabled, handleJoyrideCallback
     } = this.props
 
     const { newFolder, share, rename, delete: deleteModal } = this.state
@@ -345,7 +327,7 @@ class FilesPage extends React.Component {
           run={toursEnabled}
           steps={filesTour.steps}
           styles={filesTour.styles}
-          callback={this.handleJoyrideCallback}
+          callback={handleJoyrideCallback}
           continuous
           scrollToFirstStep
           showProgress />
@@ -424,5 +406,7 @@ export default connect(
   'selectFilesPathFromHash',
   'selectFilesSorting',
   'selectToursEnabled',
-  translate('files')(FilesPage)
+  withTour(
+    translate('files')(FilesPage)
+  )
 )

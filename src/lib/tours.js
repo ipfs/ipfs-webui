@@ -55,7 +55,10 @@ export const filesTour = {
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>Files page</h2>
-        <p className='tl f6'>This is where the files on your MFS live. You can add files or folders and manage them from this page.</p>
+        <p className='tl f6'>
+          This is where the files on your <a className='aqua link' href='https://docs.ipfs.io/guides/concepts/mfs/' rel='noopener noreferrer' target='_blank'>
+          Mutable File System (MFS)</a> live. You can add files or folders and manage them from this page.
+        </p>
         <p className='tl f6'>Continue to learn more.</p>
       </div>,
       placement: 'center',
@@ -64,7 +67,7 @@ export const filesTour = {
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>Breadcrumbs</h2>
-        <p className='tl f6'>The current work directory, you can navigate backwards by clicking on it.</p>
+        <p className='tl f6'>The current work directory, you can navigate through the folder hierarchy by clicking on them.</p>
       </div>,
       placement: 'bottom',
       target: '.joyride-files-breadcrumbs'
@@ -80,8 +83,11 @@ export const filesTour = {
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>Add files</h2>
-        <p className='tl f6'>You can add files or folders to your repo through this dropdown.
-        If you want to add something that is already on IPFS, you can import it to your MFS by passing its path.</p>
+        <p className='tl f6'>
+          You can add files or folders to your repo through this dropdown. If you want to add something that is
+          already on IPFS, you can import it to your MFS by passing its <a className='aqua link' href='https://docs.ipfs.io/guides/concepts/cid/' rel='noopener noreferrer' target='_blank'>Content
+          Identifier (CID)</a>.
+        </p>
       </div>,
       placement: 'bottom',
       target: '.joyride-files-add'

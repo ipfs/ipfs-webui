@@ -12,6 +12,7 @@ import NavBar from './navigation/NavBar'
 import ComponentLoader from './loader/ComponentLoader'
 import Notify from './components/notify/Notify'
 import Connected from './components/connected/Connected'
+import TourHelper from './components/tour/TourHelper'
 
 export class App extends Component {
   static propTypes = {
@@ -61,7 +62,8 @@ export class App extends Component {
               <div style={{ width: 560 }}>
                 <IpldExploreForm />
               </div>
-              <div className='dn db-ns flex-auto tr'>
+              <div className='dn flex-ns flex-auto items-center justify-end'>
+                <TourHelper />
                 <Connected />
               </div>
             </div>

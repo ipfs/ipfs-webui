@@ -35,7 +35,7 @@ export const SettingsPage = ({
       <LanguageSelector t={t} />
 
       <div className='pt4'>
-        <Title>Analytics</Title>
+        <Title>{t('analytics')}</Title>
         <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
       </div>
     </Box>

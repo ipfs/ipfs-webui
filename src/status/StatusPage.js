@@ -2,7 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { translate } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import ReactJoyride, { STATUS } from 'react-joyride'
+import ReactJoyride from 'react-joyride'
 import StatusConnected from './StatusConnected'
 import StatusNotConnected from './StatusNotConnected'
 import NodeInfo from './NodeInfo'
@@ -12,20 +12,17 @@ import NetworkTraffic from './NetworkTraffic'
 import Box from '../components/box/Box'
 import AskToEnable from '../components/ask/AskToEnable'
 import { statusTour } from '../lib/tours'
+import withTour from '../components/tour/withTour'
 
-const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics, doDisableAnalytics, toursEnabled, doDisableTours }) => {
-  const handleJoyrideCallback = (data) => {
-    const { status, type } = data
-
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      doDisableTours()
-    }
-
-    console.groupCollapsed(type)
-    console.log(data)
-    console.groupEnd()
-  }
-
+const StatusPage = ({
+  t,
+  ipfsConnected,
+  analyticsAskToEnable,
+  doEnableAnalytics,
+  doDisableAnalytics,
+  toursEnabled,
+  handleJoyrideCallback
+}) => {
   return (
     <div data-id='StatusPage'>
       <Helmet>
@@ -48,16 +45,14 @@ const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics,
           </div>
         </div>
       </Box>
-      { ipfsConnected && analyticsAskToEnable
-        ? <AskToEnable
+      { ipfsConnected && analyticsAskToEnable &&
+        <AskToEnable
           className='mt3'
           label={t('AskToEnable.label')}
           yesLabel={t('AskToEnable.yesLabel')}
           noLabel={t('AskToEnable.noLabel')}
           onYes={doEnableAnalytics}
-          onNo={doDisableAnalytics}
-        />
-        : null
+          onNo={doDisableAnalytics} />
       }
       <Box className='mt3 pa3' style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
         <div className='flex flex-column flex-row-l'>
@@ -88,6 +83,7 @@ export default connect(
   'selectToursEnabled',
   'doEnableAnalytics',
   'doDisableAnalytics',
-  'doDisableTours',
-  translate('status')(StatusPage)
+  withTour(
+    translate('status')(StatusPage)
+  )
 )

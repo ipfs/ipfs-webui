@@ -1,27 +1,23 @@
 export default {
   name: 'tours',
 
-  reducer: (state = { enabled: true }, action) => {
+  reducer: (state = { enabled: false }, action) => {
     if (action.type === 'TOURS_ENABLE') {
-      return {
-        enabled: true
-      }
+      return { enabled: true }
     }
 
     if (action.type === 'TOURS_DISABLE') {
-      return {
-        enabled: false
-      }
+      return { enabled: false }
     }
 
     return state
   },
 
-  doEnableTours: () => async ({ dispatch }) => {
+  doEnableTours: () => ({ dispatch }) => {
     dispatch({ type: 'TOURS_ENABLE' })
   },
 
-  doDisableTours: () => async ({ dispatch }) => {
+  doDisableTours: () => ({ dispatch }) => {
     dispatch({ type: 'TOURS_DISABLE' })
   },
 
