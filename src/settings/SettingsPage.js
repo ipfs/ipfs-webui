@@ -2,7 +2,10 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
-
+import ReactJoyride from 'react-joyride'
+// Tour
+import { settingsTour } from '../lib/tours'
+import withTour from '../components/tour/withTour'
 // Components
 import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
@@ -19,7 +22,8 @@ export const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
-  config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics
+  config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
+  toursEnabled, handleJoyrideCallback
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
@@ -31,10 +35,12 @@ export const SettingsPage = ({
     }
 
     <Box className='mb3 pa4'>
-      <Title>{t('language')}</Title>
-      <LanguageSelector t={t} />
+      <div className='pt4 joyride-settings-language'>
+        <Title>{t('language')}</Title>
+        <LanguageSelector t={t} />
+      </div>
 
-      <div className='pt4'>
+      <div className='pt4 joyride-settings-analytics'>
         <Title>{t('analytics')}</Title>
         <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
       </div>
@@ -87,6 +93,15 @@ export const SettingsPage = ({
           key={editorKey} />
       ) : null}
     </Box>
+
+    <ReactJoyride
+      run={toursEnabled}
+      steps={settingsTour.steps}
+      styles={settingsTour.styles}
+      callback={handleJoyrideCallback}
+      continuous
+      scrollToFirstStep
+      showProgress />
   </div>
 )
 
@@ -223,7 +238,7 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics } = this.props
+    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled, handleJoyrideCallback } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
@@ -247,7 +262,9 @@ export class SettingsPageContainer extends React.Component {
         onSave={this.onSave}
         isIpfsDesktop={isIpfsDesktop}
         analyticsEnabled={analyticsEnabled}
-        doToggleAnalytics={doToggleAnalytics} />
+        doToggleAnalytics={doToggleAnalytics}
+        toursEnabled={toursEnabled}
+        handleJoyrideCallback={handleJoyrideCallback} />
     )
   }
 }
@@ -263,8 +280,9 @@ export default connect(
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
   'selectIsIpfsDesktop',
+  'selectToursEnabled',
   'selectAnalyticsEnabled',
   'doToggleAnalytics',
   'doSaveConfig',
-  TranslatedSettingsPage
+  withTour(TranslatedSettingsPage)
 )

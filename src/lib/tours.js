@@ -155,3 +155,42 @@ export const peersTour = {
     }
   }
 }
+
+export const settingsTour = {
+  steps: [
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>Settings page</h2>
+        <p className='tl f6'>This is where you can see the peers that you are connected to and the country they are in.</p>
+        <p className='tl f6'>Continue to learn more.</p>
+      </div>,
+      placement: 'center',
+      target: 'body'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>Language selector</h2>
+        <p className='tl f6'>A visualization of where the peers that you are connected to are in the world.</p>
+      </div>,
+      placement: 'bottom',
+      target: '.joyride-settings-language'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>Anonymous usage analytics</h2>
+        <p className='tl f6'>Check the IDs of the connected peers, their address and approximate location.</p>
+      </div>,
+      locale: { last: 'Finish' },
+      placement: 'top',
+      target: '.joyride-settings-analytics'
+    }
+  ],
+  styles: {
+    options: {
+      width: '500px',
+      primaryColor: '#69c4cd',
+      textColor: '#34373f',
+      zIndex: 999
+    }
+  }
+}
