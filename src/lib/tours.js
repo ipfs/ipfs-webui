@@ -116,3 +116,42 @@ export const filesTour = {
     }
   }
 }
+
+export const peersTour = {
+  steps: [
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>Peers page</h2>
+        <p className='tl f6'>This is where you can see the peers that you are connected to and the country they are in.</p>
+        <p className='tl f6'>Continue to learn more.</p>
+      </div>,
+      placement: 'center',
+      target: 'body'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>Peers map</h2>
+        <p className='tl f6'>A visualization of where the peers that you are connected to are in the world.</p>
+      </div>,
+      placement: 'bottom',
+      target: '.joyride-peers-map'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>Peers table</h2>
+        <p className='tl f6'>Check the IDs of the connected peers, their address and approximate location.</p>
+      </div>,
+      locale: { last: 'Finish' },
+      placement: 'top',
+      target: '.joyride-peers-table'
+    }
+  ],
+  styles: {
+    options: {
+      width: '500px',
+      primaryColor: '#69c4cd',
+      textColor: '#34373f',
+      zIndex: 999
+    }
+  }
+}

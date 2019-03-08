@@ -406,7 +406,5 @@ export default connect(
   'selectFilesPathFromHash',
   'selectFilesSorting',
   'selectToursEnabled',
-  withTour(
-    translate('files')(FilesPage)
-  )
+  withTour(translate('files')(FilesPage))
 )

@@ -9,6 +9,7 @@ import Address from '../../components/address/Address'
 export class PeersTable extends React.Component {
   static propTypes = {
     peerLocationsForSwarm: PropTypes.array,
+    className: PropTypes.string,
     t: PropTypes.func.isRequired
   }
 
@@ -41,11 +42,11 @@ export class PeersTable extends React.Component {
   }
 
   render () {
-    const { peerLocationsForSwarm, t } = this.props
+    const { className, peerLocationsForSwarm, t } = this.props
     const tableHeight = 400
 
     return (
-      <div className='bg-white-70 center' style={{ 'height': `${tableHeight}px`, maxWidth: 1764 }}>
+      <div className={`bg-white-70 center ${className}`} style={{ 'height': `${tableHeight}px`, maxWidth: 1764 }}>
         { peerLocationsForSwarm && <AutoSizer disableHeight>
           {({ width }) => (
             <Table

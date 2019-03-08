@@ -83,7 +83,5 @@ export default connect(
   'selectToursEnabled',
   'doEnableAnalytics',
   'doDisableAnalytics',
-  withTour(
-    translate('status')(StatusPage)
-  )
+  withTour(translate('status')(StatusPage))
 )
