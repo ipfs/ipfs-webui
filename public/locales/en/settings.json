@@ -55,7 +55,8 @@
     },
     "crashes": {
       "label": "App errors",
-      "summary": "when something goes wrong"
+      "summary": "JavaScript error messages and stack traces",
+      "details": "Records JavaScript error messages and stack traces that occur while using the app, where possible. It is very helpful to know when the app is not working for you, but <1>error messages may include identifiable information</1> like CIDs or file paths, so only enable this if you are comfortable sharing that information with us."
     },
     "item0": "A random, generated device ID",
     "item1": "Country code from IP address. IP address is discarded",

@@ -106,7 +106,7 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, doToggleAnalytics, analytic
             enabled={analyticsEnabled}
             label={t('AnalyticsToggle.events.label')}
             summary={t('AnalyticsToggle.events.summary')}
-            sourceLink='https://github.com/ipfs-shipyard/ipfs-webui/blob/38743dc9201795bc292e6ef132600622eb461cb2/src/bundles/analytics.js#L63-L87'
+            sourceLink='https://github.com/ipfs-shipyard/ipfs-webui/blob/30a077efe5198bf6403681b094ab585a88395c40/src/bundles/analytics.js#L93-L111'
             exampleRequest='https://countly.ipfs.io/i?events=%5B%7B%22key%22%3A%22FILES_WRITE%22%2C%22count%22%3A1%2C%22dur%22%3A0.06761999998707324%2C%22timestamp%22%3A1552042116111%2C%22hour%22%3A10%2C%22dow%22%3A5%7D%5D&app_key=8fa213e6049bff23b08e5f5fbac89e7c27397612&device_id=d96d67ff-4797-45da-83b4-9e8f599cd12a&sdk_name=javascript_native_web&sdk_version=19.02.1&timestamp=1552042116112&hour=10&dow=5'>
             <p>
               <Trans i18nKey='AnalyticsToggle.events.details'>
@@ -147,7 +147,7 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, doToggleAnalytics, analytic
             enabled={analyticsEnabled}
             label={t('AnalyticsToggle.crashes.label')}
             summary={t('AnalyticsToggle.crashes.summary')}
-            sourceLink='https://github.com/ipfs-shipyard/ipfs-webui/blob/master/src/bundles/analytics.js#L46-L54'>
+            sourceLink='https://github.com/ipfs-shipyard/ipfs-webui/blob/30a077efe5198bf6403681b094ab585a88395c40/src/bundles/analytics.js#L113-L118'>
             <p>
               <Trans i18nKey='AnalyticsToggle.crashes.details'>
                 Records JavaScript error messages and stack traces that occur while using the app, where possible. It is very helpful to know when the app is not working for you, but <b>error messages may include identifiable information</b> like CIDs or file paths, so only enable this if you are comfortable sharing that information with us.
