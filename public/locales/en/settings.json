@@ -29,13 +29,37 @@
   "downloadCopiedHash": "Download copied hash",
   "downloadCopiedHashDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> to download the last copied hash.",
   "AnalyticsToggle": {
-    "label": "BETA: Help improve this app by sending anonymous usage data",
+    "label": "Help improve this app by sending anonymous usage data",
     "summary": "What data is collected?",
     "paragraph1": "Protocol Labs hosts a <1>Countly</1> instance to record anonymous usage data for this app.",
-    "paragraph2": "The information collected includes:",
-    "deviceId": "A random, generated device ID",
-    "item1": "Session duration",
-    "item2": "Country code from IP address. IP address is discarded",
+    "basicInfo": "The following additional information is sent to countly.ipfs.io",
+    "optionalInfo": "You can opt-in to send the following information:",
+    "sessions": {
+      "label": "Sessions",
+      "summary": "when and how long you use the app, and browser metrics"
+    },
+    "events": {
+      "label": "Events",
+      "summary": "actions like adding or deleting files, and how long it took",
+      "events": ""
+    },
+    "pageviews": {
+      "label": "Page views",
+      "summary": "which sections of the app you visit",
+      "details": "Records which sections of the apps are visited. The paths recorded only include the pattern used to match the route rather than the full url. "
+    },
+    "location": {
+      "label": "Location",
+      "summary": "Country code from IP address. IP address is discarded",
+      "details": "Your IP address is used to calculate a Country code for your location, like \"FR\" for France. Where consent is not given to track location, and empty location property is sent to signal to the server to disable the location look up."
+    },
+    "crashes": {
+      "label": "App errors",
+      "summary": "when something goes wrong"
+    },
+    "item0": "A random, generated device ID",
+    "item1": "Country code from IP address. IP address is discarded",
+    "item2": "Session duration",
     "item3": "Browser and OS version from User Agent string in `navigator.userAgent`",
     "item4": "Display resolution and density",
     "item5": "Locale (browser language, e.g German)",

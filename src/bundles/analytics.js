@@ -1,14 +1,38 @@
 import root from 'window-or-global'
 
-const IGNORE_ACTIONS = /^(FILES_FETCH_|FILES_WRITE_UPDATED)/
-const USER_ACTIONS = /^(CONFIG_SAVE_|FILES_|DESKTOP_)/
-const ASYNC_ACTIONS = /^(.+)_(STARTED|FINISHED|FAILED)$/
+const ASYNC_ACTIONS_TO_RECORD = [
+  'CONFIG_SAVE',
+  'FILES_MAKEDIR',
+  'FILES_WRITE',
+  'FILES_ADDBYPATH',
+  'FILES_MOVE',
+  'FILES_DELETE',
+  'FILES_DOWNLOADLINK'
+]
+
+const ASYNC_ACTION_RE = new RegExp(`^${ASYNC_ACTIONS_TO_RECORD.join('_|')}`)
+const ASYNC_ACTION_STATE_RE = /^(.+)_(STARTED|FINISHED|FAILED)$/
+
+const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612'
+const COUNTLY_KEY_WEBUI_TEST = '700fd825c3b257e021bd9dbc6cbf044d33477531'
+const COUNTLY_KEY_DESKTOP = '47fbb3db3426d2ae32b3b65fe40c564063d8b55d'
+const COUNTLY_KEY_DESKTOP_TEST = '6b00e04fa5370b1ce361d2f24a09c74254eee382'
+
+function pickAppKey () {
+  const isProd = process.env.NODE_ENV === 'production'
+  const isDesktop = !!root.ipfsDesktop
+  if (isDesktop) {
+    return isProd ? COUNTLY_KEY_DESKTOP : COUNTLY_KEY_DESKTOP_TEST
+  } else {
+    return isProd ? COUNTLY_KEY_WEBUI : COUNTLY_KEY_WEBUI_TEST
+  }
+}
 
 const createAnalyticsBundle = ({
   countlyUrl = 'https://countly.ipfs.io',
-  countlyAppKey,
-  appVersion,
-  appGitRevision,
+  countlyAppKey = pickAppKey(),
+  appVersion = process.env.REACT_APP_VERSION,
+  appGitRevision = process.env.REACT_APP_GIT_REV,
   debug = true
 }) => {
   return {
@@ -62,22 +86,20 @@ const createAnalyticsBundle = ({
       Countly.init()
     },
 
-    // Record durations for user actions
+    // Listen to redux actions
     getMiddleware: () => (store) => {
       const EventMap = new Map()
       return next => action => {
-        const res = next(action)
-        if (store.selectAnalyticsEnabled() && !IGNORE_ACTIONS.test(action.type) && USER_ACTIONS.test(action.type)) {
-          if (ASYNC_ACTIONS.test(action.type)) {
-            const [_, name, state] = ASYNC_ACTIONS.exec(action.type) // eslint-disable-line no-unused-vars
-            if (state === 'STARTED') {
-              EventMap.set(name, root.performance.now())
+        // Record durations for async actions
+        if (ASYNC_ACTION_RE.test(action.type)) {
+          const [_, name, state] = ASYNC_ACTION_STATE_RE.exec(action.type) // eslint-disable-line no-unused-vars
+          if (state === 'STARTED') {
+            EventMap.set(name, root.performance.now())
+          } else {
+            const start = EventMap.get(name)
+            if (!start) {
+              EventMap.delete(name)
             } else {
-              const start = EventMap.get(name)
-              if (!start) {
-                EventMap.delete(name)
-                return
-              }
               const durationInSeconds = (root.performance.now() - start) / 1000
               root.Countly.q.push(['add_event', {
                 key: state === 'FAILED' ? action.type : name,
@@ -85,14 +107,16 @@ const createAnalyticsBundle = ({
                 dur: durationInSeconds
               }])
             }
-          } else {
-            root.Countly.q.push(['add_event', {
-              key: action.type,
-              count: 1
-            }])
           }
         }
-        return res
+
+        // Record errors
+        const error = action.error || (action.payload && action.payload.error)
+        if (error) {
+          root.Countly.q.push(['add_log', action.type])
+          root.Countly.q.push(['log_error', error])
+        }
+        return next(action)
       }
     },
 
@@ -135,6 +159,10 @@ const createAnalyticsBundle = ({
       }
       // user has already made an explicit choice; dont ask again.
       return false
+    },
+
+    selectAnalyticsActionsToRecord: () => {
+      return Array.from(ASYNC_ACTIONS_TO_RECORD)
     },
 
     doToggleAnalytics: () => async ({ dispatch, store }) => {
