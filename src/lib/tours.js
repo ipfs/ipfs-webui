@@ -161,8 +161,8 @@ export const settingsTour = {
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>Settings page</h2>
-        <p className='tl f6'>This is where you can see the peers that you are connected to and the country they are in.</p>
-        <p className='tl f6'>Continue to learn more.</p>
+        <p className='tl f6'>Here you can change the settings of your Web UI and IPFS node.</p>
+        <p className='tl f6'>If you're running IPFS Desktop you'll have some specific settings for it too.</p>
       </div>,
       placement: 'center',
       target: 'body'
@@ -170,7 +170,9 @@ export const settingsTour = {
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>Language selector</h2>
-        <p className='tl f6'>A visualization of where the peers that you are connected to are in the world.</p>
+        <p className='tl f6'>You can change the language of the Web UI.
+        If your preferred language isn't available, head over our project page in <a className='aqua link' href='https://www.transifex.com/ipfs/ipfs-webui/translate/' rel='noopener noreferrer' target='_blank'>Transifex</a> to help us translate!
+        </p>
       </div>,
       placement: 'bottom',
       target: '.joyride-settings-language'
@@ -178,11 +180,21 @@ export const settingsTour = {
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>Anonymous usage analytics</h2>
-        <p className='tl f6'>Check the IDs of the connected peers, their address and approximate location.</p>
+        <p className='tl f6'>If you opt-in, you can help us make the Web UI better by sending anonymous usage analytics.</p>
+        <p className='tl f6'>You're able to choose what data you send us and we won't be able to identify you, we value privacy above all else.</p>
+      </div>,
+      placement: 'bottom',
+      target: '.joyride-settings-analytics'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>IPFS Config</h2>
+        <p className='tl f6'>You can change the config of your IPFS node right from Web UI!</p>
+        <p className='tl f6'>Don't forget to restart the daemon to apply the changes.</p>
       </div>,
       locale: { last: 'Finish' },
       placement: 'top',
-      target: '.joyride-settings-analytics'
+      target: '.joyride-settings-config'
     }
   ],
   styles: {

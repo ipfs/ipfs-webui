@@ -35,18 +35,18 @@ export const SettingsPage = ({
     }
 
     <Box className='mb3 pa4'>
-      <div className='pt4 joyride-settings-language'>
+      <div className='mb4 joyride-settings-language'>
         <Title>{t('language')}</Title>
         <LanguageSelector t={t} />
       </div>
 
-      <div className='pt4 joyride-settings-analytics'>
+      <div className='joyride-settings-analytics'>
         <Title>{t('analytics')}</Title>
         <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
       </div>
     </Box>
 
-    <Box>
+    <Box className='joyride-settings-config'>
       <Title>{t('config')}</Title>
       <div className='flex pb3'>
         <div className='flex-auto'>
