@@ -1,6 +1,8 @@
 import root from 'window-or-global'
 
+// Only record specific actions listed here.
 const ASYNC_ACTIONS_TO_RECORD = [
+  'IPFS_INIT',
   'CONFIG_SAVE',
   'FILES_MAKEDIR',
   'FILES_WRITE',
@@ -28,6 +30,11 @@ function pickAppKey () {
   }
 }
 
+const consentGroups = {
+  all: ['sessions', 'events', 'views', 'location', 'crashes'],
+  safe: ['sessions', 'events', 'views', 'location']
+}
+
 const createAnalyticsBundle = ({
   countlyUrl = 'https://countly.ipfs.io',
   countlyAppKey = pickAppKey(),
@@ -38,7 +45,7 @@ const createAnalyticsBundle = ({
   return {
     name: 'analytics',
 
-    persistActions: ['ANALYTICS_ENABLED', 'ANALYTICS_DISABLED'],
+    persistActions: ['ANALYTICS_ENABLED', 'ANALYTICS_DISABLED', 'ANALYTICS_ADD_CONSENT', 'ANALYTICS_REMOVE_CONSENT'],
 
     init: async (store) => {
       if (!root.Countly) {
@@ -54,19 +61,19 @@ const createAnalyticsBundle = ({
       Countly.app_version = appVersion
       Countly.debug = debug
 
-      Countly.q.push(['group_features', {
-        activity: ['sessions', 'events', 'views']
-      }])
-
+      // Configure what to track. Nothing is sent without user consent.
       Countly.q.push(['track_sessions'])
       Countly.q.push(['track_pageview'])
+      Countly.q.push(['track_errors'])
 
       // Don't track clicks or links as it can include full url.
       // Countly.q.push(['track_clicks']);
       // Countly.q.push(['track_links'])
 
-      // Dont track errors as we can't gurantee they wont include CIDs or other personal info
-      // Countly.q.push(['track_errors'])
+      if (store.selectAnalyticsEnabled()) {
+        const consent = store.selectAnalyticsConsent()
+        Countly.q.push(['add_consent', consent])
+      }
 
       store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
         /*
@@ -78,10 +85,6 @@ const createAnalyticsBundle = ({
           root.Countly.q.push(['track_pageview', routeInfo.pattern])
         }
       })
-
-      if (store.selectAnalyticsEnabled()) {
-        Countly.q.push(['add_consent', 'activity'])
-      }
 
       Countly.init()
     },
@@ -108,54 +111,67 @@ const createAnalyticsBundle = ({
               }])
             }
           }
-        }
 
-        // Record errors
-        const error = action.error || (action.payload && action.payload.error)
-        if (error) {
-          root.Countly.q.push(['add_log', action.type])
-          root.Countly.q.push(['log_error', error])
+          // Record errors. Only from explicitly selected actions.
+          const error = action.error || (action.payload && action.payload.error)
+          if (error) {
+            root.Countly.q.push(['add_log', action.type])
+            root.Countly.q.push(['log_error', error])
+          }
         }
+        // We're middleware. Don't forget to pass control back to the next.
         return next(action)
       }
     },
 
-    reducer: (state = { lastEnabledAt: 0, lastDisabledAt: 0 }, action) => {
+    reducer: (state = {
+      lastEnabledAt: 0,
+      lastDisabledAt: 0,
+      consent: []
+    }, action) => {
       if (action.type === 'ANALYTICS_ENABLED') {
-        return { ...state, lastEnabledAt: Date.now() }
+        return { ...state, lastEnabledAt: Date.now(), consent: action.payload.consent }
       }
       if (action.type === 'ANALYTICS_DISABLED') {
-        return { ...state, lastDisabledAt: Date.now() }
+        return { ...state, lastDisabledAt: Date.now(), consent: action.payload.consent }
       }
+      if (action.type === 'ANALYTICS_ADD_CONSENT') {
+        const consent = state.consent.filter(item => item !== action.payload.name).concat(action.payload.name)
+        return { ...state, lastEnabledAt: Date.now(), consent }
+      }
+      if (action.type === 'ANALYTICS_REMOVE_CONSENT') {
+        const consent = state.consent.filter(item => item !== action.payload.name)
+        const lastDisabledAt = (consent.length === 0) ? Date.now() : state.lastDisabledAt
+        return { ...state, lastDisabledAt, consent }
+      }
+
+      // deal with missing consent state from 2.4.0 release.
+      if (!state.consent) {
+        if (state.lastEnabledAt > state.lastDisabledAt) {
+          return { ...state, consent: consentGroups.safe }
+        } else {
+          return { ...state, consent: [] }
+        }
+      }
+
       return state
     },
 
     selectAnalytics: (state) => state.analytics,
 
-    /*
-      Use the users preference.
-    */
-    selectAnalyticsEnabled: (state) => {
-      const { lastEnabledAt, lastDisabledAt } = state.analytics
-      // where never opted in or out, analytics are disabled by default
-      if (!lastEnabledAt && !lastDisabledAt) {
-        return false
-      }
-      // otherwise return their most recent choice.
-      return lastEnabledAt > lastDisabledAt
-    },
+    selectAnalyticsConsent: (state) => state.analytics.consent,
+
+    selectAnalyticsEnabled: (state) => state.analytics.consent.length > 0,
 
     /*
       Ask the user if we may enable analytics.
     */
     selectAnalyticsAskToEnable: (state) => {
-      const { lastEnabledAt, lastDisabledAt } = state.analytics
+      const { lastEnabledAt, lastDisabledAt, consent } = state.analytics
       // user has not explicitly chosen
-      if (!lastEnabledAt && !lastDisabledAt) {
+      if (!lastEnabledAt && !lastDisabledAt && consent.length === 0) {
         // ask to enable.
-        // return true
-        // see: https://github.com/ipfs-shipyard/ipfs-webui/issues/980#issuecomment-467806732
-        return false
+        return true
       }
       // user has already made an explicit choice; dont ask again.
       return false
@@ -165,7 +181,7 @@ const createAnalyticsBundle = ({
       return Array.from(ASYNC_ACTIONS_TO_RECORD)
     },
 
-    doToggleAnalytics: () => async ({ dispatch, store }) => {
+    doToggleAnalytics: () => ({ dispatch, store }) => {
       const enable = !store.selectAnalyticsEnabled()
       console.log('doToggleAnalytics', enable)
       if (enable) {
@@ -175,14 +191,34 @@ const createAnalyticsBundle = ({
       }
     },
 
-    doDisableAnalytics: () => async ({ dispatch, store }) => {
-      root.Countly.q.push(['remove_consent', 'activity'])
-      dispatch({ type: 'ANALYTICS_DISABLED' })
+    doDisableAnalytics: () => ({ dispatch, store }) => {
+      root.Countly.q.push(['remove_consent', consentGroups.all])
+      dispatch({ type: 'ANALYTICS_DISABLED', payload: { consent: [] } })
     },
 
-    doEnableAnalytics: () => async ({ dispatch, store }) => {
-      root.Countly.q.push(['add_consent', 'activity'])
-      dispatch({ type: 'ANALYTICS_ENABLED' })
+    doEnableAnalytics: () => ({ dispatch, store }) => {
+      root.Countly.q.push(['remove_consent', consentGroups.all])
+      root.Countly.q.push(['add_consent', consentGroups.safe])
+      dispatch({ type: 'ANALYTICS_ENABLED', payload: { consent: consentGroups.safe } })
+    },
+
+    doToggleConsent: (name) => ({ dispatch, store }) => {
+      const isEnabled = store.selectAnalyticsConsent().includes(name)
+      if (isEnabled) {
+        store.doRemoveConsent(name)
+      } else {
+        store.doAddConsent(name)
+      }
+    },
+
+    doRemoveConsent: (name) => ({ dispatch, store }) => {
+      root.Countly.q.push(['remove_consent', name])
+      dispatch({ type: 'ANALYTICS_REMOVE_CONSENT', payload: { name } })
+    },
+
+    doAddConsent: (name) => ({ dispatch, store }) => {
+      root.Countly.q.push(['add_consent', name])
+      dispatch({ type: 'ANALYTICS_ADD_CONSENT', payload: { name } })
     }
   }
 }

@@ -37,8 +37,7 @@ it('should disable analytics if user has explicitly disabled it', () => {
   expect(store.selectAnalyticsEnabled()).toBe(false)
 })
 
-// see: https://github.com/ipfs-shipyard/ipfs-webui/issues/980#issuecomment-467806732
-it.skip('should enable selectAnalyticsAskToEnable if user has not explicity enabled or disabled it', () => {
+it('should enable selectAnalyticsAskToEnable if user has not explicity enabled or disabled it', () => {
   const store = createStore()
   expect(store.selectAnalyticsAskToEnable()).toBe(true)
 })

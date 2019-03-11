@@ -41,9 +41,9 @@
     "events": {
       "label": "Events",
       "summary": "actions like adding or deleting files, and how long it took",
-      "events": ""
+      "details": "App specific actions. We record only that the action happened, how long it took from start to finish, and a count if the event involved multiple items."
     },
-    "pageviews": {
+    "views": {
       "label": "Page views",
       "summary": "which sections of the app you visit",
       "details": "Records which sections of the apps are visited. The paths recorded only include the pattern used to match the route rather than the full url. "
@@ -51,7 +51,7 @@
     "location": {
       "label": "Location",
       "summary": "Country code from IP address. IP address is discarded",
-      "details": "Your IP address is used to calculate a Country code for your location, like \"FR\" for France. Where consent is not given to track location, and empty location property is sent to signal to the server to disable the location look up."
+      "details": "Your IP address is used to calculate a Country code for your location, like \"FR\" for France. Where consent is not given to track location, an empty location property is sent with all requests to signal to the server to disable the location look up. This information helps guide our translation effort and figure out where we should put on events."
     },
     "crashes": {
       "label": "App errors",
