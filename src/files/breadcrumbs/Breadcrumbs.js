@@ -33,6 +33,7 @@ function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
 
   const res = bread.map((link, index) => ([
     <div key={`${index}link`} className='dib bb bw1 pv1' style={{ borderColor: '#244e66' }}>
+      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
       <a className='pointer dib link dark-gray o-50 glow' onClick={() => onClick(link.path)}>
         {link.name}
       </a>

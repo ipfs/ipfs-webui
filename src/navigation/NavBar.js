@@ -37,6 +37,7 @@ const NavLink = ({
   }, ['fill-current-color'])
 
   return (
+    // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a href={disabled ? null : href} className={anchorClass} role='menuitem' title={children}>
       <span className={`dib ${open ? 'dt-l' : ''}`}>
         <span className={`dib dtc-l v-mid ${open ? 'pl3 pl5-l' : 'ph3'}`} style={{ width: 50 }}>

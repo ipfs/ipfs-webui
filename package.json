@@ -78,8 +78,6 @@
     "window.ipfs-fallback": "^1.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/runtime": "^7.3.4",
     "@storybook/addon-a11y": "^4.1.14",
     "@storybook/addon-actions": "^4.1.14",
     "@storybook/addon-knobs": "^4.1.14",
