@@ -48,12 +48,13 @@ const createAnalyticsBundle = ({
     persistActions: ['ANALYTICS_ENABLED', 'ANALYTICS_DISABLED', 'ANALYTICS_ADD_CONSENT', 'ANALYTICS_REMOVE_CONSENT'],
 
     init: async (store) => {
+      // test code sets a mock Counly instance on the global.
       if (!root.Countly) {
-        // lazy-load to simplify testing.
-        root.Countly = await import('countly-sdk-web')
+        root.Countly = {}
+        root.Countly.q = []
+        await import('countly-sdk-web')
       }
       const Countly = root.Countly
-      Countly.q = Countly.q || []
 
       Countly.require_consent = true
       Countly.url = countlyUrl
@@ -63,11 +64,10 @@ const createAnalyticsBundle = ({
 
       // Configure what to track. Nothing is sent without user consent.
       Countly.q.push(['track_sessions'])
-      Countly.q.push(['track_pageview'])
       Countly.q.push(['track_errors'])
 
       // Don't track clicks or links as it can include full url.
-      // Countly.q.push(['track_clicks']);
+      // Countly.q.push(['track_clicks'])
       // Countly.q.push(['track_links'])
 
       if (store.selectAnalyticsEnabled()) {
@@ -76,14 +76,14 @@ const createAnalyticsBundle = ({
       }
 
       store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
+        // skip routes with no hash, as we'll be immediately redirected to `/#`
+        if (!root.location || !root.location.hash) return
         /*
         By tracking the pattern rather than the window.location, we limit the info
         we collect to just the app sections that are viewed, and avoid recording
         specific CIDs or local repo paths that would contain personal information.
         */
-        if (root.Countly) {
-          root.Countly.q.push(['track_pageview', routeInfo.pattern])
-        }
+        root.Countly.q.push(['track_pageview', routeInfo.pattern])
       })
 
       Countly.init()

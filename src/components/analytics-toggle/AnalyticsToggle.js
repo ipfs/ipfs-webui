@@ -72,7 +72,7 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleC
         </span>
       } />
       <div className='f6 charcoal lh-copy mw7'>
-        <Details open summaryText={t('AnalyticsToggle.summary')} className='pt3'>
+        <Details summaryText={t('AnalyticsToggle.summary')} className='pt3'>
           <p>
             <Trans i18nKey='AnalyticsToggle.paragraph1'>
               Protocol Labs hosts a <a className='link blue' href='https://count.ly/'>Countly</a> instance to record anonymous usage data for this app.
