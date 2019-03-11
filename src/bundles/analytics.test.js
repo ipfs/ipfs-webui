@@ -4,6 +4,7 @@ import createAnalyticsBundle from './analytics'
 
 beforeEach(() => {
   global.Countly = {
+    q: [],
     opt_out: jest.fn(),
     opt_in: jest.fn(),
     init: jest.fn()

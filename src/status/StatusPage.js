@@ -13,11 +13,11 @@ import AskToEnable from '../components/ask/AskToEnable'
 
 const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics, doDisableAnalytics }) => {
   return (
-    <div data-id='StatusPage'>
+    <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
         <title>{t('title')} - IPFS</title>
       </Helmet>
-      <Box className='pa3' style={{ minHeight: 0 }}>
+      <Box>
         <div className='flex'>
           <div className='flex-auto'>
             { ipfsConnected ? (
@@ -40,6 +40,8 @@ const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics,
           label={t('AskToEnable.label')}
           yesLabel={t('AskToEnable.yesLabel')}
           noLabel={t('AskToEnable.noLabel')}
+          detailsLabel={t('AskToEnable.detailsLabel')}
+          detailsLink='#/settings/analytics'
           onYes={doEnableAnalytics}
           onNo={doDisableAnalytics}
         />

@@ -19,8 +19,7 @@ export const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
-  config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics, analyticsActionsToRecord,
-  analyticsConsent, doToggleConsent
+  config, onChange, onReset, onSave, editorKey
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
@@ -36,14 +35,8 @@ export const SettingsPage = ({
       <LanguageSelector t={t} />
 
       <div className='pt4'>
-        <Title>Analytics</Title>
-        <AnalyticsToggle
-          t={t}
-          doToggleConsent={doToggleConsent}
-          doToggleAnalytics={doToggleAnalytics}
-          analyticsEnabled={analyticsEnabled}
-          analyticsConsent={analyticsConsent}
-          analyticsActionsToRecord={analyticsActionsToRecord} />
+        <Title>{t('analytics')}</Title>
+        <AnalyticsToggle t={t} />
       </div>
     </Box>
 
@@ -230,7 +223,7 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, analyticsConsent, doToggleConsent, doToggleAnalytics, analyticsActionsToRecord } = this.props
+    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
@@ -252,12 +245,7 @@ export class SettingsPageContainer extends React.Component {
         onChange={this.onChange}
         onReset={this.onReset}
         onSave={this.onSave}
-        isIpfsDesktop={isIpfsDesktop}
-        analyticsEnabled={analyticsEnabled}
-        analyticsConsent={analyticsConsent}
-        doToggleConsent={doToggleConsent}
-        doToggleAnalytics={doToggleAnalytics}
-        analyticsActionsToRecord={analyticsActionsToRecord} />
+        isIpfsDesktop={isIpfsDesktop} />
     )
   }
 }
@@ -273,11 +261,6 @@ export default connect(
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
   'selectIsIpfsDesktop',
-  'selectAnalyticsEnabled',
-  'selectAnalyticsConsent',
-  'selectAnalyticsActionsToRecord',
-  'doToggleAnalytics',
-  'doToggleConsent',
   'doSaveConfig',
   TranslatedSettingsPage
 )

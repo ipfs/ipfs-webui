@@ -183,7 +183,6 @@ const createAnalyticsBundle = ({
 
     doToggleAnalytics: () => ({ dispatch, store }) => {
       const enable = !store.selectAnalyticsEnabled()
-      console.log('doToggleAnalytics', enable)
       if (enable) {
         store.doEnableAnalytics()
       } else {

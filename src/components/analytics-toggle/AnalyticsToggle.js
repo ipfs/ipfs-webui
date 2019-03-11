@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Trans } from 'react-i18next'
+import { connect } from 'redux-bundler-react'
 import Checkbox from '../checkbox/Checkbox'
 import Details from '../details/Details'
 
@@ -63,7 +64,7 @@ const AnalyticType = ({ children, onChange, enabled, label, summary, exampleRequ
   )
 }
 
-const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleConsent, doToggleAnalytics, analyticsEnabled, t }) => {
+const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleConsent, doToggleAnalytics, analyticsEnabled, t, open }) => {
   return (
     <React.Fragment>
       <Checkbox className='dib bg-white pa3' onChange={doToggleAnalytics} checked={analyticsEnabled} label={
@@ -72,7 +73,7 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleC
         </span>
       } />
       <div className='f6 charcoal lh-copy mw7'>
-        <Details summaryText={t('AnalyticsToggle.summary')} className='pt3'>
+        <Details summaryText={t('AnalyticsToggle.summary')} className='pt3' open={open}>
           <p>
             <Trans i18nKey='AnalyticsToggle.paragraph1'>
               Protocol Labs hosts a <a className='link blue' href='https://count.ly/'>Countly</a> instance to record anonymous usage data for this app.
@@ -88,17 +89,19 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleC
             summary={t('AnalyticsToggle.sessions.summary')}
             sourceLink='https://github.com/Countly/countly-sdk-web/blob/93442edbe8c108618c88cc9e1ad179892c42940b/lib/countly.js#L1885-L1953'
             exampleRequest='https://countly.ipfs.io/i?begin_session=1&metrics=%7B%22_app_version%22%3A%222.4.0%22%2C%22_ua%22%3A%22Mozilla%2F5.0%20(Macintosh%3B%20Intel%20Mac%20OS%20X%2010_14_2)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F72.0.3626.121%20Safari%2F537.36%22%2C%22_resolution%22%3A%221920x1080%22%2C%22_density%22%3A2%2C%22_locale%22%3A%22en-GB%22%7D&app_key=700fd825c3b257e021bd9dbc6cbf044d33477531&device_id=804117b1-c21d-4e55-a65f-f9dbbe9a1f91&sdk_name=javascript_native_web&sdk_version=19.02.1&timestamp=1552296210554&hour=9&dow=1&consent=%7B%22sessions%22%3Atrue%2C%22events%22%3Atrue%2C%22views%22%3Atrue%2C%22location%22%3Atrue%2C%22crashes%22%3Atrue%7D'>
-            <p>The following browser metrics are sent</p>
-            <ul>
-              <li>A random, generated device ID</li>
-              <li>Timestamp when the session starts</li>
-              <li>Periodic timestamps to track duration</li>
-              <li>App version e.g. "2.4.4"</li>
-              <li>Locale e.g. "en-GB"</li>
-              <li>User Agent e.g. "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ..."</li>
-              <li>Screen resolution e.g. "800x600"</li>
-              <li>Screen pixel density e.g. "1"</li>
-            </ul>
+            <Trans i18nKey='AnalyticsToggle.sessions.details'>
+              <p>The following browser metrics are sent</p>
+              <ul>
+                <li>A random, generated device ID</li>
+                <li>Timestamp when the session starts</li>
+                <li>Periodic timestamps to track duration</li>
+                <li>App version e.g. "2.4.4"</li>
+                <li>Locale e.g. "en-GB"</li>
+                <li>User Agent e.g. "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ..."</li>
+                <li>Screen resolution e.g. "800x600"</li>
+                <li>Screen pixel density e.g. "1"</li>
+              </ul>
+            </Trans>
           </AnalyticType>
 
           <AnalyticType
@@ -162,4 +165,11 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleC
   )
 }
 
-export default AnalyticsToggle
+export default connect(
+  'selectAnalyticsEnabled',
+  'selectAnalyticsConsent',
+  'selectAnalyticsActionsToRecord',
+  'doToggleAnalytics',
+  'doToggleConsent',
+  AnalyticsToggle
+)
