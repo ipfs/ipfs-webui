@@ -1,7 +1,6 @@
 /* global it, expect, beforeEach, afterEach, jest */
 import { composeBundlesRaw } from 'redux-bundler'
 import createAnalyticsBundle from './analytics'
-import sleep from '../../test/helpers/sleep'
 
 beforeEach(() => {
   global.Countly = {
@@ -25,16 +24,24 @@ function createStore (analyticsOpts = {}) {
   )()
 }
 
+it('should disable analytics by default', () => {
+  const store = createStore()
+  expect(store.selectAnalyticsEnabled()).toBe(false)
+  expect(store.selectAnalyticsConsent()).toEqual([])
+})
+
 it('should enable analytics if user has explicitly enabled it', () => {
   const store = createStore()
   store.doEnableAnalytics()
   expect(store.selectAnalyticsEnabled()).toBe(true)
+  expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location'])
 })
 
 it('should disable analytics if user has explicitly disabled it', () => {
   const store = createStore()
   store.doDisableAnalytics()
   expect(store.selectAnalyticsEnabled()).toBe(false)
+  expect(store.selectAnalyticsConsent()).toEqual([])
 })
 
 it('should enable selectAnalyticsAskToEnable if user has not explicity enabled or disabled it', () => {
@@ -60,18 +67,47 @@ it('should disable selectAnalyticsAskToEnable if analytics are enabled', () => {
   expect(store.selectAnalyticsAskToEnable()).toBe(false)
 })
 
-it('should toggle analytics', async (done) => {
+it('should toggle analytics', () => {
   const store = createStore()
-  expect(store.selectAnalyticsEnabled()).toBe(false)
 
   store.doToggleAnalytics()
   expect(store.selectAnalyticsEnabled()).toBe(true)
-
-  // we calc enabled state from time diff between lastEnabledAt and lastDisabledAt, so need a pause
-  await sleep()
+  expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location'])
 
   store.doToggleAnalytics()
   expect(store.selectAnalyticsEnabled()).toBe(false)
+  expect(store.selectAnalyticsConsent()).toEqual([])
+})
 
-  done()
+it('should toggle consent', () => {
+  const store = createStore()
+
+  store.doToggleConsent('crashes')
+  expect(store.selectAnalyticsEnabled()).toBe(true)
+  expect(store.selectAnalyticsConsent()).toEqual(['crashes'])
+
+  store.doToggleAnalytics()
+  expect(store.selectAnalyticsEnabled()).toBe(false)
+  expect(store.selectAnalyticsConsent()).toEqual([])
+
+  store.doToggleAnalytics()
+  expect(store.selectAnalyticsEnabled()).toBe(true)
+  expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location'])
+
+  store.doToggleConsent('sessions')
+  expect(store.selectAnalyticsEnabled()).toBe(true)
+  expect(store.selectAnalyticsConsent()).toEqual(['events', 'views', 'location'])
+
+  store.doToggleConsent('location')
+  expect(store.selectAnalyticsEnabled()).toBe(true)
+  expect(store.selectAnalyticsConsent()).toEqual(['events', 'views'])
+
+  store.doToggleConsent('views')
+  expect(store.selectAnalyticsEnabled()).toBe(true)
+  expect(store.selectAnalyticsConsent()).toEqual(['events'])
+
+  // Removing all consent is equivalent to disabling the analytics.
+  store.doToggleConsent('events')
+  expect(store.selectAnalyticsEnabled()).toBe(false)
+  expect(store.selectAnalyticsConsent()).toEqual([])
 })
