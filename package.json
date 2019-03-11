@@ -6,13 +6,11 @@
     "start": "run-script-os",
     "start:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-scripts start",
     "start:darwin:linux": "cross-env REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-scripts start",
-    "prebuild": "shx cp config/webpack.config.prod.js node_modules/react-scripts/config/",
     "build": "run-script-os",
     "build:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-scripts build",
     "build:darwin:linux": "cross-env REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-scripts build",
     "build:icons": "svgr -d src/icons node_modules/ipfs-css/icons && standard --fix src/icons/*",
-    "lint": "standard",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=node",
     "test:coverage": "react-scripts test --coverage",
     "test:serve": "ecstatic build --cache=0 --port=3001",
     "test:e2e": "react-scripts test --testMatch **/test/e2e/**/*.test.js",
@@ -67,7 +65,7 @@
     "react-loadable": "^5.5.0",
     "react-overlays": "^0.8.3",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.5",
+    "react-scripts": "^2.1.8",
     "react-test-renderer": "^16.4.2",
     "react-virtualized": "^9.20.1",
     "redux-bundler": "^21.2.2",
@@ -80,16 +78,17 @@
     "window.ipfs-fallback": "^1.1.0"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^3.4.10",
-    "@storybook/addon-actions": "^3.4.10",
-    "@storybook/addon-knobs": "^3.4.10",
-    "@storybook/addon-links": "^3.4.10",
-    "@storybook/addons": "^3.4.10",
-    "@storybook/react": "^3.4.10",
+    "@babel/core": "^7.3.4",
+    "@babel/runtime": "^7.3.4",
+    "@storybook/addon-a11y": "^4.1.14",
+    "@storybook/addon-actions": "^4.1.14",
+    "@storybook/addon-knobs": "^4.1.14",
+    "@storybook/addon-links": "^4.1.14",
+    "@storybook/addons": "^4.1.14",
+    "@storybook/react": "^4.1.14",
     "@svgr/cli": "^2.3.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.6",
-    "babel-runtime": "^6.26.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^9.0.0",
     "big.js": "^5.1.2",
     "bundlesize": "^0.17.0",
     "cids": "^0.5.5",
@@ -97,7 +96,6 @@
     "ecstatic": "^3.3.0",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.4.0",
-    "eslint": "^4.19.1",
     "fake-indexeddb": "^2.0.4",
     "ipld-bitcoin": "^0.1.9",
     "ipld-dag-cbor": "^0.13.1",
@@ -108,16 +106,16 @@
     "ipld-zcash": "^0.1.6",
     "multihashing-async": "^0.5.1",
     "npm-run-all": "^4.1.5",
+    "prettier": "^1.16.4",
     "puppeteer": "^1.7.0",
     "run-script-os": "^1.0.3",
     "shx": "^0.3.2",
-    "standard": "^12.0.1",
     "webpack-bundle-analyzer": "^3.0.3"
   },
-  "homepage": "./",
-  "standard": {
-    "parser": "babel-eslint"
+  "eslintConfig": {
+    "extends": "react-app"
   },
+  "homepage": "./",
   "bundlesize": [
     {
       "path": "./build/static/js/*.js",
@@ -127,5 +125,11 @@
       "path": "./build/static/css/*.css",
       "maxSize": "18 kB"
     }
+  ],
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
   ]
 }

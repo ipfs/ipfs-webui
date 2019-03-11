@@ -42,7 +42,7 @@ class FilesPreview extends React.Component {
         return (
           <object width='100%' height='500px' data={src} type='application/pdf'>
             {t('noPDFSupport')}
-            <a href={src} download target='_blank' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
+            <a href={src} download target='_blank' rel='noopener noreferrer' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
           </object>
         )
       case 'video':
@@ -59,7 +59,7 @@ class FilesPreview extends React.Component {
             <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
             <p>
               <Trans i18nKey='downloadInstead'>
-                Try <a href={src} download target='_blank' className='link blue' >downloading</a> it instead.
+                Try <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue' >downloading</a> it instead.
               </Trans>
             </p>
           </div>
