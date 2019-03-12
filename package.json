@@ -6,6 +6,7 @@
     "start": "run-script-os",
     "start:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-scripts start",
     "start:darwin:linux": "cross-env REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-scripts start",
+    "lint": "eslint src/",
     "build": "run-script-os",
     "build:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-scripts build",
     "build:darwin:linux": "cross-env REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-scripts build",
@@ -93,6 +94,11 @@
     "ecstatic": "^3.3.0",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.4.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "fake-indexeddb": "^2.0.4",
     "ipld-bitcoin": "^0.1.9",
     "ipld-dag-cbor": "^0.13.1",
@@ -103,14 +109,10 @@
     "ipld-zcash": "^0.1.6",
     "multihashing-async": "^0.5.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.16.4",
     "puppeteer": "^1.7.0",
     "run-script-os": "^1.0.3",
     "shx": "^0.3.2",
     "webpack-bundle-analyzer": "^3.0.3"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "homepage": "./",
   "bundlesize": [
