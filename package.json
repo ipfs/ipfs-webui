@@ -72,7 +72,6 @@
     "redux-bundler-react": "^1.0.1",
     "tachyons": "^4.11.1",
     "topojson": "^3.0.2",
-    "uglifyjs-webpack-plugin": "^1.3.0",
     "video-extensions": "^1.1.0",
     "window-or-global": "^1.0.1",
     "window.ipfs-fallback": "^1.1.0"
