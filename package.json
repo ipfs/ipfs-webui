@@ -77,12 +77,12 @@
     "window.ipfs-fallback": "^1.1.0"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^4.1.14",
-    "@storybook/addon-actions": "^4.1.14",
-    "@storybook/addon-knobs": "^4.1.14",
-    "@storybook/addon-links": "^4.1.14",
-    "@storybook/addons": "^4.1.14",
-    "@storybook/react": "^4.1.14",
+    "@storybook/addon-a11y": "^5.0.1",
+    "@storybook/addon-actions": "^5.0.1",
+    "@storybook/addon-knobs": "^5.0.1",
+    "@storybook/addon-links": "^5.0.1",
+    "@storybook/addons": "^5.0.1",
+    "@storybook/react": "^5.0.1",
     "@svgr/cli": "^2.3.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
