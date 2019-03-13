@@ -32,8 +32,8 @@
   "AnalyticsToggle": {
     "label": "Help improve this app by sending anonymous usage data",
     "summary": "Configure what is collected",
-    "paragraph1": "Protocol Labs hosts a <1>Countly</1> instance to record anonymous usage data for this app.",
-    "paragraph3": "No CIDs, filenames, or other personal information are collected. We want metrics to show us which features are useful to help us prioritise what to work on next, and system configuration information to guide our testing.",
+    "paragraph1": "No CIDs, filenames, or other personal information are collected. We want metrics to show us which features are useful to help us prioritise what to work on next, and system configuration information to guide our testing.",
+    "paragraph2": "Protocol Labs hosts a <1>Countly</1> instance to record anonymous usage data for this app.",
     "basicInfo": "The following additional information is sent to countly.ipfs.io",
     "optionalInfo": "You can opt-in to send the following information:",
     "sessions": {
