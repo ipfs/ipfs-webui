@@ -6,9 +6,9 @@ const withTour = WrappedComponent => {
   class WithTour extends React.Component {
     handleJoyrideCallback = (data) => {
       const { doDisableTours } = this.props
-      const { status } = data
+      const { action, status } = data
 
-      if ([STATUS.FINISHED].includes(status)) {
+      if (action === 'close' || [STATUS.FINISHED].includes(status)) {
         doDisableTours()
       }
     }
