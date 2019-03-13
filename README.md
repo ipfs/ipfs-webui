@@ -170,10 +170,10 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/releases
 1. Wait for master to [build on CI](https://circleci.com/gh/ipfs-shipyard/ipfs-webui), and grab the CID for the build
 1. Update the hash at:
-   - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L23
+   - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L20
    - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
-   - companion https://github.com/ipfs-shipyard/ipfs-companion/blob/master/package.json#L26
-   - desktop https://github.com/ipfs-shipyard/ipfs-desktop/blob/master/package.json#L15
+   - companion https://github.com/ipfs-shipyard/ipfs-companion/blob/master/add-on/src/lib/state.js#L27
+   - desktop https://github.com/ipfs-shipyard/ipfs-desktop/blob/master/package.json#L17
 
 ## Contribute
 
