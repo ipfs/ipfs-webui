@@ -37,5 +37,11 @@
     "header1": "Échec de connexion à l'API",
     "paragraph1": "<0>Démarrer un démon IPFS dans un terminal:</0>",
     "paragraph2": "<0>Pour plus d'informations sur comment démarré avec IPFS vous pouvez <1> lire le manuel</1>.</0>"
+  },
+  "AskToEnable": {
+    "label": "Help improve this app by sending anonymous usage data.",
+    "yesLabel": "OK",
+    "noLabel": "Non merci",
+    "detailsLabel": "More info"
   }
 }

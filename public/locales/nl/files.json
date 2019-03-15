@@ -12,10 +12,10 @@
   "downloadPDF": "Download PDF.",
   "downloadInstead": "Probeer om het te <1>downloaden</1>als alternatief.",
   "cantBePreviewed": "Sorry, deze file kan niet bekeken worden",
-  "addFile": "Voeg bestand toe",
-  "addFolder": "Voeg map toe",
-  "addByPath": "Voeg pad toe.",
-  "addToIPFS": "Toevoegen aan IPFS",
+  "addFile": "File",
+  "addFolder": "Folder",
+  "addByPath": "From IPFS",
+  "addToIPFS": "Toevoegen",
   "newFolder": "Nieuwe map",
   "actions": {
     "add": "Toevoegen",
@@ -52,8 +52,9 @@
     "descriptionFile": "{count, plural, one {Ben je zeker dat je dit bestand wil verwijderen? Dit is permanent en kan niet ongedaan gemaakt worden.} other {Ben je zeker dat je {count} bestanden wil verwijderen? Dit is permanent en kan niet ongedaan gemaakt worden.}}"
   },
   "addByPathModal": {
-    "title": "Voeg pad toe.",
-    "description": "Specificeer het toe te voegen pad."
+    "title": "Add from IPFS",
+    "description": "Insert an IPFS path (CID) to add.",
+    "examples": "Examples:"
   },
   "newFolderModal": {
     "title": "Nieuwe map",

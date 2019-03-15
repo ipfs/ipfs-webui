@@ -1,0 +1,47 @@
+{
+  "title": "Estado",
+  "peer": "Par",
+  "peers": "Pares",
+  "addresses": "Endereços",
+  "nodeInfo": "Informação do Nó",
+  "peerId": "ID do Par",
+  "gateway": "Gateway",
+  "api": "API",
+  "version": "Versão",
+  "advanced": "Avançado",
+  "publicKey": "Chave Pública",
+  "upSpeed": "Outgoing",
+  "downSpeed": "Incoming",
+  "spaceUsed": "Espaço utilizado",
+  "networkTraffic": "Tráfego de Rede",
+  "bandwidthOverTime": "Largura de banda utilizada",
+  "bandwidthByPeer": "Largura de banda por par",
+  "distributionOfPeers": "Distribuição dos pares",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Par)} other {{percent}% ({count}Pares)}}",
+  "rateIn": "Velocidade de Descarga",
+  "rateOut": "Velocidade de Envio",
+  "totalIn": "Total Descarregado",
+  "totalOut": "Total Enviado",
+  "more": "...e mais{count} pares",
+  "in": "Entrada",
+  "out": "Saída",
+  "codeLink": "Código fonte",
+  "bugsLink": "Reportar um erro",
+  "revision": "Revisão",
+  "StatusConnected": {
+    "header1": "Conectado ao IPFS",
+    "paragraph1": "A hospedar <0>{repoSize}em ficheiros</0>",
+    "paragraph2": "{count, plural, one {Encontrado <0>1 par</0>} other {Encontrados <0>{peersCount}pares</0>}}"
+  },
+  "StatusNotConnected": {
+    "header1": "Não foi possível conectar à API",
+    "paragraph1": "<0>Inicie o IPFS no terminal:</0>",
+    "paragraph2": "<0>Para mais informação sobre como iniciar a sua jornada com o IPFS, pode <1>ler o guia</1>.</0>"
+  },
+  "AskToEnable": {
+    "label": "Help improve this app by sending anonymous usage data.",
+    "yesLabel": "OK",
+    "noLabel": "No thanks",
+    "detailsLabel": "More info"
+  }
+}
