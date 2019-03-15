@@ -17,14 +17,12 @@ const ASYNC_ACTION_STATE_RE = /^(.+)_(STARTED|FINISHED|FAILED)$/
 
 const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612'
 const COUNTLY_KEY_WEBUI_TEST = '700fd825c3b257e021bd9dbc6cbf044d33477531'
-const COUNTLY_KEY_DESKTOP = '47fbb3db3426d2ae32b3b65fe40c564063d8b55d'
-const COUNTLY_KEY_DESKTOP_TEST = '6b00e04fa5370b1ce361d2f24a09c74254eee382'
 
 function pickAppKey () {
   const isProd = process.env.NODE_ENV === 'production'
-  const isDesktop = !!root.ipfsDesktop
-  if (isDesktop) {
-    return isProd ? COUNTLY_KEY_DESKTOP : COUNTLY_KEY_DESKTOP_TEST
+
+  if (root.ipfsDesktop && root.ipfsDesktop.countlyAppKey) {
+    return root.ipfsDesktop.countlyAppKey
   } else {
     return isProd ? COUNTLY_KEY_WEBUI : COUNTLY_KEY_WEBUI_TEST
   }
