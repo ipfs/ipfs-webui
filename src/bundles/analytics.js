@@ -38,7 +38,7 @@ const createAnalyticsBundle = ({
   countlyAppKey = pickAppKey(),
   appVersion = process.env.REACT_APP_VERSION,
   appGitRevision = process.env.REACT_APP_GIT_REV,
-  debug = true
+  debug = false
 }) => {
   return {
     name: 'analytics',
