@@ -12,10 +12,10 @@
   "downloadPDF": "Télécharger le PDF.",
   "downloadInstead": "Essayer <1>de le télécharger</1> à la place.",
   "cantBePreviewed": "Désolé, ce fichier ne peut être prévisualisé",
-  "addFile": "Ajouter un fichier",
-  "addFolder": "Ajouter un répertoire",
-  "addByPath": "Ajouter un chemin",
-  "addToIPFS": "Ajouter à IPFS",
+  "addFile": "Fichier",
+  "addFolder": "Dossier",
+  "addByPath": "De IPFS",
+  "addToIPFS": "Ajouter",
   "newFolder": "Nouveau répertoire",
   "actions": {
     "add": "Ajouter",
@@ -52,8 +52,9 @@
     "descriptionFile": "{count, plural, one {Êtes vous sûre de vouloir supprimer ce fichier? Cette action est irrévocable et ne peut être annulée.} other {Êtes-vous sûr de vouloir supprimer {count} fichiers ? Cette action est permanente et ne peut être annulée.}}"
   },
   "addByPathModal": {
-    "title": "Ajouter un chemin",
-    "description": "Insérer le chemin à ajouter"
+    "title": "Ajouter sur IPFS",
+    "description": "Insérer un chemin IPFS (CID) à ajouter.",
+    "examples": "Exemples:"
   },
   "newFolderModal": {
     "title": "Nouveau dossier",

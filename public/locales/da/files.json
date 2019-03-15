@@ -12,10 +12,10 @@
   "downloadPDF": "Download PDF.",
   "downloadInstead": "Prøv at <1>downloade</1> den i stedet.",
   "cantBePreviewed": "Beklager, denne fil kan ikke forhåndvises.",
-  "addFile": "Tilføj fil",
-  "addFolder": "Tilføj mappe",
-  "addByPath": "Tilføj via sti",
-  "addToIPFS": "Tilføj til IPFS",
+  "addFile": "Fil",
+  "addFolder": "Mappe",
+  "addByPath": "Fra IPFS",
+  "addToIPFS": "Tilføj",
   "newFolder": "Ny mappe",
   "actions": {
     "add": "Tilføj",
@@ -52,8 +52,9 @@
     "descriptionFile": "{count, plural, one {Er du sikker på du ønsker at slette denne file? Denne handling er permanent og kan ikke omgøres.} other {Er du sikker på du ønsker at slette {count} filer? Denne handling er permanent og kan ikke omgøres.}}"
   },
   "addByPathModal": {
-    "title": "Tilføj via sti",
-    "description": "Indsæt stien for at tilføje."
+    "title": "Tilføj fra IPFS",
+    "description": "Indsæt en IPFS sti (CID) for at tilføje.",
+    "examples": "Eksempler:"
   },
   "newFolderModal": {
     "title": "Ny mappe",

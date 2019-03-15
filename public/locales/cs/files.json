@@ -12,10 +12,10 @@
   "downloadPDF": "Stáhnout PDF soubor.",
   "downloadInstead": "Zkuste místo toho to <1>stáhnout</1>.",
   "cantBePreviewed": "Pardón, tento soubor nemůže být zobrazen",
-  "addFile": "Přidat soubor",
-  "addFolder": "Přidat složku",
-  "addByPath": "Přidat podle cesty",
-  "addToIPFS": "Přidat do IPFS",
+  "addFile": "File",
+  "addFolder": "Folder",
+  "addByPath": "From IPFS",
+  "addToIPFS": "Přidat",
   "newFolder": "Nová složka",
   "actions": {
     "add": "Přidat",
@@ -52,8 +52,9 @@
     "descriptionFile": "{count, plural, one {Jste si jistý že chcete smazat tento soubor? Tato akce je nevratná!} few {Jste si jistý že chcete smazat {count} souborů? Tato akce je nevratná!} many {Jste si jistý že chcete smazat {count} souborů? Tato akce je nevratná!} other {Jste si jistý že chcete smazat {count} souborů? Tato akce je nevratná!}}"
   },
   "addByPathModal": {
-    "title": "Přidat podle cesty",
-    "description": "Vložte cestu k přidání."
+    "title": "Add from IPFS",
+    "description": "Insert an IPFS path (CID) to add.",
+    "examples": "Examples:"
   },
   "newFolderModal": {
     "title": "Nová složka",
@@ -69,7 +70,7 @@
     "paragraph6": "<0>Pokud chcete pomoc posunout Web UI dále, <1>mkrněte na jeho kód</1> nebo <3>nahlašte problém</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>No files in this directory. Click the “Add to IPFS” button to add some.</0>"
+    "noFiles": "<0>Žádne soubory v této složce. Pro přidání souboru klikněte na tlačítko \"Přidat do IPFS\".</0>"
   },
   "addFilesInfo": "<0>Přidejte soubory do vašeho IPFS uzlu kliknutím na <1>Přidat do IPFS</1> tlačítko.</0>",
   "companionInfo": "<0>Jelikož používáte <1>IPFS Companion</1>, zobrazené soubory jsou omezeny pouze na ty které jste přidali během používání tohoto rozšíření.</0>"

@@ -37,5 +37,11 @@
     "header1": "Failed to connect to the API",
     "paragraph1": "<0>Start een IPFS daemon in een terminal:</0>",
     "paragraph2": "<0>Lees <1>de handleiding</1> om te starten met IPFS.</0> "
+  },
+  "AskToEnable": {
+    "label": "Help improve this app by sending anonymous usage data.",
+    "yesLabel": "OK",
+    "noLabel": "No thanks",
+    "detailsLabel": "More info"
   }
 }

@@ -8,20 +8,20 @@
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
   "fileName": "Dateiname",
   "size": "Größe",
-  "noPDFSupport": "Dein Browser untersützt keine PDFs. Bitte lade das PDF herunter um es anzusehen",
+  "noPDFSupport": "Dein Browser untersützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen",
   "downloadPDF": "PDF herunterladen.",
   "downloadInstead": "Versuche stattdessen, es <1>herunterzuladen</1>.",
-  "cantBePreviewed": "Entschuldigung, für diese Datei ist keine Vorschau verfügbar",
-  "addFile": "Datei hinzufügen",
-  "addFolder": "Ordner hinzufügen",
-  "addByPath": "Durch den Speicherpfad hinzufügen",
-  "addToIPFS": "Zu IPFS hinzufügen",
+  "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",
+  "addFile": "File",
+  "addFolder": "Folder",
+  "addByPath": "From IPFS",
+  "addToIPFS": "Hinzufügen",
   "newFolder": "Neuer Ordner",
   "actions": {
     "add": "Hinzufügen",
     "delete": "Löschen",
     "rename": "Umbenennen",
-    "download": "Download",
+    "download": "Herunterladen",
     "inspect": "Untersuchen",
     "copyHash": "Hash kopieren",
     "share": "Teilen",
@@ -47,30 +47,31 @@
     "titleItem": "{count, plural, one {Element löschen} other {{count} Elemente löschen}}",
     "titleFolder": "{count, plural, one {Ordner löschen} other {{count} Ordner löschen}}",
     "titleFile": "{count, plural, one {Datei löschen} other {{count} Dateien löschen}}",
-    "descriptionItem": "{count, plural, one {Bist du sicher, dass du dieses Element löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist du sicher, dass du {count} Elemente löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.}}",
-    "descriptionFolder": "{count, plural, one {Bist du sicher, dass du diesen Ordner löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist du sicher, dass du {count} Ordner löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.}}",
-    "descriptionFile": "{count, plural, one {Bist du sicher, dass du dieses Dokument löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist du sicher, dass du {count} Dokumente löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.}}"
+    "descriptionItem": "{count, plural, one {Bist du sicher, dass du dieses Element löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du {count} Elemente löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "descriptionFolder": "{count, plural, one {Bist du sicher, dass du diesen Ordner löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du {count} Ordner löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "descriptionFile": "{count, plural, one {Bist du sicher, dass du dieses Dokument löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du {count} Dokumente löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}"
   },
   "addByPathModal": {
-    "title": "Durch den Pfad hinzufügen",
-    "description": "Gebe den Pfad zum Hinzufügen ein."
+    "title": "Add from IPFS",
+    "description": "Insert an IPFS path (CID) to add.",
+    "examples": "Examples:"
   },
   "newFolderModal": {
     "title": "Neuer Ordner",
-    "description": "Geben den Namen des Ordners ein, den du erstellen möchtest."
+    "description": "Gib den Namen des zu erstellenden Ordners ein."
   },
   "welcomeInfo": {
-    "header": "Willkommen im IPFS Web UI",
-    "paragraph1": "<0><0>Überprüfe den Status</0> deiner Node, ihre Peer ID und Verbindungsinformationen sowie die Netzwerkauslastung und die Anzahl der verbundenen Peers.</0>",
-    "paragraph2": "<0><1>Verwalte Dateien</1> einfach in deinem IPFS repository. Du kannst Dateien per Drag and Drop hinzufügen, sie verschieben und umbenennen, teilen oder herunterladen.</0>",
-    "paragraph3": "<0>Du kannst <1>IPLD Daten erkunden</1>, die der Funktionsweise von IPFS zugrunde liegen.</0>",
-    "paragraph4": "<0>Betrachte alle deine <1>verbundenen Peers</1>, geografisch lokalisiert durch ihre IP Adressen.</0>",
-    "paragraph5": "<0><0>Überprüfe die Einstellungen</0> für deinen IPFS Knoten und aktualisiere sie, sodass sie deinen Anforderungen besser entsprechen.</0>",
-    "paragraph6": "<0>Wenn du helfen möchtest die Weboberfläche weiter zu bringen, <1>schau dir den Quelltext an</1> oder <3>melde einen Fehler</3>!</0>"
+    "header": "Willkommen in der Web-UI des IPFS",
+    "paragraph1": "<0><0>Überprüfe den Status</0> Deines Node, seine Peer-ID und Verbindungsinformationen sowie die Netzwerkauslastung und die Anzahl der verbundenen Peers.</0>",
+    "paragraph2": "<0><1>Verwalte Dateien</1> einfach in Deinem IPFS-Speicher. Du kannst Dateien per Drag-and-Drop hinzufügen, sie verschieben, umbenennen, teilen, herunterladen oder anpinnen.</0>",
+    "paragraph3": "<0>Du kannst <1>IPLD-Daten erkunden</1>, die der Funktionsweise des IPFS zugrunde liegen.</0>",
+    "paragraph4": "<0>Betrachte alle Deine <1>verbundenen Peers</1>, geografisch lokalisiert anhand ihrer IP-Adressen.</0>",
+    "paragraph5": "<0><0>Überprüfe die Einstellungen</0> Deines IPFS-Node und aktualisiere sie, sodass sie Deinen Anforderungen besser entsprechen.</0>",
+    "paragraph6": "<0>Wenn Du helfen möchtest, die Web-UI weiter zu gestalten, <1>schau Dir den Quelltext an</1> oder <3>melde einen Fehler</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>No files in this directory. Click the “Add to IPFS” button to add some.</0>"
+    "noFiles": "<0>In diesem Verzeichnis befinden sich keine Dateien. Klicke auf den “Zum IPFS hinzufügen”-Knopf, um einige hinzuzufügen.</0>"
   },
-  "addFilesInfo": "<0>Füge Dateien zu deinem IPFS Knoten hinzu, indem du oben auf den <1>Zu IPFS hinzufügen</1> Button klickst.</0>",
-  "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht begrenzt auf Dateien, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>"
+  "addFilesInfo": "<0>Füge Dateien zu Deinem IPFS-Node hinzu, indem du oben auf den <1>\"Zum IPFS hinzufügen\"</1>-Knopf klickst.</0>",
+  "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>"
 }
