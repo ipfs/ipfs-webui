@@ -1,16 +1,35 @@
+import root from 'window-or-global'
+
 export default {
   name: 'tours',
 
-  reducer: (state = { enabled: false }, action) => {
+  init: (store) => {
+    const tourTooltip = root.localStorage.getItem('tourTooltip')
+
+    if (tourTooltip) {
+      store.doDisableTooltip()
+    }
+  },
+
+  reducer: (state = { enabled: false, tooltip: true }, action) => {
     if (action.type === 'TOURS_ENABLE') {
-      return { enabled: true }
+      return { ...state, enabled: true }
     }
 
     if (action.type === 'TOURS_DISABLE') {
-      return { enabled: false }
+      return { ...state, enabled: false }
+    }
+
+    if (action.type === 'TOURS_TOOLTIP_DISABLE') {
+      return { ...state, tooltip: false }
     }
 
     return state
+  },
+  
+  doDisableTooltip: () => ({ dispatch }) => {
+    root.localStorage.setItem('tourTooltip', false)
+    dispatch({ type: 'TOURS_TOOLTIP_DISABLE' })
   },
 
   doEnableTours: () => ({ dispatch }) => {
@@ -23,5 +42,7 @@ export default {
 
   selectTours: state => state.tours,
 
-  selectToursEnabled: state => state.tours.enabled
+  selectToursEnabled: state => state.tours.enabled,
+
+  selectShowTooltip: state => state.tours.tooltip
 }

@@ -3,10 +3,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import navHelper from 'internal-nav-helper'
 import { IpldExploreForm } from 'ipld-explorer-components'
+import ReactJoyride from 'react-joyride'
 // React DnD
 import { DragDropContext, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import DnDBackend from './lib/dnd-backend'
+// Lib
+import { appTour } from './lib/tours'
 // Components
 import NavBar from './navigation/NavBar'
 import ComponentLoader from './loader/ComponentLoader'
@@ -46,8 +49,14 @@ export class App extends Component {
     }
   }
 
+  handleJoyrideCb = (data) => {
+    if (data.action === 'close') {
+      this.props.doDisableTooltip()
+    }
+  }
+
   render () {
-    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget, isOver } = this.props
+    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget, isOver, showTooltip } = this.props
 
     return connectDropTarget(
       <div className='sans-serif h-100' onClick={navHelper(this.props.doUpdateUrl)}>
@@ -63,7 +72,7 @@ export class App extends Component {
                 <IpldExploreForm />
               </div>
               <div className='dn flex-ns flex-auto items-center justify-end'>
-                <TourHelper />
+                <TourHelper className='joyride-tour-helper' />
                 <Connected />
               </div>
             </div>
@@ -75,6 +84,15 @@ export class App extends Component {
             </main>
           </div>
         </div>
+
+        <ReactJoyride
+          run={showTooltip}
+          steps={appTour.steps}
+          styles={appTour.styles}
+          callback={this.handleJoyrideCb}
+          scrollToFirstStep
+          disableOverlay />
+
         <Notify />
       </div>
     )
@@ -105,10 +123,12 @@ export default connect(
   'selectRoute',
   'selectNavbarIsOpen',
   'selectRouteInfo',
+  'selectIpfsReady',
+  'selectShowTooltip',
   'doUpdateUrl',
   'doUpdateHash',
   'doInitIpfs',
   'doFilesWrite',
-  'selectIpfsReady',
+  'doDisableTooltip',
   DragDropContext(DnDBackend)(AppWithDropTarget)
 )

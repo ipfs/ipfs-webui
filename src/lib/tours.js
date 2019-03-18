@@ -1,5 +1,27 @@
 import React from 'react'
 
+export const appTour = {
+  steps: [{
+    content: <div className='montserrat white'>
+        <p className='ma0 pa0 tl f6'>Click this button any time for a guided tour on the current page.</p>
+      </div>,
+      placement: 'left',
+      target: '.joyride-tour-helper',
+      disableBeacon: true,
+  }],
+  styles: {
+    tooltipContent: { padding: '0 20px 0 0' },
+    tooltipFooter: { display: 'none' },
+    options: {
+      width: '250px',
+      backgroundColor: 'rgba(105, 196, 205, 0.85)',
+      arrowColor: 'rgba(105, 196, 205, 0.85)',
+      textColor: '#fff',
+      zIndex: 999
+    }
+  }
+}
+
 export const statusTour = {
   steps: [
     {
