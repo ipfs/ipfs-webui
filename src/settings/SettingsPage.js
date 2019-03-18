@@ -19,7 +19,7 @@ export const SettingsPage = ({
   t, tReady,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
-  config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics
+  config, onChange, onReset, onSave, editorKey
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
@@ -35,8 +35,8 @@ export const SettingsPage = ({
       <LanguageSelector t={t} />
 
       <div className='pt4'>
-        <Title>Analytics</Title>
-        <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
+        <Title>{t('analytics')}</Title>
+        <AnalyticsToggle t={t} />
       </div>
     </Box>
 
@@ -223,7 +223,7 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics } = this.props
+    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
@@ -245,9 +245,7 @@ export class SettingsPageContainer extends React.Component {
         onChange={this.onChange}
         onReset={this.onReset}
         onSave={this.onSave}
-        isIpfsDesktop={isIpfsDesktop}
-        analyticsEnabled={analyticsEnabled}
-        doToggleAnalytics={doToggleAnalytics} />
+        isIpfsDesktop={isIpfsDesktop} />
     )
   }
 }
@@ -263,8 +261,6 @@ export default connect(
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
   'selectIsIpfsDesktop',
-  'selectAnalyticsEnabled',
-  'doToggleAnalytics',
   'doSaveConfig',
   TranslatedSettingsPage
 )

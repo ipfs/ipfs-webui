@@ -39,8 +39,9 @@
     "paragraph2": "<0>For more info on how to get started with IPFS you can <1>read the guide</1>.</0>"
   },
   "AskToEnable": {
-    "label": "Help improve this app by sending anonymous usage data",
-    "yesLabel": "Enable",
-    "noLabel": "No thanks"
+    "label": "Help improve this app by sending anonymous usage data.",
+    "yesLabel": "OK",
+    "noLabel": "No thanks",
+    "detailsLabel": "More info"
   }
 }
