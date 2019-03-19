@@ -26,7 +26,7 @@ const ProviderLink = ({ name }) => {
     return <span>{info.name || name}</span>
   }
   return (
-    <a href={info.url} className='link blue' target='_blank'>{info.name || name}</a>
+    <a href={info.url} className='link blue' target='_blank' rel='noopener noreferrer'>{info.name || name}</a>
   )
 }
 

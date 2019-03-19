@@ -47,7 +47,7 @@ const AnalyticType = ({ children, onChange, enabled, label, summary, exampleRequ
           {children}
           {sourceLink && (
             <p>
-              <a href={sourceLink} className='link blue' target='_blank'>View source</a>
+              <a href={sourceLink} className='link blue' target='_blank' rel='noopener noreferrer'>View source</a>
             </p>
           )}
           {exampleRequest && (
