@@ -92,7 +92,7 @@ const createAnalyticsBundle = ({
       const EventMap = new Map()
       return next => action => {
         // Record durations for async actions
-        if (ASYNC_ACTION_RE.test(action.type)) {
+        if (ASYNC_ACTION_RE.test(action.type) && ASYNC_ACTION_STATE_RE.test(action.type)) {
           const [_, name, state] = ASYNC_ACTION_STATE_RE.exec(action.type) // eslint-disable-line no-unused-vars
           if (state === 'STARTED') {
             EventMap.set(name, root.performance.now())
