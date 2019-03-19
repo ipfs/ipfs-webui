@@ -5,5 +5,7 @@
   "windowIpfsRequestFailed": "IPFS request failed. Please check your IPFS Companion settings.",
   "ipfsIsBack": "Normal IPFS service has resumed. Enjoy!",
   "filesEventFailed": "Failed to add files to IPFS. Please try again.",
-  "folderExists": "A folder with that name already exists. Please choose another."
+  "folderExists": "A folder with that name already exists. Please choose another.",
+  "couldntConnectToPeer": "Could not connect to the provided peer.",
+  "connectedToPeer": "Successfully connected to the provided peer."
 }
