@@ -26,7 +26,7 @@ export default {
 
     return state
   },
-  
+
   doDisableTooltip: () => ({ dispatch }) => {
     root.localStorage.setItem('tourTooltip', false)
     dispatch({ type: 'TOURS_TOOLTIP_DISABLE' })
