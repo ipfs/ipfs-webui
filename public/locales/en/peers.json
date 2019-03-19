@@ -4,5 +4,9 @@
   "peers": "Peers",
   "address": "Address",
   "location": "Location",
-  "unknownLocation": "Unknown"
+  "unknownLocation": "Unknown",
+  "addConnection": "Add Connection",
+  "insertPeerAddress": "Insert the peer address you want to connect to.",
+  "add": "Add",
+  "example": "Example:"
 }
