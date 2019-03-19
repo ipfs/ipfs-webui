@@ -6,7 +6,7 @@ export const appTour = {
       <p className='ma0 pa0 tl f6'>Click this button any time for a guided tour on the current page.</p>
     </div>,
     placement: 'left',
-    target: '.joyride-tour-helper',
+    target: '.joyride-app-tour',
     disableBeacon: true
   }],
   styles: {
@@ -35,6 +35,23 @@ export const statusTour = {
     },
     {
       content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>Connection status</h2>
+        <p className='tl f6'>This takes you to a page where you can check if you are connected to an IPFS daemon, and if not, how to connect to one.</p>
+        <p className='tl f6'>You can configure your node to with a custom API address too.</p>
+      </div>,
+      placement: 'left',
+      target: '.joyride-app-status'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>Take a tour</h2>
+        <p className='tl f6'>Click this button to take a tour through the current page's features and highlights.</p>
+      </div>,
+      placement: 'left',
+      target: '.joyride-app-tour'
+    },
+    {
+      content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>Node info</h2>
         <p className='tl f6'>Here you have information about the size of your repo, how many peers are connected,
           your peer ID and the IPFS flavour that's currently in use.
@@ -57,9 +74,17 @@ export const statusTour = {
         <h2 className='f3 fw4'>Network traffic</h2>
         <p className='tl f6'>The speedometers show the current outgoing and incoming traffic.</p>
       </div>,
-      locale: { last: 'Finish' },
       placement: 'left',
       target: '.joyride-status-traffic'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>Explore</h2>
+        <p className='tl f6'>Paste a CID and explore how that data is structured and linked across protocols.</p>
+      </div>,
+      locale: { last: 'Finish' },
+      placement: 'right',
+      target: '.joyride-app-explore'
     }
   ],
   styles: {

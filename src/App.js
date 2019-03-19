@@ -68,12 +68,12 @@ export class App extends Component {
           </div>
           <div className='flex-auto-l'>
             <div className='flex items-center ph3 ph4-l' style={{ height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
-              <div style={{ width: 560 }}>
+              <div className='joyride-app-explore' style={{ width: 560 }}>
                 <IpldExploreForm />
               </div>
               <div className='dn flex-ns flex-auto items-center justify-end'>
-                <TourHelper className='joyride-tour-helper' />
-                <Connected />
+                <TourHelper className='joyride-app-tour' />
+                <Connected className='joyride-app-status' />
               </div>
             </div>
             <main className='bg-white pv3 pa3-ns pa4-l'>
