@@ -6,6 +6,7 @@
   "language": "Language",
   "analytics": "Analytics",
   "config": "IPFS Config",
+  "analytics": "Analytics",
   "languageModal": {
     "title": "Change Language",
     "description": "Pick your preferred language"
@@ -31,18 +32,35 @@
   "downloadCopiedHashDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> to download the last copied hash.",
   "AnalyticsToggle": {
     "label": "Help improve this app by sending anonymous usage data",
-    "summary": "What data is collected?",
-    "paragraph1": "Protocol Labs hosts a <1>Countly</1> instance to record anonymous usage data for this app.",
-    "paragraph2": "The information collected includes:",
-    "item0": "A random, generated device ID",
-    "item1": "Session duration",
-    "item2": "Country code & city from IP address. IP address is discarded",
-    "item3": "Operating system and version",
-    "item4": "Display resolution and density",
-    "item5": "Locale (browser language, e.g German)",
-    "item6": "Browser information",
-    "item7": "Which app sections are visited",
-    "item8": "App errors",
-    "paragraph3": "No CIDs, filenames, or other personal information are collected. We want metrics to show us which features are useful to help us prioritise what to work on next, and system configuration information to guide our testing."
+    "summary": "Configure what is collected",
+    "paragraph1": "No CIDs, filenames, or other personal information are collected. We want metrics to show us which features are useful to help us prioritise what to work on next, and system configuration information to guide our testing.",
+    "paragraph2": "Protocol Labs hosts a <1>Countly</1> instance to record anonymous usage data for this app.",
+    "basicInfo": "The following additional information is sent to countly.ipfs.io",
+    "optionalInfo": "You can opt-in to send the following information:",
+    "sessions": {
+      "label": "Sessions",
+      "summary": "when and how long you use the app, and browser metrics",
+      "details": "<0>The following browser metrics are sent:</0><1><0>A random, generated device ID</0><1>Timestamp when the session starts</1><2>Periodic timestamps to track duration</2><3>App version e.g. 2.4.4</3><4>Locale e.g. en-GB</4><5>User Agent e.g. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ...</5><6>Screen resolution e.g. 800x600</6><7>Screen pixel density e.g. 1</7></1>"
+    },
+    "events": {
+      "label": "Events",
+      "summary": "actions like adding or deleting files, and how long it took",
+      "details": "App specific actions. We record only that the action happened, how long it took from start to finish, and a count if the event involved multiple items."
+    },
+    "views": {
+      "label": "Page views",
+      "summary": "which sections of the app you visit",
+      "details": "Records which sections of the apps are visited. The paths recorded only include the pattern used to match the route rather than the full url. "
+    },
+    "location": {
+      "label": "Location",
+      "summary": "Country code from IP address. IP address is discarded",
+      "details": "Your IP address is used to calculate a Country code for your location, like \"FR\" for France. Where consent is not given to track location, an empty location property is sent with all requests to signal to the server to disable the location look up. This information helps guide our translation effort and figure out where we should put on events."
+    },
+    "crashes": {
+      "label": "App errors",
+      "summary": "JavaScript error messages and stack traces",
+      "details": "Records JavaScript error messages and stack traces that occur while using the app, where possible. It is very helpful to know when the app is not working for you, but <1>error messages may include identifiable information</1> like CIDs or file paths, so only enable this if you are comfortable sharing that information with us."
+    }
   }
 }

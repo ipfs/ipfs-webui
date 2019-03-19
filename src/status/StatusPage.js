@@ -24,7 +24,7 @@ const StatusPage = ({
   handleJoyrideCallback
 }) => {
   return (
-    <div data-id='StatusPage'>
+    <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
         <title>{t('title')} - IPFS</title>
       </Helmet>
@@ -51,6 +51,8 @@ const StatusPage = ({
           label={t('AskToEnable.label')}
           yesLabel={t('AskToEnable.yesLabel')}
           noLabel={t('AskToEnable.noLabel')}
+          detailsLabel={t('AskToEnable.detailsLabel')}
+          detailsLink='#/settings/analytics'
           onYes={doEnableAnalytics}
           onNo={doDisableAnalytics} />
       }

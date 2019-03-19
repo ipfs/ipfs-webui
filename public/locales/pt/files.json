@@ -12,10 +12,10 @@
   "downloadPDF": "Descarregar PDF.",
   "downloadInstead": "Tente <1>descarregar</1>.",
   "cantBePreviewed": "Desculpe, mas este ficheiro não pode ser pré-visualizado.",
-  "addFile": "Adicionar ficheiro",
-  "addFolder": "Adicionar pasta",
-  "addByPath": "Adicionar por caminho",
-  "addToIPFS": "Adicionar ao IPFS",
+  "addFile": "Ficheiro",
+  "addFolder": "Pasta",
+  "addByPath": "Do IPFS",
+  "addToIPFS": "Adicionar",
   "newFolder": "Nova pasta",
   "actions": {
     "add": "Adicionar",
@@ -52,15 +52,16 @@
     "descriptionFile": "{count, plural, one {Tem a certeza de que deseja eliminar este ficheiro? Esta ação é permanente e não pode ser revertida.} other {Tem a certeza de que deseja eliminar {count} ficheiros? Esta ação é permanente e não pode ser revertida.}}"
   },
   "addByPathModal": {
-    "title": "Adicionar por caminho",
-    "description": "Insira o caminho para adicionar."
+    "title": "Adicionar do IPFS",
+    "description": "Insira o caminho IPFS (CID) para adicionar.",
+    "examples": "Exemplos:"
   },
   "newFolderModal": {
     "title": "Nova pasta",
     "description": "Insira o nome da pasta que deseja criar."
   },
   "welcomeInfo": {
-    "header": "Welcome to the IPFS Web UI",
+    "header": "Bem-vindo ao IPFS Web UI",
     "paragraph1": "<0><0>Check the status</0> of your node, it's Peer ID and connection info, the network traffic and the number of connected peers.</0>",
     "paragraph2": "<0>Easily <1>manage files</1> in your IPFS repo. You can drag and drop to add files, move and rename them, delete, share or download them.</0>",
     "paragraph3": "<0>You can <1>explore IPLD data</1> that underpins how IPFS works.</0>",

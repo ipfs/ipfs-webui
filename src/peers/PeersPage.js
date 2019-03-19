@@ -10,12 +10,18 @@ import { peersTour } from '../lib/tours'
 import Box from '../components/box/Box'
 import WorldMap from './WorldMap/WorldMap'
 import PeersTable from './PeersTable/PeersTable'
+import AddConnection from './AddConnection/AddConnection'
 
 const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
   <div data-id='PeersPage'>
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
+
+    <div className='flex justify-end mb3'>
+      <AddConnection />
+    </div>
+
     <Box className='pt3 ph3 pb4'>
       <WorldMap className='joyride-peers-map' />
       <PeersTable className='joyride-peers-table' />

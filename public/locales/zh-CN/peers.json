@@ -1,0 +1,8 @@
+{
+  "title": "节点",
+  "peerId": "节点ID",
+  "peers": "节点",
+  "address": "地址",
+  "location": "位置",
+  "unknownLocation": "未知"
+}

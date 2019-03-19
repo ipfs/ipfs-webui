@@ -23,9 +23,6 @@ import ipfsDesktop from './ipfs-desktop'
 import repoStats from './repo-stats'
 import createAnalyticsBundle from './analytics'
 
-const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612'
-const COUNTLY_KEY_DESKTOP = '47fbb3db3426d2ae32b3b65fe40c564063d8b55d'
-
 export default composeBundles(
   createCacheBundle(bundleCache.set),
   appIdle({ idleTimeout: 5000 }),
@@ -45,13 +42,7 @@ export default composeBundles(
   toursBundle,
   filesBundle(),
   exploreBundle(async () => {
-    const [
-      // IPLD
-      ipld,
-      // IPLD Formats
-      ipldBitcoin, ipldDagCbor, ipldDagPb, ipldGit, ipldRaw, ipldZcash,
-      { ethAccountSnapshot, ethBlock, ethBlockList, ethStateTrie, ethStorageTrie, ethTxTrie, ethTx }
-    ] = await Promise.all([
+    const ipldDeps = await Promise.all([
       import(/* webpackChunkName: "ipld" */ 'ipld'),
       import(/* webpackChunkName: "ipld" */ 'ipld-bitcoin'),
       import(/* webpackChunkName: "ipld" */ 'ipld-dag-cbor'),
@@ -62,12 +53,14 @@ export default composeBundles(
       import(/* webpackChunkName: "ipld" */ 'ipld-ethereum')
     ])
 
+    // CommonJs exports object is .default when imported ESM style
+    const [ipld, ...formats] = ipldDeps.map(mod => mod.default)
+    // ipldEthereum is an Object, each key points to a ipld format impl
+    const ipldEthereum = formats.pop()
+    formats.push(...Object.values(ipldEthereum))
     return {
-      ipld: ipld,
-      formats: [
-        ipldBitcoin, ipldDagCbor, ipldDagPb, ipldGit, ipldRaw, ipldZcash,
-        ethAccountSnapshot, ethBlock, ethBlockList, ethStateTrie, ethStorageTrie, ethTxTrie, ethTx
-      ]
+      ipld,
+      formats
     }
   }),
   configBundle,
@@ -81,9 +74,5 @@ export default composeBundles(
   retryInitBundle,
   ipfsDesktop,
   repoStats,
-  createAnalyticsBundle({
-    countlyAppKey: window.ipfsDesktop ? COUNTLY_KEY_DESKTOP : COUNTLY_KEY_WEBUI,
-    appVersion: process.env.REACT_APP_VERSION,
-    appGitRevision: process.env.REACT_APP_GIT_REV
-  })
+  createAnalyticsBundle({})
 )

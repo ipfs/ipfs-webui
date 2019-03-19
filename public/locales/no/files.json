@@ -12,10 +12,10 @@
   "downloadPDF": "Last ned PDF.",
   "downloadInstead": "Prøv å <1>laste den ned</1> i stedet.",
   "cantBePreviewed": "Beklager, denne filen kan ikke forhåndsvises",
-  "addFile": "Legg til fil",
-  "addFolder": "Legg til mappe",
-  "addByPath": "Legg til ved filbane",
-  "addToIPFS": "Legg til IPFS",
+  "addFile": "Fil",
+  "addFolder": "Mappe",
+  "addByPath": "Fra IPFS",
+  "addToIPFS": "Legg til",
   "newFolder": "Ny mappe",
   "actions": {
     "add": "Legg til",
@@ -52,8 +52,9 @@
     "descriptionFile": "{count, plural, one {Er du sikker på at du vil slette denne filen? Denne handlingen er permanent og kan ikke reverseres.} other {Er du sikker på at du vil slette {count} filer? Denne handlingen er permanent og kan ikke reverseres.}}"
   },
   "addByPathModal": {
-    "title": "Legg til ved filbane",
-    "description": "Sett inn filbane for å legge til."
+    "title": "Legg til fra IPFS",
+    "description": "Legg inn en IPFS-sti (CID) for å legge til.",
+    "examples": "Eksempler:"
   },
   "newFolderModal": {
     "title": "Ny mappe",

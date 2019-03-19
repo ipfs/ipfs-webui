@@ -37,5 +37,11 @@
     "header1": "Kunne ikke koble til API",
     "paragraph1": "<0>Start en IPFS daemon i terminal:</0>",
     "paragraph2": "<0>For mer informasjon om hvordan du kommer i gang med IPFS kan du <1>lese guiden</1>.</0>"
+  },
+  "AskToEnable": {
+    "label": "Help improve this app by sending anonymous usage data.",
+    "yesLabel": "OK",
+    "noLabel": "Nei takk",
+    "detailsLabel": "More info"
   }
 }
