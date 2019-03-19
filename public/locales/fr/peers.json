@@ -4,5 +4,9 @@
   "peers": "Pairs",
   "address": "Adresse",
   "location": "Emplacement",
-  "unknownLocation": "Iconnu"
+  "unknownLocation": "Iconnu",
+  "addConnection": "Ajouter Connexion",
+  "insertPeerAddress": "Indiquer l'adresse du pair auquel vous souhaitez vous connecter",
+  "add": "Ajouter",
+  "example": "Exemple:"
 }

@@ -5,6 +5,7 @@
   "reset": "Réinitialiser",
   "language": "Langue",
   "config": "Config IPFS",
+  "analytics": "Analyses",
   "languageModal": {
     "title": "Changer de Langue",
     "description": "Choisissez votre langue préférée"
@@ -27,5 +28,38 @@
   "autoAddScreenshots": "Ajout auto des captures d'écran",
   "autoAddScreenshotsDescription": "Utilisez la combinaison <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> pour réaliser des captures d'écran et les ajouter au dépôt.",
   "downloadCopiedHash": "Télécharger le hash copié",
-  "downloadCopiedHashDescription": "Utilisez la combinaison <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> pour télécharger le dernier hash copié."
+  "downloadCopiedHashDescription": "Utilisez la combinaison <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> pour télécharger le dernier hash copié.",
+  "AnalyticsToggle": {
+    "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes",
+    "summary": "Configurer ce qui est collecté",
+    "paragraph1": "Aucun CID, nom de fichier ou autre information personnelle n'est collecté. Nous voulons que les métriques nous indiquent les fonctionnalités utiles pour nous aider à définir les priorités sur lesquelles travailler, et les informations de configuration du système pour guider nos tests.",
+    "paragraph2": "Protocol Labs héberge <1>généreusement</1> une instance pour enregistrer les données anonymisées d'usage de cette application.",
+    "basicInfo": "Les informations supplémentaires suivantes sont envoyées à countly.ipfs.io",
+    "optionalInfo": "Vous pouvez choisir d'envoyer les informations suivantes :",
+    "sessions": {
+      "label": "Sessions",
+      "summary": "quand et combien de temps vous utilisez l'application, ainsi que les statistiques du navigateur",
+      "details": "<0>Les statistiques de navigation suivantes sont envoyées :</0><1><0>Un ID d'appareil généré aléatoirement</0><1>Heure de début de la session</1><2>Délais périodiques pour le suivi de la durée</2><3>Version de l'application par ex. 2.4.4.4</3><4>Langue par ex. fr-FR</4><5>User Agent par exemple Mozilla/5.0 (Macintosh ; Intel Mac OS X 10_14_2)...</5><6>Résolution de l'écran par ex. 800x600</6><7>Densité des pixels de l'écran par ex. 1</7></1>"
+    },
+    "events": {
+      "label": "Événements",
+      "summary": "des actions telles que l'ajout ou la suppression de fichiers, et combien de temps cela a pris",
+      "details": "Actions spécifiques à l'application. Nous notons seulement que l'action a eu lieu, combien de temps il a fallu du début à la fin, et un décompte si l'événement comportait plusieurs éléments."
+    },
+    "views": {
+      "label": "Pages consultées",
+      "summary": "les sections de l'application que vous visitez",
+      "details": "Enregistre quelles sections des applications sont visitées. Les chemins enregistrés n'incluent que le modèle utilisé pour correspondre à un chemin plutôt que l'url complète. "
+    },
+    "location": {
+      "label": "Emplacement",
+      "summary": "Indicatif de pays à partir de l'adresse IP. L'adresse IP est effacée.",
+      "details": "Votre adresse IP est utilisée pour calculer un code de pays pour votre localisation, comme \"FR\" pour la France. Lorsque le consentement n'est pas donné pour suivre l'emplacement, une propriété d'emplacement vide est envoyée avec toutes les demandes pour signaler au serveur de désactiver la recherche de l'emplacement. Ces informations nous aident à orienter nos efforts de traduction et à déterminer où nous devrions organiser des événements."
+    },
+    "crashes": {
+      "label": "Erreurs de l'application",
+      "summary": "Messages d'erreur JavaScript et traces d'appels",
+      "details": "Enregistre les messages d'erreur JavaScript et les traces de pile qui se produisent pendant l'utilisation de l'application, si possible. Il est très utile de savoir quand l'application ne fonctionne pas pour vous, mais<1>les messages d'erreur peuvent contenir des informations identifiables</1>comme les CID ou les chemins d'accès aux fichiers, donc n'activez cette option que si vous êtes à l'aise de partager ces informations avec nous."
+    }
+  }
 }
