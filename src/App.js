@@ -4,6 +4,7 @@ import { connect } from 'redux-bundler-react'
 import navHelper from 'internal-nav-helper'
 import { IpldExploreForm } from 'ipld-explorer-components'
 import ReactJoyride from 'react-joyride'
+import { translate } from 'react-i18next'
 // React DnD
 import { DragDropContext, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -56,7 +57,7 @@ export class App extends Component {
   }
 
   render () {
-    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget, isOver, showTooltip } = this.props
+    const { t, route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget, isOver, showTooltip } = this.props
 
     return connectDropTarget(
       <div className='sans-serif h-100' onClick={navHelper(this.props.doUpdateUrl)}>
@@ -87,7 +88,7 @@ export class App extends Component {
 
         <ReactJoyride
           run={showTooltip}
-          steps={appTour.steps}
+          steps={appTour.getSteps({ t })}
           styles={appTour.styles}
           callback={this.handleJoyrideCb}
           scrollToFirstStep
@@ -130,5 +131,5 @@ export default connect(
   'doInitIpfs',
   'doFilesWrite',
   'doDisableTooltip',
-  DragDropContext(DnDBackend)(AppWithDropTarget)
+  translate('app')(DragDropContext(DnDBackend)(AppWithDropTarget))
 )

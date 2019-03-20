@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { translate } from 'react-i18next'
+import { translate, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import ReactJoyride from 'react-joyride'
 import StatusConnected from './StatusConnected'
@@ -69,7 +69,7 @@ const StatusPage = ({
 
       <ReactJoyride
         run={toursEnabled}
-        steps={statusTour.steps}
+        steps={statusTour.getSteps({ t, Trans })}
         styles={statusTour.styles}
         callback={handleJoyrideCallback}
         continuous

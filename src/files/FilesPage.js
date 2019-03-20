@@ -325,7 +325,7 @@ class FilesPage extends React.Component {
 
         <ReactJoyride
           run={toursEnabled}
-          steps={filesTour.steps}
+          steps={filesTour.getSteps({ t, Trans })}
           styles={filesTour.styles}
           callback={handleJoyrideCallback}
           continuous

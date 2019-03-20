@@ -96,7 +96,7 @@ export const SettingsPage = ({
 
     <ReactJoyride
       run={toursEnabled}
-      steps={settingsTour.steps}
+      steps={settingsTour.getSteps({ t, Trans })}
       styles={settingsTour.styles}
       callback={handleJoyrideCallback}
       continuous

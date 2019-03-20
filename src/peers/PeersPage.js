@@ -29,7 +29,7 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
 
     <ReactJoyride
       run={toursEnabled}
-      steps={peersTour.steps}
+      steps={peersTour.getSteps({ t })}
       styles={peersTour.styles}
       callback={handleJoyrideCallback}
       continuous
