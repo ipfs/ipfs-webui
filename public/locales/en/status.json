@@ -56,23 +56,16 @@
       "paragraph2": "You can configure your node to with a custom API address too."
     },
     "step3": {
-      "title": "Take a tour",
-      "paragraph1": "Click this button to take a tour through the current page's features and highlights."
-    },
-    "step4": {
       "title": "Node info",
       "paragraph1": "Here you have information about the size of your repo, how many peers are connected, your peer ID and the IPFS flavour that's currently in use.",
       "paragraph2": "<0>Click on <1>Advanced</1> to see more info such as the gateway URL and addresses.</0>"
     },
+    "step4": {
+      "title": "Network bandwith/traffic",
+      "paragraph1": "This chart shows the network bandwith usage over time.",
+      "paragraph2": "The speedometers show the current outgoing and incoming traffic."
+    },
     "step5": {
-      "title": "Network bandwith",
-      "paragraph1": "This chart shows the network bandwith usage over time."
-    },
-    "step6": {
-      "title": "Network traffic",
-      "paragraph1": "The speedometers show the current outgoing and incoming traffic."
-    },
-    "step7": {
       "title": "Explore",
       "paragraph1": "Paste a CID and explore how that data is structured and linked across protocols."
     }

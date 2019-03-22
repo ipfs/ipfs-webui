@@ -73,7 +73,7 @@ export class App extends Component {
                 <IpldExploreForm />
               </div>
               <div className='dn flex-ns flex-auto items-center justify-end'>
-                <TourHelper className='joyride-app-tour' />
+                <TourHelper />
                 <Connected className='joyride-app-status' />
               </div>
             </div>

@@ -46,15 +46,7 @@ export const statusTour = {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step3.title')}</h2>
         <p className='tl f6'>{t('tour.step3.paragraph1')}</p>
-      </div>,
-      placement: 'left',
-      target: '.joyride-app-tour'
-    },
-    {
-      content: <div className='montserrat charcoal'>
-        <h2 className='f3 fw4'>{t('tour.step4.title')}</h2>
-        <p className='tl f6'>{t('tour.step4.paragraph1')}</p>
-        <Trans i18nKey='tour.step4.paragraph2'>
+        <Trans i18nKey='tour.step3.paragraph2'>
           <p className='tl f6'>Click on <code>Advanced</code> to see more info such as the gateway URL and addresses.</p>
         </Trans>
       </div>,
@@ -63,24 +55,17 @@ export const statusTour = {
     },
     {
       content: <div className='montserrat charcoal'>
-        <h2 className='f3 fw4'>{t('tour.step5.title')}</h2>
-        <p className='tl f6'>{t('tour.step5.paragraph1')}</p>
+        <h2 className='f3 fw4'>{t('tour.step4.title')}</h2>
+        <p className='tl f6'>{t('tour.step4.paragraph1')}</p>
+        <p className='tl f6'>{t('tour.step4.paragraph2')}</p>
       </div>,
       placement: 'top',
-      target: '.joyride-status-bandwith'
+      target: '.joyride-status-charts'
     },
     {
       content: <div className='montserrat charcoal'>
-        <h2 className='f3 fw4'>{t('tour.step6.title')}</h2>
-        <p className='tl f6'>{t('tour.step6.paragraph1')}</p>
-      </div>,
-      placement: 'left',
-      target: '.joyride-status-traffic'
-    },
-    {
-      content: <div className='montserrat charcoal'>
-        <h2 className='f3 fw4'>{t('tour.step7.title')}</h2>
-        <p className='tl f6'>{t('tour.step7.paragraph1')}</p>
+        <h2 className='f3 fw4'>{t('tour.step5.title')}</h2>
+        <p className='tl f6'>{t('tour.step5.paragraph1')}</p>
       </div>,
       locale: { last: 'Finish' },
       placement: 'right',
