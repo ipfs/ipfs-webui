@@ -31,7 +31,6 @@ export async function filesToStreams (files) {
 
     totalSize += file.size
   }
-  console.log('input', { files, streams, totalSize, isDir })
   return { streams, totalSize, isDir }
 }
 
