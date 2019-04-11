@@ -8,11 +8,6 @@ const ignore = [
 ]
 
 export async function filesToStreams (files) {
-  if (files.hasOwnProperty('content')) {
-    // this is a promise
-    return files.content
-  }
-
   const streams = []
   let totalSize = 0
   let isDir = false
@@ -29,14 +24,14 @@ export async function filesToStreams (files) {
     }
 
     streams.push({
-      path: file.webkitRelativePath || file.name,
+      path: file.filepath || file.webkitRelativePath || file.name,
       content: stream,
       size: file.size
     })
 
     totalSize += file.size
   }
-
+  console.log('input', { files, streams, totalSize, isDir })
   return { streams, totalSize, isDir }
 }
 

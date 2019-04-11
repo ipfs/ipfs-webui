@@ -54,6 +54,7 @@ const make = (basename, action) => (...args) => async (args2) => {
       await store.doUpdateHash(`/files${path}`)
     }
   } catch (error) {
+    console.log(error)
     dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error } })
   } finally {
     if (basename !== actions.FETCH) {
@@ -179,28 +180,27 @@ export default (opts = {}) => {
           ]
         }
       } else if (status === 'UPDATED') {
-        const action = state.pending.find(a => a.id === id)
+        const pendingAction = state.pending.find(a => a.id === id)
 
         return {
           ...state,
           pending: [
             ...state.pending.filter(a => a.id !== id),
             {
-              ...action,
+              ...pendingAction,
               data: data
             }
           ]
         }
       } else if (status === 'FAILED') {
-        const action = state.pending.find(a => a.id === id)
-
+        const pendingAction = state.pending.find(a => a.id === id)
         return {
           ...state,
           pending: state.pending.filter(a => a.id !== id),
           failed: [
             ...state.failed,
             {
-              ...action,
+              ...pendingAction,
               end: Date.now(),
               error: data.error
             }
@@ -245,8 +245,9 @@ export default (opts = {}) => {
       }
     },
 
-    doFilesWrite: make(actions.WRITE, async (ipfs, root, rawFiles, id, { dispatch }) => {
-      const { streams, totalSize } = await filesToStreams(rawFiles)
+    doFilesWrite: make(actions.WRITE, async (ipfs, root, filesOrPromise, id, { dispatch }) => {
+      let files = filesOrPromise.then ? await filesOrPromise : filesOrPromise
+      const { streams, totalSize } = await filesToStreams(files)
 
       // Normalise all paths to be relative. Dropped files come as absolute,
       // those added by the file input come as relative paths, so normalise them.
@@ -262,11 +263,17 @@ export default (opts = {}) => {
 
       updateProgress(0)
 
-      const res = await ipfs.add(streams, {
-        pin: false,
-        wrapWithDirectory: false,
-        progress: updateProgress
-      })
+      let res = null
+      try {
+        res = await ipfs.add(streams, {
+          pin: false,
+          wrapWithDirectory: false,
+          progress: updateProgress
+        })
+      } catch (error) {
+        console.error(error)
+        throw error
+      }
 
       const numberOfFiles = streams.length
       const numberOfDirs = countDirs(streams)

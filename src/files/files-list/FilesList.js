@@ -495,10 +495,8 @@ const dropTarget = {
     if (monitor.didDrop()) {
       return
     }
-
-    const item = monitor.getItem()
-
-    onAddFiles(item)
+    const { filesPromise } = monitor.getItem()
+    onAddFiles(filesPromise)
   }
 }
 
