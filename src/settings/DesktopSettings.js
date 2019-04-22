@@ -1,4 +1,5 @@
 import React from 'react'
+import os from 'os'
 import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
 import Box from '../components/box/Box'
@@ -56,6 +57,19 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
             components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
         </p>
       </CheckboxSetting>
+      { os.platform() !== 'win32' &&
+        <CheckboxSetting checked={desktopSettings['ipfsOnPath'] || false}
+          title={t('ipfsCmdTools')}
+          disabled={os.platform() === 'win32'}
+          onChange={() => doDesktopSettingsToggle('ipfsOnPath')}>
+          <p className='mb0 mt1 lh-copy'>
+            <Trans
+              i18nKey='ipfsCmdToolsDescription'
+              defaults='Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line.'
+              components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
+          </p>
+        </CheckboxSetting>
+      }
     </Box>
   )
 }
