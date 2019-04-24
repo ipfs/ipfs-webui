@@ -246,7 +246,7 @@ export default (opts = {}) => {
     },
 
     doFilesWrite: make(actions.WRITE, async (ipfs, root, filesOrPromise, id, { dispatch }) => {
-      let files = filesOrPromise.then ? await filesOrPromise : filesOrPromise
+      let files = await filesOrPromise
       const { streams, totalSize } = await filesToStreams(files)
 
       // Normalise all paths to be relative. Dropped files come as absolute,
