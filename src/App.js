@@ -33,7 +33,7 @@ export class App extends Component {
     this.props.doInitIpfs()
   }
 
-  addFiles = (files) => {
+  addFiles = async (files) => {
     const { doFilesWrite, doUpdateHash, routeInfo } = this.props
 
     // Add the dropped files to the root
@@ -84,10 +84,8 @@ const dropTarget = {
     if (monitor.didDrop()) {
       return
     }
-
-    const item = monitor.getItem()
-
-    App.addFiles(item)
+    const { filesPromise } = monitor.getItem()
+    App.addFiles(filesPromise)
   }
 }
 

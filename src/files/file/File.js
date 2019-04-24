@@ -152,7 +152,7 @@ const dropTarget = {
     const item = monitor.getItem()
 
     if (item.hasOwnProperty('files')) {
-      props.onAddFiles(item, props.path)
+      props.onAddFiles(item.filesPromise, props.path)
     } else {
       const src = item.path
       const dst = join(props.path, basename(item.path))

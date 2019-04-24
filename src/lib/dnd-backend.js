@@ -1,93 +1,40 @@
+import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
 import HTML5Backend from 'react-dnd-html5-backend'
-import fileReader from 'pull-file-reader'
-import { join } from 'path'
 
-const getFileFromEntry = (entry) => new Promise((resolve, reject) => {
-  if (entry.file) {
-    entry.file(resolve, reject)
-  } else {
-    resolve(null)
-  }
-}).catch(() => null)
-
-const getAsEntry = (item) => item.getAsEntry
-  ? item.getAsEntry()
-  : item.webkitGetAsEntry
-    ? item.webkitGetAsEntry()
-    : null
-
-const readEntries = (reader) => new Promise((resolve, reject) => {
-  reader.readEntries(resolve, reject)
-})
-
-async function scanFiles (item, root = '') {
-  if (!item.isDirectory) {
-    const file = await getFileFromEntry(item)
-    const path = item.fullPath
-    return [{
-      path,
-      content: fileReader(file),
-      size: file.size
-    }]
-  }
-
-  let files = []
-  const reader = item.createReader()
-  const entries = await readEntries(reader)
-
-  for (const entry of entries) {
-    files = files.concat(await scanFiles(entry, join(root, item.name)))
-  }
-
-  return files
-}
-
-async function scan (files) {
-  let entries = []
-  let streams = []
-  let totalSize = 0
-
-  for (const file of files) {
-    if (file.getAsEntry || file.webkitGetAsEntry) {
-      entries.push({
-        entry: getAsEntry(file),
-        path: file.name
-      })
-    } else {
-      totalSize += file.size
-
-      streams.push({
-        path: file.webkitRelativePath || file.name,
-        content: fileReader(file),
-        size: file.size
-      })
-    }
-  }
-
-  for (const entry of entries) {
-    const res = await scanFiles(entry.entry, entry.name)
-
-    for (const stream of res) {
-      totalSize += stream.size
-    }
-
-    streams = streams.concat(res)
-  }
-
-  return { streams, totalSize, isDir: false }
-}
-
+// If you drop a dir "foo" which contains "cat.jpg" & "dog.png" we receive a
+// single item in the `event.dataTransfer.items` for the directory.
+//
+// We use 'datatransfer-files-promise' to map the dir tree to a flat list of
+// FileSystemEntry objects, each with a filepath propety, that captures the
+// files relative path within the dir that was dropped.
+//
+// so the "foo" becomes:
+// [
+//  { filepath: 'foo/cat.jpg' name: 'cat.jpg', size: Number },
+//  { filepath: 'foo/dog.png' name: 'dog.png', size: Number }
+// ]
+//
+// Which is a useful shape for passing to ipfs.add, with the caveat that each
+// FileSystemEntry object must be passed to pull-file-reader or similar to
+// convert to a stream style that ipfs.add accepts.
+//
+// ReactDnD doesn't give the calling code access to the `event.dataTransfer.items`
+// so we have to work around it here by plugin a custom drop handler that does
+// the work to map from a dir entry to a flat list of files and then stash it on
+//  a custom `filesPromise` prop on the return object, which we check for in our
+//  dropTarget drop handler functions.
+//
+// See: https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/webkitGetAsEntry
+// See: https://github.com/grabantot/datatransfer-files-promise/blob/72b6cc763f9b400c59197bcc787268965310c260/index.js
 export default (manager) => {
   const backend = HTML5Backend(manager)
   const handler = backend.handleTopDropCapture
-
   backend.handleTopDropCapture = (event) => {
     handler.call(backend, event)
-
     if (backend.currentNativeSource) {
-      backend.currentNativeSource.item.content = scan(event.dataTransfer.items)
+      const filesPromise = getFilesFromDataTransferItems(event.dataTransfer.items)
+      backend.currentNativeSource.item.filesPromise = filesPromise
     }
   }
-
   return backend
 }
