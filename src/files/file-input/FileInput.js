@@ -14,17 +14,12 @@ import ByPathModal from './ByPathModal'
 
 const AddButton = translate('files')(({ progress = null, t, tReady, i18n, lng, ...props }) => {
   const sending = progress !== null
-  const cls = classnames({
-    'bg-grey light-grey': sending,
-    'pointer bg-green white': !sending
-  }, ['f6 relative'])
 
   return (
-    <Button disabled={sending} className={cls} minWidth='120px' {...props}>
+    <Button bg='bg-navy' color='white' disabled={sending} className='f6 relative' minWidth='100px' {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
-        { sending ? `${progress.toFixed(0)}%` : `+ ${t('addToIPFS')}` }
+        { sending ? `${progress.toFixed(0)}%` : (<span><span style={{ color: '#8CDDE6' }}>+</span> {t('addToIPFS')}</span>) }
       </div>&nbsp;
-
       { sending &&
         <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{ width: `${progress}%`, background: 'rgba(0,0,0,0.1)' }} /> }
     </Button>
