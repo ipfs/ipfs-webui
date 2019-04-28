@@ -12,7 +12,6 @@ import filesBundle from './files'
 import configBundle from './config'
 import configSaveBundle from './config-save'
 import navbarBundle from './navbar'
-import statsBundle from './stats'
 import notifyBundle from './notify'
 import connectedBundle from './connected'
 import retryInitBundle from './retry-init'
@@ -37,7 +36,6 @@ export default composeBundles(
   navbarBundle,
   routesBundle,
   redirectsBundle,
-  statsBundle,
   filesBundle(),
   exploreBundle(async () => {
     const ipldDeps = await Promise.all([
