@@ -26,10 +26,18 @@ export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
   ipfsBundle({
     tryWindow: false,
-    ipfsConnectionTest: (ipfs) => {
+    ipfsConnectionTest: async (ipfs) => {
       // ipfs connection is working if can we fetch the bw stats.
       // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
-      return ipfs.stats.bw()
+      try {
+        await ipfs.stats.bw()
+      } catch (err) {
+        if (!/bandwidth reporter disabled in config/.test(err)) {
+          throw err
+        }
+      }
+
+      return true
     }
   }),
   identityBundle,

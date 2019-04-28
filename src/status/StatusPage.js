@@ -10,8 +10,9 @@ import NodeBandwidthChart from './NodeBandwidthChart'
 import NetworkTraffic from './NetworkTraffic'
 import Box from '../components/box/Box'
 import AskToEnable from '../components/ask/AskToEnable'
+import BandwidthStatsDisabled from './BandwidthStatsDisabled'
 
-const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics, doDisableAnalytics }) => {
+const StatusPage = ({ t, nodeBandwidthEnabled, ipfsConnected, analyticsAskToEnable, doEnableAnalytics, doDisableAnalytics }) => {
   return (
     <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
@@ -47,22 +48,28 @@ const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics,
         />
         : null
       }
-      <Box className='mt3 pa3' style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
-        <div className='flex flex-column flex-row-l'>
-          <div className='pr0 pr2-l flex-auto'>
-            <NodeBandwidthChart />
-          </div>
-          <div className='dn db-l pl3 pr5'>
-            <NetworkTraffic />
-          </div>
-        </div>
-      </Box>
+      <div style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
+        { nodeBandwidthEnabled
+          ? <Box className='mt3 pa3'>
+            <div className='flex flex-column flex-row-l'>
+              <div className='pr0 pr2-l flex-auto'>
+                <NodeBandwidthChart />
+              </div>
+              <div className='dn db-l pl3 pr5'>
+                <NetworkTraffic />
+              </div>
+            </div>
+          </Box>
+          : <BandwidthStatsDisabled />
+        }
+      </div>
     </div>
   )
 }
 
 export default connect(
   'selectIpfsConnected',
+  'selectNodeBandwidthEnabled',
   'selectAnalyticsAskToEnable',
   'doEnableAnalytics',
   'doDisableAnalytics',
