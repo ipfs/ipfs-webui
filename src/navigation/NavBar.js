@@ -51,7 +51,7 @@ const NavLink = ({
   )
 }
 
-export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
+export const NavBar = ({ t, width, open, onToggle }) => {
   const codeUrl = 'https://github.com/ipfs-shipyard/ipfs-webui'
   const bugsUrl = `${codeUrl}/issues`
   const gitRevision = process.env.REACT_APP_GIT_REV
@@ -68,7 +68,7 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
           <NavLink to='/files/' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
           <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
           <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
-          <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>{t('settings:title')}</NavLink>
+          <NavLink to='/settings' icon={StrokeSettings} open={open}>{t('settings:title')}</NavLink>
         </nav>
       </div>
       { open &&
@@ -86,12 +86,9 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   )
 }
 
-export const NavBarContainer = ({ doToggleNavbar, configRaw, navbarIsOpen, navbarWidth, ...props }) => {
-  const isSettingsEnabled = !!configRaw.data
-
+export const NavBarContainer = ({ doToggleNavbar, navbarIsOpen, navbarWidth, ...props }) => {
   return (
     <NavBar
-      isSettingsEnabled={isSettingsEnabled}
       open={navbarIsOpen}
       width={navbarWidth}
       onToggle={doToggleNavbar}
@@ -101,7 +98,6 @@ export const NavBarContainer = ({ doToggleNavbar, configRaw, navbarIsOpen, navba
 
 export default connect(
   'doToggleNavbar',
-  'selectConfigRaw',
   'selectNavbarIsOpen',
   'selectNavbarWidth',
   translate()(NavBarContainer)

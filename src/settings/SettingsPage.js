@@ -16,7 +16,7 @@ import Title from './Title'
 const PAUSE_AFTER_SAVE_MS = 3000
 
 export const SettingsPage = ({
-  t, tReady,
+  t, tReady, isIpfsConnected,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
   config, onChange, onReset, onSave, editorKey
@@ -49,6 +49,7 @@ export const SettingsPage = ({
               t={t}
               tReady={tReady}
               config={config}
+              isIpfsConnected={isIpfsConnected}
               isConfigBlocked={isConfigBlocked}
               isLoading={isLoading}
               hasExternalChanges={hasExternalChanges}
@@ -110,11 +111,17 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
   )
 }
 
-const SettingsInfo = ({ t, isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config }) => {
+const SettingsInfo = ({ t, isIpfsConnected, isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config }) => {
   if (isConfigBlocked) {
     return (
       <p className='ma0 lh-copy charcoal f5 mw7'>
         {t('configApiNotAvailable')}
+      </p>
+    )
+  } else if (!isIpfsConnected) {
+    return (
+      <p className='ma0 lh-copy charcoal f5 mw7'>
+        {t('ipfsDaemonOffline')}
       </p>
     )
   } else if (!config) {
@@ -223,7 +230,7 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop } = this.props
+    const { t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
@@ -232,6 +239,7 @@ export class SettingsPageContainer extends React.Component {
       <SettingsPage
         t={t}
         tReady={tReady}
+        isIpfsConnected={ipfsConnected}
         isConfigBlocked={isConfigBlocked}
         isLoading={isLoading}
         isSaving={configIsSaving}
@@ -254,6 +262,7 @@ export const TranslatedSettingsPage = translate('settings')(SettingsPageContaine
 
 export default connect(
   'selectConfig',
+  'selectIpfsConnected',
   'selectIsConfigBlocked',
   'selectConfigLastError',
   'selectConfigIsLoading',

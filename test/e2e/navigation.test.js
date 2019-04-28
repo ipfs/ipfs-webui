@@ -13,10 +13,6 @@ it('Navigation test: node not running', async () => {
   const page = (await browser.pages())[0]
   await page.goto(appUrl)
   await page.waitForFunction(`document.title === 'Welcome to IPFS'`, { timeout: 8000 })
-
-  // No settings tab if IPFS is not available.
-  const settingsLink = await page.$('nav a[href="#/settings"]')
-  expect(settingsLink).toBeNull()
 }, ms.minutes(1))
 
 it('Navigation test: node running', async () => {
