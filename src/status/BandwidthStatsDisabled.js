@@ -12,7 +12,8 @@ const StatusNotConnected = ({ t }) => {
         <Trans i18nKey='bandwidthStatsDisabled'>
           You have the bandwidth metrics disabled. You can enable them by typing the command bellow
           or changing the key <code>Swarm.DisableBandwidthMetrics</code> to <code>false</code> on
-          <a className='link blue' href='#/settings'>Settings</a>.
+          <a className='link blue' href='#/settings'>Settings</a>. Then, you need to restart the IPFS
+          daemon to apply the changes.
         </Trans>
       </p>
 
