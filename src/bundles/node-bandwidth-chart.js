@@ -35,16 +35,18 @@ export default function (opts) {
     },
 
     reactUpdateNodeBandwidthChartData: createSelector(
-      'selectNodeBandwidthRaw',
+      'selectNodeBandwidth',
+      'selectNodeBandwidthLastSuccess',
+      'selectNodeBandwidthEnabled',
       'selectNodeBandwidthChartData',
-      (bwRaw, chartData) => {
-        if (!bwRaw.data) return
+      (bw, lastSuccess, enabled, chartData) => {
+        if (!bw || !enabled) return
 
         // Only tests for .in because it has the same timestamps as .out
-        if (!chartData.in.length || bwRaw.lastSuccess > chartData.in[chartData.in.length - 1].x) {
+        if (!chartData.in.length || lastSuccess > chartData.in[chartData.in.length - 1].x) {
           return {
             actionCreator: 'doUpdateNodeBandwidthChartData',
-            args: [bwRaw.data, bwRaw.lastSuccess, chartData]
+            args: [bw, lastSuccess, chartData]
           }
         }
       }

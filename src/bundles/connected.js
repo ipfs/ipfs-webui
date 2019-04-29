@@ -16,8 +16,8 @@ const connected = {
 
   selectIpfsConnected: createSelector(
     'selectIpfsReady',
-    'selectStatsLastSuccess',
-    'selectStatsLastError',
+    'selectNodeBandwidthLastSuccess',
+    'selectNodeBandwidthLastError',
     (ipfsReady, lastSuccess, lastError) => ipfsReady && lastSuccess && lastSuccess > lastError
   )
 }

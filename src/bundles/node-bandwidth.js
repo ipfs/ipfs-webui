@@ -4,11 +4,27 @@ import ms from 'milliseconds'
 const bundle = createAsyncResourceBundle({
   name: 'nodeBandwidth',
   actionBaseType: 'NODE_BANDWIDTH',
-  getPromise: ({ getIpfs }) => getIpfs().stats.bw(),
-  staleAfter: ms.seconds(10),
+  getPromise: async ({ getIpfs }) => {
+    try {
+      const stats = await getIpfs().stats.bw()
+      return stats
+    } catch (err) {
+      if (/bandwidth reporter disabled in config/.test(err)) {
+        return { disabled: true }
+      }
+
+      throw err
+    }
+  },
+  staleAfter: ms.seconds(3),
+  retryAfter: ms.seconds(3),
   persist: false,
   checkIfOnline: false
 })
+
+bundle.selectNodeBandwidthEnabled = state => state.nodeBandwidth.data ? !state.nodeBandwidth.data.disabled : false
+
+bundle.selectNodeBandwidthLastSuccess = state => state.nodeBandwidth.lastSuccess
 
 // Update the node bandwidth if it is stale (appTime - lastSuccess > staleAfter)
 bundle.reactNodeBandwidthFetchWhenIdle = createSelector(

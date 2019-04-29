@@ -17,9 +17,10 @@ class NetworkTraffic extends React.Component {
   }
 
   componentDidUpdate (_, prevState) {
-    const { stats } = this.props
-    const down = stats ? parseInt(stats.bw.rateIn.toFixed(0), 10) : 0
-    const up = stats ? parseInt(stats.bw.rateOut.toFixed(0), 10) : 0
+    const { nodeBandwidth } = this.props
+
+    const down = nodeBandwidth ? parseInt(nodeBandwidth.rateIn.toFixed(0), 10) : 0
+    const up = nodeBandwidth ? parseInt(nodeBandwidth.rateOut.toFixed(0), 10) : 0
 
     if (down !== prevState.downSpeed.filled || up !== prevState.upSpeed.filled) {
       this.setState({
@@ -62,6 +63,6 @@ class NetworkTraffic extends React.Component {
 }
 
 export default connect(
-  'selectStats',
+  'selectNodeBandwidth',
   translate('status')(NetworkTraffic)
 )
