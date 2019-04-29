@@ -25,7 +25,7 @@ export default {
     'selectIpfsInitFailed',
     'selectHash',
     (failed, hash) => {
-      if (failed && hash !== '/welcome') {
+      if (failed && hash !== '/welcome' && !hash.startsWith('/settings')) {
         return { actionCreator: 'doUpdateHash', args: ['#/welcome'] }
       }
     }
