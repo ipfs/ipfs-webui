@@ -231,31 +231,34 @@ class FilesPage extends React.Component {
               <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
 
               { files.type === 'directory'
-                ? <div className='ml-auto flex items-center'>
-                  <Button
-                    className='mr3 f6 pointer'
-                    color='charcoal-muted'
-                    bg='bg-transparent'
-                    onClick={() => this.showNewFolderModal()}>
-                    <FolderIcon viewBox='10 15 80 80' height='20px' className='fill-charcoal-muted w2 v-mid' />
-                    <span className='fw3'>{t('newFolder')}</span>
-                  </Button>
-                  <FileInput
-                    onAddFiles={this.add}
-                    onAddByPath={this.addByPath}
-                    addProgress={writeFilesProgress} />
-                </div>
-                : <div className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
-                  <ContextMenu
-                    handleClick={this.handleContextMenuClick}
-                    isOpen={this.state.isContextMenuOpen}
-                    onShare={() => this.showShareModal(files.extra)}
-                    onDelete={() => this.showDeleteModal(files.extra)}
-                    onRename={() => this.showRenameModal(files.extra)}
-                    onInspect={() => this.inspect(files.extra)}
-                    onDownload={() => this.download(files.extra)}
-                    hash={files.stats.hash} />
-                </div> }
+                ? (
+                  <div className='ml-auto flex items-center'>
+                    <Button
+                      className='mr3 f6 pointer'
+                      color='charcoal-muted'
+                      bg='bg-transparent'
+                      onClick={() => this.showNewFolderModal()}>
+                      <FolderIcon viewBox='10 15 80 80' height='20px' className='fill-charcoal-muted w2 v-mid' />
+                      <span className='fw3'>{t('newFolder')}</span>
+                    </Button>
+                    <FileInput
+                      onAddFiles={this.add}
+                      onAddByPath={this.addByPath}
+                      addProgress={writeFilesProgress} />
+                  </div>
+                ) : (
+                  <div className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
+                    <ContextMenu
+                      handleClick={this.handleContextMenuClick}
+                      isOpen={this.state.isContextMenuOpen}
+                      onShare={() => this.showShareModal(files.extra)}
+                      onDelete={() => this.showDeleteModal(files.extra)}
+                      onRename={() => this.showRenameModal(files.extra)}
+                      onInspect={() => this.inspect(files.extra)}
+                      onDownload={() => this.download(files.extra)}
+                      hash={files.stats.hash} />
+                  </div>
+                )}
             </div>
 
             { isRoot && isCompanion && <CompanionInfo /> }

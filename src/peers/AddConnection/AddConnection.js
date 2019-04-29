@@ -43,7 +43,9 @@ class AddConnection extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.toggleModal} minWidth='160px' className='pointer bg-green white f6'>+ {t('addConnection')}</Button>
+        <Button onClick={this.toggleModal} className='f6 ph3' bg='bg-navy' color='white'>
+          <span style={{ color: '#8CDDE6' }}>+</span> {t('addConnection')}
+        </Button>
 
         <Overlay show={open} onLeave={this.toggleModal}>
           <TextInputModal
