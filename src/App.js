@@ -35,12 +35,11 @@ export class App extends Component {
 
   addFiles = async (files) => {
     const { doFilesWrite, doUpdateHash, routeInfo } = this.props
-
-    // Add the dropped files to the root
-    doFilesWrite('/', files)
-
+    const isFilesPage = routeInfo.pattern === '/files*'
+    const addAtPath = isFilesPage ? routeInfo.params.path : '/'
+    doFilesWrite(addAtPath, files)
     // Change to the files pages if the user is not there
-    if (!routeInfo.url.startsWith('/files')) {
+    if (!isFilesPage) {
       doUpdateHash('/files')
     }
   }
