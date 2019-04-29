@@ -30,7 +30,7 @@ const NavLink = ({
   const anchorClass = classnames({
     'bg-white-10': active,
     'o-50 no-pointer-events': disabled
-  }, ['dib db-l pv3 white no-underline focus-outline f5 hover-bg-white-10 tc'])
+  }, ['dib db-l pv3 white no-underline f5 hover-bg-white-10 tc'])
   const svgClass = classnames({
     'o-100': active,
     'o-50': !active
@@ -38,7 +38,7 @@ const NavLink = ({
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <a href={disabled ? null : href} className={anchorClass} role='menuitem' title={children}>
+    <a href={disabled ? null : href} className={anchorClass} style={{ borderLeft: active ? '5px solid rgba(201, 210, 215, .4)' : '' }} role='menuitem' title={children}>
       <span className={`dib ${open ? 'dt-l' : ''}`}>
         <span className={`dib dtc-l v-mid ${open ? 'pl3 pl5-l' : 'ph3'}`} style={{ width: 50 }}>
           <Svg width='50' className={svgClass} />
