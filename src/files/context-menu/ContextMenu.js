@@ -13,6 +13,7 @@ import StrokeDownload from '../../icons/StrokeDownload'
 
 class ContextMenu extends React.Component {
   static propTypes = {
+    isMFS: PropTypes.bool,
     isOpen: PropTypes.bool,
     isUpperDir: PropTypes.bool,
     handleClick: PropTypes.func,
@@ -32,6 +33,7 @@ class ContextMenu extends React.Component {
   }
 
   static defaultProps = {
+    isMFS: false,
     isOpen: false,
     isUpperDir: false,
     top: 0,
@@ -53,7 +55,11 @@ class ContextMenu extends React.Component {
   }
 
   render () {
-    const { t, onRename, onDelete, onDownload, onInspect, onShare, translateX, translateY, className, showDots, isUpperDir } = this.props
+    const {
+      t, onRename, onDelete, onDownload, onInspect, onShare,
+      translateX, translateY, className, showDots,
+      isUpperDir, isMFS
+    } = this.props
 
     return (
       <Dropdown className={className}>
@@ -66,13 +72,13 @@ class ContextMenu extends React.Component {
           translateY={-translateY}
           open={this.props.isOpen}
           onDismiss={this.props.handleClick}>
-          { !isUpperDir && onDelete &&
+          { !isUpperDir && isMFS && onDelete &&
             <Option onClick={this.wrap('onDelete')}>
               <StrokeTrash className='w2 mr2 fill-aqua' />
               {t('actions.delete')}
             </Option>
           }
-          { !isUpperDir && onRename &&
+          { !isUpperDir && isMFS && onRename &&
             <Option onClick={this.wrap('onRename')}>
               <StrokePencil className='w2 mr2 fill-aqua' />
               {t('actions.rename')}
@@ -90,6 +96,9 @@ class ContextMenu extends React.Component {
               {t('actions.inspect')}
             </Option>
           }
+          { /* !isMFS && !isUpperDir &&
+            TODO: send to MFS
+          */ }
           <CopyToClipboard text={this.props.hash} onCopy={this.props.handleClick}>
             <Option>
               <StrokeCopy className='w2 mr2 fill-aqua' />

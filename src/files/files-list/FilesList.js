@@ -28,6 +28,7 @@ export class FilesList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
+    isMFS: PropTypes.bool.isRequired,
     upperDir: PropTypes.object,
     sort: PropTypes.shape({
       by: PropTypes.string.isRequired,
@@ -122,6 +123,7 @@ export class FilesList extends React.Component {
   }
 
   get contextMenu () {
+    const { isMFS } = this.props
     const { contextMenu } = this.state
     const isUpperDir = contextMenu.currentFile && contextMenu.currentFile.type === 'directory' && contextMenu.currentFile.name === '..'
 
@@ -135,6 +137,7 @@ export class FilesList extends React.Component {
           handleClick={this.handleContextMenuClick}
           isUpperDir={isUpperDir}
           showDots={false}
+          isMFS={isMFS}
           onShare={() => this.props.onShare([contextMenu.currentFile])}
           onDelete={() => this.props.onDelete([contextMenu.currentFile])}
           onRename={() => this.props.onRename([contextMenu.currentFile])}

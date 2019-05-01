@@ -65,33 +65,67 @@ const make = (basename, action) => (...args) => async (args2) => {
   return data
 }
 
+async function pathToStat (path, ipfs) {
+  if (path.startsWith('/mfs')) {
+    return path.substr(4) || '/'
+  } else if (path.startsWith('/ipns')) {
+    return ipfs.name.resolve(path)
+  }
+
+  return path
+}
+
+const getPins = async (ipfs) => {
+  const raw = await ipfs.pin.ls({ type: 'recursive' })
+  const promises = raw.map(({ hash }) => ipfs.files.stat(`/ipfs/${hash}`))
+  const stats = await Promise.all(promises)
+
+  return stats.map(item => ({
+    ...item,
+    name: item.hash,
+    path: `/ipfs/${item.hash}`
+  }))
+}
+
 const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   const path = store.selectFilesPathFromHash()
-  const stats = await ipfs.files.stat(path)
+  const toStat = await pathToStat(path, ipfs)
+  console.log('FETCHING')
+
+  if (path === '/') {
+    const pins = await getPins(ipfs)
+
+    return {
+      path: '/',
+      fetched: Date.now(),
+      type: 'directory',
+      content: [
+        ...pins,
+        {
+          ...await ipfs.files.stat('/'),
+          path: '/mfs',
+          name: 'Mutable File System'
+        }
+      ]
+    }
+  }
+
+  const stats = await ipfs.files.stat(toStat)
 
   if (stats.type === 'file') {
     stats.name = path
 
     return {
+      ...stats,
+      name: path.split('/').pop(),
       path: path,
       fetched: Date.now(),
-      type: 'file',
-      stats: stats,
-      read: () => ipfs.files.read(path),
-      // TODO - This will be refactored in the future
-      // I'm adding this here to make the file actions work in preview mode
-      extra: [{
-        name: path.split('/').pop(),
-        path: path,
-        type: 'file',
-        size: stats.size,
-        hash: stats.hash
-      }]
+      read: () => ipfs.cat(stats.hash)
     }
   }
 
   // Otherwise get the directory info
-  const res = await ipfs.files.ls(path, { l: true }) || []
+  const res = await ipfs.ls(stats.hash) || []
   const files = []
   const showStats = res.length < 100
 
@@ -105,24 +139,26 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
     if (showStats && file.type === 'directory') {
       file = {
         ...file,
-        ...await ipfs.files.stat(file.path)
+        ...await ipfs.files.stat(`/ipfs/${file.hash}`)
       }
     }
 
     files.push(file)
   }
 
-  const upperPath = dirname(path)
+  /* const upperPath = dirname(path)
   const upper = path === '/' ? null : await ipfs.files.stat(upperPath)
   if (upper) {
     upper.path = upperPath
-  }
+  } */
+
+  console.log(files)
 
   return {
     path: path,
     fetched: Date.now(),
     type: 'directory',
-    upper: upper,
+    // upper: upper,
     content: files
   }
 })
@@ -405,6 +441,13 @@ export default (opts = {}) => {
         if (!routeInfo.url.startsWith(opts.baseUrl)) return
         if (!routeInfo.params.path) return
         return decodeURIComponent(routeInfo.params.path)
+      }
+    ),
+
+    selectFilesIsMFS: createSelector(
+      'selectFilesPathFromHash',
+      (path) => {
+        return path ? path.startsWith('/mfs') : false
       }
     )
   }

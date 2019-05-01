@@ -83,7 +83,7 @@ class FilesPage extends React.Component {
   componentDidUpdate (prev) {
     const { filesPathFromHash } = this.props
 
-    if (prev.files === null || filesPathFromHash !== prev.filesPathFromHash) {
+    if (prev.files === null || !prev.ipfsConnected || filesPathFromHash !== prev.filesPathFromHash) {
       this.props.doFilesFetch()
     }
   }
@@ -210,7 +210,8 @@ class FilesPage extends React.Component {
   render () {
     const {
       ipfsProvider, files, writeFilesProgress, filesSorting: sort, t,
-      doFilesMove, doFilesNavigateTo, doFilesUpdateSorting
+      doFilesMove, doFilesNavigateTo, doFilesUpdateSorting,
+      filesIsMFS
     } = this.props
 
     const { newFolder, share, rename, delete: deleteModal } = this.state
@@ -251,12 +252,13 @@ class FilesPage extends React.Component {
                     <ContextMenu
                       handleClick={this.handleContextMenuClick}
                       isOpen={this.state.isContextMenuOpen}
+                      isMFS={filesIsMFS}
                       onShare={() => this.showShareModal(files.extra)}
                       onDelete={() => this.showDeleteModal(files.extra)}
                       onRename={() => this.showRenameModal(files.extra)}
                       onInspect={() => this.inspect(files.extra)}
                       onDownload={() => this.download(files.extra)}
-                      hash={files.stats.hash} />
+                      hash={files.hash} />
                   </div>
                 )}
             </div>
@@ -276,6 +278,7 @@ class FilesPage extends React.Component {
                 files={files.content}
                 upperDir={files.upper}
                 downloadProgress={this.state.downloadProgress}
+                isMFS={filesIsMFS}
                 onShare={this.showShareModal}
                 onInspect={this.inspect}
                 onDownload={this.download}
@@ -284,7 +287,7 @@ class FilesPage extends React.Component {
                 onDelete={this.showDeleteModal}
                 onNavigate={doFilesNavigateTo}
                 onMove={doFilesMove} />
-              : <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} /> }
+                : <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} /> }
           </div>
         }
 
@@ -376,6 +379,7 @@ const WelcomeInfo = ({ t }) => (
 )
 
 export default connect(
+  'selectIpfsConnected',
   'selectIpfsProvider',
   'doUpdateHash',
   'doFilesDelete',
@@ -392,6 +396,7 @@ export default connect(
   'selectGatewayUrl',
   'selectWriteFilesProgress',
   'selectFilesPathFromHash',
+  'selectFilesIsMFS',
   'selectFilesSorting',
   translate('files')(FilesPage)
 )
