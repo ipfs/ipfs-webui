@@ -48,6 +48,7 @@ const defaultState = {
 
 class FilesPage extends React.Component {
   static propTypes = {
+    ipfsConnected: PropTypes.bool,
     ipfsProvider: PropTypes.string,
     files: PropTypes.object,
     filesErrors: PropTypes.array,
@@ -83,7 +84,7 @@ class FilesPage extends React.Component {
   componentDidUpdate (prev) {
     const { filesPathFromHash } = this.props
 
-    if (prev.files === null || filesPathFromHash !== prev.filesPathFromHash) {
+    if (prev.files === null || !prev.ipfsConnected || filesPathFromHash !== prev.filesPathFromHash) {
       this.props.doFilesFetch()
     }
   }
@@ -377,6 +378,7 @@ const WelcomeInfo = ({ t }) => (
 
 export default connect(
   'selectIpfsProvider',
+  'selectIpfsConnected',
   'doUpdateHash',
   'doFilesDelete',
   'doFilesMove',
