@@ -6,19 +6,14 @@ import { connect } from 'redux-bundler-react'
 import downloadFile from './download-file'
 import { translate } from 'react-i18next'
 // Components
-import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
-import FileInput from './file-input/FileInput'
 import ContextMenu from './context-menu/ContextMenu'
-import Button from '../components/button/Button'
 import AddFilesInfo from './info-boxes/AddFilesInfo'
 import CompanionInfo from './info-boxes/CompanionInfo'
 import WelcomeInfo from './info-boxes/WelcomeInfo'
 import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME } from './modals/Modals'
-// Icons
-import GlyphDots from '../icons/GlyphDots'
-import FolderIcon from '../icons/StrokeFolder'
+import Header from './header/Header'
 
 const defaultState = {
   downloadAbort: null,
@@ -48,7 +43,6 @@ class FilesPage extends React.Component {
     filesErrors: PropTypes.array,
     filesPathFromHash: PropTypes.string,
     filesSorting: PropTypes.object.isRequired,
-    writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesDelete: PropTypes.func.isRequired,
@@ -170,14 +164,9 @@ class FilesPage extends React.Component {
     })
   }
 
-  handleSingleClick = (ev) => {
-    const dotsPosition = this.dotsWrapper.getBoundingClientRect()
-    this.handleContextMenu(ev, 'LEFT', this.props.files, dotsPosition)
-  }
-
   render () {
     const {
-      ipfsProvider, files, writeFilesProgress, filesSorting: sort, t,
+      ipfsProvider, files, filesSorting: sort, t,
       doFilesMove, doFilesNavigateTo, doFilesUpdateSorting
     } = this.props
 
@@ -210,31 +199,10 @@ class FilesPage extends React.Component {
 
         { files &&
           <div>
-            <div className='flex flex-wrap items-center mb3'>
-              <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
-
-              { files.type === 'directory'
-                ? (
-                  <div className='ml-auto flex items-center'>
-                    <Button
-                      className='mr3 f6 pointer'
-                      color='charcoal-muted'
-                      bg='bg-transparent'
-                      onClick={() => this.showNewFolderModal()}>
-                      <FolderIcon viewBox='10 15 80 80' height='20px' className='fill-charcoal-muted w2 v-mid' />
-                      <span className='fw3'>{t('newFolder')}</span>
-                    </Button>
-                    <FileInput
-                      onAddFiles={this.add}
-                      onAddByPath={this.addByPath}
-                      addProgress={writeFilesProgress} />
-                  </div>
-                ) : (
-                  <div ref={el => { this.dotsWrapper = el }} className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
-                    <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleSingleClick} />
-                  </div>
-                )}
-            </div>
+            <Header onAdd={this.add}
+              onAddByPath={this.addByPath}
+              onNewFolder={this.showNewFolderModal}
+              handleContextMenu={this.handleContextMenu} />
 
             { isRoot && isCompanion && <CompanionInfo /> }
 
@@ -278,14 +246,12 @@ export default connect(
   'doFilesWrite',
   'doFilesAddPath',
   'doFilesDownloadLink',
-  'doFilesShareLink',
   'doFilesMakeDir',
   'doFilesFetch',
   'doFilesNavigateTo',
   'doFilesUpdateSorting',
   'selectFiles',
   'selectGatewayUrl',
-  'selectWriteFilesProgress',
   'selectFilesPathFromHash',
   'selectFilesSorting',
   translate('files')(FilesPage)
