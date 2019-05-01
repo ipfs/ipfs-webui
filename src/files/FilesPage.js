@@ -177,12 +177,12 @@ class FilesPage extends React.Component {
                     <ContextMenu
                       handleClick={this.handleContextMenuClick}
                       isOpen={this.state.isContextMenuOpen}
-                      onShare={() => this.showShareModal(files.extra)}
-                      onDelete={() => this.showDeleteModal(files.extra)}
-                      onRename={() => this.showRenameModal(files.extra)}
-                      onInspect={() => this.inspect(files.extra)}
-                      onDownload={() => this.download(files.extra)}
-                      hash={files.stats.hash} />
+                      onShare={() => this.showShareModal([files])}
+                      onDelete={() => this.showDeleteModal([files])}
+                      onRename={() => this.showRenameModal([files])}
+                      onInspect={() => this.inspect([files])}
+                      onDownload={() => this.download([files])}
+                      hash={files.hash} />
                   </div>
                 )}
             </div>

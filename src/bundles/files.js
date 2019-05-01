@@ -70,23 +70,14 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   const stats = await ipfs.files.stat(path)
 
   if (stats.type === 'file') {
-    stats.name = path
-
     return {
       path: path,
       fetched: Date.now(),
       type: 'file',
-      stats: stats,
       read: () => ipfs.files.read(path),
-      // TODO - This will be refactored in the future
-      // I'm adding this here to make the file actions work in preview mode
-      extra: [{
-        name: path.split('/').pop(),
-        path: path,
-        type: 'file',
-        size: stats.size,
-        hash: stats.hash
-      }]
+      name: path.split('/').pop(),
+      size: stats.size,
+      hash: stats.hash
     }
   }
 
