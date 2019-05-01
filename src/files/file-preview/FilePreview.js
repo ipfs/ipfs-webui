@@ -7,7 +7,9 @@ import ComponentLoader from '../../loader/ComponentLoader.js'
 
 class FilesPreview extends React.Component {
   static propTypes = {
-    stats: PropTypes.object.isRequired,
+    hash: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired,
     gatewayUrl: PropTypes.string.isRequired,
     read: PropTypes.func.isRequired,
     content: PropTypes.object,
@@ -25,10 +27,10 @@ class FilesPreview extends React.Component {
   }
 
   render () {
-    const { t, stats, gatewayUrl } = this.props
+    const { t, name, size, hash, gatewayUrl } = this.props
 
-    const type = typeFromExt(stats.name)
-    const src = `${gatewayUrl}/ipfs/${stats.hash}`
+    const type = typeFromExt(name)
+    const src = `${gatewayUrl}/ipfs/${hash}`
     const className = 'mw-100 mt3 bg-snow-muted pa2 br2'
 
     switch (type) {
@@ -52,7 +54,7 @@ class FilesPreview extends React.Component {
           </video>
         )
       case 'image':
-        return <img className={className} alt={stats.name} src={src} />
+        return <img className={className} alt={name} src={src} />
       default:
         const cantPreview = (
           <div className='mt4'>
@@ -65,7 +67,7 @@ class FilesPreview extends React.Component {
           </div>
         )
 
-        if (stats.size > 1024 * 1024 * 4) {
+        if (size > 1024 * 1024 * 4) {
           return cantPreview
         }
 
