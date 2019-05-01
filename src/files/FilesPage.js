@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import downloadFile from './download-file'
@@ -16,6 +17,7 @@ import CompanionInfo from './info-boxes/CompanionInfo'
 import WelcomeInfo from './info-boxes/WelcomeInfo'
 import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME } from './modals/Modals'
 // Icons
+import GlyphDots from '../icons/GlyphDots'
 import FolderIcon from '../icons/StrokeFolder'
 
 const defaultState = {
@@ -25,10 +27,21 @@ const defaultState = {
     show: null,
     files: null
   },
+  contextMenu: {
+    isOpen: false,
+    translateX: 0,
+    translateY: 0,
+    file: null
+  },
   isContextMenuOpen: false
 }
 
 class FilesPage extends React.Component {
+  constructor (props) {
+    super(props)
+    this.contextMenuRef = React.createRef()
+  }
+
   static propTypes = {
     ipfsProvider: PropTypes.string,
     files: PropTypes.object,
@@ -125,14 +138,41 @@ class FilesPage extends React.Component {
     this.setState({ modals: { } })
   }
 
-  handleContextMenuClick = (ev) => {
+  handleContextMenu = (ev, clickType, file, dotsPosition) => {
     // This is needed to disable the native OS right-click menu
     // and deal with the clicking on the ContextMenu options
     if (ev !== undefined && typeof ev !== 'string') {
       ev.preventDefault()
+      ev.persist()
     }
 
-    this.setState(state => ({ isContextMenuOpen: !state.isContextMenuOpen }))
+    const ctxMenu = findDOMNode(this.contextMenuRef.current)
+    const ctxMenuPosition = ctxMenu.getBoundingClientRect()
+
+    let translateX = 0
+    let translateY = 0
+
+    if (clickType === 'RIGHT') {
+      const rightPadding = window.innerWidth - ctxMenu.parentNode.getBoundingClientRect().right
+      translateX = (window.innerWidth - ev.clientX) - rightPadding - 15
+      translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10
+    } else {
+      translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (dotsPosition && dotsPosition.y) - 30
+    }
+
+    this.setState({
+      contextMenu: {
+        isOpen: !this.state.contextMenu.isOpen,
+        translateX,
+        translateY,
+        file
+      }
+    })
+  }
+
+  handleSingleClick = (ev) => {
+    const dotsPosition = this.dotsWrapper.getBoundingClientRect()
+    this.handleContextMenu(ev, 'LEFT', this.props.files, dotsPosition)
   }
 
   render () {
@@ -140,6 +180,8 @@ class FilesPage extends React.Component {
       ipfsProvider, files, writeFilesProgress, filesSorting: sort, t,
       doFilesMove, doFilesNavigateTo, doFilesUpdateSorting
     } = this.props
+
+    const { contextMenu } = this.state
 
     const isCompanion = ipfsProvider === 'window.ipfs'
     const filesExist = files && files.content && files.content.length
@@ -150,6 +192,21 @@ class FilesPage extends React.Component {
         <Helmet>
           <title>{t('title')} - IPFS</title>
         </Helmet>
+
+        <ContextMenu
+          ref={this.contextMenuRef}
+          isOpen={contextMenu.isOpen}
+          translateX={contextMenu.translateX}
+          translateY={contextMenu.translateY}
+          handleClick={this.handleContextMenu}
+          isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
+          showDots={false}
+          onShare={() => this.showShareModal([contextMenu.file])}
+          onDelete={() => this.showDeleteModal([contextMenu.file])}
+          onRename={() => this.showRenameModal([contextMenu.file])}
+          onInspect={() => this.inspect([contextMenu.file])}
+          onDownload={() => this.download([contextMenu.file])}
+          hash={contextMenu.file && contextMenu.file.hash} />
 
         { files &&
           <div>
@@ -173,16 +230,8 @@ class FilesPage extends React.Component {
                       addProgress={writeFilesProgress} />
                   </div>
                 ) : (
-                  <div className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
-                    <ContextMenu
-                      handleClick={this.handleContextMenuClick}
-                      isOpen={this.state.isContextMenuOpen}
-                      onShare={() => this.showShareModal([files])}
-                      onDelete={() => this.showDeleteModal([files])}
-                      onRename={() => this.showRenameModal([files])}
-                      onInspect={() => this.inspect([files])}
-                      onDownload={() => this.download([files])}
-                      hash={files.hash} />
+                  <div ref={el => { this.dotsWrapper = el }} className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
+                    <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleSingleClick} />
                   </div>
                 )}
             </div>
@@ -209,7 +258,8 @@ class FilesPage extends React.Component {
                 onRename={this.showRenameModal}
                 onDelete={this.showDeleteModal}
                 onNavigate={doFilesNavigateTo}
-                onMove={doFilesMove} />
+                onMove={doFilesMove}
+                handleContextMenuClick={this.handleContextMenu} />
               : <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} /> }
           </div>
         }
