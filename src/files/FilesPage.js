@@ -3,45 +3,27 @@ import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import downloadFile from './download-file'
-import { join } from 'path'
-import { translate, Trans } from 'react-i18next'
+import { translate } from 'react-i18next'
 // Components
 import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import FileInput from './file-input/FileInput'
 import ContextMenu from './context-menu/ContextMenu'
-import Overlay from '../components/overlay/Overlay'
-import NewFolderModal from './new-folder-modal/NewFolderModal'
-import ShareModal from './share-modal/ShareModal'
-import RenameModal from './rename-modal/RenameModal'
-import DeleteModal from './delete-modal/DeleteModal'
-import AboutIpfs from '../components/about-ipfs/AboutIpfs'
-import Box from '../components/box/Box'
 import Button from '../components/button/Button'
+import AddFilesInfo from './info-boxes/AddFilesInfo'
+import CompanionInfo from './info-boxes/CompanionInfo'
+import WelcomeInfo from './info-boxes/WelcomeInfo'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME } from './modals/Modals'
 // Icons
 import FolderIcon from '../icons/StrokeFolder'
 
 const defaultState = {
   downloadAbort: null,
   downloadProgress: null,
-  newFolder: {
-    isOpen: false
-  },
-  share: {
-    isOpen: false,
-    link: ''
-  },
-  rename: {
-    isOpen: false,
-    path: '',
-    filename: ''
-  },
-  delete: {
-    isOpen: false,
-    paths: [],
-    files: 0,
-    folders: 0
+  modals: {
+    show: null,
+    files: null
   },
   isContextMenuOpen: false
 }
@@ -70,11 +52,6 @@ class FilesPage extends React.Component {
   state = defaultState
 
   resetState = (field) => this.setState({ [field]: defaultState[field] })
-
-  makeDir = (path) => {
-    this.resetState('newFolder')
-    this.props.doFilesMakeDir(join(this.props.files.path, path))
-  }
 
   componentDidMount () {
     this.props.doFilesFetch()
@@ -129,72 +106,23 @@ class FilesPage extends React.Component {
   }
 
   showNewFolderModal = () => {
-    this.setState({
-      newFolder: {
-        isOpen: true
-      }
-    })
+    this.setState({ modals: { show: NEW_FOLDER } })
   }
 
   showShareModal = (files) => {
-    this.setState({
-      share: {
-        isOpen: true,
-        link: 'Generating...'
-      }
-    })
-
-    this.props.doFilesShareLink(files).then(link => {
-      this.setState({
-        share: {
-          isOpen: true,
-          link: link
-        }
-      })
-    })
+    this.setState({ modals: { show: SHARE, files } })
   }
 
-  showRenameModal = ([file]) => {
-    this.setState({
-      rename: {
-        folder: file.type === 'directory',
-        isOpen: true,
-        path: file.path,
-        filename: file.path.split('/').pop()
-      }
-    })
-  }
-
-  rename = (newName) => {
-    const { filename, path } = this.state.rename
-    this.resetState('rename')
-
-    if (newName !== '' && newName !== filename) {
-      this.props.doFilesMove([path, path.replace(filename, newName)])
-    }
+  showRenameModal = (files) => {
+    this.setState({ modals: { show: RENAME, files } })
   }
 
   showDeleteModal = (files) => {
-    let filesCount = 0
-    let foldersCount = 0
-
-    files.forEach(file => file.type === 'file' ? filesCount++ : foldersCount++)
-
-    this.setState({
-      delete: {
-        isOpen: true,
-        files: filesCount,
-        folders: foldersCount,
-        paths: files.map(f => f.path)
-      }
-    })
+    this.setState({ modals: { show: DELETE, files } })
   }
 
-  delete = () => {
-    const { paths } = this.state.delete
-
-    this.resetState('delete')
-    this.props.doFilesDelete(paths)
+  resetModals = () => {
+    this.setState({ modals: { } })
   }
 
   handleContextMenuClick = (ev) => {
@@ -212,8 +140,6 @@ class FilesPage extends React.Component {
       ipfsProvider, files, writeFilesProgress, filesSorting: sort, t,
       doFilesMove, doFilesNavigateTo, doFilesUpdateSorting
     } = this.props
-
-    const { newFolder, share, rename, delete: deleteModal } = this.state
 
     const isCompanion = ipfsProvider === 'window.ipfs'
     const filesExist = files && files.content && files.content.length
@@ -288,92 +214,11 @@ class FilesPage extends React.Component {
           </div>
         }
 
-        <Overlay show={newFolder.isOpen} onLeave={() => this.resetState('newFolder')}>
-          <NewFolderModal
-            className='outline-0'
-            onCancel={() => this.resetState('newFolder')}
-            onSubmit={this.makeDir} />
-        </Overlay>
-
-        <Overlay show={share.isOpen} onLeave={() => this.resetState('share')}>
-          <ShareModal
-            className='outline-0'
-            link={share.link}
-            onLeave={() => this.resetState('share')} />
-        </Overlay>
-
-        <Overlay show={rename.isOpen} onLeave={() => this.resetState('rename')}>
-          <RenameModal
-            className='outline-0'
-            folder={rename.folder}
-            filename={rename.filename}
-            onCancel={() => this.resetState('rename')}
-            onSubmit={this.rename} />
-        </Overlay>
-
-        <Overlay show={deleteModal.isOpen} onLeave={() => this.resetState('delete')}>
-          <DeleteModal
-            className='outline-0'
-            files={deleteModal.files}
-            folders={deleteModal.folders}
-            onCancel={() => this.resetState('delete')}
-            onDelete={this.delete} />
-        </Overlay>
+        <Modals done={this.resetModals} root={files ? files.path : null} { ...this.state.modals } />
       </div>
     )
   }
 }
-
-const CompanionInfo = () => (
-  <div className='mv4 tc navy f5' >
-    <Box style={{ background: 'rgba(105, 196, 205, 0.1)' }}>
-      <Trans i18nKey='companionInfo'>
-        <p className='ma0'>As you are using <strong>IPFS Companion</strong>, the files view is limited to files added while using the extension.</p>
-      </Trans>
-    </Box>
-  </div>
-)
-
-const AddFilesInfo = () => (
-  <div className='mv4 tc navy f5' >
-    <Box style={{ background: 'rgba(105, 196, 205, 0.1)' }}>
-      <Trans i18nKey='addFilesInfo'>
-        <p className='ma0'>Add files to your local IPFS node by clicking the <strong>Add to IPFS</strong> button above.</p>
-      </Trans>
-    </Box>
-  </div>
-)
-
-const WelcomeInfo = ({ t }) => (
-  <div className='flex'>
-    <div className='flex-auto pr3 lh-copy mid-gray'>
-      <Box>
-        <h1 className='mt0 mb3 montserrat fw4 f4 charcoal'>{t('welcomeInfo.header')}</h1>
-        <Trans i18nKey='welcomeInfo.paragraph1'>
-          <p className='f5'><a href='#/' className='link blue u b'>Check the status</a> of your node, it's Peer ID and connection info, the network traffic and the number of connected peers.</p>
-        </Trans>
-        <Trans i18nKey='welcomeInfo.paragraph2'>
-          <p className='f5'>Easily <a href='#/files' className='link blue b'>manage files</a> in your IPFS repo. You can drag and drop to add files, move and rename them, delete, share or download them.</p>
-        </Trans>
-        <Trans i18nKey='welcomeInfo.paragraph3'>
-          <p className='f5'>You can <a href='#/explore' className='link blue b'>explore IPLD data</a> that underpins how IPFS works.</p>
-        </Trans>
-        <Trans i18nKey='welcomeInfo.paragraph4'>
-          <p className='f5'>See all of your <a href='#/peers' className='link blue b'>connected peers</a>, geolocated by their IP address.</p>
-        </Trans>
-        <Trans i18nKey='welcomeInfo.paragraph5'>
-          <p className='mb4 f5'><a href='#/settings' className='link blue b'>Review the settings</a> for your IPFS node, and update them to better suit your needs.</p>
-        </Trans>
-        <Trans i18nKey='welcomeInfo.paragraph6'>
-          <p className='mb0 f5'>If you want to help push the Web UI forward, <a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link blue'>check out its code</a> or <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link blue'>report a bug</a>!</p>
-        </Trans>
-      </Box>
-    </div>
-    <div className='measure lh-copy dn db-l flex-none mid-gray f6' style={{ maxWidth: '40%' }}>
-      <AboutIpfs />
-    </div>
-  </div>
-)
 
 export default connect(
   'selectIpfsProvider',

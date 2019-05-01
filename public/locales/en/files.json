@@ -17,6 +17,7 @@
   "addByPath": "From IPFS",
   "addToIPFS": "Add",
   "newFolder": "New folder",
+  "generating": "Generating...",
   "actions": {
     "add": "Add",
     "delete": "Delete",
