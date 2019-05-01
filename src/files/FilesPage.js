@@ -27,8 +27,7 @@ const defaultState = {
     translateX: 0,
     translateY: 0,
     file: null
-  },
-  isContextMenuOpen: false
+  }
 }
 
 class FilesPage extends React.Component {
