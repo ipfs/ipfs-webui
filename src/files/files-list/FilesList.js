@@ -28,7 +28,6 @@ export class FilesList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
-    isMFS: PropTypes.bool.isRequired,
     upperDir: PropTypes.object,
     sort: PropTypes.shape({
       by: PropTypes.string.isRequired,
@@ -91,13 +90,7 @@ export class FilesList extends React.Component {
 
   get selectedMenu () {
     const unselectAll = () => this.toggleAll(false)
-    const size = this.selectedFiles.reduce((a, b) => {
-      if (b.cumulativeSize) {
-        return a + b.cumulativeSize
-      }
-
-      return a + b.size
-    }, 0)
+    const size = this.selectedFiles.reduce((a, b) => a + (b.size || 0), 0)
     const show = this.state.selected.length !== 0
 
     // We need this to get the width in ems
@@ -123,9 +116,9 @@ export class FilesList extends React.Component {
   }
 
   get contextMenu () {
-    const { isMFS } = this.props
     const { contextMenu } = this.state
-    const isUpperDir = contextMenu.currentFile && contextMenu.currentFile.type === 'directory' && contextMenu.currentFile.name === '..'
+    const { isMfs } = this.props
+    const isParent = contextMenu.currentFile && contextMenu.currentFile.isParent
 
     return (
       <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
@@ -135,9 +128,9 @@ export class FilesList extends React.Component {
           translateX={contextMenu.translateX}
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenuClick}
-          isUpperDir={isUpperDir}
+          isUpperDir={isParent}
           showDots={false}
-          isMFS={isMFS}
+          isMfs={isMfs}
           onShare={() => this.props.onShare([contextMenu.currentFile])}
           onDelete={() => this.props.onDelete([contextMenu.currentFile])}
           onRename={() => this.props.onRename([contextMenu.currentFile])}

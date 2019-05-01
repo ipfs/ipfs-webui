@@ -65,7 +65,15 @@ const make = (basename, action) => (...args) => async (args2) => {
   return data
 }
 
-async function pathToStat (path, ipfs) {
+const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path) => ({
+  size: cumulativeSize || size || null,
+  type: (type === 'dir' || type === 'directory') ? 'directory' : 'file',
+  hash: hash,
+  name: name || path ? path.split('/').pop() : hash,
+  path: path || `/ipfs/${hash}`
+})
+
+const pathToStat = async (path, ipfs) => {
   if (path.startsWith('/mfs')) {
     return path.substr(4) || '/'
   } else if (path.startsWith('/ipns')) {
@@ -80,11 +88,38 @@ const getPins = async (ipfs) => {
   const promises = raw.map(({ hash }) => ipfs.files.stat(`/ipfs/${hash}`))
   const stats = await Promise.all(promises)
 
-  return stats.map(item => ({
-    ...item,
-    name: item.hash,
-    path: `/ipfs/${item.hash}`
-  }))
+  return stats.map(item => {
+    item = fileFromStats(item)
+    item.pinned = true
+    return item
+  })
+}
+
+const fetchRoot = async (ipfs) => {
+  const pins = await getPins(ipfs)
+
+  return {
+    path: '/',
+    fetched: Date.now(),
+    type: 'directory',
+    content: [
+      ...pins,
+      {
+        ...await ipfs.files.stat('/'),
+        path: '/mfs',
+        name: 'Mutable File System'
+      }
+    ]
+  }
+}
+
+const fetchEmpty = async (path, ipfs) => {
+  return {
+    path: path,
+    fetched: Date.now(),
+    type: 'directory',
+    content: []
+  }
 }
 
 const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
@@ -92,23 +127,9 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   const toStat = await pathToStat(path, ipfs)
   console.log('FETCHING')
 
-  if (path === '/') {
-    const pins = await getPins(ipfs)
-
-    return {
-      path: '/',
-      fetched: Date.now(),
-      type: 'directory',
-      content: [
-        ...pins,
-        {
-          ...await ipfs.files.stat('/'),
-          path: '/mfs',
-          name: 'Mutable File System'
-        }
-      ]
-    }
-  }
+  if (path === '/ipfs') return fetchEmpty(path, ipfs)
+  if (path === '/ipns') return fetchEmpty(path, ipfs)
+  if (path === '/') return fetchRoot(ipfs)
 
   const stats = await ipfs.files.stat(toStat)
 
@@ -116,9 +137,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
     stats.name = path
 
     return {
-      ...stats,
-      name: path.split('/').pop(),
-      path: path,
+      ...fileFromStats(stats, path),
       fetched: Date.now(),
       read: () => ipfs.cat(stats.hash)
     }
@@ -130,35 +149,38 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   const showStats = res.length < 100
 
   for (const f of res) {
-    let file = {
-      ...f,
-      path: join(path, f.name),
-      type: f.type === 0 ? 'file' : 'directory'
-    }
+    const absPath = join(path, f.name)
+    let file = null
 
-    if (showStats && file.type === 'directory') {
-      file = {
-        ...file,
-        ...await ipfs.files.stat(`/ipfs/${file.hash}`)
-      }
+    if (showStats && f.type === 'dir') {
+      file = fileFromStats(await ipfs.files.stat(`/ipfs/${f.hash}`), absPath)
+    } else {
+      file = fileFromStats(f, absPath)
     }
 
     files.push(file)
   }
 
-  /* const upperPath = dirname(path)
-  const upper = path === '/' ? null : await ipfs.files.stat(upperPath)
-  if (upper) {
-    upper.path = upperPath
-  } */
+  let upperPath = dirname(path)
+  let upper = null
 
-  console.log(files)
+  if (upperPath === '/ipns' || upperPath === '/ipfs') {
+    upper = { type: 'directory' }
+  } else if (path !== '/') {
+    upper = fileFromStats(await ipfs.files.stat(await pathToStat(upperPath)))
+  }
+
+  if (upper) {
+    upper.name = '...'
+    upper.path = upperPath
+    upper.isParent = true
+  }
 
   return {
     path: path,
     fetched: Date.now(),
     type: 'directory',
-    // upper: upper,
+    upper: upper,
     content: files
   }
 })
@@ -398,7 +420,7 @@ export default (opts = {}) => {
             if (sorting.by === sorts.BY_NAME) {
               return nameSort(a.name, b.name)
             } else {
-              return sizeSort(a.cumulativeSize || a.size, b.cumulativeSize || b.size)
+              return sizeSort(a.size, b.size)
             }
           }
 
@@ -444,7 +466,7 @@ export default (opts = {}) => {
       }
     ),
 
-    selectFilesIsMFS: createSelector(
+    selectFilesIsMfs: createSelector(
       'selectFilesPathFromHash',
       (path) => {
         return path ? path.startsWith('/mfs') : false

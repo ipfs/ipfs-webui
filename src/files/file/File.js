@@ -17,9 +17,8 @@ class File extends React.Component {
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    cumulativeSize: PropTypes.number,
-    hash: PropTypes.string.isRequired,
+    size: PropTypes.number,
+    hash: PropTypes.string,
     selected: PropTypes.bool,
     focused: PropTypes.bool,
     onSelect: PropTypes.func,
@@ -55,7 +54,7 @@ class File extends React.Component {
 
   render () {
     let {
-      selected, focused, translucent, coloured, hash, name, type, size, cumulativeSize, onSelect, onNavigate,
+      selected, focused, translucent, coloured, hash, name, type, size, onSelect, onNavigate,
       isOver, canDrop, cantDrag, cantSelect, connectDropTarget, connectDragPreview, connectDragSource,
       styles = {}
     } = this.props
@@ -82,9 +81,8 @@ class File extends React.Component {
     styles.height = 55
     styles.overflow = 'hidden'
 
-    size = (type === 'directory' && !cumulativeSize)
-      ? '―'
-      : filesize(cumulativeSize || size, { round: 0 })
+    size = size ? filesize(size, { round: 0 }) : '-'
+    hash = hash || 'Hash cannot be calculated' // TODO: what to put here
 
     const select = (select) => onSelect(name, select)
 

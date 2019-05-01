@@ -212,7 +212,7 @@ class FilesPage extends React.Component {
     const {
       ipfsProvider, files, writeFilesProgress, filesSorting: sort, t,
       doFilesMove, doFilesNavigateTo, doFilesUpdateSorting,
-      filesIsMFS
+      filesIsMfs
     } = this.props
 
     const { newFolder, share, rename, delete: deleteModal } = this.state
@@ -253,12 +253,12 @@ class FilesPage extends React.Component {
                     <ContextMenu
                       handleClick={this.handleContextMenuClick}
                       isOpen={this.state.isContextMenuOpen}
-                      isMFS={filesIsMFS}
-                      onShare={() => this.showShareModal(files.extra)}
-                      onDelete={() => this.showDeleteModal(files.extra)}
-                      onRename={() => this.showRenameModal(files.extra)}
-                      onInspect={() => this.inspect(files.extra)}
-                      onDownload={() => this.download(files.extra)}
+                      isMfs={filesIsMfs}
+                      onShare={() => this.showShareModal([files])}
+                      onDelete={() => this.showDeleteModal([files])}
+                      onRename={() => this.showRenameModal([files])}
+                      onInspect={() => this.inspect([files])}
+                      onDownload={() => this.download([files])}
                       hash={files.hash} />
                   </div>
                 )}
@@ -279,7 +279,7 @@ class FilesPage extends React.Component {
                 files={files.content}
                 upperDir={files.upper}
                 downloadProgress={this.state.downloadProgress}
-                isMFS={filesIsMFS}
+                isMfs={filesIsMfs}
                 onShare={this.showShareModal}
                 onInspect={this.inspect}
                 onDownload={this.download}
@@ -346,7 +346,7 @@ export default connect(
   'selectGatewayUrl',
   'selectWriteFilesProgress',
   'selectFilesPathFromHash',
-  'selectFilesIsMFS',
+  'selectFilesIsMfs',
   'selectFilesSorting',
   translate('files')(FilesPage)
 )

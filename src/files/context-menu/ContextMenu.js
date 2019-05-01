@@ -13,7 +13,7 @@ import StrokeDownload from '../../icons/StrokeDownload'
 
 class ContextMenu extends React.Component {
   static propTypes = {
-    isMFS: PropTypes.bool,
+    isMfs: PropTypes.bool,
     isOpen: PropTypes.bool,
     isUpperDir: PropTypes.bool,
     handleClick: PropTypes.func,
@@ -33,7 +33,7 @@ class ContextMenu extends React.Component {
   }
 
   static defaultProps = {
-    isMFS: false,
+    isMfs: false,
     isOpen: false,
     isUpperDir: false,
     top: 0,
@@ -58,7 +58,7 @@ class ContextMenu extends React.Component {
     const {
       t, onRename, onDelete, onDownload, onInspect, onShare,
       translateX, translateY, className, showDots,
-      isUpperDir, isMFS
+      isUpperDir, isMfs
     } = this.props
 
     return (
@@ -72,13 +72,13 @@ class ContextMenu extends React.Component {
           translateY={-translateY}
           open={this.props.isOpen}
           onDismiss={this.props.handleClick}>
-          { !isUpperDir && isMFS && onDelete &&
+          { !isUpperDir && isMfs && onDelete &&
             <Option onClick={this.wrap('onDelete')}>
               <StrokeTrash className='w2 mr2 fill-aqua' />
               {t('actions.delete')}
             </Option>
           }
-          { !isUpperDir && isMFS && onRename &&
+          { !isUpperDir && isMfs && onRename &&
             <Option onClick={this.wrap('onRename')}>
               <StrokePencil className='w2 mr2 fill-aqua' />
               {t('actions.rename')}
@@ -96,7 +96,7 @@ class ContextMenu extends React.Component {
               {t('actions.inspect')}
             </Option>
           }
-          { /* !isMFS && !isUpperDir &&
+          { /* !isMfs && !isUpperDir &&
             TODO: send to MFS
           */ }
           <CopyToClipboard text={this.props.hash} onCopy={this.props.handleClick}>
