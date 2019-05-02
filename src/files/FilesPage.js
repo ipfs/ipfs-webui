@@ -70,10 +70,6 @@ class FilesPage extends React.Component {
     if (prev.files === null || filesPathFromHash !== prev.filesPathFromHash) {
       this.props.doFilesFetch()
     }
-
-    if (prev.files && prev.files.path !== this.props.files.path) {
-      this.setState({ contextMenu: defaultState.contextMenu })
-    }
   }
 
   download = async (files) => {
