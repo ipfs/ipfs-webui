@@ -14,7 +14,6 @@ import CompanionInfo from './info-boxes/CompanionInfo'
 import WelcomeInfo from './info-boxes/WelcomeInfo'
 import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME } from './modals/Modals'
 import Header from './header/Header'
-import { prefix } from 'multihashes';
 
 const defaultState = {
   downloadAbort: null,
