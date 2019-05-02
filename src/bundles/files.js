@@ -65,6 +65,28 @@ const make = (basename, action) => (...args) => async (args2) => {
   return data
 }
 
+const sortFiles = (files, sorting) => {
+  const sortDir = sorting.asc ? 1 : -1
+  const nameSort = sortByName(sortDir)
+  const sizeSort = sortBySize(sortDir)
+
+  return files.sort((a, b) => {
+    if (a.type === b.type || isMac) {
+      if (sorting.by === sorts.BY_NAME) {
+        return nameSort(a.name, b.name)
+      } else {
+        return sizeSort(a.cumulativeSize || a.size, b.cumulativeSize || b.size)
+      }
+    }
+
+    if (a.type === 'directory') {
+      return -1
+    } else {
+      return 1
+    }
+  })
+}
+
 const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   const path = store.selectFilesPathFromHash()
   const stats = await ipfs.files.stat(path)
@@ -123,7 +145,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
     fetched: Date.now(),
     type: 'directory',
     upper: upper,
-    content: files
+    content: sortFiles(files, store.selectFilesSorting())
   }
 })
 
@@ -157,8 +179,14 @@ export default (opts = {}) => {
       }
 
       if (action.type === 'FILES_UPDATE_SORT') {
+        const pageContent = state.pageContent
+
         return {
           ...state,
+          pageContent: {
+            ...pageContent,
+            content: sortFiles(pageContent.content, action.payload)
+          },
           sorting: action.payload
         }
       }
@@ -345,35 +373,7 @@ export default (opts = {}) => {
       dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
     },
 
-    selectFiles: (state) => {
-      const { pageContent, sorting } = state.files
-      const sortDir = sorting.asc ? 1 : -1
-      const nameSort = sortByName(sortDir)
-      const sizeSort = sortBySize(sortDir)
-
-      if (pageContent === null || pageContent.type === 'file') {
-        return pageContent
-      }
-
-      return {
-        ...pageContent,
-        content: pageContent.content.sort((a, b) => {
-          if (a.type === b.type || isMac) {
-            if (sorting.by === sorts.BY_NAME) {
-              return nameSort(a.name, b.name)
-            } else {
-              return sizeSort(a.cumulativeSize || a.size, b.cumulativeSize || b.size)
-            }
-          }
-
-          if (a.type === 'directory') {
-            return -1
-          } else {
-            return 1
-          }
-        })
-      }
-    },
+    selectFiles: (state) => state.files.pageContent,
 
     selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === actions.FETCH),
 
