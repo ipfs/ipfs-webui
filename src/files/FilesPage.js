@@ -131,7 +131,7 @@ class FilesPage extends React.Component {
     this.setState({ modals: { } })
   }
 
-  handleContextMenu = (ev, clickType, file, dotsPosition) => {
+  handleContextMenu = (ev, clickType, file, dotsPosition, fromHeader = false) => {
     // This is needed to disable the native OS right-click menu
     // and deal with the clicking on the ContextMenu options
     if (ev !== undefined && typeof ev !== 'string') {
@@ -147,10 +147,15 @@ class FilesPage extends React.Component {
 
     if (clickType === 'RIGHT') {
       const rightPadding = window.innerWidth - ctxMenu.parentNode.getBoundingClientRect().right
-      translateX = (window.innerWidth - ev.clientX) - rightPadding - 15
+      translateX = (window.innerWidth - ev.clientX) - rightPadding - 20
       translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10
     } else {
+      translateX = 1
       translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (dotsPosition && dotsPosition.y) - 30
+    }
+
+    if (fromHeader) {
+      translateX = -8
     }
 
     this.setState({
@@ -201,7 +206,7 @@ class FilesPage extends React.Component {
             <Header onAdd={this.add}
               onAddByPath={this.addByPath}
               onNewFolder={this.showNewFolderModal}
-              handleContextMenu={this.handleContextMenu} />
+              handleContextMenu={(...args) => this.handleContextMenu(...args, true)} />
 
             { isRoot && isCompanion && <CompanionInfo /> }
 
