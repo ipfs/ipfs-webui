@@ -9,12 +9,10 @@ import { translate } from 'react-i18next'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
 import ContextMenu from './context-menu/ContextMenu'
-import Button from '../components/button/Button'
-import WelcomeInfo from './info/WelcomeInfo'
-import CompanionInfo from './info/CompanionInfo'
-import AddFilesInfo from './info/AddFilesInfo'
+import WelcomeInfo from './info-boxes/WelcomeInfo'
+import CompanionInfo from './info-boxes/CompanionInfo'
+import AddFilesInfo from './info-boxes/AddFilesInfo'
 // Icons
-import FolderIcon from '../icons/StrokeFolder'
 import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME } from './modals/Modals'
 import Header from './header/Header'
 
@@ -174,7 +172,7 @@ class FilesPage extends React.Component {
 
   render () {
     const {
-      ipfsProvider, files, writeFilesProgress, filesSorting: sort, t,
+      ipfsProvider, files, filesSorting: sort, t,
       doFilesMove, doFilesNavigateTo, doFilesUpdateSorting,
       filesIsMfs
     } = this.props
