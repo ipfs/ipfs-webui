@@ -84,8 +84,12 @@ const pathToStat = async (path, ipfs) => {
 }
 
 const getPins = async (ipfs) => {
-  const raw = await ipfs.pin.ls({ type: 'recursive' })
-  const promises = raw.map(({ hash }) => ipfs.files.stat(`/ipfs/${hash}`))
+  const recursive = await ipfs.pin.ls({ type: 'recursive' })
+  const direct = await ipfs.pin.ls({ type: 'direct' })
+
+  const promises = recursive
+    .concat(direct)
+    .map(({ hash }) => ipfs.files.stat(`/ipfs/${hash}`))
   const stats = await Promise.all(promises)
 
   return stats.map(item => {
@@ -93,33 +97,6 @@ const getPins = async (ipfs) => {
     item.pinned = true
     return item
   })
-}
-
-const fetchRoot = async (ipfs) => {
-  const pins = await getPins(ipfs)
-
-  return {
-    path: '/',
-    fetched: Date.now(),
-    type: 'directory',
-    content: [
-      ...pins,
-      {
-        ...await ipfs.files.stat('/'),
-        path: '/mfs',
-        name: 'Mutable File System'
-      }
-    ]
-  }
-}
-
-const fetchEmpty = async (path, ipfs) => {
-  return {
-    path: path,
-    fetched: Date.now(),
-    type: 'directory',
-    content: []
-  }
 }
 
 const sortFiles = (files, sorting) => {
@@ -147,11 +124,26 @@ const sortFiles = (files, sorting) => {
 const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   const path = store.selectFilesPathFromHash()
   const toStat = await pathToStat(path, ipfs)
-  console.log('FETCHING')
 
-  if (path === '/ipfs') return fetchEmpty(path, ipfs)
-  if (path === '/ipns') return fetchEmpty(path, ipfs)
-  if (path === '/') return fetchRoot(ipfs)
+  if (path === '/ipfs' || path === '/ipns' || path === '/') {
+    return {
+      path: path,
+      fetched: Date.now(),
+      type: 'directory',
+      content: []
+    }
+  }
+
+  if (path === '/pins') {
+    const pins = await getPins(ipfs)
+
+    return {
+      path: '/pins',
+      fetched: Date.now(),
+      type: 'directory',
+      content: pins
+    }
+  }
 
   const stats = await ipfs.files.stat(toStat)
 
@@ -188,9 +180,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   let upperPath = dirname(path)
   let upper = null
 
-  if (upperPath === '/ipns' || upperPath === '/ipfs') {
-    upper = { type: 'directory' }
-  } else if (path !== '/') {
+  if (upperPath !== '/ipns' && upperPath !== '/ipfs' && upperPath !== '/') {
     upper = fileFromStats(await ipfs.files.stat(await pathToStat(upperPath)))
   }
 
@@ -464,7 +454,13 @@ export default (opts = {}) => {
       (routeInfo) => {
         if (!routeInfo.url.startsWith(opts.baseUrl)) return
         if (!routeInfo.params.path) return
-        return decodeURIComponent(routeInfo.params.path)
+        let path = routeInfo.params.path
+
+        if (path.endsWith('/')) {
+          path = path.substring(0, path.length - 1)
+        }
+
+        return decodeURIComponent(path)
       }
     ),
 

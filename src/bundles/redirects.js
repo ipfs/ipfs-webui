@@ -14,9 +14,10 @@ export default {
 
   reactToEmptyFiles: createSelector(
     'selectHash',
-    (hash) => {
-      if (hash === '/files') {
-        return { actionCreator: 'doUpdateHash', args: ['#/files/'] }
+    'selectFilesPathFromHash',
+    (hash, path) => {
+      if (hash === '/files' || hash === '/files/' || (path && (path === '' || path === '/ipns' || path === '/ipfs'))) {
+        return { actionCreator: 'doUpdateHash', args: ['#/files/mfs/'] }
       }
     }
   ),
