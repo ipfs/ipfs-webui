@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import i18n from '../../i18n-decorator'
+import i18n from '../../../i18n-decorator'
 import ShareModal from './ShareModal'
 
 storiesOf('Files', module)

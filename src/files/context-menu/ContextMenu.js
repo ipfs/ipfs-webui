@@ -61,7 +61,7 @@ class ContextMenu extends React.Component {
         <DropdownMenu
           top={-8}
           arrowMarginRight='11px'
-          left='calc(100% - 200px + 0.5rem)'
+          left='calc(100% - 200px)'
           translateX={-translateX}
           translateY={-translateY}
           open={this.props.isOpen}
