@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { translate } from 'react-i18next'
-import FolderIcon from '../../icons/StrokeFolder'
-import TextInputModal from '../../components/text-input-modal/TextInputModal'
+import FolderIcon from '../../../icons/StrokeFolder'
+import TextInputModal from '../../../components/text-input-modal/TextInputModal'
 
 function NewFolderModal ({ t, tReady, onCancel, onSubmit, className, ...props }) {
   return (

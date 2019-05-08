@@ -1,60 +1,51 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import downloadFile from './download-file'
-import { join } from 'path'
-import { translate, Trans } from 'react-i18next'
+import { translate } from 'react-i18next'
 // Components
-import Breadcrumbs from './breadcrumbs/Breadcrumbs'
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
-import FileInput from './file-input/FileInput'
 import ContextMenu from './context-menu/ContextMenu'
-import Overlay from '../components/overlay/Overlay'
-import NewFolderModal from './new-folder-modal/NewFolderModal'
-import ShareModal from './share-modal/ShareModal'
-import RenameModal from './rename-modal/RenameModal'
-import DeleteModal from './delete-modal/DeleteModal'
 import Button from '../components/button/Button'
 import WelcomeInfo from './info/WelcomeInfo'
 import CompanionInfo from './info/CompanionInfo'
 import AddFilesInfo from './info/AddFilesInfo'
 // Icons
 import FolderIcon from '../icons/StrokeFolder'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME } from './modals/Modals'
+import Header from './header/Header'
 
 const defaultState = {
   downloadAbort: null,
   downloadProgress: null,
-  newFolder: {
-    isOpen: false
+  modals: {
+    show: null,
+    files: null
   },
-  share: {
+  contextMenu: {
     isOpen: false,
-    link: ''
-  },
-  rename: {
-    isOpen: false,
-    path: '',
-    filename: ''
-  },
-  delete: {
-    isOpen: false,
-    paths: [],
-    files: 0,
-    folders: 0
-  },
-  isContextMenuOpen: false
+    translateX: 0,
+    translateY: 0,
+    file: null
+  }
 }
 
 class FilesPage extends React.Component {
+  constructor (props) {
+    super(props)
+    this.contextMenuRef = React.createRef()
+  }
+
   static propTypes = {
+    ipfsConnected: PropTypes.bool,
     ipfsProvider: PropTypes.string,
     files: PropTypes.object,
     filesErrors: PropTypes.array,
     filesPathFromHash: PropTypes.string,
     filesSorting: PropTypes.object.isRequired,
-    writeFilesProgress: PropTypes.number,
     gatewayUrl: PropTypes.string.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesDelete: PropTypes.func.isRequired,
@@ -71,11 +62,6 @@ class FilesPage extends React.Component {
   state = defaultState
 
   resetState = (field) => this.setState({ [field]: defaultState[field] })
-
-  makeDir = (path) => {
-    this.resetState('newFolder')
-    this.props.doFilesMakeDir(join(this.props.files.path, path))
-  }
 
   componentDidMount () {
     this.props.doFilesFetch()
@@ -130,82 +116,60 @@ class FilesPage extends React.Component {
   }
 
   showNewFolderModal = () => {
-    this.setState({
-      newFolder: {
-        isOpen: true
-      }
-    })
+    this.setState({ modals: { show: NEW_FOLDER } })
   }
 
   showShareModal = (files) => {
-    this.setState({
-      share: {
-        isOpen: true,
-        link: 'Generating...'
-      }
-    })
-
-    this.props.doFilesShareLink(files).then(link => {
-      this.setState({
-        share: {
-          isOpen: true,
-          link: link
-        }
-      })
-    })
+    this.setState({ modals: { show: SHARE, files } })
   }
 
-  showRenameModal = ([file]) => {
-    this.setState({
-      rename: {
-        folder: file.type === 'directory',
-        isOpen: true,
-        path: file.path,
-        filename: file.path.split('/').pop()
-      }
-    })
-  }
-
-  rename = (newName) => {
-    const { filename, path } = this.state.rename
-    this.resetState('rename')
-
-    if (newName !== '' && newName !== filename) {
-      this.props.doFilesMove([path, path.replace(filename, newName)])
-    }
+  showRenameModal = (files) => {
+    this.setState({ modals: { show: RENAME, files } })
   }
 
   showDeleteModal = (files) => {
-    let filesCount = 0
-    let foldersCount = 0
-
-    files.forEach(file => file.type === 'file' ? filesCount++ : foldersCount++)
-
-    this.setState({
-      delete: {
-        isOpen: true,
-        files: filesCount,
-        folders: foldersCount,
-        paths: files.map(f => f.path)
-      }
-    })
+    this.setState({ modals: { show: DELETE, files } })
   }
 
-  delete = () => {
-    const { paths } = this.state.delete
-
-    this.resetState('delete')
-    this.props.doFilesDelete(paths)
+  resetModals = () => {
+    this.setState({ modals: { } })
   }
 
-  handleContextMenuClick = (ev) => {
+  handleContextMenu = (ev, clickType, file, dotsPosition, fromHeader = false) => {
     // This is needed to disable the native OS right-click menu
     // and deal with the clicking on the ContextMenu options
     if (ev !== undefined && typeof ev !== 'string') {
       ev.preventDefault()
+      ev.persist()
     }
 
-    this.setState(state => ({ isContextMenuOpen: !state.isContextMenuOpen }))
+    const ctxMenu = findDOMNode(this.contextMenuRef.current)
+    const ctxMenuPosition = ctxMenu.getBoundingClientRect()
+
+    let translateX = 0
+    let translateY = 0
+
+    if (clickType === 'RIGHT') {
+      const rightPadding = window.innerWidth - ctxMenu.parentNode.getBoundingClientRect().right
+      translateX = (window.innerWidth - ev.clientX) - rightPadding - 20
+      translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10
+    } else {
+      translateX = 1
+      translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (dotsPosition && dotsPosition.y) - 30
+    }
+
+    if (fromHeader) {
+      translateX = -8
+    }
+
+    this.setState({
+      contextMenu: {
+        isOpen: !this.state.contextMenu.isOpen,
+        translateX,
+        translateY,
+        file
+      }
+    })
   }
 
   render () {
@@ -215,7 +179,7 @@ class FilesPage extends React.Component {
       filesIsMfs
     } = this.props
 
-    const { newFolder, share, rename, delete: deleteModal } = this.state
+    const { contextMenu } = this.state
 
     const isCompanion = ipfsProvider === 'window.ipfs'
     const filesExist = files && files.content && files.content.length
@@ -227,42 +191,27 @@ class FilesPage extends React.Component {
           <title>{t('title')} - IPFS</title>
         </Helmet>
 
+        <ContextMenu
+          ref={this.contextMenuRef}
+          isOpen={contextMenu.isOpen}
+          translateX={contextMenu.translateX}
+          translateY={contextMenu.translateY}
+          handleClick={this.handleContextMenu}
+          isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
+          showDots={false}
+          onShare={() => this.showShareModal([contextMenu.file])}
+          onDelete={() => this.showDeleteModal([contextMenu.file])}
+          onRename={() => this.showRenameModal([contextMenu.file])}
+          onInspect={() => this.inspect([contextMenu.file])}
+          onDownload={() => this.download([contextMenu.file])}
+          hash={contextMenu.file && contextMenu.file.hash} />
+
         { files &&
           <div>
-            <div className='flex flex-wrap items-center mb3'>
-              <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
-
-              { files.type === 'directory'
-                ? (
-                  <div className='ml-auto flex items-center'>
-                    <Button
-                      className='mr3 f6 pointer'
-                      color='charcoal-muted'
-                      bg='bg-transparent'
-                      onClick={() => this.showNewFolderModal()}>
-                      <FolderIcon viewBox='10 15 80 80' height='20px' className='fill-charcoal-muted w2 v-mid' />
-                      <span className='fw3'>{t('newFolder')}</span>
-                    </Button>
-                    <FileInput
-                      onAddFiles={this.add}
-                      onAddByPath={this.addByPath}
-                      addProgress={writeFilesProgress} />
-                  </div>
-                ) : (
-                  <div className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
-                    <ContextMenu
-                      handleClick={this.handleContextMenuClick}
-                      isOpen={this.state.isContextMenuOpen}
-                      isMfs={filesIsMfs}
-                      onShare={() => this.showShareModal([files])}
-                      onDelete={() => this.showDeleteModal([files])}
-                      onRename={() => this.showRenameModal([files])}
-                      onInspect={() => this.inspect([files])}
-                      onDownload={() => this.download([files])}
-                      hash={files.hash} />
-                  </div>
-                )}
-            </div>
+            <Header onAdd={this.add}
+              onAddByPath={this.addByPath}
+              onNewFolder={this.showNewFolderModal}
+              handleContextMenu={(...args) => this.handleContextMenu(...args, true)} />
 
             { isRoot && isCompanion && <CompanionInfo /> }
 
@@ -287,42 +236,13 @@ class FilesPage extends React.Component {
                 onRename={this.showRenameModal}
                 onDelete={this.showDeleteModal}
                 onNavigate={doFilesNavigateTo}
-                onMove={doFilesMove} />
+                onMove={doFilesMove}
+                handleContextMenuClick={this.handleContextMenu} />
                 : <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} /> }
           </div>
         }
 
-        <Overlay show={newFolder.isOpen} onLeave={() => this.resetState('newFolder')}>
-          <NewFolderModal
-            className='outline-0'
-            onCancel={() => this.resetState('newFolder')}
-            onSubmit={this.makeDir} />
-        </Overlay>
-
-        <Overlay show={share.isOpen} onLeave={() => this.resetState('share')}>
-          <ShareModal
-            className='outline-0'
-            link={share.link}
-            onLeave={() => this.resetState('share')} />
-        </Overlay>
-
-        <Overlay show={rename.isOpen} onLeave={() => this.resetState('rename')}>
-          <RenameModal
-            className='outline-0'
-            folder={rename.folder}
-            filename={rename.filename}
-            onCancel={() => this.resetState('rename')}
-            onSubmit={this.rename} />
-        </Overlay>
-
-        <Overlay show={deleteModal.isOpen} onLeave={() => this.resetState('delete')}>
-          <DeleteModal
-            className='outline-0'
-            files={deleteModal.files}
-            folders={deleteModal.folders}
-            onCancel={() => this.resetState('delete')}
-            onDelete={this.delete} />
-        </Overlay>
+        <Modals done={this.resetModals} root={files ? files.path : null} { ...this.state.modals } />
       </div>
     )
   }
@@ -331,20 +251,19 @@ class FilesPage extends React.Component {
 export default connect(
   'selectIpfsConnected',
   'selectIpfsProvider',
+  'selectIpfsConnected',
   'doUpdateHash',
   'doFilesDelete',
   'doFilesMove',
   'doFilesWrite',
   'doFilesAddPath',
   'doFilesDownloadLink',
-  'doFilesShareLink',
   'doFilesMakeDir',
   'doFilesFetch',
   'doFilesNavigateTo',
   'doFilesUpdateSorting',
   'selectFiles',
   'selectGatewayUrl',
-  'selectWriteFilesProgress',
   'selectFilesPathFromHash',
   'selectFilesIsMfs',
   'selectFilesSorting',
