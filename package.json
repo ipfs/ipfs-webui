@@ -41,7 +41,7 @@
     "internal-nav-helper": "^1.0.2",
     "ipfs-css": "^0.10.0",
     "ipfs-geoip": "^3.0.0",
-    "ipfs-redux-bundle": "^5.1.1",
+    "ipfs-redux-bundle": "^5.1.2",
     "ipfs-unixfs": "^0.1.15",
     "ipld": "^0.21.1",
     "ipld-explorer-components": "^1.2.1",
