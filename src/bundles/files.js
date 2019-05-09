@@ -265,7 +265,10 @@ export default (opts = {}) => {
     },
 
     doFilesWrite: make(actions.WRITE, async (ipfs, root, filesOrPromise, id, { dispatch }) => {
-      let files = await filesOrPromise
+      // NOTE: the simpler form `let files = await filesOrPromise`, leaves the
+      // FileList empty if is not wrapped in a promise...which is...surprising.
+      // TODO: why the heck is that?
+      let files = filesOrPromise.then ? await filesOrPromise : filesOrPromise
       const { streams, totalSize } = await filesToStreams(files)
 
       // Normalise all paths to be relative. Dropped files come as absolute,
