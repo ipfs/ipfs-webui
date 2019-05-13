@@ -37,7 +37,7 @@ export class App extends Component {
     const { doFilesWrite, doUpdateHash, routeInfo } = this.props
     const isFilesPage = routeInfo.pattern === '/files*'
     const addAtPath = isFilesPage ? routeInfo.params.path : '/'
-    doFilesWrite(addAtPath, files)
+    doFilesWrite(addAtPath, files, false)
     // Change to the files pages if the user is not there
     if (!isFilesPage) {
       doUpdateHash('/files')
