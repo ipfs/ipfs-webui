@@ -87,14 +87,14 @@ class FilesPage extends React.Component {
     this.setState({ downloadAbort: abort })
   }
 
-  add = (raw, root = '', wellFormed = false) => {
+  add = (raw, root = '') => {
     const { files, doFilesWrite } = this.props
 
     if (root === '') {
       root = files.path
     }
 
-    doFilesWrite(root, raw, wellFormed)
+    doFilesWrite(root, raw)
   }
 
   addByPath = (path) => {

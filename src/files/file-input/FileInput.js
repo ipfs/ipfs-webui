@@ -64,7 +64,7 @@ class FileInput extends React.Component {
     this.toggleDropdown()
     const files = await this.props.doDesktopSelectDirectory()
     if (files) {
-      this.props.onAddFiles(files, '', true)
+      this.props.onAddFiles(files)
     }
   }
 

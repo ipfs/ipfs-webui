@@ -8,6 +8,10 @@ const ignore = [
 ]
 
 export async function filesToStreams (files) {
+  if (!Array.isArray(files)) {
+    return files
+  }
+
   const streams = []
   let totalSize = 0
   let isDir = false
