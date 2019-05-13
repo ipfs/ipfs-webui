@@ -39,9 +39,11 @@
     "paragraph2": "<0>For mere info om at komme i gang med IPFS, kan du <1>læse guiden</1>.</0>"
   },
   "AskToEnable": {
-    "label": "Help improve this app by sending anonymous usage data.",
+    "label": "Hjælp med at forbedre denne App ved at sende anonyme brugsdata.",
     "yesLabel": "OK",
     "noLabel": "Nej tak",
-    "detailsLabel": "More info"
-  }
+    "detailsLabel": "Mere info"
+  },
+  "bandwidthStats": "Bandwidth Stats",
+  "bandwidthStatsDisabled": "You have the bandwidth metrics disabled. You can enable them by typing the command bellow or changing the key <1>Swarm.DisableBandwidthMetrics</1> to <3>false</3> on <5>Settings</5>. Then, you need to restart the IPFS daemon to apply the changes."
 }

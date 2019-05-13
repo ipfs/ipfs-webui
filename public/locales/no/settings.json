@@ -5,6 +5,7 @@
   "reset": "Tilbakestill",
   "language": "Språk",
   "config": "IPFS Konfigurasjon",
+  "analytics": "Analyse",
   "languageModal": {
     "title": "Skifte språk",
     "description": "Velg ditt foretrukne språk"
@@ -15,6 +16,7 @@
   },
   "fetchingSettings": "Henter innstillinger...",
   "configApiNotAvailable": "IPFS sitt konfigurasjons API er ikke tilgjengelig. Vennligst deaktiver \"IPFS Companion\" Web extension, og prøv på nytt.",
+  "ipfsDaemonOffline": "IPFS-daemon er offline. Vennligst skru den på og prøv på nytt.",
   "settingsUnavailable": "Innstillinger ikke tilgjengelig. Vennligst sjekk at din IPFS daemon kjører.",
   "settingsHaveChanged": "Innstillingene er endret, vennligst klikk <1>Tilbakestill</1> for å oppdatere editor innholdet",
   "errorOccured": "Det oppsto en feil under lagring av endringene",
@@ -27,5 +29,40 @@
   "autoAddScreenshots": "Legg til skjermbilder automatisk",
   "autoAddScreenshotsDescription": "Bruk <0>{ctrlKey}</0>+<2>{altKey}</2>+<3>S</3> for å ta skjermbilder, og legge de til i oppbevaringsstedet.",
   "downloadCopiedHash": "Last ned kopiert hash",
-  "downloadCopiedHashDescription": "Bruk <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> for å laste ned den siste kopierte hashen. "
+  "downloadCopiedHashDescription": "Bruk <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> for å laste ned den siste kopierte hashen. ",
+  "AnalyticsToggle": {
+    "label": "Hjelp oss med å forbedre denne appen ved å sende anonyme bruksdata",
+    "summary": "Konfigurer hva som samles inn",
+    "paragraph1": "Ingen CIDer, filnavn, eller annen personlig informasjon samles inn. Vi ønsker beregninger for å vise oss hvilke funksjoner som er nyttige for å hjelpe oss med å prioritere hva vi skal jobbe med, og systemkonfigurasjonene for å veilede vår testing.",
+    "paragraph2": "Protocol Labs hoster en <1>Countly</1> instanse for å registrere anonyme bruksdata for denne appen.",
+    "basicInfo": "Følgende tilleggsinformasjon sendes til countly.ipfs.io",
+    "optionalInfo": "Du kan velge å sende inn følgende informasjon:",
+    "sessions": {
+      "label": "Økter",
+      "summary": "når og hvor lenge du bruker appen, og nettleser beregninger",
+      "details": "<0>De følgende nettleser beregninger er sendt:</0><1><0>En tilfeldig, generert enhets-ID</0><1>Tidsstempel for når økten starter</1><2>Periodiske tidsstempler for å spore varighet</2><3>App-versjon feks, 2.4.4</3><4>Lokalitet feks, en-GB</4><5>Bruker agen feks, Mozilla/5.0 (Macintosh; Intel Mac OSX 10_14_2) ...</5><6>Skjermoppløsning feks, 800x600</6><7>Skermpikseltetthet feks, 1</7></1> "
+    },
+    "events": {
+      "label": "Hendelser",
+      "summary": "handliger som å legge til eller slette filer, og hvor lang tid det tok",
+      "details": "Applikasjons spesifikke handlinger. Vi registrer bare at handlingen skjedde, hvor lang tid det tok fra start til slutt, og en teller hvis handlingen involverte flere elementer."
+    },
+    "views": {
+      "label": "Sidevisninger",
+      "summary": "Hvilke deler av appen du besøker",
+      "details": "Registrerer hvilke deler av appen som er besøkt. Banene som er tatt opp, inneholder bare mønsteret som brukes til å matche ruten, i stedet for hele nettadressen."
+    },
+    "location": {
+      "label": "Lokasjon",
+      "summary": "Landskode fra IP-adresse. IP-adressen blir forkastet",
+      "details": "Din IP-adresser blir brukt til å kalkulere en landskode for din lokasjon, slik som \"FR\" for Frankrike. Når samtykke ikke er gitt til sporing av lokasjon, vil en tom plasseringsegenskap bli sendt med alle forespørsler for å signalisere til serveren å deaktivere lokasjon. Denne informasjonen hjelper oss i å guide våre oversettelsesarbeid, og finne ut av hvor vi burde ha eventer."
+    },
+    "crashes": {
+      "label": "App feil",
+      "summary": "JavaScript feilmeldinger og stack traces",
+      "details": "Registrerer JavaScript feilmeldinger og stack tracer som oppstår når du bruker appen, hvor det er mulig. Det er svært nyttig å vite når appen ikke virker for deg, men <1>feilmeldinger kan inneholde identifiserbar informasjon</1> slik som CIDs eller filbaner, så bare aktiver dette hvis du er komfortabel med å dele denne informasjonen med oss."
+    }
+  },
+  "ipfsCmdTools": "IPFS command line tools",
+  "ipfsCmdToolsDescription": "Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line."
 }

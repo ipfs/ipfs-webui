@@ -10,8 +10,8 @@
   "version": "Versão",
   "advanced": "Avançado",
   "publicKey": "Chave Pública",
-  "upSpeed": "Outgoing",
-  "downSpeed": "Incoming",
+  "upSpeed": "Saída",
+  "downSpeed": "Entrada",
   "spaceUsed": "Espaço utilizado",
   "networkTraffic": "Tráfego de Rede",
   "bandwidthOverTime": "Largura de banda utilizada",
@@ -39,9 +39,11 @@
     "paragraph2": "<0>Para mais informação sobre como iniciar a sua jornada com o IPFS, pode <1>ler o guia</1>.</0>"
   },
   "AskToEnable": {
-    "label": "Help improve this app by sending anonymous usage data.",
+    "label": "Ajude a melhorar esta aplicação enviado dados de utilização anónimos.",
     "yesLabel": "OK",
-    "noLabel": "No thanks",
-    "detailsLabel": "More info"
-  }
+    "noLabel": "Não, obrigado",
+    "detailsLabel": "Mais informação"
+  },
+  "bandwidthStats": "Estatísticas de largura de banda",
+  "bandwidthStatsDisabled": "Tem as métricas de largura de banda desativadas. Pode ativá-las digitando o comando abaixo ou alterando a chave <1>Swarm.DisableBandwidthMetrics</1> para <3>false</3> em <5>Configurações</5>. Depois tem de reiniciar o seu nó IPFS para aplicar as alterações."
 }
