@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
 // Icons
 import DocumentIcon from '../../icons/StrokeDocument'
@@ -55,6 +56,18 @@ class FileInput extends React.Component {
     })
   }
 
+  handleAddFolder = async () => {
+    if (!this.props.isIpfsDesktop) {
+      return this.folderInput.click()
+    }
+
+    this.toggleDropdown()
+    const files = await this.props.doDesktopSelectDirectory()
+    if (files) {
+      this.props.onAddFiles(files, '', true)
+    }
+  }
+
   componentDidUpdate (prev) {
     if (this.props.addProgress === 100 && prev.addProgress !== 100) {
       this.setState({ force100: true })
@@ -93,7 +106,7 @@ class FileInput extends React.Component {
               <DocumentIcon className='fill-aqua w2 mr1' />
               {t('addFile')}
             </Option>
-            <Option onClick={() => this.folderInput.click()}>
+            <Option onClick={this.handleAddFolder}>
               <FolderIcon className='fill-aqua w2 mr1' />
               {t('addFolder')}
             </Option>
@@ -130,4 +143,8 @@ class FileInput extends React.Component {
   }
 }
 
-export default translate('files')(FileInput)
+export default connect(
+  'selectIsIpfsDesktop',
+  'doDesktopSelectDirectory',
+  translate('files')(FileInput)
+)
