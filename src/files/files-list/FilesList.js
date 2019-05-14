@@ -16,6 +16,7 @@ import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation'
+import { filesToStreams } from '../../lib/files'
 
 export class FilesList extends React.Component {
   constructor (props) {
@@ -422,12 +423,13 @@ export class FilesList extends React.Component {
 }
 
 const dropTarget = {
-  drop: ({ onAddFiles }, monitor) => {
+  drop: async ({ onAddFiles }, monitor) => {
     if (monitor.didDrop()) {
       return
     }
     const { filesPromise } = monitor.getItem()
-    onAddFiles(filesPromise)
+    const files = await filesPromise
+    onAddFiles(await filesToStreams(files))
   }
 }
 

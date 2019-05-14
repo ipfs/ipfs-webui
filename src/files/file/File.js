@@ -11,6 +11,7 @@ import GlyphDots from '../../icons/GlyphDots'
 import Tooltip from '../../components/tooltip/Tooltip'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
+import { filesToStreams } from '../../lib/files'
 
 class File extends React.Component {
   static propTypes = {
@@ -148,11 +149,12 @@ const dragCollect = (connect, monitor) => ({
 })
 
 const dropTarget = {
-  drop: (props, monitor) => {
+  drop: async (props, monitor) => {
     const item = monitor.getItem()
 
     if (item.hasOwnProperty('files')) {
-      props.onAddFiles(item.filesPromise, props.path)
+      const files = await item.filesPromise
+      props.onAddFiles(await filesToStreams(files), props.path)
     } else {
       const src = item.path
       const dst = join(props.path, basename(item.path))

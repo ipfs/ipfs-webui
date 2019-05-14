@@ -11,6 +11,7 @@ import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 import Button from '../../components/button/Button'
 import Overlay from '../../components/overlay/Overlay'
 import ByPathModal from './ByPathModal'
+import { filesToStreams } from '../../lib/files';
 
 const AddButton = translate('files')(({ progress = null, t, tReady, i18n, lng, ...props }) => {
   const sending = progress !== null
@@ -77,8 +78,8 @@ class FileInput extends React.Component {
     }
   }
 
-  onInputChange = (input) => () => {
-    this.props.onAddFiles(input.files)
+  onInputChange = (input) => async () => {
+    this.props.onAddFiles(await filesToStreams(input.files))
     input.value = null
     this.toggleDropdown()
   }

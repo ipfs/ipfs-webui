@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import navHelper from 'internal-nav-helper'
 import { IpldExploreForm } from 'ipld-explorer-components'
+import { filesToStreams } from './lib/files'
 // React DnD
 import { DragDropContext, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -33,11 +34,13 @@ export class App extends Component {
     this.props.doInitIpfs()
   }
 
-  addFiles = async (files) => {
+  addFiles = async (filesPromise) => {
     const { doFilesWrite, doUpdateHash, routeInfo } = this.props
     const isFilesPage = routeInfo.pattern === '/files*'
     const addAtPath = isFilesPage ? routeInfo.params.path : '/'
-    doFilesWrite(addAtPath, files)
+    const files = await filesPromise
+
+    doFilesWrite(addAtPath, await filesToStreams(files))
     // Change to the files pages if the user is not there
     if (!isFilesPage) {
       doUpdateHash('/files')

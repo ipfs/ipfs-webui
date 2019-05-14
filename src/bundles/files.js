@@ -1,6 +1,6 @@
 import { join, dirname } from 'path'
 import { createSelector } from 'redux-bundler'
-import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
+import { getDownloadLink, getShareableLink } from '../lib/files'
 import countDirs from '../lib/count-dirs'
 import { sortByName, sortBySize } from '../lib/sort'
 
@@ -264,12 +264,11 @@ export default (opts = {}) => {
       }
     },
 
-    doFilesWrite: make(actions.WRITE, async (ipfs, root, filesOrPromise, id, { dispatch }) => {
+    doFilesWrite: make(actions.WRITE, async (ipfs, root, files, id, { dispatch }) => {
       // NOTE: the simpler form `let files = await filesOrPromise`, leaves the
       // FileList empty if is not wrapped in a promise...which is...surprising.
       // TODO: why the heck is that?
-      let files = filesOrPromise.then ? await filesOrPromise : filesOrPromise
-      const { streams, totalSize } = await filesToStreams(files)
+      const { streams, totalSize } = files
 
       // Normalise all paths to be relative. Dropped files come as absolute,
       // those added by the file input come as relative paths, so normalise them.
