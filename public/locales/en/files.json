@@ -9,7 +9,7 @@
   "fileName": "File name",
   "size": "Size",
   "noPDFSupport": "Your browser does not support PDFs. Please download the PDF to view it:",
-  "downloadPDF": "Download PDF.",
+  "downloadPDF": "Download PDF",
   "downloadInstead": "Try <1>downloading</1> it instead.",
   "cantBePreviewed": "Sorry, this file can’t be previewed",
   "addFile": "File",
@@ -24,7 +24,7 @@
     "rename": "Rename",
     "download": "Download",
     "inspect": "Inspect",
-    "copyHash": "Copy Hash",
+    "copyHash": "Copy hash",
     "share": "Share",
     "close": "Close",
     "copy": "Copy",
@@ -32,25 +32,25 @@
     "clear": "Clear",
     "create": "Create",
     "save": "Save",
-    "unselectAll": "Unselect All"
+    "unselectAll": "Unselect all"
   },
   "shareModal": {
-    "title": "Share Files",
+    "title": "Share files",
     "description": "Copy the link below and share it with your friends."
   },
   "renameModal": {
-    "titleFile": "Rename File",
-    "titleFolder": "Rename Folder",
+    "titleFile": "Rename file",
+    "titleFolder": "Rename folder",
     "descriptionFile": "Choose a new name for this file.",
     "descriptionFolder": "Choose a new name for this folder."
   },
   "deleteModal": {
-    "titleItem": "{count, plural, one {Delete Item} other {Delete {count} Items}}",
-    "titleFolder": "{count, plural, one {Delete Folder} other {Delete {count} Folders}}",
-    "titleFile": "{count, plural, one {Delete File} other {Delete {count} Files}}",
-    "descriptionItem": "{count, plural, one {Are you sure you want to delete this item? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} items? This action is permanent and cannot be reversed.}}",
-    "descriptionFolder": "{count, plural, one {Are you sure you want to delete this folder? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} folders? This action is permanent and cannot be reversed.}}",
-    "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete {count} files? This action is permanent and cannot be reversed.}}"
+    "titleItem": "{count, plural, one {Delete item} other {Delete {count} items}}",
+    "titleFolder": "{count, plural, one {Delete folder} other {Delete {count} folders}}",
+    "titleFile": "{count, plural, one {Delete file} other {Delete {count} files}}",
+    "descriptionItem": "{count, plural, one {Are you sure you want to delete this item? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} items? This action is permanent and cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, one {Are you sure you want to delete this folder? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} folders? This action is permanent and cannot be reversed.}}",
+    "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.}}"
   },
   "addByPathModal": {
     "title": "Add from IPFS",
