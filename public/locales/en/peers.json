@@ -5,7 +5,7 @@
   "address": "Address",
   "location": "Location",
   "unknownLocation": "Unknown",
-  "addConnection": "Add Connection",
+  "addConnection": "Add connection",
   "insertPeerAddress": "Insert the peer address you want to connect to.",
   "add": "Add",
   "example": "Example:"
