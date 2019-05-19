@@ -24,7 +24,7 @@
     "header": "What is IPFS?",
     "paragraph1": "<0><0>IPFS is a protocol</0> that defines a content-addressed file system, coordinates content delivery and combines ideas from Kademlia, BitTorrent, Git and more.</0>",
     "paragraph2": "<0><0>IPFS is a filesystem.</0> It has directories and files and mountable filesystem via FUSE.</0>",
-    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity</0>",
+    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity.</0>",
     "paragraph4": "<0><0>IPFS is p2p.</0> It supports worldwide peer-to-peer file transfers with a completely decentralized architecture and no central point of failure.</0>",
     "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
   }
