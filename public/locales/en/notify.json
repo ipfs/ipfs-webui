@@ -1,5 +1,5 @@
 {
-  "connectingToIpfs": "Connecting to IPFS...",
+  "connectingToIpfs": "Connecting to IPFS…",
   "connectedToIpfs": "Connected to IPFS!",
   "ipfsApiRequestFailed": "IPFS request failed. Please check if your daemon is running.",
   "windowIpfsRequestFailed": "IPFS request failed. Please check your IPFS Companion settings.",
