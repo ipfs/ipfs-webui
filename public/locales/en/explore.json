@@ -22,7 +22,7 @@
     "explore": "Explore"
   },
   "CidInfo": {
-    "header": "CID Info",
+    "header": "CID info",
     "hashDigest": "Hash digest"
   },
   "ObjectInfo": {
