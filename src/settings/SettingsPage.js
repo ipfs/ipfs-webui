@@ -30,7 +30,7 @@ export const SettingsPage = ({
     { isIpfsDesktop &&
       <DesktopSettings />
     }
-    
+
     <Experiments t={t} />
 
     <Box className='mb3 pa4'>
