@@ -12,11 +12,13 @@ const ACTIONS = {
 const EXPERIMENTS = {
   npm: {
     action: createAction(ACTIONS.EXP_TOGGLE, 'npm'),
-    enabled: false
+    enabled: false,
+    desktop: false
   },
   tpd: {
     action: createAction(ACTIONS.EXP_TOGGLE, 'tpd'),
-    enabled: false
+    enabled: false,
+    desktop: false
   }
 }
 

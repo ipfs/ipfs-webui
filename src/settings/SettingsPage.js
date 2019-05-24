@@ -11,6 +11,7 @@ import LanguageSelector from '../components/language-selector/LanguageSelector'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import JsonEditor from './editor/JsonEditor'
 import DesktopSettings from './DesktopSettings'
+import Experiments from '../components/experiments/experimentsPanel'
 import Title from './Title'
 
 const PAUSE_AFTER_SAVE_MS = 3000
@@ -29,6 +30,8 @@ export const SettingsPage = ({
     { isIpfsDesktop &&
       <DesktopSettings />
     }
+    
+    <Experiments t={t} />
 
     <Box className='mb3 pa4'>
       <Title>{t('language')}</Title>
