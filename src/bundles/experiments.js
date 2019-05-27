@@ -13,10 +13,33 @@ const EXPERIMENTS = {
   npm: {
     action: async () => null,
     enabled: false,
-    issueUrl: 'https://',
+    actionUrls: [
+      {
+        url: 'https://github.com/ipfs-shipyard/npm-on-ipfs',
+        key: 'readMoreUrl'
+      },
+      {
+        url: 'https://github.com/ipfs-shipyard/npm-on-ipfs/issues',
+        key: 'issueUrl'
+      },
+      {
+        url: 'https://github.com/ipfs-shipyard/npm-on-ipfs',
+        key: 'feedbackUrl'
+      }
+    ],
     desktop: false
   },
   tpd: {
+    action: async () => null,
+    enabled: false,
+    desktop: false
+  },
+  tpda: {
+    action: async () => null,
+    enabled: false,
+    desktop: false
+  },
+  tpdb: {
     action: async () => null,
     enabled: false,
     desktop: false
