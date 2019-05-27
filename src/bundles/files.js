@@ -4,7 +4,7 @@ import { getDownloadLink, getShareableLink } from '../lib/files'
 import countDirs from '../lib/count-dirs'
 import { sortByName, sortBySize } from '../lib/sort'
 
-const isMac = typeof navigator !== 'undefined' ? navigator.userAgent.indexOf('Mac') !== -1 : false
+const isMac = navigator.userAgent.indexOf('Mac') !== -1
 
 export const actions = {
   FETCH: 'FETCH',
