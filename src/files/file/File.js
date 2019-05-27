@@ -156,7 +156,7 @@ const dropTarget = {
       (async () => {
         const files = await item.filesPromise
         props.onAddFiles(await filesToStreams(files), props.path)
-      })()      
+      })()
     } else {
       const src = item.path
       const dst = join(props.path, basename(item.path))
