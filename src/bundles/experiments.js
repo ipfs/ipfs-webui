@@ -71,6 +71,7 @@ export default {
     }
   },
   selectIsIpfsDesktop: () => !!window.ipfsDesktop,
-  selectExperiments: () => objAsArr(EXPERIMENTS),
+  selectExperiments: () =>
+    objAsArr(EXPERIMENTS).filter(e => e.desktop === !!window.ipfsDesktop),
   selectState: state => state.experiments
 }
