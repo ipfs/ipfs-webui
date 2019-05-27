@@ -1,8 +1,3 @@
-const createAction = (type, key) => ({
-  type: type,
-  payload: { key }
-})
-
 const ACTIONS = {
   EXP_TOGGLE: 'EXPERIMENTS_EXP_TOGGLE'
 }
@@ -43,6 +38,11 @@ const EXPERIMENTS = {
 }
 
 // helpers
+const createAction = (type, key) => ({
+  type: type,
+  payload: { key }
+})
+
 const objAsArr = obj =>
   Object.keys(obj).map(i => ({
     ...obj[i],
