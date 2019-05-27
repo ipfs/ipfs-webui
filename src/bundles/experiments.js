@@ -66,17 +66,11 @@ const toggleEnabled = (state, key) => {
 }
 //
 
-// only the enabled key is persisted
-// add others below if required
-const defaultState = Object.keys(EXPERIMENTS).map(exp => ({
-  enabled: exp.enabled
-}))
-
 export default {
   name: 'experiments',
   // persist all actions
   persistActions: Object.values(ACTIONS),
-  reducer: (state = defaultState, action) => {
+  reducer: (state = {}, action) => {
     if (action.type === ACTIONS.EXP_TOGGLE) {
       return toggleEnabled(state, action.payload.key)
     }

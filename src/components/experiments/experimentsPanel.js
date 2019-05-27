@@ -33,6 +33,7 @@ const Experiments = ({ doToggleAction, experiments, state, t }) => {
                   <div className="mv3">
                     {actionUrls.map((action, i) => (
                       <a
+                        key={action.key}
                         className={`link blue pr2 ${i > 0 &&
                           'bl b1 pl2 b--light-gray'}`}
                         href={action.url}
