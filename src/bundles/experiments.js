@@ -31,18 +31,15 @@ const EXPERIMENTS = {
   },
   tpd: {
     action: async () => null,
-    enabled: false,
-    desktop: false
+    enabled: false
   },
   tpda: {
     action: async () => null,
-    enabled: false,
-    desktop: false
+    enabled: false
   },
   tpdb: {
     action: async () => null,
-    enabled: false,
-    desktop: false
+    enabled: false
   }
 }
 
@@ -96,6 +93,6 @@ export default {
   },
   selectIsIpfsDesktop: () => !!window.ipfsDesktop,
   selectExperiments: () =>
-    objAsArr(EXPERIMENTS).filter(e => e.desktop === !!window.ipfsDesktop),
+    objAsArr(EXPERIMENTS).filter(e => !!e.desktop === !!window.ipfsDesktop),
   selectState: state => state.experiments
 }
