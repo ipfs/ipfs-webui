@@ -1,6 +1,6 @@
-const createAction = (type, key, cb) => ({
+const createAction = (type, key) => ({
   type: type,
-  payload: { key, cb }
+  payload: { key }
 })
 
 const ACTIONS = {
@@ -8,15 +8,15 @@ const ACTIONS = {
   EXP_TOGGLE: 'EXPERIMENTS_EXP_TOGGLE'
 }
 
-// setup experiments, only the enabled key is persisted
+// setup experiments
 const EXPERIMENTS = {
   npm: {
-    action: createAction(ACTIONS.EXP_TOGGLE, 'npm'),
+    action: async () => null,
     enabled: false,
     desktop: false
   },
   tpd: {
-    action: createAction(ACTIONS.EXP_TOGGLE, 'tpd'),
+    action: async () => null,
     enabled: false,
     desktop: false
   }
@@ -36,6 +36,8 @@ const isEnabled = (state, key) => {
 }
 
 const toggleEnabled = (state, key) => {
+  // only the enabled key is persisted
+  // add others below if required
   return {
     ...state,
     [key]: {
@@ -50,13 +52,23 @@ export default {
   persistActions: Object.values(ACTIONS),
   reducer: (state = EXPERIMENTS, action) => {
     if (action.type === ACTIONS.EXP_TOGGLE) {
-      action.payload.cb && action.payload.cb()
       return toggleEnabled(state, action.payload.key)
     }
     return state
   },
-  doToggleAction: key => async ({ dispatch }) => {
-    key && dispatch(EXPERIMENTS[key].action)
+  doToggleAction: (key, enabled) => async ({ dispatch }) => {
+    if (!key) return
+
+    const experiment = EXPERIMENTS[key]
+    const dispatchAction = createAction(ACTIONS.EXP_TOGGLE, key)
+
+    if (typeof experiment.action === 'function') {
+      await Promise.resolve(experiment.action(enabled))
+        .then(res => dispatch(dispatchAction))
+        .catch(err => console.error(err))
+    } else {
+      dispatch(dispatchAction)
+    }
   },
   selectIsIpfsDesktop: () => !!window.ipfsDesktop,
   selectExperiments: () => objAsArr(EXPERIMENTS),

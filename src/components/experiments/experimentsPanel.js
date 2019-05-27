@@ -20,7 +20,7 @@ const Experiments = ({
               <h1>{key}</h1>
               <Checkbox
                 className="dib"
-                onChange={() => doToggleAction(key)}
+                onChange={() => doToggleAction(key, isEnabled(key))}
                 checked={isEnabled(key)}
                 label={
                   <span className="fw5 f6">{t(`Experiment_${key}.label`)}</span>
