@@ -149,12 +149,14 @@ const dragCollect = (connect, monitor) => ({
 })
 
 const dropTarget = {
-  drop: async (props, monitor) => {
+  drop: (props, monitor) => {
     const item = monitor.getItem()
 
     if (item.hasOwnProperty('files')) {
-      const files = await item.filesPromise
-      props.onAddFiles(await filesToStreams(files), props.path)
+      (async () => {
+        const files = await item.filesPromise
+        props.onAddFiles(await filesToStreams(files), props.path)
+      })()      
     } else {
       const src = item.path
       const dst = join(props.path, basename(item.path))

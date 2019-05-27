@@ -283,8 +283,6 @@ export default (opts = {}) => {
         }
       })
 
-      return
-
       const updateProgress = (sent) => {
         dispatch({ type: 'FILES_WRITE_UPDATED', payload: { id: id, progress: sent / totalSize * 100 } })
       }

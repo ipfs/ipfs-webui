@@ -423,13 +423,16 @@ export class FilesList extends React.Component {
 }
 
 const dropTarget = {
-  drop: async ({ onAddFiles }, monitor) => {
+  drop: ({ onAddFiles }, monitor) => {
     if (monitor.didDrop()) {
       return
     }
     const { filesPromise } = monitor.getItem()
-    const files = await filesPromise
-    onAddFiles(await filesToStreams(files))
+
+    (async () => {
+      const files = await filesPromise
+      onAddFiles(await filesToStreams(files))
+    })()
   }
 }
 

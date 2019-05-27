@@ -89,7 +89,6 @@ const dropTarget = {
       return
     }
 
-    console.log(monitor.getItem())
     const { filesPromise } = monitor.getItem()
     App.addFiles(filesPromise)
   }
