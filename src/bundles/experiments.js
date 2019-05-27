@@ -4,7 +4,6 @@ const createAction = (type, key) => ({
 })
 
 const ACTIONS = {
-  // NPM_TOGGLE: 'EXPERIMENTS_NPM_TOGGLE',
   EXP_TOGGLE: 'EXPERIMENTS_EXP_TOGGLE'
 }
 
@@ -57,21 +56,27 @@ const isEnabled = (state, key) => {
 }
 
 const toggleEnabled = (state, key) => {
-  // only the enabled key is persisted
-  // add others below if required
   return {
     ...state,
     [key]: {
+      ...state[key],
       enabled: !isEnabled(state, key)
     }
   }
 }
 //
 
+// only the enabled key is persisted
+// add others below if required
+const defaultState = Object.keys(EXPERIMENTS).map(exp => ({
+  enabled: exp.enabled
+}))
+
 export default {
   name: 'experiments',
+  // persist all actions
   persistActions: Object.values(ACTIONS),
-  reducer: (state = EXPERIMENTS, action) => {
+  reducer: (state = defaultState, action) => {
     if (action.type === ACTIONS.EXP_TOGGLE) {
       return toggleEnabled(state, action.payload.key)
     }
