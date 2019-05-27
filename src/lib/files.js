@@ -2,13 +2,10 @@ import fileReader from 'pull-file-reader'
 import CID from 'cids'
 
 export async function filesToStreams (files) {
-  console.log(files)
   const streams = []
 
   for (let file of files) {
     const stream = fileReader(file)
-
-    console.log(file)
 
     streams.push({
       path: file.filepath || file.webkitRelativePath || file.name,

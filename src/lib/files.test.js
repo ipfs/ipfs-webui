@@ -1,4 +1,4 @@
-/* global it, expect, beforeEach, afterEach, jest */
+/* global it, expect */
 import { filesToStreams } from './files'
 import { isSource } from 'is-pull-stream'
 
@@ -14,13 +14,20 @@ function expectRightFormat (output) {
 }
 
 function expectRightOutput (output, expected) {
+  expect(output.length).toBe(expected.length)
+
   for (const i in output) {
     expect(output[i].path).toBe(expected[i].path)
     expect(output[i].size).toBe(expected[i].size)
   }
 }
 
-it('chrome: input single file', async () => {
+// All this tests work for both Firefox and Chrome.
+// It seems that Firefox also honors webkitDirectory and works the
+// same way when dropping directories and on inputs for directories.
+// https://developer.mozilla.org/en-US/docs/Web/API/File/webkitRelativePath
+
+it('input single file', async () => {
   const input = [{
     size: 3303420,
     name: 'Balloons.jpg',
@@ -38,7 +45,7 @@ it('chrome: input single file', async () => {
   expectRightOutput(output, expected)
 })
 
-it('chrome: input multiple files', async () => {
+it('input multiple files', async () => {
   const input = [{
     size: 4210819,
     name: 'a-file.jpg',
@@ -74,7 +81,7 @@ it('chrome: input multiple files', async () => {
   expectRightOutput(output, expected)
 })
 
-it('chrome: input directory', async () => {
+it('input directory', async () => {
   const input = [{
     size: 4210819,
     name: 'a-file.jpg',
@@ -102,6 +109,123 @@ it('chrome: input directory', async () => {
   {
     size: 3303420,
     path: 'dir/one-more-file.jpg'
+  }]
+
+  const output = await filesToStreams(input)
+
+  expectRightFormat(output)
+  expectRightOutput(output, expected)
+})
+
+it('drop single file', async () => {
+  const input = [{
+    size: 215786,
+    name: 'T.pdf',
+    webkitRelativePath: ''
+  }]
+
+  const expected = [{
+    size: 215786,
+    path: 'T.pdf'
+  }]
+
+  const output = await filesToStreams(input)
+
+  expectRightFormat(output)
+  expectRightOutput(output, expected)
+})
+
+it('drop multiple file', async () => {
+  const input = [{
+    size: 215786,
+    name: 'T.pdf',
+    webkitRelativePath: ''
+  },
+  {
+    size: 1511696,
+    name: 'T2.pdf',
+    webkitRelativePath: ''
+  }]
+
+  const expected = [{
+    size: 215786,
+    path: 'T.pdf'
+  },
+  {
+    size: 1511696,
+    path: 'T2.pdf'
+  }]
+
+  const output = await filesToStreams(input)
+
+  expectRightFormat(output)
+  expectRightOutput(output, expected)
+})
+
+it('drop one directory', async () => {
+  const input = [{
+    size: 215786,
+    filepath: 'Dir/T.pdf',
+    webkitRelativePath: 'Dir/T.pdf'
+  },
+  {
+    size: 1511696,
+    filepath: 'Dir/T2.pdf',
+    webkitRelativePath: 'Dir/T2.pdf'
+  }]
+
+  const expected = [{
+    size: 215786,
+    path: 'Dir/T.pdf'
+  },
+  {
+    size: 1511696,
+    path: 'Dir/T2.pdf'
+  }]
+
+  const output = await filesToStreams(input)
+
+  expectRightFormat(output)
+  expectRightOutput(output, expected)
+})
+
+it('drop multiple directories', async () => {
+  const input = [{
+    size: 215786,
+    filepath: 'Dir/T.pdf',
+    webkitRelativePath: 'Dir/T.pdf'
+  },
+  {
+    size: 1511696,
+    filepath: 'Dir/T2.pdf',
+    webkitRelativePath: 'Dir/T2.pdf'
+  },
+  {
+    size: 2080512,
+    filepath: 'Dir2/T3.pdf',
+    webkitRelativePath: 'Dir/T3.pdf'
+  },
+  {
+    size: 2023255,
+    filepath: 'Dir2/T4.pdf',
+    webkitRelativePath: 'Dir/T4.pdf'
+  }]
+
+  const expected = [{
+    size: 215786,
+    path: 'Dir/T.pdf'
+  },
+  {
+    size: 1511696,
+    path: 'Dir/T2.pdf'
+  },
+  {
+    size: 2080512,
+    path: 'Dir2/T3.pdf'
+  },
+  {
+    size: 2023255,
+    path: 'Dir2/T4.pdf'
   }]
 
   const output = await filesToStreams(input)
