@@ -31,8 +31,6 @@ export const SettingsPage = ({
       <DesktopSettings />
     }
 
-    <Experiments t={t} />
-
     <Box className='mb3 pa4'>
       <Title>{t('language')}</Title>
       <LanguageSelector t={t} />
@@ -42,6 +40,8 @@ export const SettingsPage = ({
         <AnalyticsToggle t={t} />
       </div>
     </Box>
+
+    <Experiments t={t} />
 
     <Box>
       <Title>{t('config')}</Title>

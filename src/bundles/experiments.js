@@ -13,6 +13,7 @@ const EXPERIMENTS = {
   npm: {
     action: async () => null,
     enabled: false,
+    issueUrl: 'https://',
     desktop: false
   },
   tpd: {

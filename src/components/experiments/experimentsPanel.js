@@ -4,26 +4,20 @@ import Checkbox from '../checkbox/Checkbox'
 import Box from '../../components/box/Box'
 import Title from '../../settings/Title'
 
-const Experiments = ({
-  isIpfsDesktop,
-  doToggleAction,
-  experiments,
-  state,
-  t,
-  open
-}) => {
+const Experiments = ({ doToggleAction, experiments, state, t }) => {
   // if there are no experiments to show don't render
-  if (experiments.length > 0) {
+  if (experiments && experiments.length > 0) {
     const isEnabled = key => state[key].enabled
     return (
       <Box className="mb3 pa4">
         <Title>{t('experiments')}</Title>
         <div className="flex flex-column pb3">
-          {experiments.map(({ key }) => {
+          {experiments.map(({ key, issueUrl }) => {
             const enabled = isEnabled(key)
             return (
               <div key={key}>
                 <h1>{key}</h1>
+                <p>{t(`Experiment_${key}.description`)}</p>
                 <Checkbox
                   className="dib"
                   onChange={() => doToggleAction(key, enabled)}
@@ -34,6 +28,13 @@ const Experiments = ({
                     </span>
                   }
                 />
+                {issueUrl && (
+                  <div className="mv3">
+                    <a className="link blue" href={issueUrl}>
+                      {t(`Experiment_${key}.issueUrl`)}
+                    </a>
+                  </div>
+                )}
               </div>
             )
           })}
