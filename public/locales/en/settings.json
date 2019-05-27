@@ -64,9 +64,9 @@
     }
   },
   "Experiments": {
-    "issueUrl": "🐞Open an issue",
+    "issueUrl": "Open an issue",
     "feedbackUrl": "💌Leave feedback",
-    "readMoreUrl": "📖Read More",
+    "readMoreUrl": "Read More",
     "npm": {
       "title": "NPM-ON-IPFS",
       "label": "Enable npm-on-ipfs",

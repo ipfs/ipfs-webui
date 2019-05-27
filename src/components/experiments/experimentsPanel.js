@@ -21,7 +21,7 @@ const Experiments = ({ doToggleAction, experiments, state, t }) => {
                 key={key}
                 className="pa3 mr3 mb3 mw6 br3 bg-white dib f6 ba b1 b--light-gray"
               >
-                <h3 className="aqua">{tkey('title', key)}</h3>
+                <h3>{tkey('title', key)}</h3>
                 <p className="charcoal">{tkey('description', key)}</p>
                 <Checkbox
                   className="dib"
