@@ -16,22 +16,22 @@ const Experiments = ({ doToggleAction, experiments, state, t }) => {
             const enabled = isEnabled(key)
             return (
               <div key={key}>
-                <h1>{key}</h1>
-                <p>{t(`Experiment_${key}.description`)}</p>
+                <h3>{t(`Experiment-${key}.title`)}</h3>
+                <p>{t(`Experiment-${key}.description`)}</p>
                 <Checkbox
                   className="dib"
                   onChange={() => doToggleAction(key, enabled)}
                   checked={enabled}
                   label={
                     <span className="fw5 f6">
-                      {t(`Experiment_${key}.label`)}
+                      {t(`Experiment-${key}.label`)}
                     </span>
                   }
                 />
                 {issueUrl && (
                   <div className="mv3">
                     <a className="link blue" href={issueUrl}>
-                      {t(`Experiment_${key}.issueUrl`)}
+                      {t(`Experiment-${key}.issueUrl`)}
                     </a>
                   </div>
                 )}

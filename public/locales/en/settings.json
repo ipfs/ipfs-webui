@@ -63,6 +63,11 @@
       "details": "Records JavaScript error messages and stack traces that occur while using the app, where possible. It is very helpful to know when the app is not working for you, but <1>error messages may include identifiable information</1> like CIDs or file paths, so only enable this if you are comfortable sharing that information with us."
     }
   },
+  "Experiment-npm": {
+    "title": "NPM-ON-IPFS",
+    "label": "Enable npm-on-ipfs",
+    "description": "Hello"
+  },
   "ipfsCmdTools": "IPFS command line tools",
   "ipfsCmdToolsDescription": "Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line."
 }
