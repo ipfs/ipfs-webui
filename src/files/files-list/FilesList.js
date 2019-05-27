@@ -429,10 +429,12 @@ const dropTarget = {
     }
     const { filesPromise } = monitor.getItem()
 
-    (async () => {
+    const add = async () => {
       const files = await filesPromise
       onAddFiles(await filesToStreams(files))
-    })()
+    }
+
+    add()
   }
 }
 

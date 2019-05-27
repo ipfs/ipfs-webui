@@ -1,10 +1,9 @@
-import { join, dirname } from 'path'
+import { join, dirname, basename } from 'path'
 import { createSelector } from 'redux-bundler'
-import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
+import { getDownloadLink, getShareableLink } from '../lib/files'
 import countDirs from '../lib/count-dirs'
 import { sortByName, sortBySize } from '../lib/sort'
 
-// TODO: ?
 const isMac = typeof navigator !== 'undefined' ? navigator.userAgent.indexOf('Mac') !== -1 : false
 
 export const actions = {
@@ -272,7 +271,7 @@ export default (opts = {}) => {
     },
 
     doFilesWrite: make(actions.WRITE, async (ipfs, root, files, id, { dispatch }) => {
-      files = files.filter(f => !ignore.includes(f.name))
+      files = files.filter(f => !ignore.includes(basename(f.path)))
       const totalSize = files.reduce((prev, { size }) => prev + size, 0)
 
       // Normalise all paths to be relative. Dropped files come as absolute,
