@@ -7,6 +7,7 @@ import { Trans, translate } from 'react-i18next'
 import classnames from 'classnames'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
+import { filesToStreams } from '../../lib/files'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 // Reac DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -422,12 +423,13 @@ export class FilesList extends React.Component {
 }
 
 const dropTarget = {
-  drop: ({ onAddFiles }, monitor) => {
+  drop: async ({ onAddFiles }, monitor) => {
     if (monitor.didDrop()) {
       return
     }
     const { filesPromise } = monitor.getItem()
-    onAddFiles(filesPromise)
+    const files = await filesPromise
+    onAddFiles(await filesToStreams(files))
   }
 }
 
