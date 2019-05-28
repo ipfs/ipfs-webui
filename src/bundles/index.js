@@ -20,14 +20,14 @@ import bundleCache from '../lib/bundle-cache'
 import ipfsDesktop from './ipfs-desktop'
 import repoStats from './repo-stats'
 import createAnalyticsBundle from './analytics'
-import experiments from './experiments'
+import experimentsBundle from './experiments'
 
 export default composeBundles(
   createCacheBundle(bundleCache.set),
   appIdle({ idleTimeout: 5000 }),
   ipfsBundle({
     tryWindow: false,
-    ipfsConnectionTest: async (ipfs) => {
+    ipfsConnectionTest: async ipfs => {
       // ipfs connection is working if can we fetch the bw stats.
       // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
       try {
@@ -80,5 +80,5 @@ export default composeBundles(
   ipfsDesktop,
   repoStats,
   createAnalyticsBundle({}),
-  experiments
+  experimentsBundle
 )
