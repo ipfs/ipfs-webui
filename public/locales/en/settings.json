@@ -64,7 +64,7 @@
     }
   },
   "Experiments": {
-    "description": "Here you can get an early preview into new IPFS features and functionality by enabling items below. We are keen to hear your feedback and any errors you discover so we can keep improving before general release.",
+    "description": "Here you can get an early preview into new IPFS features by enabling options below. We are testing these ideas, and they may not be perfect yet so we'd love to hear your feedback.",
     "issueUrl": "Open an issue",
     "feedbackUrl": "💌Leave feedback",
     "readMoreUrl": "Read More",
