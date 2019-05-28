@@ -11,9 +11,10 @@ const Experiments = ({ doToggleAction, experiments, state, t }) => {
     const tkey = (selector, key) =>
       t(`Experiments.${key ? `${key}.${selector}` : `${selector}`}`)
     return (
-      <Box className="mb3 pa4">
+      <Box className="mb3 pa4 lh-copy">
         <Title>{t('experiments')}</Title>
-        <div className="flex flex-wrap pb3 lh-copy">
+        <p className="db mv4 f6 charcoal mw7">{tkey('description')}</p>
+        <div className="flex flex-wrap pb3">
           {experiments.map(({ key, actionUrls }) => {
             const enabled = isEnabled(key)
             return (
