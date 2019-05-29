@@ -10,11 +10,7 @@ function createMockIpfsBundle (ipfs) {
     selectIpfsReady: () => true
   }
 }
-const createMockIpfs = (opts) => {
-  opts = opts || {}
-  opts.minLatency = opts.minLatency || 1
-  opts.maxLatency = opts.maxLatency || 100
-
+const createMockIpfs = () => {
   return {
     add: jest.fn((files) => files.map((file) => ({
       path: file.path,
