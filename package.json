@@ -11,7 +11,7 @@
     "build:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-scripts build",
     "build:darwin:linux": "cross-env REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-scripts build",
     "build:icons": "svgr -d src/icons node_modules/ipfs-css/icons && standard --fix src/icons/*",
-    "test": "react-scripts test --env=node",
+    "test": "react-scripts test --env=jsdom",
     "test:coverage": "react-scripts test --coverage",
     "test:serve": "ecstatic build --cache=0 --port=3001",
     "test:e2e": "react-scripts test --testMatch **/test/e2e/**/*.test.js",
