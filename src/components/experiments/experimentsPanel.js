@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import Checkbox from '../checkbox/Checkbox'
-import Box from '../../components/box/Box'
+import Box from '../box/Box'
 import Title from '../../settings/Title'
 
 const Experiments = ({ doToggleAction, experiments, state, t }) => {

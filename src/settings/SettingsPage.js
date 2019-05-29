@@ -11,7 +11,7 @@ import LanguageSelector from '../components/language-selector/LanguageSelector'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import JsonEditor from './editor/JsonEditor'
 import DesktopSettings from './DesktopSettings'
-import Experiments from '../components/experiments/experimentsPanel'
+import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
 
 const PAUSE_AFTER_SAVE_MS = 3000
