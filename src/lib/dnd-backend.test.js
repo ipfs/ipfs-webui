@@ -17,7 +17,7 @@ function makeEntry (item) {
       readEntries: function (cb) {
         if (!this.called) {
           this.called = true
-          cb(item.childs.map(makeEntry))
+          cb(item.children.map(makeEntry))
         } else {
           // eslint-disable-next-line
           cb([])
@@ -112,7 +112,7 @@ it('one directory with a file', async () => {
     fullPath: '/dir',
     isDirectory: true,
     isFile: false,
-    childs: [{
+    children: [{
       fullPath: '/dir/test.txt',
       isFile: true,
       isDirectory: false,
@@ -125,10 +125,10 @@ it('one directory with a file', async () => {
   const res = await backend.currentNativeSource.item.filesPromise
 
   expect(res.length).toBe(1)
-  expect(res[0].fullPath).toBe(files[0].childs[0].fullPath)
-  expect(res[0].isDirectory).toBe(files[0].childs[0].isDirectory)
-  expect(res[0].isFile).toBe(files[0].childs[0].isFile)
-  expect(res[0].name).toBe(files[0].childs[0].name)
+  expect(res[0].fullPath).toBe(files[0].children[0].fullPath)
+  expect(res[0].isDirectory).toBe(files[0].children[0].isDirectory)
+  expect(res[0].isFile).toBe(files[0].children[0].isFile)
+  expect(res[0].name).toBe(files[0].children[0].name)
 })
 
 it('multiple directories with some files', async () => {
@@ -136,7 +136,7 @@ it('multiple directories with some files', async () => {
     fullPath: '/dir',
     isDirectory: true,
     isFile: false,
-    childs: [{
+    children: [{
       fullPath: '/dir/test.txt',
       isFile: true,
       isDirectory: false,
@@ -154,7 +154,7 @@ it('multiple directories with some files', async () => {
     fullPath: '/dir2',
     isDirectory: true,
     isFile: false,
-    childs: [{
+    children: [{
       fullPath: '/dir2/t1.txt',
       isFile: true,
       isDirectory: false,
@@ -167,20 +167,20 @@ it('multiple directories with some files', async () => {
   const res = await backend.currentNativeSource.item.filesPromise
 
   expect(res.length).toBe(3)
-  expect(res[0].fullPath).toBe(files[0].childs[0].fullPath)
-  expect(res[0].isDirectory).toBe(files[0].childs[0].isDirectory)
-  expect(res[0].isFile).toBe(files[0].childs[0].isFile)
-  expect(res[0].name).toBe(files[0].childs[0].name)
+  expect(res[0].fullPath).toBe(files[0].children[0].fullPath)
+  expect(res[0].isDirectory).toBe(files[0].children[0].isDirectory)
+  expect(res[0].isFile).toBe(files[0].children[0].isFile)
+  expect(res[0].name).toBe(files[0].children[0].name)
 
-  expect(res[1].fullPath).toBe(files[0].childs[1].fullPath)
-  expect(res[1].isDirectory).toBe(files[0].childs[1].isDirectory)
-  expect(res[1].isFile).toBe(files[0].childs[1].isFile)
-  expect(res[1].name).toBe(files[0].childs[1].name)
+  expect(res[1].fullPath).toBe(files[0].children[1].fullPath)
+  expect(res[1].isDirectory).toBe(files[0].children[1].isDirectory)
+  expect(res[1].isFile).toBe(files[0].children[1].isFile)
+  expect(res[1].name).toBe(files[0].children[1].name)
 
-  expect(res[2].fullPath).toBe(files[1].childs[0].fullPath)
-  expect(res[2].isDirectory).toBe(files[1].childs[0].isDirectory)
-  expect(res[2].isFile).toBe(files[1].childs[0].isFile)
-  expect(res[2].name).toBe(files[1].childs[0].name)
+  expect(res[2].fullPath).toBe(files[1].children[0].fullPath)
+  expect(res[2].isDirectory).toBe(files[1].children[0].isDirectory)
+  expect(res[2].isFile).toBe(files[1].children[0].isFile)
+  expect(res[2].name).toBe(files[1].children[0].name)
 })
 
 it('nested directories', async () => {
@@ -188,12 +188,12 @@ it('nested directories', async () => {
     fullPath: '/dir',
     isDirectory: true,
     isFile: false,
-    childs: [{
+    children: [{
       fullPath: '/dir/sub',
       isFile: false,
       isDirectory: true,
       name: 'sub',
-      childs: [{
+      children: [{
         fullPath: '/dir/sub/test.txt',
         isFile: true,
         isDirectory: false,
@@ -207,8 +207,8 @@ it('nested directories', async () => {
   const res = await backend.currentNativeSource.item.filesPromise
 
   expect(res.length).toBe(1)
-  expect(res[0].fullPath).toBe(files[0].childs[0].childs[0].fullPath)
-  expect(res[0].isDirectory).toBe(files[0].childs[0].childs[0].isDirectory)
-  expect(res[0].isFile).toBe(files[0].childs[0].childs[0].isFile)
-  expect(res[0].name).toBe(files[0].childs[0].childs[0].name)
+  expect(res[0].fullPath).toBe(files[0].children[0].children[0].fullPath)
+  expect(res[0].isDirectory).toBe(files[0].children[0].children[0].isDirectory)
+  expect(res[0].isFile).toBe(files[0].children[0].children[0].isFile)
+  expect(res[0].name).toBe(files[0].children[0].children[0].name)
 })
