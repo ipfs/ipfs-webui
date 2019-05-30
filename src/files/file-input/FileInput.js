@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { translate } from 'react-i18next'
+import { filesToStreams } from '../../lib/files'
 // Icons
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
@@ -64,8 +65,8 @@ class FileInput extends React.Component {
     }
   }
 
-  onInputChange = (input) => () => {
-    this.props.onAddFiles(input.files)
+  onInputChange = (input) => async () => {
+    this.props.onAddFiles(await filesToStreams(input.files))
     input.value = null
     this.toggleDropdown()
   }
