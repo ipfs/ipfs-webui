@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import navHelper from 'internal-nav-helper'
+import { filesToStreams } from './lib/files'
 import { IpldExploreForm } from 'ipld-explorer-components'
 import { filesToStreams } from './lib/files'
 // React DnD
@@ -86,6 +87,7 @@ const dropTarget = {
     if (monitor.didDrop()) {
       return
     }
+
     const { filesPromise } = monitor.getItem()
     App.addFiles(filesPromise)
   }

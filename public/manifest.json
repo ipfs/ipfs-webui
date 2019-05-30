@@ -1,15 +1,15 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "IPFS WebUI",
+  "name": "IPFS Web UI",
   "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+     {
+      "src": "ipfs-logo-512-ice.png",,
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#0b3a53",
+  "background_color": "#0b3a53"
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { join, basename } from 'path'
 import filesize from 'filesize'
 import classnames from 'classnames'
+import { filesToStreams } from '../../lib/files'
 // React DnD
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -11,7 +12,6 @@ import GlyphDots from '../../icons/GlyphDots'
 import Tooltip from '../../components/tooltip/Tooltip'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
-import { filesToStreams } from '../../lib/files'
 
 class File extends React.Component {
   static propTypes = {
@@ -149,12 +149,14 @@ const dragCollect = (connect, monitor) => ({
 })
 
 const dropTarget = {
-  drop: async (props, monitor) => {
+  drop: (props, monitor) => {
     const item = monitor.getItem()
 
     if (item.hasOwnProperty('files')) {
-      const files = await item.filesPromise
-      props.onAddFiles(await filesToStreams(files), props.path)
+      (async () => {
+        const files = await item.filesPromise
+        props.onAddFiles(await filesToStreams(files), props.path)
+      })()
     } else {
       const src = item.path
       const dst = join(props.path, basename(item.path))

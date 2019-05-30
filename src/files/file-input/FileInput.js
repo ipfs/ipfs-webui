@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
+import { filesToStreams } from '../../lib/files'
 // Icons
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'

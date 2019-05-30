@@ -7,6 +7,7 @@ import { Trans, translate } from 'react-i18next'
 import classnames from 'classnames'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
+import { filesToStreams } from '../../lib/files'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 // Reac DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -16,7 +17,6 @@ import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation'
-import { filesToStreams } from '../../lib/files'
 
 export class FilesList extends React.Component {
   constructor (props) {
@@ -423,13 +423,18 @@ export class FilesList extends React.Component {
 }
 
 const dropTarget = {
-  drop: async ({ onAddFiles }, monitor) => {
+  drop: ({ onAddFiles }, monitor) => {
     if (monitor.didDrop()) {
       return
     }
     const { filesPromise } = monitor.getItem()
-    const files = await filesPromise
-    onAddFiles(await filesToStreams(files))
+
+    const add = async () => {
+      const files = await filesPromise
+      onAddFiles(await filesToStreams(files))
+    }
+
+    add()
   }
 }
 
