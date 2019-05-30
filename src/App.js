@@ -4,7 +4,6 @@ import { connect } from 'redux-bundler-react'
 import navHelper from 'internal-nav-helper'
 import { filesToStreams } from './lib/files'
 import { IpldExploreForm } from 'ipld-explorer-components'
-import { filesToStreams } from './lib/files'
 // React DnD
 import { DragDropContext, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
