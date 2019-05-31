@@ -34,6 +34,10 @@ if (window.ipfsDesktop) {
       window.ipfsDesktop.toggleSetting(setting)
     },
 
+    doDesktopRestartDaemon: () => () => {
+      window.ipfsDesktop.restartDaemon()
+    },
+
     init: store => {
       store.doDesktopStartListening()
     }
