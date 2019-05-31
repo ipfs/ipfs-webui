@@ -58,15 +58,21 @@ class FileInput extends React.Component {
   }
 
   handleAddFolder = async () => {
+    this.toggleDropdown()
+
     if (!this.props.isIpfsDesktop) {
       return this.folderInput.click()
     }
 
-    this.toggleDropdown()
     const files = await this.props.doDesktopSelectDirectory()
     if (files) {
       this.props.onAddFiles(files)
     }
+  }
+
+  handleAddFile = async () => {
+    this.toggleDropdown()
+    return this.filesInput.click()
   }
 
   componentDidUpdate (prev) {
@@ -81,7 +87,6 @@ class FileInput extends React.Component {
   onInputChange = (input) => async () => {
     this.props.onAddFiles(await filesToStreams(input.files))
     input.value = null
-    this.toggleDropdown()
   }
 
   onAddByPath = (path) => {
@@ -103,7 +108,7 @@ class FileInput extends React.Component {
             top={3}
             open={this.state.dropdown}
             onDismiss={this.toggleDropdown} >
-            <Option onClick={() => this.filesInput.click()}>
+            <Option onClick={this.handleAddFile}>
               <DocumentIcon className='fill-aqua w2 mr1' />
               {t('addFile')}
             </Option>
