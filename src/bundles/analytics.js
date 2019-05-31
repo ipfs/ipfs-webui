@@ -60,6 +60,10 @@ const createAnalyticsBundle = ({
       Countly.app_version = appVersion
       Countly.debug = debug
 
+      if (await store.selectIsIpfsDesktop()) {
+        Countly.app_version = await store.selectDesktopVersion()
+      }
+
       // Configure what to track. Nothing is sent without user consent.
       Countly.q.push(['track_sessions'])
       Countly.q.push(['track_errors'])
