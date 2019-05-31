@@ -34,8 +34,8 @@ if (window.ipfsDesktop) {
       window.ipfsDesktop.toggleSetting(setting)
     },
 
-    doDesktopRestartDaemon: () => () => {
-      window.ipfsDesktop.restartDaemon()
+    doDesktopIpfsConfigChanged: () => () => {
+      window.ipfsDesktop.configHasChanged()
     },
 
     doDesktopSelectDirectory: () => () => {

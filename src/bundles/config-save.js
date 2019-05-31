@@ -35,7 +35,7 @@ const bundle = {
     dispatch({ type: 'CONFIG_SAVE_FINISHED' })
 
     if (await store.selectIsIpfsDesktop()) {
-      store.doDesktopRestartDaemon()
+      store.doDesktopIpfsConfigChanged()
     }
   }
 }
