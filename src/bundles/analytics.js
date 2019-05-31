@@ -60,7 +60,7 @@ const createAnalyticsBundle = ({
       Countly.app_version = appVersion
       Countly.debug = debug
 
-      if (await store.selectIsIpfsDesktop()) {
+      if (store.selectIsIpfsDesktop()) {
         Countly.app_version = await store.selectDesktopVersion()
       }
 

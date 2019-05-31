@@ -34,7 +34,7 @@ const bundle = {
     await store.doMarkConfigAsOutdated()
     dispatch({ type: 'CONFIG_SAVE_FINISHED' })
 
-    if (await store.selectIsIpfsDesktop()) {
+    if (store.selectIsIpfsDesktop()) {
       store.doDesktopIpfsConfigChanged()
     }
   }
