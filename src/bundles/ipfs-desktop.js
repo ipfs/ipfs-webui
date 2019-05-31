@@ -38,6 +38,10 @@ if (window.ipfsDesktop) {
       window.ipfsDesktop.restartDaemon()
     },
 
+    doDesktopSelectDirectory: () => () => {
+      return window.ipfsDesktop.selectDirectory()
+    },
+
     init: store => {
       store.doDesktopStartListening()
     }
