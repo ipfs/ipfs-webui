@@ -17,6 +17,7 @@
   "addByPath": "De IPFS",
   "addToIPFS": "Ajouter",
   "newFolder": "Nouveau répertoire",
+  "generating": "Génération...",
   "actions": {
     "add": "Ajouter",
     "delete": "Supprimer",
@@ -70,7 +71,7 @@
     "paragraph6": "<0>Si vous voulez aider à faire avancer l'interface Web, <1>vérifiez son code</1> ou <3>signalez un bug</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>Aucun fichier dans ce répertoire. Cliquez le bouton Ajouter à IPFS pour en ajouter.</0>"
+    "noFiles": "<0>Pas de fichiers dans ce répertoire. Cliquer sur \"Ajouter\" pour en ajouter.</0>"
   },
   "addFilesInfo": "<0>Ajoutez des fichiers à votre nœud IPFS local en cliquant sur le bouton <1>Ajouter à IPFS</1> ci-dessus.</0>",
   "companionInfo": "<0>Comme vous utilisez <1>IPFS Companion</1>, la vue des fichiers est limitée aux fichiers ajoutés lors de l'utilisation de l'extension.</0>"

@@ -17,6 +17,7 @@
   "addByPath": "From IPFS",
   "addToIPFS": "Pridať",
   "newFolder": "Nová zložka",
+  "generating": "Generating...",
   "actions": {
     "add": "Pridať",
     "delete": "Zmazať",
@@ -70,7 +71,7 @@
     "paragraph6": "<0>Ak chcete pomôcť posunúť Web UI ďalej, <1>pozrite sa na jeho kód</1> alebo <3>nahláste problém</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>Žiadne súbory v tejto zložke. Kliknite na \"Pridať do IPFS\" pre pridanie súboru.</0>"
+    "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
   },
   "addFilesInfo": "<0>Pridajte súbory do vášho IPFS uzlu kliknutím na <1>Pridať do IPFS</1> tlačítko.</0>",
   "companionInfo": "<0>Keďže používate <1>IPFS Companion</1>, zobrazené súbory sú obmedzené iba na tie, ktoré ste pridali počas používania tohoto rozšírenia.</0>"

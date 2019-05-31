@@ -39,9 +39,11 @@
     "paragraph2": "<0>Pour plus d'informations sur comment démarré avec IPFS vous pouvez <1> lire le manuel</1>.</0>"
   },
   "AskToEnable": {
-    "label": "Help improve this app by sending anonymous usage data.",
+    "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes.",
     "yesLabel": "OK",
     "noLabel": "Non merci",
-    "detailsLabel": "More info"
-  }
+    "detailsLabel": "Plus d'infos"
+  },
+  "bandwidthStats": "Statistique de la bande passante",
+  "bandwidthStatsDisabled": "Vous avez débranché les statistique de la bande passante. Vous pouvez ré-activer cela en tapant la ligne de commande <1>Swarm.DisableBandwidthMetrics</1> de <3>false</3> dans <5>Settings</5>. Vous devez redémarrer pour cela soit pris en compte. "
 }

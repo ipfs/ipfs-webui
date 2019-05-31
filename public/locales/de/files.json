@@ -17,6 +17,7 @@
   "addByPath": "From IPFS",
   "addToIPFS": "Hinzufügen",
   "newFolder": "Neuer Ordner",
+  "generating": "Generating...",
   "actions": {
     "add": "Hinzufügen",
     "delete": "Löschen",
@@ -70,7 +71,7 @@
     "paragraph6": "<0>Wenn Du helfen möchtest, die Web-UI weiter zu gestalten, <1>schau Dir den Quelltext an</1> oder <3>melde einen Fehler</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>In diesem Verzeichnis befinden sich keine Dateien. Klicke auf den “Zum IPFS hinzufügen”-Knopf, um einige hinzuzufügen.</0>"
+    "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
   },
   "addFilesInfo": "<0>Füge Dateien zu Deinem IPFS-Node hinzu, indem du oben auf den <1>\"Zum IPFS hinzufügen\"</1>-Knopf klickst.</0>",
   "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>"

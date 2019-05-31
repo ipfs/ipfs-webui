@@ -17,6 +17,7 @@
   "addByPath": "From IPFS",
   "addToIPFS": "Toevoegen",
   "newFolder": "Nieuwe map",
+  "generating": "Generating...",
   "actions": {
     "add": "Toevoegen",
     "delete": "Verwijder",
@@ -70,7 +71,7 @@
     "paragraph6": "<0><1>Bekijk de code</1> als je wil helpen om de web interface te verbeteren of <3>meld een bug</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>Deze map bevat nog geen bestanden. Klik \"Toevoegen aan IPFS\" om bestanden toe te voegen.</0>"
+    "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
   },
   "addFilesInfo": "<0>Voeg bestanden toe aan je lokale IPFS node door op de <1>Toevoegen aan IPFS</1> knop te klikken.</0>",
   "companionInfo": "<0>Waneer je <1>IPFS Companion</1> gebruikt, zie je enkel de files die je hebt toegevoegd tijdens het gebruik van deze extensie.</0>"

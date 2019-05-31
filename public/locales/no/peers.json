@@ -4,5 +4,9 @@
   "peers": "Peers",
   "address": "Adresse",
   "location": "Lokasjon",
-  "unknownLocation": "Ukjent"
+  "unknownLocation": "Ukjent",
+  "addConnection": "Legg til tilkobling",
+  "insertPeerAddress": "Sett inn peer-adressen du ønsker å koble til.",
+  "add": "Legg til",
+  "example": "Eksempel:"
 }

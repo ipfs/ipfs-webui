@@ -5,6 +5,7 @@
   "reset": "Nulstil",
   "language": "Sprog",
   "config": "IPFS opsætning",
+  "analytics": "Analyseværktøjer",
   "languageModal": {
     "title": "Ændre sprog",
     "description": "Vælg dit foretrukne sprog"
@@ -15,6 +16,7 @@
   },
   "fetchingSettings": "Henter indstillinger...",
   "configApiNotAvailable": "API'et til konfiguration af IPFS er utilgængelig. Venligst, fjern \"IPFS Kompagnon\" web-udvidelsen og prøv igen.",
+  "ipfsDaemonOffline": "The IPFS daemon is offline. Please turn it on and try again.",
   "settingsUnavailable": "Indstillinger er ikke tilgængelige. Venligst, tjek at IPFS baggrunds-processen kører.",
   "settingsHaveChanged": "Indstillingerne er opdateret, venligst klik på <1>Nulstil</1> for at opdatere editorens indhold.",
   "errorOccured": "En fejl opstået ved forsøg på at gemme dine ændringer.",
@@ -27,5 +29,40 @@
   "autoAddScreenshots": "Auto tilføj skærmbilleder",
   "autoAddScreenshotsDescription": "Benyt <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> for at optage skærmbilleder og tilføje dem til fil-biblioteket.",
   "downloadCopiedHash": "Download kopierede hash",
-  "downloadCopiedHashDescription": "Benyt <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> for at downloade den kopierede hash."
+  "downloadCopiedHashDescription": "Benyt <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> for at downloade den kopierede hash.",
+  "AnalyticsToggle": {
+    "label": "Hjælp med at forbedre denne app ved at sende anonyme brugsdata",
+    "summary": "Opsæt hvad der opsamles",
+    "paragraph1": "Ingen CID'er, filnavne, eller anden personlig information opsamles. Vi ønsker måltal som viser os hvilke funktioner der er brugbare for at hjælpe os med at prioritere det næste vi skal arbejde på og info om system konfigation for at guide vores test indsats.",
+    "paragraph2": "Protocol Labs driver en <1>Countly</1> instans for at optage anonyme brugsdata for denne app.",
+    "basicInfo": "Følgende øvrig information bliver sendt til countly.ipfs.io",
+    "optionalInfo": "Du kan tilvælge at sende følgende information:",
+    "sessions": {
+      "label": "Sessionsforløb",
+      "summary": "Hvor og hvor længe du benytter app'en, og browser data",
+      "details": "<0>Følgende browser data sendes:</0><1><0>Et tilfældigt genereret enheds ID</0><1>Tidsstempel med start på sessionsforløb</1><2>Periodisk tidsstempel for at måle varighed</2><3>App version f.eks. 2.4.4</3><4>Sprog e.g. en-GB</4><5>Browser bruger-agent e.g. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ...</5><6>Skærm opløsning f.eks. 800x600</6><7>Skærm pixel tæthed f.eks. 1</7></1>"
+    },
+    "events": {
+      "label": "Begivenheder",
+      "summary": "handlinger som at tilføje eller slette filer, og hvor længe det tog",
+      "details": "App specifikke handlinger. Vi lagrer kun at handlingen skete, hvor længe det tog fra start til slut, og en tæller for om handlingen involverede flere elementer."
+    },
+    "views": {
+      "label": "Sidevisninger",
+      "summary": "hvilke sektioner af App'en som du besøger",
+      "details": "Opsamler hvilke sektioner af App'en som besøges. Stierne inkluderer kun mønstre som benyttes til at matche ruter, i stedet for det komplette link."
+    },
+    "location": {
+      "label": "Lokation",
+      "summary": "Lande kode fra IP-adresse. IP-adressen skrottes.",
+      "details": "Din IP-adresse benyttes til at udregne en landekode for din lokation, som f.eks. \"FR\" for Frankrig. Hvor at samtykke ikke er givet til at spore lokation, vil en tom lokations angivelse blive sendt for at signalere til serveren at den ikke skal slå lokationen op. Denne information hjælper med at guide vores oversættelsesindsats og udregne hvor vi skal afholde begivenheder."
+    },
+    "crashes": {
+      "label": "App fejl",
+      "summary": "JavaScript fejlmeddelser og stack-traces.",
+      "details": "Lagrer JavaScript fejlmeddelser og stack-traces som opstår når App'en benyttes, i tilfælde hvor det er muligt. Det er til stor gavn at vide når App'en ikke fungerer for dig, men <1>fejlmeddelser kan inkludere identificerbar information</1> som CID'er eller fil-stier, så slå det kun til, hvis du er komfortabel med at dele denne information med os."
+    }
+  },
+  "ipfsCmdTools": "IPFS kommandolinje værktøjer",
+  "ipfsCmdToolsDescription": "Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line."
 }

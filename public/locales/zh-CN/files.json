@@ -17,6 +17,7 @@
   "addByPath": "来自IPFS",
   "addToIPFS": "添加",
   "newFolder": "新建文件夹",
+  "generating": "Generating...",
   "actions": {
     "add": "添加",
     "delete": "删除",
@@ -70,7 +71,7 @@
     "paragraph6": "<0>如果你想帮助推动Web UI的发展，请<1>查看源码</1>或<3>报告bug</3>！</0>"
   },
   "filesList": {
-    "noFiles": "<0>此文件夹中没有文件。点击“添加到IPFS”按钮添加。</0>"
+    "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
   },
   "addFilesInfo": "<0>通过点击<1>添加到IPFS</1>添加文件到你的本地IPFS节点。</0>",
   "companionInfo": "<0>如果你正在使用<1>IPFS伴侣</1>，文件视图仅限于使用扩展程序时添加的文件。</0>"
