@@ -34,6 +34,10 @@ if (window.ipfsDesktop) {
       window.ipfsDesktop.toggleSetting(setting)
     },
 
+    doDesktopIpfsConfigChanged: () => () => {
+      window.ipfsDesktop.configHasChanged()
+    },
+
     doDesktopSelectDirectory: () => () => {
       return window.ipfsDesktop.selectDirectory()
     },

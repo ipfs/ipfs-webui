@@ -33,6 +33,10 @@ const bundle = {
     }
     await store.doMarkConfigAsOutdated()
     dispatch({ type: 'CONFIG_SAVE_FINISHED' })
+
+    if (await store.selectIsIpfsDesktop()) {
+      store.doDesktopIpfsConfigChanged()
+    }
   }
 }
 
