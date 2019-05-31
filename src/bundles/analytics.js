@@ -61,7 +61,7 @@ const createAnalyticsBundle = ({
       Countly.debug = debug
 
       if (store.selectIsIpfsDesktop()) {
-        Countly.app_version = await store.selectDesktopVersion()
+        Countly.app_version = store.selectDesktopVersion()
       }
 
       // Configure what to track. Nothing is sent without user consent.
