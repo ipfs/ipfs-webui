@@ -16,7 +16,7 @@ export default {
     'selectHash',
     'selectFilesPathFromHash',
     (hash, path) => {
-      if (hash === '/files' || hash === '/files/' || (path && (path === '' || path === '/ipns' || path === '/ipfs'))) {
+      if (hash === '/files' || hash === '/files/' || (path && (path === '' || path === '/ipns'))) {
         return { actionCreator: 'doUpdateHash', args: ['#/files/mfs/'] }
       }
     }

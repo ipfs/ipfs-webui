@@ -21,8 +21,7 @@ function makeBread (root, t) {
     }
   }
 
-  parts[0].name = t('home')
-  parts[0].path = '/'
+  parts.shift()
 
   return parts
 }
@@ -30,6 +29,8 @@ function makeBread (root, t) {
 function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
   const cls = `Breadcrumbs sans-serif ${className}`
   const bread = makeBread(path, t)
+
+  console.log(bread)
 
   const res = bread.map((link, index) => ([
     <div key={`${index}link`} className='dib bb bw1 pv1' style={{ borderColor: '#244e66' }}>
@@ -40,6 +41,8 @@ function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
     </div>,
     <div key={`${index}divider`} className='dib ph2 pv1 gray v-top'>/</div>
   ]))
+
+  res.unshift(<div key={`b-divider`} className='dib pr2 pv1 gray v-top'>/</div>)
 
   res[res.length - 1].pop()
 

@@ -131,7 +131,7 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
   const path = store.selectFilesPathFromHash()
   const toStat = await pathToStat(path, ipfs)
 
-  if (path === '/ipfs' || path === '/ipns' || path === '/') {
+  if (path === '/ipns' || path === '/') {
     return {
       path: path,
       fetched: Date.now(),
@@ -140,11 +140,11 @@ const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
     }
   }
 
-  if (path === '/pins') {
+  if (path === '/ipfs') {
     const pins = await getPins(ipfs)
 
     return {
-      path: '/pins',
+      path: '/ipfs',
       fetched: Date.now(),
       type: 'directory',
       content: pins

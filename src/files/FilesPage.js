@@ -181,7 +181,7 @@ class FilesPage extends React.Component {
 
     const isCompanion = ipfsProvider === 'window.ipfs'
     const filesExist = files && files.content && files.content.length
-    const isRoot = files && files.path === '/'
+    const isRoot = files && files.path === '/mfs'
 
     return (
       <div data-id='FilesPage' className='mw9 center'>
