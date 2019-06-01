@@ -429,6 +429,11 @@ export default (opts = {}) => {
       dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
     },
 
+    doFilesExplorePath: (path) => async ({ store }) => {
+      // TODO: sanitize path
+      store.doFilesNavigateTo(path)
+    },
+
     selectFiles: (state) => state.files.pageContent,
 
     selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === actions.FETCH),

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import navHelper from 'internal-nav-helper'
 import { filesToStreams } from './lib/files'
-import { IpldExploreForm } from 'ipld-explorer-components'
 // React DnD
 import { DragDropContext, DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -13,6 +12,7 @@ import NavBar from './navigation/NavBar'
 import ComponentLoader from './loader/ComponentLoader'
 import Notify from './components/notify/Notify'
 import Connected from './components/connected/Connected'
+import FilesExploreForm from './files/explore-form/FilesExploreForm'
 
 export class App extends Component {
   static propTypes = {
@@ -61,7 +61,7 @@ export class App extends Component {
           <div className='flex-auto-l'>
             <div className='flex items-center ph3 ph4-l' style={{ height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
               <div style={{ width: 560 }}>
-                <IpldExploreForm />
+                <FilesExploreForm />
               </div>
               <div className='dn db-ns flex-auto tr'>
                 <Connected />
