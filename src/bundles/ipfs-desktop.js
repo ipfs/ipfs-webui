@@ -21,6 +21,8 @@ if (window.ipfsDesktop) {
 
     selectDesktopSettings: state => state.ipfsDesktop,
 
+    selectDesktopVersion: () => window.ipfsDesktop.version,
+
     doDesktopStartListening: () => async ({ dispatch }) => {
       window.ipfsDesktop.onConfigChanged(config => {
         dispatch({
@@ -32,6 +34,14 @@ if (window.ipfsDesktop) {
 
     doDesktopSettingsToggle: (setting) => () => {
       window.ipfsDesktop.toggleSetting(setting)
+    },
+
+    doDesktopIpfsConfigChanged: () => () => {
+      window.ipfsDesktop.configHasChanged()
+    },
+
+    doDesktopSelectDirectory: () => () => {
+      return window.ipfsDesktop.selectDirectory()
     },
 
     init: store => {

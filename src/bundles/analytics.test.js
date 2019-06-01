@@ -21,6 +21,10 @@ function createStore (analyticsOpts = {}) {
       name: 'mockRoutesBundle',
       selectRouteInfo: () => ({})
     },
+    {
+      name: 'mockIpfsDesktopBundle',
+      selectIsIpfsDesktop: () => false
+    },
     createAnalyticsBundle(analyticsOpts)
   )()
 }
