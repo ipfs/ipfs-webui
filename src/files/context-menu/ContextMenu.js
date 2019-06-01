@@ -99,6 +99,9 @@ class ContextMenu extends React.Component {
           { /* !isMfs && !isUpperDir &&
             TODO: send to MFS
           */ }
+          { /* !isMfs && !isUpperDir &&
+          TODO: Pin
+          */ }
           <CopyToClipboard text={this.props.hash} onCopy={this.props.handleClick}>
             <Option>
               <StrokeCopy className='w2 mr2 fill-aqua' />

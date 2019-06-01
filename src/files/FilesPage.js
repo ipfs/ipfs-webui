@@ -196,6 +196,7 @@ class FilesPage extends React.Component {
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenu}
           isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
+          isMfs={filesIsMfs}
           showDots={false}
           onShare={() => this.showShareModal([contextMenu.file])}
           onDelete={() => this.showDeleteModal([contextMenu.file])}
