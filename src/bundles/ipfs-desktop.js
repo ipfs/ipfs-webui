@@ -7,6 +7,7 @@ let bundle = {
 if (window.ipfsDesktop) {
   bundle = {
     ...bundle,
+
     reducer: (state = {}, action) => {
       if (!action.type.startsWith('DESKTOP_')) {
         return state
@@ -21,7 +22,9 @@ if (window.ipfsDesktop) {
 
     selectDesktopSettings: state => state.ipfsDesktop,
 
-    selectDesktopExperiments: () => window.ipfsDesktop.experiments,
+    selectDesktopAvailableExperiments: () => window.ipfsDesktop.experiments,
+
+    selectDesktopExperiments: state => state.ipfsDesktop.experiments,
 
     doDesktopStartListening: () => async ({ dispatch }) => {
       window.ipfsDesktop.onConfigChanged(config => {
@@ -34,6 +37,10 @@ if (window.ipfsDesktop) {
 
     doDesktopSettingsToggle: (setting) => () => {
       window.ipfsDesktop.toggleSetting(setting)
+    },
+
+    doDesktopToggleExperiment: (id) => () => {
+      window.ipfsDesktop.toggleSetting(`experiment.${id}`)
     },
 
     init: store => {
