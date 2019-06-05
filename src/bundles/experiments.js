@@ -76,7 +76,7 @@ export default {
     }
     return state
   },
-  doToggleAction: (key, enabled) => async ({ dispatch }) => {
+  doExpToggleAction: (key, enabled) => async ({ dispatch }) => {
     if (!key) return
 
     const experiment = EXPERIMENTS[key]
@@ -90,8 +90,7 @@ export default {
       dispatch(dispatchAction)
     }
   },
-  selectIsIpfsDesktop: () => !!window.ipfsDesktop,
   selectExperiments: () =>
     objAsArr(EXPERIMENTS).filter(e => !!e.desktop === !!window.ipfsDesktop),
-  selectState: state => state.experiments
+  selectExpState: state => state.experiments
 }

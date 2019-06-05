@@ -4,10 +4,10 @@ import Checkbox from '../checkbox/Checkbox'
 import Box from '../box/Box'
 import Title from '../../settings/Title'
 
-const Experiments = ({ doToggleAction, experiments, state, t }) => {
+const Experiments = ({ doExpToggleAction, experiments, expState, t }) => {
   // if there are no experiments to show don't render
   if (experiments && experiments.length > 0) {
-    const isEnabled = key => (state[key] && state[key].enabled) || false
+    const isEnabled = key => (expState[key] && expState[key].enabled) || false
     const tkey = (selector, key) =>
       t(`Experiments.${key ? `${key}.${selector}` : `${selector}`}`)
     return (
@@ -26,7 +26,7 @@ const Experiments = ({ doToggleAction, experiments, state, t }) => {
                 <p className="charcoal">{tkey('description', key)}</p>
                 <Checkbox
                   className="dib"
-                  onChange={() => doToggleAction(key, enabled)}
+                  onChange={() => doExpToggleAction(key, enabled)}
                   checked={enabled}
                   label={<span className="fw5 f6">{tkey('label', key)}</span>}
                 />
@@ -56,9 +56,8 @@ const Experiments = ({ doToggleAction, experiments, state, t }) => {
 }
 
 export default connect(
-  'selectIsIpfsDesktop',
   'selectExperiments',
-  'selectState',
-  'doToggleAction',
+  'selectExpState',
+  'doExpToggleAction',
   Experiments
 )
