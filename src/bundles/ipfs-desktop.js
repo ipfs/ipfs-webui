@@ -21,6 +21,8 @@ if (window.ipfsDesktop) {
 
     selectDesktopSettings: state => state.ipfsDesktop,
 
+    selectDesktopExperiments: () => window.ipfsDesktop.experiments,
+
     doDesktopStartListening: () => async ({ dispatch }) => {
       window.ipfsDesktop.onConfigChanged(config => {
         dispatch({
