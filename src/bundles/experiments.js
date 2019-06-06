@@ -2,7 +2,7 @@ import { createSelector } from 'redux-bundler'
 
 export const ACTIONS = {
   EXP_TOGGLE_STARTED: 'EXPERIMENTS_TOGGLE_STARTED',
-  EXP_TOGGLE_FINISH: 'EXPERIMENTS_TOGGLE_FINISH',
+  EXP_TOGGLE_FINISHED: 'EXPERIMENTS_TOGGLE_FINISHED',
   EXP_TOGGLE_FAILED: 'EXPERIMENTS_TOGGLE_FAILED',
   EXP_UPDATE_STATE: 'EXPERIMENTS_UPDATE_STATE'
 }
@@ -77,7 +77,7 @@ export default {
   name: 'experiments',
 
   persistActions: [
-    ACTIONS.EXP_TOGGLE_FINISH,
+    ACTIONS.EXP_TOGGLE_FINISHED,
     ACTIONS.EXP_TOGGLE_FAILED,
     ACTIONS.EXP_UPDATE_STATE
   ],
@@ -91,7 +91,7 @@ export default {
       return mergeState(state, action.payload)
     }
 
-    if (action.type === ACTIONS.EXP_TOGGLE_FINISH) {
+    if (action.type === ACTIONS.EXP_TOGGLE_FINISHED) {
       return toggleEnabled(state, action.payload.key)
     }
 

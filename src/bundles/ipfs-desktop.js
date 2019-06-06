@@ -52,7 +52,7 @@ if (window.ipfsDesktop) {
           const key = changed.replace('experiments.', '')
 
           if (success) {
-            dispatch({ type: ACTIONS.EXP_TOGGLE_FINISH, payload: { key } })
+            dispatch({ type: ACTIONS.EXP_TOGGLE_FINISHED, payload: { key } })
           } else {
             dispatch({ type: ACTIONS.EXP_TOGGLE_FAILED, payload: { key } })
           }
@@ -65,7 +65,7 @@ if (window.ipfsDesktop) {
       })
     },
 
-    doDesktopSettingsToggle: (setting) => () => {
+    doDesktopSettingsToggle: setting => () => {
       window.ipfsDesktop.toggleSetting(setting)
     },
 
