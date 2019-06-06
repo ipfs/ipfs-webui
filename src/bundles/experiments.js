@@ -24,29 +24,33 @@ const EXPERIMENTS = [
         key: 'feedbackUrl'
       }
     ],
-    desktop: true
+    desktopOnly: true
   }
 ]
 
-const mergeState = (state, payload) => Object.keys(payload).reduce(
-  (all, key) => ({
-    ...all,
-    [key]: {
-      ...state[key],
-      ...payload[key]
-    }
-  }),
-  state
-)
+const mergeState = (state, payload) =>
+  Object.keys(payload).reduce(
+    (all, key) => ({
+      ...all,
+      [key]: {
+        ...state[key],
+        ...payload[key]
+      }
+    }),
+    state
+  )
 
 const toggleEnabled = (state, key) => {
-  return unblock({
-    ...state,
-    [key]: {
-      ...state[key],
-      enabled: !(state && state[key] && state[key].enabled)
-    }
-  }, key)
+  return unblock(
+    {
+      ...state,
+      [key]: {
+        ...state[key],
+        enabled: !(state && state[key] && state[key].enabled)
+      }
+    },
+    key
+  )
 }
 
 const unblock = (state, key) => {
@@ -112,9 +116,8 @@ export default {
   selectExperiments: createSelector(
     'selectIsIpfsDesktop',
     'selectExperimentsState',
-    (isDesktop, state) => EXPERIMENTS
-      .filter(e => !!e.desktop === isDesktop)
-      .map(e => ({
+    (isDesktop, state) =>
+      EXPERIMENTS.filter(e => !!e.desktopOnly === isDesktop).map(e => ({
         ...e,
         ...state[e.key]
       }))
