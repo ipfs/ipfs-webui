@@ -3,7 +3,7 @@
   "name": "IPFS Web UI",
   "icons": [
      {
-      "src": "ipfs-logo-512-ice.png",,
+      "src": "ipfs-logo-512-ice.png",
       "type": "image/png",
       "sizes": "512x512"
     }
