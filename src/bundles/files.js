@@ -1,6 +1,6 @@
-import { join, dirname } from 'path'
+import { join, dirname, basename } from 'path'
 import { createSelector } from 'redux-bundler'
-import { getDownloadLink, getShareableLink, filesToStreams } from '../lib/files'
+import { getDownloadLink, getShareableLink } from '../lib/files'
 import countDirs from '../lib/count-dirs'
 import { sortByName, sortBySize } from '../lib/sort'
 
@@ -21,6 +21,12 @@ export const sorts = {
   BY_NAME: 'name',
   BY_SIZE: 'size'
 }
+
+const ignore = [
+  '.DS_Store',
+  'thumbs.db',
+  'desktop.ini'
+]
 
 const make = (basename, action) => (...args) => async (args2) => {
   const id = Symbol(basename)
@@ -264,16 +270,13 @@ export default (opts = {}) => {
       }
     },
 
-    doFilesWrite: make(actions.WRITE, async (ipfs, root, filesOrPromise, id, { dispatch }) => {
-      // NOTE: the simpler form `let files = await filesOrPromise`, leaves the
-      // FileList empty if is not wrapped in a promise...which is...surprising.
-      // TODO: why the heck is that?
-      let files = filesOrPromise.then ? await filesOrPromise : filesOrPromise
-      const { streams, totalSize } = await filesToStreams(files)
+    doFilesWrite: make(actions.WRITE, async (ipfs, root, files, id, { dispatch }) => {
+      files = files.filter(f => !ignore.includes(basename(f.path)))
+      const totalSize = files.reduce((prev, { size }) => prev + size, 0)
 
       // Normalise all paths to be relative. Dropped files come as absolute,
       // those added by the file input come as relative paths, so normalise them.
-      streams.forEach(s => {
+      files.forEach(s => {
         if (s.path[0] === '/') {
           s.path = s.path.slice(1)
         }
@@ -287,7 +290,7 @@ export default (opts = {}) => {
 
       let res = null
       try {
-        res = await ipfs.add(streams, {
+        res = await ipfs.add(files, {
           pin: false,
           wrapWithDirectory: false,
           progress: updateProgress
@@ -297,8 +300,8 @@ export default (opts = {}) => {
         throw error
       }
 
-      const numberOfFiles = streams.length
-      const numberOfDirs = countDirs(streams)
+      const numberOfFiles = files.length
+      const numberOfDirs = countDirs(files)
       const expectedResponseCount = numberOfFiles + numberOfDirs
 
       if (res.length !== expectedResponseCount) {

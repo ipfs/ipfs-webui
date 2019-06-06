@@ -2,10 +2,10 @@
   "short_name": "IPFS WebUI",
   "name": "IPFS Web UI",
   "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+     {
+      "src": "ipfs-logo-512-ice.png",,
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": "./index.html",
