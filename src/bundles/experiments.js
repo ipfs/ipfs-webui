@@ -102,7 +102,7 @@ export default {
     if (!key) return
 
     dispatch({
-      type: ACTIONS.EXP_TOGGLE,
+      type: ACTIONS.EXP_TOGGLE_STARTED,
       payload: { key }
     })
   },
