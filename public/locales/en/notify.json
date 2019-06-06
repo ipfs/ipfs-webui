@@ -9,6 +9,6 @@
   "couldntConnectToPeer": "Could not connect to the provided peer.",
   "connectedToPeer": "Successfully connected to the provided peer.",
   "experimentsErrors": {
-    "npmOnIpfs": "We could not install ipfs-npm package. Please run 'npm i -g ipfs-npm' manually."
+    "npmOnIpfs": "We couldn't make changes to your system. Please install or uninstall 'ipfs-npm' package manually."
   }
 }
