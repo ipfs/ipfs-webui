@@ -7,7 +7,6 @@ import Title from '../../settings/Title'
 const Experiments = ({ doExpToggleAction, experiments, t }) => {
   // if there are no experiments to show don't render
   if (experiments && experiments.length > 0) {
-    console.log(experiments)
     const tkey = (selector, key) =>
       t(`Experiments.${key ? `${key}.${selector}` : `${selector}`}`)
     return (
