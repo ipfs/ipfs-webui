@@ -1,13 +1,15 @@
+import { createSelector } from 'redux-bundler'
+
 export const ACTIONS = {
+  EXP_TOGGLE: 'EXPERIMENTS_TOGGLE',
   EXP_TOGGLE_SUCCESS: 'EXPERIMENTS_TOGGLE_SUCCESS',
   EXP_TOGGLE_FAIL: 'EXPERIMENTS_TOGGLE_FAIL',
   EXP_UPDATE_STATE: 'EXPERIMENTS_UPDATE_STATE'
 }
 
-// setup experiments
-const getExperiments = store => ({
-  npmOnIpfs: {
-    action: async enabled => store.doDesktopToggleExperiment('npmOnIpfs'),
+const EXPERIMENTS = [
+  {
+    key: 'npmOnIpfs',
     actionUrls: [
       {
         url: 'https://github.com/ipfs-shipyard/npm-on-ipfs',
@@ -24,102 +26,63 @@ const getExperiments = store => ({
     ],
     desktop: true
   }
-})
+]
 
-// helpers
-const getExperiment = (store, key) => getExperiments(store)[key]
-
-const createAction = (type, payload) => ({
-  type,
-  payload
-})
-
-const objAsArr = obj =>
-  Object.keys(obj).map(i => ({
-    ...obj[i],
-    key: i
-  }))
-
-const isEnabled = (state, key) => {
-  if (state && state[key]) {
-    return state[key].enabled
-  }
-}
+const mergeState = (state, payload) => Object.keys(payload).reduce(
+  (all, key) => ({
+    ...all,
+    [key]: {
+      ...state[key],
+      ...payload[key]
+    }
+  }),
+  state
+)
 
 const toggleEnabled = (state, key) => {
   return {
     ...state,
     [key]: {
       ...state[key],
-      enabled: !isEnabled(state, key)
+      enabled: !(state && state[key] && state[key].enabled)
     }
   }
 }
-//
 
 export default {
   name: 'experiments',
   // persist all actions
   persistActions: Object.values(ACTIONS),
 
-  init: store => {
-    // get enabled desktop experiments and set as default state
-    if (window.ipfsDesktop) {
-      store.doExpSetEnabled(store.selectDesktopSettings().experiments || {})
-    }
-  },
-
   reducer: (state = {}, action) => {
     if (action.type === ACTIONS.EXP_UPDATE_STATE) {
-      const newState = Object.keys(action.payload).reduce(
-        (all, key) => ({
-          ...all,
-          [key]: {
-            ...state[key],
-            ...action.payload[key]
-          }
-        }),
-        state
-      )
-      return newState
+      return mergeState(state, action.payload)
     }
+
     if (action.type === ACTIONS.EXP_TOGGLE_SUCCESS) {
       return toggleEnabled(state, action.payload.key)
     }
 
     if (action.type === ACTIONS.EXP_TOGGLE_FAIL) {
-      // do something on fail
+      // TODO: do something on fail
     }
 
     return state
   },
 
-  doExpToggleAction: (key, enabled) => async ({ dispatch, store }) => {
+  doExpToggleAction: key => async ({ dispatch }) => {
     if (!key) return
 
-    const experiment = getExperiment(store, key)
-
-    if (typeof experiment.action === 'function') {
-      await Promise.resolve(experiment.action(enabled))
-        .then(res =>
-          dispatch(createAction(ACTIONS.EXP_TOGGLE_SUCCESS, { key }))
-        )
-        .catch(err => {
-          dispatch(createAction(ACTIONS.EXP_TOGGLE_FAIL, { key }))
-          console.error(err)
-        })
-    } else {
-      dispatch(createAction(ACTIONS.EXP_TOGGLE_SUCCESS, { key }))
-    }
+    dispatch({
+      type: ACTIONS.EXP_TOGGLE,
+      payload: { key }
+    })
   },
 
-  doExpSetEnabled: state => ({ dispatch }) => {
-    dispatch(createAction(ACTIONS.EXP_UPDATE_STATE, state))
-  },
+  selectExperiments: createSelector(
+    'selectIsIpfsDesktop',
+    (isDesktop) => EXPERIMENTS.filter(e => !!e.desktop === isDesktop)
+  ),
 
-  selectExperiments: state =>
-    objAsArr(getExperiments()).filter(
-      e => !!e.desktop === !!window.ipfsDesktop
-    ),
   selectExpState: state => state.experiments
 }

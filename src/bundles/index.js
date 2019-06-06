@@ -77,8 +77,8 @@ export default composeBundles(
   notifyBundle,
   connectedBundle,
   retryInitBundle,
+  experimentsBundle,
   ipfsDesktop,
   repoStats,
-  createAnalyticsBundle({}),
-  experimentsBundle
+  createAnalyticsBundle({})
 )

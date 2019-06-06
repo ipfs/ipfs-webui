@@ -1,3 +1,5 @@
+import { ACTIONS } from './experiments'
+
 let bundle = {
   name: 'ipfsDesktop',
   reducer: (state = {}) => state,
@@ -8,6 +10,10 @@ if (window.ipfsDesktop) {
   bundle = {
     ...bundle,
     reducer: (state = {}, action) => {
+      if (action.type === ACTIONS.EXP_TOGGLE) {
+        window.ipfsDesktop.toggleSetting(`experiments.${action.payload.key}`)
+      }
+
       if (!action.type.startsWith('DESKTOP_')) {
         return state
       }
@@ -23,8 +29,35 @@ if (window.ipfsDesktop) {
 
     selectDesktopVersion: () => window.ipfsDesktop.version,
 
-    doDesktopStartListening: () => async ({ dispatch }) => {
-      window.ipfsDesktop.onConfigChanged(config => {
+    doDesktopStartListening: () => async ({ dispatch, store }) => {
+      window.ipfsDesktop.onConfigChanged(({ config, changed, success }) => {
+        const prevConfig = store.selectDesktopSettings()
+
+        if (Object.keys(prevConfig).length === 0) {
+          dispatch({
+            type: ACTIONS.EXP_UPDATE_STATE,
+            payload: Object.keys(config.experiments).reduce(
+              (all, key) => ({
+                ...all,
+                [key]: {
+                  enabled: config.experiments[key]
+                }
+              }),
+              {}
+            )
+          })
+        }
+
+        if (changed && changed.startsWith('experiments.')) {
+          const key = changed.replace('experiments.', '')
+
+          if (success) {
+            dispatch({ type: ACTIONS.EXP_TOGGLE_SUCCESS, payload: { key } })
+          } else {
+            dispatch({ type: ACTIONS.EXP_TOGGLE_FAIL, payload: { key } })
+          }
+        }
+
         dispatch({
           type: 'DESKTOP_SETTINGS_CHANGED',
           payload: config
