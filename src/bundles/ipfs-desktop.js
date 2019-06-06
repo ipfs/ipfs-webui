@@ -11,7 +11,11 @@ if (window.ipfsDesktop) {
     ...bundle,
     reducer: (state = {}, action) => {
       if (action.type === ACTIONS.EXP_TOGGLE) {
-        window.ipfsDesktop.toggleSetting(`experiments.${action.payload.key}`)
+        const key = action.payload.key
+
+        if (window.ipfsDesktop.experiments.includes(key)) {
+          window.ipfsDesktop.toggleSetting(`experiments.${key}`)
+        }
       }
 
       if (!action.type.startsWith('DESKTOP_')) {
