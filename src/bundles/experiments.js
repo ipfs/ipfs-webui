@@ -71,8 +71,12 @@ const block = (state, key) => {
 
 export default {
   name: 'experiments',
-  // persist all actions
-  persistActions: Object.values(ACTIONS),
+
+  persistActions: [
+    'EXPERIMENTS_TOGGLE_SUCCESS',
+    'EXPERIMENTS_TOGGLE_FAIL',
+    'EXPERIMENTS_UPDATE_STATE'
+  ],
 
   reducer: (state = {}, action) => {
     if (action.type === ACTIONS.EXP_TOGGLE) {
