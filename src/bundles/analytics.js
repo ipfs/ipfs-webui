@@ -107,8 +107,14 @@ const createAnalyticsBundle = ({
               EventMap.delete(name)
             } else {
               const durationInSeconds = (root.performance.now() - start) / 1000
+              let key = state === 'FAILED' ? action.type : name
+
+              if (name === 'EXPERIMENTS_TOGGLE') {
+                key += `_${action.payload.key}`
+              }
+
               root.Countly.q.push(['add_event', {
-                key: state === 'FAILED' ? action.type : name,
+                key: key,
                 count: 1,
                 dur: durationInSeconds
               }])
