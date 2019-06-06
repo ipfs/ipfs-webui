@@ -10,7 +10,7 @@ if (window.ipfsDesktop) {
   bundle = {
     ...bundle,
     reducer: (state = {}, action) => {
-      if (action.type === ACTIONS.EXP_TOGGLE) {
+      if (action.type === ACTIONS.EXP_TOGGLE_STARTED) {
         window.ipfsDesktop.toggleSetting(`experiments.${action.payload.key}`)
       }
 
@@ -52,9 +52,9 @@ if (window.ipfsDesktop) {
           const key = changed.replace('experiments.', '')
 
           if (success) {
-            dispatch({ type: ACTIONS.EXP_TOGGLE_SUCCESS, payload: { key } })
+            dispatch({ type: ACTIONS.EXP_TOGGLE_FINISH, payload: { key } })
           } else {
-            dispatch({ type: ACTIONS.EXP_TOGGLE_FAIL, payload: { key } })
+            dispatch({ type: ACTIONS.EXP_TOGGLE_FAILED, payload: { key } })
           }
         }
 

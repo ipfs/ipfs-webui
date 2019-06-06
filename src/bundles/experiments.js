@@ -1,9 +1,9 @@
 import { createSelector } from 'redux-bundler'
 
 export const ACTIONS = {
-  EXP_TOGGLE: 'EXPERIMENTS_TOGGLE',
-  EXP_TOGGLE_SUCCESS: 'EXPERIMENTS_TOGGLE_SUCCESS',
-  EXP_TOGGLE_FAIL: 'EXPERIMENTS_TOGGLE_FAIL',
+  EXP_TOGGLE_STARTED: 'EXPERIMENTS_TOGGLE_STARTED',
+  EXP_TOGGLE_FINISH: 'EXPERIMENTS_TOGGLE_FINISH',
+  EXP_TOGGLE_FAILED: 'EXPERIMENTS_TOGGLE_FAILED',
   EXP_UPDATE_STATE: 'EXPERIMENTS_UPDATE_STATE'
 }
 
@@ -73,13 +73,13 @@ export default {
   name: 'experiments',
 
   persistActions: [
-    'EXPERIMENTS_TOGGLE_SUCCESS',
-    'EXPERIMENTS_TOGGLE_FAIL',
-    'EXPERIMENTS_UPDATE_STATE'
+    ACTIONS.EXP_TOGGLE_FINISH,
+    ACTIONS.EXP_TOGGLE_FAILED,
+    ACTIONS.EXP_UPDATE_STATE
   ],
 
   reducer: (state = {}, action) => {
-    if (action.type === ACTIONS.EXP_TOGGLE) {
+    if (action.type === ACTIONS.EXP_TOGGLE_STARTED) {
       return block(state, action.payload.key)
     }
 
@@ -87,11 +87,11 @@ export default {
       return mergeState(state, action.payload)
     }
 
-    if (action.type === ACTIONS.EXP_TOGGLE_SUCCESS) {
+    if (action.type === ACTIONS.EXP_TOGGLE_FINISH) {
       return toggleEnabled(state, action.payload.key)
     }
 
-    if (action.type === ACTIONS.EXP_TOGGLE_FAIL) {
+    if (action.type === ACTIONS.EXP_TOGGLE_FAILED) {
       return unblock(state, action.payload.key)
     }
 

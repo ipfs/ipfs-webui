@@ -1,4 +1,5 @@
 import { createSelector } from 'redux-bundler'
+import { ACTIONS as EXP_ACTIONS } from './experiments'
 
 /*
 # Notify
@@ -59,7 +60,7 @@ const notify = {
       }
     }
 
-    if (action.type === 'EXPERIMENTS_TOGGLE_FAIL') {
+    if (action.type === EXP_ACTIONS.EXP_TOGGLE_FAILED) {
       return {
         ...state,
         show: true,
