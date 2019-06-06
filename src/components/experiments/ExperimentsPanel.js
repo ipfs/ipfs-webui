@@ -4,10 +4,10 @@ import Checkbox from '../checkbox/Checkbox'
 import Box from '../box/Box'
 import Title from '../../settings/Title'
 
-const Experiments = ({ doExpToggleAction, experiments, expState, t }) => {
+const Experiments = ({ doExpToggleAction, experiments, t }) => {
   // if there are no experiments to show don't render
   if (experiments && experiments.length > 0) {
-    const isEnabled = key => (expState[key] && expState[key].enabled) || false
+    console.log(experiments)
     const tkey = (selector, key) =>
       t(`Experiments.${key ? `${key}.${selector}` : `${selector}`}`)
     return (
@@ -15,8 +15,7 @@ const Experiments = ({ doExpToggleAction, experiments, expState, t }) => {
         <Title>{t('experiments')}</Title>
         <p className='db mv4 f6 charcoal mw7'>{tkey('description')}</p>
         <div className='flex flex-wrap pb3'>
-          {experiments.map(({ key, actionUrls }) => {
-            const enabled = isEnabled(key)
+          {experiments.map(({ key, actionUrls, enabled, blocked }) => {
             return (
               <div
                 key={key}
@@ -26,6 +25,7 @@ const Experiments = ({ doExpToggleAction, experiments, expState, t }) => {
                 <p className='charcoal'>{tkey('description', key)}</p>
                 <Checkbox
                   className='dib'
+                  disabled={blocked}
                   onChange={() => doExpToggleAction(key, enabled)}
                   checked={enabled}
                   label={<span className='fw5 f6'>{tkey('label', key)}</span>}
@@ -57,7 +57,6 @@ const Experiments = ({ doExpToggleAction, experiments, expState, t }) => {
 
 export default connect(
   'selectExperiments',
-  'selectExpState',
   'doExpToggleAction',
   Experiments
 )

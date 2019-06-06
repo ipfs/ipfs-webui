@@ -40,11 +40,31 @@ const mergeState = (state, payload) => Object.keys(payload).reduce(
 )
 
 const toggleEnabled = (state, key) => {
-  return {
+  return unblock({
     ...state,
     [key]: {
       ...state[key],
       enabled: !(state && state[key] && state[key].enabled)
+    }
+  }, key)
+}
+
+const unblock = (state, key) => {
+  return {
+    ...state,
+    [key]: {
+      ...state[key],
+      blocked: false
+    }
+  }
+}
+
+const block = (state, key) => {
+  return {
+    ...state,
+    [key]: {
+      ...state[key],
+      blocked: true
     }
   }
 }
@@ -55,6 +75,10 @@ export default {
   persistActions: Object.values(ACTIONS),
 
   reducer: (state = {}, action) => {
+    if (action.type === ACTIONS.EXP_TOGGLE) {
+      return block(state, action.payload.key)
+    }
+
     if (action.type === ACTIONS.EXP_UPDATE_STATE) {
       return mergeState(state, action.payload)
     }
@@ -65,6 +89,7 @@ export default {
 
     if (action.type === ACTIONS.EXP_TOGGLE_FAIL) {
       // TODO: do something on fail
+      return unblock(state, action.payload.key)
     }
 
     return state
@@ -79,10 +104,16 @@ export default {
     })
   },
 
+  selectExperimentsState: state => state.experiments,
+
   selectExperiments: createSelector(
     'selectIsIpfsDesktop',
-    (isDesktop) => EXPERIMENTS.filter(e => !!e.desktop === isDesktop)
-  ),
-
-  selectExpState: state => state.experiments
+    'selectExperimentsState',
+    (isDesktop, state) => EXPERIMENTS
+      .filter(e => !!e.desktop === isDesktop)
+      .map(e => ({
+        ...e,
+        ...state[e.key]
+      }))
+  )
 }
