@@ -102,7 +102,7 @@ export default {
     return state
   },
 
-  doExpToggleAction: key => async ({ dispatch }) => {
+  doExpToggleAction: key => ({ dispatch }) => {
     if (!key) return
 
     dispatch({
