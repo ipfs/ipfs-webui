@@ -59,6 +59,15 @@ const notify = {
       }
     }
 
+    if (action.type === 'EXPERIMENTS_TOGGLE_FAIL') {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        eventId: `experimentsErrors.${action.payload.key}`
+      }
+    }
+
     return state
   },
 

@@ -88,7 +88,6 @@ export default {
     }
 
     if (action.type === ACTIONS.EXP_TOGGLE_FAIL) {
-      // TODO: do something on fail
       return unblock(state, action.payload.key)
     }
 

@@ -71,7 +71,7 @@
     "npmOnIpfs": {
       "title": "NPM-ON-IPFS",
       "label": "Enable npm-on-ipfs",
-      "description": "Install npm modules through IPFS!"
+      "description": "Install npm modules through IPFS with the 'ipfs-npm' command line tool!"
     }
   },
   "ipfsCmdTools": "IPFS command line tools",
