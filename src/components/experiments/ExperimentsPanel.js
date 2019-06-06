@@ -35,6 +35,7 @@ const Experiments = ({ doExpToggleAction, experiments, t }) => {
                     {actionUrls.map((action, i) => (
                       <a
                         target='_blank'
+                        rel='noopener noreferrer'
                         key={action.key}
                         className={`link blue pr2 ${i > 0 &&
                           'bl b1 pl2 b--light-gray'}`}
