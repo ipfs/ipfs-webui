@@ -27,7 +27,7 @@ export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
   ipfsBundle({
     tryWindow: false,
-    ipfsConnectionTest: async ipfs => {
+    ipfsConnectionTest: async (ipfs) => {
       // ipfs connection is working if can we fetch the bw stats.
       // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
       try {
