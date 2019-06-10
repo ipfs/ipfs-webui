@@ -20,7 +20,7 @@ const EXPERIMENTS = [
         key: 'issueUrl'
       },
       {
-        url: 'https://github.com/ipfs-shipyard/npm-on-ipfs',
+        url: 'https://github.com/ipfs-shipyard/ipfs-desktop/issues/957',
         key: 'feedbackUrl'
       }
     ],
