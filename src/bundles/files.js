@@ -28,12 +28,19 @@ const ignore = [
   'desktop.ini'
 ]
 
-const make = (basename, action) => (...args) => async (args2) => {
+const make = (basename, action, options = {}) => (...args) => async (args2) => {
   const id = Symbol(basename)
   const { dispatch, getIpfs, store } = args2
   dispatch({ type: `FILES_${basename}_STARTED`, payload: { id } })
 
   let data
+
+  if (options.mfsOnly) {
+    if (!store.selectFilesIsMfs()) {
+      // TODO: musn't be here
+      return
+    }
+  }
 
   try {
     data = await action(getIpfs(), ...args, id, args2)
@@ -87,6 +94,14 @@ const pathToStat = async (path, ipfs) => {
   }
 
   return path
+}
+
+const realMfsPath = (path) => {
+  if (path.startsWith('/mfs')) {
+    return path.substr(4) || '/'
+  }
+
+  return ''
 }
 
 const getPins = async (ipfs) => {
@@ -387,16 +402,17 @@ export default (opts = {}) => {
     }),
 
     doFilesDelete: make(actions.DELETE, (ipfs, files) => {
-      const promises = files.map(file => ipfs.files.rm(file, { recursive: true }))
+      const promises = files.map(file => ipfs.files.rm(realMfsPath(file), { recursive: true }))
       return Promise.all(promises)
-    }),
+    }, { mfsOnly: true }),
 
     doFilesAddPath: make(actions.ADD_BY_PATH, (ipfs, root, src) => {
+      src = realMfsPath(src)
       const name = src.split('/').pop()
       const dst = join(root, name)
       const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
       return ipfs.files.cp([srcPath, dst])
-    }),
+    }, { mfsOnly: true }),
 
     doFilesDownloadLink: make(actions.DOWNLOAD_LINK, async (ipfs, files, id, { store }) => {
       const apiUrl = store.selectApiUrl()
@@ -406,11 +422,11 @@ export default (opts = {}) => {
 
     doFilesShareLink: make(actions.SHARE_LINK, async (ipfs, files) => getShareableLink(files, ipfs)),
 
-    doFilesMove: make(actions.MOVE, (ipfs, src, dst) => ipfs.files.mv([src, dst])),
+    doFilesMove: make(actions.MOVE, (ipfs, src, dst) => ipfs.files.mv([realMfsPath(src), realMfsPath(dst)]), { mfsOnly: true }),
 
-    doFilesCopy: make(actions.COPY, (ipfs, src, dst) => ipfs.files.cp([src, dst])),
+    doFilesCopy: make(actions.COPY, (ipfs, src, dst) => ipfs.files.cp([realMfsPath(src), realMfsPath(dst)]), { mfsOnly: true }),
 
-    doFilesMakeDir: make(actions.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(path, { parents: true })),
+    doFilesMakeDir: make(actions.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(realMfsPath(path), { parents: true }), { mfsOnly: true }),
 
     doFilesDismissErrors: () => async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
 
