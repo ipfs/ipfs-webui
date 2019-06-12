@@ -1,4 +1,5 @@
 import { createSelector } from 'redux-bundler'
+import { ACTIONS as EXP_ACTIONS } from './experiments'
 
 /*
 # Notify
@@ -56,6 +57,15 @@ const notify = {
         show: true,
         error: action.type === 'SWARM_CONNECT_FAILED',
         eventId: action.type
+      }
+    }
+
+    if (action.type === EXP_ACTIONS.EXP_TOGGLE_FAILED) {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        eventId: `experimentsErrors.${action.payload.key}`
       }
     }
 

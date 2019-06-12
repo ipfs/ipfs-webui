@@ -63,6 +63,17 @@
       "details": "Records JavaScript error messages and stack traces that occur while using the app, where possible. It is very helpful to know when the app is not working for you, but <1>error messages may include identifiable information</1> like CIDs or file paths, so only enable this if you are comfortable sharing that information with us."
     }
   },
+  "Experiments": {
+    "description": "Here you can get an early preview into new IPFS features by enabling options below. We are testing these ideas, and they may not be perfect yet so we'd love to hear your feedback.",
+    "issueUrl": "Open an issue",
+    "feedbackUrl": "💌Leave feedback",
+    "readMoreUrl": "Read More",
+    "npmOnIpfs": {
+      "title": "NPM on IPFS",
+      "label": "Enable ipfs-npm",
+      "description": "Install npm modules through IPFS with the 'ipfs-npm' command line tool!"
+    }
+  },
   "ipfsCmdTools": "IPFS command line tools",
   "ipfsCmdToolsDescription": "Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line."
 }

@@ -9,7 +9,8 @@ const ASYNC_ACTIONS_TO_RECORD = [
   'FILES_ADDBYPATH',
   'FILES_MOVE',
   'FILES_DELETE',
-  'FILES_DOWNLOADLINK'
+  'FILES_DOWNLOADLINK',
+  'EXPERIMENTS_TOGGLE'
 ]
 
 const ASYNC_ACTION_RE = new RegExp(`^${ASYNC_ACTIONS_TO_RECORD.join('_|')}`)
@@ -106,8 +107,14 @@ const createAnalyticsBundle = ({
               EventMap.delete(name)
             } else {
               const durationInSeconds = (root.performance.now() - start) / 1000
+              let key = state === 'FAILED' ? action.type : name
+
+              if (name === 'EXPERIMENTS_TOGGLE') {
+                key += `_${action.payload.key}`
+              }
+
               root.Countly.q.push(['add_event', {
-                key: state === 'FAILED' ? action.type : name,
+                key: key,
                 count: 1,
                 dur: durationInSeconds
               }])
