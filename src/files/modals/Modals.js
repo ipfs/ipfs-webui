@@ -59,7 +59,7 @@ class Modals extends React.Component {
     const { doFilesMove } = this.props
 
     if (newName !== '' && newName !== filename) {
-      doFilesMove([path, path.replace(filename, newName)])
+      doFilesMove(path, path.replace(filename, newName))
     }
 
     this.leave()

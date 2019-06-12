@@ -101,7 +101,7 @@ const realMfsPath = (path) => {
     return path.substr(4) || '/'
   }
 
-  return ''
+  return path
 }
 
 const getPins = async (ipfs) => {
