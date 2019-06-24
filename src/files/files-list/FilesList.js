@@ -355,7 +355,7 @@ export class FilesList extends React.Component {
   onRowsRendered = ({ startIndex }) => this.setState({ firstVisibleRow: startIndex })
 
   render () {
-    let { t, files, className, upperDir, filesIsMfs, showLoadingAnimation, connectDropTarget } = this.props
+    let { t, files, className, upperDir, showLoadingAnimation, connectDropTarget } = this.props
     const { selected } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
     const rowCount = files.length && upperDir ? files.length + 1 : files.length

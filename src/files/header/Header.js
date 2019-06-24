@@ -30,7 +30,7 @@ class Header extends React.Component {
   render () {
     const {
       files, writeFilesProgress, t,
-      repoSize,
+      // repoSize,
       filesIsMfs,
       repoNumObjects,
       doFilesNavigateTo
