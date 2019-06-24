@@ -36,6 +36,7 @@ export class FilesList extends React.Component {
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
     filesIsFetching: PropTypes.bool,
+    filesIsMfs: PropTypes.bool,
     // React Drag'n'Drop
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -103,6 +104,7 @@ export class FilesList extends React.Component {
         download={() => this.props.onDownload(this.selectedFiles)}
         inspect={() => this.props.onInspect(this.selectedFiles)}
         count={this.state.selected.length}
+        isMfs={this.props.filesIsMfs}
         downloadProgress={this.props.downloadProgress}
         size={size} />
     )
@@ -353,7 +355,7 @@ export class FilesList extends React.Component {
   onRowsRendered = ({ startIndex }) => this.setState({ firstVisibleRow: startIndex })
 
   render () {
-    let { t, files, className, upperDir, showLoadingAnimation, connectDropTarget } = this.props
+    let { t, files, className, upperDir, filesIsMfs, showLoadingAnimation, connectDropTarget } = this.props
     const { selected } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
     const rowCount = files.length && upperDir ? files.length + 1 : files.length
@@ -443,6 +445,7 @@ export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, 
 export default connect(
   'selectNavbarWidth',
   'selectFilesIsFetching',
+  'selectFilesIsMfs',
   'selectShowLoadingAnimation',
   FilesListWithDropTarget
 )

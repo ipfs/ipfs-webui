@@ -31,6 +31,11 @@ const styles = {
   }
 }
 
+const classes = {
+  svg: (v) => v ? 'w3 pointer hover-fill-navy-muted' : 'w3',
+  action: (v) => v ?  'pointer' : 'disabled o-50'
+}
+
 class SelectedActions extends React.Component {
   static propTypes = {
     count: PropTypes.number.isRequired,
@@ -43,7 +48,8 @@ class SelectedActions extends React.Component {
     inspect: PropTypes.func.isRequired,
     downloadProgress: PropTypes.number,
     t: PropTypes.func.isRequired,
-    tReady: PropTypes.bool.isRequired
+    tReady: PropTypes.bool.isRequired,
+    isMfs: PropTypes.bool.isRequired
   }
 
   static defaultActions = {
@@ -80,16 +86,14 @@ class SelectedActions extends React.Component {
   }
 
   render () {
-    let { t, tReady, count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, ...props } = this.props
+    let { t, tReady, count, size,unselect, remove, share, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
 
-    let singleFileAction = 'disabled o-50'
+    const isSingle = count === 1
+
     let singleFileTooltip = { title: t('individualFilesOnly') }
-    let singleSvgClass = 'w3'
 
     if (count === 1) {
-      singleFileAction = 'pointer'
       singleFileTooltip = {}
-      singleSvgClass = 'w3 pointer hover-fill-navy-muted'
     }
 
     return (
@@ -115,16 +119,16 @@ class SelectedActions extends React.Component {
               <StrokeDownload className='w3 pointer hover-fill-navy-muted' fill='#A4BFCC' />
               <p className='ma0 f6'>{this.downloadText}</p>
             </div>
-            <div className='pointer tc mh2' onClick={remove}>
-              <StrokeTrash className='w3 pointer hover-fill-navy-muted' fill='#A4BFCC' />
+            <div className={`tc mh2 ${classes.action(isMfs)}`} onClick={isMfs ? remove : null}>
+              <StrokeTrash className={classes.svg(isMfs)} fill='#A4BFCC' />
               <p className='ma0 f6'>{t('actions.delete')}</p>
             </div>
-            <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? inspect : null} {...singleFileTooltip}>
-              <StrokeIpld className={singleSvgClass} fill='#A4BFCC' />
+            <div className={`tc mh2 ${classes.action(isSingle)}`} onClick={isSingle ? inspect : null} {...singleFileTooltip}>
+              <StrokeIpld className={classes.svg(isSingle)} fill='#A4BFCC' />
               <p className='ma0 f6'>{t('actions.inspect')}</p>
             </div>
-            <div className={`tc mh2 ${singleFileAction}`} onClick={(count === 1) ? rename : null} {...singleFileTooltip}>
-              <StrokePencil className={singleSvgClass} fill='#A4BFCC' />
+            <div className={`tc mh2 ${classes.action(isSingle && isMfs)}`} onClick={(isSingle && isMfs) ? rename : null} {...singleFileTooltip}>
+              <StrokePencil className={classes.svg(isSingle && isMfs)} fill='#A4BFCC' />
               <p className='ma0 f6'>{t('actions.rename')}</p>
             </div>
           </div>
