@@ -33,7 +33,7 @@ const styles = {
 
 const classes = {
   svg: (v) => v ? 'w3 pointer hover-fill-navy-muted' : 'w3',
-  action: (v) => v ?  'pointer' : 'disabled o-50'
+  action: (v) => v ? 'pointer' : 'disabled o-50'
 }
 
 class SelectedActions extends React.Component {
@@ -86,7 +86,7 @@ class SelectedActions extends React.Component {
   }
 
   render () {
-    let { t, tReady, count, size,unselect, remove, share, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
+    let { t, tReady, count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
 
     const isSingle = count === 1
 

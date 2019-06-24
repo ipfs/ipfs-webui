@@ -237,7 +237,7 @@ class FilesPage extends React.Component {
                 onNavigate={doFilesNavigateTo}
                 onMove={doFilesMove}
                 handleContextMenuClick={this.handleContextMenu} />
-                : <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} /> }
+              : <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} /> }
           </div>
         }
 

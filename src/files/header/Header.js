@@ -80,7 +80,7 @@ class Header extends React.Component {
               <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleContextMenu} />
             </div>
           }
-          </div>
+        </div>
       </div>
     )
   }
