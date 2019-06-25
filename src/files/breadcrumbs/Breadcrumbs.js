@@ -15,14 +15,26 @@ function makeBread (root, t) {
   })
 
   for (let i = 1; i < parts.length; i++) {
+    let name = parts[i].name
+
     parts[i] = {
-      name: parts[i].name,
+      name: name,
       path: parts[i - 1].path + '/' + parts[i].path
+    }
+
+    if (name.length >= 30) {
+      parts[i].realName = name
+      parts[i].name = `${name.substring(0, 4)}...${name.substring(name.length - 4, name.length)}`
     }
   }
 
   parts.shift()
 
+  if (parts[0].name !== 'ipfs' && parts[0].name !== 'home') {
+    parts[0].disabled = true
+  }
+
+  parts[parts.length - 1].last = true
   return parts
 }
 
@@ -30,19 +42,19 @@ function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
   const cls = `Breadcrumbs sans-serif ${className}`
   const bread = makeBread(path, t)
 
-  console.log(bread)
-
   const res = bread.map((link, index) => ([
-    <div key={`${index}link`} className='dib bb bw1 pv1' style={{ borderColor: '#244e66' }}>
-      {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className='pointer dib link dark-gray o-50 glow' onClick={() => onClick(link.path)}>
-        {link.name}
-      </a>
+    <div key={`${index}link`} className='dib pv1'>
+      { link.disabled
+        ? <span title={link.realName} className='gray'>{link.name}</span>
+        : <a title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => onClick(link.path)}>
+          {link.name}
+        </a>
+      }
     </div>,
-    <div key={`${index}divider`} className='dib ph2 pv1 gray v-top'>/</div>
+    <div key={`${index}divider`} className='dib ph2 pv1 mid-gray v-top'>/</div>
   ]))
 
-  res.unshift(<div key={`b-divider`} className='dib pr2 pv1 gray v-top'>/</div>)
+  res.unshift(<div key={`b-divider`} className='dib pr2 pv1 mid-gray v-top'>/</div>)
 
   res[res.length - 1].pop()
 
