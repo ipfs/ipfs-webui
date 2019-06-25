@@ -86,7 +86,7 @@ const notify = {
       }
 
       if (eventId === 'FILES_EVENT_FAILED') {
-        let type = code.replace(/^(ERR_)/, '')
+        let type = code ? code.replace(/^(ERR_)/, '') : ''
 
         switch (type) {
           case 'FOLDER_EXISTS':
