@@ -67,7 +67,7 @@ export class App extends Component {
                 <Connected />
               </div>
             </div>
-            <main className='bg-white pv3 pa3-ns pa4-l'>
+            <main className='bg-white pv3 pa3 pa4-l'>
               { (ipfsReady || url === '/welcome' || url.startsWith('/settings'))
                 ? <Page />
                 : <ComponentLoader pastDelay />
