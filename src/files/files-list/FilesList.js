@@ -305,7 +305,7 @@ export class FilesList extends React.Component {
   }
 
   rowRenderer = ({ index, key, style }) => {
-    const { files, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
+    const { files, pins, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
     const { selected, focused, isDragging } = this.state
 
     if (upperDir) {
@@ -337,6 +337,7 @@ export class FilesList extends React.Component {
       <div key={key} style={style}>
         <File
           {...files[index]}
+          pinned={pins.includes(files[index].hash)}
           ref={r => { this.filesRefs[files[index].name] = r }}
           name={files[index].name}
           onSelect={this.toggleOne}
@@ -380,7 +381,10 @@ export class FilesList extends React.Component {
                   {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
                 </span>
               </div>
-              <div className='pl2 pr4 tr f6 flex-none dn db-l'>
+              <div className='pl2 pr4 tr f6 flex-none dn db-l mv4 w-10'>
+                { /* Badges */ }
+              </div>
+              <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
                 <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
                   {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
                 </span>
@@ -444,6 +448,7 @@ export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, 
 
 export default connect(
   'selectNavbarWidth',
+  'selectPins',
   'selectFilesIsFetching',
   'selectFilesIsMfs',
   'selectShowLoadingAnimation',

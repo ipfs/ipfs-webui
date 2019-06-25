@@ -9,6 +9,7 @@ import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 // Components
 import GlyphDots from '../../icons/GlyphDots'
+import GlyphPin from '../../icons/GlyphPin'
 import Tooltip from '../../components/tooltip/Tooltip'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
@@ -29,6 +30,7 @@ class File extends React.Component {
     coloured: PropTypes.bool,
     translucent: PropTypes.bool,
     handleContextMenuClick: PropTypes.func,
+    pinned: PropTypes.bool,
     // Injected by DragSource and DropTarget
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -55,7 +57,7 @@ class File extends React.Component {
 
   render () {
     let {
-      selected, focused, translucent, coloured, hash, name, type, size, onSelect, onNavigate,
+      selected, focused, translucent, coloured, hash, name, type, size, pinned, onSelect, onNavigate,
       isOver, canDrop, cantDrag, cantSelect, connectDropTarget, connectDragPreview, connectDragSource,
       styles = {}
     } = this.props
@@ -112,7 +114,12 @@ class File extends React.Component {
             </div>
           </div>
         )}
-        <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted'>
+        <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
+          {
+            pinned && <div className='bg-teal-muted white br-100 w2 h2 o-70' title='Pinned'><GlyphPin className='fill-white' /></div>
+          }
+        </div>
+        <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
           {size}
         </div>
         <div ref={el => { this.dotsWrapper = el }} className='ph2' style={{ width: '2.5rem' }}>

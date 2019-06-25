@@ -233,7 +233,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
 
 const defaultState = {
   pageContent: null,
-  pins: null,
+  pins: [],
   sorting: { // TODO: cache this
     by: sorts.BY_NAME,
     asc: true
@@ -434,8 +434,9 @@ export default (opts = {}) => {
     doFilesAddPath: make(ACTIONS.ADD_BY_PATH, (ipfs, root, src) => {
       src = realMfsPath(src)
       const name = src.split('/').pop()
-      const dst = join(root, name)
+      const dst = realMfsPath(join(root, name))
       const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
+
       return ipfs.files.cp([srcPath, dst])
     }, { mfsOnly: true }),
 
