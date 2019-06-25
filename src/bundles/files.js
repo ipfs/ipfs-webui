@@ -6,7 +6,7 @@ import { sortByName, sortBySize } from '../lib/sort'
 
 const isMac = navigator.userAgent.indexOf('Mac') !== -1
 
-export const actions = {
+export const ACTIONS = {
   FETCH: 'FETCH',
   MOVE: 'MOVE',
   COPY: 'COPY',
@@ -47,7 +47,7 @@ const make = (basename, action, options = {}) => (...args) => async (args2) => {
     dispatch({ type: `FILES_${basename}_FINISHED`, payload: { id, ...data } })
 
     // Rename specific logic
-    if (basename === actions.MOVE) {
+    if (basename === ACTIONS.MOVE) {
       const src = args[0][0]
       const dst = args[0][1]
 
@@ -57,7 +57,7 @@ const make = (basename, action, options = {}) => (...args) => async (args2) => {
     }
 
     // Delete specific logic
-    if (basename === actions.DELETE) {
+    if (basename === ACTIONS.DELETE) {
       const src = args[0][0]
 
       let path = src.split('/')
@@ -67,10 +67,14 @@ const make = (basename, action, options = {}) => (...args) => async (args2) => {
       await store.doUpdateHash(`/files${path}`)
     }
   } catch (error) {
-    console.log(error)
+    if (!error.code) {
+      error.code = `ERR_${basename}`
+    }
+
+    console.error(error)
     dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error } })
   } finally {
-    if (basename !== actions.FETCH) {
+    if (basename !== ACTIONS.FETCH) {
       await store.doFilesFetch()
     }
   }
@@ -142,7 +146,7 @@ const sortFiles = (files, sorting) => {
   })
 }
 
-const fetchFiles = make(actions.FETCH, async (ipfs, id, { store }) => {
+const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
   const path = store.selectFilesPathFromHash()
   const toStat = await pathToStat(path, ipfs)
 
@@ -309,7 +313,7 @@ export default (opts = {}) => {
         const action = state.pending.find(a => a.id === id)
         let additional
 
-        if (type === actions.FETCH) {
+        if (type === ACTIONS.FETCH) {
           additional = {
             pageContent: data
           }
@@ -344,7 +348,7 @@ export default (opts = {}) => {
       }
     },
 
-    doFilesWrite: make(actions.WRITE, async (ipfs, root, files, id, { dispatch }) => {
+    doFilesWrite: make(ACTIONS.WRITE, async (ipfs, root, files, id, { dispatch }) => {
       files = files.filter(f => !ignore.includes(basename(f.path)))
       const totalSize = files.reduce((prev, { size }) => prev + size, 0)
 
@@ -401,12 +405,12 @@ export default (opts = {}) => {
       updateProgress(totalSize)
     }),
 
-    doFilesDelete: make(actions.DELETE, (ipfs, files) => {
+    doFilesDelete: make(ACTIONS.DELETE, (ipfs, files) => {
       const promises = files.map(file => ipfs.files.rm(realMfsPath(file), { recursive: true }))
       return Promise.all(promises)
     }, { mfsOnly: true }),
 
-    doFilesAddPath: make(actions.ADD_BY_PATH, (ipfs, root, src) => {
+    doFilesAddPath: make(ACTIONS.ADD_BY_PATH, (ipfs, root, src) => {
       src = realMfsPath(src)
       const name = src.split('/').pop()
       const dst = join(root, name)
@@ -414,19 +418,19 @@ export default (opts = {}) => {
       return ipfs.files.cp([srcPath, dst])
     }, { mfsOnly: true }),
 
-    doFilesDownloadLink: make(actions.DOWNLOAD_LINK, async (ipfs, files, id, { store }) => {
+    doFilesDownloadLink: make(ACTIONS.DOWNLOAD_LINK, async (ipfs, files, id, { store }) => {
       const apiUrl = store.selectApiUrl()
       const gatewayUrl = store.selectGatewayUrl()
       return getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
     }),
 
-    doFilesShareLink: make(actions.SHARE_LINK, async (ipfs, files) => getShareableLink(files, ipfs)),
+    doFilesShareLink: make(ACTIONS.SHARE_LINK, async (ipfs, files) => getShareableLink(files, ipfs)),
 
-    doFilesMove: make(actions.MOVE, (ipfs, src, dst) => ipfs.files.mv([realMfsPath(src), realMfsPath(dst)]), { mfsOnly: true }),
+    doFilesMove: make(ACTIONS.MOVE, (ipfs, src, dst) => ipfs.files.mv([realMfsPath(src), realMfsPath(dst)]), { mfsOnly: true }),
 
-    doFilesCopy: make(actions.COPY, (ipfs, src, dst) => ipfs.files.cp([realMfsPath(src), realMfsPath(dst)]), { mfsOnly: true }),
+    doFilesCopy: make(ACTIONS.COPY, (ipfs, src, dst) => ipfs.files.cp([realMfsPath(src), realMfsPath(dst)]), { mfsOnly: true }),
 
-    doFilesMakeDir: make(actions.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(realMfsPath(path), { parents: true }), { mfsOnly: true }),
+    doFilesMakeDir: make(ACTIONS.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(realMfsPath(path), { parents: true }), { mfsOnly: true }),
 
     doFilesDismissErrors: () => async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
 
@@ -452,17 +456,17 @@ export default (opts = {}) => {
 
     selectFiles: (state) => state.files.pageContent,
 
-    selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === actions.FETCH),
+    selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === ACTIONS.FETCH),
 
     selectShowLoadingAnimation: (state) => {
-      const pending = state.files.pending.find(a => a.type === actions.FETCH)
+      const pending = state.files.pending.find(a => a.type === ACTIONS.FETCH)
       return pending ? (Date.now() - pending.start) > 1000 : false
     },
 
     selectFilesSorting: (state) => state.files.sorting,
 
     selectWriteFilesProgress: (state) => {
-      const writes = state.files.pending.filter(s => s.type === actions.WRITE && s.data.progress)
+      const writes = state.files.pending.filter(s => s.type === ACTIONS.WRITE && s.data.progress)
 
       if (writes.length === 0) {
         return null
