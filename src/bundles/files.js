@@ -220,6 +220,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
     path: path,
     fetched: Date.now(),
     type: 'directory',
+    hash: stats.hash,
     upper: upper,
     content: sortFiles(files, store.selectFilesSorting())
   }

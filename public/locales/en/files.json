@@ -77,5 +77,6 @@
   "companionInfo": "<0>As you are using <1>IPFS Companion</1>, the files view is limited to files added while using the extension.</0>",
   "exploreForm": {
     "explore": "Explore"
-  }
+  },
+  "hashUnavailable": "Hash unavailable"
 }

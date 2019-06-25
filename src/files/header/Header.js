@@ -41,50 +41,40 @@ class Header extends React.Component {
     const actionableFiles = files.path !== MFS_PATH && files.path !== '/ipfs' && files.path !== '/ipns'
 
     return (
-      <div>
-        <div className='db flex-ns justify-between'>
-          <div className='mb4 flex justify-between bg-snow-muted'>
-            <BarOption>
-              <span className='b'>{repoNumObjects || 'N/A' }</span> Blocks
-            </BarOption>
-
-            <BarOption onClick={() => { doFilesNavigateTo('/ipfs') }}>
-              <span className='b'>N/A</span> Pins
-            </BarOption>
-
-            <BarOption onClick={() => { doFilesNavigateTo('/') }}>
-              Home
-            </BarOption>
-          </div>
-
-          <div>
-            { writableFiles &&
-              <div className='ml-auto flex items-center'>
-                <Button
-                  className='mr3 f6 pointer'
-                  color='charcoal-muted'
-                  bg='bg-transparent'
-                  onClick={this.props.onNewFolder}>
-                  <FolderIcon viewBox='10 15 80 80' height='20px' className='fill-charcoal-muted w2 v-mid' />
-                  <span className='fw3'>{t('newFolder')}</span>
-                </Button>
-                <FileInput
-                  onAddFiles={this.props.onAdd}
-                  onAddByPath={this.props.onAddByPath}
-                  addProgress={writeFilesProgress} />
-              </div>
-            }
-
-            { !writableFiles && actionableFiles &&
-              <div ref={el => { this.dotsWrapper = el }} className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
-                <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleContextMenu} />
-              </div>
-            }
-          </div>
-        </div>
-
-        <div className='flex flex-wrap items-center mb3'>
+      <div className='flex-ns justify-between'>
+        <div className='mb3'>
           <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
+          <span className='db f7 mid-gray'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
+        </div>
+        
+        <div className='mb3 flex justify-between bg-snow-muted'>
+          <BarOption>
+            <span className='b'>{repoNumObjects || 'N/A' }</span> Blocks
+          </BarOption>
+
+          <BarOption onClick={() => { doFilesNavigateTo('/ipfs') }}>
+            <span className='b'>N/A</span> Pins
+          </BarOption>
+
+          <BarOption onClick={() => { doFilesNavigateTo('/') }}>
+            Home
+          </BarOption>
+        
+          { writableFiles &&
+            <div className='ml-auto flex items-center'>
+              <FileInput
+                onNewFolder={this.props.onNewFolder}
+                onAddFiles={this.props.onAdd}
+                onAddByPath={this.props.onAddByPath}
+                addProgress={writeFilesProgress} />
+            </div>
+          }
+
+          { !writableFiles && actionableFiles &&
+            <div ref={el => { this.dotsWrapper = el }} className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
+              <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleContextMenu} />
+            </div>
+          }
         </div>
       </div>
     )

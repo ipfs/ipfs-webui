@@ -120,6 +120,11 @@ class FileInput extends React.Component {
               <DecentralizationIcon className='fill-aqua w2 mr1' />
               {t('addByPath')}
             </Option>
+            <Option onClick={this.props.onNewFolder}>
+              { /* TODO: use different icon */ }
+              <FolderIcon className='fill-aqua w2 mr1' />
+              {t('newFolder')}
+            </Option>
           </DropdownMenu>
         </Dropdown>
 
