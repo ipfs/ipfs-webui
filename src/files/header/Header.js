@@ -4,7 +4,6 @@ import { translate } from 'react-i18next'
 import { MFS_PATH } from '../../bundles/files'
 // Components
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
-import Button from '../../components/button/Button'
 import FileInput from '../file-input/FileInput'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'

@@ -46,6 +46,7 @@ function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
     <div key={`${index}link`} className='dib pv1'>
       { link.disabled
         ? <span title={link.realName} className='gray'>{link.name}</span>
+        /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
         : <a title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => onClick(link.path)}>
           {link.name}
         </a>
