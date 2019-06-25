@@ -39,7 +39,7 @@ function makeBread (root, t) {
 }
 
 function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
-  const cls = `Breadcrumbs sans-serif ${className}`
+  const cls = `Breadcrumbs sans-serif f4 ${className}`
   const bread = makeBread(path, t)
 
   const res = bread.map((link, index) => ([

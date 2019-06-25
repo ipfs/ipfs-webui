@@ -78,5 +78,7 @@
   "exploreForm": {
     "explore": "Explore"
   },
-  "hashUnavailable": "Hash unavailable"
+  "hashUnavailable": "Hash unavailable",
+  "pins": "Pins",
+  "blocks": "Blocks"
 }

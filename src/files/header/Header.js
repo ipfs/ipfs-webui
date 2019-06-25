@@ -4,18 +4,21 @@ import { translate } from 'react-i18next'
 import { MFS_PATH } from '../../bundles/files'
 // Components
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
+import Button from '../../components/button/Button'
 import FileInput from '../file-input/FileInput'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
+import GlyphHome from '../../icons/GlyphHome'
 
-function BarOption ({ children, className = '', ...etc }) {
+function BarOption ({ children, title, className = '', ...etc }) {
   className += ' tc pa3'
 
   if (etc.onClick) className += ' pointer'
 
   return (
     <div className={className} {...etc}>
-      {children}
+      <span className='db f4 navy'>{children}</span>
+      <span className='db ttl gray'>{title}</span>
     </div>
   )
 }
@@ -40,43 +43,43 @@ class Header extends React.Component {
     const actionableFiles = files.path !== MFS_PATH && files.path !== '/ipfs' && files.path !== '/ipns'
 
     return (
-      <div className='flex-ns justify-between'>
+      <div className='db flex-l justify-between'>
         <div className='mb3'>
           <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
           <span className='db f7 mid-gray'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
         </div>
-        
+
         <div className='mb3 flex justify-between bg-snow-muted'>
           { /* TODO: see https://www.npmjs.com/package/simplify-number  */ }
-          <BarOption>
-            <span className='db f4'>{repoNumObjects || 'N/A' }</span>
-            <span className='db gray'>blocks</span>
+          <BarOption title={t('blocks')}>
+            { repoNumObjects || 'N/A' }
           </BarOption>
 
-          <BarOption onClick={() => { doFilesNavigateTo('/ipfs') }}>
-            <span className='db f4'>{ pins ? pins.length : 'N/A' }</span>
-            <span className='db gray'>pins</span>
+          <BarOption title={t('pins')} onClick={() => { doFilesNavigateTo('/ipfs') }}>
+            { pins ? pins.length : 'N/A' }
           </BarOption>
 
-          <BarOption onClick={() => { doFilesNavigateTo('/') }}>
-            Home
+          <BarOption title={t('home')} onClick={() => { doFilesNavigateTo('/') }}>
+            <GlyphHome viewBox='25 25 105 105' className='w1 h1 fill-navy' />
           </BarOption>
-        
-          { writableFiles &&
-            <div className='ml-auto flex items-center'>
-              <FileInput
-                onNewFolder={this.props.onNewFolder}
-                onAddFiles={this.props.onAdd}
-                onAddByPath={this.props.onAddByPath}
-                addProgress={writeFilesProgress} />
-            </div>
-          }
 
-          { !writableFiles && actionableFiles &&
-            <div ref={el => { this.dotsWrapper = el }} className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
-              <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleContextMenu} />
-            </div>
-          }
+          <div className='pa3'>
+            { writableFiles &&
+              <div className='ml-auto flex items-center'>
+                <FileInput
+                  onNewFolder={this.props.onNewFolder /* TODO: hide on click */ }
+                  onAddFiles={this.props.onAdd}
+                  onAddByPath={this.props.onAddByPath}
+                  addProgress={writeFilesProgress} />
+              </div>
+            }
+
+            { !writableFiles && actionableFiles &&
+              <div ref={el => { this.dotsWrapper = el }} className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
+                <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleContextMenu} />
+              </div>
+            }
+          </div>
         </div>
       </div>
     )
