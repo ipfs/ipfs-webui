@@ -5,6 +5,7 @@ import countDirs from '../lib/count-dirs'
 import { sortByName, sortBySize } from '../lib/sort'
 
 const isMac = navigator.userAgent.indexOf('Mac') !== -1
+export const MFS_PATH = '/home'
 
 export const ACTIONS = {
   FETCH: 'FETCH',
@@ -91,8 +92,8 @@ const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path) => ({
 })
 
 const pathToStat = async (path, ipfs) => {
-  if (path.startsWith('/mfs')) {
-    return path.substr(4) || '/'
+  if (path.startsWith(MFS_PATH)) {
+    return path.substr(MFS_PATH.length) || '/'
   } else if (path.startsWith('/ipns')) {
     return ipfs.name.resolve(path)
   }
@@ -101,8 +102,8 @@ const pathToStat = async (path, ipfs) => {
 }
 
 const realMfsPath = (path) => {
-  if (path.startsWith('/mfs')) {
-    return path.substr(4) || '/'
+  if (path.startsWith(MFS_PATH)) {
+    return path.substr(MFS_PATH.length) || '/'
   }
 
   return path
@@ -502,7 +503,7 @@ export default (opts = {}) => {
     selectFilesIsMfs: createSelector(
       'selectFilesPathFromHash',
       (path) => {
-        return path ? path.startsWith('/mfs') : false
+        return path ? path.startsWith(MFS_PATH) : false
       }
     )
   }

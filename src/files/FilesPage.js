@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import downloadFile from './download-file'
 import { translate } from 'react-i18next'
+import { MFS_PATH } from '../bundles/files'
 // Components
 import FilesList from './files-list/FilesList'
 import FilePreview from './file-preview/FilePreview'
@@ -180,7 +181,7 @@ class FilesPage extends React.Component {
     const { contextMenu } = this.state
     const isCompanion = ipfsProvider === 'window.ipfs'
     const filesExist = files && files.content && files.content.length
-    const isRoot = files && files.path === '/mfs'
+    const isRoot = files && files.path === MFS_PATH
 
     return (
       <div data-id='FilesPage' className='mw9 center'>

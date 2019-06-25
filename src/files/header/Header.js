@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
+import { MFS_PATH } from '../../bundles/files'
 // Components
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import FileInput from '../file-input/FileInput'
@@ -37,7 +38,7 @@ class Header extends React.Component {
     } = this.props
 
     const writableFiles = files.type === 'directory' && filesIsMfs
-    const actionableFiles = files.path !== '/mfs' && files.path !== '/ipfs' && files.path !== '/ipns'
+    const actionableFiles = files.path !== MFS_PATH && files.path !== '/ipfs' && files.path !== '/ipns'
 
     return (
       <div>
