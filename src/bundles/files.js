@@ -297,8 +297,17 @@ export default (opts = {}) => {
         }
       } else if (status === 'FAILED') {
         const pendingAction = state.pending.find(a => a.id === id)
+        let additional
+
+        if (type === ACTIONS.FETCH) {
+          additional = {
+            pageContent: null
+          }
+        }
+
         return {
           ...state,
+          ...additional,
           pending: state.pending.filter(a => a.id !== id),
           failed: [
             ...state.failed,
@@ -438,7 +447,7 @@ export default (opts = {}) => {
       const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
       const files = store.selectFiles()
 
-      if (files.path === link) {
+      if (files && files.path === link) {
         store.doFilesFetch()
       } else {
         store.doUpdateHash(`${opts.baseUrl}${link}`)
@@ -447,11 +456,6 @@ export default (opts = {}) => {
 
     doFilesUpdateSorting: (by, asc) => async ({ dispatch }) => {
       dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
-    },
-
-    doFilesExplorePath: (path) => async ({ store }) => {
-      // TODO: sanitize path
-      store.doFilesNavigateTo(path)
     },
 
     selectFiles: (state) => state.files.pageContent,

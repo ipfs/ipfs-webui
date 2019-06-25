@@ -19,7 +19,13 @@ class FilesExploreForm extends React.Component {
     evt.preventDefault()
 
     if (this.canBrowse) {
-      this.props.doFilesExplorePath(this.path)
+      let path = this.path
+
+      if (isIPFS.cid(path)) {
+        path = `/ipfs/${path}`
+      }
+
+      this.props.doFilesNavigateTo(path)
     }
   }
 
@@ -78,6 +84,6 @@ class FilesExploreForm extends React.Component {
 }
 
 export default connect(
-  'doFilesExplorePath',
+  'doFilesNavigateTo',
   translate('files')(FilesExploreForm)
 )

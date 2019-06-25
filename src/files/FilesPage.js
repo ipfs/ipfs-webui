@@ -178,7 +178,6 @@ class FilesPage extends React.Component {
     } = this.props
 
     const { contextMenu } = this.state
-
     const isCompanion = ipfsProvider === 'window.ipfs'
     const filesExist = files && files.content && files.content.length
     const isRoot = files && files.path === '/mfs'
