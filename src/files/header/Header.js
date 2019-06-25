@@ -5,13 +5,11 @@ import { MFS_PATH } from '../../bundles/files'
 // Components
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import FileInput from '../file-input/FileInput'
-import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
-import FolderIcon from '../../icons/StrokeFolder'
 
 function BarOption ({ children, className = '', ...etc }) {
-  className += ' pa3'
+  className += ' tc pa3'
 
   if (etc.onClick) className += ' pointer'
 
@@ -32,6 +30,7 @@ class Header extends React.Component {
     const {
       files, writeFilesProgress, t,
       // repoSize,
+      pins,
       filesIsMfs,
       repoNumObjects,
       doFilesNavigateTo
@@ -48,12 +47,15 @@ class Header extends React.Component {
         </div>
         
         <div className='mb3 flex justify-between bg-snow-muted'>
+          { /* TODO: see https://www.npmjs.com/package/simplify-number  */ }
           <BarOption>
-            <span className='b'>{repoNumObjects || 'N/A' }</span> Blocks
+            <span className='db f4'>{repoNumObjects || 'N/A' }</span>
+            <span className='db gray'>blocks</span>
           </BarOption>
 
           <BarOption onClick={() => { doFilesNavigateTo('/ipfs') }}>
-            <span className='b'>N/A</span> Pins
+            <span className='db f4'>{ pins ? pins.length : 'N/A' }</span>
+            <span className='db gray'>pins</span>
           </BarOption>
 
           <BarOption onClick={() => { doFilesNavigateTo('/') }}>
@@ -84,6 +86,7 @@ class Header extends React.Component {
 export default connect(
   'doFilesNavigateTo',
   'selectFiles',
+  'selectPins',
   'selectRepoSize',
   'selectRepoNumObjects',
   'selectFilesIsMfs',

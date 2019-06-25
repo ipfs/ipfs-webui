@@ -109,12 +109,17 @@ const realMfsPath = (path) => {
   return path
 }
 
-const getPins = async (ipfs) => {
+const getRawPins = async (ipfs) => {
   const recursive = await ipfs.pin.ls({ type: 'recursive' })
   const direct = await ipfs.pin.ls({ type: 'direct' })
 
-  const promises = recursive
-    .concat(direct)
+  return recursive.concat(direct)
+}
+
+const getPins = async (ipfs) => {
+  const pins = await getRawPins(ipfs)
+
+  const promises = pins
     .map(({ hash }) => ipfs.files.stat(`/ipfs/${hash}`))
   const stats = await Promise.all(promises)
 
@@ -228,6 +233,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
 
 const defaultState = {
   pageContent: null,
+  pins: null,
   sorting: { // TODO: cache this
     by: sorts.BY_NAME,
     asc: true
@@ -327,6 +333,10 @@ export default (opts = {}) => {
         if (type === ACTIONS.FETCH) {
           additional = {
             pageContent: data
+          }
+
+          if (data.path === '/ipfs') {
+            additional.pins = data.content.map(f => f.hash)
           }
         }
 
@@ -461,6 +471,8 @@ export default (opts = {}) => {
     },
 
     selectFiles: (state) => state.files.pageContent,
+
+    selectPins: (state) => state.files.pins,
 
     selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === ACTIONS.FETCH),
 
