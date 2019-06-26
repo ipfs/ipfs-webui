@@ -63,6 +63,17 @@
       "details": "Grava mensagens de erro JavaScript e rastreamentos de pilha (stack traces) que ocorrem ao utilizar a aplicação, quando possível. É muito útil para saber onde a aplicação não está a funcionar, mas as <1>mensagens de erro podem conter informação pessoal</1>, como CIDs (identificadores de conteúdo) e caminhos de ficheiros, por isso ative esta opção apenas se estiver confortável em partilhar essa informação connosco."
     }
   },
+  "Experiments": {
+    "description": "Aqui pode experimentar novas funcionalidades do IPFS ativando as opções abaixo. Estamos a testar estas ideias e estas ainda podem não estar perfeitas por isso gostaríamos de saber a sua opinião.",
+    "issueUrl": "Abrir um relatório de erros",
+    "feedbackUrl": "💌Deixar um comentário",
+    "readMoreUrl": "Ler mais",
+    "npmOnIpfs": {
+      "title": "NPM em IPFS",
+      "label": "Ativar ipfs-npm",
+      "description": "Instale os módulos npm através do IPFS com a ferramenta da linha de comandos 'ipfs-npm'!"
+    }
+  },
   "ipfsCmdTools": "Ferramentas de linha de comandos IPFS",
   "ipfsCmdToolsDescription": "Adicione o binário <0>ipfs</0> ao <0>PATH</0> do seu sistema para que o possa usar na sua linha de comandos."
 }

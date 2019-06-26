@@ -16,7 +16,7 @@
   },
   "fetchingSettings": "Henter indstillinger...",
   "configApiNotAvailable": "API'et til konfiguration af IPFS er utilgængelig. Venligst, fjern \"IPFS Kompagnon\" web-udvidelsen og prøv igen.",
-  "ipfsDaemonOffline": "The IPFS daemon is offline. Please turn it on and try again.",
+  "ipfsDaemonOffline": "IPFS baggrunds-processen er offline. Forsøg at starte den og prøv igen.",
   "settingsUnavailable": "Indstillinger er ikke tilgængelige. Venligst, tjek at IPFS baggrunds-processen kører.",
   "settingsHaveChanged": "Indstillingerne er opdateret, venligst klik på <1>Nulstil</1> for at opdatere editorens indhold.",
   "errorOccured": "En fejl opstået ved forsøg på at gemme dine ændringer.",
@@ -63,6 +63,17 @@
       "details": "Lagrer JavaScript fejlmeddelser og stack-traces som opstår når App'en benyttes, i tilfælde hvor det er muligt. Det er til stor gavn at vide når App'en ikke fungerer for dig, men <1>fejlmeddelser kan inkludere identificerbar information</1> som CID'er eller fil-stier, så slå det kun til, hvis du er komfortabel med at dele denne information med os."
     }
   },
+  "Experiments": {
+    "description": "Her kan du få et tidligt smugkig på nye IPFS funktioner ved at tilvælge mulighederne neden for. Vi afprøver disse idéer og de er muligvis ikke perfekte vi vil elske at høre din feedback.",
+    "issueUrl": "Åben en sag",
+    "feedbackUrl": "💌Efterlad feedback",
+    "readMoreUrl": "Læs mere",
+    "npmOnIpfs": {
+      "title": "NPM på IPFS",
+      "label": "Slå ipfs-npm til",
+      "description": "Installér npm moduler via IPFS med 'ipfs-npm' kommandolinje værktøjet!"
+    }
+  },
   "ipfsCmdTools": "IPFS kommandolinje værktøjer",
-  "ipfsCmdToolsDescription": "Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line."
+  "ipfsCmdToolsDescription": "Tilføj <0>ipfs</0> binære fil til dit system's <0>PATH</0> så du kan benytte det via kommandolinjen."
 }

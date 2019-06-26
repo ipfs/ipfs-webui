@@ -63,6 +63,17 @@
       "details": "Enregistre les messages d'erreur JavaScript et les traces de pile qui se produisent pendant l'utilisation de l'application, si possible. Il est très utile de savoir quand l'application ne fonctionne pas pour vous, mais<1>les messages d'erreur peuvent contenir des informations identifiables</1>comme les CID ou les chemins d'accès aux fichiers, donc n'activez cette option que si vous êtes à l'aise de partager ces informations avec nous."
     }
   },
+  "Experiments": {
+    "description": "Ici vous pouvez avoir un aperçu des nouvelles fonctionnalités de IPFS en activant les options ci-dessous. Nous testons de nouvelles idées, et elles peuvent ne pas encore être parfaites donc on serait heureux d'avoir votre avis.",
+    "issueUrl": "Ouvrir une issue Github",
+    "feedbackUrl": "💌Laisser un commentaire",
+    "readMoreUrl": "En savoir plus",
+    "npmOnIpfs": {
+      "title": "NPM sur IPFS",
+      "label": "Activer ipfs-npm",
+      "description": "Installer les modules npm via IPFS avec l'outil en lignes de commande \"ipfs-npm\"!"
+    }
+  },
   "ipfsCmdTools": "IPFS outils en ligne de commandes",
   "ipfsCmdToolsDescription": "Ajouter<0>ipfs</0>éxécutable sur votre système <0>PATH</0>vous pouvez utilisé cela en ligne de commande. "
 }
