@@ -4,7 +4,6 @@ import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
 import { Table, Column, AutoSizer } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
-import Address from '../../components/address/Address'
 
 export class PeersTable extends React.Component {
   static propTypes = {
@@ -12,28 +11,24 @@ export class PeersTable extends React.Component {
     t: PropTypes.func.isRequired
   }
 
-  flagRenderer = (flagCode) => {
+  flagRenderer = (locationCode) => {
     // Check if the OS is Windows to render the flags as SVGs
     // Windows doesn't render the flags as emojis  ¯\_(ツ)_/¯
     const isWindows = window.navigator.appVersion.indexOf('Win') !== -1
     return (
-      <span className='pr2 f4'>
-        {flagCode ? <CountryFlag code={flagCode} svg={isWindows} /> : '🏳️‍🌈'}
+      <span className='f4 pr2'>
+        {locationCode ? <CountryFlag code={locationCode} svg={isWindows} /> : '🌐'}
       </span>
     )
   }
 
   locationCellRenderer = ({ rowData }) => (
     <span>
-      { this.flagRenderer(rowData.flagCode) }
-      { rowData.location ? rowData.location : (
+      { this.flagRenderer(rowData.locationCode) }
+      { rowData.locationCode ? rowData.locationCode : (
         <span className='charcoal-muted fw4'>{this.props.t('unknownLocation')}</span>
       ) }
     </span>
-  )
-
-  addressCellRenderer = ({ cellData }) => (
-    <Address value={cellData} />
   )
 
   rowClassRenderer = ({ index }) => {
@@ -58,9 +53,11 @@ export class PeersTable extends React.Component {
               rowHeight={36}
               rowCount={peerLocationsForSwarm.length}
               rowGetter={({ index }) => peerLocationsForSwarm[index]}>
-              <Column label={t('peerId')} dataKey='peerId' width={380} className='charcoal monospace truncate f7 pl2' />
-              <Column label={t('address')} cellRenderer={this.addressCellRenderer} dataKey='address' width={300} flexGrow={1} className='f6 pl2' />
-              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={380} flexGrow={1} className='f5 navy-muted fw5 truncate pl2' />
+              <Column label={t('peerId')} dataKey='peerId' width={500} className='charcoal monospace truncate f7 pl2' />
+              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='locationCode' width={350} className='f6 navy-muted truncate pl2' />
+              <Column label={t('connection')} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
+              <Column label={t('latency')} dataKey='latency' width={250} className='f6 navy-muted truncate pl2' />
+              <Column label={t('notes')} dataKey='notes' width={400} className='charcoal monospace truncate f7 pl2' />
             </Table>
           )}
         </AutoSizer> }

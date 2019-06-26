@@ -148,21 +148,23 @@ export default function (opts) {
       'selectPeerLocations',
       (peers, locations) => peers && peers.map((peer, idx) => {
         const peerId = peer.peer.toB58String()
-        const address = peer.addr.toString()
         const locationObj = locations[peerId]
-        const location = toLocationString(locationObj)
-        const flagCode = locationObj && locationObj.country_code
+        const locationCode = locationObj && locationObj.country_code
         const coordinates = locationObj && [
           locationObj.longitude,
           locationObj.latitude
         ]
+        const connection = parseConnection(peer.addr)
+        const latency = parseLatency(peer.latency)
+        const notes = parseNotes(peer)
 
         return {
           peerId,
-          address,
-          location,
-          flagCode,
-          coordinates
+          locationCode,
+          coordinates,
+          connection,
+          latency,
+          notes
         }
       })
     ),
@@ -275,4 +277,28 @@ const toLocationString = loc => {
   if (!loc) return null
   const { country_name: country, city } = loc
   return city && country ? `${city}, ${country}` : country
+}
+
+const parseConnection = (multiaddr) => {
+  const opts = multiaddr.toOptions()
+  console.log(opts)
+
+  return `${opts.family}・${opts.transport}`
+}
+
+const parseLatency = (latency) => {
+  if (latency === 'n/a') return latency
+
+  const value = parseInt(latency)
+  const unit = /(s|ms)/.exec(latency)[0]
+
+  return `${value}${unit}`
+}
+
+const parseNotes = (peer) => {
+  const opts = peer.addr.toOptions()
+
+  if (opts.transport === 'p2p-circuit') {
+    return `via ${opts.host}`
+  }
 }
