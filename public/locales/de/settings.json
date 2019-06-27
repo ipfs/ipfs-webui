@@ -63,6 +63,17 @@
       "details": "Zeichnet JavaScript Fehlermeldungen und Stack-Traces auf, die während der Nutzung der App auftreten falls möglich. Es ist sehr hilfreich zu wissen, wenn die App bei Ihnen nicht funktioniert, aber <1>Fehlermeldungen könnten identifizierbare Informationen enthalten</1> wie CIDs oder Dateipfade. Aktivieren sie diese Option deshalb nur, wenn Sie diese Informationen mit uns teilen möchten."
     }
   },
+  "Experiments": {
+    "description": "Here you can get an early preview into new IPFS features by enabling options below. We are testing these ideas, and they may not be perfect yet so we'd love to hear your feedback.",
+    "issueUrl": "Open an issue",
+    "feedbackUrl": "💌Leave feedback",
+    "readMoreUrl": "Read More",
+    "npmOnIpfs": {
+      "title": "NPM on IPFS",
+      "label": "Enable ipfs-npm",
+      "description": "Install npm modules through IPFS with the 'ipfs-npm' command line tool!"
+    }
+  },
   "ipfsCmdTools": "IPFS Kommandozeilen-Tools",
   "ipfsCmdToolsDescription": "Fügen Sie den<0>ipfs</0> Binärcode Ihrem System<0>PATH</0> hinzu, um es auf der Kommandozeile nutzen zu können."
 }
