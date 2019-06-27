@@ -146,7 +146,8 @@ export default function (opts) {
     selectPeerLocationsForSwarm: createSelector(
       'selectPeers',
       'selectPeerLocations',
-      (peers, locations) => peers && peers.map((peer, idx) => {
+      'selectBootstrapPeers',
+      (peers, locations, bootstrapPeers) => peers && peers.map(peer => {
         const peerId = peer.peer.toB58String()
         const locationObj = locations[peerId]
         const locationCode = locationObj && locationObj.country_code
@@ -156,7 +157,7 @@ export default function (opts) {
         ]
         const connection = parseConnection(peer.addr)
         const latency = parseLatency(peer.latency)
-        const notes = parseNotes(peer)
+        const notes = parseNotes(peer, bootstrapPeers)
 
         return {
           peerId,
@@ -275,7 +276,6 @@ const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'
 
 const parseConnection = (multiaddr) => {
   const opts = multiaddr.toOptions()
-  console.log(opts)
 
   return `${opts.family}・${opts.transport}`
 }
@@ -289,10 +289,14 @@ const parseLatency = (latency) => {
   return `${value}${unit}`
 }
 
-const parseNotes = (peer) => {
+const parseNotes = (peer, bootstrapPeers) => {
   const opts = peer.addr.toOptions()
 
   if (opts.transport === 'p2p-circuit') {
     return `via ${opts.host}`
+  }
+
+  if (bootstrapPeers.includes(peer.addr.toString())) {
+    return 'bootstrap node'
   }
 }
