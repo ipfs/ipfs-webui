@@ -48,12 +48,12 @@ export class App extends Component {
   }
 
   render () {
-    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget, isOver } = this.props
+    const { route: Page, ipfsReady, routeInfo: { url }, navbarIsOpen, connectDropTarget, canDrop, isOver } = this.props
 
     return connectDropTarget(
       <div className='sans-serif h-100' onClick={navHelper(this.props.doUpdateUrl)}>
         {/* Tinted overlay that appears when dragging and dropping an item */}
-        { isOver && <div className='w-100 h-100 top-0 left-0 absolute' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
+        { canDrop && isOver && <div className='w-100 h-100 top-0 left-0 absolute' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
         <div className='flex-l' style={{ minHeight: '100vh' }}>
           <div className={`flex-none-l bg-navy ${navbarIsOpen ? 'w5-l' : 'w4-l'}`}>
             <NavBar />
@@ -89,7 +89,8 @@ const dropTarget = {
 
     const { filesPromise } = monitor.getItem()
     App.addFiles(filesPromise)
-  }
+  },
+  canDrop: (props) => props.filesPathFromHash ? props.filesIsMfs : true
 }
 
 const dropCollect = (connect, monitor) => ({
@@ -109,5 +110,7 @@ export default connect(
   'doInitIpfs',
   'doFilesWrite',
   'selectIpfsReady',
+  'selectFilesPathFromHash',
+  'selectFilesIsMfs',
   DragDropContext(DnDBackend)(AppWithDropTarget)
 )

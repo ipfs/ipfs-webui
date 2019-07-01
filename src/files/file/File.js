@@ -31,6 +31,7 @@ class File extends React.Component {
     translucent: PropTypes.bool,
     handleContextMenuClick: PropTypes.func,
     pinned: PropTypes.bool,
+    isMfs: PropTypes.bool,
     // Injected by DragSource and DropTarget
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -144,6 +145,7 @@ const dragSource = {
     setIsDragging()
     return { name, type, path }
   },
+  canDrag: props => props.isMfs,
   endDrag: (props) => { props.setIsDragging(false) }
 }
 
@@ -170,6 +172,7 @@ const dropTarget = {
     }
   },
   canDrop: (props, monitor) => {
+    if (!props.isMfs) return false
     const item = monitor.getItem()
 
     if (item.hasOwnProperty('name')) {
