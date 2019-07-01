@@ -168,7 +168,7 @@ const dropTarget = {
       const src = item.path
       const dst = join(props.path, basename(item.path))
 
-      props.onMove([src, dst])
+      props.onMove(src, dst)
     }
   },
   canDrop: (props, monitor) => {

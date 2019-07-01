@@ -222,7 +222,7 @@ export class FilesList extends React.Component {
     this.listRef.current.forceUpdateGrid()
   }
 
-  move = ([src, dst]) => {
+  move = (src, dst) => {
     const selected = this.selectedFiles
 
     if (selected.length > 0) {
@@ -245,9 +245,9 @@ export class FilesList extends React.Component {
       }
 
       this.toggleAll(false)
-      toMove.forEach(op => this.props.onMove(op))
+      toMove.forEach(op => this.props.onMove(...op))
     } else {
-      this.props.onMove([src, dst])
+      this.props.onMove(src, dst)
     }
   }
 
