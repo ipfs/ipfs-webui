@@ -6,6 +6,7 @@ import { filesToStreams } from '../../lib/files'
 // Icons
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
+import NewFolderIcon from '../../icons/StrokeNewFolder'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
 // Components
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
@@ -121,8 +122,7 @@ class FileInput extends React.Component {
               {t('addByPath')}
             </Option>
             <Option onClick={this.props.onNewFolder}>
-              { /* TODO: use different icon */ }
-              <FolderIcon className='fill-aqua w2 mr1' />
+              <NewFolderIcon className='fill-aqua w2 mr1' />
               {t('newFolder')}
             </Option>
           </DropdownMenu>

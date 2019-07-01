@@ -10,12 +10,14 @@ import StrokePencil from '../../icons/StrokePencil'
 import StrokeIpld from '../../icons/StrokeIpld'
 import StrokeTrash from '../../icons/StrokeTrash'
 import StrokeDownload from '../../icons/StrokeDownload'
+import StrokePin from '../../icons/StrokePin'
 
 class ContextMenu extends React.Component {
   static propTypes = {
     isMfs: PropTypes.bool,
     isOpen: PropTypes.bool,
     isUpperDir: PropTypes.bool,
+    pinned: PropTypes.bool,
     handleClick: PropTypes.func,
     translateX: PropTypes.number,
     translateY: PropTypes.number,
@@ -49,7 +51,7 @@ class ContextMenu extends React.Component {
     dropdown: false
   }
 
-  wrap = (name) => () => {
+  wrap = (name, hash = false) => () => {
     this.props.handleClick()
     this.props[name]()
   }
@@ -58,7 +60,7 @@ class ContextMenu extends React.Component {
     const {
       t, onRename, onDelete, onDownload, onInspect, onShare,
       translateX, translateY, className, showDots,
-      isUpperDir, isMfs
+      isUpperDir, isMfs, pinned
     } = this.props
 
     return (
@@ -96,12 +98,10 @@ class ContextMenu extends React.Component {
               {t('actions.inspect')}
             </Option>
           }
-          { /* !isMfs && !isUpperDir &&
-            TODO: send to MFS
-          */ }
-          { /* !isMfs && !isUpperDir &&
-          TODO: Pin
-          */ }
+          <Option onClick={this.wrap(pinned ? 'onUnpin' : 'onPin')}>
+            <StrokePin className='w2 mr2 fill-aqua' />
+            { pinned ? t('actions.unpin') : t('actions.pin') }
+          </Option>
           <CopyToClipboard text={this.props.hash} onCopy={this.props.handleClick}>
             <Option>
               <StrokeCopy className='w2 mr2 fill-aqua' />

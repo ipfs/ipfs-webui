@@ -46,14 +46,14 @@ class File extends React.Component {
   }
 
   handleCtxLeftClick = (ev) => {
-    const { name, type, size, hash, path } = this.props
+    const { name, type, size, hash, path, pinned } = this.props
     const dotsPosition = this.dotsWrapper.getBoundingClientRect()
-    this.props.handleContextMenuClick(ev, 'LEFT', { name, size, type, hash, path }, dotsPosition)
+    this.props.handleContextMenuClick(ev, 'LEFT', { name, size, type, hash, path, pinned }, dotsPosition)
   }
 
   handleCtxRightClick = (ev) => {
-    const { name, type, size, hash, path } = this.props
-    this.props.handleContextMenuClick(ev, 'RIGHT', { name, size, type, hash, path })
+    const { name, type, size, hash, path , pinned} = this.props
+    this.props.handleContextMenuClick(ev, 'RIGHT', { name, size, type, hash, path, pinned })
   }
 
   render () {

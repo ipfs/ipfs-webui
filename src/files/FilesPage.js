@@ -197,12 +197,15 @@ class FilesPage extends React.Component {
           handleClick={this.handleContextMenu}
           isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
           isMfs={filesIsMfs}
+          pinned={contextMenu.file && contextMenu.file.pinned}
           showDots={false}
           onShare={() => this.showShareModal([contextMenu.file])}
           onDelete={() => this.showDeleteModal([contextMenu.file])}
           onRename={() => this.showRenameModal([contextMenu.file])}
           onInspect={() => this.inspect([contextMenu.file])}
           onDownload={() => this.download([contextMenu.file])}
+          onPin={() => window.alert('PIN') /* TODO */}
+          onUnpin={() => window.alert('UNPIN') /* TODO */}
           hash={contextMenu.file && contextMenu.file.hash} />
 
         { files &&

@@ -32,7 +32,9 @@
     "clear": "Clear",
     "create": "Create",
     "save": "Save",
-    "unselectAll": "Unselect All"
+    "unselectAll": "Unselect All",
+    "pin": "Pin",
+    "unpin": "Unpin"
   },
   "shareModal": {
     "title": "Share Files",

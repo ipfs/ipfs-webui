@@ -66,6 +66,7 @@ class Header extends React.Component {
             { writableFiles &&
               <div className='ml-auto flex items-center'>
                 <FileInput
+                  disabled={writableFiles}
                   onNewFolder={this.props.onNewFolder /* TODO: hide on click */ }
                   onAddFiles={this.props.onAdd}
                   onAddByPath={this.props.onAddByPath}
