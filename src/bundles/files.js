@@ -412,12 +412,11 @@ export default (opts = {}) => {
         // Only go for direct children
         if (path.indexOf('/') === -1 && path !== '') {
           const src = `/ipfs/${hash}`
-          const dst = join(root, path)
+          const dst = join(realMfsPath(root), path)
 
           try {
             await ipfs.files.cp([src, dst])
           } catch (err) {
-            console.log(err, { root, path, src, dst })
             throw Object.assign(new Error(`Folder already exists.`), { code: 'ERR_FOLDER_EXISTS' })
           }
         }
