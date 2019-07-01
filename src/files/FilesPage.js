@@ -204,8 +204,8 @@ class FilesPage extends React.Component {
           onRename={() => this.showRenameModal([contextMenu.file])}
           onInspect={() => this.inspect([contextMenu.file])}
           onDownload={() => this.download([contextMenu.file])}
-          onPin={() => window.alert('PIN') /* TODO */}
-          onUnpin={() => window.alert('UNPIN') /* TODO */}
+          onPin={() => window.alert('PIN')/* TODO */}
+          onUnpin={() => window.alert('UNPIN')/* TODO */}
           hash={contextMenu.file && contextMenu.file.hash} />
 
         { files &&

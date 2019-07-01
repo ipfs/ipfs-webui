@@ -52,7 +52,7 @@ class File extends React.Component {
   }
 
   handleCtxRightClick = (ev) => {
-    const { name, type, size, hash, path , pinned} = this.props
+    const { name, type, size, hash, path, pinned } = this.props
     this.props.handleContextMenuClick(ev, 'RIGHT', { name, size, type, hash, path, pinned })
   }
 
