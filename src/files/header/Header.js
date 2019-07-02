@@ -25,13 +25,12 @@ function BarOption ({ children, title, className = '', ...etc }) {
 class Header extends React.Component {
   handleContextMenu = (ev) => {
     const dotsPosition = this.dotsWrapper.getBoundingClientRect()
-    this.props.handleContextMenu(ev, 'LEFT', this.props.files, dotsPosition)
+    this.props.handleContextMenu(ev, 'RIGHT', this.props.files, dotsPosition)
   }
 
   render () {
     const {
       files, writeFilesProgress, t,
-      // repoSize,
       pins,
       filesIsMfs,
       repoNumObjects,
@@ -44,7 +43,14 @@ class Header extends React.Component {
     return (
       <div className='db flex-l justify-between'>
         <div className='mb3'>
-          <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
+          <div className='flex items-center'>
+            <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
+            { !writableFiles && actionableFiles &&
+              <div ref={el => { this.dotsWrapper = el }} className='ml3' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
+                <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleContextMenu} />
+              </div>
+            }
+          </div>
           <span className='db f7 mid-gray'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
         </div>
 
@@ -63,22 +69,14 @@ class Header extends React.Component {
           </BarOption>
 
           <div className='pa3'>
-            { writableFiles &&
-              <div className='ml-auto flex items-center'>
-                <FileInput
-                  disabled={writableFiles}
-                  onNewFolder={this.props.onNewFolder /* TODO: hide on click */ }
-                  onAddFiles={this.props.onAdd}
-                  onAddByPath={this.props.onAddByPath}
-                  addProgress={writeFilesProgress} />
-              </div>
-            }
-
-            { !writableFiles && actionableFiles &&
-              <div ref={el => { this.dotsWrapper = el }} className='ml-auto' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
-                <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleContextMenu} />
-              </div>
-            }
+            <div className='ml-auto flex items-center'>
+              <FileInput
+                disabled={!writableFiles}
+                onNewFolder={this.props.onNewFolder /* TODO: hide on click */ }
+                onAddFiles={this.props.onAdd}
+                onAddByPath={this.props.onAddByPath}
+                addProgress={writeFilesProgress} />
+            </div>
           </div>
         </div>
       </div>
