@@ -38,29 +38,7 @@ class FilesPage extends React.Component {
     this.contextMenuRef = React.createRef()
   }
 
-  static propTypes = {
-    ipfsConnected: PropTypes.bool,
-    ipfsProvider: PropTypes.string,
-    files: PropTypes.object,
-    filesErrors: PropTypes.array,
-    filesPathFromHash: PropTypes.string,
-    filesSorting: PropTypes.object.isRequired,
-    gatewayUrl: PropTypes.string.isRequired,
-    doUpdateHash: PropTypes.func.isRequired,
-    doFilesDelete: PropTypes.func.isRequired,
-    doFilesMove: PropTypes.func.isRequired,
-    doFilesWrite: PropTypes.func.isRequired,
-    doFilesAddPath: PropTypes.func.isRequired,
-    doFilesDownloadLink: PropTypes.func.isRequired,
-    doFilesMakeDir: PropTypes.func.isRequired,
-    doFilesUpdateSorting: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired,
-    tReady: PropTypes.bool.isRequired
-  }
-
   state = defaultState
-
-  resetState = (field) => this.setState({ [field]: defaultState[field] })
 
   componentDidMount () {
     this.props.doFilesFetch()
@@ -69,7 +47,9 @@ class FilesPage extends React.Component {
   componentDidUpdate (prev) {
     const { filesPathFromHash } = this.props
 
-    if (prev.files === null || !prev.ipfsConnected || filesPathFromHash !== prev.filesPathFromHash) {
+    if (prev.files === null
+      || !prev.ipfsConnected
+      || filesPathFromHash !== prev.filesPathFromHash) {
       this.props.doFilesFetch()
     }
   }
@@ -106,11 +86,6 @@ class FilesPage extends React.Component {
 
   inspect = (hash) => {
     const { doUpdateHash } = this.props
-
-    if (Array.isArray(hash)) {
-      hash = hash[0].hash
-    }
-
     doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
@@ -203,7 +178,7 @@ class FilesPage extends React.Component {
           onShare={() => this.showShareModal([contextMenu.file])}
           onDelete={() => this.showDeleteModal([contextMenu.file])}
           onRename={() => this.showRenameModal([contextMenu.file])}
-          onInspect={() => this.inspect([contextMenu.file])}
+          onInspect={() => this.inspect(contextMenu.file.hash)}
           onDownload={() => this.download([contextMenu.file])}
           onPin={() => doFilesPin(contextMenu.file.hash)}
           onUnpin={() => doFilesUnpin(contextMenu.file.hash)}
@@ -251,10 +226,40 @@ class FilesPage extends React.Component {
   }
 }
 
+FilesPage.propTypes = {
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired,
+  // Injected by Redux
+  ipfsConnected: PropTypes.bool,
+  ipfsProvider: PropTypes.string.isRequired,
+  files: PropTypes.object,
+  gatewayUrl: PropTypes.string.isRequired,
+  filesPathFromHash: PropTypes.string.isRequired,
+  filesIsMfs: PropTypes.bool.isRequired,
+  filesSorting: PropTypes.object.isRequired,
+  doUpdateHash: PropTypes.func.isRequired,
+  doFilesDelete: PropTypes.func.isRequired,
+  doFilesMove: PropTypes.func.isRequired,
+  doFilesWrite: PropTypes.func.isRequired,
+  doFilesAddPath: PropTypes.func.isRequired,
+  doFilesDownloadLink: PropTypes.func.isRequired,
+  doFilesMakeDir: PropTypes.func.isRequired,
+  doFilesFetch: PropTypes.func.isRequired,
+  doFilesNavigateTo: PropTypes.func.isRequired,
+  doFilesUpdateSorting: PropTypes.func.isRequired,
+  doFilesPin: PropTypes.func.isRequired,
+  doFilesUnpin: PropTypes.func.isRequired,
+}
+
 export default connect(
   'selectIpfsConnected',
   'selectIpfsProvider',
   'selectIpfsConnected',
+  'selectFiles',
+  'selectGatewayUrl',
+  'selectFilesPathFromHash',
+  'selectFilesIsMfs',
+  'selectFilesSorting',
   'doUpdateHash',
   'doFilesDelete',
   'doFilesMove',
@@ -267,10 +272,5 @@ export default connect(
   'doFilesUpdateSorting',
   'doFilesPin',
   'doFilesUnpin',
-  'selectFiles',
-  'selectGatewayUrl',
-  'selectFilesPathFromHash',
-  'selectFilesIsMfs',
-  'selectFilesSorting',
   translate('files')(FilesPage)
 )

@@ -102,7 +102,7 @@ export class FilesList extends React.Component {
         rename={() => this.props.onRename(this.selectedFiles)}
         share={() => this.props.onShare(this.selectedFiles)}
         download={() => this.props.onDownload(this.selectedFiles)}
-        inspect={() => this.props.onInspect(this.selectedFiles)}
+        inspect={() => this.props.onInspect(this.selectedFiles[0].hash)}
         count={this.state.selected.length}
         isMfs={this.props.filesIsMfs}
         downloadProgress={this.props.downloadProgress}
