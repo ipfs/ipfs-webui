@@ -366,7 +366,7 @@ export class FilesList extends React.Component {
       'o-1': allSelected,
       'o-70': !allSelected
     }, ['pl2 w2 glow'])
-
+  
     className = `FilesList no-select sans-serif border-box w-100 flex flex-column ${className}`
 
     return connectDropTarget(
@@ -411,7 +411,8 @@ export class FilesList extends React.Component {
                         onRowsRendered={this.onRowsRendered}
                         isScrolling={isScrolling}
                         onScroll={onChildScroll}
-                        scrollTop={scrollTop} />
+                        scrollTop={scrollTop}
+                        data={files /* NOTE: this is a placebo prop to force the list to re-render */} />
                     )}
                   </AutoSizer>
                 </div>

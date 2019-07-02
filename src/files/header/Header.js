@@ -50,7 +50,7 @@ class Header extends React.Component {
           <span className='db f7 mid-gray'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
         </div>
 
-        <div className='mb3 flex justify-between bg-snow-muted'>
+        <div className='mb3 flex justify-between items-center bg-snow-muted'>
           { /* TODO: see https://www.npmjs.com/package/simplify-number  */ }
           <BarOption title={t('blocks')}>
             { repoNumObjects || 'N/A' }
