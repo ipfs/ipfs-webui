@@ -77,7 +77,7 @@ class FilesPage extends React.Component {
       root = files.path
     }
 
-    doFilesWrite(root, raw)
+    doFilesWrite(raw, root)
   }
 
   addByPath = (path) => {

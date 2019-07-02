@@ -40,7 +40,7 @@ export class App extends Component {
     const addAtPath = isFilesPage ? routeInfo.params.path : '/'
     const files = await filesPromise
 
-    doFilesWrite(addAtPath, await filesToStreams(files))
+    doFilesWrite(await filesToStreams(files), addAtPath)
     // Change to the files pages if the user is not there
     if (!isFilesPage) {
       doUpdateHash('/files')
