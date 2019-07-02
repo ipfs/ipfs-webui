@@ -110,7 +110,7 @@ class FilesPage extends React.Component {
     this.setState({ modals: { } })
   }
 
-  handleContextMenu = (ev, clickType, file, dotsPosition, ref) => {
+  handleContextMenu = (ev, clickType, file, pos) => {
     // This is needed to disable the native OS right-click menu
     // and deal with the clicking on the ContextMenu options
     if (ev !== undefined && typeof ev !== 'string') {
@@ -124,18 +124,20 @@ class FilesPage extends React.Component {
     let translateX = 0
     let translateY = 0
 
-    if (clickType === 'RIGHT') {
-      const rightPadding = window.innerWidth - ctxMenu.parentNode.getBoundingClientRect().right
-      translateX = (window.innerWidth - ev.clientX) - rightPadding - 20
-      translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10
-    } else if (clickType === 'TOP') {
-      const pagePositions = ctxMenu.parentNode.getBoundingClientRect()
-      const buttonPositions = findDOMNode(ref).getBoundingClientRect()
-      translateX = pagePositions.right - buttonPositions.right
-      translateY = -(buttonPositions.bottom - pagePositions.top + 11)
-    } else {
-      translateX = 1
-      translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (dotsPosition && dotsPosition.y) - 30
+    switch (clickType) {
+      case 'RIGHT':
+        const rightPadding = window.innerWidth - ctxMenu.parentNode.getBoundingClientRect().right
+        translateX = (window.innerWidth - ev.clientX) - rightPadding - 20
+        translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10
+        break
+      case 'TOP':
+        const pagePositions = ctxMenu.parentNode.getBoundingClientRect()
+        translateX = pagePositions.right - pos.right
+        translateY = -(pos.bottom - pagePositions.top + 11)
+        break
+      default:
+        translateX = 1
+        translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (pos && pos.y) - 30
     }
 
     this.setState({

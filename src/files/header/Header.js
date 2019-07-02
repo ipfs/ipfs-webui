@@ -25,8 +25,8 @@ function BarOption ({ children, title, className = '', ...etc }) {
 
 class Header extends React.Component {
   handleContextMenu = (ev) => {
-    const dotsPosition = this.dotsWrapper.getBoundingClientRect()
-    this.props.handleContextMenu(ev, 'TOP', this.props.files, dotsPosition, this.dotsWrapper)
+    const pos = this.dotsWrapper.getBoundingClientRect()
+    this.props.handleContextMenu(ev, 'TOP', this.props.files, pos)
   }
 
   render () {
