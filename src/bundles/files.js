@@ -15,7 +15,9 @@ export const ACTIONS = {
   MAKE_DIR: 'MAKEDIR',
   WRITE: 'WRITE',
   DOWNLOAD_LINK: 'DOWNLOADLINK',
-  ADD_BY_PATH: 'ADDBYPATH'
+  ADD_BY_PATH: 'ADDBYPATH',
+  PIN: 'PIN',
+  UNPIN: 'UNPIN'
 }
 
 export const sorts = {
@@ -452,6 +454,10 @@ export default (opts = {}) => {
     doFilesCopy: make(ACTIONS.COPY, (ipfs, src, dst) => ipfs.files.cp([realMfsPath(src), realMfsPath(dst)]), { mfsOnly: true }),
 
     doFilesMakeDir: make(ACTIONS.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(realMfsPath(path), { parents: true }), { mfsOnly: true }),
+
+    doFilesPin: make(ACTIONS.PIN, (ipfs, hash) => ipfs.pin.add(hash)),
+
+    doFilesUnpin: make(ACTIONS.UNPIN, (ipfs, hash) => ipfs.pin.rm(hash)),
 
     doFilesDismissErrors: () => async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
 

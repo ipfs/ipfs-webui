@@ -174,6 +174,7 @@ class FilesPage extends React.Component {
   render () {
     const {
       ipfsProvider, files, filesSorting: sort, t,
+      doFilesPin, doFilesUnpin,
       doFilesMove, doFilesNavigateTo, doFilesUpdateSorting,
       filesIsMfs
     } = this.props
@@ -204,8 +205,8 @@ class FilesPage extends React.Component {
           onRename={() => this.showRenameModal([contextMenu.file])}
           onInspect={() => this.inspect([contextMenu.file])}
           onDownload={() => this.download([contextMenu.file])}
-          onPin={() => window.alert('PIN')/* TODO */}
-          onUnpin={() => window.alert('UNPIN')/* TODO */}
+          onPin={() => doFilesPin(contextMenu.file.hash)}
+          onUnpin={() => doFilesUnpin(contextMenu.file.hash)}
           hash={contextMenu.file && contextMenu.file.hash} />
 
         { files &&
@@ -264,6 +265,8 @@ export default connect(
   'doFilesFetch',
   'doFilesNavigateTo',
   'doFilesUpdateSorting',
+  'doFilesPin',
+  'doFilesUnpin',
   'selectFiles',
   'selectGatewayUrl',
   'selectFilesPathFromHash',
