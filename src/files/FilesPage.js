@@ -42,6 +42,7 @@ class FilesPage extends React.Component {
 
   componentDidMount () {
     this.props.doFilesFetch()
+    this.props.doPinsFetch()
   }
 
   componentDidUpdate (prev) {
@@ -247,6 +248,7 @@ FilesPage.propTypes = {
   doFilesFetch: PropTypes.func.isRequired,
   doFilesNavigateTo: PropTypes.func.isRequired,
   doFilesUpdateSorting: PropTypes.func.isRequired,
+  doPinsFetch: PropTypes.func.isRequired,
   doFilesPin: PropTypes.func.isRequired,
   doFilesUnpin: PropTypes.func.isRequired,
 }
@@ -272,5 +274,6 @@ export default connect(
   'doFilesUpdateSorting',
   'doFilesPin',
   'doFilesUnpin',
+  'doPinsFetch',
   translate('files')(FilesPage)
 )
