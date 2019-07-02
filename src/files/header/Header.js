@@ -73,8 +73,14 @@ class Header extends React.Component {
                   onAddByPath={this.props.onAddByPath}
                   addProgress={writeFilesProgress} />
                 : <div ref={el => { this.dotsWrapper = el }}>
-                  <Button bg='bg-navy' color='white' className='f6 relative flex justify-center items-center' minWidth='100px' onClick={this.handleContextMenu}>
-                    <GlyphDots className='w1 fill-aqua mr2' />
+                  <Button bg='bg-navy'
+                    color='white'
+                    fill='fill-aqua'
+                    className='f6 relative flex justify-center items-center'
+                    minWidth='100px'
+                    disabled={!actionableFiles}
+                    onClick={this.handleContextMenu}>
+                    <GlyphDots className='w1  mr2' />
                     { t('more') }
                   </Button>
                 </div>
