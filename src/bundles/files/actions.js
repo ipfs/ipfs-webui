@@ -112,7 +112,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
   let upper = null
 
   if (upperPath !== '/ipns' && upperPath !== '/ipfs' && upperPath !== '/') {
-    upper = fileFromStats(await ipfs.files.stat(await pathToStat(upperPath)))
+    upper = fileFromStats(await ipfs.files.stat(await pathToStat(upperPath, ipfs)))
   }
 
   if (upper) {
