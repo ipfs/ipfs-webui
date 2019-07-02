@@ -5,6 +5,7 @@ import { MFS_PATH } from '../../bundles/files'
 // Components
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import FileInput from '../file-input/FileInput'
+import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
 import GlyphHome from '../../icons/GlyphHome'
@@ -25,7 +26,7 @@ function BarOption ({ children, title, className = '', ...etc }) {
 class Header extends React.Component {
   handleContextMenu = (ev) => {
     const dotsPosition = this.dotsWrapper.getBoundingClientRect()
-    this.props.handleContextMenu(ev, 'RIGHT', this.props.files, dotsPosition)
+    this.props.handleContextMenu(ev, 'TOP', this.props.files, dotsPosition, this.dotsWrapper)
   }
 
   render () {
@@ -45,11 +46,6 @@ class Header extends React.Component {
         <div className='mb3'>
           <div className='flex items-center'>
             <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
-            { !writableFiles && actionableFiles &&
-              <div ref={el => { this.dotsWrapper = el }} className='ml3' style={{ width: '1.5rem' }}> {/* to render correctly in Firefox */}
-                <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleContextMenu} />
-              </div>
-            }
           </div>
           <span className='db f7 mid-gray'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
         </div>
@@ -70,12 +66,19 @@ class Header extends React.Component {
 
           <div className='pa3'>
             <div className='ml-auto flex items-center'>
-              <FileInput
-                disabled={!writableFiles}
-                onNewFolder={this.props.onNewFolder /* TODO: hide on click */ }
-                onAddFiles={this.props.onAdd}
-                onAddByPath={this.props.onAddByPath}
-                addProgress={writeFilesProgress} />
+              { writableFiles
+                ? <FileInput
+                  onNewFolder={this.props.onNewFolder /* TODO: hide on click */ }
+                  onAddFiles={this.props.onAdd}
+                  onAddByPath={this.props.onAddByPath}
+                  addProgress={writeFilesProgress} />
+                : <div ref={el => { this.dotsWrapper = el }}>
+                  <Button bg='bg-navy' color='white' className='f6 relative flex justify-center items-center' minWidth='100px' onClick={this.handleContextMenu}>
+                    <GlyphDots className='w1 fill-aqua mr2' />
+                    { t('more') }
+                  </Button>
+                </div>
+              }
             </div>
           </div>
         </div>

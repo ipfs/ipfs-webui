@@ -48,9 +48,9 @@ class FilesPage extends React.Component {
   componentDidUpdate (prev) {
     const { filesPathFromHash } = this.props
 
-    if (prev.files === null
-      || !prev.ipfsConnected
-      || filesPathFromHash !== prev.filesPathFromHash) {
+    if (prev.files === null ||
+      !prev.ipfsConnected ||
+      filesPathFromHash !== prev.filesPathFromHash) {
       this.props.doFilesFetch()
     }
   }
@@ -110,7 +110,7 @@ class FilesPage extends React.Component {
     this.setState({ modals: { } })
   }
 
-  handleContextMenu = (ev, clickType, file, dotsPosition, fromHeader = false) => {
+  handleContextMenu = (ev, clickType, file, dotsPosition, ref) => {
     // This is needed to disable the native OS right-click menu
     // and deal with the clicking on the ContextMenu options
     if (ev !== undefined && typeof ev !== 'string') {
@@ -128,13 +128,14 @@ class FilesPage extends React.Component {
       const rightPadding = window.innerWidth - ctxMenu.parentNode.getBoundingClientRect().right
       translateX = (window.innerWidth - ev.clientX) - rightPadding - 20
       translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10
+    } else if (clickType === 'TOP') {
+      const pagePositions = ctxMenu.parentNode.getBoundingClientRect()
+      const buttonPositions = findDOMNode(ref).getBoundingClientRect()
+      translateX = pagePositions.right - buttonPositions.right
+      translateY = -(buttonPositions.bottom - pagePositions.top + 11)
     } else {
       translateX = 1
       translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (dotsPosition && dotsPosition.y) - 30
-    }
-
-    if (fromHeader) {
-      translateX = -8
     }
 
     this.setState({
@@ -250,7 +251,7 @@ FilesPage.propTypes = {
   doFilesUpdateSorting: PropTypes.func.isRequired,
   doPinsFetch: PropTypes.func.isRequired,
   doFilesPin: PropTypes.func.isRequired,
-  doFilesUnpin: PropTypes.func.isRequired,
+  doFilesUnpin: PropTypes.func.isRequired
 }
 
 export default connect(
