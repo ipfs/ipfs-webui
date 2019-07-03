@@ -281,22 +281,24 @@ const parseConnection = (multiaddr) => {
 }
 
 const parseLatency = (latency) => {
-  if (latency === 'n/a') return latency
+  if (latency === 'n/a') return
 
-  const value = parseInt(latency)
+  let value = parseInt(latency)
   const unit = /(s|ms)/.exec(latency)[0]
 
-  return `${value}${unit}`
+  value = unit === 's' ? value * 1000 : value
+
+  return `${value}ms`
 }
 
 const parseNotes = (peer, bootstrapPeers) => {
   const opts = peer.addr.toOptions()
 
   if (opts.transport === 'p2p-circuit') {
-    return `via ${opts.host}`
+    return { type: 'RELAY_NODE', node: opts.host }
   }
 
   if (bootstrapPeers.includes(peer.addr.toString())) {
-    return 'bootstrap node'
+    return { type: 'BOOTSTRAP_NODE' }
   }
 }
