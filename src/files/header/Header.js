@@ -46,7 +46,7 @@ class Header extends React.Component {
       <div className='db flex-l justify-between'>
         <div className='mb3'>
           <div className='flex items-center'>
-            <Breadcrumbs path={files ? files.path : '/unknown'} onClick={onNavigate} />
+            <Breadcrumbs path={files ? files.path : '/404'} onClick={onNavigate} />
           </div>
           <span className='db f7 mid-gray'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
         </div>
