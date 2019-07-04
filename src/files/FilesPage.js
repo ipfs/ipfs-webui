@@ -163,6 +163,16 @@ class FilesPage extends React.Component {
     )
   }
 
+  get title () {
+    const { files, t } = this.props
+
+    if (files) {
+      return `${files.path} - ${t('title')} - IPFS`
+    }
+
+    return `${t('title')} - IPFS`
+  }
+
   render () {
     const { files, t } = this.props
     const { contextMenu } = this.state
@@ -170,7 +180,7 @@ class FilesPage extends React.Component {
     return (
       <div data-id='FilesPage' className='mw9 center'>
         <Helmet>
-          <title>{t('title')} - IPFS</title>
+          <title>{this.title}</title>
         </Helmet>
 
         <ContextMenu
