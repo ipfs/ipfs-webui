@@ -21,8 +21,8 @@ export const make = (basename, action, options = {}) => (...args) => async (args
 
     // Rename specific logic
     if (basename === ACTIONS.MOVE) {
-      const src = args[0][0]
-      const dst = args[0][1]
+      const src = args[0]
+      const dst = args[1]
 
       if (src === store.selectFiles().path) {
         await store.doUpdateHash(`/files${dst}`)
