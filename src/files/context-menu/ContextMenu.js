@@ -51,7 +51,7 @@ class ContextMenu extends React.Component {
     dropdown: false
   }
 
-  wrap = (name, hash = false) => () => {
+  wrap = (name) => () => {
     this.props.handleClick()
     this.props[name]()
   }

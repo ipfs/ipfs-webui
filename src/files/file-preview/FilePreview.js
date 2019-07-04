@@ -1,22 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'redux-bundler-react'
 import isBinary from 'is-binary'
 import { Trans, translate } from 'react-i18next'
 import typeFromExt from '../type-from-ext'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 
-class FilesPreview extends React.Component {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    hash: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    gatewayUrl: PropTypes.string.isRequired,
-    read: PropTypes.func.isRequired,
-    content: PropTypes.object,
-    t: PropTypes.func.isRequired,
-    tReady: PropTypes.bool.isRequired
-  }
-
+class Preview extends React.Component {
   state = {
     content: null
   }
@@ -89,4 +79,18 @@ class FilesPreview extends React.Component {
   }
 }
 
-export default translate('files')(FilesPreview)
+Preview.propTypes = {
+  name: PropTypes.string.isRequired,
+  hash: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
+  gatewayUrl: PropTypes.string.isRequired,
+  read: PropTypes.func.isRequired,
+  content: PropTypes.object,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
+}
+
+export default connect(
+  'selectGatewayUrl',
+  translate('files')(Preview)
+)

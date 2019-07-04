@@ -1,6 +1,6 @@
 import React from 'react'
 import isIPFS from 'is-ipfs'
-import { connect } from 'redux-bundler-react'
+import PropTypes from 'prop-types'
 import { translate } from 'react-i18next'
 import StrokeIpld from '../../icons/StrokeFolder'
 import Button from '../../components/button/Button'
@@ -25,7 +25,7 @@ class FilesExploreForm extends React.Component {
         path = `/ipfs/${path}`
       }
 
-      this.props.doFilesNavigateTo(path)
+      this.props.onNavigate(path)
     }
   }
 
@@ -83,7 +83,9 @@ class FilesExploreForm extends React.Component {
   }
 }
 
-export default connect(
-  'doFilesNavigateTo',
-  translate('files')(FilesExploreForm)
-)
+FilesExploreForm.propTypes = {
+  t: PropTypes.func.isRequired,
+  onNavigate: PropTypes.func.isRequired
+}
+
+export default translate('files')(FilesExploreForm)

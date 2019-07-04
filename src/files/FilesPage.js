@@ -7,14 +7,12 @@ import downloadFile from './download-file'
 import { translate } from 'react-i18next'
 import { MFS_PATH } from '../bundles/files'
 // Components
-import FilesList from './files-list/FilesList'
-import FilePreview from './file-preview/FilePreview'
 import ContextMenu from './context-menu/ContextMenu'
-import WelcomeInfo from './info-boxes/WelcomeInfo'
-import CompanionInfo from './info-boxes/CompanionInfo'
-import AddFilesInfo from './info-boxes/AddFilesInfo'
+import InfoBoxes from './info-boxes/InfoBoxes'
+import FilePreview from './file-preview/FilePreview'
+import FilesList from './files-list/FilesList'
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME } from './modals/Modals'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH } from './modals/Modals'
 import Header from './header/Header'
 
 const defaultState = {
@@ -48,14 +46,12 @@ class FilesPage extends React.Component {
   componentDidUpdate (prev) {
     const { filesPathFromHash } = this.props
 
-    if (prev.files === null ||
-      !prev.ipfsConnected ||
-      filesPathFromHash !== prev.filesPathFromHash) {
+    if (prev.files === null || !prev.ipfsConnected || filesPathFromHash !== prev.filesPathFromHash) {
       this.props.doFilesFetch()
     }
   }
 
-  download = async (files) => {
+  onDownload = async (files) => {
     const { doFilesDownloadLink } = this.props
     const { downloadProgress, downloadAbort } = this.state
 
@@ -70,43 +66,27 @@ class FilesPage extends React.Component {
     this.setState({ downloadAbort: abort })
   }
 
-  add = (raw, root = '') => {
-    const { files, doFilesWrite } = this.props
-
+  onAddFiles = (raw, root = '') => {
     if (root === '') {
-      root = files.path
+      root = this.props.files.path
     }
 
-    doFilesWrite(raw, root)
+    this.props.doFilesWrite(raw, root)
   }
 
-  addByPath = (path) => {
-    const { doFilesAddPath, files } = this.props
-    doFilesAddPath(files.path, path)
+  onAddByPath = (path) => {
+    this.props.doFilesAddPath(this.props.files.path, path)
   }
 
-  inspect = (hash) => {
-    const { doUpdateHash } = this.props
-    doUpdateHash(`/explore/ipfs/${hash}`)
+  onInspect = (hash) => {
+    this.props.doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
-  showNewFolderModal = () => {
-    this.setState({ modals: { show: NEW_FOLDER } })
+  showModal = (modal, files = null) => {
+    this.setState({ modals: { show: modal, files: files } })
   }
 
-  showShareModal = (files) => {
-    this.setState({ modals: { show: SHARE, files } })
-  }
-
-  showRenameModal = (files) => {
-    this.setState({ modals: { show: RENAME, files } })
-  }
-
-  showDeleteModal = (files) => {
-    this.setState({ modals: { show: DELETE, files } })
-  }
-
-  resetModals = () => {
+  hideModal = () => {
     this.setState({ modals: { } })
   }
 
@@ -150,18 +130,42 @@ class FilesPage extends React.Component {
     })
   }
 
-  render () {
-    const {
-      ipfsProvider, files, filesSorting: sort, t,
-      doFilesPin, doFilesUnpin,
-      doFilesMove, doFilesNavigateTo, doFilesUpdateSorting,
-      filesIsMfs
-    } = this.props
+  get mainView () {
+    const { files } = this.props
 
+    if (!files) {
+      return (<div></div>)
+    }
+
+    if (files.type !== 'directory') {
+      return (
+        <FilePreview {...files} />
+      )
+    }
+
+    return (
+      <FilesList
+        key={window.encodeURIComponent(files.path)}
+        root={files.path}
+        updateSorting={this.props.doFilesUpdateSorting}
+        files={files.content}
+        upperDir={files.upper}
+        downloadProgress={this.state.downloadProgress}
+        onShare={(files) => this.showModal(SHARE, files)}
+        onRename={(files) => this.showModal(RENAME, files)}
+        onDelete={(files) => this.showModal(DELETE, files)}
+        onInspect={this.onInspect}
+        onDownload={this.onDownload}
+        onAddFiles={this.onAddFiles}
+        onNavigate={this.props.doFilesNavigateTo}
+        onMove={this.props.doFilesMove}
+        handleContextMenuClick={this.handleContextMenu} />
+    )
+  }
+
+  render () {
+    const { files, t } = this.props
     const { contextMenu } = this.state
-    const isCompanion = ipfsProvider === 'window.ipfs'
-    const filesExist = files && files.content && files.content.length
-    const isRoot = files && files.path === MFS_PATH
 
     return (
       <div data-id='FilesPage' className='mw9 center'>
@@ -176,55 +180,41 @@ class FilesPage extends React.Component {
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenu}
           isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
-          isMfs={filesIsMfs}
+          isMfs={this.props.filesIsMfs}
           pinned={contextMenu.file && contextMenu.file.pinned}
           showDots={false}
-          onShare={() => this.showShareModal([contextMenu.file])}
-          onDelete={() => this.showDeleteModal([contextMenu.file])}
-          onRename={() => this.showRenameModal([contextMenu.file])}
-          onInspect={() => this.inspect(contextMenu.file.hash)}
-          onDownload={() => this.download([contextMenu.file])}
-          onPin={() => doFilesPin(contextMenu.file.hash)}
-          onUnpin={() => doFilesUnpin(contextMenu.file.hash)}
-          hash={contextMenu.file && contextMenu.file.hash} />
+          hash={contextMenu.file && contextMenu.file.hash}
+          onShare={() => this.showModal(SHARE, [contextMenu.file])}
+          onDelete={() => this.showModal(DELETE, [contextMenu.file])}
+          onRename={() => this.showModal(RENAME, [contextMenu.file])}
+          onInspect={() => this.onInspect(contextMenu.file.hash)}
+          onDownload={() => this.onDownload([contextMenu.file])}
+          onPin={() => this.props.doFilesPin(contextMenu.file.hash)}
+          onUnpin={() => this.props.doFilesUnpin(contextMenu.file.hash)} />
 
-        { files &&
-          <div>
-            <Header onAdd={this.add}
-              onAddByPath={this.addByPath}
-              onNewFolder={this.showNewFolderModal}
-              handleContextMenu={(...args) => this.handleContextMenu(...args, true)} />
+        <Header
+          files={files}
+          onNavigate={this.props.doFilesNavigateTo}
+          onAddFiles={this.onAddFiles}
+          onAddByPath={(files) => this.showModal(ADD_BY_PATH, files)}
+          onNewFolder={(files) => this.showModal(NEW_FOLDER, files)}
+          handleContextMenu={(...args) => this.handleContextMenu(...args, true)} />
 
-            { isRoot && isCompanion && <CompanionInfo /> }
+        { this.mainView }
 
-            { isRoot && !filesExist && !isCompanion && <AddFilesInfo /> }
+        <InfoBoxes isRoot={!!(files && files.path === MFS_PATH)}
+          isCompanion={this.props.ipfsProvider === 'window.ipfs'}
+          filesExist={!!(files && files.content && files.content.length)} />
 
-            { isRoot && !filesExist && <WelcomeInfo t={t} /> }
-
-            { files.type === 'directory'
-              ? <FilesList
-                key={window.encodeURIComponent(files.path)}
-                root={files.path}
-                sort={sort}
-                updateSorting={doFilesUpdateSorting}
-                files={files.content}
-                upperDir={files.upper}
-                downloadProgress={this.state.downloadProgress}
-                isMfs={filesIsMfs}
-                onShare={this.showShareModal}
-                onInspect={this.inspect}
-                onDownload={this.download}
-                onAddFiles={this.add}
-                onRename={this.showRenameModal}
-                onDelete={this.showDeleteModal}
-                onNavigate={doFilesNavigateTo}
-                onMove={doFilesMove}
-                handleContextMenuClick={this.handleContextMenu} />
-              : <FilePreview {...files} gatewayUrl={this.props.gatewayUrl} /> }
-          </div>
-        }
-
-        <Modals done={this.resetModals} root={files ? files.path : null} { ...this.state.modals } />
+        <Modals
+          done={this.hideModal}
+          root={files ? files.path : null}
+          onMove={this.props.doFilesMove}
+          onMakeDir={this.props.doFilesMakeDir}
+          onShareLink={this.props.doFilesShareLink}
+          onDelete={this.props.doFilesDelete}
+          onAddByPath={this.onAddByPath}
+          { ...this.state.modals } />
       </div>
     )
   }
@@ -233,50 +223,46 @@ class FilesPage extends React.Component {
 FilesPage.propTypes = {
   t: PropTypes.func.isRequired,
   tReady: PropTypes.bool.isRequired,
-  // Injected by Redux
   ipfsConnected: PropTypes.bool,
-  ipfsProvider: PropTypes.string.isRequired,
+  ipfsProvider: PropTypes.string,
   files: PropTypes.object,
-  gatewayUrl: PropTypes.string.isRequired,
+  filesIsMfs: PropTypes.bool,
   filesPathFromHash: PropTypes.string.isRequired,
-  filesIsMfs: PropTypes.bool.isRequired,
-  filesSorting: PropTypes.object.isRequired,
   doUpdateHash: PropTypes.func.isRequired,
-  doFilesDelete: PropTypes.func.isRequired,
-  doFilesMove: PropTypes.func.isRequired,
-  doFilesWrite: PropTypes.func.isRequired,
-  doFilesAddPath: PropTypes.func.isRequired,
-  doFilesDownloadLink: PropTypes.func.isRequired,
-  doFilesMakeDir: PropTypes.func.isRequired,
-  doFilesFetch: PropTypes.func.isRequired,
-  doFilesNavigateTo: PropTypes.func.isRequired,
-  doFilesUpdateSorting: PropTypes.func.isRequired,
   doPinsFetch: PropTypes.func.isRequired,
+  doFilesFetch: PropTypes.func.isRequired,
+  doFilesMove: PropTypes.func.isRequired,
+  doFilesMakeDir: PropTypes.func.isRequired,
+  doFilesShareLink: PropTypes.func.isRequired,
+  doFilesDelete: PropTypes.func.isRequired,
+  doFilesAddPath: PropTypes.func.isRequired,
+  doFilesNavigateTo: PropTypes.func.isRequired,
   doFilesPin: PropTypes.func.isRequired,
-  doFilesUnpin: PropTypes.func.isRequired
+  doFilesUnpin: PropTypes.func.isRequired,
+  doFilesUpdateSorting: PropTypes.func.isRequired,
+  doFilesWrite: PropTypes.func.isRequired,
+  doFilesDownloadLink: PropTypes.func.isRequired
 }
 
 export default connect(
-  'selectIpfsConnected',
   'selectIpfsProvider',
   'selectIpfsConnected',
   'selectFiles',
-  'selectGatewayUrl',
-  'selectFilesPathFromHash',
   'selectFilesIsMfs',
-  'selectFilesSorting',
+  'selectFilesPathFromHash',
   'doUpdateHash',
-  'doFilesDelete',
-  'doFilesMove',
-  'doFilesWrite',
-  'doFilesAddPath',
-  'doFilesDownloadLink',
-  'doFilesMakeDir',
+  'doPinsFetch',
   'doFilesFetch',
+  'doFilesMove',
+  'doFilesMakeDir',
+  'doFilesShareLink',
+  'doFilesDelete',
+  'doFilesAddPath',
   'doFilesNavigateTo',
-  'doFilesUpdateSorting',
   'doFilesPin',
   'doFilesUnpin',
-  'doPinsFetch',
+  'doFilesUpdateSorting',
+  'doFilesWrite',
+  'doFilesDownloadLink',
   translate('files')(FilesPage)
 )

@@ -35,17 +35,17 @@ class Header extends React.Component {
       pins,
       filesIsMfs,
       repoNumObjects,
-      doFilesNavigateTo
+      onNavigate
     } = this.props
 
-    const writableFiles = files.type === 'directory' && filesIsMfs
-    const actionableFiles = files.path !== MFS_PATH && files.path !== '/ipfs' && files.path !== '/ipns'
+    const writableFiles = files && files.type === 'directory' && filesIsMfs
+    const actionableFiles = files && files.path !== MFS_PATH && files.path !== '/ipfs' && files.path !== '/ipns'
 
     return (
       <div className='db flex-l justify-between'>
         <div className='mb3'>
           <div className='flex items-center'>
-            <Breadcrumbs path={files.path} onClick={doFilesNavigateTo} />
+            <Breadcrumbs path={files ? files.path : '/unknown'} onClick={onNavigate} />
           </div>
           <span className='db f7 mid-gray'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
         </div>
@@ -56,11 +56,11 @@ class Header extends React.Component {
             { repoNumObjects || 'N/A' }
           </BarOption>
 
-          <BarOption title={t('pins')} onClick={() => { doFilesNavigateTo('/ipfs') }}>
+          <BarOption title={t('pins')} onClick={() => { onNavigate('/ipfs') }}>
             { pins ? pins.length : 'N/A' }
           </BarOption>
 
-          <BarOption title={t('home')} onClick={() => { doFilesNavigateTo('/') }}>
+          <BarOption title={t('home')} onClick={() => { onNavigate('/') }}>
             <GlyphHome viewBox='25 25 105 105' className='w1 h1 fill-navy' />
           </BarOption>
 
@@ -68,8 +68,8 @@ class Header extends React.Component {
             <div className='ml-auto flex items-center'>
               { writableFiles
                 ? <FileInput
-                  onNewFolder={this.props.onNewFolder /* TODO: hide on click */ }
-                  onAddFiles={this.props.onAdd}
+                  onNewFolder={this.props.onNewFolder}
+                  onAddFiles={this.props.onAddFiles}
                   onAddByPath={this.props.onAddByPath}
                   addProgress={writeFilesProgress} />
                 : <div ref={el => { this.dotsWrapper = el }}>
@@ -80,7 +80,7 @@ class Header extends React.Component {
                     minWidth='100px'
                     disabled={!actionableFiles}
                     onClick={this.handleContextMenu}>
-                    <GlyphDots className='w1  mr2' />
+                    <GlyphDots className='w1 mr2' />
                     { t('more') }
                   </Button>
                 </div>
@@ -94,8 +94,6 @@ class Header extends React.Component {
 }
 
 export default connect(
-  'doFilesNavigateTo',
-  'selectFiles',
   'selectPins',
   'selectRepoSize',
   'selectRepoNumObjects',

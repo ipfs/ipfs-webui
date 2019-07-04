@@ -28,7 +28,7 @@ export class FilesList extends React.Component {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
     upperDir: PropTypes.object,
-    sort: PropTypes.shape({
+    filesSorting: PropTypes.shape({
       by: PropTypes.string.isRequired,
       asc: PropTypes.bool.isRequired
     }),
@@ -252,18 +252,18 @@ export class FilesList extends React.Component {
   }
 
   sortByIcon = (order) => {
-    if (this.props.sort.by === order) {
-      return this.props.sort.asc ? '↑' : '↓'
+    if (this.props.filesSorting.by === order) {
+      return this.props.filesSorting.asc ? '↑' : '↓'
     }
 
     return null
   }
 
   changeSort = (order) => () => {
-    const { sort, updateSorting } = this.props
+    const { filesSorting, updateSorting } = this.props
 
-    if (order === sort.by) {
-      updateSorting(order, !sort.asc)
+    if (order === filesSorting.by) {
+      updateSorting(order, !filesSorting.asc)
     } else {
       updateSorting(order, true)
     }
@@ -454,6 +454,7 @@ export default connect(
   'selectNavbarWidth',
   'selectPins',
   'selectFilesIsFetching',
+  'selectFilesSorting',
   'selectFilesIsMfs',
   'selectShowLoadingAnimation',
   FilesListWithDropTarget
