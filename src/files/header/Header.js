@@ -1,4 +1,5 @@
 import React from 'react'
+import SimplifyNumber from 'simplify-number'
 import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
 import { MFS_PATH } from '../../bundles/files'
@@ -51,13 +52,12 @@ class Header extends React.Component {
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted'>
-          { /* TODO: see https://www.npmjs.com/package/simplify-number  */ }
           <BarOption title={t('blocks')}>
-            { repoNumObjects || 'N/A' }
+            { repoNumObjects ? SimplifyNumber(repoNumObjects) : 'N/A' }
           </BarOption>
 
           <BarOption title={t('pins')} onClick={() => { onNavigate('/ipfs') }}>
-            { pins ? pins.length : 'N/A' }
+            { pins ? SimplifyNumber(pins.length) : '-' }
           </BarOption>
 
           <BarOption title={t('home')} onClick={() => { onNavigate('/') }}>

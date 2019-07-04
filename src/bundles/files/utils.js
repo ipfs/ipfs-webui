@@ -10,7 +10,7 @@ export const make = (basename, action, options = {}) => (...args) => async (args
 
   if (options.mfsOnly) {
     if (!store.selectFilesIsMfs()) {
-      // TODO: musn't be here
+      // musn't happen
       return
     }
   }

@@ -58,7 +58,7 @@ class File extends React.Component {
 
   render () {
     let {
-      selected, focused, translucent, coloured, hash, name, type, size, pinned, onSelect, onNavigate,
+      t, selected, focused, translucent, coloured, hash, name, type, size, pinned, onSelect, onNavigate,
       isOver, canDrop, cantDrag, cantSelect, connectDropTarget, connectDragPreview, connectDragSource,
       styles = {}
     } = this.props
@@ -86,7 +86,7 @@ class File extends React.Component {
     styles.overflow = 'hidden'
 
     size = size ? filesize(size, { round: 0 }) : '-'
-    hash = hash || 'Hash cannot be calculated' // TODO: what to put here
+    hash = hash || t('hashUnavailable')
 
     const select = (select) => onSelect(name, select)
 
