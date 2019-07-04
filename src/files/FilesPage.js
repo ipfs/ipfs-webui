@@ -82,6 +82,15 @@ class FilesPage extends React.Component {
     this.props.doUpdateHash(`/explore/ipfs/${hash}`)
   }
 
+  onMove = async (src, dst) => {
+    await this.props.doFilesMove(src, dst)
+
+    // TODO: why is this redirecting _before_ renaming?
+    if (this.props.files.path === src) {
+      await this.props.doFilesNavigateTo(dst)
+    }
+  }
+
   showModal = (modal, files = null) => {
     this.setState({ modals: { show: modal, files: files } })
   }
@@ -158,7 +167,7 @@ class FilesPage extends React.Component {
         onDownload={this.onDownload}
         onAddFiles={this.onAddFiles}
         onNavigate={this.props.doFilesNavigateTo}
-        onMove={this.props.doFilesMove}
+        onMove={this.onMove}
         handleContextMenuClick={this.handleContextMenu} />
     )
   }
@@ -209,7 +218,7 @@ class FilesPage extends React.Component {
         <Modals
           done={this.hideModal}
           root={files ? files.path : null}
-          onMove={this.props.doFilesMove}
+          onMove={this.onMove}
           onMakeDir={this.props.doFilesMakeDir}
           onShareLink={this.props.doFilesShareLink}
           onDelete={this.props.doFilesDelete}
