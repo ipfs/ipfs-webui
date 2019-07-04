@@ -314,7 +314,7 @@ export class FilesList extends React.Component {
         return (
           <div key={key} style={style}>
             <File
-              ref={r => { this.filesRefs['..'] = r }}
+              ref={r => { this.filesRefs[upperDir.name] = r }}
               onNavigate={() => onNavigate(upperDir.path)}
               onAddFiles={onAddFiles}
               onMove={this.move}
@@ -322,8 +322,7 @@ export class FilesList extends React.Component {
               handleContextMenuClick={this.props.handleContextMenuClick}
               isMfs={filesIsMfs}
               translucent={isDragging || (isOver && canDrop)}
-              name='..'
-              focused={focused === '..'}
+              focused={focused === upperDir.name}
               cantDrag
               cantSelect
               {...upperDir} />

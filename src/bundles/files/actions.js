@@ -116,7 +116,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
   }
 
   if (upper) {
-    upper.name = '...'
+    upper.name = '..'
     upper.path = upperPath
     upper.isParent = true
   }
