@@ -26,6 +26,7 @@ class FilesExploreForm extends React.Component {
       }
 
       this.props.onNavigate(path)
+      this.setState({ path: '' })
     }
   }
 
