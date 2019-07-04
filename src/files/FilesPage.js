@@ -174,7 +174,7 @@ class FilesPage extends React.Component {
   }
 
   render () {
-    const { files, t } = this.props
+    const { files } = this.props
     const { contextMenu } = this.state
 
     return (
