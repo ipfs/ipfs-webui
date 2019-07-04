@@ -383,7 +383,7 @@ export class FilesList extends React.Component {
                   {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
                 </span>
               </div>
-              <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
+              <div className='ph2 pv1 flex-none dn db-l tr mw3'>
                 { /* Badges */ }
               </div>
               <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>

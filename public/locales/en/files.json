@@ -82,6 +82,7 @@
   },
   "hashUnavailable": "hash unavailable",
   "pins": "Pins",
+  "pinned": "Pinned",
   "blocks": "Blocks",
   "more": "More"
 }

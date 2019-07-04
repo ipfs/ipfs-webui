@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { join, basename } from 'path'
 import filesize from 'filesize'
+import { translate } from 'react-i18next'
 import classnames from 'classnames'
 import { filesToStreams } from '../../lib/files'
 // React DnD
@@ -115,10 +116,10 @@ class File extends React.Component {
             </div>
           </div>
         )}
-        <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
-          {
-            pinned && <div className='bg-teal-muted white br-100 w2 h2 o-70' title='Pinned'><GlyphPin className='fill-white' /></div>
-          }
+        <div className='ph2 pv1 flex-none dn db-l tr mw3'>
+          { pinned && <div className='bg-snow br-100 o-70' title={t('pinned')} style={{ width: '1.5rem', height: '1.5rem' }}>
+            <GlyphPin className='fill-teal-muted' />
+          </div> }
         </div>
         <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
           {size}
@@ -193,6 +194,6 @@ const dropCollect = (connect, monitor) => ({
 
 export default DragSource(File.TYPE, dragSource, dragCollect)(
   DropTarget([File.TYPE, NativeTypes.FILE], dropTarget, dropCollect)(
-    File
+    translate('files')(File)
   )
 )

@@ -13,40 +13,6 @@ import StrokeDownload from '../../icons/StrokeDownload'
 import StrokePin from '../../icons/StrokePin'
 
 class ContextMenu extends React.Component {
-  static propTypes = {
-    isMfs: PropTypes.bool.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    hash: PropTypes.string,
-    isUpperDir: PropTypes.bool,
-    pinned: PropTypes.bool,
-    handleClick: PropTypes.func,
-    translateX: PropTypes.number.isRequired,
-    translateY: PropTypes.number.isRequired,
-    left: PropTypes.number.isRequired,
-    showDots: PropTypes.bool,
-    onDelete: PropTypes.func,
-    onRename: PropTypes.func,
-    onDownload: PropTypes.func,
-    onInspect: PropTypes.func,
-    onShare: PropTypes.func,
-    className: PropTypes.string,
-    t: PropTypes.func.isRequired,
-    tReady: PropTypes.bool.isRequired
-  }
-
-  static defaultProps = {
-    isMfs: false,
-    isOpen: false,
-    isUpperDir: false,
-    top: 0,
-    left: 0,
-    right: 'auto',
-    translateX: 0,
-    translateY: 0,
-    showDots: true,
-    className: ''
-  }
-
   state = {
     dropdown: false
   }
@@ -118,6 +84,40 @@ class ContextMenu extends React.Component {
       </Dropdown>
     )
   }
+}
+
+ContextMenu.propTypes = {
+  isMfs: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  hash: PropTypes.string,
+  isUpperDir: PropTypes.bool,
+  pinned: PropTypes.bool,
+  handleClick: PropTypes.func,
+  translateX: PropTypes.number.isRequired,
+  translateY: PropTypes.number.isRequired,
+  left: PropTypes.number.isRequired,
+  showDots: PropTypes.bool,
+  onDelete: PropTypes.func,
+  onRename: PropTypes.func,
+  onDownload: PropTypes.func,
+  onInspect: PropTypes.func,
+  onShare: PropTypes.func,
+  className: PropTypes.string,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
+}
+
+ContextMenu.defaultProps = {
+  isMfs: false,
+  isOpen: false,
+  isUpperDir: false,
+  top: 0,
+  left: 0,
+  right: 'auto',
+  translateX: 0,
+  translateY: 0,
+  showDots: true,
+  className: ''
 }
 
 export default translate('files')(ContextMenu)
