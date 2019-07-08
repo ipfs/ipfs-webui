@@ -1,4 +1,8 @@
 import React from 'react'
+import Identicon from 'react-identicons'
+import { colors } from 'ipfs-css/theme.json'
+
+const identiconPalette = [colors.navy, colors.aqua, colors.gray, colors.charcoal, colors.red, colors.yellow, colors.teal, colors.green]
 
 export function cidStartAndEnd (value) {
   const chars = value.split('')
@@ -17,17 +21,21 @@ export function shortCid (value) {
   return `${start}…${end}`
 }
 
-const Cid = ({ value, title, style, ...props }) => {
+const Cid = ({ value, title, style, identicon = true, ...props }) => {
   style = Object.assign({}, {
-    textDecoration: 'none'
+    textDecoration: 'none',
+    marginLeft: identicon ? '5px' : null
   }, style)
   const { start, end } = cidStartAndEnd(value)
   return (
-    <abbr title={title || value} style={style} {...props}>
-      <span>{start}</span>
-      <span className='o-20'>…</span>
-      <span>{end}</span>
-    </abbr>
+    <>
+      { identicon && <Identicon string={value} size={20} palette={identiconPalette} /> }
+      <abbr title={title || value} style={style} {...props}>
+        <span>{start}</span>
+        <span className='o-20'>…</span>
+        <span>{end}</span>
+      </abbr>
+    </>
   )
 }
 

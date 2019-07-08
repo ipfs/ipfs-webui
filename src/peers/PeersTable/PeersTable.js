@@ -50,7 +50,7 @@ export class PeersTable extends React.Component {
   )
 
   peerIdCellRenderer = ({ cellData }) => (
-    <Cid value={cellData} />
+    <Cid value={cellData} style={{fontSize: '14px'}} />
   )
 
   latencyCellRenderer = ({ cellData }) => (
@@ -105,9 +105,9 @@ export class PeersTable extends React.Component {
               sort={this.sort}
               sortBy={sortBy}
               sortDirection={sortDirection}>
-              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='locationCode' width={350} className='f6 navy-muted truncate pl2' />
               <Column label={t('peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={500} className='charcoal monospace truncate f7 pl2' />
               <Column label={t('connection')} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
+              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='locationCode' width={350} className='f6 navy-muted truncate pl2' />
               <Column label={t('latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 navy-muted monospace pl2' />
               <Column label={t('notes')} cellRenderer={this.notesCellRenderer} dataKey='notes' width={400} className='charcoal monospace truncate f7 pl2' />
             </Table>
