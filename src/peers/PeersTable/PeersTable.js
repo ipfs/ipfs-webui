@@ -2,14 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
-import { Table, Column, AutoSizer } from 'react-virtualized'
+import { Table, Column, AutoSizer, SortDirection } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
 import Cid from '../../components/cid/Cid'
+
+function sortByProperty (arr, property, direction) {
+  if (!arr) return arr
+  const dirModifier = direction === SortDirection.ASC ? 1 : -1
+  return arr.sort(({ [property]: a }, { [property]: b }) => (a == null) - (b == null) || dirModifier * +(a > b) || dirModifier * -(a < b))
+}
 
 export class PeersTable extends React.Component {
   static propTypes = {
     peerLocationsForSwarm: PropTypes.array,
     t: PropTypes.func.isRequired
+  }
+
+  constructor (props) {
+    super (props)
+
+    this.state =  {
+      sortBy: 'latency',
+      sortDirection: SortDirection.ASC
+    }
+
+    this.sort = this.sort.bind(this)
   }
 
   flagRenderer = (locationCode) => {
@@ -60,8 +77,15 @@ export class PeersTable extends React.Component {
     return index === -1 ? 'bb b--near-white bg-near-white' : 'bb b--near-white'
   }
 
+  sort ({ sortBy, sortDirection }) {
+    this.setState({ sortBy, sortDirection })
+  }
+
   render () {
     const { peerLocationsForSwarm, t } = this.props
+    const { sortBy, sortDirection } = this.state
+
+    const sortedList = sortByProperty(peerLocationsForSwarm, sortBy === 'latency' ? 'rawLatency' : sortBy, sortDirection)
     const tableHeight = 400
 
     return (
@@ -77,7 +101,10 @@ export class PeersTable extends React.Component {
               headerHeight={32}
               rowHeight={36}
               rowCount={peerLocationsForSwarm.length}
-              rowGetter={({ index }) => peerLocationsForSwarm[index]}>
+              rowGetter={({ index }) => sortedList[index]}
+              sort={this.sort}
+              sortBy={sortBy}
+              sortDirection={sortDirection}>
               <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='locationCode' width={350} className='f6 navy-muted truncate pl2' />
               <Column label={t('peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={500} className='charcoal monospace truncate f7 pl2' />
               <Column label={t('connection')} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
