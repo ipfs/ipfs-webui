@@ -150,7 +150,8 @@ export default function (opts) {
       (peers, locations, bootstrapPeers) => peers && peers.map(peer => {
         const peerId = peer.peer.toB58String()
         const locationObj = locations[peerId]
-        const locationCode = locationObj && locationObj.country_code
+        const location = toLocationString(locationObj)
+        const flagCode = locationObj && locationObj.country_code
         const coordinates = locationObj && [
           locationObj.longitude,
           locationObj.latitude
@@ -161,7 +162,8 @@ export default function (opts) {
 
         return {
           peerId,
-          locationCode,
+          location,
+          flagCode,
           coordinates,
           connection,
           latency,
@@ -273,6 +275,12 @@ export default function (opts) {
 }
 
 const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'
+
+const toLocationString = loc => {
+  if (!loc) return null
+  const { country_name: country, city } = loc
+  return city && country ? `${city}, ${country}` : country
+}
 
 const parseConnection = (multiaddr) => {
   const opts = multiaddr.toOptions()
