@@ -34,7 +34,7 @@ export class PeersTable extends React.Component {
 
   latencyCellRenderer = ({ cellData }) => (
     cellData
-      ? <span>{cellData}</span>
+      ? <span class='dib tr' style={{ width: '60px' }}>{cellData}</span>
       : <span className='o-40'>-</span>
   )
 
