@@ -32,11 +32,13 @@ export class PeersTable extends React.Component {
     </span>
   )
 
-  latencyCellRenderer = ({ cellData }) => (
-    cellData
-      ? <span class='dib tr' style={{ width: '60px' }}>{cellData}</span>
-      : <span className='o-40'>-</span>
-  )
+  latencyCellRenderer = ({ cellData }) => {
+    const style = { width: '60px' }
+
+    return cellData
+      ? <span class='dib tr' style={style}>{cellData}</span>
+      : <span className='dib tr o-40' style={style}>-</span>
+  }
 
   peerIdCellRenderer = ({ cellData }) => (
     <Cid value={cellData} />
