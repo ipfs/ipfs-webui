@@ -300,13 +300,18 @@ const parseLatency = (latency) => {
 }
 
 const parseNotes = (peer, bootstrapPeers) => {
-  const opts = peer.addr.toOptions()
+  const addr = peer.addr
+  const opts = addr.toOptions()
 
   if (opts.transport === 'p2p-circuit') {
     return { type: 'RELAY_NODE', node: opts.host }
   }
 
-  if (bootstrapPeers.includes(peer.addr.toString())) {
+  const peerId = peer.peer.toB58String()
+  const ipfsAddr = addr.encapsulate(`/ipfs/${peerId}`)
+  const p2pAddr = addr.encapsulate(`/p2p/${peerId}`)
+
+  if (bootstrapPeers.includes(ipfsAddr) || bootstrapPeers.includes(p2pAddr)) {
     return { type: 'BOOTSTRAP_NODE' }
   }
 }
