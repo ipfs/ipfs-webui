@@ -4,7 +4,7 @@ import ms from 'milliseconds'
 const bundle = createAsyncResourceBundle({
   name: 'peers',
   actionBaseType: 'PEERS',
-  getPromise: ({ getIpfs }) => getIpfs().swarm.peers()
+  getPromise: ({ getIpfs }) => getIpfs().swarm.peers({ verbose: true })
     .then((peers) => peers.sort((a, b) => {
       const aAddr = a.addr.toString()
       const bAddr = b.addr.toString()
