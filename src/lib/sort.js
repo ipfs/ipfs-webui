@@ -16,3 +16,13 @@ export function sortByName (dir = 1, opts = { numeric: true, sensitivity: 'base'
 export function sortBySize (dir = 1) {
   return (a, b) => (a - b) * dir
 }
+
+/**
+ * Object sorting by property
+ *
+ * @param {*} property - object property to sort by
+ * @param {*} dir - sorting direction, 1 for ascending or -1 for descending
+ */
+export function sortByProperty (property, dir = 1) {
+  return ({ [property]: a }, { [property]: b }) => (a == null) - (b == null) || dir * +(a > b) || dir * -(a < b)
+}

@@ -150,7 +150,8 @@ export default function (opts) {
       (peers, locations, bootstrapPeers) => peers && peers.map(peer => {
         const peerId = peer.peer.toB58String()
         const locationObj = locations[peerId]
-        const locationCode = locationObj && locationObj.country_code
+        const location = toLocationString(locationObj)
+        const flagCode = locationObj && locationObj.country_code
         const coordinates = locationObj && [
           locationObj.longitude,
           locationObj.latitude
@@ -162,7 +163,8 @@ export default function (opts) {
 
         return {
           peerId,
-          locationCode,
+          location,
+          flagCode,
           coordinates,
           connection,
           latency,
@@ -276,6 +278,12 @@ export default function (opts) {
 
 const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'
 
+const toLocationString = loc => {
+  if (!loc) return null
+  const { country_name: country, city } = loc
+  return city && country ? `${city}, ${country}` : country
+}
+
 const parseConnection = (multiaddr) => {
   const opts = multiaddr.toOptions()
 
@@ -294,13 +302,18 @@ const parseLatency = (latency) => {
 }
 
 const parseNotes = (peer, bootstrapPeers) => {
-  const opts = peer.addr.toOptions()
+  const peerId = peer.peer.toB58String()
+  const addr = peer.addr
+  const ipfsAddr = addr.encapsulate(`/ipfs/${peerId}`).toString()
+  const p2pAddr = addr.encapsulate(`/p2p/${peerId}`).toString()
+
+  if (bootstrapPeers.includes(ipfsAddr) || bootstrapPeers.includes(p2pAddr)) {
+    return { type: 'BOOTSTRAP_NODE' }
+  }
+
+  const opts = addr.toOptions()
 
   if (opts.transport === 'p2p-circuit') {
     return { type: 'RELAY_NODE', node: opts.host }
-  }
-
-  if (bootstrapPeers.includes(peer.addr.toString())) {
-    return { type: 'BOOTSTRAP_NODE' }
   }
 }

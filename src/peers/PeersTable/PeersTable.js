@@ -5,12 +5,7 @@ import { translate, Trans } from 'react-i18next'
 import { Table, Column, AutoSizer, SortDirection } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
 import Cid from '../../components/cid/Cid'
-
-function sortByProperty (arr, property, direction) {
-  if (!arr) return arr
-  const dirModifier = direction === SortDirection.ASC ? 1 : -1
-  return arr.sort(({ [property]: a }, { [property]: b }) => (a == null) - (b == null) || dirModifier * +(a > b) || dirModifier * -(a < b))
-}
+import { sortByProperty } from '../../lib/sort';
 
 export class PeersTable extends React.Component {
   static propTypes = {
@@ -29,34 +24,36 @@ export class PeersTable extends React.Component {
     this.sort = this.sort.bind(this)
   }
 
-  flagRenderer = (locationCode) => {
+  flagRenderer = (flagCode) => {
     // Check if the OS is Windows to render the flags as SVGs
     // Windows doesn't render the flags as emojis  ¯\_(ツ)_/¯
     const isWindows = window.navigator.appVersion.indexOf('Win') !== -1
     return (
       <span className='f4 pr2'>
-        {locationCode ? <CountryFlag code={locationCode} svg={isWindows} /> : '🌐'}
+        {flagCode ? <CountryFlag code={flagCode} svg={isWindows} /> : '🌐'}
       </span>
     )
   }
 
   locationCellRenderer = ({ rowData }) => (
     <span>
-      { this.flagRenderer(rowData.locationCode) }
-      { rowData.locationCode ? rowData.locationCode : (
+      { this.flagRenderer(rowData.flagCode) }
+      { rowData.location ? rowData.location : (
         <span className='charcoal-muted fw4'>{this.props.t('unknownLocation')}</span>
       ) }
     </span>
   )
 
+  latencyCellRenderer = ({ cellData }) => {
+    const style = { width: '60px' }
+
+    return cellData
+      ? <span class='dib tr' style={style}>{cellData}</span>
+      : <span className='dib tr o-40' style={style}>-</span>
+  }
+
   peerIdCellRenderer = ({ cellData }) => (
     <Cid value={cellData} />
-  )
-
-  latencyCellRenderer = ({ cellData }) => (
-    cellData
-      ? <span>{cellData}</span>
-      : <span className='o-40'>-</span>
   )
 
   notesCellRenderer = ({ cellData }) => {
@@ -85,7 +82,7 @@ export class PeersTable extends React.Component {
     const { peerLocationsForSwarm, t } = this.props
     const { sortBy, sortDirection } = this.state
 
-    const sortedList = sortByProperty(peerLocationsForSwarm, sortBy === 'latency' ? 'rawLatency' : sortBy, sortDirection)
+    const sortedList = peerLocationsForSwarm.sort(sortByProperty(sortBy === 'latency' ? 'rawLatency' : sortBy, sortDirection === SortDirection.ASC ? 1 : -1))
     const tableHeight = 400
 
     return (
@@ -105,10 +102,10 @@ export class PeersTable extends React.Component {
               sort={this.sort}
               sortBy={sortBy}
               sortDirection={sortDirection}>
-              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='locationCode' width={350} className='f6 navy-muted truncate pl2' />
-              <Column label={t('peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={500} className='charcoal monospace truncate f7 pl2' />
-              <Column label={t('connection')} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
+              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='locationCode' width={450} className='f6 navy-muted truncate pl2' />
               <Column label={t('latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 navy-muted monospace pl2' />
+              <Column label={t('peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f7 pl2' />
+              <Column label={t('connection')} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
               <Column label={t('notes')} cellRenderer={this.notesCellRenderer} dataKey='notes' width={400} className='charcoal monospace truncate f7 pl2' />
             </Table>
           )}
