@@ -146,9 +146,9 @@ export default function (opts) {
     selectPeerLocationsForSwarm: createSelector(
       'selectPeers',
       'selectPeerLocations',
-      (peers, locations) => peers && peers.map((peer, idx) => {
+      'selectBootstrapPeers',
+      (peers, locations, bootstrapPeers) => peers && peers.map(peer => {
         const peerId = peer.peer.toB58String()
-        const address = peer.addr.toString()
         const locationObj = locations[peerId]
         const location = toLocationString(locationObj)
         const flagCode = locationObj && locationObj.country_code
@@ -156,13 +156,18 @@ export default function (opts) {
           locationObj.longitude,
           locationObj.latitude
         ]
+        const connection = parseConnection(peer.addr)
+        const latency = parseLatency(peer.latency)
+        const notes = parseNotes(peer, bootstrapPeers)
 
         return {
           peerId,
-          address,
           location,
           flagCode,
-          coordinates
+          coordinates,
+          connection,
+          latency,
+          notes
         }
       })
     ),
@@ -275,4 +280,38 @@ const toLocationString = loc => {
   if (!loc) return null
   const { country_name: country, city } = loc
   return city && country ? `${city}, ${country}` : country
+}
+
+const parseConnection = (multiaddr) => {
+  const opts = multiaddr.toOptions()
+
+  return `${opts.family}・${opts.transport}`
+}
+
+const parseLatency = (latency) => {
+  if (latency === 'n/a') return
+
+  let value = parseInt(latency)
+  const unit = /(s|ms)/.exec(latency)[0]
+
+  value = unit === 's' ? value * 1000 : value
+
+  return `${value}ms`
+}
+
+const parseNotes = (peer, bootstrapPeers) => {
+  const peerId = peer.peer.toB58String()
+  const addr = peer.addr
+  const ipfsAddr = addr.encapsulate(`/ipfs/${peerId}`).toString()
+  const p2pAddr = addr.encapsulate(`/p2p/${peerId}`).toString()
+
+  if (bootstrapPeers.includes(ipfsAddr) || bootstrapPeers.includes(p2pAddr)) {
+    return { type: 'BOOTSTRAP_NODE' }
+  }
+
+  const opts = addr.toOptions()
+
+  if (opts.transport === 'p2p-circuit') {
+    return { type: 'RELAY_NODE', node: opts.host }
+  }
 }
