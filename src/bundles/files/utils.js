@@ -119,6 +119,7 @@ export const infoFromPath = (path) => {
   }
 
   info.realPath = decodeURIComponent(info.realPath)
+  info.path = decodeURIComponent(info.path)
 
   return info
 }
