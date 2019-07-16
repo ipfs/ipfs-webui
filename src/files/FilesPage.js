@@ -163,13 +163,21 @@ class FilesPage extends React.Component {
   }
 
   get title () {
-    const { files, t } = this.props
+    const { filesPathInfo, t } = this.props
+    const parts = []
 
-    if (files) {
-      return `${files.path} - ${t('title')} - IPFS`
+    if (filesPathInfo) {
+      parts.push(filesPathInfo.realPath)
     }
 
-    return `${t('title')} - IPFS`
+    if (filesPathInfo.isMfs) {
+      parts.push(t('files'))
+    } else if (filesPathInfo.isPins) {
+      parts.push(t('pins'))
+    }
+
+    parts.push('IPFS')
+    return parts.join(' - ')
   }
 
   render () {
