@@ -102,7 +102,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
   if (!isRoot) {
     const parentPath = dirname(path)
     const parentInfo = infoFromPath(parentPath)
-    
+
     if (parentInfo.isMfs || !parentInfo.isRoot) {
       if (parentInfo.realPath.startsWith('/ipns')) {
         parentInfo.realPath = await ipfs.name.resolve(parentInfo.realPath)
