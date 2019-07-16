@@ -189,7 +189,7 @@ class FilesPage extends React.Component {
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenu}
           isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
-          isMfs={this.props.filesIsMfs}
+          isMfs={filesPathInfo ? filesPathInfo.isMfs : false}
           pinned={contextMenu.file && contextMenu.file.pinned}
           showDots={false}
           hash={contextMenu.file && contextMenu.file.hash}

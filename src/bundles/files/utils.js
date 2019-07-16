@@ -26,7 +26,7 @@ export const make = (basename, action, options = {}) => (...args) => async (args
       const dst = args[1]
 
       if (src === store.selectFiles().path) {
-        await store.doUpdateHash(`/files${dst}`)
+        await store.doUpdateHash(dst)
       }
     }
 
@@ -38,7 +38,7 @@ export const make = (basename, action, options = {}) => (...args) => async (args
       path.pop()
       path = path.join('/')
 
-      await store.doUpdateHash(`/files${path}`)
+      await store.doUpdateHash(path)
     }
   } catch (error) {
     if (!error.code) {
