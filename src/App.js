@@ -90,7 +90,7 @@ const dropTarget = {
     const { filesPromise } = monitor.getItem()
     App.addFiles(filesPromise)
   },
-  canDrop: (props) => props.filesPathFromHash ? props.filesIsMfs : true
+  canDrop: (props) => props.filesPathInfo ? props.filesPathInfo.isMfs : true
 }
 
 const dropCollect = (connect, monitor) => ({
@@ -111,7 +111,6 @@ export default connect(
   'doInitIpfs',
   'doFilesWrite',
   'selectIpfsReady',
-  'selectFilesPathFromHash',
-  'selectFilesIsMfs',
+  'selectFilesPathInfo',
   DragDropContext(DnDBackend)(AppWithDropTarget)
 )

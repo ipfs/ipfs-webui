@@ -1,7 +1,8 @@
 import { createSelector } from 'redux-bundler'
-import { ACTIONS, MFS_PATH } from './consts'
+import { ACTIONS } from './consts'
+import { infoFromPath } from './utils'
 
-export default (opts) => ({
+export default () => ({
   selectFiles: (state) => state.files.pageContent,
 
   selectPins: (state) => state.files.pins,
@@ -30,25 +31,10 @@ export default (opts) => ({
 
   selectFilesErrors: (state) => state.files.failed,
 
-  selectFilesPathFromHash: createSelector(
+  selectFilesPathInfo: createSelector(
     'selectRouteInfo',
     (routeInfo) => {
-      if (!routeInfo.url.startsWith(opts.baseUrl)) return
-      if (!routeInfo.params.path) return
-      let path = routeInfo.params.path
-
-      if (path.endsWith('/')) {
-        path = path.substring(0, path.length - 1)
-      }
-
-      return decodeURIComponent(path)
-    }
-  ),
-
-  selectFilesIsMfs: createSelector(
-    'selectFilesPathFromHash',
-    (path) => {
-      return path ? path.startsWith(MFS_PATH) : false
+      return infoFromPath(routeInfo.url)
     }
   )
 })

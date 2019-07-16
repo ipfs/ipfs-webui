@@ -2,8 +2,8 @@ import { join, dirname, basename } from 'path'
 import { getDownloadLink, getShareableLink } from '../../lib/files'
 import countDirs from '../../lib/count-dirs'
 
-import { make, sortFiles } from './utils'
-import { IGNORED_FILES, ACTIONS, MFS_PATH } from './consts'
+import { make, sortFiles, infoFromPath } from './utils'
+import { IGNORED_FILES, ACTIONS } from './consts'
 
 const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path) => ({
   size: cumulativeSize || size || null,
@@ -13,19 +13,10 @@ const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path) => ({
   path: path || `/ipfs/${hash}`
 })
 
-const pathToStat = async (path, ipfs) => {
-  if (path.startsWith(MFS_PATH)) {
-    return path.substr(MFS_PATH.length) || '/'
-  } else if (path.startsWith('/ipns')) {
-    return ipfs.name.resolve(path)
-  }
-
-  return path
-}
-
+// TODO: use sth else
 const realMfsPath = (path) => {
-  if (path.startsWith(MFS_PATH)) {
-    return path.substr(MFS_PATH.length) || '/'
+  if (path.startsWith('/files')) {
+    return path.substr('/files'.length) || '/'
   }
 
   return path
@@ -53,30 +44,28 @@ const getPins = async (ipfs) => {
 }
 
 const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
-  const path = store.selectFilesPathFromHash()
-  const toStat = await pathToStat(path, ipfs)
+  let { path, realPath, isMfs, isPins, isRoot } = store.selectFilesPathInfo()
 
-  if (path === '/ipns' || path === '/') {
-    return {
-      path: path,
-      fetched: Date.now(),
-      type: 'directory',
-      content: []
-    }
+  if (isRoot && !isMfs && !isPins) {
+    throw new Error('not supposed to be here')
   }
 
-  if (path === '/ipfs') {
-    const pins = await getPins(ipfs)
+  if (isRoot && isPins) {
+    const pins = await getPins(ipfs) // FIX: pins path
 
     return {
-      path: '/ipfs',
+      path: '/pins',
       fetched: Date.now(),
       type: 'directory',
       content: pins
     }
   }
 
-  const stats = await ipfs.files.stat(toStat)
+  if (realPath.startsWith('/ipns')) {
+    realPath = await ipfs.name.resolve(realPath)
+  }
+
+  const stats = await ipfs.files.stat(realPath)
 
   if (stats.type === 'file') {
     return {
@@ -108,17 +97,24 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
     files.push(file)
   }
 
-  let upperPath = dirname(path)
-  let upper = null
+  let parent = null
 
-  if (upperPath !== '/ipns' && upperPath !== '/ipfs' && upperPath !== '/') {
-    upper = fileFromStats(await ipfs.files.stat(await pathToStat(upperPath, ipfs)))
-  }
+  if (!isRoot) {
+    const parentPath = dirname(path)
+    const parentInfo = infoFromPath(parentPath)
+    
+    if (parentInfo.isMfs || !parentInfo.isRoot) {
+      if (parentInfo.realPath.startsWith('/ipns')) {
+        parentInfo.realPath = await ipfs.name.resolve(parentInfo.realPath)
+      }
 
-  if (upper) {
-    upper.name = '..'
-    upper.path = upperPath
-    upper.isParent = true
+      console.log(parentInfo.realPath)
+      parent = fileFromStats(await ipfs.files.stat(parentInfo.realPath))
+
+      parent.name = '..'
+      parent.path = parentInfo.path
+      parent.isParent = true
+    }
   }
 
   return {
@@ -126,12 +122,12 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
     fetched: Date.now(),
     type: 'directory',
     hash: stats.hash,
-    upper: upper,
+    upper: parent,
     content: sortFiles(files, store.selectFilesSorting())
   }
 })
 
-export default (opts) => ({
+export default () => ({
   doPinsFetch: make(ACTIONS.PIN_LIST, async (ipfs, id, { dispatch }) => {
     const recursive = await ipfs.pin.ls({ type: 'recursive' })
     const direct = await ipfs.pin.ls({ type: 'direct' })
@@ -143,9 +139,9 @@ export default (opts) => ({
     const isReady = store.selectIpfsReady()
     const isConnected = store.selectIpfsConnected()
     const isFetching = store.selectFilesIsFetching()
-    const path = store.selectFilesPathFromHash()
+    const info = store.selectFilesPathInfo()
 
-    if (isReady && isConnected && !isFetching && path) {
+    if (isReady && isConnected && !isFetching && info) {
       fetchFiles()({ store, ...args })
     }
   },
@@ -247,7 +243,7 @@ export default (opts) => ({
     if (files && files.path === link) {
       store.doFilesFetch()
     } else {
-      store.doUpdateHash(`${opts.baseUrl}${link}`)
+      store.doUpdateHash(`${link}`)
     }
   },
 

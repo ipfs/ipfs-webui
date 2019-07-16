@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { translate } from 'react-i18next'
 
-function makeBread (root, t) {
+function makeBread (root) {
   if (root.endsWith('/')) {
     root = root.substring(0, root.length - 1)
   }
 
-  let parts = root.split('/').map(part => {
+  const parts = root.split('/').map(part => {
     return {
       name: part,
       path: part
@@ -15,7 +15,7 @@ function makeBread (root, t) {
   })
 
   for (let i = 1; i < parts.length; i++) {
-    let name = parts[i].name
+    const name = parts[i].name
 
     parts[i] = {
       name: name,
@@ -29,21 +29,24 @@ function makeBread (root, t) {
   }
 
   parts.shift()
-
-  if (parts[0].name !== 'ipfs' && parts[0].name !== 'home') {
-    parts[0].disabled = true
-  }
+  parts[0].disabled = true
 
   parts[parts.length - 1].last = true
   return parts
 }
 
 function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
-  const cls = `Breadcrumbs sans-serif f4 ${className}`
-  const bread = makeBread(path, t)
+  const cls = `Breadcrumbs flex items-center sans-serif f4 ${className}`
+  const bread = makeBread(path)
+  const root = bread[0]
+
+  if (root.name === 'files' || root.name === 'pins') {
+    bread.shift()
+  }
 
   const res = bread.map((link, index) => ([
-    <div key={`${index}link`} className='dib pv1'>
+    <div key={`${index}divider`} className='dib pr2 pv1 mid-gray v-top'>/</div>,
+    <div key={`${index}link`} className='dib pv1 pr2'>
       { link.disabled
         ? <span title={link.realName} className='gray'>{link.name}</span>
         /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
@@ -51,13 +54,21 @@ function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
           {link.name}
         </a>
       }
-    </div>,
-    <div key={`${index}divider`} className='dib ph2 pv1 mid-gray v-top'>/</div>
+    </div>
   ]))
 
-  res.unshift(<div key={`b-divider`} className='dib pr2 pv1 mid-gray v-top'>/</div>)
+  if (res.length === 0) {
+    res.push(<div key='root-divider' className='dib pv1 mid-gray v-top'>/</div>)
+  }
 
-  res[res.length - 1].pop()
+  if (root.name === 'files' || root.name === 'pins') {
+    res.unshift(<a key={`${root.name}-label`}
+      title={root.realName}
+      onClick={() => onClick(root.path)}
+      className='f6 pointer pa1 bg-navy br2 mr2 white'>
+      {t(root.name)}
+    </a>)
+  }
 
   return (
     <nav aria-label={t('breadcrumbs')} className={cls} {...props}>{res}</nav>

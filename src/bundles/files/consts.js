@@ -1,7 +1,5 @@
 export const IS_MAC = navigator.userAgent.indexOf('Mac') !== -1
 
-export const MFS_PATH = '/home'
-
 export const ACTIONS = {
   FETCH: 'FETCH',
   MOVE: 'MOVE',

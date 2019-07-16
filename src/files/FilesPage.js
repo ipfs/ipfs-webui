@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import downloadFile from './download-file'
 import { translate } from 'react-i18next'
-import { MFS_PATH } from '../bundles/files'
 // Components
 import ContextMenu from './context-menu/ContextMenu'
 import InfoBoxes from './info-boxes/InfoBoxes'
@@ -44,9 +43,9 @@ class FilesPage extends React.Component {
   }
 
   componentDidUpdate (prev) {
-    const { filesPathFromHash } = this.props
+    const { filesPathInfo } = this.props
 
-    if (prev.files === null || !prev.ipfsConnected || filesPathFromHash !== prev.filesPathFromHash) {
+    if (prev.files === null || !prev.ipfsConnected || filesPathInfo.path !== prev.filesPathInfo.path) {
       this.props.doFilesFetch()
     }
   }
@@ -174,7 +173,7 @@ class FilesPage extends React.Component {
   }
 
   render () {
-    const { files } = this.props
+    const { files, filesPathInfo } = this.props
     const { contextMenu } = this.state
 
     return (
@@ -212,7 +211,7 @@ class FilesPage extends React.Component {
 
         { this.mainView }
 
-        <InfoBoxes isRoot={!!(files && files.path === MFS_PATH)}
+        <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
           isCompanion={this.props.ipfsProvider === 'window.ipfs'}
           filesExist={!!(files && files.content && files.content.length)} />
 
@@ -236,8 +235,7 @@ FilesPage.propTypes = {
   ipfsConnected: PropTypes.bool,
   ipfsProvider: PropTypes.string,
   files: PropTypes.object,
-  filesIsMfs: PropTypes.bool,
-  filesPathFromHash: PropTypes.string.isRequired,
+  filesPathInfo: PropTypes.object,
   doUpdateHash: PropTypes.func.isRequired,
   doPinsFetch: PropTypes.func.isRequired,
   doFilesFetch: PropTypes.func.isRequired,
@@ -258,8 +256,7 @@ export default connect(
   'selectIpfsProvider',
   'selectIpfsConnected',
   'selectFiles',
-  'selectFilesIsMfs',
-  'selectFilesPathFromHash',
+  'selectFilesPathInfo',
   'doUpdateHash',
   'doPinsFetch',
   'doFilesFetch',

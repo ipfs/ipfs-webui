@@ -9,7 +9,8 @@ export const make = (basename, action, options = {}) => (...args) => async (args
   let data
 
   if (options.mfsOnly) {
-    if (!store.selectFilesIsMfs()) {
+    const info = store.selectFilesPathInfo()
+    if (!info || !info.isMfs) {
       // musn't happen
       return
     }
@@ -79,4 +80,45 @@ export const sortFiles = (files, sorting) => {
       return 1
     }
   })
+}
+
+export const infoFromPath = (path) => {
+  const info = {
+    path: path,
+    realPath: null,
+    isMfs: false,
+    isPins: false,
+    isRoot: false
+  }
+
+  const check = (prefix) => {
+    info.realPath = info.path.substr(prefix.length).trim() || '/'
+    info.isRoot = info.realPath === '/'
+  }
+
+  if (info.path.startsWith('/ipns') || info.path.startsWith('/ipfs')) {
+    info.realPath = info.path
+    info.isRoot = info.path === '/ipns' || info.path === '/ipfs'
+  } else if (info.path.startsWith('/files')) {
+    check('/files')
+    info.isMfs = true
+  } else if (info.path.startsWith('/pins')) {
+    check('/pins')
+    info.isPins = true
+
+    if (info.realPath !== '/') {
+      info.realPath = `/ipfs${info.realPath}`
+    }
+  } else {
+    return
+  }
+
+  if (info.path.endsWith('/') && info.realPath !== '/') {
+    info.path = info.path.substring(0, info.path.length - 1)
+    info.realPath = info.realPath.substring(0, info.realPath.length - 1)
+  }
+
+  info.realPath = decodeURIComponent(info.realPath)
+
+  return info
 }

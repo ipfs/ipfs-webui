@@ -36,7 +36,7 @@ export class FilesList extends React.Component {
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
     filesIsFetching: PropTypes.bool,
-    filesIsMfs: PropTypes.bool,
+    filesPathInfo: PropTypes.object,
     // React Drag'n'Drop
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -104,7 +104,7 @@ export class FilesList extends React.Component {
         download={() => this.props.onDownload(this.selectedFiles)}
         inspect={() => this.props.onInspect(this.selectedFiles[0].hash)}
         count={this.state.selected.length}
-        isMfs={this.props.filesIsMfs}
+        isMfs={this.props.filesPathInfo.isMfs}
         downloadProgress={this.props.downloadProgress}
         size={size} />
     )
@@ -454,7 +454,7 @@ export default connect(
   'selectPins',
   'selectFilesIsFetching',
   'selectFilesSorting',
-  'selectFilesIsMfs',
+  'selectFilesPathInfo',
   'selectShowLoadingAnimation',
   FilesListWithDropTarget
 )

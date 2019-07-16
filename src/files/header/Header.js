@@ -2,7 +2,6 @@ import React from 'react'
 import SimplifyNumber from 'simplify-number'
 import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
-import { MFS_PATH } from '../../bundles/files'
 // Components
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import FileInput from '../file-input/FileInput'
@@ -34,13 +33,13 @@ class Header extends React.Component {
     const {
       files, writeFilesProgress, t,
       pins,
-      filesIsMfs,
+      filesPathInfo,
       repoNumObjects,
       onNavigate
     } = this.props
 
-    const writableFiles = files && files.type === 'directory' && filesIsMfs
-    const actionableFiles = files && files.path !== MFS_PATH && files.path !== '/ipfs' && files.path !== '/ipns'
+    const writableFiles = files && files.type === 'directory' && filesPathInfo.isMfs
+    const actionableFiles = files && !filesPathInfo.isRoot
 
     return (
       <div className='db flex-l justify-between'>
@@ -48,7 +47,7 @@ class Header extends React.Component {
           <div className='flex items-center'>
             <Breadcrumbs path={files ? files.path : '/404'} onClick={onNavigate} />
           </div>
-          <span className='db f7 mid-gray mt1'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
+          <span className='db f7 mid-gray mt2'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted'>
@@ -56,11 +55,11 @@ class Header extends React.Component {
             { repoNumObjects ? SimplifyNumber(repoNumObjects, { decimal: 0 }) : 'N/A' }
           </BarOption>
 
-          <BarOption title={t('pins')} onClick={() => { onNavigate('/ipfs') }}>
+          <BarOption title={t('pins')} onClick={() => { onNavigate('/pins') }}>
             { pins ? SimplifyNumber(pins.length) : '-' }
           </BarOption>
 
-          <BarOption title={t('files')} onClick={() => { onNavigate('/') }}>
+          <BarOption title={t('files')} onClick={() => { onNavigate('/files') }}>
             <GlyphHome viewBox='25 25 105 105' className='w1 h1 fill-navy' />
           </BarOption>
 
@@ -97,7 +96,7 @@ export default connect(
   'selectPins',
   'selectRepoSize',
   'selectRepoNumObjects',
-  'selectFilesIsMfs',
+  'selectFilesPathInfo',
   'selectWriteFilesProgress',
   translate('files')(Header)
 )

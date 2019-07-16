@@ -1,15 +1,13 @@
 import { sortFiles } from './utils'
-import { DEFAULT_STATE, ACTIONS, SORTING, MFS_PATH } from './consts'
+import { DEFAULT_STATE, ACTIONS, SORTING } from './consts'
 import selectors from './selectors'
 import actions from './actions'
 
-export { MFS_PATH, ACTIONS }
+export { ACTIONS }
 
 export const sorts = SORTING
 
-export default (opts = {}) => {
-  opts.baseUrl = opts.baseUrl || '/files'
-
+export default () => {
   return {
     name: 'files',
 
@@ -103,7 +101,7 @@ export default (opts = {}) => {
             pageContent: data
           }
 
-          if (data.path === '/ipfs') {
+          if (data.path === '/pins') {
             additional.pins = data.content.map(f => f.hash)
           }
         }
@@ -132,7 +130,7 @@ export default (opts = {}) => {
       return state
     },
 
-    ...actions(opts),
-    ...selectors(opts)
+    ...actions(),
+    ...selectors()
   }
 }
