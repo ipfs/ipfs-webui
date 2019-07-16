@@ -62,6 +62,7 @@ function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
   }
 
   if (root.name === 'files' || root.name === 'pins') {
+    /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
     res.unshift(<a key={`${root.name}-label`}
       title={root.realName}
       onClick={() => onClick(root.path)}
