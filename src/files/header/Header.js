@@ -60,7 +60,7 @@ class Header extends React.Component {
             { pins ? SimplifyNumber(pins.length) : '-' }
           </BarOption>
 
-          <BarOption title={t('home')} onClick={() => { onNavigate('/') }}>
+          <BarOption title={t('files')} onClick={() => { onNavigate('/') }}>
             <GlyphHome viewBox='25 25 105 105' className='w1 h1 fill-navy' />
           </BarOption>
 
