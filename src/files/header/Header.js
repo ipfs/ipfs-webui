@@ -26,7 +26,10 @@ function BarOption ({ children, title, className = '', ...etc }) {
 class Header extends React.Component {
   handleContextMenu = (ev) => {
     const pos = this.dotsWrapper.getBoundingClientRect()
-    this.props.handleContextMenu(ev, 'TOP', this.props.files, pos)
+    this.props.handleContextMenu(ev, 'TOP', {
+      ...this.props.files,
+      pinned: this.props.pins.includes(this.props.files.hash)
+    }, pos)
   }
 
   render () {
@@ -37,9 +40,6 @@ class Header extends React.Component {
       repoNumObjects,
       onNavigate
     } = this.props
-
-    const writableFiles = files && files.type === 'directory' && filesPathInfo.isMfs
-    const actionableFiles = files && !filesPathInfo.isRoot
 
     return (
       <div className='db flex-l justify-between'>
@@ -65,7 +65,7 @@ class Header extends React.Component {
 
           <div className='pa3'>
             <div className='ml-auto flex items-center'>
-              { writableFiles
+              { (files && files.type === 'directory' && filesPathInfo.isMfs)
                 ? <FileInput
                   onNewFolder={this.props.onNewFolder}
                   onAddFiles={this.props.onAddFiles}
@@ -77,7 +77,7 @@ class Header extends React.Component {
                     fill='fill-aqua'
                     className='f6 relative flex justify-center items-center'
                     minWidth='100px'
-                    disabled={!actionableFiles}
+                    disabled={!files || filesPathInfo.isRoot}
                     onClick={this.handleContextMenu}>
                     <GlyphDots className='w1 mr2' />
                     { t('more') }

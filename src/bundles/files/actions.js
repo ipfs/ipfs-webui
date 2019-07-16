@@ -5,12 +5,12 @@ import countDirs from '../../lib/count-dirs'
 import { make, sortFiles, infoFromPath } from './utils'
 import { IGNORED_FILES, ACTIONS } from './consts'
 
-const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path) => ({
+const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path, prefix = '/ipfs') => ({
   size: cumulativeSize || size || null,
   type: (type === 'dir' || type === 'directory') ? 'directory' : 'file',
   hash: hash,
   name: name || path ? path.split('/').pop() : hash,
-  path: path || `/ipfs/${hash}`
+  path: path || `${prefix}/${hash}`
 })
 
 // TODO: use sth else
@@ -32,12 +32,14 @@ const getRawPins = async (ipfs) => {
 const getPins = async (ipfs) => {
   const pins = await getRawPins(ipfs)
 
-  const promises = pins
-    .map(({ hash }) => ipfs.files.stat(`/ipfs/${hash}`))
-  const stats = await Promise.all(promises)
+  const stats = await Promise.all(
+    pins.map(({ hash }) => {
+      return ipfs.files.stat(`/ipfs/${hash}`)
+    })
+  )
 
   return stats.map(item => {
-    item = fileFromStats(item)
+    item = fileFromStats(item, null, '/pins')
     item.pinned = true
     return item
   })
@@ -128,11 +130,8 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
 })
 
 export default () => ({
-  doPinsFetch: make(ACTIONS.PIN_LIST, async (ipfs, id, { dispatch }) => {
-    const recursive = await ipfs.pin.ls({ type: 'recursive' })
-    const direct = await ipfs.pin.ls({ type: 'direct' })
-
-    return { pins: recursive.concat(direct).map(f => f.hash) }
+  doPinsFetch: make(ACTIONS.PIN_LIST, async (ipfs) => {
+    return { pins: (await getRawPins(ipfs)).map(f => f.hash) }
   }),
 
   doFilesFetch: () => async ({ store, ...args }) => {
