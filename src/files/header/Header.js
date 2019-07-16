@@ -48,12 +48,12 @@ class Header extends React.Component {
           <div className='flex items-center'>
             <Breadcrumbs path={files ? files.path : '/404'} onClick={onNavigate} />
           </div>
-          <span className='db f7 mid-gray'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
+          <span className='db f7 mid-gray mt1'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted'>
           <BarOption title={t('blocks')}>
-            { repoNumObjects ? SimplifyNumber(repoNumObjects) : 'N/A' }
+            { repoNumObjects ? SimplifyNumber(repoNumObjects, { decimal: 0 }) : 'N/A' }
           </BarOption>
 
           <BarOption title={t('pins')} onClick={() => { onNavigate('/ipfs') }}>
