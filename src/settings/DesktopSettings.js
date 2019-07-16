@@ -7,8 +7,14 @@ import Checkbox from '../components/checkbox/Checkbox'
 import Title from './Title'
 
 const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0
-const altKey = isMac ? '⌥ option' : 'ALT'
-const ctrlKey = isMac ? '⌘ command' : 'CTRL'
+
+const keys = {
+  option: '⌥ option',
+  cmd: '⌘ command',
+  ctrlMac: '⌃ control',
+  alt: 'ALT',
+  ctrl: 'CTRL'
+}
 
 const CheckboxSetting = ({ children, title, ...props }) => (
   <div className='mt2'>
@@ -19,9 +25,9 @@ const CheckboxSetting = ({ children, title, ...props }) => (
       <p className='ma0 f6 b'>{title}</p>
     </div>
 
-    <div className='pl4'>
+    <p className='pl4 charcoal mw7 mb0 mt1 f6 lh-copy'>
       <span>{children}</span>
-    </div>
+    </p>
   </div>
 )
 
@@ -35,38 +41,44 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
       <CheckboxSetting checked={desktopSettings['autoLaunch'] || false}
         title={t('launchOnStartup')}
         onChange={() => doDesktopSettingsToggle('autoLaunch')} />
-      <CheckboxSetting checked={desktopSettings['screenshotShortcut'] || false}
-        title={t('autoAddScreenshots')}
-        onChange={() => doDesktopSettingsToggle('screenshotShortcut')}>
-        <p className='mb0 mt1 lh-copy'>
-          <Trans
-            i18nKey='autoAddScreenshotsDescription'
-            defaults='Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> to take screenshots and add them to the repository.'
-            values={{ ctrlKey, altKey }}
-            components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
-        </p>
-      </CheckboxSetting>
-      <CheckboxSetting checked={desktopSettings['downloadHashShortcut'] || false}
-        title={t('downloadCopiedHash')}
-        onChange={() => doDesktopSettingsToggle('downloadHashShortcut')}>
-        <p className='mb0 mt1 lh-copy'>
-          <Trans
-            i18nKey='downloadCopiedHashDescription'
-            defaults='Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> to download the last copied hash.'
-            values={{ ctrlKey, altKey }}
-            components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
-        </p>
-      </CheckboxSetting>
       <CheckboxSetting checked={desktopSettings['ipfsOnPath'] || false}
         title={t('ipfsCmdTools')}
         disabled={os.platform() === 'win32'}
         onChange={() => doDesktopSettingsToggle('ipfsOnPath')}>
-        <p className='mb0 mt1 lh-copy'>
-          <Trans
-            i18nKey='ipfsCmdToolsDescription'
-            defaults='Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line.'
-            components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
-        </p>
+        <Trans
+          i18nKey='ipfsCmdToolsDescription'
+          defaults='Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line.'
+          components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
+      </CheckboxSetting>
+
+      <p className='ttu tracked f7 aqua mt4 mb2'>{t('globalShortcuts')}</p>
+      <p className='f6 charcoal lh-copy mw7'>{t('globalShortcutsAre')}</p>
+
+      <CheckboxSetting checked={desktopSettings['screenshotShortcut'] || false}
+        title={t('takeScreenshot')}
+        onChange={() => doDesktopSettingsToggle('screenshotShortcut')}>
+        <Trans
+          i18nKey='takeScreenshotDescription'
+          defaults='Use <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> to take screenshots and add them to your repository.'
+          values={{
+            key1: isMac ? keys.cmd : keys.ctrl,
+            key2: isMac ? keys.ctrlMac : keys.alt,
+            key3: 'S'
+          }}
+          components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
+      </CheckboxSetting>
+      <CheckboxSetting checked={desktopSettings['downloadHashShortcut'] || false}
+        title={t('downloadHash')}
+        onChange={() => doDesktopSettingsToggle('downloadHashShortcut')}>
+        <Trans
+          i18nKey='downloadHashDescription'
+          defaults='Use <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> to download the last copied hash or path to your system.'
+          values={{
+            key1: isMac ? keys.cmd : keys.ctrl,
+            key2: isMac ? keys.ctrlMac : keys.alt,
+            key3: isMac ? 'H' : 'D'
+          }}
+          components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
       </CheckboxSetting>
     </Box>
   )
