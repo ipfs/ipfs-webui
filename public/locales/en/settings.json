@@ -1,14 +1,14 @@
 {
   "title": "Settings",
   "save": "Save",
-  "saving": "Saving...",
+  "saving": "Saving…",
   "reset": "Reset",
   "language": "Language",
   "config": "IPFS Config",
   "analytics": "Analytics",
   "languageModal": {
-    "title": "Change Language",
-    "description": "Pick your preferred language"
+    "title": "Change language",
+    "description": "Pick your preferred language."
   },
   "actions": {
     "edit": "Change",
@@ -18,12 +18,12 @@
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
   "ipfsDaemonOffline": "The IPFS daemon is offline. Please turn it on and try again.",
   "settingsUnavailable": "Settings not available. Please check your IPFS daemon is running.",
-  "settingsHaveChanged": "The settings have changed, please click <1>Reset</1> to update the editor contents",
+  "settingsHaveChanged": "The settings have changed; please click <1>Reset</1> to update the editor contents.",
   "errorOccured": "An error occured while saving your changes",
   "checkConsole": "Check the browser console for more info.",
-  "changesSaved": "Your changes have been saved",
+  "changesSaved": "Your changes have been saved.",
   "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the IPFS daemon.",
-  "ipfsConfigDescription": "The IPFS config file is a json document. It is read once when the IPFS daemon is started. Save your changes then restart the IPFS daemon to apply them.",
+  "ipfsConfigDescription": "The IPFS config file is a JSON document. It is read once when the IPFS daemon is started. Save your changes, then restart the IPFS daemon to apply them.",
   "ipfsDesktop": "IPFS Desktop",
   "takeScreenshot": "Take screenshot",
   "takeScreenshotDescription": "Use <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> to take screenshots and add them to your repository.",
@@ -41,23 +41,23 @@
     "optionalInfo": "You can opt-in to send the following information:",
     "sessions": {
       "label": "Sessions",
-      "summary": "when and how long you use the app, and browser metrics",
-      "details": "<0>The following browser metrics are sent:</0><1><0>A random, generated device ID</0><1>Timestamp when the session starts</1><2>Periodic timestamps to track duration</2><3>App version e.g. 2.4.4</3><4>Locale e.g. en-GB</4><5>User Agent e.g. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ...</5><6>Screen resolution e.g. 800x600</6><7>Screen pixel density e.g. 1</7></1>"
+      "summary": "When and how long you use the app, and browser metrics",
+      "details": "<0>The following browser metrics are sent:</0><1><0>A random, generated device ID</0><1>Timestamp when the session starts</1><2>Periodic timestamps to track duration</2><3>App version; e.g. 2.4.4</3><4>Locale; e.g. en-GB</4><5>User agent; e.g. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>Screen resolution; e.g. 800×600</6><7>Screen pixel density; e.g. 1</7></1>"
     },
     "events": {
       "label": "Events",
       "summary": "actions like adding or deleting files, and how long it took",
-      "details": "App specific actions. We record only that the action happened, how long it took from start to finish, and a count if the event involved multiple items."
+      "details": "App-specific actions. We record only that the action happened, how long it took from start to finish, and a count if the event involved multiple items."
     },
     "views": {
       "label": "Page views",
-      "summary": "which sections of the app you visit",
-      "details": "Records which sections of the apps are visited. The paths recorded only include the pattern used to match the route rather than the full url. "
+      "summary": "Which sections of the app you visit",
+      "details": "Records which sections of the apps are visited. The paths recorded only include the pattern used to match the route rather than the full url."
     },
     "location": {
       "label": "Location",
-      "summary": "Country code from IP address. IP address is discarded",
-      "details": "Your IP address is used to calculate a Country code for your location, like \"FR\" for France. Where consent is not given to track location, an empty location property is sent with all requests to signal to the server to disable the location look up. This information helps guide our translation effort and figure out where we should put on events."
+      "summary": "Country code from IP address (IP address is discarded)",
+      "details": "Your IP address is used to calculate a country code for your location, like \"FR\" for France. Where consent is not given to track location, an empty location property is sent with all requests to signal to the server to disable the location look up. This information helps guide our translation effort and figure out where we should put on events."
     },
     "crashes": {
       "label": "App errors",
