@@ -31,7 +31,7 @@
   "downloadHashDescription": "Use <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> to download the last copied hash or path to your system.",
   "launchOnStartup": "Launch on startup",
   "globalShortcuts": "Global Shortcuts",
-  "globalShortcutsAre": "IPFS Desktop provides some shortcuts for specific features when the menubar is open. You can enable them globally so you can use them even when the menubar is closed.",
+  "globalShortcutsAre": "IPFS Desktop provides some features that can be globally accessed through keyboard shortcuts. You can enable or disable them here.",
   "AnalyticsToggle": {
     "label": "Help improve this app by sending anonymous usage data",
     "summary": "Configure what is collected",
