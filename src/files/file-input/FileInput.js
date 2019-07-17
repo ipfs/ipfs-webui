@@ -107,7 +107,7 @@ class FileInput extends React.Component {
               {t('addByPath')}
             </Option>
             <Option onClick={this.onNewFolder}>
-              <NewFolderIcon className='fill-aqua w2 mr1' />
+              <NewFolderIcon className='fill-aqua w2 h2 mr1' />
               {t('newFolder')}
             </Option>
           </DropdownMenu>

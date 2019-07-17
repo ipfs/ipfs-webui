@@ -60,7 +60,7 @@ class Header extends React.Component {
           </BarOption>
 
           <BarOption title={t('files')} onClick={() => { onNavigate('/files') }}>
-            <GlyphHome viewBox='25 25 105 105' className='w1 h1 fill-navy' />
+            <GlyphHome viewBox='20 20 60 60' className='w1 h1 fill-navy' />
           </BarOption>
 
           <div className='pa3'>
