@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'redux-bundler-react'
 import { translate } from 'react-i18next'
+import { filesToStreams } from '../../lib/files'
 // Icons
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
@@ -55,6 +57,24 @@ class FileInput extends React.Component {
     })
   }
 
+  handleAddFolder = async () => {
+    this.toggleDropdown()
+
+    if (!this.props.isIpfsDesktop) {
+      return this.folderInput.click()
+    }
+
+    const files = await this.props.doDesktopSelectDirectory()
+    if (files) {
+      this.props.onAddFiles(files)
+    }
+  }
+
+  handleAddFile = async () => {
+    this.toggleDropdown()
+    return this.filesInput.click()
+  }
+
   componentDidUpdate (prev) {
     if (this.props.addProgress === 100 && prev.addProgress !== 100) {
       this.setState({ force100: true })
@@ -64,10 +84,9 @@ class FileInput extends React.Component {
     }
   }
 
-  onInputChange = (input) => () => {
-    this.props.onAddFiles(input.files)
+  onInputChange = (input) => async () => {
+    this.props.onAddFiles(await filesToStreams(input.files))
     input.value = null
-    this.toggleDropdown()
   }
 
   onAddByPath = (path) => {
@@ -89,11 +108,11 @@ class FileInput extends React.Component {
             top={3}
             open={this.state.dropdown}
             onDismiss={this.toggleDropdown} >
-            <Option onClick={() => this.filesInput.click()}>
+            <Option onClick={this.handleAddFile}>
               <DocumentIcon className='fill-aqua w2 mr1' />
               {t('addFile')}
             </Option>
-            <Option onClick={() => this.folderInput.click()}>
+            <Option onClick={this.handleAddFolder}>
               <FolderIcon className='fill-aqua w2 mr1' />
               {t('addFolder')}
             </Option>
@@ -130,4 +149,8 @@ class FileInput extends React.Component {
   }
 }
 
-export default translate('files')(FileInput)
+export default connect(
+  'selectIsIpfsDesktop',
+  'doDesktopSelectDirectory',
+  translate('files')(FileInput)
+)

@@ -44,6 +44,6 @@
     "noLabel": "Nej tak",
     "detailsLabel": "Mere info"
   },
-  "bandwidthStats": "Bandwidth Stats",
-  "bandwidthStatsDisabled": "You have the bandwidth metrics disabled. You can enable them by typing the command bellow or changing the key <1>Swarm.DisableBandwidthMetrics</1> to <3>false</3> on <5>Settings</5>. Then, you need to restart the IPFS daemon to apply the changes."
+  "bandwidthStats": "Båndbredde statistik",
+  "bandwidthStatsDisabled": "Du har slået båndbreddemåling fra. Du kan slå det til igen ved at indtaste kommandoen neden for eller ved at ændre nøglen <1>Swarm.DisableBandwidthMetrics</1> til <3>false</3> for <5>Indstillinger</5>. Dernæst, er du nød til at genstarte IPFS baggrunds-processen for at ændringerne træder i kraft."
 }

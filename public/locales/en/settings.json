@@ -25,11 +25,13 @@
   "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the IPFS daemon.",
   "ipfsConfigDescription": "The IPFS config file is a JSON document. It is read once when the IPFS daemon is started. Save your changes, then restart the IPFS daemon to apply them.",
   "ipfsDesktop": "IPFS Desktop",
+  "takeScreenshot": "Take screenshot",
+  "takeScreenshotDescription": "Use <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> to take screenshots and add them to your repository.",
+  "downloadHash": "Download hash",
+  "downloadHashDescription": "Use <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> to download the last copied hash or path to your system.",
   "launchOnStartup": "Launch on startup",
-  "autoAddScreenshots": "Auto add screenshots",
-  "autoAddScreenshotsDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> to take screenshots and add them to the repository.",
-  "downloadCopiedHash": "Download copied hash",
-  "downloadCopiedHashDescription": "Use <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> to download the last copied hash.",
+  "globalShortcuts": "Global Shortcuts",
+  "globalShortcutsAre": "IPFS Desktop provides some shortcuts for specific features when the menubar is open. You can enable them globally so you can use them even when the menubar is closed.",
   "AnalyticsToggle": {
     "label": "Help improve this app by sending anonymous usage data",
     "summary": "Configure what is collected",
@@ -61,6 +63,17 @@
       "label": "App errors",
       "summary": "JavaScript error messages and stack traces",
       "details": "Records JavaScript error messages and stack traces that occur while using the app, where possible. It is very helpful to know when the app is not working for you, but <1>error messages may include identifiable information</1> like CIDs or file paths, so only enable this if you are comfortable sharing that information with us."
+    }
+  },
+  "Experiments": {
+    "description": "Here you can get an early preview into new IPFS features by enabling options below. We are testing these ideas, and they may not be perfect yet so we'd love to hear your feedback.",
+    "issueUrl": "Open an issue",
+    "feedbackUrl": "💌Leave feedback",
+    "readMoreUrl": "Read More",
+    "npmOnIpfs": {
+      "title": "NPM on IPFS",
+      "label": "Enable ipfs-npm",
+      "description": "Install npm modules through IPFS with the 'ipfs-npm' command line tool!"
     }
   },
   "ipfsCmdTools": "IPFS command line tools",

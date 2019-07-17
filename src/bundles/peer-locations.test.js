@@ -45,6 +45,13 @@ function createMockConnectedBundle () {
   }
 }
 
+function createMockConfigBundle () {
+  return {
+    name: 'config',
+    selectBootstrapPeers: () => []
+  }
+}
+
 const mockPeersBundle = {
   name: 'peers',
   reducer (state = { data: [] }, action) {
@@ -115,7 +122,8 @@ it('should get locations for peers', async () => {
     createPeerLocationsBundle({
       // Ensure added peers are all processed concurrently
       concurrency: 5
-    })
+    }),
+    createMockConfigBundle()
   )()
 
   const peers = store.selectPeers()
@@ -151,7 +159,8 @@ it('should fail on non IPv4 address', async () => {
     createPeerLocationsBundle({
       // Ensure added peers are all processed concurrently
       concurrency: 5
-    })
+    }),
+    createMockConfigBundle()
   )()
 
   const peers = store.selectPeers()
@@ -190,7 +199,8 @@ it('should resolve alternative address for failed address lookup', async () => {
     createMockConnectedBundle(),
     createMockIpfsBundle(createMockIpfs({ maxLatency: 1 })),
     mockPeersBundle,
-    createPeerLocationsBundle()
+    createPeerLocationsBundle(),
+    createMockConfigBundle()
   )()
 
   const peers = store.selectPeers()

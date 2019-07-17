@@ -63,6 +63,17 @@
       "details": "Registrerer JavaScript feilmeldinger og stack tracer som oppstår når du bruker appen, hvor det er mulig. Det er svært nyttig å vite når appen ikke virker for deg, men <1>feilmeldinger kan inneholde identifiserbar informasjon</1> slik som CIDs eller filbaner, så bare aktiver dette hvis du er komfortabel med å dele denne informasjonen med oss."
     }
   },
-  "ipfsCmdTools": "IPFS command line tools",
-  "ipfsCmdToolsDescription": "Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line."
+  "Experiments": {
+    "description": "Here you can get an early preview into new IPFS features by enabling options below. We are testing these ideas, and they may not be perfect yet so we'd love to hear your feedback.",
+    "issueUrl": "Open an issue",
+    "feedbackUrl": "💌Leave feedback",
+    "readMoreUrl": "Read More",
+    "npmOnIpfs": {
+      "title": "NPM on IPFS",
+      "label": "Enable ipfs-npm",
+      "description": "Install npm modules through IPFS with the 'ipfs-npm' command line tool!"
+    }
+  },
+  "ipfsCmdTools": "IPFS kommandolinjeverktøy",
+  "ipfsCmdToolsDescription": "Legg <0>ipfs</0> binære til ditt systems <0>STI</0>, slik at du kan bruke det i kommandolinjen."
 }

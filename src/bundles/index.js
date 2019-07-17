@@ -20,6 +20,7 @@ import bundleCache from '../lib/bundle-cache'
 import ipfsDesktop from './ipfs-desktop'
 import repoStats from './repo-stats'
 import createAnalyticsBundle from './analytics'
+import experimentsBundle from './experiments'
 
 export default composeBundles(
   createCacheBundle(bundleCache.set),
@@ -76,6 +77,7 @@ export default composeBundles(
   notifyBundle,
   connectedBundle,
   retryInitBundle,
+  experimentsBundle,
   ipfsDesktop,
   repoStats,
   createAnalyticsBundle({})
