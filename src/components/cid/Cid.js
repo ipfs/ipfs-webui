@@ -1,4 +1,5 @@
 import React from 'react'
+import Identicon from '../identicon/Identicon'
 
 export function cidStartAndEnd (value) {
   const chars = value.split('')
@@ -17,16 +18,20 @@ export function shortCid (value) {
   return `${start}…${end}`
 }
 
-const Cid = ({ value, title, style, ...props }) => {
+const Cid = ({ value, title, style, identicon = false, ...props }) => {
   style = Object.assign({}, {
-    textDecoration: 'none'
+    textDecoration: 'none',
+    marginLeft: identicon ? '5px' : null
   }, style)
   const { start, end } = cidStartAndEnd(value)
   return (
     <abbr title={title || value} style={style} {...props}>
-      <span>{start}</span>
-      <span className='o-20'>…</span>
-      <span>{end}</span>
+      { identicon && <Identicon cid={value} className='mr1 v-mid' /> }
+      <span className='v-mid'>
+        <span>{start}</span>
+        <span className='o-20'>…</span>
+        <span>{end}</span>
+      </span>
     </abbr>
   )
 }
