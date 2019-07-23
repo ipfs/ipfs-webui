@@ -35,45 +35,69 @@ function makeBread (root) {
   return parts
 }
 
-function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
-  const cls = `Breadcrumbs flex items-center sans-serif ${className}`
-  const bread = makeBread(path)
-  const root = bread[0]
-
-  if (root.name === 'files' || root.name === 'pins') {
-    bread.shift()
+class Breadcrumbs extends React.Component {
+  state = {
+    overflows: false
   }
 
-  const res = bread.map((link, index) => ([
-    <div key={`${index}divider`} className='dib pr1 pv1 mid-gray v-top'>/</div>,
-    <div key={`${index}link`} className='dib pv1 pr1'>
-      { link.disabled
-        ? <span title={link.realName} className='gray'>{link.name}</span>
+  componentDidUpdate (_, prevState) {
+    const a = this.anchors
+    const overflows = a ? (a.offsetHeight < a.scrollHeight || a.offsetWidth < a.scrollWidth) : false
+
+    if (prevState.overflows !== overflows) {
+      this.setState({ overflows })
+    }
+  }
+
+  render () {
+    const { t, tReady, path, onClick, className = '', ...props } = this.props
+
+    const cls = `Breadcrumbs flex items-center sans-serif overflow-hidden ${className}`
+    const bread = makeBread(path)
+    const root = bread[0]
+
+    if (root.name === 'files' || root.name === 'pins') {
+      bread.shift()
+    }
+
+    const res = bread.map((link, index) => ([
+      <span key={`${index}link`} className='dib pv1 pr1' style={{ direction: 'ltr' }}>
+        { link.disabled
+          ? <span title={link.realName} className='gray'>{link.name}</span>
+          /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
+          : <a title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => onClick(link.path)}>
+            {link.name}
+          </a>
+        }
+      </span>,
+      <a key={`${index}divider`} className='dib pr1 pv1 mid-gray v-top'>/</a>
+    ]))
+
+    if (res.length === 0) {
+      res.push(<a key='root-divider' className='dib pv1 mid-gray v-top'>/</a>)
+    }
+
+    res.reverse()
+
+    return (
+      <nav aria-label={t('breadcrumbs')} className={cls} {...props}>
+        { (root.name === 'files' || root.name === 'pins') &&
         /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-        : <a title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => onClick(link.path)}>
-          {link.name}
+        <a key={`${root.name}-label`}
+          title={root.realName}
+          onClick={() => onClick(root.path)}
+          className='f7 pointer pa1 bg-navy br2 mr2 white'>
+          {t(root.name)}
         </a>
-      }
-    </div>
-  ]))
+        }
 
-  if (res.length === 0) {
-    res.push(<div key='root-divider' className='dib pv1 mid-gray v-top'>/</div>)
+        <div className='nowrap overflow-hidden relative' ref={(el) => { this.anchors = el }} style={{ direction: 'rtl' }}>
+          <div className={`absolute left-0 top-0 h-100 w1 ${this.state.overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, #ffffff 0%, transparent 100%)' }} />
+          {res}
+        </div>
+      </nav>
+    )
   }
-
-  if (root.name === 'files' || root.name === 'pins') {
-    /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-    res.unshift(<a key={`${root.name}-label`}
-      title={root.realName}
-      onClick={() => onClick(root.path)}
-      className='f7 pointer pa1 bg-navy br2 mr2 white'>
-      {t(root.name)}
-    </a>)
-  }
-
-  return (
-    <nav aria-label={t('breadcrumbs')} className={cls} {...props}>{res}</nav>
-  )
 }
 
 Breadcrumbs.propTypes = {

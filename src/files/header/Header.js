@@ -43,7 +43,7 @@ class Header extends React.Component {
 
     return (
       <div className='db flex-l justify-between items-center'>
-        <div className='mb3 flex items-center'>
+        <div className='mb3 overflow-hidden mr2'>
           <Breadcrumbs path={files ? files.path : '/404'} onClick={onNavigate} />
         </div>
 
