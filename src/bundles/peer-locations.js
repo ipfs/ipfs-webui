@@ -36,6 +36,15 @@ export default function (opts) {
     ...opts.cache
   })
 
+  const geoipCache = getConfiguredCache({
+    name: 'geoipCache',
+    version: 1,
+    maxAge: ms.weeks(1),
+    ...opts.cache
+  })
+
+  const geoipLookupPromises = {}
+
   return {
     name: 'peerLocations',
 
@@ -203,12 +212,38 @@ export default function (opts) {
           throw new Error(`Unable to resolve location for non-IPv4 address ${addr}`)
         }
 
-        location = await new Promise((resolve, reject) => {
-          geoip.lookup(ipfs, ipv4Tuple[1], (err, data) => {
-            if (err) return reject(err)
-            resolve(data)
-          })
-        })
+        var ipv4Addr = ipv4Tuple[1]
+
+        // maybe we have it cached by ip address already, check that.
+        location = await geoipCache.get(ipv4Addr)
+
+        if (!location) {
+          // no ip address cached. are we looking it up already?
+          var locPromise = geoipLookupPromises[ipv4Addr]
+
+          if (!locPromise) {
+
+            locPromise = new Promise((resolve, reject) => {
+              geoip.lookup(ipfs, ipv4Addr, (err, data) => {
+                // save it in the geoip cache, and remove the promise.
+                geoipCache.set(ipv4Addr, data)
+                delete geoipLookupPromises[ipv4Addr]
+
+                if (err) return reject(err)
+                resolve(data)
+              })
+            })
+
+            // set the promise here, so we only look it up once.
+            geoipLookupPromises[ipv4Addr] = locPromise
+          } else {
+            console.log('found active promise for resolving ipaddr -- wait for it')
+          }
+
+          location = await locPromise
+        }
+        // here, location should be a thing already.
+
       } catch (err) {
         return dispatch({
           type: 'PEER_LOCATIONS_RESOLVE_FAILED',
