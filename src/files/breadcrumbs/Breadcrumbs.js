@@ -36,7 +36,7 @@ function makeBread (root) {
 }
 
 function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
-  const cls = `Breadcrumbs flex items-center sans-serif f4 ${className}`
+  const cls = `Breadcrumbs flex items-center sans-serif ${className}`
   const bread = makeBread(path)
   const root = bread[0]
 
@@ -45,8 +45,8 @@ function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
   }
 
   const res = bread.map((link, index) => ([
-    <div key={`${index}divider`} className='dib pr2 pv1 mid-gray v-top'>/</div>,
-    <div key={`${index}link`} className='dib pv1 pr2'>
+    <div key={`${index}divider`} className='dib pr1 pv1 mid-gray v-top'>/</div>,
+    <div key={`${index}link`} className='dib pv1 pr1'>
       { link.disabled
         ? <span title={link.realName} className='gray'>{link.name}</span>
         /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
@@ -66,7 +66,7 @@ function Breadcrumbs ({ t, tReady, path, onClick, className = '', ...props }) {
     res.unshift(<a key={`${root.name}-label`}
       title={root.realName}
       onClick={() => onClick(root.path)}
-      className='f6 pointer pa1 bg-navy br2 mr2 white'>
+      className='f7 pointer pa1 bg-navy br2 mr2 white'>
       {t(root.name)}
     </a>)
   }

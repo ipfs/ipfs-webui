@@ -42,12 +42,12 @@ class Header extends React.Component {
     } = this.props
 
     return (
-      <div className='db flex-l justify-between'>
+      <div className='db flex-l justify-between items-center'>
         <div className='mb3'>
           <div className='flex items-center'>
             <Breadcrumbs path={files ? files.path : '/404'} onClick={onNavigate} />
           </div>
-          <span className='db f7 mid-gray mt2'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
+          <span className='db f7 mid-gray mt1'>CID: <span className='gray'>{files && files.hash ? files.hash : t('hashUnavailable')}</span></span>
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted'>
