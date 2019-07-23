@@ -36,7 +36,7 @@ export class PeersTable extends React.Component {
     const style = { width: '60px' }
 
     return cellData
-      ? <span class='dib tr' style={style}>{cellData}</span>
+      ? <span className='dib tr' style={style}>{cellData}</span>
       : <span className='dib tr o-40' style={style}>-</span>
   }
 
