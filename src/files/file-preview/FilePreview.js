@@ -21,7 +21,7 @@ class Preview extends React.Component {
 
     const type = typeFromExt(name)
     const src = `${gatewayUrl}/ipfs/${hash}`
-    const className = 'mw-100 mt3 bg-snow-muted pa2 br2'
+    const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
     switch (type) {
       case 'audio':
