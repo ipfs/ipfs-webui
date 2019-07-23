@@ -157,7 +157,8 @@ export default function (opts) {
           locationObj.latitude
         ]
         const connection = parseConnection(peer.addr)
-        const latency = parseLatency(peer.latency)
+        const rawLatency = parseLatency(peer.latency)
+        const latency = rawLatency ? `${rawLatency}ms` : null
         const notes = parseNotes(peer, bootstrapPeers)
 
         return {
@@ -167,6 +168,7 @@ export default function (opts) {
           coordinates,
           connection,
           latency,
+          rawLatency,
           notes
         }
       })
@@ -296,7 +298,7 @@ const parseLatency = (latency) => {
 
   value = unit === 's' ? value * 1000 : value
 
-  return `${value}ms`
+  return value
 }
 
 const parseNotes = (peer, bootstrapPeers) => {
