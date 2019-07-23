@@ -1,7 +1,7 @@
 {
   "appName": "IPLD-Explorer",
   "StartExploringPage": {
-    "title": "Erkunden – IPLD",
+    "title": "Erkunden - IPLD",
     "header": "Merkle-Wald erkunden",
     "leadParagraph": "Füge eine CID in das Feld ein, um den von ihr adressierten IPLD-Node zu holen, oder wähle einen bestimmten Datensatz."
   },
@@ -11,7 +11,7 @@
     "paragraph3": "<0>Auftritt IPLD: ein einziger Namensraum für alle Hash-bestimmten Protokolle. Über IPLD können Links protokollübergreifend durchlaufen werden, sodass die Daten unabhängig vom zugrunde liegenden Protokoll abgerufen werden können.</0>"
   },
   "ExplorePage": {
-    "title": "Erkundung – IPLD"
+    "title": "Erkundung - IPLD"
   },
   "IpldExploreForm": {
     "explore": "Erkunden"
