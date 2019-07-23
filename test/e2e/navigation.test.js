@@ -29,7 +29,7 @@ it('Navigation test: node running', async () => {
   await waitForTitle('/ - Files - IPFS')
 
   await page.click('nav a[href="#/explore"]')
-  await waitForTitle('Explore - IPLD')
+  await waitForTitle('Explore – IPLD')
 
   await page.click('nav a[href="#/peers"]')
   await waitForTitle('Peers - IPFS')
