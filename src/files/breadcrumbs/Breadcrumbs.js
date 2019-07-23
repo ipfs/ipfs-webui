@@ -70,10 +70,12 @@ class Breadcrumbs extends React.Component {
           </a>
         }
       </span>,
+      /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
       <a key={`${index}divider`} className='dib pr1 pv1 mid-gray v-top'>/</a>
     ]))
-
+    
     if (res.length === 0) {
+      /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
       res.push(<a key='root-divider' className='dib pv1 mid-gray v-top'>/</a>)
     }
 
