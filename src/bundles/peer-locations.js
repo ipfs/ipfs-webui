@@ -287,7 +287,7 @@ const parseNotes = (peer, bootstrapPeers) => {
 }
 
 class PeerLocationResolver {
-  constructor(opts) {
+  constructor (opts) {
     this.peerLocCache = getConfiguredCache({
       name: 'peerLocations',
       version: 1,
@@ -305,7 +305,7 @@ class PeerLocationResolver {
     this.geoipLookupPromises = {}
   }
 
-  async lookupWithCaches(peerId, addr, getIpfs) {
+  async lookupWithCaches (peerId, addr, getIpfs) {
     // maybe we have it cached by peerid already
     let location = await this.peerLocCache.get(peerId)
     if (location) {
