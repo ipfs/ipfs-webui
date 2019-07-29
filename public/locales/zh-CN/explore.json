@@ -1,35 +1,35 @@
 {
-  "appName": "IPLD浏览器",
-  "tabName": "Explore",
-  "homeLink": "Home",
+  "appName": "IPLD 浏览器",
+  "tabName": "浏览",
+  "homeLink": "首页",
   "UpdateAvailable": {
-    "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
+    "paragraph1": "新版的 IPLD 浏览器可用了， <1>请刷新当前页面</1>."
   },
   "StartExploringPage": {
-    "title": "浏览-IPLD",
-    "header": "浏览Merkle Forest",
-    "leadParagraph": "粘贴CID到文本框以获取它的寻址IPLD节点，或选择一个特色数据集。"
+    "title": "浏览 - IPLD",
+    "header": "浏览 Merkle Forest",
+    "leadParagraph": "粘贴 CID 到文本框以获取它的寻址 IPLD 节点，或选择一个特色数据集。"
   },
   "AboutIpld": {
-    "paragraph1":"<0>IPLD是<1>内容可寻址网络的数据模型</1>。 它允许我们将所有与哈希链接的数据结构视为统一信息空间的子集，统一所有将数据与哈希作为IPLD实例链接的数据模型。</0>",
+    "paragraph1":"<0>IPLD 是<1>内容可寻址网络的数据模型</1>。 它允许我们将所有与哈希链接的数据结构视为统一信息空间的子集，统一所有将数据与哈希作为 IPLD 实例链接的数据模型。</0>",
     "paragraph2": "<0>通过哈希进行内容寻址已成为一种广泛使用的方法，用于连接分布式系统中的数据，从运行您中意加密货币的区块链，到保证你的代码提交，再到整个网络的内容。 然而，虽然所有这些工具都依赖于一些常见的基本类型，但它们的特定底层数据结构却无法互操作。</0>",
-    "paragraph3": "<0>输入IPLD：所有哈希启发协议的单个命名空间。 通过IPLD，可以跨协议遍历链接，无论底层协议如何，都可以浏览数据。</0>"
+    "paragraph3": "<0>输入 IPLD ：所有哈希启发协议的单个命名空间。 通过 IPLD ，可以跨协议遍历链接，无论底层协议如何，都可以浏览数据。</0>"
   },
   "ExplorePage": {
-    "title": "浏览-IPLD"
+    "title": "浏览 - IPLD"
   },
   "IpldExploreForm": {
     "explore": "浏览"
   },
   "CidInfo": {
-    "header": "CID信息",
-    "hashDigest": "Hash digest"
+    "header": "CID 信息",
+    "hashDigest": "哈希摘要"
   },
   "ObjectInfo": {
-    "gatewayLink": "在IPFS网关上查看"
+    "gatewayLink": "在 IPFS 网关上查看"
   },
   "base": "base",
-  "version": "version",
+  "version": "版本",
   "codec": "codec",
   "multihash": "multihash"
 }

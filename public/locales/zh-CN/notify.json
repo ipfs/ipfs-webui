@@ -1,14 +1,14 @@
 {
-  "connectingToIpfs": "Connecting to IPFS…",
-  "connectedToIpfs": "Connected to IPFS!",
-  "ipfsApiRequestFailed": "IPFS request failed. Please check if your daemon is running.",
-  "windowIpfsRequestFailed": "IPFS request failed. Please check your IPFS Companion settings.",
-  "ipfsIsBack": "Normal IPFS service has resumed. Enjoy!",
-  "filesEventFailed": "Failed to add files to IPFS. Please try again.",
-  "folderExists": "A folder with that name already exists. Please choose another.",
-  "couldntConnectToPeer": "Could not connect to the provided peer.",
-  "connectedToPeer": "Successfully connected to the provided peer.",
+  "connectingToIpfs": "正在连接到 IPFS …",
+  "connectedToIpfs": "已经连接到 IPFS ！",
+  "ipfsApiRequestFailed": "请求 IPFS 失败。请确认 IPFS 守护进程还在正常运行。",
+  "windowIpfsRequestFailed": "请求 IPFS 失败。请检查你的 IPFS 伴侣的设置。",
+  "ipfsIsBack": "IPFS 服务已经恢复正常，请使用。",
+  "filesEventFailed": "向 IPFS 添加文件失败，请重试。",
+  "folderExists": "名称相同的目录已经存在。请重新选择一个目录名称。",
+  "couldntConnectToPeer": "无法连接到提供的对等方。",
+  "connectedToPeer": "已经连接到提供的对等方。",
   "experimentsErrors": {
-    "npmOnIpfs": "We couldn't make changes to your system. Please install or uninstall 'ipfs-npm' package manually."
+    "npmOnIpfs": "我们无法对您的系统进行修改。请手动安装或重新安装 'ipfs-npm' 包。"
   }
 }

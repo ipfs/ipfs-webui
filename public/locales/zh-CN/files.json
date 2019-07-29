@@ -8,16 +8,16 @@
   "individualFilesOnly": "仅对文件有效",
   "fileName": "文件名",
   "size": "大小",
-  "noPDFSupport": "您的浏览器不支持阅读PDF文件。请下载后阅读。",
-  "downloadPDF": "下载PDF",
+  "noPDFSupport": "您的浏览器不支持阅读 PDF 文件。请下载后阅读。",
+  "downloadPDF": "下载 PDF",
   "downloadInstead": "请尝试<1>下载</1>",
   "cantBePreviewed": "对不起，本文件不支持预览。",
   "addFile": "文件",
   "addFolder": "文件夹",
-  "addByPath": "来自IPFS",
+  "addByPath": "来自 IPFS",
   "addToIPFS": "添加",
   "newFolder": "新建文件夹",
-  "generating": "Generating...",
+  "generating": "生成 ...",
   "actions": {
     "add": "添加",
     "delete": "删除",
@@ -53,8 +53,8 @@
     "descriptionFile": "{count, plural, other {您是否确定要删除{count}个文件？本操作不可撤销。}}"
   },
   "addByPathModal": {
-    "title": "从IPFS添加",
-    "description": "输入IPFS路径（CID）以添加。",
+    "title": "从 IPFS 添加",
+    "description": "输入 IPFS 路径（ CID ）添加。",
     "examples": "示例："
   },
   "newFolderModal": {
@@ -63,16 +63,16 @@
   },
   "welcomeInfo": {
     "header": "欢迎使用 IPFS Web UI",
-    "paragraph1": "<0>检查你的<0>节点状态</0>，节点ID、连接信息、网络传输和已连接节点数量。</0>",
-    "paragraph2": "<0>更简单的<1>管理你IPFS库中文件</1>。你能通过拖放添加文件，移动并重命名它们，删除、分享或下载它们。</0>",
-    "paragraph3": "<0>你能<1>浏览IPLD数据</1>以深入了解IPFS是如何工作的。</0>",
-    "paragraph4": "<0>查看你所有<1>已连接的节点</1>，已经通过IP地址进行定位。</0>",
+    "paragraph1": "<0>检查你的<0>节点状态</0>，节点 ID 、连接信息、网络传输和已连接节点数量。</0>",
+    "paragraph2": "<0>更简单的<1>管理你 IPFS 库中文件</1>。你能通过拖放添加文件，移动并重命名它们，删除、分享或下载它们。</0>",
+    "paragraph3": "<0>你能<1>浏览 IPLD 数据</1>以深入了解 IPFS 是如何工作的。</0>",
+    "paragraph4": "<0>查看你所有<1>已连接的节点</1>，已经通过 IP 地址进行定位。</0>",
     "paragraph5": "<0>复查<0>你的节点设置</0>，并将其更新以更符合你的需求。</0>",
-    "paragraph6": "<0>如果你想帮助推动Web UI的发展，请<1>查看源码</1>或<3>报告bug</3>！</0>"
+    "paragraph6": "<0>如果你想帮助推动 Web UI 的发展，请<1>查看源码</1>或<3>报告 bug</3>！</0>"
   },
   "filesList": {
-    "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
+    "noFiles": "<0>这个目录中没有文件。请点击“添加”按钮上传文件。</0>"
   },
-  "addFilesInfo": "<0>通过点击<1>添加到IPFS</1>添加文件到你的本地IPFS节点。</0>",
-  "companionInfo": "<0>如果你正在使用<1>IPFS伴侣</1>，文件视图仅限于使用扩展程序时添加的文件。</0>"
+  "addFilesInfo": "<0>通过点击<1>添加到 IPFS </1>添加文件到你的本地 IPFS 节点。</0>",
+  "companionInfo": "<0>如果你正在使用<1> IPFS 伴侣</1>，文件视图仅限于使用扩展程序时添加的文件。</0>"
 }

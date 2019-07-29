@@ -4,7 +4,7 @@
   "peers": "节点",
   "addresses": "地址",
   "nodeInfo": "节点信息",
-  "peerId": "节点ID",
+  "peerId": "节点 ID",
   "gateway": "网关",
   "api": "API",
   "version": "版本",
@@ -26,24 +26,24 @@
   "in": "接收",
   "out": "发送",
   "codeLink": "查看源码",
-  "bugsLink": "报告bug",
+  "bugsLink": "报告 bug",
   "revision": "Revision",
   "StatusConnected": {
-    "header1": "连接到IPFS",
+    "header1": "连接到 IPFS",
     "paragraph1": "托管 <0>{repoSize} 文件</0>",
     "paragraph2": "{count, plural, other {发现 <0>{peersCount} 节点</0>}}"
   },
   "StatusNotConnected": {
-    "header1": "无法连接API",
-    "paragraph1": "<0>在终端中启动IPFS守护进程:</0>",
-    "paragraph2": "<0>获取开始使用IPFS的更多信息你可以 <1>阅读此向导</1>.</0>"
+    "header1": "无法连接 API",
+    "paragraph1": "<0>在终端中启动 IPFS 守护进程:</0>",
+    "paragraph2": "<0>获取开始使用 IPFS 的更多信息你可以 <1>阅读此向导</1>.</0>"
   },
   "AskToEnable": {
-    "label": "Help improve this app by sending anonymous usage data.",
-    "yesLabel": "OK",
-    "noLabel": "不用谢",
-    "detailsLabel": "More info"
+    "label": "向我们发送匿名输入来帮助我们改进。",
+    "yesLabel": "好的",
+    "noLabel": "不了",
+    "detailsLabel": "详细信息"
   },
-  "bandwidthStats": "Bandwidth Stats",
-  "bandwidthStatsDisabled": "You have the bandwidth metrics disabled. You can enable them by typing the command bellow or changing the key <1>Swarm.DisableBandwidthMetrics</1> to <3>false</3> on <5>Settings</5>. Then, you need to restart the IPFS daemon to apply the changes."
+  "bandwidthStats": "带宽状态",
+  "bandwidthStatsDisabled": "带宽度量已经禁用了。可以在 <5>配置</5> 中修改 <1>Swarm.DisableBandwidthMetrics</1> 为 <3>false</3> 来重新激活。 修改完成后，需要重新启动 IPFS 守护进程才能生效。"
 }
