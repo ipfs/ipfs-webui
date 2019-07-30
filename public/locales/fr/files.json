@@ -62,12 +62,12 @@
     "description": "Insérer le nom du dossier que vous voulez créer."
   },
   "welcomeInfo": {
-    "header": "Bienvenu sur l'interface Web d'IPFS",
-    "paragraph1": "<0><0>Vérifiez le statut </0> de votre noeuf, son ID de pair et infos de connexion, le trafic réseau et nombre de pairs connectés.</0>",
+    "header": "Bienvenue sur l'interface Web d'IPFS",
+    "paragraph1": "<0><0>Vérifiez le statut </0> de votre nœud, son ID de pair et infos de connexion, le trafic réseau et nombre de pairs connectés.</0>",
     "paragraph2": "<0><1>Gérez les fichiers</1> de votre dépôt IPFS facilement. Vous pouvez glisser et déposer pour ajouter des fichiers, les déplacer et renommer, les effacer, partager ou les télécharger.</0>",
     "paragraph3": "<0>Vous pouvez <1>explorer les données IPLD</1> qui sont à la base du fonctionnement d’IPFS.</0>",
     "paragraph4": "<0>Visualisez tout vos <1>pairs connectés</1>, géolocalisés par leur adresse IP.</0>",
-    "paragraph5": "<0><0>Vérifiez les paramètres</0> de votre nœud IPFS, et mettez les à jour pour mieux correspondre à vos besoins.</0>",
+    "paragraph5": "<0><0>Vérifiez les paramètres</0> de votre nœud IPFS, et mettez-les à jour pour mieux correspondre à vos besoins.</0>",
     "paragraph6": "<0>Si vous voulez aider à faire avancer l'interface Web, <1>vérifiez son code</1> ou <3>signalez un bug</3>!</0>"
   },
   "filesList": {
