@@ -2,7 +2,7 @@
   "title": "Bem-vindo ao IPFS",
   "configureApiPort": {
     "header": "Está a correr a API numa porta que não a 5001?",
-    "paragraph1": "<0>Se o seu nó IPFS está configurado com um <1>endereço de API diferente do padrão</1>, defina-o aqui por favor</0>"
+    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
   },
   "apiAddressForm": {
     "apiLabel": "ENDEREÇO DA API",
@@ -10,7 +10,7 @@
   },
   "connected": {
     "header": "Conectado ao IPFS",
-    "paragraph1": "<0>Agora é altura para explorar o seu nó. Aceda à <1>página Ficheiros</1> para gerir e partilhar os seus ficheiros ou explore a <3>Floresta Merkle</3> de dados ligados a hash alojado por par através do <5>Explorador IPLD</5>.</0>",
+    "paragraph1": "<0>Now, it’s time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
     "paragraph2": "<0>Pode sempre regressar a este endereço para alterar o nó IPFS ao qual está conectado.</0>"
   },
   "notConnected": {
@@ -24,8 +24,8 @@
     "header": "O que é o IPFS?",
     "paragraph1": "<0>O <0>IPFS é um protocolo</0> que define um sistema de ficheiros endereçado por conteúdo, coordena a entrega de conteúdo e combina ideias do Kademlia, BitTorrent, Git entre outros.</0>",
     "paragraph2": "<0>O <0>IPFS é um sistema de ficheiros.</0> Tem pastas e ficheiros e um sistema de ficheiros montável através do FUSE.</0>",
-    "paragraph3": "<0>O <0>IPFS é uma rede.</0> Os ficheiros são acessíveis através de gateways HTTP como <2>https://ipfs.io</2>. Os navegadores <4>podem ser expandidos</4> para usarem o esquema <6>ipfs://</6> diretamente, e o conteúdo endereçado por hash garante a autenticidade</0>",
+    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity.</0>",
     "paragraph4": "<0>O <0>IPFS é p2p.</0> Suporta transferências de ficheiros mundias de pare-para-par com uma arquitetura completamente descentralizada e sem um ponto de falha central.</0>",
-    "paragraph5": "<0>O <0>IPFS é um CDN (rede de entrega de conteúdo).</0> Adicione um ficheiro ao seu repositório, e estará agora disponível ao mundo com uma distribuição de endereçamento de conteúdo com hash e cache-friendly, assim como uma distribuição de largura de banda similar ao bittorrent.</0>"
+    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
   }
 }

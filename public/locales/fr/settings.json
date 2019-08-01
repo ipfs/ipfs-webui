@@ -1,14 +1,14 @@
 {
   "title": "Paramètres",
   "save": "Sauvegarder",
-  "saving": "Sauvegarde en cours...",
+  "saving": "Enregistrement...",
   "reset": "Réinitialiser",
   "language": "Langue",
   "config": "Config IPFS",
   "analytics": "Analyses",
   "languageModal": {
-    "title": "Changer de Langue",
-    "description": "Choisissez votre langue préférée"
+    "title": "Changer la langue",
+    "description": "Choisir votre langue préférée"
   },
   "actions": {
     "edit": "Changer",
@@ -18,18 +18,20 @@
   "configApiNotAvailable": "L'API de la configuration IPFS n'est pas disponible. Merci de désactiver l'extension IPFS-Companion et de réessayer.",
   "ipfsDaemonOffline": "Le démon IPFS est hors-ligne. S'il vous plait relancez-le.",
   "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre nœud IPFS est en cours d'exécution.",
-  "settingsHaveChanged": "Les paramètres ont changé, merci de cliquer sur<1>Reinitialisation</1>pour mettre à jour les changements",
+  "settingsHaveChanged": "Les paramètres ont changé. Cliquez sur <1>reset</1> pour mettre à jour l'éditeur de contenu.",
   "errorOccured": "Une erreur s'est produite pendant l'enregistrement de vos modifications",
   "checkConsole": "Vérifier la console du navigateur pour plus d'information.",
   "changesSaved": "Vos modifications ont été enregistrées.",
   "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du nœud IPFS.",
-  "ipfsConfigDescription": "Le fichier de configuration d'IPFS est un document JSON. Il est lu une seule fois au démarrage du nœud IPFS. Enregistrez vos modifications puis redémarrez le nœud IPFS pour qu'elles soient prises en compte.",
+  "ipfsConfigDescription": "Le fichier de configuration de IPFS est un document JSON. Il est lu lorsque le daemon IPFS est lancé. Enregistrez vos modifications, puis relancez le daemon IPFS pour les appliquer.",
   "ipfsDesktop": "Bureau IPFS",
+  "takeScreenshot": "Prendre une capture d'écran",
+  "takeScreenshotDescription": "Utilisez <0>{key1}</0> + <2>{key2}</2> +<3>{key3}</3> pour prendre des captures d'écran et les ajouter à votre dossier.",
+  "downloadHash": "Télécharger le hash",
+  "downloadHashDescription": "Utilisez <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> pour télécharger le dernier hash copié ou le chemin de votre système.",
   "launchOnStartup": "Exécuter au démarrage ",
-  "autoAddScreenshots": "Ajout auto des captures d'écran",
-  "autoAddScreenshotsDescription": "Utilisez la combinaison <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> pour réaliser des captures d'écran et les ajouter au dépôt.",
-  "downloadCopiedHash": "Télécharger le hash copié",
-  "downloadCopiedHashDescription": "Utilisez la combinaison <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> pour télécharger le dernier hash copié.",
+  "globalShortcuts": "Racourcis Globaux",
+  "globalShortcutsAre": "IPFS Desktop propose des fonctionalités qui peuvent être utilisées partout via des raccourcis clavier. Vous pouvez les activer ou les désactiver ici.",
   "AnalyticsToggle": {
     "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes",
     "summary": "Configurer ce qui est collecté",
@@ -39,23 +41,23 @@
     "optionalInfo": "Vous pouvez choisir d'envoyer les informations suivantes :",
     "sessions": {
       "label": "Sessions",
-      "summary": "quand et combien de temps vous utilisez l'application, ainsi que les statistiques du navigateur",
-      "details": "<0>Les statistiques de navigation suivantes sont envoyées :</0><1><0>Un ID d'appareil généré aléatoirement</0><1>Heure de début de la session</1><2>Délais périodiques pour le suivi de la durée</2><3>Version de l'application par ex. 2.4.4.4</3><4>Langue par ex. fr-FR</4><5>User Agent par exemple Mozilla/5.0 (Macintosh ; Intel Mac OS X 10_14_2)...</5><6>Résolution de l'écran par ex. 800x600</6><7>Densité des pixels de l'écran par ex. 1</7></1>"
+      "summary": "Où et quand utiliser l'application, et les métriques du navigateur",
+      "details": "<0>Les métriques de navigateur suivantes sont envoyées:</0><1><0>Un device ID généré aléatoirement</0><1>Un timestamp du démarage de la session</1><2>Des timestamps réguliers pour mesurer sa durée</2><3>La version de l'application; par exemple 2.4.4</3><4>La localisation: par exemple; fr-FR</4><5>Le user agent; par exemlple Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>La résolution d'écran; par exemple 800x600</6><7>La densité de l'écran en pixels; par exemple 1</7></1>"
     },
     "events": {
       "label": "Événements",
       "summary": "des actions telles que l'ajout ou la suppression de fichiers, et combien de temps cela a pris",
-      "details": "Actions spécifiques à l'application. Nous notons seulement que l'action a eu lieu, combien de temps il a fallu du début à la fin, et un décompte si l'événement comportait plusieurs éléments."
+      "details": "Des actions spécifiques à l'application. Nous enregistrons seulement les actions qui se passent, combien de temps s'est déroulé entre son début et sa fin, et un décompte si l'évènement concerne plusieurs éléments."
     },
     "views": {
       "label": "Pages consultées",
-      "summary": "les sections de l'application que vous visitez",
-      "details": "Enregistre quelles sections des applications sont visitées. Les chemins enregistrés n'incluent que le modèle utilisé pour correspondre à un chemin plutôt que l'url complète. "
+      "summary": "Quelles sections de l'application vous visitez",
+      "details": "Enregistre quelles sections de l'application sont visitées. Les chemins enregistrés n'inclut que le motif utiliser pour le trouver et non l'URL complète."
     },
     "location": {
       "label": "Emplacement",
-      "summary": "Indicatif de pays à partir de l'adresse IP. L'adresse IP est effacée.",
-      "details": "Votre adresse IP est utilisée pour calculer un code de pays pour votre localisation, comme \"FR\" pour la France. Lorsque le consentement n'est pas donné pour suivre l'emplacement, une propriété d'emplacement vide est envoyée avec toutes les demandes pour signaler au serveur de désactiver la recherche de l'emplacement. Ces informations nous aident à orienter nos efforts de traduction et à déterminer où nous devrions organiser des événements."
+      "summary": "Le code Pays de l'adresse IP (l'adresse elle-même n'est pas enregistrée)",
+      "details": "Votre adresse IP est utilisée pour calculer son code Pays, comme \"FR\" pour la France. Quand nous n'avons pas de consentement pour enregistrer la localisation, une propriété de localisation vide est envoyé au serveur pour désactiver cette recherche de localisation. Cette information nous aide à orienter nos efforts de traduction et à déterminer où organiser des évènements."
     },
     "crashes": {
       "label": "Erreurs de l'application",
