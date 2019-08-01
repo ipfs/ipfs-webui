@@ -2,15 +2,14 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import i18n from '../../../i18n-decorator'
-import RenameModal from './RenameModal'
+import NewFolderModal from './NewFolderModal'
 
 storiesOf('Files/Modals', module)
   .addDecorator(i18n)
-  .add('Rename', () => (
+  .add('New Folder', () => (
     <div className='ma3'>
-      <RenameModal
-        filename='my-agenda.markdown'
+      <NewFolderModal
         onCancel={action('Cancel')}
-        onSubmit={action('Rename')} />
+        onSubmit={action('Submit')} />
     </div>
   ))

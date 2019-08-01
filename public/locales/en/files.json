@@ -32,6 +32,8 @@
     "clear": "Clear",
     "create": "Create",
     "save": "Save",
+    "pin": "Pin",
+    "unpin": "Unpin",
     "unselectAll": "Unselect all"
   },
   "shareModal": {
@@ -74,5 +76,14 @@
     "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
   },
   "addFilesInfo": "<0>Add files to your local IPFS node by clicking the <1>Add to IPFS</1> button above.</0>",
-  "companionInfo": "<0>As you are using <1>IPFS Companion</1>, the files view is limited to files added while using the extension.</0>"
+  "companionInfo": "<0>As you are using <1>IPFS Companion</1>, the files view is limited to files added while using the extension.</0>",
+  "exploreForm": {
+    "explore": "Explore"
+  },
+  "hashUnavailable": "hash unavailable",
+  "pins": "Pins",
+  "pinned": "Pinned",
+  "blocks": "Blocks",
+  "more": "More",
+  "files": "Files"
 }

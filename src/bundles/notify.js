@@ -1,5 +1,6 @@
 import { createSelector } from 'redux-bundler'
 import { ACTIONS as EXP_ACTIONS } from './experiments'
+import { ACTIONS as FILES_ACTIONS } from './files'
 
 /*
 # Notify
@@ -85,7 +86,28 @@ const notify = {
       }
 
       if (eventId === 'FILES_EVENT_FAILED') {
-        return code === 'ERR_FOLDER_EXISTS' ? 'folderExists' : 'filesEventFailed'
+        let type = code ? code.replace(/^(ERR_)/, '') : ''
+
+        switch (type) {
+          case 'FOLDER_EXISTS':
+            return 'folderExists'
+          case FILES_ACTIONS.WRITE:
+          case FILES_ACTIONS.ADD_BY_PATH:
+          case 'API_RESPONSE':
+            return 'filesAddFailed'
+          case FILES_ACTIONS.FETCH:
+            return 'filesFetchFailed'
+          case FILES_ACTIONS.MOVE:
+            return 'filesRenameFailed'
+          case FILES_ACTIONS.MAKE_DIR:
+            return 'filesMakeDirFailed'
+          case FILES_ACTIONS.COPY:
+            return 'filesCopyFailed'
+          case FILES_ACTIONS.DELETE:
+            return 'filesDeleteFailed'
+          default:
+            return 'filesEventFailed'
+        }
       }
 
       if (eventId === 'STATS_FETCH_FINISHED') {

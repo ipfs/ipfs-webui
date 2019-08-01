@@ -1,37 +1,30 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'redux-bundler-react'
 import { join } from 'path'
 import { translate } from 'react-i18next'
 import Overlay from '../../components/overlay/Overlay'
+// Modals
 import NewFolderModal from './new-folder-modal/NewFolderModal'
 import ShareModal from './share-modal/ShareModal'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
-
+import AddByPathModal from './add-by-path-modal/AddByPathModal'
+// Constants
 const NEW_FOLDER = 'new_folder'
 const SHARE = 'share'
 const RENAME = 'rename'
 const DELETE = 'delete'
+const ADD_BY_PATH = 'add_by_path'
 
 export {
   NEW_FOLDER,
   SHARE,
   RENAME,
-  DELETE
+  DELETE,
+  ADD_BY_PATH
 }
 
 class Modals extends React.Component {
-  static propTypes = {
-    t: PropTypes.func,
-    show: PropTypes.string,
-    files: PropTypes.array,
-    doFilesMove: PropTypes.func,
-    doFilesMakeDir: PropTypes.func,
-    doFilesShareLink: PropTypes.func,
-    doFilesDelete: PropTypes.func
-  }
-
   state = {
     readyToShow: false,
     rename: {
@@ -47,19 +40,22 @@ class Modals extends React.Component {
     link: ''
   }
 
-  makeDir = (path) => {
-    const { doFilesMakeDir, root } = this.props
+  onAddByPath = (path) => {
+    this.props.onAddByPath(path)
+    this.leave()
+  }
 
-    doFilesMakeDir(join(root, path))
+  makeDir = (path) => {
+    this.props.onMakeDir(join(this.props.root, path))
     this.leave()
   }
 
   rename = (newName) => {
     const { filename, path } = this.state.rename
-    const { doFilesMove } = this.props
+    const { onMove } = this.props
 
     if (newName !== '' && newName !== filename) {
-      doFilesMove([path, path.replace(filename, newName)])
+      onMove(path, path.replace(filename, newName))
     }
 
     this.leave()
@@ -68,7 +64,7 @@ class Modals extends React.Component {
   delete = () => {
     const { paths } = this.state.delete
 
-    this.props.doFilesDelete(paths)
+    this.props.onDelete(paths)
     this.leave()
   }
 
@@ -78,46 +74,52 @@ class Modals extends React.Component {
   }
 
   componentDidUpdate (prev) {
-    const { show, files, t, doFilesShareLink } = this.props
+    const { show, files, t, onShareLink } = this.props
 
     if (show === prev.show) {
       return
     }
 
-    if (show === SHARE) {
-      this.setState({
-        link: t('generating'),
-        readyToShow: true
-      })
+    switch (show) {
+      case SHARE:
+        this.setState({
+          link: t('generating'),
+          readyToShow: true
+        })
 
-      doFilesShareLink(files).then(link => this.setState({ link }))
-    } else if (show === RENAME) {
-      const file = files[0]
+        onShareLink(files).then(link => this.setState({ link }))
+        break
 
-      this.setState({
-        readyToShow: true,
-        rename: {
-          folder: file.type === 'directory',
-          path: file.path,
-          filename: file.path.split('/').pop()
-        }
-      })
-    } else if (show === DELETE) {
-      let filesCount = 0
-      let foldersCount = 0
+      case RENAME:
+        const file = files[0]
 
-      files.forEach(file => file.type === 'file' ? filesCount++ : foldersCount++)
+        this.setState({
+          readyToShow: true,
+          rename: {
+            folder: file.type === 'directory',
+            path: file.path,
+            filename: file.path.split('/').pop()
+          }
+        })
+        break
 
-      this.setState({
-        readyToShow: true,
-        delete: {
-          files: filesCount,
-          folders: foldersCount,
-          paths: files.map(f => f.path)
-        }
-      })
-    } else {
-      this.setState({ readyToShow: true })
+      case DELETE:
+        let filesCount = 0
+        let foldersCount = 0
+
+        files.forEach(file => file.type === 'file' ? filesCount++ : foldersCount++)
+
+        this.setState({
+          readyToShow: true,
+          delete: {
+            files: filesCount,
+            folders: foldersCount,
+            paths: files.map(f => f.path)
+          }
+        })
+        break
+      default:
+        this.setState({ readyToShow: true })
     }
   }
 
@@ -156,15 +158,27 @@ class Modals extends React.Component {
             onCancel={this.leave}
             onDelete={this.delete} />
         </Overlay>
+
+        <Overlay show={show === ADD_BY_PATH && readyToShow} onLeave={this.leave}>
+          <AddByPathModal
+            className='outline-0'
+            onSubmit={this.onAddByPath}
+            onCancel={this.leave} />
+        </Overlay>
       </div>
     )
   }
 }
 
-export default connect(
-  'doFilesMove',
-  'doFilesMakeDir',
-  'doFilesShareLink',
-  'doFilesDelete',
-  translate('files')(Modals)
-)
+Modals.propTypes = {
+  t: PropTypes.func.isRequired,
+  show: PropTypes.string,
+  files: PropTypes.array,
+  onAddByPath: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
+  onMakeDir: PropTypes.func.isRequired,
+  onShareLink: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired
+}
+
+export default translate('files')(Modals)
