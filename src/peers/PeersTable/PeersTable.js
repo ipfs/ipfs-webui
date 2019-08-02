@@ -53,7 +53,7 @@ export class PeersTable extends React.Component {
   }
 
   peerIdCellRenderer = ({ cellData }) => (
-    <Cid value={cellData} />
+    <Cid value={cellData} identicon />
   )
 
   notesCellRenderer = ({ cellData }) => {
@@ -66,7 +66,7 @@ export class PeersTable extends React.Component {
         i18nKey='viaRelay'
         defaults='via <0>{node}</0>'
         values={{ node: cellData.node }}
-        components={[<Cid value={cellData.node} />]} />
+        components={[<Cid value={cellData.node} identicon />]} />
     }
   }
 
