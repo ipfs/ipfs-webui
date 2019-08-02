@@ -185,25 +185,14 @@ class FilesPage extends React.Component {
   }
 
   render () {
-    const {
-      files, filesPathInfo, ipfsProvider, writeFilesProgress, filesSorting: sort, t,
-      doFilesMove, doFilesNavigateTo, doFilesUpdateSorting,
-      toursEnabled, handleJoyrideCallback
-    } = this.props
-
-    const { newFolder, share, rename, delete: deleteModal, contextMenu } = this.state
-
-    const isCompanion = ipfsProvider === 'window.ipfs'
-    const filesExist = files && files.content && files.content.length
-    const isRoot = files && files.path === '/'
+    const { t, files, filesPathInfo, toursEnabled, handleJoyrideCallback } = this.props
+    const { contextMenu } = this.state
 
     return (
       <div data-id='FilesPage' className='mw9 center'>
         <Helmet>
           <title>{this.title}</title>
         </Helmet>
-
-        {/* <Breadcrumbs className='joyride-files-breadcrumbs' path={files.path} onClick={doFilesNavigateTo} /> */}
 
         <ContextMenu
           ref={this.contextMenuRef}
@@ -303,7 +292,6 @@ export default connect(
   'doFilesUnpin',
   'doFilesUpdateSorting',
   'selectGatewayUrl',
-  'selectWriteFilesProgress',
   'selectFilesSorting',
   'selectToursEnabled',
   'doFilesWrite',
