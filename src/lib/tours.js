@@ -110,15 +110,8 @@ export const filesTour = {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step3.title')}</h2>
         <p className='tl f6'>{t('tour.step3.paragraph1')}</p>
-      </div>,
-      placement: 'bottom',
-      target: '.joyride-files-folder'
-    },
-    {
-      content: <div className='montserrat charcoal'>
-        <h2 className='f3 fw4'>{t('tour.step4.title')}</h2>
-        <p className='tl f6'>{t('tour.step4.paragraph1')}</p>
-        <Trans i18nKey='tour.step4.paragraph2'>
+        <p className='tl f6'>{t('tour.step3.paragraph2')}</p>
+        <Trans i18nKey='tour.step3.paragraph3'>
           <p className='tl f6'>
             If you want to add something that is already on IPFS, you can import it to your MFS by passing its <a className='aqua link' href='https://docs.ipfs.io/guides/concepts/cid/' rel='noopener noreferrer' target='_blank'>Content
             Identifier (CID)</a>.

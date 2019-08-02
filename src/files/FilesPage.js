@@ -214,7 +214,6 @@ class FilesPage extends React.Component {
           onUnpin={() => this.props.doFilesUnpin(contextMenu.file.hash)} />
 
         <Header
-          className='joyride-files-add'
           files={files}
           onNavigate={this.props.doFilesNavigateTo}
           onAddFiles={this.onAddFiles}

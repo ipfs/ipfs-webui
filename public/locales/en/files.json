@@ -88,13 +88,10 @@
       "paragraph1": "The current work directory, you can navigate through the folder hierarchy by clicking on them."
     },
     "step3": {
-      "title": "New folder",
-      "paragraph1": "Creates an empty folder in the current directory."
-    },
-    "step4": {
       "title": "Add files",
-      "paragraph1": "You can add files or folders to your repo through this dropdown.",
-      "paragraph2": "<0>If you want to add something that is already on IPFS, you can import it to your MFS by passing its <1>Content Identifier (CID)</1>.</0>"
+      "paragraph1": "Here you can see how many blocks and files you have pinned.",
+      "paragraph2": "You can add files or folders to your repo through the dropdown on the right.",
+      "paragraph3": "<0>If you want to add something that is already on IPFS, you can import it to your MFS by passing its <1>Content Identifier (CID)</1>.</0>"
     },
     "step5": {
       "title": "Files list",

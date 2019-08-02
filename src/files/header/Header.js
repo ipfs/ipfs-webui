@@ -44,10 +44,10 @@ class Header extends React.Component {
     return (
       <div className='db flex-l justify-between items-center'>
         <div className='mb3 overflow-hidden mr2'>
-          <Breadcrumbs path={files ? files.path : '/404'} onClick={onNavigate} />
+          <Breadcrumbs className="joyride-files-breadcrumbs" path={files ? files.path : '/404'} onClick={onNavigate} />
         </div>
 
-        <div className='mb3 flex justify-between items-center bg-snow-muted'>
+        <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
           <BarOption title={t('blocks')}>
             { repoNumObjects ? SimplifyNumber(repoNumObjects, { decimal: 0 }) : 'N/A' }
           </BarOption>
