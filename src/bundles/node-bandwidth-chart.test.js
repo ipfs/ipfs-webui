@@ -10,6 +10,9 @@ const mockNodeBandwidthBundle = {
   reducer (state = { data: null }, action) {
     return action.type === 'UPDATE_MOCK_NODE_BANDWIDTH' ? action.payload : state
   },
+  selectNodeBandwidth: state => state.nodeBandwidth.data,
+  selectNodeBandwidthLastSuccess: state => state.nodeBandwidth.lastSuccess,
+  selectNodeBandwidthEnabled: () => true,
   selectNodeBandwidthRaw: state => state.nodeBandwidth
 }
 

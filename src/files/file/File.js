@@ -2,12 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { join, basename } from 'path'
 import filesize from 'filesize'
+import { translate } from 'react-i18next'
 import classnames from 'classnames'
+import { filesToStreams } from '../../lib/files'
 // React DnD
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 // Components
 import GlyphDots from '../../icons/GlyphDots'
+import GlyphPin from '../../icons/GlyphPin'
 import Tooltip from '../../components/tooltip/Tooltip'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
@@ -17,9 +20,8 @@ class File extends React.Component {
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    cumulativeSize: PropTypes.number,
-    hash: PropTypes.string.isRequired,
+    size: PropTypes.number,
+    hash: PropTypes.string,
     selected: PropTypes.bool,
     focused: PropTypes.bool,
     onSelect: PropTypes.func,
@@ -29,6 +31,8 @@ class File extends React.Component {
     coloured: PropTypes.bool,
     translucent: PropTypes.bool,
     handleContextMenuClick: PropTypes.func,
+    pinned: PropTypes.bool,
+    isMfs: PropTypes.bool,
     // Injected by DragSource and DropTarget
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -43,19 +47,19 @@ class File extends React.Component {
   }
 
   handleCtxLeftClick = (ev) => {
-    const { name, type, size, hash, path } = this.props
-    const dotsPosition = this.dotsWrapper.getBoundingClientRect()
-    this.props.handleContextMenuClick(ev, 'LEFT', { name, size, type, hash, path }, dotsPosition)
+    const { name, type, size, hash, path, pinned } = this.props
+    const pos = this.dotsWrapper.getBoundingClientRect()
+    this.props.handleContextMenuClick(ev, 'LEFT', { name, size, type, hash, path, pinned }, pos)
   }
 
   handleCtxRightClick = (ev) => {
-    const { name, type, size, hash, path } = this.props
-    this.props.handleContextMenuClick(ev, 'RIGHT', { name, size, type, hash, path })
+    const { name, type, size, hash, path, pinned } = this.props
+    this.props.handleContextMenuClick(ev, 'RIGHT', { name, size, type, hash, path, pinned })
   }
 
   render () {
     let {
-      selected, focused, translucent, coloured, hash, name, type, size, cumulativeSize, onSelect, onNavigate,
+      t, selected, focused, translucent, coloured, hash, name, type, size, pinned, onSelect, onNavigate,
       isOver, canDrop, cantDrag, cantSelect, connectDropTarget, connectDragPreview, connectDragSource,
       styles = {}
     } = this.props
@@ -82,9 +86,8 @@ class File extends React.Component {
     styles.height = 55
     styles.overflow = 'hidden'
 
-    size = (type === 'directory' && !cumulativeSize)
-      ? '―'
-      : filesize(cumulativeSize || size, { round: 0 })
+    size = size ? filesize(size, { round: 0 }) : '-'
+    hash = hash || t('hashUnavailable')
 
     const select = (select) => onSelect(name, select)
 
@@ -113,7 +116,12 @@ class File extends React.Component {
             </div>
           </div>
         )}
-        <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted'>
+        <div className='ph2 pv1 flex-none dn db-l tr mw3'>
+          { pinned && <div className='bg-snow br-100 o-70' title={t('pinned')} style={{ width: '1.5rem', height: '1.5rem' }}>
+            <GlyphPin className='fill-teal-muted' />
+          </div> }
+        </div>
+        <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
           {size}
         </div>
         <div ref={el => { this.dotsWrapper = el }} className='ph2' style={{ width: '2.5rem' }}>
@@ -138,6 +146,7 @@ const dragSource = {
     setIsDragging()
     return { name, type, path }
   },
+  canDrag: props => props.isMfs,
   endDrag: (props) => { props.setIsDragging(false) }
 }
 
@@ -152,15 +161,19 @@ const dropTarget = {
     const item = monitor.getItem()
 
     if (item.hasOwnProperty('files')) {
-      props.onAddFiles(item, props.path)
+      (async () => {
+        const files = await item.filesPromise
+        props.onAddFiles(await filesToStreams(files), props.path)
+      })()
     } else {
       const src = item.path
       const dst = join(props.path, basename(item.path))
 
-      props.onMove([src, dst])
+      props.onMove(src, dst)
     }
   },
   canDrop: (props, monitor) => {
+    if (!props.isMfs) return false
     const item = monitor.getItem()
 
     if (item.hasOwnProperty('name')) {
@@ -181,6 +194,6 @@ const dropCollect = (connect, monitor) => ({
 
 export default DragSource(File.TYPE, dragSource, dragCollect)(
   DropTarget([File.TYPE, NativeTypes.FILE], dropTarget, dropCollect)(
-    File
+    translate('files')(File)
   )
 )

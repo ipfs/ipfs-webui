@@ -4,6 +4,7 @@ import { translate, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import ReactJoyride from 'react-joyride'
 import StatusConnected from './StatusConnected'
+import BandwidthStatsDisabled from './BandwidthStatsDisabled'
 import StatusNotConnected from './StatusNotConnected'
 import NodeInfo from './NodeInfo'
 import NodeInfoAdvanced from './NodeInfoAdvanced'
@@ -21,7 +22,8 @@ const StatusPage = ({
   doEnableAnalytics,
   doDisableAnalytics,
   toursEnabled,
-  handleJoyrideCallback
+  handleJoyrideCallback,
+  nodeBandwidthEnabled
 }) => {
   return (
     <div data-id='StatusPage' className='mw9 center'>
@@ -56,31 +58,36 @@ const StatusPage = ({
           onYes={doEnableAnalytics}
           onNo={doDisableAnalytics} />
       }
-      <Box className='mt3 pa3' style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
-        <div className='flex flex-column flex-row-l joyride-status-charts'>
-          <div className='pr0 pr2-l flex-auto'>
-            <NodeBandwidthChart />
-          </div>
-          <div className='dn db-l pl3 pr5'>
-            <NetworkTraffic />
-          </div>
-        </div>
-      </Box>
-
-      <ReactJoyride
-        run={toursEnabled}
-        steps={statusTour.getSteps({ t, Trans })}
-        styles={statusTour.styles}
-        callback={handleJoyrideCallback}
-        continuous
-        scrollToFirstStep
-        showProgress />
+      <div style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
+        { nodeBandwidthEnabled
+          ? <Box className='mt3 pa3'>
+            <div className='flex flex-column flex-row-l joyride-status-charts'>
+              <div className='pr0 pr2-l flex-auto'>
+                <NodeBandwidthChart />
+              </div>
+              <div className='dn db-l pl3 pr5'>
+                <NetworkTraffic />
+              </div>
+            </div>
+          </Box>
+          : <BandwidthStatsDisabled />
+        }
+        <ReactJoyride
+          run={toursEnabled}
+          steps={statusTour.getSteps({ t, Trans })}
+          styles={statusTour.styles}
+          callback={handleJoyrideCallback}
+          continuous
+          scrollToFirstStep
+          showProgress />
+      </div>
     </div>
   )
 }
 
 export default connect(
   'selectIpfsConnected',
+  'selectNodeBandwidthEnabled',
   'selectAnalyticsAskToEnable',
   'selectToursEnabled',
   'doEnableAnalytics',

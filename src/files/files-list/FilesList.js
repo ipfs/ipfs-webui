@@ -7,6 +7,7 @@ import { Trans, translate } from 'react-i18next'
 import classnames from 'classnames'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
+import { filesToStreams } from '../../lib/files'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 // Reac DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -14,14 +15,12 @@ import { DropTarget } from 'react-dnd'
 // Components
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
-import ContextMenu from '../context-menu/ContextMenu'
 import File from '../file/File'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation'
 
 export class FilesList extends React.Component {
   constructor (props) {
     super(props)
-    this.contextMenuRef = React.createRef()
     this.listRef = React.createRef()
   }
 
@@ -29,7 +28,7 @@ export class FilesList extends React.Component {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
     upperDir: PropTypes.object,
-    sort: PropTypes.shape({
+    filesSorting: PropTypes.shape({
       by: PropTypes.string.isRequired,
       asc: PropTypes.bool.isRequired
     }),
@@ -37,6 +36,7 @@ export class FilesList extends React.Component {
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
     filesIsFetching: PropTypes.bool,
+    filesPathInfo: PropTypes.object,
     // React Drag'n'Drop
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -63,13 +63,7 @@ export class FilesList extends React.Component {
     selected: [],
     focused: null,
     firstVisibleRow: null,
-    isDragging: false,
-    contextMenu: {
-      isOpen: false,
-      translateX: 0,
-      translateY: 0,
-      currentFile: null
-    }
+    isDragging: false
   }
 
   filesRefs = {}
@@ -90,13 +84,7 @@ export class FilesList extends React.Component {
 
   get selectedMenu () {
     const unselectAll = () => this.toggleAll(false)
-    const size = this.selectedFiles.reduce((a, b) => {
-      if (b.cumulativeSize) {
-        return a + b.cumulativeSize
-      }
-
-      return a + b.size
-    }, 0)
+    const size = this.selectedFiles.reduce((a, b) => a + (b.size || 0), 0)
     const show = this.state.selected.length !== 0
 
     // We need this to get the width in ems
@@ -114,34 +102,11 @@ export class FilesList extends React.Component {
         rename={() => this.props.onRename(this.selectedFiles)}
         share={() => this.props.onShare(this.selectedFiles)}
         download={() => this.props.onDownload(this.selectedFiles)}
-        inspect={() => this.props.onInspect(this.selectedFiles)}
+        inspect={() => this.props.onInspect(this.selectedFiles[0].hash)}
         count={this.state.selected.length}
+        isMfs={this.props.filesPathInfo.isMfs}
         downloadProgress={this.props.downloadProgress}
         size={size} />
-    )
-  }
-
-  get contextMenu () {
-    const { contextMenu } = this.state
-    const isUpperDir = contextMenu.currentFile && contextMenu.currentFile.type === 'directory' && contextMenu.currentFile.name === '..'
-
-    return (
-      <div className='ph2 pv1 relative' style={{ width: '2.5rem' }}>
-        <ContextMenu
-          ref={this.contextMenuRef}
-          isOpen={contextMenu.isOpen}
-          translateX={contextMenu.translateX}
-          translateY={contextMenu.translateY}
-          handleClick={this.handleContextMenuClick}
-          isUpperDir={isUpperDir}
-          showDots={false}
-          onShare={() => this.props.onShare([contextMenu.currentFile])}
-          onDelete={() => this.props.onDelete([contextMenu.currentFile])}
-          onRename={() => this.props.onRename([contextMenu.currentFile])}
-          onInspect={() => this.props.onInspect([contextMenu.currentFile])}
-          onDownload={() => this.props.onDownload([contextMenu.currentFile])}
-          hash={contextMenu.currentFile && contextMenu.currentFile.hash} />
-      </div>
     )
   }
 
@@ -257,7 +222,7 @@ export class FilesList extends React.Component {
     this.listRef.current.forceUpdateGrid()
   }
 
-  move = ([src, dst]) => {
+  move = (src, dst) => {
     const selected = this.selectedFiles
 
     if (selected.length > 0) {
@@ -280,25 +245,25 @@ export class FilesList extends React.Component {
       }
 
       this.toggleAll(false)
-      toMove.forEach(op => this.props.onMove(op))
+      toMove.forEach(op => this.props.onMove(...op))
     } else {
-      this.props.onMove([src, dst])
+      this.props.onMove(src, dst)
     }
   }
 
   sortByIcon = (order) => {
-    if (this.props.sort.by === order) {
-      return this.props.sort.asc ? '↑' : '↓'
+    if (this.props.filesSorting.by === order) {
+      return this.props.filesSorting.asc ? '↑' : '↓'
     }
 
     return null
   }
 
   changeSort = (order) => () => {
-    const { sort, updateSorting } = this.props
+    const { filesSorting, updateSorting } = this.props
 
-    if (order === sort.by) {
-      updateSorting(order, !sort.asc)
+    if (order === filesSorting.by) {
+      updateSorting(order, !filesSorting.asc)
     } else {
       updateSorting(order, true)
     }
@@ -322,7 +287,7 @@ export class FilesList extends React.Component {
           onAddFiles={onAddFiles}
           onMove={this.move}
           setIsDragging={this.isDragging}
-          handleContextMenuClick={this.handleContextMenuClick}
+          handleContextMenuClick={this.props.handleContextMenuClick}
           translucent={isDragging || (isOver && canDrop)}
           name='..'
           focused={focused === '..'}
@@ -340,7 +305,7 @@ export class FilesList extends React.Component {
   }
 
   rowRenderer = ({ index, key, style }) => {
-    const { files, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
+    const { files, pins, upperDir, filesIsMfs, isOver, canDrop, onNavigate, onAddFiles } = this.props
     const { selected, focused, isDragging } = this.state
 
     if (upperDir) {
@@ -349,15 +314,15 @@ export class FilesList extends React.Component {
         return (
           <div key={key} style={style}>
             <File
-              ref={r => { this.filesRefs['..'] = r }}
+              ref={r => { this.filesRefs[upperDir.name] = r }}
               onNavigate={() => onNavigate(upperDir.path)}
               onAddFiles={onAddFiles}
               onMove={this.move}
               setIsDragging={this.isDragging}
-              handleContextMenuClick={this.handleContextMenuClick}
+              handleContextMenuClick={this.props.handleContextMenuClick}
+              isMfs={filesIsMfs}
               translucent={isDragging || (isOver && canDrop)}
-              name='..'
-              focused={focused === '..'}
+              focused={focused === upperDir.name}
               cantDrag
               cantSelect
               {...upperDir} />
@@ -372,7 +337,9 @@ export class FilesList extends React.Component {
       <div key={key} style={style}>
         <File
           {...files[index]}
+          pinned={pins.includes(files[index].hash)}
           ref={r => { this.filesRefs[files[index].name] = r }}
+          isMfs={filesIsMfs}
           name={files[index].name}
           onSelect={this.toggleOne}
           onNavigate={() => onNavigate(files[index].path)}
@@ -381,49 +348,13 @@ export class FilesList extends React.Component {
           focused={focused === files[index].name}
           selected={selected.indexOf(files[index].name) !== -1}
           setIsDragging={this.isDragging}
-          handleContextMenuClick={this.handleContextMenuClick}
+          handleContextMenuClick={this.props.handleContextMenuClick}
           translucent={isDragging || (isOver && canDrop)} />
       </div>
     )
   }
 
   onRowsRendered = ({ startIndex }) => this.setState({ firstVisibleRow: startIndex })
-
-  handleContextMenuClick = (ev, clickType, file, dotsPosition) => {
-    // This is needed to disable the native OS right-click menu
-    // and deal with the clicking on the ContextMenu options
-    if (ev !== undefined && typeof ev !== 'string') {
-      ev.preventDefault()
-      ev.persist()
-    }
-
-    const ctxMenu = findDOMNode(this.contextMenuRef.current)
-    const ctxMenuPosition = ctxMenu.getBoundingClientRect()
-
-    if (clickType === 'RIGHT') {
-      this.setState(state => ({
-        ...state,
-        contextMenu: {
-          ...state.contextMenu,
-          isOpen: !state.contextMenu.isOpen,
-          translateX: (ctxMenuPosition.x + ctxMenuPosition.width / 2) - ev.clientX,
-          translateY: (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10,
-          currentFile: file
-        }
-      }))
-    } else {
-      this.setState(state => ({
-        ...state,
-        contextMenu: {
-          ...state.contextMenu,
-          isOpen: !state.contextMenu.isOpen,
-          translateX: (ctxMenuPosition.x + ctxMenuPosition.width / 2) - (dotsPosition && dotsPosition.x) - 19,
-          translateY: (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (dotsPosition && dotsPosition.y) - 30,
-          currentFile: file
-        }
-      }))
-    }
-  }
 
   render () {
     let { t, files, className, upperDir, showLoadingAnimation, connectDropTarget } = this.props
@@ -451,7 +382,10 @@ export class FilesList extends React.Component {
                   {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
                 </span>
               </div>
-              <div className='pl2 pr4 tr f6 flex-none dn db-l'>
+              <div className='ph2 pv1 flex-none dn db-l tr mw3'>
+                { /* Badges */ }
+              </div>
+              <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
                 <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
                   {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
                 </span>
@@ -476,13 +410,13 @@ export class FilesList extends React.Component {
                         onRowsRendered={this.onRowsRendered}
                         isScrolling={isScrolling}
                         onScroll={onChildScroll}
-                        scrollTop={scrollTop} />
+                        scrollTop={scrollTop}
+                        data={files /* NOTE: this is a placebo prop to force the list to re-render */} />
                     )}
                   </AutoSizer>
                 </div>
               )}
             </WindowScroller>
-            {this.contextMenu}
             {this.selectedMenu}
           </Fragment> }
       </section>
@@ -495,11 +429,16 @@ const dropTarget = {
     if (monitor.didDrop()) {
       return
     }
+    const { filesPromise } = monitor.getItem()
 
-    const item = monitor.getItem()
+    const add = async () => {
+      const files = await filesPromise
+      onAddFiles(await filesToStreams(files))
+    }
 
-    onAddFiles(item)
-  }
+    add()
+  },
+  canDrop: props => props.filesIsMfs
 }
 
 const dropCollect = (connect, monitor) => ({
@@ -512,7 +451,10 @@ export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, 
 
 export default connect(
   'selectNavbarWidth',
+  'selectPins',
   'selectFilesIsFetching',
+  'selectFilesSorting',
+  'selectFilesPathInfo',
   'selectShowLoadingAnimation',
   FilesListWithDropTarget
 )

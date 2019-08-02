@@ -3,7 +3,7 @@
   "tabName": "Explore",
   "homeLink": "Home",
   "UpdateAvailable": {
-    "paragraph1": "A new version of IPLD Explorer is available, <1>please reload</1>"
+    "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
   },
   "StartExploringPage": {
     "title": "Explore - IPLD",
@@ -22,7 +22,7 @@
     "explore": "Explore"
   },
   "CidInfo": {
-    "header": "CID Info",
+    "header": "CID info",
     "hashDigest": "Hash digest"
   },
   "ObjectInfo": {

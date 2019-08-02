@@ -30,7 +30,7 @@ const NavLink = ({
   const anchorClass = classnames({
     'bg-white-10': active,
     'o-50 no-pointer-events': disabled
-  }, ['dib db-l pv3 white no-underline focus-outline f5 hover-bg-white-10 tc'])
+  }, ['dib db-l pv3 white no-underline f5 hover-bg-white-10 tc'])
   const svgClass = classnames({
     'o-100': active,
     'o-50': !active
@@ -38,7 +38,7 @@ const NavLink = ({
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <a href={disabled ? null : href} className={anchorClass} role='menuitem' title={children}>
+    <a href={disabled ? null : href} className={anchorClass} style={{ borderLeft: active ? '5px solid rgba(201, 210, 215, .4)' : '' }} role='menuitem' title={children}>
       <span className={`dib ${open ? 'dt-l' : ''}`}>
         <span className={`dib dtc-l v-mid ${open ? 'pl3 pl5-l' : 'ph3'}`} style={{ width: 50 }}>
           <Svg width='50' className={svgClass} />
@@ -51,7 +51,7 @@ const NavLink = ({
   )
 }
 
-export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
+export const NavBar = ({ t, width, open, onToggle }) => {
   const codeUrl = 'https://github.com/ipfs-shipyard/ipfs-webui'
   const bugsUrl = `${codeUrl}/issues`
   const gitRevision = process.env.REACT_APP_GIT_REV
@@ -65,10 +65,10 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
         </div>
         <nav className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
           <NavLink to='/' exact icon={StrokeMarketing} open={open}>{t('status:title')}</NavLink>
-          <NavLink to='/files/' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
+          <NavLink to='/files' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
           <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
           <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
-          <NavLink to='/settings' icon={StrokeSettings} disabled={!isSettingsEnabled} open={open}>{t('settings:title')}</NavLink>
+          <NavLink to='/settings' icon={StrokeSettings} open={open}>{t('settings:title')}</NavLink>
         </nav>
       </div>
       { open &&
@@ -86,12 +86,9 @@ export const NavBar = ({ t, isSettingsEnabled, width, open, onToggle }) => {
   )
 }
 
-export const NavBarContainer = ({ doToggleNavbar, configRaw, navbarIsOpen, navbarWidth, ...props }) => {
-  const isSettingsEnabled = !!configRaw.data
-
+export const NavBarContainer = ({ doToggleNavbar, navbarIsOpen, navbarWidth, ...props }) => {
   return (
     <NavBar
-      isSettingsEnabled={isSettingsEnabled}
       open={navbarIsOpen}
       width={navbarWidth}
       onToggle={doToggleNavbar}
@@ -101,7 +98,6 @@ export const NavBarContainer = ({ doToggleNavbar, configRaw, navbarIsOpen, navba
 
 export default connect(
   'doToggleNavbar',
-  'selectConfigRaw',
   'selectNavbarIsOpen',
   'selectNavbarWidth',
   translate()(NavBarContainer)

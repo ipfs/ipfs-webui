@@ -11,7 +11,7 @@ import filesListC from './fixtures/list-with-100-files.json'
 import filesListE from './fixtures/list-with-1000-files.json'
 import filesListF from './fixtures/list-with-5000-files.json'
 
-storiesOf('Files List', module)
+storiesOf('Files/Files List', module)
   .addDecorator(i18nDecorator)
   .addDecorator(DndDecorator)
   .addDecorator(withKnobs)
@@ -19,6 +19,7 @@ storiesOf('Files List', module)
     <div className='h-100'>
       <FilesList
         root='/'
+        pins={[]}
         files={filesListA}
         filesIsFetching={boolean('filesIsFetching', false)}
         onShare={action('Share')}
@@ -29,13 +30,14 @@ storiesOf('Files List', module)
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
         maxWidth={'100%'}
-        sort={{ by: 'name', asc: true }} />
+        filesSorting={{ by: 'name', asc: true }} />
     </div>
   ))
   .add('List with 100 files', () => (
     <div className='h-100'>
       <FilesList
         root='/'
+        pins={[]}
         files={filesListC}
         filesIsFetching={boolean('filesIsFetching', false)}
         onShare={action('Share')}
@@ -46,13 +48,14 @@ storiesOf('Files List', module)
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
         maxWidth={'100%'}
-        sort={{ by: 'name', asc: true }} />
+        filesSorting={{ by: 'name', asc: true }} />
     </div>
   ))
   .add('List with 1000 files', () => (
     <div className='h-100'>
       <FilesList
         root='/'
+        pins={[]}
         files={filesListE}
         filesIsFetching={boolean('filesIsFetching', false)}
         onShare={action('Share')}
@@ -63,13 +66,14 @@ storiesOf('Files List', module)
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
         maxWidth={'100%'}
-        sort={{ by: 'name', asc: true }} />
+        filesSorting={{ by: 'name', asc: true }} />
     </div>
   ))
   .add('List with 5000 files', () => (
     <div className='h-100'>
       <FilesList
         root='/'
+        pins={[]}
         files={filesListF}
         filesIsFetching={boolean('filesIsFetching', false)}
         onShare={action('Share')}
@@ -80,6 +84,6 @@ storiesOf('Files List', module)
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
         maxWidth={'100%'}
-        sort={{ by: 'name', asc: true }} />
+        filesSorting={{ by: 'name', asc: true }} />
     </div>
   ))

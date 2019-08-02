@@ -14,12 +14,13 @@ import LanguageSelector from '../components/language-selector/LanguageSelector'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import JsonEditor from './editor/JsonEditor'
 import DesktopSettings from './DesktopSettings'
+import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
 export const SettingsPage = ({
-  t, tReady,
+  t, tReady, isIpfsConnected,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
@@ -30,9 +31,7 @@ export const SettingsPage = ({
       <title>{t('title')} - IPFS</title>
     </Helmet>
 
-    { isIpfsDesktop &&
-      <DesktopSettings />
-    }
+    { isIpfsDesktop && <DesktopSettings /> }
 
     <Box className='mb3 pa4'>
       <div className='mb4 joyride-settings-language'>
@@ -46,7 +45,9 @@ export const SettingsPage = ({
       </div>
     </Box>
 
-    <Box className='joyride-settings-config'>
+    <Box className='mb3 pa4 joyride-settings-config'>
+      <Experiments t={t} />
+
       <Title>{t('config')}</Title>
       <div className='flex pb3'>
         <div className='flex-auto'>
@@ -55,6 +56,7 @@ export const SettingsPage = ({
               t={t}
               tReady={tReady}
               config={config}
+              isIpfsConnected={isIpfsConnected}
               isConfigBlocked={isConfigBlocked}
               isLoading={isLoading}
               hasExternalChanges={hasExternalChanges}
@@ -85,13 +87,13 @@ export const SettingsPage = ({
           </div>
         ) : null }
       </div>
-      {config ? (
+      { config ? (
         <JsonEditor
           value={config}
           onChange={onChange}
           readOnly={isSaving}
           key={editorKey} />
-      ) : null}
+      ) : null }
     </Box>
 
     <ReactJoyride
@@ -125,11 +127,17 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
   )
 }
 
-const SettingsInfo = ({ t, isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config }) => {
+const SettingsInfo = ({ t, isIpfsConnected, isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config }) => {
   if (isConfigBlocked) {
     return (
       <p className='ma0 lh-copy charcoal f5 mw7'>
         {t('configApiNotAvailable')}
+      </p>
+    )
+  } else if (!isIpfsConnected) {
+    return (
+      <p className='ma0 lh-copy charcoal f5 mw7'>
+        {t('ipfsDaemonOffline')}
       </p>
     )
   } else if (!config) {
@@ -238,7 +246,7 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled, handleJoyrideCallback } = this.props
+    const { t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled, handleJoyrideCallback } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
@@ -247,6 +255,7 @@ export class SettingsPageContainer extends React.Component {
       <SettingsPage
         t={t}
         tReady={tReady}
+        isIpfsConnected={ipfsConnected}
         isConfigBlocked={isConfigBlocked}
         isLoading={isLoading}
         isSaving={configIsSaving}
@@ -273,6 +282,7 @@ export const TranslatedSettingsPage = translate('settings')(SettingsPageContaine
 
 export default connect(
   'selectConfig',
+  'selectIpfsConnected',
   'selectIsConfigBlocked',
   'selectConfigLastError',
   'selectConfigIsLoading',

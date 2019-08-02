@@ -1,16 +1,16 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import i18n from '../../i18n-decorator'
-import DeleteModal from './DeleteModal'
+import i18n from '../../../i18n-decorator'
+import AddByPathModal from './AddByPathModal'
 
-storiesOf('Files', module)
+storiesOf('Files/Modals', module)
   .addDecorator(i18n)
-  .add('Delete Modal', () => (
+  .add('Add By Path', () => (
     <div className='ma3'>
-      <DeleteModal
+      <AddByPathModal
         onCancel={action('Cancel')}
-        onDelete={action('Delete')}
+        onSubmit={action('Delete')}
         files={4}
         folders={0} />
     </div>

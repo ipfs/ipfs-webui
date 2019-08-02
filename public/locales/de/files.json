@@ -8,15 +8,16 @@
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
   "fileName": "Dateiname",
   "size": "Größe",
-  "noPDFSupport": "Dein Browser untersützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen",
+  "noPDFSupport": "Dein Browser unterstützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen:",
   "downloadPDF": "PDF herunterladen.",
   "downloadInstead": "Versuche stattdessen, es <1>herunterzuladen</1>.",
   "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",
-  "addFile": "File",
-  "addFolder": "Folder",
-  "addByPath": "From IPFS",
+  "addFile": "Datei",
+  "addFolder": "Ordner",
+  "addByPath": "Aus IPFS",
   "addToIPFS": "Hinzufügen",
   "newFolder": "Neuer Ordner",
+  "generating": "Erstelle...",
   "actions": {
     "add": "Hinzufügen",
     "delete": "Löschen",
@@ -52,9 +53,9 @@
     "descriptionFile": "{count, plural, one {Bist du sicher, dass du dieses Dokument löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du {count} Dokumente löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}"
   },
   "addByPathModal": {
-    "title": "Add from IPFS",
-    "description": "Insert an IPFS path (CID) to add.",
-    "examples": "Examples:"
+    "title": "Aus IPFS hinzufügen",
+    "description": "Tragen Sie einen IPFS Pfad (CID) zum Hinzufügen ein.",
+    "examples": "Beispiele:"
   },
   "newFolderModal": {
     "title": "Neuer Ordner",
@@ -70,7 +71,7 @@
     "paragraph6": "<0>Wenn Du helfen möchtest, die Web-UI weiter zu gestalten, <1>schau Dir den Quelltext an</1> oder <3>melde einen Fehler</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>In diesem Verzeichnis befinden sich keine Dateien. Klicke auf den “Zum IPFS hinzufügen”-Knopf, um einige hinzuzufügen.</0>"
+    "noFiles": "<0>Keine Dateien in diesem Ordner. Wählen Sie  “Hinzufügen”, um Dateien hinzuzufügen.</0>"
   },
   "addFilesInfo": "<0>Füge Dateien zu Deinem IPFS-Node hinzu, indem du oben auf den <1>\"Zum IPFS hinzufügen\"</1>-Knopf klickst.</0>",
   "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>"

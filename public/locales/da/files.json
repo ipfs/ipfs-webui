@@ -17,6 +17,7 @@
   "addByPath": "Fra IPFS",
   "addToIPFS": "Tilføj",
   "newFolder": "Ny mappe",
+  "generating": "Opretter...",
   "actions": {
     "add": "Tilføj",
     "delete": "Slet",
@@ -70,7 +71,7 @@
     "paragraph6": "<0>Hvis du ønsker at bidrage med at skubbe Web brugergrænsegladen fremad, <1>så tjek koden</1> eller <3>indrapport en fejl </3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>Ingen filer i dette bibliotek. Klik på “Tilføj til IPFS\"-knappen for at tilføje nogle.</0>"
+    "noFiles": "<0>Ingen filer i dette bibliotek. Klik på “Tilføj” knappen for at tilføje nogle.</0>"
   },
   "addFilesInfo": "<0>Tilføj filer til din lokale IPFS klient ved at klikke på <1>Tilføj til IPFS</1> knappen foroven.</0>",
   "companionInfo": "<0>Eftersom du benytter <1>IPFS Følgesvend</1>, vil fil-visningen være begrænset til filer der benyttes mens udvidelsen benyttes.</0>"

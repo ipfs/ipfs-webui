@@ -1,43 +1,20 @@
 import fileReader from 'pull-file-reader'
 import CID from 'cids'
 
-const ignore = [
-  '.DS_Store',
-  'thumbs.db',
-  'desktop.ini'
-]
-
 export async function filesToStreams (files) {
-  if (files.hasOwnProperty('content')) {
-    // this is a promise
-    return files.content
-  }
-
   const streams = []
-  let totalSize = 0
-  let isDir = false
 
   for (let file of files) {
-    if (ignore.includes(file.name)) {
-      continue
-    }
-
     const stream = fileReader(file)
 
-    if (file.webkitRelativePath) {
-      isDir = true
-    }
-
     streams.push({
-      path: file.webkitRelativePath || file.name,
+      path: file.filepath || file.webkitRelativePath || file.name,
       content: stream,
       size: file.size
     })
-
-    totalSize += file.size
   }
 
-  return { streams, totalSize, isDir }
+  return streams
 }
 
 async function downloadSingle (file, gatewayUrl, apiUrl) {

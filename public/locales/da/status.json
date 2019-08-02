@@ -39,9 +39,11 @@
     "paragraph2": "<0>For mere info om at komme i gang med IPFS, kan du <1>læse guiden</1>.</0>"
   },
   "AskToEnable": {
-    "label": "Help improve this app by sending anonymous usage data.",
+    "label": "Hjælp med at forbedre denne App ved at sende anonyme brugsdata.",
     "yesLabel": "OK",
     "noLabel": "Nej tak",
-    "detailsLabel": "More info"
-  }
+    "detailsLabel": "Mere info"
+  },
+  "bandwidthStats": "Båndbredde statistik",
+  "bandwidthStatsDisabled": "Du har slået båndbreddemåling fra. Du kan slå det til igen ved at indtaste kommandoen neden for eller ved at ændre nøglen <1>Swarm.DisableBandwidthMetrics</1> til <3>false</3> for <5>Indstillinger</5>. Dernæst, er du nød til at genstarte IPFS baggrunds-processen for at ændringerne træder i kraft."
 }
