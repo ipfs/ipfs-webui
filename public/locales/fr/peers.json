@@ -5,7 +5,10 @@
   "address": "Adresse",
   "location": "Emplacement",
   "unknownLocation": "Iconnu",
-  "addConnection": "Ajouter Connexion",
+  "latency": "latence",
+  "bootstrapNode": "pairs de démarrage",
+  "viaRelay": "via<0>{node}</0>",
+  "addConnection": "Ajouter une connexion",
   "insertPeerAddress": "Indiquer l'adresse du pair auquel vous souhaitez vous connecter",
   "add": "Ajouter",
   "example": "Exemple:"

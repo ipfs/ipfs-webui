@@ -2,7 +2,7 @@
   "title": "歡迎來到 IPFS",
   "configureApiPort": {
     "header": "您的 API 是否在 5001 以外的端口上？",
-    "paragraph1": "<0>如果您的IPFS節點配置<1>自定義API地址</1>，請在此處進行設置</0>"
+    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
   },
   "apiAddressForm": {
     "apiLabel": "API 地址",
@@ -10,7 +10,7 @@
   },
   "connected": {
     "header": "連接到 IPFS",
-    "paragraph1": "<0>現在，是時候探索您的節點了。 前往<1>文件頁面</1>以管理和共享您的文件，或通過 <5>IPLD資源管理器</5>探索<3>Merkle Forest</3> 的對等託管哈希鏈接數據。<0>",
+    "paragraph1": "<0>Now, it’s time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
     "paragraph2": "<0>您可以隨時回到這個地址來改變你連接到 IPFS節點。</0>"
   },
   "notConnected": {
@@ -24,8 +24,8 @@
     "header": "什麼是 IPFS？",
     "paragraph1": "<0><0> IPFS是一種協議</0>，它定義了內容尋址文件系統，協調內容傳遞並結合來自 Kademlia，BitTorrent，Git 等的創意。</0>",
     "paragraph2": "<0><0>IPFS是一個文件系統。</0> 它通過 FUSE 具有目錄和文件以及可掛載的文件系統。</0>",
-    "paragraph3": "<0><0>IPFS是一個網絡系統。</0>文件可以通過 HTTP 網關訪問<2>https://ipfs.io</2>。瀏覽器 <4>也可以追加</4>使用 <6>ipfs://</6>直接地使用哈希地址值以保證內容真實性</0>",
+    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity.</0>",
     "paragraph4": "<0><0>IPFS 是 p2p。</0> 它支持全球對等文件傳輸，具有完全分散的體系結構，排除中心化故障問題。</0>",
-    "paragraph5": "<0><0>IPFS 是 CDN.</0> 不但將文件添加到本地存儲庫，還能以哈希尋址方法把文件作為内容緩存，類似 bittorrent 的頻寬分享。</0>"
+    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
   }
 }

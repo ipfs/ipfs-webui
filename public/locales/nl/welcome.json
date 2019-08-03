@@ -2,7 +2,7 @@
   "title": "Welkom bij IPFS",
   "configureApiPort": {
     "header": "Is je API poort anders dan 5001?",
-    "paragraph1": "<0>Als je IPFS node geconfigureerd is met een <1>gepersponalseerd API adres</1>, stel het dan hier in.</0>"
+    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
   },
   "apiAddressForm": {
     "apiLabel": "API ADRES",
@@ -10,7 +10,7 @@
   },
   "connected": {
     "header": "Verbind met IPFS",
-    "paragraph1": "<0>Verken nu je IPFS node. Ga naar de <1>bestanden pagina</1> om je gedeelde bestanden, het <3>Merkle forest</3>of gedeelde hash-gelinkte data via de <5>IPLD verkenner</5>te verkennen en beheren.</0>",
+    "paragraph1": "<0>Now, it’s time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
     "paragraph2": "<0>Via dit adres kan je steeds de de IPFS node wijzigen waarmee je verbindt.</0>"
   },
   "notConnected": {
@@ -24,8 +24,8 @@
     "header": "Wat is IPFS?",
     "paragraph1": "<0><0>IPFS is een protocol</0> dat een inhoud-geadresseerd file systeem definieert, het ophalen coördineer en ideeën van onder andere Kademlia, BitTorrent en Git combineert.</0>",
     "paragraph2": "<0><0>IPFS is een bestandssysteem.</0> Het heeft bestanden en mappen en een mountbaar bestandssysteem door gebruik te maken van FUSE.</0>",
-    "paragraph3": "<0><0>IPFS is een web.</0> Bestanden zijn toegankelijk via HTTP gateways zoals <2>https://ipfs.io</2>. Browsers <4>kunnen uitgebreid worden</4> om rechtstreeks gebruik te maken van het <6>ipfs://</6> schema en hash-geadresseerde inhoud verzekerd de authenticiteit van de data</0>",
+    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity.</0>",
     "paragraph4": "<0><0>IPFS is p2p.</0> Het ondersteund wereldwijde peer-to-peer overdracht van bestanden met een volledig gedecentraliseerde architectuur, zonder centrale zwakke punten.</0>",
-    "paragraph5": "<0><0>IPFS is een CDN.</0> Voeg bestanden toe aan je lokale repository en ze zijn wereldwijd beschikbaar met cache-vriendelijke inhoud-hash adressering en bandbreedteverdeling gelijk aan BitTorrent.</0>"
+    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
   }
 }
