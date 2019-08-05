@@ -160,6 +160,7 @@ const dropTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem()
 
+    // eslint-disable-next-line no-prototype-builtins
     if (item.hasOwnProperty('files')) {
       (async () => {
         const files = await item.filesPromise
@@ -176,6 +177,7 @@ const dropTarget = {
     if (!props.isMfs) return false
     const item = monitor.getItem()
 
+    // eslint-disable-next-line no-prototype-builtins
     if (item.hasOwnProperty('name')) {
       return props.type === 'directory' &&
         props.name !== item.name &&

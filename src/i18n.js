@@ -36,8 +36,8 @@ i18n
     fallbackLng: {
       'zh-Hans': ['zh-CN', 'en'],
       'zh-Hant': ['zh-TW', 'en'],
-      'zh': ['zh-CN', 'en'],
-      'default': ['en']
+      zh: ['zh-CN', 'en'],
+      default: ['en']
     },
     debug: process.env.NODE_ENV !== 'production',
     backend: {
