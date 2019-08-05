@@ -305,7 +305,7 @@ export class FilesList extends React.Component {
   }
 
   rowRenderer = ({ index, key, style }) => {
-    const { files, pins, upperDir, filesIsMfs, isOver, canDrop, onNavigate, onAddFiles } = this.props
+    const { files, pins, upperDir, filesPathInfo, isOver, canDrop, onNavigate, onAddFiles } = this.props
     const { selected, focused, isDragging } = this.state
 
     if (upperDir) {
@@ -320,7 +320,7 @@ export class FilesList extends React.Component {
               onMove={this.move}
               setIsDragging={this.isDragging}
               handleContextMenuClick={this.props.handleContextMenuClick}
-              isMfs={filesIsMfs}
+              isMfs={filesPathInfo.isMfs}
               translucent={isDragging || (isOver && canDrop)}
               focused={focused === upperDir.name}
               cantDrag
@@ -339,7 +339,7 @@ export class FilesList extends React.Component {
           {...files[index]}
           pinned={pins.includes(files[index].hash)}
           ref={r => { this.filesRefs[files[index].name] = r }}
-          isMfs={filesIsMfs}
+          isMfs={filesPathInfo.isMfs}
           name={files[index].name}
           onSelect={this.toggleOne}
           onNavigate={() => onNavigate(files[index].path)}
@@ -438,7 +438,7 @@ const dropTarget = {
 
     add()
   },
-  canDrop: props => props.filesIsMfs
+  canDrop: props => props.filesPathInfo.isMfs
 }
 
 const dropCollect = (connect, monitor) => ({
