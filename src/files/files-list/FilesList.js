@@ -209,8 +209,8 @@ export class FilesList extends React.Component {
   }
 
   toggleOne = (name, check) => {
-    let selected = this.state.selected
-    let index = selected.indexOf(name)
+    const selected = this.state.selected
+    const index = selected.indexOf(name)
 
     if (check && index < 0) {
       selected.push(name)

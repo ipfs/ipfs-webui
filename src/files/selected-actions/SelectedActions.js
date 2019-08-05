@@ -86,7 +86,7 @@ class SelectedActions extends React.Component {
   }
 
   render () {
-    let { t, tReady, count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
+    const { t, tReady, count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
 
     const isSingle = count === 1
 

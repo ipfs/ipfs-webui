@@ -30,7 +30,7 @@ function makeEntry (item) {
 }
 
 function makeDropEvent (items) {
-  let event = new window.Event('drop')
+  const event = new window.Event('drop')
 
   event.dataTransfer = {
     items: items.map(item => {

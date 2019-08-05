@@ -23,7 +23,7 @@ const WorldMap = ({ t, className }) => {
     width = 700
   }
   // the map has a native proportion, so account for that when we set the height.
-  let height = width * 0.273
+  const height = width * 0.273
   return (
     <div className={`relative ${className}`}>
       <div className='mb4 overflow-hidden flex flex-column items-center'>

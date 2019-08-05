@@ -161,7 +161,7 @@ export default {
   sid: 'image',
   ras: 'image',
   sun: 'image',
-  '123': 'calc',
+  123: 'calc',
   '12m': 'calc',
   _xls: 'calc',
   _xlsx: 'calc',
