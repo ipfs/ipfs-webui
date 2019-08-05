@@ -32,7 +32,7 @@ i18n
   .use(XHR)
   .use(LanguageDetector)
   .init({
-    ns: ['welcome', 'status', 'files', 'explore', 'peers', 'settings', 'notify'],
+    ns: ['app', 'welcome', 'status', 'files', 'explore', 'peers', 'settings', 'notify'],
     fallbackLng: {
       'zh-Hans': ['zh-CN', 'en'],
       'zh-Hant': ['zh-TW', 'en'],

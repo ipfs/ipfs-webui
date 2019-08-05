@@ -3,10 +3,14 @@ import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
+import { translate, Trans } from 'react-i18next'
+import ReactJoyride from 'react-joyride'
+// Lib
+import { filesTour } from '../lib/tours'
 import downloadFile from './download-file'
-import { translate } from 'react-i18next'
 // Components
 import ContextMenu from './context-menu/ContextMenu'
+import withTour from '../components/tour/withTour'
 import InfoBoxes from './info-boxes/InfoBoxes'
 import FilePreview from './file-preview/FilePreview'
 import FilesList from './files-list/FilesList'
@@ -181,7 +185,7 @@ class FilesPage extends React.Component {
   }
 
   render () {
-    const { files, filesPathInfo } = this.props
+    const { t, files, filesPathInfo, toursEnabled, handleJoyrideCallback } = this.props
     const { contextMenu } = this.state
 
     return (
@@ -232,6 +236,15 @@ class FilesPage extends React.Component {
           onDelete={this.props.doFilesDelete}
           onAddByPath={this.onAddByPath}
           { ...this.state.modals } />
+
+        <ReactJoyride
+          run={toursEnabled}
+          steps={filesTour.getSteps({ t, Trans })}
+          styles={filesTour.styles}
+          callback={handleJoyrideCallback}
+          continuous
+          scrollToFirstStep
+          showProgress />
       </div>
     )
   }
@@ -277,7 +290,10 @@ export default connect(
   'doFilesPin',
   'doFilesUnpin',
   'doFilesUpdateSorting',
+  'selectGatewayUrl',
+  'selectFilesSorting',
+  'selectToursEnabled',
   'doFilesWrite',
   'doFilesDownloadLink',
-  translate('files')(FilesPage)
+  withTour(translate('files')(FilesPage))
 )

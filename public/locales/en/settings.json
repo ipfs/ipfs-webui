@@ -4,8 +4,8 @@
   "saving": "Saving…",
   "reset": "Reset",
   "language": "Language",
-  "config": "IPFS Config",
   "analytics": "Analytics",
+  "config": "IPFS Config",
   "languageModal": {
     "title": "Change language",
     "description": "Pick your preferred language."
@@ -63,6 +63,27 @@
       "label": "App errors",
       "summary": "JavaScript error messages and stack traces",
       "details": "Records JavaScript error messages and stack traces that occur while using the app, where possible. It is very helpful to know when the app is not working for you, but <1>error messages may include identifiable information</1> like CIDs or file paths, so only enable this if you are comfortable sharing that information with us."
+    }
+  },
+  "tour": {
+    "step1": {
+      "title": "Settings page",
+      "paragraph1": "Here you can change the settings of your Web UI and IPFS node.",
+      "paragraph2": "If you're running IPFS Desktop you'll have some specific settings for it too."
+    },
+    "step2": {
+      "title": "Language selector",
+      "paragraph1": "<0>You can change the language of the Web UI. If your preferred language isn't available, head over our project page in <1>Transifex</1> to help us translate!</0>"
+    },
+    "step3": {
+      "title": "Anonymous usage analytics",
+      "paragraph1": "If you opt-in, you can help us make the Web UI better by sending anonymous usage analytics.",
+      "paragraph2": "You're able to choose what data you send us and we won't be able to identify you, we value privacy above all else."
+    },
+    "step4": {
+      "title": "IPFS Config",
+      "paragraph1": "You can change the config of your IPFS node right from Web UI!",
+      "paragraph2": "Don't forget to restart the daemon to apply the changes."
     }
   },
   "Experiments": {

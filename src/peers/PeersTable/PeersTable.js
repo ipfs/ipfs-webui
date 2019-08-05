@@ -10,6 +10,7 @@ import { sortByProperty } from '../../lib/sort'
 export class PeersTable extends React.Component {
   static propTypes = {
     peerLocationsForSwarm: PropTypes.array,
+    className: PropTypes.string,
     t: PropTypes.func.isRequired
   }
 
@@ -48,7 +49,7 @@ export class PeersTable extends React.Component {
     const style = { width: '60px' }
 
     return cellData
-      ? <span class='dib tr' style={style}>{cellData}</span>
+      ? <span className='dib tr' style={style}>{cellData}</span>
       : <span className='dib tr o-40' style={style}>-</span>
   }
 
@@ -79,14 +80,14 @@ export class PeersTable extends React.Component {
   }
 
   render () {
-    const { peerLocationsForSwarm, t } = this.props
+    const { className, peerLocationsForSwarm, t } = this.props
     const { sortBy, sortDirection } = this.state
 
     const sortedList = (peerLocationsForSwarm || []).sort(sortByProperty(sortBy === 'latency' ? 'rawLatency' : sortBy, sortDirection === SortDirection.ASC ? 1 : -1))
     const tableHeight = 400
 
     return (
-      <div className='bg-white-70 center' style={{ 'height': `${tableHeight}px`, maxWidth: 1764 }}>
+      <div className={`bg-white-70 center ${className}`} style={{ 'height': `${tableHeight}px`, maxWidth: 1764 }}>
         { peerLocationsForSwarm && <AutoSizer disableHeight>
           {({ width }) => (
             <Table

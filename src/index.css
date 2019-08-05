@@ -18,3 +18,12 @@ body {
 html, body, #root {
   height: 100%;
 }
+
+/* =========================
+    React Joyride overrides
+   ========================= */
+
+.react-joyride__tooltip button {
+  font-size: 14px !important;
+  font-family: 'Montserrat';
+}
