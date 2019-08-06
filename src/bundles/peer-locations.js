@@ -29,12 +29,7 @@ export default function (opts) {
     resolvingPeers: []
   }
 
-  const cache = getConfiguredCache({
-    name: 'peerLocations',
-    version: 1,
-    maxAge: ms.weeks(1),
-    ...opts.cache
-  })
+  const peerLocResolver = new PeerLocationResolver(opts)
 
   return {
     name: 'peerLocations',
@@ -185,40 +180,15 @@ export default function (opts) {
     doResolvePeerLocation: ({ peerId, addr }) => async ({ dispatch, store, getIpfs }) => {
       dispatch({ type: 'PEER_LOCATIONS_RESOLVE_STARTED', payload: { peerId, addr } })
 
-      let location = await cache.get(peerId)
-
-      if (location) {
-        dispatch({
-          type: 'PEER_LOCATIONS_RESOLVE_FINISHED',
-          payload: { peerId, addr, location }
-        })
-
-        return
-      }
-
-      const ipfs = getIpfs()
-
+      let location = null
       try {
-        const ipv4Tuple = Multiaddr(addr).stringTuples().find(isNonHomeIPv4)
-
-        if (!ipv4Tuple) {
-          throw new Error(`Unable to resolve location for non-IPv4 address ${addr}`)
-        }
-
-        location = await new Promise((resolve, reject) => {
-          geoip.lookup(ipfs, ipv4Tuple[1], (err, data) => {
-            if (err) return reject(err)
-            resolve(data)
-          })
-        })
+        location = await peerLocResolver.lookupWithCaches(peerId, addr, getIpfs)
       } catch (err) {
         return dispatch({
           type: 'PEER_LOCATIONS_RESOLVE_FAILED',
           payload: { peerId, addr, error: err }
         })
       }
-
-      cache.set(peerId, location)
 
       dispatch({
         type: 'PEER_LOCATIONS_RESOLVE_FINISHED',
@@ -315,5 +285,70 @@ const parseNotes = (peer, bootstrapPeers) => {
 
   if (opts.transport === 'p2p-circuit') {
     return { type: 'RELAY_NODE', node: opts.host }
+  }
+}
+
+class PeerLocationResolver {
+  constructor (opts) {
+    this.peerLocCache = getConfiguredCache({
+      name: 'peerLocations',
+      version: 1,
+      maxAge: ms.weeks(1),
+      ...opts.cache
+    })
+
+    this.geoipCache = getConfiguredCache({
+      name: 'geoipCache',
+      version: 1,
+      maxAge: ms.weeks(1),
+      ...opts.cache
+    })
+
+    this.geoipLookupPromises = {}
+  }
+
+  async lookupWithCaches (peerId, addr, getIpfs) {
+    // maybe we have it cached by peerid already
+    let location = await this.peerLocCache.get(peerId)
+    if (location) {
+      return location
+    }
+
+    const ipv4Tuple = Multiaddr(addr).stringTuples().find(isNonHomeIPv4)
+    if (!ipv4Tuple) {
+      throw new Error(`Unable to resolve location for non-IPv4 address ${addr}`)
+    }
+
+    var ipv4Addr = ipv4Tuple[1]
+
+    // maybe we have it cached by ipv4 address already, check that.
+    location = await this.geoipCache.get(ipv4Addr)
+    if (location) {
+      return location
+    }
+
+    // no ip address cached. are we looking it up already?
+    var locPromise = this.geoipLookupPromises[ipv4Addr]
+
+    if (!locPromise) {
+      locPromise = new Promise((resolve, reject) => {
+        const ipfs = getIpfs()
+        geoip.lookup(ipfs, ipv4Addr, (err, data) => {
+          // save it in the caches, and remove the promise.
+          this.geoipCache.set(ipv4Addr, data)
+          this.peerLocCache.set(peerId, data)
+          delete this.geoipLookupPromises[ipv4Addr]
+
+          if (err) return reject(err)
+          resolve(data)
+        })
+      })
+
+      // set the promise here, so we only look it up once.
+      this.geoipLookupPromises[ipv4Addr] = locPromise
+    }
+
+    location = await locPromise
+    return location
   }
 }
