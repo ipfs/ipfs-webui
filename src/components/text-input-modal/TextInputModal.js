@@ -80,7 +80,7 @@ class TextInputModal extends React.Component {
   }
 
   render () {
-    let {
+    const {
       onCancel,
       onChange,
       mustBeDifferent,

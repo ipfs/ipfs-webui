@@ -5,7 +5,7 @@ import { translate } from 'react-i18next'
 import * as d3 from 'd3'
 import staticMapSrc from './StaticMap.svg'
 
-const WorldMap = ({ t }) => {
+const WorldMap = ({ t, className }) => {
   // Caluate a sensible size for the map
   const { innerWidth } = window
   // the d3 generated svg width includes a lot of ocean, that we crop for now, as it looks weird.
@@ -23,9 +23,9 @@ const WorldMap = ({ t }) => {
     width = 700
   }
   // the map has a native proportion, so account for that when we set the height.
-  let height = width * 0.273
+  const height = width * 0.273
   return (
-    <div className='relative'>
+    <div className={`relative ${className}`}>
       <div className='mb4 overflow-hidden flex flex-column items-center'>
         <div style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
           <GeoPath width={width} height={height}>

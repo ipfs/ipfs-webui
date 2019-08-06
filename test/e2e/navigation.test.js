@@ -25,8 +25,8 @@ it('Navigation test: node running', async () => {
   await page.goto(appUrl)
   await waitForTitle('Status - IPFS')
 
-  await page.click('nav a[href="#/files/"]')
-  await waitForTitle('Files - IPFS')
+  await page.click('nav a[href="#/files"]')
+  await waitForTitle('/ - Files - IPFS')
 
   await page.click('nav a[href="#/explore"]')
   await waitForTitle('Explore – IPLD')

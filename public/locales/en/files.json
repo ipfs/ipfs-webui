@@ -32,6 +32,8 @@
     "clear": "Clear",
     "create": "Create",
     "save": "Save",
+    "pin": "Pin",
+    "unpin": "Unpin",
     "unselectAll": "Unselect all"
   },
   "shareModal": {
@@ -74,5 +76,37 @@
     "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
   },
   "addFilesInfo": "<0>Add files to your local IPFS node by clicking the <1>Add to IPFS</1> button above.</0>",
-  "companionInfo": "<0>As you are using <1>IPFS Companion</1>, the files view is limited to files added while using the extension.</0>"
+  "companionInfo": "<0>As you are using <1>IPFS Companion</1>, the files view is limited to files added while using the extension.</0>",
+  "tour": {
+    "step1": {
+      "title": "Files page",
+      "paragraph1": "<0>This is where the files on your <1>Mutable File System (MFS)</1> live. You can add files or folders and manage them from this page.</0>",
+      "paragraph2": "Continue to learn more."
+    },
+    "step2": {
+      "title": "Breadcrumbs",
+      "paragraph1": "The current work directory, you can navigate through the folder hierarchy by clicking on them."
+    },
+    "step3": {
+      "title": "Add files",
+      "paragraph1": "Here you can see how many blocks and files you have pinned.",
+      "paragraph2": "You can add files or folders to your repo through the dropdown on the right.",
+      "paragraph3": "<0>If you want to add something that is already on IPFS, you can import it to your MFS by passing its <1>Content Identifier (CID)</1>.</0>"
+    },
+    "step5": {
+      "title": "Files list",
+      "paragraph1": "Finally, the listing where you can find your files and folders. Drag and drop files or folders to add them.",
+      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or delete them!",
+      "paragraph3": "Pro tip: drag and drop a file from any other page of the Web UI to add them to the root of your MFS."
+    }
+  },
+  "exploreForm": {
+    "explore": "Explore"
+  },
+  "hashUnavailable": "hash unavailable",
+  "pins": "Pins",
+  "pinned": "Pinned",
+  "blocks": "Blocks",
+  "more": "More",
+  "files": "Files"
 }

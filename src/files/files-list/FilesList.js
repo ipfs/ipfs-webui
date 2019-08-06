@@ -28,7 +28,7 @@ export class FilesList extends React.Component {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
     upperDir: PropTypes.object,
-    sort: PropTypes.shape({
+    filesSorting: PropTypes.shape({
       by: PropTypes.string.isRequired,
       asc: PropTypes.bool.isRequired
     }),
@@ -36,6 +36,7 @@ export class FilesList extends React.Component {
     root: PropTypes.string.isRequired,
     downloadProgress: PropTypes.number,
     filesIsFetching: PropTypes.bool,
+    filesPathInfo: PropTypes.object,
     // React Drag'n'Drop
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
@@ -83,13 +84,7 @@ export class FilesList extends React.Component {
 
   get selectedMenu () {
     const unselectAll = () => this.toggleAll(false)
-    const size = this.selectedFiles.reduce((a, b) => {
-      if (b.cumulativeSize) {
-        return a + b.cumulativeSize
-      }
-
-      return a + b.size
-    }, 0)
+    const size = this.selectedFiles.reduce((a, b) => a + (b.size || 0), 0)
     const show = this.state.selected.length !== 0
 
     // We need this to get the width in ems
@@ -107,8 +102,9 @@ export class FilesList extends React.Component {
         rename={() => this.props.onRename(this.selectedFiles)}
         share={() => this.props.onShare(this.selectedFiles)}
         download={() => this.props.onDownload(this.selectedFiles)}
-        inspect={() => this.props.onInspect(this.selectedFiles)}
+        inspect={() => this.props.onInspect(this.selectedFiles[0].hash)}
         count={this.state.selected.length}
+        isMfs={this.props.filesPathInfo.isMfs}
         downloadProgress={this.props.downloadProgress}
         size={size} />
     )
@@ -213,8 +209,8 @@ export class FilesList extends React.Component {
   }
 
   toggleOne = (name, check) => {
-    let selected = this.state.selected
-    let index = selected.indexOf(name)
+    const selected = this.state.selected
+    const index = selected.indexOf(name)
 
     if (check && index < 0) {
       selected.push(name)
@@ -226,7 +222,7 @@ export class FilesList extends React.Component {
     this.listRef.current.forceUpdateGrid()
   }
 
-  move = ([src, dst]) => {
+  move = (src, dst) => {
     const selected = this.selectedFiles
 
     if (selected.length > 0) {
@@ -249,25 +245,25 @@ export class FilesList extends React.Component {
       }
 
       this.toggleAll(false)
-      toMove.forEach(op => this.props.onMove(op))
+      toMove.forEach(op => this.props.onMove(...op))
     } else {
-      this.props.onMove([src, dst])
+      this.props.onMove(src, dst)
     }
   }
 
   sortByIcon = (order) => {
-    if (this.props.sort.by === order) {
-      return this.props.sort.asc ? '↑' : '↓'
+    if (this.props.filesSorting.by === order) {
+      return this.props.filesSorting.asc ? '↑' : '↓'
     }
 
     return null
   }
 
   changeSort = (order) => () => {
-    const { sort, updateSorting } = this.props
+    const { filesSorting, updateSorting } = this.props
 
-    if (order === sort.by) {
-      updateSorting(order, !sort.asc)
+    if (order === filesSorting.by) {
+      updateSorting(order, !filesSorting.asc)
     } else {
       updateSorting(order, true)
     }
@@ -309,7 +305,7 @@ export class FilesList extends React.Component {
   }
 
   rowRenderer = ({ index, key, style }) => {
-    const { files, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
+    const { files, pins, upperDir, filesPathInfo, isOver, canDrop, onNavigate, onAddFiles } = this.props
     const { selected, focused, isDragging } = this.state
 
     if (upperDir) {
@@ -318,15 +314,15 @@ export class FilesList extends React.Component {
         return (
           <div key={key} style={style}>
             <File
-              ref={r => { this.filesRefs['..'] = r }}
+              ref={r => { this.filesRefs[upperDir.name] = r }}
               onNavigate={() => onNavigate(upperDir.path)}
               onAddFiles={onAddFiles}
               onMove={this.move}
               setIsDragging={this.isDragging}
               handleContextMenuClick={this.props.handleContextMenuClick}
+              isMfs={filesPathInfo.isMfs}
               translucent={isDragging || (isOver && canDrop)}
-              name='..'
-              focused={focused === '..'}
+              focused={focused === upperDir.name}
               cantDrag
               cantSelect
               {...upperDir} />
@@ -341,7 +337,9 @@ export class FilesList extends React.Component {
       <div key={key} style={style}>
         <File
           {...files[index]}
+          pinned={pins.includes(files[index].hash)}
           ref={r => { this.filesRefs[files[index].name] = r }}
+          isMfs={filesPathInfo.isMfs}
           name={files[index].name}
           onSelect={this.toggleOne}
           onNavigate={() => onNavigate(files[index].path)}
@@ -384,7 +382,10 @@ export class FilesList extends React.Component {
                   {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
                 </span>
               </div>
-              <div className='pl2 pr4 tr f6 flex-none dn db-l'>
+              <div className='ph2 pv1 flex-none dn db-l tr mw3'>
+                { /* Badges */ }
+              </div>
+              <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
                 <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
                   {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
                 </span>
@@ -409,7 +410,8 @@ export class FilesList extends React.Component {
                         onRowsRendered={this.onRowsRendered}
                         isScrolling={isScrolling}
                         onScroll={onChildScroll}
-                        scrollTop={scrollTop} />
+                        scrollTop={scrollTop}
+                        data={files /* NOTE: this is a placebo prop to force the list to re-render */} />
                     )}
                   </AutoSizer>
                 </div>
@@ -435,7 +437,8 @@ const dropTarget = {
     }
 
     add()
-  }
+  },
+  canDrop: props => props.filesPathInfo.isMfs
 }
 
 const dropCollect = (connect, monitor) => ({
@@ -448,7 +451,10 @@ export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, 
 
 export default connect(
   'selectNavbarWidth',
+  'selectPins',
   'selectFilesIsFetching',
+  'selectFilesSorting',
+  'selectFilesPathInfo',
   'selectShowLoadingAnimation',
   FilesListWithDropTarget
 )

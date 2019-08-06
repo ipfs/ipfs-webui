@@ -12,15 +12,6 @@ export default {
     }
   ),
 
-  reactToEmptyFiles: createSelector(
-    'selectHash',
-    (hash) => {
-      if (hash === '/files') {
-        return { actionCreator: 'doUpdateHash', args: ['#/files/'] }
-      }
-    }
-  ),
-
   reactToIpfsConnectionFail: createSelector(
     'selectIpfsInitFailed',
     'selectHash',

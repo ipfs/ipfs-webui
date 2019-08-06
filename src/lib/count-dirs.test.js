@@ -30,7 +30,7 @@ it('should deal with relative paths', () => {
 })
 
 it('should count the unique dirs in a list of file objects', () => {
-  let files = [
+  const files = [
     { path: '/foo/bar/foo.txt' },
     { path: '/foo/bar/odd.txt' },
     { path: '/foo/other/odd.txt' },

@@ -1,7 +1,6 @@
 import React from 'react'
-import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
-import Box from '../../components/box/Box'
+import Box from '../../../components/box/Box'
 
 const CompanionInfo = () => (
   <div className='mv4 tc navy f5' >
@@ -13,4 +12,4 @@ const CompanionInfo = () => (
   </div>
 )
 
-export default connect(translate('files')(CompanionInfo))
+export default translate('files')(CompanionInfo)

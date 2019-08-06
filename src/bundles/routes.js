@@ -1,7 +1,8 @@
 import { createRouteBundle } from 'redux-bundler'
 import StatusPage from '../status/LoadableStatusPage'
 import FilesPage from '../files/LoadableFilesPage'
-import { ExplorePage, StartExploringPage } from 'ipld-explorer-components'
+import StartExploringPage from '../explore/LoadableStartExploringPage'
+import ExplorePage from '../explore/LoadableExplorePage'
 import PeersPage from '../peers/LoadablePeersPage'
 import SettingsPage from '../settings/LoadableSettingsPage'
 import AnalyticsPage from '../settings/AnalyticsPage'
@@ -11,6 +12,9 @@ export default createRouteBundle({
   '/explore': StartExploringPage,
   '/explore*': ExplorePage,
   '/files*': FilesPage,
+  '/ipfs*': FilesPage,
+  '/ipns*': FilesPage,
+  '/pins*': FilesPage,
   '/peers': PeersPage,
   '/settings': SettingsPage,
   '/settings/analytics': AnalyticsPage,

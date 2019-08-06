@@ -19,6 +19,15 @@ bundle.selectRepoSize = createSelector(
   }
 )
 
+bundle.selectRepoNumObjects = createSelector(
+  'selectRepoStats',
+  (repoStats) => {
+    if (repoStats && repoStats.numObjects) {
+      return repoStats.numObjects.toString()
+    }
+  }
+)
+
 // Fetch the config if we don't have it or it's more than `staleAfter` ms old
 bundle.reactRepoStatsFetch = createSelector(
   'selectRepoStatsShouldUpdate',

@@ -1,8 +1,7 @@
 import React from 'react'
-import { connect } from 'redux-bundler-react'
 import { translate, Trans } from 'react-i18next'
-import AboutIpfs from '../../components/about-ipfs/AboutIpfs'
-import Box from '../../components/box/Box'
+import AboutIpfs from '../../../components/about-ipfs/AboutIpfs'
+import Box from '../../../components/box/Box'
 
 const WelcomeInfo = ({ t }) => (
   <div className='flex'>
@@ -35,4 +34,4 @@ const WelcomeInfo = ({ t }) => (
   </div>
 )
 
-export default connect(translate('files')(WelcomeInfo))
+export default translate('files')(WelcomeInfo)

@@ -4,9 +4,9 @@ import { action } from '@storybook/addon-actions'
 import i18n from '../../../i18n-decorator'
 import DeleteModal from './DeleteModal'
 
-storiesOf('Files', module)
+storiesOf('Files/Modals', module)
   .addDecorator(i18n)
-  .add('Delete Modal', () => (
+  .add('Delete', () => (
     <div className='ma3'>
       <DeleteModal
         onCancel={action('Cancel')}

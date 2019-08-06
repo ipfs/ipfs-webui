@@ -100,7 +100,7 @@ class ApiAddressForm extends React.Component {
   }
 
   onChange = (event) => {
-    let val = event.target.value
+    const val = event.target.value
     this.setState({ value: val })
   }
 

@@ -104,7 +104,7 @@ class NodeBandwidthChart extends React.Component {
 
   // generates tooltip data.
   data = () => {
-    let { t, nodeBandwidthChartData } = this.props
+    const { t, nodeBandwidthChartData } = this.props
 
     return function (canvas) {
       const ctx = canvas.getContext('2d')
@@ -152,7 +152,7 @@ class NodeBandwidthChart extends React.Component {
   }
 
   render () {
-    let { t, animatedPoints, nodeBandwidthChartData } = this.props
+    const { t, animatedPoints, nodeBandwidthChartData } = this.props
 
     if (nodeBandwidthChartData.in.length === 0) {
       return null

@@ -4,7 +4,7 @@ import CID from 'cids'
 export async function filesToStreams (files) {
   const streams = []
 
-  for (let file of files) {
+  for (const file of files) {
     const stream = fileReader(file)
 
     streams.push({
