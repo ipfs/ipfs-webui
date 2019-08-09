@@ -32,6 +32,8 @@
     "clear": "Effacer",
     "create": "Créer",
     "save": "Sauvegarder",
+    "pin": "Epingler",
+    "unpin": "Décrocher",
     "unselectAll": "Tout désélectionner"
   },
   "shareModal": {
@@ -46,7 +48,7 @@
   },
   "deleteModal": {
     "titleItem": "{count, plural, one {Supprimer l'élément\n} other {Supprimer {count} éléments}}",
-    "titleFolder": "{count, plural, one {Supprimer le dossier} other {Supprmer {count} dossiers}}",
+    "titleFolder": "{count, plural, one {Supprimer le dossier} other {Supprimer {count} dossiers}}",
     "titleFile": "{count, plural, one {Supprimer le fichier} other {Supprimer {count} fichiers}}",
     "descriptionItem": "{count, plural, one {Etes-vous sûr(e) de vouloir supprimer cet élément? Cette action est définitive et ne peut être annulée.} other {Etes-vous sûr(e) de vouloir supprimer ces {count} éléments? Cette action est définitive et ne peut être annulée.}}",
     "descriptionFolder": "{count, plural, one {Etes-vous sûr(e) de vouloir supprimer ce dossier? Cette action est définitive et ne peut être annulée.} other {Etes-vous sûr(e) de vouloir supprimer ces {count} dossiers? Cette action est définitive et ne peut être annulée.}}",
@@ -66,7 +68,7 @@
     "paragraph1": "<0><0>Vérifier l'état</0> de votre pair, son Peer ID et ses informations de connexion, son trafic réseau et le nombre de pairs connectés.</0>",
     "paragraph2": "<0><1>Organisez vos fichiers</1> facilement dans votre dossier IPFS. Vous pouvez les glisser/déposer pour les ajouter, et vous pouvez les déplacer, les renommer, les supprimer, les partager ou les télécharger.</0>",
     "paragraph3": "<0>Vous pouvez <1>explorer les données IPLD</1> qui sont à la base du fonctionnement d’IPFS.</0>",
-    "paragraph4": "<0>Visualisez tout vos <1>pairs connectés</1>, géolocalisés par leur adresse IP.</0>",
+    "paragraph4": "<0>Visualisez tous vos <1>pairs connectés</1>, géolocalisés par leur adresse IP.</0>",
     "paragraph5": "<0><0>Vérifiez les paramètres</0> de votre nœud IPFS, et mettez-les à jour pour mieux correspondre à vos besoins.</0>",
     "paragraph6": "<0>Si vous voulez aider à faire avancer l'interface Web, <1>vérifiez son code</1> ou <3>signalez un bug</3>!</0>"
   },
@@ -74,5 +76,37 @@
     "noFiles": "<0>Pas de fichiers dans ce répertoire. Cliquer sur \"Ajouter\" pour en ajouter.</0>"
   },
   "addFilesInfo": "<0>Ajoutez des fichiers à votre nœud IPFS local en cliquant sur le bouton <1>Ajouter à IPFS</1> ci-dessus.</0>",
-  "companionInfo": "<0>Comme vous utilisez <1>IPFS Companion</1>, la vue des fichiers est limitée aux fichiers ajoutés lors de l'utilisation de l'extension.</0>"
+  "companionInfo": "<0>Comme vous utilisez <1>IPFS Companion</1>, la vue des fichiers est limitée aux fichiers ajoutés lors de l'utilisation de l'extension.</0>",
+  "tour": {
+    "step1": {
+      "title": "Page des fichiers",
+      "paragraph1": "<0>Cest ici que les fichiers de votre <1> Système de fichiers mutable (MFS) </1> fonction. Vous pouvez ajouté des fichiers ou des dossiers et gérer cela sur cette page.</0>",
+      "paragraph2": "Contuinez à en savoir plus."
+    },
+    "step2": {
+      "title": "Fils d'Ariane",
+      "paragraph1": "Le dossier de travail courant. Vous pouvez naviguer dans l'arborescence en cliquant dessus."
+    },
+    "step3": {
+      "title": "Ajouter des fichiers",
+      "paragraph1": "Ici vous pouvez voir comment les blocs et les fichiers sont épinglé.",
+      "paragraph2": "Vous pouvez ajouter des fichiers ou des dossiers dans votre dépot en utilisant le menu déroulant sur la droite.",
+      "paragraph3": "<0>Si vous voulez ajouter quelque chose déjà présent sur IPFS, vous pouvez importer cela dans votre MFS en passant cela <1>Identifiant de contenu (CID)</1>.</0>"
+    },
+    "step5": {
+      "title": "List des fichiers",
+      "paragraph1": "Finallement, vous pouvez ajouter des fichiers et des dossiers en utilisant le glisser deposer.",
+      "paragraph2": "Vous pouvez partager ou télécharger des fichiers, inpecter cela dans IPLD Explorer, les renomer ou encore les supprimer.",
+      "paragraph3": "Pro tip: glisser déposer un fichier n'importe où sur l'interface web l'ajout à la racine de votre MFS."
+    }
+  },
+  "exploreForm": {
+    "explore": "Explorez"
+  },
+  "hashUnavailable": "hash non disponible",
+  "pins": "Fichiers et dossiers épinglés",
+  "pinned": "Épinglé",
+  "blocks": "Blocs",
+  "more": "Plus",
+  "files": "Fichiers"
 }

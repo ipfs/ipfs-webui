@@ -1,31 +1,31 @@
 {
-  "title": "欢迎使用IPFS",
+  "title": "欢迎使用 IPFS",
   "configureApiPort": {
-    "header": "你的API端口不是5001？",
-    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
+    "header": "你的 API 端口不是 5001 ？",
+    "paragraph1": "<0>如果你的 IPFS 节配置了<1>自定义 API 地址</1>, 请设置在这里</0>"
   },
   "apiAddressForm": {
     "apiLabel": "API ADDRESS",
     "submitButton": "提交"
   },
   "connected": {
-    "header": "连接到IPFS",
-    "paragraph1": "<0>Now, it’s time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
-    "paragraph2": "<0>你可以随时回到此地址来修改你连接的IPFS节点。</0>"
+    "header": "连接到 IPFS",
+    "paragraph1": "<0>现在，是时候了解你的节点。 前往 <1>文件页面</1> 管理和分享你的文件，或通过<5> IPLD 浏览器</5>了解节点托管哈希链数据 <3>Merkle Forest</3>。‭</0>",
+    "paragraph2": "<0>你可以随时回到此地址来修改你连接的 IPFS 节点。</0>"
   },
   "notConnected": {
-    "header": "您的IPFS守护程序是否正在运行？",
-    "paragraph1": "<0>无法连接API</0>",
-    "paragraoh2": "<0>确认你<1>配置了你的IPFS API</1>以允许跨域（CORS）请求，执行下面命令：</0>",
-    "paragraph3": "<0>在终端中启动IPFS守护进程:</0>",
-    "paragraph4": "<0>获取开始使用IPFS的更多信息你可以 <1>阅读此向导</1>.</0>"
+    "header": "您的 IPFS 守护程序是否正在运行？",
+    "paragraph1": "<0>无法连接 API</0>",
+    "paragraoh2": "<0>确认你<1>配置了你的 IPFS API </1>以允许跨域（CORS）请求，执行下面命令：</0>",
+    "paragraph3": "<0>在终端中启动 IPFS 守护进程:</0>",
+    "paragraph4": "<0>获取开始使用 IPFS 的更多信息你可以 <1>阅读此向导</1>.</0>"
   },
   "aboutIpfs": {
-    "header": "IPFS是什么？",
-    "paragraph1": "<0><0>IPFS是协议</0>，定义了基于哈希寻址内容文件系统，并结合了来自Kademlia、 BitTorrent、Git等的想法来协调内容传输。</0>",
-    "paragraph2": "<0><0>IPFS是文件系统。</0>有文件夹、文件和基于FUSE的可挂载文件系统。</0>",
-    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity.</0>",
-    "paragraph4": "<0><0>IPFS是p2p。</0>支持世界范围点对点文件传输，具有完全分散的架构，没有中心点故障。</0>",
-    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
+    "header": "IPFS 是什么？",
+    "paragraph1": "<0><0>IPFS 是协议</0>，定义了基于哈希寻址内容文件系统，并结合了来自 Kademlia、 BitTorrent、Git 等的想法来协调内容传输。</0>",
+    "paragraph2": "<0><0>IPFS 是文件系统。</0>有文件夹、文件和基于 FUSE 的可挂载文件系统。</0>",
+    "paragraph3": "<0><0>IPFS 是一种互联网。</0>文件可以通过 HTTP 网关来访问，例如 <2>https://ipfs.io</2> 。浏览器<4>通过扩展</4>能直接使用 <6>ipfs://</6> 域，且哈希寻址保证了内容的真实性</0>",
+    "paragraph4": "<0><0>IPFS 是 p2p 。</0>支持世界范围点对点文件传输，具有完全分散的架构，没有中心点故障。</0>",
+    "paragraph5": "<0><0>IPFS 是 CDN 。</0>在本地库中添加一个文件，立即对世界可用，并拥有对缓存友好的内容哈希地址和 BitTorrent 一样的带宽分发。</0>"
   }
 }

@@ -1,8 +1,30 @@
 {
   "title": "节点",
-  "peerId": "节点ID",
+  "peerId": "节点 ID",
   "peers": "节点",
   "address": "地址",
   "location": "位置",
-  "unknownLocation": "未知"
+  "unknownLocation": "未知",
+  "latency": "延时",
+  "bootstrapNode": "引导节点",
+  "viaRelay": "通过 <0>{node}</0>",
+  "addConnection": "添加连接",
+  "insertPeerAddress": "请输入你想要连接的对等方地址。",
+  "add": "添加",
+  "example": "例子：",
+  "tour": {
+    "step1": {
+      "title": "节点页面",
+      "paragraph1": "您可以在此处查看您所连接的节点以及他们所在的国家/地区。",
+      "paragraph2": "继续了解更多。"
+    },
+    "step2": {
+      "title": "节点地图",
+      "paragraph1": "可视化您所连接的节点在世界中的位置。"
+    },
+    "step3": {
+      "title": "节点清单表",
+      "paragraph1": "查看已连接节点的 ID、地址和大致位置。"
+    }
+  }
 }

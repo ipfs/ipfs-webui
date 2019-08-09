@@ -13,7 +13,7 @@
   "upSpeed": "Sortant",
   "downSpeed": "Entrant",
   "spaceUsed": "Espace utilisé",
-  "networkTraffic": "Traffic réseau",
+  "networkTraffic": "Trafic réseau",
   "bandwidthOverTime": "Bande passante à travers le temps",
   "bandwidthByPeer": "Bande passante par pair",
   "distributionOfPeers": "Répartition des pairs",
@@ -36,13 +36,39 @@
   "StatusNotConnected": {
     "header1": "Échec de connexion à l'API",
     "paragraph1": "<0>Démarrer un démon IPFS dans un terminal:</0>",
-    "paragraph2": "<0>Pour plus d'informations sur comment démarré avec IPFS vous pouvez <1> lire le manuel</1>.</0>"
+    "paragraph2": "<0>Pour plus d'informations sur comment démarrer avec IPFS vous pouvez <1> lire le manuel</1>.</0>"
   },
   "AskToEnable": {
     "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes.",
     "yesLabel": "OK",
     "noLabel": "Non merci",
     "detailsLabel": "Plus d'infos"
+  },
+  "tour": {
+    "step1": {
+      "title": "Page des status",
+      "paragraph1": "C'est le point de départ de votre noeud IPFS et aussi où vous pouvez vérifié les informations basiques.",
+      "paragraph2": "Contuinez à en savoir plus."
+    },
+    "step2": {
+      "title": "Statut de la connexion",
+      "paragraph1": "Cela mène à une page de test de connexion, dans le cas contraire vous donné des indications comment vous y connecter.",
+      "paragraph2": "Vous pouvez configurer votre noeud avec une adresse personalisé pour l'API aussi."
+    },
+    "step3": {
+      "title": "Information du pair",
+      "paragraph1": "Ici vous avez les information sur la taille de votre dépôt, à combien de noeuds vous êtes connecté, votre peer ID et votre choix de IPFS.",
+      "paragraph2": "<0>Cliquer sur <1>Avancée</1> pour voir plus informations sur la passerelle URL et adresse</0>"
+    },
+    "step4": {
+      "title": "Réseau Bande passante/trafic.",
+      "paragraph1": "Ce diagramme présent l'utilisation de la bande passante du réseau dans le temp.",
+      "paragraph2": "Le compteur de vitesse du trafic entrant et sortant."
+    },
+    "step5": {
+      "title": "Explorez",
+      "paragraph1": "Copier un CID et explorer comment la donnée est structuré et liéé à d'autre protocoles."
+    }
   },
   "bandwidthStats": "Statistiques réseau",
   "bandwidthStatsDisabled": "Vous avez débranché les statistique de la bande passante. Vous pouvez ré-activer cela en tapant la ligne de commande <1>Swarm.DisableBandwidthMetrics</1> de <3>false</3> dans <5>Settings</5>. Vous devez redémarrer pour cela soit pris en compte. "
