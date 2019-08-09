@@ -26,5 +26,35 @@
   "base": "base",
   "version": "version",
   "codec": "codec",
-  "multihash": "multihash"
+  "multihash": "multihash",
+  "tour": {
+    "projects": {
+      "title": "Ensemble de données",
+      "paragraph1": "Explorer la fonctionalité d'ensemble de données ou copier un CID pour voir comment la donnée et structuré et partager entre les protocoles."
+    },
+    "explorer": {
+      "step1": {
+        "title": "Explorateur IPLD",
+        "paragraph1": "Votre voyage dans l'explorateur commence ici. Contuinez à en apprendre plus."
+      },
+      "step2": {
+        "title": "Fils d'Ariane",
+        "paragraph1": "Le chemin qui mène à ce noeud.",
+        "paragraph2": "Cliquer issue pour naviguer entre les parents ou les enfants."
+      },
+      "step3": {
+        "title": "Information du pair",
+        "paragraph1": "Ici vous avez le détails des informations sur votre noeud and comment ouvrir votre passerelle IPFS.",
+        "paragraph2": "Si le noeud est un répertoire, vous pouvez voir ses enfants et y accéder."
+      },
+      "step4": {
+        "title": "CID information",
+        "paragraph1": "Le CID décomposé afin que vous puissiez apprendre sa signification."
+      },
+      "step5": {
+        "title": "Représentation visuel",
+        "paragraph1": "Une représentation visuelle du noeud et de ses enfants."
+      }
+    }
+  }
 }
