@@ -1,7 +1,5 @@
 import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
-// Jest from react-script DOES NOT support 'moduleNameMapper' so we need
-// to always use cjs compilation.
-import HTML5Backend from 'react-dnd-html5-backend/dist/cjs'
+import HTML5Backend from 'react-dnd-html5-backend'
 
 // If you drop a dir "foo" which contains "cat.jpg" & "dog.png" we receive a
 // single item in the `event.dataTransfer.items` for the directory.

@@ -135,5 +135,12 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "jest": {
+    "moduleNameMapper": {
+      "^dnd-core$": "dnd-core/dist/cjs",
+      "^react-dnd$": "react-dnd/dist/cjs",
+      "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs"
+    }
+  }
 }
