@@ -35,7 +35,7 @@ export class App extends Component {
     isOver: PropTypes.bool.isRequired
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.doInitIpfs()
   }
 
