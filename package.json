@@ -109,7 +109,7 @@
     "ipld-dag-pb": "^0.15.2",
     "ipld-ethereum": "^2.0.3",
     "ipld-git": "^0.2.3",
-    "ipld-raw": "^2.0.1",
+    "ipld-raw": "^4.0.0",
     "ipld-zcash": "^0.1.6",
     "is-pull-stream": "0.0.0",
     "multihashing-async": "^0.7.0",
