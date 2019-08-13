@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
-import navHelper from 'internal-nav-helper'
+import { getNavHelper } from 'internal-nav-helper'
 import ReactJoyride from 'react-joyride'
 import { translate } from 'react-i18next'
 import { filesToStreams } from './lib/files'
@@ -62,7 +62,7 @@ export class App extends Component {
     const { t, route: Page, ipfsReady, doFilesNavigateTo, routeInfo: { url }, navbarIsOpen, connectDropTarget, canDrop, isOver, showTooltip } = this.props
 
     return connectDropTarget(
-      <div className='sans-serif h-100' onClick={navHelper(this.props.doUpdateUrl)}>
+      <div className='sans-serif h-100' onClick={getNavHelper(this.props.doUpdateUrl)}>
         {/* Tinted overlay that appears when dragging and dropping an item */}
         { canDrop && isOver && <div className='w-100 h-100 top-0 left-0 absolute' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
         <div className='flex-l' style={{ minHeight: '100vh' }}>
