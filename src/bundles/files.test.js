@@ -1,4 +1,4 @@
-/* global it, expect, beforeEach, afterEach, jest */
+/* global it, expect, jest */
 import { composeBundlesRaw } from 'redux-bundler'
 import createFilesBundle from './files'
 
