@@ -120,4 +120,4 @@ ContextMenu.defaultProps = {
   className: ''
 }
 
-export default withTranslation('files')(ContextMenu)
+export default withTranslation('files', { withRef: true })(ContextMenu)
