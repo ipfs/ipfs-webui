@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import { Title } from './Commons'
 import { Pie } from 'react-chartjs-2'
 import { connect } from 'redux-bundler-react'
@@ -84,5 +84,5 @@ const CountryChart = ({ t, peerLocations, className }) => {
 
 export default connect(
   'selectPeerLocations',
-  translate('status')(CountryChart)
+  withTranslation('status')(CountryChart)
 )

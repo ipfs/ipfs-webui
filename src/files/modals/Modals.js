@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { join } from 'path'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import Overlay from '../../components/overlay/Overlay'
 // Modals
 import NewFolderModal from './new-folder-modal/NewFolderModal'
@@ -181,4 +181,4 @@ Modals.propTypes = {
   onDelete: PropTypes.func.isRequired
 }
 
-export default translate('files')(Modals)
+export default withTranslation('files')(Modals)

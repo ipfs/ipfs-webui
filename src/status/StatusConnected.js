@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import filesize from 'filesize'
 
@@ -33,7 +33,7 @@ export const StatusConnected = ({ peersCount, repoSize }) => {
   )
 }
 
-export const TranslatedStatusConnected = translate('status')(StatusConnected)
+export const TranslatedStatusConnected = withTranslation('status')(StatusConnected)
 
 export default connect(
   'selectPeersCount',

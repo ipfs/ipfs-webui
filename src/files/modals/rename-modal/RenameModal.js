@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PencilIcon from '../../../icons/StrokePencil'
 import TextInputModal from '../../../components/text-input-modal/TextInputModal'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 function RenameModal ({ t, tReady, onCancel, onSubmit, filename, folder, className, ...props }) {
   const context = folder ? 'Folder' : 'File'
@@ -36,4 +36,4 @@ RenameModal.defaultProps = {
   folder: false
 }
 
-export default translate('files')(RenameModal)
+export default withTranslation('files')(RenameModal)

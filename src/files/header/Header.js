@@ -1,7 +1,7 @@
 import React from 'react'
 import SimplifyNumber from 'simplify-number'
 import { connect } from 'redux-bundler-react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 // Components
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import FileInput from '../file-input/FileInput'
@@ -95,5 +95,5 @@ export default connect(
   'selectRepoNumObjects',
   'selectFilesPathInfo',
   'selectWriteFilesProgress',
-  translate('files')(Header)
+  withTranslation('files')(Header)
 )

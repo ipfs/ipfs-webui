@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import ReactJoyride from 'react-joyride'
 import StatusConnected from './StatusConnected'
@@ -92,5 +92,5 @@ export default connect(
   'selectToursEnabled',
   'doEnableAnalytics',
   'doDisableAnalytics',
-  withTour(translate('status')(StatusPage))
+  withTour(withTranslation('status')(StatusPage))
 )

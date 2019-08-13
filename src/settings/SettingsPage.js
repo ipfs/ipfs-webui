@@ -1,7 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 // Tour
 import { settingsTour } from '../lib/tours'
@@ -278,7 +278,7 @@ export class SettingsPageContainer extends React.Component {
   }
 }
 
-export const TranslatedSettingsPage = translate('settings')(SettingsPageContainer)
+export const TranslatedSettingsPage = withTranslation('settings')(SettingsPageContainer)
 
 export default connect(
   'selectConfig',

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 import GlyphDots from '../../icons/GlyphDots'
@@ -120,4 +120,4 @@ ContextMenu.defaultProps = {
   className: ''
 }
 
-export default translate('files')(ContextMenu)
+export default withTranslation('files')(ContextMenu)

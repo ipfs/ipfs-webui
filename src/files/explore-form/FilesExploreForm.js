@@ -1,7 +1,7 @@
 import React from 'react'
 import isIPFS from 'is-ipfs'
 import PropTypes from 'prop-types'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import StrokeIpld from '../../icons/StrokeFolder'
 import Button from '../../components/button/Button'
 
@@ -89,4 +89,4 @@ FilesExploreForm.propTypes = {
   onNavigate: PropTypes.func.isRequired
 }
 
-export default translate('files')(FilesExploreForm)
+export default withTranslation('files')(FilesExploreForm)

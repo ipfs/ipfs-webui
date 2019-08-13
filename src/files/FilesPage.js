@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 // Lib
 import { filesTour } from '../lib/tours'
@@ -295,5 +295,5 @@ export default connect(
   'selectToursEnabled',
   'doFilesWrite',
   'doFilesDownloadLink',
-  withTour(translate('files')(FilesPage))
+  withTour(withTranslation('files')(FilesPage))
 )

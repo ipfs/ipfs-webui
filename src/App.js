@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { getNavHelper } from 'internal-nav-helper'
 import ReactJoyride from 'react-joyride'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import { filesToStreams } from './lib/files'
 // React DnD
 import { DragDropContext, DropTarget } from 'react-dnd'
@@ -135,5 +135,5 @@ export default connect(
   'doFilesWrite',
   'doDisableTooltip',
   'selectFilesPathInfo',
-  translate('app')(DragDropContext(DnDBackend)(AppWithDropTarget))
+  withTranslation('app')(DragDropContext(DnDBackend)(AppWithDropTarget))
 )

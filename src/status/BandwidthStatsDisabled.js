@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import Shell from '../components/shell/Shell'
 import Box from '../components/box/Box'
 
@@ -24,4 +24,4 @@ const StatusNotConnected = ({ t }) => {
   )
 }
 
-export default translate('status')(StatusNotConnected)
+export default withTranslation('status')(StatusNotConnected)

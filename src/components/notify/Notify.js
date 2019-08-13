@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import Toast from './Toast'
 
 const Notify = ({ t, notify, notifyI18nKey, doNotifyDismiss }) => {
@@ -18,5 +18,5 @@ export default connect(
   'selectNotify',
   'selectNotifyI18nKey',
   'doNotifyDismiss',
-  translate('notify')(Notify)
+  withTranslation('notify')(Notify)
 )

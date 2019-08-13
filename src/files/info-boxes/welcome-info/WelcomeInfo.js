@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import AboutIpfs from '../../../components/about-ipfs/AboutIpfs'
 import Box from '../../../components/box/Box'
 
@@ -34,4 +34,4 @@ const WelcomeInfo = ({ t }) => (
   </div>
 )
 
-export default translate('files')(WelcomeInfo)
+export default withTranslation('files')(WelcomeInfo)

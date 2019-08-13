@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import { Table, Column, AutoSizer, SortDirection } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
 import Cid from '../../components/cid/Cid'
@@ -118,5 +118,5 @@ export class PeersTable extends React.Component {
 
 export default connect(
   'selectPeerLocationsForSwarm',
-  translate('peers')(PeersTable)
+  withTranslation('peers')(PeersTable)
 )
