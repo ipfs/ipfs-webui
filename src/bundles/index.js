@@ -24,7 +24,9 @@ import createAnalyticsBundle from './analytics'
 import experimentsBundle from './experiments'
 
 export default composeBundles(
-  createCacheBundle(bundleCache.set),
+  createCacheBundle({
+    cacheFn: bundleCache.set
+  }),
   appIdle({ idleTimeout: 5000 }),
   ipfsBundle({
     tryWindow: false,
