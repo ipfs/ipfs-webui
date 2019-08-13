@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import FolderIcon from '../../../icons/StrokeFolder'
 import TextInputModal from '../../../components/text-input-modal/TextInputModal'
 
@@ -26,4 +26,4 @@ NewFolderModal.propTypes = {
   tReady: PropTypes.bool.isRequired
 }
 
-export default translate('files')(NewFolderModal)
+export default withTranslation('files')(NewFolderModal)

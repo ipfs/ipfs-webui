@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { Helmet } from 'react-helmet'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 import withTour from '../components/tour/withTour'
 import { peersTour } from '../lib/tours'
@@ -40,5 +40,5 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
 
 export default connect(
   'selectToursEnabled',
-  withTour(translate('peers')(PeersPage))
+  withTour(withTranslation('peers')(PeersPage))
 )

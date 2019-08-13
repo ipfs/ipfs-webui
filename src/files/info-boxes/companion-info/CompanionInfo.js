@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import Box from '../../../components/box/Box'
 
 const CompanionInfo = () => (
@@ -12,4 +12,4 @@ const CompanionInfo = () => (
   </div>
 )
 
-export default translate('files')(CompanionInfo)
+export default withTranslation('files')(CompanionInfo)

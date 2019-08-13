@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 // Components
 import GlyphDots from '../../icons/GlyphDots'
 import Checkbox from '../../components/checkbox/Checkbox'
@@ -55,4 +55,4 @@ const LoadingAnimation = ({ t }) => (
   </div>
 )
 
-export default translate('files')(LoadingAnimation)
+export default withTranslation('files')(LoadingAnimation)

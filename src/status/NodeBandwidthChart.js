@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Line } from 'react-chartjs-2'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
@@ -203,4 +203,4 @@ class NodeBandwidthChart extends React.Component {
   }
 }
 
-export default connect('selectNodeBandwidthChartData', translate('status')(NodeBandwidthChart))
+export default connect('selectNodeBandwidthChartData', withTranslation('status')(NodeBandwidthChart))

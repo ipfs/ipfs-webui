@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import isBinary from 'is-binary'
-import { Trans, translate } from 'react-i18next'
+import { Trans, withTranslation } from 'react-i18next'
 import typeFromExt from '../type-from-ext'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 
@@ -92,5 +92,5 @@ Preview.propTypes = {
 
 export default connect(
   'selectGatewayUrl',
-  translate('files')(Preview)
+  withTranslation('files')(Preview)
 )

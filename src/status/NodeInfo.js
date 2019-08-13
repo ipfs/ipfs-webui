@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import VersionLink from '../components/version-link/VersionLink'
 import { Definition, DefinitionList } from '../components/definition/Definition.js'
@@ -36,5 +36,5 @@ class NodeInfo extends React.Component {
 
 export default connect(
   'selectIdentity',
-  translate('status')(NodeInfo)
+  withTranslation('status')(NodeInfo)
 )

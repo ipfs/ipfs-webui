@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import TrashIcon from '../../../icons/StrokeTrash'
 import Button from '../../../components/button/Button'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal'
@@ -48,4 +48,4 @@ DeleteModal.defaultProps = {
   folders: 0
 }
 
-export default translate('files')(DeleteModal)
+export default withTranslation('files')(DeleteModal)

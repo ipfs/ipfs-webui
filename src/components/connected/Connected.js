@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const pickColor = (ipfsReady, ipfsConnected) => {
   if (ipfsReady && ipfsConnected) return 'aqua'
@@ -31,5 +31,5 @@ export const Connected = ({ t, ipfsReady, ipfsConnected, className, size = 28 })
 export default connect(
   'selectIpfsReady',
   'selectIpfsConnected',
-  translate('notify')(Connected)
+  withTranslation('notify')(Connected)
 )

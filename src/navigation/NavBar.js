@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import ipfsLogo from './ipfs-logo.svg'
 import ipfsLogoText from './ipfs-logo-text.svg'
@@ -100,5 +100,5 @@ export default connect(
   'doToggleNavbar',
   'selectNavbarIsOpen',
   'selectNavbarWidth',
-  translate()(NavBarContainer)
+  withTranslation()(NavBarContainer)
 )
