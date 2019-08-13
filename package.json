@@ -14,7 +14,7 @@
     "test": "react-scripts test --env=jsdom",
     "test:coverage": "react-scripts test --coverage",
     "test:serve": "ecstatic build --cache=0 --port=3001",
-    "test:e2e": "react-scripts test --testMatch **/test/e2e/**/*.test.js",
+    "test:e2e": "react-scripts test --roots test/ --testMatch '**/*.test.js'",
     "test:e2e:ci": "cross-env URL=http://localhost:3001 run-p --race test:serve test:e2e",
     "analyze": "webpack-bundle-analyzer build/stats.json",
     "bundlesize": "bundlesize",
