@@ -1,7 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
@@ -141,5 +141,5 @@ export default connect(
   'selectIpfsReady',
   'selectIpfsApiAddress',
   'selectApiUrl',
-  translate('welcome')(WelcomePage)
+  withTranslation('welcome')(WelcomePage)
 )

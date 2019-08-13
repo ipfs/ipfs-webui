@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { join, basename } from 'path'
 import filesize from 'filesize'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import { filesToStreams } from '../../lib/files'
 // React DnD
@@ -196,6 +196,6 @@ const dropCollect = (connect, monitor) => ({
 
 export default DragSource(File.TYPE, dragSource, dragCollect)(
   DropTarget([File.TYPE, NativeTypes.FILE], dropTarget, dropCollect)(
-    translate('files')(File)
+    withTranslation('files')(File)
   )
 )

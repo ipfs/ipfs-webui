@@ -1,7 +1,7 @@
 import React from 'react'
 import os from 'os'
 import { connect } from 'redux-bundler-react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import Box from '../components/box/Box'
 import Checkbox from '../components/checkbox/Checkbox'
 import Title from './Title'
@@ -84,7 +84,7 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
   )
 }
 
-export const TranslatedDesktopSettings = translate('settings')(DesktopSettings)
+export const TranslatedDesktopSettings = withTranslation('settings')(DesktopSettings)
 
 export default connect(
   'selectDesktopSettings',

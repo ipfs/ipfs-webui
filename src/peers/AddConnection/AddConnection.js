@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import isIPFS from 'is-ipfs'
 
@@ -63,4 +63,4 @@ class AddConnection extends React.Component {
   }
 }
 
-export default connect('doConnectSwarm', translate('peers')(AddConnection))
+export default connect('doConnectSwarm', withTranslation('peers')(AddConnection))

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import Title from './Title'
 import Box from '../components/box/Box'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
@@ -18,4 +18,4 @@ export const AnalyticsPage = ({ t }) => (
   </div>
 )
 
-export default translate('settings')(AnalyticsPage)
+export default withTranslation('settings')(AnalyticsPage)

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import isIPFS from 'is-ipfs'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import Icon from '../../../icons/StrokeDecentralization'
 import TextInputModal from '../../../components/text-input-modal/TextInputModal'
 
@@ -50,4 +50,4 @@ ByPathModal.propTypes = {
   tReady: PropTypes.bool.isRequired
 }
 
-export default translate('files')(ByPathModal)
+export default withTranslation('files')(ByPathModal)

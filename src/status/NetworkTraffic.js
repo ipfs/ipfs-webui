@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import Speedometer from './Speedometer'
 import { Title } from './Commons'
 
@@ -64,5 +64,5 @@ class NetworkTraffic extends React.Component {
 
 export default connect(
   'selectNodeBandwidth',
-  translate('status')(NetworkTraffic)
+  withTranslation('status')(NetworkTraffic)
 )

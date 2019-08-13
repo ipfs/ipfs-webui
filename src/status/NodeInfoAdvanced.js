@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import Address from '../components/address/Address'
 import Details from '../components/details/Details'
 import ProviderLink from '../components/provider-link/ProviderLink'
@@ -48,5 +48,5 @@ export default connect(
   'selectIpfsProvider',
   'selectIpfsApiAddress',
   'selectGatewayUrl',
-  translate('status')(NodeInfoAdvanced)
+  withTranslation('status')(NodeInfoAdvanced)
 )

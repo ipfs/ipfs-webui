@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
-import { Trans, translate } from 'react-i18next'
+import { Trans, withTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
@@ -447,7 +447,7 @@ const dropCollect = (connect, monitor) => ({
   canDrop: monitor.canDrop()
 })
 
-export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(translate('files')(FilesList))
+export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(withTranslation('files')(FilesList))
 
 export default connect(
   'selectNavbarWidth',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'redux-bundler-react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import CountryFlag from 'react-country-flag'
@@ -113,5 +113,5 @@ function LocationFlag ({ location }) {
 export default connect(
   'selectPeerBandwidthPeers',
   'selectPeerLocations',
-  translate('status')(PeerBandwidthTable)
+  withTranslation('status')(PeerBandwidthTable)
 )

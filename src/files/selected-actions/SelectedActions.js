@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 import StrokeShare from '../../icons/StrokeShare'
 import StrokePencil from '../../icons/StrokePencil'
@@ -145,4 +145,4 @@ class SelectedActions extends React.Component {
   }
 }
 
-export default translate('files')(SelectedActions)
+export default withTranslation('files')(SelectedActions)

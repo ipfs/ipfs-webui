@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import { filesToStreams } from '../../lib/files'
 // Icons
 import DocumentIcon from '../../icons/StrokeDocument'
@@ -12,7 +12,7 @@ import DecentralizationIcon from '../../icons/StrokeDecentralization'
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 import Button from '../../components/button/Button'
 
-const AddButton = translate('files')(({ progress = null, disabled, t, tReady, i18n, lng, ...props }) => {
+const AddButton = withTranslation('files')(({ progress = null, disabled, t, tReady, i18n, lng, ...props }) => {
   const sending = progress !== null
 
   return (
@@ -147,5 +147,5 @@ export default connect(
   'selectIsIpfsDesktop',
   'selectWriteFilesProgress',
   'doDesktopSelectDirectory',
-  translate('files')(FileInput)
+  withTranslation('files')(FileInput)
 )

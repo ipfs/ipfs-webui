@@ -1,5 +1,5 @@
 import React from 'react'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import Box from '../box/Box'
 
 export const AboutIpfs = ({ t }) => {
@@ -25,4 +25,4 @@ export const AboutIpfs = ({ t }) => {
   )
 }
 
-export default translate('welcome')(AboutIpfs)
+export default withTranslation('welcome')(AboutIpfs)

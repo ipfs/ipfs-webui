@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactFauxDOM from 'react-faux-dom'
 import { connect } from 'redux-bundler-react'
-import { translate } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import * as d3 from 'd3'
 import staticMapSrc from './StaticMap.svg'
 
@@ -84,4 +84,4 @@ const MapPins = connect('selectPeerCoordinates', ({ width, height, path, peerCoo
   return el.node().toReact()
 })
 
-export default translate('peers')(WorldMap)
+export default withTranslation('peers')(WorldMap)
