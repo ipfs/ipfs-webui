@@ -42,7 +42,6 @@
     "ipfs-css": "^0.13.1",
     "ipfs-geoip": "^3.0.0",
     "ipfs-redux-bundle": "^5.1.2",
-    "ipfs-unixfs": "^0.1.16",
     "ipld-explorer-components": "^1.5.0",
     "is-binary": "^0.1.0",
     "is-ipfs": "^0.6.1",
