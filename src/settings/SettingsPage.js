@@ -45,9 +45,9 @@ export const SettingsPage = ({
       </div>
     </Box>
 
-    <Box className='mb3 pa4 joyride-settings-config'>
-      <Experiments t={t} />
+    <Experiments t={t} />
 
+    <Box className='mb3 pa4 joyride-settings-config'>
       <Title>{t('config')}</Title>
       <div className='flex pb3'>
         <div className='flex-auto'>
