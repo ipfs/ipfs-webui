@@ -6,9 +6,8 @@ import ReactJoyride from 'react-joyride'
 import { withTranslation } from 'react-i18next'
 import { filesToStreams } from './lib/files'
 // React DnD
-import { DragDropContext, DropTarget } from 'react-dnd'
+import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import DnDBackend from './lib/dnd-backend'
 // Lib
 import { appTour } from './lib/tours'
 // Components
@@ -135,5 +134,5 @@ export default connect(
   'doFilesWrite',
   'doDisableTooltip',
   'selectFilesPathInfo',
-  withTranslation('app')(DragDropContext(DnDBackend)(AppWithDropTarget))
+  withTranslation('app')(AppWithDropTarget)
 )

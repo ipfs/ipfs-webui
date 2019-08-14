@@ -8,6 +8,8 @@ import getStore from './bundles'
 import bundleCache from './lib/bundle-cache'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './i18n'
+import { DndProvider } from 'react-dnd'
+import DndBackend from './lib/dnd-backend'
 
 const appVersion = process.env.REACT_APP_VERSION
 const gitRevision = process.env.REACT_APP_GIT_REV
@@ -23,7 +25,9 @@ async function render () {
   ReactDOM.render(
     <Provider store={store}>
       <I18nextProvider i18n={i18n} >
-        <App />
+        <DndProvider backend={DndBackend}>
+          <App />
+        </DndProvider>
       </I18nextProvider>
     </Provider>,
     document.getElementById('root')
