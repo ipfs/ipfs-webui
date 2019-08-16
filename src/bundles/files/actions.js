@@ -67,7 +67,18 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
     realPath = await ipfs.name.resolve(realPath)
   }
 
-  const stats = await ipfs.files.stat(realPath)
+  let stats
+
+  try {
+    stats = await ipfs.files.stat(realPath)
+  } catch (e) {
+    if (e.toString().toLowerCase().includes('unixfs')) {
+      return {
+        path: path,
+        type: 'unknown'
+      }
+    }
+  }
 
   if (stats.type === 'file') {
     return {

@@ -134,13 +134,23 @@ class FilesPage extends React.Component {
   }
 
   get mainView () {
-    const { files } = this.props
+    const { files, doExploreUserProvidedPath } = this.props
 
     if (!files) {
       return (<div></div>)
     }
 
-    if (files.type !== 'directory') {
+    if (files.type === 'unknown') {
+      return (
+        <div>
+          <Trans i18nKey='cidNotFileNorDir'>
+            The current link isn't a file, nor a directory. Try to <span className='link blue pointer' onClick={() => doExploreUserProvidedPath(files.path)}>inspect</span> it instead.
+          </Trans>
+        </div>
+      )
+    }
+
+    if (files.type === 'file') {
       return (
         <FilePreview {...files} />
       )
@@ -295,5 +305,6 @@ export default connect(
   'selectToursEnabled',
   'doFilesWrite',
   'doFilesDownloadLink',
+  'doExploreUserProvidedPath',
   withTour(withTranslation('files')(FilesPage))
 )
