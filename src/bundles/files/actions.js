@@ -7,7 +7,7 @@ import { IGNORED_FILES, ACTIONS } from './consts'
 
 const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path, prefix = '/ipfs') => ({
   size: cumulativeSize || size || null,
-  type: (type === 'dir' || type === 'directory') ? 'directory' : 'file',
+  type: (type === 'dir' || type === 'directory') ? 'directory' : (type === 'unknown') ? 'unknown' : 'file',
   hash: hash,
   name: name || path ? path.split('/').pop() : hash,
   path: path || `${prefix}/${hash}`
@@ -33,8 +33,20 @@ const getPins = async (ipfs) => {
   const pins = await getRawPins(ipfs)
 
   const stats = await Promise.all(
-    pins.map(({ hash }) => {
-      return ipfs.files.stat(`/ipfs/${hash}`)
+    pins.map(async ({ hash }) => {
+      try {
+        const stats = await ipfs.files.stat(`/ipfs/${hash}`)
+        return stats
+      } catch (e) {
+        if (e.toString().toLowerCase().includes('unixfs')) {
+          return {
+            hash: hash,
+            type: 'unknown'
+          }
+        } else {
+          throw e
+        }
+      }
     })
   )
 

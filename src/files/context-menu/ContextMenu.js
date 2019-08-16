@@ -26,7 +26,7 @@ class ContextMenu extends React.Component {
     const {
       t, onRename, onDelete, onDownload, onInspect, onShare,
       translateX, translateY, className, showDots,
-      isUpperDir, isMfs, pinned
+      isUpperDir, isMfs, isUnknown, pinned
     } = this.props
 
     return (
@@ -40,19 +40,19 @@ class ContextMenu extends React.Component {
           translateY={-translateY}
           open={this.props.isOpen}
           onDismiss={this.props.handleClick}>
-          { !isUpperDir && isMfs && onDelete &&
+          { !isUpperDir && !isUnknown && isMfs && onDelete &&
             <Option onClick={this.wrap('onDelete')}>
               <StrokeTrash className='w2 mr2 fill-aqua' />
               {t('actions.delete')}
             </Option>
           }
-          { !isUpperDir && isMfs && onRename &&
+          { !isUpperDir && !isUnknown && isMfs && onRename &&
             <Option onClick={this.wrap('onRename')}>
               <StrokePencil className='w2 mr2 fill-aqua' />
               {t('actions.rename')}
             </Option>
           }
-          { !isUpperDir && onDownload &&
+          { !isUpperDir && !isUnknown && onDownload &&
             <Option onClick={this.wrap('onDownload')}>
               <StrokeDownload className='w2 mr2 fill-aqua' />
               {t('actions.download')}
@@ -89,6 +89,7 @@ class ContextMenu extends React.Component {
 ContextMenu.propTypes = {
   isMfs: PropTypes.bool.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  isUnknown: PropTypes.bool.isRequired,
   hash: PropTypes.string,
   isUpperDir: PropTypes.bool,
   pinned: PropTypes.bool,
@@ -111,6 +112,7 @@ ContextMenu.defaultProps = {
   isMfs: false,
   isOpen: false,
   isUpperDir: false,
+  isUnknown: false,
   top: 0,
   left: 0,
   right: 'auto',
