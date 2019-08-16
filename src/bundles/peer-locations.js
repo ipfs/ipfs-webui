@@ -152,8 +152,7 @@ export default function (opts) {
           locationObj.latitude
         ]
         const connection = parseConnection(peer.addr)
-        const rawLatency = parseLatency(peer.latency)
-        const latency = rawLatency ? `${rawLatency}ms` : null
+        const latency = parseLatency(peer.latency)
         const notes = parseNotes(peer, bootstrapPeers)
 
         return {
@@ -163,7 +162,6 @@ export default function (opts) {
           coordinates,
           connection,
           latency,
-          rawLatency,
           notes
         }
       })
@@ -251,7 +249,7 @@ const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'
 const toLocationString = loc => {
   if (!loc) return null
   const { country_name: country, city } = loc
-  return city && country ? `${city}, ${country}` : country
+  return city && country ? `${country}, ${city}` : country
 }
 
 const parseConnection = (multiaddr) => {
