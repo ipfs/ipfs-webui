@@ -141,9 +141,9 @@ class FilesPage extends React.Component {
     }
 
     if (files.type === 'unknown') {
-      const path = files.path.startsWith('/pins') ?
-        files.path.slice(6) :
-        files.path
+      const path = files.path.startsWith('/pins')
+        ? files.path.slice(6)
+        : files.path
 
       return (
         <div>

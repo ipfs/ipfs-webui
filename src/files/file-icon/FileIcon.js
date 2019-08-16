@@ -8,12 +8,17 @@ import DocCalc from '../../icons/GlyphDocCalc'
 import DocMusic from '../../icons/GlyphDocMusic'
 import DocPicture from '../../icons/GlyphDocPicture'
 import DocText from '../../icons/GlyphDocText'
+import Cube from '../../icons/StrokeCube'
 
 const style = { width: 36 }
 
 export default function FileIcon ({ name, type, cls = '' }) {
   if (type === 'directory') {
     return <Folder className={`fill-aqua ${cls}`} style={style} />
+  }
+
+  if (type === 'unknown') {
+    return <Cube className={`fill-aqua ${cls}`} style={style} />
   }
 
   switch (typeFromExt(name)) {

@@ -109,5 +109,5 @@
   "blocks": "Blocks",
   "more": "More",
   "files": "Files",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>fuck</0> it instead."
+  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead."
 }
