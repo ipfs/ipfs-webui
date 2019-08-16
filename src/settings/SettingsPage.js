@@ -84,6 +84,18 @@ export const SettingsPage = ({
               hasExternalChanges={hasExternalChanges}
               isSaving={isSaving}
               onClick={onSave} />
+            <a href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md'
+              rel='noopener noreferrer'
+              title={t('ipfsConfigHelp')}
+              target='_blank'>
+              <Button
+                minWidth={20}
+                height={40}
+                className='mt2 mt0-l ml2-l'
+                bg='bg-blue' >
+                ?
+              </Button>
+            </a>
           </div>
         ) : null }
       </div>

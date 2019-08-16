@@ -98,5 +98,6 @@
     }
   },
   "ipfsCmdTools": "IPFS command line tools",
-  "ipfsCmdToolsDescription": "Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line."
+  "ipfsCmdToolsDescription": "Add <0>ipfs</0> binary to your system <0>PATH</0> so you can use it in the command line.",
+  "ipfsConfigHelp": "IPFS Config Help"
 }
