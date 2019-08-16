@@ -96,10 +96,10 @@ class FilesExploreForm extends React.Component {
             minWidth={0}
             disabled={!this.isValid}
             style={{ borderRadius: '0' }}
-            title={t('exploreForm.explore')}
+            title={t('exploreForm.browse')}
             className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white bg-aqua overflow-hidden' >
             <StrokeFolder style={{ height: 24 }} className='dib fill-current-color v-mid' />
-            <span className='ml2'>{t('exploreForm.explore')}</span>
+            <span className='ml2'>{t('exploreForm.browse')}</span>
           </Button>
         </div>
       </form>
