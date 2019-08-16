@@ -24,6 +24,7 @@
   "changesSaved": "Your changes have been saved.",
   "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the IPFS daemon.",
   "ipfsConfigDescription": "The IPFS config file is a JSON document. It is read once when the IPFS daemon is started. Save your changes, then restart the IPFS daemon to apply them.",
+  "ipfsConfigHelp": "Check the documentation for further information.",
   "ipfsDesktop": "IPFS Desktop",
   "takeScreenshot": "Take screenshot",
   "takeScreenshotDescription": "Use <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> to take screenshots and add them to your repository.",
