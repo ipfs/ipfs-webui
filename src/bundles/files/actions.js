@@ -238,8 +238,9 @@ export default () => ({
   doFilesNavigateTo: (path) => async ({ store }) => {
     const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
     const files = store.selectFiles()
+    const url = store.selectFilesPathInfo()
 
-    if (files && files.path === link) {
+    if (files && files.path === link && url) {
       store.doFilesFetch()
     } else {
       store.doUpdateHash(`${link}`)

@@ -10,6 +10,6 @@ storiesOf('Files', module)
   .addDecorator(i18n)
   .add('Explore Form', () => (
     <div className='ma3 pa3 bg-snow-muted mw6'>
-      <FilesExploreForm onNavigate={action('Navigate')} />
+      <FilesExploreForm onBrowse={action('Browse')} onInspect={action('Inspect')} />
     </div>
   ))

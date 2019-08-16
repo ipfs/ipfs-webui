@@ -101,7 +101,8 @@
     }
   },
   "exploreForm": {
-    "explore": "Explore"
+    "explore": "Explore",
+    "inspect": "Inspect"
   },
   "hashUnavailable": "hash unavailable",
   "pins": "Pins",

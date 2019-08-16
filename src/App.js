@@ -58,7 +58,7 @@ export class App extends Component {
   }
 
   render () {
-    const { t, route: Page, ipfsReady, doFilesNavigateTo, routeInfo: { url }, navbarIsOpen, connectDropTarget, canDrop, isOver, showTooltip } = this.props
+    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, navbarIsOpen, connectDropTarget, canDrop, isOver, showTooltip } = this.props
 
     return connectDropTarget(
       <div className='sans-serif h-100' onClick={getNavHelper(this.props.doUpdateUrl)}>
@@ -71,7 +71,7 @@ export class App extends Component {
           <div className='flex-auto-l'>
             <div className='flex items-center ph3 ph4-l' style={{ height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
               <div className='joyride-app-explore' style={{ width: 560 }}>
-                <FilesExploreForm onNavigate={doFilesNavigateTo} />
+                <FilesExploreForm onBrowse={doFilesNavigateTo} onInspect={doExploreUserProvidedPath} />
               </div>
               <div className='dn flex-ns flex-auto items-center justify-end'>
                 <TourHelper />
@@ -128,6 +128,7 @@ export default connect(
   'selectIpfsReady',
   'selectShowTooltip',
   'doFilesNavigateTo',
+  'doExploreUserProvidedPath',
   'doUpdateUrl',
   'doUpdateHash',
   'doInitIpfs',
