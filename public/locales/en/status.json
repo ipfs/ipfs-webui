@@ -65,9 +65,9 @@
       "paragraph1": "This chart shows the network bandwith usage over time.",
       "paragraph2": "The speedometers show the current outgoing and incoming traffic."
     },
-    "step5": {
+    "stepExplore": {
       "title": "Explore",
-      "paragraph1": "Paste a CID and explore how that data is structured and linked across protocols."
+      "paragraph": "Paste a CID and explore the files contained behind the CID or see how that data is structured and linked across protocols."
     }
   },
   "bandwidthStats": "Bandwidth stats",

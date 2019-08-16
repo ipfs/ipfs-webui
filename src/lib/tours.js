@@ -64,8 +64,8 @@ export const statusTour = {
     },
     {
       content: <div className='montserrat charcoal'>
-        <h2 className='f3 fw4'>{t('tour.step5.title')}</h2>
-        <p className='tl f6'>{t('tour.step5.paragraph1')}</p>
+        <h2 className='f3 fw4'>{t('tour.stepExplore.title')}</h2>
+        <p className='tl f6'>{t('tour.stepExplore.paragraph')}</p>
       </div>,
       locale: { last: 'Finish' },
       placement: 'right',
