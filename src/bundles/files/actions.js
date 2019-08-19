@@ -7,7 +7,7 @@ import { IGNORED_FILES, ACTIONS } from './consts'
 
 const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path, prefix = '/ipfs') => ({
   size: cumulativeSize || size || null,
-  type: (type === 'dir' || type === 'directory') ? 'directory' : 'file',
+  type: (type === 'dir' || type === 'directory') ? 'directory' : (type === 'unknown') ? 'unknown' : 'file',
   hash: hash,
   name: name || path ? path.split('/').pop() : hash,
   path: path || `${prefix}/${hash}`
@@ -22,6 +22,27 @@ const realMfsPath = (path) => {
   return path
 }
 
+const stat = async (ipfs, hashOrPath) => {
+  const path = hashOrPath.startsWith('/')
+    ? hashOrPath
+    : `/ipfs/${hashOrPath}`
+
+  try {
+    const stats = await ipfs.files.stat(path)
+    return stats
+  } catch (e) {
+    if (e.toString().toLowerCase().includes('unixfs')) {
+      return {
+        path: hashOrPath,
+        hash: hashOrPath,
+        type: 'unknown'
+      }
+    } else {
+      throw e
+    }
+  }
+}
+
 const getRawPins = async (ipfs) => {
   const recursive = await ipfs.pin.ls({ type: 'recursive' })
   const direct = await ipfs.pin.ls({ type: 'direct' })
@@ -33,9 +54,7 @@ const getPins = async (ipfs) => {
   const pins = await getRawPins(ipfs)
 
   const stats = await Promise.all(
-    pins.map(({ hash }) => {
-      return ipfs.files.stat(`/ipfs/${hash}`)
-    })
+    pins.map(({ hash }) => stat(ipfs, hash))
   )
 
   return stats.map(item => {
@@ -67,7 +86,11 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
     realPath = await ipfs.name.resolve(realPath)
   }
 
-  const stats = await ipfs.files.stat(realPath)
+  const stats = await stat(ipfs, realPath)
+
+  if (stats.type === 'unknown') {
+    return stats
+  }
 
   if (stats.type === 'file') {
     return {
@@ -91,7 +114,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
     let file = null
 
     if (showStats && f.type === 'dir') {
-      file = fileFromStats(await ipfs.files.stat(`/ipfs/${f.hash}`), absPath)
+      file = fileFromStats(await stat(ipfs, f.hash), absPath)
     } else {
       file = fileFromStats(f, absPath)
     }
@@ -110,7 +133,6 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
         parentInfo.realPath = await ipfs.name.resolve(parentInfo.realPath)
       }
 
-      console.log(parentInfo.realPath)
       parent = fileFromStats(await ipfs.files.stat(parentInfo.realPath))
 
       parent.name = '..'

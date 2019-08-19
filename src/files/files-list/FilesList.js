@@ -305,7 +305,7 @@ export class FilesList extends React.Component {
   }
 
   rowRenderer = ({ index, key, style }) => {
-    const { files, pins, upperDir, filesPathInfo, isOver, canDrop, onNavigate, onAddFiles } = this.props
+    const { files, pins, upperDir, filesPathInfo, isOver, canDrop, onNavigate, onInspect, onAddFiles } = this.props
     const { selected, focused, isDragging } = this.state
 
     if (upperDir) {
@@ -342,7 +342,13 @@ export class FilesList extends React.Component {
           isMfs={filesPathInfo.isMfs}
           name={files[index].name}
           onSelect={this.toggleOne}
-          onNavigate={() => onNavigate(files[index].path)}
+          onNavigate={() => {
+            if (files[index].type === 'unknown') {
+              onInspect(files[index].hash)
+            } else {
+              onNavigate(files[index].path)
+            }
+          }}
           onAddFiles={onAddFiles}
           onMove={this.move}
           focused={focused === files[index].name}
