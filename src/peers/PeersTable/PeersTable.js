@@ -49,7 +49,7 @@ export class PeersTable extends React.Component {
     const style = { width: '60px' }
 
     return cellData
-      ? <span className='dib tr' style={style}>{cellData}</span>
+      ? <span className='dib tr' style={style}>{cellData}ms</span>
       : <span className='dib tr o-40' style={style}>-</span>
   }
 
@@ -83,7 +83,7 @@ export class PeersTable extends React.Component {
     const { className, peerLocationsForSwarm, t } = this.props
     const { sortBy, sortDirection } = this.state
 
-    const sortedList = (peerLocationsForSwarm || []).sort(sortByProperty(sortBy === 'latency' ? 'rawLatency' : sortBy, sortDirection === SortDirection.ASC ? 1 : -1))
+    const sortedList = (peerLocationsForSwarm || []).sort(sortByProperty(sortBy, sortDirection === SortDirection.ASC ? 1 : -1))
     const tableHeight = 400
 
     return (
@@ -103,11 +103,11 @@ export class PeersTable extends React.Component {
               sort={this.sort}
               sortBy={sortBy}
               sortDirection={sortDirection}>
-              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='locationCode' width={450} className='f6 navy-muted truncate pl2' />
+              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={450} className='f6 navy-muted truncate pl2' />
               <Column label={t('latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 navy-muted monospace pl2' />
               <Column label={t('peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f7 pl2' />
               <Column label={t('connection')} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
-              <Column label={t('notes')} cellRenderer={this.notesCellRenderer} dataKey='notes' width={400} className='charcoal monospace truncate f7 pl2' />
+              <Column label={t('notes')} cellRenderer={this.notesCellRenderer} disableSort dataKey='notes' width={400} className='charcoal monospace truncate f7 pl2' />
             </Table>
           )}
         </AutoSizer> }
