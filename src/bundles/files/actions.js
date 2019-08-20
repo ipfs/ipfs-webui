@@ -31,14 +31,14 @@ const stat = async (ipfs, hashOrPath) => {
     const stats = await ipfs.files.stat(path)
     return stats
   } catch (e) {
-    if (e.toString().toLowerCase().includes('unixfs')) {
-      return {
-        path: hashOrPath,
-        hash: hashOrPath,
-        type: 'unknown'
-      }
-    } else {
-      throw e
+    // Discard error and mark DAG as 'unknown' to unblock listing other pins.
+    // Clicking on 'unknown' entry will open it in Inspector.
+    // No information is lost: if there is an error related
+    // to specified hashOrPath user will read it in Inspector.
+    return {
+      path: hashOrPath,
+      hash: hashOrPath,
+      type: 'unknown'
     }
   }
 }
