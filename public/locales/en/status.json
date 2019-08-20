@@ -66,8 +66,8 @@
       "paragraph2": "The speedometers show the current outgoing and incoming traffic."
     },
     "stepExplore": {
-      "title": "Explore Files",
-      "paragraph": "Paste a CID, IPFS or IPNS path and browse its contents with a file explorer."
+      "title": "Explore",
+      "paragraph": "Paste a CID and explore the files contained behind the CID or see how that data is structured and linked across protocols."
     }
   },
   "bandwidthStats": "Bandwidth stats",

@@ -2,30 +2,43 @@ import React from 'react'
 import isIPFS from 'is-ipfs'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
-import StrokeIpld from '../../icons/StrokeFolder'
+import StrokeFolder from '../../icons/StrokeFolder'
+import StrokeIpld from '../../icons/StrokeIpld'
 import Button from '../../components/button/Button'
+import './FilesExploreForm.css'
 
 class FilesExploreForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      path: ''
+      path: '',
+      hideExplore: false
     }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onInspect = this.onInspect.bind(this)
   }
 
   onSubmit (evt) {
     evt.preventDefault()
 
-    if (this.canBrowse) {
+    if (this.isValid) {
       let path = this.path
 
       if (isIPFS.cid(path)) {
         path = `/ipfs/${path}`
       }
 
-      this.props.onNavigate(path)
+      this.props.onBrowse(path)
+      this.setState({ path: '' })
+    }
+  }
+
+  onInspect (evt) {
+    evt.preventDefault()
+
+    if (this.isValid) {
+      this.props.onInspect(this.path)
       this.setState({ path: '' })
     }
   }
@@ -40,7 +53,7 @@ class FilesExploreForm extends React.Component {
   }
 
   get isValid () {
-    return isIPFS.cid(this.path) || isIPFS.path(this.path)
+    return this.path !== '' && (isIPFS.cid(this.path) || isIPFS.path(this.path))
   }
 
   get inputClass () {
@@ -55,10 +68,6 @@ class FilesExploreForm extends React.Component {
     }
   }
 
-  get canBrowse () {
-    return this.path !== '' && this.isValid
-  }
-
   render () {
     const { t } = this.props
     return (
@@ -69,14 +78,28 @@ class FilesExploreForm extends React.Component {
             <small id='ipfs-path-desc' className='o-0 absolute f6 black-60 db mb2'>Paste in a CID or IPFS path</small>
           </div>
         </div>
-        <div className='flex-none'>
+        <div className='flex flex-row-reverse mb2'>
           <Button
             type='submit'
-            disabled={!this.canBrowse}
+            minWidth={0}
+            disabled={!this.isValid}
+            title={t('exploreForm.inspect')}
             style={{ borderRadius: '0 3px 3px 0' }}
-            className='button-reset pv1 pl2 pr3 ba f7 fw4 white bg-aqua' >
+            onClick={this.onInspect}
+            bg='bg-teal'
+            className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white overflow-hidden' >
             <StrokeIpld style={{ height: 24 }} className='dib fill-current-color v-mid' />
-            <span className='ml2'>{t('exploreForm.explore')}</span>
+            <span className='ml2'>{t('exploreForm.inspect')}</span>
+          </Button>
+          <Button
+            type='submit'
+            minWidth={0}
+            disabled={!this.isValid}
+            style={{ borderRadius: '0' }}
+            title={t('exploreForm.browse')}
+            className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white bg-aqua overflow-hidden' >
+            <StrokeFolder style={{ height: 24 }} className='dib fill-current-color v-mid' />
+            <span className='ml2'>{t('exploreForm.browse')}</span>
           </Button>
         </div>
       </form>
@@ -86,7 +109,8 @@ class FilesExploreForm extends React.Component {
 
 FilesExploreForm.propTypes = {
   t: PropTypes.func.isRequired,
-  onNavigate: PropTypes.func.isRequired
+  onInspect: PropTypes.func.isRequired,
+  onBrowse: PropTypes.func.isRequired
 }
 
 export default withTranslation('files')(FilesExploreForm)
