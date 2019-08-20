@@ -100,7 +100,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.1",
     "fake-indexeddb": "^2.1.1",
     "is-pull-stream": "0.0.0",
     "multihashing-async": "^0.7.0",
