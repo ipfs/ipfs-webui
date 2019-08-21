@@ -183,6 +183,11 @@ To contribute to IPFS in general, see the [contributing guide](https://github.co
 
 [![](https://cdn.rawgit.com/jbenet/contribute-ipfs-gif/master/img/contribute.gif)](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md)
 
+## Browser and device testing
+
+[<img src="https://ipfs.io/ipfs/QmbKK6f1cuRfb63dTULVgCvnpGj6Q6T16XyqeC3AXDUH2F/browserstack-logo-600x315.png" width="300px" />](https://www.browserstack.com/)
+
+We would like to thank [BrowserStack](https://www.browserstack.com/) for supporting Open Source and making it possible for us to test IPFS on a wide array of operating systems and devices, improving compatibility for everyone.
 
 ## License
 
