@@ -81,7 +81,7 @@ class Modals extends React.Component {
     }
 
     switch (show) {
-      case SHARE:
+      case SHARE: {
         this.setState({
           link: t('generating'),
           readyToShow: true
@@ -89,8 +89,8 @@ class Modals extends React.Component {
 
         onShareLink(files).then(link => this.setState({ link }))
         break
-
-      case RENAME:
+      }
+      case RENAME: {
         const file = files[0]
 
         this.setState({
@@ -102,8 +102,8 @@ class Modals extends React.Component {
           }
         })
         break
-
-      case DELETE:
+      }
+      case DELETE: {
         let filesCount = 0
         let foldersCount = 0
 
@@ -118,6 +118,7 @@ class Modals extends React.Component {
           }
         })
         break
+      }
       default:
         this.setState({ readyToShow: true })
     }

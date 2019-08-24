@@ -108,19 +108,22 @@ class FilesPage extends React.Component {
     let translateY = 0
 
     switch (clickType) {
-      case 'RIGHT':
+      case 'RIGHT': {
         const rightPadding = window.innerWidth - ctxMenu.parentNode.getBoundingClientRect().right
         translateX = (window.innerWidth - ev.clientX) - rightPadding - 20
         translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10
         break
-      case 'TOP':
+      }
+      case 'TOP': {
         const pagePositions = ctxMenu.parentNode.getBoundingClientRect()
         translateX = pagePositions.right - pos.right
         translateY = -(pos.bottom - pagePositions.top + 11)
         break
-      default:
+      }
+      default: {
         translateX = 1
         translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (pos && pos.y) - 30
+      }
     }
 
     this.setState({

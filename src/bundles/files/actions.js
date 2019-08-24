@@ -203,7 +203,7 @@ export default () => ({
 
     if (res.length !== expectedResponseCount) {
       // See https://github.com/ipfs/js-ipfs-api/issues/797
-      throw Object.assign(new Error(`API returned a partial response.`), { code: 'ERR_API_RESPONSE' })
+      throw Object.assign(new Error('API returned a partial response.'), { code: 'ERR_API_RESPONSE' })
     }
 
     for (const { path, hash } of res) {
@@ -215,7 +215,7 @@ export default () => ({
         try {
           await ipfs.files.cp([src, dst])
         } catch (err) {
-          throw Object.assign(new Error(`Folder already exists.`), { code: 'ERR_FOLDER_EXISTS' })
+          throw Object.assign(new Error('Folder already exists.'), { code: 'ERR_FOLDER_EXISTS' })
         }
       }
     }

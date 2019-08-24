@@ -45,7 +45,7 @@ class Preview extends React.Component {
         )
       case 'image':
         return <img className={className} alt={name} src={src} />
-      default:
+      default: {
         const cantPreview = (
           <div className='mt4'>
             <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
@@ -75,6 +75,7 @@ class Preview extends React.Component {
             {this.state.content}
           </pre>
         )
+      }
     }
   }
 }

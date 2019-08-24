@@ -50,7 +50,7 @@ const CountryChart = ({ t, peerLocations, className }) => {
       callbacks: {
         title: (tooltipItem, data) => data.labels[tooltipItem[0].index],
         label: (tooltipItem, data) => {
-          const percent = data['datasets'][0]['data'][tooltipItem['index']]
+          const percent = data.datasets[0].data[tooltipItem.index]
           const count = Math.round((percent * totalCountries) / 100)
 
           return t('pieChartLabel', { percent: percent, count: count })
