@@ -38,10 +38,10 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
     <Box className='mb3 pa4'>
       <Title>{t('ipfsDesktop')}</Title>
 
-      <CheckboxSetting checked={desktopSettings['autoLaunch'] || false}
+      <CheckboxSetting checked={desktopSettings.autoLaunch || false}
         title={t('launchOnStartup')}
         onChange={() => doDesktopSettingsToggle('autoLaunch')} />
-      <CheckboxSetting checked={desktopSettings['ipfsOnPath'] || false}
+      <CheckboxSetting checked={desktopSettings.ipfsOnPath || false}
         title={t('ipfsCmdTools')}
         disabled={os.platform() === 'win32'}
         onChange={() => doDesktopSettingsToggle('ipfsOnPath')}>
@@ -54,7 +54,7 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
       <p className='ttu tracked f7 aqua mt4 mb2'>{t('globalShortcuts')}</p>
       <p className='f6 charcoal lh-copy mw7'>{t('globalShortcutsAre')}</p>
 
-      <CheckboxSetting checked={desktopSettings['screenshotShortcut'] || false}
+      <CheckboxSetting checked={desktopSettings.screenshotShortcut || false}
         title={t('takeScreenshot')}
         onChange={() => doDesktopSettingsToggle('screenshotShortcut')}>
         <Trans
@@ -67,7 +67,7 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
           }}
           components={[<Key>0</Key>, <Key>0</Key>, <Key>0</Key>, <Key>0</Key>]} />
       </CheckboxSetting>
-      <CheckboxSetting checked={desktopSettings['downloadHashShortcut'] || false}
+      <CheckboxSetting checked={desktopSettings.downloadHashShortcut || false}
         title={t('downloadHash')}
         onChange={() => doDesktopSettingsToggle('downloadHashShortcut')}>
         <Trans

@@ -92,7 +92,7 @@ export class FilesList extends React.Component {
 
     return (
       <SelectedActions
-        className={`fixed transition-all bottom-0 right-0`}
+        className={'fixed transition-all bottom-0 right-0'}
         style={{
           maxWidth: innerWidthEm < 60 ? '100%' : `calc(100% - ${this.props.navbarWidth}px)`,
           transform: `translateY(${show ? '0' : '100%'})`

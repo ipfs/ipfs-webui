@@ -24,29 +24,29 @@ const bundle = createAsyncResourceBundle({
 
 // derive the object from the stringy json
 bundle.selectConfigObject = createSelector(
-  `selectConfig`,
+  'selectConfig',
   (configStr) => JSON.parse(configStr)
 )
 
 bundle.selectApiUrl = createSelector(
-  `selectConfigObject`,
+  'selectConfigObject',
   (config) => getURLFromAddress('API', config) || 'https://ipfs.io'
 )
 
 bundle.selectGatewayUrl = createSelector(
-  `selectConfigObject`,
+  'selectConfigObject',
   (config) => getURLFromAddress('Gateway', config) || 'https://ipfs.io'
 )
 
 bundle.selectBootstrapPeers = createSelector(
-  `selectConfigObject`,
+  'selectConfigObject',
   (config) => config && config.Bootstrap
 )
 
 // TODO: this is a work-around for IPFS companion blocking the config API
 // see: https://github.com/ipfs-shipyard/ipfs-companion/issues/454
 bundle.selectIsConfigBlocked = createSelector(
-  `selectConfigRaw`,
+  'selectConfigRaw',
   ({ errorType }) => errorType === 'Access to config.get API is globally blocked for window.ipfs'
 )
 
