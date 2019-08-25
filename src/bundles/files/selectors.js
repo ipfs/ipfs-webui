@@ -7,6 +7,8 @@ export default () => ({
 
   selectPins: (state) => state.files.pins,
 
+  selectFilesSize: (state) => state.files.mfsSize,
+
   selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === ACTIONS.FETCH),
 
   selectShowLoadingAnimation: (state) => {

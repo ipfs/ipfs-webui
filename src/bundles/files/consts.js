@@ -11,7 +11,8 @@ export const ACTIONS = {
   ADD_BY_PATH: 'ADDBYPATH',
   PIN_ADD: 'PIN_ADD',
   PIN_REMOVE: 'PIN_REMOVE',
-  PIN_LIST: 'PIN_LIST'
+  PIN_LIST: 'PIN_LIST',
+  FILES_SIZE_GET: 'FILES_SIZE_GET'
 }
 
 export const SORTING = {

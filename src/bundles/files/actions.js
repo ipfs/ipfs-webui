@@ -271,5 +271,10 @@ export default () => ({
 
   doFilesUpdateSorting: (by, asc) => async ({ dispatch }) => {
     dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
-  }
+  },
+
+  doFilesSizeGet: make(ACTIONS.FILES_SIZE_GET, async (ipfs) => {
+    const stat = await ipfs.files.stat('/')
+    return { size: stat.cumulativeSize }
+  })
 })
