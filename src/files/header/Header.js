@@ -23,6 +23,10 @@ function BarOption ({ children, title, isLink = false, className = '', ...etc })
   )
 }
 
+function humanSize (size) {
+  return filesize(size || 0, { round: 1, spacer: '' })
+}
+
 class Header extends React.Component {
   handleContextMenu = (ev) => {
     const pos = this.dotsWrapper.getBoundingClientRect()
@@ -51,7 +55,7 @@ class Header extends React.Component {
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
           <BarOption title={t('files')} isLink onClick={() => { onNavigate('/files') }}>
-            { filesSize ? filesize(filesSize || 0, { round: 1 }) : 'N/A' }
+            { filesSize ? humanSize(filesSize || 0) : 'N/A' }
           </BarOption>
 
           <BarOption title={t('pins')} isLink onClick={() => { onNavigate('/pins') }}>
@@ -63,7 +67,7 @@ class Header extends React.Component {
           </BarOption>
 
           <BarOption title={t('repo')}>
-            { repoSize ? filesize(repoSize || 0, { round: 1 }) : 'N/A' }
+            { repoSize ? humanSize(repoSize || 0) : 'N/A' }
           </BarOption>
 
           <div className='pa3'>
