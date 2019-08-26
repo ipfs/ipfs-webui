@@ -24,7 +24,11 @@ function BarOption ({ children, title, isLink = false, className = '', ...etc })
 }
 
 function humanSize (size) {
-  return filesize(size || 0, { round: 1, spacer: '' })
+  if (!size) return 'N/A'
+
+  return filesize(size || 0, {
+    round: size >= 1000000000 ? 1 : 0, spacer: ''
+  })
 }
 
 class Header extends React.Component {
@@ -55,7 +59,7 @@ class Header extends React.Component {
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
           <BarOption title={t('files')} isLink onClick={() => { onNavigate('/files') }}>
-            { filesSize ? humanSize(filesSize || 0) : 'N/A' }
+            { humanSize(filesSize) }
           </BarOption>
 
           <BarOption title={t('pins')} isLink onClick={() => { onNavigate('/pins') }}>
@@ -67,7 +71,7 @@ class Header extends React.Component {
           </BarOption>
 
           <BarOption title={t('repo')}>
-            { repoSize ? humanSize(repoSize || 0) : 'N/A' }
+            { humanSize(repoSize) }
           </BarOption>
 
           <div className='pa3'>
