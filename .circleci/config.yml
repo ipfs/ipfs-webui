@@ -29,6 +29,7 @@ jobs:
       - image: olizilla/ipfs-dns-deploy:latest
         environment:
           DOMAIN: webui.ipfs.io
+          DEV_DOMAIN: dev.webui.ipfs.io
           BUILD_DIR: build
     steps:
       - attach_workspace:
@@ -43,6 +44,10 @@ jobs:
             echo "Website added to IPFS: https://ipfs.io/ipfs/$hash"
 
             if [ "$CIRCLE_BRANCH" == "master" ] ; then
+              dnslink-dnsimple -d $DEV_DOMAIN -r _dnslink -l /ipfs/$hash
+            fi
+
+            if [ ! -z "$CIRCLE_TAG" ] ; then
               dnslink-dnsimple -d $DOMAIN -r _dnslink -l /ipfs/$hash
             fi
 

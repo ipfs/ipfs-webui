@@ -57,7 +57,7 @@ In separate shells run the following:
 
 You must configure your IPFS API at http://127.0.0.1:5001  to allow [cross-origin (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) requests from your dev server at http://localhost:3000
 
-Similarly if you want to try out pre-release versions at https://webui.ipfs.io you need to add that as an allowed domain too.
+Similarly if you want to try out pre-release versions at https://dev.webui.ipfs.io you need to add that as an allowed domain too.
 
 #### Easy mode
 
