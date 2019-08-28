@@ -44,6 +44,7 @@ class FilesPage extends React.Component {
   componentDidMount () {
     this.props.doFilesFetch()
     this.props.doPinsFetch()
+    this.props.doFilesSizeGet()
   }
 
   componentDidUpdate (prev) {
@@ -314,5 +315,6 @@ export default connect(
   'doFilesWrite',
   'doFilesDownloadLink',
   'doExploreUserProvidedPath',
+  'doFilesSizeGet',
   withTour(withTranslation('files')(FilesPage))
 )

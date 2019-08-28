@@ -1,4 +1,5 @@
 import React from 'react'
+import filesize from 'filesize'
 import SimplifyNumber from 'simplify-number'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
@@ -8,19 +9,26 @@ import FileInput from '../file-input/FileInput'
 import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
-import GlyphHome from '../../icons/GlyphHome'
 
-function BarOption ({ children, title, className = '', ...etc }) {
+function BarOption ({ children, title, isLink = false, className = '', ...etc }) {
   className += ' tc pa3'
 
   if (etc.onClick) className += ' pointer'
 
   return (
     <div className={className} {...etc}>
-      <span className='db f4 navy'>{children}</span>
-      <span className='db ttl gray'>{title}</span>
+      <span className='nowrap db f4 navy'>{children}</span>
+      <span className={`db ttl ${isLink ? 'navy underline' : 'gray'}`}>{title}</span>
     </div>
   )
+}
+
+function humanSize (size) {
+  if (!size) return 'N/A'
+
+  return filesize(size || 0, {
+    round: size >= 1000000000 ? 1 : 0, spacer: ''
+  })
 }
 
 class Header extends React.Component {
@@ -37,7 +45,9 @@ class Header extends React.Component {
       files, writeFilesProgress, t,
       pins,
       filesPathInfo,
+      filesSize,
       repoNumObjects,
+      repoSize,
       onNavigate
     } = this.props
 
@@ -48,16 +58,20 @@ class Header extends React.Component {
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
+          <BarOption title={t('files')} isLink onClick={() => { onNavigate('/files') }}>
+            { humanSize(filesSize) }
+          </BarOption>
+
+          <BarOption title={t('pins')} isLink onClick={() => { onNavigate('/pins') }}>
+            { pins ? SimplifyNumber(pins.length) : '-' }
+          </BarOption>
+
           <BarOption title={t('blocks')}>
             { repoNumObjects ? SimplifyNumber(repoNumObjects, { decimal: 0 }) : 'N/A' }
           </BarOption>
 
-          <BarOption title={t('pins')} onClick={() => { onNavigate('/pins') }}>
-            { pins ? SimplifyNumber(pins.length) : '-' }
-          </BarOption>
-
-          <BarOption title={t('files')} onClick={() => { onNavigate('/files') }}>
-            <GlyphHome viewBox='20 20 60 60' className='w1 h1 fill-navy' />
+          <BarOption title={t('repo')}>
+            { humanSize(repoSize) }
           </BarOption>
 
           <div className='pa3'>
@@ -91,6 +105,7 @@ class Header extends React.Component {
 
 export default connect(
   'selectPins',
+  'selectFilesSize',
   'selectRepoSize',
   'selectRepoNumObjects',
   'selectFilesPathInfo',

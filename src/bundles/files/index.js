@@ -96,6 +96,12 @@ export default () => {
         const action = state.pending.find(a => a.id === id)
         let additional
 
+        if (type === ACTIONS.FILES_SIZE_GET) {
+          additional = {
+            mfsSize: data.size
+          }
+        }
+
         if (type === ACTIONS.FETCH) {
           additional = {
             pageContent: data
