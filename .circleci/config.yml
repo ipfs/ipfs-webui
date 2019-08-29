@@ -29,7 +29,6 @@ jobs:
       - image: olizilla/ipfs-dns-deploy:latest
         environment:
           DOMAIN: webui.ipfs.io
-          DEV_DOMAIN: dev.webui.ipfs.io
           BUILD_DIR: build
     steps:
       - attach_workspace:
