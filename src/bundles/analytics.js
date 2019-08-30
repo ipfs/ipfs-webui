@@ -242,7 +242,7 @@ const createAnalyticsBundle = ({
       removeConsent(name, store)
       dispatch({ type: 'ANALYTICS_REMOVE_CONSENT', payload: { name } })
     },
-    
+
     doAddConsent: (name) => ({ dispatch, store }) => {
       addConsent(name, store)
       dispatch({ type: 'ANALYTICS_ADD_CONSENT', payload: { name } })
