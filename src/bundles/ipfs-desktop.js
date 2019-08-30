@@ -29,6 +29,8 @@ if (window.ipfsDesktop) {
 
     selectDesktopVersion: () => window.ipfsDesktop.version,
 
+    selectDesktopCountlyDeviceId: () => window.ipfsDesktop.countlyDeviceId,
+
     doDesktopStartListening: () => async ({ dispatch, store }) => {
       window.ipfsDesktop.onConfigChanged(({ config, changed, success }) => {
         const prevConfig = store.selectDesktopSettings()
@@ -75,6 +77,14 @@ if (window.ipfsDesktop) {
 
     doDesktopSelectDirectory: () => () => {
       return window.ipfsDesktop.selectDirectory()
+    },
+
+    doDesktopAddConsent: consent => () => {
+      return window.ipfsDesktop.addConsent(consent)
+    },
+
+    doDesktopRemoveConsent: consent => () => {
+      return window.ipfsDesktop.removeConsent(consent)
     },
 
     init: store => {

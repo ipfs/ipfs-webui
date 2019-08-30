@@ -34,6 +34,22 @@ const consentGroups = {
   safe: ['sessions', 'events', 'views', 'location']
 }
 
+function addConsent (consent, store) {
+  root.Countly.q.push(['add_consent', consent])
+
+  if (store.selectIsIpfsDesktop()) {
+    store.doDesktopAddConsent(consent)
+  }
+}
+
+function removeConsent (consent, store) {
+  root.Countly.q.push(['remove_consent', consent])
+
+  if (store.selectIsIpfsDesktop()) {
+    store.doDesktopRemoveConsent(consent)
+  }
+}
+
 const createAnalyticsBundle = ({
   countlyUrl = 'https://countly.ipfs.io',
   countlyAppKey = pickAppKey(),
@@ -63,10 +79,13 @@ const createAnalyticsBundle = ({
 
       if (store.selectIsIpfsDesktop()) {
         Countly.app_version = store.selectDesktopVersion()
+        Countly.q.push(['change_id', store.selectDesktopCountlyDeviceId()])
+      } else {
+        // Sessions will only be tracked by IPFS Desktop.
+        Countly.q.push(['track_sessions'])
       }
 
       // Configure what to track. Nothing is sent without user consent.
-      Countly.q.push(['track_sessions'])
       Countly.q.push(['track_errors'])
 
       // Don't track clicks or links as it can include full url.
@@ -75,7 +94,7 @@ const createAnalyticsBundle = ({
 
       if (store.selectAnalyticsEnabled()) {
         const consent = store.selectAnalyticsConsent()
-        Countly.q.push(['add_consent', consent])
+        addConsent(consent, store)
       }
 
       store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
@@ -200,13 +219,13 @@ const createAnalyticsBundle = ({
     },
 
     doDisableAnalytics: () => ({ dispatch, store }) => {
-      root.Countly.q.push(['remove_consent', consentGroups.all])
+      removeConsent(consentGroups.all, store)
       dispatch({ type: 'ANALYTICS_DISABLED', payload: { consent: [] } })
     },
 
     doEnableAnalytics: () => ({ dispatch, store }) => {
-      root.Countly.q.push(['remove_consent', consentGroups.all])
-      root.Countly.q.push(['add_consent', consentGroups.safe])
+      removeConsent(consentGroups.all, store)
+      addConsent(consentGroups.safe, store)
       dispatch({ type: 'ANALYTICS_ENABLED', payload: { consent: consentGroups.safe } })
     },
 
@@ -220,12 +239,12 @@ const createAnalyticsBundle = ({
     },
 
     doRemoveConsent: (name) => ({ dispatch, store }) => {
-      root.Countly.q.push(['remove_consent', name])
+      removeConsent(name, store)
       dispatch({ type: 'ANALYTICS_REMOVE_CONSENT', payload: { name } })
     },
-
+    
     doAddConsent: (name) => ({ dispatch, store }) => {
-      root.Countly.q.push(['add_consent', name])
+      addConsent(name, store)
       dispatch({ type: 'ANALYTICS_ADD_CONSENT', payload: { name } })
     }
   }
