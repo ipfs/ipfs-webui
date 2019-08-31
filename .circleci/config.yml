@@ -46,7 +46,7 @@ jobs:
               dnslink-dnsimple -d $DOMAIN -r _dnslink.dev -l /ipfs/$hash
             fi
 
-            if [ ! -z "$CIRCLE_TAG" ] ; then
+            if [ npx semver "$CIRCLE_TAG" ] ; then
               dnslink-dnsimple -d $DOMAIN -r _dnslink -l /ipfs/$hash
             fi
 
