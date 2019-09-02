@@ -84,7 +84,7 @@ const createAnalyticsBundle = ({
         Countly.app_version = store.selectDesktopVersion()
         Countly.q.push(['change_id', store.selectDesktopCountlyDeviceId()])
       }
-      
+
       // Configure what to track. Nothing is sent without user consent.
       Countly.q.push(['track_sessions'])
       Countly.q.push(['track_errors'])
