@@ -92,7 +92,7 @@
     "babel-eslint": "10.0.2",
     "big.js": "^5.2.2",
     "bundlesize": "^0.18.0",
-    "cross-env": "^5.2.0",
+    "cross-env": "^5.2.1",
     "ecstatic": "^4.1.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
