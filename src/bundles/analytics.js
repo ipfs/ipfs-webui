@@ -83,13 +83,10 @@ const createAnalyticsBundle = ({
       if (store.selectIsIpfsDesktop()) {
         Countly.app_version = store.selectDesktopVersion()
         Countly.q.push(['change_id', store.selectDesktopCountlyDeviceId()])
-      } else {
-        // Sessions will only be shared by Web UI when we're not in a
-        // IPFS Desktop environment.
-        Countly.q.push(['track_sessions'])
       }
-
+      
       // Configure what to track. Nothing is sent without user consent.
+      Countly.q.push(['track_sessions'])
       Countly.q.push(['track_errors'])
 
       // Don't track clicks or links as it can include full url.
