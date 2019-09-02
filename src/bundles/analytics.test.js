@@ -23,7 +23,8 @@ function createStore (analyticsOpts = {}) {
     },
     {
       name: 'mockIpfsDesktopBundle',
-      selectIsIpfsDesktop: () => false
+      selectIsIpfsDesktop: () => false,
+      selectDesktopCountlyActions: () => ([])
     },
     createAnalyticsBundle(analyticsOpts)
   )()
