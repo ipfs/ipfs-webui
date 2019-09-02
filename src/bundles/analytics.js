@@ -1,4 +1,6 @@
 import root from 'window-or-global'
+import changeCase from 'change-case'
+import { createSelector } from 'redux-bundler'
 
 // Only record specific actions listed here.
 const ASYNC_ACTIONS_TO_RECORD = [
@@ -10,7 +12,8 @@ const ASYNC_ACTIONS_TO_RECORD = [
   'FILES_MOVE',
   'FILES_DELETE',
   'FILES_DOWNLOADLINK',
-  'EXPERIMENTS_TOGGLE'
+  'EXPERIMENTS_TOGGLE',
+  'DESKTOP_SETTING_TOGGLE'
 ]
 
 const ASYNC_ACTION_RE = new RegExp(`^${ASYNC_ACTIONS_TO_RECORD.join('_|')}`)
@@ -129,8 +132,22 @@ const createAnalyticsBundle = ({
               const durationInSeconds = (root.performance.now() - start) / 1000
               let key = state === 'FAILED' ? action.type : name
 
-              if (name === 'EXPERIMENTS_TOGGLE') {
-                key += `_${action.payload.key}`
+              // Costum code for experiments toggle and desktop settings toggle.
+              // This way we can detect if we're enabling or disabling an option.
+              if (name === 'EXPERIMENTS_TOGGLE' || name === 'DESKTOP_SETTING_TOGGLE') {
+                key = name === 'EXPERIMENTS_TOGGLE'
+                  ? 'EXPERIMENTS_'
+                  : 'DESKTOP_SETTING_'
+                
+                key += changeCase.constantCase(action.payload.key)
+
+                if (state === 'FAILED') {
+                  key += '_FAILED'
+                } else {
+                  key += action.payload.value
+                    ? '_ENABLED'
+                    : '_DISABLED'
+                }
               }
 
               root.Countly.q.push(['add_event', {
@@ -206,9 +223,15 @@ const createAnalyticsBundle = ({
       return false
     },
 
-    selectAnalyticsActionsToRecord: () => {
-      return Array.from(ASYNC_ACTIONS_TO_RECORD)
-    },
+    selectAnalyticsActionsToRecord: createSelector(
+      'selectIsIpfsDesktop',
+      'selectDesktopCountlyActions',
+      (isDesktop, desktopActions) => {
+        return isDesktop
+          ? desktopActions.concat(ASYNC_ACTIONS_TO_RECORD).sort()
+          : Array.from(ASYNC_ACTIONS_TO_RECORD).sort()
+      }
+    ),
 
     doToggleAnalytics: () => ({ dispatch, store }) => {
       const enable = !store.selectAnalyticsEnabled()
