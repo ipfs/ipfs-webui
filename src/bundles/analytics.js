@@ -138,7 +138,7 @@ const createAnalyticsBundle = ({
                 key = name === 'EXPERIMENTS_TOGGLE'
                   ? 'EXPERIMENTS_'
                   : 'DESKTOP_SETTING_'
-                
+
                 key += changeCase.constantCase(action.payload.key)
 
                 if (state === 'FAILED') {
