@@ -65,9 +65,9 @@
       "paragraph1": "此图表显示了一段时间内的网络带宽使用情况。",
       "paragraph2": "速度表显示当前的输出和输入流量。"
     },
-    "step5": {
+    "stepExplore": {
       "title": "浏览",
-      "paragraph1": "粘贴 CID 并探索数据是如何通过协议连接并组织起来的。"
+      "paragraph": "Paste a CID and explore the files contained behind the CID or see how that data is structured and linked across protocols."
     }
   },
   "bandwidthStats": "带宽状态",

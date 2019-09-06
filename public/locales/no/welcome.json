@@ -2,7 +2,7 @@
   "title": "Velkommen til IPFS",
   "configureApiPort": {
     "header": "Er ditt API på en annen port enn 5001?",
-    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
+    "paragraph1": "<0>Hvis din IPFS-node er konfigurert med en <1>tilpasset API adresse</1>, vennligst sett den her</0>"
   },
   "apiAddressForm": {
     "apiLabel": "API ADRESSE",
@@ -10,7 +10,7 @@
   },
   "connected": {
     "header": "Koblet til IPFS",
-    "paragraph1": "<0>Now, it’s time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
+    "paragraph1": "<0>Nå er det tid for de å utforske din node. Gå til <1>Filer-siden</1> for å administrere og dele filene din, eller utforske <3>Merkle skogen</3> av peer-hostet hash-linket data via <5>IPLD-utforskeren</5>.</0>",
     "paragraph2": "<0>Du kan alltid komme tilbake til denne adressen for å endre IPFS-noden du er koblet til.</0>"
   },
   "notConnected": {
@@ -24,7 +24,7 @@
     "header": "Hva er IPFS?",
     "paragraph1": "<0><0>IPFS er en protokoll</0> som definerer et innholdsadressert filsystem, koordinerer innholdsleveranse og kombinerer ideer fra Kademlia, BitTorrent, Git og mer.",
     "paragraph2": "<0><0>IPFS er et filsystem.</0> Det har mapper, filer og monterbart filsystem via FUSE.</0>",
-    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity.</0>",
+    "paragraph3": "<0><0>IPFS er en web.</0> Filer er tilgjengelig via HTTP-gateways som <2>https://ipfs.io</2>. Nettlesere <4>kan bli utvidet</4> til å bruke <6>ipfs://</6>ordningen direkte, og hash-adresserbart innhold garanterer autensitet</0>",
     "paragraph4": "<0><0>IPFS er p2p.</0> Den støtter verdensomspennende peer-to-peer filoverføringer med en desentralisert arkitektur, og ingen sentrale punkt for svikt.</0>",
     "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
   }

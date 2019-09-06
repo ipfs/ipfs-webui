@@ -24,6 +24,7 @@
   "changesSaved": "Vos modifications ont été enregistrées.",
   "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du nœud IPFS.",
   "ipfsConfigDescription": "Le fichier de configuration de IPFS est un document JSON. Il est lu lorsque le démon IPFS est lancé. Enregistrez vos modifications, puis relancez le démon IPFS pour les appliquer.",
+  "ipfsConfigHelp": "Vérifier la docuementation pour plus d'informations.",
   "ipfsDesktop": "Bureau IPFS",
   "takeScreenshot": "Prendre une capture d'écran",
   "takeScreenshotDescription": "Utilisez <0>{key1}</0> + <2>{key2}</2> +<3>{key3}</3> pour prendre des captures d'écran et les ajouter à votre dossier.",

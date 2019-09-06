@@ -65,9 +65,9 @@
       "paragraph1": "Ce diagramme présent l'utilisation de la bande passante du réseau dans le temp.",
       "paragraph2": "Le compteur de vitesse du trafic entrant et sortant."
     },
-    "step5": {
+    "stepExplore": {
       "title": "Explorez",
-      "paragraph1": "Copier un CID et explorer comment la donnée est structuré et liéé à d'autre protocoles."
+      "paragraph": "Copier un CID et explorer les fichiers contenu à l'intérieur du CID ou regarder les donnée structuré et liée aux protocoles."
     }
   },
   "bandwidthStats": "Statistiques réseau",
