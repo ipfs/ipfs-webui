@@ -24,6 +24,7 @@
   "changesSaved": "你修改的配置已经保存。",
   "settingsWillBeUsedNextTime": "新的配置信息会在你下次重新启动 IPFS 守护进程后生效。",
   "ipfsConfigDescription": "IPFS 配置文件是一个 JSON 文件。 IPFS 守护进程会在启动过程中读取一次。保存修改的配置，重启 IPFS 守护进程后使用你修改后的配置。",
+  "ipfsConfigHelp": "Check the documentation for further information.",
   "ipfsDesktop": "IPFS 桌面程序",
   "takeScreenshot": "截屏",
   "takeScreenshotDescription": "使用 <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> 截屏并添加到你的文档库中。",

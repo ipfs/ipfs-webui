@@ -101,12 +101,14 @@
     }
   },
   "exploreForm": {
-    "explore": "Explorez"
+    "browse": "Chercher",
+    "inspect": "Inspecter"
   },
   "hashUnavailable": "hash non disponible",
   "pins": "Fichiers et dossiers épinglés",
   "pinned": "Épinglé",
   "blocks": "Blocs",
   "more": "Plus",
-  "files": "Fichiers"
+  "files": "Fichiers",
+  "cidNotFileNorDir": "Le lien courant n'est pas un fichier, peut être un dossier. Essayer de l'<0>inpecter</0> si c'est cela."
 }

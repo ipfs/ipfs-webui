@@ -101,12 +101,14 @@
     }
   },
   "exploreForm": {
-    "explore": "浏览"
+    "browse": "Browse",
+    "inspect": "检查"
   },
   "hashUnavailable": "哈希不可用",
   "pins": "已固定",
   "pinned": "已固定",
   "blocks": "块",
   "more": "更多",
-  "files": "文件"
+  "files": "文件",
+  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead."
 }
