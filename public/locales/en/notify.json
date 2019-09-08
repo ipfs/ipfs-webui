@@ -16,5 +16,11 @@
   "connectedToPeer": "Successfully connected to the provided peer.",
   "experimentsErrors": {
     "npmOnIpfs": "We couldn't make changes to your system. Please install or uninstall 'ipfs-npm' package manually."
+  },
+  "desktopToggleErrors": {
+    "autoLaunch": "Could not toggle launch at startup option.",
+    "ipfsOnPath": "Could not toggle IPFS command line tools.",
+    "downloadHashShortcut": "Could not toggle download hash shortcut.",
+    "screenshotShortcut": "Could not toggle screenshot shortcut."
   }
 }
