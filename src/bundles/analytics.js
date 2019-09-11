@@ -82,7 +82,7 @@ const createAnalyticsBundle = ({
 
       if (store.selectIsIpfsDesktop()) {
         Countly.app_version = store.selectDesktopVersion()
-        Countly.q.push(['change_id', store.selectDesktopCountlyDeviceId()])
+        Countly.q.push(['change_id', store.selectDesktopCountlyDeviceId(), true])
       }
 
       // Configure what to track. Nothing is sent without user consent.
