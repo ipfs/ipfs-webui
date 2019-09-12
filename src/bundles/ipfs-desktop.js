@@ -1,16 +1,23 @@
-import { ACTIONS } from './experiments'
+import { ACTIONS as EXP_ACTIONS } from './experiments'
+
+export const ACTIONS = {
+  SETTING_TOGGLE_STARTED: 'DESKTOP_SETTING_TOGGLE_STARTED',
+  SETTING_TOGGLE_FINISHED: 'DESKTOP_SETTING_TOGGLE_FINISHED',
+  SETTING_TOGGLE_FAILED: 'DESKTOP_SETTING_TOGGLE_FAILED'
+}
 
 let bundle = {
   name: 'ipfsDesktop',
   reducer: (state = {}) => state,
-  selectIsIpfsDesktop: () => !!window.ipfsDesktop
+  selectIsIpfsDesktop: () => !!window.ipfsDesktop,
+  selectDesktopCountlyActions: () => ([])
 }
 
 if (window.ipfsDesktop) {
   bundle = {
     ...bundle,
     reducer: (state = {}, action) => {
-      if (action.type === ACTIONS.EXP_TOGGLE_STARTED) {
+      if (action.type === EXP_ACTIONS.EXP_TOGGLE_STARTED) {
         window.ipfsDesktop.toggleSetting(`experiments.${action.payload.key}`)
       }
 
@@ -29,13 +36,17 @@ if (window.ipfsDesktop) {
 
     selectDesktopVersion: () => window.ipfsDesktop.version,
 
+    selectDesktopCountlyDeviceId: () => window.ipfsDesktop.countlyDeviceId,
+
+    selectDesktopCountlyActions: () => window.ipfsDesktop.countlyActions,
+
     doDesktopStartListening: () => async ({ dispatch, store }) => {
       window.ipfsDesktop.onConfigChanged(({ config, changed, success }) => {
         const prevConfig = store.selectDesktopSettings()
 
         if (Object.keys(prevConfig).length === 0) {
           dispatch({
-            type: ACTIONS.EXP_UPDATE_STATE,
+            type: EXP_ACTIONS.EXP_UPDATE_STATE,
             payload: Object.keys(config.experiments).reduce(
               (all, key) => ({
                 ...all,
@@ -48,14 +59,25 @@ if (window.ipfsDesktop) {
           })
         }
 
-        if (changed && changed.startsWith('experiments.')) {
-          const key = changed.replace('experiments.', '')
+        if (changed) {
+          const isExperiment = changed.startsWith('experiments.')
+          const key = isExperiment
+            ? changed.replace('experiments.', '')
+            : changed
 
-          if (success) {
-            dispatch({ type: ACTIONS.EXP_TOGGLE_FINISHED, payload: { key } })
-          } else {
-            dispatch({ type: ACTIONS.EXP_TOGGLE_FAILED, payload: { key } })
-          }
+          const type = isExperiment
+            ? success
+              ? EXP_ACTIONS.EXP_TOGGLE_FINISHED
+              : EXP_ACTIONS.EXP_TOGGLE_FAILED
+            : success
+              ? ACTIONS.SETTING_TOGGLE_FINISHED
+              : ACTIONS.SETTING_TOGGLE_FAILED
+
+          const value = isExperiment
+            ? config.experiments[key]
+            : config[key]
+
+          dispatch({ type, payload: { key, value } })
         }
 
         dispatch({
@@ -65,7 +87,8 @@ if (window.ipfsDesktop) {
       })
     },
 
-    doDesktopSettingsToggle: setting => () => {
+    doDesktopSettingsToggle: setting => ({ dispatch }) => {
+      dispatch({ type: ACTIONS.SETTING_TOGGLE_STARTED, payload: { key: setting } })
       window.ipfsDesktop.toggleSetting(setting)
     },
 
@@ -75,6 +98,14 @@ if (window.ipfsDesktop) {
 
     doDesktopSelectDirectory: () => () => {
       return window.ipfsDesktop.selectDirectory()
+    },
+
+    doDesktopAddConsent: consent => () => {
+      return window.ipfsDesktop.addConsent(consent)
+    },
+
+    doDesktopRemoveConsent: consent => () => {
+      return window.ipfsDesktop.removeConsent(consent)
     },
 
     init: store => {
