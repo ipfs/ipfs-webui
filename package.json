@@ -89,7 +89,7 @@
     "@storybook/addons": "^5.1.11",
     "@storybook/react": "^5.1.11",
     "@svgr/cli": "^4.3.2",
-    "@babel/core": "^7.5.5",
+    "@babel/core": "^7.6.0",
     "babel-eslint": "10.0.2",
     "big.js": "^5.2.2",
     "bundlesize": "^0.18.0",
