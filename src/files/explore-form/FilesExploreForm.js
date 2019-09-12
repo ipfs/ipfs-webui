@@ -15,11 +15,18 @@ class FilesExploreForm extends React.Component {
       hideExplore: false
     }
     this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
+    this.onBrowse = this.onBrowse.bind(this)
     this.onInspect = this.onInspect.bind(this)
   }
 
-  onSubmit (evt) {
+  onKeyDown (evt) {
+    if (evt.key === 'Enter') {
+      this.onBrowse(evt)
+    }
+  }
+
+  onBrowse (evt) {
     evt.preventDefault()
 
     if (this.isValid) {
@@ -71,16 +78,15 @@ class FilesExploreForm extends React.Component {
   render () {
     const { t } = this.props
     return (
-      <form data-id='FilesExploreForm' className='sans-serif black-80 flex' onSubmit={this.onSubmit}>
+      <div data-id='FilesExploreForm' className='sans-serif black-80 flex'>
         <div className='flex-auto'>
           <div className='relative'>
-            <input id='ipfs-path' className={`input-reset bn pa2 mb2 db w-100 f6 br-0 placeholder-light ${this.inputClass}`} style={{ borderRadius: '3px 0 0 3px' }} type='text' placeholder='QmHash' aria-describedby='name-desc' onChange={this.onChange} value={this.state.path} />
+            <input id='ipfs-path' className={`input-reset bn pa2 mb2 db w-100 f6 br-0 placeholder-light ${this.inputClass}`} style={{ borderRadius: '3px 0 0 3px' }} type='text' placeholder='QmHash' aria-describedby='name-desc' onChange={this.onChange} onKeyDown={this.onKeyDown} value={this.state.path} />
             <small id='ipfs-path-desc' className='o-0 absolute f6 black-60 db mb2'>Paste in a CID or IPFS path</small>
           </div>
         </div>
         <div className='flex flex-row-reverse mb2'>
           <Button
-            type='submit'
             minWidth={0}
             disabled={!this.isValid}
             title={t('exploreForm.inspect')}
@@ -92,17 +98,17 @@ class FilesExploreForm extends React.Component {
             <span className='ml2'>{t('exploreForm.inspect')}</span>
           </Button>
           <Button
-            type='submit'
             minWidth={0}
             disabled={!this.isValid}
             style={{ borderRadius: '0' }}
             title={t('exploreForm.browse')}
+            onClick={this.onBrowse}
             className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white bg-aqua overflow-hidden' >
             <StrokeFolder style={{ height: 24 }} className='dib fill-current-color v-mid' />
             <span className='ml2'>{t('exploreForm.browse')}</span>
           </Button>
         </div>
-      </form>
+      </div>
     )
   }
 }
