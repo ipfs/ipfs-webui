@@ -252,10 +252,20 @@ const toLocationString = loc => {
   return city && country ? `${country}, ${city}` : country
 }
 
+const additionalProtos = ['ws', 'wss']
+
 const parseConnection = (multiaddr) => {
   const opts = multiaddr.toOptions()
+  const protos = multiaddr.protoNames()
+  let conn = `${opts.family}・${opts.transport}`
 
-  return `${opts.family}・${opts.transport}`
+  for (const proto of additionalProtos) {
+    if (protos.includes(proto)) {
+      conn = `${conn}・${proto}`
+    }
+  }
+
+  return conn
 }
 
 const parseLatency = (latency) => {
