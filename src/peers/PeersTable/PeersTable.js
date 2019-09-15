@@ -71,6 +71,12 @@ export class PeersTable extends React.Component {
     }
   }
 
+  connectionCellRenderer = ({ rowData }) => (
+    <abbr style={{textDecoration: 'none'}} title={rowData.address}>
+      {rowData.connection}
+    </abbr>
+  )
+
   rowClassRenderer = ({ index }) => {
     return index === -1 ? 'bb b--near-white bg-near-white' : 'bb b--near-white'
   }
@@ -106,7 +112,7 @@ export class PeersTable extends React.Component {
               <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={450} className='f6 navy-muted truncate pl2' />
               <Column label={t('latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 navy-muted monospace pl2' />
               <Column label={t('peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f7 pl2' />
-              <Column label={t('connection')} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
+              <Column label={t('connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
               <Column label={t('notes')} cellRenderer={this.notesCellRenderer} disableSort dataKey='notes' width={400} className='charcoal monospace truncate f7 pl2' />
             </Table>
           )}
