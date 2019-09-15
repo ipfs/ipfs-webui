@@ -48,7 +48,7 @@
     "is-ipfs": "^0.6.1",
     "milliseconds": "^1.0.3",
     "money-clip": "^3.0.1",
-    "multiaddr": "^6.1.0",
+    "multiaddr": "^7.1.0",
     "multiaddr-to-uri": "^5.0.0",
     "prop-types": "^15.7.2",
     "pull-file-reader": "^1.0.2",
