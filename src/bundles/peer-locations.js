@@ -152,6 +152,7 @@ export default function (opts) {
           locationObj.latitude
         ]
         const connection = parseConnection(peer.addr)
+        const address = peer.addr.toString()
         const latency = parseLatency(peer.latency)
         const notes = parseNotes(peer, bootstrapPeers)
 
@@ -161,6 +162,7 @@ export default function (opts) {
           flagCode,
           coordinates,
           connection,
+          address,
           latency,
           notes
         }
