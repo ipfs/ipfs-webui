@@ -85,7 +85,7 @@
     "@storybook/addon-a11y": "^5.1.11",
     "@storybook/addon-actions": "^5.1.11",
     "@storybook/addon-knobs": "^5.1.11",
-    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addon-links": "^5.2.1",
     "@storybook/addons": "^5.1.11",
     "@storybook/react": "^5.1.11",
     "@svgr/cli": "^4.3.2",
