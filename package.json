@@ -35,7 +35,7 @@
     "details-polyfill": "^1.1.0",
     "file-extension": "^4.0.5",
     "filesize": "^4.2.0",
-    "i18next": "^17.0.14",
+    "i18next": "^17.0.16",
     "i18next-browser-languagedetector": "^3.0.3",
     "i18next-icu": "^1.1.2",
     "i18next-xhr-backend": "^3.1.2",
