@@ -255,9 +255,7 @@ const toLocationString = loc => {
 }
 
 const parseConnection = (multiaddr) => {
-  const opts = multiaddr.toOptions()
-
-  return `${opts.family}・${opts.transport}`
+  return multiaddr.protoNames().join('・')
 }
 
 const parseLatency = (latency) => {
