@@ -5,7 +5,7 @@ const Address = ({ value }) => {
   if (!value) return null
 
   const ma = Multiaddr(value)
-  const protos = ma.protoNames().concat('ipfs')
+  const protos = ma.protoNames().concat(['ipfs', 'p2p'])
   const parts = value.split('/')
 
   return (
