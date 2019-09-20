@@ -37,7 +37,7 @@ export class PeersTable extends React.Component {
   }
 
   locationCellRenderer = ({ rowData }) => (
-    <span>
+    <span title={ rowData.location || this.props.t('unknownLocation')}>
       { this.flagRenderer(rowData.flagCode) }
       { rowData.location ? rowData.location : (
         <span className='charcoal-muted fw4'>{this.props.t('unknownLocation')}</span>
