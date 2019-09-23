@@ -109,7 +109,7 @@
     "puppeteer": "^1.20.0",
     "run-script-os": "^1.0.7",
     "shx": "^0.3.2",
-    "webpack-bundle-analyzer": "^3.5.0"
+    "webpack-bundle-analyzer": "^3.5.1"
   },
   "homepage": "./",
   "bundlesize": [
