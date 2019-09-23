@@ -16,7 +16,7 @@
   "notConnected": {
     "header": "Votre démon IPFS est-il en cours d'exécution ?",
     "paragraph1": "<0>Échec de connexion à l'API.</0>",
-    "paragraoh2": "<0>Assurez-vous de <1>configurer votre API IPFS</1>pour autoriser les requêtes cross-origin (CORS), lancez la commande ci-dessous :</0>",
+    "paragraoh2": "<0>Assurez-vous de <1>configurer votre API IPFS</1>pour autoriser les requêtes cross-origin (CORS), en lançant la commande ci-dessous :</0>",
     "paragraph3": "<0>Démarrer un démon IPFS dans un terminal :</0>",
     "paragraph4": "<0>Pour plus d'information sur comment démarrer avec IPFS vous pouvez <1> lire le manuel</1>.</0>"
   },
@@ -24,7 +24,7 @@
     "header": "Qu'est-ce qu'IPFS ?",
     "paragraph1": "<0><0>IPFS est un protocole</0> qui définit un système de fichiers adressable par le contenu, coordonne la réception du contenu en combinant plusieurs idées comme Kademlia, BitTorrent, Git et bien plus.</0>",
     "paragraph2": "<0><0>IPFS est un système de fichiers.</0> Il y a des répertoires et des fichiers montables sur votre système de fichiers via à FUSE.</0>",
-    "paragraph3": "<0><0>IPFS est un réseau.</0> Les fichiers sont accessibles par un portail HTTP comme <2>https://ipfs.io</2>. Les navigateurs <4>peuvent être améliorés</4> pour utiliser les URL en <6>ipfs://</6> directement, et l'adressage par hash du contenu en garantie l'authenticité.</0>",
+    "paragraph3": "<0><0>IPFS est un réseau.</0> Les fichiers sont accessibles par un portail HTTP comme <2>https://ipfs.io</2>. Les navigateurs <4>peuvent être améliorés</4> pour utiliser les URL en <6>ipfs://</6> directement, et l'adressage par hash du contenu en garantit l'authenticité.</0>",
     "paragraph4": "<0><0>IPFS est un réseau p2p.</0> Il prend en charge les transferts de fichiers peer-to-peer dans le monde entier avec une architecture complètement décentralisée et sans point de défaillance central.</0>",
     "paragraph5": "<0><0>IPFS est un CDN.</0> Ajoutez un fichier à votre dossier local, et il est désormais accessible au monde entier grâce à l'adressage par hash qui facilite la mise en cache et permet une répartition du réseau à la BitTorrent.</0>"
   }
