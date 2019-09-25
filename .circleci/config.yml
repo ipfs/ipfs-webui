@@ -43,6 +43,10 @@ jobs:
             echo "Website added to IPFS: https://ipfs.io/ipfs/$hash"
 
             if [ "$CIRCLE_BRANCH" == "master" ] ; then
+              dnslink-dnsimple -d $DOMAIN -r _dnslink.dev -l /ipfs/$hash
+            fi
+
+            if [ npx semver "$CIRCLE_TAG" ] ; then
               dnslink-dnsimple -d $DOMAIN -r _dnslink -l /ipfs/$hash
             fi
 
