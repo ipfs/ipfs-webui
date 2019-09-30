@@ -70,7 +70,7 @@
     "react-overlays": "^1.2.0",
     "react-router-dom": "^5.1.0",
     "react-scripts": "^3.1.1",
-    "react-test-renderer": "^16.9.0",
+    "react-test-renderer": "^16.10.1",
     "react-virtualized": "^9.21.1",
     "redux-bundler": "^25.0.0",
     "redux-bundler-react": "^1.2.0",
