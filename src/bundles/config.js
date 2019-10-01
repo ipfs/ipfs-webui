@@ -65,7 +65,9 @@ function getURLFromAddress (name, config) {
   if (!config) return null
 
   try {
-    const address = config.Addresses[name]
+    const address = Array.isArray(config.Addresses[name])
+      ? config.Addresses[name][0]
+      : config.Addresses[name]
     return toUri(address).replace('tcp://', 'http://')
   } catch (error) {
     console.log(`Failed to get url from Addresses.${name}`, error)
