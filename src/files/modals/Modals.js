@@ -119,8 +119,12 @@ class Modals extends React.Component {
         })
         break
       }
-      default:
+      case NEW_FOLDER:
+      case ADD_BY_PATH:
         this.setState({ readyToShow: true })
+        break
+      default:
+        return
     }
   }
 
