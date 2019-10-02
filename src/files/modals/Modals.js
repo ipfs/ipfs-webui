@@ -124,7 +124,7 @@ class Modals extends React.Component {
         this.setState({ readyToShow: true })
         break
       default:
-        return
+        // do nothing
     }
   }
 
