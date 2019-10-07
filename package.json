@@ -83,7 +83,7 @@
   },
   "devDependencies": {
     "@storybook/addon-a11y": "^5.2.1",
-    "@storybook/addon-actions": "^5.2.1",
+    "@storybook/addon-actions": "^5.2.3",
     "@storybook/addon-knobs": "^5.2.1",
     "@storybook/addon-links": "^5.2.1",
     "@storybook/addons": "^5.2.1",
