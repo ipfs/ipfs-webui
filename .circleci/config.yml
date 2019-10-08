@@ -54,8 +54,14 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            tags:
+              only: /.*/
       - deploy:
+          filters:
+            tags:
+              only: /.*/
           context: ipfs-dns-deploy
           requires:
             - build
