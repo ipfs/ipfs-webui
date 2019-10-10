@@ -173,7 +173,12 @@ export default function (opts) {
       'selectPeerLocationsForSwarm',
       peers => {
         if (!peers) return []
-        return peers.map(p => p.coordinates).filter(arr => !!arr)
+        const allCoord = peers
+          .map(p => p.coordinates)
+          .filter(arr => !!arr)
+
+        const unique = new Set(allCoord.map(JSON.stringify))
+        return Array.from(unique).map(JSON.parse)
       }
     ),
 
