@@ -90,7 +90,7 @@
     "@storybook/react": "^5.2.1",
     "@svgr/cli": "^4.3.3",
     "@babel/core": "^7.6.4",
-    "babel-eslint": "10.0.2",
+    "babel-eslint": "10.0.3",
     "big.js": "^5.2.2",
     "bundlesize": "^0.18.0",
     "cross-env": "^6.0.3",
