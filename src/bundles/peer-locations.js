@@ -288,13 +288,6 @@ const parseNotes = (peer, bootstrapPeers) => {
 
 class PeerLocationResolver {
   constructor (opts) {
-    this.peerLocCache = getConfiguredCache({
-      name: 'peerLocations',
-      version: 1,
-      maxAge: ms.weeks(1),
-      ...opts.cache
-    })
-
     this.geoipCache = getConfiguredCache({
       name: 'geoipCache',
       version: 1,
@@ -306,12 +299,6 @@ class PeerLocationResolver {
   }
 
   async lookupWithCaches (peerId, addr, getIpfs) {
-    // maybe we have it cached by peerid already
-    let location = await this.peerLocCache.get(peerId)
-    if (location) {
-      return location
-    }
-
     const ipv4Tuple = Multiaddr(addr).stringTuples().find(isNonHomeIPv4)
     if (!ipv4Tuple) {
       throw new Error(`Unable to resolve location for non-IPv4 address ${addr}`)
@@ -320,7 +307,7 @@ class PeerLocationResolver {
     var ipv4Addr = ipv4Tuple[1]
 
     // maybe we have it cached by ipv4 address already, check that.
-    location = await this.geoipCache.get(ipv4Addr)
+    let location = await this.geoipCache.get(ipv4Addr)
     if (location) {
       return location
     }
@@ -334,7 +321,6 @@ class PeerLocationResolver {
         geoip.lookup(ipfs, ipv4Addr, (err, data) => {
           // save it in the caches, and remove the promise.
           this.geoipCache.set(ipv4Addr, data)
-          this.peerLocCache.set(peerId, data)
           delete this.geoipLookupPromises[ipv4Addr]
 
           if (err) return reject(err)
