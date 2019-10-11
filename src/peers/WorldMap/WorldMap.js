@@ -16,7 +16,7 @@ const WorldMap = ({ t, className }) => {
   let width = availableWidth * svgWidthOversizeFactor
   // if the map gets too big the dots get lost in the dot grid, also it just overloads the viewers brain.
   if (width > 3000) {
-    width = 3300
+    width = 3000
   }
   // if the map gets too small it becomes illegible. There will be some map cropping on mobile.
   if (width < 700) {
