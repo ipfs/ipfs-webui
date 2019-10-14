@@ -53,7 +53,7 @@
     "prop-types": "^15.7.2",
     "pull-file-reader": "^1.0.2",
     "react": "^16.10.2",
-    "react-ace": "^7.0.4",
+    "react-ace": "^8.0.0",
     "react-chartjs-2": "^2.8.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-country-flag": "^1.1.0",
