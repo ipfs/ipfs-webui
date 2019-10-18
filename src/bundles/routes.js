@@ -7,6 +7,7 @@ import PeersPage from '../peers/LoadablePeersPage'
 import SettingsPage from '../settings/LoadableSettingsPage'
 import AnalyticsPage from '../settings/AnalyticsPage'
 import WelcomePage from '../welcome/LoadableWelcomePage'
+import BlankPage from '../blank/BlankPage'
 
 export default createRouteBundle({
   '/explore': StartExploringPage,
@@ -19,6 +20,7 @@ export default createRouteBundle({
   '/settings': SettingsPage,
   '/settings/analytics': AnalyticsPage,
   '/welcome': WelcomePage,
+  '/blank': BlankPage,
   '/': StatusPage,
   '': StatusPage
 }, { routeInfoSelector: 'selectHash' })
