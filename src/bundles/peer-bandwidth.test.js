@@ -17,7 +17,8 @@ function createMockIpfsBundle (ipfs) {
   return {
     name: 'ipfs',
     getExtraArgs: () => ({ getIpfs: () => ipfs }),
-    selectIpfsReady: () => true
+    selectIpfsReady: () => true,
+    selectPeerLocationsIsStale: () => true
   }
 }
 
