@@ -13,7 +13,7 @@ export default function (opts) {
   // Cache options
   opts.cache = opts.cache || {}
 
-  let peerLocResolver = new PeerLocationResolver(opts)
+  const peerLocResolver = new PeerLocationResolver(opts)
 
   const bundle = createAsyncResourceBundle({
     name: 'peerLocations',
@@ -182,9 +182,8 @@ class PeerLocationResolver {
 
     if (!locPromise) {
       this.queue.push(async () => {
-
         // maybe we have it cached by ipv4 address already, check that.
-        let location = await this.geoipCache.get(ipv4Addr)
+        const location = await this.geoipCache.get(ipv4Addr)
         if (location) {
           return location
         }
