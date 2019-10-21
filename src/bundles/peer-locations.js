@@ -144,8 +144,6 @@ class PeerLocationResolver {
     this.geoipLookupPromises = {}
   }
 
-  // const locations = await PeerLocationResolver.findLocations(peers, getIpfs)
-
   async findLocations (peers, getIpfs) {
     const res = {}
 
