@@ -36,8 +36,8 @@ export default function (opts) {
 
       return locations
     },
-    staleAfter: ms.seconds(3),
-    retryAfter: ms.seconds(3),
+    staleAfter: ms.seconds(1),
+    retryAfter: ms.seconds(1),
     persist: false,
     checkIfOnline: false
   })

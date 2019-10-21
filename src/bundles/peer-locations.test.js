@@ -23,6 +23,22 @@ async function fakePeer (data = {}) {
 
 const fakePeers = (count = 5) => Promise.all(Array(count).fill(0).map(fakePeer))
 
+function createMockAppTimeBundle () {
+  return {
+    name: 'appTime',
+    reducer: () => Date.now(),
+    selectAppTime: state => state.appTime
+  }
+}
+
+function createMockOnlineBundle () {
+  return {
+    name: 'online',
+    reducer: () => true,
+    selectIsOnline: state => state.online
+  }
+}
+
 function createMockLocationBundle () {
   return {
     name: 'location',
@@ -114,6 +130,8 @@ function expectLocation (obj) {
 
 it('should get locations for peers', async () => {
   const store = composeBundlesRaw(
+    createMockAppTimeBundle(),
+    createMockOnlineBundle(),
     createReactorBundle(),
     createMockLocationBundle(),
     createMockConnectedBundle(),
@@ -129,7 +147,7 @@ it('should get locations for peers', async () => {
   const peers = store.selectPeers()
   expect(peers).toEqual([])
 
-  let peerLocs = store.selectPeerLocations()
+  let peerLocs = store.selectPeerLocations() || {}
   expect(Object.keys(peerLocs)).toEqual([])
 
   const totalPeers = randomInt(1, 5)
@@ -137,7 +155,15 @@ it('should get locations for peers', async () => {
 
   // Add the peers
   store.doUpdateMockPeers(nextPeers)
-  await sleep(50) // Wait for the locations to be resolved
+
+  // since we update the locations only every x seconds, let's
+  // force them to be updated.
+  await store.doFetchPeerLocations()
+  await sleep(10) // Wait for the locations to be resolved
+
+  // get the results from the previous call...
+  await store.doFetchPeerLocations()
+
   peerLocs = store.selectPeerLocations()
 
   expect(Object.keys(peerLocs)).toHaveLength(totalPeers)
@@ -151,6 +177,8 @@ it('should get locations for peers', async () => {
 
 it('should fail on non IPv4 address', async () => {
   const store = composeBundlesRaw(
+    createMockAppTimeBundle(),
+    createMockOnlineBundle(),
     createReactorBundle(),
     createMockLocationBundle(),
     createMockConnectedBundle(),
@@ -166,34 +194,25 @@ it('should fail on non IPv4 address', async () => {
   const peers = store.selectPeers()
   expect(peers).toEqual([])
 
-  let peerLocs = store.selectPeerLocations()
+  let peerLocs = store.selectPeerLocations() || {}
   expect(Object.keys(peerLocs)).toEqual([])
-
-  let peerLocsRaw = store.selectPeerLocations()
-  expect(Object.keys(peerLocsRaw)).toEqual([])
 
   const peer = await fakePeer({ addr: Multiaddr('/ip6/::') })
   const nextPeers = [peer]
 
   store.doUpdateMockPeers(nextPeers)
+  await store.doFetchPeerLocations()
   await sleep() // Wait for the locations to be resolved
+  await store.doFetchPeerLocations()
   peerLocs = store.selectPeerLocations()
-  peerLocsRaw = store.selectPeerLocationsRaw()
 
   expect(Object.keys(peerLocs)).toHaveLength(0)
-  expect(Object.keys(peerLocsRaw)).toHaveLength(1)
-
-  Object.keys(peerLocsRaw).forEach(peerId => {
-    expect(peerId).toBe(peer.peer.toB58String())
-    expect(peerLocsRaw[peerId][peer.addr.toString()].state).toBe('failed')
-    expect(peerLocsRaw[peerId][peer.addr.toString()].error).toBeTruthy()
-    expect(peerLocsRaw[peerId][peer.addr.toString()].error.message)
-      .toMatch(/^Unable to resolve location for non-IPv4 address/)
-  })
 })
 
 it('should resolve alternative address for failed address lookup', async () => {
   const store = composeBundlesRaw(
+    createMockAppTimeBundle(),
+    createMockOnlineBundle(),
     createReactorBundle(),
     createMockLocationBundle(),
     createMockConnectedBundle(),
@@ -206,7 +225,7 @@ it('should resolve alternative address for failed address lookup', async () => {
   const peers = store.selectPeers()
   expect(peers).toEqual([])
 
-  let peerLocs = store.selectPeerLocations()
+  let peerLocs = store.selectPeerLocations() || {}
   expect(Object.keys(peerLocs)).toEqual([])
 
   // Peer with address we can't resolve
@@ -220,7 +239,9 @@ it('should resolve alternative address for failed address lookup', async () => {
 
   // Add the peers
   store.doUpdateMockPeers(nextPeers)
+  await store.doFetchPeerLocations()
   await sleep(50) // Wait for the locations to be resolved
+  await store.doFetchPeerLocations()
   peerLocs = store.selectPeerLocations()
 
   expect(Object.keys(peerLocs)).toHaveLength(1)
