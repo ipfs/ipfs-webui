@@ -185,7 +185,7 @@ class PeerLocationResolver {
         // maybe we have it cached by ipv4 address already, check that.
         const location = await this.geoipCache.get(ipv4Addr)
         if (location) {
-          return location
+          return
         }
 
         return new Promise((resolve, reject) => {
