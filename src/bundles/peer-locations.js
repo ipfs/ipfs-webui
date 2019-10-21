@@ -19,22 +19,12 @@ export default function (opts) {
     name: 'peerLocations',
     actionBaseType: 'PEER_LOCATIONS',
     getPromise: async ({ store, getIpfs }) => {
-      const peers = store.selectPeers()
       const locations = store.selectPeerLocations() || {}
+      const peers = store.selectPeers().filter(p => {
+        return !locations[p.peer.toB58String()]
+      })
 
-      for (const p of peers) {
-        const peerId = p.peer.toB58String()
-        const addr = p.addr.toString()
-
-        if (!locations[peerId]) {
-          const res = peerLocResolver.checkPeer(peerId, addr, getIpfs)
-          if (res) {
-            locations[peerId] = res
-          }
-        }
-      }
-
-      return locations
+      return Object.assign(locations, await peerLocResolver.findLocations(peers, getIpfs))
     },
     staleAfter: ms.seconds(1),
     retryAfter: ms.seconds(1),
@@ -148,7 +138,6 @@ class PeerLocationResolver {
       ...opts.cache
     })
 
-    this.peersToAddrs = {}
     this.failedAddrs = []
 
     this.queue = queue({
@@ -159,35 +148,39 @@ class PeerLocationResolver {
     this.geoipLookupPromises = {}
   }
 
-  checkPeer (peerId, addr, getIpfs) {
-    if (this.peersToAddrs[peerId]) {
-      return this.peersToAddrs[peerId]
-    }
+  // const locations = await PeerLocationResolver.findLocations(peers, getIpfs)
 
-    const ipv4Tuple = Multiaddr(addr).stringTuples().find(isNonHomeIPv4)
-    if (!ipv4Tuple) {
-      return
-      // throw new Error(`Unable to resolve location for non-IPv4 address ${addr}`)
-    }
+  async findLocations (peers, getIpfs) {
+    const res = {}
 
-    var ipv4Addr = ipv4Tuple[1]
+    for (const p of peers) {
+      const peerId = p.peer.toB58String()
+      const addr = p.addr.toString()
 
-    // ignore lookups that previously failed
-    if (this.failedAddrs.includes(ipv4Addr)) {
-      return
-    }
+      const ipv4Tuple = Multiaddr(addr).stringTuples().find(isNonHomeIPv4)
+      if (!ipv4Tuple) {
+        continue
+      }
 
-    // no ip address cached. are we looking it up already?
-    var locPromise = this.geoipLookupPromises[ipv4Addr]
+      const ipv4Addr = ipv4Tuple[1]
+      if (this.failedAddrs.includes(ipv4Addr)) {
+        continue
+      }
 
-    if (!locPromise) {
+      // maybe we have it cached by ipv4 address already, check that.
+      const location = await this.geoipCache.get(ipv4Addr)
+      if (location) {
+        res[peerId] = location
+        continue
+      }
+
+      // no ip address cached. are we looking it up already?
+      var locPromise = this.geoipLookupPromises[ipv4Addr]
+      if (locPromise) {
+        continue
+      }
+
       this.queue.push(async () => {
-        // maybe we have it cached by ipv4 address already, check that.
-        const location = await this.geoipCache.get(ipv4Addr)
-        if (location) {
-          return
-        }
-
         return new Promise((resolve, reject) => {
           const ipfs = getIpfs()
 
@@ -197,16 +190,24 @@ class PeerLocationResolver {
             if (err) {
               // mark this one as failed so we don't retry again
               this.failedAddrs.push(ipv4Addr)
+
+              // if there's 500 or more failed addresses, remove the
+              // oldest 100 failures.
+              if (this.failedAddrs.length >= 500) {
+                this.failedAddrs.splice(0, 100)
+              }
+
               return resolve()
             }
 
             // save the data!
             this.geoipCache.set(ipv4Addr, data)
-            this.peersToAddrs[peerId] = data
             resolve()
           })
         })
       })
     }
+
+    return res
   }
 }
