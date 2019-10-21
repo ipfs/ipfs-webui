@@ -20,7 +20,7 @@ export default function (opts) {
     actionBaseType: 'PEER_LOCATIONS',
     getPromise: async ({ store, getIpfs }) => {
       const peers = store.selectPeers()
-      return await peerLocResolver.findLocations(peers, getIpfs)
+      return peerLocResolver.findLocations(peers, getIpfs)
     },
     staleAfter: ms.seconds(1),
     retryAfter: ms.seconds(1),
