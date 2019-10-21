@@ -19,12 +19,8 @@ export default function (opts) {
     name: 'peerLocations',
     actionBaseType: 'PEER_LOCATIONS',
     getPromise: async ({ store, getIpfs }) => {
-      const locations = store.selectPeerLocations() || {}
-      const peers = store.selectPeers().filter(p => {
-        return !locations[p.peer.toB58String()]
-      })
-
-      return Object.assign(locations, await peerLocResolver.findLocations(peers, getIpfs))
+      const peers = store.selectPeers()
+      return await peerLocResolver.findLocations(peers, getIpfs)
     },
     staleAfter: ms.seconds(1),
     retryAfter: ms.seconds(1),
