@@ -43,8 +43,7 @@ export default function (opts) {
     'selectPeers',
     'selectPeerLocations',
     'selectBootstrapPeers',
-    'selectIdentity',
-    (peers, locations = {}, bootstrapPeers, ipfsIdentity) => peers && peers.map(peer => {
+    (peers, locations = {}, bootstrapPeers) => peers && peers.map(peer => {
       const peerId = peer.peer.toB58String()
       const locationObj = locations ? locations[peerId] : null
       const location = toLocationString(locationObj)
