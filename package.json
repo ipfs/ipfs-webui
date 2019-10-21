@@ -40,6 +40,7 @@
     "i18next-icu": "^1.1.2",
     "i18next-xhr-backend": "^3.2.0",
     "internal-nav-helper": "^3.1.0",
+    "ip": "^1.1.5",
     "ipfs-css": "^0.13.1",
     "ipfs-geoip": "^3.0.0",
     "ipfs-redux-bundle": "^5.1.2",

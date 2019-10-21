@@ -5,6 +5,7 @@
   "address": "Address",
   "location": "Location",
   "unknownLocation": "Unknown",
+  "localNetwork": "Local Network",
   "latency": "latency",
   "bootstrapNode": "bootstrap node",
   "viaRelay": "via <0>{node}</0>",

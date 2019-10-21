@@ -4,6 +4,7 @@ import geoip from 'ipfs-geoip'
 import queue from 'queue'
 import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
+import ip from 'ip'
 
 // Depends on ipfsBundle, peersBundle
 export default function (opts) {
@@ -42,7 +43,8 @@ export default function (opts) {
     'selectPeers',
     'selectPeerLocations',
     'selectBootstrapPeers',
-    (peers, locations = {}, bootstrapPeers) => peers && peers.map(peer => {
+    'selectIdentity',
+    (peers, locations = {}, bootstrapPeers, ipfsIdentity) => peers && peers.map(peer => {
       const peerId = peer.peer.toB58String()
       const locationObj = locations ? locations[peerId] : null
       const location = toLocationString(locationObj)
@@ -55,6 +57,7 @@ export default function (opts) {
       const address = peer.addr.toString()
       const latency = parseLatency(peer.latency)
       const notes = parseNotes(peer, bootstrapPeers)
+      const isPrivate = isPrivateIP(peer.addr)
 
       return {
         peerId,
@@ -64,7 +67,8 @@ export default function (opts) {
         connection,
         address,
         latency,
-        notes
+        notes,
+        isPrivate
       }
     })
   )
@@ -106,6 +110,14 @@ const parseLatency = (latency) => {
   value = unit === 's' ? value * 1000 : value
 
   return value
+}
+
+const isPrivateIP = (maddr) => {
+  try {
+    const addr = maddr.nodeAddress()
+    return ip.isPrivate(addr.address)
+  } catch (_) {}
+  return false
 }
 
 const parseNotes = (peer, bootstrapPeers) => {

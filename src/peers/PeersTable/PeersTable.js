@@ -25,25 +25,31 @@ export class PeersTable extends React.Component {
     this.sort = this.sort.bind(this)
   }
 
-  flagRenderer = (flagCode) => {
+  flagRenderer = (flagCode, isPrivate) => {
     // Check if the OS is Windows to render the flags as SVGs
     // Windows doesn't render the flags as emojis  ¯\_(ツ)_/¯
     const isWindows = window.navigator.appVersion.indexOf('Win') !== -1
     return (
       <span className='f4 pr2'>
-        {flagCode ? <CountryFlag code={flagCode} svg={isWindows} /> : '🌐'}
+        {isPrivate ? '🤝' : flagCode ? <CountryFlag code={flagCode} svg={isWindows} /> : '🌐'}
       </span>
     )
   }
 
-  locationCellRenderer = ({ rowData }) => (
-    <span title={ rowData.location || this.props.t('unknownLocation')}>
-      { this.flagRenderer(rowData.flagCode) }
-      { rowData.location ? rowData.location : (
-        <span className='charcoal-muted fw4'>{this.props.t('unknownLocation')}</span>
-      ) }
-    </span>
-  )
+  locationCellRenderer = ({ rowData }) => {
+    const location = rowData.isPrivate
+      ? this.props.t('localNetwork')
+      : rowData.location
+        ? rowData.location
+        : <span className='charcoal-muted fw4'>{this.props.t('unknownLocation')}</span>
+
+    return (
+      <span title={ rowData.location || this.props.t('unknownLocation')}>
+        { this.flagRenderer(rowData.flagCode, rowData.isPrivate) }
+        { location }
+      </span>
+    )
+  }
 
   latencyCellRenderer = ({ cellData }) => {
     const style = { width: '60px' }
@@ -57,7 +63,7 @@ export class PeersTable extends React.Component {
     <Cid value={cellData} identicon />
   )
 
-  notesCellRenderer = ({ cellData }) => {
+  notesCellRenderer = ({ cellData, rowData }) => {
     if (!cellData) return
 
     if (cellData.type === 'BOOTSTRAP_NODE') {
