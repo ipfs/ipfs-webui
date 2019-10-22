@@ -1,6 +1,6 @@
 {
   "name": "ipfs-webui",
-  "version": "2.5.7",
+  "version": "2.5.8",
   "private": true,
   "scripts": {
     "start": "run-script-os",
@@ -36,7 +36,7 @@
     "file-extension": "^4.0.5",
     "filesize": "^5.0.3",
     "hashlru": "^2.3.0",
-    "i18next": "^17.2.0",
+    "i18next": "^17.3.0",
     "i18next-browser-languagedetector": "^3.1.1",
     "i18next-icu": "^1.1.2",
     "i18next-xhr-backend": "^3.2.0",
