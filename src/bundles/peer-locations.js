@@ -5,6 +5,10 @@ import queue from 'queue'
 import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
 
+// After this time interval, we re-check the locations for each peer
+// once again through PeerLocationResolver.
+const UPDATE_EVERY = ms.seconds(1)
+
 // Depends on ipfsBundle, peersBundle
 export default function (opts) {
   opts = opts || {}
@@ -22,8 +26,8 @@ export default function (opts) {
       const peers = store.selectPeers()
       return peerLocResolver.findLocations(peers, getIpfs)
     },
-    staleAfter: ms.seconds(1),
-    retryAfter: ms.seconds(1),
+    staleAfter: UPDATE_EVERY,
+    retryAfter: UPDATE_EVERY,
     persist: false,
     checkIfOnline: false
   })
