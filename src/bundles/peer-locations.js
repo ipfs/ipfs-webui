@@ -1,7 +1,8 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { getConfiguredCache } from 'money-clip'
 import geoip from 'ipfs-geoip'
-import queue from 'queue'
+import PQueue from 'p-queue'
+import HLRU from 'hashlru'
 import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
 
@@ -12,8 +13,9 @@ const UPDATE_EVERY = ms.seconds(1)
 // Depends on ipfsBundle, peersBundle
 export default function (opts) {
   opts = opts || {}
-  // Max number of locations to retrieve concurrently
-  opts.concurrency = opts.concurrency || 10
+  // Max number of locations to retrieve concurrently.
+  // HTTP API are throttled to max 4-6 at a time by the browser itself.
+  opts.concurrency = opts.concurrency || 4
   // Cache options
   opts.cache = opts.cache || {}
 
@@ -138,11 +140,11 @@ class PeerLocationResolver {
       ...opts.cache
     })
 
-    this.failedAddrs = []
+    this.failedAddrs = HLRU(500)
 
-    this.queue = queue({
+    this.queue = new PQueue({
       concurrency: opts.concurrency,
-      autostart: true
+      autoStart: true
     })
 
     this.geoipLookupPromises = {}
@@ -161,7 +163,7 @@ class PeerLocationResolver {
       }
 
       const ipv4Addr = ipv4Tuple[1]
-      if (this.failedAddrs.includes(ipv4Addr)) {
+      if (this.failedAddrs.has(ipv4Addr)) {
         continue
       }
 
@@ -178,8 +180,8 @@ class PeerLocationResolver {
         continue
       }
 
-      this.queue.push(async () => {
-        return new Promise((resolve, reject) => {
+      this.queue.add(async () => {
+        return new Promise(resolve => {
           const ipfs = getIpfs()
 
           geoip.lookup(ipfs, ipv4Addr, (err, data) => {
@@ -187,14 +189,7 @@ class PeerLocationResolver {
 
             if (err) {
               // mark this one as failed so we don't retry again
-              this.failedAddrs.push(ipv4Addr)
-
-              // if there's 500 or more failed addresses, remove the
-              // oldest 100 failures.
-              if (this.failedAddrs.length >= 500) {
-                this.failedAddrs.splice(0, 100)
-              }
-
+              this.failedAddrs.set(ipv4Addr, 1)
               return resolve()
             }
 
