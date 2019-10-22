@@ -38,9 +38,11 @@ export class PeersTable extends React.Component {
 
   locationCellRenderer = ({ rowData }) => {
     const location = rowData.isPrivate
-      ? this.props.t('localNetwork')
+      ? <span className='gold'>{this.props.t('localNetwork')}</span>
       : rowData.location
-        ? rowData.location
+        ? rowData.isNearby
+          ? <span className='blue'>{rowData.location}</span>
+          : rowData.location
         : <span className='charcoal-muted fw4'>{this.props.t('unknownLocation')}</span>
 
     return (

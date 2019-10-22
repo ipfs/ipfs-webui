@@ -43,33 +43,38 @@ export default function (opts) {
     'selectPeers',
     'selectPeerLocations',
     'selectBootstrapPeers',
-    (peers, locations = {}, bootstrapPeers) => peers && peers.map(peer => {
-      const peerId = peer.peer.toB58String()
-      const locationObj = locations ? locations[peerId] : null
-      const location = toLocationString(locationObj)
-      const flagCode = locationObj && locationObj.country_code
-      const coordinates = locationObj && [
-        locationObj.longitude,
-        locationObj.latitude
-      ]
-      const connection = parseConnection(peer.addr)
-      const address = peer.addr.toString()
-      const latency = parseLatency(peer.latency)
-      const notes = parseNotes(peer, bootstrapPeers)
-      const isPrivate = isPrivateIP(peer.addr)
+    'selectIdentity',
+    (peers, locations = {}, bootstrapPeers, identity) => {
+      const myIP = getPublicIP(identity)
 
-      return {
-        peerId,
-        location,
-        flagCode,
-        coordinates,
-        connection,
-        address,
-        latency,
-        notes,
-        isPrivate
-      }
-    })
+      return peers && peers.map(peer => {
+        const peerId = peer.peer.toB58String()
+        const locationObj = locations ? locations[peerId] : null
+        const location = toLocationString(locationObj)
+        const flagCode = locationObj && locationObj.country_code
+        const coordinates = locationObj && [
+          locationObj.longitude,
+          locationObj.latitude
+        ]
+        const connection = parseConnection(peer.addr)
+        const address = peer.addr.toString()
+        const latency = parseLatency(peer.latency)
+        const notes = parseNotes(peer, bootstrapPeers)
+        const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, myIP)
+
+        return {
+          peerId,
+          location,
+          flagCode,
+          coordinates,
+          connection,
+          address,
+          latency,
+          notes,
+          isPrivate
+        }
+      })
+    }
   )
 
   bundle.selectPeerCoordinates = createSelector(
@@ -111,12 +116,42 @@ const parseLatency = (latency) => {
   return value
 }
 
-const isPrivateIP = (maddr) => {
+function getPublicIP (identity) {
+  if (!identity) return
+
+  for (const maddr of identity.addresses) {
+    try {
+      const addr = Multiaddr(maddr).nodeAddress()
+      if (!ip.isPrivate(addr.address)) {
+        return addr.address
+      }
+    } catch (_) {}
+  }
+}
+
+function isPrivateAndNearby (maddr, myIP) {
+  let isPrivate = null
+  let isNearby = null
+
   try {
     const addr = maddr.nodeAddress()
-    return ip.isPrivate(addr.address)
-  } catch (_) {}
-  return false
+    isPrivate = ip.isPrivate(addr.address)
+
+    if (myIP) {
+      if (addr.family === 4) {
+        isNearby = ip.cidrSubnet(`${myIP}/24`).contains(addr.address)
+      } else if (addr.family === 6) {
+        isNearby = ip.cidrSubnet(`${myIP}/48`).contains(addr.address)
+          && !ip.cidrSubnet('fc00::/8').contains(addr.address)
+        // peerIP6 ∉ fc00::/8 to fix case of cjdns where IPs are not spatial allocated.
+      }
+    }
+  } catch (_) {
+    isPrivate = false
+    isNearby = false
+  }
+
+  return { isPrivate, isNearby }
 }
 
 const parseNotes = (peer, bootstrapPeers) => {
