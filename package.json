@@ -52,7 +52,7 @@
     "multiaddr-to-uri": "^5.0.0",
     "prop-types": "^15.7.2",
     "pull-file-reader": "^1.0.2",
-    "react": "^16.10.2",
+    "react": "^16.11.0",
     "react-ace": "^8.0.0",
     "react-chartjs-2": "^2.8.0",
     "react-copy-to-clipboard": "^5.0.1",
