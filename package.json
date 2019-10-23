@@ -82,7 +82,7 @@
     "window.ipfs-fallback": "^1.2.0"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^5.2.3",
+    "@storybook/addon-a11y": "^5.2.5",
     "@storybook/addon-actions": "^5.2.5",
     "@storybook/addon-knobs": "^5.2.5",
     "@storybook/addon-links": "^5.2.5",
