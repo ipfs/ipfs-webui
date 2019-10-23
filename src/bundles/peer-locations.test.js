@@ -23,6 +23,13 @@ async function fakePeer (data = {}) {
 
 const fakePeers = (count = 5) => Promise.all(Array(count).fill(0).map(fakePeer))
 
+function createMockRouteBundle () {
+  return {
+    name: 'route',
+    selectRouteInfo: () => '/peers'
+  }
+}
+
 function createMockAppTimeBundle () {
   return {
     name: 'appTime',
@@ -130,6 +137,7 @@ function expectLocation (obj) {
 
 it('should get locations for peers', async () => {
   const store = composeBundlesRaw(
+    createMockRouteBundle(),
     createMockAppTimeBundle(),
     createMockOnlineBundle(),
     createReactorBundle(),
@@ -177,6 +185,7 @@ it('should get locations for peers', async () => {
 
 it('should fail on non IPv4 address', async () => {
   const store = composeBundlesRaw(
+    createMockRouteBundle(),
     createMockAppTimeBundle(),
     createMockOnlineBundle(),
     createReactorBundle(),
@@ -211,6 +220,7 @@ it('should fail on non IPv4 address', async () => {
 
 it('should resolve alternative address for failed address lookup', async () => {
   const store = composeBundlesRaw(
+    createMockRouteBundle(),
     createMockAppTimeBundle(),
     createMockOnlineBundle(),
     createReactorBundle(),

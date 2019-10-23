@@ -35,10 +35,11 @@ export default function (opts) {
   })
 
   bundle.reactPeerLocationsFetch = createSelector(
+    'selectRouteInfo',
     'selectPeerLocationsShouldUpdate',
-    'selectIpfsReady',
-    (shouldUpdate, ipfsReady) => {
-      if (shouldUpdate && ipfsReady) {
+    'selectIpfsConnected',
+    (routeInfo, shouldUpdate, ipfsConnected) => {
+      if (routeInfo.url === '/peers' && shouldUpdate && ipfsConnected) {
         return { actionCreator: 'doFetchPeerLocations' }
       }
     }
