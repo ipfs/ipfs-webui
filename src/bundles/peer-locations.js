@@ -189,7 +189,7 @@ class PeerLocationResolver {
 
             if (err) {
               // mark this one as failed so we don't retry again
-              this.failedAddrs.set(ipv4Addr, 1)
+              this.failedAddrs.set(ipv4Addr, true)
               return resolve()
             }
 
