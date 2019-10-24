@@ -208,14 +208,11 @@ class PeerLocationResolver {
   }
 
   optimizedPeerSet (peers) {
-    if (this.pass < 3) {
-      // sort by latency so we can resolve closes ones first
+    if (this.pass && this.pass < 3) {
+      // use a copy of peers sorted by latency so we can resolve closest ones first
       // (https://github.com/ipfs-shipyard/ipfs-webui/issues/1273)
-      peers.sort((a, b) => {
-        a = parseLatency(a.latency) || 9999
-        b = parseLatency(b.latency) || 9999
-        return a - b
-      })
+      const ms = x => (parseLatency(x.latency) || 9999)
+      peers = peers.concat().sort((a, b) => ms(a) - ms(b))
       // take the closest subset, increase sample size each time
       // this ensures initial map updates are fast even with thousands of peers
       switch (this.pass) {
