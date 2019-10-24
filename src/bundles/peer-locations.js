@@ -3,6 +3,7 @@ import { getConfiguredCache } from 'money-clip'
 import geoip from 'ipfs-geoip'
 import PQueue from 'p-queue'
 import HLRU from 'hashlru'
+import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
 import ip from 'ip'
 
@@ -77,7 +78,8 @@ export default function (opts) {
           address,
           latency,
           notes,
-          isPrivate
+          isPrivate,
+          isNearby
         }
       })
     }
@@ -147,8 +149,8 @@ function isPrivateAndNearby (maddr, myIP) {
       if (addr.family === 4) {
         isNearby = ip.cidrSubnet(`${myIP}/24`).contains(addr.address)
       } else if (addr.family === 6) {
-        isNearby = ip.cidrSubnet(`${myIP}/48`).contains(addr.address)
-          && !ip.cidrSubnet('fc00::/8').contains(addr.address)
+        isNearby = ip.cidrSubnet(`${myIP}/48`).contains(addr.address) &&
+          !ip.cidrSubnet('fc00::/8').contains(addr.address)
         // peerIP6 ∉ fc00::/8 to fix case of cjdns where IPs are not spatial allocated.
       }
     }

@@ -6,6 +6,7 @@
   "location": "Location",
   "unknownLocation": "Unknown",
   "localNetwork": "Local Network",
+  "nearby": "nearby",
   "latency": "latency",
   "bootstrapNode": "bootstrap node",
   "viaRelay": "via <0>{node}</0>",
