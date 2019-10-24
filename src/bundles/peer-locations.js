@@ -1,16 +1,21 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { getConfiguredCache } from 'money-clip'
 import geoip from 'ipfs-geoip'
-import queue from 'queue'
-import Multiaddr from 'multiaddr'
+import PQueue from 'p-queue'
+import HLRU from 'hashlru'
 import ms from 'milliseconds'
 import ip from 'ip'
+
+// After this time interval, we re-check the locations for each peer
+// once again through PeerLocationResolver.
+const UPDATE_EVERY = ms.seconds(1)
 
 // Depends on ipfsBundle, peersBundle
 export default function (opts) {
   opts = opts || {}
-  // Max number of locations to retrieve concurrently
-  opts.concurrency = opts.concurrency || 10
+  // Max number of locations to retrieve concurrently.
+  // HTTP API are throttled to max 4-6 at a time by the browser itself.
+  opts.concurrency = opts.concurrency || 4
   // Cache options
   opts.cache = opts.cache || {}
 
@@ -23,17 +28,18 @@ export default function (opts) {
       const peers = store.selectPeers()
       return peerLocResolver.findLocations(peers, getIpfs)
     },
-    staleAfter: ms.seconds(1),
-    retryAfter: ms.seconds(1),
+    staleAfter: UPDATE_EVERY,
+    retryAfter: UPDATE_EVERY,
     persist: false,
     checkIfOnline: false
   })
 
   bundle.reactPeerLocationsFetch = createSelector(
+    'selectRouteInfo',
     'selectPeerLocationsShouldUpdate',
-    'selectIpfsReady',
-    (shouldUpdate, ipfsReady) => {
-      if (shouldUpdate && ipfsReady) {
+    'selectIpfsConnected',
+    (routeInfo, shouldUpdate, ipfsConnected) => {
+      if (routeInfo.url === '/peers' && shouldUpdate && ipfsConnected) {
         return { actionCreator: 'doFetchPeerLocations' }
       }
     }
@@ -180,30 +186,31 @@ class PeerLocationResolver {
       ...opts.cache
     })
 
-    this.failedAddrs = []
+    this.failedAddrs = HLRU(500)
 
-    this.queue = queue({
+    this.queue = new PQueue({
       concurrency: opts.concurrency,
-      autostart: true
+      autoStart: true
     })
 
     this.geoipLookupPromises = {}
+
+    this.pass = 0
   }
 
   async findLocations (peers, getIpfs) {
     const res = {}
 
-    for (const p of peers) {
+    for (const p of this.optimizedPeerSet(peers)) {
       const peerId = p.peer.toB58String()
-      const addr = p.addr.toString()
 
-      const ipv4Tuple = Multiaddr(addr).stringTuples().find(isNonHomeIPv4)
+      const ipv4Tuple = p.addr.stringTuples().find(isNonHomeIPv4)
       if (!ipv4Tuple) {
         continue
       }
 
       const ipv4Addr = ipv4Tuple[1]
-      if (this.failedAddrs.includes(ipv4Addr)) {
+      if (this.failedAddrs.has(ipv4Addr)) {
         continue
       }
 
@@ -220,8 +227,8 @@ class PeerLocationResolver {
         continue
       }
 
-      this.queue.push(async () => {
-        return new Promise((resolve, reject) => {
+      this.geoipLookupPromises[ipv4Addr] = this.queue.add(async () => {
+        return new Promise(resolve => {
           const ipfs = getIpfs()
 
           geoip.lookup(ipfs, ipv4Addr, (err, data) => {
@@ -229,14 +236,7 @@ class PeerLocationResolver {
 
             if (err) {
               // mark this one as failed so we don't retry again
-              this.failedAddrs.push(ipv4Addr)
-
-              // if there's 500 or more failed addresses, remove the
-              // oldest 100 failures.
-              if (this.failedAddrs.length >= 500) {
-                this.failedAddrs.splice(0, 100)
-              }
-
+              this.failedAddrs.set(ipv4Addr, true)
               return resolve()
             }
 
@@ -249,5 +249,30 @@ class PeerLocationResolver {
     }
 
     return res
+  }
+
+  optimizedPeerSet (peers) {
+    if (this.pass && this.pass < 3) {
+      // use a copy of peers sorted by latency so we can resolve closest ones first
+      // (https://github.com/ipfs-shipyard/ipfs-webui/issues/1273)
+      const ms = x => (parseLatency(x.latency) || 9999)
+      peers = peers.concat().sort((a, b) => ms(a) - ms(b))
+      // take the closest subset, increase sample size each time
+      // this ensures initial map updates are fast even with thousands of peers
+      switch (this.pass) {
+        case 0:
+          peers = peers.slice(0, 10)
+          break
+        case 1:
+          peers = peers.slice(0, 100)
+          break
+        case 2:
+          peers = peers.slice(0, 200)
+          break
+        default:
+      }
+      this.pass = this.pass + 1
+    }
+    return peers
   }
 }
