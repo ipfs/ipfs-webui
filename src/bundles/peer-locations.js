@@ -160,7 +160,7 @@ class PeerLocationResolver {
       const peerId = p.peer.toB58String()
       const addr = p.addr.toString()
 
-      const ipv4Tuple = Multiaddr(addr).stringTuples().find(isNonHomeIPv4)
+      const ipv4Tuple = p.addr.stringTuples().find(isNonHomeIPv4)
       if (!ipv4Tuple) {
         continue
       }
