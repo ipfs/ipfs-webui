@@ -149,12 +149,14 @@ class PeerLocationResolver {
     })
 
     this.geoipLookupPromises = {}
+
+    this.pass = 0
   }
 
   async findLocations (peers, getIpfs) {
     const res = {}
 
-    for (const p of peers) {
+    for (const p of this.optimizedPeerSet(peers)) {
       const peerId = p.peer.toB58String()
       const addr = p.addr.toString()
 
@@ -203,5 +205,33 @@ class PeerLocationResolver {
     }
 
     return res
+  }
+
+  optimizedPeerSet (peers) {
+    if (this.pass < 3) {
+      // sort by latency so we can resolve closes ones first
+      // (https://github.com/ipfs-shipyard/ipfs-webui/issues/1273)
+      peers.sort((a, b) => {
+        a = parseLatency(a.latency) || 9999
+        b = parseLatency(b.latency) || 9999
+        return a - b
+      })
+      // take the closest subset, increase sample size each time
+      // this ensures initial map updates are fast even with thousands of peers
+      switch (this.pass) {
+        case 0:
+          peers = peers.slice(0, 10)
+          break
+        case 1:
+          peers = peers.slice(0, 100)
+          break
+        case 2:
+          peers = peers.slice(0, 200)
+          break
+        default:
+      }
+      this.pass = this.pass + 1
+    }
+    return peers
   }
 }
