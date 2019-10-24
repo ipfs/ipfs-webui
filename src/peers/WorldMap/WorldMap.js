@@ -36,9 +36,9 @@ const WorldMap = ({ t, className }) => {
         </div>
       </div>
       <div className='absolute bottom-0 left-0 right-0'>
-        <div className='flex flex-auto flex-column items-center self-end pb5-ns'>
-          <div className='f1 fw5 aqua'><PeersCount /></div>
-          <div className='f4 b ttu'>{t('peers')}</div>
+        <div className='flex flex-auto flex-column items-center self-end pb5-ns no-select'>
+          <div className='f1 fw5 black'><PeersCount /></div>
+          <div className='f4 b ttu charcoal-muted'>{t('peers')}</div>
         </div>
       </div>
     </div>
