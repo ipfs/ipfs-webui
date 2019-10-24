@@ -181,7 +181,7 @@ class PeerLocationResolver {
         continue
       }
 
-      this.queue.add(async () => {
+      this.geoipLookupPromises[ipv4Addr] = this.queue.add(async () => {
         return new Promise(resolve => {
           const ipfs = getIpfs()
 
