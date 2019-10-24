@@ -3,7 +3,6 @@ import { getConfiguredCache } from 'money-clip'
 import geoip from 'ipfs-geoip'
 import PQueue from 'p-queue'
 import HLRU from 'hashlru'
-import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
 
 // After this time interval, we re-check the locations for each peer
@@ -158,7 +157,6 @@ class PeerLocationResolver {
 
     for (const p of this.optimizedPeerSet(peers)) {
       const peerId = p.peer.toB58String()
-      const addr = p.addr.toString()
 
       const ipv4Tuple = p.addr.stringTuples().find(isNonHomeIPv4)
       if (!ipv4Tuple) {
