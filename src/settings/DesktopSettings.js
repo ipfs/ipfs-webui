@@ -40,6 +40,7 @@ export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }
 
       <CheckboxSetting checked={desktopSettings.autoLaunch || false}
         title={t('launchOnStartup')}
+        disabled={!(['win32', 'darwin', 'linux'].includes(os.platform()) && process.env.NODE_ENV !== 'development')}
         onChange={() => doDesktopSettingsToggle('autoLaunch')} />
       <CheckboxSetting checked={desktopSettings.ipfsOnPath || false}
         title={t('ipfsCmdTools')}
