@@ -6,6 +6,7 @@ import HLRU from 'hashlru'
 import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
 import ip from 'ip'
+import memoizee from 'memoizee'
 
 // After this time interval, we re-check the locations for each peer
 // once again through PeerLocationResolver.
@@ -51,38 +52,34 @@ export default function (opts) {
     'selectPeerLocations',
     'selectBootstrapPeers',
     'selectIdentity',
-    (peers, locations = {}, bootstrapPeers, identity) => {
-      const myIP = getPublicIP(identity)
+    (peers, locations = {}, bootstrapPeers, identity) => peers && peers.map(peer => {
+      const peerId = peer.peer.toB58String()
+      const locationObj = locations ? locations[peerId] : null
+      const location = toLocationString(locationObj)
+      const flagCode = locationObj && locationObj.country_code
+      const coordinates = locationObj && [
+        locationObj.longitude,
+        locationObj.latitude
+      ]
+      const connection = parseConnection(peer.addr)
+      const address = peer.addr.toString()
+      const latency = parseLatency(peer.latency)
+      const notes = parseNotes(peer, bootstrapPeers)
+      const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
 
-      return peers && peers.map(peer => {
-        const peerId = peer.peer.toB58String()
-        const locationObj = locations ? locations[peerId] : null
-        const location = toLocationString(locationObj)
-        const flagCode = locationObj && locationObj.country_code
-        const coordinates = locationObj && [
-          locationObj.longitude,
-          locationObj.latitude
-        ]
-        const connection = parseConnection(peer.addr)
-        const address = peer.addr.toString()
-        const latency = parseLatency(peer.latency)
-        const notes = parseNotes(peer, bootstrapPeers)
-        const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, myIP)
-
-        return {
-          peerId,
-          location,
-          flagCode,
-          coordinates,
-          connection,
-          address,
-          latency,
-          notes,
-          isPrivate,
-          isNearby
-        }
-      })
-    }
+      return {
+        peerId,
+        location,
+        flagCode,
+        coordinates,
+        connection,
+        address,
+        latency,
+        notes,
+        isPrivate,
+        isNearby
+      }
+    })
   )
 
   bundle.selectPeerCoordinates = createSelector(
@@ -124,7 +121,7 @@ const parseLatency = (latency) => {
   return value
 }
 
-function getPublicIP (identity) {
+const getPublicIP = memoizee((identity) => {
   if (!identity) return
 
   for (const maddr of identity.addresses) {
@@ -135,28 +132,37 @@ function getPublicIP (identity) {
       }
     } catch (_) {}
   }
-}
+})
 
-function isPrivateAndNearby (maddr, myIP) {
-  let isPrivate = null
-  let isNearby = null
+const isPrivateAndNearby = (maddr, identity) => {
+  const publicIP = getPublicIP(identity)
+  let isPrivate = false
+  let isNearby = false
+  let addr
+
+  if (!publicIP) {
+    return { isPrivate, isNearby }
+  }
 
   try {
-    const addr = maddr.nodeAddress()
-    isPrivate = ip.isPrivate(addr.address)
-
-    if (myIP) {
-      if (addr.family === 4) {
-        isNearby = ip.cidrSubnet(`${myIP}/24`).contains(addr.address)
-      } else if (addr.family === 6) {
-        isNearby = ip.cidrSubnet(`${myIP}/48`).contains(addr.address) &&
-          !ip.cidrSubnet('fc00::/8').contains(addr.address)
-        // peerIP6 ∉ fc00::/8 to fix case of cjdns where IPs are not spatial allocated.
-      }
-    }
+    addr = maddr.nodeAddress()
   } catch (_) {
-    isPrivate = false
-    isNearby = false
+    // Might explode if maddr does not have an IP or cannot be converted
+    // to a node address. This might happen if it's a relay. We do not print
+    // or handle the error, otherwise we would get perhaps thousands of logs.
+    return { isPrivate, isNearby }
+  }
+
+  // At this point, addr.address and publicIP must be valid IP addresses. Hence,
+  // none of the calls bellow for ip library should fail.
+  isPrivate = ip.isPrivate(addr.address)
+
+  if (addr.family === 4) {
+    isNearby = ip.cidrSubnet(`${publicIP}/24`).contains(addr.address)
+  } else if (addr.family === 6) {
+    isNearby = ip.cidrSubnet(`${publicIP}/48`).contains(addr.address) &&
+      !ip.cidrSubnet('fc00::/8').contains(addr.address)
+    // peerIP6 ∉ fc00::/8 to fix case of cjdns where IPs are not spatial allocated.
   }
 
   return { isPrivate, isNearby }

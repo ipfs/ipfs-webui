@@ -48,6 +48,7 @@
     "ipld-explorer-components": "^1.5.1",
     "is-binary": "^0.1.0",
     "is-ipfs": "^0.6.1",
+    "memoizee": "^0.4.14",
     "milliseconds": "^1.0.3",
     "money-clip": "^3.0.1",
     "multiaddr": "^7.1.0",
