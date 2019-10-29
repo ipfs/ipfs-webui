@@ -51,7 +51,7 @@
     "memoizee": "^0.4.14",
     "milliseconds": "^1.0.3",
     "money-clip": "^3.0.1",
-    "multiaddr": "^7.1.0",
+    "multiaddr": "^7.2.0",
     "multiaddr-to-uri": "^5.0.0",
     "p-queue": "^6.2.0",
     "prop-types": "^15.7.2",
