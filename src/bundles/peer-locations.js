@@ -3,7 +3,10 @@ import { getConfiguredCache } from 'money-clip'
 import geoip from 'ipfs-geoip'
 import PQueue from 'p-queue'
 import HLRU from 'hashlru'
+import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
+import ip from 'ip'
+import memoizee from 'memoizee'
 
 // After this time interval, we re-check the locations for each peer
 // once again through PeerLocationResolver.
@@ -48,7 +51,8 @@ export default function (opts) {
     'selectPeers',
     'selectPeerLocations',
     'selectBootstrapPeers',
-    (peers, locations = {}, bootstrapPeers) => peers && peers.map(peer => {
+    'selectIdentity',
+    (peers, locations = {}, bootstrapPeers, identity) => peers && peers.map(peer => {
       const peerId = peer.peer.toB58String()
       const locationObj = locations ? locations[peerId] : null
       const location = toLocationString(locationObj)
@@ -61,6 +65,7 @@ export default function (opts) {
       const address = peer.addr.toString()
       const latency = parseLatency(peer.latency)
       const notes = parseNotes(peer, bootstrapPeers)
+      const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
 
       return {
         peerId,
@@ -70,7 +75,9 @@ export default function (opts) {
         connection,
         address,
         latency,
-        notes
+        notes,
+        isPrivate,
+        isNearby
       }
     })
   )
@@ -112,6 +119,53 @@ const parseLatency = (latency) => {
   value = unit === 's' ? value * 1000 : value
 
   return value
+}
+
+const getPublicIP = memoizee((identity) => {
+  if (!identity) return
+
+  for (const maddr of identity.addresses) {
+    try {
+      const addr = Multiaddr(maddr).nodeAddress()
+      if (!ip.isPrivate(addr.address)) {
+        return addr.address
+      }
+    } catch (_) {}
+  }
+})
+
+const isPrivateAndNearby = (maddr, identity) => {
+  const publicIP = getPublicIP(identity)
+  let isPrivate = false
+  let isNearby = false
+  let addr
+
+  if (!publicIP) {
+    return { isPrivate, isNearby }
+  }
+
+  try {
+    addr = maddr.nodeAddress()
+  } catch (_) {
+    // Might explode if maddr does not have an IP or cannot be converted
+    // to a node address. This might happen if it's a relay. We do not print
+    // or handle the error, otherwise we would get perhaps thousands of logs.
+    return { isPrivate, isNearby }
+  }
+
+  // At this point, addr.address and publicIP must be valid IP addresses. Hence,
+  // none of the calls bellow for ip library should fail.
+  isPrivate = ip.isPrivate(addr.address)
+
+  if (addr.family === 4) {
+    isNearby = ip.cidrSubnet(`${publicIP}/24`).contains(addr.address)
+  } else if (addr.family === 6) {
+    isNearby = ip.cidrSubnet(`${publicIP}/48`).contains(addr.address) &&
+      !ip.cidrSubnet('fc00::/8').contains(addr.address)
+    // peerIP6 ∉ fc00::/8 to fix case of cjdns where IPs are not spatial allocated.
+  }
+
+  return { isPrivate, isNearby }
 }
 
 const parseNotes = (peer, bootstrapPeers) => {
