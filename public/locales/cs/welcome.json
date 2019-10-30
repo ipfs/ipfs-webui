@@ -1,0 +1,31 @@
+{
+  "title": "Vítejte v IPFS",
+  "configureApiPort": {
+    "header": "Běží API na jiném portě jako 5001?",
+    "paragraph1": "<0>Pokud je váš uzel IPFS nakonfigurován s <1>vlastní adresou API</1>, nastavte ji zde.</0>"
+  },
+  "apiAddressForm": {
+    "apiLabel": "ADRESA API",
+    "submitButton": "Odeslat"
+  },
+  "connected": {
+    "header": "Připojeno k IPFS",
+    "paragraph1": "<0>Nyní je čas prozkoumat svůj uzel. Chcete-li spravovat a sdílet své soubory, přejděte na <1>stránku Soubory</1> nebo prozkoumejte <3>Merkle Forest</3> s daty hash spojenými s ostatními uživateli pomocí <5>průzkumníka IPLD.</0>",
+    "paragraph2": "<0>Na tuto adresu se můžete vždy vrátit a změnit uzel IPFS, ke kterému jste připojeni.</0>"
+  },
+  "notConnected": {
+    "header": "Beží vaše IPFS služba?",
+    "paragraph1": "<0>Připojení k API selhalo.</0>",
+    "paragraoh2": "<0>Ujistěte se, že <1>nakonfigurujete své rozhraní IPFS API</1> tak, aby umožňovalo požadavky křížového původu (CORS), spuštěním následujících příkazů:</0>",
+    "paragraph3": "<0>Spusťte démona IPFS v terminálu:</0>",
+    "paragraph4": "<0>Pro více informací jak začít s IPFS si můžete <1>přečíst příručku</1>.</0>"
+  },
+  "aboutIpfs": {
+    "header": "Co je to IPFS?",
+    "paragraph1": "<0><0>IPFS je protokol</0>, který definuje obsah-adresující systém souborů, koordinuje doručování obsahu a kombinuje nápady z Kademlia, BitTorrent, Git a dalších.</0>",
+    "paragraph2": "<0><0>IPFS je souborový systém.</0> Má adresáře a soubory a připojitelný souborový systém přes FUSE.</0>",
+    "paragraph3": "<0><0>IPFS je web.</0> Soubory jsou přístupné přes HTTP brány jako <2>https://ipfs.io</2>. Prohlížeče <4>lze rozšířit tak</4>, aby přímo používaly schéma <6>ipfs://</6> a obsah adresovaný hash zaručuje autentičnost.</0>",
+    "paragraph4": "<0><0>IPFS je p2p.</0> Podporuje celosvětové přenosy souborů typu peer-to-peer s kompletně decentralizovanou architekturou a bez centrálního bodu selhání.</0>",
+    "paragraph5": "<0><0>IPFS je CDN.</0> Přidejte soubor do svého místního úložiště a nyní je k dispozici pro celý svět pomocí adresování hashů a distribuce šířky pásma typu BitTorrent.</0>"
+  }
+}

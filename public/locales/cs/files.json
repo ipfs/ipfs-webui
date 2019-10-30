@@ -9,22 +9,22 @@
   "fileName": "Jméno souboru",
   "size": "Velikost",
   "noPDFSupport": "Váš prohlížeč nepodporuje PDF. Prosím stáhněte si PDF soubor k otevření:",
-  "downloadPDF": "Stáhnout PDF soubor.",
+  "downloadPDF": "Stáhnout PDF",
   "downloadInstead": "Zkuste místo toho to <1>stáhnout</1>.",
-  "cantBePreviewed": "Pardón, tento soubor nemůže být zobrazen",
-  "addFile": "File",
-  "addFolder": "Folder",
-  "addByPath": "From IPFS",
+  "cantBePreviewed": "Litujeme, tento soubor nelze zobrazit",
+  "addFile": "Soubor",
+  "addFolder": "Složka",
+  "addByPath": "Od IPFS",
   "addToIPFS": "Přidat",
   "newFolder": "Nová složka",
-  "generating": "Generating...",
+  "generating": "Vytváření…",
   "actions": {
     "add": "Přidat",
     "delete": "Smazat",
     "rename": "Přejmenovat",
     "download": "Stáhnout",
     "inspect": "Prozkoumat",
-    "copyHash": "Zkopírovat hash",
+    "copyHash": "Kopírovat hash",
     "share": "Sdílet",
     "close": "Zavřít",
     "copy": "Zkopírovat",
@@ -32,6 +32,8 @@
     "clear": "Smazat",
     "create": "Vytvořit",
     "save": "Uložit",
+    "pin": "Připnout",
+    "unpin": "Odepnout",
     "unselectAll": "Odznačit vše"
   },
   "shareModal": {
@@ -39,23 +41,23 @@
     "description": "Zkopírovat odkaz níže a sdílet ho s vašimi přátely."
   },
   "renameModal": {
-    "titleFile": "Přejmenovat soubor",
+    "titleFile": "Přejmenujte soubor",
     "titleFolder": "Přejmenovat složku",
     "descriptionFile": "Vyberte nové jméno pro tento soubor.",
     "descriptionFolder": "Vyberte nové jméno pro tuto složku."
   },
   "deleteModal": {
-    "titleItem": "{count, plural, one {Smazat položku} few {Smazat {count} položek} many {Smazat {count} položek} other {Smazat {count} položek}}",
-    "titleFolder": "{count, plural, one {Smazat složku} few {Smazat {count} složek} many {Smazat {count} složek} other {Smazat {count} složek}}",
-    "titleFile": "{count, plural, one {Smazat soubor} few {Smazat {count} souborů} many {Smazat {count} souborů} other {Smazat {count} souborů}}",
-    "descriptionItem": "{count, plural, one {Jste si jistý že chcete smazat tuto položku? Tato akce je nevratná!} few {Jste si jistý že chcete smazat {count} položek? Tato akce je nevratná!} many {Jste si jistý že chcete smazat {count} položek? Tato akce je nevratná!} other {Jste si jistý že chcete smazat {count} položek? Tato akce je nevratná!}}",
-    "descriptionFolder": "{count, plural, one {Jste si jistý že chcete smazat tuto složku? Tato akce je nevratná!} few {Jste si jistý že chcete smazat {count} složek? Tato akce je nevratná!} many {Jste si jistý že chcete smazat {count} složek? Tato akce je nevratná!} other {Jste si jistý že chcete smazat {count}složek? Tato akce je nevratná!}}",
-    "descriptionFile": "{count, plural, one {Jste si jistý že chcete smazat tento soubor? Tato akce je nevratná!} few {Jste si jistý že chcete smazat {count} souborů? Tato akce je nevratná!} many {Jste si jistý že chcete smazat {count} souborů? Tato akce je nevratná!} other {Jste si jistý že chcete smazat {count} souborů? Tato akce je nevratná!}}"
+    "titleItem": "{count, plural, one {Smazat položku} few {Smazat {count} položky} many {Smazat {count} položek} other {Smazat {count} položek}}",
+    "titleFolder": "{count, plural, one {Smazat složku} few {Smazat {count} složky} many {Smazat {count} složek} other {Smazat {count} složek}}",
+    "titleFile": "{count, plural, one {Smazat soubor} few {Smazat {count} soubory} many {Smazat {count} souborů} other {Smazat {count} souborů}}",
+    "descriptionItem": "{count, plural, one {Opravdu chcete tuto položku smazat? Tato akce je trvalá a nelze ji zvrátit.} few {Opravdu chcete tyto {count} položky smazat? Tato akce je trvalá a nelze ji zvrátit.} many {Opravdu chcete těchto {count} položek smazat? Tato akce je trvalá a nelze ji zvrátit.} other {Opravdu chcete těchto {count} položek smazat? Tato akce je trvalá a nelze ji zvrátit.}}",
+    "descriptionFolder": "{count, plural, one {Opravdu chcete tuto složku smazat? Tato akce je trvalá a nelze ji zvrátit.} few {Opravdu chcete tyto {count} složky smazat? Tato akce je trvalá a nelze ji zvrátit.} many {Opravdu chcete těchto {count} složek smazat? Tato akce je trvalá a nelze ji zvrátit.} other {Opravdu chcete těchto {count} složek smazat? Tato akce je trvalá a nelze ji zvrátit.}}",
+    "descriptionFile": "{count, plural, one {Opravdu chcete tento souboy odstranit? Tato akce je trvalá a nelze ji zvrátit.} few {Opravdu chcete tyto {count} soubory odstranit? Tato akce je trvalá a nelze ji zvrátit.} many {Opravdu chcete těchto {count} souborů odstranit? Tato akce je trvalá a nelze ji zvrátit.} other {Opravdu chcete těchto {count} souborů odstranit? Tato akce je trvalá a nelze ji zvrátit.}}"
   },
   "addByPathModal": {
-    "title": "Add from IPFS",
-    "description": "Insert an IPFS path (CID) to add.",
-    "examples": "Examples:"
+    "title": "Přidat z IPFS",
+    "description": "Vložte cestu IPFS (CID), kterou chcete přidat.",
+    "examples": "Příklady:"
   },
   "newFolderModal": {
     "title": "Nová složka",
@@ -63,16 +65,50 @@
   },
   "welcomeInfo": {
     "header": "Vítejte v IPFS Web UI",
-    "paragraph1": "<0><0>Zkontrolujte stav</0> vašeho uzlu, jeho Peer ID. stav připojení, síťový provoz a počet připojených uzlů.</0>",
-    "paragraph2": "<0>Jednoduše <1>spravujte soubory</1> ve vašem IPFS repozitáři. Můžete přidat nové soubory přetáhnutím a pustěním, soubory můžete také přesouvat a přejmenovávat, mazat, sdílet nebo stahovat.</0>",
+    "paragraph1": "<0><0>Zkontrolujte stav</0> vašeho uzlu, jeho ID uzlu a informace o připojení, síťový provoz a počet připojených uzlů.</0>",
+    "paragraph2": "<0>Snadná <1>správa souborů</1> v repo IPFS. Soubory můžete přidávat přetažením a můžete je přesouvat, přejmenovávat, mazat, sdílet nebo stahovat.</0>",
     "paragraph3": "<0>Můžete <1>prozkoumávat IPLD data</1> které tvoří základ toho jak IPFS funguje.</0>",
     "paragraph4": "<0>Podívejte se na všechny <1>připojené uzly</1>,  lokalizované podle jejich IP adresy.</0>",
     "paragraph5": "<0><0>Prozkoumejte nastavení</0> vašeho IPFS uzlu a upravte je aby lépe odpovídala vaším potřebám.</0>",
     "paragraph6": "<0>Pokud chcete pomoc posunout Web UI dále, <1>mkrněte na jeho kód</1> nebo <3>nahlašte problém</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
+    "noFiles": "<0>V tomto adresáři nejsou žádné soubory. Klepnutím na tlačítko „Přidat“ přidejte některé.</0>"
   },
   "addFilesInfo": "<0>Přidejte soubory do vašeho IPFS uzlu kliknutím na <1>Přidat do IPFS</1> tlačítko.</0>",
-  "companionInfo": "<0>Jelikož používáte <1>IPFS Companion</1>, zobrazené soubory jsou omezeny pouze na ty které jste přidali během používání tohoto rozšíření.</0>"
+  "companionInfo": "<0>Jelikož používáte <1>IPFS Companion</1>, zobrazené soubory jsou omezeny pouze na ty které jste přidali během používání tohoto rozšíření.</0>",
+  "tour": {
+    "step1": {
+      "title": "Stránka se soubory",
+      "paragraph1": "<0>Zde žijí soubory ve vašem systému <1>Meable File System (MFS)</1>. Na této stránce můžete přidat soubory nebo složky a spravovat je.</0>",
+      "paragraph2": "Naučte se více."
+    },
+    "step2": {
+      "title": "Cesta",
+      "paragraph1": "V aktuálním pracovním adresáři můžete procházet hierarchii složek kliknutím na ně."
+    },
+    "step3": {
+      "title": "Přidat soubory",
+      "paragraph1": "Zde vidíte, kolik bloků a souborů jste přidali.",
+      "paragraph2": "K repozitáři můžete přidat soubory nebo složky pomocí rozbalovací nabídky na pravé straně.",
+      "paragraph3": "<0>Pokud chcete přidat něco, co je již na IPFS, můžete jej importovat do vašeho MFS předáním jeho <1>identifikátoru obsahu (CID)</1>.</0>"
+    },
+    "step5": {
+      "title": "Seznam souborů",
+      "paragraph1": "Nakonec seznam, kde můžete najít své soubory a složky. Přetáhněte soubory nebo složky a přidejte je.",
+      "paragraph2": "Můžete sdílet nebo stahovat soubory, prohlížet je v Průzkumníku IPLD, přejmenovávat nebo mazat!",
+      "paragraph3": "Pro tip: přetáhněte soubor z jakékoli jiné stránky webového uživatelského rozhraní a přidejte je do kořenového adresáře vašeho MFS."
+    }
+  },
+  "exploreForm": {
+    "browse": "Procházet",
+    "inspect": "Prozkoumat"
+  },
+  "hashUnavailable": "hash není k dispozici",
+  "pins": "Špendlíky",
+  "pinned": "Připíchnuté",
+  "blocks": "Bloky",
+  "more": "Více",
+  "files": "Soubory",
+  "cidNotFileNorDir": "Aktuální odkaz není soubor ani adresář. Zkuste ho místo toho <0>zkontrolovat</0>."
 }

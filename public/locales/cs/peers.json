@@ -4,5 +4,29 @@
   "peers": "Uzly",
   "address": "Adresa",
   "location": "Umístění",
-  "unknownLocation": "Neznámé"
+  "unknownLocation": "Neznámé",
+  "localNetwork": "Local Network",
+  "nearby": "nearby",
+  "latency": "latence",
+  "bootstrapNode": "bootstrap uzel",
+  "viaRelay": "přes <0>{node}</0>",
+  "addConnection": "Přidat připojení",
+  "insertPeerAddress": "Zadejte adresu uzlu, ke které se chcete připojit.",
+  "add": "Přidat",
+  "example": "Příklad:",
+  "tour": {
+    "step1": {
+      "title": "Stránka uzlů",
+      "paragraph1": "Na tomto místě můžete vidět uzly, se kterými jste spojeni, a zemi, ve které jsou.",
+      "paragraph2": "Naučte se více."
+    },
+    "step2": {
+      "title": "Mapa uzlů",
+      "paragraph1": "Vizualizace míst ve světě, kde jsou uzly, se kterými jste spojeni."
+    },
+    "step3": {
+      "title": "Tabulka uzlů",
+      "paragraph1": "Zkontrolujte ID připojených uzlů, jejich adresu a přibližné umístění."
+    }
+  }
 }

@@ -5,6 +5,8 @@
   "address": "Adresse",
   "location": "Emplacement",
   "unknownLocation": "Iconnu",
+  "localNetwork": "Local Network",
+  "nearby": "nearby",
   "latency": "latence",
   "bootstrapNode": "pairs de démarrage",
   "viaRelay": "via<0>{node}</0>",

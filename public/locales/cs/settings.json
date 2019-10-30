@@ -1,13 +1,14 @@
 {
   "title": "Nastavení",
   "save": "Uložit",
-  "saving": "Ukládám...",
+  "saving": "Ukládání…",
   "reset": "Resetovat",
   "language": "Jazyk",
+  "analytics": "Analytics",
   "config": "IPFS Config",
   "languageModal": {
     "title": "Změnit jazyk",
-    "description": "Vyberte váš preferovaný jazyk"
+    "description": "Vyberte si preferovaný jazyk."
   },
   "actions": {
     "edit": "Změnit",
@@ -15,17 +16,88 @@
   },
   "fetchingSettings": "Získávání nastavení...",
   "configApiNotAvailable": "IPFS API nastavení není dostupný. Prosím vypněte rozšíření \"IFPS Companion\" a zkuste to znovu.",
+  "ipfsDaemonOffline": "Démon IPFS je offline. Zapněte jej a zkuste to znovu.",
   "settingsUnavailable": "Nastavení není dostupný. Prosím zkontrolujte zdali běží IPFS služba.",
-  "settingsHaveChanged": "Nastavení bylo změněno, prosím klikněte na <1>Obnovit</1> pro zaktualizování obsahu editoru",
+  "settingsHaveChanged": "Nastavení se změnilo; kliknutím na <1>Obnovit</1> aktualizujte obsah editoru.",
   "errorOccured": "V průběhu ukládání vašeho nastavení se vyskytla chyba",
   "checkConsole": "Zkontrolujte konzoli prohlížeče pro více informací.",
-  "changesSaved": "Vaše nastavení bylo uloženo",
+  "changesSaved": "Vaše změny byly uloženy.",
   "settingsWillBeUsedNextTime": "Nové nastavení se použije při příštím restartu IPFS služby.",
-  "ipfsConfigDescription": "Nastavení IPFS je uloženo jako JSON soubor. Tento soubor je načten jednou při startu IPFS služby. Uložte vaše změny a následně zrestartujte IPFS službu pro aplikaci vašich změn.",
+  "ipfsConfigDescription": "Konfigurační soubor IPFS je dokument JSON. Při spuštění démona IPFS se načte jednou. Uložte změny a restartujte démona IPFS, abyste je použili.",
+  "ipfsConfigHelp": "Další informace naleznete v dokumentaci.",
   "ipfsDesktop": "IPFS Desktop",
+  "takeScreenshot": "Pořiďte snímek obrazovky",
+  "takeScreenshotDescription": "Použíjte <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> pro pořizení snímků obrazovky a přidejte je do svého úložiště.",
+  "downloadHash": "Stáhnout hash",
+  "downloadHashDescription": "Použijte <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> pro stažení posledního zkopírovaného hashe nebo cesty do systému.",
   "launchOnStartup": "Spustit při startu",
-  "autoAddScreenshots": "Automaticky přidat screenshoty",
-  "autoAddScreenshotsDescription": "Použijte <0>{ctrlKey}</0>+<2>{altKey}</2>+<3>S</3> pro vytvoření screenshotu a jejich přidání do repozitáře.",
-  "downloadCopiedHash": "Stáhnout zkopírovaný hash",
-  "downloadCopiedHashDescription": "Použijte <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> ke stažení posledního zkopírovaného hash."
+  "globalShortcuts": "Globální zkratky",
+  "globalShortcutsAre": "IPFS Desktop poskytuje některé funkce, ke kterým lze globálně přistupovat pomocí klávesových zkratek. Zde je můžete povolit nebo zakázat.",
+  "AnalyticsToggle": {
+    "label": "Pomozte vylepšit tuto aplikaci odesláním anonymních dat o využití",
+    "summary": "Nakonfigurujte, co se shromažďuje",
+    "paragraph1": "Neshromažďují se žádné CID, názvy souborů ani jiné osobní informace. Chceme, aby nám metriky ukázaly, které funkce jsou užitečné, aby nám pomohly upřednostnit, na čem budeme dále pracovat, a informace o konfiguraci systému, které povedou naše testování.",
+    "paragraph2": "Protocol Labs je hostitelem aplikace <1>Countly</1> pro zaznamenávání anonymních dat o použití pro tuto aplikaci.",
+    "basicInfo": "Následující další informace jsou odeslány na countly.ipfs.io",
+    "optionalInfo": "Můžete se přihlásit a odeslat následující informace:",
+    "sessions": {
+      "label": "Sessions",
+      "summary": "Kdy a jak dlouho používáte aplikaci a metriky prohlížeče",
+      "details": "<0>Odesílá se následující metriky prohlížeče:</0><1><0>Náhodné vygenerované ID</0><1>Časové razítko zařízení při spuštění relace</1><2>Periodické časové značky ke sledování trvání</2><3>App verze; např. 2.4.4</3><4>Lokalizace; např. en-GB</4><5>User agent; např. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2)…</5><6> Rozlišení obrazovky; např. Rozměry 800×600</6><7> Hustota obrazových pixelů; např. 1</7></1>"
+    },
+    "events": {
+      "label": "Události",
+      "summary": "akce, jako je přidávání nebo mazání souborů, a jak dlouho to trvalo",
+      "details": "Akce specifické pro aplikaci. Zaznamenáváme pouze to, že k akci došlo, jak dlouho to trvalo od začátku do konce, a počítáme, pokud událost zahrnovala více položek."
+    },
+    "views": {
+      "label": "Zobrazení stránky",
+      "summary": "Které části aplikace navštěvujete",
+      "details": "Zaznamenává, které části aplikací jsou navštíveny. Zaznamenané cesty obsahují spíše vzor používaný k přiřazení trasy než úplnou adresu URL."
+    },
+    "location": {
+      "label": "Umístění",
+      "summary": "Kód země z IP adresy (IP adresa je zahozena)",
+      "details": "Vaše IP adresa se používá k výpočtu kódu země pro vaši polohu, například „FR“ pro Francii. Pokud není povoleno sledování polohy, odešle se prázdná vlastnost umístění se všemi požadavky na signál serveru k deaktivaci vyhledávání polohy. Tyto informace pomáhají řídit naše překladatelské úsilí a zjistit, kam bychom měli dát události."
+    },
+    "crashes": {
+      "label": "Chyby aplikace",
+      "summary": "Chybové zprávy JavaScriptu a stopy zásobníku",
+      "details": "Zaznamenává chybové zprávy JavaScriptu a stopy zásobníku, ke kterým dochází při používání aplikace, pokud je to možné. Je velmi užitečné vědět, kdy aplikace pro vás nefunguje, ale <1>chybové zprávy mohou obsahovat identifikovatelné informace</1>, jako jsou CID nebo cesty k souborům, takže to povolte pouze v případě, že s námi tyto informace pohodlně sdílíte."
+    }
+  },
+  "tour": {
+    "step1": {
+      "title": "Stránka nastavení",
+      "paragraph1": "Zde můžete změnit nastavení vašeho uzlu Web UI a IPFS.",
+      "paragraph2": "Pokud používáte IPFS Desktop, budete mít také určitá konkrétní nastavení."
+    },
+    "step2": {
+      "title": "Volič jazyka",
+      "paragraph1": "<0>Můžete změnit jazyk webového uživatelského rozhraní. Pokud požadovaný jazyk není k dispozici, přejděte na naši stránku projektu v <1>Transifexu</1> a pomozte nám s překladem!</0>"
+    },
+    "step3": {
+      "title": "Analytika anonymního použití",
+      "paragraph1": "Pokud se přihlásíte, můžete nám pomoci vylepšit webové uživatelské rozhraní zasláním anonymních analýz využití.",
+      "paragraph2": "Můžete si vybrat, jaká data nám pošlete, a my vás nebudeme moci identifikovat, vážíme si především soukromí."
+    },
+    "step4": {
+      "title": "IPFS Config",
+      "paragraph1": "Můžete změnit konfiguraci vašeho uzlu IPFS přímo z webového uživatelského rozhraní!",
+      "paragraph2": "Nezapomeňte restartovat démona a aplikovat změny."
+    }
+  },
+  "Experiments": {
+    "description": "Zde získáte rychlý náhled na nové funkce IPFS povolením níže uvedených možností. Testujeme tyto nápady a nemusí být dokonalé, takže bychom rádi slyšeli vaši zpětnou vazbu.",
+    "issueUrl": "Otevřete problém",
+    "feedbackUrl": "💌Zanechte zpětnou vazbu",
+    "readMoreUrl": "Přečtěte si více",
+    "npmOnIpfs": {
+      "title": "NPM na IPFS",
+      "label": "Povolit ipfs-npm",
+      "description": "Nainstalujte moduly npm pomocí IPFS pomocí nástroje příkazového řádku 'ipfs-npm'!"
+    }
+  },
+  "ipfsCmdTools": "Nástroje příkazového řádku IPFS",
+  "ipfsCmdToolsDescription": "Přidejte do systému <0>PATH </0>binární binární soubory <0>ipfs</0>, abyste je mohli použít v příkazovém řádku."
 }
