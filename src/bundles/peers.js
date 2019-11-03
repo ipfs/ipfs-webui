@@ -51,7 +51,7 @@ bundle.reactPeersFetchWhenActive = createSelector(
   'selectRouteInfo',
   'selectPeersRaw',
   'selectIpfsConnected',
-  (appTime, routeInfo, peersInfo, selectIpfsReady, ipfsConnected) => {
+  (appTime, routeInfo, peersInfo, ipfsConnected) => {
     const lastSuccess = peersInfo.lastSuccess || 0
     if (routeInfo.url === '/peers' && ipfsConnected && !peersInfo.isLoading && appTime - lastSuccess > ms.seconds(5)) {
       return { actionCreator: 'doFetchPeers' }
