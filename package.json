@@ -59,7 +59,7 @@
     "react": "^16.11.0",
     "react-ace": "^8.0.0",
     "react-chartjs-2": "^2.8.0",
-    "react-copy-to-clipboard": "^5.0.1",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-country-flag": "^1.1.0",
     "react-debounce-render": "^5.0.0",
     "react-dnd": "^9.4.0",
