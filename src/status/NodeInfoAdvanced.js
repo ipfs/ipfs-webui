@@ -1,10 +1,20 @@
 import React from 'react'
+import multiaddr from 'multiaddr'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Address from '../components/address/Address'
 import Details from '../components/details/Details'
 import ProviderLink from '../components/provider-link/ProviderLink'
 import { Definition, DefinitionList } from '../components/definition/Definition.js'
+
+function isMultiaddr (addr) {
+  try {
+    multiaddr(addr)
+    return true
+  } catch (_) {
+    return false
+  }
+}
 
 class NodeInfoAdvanced extends React.Component {
   getField (obj, field, fn) {
@@ -32,7 +42,11 @@ class NodeInfoAdvanced extends React.Component {
         <DefinitionList className='mt3'>
           <Definition advanced term={t('gateway')} desc={gatewayUrl} />
           {ipfsProvider === 'js-ipfs-api'
-            ? <Definition advanced term={t('api')} desc={<Address value={ipfsApiAddress} />} />
+            ? <Definition advanced term={t('api')} desc={
+              isMultiaddr(ipfsApiAddress)
+                ? <Address value={ipfsApiAddress} />
+                : ipfsApiAddress
+            } />
             : <Definition advanced term={t('api')} desc={<ProviderLink name={ipfsProvider} />} />
           }
           <Definition advanced term={t('addresses')} desc={addresses} />
