@@ -318,7 +318,7 @@ describe('getPublicIP', () => {
     const res = getPublicIP({
       addresses: [
         '/ip4/127.0.0.1/tcp/4003',
-        '/ip6/::1/tcp/4003',        
+        '/ip6/::1/tcp/4003',
         '/ip6/963c:d4b6:470b:e67b:afc1:c377:213:cad0/tcp/4003'
       ]
     })
