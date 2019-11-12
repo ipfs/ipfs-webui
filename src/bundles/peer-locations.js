@@ -157,9 +157,9 @@ const isPrivateAndNearby = (maddr, identity) => {
   // none of the calls bellow for ip library should fail.
   isPrivate = ip.isPrivate(addr.address)
 
-  if (addr.family === 4) {
+  if (ip.isV4Format(addr.address)) {
     isNearby = ip.cidrSubnet(`${publicIP}/24`).contains(addr.address)
-  } else if (addr.family === 6) {
+  } else if (ip.isV6Format(addr.address)) {
     isNearby = ip.cidrSubnet(`${publicIP}/48`).contains(addr.address) &&
       !ip.cidrSubnet('fc00::/8').contains(addr.address)
     // peerIP6 ∉ fc00::/8 to fix case of cjdns where IPs are not spatial allocated.
