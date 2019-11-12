@@ -121,20 +121,21 @@ const parseLatency = (latency) => {
   return value
 }
 
-const getPublicIP = memoizee((identity) => {
+export const getPublicIP = memoizee((identity) => {
   if (!identity) return
 
   for (const maddr of identity.addresses) {
     try {
       const addr = Multiaddr(maddr).nodeAddress()
-      if (!ip.isPrivate(addr.address)) {
+
+      if ((ip.isV4Format(addr.address) || ip.isV6Format(addr.address)) && !ip.isPrivate(addr.address)) {
         return addr.address
       }
     } catch (_) {}
   }
 })
 
-const isPrivateAndNearby = (maddr, identity) => {
+export const isPrivateAndNearby = (maddr, identity) => {
   const publicIP = getPublicIP(identity)
   let isPrivate = false
   let isNearby = false
