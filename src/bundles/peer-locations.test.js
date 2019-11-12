@@ -360,7 +360,7 @@ describe('isPrivateAndNearby', () => {
     expect(isPrivate).toEqual(true)
   })
 
-  it('is not nearby, nor private with IPv4', async () => {
+  it('is not nearby, nor private with public IPv4', async () => {
     const identity = {
       addresses: ['/ip4/1.1.1.1/tcp/4003']
     }
