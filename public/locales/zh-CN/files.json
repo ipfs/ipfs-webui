@@ -101,7 +101,7 @@
     }
   },
   "exploreForm": {
-    "browse": "Browse",
+    "browse": "浏览",
     "inspect": "检查"
   },
   "hashUnavailable": "哈希不可用",
@@ -110,5 +110,5 @@
   "blocks": "块",
   "more": "更多",
   "files": "文件",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead."
+  "cidNotFileNorDir": "当前的连接不是一个文件或目录，请检查 <0>并替换</0> 。"
 }

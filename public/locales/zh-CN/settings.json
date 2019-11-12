@@ -24,7 +24,7 @@
   "changesSaved": "你修改的配置已经保存。",
   "settingsWillBeUsedNextTime": "新的配置信息会在你下次重新启动 IPFS 守护进程后生效。",
   "ipfsConfigDescription": "IPFS 配置文件是一个 JSON 文件。 IPFS 守护进程会在启动过程中读取一次。保存修改的配置，重启 IPFS 守护进程后使用你修改后的配置。",
-  "ipfsConfigHelp": "Check the documentation for further information.",
+  "ipfsConfigHelp": "检查文档查看更多信息",
   "ipfsDesktop": "IPFS 桌面程序",
   "takeScreenshot": "截屏",
   "takeScreenshotDescription": "使用 <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> 截屏并添加到你的文档库中。",
@@ -90,7 +90,7 @@
   "Experiments": {
     "description": "在这里，您可以通过下面的激活选项获得使用早期预览版 IPFS 功能的身份。 我们正在测试这些想法，但它们可能还不完美，所以我们很乐意听取您的反馈意见。",
     "issueUrl": "提交 bug",
-    "feedbackUrl": "???供反馈",
+    "feedbackUrl": "💌提供反馈",
     "readMoreUrl": "查看更多",
     "npmOnIpfs": {
       "title": "NPM on IPFS",

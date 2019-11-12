@@ -67,7 +67,7 @@
     },
     "stepExplore": {
       "title": "浏览",
-      "paragraph": "Paste a CID and explore the files contained behind the CID or see how that data is structured and linked across protocols."
+      "paragraph": "粘贴一个CID并查看该CID包含的文件，检查数据是如何组织的以及协议的链接"
     }
   },
   "bandwidthStats": "带宽状态",
