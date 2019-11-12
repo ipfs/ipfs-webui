@@ -328,7 +328,7 @@ describe('getPublicIP', () => {
 })
 
 describe('isPrivateAndNearby', () => {
-  it('is not nearby not private on unexisting identity', async () => {
+  it('is not nearby, nor private without identity argument', async () => {
     const maddr = Multiaddr('/ip4/1.1.1.255/tcp/4003')
     const { isNearby, isPrivate } = isPrivateAndNearby(maddr)
 
