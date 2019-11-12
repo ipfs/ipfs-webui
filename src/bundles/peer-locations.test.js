@@ -372,7 +372,7 @@ describe('isPrivateAndNearby', () => {
     expect(isPrivate).toEqual(false)
   })
 
-  it('is not nearby, nor private on discovery.libp2p.io', async () => {
+  it('is not nearby, nor private for /p2p-websocket-star multiaddr', async () => {
     const identity = {
       addresses: ['/ip4/1.1.1.1/tcp/4003']
     }
