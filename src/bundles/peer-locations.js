@@ -121,20 +121,21 @@ const parseLatency = (latency) => {
   return value
 }
 
-const getPublicIP = memoizee((identity) => {
+export const getPublicIP = memoizee((identity) => {
   if (!identity) return
 
   for (const maddr of identity.addresses) {
     try {
       const addr = Multiaddr(maddr).nodeAddress()
-      if (!ip.isPrivate(addr.address)) {
+
+      if ((ip.isV4Format(addr.address) || ip.isV6Format(addr.address)) && !ip.isPrivate(addr.address)) {
         return addr.address
       }
     } catch (_) {}
   }
 })
 
-const isPrivateAndNearby = (maddr, identity) => {
+export const isPrivateAndNearby = (maddr, identity) => {
   const publicIP = getPublicIP(identity)
   let isPrivate = false
   let isNearby = false
@@ -157,9 +158,9 @@ const isPrivateAndNearby = (maddr, identity) => {
   // none of the calls bellow for ip library should fail.
   isPrivate = ip.isPrivate(addr.address)
 
-  if (addr.family === 4) {
+  if (ip.isV4Format(addr.address)) {
     isNearby = ip.cidrSubnet(`${publicIP}/24`).contains(addr.address)
-  } else if (addr.family === 6) {
+  } else if (ip.isV6Format(addr.address)) {
     isNearby = ip.cidrSubnet(`${publicIP}/48`).contains(addr.address) &&
       !ip.cidrSubnet('fc00::/8').contains(addr.address)
     // peerIP6 ∉ fc00::/8 to fix case of cjdns where IPs are not spatial allocated.

@@ -1,7 +1,7 @@
-/* global it, expect */
+/* global it, describe, expect */
 import { composeBundlesRaw, createReactorBundle } from 'redux-bundler'
 import Multiaddr from 'multiaddr'
-import createPeerLocationsBundle from './peer-locations'
+import createPeerLocationsBundle, { getPublicIP, isPrivateAndNearby } from './peer-locations'
 import { fakeCid } from '../../test/helpers/cid'
 import { randomInt, randomNum } from '../../test/helpers/random'
 import sleep from '../../test/helpers/sleep'
@@ -266,4 +266,127 @@ it('should resolve alternative address for failed address lookup', async () => {
 
   expect(Object.keys(peerLocs)).toHaveLength(1)
   expectLocation(peerLocs[nextPeers[1].peer.toB58String()])
+})
+
+describe('getPublicIP', () => {
+  it('returns undefined on null identity', async () => {
+    expect(getPublicIP()).toEqual(undefined)
+    expect(getPublicIP(null)).toEqual(undefined)
+    expect(getPublicIP(undefined)).toEqual(undefined)
+  })
+
+  it('returns undefined on local IPs only', async () => {
+    const res = getPublicIP({
+      addresses: [
+        '/ip6/::1/tcp/4003',
+        '/ip4/127.0.0.1/tcp/4003',
+        '/ip4/192.168.0.0/tcp/4003',
+        '/ip4/192.168.255.255/tcp/4003',
+        '/ip4/10.0.0.0/tcp/4003',
+        '/ip4/10.255.255.255/tcp/4003',
+        '/ip4/172.16.0.0/tcp/4003',
+        '/ip4/172.16.255.255/tcp/4003'
+      ]
+    })
+
+    expect(res).toEqual(undefined)
+  })
+
+  it('returns undefined on discovery.libp2p.io', async () => {
+    const res = getPublicIP({
+      addresses: [
+        '/dnsaddr/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmbJbcN3Fvy5bC7Tr95STx5VFiP1G1WLPCHNceh1yShfbb',
+        '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmYy3ka6HsQzpdTXY63nUKShsVdgg5zdhMXZXFeNGPyMT4'
+      ]
+    })
+
+    expect(res).toEqual(undefined)
+  })
+
+  it('returns correct IPv4', async () => {
+    const res = getPublicIP({
+      addresses: [
+        '/ip4/127.0.0.1/tcp/4003',
+        '/ip4/126.1.0.1/tcp/4003'
+      ]
+    })
+
+    expect(res).toEqual('126.1.0.1')
+  })
+
+  it('returns correct IPv6', async () => {
+    const res = getPublicIP({
+      addresses: [
+        '/ip4/127.0.0.1/tcp/4003',
+        '/ip6/::1/tcp/4003',        
+        '/ip6/963c:d4b6:470b:e67b:afc1:c377:213:cad0/tcp/4003'
+      ]
+    })
+
+    expect(res).toEqual('963c:d4b6:470b:e67b:afc1:c377:213:cad0')
+  })
+})
+
+describe('isPrivateAndNearby', () => {
+  it('is not nearby, nor private without identity argument', async () => {
+    const maddr = Multiaddr('/ip4/1.1.1.255/tcp/4003')
+    const { isNearby, isPrivate } = isPrivateAndNearby(maddr)
+
+    expect(isNearby).toEqual(false)
+    expect(isPrivate).toEqual(false)
+  })
+
+  it('is nearby on ip/24 range', async () => {
+    const identity = {
+      addresses: ['/ip4/1.1.1.1/tcp/4003']
+    }
+
+    const maddr = Multiaddr('/ip4/1.1.1.255/tcp/4003')
+    const { isNearby, isPrivate } = isPrivateAndNearby(maddr, identity)
+
+    expect(isNearby).toEqual(true)
+    expect(isPrivate).toEqual(false)
+  })
+
+  it('is private on local address', async () => {
+    const identity = {
+      addresses: ['/ip4/1.1.1.1/tcp/4003']
+    }
+
+    const maddr = Multiaddr('/ip4/192.168.1.0/tcp/4003')
+    const { isNearby, isPrivate } = isPrivateAndNearby(maddr, identity)
+
+    expect(isNearby).toEqual(false)
+    expect(isPrivate).toEqual(true)
+  })
+
+  it('is not nearby, nor private with public IPv4', async () => {
+    const identity = {
+      addresses: ['/ip4/1.1.1.1/tcp/4003']
+    }
+
+    const maddr = Multiaddr('/ip4/2.2.2.2/tcp/4003')
+    const { isNearby, isPrivate } = isPrivateAndNearby(maddr, identity)
+
+    expect(isNearby).toEqual(false)
+    expect(isPrivate).toEqual(false)
+  })
+
+  it('is not nearby, nor private for /p2p-websocket-star multiaddr', async () => {
+    const identity = {
+      addresses: ['/ip4/1.1.1.1/tcp/4003']
+    }
+
+    let maddr = Multiaddr('/dnsaddr/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmbJbcN3Fvy5bC7Tr95STx5VFiP1G1WLPCHNceh1yShfbb')
+    let { isNearby, isPrivate } = isPrivateAndNearby(maddr, identity)
+
+    expect(isNearby).toEqual(false)
+    expect(isPrivate).toEqual(false)
+
+    maddr = Multiaddr('/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmYy3ka6HsQzpdTXY63nUKShsVdgg5zdhMXZXFeNGPyMT4');
+    ({ isNearby, isPrivate } = isPrivateAndNearby(maddr, identity))
+
+    expect(isNearby).toEqual(false)
+    expect(isPrivate).toEqual(false)
+  })
 })
