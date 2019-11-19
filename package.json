@@ -30,7 +30,7 @@
     "chart.js": "^2.9.2",
     "cids": "^0.7.1",
     "countly-sdk-web": "^19.8.0",
-    "d3": "^5.12.0",
+    "d3": "^5.14.1",
     "datatransfer-files-promise": "^1.3.1",
     "details-polyfill": "^1.1.0",
     "file-extension": "^4.0.5",
