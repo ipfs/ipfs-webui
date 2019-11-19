@@ -242,13 +242,10 @@ class PeerLocationResolver {
             delete this.geoipLookupPromises[ipv4Addr]
 
             if (err) {
-              console.warn(err)
               // mark this one as failed so we don't retry again
               this.failedAddrs.set(ipv4Addr, true)
               return resolve()
             }
-
-
 
             // save the data!
             this.geoipCache.set(ipv4Addr, data)
