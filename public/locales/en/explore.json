@@ -50,7 +50,7 @@
       "step3": {
         "title": "Node info",
         "paragraph1": "Here you have detailed info about the node and you can open it in the IPFS gateway.",
-        "paragraph2": "If the node if a directory you can see itss children and navigate to them."
+        "paragraph2": "If the node is a directory you can see its children and navigate to them."
       },
       "step4": {
         "title": "CID info",
