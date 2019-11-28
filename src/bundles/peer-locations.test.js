@@ -126,10 +126,8 @@ const createMockIpfs = (opts) => {
 
   return {
     object: {
-      get: (_, cb) => {
-        setTimeout(() => {
-          cb(null, fakeGeoIpData())
-        }, randomInt(opts.minLatency, opts.maxLatency))
+      get: async () => {
+        return fakeGeoIpData()
       }
     }
   }
