@@ -235,23 +235,16 @@ class PeerLocationResolver {
       }
 
       this.geoipLookupPromises[ipv4Addr] = this.queue.add(async () => {
-        return new Promise(resolve => {
-          const ipfs = getIpfs()
+        const ipfs = getIpfs()
 
-          geoip.lookup(ipfs, ipv4Addr, (err, data) => {
-            delete this.geoipLookupPromises[ipv4Addr]
-
-            if (err) {
-              // mark this one as failed so we don't retry again
-              this.failedAddrs.set(ipv4Addr, true)
-              return resolve()
-            }
-
-            // save the data!
-            this.geoipCache.set(ipv4Addr, data)
-            resolve()
-          })
-        })
+        try {
+          const data = await geoip.lookup(ipfs, ipv4Addr)
+          delete this.geoipLookupPromises[ipv4Addr]
+          this.geoipCache.set(ipv4Addr, data)
+        } catch (e) {
+          // mark this one as failed so we don't retry again
+          this.failedAddrs.set(ipv4Addr, true)
+        }
       })
     }
 
