@@ -17,7 +17,7 @@
   "addByPath": "Aus IPFS",
   "addToIPFS": "Hinzufügen",
   "newFolder": "Neuer Ordner",
-  "generating": "Erstelle...",
+  "generating": "Erstelle…",
   "actions": {
     "add": "Hinzufügen",
     "delete": "Löschen",
@@ -32,7 +32,9 @@
     "clear": "Löschen",
     "create": "Erstellen",
     "save": "Speichern",
-    "unselectAll": "Alle Abwählen"
+    "pin": "Anpinnen",
+    "unpin": "Loslösen",
+    "unselectAll": "Alle abwählen"
   },
   "shareModal": {
     "title": "Dateien teilen",
@@ -48,9 +50,9 @@
     "titleItem": "{count, plural, one {Element löschen} other {{count} Elemente löschen}}",
     "titleFolder": "{count, plural, one {Ordner löschen} other {{count} Ordner löschen}}",
     "titleFile": "{count, plural, one {Datei löschen} other {{count} Dateien löschen}}",
-    "descriptionItem": "{count, plural, one {Bist du sicher, dass du dieses Element löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du {count} Elemente löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}",
-    "descriptionFolder": "{count, plural, one {Bist du sicher, dass du diesen Ordner löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du {count} Ordner löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}",
-    "descriptionFile": "{count, plural, one {Bist du sicher, dass du dieses Dokument löschen möchtest? Diese Aktion ist dauerhaft und kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du {count} Dokumente löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}"
+    "descriptionItem": "{count, plural, one {Bist Du sicher, dass Du dieses Element löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du diese {count} Elemente löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "descriptionFolder": "{count, plural, one {Bist Du sicher, dass Du diesen Ordner löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du diese {count} Ordner löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "descriptionFile": "{count, plural, one {Bist Du sicher, dass Du diese Datei löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du diese {count} Dateien löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}"
   },
   "addByPathModal": {
     "title": "Aus IPFS hinzufügen",
@@ -63,8 +65,8 @@
   },
   "welcomeInfo": {
     "header": "Willkommen in der Web-UI des IPFS",
-    "paragraph1": "<0><0>Überprüfe den Status</0> Deines Node, seine Peer-ID und Verbindungsinformationen sowie die Netzwerkauslastung und die Anzahl der verbundenen Peers.</0>",
-    "paragraph2": "<0><1>Verwalte Dateien</1> einfach in Deinem IPFS-Speicher. Du kannst Dateien per Drag-and-Drop hinzufügen, sie verschieben, umbenennen, teilen, herunterladen oder anpinnen.</0>",
+    "paragraph1": "<0><0>Überprüfe den Status</0> Deines Nodes, seine Peer-ID und Verbindungsinformationen sowie die Netzwerkauslastung und die Anzahl der verbundenen Peers.</0>",
+    "paragraph2": "<0><1>Verwalte Dateien</1> einfach in Deinem IPFS-Speicher. Du kannst Dateien per Drag-and-Drop hinzufügen, du kannst sie verschieben, umbenennen, teilen oder herunterladen.</0>",
     "paragraph3": "<0>Du kannst <1>IPLD-Daten erkunden</1>, die der Funktionsweise des IPFS zugrunde liegen.</0>",
     "paragraph4": "<0>Betrachte alle Deine <1>verbundenen Peers</1>, geografisch lokalisiert anhand ihrer IP-Adressen.</0>",
     "paragraph5": "<0><0>Überprüfe die Einstellungen</0> Deines IPFS-Node und aktualisiere sie, sodass sie Deinen Anforderungen besser entsprechen.</0>",
@@ -74,5 +76,39 @@
     "noFiles": "<0>Keine Dateien in diesem Ordner. Wählen Sie  “Hinzufügen”, um Dateien hinzuzufügen.</0>"
   },
   "addFilesInfo": "<0>Füge Dateien zu Deinem IPFS-Node hinzu, indem du oben auf den <1>\"Zum IPFS hinzufügen\"</1>-Knopf klickst.</0>",
-  "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>"
+  "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>",
+  "tour": {
+    "step1": {
+      "title": "Datei Seite",
+      "paragraph1": "<0>Hier leben die Dateien deines <1>veränderlichen Dateisystems (MFS)</1>. Du kannst Dateien oder Ordner hinzufügen und sie von dieser Seite aus verwalten.</0>",
+      "paragraph2": "Erfahre mehr."
+    },
+    "step2": {
+      "title": "Breadcrumbs",
+      "paragraph1": "Das aktuelle Arbeitsverzeichnis. Du kannst durch die Ordner-Hierarchie navigieren, indem du auf sie klickst."
+    },
+    "step3": {
+      "title": "Dateien hinzufügen",
+      "paragraph1": "Hier kannst du sehen, wie viele Blöcke und Dateien du angepinnt hast.",
+      "paragraph2": "Du kannst Dateien oder Ordner mit dem Dropdown auf der rechten Seite zu deiner Ablage hinzufügen.",
+      "paragraph3": "<0>Wenn du etwas, was schon in IPFS ist, hinzufügen möchtest, kannst du es in dein MFS importieren, indem du dessen <1>Inhalts-Bezeichner (CID)</1> einträgst.</0>"
+    },
+    "step5": {
+      "title": "Datei Liste",
+      "paragraph1": "Schließlich, die Liste mit allen Dateien und Ordnern. Füge Dateien und Ordner mit Drag and Drop hinzu.",
+      "paragraph2": "Du kannst Dateien teilen oder herunterladen, sie in dem IPLD Explorer untersuchen, sie umbenennen oder löschen!",
+      "paragraph3": "Profi-Tipp: Ziehe eine Datei von jeder anderen Seite der Web-UI hierher, um sie zum Wurzel-Verzeichnis deines MFS hinzuzufügen."
+    }
+  },
+  "exploreForm": {
+    "browse": "Durchstöbern",
+    "inspect": "Untersuchen"
+  },
+  "hashUnavailable": "Hash nicht verfügbar",
+  "pins": "Pins",
+  "pinned": "Gepinned",
+  "blocks": "Blöcke",
+  "more": "Mehr",
+  "files": "Dateien",
+  "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <0>untersuchen</0>."
 }

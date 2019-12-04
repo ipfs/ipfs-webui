@@ -1,14 +1,14 @@
 {
   "title": "Einstellungen",
   "save": "Speichern",
-  "saving": "Speichervorgang läuft...",
+  "saving": "Speichervorgang läuft…",
   "reset": "Zurücksetzen",
   "language": "Sprache",
-  "config": "IPFS-Konfiguration",
   "analytics": "Analysetools",
+  "config": "IPFS-Konfiguration",
   "languageModal": {
     "title": "Sprache ändern",
-    "description": "Wähle Deine bevorzugte Sprache"
+    "description": "Wähle Deine bevorzugte Sprache."
   },
   "actions": {
     "edit": "Ändern",
@@ -18,18 +18,21 @@
   "configApiNotAvailable": "Die API zur IPFS-Konfigurations ist nicht verfügbar. Bitte deaktiviere die Browser-Erweiterung \"IPFS Companion\" und versuche es erneut.",
   "ipfsDaemonOffline": "Der IPFS Daemon ist offline. Bitte starten Sie ihn und versuchen es erneut.",
   "settingsUnavailable": "Einstellungen nicht verfügbar. Bitte überprüfe, ob Dein IPFS-Daemon läuft.",
-  "settingsHaveChanged": "Die Einstellungen haben sich geändert: Bitte klicke auf <1>Zurücksetzen</1>, um den Inhalt des Editors zu aktualisieren.",
+  "settingsHaveChanged": "Die Einstellungen haben sich geändert. Bitte klicke auf <1>Zurücksetzen</1>, um den Inhalt des Editors zu aktualisieren.",
   "errorOccured": "Beim Speichern Deiner Änderungen ist ein Fehler aufgetreten",
   "checkConsole": "Öffne Deine Browser-Konsole, um mehr Informationen zu erhalten.",
-  "changesSaved": "Deine Änderungen wurden gespeichert",
+  "changesSaved": "Deine Änderungen wurden gespeichert.",
   "settingsWillBeUsedNextTime": "Die neuen Einstellungen werden beim nächsten Start des IPFS-Daemon verwendet.",
   "ipfsConfigDescription": "Die IPFS-Konfigurationsdatei ist ein JSON-Dokument. Es wird einmalig beim Start des IPFS-Daemon gelesen. Speichere Deine Änderungen und starte den IPFS-Daemon neu, um sie anzuwenden.",
+  "ipfsConfigHelp": "Weitere Informationen findest Du in der Dokumentation.",
   "ipfsDesktop": "IPFS Desktop",
+  "takeScreenshot": "Bildschirmfoto aufnehmen",
+  "takeScreenshotDescription": "Mit <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> kannst du Bildschirmfotos aufnehmen und sie zu deinem Speicher hinzufügen.",
+  "downloadHash": "Hash herunterladen",
+  "downloadHashDescription": "Nutze <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3>, um den zuletzt kopierten Hash herunterzuladen.",
   "launchOnStartup": "Beim Hochfahren starten",
-  "autoAddScreenshots": "Screenshots automatisch hinzufügen",
-  "autoAddScreenshotsDescription": "Nutze <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3>, um Screenshots zu erstellen und zum Speicher hinzuzufügen.",
-  "downloadCopiedHash": "Kopierten Hash herunterladen",
-  "downloadCopiedHashDescription": "Nutze <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3>, um den zuletzt kopierten Hash herunterzuladen.",
+  "globalShortcuts": "Globale Tastaturkürzel",
+  "globalShortcutsAre": "IPFS Desktop stellt ein paar Features zur Verfügung, die mit globalen Tastaturkürzeln aufgerufen werden können. Du kannst sie hier aktivieren oder deaktivieren.",
   "AnalyticsToggle": {
     "label": "Helfen Sie uns die App zu verbessern, indem Sie anonyme Nutzerdaten senden.",
     "summary": "Konfigurieren Sie, was gesammelt wird.",
@@ -40,22 +43,22 @@
     "sessions": {
       "label": "Sitzungen",
       "summary": "Wann und wie lange Sie die App nutzen sowie Browser-Metriken",
-      "details": "<0>Folgende Browser-Metriken werden übertragen::</0><1><0>Eine zufällig generierte Geräte-ID</0><1>Timestamp zum Beginn der Sitzung</1><2>Getaktete  Timestamps, um die Dauer zu messen</2><3>Die App-Version, z.B. 2.4.4</3><4>Spracheinstellung, z.B. de-DE</4><5>User Agent, z.B. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ...</5><6>Bildschirmauflösung, z.B. 800x600</6><7>Pixeldichte, z.B. 1</7></1>"
+      "details": "<0>Folgende Browser-Metriken werden übertragen:</0><1><0>Eine zufällig generierte Geräte-ID</0><1>Timestamp zum Beginn der Sitzung</1><2>Getaktete  Timestamps, um die Dauer zu messen</2><3>Die App-Version, z.B. 2.4.4</3><4>Spracheinstellung, z.B. de-DE</4><5>User Agent, z.B. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>Bildschirmauflösung, z.B. 800×600</6><7>Pixeldichte, z.B. 1</7></1>"
     },
     "events": {
-      "label": "Veranstaltungen",
+      "label": "Ereignisse",
       "summary": "Ereignisse wie Dateien hinzufügen oder löschen und wie lange diese dauerten",
       "details": "App-spezifische Ereignisse. Wir zeichnen nur auf, welche Aktion durchgeführt wurde, wie lange diese vom Beginn bis zum Ende gedauert hat, und ob von dem Ereignis mehrere Objekte betroffen waren. "
     },
     "views": {
       "label": "Seitenzugriffe",
-      "summary": "Welche Bereiche der App sie besuchen",
+      "summary": "Welche Bereiche der App Du besuchst",
       "details": "Zeichnet auf, welche Bereiche der App aufgerufen werden. Aufgezeichnete Pfade beschränken sich auf das genutzte Muster, um die korrekte Route zu finden, nicht die volle URL."
     },
     "location": {
       "label": "Standort",
-      "summary": "Landeskennung der IP-Adresse. Die IP Adresse selbst wird verworfen",
-      "details": "Aus Ihrer IP-Adresse wird eine Landeskennung wie \"FR\" für Frankreich erstellt. Ohne Zustimmung der Standort-Übertragung wird ein leerer Standort bei jeder Anfrage an den Server gesendet um eine Standortbestimmung zu unterbinden. Diese Information hilft uns, unseren Übersetzungstätigkeit zu bündeln und wo Veranstaltungen abgehalten werden sollten."
+      "summary": "Landeskennung der IP-Adresse (die IP Adresse selbst wird verworfen)",
+      "details": "Aus Ihrer IP-Adresse wird eine Landeskennung wie \"FR\" für Frankreich erstellt. Ohne Zustimmung der Standort-Übertragung wird ein leerer Standort bei jeder Anfrage an den Server gesendet um eine Standortbestimmung zu unterbinden. Diese Information hilft uns, unsere Übersetzungstätigkeit zu bündeln und zu entscheiden, wo Veranstaltungen abgehalten werden sollten."
     },
     "crashes": {
       "label": "App Fehler",
@@ -63,15 +66,36 @@
       "details": "Zeichnet JavaScript Fehlermeldungen und Stack-Traces auf, die während der Nutzung der App auftreten falls möglich. Es ist sehr hilfreich zu wissen, wenn die App bei Ihnen nicht funktioniert, aber <1>Fehlermeldungen könnten identifizierbare Informationen enthalten</1> wie CIDs oder Dateipfade. Aktivieren sie diese Option deshalb nur, wenn Sie diese Informationen mit uns teilen möchten."
     }
   },
+  "tour": {
+    "step1": {
+      "title": "Einstellungsseite",
+      "paragraph1": "Hier kannst Du die Einstellungen deiner Web-UI und deines IPFS Node verändern.",
+      "paragraph2": "Wenn Du IPFS Desktop benutzt, hast Du auch einige spezifische Einstellungen dafür."
+    },
+    "step2": {
+      "title": "Sprachauswahl",
+      "paragraph1": "<0>Hier kannst du die Sprache der Web-UI ändern. Falls deine bevorzugte Sprache nicht verfügbar ist, geh' zu unserer Projektseite in <1>Transifex</1>, um uns beim Übersetzen zu helfen!</0>"
+    },
+    "step3": {
+      "title": "Anonyme Nutzungsanalyse",
+      "paragraph1": "Wenn Du hier zustimmst, kannst Du uns helfen, die Web-UI zu verbessern, indem Du anonyme Nutzungsanalysen sendest.",
+      "paragraph2": "Du kannst selbst entscheiden, welche Daten du uns senden möchtest. Wir können Dich außerdem nicht identifizieren. Der Schutz deiner Privatsphäre steht bei uns an erster Stelle."
+    },
+    "step4": {
+      "title": "IPFS-Konfiguration",
+      "paragraph1": "Du kannst die Konfiguration deines IPFS Nodes direkt mit der Web-UI bearbeiten!",
+      "paragraph2": "Vergiss nicht, den Daemon neu zu starten, um die Änderungen anzuwenden."
+    }
+  },
   "Experiments": {
-    "description": "Here you can get an early preview into new IPFS features by enabling options below. We are testing these ideas, and they may not be perfect yet so we'd love to hear your feedback.",
-    "issueUrl": "Open an issue",
-    "feedbackUrl": "💌Leave feedback",
-    "readMoreUrl": "Read More",
+    "description": "Hier kannst du eine frühe Vorschau neuer Funktionen in IPFS erhalten, indem du die folgenden Optionen aktivierst. Wir testen diese Ideen und sie sind möglicherweise noch nicht perfekt, deshalb würden wir uns über Dein Feedback freuen.",
+    "issueUrl": "Ein issue öffnen",
+    "feedbackUrl": "💌Feedback geben",
+    "readMoreUrl": "Mehr lesen",
     "npmOnIpfs": {
-      "title": "NPM on IPFS",
-      "label": "Enable ipfs-npm",
-      "description": "Install npm modules through IPFS with the 'ipfs-npm' command line tool!"
+      "title": "NPM auf IPFS",
+      "label": "ipfs-npm aktivieren",
+      "description": "npm Module mit IPFS mithilfe dem 'ipfs-npm' Kommandozeilen-Programm installieren!"
     }
   },
   "ipfsCmdTools": "IPFS Kommandozeilen-Tools",

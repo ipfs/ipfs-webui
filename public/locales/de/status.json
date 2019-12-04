@@ -3,25 +3,25 @@
   "peer": "Peer",
   "peers": "Peers",
   "addresses": "Addressen",
-  "nodeInfo": "Node info",
+  "nodeInfo": "Node informationen",
   "peerId": "Peer-ID",
   "gateway": "Gateway",
   "api": "API",
   "version": "Version",
   "advanced": "Erweitert",
-  "publicKey": "Public key",
+  "publicKey": "Öffentlicher Schlüssel",
   "upSpeed": "Ausgehend",
   "downSpeed": "Eingehend",
   "spaceUsed": "Benutzter Speicher",
-  "networkTraffic": "Network traffic",
+  "networkTraffic": "Netzwerkverkehr",
   "bandwidthOverTime": "Zeitlicher Verlauf der Bandbreite",
   "bandwidthByPeer": "Bandbreite pro Peer",
   "distributionOfPeers": "Verteilung der Peers",
   "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peers)}}",
-  "rateIn": "Rate in",
-  "rateOut": "Rate out",
-  "totalIn": "Total in",
-  "totalOut": "Total out",
+  "rateIn": "Eingangsrate",
+  "rateOut": "Ausgangsrate",
+  "totalIn": "Gesamteingang",
+  "totalOut": "Gesamtausgang",
   "more": "...und {count} weitere",
   "in": "Eingang",
   "out": "Ausgang",
@@ -44,6 +44,32 @@
     "noLabel": "Nein Danke",
     "detailsLabel": "Mehr Informationen"
   },
-  "bandwidthStats": "Bandwidth stats",
+  "tour": {
+    "step1": {
+      "title": "Status Seite",
+      "paragraph1": "Dies ist der Startpunkt deines IPFS Node, an dem Du die grundlegenden Informationen abrufen kannst.",
+      "paragraph2": "Erfahre mehr."
+    },
+    "step2": {
+      "title": "Verbindungs-Status",
+      "paragraph1": "Das hier bringt dich zu einer Seite, auf der du sehen kannst, ob du mit einem IPFS daemon verbunden bist und, falls nicht, wie du dich mit einem verbinden kannst.",
+      "paragraph2": "Du kannst deinen Node auch mit einer eigenen API Adresse konfigurieren."
+    },
+    "step3": {
+      "title": "Node informationen",
+      "paragraph1": "Hier sind Informationen über die Größe deiner Ablage, mit wie vielen Peers du verbunden bist, deine Peer ID und die IPFS Version, die gerade benutzt wird.",
+      "paragraph2": "<0>Klicke auf <1>Erweitert</1>, um weitere Informationen, wie die Gateway URL und Adressen zu sehen."
+    },
+    "step4": {
+      "title": "Netzwerk-Bandbreite/Verkehr",
+      "paragraph1": "Dieses Diagramm zeigt den Netzwerkverkehr über die Zeit.",
+      "paragraph2": "Die Geschwindigkeitsanzeigen zeigen den aktuellen ausgehenden und eingehenden Netzwerkverkehr."
+    },
+    "stepExplore": {
+      "title": "Erkunden",
+      "paragraph": "Gib eine CID ein und erkunde die Dateien, die sich hinter der CID befinden oder sieh, wie die Daten protokollübergreifend strukturiert und verknüpft sind."
+    }
+  },
+  "bandwidthStats": "Informationen zur Bandbreite",
   "bandwidthStatsDisabled": "Sie haben Metriken zur Bandbreite deaktiviert. Sie können diese aktivieren, indem Sie den unten angeführten Befehl ausführen oder die Einstellung <1>Swarm.DisableBandwidthMetrics</1> auf <3>false</3> in den <5>Einstellungen</5>ändern. Danach müssen Sie den  IPFS neu starten, um die Änderungen anzuwenden."
 }
