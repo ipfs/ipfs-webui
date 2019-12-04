@@ -57,7 +57,7 @@ export const NavBar = ({ t, width, open, onToggle }) => {
   const gitRevision = process.env.REACT_APP_GIT_REV
   const revisionUrl = `${codeUrl}/commit/${gitRevision}`
   return (
-    <div className='h-100 fixed-l flex flex-column justify-between' style={{ width: 'inherit' }}>
+    <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
         <div className='pointer navy pv3 pv4-l' onClick={onToggle}>
           <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
