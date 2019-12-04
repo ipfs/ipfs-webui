@@ -97,7 +97,7 @@ const mockPeersBundle = {
 
 function fakeGeoIpData () {
   return {
-    data: JSON.stringify({
+    Data: JSON.stringify({
       type: 'Leaf',
       data: {
         min: Infinity,
@@ -126,10 +126,8 @@ const createMockIpfs = (opts) => {
 
   return {
     object: {
-      get: (_, cb) => {
-        setTimeout(() => {
-          cb(null, fakeGeoIpData())
-        }, randomInt(opts.minLatency, opts.maxLatency))
+      get: async () => {
+        return fakeGeoIpData()
       }
     }
   }

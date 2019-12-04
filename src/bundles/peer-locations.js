@@ -229,29 +229,20 @@ class PeerLocationResolver {
       }
 
       // no ip address cached. are we looking it up already?
-      var locPromise = this.geoipLookupPromises[ipv4Addr]
-      if (locPromise) {
+      if (this.geoipLookupPromises[ipv4Addr]) {
         continue
       }
 
       this.geoipLookupPromises[ipv4Addr] = this.queue.add(async () => {
-        return new Promise(resolve => {
-          const ipfs = getIpfs()
-
-          geoip.lookup(ipfs, ipv4Addr, (err, data) => {
-            delete this.geoipLookupPromises[ipv4Addr]
-
-            if (err) {
-              // mark this one as failed so we don't retry again
-              this.failedAddrs.set(ipv4Addr, true)
-              return resolve()
-            }
-
-            // save the data!
-            this.geoipCache.set(ipv4Addr, data)
-            resolve()
-          })
-        })
+        try {
+          const data = await geoip.lookup(getIpfs(), ipv4Addr)
+          await this.geoipCache.set(ipv4Addr, data)
+        } catch (e) {
+          // mark this one as failed so we don't retry again
+          this.failedAddrs.set(ipv4Addr, true)
+        } finally {
+          delete this.geoipLookupPromises[ipv4Addr]
+        }
       })
     }
 
