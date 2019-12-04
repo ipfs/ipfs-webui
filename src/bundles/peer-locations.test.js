@@ -97,7 +97,7 @@ const mockPeersBundle = {
 
 function fakeGeoIpData () {
   return {
-    data: JSON.stringify({
+    Data: JSON.stringify({
       type: 'Leaf',
       data: {
         min: Infinity,
