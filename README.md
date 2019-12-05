@@ -105,29 +105,31 @@ The WebUI uses Jest to run the isolated unit tests. Unit test files are located 
 
 ## End-to-end tests
 
-The end-to-end tests (e2e) test the full app in a headless Chromium browser. They require an http server to be running to serve the app.
+The end-to-end tests (e2e) test the full app in a headless Chromium browser. They spawn real IPFS node for HTTP API and a static HTTP server to serve the app.
+The purpose of those tests is not being comprehensible, but act as a quick regression and integration suite.
 
 In dev, run `npm start` in another shell before starting the tests
 
 ```
-# Run the end-to-end tests
+# Run the end-to-end tests (fast, headless)
 > npm run test:e2e
 ```
 
-By default the test run headless, so you won't see the the browser. To debug test errors, it can be helpful to see the robot clicking around the site. To disable headless mode and see the browser, set the environment variable `DEBUG=true`
+By default the test run headless, so you won't see the the browser. To debug test errors, it can be helpful to see the robot clicking around the site.
+To disable headless mode and see the browser, set the environment variable `DEBUG=true`  and optionally use `await jestPuppeteer.debug()` to stop tests at a specific line.
 
 ```
-# See the end-to-end tests in a browser
+# See the end-to-end tests in slowed down mode and a browser
 > DEBUG=true npm run test:e2e
 ```
 
-In a **continuous integration** environment we lint the code, run the unit tests, build the app, start an http server and run the unit e2e tests.
+In a **continuous integration** environment we lint the code, run the unit tests, build the app, start an http server and run the unit e2e tests:
 
 ```sh
 > npm run lint
 > npm test
 > npm run build
-> npm run test:ci:e2e
+> npm run test:e2e
 ```
 
 ## Coverage
