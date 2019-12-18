@@ -140,5 +140,33 @@ describe('Explore screen', () => {
     // expect cid details
     await expect(page).toMatch('base32 - cidv1 - raw - sha2-256-256-46532c71d1b730e168548410ddbb4186a2c3c0659e915b19d47f373ec6c5174a')
   })
+})
 
+describe('Peers screen', () => {
+  beforeAll(async () => {
+    await page.goto(landingPage + '#/peers')
+  })
+
+  it('should have Add connection button', async () => {
+    const addConnection = 'Add connection'
+    await expect(page).toMatch(addConnection)
+    await expect(page).toClick('button', { text: addConnection })
+    await expect(page).toMatch('Insert the peer address you want to connect to')
+    // TODO: init ephemeral node on localhost and connect to it + await for it to be on the list
+  })
+})
+
+describe('Settings screen', () => {
+  beforeAll(async () => {
+    await page.goto(landingPage + '#/settings')
+  })
+
+  it('should show config of IPFS node', async () => {
+    await expect(page).toMatch('Addresses')
+    await expect(page).toMatch('Bootstrap')
+    await expect(page).toMatch('PeerID')
+    // just to be sure the config comes from expected instance
+    const { id } = await ipfs.id()
+    await expect(page).toMatch(id)
+  })
 })
