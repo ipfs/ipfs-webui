@@ -1,6 +1,6 @@
 const { setup: setupPuppeteer } = require('jest-environment-puppeteer')
 const { setup: setupDevServer } = require('jest-dev-server')
-const { create } = require('ipfsd-ctl')
+const Ctl = require('ipfsd-ctl')
 
 module.exports = async function globalSetup(globalConfig) {
   // global setup first
@@ -13,8 +13,12 @@ module.exports = async function globalSetup(globalConfig) {
     debug: process.env.DEBUG === 'true'
   })
   // ipfs daemon to expose http api used for e2e tests
-  const f = create({ type: 'go' })
-  ipfsd = await f.spawn()
+  const factory = Ctl.createFactory({
+    type: 'go',
+    test: true,
+    disposable: true
+  })
+  ipfsd = await factory.spawn()
   if (process.env.DEBUG === 'true') {
     const { id, agentVersion } = await ipfsd.api.id()
     console.log(`global-init.js: spawned ${agentVersion} with Peer ID ${id}`)

@@ -2,15 +2,12 @@ const { teardown: teardownPuppeteer } = require('jest-environment-puppeteer')
 const { teardown: teardownDevServer } = require('jest-dev-server')
 
 module.exports = async function globalTeardown(globalConfig) {
+  const teardown = []
   // custom teardown
   const ipfsd = global.__IPFSD__
-  if (ipfsd) {
-    await ipfsd.stop(1000)
-    if (process.env.DEBUG === 'true') {
-      console.log('global-teardown.js: stopped ipfs daemon')
-    }
-  }
+  if (ipfsd) teardown.push(ipfsd.stop())
   // continue with global teardown
-  await teardownDevServer()
-  await teardownPuppeteer(globalConfig)
+  teardown.push(teardownDevServer())
+  teardown.push(teardownPuppeteer(globalConfig))
+  await Promise.all(teardown)
 }
