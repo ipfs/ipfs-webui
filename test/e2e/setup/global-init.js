@@ -14,8 +14,8 @@ module.exports = async function globalSetup(globalConfig) {
   })
   // ipfs daemon to expose http api used for e2e tests
   const factory = Ctl.createFactory({
-    type: 'go',
-    test: true,
+    type: process.env.E2E_IPFSD_TYPE || 'go',
+    test: true, // sets up all CORS headers required for accessing HTTP API port of ipfsd node
     disposable: true
   })
   ipfsd = await factory.spawn()

@@ -115,6 +115,23 @@ In dev, run `npm start` in another shell before starting the tests
 > npm run test:e2e
 ```
 
+### Customizing IPFS backend
+
+Pass environment variable named `E2E_IPFSD_TYPE` to specify which IPFS backend should be used for end-to-end tests.
+
+CI setup runs tests against both:
+
+```console
+$ E2E_IPFSD_TYPE=go npm run test:e2e # default when missing E2E_IPFSD_TYPE
+$ E2E_IPFSD_TYPE=js npm run test:e2e
+```
+
+It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
+ and `go-ipfs-dep` (go-ipfs) in `package.json` and applying change via `npm i`.
+
+
+### Debugging E2E tests
+
 By default the test run headless, so you won't see the the browser. To debug test errors, it can be helpful to see the robot clicking around the site.
 To disable headless mode and see the browser, set the environment variable `DEBUG=true`  and optionally use `await jestPuppeteer.debug()` to stop tests at a specific line.
 
