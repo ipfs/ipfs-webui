@@ -1,7 +1,7 @@
 const { teardown: teardownPuppeteer } = require('jest-environment-puppeteer')
 const { teardown: teardownDevServer } = require('jest-dev-server')
 
-module.exports = async function globalTeardown(globalConfig) {
+module.exports = async function globalTeardown (globalConfig) {
   const teardown = []
   // custom teardown
   const ipfsd = global.__IPFSD__
