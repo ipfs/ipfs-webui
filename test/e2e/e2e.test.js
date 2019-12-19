@@ -93,7 +93,7 @@ describe('Files screen', () => {
 
     const [fileChooser] = await Promise.all([
       page.waitForFileChooser(),
-      page.click('a[id="add-file"]'), // menu button that triggers file selection
+      page.click('a[id="add-file"]') // menu button that triggers file selection
     ])
 
     // lets add a static text file from the root of this repo
@@ -113,7 +113,6 @@ describe('Files screen', () => {
   })
 })
 
-
 describe('Explore screen', () => {
   beforeAll(async () => {
     await page.goto(landingPage + '#/explore')
@@ -123,7 +122,6 @@ describe('Explore screen', () => {
     await page.waitForSelector('a[href="#/explore/QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D"]')
     await expect(page).toMatch('Project Apollo Archive')
     await expect(page).toMatch('QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D')
-
   })
 
   it('should open arbitrary CID', async () => {

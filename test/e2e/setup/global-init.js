@@ -22,7 +22,7 @@ module.exports = async function globalSetup (globalConfig) {
     ipfs = ipfsClient({ apiAddr: endpoint })
   } else {
     // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
-    const type = findType()
+    const type = process.env.E2E_IPFSD_TYPE || 'go'
     const factory = Ctl.createFactory({
       type,
       test: true, // sets up all CORS headers required for accessing HTTP API port of ipfsd node
@@ -34,14 +34,8 @@ module.exports = async function globalSetup (globalConfig) {
     ipfsd = await factory.spawn()
     ipfs = ipfsd.api
   }
-  if (process.env.DEBUG === 'true' || endpoint) {
-    const { id, agentVersion } = await ipfs.id()
-    console.log(`global-init.js: using ${agentVersion} with Peer ID ${id} ${endpoint ? ' at ' + endpoint : ''}`)
-  }
+  const { id, agentVersion } = await ipfs.id()
+  console.log(`\nE2E init: using ${agentVersion} with Peer ID ${id}${endpoint ? ' at ' + endpoint : ''}\n`)
   global.__IPFSD__ = ipfsd // for later use
   global.__IPFS__ = ipfs // for later use
-}
-
-function findType () {
-  return process.env.E2E_IPFSD_TYPE || 'go'
 }
