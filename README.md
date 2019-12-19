@@ -117,18 +117,43 @@ In dev, run `npm start` in another shell before starting the tests
 
 ### Customizing IPFS backend
 
+#### `E2E_IPFSD_TYPE`
+
 Pass environment variable named `E2E_IPFSD_TYPE` to specify which IPFS backend should be used for end-to-end tests.
 
 CI setup runs tests against both:
 
 ```console
-$ E2E_IPFSD_TYPE=go npm run test:e2e # default when missing E2E_IPFSD_TYPE
+$ E2E_IPFSD_TYPE=go npm run test:e2e # 'go' is the default if missing
 $ E2E_IPFSD_TYPE=js npm run test:e2e
 ```
 
 It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
  and `go-ipfs-dep` (go-ipfs) in `package.json` and applying change via `npm i`.
 
+#### `E2E_API_URL`
+
+Instead of spawning disposable node and repo for tests, one can point E2E test suite at arbitrary HTTP API:
+
+```console
+$ E2E_API_URL=http://127.0.0.1:5001 npm run test:e2e
+```
+
+**Caveat:** CORS requests from `http://localhost:3001` (static server hosting dev version of webui) need to be added to `Access-Control-Allow-Origin` whitelist array in node's config:
+
+```json
+"API": {
+  "HTTPHeaders": {
+    "Access-Control-Allow-Origin": [
+      "http://localhost:3001"
+```
+
+Can be done ad-hoc via command line:
+
+```console
+$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3001"]'
+$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
+```
 
 ### Debugging E2E tests
 

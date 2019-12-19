@@ -6,7 +6,7 @@ class WebuiTestEnvironment extends PuppeteerEnvironment {
     await super.setup()
 
     // expose IPFS API object as a global
-    this.global.ipfs = global.__IPFSD__.api
+    this.global.ipfs = global.__IPFS__
   }
 }
 

@@ -1,5 +1,6 @@
 const { setup: setupPuppeteer } = require('jest-environment-puppeteer')
 const { setup: setupDevServer } = require('jest-dev-server')
+const ipfsClient = require('ipfs-http-client')
 const Ctl = require('ipfsd-ctl')
 const { findBin } = require('ipfsd-ctl/src/utils')
 
@@ -13,28 +14,34 @@ module.exports = async function globalSetup (globalConfig) {
     port: 3001,
     debug: process.env.DEBUG === 'true'
   })
-  // ipfs daemon to expose http api used for e2e tests
-  const type = findType()
-  const endpoint = undefined // TODO: process.env.E2E_API_URL
-  const factory = Ctl.createFactory({
-    type,
-    endpoint,
-    remote: !!endpoint,
-    test: true, // sets up all CORS headers required for accessing HTTP API port of ipfsd node
-    overrides: { // call findBin here to ensure we use version from devDependencies, and not from ipfsd-ctl
-      js: { ipfsBin: findBin('js') },
-      go: { ipfsBin: findBin('go') }
-    }
-  })
-  const ipfsd = await factory.spawn()
-  if (process.env.DEBUG === 'true') {
-    const { id, agentVersion } = await ipfsd.api.id()
+  const endpoint = process.env.E2E_API_URL
+  let ipfsd
+  let ipfs
+  if (endpoint) {
+    // create http client for endpoint passed via E2E_API_URL=
+    ipfs = ipfsClient({ apiAddr: endpoint })
+  } else {
+    // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
+    const type = findType()
+    const factory = Ctl.createFactory({
+      type,
+      test: true, // sets up all CORS headers required for accessing HTTP API port of ipfsd node
+      overrides: { // call findBin here to ensure we use version from devDependencies, and not from ipfsd-ctl
+        js: { ipfsBin: findBin('js') },
+        go: { ipfsBin: findBin('go') }
+      }
+    })
+    ipfsd = await factory.spawn()
+    ipfs = ipfsd.api
+  }
+  if (process.env.DEBUG === 'true' || endpoint) {
+    const { id, agentVersion } = await ipfs.id()
     console.log(`global-init.js: using ${agentVersion} with Peer ID ${id} ${endpoint ? ' at ' + endpoint : ''}`)
   }
   global.__IPFSD__ = ipfsd // for later use
+  global.__IPFS__ = ipfs // for later use
 }
 
 function findType () {
-  // TODO if (process.env.E2E_API_URL) return
   return process.env.E2E_IPFSD_TYPE || 'go'
 }
