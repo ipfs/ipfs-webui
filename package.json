@@ -36,7 +36,7 @@
     "file-extension": "^4.0.5",
     "filesize": "^6.0.1",
     "hashlru": "^2.3.0",
-    "i18next": "^19.0.1",
+    "i18next": "^19.0.2",
     "i18next-browser-languagedetector": "^4.0.1",
     "i18next-icu": "^1.1.2",
     "i18next-xhr-backend": "^3.2.2",
