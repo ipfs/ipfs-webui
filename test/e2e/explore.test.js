@@ -5,7 +5,6 @@ const fs = require('fs')
 describe('Explore screen', () => {
   beforeAll(async () => {
     await page.goto(webuiUrl + '#/explore')
-    await waitForTitle('Explore - IPLD')
   })
 
   it('should have Project Apollo Archive as one of examples', async () => {
