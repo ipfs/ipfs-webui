@@ -4,14 +4,18 @@ const ipfsClient = require('ipfs-http-client')
 const Ctl = require('ipfsd-ctl')
 const { findBin } = require('ipfsd-ctl/src/utils')
 
+// port on which static HTTP server exposes the webui from build/ directory
+// for use in E2E tests
+const webuiPort = 3001
+
 module.exports = async function globalSetup (globalConfig) {
   // global setup first
   await setupPuppeteer(globalConfig)
   // http server with webui build
   await setupDevServer({
-    command: 'ecstatic build --cache=0 --port=3001',
+    command: `ecstatic build --cache=0 --port=${webuiPort}`,
     launchTimeout: 10000,
-    port: 3001,
+    port: webuiPort,
     debug: process.env.DEBUG === 'true'
   })
   const endpoint = process.env.E2E_API_URL
@@ -36,6 +40,8 @@ module.exports = async function globalSetup (globalConfig) {
   }
   const { id, agentVersion } = await ipfs.id()
   console.log(`\nE2E init: using ${agentVersion} with Peer ID ${id}${endpoint ? ' at ' + endpoint : ''}\n`)
-  global.__IPFSD__ = ipfsd // for later use
-  global.__IPFS__ = ipfs // for later use
+  // store globals for later use
+  global.__IPFSD__ = ipfsd
+  global.__IPFS__ = ipfs
+  global.__WEBUI_URL__ = `http://localhost:${webuiPort}/`
 }
