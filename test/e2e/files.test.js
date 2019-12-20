@@ -1,6 +1,8 @@
 /* global webuiUrl, ipfs, page, describe, it, expect, beforeAll */
 
 const fs = require('fs')
+const path = require('path')
+const { fixturePath, fixtureData } = require('./fixtures')
 
 describe('Files screen', () => {
   beforeAll(async () => {
@@ -31,16 +33,15 @@ describe('Files screen', () => {
     ])
 
     // lets add a static text file from the root of this repo
-    const filename = 'LICENSE' // TODO: replace with fixtures/file.txt
-    await fileChooser.accept([filename])
+    const filename = 'file.txt'
+    await fileChooser.accept([fixturePath(filename)])
 
     // expect file with matching filename to be added to the file list
     await page.waitForSelector('.File')
     await expect(page).toMatch(filename)
 
     // add file manually to get expected CID (with default params)
-    const expectedData = fs.readFileSync(filename, 'utf8')
-    const [result] = await ipfs.add(expectedData)
+    const [result] = await ipfs.add(fixtureData(filename))
 
     // expect CID to be present on the page
     await expect(page).toMatch(result.hash)
