@@ -1,7 +1,5 @@
 /* global webuiUrl, ipfs, page, describe, it, expect, beforeAll */
 
-const fs = require('fs')
-const path = require('path')
 const { fixturePath, fixtureData } = require('./fixtures')
 
 describe('Files screen', () => {
