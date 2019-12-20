@@ -1,15 +1,11 @@
 const fs = require('fs')
 const path = require('path')
 
-const fixturePath = (filename) => {
-  return path.join(__dirname, filename)
-}
-
 const fixtureData = (filename, encoding = 'utf8') => {
-  return fs.readFileSync(fixturePath(filename), encoding)
+  const filepath = path.join(__dirname, filename)
+  return { path: filepath, data: fs.readFileSync(filepath, encoding) }
 }
 
 module.exports = {
-  fixturePath,
   fixtureData
 }

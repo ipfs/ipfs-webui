@@ -1,6 +1,6 @@
 /* global webuiUrl, ipfs, page, describe, it, expect, beforeAll */
 
-const { fixturePath, fixtureData } = require('./fixtures')
+const { fixtureData } = require('./fixtures')
 
 describe('Files screen', () => {
   beforeAll(async () => {
@@ -20,7 +20,7 @@ describe('Files screen', () => {
     await page.click(button)
   })
 
-  it('should allow for a successful import of a single file', async () => {
+  it('should allow for a successful import of two files', async () => {
     await page.waitForSelector(button, { visible: true })
     await page.click(button)
     await page.waitForSelector('#add-file', { visible: true })
@@ -30,18 +30,19 @@ describe('Files screen', () => {
       page.click('a[id="add-file"]') // menu button that triggers file selection
     ])
 
-    // lets add a static text file from the root of this repo
-    const filename = 'file.txt'
-    await fileChooser.accept([fixturePath(filename)])
+    //  select a single static text file via fileChooser
+    const file1 = fixtureData('file.txt')
+    const file2 = fixtureData('file2.txt')
+    await fileChooser.accept([file1.path, file2.path])
 
     // expect file with matching filename to be added to the file list
     await page.waitForSelector('.File')
-    await expect(page).toMatch(filename)
+    await expect(page).toMatch('file.txt')
+    await expect(page).toMatch('file2.txt')
 
-    // add file manually to get expected CID (with default params)
-    const [result] = await ipfs.add(fixtureData(filename))
-
-    // expect CID to be present on the page
-    await expect(page).toMatch(result.hash)
+    // expect valid CID to be present on the page
+    const [result1, result2] = await ipfs.add([file1.data, file2.data])
+    await expect(page).toMatch(result1.hash)
+    await expect(page).toMatch(result2.hash)
   })
 })
