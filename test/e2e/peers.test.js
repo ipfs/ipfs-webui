@@ -1,4 +1,4 @@
-/* global webuiUrl, jest, page, describe, it, expect, beforeAll, afterAll */
+/* global webuiUrl, jest, ipfs page, describe, it, expect, beforeAll, afterAll */
 
 const Ctl = require('ipfsd-ctl')
 
@@ -13,7 +13,6 @@ describe('Peers screen', () => {
     peeraddr = addresses.find((addr) => addr.startsWith('/ip4/127.0.0.1'))
     // connect to peer to have something  in the peer table
     await ipfs.swarm.connect(peeraddr)
-    const [peer] = await ipfs.swarm.peers()
     await page.goto(webuiUrl + '#/peers')
     await page.reload()
   })
