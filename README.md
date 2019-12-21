@@ -108,20 +108,22 @@ The WebUI uses Jest to run the isolated unit tests. Unit test files are located 
 The end-to-end tests (e2e) test the full app in a headless Chromium browser. They spawn real IPFS node for HTTP API and a static HTTP server to serve the app.
 The purpose of those tests is not being comprehensible, but act as a quick regression and integration suite.
 
-In dev, run `npm start` in another shell before starting the tests
+Make sure `npm run build` is run before starting E2E tests:
 
-```
-# Run the end-to-end tests (fast, headless)
-> npm run test:e2e
+```console
+$ npm run build
+$ npm run test:e2e # end-to-end smoke tests (fast, headless, use go-ipfs)
 ```
 
-### Customizing IPFS backend
+### Customizing E2E Tests
+
+Default behavior can be tweaked via env variables below.
 
 #### `E2E_IPFSD_TYPE`
 
-Pass environment variable named `E2E_IPFSD_TYPE` to specify which IPFS backend should be used for end-to-end tests.
+Variable named `E2E_IPFSD_TYPE` defines which IPFS backend should be used for end-to-end tests.
 
-CI setup runs tests against both:
+CI setup of ipfs-webui repo runs tests against both JS and GO implementations:
 
 ```console
 $ E2E_IPFSD_TYPE=go npm run test:e2e # 'go' is the default if missing
@@ -129,23 +131,28 @@ $ E2E_IPFSD_TYPE=js npm run test:e2e
 ```
 
 It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
- and `go-ipfs-dep` (go-ipfs) in `package.json` and applying change via `npm i`.
+ and `go-ipfs-dep` (go-ipfs) in `devDependencies` section of `package.json` and applying the change via `npm i`
 
 #### `E2E_API_URL`
 
-Instead of spawning disposable node and repo for tests, one can point E2E test suite at arbitrary HTTP API:
+Instead of spawning a disposable node and repo for tests, one can point the E2E test suite at arbitrary HTTP API running on localhost:
 
 ```console
 $ E2E_API_URL=http://127.0.0.1:5001 npm run test:e2e
 ```
 
-**Caveat:** CORS requests from `http://localhost:3001` (static server hosting dev version of webui) need to be added to `Access-Control-Allow-Origin` whitelist array in node's config:
+**Caveat 1:** HTTP API used in tests needs to run on the local machine for Peers screen to pass (they test manual swarm connect to ephemeral `/ip4/120.0.0.1/..` multiaddr)
+
+**Caveat 2:** CORS requests from `http://localhost:3001` (static server hosting dev version of webui) need to be added to `Access-Control-Allow-Origin` whitelist array in node's config:
 
 ```json
 "API": {
   "HTTPHeaders": {
     "Access-Control-Allow-Origin": [
       "http://localhost:3001"
+    ]
+  }
+}
 ```
 
 Can be done ad-hoc via command line:
@@ -157,12 +164,22 @@ $ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET"
 
 ### Debugging E2E tests
 
-By default the test run headless, so you won't see the the browser. To debug test errors, it can be helpful to see the robot clicking around the site.
-To disable headless mode and see the browser, set the environment variable `DEBUG=true`  and optionally use `await jestPuppeteer.debug()` to stop tests at a specific line.
+#### Show the browser
 
+By default, the test run headless, so you won't see the browser. To debug test errors, it can be helpful to see the robot clicking around the site.
+To disable headless mode and see the browser, set the environment variable `DEBUG=true`:
+
+```console
+$ DEBUG=true npm run test:e2e # e2e in slowed down mode in a browser window
 ```
-# See the end-to-end tests in slowed down mode and a browser
-> DEBUG=true npm run test:e2e
+
+#### Breakpoints
+
+It is possible to set a "breakpoint" via `await jestPuppeteer.debug()` to stop tests at a specific line:
+
+```js
+jest.setTimeout(600000) // increase test suite timeout
+await jestPuppeteer.debug() // puppeteer will pause here
 ```
 
 In a **continuous integration** environment we lint the code, run the unit tests, build the app, start an http server and run the unit e2e tests:
