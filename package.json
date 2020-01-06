@@ -84,6 +84,7 @@
     "window.ipfs-fallback": "^1.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.7",
     "@storybook/addon-a11y": "^5.2.8",
     "@storybook/addon-actions": "^5.2.6",
     "@storybook/addon-knobs": "^5.2.6",
@@ -91,12 +92,10 @@
     "@storybook/addons": "^5.2.6",
     "@storybook/react": "^5.2.8",
     "@svgr/cli": "^4.3.3",
-    "@babel/core": "^7.7.7",
     "babel-eslint": "10.0.3",
     "big.js": "^5.2.2",
     "bundlesize": "^0.18.0",
     "cross-env": "^6.0.3",
-    "ecstatic": "^4.1.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint-config-standard": "^14.1.0",
@@ -106,6 +105,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "fake-indexeddb": "^3.0.0",
     "go-ipfs-dep": "0.4.22",
+    "http-server": "^0.12.0",
     "ipfs": "0.40.0",
     "ipfsd-ctl": "^1.0.0",
     "is-pull-stream": "0.0.0",

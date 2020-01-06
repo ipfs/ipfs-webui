@@ -13,7 +13,7 @@ module.exports = async function globalSetup (globalConfig) {
   await setupPuppeteer(globalConfig)
   // http server with webui build
   await setupDevServer({
-    command: `ecstatic build --cache=0 --port=${webuiPort}`,
+    command: `http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
     launchTimeout: 10000,
     port: webuiPort,
     debug: process.env.DEBUG === 'true'
@@ -29,7 +29,7 @@ module.exports = async function globalSetup (globalConfig) {
     const type = process.env.E2E_IPFSD_TYPE || 'go'
     ipfsd = await createController({
       type,
-      test: true, // sets up all CORS headers required for accessing HTTP API port of ipfsd node
+      test: true // sets up all CORS headers required for accessing HTTP API port of ipfsd node
     }, {
       // overrides: call findBin here to ensure we use version from devDependencies, and not from ipfsd-ctl
       js: { ipfsBin: findBin('js') },
