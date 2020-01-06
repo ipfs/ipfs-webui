@@ -1,14 +1,13 @@
 /* global webuiUrl, jest, ipfs page, describe, it, expect, beforeAll, afterAll */
 
-const Ctl = require('ipfsd-ctl')
+const { createController } = require('ipfsd-ctl')
 
 describe('Peers screen', () => {
   let ipfsd
   let peeraddr
   beforeAll(async () => {
     // spawn an ephemeral local node for manual swarm connect test
-    const factory = Ctl.createFactory({ type: 'proc', test: true, disposable: true })
-    ipfsd = await factory.spawn()
+    ipfsd = await createController({ type: 'proc', test: true, disposable: true })
     const { addresses } = await ipfsd.api.id()
     peeraddr = addresses.find((addr) => addr.startsWith('/ip4/127.0.0.1'))
     // connect to peer to have something  in the peer table

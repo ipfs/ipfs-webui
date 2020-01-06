@@ -1,7 +1,7 @@
 const { setup: setupPuppeteer } = require('jest-environment-puppeteer')
 const { setup: setupDevServer } = require('jest-dev-server')
 const ipfsClient = require('ipfs-http-client')
-const Ctl = require('ipfsd-ctl')
+const { createController } = require('ipfsd-ctl')
 const { findBin } = require('ipfsd-ctl/src/utils')
 
 // port on which static HTTP server exposes the webui from build/ directory
@@ -27,15 +27,14 @@ module.exports = async function globalSetup (globalConfig) {
   } else {
     // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
     const type = process.env.E2E_IPFSD_TYPE || 'go'
-    const factory = Ctl.createFactory({
+    ipfsd = await createController({
       type,
       test: true, // sets up all CORS headers required for accessing HTTP API port of ipfsd node
-      overrides: { // call findBin here to ensure we use version from devDependencies, and not from ipfsd-ctl
-        js: { ipfsBin: findBin('js') },
-        go: { ipfsBin: findBin('go') }
-      }
+    }, {
+      // overrides: call findBin here to ensure we use version from devDependencies, and not from ipfsd-ctl
+      js: { ipfsBin: findBin('js') },
+      go: { ipfsBin: findBin('go') }
     })
-    ipfsd = await factory.spawn()
     ipfs = ipfsd.api
   }
   const { id, agentVersion } = await ipfs.id()

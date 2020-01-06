@@ -26,7 +26,7 @@ class WebuiTestEnvironment extends PuppeteerEnvironment {
     // open Status page, confirm working connection to API
     await page.goto(webuiUrl + '#/')
     const { id } = await ipfs.id()
-    await expect(page).toMatch(id)
+    await expect(page).toMatch(id, { timeout: 15000 })
   }
 }
 
