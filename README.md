@@ -21,7 +21,7 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 
 ## Install
 
-With `node` >= 8.12 and `npm` >= 6.4.1 installed, run
+With `node` >= 10 and `npm` >= 6.4.1 installed, run
 
 ```sh
 > npm install
@@ -45,7 +45,7 @@ In separate shells run the following:
 
 ```sh
 # Run the unit tests
-> npm test
+> npm run test:unit
 ```
 
 ```sh
@@ -63,13 +63,13 @@ Similarly if you want to try out pre-release versions at https://dev.webui.ipfs.
 
 Run the **[cors-config.sh](./cors-config.sh)** script with:
 
-```console
+```sh
 > ./cors-config.sh
 ```
 
 #### The manual way
 
-```console
+```sh
 > ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.io"]'
 > ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
 ```
@@ -78,7 +78,7 @@ Run the **[cors-config.sh](./cors-config.sh)** script with:
 
 To reset your config back to the default configuration, run the following command.
 
-```console
+```sh
 > ipfs config --json API.HTTPHeaders {}
 ```
 
@@ -95,24 +95,33 @@ To create an optimized static build of the app, output to the `build` directory:
 
 ## Test
 
-The following command will run the app tests, watch source files and re-run the tests when changes are made:
+The following command will run all tests: unit one for React and E2E against real HTTP API:
 
 ```sh
 > npm test
 ```
 
+## Unit tests
+
+To watch source files and re-run the tests when changes are made:
+
+```sh
+> npm run test:unit
+```
+
 The WebUI uses Jest to run the isolated unit tests. Unit test files are located next to the component they test and have the same file name, but with the extension `.test.js`
 
-## End-to-end tests
+## E2E tests
 
-The end-to-end tests (e2e) test the full app in a headless Chromium browser. They spawn real IPFS node for HTTP API and a static HTTP server to serve the app.
+The end-to-end tests (E2E) test the full app in a headless Chromium browser. They spawn real IPFS node for HTTP API and a static HTTP server to serve the app.
 The purpose of those tests is not being comprehensible, but act as a quick regression and integration suite.
+Test files are located in `test/e2e/`.
 
 Make sure `npm run build` is run before starting E2E tests:
 
-```console
-$ npm run build
-$ npm run test:e2e # end-to-end smoke tests (fast, headless, use go-ipfs)
+```sh
+> npm run build
+> npm run test:e2e # end-to-end smoke tests (fast, headless, use go-ipfs)
 ```
 
 ### Customizing E2E Tests
@@ -125,9 +134,9 @@ Variable named `E2E_IPFSD_TYPE` defines which IPFS backend should be used for en
 
 CI setup of ipfs-webui repo runs tests against both JS and GO implementations:
 
-```console
-$ E2E_IPFSD_TYPE=go npm run test:e2e # 'go' is the default if missing
-$ E2E_IPFSD_TYPE=js npm run test:e2e
+```sh
+> E2E_IPFSD_TYPE=go npm run test:e2e # 'go' is the default if missing
+> E2E_IPFSD_TYPE=js npm run test:e2e
 ```
 
 It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
@@ -137,8 +146,8 @@ It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
 
 Instead of spawning a disposable node and repo for tests, one can point the E2E test suite at arbitrary HTTP API running on localhost:
 
-```console
-$ E2E_API_URL=http://127.0.0.1:5001 npm run test:e2e
+```sh
+> E2E_API_URL=http://127.0.0.1:5001 npm run test:e2e
 ```
 
 **Caveat 1:** HTTP API used in tests needs to run on the local machine for Peers screen to pass (they test manual swarm connect to ephemeral `/ip4/120.0.0.1/..` multiaddr)
@@ -157,9 +166,9 @@ $ E2E_API_URL=http://127.0.0.1:5001 npm run test:e2e
 
 Can be done ad-hoc via command line:
 
-```console
-$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3001"]'
-$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
+```sh
+> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3001"]'
+> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
 ```
 
 ### Debugging E2E tests
@@ -169,8 +178,8 @@ $ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET"
 By default, the test run headless, so you won't see the browser. To debug test errors, it can be helpful to see the robot clicking around the site.
 To disable headless mode and see the browser, set the environment variable `DEBUG=true`:
 
-```console
-$ DEBUG=true npm run test:e2e # e2e in slowed down mode in a browser window
+```sh
+> DEBUG=true npm run test:e2e # e2e in slowed down mode in a browser window
 ```
 
 #### Breakpoints

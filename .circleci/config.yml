@@ -12,7 +12,7 @@ jobs:
       - run:
           command: npm run lint
       - run:
-          command: npm run test
+          command: npm run test:unit
       - run:
           command: npm run build
       - run:
