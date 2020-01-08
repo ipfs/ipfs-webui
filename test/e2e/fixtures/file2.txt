@@ -1,0 +1,1 @@
+hello, i am the other text file used in e2e tests of files screen

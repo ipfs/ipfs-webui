@@ -16,7 +16,7 @@ const AddButton = withTranslation('files')(({ progress = null, disabled, t, tRea
   const sending = progress !== null
 
   return (
-    <Button bg='bg-navy' color='white' disabled={sending || disabled} className='f6 relative' minWidth='100px' {...props}>
+    <Button id='add-button' bg='bg-navy' color='white' disabled={sending || disabled} className='f6 relative' minWidth='100px' {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
         { sending ? `${progress.toFixed(0)}%` : (<span><span className='aqua'>+</span> {t('addToIPFS')}</span>) }
       </div>&nbsp;
@@ -94,19 +94,19 @@ class FileInput extends React.Component {
             top={3}
             open={this.state.dropdown}
             onDismiss={this.toggleDropdown} >
-            <Option onClick={this.onAddFile}>
+            <Option onClick={this.onAddFile} id='add-file'>
               <DocumentIcon className='fill-aqua w2 mr1' />
               {t('addFile')}
             </Option>
-            <Option onClick={this.onAddFolder}>
+            <Option onClick={this.onAddFolder} id='add-folder'>
               <FolderIcon className='fill-aqua w2 mr1' />
               {t('addFolder')}
             </Option>
-            <Option onClick={this.onAddByPath}>
+            <Option onClick={this.onAddByPath} id='add-by-path'>
               <DecentralizationIcon className='fill-aqua w2 mr1' />
               {t('addByPath')}
             </Option>
-            <Option onClick={this.onNewFolder}>
+            <Option onClick={this.onNewFolder} id='add-new-folder'>
               <NewFolderIcon className='fill-aqua w2 h2 mr1' />
               {t('newFolder')}
             </Option>
@@ -114,6 +114,7 @@ class FileInput extends React.Component {
         </Dropdown>
 
         <input
+          id='file-input'
           type='file'
           className='dn'
           multiple
@@ -121,6 +122,7 @@ class FileInput extends React.Component {
           onChange={this.onInputChange(this.filesInput)} />
 
         <input
+          id='directory-input'
           type='file'
           className='dn'
           multiple
