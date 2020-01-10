@@ -44,8 +44,8 @@ In separate shells run the following:
 ```
 
 ```sh
-# Run the unit tests
-> npm run test:unit
+# Run the unit tests in watch mode
+> npm run test:unit:watch
 ```
 
 ```sh
