@@ -22,6 +22,7 @@ module.exports = async function globalSetup (globalConfig) {
   const endpoint = process.env.E2E_API_URL
   let ipfsd
   let ipfs
+  let bin
   if (endpoint) {
     // create http client for endpoint passed via E2E_API_URL=
     ipfs = ipfsClient({ apiAddr: endpoint })
@@ -37,11 +38,13 @@ module.exports = async function globalSetup (globalConfig) {
       go: { ipfsBin: findBin('go') }
     })
     ipfs = ipfsd.api
+    bin = findBin(type)
   }
   const { id, agentVersion } = await ipfs.id()
-  console.log(`\nE2E init: using ${agentVersion} with Peer ID ${id}${endpoint ? ' at ' + endpoint : ''}\n`)
   // store globals for later use
   global.__IPFSD__ = ipfsd
   global.__IPFS__ = ipfs
   global.__WEBUI_URL__ = `http://localhost:${webuiPort}/`
+  // print basic diagnostics
+  console.log(`\nE2E using ${agentVersion} (${endpoint ? endpoint : bin}) with Peer ID ${id}\n`)
 }
