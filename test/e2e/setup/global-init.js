@@ -3,7 +3,18 @@ const { setup: setupDevServer } = require('jest-dev-server')
 const getPort = require('get-port')
 const ipfsClient = require('ipfs-http-client')
 const { createController } = require('ipfsd-ctl')
-const { findBin } = require('ipfsd-ctl/src/utils')
+
+// inlined findBin to ensure we use a binary relative to the root project
+// and not a dependency of ipfsd-ctl itself. This enables us to specify custom
+// versions of go-ipfs and js-ipfs in package.json of ipfs-webui
+const os = require('os')
+const isWindows = os.platform() === 'win32'
+const findBin = (type) => {
+  if (type === 'js') {
+    return process.env.IPFS_JS_EXEC || require.resolve('ipfs/src/cli/bin.js')
+  }
+  return process.env.IPFS_GO_EXEC || require.resolve(`go-ipfs-dep/go-ipfs/${isWindows ? 'ipfs.exe' : 'ipfs'}`)
+}
 
 // port on which static HTTP server exposes the webui from build/ directory
 // for use in E2E tests
@@ -46,5 +57,5 @@ module.exports = async function globalSetup (globalConfig) {
   global.__IPFS__ = ipfs
   global.__WEBUI_URL__ = `http://localhost:${webuiPort}/`
   // print basic diagnostics
-  console.log(`\nE2E using ${agentVersion} (${endpoint ? endpoint : bin}) with Peer ID ${id}\n`)
+  console.log(`\nE2E using ${agentVersion} (${endpoint || bin}) with Peer ID ${id}\n`)
 }
