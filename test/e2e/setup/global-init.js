@@ -1,14 +1,15 @@
 const { setup: setupPuppeteer } = require('jest-environment-puppeteer')
 const { setup: setupDevServer } = require('jest-dev-server')
+const getPort = require('get-port')
 const ipfsClient = require('ipfs-http-client')
 const { createController } = require('ipfsd-ctl')
 const { findBin } = require('ipfsd-ctl/src/utils')
 
 // port on which static HTTP server exposes the webui from build/ directory
 // for use in E2E tests
-const webuiPort = 3001
 
 module.exports = async function globalSetup (globalConfig) {
+  const webuiPort = await getPort()
   // global setup first
   await setupPuppeteer(globalConfig)
   // http server with webui build
