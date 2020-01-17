@@ -21,7 +21,6 @@ module.exports = async function globalSetup (globalConfig) {
   const endpoint = process.env.E2E_API_URL
   let ipfsd
   let ipfs
-  let bin
   if (endpoint) {
     // create http client for endpoint passed via E2E_API_URL=
     ipfs = ipfsClient({ apiAddr: endpoint })
