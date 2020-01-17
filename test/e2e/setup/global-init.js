@@ -1,14 +1,14 @@
 const { setup: setupPuppeteer } = require('jest-environment-puppeteer')
 const { setup: setupDevServer } = require('jest-dev-server')
+const getPort = require('get-port')
 const ipfsClient = require('ipfs-http-client')
 const { createController } = require('ipfsd-ctl')
-const { findBin } = require('ipfsd-ctl/src/utils')
 
 // port on which static HTTP server exposes the webui from build/ directory
 // for use in E2E tests
-const webuiPort = 3001
 
 module.exports = async function globalSetup (globalConfig) {
+  const webuiPort = await getPort()
   // global setup first
   await setupPuppeteer(globalConfig)
   // http server with webui build
@@ -30,17 +30,14 @@ module.exports = async function globalSetup (globalConfig) {
     ipfsd = await createController({
       type,
       test: true // sets up all CORS headers required for accessing HTTP API port of ipfsd node
-    }, {
-      // overrides: call findBin here to ensure we use version from devDependencies, and not from ipfsd-ctl
-      js: { ipfsBin: findBin('js') },
-      go: { ipfsBin: findBin('go') }
     })
     ipfs = ipfsd.api
   }
   const { id, agentVersion } = await ipfs.id()
-  console.log(`\nE2E init: using ${agentVersion} with Peer ID ${id}${endpoint ? ' at ' + endpoint : ''}\n`)
   // store globals for later use
   global.__IPFSD__ = ipfsd
   global.__IPFS__ = ipfs
   global.__WEBUI_URL__ = `http://localhost:${webuiPort}/`
+  // print basic diagnostics
+  console.log(`\nE2E using ${agentVersion} (${endpoint || ipfsd.exec}) with Peer ID ${id}\n`)
 }

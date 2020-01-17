@@ -113,7 +113,7 @@ it('should sync removed peers', async () => {
 
   // Remove the peers
   store.doUpdateMockPeers(nextPeers)
-  await sleep()
+  await sleep(50)
   bwPeers = store.selectPeerBandwidthPeers()
 
   expect(bwPeers.length).toBe(nextPeers.length)
