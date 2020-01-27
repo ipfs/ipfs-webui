@@ -53,7 +53,7 @@
     "milliseconds": "^1.0.3",
     "money-clip": "^3.0.1",
     "multiaddr": "^7.2.1",
-    "multiaddr-to-uri": "^5.0.0",
+    "multiaddr-to-uri": "^5.1.0",
     "p-queue": "^6.2.1",
     "prop-types": "^15.7.2",
     "pull-file-reader": "^1.0.2",
