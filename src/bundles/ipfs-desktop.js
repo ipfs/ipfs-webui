@@ -34,6 +34,8 @@ if (window.ipfsDesktop) {
 
     selectDesktopSettings: state => state.ipfsDesktop,
 
+    selectDesktopPlatform: state => state.ipfsDesktop.platform,
+
     selectDesktopVersion: () => window.ipfsDesktop.version,
 
     selectDesktopCountlyDeviceId: () => window.ipfsDesktop.countlyDeviceId,
@@ -41,7 +43,7 @@ if (window.ipfsDesktop) {
     selectDesktopCountlyActions: () => window.ipfsDesktop.countlyActions,
 
     doDesktopStartListening: () => async ({ dispatch, store }) => {
-      window.ipfsDesktop.onConfigChanged(({ config, changed, success }) => {
+      window.ipfsDesktop.onConfigChanged(({ platform, config, changed, success }) => {
         const prevConfig = store.selectDesktopSettings()
 
         if (Object.keys(prevConfig).length === 0) {
@@ -82,7 +84,7 @@ if (window.ipfsDesktop) {
 
         dispatch({
           type: 'DESKTOP_SETTINGS_CHANGED',
-          payload: config
+          payload: config ? { ...config, platform } : undefined
         })
       })
     },

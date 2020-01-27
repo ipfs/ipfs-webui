@@ -1,5 +1,4 @@
 import React from 'react'
-import os from 'os'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
 import Box from '../components/box/Box'
@@ -33,18 +32,18 @@ const CheckboxSetting = ({ children, title, ...props }) => (
 
 const Key = ({ children }) => <span className='monospace br2 bg-snow ph1'>{ children }</span>
 
-export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings }) {
+export function DesktopSettings ({ t, doDesktopSettingsToggle, desktopSettings, desktopPlatform }) {
   return (
     <Box className='mb3 pa4'>
       <Title>{t('ipfsDesktop')}</Title>
 
       <CheckboxSetting checked={desktopSettings.autoLaunch || false}
         title={t('launchOnStartup')}
-        disabled={!(['win32', 'darwin', 'linux'].includes(os.platform()) && process.env.NODE_ENV !== 'development')}
+        disabled={!(['win32', 'darwin', 'linux'].includes(desktopPlatform))}
         onChange={() => doDesktopSettingsToggle('autoLaunch')} />
       <CheckboxSetting checked={desktopSettings.ipfsOnPath || false}
         title={t('ipfsCmdTools')}
-        disabled={os.platform() === 'win32'}
+        disabled={desktopPlatform === 'win32'}
         onChange={() => doDesktopSettingsToggle('ipfsOnPath')}>
         <Trans
           i18nKey='ipfsCmdToolsDescription'
@@ -89,6 +88,7 @@ export const TranslatedDesktopSettings = withTranslation('settings')(DesktopSett
 
 export default connect(
   'selectDesktopSettings',
+  'selectDesktopPlatform',
   'doDesktopSettingsToggle',
   TranslatedDesktopSettings
 )

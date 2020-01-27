@@ -30,7 +30,7 @@
   "takeScreenshotDescription": "Use <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> to take screenshots and add them to your repository.",
   "downloadHash": "Download hash",
   "downloadHashDescription": "Use <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> to download the last copied hash or path to your system.",
-  "launchOnStartup": "Launch on startup",
+  "launchOnStartup": "Launch on login",
   "globalShortcuts": "Global Shortcuts",
   "globalShortcutsAre": "IPFS Desktop provides some features that can be globally accessed through keyboard shortcuts. You can enable or disable them here.",
   "AnalyticsToggle": {
