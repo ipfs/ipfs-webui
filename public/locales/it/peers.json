@@ -1,0 +1,32 @@
+{
+  "title": "Peer",
+  "peerId": "Peer ID",
+  "peers": "Peer",
+  "address": "Indirizzo",
+  "location": "Luogo",
+  "unknownLocation": "Sconosciuto",
+  "localNetwork": "Rete Locale",
+  "nearby": "vicino",
+  "latency": "latenza",
+  "bootstrapNode": "Nodo d'avvio",
+  "viaRelay": "via <0>{node}</0>",
+  "addConnection": "Aggiungi connessione",
+  "insertPeerAddress": "Inserisci l'indirizzo del Peer a cui vuoi connetterti.",
+  "add": "Aggiungi",
+  "example": "Esempio:",
+  "tour": {
+    "step1": {
+      "title": "Pagina Peer",
+      "paragraph1": "Qui puoi vedere i Peer a cui sei connesso e la nazione in cui sono.",
+      "paragraph2": "Continua per saperne di più."
+    },
+    "step2": {
+      "title": "Mappa dei Peer",
+      "paragraph1": "Visualizzazione dei luoghi in cui i Peer a cui sei connesso sono situati."
+    },
+    "step3": {
+      "title": "Tabella dei Peer",
+      "paragraph1": "Controlla l'ID dei Peer a cui sei connesso, il loro indirizzo ed il luogo approssimativo."
+    }
+  }
+}

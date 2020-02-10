@@ -1,0 +1,103 @@
+{
+  "title": "Impostazioni",
+  "save": "Salva",
+  "saving": "Salvataggio in corso...",
+  "reset": "Reset",
+  "language": "Lingua",
+  "analytics": "Analitica",
+  "config": "Configurazione IPFS",
+  "languageModal": {
+    "title": "Cambia lingua",
+    "description": "Seleziona la tua lingua preferita."
+  },
+  "actions": {
+    "edit": "Cambia",
+    "close": "Chiudi"
+  },
+  "fetchingSettings": "Recupero delle impostazioni...",
+  "configApiNotAvailable": "L'IPFS config API non è disponibile. Per favore, disabilita l'estensione web l'\"IPFS Companion\" e riprova.",
+  "ipfsDaemonOffline": "Il demone IPFS è offline. Per favore, avvialo e riprova.",
+  "settingsUnavailable": "Impostazioni non disponibili. Per favore, controlla che il tuo demone IPFS sia attivo.",
+  "settingsHaveChanged": "Le impostazioni sono cambiate; per favore, clicca <1>Ripristina\"</1> per aggiornare il contenuto dell'editor.",
+  "errorOccured": "Si è verificato un errore durante il salvataggio delle tue modifiche",
+  "checkConsole": "Controlla la console del browser per ulteriori informazioni.",
+  "changesSaved": "Le tue modifiche sono state salvate.",
+  "settingsWillBeUsedNextTime": "Le nuove impostazioni saranno utilizzate al prossimo riavvio del tuo demone IPFS.",
+  "ipfsConfigDescription": "Il file della configurazione IPFS è un documento JSON. Viene letto una volta che il demone IPFS è partito. Salva le tue modifiche e poi riavvia il demone IPFS per applicarle.",
+  "ipfsConfigHelp": "Controlla la documentazione per ulteriori informazioni.",
+  "ipfsDesktop": "IPFS Desktop",
+  "takeScreenshot": "Cattura screenshot",
+  "takeScreenshotDescription": "Utilizza <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> per catturare gli screenshot ed aggiungerli alla tua repository.",
+  "downloadHash": "Scarica hash",
+  "downloadHashDescription": "Utilizza <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> per scaricare sul tuo sistema l'ultimo hash, o percorso, copiato.",
+  "launchOnStartup": "Lancia programma all'avvio del sistema",
+  "globalShortcuts": "Scorciatoie Globali",
+  "globalShortcutsAre": "IPFS Desktop offre l'accesso ad alcune funzionalità tramite le scorciatoie da tastiera. Puoi abilitarle o disabilitarle da qui.",
+  "AnalyticsToggle": {
+    "label": "Aiuta a migliorare quest'applicazione mandando dati d'utilizzo anonimi",
+    "summary": "Configura quali dati sono collezionati",
+    "paragraph1": "Nessun CID, nome file od altre informazioni personali sono collezionati. Vorremo delle metriche che ci mostrino quali funzionalità sono utili. Ciò ci aiuta a determinare le priorità e guidarci nei nostri test tramite le configurazioni del sistema.",
+    "paragraph2": "Protocol Labs ospita un'istanza <1>Countly</1> per registrare dati d'utilizzo anonimi per questa applicazione.",
+    "basicInfo": "La seguente informazione addizionale è inviata a countly.ipfs.io",
+    "optionalInfo": "Puoi scegliere se mandare anche queste informazioni addizionali:",
+    "sessions": {
+      "label": "Sessioni",
+      "summary": "Quando e per quanto utilizzi l'applicazione e metriche di navigazione",
+      "details": "<0>Le seguenti metriche di navigazione sono inviate:</0><1><0>Un ID dispositivo casuale</0><1>Tempo d'inizio della sessione</1><2>Un tempo periodico per monitorare la durata</2><3>Versione dell'applicazione; es. 2.4.4</3><4>Localizzazione; es. en-GB</4><5>User agent; es. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ...</5><6>Risoluzione schermo; es. 800x600</6><7>Densità pixel schermo; es. 1</7></1>"
+    },
+    "events": {
+      "label": "eventi",
+      "summary": "Azioni come l'aggiunta o l'eliminazione di file e quanto tempo è stato impiegato per farle",
+      "details": "Azioni specifiche dell'applicazione. Registriamo solamente che le azioni sono accadute, quanto tempo è stato impiegato per compierle ed una conta se l'evento ha coinvolto molteplici oggetti."
+    },
+    "views": {
+      "label": "Visualizzazioni pagina",
+      "summary": "Quali sezioni dell'applicazione visiti",
+      "details": "Registra quali sezioni dell'applicazione sono visitate. I percorsi registrati contengono solamente lo schema utilizzato per confrontare il tracciato piuttosto che l'url completo."
+    },
+    "location": {
+      "label": "Luogo",
+      "summary": "Codice nazione estratto dall'indirizzo IP (l'indirizzo IP viene scartato)",
+      "details": "Il tuo indirizzo IP viene utilizzato per calcolare un codice nazione per il tuo luogo, come \"FR\" per Francia. Dove il consenso non viene dato per tracciare il luogo, una proprietà vuota del luogo viene mandata con tutte le richieste per segnalare al server di disabilitare il controllo del luogo. Questa informazione aiuta a guidare gli sforzi delle nostre traduzioni e decidere dove dovremmo ospitare degli eventi."
+    },
+    "crashes": {
+      "label": "Errori dell'applicazione",
+      "summary": "Messaggi d'errore e tracce dello stack di JavaScript",
+      "details": "Registra messaggi d'errore e tracce dello stack che occorrono durante l'utilizzo dell'applicazione, dove possibile. Sapere dove l'applicazione non funziona per te è molto utile, ma <1>i messaggi d'errore potrebbero includere informazioni identificabili</1> come CID o percorsi di file, quindi abilita quest'opzione solamente se ti senti a tuo agio condividere ciò con noi."
+    }
+  },
+  "tour": {
+    "step1": {
+      "title": "Pagina delle impostazioni",
+      "paragraph1": "Qui puoi modificare le impostazioni del tuo Web UI e del tuo nodo IPFS.",
+      "paragraph2": "Se hai IPFS Desktop avviato, avrai anche alcune impostazioni specifiche per quel programma."
+    },
+    "step2": {
+      "title": "Selettore di lingue",
+      "paragraph1": "<0>Puoi cambiare la lingue del Web UI. Se la tua lingua preferita non è disponibile, dirigiti alla pagina del nostro progetto in <1>Transifex</1> per aiutarci a tradurre!</0>"
+    },
+    "step3": {
+      "title": "Analisi d'utilizzo anonima",
+      "paragraph1": "Se abiliti quest'opzione, puoi aiutarci a rendere Web UI migliore mandando le analisi d'utilizzo anonime.",
+      "paragraph2": "Puoi scegliere quali dati mandarci e noi non potremmo identificarti, ci sta a cuore la privacy sopra ogni altra cosa."
+    },
+    "step4": {
+      "title": "Configurazione IPFS",
+      "paragraph1": "Puoi modificare la configurazione del tuo nodo IPFS direttamente dal tuo Web UI!",
+      "paragraph2": "Non dimenticarti di riavviare il demone per applicare le modifiche."
+    }
+  },
+  "Experiments": {
+    "description": "Qui puoi avere un'anteprima delle nuove funzionalità di IPFS abilitando l'opzione sottostante. Stiamo testando queste idee ed esse potrebbero non essere ancora perfette, quindi vorremmo sentire la tua opinione.",
+    "issueUrl": "Pubblica un problema",
+    "feedbackUrl": "Condividi la tua opinione",
+    "readMoreUrl": "Leggi di più",
+    "npmOnIpfs": {
+      "title": "NPM su IPFS",
+      "label": "Abilita ipfs-npm",
+      "description": "Installa moduli npm attraverso IPFS con lo strumento a linea di comando 'ipfs-npm'!"
+    }
+  },
+  "ipfsCmdTools": "Strumenti IPFS a linea di comando",
+  "ipfsCmdToolsDescription": "Aggiungi i binari <0>ipfs</0> al <0>PATH</0> del tuo sistema per utilizzarli nel tuo terminale."
+}
