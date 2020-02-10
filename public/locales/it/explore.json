@@ -6,9 +6,9 @@
     "leadParagraph": "Incolla un CID nella casella di testo per recuperare il nodo IPDL, oppure scegli un dataset in primo piano."
   },
   "AboutIpld": {
-    "paragraph1":"<0>IPLD is <1>the data model of the content-addressable web.</1> It allows us to treat all hash-linked data structures as subsets of a unified information space, unifying all data models that link data with hashes as instances of IPLD.</0>",
-    "paragraph2": "<0>Content addressing through hashes has become a widely-used means of connecting data in distributed systems, from the blockchains that run your favorite cryptocurrencies, to the commits that back your code, to the web’s content at large. Yet, whilst all of these tools rely on some common primitives, their specific underlying data structures are not interoperable.</0>",
-    "paragraph3": "<0>Enter IPLD: a single namespace for all hash-inspired protocols. Through IPLD, links can be traversed across protocols, allowing you to explore data regardless of the underlying protocol.</0>"
+    "paragraph1":"<0>IPLD è <1>il modello di dati del web content-addressable.</1> Esso ci permette di trattare tutte le strutture di dati hash-linked come sottoinsieme di uno spazio d'informazione unificato, unendo tutti i modelli di dati che collegano dati con gli hash come istanze di IPLD.</0>",
+    "paragraph2": "<0>L'indirizzamento di contenuti attraverso le hash è diventato un metodo largamente utilizzato per connettere dati in sistemi distribuiti, dalle blockchain che gestiscono le tue criptovalute preferite, ai commit che sostengono il tuo codice, al contenuto web in generale. Nonostante tutti questi strumenti si appoggino su fondamenta comuni, le loro sottostanti strutture di dati non sono interoperabili.</0>",
+    "paragraph3": "<0>Inserisci IPLD: un singolo namespace per tutti i protocolli ispirati ad hash. Attraverso IPLD, i collegamenti possono attraversare diversi protocolli, permettendoti di esplorare dati indipendentemente dal protocollo sottostante.</0>"
   },
   "ExplorePage": {
     "title": "Esplorando - IPDL"
@@ -26,5 +26,35 @@
   "base": "base",
   "version": "versione",
   "codec": "codec",
-  "multihash": "multihash"
+  "multihash": "multihash",
+  "tour": {
+    "projects": {
+      "title": "Dataset in primo piano",
+      "paragraph1": "Esplora i dataset in primo piano od incolla un CID per vedere come quei dati sono strutturati e collegati attraverso i protocolli."
+    },
+    "explorer": {
+      "step1": {
+        "title": "Esplora risorse IPLD",
+        "paragraph1": "Il tuo viaggio di esploratore inizia qui. Continua a saperne di più."
+      },
+      "step2": {
+        "title": "Breadcrumb",
+        "paragraph1": "Il percorso che porta a questo nodo.",
+        "paragraph2": "Cliccaci per attraversare i suoi percorsi padre o figli."
+      },
+      "step3": {
+        "title": "Informazioni nodo",
+        "paragraph1": "Qui hai tutte le informazioni dettagliate riguardo al nodo e puoi aprirlo nel gateway IPFS.",
+        "paragraph2": "Se il nodo è una directory, puoi vedere i suoi figli e navigarci in essi."
+      },
+      "step4": {
+        "title": "Info CID",
+        "paragraph1": "Il CID scomposto, così puoi imparare il suo significato."
+      },
+      "step5": {
+        "title": "Rappresentazione visuale",
+        "paragraph1": "Una rappresentazione visuale del nodo e dei suoi figli."
+      }
+    }
+  }
 }
