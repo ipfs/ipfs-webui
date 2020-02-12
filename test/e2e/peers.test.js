@@ -9,7 +9,7 @@ describe('Peers screen', () => {
     // spawn an ephemeral local node for manual swarm connect test
     ipfsd = await createController({ type: 'proc', test: true, disposable: true })
     const { addresses } = await ipfsd.api.id()
-    peeraddr = addresses.find((addr) => addr.startsWith('/ip4/127.0.0.1'))
+    peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
     // connect to peer to have something  in the peer table
     await ipfs.swarm.connect(peeraddr)
     await page.goto(webuiUrl + '#/peers')
