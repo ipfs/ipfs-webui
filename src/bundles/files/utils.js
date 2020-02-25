@@ -82,7 +82,7 @@ export const sortFiles = (files, sorting) => {
   })
 }
 
-export const infoFromPath = (path) => {
+export const infoFromPath = (path, uriDecode = true) => {
   const info = {
     path: path,
     realPath: null,
@@ -118,8 +118,10 @@ export const infoFromPath = (path) => {
     info.realPath = info.realPath.substring(0, info.realPath.length - 1)
   }
 
-  info.realPath = decodeURIComponent(info.realPath)
-  info.path = decodeURIComponent(info.path)
+  if (uriDecode) {
+    info.realPath = decodeURIComponent(info.realPath)
+    info.path = decodeURIComponent(info.path)
+  }
 
   return info
 }
