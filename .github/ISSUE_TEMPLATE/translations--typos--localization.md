@@ -2,7 +2,7 @@
 name: Translations, typos, localization
 about: Please use Transifex! https://www.transifex.com/ipfs/public/
 title: ''
-labels: hint/needs-triage
+labels: need/triage
 assignees: ''
 
 ---
