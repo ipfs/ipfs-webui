@@ -1,0 +1,75 @@
+{
+  "title": "狀態",
+  "peer": "節點",
+  "peers": "節點",
+  "addresses": "地址",
+  "nodeInfo": "節點信息",
+  "peerId": "節點 ID",
+  "gateway": "網關",
+  "api": "API",
+  "version": "版本",
+  "advanced": "高級",
+  "publicKey": "公鑰",
+  "upSpeed": "發送",
+  "downSpeed": "接收",
+  "spaceUsed": "使用空間",
+  "networkTraffic": "網絡流量",
+  "bandwidthOverTime "即時頻寬",
+  "bandwidthByPeer": "節點頻寬",
+  "distributionOfPeers": "節點分佈",
+  "pieChartLabel": "{count, plural, other {{percent}% ({count} 節點)}}",
+  "rateIn": "發送率",
+  "rateOut": "接收率",
+  "totalIn": "總共接收",
+  "totalOut": "總共發送",
+  "more": "...{count} 更多",
+  "in": "接收",
+  "out": "發送",
+  "codeLink": "查看源碼",
+  "bugsLink": "報告 bug",
+  "revision": "Revision",
+  "StatusConnected": {
+    "header1": "連接到 IPFS",
+    "paragraph1": "託管 <0>{repoSize} 文件</0>",
+    "paragraph2": "{count, plural, other {發現 <0>{peersCount} 節點</0>}}"
+  },
+  "StatusNotConnected": {
+    "header1": "無法連接 API",
+    "paragraph1": "<0>在終端中啟動 IPFS 守護進程:</0>",
+    "paragraph2": "<0>獲取開始使用 IPFS 的更多信息你可以 <1>閱讀此嚮導</1>.</0>"
+  },
+  "AskToEnable": {
+    "label": "向我們發送匿名輸入來幫助我們改進。",
+    "yesLabel": "好的",
+    "noLabel": "不了",
+    "detailsLabel": "詳細信息"
+  },
+  "tour": {
+    "step1": {
+      "title": "狀態頁面",
+      "paragraph1": "這是 IPFS 節點的起始頁面，您可以在這裡查看其基本信息。",
+      "paragraph2": "繼續了解更多。"
+    },
+    "step2": {
+      "title": "連接狀態",
+      "paragraph1": "這會將您帶到一個頁面，您可以在其中檢查是否已連接到 IPFS 守護程序，如果沒有，則告訴您如何連接到一個。",
+      "paragraph2": "您也可以使用自定義 API 地址配置節點。 "
+    },
+    "step3": {
+      "title": "節點信息",
+      "paragraph1": "在這裡您可以看到 repo 的大小、已經連接節點數量、你的節點 ID 和正在使用的 IPFS 版本信息。",
+      "paragraph2": "<0>單擊<1>高級</1>以查看更多信息，例如：網關 URL 和地址。</0>"
+    },
+    "step4": {
+      "title": "網絡頻寬/流量",
+      "paragraph1": "此圖表顯示了一段時間內的網絡帶寬使用情況。",
+      "paragraph2": "速度表顯示當前的輸出和輸入流量。"
+    },
+    "stepExplore": {
+      "title": "瀏覽",
+      "paragraph": "粘貼一個CID並查看該CID包含的文件，檢查數據是如何組織的以及協議的鏈接"
+    }
+  },
+  "bandwidthStats": "頻寬狀態",
+  "bandwidthStatsDisabled": "頻寬度量已經禁用了。可以在<5>配置</5> 中修改<1>Swarm.DisableBandwidthMetrics</1> 為<3>false</3> 來重新激活。 修改完成後，需要重新啟動IPFS 守護進程才能生效。"
+}

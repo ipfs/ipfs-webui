@@ -1,30 +1,60 @@
 {
-  "appName": "IPLD 瀏覽器",
-  "StartExploringPage": {
-    "title": "瀏覽 - IPLD",
-    "header": "瀏覽Merkle森林",
-    "leadParagraph": "Paste a CID into the box to fetch the IPLD node it addresses, or choose a featured dataset."
-  },
-  "AboutIpld": {
-    "paragraph1":"<0>IPLD is <1>the data model of the content-addressable web.</1> It allows us to treat all hash-linked data structures as subsets of a unified information space, unifying all data models that link data with hashes as instances of IPLD.</0>",
-    "paragraph2": "<0>Content addressing through hashes has become a widely-used means of connecting data in distributed systems, from the blockchains that run your favorite cryptocurrencies, to the commits that back your code, to the web’s content at large. Yet, whilst all of these tools rely on some common primitives, their specific underlying data structures are not interoperable.</0>",
-    "paragraph3": "<0>Enter IPLD: a single namespace for all hash-inspired protocols. Through IPLD, links can be traversed across protocols, allowing you to explore data regardless of the underlying protocol.</0>"
-  },
-  "ExplorePage": {
-    "title": "瀏覽 - IPLD"
-  },
-  "IpldExploreForm": {
-    "explore": "瀏覽"
-  },
-  "CidInfo": {
-    "header": "CID 資訊",
-    "hashDigest": "雜湊摘要"
-  },
-  "ObjectInfo": {
-    "gatewayLink": "瀏覽IPFS閘道器"
-  },
-  "base": "基礎",
-  "version": "版本",
-  "codec": "編解碼器",
-  "multihash": "多重雜湊"
+  "appName": "IPLD 瀏覽器",
+  "StartExploringPage": {
+    "title": "瀏覽 - IPLD",
+    "header": "瀏覽 Merkle Forest",
+    "leadParagraph": "粘貼 CID 到文本框以獲取它的尋址 IPLD 節點，或選擇一個特色數據集。"
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD 是<1>內容可尋址網絡的數據模型</1>。 它允許我們將所有與哈希鏈接的數據結構視為統一信息空間的子集，統一所有將數據與哈希作為IPLD 實例鏈接的數據模型。</0>",
+    "paragraph2": "<0>通過哈希進行內容尋址已成為一種廣泛使用的方法，用於連接分佈式系統中的數據，從運行您中意加密貨幣的區塊鏈，到保證你的代碼提交，再到整個網絡的內容。 然而，雖然所有這些工具都依賴於一些常見的基本類型，但它們的特定底層數據結構卻無法互操作。</0>",
+    "paragraph3": "<0>輸入 IPLD ：所有哈希啟發協議的單個命名空間。 通過 IPLD ，可以跨協議遍歷鏈接，無論底層協議如何，都可以瀏覽數據。</0>"
+  },
+  "ExplorePage": {
+    "title": "瀏覽 - IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "瀏覽"
+  },
+  "CidInfo": {
+    "header": "CID 信息",
+    "hashDigest": "哈希摘要"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "在 IPFS 網關上查看"
+  },
+  "base": "base",
+  "version": "版本",
+  "codec": "codec",
+  "multihash": "multihash",
+  "tour": {
+    "projects": {
+      "title": "特徵數據集",
+      "paragraph1": "瀏覽特色數據集或粘貼 CID 來查看數據是如何通過協議連接並組織起來的。"
+    },
+    "explorer": {
+      "step1": {
+        "title": "IPLD 瀏覽器",
+        "paragraph1": "您的探索之旅從這裡開始。繼續以了解更多。"
+      },
+      "step2": {
+        "title": "導航欄",
+        "paragraph1": "通向此節點的路徑。",
+        "paragraph2": "點擊它可以查看他的上下級。"
+      },
+      "step3": {
+        "title": "節點信息",
+        "paragraph1": "您可以在此處獲得有關節點的詳細信息，並在 IPFS 網關中打開它。",
+        "paragraph2": "如果節點是一個目錄，你可以看到點擊這個目錄查看子項。"
+      },
+      "step4": {
+        "title": "CID 信息",
+        "paragraph1": "分解 CID 使您可以了解其含義。"
+      },
+      "step5": {
+        "title": "可視化呈現",
+        "paragraph1": "節點及其子節點的可視化呈現。"
+      }
+    }
+  }
 }
