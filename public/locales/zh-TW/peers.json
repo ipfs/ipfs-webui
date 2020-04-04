@@ -2,7 +2,31 @@
   "title": "用戶群",
   "peerId": "用戶 ID",
   "peers": "用戶群",
-  "address": "位址",
+  "address": "地址",
   "location": "位置",
-  "unknownLocation": "不明"
+  "unknownLocation": "不明",
+  "localNetwork": "本地網絡",
+  "nearby": "鄰近",
+  "latency": "延時",
+  "bootstrapNode": "引導啟動節點",
+  "viaRelay": "通過 <0>{node}</0>",
+  "addConnection": "添加連接",
+  "insertPeerAddress": "請輸入你想要連接的對等方地址。",
+  "add": "添加",
+  "example": "例子：",
+  "tour": {
+    "step1": {
+      "title": "節點頁面",
+      "paragraph1": "您可以在此處查看您所連接的節點以及他們所在的國家/地區。",
+      "paragraph2": "繼續了解更多。"
+    },
+    "step2": {
+      "title": "節點地圖",
+      "paragraph1": "可視化您所連接的節點在世界中的位置。"
+    },
+    "step3": {
+      "title": "節點清單表",
+      "paragraph1": "查看已連接節點的 ID、地址和大致位置。"
+    }
+  }
 }

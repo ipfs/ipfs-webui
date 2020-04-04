@@ -1,0 +1,103 @@
+{
+  "title": "設置",
+  "save": "保存",
+  "saving": "保存中…",
+  "reset": "重置",
+  "language": "語言",
+  "analytics": "分析",
+  "config": "IPFS 設置",
+  "languageModal": {
+    "title": "修改語言",
+    "description": "選擇首選語言。"
+  },
+  "actions": {
+    "edit": "修改",
+    "close": "關閉"
+  },
+  "fetchingSettings": "讀取設置中...",
+  "configApiNotAvailable": "IPFS 設置API 不可用。請勿用\"IPFS 伴侶\" 瀏覽器插件並重試。",
+  "ipfsDaemonOffline": "IPFS Daemon處於離線狀態。請使其在線並重試。",
+  "settingsUnavailable": "設置不可用。請檢查你的IPFS Daemon是否還在運行。",
+  "settingsHaveChanged": "設置已經改變，請單擊<1>重置</1> 按鈕刷新編輯器中的內容。",
+  "errorOccured": "在保存修改的設置文件過程中出錯",
+  "checkConsole": "請查看瀏覽器控制台了解更多的信息。",
+  "changesSaved": "你修改的設置已經保存。",
+  "settingsWillBeUsedNextTime": "新的設置信息會在你下次重新啟動IPFS Daemon後生效。",
+  "ipfsConfigDescription": "IPFS 設置文件是一個JSON 文件。 IPFS Daemon會在啟動過程中讀取一次。保存修改的設置，重啟IPFS Daemon後使用你修改後的設置。",
+  "ipfsConfigHelp": "檢查文檔查看更多信息",
+  "ipfsDesktop": "IPFS 桌面程序",
+  "takeScreenshot": "截屏",
+  "takeScreenshotDescription": "使用<0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> 截屏並添加到你的文檔庫中。",
+  "downloadHash": "下載哈希值對應文件",
+  "downloadHashDescription": "使用<0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> 下載當前剪貼板中哈希值或路徑代表的文件。",
+  "launchOnStartup": "在系統啟動時自動加載",
+  "globalShortcuts": "全局快捷方式",
+  "globalShortcutsAre": "IPFS 桌面程序提供了一些可以通過鍵盤全局觸發的快捷鍵，你可以觸發或者關閉他們。",
+  "AnalyticsToggle": {
+    "label": "向我們提供匿名數據來幫助我們改進",
+    "summary": "設置收集哪些數據",
+    "paragraph1": "不會收集任何CID 、文件名或個人信息。我們收集度量數據來幫助我們優化後續工作的優先級，並且收集系統設置信息引導我們進行測試。",
+    "paragraph2": "Protocol Labs 運行了<1>Countly</1> 實例幫助我們收集這個應用產生的匿名數據。",
+    "basicInfo": "下列數據會發送到countly.ipfs.io",
+    "optionalInfo": "你可以選擇發送下列數據：",
+    "sessions": {
+      "label": "會話",
+      "summary": "何時使用了此應用，使用了多長時間，以及相關的瀏覽器度量值。",
+      "details": "<0>將會發送下列瀏覽器度量數據：</0><1><0>隨機產生的設備ID</0><1>會話開始時的時間戳</1>< 2>用於跟踪持續時間的定期時間戳</2><3>應用版本，例如：2.4.4</3><4>語言環境，例如zh-TW</4><5>用戶瀏覽器版本，例如Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>螢幕分辨率，例如800×600</6><7>螢幕像素密度，例如1</7></ 1>"
+    },
+    "events": {
+      "label": "事件",
+      "summary": "添加或刪除文件等操作以及花費的時間",
+      "details": "應用程序特定的動作。 我們僅記錄行動發生的情況，從開始到結束需要多長時間。另外，如果事件涉及多個對象時還會進行計數。"
+    },
+    "views": {
+      "label": "頁面瀏覽數",
+      "summary": "使用應用的哪些頁面",
+      "details": "記錄了你使用應用的哪些頁面。記錄的路徑僅包括用於匹配路線的模式而不是完整的URL 。"
+    },
+    "location": {
+      "label": "地點",
+      "summary": "IP 地址的國家代碼（ IP 地址將會被丟棄）",
+      "details": "您的IP地址用於計算您所在位置的國家/地區代碼，例如法國的\"FR\" 。 如果沒有給予跟踪位置的同意，則發送空位置屬性，其中所有請求都向服務器發出信號以禁用位置查找。 這些信息有助於指導我們的翻譯工作，並找出我們應該在哪些方面展示活動。"
+    },
+    "crashes": {
+      "label": "應用錯誤",
+      "summary": "JavaScript 錯誤消息和堆疊跟踪",
+      "details": "記錄盡可能使用應用程序時出現的JavaScript 錯誤消息和堆疊跟踪。 了解應用程序何時不適合您，但<1>錯誤消息可能包含可識別信息</ 1>（如CID 或文件路徑）非常有用，因此，只有在您願意與我們共享該信息時才啟用此信息。"
+    }
+  },
+  "tour": {
+    "step1": {
+      "title": "設置頁面",
+      "paragraph1": "您可以在此處更改Web UI 和IPFS 節點的設置。",
+      "paragraph2": "如果你正在運行IPFS Desktop ，會有一些特定的設置。"
+    },
+    "step2": {
+      "title": "語言選擇器",
+      "paragraph1": "<0>您可以更改Web UI 的語言設置。如果您的首選語言不可用，請訪問<1>Transifex</1> 中的項目頁面以幫助我們翻譯！</0>"
+    },
+    "step3": {
+      "title": "匿名化的使用分析",
+      "paragraph1": "如果您選擇加入，您可以通過發送匿名化的使用情況分析來幫助我們改善Web UI。",
+      "paragraph2": "您可以選擇向我們發送的數據。我們非常重視隱私，所採集的數據無法識別您的身份。"
+    },
+    "step4": {
+      "title": "IPFS 設置",
+      "paragraph1": "您可以直接從Web UI 更改IPFS 節點的設置！",
+      "paragraph2": "不要忘記重新啟動守護程式以應用更改。"
+    }
+  },
+  "Experiments": {
+    "description": "在這裡，您可以通過下面的觸發選項獲得使用早期預覽版IPFS 功能的身份。 我們正在測試這些想法，但它們可能還不完美，所以我們很樂意聽取您的反饋意見。",
+    "issueUrl": "提交bug",
+    "feedbackUrl": "💌提供反饋",
+    "readMoreUrl": "查看更多",
+    "npmOnIpfs": {
+      "title": "NPM on IPFS",
+      "label": "啟用ipfs-npm",
+      "description": "通過使用'ipfs-npm' 命令行工具使用IPFS 來安裝npm 模組！"
+    }
+  },
+  "ipfsCmdTools": "IPFS 命令行工具",
+  "ipfsCmdToolsDescription": "把<0>ipfs</0> 二進制文件放到你的系統環境變量<0>PATH</0> 所指的目錄中，這樣你就可以直接在命令行中使用。"
+}

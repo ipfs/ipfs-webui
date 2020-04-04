@@ -24,8 +24,8 @@
     "rename": "重命名",
     "download": "下载",
     "inspect": "检查",
-    "copyHash": "复制哈希",
-    "share": "共享",
+    "copyHash": "复制 CID",
+    "share": "分享链接",
     "close": "关闭",
     "copy": "复制",
     "cancel": "取消",
@@ -80,7 +80,7 @@
   "tour": {
     "step1": {
       "title": "文件页面",
-      "paragraph1": "<0>这是 <1>Mutable File System（MFS）</1> 上的文件所在的位置。您可以添加文件或文件夹，并从此页面进行管理</0>",
+      "paragraph1": "<0>这是 <1>可变数据系统（MFS）</1> 上的文件所在的位置。您可以添加文件或文件夹，并从此页面进行管理</0>",
       "paragraph2": "继续了解更多。"
     },
     "step2": {
