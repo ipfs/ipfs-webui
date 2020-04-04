@@ -1,0 +1,91 @@
+diff --git a/node_modules/ipfs-http-client/src/config/profiles/list.js b/node_modules/ipfs-http-client/src/config/profiles/list.js
+index dbfa579..6f501f7 100644
+--- a/node_modules/ipfs-http-client/src/config/profiles/list.js
++++ b/node_modules/ipfs-http-client/src/config/profiles/list.js
+@@ -8,7 +8,7 @@ module.exports = configure(({ ky }) => {
+   return callbackify.variadic(async (options) => {
+     options = options || {}
+ 
+-    const res = await ky.get('config/profile/list', {
++    const res = await ky.post('config/profile/list', {
+       timeout: options.timeout,
+       signal: options.signal,
+       headers: options.headers
+diff --git a/node_modules/ipfs-http-client/src/files-regular/get.js b/node_modules/ipfs-http-client/src/files-regular/get.js
+index 6c94264..68e15fe 100644
+--- a/node_modules/ipfs-http-client/src/files-regular/get.js
++++ b/node_modules/ipfs-http-client/src/files-regular/get.js
+@@ -36,7 +36,7 @@ module.exports = configure(({ ky }) => {
+       searchParams.set('length', options.length)
+     }
+ 
+-    const res = await ky.get('get', {
++    const res = await ky.post('get', {
+       timeout: options.timeout,
+       signal: options.signal,
+       headers: options.headers,
+diff --git a/node_modules/ipfs-http-client/src/files-regular/ls.js b/node_modules/ipfs-http-client/src/files-regular/ls.js
+index 0f13f55..d81a963 100644
+--- a/node_modules/ipfs-http-client/src/files-regular/ls.js
++++ b/node_modules/ipfs-http-client/src/files-regular/ls.js
+@@ -31,7 +31,7 @@ module.exports = configure(({ ky }) => {
+       searchParams.set('recursive', options.recursive)
+     }
+ 
+-    const res = await ky.get('ls', {
++    const res = await ky.post('ls', {
+       timeout: options.timeout,
+       signal: options.signal,
+       headers: options.headers,
+diff --git a/node_modules/ipfs-http-client/src/files-regular/refs-local.js b/node_modules/ipfs-http-client/src/files-regular/refs-local.js
+index efb8d32..afa1630 100644
+--- a/node_modules/ipfs-http-client/src/files-regular/refs-local.js
++++ b/node_modules/ipfs-http-client/src/files-regular/refs-local.js
+@@ -9,7 +9,7 @@ module.exports = configure(({ ky }) => {
+   return async function * refsLocal (options) {
+     options = options || {}
+ 
+-    const res = await ky.get('refs/local', {
++    const res = await ky.post('refs/local', {
+       timeout: options.timeout,
+       signal: options.signal,
+       headers: options.headers
+diff --git a/node_modules/ipfs-http-client/src/files-regular/refs.js b/node_modules/ipfs-http-client/src/files-regular/refs.js
+index c6136ed..dbeb9a1 100644
+--- a/node_modules/ipfs-http-client/src/files-regular/refs.js
++++ b/node_modules/ipfs-http-client/src/files-regular/refs.js
+@@ -49,7 +49,7 @@ module.exports = configure(({ ky }) => {
+       searchParams.append('arg', arg.toString())
+     }
+ 
+-    const res = await ky.get('refs', {
++    const res = await ky.post('refs', {
+       timeout: options.timeout,
+       signal: options.signal,
+       headers: options.headers,
+diff --git a/node_modules/ipfs-http-client/src/pubsub/ls.js b/node_modules/ipfs-http-client/src/pubsub/ls.js
+index 177dcd4..d2bc8f6 100644
+--- a/node_modules/ipfs-http-client/src/pubsub/ls.js
++++ b/node_modules/ipfs-http-client/src/pubsub/ls.js
+@@ -6,7 +6,7 @@ module.exports = configure(({ ky }) => {
+   return async (options) => {
+     options = options || {}
+ 
+-    const { Strings } = await ky.get('pubsub/ls', {
++    const { Strings } = await ky.post('pubsub/ls', {
+       timeout: options.timeout,
+       signal: options.signal,
+       headers: options.headers,
+diff --git a/node_modules/ipfs-http-client/src/pubsub/peers.js b/node_modules/ipfs-http-client/src/pubsub/peers.js
+index bdeca60..5fa5b24 100644
+--- a/node_modules/ipfs-http-client/src/pubsub/peers.js
++++ b/node_modules/ipfs-http-client/src/pubsub/peers.js
+@@ -14,7 +14,7 @@ module.exports = configure(({ ky }) => {
+     const searchParams = new URLSearchParams(options.searchParams)
+     searchParams.set('arg', topic)
+ 
+-    const { Strings } = await ky.get('pubsub/peers', {
++    const { Strings } = await ky.post('pubsub/peers', {
+       timeout: options.timeout,
+       signal: options.signal,
+       headers: options.headers,
