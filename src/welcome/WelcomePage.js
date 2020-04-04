@@ -74,7 +74,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
           </Trans>
           <Shell>
             <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
-            <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'</code>
+            <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
           </Shell>
         </div>
       )}

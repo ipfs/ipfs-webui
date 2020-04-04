@@ -71,7 +71,7 @@ Run the **[cors-config.sh](./cors-config.sh)** script with:
 
 ```sh
 > ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.io"]'
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
+> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
 ```
 
 #### Reverting
