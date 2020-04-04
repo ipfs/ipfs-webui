@@ -3,6 +3,7 @@
   "version": "2.7.2",
   "private": true,
   "scripts": {
+    "postinstall": "patch-package",
     "start": "run-script-os",
     "start:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-scripts start",
     "start:darwin:linux": "cross-env REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-scripts start",
@@ -55,6 +56,7 @@
     "multiaddr": "^7.2.1",
     "multiaddr-to-uri": "^5.1.0",
     "p-queue": "^6.2.1",
+    "patch-package": "6.2.2",
     "prop-types": "^15.7.2",
     "pull-file-reader": "^1.0.2",
     "react": "^16.12.0",
