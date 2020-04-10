@@ -1,0 +1,10 @@
+.FilePreviewPDF {
+  height: calc(100vh - 140px - 5.5rem);
+  min-height: 100px;
+}
+
+@media only screen and (max-width: 60em) {
+  .FilePreviewPDF {
+    height: calc(100vh - 234px - 14rem);
+  }
+}
