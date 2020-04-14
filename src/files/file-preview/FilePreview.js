@@ -5,6 +5,7 @@ import isBinary from 'is-binary'
 import { Trans, withTranslation } from 'react-i18next'
 import typeFromExt from '../type-from-ext'
 import ComponentLoader from '../../loader/ComponentLoader.js'
+import './FilePreview.css'
 
 class Preview extends React.Component {
   state = {
@@ -32,7 +33,7 @@ class Preview extends React.Component {
         )
       case 'pdf':
         return (
-          <object width='100%' height='500px' data={src} type='application/pdf'>
+          <object className="FilePreviewPDF w-100" data={src} type='application/pdf'>
             {t('noPDFSupport')}
             <a href={src} download target='_blank' rel='noopener noreferrer' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
           </object>
