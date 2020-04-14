@@ -1,5 +1,5 @@
 .FilePreviewPDF {
-  height: calc(100vh - 140px - 5.5rem);
+  height: calc(100vh - 140px - 5.5rem);  /* 100% of viewport height, minus fixed-height search box and PDF info bar based on font height  */
   min-height: 100px;
 }
 
