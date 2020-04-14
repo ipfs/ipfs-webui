@@ -5,6 +5,6 @@
 
 @media only screen and (max-width: 60em) {
   .FilePreviewPDF {
-    height: calc(100vh - 234px - 14rem);
+    height: calc(100vh - 234px - 14rem);   /* 100% of viewport height, minus fixed-height search box, page nav header, and PDF info bar based on font height  */
   }
 }
