@@ -70,8 +70,8 @@ Run the **[cors-config.sh](./cors-config.sh)** script with:
 #### The manual way
 
 ```sh
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.io"]'
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
+> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.io", "http://127.0.0.1:5001"]'
+> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["POST"]'
 ```
 
 #### Reverting
@@ -157,7 +157,9 @@ Instead of spawning a disposable node and repo for tests, one can point the E2E 
 ```json
 "API": {
   "HTTPHeaders": {
+    "Access-Control-Allow-Methods": ["POST"],
     "Access-Control-Allow-Origin": [
+      "http://localhost:5001",
       "http://localhost:3001"
     ]
   }
@@ -167,8 +169,8 @@ Instead of spawning a disposable node and repo for tests, one can point the E2E 
 Can be done ad-hoc via command line:
 
 ```sh
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3001"]'
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "GET", "POST"]'
+> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3001", "http://127.0.0.1:5001"]'
+> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["POST"]'
 ```
 
 ### Debugging E2E tests
