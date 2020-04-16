@@ -86,12 +86,16 @@ export default function (opts) {
     'selectPeerLocationsForSwarm',
     peers => {
       if (!peers) return []
-      const allCoord = peers
-        .map(p => p.coordinates)
-        .filter(arr => !!arr)
 
-      const unique = new Set(allCoord.map(JSON.stringify))
-      return Array.from(unique).map(JSON.parse)
+      return peers.reduce((previous, { peerId, coordinates }) => {
+        if (!coordinates) return previous
+
+        if (previous.map(prev => prev.coordinates).includes(coordinates)) {
+          return previous
+        }
+
+        return [...previous, { peerId, coordinates }]
+      }, [])
     }
   )
 

@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useCallback, useState, useMemo } from 'react'
 import ReactFauxDOM from 'react-faux-dom'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import * as d3 from 'd3'
+import CountryFlag from 'react-country-flag'
+
 import staticMapSrc from './StaticMap.svg'
 
-const WorldMap = ({ t, className }) => {
+import Popover from '../../components/popover/Popover'
+
+// Styles
+import './WorldMap.css'
+import Cid from '../../components/cid/Cid'
+
+const WorldMap = ({ t, className, selectedPeer, doSetSelectedPeer }) => {
+  const [selectedTimeout, setSelectedTimeout] = useState(null)
+
   // Caluate a sensible size for the map
   const { innerWidth } = window
   // the d3 generated svg width includes a lot of ocean, that we crop for now, as it looks weird.
@@ -24,18 +34,42 @@ const WorldMap = ({ t, className }) => {
   }
   // the map has a native proportion, so account for that when we set the height.
   const height = width * 0.273
+
+  const handleMapPinMouseEnter = useCallback((peerId, element) => {
+    if (!element) return
+
+    clearTimeout(selectedTimeout)
+
+    const { x, y, width, height } = element.getBBox()
+
+    console.log('Peer', peerId)
+
+    doSetSelectedPeer({ peerId, left: `${x + width / 2}px`, top: `${y - height / 2}px` })
+  }, [doSetSelectedPeer, selectedTimeout])
+
+  const handleMapPinMouseLeave = useCallback((id) => {
+    setSelectedTimeout(
+      setTimeout(() => doSetSelectedPeer({}), 400)
+    )
+  }, [doSetSelectedPeer])
+
   return (
     <div className={`relative ${className}`}>
       <div className='mb4 overflow-hidden flex flex-column items-center'>
-        <div style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
+        <div className="relative" style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
           <GeoPath width={width} height={height}>
             { ({ path }) => (
-              <MapPins width={width} height={height} path={path} />
+              <MapPins width={width} height={height} path={path} handleMouseEnter={ handleMapPinMouseEnter } handleMouseLeave= { handleMapPinMouseLeave } />
             )}
           </GeoPath>
+          { selectedPeer && selectedPeer.peerId && (
+            <Popover show={ !!(selectedPeer.top && selectedPeer.left) } top={ selectedPeer.top } left={ selectedPeer.left } align='top'>
+              <PeerInfo id={ selectedPeer.peerId }/>
+            </Popover>)
+          }
         </div>
       </div>
-      <div className='absolute bottom-0 left-0 right-0'>
+      <div className='mapFooter absolute bottom-0 left-0 right-0'>
         <div className='flex flex-auto flex-column items-center self-end pb5-ns no-select'>
           <div className='f1 fw5 black'><PeersCount /></div>
           <div className='f4 b ttu charcoal-muted'>{t('peers')}</div>
@@ -60,28 +94,54 @@ const GeoPath = ({ width, height, children }) => {
 }
 
 // Just the dots on the map, this gets called a lot.
-const MapPins = connect('selectPeerCoordinates', ({ width, height, path, peerCoordinates }) => {
+const MapPins = connect('selectPeerCoordinates', ({ width, height, path, peerCoordinates, handleMouseEnter, handleMouseLeave }) => {
   const el = d3.select(ReactFauxDOM.createElement('svg'))
     .attr('width', width)
     .attr('height', height)
+    .attr('viewBox', `0 0 ${width} ${height}`)
 
-  el.append('path')
-    .datum({
-      type: 'MultiPoint',
-      coordinates: peerCoordinates
-    })
-    .attr('d', path.pointRadius((d) => 8))
-    .attr('fill', 'rgba(93, 213, 218, 0.4)')
+  peerCoordinates.forEach(({ peerId, coordinates }) => {
+    el.append('path')
+      .datum({
+        type: 'Point',
+        coordinates: coordinates
+      })
+      .attr('d', path.pointRadius((d) => 8))
+      .attr('fill', 'rgba(93, 213, 218, 0.4)')
+      .on('mouseenter', () => handleMouseEnter(peerId, d3.event.relatedTarget))
+      .on('mouseleave', () => handleMouseLeave(peerId))
 
-  el.append('path')
-    .datum({
-      type: 'MultiPoint',
-      coordinates: peerCoordinates
-    })
-    .attr('d', path.pointRadius((d) => 3))
-    .attr('fill', 'rgb(93, 213, 218)')
+    el.append('path')
+      .datum({
+        type: 'Point',
+        coordinates: coordinates
+      })
+      .attr('class', 'visualPath')
+      .attr('d', path.pointRadius((d) => 3))
+      .attr('fill', 'rgb(93, 213, 218)')
+  })
 
   return el.node().toReact()
 })
 
-export default withTranslation('peers')(WorldMap)
+const PeerInfo = connect('selectPeerLocationsForSwarm', ({ id, peerLocationsForSwarm: peers }) => {
+  if (!peers) return null
+
+  const peer = peers.find(({ peerId }) => peerId === id)
+
+  if (!peer) return null
+
+  const isWindows = useMemo(() => window.navigator.appVersion.indexOf('Win') !== -1, [])
+
+  return (
+    <div>
+      <CountryFlag code={peer.flagCode} svg={isWindows} /><Cid value={peer.peerId}></Cid>
+    </div>
+  )
+})
+
+export default connect(
+  'selectSelectedPeer',
+  'doSetSelectedPeer',
+  withTranslation('peers')(WorldMap)
+)
