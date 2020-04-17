@@ -2,19 +2,19 @@
   "title": "文件",
   "home": "首页",
   "breadcrumbs": "导航栏",
-  "finished": "完成！",
+  "finished": "已完成",
   "totalSize": "总计大小: {size}",
   "filesSelected": "{count, plural, other {已选择文件}}",
   "individualFilesOnly": "仅对文件有效",
   "fileName": "文件名",
   "size": "大小",
   "noPDFSupport": "您的浏览器不支持阅读 PDF 文件。请下载后阅读。",
-  "downloadPDF": "下载 PDF",
+  "downloadPDF": "下载 PDF 文件",
   "downloadInstead": "请尝试<1>下载</1>",
   "cantBePreviewed": "对不起，本文件不支持预览。",
   "addFile": "文件",
   "addFolder": "文件夹",
-  "addByPath": "来自 IPFS",
+  "addByPath": "来自 IPFS 路径",
   "addToIPFS": "添加",
   "newFolder": "新建文件夹",
   "generating": "生成 ...",
@@ -38,7 +38,7 @@
   },
   "shareModal": {
     "title": "共享文件",
-    "description": "请复制以下链接并与您的朋友分享。"
+    "description": "请复制以下链接以与您的朋友分享。"
   },
   "renameModal": {
     "titleFile": "重命名文件",

@@ -71,5 +71,5 @@
     }
   },
   "bandwidthStats": "带宽状态",
-  "bandwidthStatsDisabled": "带宽度量已经禁用了。可以在 <5>配置</5> 中修改 <1>Swarm.DisableBandwidthMetrics</1> 为 <3>false</3> 来重新激活。 修改完成后，需要重新启动 IPFS 守护进程才能生效。"
+  "bandwidthStatsDisabled": "带宽度量已经被禁用。可以在 <5>配置</5> 中修改 <1>Swarm.DisableBandwidthMetrics</1> 为 <3>false</3> 来重新激活。 修改完成后，需要重新启动 IPFS 守护进程才能生效。"
 }

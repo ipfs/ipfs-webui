@@ -11,7 +11,7 @@
   "bootstrapNode": "引导节点",
   "viaRelay": "通过 <0>{node}</0>",
   "addConnection": "添加连接",
-  "insertPeerAddress": "请输入你想要连接的对等方地址。",
+  "insertPeerAddress": "请输入您想要连接的对等节点地址。",
   "add": "添加",
   "example": "例子：",
   "tour": {
@@ -22,10 +22,10 @@
     },
     "step2": {
       "title": "节点地图",
-      "paragraph1": "可视化您所连接的节点在世界中的位置。"
+      "paragraph1": "可视化您所连接节点的位置分布。"
     },
     "step3": {
-      "title": "节点清单表",
+      "title": "节点列表",
       "paragraph1": "查看已连接节点的 ID、地址和大致位置。"
     }
   }

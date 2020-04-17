@@ -2,14 +2,14 @@
   "title": "欢迎使用 IPFS",
   "configureApiPort": {
     "header": "你的 API 端口不是 5001 ？",
-    "paragraph1": "<0>如果你的 IPFS 节配置了<1>自定义 API 地址</1>, 请设置在这里</0>"
+    "paragraph1": "<0>如果你的 IPFS 节配置了<1>自定义 API 地址</1>, 请在此修改设置</0>"
   },
   "apiAddressForm": {
     "apiLabel": "API ADDRESS",
     "submitButton": "提交"
   },
   "connected": {
-    "header": "连接到 IPFS",
+    "header": "已连接到 IPFS",
     "paragraph1": "<0>现在，是时候了解你的节点。 前往 <1>文件页面</1> 管理和分享你的文件，或通过<5> IPLD 浏览器</5>了解节点托管哈希链数据 <3>Merkle Forest</3>。‭</0>",
     "paragraph2": "<0>你可以随时回到此地址来修改你连接的 IPFS 节点。</0>"
   },
@@ -22,10 +22,10 @@
   },
   "aboutIpfs": {
     "header": "IPFS 是什么？",
-    "paragraph1": "<0><0>IPFS 是协议</0>，定义了基于哈希寻址内容文件系统，并结合了来自 Kademlia、 BitTorrent、Git 等的想法来协调内容传输。</0>",
+    "paragraph1": "<0><0>IPFS 是协议</0>，定义了基于哈希寻址内容文件系统，并结合了来自 Kademlia、 BitTorrent、Git 等的点子来协调内容传输。</0>",
     "paragraph2": "<0><0>IPFS 是文件系统。</0>有文件夹、文件和基于 FUSE 的可挂载文件系统。</0>",
     "paragraph3": "<0><0>IPFS 是一种互联网。</0>文件可以通过 HTTP 网关来访问，例如 <2>https://ipfs.io</2> 。浏览器<4>通过扩展</4>能直接使用 <6>ipfs://</6> 域，且哈希寻址保证了内容的真实性</0>",
-    "paragraph4": "<0><0>IPFS 是 p2p 。</0>支持世界范围点对点文件传输，具有完全分散的架构，没有中心点故障。</0>",
-    "paragraph5": "<0><0>IPFS 是 CDN 。</0>在本地库中添加一个文件，立即对世界可用，并拥有对缓存友好的内容哈希地址和 BitTorrent 一样的带宽分发。</0>"
+    "paragraph4": "<0><0>IPFS 是 p2p 。</0>支持世界范围点对点文件传输，具有完全分散的架构，避免中心节点故障。</0>",
+    "paragraph5": "<0><0>IPFS 是 CDN 。</0>在本地库中添加一个文件，立即对世界可用，并拥有缓存友好的内容哈希地址和 BitTorrent 一样的带宽分发。</0>"
   }
 }
