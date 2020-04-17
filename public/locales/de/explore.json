@@ -45,7 +45,7 @@
       "step3": {
         "title": "Node informationen",
         "paragraph1": "Hier findest Du detaillierte Informationen über den Node. Du kannst es außerdem im IPFS Gateway öffnen.",
-        "paragraph2": "Wenn der Knoten ein Verzeichnis ist, kannst Du seine Kinder sehen und zu ihnen navigieren."
+        "paragraph2": "If the node is a directory you can see its children and navigate to them."
       },
       "step4": {
         "title": "CID Informationen",

@@ -45,7 +45,7 @@
       "step3": {
         "title": "Information du pair",
         "paragraph1": "Ici vous avez le détails des informations sur votre noeud and comment ouvrir votre passerelle IPFS.",
-        "paragraph2": "Si le noeud est un répertoire, vous pouvez voir ses enfants et y accéder."
+        "paragraph2": "si le noeud est un répertoire vous pouvez voir les sous-répertoire et navigué dedans. "
       },
       "step4": {
         "title": "CID information",

@@ -45,7 +45,7 @@
       "step3": {
         "title": "节点信息",
         "paragraph1": "您可以在此处获得有关节点的详细信息，并在 IPFS 网关中打开它。",
-        "paragraph2": "如果节点是一个目录，你可以看到点击这个目录查看子项。"
+        "paragraph2": "If the node is a directory you can see its children and navigate to them."
       },
       "step4": {
         "title": "CID 信息",
