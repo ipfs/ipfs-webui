@@ -126,7 +126,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
 
   if (!isRoot) {
     const parentPath = dirname(path)
-    const parentInfo = infoFromPath(parentPath)
+    const parentInfo = infoFromPath(parentPath, false)
 
     if (parentInfo.isMfs || !parentInfo.isRoot) {
       if (parentInfo.realPath.startsWith('/ipns')) {
