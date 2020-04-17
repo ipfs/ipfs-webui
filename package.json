@@ -61,7 +61,7 @@
     "react-ace": "^8.0.0",
     "react-chartjs-2": "^2.9.0",
     "react-copy-to-clipboard": "^5.0.2",
-    "react-country-flag": "^1.1.0",
+    "react-country-flag": "^2.0.1",
     "react-debounce-render": "^5.0.0",
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^9.5.1",
