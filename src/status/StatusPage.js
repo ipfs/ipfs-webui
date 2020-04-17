@@ -13,6 +13,7 @@ import NetworkTraffic from './NetworkTraffic'
 import Box from '../components/box/Box'
 import AskToEnable from '../components/ask/AskToEnable'
 import { statusTour } from '../lib/tours'
+import { getJoyrideLocales } from '../helpers/i8n'
 import withTour from '../components/tour/withTour'
 
 const StatusPage = ({
@@ -79,6 +80,7 @@ const StatusPage = ({
           callback={handleJoyrideCallback}
           continuous
           scrollToFirstStep
+          locale={getJoyrideLocales(t)}
           showProgress />
       </div>
     </div>

@@ -45,6 +45,11 @@
     "detailsLabel": "More info"
   },
   "tour": {
+    "back": "Back",
+    "close": "Close",
+    "last": "Last",
+    "next": "Next",
+    "skip": "Skip",
     "step1": {
       "title": "Status page",
       "paragraph1": "This is the starting point of your IPFS node and where you can check its basic info.",

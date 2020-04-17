@@ -6,6 +6,7 @@ import ReactJoyride from 'react-joyride'
 // Tour
 import { settingsTour } from '../lib/tours'
 import withTour from '../components/tour/withTour'
+import { getJoyrideLocales } from '../helpers/i8n'
 // Components
 import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
@@ -103,6 +104,7 @@ export const SettingsPage = ({
       callback={handleJoyrideCallback}
       continuous
       scrollToFirstStep
+      locale={getJoyrideLocales(t)}
       showProgress />
   </div>
 )

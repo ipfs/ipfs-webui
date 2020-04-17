@@ -3,7 +3,7 @@ import React from 'react'
 export const appTour = {
   getSteps: ({ t }) => [{
     content: <div className='montserrat white'>
-      <p className='ma0 pa0 tl f6'>{t('tourTooltip')}</p>
+      <p className='ma0 pa0 tl f6'>{t('tour.tooltip')}</p>
     </div>,
     placement: 'left',
     target: '.joyride-app-tour',

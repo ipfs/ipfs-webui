@@ -14,6 +14,8 @@ import withTour from '../components/tour/withTour'
 import InfoBoxes from './info-boxes/InfoBoxes'
 import FilePreview from './file-preview/FilePreview'
 import FilesList from './files-list/FilesList'
+import { getJoyrideLocales } from '../helpers/i8n'
+
 // Icons
 import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH } from './modals/Modals'
 import Header from './header/Header'
@@ -263,6 +265,7 @@ class FilesPage extends React.Component {
           callback={handleJoyrideCallback}
           continuous
           scrollToFirstStep
+          locale={getJoyrideLocales(t)}
           showProgress />
       </div>
     )
