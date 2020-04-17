@@ -99,7 +99,7 @@
     "big.js": "^5.2.2",
     "bundlesize": "^0.18.0",
     "cross-env": "^6.0.3",
-    "enzyme": "^3.10.0",
+    "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
