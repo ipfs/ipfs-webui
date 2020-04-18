@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
 import { Table, Column, AutoSizer, SortDirection } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
 import Cid from '../../components/cid/Cid'
 import { sortByProperty } from '../../lib/sort'
+
+import './PeersTable.css'
 
 export class PeersTable extends React.Component {
   static propTypes = {
@@ -65,7 +68,7 @@ export class PeersTable extends React.Component {
     <Cid value={cellData} identicon />
   )
 
-  notesCellRenderer = ({ cellData, rowData }) => {
+  notesCellRenderer = ({ cellData }) => {
     if (!cellData) return
 
     if (cellData.type === 'BOOTSTRAP_NODE') {
@@ -85,8 +88,11 @@ export class PeersTable extends React.Component {
     </abbr>
   )
 
-  rowClassRenderer = ({ index }) => {
-    return index === -1 ? 'bb b--near-white bg-near-white' : 'bb b--near-white'
+  rowClassRenderer = ({ index }, peers = []) => {
+    const { selectedPeer } = this.props
+    const shouldAddHoverEffect = !!selectedPeer?.peerId && selectedPeer.peerId === peers[index]?.peerId
+
+    return classNames('bb b--near-white peersTableItem', index === -1 && 'bg-near-white', shouldAddHoverEffect && 'bg-light-gray')
   }
 
   sort ({ sortBy, sortDirection }) {
@@ -107,7 +113,7 @@ export class PeersTable extends React.Component {
             <Table
               className='tl fw4 w-100 f6'
               headerClassName='aqua fw2 ttu tracked ph2'
-              rowClassName={this.rowClassRenderer}
+              rowClassName={(rowInfo) => this.rowClassRenderer(rowInfo, peerLocationsForSwarm)}
               width={width}
               height={tableHeight}
               headerHeight={32}
@@ -132,5 +138,6 @@ export class PeersTable extends React.Component {
 
 export default connect(
   'selectPeerLocationsForSwarm',
+  'selectSelectedPeer',
   withTranslation('peers')(PeersTable)
 )

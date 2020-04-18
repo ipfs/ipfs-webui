@@ -55,7 +55,7 @@ const WorldMap = ({ t, className, selectedPeer, doSetSelectedPeer }) => {
 
   return (
     <div className={`relative ${className}`}>
-      <div className='mb4 overflow-hidden flex flex-column items-center'>
+      <div className='mb4 flex flex-column items-center'>
         <div className="relative" style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
           <GeoPath width={width} height={height}>
             { ({ path }) => (
