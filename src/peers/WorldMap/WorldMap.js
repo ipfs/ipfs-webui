@@ -16,7 +16,7 @@ import Cid from '../../components/cid/Cid'
 const WorldMap = ({ t, className, selectedPeer, doSetSelectedPeer }) => {
   const [selectedTimeout, setSelectedTimeout] = useState(null)
 
-  // Caluate a sensible size for the map
+  // Calculate a sensible size for the map
   const { innerWidth } = window
   // the d3 generated svg width includes a lot of ocean, that we crop for now, as it looks weird.
   const svgWidthOversizeFactor = 1.7
@@ -41,8 +41,6 @@ const WorldMap = ({ t, className, selectedPeer, doSetSelectedPeer }) => {
     clearTimeout(selectedTimeout)
 
     const { x, y, width, height } = element.getBBox()
-
-    console.log('Peer', peerId)
 
     doSetSelectedPeer({ peerId, left: `${x + width / 2}px`, top: `${y - height / 2}px` })
   }, [doSetSelectedPeer, selectedTimeout])
@@ -132,10 +130,9 @@ const PeerInfo = connect('selectPeerLocationsForSwarm', ({ id, peerLocationsForS
   if (!peer) return null
 
   const isWindows = useMemo(() => window.navigator.appVersion.indexOf('Win') !== -1, [])
-
   return (
-    <div>
-      <CountryFlag code={peer.flagCode} svg={isWindows} /><Cid value={peer.peerId}></Cid>
+    <div className="f6">
+      <CountryFlag code={peer.flagCode} svg={isWindows} />{peer.address}<Cid value={peer.peerId}/> ({peer.latency}ms)
     </div>
   )
 })
