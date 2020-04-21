@@ -7,26 +7,7 @@ export const ACTIONS = {
   EXP_UPDATE_STATE: 'EXPERIMENTS_UPDATE_STATE'
 }
 
-const EXPERIMENTS = [
-  {
-    key: 'npmOnIpfs',
-    actionUrls: [
-      {
-        url: 'https://github.com/ipfs-shipyard/npm-on-ipfs',
-        key: 'readMoreUrl'
-      },
-      {
-        url: 'https://github.com/ipfs-shipyard/npm-on-ipfs/issues',
-        key: 'issueUrl'
-      },
-      {
-        url: 'https://github.com/ipfs-shipyard/ipfs-desktop/issues/957',
-        key: 'feedbackUrl'
-      }
-    ],
-    desktopOnly: true
-  }
-]
+const EXPERIMENTS = []
 
 const mergeState = (state, payload) =>
   Object.keys(payload).reduce(
@@ -114,10 +95,9 @@ export default {
   selectExperimentsState: state => state.experiments,
 
   selectExperiments: createSelector(
-    'selectIsIpfsDesktop',
     'selectExperimentsState',
-    (isDesktop, state) =>
-      EXPERIMENTS.filter(e => !!e.desktopOnly === isDesktop).map(e => ({
+    (state) =>
+      EXPERIMENTS.map(e => ({
         ...e,
         ...state[e.key]
       }))
