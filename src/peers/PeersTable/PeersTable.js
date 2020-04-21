@@ -89,8 +89,8 @@ export class PeersTable extends React.Component {
   )
 
   rowClassRenderer = ({ index }, peers = []) => {
-    const { selectedPeer } = this.props
-    const shouldAddHoverEffect = !!selectedPeer?.peerId && selectedPeer.peerId === peers[index]?.peerId
+    const { selectedPeers } = this.props
+    const shouldAddHoverEffect = selectedPeers?.peerIds?.includes(peers[index]?.peerId)
 
     return classNames('bb b--near-white peersTableItem', index === -1 && 'bg-near-white', shouldAddHoverEffect && 'bg-light-gray')
   }
@@ -138,6 +138,6 @@ export class PeersTable extends React.Component {
 
 export default connect(
   'selectPeerLocationsForSwarm',
-  'selectSelectedPeer',
+  'selectSelectedPeers',
   withTranslation('peers')(PeersTable)
 )

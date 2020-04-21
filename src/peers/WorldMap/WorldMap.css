@@ -5,3 +5,8 @@
 .visualPath {
     pointer-events: none;
 }
+
+.mapDotExplanation {
+    display: inline-block;
+    border-radius: 50%;
+}

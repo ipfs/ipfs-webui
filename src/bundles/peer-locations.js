@@ -82,7 +82,9 @@ export default function (opts) {
     })
   )
 
-  bundle.selectPeerCoordinates = createSelector(
+  const COORDINATES_RADIUS = 8
+
+  bundle.selectPeersCoordinates = createSelector(
     'selectPeerLocationsForSwarm',
     peers => {
       if (!peers) return []
@@ -90,11 +92,30 @@ export default function (opts) {
       return peers.reduce((previous, { peerId, coordinates }) => {
         if (!coordinates) return previous
 
-        if (previous.map(prev => prev.coordinates).includes(coordinates)) {
+        let hasFoundACloseCoordinate = false
+
+        previous.map(prev => {
+          if (!prev) return previous
+
+          const [x, y] = prev.coordinates
+          const [currentX, currentY] = coordinates
+
+          const isCloseInXAxis = x - COORDINATES_RADIUS <= currentX && x + COORDINATES_RADIUS >= currentX
+          const isCloseInYAxis = y - COORDINATES_RADIUS <= currentY && y + COORDINATES_RADIUS >= currentY
+
+          if (isCloseInXAxis && isCloseInYAxis) {
+            prev.peerIds.push(peerId)
+            hasFoundACloseCoordinate = true
+          }
+
+          return prev
+        })
+
+        if (hasFoundACloseCoordinate) {
           return previous
         }
 
-        return [...previous, { peerId, coordinates }]
+        return [...previous, { peerIds: [peerId], coordinates }]
       }, [])
     }
   )

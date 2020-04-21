@@ -18,8 +18,9 @@
     position: absolute;
     top: 100%;
     left: 50%;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #fff;
-    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background: inherit;
+    box-shadow: 2px 6px 6px 0px rgba( 0, 0, 0, .2 );
+    transform: translate(-50%, -50%) rotate(45deg);
 }

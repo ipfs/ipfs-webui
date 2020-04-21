@@ -16,7 +16,7 @@ bundle.reducer = (state, action) => {
   const asyncResult = asyncResourceReducer(state, action)
 
   if (action.type === 'SET_SELECTED_PEER') {
-    return { ...asyncResult, selectedPeer: action.payload }
+    return { ...asyncResult, selectedPeers: action.payload }
   }
 
   return asyncResult
@@ -71,9 +71,9 @@ bundle.reactPeersFetchWhenActive = createSelector(
   }
 )
 
-bundle.selectSelectedPeer = (state) => state.peers.selectedPeer
+bundle.selectSelectedPeers = (state) => state.peers.selectedPeers
 
-bundle.doSetSelectedPeer = (peer) => ({ dispatch, ...rest }) => {
+bundle.doSetSelectedPeers = (peer) => ({ dispatch }) => {
   dispatch({ type: 'SET_SELECTED_PEER', payload: peer })
 }
 

@@ -13,7 +13,7 @@ import Popover from '../../components/popover/Popover'
 import './WorldMap.css'
 import Cid from '../../components/cid/Cid'
 
-const WorldMap = ({ t, className, selectedPeer, doSetSelectedPeer }) => {
+const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
   const [selectedTimeout, setSelectedTimeout] = useState(null)
 
   // Calculate a sensible size for the map
@@ -35,21 +35,23 @@ const WorldMap = ({ t, className, selectedPeer, doSetSelectedPeer }) => {
   // the map has a native proportion, so account for that when we set the height.
   const height = width * 0.273
 
-  const handleMapPinMouseEnter = useCallback((peerId, element) => {
+  const handleMapPinMouseEnter = useCallback((peerIds, element) => {
     if (!element) return
 
     clearTimeout(selectedTimeout)
 
     const { x, y, width, height } = element.getBBox()
 
-    doSetSelectedPeer({ peerId, left: `${x + width / 2}px`, top: `${y - height / 2}px` })
-  }, [doSetSelectedPeer, selectedTimeout])
+    doSetSelectedPeers({ peerIds, left: `${x + width / 2}px`, top: `${y - height / 2}px` })
+  }, [doSetSelectedPeers, selectedTimeout])
 
   const handleMapPinMouseLeave = useCallback((id) => {
     setSelectedTimeout(
-      setTimeout(() => doSetSelectedPeer({}), 400)
+      setTimeout(() => doSetSelectedPeers({}), 400)
     )
-  }, [doSetSelectedPeer])
+  }, [doSetSelectedPeers])
+
+  const handlePopoverMouseEnter = useCallback(() => clearTimeout(selectedTimeout), [selectedTimeout])
 
   return (
     <div className={`relative ${className}`}>
@@ -60,9 +62,10 @@ const WorldMap = ({ t, className, selectedPeer, doSetSelectedPeer }) => {
               <MapPins width={width} height={height} path={path} handleMouseEnter={ handleMapPinMouseEnter } handleMouseLeave= { handleMapPinMouseLeave } />
             )}
           </GeoPath>
-          { selectedPeer && selectedPeer.peerId && (
-            <Popover show={ !!(selectedPeer.top && selectedPeer.left) } top={ selectedPeer.top } left={ selectedPeer.left } align='top'>
-              <PeerInfo id={ selectedPeer.peerId }/>
+          { selectedPeers?.peerIds && (
+            <Popover show={ !!(selectedPeers.top && selectedPeers.left) } top={ selectedPeers.top } left={ selectedPeers.left } align='top'
+              handleMouseEnter={ handlePopoverMouseEnter } handleMouseLeave={ handleMapPinMouseLeave }>
+              <PeerInfo ids={ selectedPeers.peerIds }/>
             </Popover>)
           }
         </div>
@@ -71,6 +74,13 @@ const WorldMap = ({ t, className, selectedPeer, doSetSelectedPeer }) => {
         <div className='flex flex-auto flex-column items-center self-end pb5-ns no-select'>
           <div className='f1 fw5 black'><PeersCount /></div>
           <div className='f4 b ttu charcoal-muted'>{t('peers')}</div>
+        </div>
+      </div>
+      <div className='absolute bottom-1 right-1'>
+        <div className='f6 p2 no-select flex items-center'>
+          <i className='mapDotExplanation mr1' style={{ width: getDotsSize(1), height: getDotsSize(1), backgroundColor: getDotsColor(1) }}></i>1-10 {t('peers')}
+          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(100), height: getDotsSize(100), backgroundColor: getDotsColor(100) }}></i> 10-300 {t('peers')}
+          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(1100), height: getDotsSize(1100), backgroundColor: getDotsColor(1100) }}></i>300+ {t('peers')}
         </div>
       </div>
     </div>
@@ -91,54 +101,75 @@ const GeoPath = ({ width, height, children }) => {
   return children({ path })
 }
 
+const getDotsSize = (numberOfDots) => {
+  if (numberOfDots < 10) return 5
+  if (numberOfDots < 300) return 8
+  return 10
+}
+
+const getDotsColor = (numberOfDots) => {
+  if (numberOfDots < 10) return 'rgba(150, 204, 255, 0.6)'
+  if (numberOfDots < 300) return 'rgba(53, 126, 221, 0.6)'
+  return 'rgba(53, 126, 221, 0.8)'
+}
+
 // Just the dots on the map, this gets called a lot.
-const MapPins = connect('selectPeerCoordinates', ({ width, height, path, peerCoordinates, handleMouseEnter, handleMouseLeave }) => {
+const MapPins = connect('selectPeersCoordinates', ({ width, height, path, peersCoordinates, handleMouseEnter, handleMouseLeave }) => {
   const el = d3.select(ReactFauxDOM.createElement('svg'))
     .attr('width', width)
     .attr('height', height)
     .attr('viewBox', `0 0 ${width} ${height}`)
 
-  peerCoordinates.forEach(({ peerId, coordinates }) => {
+  peersCoordinates.forEach(({ peerIds, coordinates }) => {
     el.append('path')
       .datum({
         type: 'Point',
         coordinates: coordinates
       })
-      .attr('d', path.pointRadius((d) => 8))
-      .attr('fill', 'rgba(93, 213, 218, 0.4)')
-      .on('mouseenter', () => handleMouseEnter(peerId, d3.event.relatedTarget))
-      .on('mouseleave', () => handleMouseLeave(peerId))
-
-    el.append('path')
-      .datum({
-        type: 'Point',
-        coordinates: coordinates
-      })
-      .attr('class', 'visualPath')
-      .attr('d', path.pointRadius((d) => 3))
-      .attr('fill', 'rgb(93, 213, 218)')
+      .attr('d', path.pointRadius(() => getDotsSize(peerIds.length)))
+      .attr('fill', () => getDotsColor(peerIds.length))
+      .on('mouseenter', () => handleMouseEnter(peerIds, d3.event.relatedTarget))
+      .on('mouseleave', () => handleMouseLeave(peerIds))
   })
 
   return el.node().toReact()
 })
 
-const PeerInfo = connect('selectPeerLocationsForSwarm', ({ id, peerLocationsForSwarm: peers }) => {
-  if (!peers) return null
+const MAX_PEERS = 5
 
-  const peer = peers.find(({ peerId }) => peerId === id)
+const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsForSwarm: allPeers }) => {
+  if (!allPeers) return null
 
-  if (!peer) return null
+  const peers = allPeers.filter(({ peerId }) => ids.includes(peerId))
+
+  if (!peers.length) return null
 
   const isWindows = useMemo(() => window.navigator.appVersion.indexOf('Win') !== -1, [])
+
   return (
-    <div className="f6">
-      <CountryFlag code={peer.flagCode} svg={isWindows} />{peer.address}<Cid value={peer.peerId}/> ({peer.latency}ms)
+    <div className="f6 flex flex-column-reverse">
+      { peers.map((peer, index) => {
+        if (index === MAX_PEERS && peers.length > MAX_PEERS) {
+          return (<div className="f7 pa2 pt3" key="worldmap-more-label">+{peers.length - MAX_PEERS}</div>)
+        }
+
+        if (index > MAX_PEERS) return null
+
+        return (
+          <div className="pa2" key={peer.peerId}>
+            <CountryFlag code={peer.flagCode} svg={isWindows} />{peer.address}/p2p/<Cid value={peer.peerId}/> ({peer.latency}ms)
+          </div>
+        )
+      })
+
+      }
+      { peers.length === MAX_PEERS}
     </div>
   )
 })
 
 export default connect(
-  'selectSelectedPeer',
-  'doSetSelectedPeer',
+  'selectSelectedPeers',
+  'doSetSelectedPeers',
   withTranslation('peers')(WorldMap)
 )
