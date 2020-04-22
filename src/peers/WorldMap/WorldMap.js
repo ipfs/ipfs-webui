@@ -66,7 +66,7 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
             { selectedPeers?.peerIds && (
               <Popover show={ !!(selectedPeers.top && selectedPeers.left) } top={ selectedPeers.top } left={ selectedPeers.left } align='top'
                 handleMouseEnter={ handlePopoverMouseEnter } handleMouseLeave={ handleMapPinMouseLeave }>
-                <PeerInfo ids={ selectedPeers.peerIds }/>
+                <PeerInfo ids={ selectedPeers.peerIds } t={t}/>
               </Popover>)
             }
           </div>
@@ -140,7 +140,7 @@ const MapPins = connect('selectPeersCoordinates', ({ width, height, path, peersC
 
 const MAX_PEERS = 5
 
-const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsForSwarm: allPeers }) => {
+const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsForSwarm: allPeers, t }) => {
   if (!allPeers) return null
 
   const peers = allPeers.filter(({ peerId }) => ids.includes(peerId))
@@ -150,10 +150,10 @@ const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsFor
   const isWindows = useMemo(() => window.navigator.appVersion.indexOf('Win') !== -1, [])
 
   return (
-    <div className="f6 flex flex-column-reverse justify-center">
+    <div className="f6 flex flex-column justify-center">
       { peers.map((peer, index) => {
         if (index === MAX_PEERS && peers.length > MAX_PEERS) {
-          return (<div className="f7 pa2 pt3" key="worldmap-more-label">+{peers.length - MAX_PEERS}</div>)
+          return (<div className="f7 pa1 self-end" key="worldmap-more-label">{t('plusPeers', { number: peers.length - MAX_PEERS })}</div>)
         }
 
         if (index > MAX_PEERS) return null
