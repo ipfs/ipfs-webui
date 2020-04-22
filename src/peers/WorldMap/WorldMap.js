@@ -150,7 +150,7 @@ const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsFor
   const isWindows = useMemo(() => window.navigator.appVersion.indexOf('Win') !== -1, [])
 
   return (
-    <div className="f6 flex flex-column-reverse">
+    <div className="f6 flex flex-column-reverse justify-center">
       { peers.map((peer, index) => {
         if (index === MAX_PEERS && peers.length > MAX_PEERS) {
           return (<div className="f7 pa2 pt3" key="worldmap-more-label">+{peers.length - MAX_PEERS}</div>)
@@ -160,7 +160,8 @@ const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsFor
 
         return (
           <div className="pa2" key={peer.peerId}>
-            <CountryFlag code={peer.flagCode} svg={isWindows} />{peer.address}/p2p/<Cid value={peer.peerId}/> ({peer.latency}ms)
+            <CountryFlag code={peer.flagCode} svg={isWindows} />{peer.address}/p2p/<Cid value={peer.peerId}/>
+            <span className="gray"> ({peer.latency}ms)</span>
           </div>
         )
       })
