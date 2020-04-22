@@ -94,8 +94,8 @@ export default function (opts) {
 
         let hasFoundACloseCoordinate = false
 
-        previous.map(prev => {
-          if (!prev) return previous
+        const previousCoordinates = previous.map(prev => {
+          if (!prev || hasFoundACloseCoordinate) return prev
 
           const [x, y] = prev.coordinates
           const [currentX, currentY] = coordinates
@@ -112,10 +112,10 @@ export default function (opts) {
         })
 
         if (hasFoundACloseCoordinate) {
-          return previous
+          return previousCoordinates
         }
 
-        return [...previous, { peerIds: [peerId], coordinates }]
+        return [...previousCoordinates, { peerIds: [peerId], coordinates }]
       }, [])
     }
   )

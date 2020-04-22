@@ -2,6 +2,7 @@
   "title": "Peers",
   "peerId": "Peer ID",
   "peers": "Peers",
+  "index": "Index",
   "address": "Address",
   "location": "Location",
   "unknownLocation": "Unknown",

@@ -54,33 +54,36 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
   const handlePopoverMouseEnter = useCallback(() => clearTimeout(selectedTimeout), [selectedTimeout])
 
   return (
-    <div className={`relative ${className}`}>
-      <div className='mb4 flex flex-column items-center'>
-        <div className="relative" style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
-          <GeoPath width={width} height={height}>
-            { ({ path }) => (
-              <MapPins width={width} height={height} path={path} handleMouseEnter={ handleMapPinMouseEnter } handleMouseLeave= { handleMapPinMouseLeave } />
-            )}
-          </GeoPath>
-          { selectedPeers?.peerIds && (
-            <Popover show={ !!(selectedPeers.top && selectedPeers.left) } top={ selectedPeers.top } left={ selectedPeers.left } align='top'
-              handleMouseEnter={ handlePopoverMouseEnter } handleMouseLeave={ handleMapPinMouseLeave }>
-              <PeerInfo ids={ selectedPeers.peerIds }/>
-            </Popover>)
-          }
+    <div className="flex flex-column">
+      <div className={`relative ${className}`}>
+        <div className='mb1 flex flex-column items-center'>
+          <div className="relative" style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
+            <GeoPath width={width} height={height}>
+              { ({ path }) => (
+                <MapPins width={width} height={height} path={path} handleMouseEnter={ handleMapPinMouseEnter } handleMouseLeave= { handleMapPinMouseLeave } />
+              )}
+            </GeoPath>
+            { selectedPeers?.peerIds && (
+              <Popover show={ !!(selectedPeers.top && selectedPeers.left) } top={ selectedPeers.top } left={ selectedPeers.left } align='top'
+                handleMouseEnter={ handlePopoverMouseEnter } handleMouseLeave={ handleMapPinMouseLeave }>
+                <PeerInfo ids={ selectedPeers.peerIds }/>
+              </Popover>)
+            }
+          </div>
+        </div>
+        <div className='mapFooter absolute bottom-0 left-0 right-0'>
+          <div className='flex flex-auto flex-column items-center self-end pb5-ns no-select'>
+            <div className='f1 fw5 black'><PeersCount /></div>
+            <div className='f4 b ttu charcoal-muted'>{t('peers')}</div>
+          </div>
         </div>
       </div>
-      <div className='mapFooter absolute bottom-0 left-0 right-0'>
-        <div className='flex flex-auto flex-column items-center self-end pb5-ns no-select'>
-          <div className='f1 fw5 black'><PeersCount /></div>
-          <div className='f4 b ttu charcoal-muted'>{t('peers')}</div>
-        </div>
-      </div>
-      <div className='absolute bottom-1 right-1'>
+      <div className='relative flex justify-end pt2 pb4'>
         <div className='f6 p2 no-select flex items-center'>
-          <i className='mapDotExplanation mr1' style={{ width: getDotsSize(1), height: getDotsSize(1), backgroundColor: getDotsColor(1) }}></i>1-10 {t('peers')}
-          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(100), height: getDotsSize(100), backgroundColor: getDotsColor(100) }}></i> 10-300 {t('peers')}
-          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(1100), height: getDotsSize(1100), backgroundColor: getDotsColor(1100) }}></i>300+ {t('peers')}
+          <span className='f6 charcoal-muted pr3'>{t('index')}: </span>
+          <i className='mapDotExplanation mr1' style={{ width: getDotsSize(1) * 2, height: getDotsSize(1) * 2, backgroundColor: getDotsColor(1) }}></i>1-10 {t('peers')}
+          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(100) * 2, height: getDotsSize(100) * 2, backgroundColor: getDotsColor(100) }}></i> 10-300 {t('peers')}
+          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(1100) * 2, height: getDotsSize(1100) * 2, backgroundColor: getDotsColor(1100) }}></i>300+ {t('peers')}
         </div>
       </div>
     </div>
