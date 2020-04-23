@@ -151,7 +151,7 @@ const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsFor
 
   return (
     <div className="f6 flex flex-column justify-center">
-      { peers.map((peer, index) => {
+      { peers.sort((a, b) => a.address.localeCompare(b.address)).map((peer, index) => {
         if (index === MAX_PEERS && peers.length > MAX_PEERS) {
           return (<div className="f7 pa1 self-end" key="worldmap-more-label">{t('plusPeers', { number: peers.length - MAX_PEERS })}</div>)
         }
@@ -164,10 +164,7 @@ const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsFor
             <span className="gray"> ({peer.latency}ms)</span>
           </div>
         )
-      })
-
-      }
-      { peers.length === MAX_PEERS}
+      }) }
     </div>
   )
 })

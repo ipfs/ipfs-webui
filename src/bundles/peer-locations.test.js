@@ -1,390 +1,434 @@
-/* global it, describe, expect */
-import { composeBundlesRaw, createReactorBundle } from 'redux-bundler'
-import Multiaddr from 'multiaddr'
-import createPeerLocationsBundle, { getPublicIP, isPrivateAndNearby } from './peer-locations'
-import { fakeCid } from '../../test/helpers/cid'
-import { randomInt, randomNum } from '../../test/helpers/random'
-import sleep from '../../test/helpers/sleep'
-import { fakeIp4 } from '../../test/helpers/ip'
-import indexedDB from 'fake-indexeddb'
+import { createSelector } from 'redux-bundler'
+import createPeersLocationBundle from './peer-locations'
+import { getConfiguredCache } from 'money-clip'
 
-// mock indexedDB
-global.indexedDB = indexedDB
+jest.mock('redux-bundler', () => ({
+  createAsyncResourceBundle: (args) => ({ ...args }),
+  createSelector: jest.fn((...args) => args[args.length - 1])
+}))
 
-async function fakePeer (data = {}) {
-  const peerId = (await fakeCid()).toBaseEncodedString('base58btc')
-  const ip = fakeIp4()
-  return {
-    peer: { toB58String: () => peerId },
-    addr: Multiaddr(`/ip4/${ip}`),
-    ...data
+jest.mock('money-clip', () => ({
+  getConfiguredCache: () => ({
+    get: jest.fn((arg) => (arg === '5.5.5.5' || arg === '123.123.123.123') ? false : 'location-cached'),
+    set: jest.fn()
+  })
+}))
+
+jest.mock('ipfs-geoip', () => ({
+  lookup: (_, address) => {
+    if (address === '5.5.5.5') throw new Error()
+    return `${address}+looked-up`
   }
-}
+}))
 
-const fakePeers = (count = 5) => Promise.all(Array(count).fill(0).map(fakePeer))
+jest.mock('multiaddr', () =>
+  (args) => ({ nodeAddress: () => args })
+)
 
-function createMockIdentityBundle () {
-  return {
-    name: 'identity',
-    selectIdentity: () => null
-  }
-}
+jest.mock('hashlru', () => () => ({
+  has: (arg) => arg === '16.19.16.19',
+  set: jest.fn()
+}))
 
-function createMockRouteBundle () {
-  return {
-    name: 'route',
-    selectRouteInfo: () => '/peers'
-  }
-}
+describe('reactPeerLocationsFetch', () => {
+  it('should declare its dependencies', () => {
+    createPeersLocationBundle()
 
-function createMockAppTimeBundle () {
-  return {
-    name: 'appTime',
-    reducer: () => Date.now(),
-    selectAppTime: state => state.appTime
-  }
-}
+    expect(createSelector).toHaveBeenNthCalledWith(1,
+      'selectRouteInfo',
+      'selectPeerLocationsShouldUpdate',
+      'selectIpfsConnected',
+      expect.any(Function)
+    )
+  })
 
-function createMockOnlineBundle () {
-  return {
-    name: 'online',
-    reducer: () => true,
-    selectIsOnline: state => state.online
-  }
-}
+  it('should trigger doFetchPeerLocations', () => {
+    const { reactPeerLocationsFetch } = createPeersLocationBundle()
+    const result = reactPeerLocationsFetch({ url: '/peers' }, true, true)
 
-function createMockLocationBundle () {
-  return {
-    name: 'location',
-    selectHash: () => '/peers'
-  }
-}
+    expect(result).toEqual({ actionCreator: 'doFetchPeerLocations' })
+  })
 
-function createMockIpfsBundle (ipfs) {
-  return {
-    name: 'ipfs',
-    getExtraArgs: () => ({ getIpfs: () => ipfs }),
-    selectIpfsReady: () => true
-  }
-}
+  it('should do nothing when the route is not peers or its not time to update', () => {
+    const { reactPeerLocationsFetch } = createPeersLocationBundle()
+    expect(reactPeerLocationsFetch({ url: '/another-url' }, true, true)).toBeFalsy()
+    expect(reactPeerLocationsFetch({ url: '/peers' }, false, true)).toBeFalsy()
+    expect(reactPeerLocationsFetch({ url: '/peers' }, false, false)).toBeFalsy()
+    expect(reactPeerLocationsFetch({ url: '/peers' }, true, false)).toBeFalsy()
+  })
+})
 
-function createMockConnectedBundle () {
-  return {
-    name: 'connected',
-    selectIpfsConnected: () => true
-  }
-}
+describe('selectPeerLocationsForSwarm', () => {
+  it('should declare its dependencies', () => {
+    createPeersLocationBundle()
 
-function createMockConfigBundle () {
-  return {
-    name: 'config',
-    selectBootstrapPeers: () => []
-  }
-}
+    expect(createSelector).toHaveBeenNthCalledWith(2,
+      'selectPeers',
+      'selectPeerLocations',
+      'selectBootstrapPeers',
+      'selectIdentity',
+      expect.any(Function)
+    )
+  })
 
-const mockPeersBundle = {
-  name: 'peers',
-  reducer (state = { data: [] }, action) {
-    return action.type === 'UPDATE_MOCK_PEERS'
-      ? { ...state, data: action.payload }
-      : state
-  },
-  selectPeers: state => state.peers.data,
-  doUpdateMockPeers: data => ({ dispatch }) => {
-    dispatch({ type: 'UPDATE_MOCK_PEERS', payload: data })
-  }
-}
+  it('should do nothing if peers is not defined', () => {
+    const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
 
-function fakeGeoIpData () {
-  return {
-    Data: JSON.stringify({
-      type: 'Leaf',
-      data: {
-        min: Infinity,
-        '-1': {
-          data: [
-            null,
-            null,
-            null,
-            null,
-            null,
-            randomNum(0, 90),
-            randomNum(-180, 180),
-            null,
-            null
-          ]
+    expect(selectPeerLocationsForSwarm()).toBeFalsy()
+  })
+
+  it('should map the peers with the location information', () => {
+    const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
+
+    const locations = {
+      1: {
+        country_name: 'Republic of Mocks',
+        city: 'Mocky',
+        country_code: 'ROM',
+        longitude: 1.11,
+        latitude: 1.01
+      },
+      2: {
+        country_name: 'Republic of Mocks',
+        country_code: 'ROM',
+        longitude: 2.22,
+        latitude: 2.02
+      }
+    }
+
+    const peer1 = {
+      peer: { toB58String: () => 1 },
+      addr: {
+        protoNames: () => ['1/test', 'endOfTest'],
+        toString: () => '1.test',
+        encapsulate: (arg) => ({ toString: () => arg })
+      },
+      latency: 'n/a'
+    }
+
+    const peer2 = {
+      peer: { toB58String: () => 2 },
+      addr: {
+        protoNames: () => ['2/test', 'endOfTest'],
+        toString: () => '2.test',
+        encapsulate: (arg) => ({ toString: () => arg }),
+        toOptions: () => ({ transport: 'p2p-circuit', host: 'hosty' })
+      },
+      latency: '1s'
+    }
+
+    const result = selectPeerLocationsForSwarm([peer1, peer2], locations, ['/p2p/1'])
+    expect(result).toEqual([
+      {
+        address: '1.test',
+        connection: '1/test・endOfTest',
+        coordinates: [1.11, 1.01],
+        flagCode: 'ROM',
+        isNearby: false,
+        isPrivate: false,
+        latency: undefined,
+        location: 'Republic of Mocks, Mocky',
+        notes: { type: 'BOOTSTRAP_NODE' },
+        peerId: 1
+      },
+      {
+        address: '2.test',
+        connection: '2/test・endOfTest',
+        coordinates: [2.22, 2.02],
+        flagCode: 'ROM',
+        isNearby: false,
+        isPrivate: false,
+        latency: 1000,
+        location: 'Republic of Mocks',
+        notes: { type: 'RELAY_NODE', node: 'hosty' },
+        peerId: 2
+      }
+
+    ])
+  })
+
+  it('should also handle the public ip', () => {
+    const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
+
+    const locations = {
+      1: {
+        country_name: 'Republic of Mocks',
+        city: 'Mocky',
+        country_code: 'ROM',
+        longitude: 1.11,
+        latitude: 1.01
+      }
+    }
+
+    const peer1 = {
+      peer: { toB58String: () => 1 },
+      addr: {
+        protoNames: () => ['1/test', 'endOfTest'],
+        toString: () => '1.test',
+        encapsulate: (arg) => ({ toString: () => arg }),
+        nodeAddress: () => ({ address: '127.0.0.1' })
+      },
+      latency: 'n/a'
+    }
+
+    const identity = {
+      addresses: [
+        { address: '127.0.0.1' },
+        { address: '2001:0db8:85a3:0000:0000:8a2e:0370:7334' }
+      ]
+    }
+
+    const result = selectPeerLocationsForSwarm([peer1], locations, ['/ipfs/1'], identity)
+    expect(result).toEqual([
+      {
+        address: '1.test',
+        connection: '1/test・endOfTest',
+        coordinates: [1.11, 1.01],
+        flagCode: 'ROM',
+        isNearby: false,
+        isPrivate: true,
+        latency: undefined,
+        location: 'Republic of Mocks, Mocky',
+        notes: { type: 'BOOTSTRAP_NODE' },
+        peerId: 1
+      }
+    ])
+  })
+
+  it('should also handle the near addresses', () => {
+    const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
+
+    const peer1 = {
+      peer: { toB58String: () => 1 },
+      addr: {
+        toString: () => '1.test',
+        encapsulate: (arg) => ({ toString: () => arg }),
+        protoNames: () => ['1/test', 'endOfTest'],
+        nodeAddress: () => ({ address: '2001:0db8:85a3:0000:0000:8a2e:0370:7334' })
+      },
+      latency: 'n/a'
+    }
+
+    const identity = {
+      addresses: [
+        { address: '127.0.0.1' },
+        { address: '2001:0db8:85a3:0000:0000:8a2e:0370:7334' }
+      ]
+    }
+
+    const result = selectPeerLocationsForSwarm([peer1], null, ['/ipfs/1'], identity)
+    expect(result).toEqual([
+      {
+        address: '1.test',
+        connection: '1/test・endOfTest',
+        coordinates: null,
+        flagCode: null,
+        isNearby: true,
+        isPrivate: false,
+        latency: undefined,
+        location: null,
+        notes: { type: 'BOOTSTRAP_NODE' },
+        peerId: 1
+      }
+    ])
+  })
+})
+
+describe('selectPeersCoordinates', () => {
+  it('should declare its dependencies', () => {
+    createPeersLocationBundle()
+
+    expect(createSelector).toHaveBeenNthCalledWith(3,
+      'selectPeerLocationsForSwarm',
+      expect.any(Function)
+    )
+  })
+
+  it('should do nothing when there are no peers', () => {
+    const { selectPeersCoordinates } = createPeersLocationBundle()
+    expect(selectPeersCoordinates()).toEqual([])
+  })
+
+  it('should aggregate peers by close coordinates', () => {
+    const { selectPeersCoordinates } = createPeersLocationBundle()
+    const result = selectPeersCoordinates([
+      { peerId: 1, coordinates: [1, 1] },
+      { peerId: 2 },
+      { peerId: 3, coordinates: [1000, 1000] },
+      { peerId: 4, coordinates: [2, 2] }
+    ])
+
+    expect(result).toEqual([
+      { peerIds: [1, 4], coordinates: [1, 1] },
+      { peerIds: [3], coordinates: [1000, 1000] }
+    ])
+  })
+})
+
+describe('PeerLocationResolver', () => {
+  describe('findLocations', () => {
+    it('should find the location of given peers', async () => {
+      const { getPromise } = createPeersLocationBundle()
+
+      const result = await getPromise({
+        store: {
+          selectPeers: () => [{
+            peer: {
+              peerId: 1,
+              toB58String: () => '1aaa1'
+            },
+            latency: 'n/a',
+            addr: {
+              stringTuples: () => [[4, '123.123.123.123']]
+            }
+          },
+          {
+            peer: {
+              peerId: 2,
+              toB58String: () => '1b1'
+            },
+            latency: '1ms',
+            addr: {
+              stringTuples: () => [[4, '127.0.0.1']]
+            }
+          },
+          {
+            peer: {
+              peerId: 3,
+              toB58String: () => '3b3'
+            },
+            latency: '1ms',
+            addr: {
+              stringTuples: () => [[4, '16.19.16.19']]
+            }
+          },
+          {
+            peer: {
+              peerId: 4,
+              toB58String: () => '44asd'
+            },
+            latency: '1ms',
+            addr: {
+              stringTuples: () => [[4, '4.4.4.4']]
+            }
+          },
+          {
+            peer: {
+              peerId: 44,
+              toB58String: () => '4sameAs4'
+            },
+            latency: '1ms',
+            addr: {
+              stringTuples: () => [[4, '4.4.4.4']]
+            }
+          },
+          {
+            peer: {
+              peerId: 5,
+              toB58String: () => 'newPeerThatShouldThrow'
+            },
+            latency: '100s',
+            addr: {
+              stringTuples: () => [[4, '5.5.5.5']]
+            }
+          },
+          {
+            peer: {
+              peerId: 11,
+              toB58String: () => 'sameIpAs1'
+            },
+            latency: 'n/a',
+            addr: {
+              stringTuples: () => [[4, '123.123.123.123']]
+            }
+          }]
+        },
+        getIpfs: () => 'smth'
+      })
+
+      expect(result).toEqual({
+        '44asd': 'location-cached',
+        '4sameAs4': 'location-cached'
+      })
+    })
+  })
+
+  describe('optimizedPeerSet', () => {
+    it('should return sets of 10, 100, 200 peers and more according to the number of calls', async () => {
+      const { getPromise } = createPeersLocationBundle()
+
+      const peers = new Array(1000).fill().map((_, index) => ({
+        peer: {
+          peerId: index,
+          toB58String: () => `${index}aa`
+        },
+        latency: '1ms',
+        addr: {
+          stringTuples: () => [[4, `${index}.0.${index}.${index}`]]
         }
-      }
+      }))
+
+      const result = await getPromise({
+        store: {
+          selectPeers: () => peers
+        }
+      })
+
+      expect(result).toEqual({
+        '0aa': 'location-cached',
+        '1aa': 'location-cached',
+        '2aa': 'location-cached',
+        '3aa': 'location-cached',
+        '4aa': 'location-cached',
+        '5aa': 'location-cached',
+        '6aa': 'location-cached',
+        '7aa': 'location-cached',
+        '8aa': 'location-cached',
+        '9aa': 'location-cached'
+      })
+
+      // ==== 100 ====
+
+      const result100 = await getPromise({
+        store: {
+          selectPeers: () => peers
+        }
+      })
+      const expect100 = new Array(100).fill().reduce((prev, _, index) => ({
+        ...prev,
+        [`${index}aa`]: 'location-cached'
+      }), {})
+
+      expect(result100).toEqual(expect100)
+
+      // ==== 200 ====
+
+      const result200 = await getPromise({
+        store: {
+          selectPeers: () => peers
+        }
+      })
+      const expect200 = new Array(200).fill().reduce((prev, _, index) => ({
+        ...prev,
+        [`${index}aa`]: 'location-cached'
+      }), {})
+
+      expect(result200).toEqual(expect200)
+
+      // ==== Over 200 ====
+
+      const resultMore = await getPromise({
+        store: {
+          selectPeers: () => peers
+        }
+      })
+
+      const expectMore = new Array(1000).fill().reduce((prev, _, index) => ({
+        ...prev,
+        [`${index}aa`]: 'location-cached'
+      }), {})
+
+      expect(resultMore).toEqual(expectMore)
     })
-  }
-}
-
-const createMockIpfs = (opts) => {
-  opts = opts || {}
-  opts.minLatency = opts.minLatency || 1
-  opts.maxLatency = opts.maxLatency || 100
-
-  return {
-    object: {
-      get: async () => {
-        return fakeGeoIpData()
-      }
-    }
-  }
-}
-
-function expectLocation (obj) {
-  expect(obj).toMatchObject({
-    latitude: expect.any(Number),
-    longitude: expect.any(Number)
-  })
-}
-
-it('should get locations for peers', async () => {
-  const store = composeBundlesRaw(
-    createMockRouteBundle(),
-    createMockIdentityBundle(),
-    createMockAppTimeBundle(),
-    createMockOnlineBundle(),
-    createReactorBundle(),
-    createMockLocationBundle(),
-    createMockConnectedBundle(),
-    createMockIpfsBundle(createMockIpfs({ maxLatency: 1 })),
-    mockPeersBundle,
-    createPeerLocationsBundle({
-      // Ensure added peers are all processed concurrently
-      concurrency: 5
-    }),
-    createMockConfigBundle()
-  )()
-
-  const peers = store.selectPeers()
-  expect(peers).toEqual([])
-
-  let peerLocs = store.selectPeerLocations() || {}
-  expect(Object.keys(peerLocs)).toEqual([])
-
-  const totalPeers = randomInt(1, 5)
-  const nextPeers = await fakePeers(totalPeers)
-
-  // Add the peers
-  store.doUpdateMockPeers(nextPeers)
-
-  // since we update the locations only every x seconds, let's
-  // force them to be updated.
-  await store.doFetchPeerLocations()
-  await sleep(10) // Wait for the locations to be resolved
-
-  // get the results from the previous call...
-  await store.doFetchPeerLocations()
-
-  peerLocs = store.selectPeerLocations()
-
-  expect(Object.keys(peerLocs)).toHaveLength(totalPeers)
-
-  Object.keys(peerLocs).forEach(peerId => {
-    const peer = nextPeers.find(p => p.peer.toB58String() === peerId)
-    expect(peer).toBeTruthy()
-    expectLocation(peerLocs[peerId])
-  })
-})
-
-it('should fail on non IPv4 address', async () => {
-  const store = composeBundlesRaw(
-    createMockRouteBundle(),
-    createMockIdentityBundle(),
-    createMockAppTimeBundle(),
-    createMockOnlineBundle(),
-    createReactorBundle(),
-    createMockLocationBundle(),
-    createMockConnectedBundle(),
-    createMockIpfsBundle(createMockIpfs({ maxLatency: 1 })),
-    mockPeersBundle,
-    createPeerLocationsBundle({
-      // Ensure added peers are all processed concurrently
-      concurrency: 5
-    }),
-    createMockConfigBundle()
-  )()
-
-  const peers = store.selectPeers()
-  expect(peers).toEqual([])
-
-  let peerLocs = store.selectPeerLocations() || {}
-  expect(Object.keys(peerLocs)).toEqual([])
-
-  const peer = await fakePeer({ addr: Multiaddr('/ip6/::') })
-  const nextPeers = [peer]
-
-  store.doUpdateMockPeers(nextPeers)
-  await store.doFetchPeerLocations()
-  await sleep() // Wait for the locations to be resolved
-  await store.doFetchPeerLocations()
-  peerLocs = store.selectPeerLocations()
-
-  expect(Object.keys(peerLocs)).toHaveLength(0)
-})
-
-it('should resolve alternative address for failed address lookup', async () => {
-  const store = composeBundlesRaw(
-    createMockRouteBundle(),
-    createMockIdentityBundle(),
-    createMockAppTimeBundle(),
-    createMockOnlineBundle(),
-    createReactorBundle(),
-    createMockLocationBundle(),
-    createMockConnectedBundle(),
-    createMockIpfsBundle(createMockIpfs({ maxLatency: 1 })),
-    mockPeersBundle,
-    createPeerLocationsBundle(),
-    createMockConfigBundle()
-  )()
-
-  const peers = store.selectPeers()
-  expect(peers).toEqual([])
-
-  let peerLocs = store.selectPeerLocations() || {}
-  expect(Object.keys(peerLocs)).toEqual([])
-
-  // Peer with address we can't resolve
-  const peer = await fakePeer({ addr: Multiaddr('/ip6/::') })
-
-  const nextPeers = [
-    peer,
-    // Same peer, but with address we _can_ resolve
-    { ...peer, addr: Multiaddr('/ip4/192.168.0.1') }
-  ]
-
-  // Add the peers
-  store.doUpdateMockPeers(nextPeers)
-  await store.doFetchPeerLocations()
-  await sleep(50) // Wait for the locations to be resolved
-  await store.doFetchPeerLocations()
-  peerLocs = store.selectPeerLocations()
-
-  expect(Object.keys(peerLocs)).toHaveLength(1)
-  expectLocation(peerLocs[nextPeers[1].peer.toB58String()])
-})
-
-describe('getPublicIP', () => {
-  it('returns undefined on null identity', async () => {
-    expect(getPublicIP()).toEqual(undefined)
-    expect(getPublicIP(null)).toEqual(undefined)
-    expect(getPublicIP(undefined)).toEqual(undefined)
-  })
-
-  it('returns undefined on local IPs only', async () => {
-    const res = getPublicIP({
-      addresses: [
-        '/ip6/::1/tcp/4003',
-        '/ip4/127.0.0.1/tcp/4003',
-        '/ip4/192.168.0.0/tcp/4003',
-        '/ip4/192.168.255.255/tcp/4003',
-        '/ip4/10.0.0.0/tcp/4003',
-        '/ip4/10.255.255.255/tcp/4003',
-        '/ip4/172.16.0.0/tcp/4003',
-        '/ip4/172.16.255.255/tcp/4003'
-      ]
-    })
-
-    expect(res).toEqual(undefined)
-  })
-
-  it('returns undefined on discovery.libp2p.io', async () => {
-    const res = getPublicIP({
-      addresses: [
-        '/dnsaddr/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmbJbcN3Fvy5bC7Tr95STx5VFiP1G1WLPCHNceh1yShfbb',
-        '/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmYy3ka6HsQzpdTXY63nUKShsVdgg5zdhMXZXFeNGPyMT4'
-      ]
-    })
-
-    expect(res).toEqual(undefined)
-  })
-
-  it('returns correct IPv4', async () => {
-    const res = getPublicIP({
-      addresses: [
-        '/ip4/127.0.0.1/tcp/4003',
-        '/ip4/126.1.0.1/tcp/4003'
-      ]
-    })
-
-    expect(res).toEqual('126.1.0.1')
-  })
-
-  it('returns correct IPv6', async () => {
-    const res = getPublicIP({
-      addresses: [
-        '/ip4/127.0.0.1/tcp/4003',
-        '/ip6/::1/tcp/4003',
-        '/ip6/963c:d4b6:470b:e67b:afc1:c377:213:cad0/tcp/4003'
-      ]
-    })
-
-    expect(res).toEqual('963c:d4b6:470b:e67b:afc1:c377:213:cad0')
-  })
-})
-
-describe('isPrivateAndNearby', () => {
-  it('is not nearby, nor private without identity argument', async () => {
-    const maddr = Multiaddr('/ip4/1.1.1.255/tcp/4003')
-    const { isNearby, isPrivate } = isPrivateAndNearby(maddr)
-
-    expect(isNearby).toEqual(false)
-    expect(isPrivate).toEqual(false)
-  })
-
-  it('is nearby on ip/24 range', async () => {
-    const identity = {
-      addresses: ['/ip4/1.1.1.1/tcp/4003']
-    }
-
-    const maddr = Multiaddr('/ip4/1.1.1.255/tcp/4003')
-    const { isNearby, isPrivate } = isPrivateAndNearby(maddr, identity)
-
-    expect(isNearby).toEqual(true)
-    expect(isPrivate).toEqual(false)
-  })
-
-  it('is private on local address', async () => {
-    const identity = {
-      addresses: ['/ip4/1.1.1.1/tcp/4003']
-    }
-
-    const maddr = Multiaddr('/ip4/192.168.1.0/tcp/4003')
-    const { isNearby, isPrivate } = isPrivateAndNearby(maddr, identity)
-
-    expect(isNearby).toEqual(false)
-    expect(isPrivate).toEqual(true)
-  })
-
-  it('is not nearby, nor private with public IPv4', async () => {
-    const identity = {
-      addresses: ['/ip4/1.1.1.1/tcp/4003']
-    }
-
-    const maddr = Multiaddr('/ip4/2.2.2.2/tcp/4003')
-    const { isNearby, isPrivate } = isPrivateAndNearby(maddr, identity)
-
-    expect(isNearby).toEqual(false)
-    expect(isPrivate).toEqual(false)
-  })
-
-  it('is not nearby, nor private for /p2p-websocket-star multiaddr', async () => {
-    const identity = {
-      addresses: ['/ip4/1.1.1.1/tcp/4003']
-    }
-
-    let maddr = Multiaddr('/dnsaddr/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmbJbcN3Fvy5bC7Tr95STx5VFiP1G1WLPCHNceh1yShfbb')
-    let { isNearby, isPrivate } = isPrivateAndNearby(maddr, identity)
-
-    expect(isNearby).toEqual(false)
-    expect(isPrivate).toEqual(false)
-
-    maddr = Multiaddr('/dns4/ws-star.discovery.libp2p.io/tcp/443/wss/p2p-websocket-star/ipfs/QmYy3ka6HsQzpdTXY63nUKShsVdgg5zdhMXZXFeNGPyMT4');
-    ({ isNearby, isPrivate } = isPrivateAndNearby(maddr, identity))
-
-    expect(isNearby).toEqual(false)
-    expect(isPrivate).toEqual(false)
   })
 })

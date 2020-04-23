@@ -146,7 +146,7 @@ const parseLatency = (latency) => {
   return value
 }
 
-export const getPublicIP = memoizee((identity) => {
+const getPublicIP = memoizee((identity) => {
   if (!identity) return
 
   for (const maddr of identity.addresses) {
@@ -160,7 +160,7 @@ export const getPublicIP = memoizee((identity) => {
   }
 })
 
-export const isPrivateAndNearby = (maddr, identity) => {
+const isPrivateAndNearby = (maddr, identity) => {
   const publicIP = getPublicIP(identity)
   let isPrivate = false
   let isNearby = false
@@ -275,26 +275,23 @@ class PeerLocationResolver {
   }
 
   optimizedPeerSet (peers) {
-    if (this.pass && this.pass < 3) {
+    if (this.pass < 3) {
       // use a copy of peers sorted by latency so we can resolve closest ones first
       // (https://github.com/ipfs-shipyard/ipfs-webui/issues/1273)
       const ms = x => (parseLatency(x.latency) || 9999)
-      peers = peers.concat().sort((a, b) => ms(a) - ms(b))
+      const sortedPeersByLatency = peers.concat().sort((a, b) => ms(a) - ms(b))
       // take the closest subset, increase sample size each time
       // this ensures initial map updates are fast even with thousands of peers
-      switch (this.pass) {
-        case 0:
-          peers = peers.slice(0, 10)
-          break
-        case 1:
-          peers = peers.slice(0, 100)
-          break
-        case 2:
-          peers = peers.slice(0, 200)
-          break
-        default:
-      }
       this.pass = this.pass + 1
+
+      switch (this.pass - 1) {
+        case 0:
+          return sortedPeersByLatency.slice(0, 10)
+        case 1:
+          return sortedPeersByLatency.slice(0, 100)
+        default:
+          return sortedPeersByLatency.slice(0, 200)
+      }
     }
     return peers
   }
