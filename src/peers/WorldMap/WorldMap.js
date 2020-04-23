@@ -1,9 +1,10 @@
-import React, { useCallback, useState, useMemo } from 'react'
+import React, { useCallback, useState, useMemo, useEffect } from 'react'
 import ReactFauxDOM from 'react-faux-dom'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import * as d3 from 'd3'
 import CountryFlag from 'react-country-flag'
+import { debounce } from 'redux-bundler'
 
 import staticMapSrc from './StaticMap.svg'
 
@@ -13,27 +14,49 @@ import Popover from '../../components/popover/Popover'
 import './WorldMap.css'
 import Cid from '../../components/cid/Cid'
 
-const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
-  const [selectedTimeout, setSelectedTimeout] = useState(null)
-
-  // Calculate a sensible size for the map
-  const { innerWidth } = window
+const calculateWidth = (windowWidth) => {
   // the d3 generated svg width includes a lot of ocean, that we crop for now, as it looks weird.
   const svgWidthOversizeFactor = 1.7
   // remove a constant amount for the chrome that surronds the map.
   const sidebarAndPadding = 350
-  const availableWidth = innerWidth - sidebarAndPadding
-  let width = availableWidth * svgWidthOversizeFactor
+  const availableWidth = windowWidth - sidebarAndPadding
+  const width = availableWidth * svgWidthOversizeFactor
   // if the map gets too big the dots get lost in the dot grid, also it just overloads the viewers brain.
   if (width > 3000) {
-    width = 3000
+    return 3000
   }
   // if the map gets too small it becomes illegible. There will be some map cropping on mobile.
   if (width < 700) {
-    width = 700
+    return 700
   }
-  // the map has a native proportion, so account for that when we set the height.
-  const height = width * 0.273
+
+  return width
+}
+
+const calculateHeight = (width) => {
+  if (width > 1000) {
+    return width * 0.273
+  }
+
+  return width * 0.5
+}
+
+const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
+  const [width, setWidth] = useState(calculateWidth(window.innerWidth))
+  const [height, setHeight] = useState(calculateHeight(width))
+  const [selectedTimeout, setSelectedTimeout] = useState(null)
+
+  useEffect(() => {
+    const debouncedHandleResize = debounce(() => {
+      const width = calculateWidth(window.innerWidth)
+      setWidth(width)
+      setHeight(calculateHeight(width))
+    }, 100)
+
+    window.addEventListener('resize', debouncedHandleResize)
+
+    return () => window.removeEventListener('resize', debouncedHandleResize)
+  })
 
   const handleMapPinMouseEnter = useCallback((peerIds, element) => {
     if (!element) return
@@ -82,8 +105,8 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
         <div className='f6 p2 no-select flex items-center'>
           <span className='f6 charcoal-muted pr3'>{t('index')}: </span>
           <i className='mapDotExplanation mr1' style={{ width: getDotsSize(1) * 2, height: getDotsSize(1) * 2, backgroundColor: getDotsColor(1) }}></i>1-10 {t('peers')}
-          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(100) * 2, height: getDotsSize(100) * 2, backgroundColor: getDotsColor(100) }}></i> 10-300 {t('peers')}
-          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(1100) * 2, height: getDotsSize(1100) * 2, backgroundColor: getDotsColor(1100) }}></i>300+ {t('peers')}
+          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(50) * 2, height: getDotsSize(50) * 2, backgroundColor: getDotsColor(50) }}></i> 10-100 {t('peers')}
+          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(110) * 2, height: getDotsSize(110) * 2, backgroundColor: getDotsColor(110) }}></i>100+ {t('peers')}
         </div>
       </div>
     </div>
@@ -106,13 +129,13 @@ const GeoPath = ({ width, height, children }) => {
 
 const getDotsSize = (numberOfDots) => {
   if (numberOfDots < 10) return 5
-  if (numberOfDots < 300) return 8
+  if (numberOfDots < 100) return 8
   return 10
 }
 
 const getDotsColor = (numberOfDots) => {
   if (numberOfDots < 10) return 'rgba(150, 204, 255, 0.6)'
-  if (numberOfDots < 300) return 'rgba(53, 126, 221, 0.6)'
+  if (numberOfDots < 100) return 'rgba(53, 126, 221, 0.6)'
   return 'rgba(53, 126, 221, 0.8)'
 }
 
@@ -131,6 +154,7 @@ const MapPins = connect('selectPeersCoordinates', ({ width, height, path, peersC
       })
       .attr('d', path.pointRadius(() => getDotsSize(peerIds.length)))
       .attr('fill', () => getDotsColor(peerIds.length))
+      .attr('class', 'mapDot')
       .on('mouseenter', () => handleMouseEnter(peerIds, d3.event.relatedTarget))
       .on('mouseleave', () => handleMouseLeave(peerIds))
   })
