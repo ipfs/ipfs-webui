@@ -82,7 +82,7 @@ export default function (opts) {
     })
   )
 
-  const COORDINATES_RADIUS = 8
+  const COORDINATES_RADIUS = 4
 
   bundle.selectPeersCoordinates = createSelector(
     'selectPeerLocationsForSwarm',
