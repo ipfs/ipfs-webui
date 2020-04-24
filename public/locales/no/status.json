@@ -53,7 +53,7 @@
     "step2": {
       "title": "Connection status",
       "paragraph1": "This takes you to a page where you can check if you are connected to an IPFS daemon, and if not, how to connect to one.",
-      "paragraph2": "You can configure your node to with a custom API address too."
+      "paragraph2": "You can configure your node with a custom API address, too."
     },
     "step3": {
       "title": "Node Info",
