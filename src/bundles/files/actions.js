@@ -167,7 +167,7 @@ export default () => ({
     }
   },
 
-  doFilesWrite: make(ACTIONS.WRITE, async (ipfs, files, root, id, { dispatch }) => {
+  doFilesWrite: make(ACTIONS.WRITE, async (ipfs, files, root = '', id, { dispatch }) => {
     files = files.filter(f => !IGNORED_FILES.includes(basename(f.path)))
     const totalSize = files.reduce((prev, { size }) => prev + size, 0)
 
@@ -210,7 +210,7 @@ export default () => ({
       // Only go for direct children
       if (path.indexOf('/') === -1 && path !== '') {
         const src = `/ipfs/${hash}`
-        const dst = join(realMfsPath(root), path)
+        const dst = join(realMfsPath(root || '/files'), path)
 
         try {
           await ipfs.files.cp([src, dst])
