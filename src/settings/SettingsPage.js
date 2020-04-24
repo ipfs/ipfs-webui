@@ -107,7 +107,7 @@ export const SettingsPage = ({
 )
 
 const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLocalChanges, hasExternalChanges, onClick }) => {
-  const bg = hasSaveSucceded ? 'bg-green' : 'bg-aqua'
+  const bg = hasSaveSucceded ? 'bg-green' : 'bg-teal'
   return (
     <Button
       minWidth={100}

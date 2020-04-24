@@ -103,7 +103,7 @@ class FilesExploreForm extends React.Component {
             style={{ borderRadius: '0' }}
             title={t('exploreForm.browse')}
             onClick={this.onBrowse}
-            className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white bg-aqua overflow-hidden' >
+            className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white bg-gray overflow-hidden' >
             <StrokeFolder style={{ height: 24 }} className='dib fill-current-color v-mid' />
             <span className='ml2'>{t('exploreForm.browse')}</span>
           </Button>

@@ -116,7 +116,7 @@ class TextInputModal extends React.Component {
 
         <ModalActions>
           <Button className='ma2' bg='bg-gray' onClick={onCancel}>Cancel</Button>
-          <Button className='ma2' bg='bg-aqua' disabled={this.isDisabled} onClick={this.onSubmit}>{submitText}</Button>
+          <Button className='ma2' bg='bg-teal' disabled={this.isDisabled} onClick={this.onSubmit}>{submitText}</Button>
         </ModalActions>
       </Modal>
     )
