@@ -27,3 +27,15 @@ html, body, #root {
   font-size: 14px !important;
   font-family: 'Montserrat';
 }
+
+/* =========================
+    react-virtualized overrides
+   ========================= */
+
+.ReactVirtualized__Grid__innerScrollContainer {
+    overflow: visible !important;
+}
+
+.ReactVirtualized__Grid, .ReactVirtualized__List {
+    overflow: visible !important;
+}

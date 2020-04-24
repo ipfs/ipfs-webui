@@ -84,7 +84,7 @@ class File extends React.Component {
     }
 
     styles.height = 55
-    styles.overflow = 'hidden'
+    // styles.overflow = 'hidden' See https://github.com/ipfs-shipyard/ipfs-webui/issues/1464
 
     size = size ? filesize(size, { round: 0 }) : '-'
     hash = hash || t('hashUnavailable')
