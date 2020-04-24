@@ -8,6 +8,7 @@ import { debounce } from 'redux-bundler'
 
 import staticMapSrc from './StaticMap.svg'
 
+import Address from '../../components/address/Address'
 import Popover from '../../components/popover/Popover'
 
 // Styles
@@ -68,9 +69,9 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
     doSetSelectedPeers({ peerIds, left: `${x + width / 2}px`, top: `${y - height / 2}px` })
   }, [doSetSelectedPeers, selectedTimeout])
 
-  const handleMapPinMouseLeave = useCallback((id) => {
+  const handleMapPinMouseLeave = useCallback(() => {
     setSelectedTimeout(
-      setTimeout(() => doSetSelectedPeers({}), 400)
+      setTimeout(() => doSetSelectedPeers({}), 600)
     )
   }, [doSetSelectedPeers])
 
@@ -80,21 +81,21 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
     <div className="flex flex-column">
       <div className={`relative ${className}`}>
         <div className='mb1 flex flex-column items-center'>
-          <div className="relative" style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
+          <div className="relative no-events" style={{ width, height, background: `transparent url(${staticMapSrc}) center no-repeat`, backgroundSize: 'auto 100%' }}>
             <GeoPath width={width} height={height}>
               { ({ path }) => (
                 <MapPins width={width} height={height} path={path} handleMouseEnter={ handleMapPinMouseEnter } handleMouseLeave= { handleMapPinMouseLeave } />
               )}
             </GeoPath>
             { selectedPeers?.peerIds && (
-              <Popover show={ !!(selectedPeers.top && selectedPeers.left) } top={ selectedPeers.top } left={ selectedPeers.left } align='top'
+              <Popover show={ !!(selectedPeers.top && selectedPeers.left) } top={ selectedPeers.top } left={ selectedPeers.left } align='bottom'
                 handleMouseEnter={ handlePopoverMouseEnter } handleMouseLeave={ handleMapPinMouseLeave }>
                 <PeerInfo ids={ selectedPeers.peerIds } t={t}/>
               </Popover>)
             }
           </div>
         </div>
-        <div className='mapFooter absolute bottom-0 left-0 right-0'>
+        <div className='no-events absolute bottom-0 left-0 right-0'>
           <div className='flex flex-auto flex-column items-center self-end pb5-ns no-select'>
             <div className='f1 fw5 black'><PeersCount /></div>
             <div className='f4 b ttu charcoal-muted'>{t('peers')}</div>
@@ -103,10 +104,10 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
       </div>
       <div className='relative flex justify-end pt2 pb4'>
         <div className='f6 p2 no-select flex items-center'>
-          <span className='f6 charcoal-muted pr3'>{t('index')}: </span>
-          <i className='mapDotExplanation mr1' style={{ width: getDotsSize(1) * 2, height: getDotsSize(1) * 2, backgroundColor: getDotsColor(1) }}></i>1-10 {t('peers')}
-          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(50) * 2, height: getDotsSize(50) * 2, backgroundColor: getDotsColor(50) }}></i> 10-100 {t('peers')}
-          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(110) * 2, height: getDotsSize(110) * 2, backgroundColor: getDotsColor(110) }}></i>100+ {t('peers')}
+          <span className='f6 charcoal-muted pr3'>{t('peers')}: </span>
+          <i className='mapDotExplanation mr1' style={{ width: getDotsSize(1) * 2, height: getDotsSize(1) * 2, backgroundColor: getDotsColor(1) }}></i>1-10
+          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(50) * 2, height: getDotsSize(50) * 2, backgroundColor: getDotsColor(50) }}></i> 10-100
+          <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(110) * 2, height: getDotsSize(110) * 2, backgroundColor: getDotsColor(110) }}></i>100+
         </div>
       </div>
     </div>
@@ -156,7 +157,7 @@ const MapPins = connect('selectPeersCoordinates', ({ width, height, path, peersC
       .attr('fill', () => getDotsColor(peerIds.length))
       .attr('class', 'mapDot')
       .on('mouseenter', () => handleMouseEnter(peerIds, d3.event.relatedTarget))
-      .on('mouseleave', () => handleMouseLeave(peerIds))
+      .on('mouseleave', () => handleMouseLeave())
   })
 
   return el.node().toReact()
@@ -183,9 +184,14 @@ const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsFor
         if (index > MAX_PEERS) return null
 
         return (
-          <div className="pa2" key={peer.peerId}>
-            <CountryFlag code={peer.flagCode} svg={isWindows} />{peer.address}/p2p/<Cid value={peer.peerId}/>
-            <span className="gray"> ({peer.latency}ms)</span>
+          <div className="pa2 f7 flex items-center monospace" key={peer.peerId}>
+            <CountryFlag className='mr1' code={peer.flagCode} svg={isWindows}/>
+            <div className="flex flex-auto items-center">
+              <Address value={ peer.address }/>
+              <span className="charcoal-muted">/p2p/</span>
+              <Cid value={peer.peerId}/>
+            </div>
+            <span className="gray ml1"> ({peer.latency || '???'}ms)</span>
           </div>
         )
       }) }
