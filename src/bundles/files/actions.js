@@ -167,7 +167,7 @@ export default () => ({
     }
   },
 
-  doFilesWrite: make(ACTIONS.WRITE, async (ipfs, files, root = '', id, { dispatch }) => {
+  doFilesWrite: make(ACTIONS.WRITE, async (ipfs, files, root, id, { dispatch }) => {
     files = files.filter(f => !IGNORED_FILES.includes(basename(f.path)))
     const totalSize = files.reduce((prev, { size }) => prev + size, 0)
 
