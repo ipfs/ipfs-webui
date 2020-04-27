@@ -75,7 +75,7 @@ export const statusTour = {
   styles: {
     options: {
       width: '500px',
-      primaryColor: '#69c4cd',
+      primaryColor: '#378085',
       textColor: '#34373f',
       zIndex: 999
     }
@@ -89,7 +89,7 @@ export const filesTour = {
         <h2 className='f3 fw4'>{t('tour.step1.title')}</h2>
         <Trans i18nKey='tour.step1.paragraph1'>
           <p className='tl f6'>
-            This is where the files on your <a className='aqua link' href='https://docs.ipfs.io/guides/concepts/mfs/' rel='noopener noreferrer' target='_blank'>
+            This is where the files on your <a className='teal link' href='https://docs.ipfs.io/guides/concepts/mfs/' rel='noopener noreferrer' target='_blank'>
             Mutable File System (MFS)</a> live. You can add files or folders and manage them from this page.
           </p>
         </Trans>
@@ -113,7 +113,7 @@ export const filesTour = {
         <p className='tl f6'>{t('tour.step3.paragraph2')}</p>
         <Trans i18nKey='tour.step3.paragraph3'>
           <p className='tl f6'>
-            If you want to add something that is already on IPFS, you can import it to your MFS by passing its <a className='aqua link' href='https://docs.ipfs.io/guides/concepts/cid/' rel='noopener noreferrer' target='_blank'>Content
+            If you want to add something that is already on IPFS, you can import it to your MFS by passing its <a className='teal link' href='https://docs.ipfs.io/guides/concepts/cid/' rel='noopener noreferrer' target='_blank'>Content
             Identifier (CID)</a>.
           </p>
         </Trans>
@@ -136,7 +136,7 @@ export const filesTour = {
   styles: {
     options: {
       width: '500px',
-      primaryColor: '#69c4cd',
+      primaryColor: '#378085',
       textColor: '#34373f',
       zIndex: 999
     }
@@ -175,7 +175,7 @@ export const peersTour = {
   styles: {
     options: {
       width: '500px',
-      primaryColor: '#69c4cd',
+      primaryColor: '#378085',
       textColor: '#34373f',
       zIndex: 999
     }
@@ -198,7 +198,7 @@ export const settingsTour = {
         <h2 className='f3 fw4'>{t('tour.step2.title')}</h2>
         <Trans i18nKey='tour.step2.paragraph1'>
           <p className='tl f6'>You can change the language of the Web UI.
-          If your preferred language isn't available, head over our project page in <a className='aqua link' href='https://www.transifex.com/ipfs/ipfs-webui/translate/' rel='noopener noreferrer' target='_blank'>Transifex</a> to help us translate!
+          If your preferred language isn't available, head over our project page in <a className='teal link' href='https://www.transifex.com/ipfs/ipfs-webui/translate/' rel='noopener noreferrer' target='_blank'>Transifex</a> to help us translate!
           </p>
         </Trans>
       </div>,
@@ -228,7 +228,7 @@ export const settingsTour = {
   styles: {
     options: {
       width: '500px',
-      primaryColor: '#69c4cd',
+      primaryColor: '#378085',
       textColor: '#34373f',
       zIndex: 999
     }
