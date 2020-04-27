@@ -61,8 +61,8 @@
       "paragraph2": "<0>Click on <1>Advanced</1> to see more info such as the gateway URL and addresses.</0>"
     },
     "step4": {
-      "title": "Network bandwith/traffic",
-      "paragraph1": "This chart shows the network bandwith usage over time.",
+      "title": "Network bandwdith/traffic",
+      "paragraph1": "This chart shows the network bandwidth usage over time.",
       "paragraph2": "The speedometers show the current outgoing and incoming traffic."
     },
     "stepExplore": {
