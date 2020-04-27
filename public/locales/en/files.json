@@ -86,7 +86,7 @@
     "step1": {
       "title": "Files page",
       "paragraph1": "<0>This is where the files on your <1>Mutable File System (MFS)</1> live. You can add files or folders and manage them from this page.</0>",
-      "paragraph2": "Continue to learn more."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Breadcrumbs",

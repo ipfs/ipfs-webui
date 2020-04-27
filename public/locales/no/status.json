@@ -48,12 +48,12 @@
     "step1": {
       "title": "Status page",
       "paragraph1": "This is the starting point of your IPFS node and where you can check its basic info.",
-      "paragraph2": "Continue to learn more."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Connection status",
       "paragraph1": "This takes you to a page where you can check if you are connected to an IPFS daemon, and if not, how to connect to one.",
-      "paragraph2": "You can configure your node to with a custom API address too."
+      "paragraph2": "You can configure your node with a custom API address, too."
     },
     "step3": {
       "title": "Node Info",
