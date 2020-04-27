@@ -14,7 +14,7 @@
   "insertPeerAddress": "Insert the peer address you want to connect to.",
   "add": "Add",
   "example": "Example:",
-  "plusPeers": "Plus {number} more peers", 
+  "plusPeers": "+ {number} more peers", 
   "tour": {
     "step1": {
       "title": "Peers page",
