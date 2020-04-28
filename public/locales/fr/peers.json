@@ -15,10 +15,15 @@
   "add": "Ajouter",
   "example": "Exemple:",
   "tour": {
+    "back": "Retour",
+    "close": "Fermer",
+    "last": "Dernier",
+    "next": "Suivant",
+    "skip": "Passer",
     "step1": {
       "title": "Page des pairs",
       "paragraph1": "C'est ici que vous pouvez voir les pairs auxquels vous êtes connecté et les pays où ils sont.",
-      "paragraph2": "Contuinez à en savoir plus."
+      "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
     },
     "step2": {
       "title": "Carte des pairs",

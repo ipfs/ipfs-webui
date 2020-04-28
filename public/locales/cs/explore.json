@@ -45,7 +45,7 @@
       "step3": {
         "title": "Informace o uzlu",
         "paragraph1": "Zde máte podrobné informace o uzlu a můžete je otevřít v bráně IPFS.",
-        "paragraph2": "Pokud je uzel adresář, můžete vidět jeho děti a přejděte k nim."
+        "paragraph2": "If the node is a directory you can see its children and navigate to them."
       },
       "step4": {
         "title": "CID info",

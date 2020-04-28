@@ -45,7 +45,7 @@
       "step3": {
         "title": "ノード情報",
         "paragraph1": "ここにノードに関する詳細情報があり、IPFSゲートウェイで開くことができます。",
-        "paragraph2": "ノードがディレクトリの場合、その子を表示してそれらに移動できます。"
+        "paragraph2": "If the node is a directory you can see its children and navigate to them."
       },
       "step4": {
         "title": "CID情報",

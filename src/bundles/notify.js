@@ -1,7 +1,6 @@
 import { createSelector } from 'redux-bundler'
 import { ACTIONS as EXP_ACTIONS } from './experiments'
 import { ACTIONS as FILES_ACTIONS } from './files'
-import { ACTIONS as DESK_ACTIONS } from './ipfs-desktop'
 
 /*
 # Notify
@@ -68,15 +67,6 @@ const notify = {
         show: true,
         error: true,
         eventId: `experimentsErrors.${action.payload.key}`
-      }
-    }
-
-    if (action.type === DESK_ACTIONS.SETTING_TOGGLE_FAILED) {
-      return {
-        ...state,
-        show: true,
-        error: true,
-        eventId: `desktopToggleErrors.${action.payload.key}`
       }
     }
 

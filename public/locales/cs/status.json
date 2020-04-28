@@ -45,15 +45,20 @@
     "detailsLabel": "Více informací"
   },
   "tour": {
+    "back": "Zpět",
+    "close": "Zavřít",
+    "last": "Poslední",
+    "next": "Další",
+    "skip": "Přeskočit",
     "step1": {
       "title": "Stránka stavu",
       "paragraph1": "Toto je výchozí bod vašeho uzlu IPFS a kde si můžete zkontrolovat jeho základní informace.",
-      "paragraph2": "Naučte se více."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Stav připojení",
       "paragraph1": "Tím se dostanete na stránku, kde můžete zkontrolovat, zda jste připojeni k démonu IPFS, a pokud ne, jak se k němu připojit.",
-      "paragraph2": "Můžete uzel nakonfigurovat také pomocí vlastní adresy API."
+      "paragraph2": "You can configure your node with a custom API address, too."
     },
     "step3": {
       "title": "Informace o uzlu",
@@ -61,8 +66,8 @@
       "paragraph2": "<0>Kliknutím na tlačítko <1>Upřesnit</1> zobrazíte další informace, například adresu brány a adresy.</0>"
     },
     "step4": {
-      "title": "Šířka pásma/přenosu",
-      "paragraph1": "Tento graf ukazuje využití šířky pásma sítě v čase.",
+      "title": "Network bandwidth/traffic",
+      "paragraph1": "This chart shows the network bandwidth usage over time.",
       "paragraph2": "Tachometry ukazují aktuální odchozí a příchozí provoz."
     },
     "stepExplore": {

@@ -112,7 +112,7 @@ export class PeersTable extends React.Component {
           {({ width }) => (
             <Table
               className='tl fw4 w-100 f6'
-              headerClassName='aqua fw2 ttu tracked ph2'
+              headerClassName='teal fw2 ttu tracked ph2'
               rowClassName={(rowInfo) => this.rowClassRenderer(rowInfo, peerLocationsForSwarm)}
               width={width}
               height={tableHeight}

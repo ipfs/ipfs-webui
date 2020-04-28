@@ -11,21 +11,26 @@
   "bootstrapNode": "引导节点",
   "viaRelay": "通过 <0>{node}</0>",
   "addConnection": "添加连接",
-  "insertPeerAddress": "请输入你想要连接的对等方地址。",
+  "insertPeerAddress": "请输入你想要连接的对等节点地址。",
   "add": "添加",
   "example": "例子：",
   "tour": {
+    "back": "返回",
+    "close": "关闭",
+    "last": "上一步",
+    "next": "下一步",
+    "skip": "跳过",
     "step1": {
       "title": "节点页面",
       "paragraph1": "您可以在此处查看您所连接的节点以及他们所在的国家/地区。",
-      "paragraph2": "继续了解更多。"
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "节点地图",
-      "paragraph1": "可视化您所连接的节点在世界中的位置。"
+      "paragraph1": "可视化您所连接节点的世界位置分布。"
     },
     "step3": {
-      "title": "节点清单表",
+      "title": "节点列表",
       "paragraph1": "查看已连接节点的 ID、地址和大致位置。"
     }
   }

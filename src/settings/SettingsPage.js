@@ -6,6 +6,7 @@ import ReactJoyride from 'react-joyride'
 // Tour
 import { settingsTour } from '../lib/tours'
 import withTour from '../components/tour/withTour'
+import { getJoyrideLocales } from '../helpers/i8n'
 // Components
 import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
@@ -13,7 +14,6 @@ import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import JsonEditor from './editor/JsonEditor'
-import DesktopSettings from './DesktopSettings'
 import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
 
@@ -22,7 +22,7 @@ const PAUSE_AFTER_SAVE_MS = 3000
 export const SettingsPage = ({
   t, tReady, isIpfsConnected,
   isConfigBlocked, isLoading, isSaving,
-  hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges, isIpfsDesktop,
+  hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
   toursEnabled, handleJoyrideCallback
 }) => (
@@ -30,8 +30,6 @@ export const SettingsPage = ({
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
-
-    { isIpfsDesktop && <DesktopSettings /> }
 
     <Box className='mb3 pa4'>
       <div className='mb4 joyride-settings-language'>
@@ -103,12 +101,13 @@ export const SettingsPage = ({
       callback={handleJoyrideCallback}
       continuous
       scrollToFirstStep
+      locale={getJoyrideLocales(t)}
       showProgress />
   </div>
 )
 
 const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, hasLocalChanges, hasExternalChanges, onClick }) => {
-  const bg = hasSaveSucceded ? 'bg-green' : 'bg-aqua'
+  const bg = hasSaveSucceded ? 'bg-green' : 'bg-teal'
   return (
     <Button
       minWidth={100}

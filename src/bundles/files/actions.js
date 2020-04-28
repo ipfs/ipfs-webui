@@ -126,7 +126,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
 
   if (!isRoot) {
     const parentPath = dirname(path)
-    const parentInfo = infoFromPath(parentPath)
+    const parentInfo = infoFromPath(parentPath, false)
 
     if (parentInfo.isMfs || !parentInfo.isRoot) {
       if (parentInfo.realPath.startsWith('/ipns')) {
@@ -210,7 +210,7 @@ export default () => ({
       // Only go for direct children
       if (path.indexOf('/') === -1 && path !== '') {
         const src = `/ipfs/${hash}`
-        const dst = join(realMfsPath(root), path)
+        const dst = join(realMfsPath(root || '/files'), path)
 
         try {
           await ipfs.files.cp([src, dst])

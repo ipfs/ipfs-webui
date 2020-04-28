@@ -45,15 +45,20 @@
     "detailsLabel": "More info"
   },
   "tour": {
+    "back": "Back",
+    "close": "Close",
+    "last": "Last",
+    "next": "Next",
+    "skip": "Skip",
     "step1": {
       "title": "Status page",
       "paragraph1": "This is the starting point of your IPFS node and where you can check its basic info.",
-      "paragraph2": "Continue to learn more."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Connection status",
       "paragraph1": "This takes you to a page where you can check if you are connected to an IPFS daemon, and if not, how to connect to one.",
-      "paragraph2": "You can configure your node to with a custom API address too."
+      "paragraph2": "You can configure your node with a custom API address, too."
     },
     "step3": {
       "title": "Node info",
@@ -61,8 +66,8 @@
       "paragraph2": "<0>Click on <1>Advanced</1> to see more info such as the gateway URL and addresses.</0>"
     },
     "step4": {
-      "title": "Network bandwith/traffic",
-      "paragraph1": "This chart shows the network bandwith usage over time.",
+      "title": "Network bandwidth/traffic",
+      "paragraph1": "This chart shows the network bandwidth usage over time.",
       "paragraph2": "The speedometers show the current outgoing and incoming traffic."
     },
     "stepExplore": {

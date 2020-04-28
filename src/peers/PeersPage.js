@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 import withTour from '../components/tour/withTour'
 import { peersTour } from '../lib/tours'
+import { getJoyrideLocales } from '../helpers/i8n'
 
 // Components
 import Box from '../components/box/Box'
@@ -34,6 +35,7 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
       callback={handleJoyrideCallback}
       continuous
       scrollToFirstStep
+      locale={getJoyrideLocales(t)}
       showProgress />
   </div>
 )

@@ -10,6 +10,7 @@ import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 // Lib
 import { appTour } from './lib/tours'
+import { getJoyrideLocales } from './helpers/i8n'
 // Components
 import NavBar from './navigation/NavBar'
 import ComponentLoader from './loader/ComponentLoader'
@@ -93,7 +94,9 @@ export class App extends Component {
           styles={appTour.styles}
           callback={this.handleJoyrideCb}
           scrollToFirstStep
-          disableOverlay />
+          disableOverlay
+          locale={getJoyrideLocales(t)}
+        />
 
         <Notify />
       </div>

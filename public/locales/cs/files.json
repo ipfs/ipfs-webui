@@ -78,10 +78,15 @@
   "addFilesInfo": "<0>Přidejte soubory do vašeho IPFS uzlu kliknutím na <1>Přidat do IPFS</1> tlačítko.</0>",
   "companionInfo": "<0>Jelikož používáte <1>IPFS Companion</1>, zobrazené soubory jsou omezeny pouze na ty které jste přidali během používání tohoto rozšíření.</0>",
   "tour": {
+    "back": "Zpět",
+    "close": "Zavřít",
+    "last": "Poslední",
+    "next": "Další",
+    "skip": "Přeskočit",
     "step1": {
       "title": "Stránka se soubory",
       "paragraph1": "<0>Zde žijí soubory ve vašem systému <1>Meable File System (MFS)</1>. Na této stránce můžete přidat soubory nebo složky a spravovat je.</0>",
-      "paragraph2": "Naučte se více."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Cesta",
