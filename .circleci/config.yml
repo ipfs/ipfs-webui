@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10.15.1-browsers
+      - image: circleci/node:12.16.2-browsers-legacy
         environment:
           NO_SANDBOX: true
     steps:
