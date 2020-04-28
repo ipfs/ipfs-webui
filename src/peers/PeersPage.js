@@ -14,7 +14,7 @@ import PeersTable from './PeersTable/PeersTable'
 import AddConnection from './AddConnection/AddConnection'
 
 const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
-  <div data-id='PeersPage'>
+  <div data-id='PeersPage' className='overflow-hidden'>
     <Helmet>
       <title>{t('title')} - IPFS</title>
     </Helmet>
