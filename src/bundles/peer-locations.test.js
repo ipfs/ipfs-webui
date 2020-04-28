@@ -1,6 +1,5 @@
 import { createSelector } from 'redux-bundler'
 import createPeersLocationBundle from './peer-locations'
-import { getConfiguredCache } from 'money-clip'
 
 jest.mock('redux-bundler', () => ({
   createAsyncResourceBundle: (args) => ({ ...args }),
