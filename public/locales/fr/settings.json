@@ -25,14 +25,6 @@
   "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du nœud IPFS.",
   "ipfsConfigDescription": "Le fichier de configuration de IPFS est un document JSON. Il est lu lorsque le démon IPFS est lancé. Enregistrez vos modifications, puis relancez le démon IPFS pour les appliquer.",
   "ipfsConfigHelp": "Vérifier la docuementation pour plus d'informations.",
-  "ipfsDesktop": "Bureau IPFS",
-  "takeScreenshot": "Prendre une capture d'écran",
-  "takeScreenshotDescription": "Utilisez <0>{key1}</0> + <2>{key2}</2> +<3>{key3}</3> pour prendre des captures d'écran et les ajouter à votre dossier.",
-  "downloadHash": "Télécharger le hash",
-  "downloadHashDescription": "Utilisez <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> pour télécharger le dernier hash copié ou le chemin de votre système.",
-  "launchOnStartup": "Exécuter au démarrage ",
-  "globalShortcuts": "Racourcis Globaux",
-  "globalShortcutsAre": "IPFS Desktop propose des fonctionnalités qui peuvent être utilisées partout via des raccourcis clavier. Vous pouvez les activer ou les désactiver ici.",
   "AnalyticsToggle": {
     "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes",
     "summary": "Configurer ce qui est collecté",
@@ -67,6 +59,11 @@
     }
   },
   "tour": {
+    "back": "Retour",
+    "close": "Fermer",
+    "last": "Dernier",
+    "next": "Suivant",
+    "skip": "Passer",
     "step1": {
       "title": "Page de paramétres",
       "paragraph1": "Ici vous pouvez changer les paramétres de votre interface web ou de votre noeud IPFS.",
@@ -91,13 +88,6 @@
     "description": "Ici vous pouvez avoir un aperçu des nouvelles fonctionnalités de IPFS en activant les options ci-dessous. Nous testons de nouvelles idées, et comme elles peuvent ne pas encore être parfaites nous serions heureux d'avoir votre avis.",
     "issueUrl": "Ouvrir une issue Github",
     "feedbackUrl": "💌Laisser un commentaire",
-    "readMoreUrl": "En savoir plus",
-    "npmOnIpfs": {
-      "title": "NPM sur IPFS",
-      "label": "Activer ipfs-npm",
-      "description": "Installer les modules npm via IPFS avec l'outil en ligne de commande \"ipfs-npm\"!"
-    }
-  },
-  "ipfsCmdTools": "Outils en ligne de commande IPFS",
-  "ipfsCmdToolsDescription": "Ajouter l'éxécutable <0>ipfs</0> à votre <0>PATH</0> système pour que vous puissiez l'utiliser en ligne de commande. "
+    "readMoreUrl": "En savoir plus"
+  }
 }

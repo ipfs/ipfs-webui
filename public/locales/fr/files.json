@@ -78,10 +78,15 @@
   "addFilesInfo": "<0>Ajoutez des fichiers à votre nœud IPFS local en cliquant sur le bouton <1>Ajouter à IPFS</1> ci-dessus.</0>",
   "companionInfo": "<0>Comme vous utilisez <1>IPFS Companion</1>, la vue des fichiers est limitée aux fichiers ajoutés lors de l'utilisation de l'extension.</0>",
   "tour": {
+    "back": "Retour",
+    "close": "Fermer",
+    "last": "Dernier",
+    "next": "Suivant",
+    "skip": "Passer",
     "step1": {
       "title": "Page des fichiers",
       "paragraph1": "<0>Cest ici que les fichiers de votre <1> Système de fichiers mutable (MFS) </1> fonction. Vous pouvez ajouté des fichiers ou des dossiers et gérer cela sur cette page.</0>",
-      "paragraph2": "Contuinez à en savoir plus."
+      "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
     },
     "step2": {
       "title": "Fils d'Ariane",

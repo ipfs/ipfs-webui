@@ -29,14 +29,14 @@
   "bugsLink": "报告 bug",
   "revision": "Revision",
   "StatusConnected": {
-    "header1": "连接到 IPFS",
-    "paragraph1": "托管 <0>{repoSize} 文件</0>",
-    "paragraph2": "{count, plural, other {发现 <0>{peersCount} 节点</0>}}"
+    "header1": "已连接到 IPFS",
+    "paragraph1": "已托管 <0>{repoSize} 文件</0>",
+    "paragraph2": "{count, plural, other {已发现 <0>{peersCount} 节点</0>}}"
   },
   "StatusNotConnected": {
     "header1": "无法连接 API",
-    "paragraph1": "<0>在终端中启动 IPFS 守护进程:</0>",
-    "paragraph2": "<0>获取开始使用 IPFS 的更多信息你可以 <1>阅读此向导</1>.</0>"
+    "paragraph1": "<0>在终端中启动 IPFS 守护进程：</0>",
+    "paragraph2": "<0>要获取开始使用 IPFS 的更多信息，你可以 <1>阅读此向导</1>。</0>"
   },
   "AskToEnable": {
     "label": "向我们发送匿名输入来帮助我们改进。",
@@ -45,15 +45,20 @@
     "detailsLabel": "详细信息"
   },
   "tour": {
+    "back": "返回",
+    "close": "关闭",
+    "last": "上一步",
+    "next": "下一步",
+    "skip": "跳过",
     "step1": {
       "title": "状态页面",
       "paragraph1": "这是 IPFS 节点的起始页面，您可以在这里查看其基本信息。",
-      "paragraph2": "继续了解更多。"
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "连接状态",
       "paragraph1": "这会将您带到一个页面，您可以在其中检查是否已连接到 IPFS 守护程序，如果没有，则告诉您如何连接到一个。",
-      "paragraph2": "您也可以使用自定义 API 地址配置节点。 "
+      "paragraph2": "You can configure your node with a custom API address, too."
     },
     "step3": {
       "title": "节点信息",
@@ -61,15 +66,15 @@
       "paragraph2": "<0>单击<1>高级</1>以查看更多信息，例如：网关 URL 和地址。</0>"
     },
     "step4": {
-      "title": "网络带宽/流量",
-      "paragraph1": "此图表显示了一段时间内的网络带宽使用情况。",
+      "title": "Network bandwidth/traffic",
+      "paragraph1": "This chart shows the network bandwidth usage over time.",
       "paragraph2": "速度表显示当前的输出和输入流量。"
     },
     "stepExplore": {
       "title": "浏览",
-      "paragraph": "粘贴一个CID并查看该CID包含的文件，检查数据是如何组织的以及协议的链接"
+      "paragraph": "粘贴一个 CID 并查看该 CID 包含的文件，检查数据是如何组织的以及协议的链接"
     }
   },
   "bandwidthStats": "带宽状态",
-  "bandwidthStatsDisabled": "带宽度量已经禁用了。可以在 <5>配置</5> 中修改 <1>Swarm.DisableBandwidthMetrics</1> 为 <3>false</3> 来重新激活。 修改完成后，需要重新启动 IPFS 守护进程才能生效。"
+  "bandwidthStatsDisabled": "带宽度量已经被禁用。可以在 <5>配置</5> 中修改 <1>Swarm.DisableBandwidthMetrics</1> 为 <3>false</3> 来重新激活。 修改完成后，需要重新启动 IPFS 守护进程才能生效。"
 }

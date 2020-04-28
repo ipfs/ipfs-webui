@@ -45,15 +45,20 @@
     "detailsLabel": "Ulteriori informazioni"
   },
   "tour": {
+    "back": "Indietro",
+    "close": "Chiudi",
+    "last": "Ultimo",
+    "next": "Prossimo",
+    "skip": "Salta",
     "step1": {
       "title": "Pagina dello stato",
       "paragraph1": "Questo è il punto d'inizio del tuo nodo IPFS, dove puoi vedere le sue informazioni di base.",
-      "paragraph2": "Continua per saperne di più."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Stato della connessione",
       "paragraph1": "Questo ti porta alla pagine dove puoi controllare se sei connesso ad un demone IPFS, e se non lo sei, come connetterti ad uno di essi.",
-      "paragraph2": "Puoi anche configurare il tuo nodo con un indirizzo API a tua scelta."
+      "paragraph2": "You can configure your node with a custom API address, too."
     },
     "step3": {
       "title": "Informazioni nodo",
@@ -61,8 +66,8 @@
       "paragraph2": "<0>Clicca su <1>Avanzate</1> per vedere ulteriori informazioni come il gateway URL e gli indirizzi.</0>"
     },
     "step4": {
-      "title": "Banda/traffico della rete",
-      "paragraph1": "Questo grafico mostra la larghezza di banda nel tempo.",
+      "title": "Network bandwidth/traffic",
+      "paragraph1": "This chart shows the network bandwidth usage over time.",
       "paragraph2": "Il tachimetro mostra il traffico corrente in entrata ed uscita."
     },
     "stepExplore": {

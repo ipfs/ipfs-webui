@@ -78,10 +78,15 @@
   "addFilesInfo": "<0>Aggiungi file al tuo nodo IPFS locale cliccando il bottone <1>Aggiungi ad IPFS</1> sovrastante.</0>",
   "companionInfo": "<0>Mentre utilizzi <1>IPFS Companion</1>, la visualizzazione dei file è limitata a quelli aggiunti durante l'uso dell'estensione.</0>",
   "tour": {
+    "back": "Indietro",
+    "close": "Chiudi",
+    "last": "Ultimo",
+    "next": "Prossimo",
+    "skip": "Salta",
     "step1": {
       "title": "Pagina dei file",
       "paragraph1": "<0>Questo è il luogo in cui risiedono i file sul tuo <1>Mutable File System (MFS)</1>. Puoi aggiungere file o cartelle e gestirli da questa pagina.</0>",
-      "paragraph2": "Continua per saperne di più."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Breadcrumb",

@@ -9,12 +9,12 @@
   "fileName": "文件名",
   "size": "大小",
   "noPDFSupport": "您的浏览器不支持阅读 PDF 文件。请下载后阅读。",
-  "downloadPDF": "下载 PDF",
+  "downloadPDF": "下载 PDF 文件",
   "downloadInstead": "请尝试<1>下载</1>",
   "cantBePreviewed": "对不起，本文件不支持预览。",
   "addFile": "文件",
   "addFolder": "文件夹",
-  "addByPath": "来自 IPFS",
+  "addByPath": "来自 IPFS 路径",
   "addToIPFS": "添加",
   "newFolder": "新建文件夹",
   "generating": "生成 ...",
@@ -78,10 +78,15 @@
   "addFilesInfo": "<0>通过点击<1>添加到 IPFS </1>添加文件到你的本地 IPFS 节点。</0>",
   "companionInfo": "<0>如果你正在使用<1> IPFS 伴侣</1>，文件视图仅限于使用扩展程序时添加的文件。</0>",
   "tour": {
+    "back": "返回",
+    "close": "关闭",
+    "last": "上一步",
+    "next": "下一步",
+    "skip": "跳过",
     "step1": {
       "title": "文件页面",
       "paragraph1": "<0>这是 <1>可变数据系统（MFS）</1> 上的文件所在的位置。您可以添加文件或文件夹，并从此页面进行管理</0>",
-      "paragraph2": "继续了解更多。"
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "导航栏",
@@ -94,10 +99,10 @@
       "paragraph3": "<0>如果想要添加 IPFS 上已有的内容，可以通过传递其 <1>Content Identifier（CID）</1> 将其导入 MFS</0>"
     },
     "step5": {
-      "title": "文件清单",
+      "title": "文件列表",
       "paragraph1": "最后，您可以在列表中找到您的文件和文件夹。通过拖放文件或文件夹来添加它们。",
-      "paragraph2": "您可以分享或下载文件，在 IPLD 资源管理器中查看、重命名或删除它们！",
-      "paragraph3": "专家提示：可以从 Web UI 的任何其他页面拖放文件，把它们添加到 MFS 的根目录"
+      "paragraph2": "您可以分享或下载文件，在 IPLD 资源管理器中查看、重命名或删除它们。",
+      "paragraph3": "专家提示：可以从 Web UI 的任何其他页面拖放文件，把它们添加到 MFS 的根目录。"
     }
   },
   "exploreForm": {

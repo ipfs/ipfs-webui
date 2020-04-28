@@ -45,15 +45,20 @@
     "detailsLabel": "Mehr Informationen"
   },
   "tour": {
+    "back": "Zurück",
+    "close": "Schließen",
+    "last": "Fertig",
+    "next": "Weiter",
+    "skip": "Überspringen",
     "step1": {
       "title": "Status Seite",
       "paragraph1": "Dies ist der Startpunkt deines IPFS Node, an dem Du die grundlegenden Informationen abrufen kannst.",
-      "paragraph2": "Erfahre mehr."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Verbindungs-Status",
       "paragraph1": "Das hier bringt dich zu einer Seite, auf der du sehen kannst, ob du mit einem IPFS daemon verbunden bist und, falls nicht, wie du dich mit einem verbinden kannst.",
-      "paragraph2": "Du kannst deinen Node auch mit einer eigenen API Adresse konfigurieren."
+      "paragraph2": "You can configure your node with a custom API address, too."
     },
     "step3": {
       "title": "Node informationen",
@@ -61,8 +66,8 @@
       "paragraph2": "<0>Klicke auf <1>Erweitert</1>, um weitere Informationen, wie die Gateway URL und Adressen zu sehen."
     },
     "step4": {
-      "title": "Netzwerk-Bandbreite/Verkehr",
-      "paragraph1": "Dieses Diagramm zeigt den Netzwerkverkehr über die Zeit.",
+      "title": "Network bandwidth/traffic",
+      "paragraph1": "This chart shows the network bandwidth usage over time.",
       "paragraph2": "Die Geschwindigkeitsanzeigen zeigen den aktuellen ausgehenden und eingehenden Netzwerkverkehr."
     },
     "stepExplore": {

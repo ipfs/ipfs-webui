@@ -15,10 +15,15 @@
   "add": "Hinzufügen",
   "example": "Beispiel:",
   "tour": {
+    "back": "Zurück",
+    "close": "Schließen",
+    "last": "Fertig",
+    "next": "Weiter",
+    "skip": "Überspringen",
     "step1": {
       "title": "Peers Seite",
       "paragraph1": "Hier kannst du die Peers sehen, mit denen du verbunden bist und das Land, in dem sie sich befinden.",
-      "paragraph2": "Erfahre mehr."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Peer Karte",

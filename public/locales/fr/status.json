@@ -45,15 +45,20 @@
     "detailsLabel": "Plus d'infos"
   },
   "tour": {
+    "back": "Retour",
+    "close": "Fermer",
+    "last": "Dernier",
+    "next": "Suivant",
+    "skip": "Passer",
     "step1": {
       "title": "Page des status",
       "paragraph1": "C'est le point de départ de votre noeud IPFS et aussi où vous pouvez vérifié les informations basiques.",
-      "paragraph2": "Contuinez à en savoir plus."
+      "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
     },
     "step2": {
       "title": "Statut de la connexion",
       "paragraph1": "Cela mène à une page de test de connexion, dans le cas contraire vous donné des indications comment vous y connecter.",
-      "paragraph2": "Vous pouvez configurer votre noeud avec une adresse personalisé pour l'API aussi."
+      "paragraph2": "Vous pouvez également configurer votre noeud avec une adresse personalisée pour l'API."
     },
     "step3": {
       "title": "Information du pair",
@@ -61,8 +66,8 @@
       "paragraph2": "<0>Cliquer sur <1>Avancée</1> pour voir plus informations sur la passerelle URL et adresse</0>"
     },
     "step4": {
-      "title": "Réseau Bande passante/trafic.",
-      "paragraph1": "Ce diagramme présent l'utilisation de la bande passante du réseau dans le temp.",
+      "title": "Traffic réseau",
+      "paragraph1": "Ce graphe montre l'utilisaion du réseau au cours du temps.",
       "paragraph2": "Le compteur de vitesse du trafic entrant et sortant."
     },
     "stepExplore": {

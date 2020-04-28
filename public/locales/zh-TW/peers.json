@@ -15,10 +15,15 @@
   "add": "添加",
   "example": "例子：",
   "tour": {
+    "back": "Back",
+    "close": "關閉",
+    "last": "Last",
+    "next": "Next",
+    "skip": "Skip",
     "step1": {
       "title": "節點頁面",
       "paragraph1": "您可以在此處查看您所連接的節點以及他們所在的國家/地區。",
-      "paragraph2": "繼續了解更多。"
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "節點地圖",

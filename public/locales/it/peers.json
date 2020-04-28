@@ -15,10 +15,15 @@
   "add": "Aggiungi",
   "example": "Esempio:",
   "tour": {
+    "back": "Indietro",
+    "close": "Chiudi",
+    "last": "Ultimo",
+    "next": "Prossimo",
+    "skip": "Salta",
     "step1": {
       "title": "Pagina Peer",
       "paragraph1": "Qui puoi vedere i Peer a cui sei connesso e la nazione in cui sono.",
-      "paragraph2": "Continua per saperne di più."
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "Mappa dei Peer",

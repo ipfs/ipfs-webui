@@ -45,15 +45,20 @@
     "detailsLabel": "詳細信息"
   },
   "tour": {
+    "back": "Back",
+    "close": "關閉",
+    "last": "Last",
+    "next": "Next",
+    "skip": "Skip",
     "step1": {
       "title": "狀態頁面",
       "paragraph1": "這是 IPFS 節點的起始頁面，您可以在這裡查看其基本信息。",
-      "paragraph2": "繼續了解更多。"
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "連接狀態",
       "paragraph1": "這會將您帶到一個頁面，您可以在其中檢查是否已連接到 IPFS 守護程序，如果沒有，則告訴您如何連接到一個。",
-      "paragraph2": "您也可以使用自定義 API 地址配置節點。 "
+      "paragraph2": "You can configure your node with a custom API address, too."
     },
     "step3": {
       "title": "節點信息",
@@ -61,8 +66,8 @@
       "paragraph2": "<0>單擊<1>高級</1>以查看更多信息，例如：閘道器 URL 和地址。</0>"
     },
     "step4": {
-      "title": "網絡頻寬/流量",
-      "paragraph1": "此圖表顯示了一段時間內的網絡頻寬使用情況。",
+      "title": "Network bandwidth/traffic",
+      "paragraph1": "This chart shows the network bandwidth usage over time.",
       "paragraph2": "速度表顯示當前的輸出和輸入流量。"
     },
     "stepExplore": {
