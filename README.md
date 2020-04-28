@@ -235,17 +235,20 @@ The translations are stored on [./public/locales](./public/locales) and the Engl
 
 You can read more on how we use Transifex and i18next in this app at [`docs/LOCALIZATION.md`](docs/LOCALIZATION.md)
 
-## Releasing a new version of the WebUI.
+## Releasing
 
-1. PR master with the result of `tx pull -a` to pull the latest translations from transifex
-1. Tag it `npm version`, `git push`, `git push --tags`.
-1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/releases
-1. Wait for master to [build on CI](https://circleci.com/gh/ipfs-shipyard/ipfs-webui), and grab the CID for the build
-1. Update the hash at:
-   - js-ipfs https://github.com/ipfs/js-ipfs/blob/master/src/http/api/routes/webui.js#L20
-   - go-ipfs https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
-   - companion https://github.com/ipfs-shipyard/ipfs-companion/blob/master/add-on/src/lib/state.js#L27
-   - desktop https://github.com/ipfs-shipyard/ipfs-desktop/blob/master/package.json#L17
+1. Run `tx pull -a` to pull the latest translations from Transifex ([i18n#transifex-101)](https://github.com/ipfs-shipyard/i18n#transifex-101))
+1. Bump the version in `package.json`
+1. Commit changes
+1. Tag it: `git tag vN.N.N`
+1. Push `master` and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
+1. Wait for master to [build on CI](https://circleci.com/gh/ipfs-shipyard/ipfs-webui), and grab the CID produced from the tagged commit
+1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/releases, use the tag and CID you created 
+1. Update the CID at projects that use ipfs-webui by submitting PR against below lines:
+   - js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs/src/http/api/routes/webui.js#L8
+   - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
+   - ipfs-companion: https://github.com/ipfs-shipyard/ipfs-companion/blob/master/add-on/src/lib/precache.js#L15
+   - ipfs-desktop: https://github.com/ipfs-shipyard/ipfs-desktop/blob/master/package.json#L18
 
 ## Contribute
 
