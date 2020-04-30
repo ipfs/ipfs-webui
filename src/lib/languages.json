@@ -29,6 +29,16 @@
     "nativeName": "Français",
     "englishName": "French"
   },
+  "it": {
+    "locale": "it",
+    "nativeName": "Italiano",
+    "englishName": "Italian"
+  },
+  "ja-JP": {
+    "locale": "ja-JP",
+    "nativeName": "日本語",
+    "englishName": "Japanese"
+  },
   "ko-KR": {
     "locale": "ko-KR",
     "nativeName": "한국어 (韩国)",
@@ -54,6 +64,16 @@
     "nativeName": "Português",
     "englishName": "Portuguese"
   },
+  "ru": {
+    "locale": "ru",
+    "nativeName": "Русский",
+    "englishName": "Russian"
+  },
+  "sk": {
+    "locale": "sk",
+    "nativeName": "Slovenčina",
+    "englishName": "Slovak"
+  },
   "sv": {
     "locale": "sv",
     "nativeName": "Svenska",
@@ -63,6 +83,11 @@
     "locale": "zh-CN",
     "nativeName": "中文（中国）",
     "englishName": "Chinese Simplified (China)"
+  },
+  "zh-HK": {
+    "locale": "zh-HK",
+    "nativeName": "中文（香港）",
+    "englishName": "Chinese Traditional (Hong Kong)"
   },
   "zh-TW": {
     "locale": "zh-TW",
