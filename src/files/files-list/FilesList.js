@@ -385,7 +385,7 @@ export class FilesList extends React.Component {
               </div>
               <div className='ph2 f6 flex-auto'>
                 <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
-                  {t('fileName')} {this.sortByIcon(sorts.BY_NAME)}
+                  {t('itemName')} {this.sortByIcon(sorts.BY_NAME)}
                 </span>
               </div>
               <div className='ph2 pv1 flex-none dn db-l tr mw3'>
