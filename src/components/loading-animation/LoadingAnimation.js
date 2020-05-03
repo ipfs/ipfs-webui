@@ -10,7 +10,7 @@ import './LoadingAnimation.css'
 const FakeHeader = ({ t }) => (
   <header className='gray pv2 flex items-center flex-none'>
     <div className='pa2 w2'><Checkbox disabled /></div>
-    <div className='ph2 f6 flex-auto'>{t('fileName')}</div>
+    <div className='ph2 f6 flex-auto'>{t('itemName')}</div>
     <div className='pl2 pr4 tr f6 flex-none dn db-l'>{t('size')}</div>
     <div className='pa2' style={{ width: '2.5rem' }} />
   </header>
