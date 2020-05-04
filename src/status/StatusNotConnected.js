@@ -13,8 +13,8 @@ const StatusNotConnected = () => {
       <Trans i18nKey='StatusNotConnected.paragraph1'>
         <p className='mv3 lh-copy sans-serif'>Start an IPFS daemon in a terminal:</p>
       </Trans>
-      <Shell>
-        <code className='db'>$ ipfs daemon</code>
+      <Shell className='mw6'>
+        <code className='db'><b className='no-select'>$ </b>ipfs daemon</code>
         <code className='db'>Initializing daemon...</code>
         <code className='db'>API server listening on /ip4/127.0.0.1/tcp/5001</code>
       </Shell>
