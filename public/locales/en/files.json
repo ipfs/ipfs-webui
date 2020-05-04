@@ -19,7 +19,7 @@
   "newFolder": "New folder",
   "generating": "Generating…",
   "actions": {
-    "add": "Add",
+    "import": "Import",
     "delete": "Delete",
     "rename": "Rename",
     "download": "Download",
