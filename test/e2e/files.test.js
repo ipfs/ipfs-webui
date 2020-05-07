@@ -7,7 +7,7 @@ describe('Files screen', () => {
     await page.goto(webuiUrl + '#/files')
   })
 
-  const button = 'button[id="add-button"]'
+  const button = 'button[id="import-button"]'
 
   it('should have the active Add menu', async () => {
     await page.waitForSelector(button, { visible: true })

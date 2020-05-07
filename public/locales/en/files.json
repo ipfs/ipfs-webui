@@ -15,7 +15,7 @@
   "addFile": "File",
   "addFolder": "Folder",
   "addByPath": "From IPFS",
-  "addToIPFS": "Add",
+  "importToIPFS": "Import",
   "newFolder": "New folder",
   "generating": "Generating…",
   "actions": {
@@ -55,8 +55,8 @@
     "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.}}"
   },
   "addByPathModal": {
-    "title": "Add from IPFS",
-    "description": "Insert an IPFS path (CID) to add.",
+    "title": "Import from IPFS",
+    "description": "Insert an IPFS path (CID) to import.",
     "examples": "Examples:"
   },
   "newFolderModal": {
