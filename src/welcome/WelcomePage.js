@@ -73,8 +73,8 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
             <p>Make sure you <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>configure your IPFS API</a> to allow cross-origin (CORS) requests, running the commands below:</p>
           </Trans>
           <Shell>
-            <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
-            <code className='db'>$ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
+            <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
+            <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
           </Shell>
         </div>
       )}
@@ -82,7 +82,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
         <p>Start an IPFS daemon in a terminal:</p>
       </Trans>
       <Shell>
-        <code className='db'>$ ipfs daemon</code>
+        <code className='db'><b className='no-select'>$ </b>ipfs daemon</code>
         <code className='db'>Initializing daemon...</code>
         <code className='db'>API server listening on /ip4/127.0.0.1/tcp/5001</code>
       </Shell>

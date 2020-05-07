@@ -17,8 +17,8 @@ const StatusNotConnected = ({ t }) => {
         </Trans>
       </p>
 
-      <Shell>
-        <code className='db'>$ ipfs config --json Swarm.DisableBandwidthMetrics false</code>
+      <Shell className='mw6'>
+        <code className='db'><b className='no-select'>$ </b>ipfs config --json Swarm.DisableBandwidthMetrics false</code>
       </Shell>
     </Box>
   )
