@@ -16,9 +16,9 @@ const AddButton = withTranslation('files')(({ progress = null, disabled, t, tRea
   const sending = progress !== null
 
   return (
-    <Button id='add-button' bg='bg-navy' color='white' disabled={sending || disabled} className='f6 relative' minWidth='100px' {...props}>
+    <Button id='import-button' bg='bg-navy' color='white' disabled={sending || disabled} className='f6 relative' minWidth='100px' {...props}>
       <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
-        { sending ? `${progress.toFixed(0)}%` : (<span><span className='aqua'>+</span> {t('addToIPFS')}</span>) }
+        { sending ? `${progress.toFixed(0)}%` : (<span><span className='aqua'>+</span> {t('importToIPFS')}</span>) }
       </div>&nbsp;
       { sending &&
         <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{ width: `${progress}%`, background: 'rgba(0,0,0,0.1)' }} /> }
