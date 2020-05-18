@@ -47,3 +47,7 @@
     99.9% { transform: translateX(450%) }
     100% { transform: translateX(-100%) }
 }
+
+.fileImportStatusName {
+    flex: 1 1;
+}

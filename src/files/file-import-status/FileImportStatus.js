@@ -9,8 +9,11 @@ import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
 import './FileImportStatus.css'
 import GlyphSmallArrows from '../../icons/GlyphSmallArrow'
+import GlyphTick from '../../icons/GlyphTick'
+import GlyphCancel from '../../icons/GlyphCancel'
 
-const File = ({ paths = [] }) => {
+const File = ({ paths = [], hasError }, t) => {
+  console.log(paths)
   const pathsByFolder = paths.reduce((prev, currentPath) => {
     const isFolder = currentPath.path.includes('/')
     if (!isFolder) {
@@ -31,32 +34,37 @@ const File = ({ paths = [] }) => {
   }, [])
 
   return pathsByFolder.map(({ count, name, path, size, progress }) => (
-    <li class="flex w-100 bb b--gray items-center">
+    <li className="flex w-100 bb b--gray items-center" key={ path || name }>
       { count ? <FolderIcon className='fileImportStatusIcon'/> : <DocumentIcon className='fileImportStatusIcon'/> }
-      <span>{ name || path }</span>
+      <span className="fileImportStatusName truncate">{ name || path }</span>
       { progress && progress}
       <span className='gray mh2'> |
-        { count && (<span> { count } | </span>) }
+        { count && (<span> { t('filesImportStatus.count', { count }) } | </span>) }
         <span className='ml2'>{ filesize(size) }</span>
       </span>
-      <LoadingIndicator complete={ !progress }/>
+      { hasError ? <GlyphCancel className="dark-red w2" fill="currentColor"/> : <LoadingIndicator complete={ !progress }/> }
     </li>
   ))
 }
 
 const LoadingIndicator = ({ complete }) => (
-  <div className={ classNames('fileLoadingIndicator bg-light-gray mh4 flex-auto relative', complete && 'dn') }>
-    <div className='fileLoadingIndicatorBar bg-blue absolute left-0'></div>
-  </div>
+  <>
+    <div className={ classNames('fileLoadingIndicator bg-light-gray mh4 flex-auto relative', complete && 'dn') }>
+      <div className='fileLoadingIndicatorBar bg-blue absolute left-0'></div>
+    </div>
+    { complete && <GlyphTick className="green w2" fill="currentColor"/>}
+  </>
 )
 
-const FileImportStatus = ({ filesFinished, filesPending, t }) => {
+const FileImportStatus = ({ filesFinished, filesPending, filesErrors, t }) => {
   const sortedFilesFinished = useMemo(() => filesFinished.sort((fileA, fileB) => fileB.start - fileA.start), [filesFinished])
   const [expanded, setExpanded] = useState(true)
 
-  if (!filesFinished.length && !filesPending.length) {
+  if (!filesFinished.length && !filesPending.length && !filesErrors.length) {
     return null
   }
+
+  console.log(filesErrors)
 
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center'>
@@ -70,8 +78,9 @@ const FileImportStatus = ({ filesFinished, filesPending, t }) => {
           <GlyphSmallArrows className='fileImportStatusArrow'/>
         </div>
         <ul className='fileImportStatusRow pa0 ma0' aria-hidden={!expanded}>
-          { filesPending.map(file => File(file.data)) }
-          { sortedFilesFinished.map(file => File(file.data)) }
+          { filesPending.map(file => File(file.data, t)) }
+          { sortedFilesFinished.map(file => File(file.data, t)) }
+          { filesErrors.map(file => File(file.data, t)) }
         </ul>
       </div>
     </div>
@@ -91,5 +100,6 @@ FileImportStatus.defaultProps = {
 export default connect(
   'selectFilesFinished',
   'selectFilesPending',
+  'selectFilesErrors',
   withTranslation('files')(FileImportStatus)
 )

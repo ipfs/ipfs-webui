@@ -65,7 +65,10 @@ export default () => {
             ...state.pending.filter(a => a.id !== id),
             {
               ...pendingAction,
-              data: data
+              data: {
+                ...data,
+                hasError: true
+              }
             }
           ]
         }
