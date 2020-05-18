@@ -18,7 +18,17 @@ export const make = (basename, action, options = {}) => (...args) => async (args
 
   try {
     data = await action(getIpfs(), ...args, id, args2)
-    dispatch({ type: `FILES_${basename}_FINISHED`, payload: { id, ...data } })
+
+    const paths = args[0] ? args[0].flat() : []
+
+    dispatch({
+      type: `FILES_${basename}_FINISHED`,
+      payload: {
+        id,
+        ...data,
+        paths
+      }
+    })
 
     // Rename specific logic
     if (basename === ACTIONS.MOVE) {

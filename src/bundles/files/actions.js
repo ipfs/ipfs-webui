@@ -179,8 +179,17 @@ export default () => ({
       }
     })
 
+    const paths = files.map(f => ({ path: f.path, size: f.size }))
+
     const updateProgress = (sent) => {
-      dispatch({ type: 'FILES_WRITE_UPDATED', payload: { id: id, progress: sent / totalSize * 100 } })
+      dispatch({
+        type: 'FILES_WRITE_UPDATED',
+        payload: {
+          id,
+          paths,
+          progress: sent / totalSize * 100
+        }
+      })
     }
 
     updateProgress(0)

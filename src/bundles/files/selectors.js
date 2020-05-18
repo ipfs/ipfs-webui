@@ -18,15 +18,6 @@ export default () => ({
 
   selectFilesSorting: (state) => state.files.sorting,
 
-  selectWriteFilesProgress: createSelector('selectFilesPending', (filesPending) => {
-    if (filesPending.length === 0) {
-      return null
-    }
-
-    const sum = filesPending.reduce((acc, s) => s.data.progress + acc, 0)
-    return sum / filesPending.length
-  }),
-
   selectFilesPending: (state) => state.files.pending.filter(s => s.type === ACTIONS.WRITE && s.data.progress),
 
   selectFilesFinished: (state) => state.files.finished.filter(s => s.type === ACTIONS.WRITE),
