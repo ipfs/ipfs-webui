@@ -13,7 +13,6 @@ import GlyphTick from '../../icons/GlyphTick'
 import GlyphCancel from '../../icons/GlyphCancel'
 
 const File = ({ paths = [], hasError }, t) => {
-  console.log(paths)
   const pathsByFolder = paths.reduce((prev, currentPath) => {
     const isFolder = currentPath.path.includes('/')
     if (!isFolder) {
@@ -34,10 +33,9 @@ const File = ({ paths = [], hasError }, t) => {
   }, [])
 
   return pathsByFolder.map(({ count, name, path, size, progress }) => (
-    <li className="flex w-100 bb b--gray items-center" key={ path || name }>
-      { count ? <FolderIcon className='fileImportStatusIcon'/> : <DocumentIcon className='fileImportStatusIcon'/> }
+    <li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={ path || name }>
+      { count ? <FolderIcon className='fileImportStatusIcon fill-aqua'/> : <DocumentIcon className='fileImportStatusIcon fill-aqua'/> }
       <span className="fileImportStatusName truncate">{ name || path }</span>
-      { progress && progress}
       <span className='gray mh2'> |
         { count && (<span> { t('filesImportStatus.count', { count }) } | </span>) }
         <span className='ml2'>{ filesize(size) }</span>
@@ -64,18 +62,18 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, t }) => {
     return null
   }
 
-  console.log(filesErrors)
+  const numberOfImportedFiles = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile?.data?.paths?.length, 0)
 
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center'>
-      <div className="br1 dark-graymv4 w-40 center ba b--black bg-white">
-        <div className="fileImportStatusButton pv2 ph3 relative flex items-center bg-light-gray no-select pointer"
+      <div className="br1 dark-graymv4 w-40 center ba b--light-gray bg-white">
+        <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal" style={{ background: '#F0F6FA' }}
           onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={ t('filesImportStatus.toggleDropdown') } role="button">
           { filesPending.length
             ? t('filesImportStatus.importing', { count: filesPending.length })
-            : t('filesImportStatus.imported', { count: filesFinished.length })
+            : t('filesImportStatus.imported', { count: numberOfImportedFiles })
           }
-          <GlyphSmallArrows className='fileImportStatusArrow'/>
+          <GlyphSmallArrows className='fileImportStatusArrow' fill="currentColor" opacity="0.7"/>
         </div>
         <ul className='fileImportStatusRow pa0 ma0' aria-hidden={!expanded}>
           { filesPending.map(file => File(file.data, t)) }

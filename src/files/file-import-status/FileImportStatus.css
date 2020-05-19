@@ -17,7 +17,7 @@
 }
 
 .fileImportStatusRow {
-    height: 150px;
+    height: 153px;
     overflow: auto;
 
     transition: height 0.2s ease-in-out;
