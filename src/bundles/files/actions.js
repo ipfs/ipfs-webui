@@ -282,6 +282,8 @@ export default () => ({
     dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
   },
 
+  doFilesClear: () => async ({ dispatch }) => dispatch({ type: 'FILES_CLEAR_ALL' }),
+
   doFilesSizeGet: make(ACTIONS.FILES_SIZE_GET, async (ipfs) => {
     const stat = await ipfs.files.stat('/')
     return { size: stat.cumulativeSize }

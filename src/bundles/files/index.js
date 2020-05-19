@@ -23,6 +23,15 @@ export default () => {
         }
       }
 
+      if (action.type === 'FILES_CLEAR_ALL') {
+        return {
+          ...state,
+          failed: [],
+          finished: [],
+          pending: []
+        }
+      }
+
       if (action.type === 'FILES_UPDATE_SORT') {
         const pageContent = state.pageContent
 

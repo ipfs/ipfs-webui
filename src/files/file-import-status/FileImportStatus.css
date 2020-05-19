@@ -3,17 +3,26 @@
     transform: translateX(-50%);
 }
 
-.fileImportStatusButton svg {
+.fileImportStatusButton {
+    max-height: 3rem;
+}
+
+.fileImportStatusButton .fileImportStatusArrow {
     transition: transform 0.2s ease-in-out;
 }
 
-.fileImportStatusButton[aria-expanded="false"] svg {
-    transform: rotate(180deg);
+.fileImportStatusButton[aria-expanded="false"] .fileImportStatusArrow {
+    transform: rotate(180deg) translateY(-2px);
 }
 
 .fileImportStatusArrow {
     margin-left: auto;
     width: 1rem;
+}
+
+.fileImportStatusCancel {
+    height: 3rem;
+    margin-left: 0.5rem;
 }
 
 .fileImportStatusRow {
