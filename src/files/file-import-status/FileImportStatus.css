@@ -23,6 +23,7 @@
 .fileImportStatusCancel {
     height: 3rem;
     margin-left: 0.5rem;
+    margin-right: -1.2rem;
 }
 
 .fileImportStatusRow {
@@ -37,7 +38,7 @@
 }
 
 .fileImportStatusIcon {
-    width: 50px
+    width: 36px;
 }
 
 .fileLoadingIndicator {

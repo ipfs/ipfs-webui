@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 // Icons
-import DocumentIcon from '../../icons/StrokeDocument'
-import FolderIcon from '../../icons/StrokeFolder'
+import DocumentIcon from '../../icons/GlyphDocGeneric'
+import FolderIcon from '../../icons/GlyphFolder'
 import './FileImportStatus.css'
 import GlyphSmallArrows from '../../icons/GlyphSmallArrow'
 import GlyphTick from '../../icons/GlyphTick'
@@ -35,13 +35,13 @@ const File = ({ paths = [], hasError }, t) => {
 
   return pathsByFolder.map(({ count, name, path, size, progress }) => (
     <li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={ path || name }>
-      { count ? <FolderIcon className='fileImportStatusIcon fill-aqua'/> : <DocumentIcon className='fileImportStatusIcon fill-aqua'/> }
+      { count ? <FolderIcon className='fileImportStatusIcon fill-aqua pa1'/> : <DocumentIcon className='fileImportStatusIcon fill-aqua pa1'/> }
       <span className="fileImportStatusName truncate">{ name || path }</span>
       <span className='gray mh2'> |
         { count && (<span> { t('filesImportStatus.count', { count }) } | </span>) }
         <span className='ml2'>{ filesize(size) }</span>
       </span>
-      { hasError ? <GlyphCancel className="dark-red w2" fill="currentColor"/> : <LoadingIndicator complete={ !progress }/> }
+      { hasError ? <GlyphCancel className="dark-red w2 ph1" fill="currentColor"/> : <LoadingIndicator complete={ !progress }/> }
     </li>
   ))
 }
@@ -51,7 +51,7 @@ const LoadingIndicator = ({ complete }) => (
     <div className={ classNames('fileLoadingIndicator bg-light-gray mh4 flex-auto relative', complete && 'dn') }>
       <div className='fileLoadingIndicatorBar bg-blue absolute left-0'></div>
     </div>
-    { complete && <GlyphTick className="green w2" fill="currentColor"/>}
+    { complete && <GlyphTick className="green w2 ph1" fill="currentColor"/>}
   </>
 )
 
