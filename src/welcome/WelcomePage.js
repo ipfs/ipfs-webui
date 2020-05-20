@@ -87,7 +87,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
         </div>
       )}
       <Trans i18nKey='notConnected.paragraph3'>
-        <p>Start/Restart the IPFS daemon in a terminal:</p>
+        <p>Then, start/restart the IPFS daemon in a terminal:</p>
       </Trans>
       <Shell>
         <code className='db'><b className='no-select'>$ </b>ipfs daemon</code>
