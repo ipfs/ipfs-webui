@@ -7,6 +7,9 @@ import Button from '../components/button/Button'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
 import Shell from '../components/shell/Shell.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
+import PowerShellIcon from '../icons/PowerShell'
+import WindowsCmdIcon from '../icons/WindowsCmd'
+import LinuxIcon from '../icons/Linux'
 
 const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, ipfsApiAddress }) => {
   if (!ipfsInitFailed && !ipfsReady) {
@@ -72,15 +75,15 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
           <Trans i18nKey='notConnected.paragraph2'>
             <p>Make sure you <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>configure your IPFS API</a> to allow cross-origin (CORS) requests, running the commands below:</p>
           </Trans>
-          <Shell title="Unix & MacOS">
+          <Shell title="Unix & MacOS" Icon={ LinuxIcon } iconProps={ { height: 25, className: 'ml1 mr2' }}>
             <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
             <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
           </Shell>
-          <Shell title="Windows Powershell" className="mt4">
+          <Shell title="Windows Powershell" className="mt4" Icon={ PowerShellIcon } iconProps={ { height: 30, className: 'mh2' }}>
             <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `\\"${origin}\\", `}\"{defaultDomains.join('\\", \\"')}\"]'</code>
             <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\"]'</code>
           </Shell>
-          <Shell title="Windows CMD" className="mt4">
+          <Shell title="Windows CMD" className="mt4" Icon={ WindowsCmdIcon } iconProps={ { height: 20, className: 'ml2 mr3' }}>
             <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[{addOrigin && `"""${origin}""", `}"""{defaultDomains.join('""", """')}"""]"</code>
             <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "["""PUT""", """POST"""]"</code>
           </Shell>
