@@ -72,14 +72,22 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
           <Trans i18nKey='notConnected.paragraph2'>
             <p>Make sure you <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>configure your IPFS API</a> to allow cross-origin (CORS) requests, running the commands below:</p>
           </Trans>
-          <Shell>
+          <Shell title="Unix & MacOS">
             <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
             <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
+          </Shell>
+          <Shell title="Windows Powershell" className="mt4">
+            <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `\\"${origin}\\", `}\"{defaultDomains.join('\\", \\"')}\"]'</code>
+            <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\"]'</code>
+          </Shell>
+          <Shell title="Windows CMD" className="mt4">
+            <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[{addOrigin && `"""${origin}""", `}"""{defaultDomains.join('""", """')}"""]"</code>
+            <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "["""PUT""", """POST"""]"</code>
           </Shell>
         </div>
       )}
       <Trans i18nKey='notConnected.paragraph3'>
-        <p>Start an IPFS daemon in a terminal:</p>
+        <p>Then, start/restart the IPFS daemon in a terminal:</p>
       </Trans>
       <Shell>
         <code className='db'><b className='no-select'>$ </b>ipfs daemon</code>
