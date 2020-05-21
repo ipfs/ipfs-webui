@@ -59,7 +59,10 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
   const sortedFilesFinished = useMemo(() => filesFinished.sort((fileA, fileB) => fileB.start - fileA.start), [filesFinished])
   const [expanded, setExpanded] = useState(true)
 
-  const handleImportStatusClose = useCallback(() => doFilesClear(), [doFilesClear])
+  const handleImportStatusClose = useCallback((ev) => {
+    doFilesClear()
+    ev.stopPropagation() // Prevent setExpanded from being called
+  }, [doFilesClear])
 
   if (!filesFinished.length && !filesPending.length && !filesErrors.length) {
     return null
@@ -68,8 +71,8 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
   const numberOfImportedFiles = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile?.data?.paths?.length, 0)
 
   return (
-    <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center'>
-      <div className="br1 dark-graymv4 w-40 center ba b--light-gray bg-white">
+    <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
+      <div className="br1 dark-gray w-40 center ba b--light-gray bg-white" style={{ pointerEvents: 'auto' }}>
         <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal" style={{ background: '#F0F6FA' }}
           onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={ t('filesImportStatus.toggleDropdown') } role="button">
           { filesPending.length
