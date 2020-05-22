@@ -12,24 +12,17 @@ import DecentralizationIcon from '../../icons/StrokeDecentralization'
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 import Button from '../../components/button/Button'
 
-const AddButton = withTranslation('files')(({ progress = null, disabled, t, tReady, i18n, lng, ...props }) => {
-  const sending = progress !== null
-
-  return (
-    <Button id='import-button' bg='bg-navy' color='white' disabled={sending || disabled} className='f6 relative' minWidth='100px' {...props}>
-      <div className='absolute top-0 left-0 1 pa2 w-100 z-2'>
-        { sending ? `${progress.toFixed(0)}%` : (<span><span className='aqua'>+</span> {t('importToIPFS')}</span>) }
-      </div>&nbsp;
-      { sending &&
-        <div className='transition-all absolute top-0 br1 left-0 h-100 z-1' style={{ width: `${progress}%`, background: 'rgba(0,0,0,0.1)' }} /> }
+const AddButton = withTranslation('files')(
+  ({ t, onClick }) => (
+    <Button id='import-button' bg='bg-navy' color='white' className='f6' minWidth='100px' onClick={onClick}>
+      <span><span className='aqua'>+</span> {t('importToIPFS')}</span>
     </Button>
   )
-})
+)
 
 class FileInput extends React.Component {
   state = {
-    dropdown: false,
-    force100: false
+    dropdown: false
   }
 
   toggleDropdown = () => {
@@ -56,15 +49,6 @@ class FileInput extends React.Component {
     return this.filesInput.click()
   }
 
-  componentDidUpdate (prev) {
-    if (this.props.writeFilesProgress === 100 && prev.writeFilesProgress !== 100) {
-      this.setState({ force100: true })
-      setTimeout(() => {
-        this.setState({ force100: false })
-      }, 2000)
-    }
-  }
-
   onInputChange = (input) => async () => {
     this.props.onAddFiles(await filesToStreams(input.files))
     input.value = null
@@ -81,15 +65,12 @@ class FileInput extends React.Component {
   }
 
   render () {
-    let { progress, t } = this.props
-    if (this.state.force100) {
-      progress = 100
-    }
+    const { t } = this.props
 
     return (
       <div className={this.props.className}>
         <Dropdown>
-          <AddButton disabled={this.props.disabled} progress={progress} onClick={this.toggleDropdown} />
+          <AddButton onClick={this.toggleDropdown} />
           <DropdownMenu
             top={3}
             open={this.state.dropdown}
@@ -136,18 +117,15 @@ class FileInput extends React.Component {
 
 FileInput.propTypes = {
   t: PropTypes.func.isRequired,
-  tReady: PropTypes.bool.isRequired,
   onAddFiles: PropTypes.func.isRequired,
   onAddByPath: PropTypes.func.isRequired,
   onNewFolder: PropTypes.func.isRequired,
-  writeFilesProgress: PropTypes.number,
   isIpfsDesktop: PropTypes.bool.isRequired,
   doDesktopSelectDirectory: PropTypes.func
 }
 
 export default connect(
   'selectIsIpfsDesktop',
-  'selectWriteFilesProgress',
   'doDesktopSelectDirectory',
   withTranslation('files')(FileInput)
 )

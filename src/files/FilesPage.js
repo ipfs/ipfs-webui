@@ -19,6 +19,7 @@ import { getJoyrideLocales } from '../helpers/i8n'
 // Icons
 import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH } from './modals/Modals'
 import Header from './header/Header'
+import FileImportStatus from './file-import-status/FileImportStatus'
 
 const defaultState = {
   downloadAbort: null,
@@ -257,6 +258,8 @@ class FilesPage extends React.Component {
           onDelete={this.props.doFilesDelete}
           onAddByPath={this.onAddByPath}
           { ...this.state.modals } />
+
+        <FileImportStatus />
 
         <ReactJoyride
           run={toursEnabled}

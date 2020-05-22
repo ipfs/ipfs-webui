@@ -18,16 +18,9 @@ export default () => ({
 
   selectFilesSorting: (state) => state.files.sorting,
 
-  selectWriteFilesProgress: (state) => {
-    const writes = state.files.pending.filter(s => s.type === ACTIONS.WRITE && s.data.progress)
+  selectFilesPending: (state) => state.files.pending.filter(s => s.type === ACTIONS.WRITE && s.data.progress),
 
-    if (writes.length === 0) {
-      return null
-    }
-
-    const sum = writes.reduce((acc, s) => s.data.progress + acc, 0)
-    return sum / writes.length
-  },
+  selectFilesFinished: (state) => state.files.finished.filter(s => s.type === ACTIONS.WRITE),
 
   selectFilesHasError: (state) => state.files.failed.length > 0,
 

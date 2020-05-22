@@ -1,5 +1,5 @@
 import React from 'react'
-import CancelIcon from '../../icons/GlyphCancel'
+import CancelIcon from '../../icons/GlyphSmallCancel'
 
 const Toast = ({ error, children, onDismiss }) => {
   const bg = error ? 'bg-yellow' : 'bg-green'
@@ -9,7 +9,7 @@ const Toast = ({ error, children, onDismiss }) => {
         {children}
         <CancelIcon
           className='dib fill-current-color ph3 glow o-80 pointer'
-          style={{ height: '28px', verticalAlign: '-8px' }}
+          style={{ height: '28px', transform: 'scale(1.5)', verticalAlign: 'bottom' }}
           onClick={onDismiss} />
       </div>
     </div>

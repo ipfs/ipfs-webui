@@ -42,7 +42,8 @@ class Header extends React.Component {
 
   render () {
     const {
-      files, writeFilesProgress, t,
+      files,
+      t,
       pins,
       filesPathInfo,
       filesSize,
@@ -80,8 +81,7 @@ class Header extends React.Component {
                 ? <FileInput
                   onNewFolder={this.props.onNewFolder}
                   onAddFiles={this.props.onAddFiles}
-                  onAddByPath={this.props.onAddByPath}
-                  addProgress={writeFilesProgress} />
+                  onAddByPath={this.props.onAddByPath} />
                 : <div ref={el => { this.dotsWrapper = el }}>
                   <Button bg='bg-navy'
                     color='white'
@@ -109,6 +109,5 @@ export default connect(
   'selectRepoSize',
   'selectRepoNumObjects',
   'selectFilesPathInfo',
-  'selectWriteFilesProgress',
   withTranslation('files')(Header)
 )

@@ -95,7 +95,8 @@ export class FilesList extends React.Component {
         className={'fixed transition-all bottom-0 right-0'}
         style={{
           maxWidth: innerWidthEm < 60 ? '100%' : `calc(100% - ${this.props.navbarWidth}px)`,
-          transform: `translateY(${show ? '0' : '100%'})`
+          transform: `translateY(${show ? '0' : '100%'})`,
+          zIndex: 20
         }}
         unselect={unselectAll}
         remove={() => this.props.onDelete(this.selectedFiles)}
