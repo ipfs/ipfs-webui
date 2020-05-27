@@ -8,7 +8,9 @@
   "config": "IPFS Config",
   "languageModal": {
     "title": "Change language",
-    "description": "Pick your preferred language."
+    "description": "Pick your preferred language.",
+    "translationProjectIntro": "Missing your language? Want to improve an existing one?",
+    "translationProjectLink": "Join IPFS Translation Project"
   },
   "actions": {
     "edit": "Change",
