@@ -6,7 +6,7 @@
   "totalSize": "Gesamtgröße: {size}",
   "filesSelected": "{count, plural, one {Datei ausgewählt} other {Dateien ausgewählt}}",
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
-  "fileName": "Dateiname",
+  "itemName": "Name",
   "size": "Größe",
   "noPDFSupport": "Dein Browser unterstützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen:",
   "downloadPDF": "PDF herunterladen.",
@@ -15,11 +15,11 @@
   "addFile": "Datei",
   "addFolder": "Ordner",
   "addByPath": "Aus IPFS",
-  "addToIPFS": "Hinzufügen",
+  "importToIPFS": "Import",
   "newFolder": "Neuer Ordner",
   "generating": "Erstelle…",
   "actions": {
-    "add": "Hinzufügen",
+    "import": "Import",
     "delete": "Löschen",
     "rename": "Umbenennen",
     "download": "Herunterladen",
@@ -55,8 +55,8 @@
     "descriptionFile": "{count, plural, one {Bist Du sicher, dass Du diese Datei löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du diese {count} Dateien löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}"
   },
   "addByPathModal": {
-    "title": "Aus IPFS hinzufügen",
-    "description": "Tragen Sie einen IPFS Pfad (CID) zum Hinzufügen ein.",
+    "title": "Import from IPFS",
+    "description": "Insert an IPFS path (CID) to import.",
     "examples": "Beispiele:"
   },
   "newFolderModal": {
@@ -75,13 +75,25 @@
   "filesList": {
     "noFiles": "<0>Keine Dateien in diesem Ordner. Wählen Sie  “Hinzufügen”, um Dateien hinzuzufügen.</0>"
   },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
+    "importing": "{count, plural, one {Importing 1 item} other {Importing {count} items}}",
+    "toggleDropdown": "Toggle dropdown",
+    "closeDropdown": "Close dropdown",
+    "count": "{count} of {count}"
+  },
   "addFilesInfo": "<0>Füge Dateien zu Deinem IPFS-Node hinzu, indem du oben auf den <1>\"Zum IPFS hinzufügen\"</1>-Knopf klickst.</0>",
   "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>",
   "tour": {
+    "back": "Zurück",
+    "close": "Schließen",
+    "last": "Fertig",
+    "next": "Weiter",
+    "skip": "Überspringen",
     "step1": {
       "title": "Datei Seite",
       "paragraph1": "<0>Hier leben die Dateien deines <1>veränderlichen Dateisystems (MFS)</1>. Du kannst Dateien oder Ordner hinzufügen und sie von dieser Seite aus verwalten.</0>",
-      "paragraph2": "Erfahre mehr."
+      "paragraph2": "Klicke \"Weiter\", um mehr zu erfahren."
     },
     "step2": {
       "title": "Breadcrumbs",

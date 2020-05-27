@@ -6,7 +6,7 @@
   "totalSize": "總大小: {size}",
   "filesSelected": "{count, plural, other {已選擇檔案}}",
   "individualFilesOnly": "僅適用於單一檔案",
-  "fileName": "檔案名稱",
+  "itemName": "Name",
   "size": "大小",
   "noPDFSupport": "您的瀏覽器不支援 PDF 檔案格式。請下載此 PDF 檔案後閱讀。",
   "downloadPDF": "下載 PDF",
@@ -15,11 +15,11 @@
   "addFile": "檔案",
   "addFolder": "資料夾",
   "addByPath": "來自 IPFS",
-  "addToIPFS": "添加",
+  "importToIPFS": "Import",
   "newFolder": "新增資料夾",
   "generating": "生成…",
   "actions": {
-    "add": "添加",
+    "import": "Import",
     "delete": "刪除",
     "rename": "重新命名",
     "download": "下載",
@@ -55,8 +55,8 @@
     "descriptionFile": "{count, plural, other {您確定要刪除{count}個文件嗎？本操作不可撤銷。}}"
   },
   "addByPathModal": {
-    "title": "從 IPFS 新增",
-    "description": "輸入 IPFS 路徑 (CID) 來新增。",
+    "title": "Import from IPFS",
+    "description": "Insert an IPFS path (CID) to import.",
     "examples": "範例:"
   },
   "newFolderModal": {
@@ -75,13 +75,25 @@
   "filesList": {
     "noFiles": "<0>這個資料夾沒有檔案。請點擊\"新增\"按鈕新增檔案。</0>"
   },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
+    "importing": "{count, plural, one {Importing 1 item} other {Importing {count} items}}",
+    "toggleDropdown": "Toggle dropdown",
+    "closeDropdown": "Close dropdown",
+    "count": "{count} of {count}"
+  },
   "addFilesInfo": "<0>通過點擊<1>添加到 IPFS </1>添加文件到你的本地 IPFS 節點。</0>",
   "companionInfo": "<0>如果你正在使用<1> IPFS 伴侶</1>，文件視圖僅限於使用擴展程序時添加的文件。</0>",
   "tour": {
+    "back": "Back",
+    "close": "關閉",
+    "last": "Last",
+    "next": "Next",
+    "skip": "Skip",
     "step1": {
       "title": "檔案頁面",
       "paragraph1": "<0>這是 <1>Mutable File System（MFS）</1> 上的文件所在的位置。您可以添加文件或文件夾，並從此頁面進行管理</0>",
-      "paragraph2": "繼續了解更多。"
+      "paragraph2": "Click \"Next\" to learn more."
     },
     "step2": {
       "title": "導覽列",

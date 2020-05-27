@@ -6,20 +6,20 @@
   "totalSize": "Taille totale: {size}",
   "filesSelected": "{count, plural, one {Fichiers sélectionnés} other {Fichiers sélectionnés}}",
   "individualFilesOnly": "Disponible uniquement pour les fichiers individuels",
-  "fileName": "Nom du fichier",
+  "itemName": "Nom",
   "size": "Taille",
   "noPDFSupport": "Votre navigateur ne prend pas en charge les PDF. Merci de télécharger le PDF pour le visualiser:",
   "downloadPDF": "Télécharger un PDF",
-  "downloadInstead": "Essayer <1>de le télécharger</1> à la place.",
+  "downloadInstead": "Essayer de <1>le télécharger</1> à la place.",
   "cantBePreviewed": "Désolé, ce fichier ne peut pas être prévisualisé",
   "addFile": "Fichier",
   "addFolder": "Dossier",
-  "addByPath": "De IPFS",
-  "addToIPFS": "Ajouter",
+  "addByPath": "Depuis IPFS",
+  "importToIPFS": "Importer",
   "newFolder": "Nouveau répertoire",
   "generating": "Génération...",
   "actions": {
-    "add": "Ajouter",
+    "import": "Importer",
     "delete": "Supprimer",
     "rename": "Renommer",
     "download": "Télécharger",
@@ -33,7 +33,7 @@
     "create": "Créer",
     "save": "Sauvegarder",
     "pin": "Epingler",
-    "unpin": "Décrocher",
+    "unpin": "Désépingler",
     "unselectAll": "Tout désélectionner"
   },
   "shareModal": {
@@ -47,7 +47,7 @@
     "descriptionFolder": "Choisir un nouveau nom pour ce dossier."
   },
   "deleteModal": {
-    "titleItem": "{count, plural, one {Supprimer l'élément\n} other {Supprimer {count} éléments}}",
+    "titleItem": "{count, plural, one {Supprimer l'élément} other {Supprimer {count} éléments}}",
     "titleFolder": "{count, plural, one {Supprimer le dossier} other {Supprimer {count} dossiers}}",
     "titleFile": "{count, plural, one {Supprimer le fichier} other {Supprimer {count} fichiers}}",
     "descriptionItem": "{count, plural, one {Etes-vous sûr(e) de vouloir supprimer cet élément? Cette action est définitive et ne peut être annulée.} other {Etes-vous sûr(e) de vouloir supprimer ces {count} éléments? Cette action est définitive et ne peut être annulée.}}",
@@ -55,8 +55,8 @@
     "descriptionFile": "{count, plural, one {Etes-vous sûr(e) de vouloir supprimer ce fichier? Cette action est définitive et ne peut être annulée.} other {Etes-vous sûr(e) de vouloir supprimer ces {count} fichiers? Cette action est définitive et ne peut être annulée.}}"
   },
   "addByPathModal": {
-    "title": "Ajouter sur IPFS",
-    "description": "Insérer un chemin IPFS (CID) à ajouter.",
+    "title": "Importer depuis IPFS",
+    "description": "Entrez un chemin IPFS (CID) pour l'importer.",
     "examples": "Exemples:"
   },
   "newFolderModal": {
@@ -65,18 +65,25 @@
   },
   "welcomeInfo": {
     "header": "Bienvenue sur l'interface Web d'IPFS",
-    "paragraph1": "<0><0>Vérifier l'état</0> de votre pair, son Peer ID et ses informations de connexion, son trafic réseau et le nombre de pairs connectés.</0>",
-    "paragraph2": "<0><1>Organisez vos fichiers</1> facilement dans votre dossier IPFS. Vous pouvez les glisser/déposer pour les ajouter, et vous pouvez les déplacer, les renommer, les supprimer, les partager ou les télécharger.</0>",
+    "paragraph1": "<0><0>Vérifier l'état</0> de votre pair, son Peer ID et ses informations de connection, son trafic réseau et le nombre de pairs connectés.</0>",
+    "paragraph2": "<0><1>Organisez vos fichiers</1> facilement dans votre répertoire IPFS. Vous pouvez les glisser/déposer pour les ajouter, ou les déplacer, les renommer, les supprimer, les partager ou les télécharger.</0>",
     "paragraph3": "<0>Vous pouvez <1>explorer les données IPLD</1> qui sont à la base du fonctionnement d’IPFS.</0>",
     "paragraph4": "<0>Visualisez tous vos <1>pairs connectés</1>, géolocalisés par leur adresse IP.</0>",
-    "paragraph5": "<0><0>Vérifiez les paramètres</0> de votre nœud IPFS, et mettez-les à jour pour mieux correspondre à vos besoins.</0>",
+    "paragraph5": "<0><0>Vérifiez les paramètres</0> de votre nœud IPFS, et mettez-les à jour pour qu'ils correspondent mieux à vos besoins.</0>",
     "paragraph6": "<0>Si vous voulez aider à faire avancer l'interface Web, <1>vérifiez son code</1> ou <3>signalez un bug</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>Pas de fichiers dans ce répertoire. Cliquer sur \"Ajouter\" pour en ajouter.</0>"
+    "noFiles": "<0>Pas de fichier dans ce répertoire. Cliquer sur \"Ajouter\" pour en ajouter.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {1 élément importé} other {{count}éléments importés}}",
+    "importing": "{count, plural, one {Import de 1 élément} other {Import de {count} éléments}}",
+    "toggleDropdown": "Dérouler la liste",
+    "closeDropdown": "Fermer la liste",
+    "count": "{count} sur {count}"
   },
   "addFilesInfo": "<0>Ajoutez des fichiers à votre nœud IPFS local en cliquant sur le bouton <1>Ajouter à IPFS</1> ci-dessus.</0>",
-  "companionInfo": "<0>Comme vous utilisez <1>IPFS Companion</1>, la vue des fichiers est limitée aux fichiers ajoutés lors de l'utilisation de l'extension.</0>",
+  "companionInfo": "<0>Comme vous utilisez <1>IPFS Companion</1>, la liste des fichiers est limitée aux fichiers ajoutés lors de l'utilisation de l'extension.</0>",
   "tour": {
     "back": "Retour",
     "close": "Fermer",
@@ -85,7 +92,7 @@
     "skip": "Passer",
     "step1": {
       "title": "Page des fichiers",
-      "paragraph1": "<0>Cest ici que les fichiers de votre <1> Système de fichiers mutable (MFS) </1> fonction. Vous pouvez ajouté des fichiers ou des dossiers et gérer cela sur cette page.</0>",
+      "paragraph1": "<0>Cest ici que les fichiers de votre <1> Mutable File System (MFS) </1> se trouvent. Vous pouvez ajouter des fichiers ou des dossiers et gérer cela sur cette page.</0>",
       "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
     },
     "step2": {
@@ -96,7 +103,7 @@
       "title": "Ajouter des fichiers",
       "paragraph1": "Ici vous pouvez voir comment les blocs et les fichiers sont épinglé.",
       "paragraph2": "Vous pouvez ajouter des fichiers ou des dossiers dans votre dépot en utilisant le menu déroulant sur la droite.",
-      "paragraph3": "<0>Si vous voulez ajouter quelque chose déjà présent sur IPFS, vous pouvez importer cela dans votre MFS en passant cela <1>Identifiant de contenu (CID)</1>.</0>"
+      "paragraph3": "<0>Si vous voulez ajouter quelque chose déjà présent sur IPFS, vous pouvez l'importer dans votre MFS en entrant son <1>Identifiant de contenu (CID)</1>.</0>"
     },
     "step5": {
       "title": "List des fichiers",
@@ -115,5 +122,5 @@
   "blocks": "Blocs",
   "more": "Plus",
   "files": "Fichiers",
-  "cidNotFileNorDir": "Le lien courant n'est pas un fichier, peut être un dossier. Essayer de l'<0>inpecter</0> si c'est cela."
+  "cidNotFileNorDir": "Le lien courant n'est pas un fichier, peut être un dossier. Essayer de l'<0>inpecter</0>."
 }

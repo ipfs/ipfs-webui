@@ -6,7 +6,7 @@
   "totalSize": "总计大小: {size}",
   "filesSelected": "{count, plural, other {已选择文件}}",
   "individualFilesOnly": "仅对文件有效",
-  "fileName": "文件名",
+  "itemName": "名称",
   "size": "大小",
   "noPDFSupport": "您的浏览器不支持阅读 PDF 文件。请下载后阅读。",
   "downloadPDF": "下载 PDF 文件",
@@ -15,11 +15,11 @@
   "addFile": "文件",
   "addFolder": "文件夹",
   "addByPath": "来自 IPFS 路径",
-  "addToIPFS": "添加",
+  "importToIPFS": "Import",
   "newFolder": "新建文件夹",
   "generating": "生成 ...",
   "actions": {
-    "add": "添加",
+    "import": "Import",
     "delete": "删除",
     "rename": "重命名",
     "download": "下载",
@@ -55,8 +55,8 @@
     "descriptionFile": "{count, plural, other {您是否确定要删除{count}个文件？本操作不可撤销。}}"
   },
   "addByPathModal": {
-    "title": "从 IPFS 添加",
-    "description": "输入 IPFS 路径（ CID ）添加。",
+    "title": "Import from IPFS",
+    "description": "Insert an IPFS path (CID) to import.",
     "examples": "示例："
   },
   "newFolderModal": {
@@ -74,6 +74,13 @@
   },
   "filesList": {
     "noFiles": "<0>这个目录中没有文件。请点击“添加”按钮上传文件。</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
+    "importing": "{count, plural, one {Importing 1 item} other {Importing {count} items}}",
+    "toggleDropdown": "Toggle dropdown",
+    "closeDropdown": "Close dropdown",
+    "count": "{count} of {count}"
   },
   "addFilesInfo": "<0>通过点击<1>添加到 IPFS </1>添加文件到你的本地 IPFS 节点。</0>",
   "companionInfo": "<0>如果你正在使用<1> IPFS 伴侣</1>，文件视图仅限于使用扩展程序时添加的文件。</0>",

@@ -4,5 +4,35 @@
   "peers": "Pares",
   "address": "Direcciones",
   "location": "Ubicación",
-  "unknownLocation": "Desconocido"
+  "unknownLocation": "Desconocido",
+  "localNetwork": "Red Local",
+  "nearby": "cerca",
+  "latency": "latencia",
+  "bootstrapNode": "nodo de arranque",
+  "viaRelay": "via <0>{node}</0>",
+  "addConnection": "Agregar conexión",
+  "insertPeerAddress": "Inserte la dirección de par a la que desea conectarse.",
+  "add": "Agregar",
+  "example": "Ejemplo:",
+  "plusPeers": "+ {number} más pares", 
+  "tour": {
+    "back": "Atrás",
+    "close": "Cerrar",
+    "last": "Último",
+    "next": "Próximo",
+    "skip": "Saltarse",
+    "step1": {
+      "title": "Página de pares",
+      "paragraph1": "Aquí es donde puede ver los pares con los que está conectado y el país en el que se encuentran.",
+      "paragraph2": "Haga clic en \"Siguiente\" para obtener más información."
+    },
+    "step2": {
+      "title": "Mapa de pares",
+      "paragraph1": "Una visualización de dónde están los compañeros con los que estás conectado en el mundo."
+    },
+    "step3": {
+      "title": "Tabla de pares",
+      "paragraph1": "Verifique las ID de los pares conectados, su dirección y ubicación aproximada."
+    }
+  }
 }
