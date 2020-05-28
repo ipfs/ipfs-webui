@@ -22,7 +22,7 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
           { localesList.map((lang) =>
             <button
               key={`lang-${lang}`}
-              className='pa2 w-33 flex nowrap bg-transparent bn outline-0 teal pointer'
+              className='pa2 w-33 flex nowrap bg-transparent bn outline-0 blue pointer'
               onClick={() => handleClick(lang)}>
               { getLanguage(lang) }
             </button>
