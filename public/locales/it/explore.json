@@ -30,22 +30,22 @@
   "tour": {
     "projects": {
       "title": "Dataset in primo piano",
-      "paragraph1": "Esplora i dataset in primo piano od incolla un CID per vedere come quei dati sono strutturati e collegati attraverso i protocolli."
+      "paragraph1": "Esplora i dataset in primo piano od incolla un CID per vedere come quei dati sono strutturati e collegati tra i vari protocolli."
     },
     "explorer": {
       "step1": {
         "title": "Esplora risorse IPLD",
-        "paragraph1": "Il tuo viaggio di esploratore inizia qui. Continua a saperne di più."
+        "paragraph1": "Il tuo viaggio di esploratore inizia qui. Continua a scoprire di più."
       },
       "step2": {
         "title": "Breadcrumb",
         "paragraph1": "Il percorso che porta a questo nodo.",
-        "paragraph2": "Cliccaci per attraversare i suoi percorsi padre o figli."
+        "paragraph2": "Cliccaci per attraversare i suoi percorsi padre o figlio."
       },
       "step3": {
         "title": "Informazioni nodo",
         "paragraph1": "Qui hai tutte le informazioni dettagliate riguardo al nodo e puoi aprirlo nel gateway IPFS.",
-        "paragraph2": "If the node is a directory you can see its children and navigate to them."
+        "paragraph2": "Se il nodo è una directory, puoi vedere i suoi figli e navigarci in essi."
       },
       "step4": {
         "title": "Info CID",

@@ -1,4 +1,9 @@
 {
+  "ca": {
+    "locale": "ca",
+    "nativeName": "Català",
+    "englishName": "Catalan"
+  },
   "cs": {
     "locale": "cs",
     "nativeName": "Čeština",

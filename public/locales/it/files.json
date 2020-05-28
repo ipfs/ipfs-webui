@@ -6,20 +6,20 @@
   "totalSize": "Totale: {size}",
   "filesSelected": "{count, plural, one {File selezionato} other {File selezionati}}",
   "individualFilesOnly": "Disponibile solamente per file individuali",
-  "fileName": "Nome file",
+  "itemName": "Nome",
   "size": "Dimensione",
   "noPDFSupport": "Il tuo browser non supporta i PDF. Per favore, scarica il PDF per visualizzarlo:",
   "downloadPDF": "Scarica PDF",
   "downloadInstead": "Prova invece a <1>scaricarlo</1>",
-  "cantBePreviewed": "Questo file non può essere visualizzato in anteprima",
+  "cantBePreviewed": "Ci dispiace, questo file non può essere visualizzato in anteprima",
   "addFile": "File",
   "addFolder": "Cartella",
   "addByPath": "Da IPFS",
-  "addToIPFS": "Aggiungi",
+  "importToIPFS": "Importa",
   "newFolder": "Nuova cartella",
   "generating": "Generazione...",
   "actions": {
-    "add": "Aggiungi",
+    "import": "Importa",
     "delete": "Elimina",
     "rename": "Rinomina",
     "download": "Scarica",
@@ -29,11 +29,11 @@
     "close": "Chiudi",
     "copy": "Copia",
     "cancel": "Annulla",
-    "clear": "Vuoto",
+    "clear": "Svuota",
     "create": "Crea",
     "save": "Salva",
-    "pin": "Fissa",
-    "unpin": "Rimuovi",
+    "pin": "Affissa",
+    "unpin": "Sblocca",
     "unselectAll": "Deseleziona tutto"
   },
   "shareModal": {
@@ -51,12 +51,12 @@
     "titleFolder": "{count, plural, one {Elimina cartella} other {Elimina {count} cartelle}}",
     "titleFile": "{count, plural, one {Elimina file} other {Elimina {count} file}}",
     "descriptionItem": "{count, plural, one {Sei sicuro di voler eliminare questo oggetto? Questa azione è permanente ed irreversibile.} other {Sei sicuro di voler eliminare {count} oggetti? Questa azione è permanente ed irreversibile.}}",
-    "descriptionFolder": "{count, plural, one {Sei sicuro di voler eliminare questa cartell?  Questa azione è permanente ed irreversibile.} other {Sei sicuro di voler eliminare {count} cartelle? Questa azione è permanente ed irreversibile.}}",
+    "descriptionFolder": "{count, plural, one {Sei sicuro di voler eliminare questa cartella? Questa azione è permanente ed irreversibile.} other {Sei sicuro di voler eliminare {count} cartelle? Questa azione è permanente ed irreversibile.}}",
     "descriptionFile": "{count, plural, one {Sei sicuro di voler eliminare questo file? Questa azione è permanente ed irreversibile.} other {Sei sicuro di voler eliminare {count} file? Questa azione è permanente ed irreversibile.}}"
   },
   "addByPathModal": {
-    "title": "Aggiungi da IPFS",
-    "description": "Inserisci un percorso IPFS (CID) da aggiungere.",
+    "title": "Importa da IPFS",
+    "description": "Inserisci un percorso IPFS (CID) da importare.",
     "examples": "Esempi:"
   },
   "newFolderModal": {
@@ -64,16 +64,23 @@
     "description": "Inserisci il nome della cartella che vuoi creare."
   },
   "welcomeInfo": {
-    "header": "Benvenuto all'IPFS Web UI",
-    "paragraph1": "<0><0>Controlla lo stato</0> del tuo nodo, il suo Peer ID, le sue informazioni sulla connessione, il traffico della rete ed il numero di Peer connessi.",
-    "paragraph2": "<0><1>Gestisci i file</1> facilmente nella tua repository IPFS. Puoi trascinare e rilasciare per aggiungere file e muoverli, rinominarli, eliminarli, condividerli o scaricarli.</0>",
-    "paragraph3": "<0>Puoi <1>esplorare dati IPLD</1> che sono alla base del funzionamento di IPFS.</0>",
-    "paragraph4": "<0>Osserva tutti i tuoi <1>Peer connessi</1>, geolocalizzati dal loro indirizzo IP.</0>",
+    "header": "Benvenuto nell'IPFS Web UI",
+    "paragraph1": "<0><0>Controlla lo stato</0> del tuo nodo, il suo Peer ID, le sue informazioni sulla connessione, il traffico della rete ed il numero di peer connessi.",
+    "paragraph2": "<0><1>Gestisci i file</1> facilmente nella tua repository IPFS. Puoi trascinare e rilasciare per aggiungere file. Dopodiché potrai muoverli, rinominarli, eliminarli, condividerli o scaricarli.</0>",
+    "paragraph3": "<0>Puoi <1>esplorare i dati IPLD</1> che sono alla base del funzionamento di IPFS.</0>",
+    "paragraph4": "<0>Osserva tutti i tuoi <1>peer connessi</1>, geolocalizzati dal loro indirizzo IP.</0>",
     "paragraph5": "<0></0>Esamina le impostazioni</0> del tuo nodo IPFS e modificale in base alle tue esigenze.</0>",
     "paragraph6": "<0>Se vuoi aiutare a migliorare il Web UI, <1>analizza il suo codice</1> o <3>comunica i bug</3>!</0>"
   },
   "filesList": {
-    "noFiles": "<0>Nessun file in questo percorso. Clicca sul bottone \"Aggiungi\" per aggiungerne.</0>"
+    "noFiles": "<0>Nessun file in questo percorso. Clicca sul bottone \"Aggiungi\" per aggiungerne qualcuno.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {1 oggetto importato} other {{count} oggetti importati.}}",
+    "importing": "{count, plural, one {Importazione di 1 oggetto} other {Importazione di {count} oggetti}}",
+    "toggleDropdown": "Attiva/Disattiva menù a discesa",
+    "closeDropdown": "Chiudi menù a discesa",
+    "count": "{count} di {count}"
   },
   "addFilesInfo": "<0>Aggiungi file al tuo nodo IPFS locale cliccando il bottone <1>Aggiungi ad IPFS</1> sovrastante.</0>",
   "companionInfo": "<0>Mentre utilizzi <1>IPFS Companion</1>, la visualizzazione dei file è limitata a quelli aggiunti durante l'uso dell'estensione.</0>",
@@ -81,12 +88,12 @@
     "back": "Indietro",
     "close": "Chiudi",
     "last": "Ultimo",
-    "next": "Prossimo",
+    "next": "Avanti",
     "skip": "Salta",
     "step1": {
       "title": "Pagina dei file",
       "paragraph1": "<0>Questo è il luogo in cui risiedono i file sul tuo <1>Mutable File System (MFS)</1>. Puoi aggiungere file o cartelle e gestirli da questa pagina.</0>",
-      "paragraph2": "Click \"Next\" to learn more."
+      "paragraph2": "Clicca \"Avanti\" per saperne di più."
     },
     "step2": {
       "title": "Breadcrumb",
@@ -94,13 +101,13 @@
     },
     "step3": {
       "title": "Aggiungi file",
-      "paragraph1": "Qui puoi vedere quanti blocchi e file hai fissato.",
+      "paragraph1": "Qui puoi vedere quanti blocchi e file hai affissato.",
       "paragraph2": "Puoi aggiungere file o cartelle alla tua repository attraverso il menù a tendina a destra.",
       "paragraph3": "<0>Se vuoi aggiungere qualcosa che è già contenuto su IPFS, puoi importarlo al tuo MFS passando il suo <1>Content Identifier (CID)</1>.</0>"
     },
     "step5": {
       "title": "Lista di file",
-      "paragraph1": "Infine, la lista dove puoi trovare i tuoi file e cartelle. Trascina e rilascia per aggiungere file o cartelle.",
+      "paragraph1": "Infine, la lista dove puoi trovare i tuoi file e cartelle. Trascina e rilascia file o cartelle per aggiungerli/e.",
       "paragraph2": "Puoi condividere o scaricare file, ispezionarli nell'IPLD Explorer, rinominarli od eliminarli!",
       "paragraph3": "Suggerimento: trascina e rilascia un file da qualsiasi pagina del Web UI per aggiungerli al root del tuo MFS."
     }
@@ -110,8 +117,8 @@
     "inspect": "Ispeziona"
   },
   "hashUnavailable": "Hash non disponibile",
-  "pins": "Affissati",
-  "pinned": "Fissato",
+  "pins": "Affissi",
+  "pinned": "Affissato",
   "blocks": "Blocchi",
   "more": "Altro",
   "files": "File",

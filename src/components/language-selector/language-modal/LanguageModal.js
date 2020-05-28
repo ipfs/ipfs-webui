@@ -22,12 +22,16 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
           { localesList.map((lang) =>
             <button
               key={`lang-${lang}`}
-              className='pa2 w-33 flex nowrap bg-transparent bn outline-0 teal pointer'
+              className='pa2 w-33 flex nowrap bg-transparent bn outline-0 blue pointer'
               onClick={() => handleClick(lang)}>
               { getLanguage(lang) }
             </button>
           )}
         </div>
+        <p className='lh-copy charcoal f6'>
+          {t('languageModal.translationProjectIntro')}<br/>
+          <a href="https://www.transifex.com/ipfs/public/" rel="noopener noreferrer" target="_blank" class="link blue">{t('languageModal.translationProjectLink')}</a>
+        </p>
       </ModalBody>
 
       <ModalActions>

@@ -6,7 +6,7 @@
   "totalSize": "Celková velikost: {size}",
   "filesSelected": "{count, plural, one {Soubor vybrán} few {Souborů vybráno} many {Souborů vybráno} other {Souborů vybráno}}",
   "individualFilesOnly": "Dostupné pouze pro jednotlivé soubory",
-  "fileName": "Jméno souboru",
+  "itemName": "Jméno",
   "size": "Velikost",
   "noPDFSupport": "Váš prohlížeč nepodporuje PDF. Prosím stáhněte si PDF soubor k otevření:",
   "downloadPDF": "Stáhnout PDF",
@@ -15,11 +15,11 @@
   "addFile": "Soubor",
   "addFolder": "Složka",
   "addByPath": "Od IPFS",
-  "addToIPFS": "Přidat",
+  "importToIPFS": "Import",
   "newFolder": "Nová složka",
   "generating": "Vytváření…",
   "actions": {
-    "add": "Přidat",
+    "import": "Import",
     "delete": "Smazat",
     "rename": "Přejmenovat",
     "download": "Stáhnout",
@@ -55,8 +55,8 @@
     "descriptionFile": "{count, plural, one {Opravdu chcete tento souboy odstranit? Tato akce je trvalá a nelze ji zvrátit.} few {Opravdu chcete tyto {count} soubory odstranit? Tato akce je trvalá a nelze ji zvrátit.} many {Opravdu chcete těchto {count} souborů odstranit? Tato akce je trvalá a nelze ji zvrátit.} other {Opravdu chcete těchto {count} souborů odstranit? Tato akce je trvalá a nelze ji zvrátit.}}"
   },
   "addByPathModal": {
-    "title": "Přidat z IPFS",
-    "description": "Vložte cestu IPFS (CID), kterou chcete přidat.",
+    "title": "Import from IPFS",
+    "description": "Insert an IPFS path (CID) to import.",
     "examples": "Příklady:"
   },
   "newFolderModal": {
@@ -74,6 +74,13 @@
   },
   "filesList": {
     "noFiles": "<0>V tomto adresáři nejsou žádné soubory. Klepnutím na tlačítko „Přidat“ přidejte některé.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
+    "importing": "{count, plural, one {Importing 1 item} other {Importing {count} items}}",
+    "toggleDropdown": "Toggle dropdown",
+    "closeDropdown": "Close dropdown",
+    "count": "{count} of {count}"
   },
   "addFilesInfo": "<0>Přidejte soubory do vašeho IPFS uzlu kliknutím na <1>Přidat do IPFS</1> tlačítko.</0>",
   "companionInfo": "<0>Jelikož používáte <1>IPFS Companion</1>, zobrazené soubory jsou omezeny pouze na ty které jste přidali během používání tohoto rozšíření.</0>",
