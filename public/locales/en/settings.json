@@ -9,7 +9,7 @@
   "languageModal": {
     "title": "Change language",
     "description": "Pick your preferred language.",
-    "translationProjectIntro": "Missing your language? Want to improve an existing one?",
+    "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
     "translationProjectLink": "Join IPFS Translation Project"
   },
   "actions": {
