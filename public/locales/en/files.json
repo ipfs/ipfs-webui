@@ -5,6 +5,8 @@
   "finished": "Finished!",
   "totalSize": "Total size: {size}",
   "filesSelected": "{count, plural, one {File selected} other {Files selected}}",
+  "menuOptions": "Options for selected item",
+  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Only available for individual files",
   "itemName": "Name",
   "size": "Size",
@@ -72,6 +74,7 @@
     "paragraph5": "<0><0>Review the settings</0> for your IPFS node, and update them to better suit your needs.</0>",
     "paragraph6": "<0>If you want to help push the Web UI forward, <1>check out its code</1> or <3>report a bug</3>!</0>"
   },
+  "filesListLabel": "Files list",
   "filesList": {
     "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
   },
@@ -116,11 +119,15 @@
     "browse": "Browse",
     "inspect": "Inspect"
   },
+  "previousFolder": "Go back to previous folder",
+  "fileLabel": "Select {type} {name} with size: {size}", 
   "hashUnavailable": "hash unavailable",
+  "checkboxLabel": "View more options for {name}",
   "pins": "Pins",
   "pinned": "Pinned",
   "blocks": "Blocks",
   "more": "More",
   "files": "Files",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead."
+  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead.",
+  "sortBy": "Sort items by {name}"
 }

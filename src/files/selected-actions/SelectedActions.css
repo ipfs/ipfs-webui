@@ -1,0 +1,8 @@
+.selectedActionsAnimated {
+    animation: selectedActions 0.3s ease-in-out both;
+}
+
+@keyframes selectedActions {
+    from { transform: translateY(100%) }
+    to { transform: translateY(0%) }
+}

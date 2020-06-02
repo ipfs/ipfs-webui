@@ -38,7 +38,7 @@ const AnalyticType = ({ children, onChange, enabled, label, summary, exampleRequ
           <span className='fw5 f6'>{label}</span>
         } />
         <div className='truncate fw4 f6 flex-auto charcoal-muted'>&ndash; {summary}</div>
-        <button className='focus-outline bg-transparent pa3 bn link blue pointer flex-none' onClick={() => setOpen(!isOpen)} style={{ minWidth: 100 }}>
+        <button className='focus-outline bg-transparent pa3 bn link blue flex-none' onClick={() => setOpen(!isOpen)} style={{ minWidth: 100 }}>
           {isOpen ? 'Close' : 'Show me' }
         </button>
       </div>

@@ -64,10 +64,9 @@ class Breadcrumbs extends React.Component {
       <span key={`${index}link`} className='dib pv1 pr1' style={{ direction: 'ltr' }}>
         { link.disabled
           ? <span title={link.realName} className='gray'>{link.name}</span>
-          /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-          : <a title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => onClick(link.path)}>
+          : <button title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => onClick(link.path)}>
             {link.name}
-          </a>
+          </button>
         }
       </span>,
       /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
@@ -85,12 +84,12 @@ class Breadcrumbs extends React.Component {
       <nav aria-label={t('breadcrumbs')} className={cls} {...props}>
         { (root.name === 'files' || root.name === 'pins') &&
         /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-        <a key={`${root.name}-label`}
+        <button key={`${root.name}-label`}
           title={root.realName}
           onClick={() => onClick(root.path)}
           className='f7 pointer pa1 bg-navy br2 mr2 white'>
           {t(root.name)}
-        </a>
+        </button>
         }
 
         <div className='nowrap overflow-hidden relative' ref={(el) => { this.anchors = el }} style={{ direction: 'rtl' }}>
