@@ -27,7 +27,7 @@ describe('Files screen', () => {
 
     const [fileChooser] = await Promise.all([
       page.waitForFileChooser(),
-      page.click('a[id="add-file"]') // menu button that triggers file selection
+      page.click('button[id="add-file"]') // menu button that triggers file selection
     ])
 
     //  select a single static text file via fileChooser
