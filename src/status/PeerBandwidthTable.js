@@ -79,7 +79,7 @@ export class PeerBandwidthTable extends Component {
           </tbody>
         </table>
         {!showAll && hiddenPeers.length ? (
-          <p className='sans-serif f5 ma0 pv3 ph2 tc pointer underline-hover navy-muted' onClick={this.onShowAllClick}>{t('more', { count: hiddenPeers.length })}</p>
+          <button className='sans-serif f5 ma0 buttonv3 ph2 tc pointer underline-hover navy-muted' onClick={this.onShowAllClick}>{t('more', { count: hiddenPeers.length })}</button>
         ) : null}
       </Box>
     )

@@ -59,17 +59,17 @@ export const NavBar = ({ t, width, open, onToggle }) => {
   return (
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
-        <div className='pointer navy pv3 pv4-l' onClick={onToggle}>
+        <button className='pointer navy pv3 pv4-l' onClick={onToggle} aria-label={t('collapseNavbar')}>
           <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
           <img className='center' style={{ height: 70, display: open ? 'none' : 'block' }} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
-        </div>
-        <nav className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
+        </button>
+        <div className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
           <NavLink to='/' exact icon={StrokeMarketing} open={open}>{t('status:title')}</NavLink>
           <NavLink to='/files' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
           <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
           <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
           <NavLink to='/settings' icon={StrokeSettings} open={open}>{t('settings:title')}</NavLink>
-        </nav>
+        </div>
       </div>
       { open &&
         <div className='dn db-l navbar-footer mb3 center'>

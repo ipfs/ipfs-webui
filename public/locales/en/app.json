@@ -7,5 +7,6 @@
     "skip": "Skip",
     "tooltip": "Click this button any time for a guided tour on the current page."
   },
-  "startTourHelper": "Start tour"
+  "startTourHelper": "Start tour",
+  "collapseNavbar": "Collapse navbar"
 }
