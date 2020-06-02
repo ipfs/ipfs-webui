@@ -41,7 +41,7 @@ export default class Tool extends React.Component {
 
     return (
       <div className='relative' {...props}>
-        <div onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave} className='overflow-hidden'>
+        <div onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave} onFocus={this.onMouseOver} onBlur={this.onMouseLeave} className='overflow-hidden'>
           {React.Children.map(children, c => React.cloneElement(c, { ref: (n) => { this.el = n } }))}
         </div>
 

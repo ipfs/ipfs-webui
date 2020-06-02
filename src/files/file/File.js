@@ -99,10 +99,10 @@ class File extends React.Component {
     const element = connectDropTarget(
       <div className={className} style={styles} onContextMenu={this.handleCtxRightClick}>
         <div className={checkBoxCls}>
-          <Checkbox disabled={cantSelect} checked={selected} onChange={select} />
+          <Checkbox disabled={cantSelect} checked={selected} onChange={select} aria-label={ t('checkboxLabel', { name })} />
         </div>
         {connectDragPreview(
-          <div onClick={onNavigate} className='relative pointer flex items-center flex-grow-1 ph2 pv1 w-40'>
+          <button onClick={onNavigate} className='relative pointer flex items-center flex-grow-1 ph2 pv1 w-40' aria-label={ name === '..' ? t('previousFolder') : t('fileLabel', { name, type, size }) }>
             <div className='dib flex-shrink-0 mr2'>
               <FileIcon name={name} type={type} />
             </div>
@@ -114,7 +114,7 @@ class File extends React.Component {
                 <div className='f7 mt1 gray truncate monospace'>{hash}</div>
               </Tooltip>
             </div>
-          </div>
+          </button>
         )}
         <div className='ph2 pv1 flex-none dn db-l tr mw3'>
           { pinned && <div className='bg-snow br-100 o-70' title={t('pinned')} style={{ width: '1.5rem', height: '1.5rem' }}>
@@ -124,9 +124,9 @@ class File extends React.Component {
         <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
           {size}
         </div>
-        <div ref={el => { this.dotsWrapper = el }} className='ph2' style={{ width: '2.5rem' }}>
-          <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all' onClick={this.handleCtxLeftClick} />
-        </div>
+        <button ref={el => { this.dotsWrapper = el }} className='ph2 db button-inside-focus' style={{ width: '2.5rem' }} onClick={this.handleCtxLeftClick} aria-label={ t('checkboxLabel', { name })} >
+          <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all'/>
+        </button>
       </div>
     )
 

@@ -73,16 +73,17 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
       <div className="br1 dark-gray w-40 center ba b--light-gray bg-white" style={{ pointerEvents: 'auto' }}>
-        <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal" style={{ background: '#F0F6FA' }}
-          onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={ t('filesImportStatus.toggleDropdown') } role="button">
+        <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100" style={{ background: '#F0F6FA' }}>
           { filesPending.length
             ? t('filesImportStatus.importing', { count: filesPending.length })
             : t('filesImportStatus.imported', { count: numberOfImportedFiles })
           }
-          <GlyphSmallArrows className='fileImportStatusArrow' fill="currentColor" opacity="0.7"/>
-          <div onClick={ handleImportStatusClose } aria-label={ t('filesImportStatus.closeDropdown') } role="button">
-            <GlyphSmallCancel className='fileImportStatusCancel' fill="currentColor" opacity="0.7"/>
-          </div>
+          <button className='fileImportStatusArrow' onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={ t('filesImportStatus.toggleDropdown') }>
+            <GlyphSmallArrows className='fileImportStatusIcons' fill="currentColor" opacity="0.7" aria-hidden="true"/>
+          </button>
+          <button className='fileImportStatusCancel' onClick={ handleImportStatusClose } aria-label={ t('filesImportStatus.closeDropdown') }>
+            <GlyphSmallCancel className='fileImportStatusIcons' fill="currentColor" opacity="0.7"/>
+          </button>
         </div>
         <ul className='fileImportStatusRow pa0 ma0' aria-hidden={!expanded}>
           { filesPending.map(file => File(file.data, t)) }

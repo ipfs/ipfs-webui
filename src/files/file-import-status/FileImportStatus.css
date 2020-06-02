@@ -20,6 +20,10 @@
     width: 1rem;
 }
 
+.fileImportStatusIcons {
+    width: 100%;
+}
+
 .fileImportStatusCancel {
     height: 3rem;
     margin-left: 0.5rem;
