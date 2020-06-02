@@ -155,7 +155,7 @@ class FilesPage extends React.Component {
       return (
         <div>
           <Trans i18nKey='cidNotFileNorDir'>
-            The current link isn't a file, nor a directory. Try to <span className='link blue pointer' onClick={() => doExploreUserProvidedPath(path)}>inspect</span> it instead.
+            The current link isn't a file, nor a directory. Try to <button className='link blue pointer' onClick={() => doExploreUserProvidedPath(path)}>inspect</button> it instead.
           </Trans>
         </div>
       )
