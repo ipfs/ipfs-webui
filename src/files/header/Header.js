@@ -37,6 +37,7 @@ class Header extends React.Component {
   render () {
     const {
       currentDirectorySize,
+      hasUpperDirectory,
       files,
       filesPathInfo,
       filesSize,
@@ -53,7 +54,13 @@ class Header extends React.Component {
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
           <BarOption title={t('files')}>
-            <span>{ humanSize(currentDirectorySize) }<span className='f5 gray'>/{ humanSize(filesSize) }</span></span>
+            { hasUpperDirectory
+              ? (
+                <span>
+                  { humanSize(currentDirectorySize) }<span className='f5 gray'>/{ humanSize(filesSize) }</span>
+                </span>
+              )
+              : humanSize(filesSize) }
           </BarOption>
 
           <BarOption title={t('allBlocks')}>
@@ -89,6 +96,7 @@ class Header extends React.Component {
 }
 
 export default connect(
+  'selectHasUpperDirectory',
   'selectFilesSize',
   'selectRepoSize',
   'selectRepoNumObjects',
