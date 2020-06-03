@@ -28,8 +28,6 @@ export default () => ({
 
   selectFilesErrors: (state) => state.files.failed,
 
-  selectHasUpperDirectory: (state) => !!state.files.pageContent?.upper,
-
   selectFilesPathInfo: createSelector(
     'selectRouteInfo',
     (routeInfo) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import filesize from 'filesize'
-import SimplifyNumber from 'simplify-number'
+import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 // Components
@@ -10,18 +10,12 @@ import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
 
-function BarOption ({ children, title, isLink = false, className = '', ...etc }) {
-  className += ' tc pa3'
-
-  if (etc.onClick) className += ' pointer'
-
-  return (
-    <div className={className} {...etc}>
-      <span className='nowrap db f4 navy'>{children}</span>
-      <span className={`db ttl ${isLink ? 'navy underline' : 'gray'}`}>{title}</span>
-    </div>
-  )
-}
+const BarOption = ({ children, title, className = '', ...etc }) => (
+  <div className={classNames(className, 'tc pa3')} {...etc}>
+    <span className='nowrap db f4 navy'>{children}</span>
+    <span className='db ttl gray'>{title}</span>
+  </div>
+)
 
 function humanSize (size) {
   if (!size) return 'N/A'
@@ -43,12 +37,10 @@ class Header extends React.Component {
   render () {
     const {
       currentDirectorySize,
-      hasUpperDirectory,
       files,
       filesPathInfo,
       filesSize,
       onNavigate,
-      pins,
       repoSize,
       t
     } = this.props
@@ -60,16 +52,8 @@ class Header extends React.Component {
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
-          <BarOption title={t('files')} isLink onClick={() => { onNavigate('/files') }}>
-            { hasUpperDirectory
-              ? (
-                <span>{ humanSize(currentDirectorySize) }<span className='f5 gray'>/{ humanSize(filesSize) }</span></span>
-              )
-              : humanSize(filesSize) }
-          </BarOption>
-
-          <BarOption title={t('pins')} isLink onClick={() => { onNavigate('/pins') }}>
-            { pins ? SimplifyNumber(pins.length) : '-' }
+          <BarOption title={t('files')}>
+            <span>{ humanSize(currentDirectorySize) }<span className='f5 gray'>/{ humanSize(filesSize) }</span></span>
           </BarOption>
 
           <BarOption title={t('allBlocks')}>
@@ -105,8 +89,6 @@ class Header extends React.Component {
 }
 
 export default connect(
-  'selectHasUpperDirectory',
-  'selectPins',
   'selectFilesSize',
   'selectRepoSize',
   'selectRepoNumObjects',
