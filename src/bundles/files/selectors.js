@@ -5,6 +5,8 @@ import { infoFromPath } from './utils'
 export default () => ({
   selectFiles: (state) => state.files.pageContent,
 
+  selectCurrentDirectorySize: (state) => state.files.pageContent?.content?.reduce((prev, curr) => prev + curr.size, 0),
+
   selectPins: (state) => state.files.pins,
 
   selectFilesSize: (state) => state.files.mfsSize,
@@ -25,6 +27,8 @@ export default () => ({
   selectFilesHasError: (state) => state.files.failed.length > 0,
 
   selectFilesErrors: (state) => state.files.failed,
+
+  selectHasUpperDirectory: (state) => !!state.files.pageContent?.upper,
 
   selectFilesPathInfo: createSelector(
     'selectRouteInfo',

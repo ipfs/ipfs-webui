@@ -42,14 +42,15 @@ class Header extends React.Component {
 
   render () {
     const {
+      currentDirectorySize,
+      hasUpperDirectory,
       files,
-      t,
-      pins,
       filesPathInfo,
       filesSize,
-      repoNumObjects,
+      onNavigate,
+      pins,
       repoSize,
-      onNavigate
+      t
     } = this.props
 
     return (
@@ -60,18 +61,18 @@ class Header extends React.Component {
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
           <BarOption title={t('files')} isLink onClick={() => { onNavigate('/files') }}>
-            { humanSize(filesSize) }
+            { hasUpperDirectory
+              ? (
+                <span>{ humanSize(currentDirectorySize) }<span className='f5 gray'>/{ humanSize(filesSize) }</span></span>
+              )
+              : humanSize(filesSize) }
           </BarOption>
 
           <BarOption title={t('pins')} isLink onClick={() => { onNavigate('/pins') }}>
             { pins ? SimplifyNumber(pins.length) : '-' }
           </BarOption>
 
-          <BarOption title={t('blocks')}>
-            { repoNumObjects ? SimplifyNumber(repoNumObjects, { decimal: 0 }) : 'N/A' }
-          </BarOption>
-
-          <BarOption title={t('repo')}>
+          <BarOption title={t('allBlocks')}>
             { humanSize(repoSize) }
           </BarOption>
 
@@ -104,10 +105,12 @@ class Header extends React.Component {
 }
 
 export default connect(
+  'selectHasUpperDirectory',
   'selectPins',
   'selectFilesSize',
   'selectRepoSize',
   'selectRepoNumObjects',
   'selectFilesPathInfo',
+  'selectCurrentDirectorySize',
   withTranslation('files')(Header)
 )
