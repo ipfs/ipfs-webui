@@ -1,5 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
 import filesize from 'filesize'
 import SimplifyNumber from 'simplify-number'
 import { connect } from 'redux-bundler-react'
@@ -11,13 +10,16 @@ import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
 
-function BarOption ({ children, title, isLink = false, className = '', onClick, ...etc }) {
-  const BarOptionsWrapper = onClick ? 'button' : 'div'
+function BarOption ({ children, title, isLink = false, className = '', ...etc }) {
+  className += ' tc pa3'
+
+  if (etc.onClick) className += ' pointer'
+
   return (
-    <BarOptionsWrapper className={classNames(className, 'tc pa3')} onClick={onClick} {...etc}>
+    <div className={className} {...etc}>
       <span className='nowrap db f4 navy'>{children}</span>
       <span className={`db ttl ${isLink ? 'navy underline' : 'gray'}`}>{title}</span>
-    </BarOptionsWrapper>
+    </div>
   )
 }
 
