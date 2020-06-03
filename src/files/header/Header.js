@@ -1,5 +1,6 @@
 import React from 'react'
 import filesize from 'filesize'
+import classNames from 'classnames'
 import SimplifyNumber from 'simplify-number'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
@@ -10,16 +11,13 @@ import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
 
-function BarOption ({ children, title, isLink = false, className = '', ...etc }) {
-  className += ' tc pa3'
-
-  if (etc.onClick) className += ' pointer'
-
+function BarOption ({ children, title, isLink = false, className = '', onClick, ...etc }) {
+  const BarOptionsWrapper = onClick ? 'button' : 'div'
   return (
-    <div className={className} {...etc}>
+    <BarOptionsWrapper className={classNames(className, 'tc pa3')} onClick={onClick} {...etc}>
       <span className='nowrap db f4 navy'>{children}</span>
       <span className={`db ttl ${isLink ? 'navy underline' : 'gray'}`}>{title}</span>
-    </div>
+    </BarOptionsWrapper>
   )
 }
 
@@ -47,7 +45,6 @@ class Header extends React.Component {
       pins,
       filesPathInfo,
       filesSize,
-      repoNumObjects,
       repoSize,
       onNavigate
     } = this.props
@@ -67,11 +64,7 @@ class Header extends React.Component {
             { pins ? SimplifyNumber(pins.length) : '-' }
           </BarOption>
 
-          <BarOption title={t('blocks')}>
-            { repoNumObjects ? SimplifyNumber(repoNumObjects, { decimal: 0 }) : 'N/A' }
-          </BarOption>
-
-          <BarOption title={t('repo')}>
+          <BarOption title={t('allBlocks')}>
             { humanSize(repoSize) }
           </BarOption>
 
