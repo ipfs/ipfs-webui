@@ -1,6 +1,6 @@
 import i18n from 'i18next'
 import ICU from 'i18next-icu'
-import XHR from 'i18next-xhr-backend'
+import StaticHttpBackend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
 import ca from 'i18next-icu/locale-data/ca'
@@ -32,8 +32,8 @@ export const localesList =
     .sort()
 
 i18n
-  .use(new ICU({ localeData: localeData }))
-  .use(XHR)
+  .use(new ICU({ localeData }))
+  .use(StaticHttpBackend)
   .use(LanguageDetector)
   .init({
     ns: ['app', 'welcome', 'status', 'files', 'explore', 'peers', 'settings', 'notify'],
@@ -43,7 +43,7 @@ i18n
       zh: ['zh-CN', 'en'],
       default: ['en']
     },
-    debug: process.env.NODE_ENV !== 'production',
+    debug: process.env.DEBUG,
     backend: {
       // ensure a relative path is used to look up the locales, so it works when used from /ipfs/<cid>
       loadPath: 'locales/{{lng}}/{{ns}}.json'

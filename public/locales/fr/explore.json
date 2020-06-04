@@ -1,5 +1,6 @@
 {
   "appName": "Explorateur IPLD",
+  "tabName": "Explorer",
   "StartExploringPage": {
     "title": "Explorer - IPLD",
     "header": "Explorer la forêt de Merkle",
