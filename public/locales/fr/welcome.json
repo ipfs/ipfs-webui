@@ -16,7 +16,7 @@
   "notConnected": {
     "header": "Votre démon IPFS est-il en cours d'exécution ?",
     "paragraph1": "<0>Échec de connexion à l'API.</0>",
-    "paragraoh2": "<0>Assurez-vous de <1>configurer votre API IPFS</1>pour autoriser les requêtes cross-origin (CORS), en lançant la commande ci-dessous :</0>",
+    "paragraph2": "<0>Assurez-vous de <1>configurer votre API IPFS</1>pour autoriser les requêtes cross-origin (CORS), en lançant la commande ci-dessous :</0>",
     "paragraph3": "<0>Démarrer un démon IPFS dans un terminal :</0>",
     "paragraph4": "<0>Pour plus d'information sur comment démarrer avec IPFS vous pouvez <1> lire le manuel</1>.</0>"
   },

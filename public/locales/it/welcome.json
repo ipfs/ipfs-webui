@@ -16,7 +16,7 @@
   "notConnected": {
     "header": "È in esecuzione il demone IPFS?",
     "paragraph1": "<0>Connessione all'API fallita.</0>",
-    "paragraoh2": "<0>Accertati di <1>configurare la tua API IPFS</1> per permettere le richieste cross-origin (CORS), eseguendo i comandi sottostanti:</0>",
+    "paragraph2": "<0>Accertati di <1>configurare la tua API IPFS</1> per permettere le richieste cross-origin (CORS), eseguendo i comandi sottostanti:</0>",
     "paragraph3": "<0>Avvia un demone IPFS in un terminale:</0>",
     "paragraph4": "<0>Per ulteriori informazioni su come iniziare con IPFS puoi <1>leggere la guida</1>.</0>"
   },

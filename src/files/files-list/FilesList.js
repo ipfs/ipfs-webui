@@ -277,7 +277,7 @@ export class FilesList extends React.Component {
   }
 
   emptyRowsRenderer = () => {
-    const { upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
+    const { t, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
     const { isDragging, focused } = this.state
 
     return (
@@ -296,7 +296,7 @@ export class FilesList extends React.Component {
           cantSelect
           {...upperDir} /> }
 
-        <Trans i18nKey='filesList.noFiles'>
+        <Trans i18nKey='filesList.noFiles' t={t}>
           <div className='pv3 b--light-gray bt tc gray f6'>
             There are no available files. Add some!
           </div>

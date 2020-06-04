@@ -16,7 +16,7 @@
   "notConnected": {
     "header": "Draait je IPFS daemon?",
     "paragraph1": "<0>Verbinden het de API mislukt.</0>",
-    "paragraoh2": "<0>Configureer zeker je <1>IPFS API</1>om cross-origin (CORS) aanvragen toe te staan. Dit kan met volgende commando's:</0>",
+    "paragraph2": "<0>Configureer zeker je <1>IPFS API</1>om cross-origin (CORS) aanvragen toe te staan. Dit kan met volgende commando's:</0>",
     "paragraph3": "<0>Start een IPFS daemon in een terminal:</0>",
     "paragraph4": "<0>Lees <1>de handleiding</1> om te starten met IPFS.</0> "
   },

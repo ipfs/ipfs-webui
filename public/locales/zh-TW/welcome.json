@@ -16,7 +16,7 @@
   "notConnected": {
     "header": "您的 IPFS 守護程序是否正在運行？",
     "paragraph1": "<0>無法連接 API</0>",
-    "paragraoh2": "<0>確認你<1>配置了你的 IPFS API </1>以允許跨域（CORS）請求，執行下面命令：</0>",
+    "paragraph2": "<0>確認你<1>配置了你的 IPFS API </1>以允許跨域（CORS）請求，執行下面命令：</0>",
     "paragraph3": "<0>在終端中啟動 IPFS 守護進程:</0>",
     "paragraph4": "<0>獲取開始使用 IPFS 的更多信息你可以 <1>閱讀此嚮導</1>.</0>"
   },

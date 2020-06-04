@@ -46,7 +46,7 @@ export const statusTour = {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step3.title')}</h2>
         <p className='tl f6'>{t('tour.step3.paragraph1')}</p>
-        <Trans i18nKey='tour.step3.paragraph2'>
+        <Trans i18nKey='tour.step3.paragraph2' t={t}>
           <p className='tl f6'>Click on <code>Advanced</code> to see more info such as the gateway URL and addresses.</p>
         </Trans>
       </div>,
@@ -87,7 +87,7 @@ export const filesTour = {
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step1.title')}</h2>
-        <Trans i18nKey='tour.step1.paragraph1'>
+        <Trans i18nKey='tour.step1.paragraph1' t={t}>
           <p className='tl f6'>
             This is where the files on your <a className='teal link' href='https://docs.ipfs.io/guides/concepts/mfs/' rel='noopener noreferrer' target='_blank'>
             Mutable File System (MFS)</a> live. You can add files or folders and manage them from this page.
@@ -111,7 +111,7 @@ export const filesTour = {
         <h2 className='f3 fw4'>{t('tour.step3.title')}</h2>
         <p className='tl f6'>{t('tour.step3.paragraph1')}</p>
         <p className='tl f6'>{t('tour.step3.paragraph2')}</p>
-        <Trans i18nKey='tour.step3.paragraph3'>
+        <Trans i18nKey='tour.step3.paragraph3' t={t}>
           <p className='tl f6'>
             If you want to add something that is already on IPFS, you can import it to your MFS by passing its <a className='teal link' href='https://docs.ipfs.io/guides/concepts/cid/' rel='noopener noreferrer' target='_blank'>Content
             Identifier (CID)</a>.
@@ -196,7 +196,7 @@ export const settingsTour = {
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step2.title')}</h2>
-        <Trans i18nKey='tour.step2.paragraph1'>
+        <Trans i18nKey='tour.step2.paragraph1' t={t}>
           <p className='tl f6'>You can change the language of the Web UI.
           If your preferred language isn't available, head over our project page in <a className='teal link' href='https://www.transifex.com/ipfs/ipfs-webui/translate/' rel='noopener noreferrer' target='_blank'>Transifex</a> to help us translate!
           </p>

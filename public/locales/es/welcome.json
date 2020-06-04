@@ -16,7 +16,7 @@
   "notConnected": {
     "header": "¿Está funcionando su daemon IPFS?",
     "paragraph1": "<0>Error al conectarse a la API.</0>",
-    "paragraoh2": "<0>Asegúrese de <1>configurar su IPFS API</1> para permitir solicitudes de origen cruzado (CORS), ejecutando los siguientes comandos:</0>",
+    "paragraph2": "<0>Asegúrese de <1>configurar su IPFS API</1> para permitir solicitudes de origen cruzado (CORS), ejecutando los siguientes comandos:</0>",
     "paragraph3": "<0>Inicie un demonio IPFS en una terminal:</0>",
     "paragraph4": "<0>Para obtener más información sobre cómo comenzar con IPFS, puede <1>leer la guía</1>.</0>"
   },
