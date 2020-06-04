@@ -3,6 +3,10 @@
   "save": "Save",
   "saving": "Saving…",
   "reset": "Reset",
+  "pinningServices": {
+    "title": "Pinning Services",
+    "description": "Use local pinning to ensure files on your local node persist and are never garbage-collected. You can also link your accounts with other pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline. <1>Check the documentation for further information.</1>"
+  },
   "language": "Language",
   "analytics": "Analytics",
   "config": "IPFS Config",
