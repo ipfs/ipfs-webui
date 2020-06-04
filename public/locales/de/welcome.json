@@ -16,7 +16,7 @@
   "notConnected": {
     "header": "Läuft dein IPFS-Daemon?",
     "paragraph1": "<0>API-Verbindung fehlgeschlagen.</0>",
-    "paragraoh2": "<0>Stelle sicher, dass Du <1>Deine IPFS-API so konfigurierst</1>, dass mit den unten stehenden Befehlen Cross-Origin-Anfragen (CORS) zugelassen werden.</0>",
+    "paragraph2": "<0>Stelle sicher, dass Du <1>Deine IPFS-API so konfigurierst</1>, dass mit den unten stehenden Befehlen Cross-Origin-Anfragen (CORS) zugelassen werden.</0>",
     "paragraph3": "<0>Starte einen IPFS-Daemon in einem Terminal.</0>",
     "paragraph4": "<0><1>Lies die Anleitung</1> für mehr Informationen über das IPFS.</0>"
   },

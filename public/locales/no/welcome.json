@@ -16,7 +16,7 @@
   "notConnected": {
     "header": "Kjører din IPFS daemon?",
     "paragraph1": "<0>Kunne ikke koble til API.</0>",
-    "paragraoh2": "<0>Vær sikker på at du <1>konfigurerer ditt IPFS API</1> til å tillate cross-origin (CORS) forespørsler, ved å kjøre kommandoene nedenfor:</0>",
+    "paragraph2": "<0>Vær sikker på at du <1>konfigurerer ditt IPFS API</1> til å tillate cross-origin (CORS) forespørsler, ved å kjøre kommandoene nedenfor:</0>",
     "paragraph3": "<0>Start en IPFS daemon i terminal:</0>",
     "paragraph4": "<0>For mer informasjon om hvordan du kommer i gang med IPFS kan du <1>lese guiden</1>.</0>"
   },

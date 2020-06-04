@@ -16,7 +16,7 @@
   "notConnected": {
     "header": "Beží vaše IPFS služba?",
     "paragraph1": "<0>Připojení k API selhalo.</0>",
-    "paragraoh2": "<0>Ujistěte se, že <1>nakonfigurujete své rozhraní IPFS API</1> tak, aby umožňovalo požadavky křížového původu (CORS), spuštěním následujících příkazů:</0>",
+    "paragraph2": "<0>Ujistěte se, že <1>nakonfigurujete své rozhraní IPFS API</1> tak, aby umožňovalo požadavky křížového původu (CORS), spuštěním následujících příkazů:</0>",
     "paragraph3": "<0>Spusťte démona IPFS v terminálu:</0>",
     "paragraph4": "<0>Pro více informací jak začít s IPFS si můžete <1>přečíst příručku</1>.</0>"
   },
