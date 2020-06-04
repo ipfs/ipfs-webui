@@ -37,6 +37,8 @@ i18n
   .use(LanguageDetector)
   .init({
     ns: ['app', 'welcome', 'status', 'files', 'explore', 'peers', 'settings', 'notify'],
+    defaultNS: 'app',
+    fallbackNS: 'app',
     fallbackLng: {
       'zh-Hans': ['zh-CN', 'en'],
       'zh-Hant': ['zh-TW', 'en'],
