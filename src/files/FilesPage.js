@@ -141,7 +141,7 @@ class FilesPage extends React.Component {
   }
 
   get mainView () {
-    const { files, doExploreUserProvidedPath } = this.props
+    const { t, files, doExploreUserProvidedPath } = this.props
 
     if (!files) {
       return (<div></div>)
@@ -154,7 +154,7 @@ class FilesPage extends React.Component {
 
       return (
         <div>
-          <Trans i18nKey='cidNotFileNorDir'>
+          <Trans i18nKey='cidNotFileNorDir' t={t}>
             The current link isn't a file, nor a directory. Try to <span className='link blue pointer' onClick={() => doExploreUserProvidedPath(path)}>inspect</span> it instead.
           </Trans>
         </div>

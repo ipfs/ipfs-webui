@@ -148,7 +148,7 @@ const SettingsInfo = ({ t, isIpfsConnected, isConfigBlocked, hasExternalChanges,
   } else if (hasExternalChanges) {
     return (
       <p className='ma0 lh-copy red f5 mw7'>
-        <Trans i18nKey='settingsHaveChanged'>
+        <Trans i18nKey='settingsHaveChanged' t={t}>
           The settings have changed, please click <strong>Reset</strong> to update the editor contents
         </Trans>
       </p>

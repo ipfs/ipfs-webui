@@ -51,7 +51,7 @@ class Preview extends React.Component {
           <div className='mt4'>
             <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
             <p>
-              <Trans i18nKey='downloadInstead'>
+              <Trans i18nKey='downloadInstead' t={t}>
                 Try <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue' >downloading</a> it instead.
               </Trans>
             </p>
