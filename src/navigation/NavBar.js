@@ -19,9 +19,7 @@ const NavLink = ({
   open,
   exact,
   disabled,
-  children,
-  className,
-  activeClassName
+  children
 }) => {
   const Svg = icon
   const { hash } = window.location
@@ -51,7 +49,7 @@ const NavLink = ({
   )
 }
 
-export const NavBar = ({ t, width, open, onToggle }) => {
+export const NavBar = ({ t, open, onToggle }) => {
   const codeUrl = 'https://github.com/ipfs-shipyard/ipfs-webui'
   const bugsUrl = `${codeUrl}/issues`
   const gitRevision = process.env.REACT_APP_GIT_REV
