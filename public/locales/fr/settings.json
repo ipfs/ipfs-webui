@@ -8,38 +8,40 @@
   "config": "Config IPFS",
   "languageModal": {
     "title": "Changer la langue",
-    "description": "Choisir votre langue préférée"
+    "description": "Choisir votre langue préférée",
+    "translationProjectIntro": "Ajoutez ou corrigez des traductions pour rendre IPFS meilleur pour tout le monde!",
+    "translationProjectLink": "Participez projet de traduction IPFS"
   },
   "actions": {
     "edit": "Changer",
     "close": "Fermer"
   },
   "fetchingSettings": "Récupération des paramètres...",
-  "configApiNotAvailable": "L'API de la configuration IPFS n'est pas disponible. Merci de désactiver l'extension IPFS-Companion et de réessayer.",
-  "ipfsDaemonOffline": "Le démon IPFS est hors-ligne. S'il vous plait relancez-le.",
+  "configApiNotAvailable": "L'API de configuration IPFS n'est pas disponible. Merci de désactiver l'extension IPFS Companion et de réessayer.",
+  "ipfsDaemonOffline": "Le démon IPFS est hors-ligne. Merci de le relancer.",
   "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre nœud IPFS est en cours d'exécution.",
-  "settingsHaveChanged": "Les paramètres ont changé. Cliquez sur <1>reset</1> pour mettre à jour l'éditeur de contenu.",
+  "settingsHaveChanged": "Les paramètres ont changé. Cliquez sur <1>Réinitialiser</1> pour mettre à jour l'éditeur de contenu.",
   "errorOccured": "Une erreur s'est produite pendant l'enregistrement de vos modifications",
-  "checkConsole": "Vérifier la console du navigateur pour plus d'information.",
+  "checkConsole": "Vérifier la console du navigateur pour plus d'informations.",
   "changesSaved": "Vos modifications ont été enregistrées.",
-  "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du nœud IPFS.",
+  "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du démon IPFS.",
   "ipfsConfigDescription": "Le fichier de configuration de IPFS est un document JSON. Il est lu lorsque le démon IPFS est lancé. Enregistrez vos modifications, puis relancez le démon IPFS pour les appliquer.",
-  "ipfsConfigHelp": "Vérifier la docuementation pour plus d'informations.",
+  "ipfsConfigHelp": "Vérifier la documentation pour plus d'informations.",
   "AnalyticsToggle": {
     "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes",
     "summary": "Configurer ce qui est collecté",
-    "paragraph1": "Aucun CID, nom de fichier ou autre information personnelle n'est collecté. Nous voulons que les métriques nous indiquent les fonctionnalités utiles pour nous aider à définir les priorités sur lesquelles travailler, et les informations de configuration du système pour guider nos tests.",
-    "paragraph2": "Protocol Labs héberge <1>généreusement</1> une instance pour enregistrer les données anonymisées d'usage de cette application.",
+    "paragraph1": "Aucun CID, nom de fichier ou autre information personnelle n'est collecté. Nous voulons des mesures pour nous indiquer les fonctionnalités utiles et nous aider à définir les priorités sur lesquelles travailler, ainsi que les informations sur la configuration du système pour guider nos tests.",
+    "paragraph2": "Protocol Labs héberge une instance <1>Countly</1>  pour enregistrer les données d'usage anonymisées de cette application.",
     "basicInfo": "Les informations supplémentaires suivantes sont envoyées à countly.ipfs.io",
     "optionalInfo": "Vous pouvez choisir d'envoyer les informations suivantes :",
     "sessions": {
       "label": "Sessions",
-      "summary": "Où et quand utiliser l'application, et les métriques du navigateur",
+      "summary": "Où et quand vous utilisez l'application, et les métriques du navigateur",
       "details": "<0>Les métriques de navigateur suivantes sont envoyées:</0><1><0>Un device ID généré aléatoirement</0><1>Un timestamp du démarage de la session</1><2>Des timestamps réguliers pour mesurer sa durée</2><3>La version de l'application; par exemple 2.4.4</3><4>La localisation: par exemple; fr-FR</4><5>Le user agent; par exemlple Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>La résolution d'écran; par exemple 800x600</6><7>La densité de l'écran en pixels; par exemple 1</7></1>"
     },
     "events": {
       "label": "Événements",
-      "summary": "des actions telles que l'ajout ou la suppression de fichiers, et combien de temps cela a pris",
+      "summary": "Des actions telles que l'ajout ou la suppression de fichiers, et combien de temps cela a pris",
       "details": "Des actions spécifiques à l'application. Nous enregistrons seulement les actions qui se passent, combien de temps s'est déroulé entre son début et sa fin, et un décompte si l'évènement concerne plusieurs éléments."
     },
     "views": {
@@ -55,7 +57,7 @@
     "crashes": {
       "label": "Erreurs de l'application",
       "summary": "Messages d'erreur JavaScript et traces d'appels",
-      "details": "Enregistre les messages d'erreur JavaScript et les traces de pile qui se produisent pendant l'utilisation de l'application, si possible. Il est très utile de savoir quand l'application ne fonctionne pas pour vous, mais<1>les messages d'erreur peuvent contenir des informations identifiables</1>comme les CID ou les chemins d'accès aux fichiers, donc n'activez cette option que si vous êtes à l'aise pour partager ces informations avec nous."
+      "details": "Enregistre les messages d'erreur JavaScript et les traces de pile qui se produisent pendant l'utilisation de l'application, si possible. Il est très utile de savoir quand l'application ne fonctionne pas pour vous, mais<1>les messages d'erreur peuvent contenir des informations identifiantes</1>comme les CID ou les chemins d'accès aux fichiers, donc n'activez cette option que si vous êtes à l'aise pour partager ces informations avec nous."
     }
   },
   "tour": {
@@ -65,27 +67,27 @@
     "next": "Suivant",
     "skip": "Passer",
     "step1": {
-      "title": "Page de paramétres",
+      "title": "Page des paramétres",
       "paragraph1": "Ici vous pouvez changer les paramétres de votre interface web ou de votre noeud IPFS.",
-      "paragraph2": "Si vous utilisé IPFS desktop vous aurez quelques paramétres spécific aussi."
+      "paragraph2": "Si vous utilisez IPFS Desktop vous pourrez également régler quelques paramètres qui lui sont spécifiques."
     },
     "step2": {
-      "title": "Sélecteur de langue",
-      "paragraph1": "<0>Vous pouvez changer la lange de l'interface web. Si votre langue préférer n'est pas disponible, jeter un oeil sur notre <1>page sur Transifex</1> pour nous aider à traduire!</0>"
+      "title": "Sélection de la langue",
+      "paragraph1": "<0>Vous pouvez changer la lange de l'interface web. Si votre langue préférée n'est pas disponible, jeter un œil sur notre <1>page sur Transifex</1> pour nous aider à traduire!</0>"
     },
     "step3": {
-      "title": "Analyse de l'usage anonyme",
-      "paragraph1": "Si vous cochez sur cela, vous pouvez nous aider à améliorer l'interface web and envoyant anonymant des analyses anonyme.",
+      "title": "Analyse anonyme de l'usage ",
+      "paragraph1": "En cochant ceci, vous pouvez nous aider à améliorer l'interface web en envoyant anonymement des statistiques d'utilisation.",
       "paragraph2": "Vous pourrez choisier les données que vous enverrez et elles ne permettront pas de vous identifier, nous attachons une grande importance a votre vie privée."
     },
     "step4": {
-      "title": "Config IPFS",
-      "paragraph1": "Vous pouvez change la configuration de votre noeud IPFS depuis l'interface web!",
-      "paragraph2": "N'oubliez pas de redémarrer le démon pour que les changements soit pris en compte."
+      "title": "Configuration IPFS",
+      "paragraph1": "Vous pouvez changer la configuration de votre noeud IPFS depuis l'interface web!",
+      "paragraph2": "N'oubliez pas de redémarrer le démon pour que les changements soient pris en compte."
     }
   },
   "Experiments": {
-    "description": "Ici vous pouvez avoir un aperçu des nouvelles fonctionnalités de IPFS en activant les options ci-dessous. Nous testons de nouvelles idées, et comme elles peuvent ne pas encore être parfaites nous serions heureux d'avoir votre avis.",
+    "description": "Ici vous pouvez avoir un aperçu des nouvelles fonctionnalités de IPFS en activant les options ci-dessous. Nous testons de nouvelles idées, et comme elles peuvent ne pas être encore parfaites nous serions heureux d'avoir votre avis.",
     "issueUrl": "Ouvrir une issue Github",
     "feedbackUrl": "💌Laisser un commentaire",
     "readMoreUrl": "En savoir plus"

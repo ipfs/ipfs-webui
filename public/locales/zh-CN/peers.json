@@ -14,6 +14,7 @@
   "insertPeerAddress": "请输入你想要连接的对等节点地址。",
   "add": "添加",
   "example": "例子：",
+  "plusPeers": "+ {number} 个节点", 
   "tour": {
     "back": "返回",
     "close": "关闭",
@@ -23,7 +24,7 @@
     "step1": {
       "title": "节点页面",
       "paragraph1": "您可以在此处查看您所连接的节点以及他们所在的国家/地区。",
-      "paragraph2": "Click \"Next\" to learn more."
+      "paragraph2": "单击“下一步”了解更多信息。"
     },
     "step2": {
       "title": "节点地图",

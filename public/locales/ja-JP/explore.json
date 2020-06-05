@@ -1,5 +1,10 @@
 {
   "appName": "IPLDエクスプローラー",
+  "tabName": "探索",
+  "homeLink": "Home",
+  "UpdateAvailable": {
+    "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
+  },
   "StartExploringPage": {
     "title": "IPLDを探す",
     "header": "マークルフォレストを探す",
@@ -17,7 +22,7 @@
     "explore": "探索"
   },
   "CidInfo": {
-    "header": "CID 情報",
+    "header": "CID情報",
     "hashDigest": "ハッシュダイジェスト"
   },
   "ObjectInfo": {
@@ -35,7 +40,7 @@
     "explorer": {
       "step1": {
         "title": "IPLDエクスプローラー",
-        "paragraph1": "あなたの探索の旅はここから始まります。引き続き学習してください。"
+        "paragraph1": "Your journey with IPLD Explorer starts here. Click \"Next\" to learn more."
       },
       "step2": {
         "title": "パン粉",

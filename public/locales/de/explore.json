@@ -1,5 +1,10 @@
 {
   "appName": "IPLD-Explorer",
+  "tabName": "Erkunden",
+  "homeLink": "Home",
+  "UpdateAvailable": {
+    "paragraph1": "Eine neue Version des IPLD Explorer ist verfügbar. <1>Bitte neu laden</1>."
+  },
   "StartExploringPage": {
     "title": "Erkunden – IPLD",
     "header": "Merkle-Wald erkunden",
@@ -17,7 +22,7 @@
     "explore": "Erkunden"
   },
   "CidInfo": {
-    "header": "CID-Info",
+    "header": "CID Informationen",
     "hashDigest": "Hash-Extrakt"
   },
   "ObjectInfo": {
@@ -35,7 +40,7 @@
     "explorer": {
       "step1": {
         "title": "IPLD-Explorer",
-        "paragraph1": "Deine Reise im Explorer startet hier. Lerne mehr."
+        "paragraph1": "Deine Reise mit dem IPLD Explorer beginnt hier. Klicke \"Weiter\" um mehr zu erfahren."
       },
       "step2": {
         "title": "Breadcrumbs",
@@ -45,7 +50,7 @@
       "step3": {
         "title": "Node informationen",
         "paragraph1": "Hier findest Du detaillierte Informationen über den Node. Du kannst es außerdem im IPFS Gateway öffnen.",
-        "paragraph2": "If the node is a directory you can see its children and navigate to them."
+        "paragraph2": "Wenn der Knoten ein Verzeichnis ist, kannst Du seine Kinder sehen und zu ihnen navigieren."
       },
       "step4": {
         "title": "CID Informationen",

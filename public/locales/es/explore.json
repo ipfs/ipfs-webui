@@ -1,5 +1,10 @@
 {
   "appName": "Explorador IPLD",
+  "tabName": "Explorar",
+  "homeLink": "Inicio",
+  "UpdateAvailable": {
+    "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
+  },
   "StartExploringPage": {
     "title": "Explorar - IPLD",
     "header": "Explorar el Merkle Forest",
@@ -17,7 +22,7 @@
     "explore": "Explorar"
   },
   "CidInfo": {
-    "header": "CID Info",
+    "header": "Información del CID",
     "hashDigest": "Hash digest"
   },
   "ObjectInfo": {
@@ -35,7 +40,7 @@
     "explorer": {
       "step1": {
         "title": "Explorador IPLD",
-        "paragraph1": "Tu viaje de explorador comienza aquí. Continúa para aprender más."
+        "paragraph1": "Your journey with IPLD Explorer starts here. Click \"Next\" to learn more."
       },
       "step2": {
         "title": "Migas de Pan",

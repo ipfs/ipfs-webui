@@ -15,11 +15,11 @@
   "addFile": "文件",
   "addFolder": "文件夹",
   "addByPath": "来自 IPFS 路径",
-  "importToIPFS": "Import",
+  "importToIPFS": "导入",
   "newFolder": "新建文件夹",
   "generating": "生成 ...",
   "actions": {
-    "import": "Import",
+    "import": "导入",
     "delete": "删除",
     "rename": "重命名",
     "download": "下载",
@@ -55,8 +55,8 @@
     "descriptionFile": "{count, plural, other {您是否确定要删除{count}个文件？本操作不可撤销。}}"
   },
   "addByPathModal": {
-    "title": "Import from IPFS",
-    "description": "Insert an IPFS path (CID) to import.",
+    "title": "从IPFS导入",
+    "description": "输入要导入到的IPFS路径（CID）。",
     "examples": "示例："
   },
   "newFolderModal": {
@@ -76,11 +76,11 @@
     "noFiles": "<0>这个目录中没有文件。请点击“添加”按钮上传文件。</0>"
   },
   "filesImportStatus": {
-    "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
-    "importing": "{count, plural, one {Importing 1 item} other {Importing {count} items}}",
-    "toggleDropdown": "Toggle dropdown",
-    "closeDropdown": "Close dropdown",
-    "count": "{count} of {count}"
+    "imported": "{count, plural, other {已导入{count}项目}}",
+    "importing": "{count, plural, other {已导入{count}项目}}",
+    "toggleDropdown": "切换下拉框",
+    "closeDropdown": "关闭下拉框",
+    "count": "{count}个 / 共{count}个"
   },
   "addFilesInfo": "<0>通过点击<1>添加到 IPFS </1>添加文件到你的本地 IPFS 节点。</0>",
   "companionInfo": "<0>如果你正在使用<1> IPFS 伴侣</1>，文件视图仅限于使用扩展程序时添加的文件。</0>",
@@ -93,7 +93,7 @@
     "step1": {
       "title": "文件页面",
       "paragraph1": "<0>这是 <1>可变数据系统（MFS）</1> 上的文件所在的位置。您可以添加文件或文件夹，并从此页面进行管理</0>",
-      "paragraph2": "Click \"Next\" to learn more."
+      "paragraph2": "单击“下一步”了解更多信息。"
     },
     "step2": {
       "title": "导航栏",

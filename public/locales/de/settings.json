@@ -8,7 +8,9 @@
   "config": "IPFS-Konfiguration",
   "languageModal": {
     "title": "Sprache ändern",
-    "description": "Wähle Deine bevorzugte Sprache."
+    "description": "Wähle Deine bevorzugte Sprache.",
+    "translationProjectIntro": "Füge Übersetzungen hinzu oder verbessere sie und mache IPFS besser für jeden!",
+    "translationProjectLink": "Dem IPFS-Übersetzungsprojekt beitreten"
   },
   "actions": {
     "edit": "Ändern",
@@ -25,14 +27,6 @@
   "settingsWillBeUsedNextTime": "Die neuen Einstellungen werden beim nächsten Start des IPFS-Daemon verwendet.",
   "ipfsConfigDescription": "Die IPFS-Konfigurationsdatei ist ein JSON-Dokument. Es wird einmalig beim Start des IPFS-Daemon gelesen. Speichere Deine Änderungen und starte den IPFS-Daemon neu, um sie anzuwenden.",
   "ipfsConfigHelp": "Weitere Informationen findest Du in der Dokumentation.",
-  "ipfsDesktop": "IPFS Desktop",
-  "takeScreenshot": "Bildschirmfoto aufnehmen",
-  "takeScreenshotDescription": "Mit <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> kannst du Bildschirmfotos aufnehmen und sie zu deinem Speicher hinzufügen.",
-  "downloadHash": "Hash herunterladen",
-  "downloadHashDescription": "Nutze <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3>, um den zuletzt kopierten Hash herunterzuladen.",
-  "launchOnStartup": "Beim Hochfahren starten",
-  "globalShortcuts": "Globale Tastaturkürzel",
-  "globalShortcutsAre": "IPFS Desktop stellt ein paar Features zur Verfügung, die mit globalen Tastaturkürzeln aufgerufen werden können. Du kannst sie hier aktivieren oder deaktivieren.",
   "AnalyticsToggle": {
     "label": "Helfen Sie uns die App zu verbessern, indem Sie anonyme Nutzerdaten senden.",
     "summary": "Konfigurieren Sie, was gesammelt wird.",
@@ -67,6 +61,11 @@
     }
   },
   "tour": {
+    "back": "Zurück",
+    "close": "Schließen",
+    "last": "Fertig",
+    "next": "Weiter",
+    "skip": "Überspringen",
     "step1": {
       "title": "Einstellungsseite",
       "paragraph1": "Hier kannst Du die Einstellungen deiner Web-UI und deines IPFS Node verändern.",
@@ -91,13 +90,6 @@
     "description": "Hier kannst du eine frühe Vorschau neuer Funktionen in IPFS erhalten, indem du die folgenden Optionen aktivierst. Wir testen diese Ideen und sie sind möglicherweise noch nicht perfekt, deshalb würden wir uns über Dein Feedback freuen.",
     "issueUrl": "Ein issue öffnen",
     "feedbackUrl": "💌Feedback geben",
-    "readMoreUrl": "Mehr lesen",
-    "npmOnIpfs": {
-      "title": "NPM auf IPFS",
-      "label": "ipfs-npm aktivieren",
-      "description": "npm Module mit IPFS mithilfe dem 'ipfs-npm' Kommandozeilen-Programm installieren!"
-    }
-  },
-  "ipfsCmdTools": "IPFS Kommandozeilen-Tools",
-  "ipfsCmdToolsDescription": "Fügen Sie den<0>ipfs</0> Binärcode Ihrem System<0>PATH</0> hinzu, um es auf der Kommandozeile nutzen zu können."
+    "readMoreUrl": "Mehr lesen"
+  }
 }

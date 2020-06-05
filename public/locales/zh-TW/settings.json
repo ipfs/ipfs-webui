@@ -8,7 +8,9 @@
   "config": "IPFS 設置",
   "languageModal": {
     "title": "修改語言",
-    "description": "選擇首選語言。"
+    "description": "選擇首選語言。",
+    "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
+    "translationProjectLink": "Join the IPFS Translation Project"
   },
   "actions": {
     "edit": "修改",
@@ -25,14 +27,6 @@
   "settingsWillBeUsedNextTime": "新的設置信息會在你下次重新啟動IPFS Daemon後生效。",
   "ipfsConfigDescription": "IPFS 設置文件是一個JSON 文件。 IPFS Daemon會在啟動過程中讀取一次。保存修改的設置，重啟IPFS Daemon後使用你修改後的設置。",
   "ipfsConfigHelp": "檢查文檔查看更多信息",
-  "ipfsDesktop": "IPFS 桌面程序",
-  "takeScreenshot": "截屏",
-  "takeScreenshotDescription": "使用<0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> 截屏並添加到你的文檔庫中。",
-  "downloadHash": "下載哈希值對應文件",
-  "downloadHashDescription": "使用<0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> 下載當前剪貼板中哈希值或路徑代表的文件。",
-  "launchOnStartup": "在系統啟動時自動加載",
-  "globalShortcuts": "全局快捷方式",
-  "globalShortcutsAre": "IPFS 桌面程序提供了一些可以通過鍵盤全局觸發的快捷鍵，你可以觸發或者關閉他們。",
   "AnalyticsToggle": {
     "label": "向我們提供匿名數據來幫助我們改進",
     "summary": "設置收集哪些數據",
@@ -67,6 +61,11 @@
     }
   },
   "tour": {
+    "back": "Back",
+    "close": "關閉",
+    "last": "Last",
+    "next": "Next",
+    "skip": "Skip",
     "step1": {
       "title": "設置頁面",
       "paragraph1": "您可以在此處更改Web UI 和IPFS 節點的設置。",
@@ -91,13 +90,6 @@
     "description": "在這裡，您可以通過下面的觸發選項獲得使用早期預覽版IPFS 功能的身份。 我們正在測試這些想法，但它們可能還不完美，所以我們很樂意聽取您的反饋意見。",
     "issueUrl": "提交bug",
     "feedbackUrl": "💌提供反饋",
-    "readMoreUrl": "查看更多",
-    "npmOnIpfs": {
-      "title": "NPM on IPFS",
-      "label": "啟用ipfs-npm",
-      "description": "通過使用'ipfs-npm' 命令行工具使用IPFS 來安裝npm 模組！"
-    }
-  },
-  "ipfsCmdTools": "IPFS 命令行工具",
-  "ipfsCmdToolsDescription": "把<0>ipfs</0> 二進制文件放到你的系統環境變量<0>PATH</0> 所指的目錄中，這樣你就可以直接在命令行中使用。"
+    "readMoreUrl": "查看更多"
+  }
 }

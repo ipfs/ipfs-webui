@@ -1,5 +1,10 @@
 {
   "appName": "IPLD 浏览器",
+  "tabName": "浏览",
+  "homeLink": "首页",
+  "UpdateAvailable": {
+    "paragraph1": "IPLD浏览器有新版本可用；<1>请重新加载</1>。"
+  },
   "StartExploringPage": {
     "title": "浏览 - IPLD",
     "header": "浏览 Merkle Forest",
@@ -23,10 +28,10 @@
   "ObjectInfo": {
     "gatewayLink": "在 IPFS 网关上查看"
   },
-  "base": "base",
+  "base": "基点",
   "version": "版本",
-  "codec": "codec",
-  "multihash": "multihash",
+  "codec": "编解码",
+  "multihash": "聚合哈希",
   "tour": {
     "projects": {
       "title": "特征数据集",
@@ -35,21 +40,21 @@
     "explorer": {
       "step1": {
         "title": "IPLD 浏览器",
-        "paragraph1": "您的探索之旅从这里开始。继续以了解更多。"
+        "paragraph1": "从这里开始您的IPLD浏览器之旅。单击“下一步”了解更多信息。"
       },
       "step2": {
         "title": "导航栏",
         "paragraph1": "通向此节点的路径。",
-        "paragraph2": "点击它可以查看他的上下级。"
+        "paragraph2": "点击它可以查看其上下级节点。"
       },
       "step3": {
         "title": "节点信息",
         "paragraph1": "您可以在此处获得有关节点的详细信息，并在 IPFS 网关中打开它。",
-        "paragraph2": "If the node is a directory you can see its children and navigate to them."
+        "paragraph2": "如果该节点是一个目录，则可以查看其子节点并跳转。"
       },
       "step4": {
         "title": "CID 信息",
-        "paragraph1": "分解 CID 使您可以了解其含义。"
+        "paragraph1": "查询分解 CID 使您可以了解其含义。"
       },
       "step5": {
         "title": "可视化呈现",

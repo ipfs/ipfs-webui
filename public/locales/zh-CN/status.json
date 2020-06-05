@@ -53,12 +53,12 @@
     "step1": {
       "title": "状态页面",
       "paragraph1": "这是 IPFS 节点的起始页面，您可以在这里查看其基本信息。",
-      "paragraph2": "Click \"Next\" to learn more."
+      "paragraph2": "单击“下一步”了解更多信息。"
     },
     "step2": {
       "title": "连接状态",
       "paragraph1": "这会将您带到一个页面，您可以在其中检查是否已连接到 IPFS 守护程序，如果没有，则告诉您如何连接到一个。",
-      "paragraph2": "You can configure your node with a custom API address, too."
+      "paragraph2": "您也可以使用自定义API地址配置节点。"
     },
     "step3": {
       "title": "节点信息",
@@ -66,8 +66,8 @@
       "paragraph2": "<0>单击<1>高级</1>以查看更多信息，例如：网关 URL 和地址。</0>"
     },
     "step4": {
-      "title": "Network bandwidth/traffic",
-      "paragraph1": "This chart shows the network bandwidth usage over time.",
+      "title": "网络带宽/流量",
+      "paragraph1": "此图表显示一段时间内的网络带宽使用情况。",
       "paragraph2": "速度表显示当前的输出和输入流量。"
     },
     "stepExplore": {

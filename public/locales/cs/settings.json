@@ -8,7 +8,9 @@
   "config": "IPFS Config",
   "languageModal": {
     "title": "Změnit jazyk",
-    "description": "Vyberte si preferovaný jazyk."
+    "description": "Vyberte si preferovaný jazyk.",
+    "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
+    "translationProjectLink": "Join the IPFS Translation Project"
   },
   "actions": {
     "edit": "Změnit",
@@ -25,14 +27,6 @@
   "settingsWillBeUsedNextTime": "Nové nastavení se použije při příštím restartu IPFS služby.",
   "ipfsConfigDescription": "Konfigurační soubor IPFS je dokument JSON. Při spuštění démona IPFS se načte jednou. Uložte změny a restartujte démona IPFS, abyste je použili.",
   "ipfsConfigHelp": "Další informace naleznete v dokumentaci.",
-  "ipfsDesktop": "IPFS Desktop",
-  "takeScreenshot": "Pořiďte snímek obrazovky",
-  "takeScreenshotDescription": "Použíjte <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> pro pořizení snímků obrazovky a přidejte je do svého úložiště.",
-  "downloadHash": "Stáhnout hash",
-  "downloadHashDescription": "Použijte <0>{key1}</0> + <2>{key2}</2> + <3>{key3}</3> pro stažení posledního zkopírovaného hashe nebo cesty do systému.",
-  "launchOnStartup": "Spustit při startu",
-  "globalShortcuts": "Globální zkratky",
-  "globalShortcutsAre": "IPFS Desktop poskytuje některé funkce, ke kterým lze globálně přistupovat pomocí klávesových zkratek. Zde je můžete povolit nebo zakázat.",
   "AnalyticsToggle": {
     "label": "Pomozte vylepšit tuto aplikaci odesláním anonymních dat o využití",
     "summary": "Nakonfigurujte, co se shromažďuje",
@@ -67,6 +61,11 @@
     }
   },
   "tour": {
+    "back": "Zpět",
+    "close": "Zavřít",
+    "last": "Poslední",
+    "next": "Další",
+    "skip": "Přeskočit",
     "step1": {
       "title": "Stránka nastavení",
       "paragraph1": "Zde můžete změnit nastavení vašeho uzlu Web UI a IPFS.",
@@ -91,13 +90,6 @@
     "description": "Zde získáte rychlý náhled na nové funkce IPFS povolením níže uvedených možností. Testujeme tyto nápady a nemusí být dokonalé, takže bychom rádi slyšeli vaši zpětnou vazbu.",
     "issueUrl": "Otevřete problém",
     "feedbackUrl": "💌Zanechte zpětnou vazbu",
-    "readMoreUrl": "Přečtěte si více",
-    "npmOnIpfs": {
-      "title": "NPM na IPFS",
-      "label": "Povolit ipfs-npm",
-      "description": "Nainstalujte moduly npm pomocí IPFS pomocí nástroje příkazového řádku 'ipfs-npm'!"
-    }
-  },
-  "ipfsCmdTools": "Nástroje příkazového řádku IPFS",
-  "ipfsCmdToolsDescription": "Přidejte do systému <0>PATH </0>binární binární soubory <0>ipfs</0>, abyste je mohli použít v příkazovém řádku."
+    "readMoreUrl": "Přečtěte si více"
+  }
 }
