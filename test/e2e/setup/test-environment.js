@@ -14,6 +14,7 @@ class WebuiTestEnvironment extends PuppeteerEnvironment {
     const { ipfs, webuiUrl, page } = this.global
 
     // point WebUI at the HTTP API URL
+    await page.setViewport({ width: 1366, height: 768 })
     await page.goto(webuiUrl)
     const { apiHost, apiPort } = ipfs
     const apiMultiaddr = `/ip4/${apiHost}/tcp/${apiPort}`

@@ -6,6 +6,8 @@ describe('Peers screen', () => {
   let ipfsd
   let peeraddr
   beforeAll(async () => {
+    // bump timeouts
+    jest.setTimeout(30000)
     // spawn an ephemeral local node for manual swarm connect test
     ipfsd = await createController({ type: 'go', test: true, disposable: true })
     const { addresses } = await ipfsd.api.id()
@@ -24,7 +26,6 @@ describe('Peers screen', () => {
   })
 
   it('should confirm connection after "Add connection" ', async () => {
-    jest.setTimeout(15000)
     // enter multiaddr of a disposable local node spawned for this test
     await page.type('div[role="dialog"] input[type="text"]', peeraddr)
     // hit Enter
