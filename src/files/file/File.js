@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { join, basename } from 'path'
 import filesize from 'filesize'
 import { withTranslation } from 'react-i18next'
-import classnames from 'classnames'
+import classNames from 'classnames'
 import { filesToStreams } from '../../lib/files'
 // React DnD
 import { DropTarget, DragSource } from 'react-dnd'
@@ -23,7 +23,7 @@ class File extends React.Component {
     size: PropTypes.number,
     hash: PropTypes.string,
     selected: PropTypes.bool,
-    focused: PropTypes.bool,
+    onFocus: PropTypes.func,
     onSelect: PropTypes.func,
     onNavigate: PropTypes.func.isRequired,
     onAddFiles: PropTypes.func.isRequired,
@@ -59,47 +59,29 @@ class File extends React.Component {
 
   render () {
     let {
-      t, selected, focused, translucent, coloured, hash, name, type, size, pinned, onSelect, onNavigate,
+      t, selected, translucent, coloured, hash, name, type, size, pinned, onSelect, onNavigate,
       isOver, canDrop, cantDrag, cantSelect, connectDropTarget, connectDragPreview, connectDragSource,
       styles = {}
     } = this.props
 
-    let className = 'File b--light-gray relative flex items-center bt'
+    const shouldColor = ((selected && !translucent) || coloured || (isOver && canDrop))
 
-    if (selected) {
-      className += ' selected'
+    styles = {
+      ...styles,
+      ...(shouldColor && { backgroundColor: '#F0F6FA' }),
+      border: '1px solid transparent',
+      borderTop: '1px solid #eee',
+      height: 55,
+      overflow: 'hidden'
     }
-
-    if (focused || (selected && !translucent) || coloured || (isOver && canDrop)) {
-      styles.backgroundColor = '#F0F6FA'
-    } else if (translucent) {
-      className += ' o-70'
-    }
-
-    if (focused) {
-      styles.border = '1px dashed #9ad4db'
-    } else {
-      styles.border = '1px solid transparent'
-      styles.borderTop = '1px solid #eee'
-    }
-
-    styles.height = 55
-    styles.overflow = 'hidden'
 
     size = size ? filesize(size, { round: 0 }) : '-'
     hash = hash || t('hashUnavailable')
 
-    const select = (select) => onSelect(name, select)
-
-    const checkBoxCls = classnames({
-      'o-70 glow': !cantSelect,
-      'o-1': selected || focused
-    }, ['pl2 w2'])
-
     const element = connectDropTarget(
-      <div className={className} style={styles} onContextMenu={this.handleCtxRightClick}>
-        <div className={checkBoxCls}>
-          <Checkbox disabled={cantSelect} checked={selected} onChange={select} aria-label={ t('checkboxLabel', { name })} />
+      <div className={classNames('File b--light-gray relative flex items-center bt', selected && 'selected', translucent && 'o-70')} style={styles} onContextMenu={this.handleCtxRightClick}>
+        <div className={classNames('pl2 w2', !cantSelect && 'o-70 glow', selected && 'o-1')}>
+          <Checkbox disabled={cantSelect} onFocus={() => this.props.onFocus({ name })} checked={selected} onChange={(select) => onSelect(name, select)} aria-label={ t('checkboxLabel', { name })} />
         </div>
         {connectDragPreview(
           <button onClick={onNavigate} className='relative pointer flex items-center flex-grow-1 ph2 pv1 w-40' aria-label={ name === '..' ? t('previousFolder') : t('fileLabel', { name, type, size }) }>

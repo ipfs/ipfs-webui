@@ -64,7 +64,7 @@ class Breadcrumbs extends React.Component {
       <span key={`${index}link`} className='dib pv1 pr1' style={{ direction: 'ltr' }}>
         { link.disabled
           ? <span title={link.realName} className='gray'>{link.name}</span>
-          : <button title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => onClick(link.path)}>
+          : <button title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => this.props.onClick(link.path)} onContextMenu={() => this.props.onContextMenu()}>
             {link.name}
           </button>
         }
@@ -104,6 +104,7 @@ class Breadcrumbs extends React.Component {
 Breadcrumbs.propTypes = {
   path: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  onContextMenu: PropTypes.func,
   t: PropTypes.func.isRequired,
   tReady: PropTypes.bool.isRequired
 }

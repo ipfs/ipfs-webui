@@ -173,7 +173,6 @@ class FilesPage extends React.Component {
         root={files.path}
         updateSorting={this.props.doFilesUpdateSorting}
         files={files.content}
-        upperDir={files.upper}
         downloadProgress={this.state.downloadProgress}
         onShare={(files) => this.showModal(SHARE, files)}
         onRename={(files) => this.showModal(RENAME, files)}
@@ -222,7 +221,6 @@ class FilesPage extends React.Component {
           translateX={contextMenu.translateX}
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenu}
-          isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
           isMfs={filesPathInfo ? filesPathInfo.isMfs : false}
           isUnknown={!!(contextMenu.file && contextMenu.file.type === 'unknown')}
           pinned={contextMenu.file && contextMenu.file.pinned}
