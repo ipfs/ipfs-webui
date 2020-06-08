@@ -64,7 +64,7 @@ export default function (opts) {
       const connection = parseConnection(peer.addr)
       const address = peer.addr.toString()
       const latency = parseLatency(peer.latency)
-      const notes = parseNotes(peer, bootstrapPeers)
+      const notes = bootstrapPeers ? parseNotes(peer, bootstrapPeers) : null
       const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
 
       return {
