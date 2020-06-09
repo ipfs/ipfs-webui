@@ -55,16 +55,22 @@ class ContextMenu extends React.Component {
           translateY={-translateY}
           open={this.props.isOpen}
           onDismiss={this.props.handleClick}>
-          { !isUpperDir && !isUnknown && isMfs && onDelete &&
-            <Option onClick={this.wrap('onDelete')}>
-              <StrokeTrash className='w2 mr2 fill-aqua' />
-              {t('actions.delete')}
+          { !isUpperDir && onShare &&
+            <Option onClick={this.wrap('onShare')}>
+              <StrokeShare className='w2 mr2 fill-aqua' />
+              {t('actions.share')}
             </Option>
           }
-          { !isUpperDir && !isUnknown && isMfs && onRename &&
-            <Option onClick={this.wrap('onRename')}>
-              <StrokePencil className='w2 mr2 fill-aqua' />
-              {t('actions.rename')}
+          <CopyToClipboard text={this.props.hash} onCopy={this.props.handleClick}>
+            <Option>
+              <StrokeCopy className='w2 mr2 fill-aqua' />
+              {t('actions.copyHash')}
+            </Option>
+          </CopyToClipboard>
+          { onInspect &&
+            <Option onClick={this.wrap('onInspect')}>
+              <StrokeIpld className='w2 mr2 fill-aqua' />
+              {t('actions.inspect')}
             </Option>
           }
           { !isUpperDir && !isUnknown && onDownload &&
@@ -73,26 +79,20 @@ class ContextMenu extends React.Component {
               {t('actions.download')}
             </Option>
           }
-          { onInspect &&
-            <Option onClick={this.wrap('onInspect')}>
-              <StrokeIpld className='w2 mr2 fill-aqua' />
-              {t('actions.inspect')}
-            </Option>
-          }
           <Option onClick={this.wrap(pinned ? 'onUnpin' : 'onPin')}>
             <StrokePin className='w2 mr2 fill-aqua' />
             { pinned ? t('actions.unpin') : t('actions.pin') }
           </Option>
-          <CopyToClipboard text={this.props.hash} onCopy={this.props.handleClick}>
-            <Option>
-              <StrokeCopy className='w2 mr2 fill-aqua' />
-              {t('actions.copyHash')}
+          { !isUpperDir && !isUnknown && isMfs && onRename &&
+            <Option onClick={this.wrap('onRename')}>
+              <StrokePencil className='w2 mr2 fill-aqua' />
+              {t('actions.rename')}
             </Option>
-          </CopyToClipboard>
-          { !isUpperDir && onShare &&
-            <Option onClick={this.wrap('onShare')}>
-              <StrokeShare className='w2 mr2 fill-aqua' />
-              {t('actions.share')}
+          }
+          { !isUpperDir && !isUnknown && isMfs && onDelete &&
+            <Option onClick={this.wrap('onDelete')}>
+              <StrokeTrash className='w2 mr2 fill-aqua' />
+              {t('actions.delete')}
             </Option>
           }
         </DropdownMenu>

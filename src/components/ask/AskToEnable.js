@@ -13,8 +13,8 @@ const AskToEnable = ({ className, label, yesLabel, noLabel, onYes, onNo, details
         )}
       </span>
       <span className='dib'>
-        <Button className='ml3 mv1' bg={'bg-green'} onClick={onYes}>{yesLabel}</Button>
-        <Button className='ml3 mv1' color='charcoal' bg={'bg-snow-muted'} onClick={onNo}>{noLabel}</Button>
+        <Button className='ml3 mv1 tc' bg={'bg-green'} onClick={onYes}>{yesLabel}</Button>
+        <Button className='ml3 mv1 tc' color='charcoal' bg={'bg-snow-muted'} onClick={onNo}>{noLabel}</Button>
       </span>
     </div>
   )

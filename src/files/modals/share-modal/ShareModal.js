@@ -21,9 +21,9 @@ const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (
     </ModalBody>
 
     <ModalActions>
-      <Button className='ma2' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
+      <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
       <CopyToClipboard text={link} onCopy={onLeave}>
-        <Button className='ma2'>{t('actions.copy')}</Button>
+        <Button className='ma2 tc'>{t('actions.copy')}</Button>
       </CopyToClipboard>
     </ModalActions>
   </Modal>

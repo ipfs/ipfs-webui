@@ -86,7 +86,7 @@ class Header extends React.Component {
                   <Button bg='bg-navy'
                     color='white'
                     fill='fill-aqua'
-                    className='f6 relative flex justify-center items-center'
+                    className='f6 relative flex justify-center items-center tc'
                     minWidth='100px'
                     disabled={!files || filesPathInfo.isRoot || files.type === 'unknown'}
                     onClick={this.handleContextMenu}>
