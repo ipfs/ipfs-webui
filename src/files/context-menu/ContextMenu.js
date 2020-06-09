@@ -73,16 +73,16 @@ class ContextMenu extends React.Component {
               {t('actions.inspect')}
             </Option>
           }
+          <Option onClick={this.wrap(pinned ? 'onUnpin' : 'onPin')}>
+            <StrokePin className='w2 mr2 fill-aqua' />
+            { pinned ? t('actions.unpin') : t('actions.pin') }
+          </Option>
           { !isUpperDir && !isUnknown && onDownload &&
             <Option onClick={this.wrap('onDownload')}>
               <StrokeDownload className='w2 mr2 fill-aqua' />
               {t('actions.download')}
             </Option>
           }
-          <Option onClick={this.wrap(pinned ? 'onUnpin' : 'onPin')}>
-            <StrokePin className='w2 mr2 fill-aqua' />
-            { pinned ? t('actions.unpin') : t('actions.pin') }
-          </Option>
           { !isUpperDir && !isUnknown && isMfs && onRename &&
             <Option onClick={this.wrap('onRename')}>
               <StrokePencil className='w2 mr2 fill-aqua' />
