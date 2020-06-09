@@ -112,7 +112,7 @@
     "go-ipfs-dep": "0.4.22",
     "http-server": "^0.12.0",
     "ipfs": "0.40.0",
-    "ipfsd-ctl": "^1.0.6",
+    "ipfsd-ctl": "^4.1.1",
     "is-pull-stream": "0.0.0",
     "jest-puppeteer": "^4.4.0",
     "multihashing-async": "^0.8.0",
