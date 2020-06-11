@@ -1,4 +1,4 @@
-/* global webuiUrl, jest, ipfs page, describe, it, expect, beforeAll, afterAll */
+/* global webuiUrl, ipfs page, describe, it, expect, beforeAll, afterAll */
 
 const { createController } = require('ipfsd-ctl')
 
@@ -6,22 +6,20 @@ describe('Peers screen', () => {
   let ipfsd
   let peeraddr
   beforeAll(async () => {
-    // bump timeouts
-    jest.setTimeout(30000)
     // spawn an ephemeral local node for manual swarm connect test
     ipfsd = await createController({ type: 'go', test: true, disposable: true })
     const { addresses } = await ipfsd.api.id()
     peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
     // connect to peer to have something  in the peer table
     await ipfs.swarm.connect(peeraddr)
-    await page.goto(webuiUrl + '#/peers')
-    await page.reload()
+    await page.goto(webuiUrl + '#/peers', { waitUntil: 'networkidle0' })
   })
 
   it('should have a clickable "Add connection" button', async () => {
     const addConnection = 'Add connection'
     await expect(page).toMatch(addConnection)
     await expect(page).toClick('button', { text: addConnection })
+    await page.waitForSelector('div[role="dialog"]')
     await expect(page).toMatch('Insert the peer address you want to connect to')
   })
 

@@ -4,7 +4,7 @@ const { fixtureData } = require('./fixtures')
 
 describe('Files screen', () => {
   beforeAll(async () => {
-    await page.goto(webuiUrl + '#/files')
+    await page.goto(webuiUrl + '#/files', { waitUntil: 'networkidle0' })
   })
 
   const button = 'button[id="import-button"]'

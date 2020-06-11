@@ -4,7 +4,7 @@ const fs = require('fs')
 
 describe('Explore screen', () => {
   beforeAll(async () => {
-    await page.goto(webuiUrl + '#/explore')
+    await page.goto(webuiUrl + '#/explore', { waitUntil: 'networkidle0' })
   })
 
   it('should have Project Apollo Archive as one of examples', async () => {
@@ -21,7 +21,8 @@ describe('Explore screen', () => {
     await expect(result.hash).toStrictEqual(cid)
 
     // open inspector
-    await page.goto(webuiUrl + `#/explore/${cid}`)
+    await page.goto(webuiUrl + `#/explore/${cid}`, { waitUntil: 'networkidle0' })
+    await page.waitForSelector(`a[href="#/explore/${cid}"]`)
     // expect node type
     await expect(page).toMatch('DAG Node')
     // expect cid details

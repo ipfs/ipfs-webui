@@ -2,6 +2,8 @@
 const PuppeteerEnvironment = require('jest-environment-puppeteer')
 const expect = require('expect-puppeteer')
 
+expect.setDefaultOptions({ timeout: 30 * 1000 })
+
 class WebuiTestEnvironment extends PuppeteerEnvironment {
   async setup () {
     await super.setup()
@@ -9,7 +11,7 @@ class WebuiTestEnvironment extends PuppeteerEnvironment {
     // define globals that should be available in tests
     this.global.ipfs = global.__IPFS__
     this.global.webuiUrl = global.__WEBUI_URL__
-    this.global.waitForTitle = title => page.waitForFunction(`document.title === '${title}'`, { timeout: 8000 })
+    this.global.waitForTitle = title => page.waitForFunction(`document.title === '${title}'`)
 
     const { ipfs, webuiUrl, page } = this.global
 
@@ -27,7 +29,7 @@ class WebuiTestEnvironment extends PuppeteerEnvironment {
     // open Status page, confirm working connection to API
     await page.goto(webuiUrl + '#/')
     const { id } = await ipfs.id()
-    await expect(page).toMatch(id, { timeout: 30000 }) // initial load can be slow on CI
+    await expect(page).toMatch(id)
   }
 }
 
