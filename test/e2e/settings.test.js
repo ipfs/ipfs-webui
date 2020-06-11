@@ -2,7 +2,7 @@
 
 describe('Settings screen', () => {
   beforeAll(async () => {
-    await page.goto(webuiUrl + '#/settings')
+    await page.goto(webuiUrl + '#/settings', { waitUntil: 'networkidle0' })
   })
 
   it('should show config of IPFS node', async () => {

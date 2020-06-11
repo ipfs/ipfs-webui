@@ -2,7 +2,7 @@
 
 describe('Status page', () => {
   beforeAll(async () => {
-    await page.goto(webuiUrl)
+    await page.goto(webuiUrl, { waitUntil: 'networkidle0' })
   })
 
   it('should have Status menu item', async () => {
