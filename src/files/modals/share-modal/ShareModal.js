@@ -15,16 +15,15 @@ const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (
         <input
           value={link}
           readOnly
-          autoFocus
           className={'input-reset flex-grow-1 charcoal-muted ba b--black-20 br1 pa2 mr2 focus-outline'}
           type='text' />
       </div>
     </ModalBody>
 
     <ModalActions>
-      <Button className='ma2' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
+      <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
       <CopyToClipboard text={link} onCopy={onLeave}>
-        <Button className='ma2'>{t('actions.copy')}</Button>
+        <Button className='ma2 tc'>{t('actions.copy')}</Button>
       </CopyToClipboard>
     </ModalActions>
   </Modal>

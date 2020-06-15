@@ -68,6 +68,7 @@ export const SettingsPage = ({
               minWidth={100}
               height={40}
               bg='bg-charcoal'
+              className='tc'
               disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
               onClick={onReset}>
               {t('reset')}
@@ -112,7 +113,7 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
     <Button
       minWidth={100}
       height={40}
-      className='mt2 mt0-l ml2-l'
+      className='mt2 mt0-l ml2-l tc'
       bg={bg}
       disabled={!hasLocalChanges || hasErrors}
       danger={hasSaveFailed || hasExternalChanges}

@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import { withTranslation } from 'react-i18next'
@@ -8,6 +9,7 @@ import StrokePencil from '../../icons/StrokePencil'
 import StrokeIpld from '../../icons/StrokeIpld'
 import StrokeTrash from '../../icons/StrokeTrash'
 import StrokeDownload from '../../icons/StrokeDownload'
+import './SelectedActions.css'
 
 const styles = {
   bar: {
@@ -37,6 +39,11 @@ const classes = {
 }
 
 class SelectedActions extends React.Component {
+  constructor (props) {
+    super(props)
+    this.containerRef = React.createRef()
+  }
+
   static propTypes = {
     count: PropTypes.number.isRequired,
     size: PropTypes.number.isRequired,
@@ -49,10 +56,11 @@ class SelectedActions extends React.Component {
     downloadProgress: PropTypes.number,
     t: PropTypes.func.isRequired,
     tReady: PropTypes.bool.isRequired,
-    isMfs: PropTypes.bool.isRequired
+    isMfs: PropTypes.bool.isRequired,
+    animateOnStart: PropTypes.bool
   }
 
-  static defaultActions = {
+  static defaultProps = {
     className: ''
   }
 
@@ -67,6 +75,10 @@ class SelectedActions extends React.Component {
         this.setState({ force100: false })
       }, 2000)
     }
+  }
+
+  componentDidMount () {
+    this.containerRef.current && this.containerRef.current.focus()
   }
 
   get downloadText () {
@@ -86,7 +98,7 @@ class SelectedActions extends React.Component {
   }
 
   render () {
-    const { t, tReady, count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
+    const { t, tReady, animateOnStart, count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
 
     const isSingle = count === 1
 
@@ -97,7 +109,7 @@ class SelectedActions extends React.Component {
     }
 
     return (
-      <div className={`sans-serif bt w-100 pa3 ph4-l ${className}`} style={{ ...styles.bar, ...style }} {...props}>
+      <div className={classNames('sans-serif bt w-100 pa3 ph4-l', className, animateOnStart && 'selectedActionsAnimated')} style={{ ...styles.bar, ...style }} {...props}>
         <div className='flex items-center justify-between'>
           <div className='w5-l'>
             <div className='flex items-center'>
@@ -110,34 +122,35 @@ class SelectedActions extends React.Component {
               </div>
             </div>
           </div>
-          <div className='flex'>
-            <div className='pointer tc mh2' onClick={share}>
-              <StrokeShare className='w3 pointer hover-fill-navy-muted' fill='#A4BFCC' />
+          <div className='flex' role="menu" aria-label={t('menuOptions')} ref={ this.containerRef } tabIndex="0">
+            <button role="menuitem" className='tc mh2' onClick={share}>
+              <StrokeShare className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>
               <p className='ma0 f6'>{t('actions.share')}</p>
-            </div>
-            <div className='pointer tc mh2' onClick={download}>
-              <StrokeDownload className='w3 pointer hover-fill-navy-muted' fill='#A4BFCC' />
+            </button>
+            <button role="menuitem" className='tc mh2' onClick={download}>
+              <StrokeDownload className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>
               <p className='ma0 f6'>{this.downloadText}</p>
-            </div>
-            <div className={`tc mh2 ${classes.action(isMfs)}`} onClick={isMfs ? remove : null}>
-              <StrokeTrash className={classes.svg(isMfs)} fill='#A4BFCC' />
+            </button>
+            <button role="menuitem" className={classNames('tc mh2', classes.action(isMfs))} onClick={isMfs ? remove : null}>
+              <StrokeTrash className={classes.svg(isMfs)} fill='#A4BFCC' aria-hidden="true"/>
               <p className='ma0 f6'>{t('actions.delete')}</p>
-            </div>
-            <div className={`tc mh2 ${classes.action(isSingle)}`} onClick={isSingle ? inspect : null} {...singleFileTooltip}>
-              <StrokeIpld className={classes.svg(isSingle)} fill='#A4BFCC' />
+            </button>
+            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? inspect : null} {...singleFileTooltip}>
+              <StrokeIpld className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>
               <p className='ma0 f6'>{t('actions.inspect')}</p>
-            </div>
-            <div className={`tc mh2 ${classes.action(isSingle && isMfs)}`} onClick={(isSingle && isMfs) ? rename : null} {...singleFileTooltip}>
-              <StrokePencil className={classes.svg(isSingle && isMfs)} fill='#A4BFCC' />
+            </button>
+            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle && isMfs))} onClick={(isSingle && isMfs) ? rename : null} {...singleFileTooltip}>
+              <StrokePencil className={classes.svg(isSingle && isMfs)} fill='#A4BFCC' aria-hidden="true"/>
               <p className='ma0 f6'>{t('actions.rename')}</p>
-            </div>
+            </button>
           </div>
           <div className='w5-l'>
-            <span onClick={unselect} className='pointer flex items-center justify-end f6 charcoal'>
+            <button onClick={unselect} className='flex items-center justify-end f6 charcoal'>
+              {/* TODO: Should we go back to the files list when we tab out of here? */}
               <span className='mr2 dn db-l'>{t('actions.unselectAll')}</span>
               <span className='mr2 dn db-m'>{t('actions.clear')}</span>
               <GlyphSmallCancel onClick={unselect} className='fill-charcoal w1 o-70' viewBox='37 40 27 27' />
-            </span>
+            </button>
           </div>
         </div>
       </div>

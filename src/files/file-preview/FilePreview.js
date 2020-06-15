@@ -27,6 +27,7 @@ class Preview extends React.Component {
     switch (type) {
       case 'audio':
         return (
+          // eslint-disable-next-line jsx-a11y/media-has-caption
           <audio width='100%' controls>
             <source src={src} />
           </audio>
@@ -40,6 +41,7 @@ class Preview extends React.Component {
         )
       case 'video':
         return (
+          // eslint-disable-next-line jsx-a11y/media-has-caption
           <video controls className={className}>
             <source src={src} />
           </video>

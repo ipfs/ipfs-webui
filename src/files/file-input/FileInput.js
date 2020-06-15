@@ -14,7 +14,7 @@ import Button from '../../components/button/Button'
 
 const AddButton = withTranslation('files')(
   ({ t, onClick }) => (
-    <Button id='import-button' bg='bg-navy' color='white' className='f6' minWidth='100px' onClick={onClick}>
+    <Button id='import-button' bg='bg-navy' color='white' className='f6 flex justify-center items-center' minWidth='100px' onClick={onClick}>
       <span><span className='aqua'>+</span> {t('importToIPFS')}</span>
     </Button>
   )

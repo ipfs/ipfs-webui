@@ -83,21 +83,24 @@ export class FilesList extends React.Component {
   }
 
   get selectedMenu () {
+    if (this.state.selected.length === 0) {
+      return null
+    }
+
     const unselectAll = () => this.toggleAll(false)
     const size = this.selectedFiles.reduce((a, b) => a + (b.size || 0), 0)
-    const show = this.state.selected.length !== 0
 
     // We need this to get the width in ems
     const innerWidthEm = window.innerWidth / parseFloat(getComputedStyle(document.querySelector('body'))['font-size'])
 
     return (
       <SelectedActions
-        className={'fixed transition-all bottom-0 right-0'}
+        className={'fixed bottom-0 right-0'}
         style={{
           maxWidth: innerWidthEm < 60 ? '100%' : `calc(100% - ${this.props.navbarWidth}px)`,
-          transform: `translateY(${show ? '0' : '100%'})`,
           zIndex: 20
         }}
+        animateOnStart
         unselect={unselectAll}
         remove={() => this.props.onDelete(this.selectedFiles)}
         rename={() => this.props.onRename(this.selectedFiles)}
@@ -382,20 +385,20 @@ export class FilesList extends React.Component {
           : <Fragment>
             <header className='gray pv3 flex items-center flex-none' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
               <div className={checkBoxCls}>
-                <Checkbox checked={allSelected} onChange={this.toggleAll} />
+                <Checkbox checked={allSelected} onChange={this.toggleAll} aria-label={t('selectAllEntries')}/>
               </div>
               <div className='ph2 f6 flex-auto'>
-                <span onClick={this.changeSort(sorts.BY_NAME)} className='pointer'>
+                <button aria-label={ t('sortBy', { name: t('itemName') })} onClick={this.changeSort(sorts.BY_NAME)}>
                   {t('itemName')} {this.sortByIcon(sorts.BY_NAME)}
-                </span>
+                </button>
               </div>
               <div className='ph2 pv1 flex-none dn db-l tr mw3'>
                 { /* Badges */ }
               </div>
               <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
-                <span className='pointer' onClick={this.changeSort(sorts.BY_SIZE)}>
+                <button aria-label={ t('sortBy', { name: t('size') })} onClick={this.changeSort(sorts.BY_SIZE)}>
                   {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
-                </span>
+                </button>
               </div>
               <div className='pa2' style={{ width: '2.5rem' }} />
             </header>
@@ -410,6 +413,7 @@ export class FilesList extends React.Component {
                         width={width}
                         height={height}
                         className='outline-0'
+                        aria-label={ t('filesListLabel')}
                         rowCount={rowCount}
                         rowHeight={55}
                         rowRenderer={this.rowRenderer}

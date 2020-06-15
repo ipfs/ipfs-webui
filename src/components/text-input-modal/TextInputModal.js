@@ -109,14 +109,13 @@ class TextInputModal extends React.Component {
             onKeyPress={this.onKeyPress}
             value={this.state.value}
             required
-            autoFocus
             className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-75 center focus-outline ${this.inputClass}`}
             type='text' />
         </ModalBody>
 
         <ModalActions>
-          <Button className='ma2' bg='bg-gray' onClick={onCancel}>Cancel</Button>
-          <Button className='ma2' bg='bg-teal' disabled={this.isDisabled} onClick={this.onSubmit}>{submitText}</Button>
+          <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>Cancel</Button>
+          <Button className='ma2 tc' bg='bg-teal' disabled={this.isDisabled} onClick={this.onSubmit}>{submitText}</Button>
         </ModalActions>
       </Modal>
     )

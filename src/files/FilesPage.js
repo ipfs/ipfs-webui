@@ -155,7 +155,7 @@ class FilesPage extends React.Component {
       return (
         <div>
           <Trans i18nKey='cidNotFileNorDir' t={t}>
-            The current link isn't a file, nor a directory. Try to <span className='link blue pointer' onClick={() => doExploreUserProvidedPath(path)}>inspect</span> it instead.
+            The current link isn't a file, nor a directory. Try to <button className='link blue pointer' onClick={() => doExploreUserProvidedPath(path)}>inspect</button> it instead.
           </Trans>
         </div>
       )
@@ -216,6 +216,7 @@ class FilesPage extends React.Component {
         </Helmet>
 
         <ContextMenu
+          autofocus
           ref={this.contextMenuRef}
           isOpen={contextMenu.isOpen}
           translateX={contextMenu.translateX}
@@ -223,9 +224,8 @@ class FilesPage extends React.Component {
           handleClick={this.handleContextMenu}
           isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
           isMfs={filesPathInfo ? filesPathInfo.isMfs : false}
-          isUnknown={contextMenu.file && contextMenu.file.type === 'unknown'}
+          isUnknown={!!(contextMenu.file && contextMenu.file.type === 'unknown')}
           pinned={contextMenu.file && contextMenu.file.pinned}
-          showDots={false}
           hash={contextMenu.file && contextMenu.file.hash}
           onShare={() => this.showModal(SHARE, [contextMenu.file])}
           onDelete={() => this.showModal(DELETE, [contextMenu.file])}

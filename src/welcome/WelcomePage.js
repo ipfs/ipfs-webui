@@ -135,7 +135,7 @@ class ApiAddressForm extends React.Component {
           onKeyPress={this.onKeyPress}
           value={this.state.value} />
         <div className='tr'>
-          <Button>{t('apiAddressForm.submitButton')}</Button>
+          <Button className="tc">{t('apiAddressForm.submitButton')}</Button>
         </div>
       </form>
     )

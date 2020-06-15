@@ -26,8 +26,8 @@ const DeleteModal = ({ t, tReady, onCancel, onDelete, folders, files, className,
       </ModalBody>
 
       <ModalActions>
-        <Button className='ma2' bg='bg-gray' onClick={onCancel}>{t('actions.cancel')}</Button>
-        <Button className='ma2' bg='bg-red' onClick={onDelete}>{t('actions.delete')}</Button>
+        <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>{t('actions.cancel')}</Button>
+        <Button className='ma2 tc' bg='bg-red' onClick={onDelete}>{t('actions.delete')}</Button>
       </ModalActions>
     </Modal>
   )
