@@ -17,6 +17,7 @@
     "translationProjectLink": "Join the IPFS Translation Project"
   },
   "actions": {
+    "addService": "Add Service",
     "edit": "Change",
     "close": "Close"
   },

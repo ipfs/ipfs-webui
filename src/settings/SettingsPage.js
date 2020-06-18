@@ -12,6 +12,7 @@ import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
+import PinningManager from '../components/pinning-manager/PinningManager'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import JsonEditor from './editor/JsonEditor'
 import Experiments from '../components/experiments/ExperimentsPanel'
@@ -40,6 +41,8 @@ export const SettingsPage = ({
           <a className='link' href={/* TODO: Missing documentation link */''}>Check the documentation for further information.</a>
         </p>
       </Trans>
+
+      <PinningManager t={t} />
     </Box>
 
     <Box className='mb3 pa4'>
