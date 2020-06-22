@@ -57,7 +57,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
     )
   }
 
-  const defaultDomains = ['http://127.0.0.1:5001', 'https://webui.ipfs.io']
+  const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.io']
   const origin = window.location.origin
   const addOrigin = defaultDomains.indexOf(origin) === -1
 
