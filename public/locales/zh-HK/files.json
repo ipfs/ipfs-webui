@@ -5,6 +5,8 @@
   "finished": "已完成",
   "totalSize": "總計大小：{size}",
   "filesSelected": "{count, plural, other {文件已選擇}}",
+  "menuOptions": "Options for selected item",
+  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "僅對文件有效",
   "itemName": "Name",
   "size": "大小",
@@ -72,6 +74,7 @@
     "paragraph5": "<0>再次檢查<0>您的節點設定</0>，並進行必要地更新。</0>",
     "paragraph6": "<0>若您願幫助推動 Web UI 的發展，請<1>查看源代碼</1>或<3>報告 bug</3>！</0>"
   },
+  "filesListLabel": "文件列表",
   "filesList": {
     "noFiles": "<0>此目錄中沒有文件。請點擊“添加”按鈕上載文件。</0>"
   },
@@ -116,11 +119,15 @@
     "browse": "瀏覽",
     "inspect": "檢查"
   },
+  "previousFolder": "Go back to previous folder",
+  "fileLabel": "Select {type} {name} with size: {size}", 
   "hashUnavailable": "哈希不可用",
+  "checkboxLabel": "View more options for {name}",
   "pins": "已固定",
   "pinned": "已固定",
   "blocks": "塊",
   "more": "更多",
   "files": "文件",
-  "cidNotFileNorDir": "當前連接不是一個文件或目錄，請檢查 <0>並替換</0> 。"
+  "cidNotFileNorDir": "當前連接不是一個文件或目錄，請檢查 <0>並替換</0> 。",
+  "sortBy": "Sort items by {name}"
 }

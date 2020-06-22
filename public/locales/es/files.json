@@ -5,6 +5,8 @@
   "finished": "Finalizado!",
   "totalSize": "Tamaño total: {size}",
   "filesSelected": "{count, plural, one {Archivos seleccionados} other {Archivos seleccionados}}",
+  "menuOptions": "Options for selected item",
+  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Solo disponible para archivos individuales",
   "itemName": "Nombre",
   "size": "Tamaño",
@@ -72,6 +74,7 @@
     "paragraph5": "<0><0>Revise la configuración</0> para su nodo IPFS y actualícela para que se adapte mejor a sus necesidades.</0>",
     "paragraph6": "<0>Si desea ayudar a impulsar la UI web hacia adelante, <1>verifique su código</1> o <3>informe un error</3>!</0>"
   },
+  "filesListLabel": "Lista de archivos",
   "filesList": {
     "noFiles": "<0>No hay archivos en este directorio. Haga clic en el botón \"Agregar\" para agregar algunos.</0>"
   },
@@ -113,14 +116,18 @@
     }
   },
   "exploreForm": {
-    "browse": "Browse",
+    "browse": "Examinar",
     "inspect": "Inspeccionar"
   },
+  "previousFolder": "Go back to previous folder",
+  "fileLabel": "Select {type} {name} with size: {size}", 
   "hashUnavailable": "hash no disponible",
+  "checkboxLabel": "View more options for {name}",
   "pins": "Pins",
   "pinned": "Sujeto",
   "blocks": "Bloques",
   "more": "Más",
   "files": "Archivos",
-  "cidNotFileNorDir": "El enlace actual no es un archivo ni un directorio. Intenta <0>examinarlo</0> en su lugar."
+  "cidNotFileNorDir": "El enlace actual no es un archivo ni un directorio. Intenta <0>examinarlo</0> en su lugar.",
+  "sortBy": "Sort items by {name}"
 }

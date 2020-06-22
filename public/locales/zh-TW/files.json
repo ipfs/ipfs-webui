@@ -5,6 +5,8 @@
   "finished": "已完成!",
   "totalSize": "總大小: {size}",
   "filesSelected": "{count, plural, other {已選擇檔案}}",
+  "menuOptions": "Options for selected item",
+  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "僅適用於單一檔案",
   "itemName": "Name",
   "size": "大小",
@@ -72,6 +74,7 @@
     "paragraph5": "<0>檢閱您的<0>IPFS 結點設定</0>，並將其更新以更符合您的需求。</0>",
     "paragraph6": "<0>如果你想幫助推動 Web UI 發展，請<1>查看原始碼</1>或<3>回報問題</3>!</0>"
   },
+  "filesListLabel": "檔案清單",
   "filesList": {
     "noFiles": "<0>這個資料夾沒有檔案。請點擊\"新增\"按鈕新增檔案。</0>"
   },
@@ -116,11 +119,15 @@
     "browse": "瀏覽",
     "inspect": "檢查"
   },
+  "previousFolder": "Go back to previous folder",
+  "fileLabel": "Select {type} {name} with size: {size}", 
   "hashUnavailable": "hash 不可用",
+  "checkboxLabel": "View more options for {name}",
   "pins": "固定",
   "pinned": "已固定",
   "blocks": "區塊",
   "more": "更多",
   "files": "檔案",
-  "cidNotFileNorDir": "當前的連接不是一個文件或目錄，請檢查 <0>並替換</0> 。"
+  "cidNotFileNorDir": "當前的連接不是一個文件或目錄，請檢查 <0>並替換</0> 。",
+  "sortBy": "Sort items by {name}"
 }

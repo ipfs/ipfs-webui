@@ -5,6 +5,8 @@
   "finished": "Fertig!",
   "totalSize": "Gesamtgröße: {size}",
   "filesSelected": "{count, plural, one {Datei ausgewählt} other {Dateien ausgewählt}}",
+  "menuOptions": "Options for selected item",
+  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
   "itemName": "Name",
   "size": "Größe",
@@ -15,11 +17,11 @@
   "addFile": "Datei",
   "addFolder": "Ordner",
   "addByPath": "Aus IPFS",
-  "importToIPFS": "Import",
+  "importToIPFS": "Importieren",
   "newFolder": "Neuer Ordner",
   "generating": "Erstelle…",
   "actions": {
-    "import": "Import",
+    "import": "Importieren",
     "delete": "Löschen",
     "rename": "Umbenennen",
     "download": "Herunterladen",
@@ -55,8 +57,8 @@
     "descriptionFile": "{count, plural, one {Bist Du sicher, dass Du diese Datei löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du diese {count} Dateien löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}"
   },
   "addByPathModal": {
-    "title": "Import from IPFS",
-    "description": "Insert an IPFS path (CID) to import.",
+    "title": "Aus IPFS importieren",
+    "description": "Tragen Sie einen IPFS Pfad (CID) zum Importieren ein.",
     "examples": "Beispiele:"
   },
   "newFolderModal": {
@@ -72,15 +74,16 @@
     "paragraph5": "<0><0>Überprüfe die Einstellungen</0> Deines IPFS-Node und aktualisiere sie, sodass sie Deinen Anforderungen besser entsprechen.</0>",
     "paragraph6": "<0>Wenn Du helfen möchtest, die Web-UI weiter zu gestalten, <1>schau Dir den Quelltext an</1> oder <3>melde einen Fehler</3>!</0>"
   },
+  "filesListLabel": "Datei Liste",
   "filesList": {
     "noFiles": "<0>Keine Dateien in diesem Ordner. Wählen Sie  “Hinzufügen”, um Dateien hinzuzufügen.</0>"
   },
   "filesImportStatus": {
-    "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
-    "importing": "{count, plural, one {Importing 1 item} other {Importing {count} items}}",
-    "toggleDropdown": "Toggle dropdown",
-    "closeDropdown": "Close dropdown",
-    "count": "{count} of {count}"
+    "imported": "{count, plural, one {1 Element importiert} other {{count} Elemente importiert}}",
+    "importing": "{count, plural, one { 1 Element wird importiert} other {{count} Elemente werden importiert}}",
+    "toggleDropdown": "Dropdown umschalten",
+    "closeDropdown": "Dropdown schließen",
+    "count": "{count} von {count}"
   },
   "addFilesInfo": "<0>Füge Dateien zu Deinem IPFS-Node hinzu, indem du oben auf den <1>\"Zum IPFS hinzufügen\"</1>-Knopf klickst.</0>",
   "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>",
@@ -116,11 +119,15 @@
     "browse": "Durchstöbern",
     "inspect": "Untersuchen"
   },
+  "previousFolder": "Go back to previous folder",
+  "fileLabel": "Select {type} {name} with size: {size}", 
   "hashUnavailable": "Hash nicht verfügbar",
+  "checkboxLabel": "View more options for {name}",
   "pins": "Pins",
   "pinned": "Gepinned",
   "blocks": "Blöcke",
   "more": "Mehr",
   "files": "Dateien",
-  "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <0>untersuchen</0>."
+  "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <0>untersuchen</0>.",
+  "sortBy": "Sort items by {name}"
 }

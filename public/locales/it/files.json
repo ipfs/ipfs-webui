@@ -5,6 +5,8 @@
   "finished": "Finito!",
   "totalSize": "Totale: {size}",
   "filesSelected": "{count, plural, one {File selezionato} other {File selezionati}}",
+  "menuOptions": "Options for selected item",
+  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Disponibile solamente per file individuali",
   "itemName": "Nome",
   "size": "Dimensione",
@@ -72,6 +74,7 @@
     "paragraph5": "<0></0>Esamina le impostazioni</0> del tuo nodo IPFS e modificale in base alle tue esigenze.</0>",
     "paragraph6": "<0>Se vuoi aiutare a migliorare il Web UI, <1>analizza il suo codice</1> o <3>comunica i bug</3>!</0>"
   },
+  "filesListLabel": "Lista di file",
   "filesList": {
     "noFiles": "<0>Nessun file in questo percorso. Clicca sul bottone \"Aggiungi\" per aggiungerne qualcuno.</0>"
   },
@@ -116,11 +119,15 @@
     "browse": "Esplora",
     "inspect": "Ispeziona"
   },
+  "previousFolder": "Go back to previous folder",
+  "fileLabel": "Select {type} {name} with size: {size}", 
   "hashUnavailable": "Hash non disponibile",
+  "checkboxLabel": "View more options for {name}",
   "pins": "Affissi",
   "pinned": "Affissato",
   "blocks": "Blocchi",
   "more": "Altro",
   "files": "File",
-  "cidNotFileNorDir": "Il collegamento corrente non è né un file né un percorso. Prova invece ad <0>ispezionarlo</0>."
+  "cidNotFileNorDir": "Il collegamento corrente non è né un file né un percorso. Prova invece ad <0>ispezionarlo</0>.",
+  "sortBy": "Sort items by {name}"
 }

@@ -5,6 +5,8 @@
   "finished": "Dokončeno!",
   "totalSize": "Celková velikost: {size}",
   "filesSelected": "{count, plural, one {Soubor vybrán} few {Souborů vybráno} many {Souborů vybráno} other {Souborů vybráno}}",
+  "menuOptions": "Options for selected item",
+  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Dostupné pouze pro jednotlivé soubory",
   "itemName": "Jméno",
   "size": "Velikost",
@@ -72,6 +74,7 @@
     "paragraph5": "<0><0>Prozkoumejte nastavení</0> vašeho IPFS uzlu a upravte je aby lépe odpovídala vaším potřebám.</0>",
     "paragraph6": "<0>Pokud chcete pomoc posunout Web UI dále, <1>mkrněte na jeho kód</1> nebo <3>nahlašte problém</3>!</0>"
   },
+  "filesListLabel": "Seznam souborů",
   "filesList": {
     "noFiles": "<0>V tomto adresáři nejsou žádné soubory. Klepnutím na tlačítko „Přidat“ přidejte některé.</0>"
   },
@@ -116,11 +119,15 @@
     "browse": "Procházet",
     "inspect": "Prozkoumat"
   },
+  "previousFolder": "Go back to previous folder",
+  "fileLabel": "Select {type} {name} with size: {size}", 
   "hashUnavailable": "hash není k dispozici",
+  "checkboxLabel": "View more options for {name}",
   "pins": "Špendlíky",
   "pinned": "Připíchnuté",
   "blocks": "Bloky",
   "more": "Více",
   "files": "Soubory",
-  "cidNotFileNorDir": "Aktuální odkaz není soubor ani adresář. Zkuste ho místo toho <0>zkontrolovat</0>."
+  "cidNotFileNorDir": "Aktuální odkaz není soubor ani adresář. Zkuste ho místo toho <0>zkontrolovat</0>.",
+  "sortBy": "Sort items by {name}"
 }

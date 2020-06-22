@@ -5,6 +5,8 @@
   "finished": "Terminé !",
   "totalSize": "Taille totale: {size}",
   "filesSelected": "{count, plural, one {Fichiers sélectionnés} other {Fichiers sélectionnés}}",
+  "menuOptions": "Options pour l'élément sélectionné ",
+  "selectedAllEntries": "Tout sélectionner",
   "individualFilesOnly": "Disponible uniquement pour les fichiers individuels",
   "itemName": "Nom",
   "size": "Taille",
@@ -72,6 +74,7 @@
     "paragraph5": "<0><0>Vérifiez les paramètres</0> de votre nœud IPFS, et mettez-les à jour pour qu'ils correspondent mieux à vos besoins.</0>",
     "paragraph6": "<0>Si vous voulez aider à faire avancer l'interface Web, <1>vérifiez son code</1> ou <3>signalez un bug</3>!</0>"
   },
+  "filesListLabel": "Liste des fichiers",
   "filesList": {
     "noFiles": "<0>Pas de fichier dans ce répertoire. Cliquer sur \"Ajouter\" pour en ajouter.</0>"
   },
@@ -116,11 +119,15 @@
     "browse": "Chercher",
     "inspect": "Inspecter"
   },
+  "previousFolder": "Revenir au dossier précédent",
+  "fileLabel": "Sélectionner {type}{name} de taille: {size}", 
   "hashUnavailable": "hash non disponible",
+  "checkboxLabel": "Voir plus d'options pour {name}",
   "pins": "Fichiers et dossiers épinglés",
   "pinned": "Épinglé",
   "blocks": "Blocs",
   "more": "Plus",
   "files": "Fichiers",
-  "cidNotFileNorDir": "Le lien courant n'est pas un fichier, peut être un dossier. Essayer de l'<0>inpecter</0>."
+  "cidNotFileNorDir": "Le lien courant n'est pas un fichier, peut être un dossier. Essayer de l'<0>inpecter</0>.",
+  "sortBy": "Trier les éléments par {name}"
 }
