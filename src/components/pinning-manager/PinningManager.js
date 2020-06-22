@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useMemo } from 'react'
+import React, { Fragment, useEffect, useState, useMemo, useRef } from 'react'
 import { connect } from 'redux-bundler-react'
 import filesize from 'filesize'
 import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
@@ -9,6 +9,8 @@ import Button from '../button/Button'
 import Overlay from '../overlay/Overlay'
 import PinningModal from './pinning-manager-modal/PinningManagerModal'
 import GlyphPin from '../../icons/GlyphPin'
+import ContextMenu from '../context-menu/ContextMenu'
+import GlyphDots from '../../icons/GlyphDots'
 
 const TABLE_HEIGHT = 400
 const ROW_HEIGHT = 50
@@ -48,20 +50,20 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
             {({ width }) => (
               <Table
                 className='tl fw4 w-100 f6'
-                headerClassName='teal fw2 ttu tracked ph2'
+                headerClassName='gray ttc tracked fw4 f7 ph2'
                 width={width}
                 height={TABLE_HEIGHT}
                 headerHeight={HEADER_HEIGHT}
                 rowHeight={ROW_HEIGHT}
-                rowCount={pinningServices.length}
+                rowCount={sortedList.length}
                 rowGetter={({ index }) => sortedList[index]}
                 sort={(...sortArgs) => setSortSettings(...sortArgs)}
                 sortBy={sortSettings.sortBy}
                 sortDirection={sortSettings.sortDirection}>
-                <Column label={t('service')} dataKey='name' cellRenderer={serviceCell} width={250} className='charcoal truncate f6 pl2' />
-                <Column label={t('files')} dataKey='totalSize' cellRenderer={sizeCell} width={250} className='charcoal truncate f6 pl2' />
-                <Column label={t('bandwidthUsed')} dataKey='bandwidth' width={250} className='charcoal truncate f6 pl2' />
-                <Column label={t('autoUpload')} dataKey='autoUpload' width={250} className='charcoal truncate f6 pl2' />
+                <Column label={t('service')} dataKey='name' width={250} cellRenderer={ServiceCell} className='charcoal truncate f6 pl2' />
+                <Column label={t('files')} dataKey='totalSize' width={250} cellRenderer={SizeCell} className='charcoal truncate f6 pl2' />
+                <Column label={t('bandwidthUsed')} dataKey='bandwidth' width={250} cellRenderer={BandwidthCell} className='charcoal truncate f6 pl2' />
+                <Column label={t('autoUpload')} dataKey='autoUpload' width={250} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} t={t} />} className='charcoal truncate f6 pl2' />
               </Table>
             )}
           </AutoSizer>
@@ -84,7 +86,7 @@ PinningManager.defaultProps = {
   pinningServices: []
 }
 
-const serviceCell = ({ rowData }) => (
+const ServiceCell = ({ rowData }) => (
   <div className='flex items-center'>
     { rowData.svgIcon && (<rowData.svgIcon width="32" height="32" className="mr1 fill-teal" />)}
     { rowData.icon && (<img src={rowData.icon} alt={rowData.name} width="32" height="32" className="mr1" style={{ objectFit: 'contain' }} />)}
@@ -92,11 +94,35 @@ const serviceCell = ({ rowData }) => (
   </div>
 )
 
-const sizeCell = ({ rowData }) => (
+const SizeCell = ({ rowData }) => (
   <p>{ !rowData.totalSize ? 'N/A' : filesize(rowData.totalSize || 0, {
     round: rowData.totalSize >= 1000000000 ? 1 : 0, spacer: ''
   })}</p>
 )
+const BandwidthCell = ({ rowData }) => (<div>{rowData.bandwidthUsed || 'N/A'}</div>)
+const AutoUploadCell = ({ autoUpload, t }) => (
+  <Fragment>
+    <div>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
+    <OptionsCell t={t}/>
+  </Fragment>
+)
+
+const OptionsCell = ({ t }) => {
+  const buttonRef = useRef()
+
+  return (
+    <div>
+      <button className="button-inside-focus" ref={buttonRef} aria-label={t('showOptions')}>
+        <GlyphDots className='fill-gray-muted hover-fill-gray transition-all'/>
+      </button>
+      <ContextMenu target={buttonRef}>
+        <button>Edit</button>
+        <button>Edit2</button>
+      </ContextMenu>
+    </div>
+
+  )
+}
 
 export default connect(
   'doFilesFetch',
