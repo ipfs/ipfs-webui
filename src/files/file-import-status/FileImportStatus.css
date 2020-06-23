@@ -17,15 +17,11 @@
 
 .fileImportStatusArrow {
     margin-left: auto;
-    width: 1rem;
-}
-
-.fileImportStatusIcons {
-    width: 100%;
+    width: 1.5rem;
 }
 
 .fileImportStatusCancel {
-    height: 3rem;
+    width: 2.9rem;
     margin-left: 0.5rem;
     margin-right: -1.2rem;
 }

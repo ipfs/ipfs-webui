@@ -73,17 +73,21 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
       <div className="br1 dark-gray w-40 center ba b--light-gray bg-white" style={{ pointerEvents: 'auto' }}>
-        <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100" style={{ background: '#F0F6FA' }}>
-          { filesPending.length
-            ? t('filesImportStatus.importing', { count: filesPending.length })
-            : t('filesImportStatus.imported', { count: numberOfImportedFiles })
-          }
-          <button className='fileImportStatusArrow' onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={ t('filesImportStatus.toggleDropdown') }>
-            <GlyphSmallArrows className='fileImportStatusIcons' fill="currentColor" opacity="0.7" aria-hidden="true"/>
-          </button>
-          <button className='fileImportStatusCancel' onClick={ handleImportStatusClose } aria-label={ t('filesImportStatus.closeDropdown') }>
-            <GlyphSmallCancel className='fileImportStatusIcons' fill="currentColor" opacity="0.7"/>
-          </button>
+        <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100 justify-between" style={{ background: '#F0F6FA' }}>
+          <span>
+            { filesPending.length
+              ? t('filesImportStatus.importing', { count: filesPending.length })
+              : t('filesImportStatus.imported', { count: numberOfImportedFiles })
+            }
+          </span>
+          <div class="flex items-center">
+            <button className='fileImportStatusArrow' onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={ t('filesImportStatus.toggleDropdown') }>
+              <GlyphSmallArrows className='w-100' fill="currentColor" opacity="0.7" aria-hidden="true"/>
+            </button>
+            <button className='fileImportStatusCancel' onClick={ handleImportStatusClose } aria-label={ t('filesImportStatus.closeDropdown') }>
+              <GlyphSmallCancel className='w-100' fill="currentColor" opacity="0.7"/>
+            </button>
+          </div>
         </div>
         <ul className='fileImportStatusRow pa0 ma0' aria-hidden={!expanded}>
           { filesPending.map(file => File(file.data, t)) }
