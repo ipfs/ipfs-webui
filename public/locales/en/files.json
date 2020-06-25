@@ -68,7 +68,7 @@
   "welcomeInfo": {
     "header": "Welcome to the IPFS Web UI",
     "paragraph1": "<0><0>Check the status</0> of your node, its Peer ID and connection info, the network traffic and the number of connected peers.</0>",
-    "paragraph2": "<0>Easily <1>manage files</1> in your IPFS repo. You can drag and drop to add files, and you can move, rename, delete, share or download them.</0>",
+    "paragraph2": "<0>Easily manage files in your IPFS repo. Drag and drop here to add files, and you can move, rename, delete, share or download them.</0>",
     "paragraph3": "<0>You can <1>explore IPLD data</1> that underpins how IPFS works.</0>",
     "paragraph4": "<0>See all of your <1>connected peers</1>, geolocated by their IP address.</0>",
     "paragraph5": "<0><0>Review the settings</0> for your IPFS node, and update them to better suit your needs.</0>",
@@ -120,7 +120,7 @@
     "inspect": "Inspect"
   },
   "previousFolder": "Go back to previous folder",
-  "fileLabel": "Select {type} {name} with size: {size}", 
+  "fileLabel": "Select {type} {name} with size: {size}",
   "hashUnavailable": "hash unavailable",
   "checkboxLabel": "View more options for {name}",
   "pins": "Pins",
