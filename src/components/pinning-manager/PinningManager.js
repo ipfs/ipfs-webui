@@ -12,7 +12,7 @@ import GlyphPin from '../../icons/GlyphPin'
 import ContextMenu from '../context-menu/ContextMenu'
 import GlyphDots from '../../icons/GlyphDots'
 
-const TABLE_HEIGHT = 400
+const TABLE_HEIGHT = 300
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
@@ -44,7 +44,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
 
   return (
     <Fragment>
-      <div>
+      <div className="mv4">
         <div className='ph4 flex items-center bg-white lh-copy charcoal f6 fw5'>
           <AutoSizer disableHeight>
             {({ width }) => (
@@ -57,6 +57,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
                 rowHeight={ROW_HEIGHT}
                 rowCount={sortedList.length}
                 rowGetter={({ index }) => sortedList[index]}
+                rowClassName='bb b--light-gray'
                 sort={(...sortArgs) => setSortSettings(...sortArgs)}
                 sortBy={sortSettings.sortBy}
                 sortDirection={sortSettings.sortDirection}>
@@ -68,7 +69,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
             )}
           </AutoSizer>
         </div>
-        <div className='flex justify-end w-100'>
+        <div className='flex justify-end w-100 mt2'>
           <Button className="tc mt2" bg='bg-navy' onClick={onModalOpen}>
             <span><span className="aqua">+</span> {t('actions.addService')}</span>
           </Button>
@@ -88,8 +89,8 @@ PinningManager.defaultProps = {
 
 const ServiceCell = ({ rowData }) => (
   <div className='flex items-center'>
-    { rowData.svgIcon && (<rowData.svgIcon width="32" height="32" className="mr1 fill-teal" />)}
-    { rowData.icon && (<img src={rowData.icon} alt={rowData.name} width="32" height="32" className="mr1" style={{ objectFit: 'contain' }} />)}
+    { rowData.svgIcon && (<rowData.svgIcon width="28" height="28" className="mr1 fill-teal" />)}
+    { rowData.icon && (<img src={rowData.icon} alt={rowData.name} width="28" height="28" className="mr1" style={{ objectFit: 'contain' }} />)}
     { rowData.name }
   </div>
 )
@@ -101,21 +102,22 @@ const SizeCell = ({ rowData }) => (
 )
 const BandwidthCell = ({ rowData }) => (<div>{rowData.bandwidthUsed || 'N/A'}</div>)
 const AutoUploadCell = ({ autoUpload, t }) => (
-  <Fragment>
+  <div className="flex justify-between">
     <div>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
     <OptionsCell t={t}/>
-  </Fragment>
+  </div>
 )
 
 const OptionsCell = ({ t }) => {
   const buttonRef = useRef()
+  const [isContextVisible, setContextVisibility] = useState(false)
 
   return (
     <div>
-      <button className="button-inside-focus" ref={buttonRef} aria-label={t('showOptions')}>
-        <GlyphDots className='fill-gray-muted hover-fill-gray transition-all'/>
+      <button className="button-inside-focus" onClick={() => setContextVisibility(true)} ref={buttonRef} aria-label={t('showOptions')}>
+        <GlyphDots width={24} className='fill-gray-muted hover-fill-gray transition-all'/>
       </button>
-      <ContextMenu target={buttonRef}>
+      <ContextMenu className="pa2" visible={isContextVisible} target={buttonRef} onDismiss={() => setContextVisibility(false)}>
         <button>Edit</button>
         <button>Edit2</button>
       </ContextMenu>
