@@ -48,6 +48,7 @@
     "ipfs-geoip": "^4.0.0",
     "ipfs-redux-bundle": "^7.0.0",
     "ipld-explorer-components": "1.6.0",
+    "ipfs-lite-http-client": "git://github.com/gozala/js-ipfs-lite-http-client#default",
     "is-binary": "^0.1.0",
     "is-ipfs": "^0.6.1",
     "memoizee": "^0.4.14",

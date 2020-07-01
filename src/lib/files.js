@@ -1,21 +1,6 @@
 import fileReader from 'pull-file-reader'
 import CID from 'cids'
 
-export async function filesToStreams (files) {
-  const streams = []
-
-  for (const file of files) {
-    const stream = fileReader(file)
-
-    streams.push({
-      path: file.filepath || file.webkitRelativePath || file.name,
-      content: stream,
-      size: file.size
-    })
-  }
-
-  return streams
-}
 
 async function downloadSingle (file, gatewayUrl, apiUrl) {
   let url, filename

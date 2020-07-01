@@ -1,8 +1,9 @@
 import { join, dirname, basename } from 'path'
 import { getDownloadLink, getShareableLink } from '../../lib/files'
 import countDirs from '../../lib/count-dirs'
+import { IPFS as IPFSLite } from 'ipfs-lite-http-client'
 
-import { make, sortFiles, infoFromPath } from './utils'
+import { make, sortFiles, infoFromPath, getFilePath } from './utils'
 import { IGNORED_FILES, ACTIONS } from './consts'
 
 const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path, prefix = '/ipfs') => ({
@@ -168,35 +169,47 @@ export default () => ({
   },
 
   doFilesWrite: make(ACTIONS.WRITE, async (ipfs, files, root, id, { dispatch }) => {
-    files = files.filter(f => !IGNORED_FILES.includes(basename(f.path)))
+    files = files.filter(f => !IGNORED_FILES.includes(basename(getFilePath(f))))
     const totalSize = files.reduce((prev, { size }) => prev + size, 0)
 
-    // Normalise all paths to be relative. Dropped files come as absolute,
-    // those added by the file input come as relative paths, so normalise them.
-    files.forEach(s => {
-      if (s.path[0] === '/') {
-        s.path = s.path.slice(1)
+    const { protocol, host, port, "api-path": pathname } = ipfs.getEndpointConfig()
+    const url = Object.assign(new URL(`${protocol}://${host}`), {
+      port,
+      pathname: pathname.endsWith('/') ? pathname : `${pathname}/`
+    })
+    const ipfsLite = new IPFSLite({ url })
+
+    // // Normalise all paths to be relative. Dropped files come as absolute,
+    // // those added by the file input come as relative paths, so normalise them.
+    const entries = files.map(file => {
+      const path = getFilePath(file)
+      if (path[0] === '/') {
+        return { path: path.slice(1), content: file, size: file.size }
+      } else {
+        return { path, content: file, size: file.size }
       }
     })
 
-    const paths = files.map(f => ({ path: f.path, size: f.size }))
-
-    const updateProgress = (sent) => {
+    const updateProgress = ({total, loaded}) => {
       dispatch({
         type: 'FILES_WRITE_UPDATED',
         payload: {
           id,
-          paths,
-          progress: sent / totalSize * 100
+          entries,
+          // Note: It often appears that event.total is 0 which leads. To work
+          // around that we pick max total between known title size and reported
+          // total.
+          progress: loaded / Math.max(total, totalSize) * 100
         }
       })
     }
 
-    updateProgress(0)
+    updateProgress({ total: totalSize, loaded: 0 })
+
 
     let res = null
     try {
-      res = await ipfs.add(files, {
+      res = await ipfsLite.blob.putAll(files, {
         pin: false,
         wrapWithDirectory: false,
         progress: updateProgress
@@ -206,8 +219,8 @@ export default () => ({
       throw error
     }
 
-    const numberOfFiles = files.length
-    const numberOfDirs = countDirs(files)
+    const numberOfFiles = entries.length
+    const numberOfDirs = countDirs(entries)
     const expectedResponseCount = numberOfFiles + numberOfDirs
 
     if (res.length !== expectedResponseCount) {
@@ -215,10 +228,10 @@ export default () => ({
       throw Object.assign(new Error('API returned a partial response.'), { code: 'ERR_API_RESPONSE' })
     }
 
-    for (const { path, hash } of res) {
+    for (const { path, cid } of res) {
       // Only go for direct children
       if (path.indexOf('/') === -1 && path !== '') {
-        const src = `/ipfs/${hash}`
+        const src = `/ipfs/${cid}`
         const dst = join(realMfsPath(root || '/files'), path)
 
         try {
@@ -229,7 +242,7 @@ export default () => ({
       }
     }
 
-    updateProgress(totalSize)
+    updateProgress({ total: totalSize, loaded: totalSize })
   }),
 
   doFilesDelete: make(ACTIONS.DELETE, (ipfs, files) => {

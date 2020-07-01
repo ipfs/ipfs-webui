@@ -7,7 +7,6 @@ import { Trans, withTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
-import { filesToStreams } from '../../lib/files'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 // Reac DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -444,7 +443,7 @@ const dropTarget = {
 
     const add = async () => {
       const files = await filesPromise
-      onAddFiles(await filesToStreams(files))
+      onAddFiles(files)
     }
 
     add()
