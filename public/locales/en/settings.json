@@ -21,6 +21,9 @@
     "edit": "Change",
     "close": "Close"
   },
+  "edit": "Edit",
+  "visitService": "Visit service",
+  "remove": "Remove",
   "localPinning": "Local Pinning",
   "service": "Service",
   "files": "Files",

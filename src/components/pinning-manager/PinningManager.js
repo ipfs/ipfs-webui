@@ -10,7 +10,13 @@ import Overlay from '../overlay/Overlay'
 import PinningModal from './pinning-manager-modal/PinningManagerModal'
 import GlyphPin from '../../icons/GlyphPin'
 import ContextMenu from '../context-menu/ContextMenu'
+import ContextMenuItem from '../context-menu/ContextMenuItem'
 import GlyphDots from '../../icons/GlyphDots'
+import GlyphSettings from '../../icons/GlyphSettings'
+import StrokeCancel from '../../icons/StrokeCancel'
+import StrokeExternalLink from '../../icons/StrokeExternalLink'
+
+import './PinningManager.css'
 
 const TABLE_HEIGHT = 300
 const ROW_HEIGHT = 50
@@ -44,7 +50,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
 
   return (
     <Fragment>
-      <div className="mv4">
+      <div className="mv4 pinningManager">
         <div className='ph4 flex items-center bg-white lh-copy charcoal f6 fw5'>
           <AutoSizer disableHeight>
             {({ width }) => (
@@ -64,7 +70,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
                 <Column label={t('service')} dataKey='name' width={250} cellRenderer={ServiceCell} className='charcoal truncate f6 pl2' />
                 <Column label={t('files')} dataKey='totalSize' width={250} cellRenderer={SizeCell} className='charcoal truncate f6 pl2' />
                 <Column label={t('bandwidthUsed')} dataKey='bandwidth' width={250} cellRenderer={BandwidthCell} className='charcoal truncate f6 pl2' />
-                <Column label={t('autoUpload')} dataKey='autoUpload' width={250} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} t={t} />} className='charcoal truncate f6 pl2' />
+                <Column label={t('autoUpload')} dataKey='autoUpload' width={250} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} t={t} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
               </Table>
             )}
           </AutoSizer>
@@ -117,9 +123,17 @@ const OptionsCell = ({ t }) => {
       <button className="button-inside-focus" onClick={() => setContextVisibility(true)} ref={buttonRef} aria-label={t('showOptions')}>
         <GlyphDots width={24} className='fill-gray-muted hover-fill-gray transition-all'/>
       </button>
-      <ContextMenu className="pa2" visible={isContextVisible} target={buttonRef} onDismiss={() => setContextVisibility(false)}>
-        <button>Edit</button>
-        <button>Edit2</button>
+      <ContextMenu className="pv2 ph1" style={{ zIndex: 1001 }} visible={isContextVisible}
+        target={buttonRef} onDismiss={() => setContextVisibility(false)} arrowAlign="right">
+        <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
+          <GlyphSettings width="28"/> <span className="ph1">{t('edit')}</span>
+        </ContextMenuItem>
+        <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
+          <StrokeExternalLink width="28"/> <span className="ph1">{t('visitService')}</span>
+        </ContextMenuItem>
+        <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
+          <StrokeCancel width="28"/> <span className="ph1">{t('remove')}</span>
+        </ContextMenuItem>
       </ContextMenu>
     </div>
 
