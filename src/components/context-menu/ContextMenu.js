@@ -48,7 +48,7 @@ const ContextMenu = ({ className, children, target, visible, arrowAlign, arrowMa
 
   return (
     <Portal id="portal-dropdown">
-      <div className={ classNames('absolute transition-top', className) } style={{
+      <div className={ classNames('absolute', className) } style={{
         top: coordinates.top,
         left: coordinates.left
       }}>
