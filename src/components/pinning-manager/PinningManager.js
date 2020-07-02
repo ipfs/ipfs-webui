@@ -12,7 +12,7 @@ import GlyphPin from '../../icons/GlyphPin'
 import ContextMenu from '../context-menu/ContextMenu'
 import ContextMenuItem from '../context-menu/ContextMenuItem'
 import GlyphDots from '../../icons/GlyphDots'
-import GlyphSettings from '../../icons/GlyphSettings'
+import StrokeSettings from '../../icons/StrokeSettings'
 import StrokeCancel from '../../icons/StrokeCancel'
 import StrokeExternalLink from '../../icons/StrokeExternalLink'
 
@@ -128,7 +128,7 @@ const OptionsCell = ({ t }) => {
       <ContextMenu className="pv2 ph1" style={{ zIndex: 1001 }} visible={isContextVisible}
         target={buttonRef} onDismiss={() => setContextVisibility(false)} arrowAlign="right">
         <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
-          <GlyphSettings width="28" className='fill-aqua'/> <span className="ph1">{t('edit')}</span>
+          <StrokeSettings width="28" className='fill-aqua'/> <span className="ph1">{t('edit')}</span>
         </ContextMenuItem>
         <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
           <StrokeExternalLink width="28" className='fill-aqua'/> <span className="ph1">{t('visitService')}</span>
