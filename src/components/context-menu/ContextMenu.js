@@ -20,11 +20,20 @@ const ContextMenu = ({ className, children, target, visible, arrowAlign, arrowMa
   const [coordinates, setCoordinates] = useState({})
 
   useLayoutEffect(() => {
-    if (!target?.current) return
+    const calculateCoordinates = () => {
+      if (!target?.current) return
+      const { top, left, width, height } = target.current.getBoundingClientRect()
+      setCoordinates({ top, left, width, height })
+    }
 
-    const { top, left, width, height } = target.current.getBoundingClientRect()
-    setCoordinates({ top, left, width, height })
-  }, [target])
+    calculateCoordinates()
+
+    const event = window.addEventListener('scroll', () => {
+      requestAnimationFrame(() => calculateCoordinates())
+    })
+
+    return () => window.removeEventListener('scroll', event)
+  }, [target, visible])
 
   useEffect(() => {
     if (!target?.current) return
@@ -39,7 +48,7 @@ const ContextMenu = ({ className, children, target, visible, arrowAlign, arrowMa
 
   return (
     <Portal id="portal-dropdown">
-      <div className={ classNames('absolute', className) } style={{
+      <div className={ classNames('absolute transition-top', className) } style={{
         top: coordinates.top,
         left: coordinates.left
       }}>

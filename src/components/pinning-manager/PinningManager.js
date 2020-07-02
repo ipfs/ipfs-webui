@@ -18,7 +18,6 @@ import StrokeExternalLink from '../../icons/StrokeExternalLink'
 
 import './PinningManager.css'
 
-const TABLE_HEIGHT = 300
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
@@ -56,14 +55,14 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
             {({ width }) => (
               <Table
                 className='tl fw4 w-100 f6'
-                headerClassName='gray ttc tracked fw4 f7 ph2'
+                headerClassName='gray ttc fw4 f6 ph2'
                 width={width}
-                height={TABLE_HEIGHT}
+                height={(sortedList.length + 1) * ROW_HEIGHT}
                 headerHeight={HEADER_HEIGHT}
                 rowHeight={ROW_HEIGHT}
                 rowCount={sortedList.length}
                 rowGetter={({ index }) => sortedList[index]}
-                rowClassName='bb b--light-gray'
+                rowClassName='bb b--light-gray mt2'
                 sort={(...sortArgs) => setSortSettings(...sortArgs)}
                 sortBy={sortSettings.sortBy}
                 sortDirection={sortSettings.sortDirection}>
@@ -93,23 +92,26 @@ PinningManager.defaultProps = {
   pinningServices: []
 }
 
-const ServiceCell = ({ rowData }) => (
-  <div className='flex items-center'>
-    { rowData.svgIcon && (<rowData.svgIcon width="28" height="28" className="mr1 fill-teal" />)}
-    { rowData.icon && (<img src={rowData.icon} alt={rowData.name} width="28" height="28" className="mr1" style={{ objectFit: 'contain' }} />)}
-    { rowData.name }
-  </div>
-)
+const ServiceCell = ({ rowData }) => {
+  const iconClass = 'mr2 pr1 fill-teal'
+  return (
+    <div className='flex items-center'>
+      { rowData.svgIcon && (<rowData.svgIcon width="28" height="28" className={iconClass} />)}
+      { rowData.icon && (<img src={rowData.icon} alt={rowData.name} width="28" height="28" className={iconClass} style={{ objectFit: 'contain' }} />)}
+      { rowData.name }
+    </div>
+  )
+}
 
 const SizeCell = ({ rowData }) => (
-  <p>{ !rowData.totalSize ? 'N/A' : filesize(rowData.totalSize || 0, {
+  <p className={ !rowData.totalSize && 'gray'}>{ !rowData.totalSize ? 'N/A' : filesize(rowData.totalSize || 0, {
     round: rowData.totalSize >= 1000000000 ? 1 : 0, spacer: ''
   })}</p>
 )
-const BandwidthCell = ({ rowData }) => (<div>{rowData.bandwidthUsed || 'N/A'}</div>)
+const BandwidthCell = ({ rowData }) => (<div className={!rowData.bandwidthUsed && 'gray'}>{rowData.bandwidthUsed || 'N/A'}</div>)
 const AutoUploadCell = ({ autoUpload, t }) => (
-  <div className="flex justify-between">
-    <div>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
+  <div className="flex justify-between items-center">
+    <div className={!autoUpload && 'gray'}>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
     <OptionsCell t={t}/>
   </div>
 )
@@ -126,13 +128,13 @@ const OptionsCell = ({ t }) => {
       <ContextMenu className="pv2 ph1" style={{ zIndex: 1001 }} visible={isContextVisible}
         target={buttonRef} onDismiss={() => setContextVisibility(false)} arrowAlign="right">
         <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
-          <GlyphSettings width="28"/> <span className="ph1">{t('edit')}</span>
+          <GlyphSettings width="28" className='fill-aqua'/> <span className="ph1">{t('edit')}</span>
         </ContextMenuItem>
         <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
-          <StrokeExternalLink width="28"/> <span className="ph1">{t('visitService')}</span>
+          <StrokeExternalLink width="28" className='fill-aqua'/> <span className="ph1">{t('visitService')}</span>
         </ContextMenuItem>
         <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
-          <StrokeCancel width="28"/> <span className="ph1">{t('remove')}</span>
+          <StrokeCancel width="28" className='fill-aqua'/> <span className="ph1">{t('remove')}</span>
         </ContextMenuItem>
       </ContextMenu>
     </div>
