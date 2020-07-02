@@ -1,54 +1,50 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import i18n, { localesList } from '../../../i18n'
-import { getLanguage } from '../../../lib/i18n'
+import { connect } from 'redux-bundler-react'
+import { withTranslation, Trans } from 'react-i18next'
+import './PinningManagerModal.css'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
-import SpeakerIcon from '../../../icons/StrokeSpeaker'
 import Button from '../../button/Button'
 
-const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
-  const handleClick = (lang) => {
-    i18n.changeLanguage(lang)
-    onLeave()
-  }
-
+const PinningManagerModal = ({ t, onLeave, className, availablePinningServices, ...props }) => {
   return (
-    <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
-      <ModalBody icon={SpeakerIcon}>
-        <p className='charcoal w-80 center'>{t('languageModal.description')}</p>
-        <div className='pa2 flex flex-wrap'>
-          { localesList.map((lang) =>
-            <button
-              key={`lang-${lang}`}
-              className='pa2 w-33 flex nowrap bg-transparent bn outline-0 blue justify-center'
-              onClick={() => handleClick(lang)}>
-              { getLanguage(lang) }
+    <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
+      <ModalBody>
+        <p>{ t('pinningModal.title') }</p>
+        <div className='pa2 pinningManagerModalContainer'>
+          { availablePinningServices.map(({ icon, name }) => (
+            <button className="flex items-center pinningManagerModalItem pa1 hoverable-button">
+              <img className="mr3" src={icon} alt={name} width={42} height={42} style={{ objectFit: 'contain' }} />
+              <p>{ name }</p>
             </button>
-          )}
+          ))}
         </div>
-        <p className='lh-copy charcoal f6'>
-          {t('languageModal.translationProjectIntro')}<br/>
-          <a href="https://www.transifex.com/ipfs/public/" rel="noopener noreferrer" target="_blank" className="link blue">{t('languageModal.translationProjectLink')}</a>
+        <p>
+          <Trans i18nKey="pinningModal.description" t={t}>
+          Don’t see your pinning service provider? <a href={/* TODO: add action for custom add */ '/'}>Add a custom one.</a>
+          </Trans>
         </p>
       </ModalBody>
 
-      <ModalActions>
-        <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
+      <ModalActions justify="center">
+        <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.cancel')}</Button>
       </ModalActions>
     </Modal>
   )
 }
 
-LanguageModal.propTypes = {
-  onLeave: PropTypes.func.isRequired,
+PinningManagerModal.propTypes = {
   t: PropTypes.func.isRequired,
-  tReady: PropTypes.bool
+  onLeave: PropTypes.func.isRequired
 }
 
-LanguageModal.defaultProps = {
+PinningManagerModal.defaultProps = {
   className: ''
 }
 
-export default LanguageModal
+export default connect(
+  'selectAvailablePinningServices',
+  withTranslation('settings')(PinningManagerModal)
+)
