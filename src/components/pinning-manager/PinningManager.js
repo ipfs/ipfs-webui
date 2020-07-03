@@ -38,7 +38,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
   }, [doFilesFetch, doFilesSizeGet])
 
   const localPinning = useMemo(() =>
-    ({ name: t('localPinning'), svgIcon: GlyphPin, totalSize: filesSize }),
+    ({ name: t('localPinning'), type: 'LOCAL', svgIcon: GlyphPin, totalSize: filesSize }),
   [filesSize, t])
 
   const sortedServices = useMemo(() =>
@@ -69,7 +69,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
                 <Column label={t('service')} dataKey='name' width={250} cellRenderer={ServiceCell} className='charcoal truncate f6 pl2' />
                 <Column label={t('files')} dataKey='totalSize' width={250} cellRenderer={SizeCell} className='charcoal truncate f6 pl2' />
                 <Column label={t('bandwidthUsed')} dataKey='bandwidth' width={250} cellRenderer={BandwidthCell} className='charcoal truncate f6 pl2' />
-                <Column label={t('autoUpload')} dataKey='autoUpload' width={250} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} t={t} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
+                <Column label={t('autoUpload')} dataKey='autoUpload' width={250} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} type={rowData.type} t={t} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
               </Table>
             )}
           </AutoSizer>
@@ -109,10 +109,10 @@ const SizeCell = ({ rowData }) => (
   })}</p>
 )
 const BandwidthCell = ({ rowData }) => (<div className={!rowData.bandwidthUsed && 'gray'}>{rowData.bandwidthUsed || 'N/A'}</div>)
-const AutoUploadCell = ({ autoUpload, t }) => (
+const AutoUploadCell = ({ autoUpload, type, t }) => (
   <div className="flex justify-between items-center">
     <div className={!autoUpload && 'gray'}>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
-    <OptionsCell t={t}/>
+    { type !== 'LOCAL' && (<OptionsCell t={t}/>) }
   </div>
 )
 
