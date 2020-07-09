@@ -16,10 +16,15 @@
     "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
     "translationProjectLink": "Join the IPFS Translation Project"
   },
+  "pinningModal": {
+    "title": "Select a pinning service provider.",
+    "description": "Don’t see your pinning service provider? <1>Add a custom one.<1>"
+  },
   "actions": {
     "addService": "Add Service",
     "edit": "Change",
-    "close": "Close"
+    "close": "Close",
+    "cancel": "Cancel"
   },
   "edit": "Edit",
   "visitService": "Visit service",

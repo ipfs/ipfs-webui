@@ -27,5 +27,18 @@ export default {
       autoUpload: 'PINS_ONLY',
       addedAt: new Date(1592491648691)
     }
+  ]),
+
+  selectAvailablePinningServices: () => ([
+    {
+      name: 'Pinata',
+      icon: 'https://ipfs.io/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg'
+    }, {
+      name: 'Infura',
+      icon: 'https://ipfs.io/ipfs/QmTt6KeaNXyaaUBWn2zEG8RiMfPPPeMesXqnFWqqC5o6yc?filename=infura.png'
+    }, {
+      name: 'Eternum',
+      icon: 'https://ipfs.io/ipfs/QmSrqJeuYrYDmSgAy3SeAyTsYMksNPfK5CSN91xk6BBnF9?filename=eternum.png'
+    }
   ])
 }
