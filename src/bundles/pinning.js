@@ -32,13 +32,13 @@ export default {
   selectAvailablePinningServices: () => ([
     {
       name: 'Pinata',
-      icon: 'https://svgshare.com/i/M7y.svg'
+      icon: 'https://ipfs.io/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg'
     }, {
       name: 'Infura',
-      icon: 'https://i.pinimg.com/originals/e2/8e/98/e28e98282e6ace744098d2d25ddee7d2.png'
+      icon: 'https://ipfs.io/ipfs/QmTt6KeaNXyaaUBWn2zEG8RiMfPPPeMesXqnFWqqC5o6yc?filename=infura.png'
     }, {
       name: 'Eternum',
-      icon: 'https://www.eternum.io/static/images/icons/favicon-32x32.a2341c8ec160.png'
+      icon: 'https://ipfs.io/ipfs/QmSrqJeuYrYDmSgAy3SeAyTsYMksNPfK5CSN91xk6BBnF9?filename=eternum.png'
     }
   ])
 }
