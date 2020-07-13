@@ -20,6 +20,10 @@
     "title": "Select a pinning service provider.",
     "description": "Don’t see your pinning service provider? <1>Add a custom one.<1>"
   },
+  "pinningCustomModal": {
+    "title": "Configure a custom pinning service.",
+    "description": "Want to make your custom pinning service available to others? <1>Learn how.<1>"
+  },
   "actions": {
     "addService": "Add Service",
     "edit": "Change",

@@ -1,16 +1,28 @@
 import React from 'react'
 import './Button.css'
+import classNames from 'classnames'
 
-const Button = ({ bg = 'bg-teal', color = 'white', fill = 'white', className = '', disabled, danger, minWidth = 140, children, style, ...props }) => {
-  const bgClass = danger ? 'bg-red' : disabled ? 'bg-gray-muted' : bg
-  const fillClass = danger ? 'fill-white' : disabled ? 'fill-snow' : fill
-  const colorClass = danger ? 'white' : disabled ? 'light-gray' : color
-  const cls = `Button transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline ${fillClass} ${bgClass} ${colorClass} ${className}`
+const getButtonClassName = ({ fill, bg, color, danger, disabled, type }) => {
+  if (danger) return 'bg-red fill-white white'
+  if (disabled) return 'bg-gray-muted fill-snow light-gray'
+  if (type === 'link') return 'link bg-transparent'
+  return `${fill} ${bg} ${color}`
+}
+
+const Button = ({ className, minWidth, children, style, ...props }) => {
   return (
-    <button className={cls} disabled={disabled} style={{ minWidth, ...style }} {...props}>
+    <button className={classNames('Button transition-all sans-serif dib v-mid fw5 nowrap lh-copy bn br1 pa2 focus-outline', className, getButtonClassName(props))} disabled={props.disabled} style={{ minWidth, ...style }} {...props}>
       {children}
     </button>
   )
+}
+
+Button.defaultProps = {
+  bg: 'bg-teal',
+  color: 'white',
+  fill: 'white',
+  className: '',
+  minWidth: 140
 }
 
 export default Button
