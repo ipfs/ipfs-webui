@@ -22,12 +22,24 @@
   },
   "pinningCustomModal": {
     "title": "Configure a custom pinning service.",
-    "description": "Want to make your custom pinning service available to others? <1>Learn how.<1>"
+    "description": "Want to make your custom pinning service available to others? <1>Learn how.<1>",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Name for your Service",
+    "apiEndpoint": "API endpoint",
+    "apiEndpointPlaceholder": "URL for its API endpoint",
+    "secretApiKey": "Secret API key",
+    "autoUpload": "Auto upload"
+  },
+  "errors": {
+    "nickname": "Nickname is required",
+    "apiEndpoint": "Must be a valid url",
+    "secretApiKey": "Secret key is required"
   },
   "actions": {
     "addService": "Add Service",
     "edit": "Change",
     "close": "Close",
+    "save": "Save",
     "cancel": "Cancel"
   },
   "edit": "Edit",

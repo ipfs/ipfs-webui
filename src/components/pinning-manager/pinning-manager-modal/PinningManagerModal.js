@@ -10,7 +10,7 @@ import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
 import Overlay from '../../overlay/Overlay'
 
-const PinningManagerModal = ({ t, onLeave, className, availablePinningServices, ...props }) => {
+const PinningManagerModal = ({ t, tReady, onLeave, className, availablePinningServices, ...props }) => {
   const [isModalOpen, setModalOpen] = useState(false)
   const onModalOpen = () => setModalOpen(true)
   const onModalClose = () => setModalOpen(false)
@@ -21,7 +21,7 @@ const PinningManagerModal = ({ t, onLeave, className, availablePinningServices, 
         <p>{ t('pinningModal.title') }</p>
         <div className='pa2 pinningManagerModalContainer'>
           { availablePinningServices.map(({ icon, name }) => (
-            <button className="flex items-center pinningManagerModalItem pa1 hoverable-button">
+            <button className="flex items-center pinningManagerModalItem pa1 hoverable-button" key={name}>
               <img className="mr3" src={icon} alt={name} width={42} height={42} style={{ objectFit: 'contain' }} />
               <p>{ name }</p>
             </button>
@@ -38,7 +38,7 @@ const PinningManagerModal = ({ t, onLeave, className, availablePinningServices, 
         <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.cancel')}</Button>
       </ModalActions>
 
-      <Overlay show={isModalOpen} onLeave={onModalClose}>
+      <Overlay show={isModalOpen} onLeave={onModalClose} hidden>
         <PinningCustomModal className='outline-0' onLeave={onModalClose} t={t} />
       </Overlay>
     </Modal>
