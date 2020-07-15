@@ -9,10 +9,10 @@ const WelcomeInfo = ({ t }) => (
       <Box>
         <h1 className='mt0 mb3 montserrat fw4 f4 charcoal'>{t('welcomeInfo.header')}</h1>
         <Trans i18nKey='welcomeInfo.paragraph1' t={t}>
-          <p className='f5'><a href='#/' className='link blue u b'>Check the status</a> of your node, it's Peer ID and connection info, the network traffic and the number of connected peers.</p>
+          <p className='f5'><a href='#/' className='link blue u b'>Check the status</a> of your node, its Peer ID and connection info, the network traffic and the number of connected peers.</p>
         </Trans>
         <Trans i18nKey='welcomeInfo.paragraph2' t={t}>
-          <p className='f5'>Easily <a href='#/files' className='link blue b'>manage files</a> in your IPFS repo. You can drag and drop to add files, move and rename them, delete, share or download them.</p>
+          <p className='f5'>Easily manage files in your IPFS repo. Drag and drop here to add files, move and rename them, delete, share or download them.</p>
         </Trans>
         <Trans i18nKey='welcomeInfo.paragraph3' t={t}>
           <p className='f5'>You can <a href='#/explore' className='link blue b'>explore IPLD data</a> that underpins how IPFS works.</p>
