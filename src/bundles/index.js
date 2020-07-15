@@ -6,6 +6,7 @@ import nodeBandwidthChartBundle from './node-bandwidth-chart'
 import nodeBandwidthBundle from './node-bandwidth'
 import peersBundle from './peers'
 import peerLocationsBundle from './peer-locations'
+import pinningBundle from './pinning'
 import routesBundle from './routes'
 import redirectsBundle from './redirects'
 import filesBundle from './files'
@@ -43,6 +44,7 @@ export default composeBundles(
   nodeBandwidthChartBundle(),
   peersBundle,
   peerLocationsBundle(),
+  pinningBundle,
   notifyBundle,
   connectedBundle,
   retryInitBundle,
