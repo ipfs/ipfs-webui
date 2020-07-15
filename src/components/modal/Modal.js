@@ -19,7 +19,7 @@ ModalActions.defaultProps = {
 }
 
 export const ModalBody = ({ className, Icon, title, children, ...props }) => (
-  <div className={`ph4 pv3 tc ${className}`} {...props}>
+  <div className={`ph2 pv3 tc ${className}`} {...props}>
     { Icon && (
       <div className='center bg-snow br-100 flex justify-center items-center' style={{ width: '80px', height: '80px' }}>
         {<Icon className='fill-gray w3'/>}
