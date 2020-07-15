@@ -22,7 +22,7 @@ class LanguageSelector extends Component {
           <div className='pr4 flex items-center lh-copy charcoal f5 fw5' style={{ height: 40 }}>
             {getCurrentLanguage()}
           </div>
-          <Button className="tc" minWidth={100} onClick={this.onLanguageEditOpen}>
+          <Button className="tc" bg='bg-navy' minWidth={100} onClick={this.onLanguageEditOpen}>
             {t('app:actions.change')}
           </Button>
         </div>

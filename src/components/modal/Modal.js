@@ -18,26 +18,22 @@ ModalActions.defaultProps = {
   className: ''
 }
 
-export const ModalBody = ({ className, icon, title, children, ...props }) => {
-  icon = React.createElement(icon, {
-    className: 'fill-gray w3'
-  })
-
-  return (
-    <div className={`ph2 pv3 tc ${className}`} {...props}>
+export const ModalBody = ({ className, Icon, title, children, ...props }) => (
+  <div className={`ph2 pv3 tc ${className}`} {...props}>
+    { Icon && (
       <div className='center bg-snow br-100 flex justify-center items-center' style={{ width: '80px', height: '80px' }}>
-        {icon}
+        {<Icon className='fill-gray w3'/>}
       </div>
+    )}
 
-      <p className='charcoal-muted fw5'>{title}</p>
+    <p className='charcoal-muted fw5'>{title}</p>
 
-      {children}
-    </div>
-  )
-}
+    {children}
+  </div>
+)
 
 ModalBody.propTypes = {
-  icon: PropTypes.func.isRequired,
+  Icon: PropTypes.func,
   title: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
