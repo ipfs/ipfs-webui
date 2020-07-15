@@ -1,5 +1,7 @@
 import { configure } from '@storybook/react'
+import 'react-virtualized/styles.css'
 import '../src/index.css'
+
 
 const req = require.context('../src', true, /\.stories\.js$/)
 

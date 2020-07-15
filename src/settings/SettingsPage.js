@@ -12,6 +12,7 @@ import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
+import PinningManager from '../components/pinning-manager/PinningManager'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import JsonEditor from './editor/JsonEditor'
@@ -55,6 +56,19 @@ export const SettingsPage = ({
         </Trans>
         <ApiAddressForm/>
       </div>
+    </Box>
+
+    <Box className='mb3 pa4'>
+      <Title>{t('pinningServices.title')}</Title>
+      <Trans i18nKey='pinningServices.description'>
+        <p className='ma0 mr2 lh-copy charcoal f6'>
+          <span>Use local pinning to ensure files on your local node persist and are never garbage-collected.
+          You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline. </span>
+          <a className='link' href={/* TODO: Missing documentation link */'https://ipfs.io'}>Check the documentation for further information.</a>
+        </p>
+      </Trans>
+
+      <PinningManager t={t} />
     </Box>
 
     <Box className='mb3 pa4'>
