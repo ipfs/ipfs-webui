@@ -3,6 +3,10 @@
   "save": "Save",
   "saving": "Saving…",
   "reset": "Reset",
+  "pinningServices": {
+    "title": "Pinning Services",
+    "description": "Use local pinning to ensure files on your local node persist and are never garbage-collected. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline. <1>Check the documentation for further information.</1>"
+  },
   "language": "Language",
   "analytics": "Analytics",
   "config": "IPFS Config",
@@ -12,9 +16,28 @@
     "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
     "translationProjectLink": "Join the IPFS Translation Project"
   },
+  "pinningModal": {
+    "title": "Select a pinning service provider.",
+    "description": "Don’t see your pinning service provider? <1>Add a custom one.<1>"
+  },
   "actions": {
+    "addService": "Add Service",
     "edit": "Change",
-    "close": "Close"
+    "close": "Close",
+    "cancel": "Cancel"
+  },
+  "edit": "Edit",
+  "visitService": "Visit service",
+  "remove": "Remove",
+  "localPinning": "Local Pinning",
+  "service": "Service",
+  "files": "Files",
+  "bandwidthUsed": "Bandwidth Used",
+  "autoUpload": "Auto Upload",
+  "autoUploadKeys": {
+    "ALL_FILES": "All files",
+    "DISABLED": "Disabled",
+    "PINS_ONLY": "Pins only"
   },
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",

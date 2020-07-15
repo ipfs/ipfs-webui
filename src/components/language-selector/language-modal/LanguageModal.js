@@ -16,7 +16,7 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
-      <ModalBody icon={SpeakerIcon}>
+      <ModalBody Icon={SpeakerIcon}>
         <p className='charcoal w-80 center'>{t('languageModal.description')}</p>
         <div className='pa2 flex flex-wrap'>
           { localesList.map((lang) =>
@@ -30,11 +30,11 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
         </div>
         <p className='lh-copy charcoal f6'>
           {t('languageModal.translationProjectIntro')}<br/>
-          <a href="https://www.transifex.com/ipfs/public/" rel="noopener noreferrer" target="_blank" class="link blue">{t('languageModal.translationProjectLink')}</a>
+          <a href="https://www.transifex.com/ipfs/public/" rel="noopener noreferrer" target="_blank" className="link blue">{t('languageModal.translationProjectLink')}</a>
         </p>
       </ModalBody>
 
-      <ModalActions>
+      <ModalActions justify="center">
         <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
       </ModalActions>
     </Modal>
