@@ -30,7 +30,7 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
             </Trans>
             <ApiAddressForm
               t={t}
-              defaultValue={ipfsApiAddress}
+              defaultValue={ipfsApiAddress || ''}
               updateAddress={doUpdateIpfsApiAddress} />
           </Box>
         </div>
