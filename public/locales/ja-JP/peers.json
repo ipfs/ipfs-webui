@@ -1,0 +1,38 @@
+{
+  "title": "仲間",
+  "peerId": "ピアID",
+  "peers": "仲間",
+  "address": "アドレス",
+  "location": "位置",
+  "unknownLocation": "不明",
+  "localNetwork": "ローカルネットワーク",
+  "nearby": "直接接続されているノード",
+  "latency": "遅延",
+  "bootstrapNode": "起動中のノード",
+  "viaRelay": "via<0>{node}</0>",
+  "addConnection": "新規接続",
+  "insertPeerAddress": "追加したいピアのアドレスを入力してください。",
+  "add": "追加",
+  "example": "例:",
+  "plusPeers": "+ あと{number}個のピア ", 
+  "tour": {
+    "back": "戻る",
+    "close": "閉じる",
+    "last": "最後へ",
+    "next": "次へ",
+    "skip": "スキップ",
+    "step1": {
+      "title": "ピア",
+      "paragraph1": "ここではあなたと繋がっているピアとそのピアが存在していると思われる国が確認できます。",
+      "paragraph2": "説明を読むためには「次へ」をクリック"
+    },
+    "step2": {
+      "title": "ピアマップ",
+      "paragraph1": "世界中でどのピアと繋がっているのかを視覚化したものです。"
+    },
+    "step3": {
+      "title": "ピア表",
+      "paragraph1": "接続しているピアのIDと、予想されたピアの場所が確認できます。"
+    }
+  }
+}

@@ -1,4 +1,9 @@
 {
+  "ar": {
+    "locale": "ar",
+    "nativeName": "العربية",
+    "englishName": "Arabic"
+  },
   "ca": {
     "locale": "ca",
     "nativeName": "Català",
@@ -68,6 +73,11 @@
     "locale": "pt",
     "nativeName": "Português",
     "englishName": "Portuguese"
+  },
+  "ro": {
+    "locale": "ro",
+    "nativeName": "Română",
+    "englishName": "Romanian"
   },
   "ru": {
     "locale": "ru",

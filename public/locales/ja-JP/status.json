@@ -1,0 +1,80 @@
+{
+  "title": "状態",
+  "peer": "ピア",
+  "peers": "仲間",
+  "addresses": "アドレス",
+  "nodeInfo": "ノード情報",
+  "peerId": "ピアID",
+  "gateway": "ゲートウェイ",
+  "api": "API",
+  "version": "バージョン",
+  "advanced": "詳細情報",
+  "publicKey": "公開鍵",
+  "upSpeed": "送信量",
+  "downSpeed": "受信量",
+  "spaceUsed": "使用容量",
+  "networkTraffic": "ネットワーク通信量",
+  "bandwidthOverTime": "時間あたりの帯域",
+  "bandwidthByPeer": "ピアあたりの帯域",
+  "distributionOfPeers": "ピアによる分散",
+  "pieChartLabel": "{count, plural, other {{percent}%({count} ピア)}}",
+  "rateIn": "流入率",
+  "rateOut": "流出率",
+  "totalIn": "総流入量",
+  "totalOut": "総流出量",
+  "more": "ほか{count}項目",
+  "in": "受信量",
+  "out": "送信量",
+  "codeLink": "コードを見る",
+  "bugsLink": "バグ報告",
+  "revision": "リビジョン",
+  "StatusConnected": {
+    "header1": "IPFSに接続完了",
+    "paragraph1": "<0>{repoSize}個のファイル</0>をホスティング中",
+    "paragraph2": "{count, plural, other {<0>{peersCount}個のピア</0>と通信中}}"
+  },
+  "StatusNotConnected": {
+    "header1": "APIとの接続に失敗しました",
+    "paragraph1": "<0>ターミナルからIPFSデーモンを起動:</0>",
+    "paragraph2": "<0>より多くのIPFSチュートリアルに関する情報は<1>ガイドを読んでください</1>。</0>"
+  },
+  "AskToEnable": {
+    "label": "匿名の利用状況データを送信することで、このアプリケーションの改善に協力する",
+    "yesLabel": "了解",
+    "noLabel": "拒否",
+    "detailsLabel": "より詳しい情報"
+  },
+  "tour": {
+    "back": "戻る",
+    "close": "閉じる",
+    "last": "最後へ",
+    "next": "次へ",
+    "skip": "スキップ",
+    "step1": {
+      "title": "ステータスページ",
+      "paragraph1": "ここはあなたのIPFSノードとその基本情報を確認するページです。",
+      "paragraph2": "説明を読むためには「次へ」をクリック"
+    },
+    "step2": {
+      "title": "接続状況",
+      "paragraph1": "この場所であなたがIPFSデーモンに接続できているかを確認できます。もし接続できていない場合、接続する方法が表示されます。",
+      "paragraph2": "あなたはあなたのIPFSノードのAPIアドレスを変更することもできます。"
+    },
+    "step3": {
+      "title": "ノード情報",
+      "paragraph1": "ここにはあなたのリポジトリのサイズといくつのピアが接続しているか、またあなたのピアIDと現在利用しているIPFS設定が表示されています。",
+      "paragraph2": "<0><1>詳細情報</1>をクリックすることでゲートウェイURLやアドレスを確認することができます。</0>"
+    },
+    "step4": {
+      "title": "ネットワーク帯域/通信量",
+      "paragraph1": "このグラフは時間ごとのネットワーク帯域を示しています。",
+      "paragraph2": "このスピードメーターは現在のトラフィックの流出量と流入量を示しています。"
+    },
+    "stepExplore": {
+      "title": "探索",
+      "paragraph": "CIDを貼り付けることでCIDを紐付けられたコンテンツを探索したり、それがどのように構成されているか、プロトコル上で繋がっているかを調べることができます。"
+    }
+  },
+  "bandwidthStats": "帯域状況",
+  "bandwidthStatsDisabled": "帯域の状況の測定が無効化されています。これを有効にするためには次のようなコマンドを実行するか、<5>設定</5>の中のキー<1>Swarm.DisableBandwidthMetrics</1>の値を<3>false</3>に変更してください。その後、設定を反映させるためにIPFSデーモンを再起動してください。"
+}
