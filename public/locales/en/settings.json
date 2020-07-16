@@ -32,7 +32,7 @@
   },
   "errors": {
     "nickname": "Nickname is required",
-    "apiEndpoint": "Must be a valid url",
+    "apiEndpoint": "Must be a valid URL",
     "secretApiKey": "Secret key is required"
   },
   "actions": {
