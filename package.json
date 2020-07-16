@@ -1,6 +1,6 @@
 {
   "name": "ipfs-webui",
-  "version": "2.10.1",
+  "version": "2.10.2",
   "private": true,
   "scripts": {
     "start": "run-script-os",
