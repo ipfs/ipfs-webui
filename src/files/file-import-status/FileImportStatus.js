@@ -80,7 +80,7 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
               : t('filesImportStatus.imported', { count: numberOfImportedFiles })
             }
           </span>
-          <div class="flex items-center">
+          <div className="flex items-center">
             <button className='fileImportStatusArrow' onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={ t('filesImportStatus.toggleDropdown') }>
               <GlyphSmallArrows className='w-100' fill="currentColor" opacity="0.7" aria-hidden="true"/>
             </button>

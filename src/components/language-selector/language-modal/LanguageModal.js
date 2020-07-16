@@ -30,7 +30,7 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
         </div>
         <p className='lh-copy charcoal f6'>
           {t('languageModal.translationProjectIntro')}<br/>
-          <a href="https://www.transifex.com/ipfs/public/" rel="noopener noreferrer" target="_blank" class="link blue">{t('languageModal.translationProjectLink')}</a>
+          <a href="https://www.transifex.com/ipfs/public/" rel="noopener noreferrer" target="_blank" className="link blue">{t('languageModal.translationProjectLink')}</a>
         </p>
       </ModalBody>
 
