@@ -1,5 +1,15 @@
 /* global webuiUrl, waitForTitle, page, describe, it, expect, beforeAll */
 
+const scrollLinkContainer = async () => {
+  const linkContainer = '[role="menubar"]'
+  await page.waitForSelector(linkContainer)
+  await page.evaluate(selector => {
+    const scrollableSection = document.querySelector(selector)
+
+    scrollableSection.scrollLeft = scrollableSection.offsetWidth
+  }, linkContainer)
+}
+
 describe('Navigation menu', () => {
   beforeAll(async () => {
     await page.goto(webuiUrl + '#/blank', { waitUntil: 'networkidle0' })
@@ -25,6 +35,7 @@ describe('Navigation menu', () => {
     const link = 'a[href="#/explore"]'
     await page.waitForSelector(link)
     await expect(page).toMatch('Explore')
+    await scrollLinkContainer()
     await page.click(link)
     await waitForTitle('Explore - IPLD')
   })
@@ -33,6 +44,7 @@ describe('Navigation menu', () => {
     const link = 'a[href="#/peers"]'
     await page.waitForSelector(link)
     await expect(page).toMatch('Peers')
+    await scrollLinkContainer()
     await page.click(link)
     await waitForTitle('Peers - IPFS')
   })
@@ -41,6 +53,7 @@ describe('Navigation menu', () => {
     const link = 'a[href="#/settings"]'
     await page.waitForSelector(link)
     await expect(page).toMatch('Settings')
+    await scrollLinkContainer()
     await page.click(link)
     await waitForTitle('Settings - IPFS')
   })
