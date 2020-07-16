@@ -21,7 +21,7 @@ jobs:
           tar -czf ipfs-webui.tar.gz build/*
 
       - name: Copy build-artifacts to Release
-        uses: skx/github-action-publish-binaries@master
+        uses: skx/github-action-publish-binaries@release-0.14
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
