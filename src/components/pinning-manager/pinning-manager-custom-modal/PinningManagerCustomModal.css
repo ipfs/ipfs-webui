@@ -1,0 +1,16 @@
+
+.pinningManagerCustomModalContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    align-items: center;
+    justify-content: center;
+    padding: 20px 54px 0;
+}
+
+.pinningManagerCustomModalContainer > * {
+    margin-bottom: 26px;
+}
+
+.pinningManagerCustomModalContainer .white::placeholder {
+    color: #fff;
+}
