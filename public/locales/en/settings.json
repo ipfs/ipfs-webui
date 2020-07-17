@@ -20,15 +20,41 @@
     "title": "Select a pinning service provider.",
     "description": "Don’t see your pinning service provider? <1>Add a custom one.<1>"
   },
+  "pinningCustomModal": {
+    "title": "Configure a custom pinning service.",
+    "description": "Want to make your custom pinning service available to others? <1>Learn how.<1>",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Name for your service",
+    "apiEndpoint": "API endpoint",
+    "apiEndpointPlaceholder": "URL for its API endpoint",
+    "secretApiKey": "Secret API key",
+    "autoUpload": "Auto upload"
+  },
+  "errors": {
+    "nickname": "Nickname is required",
+    "apiEndpoint": "Must be a valid URL",
+    "secretApiKey": "Secret key is required"
+  },
   "actions": {
     "addService": "Add Service",
     "edit": "Change",
     "close": "Close",
+    "save": "Save",
     "cancel": "Cancel"
   },
   "edit": "Edit",
   "visitService": "Visit service",
   "remove": "Remove",
+  "localPinning": "Local Pinning",
+  "service": "Service",
+  "files": "Files",
+  "bandwidthUsed": "Bandwidth Used",
+  "autoUpload": "Auto Upload",
+  "autoUploadKeys": {
+    "ALL_FILES": "All files",
+    "DISABLED": "Disabled",
+    "PINS_ONLY": "Pins only"
+  },
   "localPinning": "Local Pinning",
   "service": "Service",
   "files": "Files",
