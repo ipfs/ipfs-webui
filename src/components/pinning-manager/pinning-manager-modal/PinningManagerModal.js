@@ -1,29 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
+import PinningCustomModal from '../pinning-manager-custom-modal/PinningManagerCustomModal'
 import './PinningManagerModal.css'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
+import Overlay from '../../overlay/Overlay'
 
-const PinningManagerModal = ({ t, onLeave, className, availablePinningServices, ...props }) => {
+const PinningManagerModal = ({ t, tReady, onLeave, className, availablePinningServices, ...props }) => {
+  const [isModalOpen, setModalOpen] = useState(false)
+  const onModalOpen = () => setModalOpen(true)
+  const onModalClose = () => setModalOpen(false)
+
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
       <ModalBody>
         <p>{ t('pinningModal.title') }</p>
         <div className='pa2 pinningManagerModalContainer'>
           { availablePinningServices.map(({ icon, name }) => (
-            <button className="flex items-center pinningManagerModalItem pa1 hoverable-button">
+            <button className="flex items-center pinningManagerModalItem pa1 hoverable-button" key={name}>
               <img className="mr3" src={icon} alt={name} width={42} height={42} style={{ objectFit: 'contain' }} />
               <p>{ name }</p>
             </button>
           ))}
         </div>
-        <p>
+        <p className='flex items-center justify-center'>
           <Trans i18nKey="pinningModal.description" t={t}>
-          Don’t see your pinning service provider? <a href={/* TODO: add action for custom add */ '/'}>Add a custom one.</a>
+          Don’t see your pinning service provider? <Button className='pv0' type='link' onClick={onModalOpen}>Add a custom one.</Button>
           </Trans>
         </p>
       </ModalBody>
@@ -31,6 +37,10 @@ const PinningManagerModal = ({ t, onLeave, className, availablePinningServices, 
       <ModalActions justify="center">
         <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.cancel')}</Button>
       </ModalActions>
+
+      <Overlay show={isModalOpen} onLeave={onModalClose} hidden>
+        <PinningCustomModal className='outline-0' onLeave={onModalClose} t={t} />
+      </Overlay>
     </Modal>
   )
 }
