@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import classnames from 'classnames'
-import ipfsLogo from './ipfs-logo.svg'
-import ipfsLogoText from './ipfs-logo-text.svg'
+import ipfsLogoText from './ipfs-logo-text-vert.svg'
 import StrokeMarketing from '../icons/StrokeMarketing'
 import StrokeWeb from '../icons/StrokeWeb'
 import StrokeCube from '../icons/StrokeCube'
@@ -37,14 +36,14 @@ const NavLink = ({
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a href={disabled ? null : href} className={anchorClass} style={{ borderLeft: active ? '5px solid rgba(201, 210, 215, .4)' : '' }} role='menuitem' title={children}>
-      <span className={`dib ${open ? 'dt-l' : ''}`}>
-        <span className={`dib dtc-l v-mid ${open ? 'pl3 pl5-l' : 'ph3'}`} style={{ width: 50 }}>
+      <div className='db ph2 pv1'>
+        <div className='db'>
           <Svg width='50' className={svgClass} />
-        </span>
-        <span className={`${open ? 'dib dtc-l' : 'dn'} pl2 pl3-l pr3 tl-l v-mid `}>
+        </div>
+        <div className={`${active ? 'o-100' : 'o-50'} db f6 tc montserrat ttu fw1 `}>
           {children}
-        </span>
-      </span>
+        </div>
+      </div>
     </a>
   )
 }
@@ -57,10 +56,21 @@ export const NavBar = ({ t, open, onToggle }) => {
   return (
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
-        <button className='pointer navy pv3 pv4-l' onClick={onToggle} aria-label={t('collapseNavbar')}>
-          <img className='center' style={{ height: 70, display: open ? 'block' : 'none' }} src={ipfsLogoText} alt='IPFS' title='Toggle navbar' />
-          <img className='center' style={{ height: 70, display: open ? 'none' : 'block' }} src={ipfsLogo} alt='IPFS' title='Toggle navbar' />
-        </button>
+
+
+        <div className='pointer navy pv3 pv4-l' onClick={onToggle} aria-label={t('collapseNavbar')}>
+          <img className='center' style={{ height: 100, display: open ? 'block' : 'block' }} src={ipfsLogoText} alt='IPFS' />
+        </div>
+
+        <a href="#/settings" role='menuitem' title="foo">
+          <div className='db ph2 pv1'>
+            <div className='db'>
+              <img className='center' style={{ height: 100, display: open ? 'block' : 'block' }} src={ipfsLogoText} alt='IPFS' />
+            </div>
+          </div>
+        </a>
+
+
         <div className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
           <NavLink to='/' exact icon={StrokeMarketing} open={open}>{t('status:title')}</NavLink>
           <NavLink to='/files' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
@@ -69,17 +79,17 @@ export const NavBar = ({ t, open, onToggle }) => {
           <NavLink to='/settings' icon={StrokeSettings} open={open}>{t('settings:title')}</NavLink>
         </div>
       </div>
-      { open &&
-        <div className='dn db-l navbar-footer mb3 center'>
-          { gitRevision && <div className='tc mb1'>
-            <a className='link white f7 o-80 glow' href={revisionUrl} target='_blank' rel='noopener noreferrer'>{t('status:revision')} {gitRevision}</a>
-          </div> }
-          <div className='flex flex-colum'>
-            <a className='link white f7 o-50 glow' href={codeUrl} target='_blank' rel='noopener noreferrer'>{t('status:codeLink')}</a>
-            <span className='mh2 white f7 o-50'>|</span>
-            <a className='link white f7 o-50 glow' href={bugsUrl} target='_blank' rel='noopener noreferrer'>{t('status:bugsLink')}</a>
-          </div>
+      <div className='dn db-l navbar-footer mb3 tc center f7 o-80 glow'>
+        { gitRevision && <div className='mb1'>
+          <a className='link white' href={revisionUrl} target='_blank' rel='noopener noreferrer'>{t('status:revision')} {gitRevision}</a>
         </div> }
+        <div className='mb1'>
+          <a className='link white' href={codeUrl} target='_blank' rel='noopener noreferrer'>{t('status:codeLink')}</a>
+        </div>
+        <div>
+          <a className='link white' href={bugsUrl} target='_blank' rel='noopener noreferrer'>{t('status:bugsLink')}</a>
+        </div>
+      </div>
     </div>
   )
 }
