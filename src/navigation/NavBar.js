@@ -25,7 +25,7 @@ const NavLink = ({
   const href = `#${to}`
   const active = exact ? hash === href : hash && hash.startsWith(href)
   const anchorClass = classnames({
-    'bg-white-10': active,
+    'bg-white-10 navbar-item-active': active,
     'o-50 no-pointer-events': disabled
   }, ['dib db-l pt2 pb3 pv3-l white no-underline f5 hover-bg-white-10 tc'])
   const svgClass = classnames({
@@ -35,7 +35,7 @@ const NavLink = ({
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <a href={disabled ? null : href} className={anchorClass} style={{ borderLeft: active ? '5px solid rgba(201, 210, 215, .4)' : '' }} role='menuitem' title={children}>
+    <a href={disabled ? null : href} className={anchorClass} role='menuitem' title={children}>
       <div className='db ph2 pv1'>
         <div className='db'>
           <Svg width='50' className={svgClass} />
