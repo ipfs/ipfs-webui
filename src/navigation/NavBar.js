@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import classnames from 'classnames'
-import ipfsLogoText from './ipfs-logo-text-vert.svg'
+import ipfsLogoTextVert from './ipfs-logo-text-vert.svg'
+import ipfsLogoTextHoriz from './ipfs-logo-text-horiz.svg'
 import StrokeMarketing from '../icons/StrokeMarketing'
 import StrokeWeb from '../icons/StrokeWeb'
 import StrokeCube from '../icons/StrokeCube'
@@ -26,7 +27,7 @@ const NavLink = ({
   const anchorClass = classnames({
     'bg-white-10': active,
     'o-50 no-pointer-events': disabled
-  }, ['dib db-l pv3 white no-underline f5 hover-bg-white-10 tc'])
+  }, ['dib db-l pt2 pb3 pv3-l white no-underline f5 hover-bg-white-10 tc'])
   const svgClass = classnames({
     'o-100': active,
     'o-50': !active
@@ -56,8 +57,9 @@ export const NavBar = ({ t }) => {
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
         <a href="#/welcome" role='menuitem' title="IPFS">
-          <div className='pv3 pv4-l'>
-            <img className='center db' style={{ height: 100 }} src={ipfsLogoText} alt='IPFS' />
+          <div className='pt3 pv4-l'>
+            <img className='center db-l dn' style={{ height: 100 }} src={ipfsLogoTextVert} alt='IPFS' />
+            <img className='center db dn-l' style={{ height: 70 }} src={ipfsLogoTextHoriz} alt='IPFS' />
           </div>
         </a>
         <div className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
