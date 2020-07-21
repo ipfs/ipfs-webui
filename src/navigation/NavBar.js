@@ -27,7 +27,7 @@ const NavLink = ({
   const anchorClass = classnames({
     'bg-white-10 navbar-item-active': active,
     'o-50 no-pointer-events': disabled
-  }, ['dib db-l pt2 pb3 pv3-l white no-underline f5 hover-bg-white-10 tc'])
+  }, ['dib db-l pt2 pb3 pv3-l white no-underline f5 hover-bg-white-10 tc bb bw2 bw0-l b--navy'])
   const svgClass = classnames({
     'o-100': active,
     'o-50': !active
@@ -57,7 +57,7 @@ export const NavBar = ({ t }) => {
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
         <a href="#/welcome" role='menuitem' title="IPFS">
-          <div className='pt3 pv4-l'>
+          <div className='pt3 pb1 pv4-l'>
             <img className='center db-l dn' style={{ height: 100 }} src={ipfsLogoTextVert} alt='IPFS' />
             <img className='center db dn-l' style={{ height: 70 }} src={ipfsLogoTextHoriz} alt='IPFS' />
           </div>
