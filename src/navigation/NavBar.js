@@ -55,8 +55,8 @@ export const NavBar = ({ t }) => {
   return (
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
-        <a href="#/welcome" role='menuitem' title="foo">
-          <div className='pointer navy pv3 pv4-l'>
+        <a href="#/welcome" role='menuitem' title="IPFS">
+          <div className='pv3 pv4-l'>
             <img className='center db' style={{ height: 100 }} src={ipfsLogoText} alt='IPFS' />
           </div>
         </a>

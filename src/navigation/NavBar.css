@@ -1,3 +1,8 @@
+@media only screen and (min-width: 60em) {
+  .navbar-container {
+    width: 9.75rem;
+  }
+}
 
 @media only screen and (max-height: 790px) {
   .navbar-footer {
