@@ -20,7 +20,7 @@ describe('Navigation menu', () => {
     await page.waitForSelector(link)
     await expect(page).toMatch('Status')
     await page.click(link)
-    await waitForTitle('Status - IPFS')
+    await waitForTitle('Status | IPFS')
   })
 
   it('should work for Files page', async () => {
@@ -28,7 +28,7 @@ describe('Navigation menu', () => {
     await page.waitForSelector(link)
     await expect(page).toMatch('Files')
     await page.click(link)
-    await waitForTitle('/ - Files - IPFS')
+    await waitForTitle('/ - Files | IPFS')
   })
 
   it('should work for Explore page', async () => {
@@ -37,7 +37,7 @@ describe('Navigation menu', () => {
     await expect(page).toMatch('Explore')
     await scrollLinkContainer()
     await page.click(link)
-    await waitForTitle('Explore - IPLD')
+    await waitForTitle('Explore | IPLD')
   })
 
   it('should work for Peers page', async () => {
@@ -46,7 +46,7 @@ describe('Navigation menu', () => {
     await expect(page).toMatch('Peers')
     await scrollLinkContainer()
     await page.click(link)
-    await waitForTitle('Peers - IPFS')
+    await waitForTitle('Peers | IPFS')
   })
 
   it('should work for Settings page', async () => {
@@ -55,6 +55,6 @@ describe('Navigation menu', () => {
     await expect(page).toMatch('Settings')
     await scrollLinkContainer()
     await page.click(link)
-    await waitForTitle('Settings - IPFS')
+    await waitForTitle('Settings | IPFS')
   })
 })

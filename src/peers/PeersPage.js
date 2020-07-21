@@ -16,7 +16,7 @@ import AddConnection from './AddConnection/AddConnection'
 const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
   <div data-id='PeersPage' className='overflow-hidden'>
     <Helmet>
-      <title>{t('title')} - IPFS</title>
+      <title>{t('title')} | IPFS</title>
     </Helmet>
 
     <div className='flex justify-end mb3'>

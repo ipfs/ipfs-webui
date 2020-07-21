@@ -6,7 +6,7 @@
     "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
   },
   "StartExploringPage": {
-    "title": "Průzkumník - IPLD",
+    "title": "Průzkumník | IPLD",
     "header": "Prozkoumejte Merkelův les",
     "leadParagraph": "Pro zobrazeni informací o IPLD uzlu vložte do pole vaše CID nebo si vyberte z několika příkladů."
   },
@@ -16,7 +16,7 @@
     "paragraph3": "<0>Zadejte IPLD: jeden jmenný prostor pro všechny protokoly inspirované hashem. Prostřednictvím IPLD lze odkazy procházet přes protokoly, což vám umožní prozkoumávat data bez ohledu na základní protokol.</0>"
   },
   "ExplorePage": {
-    "title": "Prozkoumáváme - IPLD"
+    "title": "Prozkoumáváme | IPLD"
   },
   "IpldExploreForm": {
     "explore": "Prozkoumat"

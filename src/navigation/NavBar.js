@@ -62,7 +62,7 @@ export const NavBar = ({ t, open, onToggle }) => {
           <img className='center' style={{ height: 100, display: open ? 'block' : 'block' }} src={ipfsLogoText} alt='IPFS' />
         </div>
 
-        <a href="#/settings" role='menuitem' title="foo">
+        <a href="#/welcome" role='menuitem' title="foo">
           <div className='db ph2 pv1'>
             <div className='db'>
               <img className='center' style={{ height: 100, display: open ? 'block' : 'block' }} src={ipfsLogoText} alt='IPFS' />
