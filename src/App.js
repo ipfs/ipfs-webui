@@ -83,7 +83,7 @@ export class App extends Component {
               }
             </main>
           </div>
-          <div className={`navbar-container flex-none-l bg-navy`}>
+          <div className='navbar-container flex-none-l bg-navy'>
             <NavBar />
           </div>
         </div>
