@@ -30,7 +30,6 @@ export class App extends Component {
       PropTypes.element
     ]).isRequired,
     routeInfo: PropTypes.object.isRequired,
-    navbarIsOpen: PropTypes.bool.isRequired,
     // Injected by DropTarget
     isOver: PropTypes.bool.isRequired
   }
@@ -59,7 +58,7 @@ export class App extends Component {
   }
 
   render () {
-    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, navbarIsOpen, connectDropTarget, canDrop, isOver, showTooltip } = this.props
+    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
 
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
@@ -84,7 +83,7 @@ export class App extends Component {
               }
             </main>
           </div>
-          <div className={`flex-none-l bg-navy ${navbarIsOpen ? 'w5-l' : 'w4-l'}`}>
+          <div className={`flex-none-l bg-navy w4-l`}>
             <NavBar />
           </div>
         </div>
@@ -127,7 +126,6 @@ export const AppWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCo
 
 export default connect(
   'selectRoute',
-  'selectNavbarIsOpen',
   'selectRouteInfo',
   'selectIpfsReady',
   'selectShowTooltip',

@@ -15,7 +15,6 @@ import './NavBar.css'
 const NavLink = ({
   to,
   icon,
-  open,
   exact,
   disabled,
   children
@@ -48,7 +47,7 @@ const NavLink = ({
   )
 }
 
-export const NavBar = ({ t, open, onToggle }) => {
+export const NavBar = ({ t }) => {
   const codeUrl = 'https://github.com/ipfs-shipyard/ipfs-webui'
   const bugsUrl = `${codeUrl}/issues`
   const gitRevision = process.env.REACT_APP_GIT_REV
@@ -58,25 +57,25 @@ export const NavBar = ({ t, open, onToggle }) => {
       <div className='flex flex-column'>
 
 
-        <div className='pointer navy pv3 pv4-l' onClick={onToggle} aria-label={t('collapseNavbar')}>
-          <img className='center' style={{ height: 100, display: open ? 'block' : 'block' }} src={ipfsLogoText} alt='IPFS' />
+        <div className='pointer navy pv3 pv4-l'>
+          <img className='center db' style={{ height: 100 }} src={ipfsLogoText} alt='IPFS' />
         </div>
 
         <a href="#/welcome" role='menuitem' title="foo">
           <div className='db ph2 pv1'>
             <div className='db'>
-              <img className='center' style={{ height: 100, display: open ? 'block' : 'block' }} src={ipfsLogoText} alt='IPFS' />
+              <img className='center db' style={{ height: 100 }} src={ipfsLogoText} alt='IPFS' />
             </div>
           </div>
         </a>
 
 
         <div className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
-          <NavLink to='/' exact icon={StrokeMarketing} open={open}>{t('status:title')}</NavLink>
-          <NavLink to='/files' icon={StrokeWeb} open={open}>{t('files:title')}</NavLink>
-          <NavLink to='/explore' icon={StrokeIpld} open={open}>{t('explore:tabName')}</NavLink>
-          <NavLink to='/peers' icon={StrokeCube} open={open}>{t('peers:title')}</NavLink>
-          <NavLink to='/settings' icon={StrokeSettings} open={open}>{t('settings:title')}</NavLink>
+          <NavLink to='/' exact icon={StrokeMarketing}>{t('status:title')}</NavLink>
+          <NavLink to='/files' icon={StrokeWeb}>{t('files:title')}</NavLink>
+          <NavLink to='/explore' icon={StrokeIpld}>{t('explore:tabName')}</NavLink>
+          <NavLink to='/peers' icon={StrokeCube}>{t('peers:title')}</NavLink>
+          <NavLink to='/settings' icon={StrokeSettings}>{t('settings:title')}</NavLink>
         </div>
       </div>
       <div className='dn db-l navbar-footer mb3 tc center f7 o-80 glow'>
@@ -94,19 +93,13 @@ export const NavBar = ({ t, open, onToggle }) => {
   )
 }
 
-export const NavBarContainer = ({ doToggleNavbar, navbarIsOpen, navbarWidth, ...props }) => {
+export const NavBarContainer = ({ ...props }) => {
   return (
     <NavBar
-      open={navbarIsOpen}
-      width={navbarWidth}
-      onToggle={doToggleNavbar}
       {...props} />
   )
 }
 
 export default connect(
-  'doToggleNavbar',
-  'selectNavbarIsOpen',
-  'selectNavbarWidth',
   withTranslation()(NavBarContainer)
 )
