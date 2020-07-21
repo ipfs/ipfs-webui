@@ -55,21 +55,11 @@ export const NavBar = ({ t }) => {
   return (
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
-
-
-        <div className='pointer navy pv3 pv4-l'>
-          <img className='center db' style={{ height: 100 }} src={ipfsLogoText} alt='IPFS' />
-        </div>
-
         <a href="#/welcome" role='menuitem' title="foo">
-          <div className='db ph2 pv1'>
-            <div className='db'>
-              <img className='center db' style={{ height: 100 }} src={ipfsLogoText} alt='IPFS' />
-            </div>
+          <div className='pointer navy pv3 pv4-l'>
+            <img className='center db' style={{ height: 100 }} src={ipfsLogoText} alt='IPFS' />
           </div>
         </a>
-
-
         <div className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
           <NavLink to='/' exact icon={StrokeMarketing}>{t('status:title')}</NavLink>
           <NavLink to='/files' icon={StrokeWeb}>{t('files:title')}</NavLink>
