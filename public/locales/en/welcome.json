@@ -1,5 +1,6 @@
 {
   "title": "Welcome | IPFS",
+  "description": "Welcome Page",
   "configureApiPort": {
     "header": "Is your API on a port other than 5001?",
     "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
