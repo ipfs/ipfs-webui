@@ -28,7 +28,7 @@ describe('Navigation menu', () => {
     await page.waitForSelector(link)
     await expect(page).toMatch('Files')
     await page.click(link)
-    await waitForTitle('/ - Files | IPFS')
+    await waitForTitle('/ | Files | IPFS')
   })
 
   it('should work for Explore page', async () => {

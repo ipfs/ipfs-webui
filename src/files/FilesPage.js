@@ -202,7 +202,7 @@ class FilesPage extends React.Component {
     }
 
     parts.push('IPFS')
-    return parts.join(' - ')
+    return parts.join(' | ')
   }
 
   render () {
