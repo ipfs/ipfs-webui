@@ -85,13 +85,6 @@ export const NavBar = ({ t }) => {
   )
 }
 
-export const NavBarContainer = ({ ...props }) => {
-  return (
-    <NavBar
-      {...props} />
-  )
-}
-
 export default connect(
-  withTranslation()(NavBarContainer)
+  withTranslation()(NavBar)
 )
