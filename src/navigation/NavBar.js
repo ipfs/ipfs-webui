@@ -40,7 +40,7 @@ const NavLink = ({
         <div className='db'>
           <Svg width='50' className={svgClass} />
         </div>
-        <div className={`${active ? 'o-100' : 'o-50'} db f6 tc montserrat ttu fw1 `}>
+        <div className={`${active ? 'o-100' : 'o-50'} db f6 tc montserrat ttu fw1 `} style={{ whiteSpace: 'pre-wrap' }}>
           {children}
         </div>
       </div>
