@@ -461,7 +461,6 @@ const dropCollect = (connect, monitor) => ({
 export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(withTranslation('files')(FilesList))
 
 export default connect(
-  'selectNavbarWidth',
   'selectPins',
   'selectFilesIsFetching',
   'selectFilesSorting',
