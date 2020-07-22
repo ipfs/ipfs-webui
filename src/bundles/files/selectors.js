@@ -20,6 +20,12 @@ const selectors = () => ({
 
   /**
    * @param {Model} state
+   * @param {DirectoryContent} state.files.pageContent
+   */
+  selectCurrentDirectorySize: (state) => state.files.pageContent && state.files.pageContent.content?.reduce((prev, curr) => prev + curr.size, 0),
+
+  /**
+   * @param {Model} state
    */
   selectCurrentDirectorySize: (state) => {
     return state.files.pageContent?.type === 'directory' && state.files.pageContent?.content?.reduce((prev, curr) => prev + curr.size, 0)
