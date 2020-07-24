@@ -84,6 +84,19 @@ To reset your config back to the default configuration, run the following comman
 
 You might also like to copy the `~/.ipfs/config` file somewhere with a useful name so you can use `ipfs config replace <file>` to switch your node between default and dev mode easily.
 
+## Running with Docker
+
+If you need to run IPFS in a Docker container, you can still have Web UI available by exposing both the Gateway and Web UI ports.
+
+Using the default ports:
+
+```sh
+docker pull ipfs/go-ipfs
+docker run -p 8080:8080 -p 5001:5001 -it ipfs/go-ipfs
+```
+
+See the [go-ipfs page](https://hub.docker.com/r/ipfs/go-ipfs) on Docker Hub to get started using IPFS with Docker.
+
 ## Build
 
 To create an optimized static build of the app, output to the `build` directory:
