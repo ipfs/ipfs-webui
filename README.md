@@ -95,7 +95,7 @@ docker pull ipfs/go-ipfs
 docker run -p 8080:8080 -p 5001:5001 -it ipfs/go-ipfs
 ```
 
-More info available at [go-ipfs docker page](https://hub.docker.com/r/ipfs/go-ipfs)
+See the [go-ipfs page](https://hub.docker.com/r/ipfs/go-ipfs) on Docker Hub to get started using IPFS with Docker.
 
 ## Build
 
