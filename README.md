@@ -86,7 +86,7 @@ You might also like to copy the `~/.ipfs/config` file somewhere with a useful na
 
 ## Running with Docker
 
-If you need to run ipfs in a docker container, you can still have webui available by exposing the ports for both the Gateway and Webui ports.
+If you need to run IPFS in a Docker container, you can still have Web UI available by exposing both the Gateway and Web UI ports.
 
 Using the default ports:
 
