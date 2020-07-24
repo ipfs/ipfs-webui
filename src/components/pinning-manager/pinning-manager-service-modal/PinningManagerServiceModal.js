@@ -80,7 +80,7 @@ const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, ..
           </div>
           <p className='f6'>
             <Trans i18nKey="pinningServiceModal.description" t={t}>
-          Want to make your Service pinning service available to others?
+              Want to make your custom pinning service available to others?
               <a href='https://docs.ipfs.io/how-to/work-with-pinning-services/' rel='noopener noreferrer' target="_blank" className='pv0' type='link'>Learn how.</a>
             </Trans>
           </p>
