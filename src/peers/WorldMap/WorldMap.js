@@ -36,6 +36,9 @@ const calculateWidth = (windowWidth) => {
 
 const calculateHeight = (width) => {
   if (width > 960) {
+    if (window.innerHeight < 940) {
+      return (window.innerHeight - 180) * 0.6
+    }
     return width * 0.273
   }
 
