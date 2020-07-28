@@ -32,7 +32,7 @@ class AddConnection extends React.Component {
       <div className='mb3 flex flex-column items-center'>
         <p className='gray w-80'>{t('insertPeerAddress')}</p>
         <span className='w-80 mv2 f7 charcoal-muted'>{t('example')}</span>
-        <code className={codeClass}>/ip4/76.176.168.65/tcp/4001/ipfs/QmbBHw1Xx9pUpAbrVZUKTPL5Rsph5Q9GQhRvcWVBPFgGtC</code>
+        <code className={codeClass}>/ip4/76.176.168.65/tcp/4001/p2p/QmbBHw1Xx9pUpAbrVZUKTPL5Rsph5Q9GQhRvcWVBPFgGtC</code>
       </div>
     )
   }
