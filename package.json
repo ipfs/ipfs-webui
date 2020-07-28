@@ -46,7 +46,7 @@
     "ip": "^1.1.5",
     "ipfs-css": "^1.2.0",
     "ipfs-geoip": "^4.1.0",
-    "ipfs-http-client": "^45.0.0",
+    "ipfs-http-client": "^41.0.1",
     "ipfs-provider": "^1.0.0",
     "ipld-explorer-components": "1.6.0",
     "is-binary": "^0.1.0",

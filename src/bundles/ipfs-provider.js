@@ -167,7 +167,7 @@ const writeSetting = (id, value) => {
 
 /**
  * @typedef {Object} IPFSAPI
- * @property {() => Promise<void>} stop
+ * @property {(callback?:Function) => Promise<void>} stop
  */
 
 /** @type {IPFSAPI|void} */
@@ -211,8 +211,9 @@ const bundle = {
 
   doStopIpfs: () => async (store) => {
     if (ipfs) {
-      await ipfs.stop()
-      store.dispatch({ type: 'IPFS_STOPPED' })
+      ipfs.stop(() => {
+        store.dispatch({ type: 'IPFS_STOPPED' })
+      })
     }
   },
 
