@@ -35,9 +35,9 @@ const NavLink = ({
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <a href={disabled ? null : href} className={anchorClass} role='menuitem' title={children} role="img" aria-labelledby={children}>
+    <a href={disabled ? null : href} className={anchorClass} role='menuitem' title={children}>
       <div className='db ph2 pv1'>
-        <div className='db'>
+        <div className='db' role='presentation'>
           <Svg width='50' className={svgClass} />
         </div>
         <div className={`${active ? 'o-100' : 'o-50'} db f6 tc montserrat ttu fw1 `} style={{ whiteSpace: 'pre-wrap' }}>
@@ -57,7 +57,7 @@ export const NavBar = ({ t }) => {
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
         <a href="#/welcome" role='menuitem' title={t('welcome:description')}>
-          <div className='pt3 pb1 pv4-l'>
+          <div className='pt3 pb1 pv4-l' role='presentation'>
             <img className='center db-l dn' style={{ height: 100 }} src={ipfsLogoTextVert} alt='IPFS' />
             <img className='center db dn-l' style={{ height: 70 }} src={ipfsLogoTextHoriz} alt='IPFS' />
           </div>
