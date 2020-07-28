@@ -65,15 +65,6 @@
     "title": "New folder",
     "description": "Insert the name of the folder you want to create."
   },
-  "welcomeInfo": {
-    "header": "Welcome to the IPFS Web UI",
-    "paragraph1": "<0><0>Check the status</0> of your node, its Peer ID and connection info, the network traffic and the number of connected peers.</0>",
-    "paragraph2": "<0>Easily manage files in your IPFS repo. Drag and drop here to add files, and you can move, rename, delete, share or download them.</0>",
-    "paragraph3": "<0>You can <1>explore IPLD data</1> that underpins how IPFS works.</0>",
-    "paragraph4": "<0>See all of your <1>connected peers</1>, geolocated by their IP address.</0>",
-    "paragraph5": "<0><0>Review the settings</0> for your IPFS node, and update them to better suit your needs.</0>",
-    "paragraph6": "<0>If you want to help push the Web UI forward, <1>check out its code</1> or <3>report a bug</3>!</0>"
-  },
   "filesListLabel": "Files list",
   "filesList": {
     "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
