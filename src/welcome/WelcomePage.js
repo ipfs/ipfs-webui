@@ -20,14 +20,14 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
       <Helmet>
         <title>{t('title')}</title>
       </Helmet>
-      <div className='pr3 lh-copy charcoal'>
+      <div className='lh-copy charcoal'>
         <Box>
           <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t} />
         </Box>
       </div>
-      <div className='pr3 lh-copy charcoal mt3'>
+      <div className='lh-copy charcoal mt3'>
         <Box>
-          <h1 className='montserrat fw2 navy mb0 mt5 f3 yellow'>{t('configureApiPort.header')}</h1>
+          <h1 className='montserrat fw2 navy mb0 mt0 f3 yellow'>{t('configureApiPort.header')}</h1>
           <Trans i18nKey='configureApiPort.paragraph1' t={t}>
             <p>If your IPFS node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, please set it here</p>
           </Trans>
@@ -37,31 +37,35 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
             updateAddress={doUpdateIpfsApiAddress} />
         </Box>
       </div>
-      <div className='lh-copy dn db-l mid-gray f6 mt3'>
-        <AboutIpfs />
-      </div>
-      <div className='flex-auto pr3 lh-copy mid-gray mt3'>
-        <Box>
-          <h1 className='mt0 mb3 montserrat fw4 f4 charcoal'>{t('welcomeInfo.header')}</h1>
-          <Trans i18nKey='welcomeInfo.paragraph1' t={t}>
-            <p className='f5'><a href='#/' className='link blue u b'>Check the status</a> of your node, its Peer ID and connection info, the network traffic and the number of connected peers.</p>
-          </Trans>
-          <Trans i18nKey='welcomeInfo.paragraph2' t={t}>
-            <p className='f5'>Easily manage files in your IPFS repo. Drag and drop here to add files, move and rename them, delete, share or download them.</p>
-          </Trans>
-          <Trans i18nKey='welcomeInfo.paragraph3' t={t}>
-            <p className='f5'>You can <a href='#/explore' className='link blue b'>explore IPLD data</a> that underpins how IPFS works.</p>
-          </Trans>
-          <Trans i18nKey='welcomeInfo.paragraph4' t={t}>
-            <p className='f5'>See all of your <a href='#/peers' className='link blue b'>connected peers</a>, geolocated by their IP address.</p>
-          </Trans>
-          <Trans i18nKey='welcomeInfo.paragraph5' t={t}>
-            <p className='mb4 f5'><a href='#/settings' className='link blue b'>Review the settings</a> for your IPFS node, and update them to better suit your needs.</p>
-          </Trans>
-          <Trans i18nKey='welcomeInfo.paragraph6' t={t}>
-            <p className='mb0 f5'>If you want to help push the Web UI forward, <a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link blue'>check out its code</a> or <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link blue'>report a bug</a>!</p>
-          </Trans>
-        </Box>
+      <div className='flex mt3'>
+        <div className='mr3 lh-copy mid-gray w-50'>
+          <Box>
+            <h1 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('welcomeInfo.header')}</h1>
+            <ul className='pl3'>
+            <Trans i18nKey='welcomeInfo.paragraph1' t={t}>
+              <li className='mb2'><a href='#/' className='link blue u b'>Check the status</a> of your node, its Peer ID and connection info, the network traffic and the number of connected peers.</li>
+            </Trans>
+            <Trans i18nKey='welcomeInfo.paragraph2' t={t}>
+              <li className='mb2'>Easily manage files in your IPFS repo. Drag and drop here to add files, move and rename them, delete, share or download them.</li>
+            </Trans>
+            <Trans i18nKey='welcomeInfo.paragraph3' t={t}>
+              <li className='mb2'>You can <a href='#/explore' className='link blue b'>explore IPLD data</a> that underpins how IPFS works.</li>
+            </Trans>
+            <Trans i18nKey='welcomeInfo.paragraph4' t={t}>
+              <li className='mb2'>See all of your <a href='#/peers' className='link blue b'>connected peers</a>, geolocated by their IP address.</li>
+            </Trans>
+            <Trans i18nKey='welcomeInfo.paragraph5' t={t}>
+              <li className='mb2'><a href='#/settings' className='link blue b'>Review the settings</a> for your IPFS node, and update them to better suit your needs.</li>
+            </Trans>
+            <Trans i18nKey='welcomeInfo.paragraph6' t={t}>
+              <li className='f5'>If you want to help push the Web UI forward, <a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link blue'>check out its code</a> or <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link blue'>report a bug</a>!</li>
+            </Trans>
+            </ul>
+          </Box>
+        </div>
+        <div className='lh-copy dn db-l mid-gray w-50'>
+          <AboutIpfs />
+        </div>
       </div>
     </div>
   )
