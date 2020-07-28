@@ -1,4 +1,4 @@
-// @ts-strict
+// @ts-check
 
 import multiaddr from 'multiaddr'
 import HttpClient from 'ipfs-http-client'
@@ -99,7 +99,7 @@ const init = () => {
  * @returns {string|null}
  */
 const readAPIAddressSetting = () => {
-  const setting = readSetting('ipfsOpts')
+  const setting = readSetting('ipfsApi')
   return setting == null ? null : asAPIAddress(setting)
 }
 
@@ -234,7 +234,7 @@ const bundle = {
   }
 }
 
-const initIPFS = async (opts, store) => {
+const initIPFS = async (store) => {
   store.dispatch({ type: 'IPFS_INIT_STARTED' })
 
   /** @type {Model} */
@@ -242,6 +242,7 @@ const initIPFS = async (opts, store) => {
 
   try {
     const result = await getIpfs({
+      // @ts-ignore - TS can't seem to infer connectionTest option
       connectionTest: async (ipfs) => {
         // ipfs connection is working if can we fetch the bw stats.
         // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
@@ -249,7 +250,7 @@ const initIPFS = async (opts, store) => {
           await ipfs.stats.bw()
         } catch (err) {
           if (!/bandwidth reporter disabled in config/.test(err)) {
-            throw err
+            return false
           }
         }
 

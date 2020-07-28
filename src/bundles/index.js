@@ -1,5 +1,5 @@
 import { composeBundles, createCacheBundle } from 'redux-bundler'
-import ipfsProvider from 'ipfs-provider'
+import ipfsProvider from './ipfs-provider'
 import { exploreBundle } from 'ipld-explorer-components'
 import appIdle from './app-idle'
 import nodeBandwidthChartBundle from './node-bandwidth-chart'
