@@ -10,9 +10,7 @@
     "submitButton": "Submit"
   },
   "connected": {
-    "header": "Connected to IPFS",
-    "paragraph1": "<0>Now, it’s time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
-    "paragraph2": "<0>You can always come back to this address to change the IPFS node you're connected to.</0>"
+    "header": "Connected to IPFS"
   },
   "notConnected": {
     "header": "Is your IPFS daemon running?",

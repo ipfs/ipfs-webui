@@ -23,6 +23,10 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
       <div className='pr3 lh-copy charcoal'>
         <Box>
           <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t} />
+        </Box>
+      </div>
+      <div className='pr3 lh-copy charcoal mt3'>
+        <Box>
           <h1 className='montserrat fw2 navy mb0 mt5 f3 yellow'>{t('configureApiPort.header')}</h1>
           <Trans i18nKey='configureApiPort.paragraph1' t={t}>
             <p>If your IPFS node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, please set it here</p>
@@ -68,12 +72,6 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
     return (
       <div>
         <h1 className='montserrat fw2 navy ma0 f3 green'>{t('connected.header')}</h1>
-        <Trans i18nKey='connected.paragraph1' t={t}>
-          <p>Now, it's time for you to explore your node. Head to <a className='link blue' href='#/files/'>Files page</a> to manage and share your files, or explore the <a className='link blue' href='https://www.youtube.com/watch?v=Bqs_LzBjQyk'>Merkle Forest</a> of peer-hosted hash-linked data via <a className='link blue' href='#/explore'>IPLD explorer</a>.</p>
-        </Trans>
-        <Trans i18nKey='connected.paragraph2' t={t}>
-          <p>You can always come back to this address to change the IPFS node you're connected to.</p>
-        </Trans>
       </div>
     )
   }
