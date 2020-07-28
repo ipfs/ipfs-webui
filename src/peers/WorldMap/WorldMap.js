@@ -35,7 +35,7 @@ const calculateWidth = (windowWidth) => {
 }
 
 const calculateHeight = (width) => {
-  if (width > 1000) {
+  if (width > 960) {
     return width * 0.273
   }
 
