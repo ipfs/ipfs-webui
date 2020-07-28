@@ -85,7 +85,7 @@
     "closeDropdown": "Close dropdown",
     "count": "{count} of {count}"
   },
-  "addFilesInfo": "<0>Add files to your local IPFS node by clicking the <1>Import</1> button above.</0>",
+  "addFilesInfo": "<0>No files here yet! Add files to your local IPFS node by clicking the <1>Import</1> button above.</0>",
   "companionInfo": "<0>As you are using <1>IPFS Companion</1>, the files view is limited to files added while using the extension.</0>",
   "tour": {
     "back": "Back",
