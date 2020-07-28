@@ -12,7 +12,7 @@ storiesOf('NavBar', module)
   .add('Default', () => (
     <div className='sans-serif vh-100 bg-navy' style={{ width: 156 }}>
       <NavBar
-        width='160px'
+        className='w-100'
         isSettingsEnabled={boolean('isSettingsEnabled', true)}
         open={boolean('open', true)}
         onToggle={action('onToggle')}
