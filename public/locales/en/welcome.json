@@ -1,23 +1,21 @@
 {
   "title": "Welcome | IPFS",
   "description": "Welcome Page",
-  "configureApiPort": {
-    "header": "Is your API on a port other than 5001?",
-    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
-  },
   "apiAddressForm": {
     "apiLabel": "API ADDRESS",
     "submitButton": "Submit"
   },
   "connected": {
-    "header": "Connected to IPFS"
+    "header": "Connected to IPFS",
+    "paragraph1": "You are now ready to explore the distributed web!"
   },
   "notConnected": {
     "header": "Could not connect to the IPFS API",
-    "subhead": "Common troubleshooting steps",
-    "paragraph1": "<0>Is your IPFS daemon running? Try starting or restarting it from your terminal:</0>",
-    "paragraph2": "<0>Is your IPFS API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
-    "paragraph3": "<0>Still need help? Check out the troubleshooting guide in the <1>IPFS Docs</1>.</0>"
+    "paragraph1": "These common troubleshooting steps may be helpful:",
+    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting it from your terminal:</0>",
+    "paragraph3": "<0>Is your IPFS API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
+    "paragraph4": "<0>Is your IPFS API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here to update your config file.</0>",
+    "paragraph5": "<0>Still need help? Check out the troubleshooting guide in the <1>IPFS Docs</1>.</0>"
   },
   "aboutIpfs": {
     "header": "What is IPFS?",
@@ -28,7 +26,7 @@
     "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
   },
   "welcomeInfo": {
-    "header": "Things to try ...",
+    "header": "Things you can do in this app",
     "paragraph1": "<0><0>Check the status</0> of your node, its Peer ID and connection info, the network traffic and the number of connected peers.</0>",
     "paragraph2": "<0>Easily manage files in your IPFS repo. Drag and drop here to add files, and you can move, rename, delete, share or download them.</0>",
     "paragraph3": "<0>You can <1>explore IPLD data</1> that underpins how IPFS works.</0>",

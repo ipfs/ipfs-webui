@@ -29,11 +29,7 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
       </div>
       <div className='lh-copy charcoal mt3'>
         <Box>
-          <h1 className='montserrat fw2 navy mb0 mt0 f3 yellow'>{t('configureApiPort.header')}</h1>
-          <Trans i18nKey='configureApiPort.paragraph1' t={t}>
-            <p>If your IPFS node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, please set it here</p>
-          </Trans>
-          <ApiAddressForm
+            <ApiAddressForm
             t={t}
             defaultValue={ipfsApiAddress || ''}
             updateAddress={doUpdateIpfsApiAddress} />
@@ -69,77 +65,6 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
           <AboutIpfs />
         </div>
       </div>
-    </div>
-  )
-}
-
-const ConnectionStatus = ({ t, connected, sameOrigin }) => {
-  if (connected) {
-    return (
-      <div className='flex items-center'>
-        <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
-        <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
-      </div>
-    )
-  }
-
-  const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.io']
-  const origin = window.location.origin
-  const addOrigin = defaultDomains.indexOf(origin) === -1
-
-  function makeActive(e) {
-    console.log(e.target.id + '-code');
-  }
-
-  return (
-    <div>
-      <div className='flex items-center'>
-        <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
-        <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
-      </div>
-      <h2 className='charcoal fw4 f4'>{t('notConnected.subhead')}</h2>
-      <ol className='pl3'>
-        <Trans i18nKey='notConnected.paragraph1' t={t}>
-          <li className='mb2'>Is your IPFS daemon running? Try starting or restarting it from your terminal:</li>
-        </Trans>
-        <Shell>
-          <code className='db'><b className='no-select'>$ </b>ipfs daemon</code>
-          <code className='db'>Initializing daemon...</code>
-          <code className='db'>API server listening on /ip4/127.0.0.1/tcp/5001</code>
-        </Shell>
-        { !sameOrigin && (
-          <div>
-            <Trans i18nKey='notConnected.paragraph2' t={t}>
-              <li className='mb2 mt3'>Is your IPFS API configured to allow <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
-            </Trans>
-
-            <div className='br1 overflow-hidden'>
-              <div className='f7 mb0 sans-serif ttu tracked charcoal pv1 pl2 bg-black-20 flex items-center'>
-                <div id='unix-mac' className='pointer mr3' onClick={makeActive}>Unix & MacOS</div>
-                <div id='windows-powershell' className='pointer mr3' onClick={makeActive}>Windows Powershell</div>
-                <div id='windows-cmd' className='pointer' onClick={makeActive}>Windows CMD</div>
-              </div>
-              <div className='bg-black-70 snow pa2 f7 lh-copy monospace nowrap overflow-x-auto'>
-                <div id='unix-mac-code'>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
-                </div>
-                <div id='windows-powershell-code'>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `\\"${origin}\\", `}\"{defaultDomains.join('\\", \\"')}\"]'</code>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\"]'</code>
-                </div>
-                <div id='windows-cmd-code'>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[{addOrigin && `"""${origin}""", `}"""{defaultDomains.join('""", """')}"""]"</code>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "["""PUT""", """POST"""]"</code>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        <Trans i18nKey='notConnected.paragraph3' t={t}>
-          <li className='mt3'>Still need help? Check out the troubleshooting guide in the <a className='link blue' href='https://docs.ipfs.io/introduction/usage/'>IPFS Docs</a>.</li>
-        </Trans>
-      </ol>
     </div>
   )
 }
@@ -184,6 +109,87 @@ class ApiAddressForm extends React.Component {
     )
   }
 }
+
+const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIpfsApiAddress }) => {
+  if (connected) {
+    return (
+      <div>
+        <div className='flex items-center'>
+          <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
+          <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
+        </div>
+        <p>{t('connected.paragraph1')}</p>
+      </div>
+    )
+  }
+
+  const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.io']
+  const origin = window.location.origin
+  const addOrigin = defaultDomains.indexOf(origin) === -1
+
+  function makeActive(e) {
+    console.log(e.target.id + '-code');
+  }
+
+  return (
+    <div>
+      <div className='flex items-center'>
+        <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
+        <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
+      </div>
+      <p>{t('notConnected.paragraph1')}</p>
+      <ol className='pl3'>
+        <Trans i18nKey='notConnected.paragraph2' t={t}>
+          <li className='mb3'>Is your IPFS daemon running? Try starting or restarting it from your terminal:</li>
+        </Trans>
+        <Shell>
+          <code className='db'><b className='no-select'>$ </b>ipfs daemon</code>
+          <code className='db'>Initializing daemon...</code>
+          <code className='db'>API server listening on /ip4/127.0.0.1/tcp/5001</code>
+        </Shell>
+        { !sameOrigin && (
+          <div>
+            <Trans i18nKey='notConnected.paragraph3' t={t}>
+              <li className='mb3 mt4'>Is your IPFS API configured to allow <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
+            </Trans>
+            <div className='br1 overflow-hidden'>
+              <div className='f7 mb0 sans-serif ttu tracked charcoal pv1 pl2 bg-black-20 flex items-center'>
+                <div id='unix-mac' className='pointer mr3 fw7' onClick={makeActive}>Unix & MacOS</div>
+                <div id='windows-powershell' className='pointer mr3' onClick={makeActive}>Windows Powershell</div>
+                <div id='windows-cmd' className='pointer' onClick={makeActive}>Windows CMD</div>
+              </div>
+              <div className='bg-black-70 snow pa2 f7 lh-copy monospace nowrap overflow-x-auto'>
+                <div id='unix-mac-code'>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
+                </div>
+                <div id='windows-powershell-code'>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `\\"${origin}\\", `}\"{defaultDomains.join('\\", \\"')}\"]'</code>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\"]'</code>
+                </div>
+                <div id='windows-cmd-code'>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[{addOrigin && `"""${origin}""", `}"""{defaultDomains.join('""", """')}"""]"</code>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "["""PUT""", """POST"""]"</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        <Trans i18nKey='notConnected.paragraph4' t={t}>
+          <li className='mt4 mb3'>Is your API on a port other than 5001? If your IPFS node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, please set it here</li>
+        </Trans>
+        <ApiAddressForm
+        t={t}
+        defaultValue={ipfsApiAddress || ''}
+        updateAddress={doUpdateIpfsApiAddress} />
+        <Trans i18nKey='notConnected.paragraph5' t={t}>
+          <li className='mt4'>Still need help? Check out the troubleshooting guide in the <a className='link blue' href='https://docs.ipfs.io/introduction/usage/'>IPFS Docs</a>.</li>
+        </Trans>
+      </ol>
+    </div>
+  )
+}
+
 
 export default connect(
   'doUpdateIpfsApiAddress',
