@@ -250,7 +250,7 @@ const initIPFS = async (store) => {
           await ipfs.stats.bw()
         } catch (err) {
           if (!/bandwidth reporter disabled in config/.test(err)) {
-            return false
+            throw err
           }
         }
 
