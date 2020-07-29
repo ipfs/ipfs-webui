@@ -1,5 +1,5 @@
 import root from 'window-or-global'
-import changeCase from 'change-case'
+import { constantCase } from 'change-case'
 import { createSelector } from 'redux-bundler'
 
 // Only record specific actions listed here.
@@ -136,7 +136,7 @@ const createAnalyticsBundle = ({
                   ? 'EXPERIMENTS_'
                   : 'DESKTOP_SETTING_'
 
-                key += changeCase.constantCase(action.payload.key)
+                key += constantCase(action.payload.key)
 
                 if (state === 'FAILED') {
                   key += '_FAILED'

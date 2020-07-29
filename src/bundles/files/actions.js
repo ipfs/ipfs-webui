@@ -1,16 +1,51 @@
+// @ts-check
+
 import { join, dirname, basename } from 'path'
 import { getDownloadLink, getShareableLink } from '../../lib/files'
 import countDirs from '../../lib/count-dirs'
+import all from 'it-all'
+import map from 'it-map'
+import last from 'it-last'
+import CID from 'cids'
 
 import { make, sortFiles, infoFromPath } from './utils'
 import { IGNORED_FILES, ACTIONS } from './consts'
 
-const fileFromStats = ({ cumulativeSize, type, size, hash, name }, path, prefix = '/ipfs') => ({
+/**
+ * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('ipfs').Pin} Pin
+ */
+
+/**
+ * @typedef {Object} FileStat
+ * @property {number|null} size
+ * @property {'directory'|'file'|'unknown'} type
+ * @property {CID} cid
+ * @property {string} name
+ * @property {string} path
+ * @property {boolean} pinned
+ * @property {boolean|void} isParent
+ *
+ * @param {Object} stat
+ * @param {'dir'|'directory'|'file'|'unknown'} stat.type
+ * @param {CID} stat.cid
+ * @param {string} stat.path
+ * @param {number} [stat.cumulativeSize]
+ * @param {number} [stat.size]
+ * @param {string|void} [stat.name]
+ * @param {boolean|void} [stat.pinned]
+ * @param {boolean|void} [stat.isParent]
+ * @param {string} [prefix]
+ * @returns {FileStat}
+ */
+const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, isParent }, prefix = '/ipfs') => ({
   size: cumulativeSize || size || null,
   type: (type === 'dir' || type === 'directory') ? 'directory' : (type === 'unknown') ? 'unknown' : 'file',
-  hash: hash,
-  name: name || path ? path.split('/').pop() : hash,
-  path: path || `${prefix}/${hash}`
+  cid,
+  name: name || path.split('/').pop() || cid.toString(),
+  path: path || `${prefix}/${cid.toString()}`,
+  pinned: Boolean(pinned),
+  isParent: isParent
 })
 
 // TODO: use sth else
@@ -22,49 +57,80 @@ const realMfsPath = (path) => {
   return path
 }
 
-const stat = async (ipfs, hashOrPath) => {
+/**
+ * @typedef {Object} Stat
+ * @property {string} path
+ * @property {'file'|'directory'|'unknown'} type
+ * @property {CID} cid
+ * @property {number|null} size
+ *
+ * @param {IPFSService} ipfs
+ * @param {string|CID} cidOrPath
+ * @returns {Promise<Stat>}
+ */
+const stat = async (ipfs, cidOrPath) => {
+  const hashOrPath = cidOrPath.toString()
   const path = hashOrPath.startsWith('/')
     ? hashOrPath
     : `/ipfs/${hashOrPath}`
 
   try {
     const stats = await ipfs.files.stat(path)
-    return stats
+    return { path, ...stats }
   } catch (e) {
     // Discard error and mark DAG as 'unknown' to unblock listing other pins.
     // Clicking on 'unknown' entry will open it in Inspector.
     // No information is lost: if there is an error related
     // to specified hashOrPath user will read it in Inspector.
+    const [, , cid] = path.split('/')
     return {
       path: hashOrPath,
-      hash: hashOrPath,
-      type: 'unknown'
+      cid: new CID(cid),
+      type: 'unknown',
+      size: null
     }
   }
 }
 
-const getRawPins = async (ipfs) => {
-  const recursive = await ipfs.pin.ls({ type: 'recursive' })
-  const direct = await ipfs.pin.ls({ type: 'direct' })
-
-  return recursive.concat(direct)
+/**
+ *
+ * @param {IPFSService} ipfs
+ * @returns {AsyncIterable<Pin>}
+ */
+const getRawPins = async function * (ipfs) {
+  yield * ipfs.pin.ls({ type: 'recursive' })
+  yield * ipfs.pin.ls({ type: 'direct' })
 }
 
-const getPins = async (ipfs) => {
-  const pins = await getRawPins(ipfs)
+/**
+ * @param {IPFSService} ipfs
+ * @returns {AsyncIterable<CID>}
+ */
+const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
 
-  const stats = await Promise.all(
-    pins.map(({ hash }) => stat(ipfs, hash))
-  )
-
-  return stats.map(item => {
-    item = fileFromStats(item, null, '/pins')
-    item.pinned = true
-    return item
-  })
+/**
+ * @param {IPFSService} ipfs
+ * @returns {AsyncIterable<FileStat>}
+ */
+const getPins = async function * (ipfs) {
+  for await (const cid of getPinCIDs(ipfs)) {
+    const info = await stat(ipfs, cid)
+    yield fileFromStats({ ...info, pinned: true }, '/pins')
+  }
 }
 
-const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
+/**
+ * @typedef {Object} FetchFilesResult
+ * @property {string} path
+ * @property {Date} fetched
+ * @property {'directory'} type
+ * @property {FileStat[]} content
+ *
+ * @param {IPFSService} ipfs
+ * @param {*} id
+ * @param {*} options
+ */
+const fetchFilesFX = async (ipfs, id, { store }) => {
   let { path, realPath, isMfs, isPins, isRoot } = store.selectFilesPathInfo()
 
   if (isRoot && !isMfs && !isPins) {
@@ -72,7 +138,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
   }
 
   if (isRoot && isPins) {
-    const pins = await getPins(ipfs) // FIX: pins path
+    const pins = await all(getPins(ipfs)) // FIX: pins path
 
     return {
       path: '/pins',
@@ -83,7 +149,7 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
   }
 
   if (realPath.startsWith('/ipns')) {
-    realPath = await ipfs.name.resolve(realPath)
+    realPath = await last(ipfs.name.resolve(realPath))
   }
 
   const stats = await stat(ipfs, realPath)
@@ -94,18 +160,18 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
 
   if (stats.type === 'file') {
     return {
-      ...fileFromStats(stats, path),
+      ...fileFromStats({ ...stats, path }),
       fetched: Date.now(),
       type: 'file',
-      read: () => ipfs.cat(stats.hash),
+      read: () => ipfs.cat(stats.cid),
       name: path.split('/').pop(),
       size: stats.size,
-      hash: stats.hash
+      cid: stats.cid
     }
   }
 
   // Otherwise get the directory info
-  const res = await ipfs.ls(stats.hash) || []
+  const res = await all(ipfs.ls(stats.cid)) || []
   const files = []
   const showStats = res.length < 100
 
@@ -113,10 +179,10 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
     const absPath = join(path, f.name)
     let file = null
 
-    if (showStats && f.type === 'dir') {
-      file = fileFromStats(await stat(ipfs, f.hash), absPath)
+    if (showStats && f.type === 'directory') {
+      file = fileFromStats({ ...await stat(ipfs, f.cid), path: absPath })
     } else {
-      file = fileFromStats(f, absPath)
+      file = fileFromStats({ ...f, path: absPath })
     }
 
     files.push(file)
@@ -133,11 +199,12 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
         parentInfo.realPath = await ipfs.name.resolve(parentInfo.realPath)
       }
 
-      parent = fileFromStats(await ipfs.files.stat(parentInfo.realPath))
-
-      parent.name = '..'
-      parent.path = parentInfo.path
-      parent.isParent = true
+      parent = fileFromStats({
+        ...await ipfs.files.stat(parentInfo.realPath),
+        path: parentInfo.path,
+        name: '..',
+        isParent: true
+      })
     }
   }
 
@@ -145,15 +212,18 @@ const fetchFiles = make(ACTIONS.FETCH, async (ipfs, id, { store }) => {
     path: path,
     fetched: Date.now(),
     type: 'directory',
-    hash: stats.hash,
+    cid: stats.cid,
     upper: parent,
     content: sortFiles(files, store.selectFilesSorting())
   }
-})
+}
+
+const fetchFiles = make(ACTIONS.FETCH, fetchFilesFX)
 
 export default () => ({
   doPinsFetch: make(ACTIONS.PIN_LIST, async (ipfs) => {
-    return { pins: (await getRawPins(ipfs)).map(f => f.hash) }
+    const cids = await all(getPinCIDs(ipfs))
+    return { pins: cids }
   }),
 
   doFilesFetch: () => async ({ store, ...args }) => {
@@ -215,10 +285,10 @@ export default () => ({
       throw Object.assign(new Error('API returned a partial response.'), { code: 'ERR_API_RESPONSE' })
     }
 
-    for (const { path, hash } of res) {
+    for (const { path, cid } of res) {
       // Only go for direct children
       if (path.indexOf('/') === -1 && path !== '') {
-        const src = `/ipfs/${hash}`
+        const src = `/ipfs/${cid}`
         const dst = join(realMfsPath(root || '/files'), path)
 
         try {
@@ -260,9 +330,9 @@ export default () => ({
 
   doFilesMakeDir: make(ACTIONS.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(realMfsPath(path), { parents: true }), { mfsOnly: true }),
 
-  doFilesPin: make(ACTIONS.PIN_ADD, (ipfs, hash) => ipfs.pin.add(hash)),
+  doFilesPin: make(ACTIONS.PIN_ADD, (ipfs, cid) => ipfs.pin.add(cid)),
 
-  doFilesUnpin: make(ACTIONS.PIN_REMOVE, (ipfs, hash) => ipfs.pin.rm(hash)),
+  doFilesUnpin: make(ACTIONS.PIN_REMOVE, (ipfs, cid) => ipfs.pin.rm(cid)),
 
   doFilesDismissErrors: () => async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
 

@@ -1,4 +1,5 @@
 import { createSelector } from 'redux-bundler'
+import all from 'it-all'
 
 // Depends on ipfsBundle, peersBundle, routesBundle
 export default function (opts) {
@@ -132,7 +133,7 @@ export default function (opts) {
       let bw
 
       try {
-        bw = await ipfs.stats.bw({ peer: peerId })
+        bw = await all(ipfs.stats.bw({ peer: peerId }))
       } catch (err) {
         return dispatch({
           type: 'UPDATE_PEER_BANDWIDTH_FAILED',
@@ -162,7 +163,7 @@ export default function (opts) {
         if (routeInfo.url !== '/') return
 
         const peerIds = (peers || []).reduce((ids, p) => {
-          const id = p.peer.toB58String()
+          const id = p.peer
           if (ids.seen[id]) return ids
           ids.seen[id] = true
           ids.unique.push(id)

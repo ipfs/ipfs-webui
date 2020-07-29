@@ -78,7 +78,7 @@ it('should sync added peers', async () => {
   expect(bwPeers.length).toBe(totalPeers)
 
   bwPeers.forEach(({ id }) => {
-    expect(nextPeers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(nextPeers.some(p => p.peer === id)).toBe(true)
   })
 })
 
@@ -105,7 +105,7 @@ it('should sync removed peers', async () => {
   expect(bwPeers.length).toBe(peers.length)
 
   bwPeers.forEach(({ id }) => {
-    expect(peers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(peers.some(p => p.peer === id)).toBe(true)
   })
 
   const nextTotalPeers = randomInt(1, totalPeers)
@@ -119,7 +119,7 @@ it('should sync removed peers', async () => {
   expect(bwPeers.length).toBe(nextPeers.length)
 
   bwPeers.forEach(({ id }) => {
-    expect(nextPeers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(nextPeers.some(p => p.peer === id)).toBe(true)
   })
 })
 
@@ -146,7 +146,7 @@ it('should sync added and removed peers', async () => {
   expect(bwPeers.length).toBe(peers.length)
 
   bwPeers.forEach(({ id }) => {
-    expect(peers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(peers.some(p => p.peer === id)).toBe(true)
   })
 
   const totalAddedPeers = randomInt(1, 100)
@@ -164,7 +164,7 @@ it('should sync added and removed peers', async () => {
   expect(bwPeers.length).toBe(nextPeers.length)
 
   bwPeers.forEach(({ id }) => {
-    expect(nextPeers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(nextPeers.some(p => p.peer === id)).toBe(true)
   })
 })
 

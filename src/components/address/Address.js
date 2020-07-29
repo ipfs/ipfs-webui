@@ -6,7 +6,7 @@ const Address = ({ value }) => {
 
   const ma = Multiaddr(value)
   const protos = ma.protoNames().concat(['ipfs', 'p2p'])
-  const parts = value.split('/')
+  const parts = ma.toString().split('/')
 
   return (
     <div className='charcoal-muted monospace'>

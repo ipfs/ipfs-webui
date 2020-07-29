@@ -14,6 +14,7 @@ import GlyphPin from '../../icons/GlyphPin'
 import Tooltip from '../../components/tooltip/Tooltip'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
+import CID from 'cids'
 
 class File extends React.Component {
   static propTypes = {
@@ -21,7 +22,7 @@ class File extends React.Component {
     type: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
     size: PropTypes.number,
-    hash: PropTypes.string,
+    cid: PropTypes.instanceOf(CID),
     selected: PropTypes.bool,
     focused: PropTypes.bool,
     onSelect: PropTypes.func,
@@ -47,19 +48,19 @@ class File extends React.Component {
   }
 
   handleCtxLeftClick = (ev) => {
-    const { name, type, size, hash, path, pinned } = this.props
+    const { name, type, size, cid, path, pinned } = this.props
     const pos = this.dotsWrapper.getBoundingClientRect()
-    this.props.handleContextMenuClick(ev, 'LEFT', { name, size, type, hash, path, pinned }, pos)
+    this.props.handleContextMenuClick(ev, 'LEFT', { name, size, type, cid, path, pinned }, pos)
   }
 
   handleCtxRightClick = (ev) => {
-    const { name, type, size, hash, path, pinned } = this.props
-    this.props.handleContextMenuClick(ev, 'RIGHT', { name, size, type, hash, path, pinned })
+    const { name, type, size, cid, path, pinned } = this.props
+    this.props.handleContextMenuClick(ev, 'RIGHT', { name, size, type, cid, path, pinned })
   }
 
   render () {
     let {
-      t, selected, focused, translucent, coloured, hash, name, type, size, pinned, onSelect, onNavigate,
+      t, selected, focused, translucent, coloured, cid, name, type, size, pinned, onSelect, onNavigate,
       isOver, canDrop, cantDrag, cantSelect, connectDropTarget, connectDragPreview, connectDragSource,
       styles = {}
     } = this.props
@@ -87,7 +88,7 @@ class File extends React.Component {
     styles.overflow = 'hidden'
 
     size = size ? filesize(size, { round: 0 }) : '-'
-    hash = hash || t('hashUnavailable')
+    const hash = cid.toString() || t('hashUnavailable')
 
     const select = (select) => onSelect(name, select)
 

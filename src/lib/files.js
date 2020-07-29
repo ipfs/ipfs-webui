@@ -1,15 +1,17 @@
-import fileReader from 'pull-file-reader'
-import CID from 'cids'
+/**
+ * @typedef {import('ipfs').IPFSService} IPFSService
+ */
 
+/**
+ * @param {File[]} files
+ */
 export async function filesToStreams (files) {
   const streams = []
 
   for (const file of files) {
-    const stream = fileReader(file)
-
     streams.push({
       path: file.filepath || file.webkitRelativePath || file.name,
-      content: stream,
+      content: file,
       size: file.size
     })
   }
@@ -21,28 +23,28 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
   let url, filename
 
   if (file.type === 'directory') {
-    url = `${apiUrl}/api/v0/get?arg=${file.hash}&archive=true&compress=true`
+    url = `${apiUrl}/api/v0/get?arg=${file.cid}&archive=true&compress=true`
     filename = `${file.name}.tar.gz`
   } else {
-    url = `${gatewayUrl}/ipfs/${file.hash}`
+    url = `${gatewayUrl}/ipfs/${file.cid}`
     filename = file.name
   }
 
   return { url, filename }
 }
 
-export async function makeHashFromFiles (files, ipfs) {
+export async function makeCIDFromFiles (files, ipfs) {
   let cid = await ipfs.object.new('unixfs-dir')
 
   for (const file of files) {
-    cid = await ipfs.object.patch.addLink(cid.multihash, {
+    cid = await ipfs.object.patch.addLink(cid, {
       name: file.name,
       size: file.size,
-      cid: new CID(file.hash)
+      cid: file.cid
     })
   }
 
-  return cid.toString()
+  return cid
 }
 
 async function downloadMultiple (files, apiUrl, ipfs) {
@@ -51,11 +53,11 @@ async function downloadMultiple (files, apiUrl, ipfs) {
     return Promise.reject(e)
   }
 
-  const multihash = await makeHashFromFiles(files, ipfs)
+  const cid = await makeCIDFromFiles(files, ipfs)
 
   return {
-    url: `${apiUrl}/api/v0/get?arg=${multihash}&archive=true&compress=true`,
-    filename: `download_${multihash}.tar.gz`
+    url: `${apiUrl}/api/v0/get?arg=${cid}&archive=true&compress=true`,
+    filename: `download_${cid}.tar.gz`
   }
 }
 
@@ -68,17 +70,17 @@ export async function getDownloadLink (files, gatewayUrl, apiUrl, ipfs) {
 }
 
 export async function getShareableLink (files, ipfs) {
-  let hash
+  let cid
   let filename
 
   if (files.length === 1) {
-    hash = files[0].hash
+    cid = files[0].cid
     if (files[0].type === 'file') {
       filename = `?filename=${encodeURIComponent(files[0].name)}`
     }
   } else {
-    hash = await makeHashFromFiles(files, ipfs)
+    cid = await makeCIDFromFiles(files, ipfs)
   }
 
-  return `https://ipfs.io/ipfs/${hash}${filename || ''}`
+  return `https://ipfs.io/ipfs/${cid}${filename || ''}`
 }

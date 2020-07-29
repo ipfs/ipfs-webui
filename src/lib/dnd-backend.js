@@ -1,5 +1,5 @@
 import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
-import HTML5Backend from 'react-dnd-html5-backend'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 // If you drop a dir "foo" which contains "cat.jpg" & "dog.png" we receive a
 // single item in the `event.dataTransfer.items` for the directory.

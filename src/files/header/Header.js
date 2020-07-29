@@ -36,7 +36,7 @@ class Header extends React.Component {
     const pos = this.dotsWrapper.getBoundingClientRect()
     this.props.handleContextMenu(ev, 'TOP', {
       ...this.props.files,
-      pinned: this.props.pins.includes(this.props.files.hash)
+      pinned: this.props.pins.includes(this.props.files.cid)
     }, pos)
   }
 
