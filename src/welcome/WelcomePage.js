@@ -87,10 +87,14 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
   const origin = window.location.origin
   const addOrigin = defaultDomains.indexOf(origin) === -1
 
+  function makeActive(e) {
+    console.log(e.target.id + '-code');
+  }
+
   return (
     <div>
       <div className='flex items-center'>
-        <GlyphAttention style={{ height: 76 }} className='fill-red' role='presentation' />
+        <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
         <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
       </div>
       <h2 className='charcoal fw4 f4'>{t('notConnected.subhead')}</h2>
@@ -108,18 +112,28 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
             <Trans i18nKey='notConnected.paragraph2' t={t}>
               <li className='mb2 mt3'>Is your IPFS API configured to allow <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
             </Trans>
-            <Shell title="Unix & MacOS">
-              <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
-              <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
-            </Shell>
-            <Shell title="Windows Powershell" className="mt3">
-              <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `\\"${origin}\\", `}\"{defaultDomains.join('\\", \\"')}\"]'</code>
-              <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\"]'</code>
-            </Shell>
-            <Shell title="Windows CMD" className="mt3">
-              <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[{addOrigin && `"""${origin}""", `}"""{defaultDomains.join('""", """')}"""]"</code>
-              <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "["""PUT""", """POST"""]"</code>
-            </Shell>
+
+            <div className='br1 overflow-hidden'>
+              <div className='f7 mb0 sans-serif ttu tracked charcoal pv1 pl2 bg-black-20 flex items-center'>
+                <div id='unix-mac' className='pointer mr3' onClick={makeActive}>Unix & MacOS</div>
+                <div id='windows-powershell' className='pointer mr3' onClick={makeActive}>Windows Powershell</div>
+                <div id='windows-cmd' className='pointer' onClick={makeActive}>Windows CMD</div>
+              </div>
+              <div className='bg-black-70 snow pa2 f7 lh-copy monospace nowrap overflow-x-auto'>
+                <div id='unix-mac-code'>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
+                </div>
+                <div id='windows-powershell-code'>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `\\"${origin}\\", `}\"{defaultDomains.join('\\", \\"')}\"]'</code>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\"]'</code>
+                </div>
+                <div id='windows-cmd-code'>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[{addOrigin && `"""${origin}""", `}"""{defaultDomains.join('""", """')}"""]"</code>
+                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "["""PUT""", """POST"""]"</code>
+                </div>
+              </div>
+            </div>
           </div>
         )}
         <Trans i18nKey='notConnected.paragraph3' t={t}>
