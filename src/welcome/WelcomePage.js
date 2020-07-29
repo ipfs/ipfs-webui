@@ -8,6 +8,7 @@ import AboutIpfs from '../components/about-ipfs/AboutIpfs'
 import Shell from '../components/shell/Shell.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 import GlyphTick from '../icons/GlyphTick'
+import GlyphAttention from '../icons/GlyphAttention'
 
 const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, ipfsApiAddress }) => {
   if (!ipfsInitFailed && !ipfsReady) {
@@ -88,7 +89,10 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
 
   return (
     <div>
-      <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
+      <div className='flex items-center'>
+        <GlyphAttention style={{ height: 76 }} className='fill-red' role='presentation' />
+        <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
+      </div>
       <h2 className='charcoal fw4 f4'>{t('notConnected.subhead')}</h2>
       <ol className='pl3'>
         <Trans i18nKey='notConnected.paragraph1' t={t}>
