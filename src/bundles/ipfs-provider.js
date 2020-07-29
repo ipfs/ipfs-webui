@@ -145,7 +145,7 @@ const readSetting = (id) => {
     try {
       setting = window.localStorage.getItem(id)
     } catch (error) {
-      console.log(`Error reading '${id}' value from localStorage`, error)
+      console.error(`Error reading '${id}' value from localStorage`, error)
     }
 
     try {
