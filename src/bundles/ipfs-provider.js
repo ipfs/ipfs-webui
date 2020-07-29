@@ -146,7 +146,7 @@ const readSetting = (id) => {
     try {
       setting = window.localStorage.getItem(id)
     } catch (error) {
-      console.log(`Error reading '${id}' value from localStorage`, error)
+      console.error(`Error reading '${id}' value from localStorage`, error)
     }
 
     try {
@@ -162,7 +162,7 @@ const writeSetting = (id, value) => {
   try {
     window.localStorage.setItem(id, JSON.stringify(value))
   } catch (error) {
-    console.log(`Error writing '${id}' value to localStorage`, error)
+    console.error(`Error writing '${id}' value to localStorage`, error)
   }
 }
 
@@ -259,7 +259,6 @@ const initIPFS = async (store) => {
       },
       loadHttpClientModule: () => HttpClient,
       providers: [
-        providers.webExt(),
         providers.httpClient({ apiAddress })
       ]
     })

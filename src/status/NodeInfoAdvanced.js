@@ -41,7 +41,7 @@ class NodeInfoAdvanced extends React.Component {
       <Details className='mt3 f6' summaryText={t('advanced')}>
         <DefinitionList className='mt3'>
           <Definition advanced term={t('gateway')} desc={gatewayUrl} />
-          {ipfsProvider === 'js-ipfs-api'
+          {ipfsProvider === 'httpClient'
             ? <Definition advanced term={t('api')} desc={
               isMultiaddr(ipfsApiAddress)
                 ? <Address value={ipfsApiAddress} />
