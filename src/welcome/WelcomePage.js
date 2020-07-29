@@ -7,6 +7,7 @@ import Button from '../components/button/Button'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
 import Shell from '../components/shell/Shell.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
+import GlyphTick from '../icons/GlyphTick'
 
 const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, ipfsApiAddress }) => {
   if (!ipfsInitFailed && !ipfsReady) {
@@ -74,7 +75,8 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
 const ConnectionStatus = ({ t, connected, sameOrigin }) => {
   if (connected) {
     return (
-      <div>
+      <div className='flex items-center'>
+        <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
         <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
       </div>
     )
