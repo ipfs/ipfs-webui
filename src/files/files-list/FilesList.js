@@ -97,7 +97,7 @@ export class FilesList extends React.Component {
       <SelectedActions
         className={'fixed bottom-0 right-0'}
         style={{
-          maxWidth: innerWidthEm < 60 ? '100%' : `calc(100% - ${this.props.navbarWidth}px)`,
+          maxWidth: innerWidthEm < 60 ? '100%' : 'calc(100% - 156px)',
           zIndex: 20
         }}
         animateOnStart
@@ -461,7 +461,6 @@ const dropCollect = (connect, monitor) => ({
 export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(withTranslation('files')(FilesList))
 
 export default connect(
-  'selectNavbarWidth',
   'selectPins',
   'selectFilesIsFetching',
   'selectFilesSorting',

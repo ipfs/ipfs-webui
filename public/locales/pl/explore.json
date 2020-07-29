@@ -1,7 +1,7 @@
 {
   "appName": "Przeglądarka IPLD",
   "StartExploringPage": {
-    "title": "Przeglądarka - IPLD",
+    "title": "Przeglądarka | IPLD",
     "header": "Eksploruj Las Merkle’a",
     "leadParagraph": "Wklej CID aby pobrać dowolny węzeł IPLD lub wybierz jeden z polecanych zbiorów."
   },
@@ -11,7 +11,7 @@
     "paragraph3": "<0>Z pomocą przychodzi IPLD: wspólna przestrzeń nazw dla wszystkich protokołów. Dzięki IPLD, linki między obiektami mogą prowadzić przez wiele protokołów, umożliwiając dostęp i przetwarzanie danych w zunifikowany sposób.</0>"
   },
   "ExplorePage": {
-    "title": "Przeglądanie - IPLD"
+    "title": "Przeglądanie | IPLD"
   },
   "IpldExploreForm": {
     "explore": "Przeglądaj"

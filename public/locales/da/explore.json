@@ -1,7 +1,7 @@
 {
   "appName": "IPLD Udforsker",
   "StartExploringPage": {
-    "title": "Udforsk - IPLD",
+    "title": "Udforsk | IPLD",
     "header": "Udforsk Merkle-skoven",
     "leadParagraph": "Indsæt et CID i boksen for at fremsøge IPLD-klienten som adresseres, eller vælg fra et udstillet datasæt."
   },
@@ -11,7 +11,7 @@
     "paragraph3": "<0>Træd ind IPLD's verden: Et fælles navngivningsrum til brug for alle hash-inspirerede protokoller. Ved at benytte IPLD, kan links forfølges på tværs af protokoller, hvilket giver dig mulighed for at udforske data uanset hvilken underliggende protokol der benyttes.</0>"
   },
   "ExplorePage": {
-    "title": "Udforsker - IPLD"
+    "title": "Udforsker | IPLD"
   },
   "IpldExploreForm": {
     "explore": "Udforsk"
