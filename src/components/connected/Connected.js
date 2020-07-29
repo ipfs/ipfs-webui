@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next'
 
 const pickColor = (ipfsReady, ipfsConnected) => {
   if (ipfsReady && ipfsConnected) return 'teal'
-  if (ipfsReady) return 'yellow'
+  if (ipfsReady) return 'red'
   return 'gray'
 }
 
