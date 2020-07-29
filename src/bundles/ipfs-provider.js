@@ -258,7 +258,6 @@ const initIPFS = async (store) => {
       },
       loadHttpClientModule: () => HttpClient,
       providers: [
-        providers.webExt(),
         providers.httpClient({ apiAddress })
       ]
     })
