@@ -58,8 +58,8 @@ export const NavBar = ({ t }) => {
       <div className='flex flex-column'>
         <a href="#/welcome" role='menuitem' title={t('welcome:description')}>
           <div className='pt3 pb1 pv4-l'>
-            <img className='center db-l dn' style={{ height: 100 }} src={ipfsLogoTextVert} alt='IPFS' role='presentation' />
-            <img className='center db dn-l' style={{ height: 70 }} src={ipfsLogoTextHoriz} alt='IPFS' role='presentation' />
+            <img className='center db-l dn' style={{ height: 100 }} src={ipfsLogoTextVert} alt='' />
+            <img className='center db dn-l' style={{ height: 70 }} src={ipfsLogoTextHoriz} alt='' />
           </div>
         </a>
         <div className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
