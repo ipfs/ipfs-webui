@@ -27,14 +27,6 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
           <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t} />
         </Box>
       </div>
-      <div className='lh-copy charcoal mt3'>
-        <Box>
-            <ApiAddressForm
-            t={t}
-            defaultValue={ipfsApiAddress || ''}
-            updateAddress={doUpdateIpfsApiAddress} />
-        </Box>
-      </div>
       <div className='flex mt3'>
         <div className='mr3 lh-copy mid-gray w-50'>
           <Box>
@@ -64,6 +56,14 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
         <div className='lh-copy dn db-l mid-gray w-50'>
           <AboutIpfs />
         </div>
+      </div>
+      <div className='lh-copy charcoal mt3'>
+        <Box>
+            <ApiAddressForm
+            t={t}
+            defaultValue={ipfsApiAddress || ''}
+            updateAddress={doUpdateIpfsApiAddress} />
+        </Box>
       </div>
     </div>
   )
@@ -118,7 +118,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
           <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
           <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
         </div>
-        <p>{t('connected.paragraph1')}</p>
+        <p className='fw6 mt1 ml3'>{t('connected.paragraph1')}</p>
       </div>
     )
   }
@@ -137,12 +137,14 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
         <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
         <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
       </div>
-      <p>{t('notConnected.paragraph1')}</p>
-      <ol className='pl3'>
+      <Trans i18nKey='notConnected.paragraph1' t={t}>
+        <p className='fw6 mb3'>Check out the installation guide in the <a className='link blue' href='https://docs.ipfs.io/install/command-line-quick-start/' target='_blank'>IPFS Docs</a>, or try these common fixes:</p>
+      </Trans>
+      <ol className='pl3 pt2'>
         <Trans i18nKey='notConnected.paragraph2' t={t}>
           <li className='mb3'>Is your IPFS daemon running? Try starting or restarting it from your terminal:</li>
         </Trans>
-        <Shell>
+        <Shell title='Any Shell'>
           <code className='db'><b className='no-select'>$ </b>ipfs daemon</code>
           <code className='db'>Initializing daemon...</code>
           <code className='db'>API server listening on /ip4/127.0.0.1/tcp/5001</code>
@@ -182,9 +184,6 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
         t={t}
         defaultValue={ipfsApiAddress || ''}
         updateAddress={doUpdateIpfsApiAddress} />
-        <Trans i18nKey='notConnected.paragraph5' t={t}>
-          <li className='mt4'>Still need help? Check out the troubleshooting guide in the <a className='link blue' href='https://docs.ipfs.io/introduction/usage/'>IPFS Docs</a>.</li>
-        </Trans>
       </ol>
     </div>
   )
