@@ -39,7 +39,7 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
                 <li className='mb2'><a href='#/files' className='link blue u b'>View and manage files</a> in your IPFS repo, including drag-and-drop file import, easy pinning, and quick sharing and download options</li>
               </Trans>
               <Trans i18nKey='welcomeInfo.paragraph3' t={t}>
-                <li className='mb2'><a href='#/explore' className='link blue b'>Visit the "Merkle Forest"</a> with some sample datasets and explore the IPLD data model that underpins how IPFS works</li>
+                <li className='mb2'><a href='#/explore' className='link blue b'>Visit the "Merkle Forest"</a> with some sample datasets and explore IPLD, the data model that underpins how IPFS works</li>
               </Trans>
               <Trans i18nKey='welcomeInfo.paragraph4' t={t}>
                 <li className='mb2'><a href='#/peers' className='link blue b'>See who's connected to your node</a>, geolocated on a world map by their IP address</li>
@@ -59,10 +59,7 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
       </div>
       <div className='lh-copy charcoal mt3'>
         <Box>
-            <ApiAddressForm
-            t={t}
-            defaultValue={ipfsApiAddress || ''}
-            updateAddress={doUpdateIpfsApiAddress} />
+          <ApiAddressForm t={t} defaultValue={ipfsApiAddress || ''} updateAddress={doUpdateIpfsApiAddress} />
         </Box>
       </div>
     </div>
@@ -188,7 +185,6 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
     </div>
   )
 }
-
 
 export default connect(
   'doUpdateIpfsApiAddress',

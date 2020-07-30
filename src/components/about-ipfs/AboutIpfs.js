@@ -20,7 +20,7 @@ export const AboutIpfs = ({ t }) => {
           <li className='mb2'><strong>A next-gen CDN</strong> &mdash; just add a file to your node to make it available to the world with cache-friendly content-hash addressing and BitTorrent-style bandwidth distribution</li>
         </Trans>
         <Trans i18nKey='aboutIpfs.paragraph5' t={t}>
-          <li className='mb2'><strong>A developer toolset</strong> for building completely distributed apps and services, backed by a robust open-source community</li>
+          <li className='mb2'><strong>A developer toolset</strong> for building completely <a className='link blue' target='_blank' rel='noopener noreferrer' href='https://awesome.ipfs.io/'>distributed apps and services</a>, backed by a robust open-source community</li>
         </Trans>
       </ul>
     </Box>
