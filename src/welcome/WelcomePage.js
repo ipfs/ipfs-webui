@@ -45,7 +45,7 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
                 <li className='mb2'><a href='#/peers' className='link blue b'>See who's connected to your node</a>, geolocated on a world map by their IP address</li>
               </Trans>
               <Trans i18nKey='welcomeInfo.paragraph5' t={t}>
-                <li className='mb2'><a href='#/settings' className='link blue b'>Review or edit your node settings</a> without needing to use the command line</li>
+                <li className='mb2'><a href='#/settings' className='link blue b'>Review or edit your node settings</a> &mdash; no command line required</li>
               </Trans>
               <Trans i18nKey='welcomeInfo.paragraph6' t={t}>
                 <li className='f5'><a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link blue b' target='_blank' rel='noopener noreferrer'>Check this app's source code</a> to <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link blue' target='_blank' rel='noopener noreferrer'>report a bug</a> or make a contribution, and make IPFS better for everyone!</li>
@@ -138,7 +138,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
         <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
       </div>
       <Trans i18nKey='notConnected.paragraph1' t={t}>
-        <p className='fw6 mb3'>Check out the installation guide in the <a className='link blue' href='https://docs.ipfs.io/install/command-line-quick-start/' target='_blank'>IPFS Docs</a>, or try these common fixes:</p>
+        <p className='fw6 mb3'>Check out the installation guide in the <a className='link blue' href='https://docs.ipfs.io/install/command-line-quick-start/' target='_blank' rel='noopener noreferrer'>IPFS Docs</a>, or try these common fixes:</p>
       </Trans>
       <ol className='pl3 pt2'>
         <Trans i18nKey='notConnected.paragraph2' t={t}>
