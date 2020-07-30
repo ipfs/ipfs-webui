@@ -23,13 +23,13 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
         <title>{t('title')}</title>
       </Helmet>
       <div className='lh-copy charcoal'>
-        <Box className='pa3'>
+        <Box className='pv3 ph4'>
           <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t} />
         </Box>
       </div>
       <div className='flex mt3'>
         <div className='mr3 lh-copy mid-gray w-50'>
-          <Box className='pa3'>
+          <Box>
             <h1 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('welcomeInfo.header')}</h1>
             <ul className='pl3'>
               <Trans i18nKey='welcomeInfo.paragraph1' t={t}>
@@ -58,7 +58,7 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
         </div>
       </div>
       <div className='lh-copy charcoal mt3'>
-        <Box className='pa3'>
+        <Box>
           <ApiAddressForm t={t} defaultValue={ipfsApiAddress || ''} updateAddress={doUpdateIpfsApiAddress} />
         </Box>
       </div>

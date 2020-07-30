@@ -4,7 +4,7 @@ import Box from '../box/Box'
 
 export const AboutIpfs = ({ t }) => {
   return (
-    <Box className='pa3'>
+    <Box>
       <h1 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('aboutIpfs.header')}</h1>
       <ul className='pl3'>
         <Trans i18nKey='aboutIpfs.paragraph1' t={t}>
