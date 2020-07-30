@@ -174,9 +174,9 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
           <li className='mt4 mb3'>Is your API on a port other than 5001? If your IPFS node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, please set it here</li>
         </Trans>
         <ApiAddressForm
-        t={t}
-        defaultValue={ipfsApiAddress || ''}
-        updateAddress={doUpdateIpfsApiAddress} />
+          t={t}
+          defaultValue={ipfsApiAddress || ''}
+          updateAddress={doUpdateIpfsApiAddress} />
       </ol>
     </div>
   )
