@@ -124,10 +124,6 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
   const origin = window.location.origin
   const addOrigin = defaultDomains.indexOf(origin) === -1
 
-  function makeActive(e) {
-    console.log(e.target.id + '-code');
-  }
-
   return (
     <div>
       <div className='flex items-center'>
@@ -153,9 +149,9 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
             </Trans>
             <div className='br1 overflow-hidden'>
               <div className='f7 mb0 sans-serif ttu tracked charcoal pv1 pl2 bg-black-20 flex items-center'>
-                <div id='unix-mac' className='pointer mr3 fw7' onClick={makeActive}>Unix & MacOS</div>
-                <div id='windows-powershell' className='pointer mr3' onClick={makeActive}>Windows Powershell</div>
-                <div id='windows-cmd' className='pointer' onClick={makeActive}>Windows CMD</div>
+                <div id='unix-mac' className='pointer mr3 fw7'>Unix & MacOS</div>
+                <div id='windows-powershell' className='pointer mr3'>Windows Powershell</div>
+                <div id='windows-cmd' className='pointer'>Windows CMD</div>
               </div>
               <div className='bg-black-70 snow pa2 f7 lh-copy monospace nowrap overflow-x-auto'>
                 <div id='unix-mac-code'>
