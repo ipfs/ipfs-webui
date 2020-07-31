@@ -83,6 +83,10 @@
       "paragraph2": "You're able to choose what data you send us and we won't be able to identify you, we value privacy above all else."
     },
     "step4": {
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    },
+    "step5": {
       "title": "IPFS Config",
       "paragraph1": "You can change the config of your IPFS node right from Web UI!",
       "paragraph2": "Don't forget to restart the daemon to apply the changes."

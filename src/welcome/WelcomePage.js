@@ -3,6 +3,12 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
 import classNames from 'classnames'
+import ReactJoyride from 'react-joyride'
+import withTour from '../components/tour/withTour'
+import { welcomeTour } from '../lib/tours'
+import { getJoyrideLocales } from '../helpers/i8n'
+
+// Components
 import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import Box from '../components/box/Box'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
@@ -11,7 +17,7 @@ import ComponentLoader from '../loader/ComponentLoader.js'
 import GlyphTick from '../icons/GlyphTick'
 import GlyphAttention from '../icons/GlyphAttention'
 
-const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady }) => {
+const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
   if (!ipfsInitFailed && !ipfsReady) {
     return <ComponentLoader pastDelay />
   }
@@ -58,6 +64,13 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady }) =>
           <AboutIpfs />
         </div>
       </div>
+      <ReactJoyride
+        run={toursEnabled}
+        steps={welcomeTour.getSteps({ t })}
+        styles={welcomeTour.styles}
+        callback={handleJoyrideCallback}
+        scrollToFirstStep
+        locale={getJoyrideLocales(t)} />
     </div>
   )
 }
@@ -162,5 +175,6 @@ export default connect(
   'selectIpfsConnected',
   'selectIpfsReady',
   'selectApiUrl',
-  withTranslation('welcome')(WelcomePage)
+  'selectToursEnabled',
+  withTour(withTranslation('welcome')(WelcomePage))
 )

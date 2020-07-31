@@ -44,7 +44,7 @@ export const SettingsPage = ({
       </div>
     </Box>
 
-    <Box className='mb3 pa4'>
+    <Box className='mb3 pa4 joyride-settings-customapi'>
       <div className='lh-copy charcoal' id="api">
         <Title>{t('api')}</Title>
         <Trans i18nKey='apiDescription' t={t}>
