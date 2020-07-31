@@ -1,5 +1,5 @@
 import { composeBundles, createCacheBundle } from 'redux-bundler'
-import ipfsBundle from 'ipfs-redux-bundle'
+import ipfsProvider from './ipfs-provider'
 import { exploreBundle } from 'ipld-explorer-components'
 import appIdle from './app-idle'
 import nodeBandwidthChartBundle from './node-bandwidth-chart'
@@ -27,22 +27,7 @@ export default composeBundles(
     cacheFn: bundleCache.set
   }),
   appIdle({ idleTimeout: 5000 }),
-  ipfsBundle({
-    tryWindow: false,
-    ipfsConnectionTest: async (ipfs) => {
-      // ipfs connection is working if can we fetch the bw stats.
-      // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
-      try {
-        await ipfs.stats.bw()
-      } catch (err) {
-        if (!/bandwidth reporter disabled in config/.test(err)) {
-          throw err
-        }
-      }
-
-      return true
-    }
-  }),
+  ipfsProvider,
   identityBundle,
   routesBundle,
   redirectsBundle,
