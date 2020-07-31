@@ -50,7 +50,7 @@ class NodeInfoAdvanced extends React.Component {
                 ? (
                   <div className="flex items-center">
                     <Address value={ipfsApiAddress} />
-                    <a className='ml2 link blue' href="#/settings#api">Edit</a>
+                    <a className='ml2 link blue sans-serif fw6' href="#/settings#api">{t('apiEdit')}</a>
                   </div>)
                 : ipfsApiAddress
             } />

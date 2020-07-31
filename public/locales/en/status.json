@@ -7,6 +7,7 @@
   "peerId": "Peer ID",
   "gateway": "Gateway",
   "api": "API",
+  "apiEdit": "Edit",
   "version": "Version",
   "advanced": "Advanced",
   "publicKey": "Public key",
