@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
+import classNames from 'classnames'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
@@ -107,7 +108,15 @@ class ApiAddressForm extends React.Component {
   }
 }
 
+const TABS = {
+  UNIX: 'unix',
+  POWERSHELL: 'windowsPS',
+  WINDOWS: 'windowsCMD'
+}
+
 const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIpfsApiAddress }) => {
+  const [activeTab, setActiveTab] = useState(TABS.UNIX)
+
   if (connected) {
     return (
       <div>
@@ -149,23 +158,35 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
             </Trans>
             <div className='br1 overflow-hidden'>
               <div className='f7 mb0 sans-serif ttu tracked charcoal pv1 pl2 bg-black-20 flex items-center'>
-                <div id='unix-mac' className='pointer mr3 fw7'>Unix & MacOS</div>
-                <div id='windows-powershell' className='pointer mr3'>Windows Powershell</div>
-                <div id='windows-cmd' className='pointer'>Windows CMD</div>
+                <button onClick={() => setActiveTab(TABS.UNIX)} className={classNames('pointer mr3', activeTab === TABS.UNIX && 'fw7')}>
+                Unix & MacOS
+                </button>
+                <button onClick={() => setActiveTab(TABS.POWERSHELL)} className={classNames('pointer mr3', activeTab === TABS.POWERSHELL && 'fw7')}>
+                  Windows Powershell
+                </button>
+                <button onClick={() => setActiveTab(TABS.WINDOWS)} className={classNames('pointer', activeTab === TABS.WINDOWS && 'fw7')}>
+                  Windows CMD
+                </button>
               </div>
               <div className='bg-black-70 snow pa2 f7 lh-copy monospace nowrap overflow-x-auto'>
-                <div id='unix-mac-code'>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
-                </div>
-                <div id='windows-powershell-code'>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `\\"${origin}\\", `}\"{defaultDomains.join('\\", \\"')}\"]'</code>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\"]'</code>
-                </div>
-                <div id='windows-cmd-code'>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[{addOrigin && `"""${origin}""", `}"""{defaultDomains.join('""", """')}"""]"</code>
-                  <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "["""PUT""", """POST"""]"</code>
-                </div>
+                { activeTab === TABS.UNIX && (
+                  <div>
+                    <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `"${origin}", `}"{defaultDomains.join('", "')}"]'</code>
+                    <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'</code>
+                  </div>
+                )}
+                { activeTab === TABS.POWERSHELL && (
+                  <div>
+                    <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '[{addOrigin && `\\"${origin}\\", `}\"{defaultDomains.join('\\", \\"')}\"]'</code>
+                    <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '[\"PUT\", \"POST\"]'</code>
+                  </div>
+                )}
+                { activeTab === TABS.WINDOWS && (
+                  <div>
+                    <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[{addOrigin && `"""${origin}""", `}"""{defaultDomains.join('""", """')}"""]"</code>
+                    <code className='db'><b className='no-select'>$ </b>ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "["""PUT""", """POST"""]"</code>
+                  </div>
+                )}
               </div>
             </div>
           </div>
