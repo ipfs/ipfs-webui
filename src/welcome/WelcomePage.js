@@ -111,14 +111,14 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
               <li className='mb3 mt4'>Is your IPFS API configured to allow <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
             </Trans>
             <div className='br1 overflow-hidden'>
-              <div className='f7 mb0 sans-serif ttu tracked charcoal pv1 pl2 bg-black-20 flex items-center'>
-                <button onClick={() => setActiveTab(TABS.UNIX)} className={classNames('pointer mr3', activeTab === TABS.UNIX && 'fw7')}>
+              <div className='f7 mb0 sans-serif charcoal pv1 pl2 bg-black-20 flex items-center'>
+                <button onClick={() => setActiveTab(TABS.UNIX)} className={classNames('pointer mr3 ttu tracked', activeTab === TABS.UNIX && 'fw7')}>
                 Unix & MacOS
                 </button>
-                <button onClick={() => setActiveTab(TABS.POWERSHELL)} className={classNames('pointer mr3', activeTab === TABS.POWERSHELL && 'fw7')}>
+                <button onClick={() => setActiveTab(TABS.POWERSHELL)} className={classNames('pointer mr3 ttu tracked', activeTab === TABS.POWERSHELL && 'fw7')}>
                   Windows Powershell
                 </button>
-                <button onClick={() => setActiveTab(TABS.WINDOWS)} className={classNames('pointer', activeTab === TABS.WINDOWS && 'fw7')}>
+                <button onClick={() => setActiveTab(TABS.WINDOWS)} className={classNames('pointer ttu tracked', activeTab === TABS.WINDOWS && 'fw7')}>
                   Windows CMD
                 </button>
               </div>
