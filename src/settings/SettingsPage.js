@@ -42,8 +42,14 @@ export const SettingsPage = ({
         <Title>{t('analytics')}</Title>
         <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
       </div>
+    </Box>
 
-      <div className='lh-copy charcoal mt4' id="api">
+    <Box className='mb3 pa4'>
+      <div className='lh-copy charcoal' id="api">
+        <Title>{t('api')}</Title>
+        <Trans i18nKey='apiDescription' t={t}>
+          <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here to update your config file.</p>
+        </Trans>
         <ApiAddressForm/>
       </div>
     </Box>
@@ -175,7 +181,7 @@ const SettingsInfo = ({ t, isIpfsConnected, isConfigBlocked, hasExternalChanges,
     )
   }
   return (
-    <p className='ma0 mr2 lh-copy charcoal f6'>
+    <p className='ma0 mr2 lh-copy charcoal f5'>
       {t('ipfsConfigDescription')} <a href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md' rel='noopener noreferrer' target='_blank' className='link blue'>{t('ipfsConfigHelp')}</a>
     </p>
   )
