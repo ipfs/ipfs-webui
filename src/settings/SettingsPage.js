@@ -13,6 +13,7 @@ import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
+import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import JsonEditor from './editor/JsonEditor'
 import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
@@ -40,6 +41,10 @@ export const SettingsPage = ({
       <div className='joyride-settings-analytics'>
         <Title>{t('analytics')}</Title>
         <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
+      </div>
+
+      <div className='lh-copy charcoal mt4' id="api">
+        <ApiAddressForm/>
       </div>
     </Box>
 

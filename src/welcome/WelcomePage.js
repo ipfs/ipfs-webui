@@ -3,15 +3,15 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
 import classNames from 'classnames'
+import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import Box from '../components/box/Box'
-import Button from '../components/button/Button'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
 import Shell from '../components/shell/Shell.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 import GlyphTick from '../icons/GlyphTick'
 import GlyphAttention from '../icons/GlyphAttention'
 
-const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, ipfsApiAddress }) => {
+const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady }) => {
   if (!ipfsInitFailed && !ipfsReady) {
     return <ComponentLoader pastDelay />
   }
@@ -58,54 +58,8 @@ const WelcomePage = ({ t, doUpdateIpfsApiAddress, apiUrl, ipfsInitFailed, ipfsCo
           <AboutIpfs />
         </div>
       </div>
-      <div className='lh-copy charcoal mt3'>
-        <Box>
-          <ApiAddressForm t={t} defaultValue={ipfsApiAddress || ''} updateAddress={doUpdateIpfsApiAddress} />
-        </Box>
-      </div>
     </div>
   )
-}
-
-class ApiAddressForm extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = { value: props.defaultValue }
-  }
-
-  onChange = (event) => {
-    const val = event.target.value
-    this.setState({ value: val })
-  }
-
-  onKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      this.onSubmit(event)
-    }
-  }
-
-  onSubmit = async (event) => {
-    event.preventDefault()
-    this.props.updateAddress(this.state.value)
-  }
-
-  render () {
-    const { t } = this.props
-    return (
-      <form onSubmit={this.onSubmit}>
-        <label htmlFor='api-address' className='db f7 mb2 ttu tracked charcoal pl1'>{t('apiAddressForm.apiLabel')}</label>
-        <input id='api-address'
-          type='text'
-          className='w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 focus-outline'
-          onChange={this.onChange}
-          onKeyPress={this.onKeyPress}
-          value={this.state.value} />
-        <div className='tr'>
-          <Button className="tc">{t('apiAddressForm.submitButton')}</Button>
-        </div>
-      </form>
-    )
-  }
 }
 
 const TABS = {
@@ -204,11 +158,9 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
 }
 
 export default connect(
-  'doUpdateIpfsApiAddress',
   'selectIpfsInitFailed',
   'selectIpfsConnected',
   'selectIpfsReady',
-  'selectIpfsApiAddress',
   'selectApiUrl',
   withTranslation('welcome')(WelcomePage)
 )

@@ -17,10 +17,11 @@ export default createRouteBundle({
   '/ipns*': FilesPage,
   '/pins*': FilesPage,
   '/peers': PeersPage,
-  '/settings': SettingsPage,
   '/settings/analytics': AnalyticsPage,
+  '/settings*': SettingsPage,
   '/welcome': WelcomePage,
   '/blank': BlankPage,
+  '/status*': StatusPage,
   '/': StatusPage,
   '': StatusPage
 }, { routeInfoSelector: 'selectHash' })
