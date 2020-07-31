@@ -28,8 +28,8 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady }) =>
           <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t} />
         </Box>
       </div>
-      <div className='flex mt3'>
-        <div className='mr3 lh-copy mid-gray w-50'>
+      <div className='flex-ns mt3'>
+        <div className='mr3-ns lh-copy mid-gray w-50-ns'>
           <Box>
             <h1 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('welcomeInfo.header')}</h1>
             <ul className='pl3'>
@@ -54,7 +54,7 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady }) =>
             </ul>
           </Box>
         </div>
-        <div className='lh-copy dn db-l mid-gray w-50'>
+        <div className='lh-copy mid-gray w-50-ns mt3 mt0-ns'>
           <AboutIpfs />
         </div>
       </div>
@@ -74,7 +74,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
   if (connected) {
     return (
       <div>
-        <div className='flex items-center'>
+        <div className='flex flex-wrap items-center'>
           <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
           <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
         </div>
@@ -89,7 +89,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
 
   return (
     <div>
-      <div className='flex items-center'>
+      <div className='flex flex-wrap items-center'>
         <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
         <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
       </div>
@@ -111,7 +111,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
               <li className='mb3 mt4'>Is your IPFS API configured to allow <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
             </Trans>
             <div className='br1 overflow-hidden'>
-              <div className='f7 mb0 sans-serif charcoal pv1 pl2 bg-black-20 flex items-center'>
+              <div className='f7 mb0 sans-serif charcoal pv1 pl2 bg-black-20 flex items-center overflow-x-auto'>
                 <button onClick={() => setActiveTab(TABS.UNIX)} className={classNames('pointer mr3 ttu tracked', activeTab === TABS.UNIX && 'fw7')}>
                 Unix & MacOS
                 </button>
