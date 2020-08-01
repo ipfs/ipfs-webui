@@ -15,7 +15,8 @@
   },
   "actions": {
     "edit": "Change",
-    "close": "Close"
+    "close": "Close",
+    "copyCommand": "Copy"
   },
   "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here to update your config file.</0>",
   "fetchingSettings": "Fetching settings...",

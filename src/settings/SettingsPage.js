@@ -17,6 +17,10 @@ import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import JsonEditor from './editor/JsonEditor'
 import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
+import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
+import Checkbox from '../components/checkbox/Checkbox'
+import CopyIcon from '../icons/CopyIcon'
+import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
@@ -25,7 +29,7 @@ export const SettingsPage = ({
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
-  toursEnabled, handleJoyrideCallback
+  toursEnabled, handleJoyrideCallback, isEnabled, doToggleCliTutorMode, command, downloadSettingsConfig
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
@@ -56,6 +60,26 @@ export const SettingsPage = ({
 
     <Experiments t={t} />
 
+    <Box className='mb3 pa4'>
+      <div className='mb4'>
+        <Title>{t('CLI TUTOR MODE')}</Title>
+        <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isEnabled}
+          label={<span className='fw5 f6'>{t('Enable command-line interface (CLI) tutor mode')}</span>}/>
+        <div className='f6 charcoal lh-copy mw7'>
+          {
+            t('Enable this option to display')
+          }
+          <CopyIcon
+            className='dib fill-current-color ph2 glow o-80'
+            style={{ height: '28px', transform: 'scale(1.3)', verticalAlign: 'bottom', color: 'dodgerblue' }}/>
+          {
+            t(`next to common IPFS commands. Clicking an icon copies
+          that command's code to your clipboard so you can paste it into IPFS command line interface in your terminal.`)
+          }
+        </div>
+      </div>
+    </Box>
+
     <Box className='mb3 pa4 joyride-settings-config'>
       <Title>{t('config')}</Title>
       <div className='flex pb3'>
@@ -75,6 +99,7 @@ export const SettingsPage = ({
         </div>
         { config ? (
           <div className='flex flex-column justify-center flex-row-l items-center-l'>
+            <CliTutorMode showIcon={true} config={config} t={t} command={command}/>
             <Button
               minWidth={100}
               height={40}
@@ -257,11 +282,16 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled, handleJoyrideCallback } = this.props
+    const {
+      t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving,
+      configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled,
+      handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode
+    } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
     const isLoading = configIsLoading || (!editableConfig && !configLastError)
+
     return (
       <SettingsPage
         t={t}
@@ -284,7 +314,11 @@ export class SettingsPageContainer extends React.Component {
         analyticsEnabled={analyticsEnabled}
         doToggleAnalytics={doToggleAnalytics}
         toursEnabled={toursEnabled}
-        handleJoyrideCallback={handleJoyrideCallback} />
+        handleJoyrideCallback={handleJoyrideCallback}
+        doToggleCliTutorMode={doToggleCliTutorMode}
+        isEnabled={isCliTutorModeEnabled}
+        command={cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]('settings.json')}
+      />
     )
   }
 }
@@ -305,5 +339,7 @@ export default connect(
   'selectAnalyticsEnabled',
   'doToggleAnalytics',
   'doSaveConfig',
+  'selectIsCliTutorModeEnabled',
+  'doToggleCliTutorMode',
   withTour(TranslatedSettingsPage)
 )

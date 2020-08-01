@@ -36,7 +36,8 @@
     "save": "Save",
     "pin": "Pin",
     "unpin": "Unpin",
-    "unselectAll": "Unselect all"
+    "unselectAll": "Unselect all",
+    "copyCommand": "Copy"
   },
   "shareModal": {
     "title": "Share files",
