@@ -50,11 +50,13 @@ export const cliCmdKeys = {
   ADD_FILE: 'addNewFile',
   ADD_DIRECTORY: 'addNewDirectory',
   CREATE_NEW_DIRECTORY: 'createNewDirectory',
-  FROM_IPFS: 'fromIpfs'
+  FROM_IPFS: 'fromIpfs',
+  ADD_NEW_PEER: 'addNewPeer',
+  UPDATE_API_SERVER_ADDRESS: 'updateApiServerAddress'
 }
 
 export const cliCommandList = {
-  [cliCmdKeys.UPDATE_IPFS_CONFIG]: (file) => `ipfs config replace ${file}`,
+  [cliCmdKeys.UPDATE_IPFS_CONFIG]: () => 'ipfs config replace <path-to-settings.json>',
   [cliCmdKeys.DELETE_FILE_FROM_IPFS]: (hash) => `ipfs files rm ${hash}`,
   [cliCmdKeys.DOWNLOAD_OBJECT_COMMAND]: (hash) => `ipfs get ${hash}`,
   [cliCmdKeys.PIN_OBJECT]: (hash, op) => `ipfs pin ${op} ${hash}`,
@@ -62,5 +64,7 @@ export const cliCommandList = {
   [cliCmdKeys.ADD_FILE]: () => 'ipfs add <file-name>',
   [cliCmdKeys.ADD_DIRECTORY]: () => 'ipfs add -r <folder-name>',
   [cliCmdKeys.CREATE_NEW_DIRECTORY]: () => 'ipfs add -r <folder-name>',
-  [cliCmdKeys.FROM_IPFS]: () => 'ipfs cp <source-cid> <dest-cid>'
+  [cliCmdKeys.FROM_IPFS]: () => 'ipfs cp <source-cid> <dest-cid>',
+  [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-address>',
+  [cliCmdKeys.UPDATE_API_SERVER_ADDRESS]: () => 'ipfs config --json API.Addresses.API <custom-api-address>'
 }

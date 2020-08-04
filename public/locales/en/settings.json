@@ -98,5 +98,9 @@
     "issueUrl": "Open an issue",
     "feedbackUrl": "💌Leave feedback",
     "readMoreUrl": "Read More"
+  },
+  "cli": {
+    "description": "Copy the following and paste it into your terminal application to do this task in IPFS via the command line.",
+    "extraNotes": "Note: Use the download icon next to copy button to download the ipfs config to your computer."
   }
 }

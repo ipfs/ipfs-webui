@@ -5,14 +5,14 @@ import CopyIcon from '../../icons/CopyIcon'
 export const Option = ({ children, onClick, className = '', isCliTutorModeEnabled, onCliTutorMode, ...props }) => (
   isCliTutorModeEnabled
     ? <div className='flex items-center justify-between'>
-      <button role="menuitem" className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>
+      <button role='menuitem' className={`bg-animate hover-bg-near-white pa2 pointer flex items-center flex-grow-1 ${className}`} onClick={onClick} {...props}>
         {children}
       </button>
-      <a {...props} className={`bg-animate hover-bg-near-white pa2 pointer flex items-center  ${className}`}>
-        <CopyIcon onClick={onCliTutorMode} className='dib fill-current-color ph2 glow o-80 pointer'
-          style={{ height: '28px', transform: 'scale(1.5)', verticalAlign: 'bottom', color: 'dodgerblue' }}
+      <button {...props} className={`bg-animate hover-bg-near-white pa2 pointer flex items-center  ${className}`}>
+        <CopyIcon {...props} onClick={onCliTutorMode} className='dib fill-current-color ph2 glow o-80 pointer'
+          style={{ height: '28px', transform: 'scale(1.3)', color: 'dodgerblue' }}
         />
-      </a>
+      </button>
     </div>
     : <button role="menuitem" className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>
       {children}

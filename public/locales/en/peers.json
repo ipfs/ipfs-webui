@@ -39,5 +39,8 @@
     "edit": "Change",
     "close": "Close",
     "copyCommand": "Copy"
+  },
+  "cli": {
+    "description": "Copy the following and paste it into your terminal application to do this task in IPFS via the command line."
   }
 }

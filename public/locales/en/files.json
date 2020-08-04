@@ -121,5 +121,8 @@
   "more": "More",
   "files": "Files",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead.",
-  "sortBy": "Sort items by {name}"
+  "sortBy": "Sort items by {name}",
+  "cli": {
+    "description": "Copy the following and paste it into your terminal application to do this task in IPFS via the command line."
+  }
 }

@@ -17,6 +17,7 @@ import ComponentLoader from '../loader/ComponentLoader.js'
 import GlyphTick from '../icons/GlyphTick'
 import GlyphAttention from '../icons/GlyphAttention'
 import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
+import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
 
 const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
   if (!ipfsInitFailed && !ipfsReady) {

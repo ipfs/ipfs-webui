@@ -18,7 +18,12 @@ const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...p
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
       <ModalBody icon={CopyIcon}>
-        <p className='charcoal w-80 center'>{t('Copy the following and paste it into your terminal application to do this task in IPFS via the command line.')}</p>
+        <p className='charcoal w-80 center'>
+          {t('cli.description')}
+        </p>
+        <p className='charcoal-muted w-90 center'>
+          {command.includes('ipfs config replace') ? t('cli.extraNotes') : ''}
+        </p>
         <div>
           <Shell title="Shell">
             <code className='db'><b className='no-select'>$ </b>{command}</code>
@@ -28,21 +33,18 @@ const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...p
 
       <ModalActions>
         <div>
-          <Button className='ma2' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
+          <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
         </div>
         <div className='flex items-center'>
           {
             command && command.includes('ipfs config replace')
-              ? <span onClick={downloadConfig}>
-                <StrokeDownload
-                  style={{ height: '28px', transform: 'scale(1.5)', verticalAlign: 'bottom', color: 'dodgerblue' }}
-                  className='dib fill-current-color ph2 glow o-80 pointer'
-                />
-              </span> : <div />
+              ? <StrokeDownload
+                onClick={downloadConfig}
+                style={{ height: '28px', transform: 'scale(1.5)', verticalAlign: 'bottom', color: 'dodgerblue' }}
+                className='dib fill-current-color ph2 glow o-80 pointer'
+              /> : <div />
           }
-          <Button
-            className='mt2 mt0-l ml2-l pointer'
-            onClick={() => onClickCopyToClipboard(command)}>
+          <Button className='ma2 tc' onClick={() => onClickCopyToClipboard(command)}>
             {t('actions.copyCommand')}
           </Button>
         </div>

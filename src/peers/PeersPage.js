@@ -13,6 +13,7 @@ import WorldMap from './WorldMap/WorldMap'
 import PeersTable from './PeersTable/PeersTable'
 import AddConnection from './AddConnection/AddConnection'
 import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
+import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
 
 const PeersPage = ({ t, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled }) => (
   <div data-id='PeersPage' className='overflow-hidden'>
@@ -21,7 +22,7 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabl
     </Helmet>
 
     <div className='flex justify-end items-center mb3'>
-      <CliTutorMode showIcon={true} command={'ipfs swarm connect <peer-address>'} t={t}/>
+      <CliTutorMode showIcon={true} command={cliCommandList[cliCmdKeys.ADD_NEW_PEER]()} t={t}/>
       <AddConnection />
     </div>
 

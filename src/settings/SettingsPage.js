@@ -29,7 +29,7 @@ export const SettingsPage = ({
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
-  toursEnabled, handleJoyrideCallback, isEnabled, doToggleCliTutorMode, command, downloadSettingsConfig
+  toursEnabled, handleJoyrideCallback, isEnabled, doToggleCliTutorMode, command
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
@@ -317,7 +317,7 @@ export class SettingsPageContainer extends React.Component {
         handleJoyrideCallback={handleJoyrideCallback}
         doToggleCliTutorMode={doToggleCliTutorMode}
         isEnabled={isCliTutorModeEnabled}
-        command={cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]('settings.json')}
+        command={cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]()}
       />
     )
   }
