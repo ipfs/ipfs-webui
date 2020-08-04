@@ -18,7 +18,7 @@ const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...p
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
       <ModalBody icon={CopyIcon}>
-        <p className='charcoal w-80 center'>{t('copy the command to use it with ipfs command line interface')}</p>
+        <p className='charcoal w-80 center'>{t('Copy the following and paste it into your terminal application to do this task in IPFS via the command line.')}</p>
         <div>
           <Shell title="terminal shell">
             <code className='db'><b className='no-select'>$ </b>{command}</code>
