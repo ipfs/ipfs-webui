@@ -6,7 +6,6 @@ import { randomInt } from '../../test/helpers/random'
 import sleep from '../../test/helpers/sleep'
 import { fakeBandwidth } from '../../test/helpers/bandwidth'
 import { setTimeout } from 'window-or-global'
-import { resolve } from 'multiaddr'
 
 async function fakePeer () {
   const peerId = (await fakeCid()).toBaseEncodedString('base58btc')

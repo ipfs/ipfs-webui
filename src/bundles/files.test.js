@@ -16,7 +16,7 @@ function createMockIpfsBundle (ipfs) {
 }
 const createMockIpfs = () => {
   return {
-    add: jest.fn((files) => iterate(files.map((file) => ({
+    addAll: jest.fn((files) => iterate(files.map((file) => ({
       path: file.path,
       hash: 'QmHash',
       size: file.size
@@ -52,8 +52,8 @@ it('write single file to root', async () => {
 
   await store.doFilesWrite(input, '/')
 
-  expect(ipfs.add.mock.calls.length).toBe(1)
-  expect(ipfs.add.mock.calls[0][0][0]).toBe(input[0])
+  expect(ipfs.addAll.mock.calls.length).toBe(1)
+  expect(ipfs.addAll.mock.calls[0][0][0]).toBe(input[0])
   expect(ipfs.files.cp.mock.calls.length).toBe(1)
   expect(ipfs.files.cp.mock.calls[0][0][0]).toBe('/ipfs/QmHash')
   expect(ipfs.files.cp.mock.calls[0][0][1]).toBe('/test.txt')
@@ -71,8 +71,8 @@ it('write single file to directory', async () => {
 
   await store.doFilesWrite(input, '/dir')
 
-  expect(ipfs.add.mock.calls.length).toBe(1)
-  expect(ipfs.add.mock.calls[0][0][0]).toBe(input[0])
+  expect(ipfs.addAll.mock.calls.length).toBe(1)
+  expect(ipfs.addAll.mock.calls[0][0][0]).toBe(input[0])
   expect(ipfs.files.cp.mock.calls.length).toBe(1)
   expect(ipfs.files.cp.mock.calls[0][0][0]).toBe('/ipfs/QmHash')
   expect(ipfs.files.cp.mock.calls[0][0][1]).toBe('/dir/test.txt')
@@ -95,9 +95,9 @@ it('write multiple file', async () => {
 
   await store.doFilesWrite(input, '/')
 
-  expect(ipfs.add.mock.calls.length).toBe(1)
-  expect(ipfs.add.mock.calls[0][0][0]).toBe(input[0])
-  expect(ipfs.add.mock.calls[0][0][1]).toBe(input[1])
+  expect(ipfs.addAll.mock.calls.length).toBe(1)
+  expect(ipfs.addAll.mock.calls[0][0][0]).toBe(input[0])
+  expect(ipfs.addAll.mock.calls[0][0][1]).toBe(input[1])
   expect(ipfs.files.cp.mock.calls.length).toBe(2)
   expect(ipfs.files.cp.mock.calls[0][0][0]).toBe('/ipfs/QmHash')
   expect(ipfs.files.cp.mock.calls[0][0][1]).toBe('/wow.txt')
@@ -127,9 +127,9 @@ it('write multiple file with ignored file', async () => {
 
   await store.doFilesWrite(input, '/')
 
-  expect(ipfs.add.mock.calls.length).toBe(1)
-  expect(ipfs.add.mock.calls[0][0][0]).toBe(input[0])
-  expect(ipfs.add.mock.calls[0][0][1]).toBe(input[2])
+  expect(ipfs.addAll.mock.calls.length).toBe(1)
+  expect(ipfs.addAll.mock.calls[0][0][0]).toBe(input[0])
+  expect(ipfs.addAll.mock.calls[0][0][1]).toBe(input[2])
   expect(ipfs.files.cp.mock.calls.length).toBe(2)
   expect(ipfs.files.cp.mock.calls[0][0][0]).toBe('/ipfs/QmHash')
   expect(ipfs.files.cp.mock.calls[0][0][1]).toBe('/wow.txt')

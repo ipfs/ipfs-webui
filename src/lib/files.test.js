@@ -1,13 +1,12 @@
 /* global it, expect */
 import { filesToStreams } from './files'
-import { isSource } from 'is-pull-stream'
 
 function expectRightFormat (output) {
   expect(Array.isArray(output)).toBe(true)
 
   for (const stream of output) {
     expect(Object.keys(stream).length).toBe(3)
-    expect(isSource(stream.content)).toBe(true)
+    expect(stream.content instanceof Blob).toBe(true)
     expect(stream.path).toBeTruthy()
     expect(stream.size).not.toBeNaN()
   }
