@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "target": "esnext",
+    "moduleResolution": "node",
+    "module": "ES6",
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true,
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "@types",
+      "node_modules/@types"
+    ]
+  },
+  "exclude": [
+    "./src/test"
+  ],
+  "include": [
+    "@types",
+    "src/bundles/files/actions.js"
+  ],
+  "compileOnSave": false
+}

@@ -2,6 +2,10 @@
 import { composeBundlesRaw } from 'redux-bundler'
 import createFilesBundle from './files'
 
+const iterate = async function * (items) {
+  yield * items
+}
+
 function createMockIpfsBundle (ipfs) {
   return {
     name: 'ipfs',
@@ -12,11 +16,11 @@ function createMockIpfsBundle (ipfs) {
 }
 const createMockIpfs = () => {
   return {
-    add: jest.fn((files) => files.map((file) => ({
+    add: jest.fn((files) => iterate(files.map((file) => ({
       path: file.path,
       hash: 'QmHash',
       size: file.size
-    }))),
+    })))),
     files: {
       cp: jest.fn()
     }

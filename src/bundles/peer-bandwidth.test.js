@@ -5,6 +5,8 @@ import { fakeCid } from '../../test/helpers/cid'
 import { randomInt } from '../../test/helpers/random'
 import sleep from '../../test/helpers/sleep'
 import { fakeBandwidth } from '../../test/helpers/bandwidth'
+import { setTimeout } from 'window-or-global'
+import { resolve } from 'multiaddr'
 
 async function fakePeer () {
   const peerId = (await fakeCid()).toBaseEncodedString('base58btc')
@@ -43,11 +45,10 @@ const createMockIpfs = (opts) => {
 
   return {
     stats: {
-      bw: () => new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(fakeBandwidth())
-        }, randomInt(opts.minLatency, opts.maxLatency))
-      })
+      bw: async function * () {
+        await new Promise(resolve => setTimeout(resolve, randomInt(opts.minLatency, opts.maxLatency)))
+        yield * fakeBandwidth()
+      }
     }
   }
 }

@@ -13,12 +13,13 @@ import { IGNORED_FILES, ACTIONS } from './consts'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('../../lib/files').FileStream} FileStream
  * @typedef {import('ipfs').Pin} Pin
  */
 
 /**
  * @typedef {Object} FileStat
- * @property {number|null} size
+ * @property {number} size
  * @property {'directory'|'file'|'unknown'} type
  * @property {CID} cid
  * @property {string} name
@@ -31,7 +32,7 @@ import { IGNORED_FILES, ACTIONS } from './consts'
  * @param {CID} stat.cid
  * @param {string} stat.path
  * @param {number} [stat.cumulativeSize]
- * @param {number} [stat.size]
+ * @param {number} stat.size
  * @param {string|void} [stat.name]
  * @param {boolean|void} [stat.pinned]
  * @param {boolean|void} [stat.isParent]
@@ -39,7 +40,7 @@ import { IGNORED_FILES, ACTIONS } from './consts'
  * @returns {FileStat}
  */
 const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, isParent }, prefix = '/ipfs') => ({
-  size: cumulativeSize || size || null,
+  size: cumulativeSize || size || -1,
   type: (type === 'dir' || type === 'directory') ? 'directory' : (type === 'unknown') ? 'unknown' : 'file',
   cid,
   name: name || path.split('/').pop() || cid.toString(),
@@ -48,6 +49,10 @@ const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, is
   isParent: isParent
 })
 
+/**
+ * @param {string} path
+ * @returns {string}
+ */
 // TODO: use sth else
 const realMfsPath = (path) => {
   if (path.startsWith('/files')) {
@@ -62,7 +67,7 @@ const realMfsPath = (path) => {
  * @property {string} path
  * @property {'file'|'directory'|'unknown'} type
  * @property {CID} cid
- * @property {number|null} size
+ * @property {number} size
  *
  * @param {IPFSService} ipfs
  * @param {string|CID} cidOrPath
@@ -87,7 +92,7 @@ const stat = async (ipfs, cidOrPath) => {
       path: hashOrPath,
       cid: new CID(cid),
       type: 'unknown',
-      size: null
+      size: -1
     }
   }
 }
@@ -127,10 +132,10 @@ const getPins = async function * (ipfs) {
  * @property {FileStat[]} content
  *
  * @param {IPFSService} ipfs
- * @param {*} id
+ * @param {string} _id
  * @param {*} options
  */
-const fetchFilesFX = async (ipfs, id, { store }) => {
+const fetchFilesFX = async (ipfs, _id, { store }) => {
   let { path, realPath, isMfs, isPins, isRoot } = store.selectFilesPathInfo()
 
   if (isRoot && !isMfs && !isPins) {
@@ -194,9 +199,11 @@ const fetchFilesFX = async (ipfs, id, { store }) => {
     const parentPath = dirname(path)
     const parentInfo = infoFromPath(parentPath, false)
 
-    if (parentInfo.isMfs || !parentInfo.isRoot) {
-      if (parentInfo.realPath.startsWith('/ipns')) {
-        parentInfo.realPath = await ipfs.name.resolve(parentInfo.realPath)
+    if (parentInfo && (parentInfo.isMfs || !parentInfo.isRoot)) {
+      const realPath = parentInfo.realPath
+
+      if (realPath && realPath.startsWith('/ipns')) {
+        parentInfo.realPath = await last(ipfs.name.resolve(parentInfo.realPath))
       }
 
       parent = fileFromStats({
@@ -220,142 +227,285 @@ const fetchFilesFX = async (ipfs, id, { store }) => {
 
 const fetchFiles = make(ACTIONS.FETCH, fetchFilesFX)
 
+/**
+ *
+ * @typedef {import('./utils').Info} Info
+ * @typedef {Object} Store
+ * @property {() => boolean} selectIpfsReady
+ * @property {() => boolean} selectIpfsConnected
+ * @property {() => boolean} selectFilesIsFetching
+ * @property {() => Info} selectFilesPathInfo
+ * @property {() => string} selectApiUrl
+ * @property {() => string} selectGatewayUrl
+ * @property {() => void|{path:string}} selectFiles
+ * @property {() => void} doFilesFetch
+ * @property {(hash:string) => void} doUpdateHash
+ * @property {(event:Object) => void} dispatch
+ * @property {Store} store
+ */
 export default () => ({
-  doPinsFetch: make(ACTIONS.PIN_LIST, async (ipfs) => {
-    const cids = await all(getPinCIDs(ipfs))
-    return { pins: cids }
-  }),
-
-  doFilesFetch: () => async ({ store, ...args }) => {
-    const isReady = store.selectIpfsReady()
-    const isConnected = store.selectIpfsConnected()
-    const isFetching = store.selectFilesIsFetching()
-    const info = store.selectFilesPathInfo()
-
-    if (isReady && isConnected && !isFetching && info) {
-      fetchFiles()({ store, ...args })
+  doPinsFetch: make(
+    ACTIONS.PIN_LIST,
+    /**
+     * @param {IPFSService} ipfs
+     */
+    async (ipfs) => {
+      const cids = await all(getPinCIDs(ipfs))
+      return { pins: cids }
     }
-  },
+  ),
 
-  doFilesWrite: make(ACTIONS.WRITE, async (ipfs, files, root, id, { dispatch }) => {
-    files = files.filter(f => !IGNORED_FILES.includes(basename(f.path)))
-    const totalSize = files.reduce((prev, { size }) => prev + size, 0)
+  doFilesFetch: () =>
+    /**
+     * @param {Object} options
+     * @param {Store} options.store
+     */
+    async ({ store, ...args }) => {
+      const isReady = store.selectIpfsReady()
+      const isConnected = store.selectIpfsConnected()
+      const isFetching = store.selectFilesIsFetching()
+      const info = store.selectFilesPathInfo()
 
-    // Normalise all paths to be relative. Dropped files come as absolute,
-    // those added by the file input come as relative paths, so normalise them.
-    files.forEach(s => {
-      if (s.path[0] === '/') {
-        s.path = s.path.slice(1)
+      if (isReady && isConnected && !isFetching && info) {
+        fetchFiles()({ store, ...args })
       }
-    })
+    },
 
-    const paths = files.map(f => ({ path: f.path, size: f.size }))
+  doFilesWrite: make(
+    ACTIONS.WRITE,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {FileStream[]} files
+     * @param {*} root
+     * @param {*} id
+     * @param {Store} store
+     */
+    async (ipfs, files, root, id, { dispatch }) => {
+      files = files.filter(f => !IGNORED_FILES.includes(basename(f.path)))
+      const totalSize = files.reduce((prev, { size }) => prev + size, 0)
 
-    const updateProgress = (sent) => {
-      dispatch({
-        type: 'FILES_WRITE_UPDATED',
-        payload: {
-          id,
-          paths,
-          progress: sent / totalSize * 100
+      // Normalise all paths to be relative. Dropped files come as absolute,
+      // those added by the file input come as relative paths, so normalise them.
+      files.forEach(s => {
+        if (s.path[0] === '/') {
+          s.path = s.path.slice(1)
         }
       })
-    }
 
-    updateProgress(0)
+      const paths = files.map(f => ({ path: f.path, size: f.size }))
 
-    let res = null
-    try {
-      res = await ipfs.add(files, {
-        pin: false,
-        wrapWithDirectory: false,
-        progress: updateProgress
-      })
-    } catch (error) {
-      console.error(error)
-      throw error
-    }
+      /**
+       * @param {number} sent
+       */
+      const updateProgress = (sent) => {
+        dispatch({
+          type: 'FILES_WRITE_UPDATED',
+          payload: {
+            id,
+            paths,
+            progress: sent / totalSize * 100
+          }
+        })
+      }
 
-    const numberOfFiles = files.length
-    const numberOfDirs = countDirs(files)
-    const expectedResponseCount = numberOfFiles + numberOfDirs
+      updateProgress(0)
 
-    if (res.length !== expectedResponseCount) {
+      let res = null
+      try {
+        res = await all(ipfs.addAll(files, {
+          pin: false,
+          wrapWithDirectory: false,
+          progress: updateProgress
+        }))
+      } catch (error) {
+        console.error(error)
+        throw error
+      }
+
+      const numberOfFiles = files.length
+      const numberOfDirs = countDirs(files)
+      const expectedResponseCount = numberOfFiles + numberOfDirs
+
+      if (res.length !== expectedResponseCount) {
       // See https://github.com/ipfs/js-ipfs-api/issues/797
-      throw Object.assign(new Error('API returned a partial response.'), { code: 'ERR_API_RESPONSE' })
-    }
+        throw Object.assign(new Error('API returned a partial response.'), { code: 'ERR_API_RESPONSE' })
+      }
 
-    for (const { path, cid } of res) {
+      for (const { path, cid } of res) {
       // Only go for direct children
-      if (path.indexOf('/') === -1 && path !== '') {
-        const src = `/ipfs/${cid}`
-        const dst = join(realMfsPath(root || '/files'), path)
+        if (path.indexOf('/') === -1 && path !== '') {
+          const src = `/ipfs/${cid}`
+          const dst = join(realMfsPath(root || '/files'), path)
 
-        try {
-          await ipfs.files.cp([src, dst])
-        } catch (err) {
-          throw Object.assign(new Error('Folder already exists.'), { code: 'ERR_FOLDER_EXISTS' })
+          try {
+            await ipfs.files.cp(src, dst)
+          } catch (err) {
+            throw Object.assign(new Error('Folder already exists.'), { code: 'ERR_FOLDER_EXISTS' })
+          }
         }
       }
+
+      updateProgress(totalSize)
     }
+  ),
 
-    updateProgress(totalSize)
-  }),
+  doFilesDelete: make(
+    ACTIONS.DELETE,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {string[]} files
+     */
+    (ipfs, files) => {
+      const promises = files.map(file => ipfs.files.rm(realMfsPath(file), { recursive: true }))
+      return Promise.all(promises)
+    }, { mfsOnly: true }
+  ),
 
-  doFilesDelete: make(ACTIONS.DELETE, (ipfs, files) => {
-    const promises = files.map(file => ipfs.files.rm(realMfsPath(file), { recursive: true }))
-    return Promise.all(promises)
-  }, { mfsOnly: true }),
+  doFilesAddPath: make(
+    ACTIONS.ADD_BY_PATH,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {string} root
+     * @param {string} src
+     */
+    (ipfs, root, src) => {
+      src = realMfsPath(src)
+      /** @type {string} */
+      const name = (src.split('/').pop())
+      const dst = realMfsPath(join(root, name))
+      const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
 
-  doFilesAddPath: make(ACTIONS.ADD_BY_PATH, (ipfs, root, src) => {
-    src = realMfsPath(src)
-    const name = src.split('/').pop()
-    const dst = realMfsPath(join(root, name))
-    const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
+      return ipfs.files.cp(srcPath, dst)
+    },
+    { mfsOnly: true }
+  ),
 
-    return ipfs.files.cp([srcPath, dst])
-  }, { mfsOnly: true }),
-
-  doFilesDownloadLink: make(ACTIONS.DOWNLOAD_LINK, async (ipfs, files, id, { store }) => {
-    const apiUrl = store.selectApiUrl()
-    const gatewayUrl = store.selectGatewayUrl()
-    return getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
-  }),
-
-  doFilesShareLink: make(ACTIONS.SHARE_LINK, async (ipfs, files) => getShareableLink(files, ipfs)),
-
-  doFilesMove: make(ACTIONS.MOVE, (ipfs, src, dst) => ipfs.files.mv([realMfsPath(src), realMfsPath(dst)]), { mfsOnly: true }),
-
-  doFilesCopy: make(ACTIONS.COPY, (ipfs, src, dst) => ipfs.files.cp([realMfsPath(src), realMfsPath(dst)]), { mfsOnly: true }),
-
-  doFilesMakeDir: make(ACTIONS.MAKE_DIR, (ipfs, path) => ipfs.files.mkdir(realMfsPath(path), { parents: true }), { mfsOnly: true }),
-
-  doFilesPin: make(ACTIONS.PIN_ADD, (ipfs, cid) => ipfs.pin.add(cid)),
-
-  doFilesUnpin: make(ACTIONS.PIN_REMOVE, (ipfs, cid) => ipfs.pin.rm(cid)),
-
-  doFilesDismissErrors: () => async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
-
-  doFilesNavigateTo: (path) => async ({ store }) => {
-    const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
-    const files = store.selectFiles()
-    const url = store.selectFilesPathInfo()
-
-    if (files && files.path === link && url) {
-      store.doFilesFetch()
-    } else {
-      store.doUpdateHash(`${link}`)
+  doFilesDownloadLink: make(
+    ACTIONS.DOWNLOAD_LINK,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {FileStat[]} files
+     * @param {string} _id
+     * @param {Store} store
+     */
+    async (ipfs, files, _id, { store }) => {
+      const apiUrl = store.selectApiUrl()
+      const gatewayUrl = store.selectGatewayUrl()
+      return getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
     }
-  },
+  ),
 
-  doFilesUpdateSorting: (by, asc) => async ({ dispatch }) => {
-    dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
-  },
+  doFilesShareLink: make(
+    ACTIONS.SHARE_LINK,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {FileStat[]} files
+     * @returns {Promise<string>}
+     */
+    async (ipfs, files) => getShareableLink(files, ipfs)
+  ),
 
-  doFilesClear: () => async ({ dispatch }) => dispatch({ type: 'FILES_CLEAR_ALL' }),
+  doFilesMove: make(
+    ACTIONS.MOVE,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {string} src
+     * @param {string} dst
+     */
+    (ipfs, src, dst) => ipfs.files.mv(realMfsPath(src), realMfsPath(dst)),
+    { mfsOnly: true }
+  ),
 
-  doFilesSizeGet: make(ACTIONS.FILES_SIZE_GET, async (ipfs) => {
-    const stat = await ipfs.files.stat('/')
-    return { size: stat.cumulativeSize }
-  })
+  doFilesCopy: make(
+    ACTIONS.COPY,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {string} src
+     * @param {string} dst
+     */
+    (ipfs, src, dst) => ipfs.files.cp(realMfsPath(src), realMfsPath(dst)),
+    { mfsOnly: true }
+  ),
+
+  doFilesMakeDir: make(
+    ACTIONS.MAKE_DIR,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {string} path
+     */
+    (ipfs, path) => ipfs.files.mkdir(realMfsPath(path), { parents: true }),
+    { mfsOnly: true }
+  ),
+
+  doFilesPin: make(
+    ACTIONS.PIN_ADD,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {CID} cid
+     */
+    (ipfs, cid) => ipfs.pin.add(cid)
+  ),
+
+  doFilesUnpin: make(
+    ACTIONS.PIN_REMOVE,
+    /**
+     * @param {IPFSService} ipfs
+     * @param {CID} cid
+     */
+    (ipfs, cid) => ipfs.pin.rm(cid)
+  ),
+
+  doFilesDismissErrors: () =>
+    /**
+     * @param {Store} store
+     */
+    async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
+
+  /**
+   * @param {string} path
+   */
+  doFilesNavigateTo: (path) =>
+    /**
+     * @param {Store} store
+     */
+    async ({ store }) => {
+      const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
+      const files = store.selectFiles()
+      const url = store.selectFilesPathInfo()
+
+      if (files && files.path === link && url) {
+        store.doFilesFetch()
+      } else {
+        store.doUpdateHash(`${link}`)
+      }
+    },
+
+  /**
+   * @param {import('./consts').SORTING} by
+   * @param {boolean} asc
+   */
+  doFilesUpdateSorting: (by, asc) =>
+    /**
+     * @param {Store} store
+     */
+    async ({ dispatch }) => {
+      dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
+    },
+
+  doFilesClear: () =>
+    /**
+     * @param {Store} store
+     */
+    async ({ dispatch }) => dispatch({ type: 'FILES_CLEAR_ALL' }),
+
+  doFilesSizeGet: make(
+    ACTIONS.FILES_SIZE_GET,
+    /**
+     * @param {IPFSService} ipfs
+     */
+    async (ipfs) => {
+      const stat = await ipfs.files.stat('/')
+      return { size: stat.cumulativeSize }
+    }
+  )
 })

@@ -1,11 +1,25 @@
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('../bundles/files/actions').FileStat} FileStat
+ * @typedef {import('cids')} CID
  */
 
 /**
- * @param {File[]} files
+ * @typedef {Object} FileExt
+ * @property {string} [filepath]
+ * @property {string} [webkitRelativePath]
+ *
+ * @typedef {FileExt &  File} ExtendedFile
+ *
+ * @typedef {Object} FileStream
+ * @property {string} path
+ * @property {Blob} content
+ * @property {number} size
+ *
+ * @param {ExtendedFile[]} files
+ * @returns {FileStream[]}
  */
-export async function filesToStreams (files) {
+export function filesToStreams (files) {
   const streams = []
 
   for (const file of files) {
@@ -19,6 +33,16 @@ export async function filesToStreams (files) {
   return streams
 }
 
+/**
+ * @typedef {Object} FileDownload
+ * @property {string} url
+ * @property {string} filename
+ *
+ * @param {FileStat} file
+ * @param {string} gatewayUrl
+ * @param {string} apiUrl
+ * @returns {Promise<FileDownload>}
+ */
 async function downloadSingle (file, gatewayUrl, apiUrl) {
   let url, filename
 
@@ -33,12 +57,18 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
   return { url, filename }
 }
 
+/**
+ * @param {FileStat[]} files
+ * @param {IPFSService} ipfs
+ * @returns {Promise<CID>}
+ */
 export async function makeCIDFromFiles (files, ipfs) {
-  let cid = await ipfs.object.new('unixfs-dir')
+  let cid = await ipfs.object.new({ template: 'unixfs-dir' })
 
   for (const file of files) {
     cid = await ipfs.object.patch.addLink(cid, {
       name: file.name,
+      // @ts-ignore - can this be `null` ?
       size: file.size,
       cid: file.cid
     })
@@ -47,6 +77,13 @@ export async function makeCIDFromFiles (files, ipfs) {
   return cid
 }
 
+/**
+ *
+ * @param {FileStat[]} files
+ * @param {string} apiUrl
+ * @param {IPFSService} ipfs
+ * @returns {Promise<FileDownload>}
+ */
 async function downloadMultiple (files, apiUrl, ipfs) {
   if (!apiUrl) {
     const e = new Error('api url undefined')
@@ -61,6 +98,14 @@ async function downloadMultiple (files, apiUrl, ipfs) {
   }
 }
 
+/**
+ *
+ * @param {FileStat[]} files
+ * @param {string} gatewayUrl
+ * @param {string} apiUrl
+ * @param {IPFSService} ipfs
+ * @returns {Promise<FileDownload>}
+ */
 export async function getDownloadLink (files, gatewayUrl, apiUrl, ipfs) {
   if (files.length === 1) {
     return downloadSingle(files[0], gatewayUrl, apiUrl)
@@ -69,6 +114,11 @@ export async function getDownloadLink (files, gatewayUrl, apiUrl, ipfs) {
   return downloadMultiple(files, apiUrl, ipfs)
 }
 
+/**
+ * @param {FileStat[]} files
+ * @param {IPFSService} ipfs
+ * @returns {Promise<string>}
+ */
 export async function getShareableLink (files, ipfs) {
   let cid
   let filename

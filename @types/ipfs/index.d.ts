@@ -1,80 +1,136 @@
 declare module "ipfs" {
   import CID from "cids"
   import Multiaddr from 'multiaddr'
+  import { Buffer } from "buffer"
 
-  interface IPFSService extends CoreService {
+  export interface IPFSService extends CoreService {
     pin: PinService
     files: FileService
     name: NameService
+    object: ObjectService
   }
 
-  interface CoreService {
+  export interface CoreService {
     cat(pathOrCID: string | CID, options?: CatOptions): AsyncIterable<Buffer>
     ls(pathOrCID: string | CID, options?: ListOptions): AsyncIterable<ListEntry>
+    add(file: FileContent | FileObject, options?: AddOptions): Promise<UnixFSEntry>
+    addAll(files: Iterable<FileContent | FileObject> | AsyncIterable<FileContent | FileObject> | ReadableStream<FileContent | FileObject>, options?: AddOptions): AsyncIterable<UnixFSEntry>
   }
 
-  interface PinService {
+  export interface PinService {
     add(cid: CID, options?: PinAddOptions): Promise<Pin[]>
     ls(options?: PinListOptions): AsyncIterable<PinEntry>
     rm(cid: CID, options?: PinRemoveOptions): Promise<Pin[]>
   }
 
-  interface FileService {
+  export interface FileService {
     stat(path: string, options?: FSStatOptions): Promise<FileStat>
+    cp(from: string, to: string, options?: FSCopyOptions): Promise<void>
+    mv(from: string, to: string, options?: FSMoveOptions): Promise<void>
+    rm(path: string, options: FSRemoveOptions): Promise<void>
+    mkdir(path: string, options: FSMakDirectoryOptions): Promise<void>
   }
 
-  interface NameService {
+  export interface NameService {
     resolve(value: string, options?: NameResloveOptions): AsyncIterable<string>
   }
 
-  interface SwarmService {
+  export interface SwarmService {
     connect(addr: Multiaddr, options?: TimeoutOptions): Promise<void>
   }
 
+  export interface ObjectService {
+    new: (options?: ObjectNewOptions) => Promise<CID>
+    patch: ObjectPatchService
+  }
 
-  type Pin = { cid: CID }
+  export interface ObjectPatchService {
+    addLink(cid: CID, link: DAGLink, options?: TimeoutOptions): Promise<CID>
+  }
 
-  type TimeoutOptions = {
+  export type DAGLink = {
+    name: string,
+    size: number,
+    cid: CID
+  }
+
+  export type Pin = { cid: CID }
+
+  export type TimeoutOptions = {
     timeout?: number,
     signal?: AbortSignal
   }
 
-  type PinAddOptions = TimeoutOptions & {
+  export type PinAddOptions = TimeoutOptions & {
     recursive?: boolean,
   }
 
-  type PinType =
+  export type PinType =
     | "recursive"
     | "direct"
     | "indirect"
 
-  type PinEntry = {
+  export type PinEntry = {
     cid: CID,
     typ: PinType
   }
 
-  type PinListOptions = TimeoutOptions & {
+  export type PinListOptions = TimeoutOptions & {
     paths?: string | CID | string[] | CID[],
     type?: PinType
   }
 
-  type PinRemoveOptions = TimeoutOptions & {
+  export type PinRemoveOptions = TimeoutOptions & {
     recursive?: boolean
   }
 
 
 
-  type FSStatOptions = TimeoutOptions & {
+  export type FSStatOptions = TimeoutOptions & {
     hash?: boolean,
     size?: boolean,
     withLocal?: boolean
   }
 
-  type FileType =
+
+
+  export type FSCopyOptions = TimeoutOptions & {
+    parents?: boolean,
+    flush?: boolean,
+    hashAlg?: string,
+    cidVersion?: number
+  }
+
+  export type FSMoveOptions = TimeoutOptions & {
+    parents?: boolean,
+    flush?: boolean,
+    hashAlg?: string,
+    cidVersion?: number
+  }
+
+
+
+  export type FSRemoveOptions = TimeoutOptions & {
+    recursive?: boolean,
+    flush?: boolean,
+    hashAlg?: string,
+    cidVersion?: number
+  }
+
+  export type FSMakDirectoryOptions = TimeoutOptions & {
+    parents?: boolean,
+    mode?: number,
+    mtime?: UnixFSTime | Date | [number, number],
+    flush?: boolean,
+    hashAlg?: string,
+    cidVersion?: number
+  }
+
+  export type FileType =
     | 'file'
     | 'directory'
 
-  interface FileStat {
+  export interface FileStat {
     cid: CID
     size: number
     cumulativeSize: number
@@ -86,21 +142,27 @@ declare module "ipfs" {
   }
 
 
-  type NameResloveOptions = TimeoutOptions & {
+  export type NameResloveOptions = TimeoutOptions & {
     recursive?: boolean,
     nocache?: boolean
   }
 
-  type CatOptions = TimeoutOptions & {
+  export type ObjectNewOptions = TimeoutOptions & {
+    template?: string,
+    recursive?: boolean,
+    nocache?: boolean
+  }
+
+  export type CatOptions = TimeoutOptions & {
     offset?: number
     length?: number
   }
 
-  type ListOptions = TimeoutOptions & {
+  export type ListOptions = TimeoutOptions & {
 
   }
 
-  type ListEntry = {
+  export type ListEntry = {
     depth: number,
     name: string,
     path: string,
@@ -112,7 +174,46 @@ declare module "ipfs" {
   }
 
 
-  export { IPFSService, CoreService, PinService, FileService, NameService, CID, Pin }
-  declare var ipfs: IPFSService
-  declare export default ipfs
+  type FileContent =
+    | Uint8Array
+    | Blob
+    | String
+    | AsyncIterable<Uint8Array>
+    | ReadableStream<Uint8Array>
+
+  type FileObject = {
+    path?: string,
+    content?: FileContent,
+    mode?: number | string,
+    mtime?: Date | UnixFSTime | [number, number]
+  }
+
+  export type AddOptions = TimeoutOptions & {
+    chunker?: string,
+    cidVersion?: number,
+    hashAlg?: number,
+    onlyHash?: boolean,
+    pin?: boolean,
+    progress?: (bytes: number) => void,
+    rawLeaves?: boolean,
+    trickle?: boolean,
+    wrapWithDirectory?: boolean
+  }
+
+  export type UnixFSEntry = {
+    path: string,
+    cid: CID,
+    mode: number,
+    mtime: UnixFSTime,
+    size: number
+  }
+
+
+  export type UnixFSTime = {
+    secs: number,
+    nsecs: number
+  }
+
+
+  export var IPFS: IPFSService
 }

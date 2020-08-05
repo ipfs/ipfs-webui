@@ -20,6 +20,8 @@ import { dirname } from 'path'
 * We need to calculat how many directories are in the tree.
 *
 * See: https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add
+* @param {{path:string}[]} files
+* @returns {number}
 */
 function countDirs (files) {
   if (!files || !files.length) return 0
@@ -32,6 +34,12 @@ function countDirs (files) {
   return directories.size
 }
 
+/**
+ *
+ * @param {string} path
+ * @param {Set<string>} [res]
+ * @returns {Set<string>}
+ */
 function findUniqueDirectories (path, res = new Set()) {
   if (!path) return res
   const name = dirname(path)
