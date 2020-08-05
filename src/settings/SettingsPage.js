@@ -13,6 +13,7 @@ import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
+import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import JsonEditor from './editor/JsonEditor'
 import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
@@ -40,6 +41,16 @@ export const SettingsPage = ({
       <div className='joyride-settings-analytics'>
         <Title>{t('analytics')}</Title>
         <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
+      </div>
+    </Box>
+
+    <Box className='mb3 pa4 joyride-settings-customapi'>
+      <div className='lh-copy charcoal' id="api">
+        <Title>{t('api')}</Title>
+        <Trans i18nKey='apiDescription' t={t}>
+          <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here to update your config file.</p>
+        </Trans>
+        <ApiAddressForm/>
       </div>
     </Box>
 
@@ -170,7 +181,7 @@ const SettingsInfo = ({ t, isIpfsConnected, isConfigBlocked, hasExternalChanges,
     )
   }
   return (
-    <p className='ma0 mr2 lh-copy charcoal f6'>
+    <p className='ma0 mr2 lh-copy charcoal f5'>
       {t('ipfsConfigDescription')} <a href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md' rel='noopener noreferrer' target='_blank' className='link blue'>{t('ipfsConfigHelp')}</a>
     </p>
   )

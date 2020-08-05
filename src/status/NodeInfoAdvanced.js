@@ -30,21 +30,28 @@ class NodeInfoAdvanced extends React.Component {
   }
 
   render () {
-    const { t, identity, ipfsProvider, ipfsApiAddress, gatewayUrl } = this.props
+    const { t, identity, ipfsProvider, ipfsApiAddress, gatewayUrl, routeInfo } = this.props
     let publicKey = null
     let addresses = null
     if (identity) {
       publicKey = this.getField(identity, 'publicKey')
       addresses = [...new Set(identity.addresses)].sort().map(addr => <Address key={addr} value={addr} />)
     }
+
+    const shouldOpenDetails = routeInfo.url.includes('fromConnected')
+
     return (
-      <Details className='mt3 f6' summaryText={t('advanced')}>
+      <Details className='mt3 f6' summaryText={t('advanced')} open={shouldOpenDetails}>
         <DefinitionList className='mt3'>
           <Definition advanced term={t('gateway')} desc={gatewayUrl} />
           {ipfsProvider === 'httpClient'
             ? <Definition advanced term={t('api')} desc={
               isMultiaddr(ipfsApiAddress)
-                ? <Address value={ipfsApiAddress} />
+                ? (
+                  <div className="flex items-center">
+                    <Address value={ipfsApiAddress} />
+                    <a className='ml2 link blue sans-serif fw6' href="#/settings#api">{t('apiEdit')}</a>
+                  </div>)
                 : ipfsApiAddress
             } />
             : <Definition advanced term={t('api')} desc={<ProviderLink name={ipfsProvider} />} />
@@ -62,5 +69,6 @@ export default connect(
   'selectIpfsProvider',
   'selectIpfsApiAddress',
   'selectGatewayUrl',
+  'selectRouteInfo',
   withTranslation('status')(NodeInfoAdvanced)
 )
