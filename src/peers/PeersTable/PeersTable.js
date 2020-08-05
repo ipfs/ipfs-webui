@@ -34,7 +34,7 @@ export class PeersTable extends React.Component {
     const isWindows = window.navigator.appVersion.indexOf('Win') !== -1
     return (
       <span className='f4 pr2'>
-        {isPrivate ? '🤝' : flagCode ? <CountryFlag countryCode={flagCode} svg={isWindows} /> : '🌐'}
+        {isPrivate ? '🤝' : flagCode ? <CountryFlag code={flagCode} svg={isWindows} /> : '🌐'}
       </span>
     )
   }
