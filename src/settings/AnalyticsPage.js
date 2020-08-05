@@ -8,7 +8,7 @@ import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 export const AnalyticsPage = ({ t }) => (
   <div data-id='AnalyticsPage' className='mw9 center'>
     <Helmet>
-      <title>{t('title')} - IPFS</title>
+      <title>{t('title')} | IPFS</title>
     </Helmet>
 
     <Box>

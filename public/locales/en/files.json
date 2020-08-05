@@ -76,7 +76,7 @@
   },
   "filesListLabel": "Files list",
   "filesList": {
-    "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
+    "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
   },
   "filesImportStatus": {
     "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",

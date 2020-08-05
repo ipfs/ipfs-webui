@@ -11,7 +11,6 @@ import redirectsBundle from './redirects'
 import filesBundle from './files'
 import configBundle from './config'
 import configSaveBundle from './config-save'
-import navbarBundle from './navbar'
 import toursBundle from './tours'
 import notifyBundle from './notify'
 import connectedBundle from './connected'
@@ -30,7 +29,6 @@ export default composeBundles(
   appIdle({ idleTimeout: 5000 }),
   ipfsProvider,
   identityBundle,
-  navbarBundle,
   routesBundle,
   redirectsBundle,
   toursBundle,

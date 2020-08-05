@@ -6,7 +6,7 @@
     "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
   },
   "StartExploringPage": {
-    "title": "Esplora - IPLD",
+    "title": "Esplora | IPLD",
     "header": "Esplora la Merkle Forest",
     "leadParagraph": "Incolla un CID nella casella di testo per recuperare il nodo IPDL, oppure scegli un dataset in primo piano."
   },

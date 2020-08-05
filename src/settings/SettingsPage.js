@@ -28,7 +28,7 @@ export const SettingsPage = ({
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
-      <title>{t('title')} - IPFS</title>
+      <title>{t('title')} | IPFS</title>
     </Helmet>
 
     <Box className='mb3 pa4'>
