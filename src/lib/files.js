@@ -19,7 +19,7 @@
  * @param {ExtendedFile[]} files
  * @returns {FileStream[]}
  */
-export function filesToStreams (files) {
+export function normalizeFiles (files) {
   const streams = []
 
   for (const file of files) {

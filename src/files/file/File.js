@@ -4,7 +4,7 @@ import { join, basename } from 'path'
 import filesize from 'filesize'
 import { withTranslation } from 'react-i18next'
 import classnames from 'classnames'
-import { filesToStreams } from '../../lib/files'
+import { normalizeFiles } from '../../lib/files'
 // React DnD
 import { DropTarget, DragSource } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -165,7 +165,7 @@ const dropTarget = {
     if (item.hasOwnProperty('files')) {
       (async () => {
         const files = await item.filesPromise
-        props.onAddFiles(await filesToStreams(files), props.path)
+        props.onAddFiles(await normalizeFiles(files), props.path)
       })()
     } else {
       const src = item.path

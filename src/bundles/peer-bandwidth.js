@@ -1,5 +1,5 @@
 import { createSelector } from 'redux-bundler'
-import all from 'it-all'
+import last from 'it-last'
 
 // Depends on ipfsBundle, peersBundle, routesBundle
 export default function (opts) {
@@ -133,7 +133,7 @@ export default function (opts) {
       let bw
 
       try {
-        bw = await all(ipfs.stats.bw({ peer: peerId }))
+        bw = await last(ipfs.stats.bw({ peer: peerId }))
       } catch (err) {
         return dispatch({
           type: 'UPDATE_PEER_BANDWIDTH_FAILED',

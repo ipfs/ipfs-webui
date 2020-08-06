@@ -7,8 +7,8 @@ import sleep from '../../test/helpers/sleep'
 import { fakeBandwidth } from '../../test/helpers/bandwidth'
 
 async function fakePeer () {
-  const peerId = (await fakeCid()).toBaseEncodedString('base58btc')
-  return { peer: { toB58String: () => peerId } }
+  const peer = (await fakeCid()).toBaseEncodedString('base58btc')
+  return { peer }
 }
 
 const fakePeers = (count = 5) => Promise.all(Array(count).fill(0).map(fakePeer))
@@ -44,8 +44,8 @@ const createMockIpfs = (opts) => {
   return {
     stats: {
       bw: async function * () {
-        await new Promise(resolve => setTimeout(resolve, randomInt(opts.minLatency, opts.maxLatency)))
-        yield * fakeBandwidth()
+        const bw = await new Promise(resolve => setTimeout(() => resolve(fakeBandwidth()), randomInt(opts.minLatency, opts.maxLatency)))
+        yield bw
       }
     }
   }
