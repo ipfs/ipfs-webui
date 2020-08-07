@@ -32,6 +32,7 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, tour
       </Helmet>
       <div className='lh-copy charcoal'>
         <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t} />
+        <WelcomeBoxes connected={ipfsConnected} t={t} />
       </div>
       <ReactJoyride
         run={toursEnabled}
@@ -55,25 +56,15 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
 
   if (connected) {
     return (
-      <div>
-        <Box className='pv3 ph4'>
-          <div>
-            <div className='flex flex-wrap items-center'>
-              <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
-              <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
-            </div>
-            <p className='fw6 mt1 ml3-ns w-100'>{t('connected.paragraph1')}</p>
+      <Box className='pv3 ph4'>
+        <div>
+          <div className='flex flex-wrap items-center'>
+            <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
+            <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
           </div>
-        </Box>
-        <div className='flex-ns mt3'>
-          <div className='mr3-ns lh-copy mid-gray w-50-ns'>
-            <AboutWebUI />
-          </div>
-          <div className='lh-copy mid-gray w-50-ns mt3 mt0-ns'>
-            <AboutIpfs />
-          </div>
+          <p className='fw6 mt1 ml3-ns w-100'>{t('connected.paragraph1')}</p>
         </div>
-      </div>
+      </Box>
     )
   }
 
@@ -150,6 +141,25 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
     </Box>
   )
 }
+
+const WelcomeBoxes = ({ t, connected }) => {
+  if (connected) {
+    return (
+      <div className='flex-ns mt3'>
+        <div className='mr3-ns lh-copy mid-gray w-50-ns'>
+          <AboutWebUI />
+        </div>
+        <div className='lh-copy mid-gray w-50-ns mt3 mt0-ns'>
+          <AboutIpfs />
+        </div>
+      </div>
+    )
+  }
+  return (
+    <div></div>
+  )
+}
+
 
 export default connect(
   'selectIpfsInitFailed',
