@@ -30,39 +30,7 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, tour
         <title>{t('title')}</title>
       </Helmet>
       <div className='lh-copy charcoal'>
-        <Box className='pv3 ph4'>
-          <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t} />
-        </Box>
-      </div>
-      <div className='flex-ns mt3'>
-        <div className='mr3-ns lh-copy mid-gray w-50-ns'>
-          <Box>
-            <h1 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('welcomeInfo.header')}</h1>
-            <ul className='pl3'>
-              <Trans i18nKey='welcomeInfo.paragraph1' t={t}>
-                <li className='mb2'><a href='#/' className='link blue u b'>Check your node status</a>, including how many peers you're connected to, your storage and bandwidth stats, and more</li>
-              </Trans>
-              <Trans i18nKey='welcomeInfo.paragraph2' t={t}>
-                <li className='mb2'><a href='#/files' className='link blue u b'>View and manage files</a> in your IPFS repo, including drag-and-drop file import, easy pinning, and quick sharing and download options</li>
-              </Trans>
-              <Trans i18nKey='welcomeInfo.paragraph3' t={t}>
-                <li className='mb2'><a href='#/explore' className='link blue b'>Visit the "Merkle Forest"</a> with some sample datasets and explore IPLD, the data model that underpins how IPFS works</li>
-              </Trans>
-              <Trans i18nKey='welcomeInfo.paragraph4' t={t}>
-                <li className='mb2'><a href='#/peers' className='link blue b'>See who's connected to your node</a>, geolocated on a world map by their IP address</li>
-              </Trans>
-              <Trans i18nKey='welcomeInfo.paragraph5' t={t}>
-                <li className='mb2'><a href='#/settings' className='link blue b'>Review or edit your node settings</a> &mdash; no command line required</li>
-              </Trans>
-              <Trans i18nKey='welcomeInfo.paragraph6' t={t}>
-                <li className='f5'><a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link blue b' target='_blank' rel='noopener noreferrer'>Check this app's source code</a> to <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link blue' target='_blank' rel='noopener noreferrer'>report a bug</a> or make a contribution, and make IPFS better for everyone!</li>
-              </Trans>
-            </ul>
-          </Box>
-        </div>
-        <div className='lh-copy mid-gray w-50-ns mt3 mt0-ns'>
-          <AboutIpfs />
-        </div>
+        <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t} />
       </div>
       <ReactJoyride
         run={toursEnabled}
@@ -87,11 +55,45 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
   if (connected) {
     return (
       <div>
-        <div className='flex flex-wrap items-center'>
-          <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
-          <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
+        <Box className='pv3 ph4'>
+          <div>
+            <div className='flex flex-wrap items-center'>
+              <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
+              <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
+            </div>
+            <p className='fw6 mt1 ml3-ns w-100'>{t('connected.paragraph1')}</p>
+          </div>
+        </Box>
+        <div className='flex-ns mt3'>
+          <div className='mr3-ns lh-copy mid-gray w-50-ns'>
+            <Box>
+              <h1 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('welcomeInfo.header')}</h1>
+              <ul className='pl3'>
+                <Trans i18nKey='welcomeInfo.paragraph1' t={t}>
+                  <li className='mb2'><a href='#/' className='link blue u b'>Check your node status</a>, including how many peers you're connected to, your storage and bandwidth stats, and more</li>
+                </Trans>
+                <Trans i18nKey='welcomeInfo.paragraph2' t={t}>
+                  <li className='mb2'><a href='#/files' className='link blue u b'>View and manage files</a> in your IPFS repo, including drag-and-drop file import, easy pinning, and quick sharing and download options</li>
+                </Trans>
+                <Trans i18nKey='welcomeInfo.paragraph3' t={t}>
+                  <li className='mb2'><a href='#/explore' className='link blue b'>Visit the "Merkle Forest"</a> with some sample datasets and explore IPLD, the data model that underpins how IPFS works</li>
+                </Trans>
+                <Trans i18nKey='welcomeInfo.paragraph4' t={t}>
+                  <li className='mb2'><a href='#/peers' className='link blue b'>See who's connected to your node</a>, geolocated on a world map by their IP address</li>
+                </Trans>
+                <Trans i18nKey='welcomeInfo.paragraph5' t={t}>
+                  <li className='mb2'><a href='#/settings' className='link blue b'>Review or edit your node settings</a> &mdash; no command line required</li>
+                </Trans>
+                <Trans i18nKey='welcomeInfo.paragraph6' t={t}>
+                  <li className='f5'><a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link blue b' target='_blank' rel='noopener noreferrer'>Check this app's source code</a> to <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link blue' target='_blank' rel='noopener noreferrer'>report a bug</a> or make a contribution, and make IPFS better for everyone!</li>
+                </Trans>
+              </ul>
+            </Box>
+          </div>
+          <div className='lh-copy mid-gray w-50-ns mt3 mt0-ns'>
+            <AboutIpfs />
+          </div>
         </div>
-        <p className='fw6 mt1 ml3-ns w-100'>{t('connected.paragraph1')}</p>
       </div>
     )
   }
@@ -101,7 +103,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
   const addOrigin = defaultDomains.indexOf(origin) === -1
 
   return (
-    <div>
+    <Box className='pv3 ph4'>
       <div className='flex flex-wrap items-center'>
         <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
         <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
@@ -166,7 +168,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
           defaultValue={ipfsApiAddress || ''}
           updateAddress={doUpdateIpfsApiAddress} />
       </ol>
-    </div>
+    </Box>
   )
 }
 
