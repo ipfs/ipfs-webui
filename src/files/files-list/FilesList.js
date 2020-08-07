@@ -341,7 +341,7 @@ export class FilesList extends React.Component {
       <div key={key} style={style}>
         <File
           {...files[index]}
-          pinned={pins.includes(files[index].cid)}
+          pinned={pins.includes(files[index].cid.toString())}
           ref={r => { this.filesRefs[files[index].name] = r }}
           isMfs={filesPathInfo.isMfs}
           name={files[index].name}

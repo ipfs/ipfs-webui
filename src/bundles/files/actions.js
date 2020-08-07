@@ -251,7 +251,8 @@ export default () => ({
      */
     async (ipfs) => {
       const cids = await all(getPinCIDs(ipfs))
-      return { pins: cids }
+
+      return { pins: cids.map(String) }
     }
   ),
 
