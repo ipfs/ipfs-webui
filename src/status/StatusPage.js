@@ -44,7 +44,7 @@ const StatusPage = ({
               </div>
             ) : (
               <div>
-              <IsNotConnected />
+                <IsNotConnected />
               </div>
             )}
           </div>

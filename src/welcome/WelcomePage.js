@@ -61,7 +61,6 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
   )
 }
 
-
 export default connect(
   'selectIpfsInitFailed',
   'selectIpfsConnected',
