@@ -26,7 +26,8 @@ export const make = (basename, action, options = {}) => (...args) => async (args
   try {
     data = await action(getIpfs(), ...args, id, args2)
 
-    const paths = args[0] ? args[0].flat() : []
+    // TODO: Add a comment explaining what is going on here.
+    const paths = Array.isArray(args[0]) ? args[0].flat() : []
 
     dispatch({
       type: `FILES_${basename}_FINISHED`,
