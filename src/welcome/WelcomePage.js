@@ -11,11 +11,11 @@ import { getJoyrideLocales } from '../helpers/i8n'
 // Components
 import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import Box from '../components/box/Box'
+import IsConnected from '../components/is-connected/IsConnected'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs'
 import AboutWebUI from '../components/about-webui/AboutWebUI'
 import Shell from '../components/shell/Shell.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
-import GlyphTick from '../icons/GlyphTick'
 import GlyphAttention from '../icons/GlyphAttention'
 
 const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
@@ -56,15 +56,9 @@ const ConnectionStatus = ({ t, connected, sameOrigin, ipfsApiAddress, doUpdateIp
 
   if (connected) {
     return (
-      <Box className='pv3 ph4'>
-        <div>
-          <div className='flex flex-wrap items-center'>
-            <GlyphTick style={{ height: 76 }} className='fill-green' role='presentation' />
-            <h1 className='montserrat fw4 charcoal ma0 f3 green'>{t('connected.header')}</h1>
-          </div>
-          <p className='fw6 mt1 ml3-ns w-100'>{t('connected.paragraph1')}</p>
-        </div>
-      </Box>
+      <div>
+      <IsConnected />
+      </div>
     )
   }
 
