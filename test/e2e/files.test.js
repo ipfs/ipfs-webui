@@ -2,6 +2,7 @@
 
 const { fixtureData } = require('./fixtures')
 const all = require('it-all')
+const filesize = require('filesize')
 
 describe('Files screen', () => {
   beforeAll(async () => {
@@ -45,5 +46,12 @@ describe('Files screen', () => {
     const [result1, result2] = await all(ipfs.addAll([file1.data, file2.data]))
     await expect(page).toMatch(result1.cid.toString())
     await expect(page).toMatch(result2.cid.toString())
+
+    // expect human readable sizes
+    // → this ensures metadata was correctly read for each item in the MFS
+    const human = (b) => (b ? filesize(b, { round: 0 }) : '-')
+    for await (const file of ipfs.files.ls('/')) {
+      await expect(page).toMatch(human(file.size))
+    }
   })
 })
