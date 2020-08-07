@@ -40,7 +40,7 @@ import { IGNORED_FILES, ACTIONS } from './consts'
  * @returns {FileStat}
  */
 const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, isParent }, prefix = '/ipfs') => ({
-  size: cumulativeSize || size || -1,
+  size: cumulativeSize || size || 0,
   type: (type === 'dir' || type === 'directory') ? 'directory' : (type === 'unknown') ? 'unknown' : 'file',
   cid,
   name: name || path.split('/').pop() || cid.toString(),
@@ -65,7 +65,7 @@ const realMfsPath = (path) => {
 /**
  * @typedef {Object} Stat
  * @property {string} path
- * @property {'file'|'directory'|'unknown'} type
+ * @property {'file'|'dir'|'unknown'} type
  * @property {CID} cid
  * @property {number} size
  *
@@ -92,7 +92,7 @@ const stat = async (ipfs, cidOrPath) => {
       path: hashOrPath,
       cid: new CID(cid),
       type: 'unknown',
-      size: -1
+      size: 0
     }
   }
 }
@@ -184,7 +184,7 @@ const fetchFilesFX = async (ipfs, _id, { store }) => {
     const absPath = join(path, f.name)
     let file = null
 
-    if (showStats && f.type === 'directory') {
+    if (showStats && f.type === 'dir') {
       file = fileFromStats({ ...await stat(ipfs, f.cid), path: absPath })
     } else {
       file = fileFromStats({ ...f, path: absPath })

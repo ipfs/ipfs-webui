@@ -128,7 +128,7 @@ declare module "ipfs" {
 
   export type FileType =
     | 'file'
-    | 'directory'
+    | 'dir'
 
   export interface FileStat {
     cid: CID
