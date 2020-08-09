@@ -10,7 +10,7 @@ import Overlay from '../overlay/Overlay'
 import Shell from '../shell/Shell'
 import StrokeDownload from '../../icons/StrokeDownload'
 
-const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...props }) => {
+export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...props }) => {
   const onClickCopyToClipboard = async (command) => {
     await navigator.clipboard.writeText(command)
   }
@@ -67,6 +67,7 @@ class CliTutorMode extends Component {
 
   render () {
     const { t, filesPage, isCliTutorModeEnabled, onLeave, isCliTutorModalOpen, command, config, showIcon, doOpenCliTutorModal } = this.props
+
     if (isCliTutorModeEnabled) {
       if (filesPage) {
         return <CliTutorialModal className='outline-0' onLeave={onLeave} t={t} command={command}
@@ -88,8 +89,6 @@ class CliTutorMode extends Component {
         </Fragment>
       )
     }
-
-    return <div/>
   }
 }
 

@@ -29,7 +29,7 @@ export const SettingsPage = ({
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
-  toursEnabled, handleJoyrideCallback, isEnabled, doToggleCliTutorMode, command
+  toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, command
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
@@ -63,7 +63,7 @@ export const SettingsPage = ({
     <Box className='mb3 pa4'>
       <div className='mb4'>
         <Title>{t('CLI TUTOR MODE')}</Title>
-        <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isEnabled}
+        <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isCliTutorModeEnabled}
           label={<span className='fw5 f6'>{t('Enable command-line interface (CLI) tutor mode')}</span>}/>
         <div className='f6 charcoal lh-copy mw7'>
           {
@@ -316,7 +316,7 @@ export class SettingsPageContainer extends React.Component {
         toursEnabled={toursEnabled}
         handleJoyrideCallback={handleJoyrideCallback}
         doToggleCliTutorMode={doToggleCliTutorMode}
-        isEnabled={isCliTutorModeEnabled}
+        isCliTutorModeEnabled={isCliTutorModeEnabled}
         command={cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]()}
       />
     )
