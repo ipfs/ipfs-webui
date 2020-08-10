@@ -197,7 +197,15 @@ declare module "ipfs" {
     progress?: (bytes: number) => void,
     rawLeaves?: boolean,
     trickle?: boolean,
-    wrapWithDirectory?: boolean
+    wrapWithDirectory?: boolean,
+    onUploadProgress?: (progress: LoadProgress) => void,
+    onDownloadProgress?: (progress: LoadProgress) => void
+  }
+
+  type LoadProgress = {
+    total: number,
+    loaded: number,
+    lengthComputable: boolean
   }
 
   export type UnixFSEntry = {

@@ -50,7 +50,7 @@ class FileInput extends React.Component {
   }
 
   onInputChange = (input) => async () => {
-    this.props.onAddFiles(await normalizeFiles(input.files))
+    this.props.onAddFiles(normalizeFiles(input.files))
     input.value = null
   }
 

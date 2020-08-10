@@ -4,7 +4,6 @@ import filesize from 'filesize'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
-import { getFilePath } from '../../bundles/files/utils'
 // Icons
 import DocumentIcon from '../../icons/GlyphDocGeneric'
 import FolderIcon from '../../icons/GlyphFolder'
@@ -16,16 +15,14 @@ import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 
 const File = ({ paths = [], hasError }, t) => {
   const pathsByFolder = paths.reduce((prev, currentPath) => {
-    const path = getFilePath(currentPath)
-    const isFolder = path.includes('/')
+    const isFolder = currentPath.path.includes('/')
     if (!isFolder) {
-      const { count, name ,path, size, progress } = currentPath
-      return [...prev, { count, name ,path, size, progress, path }]
+      return [...prev, currentPath]
     }
 
-    const baseFolder = path.split('/')[0]
+    const baseFolder = currentPath.path.split('/')[0]
 
-    const alreadyExistentBaseFolder = prev.find(previousPath => getFilePath(previousPath).startsWith(`${baseFolder}/`))
+    const alreadyExistentBaseFolder = prev.find(previousPath => previousPath.path.startsWith(`${baseFolder}/`))
 
     if (alreadyExistentBaseFolder) {
       alreadyExistentBaseFolder.count = alreadyExistentBaseFolder.count + 1
@@ -33,9 +30,7 @@ const File = ({ paths = [], hasError }, t) => {
       return prev
     }
 
-    const { size, progress } = currentPath
-
-    return [...prev, { size, progress, path, name: baseFolder, count: 1 }]
+    return [...prev, { ...currentPath, name: baseFolder, count: 1 }]
   }, [])
 
   return pathsByFolder.map(({ count, name, path, size, progress }) => (

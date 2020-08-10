@@ -50,7 +50,6 @@
     "ipfs-http-client": "^45.0.0",
     "ipfs-provider": "^1.0.0",
     "ipld-explorer-components": "1.6.0",
-    "ipfs-lite-http-client": "git://github.com/gozala/js-ipfs-lite-http-client#default",
     "is-binary": "^0.1.0",
     "is-ipfs": "^1.0.3",
     "it-all": "^1.0.2",

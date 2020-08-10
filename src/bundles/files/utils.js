@@ -166,10 +166,3 @@ export const infoFromPath = (path, uriDecode = true) => {
 
   return info
 }
-
-/**
- * @param {File} file
- * @returns {string}
- */
-export const getFilePath = (file) =>
-  file.filepath || file.webkitRelativePath || file.name
