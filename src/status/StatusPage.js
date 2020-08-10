@@ -29,7 +29,7 @@ const StatusPage = ({
   return (
     <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
-        <title>{t('title')} - IPFS</title>
+        <title>{t('title')} | IPFS</title>
       </Helmet>
       <Box className='pa3 joyride-status-node' style={{ minHeight: 0 }}>
         <div className='flex'>

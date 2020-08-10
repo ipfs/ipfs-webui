@@ -85,8 +85,8 @@ class FilesPage extends React.Component {
     this.props.doFilesAddPath(this.props.files.path, path)
   }
 
-  onInspect = (hash) => {
-    this.props.doUpdateHash(`/explore/ipfs/${hash}`)
+  onInspect = (cid) => {
+    this.props.doUpdateHash(`/explore/ipfs/${cid}`)
   }
 
   showModal = (modal, files = null) => {
@@ -202,7 +202,7 @@ class FilesPage extends React.Component {
     }
 
     parts.push('IPFS')
-    return parts.join(' - ')
+    return parts.join(' | ')
   }
 
   render () {
@@ -226,14 +226,14 @@ class FilesPage extends React.Component {
           isMfs={filesPathInfo ? filesPathInfo.isMfs : false}
           isUnknown={!!(contextMenu.file && contextMenu.file.type === 'unknown')}
           pinned={contextMenu.file && contextMenu.file.pinned}
-          hash={contextMenu.file && contextMenu.file.hash}
+          cid={contextMenu.file && contextMenu.file.cid}
           onShare={() => this.showModal(SHARE, [contextMenu.file])}
           onDelete={() => this.showModal(DELETE, [contextMenu.file])}
           onRename={() => this.showModal(RENAME, [contextMenu.file])}
-          onInspect={() => this.onInspect(contextMenu.file.hash)}
+          onInspect={() => this.onInspect(contextMenu.file.cid)}
           onDownload={() => this.onDownload([contextMenu.file])}
-          onPin={() => this.props.doFilesPin(contextMenu.file.hash)}
-          onUnpin={() => this.props.doFilesUnpin(contextMenu.file.hash)} />
+          onPin={() => this.props.doFilesPin(contextMenu.file.cid)}
+          onUnpin={() => this.props.doFilesUnpin(contextMenu.file.cid)} />
 
         <Header
           files={files}

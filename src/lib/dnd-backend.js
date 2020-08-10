@@ -31,7 +31,7 @@ export default (manager) => {
   const handler = backend.handleTopDropCapture
   backend.handleTopDropCapture = (event) => {
     handler.call(backend, event)
-    if (backend.currentNativeSource) {
+    if (backend.currentNativeSource && event.dataTransfer.items) {
       const filesPromise = getFilesFromDataTransferItems(event.dataTransfer.items)
       backend.currentNativeSource.item.filesPromise = filesPromise
     }

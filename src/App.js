@@ -4,6 +4,7 @@ import { connect } from 'redux-bundler-react'
 import { getNavHelper } from 'internal-nav-helper'
 import ReactJoyride from 'react-joyride'
 import { withTranslation } from 'react-i18next'
+import { normalizeFiles } from './lib/files'
 // React DnD
 import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -29,7 +30,6 @@ export class App extends Component {
       PropTypes.element
     ]).isRequired,
     routeInfo: PropTypes.object.isRequired,
-    navbarIsOpen: PropTypes.bool.isRequired,
     // Injected by DropTarget
     isOver: PropTypes.bool.isRequired
   }
@@ -44,7 +44,7 @@ export class App extends Component {
     const addAtPath = isFilesPage ? routeInfo.params.path : '/'
     const files = await filesPromise
 
-    doFilesWrite(files, addAtPath)
+    doFilesWrite(await normalizeFiles(files), addAtPath)
     // Change to the files pages if the user is not there
     if (!isFilesPage) {
       doUpdateHash('/files')
@@ -58,14 +58,14 @@ export class App extends Component {
   }
 
   render () {
-    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, navbarIsOpen, connectDropTarget, canDrop, isOver, showTooltip } = this.props
+    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
 
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <div className='sans-serif h-100' onClick={getNavHelper(this.props.doUpdateUrl)}>
         {/* Tinted overlay that appears when dragging and dropping an item */}
         { canDrop && isOver && <div className='w-100 h-100 top-0 left-0 absolute' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
-        <div className='flex flex-row-reverse-l flex-column-reverse' style={{ minHeight: '100vh' }}>
+        <div className='flex flex-row-reverse-l flex-column-reverse justify-end justify-start-l' style={{ minHeight: '100vh' }}>
           <div className='flex-auto-l'>
             <div className='flex items-center ph3 ph4-l' style={{ WebkitAppRegion: 'drag', height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
               <div className='joyride-app-explore' style={{ width: 560 }}>
@@ -83,7 +83,7 @@ export class App extends Component {
               }
             </main>
           </div>
-          <div className={`flex-none-l bg-navy ${navbarIsOpen ? 'w5-l' : 'w4-l'}`}>
+          <div className='navbar-container flex-none-l bg-navy'>
             <NavBar />
           </div>
         </div>
@@ -126,7 +126,6 @@ export const AppWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCo
 
 export default connect(
   'selectRoute',
-  'selectNavbarIsOpen',
   'selectRouteInfo',
   'selectIpfsReady',
   'selectShowTooltip',

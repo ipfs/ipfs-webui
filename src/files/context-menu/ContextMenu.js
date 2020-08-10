@@ -61,7 +61,7 @@ class ContextMenu extends React.Component {
               {t('actions.share')}
             </Option>
           }
-          <CopyToClipboard text={this.props.hash} onCopy={this.props.handleClick}>
+          <CopyToClipboard text={String(this.props.cid)} onCopy={this.props.handleClick}>
             <Option>
               <StrokeCopy className='w2 mr2 fill-aqua' />
               {t('actions.copyHash')}

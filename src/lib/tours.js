@@ -22,6 +22,29 @@ export const appTour = {
   }
 }
 
+export const welcomeTour = {
+  getSteps: ({ t, Trans }) => [
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>{t('tour.step1.title')}</h2>
+        <p className='tl f6'>{t('tour.step1.paragraph1')}</p>
+        <p className='tl f6'>{t('tour.step1.paragraph2')}</p>
+        <p className='tl f6'>{t('tour.step1.paragraph3')}</p>
+      </div>,
+      placement: 'center',
+      target: 'body'
+    }
+  ],
+  styles: {
+    options: {
+      width: '500px',
+      primaryColor: '#378085',
+      textColor: '#34373f',
+      zIndex: 999
+    }
+  }
+}
+
 export const statusTour = {
   getSteps: ({ t, Trans }) => [
     {
@@ -218,7 +241,15 @@ export const settingsTour = {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step4.title')}</h2>
         <p className='tl f6'>{t('tour.step4.paragraph1')}</p>
-        <p className='tl f6'>{t('tour.step4.paragraph2')}</p>
+      </div>,
+      placement: 'top',
+      target: '.joyride-settings-customapi'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>{t('tour.step5.title')}</h2>
+        <p className='tl f6'>{t('tour.step5.paragraph1')}</p>
+        <p className='tl f6'>{t('tour.step5.paragraph2')}</p>
       </div>,
       locale: { last: 'Finish' },
       placement: 'top',

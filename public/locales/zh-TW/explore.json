@@ -1,7 +1,7 @@
 {
   "appName": "IPLD 瀏覽器",
   "StartExploringPage": {
-    "title": "瀏覽 - IPLD",
+    "title": "瀏覽 | IPLD",
     "header": "瀏覽Merkle森林",
     "leadParagraph": "Paste a CID into the box to fetch the IPLD node it addresses, or choose a featured dataset."
   },
@@ -11,7 +11,7 @@
     "paragraph3": "<0>Enter IPLD: a single namespace for all hash-inspired protocols. Through IPLD, links can be traversed across protocols, allowing you to explore data regardless of the underlying protocol.</0>"
   },
   "ExplorePage": {
-    "title": "瀏覽 - IPLD"
+    "title": "瀏覽 | IPLD"
   },
   "IpldExploreForm": {
     "explore": "瀏覽"

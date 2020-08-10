@@ -2,7 +2,7 @@
   "appName": "Explorateur IPLD",
   "tabName": "Explorer",
   "StartExploringPage": {
-    "title": "Explorer - IPLD",
+    "title": "Explorer | IPLD",
     "header": "Explorer la forêt de Merkle",
     "leadParagraph": "Collez un CID dans la section appropriée pour récupérer les nœuds IPLD qu'il adresse, ou choisissez des données mises en avant"
   },
@@ -12,7 +12,7 @@
     "paragraph3": "<0>Entrer dans IPLD: un simple outil pour tous les protocoles fonctionnant avec des hash. Grâce à IPLD, les liens peuvent êtres accessibles à travers les protocoles, vous permettant d'explorer les données sans prendre en compte le protocole sous-jacent.</0>"
   },
   "ExplorePage": {
-    "title": "Exploration - IPLD"
+    "title": "Exploration | IPLD"
   },
   "IpldExploreForm": {
     "explore": "Explorer"

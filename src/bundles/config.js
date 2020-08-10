@@ -4,8 +4,7 @@ import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 const bundle = createAsyncResourceBundle({
   name: 'config',
   getPromise: async ({ getIpfs }) => {
-    // SEE: https://github.com/ipfs/js-ipfs-api/issues/822
-    const rawConf = await getIpfs().config.get()
+    const rawConf = await getIpfs().config.getAll()
     let conf
 
     if (Buffer.isBuffer(rawConf)) {

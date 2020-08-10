@@ -1,6 +1,13 @@
 import { sortByName, sortBySize } from '../../lib/sort'
 import { ACTIONS, IS_MAC, SORTING } from './consts'
 
+/**
+ * @param {string} basename
+ * @param {Function} action
+ * @param {Object} [options]
+ * @param {boolean} [options.mfsOnly]
+ * @returns {(...args:any[]) => (...args:any[]) => Promise<any>}
+ */
 export const make = (basename, action, options = {}) => (...args) => async (args2) => {
   const id = Symbol(basename)
   const { dispatch, getIpfs, store } = args2
@@ -19,7 +26,8 @@ export const make = (basename, action, options = {}) => (...args) => async (args
   try {
     data = await action(getIpfs(), ...args, id, args2)
 
-    const paths = args[0] ? args[0].flat() : []
+    // TODO: Add a comment explaining what is going on here.
+    const paths = Array.isArray(args[0]) ? args[0].flat() : []
 
     dispatch({
       type: `FILES_${basename}_FINISHED`,
@@ -70,6 +78,14 @@ export const make = (basename, action, options = {}) => (...args) => async (args
   return data
 }
 
+/**
+ * @template {{name:string, type:string, cumulativeSize?:number, size:number}} T
+ * @param {T[]} files
+ * @param {Object} sorting
+ * @param {boolean} [sorting.asc]
+ * @param {import('./consts').SORTING} [sorting.by]
+ * @returns {T[]}
+ */
 export const sortFiles = (files, sorting) => {
   const sortDir = sorting.asc ? 1 : -1
   const nameSort = sortByName(sortDir)
@@ -92,15 +108,30 @@ export const sortFiles = (files, sorting) => {
   })
 }
 
+/**
+ * @typedef {Object} Info
+ * @property {string} path
+ * @property {string} realPath
+ * @property {boolean} isMfs
+ * @property {boolean} isPins
+ * @property {boolean} isRoot
+ *
+ * @param {string} path
+ * @param {boolean} uriDecode
+ * @returns {Info|void}
+ */
 export const infoFromPath = (path, uriDecode = true) => {
   const info = {
     path: path,
-    realPath: null,
+    realPath: '',
     isMfs: false,
     isPins: false,
     isRoot: false
   }
 
+  /**
+   * @param {string} prefix
+   */
   const check = (prefix) => {
     info.realPath = info.path.substr(prefix.length).trim() || '/'
     info.isRoot = info.realPath === '/'

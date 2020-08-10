@@ -1,0 +1,133 @@
+{
+  "title": "الملفات",
+  "home": "الصفحة الرئيسية",
+  "breadcrumbs": "فتات ",
+  "finished": "منتهي",
+  "totalSize": "الحجم الإجمالي:{size}",
+  "filesSelected": "{count, plural, zero {الملفات المحددة} one {File selected} two {Files selected} few {Files selected} many {Files selected} other {Files selected}}",
+  "menuOptions": "خيارات العنصر المحدد",
+  "selectedAllEntries": "حدد كافة إدخالات الجدول",
+  "individualFilesOnly": "متاح فقط للملفات الفردية",
+  "itemName": "اسم",
+  "size": "حجم",
+  "noPDFSupport": "متصفحك لا يدعم ملفات PDF. يرجى تنزيل ملف PDF لعرضه:",
+  "downloadPDF": "تحميل PDF",
+  "downloadInstead": "حاول<1> تنزيله</1> بدلاً من ذلك.",
+  "cantBePreviewed": "عذرًا ، لا يمكن معاينة هذا الملف",
+  "addFile": "ملف",
+  "addFolder": "مجلد",
+  "addByPath": "من IPFS",
+  "importToIPFS": " استيراد",
+  "newFolder": "ملف جديد",
+  "generating": "جارٍ الإنشاء ...",
+  "actions": {
+    "import": " استيراد",
+    "delete": "حذف",
+    "rename": "إعادة تسمية",
+    "download": "تحميل",
+    "inspect": "فحص",
+    "copyHash": "انسخ CID",
+    "share": "مشاركة الرابط",
+    "close": "أغلق",
+    "copy": "نسخ",
+    "cancel": "إلغاء",
+    "clear": "واضح",
+    "create": "إنشاء ",
+    "save": "حفظ",
+    "pin": "رمز المرور",
+    "unpin": "إلغاء التثبيت",
+    "unselectAll": "إلغاء تحديد الكل"
+  },
+  "shareModal": {
+    "title": "مشاركة الملفات",
+    "description": "انسخ الرابط أدناه وشاركه مع أصدقائك."
+  },
+  "renameModal": {
+    "titleFile": "إعادة تسمية الملف",
+    "titleFolder": "إعادة تسمية المجلد",
+    "descriptionFile": "اختر اسمًا جديدًا لهذا الملف.",
+    "descriptionFolder": "اختر اسمًا جديدًا لهذا المجلد."
+  },
+  "deleteModal": {
+    "titleItem": "{count, plural, zero {حذف العناصر} one {Delete item} two {Delete {count} items} few {Delete {count} items} many {Delete {count} items} other {Delete {count} items}}",
+    "titleFolder": "{count, plural, zero {حذف المجلدات} one {Delete folder} two {Delete {count} folders} few {Delete {count} folders} many {Delete {count} folders} other {Delete {count} folders}}",
+    "titleFile": "{count, plural, zero {حذف الملفات} one {Delete file} two {Delete {count} files} few {Delete {count} files} many {Delete {count} files} other {Delete {count} files}}",
+    "descriptionItem": "{count, plural, zero {هل أنت متأكد أنك تريد حذف هذه العناصر؟ هذا الإجراء دائم ولا يمكن التراجع عنه.} one {Are you sure you want to delete this item? This action is permanent and cannot be reversed.} two {Are you sure you want to delete these {count} items? This action is permanent and cannot be reversed.} few {Are you sure you want to delete these {count} items? This action is permanent and cannot be reversed.} many {Are you sure you want to delete these {count} items? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} items? This action is permanent and cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, zero {هل أنت متأكد أنك تريد حذف هذا المجلد؟ هذا الإجراء دائم ولا يمكن التراجع عنه.} one {Are you sure you want to delete this folder? This action is permanent and cannot be reversed.} two {Are you sure you want to delete these {count} folders? This action is permanent and cannot be reversed.} few {Are you sure you want to delete these {count} folders? This action is permanent and cannot be reversed.} many {Are you sure you want to delete these {count} folders? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} folders? This action is permanent and cannot be reversed.}}",
+    "descriptionFile": "{count, plural, zero {هل أنت متأكد أنك تريد حذف هذه الملفات؟ هذا الإجراء دائم ولا يمكن التراجع عنه.} one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} two {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.} few {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.} many {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.}}"
+  },
+  "addByPathModal": {
+    "title": "استيراد من IPFS",
+    "description": "إدراج مسار IPFS (CID) للاستيراد.",
+    "examples": "أمثلة:"
+  },
+  "newFolderModal": {
+    "title": "ملف جديد",
+    "description": "أدخل اسم المجلد الذي تريد إنشاءه."
+  },
+  "welcomeInfo": {
+    "header": "مرحبًا بك في واجهة مستخدم ويب IPFS",
+    "paragraph1": "<0><0>تحقق من حالة </0>العقدة ومعرف النظير ومعلومات الاتصال وحركة مرور الشبكة وعدد النظراء المتصلين.</0>",
+    "paragraph2": "<0>Easily manage files in your IPFS repo. Drag and drop here to add files, and you can move, rename, delete, share or download them.</0>",
+    "paragraph3": "<0> يمكنك <1>استكشاف بيانات IPLD </1> التي تدعم كيفية عمل IPFS </0>",
+    "paragraph4": "<0> شاهد جميع <1> نظرائك المتصلين </1> ، محددين جغرافيًا من خلال عنوان IP الخاص بهم.</0>",
+    "paragraph5": "<0> <0>راجع إعدادات</0> عقدة IPFS ، وقم بتحديثها لتناسب احتياجاتك بشكل أفضل.</0>",
+    "paragraph6": "<0> إذا كنت تريد المساعدة في دفع واجهة مستخدم الويب إلى الأمام<1> ، فراجع رمزها</1> أو<3> أبلغ عن خطأ</3>!</0>"
+  },
+  "filesListLabel": "قائمة الملفات",
+  "filesList": {
+    "noFiles": "<0>لا توجد ملفات في هذا الدليل. انقر فوق الزر \"إضافة\" لإضافة بعض.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, zero {تم استيراد عنصر 1} one {Imported 1 item} two {Imported {count} items} few {Imported {count} items} many {Imported {count} items} other {Imported {count} items}}",
+    "importing": "{count, plural, zero {استيراد 1 عنصر } one {Importing 1 item} two {Importing {count} items} few {Importing {count} items} many {Importing {count} items} other {Importing {count} items}}",
+    "toggleDropdown": "تبديل القائمة المنسدلة",
+    "closeDropdown": "إغلاق القائمة المنسدلة",
+    "count": "{count}من{count}"
+  },
+  "addFilesInfo": "<0>أضف ملفات إلى <1>عقدة IPFS</1>المحلية الخاصة بك عن طريق النقر فوق الزر إضافة إلى IPFS أعلاه.</0>",
+  "companionInfo": "<0>أثناء استخدامك لـ<1> IPFS Companion</1> ، يقتصر عرض الملفات على الملفات المضافة أثناء استخدام الامتداد.</0>",
+  "tour": {
+    "back": "عودة",
+    "close": "أغلق",
+    "last": "الاخير",
+    "next": "التالى",
+    "skip": "تخطى",
+    "step1": {
+      "title": "صفحة الملفات",
+      "paragraph1": "<0> هذا هو المكان الذي تعيش فيه الملفات الموجودة على نظام<1> الملفات القابلة للتغيير (MFS).</1> يمكنك إضافة ملفات أو مجلدات وإدارتها من هذه الصفحة.</0>",
+      "paragraph2": "انقر فوق \"التالي\" لمعرفة المزيد."
+    },
+    "step2": {
+      "title": "فتات ",
+      "paragraph1": "دليل العمل الحالي ، يمكنك التنقل عبر التسلسل الهرمي للمجلدات من خلال النقر عليها."
+    },
+    "step3": {
+      "title": "إضافة ملفات",
+      "paragraph1": "هنا يمكنك أن ترى عدد الكتل والملفات التي قمت بتثبيتها.",
+      "paragraph2": "يمكنك إضافة ملفات أو مجلدات إلى الريبو الخاص بك من خلال القائمة المنسدلة على اليمين.",
+      "paragraph3": "<0> إذا كنت تريد إضافة شيء موجود بالفعل على IPFS ، فيمكنك استيراده إلى MFS الخاص بك عن طريق تمرير معرف<1> المحتوى (CID) الخاص به</1>.</0>"
+    },
+    "step5": {
+      "title": "قائمة الملفات",
+      "paragraph1": "أخيرًا ، القائمة حيث يمكنك العثور على الملفات والمجلدات. اسحب الملفات أو المجلدات وأفلتها لإضافتها.",
+      "paragraph2": "يمكنك مشاركة الملفات أو تنزيلها وفحصها في مستكشف IPLD أو إعادة تسميتها أو حذفها!",
+      "paragraph3": "نصيحة احترافية: اسحب ملف وأفلته من أي صفحة أخرى لواجهة مستخدم الويب لإضافتها إلى جذر MFS."
+    }
+  },
+  "exploreForm": {
+    "browse": "تصفح",
+    "inspect": "فحص"
+  },
+  "previousFolder": "ارجع إلى المجلد السابق",
+  "fileLabel": "حدد{type}{name} الحجم{size}",
+  "hashUnavailable": "التجزئة غير متاحة",
+  "checkboxLabel": "عرض المزيد من الخيارات لـ{name}",
+  "pins": "رموز المرور ",
+  "pinned": "تم التثبيت",
+  "blocks": "تم التثبيت",
+  "more": "أكثر",
+  "files": "الملفات",
+  "cidNotFileNorDir": "الرابط الحالي ليس ملفًا ولا دليلًا. حاول <0>فحصه</0> بدلاً من ذلك.",
+  "sortBy": "فرز العناصر حسب {name}"
+}

@@ -1,7 +1,7 @@
 {
   "connectingToIpfs": "Connecting to IPFS…",
   "connectedToIpfs": "Connected to IPFS!",
-  "ipfsApiRequestFailed": "IPFS request failed. Please check if your daemon is running.",
+  "ipfsApiRequestFailed": "Could not connect. Please check if your daemon is running.",
   "windowIpfsRequestFailed": "IPFS request failed. Please check your IPFS Companion settings.",
   "ipfsIsBack": "Normal IPFS service has resumed. Enjoy!",
   "folderExists": "A folder with that name already exists. Please choose another.",

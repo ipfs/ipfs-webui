@@ -1,0 +1,65 @@
+{
+  "appName": "Explorator IPLD",
+  "tabName": "Explorează",
+  "homeLink": "Home",
+  "UpdateAvailable": {
+    "paragraph1": "O nouă versiune de IPLD Explorer este disponibil; <1>reîncarcă</1>."
+  },
+  "StartExploringPage": {
+    "title": "Explorează - IPDL",
+    "header": "Explorează Pădurea Merkle",
+    "leadParagraph": "Introdu un CID pentru a obține un nod IPLD adresat sau alege un set de date reprezentativ."
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD este <1>modelul de date a web-ului a cărui conținut este adresabil.</1> Ne permite să tratăm toate structurile de date hash-linked ca subseturi ale unui spațiu informațional unificat, unificând toate modelele de date care leagă datele cu hash-urile ca instanțe ale IPLD.</0>",
+    "paragraph2": "<0>Adresarea conținutului folosind hash-uri a devenit un mijloc larg folosit pentru a conecta datele în sisteme distribuite, de la blockchains care rulează criptomonedele preferate, la commit-urile folosite pentru salvarea lucrului la cod, până la întreg conținutul web-ului. Cu toate că aceste instrumente se bazează pe niște primitive comune, structurile specifice de la bază nu sunt interoperabile.</0>",
+    "paragraph3": "<0>Fă cunoștință cu IPLD: un namespace unic pentru toate protocoalele inspirate de hash-uri. Prin intermediul IPLD, link-urile pot fi parcurse folosind diferite protocoale, fiind permisă explorarea datelor indiferent de protocolul de la bază.</0>"
+  },
+  "ExplorePage": {
+    "title": "Explorare | IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "Explorează"
+  },
+  "CidInfo": {
+    "header": "Informații CID",
+    "hashDigest": "Hash digest"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "Vizualizează prin IPFS Gateway"
+  },
+  "base": "bază",
+  "version": "versiune",
+  "codec": "codec",
+  "multihash": "multihash",
+  "tour": {
+    "projects": {
+      "title": "Dataseturi prezentate",
+      "paragraph1": "Explorează seturile de date prezente sau introdu un CID pentru a vedea cum acele date sunt structurate și legate indiferent de protocol."
+    },
+    "explorer": {
+      "step1": {
+        "title": "Explorator IPLD",
+        "paragraph1": "Călătoria ta cu Exploratorul IPLD pornește aici. Apasă pe „Mai departe” pentru a descoperi mai multe."
+      },
+      "step2": {
+        "title": "Breadcrumbs",
+        "paragraph1": "Calea care conduce la acest nod.",
+        "paragraph2": "Dă clic pe el pentru a merge la părinți sau copii."
+      },
+      "step3": {
+        "title": "Informații nod",
+        "paragraph1": "Aici ai informații detaliate despre nod și poți să-l deschizi în gateway-ul IPFS.",
+        "paragraph2": "Dacă nodul este un director poți să-i vezi copiii și poți merge la aceștia."
+      },
+      "step4": {
+        "title": "Informații CID",
+        "paragraph1": "CID-ul desfăcut pentru a pătrunde înțelesul."
+      },
+      "step5": {
+        "title": "Reprezentare vizuală",
+        "paragraph1": "O reprezentare vizuală a nodului și a copiilor săi."
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "appName": "Explorador IPLD",
   "StartExploringPage": {
-    "title": "Explorador - IPLD",
+    "title": "Explorador | IPLD",
     "header": "Explore a Floresta de Merkle",
     "leadParagraph": "Cole um CID na caixa para explorar o nó IPLD a que se refere, ou escolha uma das coleções de dados abaixo."
   },
@@ -11,7 +11,7 @@
     "paragraph3": "<0>IPLD: um espaço para todos os protocolos inspirados em hashes. Com o IPLD, pode relacionar diferentes protocolos e navegar entre eles, permitindo que explore os dados independentemente do protocolo subjacente.</0>"
   },
   "ExplorePage": {
-    "title": "A Explorar - IPLD"
+    "title": "A Explorar | IPLD"
   },
   "IpldExploreForm": {
     "explore": "Explorar"

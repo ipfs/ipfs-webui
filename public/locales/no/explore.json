@@ -1,7 +1,7 @@
 {
   "appName": "IPLD Utforsker",
   "StartExploringPage": {
-    "title": "Utforsk - IPLD",
+    "title": "Utforsk | IPLD",
     "header": "Utforsk Merkle Forest",
     "leadParagraph": "Lim inn en CID i boksen for å hente IPLD-noden den adresserer, eller velg et utvalgt datasett."
   },
@@ -11,7 +11,7 @@
     "paragraph3": "<0>Her kommer IPLD inn: et enkelt navnerom for alle hash-inspirerte protokoller. Gjennom IPLD, kan koblinger traversere på tvers av protokoller, slik at du kan utforske data uavhengig av den underliggende protokollen.</0>"
   },
   "ExplorePage": {
-    "title": "Utforsker - IPLD"
+    "title": "Utforsker | IPLD"
   },
   "IpldExploreForm": {
     "explore": "Utforsk"

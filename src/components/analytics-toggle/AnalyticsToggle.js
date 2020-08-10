@@ -68,7 +68,7 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleC
   return (
     <React.Fragment>
       <Checkbox className='dib' onChange={doToggleAnalytics} checked={analyticsEnabled} label={
-        <span className='fw5 f6'>
+        <span className='f5'>
           {t('AnalyticsToggle.label')}
         </span>
       } />

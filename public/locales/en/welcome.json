@@ -1,31 +1,45 @@
 {
-  "title": "Welcome to IPFS",
-  "configureApiPort": {
-    "header": "Is your API on a port other than 5001?",
-    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
-  },
+  "title": "Welcome | IPFS",
+  "description": "Welcome Page",
   "apiAddressForm": {
     "apiLabel": "API ADDRESS",
     "submitButton": "Submit"
   },
   "connected": {
     "header": "Connected to IPFS",
-    "paragraph1": "<0>Now, it’s time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
-    "paragraph2": "<0>You can always come back to this address to change the IPFS node you're connected to.</0>"
+    "paragraph1": "Welcome to the revolution! You are now a valuable part of the distributed web."
   },
   "notConnected": {
-    "header": "Is your IPFS daemon running?",
-    "paragraph1": "<0>Failed to connect to the API.</0>",
-    "paragraph2": "<0>Make sure you <1>configure your IPFS API</1> to allow cross-origin (CORS) requests, running the commands below:</0>",
-    "paragraph3": "<0>Start an IPFS daemon in a terminal:</0>",
-    "paragraph4": "<0>For more info on how to get started with IPFS you can <1>read the guide</1>.</0>"
+    "header": "Could not connect to the IPFS API",
+    "paragraph1": "<0>Check out the installation guide in the <1>IPFS Docs</1>, or try these common fixes:</0>",
+    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting it from your terminal:</0>",
+    "paragraph3": "<0>Is your IPFS API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
+    "paragraph4": "<0>Is your IPFS API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here to update your config file.</0>"
   },
   "aboutIpfs": {
     "header": "What is IPFS?",
-    "paragraph1": "<0><0>IPFS is a protocol</0> that defines a content-addressed file system, coordinates content delivery and combines ideas from Kademlia, BitTorrent, Git and more.</0>",
-    "paragraph2": "<0><0>IPFS is a filesystem.</0> It has directories and files and mountable filesystem via FUSE.</0>",
-    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity.</0>",
-    "paragraph4": "<0><0>IPFS is p2p.</0> It supports worldwide peer-to-peer file transfers with a completely decentralized architecture and no central point of failure.</0>",
-    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
+    "paragraph1": "<0><0>A hypermedia distribution protocol</0> that incorporates ideas from Kademlia, BitTorrent, Git, and more</0>",
+    "paragraph2": "<0><0>A peer-to-peer file transfer network</0> with a completely decentralized architecture and no central point of failure, censorship, or control</0>",
+    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://ipfs.io</2> or directly using the <4>IPFS Companion</4> extension</0>",
+    "paragraph4": "<0><0>A next-gen CDN</0> — just add a file to your node to make it available to the world with cache-friendly content-hash addressing and BitTorrent-style bandwidth distribution</0>",
+    "paragraph5": "<0><0>A developer toolset</0> for building <2>completely distributed apps and services</2>, backed by a robust open-source community</0>"
+  },
+  "welcomeInfo": {
+    "header": "In this app, you can …",
+    "paragraph1": "<0><0>Check your node status</0>, including how many peers you're connected to, your storage and bandwidth stats, and more</0>",
+    "paragraph2": "<0><0>View and manage files</0> in your IPFS repo, including drag-and-drop file import, easy pinning, and quick sharing and download options</0>",
+    "paragraph3": "<0><0>Visit the \"Merkle Forest\"</0> with some sample datasets and explore IPLD, the data model that underpins how IPFS works</0>",
+    "paragraph4": "<0><0>See who's connected to your node</0>, geolocated on a world map by their IP address</0>",
+    "paragraph5": "<0><0>Review or edit your node settings</0> — no command line required</0>",
+    "paragraph6": "<0><0>Check this app's source code</0> to <2>report a bug</2> or make a contribution, and make IPFS better for everyone!</0>"
+  },
+  "tour": {
+    "close": "Close",
+    "step1": {
+      "title": "Welcome page",
+      "paragraph1": "This page lets you know if you're connected to IPFS, and offers ideas for things you can do in this app.",
+      "paragraph2": "If you aren't connected to the IPFS API, this page also appears in place of some other pages, with hints for how to get connected.",
+      "paragraph3": "You can visit this page from anywhere in the app by clicking the IPFS cube logo in the navigation bar."
+    }
   }
 }

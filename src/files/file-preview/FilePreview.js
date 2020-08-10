@@ -6,6 +6,7 @@ import { Trans, withTranslation } from 'react-i18next'
 import typeFromExt from '../type-from-ext'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
+import CID from 'cids'
 
 class Preview extends React.Component {
   state = {
@@ -18,10 +19,10 @@ class Preview extends React.Component {
   }
 
   render () {
-    const { t, name, hash, size, gatewayUrl } = this.props
+    const { t, name, cid, size, gatewayUrl } = this.props
 
     const type = typeFromExt(name)
-    const src = `${gatewayUrl}/ipfs/${hash}`
+    const src = `${gatewayUrl}/ipfs/${cid}`
     const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
     switch (type) {
@@ -85,7 +86,7 @@ class Preview extends React.Component {
 
 Preview.propTypes = {
   name: PropTypes.string.isRequired,
-  hash: PropTypes.string.isRequired,
+  hash: PropTypes.instanceOf(CID),
   size: PropTypes.number.isRequired,
   gatewayUrl: PropTypes.string.isRequired,
   read: PropTypes.func.isRequired,

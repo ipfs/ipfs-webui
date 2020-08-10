@@ -7,6 +7,7 @@ import { Trans, withTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import { join } from 'path'
 import { sorts } from '../../bundles/files'
+import { normalizeFiles } from '../../lib/files'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 // Reac DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -96,7 +97,7 @@ export class FilesList extends React.Component {
       <SelectedActions
         className={'fixed bottom-0 right-0'}
         style={{
-          maxWidth: innerWidthEm < 60 ? '100%' : `calc(100% - ${this.props.navbarWidth}px)`,
+          maxWidth: innerWidthEm < 60 ? '100%' : 'calc(100% - 156px)',
           zIndex: 20
         }}
         animateOnStart
@@ -105,7 +106,7 @@ export class FilesList extends React.Component {
         rename={() => this.props.onRename(this.selectedFiles)}
         share={() => this.props.onShare(this.selectedFiles)}
         download={() => this.props.onDownload(this.selectedFiles)}
-        inspect={() => this.props.onInspect(this.selectedFiles[0].hash)}
+        inspect={() => this.props.onInspect(this.selectedFiles[0].cid)}
         count={this.state.selected.length}
         isMfs={this.props.filesPathInfo.isMfs}
         downloadProgress={this.props.downloadProgress}
@@ -340,14 +341,14 @@ export class FilesList extends React.Component {
       <div key={key} style={style}>
         <File
           {...files[index]}
-          pinned={pins.includes(files[index].hash)}
+          pinned={pins.includes(files[index].cid.toString())}
           ref={r => { this.filesRefs[files[index].name] = r }}
           isMfs={filesPathInfo.isMfs}
           name={files[index].name}
           onSelect={this.toggleOne}
           onNavigate={() => {
             if (files[index].type === 'unknown') {
-              onInspect(files[index].hash)
+              onInspect(files[index].cid)
             } else {
               onNavigate(files[index].path)
             }
@@ -443,7 +444,7 @@ const dropTarget = {
 
     const add = async () => {
       const files = await filesPromise
-      onAddFiles(files)
+      onAddFiles(await normalizeFiles(files))
     }
 
     add()
@@ -460,7 +461,6 @@ const dropCollect = (connect, monitor) => ({
 export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(withTranslation('files')(FilesList))
 
 export default connect(
-  'selectNavbarWidth',
   'selectPins',
   'selectFilesIsFetching',
   'selectFilesSorting',

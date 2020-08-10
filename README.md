@@ -84,6 +84,19 @@ To reset your config back to the default configuration, run the following comman
 
 You might also like to copy the `~/.ipfs/config` file somewhere with a useful name so you can use `ipfs config replace <file>` to switch your node between default and dev mode easily.
 
+## Running with Docker
+
+If you need to run IPFS in a Docker container, you can still have Web UI available by exposing both the Gateway and Web UI ports.
+
+Using the default ports:
+
+```sh
+docker pull ipfs/go-ipfs
+docker run -p 8080:8080 -p 5001:5001 -it ipfs/go-ipfs
+```
+
+See the [go-ipfs page](https://hub.docker.com/r/ipfs/go-ipfs) on Docker Hub to get started using IPFS with Docker.
+
 ## Build
 
 To create an optimized static build of the app, output to the `build` directory:
@@ -139,8 +152,17 @@ CI setup of ipfs-webui repo runs tests against both JS and GO implementations:
 > E2E_IPFSD_TYPE=js npm run test:e2e
 ```
 
+##### Overriding versions
+
 It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
- and `go-ipfs-dep` (go-ipfs) in `devDependencies` section of `package.json` and applying the change via `npm i`
+ and `go-ipfs` in `devDependencies` section of `package.json` and applying the change via `npm i`
+ 
+One can also override the binary used in e2e tests by providing a path to an alternative one via `IPFS_GO_EXEC` (or `IPFS_JS_EXEC`):
+
+```sh
+> IPFS_GO_EXEC=$GOPATH/bin/ipfs  npm run test:e2e
+> E2E_IPFSD_TYPE=js IPFS_JS_EXEC=/path/to/jsipfs  npm run test:e2e
+```
 
 #### `E2E_API_URL`
 
