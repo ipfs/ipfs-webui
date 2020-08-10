@@ -5,7 +5,7 @@ import Box from '../box/Box'
 export const AboutWebUI = ({ t }) => {
   return (
     <Box>
-      <h1 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('welcomeInfo.header')}</h1>
+      <h2 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('welcomeInfo.header')}</h2>
       <ul className='pl3'>
         <Trans i18nKey='welcomeInfo.paragraph1' t={t}>
           <li className='mb2'><a href='#/' className='link blue u b'>Check your node status</a>, including how many peers you're connected to, your storage and bandwidth stats, and more</li>

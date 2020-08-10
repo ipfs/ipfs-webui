@@ -5,7 +5,7 @@ import Box from '../box/Box'
 export const AboutIpfs = ({ t }) => {
   return (
     <Box>
-      <h1 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('aboutIpfs.header')}</h1>
+      <h2 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('aboutIpfs.header')}</h2>
       <ul className='pl3'>
         <Trans i18nKey='aboutIpfs.paragraph1' t={t}>
           <li className='mb2'><strong>A hypermedia distribution protocol</strong> that incorporates ideas from Kademlia, BitTorrent, Git, and more</li>
