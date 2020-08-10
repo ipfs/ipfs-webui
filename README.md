@@ -152,8 +152,17 @@ CI setup of ipfs-webui repo runs tests against both JS and GO implementations:
 > E2E_IPFSD_TYPE=js npm run test:e2e
 ```
 
+##### Overriding versions
+
 It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
- and `go-ipfs-dep` (go-ipfs) in `devDependencies` section of `package.json` and applying the change via `npm i`
+ and `go-ipfs` in `devDependencies` section of `package.json` and applying the change via `npm i`
+ 
+One can also override the binary used in e2e tests by providing a path to an alternative one via `IPFS_GO_EXEC` (or `IPFS_JS_EXEC`):
+
+```sh
+> IPFS_GO_EXEC=$GOPATH/bin/ipfs  npm run test:e2e
+> E2E_IPFSD_TYPE=js IPFS_JS_EXEC=/path/to/jsipfs  npm run test:e2e
+```
 
 #### `E2E_API_URL`
 

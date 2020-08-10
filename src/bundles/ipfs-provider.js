@@ -3,6 +3,7 @@
 import multiaddr from 'multiaddr'
 import HttpClient from 'ipfs-http-client'
 import { getIpfs, providers } from 'ipfs-provider'
+import last from 'it-last'
 
 /**
  * @typedef {'httpClient'|'jsIpfs'|'windowIpfs'|'webExt'} ProviderName
@@ -247,7 +248,7 @@ const initIPFS = async (store) => {
         // ipfs connection is working if can we fetch the bw stats.
         // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
         try {
-          await ipfs.stats.bw()
+          await last(ipfs.stats.bw())
         } catch (err) {
           if (!/bandwidth reporter disabled in config/.test(err)) {
             throw err

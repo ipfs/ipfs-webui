@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 import { getNavHelper } from 'internal-nav-helper'
 import ReactJoyride from 'react-joyride'
 import { withTranslation } from 'react-i18next'
-import { filesToStreams } from './lib/files'
+import { normalizeFiles } from './lib/files'
 // React DnD
 import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -44,7 +44,7 @@ export class App extends Component {
     const addAtPath = isFilesPage ? routeInfo.params.path : '/'
     const files = await filesPromise
 
-    doFilesWrite(await filesToStreams(files), addAtPath)
+    doFilesWrite(await normalizeFiles(files), addAtPath)
     // Change to the files pages if the user is not there
     if (!isFilesPage) {
       doUpdateHash('/files')

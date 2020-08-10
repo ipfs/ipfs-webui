@@ -96,7 +96,7 @@ describe('selectPeerLocationsForSwarm', () => {
     }
 
     const peer1 = {
-      peer: { toB58String: () => 1 },
+      peer: '1',
       addr: {
         protoNames: () => ['1/test', 'endOfTest'],
         toString: () => '1.test',
@@ -106,7 +106,7 @@ describe('selectPeerLocationsForSwarm', () => {
     }
 
     const peer2 = {
-      peer: { toB58String: () => 2 },
+      peer: '2',
       addr: {
         protoNames: () => ['2/test', 'endOfTest'],
         toString: () => '2.test',
@@ -128,7 +128,7 @@ describe('selectPeerLocationsForSwarm', () => {
         latency: undefined,
         location: 'Republic of Mocks, Mocky',
         notes: { type: 'BOOTSTRAP_NODE' },
-        peerId: 1
+        peerId: '1'
       },
       {
         address: '2.test',
@@ -140,7 +140,7 @@ describe('selectPeerLocationsForSwarm', () => {
         latency: 1000,
         location: 'Republic of Mocks',
         notes: { type: 'RELAY_NODE', node: 'hosty' },
-        peerId: 2
+        peerId: '2'
       }
 
     ])
@@ -160,7 +160,7 @@ describe('selectPeerLocationsForSwarm', () => {
     }
 
     const peer1 = {
-      peer: { toB58String: () => 1 },
+      peer: '1',
       addr: {
         protoNames: () => ['1/test', 'endOfTest'],
         toString: () => '1.test',
@@ -189,7 +189,7 @@ describe('selectPeerLocationsForSwarm', () => {
         latency: undefined,
         location: 'Republic of Mocks, Mocky',
         notes: { type: 'BOOTSTRAP_NODE' },
-        peerId: 1
+        peerId: '1'
       }
     ])
   })
@@ -198,7 +198,7 @@ describe('selectPeerLocationsForSwarm', () => {
     const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
 
     const peer1 = {
-      peer: { toB58String: () => 1 },
+      peer: '1',
       addr: {
         toString: () => '1.test',
         encapsulate: (arg) => ({ toString: () => arg }),
@@ -227,7 +227,7 @@ describe('selectPeerLocationsForSwarm', () => {
         latency: undefined,
         location: null,
         notes: { type: 'BOOTSTRAP_NODE' },
-        peerId: 1
+        peerId: '1'
       }
     ])
   })
@@ -251,15 +251,15 @@ describe('selectPeersCoordinates', () => {
   it('should aggregate peers by close coordinates', () => {
     const { selectPeersCoordinates } = createPeersLocationBundle()
     const result = selectPeersCoordinates([
-      { peerId: 1, coordinates: [1, 1] },
-      { peerId: 2 },
-      { peerId: 3, coordinates: [1000, 1000] },
-      { peerId: 4, coordinates: [2, 2] }
+      { peerId: '1', coordinates: [1, 1] },
+      { peerId: '2' },
+      { peerId: '3', coordinates: [1000, 1000] },
+      { peerId: '4', coordinates: [2, 2] }
     ])
 
     expect(result).toEqual([
-      { peerIds: [1, 4], coordinates: [1, 1] },
-      { peerIds: [3], coordinates: [1000, 1000] }
+      { peerIds: ['1', '4'], coordinates: [1, 1] },
+      { peerIds: ['3'], coordinates: [1000, 1000] }
     ])
   })
 })
@@ -272,70 +272,49 @@ describe('PeerLocationResolver', () => {
       const result = await getPromise({
         store: {
           selectPeers: () => [{
-            peer: {
-              peerId: 1,
-              toB58String: () => '1aaa1'
-            },
+            peer: '1aaa1',
             latency: 'n/a',
             addr: {
               stringTuples: () => [[4, '123.123.123.123']]
             }
           },
           {
-            peer: {
-              peerId: 2,
-              toB58String: () => '1b1'
-            },
+            peer: '1b1',
             latency: '1ms',
             addr: {
               stringTuples: () => [[4, '127.0.0.1']]
             }
           },
           {
-            peer: {
-              peerId: 3,
-              toB58String: () => '3b3'
-            },
+            peer: '3b3',
             latency: '1ms',
             addr: {
               stringTuples: () => [[4, '16.19.16.19']]
             }
           },
           {
-            peer: {
-              peerId: 4,
-              toB58String: () => '44asd'
-            },
+            peer: '44asd',
             latency: '1ms',
             addr: {
               stringTuples: () => [[4, '4.4.4.4']]
             }
           },
           {
-            peer: {
-              peerId: 44,
-              toB58String: () => '4sameAs4'
-            },
+            peer: '4sameAs4',
             latency: '1ms',
             addr: {
               stringTuples: () => [[4, '4.4.4.4']]
             }
           },
           {
-            peer: {
-              peerId: 5,
-              toB58String: () => 'newPeerThatShouldThrow'
-            },
+            peer: 'newPeerThatShouldThrow',
             latency: '100s',
             addr: {
               stringTuples: () => [[4, '5.5.5.5']]
             }
           },
           {
-            peer: {
-              peerId: 11,
-              toB58String: () => 'sameIpAs1'
-            },
+            peer: 'sameIpAs1',
             latency: 'n/a',
             addr: {
               stringTuples: () => [[4, '123.123.123.123']]
@@ -357,10 +336,7 @@ describe('PeerLocationResolver', () => {
       const { getPromise } = createPeersLocationBundle()
 
       const peers = new Array(1000).fill().map((_, index) => ({
-        peer: {
-          peerId: index,
-          toB58String: () => `${index}aa`
-        },
+        peer: `${index}aa`,
         latency: '1ms',
         addr: {
           stringTuples: () => [[4, `${index}.0.${index}.${index}`]]

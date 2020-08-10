@@ -1,12 +1,13 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import ms from 'milliseconds'
+import last from 'it-last'
 
 const bundle = createAsyncResourceBundle({
   name: 'nodeBandwidth',
   actionBaseType: 'NODE_BANDWIDTH',
   getPromise: async ({ getIpfs }) => {
     try {
-      const stats = await getIpfs().stats.bw()
+      const stats = await last(getIpfs().stats.bw())
       return stats
     } catch (err) {
       if (/bandwidth reporter disabled in config/.test(err)) {
