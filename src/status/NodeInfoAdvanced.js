@@ -52,8 +52,8 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
               isMultiaddr(ipfsApiAddress)
                 ? (
                   <div className="flex items-center">
-                    <Address value={ipfsApiAddress} />
-                      <Link smooth className='ml2 link blue sans-serif fw6' to="#/settings#api">{t('apiEdit')}</Link>
+                  <Address value={ipfsApiAddress} />
+                  <Link smooth className='ml2 link blue sans-serif fw6' to="#/settings#api">{t('apiEdit')}</Link>
                   </div>)
                 : ipfsApiAddress
             } />
