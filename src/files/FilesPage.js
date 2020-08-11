@@ -237,7 +237,7 @@ class FilesPage extends React.Component {
           onDownload={() => this.onDownload([contextMenu.file])}
           onPin={() => this.props.doFilesPin(contextMenu.file.cid)}
           onUnpin={() => this.props.doFilesUnpin(contextMenu.file.cid)}
-          isCliTutorModeEnabled={isCliTutorModeEnabled} // TODO connect ContextMenu to redux
+          isCliTutorModeEnabled={isCliTutorModeEnabled}
           onCliTutorMode={() => this.showModal(CLI_TUTOR_MODE, [contextMenu.file])}
           doSetCliOptions={doSetCliOptions}
         />

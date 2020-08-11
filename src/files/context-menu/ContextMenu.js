@@ -83,7 +83,7 @@ class ContextMenu extends React.Component {
           </Option>
           { !isUpperDir && !isUnknown && onDownload &&
             <Option onClick={this.wrap('onDownload')} isCliTutorModeEnabled={isCliTutorModeEnabled}
-                    onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DOWNLOAD_OBJECT_COMMAND)}>
+              onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DOWNLOAD_OBJECT_COMMAND)}>
               <StrokeDownload className='w2 mr2 fill-aqua' />
               {t('actions.download')}
             </Option>

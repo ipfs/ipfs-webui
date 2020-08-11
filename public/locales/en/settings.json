@@ -101,6 +101,11 @@
   },
   "cli": {
     "description": "Copy the following and paste it into your terminal application to do this task in IPFS via the command line.",
-    "extraNotes": "Note: Use the download icon next to copy button to download the ipfs config to your computer."
+    "extraNotes": "Note: Use the download icon next to copy button to download the ipfs config to your computer.",
+    "info": {
+      "p1": "Enable this option to display",
+      "p2": "next to common IPFS commands. Clicking an icon copies that command's code to your clipboard so you can paste it into IPFS command line interface in your terminal."
+    },
+    "enableTutorMode": "Enable command-line interface (CLI) tutor mode"
   }
 }

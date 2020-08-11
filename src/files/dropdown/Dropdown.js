@@ -9,9 +9,7 @@ export const Option = ({ children, onClick, className = '', isCliTutorModeEnable
         {children}
       </button>
       <button {...props} className={`bg-animate hover-bg-near-white pa2 pointer flex items-center  ${className}`}>
-        <CopyIcon {...props} onClick={onCliTutorMode} className='dib fill-current-color ph2 glow o-80 pointer'
-          style={{ height: '28px', transform: 'scale(1.3)', color: 'dodgerblue' }}
-        />
+        <CopyIcon {...props} onClick={() => onCliTutorMode(true)} className='dib fill-current-color glow o-80 pointer icon'/>
       </button>
     </div>
     : <button role="menuitem" className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>

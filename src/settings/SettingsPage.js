@@ -21,6 +21,7 @@ import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
 import Checkbox from '../components/checkbox/Checkbox'
 import CopyIcon from '../icons/CopyIcon'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
+import '../components/cli-tutor-mode/CliTutorMode.css'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
@@ -64,18 +65,11 @@ export const SettingsPage = ({
       <div className='mb4'>
         <Title>{t('CLI TUTOR MODE')}</Title>
         <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isCliTutorModeEnabled}
-          label={<span className='fw5 f6'>{t('Enable command-line interface (CLI) tutor mode')}</span>}/>
+          label={<span className='fw5 f6'>{t('cli.enableTutorMode')}</span>}/>
         <div className='f6 charcoal lh-copy mw7'>
-          {
-            t('Enable this option to display')
-          }
-          <CopyIcon
-            className='dib fill-current-color ph2 glow o-80'
-            style={{ height: '28px', transform: 'scale(1.3)', verticalAlign: 'bottom', color: 'dodgerblue' }}/>
-          {
-            t(`next to common IPFS commands. Clicking an icon copies
-          that command's code to your clipboard so you can paste it into IPFS command line interface in your terminal.`)
-          }
+          {t('cli.info.p1')}
+          <CopyIcon className='dib fill-current-color ph2 glow o-80 icon' />
+          {t('cli.info.p2')}
         </div>
       </div>
     </Box>

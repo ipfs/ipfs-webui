@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 
@@ -9,6 +9,8 @@ import Button from '../button/Button'
 import Overlay from '../overlay/Overlay'
 import Shell from '../shell/Shell'
 import StrokeDownload from '../../icons/StrokeDownload'
+import { cliCmdKeys, cliCommandList } from '../../bundles/files/consts'
+import './CliTutorMode.css'
 
 export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...props }) => {
   const onClickCopyToClipboard = async (command) => {
@@ -22,7 +24,7 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
           {t('cli.description')}
         </p>
         <p className='charcoal-muted w-90 center'>
-          {command.includes('ipfs config replace') ? t('cli.extraNotes') : ''}
+          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('cli.extraNotes') : ''}
         </p>
         <div>
           <Shell title="Shell">
@@ -37,11 +39,8 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
         </div>
         <div className='flex items-center'>
           {
-            command && command.includes('ipfs config replace')
-              ? <StrokeDownload
-                onClick={downloadConfig}
-                style={{ height: '28px', transform: 'scale(1.5)', verticalAlign: 'bottom', color: 'dodgerblue' }}
-                className='dib fill-current-color ph2 glow o-80 pointer'
+            command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]()
+              ? <StrokeDownload onClick={downloadConfig} className='dib fill-current-color glow o-80 pointer icon-l'
               /> : <div />
           }
           <Button className='ma2 tc' onClick={() => onClickCopyToClipboard(command)}>
@@ -53,8 +52,10 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
   )
 }
 
-class CliTutorMode extends Component {
-  downloadConfig = (config) => {
+const CliTutorMode = ({
+  t, filesPage, isCliTutorModeEnabled, onLeave, isCliTutorModalOpen, command, config, showIcon, doOpenCliTutorModal
+}) => {
+  const downloadConfig = (config) => {
     const url = window.URL.createObjectURL(new Blob([config]))
     const link = document.createElement('a')
     link.style.display = 'none'
@@ -65,37 +66,32 @@ class CliTutorMode extends Component {
     window.URL.revokeObjectURL(url)
   }
 
-  render () {
-    const { t, filesPage, isCliTutorModeEnabled, onLeave, isCliTutorModalOpen, command, config, showIcon, doOpenCliTutorModal } = this.props
-
-    if (isCliTutorModeEnabled) {
-      if (filesPage) {
-        return <CliTutorialModal className='outline-0' onLeave={onLeave} t={t} command={command}
-          downloadConfig={() => this.downloadConfig(config)}/>
-      }
-      return (
-        <Fragment>
-          {
-            showIcon ? <CopyIcon
-              onClick={doOpenCliTutorModal}
-              className='dib fill-current-color ph2 glow o-80 pointer'
-              style={{ height: '28px', transform: 'scale(1.5)', verticalAlign: 'bottom', color: 'dodgerblue' }}
-            /> : null
-          }
-          <Overlay show={isCliTutorModalOpen} onLeave={doOpenCliTutorModal}>
-            <CliTutorialModal className='outline-0' onLeave={() => doOpenCliTutorModal(false)} t={t} command={command}
-              downloadConfig={() => this.downloadConfig(config)}/>
-          </Overlay>
-        </Fragment>
-      )
+  if (isCliTutorModeEnabled) {
+    if (filesPage) {
+      return <CliTutorialModal className='outline-0' onLeave={onLeave} t={t} command={command}/>
     }
+    return (
+      <Fragment>
+        {
+          showIcon
+            ? <CopyIcon onClick={() => doOpenCliTutorModal(true)} className='dib fill-current-color glow o-80 pointer icon-l'/>
+            : <div/>
+        }
+        <Overlay show={isCliTutorModalOpen} onLeave={() => doOpenCliTutorModal(false)}>
+          <CliTutorialModal className='outline-0' onLeave={() => doOpenCliTutorModal(false)} t={t} command={command}
+            downloadConfig={() => downloadConfig(config)}/>
+        </Overlay>
+      </Fragment>
+    )
   }
+
+  return null
 }
 
 CliTutorialModal.propTypes = {
   onLeave: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
-  tReady: PropTypes.bool
+  command: PropTypes.string.isRequired
 }
 
 CliTutorialModal.defaultProps = {

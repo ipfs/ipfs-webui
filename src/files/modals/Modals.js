@@ -42,7 +42,7 @@ class Modals extends React.Component {
       paths: []
     },
     link: '',
-    command: 'ipfs --help',
+    command: 'ipfs --help'
   }
 
   onAddByPath = (path) => {
@@ -139,25 +139,25 @@ class Modals extends React.Component {
   }
 
   cliCommand = (action, files) => {
-    let activeFileHash = ''
+    let activeCid = ''
     let fileName = ''
     let isPinned = ''
     // @TODO: handle multi-select
     if (files) {
-      activeFileHash = files[0].hash
+      activeCid = files[0].cid
       fileName = files[0].name
       isPinned = files[0].pinned
     }
 
     switch (action) {
       case cliCmdKeys.DELETE_FILE_FROM_IPFS:
-        return cliCommandList[action](activeFileHash)
+        return cliCommandList[action](activeCid)
       case cliCmdKeys.DOWNLOAD_OBJECT_COMMAND:
-        return cliCommandList[action](activeFileHash)
+        return cliCommandList[action](activeCid)
       case cliCmdKeys.RENAME_IPFS_OBJECT:
         return cliCommandList[action](fileName, '<new-name>')
       case cliCmdKeys.PIN_OBJECT:
-        return cliCommandList[action](activeFileHash, isPinned ? 'rm' : 'add')
+        return cliCommandList[action](activeCid, isPinned ? 'rm' : 'add')
       default:
         return cliCommandList[action]()
     }
