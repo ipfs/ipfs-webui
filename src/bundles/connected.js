@@ -9,6 +9,9 @@ const connected = {
     if (action.type === 'STATS_FETCH_FAILED') {
       return { lastError: Date.now() }
     }
+    if (action.type === 'NODE_INFO_OPEN') {
+      return { ...state, isNodeInfoOpen: action.payload }
+    }
     return state
   },
 
@@ -19,7 +22,11 @@ const connected = {
     'selectNodeBandwidthLastSuccess',
     'selectNodeBandwidthLastError',
     (ipfsReady, lastSuccess, lastError) => ipfsReady && lastSuccess && lastSuccess > lastError
-  )
+  ),
+
+  selectIsNodeInfoOpen: state => state.connected.isNodeInfoOpen,
+
+  doSetIsNodeInfoOpen: value => ({ dispatch }) => dispatch({ type: 'NODE_INFO_OPEN', payload: value })
 }
 
 export default connected

@@ -16,14 +16,16 @@ import './NavBar.css'
 const NavLink = ({
   to,
   icon,
-  exact,
+  alternative,
   disabled,
   children
 }) => {
   const Svg = icon
   const { hash } = window.location
   const href = `#${to}`
-  const active = exact ? hash === href : hash && hash.startsWith(href)
+  const active = alternative
+    ? hash === href || hash.startsWith(`${href}${alternative}`)
+    : hash && hash.startsWith(href)
   const anchorClass = classnames({
     'bg-white-10 navbar-item-active': active,
     'o-50 no-pointer-events': disabled
@@ -63,7 +65,7 @@ export const NavBar = ({ t }) => {
           </div>
         </a>
         <div className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
-          <NavLink to='/' exact icon={StrokeMarketing}>{t('status:title')}</NavLink>
+          <NavLink to='/' alternative="status" icon={StrokeMarketing}>{t('status:title')}</NavLink>
           <NavLink to='/files' icon={StrokeWeb}>{t('files:title')}</NavLink>
           <NavLink to='/explore' icon={StrokeIpld}>{t('explore:tabName')}</NavLink>
           <NavLink to='/peers' icon={StrokeCube}>{t('peers:title')}</NavLink>
