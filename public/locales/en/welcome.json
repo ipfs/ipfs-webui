@@ -7,7 +7,7 @@
   },
   "connected": {
     "header": "Connected to IPFS",
-    "paragraph1": "Welcome to the revolution! You are now a valuable part of the distributed web."
+    "paragraph1": "Welcome to the future of the internet! You are now a valuable part of the distributed web."
   },
   "notConnected": {
     "header": "Could not connect to the IPFS API",
