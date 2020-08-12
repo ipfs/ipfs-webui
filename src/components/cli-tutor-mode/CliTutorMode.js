@@ -19,11 +19,11 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
       <ModalBody icon={CopyIcon}>
-        <p className='charcoal w-80 center'>
-          {t('cli.description')}
+        <p className='charcoal w-80 center' style={{ lineHeight: '1.3' }}>
+          {t('cliModal.description')}
         </p>
         <p className='charcoal-muted w-90 center'>
-          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('cli.extraNotes') : ''}
+          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('cliModal.extraNotes') : ''}
         </p>
         <div>
           <Shell className='tl' title="Shell">
@@ -39,7 +39,7 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
         <div className='flex items-center'>
           {
             command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]()
-              ? <StrokeDownload onClick={downloadConfig} className='dib fill-current-color glow o-80 pointer icon-l'
+              ? <StrokeDownload onClick={downloadConfig} className='dib fill-link pointer' style={{ height: 38 }}
               /> : <div />
           }
           <Button className='ma2 tc' onClick={() => onClickCopyToClipboard(command)}>

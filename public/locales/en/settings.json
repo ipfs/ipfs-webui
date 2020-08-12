@@ -15,8 +15,8 @@
     "translationProjectLink": "Join the IPFS Translation Project"
   },
   "cliModal": {
-    "description": "Copy the following and paste it into your terminal application to do this task in IPFS via the command line.",
-    "extraNotes": "Note: Use the download icon next to copy button to download the ipfs config to your computer."
+    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders in <angle brackets> with your specific parameters.",
+    "extraNotes": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
   },
   "actions": {
     "edit": "Change",
