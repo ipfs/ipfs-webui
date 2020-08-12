@@ -62,15 +62,13 @@ export const SettingsPage = ({
     <Experiments t={t} />
 
     <Box className='mb3 pa4'>
-      <div className='mb4'>
-        <Title>{t('CLI TUTOR MODE')}</Title>
+      <div className='lh-copy charcoal'>
+        <Title>{t('cliTutorMode')}</Title>
         <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isCliTutorModeEnabled}
-          label={<span className='fw5 f6'>{t('cli.enableTutorMode')}</span>}/>
-        <div className='f6 charcoal lh-copy mw7'>
-          {t('cli.info.p1')}
-          <CopyIcon className='dib fill-current-color ph2 glow o-80 icon' />
-          {t('cli.info.p2')}
-        </div>
+          label={<span className='f5'>{t('cliToggle.label')}</span>}/>
+        <Trans i18nKey='cliDescription' t={t}>
+          <p className='f6 mv2'>Enable this option to display the <CopyIcon className='dib fill-link v-mid icon' style={{ height: 24 }} /> icon next to common IPFS commands. Clicking copies that command's CLI code to your clipboard, so you can paste it into the IPFS command-line interface in your terminal.</p>
+        </Trans>
       </div>
     </Box>
 

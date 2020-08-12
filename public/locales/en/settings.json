@@ -6,6 +6,7 @@
   "language": "Language",
   "analytics": "Analytics",
   "api": "API Address",
+  "cliTutorMode": "CLI Tutor Mode",
   "config": "IPFS Config",
   "languageModal": {
     "title": "Change language",
@@ -13,12 +14,17 @@
     "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
     "translationProjectLink": "Join the IPFS Translation Project"
   },
+  "cliModal": {
+    "description": "Copy the following and paste it into your terminal application to do this task in IPFS via the command line.",
+    "extraNotes": "Note: Use the download icon next to copy button to download the ipfs config to your computer."
+  },
   "actions": {
     "edit": "Change",
     "close": "Close",
     "copyCommand": "Copy"
   },
   "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here to update your config file.</0>",
+  "cliDescription": "<0>Enable this option to display the <1></1> icon next to common IPFS commands. Clicking it copies that command's CLI code to your clipboard, so you can paste it into the IPFS command-line interface in your terminal.</0>",
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
   "ipfsDaemonOffline": "The IPFS daemon is offline. Please turn it on and try again.",
@@ -63,6 +69,9 @@
       "details": "Records JavaScript error messages and stack traces that occur while using the app, where possible. It is very helpful to know when the app is not working for you, but <1>error messages may include identifiable information</1> like CIDs or file paths, so only enable this if you are comfortable sharing that information with us."
     }
   },
+  "cliToggle": {
+    "label": "Enable command-line interface (CLI) tutor mode"
+  },
   "tour": {
     "back": "Back",
     "close": "Close",
@@ -98,14 +107,5 @@
     "issueUrl": "Open an issue",
     "feedbackUrl": "💌Leave feedback",
     "readMoreUrl": "Read More"
-  },
-  "cli": {
-    "description": "Copy the following and paste it into your terminal application to do this task in IPFS via the command line.",
-    "extraNotes": "Note: Use the download icon next to copy button to download the ipfs config to your computer.",
-    "info": {
-      "p1": "Enable this option to display",
-      "p2": "next to common IPFS commands. Clicking an icon copies that command's code to your clipboard so you can paste it into the IPFS command line interface in your terminal."
-    },
-    "enableTutorMode": "Enable command-line interface (CLI) tutor mode"
   }
 }
