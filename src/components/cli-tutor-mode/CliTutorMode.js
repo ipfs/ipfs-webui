@@ -10,7 +10,6 @@ import Overlay from '../overlay/Overlay'
 import Shell from '../shell/Shell'
 import StrokeDownload from '../../icons/StrokeDownload'
 import { cliCmdKeys, cliCommandList } from '../../bundles/files/consts'
-import './CliTutorMode.css'
 
 export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...props }) => {
   const onClickCopyToClipboard = async (command) => {
@@ -74,7 +73,7 @@ const CliTutorMode = ({
       <Fragment>
         {
           showIcon
-            ? <CopyIcon onClick={() => doOpenCliTutorModal(true)} className='dib fill-current-color glow o-80 pointer icon-l'/>
+            ? <CopyIcon onClick={() => doOpenCliTutorModal(true)} className='dib fill-link pointer' style={{ height: 34 }}/>
             : <div/>
         }
         <Overlay show={isCliTutorModalOpen} onLeave={() => doOpenCliTutorModal(false)}>

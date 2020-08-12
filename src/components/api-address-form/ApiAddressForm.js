@@ -6,7 +6,6 @@ import { CliTutorialModal } from '../cli-tutor-mode/CliTutorMode'
 import CopyIcon from '../../icons/CopyIcon'
 import Overlay from '../overlay/Overlay'
 import { cliCmdKeys, cliCommandList } from '../../bundles/files/consts'
-import '../cli-tutor-mode/CliTutorMode.css'
 
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '', isCliTutorModeEnabled }) => {
   const [value, setValue] = useState(ipfsApiAddress)
@@ -28,7 +27,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '', isCliT
   const showCliTutorIcon = () => {
     if (isCliTutorModeEnabled) {
       return (<Fragment>
-        <CopyIcon onClick={setCliTutorModal} className='dib fill-current-color glow o-80 pointer icon-l'/>
+        <CopyIcon onClick={setCliTutorModal} className='dib fill-link pointer' style={{ height: 34 }}/>
         <Overlay show={isCliTutorModalOpen} onLeave={() => setCliTutorModal(false)}>
           <CliTutorialModal onLeave={() => setCliTutorModal(!isCliTutorModalOpen)} command={cliCommandList[cliCmdKeys.UPDATE_API_SERVER_ADDRESS]()} t={t} />
         </Overlay>
