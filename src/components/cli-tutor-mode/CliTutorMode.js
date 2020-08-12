@@ -26,7 +26,7 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
           { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('cli.extraNotes') : ''}
         </p>
         <div>
-          <Shell title="Shell">
+          <Shell className='tl' title="Shell">
             <code className='db'><b className='no-select'>$ </b>{command}</code>
           </Shell>
         </div>
