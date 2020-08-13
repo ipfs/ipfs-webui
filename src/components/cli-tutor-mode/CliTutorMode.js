@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../modal/Modal'
-import CopyIcon from '../../icons/CopyIcon'
+import StrokeCode from '../../icons/StrokeCode'
 import Button from '../button/Button'
 import Overlay from '../overlay/Overlay'
 import Shell from '../shell/Shell'
@@ -18,7 +18,7 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
-      <ModalBody icon={CopyIcon}>
+      <ModalBody icon={StrokeCode}>
         <p className='charcoal w-80 center' style={{ lineHeight: '1.3' }}>
           {t('cliModal.description')}
         </p>
@@ -73,7 +73,7 @@ const CliTutorMode = ({
       <Fragment>
         {
           showIcon
-            ? <CopyIcon onClick={() => doOpenCliTutorModal(true)} className='dib fill-link pointer' style={{ height: 34 }}/>
+            ? <StrokeCode onClick={() => doOpenCliTutorModal(true)} className='dib fill-link pointer' style={{ height: 44 }}/>
             : <div/>
         }
         <Overlay show={isCliTutorModalOpen} onLeave={() => doOpenCliTutorModal(false)}>

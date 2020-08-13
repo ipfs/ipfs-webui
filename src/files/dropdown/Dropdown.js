@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import { Dropdown as Drop, DropdownMenu as Menu } from '@tableflip/react-dropdown'
-import CopyIcon from '../../icons/CopyIcon'
+import StrokeCode from '../../icons/StrokeCode'
 
 export const Option = ({ children, onClick, className = '', isCliTutorModeEnabled, onCliTutorMode, ...props }) => (
   isCliTutorModeEnabled
@@ -9,7 +9,7 @@ export const Option = ({ children, onClick, className = '', isCliTutorModeEnable
         {children}
       </button>
       <button {...props} className={`bg-animate hover-bg-near-white pa2 pointer flex items-center  ${className}`}>
-        <CopyIcon {...props} onClick={() => onCliTutorMode(true)} className='dib fill-link pointer' style={{ height: 32 }}/>
+        <StrokeCode {...props} onClick={() => onCliTutorMode(true)} className='dib fill-link pointer' style={{ height: 38 }}/>
       </button>
     </div>
     : <button role="menuitem" className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>

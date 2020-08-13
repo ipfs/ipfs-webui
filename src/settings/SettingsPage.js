@@ -19,7 +19,7 @@ import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
 import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
 import Checkbox from '../components/checkbox/Checkbox'
-import CopyIcon from '../icons/CopyIcon'
+import StrokeCode from '../icons/StrokeCode'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
 
 const PAUSE_AFTER_SAVE_MS = 3000
@@ -66,7 +66,7 @@ export const SettingsPage = ({
         <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isCliTutorModeEnabled}
           label={<span className='f5'>{t('cliToggle.label')}</span>}/>
         <Trans i18nKey='cliDescription' t={t}>
-          <p className='f6 mv2'>Enable this option to display a "copy to clipboard" <CopyIcon className='dib v-mid icon' style={{ height: 24 }} /> icon next to common IPFS commands. Clicking copies that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</p>
+          <p className='f6 mv2'>Enable this option to display a "view code" <StrokeCode className='dib v-mid icon mh1' viewBox='14 20 70 66' style={{ height: 24 }} /> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</p>
         </Trans>
       </div>
     </Box>

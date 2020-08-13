@@ -3,7 +3,7 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/Button'
 import { CliTutorialModal } from '../cli-tutor-mode/CliTutorMode'
-import CopyIcon from '../../icons/CopyIcon'
+import StrokeCode from '../../icons/StrokeCode'
 import Overlay from '../overlay/Overlay'
 import { cliCmdKeys, cliCommandList } from '../../bundles/files/consts'
 
@@ -27,7 +27,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '', isCliT
   const showCliTutorIcon = () => {
     if (isCliTutorModeEnabled) {
       return (<Fragment>
-        <CopyIcon onClick={setCliTutorModal} className='dib fill-link pointer' style={{ height: 34 }}/>
+        <StrokeCode onClick={setCliTutorModal} className='dib fill-link pointer mh2' style={{ height: 44 }}/>
         <Overlay show={isCliTutorModalOpen} onLeave={() => setCliTutorModal(false)}>
           <CliTutorialModal onLeave={() => setCliTutorModal(!isCliTutorModalOpen)} command={cliCommandList[cliCmdKeys.UPDATE_API_SERVER_ADDRESS]()} t={t} />
         </Overlay>
