@@ -73,7 +73,7 @@ const CliTutorMode = ({
       <Fragment>
         {
           showIcon
-            ? <StrokeCode onClick={() => doOpenCliTutorModal(true)} className='dib fill-link pointer' style={{ height: 44 }}/>
+            ? <StrokeCode onClick={() => doOpenCliTutorModal(true)} className='dib fill-link pointer mh2' style={{ height: 44 }}/>
             : <div/>
         }
         <Overlay show={isCliTutorModalOpen} onLeave={() => doOpenCliTutorModal(false)}>
