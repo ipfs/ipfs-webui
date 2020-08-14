@@ -61,10 +61,10 @@ export const SettingsPage = ({
     <Experiments t={t} />
 
     <Box className='mb3 pa4'>
-      <div className='lh-copy charcoal'>
+      <div className='charcoal'>
         <Title>{t('cliTutorMode')}</Title>
         <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isCliTutorModeEnabled}
-          label={<span className='f5'>{t('cliToggle.label')}</span>}/>
+          label={<span className='f5 lh-copy'>{t('cliToggle.label')}</span>}/>
         <Trans i18nKey='cliDescription' t={t}>
           <p className='f6 mv2'>Enable this option to display a "view code" <StrokeCode className='dib v-mid icon mh1 fill-charcoal' viewBox='14 20 70 66' style={{ height: 24 }} /> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</p>
         </Trans>
