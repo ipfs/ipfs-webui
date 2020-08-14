@@ -5,8 +5,6 @@ import { withTranslation } from 'react-i18next'
 import Address from '../components/address/Address'
 import Details from '../components/details/Details'
 import ProviderLink from '../components/provider-link/ProviderLink'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { HashLink as Link } from 'react-router-hash-link'
 import { Definition, DefinitionList } from '../components/definition/Definition.js'
 
 function isMultiaddr (addr) {
@@ -43,7 +41,6 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
   }
 
   return (
-    <Router>
       <Details className='mt3 f6' summaryText={t('advanced')} open={isNodeInfoOpen} onClick={handleSummaryClick}>
         <DefinitionList className='mt3'>
           <Definition advanced term={t('gateway')} desc={gatewayUrl} />
@@ -53,7 +50,7 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
                 ? (
                   <div className="flex items-center">
                     <Address value={ipfsApiAddress} />
-                    <Link smooth className='ml2 link blue sans-serif fw6' to="#/settings#api">{t('apiEdit')}</Link>
+                    <a className='ml2 link blue sans-serif fw6' href="#/settings#api">{t('apiEdit')}</a>
                   </div>)
                 : ipfsApiAddress
             } />
@@ -63,7 +60,6 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
           <Definition advanced term={t('publicKey')} desc={publicKey} />
         </DefinitionList>
       </Details>
-    </Router>
   )
 }
 
