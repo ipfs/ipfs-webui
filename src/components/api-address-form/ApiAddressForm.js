@@ -20,8 +20,8 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '' }) => {
   }
   return (
     <form onSubmit={onSubmit}>
-      <label htmlFor='api-address' className='db f7 mb2 ttu tracked charcoal pl1'>{t('apiAddressForm.apiLabel')}</label>
       <input id='api-address'
+        aria-labelledby={t('apiAddressForm.apiLabel')}
         type='text'
         className='w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 focus-outline'
         onChange={onChange}
