@@ -1,15 +1,31 @@
-import fileReader from 'pull-file-reader'
-import CID from 'cids'
+/**
+ * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('../bundles/files/actions').FileStat} FileStat
+ * @typedef {import('cids')} CID
+ */
 
-export async function filesToStreams (files) {
+/**
+ * @typedef {Object} FileExt
+ * @property {string} [filepath]
+ * @property {string} [webkitRelativePath]
+ *
+ * @typedef {FileExt &  File} ExtendedFile
+ *
+ * @typedef {Object} FileStream
+ * @property {string} path
+ * @property {Blob} content
+ * @property {number} size
+ *
+ * @param {ExtendedFile[]} files
+ * @returns {FileStream[]}
+ */
+export function normalizeFiles (files) {
   const streams = []
 
   for (const file of files) {
-    const stream = fileReader(file)
-
     streams.push({
       path: file.filepath || file.webkitRelativePath || file.name,
-      content: stream,
+      content: file,
       size: file.size
     })
   }
@@ -17,48 +33,79 @@ export async function filesToStreams (files) {
   return streams
 }
 
+/**
+ * @typedef {Object} FileDownload
+ * @property {string} url
+ * @property {string} filename
+ *
+ * @param {FileStat} file
+ * @param {string} gatewayUrl
+ * @param {string} apiUrl
+ * @returns {Promise<FileDownload>}
+ */
 async function downloadSingle (file, gatewayUrl, apiUrl) {
   let url, filename
 
   if (file.type === 'directory') {
-    url = `${apiUrl}/api/v0/get?arg=${file.hash}&archive=true&compress=true`
+    url = `${apiUrl}/api/v0/get?arg=${file.cid}&archive=true&compress=true`
     filename = `${file.name}.tar.gz`
   } else {
-    url = `${gatewayUrl}/ipfs/${file.hash}`
+    url = `${gatewayUrl}/ipfs/${file.cid}`
     filename = file.name
   }
 
   return { url, filename }
 }
 
-export async function makeHashFromFiles (files, ipfs) {
-  let cid = await ipfs.object.new('unixfs-dir')
+/**
+ * @param {FileStat[]} files
+ * @param {IPFSService} ipfs
+ * @returns {Promise<CID>}
+ */
+export async function makeCIDFromFiles (files, ipfs) {
+  let cid = await ipfs.object.new({ template: 'unixfs-dir' })
 
   for (const file of files) {
-    cid = await ipfs.object.patch.addLink(cid.multihash, {
+    cid = await ipfs.object.patch.addLink(cid, {
       name: file.name,
+      // @ts-ignore - can this be `null` ?
       size: file.size,
-      cid: new CID(file.hash)
+      cid: file.cid
     })
   }
 
-  return cid.toString()
+  return cid
 }
 
+/**
+ *
+ * @param {FileStat[]} files
+ * @param {string} apiUrl
+ * @param {IPFSService} ipfs
+ * @returns {Promise<FileDownload>}
+ */
 async function downloadMultiple (files, apiUrl, ipfs) {
   if (!apiUrl) {
     const e = new Error('api url undefined')
     return Promise.reject(e)
   }
 
-  const multihash = await makeHashFromFiles(files, ipfs)
+  const cid = await makeCIDFromFiles(files, ipfs)
 
   return {
-    url: `${apiUrl}/api/v0/get?arg=${multihash}&archive=true&compress=true`,
-    filename: `download_${multihash}.tar.gz`
+    url: `${apiUrl}/api/v0/get?arg=${cid}&archive=true&compress=true`,
+    filename: `download_${cid}.tar.gz`
   }
 }
 
+/**
+ *
+ * @param {FileStat[]} files
+ * @param {string} gatewayUrl
+ * @param {string} apiUrl
+ * @param {IPFSService} ipfs
+ * @returns {Promise<FileDownload>}
+ */
 export async function getDownloadLink (files, gatewayUrl, apiUrl, ipfs) {
   if (files.length === 1) {
     return downloadSingle(files[0], gatewayUrl, apiUrl)
@@ -67,18 +114,23 @@ export async function getDownloadLink (files, gatewayUrl, apiUrl, ipfs) {
   return downloadMultiple(files, apiUrl, ipfs)
 }
 
+/**
+ * @param {FileStat[]} files
+ * @param {IPFSService} ipfs
+ * @returns {Promise<string>}
+ */
 export async function getShareableLink (files, ipfs) {
-  let hash
+  let cid
   let filename
 
   if (files.length === 1) {
-    hash = files[0].hash
+    cid = files[0].cid
     if (files[0].type === 'file') {
       filename = `?filename=${encodeURIComponent(files[0].name)}`
     }
   } else {
-    hash = await makeHashFromFiles(files, ipfs)
+    cid = await makeCIDFromFiles(files, ipfs)
   }
 
-  return `https://ipfs.io/ipfs/${hash}${filename || ''}`
+  return `https://ipfs.io/ipfs/${cid}${filename || ''}`
 }

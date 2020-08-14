@@ -7,7 +7,13 @@ describe('Peers screen', () => {
   let peeraddr
   beforeAll(async () => {
     // spawn an ephemeral local node for manual swarm connect test
-    ipfsd = await createController({ type: 'go', test: true, disposable: true })
+    ipfsd = await createController({
+      type: 'go',
+      ipfsBin: require('go-ipfs').path(),
+      ipfsHttpModule: require('ipfs-http-client'),
+      test: true,
+      disposable: true
+    })
     const { addresses } = await ipfsd.api.id()
     peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
     // connect to peer to have something  in the peer table

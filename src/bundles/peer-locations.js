@@ -53,7 +53,7 @@ export default function (opts) {
     'selectBootstrapPeers',
     'selectIdentity',
     (peers, locations = {}, bootstrapPeers, identity) => peers && peers.map(peer => {
-      const peerId = peer.peer.toB58String()
+      const peerId = peer.peer
       const locationObj = locations ? locations[peerId] : null
       const location = toLocationString(locationObj)
       const flagCode = locationObj && locationObj.country_code
@@ -193,7 +193,7 @@ const isPrivateAndNearby = (maddr, identity) => {
 }
 
 const parseNotes = (peer, bootstrapPeers) => {
-  const peerId = peer.peer.toB58String()
+  const peerId = peer.peer
   const addr = peer.addr
   const ipfsAddr = addr.encapsulate(`/ipfs/${peerId}`).toString()
   const p2pAddr = addr.encapsulate(`/p2p/${peerId}`).toString()
@@ -234,7 +234,7 @@ class PeerLocationResolver {
     const res = {}
 
     for (const p of this.optimizedPeerSet(peers)) {
-      const peerId = p.peer.toB58String()
+      const peerId = p.peer
 
       const ipv4Tuple = p.addr.stringTuples().find(isNonHomeIPv4)
       if (!ipv4Tuple) {

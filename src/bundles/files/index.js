@@ -120,7 +120,7 @@ export default () => {
           }
 
           if (data.path === '/pins') {
-            additional.pins = data.content.map(f => f.hash)
+            additional.pins = data.content.map(f => f.cid)
           }
         }
 
