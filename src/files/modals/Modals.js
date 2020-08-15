@@ -11,6 +11,7 @@ import DeleteModal from './delete-modal/DeleteModal'
 import AddByPathModal from './add-by-path-modal/AddByPathModal'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts'
+import { realMfsPath } from '../../bundles/files/actions'
 // Constants
 const NEW_FOLDER = 'new_folder'
 const SHARE = 'share'
@@ -142,11 +143,13 @@ class Modals extends React.Component {
     let activeCid = ''
     let fileName = ''
     let isPinned = ''
+    let path = ''
     // @TODO: handle multi-select
     if (files) {
       activeCid = files[0].cid
       fileName = files[0].name
       isPinned = files[0].pinned
+      path = realMfsPath(files[0].path)
     }
 
     switch (action) {
@@ -155,7 +158,7 @@ class Modals extends React.Component {
       case cliCmdKeys.DOWNLOAD_OBJECT_COMMAND:
         return cliCommandList[action](activeCid)
       case cliCmdKeys.RENAME_IPFS_OBJECT:
-        return cliCommandList[action](fileName, '<new-name>')
+        return cliCommandList[action](path, fileName)
       case cliCmdKeys.PIN_OBJECT:
         return cliCommandList[action](activeCid, isPinned ? 'rm' : 'add')
       default:

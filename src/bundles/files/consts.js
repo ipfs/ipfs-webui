@@ -60,7 +60,10 @@ export const cliCommandList = {
   [cliCmdKeys.DELETE_FILE_FROM_IPFS]: (cid) => `ipfs files rm ${cid}`,
   [cliCmdKeys.DOWNLOAD_OBJECT_COMMAND]: (cid) => `ipfs get ${cid}`,
   [cliCmdKeys.PIN_OBJECT]: (cid, op) => `ipfs pin ${op} ${cid}`,
-  [cliCmdKeys.RENAME_IPFS_OBJECT]: (oldFileName, newFileName) => `ipfs files mv "${oldFileName}" ${newFileName}`,
+  [cliCmdKeys.RENAME_IPFS_OBJECT]: (filePath, fileName) => {
+    const prefix = filePath.replace(fileName, '').trim()
+    return `ipfs files mv "${filePath}" "${prefix}<new-name>"`
+  },
   [cliCmdKeys.ADD_FILE]: () => 'ipfs add <file-name>',
   [cliCmdKeys.ADD_DIRECTORY]: () => 'ipfs add -r <folder-name>',
   [cliCmdKeys.CREATE_NEW_DIRECTORY]: () => 'ipfs add -r <folder-name>',
