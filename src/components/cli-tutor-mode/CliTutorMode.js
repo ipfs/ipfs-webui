@@ -12,8 +12,10 @@ import StrokeDownload from '../../icons/StrokeDownload'
 import { cliCmdKeys, cliCommandList } from '../../bundles/files/consts'
 
 export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...props }) => {
-  const onClickCopyToClipboard = async (command) => {
-    await navigator.clipboard.writeText(command)
+  const onClickCopyToClipboard = (cmd) => {
+    navigator.clipboard.writeText(cmd).then(() => {
+      onLeave()
+    })
   }
 
   return (
