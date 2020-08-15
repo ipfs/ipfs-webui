@@ -1,4 +1,4 @@
-// @ts-check
+/* eslint-disable require-yield */
 
 import { join, dirname, basename } from 'path'
 import { getDownloadLink, getShareableLink } from '../../lib/files'
@@ -8,12 +8,13 @@ import map from 'it-map'
 import last from 'it-last'
 import CID from 'cids'
 
-import { make, sortFiles, infoFromPath } from './utils'
+import { spawn, send, ensureMFS, Channel, sortFiles, infoFromPath } from './utils'
 import { IGNORED_FILES, ACTIONS } from './consts'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
  * @typedef {import('../../lib/files').FileStream} FileStream
+ * @typedef {import('./utils').Info} Info
  * @typedef {import('ipfs').Pin} Pin
  */
 
@@ -41,7 +42,7 @@ import { IGNORED_FILES, ACTIONS } from './consts'
  */
 const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, isParent }, prefix = '/ipfs') => ({
   size: cumulativeSize || size || 0,
-  type: (type === 'dir' || type === 'directory') ? 'directory' : (type === 'unknown') ? 'unknown' : 'file',
+  type: type === 'dir' ? 'directory' : type,
   cid,
   name: name || path.split('/').pop() || cid.toString(),
   path: path || `${prefix}/${cid.toString()}`,
@@ -65,7 +66,7 @@ const realMfsPath = (path) => {
 /**
  * @typedef {Object} Stat
  * @property {string} path
- * @property {'file'|'dir'|'unknown'} type
+ * @property {'file'|'directory'|'unknown'} type
  * @property {CID} cid
  * @property {number} size
  *
@@ -125,58 +126,399 @@ const getPins = async function * (ipfs) {
 }
 
 /**
- * @typedef {Object} FetchFilesResult
- * @property {string} path
- * @property {Date} fetched
- * @property {'directory'} type
- * @property {FileStat[]} content
+ * @typedef {import('./protocol').Message} Message
+ * @typedef {import('./protocol').Model} Model
+ * @typedef {import('./protocol').PageContent} PageContent
+ * @typedef {import('./utils').Context} Context
+ *
+ * @typedef {import('redux-bundler').Actions<ReturnType<typeof actions>>} Actions
+ *
+ */
+
+const actions = () => ({
+  /**
+   * Fetches list of pins and updates `state.pins` on succeful completion.
+   */
+  doPinsFetch: () => spawn(ACTIONS.PIN_LIST, async function * (ipfs) {
+    const cids = await all(getPinCIDs(ipfs))
+
+    return { pins: cids }
+  }),
+
+  /**
+   * Syncs currently selected path file list.
+   * @returns {function(Context):Promise<void>}
+   */
+  doFilesFetch: () => async ({ store }) => {
+    const isReady = store.selectIpfsReady()
+    const isConnected = store.selectIpfsConnected()
+    const isFetching = store.selectFilesIsFetching()
+    const info = store.selectFilesPathInfo()
+    if (isReady && isConnected && !isFetching && info) {
+      await store.doFetch(info)
+    }
+  },
+
+  /**
+   * Fetches conten for the currently selected path. And updates
+   * `state.pageContent` on succesful completion.
+   * @param {Info} info
+   */
+  doFetch: ({ path, realPath, isMfs, isPins, isRoot }) => spawn(ACTIONS.FETCH, async function * (ipfs, { store }) {
+    if (isRoot && !isMfs && !isPins) {
+      throw new Error('not supposed to be here')
+    }
+
+    if (isRoot && isPins) {
+      const pins = await all(getPins(ipfs)) // FIX: pins path
+
+      return {
+        path: '/pins',
+        fetched: Date.now(),
+        type: 'directory',
+        content: pins
+      }
+    }
+
+    const resolvedPath = realPath.startsWith('/ipns')
+      ? await last(ipfs.name.resolve(realPath))
+      : realPath
+
+    const stats = await stat(ipfs, resolvedPath)
+    const time = Date.now()
+
+    switch (stats.type) {
+      case 'unknown': {
+        return {
+          fetched: time,
+          ...stats
+        }
+      }
+      case 'file': {
+        return {
+          ...fileFromStats({ ...stats, path }),
+          fetched: time,
+          type: 'file',
+          read: () => ipfs.cat(stats.cid),
+          name: path.split('/').pop(),
+          size: stats.size,
+          cid: stats.cid
+        }
+      }
+      case 'directory': {
+        return await dirStats(ipfs, stats.cid, {
+          path,
+          isRoot,
+          sorting: store.selectFilesSorting()
+        })
+      }
+      default: {
+        throw Error(`Unsupported file type "${stats.type}"`)
+      }
+    }
+  }),
+
+  /**
+   * Imports given `source` files to the provided `root` path. On completion
+   * (success or fail) will trigger `doFilesFetch` to update the state.
+   * @param {FileStream[]} source
+   * @param {string} root
+   */
+  doFilesWrite: (source, root) => spawn(ACTIONS.WRITE, async function * (ipfs, { store }) {
+    const files = source
+      // Skip ignored files
+      .filter($ => !IGNORED_FILES.includes(basename($.path)))
+      // Dropped files come as absolute, those added by the file input come
+      // as relative paths, so normalise all to be relative.
+      .map($ => $.path[0] === '/' ? { ...$, path: $.path.slice(1) } : $)
+
+    const uploadSize = files.reduce((prev, { size }) => prev + size, 0)
+    // Just estimate download size to be around 10% of upload size.
+    const downloadSize = uploadSize * 10 / 100
+    const totalSize = uploadSize + downloadSize
+    let loaded = 0
+
+    const entries = files.map(({ path, size }) => ({ path, size }))
+
+    yield { entries, progress: 0 }
+
+    const { result, progress } = importFiles(ipfs, files)
+
+    for await (const update of progress) {
+      loaded += update.loaded
+      yield { entries, progress: loaded / totalSize * 100 }
+    }
+
+    try {
+      const added = await result
+
+      const numberOfFiles = files.length
+      const numberOfDirs = countDirs(files)
+      const expectedResponseCount = numberOfFiles + numberOfDirs
+
+      if (added.length !== expectedResponseCount) {
+        // See https://github.com/ipfs/js-ipfs-api/issues/797
+        throw Object.assign(new Error('API returned a partial response.'), {
+          code: 'ERR_API_RESPONSE'
+        })
+      }
+
+      for (const { path, cid } of added) {
+        // Only go for direct children
+        if (path.indexOf('/') === -1 && path !== '') {
+          const src = `/ipfs/${cid}`
+          const dst = join(realMfsPath(root || '/files'), path)
+
+          try {
+            await ipfs.files.cp(src, dst)
+          } catch (err) {
+            throw Object.assign(new Error('Folder already exists.'), {
+              code: 'ERR_FOLDER_EXISTS'
+            })
+          }
+        }
+      }
+
+      yield { entries, progress: 100 }
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
+   * Deletes `files` with provided paths. On completion (success sor fail) will
+   * trigger `doFilesFetch` to update the state.
+   * @param {string[]} files
+   */
+  doFilesDelete: (files) => spawn(ACTIONS.DELETE, async function * (ipfs, { store }) {
+    ensureMFS(store)
+
+    if (files.length > 0) {
+      const promises = files
+        .map(file => ipfs.files.rm(realMfsPath(file), {
+          recursive: true
+        }))
+
+      try {
+        await Promise.all(promises)
+
+        const src = files[0]
+        const path = src.slice(0, src.lastIndexOf('/'))
+        await store.doUpdateHash(path)
+
+        return undefined
+      } finally {
+        await store.doFilesFetch()
+      }
+    }
+
+    return undefined
+  }),
+
+  /**
+   * Adds file under the `src` path to the given `root` path. On completion will
+   * trigger `doFilesFetch` to update the state.
+   * @param {string} root
+   * @param {string} src
+   */
+  doFilesAddPath: (root, src) => spawn(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
+    ensureMFS(store)
+
+    const path = realMfsPath(src)
+    /** @type {string} */
+    const name = (path.split('/').pop())
+    const dst = realMfsPath(join(root, name))
+    const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
+
+    try {
+      return ipfs.files.cp(srcPath, dst)
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
+   * Creates a download link for the provided files.
+   * @param {FileStat[]} files
+   */
+  doFilesDownloadLink: (files) => spawn(ACTIONS.DOWNLOAD_LINK, async function * (ipfs, { store }) {
+    ensureMFS(store)
+
+    const apiUrl = store.selectApiUrl()
+    const gatewayUrl = store.selectGatewayUrl()
+    return await getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
+  }),
+
+  /**
+   * Generates sharable link for the provided files.
+   * @param {FileStat[]} files
+   */
+  doFilesShareLink: (files) => spawn(ACTIONS.SHARE_LINK, async function * (ipfs, { store }) {
+    ensureMFS(store)
+
+    return await getShareableLink(files, ipfs)
+  }),
+
+  /**
+   * Moves file from `src` MFS path to a `dst` MFS path. On completion (success
+   * or fail) triggers `doFilesFetch` to update the state.
+   * @param {string} src
+   * @param {string} dst
+   */
+  doFilesMove: (src, dst) => spawn(ACTIONS.MOVE, async function * (ipfs, { store }) {
+    ensureMFS(store)
+
+    try {
+      await ipfs.files.mv(realMfsPath(src), realMfsPath(dst))
+
+      const page = store.selectFiles()
+      const pagePath = page && page.path
+      if (src === pagePath) {
+        await store.doUpdateHash(dst)
+      }
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
+   * Copies file from `src` MFS path to a `dst` MFS path. On completion (success
+   * or fail) triggers `doFilesFetch` to update the state.
+  * @param {string} src
+  * @param {string} dst
+  */
+  doFilesCopy: (src, dst) => spawn(ACTIONS.COPY, async function * (ipfs, { store }) {
+    ensureMFS(store)
+
+    try {
+      await ipfs.files.cp(realMfsPath(src), realMfsPath(dst))
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
+   * Creates a directory at given MFS `path`. On completion (success or fail)
+   * triggers `doFilesFetch` to update the state.
+   * @param {string} path
+   */
+  doFilesMakeDir: (path) => spawn(ACTIONS.MAKE_DIR, async function * (ipfs, { store }) {
+    ensureMFS(store)
+
+    try {
+      await ipfs.files.mkdir(realMfsPath(path), {
+        parents: true
+      })
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
+   * Pins given `cid`. On completion (success or fail) triggers `doPinsFetch` to
+   * update the state.
+   * @param {CID} cid
+   */
+  doFilesPin: (cid) => spawn(ACTIONS.PIN_ADD, async function * (ipfs, { store }) {
+    try {
+      return await ipfs.pin.add(cid)
+    } finally {
+      await store.doPinsFetch()
+    }
+  }),
+
+  /**
+   * Unpins given `cid`. On completion (success or fail) triggers `doPinsFetch`
+   * to update the state.
+   * @param {CID} cid
+   */
+  doFilesUnpin: (cid) => spawn(ACTIONS.PIN_REMOVE, async function * (ipfs, { store }) {
+    try {
+      return await ipfs.pin.rm(cid)
+    } finally {
+      await store.doPinsFetch()
+    }
+  }),
+
+  /**
+   * Clears all failed tasks.
+   */
+  doFilesDismissErrors: () => send({ type: ACTIONS.DISMISS_ERRORS }),
+
+  /**
+   * @param {string} path
+   */
+  doFilesNavigateTo: (path) =>
+    /**
+     * @param {Context} context
+     */
+    async ({ store }) => {
+      const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
+      const files = store.selectFiles()
+      const url = store.selectFilesPathInfo()
+
+      if (files && files.path === link && url) {
+        await store.doFilesFetch()
+      } else {
+        await store.doUpdateHash(link)
+      }
+    },
+
+  /**
+   * @param {import('./consts').SORTING} by
+   * @param {boolean} asc
+   */
+  doFilesUpdateSorting: (by, asc) => send({
+    type: ACTIONS.UPDATE_SORT,
+    payload: { by, asc }
+  }),
+
+  /**
+   * Clears all the tasks (pending, complete and failed).
+   */
+  doFilesClear: () => send({ type: ACTIONS.CLEAR_ALL }),
+
+  /**
+   * Gets size of the MFS. On succesful completion `state.mfsSize` will get
+   * updated.
+   */
+  doFilesSizeGet: () => spawn(ACTIONS.SIZE_GET, async function * (ipfs) {
+    const stat = await ipfs.files.stat('/')
+    return { size: stat.cumulativeSize }
+  })
+})
+
+export default actions
+/**
  *
  * @param {IPFSService} ipfs
- * @param {string} _id
- * @param {*} options
+ * @param {FileStream[]} files
  */
-const fetchFilesFX = async (ipfs, _id, { store }) => {
-  let { path, realPath, isMfs, isPins, isRoot } = store.selectFilesPathInfo()
+const importFiles = (ipfs, files) => {
+  /** @type {Channel<{ total:number, loaded: number}>} */
+  const channel = new Channel()
+  const result = all(ipfs.addAll(files, {
+    pin: false,
+    wrapWithDirectory: false,
+    onUploadProgress: (event) => channel.send(event),
+    onDownloadProgress: (event) => channel.send(event)
+  }))
 
-  if (isRoot && !isMfs && !isPins) {
-    throw new Error('not supposed to be here')
-  }
+  result.then(() => channel.close(), error => channel.close(error))
 
-  if (isRoot && isPins) {
-    const pins = await all(getPins(ipfs)) // FIX: pins path
+  return { result, progress: channel }
+}
 
-    return {
-      path: '/pins',
-      fetched: Date.now(),
-      type: 'directory',
-      content: pins
-    }
-  }
-
-  if (realPath.startsWith('/ipns')) {
-    realPath = await last(ipfs.name.resolve(realPath))
-  }
-
-  const stats = await stat(ipfs, realPath)
-
-  if (stats.type === 'unknown') {
-    return stats
-  }
-
-  if (stats.type === 'file') {
-    return {
-      ...fileFromStats({ ...stats, path }),
-      fetched: Date.now(),
-      type: 'file',
-      read: () => ipfs.cat(stats.cid),
-      name: path.split('/').pop(),
-      size: stats.size,
-      cid: stats.cid
-    }
-  }
-
-  // Otherwise get the directory info
-  const res = await all(ipfs.ls(stats.cid)) || []
+/**
+ * @param {IPFSService} ipfs
+ * @param {CID} cid
+ * @param {Object} options
+ * @param {string} options.path
+ * @param {boolean} [options.isRoot]
+ * @param {import('./utils').Sorting} options.sorting
+ */
+const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
+  const res = await all(ipfs.ls(cid)) || []
   const files = []
   const showStats = res.length < 100
 
@@ -184,7 +526,7 @@ const fetchFilesFX = async (ipfs, _id, { store }) => {
     const absPath = join(path, f.name)
     let file = null
 
-    if (showStats && f.type === 'dir') {
+    if (showStats && (f.type === 'directory' || f.type === 'dir')) {
       file = fileFromStats({ ...await stat(ipfs, f.cid), path: absPath })
     } else {
       file = fileFromStats({ ...f, path: absPath })
@@ -219,300 +561,8 @@ const fetchFilesFX = async (ipfs, _id, { store }) => {
     path: path,
     fetched: Date.now(),
     type: 'directory',
-    cid: stats.cid,
+    cid,
     upper: parent,
-    content: sortFiles(files, store.selectFilesSorting())
+    content: sortFiles(files, sorting)
   }
 }
-
-const fetchFiles = make(ACTIONS.FETCH, fetchFilesFX)
-
-/**
- *
- * @typedef {import('./utils').Info} Info
- * @typedef {Object} Store
- * @property {() => boolean} selectIpfsReady
- * @property {() => boolean} selectIpfsConnected
- * @property {() => boolean} selectFilesIsFetching
- * @property {() => Info} selectFilesPathInfo
- * @property {() => string} selectApiUrl
- * @property {() => string} selectGatewayUrl
- * @property {() => void|{path:string}} selectFiles
- * @property {() => void} doFilesFetch
- * @property {(hash:string) => void} doUpdateHash
- * @property {(event:Object) => void} dispatch
- * @property {Store} store
- */
-export default () => ({
-  doPinsFetch: make(
-    ACTIONS.PIN_LIST,
-    /**
-     * @param {IPFSService} ipfs
-     */
-    async (ipfs) => {
-      const cids = await all(getPinCIDs(ipfs))
-
-      return { pins: cids.map(String) }
-    }
-  ),
-
-  doFilesFetch: () =>
-    /**
-     * @param {Object} options
-     * @param {Store} options.store
-     */
-    async ({ store, ...args }) => {
-      const isReady = store.selectIpfsReady()
-      const isConnected = store.selectIpfsConnected()
-      const isFetching = store.selectFilesIsFetching()
-      const info = store.selectFilesPathInfo()
-
-      if (isReady && isConnected && !isFetching && info) {
-        fetchFiles()({ store, ...args })
-      }
-    },
-
-  doFilesWrite: make(
-    ACTIONS.WRITE,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {FileStream[]} files
-     * @param {*} root
-     * @param {*} id
-     * @param {Store} store
-     */
-    async (ipfs, files, root, id, { dispatch }) => {
-      files = files.filter(f => !IGNORED_FILES.includes(basename(f.path)))
-      const uploadSize = files.reduce((prev, { size }) => prev + size, 0)
-      // Just estimate download size to be around 10% of upload size.
-      const downloadSize = uploadSize * 10 / 100
-      const totalSize = uploadSize + downloadSize
-      let loaded = 0
-
-      // Normalise all paths to be relative. Dropped files come as absolute,
-      // those added by the file input come as relative paths, so normalise them.
-      files.forEach(s => {
-        if (s.path[0] === '/') {
-          s.path = s.path.slice(1)
-        }
-      })
-
-      const paths = files.map(f => ({ path: f.path, size: f.size }))
-
-      /**
-       * @param {Object} update
-       * @param {number} update.loaded
-       * @param {number} update.total
-       */
-      const updateProgress = (update) => {
-        loaded += update.loaded
-        dispatch({
-          type: 'FILES_WRITE_UPDATED',
-          payload: {
-            id,
-            paths,
-            progress: loaded / totalSize * 100
-          }
-        })
-      }
-
-      let res = null
-      try {
-        res = await all(ipfs.addAll(files, {
-          pin: false,
-          wrapWithDirectory: false,
-          onUploadProgress: updateProgress,
-          onDownloadProgress: updateProgress
-        }))
-      } catch (error) {
-        console.error(error)
-        throw error
-      }
-
-      const numberOfFiles = files.length
-      const numberOfDirs = countDirs(files)
-      const expectedResponseCount = numberOfFiles + numberOfDirs
-
-      if (res.length !== expectedResponseCount) {
-      // See https://github.com/ipfs/js-ipfs-api/issues/797
-        throw Object.assign(new Error('API returned a partial response.'), { code: 'ERR_API_RESPONSE' })
-      }
-
-      for (const { path, cid } of res) {
-      // Only go for direct children
-        if (path.indexOf('/') === -1 && path !== '') {
-          const src = `/ipfs/${cid}`
-          const dst = join(realMfsPath(root || '/files'), path)
-
-          try {
-            await ipfs.files.cp(src, dst)
-          } catch (err) {
-            throw Object.assign(new Error('Folder already exists.'), { code: 'ERR_FOLDER_EXISTS' })
-          }
-        }
-      }
-
-      updateProgress({ total: totalSize, loaded: totalSize })
-    }
-  ),
-
-  doFilesDelete: make(
-    ACTIONS.DELETE,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {string[]} files
-     */
-    (ipfs, files) => {
-      const promises = files.map(file => ipfs.files.rm(realMfsPath(file), { recursive: true }))
-      return Promise.all(promises)
-    }, { mfsOnly: true }
-  ),
-
-  doFilesAddPath: make(
-    ACTIONS.ADD_BY_PATH,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {string} root
-     * @param {string} src
-     */
-    (ipfs, root, src) => {
-      src = realMfsPath(src)
-      /** @type {string} */
-      const name = (src.split('/').pop())
-      const dst = realMfsPath(join(root, name))
-      const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
-
-      return ipfs.files.cp(srcPath, dst)
-    },
-    { mfsOnly: true }
-  ),
-
-  doFilesDownloadLink: make(
-    ACTIONS.DOWNLOAD_LINK,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {FileStat[]} files
-     * @param {string} _id
-     * @param {Store} store
-     */
-    async (ipfs, files, _id, { store }) => {
-      const apiUrl = store.selectApiUrl()
-      const gatewayUrl = store.selectGatewayUrl()
-      return getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
-    }
-  ),
-
-  doFilesShareLink: make(
-    ACTIONS.SHARE_LINK,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {FileStat[]} files
-     * @returns {Promise<string>}
-     */
-    async (ipfs, files) => getShareableLink(files, ipfs)
-  ),
-
-  doFilesMove: make(
-    ACTIONS.MOVE,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {string} src
-     * @param {string} dst
-     */
-    (ipfs, src, dst) => ipfs.files.mv(realMfsPath(src), realMfsPath(dst)),
-    { mfsOnly: true }
-  ),
-
-  doFilesCopy: make(
-    ACTIONS.COPY,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {string} src
-     * @param {string} dst
-     */
-    (ipfs, src, dst) => ipfs.files.cp(realMfsPath(src), realMfsPath(dst)),
-    { mfsOnly: true }
-  ),
-
-  doFilesMakeDir: make(
-    ACTIONS.MAKE_DIR,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {string} path
-     */
-    (ipfs, path) => ipfs.files.mkdir(realMfsPath(path), { parents: true }),
-    { mfsOnly: true }
-  ),
-
-  doFilesPin: make(
-    ACTIONS.PIN_ADD,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {CID} cid
-     */
-    (ipfs, cid) => ipfs.pin.add(cid)
-  ),
-
-  doFilesUnpin: make(
-    ACTIONS.PIN_REMOVE,
-    /**
-     * @param {IPFSService} ipfs
-     * @param {CID} cid
-     */
-    (ipfs, cid) => ipfs.pin.rm(cid)
-  ),
-
-  doFilesDismissErrors: () =>
-    /**
-     * @param {Store} store
-     */
-    async ({ dispatch }) => dispatch({ type: 'FILES_DISMISS_ERRORS' }),
-
-  /**
-   * @param {string} path
-   */
-  doFilesNavigateTo: (path) =>
-    /**
-     * @param {Store} store
-     */
-    async ({ store }) => {
-      const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
-      const files = store.selectFiles()
-      const url = store.selectFilesPathInfo()
-
-      if (files && files.path === link && url) {
-        store.doFilesFetch()
-      } else {
-        store.doUpdateHash(`${link}`)
-      }
-    },
-
-  /**
-   * @param {import('./consts').SORTING} by
-   * @param {boolean} asc
-   */
-  doFilesUpdateSorting: (by, asc) =>
-    /**
-     * @param {Store} store
-     */
-    async ({ dispatch }) => {
-      dispatch({ type: 'FILES_UPDATE_SORT', payload: { by, asc } })
-    },
-
-  doFilesClear: () =>
-    /**
-     * @param {Store} store
-     */
-    async ({ dispatch }) => dispatch({ type: 'FILES_CLEAR_ALL' }),
-
-  doFilesSizeGet: make(
-    ACTIONS.FILES_SIZE_GET,
-    /**
-     * @param {IPFSService} ipfs
-     */
-    async (ipfs) => {
-      const stat = await ipfs.files.stat('/')
-      return { size: stat.cumulativeSize }
-    }
-  )
-})

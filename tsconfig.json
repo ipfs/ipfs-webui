@@ -44,7 +44,10 @@
   ],
   "include": [
     "@types",
-    "src/bundles/files/actions.js"
+    "src/bundles/files/**/*.js",
+    "src/bundles/ipfs-provider.js",
+    "src/bundles/connected.js",
+    "**/*.ts"
   ],
   "compileOnSave": false
 }

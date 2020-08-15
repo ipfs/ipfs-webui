@@ -8,6 +8,8 @@ declare module "ipfs" {
     files: FileService
     name: NameService
     object: ObjectService
+
+    stop(options?: TimeoutOptions): Promise<void>
   }
 
   export interface CoreService {
@@ -128,7 +130,7 @@ declare module "ipfs" {
 
   export type FileType =
     | 'file'
-    | 'dir'
+    | 'directory'
 
   export interface FileStat {
     cid: CID
@@ -168,7 +170,9 @@ declare module "ipfs" {
     path: string,
     size: number,
     cid: CID,
-    type: FileType,
+    // IPFS is pretty inconsistent with type field see
+    // https://github.com/ipfs/js-ipfs/issues/3229
+    type: FileType | 'dir',
     mode: number,
     mtime: { secs: number, nsecs?: number }
   }

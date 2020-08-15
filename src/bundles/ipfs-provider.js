@@ -1,15 +1,16 @@
-// @ts-check
-
 import multiaddr from 'multiaddr'
+// @ts-ignore
 import HttpClient from 'ipfs-http-client'
+// @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
 import last from 'it-last'
 
 /**
+ * @typedef {import('ipfs').IPFSService} IPFSService
  * @typedef {'httpClient'|'jsIpfs'|'windowIpfs'|'webExt'} ProviderName
  * @typedef {Object} Model
- * @property {void|string} apiAddress
- * @property {void|ProviderName} provider
+ * @property {null|string} apiAddress
+ * @property {null|ProviderName} provider
  * @property {boolean} failed
  * @property {boolean} ready
  * @property {boolean} invalidAddress
@@ -21,7 +22,7 @@ import last from 'it-last'
  * @property {'IPFS_INIT_FINISHED'} type
  * @property {Object} payload
  * @property {ProviderName} payload.provider
- * @property {IPFSAPI} payload.ipfs
+ * @property {IPFSService} payload.ipfs
  * @property {string} [payload.apiAddress]
  *
  * @typedef {Object} InitFailed
@@ -104,6 +105,10 @@ const readAPIAddressSetting = () => {
   return setting == null ? null : asAPIAddress(setting)
 }
 
+/**
+ * @param {any} value
+ * @returns {string|null}
+ */
 const asAPIAddress = (value) => asMultiaddress(value) || asURL(value)
 
 /**
@@ -123,6 +128,8 @@ const asURL = (value) => {
 /**
  * Attempts to turn cast given value into `URL` instance. Return either `URL`
  * instance or `null`.
+ * @param {any} value
+ * @returns {string|null}
  */
 const asMultiaddress = (value) => {
   if (value != null) {
@@ -141,6 +148,7 @@ const asMultiaddress = (value) => {
  * @returns {string|object|null}
  */
 const readSetting = (id) => {
+  /** @type {string|null} */
   let setting = null
   if (window.localStorage) {
     try {
@@ -150,14 +158,20 @@ const readSetting = (id) => {
     }
 
     try {
-      return JSON.parse(setting)
+      return JSON.parse(setting || '')
     } catch (_) {
       // res was probably a string, so pass it on.
       return setting
     }
   }
+
+  return setting
 }
 
+/**
+ * @param {string} id
+ * @param {string|number|boolean|object} value
+ */
 const writeSetting = (id, value) => {
   try {
     window.localStorage.setItem(id, JSON.stringify(value))
@@ -166,25 +180,23 @@ const writeSetting = (id, value) => {
   }
 }
 
-/**
- * @typedef {Object} IPFSAPI
- * @property {(callback?:Function) => Promise<void>} stop
- */
-
-/** @type {IPFSAPI|void} */
+/** @type {IPFSService|null} */
 let ipfs = null
 
 /**
- * @typedef {Object} State
- * @property {Model} ipfs
+ * @typedef {typeof extra} Extra
+ */
+const extra = {
+  getIpfs () {
+    return ipfs
+  }
+}
+
+/**
+ * @typedef {import('redux-bundler').Selectors<typeof selectors>} Selectors
  */
 
-const bundle = {
-  name: 'ipfs',
-  reducer: (state, message) => update(state == null ? init() : state, message),
-  getExtraArgs () {
-    return { getIpfs: () => ipfs }
-  },
+const selectors = {
   /**
    * @param {State} state
    */
@@ -204,42 +216,83 @@ const bundle = {
   /**
    * @param {State} state
    */
-  selectIpfsInitFailed: state => state.ipfs.failed,
+  selectIpfsInitFailed: state => state.ipfs.failed
+}
 
-  doInitIpfs: () => async (store) => {
-    await initIPFS(store)
+/**
+ * @typedef {import('redux-bundler').Actions<typeof actions>} Actions
+ * @typedef {import('redux-bundler').Context<State, Message, {}, Extra>} Context
+ */
+
+const actions = {
+  /**
+   * @returns {function(Context):Promise<void>}
+   */
+  doInitIpfs: () => async (context) => {
+    await initIPFS(context)
   },
-
-  doStopIpfs: () => async (store) => {
+  /**
+   * @returns {function(Context):Promise<void>}
+   */
+  doStopIpfs: () => async (context) => {
     if (ipfs) {
-      ipfs.stop(() => {
-        store.dispatch({ type: 'IPFS_STOPPED' })
-      })
+      await ipfs.stop()
+      context.dispatch({ type: 'IPFS_STOPPED' })
     }
   },
 
-  doUpdateIpfsApiAddress: (address) => async (store) => {
+  /**
+   * @param {*} address
+   * @returns {function(Context):Promise<void>}
+   */
+  doUpdateIpfsApiAddress: (address) => async (context) => {
     const apiAddress = asAPIAddress(address)
     if (apiAddress == null) {
-      store.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
+      context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
     } else {
       await writeSetting('ipfsApi', apiAddress)
-      store.dispatch({ type: 'IPFS_API_ADDRESS_UPDATED', payload: apiAddress })
+      context.dispatch({ type: 'IPFS_API_ADDRESS_UPDATED', payload: apiAddress })
 
-      await initIPFS(store)
+      await initIPFS(context)
     }
   },
 
-  doDismissIpfsInvalidAddress: () => (store) => {
-    store.dispatch({ type: 'IPFS_API_ADDRESS_INVALID_DISMISS' })
+  /**
+   * @returns {function(Context):void}
+   */
+  doDismissIpfsInvalidAddress: () => (context) => {
+    context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID_DISMISS' })
   }
 }
 
-const initIPFS = async (store) => {
-  store.dispatch({ type: 'IPFS_INIT_STARTED' })
+/**
+ * @typedef {Actions & Selectors} IPFSProviderStore
+ * @typedef {Object} State
+ * @property {Model} ipfs
+ */
 
-  /** @type {Model} */
-  const { apiAddress } = store.getState().ipfs
+const bundle = {
+  name: 'ipfs',
+  /**
+   * @param {Model} [state]
+   * @param {Message} message
+   * @returns {Model}
+   */
+  reducer: (state, message) => update(state == null ? init() : state, message),
+  getExtraArgs () {
+    return extra
+  },
+  ...selectors,
+  ...actions
+}
+
+/**
+ * @param {Context} context
+ */
+const initIPFS = async (context) => {
+  context.dispatch({ type: 'IPFS_INIT_STARTED' })
+
+  const { apiAddress } = context.getState().ipfs
 
   try {
     const result = await getIpfs({
@@ -263,9 +316,9 @@ const initIPFS = async (store) => {
       ]
     })
 
-    store.dispatch({ type: 'IPFS_INIT_FINISHED', payload: result })
+    context.dispatch({ type: 'IPFS_INIT_FINISHED', payload: result })
   } catch (error) {
-    store.dispatch({ type: 'IPFS_INIT_FAILED' })
+    context.dispatch({ type: 'IPFS_INIT_FAILED' })
   }
 }
 

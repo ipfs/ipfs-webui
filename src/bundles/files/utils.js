@@ -1,89 +1,125 @@
 import { sortByName, sortBySize } from '../../lib/sort'
-import { ACTIONS, IS_MAC, SORTING } from './consts'
+import { IS_MAC, SORTING } from './consts'
 
 /**
- * @param {string} basename
- * @param {Function} action
- * @param {Object} [options]
- * @param {boolean} [options.mfsOnly]
- * @returns {(...args:any[]) => (...args:any[]) => Promise<any>}
+  * @template Name, State, Error, Return
+  * @typedef {import('./protocol').Job<Name, State, Error, Return>} Job
+  */
+
+/**
+ * @template State, Message, Ext = {}
+ * @typedef {import('redux-bundler').Store<State, Message, Ext>} ReduxStore
  */
-export const make = (basename, action, options = {}) => (...args) => async (args2) => {
-  const id = Symbol(basename)
-  const { dispatch, getIpfs, store } = args2
-  dispatch({ type: `FILES_${basename}_STARTED`, payload: { id } })
 
-  let data
+/**
+  * @template State, Message, Ext, Extra
+  * @typedef {import('redux-bundler').Context<State, Message, Ext, Extra>} BundlerContext
+  */
 
-  if (options.mfsOnly) {
-    const info = store.selectFilesPathInfo()
-    if (!info || !info.isMfs) {
-      // musn't happen
-      return
-    }
-  }
+/**
+ * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('./protocol').Model} Model
+ * @typedef {import('./protocol').Message} Message
+ * @typedef {import('cids')} CID
+ * @typedef {import('./selectors').Selectors} Selectors
+ * @typedef {import('./actions').Actions} Actions
+ * @typedef {import('../ipfs-provider').IPFSProviderStore} IPFSProviderStore
+ * @typedef {import('../connected').Selectors} ConnectedSelectors
+ *
+ * @typedef {Object} ConfigSelectors
+ * @property {function():string} selectApiUrl
+ * @property {function():string} selectGatewayUrl
+ *
+ * @typedef {Object} UnkonwActions
+ * @property {function(string):Promise<unknown>} doUpdateHash
+ * @typedef {Selectors & Actions & IPFSProviderStore & ConnectedSelectors & ConfigSelectors & UnkonwActions} StoreExt
+ * @typedef {import('redux-bundler').Store<Model, Message, StoreExt>} Store
+ * @typedef {import('redux-bundler').Context<Model, Message, StoreExt, GetIPFS>} Context
+ * @typedef {import('./protocol').PageContent} PageContent
+ * @typedef {import('../ipfs-provider').Extra} GetIPFS
+ */
+
+/**
+ * Utilit function takes a task name and task (in form of async generator) and
+ * produces `doX` style action creator that will execute a task and dispatch
+ * actions in form of `{type: name, job: Job<State, Error, Return>}` as it makes
+ * progress.
+ *
+ * A `.job` property of dispatched action will correspond to on of the states:
+ *
+ * 1. `{ status: 'Idle', id: Symbol }` - State just before task is executed.
+ * 2. `{ status: 'Pending', id: Symbol, state: State }` - State while task is in
+ *    progress. Each yielded value will cause this action and will correspond
+ *    to `state` field.
+ * 3. `{ status: 'Done', id: Symbol, value: Return }` - State when task is
+ *    successfully complete.
+ * 4. `{ status: 'Failed', id: Symbol, error: Error }` - State when task is
+ *    failed do to error.
+ *
+ * @template {string} Name - Name of the task which, correponds to `.type` of
+ * dispatched actions.
+ * @template State - Type of yielded value by a the generator, which will
+ * correspond to `.job.state` of dispatched actions while task is pending.
+ * @template Return - Return type of the task, which will correspond to
+ * `.job.result.value` of dispatched action on succefully completed task.
+ * @template {BundlerContext<State, Job<Name, State, Error, Return>, StoreExt, GetIPFS>} Ctx
+ *
+ * @param {Name} name - Name of the task
+ * @param {(service:IPFSService, store:Ctx) => AsyncGenerator<State, Return, void>} task
+ * @returns {(context:Ctx) => Promise<Return>}
+ */
+export const spawn = (name, task) => async (context) => {
+  // Generate unique id for this task
+  const id = Symbol(name)
+  const type = name
 
   try {
-    data = await action(getIpfs(), ...args, id, args2)
-
-    // TODO: Add a comment explaining what is going on here.
-    const paths = Array.isArray(args[0]) ? args[0].flat() : []
-
-    dispatch({
-      type: `FILES_${basename}_FINISHED`,
-      payload: {
-        id,
-        ...data,
-        paths
-      }
-    })
-
-    // Rename specific logic
-    if (basename === ACTIONS.MOVE) {
-      const src = args[0]
-      const dst = args[1]
-
-      if (src === store.selectFiles().path) {
-        await store.doUpdateHash(dst)
-      }
+    const ipfs = context.getIpfs()
+    if (ipfs == null) {
+      throw Error('IPFS node was not found')
     }
+    context.dispatch({ type, job: { id, status: 'Idle' } })
 
-    // Delete specific logic
-    if (basename === ACTIONS.DELETE) {
-      const src = args[0][0]
-
-      let path = src.split('/')
-      path.pop()
-      path = path.join('/')
-
-      await store.doUpdateHash(path)
+    const process = task(ipfs, context)
+    while (true) {
+      const next = await process.next()
+      if (next.done) {
+        const { value } = next
+        context.dispatch({ type, job: { id, status: 'Done', value } })
+        return value
+      } else {
+        const { value: state } = next
+        context.dispatch({ type, job: { id, status: 'Active', state } })
+      }
     }
   } catch (error) {
-    if (!error.code) {
-      error.code = `ERR_${basename}`
-    }
-
-    console.error(error)
-    dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error } })
-  } finally {
-    if (basename !== ACTIONS.FETCH) {
-      await store.doFilesFetch()
-    }
-
-    if (basename === ACTIONS.PIN_ADD || basename === ACTIONS.PIN_REMOVE) {
-      await store.doPinsFetch()
-    }
+    context.dispatch({ type, job: { id, status: 'Failed', error } })
+    // Propagate error to a caller.
+    throw error
   }
-
-  return data
 }
+
+/**
+ * Creates an acton creator that just dispatches given action.
+ * @template T
+ * @param {T} action
+ * @returns {(context:BundlerContext<any, T, any, any>) => Promise<void>}
+ */
+export const send = (action) => async ({ store }) => {
+  store.dispatch(action)
+}
+
+/**
+ * @typedef {Object} Sorting
+ * @property {boolean} [asc]
+ * @property {import('./consts').SORTING} [by]
+ */
 
 /**
  * @template {{name:string, type:string, cumulativeSize?:number, size:number}} T
  * @param {T[]} files
- * @param {Object} sorting
- * @param {boolean} [sorting.asc]
- * @param {import('./consts').SORTING} [sorting.by]
+ * @param {Sorting} sorting
+
  * @returns {T[]}
  */
 export const sortFiles = (files, sorting) => {
@@ -165,4 +201,86 @@ export const infoFromPath = (path, uriDecode = true) => {
   }
 
   return info
+}
+
+/**
+ * @template T
+ * @implements {AsyncIterable<T>}
+ */
+export class Channel {
+  constructor () {
+    this.done = false
+    /** @type {T[]} */
+    this.queue = []
+    /** @type {{resolve(value:IteratorResult<T, void>):void, reject(error:any):void}[]} */
+    this.pending = []
+  }
+
+  [Symbol.asyncIterator] () {
+    return this
+  }
+
+  /**
+   * @returns {Promise<IteratorResult<T, void>>}
+   */
+  async next () {
+    const { done, queue, pending } = this
+    if (done) {
+      return { done, value: undefined }
+    } else if (queue.length > 0) {
+      const value = queue[queue.length - 1]
+      queue.pop()
+      return { done, value }
+    } else {
+      return await new Promise((resolve, reject) => {
+        pending.unshift({ resolve, reject })
+      })
+    }
+  }
+
+  /**
+   * @param {T} value
+   */
+  send (value) {
+    const { done, pending, queue } = this
+    if (done) {
+      throw Error('Channel is closed')
+    } else if (pending.length) {
+      const promise = pending[pending.length - 1]
+      pending.pop()
+      promise.resolve({ done, value })
+    } else {
+      queue.unshift(value)
+    }
+  }
+
+  /**
+   * @param {Error|void} error
+   */
+  close (error) {
+    const { done, pending } = this
+    if (done) {
+      throw Error('Channel is already closed')
+    } else {
+      this.done = true
+      for (const promise of pending) {
+        if (error) {
+          promise.reject(error)
+        } else {
+          promise.resolve({ done: true, value: undefined })
+        }
+      }
+      pending.length = 0
+    }
+  }
+}
+
+/**
+ * @param {Selectors} store
+ */
+export const ensureMFS = (store) => {
+  const info = store.selectFilesPathInfo()
+  if (!info || !info.isMfs) {
+    throw new Error('Unable to perform task if not in MFS')
+  }
 }
