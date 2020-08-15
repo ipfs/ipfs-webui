@@ -131,46 +131,43 @@ const updateJob = (state, job, type) => {
       }
     }
     case 'Active': {
-      const { pending, start } = pullPendig(state.pending, job)
+      const { pending, rest } = pullPendig(state.pending, job)
       return {
         ...state,
         pending: [
-          ...pending,
+          ...rest,
           {
-            ...job,
-            type,
-            start
+            ...pending,
+            ...job
           }
         ]
       }
     }
     case 'Failed': {
-      const { pending, start } = pullPendig(state.pending, job)
+      const { pending, rest } = pullPendig(state.pending, job)
       return {
         ...state,
-        pending,
+        pending: rest,
         failed: [
           ...state.failed,
           {
+            ...pending,
             ...job,
-            type,
-            start,
             end: Date.now()
           }
         ]
       }
     }
     case 'Done': {
-      const { pending, start } = pullPendig(state.pending, job)
+      const { pending, rest } = pullPendig(state.pending, job)
       return {
         ...state,
-        pending,
+        pending: rest,
         finished: [
           ...state.finished,
           {
+            ...pending,
             ...job,
-            type,
-            start,
             end: Date.now()
           }
         ]
@@ -192,18 +189,20 @@ const updateJob = (state, job, type) => {
  * Takes array of pending job states and job that was updated and returns
  * array of pending jobs but the one passed & start time of that job
  * @template T
- * @param {PendingJob<T>[]} pending
+ * @param {PendingJob<T>[]} jobs
  * @param {JobState} job
- * @returns {{pending:PendingJob<T>[], start:number}}
+ * @returns {{pending:PendingJob<T>, rest:PendingJob<T>[]}}
  */
-const pullPendig = (pending, job) => {
+const pullPendig = (jobs, job) => {
   const { id } = job
-  const state = pending.find($ => $.id === id)
-  // If job isn't found fallback to current time.
-  const start = (state && state.start) || Date.now()
+  const pending = jobs.find($ => $.id === id)
+
+  if (pending == null) {
+    throw Error('Unable to find a pending task')
+  }
 
   return {
-    pending: pending.filter($ => $.id !== id),
-    start
+    pending,
+    rest: jobs.filter($ => $.id !== id)
   }
 }
