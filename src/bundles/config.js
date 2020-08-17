@@ -1,3 +1,4 @@
+import memoizee from 'memoizee'
 import toUri from 'multiaddr-to-uri'
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
@@ -34,7 +35,18 @@ bundle.selectApiUrl = createSelector(
 
 bundle.selectGatewayUrl = createSelector(
   'selectConfigObject',
-  (config) => getURLFromAddress('Gateway', config) || 'https://ipfs.io'
+  async (config) => {
+    if (!config) return null
+
+    const url = getURLFromAddress('Gateway', config)
+
+    // More info: https://github.com/ipfs-shipyard/ipfs-webui/issues/1490#issuecomment-671633602
+    if (!await checkIfGatewayUrlIsAcessible(url)) {
+      return 'https://ipfs.io'
+    }
+
+    return url
+  }
 )
 
 bundle.selectBootstrapPeers = createSelector(
@@ -73,5 +85,17 @@ function getURLFromAddress (name, config) {
     return null
   }
 }
+
+const checkIfGatewayUrlIsAcessible = memoizee(async (url) => {
+  try {
+    const { status } = await fetch(
+    `${url}/ipfs/bafybeiczsscdsbs7ffqz55asqdf3smv6klcw3gofszvwlyarci47bgf354`
+    )
+    return status === 200
+  } catch (e) {
+    console.error(e)
+    return false
+  }
+})
 
 export default bundle
