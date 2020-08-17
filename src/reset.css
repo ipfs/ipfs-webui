@@ -28,3 +28,7 @@ button.button-inside-focus:focus > *:first-child {
 button.hoverable-button:hover {
     background: #E8E9ED
 }
+
+button.hoverable-button:focus {
+    outline: none;
+}
