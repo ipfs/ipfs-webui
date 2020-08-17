@@ -8,9 +8,9 @@ import { useForm } from 'react-hook-form'
 // Components
 import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
-import './PinningManagerCustomModal.css'
+import './PinningManagerServiceModal.css'
 
-const PinningManagerCustomModal = ({ t, onLeave, className, tReady, ...props }) => {
+const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, ...props }) => {
   const { register, errors, handleSubmit } = useForm()
   const inputClass = 'w-100 lh-copy f5 ph2 pv1 input-reset ba b--black-20 br1 focus-outline'
   const onSubmit = data => alert(`This is a WIP feature, with data: ${JSON.stringify(data)}`)
@@ -19,11 +19,23 @@ const PinningManagerCustomModal = ({ t, onLeave, className, tReady, ...props }) 
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <ModalBody>
-          <p>{ t('pinningCustomModal.title') }</p>
+          <p>{ t('pinningServiceModal.title') }</p>
 
-          <div className='pa2 pinningManagerCustomModalContainer' >
+          <div className='pa2 pinningManagerServiceModalContainer'>
+            { service.icon && service.name && (
+              <>
+                <label>
+                  { t('pinningServiceModal.service') }
+                </label>
+                <div class="flex w-100 items-center">
+                  <img className="mr3" src={service.icon} alt={service.name} height={42} style={{ objectFit: 'contain' }} />
+                  <span>{ service.name }</span>
+                </div>
+              </>
+            )}
+
             <label htmlFor="cm-nickname">
-              { t('pinningCustomModal.nickname') }
+              { t('pinningServiceModal.nickname') }
             </label>
             <div className='relative'>
               <input id='cm-nickname'
@@ -31,13 +43,13 @@ const PinningManagerCustomModal = ({ t, onLeave, className, tReady, ...props }) 
                 ref={ register({ required: true }) }
                 type='text'
                 className={ classNames(inputClass, errors.nickname ? 'bg-red white' : 'charcoal') }
-                placeholder={ t('pinningCustomModal.nicknamePlaceholder') }
+                placeholder={ t('pinningServiceModal.nicknamePlaceholder') }
               />
               {errors.nickname && (<ErrorMsg text={ t('errors.nickname') }/>)}
             </div>
 
             <label htmlFor="cm-apiEndpoint">
-              { t('pinningCustomModal.apiEndpoint') }
+              { t('pinningServiceModal.apiEndpoint') }
             </label>
             <div className='relative'>
               <input id='cm-apiEndpoint'
@@ -45,13 +57,13 @@ const PinningManagerCustomModal = ({ t, onLeave, className, tReady, ...props }) 
                 ref={ register({ required: true, pattern: 'http(s){0,1}://.*' }) }
                 type='url'
                 className={ classNames(inputClass, errors.apiEndpoint ? 'bg-red white' : 'charcoal') }
-                placeholder={ t('pinningCustomModal.apiEndpointPlaceholder') }
+                placeholder={ t('pinningServiceModal.apiEndpointPlaceholder') }
               />
               {errors.apiEndpoint && (<ErrorMsg text={ t('errors.apiEndpoint') }/>)}
             </div>
 
             <label htmlFor="cm-secretApiKey">
-              { t('pinningCustomModal.secretApiKey') }
+              { t('pinningServiceModal.secretApiKey') }
             </label>
             <div className='relative'>
               <input id='cm-secretApiKey'
@@ -67,8 +79,8 @@ const PinningManagerCustomModal = ({ t, onLeave, className, tReady, ...props }) 
 
           </div>
           <p className='f6'>
-            <Trans i18nKey="pinningCustomModal.description" t={t}>
-          Want to make your custom pinning service available to others?
+            <Trans i18nKey="pinningServiceModal.description" t={t}>
+              Want to make your custom pinning service available to others?
               <a href='https://docs.ipfs.io/how-to/work-with-pinning-services/' rel='noopener noreferrer' target="_blank" className='pv0' type='link'>Learn how.</a>
             </Trans>
           </p>
@@ -84,12 +96,12 @@ const PinningManagerCustomModal = ({ t, onLeave, className, tReady, ...props }) 
   )
 }
 
-PinningManagerCustomModal.propTypes = {
+PinningManagerServiceModal.propTypes = {
   t: PropTypes.func.isRequired,
   onLeave: PropTypes.func.isRequired
 }
 
-PinningManagerCustomModal.defaultProps = {
+PinningManagerServiceModal.defaultProps = {
   className: ''
 }
 
@@ -97,5 +109,5 @@ const ErrorMsg = ({ text }) => (<p className='danger absolute f7' style={{ top: 
 
 export default connect(
   // 'selectAvailablePinningServices',
-  withTranslation('settings')(PinningManagerCustomModal)
+  withTranslation('settings')(PinningManagerServiceModal)
 )

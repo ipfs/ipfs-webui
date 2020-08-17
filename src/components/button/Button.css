@@ -16,3 +16,8 @@
   box-shadow: initial;
   cursor: default;
 }
+
+.Button.link:focus {
+  outline: none;
+  box-shadow: none;
+}
