@@ -93,7 +93,7 @@ const checkIfGatewayUrlIsAcessible = memoizee(async (url) => {
     )
     return status === 200
   } catch (e) {
-    console.error(e)
+    console.error(`Unable to use the gateway at ${url}. The public gateway will be used as a fallback`, e)
     return false
   }
 })
