@@ -15,6 +15,8 @@ class WebuiTestEnvironment extends PuppeteerEnvironment {
 
     const { ipfs, webuiUrl, page } = this.global
 
+    await ipfs.config.set('Addresses.Gateway', '/dns4/ipfs.io/tcp/443/https')
+
     // point WebUI at the HTTP API URL
     await page.setViewport({ width: 1366, height: 768 })
     await page.goto(webuiUrl)
