@@ -2,7 +2,8 @@ import memoize from 'p-memoize'
 import toUri from 'multiaddr-to-uri'
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
-const DEFAULT_URL = 'https://ipfs.io'
+const DEFAULT_URI = 'https://ipfs.io'
+const DEFAULT_MULTI_ADDR = '/dns4/ipfs.io/tcp/443/https'
 
 const bundle = createAsyncResourceBundle({
   name: 'config',
@@ -14,6 +15,15 @@ const bundle = createAsyncResourceBundle({
       conf = rawConf.toString()
     } else {
       conf = JSON.stringify(rawConf, null, '\t')
+    }
+
+    // More info: https://github.com/ipfs-shipyard/ipfs-webui/issues/1490#issuecomment-671633602
+    const config = JSON.parse(conf)
+    const url = getURLFromAddress('Gateway', config) || DEFAULT_URI
+
+    if (!await checkIfGatewayUrlIsAccessible(url)) {
+      config.Addresses.Gateway = DEFAULT_MULTI_ADDR
+      return JSON.stringify(config)
     }
 
     // stringy json for quick compares
@@ -32,23 +42,12 @@ bundle.selectConfigObject = createSelector(
 
 bundle.selectApiUrl = createSelector(
   'selectConfigObject',
-  (config) => getURLFromAddress('API', config) || DEFAULT_URL
+  (config) => getURLFromAddress('API', config) || DEFAULT_URI
 )
 
 bundle.selectGatewayUrl = createSelector(
   'selectConfigObject',
-  async (config) => {
-    if (!config) return null
-
-    const url = getURLFromAddress('Gateway', config) || DEFAULT_URL
-
-    // More info: https://github.com/ipfs-shipyard/ipfs-webui/issues/1490#issuecomment-671633602
-    if (!await checkIfGatewayUrlIsAcessible(url)) {
-      return DEFAULT_URL
-    }
-
-    return url
-  }
+  async (config) => getURLFromAddress('Gateway', config) || DEFAULT_URI
 )
 
 bundle.selectBootstrapPeers = createSelector(
@@ -88,7 +87,7 @@ function getURLFromAddress (name, config) {
   }
 }
 
-const checkIfGatewayUrlIsAcessible = memoize(async (url) => {
+const checkIfGatewayUrlIsAccessible = memoize(async (url) => {
   try {
     const { status } = await fetch(
     `${url}/ipfs/bafybeiczsscdsbs7ffqz55asqdf3smv6klcw3gofszvwlyarci47bgf354`
