@@ -47,7 +47,7 @@ bundle.selectApiUrl = createSelector(
 
 bundle.selectGatewayUrl = createSelector(
   'selectConfigObject',
-  async (config) => getURLFromAddress('Gateway', config) || DEFAULT_URI
+  (config) => getURLFromAddress('Gateway', config) || DEFAULT_URI
 )
 
 bundle.selectBootstrapPeers = createSelector(
