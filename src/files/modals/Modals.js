@@ -154,7 +154,7 @@ class Modals extends React.Component {
 
     switch (action) {
       case cliCmdKeys.DELETE_FILE_FROM_IPFS:
-        return cliCommandList[action](activeCid)
+        return cliCommandList[action](path)
       case cliCmdKeys.DOWNLOAD_OBJECT_COMMAND:
         return cliCommandList[action](activeCid)
       case cliCmdKeys.RENAME_IPFS_OBJECT:

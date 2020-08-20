@@ -57,9 +57,23 @@ export const cliCmdKeys = {
 
 export const cliCommandList = {
   [cliCmdKeys.UPDATE_IPFS_CONFIG]: () => 'ipfs config replace <path-to-settings.json>',
-  [cliCmdKeys.DELETE_FILE_FROM_IPFS]: (cid) => `ipfs files rm ${cid}`,
+  /**
+   * @param {string} filePath
+   */
+  [cliCmdKeys.DELETE_FILE_FROM_IPFS]: (filePath) => `ipfs files rm -r ${filePath}`,
+  /**
+   * @param {string} cid
+   */
   [cliCmdKeys.DOWNLOAD_OBJECT_COMMAND]: (cid) => `ipfs get ${cid}`,
+  /**
+   * @param {string} cid
+   * @param {string} op
+   */
   [cliCmdKeys.PIN_OBJECT]: (cid, op) => `ipfs pin ${op} ${cid}`,
+  /**
+   * @param {string} filePath
+   * @param {string} fileName
+   */
   [cliCmdKeys.RENAME_IPFS_OBJECT]: (filePath, fileName) => {
     const prefix = filePath.replace(fileName, '').trim()
     return `ipfs files mv "${filePath}" "${prefix}<new-name>"`
