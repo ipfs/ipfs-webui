@@ -10,7 +10,9 @@ import TextInputModal from '../../components/text-input-modal/TextInputModal'
 
 class AddConnection extends React.Component {
   state = {
-    open: false
+    open: false,
+    loading: false,
+    hasErrored: false
   }
 
   toggleModal = () => {
@@ -19,9 +21,20 @@ class AddConnection extends React.Component {
     })
   }
 
-  addConnection = (maddr) => {
-    this.props.doConnectSwarm(maddr)
+  addConnection = async (maddr) => {
+    this.setState({ loading: true })
+    const { type } = await this.props.doConnectSwarm(maddr)
+    this.setState({ loading: false, hasErrored: true })
+
+    if (type === 'SWARM_CONNECT_FAILED') return
+
     this.toggleModal()
+  }
+
+  onInputChange = () => {
+    if (!this.state.hasErrored) return
+
+    this.setState({ hasErrored: false })
   }
 
   getDescription = () => {
@@ -38,7 +51,7 @@ class AddConnection extends React.Component {
   }
 
   render () {
-    const { open } = this.state
+    const { open, loading, hasErrored } = this.state
     const { t } = this.props
 
     return (
@@ -52,10 +65,13 @@ class AddConnection extends React.Component {
             validate={isIPFS.peerMultiaddr}
             onSubmit={this.addConnection}
             onCancel={this.toggleModal}
+            onInputChange={this.onInputChange}
             submitText={t('add')}
             icon={Icon}
             title={t('addConnection')}
             description={this.getDescription()}
+            loading={loading}
+            error={hasErrored}
           />
         </Overlay>
       </div>
