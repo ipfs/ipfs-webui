@@ -251,6 +251,7 @@ const createAnalyticsBundle = ({
   countlyUrl = 'https://countly.ipfs.io',
   countlyAppKey = pickAppKey(),
   appVersion = process.env.REACT_APP_VERSION,
+  // @ts-ignore - declared but never used
   appGitRevision = process.env.REACT_APP_GIT_REV,
   debug = false
 }) => {

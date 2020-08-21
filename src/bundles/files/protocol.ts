@@ -69,7 +69,8 @@ export type Message =
   | Perform<'FILES_SIZE_GET', Error, { size: number }, void>
 
 export type MakeDir = Perform<'FILES_MAKEDIR', Error, void, void>
-export type Write = Spawn<'FILES_WRITE', { paths: string[], progress: number }, Error, void, string[]>
+export type WriteProgress = { paths: string[], progress: number }
+export type Write = Spawn<'FILES_WRITE', WriteProgress, Error, void, void>
 export type AddByPath = Perform<'FILES_ADDBYPATH', Error, void, void>
 export type Move = Perform<'FILES_MOVE', Error, void, void>
 export type Delete = Perform<'FILES_DELETE', Error, void, void>

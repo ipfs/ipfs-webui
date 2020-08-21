@@ -39,30 +39,30 @@
  */
 
 /**
- * @template X = Error
- * @template T
+ * @template Fail = Error
+ * @template Success
  * @typedef {Object} Exit
  * @property {'Exit'} status
  * @property {Symbol} id
  * @property {number} duration
- * @property {Result<X, T>} result
+ * @property {Result<Fail, Success>} result
  */
 
 /**
- * @template X = Error
- * @template T
- * @template I = void
- * @typedef {Init<I>|Exit<X, T>} TaskState
+ * @template Fail = Error
+ * @template Success
+ * @template Input = void
+ * @typedef {Init<Input>|Exit<Fail, Success>} TaskState
  */
 
 /**
  * @template {string} Name
- * @template X - Type of the failure error
- * @template T - Type of the success value
- * @template I - Initial type
+ * @template Fail - Type of the failure error
+ * @template Success - Type of the success value
+ * @template Init - Initial type
  * @typedef {Object} Perform
  * @property {Name} type
- * @property {TaskState<X, T, I>} task
+ * @property {TaskState<Fail, Success, Init>} task
  */
 
 /**
@@ -96,22 +96,22 @@ export const perform = async (context, name, task, ...[init]) =>
  */
 
 /**
- * @template M
- * @template X = Error
- * @template T
- * @template I = void
- * @typedef {Init<I>|Send<M>|Exit<X, T>} ProcessState
+ * @template Message
+ * @template Fail
+ * @template Success
+ * @template Input = void
+ * @typedef {Init<Input>|Send<Message>|Exit<Fail, Success>} ProcessState
  */
 
 /**
  * @template {string} Name
- * @template M - Type of messages it produces
- * @template X - Type of the failure error
- * @template T - Type of the success value
- * @template I = void - Initial type
+ * @template Message - Type of messages it produces
+ * @template Fail - Type of the failure error
+ * @template Success - Type of the success value
+ * @template Init = void - Initial type
  * @typedef {Object} Spawn
  * @property {Name} type
- * @property {ProcessState<M, X, T, I>} task
+ * @property {ProcessState<Message, Fail, Success, Init>} task
  */
 
 /**

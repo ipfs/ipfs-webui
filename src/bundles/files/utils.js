@@ -78,14 +78,14 @@ import * as IO from '../util'
  * @template Config - Init options
  * @template Return - Return type of the task, which will correspond to
  * `.job.result.value` of dispatched action on succefully completed task.
- * @template {BundlerContext<State, Spawn<Name, Out, Error, Return, Config>, StoreExt, GetIPFS>} Context
+ * @template {BundlerContext<State, Spawn<Name, Out, Error, Return, Config>, StoreExt, GetIPFS>} Ctx
  *
  * @param {Name} name - Name of the task
- * @param {(service:IPFSService, context:Context) => AsyncGenerator<Out, Return, void>} task
- * @param {Config[]} rest
- * @returns {(context:Context) => Promise<Return>}
+ * @param {(service:IPFSService, context:Ctx) => AsyncGenerator<Out, Return, void>} task
+ * @param {Config} init
+ * @returns {(context:Ctx) => Promise<Return>}
  */
-export const spawn = (name, task, ...[init]) => async (context) => {
+export const spawn = (name, task, init) => async (context) => {
   const ipfs = context.getIpfs()
   if (ipfs == null) {
     throw Error('IPFS node was not found')
@@ -148,27 +148,26 @@ export const spawn = (name, task, ...[init]) => async (context) => {
  * @typedef {import('../util').Perform<Name, Error, Return, Init>} Perform
  */
 
-// /**
-//  * @template {string} Name - Name of the task which, correponds to `.type` of
-//  * dispatched actions.
-//  * @template Config - Initial data
-//  * @template Return - Return type of the task, which will correspond to
-//  * `.job.result.value` of dispatched action on succefully completed task.
-//  * @template {StoreExt} Ext
-//  * @template {GetIPFS} Extra
-//  * @template {BundlerContext<any, Perform<Name, Error, Return, Config>, Ext, Extra>} Context
-//  *
-//  * @param {Context} context
-//  * @param {Name} name - Name of the task
-//  * @param {(service:IPFSService, context:Context) => Promise<Return> | Return} task
-//  * @param {Config[]} rest
-//  * @returns {Promise<Return>}
-//  */
-// export const perform = (context, name, task, ...[init]) =>
-//   // eslint-disable-next-line require-yield
-//   spawn(context, name, async function * (service, context) {
-//     return await task(service, context)
-//   }, init)
+/**
+ * @template {string} Name - Name of the task which, correponds to `.type` of
+ * dispatched actions.
+ * @template Config - Initial data
+ * @template Return - Return type of the task, which will correspond to
+ * `.job.result.value` of dispatched action on succefully completed task.
+ * @template {StoreExt} Ext
+ * @template {GetIPFS} Extra
+ * @template {BundlerContext<any, Perform<Name, Error, Return, Config>, Ext, Extra>} Ctx
+ *
+ * @param {Name} name - Name of the task
+ * @param {(service:IPFSService, context:Ctx) => Promise<Return> | Return} task
+ * @param {Config[]} rest
+ * @returns {(context:Ctx) => Promise<Return>}
+ */
+export const perform = (name, task, ...[init]) =>
+  // eslint-disable-next-line require-yield
+  spawn(name, async function * (service, context) {
+    return await task(service, context)
+  }, init)
 
 /**
  * Creates an acton creator that just dispatches given action.
