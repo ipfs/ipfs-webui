@@ -22,10 +22,10 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
       <ModalBody icon={StrokeCode}>
         <p className='charcoal w-80 center' style={{ lineHeight: '1.3' }}>
-          {t('cliModal.description')}
+          {t('app:cliModal.description')}
         </p>
         <p className='charcoal-muted w-90 center'>
-          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('cliModal.extraNotes') : ''}
+          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('app:cliModal.extraNotes') : ''}
         </p>
         <div>
           <Shell className='tl' title="Shell">

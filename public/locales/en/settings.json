@@ -14,10 +14,6 @@
     "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
     "translationProjectLink": "Join the IPFS Translation Project"
   },
-  "cliModal": {
-    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters.",
-    "extraNotes": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
-  },
   "actions": {
     "edit": "Change",
     "close": "Close",
