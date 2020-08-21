@@ -1,14 +1,46 @@
 import { createSelector } from 'redux-bundler'
+import * as Enum from './enum'
+export const ACTIONS = Enum.from([
+  'EXPERIMENTS_TOGGLE',
+  'EXPERIMENTS_UPDATE_STATE'
+])
 
-export const ACTIONS = {
-  EXP_TOGGLE_STARTED: 'EXPERIMENTS_TOGGLE_STARTED',
-  EXP_TOGGLE_FINISHED: 'EXPERIMENTS_TOGGLE_FINISHED',
-  EXP_TOGGLE_FAILED: 'EXPERIMENTS_TOGGLE_FAILED',
-  EXP_UPDATE_STATE: 'EXPERIMENTS_UPDATE_STATE'
-}
+/**
+ * @typedef {import('./util').Perform<'EXPERIMENTS_TOGGLE', Fail, Succeed, Init>} Toggle
+ * @typedef {Object} Succeed
+ * @property {string} key
+ * @property {boolean} value
+ *
+ * @typedef {Object} Fail
+ * @property {string} key
+ * @property {string} message
+ *
+ * @typedef {Object} Init
+ * @property {string} key
+ *
+ * @typedef {Object} UpdateState
+ * @property {'EXPERIMENTS_UPDATE_STATE'} type
+ * @property {Model} payload
+ *
+ * @typedef {Toggle|UpdateState} Message
+ *
+ * @typedef {Record<string, {blocked:boolean, enabled:boolean}>} Model
+ *
+ * @typedef {Object} State
+ * @property {Model} experiments
+ */
 
+/**
+ * @type {Array<{key:string}>}
+ */
 const EXPERIMENTS = []
 
+/**
+ *
+ * @param {Model} state
+ * @param {Model} payload
+ * @returns {Model}
+ */
 const mergeState = (state, payload) =>
   Object.keys(payload).reduce(
     (all, key) => ({
@@ -21,6 +53,11 @@ const mergeState = (state, payload) =>
     state
   )
 
+/**
+ * @param {Model} state
+ * @param {string} key
+ * @returns {Model}
+ */
 const toggleEnabled = (state, key) => {
   return unblock(
     {
@@ -34,6 +71,11 @@ const toggleEnabled = (state, key) => {
   )
 }
 
+/**
+ * @param {Model} state
+ * @param {string} key
+ * @returns {Model}
+ */
 const unblock = (state, key) => {
   return {
     ...state,
@@ -44,6 +86,11 @@ const unblock = (state, key) => {
   }
 }
 
+/**
+ * @param {Model} state
+ * @param {string} key
+ * @returns {Model}
+ */
 const block = (state, key) => {
   return {
     ...state,
@@ -54,52 +101,97 @@ const block = (state, key) => {
   }
 }
 
-export default {
-  name: 'experiments',
+/**
+ * @typedef {import('redux-bundler').Selectors<typeof selectors>} Selectors
+ */
 
-  persistActions: [
-    ACTIONS.EXP_TOGGLE_FINISHED,
-    ACTIONS.EXP_TOGGLE_FAILED,
-    ACTIONS.EXP_UPDATE_STATE
-  ],
-
-  reducer: (state = {}, action) => {
-    if (action.type === ACTIONS.EXP_TOGGLE_STARTED) {
-      return block(state, action.payload.key)
-    }
-
-    if (action.type === ACTIONS.EXP_UPDATE_STATE) {
-      return mergeState(state, action.payload)
-    }
-
-    if (action.type === ACTIONS.EXP_TOGGLE_FINISHED) {
-      return toggleEnabled(state, action.payload.key)
-    }
-
-    if (action.type === ACTIONS.EXP_TOGGLE_FAILED) {
-      return unblock(state, action.payload.key)
-    }
-
-    return state
-  },
-
-  doExpToggleAction: key => ({ dispatch }) => {
-    if (!key) return
-
-    dispatch({
-      type: ACTIONS.EXP_TOGGLE_STARTED,
-      payload: { key }
-    })
-  },
-
+const selectors = {
+  /**
+   * @param {State} state
+   */
   selectExperimentsState: state => state.experiments,
 
   selectExperiments: createSelector(
     'selectExperimentsState',
+    /**
+     * @param {Model} state
+     */
     (state) =>
       EXPERIMENTS.map(e => ({
         ...e,
         ...state[e.key]
       }))
   )
+}
+
+/**
+ * @typedef {import('redux-bundler').Actions<typeof actions>} Actions
+ * @typedef {Selectors & Actions} Ext
+ * @typedef {import('redux-bundler').Context<State, Message, Ext>} Context
+ */
+
+const actions = {
+  /**
+   * @param {string} key
+   * @returns {function(Context): void}
+   */
+  doExpToggleAction: key => ({ dispatch }) => {
+    if (!key) return
+
+    dispatch({
+      type: ACTIONS.EXPERIMENTS_TOGGLE,
+      task: {
+        status: 'Init',
+        id: Symbol(ACTIONS.EXPERIMENTS_TOGGLE),
+        init: { key }
+      }
+    })
+  }
+}
+
+export default {
+  name: 'experiments',
+
+  persistActions: [
+    ACTIONS.EXPERIMENTS_TOGGLE,
+    ACTIONS.EXPERIMENTS_UPDATE_STATE
+  ],
+
+  /**
+   * @param {Model} [state]
+   * @param {Message} action
+   * @returns {Model}
+   */
+  reducer: (state = {}, action) => {
+    switch (action.type) {
+      case ACTIONS.EXPERIMENTS_TOGGLE: {
+        const { task } = action
+        switch (task.status) {
+          case 'Init': {
+            return block(state, task.init.key)
+          }
+          case 'Exit': {
+            const { result } = task
+            if (result.ok) {
+              return toggleEnabled(state, result.value.key)
+            } else {
+              return unblock(state, result.error.key)
+            }
+          }
+          default: {
+            return state
+          }
+        }
+      }
+      case ACTIONS.EXPERIMENTS_UPDATE_STATE: {
+        return mergeState(state, action.payload)
+      }
+
+      default:
+        return state
+    }
+  },
+
+  ...selectors,
+  ...actions
 }

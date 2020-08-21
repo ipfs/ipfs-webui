@@ -44,9 +44,16 @@
   ],
   "include": [
     "@types",
+    "src/bundles/enum.js",
+    "src/bundles/util.js",
     "src/bundles/files/**/*.js",
     "src/bundles/ipfs-provider.js",
+    "src/bundles/ipfs-desktop.js",
+    "src/bundles/retry-init.js",
     "src/bundles/connected.js",
+    "src/bundles/config-save.js",
+    "src/bundles/experiments.js",
+    "src/bundles/analytics.js",
     "**/*.ts"
   ],
   "compileOnSave": false

@@ -56,19 +56,25 @@ export type Message =
   | { type: 'FILES_DISMISS_ERRORS' }
   | { type: 'FILES_UPDATE_SORT', payload: Sorting }
   | Job<'FILES_FETCH', never, Error, PageContent>
-  | Job<'FILES_DELETE', never, Error, void>
-  | Job<'FILES_ADDBYPATH', never, Error, void>
-  | Job<'FILES_DOWNLOADLINK', never, Error, FileDownload>
+  | MakeDir
+  | Delete
+  | Move
+  | Write
+  | AddByPath
+  | DownloadLink
   | Job<'FILES_SHARE_LINK', never, Error, string>
-  | Job<'FILES_MOVE', never, Error, void>
   | Job<'FILES_COPY', never, Error, void>
-  | Job<'FILES_MAKEDIR', never, Error, void>
   | Job<'FILES_PIN_ADD', never, Error, Pin[]>
   | Job<'FILES_PIN_REMOVE', never, Error, Pin[]>
   | Job<'FILES_PIN_LIST', never, Error, { pins: CID[] }>
   | Job<'FILES_SIZE_GET', never, Error, { size: number }>
-  | Job<'FILES_WRITE', { paths: string[], progress: number }, Error, void>
 
+export type MakeDir = Job<'FILES_MAKEDIR', never, Error, void>
+export type Write = Job<'FILES_WRITE', { paths: string[], progress: number }, Error, void>
+export type AddByPath = Job<'FILES_ADDBYPATH', never, Error, void>
+export type Move = Job<'FILES_MOVE', never, Error, void>
+export type Delete = Job<'FILES_DELETE', never, Error, void>
+export type DownloadLink = Job<'FILES_DOWNLOADLINK', never, Error, FileDownload>
 
 export type FileDownload = {
   url: string

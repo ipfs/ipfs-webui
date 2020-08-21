@@ -33,6 +33,7 @@ declare module "redux-bundler" {
   export type Store<State, Message extends Action, Ext = {}> = {
     getState(): State
     dispatch(message: Message): void
+    subscribeToSelectors(selectors: string[], callback: (any) => void | (() => void)): void
 
     destroy(): void
   } & Ext

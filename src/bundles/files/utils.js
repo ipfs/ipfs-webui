@@ -65,7 +65,7 @@ import { IS_MAC, SORTING } from './consts'
  * @template {BundlerContext<State, Job<Name, State, Error, Return>, StoreExt, GetIPFS>} Ctx
  *
  * @param {Name} name - Name of the task
- * @param {(service:IPFSService, store:Ctx) => AsyncGenerator<State, Return, void>} task
+ * @param {(service:IPFSService, context:Ctx) => AsyncGenerator<State, Return, void>} task
  * @returns {(context:Ctx) => Promise<Return>}
  */
 export const spawn = (name, task) => async (context) => {
