@@ -56,7 +56,8 @@ export const SettingsPage = ({
 
     <Experiments t={t} />
 
-    <Box className='mb3 pa4 joyride-settings-config'>
+    { isIpfsConnected &&
+    (<Box className='mb3 pa4 joyride-settings-config'>
       <Title>{t('config')}</Title>
       <div className='flex pb3'>
         <div className='flex-auto'>
@@ -105,6 +106,7 @@ export const SettingsPage = ({
           key={editorKey} />
       ) : null }
     </Box>
+    )}
 
     <ReactJoyride
       run={toursEnabled}
