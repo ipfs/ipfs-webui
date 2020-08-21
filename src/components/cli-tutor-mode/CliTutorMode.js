@@ -36,7 +36,7 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
 
       <ModalActions>
         <div>
-          <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
+          <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('app:actions.close')}</Button>
         </div>
         <div className='flex items-center'>
           {
@@ -45,7 +45,7 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
               /> : <div />
           }
           <Button className='ma2 tc' onClick={() => onClickCopyToClipboard(command)}>
-            {t('actions.copyCommand')}
+            {t('app:actions.copyCommand')}
           </Button>
         </div>
       </ModalActions>

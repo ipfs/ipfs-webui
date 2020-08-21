@@ -37,7 +37,6 @@
   },
   "actions": {
     "edit": "Change",
-    "close": "Close",
-    "copyCommand": "Copy"
+    "close": "Close"
   }
 }

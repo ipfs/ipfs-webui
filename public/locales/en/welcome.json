@@ -41,9 +41,5 @@
       "paragraph2": "If you aren't connected to the IPFS API, this page also appears in place of some other pages, with hints for how to get connected.",
       "paragraph3": "You can visit this page from anywhere in the app by clicking the IPFS cube logo in the navigation bar."
     }
-  },
-  "actions": {
-    "close": "Close",
-    "copyCommand": "Copy"
   }
 }
