@@ -51,8 +51,7 @@ export const cliCmdKeys = {
   ADD_DIRECTORY: 'addNewDirectory',
   CREATE_NEW_DIRECTORY: 'createNewDirectory',
   FROM_IPFS: 'fromIpfs',
-  ADD_NEW_PEER: 'addNewPeer',
-  UPDATE_API_SERVER_ADDRESS: 'updateApiServerAddress'
+  ADD_NEW_PEER: 'addNewPeer'
 }
 
 export const cliCommandList = {
@@ -82,6 +81,5 @@ export const cliCommandList = {
   [cliCmdKeys.ADD_DIRECTORY]: () => 'ipfs add -r <folder-name>',
   [cliCmdKeys.CREATE_NEW_DIRECTORY]: () => 'ipfs files mkdir <folder-name>',
   [cliCmdKeys.FROM_IPFS]: () => 'ipfs cp <content-path-or-cid> <dest-name>',
-  [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-multiaddr>',
-  [cliCmdKeys.UPDATE_API_SERVER_ADDRESS]: () => 'ipfs config --json API.Addresses.API <custom-api-address>'
+  [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-multiaddr>'
 }
