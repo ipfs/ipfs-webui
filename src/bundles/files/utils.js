@@ -1,39 +1,17 @@
 import { sortByName, sortBySize } from '../../lib/sort'
 import { IS_MAC, SORTING } from './consts'
-import * as IO from '../task'
+import * as Task from '../task'
 
 /**
- * @template State, Message, Ext = {}
- * @typedef {import('redux-bundler').Store<State, Message, Ext>} ReduxStore
+ * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('./actions').Ext} Ext
+ * @typedef {import('./actions').Extra} Extra
  */
 
 /**
   * @template State, Message, Ext, Extra
   * @typedef {import('redux-bundler').Context<State, Message, Ext, Extra>} BundlerContext
   */
-
-/**
- * @typedef {import('ipfs').IPFSService} IPFSService
- * @typedef {import('./protocol').Model} Model
- * @typedef {import('./protocol').Message} Message
- * @typedef {import('cids')} CID
- * @typedef {import('./selectors').Selectors} Selectors
- * @typedef {import('./actions').Actions} Actions
- * @typedef {import('../ipfs-provider').IPFSProviderStore} IPFSProviderStore
- * @typedef {import('../connected').Selectors} ConnectedSelectors
- *
- * @typedef {Object} ConfigSelectors
- * @property {function():string} selectApiUrl
- * @property {function():string} selectGatewayUrl
- *
- * @typedef {Object} UnkonwActions
- * @property {function(string):Promise<unknown>} doUpdateHash
- * @typedef {Selectors & Actions & IPFSProviderStore & ConnectedSelectors & ConfigSelectors & UnkonwActions} StoreExt
- * @typedef {import('redux-bundler').Store<Model, Message, StoreExt>} Store
- * @typedef {import('redux-bundler').Context<Model, Message, StoreExt, GetIPFS>} Context
- * @typedef {import('./protocol').PageContent} PageContent
- * @typedef {import('../ipfs-provider').Extra} GetIPFS
- */
 
 /**
  * Utilit function takes a task name and task (in form of async generator) and
@@ -66,35 +44,42 @@ import * as IO from '../task'
  */
 
 /**
- * @template Name, Message, Error, Return, Init
- * @typedef {import('../task').Spawn<Name, Message, Error, Return, Init>} Spawn
+ * @template Name, Message, Failure, Success, Init
+ * @typedef {import('../task').Spawn<Name, Message, Failure, Success, Init>} Spawn
  */
 
 /**
- * @template {string} Name - Name of the task which, correponds to `.type` of
- * dispatched actions.
- * @template State
- * @template Out - Messages process produces
- * @template Config - Init options
- * @template Return - Return type of the task, which will correspond to
- * `.job.result.value` of dispatched action on succefully completed task.
- * @template {BundlerContext<State, Spawn<Name, Out, Error, Return, Config>, StoreExt, GetIPFS>} Ctx
+ * Specialized version of `Task.spawn` which will only spawn a task if
+ * `context.getIpfs()` returns an `IPFSService` passing it into the task as a
+ * first argument. Otherwise it fails without dispatching any actions.
  *
- * @param {Name} name - Name of the task
- * @param {(service:IPFSService, context:Ctx) => AsyncGenerator<Out, Return, void>} task
- * @param {Config[]} rest
- * @returns {(context:Ctx) => Promise<Return>}
+ * @template {string} Type - Corresponds to `action.type` for all the actions
+ * that this task will dispatch.
+ * @template Message - Type of messages that task will produce (by yielding).
+ * Which correspond to `action.task.message` when `action.status`
+ * is `Send`.
+ * @template Success - Type of the `action.task.result.vaule` when task is
+ * complete successfully. It is also a value of the promise returned by
+ * running `store.doX` created by this decorator.
+ * @template Init - Type of the initialization paramater.
+ * @template State - Type of the `context.getState()` for this task.
+ * @template {BundlerContext<State, Spawn<Type, Message, Error, Success, Init>, Ext, Extra>} Context
+ *
+ * @param {Type} type - Type of the actions this will dispatch.
+ * @param {(service:IPFSService, context:Context) => AsyncGenerator<Message, Success, void>} task - Task
+ * @param {Init[]} rest - Optinal initialization parameter.
+ * @returns {(context:Context) => Promise<Success>}
  */
-export const spawn = (name, task, ...[init]) => async (context) => {
+export const spawn = (type, task, ...[init]) => async (context) => {
   const ipfs = context.getIpfs()
   if (ipfs == null) {
     throw Error('IPFS node was not found')
   } else {
-    const routine = IO.spawn(
-      name,
+    const spawn = Task.spawn(
+      type,
       /**
-       * @param {Ctx} context
-       * @returns {AsyncGenerator<Out, Return, void>}}
+       * @param {Context} context
+       * @returns {AsyncGenerator<Message, Success, void>}}
        */
       async function * (context) {
         const process = task(ipfs, context)
@@ -110,35 +95,49 @@ export const spawn = (name, task, ...[init]) => async (context) => {
       init
     )
 
-    return await routine(context)
+    return await spawn(context)
   }
 }
 
 /**
- * @template Name, Error, Return, Init
- * @typedef {import('../task').Perform<Name, Error, Return, Init>} Perform
+ * @template Name, Failure, Success, Init
+ * @typedef {import('../task').Perform<Name, Failure, Success, Init>} Perform
  */
 
 /**
- * @template {string} Name - Name of the task which, correponds to `.type` of
- * dispatched actions.
- * @template Config - Initial data
- * @template Return - Return type of the task, which will correspond to
- * `.job.result.value` of dispatched action on succefully completed task.
- * @template {StoreExt} Ext
- * @template {GetIPFS} Extra
- * @template {BundlerContext<any, Perform<Name, Error, Return, Config>, Ext, Extra>} Ctx
+ * Specialized version of `Task.perform` which will only perform a task if
+ * `context.getIpfs()` returns an `IPFSService` passing it into the task as a
+ * first argument. Otherwise it fails without dispatching any actions.
  *
- * @param {Name} name - Name of the task
- * @param {(service:IPFSService, context:Ctx) => Promise<Return> | Return} task
- * @param {Config[]} rest
- * @returns {(context:Ctx) => Promise<Return>}
+ * @template {string} Type - Type of the task which, correponds to `.type` of
+ * dispatched actions.
+ * @template Success - Return type of the task, which will correspond to
+ * `.job.result.value` of dispatched action on succefully completed task.
+ * @template Init - Initial data
+ * @template State - Type of the `context.getState()` for this task.
+ * @template {BundlerContext<State, Perform<Type, Error, Success, Init>, Ext, Extra>} Context
+ *
+ * @param {Type} type - Type of the actions this will dispatch.
+ * @param {(service:IPFSService, context:Context) => Promise<Success>} task
+ * @param {Init[]} rest
+ * @returns {(context:Context) => Promise<Success>}
  */
-export const perform = (name, task, ...[init]) =>
-  // eslint-disable-next-line require-yield
-  spawn(name, async function * (service, context) {
-    return await task(service, context)
-  }, init)
+export const perform = (type, task, ...[init]) => async (context) => {
+  const ipfs = context.getIpfs()
+  if (ipfs == null) {
+    throw Error('IPFS node was not found')
+  } else {
+    const perform = Task.perform(
+      type,
+      /**
+       * @param {Context} context
+       */
+      context => task(ipfs, context),
+      init
+    )
+    return await perform(context)
+  }
+}
 
 /**
  * Creates an acton creator that just dispatches given action.
@@ -317,7 +316,7 @@ export class Channel {
 }
 
 /**
- * @param {Selectors} store
+ * @param {import('./selectors').Selectors} store
  */
 export const ensureMFS = (store) => {
   const info = store.selectFilesPathInfo()

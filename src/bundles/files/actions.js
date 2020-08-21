@@ -128,8 +128,22 @@ const getPins = async function * (ipfs) {
 /**
  * @typedef {import('./protocol').Message} Message
  * @typedef {import('./protocol').Model} Model
+
+ * @typedef {import('./selectors').Selectors} Selectors
+ * @typedef {import('../ipfs-provider').IPFSProviderStore} IPFSProviderStore
+ * @typedef {import('../connected').Selectors} ConnectedSelectors
+ *
+ * @typedef {Object} ConfigSelectors
+ * @property {function():string} selectApiUrl
+ * @property {function():string} selectGatewayUrl
+ *
+ * @typedef {Object} UnkonwActions
+ * @property {function(string):Promise<unknown>} doUpdateHash
+ * @typedef {Selectors & Actions & IPFSProviderStore & ConnectedSelectors & ConfigSelectors & UnkonwActions} Ext
+ * @typedef {import('../ipfs-provider').Extra} Extra
+ * @typedef {import('redux-bundler').Store<Model, Message, Ext>} Store
+ * @typedef {import('redux-bundler').Context<Model, Message, Ext, Extra>} Context
  * @typedef {import('./protocol').PageContent} PageContent
- * @typedef {import('./utils').Context} Context
  *
  * @typedef {import('redux-bundler').Actions<ReturnType<typeof actions>>} Actions
  *
@@ -292,7 +306,7 @@ const actions = () => ({
    * trigger `doFilesFetch` to update the state.
    * @param {string[]} files
    */
-  doFilesDelete: (files) => perform(ACTIONS.DELETE, async function * (ipfs, { store }) {
+  doFilesDelete: (files) => perform(ACTIONS.DELETE, async (ipfs, { store }) => {
     ensureMFS(store)
 
     if (files.length > 0) {
@@ -323,7 +337,7 @@ const actions = () => ({
    * @param {string} root
    * @param {string} src
    */
-  doFilesAddPath: (root, src) => perform(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
+  doFilesAddPath: (root, src) => perform(ACTIONS.ADD_BY_PATH, async (ipfs, { store }) => {
     ensureMFS(store)
 
     const path = realMfsPath(src)
@@ -343,7 +357,7 @@ const actions = () => ({
    * Creates a download link for the provided files.
    * @param {FileStat[]} files
    */
-  doFilesDownloadLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async function * (ipfs, { store }) {
+  doFilesDownloadLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async (ipfs, { store }) => {
     ensureMFS(store)
 
     const apiUrl = store.selectApiUrl()
@@ -355,7 +369,7 @@ const actions = () => ({
    * Generates sharable link for the provided files.
    * @param {FileStat[]} files
    */
-  doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async function * (ipfs, { store }) {
+  doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
     ensureMFS(store)
 
     return await getShareableLink(files, ipfs)
@@ -367,7 +381,7 @@ const actions = () => ({
    * @param {string} src
    * @param {string} dst
    */
-  doFilesMove: (src, dst) => perform(ACTIONS.MOVE, async function * (ipfs, { store }) {
+  doFilesMove: (src, dst) => perform(ACTIONS.MOVE, async (ipfs, { store }) => {
     ensureMFS(store)
 
     try {
@@ -389,7 +403,7 @@ const actions = () => ({
   * @param {string} src
   * @param {string} dst
   */
-  doFilesCopy: (src, dst) => perform(ACTIONS.COPY, async function * (ipfs, { store }) {
+  doFilesCopy: (src, dst) => perform(ACTIONS.COPY, async (ipfs, { store }) => {
     ensureMFS(store)
 
     try {
@@ -404,7 +418,7 @@ const actions = () => ({
    * triggers `doFilesFetch` to update the state.
    * @param {string} path
    */
-  doFilesMakeDir: (path) => perform(ACTIONS.MAKE_DIR, async function * (ipfs, { store }) {
+  doFilesMakeDir: (path) => perform(ACTIONS.MAKE_DIR, async (ipfs, { store }) => {
     ensureMFS(store)
 
     try {
@@ -421,7 +435,7 @@ const actions = () => ({
    * update the state.
    * @param {CID} cid
    */
-  doFilesPin: (cid) => perform(ACTIONS.PIN_ADD, async function * (ipfs, { store }) {
+  doFilesPin: (cid) => perform(ACTIONS.PIN_ADD, async (ipfs, { store }) => {
     try {
       return await ipfs.pin.add(cid)
     } finally {
@@ -434,7 +448,7 @@ const actions = () => ({
    * to update the state.
    * @param {CID} cid
    */
-  doFilesUnpin: (cid) => perform(ACTIONS.PIN_REMOVE, async function * (ipfs, { store }) {
+  doFilesUnpin: (cid) => perform(ACTIONS.PIN_REMOVE, async (ipfs, { store }) => {
     try {
       return await ipfs.pin.rm(cid)
     } finally {
