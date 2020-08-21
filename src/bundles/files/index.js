@@ -10,7 +10,7 @@ export const sorts = SORTING
 /**
  * @typedef {import('./protocol').Model} Model
  * @typedef {import('./protocol').Message} Message
- * @typedef {import('./protocol').JobState<any, Error, any>} JobState
+ * @typedef {import('../util').ProcessState<any, Error, any, any>} JobState
  */
 export default () => {
   return {
@@ -32,18 +32,27 @@ export default () => {
         case ACTIONS.MAKE_DIR:
         case ACTIONS.PIN_ADD:
         case ACTIONS.PIN_REMOVE:
+          return updateJob(state, action.task, action.type)
         case ACTIONS.WRITE: {
-          return updateJob(state, action.job, action.type)
+          return updateJob(state, action.task, action.type)
         }
         case ACTIONS.PIN_LIST: {
-          const { pins } = action.job.status === 'Done' ? action.job.value : state
+          const { task, type } = action
+
+          const { pins } = task.status === 'Exit' && task.result.ok
+            ? task.result.value
+            : state
+
           return {
-            ...updateJob(state, action.job, action.type),
+            ...updateJob(state, task, type),
             pins
           }
         }
         case ACTIONS.FETCH: {
-          const result = action.job.status === 'Done' ? action.job.value : null
+          const { task, type } = action
+          const result = task.status === 'Exit' && task.result.ok
+            ? task.result.value
+            : null
           const { pageContent, pins } = result
             ? {
               pageContent: result,
@@ -54,7 +63,7 @@ export default () => {
             : state
 
           return {
-            ...updateJob(state, action.job, action.type),
+            ...updateJob(state, task, type),
             pageContent,
             pins
           }
@@ -89,12 +98,13 @@ export default () => {
           }
         }
         case ACTIONS.SIZE_GET: {
-          const mfsSize = action.job.status === 'Done'
-            ? action.job.value.size
+          const { task, type } = action
+          const mfsSize = task.status === 'Exit' && task.result.ok
+            ? task.result.value.size
             : state.mfsSize
 
           return {
-            ...updateJob(state, action.job, action.type),
+            ...updateJob(state, task, type),
             mfsSize
           }
         }
@@ -111,91 +121,98 @@ export default () => {
 /**
  * Updates state of the given job.
  * @param {Model} state
- * @param {JobState} job
+ * @param {JobState} task
  * @param {*} type
  * @returns {Model}
  */
-const updateJob = (state, job, type) => {
-  switch (job.status) {
-    case 'Idle': {
+const updateJob = (state, task, type) => {
+  switch (task.status) {
+    case 'Init': {
       return {
         ...state,
         pending: [
           ...state.pending,
           {
-            ...job,
+            ...task,
             type,
+            status: 'Pending',
             start: Date.now()
           }
         ]
       }
     }
-    case 'Active': {
-      const { pending, rest } = pullPendig(state.pending, job)
+    case 'Send': {
+      const { pending, rest } = pullPendig(state.pending, task)
       return {
         ...state,
         pending: [
           ...rest,
           {
             ...pending,
-            ...job
+            ...task,
+            status: 'Pending'
           }
         ]
       }
     }
-    case 'Failed': {
-      const { pending, rest } = pullPendig(state.pending, job)
-      return {
-        ...state,
-        pending: rest,
-        failed: [
-          ...state.failed,
-          {
-            ...pending,
-            ...job,
-            end: Date.now()
-          }
-        ]
-      }
-    }
-    case 'Done': {
-      const { pending, rest } = pullPendig(state.pending, job)
-      return {
-        ...state,
-        pending: rest,
-        finished: [
-          ...state.finished,
-          {
-            ...pending,
-            ...job,
-            end: Date.now()
-          }
-        ]
+    case 'Exit': {
+      const { pending, rest } = pullPendig(state.pending, task)
+
+      if (task.result.ok) {
+        return {
+          ...state,
+          pending: rest,
+          finished: [
+            ...state.finished,
+            {
+              ...pending,
+              ...task,
+              end: Date.now(),
+              value: task.result.value,
+              status: 'Done'
+            }
+          ]
+        }
+      } else {
+        return {
+          ...state,
+          pending: rest,
+          failed: [
+            ...state.failed,
+            {
+              ...pending,
+              ...task,
+              end: Date.now(),
+              error: task.result.error,
+              status: 'Failed'
+            }
+          ]
+        }
       }
     }
     default: {
-      console.error('Job has an invalid state', job)
+      console.error('Task has an invalid state', task)
       return state
     }
   }
 }
 
 /**
- * @template T
- * @typedef {import('./protocol').PendingJob<T>} PendingJob
+ * @template T, I
+ * @typedef {import('./protocol').PendingJob<T, I>} PendingJob
  */
 
 /**
  * Takes array of pending job states and job that was updated and returns
  * array of pending jobs but the one passed & start time of that job
- * @template T
- * @param {PendingJob<T>[]} jobs
- * @param {JobState} job
- * @returns {{pending:PendingJob<T>, rest:PendingJob<T>[]}}
+ * @template T, I
+ * @param {PendingJob<T, I>[]} tasks
+ * @param {JobState} task
+ * @returns {{pending:PendingJob<T, I>, rest:PendingJob<T, I>[]}}
  */
-const pullPendig = (jobs, job) => {
-  const { id } = job
-  const pending = jobs.find($ => $.id === id)
+const pullPendig = (tasks, task) => {
+  const { id } = task
+  const pending = tasks.find($ => $.id === id)
 
   if (pending == null) {
     throw Error('Unable to find a pending task')
@@ -203,6 +220,6 @@ const pullPendig = (jobs, job) => {
 
   return {
     pending,
-    rest: jobs.filter($ => $.id !== id)
+    rest: tasks.filter($ => $.id !== id)
   }
 }

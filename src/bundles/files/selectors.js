@@ -50,7 +50,7 @@ const selectors = () => ({
    * @param {Model} state
    */
   selectFilesPending: (state) =>
-    state.files.pending.filter(s => s.type === ACTIONS.WRITE && s.status === 'Active'),
+    state.files.pending.filter(s => s.type === ACTIONS.WRITE),
 
   /**
    * @param {Model} state

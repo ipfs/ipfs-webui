@@ -59,7 +59,7 @@
  * @template {string} Name
  * @template X - Type of the failure error
  * @template T - Type of the success value
- * @template I = void - Initial type
+ * @template I - Initial type
  * @typedef {Object} Perform
  * @property {Name} type
  * @property {TaskState<X, T, I>} task

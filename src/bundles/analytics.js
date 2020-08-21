@@ -89,8 +89,8 @@ const ASYNC_ACTIONS_TO_RECORD = [
   DESKTOP.DESKTOP_SETTING_TOGGLE
 ]
 
-const ASYNC_ACTION_RE = new RegExp(`^${ASYNC_ACTIONS_TO_RECORD.join('_|')}`)
-const ASYNC_ACTION_STATE_RE = /^(.+)_(STARTED|FINISHED|FAILED)$/
+// const ASYNC_ACTION_RE = new RegExp(`^${ASYNC_ACTIONS_TO_RECORD.join('_|')}`)
+// const ASYNC_ACTION_STATE_RE = /^(.+)_(STARTED|FINISHED|FAILED)$/
 
 const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612'
 const COUNTLY_KEY_WEBUI_TEST = '700fd825c3b257e021bd9dbc6cbf044d33477531'
@@ -318,115 +318,27 @@ const createAnalyticsBundle = ({
 
     // Listen to redux actions
     getMiddleware: () => () => {
-      /** @type {Map<string, number>} */
-      const EventMap = new Map()
-
       /**
        * @param {function(Message):void} next
        * @returns {function(Message):void}
        */
       const middleware = next => action => {
-        switch (action.type) {
-          case FILES.MAKE_DIR:
-          case FILES.WRITE:
-          case FILES.ADD_BY_PATH:
-          case FILES.MOVE:
-          case FILES.DELETE:
-          case FILES.DOWNLOAD_LINK: {
-            const { type, job } = action
-            switch (job.status) {
-              case 'Idle': {
-                start(type)
-                break
-              }
-              case 'Done': {
-                succeed(type)
-                break
-              }
-              case 'Failed': {
-                fail(type)
-                break
-              }
-              default: {
-                break
-              }
-            }
-            break
-          }
-          case INIT.IPFS_INIT:
-          case CONIFG.CONFIG_SAVE:
-          case EXP.EXPERIMENTS_TOGGLE:
-          case DESKTOP.DESKTOP_SETTING_TOGGLE: {
-            const payload = parseTask(action)
-            if (payload) {
-              const { id, duration, error } = payload
-              root.Countly.q.push(['add_event', {
-                key: id,
-                count: 1,
-                dur: duration
-              }])
-
-              // Record errors. Only from explicitly selected actions.
-              if (error) {
-                root.Countly.q.push(['add_log', action.type])
-                root.Countly.q.push(['log_error', error])
-              }
-            }
-            break
-          }
-          default: {
-            break
-          }
-        }
-
-        return next(action)
-        // Record durations for async actions
-        if (ASYNC_ACTION_RE.test(action.type) && ASYNC_ACTION_STATE_RE.test(action.type)) {
-          const [_, name, state] = ASYNC_ACTION_STATE_RE.exec(action.type) // eslint-disable-line no-unused-vars
-          if (state === 'STARTED') {
-            EventMap.set(name, root.performance.now())
-          } else {
-            const start = EventMap.get(name)
-            if (!start) {
-              EventMap.delete(name)
-            } else {
-              const durationInSeconds = (root.performance.now() - start) / 1000
-              let key = state === 'FAILED' ? action.type : name
-
-              // Costum code for experiments toggle and desktop settings toggle.
-              // This way we can detect if we're enabling or disabling an option.
-              if (name === 'EXPERIMENTS_TOGGLE' || name === 'DESKTOP_SETTING_TOGGLE') {
-                key = name === 'EXPERIMENTS_TOGGLE'
-                  ? 'EXPERIMENTS_'
-                  : 'DESKTOP_SETTING_'
-
-                key += changeCase.constantCase(action.payload.key)
-
-                if (state === 'FAILED') {
-                  key += '_FAILED'
-                } else {
-                  key += action.payload.value
-                    ? '_ENABLED'
-                    : '_DISABLED'
-                }
-              }
-
-              root.Countly.q.push(['add_event', {
-                key: key,
-                count: 1,
-                dur: durationInSeconds
-              }])
-            }
-          }
+        const payload = parseTask(action)
+        if (payload) {
+          const { id, duration, error } = payload
+          root.Countly.q.push(['add_event', {
+            key: id,
+            count: 1,
+            dur: duration
+          }])
 
           // Record errors. Only from explicitly selected actions.
-          const error = action.error || (action.payload && action.payload.error)
           if (error) {
             root.Countly.q.push(['add_log', action.type])
             root.Countly.q.push(['log_error', error])
           }
         }
-        // We're middleware. Don't forget to pass control back to the next.
+
         return next(action)
       }
 
@@ -479,28 +391,30 @@ const createAnalyticsBundle = ({
 }
 
 /**
- * @param {Init|ConfigSave|Toggle} action
+ * @param {Message} action
  */
 const parseTask = (action) => {
   switch (action.type) {
+    case FILES.MAKE_DIR:
+    case FILES.WRITE:
+    case FILES.ADD_BY_PATH:
+    case FILES.MOVE:
+    case FILES.DELETE:
+    case FILES.DOWNLOAD_LINK:
     case INIT.IPFS_INIT:
-    case CONIFG.CONFIG_SAVE: {
+    case CONIFG.CONFIG_SAVE:
       return parseTaskResult(action.task, action.type)
-    }
-    case EXP.EXPERIMENTS_TOGGLE: {
+    case EXP.EXPERIMENTS_TOGGLE:
       return parseToggleResult(action.task, 'EXPERIMENTS')
-    }
-    case DESKTOP.DESKTOP_SETTING_TOGGLE: {
+    case DESKTOP.DESKTOP_SETTING_TOGGLE:
       return parseToggleResult(action.task, 'DESKTOP_SETTING')
-    }
-    default: {
+    default:
       return null
-    }
   }
 }
 
 /**
- * @param {Init['task']|ConfigSave['task']} task
+ * @param {Init['task']|ConfigSave['task']|FilesMessage['task']} task
  * @param {string} name
  */
 const parseTaskResult = (task, name) => {
@@ -529,7 +443,7 @@ const parseToggleResult = (task, name) => {
         ? 'ENABLED'
         : 'DISABLED'
 
-    const id = `${name}_${key}_${status}`
+    const id = `${name}_${changeCase.constantCase(key)}_${status}`
 
     return { id, duration, error }
   }

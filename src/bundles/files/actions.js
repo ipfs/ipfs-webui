@@ -138,12 +138,13 @@ const getPins = async function * (ipfs) {
 const actions = () => ({
   /**
    * Fetches list of pins and updates `state.pins` on succeful completion.
+   * @returns {function(Context):Promise<{pins: CID[]}>}
    */
-  doPinsFetch: () => spawn(ACTIONS.PIN_LIST, async function * (ipfs) {
-    const cids = await all(getPinCIDs(ipfs))
+  // doPinsFetch: () => context => perform(context, ACTIONS.PIN_LIST, async (ipfs) => {
+  //   const cids = await all(getPinCIDs(ipfs))
 
-    return { pins: cids }
-  }),
+  //   return { pins: cids }
+  // }),
 
   /**
    * Syncs currently selected path file list.
@@ -155,68 +156,69 @@ const actions = () => ({
     const isFetching = store.selectFilesIsFetching()
     const info = store.selectFilesPathInfo()
     if (isReady && isConnected && !isFetching && info) {
-      await store.doFetch(info)
+      // await store.doFetch(info)
     }
   },
 
-  /**
-   * Fetches conten for the currently selected path. And updates
-   * `state.pageContent` on succesful completion.
-   * @param {Info} info
-   */
-  doFetch: ({ path, realPath, isMfs, isPins, isRoot }) => spawn(ACTIONS.FETCH, async function * (ipfs, { store }) {
-    if (isRoot && !isMfs && !isPins) {
-      throw new Error('not supposed to be here')
-    }
+  // /**
+  //  * Fetches conten for the currently selected path. And updates
+  //  * `state.pageContent` on succesful completion.
+  //  * @param {Info} info
+  //  * @returns {function(Context): *}
+  //  */
+  // doFetch: ({ path, realPath, isMfs, isPins, isRoot }) => context => perform(context, ACTIONS.FETCH, async (ipfs, { store }) => {
+  //   if (isRoot && !isMfs && !isPins) {
+  //     throw new Error('not supposed to be here')
+  //   }
 
-    if (isRoot && isPins) {
-      const pins = await all(getPins(ipfs)) // FIX: pins path
+  //   if (isRoot && isPins) {
+  //     const pins = await all(getPins(ipfs)) // FIX: pins path
 
-      return {
-        path: '/pins',
-        fetched: Date.now(),
-        type: 'directory',
-        content: pins
-      }
-    }
+  //     return {
+  //       path: '/pins',
+  //       fetched: Date.now(),
+  //       type: 'directory',
+  //       content: pins
+  //     }
+  //   }
 
-    const resolvedPath = realPath.startsWith('/ipns')
-      ? await last(ipfs.name.resolve(realPath))
-      : realPath
+  //   const resolvedPath = realPath.startsWith('/ipns')
+  //     ? await last(ipfs.name.resolve(realPath))
+  //     : realPath
 
-    const stats = await stat(ipfs, resolvedPath)
-    const time = Date.now()
+  //   const stats = await stat(ipfs, resolvedPath)
+  //   const time = Date.now()
 
-    switch (stats.type) {
-      case 'unknown': {
-        return {
-          fetched: time,
-          ...stats
-        }
-      }
-      case 'file': {
-        return {
-          ...fileFromStats({ ...stats, path }),
-          fetched: time,
-          type: 'file',
-          read: () => ipfs.cat(stats.cid),
-          name: path.split('/').pop(),
-          size: stats.size,
-          cid: stats.cid
-        }
-      }
-      case 'directory': {
-        return await dirStats(ipfs, stats.cid, {
-          path,
-          isRoot,
-          sorting: store.selectFilesSorting()
-        })
-      }
-      default: {
-        throw Error(`Unsupported file type "${stats.type}"`)
-      }
-    }
-  }),
+  //   switch (stats.type) {
+  //     case 'unknown': {
+  //       return {
+  //         fetched: time,
+  //         ...stats
+  //       }
+  //     }
+  //     case 'file': {
+  //       return {
+  //         ...fileFromStats({ ...stats, path }),
+  //         fetched: time,
+  //         type: 'file',
+  //         read: () => ipfs.cat(stats.cid),
+  //         name: path.split('/').pop(),
+  //         size: stats.size,
+  //         cid: stats.cid
+  //       }
+  //     }
+  //     case 'directory': {
+  //       return await dirStats(ipfs, stats.cid, {
+  //         path,
+  //         isRoot,
+  //         sorting: store.selectFilesSorting()
+  //       })
+  //     }
+  //     default: {
+  //       throw Error(`Unsupported file type "${stats.type}"`)
+  //     }
+  //   }
+  // }),
 
   /**
    * Imports given `source` files to the provided `root` path. On completion
@@ -283,186 +285,186 @@ const actions = () => ({
     } finally {
       await store.doFilesFetch()
     }
-  }),
+  }, ['']),
 
-  /**
-   * Deletes `files` with provided paths. On completion (success sor fail) will
-   * trigger `doFilesFetch` to update the state.
-   * @param {string[]} files
-   */
-  doFilesDelete: (files) => spawn(ACTIONS.DELETE, async function * (ipfs, { store }) {
-    ensureMFS(store)
+  // /**
+  //  * Deletes `files` with provided paths. On completion (success sor fail) will
+  //  * trigger `doFilesFetch` to update the state.
+  //  * @param {string[]} files
+  //  */
+  // doFilesDelete: (files) => context => perform(context, ACTIONS.DELETE, async function * (ipfs, { store }) {
+  //   ensureMFS(store)
 
-    if (files.length > 0) {
-      const promises = files
-        .map(file => ipfs.files.rm(realMfsPath(file), {
-          recursive: true
-        }))
+  //   if (files.length > 0) {
+  //     const promises = files
+  //       .map(file => ipfs.files.rm(realMfsPath(file), {
+  //         recursive: true
+  //       }))
 
-      try {
-        await Promise.all(promises)
+  //     try {
+  //       await Promise.all(promises)
 
-        const src = files[0]
-        const path = src.slice(0, src.lastIndexOf('/'))
-        await store.doUpdateHash(path)
+  //       const src = files[0]
+  //       const path = src.slice(0, src.lastIndexOf('/'))
+  //       await store.doUpdateHash(path)
 
-        return undefined
-      } finally {
-        await store.doFilesFetch()
-      }
-    }
+  //       return undefined
+  //     } finally {
+  //       await store.doFilesFetch()
+  //     }
+  //   }
 
-    return undefined
-  }),
+  //   return undefined
+  // }),
 
-  /**
-   * Adds file under the `src` path to the given `root` path. On completion will
-   * trigger `doFilesFetch` to update the state.
-   * @param {string} root
-   * @param {string} src
-   */
-  doFilesAddPath: (root, src) => spawn(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
-    ensureMFS(store)
+  // /**
+  //  * Adds file under the `src` path to the given `root` path. On completion will
+  //  * trigger `doFilesFetch` to update the state.
+  //  * @param {string} root
+  //  * @param {string} src
+  //  */
+  // doFilesAddPath: (root, src) => context => perform(context, ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
+  //   ensureMFS(store)
 
-    const path = realMfsPath(src)
-    /** @type {string} */
-    const name = (path.split('/').pop())
-    const dst = realMfsPath(join(root, name))
-    const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
+  //   const path = realMfsPath(src)
+  //   /** @type {string} */
+  //   const name = (path.split('/').pop())
+  //   const dst = realMfsPath(join(root, name))
+  //   const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
 
-    try {
-      return ipfs.files.cp(srcPath, dst)
-    } finally {
-      await store.doFilesFetch()
-    }
-  }),
+  //   try {
+  //     return ipfs.files.cp(srcPath, dst)
+  //   } finally {
+  //     await store.doFilesFetch()
+  //   }
+  // }),
 
-  /**
-   * Creates a download link for the provided files.
-   * @param {FileStat[]} files
-   */
-  doFilesDownloadLink: (files) => spawn(ACTIONS.DOWNLOAD_LINK, async function * (ipfs, { store }) {
-    ensureMFS(store)
+  // /**
+  //  * Creates a download link for the provided files.
+  //  * @param {FileStat[]} files
+  //  */
+  // doFilesDownloadLink: (files) => context => perform(context, ACTIONS.DOWNLOAD_LINK, async function * (ipfs, { store }) {
+  //   ensureMFS(store)
 
-    const apiUrl = store.selectApiUrl()
-    const gatewayUrl = store.selectGatewayUrl()
-    return await getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
-  }),
+  //   const apiUrl = store.selectApiUrl()
+  //   const gatewayUrl = store.selectGatewayUrl()
+  //   return await getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
+  // }),
 
-  /**
-   * Generates sharable link for the provided files.
-   * @param {FileStat[]} files
-   */
-  doFilesShareLink: (files) => spawn(ACTIONS.SHARE_LINK, async function * (ipfs, { store }) {
-    ensureMFS(store)
+  // /**
+  //  * Generates sharable link for the provided files.
+  //  * @param {FileStat[]} files
+  //  */
+  // doFilesShareLink: (files) => context => perform(context, ACTIONS.SHARE_LINK, async function * (ipfs, { store }) {
+  //   ensureMFS(store)
 
-    return await getShareableLink(files, ipfs)
-  }),
+  //   return await getShareableLink(files, ipfs)
+  // }),
 
-  /**
-   * Moves file from `src` MFS path to a `dst` MFS path. On completion (success
-   * or fail) triggers `doFilesFetch` to update the state.
-   * @param {string} src
-   * @param {string} dst
-   */
-  doFilesMove: (src, dst) => spawn(ACTIONS.MOVE, async function * (ipfs, { store }) {
-    ensureMFS(store)
+  // /**
+  //  * Moves file from `src` MFS path to a `dst` MFS path. On completion (success
+  //  * or fail) triggers `doFilesFetch` to update the state.
+  //  * @param {string} src
+  //  * @param {string} dst
+  //  */
+  // doFilesMove: (src, dst) => context => perform(context, ACTIONS.MOVE, async function * (ipfs, { store }) {
+  //   ensureMFS(store)
 
-    try {
-      await ipfs.files.mv(realMfsPath(src), realMfsPath(dst))
+  //   try {
+  //     await ipfs.files.mv(realMfsPath(src), realMfsPath(dst))
 
-      const page = store.selectFiles()
-      const pagePath = page && page.path
-      if (src === pagePath) {
-        await store.doUpdateHash(dst)
-      }
-    } finally {
-      await store.doFilesFetch()
-    }
-  }),
+  //     const page = store.selectFiles()
+  //     const pagePath = page && page.path
+  //     if (src === pagePath) {
+  //       await store.doUpdateHash(dst)
+  //     }
+  //   } finally {
+  //     await store.doFilesFetch()
+  //   }
+  // }),
 
-  /**
-   * Copies file from `src` MFS path to a `dst` MFS path. On completion (success
-   * or fail) triggers `doFilesFetch` to update the state.
-  * @param {string} src
-  * @param {string} dst
-  */
-  doFilesCopy: (src, dst) => spawn(ACTIONS.COPY, async function * (ipfs, { store }) {
-    ensureMFS(store)
+  // /**
+  //  * Copies file from `src` MFS path to a `dst` MFS path. On completion (success
+  //  * or fail) triggers `doFilesFetch` to update the state.
+  // * @param {string} src
+  // * @param {string} dst
+  // */
+  // doFilesCopy: (src, dst) => context => perform(context, ACTIONS.COPY, async function * (ipfs, { store }) {
+  //   ensureMFS(store)
 
-    try {
-      await ipfs.files.cp(realMfsPath(src), realMfsPath(dst))
-    } finally {
-      await store.doFilesFetch()
-    }
-  }),
+  //   try {
+  //     await ipfs.files.cp(realMfsPath(src), realMfsPath(dst))
+  //   } finally {
+  //     await store.doFilesFetch()
+  //   }
+  // }),
 
-  /**
-   * Creates a directory at given MFS `path`. On completion (success or fail)
-   * triggers `doFilesFetch` to update the state.
-   * @param {string} path
-   */
-  doFilesMakeDir: (path) => spawn(ACTIONS.MAKE_DIR, async function * (ipfs, { store }) {
-    ensureMFS(store)
+  // /**
+  //  * Creates a directory at given MFS `path`. On completion (success or fail)
+  //  * triggers `doFilesFetch` to update the state.
+  //  * @param {string} path
+  //  */
+  // doFilesMakeDir: (path) => context => perform(context, ACTIONS.MAKE_DIR, async function * (ipfs, { store }) {
+  //   ensureMFS(store)
 
-    try {
-      await ipfs.files.mkdir(realMfsPath(path), {
-        parents: true
-      })
-    } finally {
-      await store.doFilesFetch()
-    }
-  }),
+  //   try {
+  //     await ipfs.files.mkdir(realMfsPath(path), {
+  //       parents: true
+  //     })
+  //   } finally {
+  //     await store.doFilesFetch()
+  //   }
+  // }),
 
-  /**
-   * Pins given `cid`. On completion (success or fail) triggers `doPinsFetch` to
-   * update the state.
-   * @param {CID} cid
-   */
-  doFilesPin: (cid) => spawn(ACTIONS.PIN_ADD, async function * (ipfs, { store }) {
-    try {
-      return await ipfs.pin.add(cid)
-    } finally {
-      await store.doPinsFetch()
-    }
-  }),
+  // /**
+  //  * Pins given `cid`. On completion (success or fail) triggers `doPinsFetch` to
+  //  * update the state.
+  //  * @param {CID} cid
+  //  */
+  // doFilesPin: (cid) => context => perform(context, ACTIONS.PIN_ADD, async function * (ipfs, { store }) {
+  //   try {
+  //     return await ipfs.pin.add(cid)
+  //   } finally {
+  //     await store.doPinsFetch()
+  //   }
+  // }),
 
-  /**
-   * Unpins given `cid`. On completion (success or fail) triggers `doPinsFetch`
-   * to update the state.
-   * @param {CID} cid
-   */
-  doFilesUnpin: (cid) => spawn(ACTIONS.PIN_REMOVE, async function * (ipfs, { store }) {
-    try {
-      return await ipfs.pin.rm(cid)
-    } finally {
-      await store.doPinsFetch()
-    }
-  }),
+  // /**
+  //  * Unpins given `cid`. On completion (success or fail) triggers `doPinsFetch`
+  //  * to update the state.
+  //  * @param {CID} cid
+  //  */
+  // doFilesUnpin: (cid) => context => perform(context, ACTIONS.PIN_REMOVE, async function * (ipfs, { store }) {
+  //   try {
+  //     return await ipfs.pin.rm(cid)
+  //   } finally {
+  //     await store.doPinsFetch()
+  //   }
+  // }),
 
   /**
    * Clears all failed tasks.
    */
   doFilesDismissErrors: () => send({ type: ACTIONS.DISMISS_ERRORS }),
 
-  /**
-   * @param {string} path
-   */
-  doFilesNavigateTo: (path) =>
-    /**
-     * @param {Context} context
-     */
-    async ({ store }) => {
-      const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
-      const files = store.selectFiles()
-      const url = store.selectFilesPathInfo()
+  // /**
+  //  * @param {string} path
+  //  */
+  // doFilesNavigateTo: (path) =>
+  //   /**
+  //    * @param {Context} context
+  //    */
+  //   async ({ store }) => {
+  //     const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
+  //     const files = store.selectFiles()
+  //     const url = store.selectFilesPathInfo()
 
-      if (files && files.path === link && url) {
-        await store.doFilesFetch()
-      } else {
-        await store.doUpdateHash(link)
-      }
-    },
+  //     if (files && files.path === link && url) {
+  //       await store.doFilesFetch()
+  //     } else {
+  //       await store.doUpdateHash(link)
+  //     }
+  //   },
 
   /**
    * @param {import('./consts').SORTING} by
@@ -476,16 +478,16 @@ const actions = () => ({
   /**
    * Clears all the tasks (pending, complete and failed).
    */
-  doFilesClear: () => send({ type: ACTIONS.CLEAR_ALL }),
+  doFilesClear: () => send({ type: ACTIONS.CLEAR_ALL })
 
-  /**
-   * Gets size of the MFS. On succesful completion `state.mfsSize` will get
-   * updated.
-   */
-  doFilesSizeGet: () => spawn(ACTIONS.SIZE_GET, async function * (ipfs) {
-    const stat = await ipfs.files.stat('/')
-    return { size: stat.cumulativeSize }
-  })
+  // /**
+  //  * Gets size of the MFS. On succesful completion `state.mfsSize` will get
+  //  * updated.
+  //  */
+  // doFilesSizeGet: () => context => perform(context, ACTIONS.SIZE_GET, async function * (ipfs) {
+  //   const stat = await ipfs.files.stat('/')
+  //   return { size: stat.cumulativeSize }
+  // })
 })
 
 export default actions

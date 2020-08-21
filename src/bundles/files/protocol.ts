@@ -1,5 +1,8 @@
 import { Pin } from 'ipfs'
 import CID from 'cids'
+import { Perform, Spawn } from "../util"
+
+export type { Perform, Spawn }
 
 export type Model = {
   pageContent: null | PageContent
@@ -7,14 +10,11 @@ export type Model = {
   sorting: Sorting
   mfsSize: number
 
-  pending: PendingJob<any>[]
+  pending: PendingJob<any, any>[]
   finished: FinishedJob<any>[]
   failed: FailedJob[]
 }
 
-export type PendingJob<T> =
-  | IdleJob
-  | ActiveJob<T>
 
 export interface JobInfo {
   type: Message['type']
@@ -22,14 +22,13 @@ export interface JobInfo {
   start: number
 }
 
-export interface IdleJob extends JobInfo {
-  status: 'Idle'
+
+export interface PendingJob<M, I> extends JobInfo {
+  status: 'Pending'
+  init: I
+  message?: M
 }
 
-export interface ActiveJob<T> extends JobInfo {
-  status: 'Active'
-  state: T
-}
 
 export interface FailedJob extends JobInfo {
   status: 'Failed'
@@ -55,26 +54,26 @@ export type Message =
   | { type: 'FILES_CLEAR_ALL' }
   | { type: 'FILES_DISMISS_ERRORS' }
   | { type: 'FILES_UPDATE_SORT', payload: Sorting }
-  | Job<'FILES_FETCH', never, Error, PageContent>
+  | Perform<'FILES_FETCH', Error, PageContent, void>
   | MakeDir
   | Delete
   | Move
   | Write
   | AddByPath
   | DownloadLink
-  | Job<'FILES_SHARE_LINK', never, Error, string>
-  | Job<'FILES_COPY', never, Error, void>
-  | Job<'FILES_PIN_ADD', never, Error, Pin[]>
-  | Job<'FILES_PIN_REMOVE', never, Error, Pin[]>
-  | Job<'FILES_PIN_LIST', never, Error, { pins: CID[] }>
-  | Job<'FILES_SIZE_GET', never, Error, { size: number }>
+  | Perform<'FILES_SHARE_LINK', Error, string, void>
+  | Perform<'FILES_COPY', Error, void, void>
+  | Perform<'FILES_PIN_ADD', Error, Pin[], void>
+  | Perform<'FILES_PIN_REMOVE', Error, Pin[], void>
+  | Perform<'FILES_PIN_LIST', Error, { pins: CID[] }, void>
+  | Perform<'FILES_SIZE_GET', Error, { size: number }, void>
 
-export type MakeDir = Job<'FILES_MAKEDIR', never, Error, void>
-export type Write = Job<'FILES_WRITE', { paths: string[], progress: number }, Error, void>
-export type AddByPath = Job<'FILES_ADDBYPATH', never, Error, void>
-export type Move = Job<'FILES_MOVE', never, Error, void>
-export type Delete = Job<'FILES_DELETE', never, Error, void>
-export type DownloadLink = Job<'FILES_DOWNLOADLINK', never, Error, FileDownload>
+export type MakeDir = Perform<'FILES_MAKEDIR', Error, void, void>
+export type Write = Spawn<'FILES_WRITE', { paths: string[], progress: number }, Error, void, string[]>
+export type AddByPath = Perform<'FILES_ADDBYPATH', Error, void, void>
+export type Move = Perform<'FILES_MOVE', Error, void, void>
+export type Delete = Perform<'FILES_DELETE', Error, void, void>
+export type DownloadLink = Perform<'FILES_DOWNLOADLINK', Error, FileDownload, void>
 
 export type FileDownload = {
   url: string

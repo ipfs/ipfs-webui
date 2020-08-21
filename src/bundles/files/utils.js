@@ -1,10 +1,6 @@
 import { sortByName, sortBySize } from '../../lib/sort'
 import { IS_MAC, SORTING } from './consts'
-
-/**
-  * @template Name, State, Error, Return
-  * @typedef {import('./protocol').Job<Name, State, Error, Return>} Job
-  */
+import * as IO from '../util'
 
 /**
  * @template State, Message, Ext = {}
@@ -56,48 +52,123 @@ import { IS_MAC, SORTING } from './consts'
  * 4. `{ status: 'Failed', id: Symbol, error: Error }` - State when task is
  *    failed do to error.
  *
+ * template {string} Name - Name of the task which, correponds to `.type` of
+ * dispatched actions.
+ * template State - Type of yielded value by a the generator, which will
+ * correspond to `.job.state` of dispatched actions while task is pending.
+ * template Return - Return type of the task, which will correspond to
+ * `.job.result.value` of dispatched action on succefully completed task.
+ * template {BundlerContext<State, Job<Name, State, Error, Return>, StoreExt, GetIPFS>} Ctx
+ *
+ * param {Name} name - Name of the task
+ * param {(service:IPFSService, context:Ctx) => AsyncGenerator<State, Return, void>} task
+ * returns {(context:Ctx) => Promise<Return>}
+ */
+
+/**
+ * @template Name, Message, Error, Return, Init
+ * @typedef {import('../util').Spawn<Name, Message, Error, Return, Init>} Spawn
+ */
+
+/**
  * @template {string} Name - Name of the task which, correponds to `.type` of
  * dispatched actions.
- * @template State - Type of yielded value by a the generator, which will
- * correspond to `.job.state` of dispatched actions while task is pending.
+ * @template State
+ * @template Out - Messages process produces
+ * @template Config - Init options
  * @template Return - Return type of the task, which will correspond to
  * `.job.result.value` of dispatched action on succefully completed task.
- * @template {BundlerContext<State, Job<Name, State, Error, Return>, StoreExt, GetIPFS>} Ctx
+ * @template {BundlerContext<State, Spawn<Name, Out, Error, Return, Config>, StoreExt, GetIPFS>} Context
  *
  * @param {Name} name - Name of the task
- * @param {(service:IPFSService, context:Ctx) => AsyncGenerator<State, Return, void>} task
- * @returns {(context:Ctx) => Promise<Return>}
+ * @param {(service:IPFSService, context:Context) => AsyncGenerator<Out, Return, void>} task
+ * @param {Config[]} rest
+ * @returns {(context:Context) => Promise<Return>}
  */
-export const spawn = (name, task) => async (context) => {
-  // Generate unique id for this task
-  const id = Symbol(name)
-  const type = name
-
-  try {
-    const ipfs = context.getIpfs()
-    if (ipfs == null) {
-      throw Error('IPFS node was not found')
-    }
-    context.dispatch({ type, job: { id, status: 'Idle' } })
-
-    const process = task(ipfs, context)
-    while (true) {
-      const next = await process.next()
-      if (next.done) {
-        const { value } = next
-        context.dispatch({ type, job: { id, status: 'Done', value } })
-        return value
-      } else {
-        const { value: state } = next
-        context.dispatch({ type, job: { id, status: 'Active', state } })
-      }
-    }
-  } catch (error) {
-    context.dispatch({ type, job: { id, status: 'Failed', error } })
-    // Propagate error to a caller.
-    throw error
+export const spawn = (name, task, ...[init]) => async (context) => {
+  const ipfs = context.getIpfs()
+  if (ipfs == null) {
+    throw Error('IPFS node was not found')
+  } else {
+    return await IO.spawn(
+      context,
+      name,
+      /**
+       * @returns {AsyncGenerator<Out, Return, void>}}
+       */
+      async function * () {
+        const process = task(ipfs, context)
+        while (true) {
+          const next = await process.next()
+          if (next.done) {
+            return next.value
+          } else {
+            yield next.value
+          }
+        }
+      },
+      init
+    )
   }
 }
+
+// export const spawn = (name, task) => async (context) => {
+//   // Generate unique id for this task
+//   const id = Symbol(name)
+//   const type = name
+
+//   try {
+//     const ipfs = context.getIpfs()
+//     if (ipfs == null) {
+//       throw Error('IPFS node was not found')
+//     }
+//     context.dispatch({ type, job: { id, status: 'Idle' } })
+
+//     const process = task(ipfs, context)
+//     while (true) {
+//       const next = await process.next()
+//       if (next.done) {
+//         const { value } = next
+//         context.dispatch({ type, job: { id, status: 'Done', value } })
+//         return value
+//       } else {
+//         const { value: state } = next
+//         context.dispatch({ type, job: { id, status: 'Active', state } })
+//       }
+//     }
+//   } catch (error) {
+//     context.dispatch({ type, job: { id, status: 'Failed', error } })
+//     // Propagate error to a caller.
+//     throw error
+//   }
+// }
+
+/**
+ * @template Name, Error, Return, Init
+ * @typedef {import('../util').Perform<Name, Error, Return, Init>} Perform
+ */
+
+// /**
+//  * @template {string} Name - Name of the task which, correponds to `.type` of
+//  * dispatched actions.
+//  * @template Config - Initial data
+//  * @template Return - Return type of the task, which will correspond to
+//  * `.job.result.value` of dispatched action on succefully completed task.
+//  * @template {StoreExt} Ext
+//  * @template {GetIPFS} Extra
+//  * @template {BundlerContext<any, Perform<Name, Error, Return, Config>, Ext, Extra>} Context
+//  *
+//  * @param {Context} context
+//  * @param {Name} name - Name of the task
+//  * @param {(service:IPFSService, context:Context) => Promise<Return> | Return} task
+//  * @param {Config[]} rest
+//  * @returns {Promise<Return>}
+//  */
+// export const perform = (context, name, task, ...[init]) =>
+//   // eslint-disable-next-line require-yield
+//   spawn(context, name, async function * (service, context) {
+//     return await task(service, context)
+//   }, init)
 
 /**
  * Creates an acton creator that just dispatches given action.
