@@ -6,7 +6,7 @@ export const ACTIONS = Enum.from([
 ])
 
 /**
- * @typedef {import('./util').Perform<'EXPERIMENTS_TOGGLE', Fail, Succeed, Init>} Toggle
+ * @typedef {import('./task').Perform<'EXPERIMENTS_TOGGLE', Fail, Succeed, Init>} Toggle
  * @typedef {Object} Succeed
  * @property {string} key
  * @property {boolean} value

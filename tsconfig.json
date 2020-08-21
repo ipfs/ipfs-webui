@@ -45,7 +45,7 @@
   "include": [
     "@types",
     "src/bundles/enum.js",
-    "src/bundles/util.js",
+    "src/bundles/task.js",
     "src/bundles/files/**/*.js",
     "src/bundles/ipfs-provider.js",
     "src/bundles/ipfs-desktop.js",

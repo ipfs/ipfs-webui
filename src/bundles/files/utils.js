@@ -1,6 +1,6 @@
 import { sortByName, sortBySize } from '../../lib/sort'
 import { IS_MAC, SORTING } from './consts'
-import * as IO from '../util'
+import * as IO from '../task'
 
 /**
  * @template State, Message, Ext = {}
@@ -67,7 +67,7 @@ import * as IO from '../util'
 
 /**
  * @template Name, Message, Error, Return, Init
- * @typedef {import('../util').Spawn<Name, Message, Error, Return, Init>} Spawn
+ * @typedef {import('../task').Spawn<Name, Message, Error, Return, Init>} Spawn
  */
 
 /**
@@ -82,21 +82,21 @@ import * as IO from '../util'
  *
  * @param {Name} name - Name of the task
  * @param {(service:IPFSService, context:Ctx) => AsyncGenerator<Out, Return, void>} task
- * @param {Config} init
+ * @param {Config[]} rest
  * @returns {(context:Ctx) => Promise<Return>}
  */
-export const spawn = (name, task, init) => async (context) => {
+export const spawn = (name, task, ...[init]) => async (context) => {
   const ipfs = context.getIpfs()
   if (ipfs == null) {
     throw Error('IPFS node was not found')
   } else {
-    return await IO.spawn(
-      context,
+    const routine = IO.spawn(
       name,
       /**
+       * @param {Ctx} context
        * @returns {AsyncGenerator<Out, Return, void>}}
        */
-      async function * () {
+      async function * (context) {
         const process = task(ipfs, context)
         while (true) {
           const next = await process.next()
@@ -109,43 +109,14 @@ export const spawn = (name, task, init) => async (context) => {
       },
       init
     )
+
+    return await routine(context)
   }
 }
 
-// export const spawn = (name, task) => async (context) => {
-//   // Generate unique id for this task
-//   const id = Symbol(name)
-//   const type = name
-
-//   try {
-//     const ipfs = context.getIpfs()
-//     if (ipfs == null) {
-//       throw Error('IPFS node was not found')
-//     }
-//     context.dispatch({ type, job: { id, status: 'Idle' } })
-
-//     const process = task(ipfs, context)
-//     while (true) {
-//       const next = await process.next()
-//       if (next.done) {
-//         const { value } = next
-//         context.dispatch({ type, job: { id, status: 'Done', value } })
-//         return value
-//       } else {
-//         const { value: state } = next
-//         context.dispatch({ type, job: { id, status: 'Active', state } })
-//       }
-//     }
-//   } catch (error) {
-//     context.dispatch({ type, job: { id, status: 'Failed', error } })
-//     // Propagate error to a caller.
-//     throw error
-//   }
-// }
-
 /**
  * @template Name, Error, Return, Init
- * @typedef {import('../util').Perform<Name, Error, Return, Init>} Perform
+ * @typedef {import('../task').Perform<Name, Error, Return, Init>} Perform
  */
 
 /**

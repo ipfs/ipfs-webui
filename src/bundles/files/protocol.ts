@@ -1,6 +1,6 @@
 import { Pin } from 'ipfs'
 import CID from 'cids'
-import { Perform, Spawn } from "../util"
+import { Perform, Spawn } from "../task"
 
 export type { Perform, Spawn }
 

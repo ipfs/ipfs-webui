@@ -75,15 +75,14 @@
  * @template {Object} Extra
  * @template {BundlerContext<any, Perform<Name, Error, Return, Config>, StoreExt, Extra>} Context
  *
- * @param {Context} context
  * @param {Name} name - Name of the task
  * @param {(context:Context) => Promise<Return> | Return} task
  * @param {Config[]} rest
- * @returns {Promise<Return>}
+ * @returns {(context:Context) => Promise<Return>}
  */
-export const perform = async (context, name, task, ...[init]) =>
+export const perform = (name, task, ...[init]) =>
   // eslint-disable-next-line require-yield
-  spawn(context, name, async function * (context) {
+  spawn(name, async function * (context) {
     return await task(context)
   }, init)
 
@@ -127,13 +126,12 @@ export const perform = async (context, name, task, ...[init]) =>
  * @template {Object} Extra
  * @template {BundlerContext<State, Spawn<Name, Message, Error, Return, Config>, StoreExt, Extra>} Context
  *
- * @param {Context} context
  * @param {Name} name - Name of the task
  * @param {(context:Context) => AsyncGenerator<Message, Return, void>} task
  * @param {Config[]} rest
- * @returns {Promise<Return>}
+ * @returns {(context:Context) => Promise<Return>}
  */
-export const spawn = async (context, name, task, ...[init]) => {
+export const spawn = (name, task, ...[init]) => async (context) => {
   // Generate unique id for this task
   const id = Symbol(name)
   const type = name

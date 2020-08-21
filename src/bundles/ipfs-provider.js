@@ -5,7 +5,7 @@ import HttpClient from 'ipfs-http-client'
 import { getIpfs, providers } from 'ipfs-provider'
 import last from 'it-last'
 import * as Enum from './enum'
-import { perform } from './util'
+import { perform } from './task'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -17,7 +17,7 @@ import { perform } from './util'
  * @property {boolean} ready
  * @property {boolean} invalidAddress
  *
- * @typedef {import('./util').Perform<'IPFS_INIT', Error, InitResult, void>} Init
+ * @typedef {import('./task').Perform<'IPFS_INIT', Error, InitResult, void>} Init
  * @typedef {Object} Stopped
  * @property {'IPFS_STOPPED'} type
  *
@@ -247,7 +247,7 @@ const actions = {
   /**
    * @returns {function(Context):Promise<InitResult>}
    */
-  doInitIpfs: () => context => perform(context, 'IPFS_INIT',
+  doInitIpfs: () => perform('IPFS_INIT',
   /**
    * @param {Context} context
    * @returns {Promise<InitResult>}

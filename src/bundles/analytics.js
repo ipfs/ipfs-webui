@@ -31,7 +31,7 @@ import { ACTIONS as EXP } from './experiments'
  * @typedef {import('./experiments').Fail} FailToggle
  * @typedef {import('./experiments').Succeed} SucceedToggle
  * @typedef {import('./experiments').Init} InitToggle
- * @typedef {import('./util').Perform<'DESKTOP_SETTING_TOGGLE', FailToggle, SucceedToggle, InitToggle>} DesktopSettingToggle
+ * @typedef {import('./task').Perform<'DESKTOP_SETTING_TOGGLE', FailToggle, SucceedToggle, InitToggle>} DesktopSettingToggle
  *
  * @typedef {Object} AnalyticsEnabled
  * @property {'ANALYTICS_ENABLED'} type

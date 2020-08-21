@@ -10,7 +10,7 @@ export const sorts = SORTING
 /**
  * @typedef {import('./protocol').Model} Model
  * @typedef {import('./protocol').Message} Message
- * @typedef {import('../util').ProcessState<any, Error, any, any>} JobState
+ * @typedef {import('../task').ProcessState<any, Error, any, any>} JobState
  */
 export default () => {
   return {

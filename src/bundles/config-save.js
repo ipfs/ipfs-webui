@@ -1,10 +1,10 @@
 // @ts-check
 
 import * as Enum from './enum'
-import { perform } from './util'
+import { perform } from './task'
 
 /**
- * @typedef {import('./util').Perform<'CONFIG_SAVE', Error, void, void>} ConfigSave
+ * @typedef {import('./task').Perform<'CONFIG_SAVE', Error, void, void>} ConfigSave
  *
  * @typedef {ConfigSave} Message
  *
@@ -61,7 +61,7 @@ const actions = {
    * @param {string} configStr
    * @returns {function(Context):Promise<void>}
    */
-  doPerformSaveConfig: (configStr) => (context) => perform(context, 'CONFIG_SAVE', async () => {
+  doPerformSaveConfig: (configStr) => perform('CONFIG_SAVE', async (context) => {
     const result = await attempt(async () => {
       const obj = JSON.parse(configStr)
       const ipfs = context.getIpfs()
