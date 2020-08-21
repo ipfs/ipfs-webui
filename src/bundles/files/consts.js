@@ -60,7 +60,7 @@ export const cliCommandList = {
   /**
    * @param {string} filePath
    */
-  [cliCmdKeys.DELETE_FILE_FROM_IPFS]: (filePath) => `ipfs files rm -r ${filePath}`,
+  [cliCmdKeys.DELETE_FILE_FROM_IPFS]: (filePath) => `ipfs files rm -r "${filePath}"`,
   /**
    * @param {string} cid
    */
@@ -81,7 +81,7 @@ export const cliCommandList = {
   [cliCmdKeys.ADD_FILE]: () => 'ipfs add <file-name>',
   [cliCmdKeys.ADD_DIRECTORY]: () => 'ipfs add -r <folder-name>',
   [cliCmdKeys.CREATE_NEW_DIRECTORY]: () => 'ipfs files mkdir <folder-name>',
-  [cliCmdKeys.FROM_IPFS]: () => 'ipfs cp <source-cid> <dest-cid>',
-  [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-address>',
+  [cliCmdKeys.FROM_IPFS]: () => 'ipfs cp <content-path-or-cid> <dest-name>',
+  [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-multiaddr>',
   [cliCmdKeys.UPDATE_API_SERVER_ADDRESS]: () => 'ipfs config --json API.Addresses.API <custom-api-address>'
 }
