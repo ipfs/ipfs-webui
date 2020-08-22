@@ -6,7 +6,7 @@ export type { Perform, Spawn }
 
 export type Model = {
   pageContent: null | PageContent
-  pins: CID[]
+  pins: string[]
   sorting: Sorting
   mfsSize: number
 

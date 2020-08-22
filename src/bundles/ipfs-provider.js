@@ -245,6 +245,19 @@ const selectors = {
 
 const actions = {
   /**
+   * @returns {function(Context):Promise<void>}
+   */
+  doTryInitIpfs: () => async ({ store }) => {
+    // We need to swallow error that `doInitIpfs` could produce othrewise it
+    // will bubble up and nothing will handle it. There is a code in
+    // `bundles/retry-init.js` that reacts to `IPFS_INIT` action and attempts
+    // to retry.
+    try {
+      await store.doInitIpfs()
+    } catch (_) {
+    }
+  },
+  /**
    * @returns {function(Context):Promise<InitResult>}
    */
   doInitIpfs: () => perform('IPFS_INIT',
@@ -255,7 +268,7 @@ const actions = {
     async (context) => {
       const { apiAddress } = context.getState().ipfs
 
-      return await getIpfs({
+      const result = await getIpfs({
         // @ts-ignore - TS can't seem to infer connectionTest option
         connectionTest: async (ipfs) => {
           // ipfs connection is working if can we fetch the bw stats.
@@ -275,6 +288,12 @@ const actions = {
           providers.httpClient({ apiAddress })
         ]
       })
+
+      if (!result) {
+        throw Error('Could not connect to the IPFS API')
+      } else {
+        return result
+      }
     }),
   /**
    * @returns {function(Context):Promise<void>}
@@ -298,7 +317,7 @@ const actions = {
       await writeSetting('ipfsApi', apiAddress)
       context.dispatch({ type: 'IPFS_API_ADDRESS_UPDATED', payload: apiAddress })
 
-      await context.store.doInitIpfs()
+      await context.store.doTryInitIpfs()
     }
   },
 

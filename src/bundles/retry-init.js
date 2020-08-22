@@ -69,7 +69,7 @@ const retryInit = {
     (appTime, startedAt, failedAt) => {
       if (!failedAt || failedAt < startedAt) return false
       if (appTime - failedAt < 3000) return false
-      return { actionCreator: 'doInitIpfs' }
+      return { actionCreator: 'doTryInitIpfs' }
     }
   )
 }

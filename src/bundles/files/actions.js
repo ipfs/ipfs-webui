@@ -170,7 +170,7 @@ const actions = () => ({
     const isFetching = store.selectFilesIsFetching()
     const info = store.selectFilesPathInfo()
     if (isReady && isConnected && !isFetching && info) {
-      // await store.doFetch(info)
+      await store.doFetch(info)
     }
   },
 
@@ -299,7 +299,7 @@ const actions = () => ({
     } finally {
       await store.doFilesFetch()
     }
-  }, ['']),
+  }),
 
   /**
    * Deletes `files` with provided paths. On completion (success sor fail) will

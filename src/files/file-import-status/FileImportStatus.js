@@ -14,7 +14,7 @@ import GlyphCancel from '../../icons/GlyphCancel'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 
 const File = (job, t) => {
-  const pathsByFolder = job.state.entries.reduce((prev, currentEntry) => {
+  const pathsByFolder = job.message.entries.reduce((prev, currentEntry) => {
     const isFolder = currentEntry.path.includes('/')
     if (!isFolder) {
       return [...prev, currentEntry]
@@ -41,7 +41,7 @@ const File = (job, t) => {
         { count && (<span> { t('filesImportStatus.count', { count }) } | </span>) }
         <span className='ml2'>{ filesize(size) }</span>
       </span>
-      { job.status === 'Fail' ? <GlyphCancel className="dark-red w2 ph1" fill="currentColor"/> : <LoadingIndicator complete={ !progress }/> }
+      { job.status === 'Exit' && !job.result.ok ? <GlyphCancel className="dark-red w2 ph1" fill="currentColor"/> : <LoadingIndicator complete={ !progress }/> }
     </li>
   ))
 }

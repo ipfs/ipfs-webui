@@ -43,18 +43,18 @@
     "./src/test"
   ],
   "include": [
+    "**/*.ts",
     "@types",
-    "src/bundles/enum.js",
-    "src/bundles/task.js",
     "src/bundles/files/**/*.js",
-    "src/bundles/ipfs-provider.js",
-    "src/bundles/ipfs-desktop.js",
-    "src/bundles/retry-init.js",
-    "src/bundles/connected.js",
-    "src/bundles/config-save.js",
-    "src/bundles/experiments.js",
     "src/bundles/analytics.js",
-    "**/*.ts"
+    "src/bundles/config-save.js",
+    "src/bundles/connected.js",
+    "src/bundles/enum.js",
+    "src/bundles/experiments.js",
+    "src/bundles/ipfs-desktop.js",
+    "src/bundles/ipfs-provider.js",
+    "src/bundles/retry-init.js",
+    "src/bundles/task.js"
   ],
   "compileOnSave": false
 }

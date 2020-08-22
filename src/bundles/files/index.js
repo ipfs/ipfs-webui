@@ -39,9 +39,9 @@ export default () => {
         case ACTIONS.PIN_LIST: {
           const { task, type } = action
 
-          const { pins } = task.status === 'Exit' && task.result.ok
-            ? task.result.value
-            : state
+          const pins = task.status === 'Exit' && task.result.ok
+            ? task.result.value.pins.map(String)
+            : state.pins
 
           return {
             ...updateJob(state, task, type),
@@ -57,7 +57,7 @@ export default () => {
             ? {
               pageContent: result,
               pins: result.type === 'directory' && result.path === '/pins'
-                ? result.content.map($ => $.cid)
+                ? result.content.map($ => $.cid.toString())
                 : state.pins
             }
             : state

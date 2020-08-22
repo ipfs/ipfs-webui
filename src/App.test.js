@@ -15,6 +15,6 @@ it.skip('renders without crashing', () => {
   // const Page = () => 'test'
 
   // shallow(null
-  //   <App doInitIpfs={noop} doUpdateUrl={noop} route={Page} queryObject={{}} />
+  //   <App doTryInitIpfs={noop} doUpdateUrl={noop} route={Page} queryObject={{}} />
   // )
 })
