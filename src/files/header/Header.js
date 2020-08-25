@@ -40,6 +40,13 @@ class Header extends React.Component {
     }, pos)
   }
 
+  handleBreadCrumbsContextMenu = (ev, breadcrumbsRef) => {
+    const pos = breadcrumbsRef.getBoundingClientRect()
+    this.props.handleContextMenu(ev, 'RIGHT', {
+      ...this.props.files
+    }, pos)
+  }
+
   render () {
     const {
       files,
@@ -55,7 +62,7 @@ class Header extends React.Component {
     return (
       <div className='db flex-l justify-between items-center'>
         <div className='mb3 overflow-hidden mr2'>
-          <Breadcrumbs className="joyride-files-breadcrumbs" path={files ? files.path : '/404'} onClick={onNavigate} />
+          <Breadcrumbs className="joyride-files-breadcrumbs" path={files ? files.path : '/404'} onClick={onNavigate} onContextMenuHandle={(ev, ref) => this.handleBreadCrumbsContextMenu(ev, ref)}/>
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>

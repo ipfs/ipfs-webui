@@ -1,0 +1,15 @@
+.BreadcrumbsButton::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 2px;
+    background: currentColor;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0;
+}
+
+.BreadcrumbsButton.dragging::after {
+    opacity: 1;
+}

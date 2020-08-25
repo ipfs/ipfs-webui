@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
+
+import './Breadcrumbs.css'
 
 function makeBread (root) {
   if (root.endsWith('/')) {
@@ -35,36 +38,38 @@ function makeBread (root) {
   return parts
 }
 
-class Breadcrumbs extends React.Component {
-  state = {
-    overflows: false
+const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle, ...props }) => {
+  const [overflows, setOverflows] = useState(false)
+  const anchors = useRef()
+  const buttonRef = useRef()
+  const [draggingOn, setDragging] = useState(null)
+
+  useEffect(() => {
+    const a = anchors.current
+
+    const newOverflows = a ? (a.offsetHeight < a.scrollHeight || a.offsetWidth < a.scrollWidth) : false
+    if (newOverflows !== overflows) {
+      setOverflows(newOverflows)
+    }
+  }, [overflows])
+
+  const cls = `Breadcrumbs flex items-center sans-serif overflow-hidden ${className}`
+  const bread = makeBread(path)
+  const root = bread[0]
+
+  if (root.name === 'files' || root.name === 'pins') {
+    bread.shift()
   }
 
-  componentDidUpdate (_, prevState) {
-    const a = this.anchors
-    const overflows = a ? (a.offsetHeight < a.scrollHeight || a.offsetWidth < a.scrollWidth) : false
+  const handleOnContextMenuHandle = (ev) => onContextMenuHandle(ev, buttonRef.current)
 
-    if (prevState.overflows !== overflows) {
-      this.setState({ overflows })
-    }
-  }
-
-  render () {
-    const { t, tReady, path, onClick, className = '', ...props } = this.props
-
-    const cls = `Breadcrumbs flex items-center sans-serif overflow-hidden ${className}`
-    const bread = makeBread(path)
-    const root = bread[0]
-
-    if (root.name === 'files' || root.name === 'pins') {
-      bread.shift()
-    }
-
+  const createItems = () => {
     const res = bread.map((link, index) => ([
       <span key={`${index}link`} className='dib pv1 pr1' style={{ direction: 'ltr' }}>
         { link.disabled
           ? <span title={link.realName} className='gray'>{link.name}</span>
-          : <button title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => onClick(link.path)}>
+          : <button ref={buttonRef} title={link.realName} className={classNames('BreadcrumbsButton relative navy', link.last && 'b', draggingOn === index && 'dragging')} onClick={() => onClick(link.path)} onContextMenu={handleOnContextMenuHandle}
+            onDragOver={ () => setDragging(index) } onDragLeave={ () => setDragging(null) }>
             {link.name}
           </button>
         }
@@ -80,9 +85,12 @@ class Breadcrumbs extends React.Component {
 
     res.reverse()
 
-    return (
-      <nav aria-label={t('breadcrumbs')} className={cls} {...props}>
-        { (root.name === 'files' || root.name === 'pins') &&
+    return res
+  }
+
+  return (
+    <nav aria-label={t('breadcrumbs')} className={cls} {...props}>
+      { (root.name === 'files' || root.name === 'pins') &&
         /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
         <button key={`${root.name}-label`}
           title={root.realName}
@@ -90,22 +98,22 @@ class Breadcrumbs extends React.Component {
           className='f7 pointer pa1 bg-navy br2 mr2 white'>
           {t(root.name)}
         </button>
-        }
+      }
 
-        <div className='nowrap overflow-hidden relative' ref={(el) => { this.anchors = el }} style={{ direction: 'rtl' }}>
-          <div className={`absolute left-0 top-0 h-100 w1 ${this.state.overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, #ffffff 0%, transparent 100%)' }} />
-          {res}
-        </div>
-      </nav>
-    )
-  }
+      <div className='nowrap overflow-hidden relative' ref={ anchors } style={{ direction: 'rtl' }}>
+        <div className={`absolute left-0 top-0 h-100 w1 ${overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, #ffffff 0%, transparent 100%)' }} />
+        { createItems()}
+      </div>
+    </nav>
+  )
 }
 
 Breadcrumbs.propTypes = {
   path: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
-  tReady: PropTypes.bool.isRequired
+  tReady: PropTypes.bool.isRequired,
+  onContextMenuHandle: PropTypes.func
 }
 
 export default withTranslation('files')(Breadcrumbs)
