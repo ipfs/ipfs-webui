@@ -90,7 +90,7 @@ function getURLFromAddress (name, config) {
 const checkIfGatewayUrlIsAccessible = memoize(async (url) => {
   try {
     const { status } = await fetch(
-    `${url}/ipfs/bafybeiczsscdsbs7ffqz55asqdf3smv6klcw3gofszvwlyarci47bgf354`
+    `${url}/ipfs/bafkqaaa`
     )
     return status === 200
   } catch (e) {
