@@ -7,7 +7,7 @@ const DEFAULT_MULTI_ADDR = '/dns4/ipfs.io/tcp/443/https'
 
 const bundle = createAsyncResourceBundle({
   name: 'config',
-  getPromise: async ({ getIpfs }) => {
+  getPromise: async ({ getIpfs, dispatch }) => {
     const rawConf = await getIpfs().config.getAll()
     let conf
 
@@ -22,7 +22,7 @@ const bundle = createAsyncResourceBundle({
     const url = getURLFromAddress('Gateway', config) || DEFAULT_URI
 
     if (!await checkIfGatewayUrlIsAccessible(url)) {
-      config.Addresses.Gateway = DEFAULT_MULTI_ADDR
+      config.Addresses.AvailableGateway = DEFAULT_MULTI_ADDR
       return JSON.stringify(config)
     }
 
@@ -48,6 +48,12 @@ bundle.selectApiUrl = createSelector(
 bundle.selectGatewayUrl = createSelector(
   'selectConfigObject',
   (config) => getURLFromAddress('Gateway', config) || DEFAULT_URI
+)
+
+bundle.selectAvailableGatewayUrl = createSelector(
+  'selectConfigObject',
+  'selectGatewayUrl',
+  (config, gatewayUrl) => config?.AvailableGateway ? getURLFromAddress('AvailableGateway', config) : gatewayUrl
 )
 
 bundle.selectBootstrapPeers = createSelector(
