@@ -14,7 +14,7 @@
   "insertPeerAddress": "Insert the peer address you want to connect to.",
   "add": "Add",
   "example": "Example:",
-  "plusPeers": "+ {number} more peers", 
+  "plusPeers": "+ {number} more peers",
   "tour": {
     "back": "Back",
     "close": "Close",
@@ -34,5 +34,9 @@
       "title": "Peers table",
       "paragraph1": "Check the IDs of the connected peers, their address and approximate location."
     }
+  },
+  "actions": {
+    "edit": "Change",
+    "close": "Close"
   }
 }

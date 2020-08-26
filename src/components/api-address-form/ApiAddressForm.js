@@ -18,6 +18,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '' }) => {
       onSubmit(event)
     }
   }
+
   return (
     <form onSubmit={onSubmit}>
       <label htmlFor='api-address' className='db f7 mb2 ttu tracked charcoal pl1'>{t('apiAddressForm.apiLabel')}</label>

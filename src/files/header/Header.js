@@ -81,7 +81,9 @@ class Header extends React.Component {
                 ? <FileInput
                   onNewFolder={this.props.onNewFolder}
                   onAddFiles={this.props.onAddFiles}
-                  onAddByPath={this.props.onAddByPath} />
+                  onAddByPath={this.props.onAddByPath}
+                  onCliTutorMode={this.props.onCliTutorMode}
+                />
                 : <div ref={el => { this.dotsWrapper = el }}>
                   <Button bg='bg-navy'
                     color='white'
