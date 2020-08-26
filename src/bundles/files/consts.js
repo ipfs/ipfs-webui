@@ -77,9 +77,9 @@ export const cliCommandList = {
     const prefix = filePath.replace(fileName, '').trim()
     return `ipfs files mv "${filePath}" "${prefix}<new-name>"`
   },
-  [cliCmdKeys.ADD_FILE]: () => 'ipfs add <file-name>',
-  [cliCmdKeys.ADD_DIRECTORY]: () => 'ipfs add -r <folder-name>',
+  [cliCmdKeys.ADD_FILE]: () => 'ipfs files cp /ipfs/$(ipfs add -Q <local-file>) /<dest-name>',
+  [cliCmdKeys.ADD_DIRECTORY]: () => 'ipfs files cp /ipfs/$(ipfs add -r -Q <local-folder>) /<dest-name>',
   [cliCmdKeys.CREATE_NEW_DIRECTORY]: () => 'ipfs files mkdir <folder-name>',
-  [cliCmdKeys.FROM_IPFS]: () => 'ipfs cp <content-path-or-cid> <dest-name>',
+  [cliCmdKeys.FROM_IPFS]: () => 'ipfs cp /ipfs/<cid> /<dest-name>',
   [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-multiaddr>'
 }
