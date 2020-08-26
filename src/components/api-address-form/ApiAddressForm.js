@@ -18,6 +18,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '' }) => {
       onSubmit(event)
     }
   }
+
   return (
     <form onSubmit={onSubmit}>
       <input id='api-address'

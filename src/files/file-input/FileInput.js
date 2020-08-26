@@ -11,6 +11,7 @@ import DecentralizationIcon from '../../icons/StrokeDecentralization'
 // Components
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
 import Button from '../../components/button/Button'
+import { cliCmdKeys } from '../../bundles/files/consts'
 
 const AddButton = withTranslation('files')(
   ({ t, onClick }) => (
@@ -64,8 +65,14 @@ class FileInput extends React.Component {
     this.toggleDropdown()
   }
 
+  onCliTutorMode = async (cliOptions) => {
+    await this.props.doSetCliOptions(cliOptions)
+    this.props.onCliTutorMode()
+    this.toggleDropdown()
+  }
+
   render () {
-    const { t } = this.props
+    const { t, isCliTutorModeEnabled } = this.props
 
     return (
       <div className={this.props.className}>
@@ -75,19 +82,23 @@ class FileInput extends React.Component {
             top={3}
             open={this.state.dropdown}
             onDismiss={this.toggleDropdown} >
-            <Option onClick={this.onAddFile} id='add-file'>
+            <Option onClick={this.onAddFile} id='add-file' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.ADD_FILE)}
+              isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <DocumentIcon className='fill-aqua w2 mr1' />
               {t('addFile')}
             </Option>
-            <Option onClick={this.onAddFolder} id='add-folder'>
+            <Option onClick={this.onAddFolder} id='add-folder' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.ADD_DIRECTORY)}
+              isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <FolderIcon className='fill-aqua w2 mr1' />
               {t('addFolder')}
             </Option>
-            <Option onClick={this.onAddByPath} id='add-by-path'>
+            <Option onClick={this.onAddByPath} id='add-by-path' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_IPFS)}
+              isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <DecentralizationIcon className='fill-aqua w2 mr1' />
               {t('addByPath')}
             </Option>
-            <Option onClick={this.onNewFolder} id='add-new-folder'>
+            <Option onClick={this.onNewFolder} id='add-new-folder' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.CREATE_NEW_DIRECTORY)}
+              isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <NewFolderIcon className='fill-aqua w2 h2 mr1' />
               {t('newFolder')}
             </Option>
@@ -127,5 +138,8 @@ FileInput.propTypes = {
 export default connect(
   'selectIsIpfsDesktop',
   'doDesktopSelectDirectory',
+  'selectIsCliTutorModeEnabled',
+  'doOpenCliTutorModal',
+  'doSetCliOptions',
   withTranslation('files')(FileInput)
 )

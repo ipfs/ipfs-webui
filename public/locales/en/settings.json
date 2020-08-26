@@ -6,6 +6,7 @@
   "language": "Language",
   "analytics": "Analytics",
   "api": "API Address",
+  "cliTutorMode": "CLI Tutor Mode",
   "config": "IPFS Config",
   "languageModal": {
     "title": "Change language",
@@ -18,6 +19,7 @@
     "close": "Close"
   },
   "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
+  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
   "ipfsDaemonOffline": "The IPFS daemon is offline. Please turn it on and try again.",
@@ -61,6 +63,9 @@
       "summary": "JavaScript error messages and stack traces",
       "details": "Records JavaScript error messages and stack traces that occur while using the app, where possible. It is very helpful to know when the app is not working for you, but <1>error messages may include identifiable information</1> like CIDs or file paths, so only enable this if you are comfortable sharing that information with us."
     }
+  },
+  "cliToggle": {
+    "label": "Enable command-line interface (CLI) tutor mode"
   },
   "tour": {
     "back": "Back",
