@@ -26,7 +26,6 @@ const bundle = createAsyncResourceBundle({
 
     if (!await checkIfGatewayUrlIsAccessible(url)) {
       store.doSetAvailableGateway(DEFAULT_URI)
-      return conf
     }
 
     // stringy json for quick compares
