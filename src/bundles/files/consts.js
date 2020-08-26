@@ -77,9 +77,21 @@ export const cliCommandList = {
     const prefix = filePath.replace(fileName, '').trim()
     return `ipfs files mv "${filePath}" "${prefix}<new-name>"`
   },
-  [cliCmdKeys.ADD_FILE]: () => 'ipfs files cp /ipfs/$(ipfs add -Q <local-file>) /<dest-name>',
-  [cliCmdKeys.ADD_DIRECTORY]: () => 'ipfs files cp /ipfs/$(ipfs add -r -Q <local-folder>) /<dest-name>',
-  [cliCmdKeys.CREATE_NEW_DIRECTORY]: () => 'ipfs files mkdir <folder-name>',
-  [cliCmdKeys.FROM_IPFS]: () => 'ipfs cp /ipfs/<cid> /<dest-name>',
+  /**
+   * @param {string} path
+   */
+  [cliCmdKeys.ADD_FILE]: (path) => `ipfs files cp /ipfs/$(ipfs add -Q <local-file>) "${path}/<dest-name>"`,
+  /**
+   * @param {string} path
+   */
+  [cliCmdKeys.ADD_DIRECTORY]: (path) => `ipfs files cp /ipfs/$(ipfs add -r -Q <local-folder>) "${path}/<dest-name>"`,
+  /**
+   * @param {string} path
+   */
+  [cliCmdKeys.CREATE_NEW_DIRECTORY]: (path) => `ipfs files mkdir "${path}/<folder-name>"`,
+  /**
+   * @param {string} path
+   */
+  [cliCmdKeys.FROM_IPFS]: (path) => `ipfs cp /ipfs/<cid> "${path}/<dest-name>"`,
   [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-multiaddr>'
 }

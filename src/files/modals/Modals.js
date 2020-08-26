@@ -152,7 +152,12 @@ class Modals extends React.Component {
       path = realMfsPath(files[0].path)
     }
 
+    // @TODO: ensure path is set for all actions
     switch (action) {
+      case cliCmdKeys.ADD_FILE:
+      case cliCmdKeys.ADD_DIRECTORY:
+      case cliCmdKeys.CREATE_NEW_DIRECTORY:
+      case cliCmdKeys.FROM_IPFS:
       case cliCmdKeys.DELETE_FILE_FROM_IPFS:
         return cliCommandList[action](path)
       case cliCmdKeys.DOWNLOAD_OBJECT_COMMAND:
