@@ -88,7 +88,7 @@ Preview.propTypes = {
   name: PropTypes.string.isRequired,
   hash: PropTypes.instanceOf(CID),
   size: PropTypes.number.isRequired,
-  gatewayUrl: PropTypes.string.isRequired,
+  availableGatewayUrl: PropTypes.string.isRequired,
   read: PropTypes.func.isRequired,
   content: PropTypes.object,
   t: PropTypes.func.isRequired,

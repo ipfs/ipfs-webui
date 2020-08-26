@@ -3,11 +3,14 @@ import toUri from 'multiaddr-to-uri'
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
 const DEFAULT_URI = 'https://ipfs.io'
-const DEFAULT_MULTI_ADDR = '/dns4/ipfs.io/tcp/443/https'
 
 const bundle = createAsyncResourceBundle({
   name: 'config',
-  getPromise: async ({ getIpfs, dispatch }) => {
+  staleAfter: 60000,
+  persist: false,
+  checkIfOnline: false,
+
+  getPromise: async ({ getIpfs, store }) => {
     const rawConf = await getIpfs().config.getAll()
     let conf
 
@@ -22,16 +25,13 @@ const bundle = createAsyncResourceBundle({
     const url = getURLFromAddress('Gateway', config) || DEFAULT_URI
 
     if (!await checkIfGatewayUrlIsAccessible(url)) {
-      config.Addresses.AvailableGateway = DEFAULT_MULTI_ADDR
-      return JSON.stringify(config)
+      store.doSetAvailableGateway(DEFAULT_URI)
+      return conf
     }
 
     // stringy json for quick compares
     return conf
-  },
-  staleAfter: 60000,
-  persist: false,
-  checkIfOnline: false
+  }
 })
 
 // derive the object from the stringy json
@@ -51,9 +51,9 @@ bundle.selectGatewayUrl = createSelector(
 )
 
 bundle.selectAvailableGatewayUrl = createSelector(
-  'selectConfigObject',
+  'selectAvailableGateway',
   'selectGatewayUrl',
-  (config, gatewayUrl) => config?.AvailableGateway ? getURLFromAddress('AvailableGateway', config) : gatewayUrl
+  (availableGateway, gatewayUrl) => availableGateway || gatewayUrl
 )
 
 bundle.selectBootstrapPeers = createSelector(
