@@ -1,10 +1,6 @@
 {
   "title": "Welcome | IPFS",
   "description": "Welcome Page",
-  "apiAddressForm": {
-    "apiLabel": "API ADDRESS",
-    "submitButton": "Submit"
-  },
   "connected": {
     "header": "Connected to IPFS",
     "paragraph1": "Welcome to the future of the internet! You are now a valuable part of the distributed web."
