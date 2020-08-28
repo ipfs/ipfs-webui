@@ -24,9 +24,6 @@
   "totalIn": "Total in",
   "totalOut": "Total out",
   "more": "...and {count} more",
-  "codeLink": "See the code",
-  "bugsLink": "Report a bug",
-  "revision": "Revision",
   "StatusConnected": {
     "header1": "Connected to IPFS",
     "paragraph1": "Hosting <0>{repoSize} of files</0>",
