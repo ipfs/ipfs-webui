@@ -3,6 +3,7 @@ import toUri from 'multiaddr-to-uri'
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
 const DEFAULT_URI = 'https://ipfs.io'
+const LOCAL_HOSTNAMES = ['127.0.0.1', '[::1]', '0.0.0.0', '[::]']
 
 const bundle = createAsyncResourceBundle({
   name: 'config',
@@ -20,9 +21,21 @@ const bundle = createAsyncResourceBundle({
       conf = JSON.stringify(rawConf, null, '\t')
     }
 
-    // More info: https://github.com/ipfs-shipyard/ipfs-webui/issues/1490#issuecomment-671633602
     const config = JSON.parse(conf)
     const url = getURLFromAddress('Gateway', config) || DEFAULT_URI
+
+    // Normalize local hostnames to localhost
+    // to leverage subdomain gateway, if present
+    // https://github.com/ipfs-shipyard/ipfs-webui/issues/1490
+    const gw = new URL(url)
+    if (LOCAL_HOSTNAMES.includes(gw.hostname)) {
+      gw.hostname = 'localhost'
+      const localUrl = gw.toString().replace(/\/+$/, '') // no trailing slashes
+      if (await checkIfSubdomainGatewayUrlIsAccessible(localUrl)) {
+        store.doSetAvailableGateway(localUrl)
+        return conf
+      }
+    }
 
     if (!await checkIfGatewayUrlIsAccessible(url)) {
       store.doSetAvailableGateway(DEFAULT_URI)
@@ -100,6 +113,21 @@ const checkIfGatewayUrlIsAccessible = memoize(async (url) => {
     return status === 200
   } catch (e) {
     console.error(`Unable to use the gateway at ${url}. The public gateway will be used as a fallback`, e)
+    return false
+  }
+})
+
+// Separate test is necessary to see if subdomain mode is possible,
+// because some browser+OS combinations won't resolve them:
+// https://github.com/ipfs/go-ipfs/issues/7527
+const checkIfSubdomainGatewayUrlIsAccessible = memoize(async (url) => {
+  try {
+    url = new URL(url)
+    url.hostname = `bafkqaaa.ipfs.${url.hostname}`
+    const { status } = await fetch(url.toString())
+    return status === 200
+  } catch (e) {
+    console.error(`Unable to use the subdomain gateway at ${url}. Regular gateway will be used as a fallback`, e)
     return false
   }
 })
