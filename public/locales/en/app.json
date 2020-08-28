@@ -9,7 +9,9 @@
     "extraNotes": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
   },
   "terms": {
-    "apiAddress": "API address"
+    "apiAddress": "API address",
+    "in": "In",
+    "out": "Out"
   },
   "tour": {
     "back": "Back",
