@@ -397,7 +397,7 @@ export class FilesList extends React.Component {
               </div>
               <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
                 <button aria-label={ t('sortBy', { name: t('size') })} onClick={this.changeSort(sorts.BY_SIZE)}>
-                  {t('size')} {this.sortByIcon(sorts.BY_SIZE)}
+                  {t('app:terms.size')} {this.sortByIcon(sorts.BY_SIZE)}
                 </button>
               </div>
               <div className='pa2' style={{ width: '2.5rem' }} />

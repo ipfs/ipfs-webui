@@ -20,7 +20,8 @@
     "out": "Out",
     "peer": "Peer",
     "peerId": "Peer ID",
-    "peers": "Peers"
+    "peers": "Peers",
+    "size": "Size"
   },
   "tour": {
     "back": "Back",
