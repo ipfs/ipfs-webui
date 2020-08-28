@@ -54,7 +54,7 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
                 </div>)
               : ipfsApiAddress
           } />
-          : <Definition advanced term={t('api')} desc={<ProviderLink name={ipfsProvider} />} />
+          : <Definition advanced term={t('app:terms.api')} desc={<ProviderLink name={ipfsProvider} />} />
         }
         <Definition advanced term={t('addresses')} desc={addresses} />
         <Definition advanced term={t('publicKey')} desc={publicKey} />

@@ -14,6 +14,7 @@
     "revision": "Revision"
   },
   "terms": {
+    "api": "API",
     "apiAddress": "API address",
     "in": "In",
     "out": "Out",

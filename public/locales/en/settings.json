@@ -5,7 +5,6 @@
   "reset": "Reset",
   "language": "Language",
   "analytics": "Analytics",
-  "api": "API Address",
   "cliTutorMode": "CLI Tutor Mode",
   "config": "IPFS Config",
   "languageModal": {

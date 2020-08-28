@@ -38,7 +38,7 @@ export const SettingsPage = ({
 
     <Box className='mb3 pa4 joyride-settings-customapi'>
       <div className='lh-copy charcoal'>
-        <Title>{t('api')}</Title>
+        <Title>{t('app:terms.apiAddress')}</Title>
         <Trans i18nKey='apiDescription' t={t}>
           <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here.</p>
         </Trans>
