@@ -68,11 +68,6 @@
     "label": "Enable command-line interface (CLI) tutor mode"
   },
   "tour": {
-    "back": "Back",
-    "close": "Close",
-    "last": "Last",
-    "next": "Next",
-    "skip": "Skip",
     "step1": {
       "title": "Settings page",
       "paragraph1": "Here you can change the settings of your Web UI and IPFS node.",

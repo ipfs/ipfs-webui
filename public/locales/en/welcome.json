@@ -34,7 +34,6 @@
     "paragraph6": "<0><0>Check this app's source code</0> to <2>report a bug</2> or make a contribution, and make IPFS better for everyone!</0>"
   },
   "tour": {
-    "close": "Close",
     "step1": {
       "title": "Welcome page",
       "paragraph1": "This page lets you know if you're connected to IPFS, and offers ideas for things you can do in this app.",

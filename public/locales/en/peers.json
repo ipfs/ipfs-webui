@@ -16,11 +16,6 @@
   "example": "Example:",
   "plusPeers": "+ {number} more peers",
   "tour": {
-    "back": "Back",
-    "close": "Close",
-    "last": "Last",
-    "next": "Next",
-    "skip": "Skip",
     "step1": {
       "title": "Peers page",
       "paragraph1": "This is where you can see the peers that you are connected to and the country they are in.",
