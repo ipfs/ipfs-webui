@@ -2,7 +2,6 @@
   "title": "Status",
   "addresses": "Addresses",
   "nodeInfo": "Node info",
-  "peerId": "Peer ID",
   "gateway": "Gateway",
   "api": "API",
   "apiEdit": "Edit",

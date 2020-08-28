@@ -18,6 +18,7 @@
     "in": "In",
     "out": "Out",
     "peer": "Peer",
+    "peerId": "Peer ID",
     "peers": "Peers"
   },
   "tour": {
