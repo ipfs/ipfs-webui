@@ -1,7 +1,5 @@
 {
   "title": "Status",
-  "peer": "Peer",
-  "peers": "Peers",
   "addresses": "Addresses",
   "nodeInfo": "Node info",
   "peerId": "Peer ID",

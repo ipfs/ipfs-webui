@@ -9,14 +9,16 @@
     "extraNotes": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
   },
   "nav": {
-    "codeLink": "See the code",
     "bugsLink": "Report a bug",
+    "codeLink": "See the code",
     "revision": "Revision"
   },
   "terms": {
     "apiAddress": "API address",
     "in": "In",
-    "out": "Out"
+    "out": "Out",
+    "peer": "Peer",
+    "peers": "Peers"
   },
   "tour": {
     "back": "Back",
