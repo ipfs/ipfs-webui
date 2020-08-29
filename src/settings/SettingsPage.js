@@ -99,7 +99,7 @@ export const SettingsPage = ({
               className='tc'
               disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
               onClick={onReset}>
-              {t('reset')}
+              {t('app:actions.reset')}
             </Button>
             <SaveButton
               t={t}
@@ -150,7 +150,7 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
       { hasSaveSucceded && !hasSaveFailed ? (
         <Tick height={16} className='fill-snow' style={{ transform: 'scale(3)' }} />
       ) : (
-        isSaving ? t('saving') : t('save')
+        isSaving ? t('app:actions.saving') : t('app:actions.save')
       )}
     </Button>
   )

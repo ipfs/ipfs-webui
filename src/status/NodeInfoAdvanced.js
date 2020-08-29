@@ -41,22 +41,22 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
   }
 
   return (
-    <Details className='mt3 f6' summaryText={t('advanced')} open={isNodeInfoOpen} onClick={handleSummaryClick}>
+    <Details className='mt3 f6' summaryText={t('app:terms.advanced')} open={isNodeInfoOpen} onClick={handleSummaryClick}>
       <DefinitionList className='mt3'>
-        <Definition advanced term={t('gateway')} desc={gatewayUrl} />
+        <Definition advanced term={t('app:terms.gateway')} desc={gatewayUrl} />
         {ipfsProvider === 'httpClient'
-          ? <Definition advanced term={t('api')} desc={
+          ? <Definition advanced term={t('app:terms.api')} desc={
             isMultiaddr(ipfsApiAddress)
               ? (
                 <div className="flex items-center">
                   <Address value={ipfsApiAddress} />
-                  <a className='ml2 link blue sans-serif fw6' href="#/settings">{t('apiEdit')}</a>
+                  <a className='ml2 link blue sans-serif fw6' href="#/settings">{t('app:actions.edit')}</a>
                 </div>)
               : ipfsApiAddress
           } />
           : <Definition advanced term={t('app:terms.api')} desc={<ProviderLink name={ipfsProvider} />} />
         }
-        <Definition advanced term={t('addresses')} desc={addresses} />
+        <Definition advanced term={t('app:terms.addresses')} desc={addresses} />
         <Definition advanced term={t('publicKey')} desc={publicKey} />
       </DefinitionList>
     </Details>

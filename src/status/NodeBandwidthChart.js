@@ -196,11 +196,11 @@ class NodeBandwidthChart extends React.Component {
 
     return (
       <div>
-        <Title>{t('status:bandwidthOverTime')}</Title>
+        <Title>{t('bandwidthOverTime')}</Title>
         <Line data={this.data()} options={options} />
       </div>
     )
   }
 }
 
-export default connect('selectNodeBandwidthChartData', withTranslation(['app', 'status'])(NodeBandwidthChart))
+export default connect('selectNodeBandwidthChartData', withTranslation('status')(NodeBandwidthChart))

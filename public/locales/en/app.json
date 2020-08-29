@@ -1,12 +1,16 @@
 {
   "actions": {
+    "add": "Add",
     "cancel": "Cancel",
     "change": "Change",
     "close": "Close",
     "copy": "Copy",
     "delete": "Delete",
+    "edit": "Edit",
     "import": "Import",
+    "reset": "Reset",
     "save": "Save",
+    "saving": "Saving…",
     "submit": "Submit"
   },
   "cliModal": {
@@ -18,15 +22,35 @@
     "codeLink": "See the code",
     "revision": "Revision"
   },
+  "status": {
+    "connectedToIpfs": "Connected to IPFS",
+    "couldNotConnect": "Could not connect to the IPFS API"
+  },
   "terms": {
+    "address": "Address",
+    "addresses": "Addresses",
+    "advanced": "Advanced",
+    "agent": "Agent",
     "api": "API",
     "apiAddress": "API address",
+    "connection": "Connection",
+    "downSpeed": "Incoming",
+    "example": "Example:",
+    "gateway": "Gateway",
     "in": "In",
+    "latency": "Latency",
+    "location": "Location",
     "out": "Out",
     "peer": "Peer",
     "peerId": "Peer ID",
     "peers": "Peers",
-    "size": "Size"
+    "rateIn": "Rate in",
+    "rateOut": "Rate out",
+    "size": "Size",
+    "totalIn": "Total in",
+    "totalOut": "Total out",
+    "unknown": "Unknown",
+    "upSpeed": "Outgoing"
   },
   "tour": {
     "back": "Back",

@@ -6,7 +6,6 @@
     "paragraph1": "Welcome to the future of the internet! You are now a valuable part of the distributed web."
   },
   "notConnected": {
-    "header": "Could not connect to the IPFS API",
     "paragraph1": "<0>Check out the installation guide in the <1>IPFS Docs</1>, or try these common fixes:</0>",
     "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting it from your terminal:</0>",
     "paragraph3": "<0>Is your IPFS API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",

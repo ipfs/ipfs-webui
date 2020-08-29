@@ -27,8 +27,8 @@ class NodeInfo extends React.Component {
 
     return (
       <DefinitionList>
-        <Definition term={t('app:terms.peerId')} desc={this.getField(identity, 'id')} />
-        <Definition term={t('version')} desc={<VersionLink agentVersion={this.getField(identity, 'agentVersion')} />} />
+        <Definition term={t('terms.peerId')} desc={this.getField(identity, 'id')} />
+        <Definition term={t('terms.agent')} desc={<VersionLink agentVersion={this.getField(identity, 'agentVersion')} />} />
       </DefinitionList>
     )
   }
@@ -36,5 +36,5 @@ class NodeInfo extends React.Component {
 
 export default connect(
   'selectIdentity',
-  withTranslation('status')(NodeInfo)
+  withTranslation('app')(NodeInfo)
 )

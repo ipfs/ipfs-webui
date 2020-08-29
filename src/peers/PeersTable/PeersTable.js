@@ -46,10 +46,10 @@ export class PeersTable extends React.Component {
         ? rowData.isNearby
           ? <span>{rowData.location} <span className='charcoal-muted'>({this.props.t('nearby')})</span></span>
           : rowData.location
-        : <span className='charcoal-muted fw4'>{this.props.t('unknownLocation')}</span>
+        : <span className='charcoal-muted fw4'>{this.props.t('app:terms.unknown')}</span>
 
     return (
-      <span title={ rowData.location || this.props.t('unknownLocation')}>
+      <span title={ rowData.location || this.props.t('app:terms.unknown')}>
         { this.flagRenderer(rowData.flagCode, rowData.isPrivate) }
         { location }
       </span>
@@ -123,10 +123,10 @@ export class PeersTable extends React.Component {
               sort={this.sort}
               sortBy={sortBy}
               sortDirection={sortDirection}>
-              <Column label={t('location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={450} className='f6 navy-muted truncate pl2' />
-              <Column label={t('latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 navy-muted monospace pl2' />
+              <Column label={t('app:terms.location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={450} className='f6 navy-muted truncate pl2' />
+              <Column label={t('app:terms.latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 navy-muted monospace pl2' />
               <Column label={t('app:terms.peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f7 pl2' />
-              <Column label={t('connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
+              <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
               <Column label={t('notes')} cellRenderer={this.notesCellRenderer} disableSort dataKey='notes' width={400} className='charcoal monospace truncate f7 pl2' />
             </Table>
           )}
