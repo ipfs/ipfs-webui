@@ -85,12 +85,12 @@ class FileInput extends React.Component {
             <Option onClick={this.onAddFile} id='add-file' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.ADD_FILE)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <DocumentIcon className='fill-aqua w2 mr1' />
-              {t('addFile')}
+              {t('app:terms.file')}
             </Option>
             <Option onClick={this.onAddFolder} id='add-folder' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.ADD_DIRECTORY)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <FolderIcon className='fill-aqua w2 mr1' />
-              {t('addFolder')}
+              {t('app:terms.folder')}
             </Option>
             <Option onClick={this.onAddByPath} id='add-by-path' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_IPFS)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>

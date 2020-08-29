@@ -87,7 +87,7 @@ class SelectedActions extends React.Component {
     }
 
     if (!this.props.downloadProgress) {
-      return this.props.t('actions.download')
+      return this.props.t('app:actions.download')
     }
 
     if (this.props.downloadProgress === 100) {
@@ -137,18 +137,18 @@ class SelectedActions extends React.Component {
             </button>
             <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? inspect : null} {...singleFileTooltip}>
               <StrokeIpld className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{t('actions.inspect')}</p>
+              <p className='ma0 f6'>{t('app:actions.inspect')}</p>
             </button>
             <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle && isMfs))} onClick={(isSingle && isMfs) ? rename : null} {...singleFileTooltip}>
               <StrokePencil className={classes.svg(isSingle && isMfs)} fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{t('actions.rename')}</p>
+              <p className='ma0 f6'>{t('app:actions.rename')}</p>
             </button>
           </div>
           <div className='w5-l'>
             <button onClick={unselect} className='flex items-center justify-end f6 charcoal'>
               {/* TODO: Should we go back to the files list when we tab out of here? */}
-              <span className='mr2 dn db-l'>{t('actions.unselectAll')}</span>
-              <span className='mr2 dn db-m'>{t('actions.clear')}</span>
+              <span className='mr2 dn db-l'>{t('app:actions.unselectAll')}</span>
+              <span className='mr2 dn db-m'>{t('app:actions.clear')}</span>
               <GlyphSmallCancel onClick={unselect} className='fill-charcoal w1 o-70' viewBox='37 40 27 27' />
             </button>
           </div>

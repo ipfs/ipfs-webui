@@ -388,8 +388,8 @@ export class FilesList extends React.Component {
                 <Checkbox checked={allSelected} onChange={this.toggleAll} aria-label={t('selectAllEntries')}/>
               </div>
               <div className='ph2 f6 flex-auto'>
-                <button aria-label={ t('sortBy', { name: t('itemName') })} onClick={this.changeSort(sorts.BY_NAME)}>
-                  {t('itemName')} {this.sortByIcon(sorts.BY_NAME)}
+                <button aria-label={ t('sortBy', { name: t('app:terms.name') })} onClick={this.changeSort(sorts.BY_NAME)}>
+                  {t('app:terms.name')} {this.sortByIcon(sorts.BY_NAME)}
                 </button>
               </div>
               <div className='ph2 pv1 flex-none dn db-l tr mw3'>

@@ -1,6 +1,5 @@
 {
   "title": "Peers",
-  "address": "Address",
   "localNetwork": "Local Network",
   "nearby": "nearby",
   "bootstrapNode": "bootstrap node",

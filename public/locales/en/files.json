@@ -13,22 +13,12 @@
   "downloadPDF": "Download PDF",
   "downloadInstead": "Try <1>downloading</1> it instead.",
   "cantBePreviewed": "Sorry, this file can’t be previewed",
-  "addFile": "File",
-  "addFolder": "Folder",
   "addByPath": "From IPFS",
   "newFolder": "New folder",
   "generating": "Generating…",
   "actions": {
-    "rename": "Rename",
-    "download": "Download",
-    "inspect": "Inspect",
     "copyHash": "Copy CID",
-    "share": "Share link",
-    "clear": "Clear",
-    "create": "Create",
-    "pin": "Pin",
-    "unpin": "Unpin",
-    "unselectAll": "Unselect all"
+    "share": "Share link"
   },
   "shareModal": {
     "title": "Share files",
@@ -93,19 +83,11 @@
       "paragraph3": "Pro tip: drag and drop a file from any other page of the Web UI to add them to the root of your MFS."
     }
   },
-  "exploreForm": {
-    "browse": "Browse",
-    "inspect": "Inspect"
-  },
   "previousFolder": "Go back to previous folder",
   "fileLabel": "Select {type} {name} with size: {size}",
   "hashUnavailable": "hash unavailable",
   "checkboxLabel": "View more options for {name}",
-  "pins": "Pins",
   "pinned": "Pinned",
-  "blocks": "Blocks",
-  "more": "More",
-  "files": "Files",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead.",
   "sortBy": "Sort items by {name}"
 }

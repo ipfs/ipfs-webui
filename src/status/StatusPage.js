@@ -54,9 +54,9 @@ const StatusPage = ({
         <AskToEnable
           className='mt3'
           label={t('AskToEnable.label')}
-          yesLabel={t('AskToEnable.yesLabel')}
-          noLabel={t('AskToEnable.noLabel')}
-          detailsLabel={t('AskToEnable.detailsLabel')}
+          yesLabel={t('app:actions.ok')}
+          noLabel={t('app:actions.noThanks')}
+          detailsLabel={t('app:actions.moreInfo')}
           detailsLink='#/settings/analytics'
           onYes={doEnableAnalytics}
           onNo={doDisableAnalytics} />

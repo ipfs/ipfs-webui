@@ -11,7 +11,7 @@ const pickColor = (ipfsReady, ipfsConnected) => {
 const pickTitleKey = (ipfsReady, ipfsConnected) => {
   if (ipfsReady && ipfsConnected) return 'app:status.connectedToIpfs'
   if (ipfsReady) return 'ipfsApiRequestFailed'
-  return 'connectingToIpfs'
+  return 'app:status.connectingToIpfs'
 }
 
 export const Connected = ({ t, className, size = 28, ipfsReady, ipfsConnected, doSetIsNodeInfoOpen }) => {

@@ -59,19 +59,19 @@ class Header extends React.Component {
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
-          <BarOption title={t('files')} isLink onClick={() => { onNavigate('/files') }}>
+          <BarOption title={t('app:terms.files')} isLink onClick={() => { onNavigate('/files') }}>
             { humanSize(filesSize) }
           </BarOption>
 
-          <BarOption title={t('pins')} isLink onClick={() => { onNavigate('/pins') }}>
+          <BarOption title={t('app:terms.pins')} isLink onClick={() => { onNavigate('/pins') }}>
             { pins ? SimplifyNumber(pins.length) : '-' }
           </BarOption>
 
-          <BarOption title={t('blocks')}>
+          <BarOption title={t('app:terms.blocks')}>
             { repoNumObjects ? SimplifyNumber(repoNumObjects, { decimal: 0 }) : 'N/A' }
           </BarOption>
 
-          <BarOption title={t('repo')}>
+          <BarOption title={t('app:terms.repo')}>
             { humanSize(repoSize) }
           </BarOption>
 
@@ -93,7 +93,7 @@ class Header extends React.Component {
                     disabled={!files || filesPathInfo.isRoot || files.type === 'unknown'}
                     onClick={this.handleContextMenu}>
                     <GlyphDots className='w1 mr2' />
-                    { t('more') }
+                    { t('app:actions.more') }
                   </Button>
                 </div>
               }

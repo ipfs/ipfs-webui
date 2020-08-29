@@ -79,7 +79,7 @@ export class PeerBandwidthTable extends Component {
           </tbody>
         </table>
         {!showAll && hiddenPeers.length ? (
-          <button className='sans-serif f5 ma0 buttonv3 ph2 tc pointer underline-hover navy-muted' onClick={this.onShowAllClick}>{t('more', { count: hiddenPeers.length })}</button>
+          <button className='sans-serif f5 ma0 buttonv3 ph2 tc pointer underline-hover navy-muted' onClick={this.onShowAllClick}>{t('countMore', { count: hiddenPeers.length })}</button>
         ) : null}
       </Box>
     )
@@ -113,5 +113,5 @@ function LocationFlag ({ location }) {
 export default connect(
   'selectPeerBandwidthPeers',
   'selectPeerLocations',
-  withTranslation(['app', 'status'])(PeerBandwidthTable)
+  withTranslation('status')(PeerBandwidthTable)
 )

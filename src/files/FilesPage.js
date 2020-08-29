@@ -196,9 +196,9 @@ class FilesPage extends React.Component {
     }
 
     if (filesPathInfo.isMfs) {
-      parts.push(t('files'))
+      parts.push(t('app:terms.files'))
     } else if (filesPathInfo.isPins) {
-      parts.push(t('pins'))
+      parts.push(t('app:terms.pins'))
     }
 
     parts.push('IPFS')
