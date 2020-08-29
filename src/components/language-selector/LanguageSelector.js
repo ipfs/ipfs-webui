@@ -23,7 +23,7 @@ class LanguageSelector extends Component {
             {getCurrentLanguage()}
           </div>
           <Button className="tc" minWidth={100} onClick={this.onLanguageEditOpen}>
-            {t('actions.edit')}
+            {t('app:actions.change')}
           </Button>
         </div>
 

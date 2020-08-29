@@ -1,7 +1,12 @@
 {
   "actions": {
+    "cancel": "Cancel",
+    "change": "Change",
     "close": "Close",
     "copy": "Copy",
+    "delete": "Delete",
+    "import": "Import",
+    "save": "Save",
     "submit": "Submit"
   },
   "cliModal": {

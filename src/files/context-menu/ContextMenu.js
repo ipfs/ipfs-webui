@@ -100,7 +100,7 @@ class ContextMenu extends React.Component {
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DELETE_FILE_FROM_IPFS)}
             >
               <StrokeTrash className='w2 mr2 fill-aqua' />
-              {t('actions.delete')}
+              {t('app:actions.delete')}
             </Option>
           }
         </DropdownMenu>

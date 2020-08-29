@@ -27,9 +27,5 @@
       "title": "Peers table",
       "paragraph1": "Check the IDs of the connected peers, their address and approximate location."
     }
-  },
-  "actions": {
-    "edit": "Change",
-    "close": "Close"
   }
 }
