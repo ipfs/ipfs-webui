@@ -285,19 +285,20 @@ export class FilesList extends React.Component {
 
     return (
       <Fragment>
-        { upperDir && <File
-          ref={r => { this.filesRefs['..'] = r }}
-          onNavigate={() => onNavigate(upperDir.path)}
-          onAddFiles={onAddFiles}
-          onMove={this.move}
-          setIsDragging={this.isDragging}
-          handleContextMenuClick={this.props.handleContextMenuClick}
-          translucent={isDragging || (isOver && canDrop)}
-          name='..'
-          focused={focused === '..'}
-          cantDrag
-          cantSelect
-          {...upperDir} /> }
+        { upperDir && <div ref={r => { this.filesRefs['..'] = r }}>
+          <File
+            onNavigate={() => onNavigate(upperDir.path)}
+            onAddFiles={onAddFiles}
+            onMove={this.move}
+            setIsDragging={this.isDragging}
+            handleContextMenuClick={this.props.handleContextMenuClick}
+            translucent={isDragging || (isOver && canDrop)}
+            name='..'
+            focused={focused === '..'}
+            cantDrag
+            cantSelect
+            {...upperDir} />
+        </div> }
 
         <Trans i18nKey='filesList.noFiles' t={t}>
           <div className='pv3 b--light-gray bt tc gray f6'>
@@ -316,9 +317,8 @@ export class FilesList extends React.Component {
       // We want the `upperDir` to be the first item on the list
       if (index === 0) {
         return (
-          <div key={key} style={style}>
+          <div key={key} style={style} ref={r => { this.filesRefs[upperDir.name] = r }}>
             <File
-              ref={r => { this.filesRefs[upperDir.name] = r }}
               onNavigate={() => onNavigate(upperDir.path)}
               onAddFiles={onAddFiles}
               onMove={this.move}
@@ -338,11 +338,10 @@ export class FilesList extends React.Component {
     }
 
     return (
-      <div key={key} style={style}>
+      <div key={key} style={style} ref={r => { this.filesRefs[files[index].name] = r }}>
         <File
           {...files[index]}
           pinned={pins.includes(files[index].cid.toString())}
-          ref={r => { this.filesRefs[files[index].name] = r }}
           isMfs={filesPathInfo.isMfs}
           name={files[index].name}
           onSelect={this.toggleOne}
@@ -454,7 +453,7 @@ const dropTarget = {
 
 const dropCollect = (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
+  isOver: monitor.isOver({ shallow: true }),
   canDrop: monitor.canDrop()
 })
 

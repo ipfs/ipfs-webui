@@ -10,6 +10,10 @@
     opacity: 0;
 }
 
+.BreadcrumbsButton.white::after {
+    background: inherit;
+}
+
 .BreadcrumbsButton.dragging::after {
     opacity: 1;
 }

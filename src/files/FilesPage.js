@@ -246,6 +246,7 @@ class FilesPage extends React.Component {
           files={files}
           onNavigate={this.props.doFilesNavigateTo}
           onAddFiles={this.onAddFiles}
+          onMove={this.props.doFilesMove}
           onAddByPath={(files) => this.showModal(ADD_BY_PATH, files)}
           onNewFolder={(files) => this.showModal(NEW_FOLDER, files)}
           onCliTutorMode={() => this.showModal(CLI_TUTOR_MODE)}
