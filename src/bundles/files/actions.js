@@ -283,7 +283,11 @@ export default () => ({
      */
     async (ipfs, files, root, id, { dispatch }) => {
       files = files.filter(f => !IGNORED_FILES.includes(basename(f.path)))
-      const totalSize = files.reduce((prev, { size }) => prev + size, 0)
+      const uploadSize = files.reduce((prev, { size }) => prev + size, 0)
+      // Just estimate download size to be around 10% of upload size.
+      const downloadSize = uploadSize * 10 / 100
+      const totalSize = uploadSize + downloadSize
+      let loaded = 0
 
       // Normalise all paths to be relative. Dropped files come as absolute,
       // those added by the file input come as relative paths, so normalise them.
@@ -296,27 +300,29 @@ export default () => ({
       const paths = files.map(f => ({ path: f.path, size: f.size }))
 
       /**
-       * @param {number} sent
+       * @param {Object} update
+       * @param {number} update.loaded
+       * @param {number} update.total
        */
-      const updateProgress = (sent) => {
+      const updateProgress = (update) => {
+        loaded += update.loaded
         dispatch({
           type: 'FILES_WRITE_UPDATED',
           payload: {
             id,
             paths,
-            progress: sent / totalSize * 100
+            progress: loaded / totalSize * 100
           }
         })
       }
-
-      updateProgress(0)
 
       let res = null
       try {
         res = await all(ipfs.addAll(files, {
           pin: false,
           wrapWithDirectory: false,
-          progress: updateProgress
+          onUploadProgress: updateProgress,
+          onDownloadProgress: updateProgress
         }))
       } catch (error) {
         console.error(error)
@@ -346,7 +352,7 @@ export default () => ({
         }
       }
 
-      updateProgress(totalSize)
+      updateProgress({ total: totalSize, loaded: totalSize })
     }
   ),
 

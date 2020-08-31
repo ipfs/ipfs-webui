@@ -444,7 +444,7 @@ const dropTarget = {
 
     const add = async () => {
       const files = await filesPromise
-      onAddFiles(await normalizeFiles(files))
+      onAddFiles(normalizeFiles(files))
     }
 
     add()

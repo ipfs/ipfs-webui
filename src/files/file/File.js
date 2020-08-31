@@ -165,7 +165,7 @@ const dropTarget = {
     if (item.hasOwnProperty('files')) {
       (async () => {
         const files = await item.filesPromise
-        props.onAddFiles(await normalizeFiles(files), props.path)
+        props.onAddFiles(normalizeFiles(files), props.path)
       })()
     } else {
       const src = item.path
