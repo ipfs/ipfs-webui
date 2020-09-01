@@ -2,7 +2,6 @@
   "title": "Welcome | IPFS",
   "description": "Welcome Page",
   "connected": {
-    "header": "Connected to IPFS",
     "paragraph1": "Welcome to the future of the internet! You are now a valuable part of the distributed web."
   },
   "notConnected": {

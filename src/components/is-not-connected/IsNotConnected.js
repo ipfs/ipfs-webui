@@ -22,7 +22,7 @@ const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUp
     <Box className='pv3 ph4 lh-copy charcoal'>
       <div className='flex flex-wrap items-center'>
         <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
-        <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('notConnected.header')}</h1>
+        <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('app:status.couldNotConnect')}</h1>
       </div>
       <Trans i18nKey='notConnected.paragraph1' t={t}>
         <p className='fw6 mb3'>Check out the installation guide in the <a className='link blue' href='https://docs.ipfs.io/install/command-line-quick-start/' target='_blank' rel='noopener noreferrer'>IPFS Docs</a>, or try these common fixes:</p>

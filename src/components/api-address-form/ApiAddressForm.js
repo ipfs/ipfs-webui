@@ -21,7 +21,6 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '' }) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <label htmlFor='api-address' className='db f7 mb2 ttu tracked charcoal pl1'>{t('terms.apiAddress')}</label>
       <input id='api-address'
         aria-label={t('apiAddressForm.apiLabel')}
         type='text'
