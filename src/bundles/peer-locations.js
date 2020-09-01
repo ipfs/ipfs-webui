@@ -213,7 +213,7 @@ class PeerLocationResolver {
   constructor (opts) {
     this.geoipCache = getConfiguredCache({
       name: 'geoipCache',
-      version: 1,
+      version: 2,
       maxAge: ms.weeks(1),
       ...opts.cache
     })
