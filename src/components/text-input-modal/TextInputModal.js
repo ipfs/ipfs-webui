@@ -1,20 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '../../components/button/Button'
+import Button from '../button/Button'
 import { Modal, ModalActions, ModalBody } from '../modal/Modal'
+import ComponentLoader from '../../loader/ComponentLoader'
 
 class TextInputModal extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onChange: PropTypes.func,
+    onInputChange: PropTypes.func,
     title: PropTypes.string.isRequired,
     icon: PropTypes.func.isRequired,
     description: PropTypes.node,
     submitText: PropTypes.string,
     validate: PropTypes.func,
     defaultValue: PropTypes.string,
-    mustBeDifferent: PropTypes.bool
+    mustBeDifferent: PropTypes.bool,
+    loading: PropTypes.bool
   }
 
   static defaultProps = {
@@ -35,6 +38,8 @@ class TextInputModal extends React.Component {
     if (this.props.onChange) {
       val = this.props.onChange(val)
     }
+
+    this.props.onInputChange && this.props.onInputChange(val)
 
     this.setState({ value: val })
   }
@@ -59,11 +64,15 @@ class TextInputModal extends React.Component {
       return ''
     }
 
-    if (this.props.validate(this.state.value)) {
-      return 'b--green-muted focus-outline-green'
-    } else {
+    if (this.props.error) {
       return 'b--red-muted focus-outline-red'
     }
+
+    if (this.props.validate(this.state.value)) {
+      return 'b--green-muted focus-outline-green'
+    }
+
+    return 'b--red-muted focus-outline-red'
   }
 
   get isDisabled () {
@@ -83,6 +92,7 @@ class TextInputModal extends React.Component {
     const {
       onCancel,
       onChange,
+      onInputChange,
       mustBeDifferent,
       onSubmit,
       className,
@@ -92,6 +102,8 @@ class TextInputModal extends React.Component {
       defaultValue,
       description,
       title,
+      error,
+      loading,
       ...props
     } = this.props
 
@@ -117,6 +129,13 @@ class TextInputModal extends React.Component {
           <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>Cancel</Button>
           <Button className='ma2 tc' bg='bg-teal' disabled={this.isDisabled} onClick={this.onSubmit}>{submitText}</Button>
         </ModalActions>
+
+        { loading && (
+          <div className="flex items-center justify-center absolute top-0 left-0 right-0 bottom-0">
+            <div className="absolute top-0 left-0 right-0 bottom-0 bg-light-gray o-80"/>
+            <ComponentLoader pastDelay style={{ width: '50%', margin: 'auto' }} />
+          </div>
+        ) }
       </Modal>
     )
   }
