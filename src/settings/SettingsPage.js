@@ -36,6 +36,16 @@ export const SettingsPage = ({
       <title>{t('title')} | IPFS</title>
     </Helmet>
 
+    <Box className='mb3 pa4 joyride-settings-customapi'>
+      <div className='lh-copy charcoal'>
+        <Title>{t('api')}</Title>
+        <Trans i18nKey='apiDescription' t={t}>
+          <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here.</p>
+        </Trans>
+        <ApiAddressForm/>
+      </div>
+    </Box>
+
     <Box className='mb3 pa4'>
       <div className='mb4 joyride-settings-language'>
         <Title>{t('language')}</Title>
@@ -45,16 +55,6 @@ export const SettingsPage = ({
       <div className='joyride-settings-analytics'>
         <Title>{t('analytics')}</Title>
         <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
-      </div>
-    </Box>
-
-    <Box className='mb3 pa4 joyride-settings-customapi'>
-      <div className='lh-copy charcoal' id="api">
-        <Title>{t('api')}</Title>
-        <Trans i18nKey='apiDescription' t={t}>
-          <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here to update your config file.</p>
-        </Trans>
-        <ApiAddressForm/>
       </div>
     </Box>
 
@@ -71,7 +71,8 @@ export const SettingsPage = ({
       </div>
     </Box>
 
-    <Box className='mb3 pa4 joyride-settings-config'>
+    { isIpfsConnected &&
+    (<Box className='mb3 pa4 joyride-settings-config'>
       <Title>{t('config')}</Title>
       <div className='flex pb3'>
         <div className='flex-auto'>
@@ -121,6 +122,7 @@ export const SettingsPage = ({
           key={editorKey} />
       ) : null }
     </Box>
+    )}
 
     <ReactJoyride
       run={toursEnabled}

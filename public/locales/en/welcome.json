@@ -7,14 +7,14 @@
   },
   "connected": {
     "header": "Connected to IPFS",
-    "paragraph1": "Welcome to the revolution! You are now a valuable part of the distributed web."
+    "paragraph1": "Welcome to the future of the internet! You are now a valuable part of the distributed web."
   },
   "notConnected": {
     "header": "Could not connect to the IPFS API",
     "paragraph1": "<0>Check out the installation guide in the <1>IPFS Docs</1>, or try these common fixes:</0>",
     "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting it from your terminal:</0>",
     "paragraph3": "<0>Is your IPFS API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
-    "paragraph4": "<0>Is your IPFS API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here to update your config file.</0>"
+    "paragraph4": "<0>Is your IPFS API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
   },
   "aboutIpfs": {
     "header": "What is IPFS?",

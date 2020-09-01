@@ -1,7 +1,7 @@
 import React from 'react'
 import './ComponentLoader.css'
 
-const ComponentLoader = ({ pastDelay, ...props }) => {
+const ComponentLoader = ({ pastDelay, isLoading, timedOut, retry, ...props }) => {
   if (!pastDelay) return null
 
   return (

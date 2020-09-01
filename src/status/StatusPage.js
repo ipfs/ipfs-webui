@@ -5,7 +5,7 @@ import { connect } from 'redux-bundler-react'
 import ReactJoyride from 'react-joyride'
 import StatusConnected from './StatusConnected'
 import BandwidthStatsDisabled from './BandwidthStatsDisabled'
-import StatusNotConnected from './StatusNotConnected'
+import IsNotConnected from '../components/is-not-connected/IsNotConnected'
 import NodeInfo from './NodeInfo'
 import NodeInfoAdvanced from './NodeInfoAdvanced'
 import NodeBandwidthChart from './NodeBandwidthChart'
@@ -43,7 +43,9 @@ const StatusPage = ({
                 </div>
               </div>
             ) : (
-              <StatusNotConnected />
+              <div>
+                <IsNotConnected />
+              </div>
             )}
           </div>
         </div>
