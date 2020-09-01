@@ -324,7 +324,6 @@ export default connect(
   'doFilesPin',
   'doFilesUnpin',
   'doFilesUpdateSorting',
-  'selectGatewayUrl',
   'selectFilesSorting',
   'selectToursEnabled',
   'doFilesWrite',

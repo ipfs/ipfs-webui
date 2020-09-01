@@ -19,7 +19,7 @@ class Preview extends React.Component {
   }
 
   render () {
-    const { t, name, cid, size, gatewayUrl } = this.props
+    const { t, name, cid, size, availableGatewayUrl: gatewayUrl } = this.props
 
     const type = typeFromExt(name)
     const src = `${gatewayUrl}/ipfs/${cid}`
@@ -88,7 +88,7 @@ Preview.propTypes = {
   name: PropTypes.string.isRequired,
   hash: PropTypes.instanceOf(CID),
   size: PropTypes.number.isRequired,
-  gatewayUrl: PropTypes.string.isRequired,
+  availableGatewayUrl: PropTypes.string.isRequired,
   read: PropTypes.func.isRequired,
   content: PropTypes.object,
   t: PropTypes.func.isRequired,
@@ -96,6 +96,6 @@ Preview.propTypes = {
 }
 
 export default connect(
-  'selectGatewayUrl',
+  'selectAvailableGatewayUrl',
   withTranslation('files')(Preview)
 )

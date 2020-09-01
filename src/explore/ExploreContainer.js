@@ -5,12 +5,18 @@ import withTour from '../components/tour/withTour'
 
 const ExploreContainer = ({
   toursEnabled,
-  handleJoyrideCallback
+  handleJoyrideCallback,
+  availableGatewayUrl
 }) => (
-  <ExplorePage runTour={toursEnabled} joyrideCallback={handleJoyrideCallback} />
+  <ExplorePage
+    runTour={toursEnabled}
+    joyrideCallback={handleJoyrideCallback}
+    gatewayUrl={availableGatewayUrl}
+  />
 )
 
 export default connect(
   'selectToursEnabled',
+  'selectAvailableGatewayUrl',
   withTour(ExploreContainer)
 )
