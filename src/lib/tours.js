@@ -125,6 +125,11 @@ export const filesTour = {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step2.title')}</h2>
         <p className='tl f6'>{t('tour.step2.paragraph1')}</p>
+        <ul className='pl4'>
+          <li className='tl f6'>{t('tour.step2.bullet1')}</li>
+          <li className='tl f6'>{t('tour.step2.bullet2')}</li>
+          <li className='tl f6'>{t('tour.step2.bullet3')}</li>
+        </ul>
       </div>,
       placement: 'bottom',
       target: '.joyride-files-breadcrumbs'
