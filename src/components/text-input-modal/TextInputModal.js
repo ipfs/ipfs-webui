@@ -128,7 +128,7 @@ class TextInputModal extends React.Component {
         </ModalBody>
 
         <ModalActions>
-          <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>{t('app:actions.cancel')}</Button>
+          <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>{t('actions.cancel')}</Button>
           <Button className='ma2 tc' bg='bg-teal' disabled={this.isDisabled} onClick={this.onSubmit}>{submitText}</Button>
         </ModalActions>
 
@@ -143,4 +143,4 @@ class TextInputModal extends React.Component {
   }
 }
 
-export default withTranslation('files')(TextInputModal)
+export default withTranslation('app')(TextInputModal)
