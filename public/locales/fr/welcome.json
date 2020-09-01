@@ -2,7 +2,7 @@
   "title": "Bienvenue sur IPFS",
   "configureApiPort": {
     "header": "Est-ce que le port de votre API est autre que 5001 ?",
-    "paragraph1": "<0>Si votre pair IPFS est configuré avec un <1>port pour API personalisé</1>, configurez-le ici.</0>"
+    "paragraph1": "<0>Si votre pair IPFS est configuré avec un <1>port pour API personnalisé</1>, configurez-le ici.</0>"
   },
   "apiAddressForm": {
     "apiLabel": "Adresse de l'API",

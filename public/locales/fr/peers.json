@@ -4,7 +4,7 @@
   "peers": "Pairs",
   "address": "Adresse",
   "location": "Emplacement",
-  "unknownLocation": "Iconnu",
+  "unknownLocation": "Inconnu",
   "localNetwork": "Réseau Local",
   "nearby": "à proximité",
   "latency": "latence",
@@ -31,7 +31,7 @@
     },
     "step3": {
       "title": "Tableau des pairs",
-      "paragraph1": "Vérifier les ID des pairs connecté, les adresses et le situation approximatif."
+      "paragraph1": "Vérifier les ID des pairs connectés, les adresses et les emplacements approximatifs."
     }
   }
 }

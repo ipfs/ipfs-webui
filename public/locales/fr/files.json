@@ -4,7 +4,7 @@
   "breadcrumbs": "Fils d'Ariane",
   "finished": "Terminé !",
   "totalSize": "Taille totale: {size}",
-  "filesSelected": "{count, plural, one {Fichiers sélectionnés} other {Fichiers sélectionnés}}",
+  "filesSelected": "{count, plural, one {Fichier sélectionné} other {Fichiers sélectionnés}}",
   "menuOptions": "Options pour l'élément sélectionné ",
   "selectedAllEntries": "Tout sélectionner",
   "individualFilesOnly": "Disponible uniquement pour les fichiers individuels",
@@ -67,7 +67,7 @@
   },
   "welcomeInfo": {
     "header": "Bienvenue sur l'interface Web d'IPFS",
-    "paragraph1": "<0><0>Vérifier l'état</0> de votre pair, son Peer ID et ses informations de connection, son trafic réseau et le nombre de pairs connectés.</0>",
+    "paragraph1": "<0><0>Vérifier l'état</0> de votre pair, son Peer ID et ses informations de connexion, son trafic réseau et le nombre de pairs connectés.</0>",
     "paragraph2": "<0><1>Organisez vos fichiers</1> facilement dans votre répertoire IPFS. Vous pouvez les glisser/déposer pour les ajouter, ou les déplacer, les renommer, les supprimer, les partager ou les télécharger.</0>",
     "paragraph3": "<0>Vous pouvez <1>explorer les données IPLD</1> qui sont à la base du fonctionnement d’IPFS.</0>",
     "paragraph4": "<0>Visualisez tous vos <1>pairs connectés</1>, géolocalisés par leur adresse IP.</0>",
@@ -95,7 +95,7 @@
     "skip": "Passer",
     "step1": {
       "title": "Page des fichiers",
-      "paragraph1": "<0>Cest ici que les fichiers de votre <1> Mutable File System (MFS) </1> se trouvent. Vous pouvez ajouter des fichiers ou des dossiers et gérer cela sur cette page.</0>",
+      "paragraph1": "<0>C'est ici que les fichiers de votre <1> Mutable File System (MFS) </1> se trouvent. Vous pouvez ajouter des fichiers ou des dossiers et gérer cela sur cette page.</0>",
       "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
     },
     "step2": {
@@ -104,15 +104,15 @@
     },
     "step3": {
       "title": "Ajouter des fichiers",
-      "paragraph1": "Ici vous pouvez voir comment les blocs et les fichiers sont épinglé.",
+      "paragraph1": "Ici vous pouvez voir comment les blocs et les fichiers sont épinglés.",
       "paragraph2": "Vous pouvez ajouter des fichiers ou des dossiers dans votre dépot en utilisant le menu déroulant sur la droite.",
       "paragraph3": "<0>Si vous voulez ajouter quelque chose déjà présent sur IPFS, vous pouvez l'importer dans votre MFS en entrant son <1>Identifiant de contenu (CID)</1>.</0>"
     },
     "step5": {
-      "title": "List des fichiers",
-      "paragraph1": "Finallement, vous pouvez ajouter des fichiers et des dossiers en utilisant le glisser deposer.",
-      "paragraph2": "Vous pouvez partager ou télécharger des fichiers, inpecter cela dans IPLD Explorer, les renomer ou encore les supprimer.",
-      "paragraph3": "Pro tip: glisser déposer un fichier n'importe où sur l'interface web l'ajout à la racine de votre MFS."
+      "title": "Liste des fichiers",
+      "paragraph1": "Finalement, vous pouvez ajouter des fichiers et des dossiers en utilisant le glisser deposer.",
+      "paragraph2": "Vous pouvez partager ou télécharger des fichiers, inspecter cela dans IPLD Explorer, les renommer ou encore les supprimer.",
+      "paragraph3": "Astuce : glisser déposer un fichier n'importe où sur l'interface web l'ajout à la racine de votre MFS."
     }
   },
   "exploreForm": {

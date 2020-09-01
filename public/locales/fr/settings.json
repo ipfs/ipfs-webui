@@ -31,7 +31,7 @@
     "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes",
     "summary": "Configurer ce qui est collecté",
     "paragraph1": "Aucun CID, nom de fichier ou autre information personnelle n'est collecté. Nous voulons des mesures pour nous indiquer les fonctionnalités utiles et nous aider à définir les priorités sur lesquelles travailler, ainsi que les informations sur la configuration du système pour guider nos tests.",
-    "paragraph2": "Protocol Labs héberge une instance <1>Countly</1>  pour enregistrer les données d'usage anonymisées de cette application.",
+    "paragraph2": "Protocol Labs héberge une instance <1>Countly</1> pour enregistrer les données d'usage anonymisées de cette application.",
     "basicInfo": "Les informations supplémentaires suivantes sont envoyées à countly.ipfs.io",
     "optionalInfo": "Vous pouvez choisir d'envoyer les informations suivantes :",
     "sessions": {
@@ -68,21 +68,21 @@
     "skip": "Passer",
     "step1": {
       "title": "Page des paramétres",
-      "paragraph1": "Ici vous pouvez changer les paramétres de votre interface web ou de votre noeud IPFS.",
+      "paragraph1": "Ici vous pouvez changer les paramétres de votre interface web ou de votre nœud IPFS.",
       "paragraph2": "Si vous utilisez IPFS Desktop vous pourrez également régler quelques paramètres qui lui sont spécifiques."
     },
     "step2": {
       "title": "Sélection de la langue",
-      "paragraph1": "<0>Vous pouvez changer la lange de l'interface web. Si votre langue préférée n'est pas disponible, jeter un œil sur notre <1>page sur Transifex</1> pour nous aider à traduire!</0>"
+      "paragraph1": "<0>Vous pouvez changer la langue de l'interface web. Si votre langue préférée n'est pas disponible, jeter un œil sur notre <1>page sur Transifex</1> pour nous aider à traduire!</0>"
     },
     "step3": {
       "title": "Analyse anonyme de l'usage ",
       "paragraph1": "En cochant ceci, vous pouvez nous aider à améliorer l'interface web en envoyant anonymement des statistiques d'utilisation.",
-      "paragraph2": "Vous pourrez choisier les données que vous enverrez et elles ne permettront pas de vous identifier, nous attachons une grande importance a votre vie privée."
+      "paragraph2": "Vous pourrez choisir les données que vous enverrez et elles ne permettront pas de vous identifier, nous attachons une grande importance à votre vie privée."
     },
     "step4": {
       "title": "Configuration IPFS",
-      "paragraph1": "Vous pouvez changer la configuration de votre noeud IPFS depuis l'interface web!",
+      "paragraph1": "Vous pouvez changer la configuration de votre nœud IPFS depuis l'interface web!",
       "paragraph2": "N'oubliez pas de redémarrer le démon pour que les changements soient pris en compte."
     }
   },

@@ -52,29 +52,29 @@
     "skip": "Passer",
     "step1": {
       "title": "Page des status",
-      "paragraph1": "C'est le point de départ de votre noeud IPFS et aussi où vous pouvez vérifié les informations basiques.",
+      "paragraph1": "C'est le point de départ de votre nœud IPFS et aussi où vous pouvez vérifier les informations basiques.",
       "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
     },
     "step2": {
       "title": "Statut de la connexion",
-      "paragraph1": "Cela mène à une page de test de connexion, dans le cas contraire vous donné des indications comment vous y connecter.",
-      "paragraph2": "Vous pouvez également configurer votre noeud avec une adresse personalisée pour l'API."
+      "paragraph1": "Cela mène à une page de test de connexion, dans le cas contraire vous donne des indications sur comment vous y connecter.",
+      "paragraph2": "Vous pouvez également configurer votre nœud avec une adresse personalisée pour l'API."
     },
     "step3": {
       "title": "Information du pair",
-      "paragraph1": "Ici vous avez les information sur la taille de votre dépôt, à combien de noeuds vous êtes connecté, votre peer ID et votre choix de IPFS.",
-      "paragraph2": "<0>Cliquer sur <1>Avancée</1> pour voir plus informations sur la passerelle URL et adresse</0>"
+      "paragraph1": "Ici vous avez les informations sur la taille de votre dépôt, à combien de nœuds vous êtes connecté, votre ID de pair et votre choix de IPFS.",
+      "paragraph2": "<0>Cliquer sur <1>Avancée</1> pour voir plus d'informations sur la passerelle URL et adresse</0>"
     },
     "step4": {
-      "title": "Traffic réseau",
+      "title": "Trafic réseau",
       "paragraph1": "Ce graphe montre l'utilisaion du réseau au cours du temps.",
       "paragraph2": "Le compteur de vitesse du trafic entrant et sortant."
     },
     "stepExplore": {
       "title": "Explorez",
-      "paragraph": "Copier un CID et explorer les fichiers contenu à l'intérieur du CID ou regarder les donnée structuré et liée aux protocoles."
+      "paragraph": "Copier un CID et explorer les fichiers contenus à l'intérieur du CID ou regarder les données structurés et liées aux protocoles."
     }
   },
   "bandwidthStats": "Statistiques réseau",
-  "bandwidthStatsDisabled": "Vous avez débranché les statistique de la bande passante. Vous pouvez ré-activer cela en tapant la ligne de commande <1>Swarm.DisableBandwidthMetrics</1> de <3>false</3> dans <5>Settings</5>. Vous devez redémarrer pour cela soit pris en compte. "
+  "bandwidthStatsDisabled": "Vous avez désactivé les statistiques de la bande passante. Vous pouvez ré-activer cela en tapant la ligne de commande <1>Swarm.DisableBandwidthMetrics</1> de <3>false</3> dans <5>Settings</5>. Vous devez redémarrer pour cela soit pris en compte. "
 }
