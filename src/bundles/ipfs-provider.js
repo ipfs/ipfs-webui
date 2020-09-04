@@ -59,7 +59,7 @@ const update = (state, message) => {
         ready: true,
         failed: false,
         provider: message.payload.provider,
-        apiAddress: message.payload.apiAddress || state.apiAddress
+        apiAddress: asAPIAddress(message.payload.apiAddress || state.apiAddress)
       }
     }
     case 'IPFS_STOPPED': {
@@ -104,33 +104,49 @@ const readAPIAddressSetting = () => {
   return setting == null ? null : asAPIAddress(setting)
 }
 
-const asAPIAddress = (value) => asMultiaddress(value) || asURL(value)
+const asAPIAddress = (value) => asHttpClientOptions(value) || asMultiaddress(value) || asURL(value)
 
 /**
- * Attempts to turn cast given value into `URL` instance. Return either `URL`
- * instance or `null`.
+ * Attempts to turn cast given value into URL.
+ * Return either string instance or `null`.
  * @param {any} value
  * @returns {string|null}
  */
 const asURL = (value) => {
+  if (!value || typeof value !== 'string') return null
   try {
     return new URL(value).toString()
-  } catch (_) {
-    return null
-  }
+  } catch (_) {}
+  return null
 }
 
 /**
- * Attempts to turn cast given value into `URL` instance. Return either `URL`
- * instance or `null`.
+ * Attempts to turn cast given value into Multiaddr.
+ * Return either string instance or `null`.
  */
 const asMultiaddress = (value) => {
-  if (value != null) {
-    try {
-      return multiaddr(value).toString()
-    } catch (_) {}
-  }
+  if (!value) return null
+  try {
+    return multiaddr(value).toString()
+  } catch (_) {}
+  return null
+}
 
+/**
+ * Attempts to turn cast given value into options object compatible with ipfs-http-client constructor.
+ * Return either string with JSON or `null`.
+ * @param {any} value
+ * @returns {string|null}
+ */
+const asHttpClientOptions = (value) => {
+  if (!value) return null
+  try {
+    value = JSON.parse(value)
+  } catch (_) {}
+  // https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#importing-the-module-and-usage
+  if (value && (value.host || value.url || value.protocol || value.port || value.headers)) {
+    return JSON.stringify(value)
+  }
   return null
 }
 
@@ -239,7 +255,36 @@ const initIPFS = async (store) => {
   store.dispatch({ type: 'IPFS_INIT_STARTED' })
 
   /** @type {Model} */
-  const { apiAddress } = store.getState().ipfs
+  let { apiAddress } = store.getState().ipfs
+
+  try {
+    // if a custom JSON config is present, use it instead of multiaddr or URL
+    apiAddress = JSON.parse(apiAddress)
+  } catch (_) { }
+
+  // TODO: move this to ipfs-provider package, use apiAddress as-is
+  try {
+    const uri = new URL(apiAddress)
+    const { username, password } = uri
+    if (username && password) {
+      // ipfs-http-client does not support URIs with inlined credentials,
+      // so we manually convert string URL to options object
+      // and move basic auth to Authorization header
+      uri.username = ''
+      uri.password = ''
+      apiAddress = {
+        url: uri.toString(),
+        /* TODO: 'url' is useful, but undocumented option: update docs of http-client to list `url` as alternative to host etc
+        host: uri.hostname,
+        port: uri.port,
+        protocol: uri.protocol.split(':').shift(),
+        */
+        headers: {
+          authorization: `Basic ${btoa(username + ':' + password)}`
+        }
+      }
+    }
+  } catch (_) { }
 
   try {
     const result = await getIpfs({

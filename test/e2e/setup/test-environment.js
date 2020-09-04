@@ -2,7 +2,7 @@
 const PuppeteerEnvironment = require('jest-environment-puppeteer')
 const expect = require('expect-puppeteer')
 
-expect.setDefaultOptions({ timeout: 30 * 1000 })
+expect.setDefaultOptions({ timeout: 60 * 1000 })
 
 class WebuiTestEnvironment extends PuppeteerEnvironment {
   async setup () {
@@ -24,6 +24,7 @@ class WebuiTestEnvironment extends PuppeteerEnvironment {
     // and uses the address if present. below sets it to the address of HTTP API
     await page.evaluate((apiMultiaddr) =>
       localStorage.setItem('ipfsApi', apiMultiaddr), apiMultiaddr)
+    await page.waitForFunction(`localStorage.getItem('ipfsApi') === '${apiMultiaddr}'`)
     await page.reload()
 
     // open Status page, confirm working connection to API

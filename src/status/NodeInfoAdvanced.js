@@ -46,13 +46,13 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
         <Definition advanced term={t('gateway')} desc={gatewayUrl} />
         {ipfsProvider === 'httpClient'
           ? <Definition advanced term={t('api')} desc={
-            isMultiaddr(ipfsApiAddress)
-              ? (
-                <div className="flex items-center">
-                  <Address value={ipfsApiAddress} />
-                  <a className='ml2 link blue sans-serif fw6' href="#/settings">{t('apiEdit')}</a>
-                </div>)
-              : ipfsApiAddress
+            (<div className="flex items-center">
+              {isMultiaddr(ipfsApiAddress)
+                ? (<Address value={ipfsApiAddress} />)
+                : ipfsApiAddress
+              }
+              <a className='ml2 link blue sans-serif fw6' href="#/settings">{t('apiEdit')}</a>
+            </div>)
           } />
           : <Definition advanced term={t('api')} desc={<ProviderLink name={ipfsProvider} />} />
         }

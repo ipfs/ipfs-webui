@@ -27,7 +27,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '' }) => {
         className='w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 focus-outline'
         onChange={onChange}
         onKeyPress={onKeyPress}
-        value={value} />
+        value={value || ''} />
       <div className='tr'>
         <Button className="tc">{t('apiAddressForm.submitButton')}</Button>
       </div>

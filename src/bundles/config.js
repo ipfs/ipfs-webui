@@ -98,9 +98,11 @@ function getURLFromAddress (name, config) {
     const address = Array.isArray(config.Addresses[name])
       ? config.Addresses[name][0]
       : config.Addresses[name]
-    return toUri(address).replace('tcp://', 'http://')
+    const url = toUri(address, { assumeHttp: true })
+    if (new URL(url).port === 0) throw Error('port set to 0, not deterministic')
+    return url
   } catch (error) {
-    console.log(`Failed to get url from Addresses.${name}`, error)
+    console.log(`Failed to get url from config at Addresses.${name}`, error)
     return null
   }
 }
