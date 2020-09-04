@@ -73,26 +73,26 @@ class ContextMenu extends React.Component {
           { onInspect &&
             <Option onClick={this.wrap('onInspect')}>
               <StrokeIpld className='w2 mr2 fill-aqua' />
-              {t('actions.inspect')}
+              {t('app:actions.inspect')}
             </Option>
           }
           <Option onClick={this.wrap(pinned ? 'onUnpin' : 'onPin')} isCliTutorModeEnabled={isCliTutorModeEnabled}
             onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.PIN_OBJECT)}>
             <StrokePin className='w2 mr2 fill-aqua' />
-            { pinned ? t('actions.unpin') : t('actions.pin') }
+            { pinned ? t('app:actions.unpin') : t('app:actions.pinVerb') }
           </Option>
           { !isUpperDir && !isUnknown && onDownload &&
             <Option onClick={this.wrap('onDownload')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DOWNLOAD_OBJECT_COMMAND)}>
               <StrokeDownload className='w2 mr2 fill-aqua' />
-              {t('actions.download')}
+              {t('app:actions.download')}
             </Option>
           }
           { !isUpperDir && !isUnknown && isMfs && onRename &&
             <Option onClick={this.wrap('onRename')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.RENAME_IPFS_OBJECT)}>
               <StrokePencil className='w2 mr2 fill-aqua' />
-              {t('actions.rename')}
+              {t('app:actions.rename')}
             </Option>
           }
           { !isUpperDir && !isUnknown && isMfs && onDelete &&
@@ -100,7 +100,7 @@ class ContextMenu extends React.Component {
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DELETE_FILE_FROM_IPFS)}
             >
               <StrokeTrash className='w2 mr2 fill-aqua' />
-              {t('actions.delete')}
+              {t('app:actions.delete')}
             </Option>
           }
         </DropdownMenu>

@@ -101,13 +101,13 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
         <div className='no-events absolute bottom-0 left-0 right-0'>
           <div className='flex flex-auto flex-column items-center self-end pb5-ns no-select'>
             <div className='f1 fw5 black'><PeersCount /></div>
-            <div className='f4 b ttu charcoal-muted'>{t('peers')}</div>
+            <div className='f4 b ttu charcoal-muted'>{t('app:terms.peers')}</div>
           </div>
         </div>
       </div>
       <div className='relative flex justify-end pt2 pb4'>
         <div className='f6 p2 no-select flex items-center'>
-          <span className='f6 charcoal-muted pr3'>{t('peers')}: </span>
+          <span className='f6 charcoal-muted pr3'>{t('app:terms.peers')}: </span>
           <i className='mapDotExplanation mr1' style={{ width: getDotsSize(1) * 2, height: getDotsSize(1) * 2, backgroundColor: getDotsColor(1) }}></i>1-10
           <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(50) * 2, height: getDotsSize(50) * 2, backgroundColor: getDotsColor(50) }}></i> 10-100
           <i className='mapDotExplanation ml3 mr1' style={{ width: getDotsSize(110) * 2, height: getDotsSize(110) * 2, backgroundColor: getDotsColor(110) }}></i>100+

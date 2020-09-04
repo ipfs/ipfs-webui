@@ -45,7 +45,7 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
               /> : <div />
           }
           <Button className='ma2 tc' onClick={() => onClickCopyToClipboard(command)}>
-            {t('app:actions.copyCommand')}
+            {t('app:actions.copy')}
           </Button>
         </div>
       </ModalActions>

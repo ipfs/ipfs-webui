@@ -8,35 +8,16 @@
   "menuOptions": "Options for selected item",
   "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Only available for individual files",
-  "itemName": "Name",
-  "size": "Size",
   "noPDFSupport": "Your browser does not support PDFs. Please download the PDF to view it:",
   "downloadPDF": "Download PDF",
   "downloadInstead": "Try <1>downloading</1> it instead.",
   "cantBePreviewed": "Sorry, this file can’t be previewed",
-  "addFile": "File",
-  "addFolder": "Folder",
   "addByPath": "From IPFS",
-  "importToIPFS": "Import",
   "newFolder": "New folder",
   "generating": "Generating…",
   "actions": {
-    "import": "Import",
-    "delete": "Delete",
-    "rename": "Rename",
-    "download": "Download",
-    "inspect": "Inspect",
     "copyHash": "Copy CID",
-    "share": "Share link",
-    "close": "Close",
-    "copy": "Copy",
-    "cancel": "Cancel",
-    "clear": "Clear",
-    "create": "Create",
-    "save": "Save",
-    "pin": "Pin",
-    "unpin": "Unpin",
-    "unselectAll": "Unselect all"
+    "share": "Share link"
   },
   "shareModal": {
     "title": "Share files",
@@ -79,11 +60,6 @@
   "addFilesInfo": "<0>No files here yet! Add files to your local IPFS node by clicking the <1>Import</1> button above.</0>",
   "companionInfo": "<0>As you are using <1>IPFS Companion</1>, the files view is limited to files added while using the extension.</0>",
   "tour": {
-    "back": "Back",
-    "close": "Close",
-    "last": "Last",
-    "next": "Next",
-    "skip": "Skip",
     "step1": {
       "title": "Files page",
       "paragraph1": "<0>This is where the files on your <1>Mutable File System (MFS)</1> live. You can add files or folders and manage them from this page.</0>",
@@ -106,19 +82,11 @@
       "paragraph3": "Pro tip: drag and drop a file from any other page of the Web UI to add them to the root of your MFS."
     }
   },
-  "exploreForm": {
-    "browse": "Browse",
-    "inspect": "Inspect"
-  },
   "previousFolder": "Go back to previous folder",
   "fileLabel": "Select {type} {name} with size: {size}",
   "hashUnavailable": "hash unavailable",
   "checkboxLabel": "View more options for {name}",
-  "pins": "Pins",
   "pinned": "Pinned",
-  "blocks": "Blocks",
-  "more": "More",
-  "files": "Files",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead.",
   "sortBy": "Sort items by {name}"
 }
