@@ -169,9 +169,10 @@ const writeSetting = (id, value) => {
 /**
  * @typedef {Object} IPFSAPI
  * @property {(callback?:Function) => Promise<void>} stop
+ * @property {Object} files
+ * @property {(callback?:Function) => Promise<Object>} files.stat
  */
-
-/** @type {IPFSAPI|void} */
+/** @type {IPFSAPI|null} */
 let ipfs = null
 
 /**
@@ -232,6 +233,11 @@ const bundle = {
 
   doDismissIpfsInvalidAddress: () => (store) => {
     store.dispatch({ type: 'IPFS_API_ADDRESS_INVALID_DISMISS' })
+  },
+
+  doGetCidForPath: (path) => async () => {
+    const { cid } = await ipfs.files.stat(path)
+    return cid
   }
 }
 

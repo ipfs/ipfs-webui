@@ -1,28 +1,30 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { basename, join } from 'path'
+import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
+import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import './Breadcrumbs.css'
-import { useDrop } from 'react-dnd'
-import { basename, join } from 'path'
 import { normalizeFiles } from '../../lib/files'
 
-const DropableBreadcrumb = ({ index, link, path, onAddFiles, onMove, onClick, onContextMenuHandle }) => {
+import './Breadcrumbs.css'
+
+const DropableBreadcrumb = ({ index, link, fullPath, immutable, onAddFiles, onMove, onClick, onContextMenuHandle, getCidForPath }) => {
   const [{ isOver }, drop] = useDrop({
     accept: [NativeTypes.FILE, 'FILE'],
-    drop: ({ files, filesPromise, path: filePath }) => {
+    drop: async ({ files, filesPromise, path: filePath }) => {
       if (files) {
         (async () => {
           const files = await filesPromise
-          onAddFiles(await normalizeFiles(files), path)
+          onAddFiles(await normalizeFiles(files), fullPath)
         })()
       } else {
         const src = filePath
-        const dst = join(path, basename(filePath))
+        const dst = join(link.path, basename(filePath))
 
-        onMove(src, dst)
+        try { await onMove(src, dst) } catch (e) { console.error(e) }
       }
     },
     collect: (monitor) => ({
@@ -32,12 +34,29 @@ const DropableBreadcrumb = ({ index, link, path, onAddFiles, onMove, onClick, on
 
   const buttonRef = useRef()
 
-  const handleOnContextMenuHandle = (ev) => onContextMenuHandle(ev, buttonRef.current)
+  const handleOnContextMenuHandle = async (ev) => {
+    ev.preventDefault()
+
+    const { path } = link
+    const sanitizedPath = path.substring(path.indexOf('/', 1), path.length)
+    const cid = await getCidForPath(sanitizedPath)
+
+    onContextMenuHandle(undefined, buttonRef.current, {
+      ...link,
+      ...(!link.last && { type: 'directory' }),
+      cid
+    })
+  }
 
   return (
     <span className='dib pv1 pr1' ref={drop}>
       <button ref={buttonRef} title={link.realName}
-        className={classNames('BreadcrumbsButton relative', index !== 0 && 'navy', index === 0 && 'f7 pointer pa1 bg-navy br2 mr2 white', link.last && 'b', isOver && 'dragging')}
+        className={classNames('BreadcrumbsButton relative',
+          index !== 0 && 'navy',
+          index === 0 && 'f7 pa1 br2 mr2',
+          index === 0 && (immutable ? 'bg-charcoal-muted white' : 'bg-navy white'),
+          immutable && (link.last || index === 0) && 'no-events',
+          link.last && 'b', isOver && 'dragging')}
         onClick={() => onClick(link.path)} onContextMenu={(ev) => index !== 0 && handleOnContextMenuHandle(ev)}>
         {link.name}
       </button>
@@ -45,8 +64,9 @@ const DropableBreadcrumb = ({ index, link, path, onAddFiles, onMove, onClick, on
   )
 }
 
-const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle, onAddFiles, onMove, ...props }) => {
+const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle, onAddFiles, onMove, doGetCidForPath, ...props }) => {
   const [overflows, setOverflows] = useState(false)
+  const [isImmutable, setImmutable] = useState(false)
   const anchors = useRef()
 
   useEffect(() => {
@@ -58,21 +78,22 @@ const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle,
     }
   }, [overflows])
 
-  const bread = makeBread(path, t)
+  const bread = useMemo(() =>
+    makeBread(path, t, isImmutable, setImmutable)
+  , [isImmutable, path, t])
 
   return (
-    <nav aria-label={t('breadcrumbs')} className={classNames('Breadcrumbs flex items-center sans-serif overflow-hidden', className)} {...props}>
+    <nav aria-label={t('breadcrumbs')} className={classNames('Breadcrumbs flex items-center sans-serif overflow-hidden sticky top-0', className)} {...props}>
       <div className='nowrap overflow-hidden relative flex flex-wrap' ref={ anchors }>
         <div className={`absolute left-0 top-0 h-100 w1 ${overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, #ffffff 0%, transparent 100%)' }} />
 
         { bread.map((link, index) => (
           <div key={`${index}link`}>
-            <DropableBreadcrumb index={index} link={link} path={path}
-              onAddFiles={onAddFiles} onMove={onMove} onClick={onClick} onContextMenuHandle={onContextMenuHandle} />
-            <span className='dib pr1 pv1 mid-gray v-top'>/</span>
+            <DropableBreadcrumb index={index} link={link} fullPath={path} immutable={isImmutable}
+              onAddFiles={onAddFiles} onMove={onMove} onClick={onClick} onContextMenuHandle={onContextMenuHandle} getCidForPath={doGetCidForPath} />
+            { index !== bread.length - 1 && <span className='dib pr1 pv1 mid-gray v-top'>/</span>}
           </div>
-        )
-        )}
+        ))}
 
       </div>
     </nav>
@@ -86,17 +107,15 @@ Breadcrumbs.propTypes = {
   onContextMenuHandle: PropTypes.func
 }
 
-function makeBread (root, t) {
+function makeBread (root, t, isImmutable, setImmutable) {
   if (root.endsWith('/')) {
     root = root.substring(0, root.length - 1)
   }
 
-  const parts = root.split('/').map(part => {
-    return {
-      name: part,
-      path: part
-    }
-  })
+  const parts = root.split('/').map(part => ({
+    name: part,
+    path: part
+  }))
 
   for (let i = 1; i < parts.length; i++) {
     const name = parts[i].name
@@ -113,10 +132,18 @@ function makeBread (root, t) {
   }
 
   parts.shift()
+
+  if (parts[0].name === 'ipfs' || parts[0].name === 'ipns') {
+    !isImmutable && setImmutable(true)
+  }
+
   parts[0].name = t(parts[0].name)
 
   parts[parts.length - 1].last = true
   return parts
 }
 
-export default withTranslation('files')(Breadcrumbs)
+export default connect(
+  'doGetCidForPath',
+  withTranslation('files')(Breadcrumbs)
+)

@@ -17,3 +17,7 @@
 .BreadcrumbsButton.dragging::after {
     opacity: 1;
 }
+
+.BreadcrumbsButton.no-events {
+    pointer-events: none;
+}

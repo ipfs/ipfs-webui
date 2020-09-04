@@ -15,7 +15,6 @@ storiesOf('Files', module)
       <ContextMenu
         isOpen={boolean('isOpen', false)}
         isMfs={boolean('isMfs', false)}
-        isUpperDir={boolean('isUpperDir', false)}
         pinned={boolean('pinned', false)}
         top={10}
         left={10}

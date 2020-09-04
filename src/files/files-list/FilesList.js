@@ -27,7 +27,6 @@ export class FilesList extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     files: PropTypes.array.isRequired,
-    upperDir: PropTypes.object,
     filesSorting: PropTypes.shape({
       by: PropTypes.string.isRequired,
       asc: PropTypes.bool.isRequired
@@ -75,10 +74,6 @@ export class FilesList extends React.Component {
   }
 
   get focusedFile () {
-    if (this.state.focused === '..') {
-      return this.props.upperDir
-    }
-
     return this.props.files.find(el => el.name === this.state.focused)
   }
 
@@ -133,7 +128,7 @@ export class FilesList extends React.Component {
   }
 
   keyHandler = (e) => {
-    const { files, upperDir, filesIsFetching } = this.props
+    const { files, filesIsFetching } = this.props
     const { selected, focused, firstVisibleRow } = this.state
 
     // Disable keyboard controls if fetching files
@@ -146,7 +141,7 @@ export class FilesList extends React.Component {
       return this.listRef.current.forceUpdateGrid()
     }
 
-    if (e.key === 'F2' && focused !== null && focused !== '..') {
+    if (e.key === 'F2' && focused !== null) {
       return this.props.onRename([this.focusedFile])
     }
 
@@ -154,7 +149,7 @@ export class FilesList extends React.Component {
       return this.props.onDelete(this.selectedFiles)
     }
 
-    if (e.key === ' ' && focused !== null && focused !== '..') {
+    if (e.key === ' ' && focused !== null) {
       e.preventDefault()
       return this.toggleOne(focused, true)
     }
@@ -165,25 +160,19 @@ export class FilesList extends React.Component {
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault()
-      let index = upperDir ? -1 : 0
+      let index = 0
 
       if (focused !== null) {
         const prev = files.findIndex(el => el.name === focused)
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
       }
 
-      if (index === -1 && !upperDir) {
+      if (index === -1) {
         return
       }
 
-      if (index >= -1 && index < files.length) {
-        let name
-
-        if (index === -1) {
-          name = '..'
-        } else {
-          name = files[index].name
-        }
+      if (index < files.length) {
+        let name = files[index].name
 
         // If the file we are going to focus is out of view (removed
         // from the DOM by react-virtualized), focus the first visible file
@@ -280,62 +269,20 @@ export class FilesList extends React.Component {
   }
 
   emptyRowsRenderer = () => {
-    const { t, upperDir, isOver, canDrop, onNavigate, onAddFiles } = this.props
-    const { isDragging, focused } = this.state
+    const { t } = this.props
 
     return (
-      <Fragment>
-        { upperDir && <div ref={r => { this.filesRefs['..'] = r }}>
-          <File
-            onNavigate={() => onNavigate(upperDir.path)}
-            onAddFiles={onAddFiles}
-            onMove={this.move}
-            setIsDragging={this.isDragging}
-            handleContextMenuClick={this.props.handleContextMenuClick}
-            translucent={isDragging || (isOver && canDrop)}
-            name='..'
-            focused={focused === '..'}
-            cantDrag
-            cantSelect
-            {...upperDir} />
-        </div> }
-
-        <Trans i18nKey='filesList.noFiles' t={t}>
-          <div className='pv3 b--light-gray bt tc gray f6'>
+      <Trans i18nKey='filesList.noFiles' t={t}>
+        <div className='pv3 b--light-gray bt tc gray f6'>
             There are no available files. Add some!
-          </div>
-        </Trans>
-      </Fragment>
+        </div>
+      </Trans>
     )
   }
 
   rowRenderer = ({ index, key, style }) => {
-    const { files, pins, upperDir, filesPathInfo, isOver, canDrop, onNavigate, onInspect, onAddFiles } = this.props
+    const { files, pins, filesPathInfo, isOver, canDrop, onNavigate, onInspect, onAddFiles } = this.props
     const { selected, focused, isDragging } = this.state
-
-    if (upperDir) {
-      // We want the `upperDir` to be the first item on the list
-      if (index === 0) {
-        return (
-          <div key={key} style={style} ref={r => { this.filesRefs[upperDir.name] = r }}>
-            <File
-              onNavigate={() => onNavigate(upperDir.path)}
-              onAddFiles={onAddFiles}
-              onMove={this.move}
-              setIsDragging={this.isDragging}
-              handleContextMenuClick={this.props.handleContextMenuClick}
-              isMfs={filesPathInfo.isMfs}
-              translucent={isDragging || (isOver && canDrop)}
-              focused={focused === upperDir.name}
-              cantDrag
-              cantSelect
-              {...upperDir} />
-          </div>
-        )
-      }
-      // Decrease the index to stay inside the `files` array range
-      index--
-    }
 
     return (
       <div key={key} style={style} ref={r => { this.filesRefs[files[index].name] = r }}>
@@ -366,10 +313,10 @@ export class FilesList extends React.Component {
   onRowsRendered = ({ startIndex }) => this.setState({ firstVisibleRow: startIndex })
 
   render () {
-    let { t, files, className, upperDir, showLoadingAnimation, connectDropTarget } = this.props
+    let { t, files, className, showLoadingAnimation, connectDropTarget } = this.props
     const { selected } = this.state
     const allSelected = selected.length !== 0 && selected.length === files.length
-    const rowCount = files.length && upperDir ? files.length + 1 : files.length
+    const rowCount = files.length
     const checkBoxCls = classnames({
       'o-1': allSelected,
       'o-70': !allSelected
