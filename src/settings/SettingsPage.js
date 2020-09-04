@@ -38,7 +38,7 @@ export const SettingsPage = ({
 
     <Box className='mb3 pa4 joyride-settings-customapi'>
       <div className='lh-copy charcoal'>
-        <Title>{t('api')}</Title>
+        <Title>{t('app:terms.apiAddress')}</Title>
         <Trans i18nKey='apiDescription' t={t}>
           <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here.</p>
         </Trans>
@@ -99,7 +99,7 @@ export const SettingsPage = ({
               className='tc'
               disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
               onClick={onReset}>
-              {t('reset')}
+              {t('app:actions.reset')}
             </Button>
             <SaveButton
               t={t}
@@ -150,7 +150,7 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
       { hasSaveSucceded && !hasSaveFailed ? (
         <Tick height={16} className='fill-snow' style={{ transform: 'scale(3)' }} />
       ) : (
-        isSaving ? t('saving') : t('save')
+        isSaving ? t('app:actions.saving') : t('app:actions.save')
       )}
     </Button>
   )

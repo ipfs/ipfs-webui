@@ -1,16 +1,10 @@
 {
   "title": "Welcome | IPFS",
   "description": "Welcome Page",
-  "apiAddressForm": {
-    "apiLabel": "API ADDRESS",
-    "submitButton": "Submit"
-  },
   "connected": {
-    "header": "Connected to IPFS",
     "paragraph1": "Welcome to the future of the internet! You are now a valuable part of the distributed web."
   },
   "notConnected": {
-    "header": "Could not connect to the IPFS API",
     "paragraph1": "<0>Check out the installation guide in the <1>IPFS Docs</1>, or try these common fixes:</0>",
     "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting it from your terminal:</0>",
     "paragraph3": "<0>Is your IPFS API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
@@ -34,7 +28,6 @@
     "paragraph6": "<0><0>Check this app's source code</0> to <2>report a bug</2> or make a contribution, and make IPFS better for everyone!</0>"
   },
   "tour": {
-    "close": "Close",
     "step1": {
       "title": "Welcome page",
       "paragraph1": "This page lets you know if you're connected to IPFS, and offers ideas for things you can do in this app.",

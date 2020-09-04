@@ -1,11 +1,7 @@
 {
   "title": "Settings",
-  "save": "Save",
-  "saving": "Saving…",
-  "reset": "Reset",
   "language": "Language",
   "analytics": "Analytics",
-  "api": "API Address",
   "cliTutorMode": "CLI Tutor Mode",
   "config": "IPFS Config",
   "languageModal": {
@@ -13,10 +9,6 @@
     "description": "Pick your preferred language.",
     "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
     "translationProjectLink": "Join the IPFS Translation Project"
-  },
-  "actions": {
-    "edit": "Change",
-    "close": "Close"
   },
   "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
   "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
@@ -68,11 +60,6 @@
     "label": "Enable command-line interface (CLI) tutor mode"
   },
   "tour": {
-    "back": "Back",
-    "close": "Close",
-    "last": "Last",
-    "next": "Next",
-    "skip": "Skip",
     "step1": {
       "title": "Settings page",
       "paragraph1": "Here you can change the settings of your Web UI and IPFS node.",

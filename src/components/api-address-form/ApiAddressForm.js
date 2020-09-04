@@ -29,7 +29,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '' }) => {
         onKeyPress={onKeyPress}
         value={value || ''} />
       <div className='tr'>
-        <Button className="tc">{t('apiAddressForm.submitButton')}</Button>
+        <Button className="tc">{t('actions.submit')}</Button>
       </div>
     </form>
   )
@@ -38,5 +38,5 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress = '' }) => {
 export default connect(
   'doUpdateIpfsApiAddress',
   'selectIpfsApiAddress',
-  withTranslation('welcome')(ApiAddressForm)
+  withTranslation('app')(ApiAddressForm)
 )
