@@ -1,4 +1,4 @@
-export default (srcUrl, filename, progressCallback) => {
+export default (srcUrl, filename, progressCallback, method = 'GET') => {
   const xhr = new window.XMLHttpRequest()
   let total = 0
 
@@ -8,7 +8,7 @@ export default (srcUrl, filename, progressCallback) => {
   }
 
   xhr.responseType = 'blob'
-  xhr.open('GET', srcUrl, true)
+  xhr.open(method, srcUrl, true)
 
   xhr.onload = (e) => {
     progressCallback(100)

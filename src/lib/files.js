@@ -37,6 +37,7 @@ export function normalizeFiles (files) {
  * @typedef {Object} FileDownload
  * @property {string} url
  * @property {string} filename
+ * @property {string} method
  *
  * @param {FileStat} file
  * @param {string} gatewayUrl
@@ -54,7 +55,7 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
     filename = file.name
   }
 
-  return { url, filename }
+  return { url, filename, method: 'GET' }
 }
 
 /**
@@ -94,7 +95,8 @@ async function downloadMultiple (files, apiUrl, ipfs) {
 
   return {
     url: `${apiUrl}/api/v0/get?arg=${cid}&archive=true&compress=true`,
-    filename: `download_${cid}.tar.gz`
+    filename: `download_${cid}.tar.gz`,
+    method: 'POST'
   }
 }
 
