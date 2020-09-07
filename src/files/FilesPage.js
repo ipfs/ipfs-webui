@@ -68,8 +68,8 @@ class FilesPage extends React.Component {
     }
 
     const updater = (v) => this.setState({ downloadProgress: v })
-    const { url, filename } = await doFilesDownloadLink(files)
-    const { abort } = await downloadFile(url, filename, updater)
+    const { url, filename, method } = await doFilesDownloadLink(files)
+    const { abort } = await downloadFile(url, filename, updater, method)
     this.setState({ downloadAbort: abort })
   }
 
