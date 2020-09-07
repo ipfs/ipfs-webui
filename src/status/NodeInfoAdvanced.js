@@ -40,6 +40,12 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
     ev.preventDefault()
   }
 
+  try {
+    // hide raw JSON if advanced config is present in the string
+    JSON.parse(ipfsApiAddress)
+    ipfsApiAddress = t('customApiConfig')
+  } catch (_) {}
+
   return (
     <Details className='mt3 f6' summaryText={t('app:terms.advanced')} open={isNodeInfoOpen} onClick={handleSummaryClick}>
       <DefinitionList className='mt3'>
