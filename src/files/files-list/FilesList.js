@@ -51,7 +51,7 @@ export class FilesList extends React.Component {
     onMove: PropTypes.func.isRequired,
     // From i18next
     t: PropTypes.func.isRequired,
-    tReady: PropTypes.bool.isRequired
+    tReady: PropTypes.bool
   }
 
   static defaultProps = {

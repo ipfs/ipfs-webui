@@ -11,14 +11,14 @@ import { normalizeFiles } from '../../lib/files'
 
 import './Breadcrumbs.css'
 
-const DropableBreadcrumb = ({ index, link, fullPath, immutable, onAddFiles, onMove, onClick, onContextMenuHandle, getCidForPath }) => {
+const DropableBreadcrumb = ({ index, link, immutable, onAddFiles, onMove, onClick, onContextMenuHandle, getPathInfo, checkIfPinned }) => {
   const [{ isOver }, drop] = useDrop({
     accept: [NativeTypes.FILE, 'FILE'],
     drop: async ({ files, filesPromise, path: filePath }) => {
       if (files) {
         (async () => {
           const files = await filesPromise
-          onAddFiles(await normalizeFiles(files), fullPath)
+          onAddFiles(await normalizeFiles(files), link.path)
         })()
       } else {
         const src = filePath
@@ -39,12 +39,14 @@ const DropableBreadcrumb = ({ index, link, fullPath, immutable, onAddFiles, onMo
 
     const { path } = link
     const sanitizedPath = path.substring(path.indexOf('/', 1), path.length)
-    const cid = await getCidForPath(sanitizedPath)
+    const { cid, type } = await getPathInfo(sanitizedPath)
+    const pinned = await checkIfPinned(cid)
 
     onContextMenuHandle(undefined, buttonRef.current, {
       ...link,
-      ...(!link.last && { type: 'directory' }),
-      cid
+      type,
+      cid,
+      pinned
     })
   }
 
@@ -64,7 +66,7 @@ const DropableBreadcrumb = ({ index, link, fullPath, immutable, onAddFiles, onMo
   )
 }
 
-const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle, onAddFiles, onMove, doGetCidForPath, ...props }) => {
+const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle, onAddFiles, onMove, doGetPathInfo, doCheckIfPinned, ...props }) => {
   const [overflows, setOverflows] = useState(false)
   const [isImmutable, setImmutable] = useState(false)
   const anchors = useRef()
@@ -89,8 +91,8 @@ const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle,
 
         { bread.map((link, index) => (
           <div key={`${index}link`}>
-            <DropableBreadcrumb index={index} link={link} fullPath={path} immutable={isImmutable}
-              onAddFiles={onAddFiles} onMove={onMove} onClick={onClick} onContextMenuHandle={onContextMenuHandle} getCidForPath={doGetCidForPath} />
+            <DropableBreadcrumb index={index} link={link} immutable={isImmutable}
+              onAddFiles={onAddFiles} onMove={onMove} onClick={onClick} onContextMenuHandle={onContextMenuHandle} getPathInfo={doGetPathInfo} checkIfPinned={doCheckIfPinned} />
             { index !== bread.length - 1 && <span className='dib pr1 pv1 mid-gray v-top'>/</span>}
           </div>
         ))}
@@ -144,6 +146,7 @@ function makeBread (root, t, isImmutable, setImmutable) {
 }
 
 export default connect(
-  'doGetCidForPath',
+  'doGetPathInfo',
+  'doCheckIfPinned',
   withTranslation('files')(Breadcrumbs)
 )

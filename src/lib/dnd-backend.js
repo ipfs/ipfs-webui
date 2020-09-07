@@ -32,6 +32,9 @@ export default (manager) => {
   backend.handleTopDropCapture = (event) => {
     handler.call(backend, event)
     if (backend.currentNativeSource && event.dataTransfer.items) {
+      // Prevent handling drag & drop of text inside webui
+      if ([...event.dataTransfer.items].every(({ kind }) => kind === 'string')) return
+
       const filesPromise = getFilesFromDataTransferItems(event.dataTransfer.items)
       backend.currentNativeSource.item.filesPromise = filesPromise
     }
