@@ -60,9 +60,15 @@ export class PeersTable extends React.Component {
     const style = { width: '60px' }
 
     return cellData
-      ? <span className='dib tr' style={style}>{cellData}ms</span>
-      : <span className='dib tr o-40' style={style}>-</span>
+      ? <span className='dib' style={style}>{cellData}ms</span>
+      : <span className='dib o-40' style={style}>-</span>
   }
+
+  inOutCellRenderer = ({ rowData }) => (
+    <span style={{ textDecoration: 'none' }} title={this.props.t('currentRate') + ': ' + rowData.rateIn + ' • ' + rowData.rateOut + '; ' + this.props.t('totalTransfer') + ': ' +  rowData.totalIn + ' • ' + rowData.totalOut}>
+      {rowData.totalIn} &bull; {rowData.totalOut}
+    </span>
+  )
 
   peerIdCellRenderer = ({ cellData }) => (
     <Cid value={cellData} identicon />
@@ -75,9 +81,9 @@ export class PeersTable extends React.Component {
   )
 
   agentCellRenderer = ({ rowData }) => (
-    <abbr style={{ textDecoration: 'none' }} title={rowData.agent}>
+    <span style={{ textDecoration: 'none' }} title={rowData.agent}>
       {rowData.agent}
-    </abbr>
+    </span>
   )
 
   rowClassRenderer = ({ index }, peers = []) => {
@@ -116,8 +122,8 @@ export class PeersTable extends React.Component {
               sortBy={sortBy}
               sortDirection={sortDirection}>
               <Column label={t('app:terms.location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={450} className='f6 charcoal truncate pl2' />
-              <Column label={t('app:terms.latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 charcoal pl2' />
-              <Column label={t('app:terms.in') + '/' + t('app:terms.out')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 charcoal pl2' />
+              <Column label={t('app:terms.latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={200} className='f6 charcoal pl2' />
+              <Column label={t('app:terms.in') + '/' + t('app:terms.out')} cellRenderer={this.inOutCellRenderer} dataKey='latency' width={270} className='f6 charcoal pl2' />
               <Column label={t('app:terms.peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f6 pl2' />
               <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />
               <Column label={t('app:terms.agent')} cellRenderer={this.agentCellRenderer} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />

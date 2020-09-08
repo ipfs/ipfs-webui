@@ -65,6 +65,10 @@ function createPeersLocations (opts) {
       const address = peer.addr.toString()
       const agent = 'go-ipfs X.X.X-rcX'
       const latency = parseLatency(peer.latency)
+      const rateIn = 'AAA kB/s'
+      const rateOut = 'BBB mB/s'
+      const totalIn = 'YYY kB'
+      const totalOut = 'XXX mB'
       const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
 
       return {
@@ -76,6 +80,10 @@ function createPeersLocations (opts) {
         address,
         agent,
         latency,
+        rateIn,
+        rateOut,
+        totalIn,
+        totalOut,
         isPrivate,
         isNearby
       }
@@ -132,7 +140,7 @@ const toLocationString = loc => {
 }
 
 const parseConnection = (multiaddr) => {
-  return multiaddr.protoNames().join('・')
+  return multiaddr.protoNames().join(' • ')
 }
 
 const parseLatency = (latency) => {
