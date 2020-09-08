@@ -1,6 +1,5 @@
 const expect = require('expect-puppeteer')
 
 // increase timeouts for CI
-const timeout = 60 * 1000
-jest.setTimeout(timeout)
-expect.setDefaultOptions({ timeout })
+jest.setTimeout(45 * 1000)
+expect.setDefaultOptions({ timeout: (30 * 1000) })

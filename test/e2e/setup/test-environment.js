@@ -2,7 +2,7 @@
 const PuppeteerEnvironment = require('jest-environment-puppeteer')
 const expect = require('expect-puppeteer')
 
-expect.setDefaultOptions({ timeout: 60 * 1000 })
+expect.setDefaultOptions({ timeout: 30 * 1000 })
 
 class WebuiTestEnvironment extends PuppeteerEnvironment {
   async setup () {

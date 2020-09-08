@@ -1,4 +1,4 @@
-/* global webuiUrl, page, waitForTitle, describe, it, expect, beforeAll */
+/* global ipfs, webuiUrl, page, describe, it, expect, beforeAll */
 
 const { createController } = require('ipfsd-ctl')
 const getPort = require('get-port')
@@ -7,15 +7,45 @@ const httpProxy = require('http-proxy')
 const basicAuth = require('basic-auth')
 const toUri = require('multiaddr-to-uri')
 
-// Why do we support and test Basic Auth?
-// -----------------------------------
-// Some users choose to access remote API.
-// It requires setting up reverse proxy with correct CORS  and Basic Auth headers,
-// but when done properly, should work. This test sets up a proxy which
-// acts as properly protected and configured remote API to ensure there are no
-// regressions for this difficult to test use case.
+describe('API set with multiaddr', () => {
+  // ipfs is a global 'local' node used for other tests,
+  // we reuse it for testing the most basic setup with no auth
+  const localIpfs = ipfs
+  const localApiMultiaddr = `/ip4/${localIpfs.apiHost}/tcp/${localIpfs.apiPort}`
 
-describe('Remote API with CORS and Basic Auth', () => {
+  it('should show full multiaddr on Status page', async () => {
+    const link = 'a[href="#/"]'
+    await page.waitForSelector(link)
+    await page.click(link)
+    await page.waitForSelector('summary', { visible: true })
+    await expect(page).toClick('summary', { text: 'Advanced' })
+    await page.waitForSelector('div[id="http-api-address"]', { visible: true })
+    await expect(page).toMatch(localApiMultiaddr)
+
+    // confirm webui is actually connected to expected node :^)
+    const { id } = await localIpfs.id()
+    await expect(page).toMatch(id)
+  })
+
+  it('should show full multiaddr on Settings page', async () => {
+    const settingsLink = 'a[href="#/settings"]'
+    await page.waitForSelector(settingsLink)
+    await page.click(settingsLink)
+    await page.waitForSelector('input[id="api-address"]', { visible: true })
+    const apiAddrInput = await page.$('#api-address')
+    const apiAddrValue = await page.evaluate(x => x.value, apiAddrInput)
+    await expect(apiAddrValue).toMatch(localApiMultiaddr)
+  })
+})
+
+describe('API with CORS and Basic Auth', () => {
+  // Why do we support and test Basic Auth?
+  // -----------------------------------
+  // Some users choose to access remote API.
+  // It requires setting up reverse proxy with correct CORS  and Basic Auth headers,
+  // but when done properly, should work. This test sets up a proxy which
+  // acts as properly protected and configured remote API to ensure there are no
+  // regressions for this difficult to test use case.
   let ipfsd
   let proxyd
   let user
@@ -34,7 +64,6 @@ describe('Remote API with CORS and Basic Auth', () => {
     })
 
     // set up proxy in front of remote API to provide CORS and Basic Auth
-    proxyPort = await getPort()
     user = 'user'
     password = 'pass'
 
@@ -83,13 +112,15 @@ describe('Remote API with CORS and Basic Auth', () => {
         proxyd.listen(port)
       })
     }
-    await startProxyServer(proxyPort)
   })
 
   beforeEach(async () => {
-    // set API endpoint to one without any service
-    //  to avoid false-positives when running test on localhost with go-ipfs on default ports
-    await switchIpfsApiEndpointViaLocalStorage(`/ip4/127.0.0.1/tcp/${await getPort()}`)
+    // Swap API port for each test, ensure we don't get false-positives
+    proxyPort = await getPort()
+    await startProxyServer(proxyPort)
+  })
+  afterEach(async () => {
+    await proxyd.close()
   })
 
   const switchIpfsApiEndpointViaLocalStorage = async (endpoint) => {
@@ -106,24 +137,44 @@ describe('Remote API with CORS and Basic Auth', () => {
     endpoint = (endpoint ? `'${endpoint}'` : 'null')
     await page.waitForFunction(`localStorage.getItem('ipfsApi') === ${endpoint}`)
   }
-  const proxyConnectionConfirmation = async (proxyPort) => {
-    // confirm API section  on Status pageincludes expected address
+  const basicAuthConnectionConfirmation = async (proxyPort) => {
+    // (1) confirm API section on Status page includes expected PeerID and API description
     const link = 'a[href="#/"]'
     await page.waitForSelector(link)
     await page.click(link)
-    await waitForTitle('Status | IPFS')
+
     await page.waitForSelector('summary', { visible: true })
     await expect(page).toClick('summary', { text: 'Advanced' })
-    await expect(page).toMatch(`http://127.0.0.1:${proxyPort}`)
+    await page.waitForSelector('div[id="http-api-address"]', { visible: true })
+
+    // account for JSON config, which we hide from status page
+    await expect(page).toMatch('Custom JSON configuration')
+
     // confirm webui is actually connected to expected node :^)
     const { id } = await ipfsd.api.id()
     await expect(page).toMatch(id)
+
+    // (2) go to Settings and confirm API string includes expected proxyPort
+    const settingsLink = 'a[href="#/settings"]'
+    await page.waitForSelector(settingsLink)
+    await page.click(settingsLink)
+    await page.waitForSelector('input[id="api-address"]', { visible: true })
+    const apiAddrInput = await page.$('#api-address')
+    const apiAddrValue = await page.evaluate(x => x.value, apiAddrInput)
+
+    // Just math the origin part, will work for both JSON and URL versions
+    await expect(apiAddrValue).toMatch(`http://127.0.0.1:${proxyPort}`)
   }
   const nodeBtoa = (b) => Buffer.from(b).toString('base64')
 
   it('should work when localStorage[ipfsApi] is set to URL with inlined Basic Auth credentials', async () => {
     await switchIpfsApiEndpointViaLocalStorage(`http://${user}:${password}@127.0.0.1:${proxyPort}`)
-    await proxyConnectionConfirmation(proxyPort)
+    await basicAuthConnectionConfirmation(proxyPort)
+  })
+
+  it('should work when localStorage[ipfsApi] is set to URL with inlined Basic Auth credentials', async () => {
+    await switchIpfsApiEndpointViaLocalStorage(`http://${user}:${password}@127.0.0.1:${proxyPort}`)
+    await basicAuthConnectionConfirmation(proxyPort)
   })
 
   it('should work when localStorage[ipfsApi] is set to a string with a custom ipfs-http-client config', async () => {
@@ -135,7 +186,7 @@ describe('Remote API with CORS and Basic Auth', () => {
       }
     })
     await switchIpfsApiEndpointViaLocalStorage(apiOptions)
-    await proxyConnectionConfirmation(proxyPort)
+    await basicAuthConnectionConfirmation(proxyPort)
   })
 
   const switchIpfsApiEndpointViaSettings = async (endpoint) => {
@@ -153,7 +204,7 @@ describe('Remote API with CORS and Basic Auth', () => {
   it('should work when URL with inlined credentials is entered at the Settings screen', async () => {
     const basicAuthApiAddr = `http://${user}:${password}@127.0.0.1:${proxyPort}`
     await switchIpfsApiEndpointViaSettings(basicAuthApiAddr)
-    await proxyConnectionConfirmation(proxyPort)
+    await basicAuthConnectionConfirmation(proxyPort)
   })
 
   it('should work when JSON with ipfs-http-client config is entered at the Settings screen', async () => {
@@ -164,10 +215,10 @@ describe('Remote API with CORS and Basic Auth', () => {
       }
     })
     await switchIpfsApiEndpointViaSettings(apiOptions)
-    await proxyConnectionConfirmation(proxyPort)
+    await basicAuthConnectionConfirmation(proxyPort)
   })
 
   afterAll(async () => {
-    await Promise.all([ipfsd.stop(), proxyd.close()])
+    await ipfsd.stop()
   })
 })
