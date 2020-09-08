@@ -66,6 +66,10 @@ export class PeersTable extends React.Component {
 
   inOutCellRenderer = ({ rowData }) => (
     <span style={{ textDecoration: 'none' }} title={this.props.t('currentRate') + ': ' + rowData.rateIn + ' • ' + rowData.rateOut + '; ' + this.props.t('totalTransfer') + ': ' +  rowData.totalIn + ' • ' + rowData.totalOut}>
+    <svg width='10' height='10' className='mr1'>
+      <circle cx='5' cy='5' r='5' fill='#69c4cd' />
+      <path d='M0,5 a1,1 0 0,0 10,0' fill='#f39021' />
+    </svg>
       {rowData.totalIn} &bull; {rowData.totalOut}
     </span>
   )
