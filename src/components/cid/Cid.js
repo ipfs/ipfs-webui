@@ -26,8 +26,8 @@ const Cid = ({ value, title, style, identicon = false, ...props }) => {
   const { start, end } = cidStartAndEnd(value)
   return (
     <abbr title={title || value} style={style} {...props}>
-      { identicon && <Identicon cid={value} className='mr1 v-mid' /> }
-      <span className='v-mid'>
+      { identicon && <Identicon cid={value} className='mr2' /> }
+      <span>
         <span>{start}</span>
         <span className='o-20'>…</span>
         <span>{end}</span>

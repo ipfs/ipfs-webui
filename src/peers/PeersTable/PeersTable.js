@@ -123,12 +123,12 @@ export class PeersTable extends React.Component {
               sort={this.sort}
               sortBy={sortBy}
               sortDirection={sortDirection}>
-              <Column label={t('app:terms.location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={450} className='f6 navy-muted truncate pl2' />
-              <Column label={t('app:terms.latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 navy-muted monospace pl2' />
-              <Column label={t('app:terms.in') + '/' + t('app:terms.out')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 navy-muted monospace pl2' />
-              <Column label={t('app:terms.peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f7 pl2' />
-              <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
-              <Column label={t('app:terms.agent')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
+              <Column label={t('app:terms.location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={450} className='f6 charcoal truncate pl2' />
+              <Column label={t('app:terms.latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 charcoal pl2' />
+              <Column label={t('app:terms.in') + '/' + t('app:terms.out')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 charcoal pl2' />
+              <Column label={t('app:terms.peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f6 pl2' />
+              <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 charcoal truncate pl2' />
+              <Column label={t('app:terms.agent')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 charcoal truncate pl2' />
             </Table>
           )}
         </AutoSizer> }
