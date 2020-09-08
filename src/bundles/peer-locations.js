@@ -63,7 +63,7 @@ function createPeersLocations (opts) {
       ]
       const connection = parseConnection(peer.addr)
       const address = peer.addr.toString()
-      const agent = parseLatency(peer.latency)
+      const agent = 'go-ipfs X.X.X-rcX'
       const latency = parseLatency(peer.latency)
       const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
 
