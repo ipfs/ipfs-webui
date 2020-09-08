@@ -127,7 +127,6 @@ export class PeersTable extends React.Component {
               <Column label={t('app:terms.latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 navy-muted monospace pl2' />
               <Column label={t('app:terms.peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f7 pl2' />
               <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 navy-muted truncate pl2' />
-              <Column label={t('notes')} cellRenderer={this.notesCellRenderer} disableSort dataKey='notes' width={400} className='charcoal monospace truncate f7 pl2' />
             </Table>
           )}
         </AutoSizer> }
