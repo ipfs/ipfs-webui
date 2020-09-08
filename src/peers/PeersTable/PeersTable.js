@@ -74,6 +74,12 @@ export class PeersTable extends React.Component {
     </abbr>
   )
 
+  agentCellRenderer = ({ rowData }) => (
+    <abbr style={{ textDecoration: 'none' }} title={rowData.agent}>
+      {rowData.agent}
+    </abbr>
+  )
+
   rowClassRenderer = ({ index }, peers = []) => {
     const { selectedPeers } = this.props
     const shouldAddHoverEffect = selectedPeers?.peerIds?.includes(peers[index]?.peerId)
@@ -113,8 +119,8 @@ export class PeersTable extends React.Component {
               <Column label={t('app:terms.latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 charcoal pl2' />
               <Column label={t('app:terms.in') + '/' + t('app:terms.out')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={250} className='f6 charcoal pl2' />
               <Column label={t('app:terms.peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f6 pl2' />
-              <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 charcoal truncate pl2' />
-              <Column label={t('app:terms.agent')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={400} className='f6 charcoal truncate pl2' />
+              <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />
+              <Column label={t('app:terms.agent')} cellRenderer={this.agentCellRenderer} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />
             </Table>
           )}
         </AutoSizer> }

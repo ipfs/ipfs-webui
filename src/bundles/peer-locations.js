@@ -63,8 +63,8 @@ function createPeersLocations (opts) {
       ]
       const connection = parseConnection(peer.addr)
       const address = peer.addr.toString()
+      const agent = parseLatency(peer.latency)
       const latency = parseLatency(peer.latency)
-      const notes = bootstrapPeers ? parseNotes(peer, bootstrapPeers) : null
       const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
 
       return {
@@ -74,8 +74,8 @@ function createPeersLocations (opts) {
         coordinates,
         connection,
         address,
+        agent,
         latency,
-        notes,
         isPrivate,
         isNearby
       }
@@ -190,23 +190,6 @@ const isPrivateAndNearby = (maddr, identity) => {
   }
 
   return { isPrivate, isNearby }
-}
-
-const parseNotes = (peer, bootstrapPeers) => {
-  const peerId = peer.peer
-  const addr = peer.addr
-  const ipfsAddr = addr.encapsulate(`/ipfs/${peerId}`).toString()
-  const p2pAddr = addr.encapsulate(`/p2p/${peerId}`).toString()
-
-  if (bootstrapPeers.includes(ipfsAddr) || bootstrapPeers.includes(p2pAddr)) {
-    return { type: 'BOOTSTRAP_NODE' }
-  }
-
-  const opts = addr.toOptions()
-
-  if (opts.transport === 'p2p-circuit') {
-    return { type: 'RELAY_NODE', node: opts.host }
-  }
 }
 
 class PeerLocationResolver {
