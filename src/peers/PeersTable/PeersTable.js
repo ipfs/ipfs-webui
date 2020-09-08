@@ -68,20 +68,6 @@ export class PeersTable extends React.Component {
     <Cid value={cellData} identicon />
   )
 
-  notesCellRenderer = ({ cellData }) => {
-    if (!cellData) return
-
-    if (cellData.type === 'BOOTSTRAP_NODE') {
-      return this.props.t('bootstrapNode')
-    } else if (cellData.type === 'RELAY_NODE') {
-      return <Trans
-        i18nKey='viaRelay'
-        defaults='via <0>{node}</0>'
-        values={{ node: cellData.node }}
-        components={[<Cid value={cellData.node} identicon />]} />
-    }
-  }
-
   connectionCellRenderer = ({ rowData }) => (
     <abbr style={{ textDecoration: 'none' }} title={rowData.address}>
       {rowData.connection}
