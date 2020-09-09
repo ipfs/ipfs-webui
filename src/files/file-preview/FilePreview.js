@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
 import isBinary from 'is-binary'
 import { Trans, withTranslation } from 'react-i18next'
@@ -15,12 +16,17 @@ const Preview = (props) => {
     item: { name, size, cid, path, type: 'FILE' }
   })
 
-  return <div className="dib" ref={drag}>
-    <PreviewItem {...props}/>
+  const type = typeFromExt(name)
+
+  console.log(type)
+
+  return <div className={ classNames(type !== 'pdf' && 'dib') } ref={drag}>
+    <PreviewItem {...props} type={type} />
   </div>
 }
 
-const PreviewItem = ({ t, name, cid, size, availableGatewayUrl: gatewayUrl, read }) => {
+const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl, read }) => {
+  console.log(type)
   const [content, setContent] = useState(null)
 
   const loadContent = async () => {
@@ -28,7 +34,6 @@ const PreviewItem = ({ t, name, cid, size, availableGatewayUrl: gatewayUrl, read
     setContent(buf.toString('utf-8'))
   }
 
-  const type = typeFromExt(name)
   const src = `${gatewayUrl}/ipfs/${cid}`
   const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
