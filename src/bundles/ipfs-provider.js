@@ -257,28 +257,23 @@ const initIPFS = async (store) => {
   /** @type {Model} */
   let { apiAddress } = store.getState().ipfs
 
+  // if a custom JSON config is present, use it instead of multiaddr or URL
   try {
-    // if a custom JSON config is present, use it instead of multiaddr or URL
     apiAddress = JSON.parse(apiAddress)
   } catch (_) { }
 
-  // TODO: move this to ipfs-provider package, use apiAddress as-is
+  // ipfs-http-client does not support URIs with inlined credentials,
+  // so we manually convert string URL to options object
+  // and move basic auth to Authorization header
   try {
     const uri = new URL(apiAddress)
     const { username, password } = uri
     if (username && password) {
-      // ipfs-http-client does not support URIs with inlined credentials,
-      // so we manually convert string URL to options object
-      // and move basic auth to Authorization header
-      uri.username = ''
-      uri.password = ''
       apiAddress = {
-        url: uri.toString(),
-        /* TODO: 'url' is useful, but undocumented option: update docs of http-client to list `url` as alternative to host etc
         host: uri.hostname,
-        port: uri.port,
+        port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
         protocol: uri.protocol.split(':').shift(),
-        */
+        apiPath: (uri.pathname !== '/' ? uri.pathname : 'api/v0'),
         headers: {
           authorization: `Basic ${btoa(username + ':' + password)}`
         }

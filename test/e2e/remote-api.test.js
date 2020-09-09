@@ -138,7 +138,7 @@ const basicAuthConnectionConfirmation = async (proxyPort) => {
   // confirm webui is actually connected to expected node :^)
   await expectPeerIdOnStatusPage(ipfsd.api)
   // (2) go to Settings and confirm API string includes expected proxyPort
-  await expectHttpApiAddressOnSettingsPage(`http://127.0.0.1:${proxyPort}`)
+  await expectHttpApiAddressOnSettingsPage(proxyPort)
 }
 
 const expectPeerIdOnStatusPage = async (api) => {
@@ -153,7 +153,7 @@ const expectHttpApiAddressOnStatusPage = async (value) => {
   await page.waitForSelector('summary', { visible: true })
   await expect(page).toClick('summary', { text: 'Advanced' })
   const apiAddressOnStatus = await page.waitForSelector('div[id="http-api-address"]', { visible: true })
-  await expect(apiAddressOnStatus).toMatch(value)
+  await expect(apiAddressOnStatus).toMatch(String(value))
 }
 
 const expectHttpApiAddressOnSettingsPage = async (value) => {
@@ -163,7 +163,7 @@ const expectHttpApiAddressOnSettingsPage = async (value) => {
   await page.waitForSelector('input[id="api-address"]', { visible: true })
   const apiAddrInput = await page.$('#api-address')
   const apiAddrValue = await page.evaluate(x => x.value, apiAddrInput)
-  await expect(apiAddrValue).toMatch(value)
+  await expect(apiAddrValue).toMatch(String(value))
 }
 
 const nodeBtoa = (b) => Buffer.from(b).toString('base64')
