@@ -18,15 +18,12 @@ const Preview = (props) => {
 
   const type = typeFromExt(name)
 
-  console.log(type)
-
   return <div className={ classNames(type !== 'pdf' && 'dib') } ref={drag}>
     <PreviewItem {...props} type={type} />
   </div>
 }
 
 const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl, read }) => {
-  console.log(type)
   const [content, setContent] = useState(null)
 
   const loadContent = async () => {
