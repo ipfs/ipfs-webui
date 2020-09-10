@@ -45,7 +45,7 @@ class ContextMenu extends React.Component {
     const {
       t, onRename, onDelete, onDownload, onInspect, onShare,
       translateX, translateY, className,
-      isUpperDir, isMfs, isUnknown, pinned, isCliTutorModeEnabled
+      isDirectory, isMfs, isUnknown, pinned, isCliTutorModeEnabled
     } = this.props
     return (
       <Dropdown className={className}>
@@ -58,7 +58,7 @@ class ContextMenu extends React.Component {
           translateY={-translateY}
           open={this.props.isOpen}
           onDismiss={this.props.handleClick}>
-          { !isUpperDir && onShare &&
+          { !isDirectory && onShare &&
             <Option onClick={this.wrap('onShare')}>
               <StrokeShare className='w2 mr2 fill-aqua' />
               {t('actions.share')}
@@ -81,21 +81,21 @@ class ContextMenu extends React.Component {
             <StrokePin className='w2 mr2 fill-aqua' />
             { pinned ? t('app:actions.unpin') : t('app:actions.pinVerb') }
           </Option>
-          { !isUpperDir && !isUnknown && onDownload &&
+          { !isDirectory && !isUnknown && onDownload &&
             <Option onClick={this.wrap('onDownload')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DOWNLOAD_OBJECT_COMMAND)}>
               <StrokeDownload className='w2 mr2 fill-aqua' />
               {t('app:actions.download')}
             </Option>
           }
-          { !isUpperDir && !isUnknown && isMfs && onRename &&
+          { !isDirectory && !isUnknown && isMfs && onRename &&
             <Option onClick={this.wrap('onRename')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.RENAME_IPFS_OBJECT)}>
               <StrokePencil className='w2 mr2 fill-aqua' />
               {t('app:actions.rename')}
             </Option>
           }
-          { !isUpperDir && !isUnknown && isMfs && onDelete &&
+          { !isDirectory && !isUnknown && isMfs && onDelete &&
             <Option onClick={this.wrap('onDelete')} isCliTutorModeEnabled={isCliTutorModeEnabled}
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DELETE_FILE_FROM_IPFS)}
             >
@@ -114,7 +114,7 @@ ContextMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   isUnknown: PropTypes.bool.isRequired,
   hash: PropTypes.string,
-  isUpperDir: PropTypes.bool,
+  isDirectory: PropTypes.bool,
   pinned: PropTypes.bool,
   handleClick: PropTypes.func,
   translateX: PropTypes.number.isRequired,
@@ -134,7 +134,7 @@ ContextMenu.propTypes = {
 ContextMenu.defaultProps = {
   isMfs: false,
   isOpen: false,
-  isUpperDir: false,
+  isDirectory: false,
   isUnknown: false,
   top: 0,
   left: 0,

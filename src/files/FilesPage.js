@@ -225,7 +225,7 @@ class FilesPage extends React.Component {
           translateX={contextMenu.translateX}
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenu}
-          isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
+          isDirectory={contextMenu.file && contextMenu.file.type === 'directory'}
           isMfs={filesPathInfo ? filesPathInfo.isMfs : false}
           isUnknown={!!(contextMenu.file && contextMenu.file.type === 'unknown')}
           pinned={contextMenu.file && contextMenu.file.pinned}
@@ -246,6 +246,7 @@ class FilesPage extends React.Component {
           files={files}
           onNavigate={this.props.doFilesNavigateTo}
           onAddFiles={this.onAddFiles}
+          onMove={this.props.doFilesMove}
           onAddByPath={(files) => this.showModal(ADD_BY_PATH, files)}
           onNewFolder={(files) => this.showModal(NEW_FOLDER, files)}
           onCliTutorMode={() => this.showModal(CLI_TUTOR_MODE)}

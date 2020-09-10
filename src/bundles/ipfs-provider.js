@@ -3,6 +3,7 @@
 import multiaddr from 'multiaddr'
 import HttpClient from 'ipfs-http-client'
 import { getIpfs, providers } from 'ipfs-provider'
+import first from 'it-first'
 import last from 'it-last'
 
 /**
@@ -169,9 +170,12 @@ const writeSetting = (id, value) => {
 /**
  * @typedef {Object} IPFSAPI
  * @property {(callback?:Function) => Promise<void>} stop
+ * @property {Object} files
+ * @property {(path:string) => Promise<Object>} files.stat
+ * @property {Object} pin
+ * @property {(options:Object) => Iterator} pin.ls
  */
-
-/** @type {IPFSAPI|void} */
+/** @type {IPFSAPI|null} */
 let ipfs = null
 
 /**
@@ -232,6 +236,17 @@ const bundle = {
 
   doDismissIpfsInvalidAddress: () => (store) => {
     store.dispatch({ type: 'IPFS_API_ADDRESS_INVALID_DISMISS' })
+  },
+
+  doGetPathInfo: (path) => async () => {
+    return await ipfs.files.stat(path)
+  },
+
+  doCheckIfPinned: (cid) => async () => {
+    try {
+      const value = await first(ipfs.pin.ls({ paths: [cid] }))
+      return !!value
+    } catch (_) { return false }
   }
 }
 

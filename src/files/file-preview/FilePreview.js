@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
 import isBinary from 'is-binary'
 import { Trans, withTranslation } from 'react-i18next'
@@ -7,79 +8,86 @@ import typeFromExt from '../type-from-ext'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
 import CID from 'cids'
+import { useDrag } from 'react-dnd'
 
-class Preview extends React.Component {
-  state = {
-    content: null
+const Preview = (props) => {
+  const { name, size, cid, path } = props
+  const [, drag] = useDrag({
+    item: { name, size, cid, path, type: 'FILE' }
+  })
+
+  const type = typeFromExt(name)
+
+  return <div className={ classNames(type !== 'pdf' && 'dib') } ref={drag}>
+    <PreviewItem {...props} type={type} />
+  </div>
+}
+
+const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl, read }) => {
+  const [content, setContent] = useState(null)
+
+  const loadContent = async () => {
+    const buf = await read()
+    setContent(buf.toString('utf-8'))
   }
 
-  async loadContent () {
-    const buf = await this.props.read()
-    this.setState({ content: buf.toString('utf-8') })
-  }
+  const src = `${gatewayUrl}/ipfs/${cid}`
+  const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
-  render () {
-    const { t, name, cid, size, availableGatewayUrl: gatewayUrl } = this.props
-
-    const type = typeFromExt(name)
-    const src = `${gatewayUrl}/ipfs/${cid}`
-    const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
-
-    switch (type) {
-      case 'audio':
-        return (
-          // eslint-disable-next-line jsx-a11y/media-has-caption
-          <audio width='100%' controls>
-            <source src={src} />
-          </audio>
-        )
-      case 'pdf':
-        return (
-          <object className="FilePreviewPDF w-100" data={src} type='application/pdf'>
-            {t('noPDFSupport')}
-            <a href={src} download target='_blank' rel='noopener noreferrer' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
-          </object>
-        )
-      case 'video':
-        return (
-          // eslint-disable-next-line jsx-a11y/media-has-caption
-          <video controls className={className}>
-            <source src={src} />
-          </video>
-        )
-      case 'image':
-        return <img className={className} alt={name} src={src} />
-      default: {
-        const cantPreview = (
-          <div className='mt4'>
-            <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
-            <p>
-              <Trans i18nKey='downloadInstead' t={t}>
+  switch (type) {
+    case 'audio':
+      return (
+      // eslint-disable-next-line jsx-a11y/media-has-caption
+        <audio width='100%' controls>
+          <source src={src} />
+        </audio>
+      )
+    case 'pdf':
+      return (
+        <object className="FilePreviewPDF w-100" data={src} type='application/pdf'>
+          {t('noPDFSupport')}
+          <a href={src} download target='_blank' rel='noopener noreferrer' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
+        </object>
+      )
+    case 'video':
+      return (
+      // eslint-disable-next-line jsx-a11y/media-has-caption
+        <video controls className={className}>
+          <source src={src} />
+        </video>
+      )
+    case 'image':
+      return <img className={className} alt={name} src={src} />
+    default: {
+      const cantPreview = (
+        <div className='mt4'>
+          <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
+          <p>
+            <Trans i18nKey='downloadInstead' t={t}>
                 Try <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue' >downloading</a> it instead.
-              </Trans>
-            </p>
-          </div>
-        )
+            </Trans>
+          </p>
+        </div>
+      )
 
-        if (size > 1024 * 1024 * 4) {
-          return cantPreview
-        }
-
-        if (!this.state.content) {
-          this.loadContent()
-          return <ComponentLoader pastDelay />
-        }
-
-        if (isBinary(this.state.content)) {
-          return cantPreview
-        }
-
-        return (
-          <pre className={`${className} overflow-auto monospace`}>
-            {this.state.content}
-          </pre>
-        )
+      if (size > 1024 * 1024 * 4) {
+        return cantPreview
       }
+
+      if (!content) {
+        loadContent()
+        return <ComponentLoader pastDelay />
+      }
+
+      if (isBinary(content)) {
+        return cantPreview
+      }
+
+      return (
+        <pre className={`${className} overflow-auto monospace`}>
+          {content}
+        </pre>
+      )
     }
   }
 }
