@@ -40,11 +40,12 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
     ev.preventDefault()
   }
 
-  try {
+  const asAPIString = (value) => {
     // hide raw JSON if advanced config is present in the string
-    JSON.parse(ipfsApiAddress)
-    ipfsApiAddress = t('customApiConfig')
-  } catch (_) {}
+    return typeof value !== 'string'
+      ? t('customApiConfig')
+      : value
+  }
 
   return (
     <Details className='mt3 f6' summaryText={t('app:terms.advanced')} open={isNodeInfoOpen} onClick={handleSummaryClick}>
@@ -55,7 +56,7 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
             (<div id="http-api-address" className="flex items-center">
               {isMultiaddr(ipfsApiAddress)
                 ? (<Address value={ipfsApiAddress} />)
-                : ipfsApiAddress
+                : asAPIString(ipfsApiAddress)
               }
               <a className='ml2 link blue sans-serif fw6' href="#/settings">{t('app:actions.edit')}</a>
             </div>)

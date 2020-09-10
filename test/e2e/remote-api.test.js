@@ -122,23 +122,39 @@ const switchIpfsApiEndpointViaSettings = async (endpoint) => {
 const waitForIpfsApiEndpoint = async (endpoint) => {
   if (endpoint) {
     try {
-      // unwrap API endpoint URL if JSON config is passed
+      // unwrap port if JSON config is passed
       const json = JSON.parse(endpoint)
-      endpoint = json.url || endpoint
+      endpoint = json.port || endpoint
+    } catch (_) {}
+    try {
+      // unwrap port if inlined basic auth was passed
+      // (inlined URL is converted to JSON, so we cant do direct match)
+      const uri = new URL(endpoint)
+      if (uri.password) {
+        endpoint = uri.port || endpoint
+      }
     } catch (_) {}
     return page.waitForFunction(`localStorage.getItem('ipfsApi').includes('${endpoint}')`)
   }
   return page.waitForFunction('localStorage.getItem(\'ipfsApi\') === null')
 }
 
-const basicAuthConnectionConfirmation = async (proxyPort) => {
+const basicAuthConnectionConfirmation = async (user, password, proxyPort) => {
   // (1) confirm API section on Status page includes expected PeerID and API description
   // account for JSON config, which we hide from status page
   await expectHttpApiAddressOnStatusPage('Custom JSON configuration')
   // confirm webui is actually connected to expected node :^)
   await expectPeerIdOnStatusPage(ipfsd.api)
-  // (2) go to Settings and confirm API string includes expected proxyPort
-  await expectHttpApiAddressOnSettingsPage(proxyPort)
+  // (2) go to Settings and confirm API string includes expected JSON config
+  const apiOptions = JSON.stringify({
+    protocol: 'http',
+    host: '127.0.0.1',
+    port: `${proxyPort}`,
+    headers: {
+      authorization: `Basic ${nodeBtoa(user + ':' + password)}`
+    }
+  })
+  await expectHttpApiAddressOnSettingsPage(apiOptions)
 }
 
 const expectPeerIdOnStatusPage = async (api) => {
@@ -163,6 +179,13 @@ const expectHttpApiAddressOnSettingsPage = async (value) => {
   await page.waitForSelector('input[id="api-address"]', { visible: true })
   const apiAddrInput = await page.$('#api-address')
   const apiAddrValue = await page.evaluate(x => x.value, apiAddrInput)
+  // if API address is defined as JSON, match objects
+  try {
+    const json = JSON.parse(apiAddrValue)
+    const expectedJson = JSON.parse(value)
+    return await expect(json).toMatchObject(expectedJson)
+  } catch (_) {}
+  // else, match strings (Multiaddr or URL)
   await expect(apiAddrValue).toMatch(String(value))
 }
 
@@ -175,7 +198,7 @@ const nodeBtoa = (b) => Buffer.from(b).toString('base64')
 describe('API @ multiaddr', () => {
   const localApiMultiaddr = `/ip4/${localIpfs.apiHost}/tcp/${localIpfs.apiPort}`
 
-  it('should be possible to set via Settings screen', async () => {
+  it('should be possible to set via Settings page', async () => {
     await switchIpfsApiEndpointViaSettings(localApiMultiaddr)
   })
 
@@ -192,7 +215,7 @@ describe('API @ multiaddr', () => {
 describe('API @ URL', () => {
   const localApiUrl = new URL(`http://${localIpfs.apiHost}:${localIpfs.apiPort}`).toString()
 
-  it('should be possible to set via Settings screen', async () => {
+  it('should be possible to set via Settings page', async () => {
     await switchIpfsApiEndpointViaSettings(localApiUrl)
   })
 
@@ -209,36 +232,39 @@ describe('API @ URL', () => {
 describe('API with CORS and Basic Auth', () => {
   it('should work when localStorage[ipfsApi] is set to URL with inlined Basic Auth credentials', async () => {
     await switchIpfsApiEndpointViaLocalStorage(`http://${user}:${password}@127.0.0.1:${proxyPort}`)
-    await basicAuthConnectionConfirmation(proxyPort)
+    await basicAuthConnectionConfirmation(user, password, proxyPort)
   })
 
   it('should work when localStorage[ipfsApi] is set to a JSON string with a custom ipfs-http-client config', async () => {
-    // options object accepted by the constructor of ipfs-http-client
     const apiOptions = JSON.stringify({
-      url: `http://127.0.0.1:${proxyPort}/api/v0`,
+      protocol: 'http',
+      host: '127.0.0.1',
+      port: `${proxyPort}`,
       headers: {
         authorization: `Basic ${nodeBtoa(user + ':' + password)}`
       }
     })
     await switchIpfsApiEndpointViaLocalStorage(apiOptions)
-    await basicAuthConnectionConfirmation(proxyPort)
+    await basicAuthConnectionConfirmation(user, password, proxyPort)
   })
 
-  it('should work when URL with inlined credentials is entered at the Settings screen', async () => {
+  it('should work when URL with inlined credentials are entered at the Settings page', async () => {
     const basicAuthApiAddr = `http://${user}:${password}@127.0.0.1:${proxyPort}`
     await switchIpfsApiEndpointViaSettings(basicAuthApiAddr)
-    await basicAuthConnectionConfirmation(proxyPort)
+    await basicAuthConnectionConfirmation(user, password, proxyPort)
   })
 
-  it('should work when JSON with ipfs-http-client config is entered at the Settings screen', async () => {
+  it('should work when JSON with ipfs-http-client config is entered at the Settings page', async () => {
     const apiOptions = JSON.stringify({
-      url: `http://127.0.0.1:${proxyPort}/api/v0`,
+      protocol: 'http',
+      host: '127.0.0.1',
+      port: `${proxyPort}`,
       headers: {
         authorization: `Basic ${nodeBtoa(user + ':' + password)}`
       }
     })
     await switchIpfsApiEndpointViaSettings(apiOptions)
-    await basicAuthConnectionConfirmation(proxyPort)
+    await basicAuthConnectionConfirmation(user, password, proxyPort)
   })
 
   afterAll(async () => {

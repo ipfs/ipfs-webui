@@ -59,7 +59,7 @@ const update = (state, message) => {
         ready: true,
         failed: false,
         provider: message.payload.provider,
-        apiAddress: asAPIAddress(message.payload.apiAddress || state.apiAddress)
+        apiAddress: asAPIOptions(message.payload.apiAddress || state.apiAddress)
       }
     }
     case 'IPFS_STOPPED': {
@@ -101,10 +101,13 @@ const init = () => {
  */
 const readAPIAddressSetting = () => {
   const setting = readSetting('ipfsApi')
-  return setting == null ? null : asAPIAddress(setting)
+  return setting == null ? null : asAPIOptions(setting)
 }
 
-const asAPIAddress = (value) => asHttpClientOptions(value) || asMultiaddress(value) || asURL(value)
+/**
+ * @returns {object|string|null}
+ */
+const asAPIOptions = (value) => asHttpClientOptions(value) || asMultiaddress(value) || asURL(value)
 
 /**
  * Attempts to turn cast given value into URL.
@@ -113,22 +116,26 @@ const asAPIAddress = (value) => asHttpClientOptions(value) || asMultiaddress(val
  * @returns {string|null}
  */
 const asURL = (value) => {
-  if (!value || typeof value !== 'string') return null
   try {
     return new URL(value).toString()
-  } catch (_) {}
-  return null
+  } catch (_) {
+    return null
+  }
 }
 
 /**
  * Attempts to turn cast given value into Multiaddr.
  * Return either string instance or `null`.
+ * @param {any} value
+ * @returns {string|null}
  */
 const asMultiaddress = (value) => {
-  if (!value) return null
-  try {
-    return multiaddr(value).toString()
-  } catch (_) {}
+  // ignore empty string, as it will produce '/'
+  if (value != null && value !== '') {
+    try {
+      return multiaddr(value).toString()
+    } catch (_) {}
+  }
   return null
 }
 
@@ -136,16 +143,33 @@ const asMultiaddress = (value) => {
  * Attempts to turn cast given value into options object compatible with ipfs-http-client constructor.
  * Return either string with JSON or `null`.
  * @param {any} value
- * @returns {string|null}
+ * @returns {object|null}
  */
 const asHttpClientOptions = (value) => {
-  if (!value) return null
   try {
     value = JSON.parse(value)
   } catch (_) {}
+
+  // turn URL with inlined basic auth into client options object
+  try {
+    const uri = new URL(value)
+    const { username, password } = uri
+    if (username && password) {
+      value = {
+        host: uri.hostname,
+        port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
+        protocol: uri.protocol.split(':').shift(),
+        apiPath: (uri.pathname !== '/' ? uri.pathname : 'api/v0'),
+        headers: {
+          authorization: `Basic ${btoa(username + ':' + password)}`
+        }
+      }
+    }
+  } catch (_) { }
+
   // https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#importing-the-module-and-usage
-  if (value && (value.host || value.url || value.protocol || value.port || value.headers)) {
-    return JSON.stringify(value)
+  if (value && (value.host || value.apiPath || value.protocol || value.port || value.headers)) {
+    return value
   }
   return null
 }
@@ -235,7 +259,7 @@ const bundle = {
   },
 
   doUpdateIpfsApiAddress: (address) => async (store) => {
-    const apiAddress = asAPIAddress(address)
+    const apiAddress = asAPIOptions(address)
     if (apiAddress == null) {
       store.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
     } else {
@@ -255,31 +279,7 @@ const initIPFS = async (store) => {
   store.dispatch({ type: 'IPFS_INIT_STARTED' })
 
   /** @type {Model} */
-  let { apiAddress } = store.getState().ipfs
-
-  // if a custom JSON config is present, use it instead of multiaddr or URL
-  try {
-    apiAddress = JSON.parse(apiAddress)
-  } catch (_) { }
-
-  // ipfs-http-client does not support URIs with inlined credentials,
-  // so we manually convert string URL to options object
-  // and move basic auth to Authorization header
-  try {
-    const uri = new URL(apiAddress)
-    const { username, password } = uri
-    if (username && password) {
-      apiAddress = {
-        host: uri.hostname,
-        port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
-        protocol: uri.protocol.split(':').shift(),
-        apiPath: (uri.pathname !== '/' ? uri.pathname : 'api/v0'),
-        headers: {
-          authorization: `Basic ${btoa(username + ':' + password)}`
-        }
-      }
-    }
-  } catch (_) { }
+  const { apiAddress } = store.getState().ipfs
 
   try {
     const result = await getIpfs({
