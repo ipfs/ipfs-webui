@@ -32,6 +32,7 @@ jobs:
         environment:
           DOMAIN: webui.ipfs.io
           BUILD_DIR: build
+          CLUSTER_HOST: /dnsaddr/ipfs-websites.collab.ipfscluster.io
     steps:
       - attach_workspace:
           at: /tmp/workspace
