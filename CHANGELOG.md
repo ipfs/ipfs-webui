@@ -2,6 +2,44 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [v2.11.0] - 2020-09-10
+
+CID: `bafybeifjdn6srtpzoh3g6ubi4m26uko7wolnekhckpc2aotnnd5sdbh6g4`
+
+---
+
+### ✨ Features
+
+- feat: CLI Tutor Mode (#1572) (thank you @jay-dee7 🙏 ) 
+- feat: build and publish a tarball on release (#1543) (thank you @thelamer 🙏 )
+- feat: add cube animation as loading indicator (#1570)
+- feat: welcome page (#1571)
+- feat: migration to the new IPFS API with async (for) await (#1569)
+- feat: Messaging continuity when node connection lost (#1577)
+- feat: add animation for add peer connection (#1596)
+- feat: improve breadcrumbs functionality (#1599)
+- feat: improved support for remote API (#1613)
+
+### 🛠 Fixes and Maintenance
+
+- fix: responsive navbar on small devices (#1547)
+- chore: update dependencies (#1552)
+- chore: add docker section to readme (#1560)
+- fix: make explore page 'view on gateway' point to gateway (#1559)
+- refactor: switch multiaddrs from /ipfs/Qm to /p2p/Qm (#1564) (thank you @bertrandfalguiere 🙏 )
+- fix: update Import button name (#1567)
+- feat: Streamline navbar (#1550)
+- feat: replace redux-bundle with ipfs-provider (#1563)
+- fix: tweak map height for sub-940px-high windows (#1566) 
+- fix: file upload without buffering (#1534)
+- fix: view in gateway url now validates if url is acessible (#1591)
+- chore: update ipfs-geoip (#1608)
+- chore: consolidate repeat-use i18n keys (#1604)
+- fix: multiple item download with go-ipfs 0.5+ (#1611)
+- fix: fast pin.ls check (#1619)
+- chore: update translations
+
 ## [v2.10.2] - 2020-07-16
 CID: `bafybeihpetclqvwb4qnmumvcn7nh4pxrtugrlpw4jgjpqicdxsv7opdm6e`
 
