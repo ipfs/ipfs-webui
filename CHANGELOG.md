@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [v2.11.0] - 2020-09-10
 
-CID: `bafybeifjdn6srtpzoh3g6ubi4m26uko7wolnekhckpc2aotnnd5sdbh6g4`
+CID: `bafybeicitin4p7ggmyjaubqpi3xwnagrwarsy6hiihraafk5rcrxqxju6m`
 
 ---
 
