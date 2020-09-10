@@ -1,10 +1,8 @@
 {
   "title": "Paramètres",
-  "save": "Sauvegarder",
-  "saving": "Enregistrement...",
-  "reset": "Réinitialiser",
   "language": "Langue",
   "analytics": "Analyses",
+  "cliTutorMode": "Mode tutoriel pour l'invite de commande (CLI)",
   "config": "Config IPFS",
   "languageModal": {
     "title": "Changer la langue",
@@ -12,10 +10,8 @@
     "translationProjectIntro": "Ajoutez ou corrigez des traductions pour rendre IPFS meilleur pour tout le monde!",
     "translationProjectLink": "Participez projet de traduction IPFS"
   },
-  "actions": {
-    "edit": "Changer",
-    "close": "Fermer"
-  },
+  "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API personnalisée</1>, y compris un port autre que le 5001 par défaut, entrez-le ici.</0>",
+  "cliDescription": "<0>Activez cette option pour faire apparaître une icône \"Voir code\" <1></1> près des principales commandes IPFS. En cliquant dessus, vous ouvrez un pop-up avec le code pour cette commande, pour pouvoir le coller dans votre invite de lignes de commandes (CLI).</0>",
   "fetchingSettings": "Récupération des paramètres...",
   "configApiNotAvailable": "L'API de configuration IPFS n'est pas disponible. Merci de désactiver l'extension IPFS Companion et de réessayer.",
   "ipfsDaemonOffline": "Le démon IPFS est hors-ligne. Merci de le relancer.",
@@ -60,30 +56,32 @@
       "details": "Enregistre les messages d'erreur JavaScript et les traces de pile qui se produisent pendant l'utilisation de l'application, si possible. Il est très utile de savoir quand l'application ne fonctionne pas pour vous, mais<1>les messages d'erreur peuvent contenir des informations identifiantes</1>comme les CID ou les chemins d'accès aux fichiers, donc n'activez cette option que si vous êtes à l'aise pour partager ces informations avec nous."
     }
   },
+  "cliToggle": {
+    "label": "Active le terminal de lignes de commandes (CLI) en mode tutoriel"
+  },
   "tour": {
-    "back": "Retour",
-    "close": "Fermer",
-    "last": "Dernier",
-    "next": "Suivant",
-    "skip": "Passer",
     "step1": {
-      "title": "Page des paramétres",
-      "paragraph1": "Ici vous pouvez changer les paramétres de votre interface web ou de votre noeud IPFS.",
+      "title": "Page des paramètres",
+      "paragraph1": "Ici vous pouvez changer les paramètres de votre interface web ou de votre nœud IPFS.",
       "paragraph2": "Si vous utilisez IPFS Desktop vous pourrez également régler quelques paramètres qui lui sont spécifiques."
     },
     "step2": {
       "title": "Sélection de la langue",
-      "paragraph1": "<0>Vous pouvez changer la lange de l'interface web. Si votre langue préférée n'est pas disponible, jeter un œil sur notre <1>page sur Transifex</1> pour nous aider à traduire!</0>"
+      "paragraph1": "<0>Vous pouvez changer la lange de l'interface web. Si votre langue préférée n'est pas disponible, jeter un œil sur notre <1>page sur Transifex</1> pour nous aider à traduire !</0>"
     },
     "step3": {
-      "title": "Analyse anonyme de l'usage ",
+      "title": "Statistiques anonymes d'utilisation",
       "paragraph1": "En cochant ceci, vous pouvez nous aider à améliorer l'interface web en envoyant anonymement des statistiques d'utilisation.",
       "paragraph2": "Vous pourrez choisier les données que vous enverrez et elles ne permettront pas de vous identifier, nous attachons une grande importance a votre vie privée."
     },
     "step4": {
+      "title": "Adresse d'API personnalisée",
+      "paragraph1": "Si vous avez configuré votre nœud IPFS avec une adresse d'API personnalisée, vous pouvez mettre à jour votre fichier de configuration ici au lieu de modifier le fichier JSON à la main."
+    },
+    "step5": {
       "title": "Configuration IPFS",
-      "paragraph1": "Vous pouvez changer la configuration de votre noeud IPFS depuis l'interface web!",
-      "paragraph2": "N'oubliez pas de redémarrer le démon pour que les changements soient pris en compte."
+      "paragraph1": "Vous pouvez changer la configuration de votre nœud IPFS depuis l'interface web !",
+      "paragraph2": "N'oubliez pas de redémarrer le daemon pour que les changements soient pris en compte."
     }
   },
   "Experiments": {

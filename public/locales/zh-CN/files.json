@@ -5,36 +5,19 @@
   "finished": "完成！",
   "totalSize": "总计大小: {size}",
   "filesSelected": "{count, plural, other {已选择文件}}",
+  "menuOptions": "Options for selected item",
+  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "仅对文件有效",
-  "itemName": "名称",
-  "size": "大小",
   "noPDFSupport": "您的浏览器不支持阅读 PDF 文件。请下载后阅读。",
   "downloadPDF": "下载 PDF 文件",
   "downloadInstead": "请尝试<1>下载</1>",
   "cantBePreviewed": "对不起，本文件不支持预览。",
-  "addFile": "文件",
-  "addFolder": "文件夹",
   "addByPath": "来自 IPFS 路径",
-  "importToIPFS": "导入",
   "newFolder": "新建文件夹",
   "generating": "生成 ...",
   "actions": {
-    "import": "导入",
-    "delete": "删除",
-    "rename": "重命名",
-    "download": "下载",
-    "inspect": "检查",
     "copyHash": "复制 CID",
-    "share": "分享链接",
-    "close": "关闭",
-    "copy": "复制",
-    "cancel": "取消",
-    "clear": "清空",
-    "create": "创建",
-    "save": "保存",
-    "pin": "固定",
-    "unpin": "撤销固定",
-    "unselectAll": "全部取消选择"
+    "share": "分享链接"
   },
   "shareModal": {
     "title": "共享文件",
@@ -63,17 +46,9 @@
     "title": "新建文件夹",
     "description": "输入新建文件夹名称"
   },
-  "welcomeInfo": {
-    "header": "欢迎使用 IPFS Web UI",
-    "paragraph1": "<0>检查你的<0>节点状态</0>，节点 ID 、连接信息、网络传输和已连接节点数量。</0>",
-    "paragraph2": "<0>更简单的<1>管理你 IPFS 库中文件</1>。你能通过拖放添加文件，移动并重命名它们，删除、分享或下载它们。</0>",
-    "paragraph3": "<0>你能<1>浏览 IPLD 数据</1>以深入了解 IPFS 是如何工作的。</0>",
-    "paragraph4": "<0>查看你所有<1>已连接的节点</1>，已经通过 IP 地址进行定位。</0>",
-    "paragraph5": "<0>复查<0>你的节点设置</0>，并将其更新以更符合你的需求。</0>",
-    "paragraph6": "<0>如果你想帮助推动 Web UI 的发展，请<1>查看源码</1>或<3>报告 bug</3>！</0>"
-  },
+  "filesListLabel": "文件列表",
   "filesList": {
-    "noFiles": "<0>这个目录中没有文件。请点击“添加”按钮上传文件。</0>"
+    "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
   },
   "filesImportStatus": {
     "imported": "{count, plural, other {已导入{count}项目}}",
@@ -82,14 +57,9 @@
     "closeDropdown": "关闭下拉框",
     "count": "{count}个 / 共{count}个"
   },
-  "addFilesInfo": "<0>通过点击<1>添加到 IPFS </1>添加文件到你的本地 IPFS 节点。</0>",
+  "addFilesInfo": "<0>No files here yet! Add files to your local IPFS node by clicking the <1>Import</1> button above.</0>",
   "companionInfo": "<0>如果你正在使用<1> IPFS 伴侣</1>，文件视图仅限于使用扩展程序时添加的文件。</0>",
   "tour": {
-    "back": "返回",
-    "close": "关闭",
-    "last": "上一步",
-    "next": "下一步",
-    "skip": "跳过",
     "step1": {
       "title": "文件页面",
       "paragraph1": "<0>这是 <1>可变数据系统（MFS）</1> 上的文件所在的位置。您可以添加文件或文件夹，并从此页面进行管理</0>",
@@ -112,15 +82,11 @@
       "paragraph3": "专家提示：可以从 Web UI 的任何其他页面拖放文件，把它们添加到 MFS 的根目录。"
     }
   },
-  "exploreForm": {
-    "browse": "浏览",
-    "inspect": "检查"
-  },
+  "previousFolder": "Go back to previous folder",
+  "fileLabel": "Select {type} {name} with size: {size}",
   "hashUnavailable": "哈希不可用",
-  "pins": "已固定",
+  "checkboxLabel": "View more options for {name}",
   "pinned": "已固定",
-  "blocks": "块",
-  "more": "更多",
-  "files": "文件",
-  "cidNotFileNorDir": "当前的连接不是一个文件或目录，请检查 <0>并替换</0> 。"
+  "cidNotFileNorDir": "当前的连接不是一个文件或目录，请检查 <0>并替换</0> 。",
+  "sortBy": "Sort items by {name}"
 }

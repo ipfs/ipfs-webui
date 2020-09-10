@@ -1,10 +1,8 @@
 {
   "title": "Impostazioni",
-  "save": "Salva",
-  "saving": "Salvataggio in corso...",
-  "reset": "Reset",
   "language": "Lingua",
   "analytics": "Analitica",
+  "cliTutorMode": "CLI Tutor Mode",
   "config": "Configurazione IPFS",
   "languageModal": {
     "title": "Cambia lingua",
@@ -12,10 +10,8 @@
     "translationProjectIntro": "Aggiungi o perfeziona le traduzioni e rendi IPFS migliore per tutti!",
     "translationProjectLink": "Unisciti al Progetto di Traduzione IPFS"
   },
-  "actions": {
-    "edit": "Cambia",
-    "close": "Chiudi"
-  },
+  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
+  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
   "fetchingSettings": "Recupero delle impostazioni...",
   "configApiNotAvailable": "L'IPFS config API non è disponibile. Per favore, disabilita l'estensione web \"IPFS Companion\" e riprova.",
   "ipfsDaemonOffline": "Il demone IPFS è offline. Per favore, avvialo e riprova.",
@@ -60,12 +56,10 @@
       "details": "Registra messaggi d'errore e tracce dello stack di JavaScript che occorrono durante l'utilizzo dell'applicazione, dove possibile. Sapere dove l'applicazione non funziona per te è molto utile, ma <1>i messaggi d'errore potrebbero includere informazioni identificabili</1> come CID o percorsi di file, quindi abilita quest'opzione solamente se ti senti a tuo agio condividere ciò con noi."
     }
   },
+  "cliToggle": {
+    "label": "Enable command-line interface (CLI) tutor mode"
+  },
   "tour": {
-    "back": "Indietro",
-    "close": "Chiudi",
-    "last": "Ultimo",
-    "next": "Avanti",
-    "skip": "Salta",
     "step1": {
       "title": "Pagina delle impostazioni",
       "paragraph1": "Qui puoi modificare le impostazioni del tuo Web UI e del tuo nodo IPFS.",
@@ -81,6 +75,10 @@
       "paragraph2": "Puoi scegliere quali dati mandarci e noi non potremo identificarti, ci sta a cuore la privacy sopra ogni altra cosa."
     },
     "step4": {
+      "title": "Indirizzo API Personalizzato",
+      "paragraph1": "Se hai configurato il tuo nodo IPFS con un indirizzo API personalizzato, puoi aggiornare il tuo file di configurazione qui, invece di modificare il JSON a mano."
+    },
+    "step5": {
       "title": "Configurazione IPFS",
       "paragraph1": "Puoi modificare la configurazione del tuo nodo IPFS direttamente dal tuo Web UI!",
       "paragraph2": "Non dimenticarti di riavviare il demone per applicare le modifiche."

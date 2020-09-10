@@ -1,55 +1,21 @@
 {
   "title": "Stato",
-  "peer": "Peer",
-  "peers": "Peer",
-  "addresses": "Indirizzi",
   "nodeInfo": "Informazioni nodo",
-  "peerId": "Peer ID",
-  "gateway": "Gateway",
-  "api": "API",
-  "version": "Versione",
-  "advanced": "Avanzate",
-  "publicKey": "Chiave pubblica",
-  "upSpeed": "In uscita",
-  "downSpeed": "In entrata",
   "spaceUsed": "Spazio utilizzato",
   "networkTraffic": "Traffico di rete",
   "bandwidthOverTime": "Larghezza di banda nel tempo",
   "bandwidthByPeer": "Larghezza di banda per peer",
   "distributionOfPeers": "Distribuzione dei peer",
   "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peer)}}",
-  "rateIn": "Tasso d'entrata",
-  "rateOut": "Tasso d'uscita",
-  "totalIn": "Totale entrata",
-  "totalOut": "Totale uscita",
-  "more": "... e {count} in più",
-  "in": "Entrata",
-  "out": "Uscita",
-  "codeLink": "Guarda il codice",
-  "bugsLink": "Segnala un problema",
-  "revision": "Revisione",
+  "countMore": "... e {count} in più",
   "StatusConnected": {
-    "header1": "Connesso ad IPFS",
     "paragraph1": "Ospiti <0>{repoSize} di file</0>",
     "paragraph2": "{count, plural, one {Trovato <0>1 Peer</0>} other {Trovati <0>{peersCount} peer</0>}}"
   },
-  "StatusNotConnected": {
-    "header1": "Connessione all'API fallita",
-    "paragraph1": "<0>Avvia un demone IPFS in un terminale:</0>",
-    "paragraph2": "<0>Per ulteriori informazioni su come iniziare con IPFS puoi <1>leggere la guida</1>.</0>"
-  },
   "AskToEnable": {
-    "label": "Aiuta a migliorare l'applicazione mandando dati d'utilizzo anonimi.",
-    "yesLabel": "OK",
-    "noLabel": "No, grazie",
-    "detailsLabel": "Ulteriori informazioni"
+    "label": "Aiuta a migliorare l'applicazione mandando dati d'utilizzo anonimi."
   },
   "tour": {
-    "back": "Indietro",
-    "close": "Chiudi",
-    "last": "Ultimo",
-    "next": "Avanti",
-    "skip": "Salta",
     "step1": {
       "title": "Pagina dello stato",
       "paragraph1": "Questo è il punto d'inizio del tuo nodo IPFS, dove puoi vedere le sue informazioni di base.",
@@ -57,13 +23,13 @@
     },
     "step2": {
       "title": "Stato della connessione",
-      "paragraph1": "Questo ti porta alla pagina da cui puoi controllare se sei connesso ad un demone IPFS e, se non lo sei, come connetterti ad uno di essi.",
-      "paragraph2": "Puoi configurare il tuo nodo anche con un indirizzo API personalizzato."
+      "paragraph1": "Clicca su quest'icona da qualunque punto dell'app per ritornare alla pagina dello Status. Se perdi la tua connessione all'API IPFS, l'icona diventerà rossa.",
+      "paragraph2": "If you need to configure a custom API address for your node, just click the \"Edit\" link next to where the API address is listed on this page."
     },
     "step3": {
       "title": "Informazioni nodo",
       "paragraph1": "Qui hai le informazioni riguardanti la grandezza della tua repository, quanti peer sono connessi, il tuo peer ID e la versione di IPFS attualmente in uso.",
-      "paragraph2": "<0>Clicca su <1>Avanzate</1> per vedere ulteriori informazioni come il gateway URL e gli indirizzi.</0>"
+      "paragraph2": "<0>Expand the <1>Advanced</1> link to see more info, such as the gateway URL and addresses. There's also a link inside the Advanced section to change your API address.</0>"
     },
     "step4": {
       "title": "Banca/traffico della rete.",

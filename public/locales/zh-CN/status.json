@@ -1,55 +1,21 @@
 {
   "title": "状态",
-  "peer": "节点",
-  "peers": "节点",
-  "addresses": "地址",
   "nodeInfo": "节点信息",
-  "peerId": "节点 ID",
-  "gateway": "网关",
-  "api": "API",
-  "version": "版本",
-  "advanced": "高级",
-  "publicKey": "公钥",
-  "upSpeed": "发送",
-  "downSpeed": "接收",
   "spaceUsed": "使用空间",
   "networkTraffic": "网络流量",
   "bandwidthOverTime": "实时带宽",
   "bandwidthByPeer": "节点带宽",
   "distributionOfPeers": "节点分布",
   "pieChartLabel": "{count, plural, other {{percent}% ({count} 节点)}}",
-  "rateIn": "发送率",
-  "rateOut": "接收率",
-  "totalIn": "总共接收",
-  "totalOut": "总共发送",
-  "more": "...{count} 更多",
-  "in": "接收",
-  "out": "发送",
-  "codeLink": "查看源码",
-  "bugsLink": "报告 bug",
-  "revision": "Revision",
+  "countMore": "...{count} 更多",
   "StatusConnected": {
-    "header1": "已连接到 IPFS",
     "paragraph1": "已托管 <0>{repoSize} 文件</0>",
     "paragraph2": "{count, plural, other {已发现 <0>{peersCount} 节点</0>}}"
   },
-  "StatusNotConnected": {
-    "header1": "无法连接 API",
-    "paragraph1": "<0>在终端中启动 IPFS 守护进程：</0>",
-    "paragraph2": "<0>要获取开始使用 IPFS 的更多信息，你可以 <1>阅读此向导</1>。</0>"
-  },
   "AskToEnable": {
-    "label": "向我们发送匿名输入来帮助我们改进。",
-    "yesLabel": "好的",
-    "noLabel": "不了",
-    "detailsLabel": "详细信息"
+    "label": "向我们发送匿名输入来帮助我们改进。"
   },
   "tour": {
-    "back": "返回",
-    "close": "关闭",
-    "last": "上一步",
-    "next": "下一步",
-    "skip": "跳过",
     "step1": {
       "title": "状态页面",
       "paragraph1": "这是 IPFS 节点的起始页面，您可以在这里查看其基本信息。",
@@ -57,13 +23,13 @@
     },
     "step2": {
       "title": "连接状态",
-      "paragraph1": "这会将您带到一个页面，您可以在其中检查是否已连接到 IPFS 守护程序，如果没有，则告诉您如何连接到一个。",
-      "paragraph2": "您也可以使用自定义API地址配置节点。"
+      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the IPFS API, the icon will turn red.",
+      "paragraph2": "If you need to configure a custom API address for your node, just click the \"Edit\" link next to where the API address is listed on this page."
     },
     "step3": {
       "title": "节点信息",
       "paragraph1": "在这里您可以看到 repo 的大小、已经连接节点数量、你的节点 ID 和正在使用的 IPFS 版本信息。",
-      "paragraph2": "<0>单击<1>高级</1>以查看更多信息，例如：网关 URL 和地址。</0>"
+      "paragraph2": "<0>Expand the <1>Advanced</1> link to see more info, such as the gateway URL and addresses. There's also a link inside the Advanced section to change your API address.</0>"
     },
     "step4": {
       "title": "网络带宽/流量",

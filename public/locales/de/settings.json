@@ -1,10 +1,8 @@
 {
   "title": "Einstellungen",
-  "save": "Speichern",
-  "saving": "Speichervorgang läuft…",
-  "reset": "Zurücksetzen",
   "language": "Sprache",
   "analytics": "Analysetools",
+  "cliTutorMode": "CLI Tutor Mode",
   "config": "IPFS-Konfiguration",
   "languageModal": {
     "title": "Sprache ändern",
@@ -12,10 +10,8 @@
     "translationProjectIntro": "Füge Übersetzungen hinzu oder verbessere sie und mache IPFS besser für jeden!",
     "translationProjectLink": "Dem IPFS-Übersetzungsprojekt beitreten"
   },
-  "actions": {
-    "edit": "Ändern",
-    "close": "Schließen"
-  },
+  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
+  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
   "fetchingSettings": "Einstellungen werden geladen...",
   "configApiNotAvailable": "Die API zur IPFS-Konfigurations ist nicht verfügbar. Bitte deaktiviere die Browser-Erweiterung \"IPFS Companion\" und versuche es erneut.",
   "ipfsDaemonOffline": "Der IPFS Daemon ist offline. Bitte starten Sie ihn und versuchen es erneut.",
@@ -60,12 +56,10 @@
       "details": "Zeichnet JavaScript Fehlermeldungen und Stack-Traces auf, die während der Nutzung der App auftreten falls möglich. Es ist sehr hilfreich zu wissen, wenn die App bei Ihnen nicht funktioniert, aber <1>Fehlermeldungen könnten identifizierbare Informationen enthalten</1> wie CIDs oder Dateipfade. Aktivieren sie diese Option deshalb nur, wenn Sie diese Informationen mit uns teilen möchten."
     }
   },
+  "cliToggle": {
+    "label": "Enable command-line interface (CLI) tutor mode"
+  },
   "tour": {
-    "back": "Zurück",
-    "close": "Schließen",
-    "last": "Fertig",
-    "next": "Weiter",
-    "skip": "Überspringen",
     "step1": {
       "title": "Einstellungsseite",
       "paragraph1": "Hier kannst Du die Einstellungen deiner Web-UI und deines IPFS Node verändern.",
@@ -81,6 +75,10 @@
       "paragraph2": "Du kannst selbst entscheiden, welche Daten du uns senden möchtest. Wir können Dich außerdem nicht identifizieren. Der Schutz deiner Privatsphäre steht bei uns an erster Stelle."
     },
     "step4": {
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    },
+    "step5": {
       "title": "IPFS-Konfiguration",
       "paragraph1": "Du kannst die Konfiguration deines IPFS Nodes direkt mit der Web-UI bearbeiten!",
       "paragraph2": "Vergiss nicht, den Daemon neu zu starten, um die Änderungen anzuwenden."
