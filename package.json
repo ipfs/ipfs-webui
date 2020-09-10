@@ -107,7 +107,7 @@
     "basic-auth": "^2.0.1",
     "big.js": "^5.2.2",
     "bundlesize": "^0.18.0",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint-config-standard": "^14.1.1",
