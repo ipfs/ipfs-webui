@@ -284,7 +284,7 @@ const bundle = {
 
   doCheckIfPinned: (cid) => async () => {
     try {
-      const value = await first(ipfs.pin.ls({ paths: [cid] }))
+      const value = await first(ipfs.pin.ls({ paths: [cid], type: 'recursive' }))
       return !!value
     } catch (_) { return false }
   }
