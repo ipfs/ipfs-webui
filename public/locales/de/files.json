@@ -67,7 +67,10 @@
     },
     "step2": {
       "title": "Breadcrumbs",
-      "paragraph1": "Das aktuelle Arbeitsverzeichnis. Du kannst durch die Ordner-Hierarchie navigieren, indem du auf sie klickst."
+      "paragraph1": "These breadcrumbs display the path to your current directory. You can…",
+      "bullet1": "Click an individual breadcrumb to go to that directory",
+      "bullet2": "Right-click a breadcrumb to get the actions menu for that directory",
+      "bullet3": "Drag files onto a breadcrumb to move or import them"
     },
     "step3": {
       "title": "Dateien hinzufügen",

@@ -2,7 +2,7 @@
   "title": "配置",
   "language": "语言",
   "analytics": "分析",
-  "cliTutorMode": "CLI Tutor Mode",
+  "cliTutorMode": "CLI 引导模式",
   "config": "IPFS 配置",
   "languageModal": {
     "title": "修改语言",
@@ -10,8 +10,8 @@
     "translationProjectIntro": "添加或改进翻译，使IPFS更适合每个人！",
     "translationProjectLink": "加入IPFS翻译项目"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
+  "apiDescription": "<0>如果您的节点配置了一个<1>自定义的API地址</1>，或者包含了其他非默认的5001端口的情况下，在这里修改。</0>",
+  "cliDescription": "<0>启用这个选来会在下方IPFS命令旁显示一个“查看代码”<1></1>图标。单击它将打开一个带有命令的CLI代码的引导模式，因此您可以将其粘贴到IPFS 节点的命令行终端中执行。</0>",
   "fetchingSettings": "拉取配置中 ...",
   "configApiNotAvailable": "IPFS 配置 API 不可用。请禁用 \"IPFS 伴侣\" 浏览器插件并重试。",
   "ipfsDaemonOffline": "IPFS 守护进程处于离线状态，请使其在线并重试。",
@@ -57,7 +57,7 @@
     }
   },
   "cliToggle": {
-    "label": "Enable command-line interface (CLI) tutor mode"
+    "label": "启用命令行（CLI）引导模式"
   },
   "tour": {
     "step1": {
@@ -75,8 +75,8 @@
       "paragraph2": "您可以选择向我们发送的数据。我们非常重视隐私，所采集的数据无法识别您的身份。"
     },
     "step4": {
-      "title": "Custom API address",
-      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+      "title": "自定义API地址",
+      "paragraph1": "如果您为IPFS 节点配置了自定义的API地址，你可以直接在这里更新配置而不需要手动修改JSON配置文件。"
     },
     "step5": {
       "title": "IPFS 配置",

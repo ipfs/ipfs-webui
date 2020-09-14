@@ -5,8 +5,8 @@
   "finished": "完成！",
   "totalSize": "总计大小: {size}",
   "filesSelected": "{count, plural, other {已选择文件}}",
-  "menuOptions": "Options for selected item",
-  "selectedAllEntries": "Select all table entries",
+  "menuOptions": "所选项目的选项",
+  "selectedAllEntries": "选择所有条目",
   "individualFilesOnly": "仅对文件有效",
   "noPDFSupport": "您的浏览器不支持阅读 PDF 文件。请下载后阅读。",
   "downloadPDF": "下载 PDF 文件",
@@ -48,7 +48,7 @@
   },
   "filesListLabel": "文件列表",
   "filesList": {
-    "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
+    "noFiles": "<0>这个目录下没有文件，可单击“导入”按钮加入一些文件</0>"
   },
   "filesImportStatus": {
     "imported": "{count, plural, other {已导入{count}项目}}",
@@ -57,8 +57,8 @@
     "closeDropdown": "关闭下拉框",
     "count": "{count}个 / 共{count}个"
   },
-  "addFilesInfo": "<0>No files here yet! Add files to your local IPFS node by clicking the <1>Import</1> button above.</0>",
-  "companionInfo": "<0>如果你正在使用<1> IPFS 伴侣</1>，文件视图仅限于使用扩展程序时添加的文件。</0>",
+  "addFilesInfo": "<0>现在还没有任何文件！使用上方的<1>导入</1>按钮为您的本地IPFS 节点添加文件。</0>",
+  "companionInfo": "<0>如果您正在使用<1> IPFS 伴侣</1>，文件视图仅限于使用扩展程序时添加的文件。</0>",
   "tour": {
     "step1": {
       "title": "文件页面",
@@ -67,7 +67,10 @@
     },
     "step2": {
       "title": "导航栏",
-      "paragraph1": "在当前工作目录中，您可以通过单击它们来浏览文件夹层次结构。"
+      "paragraph1": "这些导航栏指示了您当前所在目录的路径。",
+      "bullet1": "您可以通过点击他们来浏览文件夹目录的层次结构",
+      "bullet2": "右键一个导航栏目录可以展开操作菜单",
+      "bullet3": "您可以拖动文件到导航栏的目录上来实现文件的移动和导入"
     },
     "step3": {
       "title": "添加文件",
@@ -82,11 +85,11 @@
       "paragraph3": "专家提示：可以从 Web UI 的任何其他页面拖放文件，把它们添加到 MFS 的根目录。"
     }
   },
-  "previousFolder": "Go back to previous folder",
-  "fileLabel": "Select {type} {name} with size: {size}",
+  "previousFolder": "回到之前的文件夹",
+  "fileLabel": "选择的{type}{name}的文件大小为:{size}",
   "hashUnavailable": "哈希不可用",
-  "checkboxLabel": "View more options for {name}",
+  "checkboxLabel": "查看更多选项{name}",
   "pinned": "已固定",
   "cidNotFileNorDir": "当前的连接不是一个文件或目录，请检查 <0>并替换</0> 。",
-  "sortBy": "Sort items by {name}"
+  "sortBy": "排序项目{name}"
 }

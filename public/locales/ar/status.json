@@ -12,6 +12,7 @@
     "paragraph1": "استضافة <0>{repoSize}  الملفات </0>",
     "paragraph2": "{count, plural, zero {Discovered <0>{peersCount} peers</0>} one {Discovered <0>1 peer</0>} two {Discovered <0>1 peer</0>} few {Discovered <0>1 peer</0>} many {المكتشفة <0>1 الأقران</0>} other {المكتشفة <0>{peersCount} الأقران</0>}}"
   },
+  "customApiConfig": "Custom JSON configuration",
   "AskToEnable": {
     "label": "ساعد في تحسين هذا التطبيق عن طريق إرسال بيانات استخدام مجهولة."
   },

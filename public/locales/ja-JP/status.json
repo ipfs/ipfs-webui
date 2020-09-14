@@ -12,6 +12,7 @@
     "paragraph1": "<0>{repoSize}個のファイル</0>をホスティング中",
     "paragraph2": "{count, plural, other {<0>{peersCount}個のピア</0>と通信中}}"
   },
+  "customApiConfig": "Custom JSON configuration",
   "AskToEnable": {
     "label": "匿名の利用状況データを送信することで、このアプリケーションの改善に協力する"
   },

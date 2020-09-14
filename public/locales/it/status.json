@@ -12,6 +12,7 @@
     "paragraph1": "Ospiti <0>{repoSize} di file</0>",
     "paragraph2": "{count, plural, one {Trovato <0>1 Peer</0>} other {Trovati <0>{peersCount} peer</0>}}"
   },
+  "customApiConfig": "Custom JSON configuration",
   "AskToEnable": {
     "label": "Aiuta a migliorare l'applicazione mandando dati d'utilizzo anonimi."
   },

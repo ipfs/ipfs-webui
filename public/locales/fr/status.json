@@ -12,6 +12,7 @@
     "paragraph1": "<0>{repoSize} de fichiers</0>hébergés",
     "paragraph2": "{count, plural, one {<0>1 pair</0> découvert} other {<0>{peersCount} pairs</0> découverts}}"
   },
+  "customApiConfig": "JSON de configuration personnalisée",
   "AskToEnable": {
     "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes."
   },

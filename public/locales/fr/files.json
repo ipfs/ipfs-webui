@@ -67,7 +67,10 @@
     },
     "step2": {
       "title": "Fils d'Ariane",
-      "paragraph1": "Le dossier de travail courant. Vous pouvez naviguer dans l'arborescence en cliquant dessus."
+      "paragraph1": "Ce fil d'Ariane montre le chemin vers votre dossier courant. Vous pouvez...",
+      "bullet1": "Cliquer sur une étape du fil d'Ariane pour aller vers ce dossier",
+      "bullet2": "Faire un clic droit sur un élément du fil d'Ariane pour afficher le menu contextuel des actions pour ce dossier",
+      "bullet3": "Glisser-déposer des fichiers sur une étape du fil d'Ariane pour les déplacer ou les importer."
     },
     "step3": {
       "title": "Ajouter des fichiers",

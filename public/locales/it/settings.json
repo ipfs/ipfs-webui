@@ -76,7 +76,7 @@
     },
     "step4": {
       "title": "Indirizzo API Personalizzato",
-      "paragraph1": "Se hai configurato il tuo nodo IPFS con un indirizzo API personalizzato, puoi aggiornare il tuo file di configurazione qui, invece di modificare il JSON a mano."
+      "paragraph1": "Se hai configurato il tuo nodo IPFS con un indirizzo API personalizzato, puoi aggiornare il tuo file di configurazione qui invece di modificare il JSON a mano."
     },
     "step5": {
       "title": "Configurazione IPFS",

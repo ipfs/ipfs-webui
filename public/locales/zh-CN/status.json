@@ -12,6 +12,7 @@
     "paragraph1": "已托管 <0>{repoSize} 文件</0>",
     "paragraph2": "{count, plural, other {已发现 <0>{peersCount} 节点</0>}}"
   },
+  "customApiConfig": "自定义JSON配置",
   "AskToEnable": {
     "label": "向我们发送匿名输入来帮助我们改进。"
   },
@@ -23,13 +24,13 @@
     },
     "step2": {
       "title": "连接状态",
-      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the IPFS API, the icon will turn red.",
-      "paragraph2": "If you need to configure a custom API address for your node, just click the \"Edit\" link next to where the API address is listed on this page."
+      "paragraph1": "从任何地方点击这个图标都会回到“状态”页面。如果您失去和IPFS API的连接，这个图标会变成红色。",
+      "paragraph2": "如果您需要为您的IPFS 节点配置自定义的API地址，只需要点击 “编辑” 按钮（需要点击展开“高级”按钮后），并在页面中找到当前配置的API地址并修改它。"
     },
     "step3": {
       "title": "节点信息",
       "paragraph1": "在这里您可以看到 repo 的大小、已经连接节点数量、你的节点 ID 和正在使用的 IPFS 版本信息。",
-      "paragraph2": "<0>Expand the <1>Advanced</1> link to see more info, such as the gateway URL and addresses. There's also a link inside the Advanced section to change your API address.</0>"
+      "paragraph2": "<0>点击展开<1>“高级”</1>连接可以查看更多信息，比如网关的URL和地址。在高级部分中还有一个链接可以更改API地址。</0>"
     },
     "step4": {
       "title": "网络带宽/流量",

@@ -12,6 +12,7 @@
     "paragraph1": "託管 <0>{repoSize} 文件</0>",
     "paragraph2": "{count, plural, other {發現 <0>{peersCount} 節點</0>}}"
   },
+  "customApiConfig": "Custom JSON configuration",
   "AskToEnable": {
     "label": "向我們發送匿名輸入來幫助我們改進。"
   },
