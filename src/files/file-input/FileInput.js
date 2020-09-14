@@ -30,19 +30,9 @@ class FileInput extends React.Component {
     this.setState(s => ({ dropdown: !s.dropdown }))
   }
 
-  onAddFolder = async () => {
-    const { isIpfsDesktop, doDesktopSelectDirectory, onAddFiles } = this.props
-
+  onAddFolder = () => {
     this.toggleDropdown()
-
-    if (!isIpfsDesktop) {
-      return this.folderInput.click()
-    }
-
-    const files = await doDesktopSelectDirectory()
-    if (files) {
-      onAddFiles(files)
-    }
+    return this.folderInput.click()
   }
 
   onAddFile = async () => {
@@ -130,14 +120,10 @@ FileInput.propTypes = {
   t: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
   onAddByPath: PropTypes.func.isRequired,
-  onNewFolder: PropTypes.func.isRequired,
-  isIpfsDesktop: PropTypes.bool.isRequired,
-  doDesktopSelectDirectory: PropTypes.func
+  onNewFolder: PropTypes.func.isRequired
 }
 
 export default connect(
-  'selectIsIpfsDesktop',
-  'doDesktopSelectDirectory',
   'selectIsCliTutorModeEnabled',
   'doOpenCliTutorModal',
   'doSetCliOptions',
