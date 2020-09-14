@@ -14,10 +14,6 @@ if (window.ipfsDesktop) {
 
     selectDesktopCountlyActions: () => window.ipfsDesktop.countlyActions,
 
-    doDesktopSelectDirectory: () => () => {
-      return window.ipfsDesktop.selectDirectory()
-    },
-
     doDesktopAddConsent: consent => () => {
       return window.ipfsDesktop.addConsent(consent)
     },
