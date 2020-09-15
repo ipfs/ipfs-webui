@@ -19,7 +19,7 @@ import * as Task from '../task'
  * actions in form of `{type: name, job: Job<State, Error, Return>}` as it makes
  * progress.
  *
- * A `.job` property of dispatched action will correspond to on of the states:
+ * A `.job` property of dispatched action will correspond to one of the states:
  *
  * 1. `{ status: 'Idle', id: Symbol }` - State just before task is executed.
  * 2. `{ status: 'Pending', id: Symbol, state: State }` - State while task is in
@@ -140,7 +140,7 @@ export const perform = (type, task, ...[init]) => async (context) => {
 }
 
 /**
- * Creates an acton creator that just dispatches given action.
+ * Creates an action creator that just dispatches given action.
  * @template T
  * @param {T} action
  * @returns {(context:BundlerContext<any, T, any, any>) => Promise<void>}
