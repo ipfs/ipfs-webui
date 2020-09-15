@@ -284,11 +284,13 @@ export class FilesList extends React.Component {
     const { files, pins, filesPathInfo, isOver, canDrop, onNavigate, onInspect, onAddFiles } = this.props
     const { selected, focused, isDragging } = this.state
 
+    const pinsString = pins.map(p => p.toString())
+
     return (
       <div key={key} style={style} ref={r => { this.filesRefs[files[index].name] = r }}>
         <File
           {...files[index]}
-          pinned={pins.includes(files[index].cid.toString())}
+          pinned={pinsString.includes(files[index].cid.toString())}
           isMfs={filesPathInfo.isMfs}
           name={files[index].name}
           onSelect={this.toggleOne}
