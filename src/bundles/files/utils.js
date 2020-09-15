@@ -14,7 +14,7 @@ import * as Task from '../task'
   */
 
 /**
- * Utilit function takes a task name and task (in form of async generator) and
+ * Utility function that takes a task name and task (in form of async generator) and
  * produces `doX` style action creator that will execute a task and dispatch
  * actions in form of `{type: name, job: Job<State, Error, Return>}` as it makes
  * progress.
