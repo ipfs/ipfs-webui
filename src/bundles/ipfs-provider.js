@@ -197,7 +197,7 @@ const parseHTTPClientOptions = (input) => {
       return {
         host: uri.hostname,
         port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
-        protocol: uri.protocol.slice(0, 1), // trim out ':' at the end
+        protocol: uri.protocol.slice(0, -1), // trim out ':' at the end
         apiPath: (uri.pathname !== '/' ? uri.pathname : 'api/v0'),
         headers: {
           authorization: `Basic ${btoa(username + ':' + password)}`
