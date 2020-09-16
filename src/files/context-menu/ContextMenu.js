@@ -10,6 +10,7 @@ import StrokeIpld from '../../icons/StrokeIpld'
 import StrokeTrash from '../../icons/StrokeTrash'
 import StrokeDownload from '../../icons/StrokeDownload'
 import StrokePin from '../../icons/StrokePin'
+import { cliCmdKeys } from '../../bundles/files/consts'
 
 class ContextMenu extends React.Component {
   constructor (props) {
@@ -21,7 +22,10 @@ class ContextMenu extends React.Component {
     dropdown: false
   }
 
-  wrap = (name) => () => {
+  wrap = (name, cliOptions) => () => {
+    if (name === 'onCliTutorMode' && cliOptions) {
+      this.props.doSetCliOptions(cliOptions)
+    }
     this.props.handleClick()
     this.props[name]()
   }
@@ -41,9 +45,8 @@ class ContextMenu extends React.Component {
     const {
       t, onRename, onDelete, onDownload, onInspect, onShare,
       translateX, translateY, className,
-      isUpperDir, isMfs, isUnknown, pinned
+      isDirectory, isMfs, isUnknown, pinned, isCliTutorModeEnabled
     } = this.props
-
     return (
       <Dropdown className={className}>
         <DropdownMenu
@@ -55,7 +58,7 @@ class ContextMenu extends React.Component {
           translateY={-translateY}
           open={this.props.isOpen}
           onDismiss={this.props.handleClick}>
-          { !isUpperDir && onShare &&
+          { !isDirectory && onShare &&
             <Option onClick={this.wrap('onShare')}>
               <StrokeShare className='w2 mr2 fill-aqua' />
               {t('actions.share')}
@@ -70,29 +73,34 @@ class ContextMenu extends React.Component {
           { onInspect &&
             <Option onClick={this.wrap('onInspect')}>
               <StrokeIpld className='w2 mr2 fill-aqua' />
-              {t('actions.inspect')}
+              {t('app:actions.inspect')}
             </Option>
           }
-          <Option onClick={this.wrap(pinned ? 'onUnpin' : 'onPin')}>
+          <Option onClick={this.wrap(pinned ? 'onUnpin' : 'onPin')} isCliTutorModeEnabled={isCliTutorModeEnabled}
+            onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.PIN_OBJECT)}>
             <StrokePin className='w2 mr2 fill-aqua' />
-            { pinned ? t('actions.unpin') : t('actions.pin') }
+            { pinned ? t('app:actions.unpin') : t('app:actions.pinVerb') }
           </Option>
-          { !isUpperDir && !isUnknown && onDownload &&
-            <Option onClick={this.wrap('onDownload')}>
+          { !isDirectory && !isUnknown && onDownload &&
+            <Option onClick={this.wrap('onDownload')} isCliTutorModeEnabled={isCliTutorModeEnabled}
+              onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DOWNLOAD_OBJECT_COMMAND)}>
               <StrokeDownload className='w2 mr2 fill-aqua' />
-              {t('actions.download')}
+              {t('app:actions.download')}
             </Option>
           }
-          { !isUpperDir && !isUnknown && isMfs && onRename &&
-            <Option onClick={this.wrap('onRename')}>
+          { !isDirectory && !isUnknown && isMfs && onRename &&
+            <Option onClick={this.wrap('onRename')} isCliTutorModeEnabled={isCliTutorModeEnabled}
+              onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.RENAME_IPFS_OBJECT)}>
               <StrokePencil className='w2 mr2 fill-aqua' />
-              {t('actions.rename')}
+              {t('app:actions.rename')}
             </Option>
           }
-          { !isUpperDir && !isUnknown && isMfs && onDelete &&
-            <Option onClick={this.wrap('onDelete')}>
+          { !isDirectory && !isUnknown && isMfs && onDelete &&
+            <Option onClick={this.wrap('onDelete')} isCliTutorModeEnabled={isCliTutorModeEnabled}
+              onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DELETE_FILE_FROM_IPFS)}
+            >
               <StrokeTrash className='w2 mr2 fill-aqua' />
-              {t('actions.delete')}
+              {t('app:actions.delete')}
             </Option>
           }
         </DropdownMenu>
@@ -106,7 +114,7 @@ ContextMenu.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   isUnknown: PropTypes.bool.isRequired,
   hash: PropTypes.string,
-  isUpperDir: PropTypes.bool,
+  isDirectory: PropTypes.bool,
   pinned: PropTypes.bool,
   handleClick: PropTypes.func,
   translateX: PropTypes.number.isRequired,
@@ -126,7 +134,7 @@ ContextMenu.propTypes = {
 ContextMenu.defaultProps = {
   isMfs: false,
   isOpen: false,
-  isUpperDir: false,
+  isDirectory: false,
   isUnknown: false,
   top: 0,
   left: 0,

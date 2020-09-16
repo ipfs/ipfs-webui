@@ -10,7 +10,9 @@ import TextInputModal from '../../components/text-input-modal/TextInputModal'
 
 class AddConnection extends React.Component {
   state = {
-    open: false
+    open: false,
+    loading: false,
+    hasErrored: false
   }
 
   toggleModal = () => {
@@ -19,9 +21,20 @@ class AddConnection extends React.Component {
     })
   }
 
-  addConnection = (maddr) => {
-    this.props.doConnectSwarm(maddr)
+  addConnection = async (maddr) => {
+    this.setState({ loading: true })
+    const { type } = await this.props.doConnectSwarm(maddr)
+    this.setState({ loading: false, hasErrored: true })
+
+    if (type === 'SWARM_CONNECT_FAILED') return
+
     this.toggleModal()
+  }
+
+  onInputChange = () => {
+    if (!this.state.hasErrored) return
+
+    this.setState({ hasErrored: false })
   }
 
   getDescription = () => {
@@ -31,14 +44,14 @@ class AddConnection extends React.Component {
     return (
       <div className='mb3 flex flex-column items-center'>
         <p className='gray w-80'>{t('insertPeerAddress')}</p>
-        <span className='w-80 mv2 f7 charcoal-muted'>{t('example')}</span>
+        <span className='w-80 mv2 f7 charcoal-muted'>{t('app:terms.example')}</span>
         <code className={codeClass}>/ip4/76.176.168.65/tcp/4001/p2p/QmbBHw1Xx9pUpAbrVZUKTPL5Rsph5Q9GQhRvcWVBPFgGtC</code>
       </div>
     )
   }
 
   render () {
-    const { open } = this.state
+    const { open, loading, hasErrored } = this.state
     const { t } = this.props
 
     return (
@@ -52,10 +65,13 @@ class AddConnection extends React.Component {
             validate={isIPFS.peerMultiaddr}
             onSubmit={this.addConnection}
             onCancel={this.toggleModal}
-            submitText={t('add')}
+            onInputChange={this.onInputChange}
+            submitText={t('app:actions.add')}
             icon={Icon}
             title={t('addConnection')}
             description={this.getDescription()}
+            loading={loading}
+            error={hasErrored}
           />
         </Overlay>
       </div>

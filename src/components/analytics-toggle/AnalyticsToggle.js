@@ -72,8 +72,8 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleC
           {t('AnalyticsToggle.label')}
         </span>
       } />
-      <div className='f6 charcoal lh-copy mw7'>
-        <p>{t('AnalyticsToggle.paragraph1')}</p>
+      <div className='f6 charcoal lh-copy'>
+        <p className='mb0'>{t('AnalyticsToggle.paragraph1')}</p>
         <Details summaryText={t('AnalyticsToggle.summary')} className='pt2' open={open}>
           <p>
             <Trans i18nKey='AnalyticsToggle.paragraph2' t={t}>

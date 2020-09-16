@@ -43,10 +43,6 @@ const selectors = root.ipfsDesktop
   : baseSelectors
 
 const desktopActions = {
-  doDesktopSelectDirectory: () => () => {
-    return root.ipfsDesktop.selectDirectory()
-  },
-
   /**
    * @param {string[]} consent
    * @returns {() => void}

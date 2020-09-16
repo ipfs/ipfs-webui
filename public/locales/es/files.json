@@ -8,35 +8,16 @@
   "menuOptions": "Options for selected item",
   "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Solo disponible para archivos individuales",
-  "itemName": "Nombre",
-  "size": "Tamaño",
   "noPDFSupport": "Su navegador no admite archivos PDF. Por favor descargue el PDF para verlo:",
   "downloadPDF": "Descargar PDF",
   "downloadInstead": "Intenta <1>descargarlo</1>",
   "cantBePreviewed": "Lo sentimos, este archivo no se puede previsualizar",
-  "addFile": "Archivo",
-  "addFolder": "Carpeta",
   "addByPath": "De IPFS",
-  "importToIPFS": "Importar",
   "newFolder": "Nueva carpeta",
   "generating": "Generando…",
   "actions": {
-    "import": "Importar",
-    "delete": "Eliminar",
-    "rename": "Renombrar",
-    "download": "Descarga",
-    "inspect": "Inspeccionar",
     "copyHash": "Copiar CID",
-    "share": "Compartir enlace",
-    "close": "Cerrar",
-    "copy": "Copiar",
-    "cancel": "Cancelar",
-    "clear": "Limpiar",
-    "create": "Crear",
-    "save": "Guardar",
-    "pin": "Pin",
-    "unpin": "Unpin",
-    "unselectAll": "Deseleccionar todo"
+    "share": "Compartir enlace"
   },
   "shareModal": {
     "title": "Compartir archivos",
@@ -65,18 +46,9 @@
     "title": "Nueva carpeta",
     "description": "Inserte el nombre de la carpeta que desea crear."
   },
-  "welcomeInfo": {
-    "header": "Bienvenido a la interfaz de usuario web de IPFS",
-    "paragraph1": "<0><0>Verifique el estado</0> de su nodo, su ID de par e información de conexión, el tráfico de red y la cantidad de pares conectados.</0>",
-    "paragraph2": "<0>Facilmente <1>administre archivos</1> en su repositorio IPFS. Puede arrastrar y soltar para agregar archivos, y puede moverlos, cambiarles el nombre, eliminarlos, compartirlos o descargarlos.</0>",
-    "paragraph3": "<0>Puede <1>explorar los datos IPLD2</1> que sustentan el funcionamiento de IPFS.</0>",
-    "paragraph4": "<0>Vea todos sus <1>pares conectados</1>, geolocalizados por su dirección IP.</0>",
-    "paragraph5": "<0><0>Revise la configuración</0> para su nodo IPFS y actualícela para que se adapte mejor a sus necesidades.</0>",
-    "paragraph6": "<0>Si desea ayudar a impulsar la UI web hacia adelante, <1>verifique su código</1> o <3>informe un error</3>!</0>"
-  },
   "filesListLabel": "Lista de archivos",
   "filesList": {
-    "noFiles": "<0>No hay archivos en este directorio. Haga clic en el botón \"Agregar\" para agregar algunos.</0>"
+    "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
   },
   "filesImportStatus": {
     "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
@@ -85,14 +57,9 @@
     "closeDropdown": "Cerrar menú desplegable",
     "count": "{count} de {count}"
   },
-  "addFilesInfo": "<0>Agregue archivos a su nodo IPFS local haciendo clic en el <1>Agregar a IPFS</1> botón de arriba.</0>",
+  "addFilesInfo": "<0>No files here yet! Add files to your local IPFS node by clicking the <1>Import</1> button above.</0>",
   "companionInfo": "<0>Como estas usando <1>IPFS Companion</1>, la vista de archivos está limitada a los archivos agregados mientras se usa la extensión.</0>",
   "tour": {
-    "back": "Atrás",
-    "close": "Cerrar",
-    "last": "Último",
-    "next": "Próximo",
-    "skip": "Saltarse",
     "step1": {
       "title": "Página de archivos",
       "paragraph1": "<0>Aquí es donde los archivos en su <1>Mutable File System (MFS)</1> en vivo. Puede agregar archivos o carpetas y administrarlos desde esta página.</0>",
@@ -115,19 +82,11 @@
       "paragraph3": "Consejo profesional: arrastre y suelte un archivo desde cualquier otra página de la interfaz de usuario web para agregarlos a la raíz de su MFS."
     }
   },
-  "exploreForm": {
-    "browse": "Examinar",
-    "inspect": "Inspeccionar"
-  },
   "previousFolder": "Go back to previous folder",
-  "fileLabel": "Select {type} {name} with size: {size}", 
+  "fileLabel": "Select {type} {name} with size: {size}",
   "hashUnavailable": "hash no disponible",
   "checkboxLabel": "View more options for {name}",
-  "pins": "Pins",
   "pinned": "Sujeto",
-  "blocks": "Bloques",
-  "more": "Más",
-  "files": "Archivos",
   "cidNotFileNorDir": "El enlace actual no es un archivo ni un directorio. Intenta <0>examinarlo</0> en su lugar.",
   "sortBy": "Sort items by {name}"
 }

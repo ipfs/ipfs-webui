@@ -55,7 +55,7 @@ const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, is
  * @returns {string}
  */
 // TODO: use sth else
-const realMfsPath = (path) => {
+export const realMfsPath = (path) => {
   if (path.startsWith('/files')) {
     return path.substr('/files'.length) || '/'
   }

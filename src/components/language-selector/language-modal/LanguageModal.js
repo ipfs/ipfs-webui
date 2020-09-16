@@ -35,7 +35,7 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
       </ModalBody>
 
       <ModalActions>
-        <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.close')}</Button>
+        <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('app:actions.close')}</Button>
       </ModalActions>
     </Modal>
   )

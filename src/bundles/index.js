@@ -21,6 +21,8 @@ import ipfsDesktop from './ipfs-desktop'
 import repoStats from './repo-stats'
 import createAnalyticsBundle from './analytics'
 import experimentsBundle from './experiments'
+import cliTutorModeBundle from './cli-tutor-mode'
+import gatewayBundle from './gateway'
 
 export default composeBundles(
   createCacheBundle({
@@ -36,6 +38,7 @@ export default composeBundles(
   exploreBundle(),
   configBundle,
   configSaveBundle,
+  gatewayBundle,
   nodeBandwidthBundle,
   nodeBandwidthChartBundle(),
   peersBundle,
@@ -46,5 +49,6 @@ export default composeBundles(
   experimentsBundle,
   ipfsDesktop,
   repoStats,
+  cliTutorModeBundle,
   createAnalyticsBundle({})
 )

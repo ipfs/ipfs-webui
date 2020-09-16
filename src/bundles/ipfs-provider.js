@@ -3,15 +3,18 @@ import multiaddr from 'multiaddr'
 import HttpClient from 'ipfs-http-client'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
+import first from 'it-first'
 import last from 'it-last'
 import * as Enum from './enum'
 import { perform } from './task'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('cids')} CID
+ * @typedef {import('ipfs').FileStat} FileStat
  * @typedef {'httpClient'|'jsIpfs'|'windowIpfs'|'webExt'} ProviderName
  * @typedef {Object} Model
- * @property {null|string} apiAddress
+ * @property {null|string|HTTPClientOptions} apiAddress
  * @property {null|ProviderName} provider
  * @property {boolean} failed
  * @property {boolean} ready
@@ -23,7 +26,7 @@ import { perform } from './task'
  *
  * @typedef {Object} AddressUpdated
  * @property {'IPFS_API_ADDRESS_UPDATED'} type
- * @property {string} payload
+ * @property {string|HTTPClientOptions} payload
  *
  * @typedef {Object} AddressInvalid
  * @property {'IPFS_API_ADDRESS_INVALID'} type
@@ -116,22 +119,22 @@ const init = () => {
 }
 
 /**
- * @returns {string|null}
+ * @returns {HTTPClientOptions|string|null}
  */
 const readAPIAddressSetting = () => {
   const setting = readSetting('ipfsApi')
-  return setting == null ? null : asAPIAddress(setting)
+  return setting == null ? null : asAPIOptions(setting)
 }
 
 /**
- * @param {any} value
- * @returns {string|null}
+ * @param {string|object} value
+ * @returns {HTTPClientOptions|string|null}
  */
-const asAPIAddress = (value) => asMultiaddress(value) || asURL(value)
+const asAPIOptions = (value) => asHttpClientOptions(value) || asMultiaddress(value) || asURL(value)
 
 /**
- * Attempts to turn cast given value into `URL` instance. Return either `URL`
- * instance or `null`.
+ * Attempts to turn cast given value into URL.
+ * Return either string instance or `null`.
  * @param {any} value
  * @returns {string|null}
  */
@@ -144,19 +147,79 @@ const asURL = (value) => {
 }
 
 /**
- * Attempts to turn cast given value into `URL` instance. Return either `URL`
- * instance or `null`.
+ * Attempts to turn cast given value into Multiaddr.
+ * Return either string instance or `null`.
  * @param {any} value
  * @returns {string|null}
  */
 const asMultiaddress = (value) => {
-  if (value != null) {
+  // ignore empty string, as it will produce '/'
+  if (value != null && value !== '') {
     try {
       return multiaddr(value).toString()
     } catch (_) {}
   }
+  return null
+}
+
+/**
+ * @typedef {Object} HTTPClientOptions
+ * @property {string} [host]
+ * @property {string} [port] - (e.g. '443', or '80')
+ * @property {string} [protocol] - (e.g 'https', 'http')
+ * @property {string} [apiPath] - ('/api/v0' by default)
+ * @property {Object<string, string>} [headers]
+ */
+
+/**
+ * Attempts to turn parse given input as an options object for ipfs-http-client.
+ * @param {string|object} value
+ * @returns {HTTPClientOptions|null}
+ */
+const asHttpClientOptions = (value) =>
+  typeof value === 'string' ? parseHTTPClientOptions(value) : readHTTPClinetOptions(value)
+
+/**
+ *
+ * @param {string} input
+ */
+const parseHTTPClientOptions = (input) => {
+  // Try parsing and reading as json
+  try {
+    return readHTTPClinetOptions(JSON.parse(input))
+  } catch (_) {}
+
+  // turn URL with inlined basic auth into client options object
+  try {
+    const uri = new URL(input)
+    const { username, password } = uri
+    if (username && password) {
+      return {
+        host: uri.hostname,
+        port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
+        protocol: uri.protocol.slice(0, 1), // trim out ':' at the end
+        apiPath: (uri.pathname !== '/' ? uri.pathname : 'api/v0'),
+        headers: {
+          authorization: `Basic ${btoa(username + ':' + password)}`
+        }
+      }
+    }
+  } catch (_) { }
 
   return null
+}
+
+/**
+ * @param {Object<string, any>} value
+ * @returns {HTTPClientOptions|null}
+ */
+const readHTTPClinetOptions = (value) => {
+  // https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#importing-the-module-and-usage
+  if (value && (value.host || value.apiPath || value.protocol || value.port || value.headers)) {
+    return value
+  } else {
+    return null
+  }
 }
 
 /**
@@ -306,11 +369,11 @@ const actions = {
   },
 
   /**
-   * @param {*} address
+   * @param {string} address
    * @returns {function(Context):Promise<void>}
    */
   doUpdateIpfsApiAddress: (address) => async (context) => {
-    const apiAddress = asAPIAddress(address)
+    const apiAddress = asAPIOptions(address)
     if (apiAddress == null) {
       context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
     } else {
@@ -326,6 +389,33 @@ const actions = {
    */
   doDismissIpfsInvalidAddress: () => (context) => {
     context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID_DISMISS' })
+  },
+
+  /**
+   * @param {string} path
+   * @returns {function(Context):Promise<FileStat>}
+   */
+  doGetPathInfo: (path) => async () => {
+    if (ipfs) {
+      return await ipfs.files.stat(path)
+    } else {
+      throw Error('IPFS is not initialized')
+    }
+  },
+
+  /**
+   * @param {CID} cid
+   * @returns {function(Context):Promise<boolean>}
+   */
+  doCheckIfPinned: (cid) => async () => {
+    if (ipfs == null) {
+      return false
+    }
+
+    try {
+      const value = await first(ipfs.pin.ls({ paths: [cid], type: 'recursive' }))
+      return !!value
+    } catch (_) { return false }
   }
 }
 
@@ -338,7 +428,7 @@ const actions = {
 const bundle = {
   name: 'ipfs',
   /**
-   * @param {Model} [state]
+   * @param {Model|void} state
    * @param {Message} message
    * @returns {Model}
    */

@@ -1,10 +1,8 @@
 {
-  "connectingToIpfs": "Connecting to IPFS…",
-  "connectedToIpfs": "Connected to IPFS!",
   "ipfsApiRequestFailed": "Could not connect. Please check if your daemon is running.",
   "windowIpfsRequestFailed": "IPFS request failed. Please check your IPFS Companion settings.",
   "ipfsIsBack": "Normal IPFS service has resumed. Enjoy!",
-  "folderExists": "A folder with that name already exists. Please choose another.",
+  "folderExists": "An item with that name already exists. Please choose another.",
   "filesFetchFailed": "Failed to get those files. Please check the path and try again.",
   "filesRenameFailed": "Failed to rename the files. Please try again.",
   "filesMakeDirFailed": "Failed to create directory. Please try again.",

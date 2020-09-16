@@ -16,14 +16,16 @@ import './NavBar.css'
 const NavLink = ({
   to,
   icon,
-  exact,
+  alternative,
   disabled,
   children
 }) => {
   const Svg = icon
   const { hash } = window.location
   const href = `#${to}`
-  const active = exact ? hash === href : hash && hash.startsWith(href)
+  const active = alternative
+    ? hash === href || hash.startsWith(`${href}${alternative}`)
+    : hash && hash.startsWith(href)
   const anchorClass = classnames({
     'bg-white-10 navbar-item-active': active,
     'o-50 no-pointer-events': disabled
@@ -63,7 +65,7 @@ export const NavBar = ({ t }) => {
           </div>
         </a>
         <div className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>
-          <NavLink to='/' exact icon={StrokeMarketing}>{t('status:title')}</NavLink>
+          <NavLink to='/' alternative="status" icon={StrokeMarketing}>{t('status:title')}</NavLink>
           <NavLink to='/files' icon={StrokeWeb}>{t('files:title')}</NavLink>
           <NavLink to='/explore' icon={StrokeIpld}>{t('explore:tabName')}</NavLink>
           <NavLink to='/peers' icon={StrokeCube}>{t('peers:title')}</NavLink>
@@ -72,13 +74,13 @@ export const NavBar = ({ t }) => {
       </div>
       <div className='dn db-l navbar-footer mb3 tc center f7 o-80 glow'>
         { gitRevision && <div className='mb1'>
-          <a className='link white' href={revisionUrl} target='_blank' rel='noopener noreferrer'>{t('status:revision')} {gitRevision}</a>
+          <a className='link white' href={revisionUrl} target='_blank' rel='noopener noreferrer'>{t('app:nav.revision')} {gitRevision}</a>
         </div> }
         <div className='mb1'>
-          <a className='link white' href={codeUrl} target='_blank' rel='noopener noreferrer'>{t('status:codeLink')}</a>
+          <a className='link white' href={codeUrl} target='_blank' rel='noopener noreferrer'>{t('app:nav.codeLink')}</a>
         </div>
         <div>
-          <a className='link white' href={bugsUrl} target='_blank' rel='noopener noreferrer'>{t('status:bugsLink')}</a>
+          <a className='link white' href={bugsUrl} target='_blank' rel='noopener noreferrer'>{t('app:nav.bugsLink')}</a>
         </div>
       </div>
     </div>

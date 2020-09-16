@@ -6,7 +6,7 @@ import HLRU from 'hashlru'
 import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
 import ip from 'ip'
-import memoizee from 'memoizee'
+import memoize from 'p-memoize'
 
 // After this time interval, we re-check the locations for each peer
 // once again through PeerLocationResolver.
@@ -146,7 +146,7 @@ const parseLatency = (latency) => {
   return value
 }
 
-const getPublicIP = memoizee((identity) => {
+const getPublicIP = memoize((identity) => {
   if (!identity) return
 
   for (const maddr of identity.addresses) {
@@ -213,7 +213,7 @@ class PeerLocationResolver {
   constructor (opts) {
     this.geoipCache = getConfiguredCache({
       name: 'geoipCache',
-      version: 1,
+      version: 2,
       maxAge: ms.weeks(1),
       ...opts.cache
     })

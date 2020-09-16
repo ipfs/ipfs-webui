@@ -3,9 +3,16 @@ import { createSelector } from 'redux-bundler'
 /**
  * @typedef {Object} Model
  * @property {number} lastError
+ * @property {boolean} isNodeInfoOpen
  *
- * @typedef {Object} Message
+ * @typedef {FetchFailed|InfoOpen} Message
+ *
+ * @typedef {Object} FetchFailed
  * @property {'STATS_FETCH_FAILED'} type
+ *
+ * @typedef {Object} InfoOpen
+ * @property {'NODE_INFO_OPEN'} type
+ * @property {boolean} payload
  *
  * @typedef {Object} State
  * @property {Model} connected
@@ -31,7 +38,25 @@ const selectors = {
      */
     (ipfsReady, lastSuccess, lastError) =>
       ipfsReady && lastSuccess != null && lastSuccess > lastError
-  )
+  ),
+
+  /**
+   * @param {State} state
+   */
+  selectIsNodeInfoOpen: state => state.connected.isNodeInfoOpen
+}
+
+/**
+ * @typedef {import('redux-bundler').Actions<typeof actions>} Actions
+ * @typedef {Selectors & Actions} Ext
+ * @typedef {import('redux-bundler').Context<State, Message, Ext>} Context
+ */
+const actions = {
+  /**
+   * @param {boolean} value
+   * @returns {function(Context): void}
+   */
+  doSetIsNodeInfoOpen: value => ({ dispatch }) => dispatch({ type: 'NODE_INFO_OPEN', payload: value })
 }
 
 // We ask for the stats every few seconds, so that gives a good indication
@@ -40,17 +65,22 @@ const connected = {
   name: 'connected',
 
   /**
-   * @param {Model} [state]
+   * @param {Model|void} state
    * @param {Message} action
    * @returns {Model}
    */
-  reducer: (state = { lastError: 0 }, action) => {
-    if (action.type === 'STATS_FETCH_FAILED') {
-      return { lastError: Date.now() }
+  reducer: (state, action) => {
+    state = state || { lastError: 0, isNodeInfoOpen: false }
+    switch (action.type) {
+      case 'STATS_FETCH_FAILED':
+        return { ...state, lastError: Date.now() }
+      case 'NODE_INFO_OPEN':
+        return { ...state, isNodeInfoOpen: action.payload }
+      default:
+        return state
     }
-    return state
   },
-
+  ...actions,
   ...selectors
 }
 

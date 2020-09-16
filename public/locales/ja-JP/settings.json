@@ -1,10 +1,8 @@
 {
   "title": "設定",
-  "save": "保存",
-  "saving": "保存中……",
-  "reset": "リセット",
   "language": "言語",
   "analytics": "分析",
+  "cliTutorMode": "CLI Tutor Mode",
   "config": "IPFS設定",
   "languageModal": {
     "title": "言語を変更",
@@ -12,10 +10,8 @@
     "translationProjectIntro": "IPFSをみんなにとってよりよくするために翻訳を追加、校正しましょう!",
     "translationProjectLink": "IPFS翻訳プロジェクトに参加"
   },
-  "actions": {
-    "edit": "変更",
-    "close": "閉じる"
-  },
+  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
+  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
   "fetchingSettings": "設定を読み込んでいます",
   "configApiNotAvailable": "IPFS設定APIが利用できません。拡張機能「IPFS Companion」を無効にして再度接続を試してください。",
   "ipfsDaemonOffline": "IPFSデーモンが起動していないようです。デーモンを起動して再度接続を試してください。",
@@ -60,12 +56,10 @@
       "details": "可能であれば、アプリを利用しているときにエラーが起きた際に、Javascriptのエラーメッセージとスタックトレースを記録します。これはアプリケーションがうまく動作しない状態を解析する際にとても有用な情報ですが、<1>エラーメッセージは識別可能な情報、たとえばCIDやファイルパスを含む可能性があり</1>もしそれらを送信してもいいならばこれを有効にしてください。"
     }
   },
+  "cliToggle": {
+    "label": "Enable command-line interface (CLI) tutor mode"
+  },
   "tour": {
-    "back": "戻る",
-    "close": "閉じる",
-    "last": "最後へ",
-    "next": "次へ",
-    "skip": "スキップ",
     "step1": {
       "title": "設定",
       "paragraph1": "ここではWebUIとIPFSノードの設定を変更できます",
@@ -81,6 +75,10 @@
       "paragraph2": "あなたは送信されるデータを選択できますし、我々はあなたをあなたとして特定することはできません。我々はプライバシーを何よりも重視しています。"
     },
     "step4": {
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    },
+    "step5": {
       "title": "IPFS設定",
       "paragraph1": "このWebUIではあなたのIPFSノードの設定を変更することができます!",
       "paragraph2": "ただ、変更した設定を反映させるためのIPFSノードの再起動を忘れないでください！"

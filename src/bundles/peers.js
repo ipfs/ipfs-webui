@@ -43,7 +43,7 @@ bundle.doConnectSwarm = addr => async ({ dispatch, getIpfs }) => {
     })
   }
 
-  dispatch({ type: 'SWARM_CONNECT_FINISHED', payload: { addr } })
+  return dispatch({ type: 'SWARM_CONNECT_FINISHED', payload: { addr } })
 }
 
 // Update the peers if they are stale (appTime - lastSuccess > staleAfter)

@@ -17,6 +17,10 @@ import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import JsonEditor from './editor/JsonEditor'
 import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
+import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
+import Checkbox from '../components/checkbox/Checkbox'
+import StrokeCode from '../icons/StrokeCode'
+import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
@@ -25,12 +29,22 @@ export const SettingsPage = ({
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
-  toursEnabled, handleJoyrideCallback
+  toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, command
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
     <Helmet>
       <title>{t('title')} | IPFS</title>
     </Helmet>
+
+    <Box className='mb3 pa4 joyride-settings-customapi'>
+      <div className='lh-copy charcoal'>
+        <Title>{t('app:terms.apiAddress')}</Title>
+        <Trans i18nKey='apiDescription' t={t}>
+          <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here.</p>
+        </Trans>
+        <ApiAddressForm/>
+      </div>
+    </Box>
 
     <Box className='mb3 pa4'>
       <div className='mb4 joyride-settings-language'>
@@ -44,19 +58,21 @@ export const SettingsPage = ({
       </div>
     </Box>
 
-    <Box className='mb3 pa4 joyride-settings-customapi'>
-      <div className='lh-copy charcoal' id="api">
-        <Title>{t('api')}</Title>
-        <Trans i18nKey='apiDescription' t={t}>
-          <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here to update your config file.</p>
+    <Experiments t={t} />
+
+    <Box className='mb3 pa4'>
+      <div className='charcoal'>
+        <Title>{t('cliTutorMode')}</Title>
+        <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isCliTutorModeEnabled}
+          label={<span className='f5 lh-copy'>{t('cliToggle.label')}</span>}/>
+        <Trans i18nKey='cliDescription' t={t}>
+          <p className='f6 mv2'>Enable this option to display a "view code" <StrokeCode className='dib v-mid icon mh1 fill-charcoal' viewBox='14 20 70 66' style={{ height: 24 }} /> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</p>
         </Trans>
-        <ApiAddressForm/>
       </div>
     </Box>
 
-    <Experiments t={t} />
-
-    <Box className='mb3 pa4 joyride-settings-config'>
+    { isIpfsConnected &&
+    (<Box className='mb3 pa4 joyride-settings-config'>
       <Title>{t('config')}</Title>
       <div className='flex pb3'>
         <div className='flex-auto'>
@@ -75,6 +91,7 @@ export const SettingsPage = ({
         </div>
         { config ? (
           <div className='flex flex-column justify-center flex-row-l items-center-l'>
+            <CliTutorMode showIcon={true} config={config} t={t} command={command}/>
             <Button
               minWidth={100}
               height={40}
@@ -82,7 +99,7 @@ export const SettingsPage = ({
               className='tc'
               disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
               onClick={onReset}>
-              {t('reset')}
+              {t('app:actions.reset')}
             </Button>
             <SaveButton
               t={t}
@@ -105,6 +122,7 @@ export const SettingsPage = ({
           key={editorKey} />
       ) : null }
     </Box>
+    )}
 
     <ReactJoyride
       run={toursEnabled}
@@ -132,7 +150,7 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
       { hasSaveSucceded && !hasSaveFailed ? (
         <Tick height={16} className='fill-snow' style={{ transform: 'scale(3)' }} />
       ) : (
-        isSaving ? t('saving') : t('save')
+        isSaving ? t('app:actions.saving') : t('app:actions.save')
       )}
     </Button>
   )
@@ -257,11 +275,16 @@ export class SettingsPageContainer extends React.Component {
   }
 
   render () {
-    const { t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving, configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled, handleJoyrideCallback } = this.props
+    const {
+      t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving,
+      configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled,
+      handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode
+    } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
     const hasSaveFailed = this.isRecent(configSaveLastError)
     const isLoading = configIsLoading || (!editableConfig && !configLastError)
+
     return (
       <SettingsPage
         t={t}
@@ -284,7 +307,11 @@ export class SettingsPageContainer extends React.Component {
         analyticsEnabled={analyticsEnabled}
         doToggleAnalytics={doToggleAnalytics}
         toursEnabled={toursEnabled}
-        handleJoyrideCallback={handleJoyrideCallback} />
+        handleJoyrideCallback={handleJoyrideCallback}
+        doToggleCliTutorMode={doToggleCliTutorMode}
+        isCliTutorModeEnabled={isCliTutorModeEnabled}
+        command={cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]()}
+      />
     )
   }
 }
@@ -305,5 +332,7 @@ export default connect(
   'selectAnalyticsEnabled',
   'doToggleAnalytics',
   'doSaveConfig',
+  'selectIsCliTutorModeEnabled',
+  'doToggleCliTutorMode',
   withTour(TranslatedSettingsPage)
 )

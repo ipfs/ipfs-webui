@@ -40,6 +40,11 @@ class Header extends React.Component {
     }, pos)
   }
 
+  handleBreadCrumbsContextMenu = (ev, breadcrumbsRef, file) => {
+    const pos = breadcrumbsRef.getBoundingClientRect()
+    this.props.handleContextMenu(ev, 'TOP', file, pos)
+  }
+
   render () {
     const {
       files,
@@ -55,23 +60,25 @@ class Header extends React.Component {
     return (
       <div className='db flex-l justify-between items-center'>
         <div className='mb3 overflow-hidden mr2'>
-          <Breadcrumbs className="joyride-files-breadcrumbs" path={files ? files.path : '/404'} onClick={onNavigate} />
+          <Breadcrumbs className="joyride-files-breadcrumbs" path={files ? files.path : '/404'}
+            onClick={onNavigate} onContextMenuHandle={(...args) => this.handleBreadCrumbsContextMenu(...args)}
+            onAddFiles={this.props.onAddFiles} onMove={this.props.onMove}/>
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
-          <BarOption title={t('files')} isLink onClick={() => { onNavigate('/files') }}>
+          <BarOption title={t('app:terms.files')} isLink onClick={() => { onNavigate('/files') }}>
             { humanSize(filesSize) }
           </BarOption>
 
-          <BarOption title={t('pins')} isLink onClick={() => { onNavigate('/pins') }}>
+          <BarOption title={t('app:terms.pins')} isLink onClick={() => { onNavigate('/pins') }}>
             { pins ? SimplifyNumber(pins.length) : '-' }
           </BarOption>
 
-          <BarOption title={t('blocks')}>
+          <BarOption title={t('app:terms.blocks')}>
             { repoNumObjects ? SimplifyNumber(repoNumObjects, { decimal: 0 }) : 'N/A' }
           </BarOption>
 
-          <BarOption title={t('repo')}>
+          <BarOption title={t('app:terms.repo')}>
             { humanSize(repoSize) }
           </BarOption>
 
@@ -81,7 +88,9 @@ class Header extends React.Component {
                 ? <FileInput
                   onNewFolder={this.props.onNewFolder}
                   onAddFiles={this.props.onAddFiles}
-                  onAddByPath={this.props.onAddByPath} />
+                  onAddByPath={this.props.onAddByPath}
+                  onCliTutorMode={this.props.onCliTutorMode}
+                />
                 : <div ref={el => { this.dotsWrapper = el }}>
                   <Button bg='bg-navy'
                     color='white'
@@ -91,7 +100,7 @@ class Header extends React.Component {
                     disabled={!files || filesPathInfo.isRoot || files.type === 'unknown'}
                     onClick={this.handleContextMenu}>
                     <GlyphDots className='w1 mr2' />
-                    { t('more') }
+                    { t('app:actions.more') }
                   </Button>
                 </div>
               }

@@ -12,14 +12,17 @@ import Box from '../components/box/Box'
 import WorldMap from './WorldMap/WorldMap'
 import PeersTable from './PeersTable/PeersTable'
 import AddConnection from './AddConnection/AddConnection'
+import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
+import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
 
-const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
+const PeersPage = ({ t, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled }) => (
   <div data-id='PeersPage' className='overflow-hidden'>
     <Helmet>
       <title>{t('title')} | IPFS</title>
     </Helmet>
 
-    <div className='flex justify-end mb3'>
+    <div className='flex justify-end items-center mb3'>
+      <CliTutorMode showIcon={true} command={cliCommandList[cliCmdKeys.ADD_NEW_PEER]()} t={t}/>
       <AddConnection />
     </div>
 
@@ -42,5 +45,6 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
 
 export default connect(
   'selectToursEnabled',
+  'selectIsCliTutorModeEnabled',
   withTour(withTranslation('peers')(PeersPage))
 )

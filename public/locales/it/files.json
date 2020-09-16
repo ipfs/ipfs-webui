@@ -5,38 +5,19 @@
   "finished": "Finito!",
   "totalSize": "Totale: {size}",
   "filesSelected": "{count, plural, one {File selezionato} other {File selezionati}}",
-  "menuOptions": "Options for selected item",
-  "selectedAllEntries": "Select all table entries",
+  "menuOptions": "Opzioni per oggetti selezionati",
+  "selectedAllEntries": "Seleziona tutte le voci della tabella",
   "individualFilesOnly": "Disponibile solamente per file individuali",
-  "itemName": "Nome",
-  "size": "Dimensione",
   "noPDFSupport": "Il tuo browser non supporta i PDF. Per favore, scarica il PDF per visualizzarlo:",
   "downloadPDF": "Scarica PDF",
   "downloadInstead": "Prova invece a <1>scaricarlo</1>",
   "cantBePreviewed": "Ci dispiace, questo file non può essere visualizzato in anteprima",
-  "addFile": "File",
-  "addFolder": "Cartella",
   "addByPath": "Da IPFS",
-  "importToIPFS": "Importa",
   "newFolder": "Nuova cartella",
   "generating": "Generazione...",
   "actions": {
-    "import": "Importa",
-    "delete": "Elimina",
-    "rename": "Rinomina",
-    "download": "Scarica",
-    "inspect": "Ispeziona",
     "copyHash": "Copia CID",
-    "share": "Condividi collegamento",
-    "close": "Chiudi",
-    "copy": "Copia",
-    "cancel": "Annulla",
-    "clear": "Svuota",
-    "create": "Crea",
-    "save": "Salva",
-    "pin": "Affissa",
-    "unpin": "Sblocca",
-    "unselectAll": "Deseleziona tutto"
+    "share": "Condividi collegamento"
   },
   "shareModal": {
     "title": "Condividi file",
@@ -65,18 +46,9 @@
     "title": "Nuova cartella",
     "description": "Inserisci il nome della cartella che vuoi creare."
   },
-  "welcomeInfo": {
-    "header": "Benvenuto nell'IPFS Web UI",
-    "paragraph1": "<0><0>Controlla lo stato</0> del tuo nodo, il suo Peer ID, le sue informazioni sulla connessione, il traffico della rete ed il numero di peer connessi.",
-    "paragraph2": "<0><1>Gestisci i file</1> facilmente nella tua repository IPFS. Puoi trascinare e rilasciare per aggiungere file. Dopodiché potrai muoverli, rinominarli, eliminarli, condividerli o scaricarli.</0>",
-    "paragraph3": "<0>Puoi <1>esplorare i dati IPLD</1> che sono alla base del funzionamento di IPFS.</0>",
-    "paragraph4": "<0>Osserva tutti i tuoi <1>peer connessi</1>, geolocalizzati dal loro indirizzo IP.</0>",
-    "paragraph5": "<0></0>Esamina le impostazioni</0> del tuo nodo IPFS e modificale in base alle tue esigenze.</0>",
-    "paragraph6": "<0>Se vuoi aiutare a migliorare il Web UI, <1>analizza il suo codice</1> o <3>comunica i bug</3>!</0>"
-  },
   "filesListLabel": "Lista di file",
   "filesList": {
-    "noFiles": "<0>Nessun file in questo percorso. Clicca sul bottone \"Aggiungi\" per aggiungerne qualcuno.</0>"
+    "noFiles": "<0>Nessun file in questo percorso. Clicca il bottone \"Importa\" per aggiungerne.</0>"
   },
   "filesImportStatus": {
     "imported": "{count, plural, one {1 oggetto importato} other {{count} oggetti importati.}}",
@@ -85,14 +57,9 @@
     "closeDropdown": "Chiudi menù a discesa",
     "count": "{count} di {count}"
   },
-  "addFilesInfo": "<0>Aggiungi file al tuo nodo IPFS locale cliccando il bottone <1>Aggiungi ad IPFS</1> sovrastante.</0>",
+  "addFilesInfo": "<0>Non ci sono file! Aggiungi i file al tuo nodo IPFS locale cliccando sul bottone <1>Importa</1> sovrastante.</0>",
   "companionInfo": "<0>Mentre utilizzi <1>IPFS Companion</1>, la visualizzazione dei file è limitata a quelli aggiunti durante l'uso dell'estensione.</0>",
   "tour": {
-    "back": "Indietro",
-    "close": "Chiudi",
-    "last": "Ultimo",
-    "next": "Avanti",
-    "skip": "Salta",
     "step1": {
       "title": "Pagina dei file",
       "paragraph1": "<0>Questo è il luogo in cui risiedono i file sul tuo <1>Mutable File System (MFS)</1>. Puoi aggiungere file o cartelle e gestirli da questa pagina.</0>",
@@ -100,7 +67,10 @@
     },
     "step2": {
       "title": "Breadcrumb",
-      "paragraph1": "Il percorso corrente, dove puoi navigare attraverso la gerarchia cliccando sulle cartelle."
+      "paragraph1": "These breadcrumbs display the path to your current directory. You can…",
+      "bullet1": "Click an individual breadcrumb to go to that directory",
+      "bullet2": "Right-click a breadcrumb to get the actions menu for that directory",
+      "bullet3": "Drag files onto a breadcrumb to move or import them"
     },
     "step3": {
       "title": "Aggiungi file",
@@ -115,19 +85,11 @@
       "paragraph3": "Suggerimento: trascina e rilascia un file da qualsiasi pagina del Web UI per aggiungerli al root del tuo MFS."
     }
   },
-  "exploreForm": {
-    "browse": "Esplora",
-    "inspect": "Ispeziona"
-  },
-  "previousFolder": "Go back to previous folder",
-  "fileLabel": "Select {type} {name} with size: {size}", 
+  "previousFolder": "Torna alla cartella precedente",
+  "fileLabel": "Seleziona {type} {name} con dimensione: {size}",
   "hashUnavailable": "Hash non disponibile",
-  "checkboxLabel": "View more options for {name}",
-  "pins": "Affissi",
+  "checkboxLabel": "Mostra più opzioni per {name}",
   "pinned": "Affissato",
-  "blocks": "Blocchi",
-  "more": "Altro",
-  "files": "File",
   "cidNotFileNorDir": "Il collegamento corrente non è né un file né un percorso. Prova invece ad <0>ispezionarlo</0>.",
-  "sortBy": "Sort items by {name}"
+  "sortBy": "Ordina oggetti per {name}"
 }

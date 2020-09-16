@@ -8,35 +8,16 @@
   "menuOptions": "Options for selected item",
   "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Dostupné pouze pro jednotlivé soubory",
-  "itemName": "Jméno",
-  "size": "Velikost",
   "noPDFSupport": "Váš prohlížeč nepodporuje PDF. Prosím stáhněte si PDF soubor k otevření:",
   "downloadPDF": "Stáhnout PDF",
   "downloadInstead": "Zkuste místo toho to <1>stáhnout</1>.",
   "cantBePreviewed": "Litujeme, tento soubor nelze zobrazit",
-  "addFile": "Soubor",
-  "addFolder": "Složka",
   "addByPath": "Od IPFS",
-  "importToIPFS": "Import",
   "newFolder": "Nová složka",
   "generating": "Vytváření…",
   "actions": {
-    "import": "Import",
-    "delete": "Smazat",
-    "rename": "Přejmenovat",
-    "download": "Stáhnout",
-    "inspect": "Prozkoumat",
     "copyHash": "Zkopírovat CID",
-    "share": "Sdílet odkaz",
-    "close": "Zavřít",
-    "copy": "Zkopírovat",
-    "cancel": "Zrušit",
-    "clear": "Smazat",
-    "create": "Vytvořit",
-    "save": "Uložit",
-    "pin": "Připnout",
-    "unpin": "Odepnout",
-    "unselectAll": "Odznačit vše"
+    "share": "Sdílet odkaz"
   },
   "shareModal": {
     "title": "Sdílet soubory",
@@ -65,18 +46,9 @@
     "title": "Nová složka",
     "description": "Vložte jméno složky, kterou chcete vytvořit."
   },
-  "welcomeInfo": {
-    "header": "Vítejte v IPFS Web UI",
-    "paragraph1": "<0><0>Zkontrolujte stav</0> vašeho uzlu, jeho ID uzlu a informace o připojení, síťový provoz a počet připojených uzlů.</0>",
-    "paragraph2": "<0>Snadná <1>správa souborů</1> v repo IPFS. Soubory můžete přidávat přetažením a můžete je přesouvat, přejmenovávat, mazat, sdílet nebo stahovat.</0>",
-    "paragraph3": "<0>Můžete <1>prozkoumávat IPLD data</1> které tvoří základ toho jak IPFS funguje.</0>",
-    "paragraph4": "<0>Podívejte se na všechny <1>připojené uzly</1>,  lokalizované podle jejich IP adresy.</0>",
-    "paragraph5": "<0><0>Prozkoumejte nastavení</0> vašeho IPFS uzlu a upravte je aby lépe odpovídala vaším potřebám.</0>",
-    "paragraph6": "<0>Pokud chcete pomoc posunout Web UI dále, <1>mkrněte na jeho kód</1> nebo <3>nahlašte problém</3>!</0>"
-  },
   "filesListLabel": "Seznam souborů",
   "filesList": {
-    "noFiles": "<0>V tomto adresáři nejsou žádné soubory. Klepnutím na tlačítko „Přidat“ přidejte některé.</0>"
+    "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
   },
   "filesImportStatus": {
     "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
@@ -85,14 +57,9 @@
     "closeDropdown": "Close dropdown",
     "count": "{count} of {count}"
   },
-  "addFilesInfo": "<0>Přidejte soubory do vašeho IPFS uzlu kliknutím na <1>Přidat do IPFS</1> tlačítko.</0>",
+  "addFilesInfo": "<0>No files here yet! Add files to your local IPFS node by clicking the <1>Import</1> button above.</0>",
   "companionInfo": "<0>Jelikož používáte <1>IPFS Companion</1>, zobrazené soubory jsou omezeny pouze na ty které jste přidali během používání tohoto rozšíření.</0>",
   "tour": {
-    "back": "Zpět",
-    "close": "Zavřít",
-    "last": "Poslední",
-    "next": "Další",
-    "skip": "Přeskočit",
     "step1": {
       "title": "Stránka se soubory",
       "paragraph1": "<0>Zde žijí soubory ve vašem systému <1>Meable File System (MFS)</1>. Na této stránce můžete přidat soubory nebo složky a spravovat je.</0>",
@@ -115,19 +82,11 @@
       "paragraph3": "Pro tip: přetáhněte soubor z jakékoli jiné stránky webového uživatelského rozhraní a přidejte je do kořenového adresáře vašeho MFS."
     }
   },
-  "exploreForm": {
-    "browse": "Procházet",
-    "inspect": "Prozkoumat"
-  },
   "previousFolder": "Go back to previous folder",
-  "fileLabel": "Select {type} {name} with size: {size}", 
+  "fileLabel": "Select {type} {name} with size: {size}",
   "hashUnavailable": "hash není k dispozici",
   "checkboxLabel": "View more options for {name}",
-  "pins": "Špendlíky",
   "pinned": "Připíchnuté",
-  "blocks": "Bloky",
-  "more": "Více",
-  "files": "Soubory",
   "cidNotFileNorDir": "Aktuální odkaz není soubor ani adresář. Zkuste ho místo toho <0>zkontrolovat</0>.",
   "sortBy": "Sort items by {name}"
 }
