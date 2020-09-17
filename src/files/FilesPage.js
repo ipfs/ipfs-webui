@@ -225,7 +225,6 @@ class FilesPage extends React.Component {
           translateX={contextMenu.translateX}
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenu}
-          isDirectory={contextMenu.file && contextMenu.file.type === 'directory'}
           isMfs={filesPathInfo ? filesPathInfo.isMfs : false}
           isUnknown={!!(contextMenu.file && contextMenu.file.type === 'unknown')}
           pinned={contextMenu.file && contextMenu.file.pinned}
