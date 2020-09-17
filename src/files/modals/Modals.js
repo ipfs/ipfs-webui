@@ -7,8 +7,8 @@ import Overlay from '../../components/overlay/Overlay'
 import NewFolderModal from './new-folder-modal/NewFolderModal'
 import ShareModal from './share-modal/ShareModal'
 import RenameModal from './rename-modal/RenameModal'
-import DeleteModal from './delete-modal/DeleteModal'
 import PinningModal from './pinning-modal/PinningModal'
+import RemoveModal from './remove-modal/RemoveModal'
 import AddByPathModal from './add-by-path-modal/AddByPathModal'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts'
@@ -76,7 +76,7 @@ class Modals extends React.Component {
   delete = () => {
     const { paths } = this.state.delete
 
-    this.props.onDelete(paths)
+    this.props.onRemove(paths)
     this.leave()
   }
 
@@ -178,7 +178,7 @@ class Modals extends React.Component {
       case cliCmdKeys.CREATE_NEW_DIRECTORY:
       case cliCmdKeys.FROM_IPFS:
         return cliCommandList[action](root.substr('/files'.length))
-      case cliCmdKeys.DELETE_FILE_FROM_IPFS:
+      case cliCmdKeys.REMOVE_FILE_FROM_IPFS:
         return cliCommandList[action](path)
       case cliCmdKeys.DOWNLOAD_OBJECT_COMMAND:
         return cliCommandList[action](activeCid)
@@ -219,11 +219,11 @@ class Modals extends React.Component {
         </Overlay>
 
         <Overlay show={show === DELETE && readyToShow} onLeave={this.leave}>
-          <DeleteModal
+          <RemoveModal
             className='outline-0'
             { ...this.state.delete }
             onCancel={this.leave}
-            onDelete={this.delete} />
+            onRemove={this.delete} />
         </Overlay>
 
         <Overlay show={show === ADD_BY_PATH && readyToShow} onLeave={this.leave}>
@@ -257,7 +257,7 @@ Modals.propTypes = {
   onMove: PropTypes.func.isRequired,
   onMakeDir: PropTypes.func.isRequired,
   onShareLink: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired
+  onRemove: PropTypes.func.isRequired
 }
 
 export default withTranslation('files')(Modals)

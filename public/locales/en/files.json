@@ -32,13 +32,15 @@
     "descriptionFile": "Choose a new name for this file.",
     "descriptionFolder": "Choose a new name for this folder."
   },
-  "deleteModal": {
-    "titleItem": "{count, plural, one {Delete item} other {Delete {count} items}}",
-    "titleFolder": "{count, plural, one {Delete folder} other {Delete {count} folders}}",
-    "titleFile": "{count, plural, one {Delete file} other {Delete {count} files}}",
-    "descriptionItem": "{count, plural, one {Are you sure you want to delete this item? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} items? This action is permanent and cannot be reversed.}}",
-    "descriptionFolder": "{count, plural, one {Are you sure you want to delete this folder? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} folders? This action is permanent and cannot be reversed.}}",
-    "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.}}"
+  "removeModal": {
+    "titleItem": "{count, plural, one {Remove item} other {Remove {count} items}}",
+    "titleFolder": "{count, plural, one {Remove folder} other {Remove {count} folders}}",
+    "titleFile": "{count, plural, one {Remove file} other {Remove {count} files}}",
+    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "checkboxRemoveLocalPin": "Also remove this item's local pin (recommended)",
+    "checkboxUnpinFromServices": "Unpin from all pinning services"
   },
   "pinningModal": {
     "title": "Select where you would like to pin these items.",
@@ -90,7 +92,7 @@
     "step5": {
       "title": "Files list",
       "paragraph1": "Finally, the listing where you can find your files and folders. Drag and drop files or folders to add them.",
-      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or delete them!",
+      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!",
       "paragraph3": "Pro tip: drag and drop a file from any other page of the Web UI to add them to the root of your MFS."
     }
   },

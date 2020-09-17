@@ -138,7 +138,7 @@ const notify = {
           case FILES_ACTIONS.COPY:
             return 'filesCopyFailed'
           case FILES_ACTIONS.DELETE:
-            return 'filesDeleteFailed'
+            return 'filesRemoveFailed'
           default:
             return 'filesEventFailed'
         }

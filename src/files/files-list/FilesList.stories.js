@@ -27,7 +27,7 @@ storiesOf('Files/Files List', module)
         onInspect={action('Inspect')}
         onRename={action('Rename')}
         onDownload={action('Download')}
-        onDelete={action('Delete')}
+        onRemove={action('Remove')}
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
         maxWidth={'100%'}
@@ -46,7 +46,7 @@ storiesOf('Files/Files List', module)
         onInspect={action('Inspect')}
         onRename={action('Rename')}
         onDownload={action('Download')}
-        onDelete={action('Delete')}
+        onRemove={action('Remove')}
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
         maxWidth={'100%'}
@@ -65,7 +65,7 @@ storiesOf('Files/Files List', module)
         onInspect={action('Inspect')}
         onRename={action('Rename')}
         onDownload={action('Download')}
-        onDelete={action('Delete')}
+        onRemove={action('Remove')}
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
         maxWidth={'100%'}
@@ -84,7 +84,7 @@ storiesOf('Files/Files List', module)
         onInspect={action('Inspect')}
         onRename={action('Rename')}
         onDownload={action('Download')}
-        onDelete={action('Delete')}
+        onRemove={action('Remove')}
         onNavigate={action('Navigate')}
         onCancelUpload={action('Cancel Upload')}
         maxWidth={'100%'}

@@ -44,7 +44,7 @@
     "descriptionFile": "Velg et nytt navn for denne filen.",
     "descriptionFolder": "Velg et nytt navn for denne mappen."
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, one {Slett element} other {Slett {count} elementer}}",
     "titleFolder": "{count, plural, one {Slett mappe} other {Slett {count} mapper}}",
     "titleFile": "{count, plural, one {Slett fil} other {Slett {count} filer}}",

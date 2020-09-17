@@ -44,7 +44,7 @@
     "descriptionFile": "Escolha um novo nome para este ficheiro.",
     "descriptionFolder": "Escolha um novo nome para esta pasta."
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, one {Eliminar Item} other {Eliminar {count} Items.}}",
     "titleFolder": "{count, plural, one {Eliminar Pasta} other {Eliminar {count} Pastas}}",
     "titleFile": "{count, plural, one {Eliminar Ficheiro} other {Eliminar {count} Ficheiros}}",

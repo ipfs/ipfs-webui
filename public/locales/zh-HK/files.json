@@ -29,7 +29,7 @@
     "descriptionFile": "重命名此文件",
     "descriptionFolder": "重命名此文件夾"
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, other {移除{count}個項目}}",
     "titleFolder": "{count, plural, other {移除{count}個文件夾}}",
     "titleFile": "{count, plural, other {移除{count}個文件}}",

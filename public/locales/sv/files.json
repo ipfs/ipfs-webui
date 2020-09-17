@@ -43,7 +43,7 @@
     "descriptionFile": "Välj ett namn för denna fil.",
     "descriptionFolder": "Välj ett namn för denna mapp."
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, one {Ta bort föremål} other {Ta bort {count} föremål}}",
     "titleFolder": "{count, plural, one {Ta bort mapp} other {Ta bort {count} mappar}}",
     "titleFile": "{count, plural, one {Ta bort fil} other {Ta bort {count} filer}}",

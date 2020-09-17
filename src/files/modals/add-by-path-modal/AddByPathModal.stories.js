@@ -10,7 +10,7 @@ storiesOf('Files/Modals', module)
     <div className='ma3'>
       <AddByPathModal
         onCancel={action('Cancel')}
-        onSubmit={action('Delete')}
+        onSubmit={action('Submit')}
         files={4}
         folders={0} />
     </div>

@@ -10,7 +10,7 @@
   "filesRenameFailed": "Failed to rename the files. Please try again.",
   "filesMakeDirFailed": "Failed to create directory. Please try again.",
   "filesCopyFailed": "Failed to copy the files. Please try again.",
-  "filesDeleteFailed": "Failed to delete the files. Please try again.",
+  "filesRemoveFailed": "Failed to remove the files. Please try again.",
   "filesAddFailed": "Failed to add files to IPFS. Please try again.",
   "filesEventFailed": "Failed to process your request. Please try again.",
   "couldntConnectToPeer": "Could not connect to the provided peer.",

@@ -15,7 +15,7 @@ storiesOf('Files', module)
         count={number('Count', 1)}
         size={345345}
         unselect={action('Unselect All')}
-        remove={action('Delete Files')}
+        remove={action('Remove Files')}
         share={action('Share Files')}
         download={action('Download Files')}
         rename={action('Rename Files')}

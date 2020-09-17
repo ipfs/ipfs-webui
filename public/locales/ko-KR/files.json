@@ -43,7 +43,7 @@
     "descriptionFile": "파일의 새 이름을 적으세요",
     "descriptionFolder": "폴더의 새 이름을 적으세요"
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, other {{count}개 삭제}}",
     "titleFolder": "{count, plural, other {{count}개 폴더 삭제}}",
     "titleFile": "{count, plural, other {{count}개 파일 삭제}}",
