@@ -89,6 +89,7 @@
     "simplify-number": "^1.0.0",
     "tachyons": "^4.12.0",
     "topojson": "^3.0.2",
+    "uint8arrays": "^1.1.0",
     "video-extensions": "^1.1.0",
     "window-or-global": "^1.0.1",
     "window.ipfs-fallback": "^1.2.1"

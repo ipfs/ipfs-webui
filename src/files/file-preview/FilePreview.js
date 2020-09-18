@@ -9,6 +9,8 @@ import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
 import CID from 'cids'
 import { useDrag } from 'react-dnd'
+import first from 'it-first'
+import fromUint8ArrayToString from 'uint8arrays/to-string'
 
 const Preview = (props) => {
   const { name, size, cid, path } = props
@@ -18,7 +20,7 @@ const Preview = (props) => {
 
   const type = typeFromExt(name)
 
-  return <div className={ classNames(type !== 'pdf' && 'dib') } ref={drag}>
+  return <div className={ classNames(type !== 'pdf' && type !== 'text' && type !== 'json' && 'dib') } ref={drag}>
     <PreviewItem {...props} type={type} />
   </div>
 }
@@ -27,8 +29,8 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
   const [content, setContent] = useState(null)
 
   const loadContent = async () => {
-    const buf = await read()
-    setContent(buf.toString('utf-8'))
+    const buf = await first(await read())
+    setContent(fromUint8ArrayToString(buf))
   }
 
   const src = `${gatewayUrl}/ipfs/${cid}`
