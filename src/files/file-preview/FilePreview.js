@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
@@ -9,8 +9,7 @@ import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
 import CID from 'cids'
 import { useDrag } from 'react-dnd'
-import first from 'it-first'
-import fromUint8ArrayToString from 'uint8arrays/to-string'
+import concat from 'it-concat'
 
 const Preview = (props) => {
   const { name, size, cid, path } = props
@@ -20,7 +19,10 @@ const Preview = (props) => {
 
   const type = typeFromExt(name)
 
-  return <div className={ classNames(type !== 'pdf' && type !== 'text' && type !== 'json' && 'dib') } ref={drag}>
+  // Hack: Allows for text selection if it's a text file (bypass useDrag)
+  const dummyRef = useRef()
+
+  return <div className={ classNames(type !== 'pdf' && type !== 'text' && type !== 'json' && 'dib') } ref={type === 'text' ? dummyRef : drag}>
     <PreviewItem {...props} type={type} />
   </div>
 }
@@ -29,8 +31,8 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
   const [content, setContent] = useState(null)
 
   const loadContent = async () => {
-    const buf = await first(await read())
-    setContent(fromUint8ArrayToString(buf))
+    const buf = await concat(await read())
+    setContent(buf.toString())
   }
 
   const src = `${gatewayUrl}/ipfs/${cid}`
@@ -86,7 +88,7 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
       }
 
       return (
-        <pre className={`${className} overflow-auto monospace`}>
+        <pre className={`${className} overflow-auto monospace`} style={{ userSelect: 'all' }}>
           {content}
         </pre>
       )
