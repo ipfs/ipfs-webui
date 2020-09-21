@@ -8,6 +8,9 @@ declare module "ipfs" {
     files: FileService
     name: NameService
     object: ObjectService
+    config: ConfigService
+
+    stop(options?: TimeoutOptions): Promise<void>
   }
 
   export interface CoreService {
@@ -29,6 +32,20 @@ declare module "ipfs" {
     mv(from: string, to: string, options?: FSMoveOptions): Promise<void>
     rm(path: string, options: FSRemoveOptions): Promise<void>
     mkdir(path: string, options: FSMakDirectoryOptions): Promise<void>
+  }
+
+  export interface ConfigService {
+    get(key: string, options?: TimeoutOptions): Promise<Object>
+    getAll(options?: TimeoutOptions): Promise<Object>
+    set(key: string, value: string | number | null | boolean | Object, options?: TimeoutOptions): Promise<void>
+    replace(config: Object, options?: TimeoutOptions): Promise<void>
+
+    profiles: ConfigProfiles
+  }
+
+  export interface ConfigProfiles {
+    list(options?: TimeoutOptions): Promise<Array<{ name: string, description: string }>>
+    apply(name: string, options?: { dryRun?: boolean } & TimeoutOptions): Promise<{ original: Object, updated: Object }>
   }
 
   export interface NameService {
@@ -128,7 +145,7 @@ declare module "ipfs" {
 
   export type FileType =
     | 'file'
-    | 'dir'
+    | 'directory'
 
   export interface FileStat {
     cid: CID
@@ -168,7 +185,9 @@ declare module "ipfs" {
     path: string,
     size: number,
     cid: CID,
-    type: FileType,
+    // IPFS is pretty inconsistent with type field see
+    // https://github.com/ipfs/js-ipfs/issues/3229
+    type: FileType | 'dir',
     mode: number,
     mtime: { secs: number, nsecs?: number }
   }

@@ -1,47 +1,53 @@
-// @ts-check
-
 import multiaddr from 'multiaddr'
+// @ts-ignore
 import HttpClient from 'ipfs-http-client'
+// @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
 import first from 'it-first'
 import last from 'it-last'
+import * as Enum from './enum'
+import { perform } from './task'
 
 /**
+ * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('cids')} CID
+ * @typedef {import('ipfs').FileStat} FileStat
  * @typedef {'httpClient'|'jsIpfs'|'windowIpfs'|'webExt'} ProviderName
  * @typedef {Object} Model
- * @property {void|string} apiAddress
- * @property {void|ProviderName} provider
+ * @property {null|string|HTTPClientOptions} apiAddress
+ * @property {null|ProviderName} provider
  * @property {boolean} failed
  * @property {boolean} ready
  * @property {boolean} invalidAddress
  *
- * @typedef {Object} InitStarted
- * @property {'IPFS_INIT_STARTED'} type
- *
- * @typedef {Object} InitFinished
- * @property {'IPFS_INIT_FINISHED'} type
- * @property {Object} payload
- * @property {ProviderName} payload.provider
- * @property {IPFSAPI} payload.ipfs
- * @property {string} [payload.apiAddress]
- *
- * @typedef {Object} InitFailed
- * @property {'IPFS_INIT_FAILED'} type
- *
+ * @typedef {import('./task').Perform<'IPFS_INIT', Error, InitResult, void>} Init
  * @typedef {Object} Stopped
  * @property {'IPFS_STOPPED'} type
  *
  * @typedef {Object} AddressUpdated
  * @property {'IPFS_API_ADDRESS_UPDATED'} type
- * @property {string} payload
+ * @property {string|HTTPClientOptions} payload
  *
  * @typedef {Object} AddressInvalid
  * @property {'IPFS_API_ADDRESS_INVALID'} type
  *
  * @typedef {Object} Dismiss
  * @property {'IPFS_API_ADDRESS_INVALID_DISMISS'} type
- * @typedef {InitStarted|InitFinished|InitFailed|Stopped|AddressUpdated|AddressInvalid|Dismiss} Message
+ *
+ * @typedef {Object} InitResult
+ * @property {ProviderName} provider
+ * @property {IPFSService} ipfs
+ * @property {string} [apiAddress]
+ * @typedef {Init|Stopped|AddressUpdated|AddressInvalid|Dismiss} Message
  */
+
+export const ACTIONS = Enum.from([
+  'IPFS_INIT',
+  'IPFS_STOPPED',
+  'IPFS_API_ADDRESS_UPDATED',
+  'IPFS_API_ADDRESS_INVALID',
+  'IPFS_API_ADDRESS_INVALID_DISMISS'
+])
 
 /**
  * @param {Model} state
@@ -50,32 +56,47 @@ import last from 'it-last'
  */
 const update = (state, message) => {
   switch (message.type) {
-    case 'IPFS_INIT_STARTED': {
-      return { ...state, ready: false }
-    }
-    case 'IPFS_INIT_FINISHED': {
-      ipfs = message.payload.ipfs
-      return {
-        ...state,
-        ready: true,
-        failed: false,
-        provider: message.payload.provider,
-        apiAddress: asAPIOptions(message.payload.apiAddress || state.apiAddress)
+    case ACTIONS.IPFS_INIT: {
+      const { task } = message
+      switch (task.status) {
+        case 'Init': {
+          return { ...state, ready: false }
+        }
+        case 'Exit': {
+          const { result } = task
+          if (result.ok) {
+            const { provider, apiAddress, ipfs: service } = result.value
+            ipfs = service
+            return {
+              ...state,
+              ready: true,
+              failed: false,
+              provider,
+              apiAddress: apiAddress || state.apiAddress
+            }
+          } else {
+            return {
+              ...state,
+              ready: false,
+              failed: true
+            }
+          }
+        }
+        default: {
+          return state
+        }
       }
     }
-    case 'IPFS_STOPPED': {
+    case ACTIONS.IPFS_STOPPED: {
       return { ...state, ready: false, failed: false }
     }
-    case 'IPFS_INIT_FAILED': {
-      return { ...state, ready: false, failed: true }
-    }
-    case 'IPFS_API_ADDRESS_UPDATED': {
+    case ACTIONS.IPFS_API_ADDRESS_UPDATED: {
       return { ...state, apiAddress: message.payload, invalidAddress: false }
     }
-    case 'IPFS_API_ADDRESS_INVALID': {
+    case ACTIONS.IPFS_API_ADDRESS_INVALID: {
       return { ...state, invalidAddress: true }
     }
-    case 'IPFS_API_ADDRESS_INVALID_DISMISS': {
+    case ACTIONS.IPFS_API_ADDRESS_INVALID_DISMISS: {
       return { ...state, invalidAddress: true }
     }
     default: {
@@ -98,7 +119,7 @@ const init = () => {
 }
 
 /**
- * @returns {string|null}
+ * @returns {HTTPClientOptions|string|null}
  */
 const readAPIAddressSetting = () => {
   const setting = readSetting('ipfsApi')
@@ -106,7 +127,8 @@ const readAPIAddressSetting = () => {
 }
 
 /**
- * @returns {object|string|null}
+ * @param {string|object} value
+ * @returns {HTTPClientOptions|string|null}
  */
 const asAPIOptions = (value) => asHttpClientOptions(value) || asMultiaddress(value) || asURL(value)
 
@@ -141,25 +163,41 @@ const asMultiaddress = (value) => {
 }
 
 /**
- * Attempts to turn cast given value into options object compatible with ipfs-http-client constructor.
- * Return either string with JSON or `null`.
- * @param {any} value
- * @returns {object|null}
+ * @typedef {Object} HTTPClientOptions
+ * @property {string} [host]
+ * @property {string} [port] - (e.g. '443', or '80')
+ * @property {string} [protocol] - (e.g 'https', 'http')
+ * @property {string} [apiPath] - ('/api/v0' by default)
+ * @property {Object<string, string>} [headers]
  */
-const asHttpClientOptions = (value) => {
+
+/**
+ * Attempts to turn parse given input as an options object for ipfs-http-client.
+ * @param {string|object} value
+ * @returns {HTTPClientOptions|null}
+ */
+const asHttpClientOptions = (value) =>
+  typeof value === 'string' ? parseHTTPClientOptions(value) : readHTTPClinetOptions(value)
+
+/**
+ *
+ * @param {string} input
+ */
+const parseHTTPClientOptions = (input) => {
+  // Try parsing and reading as json
   try {
-    value = JSON.parse(value)
+    return readHTTPClinetOptions(JSON.parse(input))
   } catch (_) {}
 
   // turn URL with inlined basic auth into client options object
   try {
-    const uri = new URL(value)
+    const uri = new URL(input)
     const { username, password } = uri
     if (username && password) {
-      value = {
+      return {
         host: uri.hostname,
         port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
-        protocol: uri.protocol.split(':').shift(),
+        protocol: uri.protocol.slice(0, -1), // trim out ':' at the end
         apiPath: (uri.pathname !== '/' ? uri.pathname : 'api/v0'),
         headers: {
           authorization: `Basic ${btoa(username + ':' + password)}`
@@ -168,11 +206,20 @@ const asHttpClientOptions = (value) => {
     }
   } catch (_) { }
 
+  return null
+}
+
+/**
+ * @param {Object<string, any>} value
+ * @returns {HTTPClientOptions|null}
+ */
+const readHTTPClinetOptions = (value) => {
   // https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#importing-the-module-and-usage
   if (value && (value.host || value.apiPath || value.protocol || value.port || value.headers)) {
     return value
+  } else {
+    return null
   }
-  return null
 }
 
 /**
@@ -182,6 +229,7 @@ const asHttpClientOptions = (value) => {
  * @returns {string|object|null}
  */
 const readSetting = (id) => {
+  /** @type {string|null} */
   let setting = null
   if (window.localStorage) {
     try {
@@ -191,14 +239,20 @@ const readSetting = (id) => {
     }
 
     try {
-      return JSON.parse(setting)
+      return JSON.parse(setting || '')
     } catch (_) {
       // res was probably a string, so pass it on.
       return setting
     }
   }
+
+  return setting
 }
 
+/**
+ * @param {string} id
+ * @param {string|number|boolean|object} value
+ */
 const writeSetting = (id, value) => {
   try {
     window.localStorage.setItem(id, JSON.stringify(value))
@@ -207,28 +261,23 @@ const writeSetting = (id, value) => {
   }
 }
 
-/**
- * @typedef {Object} IPFSAPI
- * @property {(callback?:Function) => Promise<void>} stop
- * @property {Object} files
- * @property {(path:string) => Promise<Object>} files.stat
- * @property {Object} pin
- * @property {(options:Object) => Iterator} pin.ls
- */
-/** @type {IPFSAPI|null} */
+/** @type {IPFSService|null} */
 let ipfs = null
 
 /**
- * @typedef {Object} State
- * @property {Model} ipfs
+ * @typedef {typeof extra} Extra
+ */
+const extra = {
+  getIpfs () {
+    return ipfs
+  }
+}
+
+/**
+ * @typedef {import('redux-bundler').Selectors<typeof selectors>} Selectors
  */
 
-const bundle = {
-  name: 'ipfs',
-  reducer: (state, message) => update(state == null ? init() : state, message),
-  getExtraArgs () {
-    return { getIpfs: () => ipfs }
-  },
+const selectors = {
   /**
    * @param {State} state
    */
@@ -248,41 +297,121 @@ const bundle = {
   /**
    * @param {State} state
    */
-  selectIpfsInitFailed: state => state.ipfs.failed,
+  selectIpfsInitFailed: state => state.ipfs.failed
+}
 
-  doInitIpfs: () => async (store) => {
-    await initIPFS(store)
+/**
+ * @typedef {import('redux-bundler').Actions<typeof actions>} Actions
+ * @typedef {Selectors & Actions} Ext
+ * @typedef {import('redux-bundler').Context<State, Message, Ext, Extra>} Context
+ */
+
+const actions = {
+  /**
+   * @returns {function(Context):Promise<void>}
+   */
+  doTryInitIpfs: () => async ({ store }) => {
+    // We need to swallow error that `doInitIpfs` could produce othrewise it
+    // will bubble up and nothing will handle it. There is a code in
+    // `bundles/retry-init.js` that reacts to `IPFS_INIT` action and attempts
+    // to retry.
+    try {
+      await store.doInitIpfs()
+    } catch (_) {
+    }
   },
+  /**
+   * @returns {function(Context):Promise<InitResult>}
+   */
+  doInitIpfs: () => perform('IPFS_INIT',
+  /**
+   * @param {Context} context
+   * @returns {Promise<InitResult>}
+   */
+    async (context) => {
+      const { apiAddress } = context.getState().ipfs
 
-  doStopIpfs: () => async (store) => {
-    if (ipfs) {
-      ipfs.stop(() => {
-        store.dispatch({ type: 'IPFS_STOPPED' })
+      const result = await getIpfs({
+        // @ts-ignore - TS can't seem to infer connectionTest option
+        connectionTest: async (ipfs) => {
+          // ipfs connection is working if can we fetch the bw stats.
+          // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
+          try {
+            await last(ipfs.stats.bw())
+          } catch (err) {
+            if (!/bandwidth reporter disabled in config/.test(err)) {
+              throw err
+            }
+          }
+
+          return true
+        },
+        loadHttpClientModule: () => HttpClient,
+        providers: [
+          providers.httpClient({ apiAddress })
+        ]
       })
+
+      if (!result) {
+        throw Error('Could not connect to the IPFS API')
+      } else {
+        return result
+      }
+    }),
+  /**
+   * @returns {function(Context):Promise<void>}
+   */
+  doStopIpfs: () => async (context) => {
+    if (ipfs) {
+      await ipfs.stop()
+      context.dispatch({ type: 'IPFS_STOPPED' })
     }
   },
 
-  doUpdateIpfsApiAddress: (address) => async (store) => {
+  /**
+   * @param {string} address
+   * @returns {function(Context):Promise<void>}
+   */
+  doUpdateIpfsApiAddress: (address) => async (context) => {
     const apiAddress = asAPIOptions(address)
     if (apiAddress == null) {
-      store.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
+      context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
     } else {
       await writeSetting('ipfsApi', apiAddress)
-      store.dispatch({ type: 'IPFS_API_ADDRESS_UPDATED', payload: apiAddress })
+      context.dispatch({ type: 'IPFS_API_ADDRESS_UPDATED', payload: apiAddress })
 
-      await initIPFS(store)
+      await context.store.doTryInitIpfs()
     }
   },
 
-  doDismissIpfsInvalidAddress: () => (store) => {
-    store.dispatch({ type: 'IPFS_API_ADDRESS_INVALID_DISMISS' })
+  /**
+   * @returns {function(Context):void}
+   */
+  doDismissIpfsInvalidAddress: () => (context) => {
+    context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID_DISMISS' })
   },
 
+  /**
+   * @param {string} path
+   * @returns {function(Context):Promise<FileStat>}
+   */
   doGetPathInfo: (path) => async () => {
-    return await ipfs.files.stat(path)
+    if (ipfs) {
+      return await ipfs.files.stat(path)
+    } else {
+      throw Error('IPFS is not initialized')
+    }
   },
 
+  /**
+   * @param {CID} cid
+   * @returns {function(Context):Promise<boolean>}
+   */
   doCheckIfPinned: (cid) => async () => {
+    if (ipfs == null) {
+      return false
+    }
+
     try {
       const value = await first(ipfs.pin.ls({ paths: [cid], type: 'recursive' }))
       return !!value
@@ -290,38 +419,25 @@ const bundle = {
   }
 }
 
-const initIPFS = async (store) => {
-  store.dispatch({ type: 'IPFS_INIT_STARTED' })
+/**
+ * @typedef {Actions & Selectors} IPFSProviderStore
+ * @typedef {Object} State
+ * @property {Model} ipfs
+ */
 
-  /** @type {Model} */
-  const { apiAddress } = store.getState().ipfs
-
-  try {
-    const result = await getIpfs({
-      // @ts-ignore - TS can't seem to infer connectionTest option
-      connectionTest: async (ipfs) => {
-        // ipfs connection is working if can we fetch the bw stats.
-        // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
-        try {
-          await last(ipfs.stats.bw())
-        } catch (err) {
-          if (!/bandwidth reporter disabled in config/.test(err)) {
-            throw err
-          }
-        }
-
-        return true
-      },
-      loadHttpClientModule: () => HttpClient,
-      providers: [
-        providers.httpClient({ apiAddress })
-      ]
-    })
-
-    store.dispatch({ type: 'IPFS_INIT_FINISHED', payload: result })
-  } catch (error) {
-    store.dispatch({ type: 'IPFS_INIT_FAILED' })
-  }
+const bundle = {
+  name: 'ipfs',
+  /**
+   * @param {Model|void} state
+   * @param {Message} message
+   * @returns {Model}
+   */
+  reducer: (state, message) => update(state == null ? init() : state, message),
+  getExtraArgs () {
+    return extra
+  },
+  ...selectors,
+  ...actions
 }
 
 export default bundle

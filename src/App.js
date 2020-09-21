@@ -21,7 +21,7 @@ import FilesExploreForm from './files/explore-form/FilesExploreForm'
 
 export class App extends Component {
   static propTypes = {
-    doInitIpfs: PropTypes.func.isRequired,
+    doTryInitIpfs: PropTypes.func.isRequired,
     doUpdateUrl: PropTypes.func.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesWrite: PropTypes.func.isRequired,
@@ -35,7 +35,7 @@ export class App extends Component {
   }
 
   componentDidMount () {
-    this.props.doInitIpfs()
+    this.props.doTryInitIpfs()
   }
 
   addFiles = async (filesPromise) => {
@@ -133,7 +133,7 @@ export default connect(
   'doExploreUserProvidedPath',
   'doUpdateUrl',
   'doUpdateHash',
-  'doInitIpfs',
+  'doTryInitIpfs',
   'doFilesWrite',
   'doDisableTooltip',
   'selectFilesPathInfo',

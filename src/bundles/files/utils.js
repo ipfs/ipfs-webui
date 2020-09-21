@@ -1,89 +1,165 @@
 import { sortByName, sortBySize } from '../../lib/sort'
-import { ACTIONS, IS_MAC, SORTING } from './consts'
+import { IS_MAC, SORTING } from './consts'
+import * as Task from '../task'
 
 /**
- * @param {string} basename
- * @param {Function} action
- * @param {Object} [options]
- * @param {boolean} [options.mfsOnly]
- * @returns {(...args:any[]) => (...args:any[]) => Promise<any>}
+ * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('./actions').Ext} Ext
+ * @typedef {import('./actions').Extra} Extra
  */
-export const make = (basename, action, options = {}) => (...args) => async (args2) => {
-  const id = Symbol(basename)
-  const { dispatch, getIpfs, store } = args2
-  dispatch({ type: `FILES_${basename}_STARTED`, payload: { id } })
 
-  let data
+/**
+  * @template State, Message, Ext, Extra
+  * @typedef {import('redux-bundler').Context<State, Message, Ext, Extra>} BundlerContext
+  */
 
-  if (options.mfsOnly) {
-    const info = store.selectFilesPathInfo()
-    if (!info || !info.isMfs) {
-      // musn't happen
-      return
-    }
+/**
+ * Utility function that takes a task name and task (in form of async generator) and
+ * produces `doX` style action creator that will execute a task and dispatch
+ * actions in form of `{type: name, job: Job<State, Error, Return>}` as it makes
+ * progress.
+ *
+ * A `.job` property of dispatched action will correspond to one of the states:
+ *
+ * 1. `{ status: 'Idle', id: Symbol }` - State just before task is executed.
+ * 2. `{ status: 'Pending', id: Symbol, state: State }` - State while task is in
+ *    progress. Each yielded value will cause this action and will correspond
+ *    to `state` field.
+ * 3. `{ status: 'Done', id: Symbol, value: Return }` - State when task is
+ *    successfully complete.
+ * 4. `{ status: 'Failed', id: Symbol, error: Error }` - State when task is
+ *    failed do to error.
+ *
+ * template {string} Name - Name of the task which, correponds to `.type` of
+ * dispatched actions.
+ * template State - Type of yielded value by a the generator, which will
+ * correspond to `.job.state` of dispatched actions while task is pending.
+ * template Return - Return type of the task, which will correspond to
+ * `.job.result.value` of dispatched action on succefully completed task.
+ * template {BundlerContext<State, Job<Name, State, Error, Return>, StoreExt, GetIPFS>} Ctx
+ *
+ * param {Name} name - Name of the task
+ * param {(service:IPFSService, context:Ctx) => AsyncGenerator<State, Return, void>} task
+ * returns {(context:Ctx) => Promise<Return>}
+ */
+
+/**
+ * @template Name, Message, Failure, Success, Init
+ * @typedef {import('../task').Spawn<Name, Message, Failure, Success, Init>} Spawn
+ */
+
+/**
+ * Specialized version of `Task.spawn` which will only spawn a task if
+ * `context.getIpfs()` returns an `IPFSService` passing it into the task as a
+ * first argument. Otherwise it fails without dispatching any actions.
+ *
+ * @template {string} Type - Corresponds to `action.type` for all the actions
+ * that this task will dispatch.
+ * @template Message - Type of messages that task will produce (by yielding).
+ * Which correspond to `action.task.message` when `action.status`
+ * is `Send`.
+ * @template Success - Type of the `action.task.result.vaule` when task is
+ * complete successfully. It is also a value of the promise returned by
+ * running `store.doX` created by this decorator.
+ * @template Init - Type of the initialization paramater.
+ * @template State - Type of the `context.getState()` for this task.
+ * @template {BundlerContext<State, Spawn<Type, Message, Error, Success, Init>, Ext, Extra>} Context
+ *
+ * @param {Type} type - Type of the actions this will dispatch.
+ * @param {(service:IPFSService, context:Context) => AsyncGenerator<Message, Success, void>} task - Task
+ * @param {Init[]} rest - Optinal initialization parameter.
+ * @returns {(context:Context) => Promise<Success>}
+ */
+export const spawn = (type, task, ...[init]) => async (context) => {
+  const ipfs = context.getIpfs()
+  if (ipfs == null) {
+    throw Error('IPFS node was not found')
+  } else {
+    const spawn = Task.spawn(
+      type,
+      /**
+       * @param {Context} context
+       * @returns {AsyncGenerator<Message, Success, void>}}
+       */
+      async function * (context) {
+        const process = task(ipfs, context)
+        while (true) {
+          const next = await process.next()
+          if (next.done) {
+            return next.value
+          } else {
+            yield next.value
+          }
+        }
+      },
+      init
+    )
+
+    return await spawn(context)
   }
-
-  try {
-    data = await action(getIpfs(), ...args, id, args2)
-
-    // TODO: Add a comment explaining what is going on here.
-    const paths = Array.isArray(args[0]) ? args[0].flat() : []
-
-    dispatch({
-      type: `FILES_${basename}_FINISHED`,
-      payload: {
-        id,
-        ...data,
-        paths
-      }
-    })
-
-    // Rename specific logic
-    if (basename === ACTIONS.MOVE) {
-      const src = args[0]
-      const dst = args[1]
-
-      if (src === store.selectFiles().path) {
-        await store.doUpdateHash(dst)
-      }
-    }
-
-    // Delete specific logic
-    if (basename === ACTIONS.DELETE) {
-      const src = args[0][0]
-
-      let path = src.split('/')
-      path.pop()
-      path = path.join('/')
-
-      await store.doUpdateHash(path)
-    }
-  } catch (error) {
-    if (!error.code) {
-      error.code = `ERR_${basename}`
-    }
-
-    console.error(error)
-    dispatch({ type: `FILES_${basename}_FAILED`, payload: { id, error } })
-  } finally {
-    if (basename !== ACTIONS.FETCH) {
-      await store.doFilesFetch()
-    }
-
-    if (basename === ACTIONS.PIN_ADD || basename === ACTIONS.PIN_REMOVE) {
-      await store.doPinsFetch()
-    }
-  }
-
-  return data
 }
+
+/**
+ * @template Name, Failure, Success, Init
+ * @typedef {import('../task').Perform<Name, Failure, Success, Init>} Perform
+ */
+
+/**
+ * Specialized version of `Task.perform` which will only perform a task if
+ * `context.getIpfs()` returns an `IPFSService` passing it into the task as a
+ * first argument. Otherwise it fails without dispatching any actions.
+ *
+ * @template {string} Type - Type of the task which, correponds to `.type` of
+ * dispatched actions.
+ * @template Success - Return type of the task, which will correspond to
+ * `.job.result.value` of dispatched action on succefully completed task.
+ * @template Init - Initial data
+ * @template State - Type of the `context.getState()` for this task.
+ * @template {BundlerContext<State, Perform<Type, Error, Success, Init>, Ext, Extra>} Context
+ *
+ * @param {Type} type - Type of the actions this will dispatch.
+ * @param {(service:IPFSService, context:Context) => Promise<Success>} task
+ * @param {Init[]} rest
+ * @returns {(context:Context) => Promise<Success>}
+ */
+export const perform = (type, task, ...[init]) => async (context) => {
+  const ipfs = context.getIpfs()
+  if (ipfs == null) {
+    throw Error('IPFS node was not found')
+  } else {
+    const perform = Task.perform(
+      type,
+      /**
+       * @param {Context} context
+       */
+      context => task(ipfs, context),
+      init
+    )
+    return await perform(context)
+  }
+}
+
+/**
+ * Creates an action creator that just dispatches given action.
+ * @template T
+ * @param {T} action
+ * @returns {(context:BundlerContext<any, T, any, any>) => Promise<void>}
+ */
+export const send = (action) => async ({ store }) => {
+  store.dispatch(action)
+}
+
+/**
+ * @typedef {Object} Sorting
+ * @property {boolean} [asc]
+ * @property {import('./consts').SORTING} [by]
+ */
 
 /**
  * @template {{name:string, type:string, cumulativeSize?:number, size:number}} T
  * @param {T[]} files
- * @param {Object} sorting
- * @param {boolean} [sorting.asc]
- * @param {import('./consts').SORTING} [sorting.by]
+ * @param {Sorting} sorting
+
  * @returns {T[]}
  */
 export const sortFiles = (files, sorting) => {
@@ -165,4 +241,86 @@ export const infoFromPath = (path, uriDecode = true) => {
   }
 
   return info
+}
+
+/**
+ * @template T
+ * @implements {AsyncIterable<T>}
+ */
+export class Channel {
+  constructor () {
+    this.done = false
+    /** @type {T[]} */
+    this.queue = []
+    /** @type {{resolve(value:IteratorResult<T, void>):void, reject(error:any):void}[]} */
+    this.pending = []
+  }
+
+  [Symbol.asyncIterator] () {
+    return this
+  }
+
+  /**
+   * @returns {Promise<IteratorResult<T, void>>}
+   */
+  async next () {
+    const { done, queue, pending } = this
+    if (done) {
+      return { done, value: undefined }
+    } else if (queue.length > 0) {
+      const value = queue[queue.length - 1]
+      queue.pop()
+      return { done, value }
+    } else {
+      return await new Promise((resolve, reject) => {
+        pending.unshift({ resolve, reject })
+      })
+    }
+  }
+
+  /**
+   * @param {T} value
+   */
+  send (value) {
+    const { done, pending, queue } = this
+    if (done) {
+      throw Error('Channel is closed')
+    } else if (pending.length) {
+      const promise = pending[pending.length - 1]
+      pending.pop()
+      promise.resolve({ done, value })
+    } else {
+      queue.unshift(value)
+    }
+  }
+
+  /**
+   * @param {Error|void} error
+   */
+  close (error) {
+    const { done, pending } = this
+    if (done) {
+      throw Error('Channel is already closed')
+    } else {
+      this.done = true
+      for (const promise of pending) {
+        if (error) {
+          promise.reject(error)
+        } else {
+          promise.resolve({ done: true, value: undefined })
+        }
+      }
+      pending.length = 0
+    }
+  }
+}
+
+/**
+ * @param {import('./selectors').Selectors} store
+ */
+export const ensureMFS = (store) => {
+  const info = store.selectFilesPathInfo()
+  if (!info || !info.isMfs) {
+    throw new Error('Unable to perform task if not in MFS')
+  }
 }
