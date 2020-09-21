@@ -142,7 +142,7 @@ const updateJob = (state, task, type) => {
       }
     }
     case 'Send': {
-      const { pending, rest } = pullPendig(state.pending, task)
+      const { pending, rest } = pullPending(state.pending, task)
       return {
         ...state,
         pending: [
@@ -156,7 +156,7 @@ const updateJob = (state, task, type) => {
       }
     }
     case 'Exit': {
-      const { pending, rest } = pullPendig(state.pending, task)
+      const { pending, rest } = pullPending(state.pending, task)
 
       if (task.result.ok) {
         return {
@@ -210,7 +210,7 @@ const updateJob = (state, task, type) => {
  * @param {JobState} task
  * @returns {{pending:PendingJob<T, I>, rest:PendingJob<T, I>[]}}
  */
-const pullPendig = (tasks, task) => {
+const pullPending = (tasks, task) => {
   const { id } = task
   const pending = tasks.find($ => $.id === id)
 

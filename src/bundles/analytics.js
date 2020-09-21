@@ -89,9 +89,6 @@ const ASYNC_ACTIONS_TO_RECORD = [
   DESKTOP.DESKTOP_SETTING_TOGGLE
 ]
 
-// const ASYNC_ACTION_RE = new RegExp(`^${ASYNC_ACTIONS_TO_RECORD.join('_|')}`)
-// const ASYNC_ACTION_STATE_RE = /^(.+)_(STARTED|FINISHED|FAILED)$/
-
 const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612'
 const COUNTLY_KEY_WEBUI_TEST = '700fd825c3b257e021bd9dbc6cbf044d33477531'
 
@@ -347,15 +344,17 @@ const createAnalyticsBundle = ({
     },
 
     /**
-     * @param {Model} [state]
+     * @param {Model|void} state
      * @param {Message} action
      * @returns {Model}
      */
-    reducer: (state = {
-      lastEnabledAt: 0,
-      lastDisabledAt: 0,
-      consent: []
-    }, action) => {
+    reducer: (state, action) => {
+      state = state || {
+        lastEnabledAt: 0,
+        lastDisabledAt: 0,
+        consent: []
+      }
+
       switch (action.type) {
         case ACTIONS.ANALYTICS_ENABLED:
           return { ...state, lastEnabledAt: Date.now(), consent: action.payload.consent }
