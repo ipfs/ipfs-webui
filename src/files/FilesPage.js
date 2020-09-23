@@ -163,7 +163,7 @@ class FilesPage extends React.Component {
 
     if (files.type === 'file') {
       return (
-        <FilePreview {...files} />
+        <FilePreview {...files} onDownload={() => this.onDownload([files])} />
       )
     }
 

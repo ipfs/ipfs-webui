@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
@@ -9,7 +9,8 @@ import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
 import CID from 'cids'
 import { useDrag } from 'react-dnd'
-import concat from 'it-concat'
+import fromUint8ArrayToString from 'uint8arrays/to-string'
+import Button from '../../components/button/Button'
 
 const Preview = (props) => {
   const { name, size, cid, path } = props
@@ -27,13 +28,28 @@ const Preview = (props) => {
   </div>
 }
 
-const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl, read }) => {
+const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl, read, onDownload }) => {
   const [content, setContent] = useState(null)
+  const [hasMoreContent, setHasMoreContent] = useState(false)
+  const [buffer, setBuffer] = useState(null)
 
-  const loadContent = async () => {
-    const buf = await concat(await read())
-    setContent(buf.toString())
-  }
+  const loadContent = useCallback(async () => {
+    const readBuffer = buffer || await read()
+    if (!buffer) {
+      setBuffer(readBuffer)
+    }
+
+    const { value, done } = await readBuffer.next()
+    const previousContent = content || ''
+
+    setContent(previousContent + fromUint8ArrayToString(value))
+    setHasMoreContent(!done)
+  }, [buffer, content, read])
+
+  useEffect(() => {
+    loadContent()
+  }, // eslint-disable-next-line react-hooks/exhaustive-deps
+  [])
 
   const src = `${gatewayUrl}/ipfs/${cid}`
   const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
@@ -79,7 +95,6 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
       }
 
       if (!content) {
-        loadContent()
         return <ComponentLoader pastDelay />
       }
 
@@ -87,11 +102,19 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
         return cantPreview
       }
 
-      return (
-        <pre className={`${className} overflow-auto monospace`} style={{ userSelect: 'all' }}>
+      return <>
+        <pre className={`${className} overflow-auto monospace`}>
           {content}
         </pre>
-      )
+        { hasMoreContent && <div className="w-100 flex items-center justify-center">
+          <Button onClick={ loadContent }>
+            { t('loadMore')}
+          </Button>
+          <Button className="mh2" onClick={ onDownload }>
+            { t('app:actions.download')}
+          </Button>
+        </div>}
+      </>
     }
   }
 }
