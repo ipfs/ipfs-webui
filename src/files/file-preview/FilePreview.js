@@ -56,7 +56,7 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
   }, // eslint-disable-next-line react-hooks/exhaustive-deps
   [])
 
-  const src = `${gatewayUrl}/ipfs/${cid}`
+  const src = `${gatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
   const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
   switch (type) {
