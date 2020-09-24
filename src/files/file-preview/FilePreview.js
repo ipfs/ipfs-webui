@@ -46,9 +46,9 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
 
     setContent(currentContent)
 
-    if (currentContent.length === size) return
+    const hasMore = !done && new TextEncoder().encode(currentContent).length < size
 
-    setHasMoreContent(!done)
+    setHasMoreContent(hasMore)
   }, [buffer, content, read, size])
 
   useEffect(() => {
