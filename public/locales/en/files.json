@@ -86,7 +86,6 @@
     }
   },
   "loadMore": "Load more",
-  "loadAll": "Load all",
   "previousFolder": "Go back to previous folder",
   "fileLabel": "Select {type} {name} with size: {size}",
   "hashUnavailable": "hash unavailable",
