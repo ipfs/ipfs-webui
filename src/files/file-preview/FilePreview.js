@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
@@ -9,6 +9,8 @@ import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
 import CID from 'cids'
 import { useDrag } from 'react-dnd'
+import fromUint8ArrayToString from 'uint8arrays/to-string'
+import Button from '../../components/button/Button'
 
 const Preview = (props) => {
   const { name, size, cid, path } = props
@@ -18,20 +20,43 @@ const Preview = (props) => {
 
   const type = typeFromExt(name)
 
-  return <div className={ classNames(type !== 'pdf' && 'dib') } ref={drag}>
+  // Hack: Allows for text selection if it's a text file (bypass useDrag)
+  const dummyRef = useRef()
+
+  return <div className={ classNames(type !== 'pdf' && type !== 'text' && type !== 'json' && 'dib') } ref={type === 'text' ? dummyRef : drag}>
     <PreviewItem {...props} type={type} />
   </div>
 }
 
-const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl, read }) => {
+const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl, read, onDownload }) => {
   const [content, setContent] = useState(null)
+  const [hasMoreContent, setHasMoreContent] = useState(false)
+  const [buffer, setBuffer] = useState(null)
 
-  const loadContent = async () => {
-    const buf = await read()
-    setContent(buf.toString('utf-8'))
-  }
+  const loadContent = useCallback(async () => {
+    const readBuffer = buffer || await read()
+    if (!buffer) {
+      setBuffer(readBuffer)
+    }
 
-  const src = `${gatewayUrl}/ipfs/${cid}`
+    const { value, done } = await readBuffer.next()
+    const previousContent = content || ''
+
+    const currentContent = previousContent + fromUint8ArrayToString(value)
+
+    setContent(currentContent)
+
+    const hasMore = !done && new TextEncoder().encode(currentContent).length < size
+
+    setHasMoreContent(hasMore)
+  }, [buffer, content, read, size])
+
+  useEffect(() => {
+    loadContent()
+  }, // eslint-disable-next-line react-hooks/exhaustive-deps
+  [])
+
+  const src = `${gatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
   const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
   switch (type) {
@@ -75,19 +100,27 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
       }
 
       if (!content) {
-        loadContent()
         return <ComponentLoader pastDelay />
       }
 
       if (isBinary(content)) {
+        loadContent()
         return cantPreview
       }
 
-      return (
+      return <>
         <pre className={`${className} overflow-auto monospace`}>
           {content}
         </pre>
-      )
+        { hasMoreContent && <div className="w-100 flex items-center justify-center">
+          <Button onClick={ loadContent }>
+            { t('loadMore')}
+          </Button>
+          <Button className="mh2" onClick={ onDownload }>
+            { t('app:actions.download')}
+          </Button>
+        </div>}
+      </>
     }
   }
 }
