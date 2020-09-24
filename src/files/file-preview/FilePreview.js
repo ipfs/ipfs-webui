@@ -42,9 +42,14 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
     const { value, done } = await readBuffer.next()
     const previousContent = content || ''
 
-    setContent(previousContent + fromUint8ArrayToString(value))
+    const currentContent = previousContent + fromUint8ArrayToString(value)
+
+    setContent(currentContent)
+
+    if (currentContent.length === size) return
+
     setHasMoreContent(!done)
-  }, [buffer, content, read])
+  }, [buffer, content, read, size])
 
   useEffect(() => {
     loadContent()
@@ -99,6 +104,7 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
       }
 
       if (isBinary(content)) {
+        loadContent()
         return cantPreview
       }
 
