@@ -34,7 +34,9 @@
   "nav": {
     "bugsLink": "Report a bug",
     "codeLink": "See the code",
-    "revision": "Revision"
+    "revision": "Revision",
+    "webUiVersionUrl": "WebUI version"
+
   },
   "status": {
     "connectedToIpfs": "Connected to IPFS",
