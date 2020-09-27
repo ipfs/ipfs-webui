@@ -1,10 +1,8 @@
 {
   "title": "Nastavení",
-  "save": "Uložit",
-  "saving": "Ukládání…",
-  "reset": "Resetovat",
   "language": "Jazyk",
   "analytics": "Sběr informací",
+  "cliTutorMode": "CLI Tutor Mode",
   "config": "IPFS Config",
   "languageModal": {
     "title": "Změnit jazyk",
@@ -12,10 +10,8 @@
     "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
     "translationProjectLink": "Join the IPFS Translation Project"
   },
-  "actions": {
-    "edit": "Změnit",
-    "close": "Zavřít"
-  },
+  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
+  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
   "fetchingSettings": "Získávání nastavení...",
   "configApiNotAvailable": "IPFS API nastavení není dostupný. Prosím vypněte rozšíření \"IFPS Companion\" a zkuste to znovu.",
   "ipfsDaemonOffline": "Démon IPFS je offline. Zapněte jej a zkuste to znovu.",
@@ -60,12 +56,10 @@
       "details": "Zaznamenává chybové zprávy JavaScriptu a stopy zásobníku, ke kterým dochází při používání aplikace, pokud je to možné. Je velmi užitečné vědět, kdy aplikace pro vás nefunguje, ale <1>chybové zprávy mohou obsahovat identifikovatelné informace</1>, jako jsou CID nebo cesty k souborům, takže to povolte pouze v případě, že s námi tyto informace pohodlně sdílíte."
     }
   },
+  "cliToggle": {
+    "label": "Enable command-line interface (CLI) tutor mode"
+  },
   "tour": {
-    "back": "Zpět",
-    "close": "Zavřít",
-    "last": "Poslední",
-    "next": "Další",
-    "skip": "Přeskočit",
     "step1": {
       "title": "Stránka nastavení",
       "paragraph1": "Zde můžete změnit nastavení vašeho uzlu Web UI a IPFS.",
@@ -81,6 +75,10 @@
       "paragraph2": "Můžete si vybrat, jaká data nám pošlete, a my vás nebudeme moci identifikovat, vážíme si především soukromí."
     },
     "step4": {
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    },
+    "step5": {
       "title": "IPFS Config",
       "paragraph1": "Můžete změnit konfiguraci vašeho uzlu IPFS přímo z webového uživatelského rozhraní!",
       "paragraph2": "Nezapomeňte restartovat démona a aplikovat změny."

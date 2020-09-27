@@ -19,11 +19,11 @@ class LanguageSelector extends Component {
     return (
       <Fragment>
         <div className='flex'>
-          <div className='ph4 flex items-center bg-white lh-copy charcoal f6 fw5' style={{ height: 40 }}>
+          <div className='pr4 flex items-center lh-copy charcoal f5 fw5' style={{ height: 40 }}>
             {getCurrentLanguage()}
           </div>
           <Button className="tc" minWidth={100} onClick={this.onLanguageEditOpen}>
-            {t('actions.edit')}
+            {t('app:actions.change')}
           </Button>
         </div>
 

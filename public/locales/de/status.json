@@ -1,73 +1,40 @@
 {
   "title": "Status",
-  "peer": "Peer",
-  "peers": "Peers",
-  "addresses": "Addressen",
   "nodeInfo": "Node informationen",
-  "peerId": "Peer-ID",
-  "gateway": "Gateway",
-  "api": "API",
-  "version": "Version",
-  "advanced": "Erweitert",
-  "publicKey": "Öffentlicher Schlüssel",
-  "upSpeed": "Ausgehend",
-  "downSpeed": "Eingehend",
   "spaceUsed": "Benutzter Speicher",
   "networkTraffic": "Netzwerkverkehr",
   "bandwidthOverTime": "Zeitlicher Verlauf der Bandbreite",
   "bandwidthByPeer": "Bandbreite pro Peer",
   "distributionOfPeers": "Verteilung der Peers",
   "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peers)}}",
-  "rateIn": "Eingangsrate",
-  "rateOut": "Ausgangsrate",
-  "totalIn": "Gesamteingang",
-  "totalOut": "Gesamtausgang",
-  "more": "...und {count} weitere",
-  "in": "Eingang",
-  "out": "Ausgang",
-  "codeLink": "Quelltext anzeigen",
-  "bugsLink": "Fehler melden",
-  "revision": "Revision",
+  "countMore": "...und {count} weitere",
   "StatusConnected": {
-    "header1": "Mit dem IPFS verbunden",
     "paragraph1": "<0>{repoSize} an Dateien</0> gehostet",
     "paragraph2": "{count, plural, one {Discovered <0>1 peer</0>} other {<0>{peersCount} Peers</0> entdeckt}}"
   },
-  "StatusNotConnected": {
-    "header1": "Die API-Verbindung ist fehlgeschlagen",
-    "paragraph1": "<0>Starte einen IPFS-Daemon in einem Terminal.</0>",
-    "paragraph2": "<0><1>Lies die Anleitung</1> für mehr Informationen über das IPFS.</0>"
-  },
+  "customApiConfig": "Custom JSON configuration",
   "AskToEnable": {
-    "label": "Helfen Sie uns, die App zu verbessern, indem Sie anonyme Nutzerdaten senden.",
-    "yesLabel": "Einverstanden",
-    "noLabel": "Nein Danke",
-    "detailsLabel": "Mehr Informationen"
+    "label": "Helfen Sie uns, die App zu verbessern, indem Sie anonyme Nutzerdaten senden."
   },
   "tour": {
-    "back": "Zurück",
-    "close": "Schließen",
-    "last": "Fertig",
-    "next": "Weiter",
-    "skip": "Überspringen",
     "step1": {
       "title": "Status Seite",
       "paragraph1": "Dies ist der Startpunkt deines IPFS Node, an dem Du die grundlegenden Informationen abrufen kannst.",
-      "paragraph2": "Click \"Next\" to learn more."
+      "paragraph2": "Klicke \"Weiter\", um mehr zu erfahren."
     },
     "step2": {
       "title": "Verbindungs-Status",
-      "paragraph1": "Das hier bringt dich zu einer Seite, auf der du sehen kannst, ob du mit einem IPFS daemon verbunden bist und, falls nicht, wie du dich mit einem verbinden kannst.",
-      "paragraph2": "You can configure your node with a custom API address, too."
+      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the IPFS API, the icon will turn red.",
+      "paragraph2": "If you need to configure a custom API address for your node, just click the \"Edit\" link next to where the API address is listed on this page."
     },
     "step3": {
       "title": "Node informationen",
       "paragraph1": "Hier sind Informationen über die Größe deiner Ablage, mit wie vielen Peers du verbunden bist, deine Peer ID und die IPFS Version, die gerade benutzt wird.",
-      "paragraph2": "<0>Klicke auf <1>Erweitert</1>, um weitere Informationen, wie die Gateway URL und Adressen zu sehen."
+      "paragraph2": "<0>Expand the <1>Advanced</1> link to see more info, such as the gateway URL and addresses. There's also a link inside the Advanced section to change your API address.</0>"
     },
     "step4": {
-      "title": "Network bandwidth/traffic",
-      "paragraph1": "This chart shows the network bandwidth usage over time.",
+      "title": "Netzwerk-Bandbreite/Verkehr",
+      "paragraph1": "Dieses Diagramm zeigt den Netzwerkverkehr über die Zeit.",
       "paragraph2": "Die Geschwindigkeitsanzeigen zeigen den aktuellen ausgehenden und eingehenden Netzwerkverkehr."
     },
     "stepExplore": {

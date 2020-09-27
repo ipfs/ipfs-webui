@@ -1,5 +1,18 @@
+.navbar-item-active {
+  border-bottom: 5px solid rgba(201, 210, 215, .4);
+}
 
-@media only screen and (max-height: 680px) {
+@media only screen and (min-width: 60em) {
+  .navbar-container {
+    width: 9.75rem;
+  }
+  .navbar-item-active {
+    border-left: 5px solid rgba(201, 210, 215, .4);
+    border-bottom: 0;
+  }
+}
+
+@media only screen and (max-height: 790px) {
   .navbar-footer {
     display: none;
   }

@@ -1,13 +1,12 @@
 /* global it, expect */
-import { filesToStreams } from './files'
-import { isSource } from 'is-pull-stream'
+import { normalizeFiles } from './files'
 
 function expectRightFormat (output) {
   expect(Array.isArray(output)).toBe(true)
 
   for (const stream of output) {
     expect(Object.keys(stream).length).toBe(3)
-    expect(isSource(stream.content)).toBe(true)
+    expect(stream.content instanceof Blob).toBe(true)
     expect(stream.path).toBeTruthy()
     expect(stream.size).not.toBeNaN()
   }
@@ -20,6 +19,23 @@ function expectRightOutput (output, expected) {
     expect(output[i].path).toBe(expected[i].path)
     expect(output[i].size).toBe(expected[i].size)
   }
+}
+
+const mockFile = ({ size, name, webkitRelativePath, filepath }) => {
+  const file = new File([new Uint8Array(size)], name)
+
+  // Can't set readonly property, but can override it.
+  Object.defineProperty(file, 'webkitRelativePath', {
+    value: webkitRelativePath
+  })
+
+  if (filepath != null) {
+    Object.defineProperty(file, 'filepath', {
+      value: filepath
+    })
+  }
+
+  return file
 }
 
 // All this tests work for both Firefox and Chrome.
@@ -39,7 +55,7 @@ it('input single file', async () => {
     path: 'Balloons.jpg'
   }]
 
-  const output = await filesToStreams(input)
+  const output = await normalizeFiles(input.map(mockFile))
 
   expectRightFormat(output)
   expectRightOutput(output, expected)
@@ -75,7 +91,7 @@ it('input multiple files', async () => {
     path: 'one-more-file.jpg'
   }]
 
-  const output = await filesToStreams(input)
+  const output = await normalizeFiles(input.map(mockFile))
 
   expectRightFormat(output)
   expectRightOutput(output, expected)
@@ -111,7 +127,7 @@ it('input directory', async () => {
     path: 'dir/one-more-file.jpg'
   }]
 
-  const output = await filesToStreams(input)
+  const output = await normalizeFiles(input.map(mockFile))
 
   expectRightFormat(output)
   expectRightOutput(output, expected)
@@ -129,7 +145,7 @@ it('drop single file', async () => {
     path: 'T.pdf'
   }]
 
-  const output = await filesToStreams(input)
+  const output = await normalizeFiles(input.map(mockFile))
 
   expectRightFormat(output)
   expectRightOutput(output, expected)
@@ -156,7 +172,7 @@ it('drop multiple file', async () => {
     path: 'T2.pdf'
   }]
 
-  const output = await filesToStreams(input)
+  const output = await normalizeFiles(input.map(mockFile))
 
   expectRightFormat(output)
   expectRightOutput(output, expected)
@@ -183,7 +199,7 @@ it('drop one directory', async () => {
     path: 'Dir/T2.pdf'
   }]
 
-  const output = await filesToStreams(input)
+  const output = await normalizeFiles(input.map(mockFile))
 
   expectRightFormat(output)
   expectRightOutput(output, expected)
@@ -228,7 +244,7 @@ it('drop multiple directories', async () => {
     path: 'Dir2/T4.pdf'
   }]
 
-  const output = await filesToStreams(input)
+  const output = await normalizeFiles(input.map(mockFile))
 
   expectRightFormat(output)
   expectRightOutput(output, expected)

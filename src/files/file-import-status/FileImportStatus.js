@@ -13,14 +13,14 @@ import GlyphTick from '../../icons/GlyphTick'
 import GlyphCancel from '../../icons/GlyphCancel'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 
-const File = ({ paths = [], hasError }, t) => {
-  const pathsByFolder = paths.reduce((prev, currentPath) => {
-    const isFolder = currentPath.path.includes('/')
+const File = (job, t) => {
+  const pathsByFolder = job.message.entries.reduce((prev, currentEntry) => {
+    const isFolder = currentEntry.path.includes('/')
     if (!isFolder) {
-      return [...prev, currentPath]
+      return [...prev, currentEntry]
     }
 
-    const baseFolder = currentPath.path.split('/')[0]
+    const baseFolder = currentEntry.path.split('/')[0]
 
     const alreadyExistentBaseFolder = prev.find(previousPath => previousPath.path.startsWith(`${baseFolder}/`))
 
@@ -30,7 +30,7 @@ const File = ({ paths = [], hasError }, t) => {
       return prev
     }
 
-    return [...prev, { ...currentPath, name: baseFolder, count: 1 }]
+    return [...prev, { ...currentEntry, name: baseFolder, count: 1 }]
   }, [])
 
   return pathsByFolder.map(({ count, name, path, size, progress }) => (
@@ -41,7 +41,7 @@ const File = ({ paths = [], hasError }, t) => {
         { count && (<span> { t('filesImportStatus.count', { count }) } | </span>) }
         <span className='ml2'>{ filesize(size) }</span>
       </span>
-      { hasError ? <GlyphCancel className="dark-red w2 ph1" fill="currentColor"/> : <LoadingIndicator complete={ !progress }/> }
+      { job.status === 'Exit' && !job.result.ok ? <GlyphCancel className="dark-red w2 ph1" fill="currentColor"/> : <LoadingIndicator complete={ !progress }/> }
     </li>
   ))
 }
@@ -68,7 +68,7 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
     return null
   }
 
-  const numberOfImportedFiles = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile?.data?.paths?.length, 0)
+  const numberOfImportedFiles = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile?.state?.entries?.length, 0)
 
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
@@ -90,9 +90,9 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
           </div>
         </div>
         <ul className='fileImportStatusRow pa0 ma0' aria-hidden={!expanded}>
-          { filesPending.map(file => File(file.data, t)) }
-          { sortedFilesFinished.map(file => File(file.data, t)) }
-          { filesErrors.map(file => File(file.data, t)) }
+          { filesPending.map(file => File(file, t)) }
+          { sortedFilesFinished.map(file => File(file, t)) }
+          { filesErrors.map(file => File(file, t)) }
         </ul>
       </div>
     </div>

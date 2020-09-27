@@ -17,8 +17,8 @@ describe('Explore screen', () => {
     // add a local file to repo so test is fast and works in offline mode
     const cid = 'bafkreicgkmwhdunxgdqwqveecdo3wqmgulb4azm6sfnrtvd7g47mnrixji'
     const expectedData = fs.readFileSync('LICENSE', 'utf8')
-    const [result] = await ipfs.add(expectedData, { cidVersion: 1 })
-    await expect(result.hash).toStrictEqual(cid)
+    const result = await ipfs.add(expectedData, { cidVersion: 1 })
+    await expect(result.cid.toString()).toStrictEqual(cid)
 
     // open inspector
     await page.goto(webuiUrl + `#/explore/${cid}`, { waitUntil: 'networkidle0' })

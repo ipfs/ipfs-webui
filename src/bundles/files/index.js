@@ -7,148 +7,219 @@ export { ACTIONS }
 
 export const sorts = SORTING
 
+/**
+ * @typedef {import('./protocol').Model} Model
+ * @typedef {import('./protocol').Message} Message
+ * @typedef {import('../task').SpawnState<any, Error, any, any>} JobState
+ */
 export default () => {
   return {
     name: 'files',
 
+    /**
+     * @param {Model} state
+     * @param {Message} action
+     * @returns {Model}
+     */
     reducer: (state = DEFAULT_STATE, action) => {
-      if (!action.type.startsWith('FILES_')) {
-        return state
-      }
-
-      if (action.type === 'FILES_DISMISS_ERRORS') {
-        return {
-          ...state,
-          failed: []
+      switch (action.type) {
+        case ACTIONS.DELETE:
+        case ACTIONS.ADD_BY_PATH:
+        case ACTIONS.DOWNLOAD_LINK:
+        case ACTIONS.SHARE_LINK:
+        case ACTIONS.MOVE:
+        case ACTIONS.COPY:
+        case ACTIONS.MAKE_DIR:
+        case ACTIONS.PIN_ADD:
+        case ACTIONS.PIN_REMOVE:
+          return updateJob(state, action.task, action.type)
+        case ACTIONS.WRITE: {
+          return updateJob(state, action.task, action.type)
         }
-      }
+        case ACTIONS.PIN_LIST: {
+          const { task, type } = action
 
-      if (action.type === 'FILES_CLEAR_ALL') {
-        return {
-          ...state,
-          failed: [],
-          finished: [],
-          pending: []
+          const pins = task.status === 'Exit' && task.result.ok
+            ? task.result.value.pins.map(String)
+            : state.pins
+
+          return {
+            ...updateJob(state, task, type),
+            pins
+          }
         }
-      }
-
-      if (action.type === 'FILES_UPDATE_SORT') {
-        const pageContent = state.pageContent
-
-        return {
-          ...state,
-          pageContent: {
-            ...pageContent,
-            content: sortFiles(pageContent.content, action.payload)
-          },
-          sorting: action.payload
-        }
-      }
-
-      const parts = action.type.split('_').splice(1)
-
-      const status = parts.pop()
-      const type = parts.join('_')
-
-      const { id, ...data } = action.payload
-
-      if (status === 'STARTED') {
-        return {
-          ...state,
-          pending: [
-            ...state.pending,
-            {
-              type: type,
-              id: id,
-              start: Date.now(),
-              data: data
+        case ACTIONS.FETCH: {
+          const { task, type } = action
+          const result = task.status === 'Exit' && task.result.ok
+            ? task.result.value
+            : null
+          const { pageContent, pins } = result
+            ? {
+              pageContent: result,
+              pins: result.type === 'directory' && result.path === '/pins'
+                ? result.content.map($ => $.cid.toString())
+                : state.pins
             }
-          ]
-        }
-      } else if (status === 'UPDATED') {
-        const pendingAction = state.pending.find(a => a.id === id)
+            : state
 
-        return {
-          ...state,
-          pending: [
-            ...state.pending.filter(a => a.id !== id),
-            {
-              ...pendingAction,
-              data: {
-                ...data,
-                hasError: true
+          return {
+            ...updateJob(state, task, type),
+            pageContent,
+            pins
+          }
+        }
+        case ACTIONS.DISMISS_ERRORS: {
+          return {
+            ...state,
+            failed: []
+          }
+        }
+        case ACTIONS.CLEAR_ALL: {
+          return {
+            ...state,
+            failed: [],
+            finished: [],
+            pending: []
+          }
+        }
+        case ACTIONS.UPDATE_SORT: {
+          const { pageContent } = state
+          if (pageContent && pageContent.type === 'directory') {
+            const content = sortFiles(pageContent.content, action.payload)
+            return {
+              ...state,
+              pageContent: {
+                ...pageContent,
+                content
               }
             }
-          ]
-        }
-      } else if (status === 'FAILED') {
-        const pendingAction = state.pending.find(a => a.id === id)
-        let additional
-
-        if (type === ACTIONS.FETCH) {
-          additional = {
-            pageContent: null
+          } else {
+            return state
           }
         }
+        case ACTIONS.SIZE_GET: {
+          const { task, type } = action
+          const mfsSize = task.status === 'Exit' && task.result.ok
+            ? task.result.value.size
+            : state.mfsSize
 
+          return {
+            ...updateJob(state, task, type),
+            mfsSize
+          }
+        }
+        default: {
+          return state
+        }
+      }
+    },
+    ...actions(),
+    ...selectors()
+  }
+}
+
+/**
+ * Updates state of the given job.
+ * @param {Model} state
+ * @param {JobState} task
+ * @param {*} type
+ * @returns {Model}
+ */
+const updateJob = (state, task, type) => {
+  switch (task.status) {
+    case 'Init': {
+      return {
+        ...state,
+        pending: [
+          ...state.pending,
+          {
+            ...task,
+            type,
+            status: 'Pending',
+            start: Date.now()
+          }
+        ]
+      }
+    }
+    case 'Send': {
+      const { pending, rest } = pullPending(state.pending, task)
+      return {
+        ...state,
+        pending: [
+          ...rest,
+          {
+            ...pending,
+            ...task,
+            status: 'Pending'
+          }
+        ]
+      }
+    }
+    case 'Exit': {
+      const { pending, rest } = pullPending(state.pending, task)
+
+      if (task.result.ok) {
         return {
           ...state,
-          ...additional,
-          pending: state.pending.filter(a => a.id !== id),
-          failed: [
-            ...state.failed,
-            {
-              ...pendingAction,
-              end: Date.now(),
-              error: data.error
-            }
-          ]
-        }
-      } else if (status === 'FINISHED') {
-        const action = state.pending.find(a => a.id === id)
-        let additional
-
-        if (type === ACTIONS.FILES_SIZE_GET) {
-          additional = {
-            mfsSize: data.size
-          }
-        }
-
-        if (type === ACTIONS.FETCH) {
-          additional = {
-            pageContent: data
-          }
-
-          if (data.path === '/pins') {
-            additional.pins = data.content.map(f => f.hash)
-          }
-        }
-
-        if (type === ACTIONS.PIN_LIST) {
-          additional = {
-            pins: data.pins
-          }
-        }
-
-        return {
-          ...state,
-          ...additional,
-          pending: state.pending.filter(a => a.id !== id),
+          pending: rest,
           finished: [
             ...state.finished,
             {
-              ...action,
-              data: data,
-              end: Date.now()
+              ...pending,
+              ...task,
+              end: Date.now(),
+              value: task.result.value,
+              status: 'Done'
+            }
+          ]
+        }
+      } else {
+        return {
+          ...state,
+          pending: rest,
+          failed: [
+            ...state.failed,
+            {
+              ...pending,
+              ...task,
+              end: Date.now(),
+              error: task.result.error,
+              status: 'Failed'
             }
           ]
         }
       }
-
+    }
+    default: {
+      console.error('Task has an invalid state', task)
       return state
-    },
+    }
+  }
+}
 
-    ...actions(),
-    ...selectors()
+/**
+ * @template T, I
+ * @typedef {import('./protocol').PendingJob<T, I>} PendingJob
+ */
+
+/**
+ * Takes array of pending job states and job that was updated and returns
+ * array of pending jobs but the one passed & start time of that job
+ * @template T, I
+ * @param {PendingJob<T, I>[]} tasks
+ * @param {JobState} task
+ * @returns {{pending:PendingJob<T, I>, rest:PendingJob<T, I>[]}}
+ */
+const pullPending = (tasks, task) => {
+  const { id } = task
+  const pending = tasks.find($ => $.id === id)
+
+  if (pending == null) {
+    throw Error('Unable to find a pending task')
+  }
+
+  return {
+    pending,
+    rest: tasks.filter($ => $.id !== id)
   }
 }

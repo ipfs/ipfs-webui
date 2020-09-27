@@ -6,7 +6,7 @@
     "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
   },
   "StartExploringPage": {
-    "title": "Explorar - IPLD",
+    "title": "Explorar | IPLD",
     "header": "Explorar el Merkle Forest",
     "leadParagraph": "Pegue un CID en el cuadro para obtener el nodo de IPLD al que se dirige, o elija un conjunto de datos destacado."
   },
@@ -16,7 +16,7 @@
     "paragraph3": "<0>Ingresar IPLD: un espacio de nombres único para todos los protocolos inspirados en hash. A través de IPLD, los enlaces pueden atravesarse a través de protocolos, lo que le permite explorar datos independientemente del protocolo subyacente.</0>"
   },
   "ExplorePage": {
-    "title": "Explorando - IPLD"
+    "title": "Explorando | IPLD"
   },
   "IpldExploreForm": {
     "explore": "Explorar"

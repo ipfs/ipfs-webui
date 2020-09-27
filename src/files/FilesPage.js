@@ -17,7 +17,7 @@ import FilesList from './files-list/FilesList'
 import { getJoyrideLocales } from '../helpers/i8n'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH } from './modals/Modals'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE } from './modals/Modals'
 import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 
@@ -68,8 +68,8 @@ class FilesPage extends React.Component {
     }
 
     const updater = (v) => this.setState({ downloadProgress: v })
-    const { url, filename } = await doFilesDownloadLink(files)
-    const { abort } = await downloadFile(url, filename, updater)
+    const { url, filename, method } = await doFilesDownloadLink(files)
+    const { abort } = await downloadFile(url, filename, updater, method)
     this.setState({ downloadAbort: abort })
   }
 
@@ -85,8 +85,8 @@ class FilesPage extends React.Component {
     this.props.doFilesAddPath(this.props.files.path, path)
   }
 
-  onInspect = (hash) => {
-    this.props.doUpdateHash(`/explore/ipfs/${hash}`)
+  onInspect = (cid) => {
+    this.props.doUpdateHash(`/explore/ipfs/${cid}`)
   }
 
   showModal = (modal, files = null) => {
@@ -144,7 +144,7 @@ class FilesPage extends React.Component {
     const { t, files, doExploreUserProvidedPath } = this.props
 
     if (!files) {
-      return (<div></div>)
+      return (<div/>)
     }
 
     if (files.type === 'unknown') {
@@ -163,7 +163,7 @@ class FilesPage extends React.Component {
 
     if (files.type === 'file') {
       return (
-        <FilePreview {...files} />
+        <FilePreview {...files} onDownload={() => this.onDownload([files])} />
       )
     }
 
@@ -196,17 +196,20 @@ class FilesPage extends React.Component {
     }
 
     if (filesPathInfo.isMfs) {
-      parts.push(t('files'))
+      parts.push(t('app:terms.files'))
     } else if (filesPathInfo.isPins) {
-      parts.push(t('pins'))
+      parts.push(t('app:terms.pins'))
     }
 
     parts.push('IPFS')
-    return parts.join(' - ')
+    return parts.join(' | ')
   }
 
   render () {
-    const { t, files, filesPathInfo, toursEnabled, handleJoyrideCallback } = this.props
+    const {
+      t, files, filesPathInfo, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled,
+      doSetCliOptions, cliOptions
+    } = this.props
     const { contextMenu } = this.state
 
     return (
@@ -222,25 +225,30 @@ class FilesPage extends React.Component {
           translateX={contextMenu.translateX}
           translateY={contextMenu.translateY}
           handleClick={this.handleContextMenu}
-          isUpperDir={contextMenu.file && contextMenu.file.name === '..'}
           isMfs={filesPathInfo ? filesPathInfo.isMfs : false}
           isUnknown={!!(contextMenu.file && contextMenu.file.type === 'unknown')}
           pinned={contextMenu.file && contextMenu.file.pinned}
-          hash={contextMenu.file && contextMenu.file.hash}
+          cid={contextMenu.file && contextMenu.file.cid}
           onShare={() => this.showModal(SHARE, [contextMenu.file])}
           onDelete={() => this.showModal(DELETE, [contextMenu.file])}
           onRename={() => this.showModal(RENAME, [contextMenu.file])}
-          onInspect={() => this.onInspect(contextMenu.file.hash)}
+          onInspect={() => this.onInspect(contextMenu.file.cid)}
           onDownload={() => this.onDownload([contextMenu.file])}
-          onPin={() => this.props.doFilesPin(contextMenu.file.hash)}
-          onUnpin={() => this.props.doFilesUnpin(contextMenu.file.hash)} />
+          onPin={() => this.props.doFilesPin(contextMenu.file.cid)}
+          onUnpin={() => this.props.doFilesUnpin(contextMenu.file.cid)}
+          isCliTutorModeEnabled={isCliTutorModeEnabled}
+          onCliTutorMode={() => this.showModal(CLI_TUTOR_MODE, [contextMenu.file])}
+          doSetCliOptions={doSetCliOptions}
+        />
 
         <Header
           files={files}
           onNavigate={this.props.doFilesNavigateTo}
           onAddFiles={this.onAddFiles}
+          onMove={this.props.doFilesMove}
           onAddByPath={(files) => this.showModal(ADD_BY_PATH, files)}
           onNewFolder={(files) => this.showModal(NEW_FOLDER, files)}
+          onCliTutorMode={() => this.showModal(CLI_TUTOR_MODE)}
           handleContextMenu={(...args) => this.handleContextMenu(...args, true)} />
 
         { this.mainView }
@@ -257,6 +265,7 @@ class FilesPage extends React.Component {
           onShareLink={this.props.doFilesShareLink}
           onDelete={this.props.doFilesDelete}
           onAddByPath={this.onAddByPath}
+          cliOptions={cliOptions}
           { ...this.state.modals } />
 
         <FileImportStatus />
@@ -315,12 +324,16 @@ export default connect(
   'doFilesPin',
   'doFilesUnpin',
   'doFilesUpdateSorting',
-  'selectGatewayUrl',
   'selectFilesSorting',
   'selectToursEnabled',
   'doFilesWrite',
   'doFilesDownloadLink',
   'doExploreUserProvidedPath',
   'doFilesSizeGet',
+  'selectIsCliTutorModeEnabled',
+  'selectIsCliTutorModalOpen',
+  'doOpenCliTutorModal',
+  'doSetCliOptions',
+  'selectCliOptions',
   withTour(withTranslation('files')(FilesPage))
 )

@@ -1,29 +1,17 @@
 {
   "title": "Peers",
-  "peerId": "Peer-ID",
-  "peers": "Peers",
-  "address": "Adresse",
-  "location": "Standort",
-  "unknownLocation": "Unbekannt",
   "localNetwork": "Lokales Netzwerk",
   "nearby": "in der Nähe",
-  "latency": "Latenz",
   "bootstrapNode": "Bootstrap Node",
   "viaRelay": "über <0>{node}</0>",
   "addConnection": "Verbindung hinzufügen",
   "insertPeerAddress": "Tragen Sie die Peer-Adresse ein, zu der Sie eine Verbindung aufbauen möchten.",
-  "add": "Hinzufügen",
-  "example": "Beispiel:",
+  "plusPeers": "+ {number} weitere Peers",
   "tour": {
-    "back": "Zurück",
-    "close": "Schließen",
-    "last": "Fertig",
-    "next": "Weiter",
-    "skip": "Überspringen",
     "step1": {
       "title": "Peers Seite",
       "paragraph1": "Hier kannst du die Peers sehen, mit denen du verbunden bist und das Land, in dem sie sich befinden.",
-      "paragraph2": "Click \"Next\" to learn more."
+      "paragraph2": "Klicke \"Weiter\", um mehr zu erfahren."
     },
     "step2": {
       "title": "Peer Karte",

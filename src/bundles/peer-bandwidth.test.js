@@ -7,8 +7,8 @@ import sleep from '../../test/helpers/sleep'
 import { fakeBandwidth } from '../../test/helpers/bandwidth'
 
 async function fakePeer () {
-  const peerId = (await fakeCid()).toBaseEncodedString('base58btc')
-  return { peer: { toB58String: () => peerId } }
+  const peer = (await fakeCid()).toBaseEncodedString('base58btc')
+  return { peer }
 }
 
 const fakePeers = (count = 5) => Promise.all(Array(count).fill(0).map(fakePeer))
@@ -43,11 +43,10 @@ const createMockIpfs = (opts) => {
 
   return {
     stats: {
-      bw: () => new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(fakeBandwidth())
-        }, randomInt(opts.minLatency, opts.maxLatency))
-      })
+      bw: async function * () {
+        const bw = await new Promise(resolve => setTimeout(() => resolve(fakeBandwidth()), randomInt(opts.minLatency, opts.maxLatency)))
+        yield bw
+      }
     }
   }
 }
@@ -78,7 +77,7 @@ it('should sync added peers', async () => {
   expect(bwPeers.length).toBe(totalPeers)
 
   bwPeers.forEach(({ id }) => {
-    expect(nextPeers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(nextPeers.some(p => p.peer === id)).toBe(true)
   })
 })
 
@@ -105,7 +104,7 @@ it('should sync removed peers', async () => {
   expect(bwPeers.length).toBe(peers.length)
 
   bwPeers.forEach(({ id }) => {
-    expect(peers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(peers.some(p => p.peer === id)).toBe(true)
   })
 
   const nextTotalPeers = randomInt(1, totalPeers)
@@ -119,7 +118,7 @@ it('should sync removed peers', async () => {
   expect(bwPeers.length).toBe(nextPeers.length)
 
   bwPeers.forEach(({ id }) => {
-    expect(nextPeers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(nextPeers.some(p => p.peer === id)).toBe(true)
   })
 })
 
@@ -146,7 +145,7 @@ it('should sync added and removed peers', async () => {
   expect(bwPeers.length).toBe(peers.length)
 
   bwPeers.forEach(({ id }) => {
-    expect(peers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(peers.some(p => p.peer === id)).toBe(true)
   })
 
   const totalAddedPeers = randomInt(1, 100)
@@ -164,7 +163,7 @@ it('should sync added and removed peers', async () => {
   expect(bwPeers.length).toBe(nextPeers.length)
 
   bwPeers.forEach(({ id }) => {
-    expect(nextPeers.some(p => p.peer.toB58String() === id)).toBe(true)
+    expect(nextPeers.some(p => p.peer === id)).toBe(true)
   })
 })
 
