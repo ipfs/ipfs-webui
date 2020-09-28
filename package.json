@@ -22,7 +22,8 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "preinstall": "npx npm-force-resolutions"
   },
   "dependencies": {
     "@tableflip/react-dropdown": "^1.3.0",
@@ -156,5 +157,8 @@
       "^react-dnd$": "react-dnd/dist/cjs",
       "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs"
     }
+  },
+  "resolutions": {
+    "tiny-secp256k1": "dignifiedquire/tiny-secp256k1"
   }
 }
