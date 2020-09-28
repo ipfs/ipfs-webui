@@ -159,6 +159,7 @@
     }
   },
   "resolutions": {
-    "tiny-secp256k1": "dignifiedquire/tiny-secp256k1"
+    "tiny-secp256k1": "dignifiedquire/tiny-secp256k1",
+    "bcrypto": "dignifiedquire/bcrypto"
   }
 }
