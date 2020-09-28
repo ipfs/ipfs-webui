@@ -3,17 +3,32 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [v2.11.1] - 2020-09-14
+## [v2.11.2] - 2020-09-28
 
-CID: bafybeianwe4vy7sprht5sm3hshvxjeqhwcmvbzq73u55sdhqngmohkjgs4
+CID: `bafybeifekmcbbi4nwyj4aasti6x3nuhyli464wfjjfdjg4xnz53lhyiedq`
 
 ---
 
 ### 🛠 Fixes and Maintenance
+
+- fix: files pin status now shows correctly (#1633)
+- fix(i18n): sync app.json and notify.json (#1637)
+- chore: update hint text in browse bar (#1638)
+- fix: context menu now has all options when it's a directory (#1639)
+- chore: refactor and type major components to streamline logic (#1589)
+- chore(ci): use npm ci (#1614)
+- fix: allow json and text fields to be in preview file component (#1646)
+
+## [v2.11.1] - 2020-09-14
+
+CID: `bafybeianwe4vy7sprht5sm3hshvxjeqhwcmvbzq73u55sdhqngmohkjgs4`
+
+---
+
+### 🛠 Fixes and Maintenance
+
 - fix: restore download of a single folder (#1630)
 - fix: remove electron folder import code (#1628)
-
-
 
 ## [v2.11.0] - 2020-09-10
 
