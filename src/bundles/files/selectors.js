@@ -20,9 +20,11 @@ const selectors = () => ({
 
   /**
    * @param {Model} state
-   * @param {DirectoryContent} state.files.pageContent
    */
-  selectCurrentDirectorySize: (state) => state.files.pageContent && state.files.pageContent.content?.reduce((prev, curr) => prev + curr.size, 0),
+  selectCurrentDirectorySize: (state) => {
+    const content = /** @type {import('./protocol').DirectoryContent} **/ (state.files.pageContent)?.content
+    return content?.reduce((prev, curr) => prev + curr.size, 0)
+  },
 
   /**
    * @param {Model} state
