@@ -76,7 +76,10 @@ const selectors = () => ({
    */
   selectFilesErrors: (state) => state.files.failed,
 
-  selectHasUpperDirectory: (state) => !!state.files.pageContent?.upper,
+  /**
+   * @param {Model} state
+   */
+  selectHasUpperDirectory: (state) => Boolean(/** @type {import('./protocol').DirectoryContent} **/ (state.files.pageContent)?.upper),
 
   selectFilesPathInfo: createSelector(
     'selectRouteInfo',
