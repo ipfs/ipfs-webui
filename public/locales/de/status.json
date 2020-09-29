@@ -12,7 +12,7 @@
     "paragraph1": "<0>{repoSize} an Dateien</0> gehostet",
     "paragraph2": "{count, plural, one {Discovered <0>1 peer</0>} other {<0>{peersCount} Peers</0> entdeckt}}"
   },
-  "customApiConfig": "Benutzerdefinierte JSON-Konfiguration",
+  "customApiConfig": "Custom JSON configuration",
   "AskToEnable": {
     "label": "Helfen Sie uns, die App zu verbessern, indem Sie anonyme Nutzerdaten senden."
   },
@@ -24,13 +24,13 @@
     },
     "step2": {
       "title": "Verbindungs-Status",
-      "paragraph1": "Klicke an beliebiger Stelle in der App dieses Symbol, um wieder zur Statusseite zurückzukehren. Wenn du die Verbindung mit der IPFS-API verlierst, wird das Symbol rot.",
-      "paragraph2": "Wenn du eine benutzerdefinierte API-Adresse für deinen Knoten konfigurieren möchtest, klicke einfach auf \"Bearbeiten\" neben der API-Adresse auf dieser Seite."
+      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the IPFS API, the icon will turn red.",
+      "paragraph2": "If you need to configure a custom API address for your node, just click the \"Edit\" link next to where the API address is listed on this page."
     },
     "step3": {
       "title": "Node informationen",
       "paragraph1": "Hier sind Informationen über die Größe deiner Ablage, mit wie vielen Peers du verbunden bist, deine Peer ID und die IPFS Version, die gerade benutzt wird.",
-      "paragraph2": "<0>Klicke auf <1>Erweitert</1>, um weitere Informationen, wie die Gateway URL und Adressen zu sehen. Es gibt auch einen Link im Abschnitt Erweitert, über den du deine API-Adresse ändern kannst."
+      "paragraph2": "<0>Expand the <1>Advanced</1> link to see more info, such as the gateway URL and addresses. There's also a link inside the Advanced section to change your API address.</0>"
     },
     "step4": {
       "title": "Netzwerk-Bandbreite/Verkehr",
