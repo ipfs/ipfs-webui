@@ -119,7 +119,7 @@ type FileContent = {
   pinned: boolean
 }
 
-type DirectoryContent = {
+export type DirectoryContent = {
   type: 'directory',
   fetched: Time,
   path: string,
