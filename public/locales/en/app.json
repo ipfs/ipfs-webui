@@ -34,8 +34,7 @@
   "nav": {
     "bugsLink": "Report a bug",
     "codeLink": "See the code",
-    "revision": "Revision",
-    "webUiVersion": "Version"
+    "revision": "Revision"
   },
   "status": {
     "connectedToIpfs": "Connected to IPFS",
@@ -77,7 +76,8 @@
     "totalIn": "Total in",
     "totalOut": "Total out",
     "unknown": "Unknown",
-    "upSpeed": "Outgoing"
+    "upSpeed": "Outgoing",
+    "version": "Version"
   },
   "tour": {
     "back": "Back",
