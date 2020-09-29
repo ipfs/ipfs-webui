@@ -10,18 +10,18 @@
     "translationProjectIntro": "Ajoutez ou corrigez des traductions pour rendre IPFS meilleur pour tout le monde!",
     "translationProjectLink": "Participez projet de traduction IPFS"
   },
-  "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API personnalisée</1>, y compris un port autre que le 5001 par défaut, entrez-le ici.</0>",
+  "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API personnalisée</1>, y compris un port autre que le 5001 par défaut, entrez-la ici.</0>",
   "cliDescription": "<0>Activez cette option pour faire apparaître une icône \"Voir code\" <1></1> près des principales commandes IPFS. En cliquant dessus, vous ouvrez un pop-up avec le code pour cette commande, pour pouvoir le coller dans votre invite de lignes de commandes (CLI).</0>",
   "fetchingSettings": "Récupération des paramètres...",
   "configApiNotAvailable": "L'API de configuration IPFS n'est pas disponible. Merci de désactiver l'extension IPFS Companion et de réessayer.",
-  "ipfsDaemonOffline": "Le démon IPFS est hors-ligne. Merci de le relancer.",
-  "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre nœud IPFS est en cours d'exécution.",
+  "ipfsDaemonOffline": "Le daemon IPFS est hors-ligne. Merci de le relancer.",
+  "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre daemon IPFS est en cours d'exécution.",
   "settingsHaveChanged": "Les paramètres ont changé. Cliquez sur <1>Réinitialiser</1> pour mettre à jour l'éditeur de contenu.",
   "errorOccured": "Une erreur s'est produite pendant l'enregistrement de vos modifications",
   "checkConsole": "Vérifier la console du navigateur pour plus d'informations.",
   "changesSaved": "Vos modifications ont été enregistrées.",
-  "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du démon IPFS.",
-  "ipfsConfigDescription": "Le fichier de configuration de IPFS est un document JSON. Il est lu lorsque le démon IPFS est lancé. Enregistrez vos modifications, puis relancez le démon IPFS pour les appliquer.",
+  "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du daemon IPFS.",
+  "ipfsConfigDescription": "Le fichier de configuration de IPFS est un document JSON. Il est lu lorsque le daemon IPFS est lancé. Enregistrez vos modifications, puis relancez le daemon IPFS pour les appliquer.",
   "ipfsConfigHelp": "Vérifier la documentation pour plus d'informations.",
   "AnalyticsToggle": {
     "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes",
@@ -33,7 +33,7 @@
     "sessions": {
       "label": "Sessions",
       "summary": "Où et quand vous utilisez l'application, et les métriques du navigateur",
-      "details": "<0>Les métriques de navigateur suivantes sont envoyées:</0><1><0>Un device ID généré aléatoirement</0><1>Un timestamp du démarage de la session</1><2>Des timestamps réguliers pour mesurer sa durée</2><3>La version de l'application; par exemple 2.4.4</3><4>La localisation: par exemple; fr-FR</4><5>Le user agent; par exemlple Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>La résolution d'écran; par exemple 800x600</6><7>La densité de l'écran en pixels; par exemple 1</7></1>"
+      "details": "<0>Les métriques de navigateur suivantes sont envoyées:</0><1><0>Un device ID généré aléatoirement</0><1>Un timestamp du démarage de la session</1><2>Des timestamps réguliers pour mesurer sa durée</2><3>La version de l'application; par exemple 2.4.4</3><4>La localisation: par exemple; fr-FR</4><5>Le user agent; par exemple Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>La résolution d'écran; par exemple 800x600</6><7>La densité de l'écran en pixels; par exemple 1</7></1>"
     },
     "events": {
       "label": "Événements",
@@ -52,12 +52,12 @@
     },
     "crashes": {
       "label": "Erreurs de l'application",
-      "summary": "Messages d'erreur JavaScript et traces d'appels",
-      "details": "Enregistre les messages d'erreur JavaScript et les traces de pile qui se produisent pendant l'utilisation de l'application, si possible. Il est très utile de savoir quand l'application ne fonctionne pas pour vous, mais<1>les messages d'erreur peuvent contenir des informations identifiantes</1>comme les CID ou les chemins d'accès aux fichiers, donc n'activez cette option que si vous êtes à l'aise pour partager ces informations avec nous."
+      "summary": "Messages d'erreur JavaScript et traces de piles d'appels de fonctions",
+      "details": "Enregistre les messages d'erreur JavaScript et les traces de pile d'appels de fonctions qui se produisent pendant l'utilisation de l'application, si possible. Il est très utile de savoir quand l'application ne fonctionne pas pour vous, mais <1>les messages d'erreur peuvent contenir des informations identifiantes</1> comme les CID ou les chemins d'accès aux fichiers, donc n'activez cette option que si vous êtes à l'aise pour partager ces informations avec nous."
     }
   },
   "cliToggle": {
-    "label": "Active le terminal de lignes de commandes (CLI) en mode tutoriel"
+    "label": "Activer le terminal de lignes de commandes (CLI) en mode tutoriel"
   },
   "tour": {
     "step1": {
@@ -67,7 +67,7 @@
     },
     "step2": {
       "title": "Sélection de la langue",
-      "paragraph1": "<0>Vous pouvez changer la lange de l'interface web. Si votre langue préférée n'est pas disponible, jeter un œil sur notre <1>page sur Transifex</1> pour nous aider à traduire !</0>"
+      "paragraph1": "<0>Vous pouvez changer la lange de l'interface web. Si votre langue préférée n'est pas disponible, jetez un œil sur notre <1>page sur Transifex</1> pour nous aider à traduire !</0>"
     },
     "step3": {
       "title": "Statistiques anonymes d'utilisation",

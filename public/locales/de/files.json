@@ -62,15 +62,15 @@
   "tour": {
     "step1": {
       "title": "Datei Seite",
-      "paragraph1": "<0>Hier leben die Dateien deines <1>veränderlichen Dateisystems (MFS)</1>. Du kannst Dateien oder Ordner hinzufügen und sie von dieser Seite aus verwalten.</0>",
+      "paragraph1": "<0>Hier leben die Dateien deines <1>veränderbaren Dateisystems (MFS)</1>. Du kannst Dateien oder Ordner hinzufügen und sie von dieser Seite aus verwalten.</0>",
       "paragraph2": "Klicke \"Weiter\", um mehr zu erfahren."
     },
     "step2": {
       "title": "Breadcrumbs",
-      "paragraph1": "These breadcrumbs display the path to your current directory. You can…",
-      "bullet1": "Click an individual breadcrumb to go to that directory",
-      "bullet2": "Right-click a breadcrumb to get the actions menu for that directory",
-      "bullet3": "Drag files onto a breadcrumb to move or import them"
+      "paragraph1": "Diese Breadcrumbs zeigen den Pfad zum aktuellen Arbeitsverzeichnis. Du kannst…",
+      "bullet1": "Auf einzelne Breadcrumbs blicken, um zu diesem Verzeichnis zu gelangen.",
+      "bullet2": "Rechts-klick auf ein Breadcrumb machen, um das Aktionen-Menü für dieses Verzeichnis anzuzeigen",
+      "bullet3": "Dateien auf ein Breadcrumb ziehen um es zu bewegen oder zu importieren"
     },
     "step3": {
       "title": "Dateien hinzufügen",
@@ -85,6 +85,7 @@
       "paragraph3": "Profi-Tipp: Ziehe eine Datei von jeder anderen Seite der Web-UI hierher, um sie zum Wurzel-Verzeichnis deines MFS hinzuzufügen."
     }
   },
+  "loadMore": "Mehr laden",
   "previousFolder": "Zurück zum vorherigen Ordner",
   "fileLabel": "Wähle {type}{name} mit Größe: {size} ",
   "hashUnavailable": "Hash nicht verfügbar",
