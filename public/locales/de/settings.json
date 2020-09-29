@@ -2,7 +2,7 @@
   "title": "Einstellungen",
   "language": "Sprache",
   "analytics": "Analysetools",
-  "cliTutorMode": "CLI-Tutor-Modus",
+  "cliTutorMode": "CLI Tutor Mode",
   "config": "IPFS-Konfiguration",
   "languageModal": {
     "title": "Sprache ändern",
@@ -10,8 +10,8 @@
     "translationProjectIntro": "Füge Übersetzungen hinzu oder verbessere sie und mache IPFS besser für jeden!",
     "translationProjectLink": "Dem IPFS-Übersetzungsprojekt beitreten"
   },
-  "apiDescription": "<0>Wenn Dein Node mit einer <1>benutzerdefinierten API-Adresse</1> konfiguriert ist, einschließlich eines anderen Ports als dem Standard-Port 5001, gib sie bitte hier ein.</0>",
-  "cliDescription": "<0>Aktiviere diese Option, um ein \"Code anzeigen\" <1></1> Symbol neben häufigen IPFS Befehlen anzuzeigen. Wenn du auf das Symbol klickst, öffnet sich ein Fenster mit CLI-Code des Befehls, den du in die IPFS Kommandozeile deines Terminals einfügen kannst.</0>",
+  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
+  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
   "fetchingSettings": "Einstellungen werden geladen...",
   "configApiNotAvailable": "Die API zur IPFS-Konfigurations ist nicht verfügbar. Bitte deaktiviere die Browser-Erweiterung \"IPFS Companion\" und versuche es erneut.",
   "ipfsDaemonOffline": "Der IPFS Daemon ist offline. Bitte starten Sie ihn und versuchen es erneut.",
@@ -57,7 +57,7 @@
     }
   },
   "cliToggle": {
-    "label": "Command-Line Interface (CLI) Tutor Modus aktivieren"
+    "label": "Enable command-line interface (CLI) tutor mode"
   },
   "tour": {
     "step1": {
@@ -75,8 +75,8 @@
       "paragraph2": "Du kannst selbst entscheiden, welche Daten du uns senden möchtest. Wir können Dich außerdem nicht identifizieren. Der Schutz deiner Privatsphäre steht bei uns an erster Stelle."
     },
     "step4": {
-      "title": "Benutzerdefinierte API-Adresse",
-      "paragraph1": "Wenn du deinen IPFS Knoten mit einer benutzerdefinierten API Adresse konfiguriert hast, kannst du deine Konfigurationsdatei direkt hier bearbeiten, anstatt das JSON von Hand zu bearbeiten."
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
     },
     "step5": {
       "title": "IPFS-Konfiguration",

@@ -10,12 +10,12 @@
   "tour": {
     "step1": {
       "title": "Page des pairs",
-      "paragraph1": "C'est ici que vous pouvez voir les pairs auxquels vous êtes connecté(e) et les pays où ils se trouvent.",
+      "paragraph1": "C'est ici que vous pouvez voir les pairs auxquels vous êtes connecté et les pays où ils se trouvent.",
       "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
     },
     "step2": {
       "title": "Carte des pairs",
-      "paragraph1": "Une visualisation d'où se trouvent dans le monde les pairs auxquels vous êtes connecté(e)."
+      "paragraph1": "Une visualisation d'où les pairs auxquels vous êtes connecté se trouvent dans le monde."
     },
     "step3": {
       "title": "Tableau des pairs",

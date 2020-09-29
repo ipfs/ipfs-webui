@@ -6,7 +6,7 @@
     "paragraph1": "IPLD浏览器有新版本可用；<1>请重新加载</1>。"
   },
   "StartExploringPage": {
-    "title": "浏览 - IPLD",
+    "title": "浏览 | IPLD",
     "header": "浏览 Merkle Forest",
     "leadParagraph": "粘贴 CID 到文本框以获取它的寻址 IPLD 节点，或选择一个特色数据集。"
   },
@@ -16,7 +16,7 @@
     "paragraph3": "<0>输入 IPLD ：所有哈希启发协议的单个命名空间。 通过 IPLD ，可以跨协议遍历链接，无论底层协议如何，都可以浏览数据。</0>"
   },
   "ExplorePage": {
-    "title": "浏览 - IPLD"
+    "title": "浏览 | IPLD"
   },
   "IpldExploreForm": {
     "explore": "浏览"
@@ -35,7 +35,7 @@
   "tour": {
     "projects": {
       "title": "特征数据集",
-      "paragraph1": "浏览特色数据集或粘贴 CID 来查看数据是如何通过协议被连接并组织起来的。"
+      "paragraph1": "浏览特色数据集或粘贴 CID 来查看数据是如何通过协议连接并组织起来的。"
     },
     "explorer": {
       "step1": {

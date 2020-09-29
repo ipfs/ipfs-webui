@@ -85,12 +85,11 @@
       "paragraph3": "专家提示：可以从 Web UI 的任何其他页面拖放文件，把它们添加到 MFS 的根目录。"
     }
   },
-  "loadMore": "载入更多",
   "previousFolder": "回到之前的文件夹",
   "fileLabel": "选择的{type}{name}的文件大小为:{size}",
   "hashUnavailable": "哈希不可用",
   "checkboxLabel": "查看更多选项{name}",
   "pinned": "已固定",
   "cidNotFileNorDir": "当前的连接不是一个文件或目录，请检查 <0>并替换</0> 。",
-  "sortBy": "按照{name}排序项目"
+  "sortBy": "排序项目{name}"
 }

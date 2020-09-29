@@ -51,7 +51,7 @@
     "noFiles": "<0>Pas de fichiers dans ce dossier. Cliquez sur le boutton \"Importer\" pour en ajouter.</0>"
   },
   "filesImportStatus": {
-    "imported": "{count, plural, one {1 élément importé} other {{count} éléments importés}}",
+    "imported": "{count, plural, one {1 élément importé} other {{count}éléments importés}}",
     "importing": "{count, plural, one {Import de 1 élément} other {Import de {count} éléments}}",
     "toggleDropdown": "Dérouler la liste",
     "closeDropdown": "Fermer la liste",
@@ -74,18 +74,17 @@
     },
     "step3": {
       "title": "Ajouter des fichiers",
-      "paragraph1": "Ici vous pouvez voir comment les blocs et les fichiers sont épinglés.",
+      "paragraph1": "Ici vous pouvez voir comment les blocs et les fichiers sont épinglé.",
       "paragraph2": "Vous pouvez ajouter des fichiers ou des dossiers dans votre dépot en utilisant le menu déroulant sur la droite.",
       "paragraph3": "<0>Si vous voulez ajouter quelque chose déjà présent sur IPFS, vous pouvez l'importer dans votre MFS en entrant son <1>Identifiant de contenu (CID)</1>.</0>"
     },
     "step5": {
-      "title": "Liste des fichiers",
+      "title": "List des fichiers",
       "paragraph1": "Finallement, vous pouvez ajouter des fichiers et des dossiers en utilisant le glisser deposer.",
       "paragraph2": "Vous pouvez partager ou télécharger des fichiers, inpecter cela dans IPLD Explorer, les renomer ou encore les supprimer.",
-      "paragraph3": "Astuce : glissez-déposez un fichier n'importe où sur l'interface web pour l'ajouter à la racine de votre MFS."
+      "paragraph3": "Pro tip: glisser déposer un fichier n'importe où sur l'interface web l'ajout à la racine de votre MFS."
     }
   },
-  "loadMore": "En charger plus",
   "previousFolder": "Revenir au dossier précédent",
   "fileLabel": "Sélectionner {type}{name} de taille : {size}",
   "hashUnavailable": "hash non disponible",

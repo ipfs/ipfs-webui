@@ -67,10 +67,10 @@
     },
     "step2": {
       "title": "فتات ",
-      "paragraph1": "تعرض مسارات التنقل هذه المسار إلى دليلك الحالي. تستطيع…",
-      "bullet1": "انقر فوق مسار تنقل فردي للانتقال إلى هذا الدليل",
-      "bullet2": "انقر بزر الماوس الأيمن فوق مسار التنقل للحصول على قائمة الإجراءات لهذا الدليل",
-      "bullet3": "اسحب الملفات إلى مسار التنقل لنقلها أو استيرادها"
+      "paragraph1": "These breadcrumbs display the path to your current directory. You can…",
+      "bullet1": "Click an individual breadcrumb to go to that directory",
+      "bullet2": "Right-click a breadcrumb to get the actions menu for that directory",
+      "bullet3": "Drag files onto a breadcrumb to move or import them"
     },
     "step3": {
       "title": "إضافة ملفات",
@@ -85,7 +85,6 @@
       "paragraph3": "نصيحة احترافية: اسحب ملف وأفلته من أي صفحة أخرى لواجهة مستخدم الويب لإضافتها إلى جذر MFS."
     }
   },
-  "loadMore": "تحميل المزيد",
   "previousFolder": "ارجع إلى المجلد السابق",
   "fileLabel": "حدد{type}{name} الحجم{size}",
   "hashUnavailable": "التجزئة غير متاحة",
