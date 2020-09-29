@@ -1,10 +1,8 @@
 {
   "title": "設置",
-  "save": "保存",
-  "saving": "保存中…",
-  "reset": "重置",
   "language": "語言",
   "analytics": "分析",
+  "cliTutorMode": "CLI Tutor Mode",
   "config": "IPFS 設置",
   "languageModal": {
     "title": "修改語言",
@@ -12,10 +10,8 @@
     "translationProjectIntro": "Add or improve translations and make IPFS better for everyone!",
     "translationProjectLink": "Join the IPFS Translation Project"
   },
-  "actions": {
-    "edit": "修改",
-    "close": "關閉"
-  },
+  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
+  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
   "fetchingSettings": "讀取設置中...",
   "configApiNotAvailable": "IPFS 設置API 不可用。請勿用\"IPFS 伴侶\" 瀏覽器插件並重試。",
   "ipfsDaemonOffline": "IPFS Daemon處於離線狀態。請使其在線並重試。",
@@ -60,12 +56,10 @@
       "details": "記錄盡可能使用應用程序時出現的JavaScript 錯誤消息和堆疊跟踪。 了解應用程序何時不適合您，但<1>錯誤消息可能包含可識別信息</ 1>（如CID 或文件路徑）非常有用，因此，只有在您願意與我們共享該信息時才啟用此信息。"
     }
   },
+  "cliToggle": {
+    "label": "Enable command-line interface (CLI) tutor mode"
+  },
   "tour": {
-    "back": "Back",
-    "close": "關閉",
-    "last": "Last",
-    "next": "Next",
-    "skip": "Skip",
     "step1": {
       "title": "設置頁面",
       "paragraph1": "您可以在此處更改Web UI 和IPFS 節點的設置。",
@@ -81,6 +75,10 @@
       "paragraph2": "您可以選擇向我們發送的數據。我們非常重視隱私，所採集的數據無法識別您的身份。"
     },
     "step4": {
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    },
+    "step5": {
       "title": "IPFS 設置",
       "paragraph1": "您可以直接從Web UI 更改IPFS 節點的設置！",
       "paragraph2": "不要忘記重新啟動守護程式以應用更改。"

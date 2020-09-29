@@ -1,18 +1,123 @@
-import React from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
+import classNames from 'classnames'
 import PropTypes from 'prop-types'
+import { basename, join } from 'path'
+import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
+import { useDrop } from 'react-dnd'
+import { NativeTypes } from 'react-dnd-html5-backend'
 
-function makeBread (root) {
+import { normalizeFiles } from '../../lib/files'
+
+import './Breadcrumbs.css'
+
+const DropableBreadcrumb = ({ index, link, immutable, onAddFiles, onMove, onClick, onContextMenuHandle, getPathInfo, checkIfPinned }) => {
+  const [{ isOver }, drop] = useDrop({
+    accept: [NativeTypes.FILE, 'FILE'],
+    drop: async ({ files, filesPromise, path: filePath }) => {
+      if (files) {
+        (async () => {
+          const files = await filesPromise
+          onAddFiles(await normalizeFiles(files), link.path)
+        })()
+      } else {
+        const src = filePath
+        const dst = join(link.path, basename(filePath))
+
+        try { await onMove(src, dst) } catch (e) { console.error(e) }
+      }
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver()
+    })
+  })
+
+  const buttonRef = useRef()
+
+  const handleOnContextMenuHandle = async (ev) => {
+    ev.preventDefault()
+
+    const { path } = link
+    const sanitizedPath = path.substring(path.indexOf('/', 1), path.length)
+    const { cid, type } = await getPathInfo(sanitizedPath)
+    const pinned = await checkIfPinned(cid)
+
+    onContextMenuHandle(undefined, buttonRef.current, {
+      ...link,
+      type,
+      cid,
+      pinned
+    })
+  }
+
+  return (
+    <span className='dib pv1 pr1' ref={drop}>
+      <button ref={buttonRef} title={link.realName}
+        className={classNames('BreadcrumbsButton relative',
+          index !== 0 && 'navy',
+          index === 0 && 'f7 pa1 br2 mr2',
+          index === 0 && (immutable ? 'bg-charcoal-muted white' : 'bg-navy white'),
+          immutable && (link.last || index === 0) && 'no-events',
+          link.last && 'b', isOver && 'dragging')}
+        onClick={() => onClick(link.path)} onContextMenu={(ev) => index !== 0 && handleOnContextMenuHandle(ev)}>
+        {link.name}
+      </button>
+    </span>
+  )
+}
+
+const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle, onAddFiles, onMove, doGetPathInfo, doCheckIfPinned, ...props }) => {
+  const [overflows, setOverflows] = useState(false)
+  const [isImmutable, setImmutable] = useState(false)
+  const anchors = useRef()
+
+  useEffect(() => {
+    const a = anchors.current
+
+    const newOverflows = a ? (a.offsetHeight < a.scrollHeight || a.offsetWidth < a.scrollWidth) : false
+    if (newOverflows !== overflows) {
+      setOverflows(newOverflows)
+    }
+  }, [overflows])
+
+  const bread = useMemo(() =>
+    makeBread(path, t, isImmutable, setImmutable)
+  , [isImmutable, path, t])
+
+  return (
+    <nav aria-label={t('breadcrumbs')} className={classNames('Breadcrumbs flex items-center sans-serif overflow-hidden sticky top-0', className)} {...props}>
+      <div className='nowrap overflow-hidden relative flex flex-wrap' ref={ anchors }>
+        <div className={`absolute left-0 top-0 h-100 w1 ${overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, #ffffff 0%, transparent 100%)' }} />
+
+        { bread.map((link, index) => (
+          <div key={`${index}link`}>
+            <DropableBreadcrumb index={index} link={link} immutable={isImmutable}
+              onAddFiles={onAddFiles} onMove={onMove} onClick={onClick} onContextMenuHandle={onContextMenuHandle} getPathInfo={doGetPathInfo} checkIfPinned={doCheckIfPinned} />
+            { index !== bread.length - 1 && <span className='dib pr1 pv1 mid-gray v-top'>/</span>}
+          </div>
+        ))}
+
+      </div>
+    </nav>
+  )
+}
+
+Breadcrumbs.propTypes = {
+  path: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  onContextMenuHandle: PropTypes.func
+}
+
+function makeBread (root, t, isImmutable, setImmutable) {
   if (root.endsWith('/')) {
     root = root.substring(0, root.length - 1)
   }
 
-  const parts = root.split('/').map(part => {
-    return {
-      name: part,
-      path: part
-    }
-  })
+  const parts = root.split('/').map(part => ({
+    name: part,
+    path: part
+  }))
 
   for (let i = 1; i < parts.length; i++) {
     const name = parts[i].name
@@ -29,83 +134,19 @@ function makeBread (root) {
   }
 
   parts.shift()
-  parts[0].disabled = true
+
+  if (parts[0].name === 'ipfs' || parts[0].name === 'ipns') {
+    !isImmutable && setImmutable(true)
+  }
+
+  parts[0].name = t(parts[0].name)
 
   parts[parts.length - 1].last = true
   return parts
 }
 
-class Breadcrumbs extends React.Component {
-  state = {
-    overflows: false
-  }
-
-  componentDidUpdate (_, prevState) {
-    const a = this.anchors
-    const overflows = a ? (a.offsetHeight < a.scrollHeight || a.offsetWidth < a.scrollWidth) : false
-
-    if (prevState.overflows !== overflows) {
-      this.setState({ overflows })
-    }
-  }
-
-  render () {
-    const { t, tReady, path, onClick, className = '', ...props } = this.props
-
-    const cls = `Breadcrumbs flex items-center sans-serif overflow-hidden ${className}`
-    const bread = makeBread(path)
-    const root = bread[0]
-
-    if (root.name === 'files' || root.name === 'pins') {
-      bread.shift()
-    }
-
-    const res = bread.map((link, index) => ([
-      <span key={`${index}link`} className='dib pv1 pr1' style={{ direction: 'ltr' }}>
-        { link.disabled
-          ? <span title={link.realName} className='gray'>{link.name}</span>
-          : <button title={link.realName} className={`pointer navy ${link.last ? 'b' : ''}`} onClick={() => onClick(link.path)}>
-            {link.name}
-          </button>
-        }
-      </span>,
-      /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-      <a key={`${index}divider`} className='dib pr1 pv1 mid-gray v-top'>/</a>
-    ]))
-
-    if (res.length === 0) {
-      /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-      res.push(<a key='root-divider' className='dib pv1 mid-gray v-top'>/</a>)
-    }
-
-    res.reverse()
-
-    return (
-      <nav aria-label={t('breadcrumbs')} className={cls} {...props}>
-        { (root.name === 'files' || root.name === 'pins') &&
-        /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-        <button key={`${root.name}-label`}
-          title={root.realName}
-          onClick={() => onClick(root.path)}
-          className='f7 pointer pa1 bg-navy br2 mr2 white'>
-          {t(root.name)}
-        </button>
-        }
-
-        <div className='nowrap overflow-hidden relative' ref={(el) => { this.anchors = el }} style={{ direction: 'rtl' }}>
-          <div className={`absolute left-0 top-0 h-100 w1 ${this.state.overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, #ffffff 0%, transparent 100%)' }} />
-          {res}
-        </div>
-      </nav>
-    )
-  }
-}
-
-Breadcrumbs.propTypes = {
-  path: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired,
-  tReady: PropTypes.bool.isRequired
-}
-
-export default withTranslation('files')(Breadcrumbs)
+export default connect(
+  'doGetPathInfo',
+  'doCheckIfPinned',
+  withTranslation('files')(Breadcrumbs)
+)

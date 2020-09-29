@@ -1,80 +1,47 @@
 {
   "title": "Statut",
-  "peer": "Pair",
-  "peers": "Pairs",
-  "addresses": "Adresses",
   "nodeInfo": "Information du pair",
-  "peerId": "ID de pair",
-  "gateway": "Passerelle",
-  "api": "API",
-  "version": "Version",
-  "advanced": "Avancé",
-  "publicKey": "Clé publique",
-  "upSpeed": "Sortant",
-  "downSpeed": "Entrant",
   "spaceUsed": "Espace utilisé",
   "networkTraffic": "Trafic réseau",
-  "bandwidthOverTime": "Bande passante à travers le temps",
+  "bandwidthOverTime": "Bande passante en fonction du temps",
   "bandwidthByPeer": "Bande passante par pair",
   "distributionOfPeers": "Répartition des pairs",
   "pieChartLabel": "{count, plural, one {{percent}% ({count} Pair)} other {{percent}% ({count} Pairs)}}",
-  "rateIn": "Ratio entrant",
-  "rateOut": "Ratio sortant",
-  "totalIn": "Total entrant",
-  "totalOut": "Total sortant",
-  "more": "...et {count} de plus",
-  "in": "Entrant",
-  "out": "Sortant",
-  "codeLink": "Voir le code",
-  "bugsLink": "Signaler un bug",
-  "revision": "Révision",
+  "countMore": "...et {count} de plus",
   "StatusConnected": {
-    "header1": "Connecté à IPFS",
-    "paragraph1": "Hébergement de <0>{repoSize} fichiers</0>",
+    "paragraph1": "<0>{repoSize} de fichiers</0> hébergés",
     "paragraph2": "{count, plural, one {<0>1 pair</0> découvert} other {<0>{peersCount} pairs</0> découverts}}"
   },
-  "StatusNotConnected": {
-    "header1": "Échec de connexion à l'API",
-    "paragraph1": "<0>Démarrer un démon IPFS dans un terminal:</0>",
-    "paragraph2": "<0>Pour plus d'informations sur comment démarrer avec IPFS vous pouvez <1> lire le manuel</1>.</0>"
-  },
+  "customApiConfig": "JSON de configuration personnalisée",
   "AskToEnable": {
-    "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes.",
-    "yesLabel": "OK",
-    "noLabel": "Non merci",
-    "detailsLabel": "Plus d'infos"
+    "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes."
   },
   "tour": {
-    "back": "Retour",
-    "close": "Fermer",
-    "last": "Dernier",
-    "next": "Suivant",
-    "skip": "Passer",
     "step1": {
       "title": "Page des status",
-      "paragraph1": "C'est le point de départ de votre noeud IPFS et aussi où vous pouvez vérifié les informations basiques.",
+      "paragraph1": "C'est le point de départ de votre nœud IPFS et où consulter les informations de base.",
       "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
     },
     "step2": {
-      "title": "Statut de la connexion",
-      "paragraph1": "Cela mène à une page de test de connexion, dans le cas contraire vous donné des indications comment vous y connecter.",
-      "paragraph2": "Vous pouvez également configurer votre noeud avec une adresse personalisée pour l'API."
+      "title": "Statut de la connection",
+      "paragraph1": "Cliquez sur l'icône depuis n'importe quelle page de l'application pour revenir à la page Statut. Si vous perdez votre connexion avec l'API d'IPFS, l'icône deviendra rouge.",
+      "paragraph2": "Si vous voulez configurer une adresse d'API personnalisée pour votre nœud, cliquez sur le lien \"Modifier\" près d'où l'adresse d'API est indiquée, sur cette page. "
     },
     "step3": {
       "title": "Information du pair",
-      "paragraph1": "Ici vous avez les information sur la taille de votre dépôt, à combien de noeuds vous êtes connecté, votre peer ID et votre choix de IPFS.",
-      "paragraph2": "<0>Cliquer sur <1>Avancée</1> pour voir plus informations sur la passerelle URL et adresse</0>"
+      "paragraph1": "Ici se trouvent des informations sur la taille de votre répertoire, le nombre de nœuds auxquels vous êtes connecté, votre peerID et la version d'IPFS utilisée.",
+      "paragraph2": "<0>Déplier le lien <1>Avancé</1> pour plus d'information, comme l'URL de la passerelle et ses adresses. Il y a aussi un lien dans la section Avancé pour changer votre adresse d'API.</0>"
     },
     "step4": {
-      "title": "Traffic réseau",
-      "paragraph1": "Ce graphe montre l'utilisaion du réseau au cours du temps.",
-      "paragraph2": "Le compteur de vitesse du trafic entrant et sortant."
+      "title": "Trafic réseau",
+      "paragraph1": "Ce graphe montre l'utilisation du réseau au cours du temps.",
+      "paragraph2": "Les compteurs montrent les vitesses des trafics entrant et sortant."
     },
     "stepExplore": {
-      "title": "Explorez",
-      "paragraph": "Copier un CID et explorer les fichiers contenu à l'intérieur du CID ou regarder les donnée structuré et liée aux protocoles."
+      "title": "Explorer",
+      "paragraph": "Copiez un CID et explorez les fichiers contenus à l'intérieur ou observez comment les données sont structurés et liées grâce aux protocoles."
     }
   },
   "bandwidthStats": "Statistiques réseau",
-  "bandwidthStatsDisabled": "Vous avez débranché les statistique de la bande passante. Vous pouvez ré-activer cela en tapant la ligne de commande <1>Swarm.DisableBandwidthMetrics</1> de <3>false</3> dans <5>Settings</5>. Vous devez redémarrer pour cela soit pris en compte. "
+  "bandwidthStatsDisabled": "Vous avez déactivé les statistiques de la bande passante. Vous pouvez les réactiver en tapant la ligne de commande ci-dessous ou en changeant la clé <1>Swarm.DisableBandwidthMetrics</1> à <3>false</3> dans <5>Paramètres</5>. Ensuite, vous devrez redémarrer le daemon IPFS pour que cela soit pris en compte. "
 }

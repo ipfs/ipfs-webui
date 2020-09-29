@@ -10,9 +10,9 @@ storiesOf('NavBar', module)
   .addDecorator(checkA11y)
   .addDecorator(withKnobs)
   .add('Default', () => (
-    <div className='sans-serif vh-100 bg-navy' style={{ width: 256 }}>
+    <div className='sans-serif vh-100 bg-navy' style={{ width: 156 }}>
       <NavBar
-        width='260px'
+        className='w-100'
         isSettingsEnabled={boolean('isSettingsEnabled', true)}
         open={boolean('open', true)}
         onToggle={action('onToggle')}

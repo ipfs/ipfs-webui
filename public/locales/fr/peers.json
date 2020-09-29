@@ -1,37 +1,25 @@
 {
   "title": "Pairs",
-  "peerId": "ID de pair",
-  "peers": "Pairs",
-  "address": "Adresse",
-  "location": "Emplacement",
-  "unknownLocation": "Iconnu",
   "localNetwork": "Réseau Local",
   "nearby": "à proximité",
-  "latency": "latence",
   "bootstrapNode": "pairs de démarrage",
   "viaRelay": "via<0>{node}</0>",
   "addConnection": "Ajouter une connexion",
-  "insertPeerAddress": "Indiquer l'adresse du pair auquel vous souhaitez vous connecter",
-  "add": "Ajouter",
-  "example": "Exemple:",
+  "insertPeerAddress": "Indiquer l'adresse du pair auquel vous souhaitez vous connecter.",
+  "plusPeers": "+ {number} pairs supplémentaires",
   "tour": {
-    "back": "Retour",
-    "close": "Fermer",
-    "last": "Dernier",
-    "next": "Suivant",
-    "skip": "Passer",
     "step1": {
       "title": "Page des pairs",
-      "paragraph1": "C'est ici que vous pouvez voir les pairs auxquels vous êtes connecté et les pays où ils sont.",
+      "paragraph1": "C'est ici que vous pouvez voir les pairs auxquels vous êtes connecté(e) et les pays où ils se trouvent.",
       "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
     },
     "step2": {
       "title": "Carte des pairs",
-      "paragraph1": "Une visualisation où les pairs sont connectés dans le monde."
+      "paragraph1": "Une visualisation d'où se trouvent dans le monde les pairs auxquels vous êtes connecté(e)."
     },
     "step3": {
       "title": "Tableau des pairs",
-      "paragraph1": "Vérifier les ID des pairs connecté, les adresses et le situation approximatif."
+      "paragraph1": "Vérifiez les ID des pairs connectés, leurs adresses et leur emplacement approximatif."
     }
   }
 }

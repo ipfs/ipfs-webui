@@ -1,0 +1,60 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "target": "esnext",
+    "moduleResolution": "node",
+    "module": "esnext",
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true,
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "@types",
+      "node_modules/@types"
+    ],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react"
+  },
+  "exclude": [
+    "./src/test"
+  ],
+  "include": [
+    "**/*.ts",
+    "@types",
+    "src/bundles/files/**/*.js",
+    "src/bundles/analytics.js",
+    "src/bundles/config-save.js",
+    "src/bundles/connected.js",
+    "src/bundles/enum.js",
+    "src/bundles/experiments.js",
+    "src/bundles/ipfs-desktop.js",
+    "src/bundles/ipfs-provider.js",
+    "src/bundles/retry-init.js",
+    "src/bundles/task.js"
+  ],
+  "compileOnSave": false
+}

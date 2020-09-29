@@ -35,7 +35,7 @@
   "tour": {
     "projects": {
       "title": "特征数据集",
-      "paragraph1": "浏览特色数据集或粘贴 CID 来查看数据是如何通过协议连接并组织起来的。"
+      "paragraph1": "浏览特色数据集或粘贴 CID 来查看数据是如何通过协议被连接并组织起来的。"
     },
     "explorer": {
       "step1": {

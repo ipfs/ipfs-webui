@@ -81,7 +81,7 @@ class FilesExploreForm extends React.Component {
       <div data-id='FilesExploreForm' className='sans-serif black-80 flex'>
         <div className='flex-auto'>
           <div className='relative'>
-            <input id='ipfs-path' className={`input-reset bn pa2 mb2 db w-100 f6 br-0 placeholder-light ${this.inputClass}`} style={{ borderRadius: '3px 0 0 3px' }} type='text' placeholder='QmHash' aria-describedby='ipfs-path-desc' onChange={this.onChange} onKeyDown={this.onKeyDown} value={this.state.path} />
+            <input id='ipfs-path' className={`input-reset bn pa2 mb2 db w-100 f6 br-0 placeholder-light ${this.inputClass}`} style={{ borderRadius: '3px 0 0 3px' }} type='text' placeholder='QmHash/bafyHash' aria-describedby='ipfs-path-desc' onChange={this.onChange} onKeyDown={this.onKeyDown} value={this.state.path} />
             <small id='ipfs-path-desc' className='o-0 absolute f6 black-60 db mb2'>Paste in a CID or IPFS path</small>
           </div>
         </div>
@@ -89,23 +89,23 @@ class FilesExploreForm extends React.Component {
           <Button
             minWidth={0}
             disabled={!this.isValid}
-            title={t('exploreForm.inspect')}
+            title={t('app:actions.inspect')}
             style={{ borderRadius: '0 3px 3px 0' }}
             onClick={this.onInspect}
             bg='bg-teal'
             className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white overflow-hidden tc' >
             <StrokeIpld style={{ height: 24 }} className='dib fill-current-color v-mid' />
-            <span className='ml2'>{t('exploreForm.inspect')}</span>
+            <span className='ml2'>{t('app:actions.inspect')}</span>
           </Button>
           <Button
             minWidth={0}
             disabled={!this.isValid}
             style={{ borderRadius: '0' }}
-            title={t('exploreForm.browse')}
+            title={t('app:actions.browse')}
             onClick={this.onBrowse}
             className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white bg-gray overflow-hidden tc' >
             <StrokeFolder style={{ height: 24 }} className='dib fill-current-color v-mid' />
-            <span className='ml2'>{t('exploreForm.browse')}</span>
+            <span className='ml2'>{t('app:actions.browse')}</span>
           </Button>
         </div>
       </div>

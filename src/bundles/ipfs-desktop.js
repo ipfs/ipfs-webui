@@ -1,31 +1,88 @@
-let bundle = {
-  name: 'ipfsDesktop',
-  reducer: (state = {}) => state,
-  selectIsIpfsDesktop: () => !!window.ipfsDesktop,
+/**
+ * @typedef {Object} IPFSDesktop
+ * @property {string} version
+ * @property {string} countlyDeviceId
+ * @property {string[]} countlyActions
+ * @property {() => Promise<void|Array<{path:string, size:number, content:AsyncIterable<Uint8Array>}>>} selectDirectory
+ * @property {(consent:string[]) => void} removeConsent
+ * @property {(consent:string[]) => void} addConsent
+ */
+// @ts-ignore
+/** @type {{ ipfsDesktop: IPFSDesktop }} */
+const root = (window)
+
+/**
+ * @typedef {import('redux-bundler').Selectors<typeof baseSelectors>} BaseSelectors
+ */
+
+const baseSelectors = {
+  /**
+   * @returns {boolean}
+   */
+  selectIsIpfsDesktop: () => !!root.ipfsDesktop,
+  /**
+   * @returns {string[]}
+   */
   selectDesktopCountlyActions: () => ([])
 }
 
-if (window.ipfsDesktop) {
-  bundle = {
-    ...bundle,
-    selectDesktopVersion: () => window.ipfsDesktop.version,
+const desktopSelectors = {
+  ...baseSelectors,
+  selectDesktopVersion: () => root.ipfsDesktop.version,
 
-    selectDesktopCountlyDeviceId: () => window.ipfsDesktop.countlyDeviceId,
+  selectDesktopCountlyDeviceId: () => root.ipfsDesktop.countlyDeviceId,
 
-    selectDesktopCountlyActions: () => window.ipfsDesktop.countlyActions,
+  selectDesktopCountlyActions: () => root.ipfsDesktop.countlyActions
+}
 
-    doDesktopSelectDirectory: () => () => {
-      return window.ipfsDesktop.selectDirectory()
-    },
+/**
+ * @typedef {import('redux-bundler').Selectors<typeof desktopSelectors>} Selectors
+ */
+const selectors = root.ipfsDesktop
+  ? desktopSelectors
+  : baseSelectors
 
-    doDesktopAddConsent: consent => () => {
-      return window.ipfsDesktop.addConsent(consent)
-    },
+const desktopActions = {
+  /**
+   * @param {string[]} consent
+   * @returns {() => void}
+   */
+  doDesktopAddConsent: consent => () => {
+    return root.ipfsDesktop.addConsent(consent)
+  },
 
-    doDesktopRemoveConsent: consent => () => {
-      return window.ipfsDesktop.removeConsent(consent)
-    }
+  /**
+   * @param {string[]} consent
+   * @returns {() => void}
+   */
+  doDesktopRemoveConsent: consent => () => {
+    return root.ipfsDesktop.removeConsent(consent)
   }
+}
+
+/**
+ * @typedef {never} Message
+ * @typedef {Object} Model
+ * @typedef {Object} State
+ * @property {Model} ipfsDesktop
+ * @typedef {import('redux-bundler').Actions<typeof desktopActions>} Actions
+ * @typedef {Selectors & Actions} Ext
+ * @typedef {import('redux-bundler').Context<State, Message, Ext>} Context
+ */
+
+const actions = root.ipfsDesktop
+  ? desktopActions
+  : {}
+
+const bundle = {
+  name: 'ipfsDesktop',
+  /**
+   * @param {Model} [state]
+   * @returns {Model}
+   */
+  reducer: (state = {}) => state,
+  ...selectors,
+  ...actions
 }
 
 export default bundle

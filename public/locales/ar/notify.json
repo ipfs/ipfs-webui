@@ -1,0 +1,24 @@
+{
+  "ipfsApiRequestFailed": "تعذر الاتصال. يرجى التحقق مما إذا كان البرنامج الخفي الخاص بك قيد التشغيل.",
+  "windowIpfsRequestFailed": "فشل طلب IPFS. يرجى التحقق من إعدادات IPFS Companion الخاصة بك.",
+  "ipfsIsBack": "تم استئناف خدمة IPFS العادية. استمتع!",
+  "folderExists": "يوجد عنصر بهذا الاسم بالفعل. الرجاء اختيار آخر.",
+  "filesFetchFailed": "فشل الحصول على هذه الملفات. يرجى التحقق من المسار وحاول مرة أخرى.",
+  "filesRenameFailed": "فشل في إعادة تسمية الملفات. حاول مرة اخرى.",
+  "filesMakeDirFailed": "فشل إنشاء الدليل. حاول مرة اخرى.",
+  "filesCopyFailed": "فشل نسخ الملفات. حاول مرة اخرى.",
+  "filesDeleteFailed": "فشل حذف الملفات. حاول مرة اخرى.",
+  "filesAddFailed": "فشل في إضافة الملفات إلى IPFS. حاول مرة اخرى.",
+  "filesEventFailed": "فشل معالجة طلبك. حاول مرة اخرى.",
+  "couldntConnectToPeer": "تعذر الاتصال بالنظير المقدم.",
+  "connectedToPeer": "تم الاتصال بالنظير المقدم بنجاح.",
+  "experimentsErrors": {
+    "npmOnIpfs": "لم نتمكن من إجراء تغييرات على نظامك. الرجاء تثبيت حزمة \"ipfs-npm\" أو إلغاء تثبيتها يدويًا."
+  },
+  "desktopToggleErrors": {
+    "autoLaunch": "تعذر تبديل خيار التشغيل عند بدء التشغيل.",
+    "ipfsOnPath": "تعذر تبديل أدوات سطر أوامر IPFS.",
+    "downloadHashShortcut": "تعذر تبديل اختصار تجزئة التنزيل.",
+    "screenshotShortcut": "تعذر تبديل اختصار لقطة الشاشة."
+  }
+}

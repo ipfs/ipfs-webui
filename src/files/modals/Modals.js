@@ -9,19 +9,24 @@ import ShareModal from './share-modal/ShareModal'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
 import AddByPathModal from './add-by-path-modal/AddByPathModal'
+import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode'
+import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts'
+import { realMfsPath } from '../../bundles/files/actions'
 // Constants
 const NEW_FOLDER = 'new_folder'
 const SHARE = 'share'
 const RENAME = 'rename'
 const DELETE = 'delete'
 const ADD_BY_PATH = 'add_by_path'
+const CLI_TUTOR_MODE = 'cli_tutor_mode'
 
 export {
   NEW_FOLDER,
   SHARE,
   RENAME,
   DELETE,
-  ADD_BY_PATH
+  ADD_BY_PATH,
+  CLI_TUTOR_MODE
 }
 
 class Modals extends React.Component {
@@ -37,7 +42,8 @@ class Modals extends React.Component {
       folder: 0,
       paths: []
     },
-    link: ''
+    link: '',
+    command: 'ipfs --help'
   }
 
   onAddByPath = (path) => {
@@ -74,7 +80,7 @@ class Modals extends React.Component {
   }
 
   componentDidUpdate (prev) {
-    const { show, files, t, onShareLink } = this.props
+    const { show, files, t, onShareLink, cliOptions } = this.props
 
     if (show === prev.show) {
       return
@@ -123,15 +129,51 @@ class Modals extends React.Component {
       case ADD_BY_PATH:
         this.setState({ readyToShow: true })
         break
+      case CLI_TUTOR_MODE:
+        this.setState({ command: this.cliCommand(cliOptions, files) }, () => {
+          this.setState({ readyToShow: true })
+        })
+        break
       default:
         // do nothing
     }
   }
 
-  render () {
-    const { show } = this.props
-    const { readyToShow, link, rename } = this.state
+  cliCommand = (action, files) => {
+    let activeCid = ''
+    let fileName = ''
+    let isPinned = ''
+    let path = ''
+    // @TODO: handle multi-select
+    if (files) {
+      activeCid = files[0].cid
+      fileName = files[0].name
+      isPinned = files[0].pinned
+      path = realMfsPath(files[0].path)
+    }
 
+    // @TODO: ensure path is set for all actions
+    switch (action) {
+      case cliCmdKeys.ADD_FILE:
+      case cliCmdKeys.ADD_DIRECTORY:
+      case cliCmdKeys.CREATE_NEW_DIRECTORY:
+      case cliCmdKeys.FROM_IPFS:
+      case cliCmdKeys.DELETE_FILE_FROM_IPFS:
+        return cliCommandList[action](path)
+      case cliCmdKeys.DOWNLOAD_OBJECT_COMMAND:
+        return cliCommandList[action](activeCid)
+      case cliCmdKeys.RENAME_IPFS_OBJECT:
+        return cliCommandList[action](path, fileName)
+      case cliCmdKeys.PIN_OBJECT:
+        return cliCommandList[action](activeCid, isPinned ? 'rm' : 'add')
+      default:
+        return cliCommandList[action]()
+    }
+  }
+
+  render () {
+    const { show, t } = this.props
+    const { readyToShow, link, rename, command } = this.state
     return (
       <div>
         <Overlay show={show === NEW_FOLDER && readyToShow} onLeave={this.leave}>
@@ -169,6 +211,10 @@ class Modals extends React.Component {
             className='outline-0'
             onSubmit={this.onAddByPath}
             onCancel={this.leave} />
+        </Overlay>
+
+        <Overlay show={show === CLI_TUTOR_MODE && readyToShow} onLeave={this.leave}>
+          <CliTutorMode onLeave={this.leave} filesPage={true} command={command} t={t}/>
         </Overlay>
       </div>
     )

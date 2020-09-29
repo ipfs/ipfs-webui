@@ -32,6 +32,7 @@ jobs:
         environment:
           DOMAIN: webui.ipfs.io
           BUILD_DIR: build
+          CLUSTER_HOST: /dnsaddr/ipfs-websites.collab.ipfscluster.io
     steps:
       - attach_workspace:
           at: /tmp/workspace
@@ -45,7 +46,7 @@ jobs:
             echo "Website added to IPFS: https://ipfs.io/ipfs/$hash"
 
             if [ "$CIRCLE_BRANCH" == "master" ] ; then
-              dnslink-dnsimple -d $DOMAIN -r _dnslink.dev -l /ipfs/$hash
+              dnslink-dnsimple -d dev.$DOMAIN -r _dnslink -l /ipfs/$hash
             fi
 
             if npx semver "$CIRCLE_TAG"; then

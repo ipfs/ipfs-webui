@@ -5,38 +5,19 @@
   "finished": "Fertig!",
   "totalSize": "Gesamtgröße: {size}",
   "filesSelected": "{count, plural, one {Datei ausgewählt} other {Dateien ausgewählt}}",
-  "menuOptions": "Options for selected item",
-  "selectedAllEntries": "Select all table entries",
+  "menuOptions": "Optionen für das ausgewählte Element",
+  "selectedAllEntries": "Alle Tabelleneinträge auswählen",
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
-  "itemName": "Name",
-  "size": "Größe",
   "noPDFSupport": "Dein Browser unterstützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen:",
   "downloadPDF": "PDF herunterladen.",
   "downloadInstead": "Versuche stattdessen, es <1>herunterzuladen</1>.",
   "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",
-  "addFile": "Datei",
-  "addFolder": "Ordner",
   "addByPath": "Aus IPFS",
-  "importToIPFS": "Importieren",
   "newFolder": "Neuer Ordner",
   "generating": "Erstelle…",
   "actions": {
-    "import": "Importieren",
-    "delete": "Löschen",
-    "rename": "Umbenennen",
-    "download": "Herunterladen",
-    "inspect": "Untersuchen",
     "copyHash": "CID kopieren",
-    "share": "Link teilen",
-    "close": "Schließen",
-    "copy": "Kopieren",
-    "cancel": "Abbrechen",
-    "clear": "Löschen",
-    "create": "Erstellen",
-    "save": "Speichern",
-    "pin": "Anpinnen",
-    "unpin": "Loslösen",
-    "unselectAll": "Alle abwählen"
+    "share": "Link teilen"
   },
   "shareModal": {
     "title": "Dateien teilen",
@@ -65,18 +46,9 @@
     "title": "Neuer Ordner",
     "description": "Gib den Namen des zu erstellenden Ordners ein."
   },
-  "welcomeInfo": {
-    "header": "Willkommen in der Web-UI des IPFS",
-    "paragraph1": "<0><0>Überprüfe den Status</0> Deines Nodes, seine Peer-ID und Verbindungsinformationen sowie die Netzwerkauslastung und die Anzahl der verbundenen Peers.</0>",
-    "paragraph2": "<0><1>Verwalte Dateien</1> einfach in Deinem IPFS-Speicher. Du kannst Dateien per Drag-and-Drop hinzufügen, du kannst sie verschieben, umbenennen, teilen oder herunterladen.</0>",
-    "paragraph3": "<0>Du kannst <1>IPLD-Daten erkunden</1>, die der Funktionsweise des IPFS zugrunde liegen.</0>",
-    "paragraph4": "<0>Betrachte alle Deine <1>verbundenen Peers</1>, geografisch lokalisiert anhand ihrer IP-Adressen.</0>",
-    "paragraph5": "<0><0>Überprüfe die Einstellungen</0> Deines IPFS-Node und aktualisiere sie, sodass sie Deinen Anforderungen besser entsprechen.</0>",
-    "paragraph6": "<0>Wenn Du helfen möchtest, die Web-UI weiter zu gestalten, <1>schau Dir den Quelltext an</1> oder <3>melde einen Fehler</3>!</0>"
-  },
   "filesListLabel": "Datei Liste",
   "filesList": {
-    "noFiles": "<0>Keine Dateien in diesem Ordner. Wählen Sie  “Hinzufügen”, um Dateien hinzuzufügen.</0>"
+    "noFiles": "<0>Keine Dateien in diesem Verzeichnis. Klicke auf die Schaltfläche \"Importieren\", um Dateien hinzuzufügen.</0>"
   },
   "filesImportStatus": {
     "imported": "{count, plural, one {1 Element importiert} other {{count} Elemente importiert}}",
@@ -85,22 +57,20 @@
     "closeDropdown": "Dropdown schließen",
     "count": "{count} von {count}"
   },
-  "addFilesInfo": "<0>Füge Dateien zu Deinem IPFS-Node hinzu, indem du oben auf den <1>\"Zum IPFS hinzufügen\"</1>-Knopf klickst.</0>",
+  "addFilesInfo": "<0>Noch keine Dateien vorhanden! Füge Dateien zu deinem IPFS-Node hinzu, indem du oben auf die Schaltfläche <1>\"Importieren\"</1>klickst.</0>",
   "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>",
   "tour": {
-    "back": "Zurück",
-    "close": "Schließen",
-    "last": "Fertig",
-    "next": "Weiter",
-    "skip": "Überspringen",
     "step1": {
       "title": "Datei Seite",
-      "paragraph1": "<0>Hier leben die Dateien deines <1>veränderlichen Dateisystems (MFS)</1>. Du kannst Dateien oder Ordner hinzufügen und sie von dieser Seite aus verwalten.</0>",
+      "paragraph1": "<0>Hier leben die Dateien deines <1>veränderbaren Dateisystems (MFS)</1>. Du kannst Dateien oder Ordner hinzufügen und sie von dieser Seite aus verwalten.</0>",
       "paragraph2": "Klicke \"Weiter\", um mehr zu erfahren."
     },
     "step2": {
       "title": "Breadcrumbs",
-      "paragraph1": "Das aktuelle Arbeitsverzeichnis. Du kannst durch die Ordner-Hierarchie navigieren, indem du auf sie klickst."
+      "paragraph1": "Diese Breadcrumbs zeigen den Pfad zum aktuellen Arbeitsverzeichnis. Du kannst…",
+      "bullet1": "Auf einzelne Breadcrumbs blicken, um zu diesem Verzeichnis zu gelangen.",
+      "bullet2": "Rechts-klick auf ein Breadcrumb machen, um das Aktionen-Menü für dieses Verzeichnis anzuzeigen",
+      "bullet3": "Dateien auf ein Breadcrumb ziehen um es zu bewegen oder zu importieren"
     },
     "step3": {
       "title": "Dateien hinzufügen",
@@ -115,19 +85,12 @@
       "paragraph3": "Profi-Tipp: Ziehe eine Datei von jeder anderen Seite der Web-UI hierher, um sie zum Wurzel-Verzeichnis deines MFS hinzuzufügen."
     }
   },
-  "exploreForm": {
-    "browse": "Durchstöbern",
-    "inspect": "Untersuchen"
-  },
-  "previousFolder": "Go back to previous folder",
-  "fileLabel": "Select {type} {name} with size: {size}", 
+  "loadMore": "Mehr laden",
+  "previousFolder": "Zurück zum vorherigen Ordner",
+  "fileLabel": "Wähle {type}{name} mit Größe: {size} ",
   "hashUnavailable": "Hash nicht verfügbar",
-  "checkboxLabel": "View more options for {name}",
-  "pins": "Pins",
+  "checkboxLabel": "Weitere Optionen für {name} anzeigen",
   "pinned": "Gepinned",
-  "blocks": "Blöcke",
-  "more": "Mehr",
-  "files": "Dateien",
   "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <0>untersuchen</0>.",
-  "sortBy": "Sort items by {name}"
+  "sortBy": "Sortieren nach {name}"
 }

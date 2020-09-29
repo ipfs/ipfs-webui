@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 import { getNavHelper } from 'internal-nav-helper'
 import ReactJoyride from 'react-joyride'
 import { withTranslation } from 'react-i18next'
-import { filesToStreams } from './lib/files'
+import { normalizeFiles } from './lib/files'
 // React DnD
 import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -21,7 +21,7 @@ import FilesExploreForm from './files/explore-form/FilesExploreForm'
 
 export class App extends Component {
   static propTypes = {
-    doInitIpfs: PropTypes.func.isRequired,
+    doTryInitIpfs: PropTypes.func.isRequired,
     doUpdateUrl: PropTypes.func.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesWrite: PropTypes.func.isRequired,
@@ -30,13 +30,12 @@ export class App extends Component {
       PropTypes.element
     ]).isRequired,
     routeInfo: PropTypes.object.isRequired,
-    navbarIsOpen: PropTypes.bool.isRequired,
     // Injected by DropTarget
     isOver: PropTypes.bool.isRequired
   }
 
   componentDidMount () {
-    this.props.doInitIpfs()
+    this.props.doTryInitIpfs()
   }
 
   addFiles = async (filesPromise) => {
@@ -45,7 +44,7 @@ export class App extends Component {
     const addAtPath = isFilesPage ? routeInfo.params.path : '/'
     const files = await filesPromise
 
-    doFilesWrite(await filesToStreams(files), addAtPath)
+    doFilesWrite(normalizeFiles(files), addAtPath)
     // Change to the files pages if the user is not there
     if (!isFilesPage) {
       doUpdateHash('/files')
@@ -59,7 +58,7 @@ export class App extends Component {
   }
 
   render () {
-    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, navbarIsOpen, connectDropTarget, canDrop, isOver, showTooltip } = this.props
+    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
 
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
@@ -84,7 +83,7 @@ export class App extends Component {
               }
             </main>
           </div>
-          <div className={`flex-none-l bg-navy ${navbarIsOpen ? 'w5-l' : 'w4-l'}`}>
+          <div className='navbar-container flex-none-l bg-navy'>
             <NavBar />
           </div>
         </div>
@@ -127,7 +126,6 @@ export const AppWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCo
 
 export default connect(
   'selectRoute',
-  'selectNavbarIsOpen',
   'selectRouteInfo',
   'selectIpfsReady',
   'selectShowTooltip',
@@ -135,7 +133,7 @@ export default connect(
   'doExploreUserProvidedPath',
   'doUpdateUrl',
   'doUpdateHash',
-  'doInitIpfs',
+  'doTryInitIpfs',
   'doFilesWrite',
   'doDisableTooltip',
   'selectFilesPathInfo',

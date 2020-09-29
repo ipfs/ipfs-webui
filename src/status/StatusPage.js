@@ -5,7 +5,7 @@ import { connect } from 'redux-bundler-react'
 import ReactJoyride from 'react-joyride'
 import StatusConnected from './StatusConnected'
 import BandwidthStatsDisabled from './BandwidthStatsDisabled'
-import StatusNotConnected from './StatusNotConnected'
+import IsNotConnected from '../components/is-not-connected/IsNotConnected'
 import NodeInfo from './NodeInfo'
 import NodeInfoAdvanced from './NodeInfoAdvanced'
 import NodeBandwidthChart from './NodeBandwidthChart'
@@ -29,7 +29,7 @@ const StatusPage = ({
   return (
     <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
-        <title>{t('title')} - IPFS</title>
+        <title>{t('title')} | IPFS</title>
       </Helmet>
       <Box className='pa3 joyride-status-node' style={{ minHeight: 0 }}>
         <div className='flex'>
@@ -43,7 +43,9 @@ const StatusPage = ({
                 </div>
               </div>
             ) : (
-              <StatusNotConnected />
+              <div>
+                <IsNotConnected />
+              </div>
             )}
           </div>
         </div>
@@ -52,9 +54,9 @@ const StatusPage = ({
         <AskToEnable
           className='mt3'
           label={t('AskToEnable.label')}
-          yesLabel={t('AskToEnable.yesLabel')}
-          noLabel={t('AskToEnable.noLabel')}
-          detailsLabel={t('AskToEnable.detailsLabel')}
+          yesLabel={t('app:actions.ok')}
+          noLabel={t('app:actions.noThanks')}
+          detailsLabel={t('app:actions.moreInfo')}
           detailsLink='#/settings/analytics'
           onYes={doEnableAnalytics}
           onNo={doDisableAnalytics} />
