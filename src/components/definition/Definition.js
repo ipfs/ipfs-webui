@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 export const Definition = ({ term, desc, advanced, termWidth }) => (
-  <div className='dt dt--fixed pt2 mw9 lh-copy'>
+  <div className='dt dt--fixed pt1 mw9 lh-copy'>
     <Term width={termWidth}>
       {term}
     </Term>
