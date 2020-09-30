@@ -61,8 +61,8 @@ export const NavBar = ({ t }) => {
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
         <a href="#/welcome" role='menuitem' title={t('welcome:description')}>
-          <div className='pt3 pb1 pv3-l'>
-            <img className='center db-l dn' style={{ height: 94 }} src={ipfsLogoTextVert} alt='' />
+          <div className='pt3 pb1 pv2-l'>
+            <img className='center db-l dn pv1' style={{ height: 94 }} src={ipfsLogoTextVert} alt='' />
             <img className='center db dn-l' style={{ height: 70 }} src={ipfsLogoTextHoriz} alt='' />
           </div>
         </a>
@@ -74,7 +74,7 @@ export const NavBar = ({ t }) => {
           <NavLink to='/settings' icon={StrokeSettings}>{t('settings:title')}</NavLink>
         </div>
       </div>
-      <div className='dn db-l navbar-footer mb3 tc center f7 o-80 glow'>
+      <div className='dn db-l navbar-footer mb2 tc center f7 o-80 glow'>
         { webUiVersion && <div className='mb1'>
           <a className='link white' href={webUiVersionUrl} target='_blank' rel='noopener noreferrer'>{t('app:terms.version')} {webUiVersion}</a>
         </div> }
