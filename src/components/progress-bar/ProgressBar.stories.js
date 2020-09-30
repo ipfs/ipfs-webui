@@ -14,5 +14,7 @@ storiesOf('Progress Bars', module)
       <ProgressBar bg='bg-teal' progress={23} />
       <ProgressBar bg='bg-green' progress={65} />
       <ProgressBar bg='bg-snow' progress={58} />
+
+      <ProgressBar bg='bg-teal' br="br0" progress={58} style={{ height: '4px' }} />
     </div>
   ))

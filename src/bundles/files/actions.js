@@ -249,20 +249,16 @@ const actions = () => ({
       .map($ => $.path[0] === '/' ? { ...$, path: $.path.slice(1) } : $)
 
     const uploadSize = files.reduce((prev, { size }) => prev + size, 0)
-    // Just estimate download size to be around 10% of upload size.
-    const downloadSize = uploadSize * 10 / 100
-    const totalSize = uploadSize + downloadSize
-    let loaded = 0
-
     const entries = files.map(({ path, size }) => ({ path, size }))
 
     yield { entries, progress: 0 }
 
     const { result, progress } = importFiles(ipfs, files)
 
-    for await (const update of progress) {
-      loaded += update.loaded
-      yield { entries, progress: loaded / totalSize * 100 }
+    for await (const loaded of progress) {
+      const update = { entries, progress: loaded / uploadSize * 100 }
+      console.log(update)
+      yield update
     }
 
     try {
@@ -511,13 +507,12 @@ export default actions
  * @param {FileStream[]} files
  */
 const importFiles = (ipfs, files) => {
-  /** @type {Channel<{ total:number, loaded: number}>} */
+  /** @type {Channel<number>} */
   const channel = new Channel()
   const result = all(ipfs.addAll(files, {
     pin: false,
-    wrapWithDirectory: false,
-    onUploadProgress: (event) => channel.send(event),
-    onDownloadProgress: (event) => channel.send(event)
+    progress: (size) => channel.send(size),
+    wrapWithDirectory: false
   }))
 
   result.then(() => channel.close(), error => channel.close(error))

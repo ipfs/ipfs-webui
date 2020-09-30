@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useCallback } from 'react'
-import classNames from 'classnames'
 import filesize from 'filesize'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
@@ -12,6 +11,7 @@ import GlyphSmallArrows from '../../icons/GlyphSmallArrow'
 import GlyphTick from '../../icons/GlyphTick'
 import GlyphCancel from '../../icons/GlyphCancel'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
+import ProgressBar from '../../components/progress-bar/ProgressBar'
 
 const File = (job, t) => {
   const pathsByFolder = job.message.entries.reduce((prev, currentEntry) => {
@@ -26,6 +26,7 @@ const File = (job, t) => {
 
     if (alreadyExistentBaseFolder) {
       alreadyExistentBaseFolder.count = alreadyExistentBaseFolder.count + 1
+      alreadyExistentBaseFolder.size += currentEntry.size
 
       return prev
     }
@@ -41,23 +42,31 @@ const File = (job, t) => {
         { count && (<span> { t('filesImportStatus.count', { count }) } | </span>) }
         <span className='ml2'>{ filesize(size) }</span>
       </span>
-      { job.status === 'Exit' && !job.result.ok ? <GlyphCancel className="dark-red w2 ph1" fill="currentColor"/> : <LoadingIndicator complete={ !progress }/> }
+      {viewFileStatus(job, progress)}
     </li>
   ))
 }
 
-const LoadingIndicator = ({ complete }) => (
-  <>
-    <div className={ classNames('fileLoadingIndicator bg-light-gray mh4 flex-auto relative', complete && 'dn') }>
-      <div className='fileLoadingIndicatorBar bg-blue absolute left-0'></div>
-    </div>
-    { complete && <GlyphTick className="green w2 ph1" fill="currentColor"/>}
-  </>
-)
+const viewFileStatus = (job, progress) => {
+  switch (job.status) {
+    case 'Pending': {
+      return (<LoadingIndicator complete={ progress === 100 }/>)
+    }
+    case 'Failed': {
+      return (<GlyphCancel className="dark-red w2 ph1" fill="currentColor"/>)
+    }
+    default: {
+      return (<LoadingIndicator complete={true}/>)
+    }
+  }
+}
 
-const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesClear, t }) => {
+const LoadingIndicator = ({ complete }) =>
+  complete ? <GlyphTick className="green w2 ph1" fill="currentColor"/> : <span className="w2 ph1"/>
+
+export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesClear, initialExpanded, t }) => {
   const sortedFilesFinished = useMemo(() => filesFinished.sort((fileA, fileB) => fileB.start - fileA.start), [filesFinished])
-  const [expanded, setExpanded] = useState(true)
+  const [expanded, setExpanded] = useState(initialExpanded)
 
   const handleImportStatusClose = useCallback((ev) => {
     doFilesClear()
@@ -68,7 +77,11 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
     return null
   }
 
-  const numberOfImportedFiles = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile?.state?.entries?.length, 0)
+  const numberOfImportedFiles = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile.message.entries.length, 0)
+
+  const progress = Math.floor(filesPending.reduce((total, { message: { progress } }) => total + progress, 0) / filesPending.length)
+
+  console.log(progress)
 
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
@@ -76,7 +89,7 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
         <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100 justify-between" style={{ background: '#F0F6FA' }}>
           <span>
             { filesPending.length
-              ? t('filesImportStatus.importing', { count: filesPending.length })
+              ? `${t('filesImportStatus.importing', { count: filesPending.length })} (${progress}%)`
               : t('filesImportStatus.imported', { count: numberOfImportedFiles })
             }
           </span>
@@ -94,6 +107,7 @@ const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doFilesCle
           { sortedFilesFinished.map(file => File(file, t)) }
           { filesErrors.map(file => File(file, t)) }
         </ul>
+        <ProgressBar progress={progress} bg="bg-teal" br="br0" style={{ height: '4px' }} />
       </div>
     </div>
   )
@@ -103,13 +117,15 @@ FileImportStatus.propTypes = {
   filesFinished: PropTypes.array,
   filesPending: PropTypes.array,
   filesErrors: PropTypes.array,
-  doFilesClear: PropTypes.func
+  doFilesClear: PropTypes.func,
+  initialExpanded: PropTypes.bool
 }
 
 FileImportStatus.defaultProps = {
   filesFinished: [],
   filesPending: [],
-  filesErrors: []
+  filesErrors: [],
+  initialExpanded: true
 }
 
 export default connect(
