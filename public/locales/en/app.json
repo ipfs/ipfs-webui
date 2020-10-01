@@ -76,8 +76,8 @@
     "totalIn": "Total in",
     "totalOut": "Total out",
     "unknown": "Unknown",
-    "upSpeed": "Outgoing",
-    "version": "Version"
+    "ui": "UI",
+    "upSpeed": "Outgoing"
   },
   "tour": {
     "back": "Back",
