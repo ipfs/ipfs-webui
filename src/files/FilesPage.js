@@ -36,7 +36,7 @@ const defaultState = {
   }
 }
 
-export class FilesPage extends React.Component {
+class FilesPage extends React.Component {
   constructor (props) {
     super(props)
     this.contextMenuRef = React.createRef()
