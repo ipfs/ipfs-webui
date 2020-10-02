@@ -251,6 +251,8 @@ To inspect the built bundle for bundled modules and their size, first `build` th
 
 ## Translations
 
+One can permanently switch to a different locale via _Settings_ or temporarily via `?lng=<lang-code>` URL parameter.
+
 The translations are stored on [./public/locales](./public/locales) and the English version is the source of truth. We use Transifex to help us translate WebUI to another languages.
 
 **If you're interested in contributing a translation**, go to [our page on Transifex](https://www.transifex.com/ipfs/ipfs-webui/translate/), create an account, pick a language and start translating. Be sure to change your notification settings to be notified when translation sources change.

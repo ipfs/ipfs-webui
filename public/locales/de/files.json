@@ -57,7 +57,7 @@
     "closeDropdown": "Dropdown schließen",
     "count": "{count} von {count}"
   },
-  "addFilesInfo": "<0>Noch keine Dateien vorhanden! Füge Dateien zu deinem IPFS-Node hinzu, indem du oben auf die Schaltfläche <1>\"Importieren\"</1>klickst.</0>",
+  "addFilesInfo": "<0>Noch keine Dateien vorhanden! Füge Dateien zu deinem IPFS-Node hinzu, indem du oben auf die Schaltfläche <1>\"Importieren\"</1> klickst.</0>",
   "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>",
   "tour": {
     "step1": {
