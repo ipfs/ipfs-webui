@@ -19,6 +19,7 @@ storiesOf('Files/Files List', module)
     <div className='h-100'>
       <FilesList
         root='/'
+        filesPathInfo={{ isMfs: true }}
         pins={[]}
         files={filesListA}
         filesIsFetching={boolean('filesIsFetching', false)}
@@ -37,6 +38,7 @@ storiesOf('Files/Files List', module)
     <div className='h-100'>
       <FilesList
         root='/'
+        filesPathInfo={{ isMfs: true }}
         pins={[]}
         files={filesListC}
         filesIsFetching={boolean('filesIsFetching', false)}
@@ -55,6 +57,7 @@ storiesOf('Files/Files List', module)
     <div className='h-100'>
       <FilesList
         root='/'
+        filesPathInfo={{ isMfs: true }}
         pins={[]}
         files={filesListE}
         filesIsFetching={boolean('filesIsFetching', false)}
@@ -73,6 +76,7 @@ storiesOf('Files/Files List', module)
     <div className='h-100'>
       <FilesList
         root='/'
+        filesPathInfo={{ isMfs: true }}
         pins={[]}
         files={filesListF}
         filesIsFetching={boolean('filesIsFetching', false)}
