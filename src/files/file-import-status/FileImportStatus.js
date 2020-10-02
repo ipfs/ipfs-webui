@@ -83,7 +83,7 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
 
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
-      <div className="br1 dark-gray w-40 center ba b--light-gray bg-white" style={{ pointerEvents: 'auto' }}>
+      <div className="relative br1 dark-gray w-40 center ba b--light-gray bg-white" style={{ pointerEvents: 'auto' }}>
         <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100 justify-between" style={{ background: '#F0F6FA' }}>
           <span>
             { filesPending.length
@@ -105,7 +105,11 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
           { sortedFilesFinished.map(file => File(file, t)) }
           { filesErrors.map(file => File(file, t)) }
         </ul>
-        <ProgressBar progress={progress} bg="bg-teal" br="br0" style={{ height: '4px' }} />
+        {
+          filesPending.length
+            ? <ProgressBar progress={progress} bg="bg-teal" br="br0" className="absolute bottom-0" style={{ height: '4px' }} />
+            : null
+        }
       </div>
     </div>
   )
