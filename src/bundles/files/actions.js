@@ -248,17 +248,21 @@ const actions = () => ({
       // as relative paths, so normalise all to be relative.
       .map($ => $.path[0] === '/' ? { ...$, path: $.path.slice(1) } : $)
 
-    const uploadSize = files.reduce((prev, { size }) => prev + size, 0)
     const entries = files.map(({ path, size }) => ({ path, size }))
 
-    yield { entries, progress: 0 }
+    let uploadState = { progress: 0, entries }
+
+    yield uploadState
 
     const { result, progress } = importFiles(ipfs, files)
 
     for await (const loaded of progress) {
-      const update = { entries, progress: loaded / uploadSize * 100 }
-      console.log(update)
-      yield update
+      // Reduce amount of progress updates by producing message by yielding
+      // only if progress changes by a precentage.
+      if (loaded > uploadState.progress) {
+        uploadState = { progress: loaded, entries }
+        yield uploadState
+      }
     }
 
     try {
@@ -507,11 +511,18 @@ export default actions
  * @param {FileStream[]} files
  */
 const importFiles = (ipfs, files) => {
+  const contentSize = files.reduce((prev, { size }) => prev + size, 0)
+  // Estimated size of the metadata added by the request body
+  const metadataSize = 200 + files.length * 180
+  const total = contentSize + metadataSize
+
   /** @type {Channel<number>} */
   const channel = new Channel()
   const result = all(ipfs.addAll(files, {
     pin: false,
-    progress: (size) => channel.send(size),
+    progress: (uploaded) => {
+      channel.send(Math.floor(uploaded / total * 100))
+    },
     wrapWithDirectory: false
   }))
 

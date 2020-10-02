@@ -81,8 +81,6 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
 
   const progress = Math.floor(filesPending.reduce((total, { message: { progress } }) => total + progress, 0) / filesPending.length)
 
-  console.log(progress)
-
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
       <div className="br1 dark-gray w-40 center ba b--light-gray bg-white" style={{ pointerEvents: 'auto' }}>
