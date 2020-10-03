@@ -48,7 +48,7 @@ i18n
       backendOptions: [
         { // LocalStorageBackend
           defaultVersion: 'v1',
-          expirationTime: 7 * 24 * 60 * 60 * 1000
+          expirationTime: (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? 1 : 7 * 24 * 60 * 60 * 1000
         },
         { // HttpBackend
           // ensure a relative path is used to look up the locales, so it works when loaded from /ipfs/<cid>
