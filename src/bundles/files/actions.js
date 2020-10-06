@@ -296,6 +296,7 @@ const actions = () => ({
       }
 
       yield { entries, progress: 100 }
+      return entries
     } finally {
       await store.doFilesFetch()
     }
