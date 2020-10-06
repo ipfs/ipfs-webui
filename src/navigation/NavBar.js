@@ -29,7 +29,7 @@ const NavLink = ({
   const anchorClass = classnames({
     'bg-white-10 navbar-item-active': active,
     'o-50 no-pointer-events': disabled
-  }, ['dib db-l pt2 pb3 pv2-l white no-underline f5 hover-bg-white-10 tc bb bw2 bw0-l b--navy'])
+  }, ['navbar-item dib db-l pt2 pb3 pv1-l white no-underline f5 hover-bg-white-10 tc bb bw2 bw0-l b--navy'])
   const svgClass = classnames({
     'o-100': active,
     'o-50': !active
@@ -61,9 +61,9 @@ export const NavBar = ({ t }) => {
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
         <a href="#/welcome" role='menuitem' title={t('welcome:description')}>
-          <div className='pt3 pb1 pv2-l'>
-            <img className='center db-l dn pv1' style={{ height: 94 }} src={ipfsLogoTextVert} alt='' />
-            <img className='center db dn-l' style={{ height: 70 }} src={ipfsLogoTextHoriz} alt='' />
+          <div className='pt3 pb1 pb2-l'>
+            <img className='navbar-logo-vert center db-l dn pt3 pb1' style={{ height: 94 }} src={ipfsLogoTextVert} alt='' />
+            <img className='navbar-logo-horiz center db dn-l' style={{ height: 70 }} src={ipfsLogoTextHoriz} alt='' />
           </div>
         </a>
         <div className='db overflow-x-scroll overflow-x-hidden-l nowrap tc' role='menubar'>

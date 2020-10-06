@@ -12,7 +12,21 @@
   }
 }
 
-@media only screen and (max-height: 640px) {
+@media only screen and (min-height: 49em) and (min-width: 60em) {
+  .navbar-logo-vert {
+    padding-bottom: 1rem;
+  }
+  .navbar-item {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .navbar-footer {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media only screen and (max-height: 40em) {
   .navbar-footer {
     display: none;
   }
