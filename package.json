@@ -51,7 +51,7 @@
     "ipfs-geoip": "^5.0.1",
     "ipfs-http-client": "^46.0.0",
     "ipfs-provider": "^1.1.0",
-    "ipld-explorer-components": "1.6.0",
+    "ipld-explorer-components": "1.6.1",
     "is-binary": "^0.1.0",
     "is-ipfs": "^1.0.3",
     "it-all": "^1.0.2",
