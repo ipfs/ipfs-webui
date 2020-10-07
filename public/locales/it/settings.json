@@ -2,7 +2,7 @@
   "title": "Impostazioni",
   "language": "Lingua",
   "analytics": "Analitica",
-  "cliTutorMode": "CLI Tutor Mode",
+  "cliTutorMode": "Modalità mentore CLI",
   "config": "Configurazione IPFS",
   "languageModal": {
     "title": "Cambia lingua",
@@ -10,8 +10,8 @@
     "translationProjectIntro": "Aggiungi o perfeziona le traduzioni e rendi IPFS migliore per tutti!",
     "translationProjectLink": "Unisciti al Progetto di Traduzione IPFS"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
+  "apiDescription": "<0>Se il tuo nodo è configurato con un <1>indirizzo API personalizzato</1> che include una porta diversa alla predefinita 5001, inseriscila qui.</0>",
+  "cliDescription": "<0>Abilita quest'opzione per mostrare un'icona \"view code\" <1></1> accanto ai comuni comandi IPFS. Cliccandoci, si aprirà una finestra modale col codice di quel comando CLI dimodoché tu possa incollarlo nell'interfaccia a riga di comando nel tuo terminale.",
   "fetchingSettings": "Recupero delle impostazioni...",
   "configApiNotAvailable": "L'IPFS config API non è disponibile. Per favore, disabilita l'estensione web \"IPFS Companion\" e riprova.",
   "ipfsDaemonOffline": "Il demone IPFS è offline. Per favore, avvialo e riprova.",
@@ -57,7 +57,7 @@
     }
   },
   "cliToggle": {
-    "label": "Enable command-line interface (CLI) tutor mode"
+    "label": "Abilita modalità mentore per l'interfaccia a riga di comando (CLI)"
   },
   "tour": {
     "step1": {
