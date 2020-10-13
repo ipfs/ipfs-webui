@@ -1,6 +1,40 @@
+// @ts-check
+/**
+ * TODO: This might change, current version from: https://github.com/ipfs/go-ipfs/blob/petar/pincli/core/commands/remotepin.go#L53
+ * @typedef {Object} RemotePin
+ * @property {string} id
+ * @property {string} name
+ * @property {('queued'|'pinning'|'pinned'|'failed')} status
+ * @property {string} cid
+ * @property {Array<string>} [delegates] e.g. ["/dnsaddr/pin-service.example.com"]
+*/
 export default {
   name: 'pinning',
-  reducer: (state = {}) => state,
+  reducer: (state = {
+    remotePins: []
+  }, action) => {
+    if (action.type === 'SET_PINS') {
+      return { ...state, remotePins: action.payload }
+    }
+    return state
+  },
+
+  doFetchRemotePins: async () => ({ dispatch }) => {
+    // TODO: unmock this (e.g. const pins = (await fetch(/pins)).json() ...)
+    const response = [
+      {
+        id: 'UniqueIdOfPinRequest',
+        status: 'queued',
+        cid: 'QmCIDToBePinned',
+        name: 'my precious data',
+        delegates: ['/dnsaddr/pin-service.example.com']
+      }
+    ]
+
+    dispatch({ type: 'SET_REMOTE_PINS', payload: response })
+  },
+
+  selectRemotePins: (state) => state.pinning.remotePins,
 
   // selectPinningServices: state => state.pinning
   // TODO: unmock this

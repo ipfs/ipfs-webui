@@ -141,7 +141,7 @@ class FilesPage extends React.Component {
   }
 
   get mainView () {
-    const { t, files, doExploreUserProvidedPath } = this.props
+    const { t, files, remotePins, doExploreUserProvidedPath } = this.props
 
     if (!files) {
       return (<div/>)
@@ -170,9 +170,9 @@ class FilesPage extends React.Component {
     return (
       <FilesList
         key={window.encodeURIComponent(files.path)}
-        root={files.path}
         updateSorting={this.props.doFilesUpdateSorting}
         files={files.content}
+        remotePins={remotePins}
         upperDir={files.upper}
         downloadProgress={this.state.downloadProgress}
         onShare={(files) => this.showModal(SHARE, files)}
@@ -311,6 +311,7 @@ export default connect(
   'selectIpfsProvider',
   'selectIpfsConnected',
   'selectFiles',
+  'selectRemotePins',
   'selectFilesPathInfo',
   'doUpdateHash',
   'doPinsFetch',

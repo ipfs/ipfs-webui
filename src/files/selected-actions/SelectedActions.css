@@ -1,3 +1,13 @@
+.selectedActions {
+    width: 100%;
+}
+
+@media only screen and (min-width: 60em) {
+    .selectedActions {
+        width: calc(100% - 156px)
+    }
+}
+
 .selectedActionsAnimated {
     animation: selectedActions 0.3s ease-in-out both;
 }

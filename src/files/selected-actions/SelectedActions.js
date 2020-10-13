@@ -109,7 +109,7 @@ class SelectedActions extends React.Component {
     }
 
     return (
-      <div className={classNames('sans-serif bt w-100 pa3 ph4-l', className, animateOnStart && 'selectedActionsAnimated')} style={{ ...styles.bar, ...style }} {...props}>
+      <div className={classNames('sans-serif bt w-100 pa3 ph4-l selectedActions', className, animateOnStart && 'selectedActionsAnimated')} style={{ ...styles.bar, ...style }} {...props}>
         <div className='flex items-center justify-between'>
           <div className='w5-l'>
             <div className='flex items-center'>
@@ -144,7 +144,7 @@ class SelectedActions extends React.Component {
               <p className='ma0 f6'>{t('app:actions.rename')}</p>
             </button>
           </div>
-          <div className='w5-l'>
+          <div>
             <button onClick={unselect} className='flex items-center justify-end f6 charcoal'>
               {/* TODO: Should we go back to the files list when we tab out of here? */}
               <span className='mr2 dn db-l'>{t('app:actions.unselectAll')}</span>
