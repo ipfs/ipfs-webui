@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
+import GlyphAttention from '../../icons/GlyphAttention'
 import Button from '../button/Button'
+
+import './ApiAddressForm.css';
 
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
+  const [errorText, setErrorText] = useState(null);
 
   const onChange = (event) => setValue(event.target.value)
 
@@ -30,7 +34,11 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
         onKeyPress={onKeyPress}
         value={value}
       />
-      <div className='tr'>
+      <div className='tr button-container'>
+        <div className='error-container'>
+          { errorText && <GlyphAttention style={{ height: 24 }} className='fill-red'/> }
+          { errorText && <span>{ errorText }</span> }
+        </div>
         <Button className='tc'>{t('actions.submit')}</Button>
       </div>
     </form>
