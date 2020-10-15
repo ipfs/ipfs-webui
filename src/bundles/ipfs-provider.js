@@ -37,7 +37,7 @@ import { perform } from './task'
  *
  * @typedef {Object} ConnectionError
  * @property {'IPFS_API_ADDRESS_CONNECTION_ERROR'} type
- * @property {string} error
+ * @property {string|null} error
  *
  * @typedef {Object} InitResult
  * @property {ProviderName} provider
@@ -135,6 +135,14 @@ const init = () => {
 const readAPIAddressSetting = () => {
   const setting = readSetting('ipfsApi')
   return setting == null ? null : asAPIOptions(setting)
+}
+
+/**
+ * @param {string|object} value
+ * @returns {boolean}
+ */
+export const checkValidAPIAddress = (value) => {
+  return asAPIOptions(value) != null;
 }
 
 /**
@@ -329,6 +337,10 @@ const actions = {
     // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT` 
     // action and attempts to retry.
     try {
+      dispatch({
+        type: 'IPFS_API_ADDRESS_CONNECTION_ERROR',
+        error: null
+      });
       await store.doInitIpfs()
     } catch (error) {
       // Catches connection errors like timeouts
@@ -392,8 +404,6 @@ const actions = {
    */
   doUpdateIpfsApiAddress: (address) => async (context) => {
     const apiAddress = asAPIOptions(address)
-    // TODO regex for IPFS API address
-    debugger;
     if (apiAddress == null) {
       context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
     } else {
