@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import GlyphAttention from '../../icons/GlyphAttention'
@@ -6,9 +6,23 @@ import Button from '../button/Button'
 
 import './ApiAddressForm.css';
 
-const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
+const ApiAddressForm = ({ 
+  t, 
+  doUpdateIpfsApiAddress,
+  ipfsApiAddress,
+  ipfsInvalidAddress,
+  ipfsConnectionError,
+}) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
   const [errorText, setErrorText] = useState(null);
+
+  useEffect(() => {
+    if (ipfsInvalidAddress) {
+      setErrorText('The given IPFS API address is invalid');
+    } else if (ipfsConnectionError) {
+      setErrorText(ipfsConnectionError);
+    }
+  }, [ipfsInvalidAddress, ipfsConnectionError])
 
   const onChange = (event) => setValue(event.target.value)
 
@@ -57,5 +71,7 @@ const asAPIString = (value) => {
 export default connect(
   'doUpdateIpfsApiAddress',
   'selectIpfsApiAddress',
+  'selectIpfsInvalidAddress',
+  'selectIpfsConnectionError',
   withTranslation('app')(ApiAddressForm)
 )

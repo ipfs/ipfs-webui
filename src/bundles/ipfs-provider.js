@@ -19,6 +19,7 @@ import { perform } from './task'
  * @property {boolean} failed
  * @property {boolean} ready
  * @property {boolean} invalidAddress
+ * @property {null|string} connectionError
  *
  * @typedef {import('./task').Perform<'IPFS_INIT', Error, InitResult, void>} Init
  * @typedef {Object} Stopped
@@ -34,11 +35,15 @@ import { perform } from './task'
  * @typedef {Object} Dismiss
  * @property {'IPFS_API_ADDRESS_INVALID_DISMISS'} type
  *
+ * @typedef {Object} ConnectionError
+ * @property {'IPFS_API_ADDRESS_CONNECTION_ERROR'} type
+ * @property {string} error
+ *
  * @typedef {Object} InitResult
  * @property {ProviderName} provider
  * @property {IPFSService} ipfs
  * @property {string} [apiAddress]
- * @typedef {Init|Stopped|AddressUpdated|AddressInvalid|Dismiss} Message
+ * @typedef {Init|Stopped|AddressUpdated|AddressInvalid|Dismiss|ConnectionError} Message
  */
 
 export const ACTIONS = Enum.from([
@@ -46,7 +51,8 @@ export const ACTIONS = Enum.from([
   'IPFS_STOPPED',
   'IPFS_API_ADDRESS_UPDATED',
   'IPFS_API_ADDRESS_INVALID',
-  'IPFS_API_ADDRESS_INVALID_DISMISS'
+  'IPFS_API_ADDRESS_INVALID_DISMISS',
+  'IPFS_API_ADDRESS_CONNECTION_ERROR',
 ])
 
 /**
@@ -99,6 +105,10 @@ const update = (state, message) => {
     case ACTIONS.IPFS_API_ADDRESS_INVALID_DISMISS: {
       return { ...state, invalidAddress: true }
     }
+    case ACTIONS.IPFS_API_ADDRESS_CONNECTION_ERROR: {
+      const { error } = message;
+      return { ...state, connectionError: error }
+    }
     default: {
       return state
     }
@@ -114,7 +124,8 @@ const init = () => {
     provider: null,
     failed: false,
     ready: false,
-    invalidAddress: false
+    invalidAddress: false,
+    connectionError: null
   }
 }
 
@@ -297,7 +308,11 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectIpfsInitFailed: state => state.ipfs.failed
+  selectIpfsInitFailed: state => state.ipfs.failed,
+  /**
+   * @param {State} state
+   */
+  selectIpfsConnectionError: state => state.ipfs.connectionError,
 }
 
 /**
@@ -310,14 +325,17 @@ const actions = {
   /**
    * @returns {function(Context):Promise<void>}
    */
-  doTryInitIpfs: () => async ({ store }) => {
-    // We need to swallow error that `doInitIpfs` could produce othrewise it
-    // will bubble up and nothing will handle it. There is a code in
-    // `bundles/retry-init.js` that reacts to `IPFS_INIT` action and attempts
-    // to retry.
+  doTryInitIpfs: () => async ({ store, dispatch }) => {
+    // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT` 
+    // action and attempts to retry.
     try {
       await store.doInitIpfs()
-    } catch (_) {
+    } catch (error) {
+      // Catches connection errors like timeouts
+      dispatch({
+        type: 'IPFS_API_ADDRESS_CONNECTION_ERROR',
+        error: error.message
+      });
     }
   },
   /**
@@ -374,6 +392,8 @@ const actions = {
    */
   doUpdateIpfsApiAddress: (address) => async (context) => {
     const apiAddress = asAPIOptions(address)
+    // TODO regex for IPFS API address
+    debugger;
     if (apiAddress == null) {
       context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
     } else {
