@@ -383,7 +383,7 @@ const actions = {
       })
 
       if (!result) {
-        throw Error('Could not connect to the IPFS API')
+        throw Error(`Could not connect to the IPFS API (${apiAddress})`)
       } else {
         return result
       }
