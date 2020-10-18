@@ -37,19 +37,24 @@ import { perform } from './task'
  * @typedef {Object} Dismiss
  * @property {'IPFS_API_ADDRESS_INVALID_DISMISS'} type
  *
+ * @typedef {Object} ConnectSuccess
+ * @property {'IPFS_CONNECT_SUCCEED'} type
+ *
+ * @typedef {Object} ConnectFail
+ * @property {'IPFS_CONNECT_FAILED'} type
+ *
+ * @typedef {Object} DismissError
+ * @property {'NOTIFY_DISMISSED'} type
+ *
  * @typedef {Object} PendingFirstConnection
  * @property {'IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION'} type
  * @property {boolean} pending
- *
- * @typedef {Object} ConnectionError
- * @property {'IPFS_API_ADDRESS_CONNECTION_ERROR'} type
- * @property {string|null} error
  *
  * @typedef {Object} InitResult
  * @property {ProviderName} provider
  * @property {IPFSService} ipfs
  * @property {string} [apiAddress]
- * @typedef {Init|Stopped|AddressUpdated|AddressInvalid|Dismiss|ConnectionError|PendingFirstConnection} Message
+ * @typedef {Init|Stopped|AddressUpdated|AddressInvalid|Dismiss|PendingFirstConnection|ConnectFail|ConnectSuccess|DismissError} Message
  */
 
 export const ACTIONS = Enum.from([
@@ -59,7 +64,10 @@ export const ACTIONS = Enum.from([
   'IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION',
   'IPFS_API_ADDRESS_INVALID',
   'IPFS_API_ADDRESS_INVALID_DISMISS',
-  'IPFS_API_ADDRESS_CONNECTION_ERROR',
+  // Notifier actions
+  'IPFS_CONNECT_FAILED',
+  'IPFS_CONNECT_SUCCEED',
+  'NOTIFY_DISMISSED',
 ])
 
 /**
@@ -111,10 +119,6 @@ const update = (state, message) => {
     }
     case ACTIONS.IPFS_API_ADDRESS_INVALID_DISMISS: {
       return { ...state, invalidAddress: true }
-    }
-    case ACTIONS.IPFS_API_ADDRESS_CONNECTION_ERROR: {
-      const { error } = message
-      return { ...state, connectionError: error }
     }
     case ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION: {
       const { pending } = message
@@ -354,15 +358,16 @@ const actions = {
     // action and attempts to retry.
     try {
       dispatch({
-        type: 'IPFS_API_ADDRESS_CONNECTION_ERROR',
-        error: null
+        type: 'NOTIFY_DISMISSED',
       });
       await store.doInitIpfs()
+      dispatch({
+        type: 'IPFS_CONNECT_SUCCEED',
+      });
     } catch (error) {
       // Catches connection errors like timeouts
       dispatch({
-        type: 'IPFS_API_ADDRESS_CONNECTION_ERROR',
-        error: error.message
+        type: 'IPFS_CONNECT_FAILED',
       });
     }
   },
