@@ -336,9 +336,7 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectIpfsPendingFirstConnection: state => {
-    return state.ipfs.pendingFirstConnection
-  },
+  selectIpfsPendingFirstConnection: state => state.ipfs.pendingFirstConnection,
 }
 
 /**
