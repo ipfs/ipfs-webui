@@ -5,29 +5,15 @@ import GlyphAttention from '../../icons/GlyphAttention'
 import Button from '../button/Button'
 import { checkValidAPIAddress } from '../../bundles/ipfs-provider';
 
-import './ApiAddressForm.css';
-
 const ApiAddressForm = ({ 
   t, 
   doUpdateIpfsApiAddress,
   ipfsApiAddress,
-  ipfsInvalidAddress,
-  ipfsConnectionError,
 }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
-  const [errorText, setErrorText] = useState(null);
   const [isValidAPIAddress, setIsValidAPIAddress] = useState(checkValidAPIAddress(value));
 
   // Updates error based on API connection state.
-  useEffect(() => {
-    if (ipfsInvalidAddress) {
-      setErrorText('The given IPFS API address is invalid');
-    } else if (ipfsConnectionError) {
-      setErrorText(ipfsConnectionError);
-    } else {
-      setErrorText(null);
-    }
-  }, [ipfsInvalidAddress, ipfsConnectionError])
 
   // Updates "isValidAPIAddress" state
   useEffect(() => {
@@ -58,11 +44,7 @@ const ApiAddressForm = ({
         onKeyPress={onKeyPress}
         value={value}
       />
-      <div className='tr button-container'>
-        <div className='error-container red'>
-          { errorText && <GlyphAttention style={{ height: 24 }} className='fill-red'/> }
-          { errorText && <span>{ errorText }</span> }
-        </div>
+      <div className='tr'>
         <Button className='tc'>{t('actions.submit')}</Button>
       </div>
     </form>
@@ -81,7 +63,5 @@ const asAPIString = (value) => {
 export default connect(
   'doUpdateIpfsApiAddress',
   'selectIpfsApiAddress',
-  'selectIpfsInvalidAddress',
-  'selectIpfsConnectionError',
   withTranslation('app')(ApiAddressForm)
 )
