@@ -345,24 +345,17 @@ const selectors = {
 
 const actions = {
   /**
-   * @returns {function(Context):Promise<void>}
+   * @returns {function(Context):Promise<boolean>}
    */
   doTryInitIpfs: () => async ({ store, dispatch }) => {
     // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT` 
     // action and attempts to retry.
     try {
-      dispatch({
-        type: 'NOTIFY_DISMISSED',
-      });
       await store.doInitIpfs()
-      dispatch({
-        type: 'IPFS_CONNECT_SUCCEED',
-      });
+      return true;
     } catch (error) {
       // Catches connection errors like timeouts
-      dispatch({
-        type: 'IPFS_CONNECT_FAILED',
-      });
+      return false
     }
   },
   /**
@@ -433,7 +426,19 @@ const actions = {
         type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
         pending: true
       });
-      await context.store.doTryInitIpfs()
+      context.dispatch({
+        type: 'NOTIFY_DISMISSED',
+      });
+      const succeeded = await context.store.doTryInitIpfs()
+      if (succeeded) {
+        context.dispatch({
+          type: 'IPFS_CONNECT_SUCCEED',
+        });
+      } else {
+        context.dispatch({
+          type: 'IPFS_CONNECT_FAILED',
+        });
+      }
       context.dispatch({
         type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
         pending: false
