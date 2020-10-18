@@ -347,7 +347,7 @@ const actions = {
   /**
    * @returns {function(Context):Promise<boolean>}
    */
-  doTryInitIpfs: () => async ({ store, dispatch }) => {
+  doTryInitIpfs: () => async ({ store }) => {
     // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT` 
     // action and attempts to retry.
     try {
