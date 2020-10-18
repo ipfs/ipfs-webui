@@ -102,10 +102,10 @@ const notify = {
         return provider === 'window.ipfs' ? 'windowIpfsRequestFailed' : 'ipfsApiRequestFailed'
       }
       if (eventId === 'IPFS_CONNECT_FAILED') {
-        return 'ipfsApiRequestFailed';
+        return 'ipfsApiRequestFailed'
       }
       if (eventId === 'IPFS_CONNECT_SUCCEED') {
-        return 'ipfsIsBack';
+        return 'ipfsIsBack'
       }
 
       if (eventId === 'FILES_EVENT_FAILED') {

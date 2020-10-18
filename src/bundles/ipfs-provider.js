@@ -352,8 +352,8 @@ const actions = {
     // action and attempts to retry.
     try {
       await store.doInitIpfs()
-      return true;
-    } catch (error) {
+      return true
+    } catch (_) {
       // Catches connection errors like timeouts
       return false
     }
@@ -425,24 +425,24 @@ const actions = {
       context.dispatch({
         type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
         pending: true
-      });
+      })
       context.dispatch({
         type: 'NOTIFY_DISMISSED',
-      });
+      })
       const succeeded = await context.store.doTryInitIpfs()
       if (succeeded) {
         context.dispatch({
           type: 'IPFS_CONNECT_SUCCEED',
-        });
+        })
       } else {
         context.dispatch({
           type: 'IPFS_CONNECT_FAILED',
-        });
+        })
       }
       context.dispatch({
         type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
         pending: false
-      });
+      })
     }
   },
 
