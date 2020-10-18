@@ -19,7 +19,6 @@ import { perform } from './task'
  * @property {boolean} failed
  * @property {boolean} ready
  * @property {boolean} invalidAddress
- * @property {null|string} connectionError
  * @property {boolean} pendingFirstConnection
  *
  *
@@ -140,7 +139,6 @@ const init = () => {
     failed: false,
     ready: false,
     invalidAddress: false,
-    connectionError: null,
     pendingFirstConnection: false
   }
 }
@@ -333,10 +331,6 @@ const selectors = {
    * @param {State} state
    */
   selectIpfsInitFailed: state => state.ipfs.failed,
-  /**
-   * @param {State} state
-   */
-  selectIpfsConnectionError: state => state.ipfs.connectionError,
   /**
    * @param {State} state
    */
