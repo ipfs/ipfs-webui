@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
-import GlyphAttention from '../../icons/GlyphAttention'
 import Button from '../button/Button'
 import { checkValidAPIAddress } from '../../bundles/ipfs-provider';
 
-const ApiAddressForm = ({ 
-  t, 
-  doUpdateIpfsApiAddress,
-  ipfsApiAddress,
-}) => {
+const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
   const [isValidAPIAddress, setIsValidAPIAddress] = useState(checkValidAPIAddress(value));
-
-  // Updates error based on API connection state.
 
   // Updates "isValidAPIAddress" state
   useEffect(() => {
