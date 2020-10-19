@@ -123,6 +123,12 @@ const update = (state, message) => {
       const { pending } = message
       return { ...state, pendingFirstConnection: pending }
     }
+    case ACTIONS.IPFS_CONNECT_SUCCEED: {
+      return { ...state, failed: false }
+    }
+    case ACTIONS.IPFS_CONNECT_FAILED: {
+      return { ...state, failed: true }
+    }
     default: {
       return state
     }
