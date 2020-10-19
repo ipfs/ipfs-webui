@@ -7,7 +7,7 @@ import { checkValidAPIAddress } from '../../bundles/ipfs-provider';
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFailed }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
   const [showFailState, setShowFailState] = useState(!checkValidAPIAddress(value) || ipfsInitFailed)
-  //
+
   // Updates the border of the input as the user types.
   // If the provided multiaddr is valid, the border is green. Otherwise, it is red.
   useEffect(() => {
@@ -24,12 +24,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
 
   const onSubmit = async (event) => {
     event.preventDefault()
-    const succeeded = await doUpdateIpfsApiAddress(value);
-
-    // If the IPFS API address failed to update, refocus to the API address input
-    if (!succeeded) {
-      setShowFailState(true)
-    }
+    doUpdateIpfsApiAddress(value);
   }
 
   const onKeyPress = (event) => {
