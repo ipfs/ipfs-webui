@@ -6,13 +6,14 @@ import { checkValidAPIAddress } from '../../bundles/ipfs-provider';
 
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
-  const [isValidAPIAddress, setIsValidAPIAddress] = useState(checkValidAPIAddress(value));
+  const [showFailState, setShowFailState] = useState(!checkValidAPIAddress(value))
   const inputElement = useRef()
 
-  // Updates "isValidAPIAddress" state
+  // Updates the border of the input as the user types.
+  // If the provided multiaddr is valid, the border is green. Otherwise, it is red.
   useEffect(() => {
-    setIsValidAPIAddress(checkValidAPIAddress(value));
-  }, [value]);
+    setShowFailState(!checkValidAPIAddress(value))
+  }, [value])
 
   const onChange = (event) => setValue(event.target.value)
 
@@ -22,6 +23,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
 
     // If the IPFS API address failed to update, refocus to the API address input
     if (!succeeded) {
+      setShowFailState(true)
       inputElement.current.focus()
     }
   }
@@ -38,7 +40,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
         id='api-address'
         aria-label={t('apiAddressForm.apiLabel')}
         type='text'
-        className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${isValidAPIAddress ? 'focus-outline-green' : 'focus-outline-red'}`}
+        className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red' : 'focus-outline-green'}`}
         onChange={onChange}
         onKeyPress={onKeyPress}
         value={value}
