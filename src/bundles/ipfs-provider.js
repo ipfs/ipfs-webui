@@ -414,12 +414,13 @@ const actions = {
 
   /**
    * @param {string} address
-   * @returns {function(Context):Promise<void>}
+   * @returns {function(Context):Promise<boolean>}
    */
   doUpdateIpfsApiAddress: (address) => async (context) => {
     const apiAddress = asAPIOptions(address)
     if (apiAddress == null) {
       context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_INVALID })
+      return false;
     } else {
       await writeSetting('ipfsApi', apiAddress)
       context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_UPDATED, payload: apiAddress })
@@ -449,6 +450,7 @@ const actions = {
         type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
         pending: false
       })
+      return succeeded;
     }
   },
 
