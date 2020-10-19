@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/Button'
@@ -7,6 +7,7 @@ import { checkValidAPIAddress } from '../../bundles/ipfs-provider';
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
   const [isValidAPIAddress, setIsValidAPIAddress] = useState(checkValidAPIAddress(value));
+  const inputElement = useRef()
 
   // Updates "isValidAPIAddress" state
   useEffect(() => {
@@ -17,7 +18,12 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault()
-    doUpdateIpfsApiAddress(value)
+    const succeeded = await doUpdateIpfsApiAddress(value);
+
+    // If the IPFS API address failed to update, refocus to the API address input
+    if (!succeeded) {
+      inputElement.current.focus()
+    }
   }
 
   const onKeyPress = (event) => {
@@ -36,6 +42,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress }) => {
         onChange={onChange}
         onKeyPress={onKeyPress}
         value={value}
+        ref={inputElement}
       />
       <div className='tr'>
         <Button className='tc'>{t('actions.submit')}</Button>
