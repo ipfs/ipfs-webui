@@ -8,14 +8,13 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
   const [showFailState, setShowFailState] = useState(!checkValidAPIAddress(value) || ipfsInitFailed)
 
-  // Updates the border of the input as the user types.
-  // If the provided multiaddr is valid, the border is green. Otherwise, it is red.
+  // Updates the border of the input to indicate validity
   useEffect(() => {
-    if (!checkValidAPIAddress(value)) {
+    if (!checkValidAPIAddress(value)) { // Checks the multiaddr
       setShowFailState(true)
-    } else if (ipfsInitFailed) {
+    } else if (ipfsInitFailed) { // Checks if we failed to connect
       setShowFailState(true)
-    } else {
+    } else { // Otherwise, success
       setShowFailState(false)
     }
   }, [value, ipfsInitFailed])
