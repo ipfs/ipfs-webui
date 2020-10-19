@@ -86,6 +86,14 @@ const notify = {
         eventId: action.type
       }
     }
+    if (action.type == 'IPFS_API_ADDRESS_INVALID') {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        eventId: action.type
+      }
+    }
 
     return state
   },
@@ -106,6 +114,9 @@ const notify = {
       }
       if (eventId === 'IPFS_CONNECT_SUCCEED') {
         return 'ipfsConnectSuccess'
+      }
+      if (eventId === 'IPFS_API_ADDRESS_INVALID') {
+        return 'ipfsInvalidApiAddress'
       }
 
       if (eventId === 'FILES_EVENT_FAILED') {
