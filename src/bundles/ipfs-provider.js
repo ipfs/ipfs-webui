@@ -427,23 +427,26 @@ const actions = {
 
       // Sends action to indicate we're going to try to update the IPFS API address.
       // There is logic to retry doTryInitIpfs in bundles/retry-init.js, so
-      // we're triggering the pending update action here to avoid blocking
+      // we're triggering the PENDING_FIRST_CONNECTION action here to avoid blocking
       // the UI while we automatically retry.
       context.dispatch({
         type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
         pending: true
       })
       context.dispatch({
-        type: 'NOTIFY_DISMISSED',
+        type: ACTIONS.IPFS_STOPPED
+      })
+      context.dispatch({
+        type: ACTIONS.NOTIFY_DISMISSED
       })
       const succeeded = await context.store.doTryInitIpfs()
       if (succeeded) {
         context.dispatch({
-          type: 'IPFS_CONNECT_SUCCEED',
+          type: ACTIONS.IPFS_CONNECT_SUCCEED,
         })
       } else {
         context.dispatch({
-          type: 'IPFS_CONNECT_FAILED',
+          type: ACTIONS.IPFS_CONNECT_FAILED,
         })
       }
       context.dispatch({

@@ -6,18 +6,21 @@ import { checkValidAPIAddress } from '../../bundles/ipfs-provider';
 
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFailed }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
-  const [showFailState, setShowFailState] = useState(!checkValidAPIAddress(value) || ipfsInitFailed)
+  const initialIsValidApiAddress = !checkValidAPIAddress(value) 
+  const [showFailState, setShowFailState] = useState(initialIsValidApiAddress || ipfsInitFailed)
+  const [isValidApiAddress, setIsValidApiAddress] = useState(initialIsValidApiAddress)
 
   // Updates the border of the input to indicate validity
   useEffect(() => {
-    if (!checkValidAPIAddress(value)) { // Checks the multiaddr
-      setShowFailState(true)
-    } else if (ipfsInitFailed) { // Checks if we failed to connect
-      setShowFailState(true)
-    } else { // Otherwise, success
-      setShowFailState(false)
-    }
-  }, [value, ipfsInitFailed])
+    setShowFailState(ipfsInitFailed)
+  }, [isValidApiAddress, ipfsInitFailed])
+
+  // Updates the border of the input to indicate validity
+  useEffect(() => {
+    const isValid = checkValidAPIAddress(value)
+    setIsValidApiAddress(isValid)
+    setShowFailState(!isValid)
+  }, [value])
 
   const onChange = (event) => setValue(event.target.value)
 
@@ -44,7 +47,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
         value={value}
       />
       <div className='tr'>
-        <Button className='tc'>{t('actions.submit')}</Button>
+        <Button className='tc' disabled={!isValidApiAddress}>{t('actions.submit')}</Button>
       </div>
     </form>
   )
