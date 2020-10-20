@@ -162,7 +162,7 @@ const readAPIAddressSetting = () => {
  * @returns {boolean}
  */
 export const checkValidAPIAddress = (value) => {
-  return asAPIOptions(value) != null;
+  return asAPIOptions(value) != null
 }
 
 /**
@@ -420,7 +420,7 @@ const actions = {
     const apiAddress = asAPIOptions(address)
     if (apiAddress == null) {
       context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_INVALID })
-      return false;
+      return false
     } else {
       await writeSetting('ipfsApi', apiAddress)
       context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_UPDATED, payload: apiAddress })
@@ -453,7 +453,7 @@ const actions = {
         type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
         pending: false
       })
-      return succeeded;
+      return succeeded
     }
   },
 
