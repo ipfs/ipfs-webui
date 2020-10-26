@@ -17,7 +17,7 @@ import FilesList from './files-list/FilesList'
 import { getJoyrideLocales } from '../helpers/i8n'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE } from './modals/Modals'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING } from './modals/Modals'
 import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 
@@ -48,6 +48,7 @@ class FilesPage extends React.Component {
     this.props.doFilesFetch()
     this.props.doPinsFetch()
     this.props.doFilesSizeGet()
+    this.props.doFetchRemotePins()
   }
 
   componentDidUpdate (prev) {
@@ -179,6 +180,7 @@ class FilesPage extends React.Component {
         onRename={(files) => this.showModal(RENAME, files)}
         onDelete={(files) => this.showModal(DELETE, files)}
         onInspect={this.onInspect}
+        onRemotePinClick={this.onRemotePinClick}
         onDownload={this.onDownload}
         onAddFiles={this.onAddFiles}
         onNavigate={this.props.doFilesNavigateTo}
@@ -234,8 +236,7 @@ class FilesPage extends React.Component {
           onRename={() => this.showModal(RENAME, [contextMenu.file])}
           onInspect={() => this.onInspect(contextMenu.file.cid)}
           onDownload={() => this.onDownload([contextMenu.file])}
-          onPin={() => this.props.doFilesPin(contextMenu.file.cid)}
-          onUnpin={() => this.props.doFilesUnpin(contextMenu.file.cid)}
+          onPinning={() => this.showModal(PINNING, [contextMenu.file])}
           isCliTutorModeEnabled={isCliTutorModeEnabled}
           onCliTutorMode={() => this.showModal(CLI_TUTOR_MODE, [contextMenu.file])}
           doSetCliOptions={doSetCliOptions}
@@ -265,6 +266,7 @@ class FilesPage extends React.Component {
           onShareLink={this.props.doFilesShareLink}
           onDelete={this.props.doFilesDelete}
           onAddByPath={this.onAddByPath}
+          onPinningSet={this.props.doSetPinning}
           cliOptions={cliOptions}
           { ...this.state.modals } />
 
@@ -300,8 +302,6 @@ FilesPage.propTypes = {
   doFilesDelete: PropTypes.func.isRequired,
   doFilesAddPath: PropTypes.func.isRequired,
   doFilesNavigateTo: PropTypes.func.isRequired,
-  doFilesPin: PropTypes.func.isRequired,
-  doFilesUnpin: PropTypes.func.isRequired,
   doFilesUpdateSorting: PropTypes.func.isRequired,
   doFilesWrite: PropTypes.func.isRequired,
   doFilesDownloadLink: PropTypes.func.isRequired
@@ -315,6 +315,7 @@ export default connect(
   'selectFilesPathInfo',
   'doUpdateHash',
   'doPinsFetch',
+  'doFetchRemotePins',
   'doFilesFetch',
   'doFilesMove',
   'doFilesMakeDir',
@@ -322,8 +323,6 @@ export default connect(
   'doFilesDelete',
   'doFilesAddPath',
   'doFilesNavigateTo',
-  'doFilesPin',
-  'doFilesUnpin',
   'doFilesUpdateSorting',
   'selectFilesSorting',
   'selectToursEnabled',
@@ -336,5 +335,6 @@ export default connect(
   'doOpenCliTutorModal',
   'doSetCliOptions',
   'selectCliOptions',
+  'doSetPinning',
   withTour(withTranslation('files')(FilesPage))
 )

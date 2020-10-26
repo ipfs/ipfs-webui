@@ -14,7 +14,7 @@ import GlyphCancel from '../../icons/GlyphCancel'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 
 const File = (job, t) => {
-  const pathsByFolder = job.message.entries.reduce((prev, currentEntry) => {
+  const pathsByFolder = job.message?.entries?.reduce((prev, currentEntry) => {
     const isFolder = currentEntry.path.includes('/')
     if (!isFolder) {
       return [...prev, currentEntry]
@@ -33,7 +33,7 @@ const File = (job, t) => {
     return [...prev, { ...currentEntry, name: baseFolder, count: 1 }]
   }, [])
 
-  return pathsByFolder.map(({ count, name, path, size, progress }) => (
+  return pathsByFolder?.map(({ count, name, path, size, progress }) => (
     <li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={ path || name }>
       { count ? <FolderIcon className='fileImportStatusIcon fill-aqua pa1'/> : <DocumentIcon className='fileImportStatusIcon fill-aqua pa1'/> }
       <span className="fileImportStatusName truncate">{ name || path }</span>

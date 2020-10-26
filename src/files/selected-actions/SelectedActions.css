@@ -4,7 +4,7 @@
 
 @media only screen and (min-width: 60em) {
     .selectedActions {
-        width: calc(100% - 156px)
+        width: calc(100% - 148px)
     }
 }
 

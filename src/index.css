@@ -20,6 +20,16 @@ html, body, #root {
   height: 100%;
 }
 
+.appOverlay {
+  width: 100%;
+}
+
+@media only screen and (min-width: 60em) {
+  .appOverlay {
+      width: calc(100% - 148px)
+  }
+}
+
 /* =========================
     React Joyride overrides
    ========================= */

@@ -22,20 +22,29 @@ const addFiles = async (filesPromise, onAddFiles) => {
   onAddFiles(normalizeFiles(files))
 }
 
+const mergeRemotePinsIntoFiles = (files, remotePins) => {
+  const remotePinsCids = remotePins.map(c => c.cid)
+
+  return files.map(f => remotePinsCids.includes(f.cid?.string) ? ({
+    ...f,
+    isRemotePin: true
+  }) : f)
+}
+
 export const FilesList = ({
   className, files, pins, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onInspect, onDownload, onDelete, onRename, onNavigate, onAddFiles, onMove, handleContextMenuClick, t
+  onShare, onInspect, onDownload, onDelete, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
-  const [allFiles, setAllFiles] = useState(null)
+  const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins))
   const listRef = useRef()
   const filesRefs = useRef([])
 
   const [{ canDrop, isOver, isDragging }, drop] = useDrop({
     accept: NativeTypes.FILE,
-    drop: ({ onAddFiles }, monitor) => {
+    drop: (_, monitor) => {
       if (monitor.didDrop()) {
         return
       }
@@ -84,7 +93,7 @@ export const FilesList = ({
     }
 
     if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused !== null) {
-      return onNavigate(focusedFile.path)
+      return onNavigate({ path: focusedFile.path, cid: focusedFile.cid })
     }
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -122,11 +131,11 @@ export const FilesList = ({
   useEffect(() => {
     document.addEventListener('keyup', keyHandler)
     return () => document.removeEventListener('keyup', keyHandler)
-  }, /* eslint-disable-next-line */
+  }, /* eslint-disable-next-line react-hooks/exhaustive-deps */
   [])
 
   useEffect(() => {
-    setAllFiles([...files, ...remotePins])
+    setAllFiles(mergeRemotePinsIntoFiles(files, remotePins))
   }, [files, remotePins])
 
   useEffect(() => {
@@ -216,21 +225,24 @@ export const FilesList = ({
   const rowRenderer = ({ index, key, style }) => {
     const pinsString = pins.map(p => p.toString())
     const listItem = allFiles[index]
+    const onNavigateHandler = () => {
+      if (listItem.type === 'unknown') return onInspect(listItem.cid)
+      return onNavigate({ path: listItem.path, cid: listItem.cid })
+    }
 
     return (
-      <div key={key} style={style} ref={r => { filesRefs.current[files[index].name] = r }}>
+      <div key={key} style={style} ref={r => { filesRefs.current[allFiles[index].name] = r }}>
         <File
           {...listItem}
           pinned={pinsString.includes(listItem.cid.toString())}
           isMfs={filesPathInfo.isMfs}
           name={listItem.name}
           onSelect={toggleOne}
-          onNavigate={() => listItem.type === 'unknown' ? onInspect(listItem.cid) : onNavigate(listItem.path)}
+          onNavigate={onNavigateHandler}
           onAddFiles={onAddFiles}
           onMove={move}
           focused={focused === listItem.name}
           selected={selected.indexOf(listItem.name) !== -1}
-          setIsDragging={isDragging}
           handleContextMenuClick={handleContextMenuClick}
           translucent={isDragging || (isOver && canDrop)} />
       </div>
@@ -239,8 +251,8 @@ export const FilesList = ({
 
   const onRowsRendered = ({ startIndex }) => setFirstVisibleRow(startIndex)
 
-  const allSelected = selected.length !== 0 && selected.length === files.length
-  const rowCount = files.length
+  const allSelected = selected.length !== 0 && selected.length === allFiles.length
+  const rowCount = allFiles.length
   const checkBoxCls = classnames({
     'o-1': allSelected,
     'o-70': !allSelected
