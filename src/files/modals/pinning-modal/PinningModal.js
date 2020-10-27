@@ -32,7 +32,7 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, availabl
             <button className="flex items-center pa1 hoverable-button" key={name} onClick={() => selectService(name)}>
               <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes(name)}/>
               <img className="mr1" src={icon} alt='' width={24} height={24} style={{ objectFit: 'contain' }} />
-              <p className="f6">{ name }</p>
+              <p className="f5">{ name }</p>
             </button>
           ))}
         </div>
