@@ -272,6 +272,11 @@ export const FilesList = ({
                 {t('app:terms.name')} {sortByIcon(sorts.BY_NAME)}
               </button>
             </div>
+            <div className='pl2 pr1 tr f6 flex-none dn db-l mw4'>
+              <button aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
+                {t('app:terms.pinStatus')} {sortByIcon(sorts.BY_SIZE)}
+              </button>
+            </div>
             <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
               <button aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
                 {t('app:terms.size')} {sortByIcon(sorts.BY_SIZE)}
