@@ -36,7 +36,7 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, availabl
             </button>
           ))}
         </div>
-        <p className='mh0 mt3 mb1'>
+        <p className='mh0 mt3 mb1 f6'>
           <Trans i18nKey='pinningModal.footer' t={t}>
             Need to add or configure a pinning service? Go to <a href="#/settings" className="link blue">Settings.</a>
           </Trans>
