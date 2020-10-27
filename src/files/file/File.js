@@ -131,7 +131,7 @@ const File = ({
           { pinned && !isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
             <GlyphPin className='fill-teal-muted' />
           </div> }
-          { isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '1.5rem', height: '1.5rem' }}>
+          { isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
             <GlyphPinCloud className='fill-teal-muted' />
           </div> }
         </div>
