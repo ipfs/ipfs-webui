@@ -132,7 +132,7 @@ const File = ({
             <GlyphPin className='fill-aqua' />
           </div> }
           { isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
-            <GlyphPinCloud className='fill-teal-muted' />
+            <GlyphPinCloud className='fill-aqua' />
           </div> }
         </div>
         <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
