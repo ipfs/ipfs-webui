@@ -70,7 +70,7 @@ const notify = {
       }
     }
 
-    if (action.type == 'IPFS_CONNECT_FAILED') {
+    if (action.type === 'IPFS_CONNECT_FAILED') {
       return {
         ...state,
         show: true,
@@ -78,7 +78,7 @@ const notify = {
         eventId: action.type
       }
     }
-    if (action.type == 'IPFS_CONNECT_SUCCEED') {
+    if (action.type === 'IPFS_CONNECT_SUCCEED') {
       return {
         ...state,
         show: true,
@@ -86,7 +86,7 @@ const notify = {
         eventId: action.type
       }
     }
-    if (action.type == 'IPFS_API_ADDRESS_INVALID') {
+    if (action.type === 'IPFS_API_ADDRESS_INVALID') {
       return {
         ...state,
         show: true,
