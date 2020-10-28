@@ -24,13 +24,13 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, availabl
       <ModalBody title={t('pinningModal.title')}>
         <div className="pinningModalContainer">
           <button className="flex items-center pa1 hoverable-button" key={t('pinningModal.localNode')} onClick={() => selectService(t('pinningModal.localNode'))}>
-            <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes(t('pinningModal.localNode'))}/>
+            <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes(t('pinningModal.localNode'))} style={{ pointerEvents: 'none' }}/>
             <GlyphPin fill="currentColor" width={32} height={32} className="mr1 aqua flex-shrink-0"/>
             <p className="f5 w-100">{ t('pinningModal.localNode') }</p>
           </button>
           { availablePinningServices.map(({ icon, name }) => (
             <button className="flex items-center pa1 hoverable-button" key={name} onClick={() => selectService(name)}>
-              <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes(name)}/>
+              <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes(name)} style={{ pointerEvents: 'none' }}/>
               <img className="mr1" src={icon} alt='' width={32} height={32} style={{ objectFit: 'contain' }} />
               <p className="f5">{ name }</p>
             </button>

@@ -179,6 +179,7 @@ class FilesPage extends React.Component {
         onShare={(files) => this.showModal(SHARE, files)}
         onRename={(files) => this.showModal(RENAME, files)}
         onDelete={(files) => this.showModal(DELETE, files)}
+        onSetPinning={(files) => this.showModal(PINNING, files)}
         onInspect={this.onInspect}
         onRemotePinClick={this.onRemotePinClick}
         onDownload={this.onDownload}

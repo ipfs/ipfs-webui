@@ -33,7 +33,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins) => {
 
 export const FilesList = ({
   className, files, pins, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onInspect, onDownload, onDelete, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, handleContextMenuClick, t
+  onShare, onSetPinning, onInspect, onDownload, onDelete, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
@@ -319,6 +319,7 @@ export const FilesList = ({
             remove={() => onDelete(selectedFiles)}
             rename={() => onRename(selectedFiles)}
             share={() => onShare(selectedFiles)}
+            setPinning={() => onSetPinning(selectedFiles)}
             download={() => onDownload(selectedFiles)}
             inspect={() => onInspect(selectedFiles[0].cid)}
             count={selected.length}
@@ -345,6 +346,7 @@ FilesList.propTypes = {
   filesPathInfo: PropTypes.object,
   // Actions
   onShare: PropTypes.func.isRequired,
+  onSetPinning: PropTypes.func.isRequired,
   onInspect: PropTypes.func.isRequired,
   onDownload: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

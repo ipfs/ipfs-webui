@@ -36,7 +36,7 @@ function ByPathModal ({ t, tReady, onCancel, onSubmit, className, ...props }) {
       className={className}
       title={t('addByPathModal.title')}
       description={getDescription()}
-      icon={Icon}
+      Icon={Icon}
       submitText={t('app:actions.import')}
       {...props}
     />
