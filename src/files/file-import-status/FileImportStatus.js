@@ -22,7 +22,7 @@ const File = (job, t) => {
 
     const baseFolder = currentEntry.path.split('/')[0]
 
-    const alreadyExistentBaseFolder = prev.find(previousPath => previousPath.path.startsWith(`${baseFolder}/`))
+    const alreadyExistentBaseFolder = prev.find(previousPath => previousPath.path.startsWith(baseFolder + '/'))
 
     if (alreadyExistentBaseFolder) {
       alreadyExistentBaseFolder.count = alreadyExistentBaseFolder.count + 1
