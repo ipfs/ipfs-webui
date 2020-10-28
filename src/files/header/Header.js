@@ -17,8 +17,8 @@ function BarOption ({ children, title, isLink = false, className = '', ...etc })
 
   return (
     <div className={className} {...etc}>
-      <span className='nowrap db f4 navy'>{children}</span>
-      <span className={`db ttl ${isLink ? 'navy underline' : 'gray'}`}>{title}</span>
+      <span className='nowrap db f4 charcoal'>{children}</span>
+      <span className={`db ttu f6 montserrat fw4 ${isLink ? 'link' : 'charcoal-muted'}`}>{title}</span>
     </div>
   )
 }
