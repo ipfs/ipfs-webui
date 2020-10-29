@@ -66,7 +66,7 @@ export const ACTIONS = Enum.from([
   // Notifier actions
   'IPFS_CONNECT_FAILED',
   'IPFS_CONNECT_SUCCEED',
-  'NOTIFY_DISMISSED',
+  'NOTIFY_DISMISSED'
 ])
 
 /**
@@ -340,7 +340,7 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectIpfsPendingFirstConnection: state => state.ipfs.pendingFirstConnection,
+  selectIpfsPendingFirstConnection: state => state.ipfs.pendingFirstConnection
 }
 
 /**
@@ -354,7 +354,7 @@ const actions = {
    * @returns {function(Context):Promise<boolean>}
    */
   doTryInitIpfs: () => async ({ store }) => {
-    // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT` 
+    // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT`
     // action and attempts to retry.
     try {
       await store.doInitIpfs()
@@ -442,11 +442,11 @@ const actions = {
       const succeeded = await context.store.doTryInitIpfs()
       if (succeeded) {
         context.dispatch({
-          type: ACTIONS.IPFS_CONNECT_SUCCEED,
+          type: ACTIONS.IPFS_CONNECT_SUCCEED
         })
       } else {
         context.dispatch({
-          type: ACTIONS.IPFS_CONNECT_FAILED,
+          type: ACTIONS.IPFS_CONNECT_FAILED
         })
       }
       context.dispatch({
