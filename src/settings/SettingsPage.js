@@ -19,13 +19,14 @@ import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
 import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
 import Checkbox from '../components/checkbox/Checkbox'
+import ComponentLoader from '../loader/ComponentLoader.js'
 import StrokeCode from '../icons/StrokeCode'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
 export const SettingsPage = ({
-  t, tReady, isIpfsConnected,
+  t, tReady, isIpfsConnected, ipfsPendingFirstConnection,
   isConfigBlocked, isLoading, isSaving,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
@@ -35,6 +36,17 @@ export const SettingsPage = ({
     <Helmet>
       <title>{t('title')} | IPFS</title>
     </Helmet>
+    
+    {/* Enable a full screen loader after updating to a new IPFS API address.
+      * Will not show on consequent retries after a failure.
+      */}
+    { ipfsPendingFirstConnection 
+        ? <div className="absolute flex items-center justify-center w-100 h-100"
+               style={{ background: 'rgba(255, 255, 255, 0.5)', zIndex: '10' }}>
+            <ComponentLoader pastDelay />
+          </div>
+        : null }
+      
 
     <Box className='mb3 pa4 joyride-settings-customapi'>
       <div className='lh-copy charcoal'>
@@ -278,7 +290,7 @@ export class SettingsPageContainer extends React.Component {
     const {
       t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving,
       configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled,
-      handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode
+      handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, ipfsPendingFirstConnection,
     } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
@@ -290,6 +302,7 @@ export class SettingsPageContainer extends React.Component {
         t={t}
         tReady={tReady}
         isIpfsConnected={ipfsConnected}
+        ipfsPendingFirstConnection={ipfsPendingFirstConnection}
         isConfigBlocked={isConfigBlocked}
         isLoading={isLoading}
         isSaving={configIsSaving}
@@ -321,6 +334,7 @@ export const TranslatedSettingsPage = withTranslation('settings')(SettingsPageCo
 export default connect(
   'selectConfig',
   'selectIpfsConnected',
+  'selectIpfsPendingFirstConnection',
   'selectIsConfigBlocked',
   'selectConfigLastError',
   'selectConfigIsLoading',
