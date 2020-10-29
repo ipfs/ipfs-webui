@@ -6,7 +6,7 @@ import { checkValidAPIAddress } from '../../bundles/ipfs-provider'
 
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFailed }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
-  const initialIsValidApiAddress = !checkValidAPIAddress(value) 
+  const initialIsValidApiAddress = !checkValidAPIAddress(value)
   const [showFailState, setShowFailState] = useState(initialIsValidApiAddress || ipfsInitFailed)
   const [isValidApiAddress, setIsValidApiAddress] = useState(initialIsValidApiAddress)
 
