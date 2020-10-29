@@ -136,7 +136,7 @@ export const FilesList = ({
 
   useEffect(() => {
     setAllFiles(mergeRemotePinsIntoFiles(files, remotePins))
-  }, [files, remotePins])
+  }, [files, remotePins, filesSorting])
 
   useEffect(() => {
     const selectedFiles = selected.filter(name => files.find(el => el.name === name))
@@ -273,9 +273,9 @@ export const FilesList = ({
               </button>
             </div>
             <div className='pl2 pr1 tr f6 flex-none dn db-l mw4'>
-              <button aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
-                {t('app:terms.pinStatus')} {sortByIcon(sorts.BY_SIZE)}
-              </button>
+              <span>
+                {t('app:terms.pinStatus')}
+              </span>
             </div>
             <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
               <button aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
