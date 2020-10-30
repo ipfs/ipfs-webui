@@ -7,6 +7,8 @@
   "addConnection": "Add connection",
   "insertPeerAddress": "Insert the peer address you want to connect to.",
   "plusPeers": "+ {number} more peers",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
   "currentRate": "Current rate",
   "totalTransfer": "Total transfer",
   "tour": {

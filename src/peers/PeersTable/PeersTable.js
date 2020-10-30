@@ -65,7 +65,7 @@ export class PeersTable extends React.Component {
   }
 
   inOutCellRenderer = ({ rowData }) => (
-    <span style={{ textDecoration: 'none' }} title={this.props.t('currentRate') + ': ' + rowData.rateIn + ' • ' + rowData.rateOut + '; ' + this.props.t('totalTransfer') + ': ' +  rowData.totalIn + ' • ' + rowData.totalOut}>
+    <span style={{ textDecoration: 'none' }} title={this.props.t('currentRate') + ': ' + rowData.rateIn + ' • ' + rowData.rateOut + '; ' + this.props.t('totalTransfer') + ': ' + rowData.totalIn + ' • ' + rowData.totalOut}>
       <svg width='10' height='10' className='mr1'>
         <circle cx='5' cy='5' r='5' fill='#69c4cd' />
         <path d='M0,5 a1,1 0 0,0 10,0' fill='#f39021' />
@@ -78,17 +78,38 @@ export class PeersTable extends React.Component {
     <Cid value={cellData} identicon />
   )
 
-  connectionCellRenderer = ({ rowData }) => (
-    <abbr style={{ textDecoration: 'none' }} title={rowData.address}>
-      {rowData.connection}
-    </abbr>
-  )
+  connectionCellRenderer = ({ rowData }) => {
+    const { address, direction } = rowData
+    const title = direction != null
+      ? `${address}\n(${renderDirection(direction, this.props.t)})`
+      : address
 
-  agentCellRenderer = ({ rowData }) => (
-    <span style={{ textDecoration: 'none' }} title={rowData.agent}>
-      {rowData.agent}
-    </span>
-  )
+    return (
+      <abbr
+        style={{ cursor: 'help', textDecoration: 'none' }}
+        title={title}>
+        {rowData.connection}
+      </abbr>
+    )
+  }
+
+  agentCellRenderer = ({ rowData }) => {
+    const { agentStreams, agentVersion } = rowData
+    let title = agentVersion
+    if (Array.isArray(agentStreams)) {
+      try { // add info about any mounted stream to the tooltip
+        const protocolNames = agentStreams.map(s => s.Protocol)
+        title = `${agentVersion}\n\n${protocolNames.join('\n')}`
+      } catch (_) { }
+    }
+    return (
+      <span
+        style={{ cursor: 'help', textDecoration: 'none' }}
+        title={title}>
+        {agentVersion}
+      </span>
+    )
+  }
 
   rowClassRenderer = ({ index }, peers = []) => {
     const { selectedPeers } = this.props
@@ -136,6 +157,20 @@ export class PeersTable extends React.Component {
         </AutoSizer> }
       </div>
     )
+  }
+}
+
+// API returns integer atm, but that may change in the future
+// Current mapping based on https://github.com/libp2p/go-libp2p-core/blob/21efed75194d73e21e16fe3124fb9c4127a85308/network/network.go#L38-39
+const renderDirection = (direction, i18n) => {
+  if (direction == null) return
+  switch (direction) {
+    case 1:
+      return i18n('connectionDirectionInbound')
+    case 2:
+      return i18n('connectionDirectionOutbound')
+    default:
+      return direction
   }
 }
 
