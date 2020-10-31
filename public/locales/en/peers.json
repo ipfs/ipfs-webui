@@ -11,6 +11,7 @@
   "connectionDirectionOutbound": "outbound",
   "currentRate": "Current rate",
   "totalTransfer": "Total transfer",
+  "copyFeedback": "Copied!",
   "tour": {
     "step1": {
       "title": "Peers page",

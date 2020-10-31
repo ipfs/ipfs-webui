@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import ms from 'milliseconds'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import { Table, Column, AutoSizer, SortDirection } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Cid from '../../components/cid/Cid'
 import { sortByProperty } from '../../lib/sort'
 
@@ -40,6 +42,7 @@ export class PeersTable extends React.Component {
   }
 
   locationCellRenderer = ({ rowData }) => {
+    const ref = React.createRef()
     const location = rowData.isPrivate
       ? this.props.t('localNetwork')
       : rowData.location
@@ -47,67 +50,94 @@ export class PeersTable extends React.Component {
           ? <span>{rowData.location} <span className='charcoal-muted'>({this.props.t('nearby')})</span></span>
           : rowData.location
         : <span className='charcoal-muted fw4'>{this.props.t('app:terms.unknown')}</span>
-
+    const value = rowData.location || this.props.t('app:terms.unknown')
     return (
-      <span title={ rowData.location || this.props.t('app:terms.unknown')}>
-        { this.flagRenderer(rowData.flagCode, rowData.isPrivate) }
-        { location }
-      </span>
+      <CopyToClipboard text={value} onCopy={() => copyFeedback(ref, this.props.t)}>
+        <span title={value} className='copyable' ref={ref}>
+          { this.flagRenderer(rowData.flagCode, rowData.isPrivate) }
+          { location }
+        </span>
+      </CopyToClipboard>
     )
   }
 
-  latencyCellRenderer = ({ cellData }) => {
+  latencyCellRenderer = ({ cellData, rowData }) => {
+    const ref = React.createRef()
     const style = { width: '60px' }
-
-    return cellData
-      ? <span className='dib' style={style}>{cellData}ms</span>
-      : <span className='dib o-40' style={style}>-</span>
+    const latency = `${cellData}ms`
+    if (cellData == null) return (<span className='dib o-40' style={style}>-</span>)
+    return (
+      <CopyToClipboard text={latency} onCopy={() => copyFeedback(ref, this.props.t)}>
+        <span ref={ref} className='dib copyable'>{latency}</span>
+      </CopyToClipboard>
+    )
   }
 
-  inOutCellRenderer = ({ rowData }) => (
-    <span style={{ textDecoration: 'none' }} title={this.props.t('currentRate') + ': ' + rowData.rateIn + ' • ' + rowData.rateOut + '; ' + this.props.t('totalTransfer') + ': ' + rowData.totalIn + ' • ' + rowData.totalOut}>
-      <svg width='10' height='10' className='mr1'>
-        <circle cx='5' cy='5' r='5' fill='#69c4cd' />
-        <path d='M0,5 a1,1 0 0,0 10,0' fill='#f39021' />
-      </svg>
-      {rowData.totalIn} &bull; {rowData.totalOut}
-    </span>
-  )
+  inOutCellRenderer = ({ rowData }) => {
+    const ref = React.createRef()
+    const { rateIn, rateOut, totalIn, totalOut } = rowData
+    const details = this.props.t('currentRate') + ': ' + rateIn + ' • ' + rateOut + '; ' + this.props.t('totalTransfer') + ': ' + totalIn + ' • ' + totalOut
+    return (
+      <CopyToClipboard text={details} onCopy={() => copyFeedback(ref, this.props.t)}>
+        <span ref={ref} className='copyable' title={details}>
+          <svg width='10' height='10' className='mr1'>
+            <circle cx='5' cy='5' r='5' fill='#69c4cd' />
+            <path d='M0,5 a1,1 0 0,0 10,0' fill='#f39021' />
+          </svg>
+          {totalIn} &bull; {totalOut}
+        </span>
+      </CopyToClipboard>
+    )
+  }
 
-  peerIdCellRenderer = ({ cellData }) => (
-    <Cid value={cellData} identicon />
-  )
+  peerIdCellRenderer = ({ cellData: peerId }) => {
+    const ref = React.createRef()
+    return (
+      <CopyToClipboard text={peerId} onCopy={() => copyFeedback(ref, this.props.t)}>
+        <Cid value={peerId} identicon ref={ref} className='copyable' />
+      </CopyToClipboard>
+    )
+  }
 
   connectionCellRenderer = ({ rowData }) => {
+    const ref = React.createRef()
     const { address, direction } = rowData
     const title = direction != null
       ? `${address}\n(${renderDirection(direction, this.props.t)})`
       : address
 
     return (
+      <CopyToClipboard text={address} onCopy={() => copyFeedback(ref, this.props.t)}>
       <abbr
-        style={{ cursor: 'help', textDecoration: 'none' }}
+        ref={ref}
+        className='copyable'
         title={title}>
         {rowData.connection}
       </abbr>
+      </CopyToClipboard>
     )
   }
 
   agentCellRenderer = ({ rowData }) => {
+    const ref = React.createRef()
     const { agentStreams, agentVersion } = rowData
-    let title = agentVersion
+    let details = agentVersion
     if (Array.isArray(agentStreams)) {
       try { // add info about any mounted stream to the tooltip
         const protocolNames = agentStreams.map(s => s.Protocol)
-        title = `${agentVersion}\n\n${protocolNames.join('\n')}`
+        details = `${agentVersion}\n\n${protocolNames.join('\n')}`
       } catch (_) { }
     }
+
     return (
-      <span
-        style={{ cursor: 'help', textDecoration: 'none' }}
-        title={title}>
-        {agentVersion}
-      </span>
+      <CopyToClipboard text={details} onCopy={() => copyFeedback(ref, this.props.t)}>
+        <span
+          ref={ref}
+          className='copyable'
+          title={details}>
+          {agentVersion}
+        </span>
+      </CopyToClipboard>
     )
   }
 
@@ -172,6 +202,16 @@ const renderDirection = (direction, i18n) => {
     default:
       return direction
   }
+}
+
+// temporarily replaces contents of element with 'copied!'
+const copyFeedback = (ref, t) => {
+  const tag = ref.current
+  const { parentNode } = tag
+  const msg = document.createElement('em')
+  msg.innerText = t('copyFeedback')
+  parentNode.replaceChild(msg, tag)
+  setTimeout(() => parentNode.replaceChild(tag, msg), ms.seconds(3))
 }
 
 export default connect(

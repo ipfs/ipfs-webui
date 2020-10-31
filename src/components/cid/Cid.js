@@ -18,14 +18,14 @@ export function shortCid (value) {
   return `${start}…${end}`
 }
 
-const Cid = ({ value, title, style, identicon = false, ...props }) => {
+const Cid = React.forwardRef(({ value, title, style, identicon = false, ...props }, ref) => {
   style = Object.assign({}, {
     textDecoration: 'none',
     marginLeft: identicon ? '5px' : null
   }, style)
   const { start, end } = cidStartAndEnd(value)
   return (
-    <abbr title={title || value} style={style} {...props}>
+    <abbr title={title || value} style={style} ref={ref} {...props}>
       { identicon && <Identicon cid={value} className='mr2' /> }
       <span>
         <span>{start}</span>
@@ -34,6 +34,6 @@ const Cid = ({ value, title, style, identicon = false, ...props }) => {
       </span>
     </abbr>
   )
-}
+})
 
 export default Cid
