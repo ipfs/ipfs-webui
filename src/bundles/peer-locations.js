@@ -7,10 +7,14 @@ import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
 import ip from 'ip'
 import memoize from 'p-memoize'
+import { dependencies } from '../../package.json'
 
 // After this time interval, we re-check the locations for each peer
 // once again through PeerLocationResolver.
 const UPDATE_EVERY = ms.seconds(1)
+
+// We reuse cached geoip lookups as long geoipVersion is the same.
+const geoipVersion = dependencies['ipfs-geoip']
 
 // Depends on ipfsBundle, peersBundle
 function createPeersLocations (opts) {
@@ -208,7 +212,7 @@ class PeerLocationResolver {
   constructor (opts) {
     this.geoipCache = getConfiguredCache({
       name: 'geoipCache',
-      version: 2,
+      version: geoipVersion,
       maxAge: ms.weeks(1),
       ...opts.cache
     })
