@@ -55,7 +55,7 @@ function createPeersLocations (opts) {
     'selectPeers',
     'selectPeerLocations',
     'selectBootstrapPeers',
-    'selectIdentity',
+    'selectIdentity', // ipfs.id info for local node, used for detecting local peers
     (peers, locations = {}, bootstrapPeers, identity) => peers && peers.map(peer => {
       const peerId = peer.peer
       const locationObj = locations ? locations[peerId] : null
@@ -67,7 +67,7 @@ function createPeersLocations (opts) {
       ]
       const connection = parseConnection(peer.addr)
       const address = peer.addr.toString()
-      const agentVersion = 'go-ipfs X.X.X-rcX'
+      const agentVersion = 'go-ipfs/X.X.X/1234567'
       const agentStreams = Array.isArray(peer.streams) ? peer.streams : null
       const latency = parseLatency(peer.latency)
       const rateIn = 'AAA kB/s'

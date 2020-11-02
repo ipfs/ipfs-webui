@@ -108,12 +108,12 @@ export class PeersTable extends React.Component {
 
     return (
       <CopyToClipboard text={address} onCopy={() => copyFeedback(ref, this.props.t)}>
-      <abbr
-        ref={ref}
-        className='copyable'
-        title={title}>
-        {rowData.connection}
-      </abbr>
+        <abbr
+          ref={ref}
+          className='copyable'
+          title={title}>
+          {rowData.connection}
+        </abbr>
       </CopyToClipboard>
     )
   }
@@ -181,7 +181,7 @@ export class PeersTable extends React.Component {
               <Column label={t('app:terms.in') + '/' + t('app:terms.out')} cellRenderer={this.inOutCellRenderer} dataKey='latency' width={270} className='f6 charcoal pl2' />
               <Column label={t('app:terms.peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f6 pl2' />
               <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />
-              <Column label={t('app:terms.agent')} cellRenderer={this.agentCellRenderer} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />
+              <Column label={t('app:terms.agent')} cellRenderer={this.agentCellRenderer} dataKey='agentVersion' width={250} className='f6 charcoal truncate pl2' />
             </Table>
           )}
         </AutoSizer> }
