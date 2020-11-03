@@ -91,7 +91,8 @@ export default () => {
               pageContent: {
                 ...pageContent,
                 content
-              }
+              },
+              sorting: action.payload
             }
           } else {
             return state

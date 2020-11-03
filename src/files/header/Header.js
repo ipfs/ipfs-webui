@@ -30,6 +30,7 @@ class Header extends React.Component {
     const pos = this.dotsWrapper.getBoundingClientRect()
     this.props.handleContextMenu(ev, 'TOP', {
       ...this.props.files,
+      // TODO: change to "pinning" and not "pinned"
       pinned: this.props.pins.includes(this.props.files.cid.toString())
     }, pos)
   }
@@ -105,6 +106,7 @@ class Header extends React.Component {
 }
 
 export default connect(
+  'selectPins',
   'selectHasUpperDirectory',
   'selectFilesSize',
   'selectRepoSize',

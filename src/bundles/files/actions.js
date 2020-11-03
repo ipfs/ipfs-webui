@@ -463,21 +463,28 @@ const actions = () => ({
   doFilesDismissErrors: () => send({ type: ACTIONS.DISMISS_ERRORS }),
 
   /**
-   * @param {string} path
-   */
-  doFilesNavigateTo: (path) =>
+   * @param {Object} fileArgs
+   * @param {string} fileArgs.path
+   * @param {string|CID} fileArgs.cid
+  */
+  doFilesNavigateTo: ({ path, cid }) =>
     /**
      * @param {Context} context
      */
     async ({ store }) => {
-      const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
-      const files = store.selectFiles()
-      const url = store.selectFilesPathInfo()
+      try {
+        const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
+        const files = store.selectFiles()
+        const url = store.selectFilesPathInfo()
 
-      if (files && files.path === link && url) {
-        await store.doFilesFetch()
-      } else {
-        await store.doUpdateHash(link)
+        if (files && files.path === link && url) {
+          await store.doFilesFetch()
+        } else {
+          await store.doUpdateHash(link)
+        }
+      } catch (e) {
+        console.error(e)
+        store.doUpdateHash(`/ipfs/${cid}`)
       }
     },
 
