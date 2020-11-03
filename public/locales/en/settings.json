@@ -59,16 +59,6 @@
     "DISABLED": "Disabled",
     "PINS_ONLY": "Pins only"
   },
-  "localPinning": "Local Pinning",
-  "service": "Service",
-  "files": "Files",
-  "bandwidthUsed": "Bandwidth Used",
-  "autoUpload": "Auto Upload",
-  "autoUploadKeys": {
-    "ALL_FILES": "All files",
-    "DISABLED": "Disabled",
-    "PINS_ONLY": "Pins only"
-  },
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
   "ipfsDaemonOffline": "The IPFS daemon is offline. Please turn it on and try again.",
