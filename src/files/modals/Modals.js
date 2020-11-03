@@ -8,6 +8,7 @@ import NewFolderModal from './new-folder-modal/NewFolderModal'
 import ShareModal from './share-modal/ShareModal'
 import RenameModal from './rename-modal/RenameModal'
 import DeleteModal from './delete-modal/DeleteModal'
+import PinningModal from './pinning-modal/PinningModal'
 import AddByPathModal from './add-by-path-modal/AddByPathModal'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts'
@@ -19,6 +20,7 @@ const RENAME = 'rename'
 const DELETE = 'delete'
 const ADD_BY_PATH = 'add_by_path'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
+const PINNING = 'pinning'
 
 export {
   NEW_FOLDER,
@@ -26,7 +28,8 @@ export {
   RENAME,
   DELETE,
   ADD_BY_PATH,
-  CLI_TUTOR_MODE
+  CLI_TUTOR_MODE,
+  PINNING
 }
 
 class Modals extends React.Component {
@@ -36,6 +39,9 @@ class Modals extends React.Component {
       folder: false,
       path: '',
       filename: ''
+    },
+    pinning: {
+      file: null
     },
     delete: {
       files: 0,
@@ -77,6 +83,10 @@ class Modals extends React.Component {
   leave = () => {
     this.setState({ readyToShow: false })
     this.props.done()
+  }
+
+  onPinningSet = (pinningServices) => {
+    this.props.onPinningSet(pinningServices)
   }
 
   componentDidUpdate (prev) {
@@ -134,6 +144,14 @@ class Modals extends React.Component {
           this.setState({ readyToShow: true })
         })
         break
+      case PINNING: {
+        const file = files[0]
+
+        return this.setState({
+          readyToShow: true,
+          pinning: { file }
+        })
+      }
       default:
         // do nothing
     }
@@ -215,6 +233,14 @@ class Modals extends React.Component {
 
         <Overlay show={show === CLI_TUTOR_MODE && readyToShow} onLeave={this.leave}>
           <CliTutorMode onLeave={this.leave} filesPage={true} command={command} t={t}/>
+        </Overlay>
+
+        <Overlay show={show === PINNING && readyToShow} onLeave={this.leave}>
+          <PinningModal
+            file={this.state.pinning.file}
+            className='outline-0'
+            onCancel={this.leave}
+            onPinningSet={this.onPinningSet} />
         </Overlay>
       </div>
     )
