@@ -85,8 +85,9 @@ class Modals extends React.Component {
     this.props.done()
   }
 
-  onPinningSet = (pinningServices) => {
-    this.props.onPinningSet(pinningServices)
+  onPinningSet = (...pinningServices) => {
+    this.props.onPinningSet(...pinningServices)
+    this.leave()
   }
 
   componentDidUpdate (prev) {

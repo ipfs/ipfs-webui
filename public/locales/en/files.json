@@ -38,9 +38,10 @@
     "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.}}"
   },
   "pinningModal": {
-    "title": "Select the services with which you wish to pin these files.",
+    "title": "Select the service(s) with which you wish to pin these items.",
     "footer": "Need to add or configure a pinning service? Go to <1>Settings</1>.",
-    "localNode": "Local node"
+    "localNode": "Local node",
+    "totalSize": "Total size: {size}"
   },
   "addByPathModal": {
     "title": "Import from IPFS",

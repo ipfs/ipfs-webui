@@ -151,7 +151,7 @@ const getPins = async function * (ipfs) {
 
 const actions = () => ({
   /**
-   * Fetches list of pins and updates `state.pins` on succeful completion.
+   * Fetches list of pins and updates `state.pins` on successful completion.
    * @returns {function(Context):Promise<{pins: CID[]}>}
    */
   doPinsFetch: () => perform(ACTIONS.PIN_LIST, async (ipfs) => {
@@ -509,7 +509,21 @@ const actions = () => ({
   doFilesSizeGet: () => perform(ACTIONS.SIZE_GET, async (ipfs) => {
     const stat = await ipfs.files.stat('/')
     return { size: stat.cumulativeSize }
-  })
+  }),
+
+  /**
+   * @param {string|CID} cid
+  */
+  doGetFileSizeThroughCid: (cid) =>
+    /**
+     * @param {Object} store
+     * @param {Function} store.getIpfs
+    */
+    async (store) => {
+      const ipfs = store.getIpfs()
+      const stat = await ipfs.files.stat(`/ipfs/${cid}`)
+      return stat.cumulativeSize
+    }
 })
 
 export default actions
