@@ -99,5 +99,20 @@ export default {
     //   name: 'Eternum',
     //   icon: 'https://ipfs.io/ipfs/QmSrqJeuYrYDmSgAy3SeAyTsYMksNPfK5CSN91xk6BBnF9?filename=eternum.png'
     // }
-  ])
+  ]),
+
+  doSetPinning: (cid, services = []) => async ({ getIpfs, store }) => {
+    const ipfs = getIpfs()
+
+    const pinLocally = services.includes('local')
+    try {
+      pinLocally ? await ipfs.pin.add(cid) : await ipfs.pin.rm(cid)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      await store.doPinsFetch()
+    }
+
+    // TODO: handle rest of services
+  }
 }
