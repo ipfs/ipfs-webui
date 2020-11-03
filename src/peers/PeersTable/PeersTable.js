@@ -211,7 +211,7 @@ const copyFeedback = (ref, t) => {
   const msg = document.createElement('em')
   msg.innerText = t('copyFeedback')
   parentNode.replaceChild(msg, tag)
-  setTimeout(() => parentNode.replaceChild(tag, msg), ms.seconds(3))
+  setTimeout(() => parentNode.replaceChild(tag, msg), ms.seconds(2))
 }
 
 export default connect(
