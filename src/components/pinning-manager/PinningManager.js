@@ -5,7 +5,7 @@ import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
 import { sortByProperty } from '../../lib/sort'
 
 // Components
-import Button from '../button/Button'
+// import Button from '../button/Button'
 import Overlay from '../overlay/Overlay'
 import PinningModal from './pinning-manager-modal/PinningManagerModal'
 import GlyphPin from '../../icons/GlyphPin'
@@ -23,7 +23,7 @@ const HEADER_HEIGHT = 32
 
 export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, filesSize, t }) => {
   const [isModalOpen, setModalOpen] = useState(false)
-  const onModalOpen = () => setModalOpen(true)
+  // const onModalOpen = () => setModalOpen(true)
   const onModalClose = () => setModalOpen(false)
 
   const [sortSettings, setSortSettings] = useState({
@@ -74,11 +74,11 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
             )}
           </AutoSizer>
         </div>
-        <div className='flex justify-end w-100 mt2'>
+        {/* <div className='flex justify-end w-100 mt2'>
           <Button className="tc mt2" bg='bg-navy' onClick={onModalOpen}>
             <span><span className="aqua">+</span> {t('actions.addService')}</span>
           </Button>
-        </div>
+        </div> */}
       </div>
 
       <Overlay show={isModalOpen} onLeave={onModalClose}>
@@ -109,10 +109,10 @@ const SizeCell = ({ rowData }) => (
   })}</p>
 )
 const BandwidthCell = ({ rowData }) => (<div className={!rowData.bandwidthUsed ? 'gray' : ''}>{rowData.bandwidthUsed || 'N/A'}</div>)
-const AutoUploadCell = ({ autoUpload, t }) => (
+const AutoUploadCell = ({ autoUpload, t, type }) => (
   <div className="flex justify-between items-center">
     <div className={!autoUpload ? 'gray' : ''}>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
-    <OptionsCell t={t}/>
+    { type !== 'LOCAL' && <OptionsCell t={t}/> }
   </div>
 )
 
