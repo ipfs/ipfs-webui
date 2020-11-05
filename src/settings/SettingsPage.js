@@ -67,6 +67,7 @@ export const SettingsPage = ({
           <a className='link' href='https://ipfs.io'>Check the documentation for further information.</a>
         </p>
       </Trans> */}
+      <p className='ma0 mr2 lh-copy charcoal f6'>{t('pinningServices.description')}</p>
 
       <PinningManager t={t} />
     </Box>
