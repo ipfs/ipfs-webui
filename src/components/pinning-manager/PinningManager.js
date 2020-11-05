@@ -50,7 +50,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
   return (
     <Fragment>
       <div className="mv4 pinningManager">
-        <div className='ph4 flex items-center bg-white lh-copy charcoal f6 fw5'>
+        <div className='ph3 flex items-center bg-white lh-copy charcoal f6 fw5'>
           <AutoSizer disableHeight>
             {({ width }) => (
               <Table
