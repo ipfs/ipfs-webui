@@ -62,7 +62,7 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, availabl
 
       <ModalActions>
         <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>{t('app:actions.cancel')}</Button>
-        <Button className='ma2 tc' bg='bg-teal' onClick={() => onPinningSet(file.cid, selectedServices)}>{t('app:actions.ok')}</Button>
+        <Button className='ma2 tc' bg='bg-teal' onClick={() => onPinningSet(file.cid, selectedServices)}>{t('app:actions.apply')}</Button>
       </ModalActions>
     </Modal>
   )

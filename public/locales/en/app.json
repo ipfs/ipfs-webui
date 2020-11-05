@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Add",
+    "apply": "Apply",
     "browse": "Browse",
     "cancel": "Cancel",
     "change": "Change",

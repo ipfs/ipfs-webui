@@ -48,7 +48,7 @@ export const SettingsPage = ({
       </div>
       : null }
 
-    <Box className='mb3 pa4 joyride-settings-customapi'>
+    <Box className='mb3 pa4-l pa2 joyride-settings-customapi'>
       <div className='lh-copy charcoal'>
         <Title>{t('app:terms.apiAddress')}</Title>
         <Trans i18nKey='apiDescription' t={t}>
@@ -58,7 +58,7 @@ export const SettingsPage = ({
       </div>
     </Box>
 
-    <Box className='mb3 pa4'>
+    <Box className='mb3 pa4-l pa2'>
       <Title>{t('pinningServices.title')}</Title>
       {/* <Trans i18nKey='pinningServices.description'>
         <p className='ma0 mr2 lh-copy charcoal f6'>
@@ -71,7 +71,7 @@ export const SettingsPage = ({
       <PinningManager t={t} />
     </Box>
 
-    <Box className='mb3 pa4'>
+    <Box className='mb3 pa4-l pa2'>
       <div className='mb4 joyride-settings-language'>
         <Title>{t('language')}</Title>
         <LanguageSelector t={t} />
@@ -85,7 +85,7 @@ export const SettingsPage = ({
 
     <Experiments t={t} />
 
-    <Box className='mb3 pa4'>
+    <Box className='mb3 pa4-l pa2'>
       <div className='charcoal'>
         <Title>{t('cliTutorMode')}</Title>
         <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isCliTutorModeEnabled}
@@ -97,7 +97,7 @@ export const SettingsPage = ({
     </Box>
 
     { isIpfsConnected &&
-    (<Box className='mb3 pa4 joyride-settings-config'>
+    (<Box className='mb3 pa4-l pa2 joyride-settings-config'>
       <Title>{t('config')}</Title>
       <div className='flex pb3'>
         <div className='flex-auto'>
