@@ -13,7 +13,7 @@ import GlyphDots from '../../icons/GlyphDots'
 const BarOption = ({ children, title, isLink = false, className = '', ...etc }) => (
   <div className={classNames(className, 'tc pa3', etc.onClick && 'pointer')} {...etc}>
     <span className='nowrap db f4 charcoal'>{children}</span>
-    <span className={`db ttu f6 montserrat fw4 ${isLink ? 'link' : 'charcoal-muted'}`}>{title}</span>
+    <span className={`nowrap db ttu f6 montserrat fw4 ${isLink ? 'link' : 'charcoal-muted'}`}>{title}</span>
   </div>
 )
 
