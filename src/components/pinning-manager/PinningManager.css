@@ -4,3 +4,7 @@
 .pinningManagerColumn {
     overflow: visible !important;
 }
+
+.pinningManager .ReactVirtualized__Grid.ReactVirtualized__Table__Grid:focus {
+    outline: none;
+}
