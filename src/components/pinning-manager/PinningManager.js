@@ -50,7 +50,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
   return (
     <Fragment>
       <div className="mv4 pinningManager">
-        <div className='ph3 flex items-center bg-white lh-copy charcoal f6 fw5'>
+        <div className='ph1 ph3-l flex items-center bg-white lh-copy charcoal f6 fw5'>
           <AutoSizer disableHeight>
             {({ width }) => (
               <Table
@@ -67,7 +67,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
                 sortBy={sortSettings.sortBy}
                 sortDirection={sortSettings.sortDirection}>
                 <Column label={t('service')} title={t('service')} dataKey='name' width={width * 0.4} flexShrink={0} flexGrow={1} cellRenderer={ServiceCell} className='charcoal truncate f6' />
-                <Column label={t('files')} title={t('files')} dataKey='totalSize' width={width * 0.2} cellRenderer={SizeCell} className='charcoal truncate f6 pl2' />
+                <Column label={t('files')} title={t('files')} dataKey='totalSize' width={width * 0.2} flexShrink={0} cellRenderer={SizeCell} className='charcoal truncate f6 pl2' />
                 <Column label={t('bandwidthUsed')} title={t('bandwidthUsed')} dataKey='bandwidth' width={width * 0.2} flexShrink={1} cellRenderer={BandwidthCell} className='charcoal truncate f6 pl2' />
                 <Column label={t('autoUpload')} title={t('autoUpload')} dataKey='autoUpload' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} type={rowData.type} t={t} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
               </Table>
@@ -95,16 +95,16 @@ PinningManager.defaultProps = {
 const ServiceCell = ({ rowData }) => {
   const iconClass = 'mr2 pr1 fill-aqua flex-shrink-0'
   return (
-    <div className='flex items-center'>
+    <div className='flex items-center' title={rowData.name}>
       { rowData.svgIcon && (<rowData.svgIcon width="28" height="28" className={iconClass} />)}
       { rowData.icon && (<img src={rowData.icon} alt={rowData.name} width="28" height="28" className={iconClass} style={{ objectFit: 'contain' }} />)}
-      { rowData.name }
+      <span className="truncate">{ rowData.name }</span>
     </div>
   )
 }
 
 const SizeCell = ({ rowData }) => (
-  <p className={ !rowData.totalSize ? 'gray' : ''}>{ !rowData.totalSize ? 'N/A' : filesize(rowData.totalSize || 0, {
+  <p className={ !rowData.totalSize ? 'gray nowrap' : 'nowrap'}>{ !rowData.totalSize ? 'N/A' : filesize(rowData.totalSize || 0, {
     round: rowData.totalSize >= 1000000000 ? 1 : 0, spacer: ''
   })}</p>
 )
