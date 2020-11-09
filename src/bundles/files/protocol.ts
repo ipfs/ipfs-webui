@@ -67,6 +67,7 @@ export type Message =
   | Perform<'FILES_PIN_REMOVE', Error, Pin[], void>
   | Perform<'FILES_PIN_LIST', Error, { pins: CID[] }, void>
   | Perform<'FILES_SIZE_GET', Error, { size: number }, void>
+  | Perform<'FILES_PINS_SIZE_GET', Error, { pinsSize: number }, void>
 
 export type MakeDir = Perform<'FILES_MAKEDIR', Error, void, void>
 export type WriteProgress = { paths: string[], progress: number }

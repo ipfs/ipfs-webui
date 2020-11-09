@@ -38,6 +38,11 @@ const selectors = () => ({
   /**
    * @param {Model} state
    */
+  selectPinsSize: (state) => state.files.pinsSize,
+
+  /**
+   * @param {Model} state
+   */
   selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === ACTIONS.FETCH),
 
   /**

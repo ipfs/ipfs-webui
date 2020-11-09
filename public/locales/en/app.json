@@ -61,6 +61,7 @@
     "gateway": "Gateway",
     "in": "In",
     "latency": "Latency",
+    "loading": "Loading",
     "location": "Location",
     "name": "Name",
     "node": "Node",

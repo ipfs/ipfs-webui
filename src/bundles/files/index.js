@@ -98,6 +98,17 @@ export default () => {
             return state
           }
         }
+        case ACTIONS.PINS_SIZE_GET: {
+          const { task, type } = action
+          const pinsSize = task.status === 'Exit' && task.result.ok
+            ? task.result.value.size
+            : 0
+
+          return {
+            ...updateJob(state, task, type),
+            pinsSize
+          }
+        }
         case ACTIONS.SIZE_GET: {
           const { task, type } = action
           const mfsSize = task.status === 'Exit' && task.result.ok
