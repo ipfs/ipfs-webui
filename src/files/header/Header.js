@@ -10,10 +10,10 @@ import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
 
-const BarOption = ({ children, title, isLink = false, className = '', ...etc }) => (
+const BarOption = ({ children, text, isLink = false, className = '', ...etc }) => (
   <div className={classNames(className, 'tc pa3', etc.onClick && 'pointer')} {...etc}>
     <span className='nowrap db f4 charcoal'>{children}</span>
-    <span className={`nowrap db ttu f6 montserrat fw4 ${isLink ? 'link' : 'charcoal-muted'}`}>{title}</span>
+    <span className={`nowrap db ttu f6 montserrat fw4 ${isLink ? 'link' : 'charcoal-muted'}`}>{text}</span>
   </div>
 )
 
@@ -61,7 +61,7 @@ class Header extends React.Component {
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
-          <BarOption title={t('app:terms.files')}>
+          <BarOption title={t('filesDescription')} text={t('app:terms:files')}>
             { hasUpperDirectory
               ? (
                 <span>
@@ -71,7 +71,7 @@ class Header extends React.Component {
               : humanSize(filesSize) }
           </BarOption>
 
-          <BarOption title={t('allBlocks')}>
+          <BarOption title={t('allBlocksDescription')} text={t('allBlocks')}>
             { humanSize(repoSize) }
           </BarOption>
 
