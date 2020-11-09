@@ -52,7 +52,7 @@
   "localPinning": "Local Pinning",
   "service": "Service",
   "size": "Size",
-  "bandwidthUsed": "Bandwidth Used",
+  "pins": "Pins",
   "autoUpload": "Auto Upload",
   "autoUploadKeys": {
     "ALL_FILES": "All files",

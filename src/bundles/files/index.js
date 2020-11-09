@@ -104,9 +104,14 @@ export default () => {
             ? task.result.value.size
             : 0
 
+          const numberOfPins = task.status === 'Exit' && task.result.ok
+            ? task.result.value.numberOfPins
+            : 0
+
           return {
             ...updateJob(state, task, type),
-            pinsSize
+            pinsSize,
+            numberOfPins
           }
         }
         case ACTIONS.SIZE_GET: {

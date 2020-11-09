@@ -21,7 +21,7 @@ import './PinningManager.css'
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
-export const PinningManager = ({ pinningServices, doPinsSizeGet, pinsSize, t }) => {
+export const PinningManager = ({ pinningServices, doPinsSizeGet, pinsSize, numberOfPins, t }) => {
   const [isModalOpen, setModalOpen] = useState(false)
   // const onModalOpen = () => setModalOpen(true)
   const onModalClose = () => setModalOpen(false)
@@ -37,8 +37,8 @@ export const PinningManager = ({ pinningServices, doPinsSizeGet, pinsSize, t }) 
   }, [doPinsSizeGet])
 
   const localPinning = useMemo(() =>
-    ({ name: t('localPinning'), type: 'LOCAL', svgIcon: GlyphPin, totalSize: pinsSize }),
-  [pinsSize, t])
+    ({ name: t('localPinning'), type: 'LOCAL', svgIcon: GlyphPin, totalSize: pinsSize, numberOfPins }),
+  [numberOfPins, pinsSize, t])
 
   const sortedServices = useMemo(() =>
     (pinningServices || []).sort(sortByProperty(sortSettings.sortBy, sortSettings.sortDirection === SortDirection.ASC ? 1 : -1)),
@@ -67,7 +67,7 @@ export const PinningManager = ({ pinningServices, doPinsSizeGet, pinsSize, t }) 
                 sortDirection={sortSettings.sortDirection}>
                 <Column label={t('service')} title={t('service')} dataKey='name' width={width * 0.4} flexShrink={0} flexGrow={1} cellRenderer={ServiceCell} className='charcoal truncate f6' />
                 <Column label={t('size')} title={t('size')} dataKey='totalSize' width={width * 0.2} flexShrink={0} cellRenderer={({ rowData }) => <SizeCell rowData={rowData} t={t}/>} className='charcoal truncate f6 pl2' />
-                <Column label={t('bandwidthUsed')} title={t('bandwidthUsed')} dataKey='bandwidth' width={width * 0.2} flexShrink={1} cellRenderer={BandwidthCell} className='charcoal truncate f6 pl2' />
+                <Column label={t('pins')} title={t('pins')} dataKey='numberOfPins' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <NumberOfPinsCell rowData={rowData} t={t}/>} className='charcoal truncate f6 pl2' />
                 <Column label={t('autoUpload')} title={t('autoUpload')} dataKey='autoUpload' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} type={rowData.type} t={t} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
               </Table>
             )}
@@ -109,7 +109,7 @@ const SizeCell = ({ rowData, t }) => (
       round: rowData.totalSize >= 1000000000 ? 1 : 0, spacer: ''
     })}</p>
 )
-const BandwidthCell = ({ rowData }) => (<div className={!rowData.bandwidthUsed ? 'gray' : ''}>{rowData.bandwidthUsed || 'N/A'}</div>)
+const NumberOfPinsCell = ({ rowData, t }) => (<div className={!rowData.numberOfPins ? 'gray' : ''}>{rowData.numberOfPins || `${(t('app:terms:loading'))}...`}</div>)
 const AutoUploadCell = ({ autoUpload, t, type }) => (
   <div className="flex justify-between items-center">
     <div className={!autoUpload ? 'gray' : ''}>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
@@ -146,6 +146,7 @@ const OptionsCell = ({ t }) => {
 export default connect(
   'doPinsSizeGet',
   'selectPinsSize',
+  'selectNumberOfPins',
   'selectPinningServices',
   PinningManager
 )
