@@ -5,7 +5,7 @@
   "reset": "Reset",
   "pinningServices": {
     "title": "Pinning Services",
-    "description": "Support for third-party remote pinning services will be added in a future release, and you'll be able to add and configure them here. In the meantime, use local pinning to ensure files on your local node persist and are never garbage-collected."
+    "description": "Support for third-party remote pinning services will be implemented in a future release, and you'll be able to add and configure them here. In the meantime, use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files."
   },
   "language": "Language",
   "analytics": "Analytics",
