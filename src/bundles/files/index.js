@@ -101,7 +101,7 @@ export default () => {
         case ACTIONS.PINS_SIZE_GET: {
           const { task, type } = action
           const pinsSize = task.status === 'Exit' && task.result.ok
-            ? task.result.value.size
+            ? task.result.value.pinsSize
             : 0
 
           const numberOfPins = task.status === 'Exit' && task.result.ok

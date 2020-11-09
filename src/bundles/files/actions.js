@@ -509,15 +509,15 @@ const actions = () => ({
   doPinsSizeGet: () => perform(ACTIONS.PINS_SIZE_GET, async (ipfs) => {
     const allPinsCids = await ipfs.pin.ls({ type: 'recursive' })
 
-    let size = 0
+    let pinsSize = 0
     let numberOfPins = 0
 
     for await (const { cid } of allPinsCids) {
-      size += (await ipfs.files.stat(`/ipfs/${cid.toString()}`)).cumulativeSize
+      pinsSize += (await ipfs.files.stat(`/ipfs/${cid.toString()}`)).cumulativeSize
       numberOfPins++
     }
 
-    return { size, numberOfPins }
+    return { pinsSize, numberOfPins }
   }),
 
   /**

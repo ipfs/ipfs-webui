@@ -60,6 +60,8 @@ export const IGNORED_FILES = [
 export const DEFAULT_STATE = {
   pageContent: null,
   mfsSize: -1,
+  pinsSize: 0,
+  numberOfPins: 0,
   pins: [],
   sorting: { // TODO: cache this
     by: SORTING.BY_NAME,
