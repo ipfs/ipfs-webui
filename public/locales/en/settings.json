@@ -51,7 +51,7 @@
   "remove": "Remove",
   "localPinning": "Local Pinning",
   "service": "Service",
-  "files": "Files",
+  "size": "Size",
   "bandwidthUsed": "Bandwidth Used",
   "autoUpload": "Auto Upload",
   "autoUploadKeys": {

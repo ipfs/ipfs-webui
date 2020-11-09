@@ -67,7 +67,7 @@ export const PinningManager = ({ pinningServices, doFilesSizeGet, doFilesFetch, 
                 sortBy={sortSettings.sortBy}
                 sortDirection={sortSettings.sortDirection}>
                 <Column label={t('service')} title={t('service')} dataKey='name' width={width * 0.4} flexShrink={0} flexGrow={1} cellRenderer={ServiceCell} className='charcoal truncate f6' />
-                <Column label={t('files')} title={t('files')} dataKey='totalSize' width={width * 0.2} flexShrink={0} cellRenderer={SizeCell} className='charcoal truncate f6 pl2' />
+                <Column label={t('size')} title={t('size')} dataKey='totalSize' width={width * 0.2} flexShrink={0} cellRenderer={SizeCell} className='charcoal truncate f6 pl2' />
                 <Column label={t('bandwidthUsed')} title={t('bandwidthUsed')} dataKey='bandwidth' width={width * 0.2} flexShrink={1} cellRenderer={BandwidthCell} className='charcoal truncate f6 pl2' />
                 <Column label={t('autoUpload')} title={t('autoUpload')} dataKey='autoUpload' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} type={rowData.type} t={t} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
               </Table>

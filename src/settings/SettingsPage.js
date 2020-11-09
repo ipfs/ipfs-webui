@@ -62,7 +62,7 @@ export const SettingsPage = ({
       <Title>{t('pinningServices.title')}</Title>
       {/* <Trans i18nKey='pinningServices.description'>
         <p className='ma0 mr2 lh-copy charcoal f6'>
-          <span>Use local pinning to ensure files on your local node persist and are never garbage-collected.
+          <span>Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files.
           You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline. </span>
           <a className='link' href='https://ipfs.io'>Check the documentation for further information.</a>
         </p>
