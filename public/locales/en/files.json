@@ -99,7 +99,7 @@
   "pinned": "Pinned",
   "blocks": "Blocks",
   "allBlocks": "All blocks",
-  "allBlocksDescription": "Total size of blocks on your IPFS node; this includes everything in Files, plus all locally pinned items and any temporary cached data",
+  "allBlocksDescription": "Total size of blocks on your entire IPFS node; this includes everything in Files, plus all locally pinned items and any temporary cached data",
   "filesDescription": "Total size of data in the current directory (if a subdirectory, the size of all data in Files is also displayed)",
   "more": "More",
   "files": "Files",
