@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Add",
+    "append": "Append",
     "apply": "Apply",
     "browse": "Browse",
     "cancel": "Cancel",
@@ -18,6 +19,7 @@
     "moreInfo": "More info",
     "noThanks": "No thanks",
     "ok": "OK",
+    "overwrite": "Overwrite",
     "pinVerb": "Pin",
     "rename": "Rename",
     "reset": "Reset",

@@ -30,7 +30,7 @@ declare module "ipfs" {
     stat(path: string, options?: FSStatOptions): Promise<FileStat>
     cp(from: string, to: string, options?: FSCopyOptions): Promise<void>
     mv(from: string, to: string, options?: FSMoveOptions): Promise<void>
-    rm(path: string, options: FSRemoveOptions): Promise<void>
+    rm(path: string, options?: FSRemoveOptions): Promise<void>
     mkdir(path: string, options: FSMakDirectoryOptions): Promise<void>
   }
 

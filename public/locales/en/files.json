@@ -19,6 +19,10 @@
     "copyHash": "Copy CID",
     "share": "Share link"
   },
+  "overwriteModal": {
+    "title": "Duplicate item name",
+    "description": "The destination directory already contains an item named <1>{name}</1>, but with a different CID. Do you want to overwrite the item in the destination directory, or rename the item you're moving by appending the last 4 characters of its CID to its name?"
+  },
   "shareModal": {
     "title": "Share files",
     "description": "Copy the link below and share it with your friends."

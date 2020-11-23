@@ -45,6 +45,8 @@ const viewImportStatus = (job) => {
 }
 
 const groupByPath = (entries) => {
+  if (!entries) return { size: 0 }
+
   const groupedEntries = new Map()
   for (const entry of entries) {
     const name = baseDirectoryOf(entry)

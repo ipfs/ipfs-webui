@@ -51,6 +51,21 @@ const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, is
 })
 
 /**
+ * Appends the CID to the file path, in order to make it unique and not collide with existing file name.
+ * @param {import('ipfs').UnixFSEntry} The file that's about to be added
+ * @returns {string} The new file name
+ */
+const getPathWithAppendedCID = ({ cid, path }) => {
+  const cidString = cid.toString().slice(cid.toString().length - 4)
+  const pathParts = path.split('.')
+  if (pathParts.length > 1) {
+    const extension = pathParts.pop()
+    return `${pathParts.join('')}_${cidString}.${extension}`
+  }
+  return `${pathParts.join('')}_${cidString}`
+}
+
+/**
  * @param {string} path
  * @returns {string}
  */
@@ -266,7 +281,15 @@ const actions = () => ({
     }
 
     try {
-      const added = await result
+      const addedResult = await result
+
+      const appendCidsPaths = files.filter(f => !!f.appendCID).map(f => f.path)
+      const added = addedResult.map(f => {
+        if (appendCidsPaths.includes(f.path)) {
+          return { ...f, path: getPathWithAppendedCID(f) }
+        }
+        return f
+      })
 
       const numberOfFiles = files.length
       const numberOfDirs = countDirs(files)
@@ -288,15 +311,15 @@ const actions = () => ({
           try {
             await ipfs.files.cp(src, dst)
           } catch (err) {
-            throw Object.assign(new Error('Folder already exists.'), {
-              code: 'ERR_FOLDER_EXISTS'
-            })
+            // Item already exists, so let's remove it first.
+            await ipfs.files.rm(dst)
+            await ipfs.files.cp(src, dst)
           }
         }
       }
 
-      yield { entries, progress: 100 }
-      return entries
+      yield { entries: added, progress: 100 }
+      return added
     } finally {
       await store.doFilesFetch()
     }

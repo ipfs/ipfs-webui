@@ -8,19 +8,15 @@ import { join } from 'path'
 import { sorts } from '../../bundles/files'
 import { normalizeFiles } from '../../lib/files'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
-// Reac DnD
+// React DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { useDrop } from 'react-dnd'
 // Components
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
+import OverwriteModal from '../overwrite-modal/OverwriteModal'
 import File from '../file/File'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation'
-
-const addFiles = async (filesPromise, onAddFiles) => {
-  const files = await filesPromise
-  onAddFiles(normalizeFiles(files))
-}
 
 const mergeRemotePinsIntoFiles = (files, remotePins) => {
   const remotePinsCids = remotePins.map(c => c.cid)
@@ -41,16 +37,29 @@ export const FilesList = ({
   const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins))
   const listRef = useRef()
   const filesRefs = useRef([])
+  const [existingFiles, setExistingFiles] = useState(null)
 
   const [{ canDrop, isOver, isDragging }, drop] = useDrop({
     accept: NativeTypes.FILE,
-    drop: (_, monitor) => {
+    drop: async (_, monitor) => {
       if (monitor.didDrop()) {
         return
       }
       const { filesPromise } = monitor.getItem()
 
-      addFiles(filesPromise, onAddFiles)
+      const filesToAdd = normalizeFiles((await filesPromise) || [])
+
+      const filePaths = files.map(f => f.path.replace('/files/', ''))
+      const existingFiles = filesToAdd.filter(({ path }) => filePaths.includes(path))
+
+      if (existingFiles.length) {
+        setExistingFiles(existingFiles)
+        await onAddFiles(filesToAdd.filter(({ path }) => !filePaths.includes(path)))
+
+        return
+      }
+
+      await onAddFiles(filesToAdd)
     },
     collect: (monitor) => ({
       isOver: monitor.isOver({ shallow: true }),
@@ -327,6 +336,12 @@ export const FilesList = ({
             downloadProgress={downloadProgress}
             size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
           }
+          <OverwriteModal onAddFiles={onAddFiles} existingFiles={existingFiles} onCancel={(file) => {
+            if (!file || !file.path) {
+              return setExistingFiles(null)
+            }
+            setExistingFiles(existingFiles?.filter(f => f.path !== file.path))
+          }}/>
         </Fragment> }
     </section>
   )

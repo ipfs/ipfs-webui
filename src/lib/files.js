@@ -15,6 +15,7 @@
  * @property {string} path
  * @property {Blob} content
  * @property {number} size
+ * @property {boolean} [appendCID]
  *
  * @param {ExtendedFile[]} files
  * @returns {FileStream[]}
