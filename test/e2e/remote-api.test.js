@@ -112,9 +112,9 @@ const switchIpfsApiEndpointViaSettings = async (endpoint) => {
   await page.goto(webuiUrl + '#/settings')
   const selector = 'input[id="api-address"]'
   await page.waitForSelector(selector)
-  await page.evaluate(s => { document.querySelector(s).value = '' }, selector)
+  await page.click(selector, { clickCount: 3 }) // select all
   await page.type(selector, endpoint)
-  await page.keyboard.type('\n')
+  await page.type(selector, '\n')
   await waitForIpfsApiEndpoint(endpoint)
   await page.reload()
 }
