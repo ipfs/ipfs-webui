@@ -151,7 +151,7 @@ const getPins = async function * (ipfs) {
 
 const actions = () => ({
   /**
-   * Fetches list of pins and updates `state.pins` on succeful completion.
+   * Fetches list of pins and updates `state.pins` on successful completion.
    * @returns {function(Context):Promise<{pins: CID[]}>}
    */
   doPinsFetch: () => perform(ACTIONS.PIN_LIST, async (ipfs) => {
@@ -463,21 +463,28 @@ const actions = () => ({
   doFilesDismissErrors: () => send({ type: ACTIONS.DISMISS_ERRORS }),
 
   /**
-   * @param {string} path
-   */
-  doFilesNavigateTo: (path) =>
+   * @param {Object} fileArgs
+   * @param {string} fileArgs.path
+   * @param {string|CID} fileArgs.cid
+  */
+  doFilesNavigateTo: ({ path, cid }) =>
     /**
      * @param {Context} context
      */
     async ({ store }) => {
-      const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
-      const files = store.selectFiles()
-      const url = store.selectFilesPathInfo()
+      try {
+        const link = path.split('/').map(p => encodeURIComponent(p)).join('/')
+        const files = store.selectFiles()
+        const url = store.selectFilesPathInfo()
 
-      if (files && files.path === link && url) {
-        await store.doFilesFetch()
-      } else {
-        await store.doUpdateHash(link)
+        if (files && files.path === link && url) {
+          await store.doFilesFetch()
+        } else {
+          await store.doUpdateHash(link)
+        }
+      } catch (e) {
+        console.error(e)
+        store.doUpdateHash(`/ipfs/${cid}`)
       }
     },
 
@@ -496,13 +503,45 @@ const actions = () => ({
   doFilesClear: () => send({ type: ACTIONS.CLEAR_ALL }),
 
   /**
-   * Gets size of the MFS. On succesful completion `state.mfsSize` will get
+   * Gets total size of the local pins. On successful completion `state.mfsSize` will get
+   * updated.
+   */
+  doPinsSizeGet: () => perform(ACTIONS.PINS_SIZE_GET, async (ipfs) => {
+    const allPinsCids = await ipfs.pin.ls({ type: 'recursive' })
+
+    let pinsSize = 0
+    let numberOfPins = 0
+
+    for await (const { cid } of allPinsCids) {
+      pinsSize += (await ipfs.files.stat(`/ipfs/${cid.toString()}`)).cumulativeSize
+      numberOfPins++
+    }
+
+    return { pinsSize, numberOfPins }
+  }),
+
+  /**
+   * Gets size of the MFS. On successful completion `state.mfsSize` will get
    * updated.
    */
   doFilesSizeGet: () => perform(ACTIONS.SIZE_GET, async (ipfs) => {
     const stat = await ipfs.files.stat('/')
     return { size: stat.cumulativeSize }
-  })
+  }),
+
+  /**
+   * @param {string|CID} cid
+  */
+  doGetFileSizeThroughCid: (cid) =>
+    /**
+     * @param {Object} store
+     * @param {Function} store.getIpfs
+    */
+    async (store) => {
+      const ipfs = store.getIpfs()
+      const stat = await ipfs.files.stat(`/ipfs/${cid}`)
+      return stat.cumulativeSize
+    }
 })
 
 export default actions

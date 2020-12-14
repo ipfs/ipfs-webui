@@ -62,9 +62,9 @@ export class App extends Component {
 
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-      <div className='sans-serif h-100' onClick={getNavHelper(this.props.doUpdateUrl)}>
+      <div className='sans-serif h-100 relative' onClick={getNavHelper(this.props.doUpdateUrl)}>
         {/* Tinted overlay that appears when dragging and dropping an item */}
-        { canDrop && isOver && <div className='w-100 h-100 top-0 left-0 absolute' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
+        { canDrop && isOver && <div className='h-100 top-0 right-0 fixed appOverlay' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
         <div className='flex flex-row-reverse-l flex-column-reverse justify-end justify-start-l' style={{ minHeight: '100vh' }}>
           <div className='flex-auto-l'>
             <div className='flex items-center ph3 ph4-l' style={{ WebkitAppRegion: 'drag', height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>

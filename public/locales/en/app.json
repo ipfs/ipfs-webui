@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Add",
+    "apply": "Apply",
     "browse": "Browse",
     "cancel": "Cancel",
     "change": "Change",
@@ -23,6 +24,7 @@
     "save": "Save",
     "saving": "Saving…",
     "selectAll": "Select all",
+    "setPinning": "Set pinning",
     "submit": "Submit",
     "unpin": "Unpin",
     "unselectAll": "Unselect all"
@@ -59,6 +61,7 @@
     "gateway": "Gateway",
     "in": "In",
     "latency": "Latency",
+    "loading": "Loading",
     "location": "Location",
     "name": "Name",
     "node": "Node",
@@ -68,6 +71,7 @@
     "peers": "Peers",
     "pinNoun": "Pin",
     "pins": "Pins",
+    "pinStatus": "Pin Status",
     "publicKey": "Public key",
     "rateIn": "Rate in",
     "rateOut": "Rate out",

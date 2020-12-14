@@ -44,7 +44,7 @@ class ContextMenu extends React.Component {
   render () {
     const {
       t, onRename, onDelete, onDownload, onInspect, onShare,
-      translateX, translateY, className, isMfs, isUnknown, pinned, isCliTutorModeEnabled
+      translateX, translateY, className, isMfs, isUnknown, isCliTutorModeEnabled
     } = this.props
     return (
       <Dropdown className={className}>
@@ -75,10 +75,10 @@ class ContextMenu extends React.Component {
               {t('app:actions.inspect')}
             </Option>
           }
-          <Option onClick={this.wrap(pinned ? 'onUnpin' : 'onPin')} isCliTutorModeEnabled={isCliTutorModeEnabled}
+          <Option onClick={this.wrap('onPinning')} isCliTutorModeEnabled={isCliTutorModeEnabled}
             onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.PIN_OBJECT)}>
             <StrokePin className='w2 mr2 fill-aqua' />
-            { pinned ? t('app:actions.unpin') : t('app:actions.pinVerb') }
+            { t('app:actions.setPinning') }
           </Option>
           { !isUnknown && onDownload &&
             <Option onClick={this.wrap('onDownload')} isCliTutorModeEnabled={isCliTutorModeEnabled}

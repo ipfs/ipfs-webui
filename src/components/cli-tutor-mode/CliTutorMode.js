@@ -20,7 +20,7 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
-      <ModalBody icon={StrokeCode}>
+      <ModalBody Icon={StrokeCode}>
         <p className='charcoal w-80 center' style={{ lineHeight: '1.3' }}>
           {t('app:cliModal.description')}
         </p>

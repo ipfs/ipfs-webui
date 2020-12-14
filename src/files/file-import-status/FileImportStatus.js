@@ -14,7 +14,7 @@ import GlyphCancel from '../../icons/GlyphCancel'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 
 const Import = (job, t) =>
-  [...groupByPath(job.message.entries).values()].map(item => (
+  [...groupByPath(job?.message?.entries || new Map()).values()].map(item => (
     <li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={item.path}>
       {viewIcon(item)}
       <span className="fileImportStatusName truncate">{item.path}</span>

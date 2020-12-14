@@ -10,6 +10,7 @@ import { useDrag, useDrop } from 'react-dnd'
 // Components
 import GlyphDots from '../../icons/GlyphDots'
 import GlyphPin from '../../icons/GlyphPin'
+import GlyphPinCloud from '../../icons/GlyphPinCloud'
 import Tooltip from '../../components/tooltip/Tooltip'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
@@ -17,7 +18,7 @@ import CID from 'cids'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
 const File = ({
-  name, type, size, cid, path, pinned, t, selected, focused, translucent, coloured, cantSelect, cantDrag, isMfs,
+  name, type, size, cid, path, pinned, t, selected, focused, translucent, coloured, cantSelect, cantDrag, isMfs, isRemotePin,
   onAddFiles, onMove, onSelect, onNavigate, handleContextMenuClick
 }) => {
   const dotsWrapper = useRef()
@@ -126,9 +127,12 @@ const File = ({
           </div>
         </button>
 
-        <div className='ph2 pv1 flex-none dn db-l tr mw3'>
-          { pinned && <div className='bg-snow br-100 o-70' title={t('pinned')} style={{ width: '1.5rem', height: '1.5rem' }}>
-            <GlyphPin className='fill-teal-muted' />
+        <div className='ph2 pv1 flex-none dn db-l tr mw3 w-20'>
+          { pinned && !isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
+            <GlyphPin className='fill-aqua' />
+          </div> }
+          { isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
+            <GlyphPinCloud className='fill-aqua' />
           </div> }
         </div>
         <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>

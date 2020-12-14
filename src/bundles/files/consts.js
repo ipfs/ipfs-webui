@@ -31,6 +31,8 @@ export const ACTIONS = {
   PIN_LIST: ('FILES_PIN_LIST'),
   /** @type {'FILES_SIZE_GET'} */
   SIZE_GET: ('FILES_SIZE_GET'),
+  /** @type {'FILES_PINS_SIZE_GET'} */
+  PINS_SIZE_GET: ('FILES_PINS_SIZE_GET'),
   /** @type {'FILES_DISMISS_ERRORS'} */
   DISMISS_ERRORS: ('FILES_DISMISS_ERRORS'),
   /** @type {'FILES_CLEAR_ALL'} */
@@ -58,6 +60,8 @@ export const IGNORED_FILES = [
 export const DEFAULT_STATE = {
   pageContent: null,
   mfsSize: -1,
+  pinsSize: 0,
+  numberOfPins: 0,
   pins: [],
   sorting: { // TODO: cache this
     by: SORTING.BY_NAME,
