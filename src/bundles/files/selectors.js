@@ -28,13 +28,6 @@ const selectors = () => ({
   /**
    * @param {Model} state
    */
-  selectCurrentDirectorySize: (state) => {
-    return state.files.pageContent?.type === 'directory' && state.files.pageContent?.content?.reduce((prev, curr) => prev + curr.size, 0)
-  },
-
-  /**
-   * @param {Model} state
-   */
   selectPins: (state) => state.files.pins,
 
   /**
