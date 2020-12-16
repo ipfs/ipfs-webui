@@ -25,7 +25,8 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
           {t('app:cliModal.description')}
         </p>
         <p className='charcoal-muted w-90 center'>
-          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('app:cliModal.extraNotes') : ''}
+          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('settings:cliModal.extraNotes') : ''}
+          { command && command === cliCommandList[cliCmdKeys.PIN_OBJECT]() ? t('files:cliModal.extraNotes') : ''}
         </p>
         <div>
           <Shell className='tl' title="Shell">

@@ -19,6 +19,9 @@
     "copyHash": "Copy CID",
     "share": "Share link"
   },
+  "cliModal": {
+    "extraNotes": "This command will only pin this item's CID to your local node. If you want to persist it with a remote pinning service, consult that service's CLI documentation to learn how."
+  },
   "shareModal": {
     "title": "Share files",
     "description": "Copy the link below and share it with your friends."
