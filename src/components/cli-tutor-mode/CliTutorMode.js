@@ -10,6 +10,7 @@ import Overlay from '../overlay/Overlay'
 import Shell from '../shell/Shell'
 import StrokeDownload from '../../icons/StrokeDownload'
 import { cliCmdKeys, cliCommandList } from '../../bundles/files/consts'
+import { pin } from 'ipfs/src/core/components'
 
 export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...props }) => {
   const onClickCopyToClipboard = (cmd) => {
