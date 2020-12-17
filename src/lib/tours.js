@@ -226,7 +226,7 @@ export const settingsTour = {
         <h2 className='f3 fw4'>{t('tour.step2.title')}</h2>
         <p className='tl f6'>{t('tour.step2.paragraph1')}</p>
       </div>,
-      placement: 'bottom',
+      placement: 'auto',
       target: '.joyride-settings-customapi'
     },
     {
@@ -237,7 +237,7 @@ export const settingsTour = {
           </p>
         </Trans>
       </div>,
-      placement: 'top',
+      placement: 'auto',
       target: '.joyride-settings-pinning'
     },
     {
@@ -249,7 +249,7 @@ export const settingsTour = {
           </p>
         </Trans>
       </div>,
-      placement: 'top',
+      placement: 'auto',
       target: '.joyride-settings-language'
     },
     {
@@ -258,7 +258,7 @@ export const settingsTour = {
         <p className='tl f6'>{t('tour.step5.paragraph1')}</p>
         <p className='tl f6'>{t('tour.step5.paragraph2')}</p>
       </div>,
-      placement: 'top',
+      placement: 'auto',
       target: '.joyride-settings-analytics'
     },
     {
@@ -266,7 +266,7 @@ export const settingsTour = {
         <h2 className='f3 fw4'>{t('tour.step6.title')}</h2>
         <p className='tl f6'>{t('tour.step6.paragraph1')}</p>
       </div>,
-      placement: 'top',
+      placement: 'auto',
       target: '.joyride-settings-tutormode'
     },
     {
@@ -276,7 +276,7 @@ export const settingsTour = {
         <p className='tl f6'>{t('tour.step7.paragraph2')}</p>
       </div>,
       locale: { last: t('tour.finish') },
-      placement: 'top',
+      placement: 'auto',
       target: '.joyride-settings-config'
     }
   ],
