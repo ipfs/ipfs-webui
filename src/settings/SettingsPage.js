@@ -58,7 +58,7 @@ export const SettingsPage = ({
       </div>
     </Box>
 
-    <Box className='mb3 pa4-l pa2'>
+    <Box className='mb3 pa4-l pa2 joyride-settings-pinning'>
       <Title>{t('pinningServices.title')}</Title>
       {/* <Trans i18nKey='pinningServices.description'>
         <p className='ma0 mr2 lh-copy charcoal f6'>
@@ -86,7 +86,7 @@ export const SettingsPage = ({
 
     <Experiments t={t} />
 
-    <Box className='mb3 pa4-l pa2'>
+    <Box className='mb3 pa4-l pa2 joyride-settings-tutormode'>
       <div className='charcoal'>
         <Title>{t('cliTutorMode')}</Title>
         <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isCliTutorModeEnabled}
