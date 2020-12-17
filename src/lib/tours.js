@@ -231,7 +231,7 @@ export const settingsTour = {
         </Trans>
       </div>,
       placement: 'bottom',
-      target: '.joyride-settings-language'
+      target: '.joyride-settings-customapi'
     },
     {
       content: <div className='montserrat charcoal'>
@@ -240,7 +240,7 @@ export const settingsTour = {
         <p className='tl f6'>{t('tour.step3.paragraph2')}</p>
       </div>,
       placement: 'bottom',
-      target: '.joyride-settings-analytics'
+      target: '.joyride-settings-language'
     },
     {
       content: <div className='montserrat charcoal'>
@@ -248,7 +248,7 @@ export const settingsTour = {
         <p className='tl f6'>{t('tour.step4.paragraph1')}</p>
       </div>,
       placement: 'top',
-      target: '.joyride-settings-customapi'
+      target: '.joyride-settings-analytics'
     },
     {
       content: <div className='montserrat charcoal'>

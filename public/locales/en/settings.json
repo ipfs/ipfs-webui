@@ -113,17 +113,17 @@
       "paragraph2": "If you're running IPFS Desktop you'll have some specific settings for it too."
     },
     "step2": {
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    },
+    "step3": {
       "title": "Language selector",
       "paragraph1": "<0>You can change the language of the Web UI. If your preferred language isn't available, head over our project page in <1>Transifex</1> to help us translate!</0>"
     },
-    "step3": {
+    "step4": {
       "title": "Anonymous usage analytics",
       "paragraph1": "If you opt-in, you can help us make the Web UI better by sending anonymous usage analytics.",
       "paragraph2": "You're able to choose what data you send us and we won't be able to identify you, we value privacy above all else."
-    },
-    "step4": {
-      "title": "Custom API address",
-      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
     },
     "step5": {
       "title": "IPFS Config",
