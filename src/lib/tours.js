@@ -233,8 +233,7 @@ export const settingsTour = {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step3.title')}</h2>
         <Trans i18nKey='tour.step3.paragraph1' t={t}>
-          <p className='tl f6'>You can change the language of the Web UI.
-          If your preferred language isn't available, head over our project page in <a className='teal link' href='https://docs.ipfs.io/how-to/work-with-pinning-services' rel='noopener noreferrer' target='_blank'>docs</a> to help us translate!
+          <p className='tl f6'>If you have accounts with third-party remote pinning services, add them here so you can pin/unpin items to those services directly from the Files screen. You can learn more about third-party pinning services in the <a className='teal link' href='https://docs.ipfs.io/how-to/work-with-pinning-services' rel='noopener noreferrer' target='_blank'>IPFS Docs</a>.
           </p>
         </Trans>
       </div>,

@@ -98,47 +98,49 @@ export const SettingsPage = ({
     </Box>
 
     { isIpfsConnected &&
-    (<Box className='mb3 pa4-l pa2 joyride-settings-config'>
-      <Title>{t('config')}</Title>
-      <div className='flex pb3'>
-        <div className='flex-auto'>
-          <div className='mw7'>
-            <SettingsInfo
-              t={t}
-              tReady={tReady}
-              config={config}
-              isIpfsConnected={isIpfsConnected}
-              isConfigBlocked={isConfigBlocked}
-              isLoading={isLoading}
-              hasExternalChanges={hasExternalChanges}
-              hasSaveFailed={hasSaveFailed}
-              hasSaveSucceded={hasSaveSucceded} />
+    (<Box className='mb3 pa4-l pa2'>
+      <div className='joyride-settings-config'>
+        <Title>{t('config')}</Title>
+        <div className='flex pb3'>
+          <div className='flex-auto'>
+            <div className='mw7'>
+              <SettingsInfo
+                t={t}
+                tReady={tReady}
+                config={config}
+                isIpfsConnected={isIpfsConnected}
+                isConfigBlocked={isConfigBlocked}
+                isLoading={isLoading}
+                hasExternalChanges={hasExternalChanges}
+                hasSaveFailed={hasSaveFailed}
+                hasSaveSucceded={hasSaveSucceded} />
+            </div>
           </div>
+          { config ? (
+            <div className='flex flex-column justify-center flex-row-l items-center-l'>
+              <CliTutorMode showIcon={true} config={config} t={t} command={command}/>
+              <Button
+                minWidth={100}
+                height={40}
+                bg='bg-charcoal'
+                className='tc'
+                disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
+                onClick={onReset}>
+                {t('app:actions.reset')}
+              </Button>
+              <SaveButton
+                t={t}
+                tReady={tReady}
+                hasErrors={hasErrors}
+                hasSaveFailed={hasSaveFailed}
+                hasSaveSucceded={hasSaveSucceded}
+                hasLocalChanges={hasLocalChanges}
+                hasExternalChanges={hasExternalChanges}
+                isSaving={isSaving}
+                onClick={onSave} />
+            </div>
+          ) : null }
         </div>
-        { config ? (
-          <div className='flex flex-column justify-center flex-row-l items-center-l'>
-            <CliTutorMode showIcon={true} config={config} t={t} command={command}/>
-            <Button
-              minWidth={100}
-              height={40}
-              bg='bg-charcoal'
-              className='tc'
-              disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
-              onClick={onReset}>
-              {t('app:actions.reset')}
-            </Button>
-            <SaveButton
-              t={t}
-              tReady={tReady}
-              hasErrors={hasErrors}
-              hasSaveFailed={hasSaveFailed}
-              hasSaveSucceded={hasSaveSucceded}
-              hasLocalChanges={hasLocalChanges}
-              hasExternalChanges={hasExternalChanges}
-              isSaving={isSaving}
-              onClick={onSave} />
-          </div>
-        ) : null }
       </div>
       { config ? (
         <JsonEditor
