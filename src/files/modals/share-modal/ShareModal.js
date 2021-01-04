@@ -8,7 +8,7 @@ import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal'
 
 const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (
   <Modal {...props} className={className} onCancel={onLeave} >
-    <ModalBody title={t('shareModal.title')} icon={ShareIcon}>
+    <ModalBody title={t('shareModal.title')} Icon={ShareIcon}>
       <p className='charcoal w-90 tl center'>{t('shareModal.description')}</p>
 
       <div className='flex center w-90 pb2'>

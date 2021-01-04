@@ -19,7 +19,7 @@ const RemoveModal = ({ t, tReady, onCancel, onRemove, folders, files, className,
 
   return (
     <Modal {...props} className={className} onCancel={onCancel} >
-      <ModalBody title={t(`removeModal.title${context}`, { count })} icon={TrashIcon}>
+      <ModalBody title={t(`removeModal.title${context}`, { count })} Icon={TrashIcon}>
         <div className='charcoal w-90 center tl'>
           <p>{t(`removeModal.description${context}`, { count })}</p>
           <div>
