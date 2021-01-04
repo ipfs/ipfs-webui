@@ -85,6 +85,10 @@ export const cliCmdKeys = {
   ADD_NEW_PEER: 'addNewPeer'
 }
 
+export const cliCmdPrefixes = {
+  PIN_OBJECT: 'ipfs pin'
+}
+
 export const cliCommandList = {
   [cliCmdKeys.UPDATE_IPFS_CONFIG]: () => 'ipfs config replace <path-to-settings.json>',
   /**
@@ -99,7 +103,7 @@ export const cliCommandList = {
    * @param {string} cid
    * @param {string} op
    */
-  [cliCmdKeys.PIN_OBJECT]: (cid, op) => `ipfs pin ${op} ${cid}`,
+  [cliCmdKeys.PIN_OBJECT]: (cid, op) => `${cliCmdPrefixes.PIN_OBJECT} ${op} ${cid}`,
   /**
    * @param {string} filePath
    * @param {string} fileName
