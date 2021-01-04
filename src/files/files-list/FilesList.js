@@ -84,7 +84,7 @@ export const FilesList = ({
     }
 
     if (e.key === 'Delete' && selected.length > 0) {
-      return onDelete(selectedFiles)
+      return onRemove(selectedFiles)
     }
 
     if (e.key === ' ' && focused !== null) {
