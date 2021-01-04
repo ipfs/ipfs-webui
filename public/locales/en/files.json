@@ -4,7 +4,7 @@
   "breadcrumbs": "Breadcrumbs",
   "finished": "Finished!",
   "totalSize": "Total size: {size}",
-  "filesSelected": "{count, plural, one {File selected} other {Files selected}}",
+  "filesSelected": "{count, plural, one {Item selected} other {Items selected}}",
   "menuOptions": "Options for selected item",
   "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Only available for individual files",
