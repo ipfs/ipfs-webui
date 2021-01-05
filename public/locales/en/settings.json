@@ -113,19 +113,27 @@
       "paragraph2": "If you're running IPFS Desktop you'll have some specific settings for it too."
     },
     "step2": {
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    },
+    "step3": {
+      "title": "Pinning services",
+      "paragraph1": "<0>If you have accounts with third-party remote pinning services, add them here so you can pin/unpin items to those services directly from the Files screen. You can learn more about third-party pinning services in the <1>IPFS Docs</1>.</0>"
+    },
+    "step4": {
       "title": "Language selector",
       "paragraph1": "<0>You can change the language of the Web UI. If your preferred language isn't available, head over our project page in <1>Transifex</1> to help us translate!</0>"
     },
-    "step3": {
+    "step5": {
       "title": "Anonymous usage analytics",
       "paragraph1": "If you opt-in, you can help us make the Web UI better by sending anonymous usage analytics.",
       "paragraph2": "You're able to choose what data you send us and we won't be able to identify you, we value privacy above all else."
     },
-    "step4": {
-      "title": "Custom API address",
-      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    "step6": {
+      "title": "CLI tutor mode",
+      "paragraph1": "Enable CLI tutor mode to see shortcuts to the command-line version of common IPFS commands — helpful if you're learning to use IPFS from the terminal, or if you just need a refresher."
     },
-    "step5": {
+    "step7": {
       "title": "IPFS Config",
       "paragraph1": "You can change the config of your IPFS node right from Web UI!",
       "paragraph2": "Don't forget to restart the daemon to apply the changes."
