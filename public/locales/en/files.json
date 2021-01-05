@@ -20,7 +20,7 @@
     "share": "Share link"
   },
   "cliModal": {
-    "extraNotes": "This command is only for local pinning/unpinning. If you want to use a remote pinning service, consult that service's documentation to learn how to pin/unpin from the command line."
+    "extraNotesPinning": "This command is only for local pinning/unpinning. If you want to use a remote pinning service, consult that service's documentation to learn how to pin/unpin from the command line."
   },
   "shareModal": {
     "title": "Share files",
