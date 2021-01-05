@@ -19,6 +19,9 @@
     "copyHash": "Copy CID",
     "share": "Share link"
   },
+  "cliModal": {
+    "extraNotesPinning": "This command is only for local pinning/unpinning. If you want to use a remote pinning service, consult that service's documentation to learn how to pin/unpin from the command line."
+  },
   "shareModal": {
     "title": "Share files",
     "description": "Copy the link below and share it with your friends."

@@ -9,7 +9,7 @@ import Button from '../button/Button'
 import Overlay from '../overlay/Overlay'
 import Shell from '../shell/Shell'
 import StrokeDownload from '../../icons/StrokeDownload'
-import { cliCmdKeys, cliCommandList } from '../../bundles/files/consts'
+import { cliCmdKeys, cliCommandList, cliCmdPrefixes } from '../../bundles/files/consts'
 
 export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...props }) => {
   const onClickCopyToClipboard = (cmd) => {
@@ -25,7 +25,8 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
           {t('app:cliModal.description')}
         </p>
         <p className='charcoal-muted w-90 center'>
-          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('app:cliModal.extraNotes') : ''}
+          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('settings:cliModal.extraNotesJsonConfig') : ''}
+          { command && command.startsWith(cliCmdPrefixes.PIN_OBJECT) ? t('files:cliModal.extraNotesPinning') : ''}
         </p>
         <div>
           <Shell className='tl' title="Shell">
