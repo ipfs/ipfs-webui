@@ -91,7 +91,7 @@ class Modals extends React.Component {
   }
 
   componentDidUpdate (prev) {
-    const { show, files, t, onShareLink, cliOptions } = this.props
+    const { show, files, t, onShareLink, cliOptions, root } = this.props
 
     if (show === prev.show) {
       return
@@ -141,7 +141,7 @@ class Modals extends React.Component {
         this.setState({ readyToShow: true })
         break
       case CLI_TUTOR_MODE:
-        this.setState({ command: this.cliCommand(cliOptions, files) }, () => {
+        this.setState({ command: this.cliCommand(cliOptions, files, root) }, () => {
           this.setState({ readyToShow: true })
         })
         break
@@ -158,7 +158,7 @@ class Modals extends React.Component {
     }
   }
 
-  cliCommand = (action, files) => {
+  cliCommand = (action, files, root) => {
     let activeCid = ''
     let fileName = ''
     let isPinned = ''
@@ -177,6 +177,7 @@ class Modals extends React.Component {
       case cliCmdKeys.ADD_DIRECTORY:
       case cliCmdKeys.CREATE_NEW_DIRECTORY:
       case cliCmdKeys.FROM_IPFS:
+        return cliCommandList[action](root.substr('/files'.length))
       case cliCmdKeys.DELETE_FILE_FROM_IPFS:
         return cliCommandList[action](path)
       case cliCmdKeys.DOWNLOAD_OBJECT_COMMAND:
