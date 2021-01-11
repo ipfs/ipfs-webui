@@ -81,7 +81,7 @@ const File = ({
     className += ' selected'
   }
 
-  const styles = { height: 55, overflow: 'hidden' }
+  const styles = { height: 55, overflow: 'visible' }
 
   if (focused || (selected && !translucent) || coloured || (isOver && canDrop)) {
     styles.backgroundColor = '#F0F6FA'
