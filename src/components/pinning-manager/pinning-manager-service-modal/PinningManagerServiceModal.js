@@ -10,10 +10,10 @@ import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
 import './PinningManagerServiceModal.css'
 
-const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, ...props }) => {
+const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, doAddPinningService, ...props }) => {
   const { register, errors, handleSubmit } = useForm()
   const inputClass = 'w-100 lh-copy f5 ph2 pv1 input-reset ba b--black-20 br1 focus-outline'
-  const onSubmit = data => alert(`This is a WIP feature, with data: ${JSON.stringify(data)}`)
+  const onSubmit = data => doAddPinningService(data)
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
@@ -27,7 +27,7 @@ const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, ..
                 <label>
                   { t('pinningServiceModal.service') }
                 </label>
-                <div class="flex w-100 items-center">
+                <div className="flex w-100 items-center">
                   <img className="mr3" src={service.icon} alt={service.name} height={42} style={{ objectFit: 'contain' }} />
                   <span>{ service.name }</span>
                 </div>
@@ -108,6 +108,6 @@ PinningManagerServiceModal.defaultProps = {
 const ErrorMsg = ({ text }) => (<p className='danger absolute f7' style={{ top: 26, left: 2 }}>{text}</p>)
 
 export default connect(
-  // 'selectAvailablePinningServices',
+  'doAddPinningService',
   withTranslation('settings')(PinningManagerServiceModal)
 )

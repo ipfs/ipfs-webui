@@ -1,4 +1,7 @@
 // @ts-check
+
+import { console } from 'window-or-global'
+
 /**
  * TODO: This might change, current version from: https://github.com/ipfs/go-ipfs/blob/petar/pincli/core/commands/remotepin.go#L53
  * @typedef {Object} RemotePin
@@ -15,6 +18,9 @@ const pinningBundle = {
   }, action) => {
     if (action.type === 'SET_REMOTE_PINS') {
       return { ...state, remotePins: action.payload }
+    }
+    if (action.type === 'SET_REMOTE_PINNING_SERVICES') {
+      return { ...state, pinningServices: action.payload }
     }
     return state
   },
@@ -53,7 +59,7 @@ const pinningBundle = {
 
   selectRemotePins: (state) => state.pinning.remotePins || [],
 
-  doSelectRemotePinsForFile: (file) => ({ store }) => {
+  doSelectRemotePinsForFile: (file) => async ({ store }) => {
     const pinningServicesNames = store.selectPinningServices().map(remote => remote.name)
     const remotePinForFile = store.selectRemotePins().filter(pin => pin.cid === file.cid.string)
     const servicesBeingUsed = remotePinForFile.map(pin => pin.id.split(':')[0]).filter(pinId => pinningServicesNames.includes(pinId))
@@ -61,38 +67,36 @@ const pinningBundle = {
     return servicesBeingUsed
   },
 
-  // selectPinningServices: state => state.pinning
   // TODO: unmock this
-  selectPinningServices: () => ([
-    // {
-    //   name: 'Pinata',
-    //   icon: 'https://ipfs.io/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg',
-    //   totalSize: 3122312,
-    //   bandwidthUsed: '10 GB/mo',
-    //   autoUpload: 'ALL_FILES',
-    //   addedAt: new Date(1592491648581)
-    // }, {
-    //   name: 'Infura',
-    //   icon: 'https://ipfs.io/ipfs/QmTt6KeaNXyaaUBWn2zEG8RiMfPPPeMesXqnFWqqC5o6yc?filename=infura.png',
-    //   totalSize: 4412221323,
-    //   bandwidthUsed: '2 GB/mo',
-    //   autoUpload: 'DISABLED',
-    //   addedAt: new Date(1592491648591)
-    // }, {
-    //   name: 'Eternum',
-    //   icon: 'https://ipfs.io/ipfs/QmSrqJeuYrYDmSgAy3SeAyTsYMksNPfK5CSN91xk6BBnF9?filename=eternum.png',
-    //   totalSize: 512000,
-    //   bandwidthUsed: '6 GB/mo',
-    //   autoUpload: 'PINS_ONLY',
-    //   addedAt: new Date(1592491648691)
-    // }
-  ]),
+  doFetchPinningServices: () => async ({ getIpfs, store, dispatch }) => {
+    const ipfs = getIpfs()
+    if (!ipfs || store?.ipfs?.ipfs?.ready) return null
+
+    const response = await ipfs.pin.remote.service.ls({ stat: true })
+
+    const remoteServices = response.map(service => {
+      const icon = store.selectAvailablePinningServices().find(x => x.name === service.service).icon
+      const parsedService = { ...service, name: service.service, icon, numberOfPins: service.stat.pinned }
+
+      if (service.stat.status === 'invalid') {
+        console.error(`Invalid stats found for service ${service.service}`)
+
+        return { ...parsedService, numberOfPins: 'Error' }
+      }
+
+      return parsedService
+    })
+
+    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
+  },
+
+  selectPinningServices: (state) => state.pinning.pinningServices || [],
 
   selectAvailablePinningServices: () => ([
-    // {
-    //   name: 'Pinata',
-    //   icon: 'https://ipfs.io/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg'
-    // }, {
+    {
+      name: 'Pinata',
+      icon: 'https://ipfs.io/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg'
+    }
     //   name: 'Infura',
     //   icon: 'https://ipfs.io/ipfs/QmTt6KeaNXyaaUBWn2zEG8RiMfPPPeMesXqnFWqqC5o6yc?filename=infura.png'
     // }, {
@@ -114,6 +118,22 @@ const pinningBundle = {
     }
 
     // TODO: handle rest of services
+  },
+  doAddPinningService: ({ apiEndpoint, nickname, secretApiKey }) => async ({ getIpfs, store }) => {
+    const ipfs = getIpfs()
+
+    await ipfs.pin.remote.service.add(nickname, {
+      endpoint: apiEndpoint,
+      key: secretApiKey
+    })
+  },
+
+  doRemovePinningService: (name) => async ({ getIpfs, store }) => {
+    const ipfs = getIpfs()
+
+    await ipfs.pin.remote.service.rm(name)
+
+    store.doFetchPinningServices()
   }
 }
 export default pinningBundle

@@ -5,7 +5,7 @@ import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
 import { sortByProperty } from '../../lib/sort'
 
 // Components
-// import Button from '../button/Button'
+import Button from '../button/Button'
 import Overlay from '../overlay/Overlay'
 import PinningModal from './pinning-manager-modal/PinningManagerModal'
 import GlyphPin from '../../icons/GlyphPin'
@@ -21,9 +21,9 @@ import './PinningManager.css'
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
-export const PinningManager = ({ pinningServices, doPinsSizeGet, pinsSize, numberOfPins, t }) => {
+export const PinningManager = ({ pinningServices, doFetchPinningServices, doPinsSizeGet, doRemovePinningService, pinsSize, numberOfPins, t }) => {
   const [isModalOpen, setModalOpen] = useState(false)
-  // const onModalOpen = () => setModalOpen(true)
+  const onModalOpen = () => setModalOpen(true)
   const onModalClose = () => setModalOpen(false)
 
   const [sortSettings, setSortSettings] = useState({
@@ -32,9 +32,17 @@ export const PinningManager = ({ pinningServices, doPinsSizeGet, pinsSize, numbe
   })
   useEffect(() => {
     (async () => {
-      await doPinsSizeGet()
+      try {
+        await doPinsSizeGet()
+      } catch (e) {
+        console.log(e)
+      }
     })()
   }, [doPinsSizeGet])
+
+  useEffect(() => {
+    doFetchPinningServices()
+  }, [doFetchPinningServices])
 
   const localPinning = useMemo(() =>
     ({ name: t('localPinning'), type: 'LOCAL', svgIcon: GlyphPin, totalSize: pinsSize, numberOfPins }),
@@ -68,16 +76,16 @@ export const PinningManager = ({ pinningServices, doPinsSizeGet, pinsSize, numbe
                 <Column label={t('service')} title={t('service')} dataKey='name' width={width * 0.4} flexShrink={0} flexGrow={1} cellRenderer={ServiceCell} className='charcoal truncate f6' />
                 <Column label={t('size')} title={t('size')} dataKey='totalSize' width={width * 0.2} flexShrink={0} cellRenderer={({ rowData }) => <SizeCell rowData={rowData} t={t}/>} className='charcoal truncate f6 pl2' />
                 <Column label={t('pins')} title={t('pins')} dataKey='numberOfPins' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <NumberOfPinsCell rowData={rowData} t={t}/>} className='charcoal truncate f6 pl2' />
-                <Column label={t('autoUpload')} title={t('autoUpload')} dataKey='autoUpload' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} type={rowData.type} t={t} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
+                <Column label={t('autoUpload')} title={t('autoUpload')} dataKey='autoUpload' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} type={rowData.type} name={rowData.name} doRemovePinningService={doRemovePinningService} t={t} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
               </Table>
             )}
           </AutoSizer>
         </div>
-        {/* <div className='flex justify-end w-100 mt2'>
+        <div className='flex justify-end w-100 mt2'>
           <Button className="tc mt2" bg='bg-navy' onClick={onModalOpen}>
             <span><span className="aqua">+</span> {t('actions.addService')}</span>
           </Button>
-        </div> */}
+        </div>
       </div>
 
       <Overlay show={isModalOpen} onLeave={onModalClose}>
@@ -110,16 +118,21 @@ const SizeCell = ({ rowData, t }) => (
     })}</p>
 )
 const NumberOfPinsCell = ({ rowData, t }) => (<div className={!rowData.numberOfPins ? 'gray' : ''}>{rowData.numberOfPins || `${(t('app:terms:loading'))}...`}</div>)
-const AutoUploadCell = ({ autoUpload, t, type }) => (
+const AutoUploadCell = ({ autoUpload, name, doRemovePinningService, t, type }) => (
   <div className="flex justify-between items-center">
     <div className={!autoUpload ? 'gray' : ''}>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
-    { type !== 'LOCAL' && <OptionsCell t={t}/> }
+    { type !== 'LOCAL' && <OptionsCell doRemovePinningService={doRemovePinningService} name={name} t={t}/> }
   </div>
 )
 
-const OptionsCell = ({ t }) => {
+const OptionsCell = ({ doRemovePinningService, name, t }) => {
   const buttonRef = useRef()
   const [isContextVisible, setContextVisibility] = useState(false)
+
+  const handleRemove = () => {
+    doRemovePinningService(name)
+    setContextVisibility(false)
+  }
 
   return (
     <div>
@@ -134,7 +147,7 @@ const OptionsCell = ({ t }) => {
         <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
           <StrokeExternalLink width="28" className='fill-aqua'/> <span className="ph1">{t('visitService')}</span>
         </ContextMenuItem>
-        <ContextMenuItem className='pv2 ph1' onClick={ /* TODO: add this feature */ () => setContextVisibility(false) }>
+        <ContextMenuItem className='pv2 ph1' onClick={ handleRemove }>
           <StrokeCancel width="28" className='fill-aqua'/> <span className="ph1">{t('remove')}</span>
         </ContextMenuItem>
       </ContextMenu>
@@ -148,5 +161,7 @@ export default connect(
   'selectPinsSize',
   'selectNumberOfPins',
   'selectPinningServices',
+  'doFetchPinningServices',
+  'doRemovePinningService',
   PinningManager
 )
