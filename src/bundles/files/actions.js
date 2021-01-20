@@ -248,21 +248,27 @@ const actions = () => ({
       // as relative paths, so normalise all to be relative.
       .map($ => $.path[0] === '/' ? { ...$, path: $.path.slice(1) } : $)
 
+    const totalSize = files.reduce((prev, { size }) => prev + size, 0)
+
     const entries = files.map(({ path, size }) => ({ path, size }))
 
-    let uploadState = { progress: 0, entries }
-
-    yield uploadState
+    yield { entries, progress: 0 }
 
     const { result, progress } = importFiles(ipfs, files)
 
-    for await (const loaded of progress) {
-      // Reduce amount of progress updates by producing message by yielding
-      // only if progress changes by a precentage.
-      if (loaded > uploadState.progress) {
-        uploadState = { progress: loaded, entries }
-        yield uploadState
-      }
+    /** @type {null|{uploaded:number, offset:number, name:string}} */
+    let status = null
+
+    for await (const { name, offset } of progress) {
+      status = status == null
+        ? { uploaded: 0, offset, name }
+        : name === status.name
+          ? { uploaded: status.uploaded, offset, name }
+          : { uploaded: status.uploaded + status.offset, offset, name }
+      const progress = (status.uploaded + status.offset) / totalSize * 100
+      console.log({ progress })
+
+      yield { entries, progress }
     }
 
     try {
@@ -551,19 +557,12 @@ export default actions
  * @param {FileStream[]} files
  */
 const importFiles = (ipfs, files) => {
-  const contentSize = files.reduce((prev, { size }) => prev + size, 0)
-  // Estimated size of the metadata added by the request body
-  const metadataSize = 200 + files.length * 180
-  const total = contentSize + metadataSize
-
-  /** @type {Channel<number>} */
+  /** @type {Channel<{ offset:number, name: string}>} */
   const channel = new Channel()
   const result = all(ipfs.addAll(files, {
     pin: false,
-    progress: (uploaded) => {
-      channel.send(Math.floor(uploaded / total * 100))
-    },
-    wrapWithDirectory: false
+    wrapWithDirectory: false,
+    progress: (offset, name) => channel.send({ offset, name })
   }))
 
   result.then(() => channel.close(), error => channel.close(error))

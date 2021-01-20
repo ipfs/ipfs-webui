@@ -213,7 +213,7 @@ declare module "ipfs" {
     hashAlg?: number,
     onlyHash?: boolean,
     pin?: boolean,
-    progress?: (bytes: number) => void,
+    progress?: (bytes: number, name:string) => void,
     rawLeaves?: boolean,
     trickle?: boolean,
     wrapWithDirectory?: boolean,

@@ -13,44 +13,28 @@ import GlyphCancel from '../../icons/GlyphCancel'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 import ProgressBar from '../../components/progress-bar/ProgressBar'
 
-const File = (job, t) => {
-  const pathsByFolder = job.message.entries.reduce((prev, currentEntry) => {
-    const isFolder = currentEntry.path.includes('/')
-    if (!isFolder) {
-      return [...prev, currentEntry]
-    }
-
-    const baseFolder = currentEntry.path.split('/')[0]
-
-    const alreadyExistentBaseFolder = prev.find(previousPath => previousPath.path.startsWith(`${baseFolder}/`))
-
-    if (alreadyExistentBaseFolder) {
-      alreadyExistentBaseFolder.count = alreadyExistentBaseFolder.count + 1
-      alreadyExistentBaseFolder.size += currentEntry.size
-
-      return prev
-    }
-
-    return [...prev, { ...currentEntry, name: baseFolder, count: 1 }]
-  }, [])
-
-  return pathsByFolder.map(({ count, name, path, size, progress }) => (
-    <li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={ path || name }>
-      { count ? <FolderIcon className='fileImportStatusIcon fill-aqua pa1'/> : <DocumentIcon className='fileImportStatusIcon fill-aqua pa1'/> }
-      <span className="fileImportStatusName truncate">{ name || path }</span>
+const Import = (job, t) =>
+  [...groupByPath(job?.message?.entries || new Map()).values()].map(item => (
+    <li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={item.path}>
+      {viewIcon(item)}
+      <span className="fileImportStatusName truncate">{item.path}</span>
       <span className='gray mh2'> |
-        { count && (<span> { t('filesImportStatus.count', { count }) } | </span>) }
-        <span className='ml2'>{ filesize(size) }</span>
+        { item.entries && (<span> { t('filesImportStatus.count', { count: item.entries.length }) } | </span>) }
+        <span className='ml2'>{ filesize(item.size) }</span>
       </span>
-      {viewFileStatus(job, progress)}
+      {viewImportStatus(job, item.progress)}
     </li>
   ))
-}
 
-const viewFileStatus = (job, progress) => {
+const viewIcon = (entry) =>
+  entry.type === 'directory'
+    ? <FolderIcon className="fileImportStatusIcon fill-aqua pa1" />
+    : <DocumentIcon className="fileImportStatusIcon fill-aqua pa1" />
+
+const viewImportStatus = (job, progress) => {
   switch (job.status) {
     case 'Pending': {
-      return (<LoadingIndicator complete={ progress === 100 }/>)
+      return <LoadingIndicator complete={ progress === 100 } />
     }
     case 'Failed': {
       return (<GlyphCancel className="dark-red w2 ph1" fill="currentColor"/>)
@@ -59,6 +43,46 @@ const viewFileStatus = (job, progress) => {
       return (<LoadingIndicator complete={true}/>)
     }
   }
+}
+
+const groupByPath = (entries) => {
+  const groupedEntries = new Map()
+  for (const entry of entries) {
+    const name = baseDirectoryOf(entry)
+    if (name == null) {
+      groupedEntries.set(entry.path, { type: 'file', ...entry })
+    } else {
+      // add `/` to avoid collision with file names.
+      const directory = groupedEntries.get(`${name}/`)
+      if (directory) {
+        directory.entries.push(entry)
+        directory.size += entry.size
+      } else {
+        groupedEntries.set(`${name}/`, {
+          type: 'directory',
+          size: entry.size,
+          path: name,
+          entries: [entry]
+        })
+      }
+    }
+  }
+  return groupedEntries
+}
+
+/**
+ * @typedef {Object} Entry
+ * @property {string} path
+ * @property {size} number
+ */
+
+/**
+ * @param {Entry} entry
+ * @returns {string|null}
+ */
+const baseDirectoryOf = ({ path }) => {
+  const index = path.indexOf('/')
+  return index < 0 ? null : path.slice(0, index)
 }
 
 const LoadingIndicator = ({ complete }) =>
@@ -77,8 +101,8 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
     return null
   }
 
-  const numberOfImportedFiles = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile.message.entries.length, 0)
-
+  const numberOfImportedItems = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile.message.entries.length, 0)
+  const numberOfPendingItems = filesPending.reduce((total, pending) => total + groupByPath(pending.message.entries).size, 0)
   const progress = Math.floor(filesPending.reduce((total, { message: { progress } }) => total + progress, 0) / filesPending.length)
 
   return (
@@ -87,8 +111,8 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
         <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100 justify-between" style={{ background: '#F0F6FA' }}>
           <span>
             { filesPending.length
-              ? `${t('filesImportStatus.importing', { count: filesPending.length })} (${progress}%)`
-              : t('filesImportStatus.imported', { count: numberOfImportedFiles })
+              ? `${t('filesImportStatus.importing', { count: numberOfPendingItems })} (${progress}%)`
+              : t('filesImportStatus.imported', { count: numberOfImportedItems })
             }
           </span>
           <div className="flex items-center">
@@ -101,9 +125,9 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
           </div>
         </div>
         <ul className='fileImportStatusRow pa0 ma0' aria-hidden={!expanded}>
-          { filesPending.map(file => File(file, t)) }
-          { sortedFilesFinished.map(file => File(file, t)) }
-          { filesErrors.map(file => File(file, t)) }
+          { filesPending.map(file => Import(file, t)) }
+          { sortedFilesFinished.map(file => Import(file, t)) }
+          { filesErrors.map(file => Import(file, t)) }
         </ul>
         {
           filesPending.length

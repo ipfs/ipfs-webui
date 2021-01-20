@@ -158,7 +158,7 @@ export default {
   ],
 
   /**
-   * @param {Model} [state]
+   * @param {Model} state
    * @param {Message} action
    * @returns {Model}
    */
