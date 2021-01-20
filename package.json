@@ -49,7 +49,7 @@
     "ip": "^1.1.5",
     "ipfs-css": "^1.2.0",
     "ipfs-geoip": "^6.0.0",
-    "ipfs-http-client": "^46.0.0",
+    "ipfs-http-client": "file:.connect-deps-cache/ipfs-http-client-48.1.3-1611079863320.tgz",
     "ipfs-provider": "^1.1.0",
     "ipld-explorer-components": "1.6.1",
     "is-binary": "^0.1.0",
