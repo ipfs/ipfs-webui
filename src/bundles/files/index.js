@@ -91,10 +91,27 @@ export default () => {
               pageContent: {
                 ...pageContent,
                 content
-              }
+              },
+              sorting: action.payload
             }
           } else {
             return state
+          }
+        }
+        case ACTIONS.PINS_SIZE_GET: {
+          const { task, type } = action
+          const pinsSize = task.status === 'Exit' && task.result.ok
+            ? task.result.value.pinsSize
+            : 0
+
+          const numberOfPins = task.status === 'Exit' && task.result.ok
+            ? task.result.value.numberOfPins
+            : 0
+
+          return {
+            ...updateJob(state, task, type),
+            pinsSize,
+            numberOfPins
           }
         }
         case ACTIONS.SIZE_GET: {

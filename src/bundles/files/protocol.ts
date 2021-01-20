@@ -9,6 +9,8 @@ export type Model = {
   pins: string[]
   sorting: Sorting
   mfsSize: number
+  pinsSize: number
+  numberOfPins: number
 
   pending: PendingJob<any, any>[]
   finished: FinishedJob<any>[]
@@ -67,6 +69,7 @@ export type Message =
   | Perform<'FILES_PIN_REMOVE', Error, Pin[], void>
   | Perform<'FILES_PIN_LIST', Error, { pins: CID[] }, void>
   | Perform<'FILES_SIZE_GET', Error, { size: number }, void>
+  | Perform<'FILES_PINS_SIZE_GET', Error, { pinsSize: number, numberOfPins: number }, void>
 
 export type MakeDir = Perform<'FILES_MAKEDIR', Error, void, void>
 export type WriteProgress = { paths: string[], progress: number }
@@ -119,7 +122,7 @@ type FileContent = {
   pinned: boolean
 }
 
-type DirectoryContent = {
+export type DirectoryContent = {
   type: 'directory',
   fetched: Time,
   path: string,

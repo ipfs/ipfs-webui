@@ -27,6 +27,13 @@ const selectors = () => ({
    * @param {Model} state
    * @returns {string[]}
    */
+  selectCurrentDirectorySize: (state) => {
+    return state.files.pageContent?.type === 'directory' && state.files.pageContent?.content?.reduce((prev, curr) => prev + curr.size, 0)
+  },
+
+  /**
+   * @param {Model} state
+   */
   selectPins: (state) => state.files.pins,
 
   /**
@@ -38,6 +45,16 @@ const selectors = () => ({
   /**
    * @param {Model} state
    * @returns {boolean}
+   */
+  selectPinsSize: (state) => state.files.pinsSize,
+
+  /**
+   * @param {Model} state
+   */
+  selectNumberOfPins: (state) => state.files.numberOfPins,
+
+  /**
+   * @param {Model} state
    */
   selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === ACTIONS.FETCH),
 
@@ -77,6 +94,11 @@ const selectors = () => ({
    * @param {Model} state
    */
   selectFilesErrors: (state) => state.files.failed,
+
+  /**
+   * @param {Model} state
+   */
+  selectHasUpperDirectory: (state) => state.files.pageContent?.type === 'directory' && state.files.pageContent?.upper,
 
   selectFilesPathInfo: createSelector(
     'selectRouteInfo',

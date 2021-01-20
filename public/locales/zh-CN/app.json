@@ -76,6 +76,7 @@
     "totalIn": "总共接收",
     "totalOut": "总共发送",
     "unknown": "未知",
+    "ui": "UI 版本",
     "upSpeed": "发送"
   },
   "tour": {

@@ -19,6 +19,8 @@ import { perform } from './task'
  * @property {boolean} failed
  * @property {boolean} ready
  * @property {boolean} invalidAddress
+ * @property {boolean} pendingFirstConnection
+ *
  *
  * @typedef {import('./task').Perform<'IPFS_INIT', Error, InitResult, void>} Init
  * @typedef {Object} Stopped
@@ -34,19 +36,37 @@ import { perform } from './task'
  * @typedef {Object} Dismiss
  * @property {'IPFS_API_ADDRESS_INVALID_DISMISS'} type
  *
+ * @typedef {Object} ConnectSuccess
+ * @property {'IPFS_CONNECT_SUCCEED'} type
+ *
+ * @typedef {Object} ConnectFail
+ * @property {'IPFS_CONNECT_FAILED'} type
+ *
+ * @typedef {Object} DismissError
+ * @property {'NOTIFY_DISMISSED'} type
+ *
+ * @typedef {Object} PendingFirstConnection
+ * @property {'IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION'} type
+ * @property {boolean} pending
+ *
  * @typedef {Object} InitResult
  * @property {ProviderName} provider
  * @property {IPFSService} ipfs
  * @property {string} [apiAddress]
- * @typedef {Init|Stopped|AddressUpdated|AddressInvalid|Dismiss} Message
+ * @typedef {Init|Stopped|AddressUpdated|AddressInvalid|Dismiss|PendingFirstConnection|ConnectFail|ConnectSuccess|DismissError} Message
  */
 
 export const ACTIONS = Enum.from([
   'IPFS_INIT',
   'IPFS_STOPPED',
   'IPFS_API_ADDRESS_UPDATED',
+  'IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION',
   'IPFS_API_ADDRESS_INVALID',
-  'IPFS_API_ADDRESS_INVALID_DISMISS'
+  'IPFS_API_ADDRESS_INVALID_DISMISS',
+  // Notifier actions
+  'IPFS_CONNECT_FAILED',
+  'IPFS_CONNECT_SUCCEED',
+  'NOTIFY_DISMISSED'
 ])
 
 /**
@@ -99,6 +119,16 @@ const update = (state, message) => {
     case ACTIONS.IPFS_API_ADDRESS_INVALID_DISMISS: {
       return { ...state, invalidAddress: true }
     }
+    case ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION: {
+      const { pending } = message
+      return { ...state, pendingFirstConnection: pending }
+    }
+    case ACTIONS.IPFS_CONNECT_SUCCEED: {
+      return { ...state, failed: false }
+    }
+    case ACTIONS.IPFS_CONNECT_FAILED: {
+      return { ...state, failed: true }
+    }
     default: {
       return state
     }
@@ -114,7 +144,8 @@ const init = () => {
     provider: null,
     failed: false,
     ready: false,
-    invalidAddress: false
+    invalidAddress: false,
+    pendingFirstConnection: false
   }
 }
 
@@ -124,6 +155,14 @@ const init = () => {
 const readAPIAddressSetting = () => {
   const setting = readSetting('ipfsApi')
   return setting == null ? null : asAPIOptions(setting)
+}
+
+/**
+ * @param {string|object} value
+ * @returns {boolean}
+ */
+export const checkValidAPIAddress = (value) => {
+  return asAPIOptions(value) != null
 }
 
 /**
@@ -297,7 +336,11 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectIpfsInitFailed: state => state.ipfs.failed
+  selectIpfsInitFailed: state => state.ipfs.failed,
+  /**
+   * @param {State} state
+   */
+  selectIpfsPendingFirstConnection: state => state.ipfs.pendingFirstConnection
 }
 
 /**
@@ -308,16 +351,17 @@ const selectors = {
 
 const actions = {
   /**
-   * @returns {function(Context):Promise<void>}
+   * @returns {function(Context):Promise<boolean>}
    */
   doTryInitIpfs: () => async ({ store }) => {
-    // We need to swallow error that `doInitIpfs` could produce othrewise it
-    // will bubble up and nothing will handle it. There is a code in
-    // `bundles/retry-init.js` that reacts to `IPFS_INIT` action and attempts
-    // to retry.
+    // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT`
+    // action and attempts to retry.
     try {
       await store.doInitIpfs()
+      return true
     } catch (_) {
+      // Catches connection errors like timeouts
+      return false
     }
   },
   /**
@@ -353,7 +397,7 @@ const actions = {
       })
 
       if (!result) {
-        throw Error('Could not connect to the IPFS API')
+        throw Error(`Could not connect to the IPFS API (${apiAddress})`)
       } else {
         return result
       }
@@ -370,17 +414,46 @@ const actions = {
 
   /**
    * @param {string} address
-   * @returns {function(Context):Promise<void>}
+   * @returns {function(Context):Promise<boolean>}
    */
   doUpdateIpfsApiAddress: (address) => async (context) => {
     const apiAddress = asAPIOptions(address)
     if (apiAddress == null) {
-      context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
+      context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_INVALID })
+      return false
     } else {
       await writeSetting('ipfsApi', apiAddress)
-      context.dispatch({ type: 'IPFS_API_ADDRESS_UPDATED', payload: apiAddress })
+      context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_UPDATED, payload: apiAddress })
 
-      await context.store.doTryInitIpfs()
+      // Sends action to indicate we're going to try to update the IPFS API address.
+      // There is logic to retry doTryInitIpfs in bundles/retry-init.js, so
+      // we're triggering the PENDING_FIRST_CONNECTION action here to avoid blocking
+      // the UI while we automatically retry.
+      context.dispatch({
+        type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
+        pending: true
+      })
+      context.dispatch({
+        type: ACTIONS.IPFS_STOPPED
+      })
+      context.dispatch({
+        type: ACTIONS.NOTIFY_DISMISSED
+      })
+      const succeeded = await context.store.doTryInitIpfs()
+      if (succeeded) {
+        context.dispatch({
+          type: ACTIONS.IPFS_CONNECT_SUCCEED
+        })
+      } else {
+        context.dispatch({
+          type: ACTIONS.IPFS_CONNECT_FAILED
+        })
+      }
+      context.dispatch({
+        type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
+        pending: false
+      })
+      return succeeded
     }
   },
 

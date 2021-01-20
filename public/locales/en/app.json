@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Add",
+    "apply": "Apply",
     "browse": "Browse",
     "cancel": "Cancel",
     "change": "Change",
@@ -23,13 +24,13 @@
     "save": "Save",
     "saving": "Saving…",
     "selectAll": "Select all",
+    "setPinning": "Set pinning",
     "submit": "Submit",
     "unpin": "Unpin",
     "unselectAll": "Unselect all"
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters.",
-    "extraNotes": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
+    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "Report a bug",
@@ -59,6 +60,7 @@
     "gateway": "Gateway",
     "in": "In",
     "latency": "Latency",
+    "loading": "Loading",
     "location": "Location",
     "name": "Name",
     "node": "Node",
@@ -68,6 +70,7 @@
     "peers": "Peers",
     "pinNoun": "Pin",
     "pins": "Pins",
+    "pinStatus": "Pin Status",
     "publicKey": "Public key",
     "rateIn": "Rate in",
     "rateOut": "Rate out",
@@ -76,6 +79,7 @@
     "totalIn": "Total in",
     "totalOut": "Total out",
     "unknown": "Unknown",
+    "ui": "UI",
     "upSpeed": "Outgoing"
   },
   "tour": {

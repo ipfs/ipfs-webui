@@ -1,6 +1,9 @@
 {
   "ipfsApiRequestFailed": "Could not connect. Please check if your daemon is running.",
   "windowIpfsRequestFailed": "IPFS request failed. Please check your IPFS Companion settings.",
+  "ipfsInvalidApiAddress": "The provided IPFS API address is invalid.",
+  "ipfsConnectSuccess": "Successfully connected to the IPFS API address",
+  "ipfsConnectFail": "Unable to connect to the provided IPFS API address",
   "ipfsIsBack": "Normal IPFS service has resumed. Enjoy!",
   "folderExists": "An item with that name already exists. Please choose another.",
   "filesFetchFailed": "Failed to get those files. Please check the path and try again.",

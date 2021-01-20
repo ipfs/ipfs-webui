@@ -48,8 +48,10 @@ export default class Tool extends React.Component {
         <div style={{
           bottom: '-10px',
           left: '50%',
-          transform: 'translate(-50%, 100%)'
-        }} className={`nowrap white z-max bg-navy-muted br2 pa1 f6 absolute ${(show && overflow) ? 'db' : 'dn'}`}>
+          transform: 'translate(-50%, 100%)',
+          wordWrap: 'break-word',
+          width: '100%'
+        }} className={`white z-max bg-navy-muted br2 pa1 f6 absolute ${(show && overflow) ? 'db' : 'dn'}`}>
           <span style={{
             width: '17px',
             height: '17px',

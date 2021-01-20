@@ -59,7 +59,7 @@ const DropableBreadcrumb = ({ index, link, immutable, onAddFiles, onMove, onClic
           index === 0 && (immutable ? 'bg-charcoal-muted white' : 'bg-navy white'),
           immutable && (link.last || index === 0) && 'no-events',
           link.last && 'b', isOver && 'dragging')}
-        onClick={() => onClick(link.path)} onContextMenu={(ev) => index !== 0 && handleOnContextMenuHandle(ev)}>
+        onClick={() => onClick({ path: link.path })} onContextMenu={(ev) => index !== 0 && handleOnContextMenuHandle(ev)}>
         {link.name}
       </button>
     </span>

@@ -1,8 +1,11 @@
 import i18n from 'i18next'
 import ICU from 'i18next-icu'
-import StaticHttpBackend from 'i18next-http-backend'
+import Backend from 'i18next-chained-backend'
+import LocalStorageBackend from 'i18next-localstorage-backend'
+import HttpBackend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
+import ar from 'i18next-icu/locale-data/ar'
 import ca from 'i18next-icu/locale-data/ca'
 import cs from 'i18next-icu/locale-data/cs'
 import da from 'i18next-icu/locale-data/da'
@@ -17,11 +20,12 @@ import nl from 'i18next-icu/locale-data/nl'
 import no from 'i18next-icu/locale-data/no'
 import pl from 'i18next-icu/locale-data/pl'
 import pt from 'i18next-icu/locale-data/pt'
+import ro from 'i18next-icu/locale-data/ro'
 import ru from 'i18next-icu/locale-data/ru'
 import sv from 'i18next-icu/locale-data/sv'
 import zh from 'i18next-icu/locale-data/zh'
 
-const localeData = [ca, cs, da, de, en, es, fr, it, ja, ko, nl, no, pl, pt, ru, sv, zh]
+const localeData = [ar, ca, cs, da, de, en, es, fr, it, ja, ko, nl, no, pl, pt, ro, ru, sv, zh]
 
 export const localesList =
   // add here the language variants
@@ -33,9 +37,25 @@ export const localesList =
 
 i18n
   .use(new ICU({ localeData }))
-  .use(StaticHttpBackend)
+  .use(Backend)
   .use(LanguageDetector)
   .init({
+    backend: {
+      backends: [
+        LocalStorageBackend,
+        HttpBackend
+      ],
+      backendOptions: [
+        { // LocalStorageBackend
+          defaultVersion: 'v1',
+          expirationTime: (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? 1 : 7 * 24 * 60 * 60 * 1000
+        },
+        { // HttpBackend
+          // ensure a relative path is used to look up the locales, so it works when loaded from /ipfs/<cid>
+          loadPath: 'locales/{{lng}}/{{ns}}.json'
+        }
+      ]
+    },
     ns: ['app', 'welcome', 'status', 'files', 'explore', 'peers', 'settings', 'notify'],
     defaultNS: 'app',
     fallbackNS: 'app',
@@ -46,10 +66,6 @@ i18n
       default: ['en']
     },
     debug: process.env.DEBUG,
-    backend: {
-      // ensure a relative path is used to look up the locales, so it works when used from /ipfs/<cid>
-      loadPath: 'locales/{{lng}}/{{ns}}.json'
-    },
     // react i18next special options (optional)
     react: {
       wait: true,

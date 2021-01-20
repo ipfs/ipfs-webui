@@ -1,9 +1,9 @@
 const debug = process.env.DEBUG === 'true'
-const travis = process.env.TRAVIS === 'true'
+const ci = process.env.TRAVIS === 'true' || process.env.CI === 'true'
 module.exports = {
   launch: {
     dumpio: debug, // print all IO to the console
-    headless: (!debug || travis), // show browser window when in debug mode
-    slowMo: debug ? 50 : undefined // slow down scripted tests when debugging in non-headless mode
+    headless: (!debug || ci), // show browser window when in debug mode
+    slowMo: debug ? 50 : 5 // slow down scripted tests when debugging in non-headless mode
   }
 }

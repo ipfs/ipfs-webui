@@ -19,6 +19,9 @@
     "copyHash": "Copy CID",
     "share": "Share link"
   },
+  "cliModal": {
+    "extraNotesPinning": "This command is only for local pinning/unpinning. If you want to use a remote pinning service, consult that service's documentation to learn how to pin/unpin from the command line."
+  },
   "shareModal": {
     "title": "Share files",
     "description": "Copy the link below and share it with your friends."
@@ -36,6 +39,12 @@
     "descriptionItem": "{count, plural, one {Are you sure you want to delete this item? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} items? This action is permanent and cannot be reversed.}}",
     "descriptionFolder": "{count, plural, one {Are you sure you want to delete this folder? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} folders? This action is permanent and cannot be reversed.}}",
     "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.}}"
+  },
+  "pinningModal": {
+    "title": "Select where you would like to pin these items.",
+    "footer": "Need to add or configure a pinning service? Go to <1>Settings</1>.",
+    "localNode": "Local node",
+    "totalSize": "Total size: {size}"
   },
   "addByPathModal": {
     "title": "Import from IPFS",
@@ -91,6 +100,12 @@
   "hashUnavailable": "hash unavailable",
   "checkboxLabel": "View more options for {name}",
   "pinned": "Pinned",
+  "blocks": "Blocks",
+  "allBlocks": "All blocks",
+  "allBlocksDescription": "Total size of blocks on your entire IPFS node; this includes everything in Files, plus all locally pinned items and any temporary cached data",
+  "filesDescription": "Total size of data in the current directory (if a subdirectory, the size of all data in Files is also displayed)",
+  "more": "More",
+  "files": "Files",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead.",
   "sortBy": "Sort items by {name}"
 }

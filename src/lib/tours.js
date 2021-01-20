@@ -224,31 +224,33 @@ export const settingsTour = {
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step2.title')}</h2>
-        <Trans i18nKey='tour.step2.paragraph1' t={t}>
+        <p className='tl f6'>{t('tour.step2.paragraph1')}</p>
+      </div>,
+      placement: 'auto',
+      target: '.joyride-settings-customapi'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>{t('tour.step3.title')}</h2>
+        <Trans i18nKey='tour.step3.paragraph1' t={t}>
+          <p className='tl f6'>If you have accounts with third-party remote pinning services, add them here so you can pin/unpin items to those services directly from the Files screen. You can learn more about third-party pinning services in the <a className='teal link' href='https://docs.ipfs.io/how-to/work-with-pinning-services' rel='noopener noreferrer' target='_blank'>IPFS Docs</a>.
+          </p>
+        </Trans>
+      </div>,
+      placement: 'auto',
+      target: '.joyride-settings-pinning'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>{t('tour.step4.title')}</h2>
+        <Trans i18nKey='tour.step4.paragraph1' t={t}>
           <p className='tl f6'>You can change the language of the Web UI.
           If your preferred language isn't available, head over our project page in <a className='teal link' href='https://www.transifex.com/ipfs/ipfs-webui/translate/' rel='noopener noreferrer' target='_blank'>Transifex</a> to help us translate!
           </p>
         </Trans>
       </div>,
-      placement: 'bottom',
+      placement: 'auto',
       target: '.joyride-settings-language'
-    },
-    {
-      content: <div className='montserrat charcoal'>
-        <h2 className='f3 fw4'>{t('tour.step3.title')}</h2>
-        <p className='tl f6'>{t('tour.step3.paragraph1')}</p>
-        <p className='tl f6'>{t('tour.step3.paragraph2')}</p>
-      </div>,
-      placement: 'bottom',
-      target: '.joyride-settings-analytics'
-    },
-    {
-      content: <div className='montserrat charcoal'>
-        <h2 className='f3 fw4'>{t('tour.step4.title')}</h2>
-        <p className='tl f6'>{t('tour.step4.paragraph1')}</p>
-      </div>,
-      placement: 'top',
-      target: '.joyride-settings-customapi'
     },
     {
       content: <div className='montserrat charcoal'>
@@ -256,8 +258,25 @@ export const settingsTour = {
         <p className='tl f6'>{t('tour.step5.paragraph1')}</p>
         <p className='tl f6'>{t('tour.step5.paragraph2')}</p>
       </div>,
+      placement: 'auto',
+      target: '.joyride-settings-analytics'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>{t('tour.step6.title')}</h2>
+        <p className='tl f6'>{t('tour.step6.paragraph1')}</p>
+      </div>,
+      placement: 'auto',
+      target: '.joyride-settings-tutormode'
+    },
+    {
+      content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>{t('tour.step7.title')}</h2>
+        <p className='tl f6'>{t('tour.step7.paragraph1')}</p>
+        <p className='tl f6'>{t('tour.step7.paragraph2')}</p>
+      </div>,
       locale: { last: t('tour.finish') },
-      placement: 'top',
+      placement: 'auto',
       target: '.joyride-settings-config'
     }
   ],

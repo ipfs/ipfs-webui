@@ -1,5 +1,12 @@
 {
   "title": "Settings",
+  "save": "Save",
+  "saving": "Saving…",
+  "reset": "Reset",
+  "pinningServices": {
+    "title": "Pinning Services",
+    "description": "Support for third-party remote pinning services will be implemented in a future release, and you'll be able to add and configure them here. In the meantime, use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files."
+  },
   "language": "Language",
   "analytics": "Analytics",
   "cliTutorMode": "CLI Tutor Mode",
@@ -12,6 +19,49 @@
   },
   "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
   "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
+  "cliModal": {
+    "extraNotesJsonConfig": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
+  },
+  "pinningModal": {
+    "title": "Select a pinning service provider.",
+    "description": "Don’t see your pinning service provider? <1>Add a custom one.<1>"
+  },
+  "pinningServiceModal": {
+    "title": "Configure a custom pinning service.",
+    "description": "Want to make your custom pinning service available to others? <1>Learn how.<1>",
+    "service": "Service",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Name for your service",
+    "apiEndpoint": "API endpoint",
+    "apiEndpointPlaceholder": "URL for its API endpoint",
+    "secretApiKey": "Secret API key",
+    "autoUpload": "Auto upload"
+  },
+  "errors": {
+    "nickname": "Nickname is required",
+    "apiEndpoint": "Must be a valid URL",
+    "secretApiKey": "Secret key is required"
+  },
+  "actions": {
+    "addService": "Add Service",
+    "edit": "Change",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "edit": "Edit",
+  "visitService": "Visit service",
+  "remove": "Remove",
+  "localPinning": "Local Pinning",
+  "service": "Service",
+  "size": "Size",
+  "pins": "Pins",
+  "autoUpload": "Auto Upload",
+  "autoUploadKeys": {
+    "ALL_FILES": "All files",
+    "DISABLED": "Disabled",
+    "PINS_ONLY": "Pins only"
+  },
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
   "ipfsDaemonOffline": "The IPFS daemon is offline. Please turn it on and try again.",
@@ -66,19 +116,27 @@
       "paragraph2": "If you're running IPFS Desktop you'll have some specific settings for it too."
     },
     "step2": {
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    },
+    "step3": {
+      "title": "Pinning services",
+      "paragraph1": "<0>If you have accounts with third-party remote pinning services, add them here so you can pin/unpin items to those services directly from the Files screen. You can learn more about third-party pinning services in the <1>IPFS Docs</1>.</0>"
+    },
+    "step4": {
       "title": "Language selector",
       "paragraph1": "<0>You can change the language of the Web UI. If your preferred language isn't available, head over our project page in <1>Transifex</1> to help us translate!</0>"
     },
-    "step3": {
+    "step5": {
       "title": "Anonymous usage analytics",
       "paragraph1": "If you opt-in, you can help us make the Web UI better by sending anonymous usage analytics.",
       "paragraph2": "You're able to choose what data you send us and we won't be able to identify you, we value privacy above all else."
     },
-    "step4": {
-      "title": "Custom API address",
-      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    "step6": {
+      "title": "CLI tutor mode",
+      "paragraph1": "Enable CLI tutor mode to see shortcuts to the command-line version of common IPFS commands — helpful if you're learning to use IPFS from the terminal, or if you just need a refresher."
     },
-    "step5": {
+    "step7": {
       "title": "IPFS Config",
       "paragraph1": "You can change the config of your IPFS node right from Web UI!",
       "paragraph2": "Don't forget to restart the daemon to apply the changes."

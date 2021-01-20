@@ -44,13 +44,13 @@
       },
       "step2": {
         "title": "Fils d'Ariane",
-        "paragraph1": "Le chemin qui mène à ce noeud.",
+        "paragraph1": "Le chemin qui mène à ce nœud.",
         "paragraph2": "Cliquer issue pour naviguer entre les parents ou les enfants."
       },
       "step3": {
         "title": "Information du pair",
-        "paragraph1": "Trouvez ici le détail des informations sur votre noeud et ouvrez-le dans la passerelle IPFS.",
-        "paragraph2": "Si le noeud est un répertoire vous pouvez voir les sous-répertoires et naviguer à l'intérieur. "
+        "paragraph1": "Trouvez ici le détail des informations sur votre nœud et ouvrez-le dans la passerelle IPFS.",
+        "paragraph2": "Si le nœud est un dossier vous pouvez voir les sous-dossiers et naviguer à l'intérieur. "
       },
       "step4": {
         "title": "Info CID",
@@ -58,7 +58,7 @@
       },
       "step5": {
         "title": "Représentation visuelle",
-        "paragraph1": "Une représentation visuelle du noeud et de ses enfants."
+        "paragraph1": "Une représentation visuelle du nœud et de ses enfants."
       }
     }
   }
