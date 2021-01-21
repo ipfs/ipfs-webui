@@ -40,7 +40,8 @@
   "errors": {
     "nickname": "Nickname is required",
     "apiEndpoint": "Must be a valid URL",
-    "secretApiKey": "Secret key is required"
+    "secretApiKey": "Secret key is required",
+    "failedToFetch": "Failed to fetch"
   },
   "actions": {
     "addService": "Add Service",

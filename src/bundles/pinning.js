@@ -1,6 +1,17 @@
 // @ts-check
 
-import { console } from 'window-or-global'
+const parseService = (service, availablePinningServices) => {
+  const icon = availablePinningServices.find(x => x.name === service.service)?.icon
+  const parsedService = { ...service, name: service.service, icon }
+
+  if (service?.stat?.status === 'invalid') {
+    console.error(`Invalid stats found for service ${service.service}`)
+
+    return { ...parsedService, numberOfPins: 'Error' }
+  }
+
+  return { ...parsedService, numberOfPins: service.stat?.pinCount?.pinned }
+}
 
 /**
  * TODO: This might change, current version from: https://github.com/ipfs/go-ipfs/blob/petar/pincli/core/commands/remotepin.go#L53
@@ -67,27 +78,18 @@ const pinningBundle = {
     return servicesBeingUsed
   },
 
-  // TODO: unmock this
   doFetchPinningServices: () => async ({ getIpfs, store, dispatch }) => {
     const ipfs = getIpfs()
     if (!ipfs || store?.ipfs?.ipfs?.ready) return null
 
-    const response = await ipfs.pin.remote.service.ls({ stat: true })
-
-    const remoteServices = response.map(service => {
-      const icon = store.selectAvailablePinningServices().find(x => x.name === service.service).icon
-      const parsedService = { ...service, name: service.service, icon, numberOfPins: service.stat.pinned }
-
-      if (service.stat.status === 'invalid') {
-        console.error(`Invalid stats found for service ${service.service}`)
-
-        return { ...parsedService, numberOfPins: 'Error' }
-      }
-
-      return parsedService
-    })
-
+    const availablePinningServices = store.selectAvailablePinningServices()
+    const firstListOfServices = await ipfs.pin.remote.service.ls()
+    const remoteServices = firstListOfServices.map(service => parseService(service, availablePinningServices))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
+
+    const fullListOfSercices = await ipfs.pin.remote.service.ls({ stat: true })
+    const fullRemoteServices = fullListOfSercices.map(service => parseService(service, availablePinningServices))
+    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: fullRemoteServices })
   },
 
   selectPinningServices: (state) => state.pinning.pinningServices || [],
@@ -104,6 +106,13 @@ const pinningBundle = {
     //   icon: 'https://ipfs.io/ipfs/QmSrqJeuYrYDmSgAy3SeAyTsYMksNPfK5CSN91xk6BBnF9?filename=eternum.png'
     // }
   ]),
+
+  selectPinningServicesDefaults: () => ({
+    Pinata: {
+      nickname: 'Pinata',
+      apiEndpoint: 'https://testapi.pinata.cloud/psa'
+    }
+  }),
 
   doSetPinning: (cid, services = []) => async ({ getIpfs, store }) => {
     const ipfs = getIpfs()

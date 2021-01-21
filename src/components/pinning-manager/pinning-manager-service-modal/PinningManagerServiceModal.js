@@ -10,10 +10,27 @@ import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
 import './PinningManagerServiceModal.css'
 
-const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, doAddPinningService, ...props }) => {
-  const { register, errors, handleSubmit } = useForm()
+const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service, tReady, doAddPinningService, nickname, apiEndpoint, secretApiKey, ...props }) => {
+  const { register, errors, clearErrors, setError, handleSubmit } = useForm({
+    defaultValues: {
+      nickname,
+      apiEndpoint,
+      secretApiKey: null
+    }
+  })
   const inputClass = 'w-100 lh-copy f5 ph2 pv1 input-reset ba b--black-20 br1 focus-outline'
-  const onSubmit = data => doAddPinningService(data)
+  const onSubmit = async data => {
+    try {
+      await doAddPinningService(data)
+      clearErrors('apiValidation')
+      onSuccess()
+    } catch (error) {
+      setError('apiValidation', {
+        type: 'manual',
+        message: error.message
+      })
+    }
+  }
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
@@ -76,7 +93,9 @@ const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, do
               />
               {errors.secretApiKey && (<ErrorMsg text={ t('errors.secretApiKey') }/>)}
             </div>
-
+          </div>
+          <div>
+            { errors.apiValidation && <p className='red f5 ttc'>{ errors.apiValidation.message}</p> }
           </div>
           <p className='f6'>
             <Trans i18nKey="pinningServiceModal.description" t={t}>
@@ -97,15 +116,21 @@ const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, do
 }
 
 PinningManagerServiceModal.propTypes = {
+  className: PropTypes.string,
+  nickname: PropTypes.string,
+  apiEndpoint: PropTypes.string,
   t: PropTypes.func.isRequired,
-  onLeave: PropTypes.func.isRequired
+  onLeave: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired
 }
 
 PinningManagerServiceModal.defaultProps = {
-  className: ''
+  className: '',
+  nickname: null,
+  apiEndpoint: null
 }
 
-const ErrorMsg = ({ text }) => (<p className='danger absolute f7' style={{ top: 26, left: 2 }}>{text}</p>)
+const ErrorMsg = ({ text }) => (<p className='red absolute f7' style={{ top: 26, left: 2 }}>{text}</p>)
 
 export default connect(
   'doAddPinningService',
