@@ -13,7 +13,7 @@ import memoize from 'p-memoize'
 const UPDATE_EVERY = ms.seconds(1)
 
 // Depends on ipfsBundle, peersBundle
-export default function (opts) {
+function createPeersLocations (opts) {
   opts = opts || {}
   // Max number of locations to retrieve concurrently.
   // HTTP API are throttled to max 4-6 at a time by the browser itself.
@@ -296,3 +296,4 @@ class PeerLocationResolver {
     return peers
   }
 }
+export default createPeersLocations

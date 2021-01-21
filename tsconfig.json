@@ -43,22 +43,13 @@
     ],
     "typeRoots": [
       "@types",
-      "node_modules/@types"
+      "ipfs-core-types"
     ],
-    
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "jsx": "react",
     "baseUrl": ".",
-    // Wokaround https://github.com/ipfs/js-ipfs/issues/3494
-    "paths": {
-      "ipfs-core-types": [
-        "@types/ipfs-core-types/index.ts"
-      ],
-      "ipfs-core-types/*": [
-        "node_moules/ipfs-core-types/*"
-      ]
-    }
+    "module": "esnext"
   },
   "exclude": [
     "./src/test"
@@ -78,7 +69,6 @@
     "src/bundles/task.js",
     "src/lib/count-dirs.js",
     "src/lib/sort.js",
-    "src/lib/files.js"
-  ],
-  "compileOnSave": false
+    "src/lib/files.js",
+  ]
 }

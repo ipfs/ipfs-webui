@@ -149,7 +149,7 @@ const actions = {
   }
 }
 
-export default {
+const experimentsBundle = {
   name: 'experiments',
 
   persistActions: [
@@ -195,3 +195,4 @@ export default {
   ...selectors,
   ...actions
 }
+export default experimentsBundle
