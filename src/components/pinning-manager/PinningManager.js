@@ -12,7 +12,6 @@ import GlyphPin from '../../icons/GlyphPin'
 import ContextMenu from '../context-menu/ContextMenu'
 import ContextMenuItem from '../context-menu/ContextMenuItem'
 import GlyphDots from '../../icons/GlyphDots'
-import StrokeSettings from '../../icons/StrokeSettings'
 import StrokeCancel from '../../icons/StrokeCancel'
 import StrokeExternalLink from '../../icons/StrokeExternalLink'
 
@@ -101,9 +100,10 @@ PinningManager.defaultProps = {
   pinningServices: []
 }
 
-const getIcon = (rowData) => {
+const Icon = (rowData, rowIndex) => {
   const colors = ['aqua', 'navy', 'gray', 'charcoal', 'red', 'yellow', 'teal', 'green', 'link']
-  const color = rowData.type === 'LOCAL' ? colors[0] : colors[Math.floor(Math.random() * colors.length)]
+  const color = useMemo(() => rowData.type === 'LOCAL' ? colors[0] : colors[Math.floor(Math.random() * colors.length)],
+  /* eslint-disable react-hooks/exhaustive-deps */ [rowData.type, rowIndex])
   const iconClass = `mr2 pr1 fill-${color} flex-shrink-0`
 
   if (rowData.icon) {
@@ -112,9 +112,9 @@ const getIcon = (rowData) => {
   return <GlyphPin width="28" height="28" className={iconClass} />
 }
 
-const ServiceCell = ({ rowData }) => (
+const ServiceCell = ({ rowData, rowIndex }) => (
   <div className='flex items-center' title={rowData.name}>
-    {getIcon(rowData)}
+    <Icon rowData={rowData} index={rowIndex}/>
     <span className="truncate">{ rowData.name }</span>
   </div>
 )
