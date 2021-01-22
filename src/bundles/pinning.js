@@ -1,7 +1,7 @@
 // @ts-check
 
 const parseService = (service, availablePinningServices) => {
-  const icon = availablePinningServices.find(x => x.name === service.service)?.icon
+  const icon = availablePinningServices.find(x => x.name.toLowerCase() === service.service.toLowerCase())?.icon
   const parsedService = { ...service, name: service.service, icon }
 
   if (service?.stat?.status === 'invalid') {
@@ -87,8 +87,8 @@ export default {
     const remoteServices = firstListOfServices.map(service => parseService(service, availablePinningServices))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
 
-    const fullListOfSercices = await ipfs.pin.remote.service.ls({ stat: true })
-    const fullRemoteServices = fullListOfSercices.map(service => parseService(service, availablePinningServices))
+    const fullListOfServices = await ipfs.pin.remote.service.ls({ stat: true })
+    const fullRemoteServices = fullListOfServices.map(service => parseService(service, availablePinningServices))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: fullRemoteServices })
   },
 

@@ -100,10 +100,10 @@ PinningManager.defaultProps = {
   pinningServices: []
 }
 
-const Icon = (rowData, rowIndex) => {
-  const colors = ['aqua', 'navy', 'gray', 'charcoal', 'red', 'yellow', 'teal', 'green', 'link']
-  const color = useMemo(() => rowData.type === 'LOCAL' ? colors[0] : colors[Math.floor(Math.random() * colors.length)],
-  /* eslint-disable react-hooks/exhaustive-deps */ [rowData.type, rowIndex])
+const Icon = ({ rowData, index }) => {
+  const colors = ['aqua', 'link', 'yellow', 'teal', 'red', 'green', 'navy', 'gray', 'charcoal']
+  const color = colors[index % colors.length]
+  console.log(index)
   const iconClass = `mr2 pr1 fill-${color} flex-shrink-0`
 
   if (rowData.icon) {
