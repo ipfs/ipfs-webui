@@ -34,7 +34,7 @@ export const PinningManager = ({ pinningServices, doFetchPinningServices, doPins
       try {
         await doPinsSizeGet()
       } catch (e) {
-        console.log(e)
+        console.error('doPinsSizeGet error', e)
       }
     })()
   }, [doPinsSizeGet])
