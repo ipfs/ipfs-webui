@@ -80,7 +80,7 @@ const pinningBundle = {
 
   doFetchPinningServices: () => async ({ getIpfs, store, dispatch }) => {
     const ipfs = getIpfs()
-    if (!ipfs || store?.ipfs?.ipfs?.ready) return null
+    if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return null
 
     const availablePinningServices = store.selectAvailablePinningServices()
     const firstListOfServices = await ipfs.pin.remote.service.ls()
