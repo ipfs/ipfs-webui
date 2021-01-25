@@ -103,7 +103,6 @@ PinningManager.defaultProps = {
 const Icon = ({ rowData, index }) => {
   const colors = ['aqua', 'link', 'yellow', 'teal', 'red', 'green', 'navy', 'gray', 'charcoal']
   const color = colors[index % colors.length]
-  console.log(index)
   const iconClass = `mr2 pr1 fill-${color} flex-shrink-0`
 
   if (rowData.icon) {
