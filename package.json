@@ -121,7 +121,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "fake-indexeddb": "^3.1.2",
     "get-port": "^5.1.1",
-    "go-ipfs": "0.6.0",
+    "go-ipfs": "0.8.0-rc1",
     "http-proxy": "^1.18.1",
     "http-server": "^0.12.3",
     "ipfs": "0.50.2",
