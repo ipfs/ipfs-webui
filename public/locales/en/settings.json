@@ -39,6 +39,7 @@
   },
   "errors": {
     "nickname": "Nickname is required",
+    "apiError": "API error",
     "apiEndpoint": "Must be a valid URL",
     "secretApiKey": "Secret key is required",
     "failedToFetch": "Failed to fetch"

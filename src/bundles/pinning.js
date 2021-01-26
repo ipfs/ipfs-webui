@@ -1,4 +1,5 @@
 // @ts-check
+import availablePinningServicesList from '../constants/pinning'
 
 const parseService = (service, availablePinningServices) => {
   const icon = availablePinningServices.find(x => x.name.toLowerCase() === service.service.toLowerCase())?.icon
@@ -25,13 +26,17 @@ const parseService = (service, availablePinningServices) => {
 const pinningBundle = {
   name: 'pinning',
   reducer: (state = {
-    remotePins: []
+    remotePins: [],
+    arePinningServicesAvailable: false
   }, action) => {
     if (action.type === 'SET_REMOTE_PINS') {
       return { ...state, remotePins: action.payload }
     }
     if (action.type === 'SET_REMOTE_PINNING_SERVICES') {
       return { ...state, pinningServices: action.payload }
+    }
+    if (action.type === 'SET_REMOTE_PINNING_SERVICES_AVAILABLE') {
+      return { ...state, arePinningServicesAvailable: action.payload }
     }
     return state
   },
@@ -82,6 +87,12 @@ const pinningBundle = {
     const ipfs = getIpfs()
     if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return null
 
+    const isRemotePinningSupported = (await ipfs.commands()).Subcommands.find(c => c.Name === 'pin').Subcommands.some(c => c.Name === 'remote')
+
+    if (!isRemotePinningSupported) return null
+
+    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES_AVAILABLE', payload: true })
+
     const availablePinningServices = store.selectAvailablePinningServices()
     const firstListOfServices = await ipfs.pin.remote.service.ls()
     const remoteServices = firstListOfServices.map(service => parseService(service, availablePinningServices))
@@ -94,25 +105,17 @@ const pinningBundle = {
 
   selectPinningServices: (state) => state.pinning.pinningServices || [],
 
-  selectAvailablePinningServices: () => ([
-    {
-      name: 'Pinata',
-      icon: 'https://ipfs.io/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg'
-    }
-    //   name: 'Infura',
-    //   icon: 'https://ipfs.io/ipfs/QmTt6KeaNXyaaUBWn2zEG8RiMfPPPeMesXqnFWqqC5o6yc?filename=infura.png'
-    // }, {
-    //   name: 'Eternum',
-    //   icon: 'https://ipfs.io/ipfs/QmSrqJeuYrYDmSgAy3SeAyTsYMksNPfK5CSN91xk6BBnF9?filename=eternum.png'
-    // }
-  ]),
+  selectAvailablePinningServices: () => availablePinningServicesList,
 
-  selectPinningServicesDefaults: () => ({
-    Pinata: {
-      nickname: 'Pinata',
-      apiEndpoint: 'https://testapi.pinata.cloud/psa'
+  selectArePinningServicesAvailable: (state) => state.pinning.arePinningServicesAvailable,
+
+  selectPinningServicesDefaults: () => availablePinningServicesList.reduce((prev, curr) => ({
+    ...prev,
+    [curr.name]: {
+      ...curr,
+      nickname: curr.name
     }
-  }),
+  }), {}),
 
   doSetPinning: (cid, services = []) => async ({ getIpfs, store }) => {
     const ipfs = getIpfs()
@@ -128,7 +131,7 @@ const pinningBundle = {
 
     // TODO: handle rest of services
   },
-  doAddPinningService: ({ apiEndpoint, nickname, secretApiKey }) => async ({ getIpfs, store }) => {
+  doAddPinningService: ({ apiEndpoint, nickname, secretApiKey }) => async ({ getIpfs }) => {
     const ipfs = getIpfs()
 
     await ipfs.pin.remote.service.add(nickname, {

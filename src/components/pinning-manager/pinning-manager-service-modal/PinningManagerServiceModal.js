@@ -25,6 +25,7 @@ const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service,
       clearErrors('apiValidation')
       onSuccess()
     } catch (error) {
+      console.error(error)
       setError('apiValidation', {
         type: 'manual',
         message: error.message
@@ -76,7 +77,7 @@ const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service,
                 className={ classNames(inputClass, errors.apiEndpoint ? 'bg-red white' : 'charcoal') }
                 placeholder={ t('pinningServiceModal.apiEndpointPlaceholder') }
               />
-              {errors.apiEndpoint && (<ErrorMsg text={ t('errors.apiEndpoint') }/>)}
+              {errors.apiEndpoint && (<ErrorMsg text={`${t('errors.apiError')}: ${t('errors.apiEndpoint')}`}/>)}
             </div>
 
             <label htmlFor="cm-secretApiKey">
