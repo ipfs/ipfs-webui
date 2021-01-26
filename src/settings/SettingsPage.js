@@ -28,7 +28,7 @@ const PAUSE_AFTER_SAVE_MS = 3000
 
 export const SettingsPage = ({
   t, tReady, isIpfsConnected, ipfsPendingFirstConnection,
-  isConfigBlocked, isLoading, isSaving,
+  isConfigBlocked, isLoading, isSaving, arePinningServicesAvailable,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
   toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, command
@@ -61,11 +61,14 @@ export const SettingsPage = ({
     <Box className='mb3 pa4-l pa2 joyride-settings-pinning'>
       <Title>{t('pinningServices.title')}</Title>
       <p className='ma0 mr2 lh-copy charcoal f6'>
-        <Trans i18nKey='pinningServices.description'>
-          <span>Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files.
+        { !arePinningServicesAvailable
+          ? t('pinningServices.noServicesDescription')
+          : (<Trans i18nKey='pinningServices.description'>
+            <span>Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files.
           You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline. </span>
-          <a className='link' href='http://docs.ipfs.io/how-to/work-with-pinning-services/'>Check the documentation for further information.</a>
-        </Trans>
+            <a className='link' href='http://docs.ipfs.io/how-to/work-with-pinning-services/'>Check the documentation for further information.</a>
+          </Trans>
+          )}
       </p>
       <PinningManager t={t} />
     </Box>
@@ -358,6 +361,7 @@ export default connect(
   'selectIsIpfsDesktop',
   'selectToursEnabled',
   'selectAnalyticsEnabled',
+  'selectArePinningServicesAvailable',
   'doToggleAnalytics',
   'doSaveConfig',
   'selectIsCliTutorModeEnabled',
