@@ -20,7 +20,7 @@ import './PinningManager.css'
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
-export const PinningManager = ({ pinningServices, doFetchPinningServices, doPinsSizeGet, doRemovePinningService, pinsSize, numberOfPins, t }) => {
+export const PinningManager = ({ pinningServices, arePinningServicesAvailable, doFetchPinningServices, doPinsSizeGet, doRemovePinningService, pinsSize, numberOfPins, t }) => {
   const [isModalOpen, setModalOpen] = useState(false)
   const onModalOpen = () => setModalOpen(true)
   const onModalClose = () => setModalOpen(false)
@@ -79,11 +79,13 @@ export const PinningManager = ({ pinningServices, doFetchPinningServices, doPins
             )}
           </AutoSizer>
         </div>
-        <div className='flex justify-end w-100 mt2'>
+        { arePinningServicesAvailable &&
+        (<div className='flex justify-end w-100 mt2'>
           <Button className="tc mt2" bg='bg-navy' onClick={onModalOpen}>
             <span><span className="aqua">+</span> {t('actions.addService')}</span>
           </Button>
         </div>
+        )}
       </div>
 
       <Overlay show={isModalOpen} onLeave={onModalClose}>
@@ -181,6 +183,7 @@ export default connect(
   'selectPinsSize',
   'selectNumberOfPins',
   'selectPinningServices',
+  'selectArePinningServicesAvailable',
   'doFetchPinningServices',
   'doRemovePinningService',
   PinningManager
