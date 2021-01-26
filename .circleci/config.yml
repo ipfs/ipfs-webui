@@ -1,8 +1,10 @@
-version: 2
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.1.0
 jobs:
   build:
     docker:
-      - image: circleci/node:14.15.4-browsers-legacy
+      - image: cimg/node:14.15.4-browsers
         environment:
           NO_SANDBOX: true
     steps:
