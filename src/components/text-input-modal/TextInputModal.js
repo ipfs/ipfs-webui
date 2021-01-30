@@ -34,7 +34,7 @@ class TextInputModal extends React.Component {
   }
 
   onChange = (event) => {
-    let val = event.target.value
+    let val = event.target.value.trim()
 
     if (this.props.onChange) {
       val = this.props.onChange(val)
