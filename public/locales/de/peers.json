@@ -5,7 +5,7 @@
   "bootstrapNode": "Bootstrap Node",
   "viaRelay": "über <0>{node}</0>",
   "addConnection": "Verbindung hinzufügen",
-  "insertPeerAddress": "Tragen Sie die Peer-Adresse ein, zu der Sie eine Verbindung aufbauen möchten.",
+  "insertPeerAddress": "Trage die Peer-Adresse ein, zu der Du eine Verbindung aufbauen möchten.",
   "plusPeers": "+ {number} weitere Peers",
   "tour": {
     "step1": {

@@ -14,7 +14,7 @@
   "cliDescription": "<0>Aktiviere diese Option, um ein \"Code anzeigen\" <1></1> Symbol neben häufigen IPFS Befehlen anzuzeigen. Wenn du auf das Symbol klickst, öffnet sich ein Fenster mit CLI-Code des Befehls, den du in die IPFS Kommandozeile deines Terminals einfügen kannst.</0>",
   "fetchingSettings": "Einstellungen werden geladen...",
   "configApiNotAvailable": "Die API zur IPFS-Konfigurations ist nicht verfügbar. Bitte deaktiviere die Browser-Erweiterung \"IPFS Companion\" und versuche es erneut.",
-  "ipfsDaemonOffline": "Der IPFS Daemon ist offline. Bitte starten Sie ihn und versuchen es erneut.",
+  "ipfsDaemonOffline": "Der IPFS Daemon ist offline. Bitte starte ihn und versuche es erneut.",
   "settingsUnavailable": "Einstellungen nicht verfügbar. Bitte überprüfe, ob Dein IPFS-Daemon läuft.",
   "settingsHaveChanged": "Die Einstellungen haben sich geändert. Bitte klicke auf <1>Zurücksetzen</1>, um den Inhalt des Editors zu aktualisieren.",
   "errorOccured": "Beim Speichern Deiner Änderungen ist ein Fehler aufgetreten",
@@ -24,15 +24,15 @@
   "ipfsConfigDescription": "Die IPFS-Konfigurationsdatei ist ein JSON-Dokument. Es wird einmalig beim Start des IPFS-Daemon gelesen. Speichere Deine Änderungen und starte den IPFS-Daemon neu, um sie anzuwenden.",
   "ipfsConfigHelp": "Weitere Informationen findest Du in der Dokumentation.",
   "AnalyticsToggle": {
-    "label": "Helfen Sie uns die App zu verbessern, indem Sie anonyme Nutzerdaten senden.",
-    "summary": "Konfigurieren Sie, was gesammelt wird.",
+    "label": "Hilf uns die App zu verbessern, indem Du uns anonyme Nutzerdaten senden.",
+    "summary": "Konfiguriere, was gesammelt wird.",
     "paragraph1": "Keine CIDs, Dateinamen oder andere persönlichen Daten werden gesammelt. Wir nutzen die Metriken um zu sehen, welche Features nützlich sind um zu entscheiden, was wir als nächstes erweitern sollen. Ferner nutzen wir Informationen zur Systemkonfiguration um unser Testing zu verfeinern.",
     "paragraph2": "Protocol Labs hosted eine <1>Countly</1> Instanz, die anonymisierte Nutzerdaten für diese App aufzeichnet",
     "basicInfo": "Folgende zusätzliche Informationen werden an countly.ipfs.io gesendet",
-    "optionalInfo": "Sie können per Opt-in folgende Informationen senden:",
+    "optionalInfo": "Du kannst per Opt-in folgende Informationen senden:",
     "sessions": {
       "label": "Sitzungen",
-      "summary": "Wann und wie lange Sie die App nutzen sowie Browser-Metriken",
+      "summary": "Wann und wie lange Du die App benutzt, sowie Browser-Metriken",
       "details": "<0>Folgende Browser-Metriken werden übertragen:</0><1><0>Eine zufällig generierte Geräte-ID</0><1>Timestamp zum Beginn der Sitzung</1><2>Getaktete  Timestamps, um die Dauer zu messen</2><3>Die App-Version, z.B. 2.4.4</3><4>Spracheinstellung, z.B. de-DE</4><5>User Agent, z.B. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>Bildschirmauflösung, z.B. 800×600</6><7>Pixeldichte, z.B. 1</7></1>"
     },
     "events": {
@@ -48,12 +48,12 @@
     "location": {
       "label": "Standort",
       "summary": "Landeskennung der IP-Adresse (die IP Adresse selbst wird verworfen)",
-      "details": "Aus Ihrer IP-Adresse wird eine Landeskennung wie \"FR\" für Frankreich erstellt. Ohne Zustimmung der Standort-Übertragung wird ein leerer Standort bei jeder Anfrage an den Server gesendet um eine Standortbestimmung zu unterbinden. Diese Information hilft uns, unsere Übersetzungstätigkeit zu bündeln und zu entscheiden, wo Veranstaltungen abgehalten werden sollten."
+      "details": "Aus deiner IP-Adresse wird eine Landeskennung wie \"FR\" für Frankreich erstellt. Ohne Zustimmung der Standort-Übertragung wird ein leerer Standort bei jeder Anfrage an den Server gesendet um eine Standortbestimmung zu unterbinden. Diese Information hilft uns, unsere Übersetzungstätigkeit zu bündeln und zu entscheiden, wo Veranstaltungen abgehalten werden sollten."
     },
     "crashes": {
       "label": "App Fehler",
       "summary": "JavaScript Fehlermeldungen und Stack-Traces",
-      "details": "Zeichnet JavaScript Fehlermeldungen und Stack-Traces auf, die während der Nutzung der App auftreten falls möglich. Es ist sehr hilfreich zu wissen, wenn die App bei Ihnen nicht funktioniert, aber <1>Fehlermeldungen könnten identifizierbare Informationen enthalten</1> wie CIDs oder Dateipfade. Aktivieren sie diese Option deshalb nur, wenn Sie diese Informationen mit uns teilen möchten."
+      "details": "Zeichnet JavaScript Fehlermeldungen und Stack-Traces auf, die während der Nutzung der App auftreten falls möglich. Es ist sehr hilfreich zu wissen, wenn die App bei Dir nicht funktioniert, aber <1>Fehlermeldungen könnten identifizierbare Informationen enthalten</1> wie CIDs oder Dateipfade. Aktiviere diese Option deshalb nur, wenn Du diese Informationen mit uns teilen möchten."
     }
   },
   "cliToggle": {

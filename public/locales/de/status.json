@@ -14,7 +14,7 @@
   },
   "customApiConfig": "Benutzerdefinierte JSON-Konfiguration",
   "AskToEnable": {
-    "label": "Helfen Sie uns, die App zu verbessern, indem Sie anonyme Nutzerdaten senden."
+    "label": "Hilf uns, die App zu verbessern, indem Du anonyme Nutzerdaten senden."
   },
   "tour": {
     "step1": {
@@ -43,5 +43,5 @@
     }
   },
   "bandwidthStats": "Informationen zur Bandbreite",
-  "bandwidthStatsDisabled": "Sie haben Metriken zur Bandbreite deaktiviert. Sie können diese aktivieren, indem Sie den unten angeführten Befehl ausführen oder die Einstellung <1>Swarm.DisableBandwidthMetrics</1> auf <3>false</3> in den <5>Einstellungen</5>ändern. Danach müssen Sie den  IPFS neu starten, um die Änderungen anzuwenden."
+  "bandwidthStatsDisabled": "Du hast Metriken zur Bandbreite deaktiviert. Du kannst diese aktivieren, indem du den unten angeführten Befehl ausführen oder die Einstellung <1>Swarm.DisableBandwidthMetrics</1> auf <3>false</3> in den <5>Einstellungen</5>ändern. Danach musst du IPFS neu starten, um die Änderungen anzuwenden."
 }

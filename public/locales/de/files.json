@@ -39,7 +39,7 @@
   },
   "addByPathModal": {
     "title": "Aus IPFS importieren",
-    "description": "Tragen Sie einen IPFS Pfad (CID) zum Importieren ein.",
+    "description": "Trage einen IPFS Pfad (CID) zum Importieren ein.",
     "examples": "Beispiele:"
   },
   "newFolderModal": {
