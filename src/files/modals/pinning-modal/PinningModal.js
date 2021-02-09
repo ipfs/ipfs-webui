@@ -17,12 +17,14 @@ const humanSize = (size) => {
   })
 }
 
-export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, availablePinningServices, doGetFileSizeThroughCid, doSelectRemotePinsForFile, className, ...props }) => {
+export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, availablePinningServices, doGetFileSizeThroughCid, doSelectRemotePinsForFile, doFetchPinningServices, className, ...props }) => {
   const remoteServices = useMemo(() => doSelectRemotePinsForFile(file), [doSelectRemotePinsForFile, file])
+
   const [selectedServices, setSelectedServices] = useState([...remoteServices, ...[file.pinned && 'local']])
   const [size, setSize] = useState(null)
 
   useEffect(() => {
+    doFetchPinningServices()
     const fetchSize = async () => setSize(await doGetFileSizeThroughCid(file.cid))
     fetchSize()
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,7 +64,7 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, availabl
 
       <ModalActions>
         <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>{t('app:actions.cancel')}</Button>
-        <Button className='ma2 tc' bg='bg-teal' onClick={() => onPinningSet(file.cid, selectedServices)}>{t('app:actions.apply')}</Button>
+        <Button className='ma2 tc' bg='bg-teal' onClick={() => onPinningSet(file, selectedServices)}>{t('app:actions.apply')}</Button>
       </ModalActions>
     </Modal>
   )
@@ -84,5 +86,6 @@ export default connect(
   'selectAvailablePinningServices',
   'doSelectRemotePinsForFile',
   'doGetFileSizeThroughCid',
+  'doFetchPinningServices',
   withTranslation('files')(PinningModal)
 )
