@@ -266,7 +266,6 @@ const actions = () => ({
           ? { uploaded: status.uploaded, offset, name }
           : { uploaded: status.uploaded + status.offset, offset, name }
       const progress = (status.uploaded + status.offset) / totalSize * 100
-      console.log({ progress })
 
       yield { entries, progress }
     }
@@ -579,7 +578,13 @@ const importFiles = (ipfs, files) => {
  * @param {import('./utils').Sorting} options.sorting
  */
 const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
-  const res = await all(ipfs.ls(cid)) || []
+  const entries = await all(ipfs.ls(cid)) || []
+  // Workarounds regression in IPFS HTTP Client that causes
+  // ls on empty dir to return list with that dir only.
+  // @see https://github.com/ipfs/js-ipfs/issues/3566
+  const res = (entries.length === 1 && entries[0].cid.toString() === cid.toString())
+    ? []
+    : entries
   const files = []
   const showStats = res.length < 100
 
