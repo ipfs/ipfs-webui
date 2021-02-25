@@ -24,7 +24,6 @@ let proxyd
 let user
 let password
 let proxyPort
-let startProxyServer
 
 beforeAll(async () => {
   await page.goto(webuiUrl)
@@ -79,44 +78,39 @@ beforeAll(async () => {
       proxy.web(req, res, { target: remoteApiUrl })
     }
   })
-  startProxyServer = async (port) => {
-    return new Promise((resolve, reject) => {
-      proxyd.on('listening', () => resolve())
-      proxyd.on('error', (e) => reject(e))
-      proxyd.listen(port)
-    })
-  }
 })
 
 beforeEach(async () => {
   // Swap API port for each test, ensure we don't get false-positives
   proxyPort = await getPort()
-  await startProxyServer(proxyPort)
+  await proxyd.listen(proxyPort)
 })
 
 afterEach(async () => {
-  await proxyd.close()
+  if (proxyd.listening) await proxyd.close()
+})
+
+afterAll(async () => {
+  if (proxyd.listening) await proxyd.close()
+  await ipfsd.stop()
 })
 
 const switchIpfsApiEndpointViaLocalStorage = async (endpoint) => {
-  await page.goto(webuiUrl)
   if (endpoint) {
     await page.evaluate((a) => localStorage.setItem('ipfsApi', a), endpoint)
   } else {
     await page.evaluate(() => localStorage.removeItem('ipfsApi'))
   }
   await waitForIpfsApiEndpoint(endpoint)
-  await page.reload()
 }
+
 const switchIpfsApiEndpointViaSettings = async (endpoint) => {
-  await page.goto(webuiUrl + '#/settings')
+  await expect(page).toClick('a[href="#/settings"]')
   const selector = 'input[id="api-address"]'
-  await page.waitForSelector(selector)
-  await page.click(selector, { clickCount: 3 }) // select all
-  await page.type(selector, endpoint)
+  await page.waitForSelector(selector, { visible: true })
+  await expect(page).toFill(selector, endpoint)
   await page.type(selector, '\n')
   await waitForIpfsApiEndpoint(endpoint)
-  await page.reload()
 }
 
 const waitForIpfsApiEndpoint = async (endpoint) => {
@@ -134,9 +128,10 @@ const waitForIpfsApiEndpoint = async (endpoint) => {
         endpoint = uri.port || endpoint
       }
     } catch (_) {}
-    return page.waitForFunction(`localStorage.getItem('ipfsApi').includes('${endpoint}')`)
+    await page.waitForFunction(`localStorage.getItem('ipfsApi') && localStorage.getItem('ipfsApi').includes('${endpoint}')`)
+    return
   }
-  return page.waitForFunction('localStorage.getItem(\'ipfsApi\') === null')
+  await page.waitForFunction('localStorage.getItem(\'ipfsApi\') === null')
 }
 
 const basicAuthConnectionConfirmation = async (user, password, proxyPort) => {
@@ -163,9 +158,8 @@ const expectPeerIdOnStatusPage = async (api) => {
 }
 
 const expectHttpApiAddressOnStatusPage = async (value) => {
-  const link = 'a[href="#/"]'
-  await page.waitForSelector(link)
-  await page.click(link)
+  await expect(page).toClick('a[href="#/"]')
+  await page.reload() // instant addr update for faster CI
   await page.waitForSelector('summary', { visible: true })
   await expect(page).toClick('summary', { text: 'Advanced' })
   const apiAddressOnStatus = await page.waitForSelector('div[id="http-api-address"]', { visible: true })
@@ -173,9 +167,7 @@ const expectHttpApiAddressOnStatusPage = async (value) => {
 }
 
 const expectHttpApiAddressOnSettingsPage = async (value) => {
-  const settingsLink = 'a[href="#/settings"]'
-  await page.waitForSelector(settingsLink)
-  await page.click(settingsLink)
+  await expect(page).toClick('a[href="#/settings"]')
   await page.waitForSelector('input[id="api-address"]', { visible: true })
   const apiAddrInput = await page.$('#api-address')
   const apiAddrValue = await page.evaluate(x => x.value, apiAddrInput)
@@ -199,6 +191,7 @@ describe('API @ multiaddr', () => {
   const localApiMultiaddr = `/ip4/${localIpfs.apiHost}/tcp/${localIpfs.apiPort}`
 
   it('should be possible to set via Settings page', async () => {
+    await page.goto(webuiUrl + '#/settings')
     await switchIpfsApiEndpointViaSettings(localApiMultiaddr)
   })
 
@@ -265,9 +258,5 @@ describe('API with CORS and Basic Auth', () => {
     })
     await switchIpfsApiEndpointViaSettings(apiOptions)
     await basicAuthConnectionConfirmation(user, password, proxyPort)
-  })
-
-  afterAll(async () => {
-    await ipfsd.stop()
   })
 })

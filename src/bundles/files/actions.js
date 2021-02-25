@@ -248,11 +248,7 @@ const actions = () => ({
       // as relative paths, so normalise all to be relative.
       .map($ => $.path[0] === '/' ? { ...$, path: $.path.slice(1) } : $)
 
-    const uploadSize = files.reduce((prev, { size }) => prev + size, 0)
-    // Just estimate download size to be around 10% of upload size.
-    const downloadSize = uploadSize * 10 / 100
-    const totalSize = uploadSize + downloadSize
-    let loaded = 0
+    const totalSize = files.reduce((prev, { size }) => prev + size, 0)
 
     const entries = files.map(({ path, size }) => ({ path, size }))
 
@@ -260,9 +256,18 @@ const actions = () => ({
 
     const { result, progress } = importFiles(ipfs, files)
 
-    for await (const update of progress) {
-      loaded += update.loaded
-      yield { entries, progress: loaded / totalSize * 100 }
+    /** @type {null|{uploaded:number, offset:number, name:string}} */
+    let status = null
+
+    for await (const { name, offset } of progress) {
+      status = status == null
+        ? { uploaded: 0, offset, name }
+        : name === status.name
+          ? { uploaded: status.uploaded, offset, name }
+          : { uploaded: status.uploaded + status.offset, offset, name }
+      const progress = (status.uploaded + status.offset) / totalSize * 100
+
+      yield { entries, progress }
     }
 
     try {
@@ -551,13 +556,12 @@ export default actions
  * @param {FileStream[]} files
  */
 const importFiles = (ipfs, files) => {
-  /** @type {Channel<{ total:number, loaded: number}>} */
+  /** @type {Channel<{ offset:number, name: string}>} */
   const channel = new Channel()
   const result = all(ipfs.addAll(files, {
     pin: false,
     wrapWithDirectory: false,
-    onUploadProgress: (event) => channel.send(event),
-    onDownloadProgress: (event) => channel.send(event)
+    progress: (offset, name) => channel.send({ offset, name })
   }))
 
   result.then(() => channel.close(), error => channel.close(error))
@@ -574,7 +578,13 @@ const importFiles = (ipfs, files) => {
  * @param {import('./utils').Sorting} options.sorting
  */
 const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
-  const res = await all(ipfs.ls(cid)) || []
+  const entries = await all(ipfs.ls(cid)) || []
+  // Workarounds regression in IPFS HTTP Client that causes
+  // ls on empty dir to return list with that dir only.
+  // @see https://github.com/ipfs/js-ipfs/issues/3566
+  const res = (entries.length === 1 && entries[0].cid.toString() === cid.toString())
+    ? []
+    : entries
   const files = []
   const showStats = res.length < 100
 

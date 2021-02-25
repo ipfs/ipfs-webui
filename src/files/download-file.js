@@ -1,4 +1,4 @@
-export default (srcUrl, filename, progressCallback, method = 'GET') => {
+const downloadFile = (srcUrl, filename, progressCallback, method = 'GET') => {
   const xhr = new window.XMLHttpRequest()
   let total = 0
 
@@ -39,3 +39,4 @@ export default (srcUrl, filename, progressCallback, method = 'GET') => {
   xhr.send()
   return { abort }
 }
+export default downloadFile

@@ -1,6 +1,6 @@
 import root from 'window-or-global'
 
-export default {
+const toursBundle = {
   name: 'tours',
 
   init: (store) => {
@@ -46,3 +46,4 @@ export default {
 
   selectShowTooltip: state => state.tours.tooltip
 }
+export default toursBundle

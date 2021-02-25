@@ -1,7 +1,7 @@
 import { createSelector } from 'redux-bundler'
 
 // Depends on nodeBandwidthBundle
-export default function (opts) {
+function createNodeBandwidthChart (opts) {
   opts = opts || {}
   // Only store up to 1 day of data
   opts.windowSize = opts.windowSize || 1000 * 60 * 60 * 24
@@ -53,3 +53,4 @@ export default function (opts) {
     )
   }
 }
+export default createNodeBandwidthChart

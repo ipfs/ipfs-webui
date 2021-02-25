@@ -1,4 +1,4 @@
-export default {
+const extToType = {
   wav: 'audio',
   bwf: 'audio',
   aiff: 'audio',
@@ -504,3 +504,4 @@ export default {
   zrtf: 'text',
   zw: 'text'
 }
+export default extToType
