@@ -40,7 +40,7 @@ module.exports = async function globalSetup (globalConfig) {
         ipfsBin: require('go-ipfs').path()
       },
       js: {
-        ipfsBin: path.resolve(__dirname, '../../../node_modules/ipfs/src/cli/bin.js')
+        ipfsBin: path.resolve(__dirname, '../../../node_modules/ipfs/src/cli.js')
       }
     })
 
