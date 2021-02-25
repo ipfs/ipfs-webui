@@ -39,6 +39,11 @@
     "nativeName": "Français",
     "englishName": "French"
   },
+  "hu": {
+    "locale": "hu",
+    "nativeName": "Magyar",
+    "englishName": "Hungarian"
+  },
   "it": {
     "locale": "it",
     "nativeName": "Italiano",
