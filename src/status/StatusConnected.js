@@ -12,21 +12,15 @@ export const StatusConnected = ({ t, peersCount, repoSize }) => {
       </h1>
       <p className='montserrat fw4 f5 ma0 pb3 lh-copy'>
         <span className='db dib-ns'>
-          <Trans
-            i18nKey='StatusConnected.paragraph1' t={t}
-            defaults='Hosting <0>{repoSize} of files</0>'
-            values={{ repoSize: humanRepoSize }}
-            components={[<a className='link blue' href='#/files'>?</a>]}
-          />
+          <a className='link blue' href='#/files'>
+            {t('StatusConnected.repoSize', { repoSize: humanRepoSize })}
+          </a>
         </span>
         <span className='dn di-ns gray'> — </span>
         <span className='db mt1 mt0-ns dib-ns'>
-          <Trans
-            i18nKey='StatusConnected.paragraph2' t={t}
-            defaults='Discovered <0>{peersCount} peers</0>'
-            values={{ peersCount: peersCount.toString() }}
-            components={[<a className='link blue' href='#/peers'>?</a>]}
-          />
+          <a className='link blue' href='#/peers'>
+            {t('StatusConnected.peersCount', { peersCount: peersCount.toString() })}
+          </a>
         </span>
       </p>
     </header>

@@ -26,7 +26,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 //
 // See: https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/webkitGetAsEntry
 // See: https://github.com/grabantot/datatransfer-files-promise/blob/72b6cc763f9b400c59197bcc787268965310c260/index.js
-export default (manager) => {
+const createBackend = (manager) => {
   const backend = HTML5Backend(manager)
   const handler = backend.handleTopDropCapture
   backend.handleTopDropCapture = (event) => {
@@ -41,3 +41,4 @@ export default (manager) => {
   }
   return backend
 }
+export default createBackend

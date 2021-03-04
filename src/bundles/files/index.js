@@ -12,7 +12,7 @@ export const sorts = SORTING
  * @typedef {import('./protocol').Message} Message
  * @typedef {import('../task').SpawnState<any, Error, any, any>} JobState
  */
-export default () => {
+const createFilesBundle = () => {
   return {
     name: 'files',
 
@@ -134,7 +134,7 @@ export default () => {
     ...selectors()
   }
 }
-
+export default createFilesBundle
 /**
  * Updates state of the given job.
  * @param {Model} state

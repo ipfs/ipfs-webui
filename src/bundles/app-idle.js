@@ -15,7 +15,7 @@ export const getIdleDispatcher = (stopWhenInactive, timeout, fn) =>
     stopWhenInactive ? raf(() => ric(fn, ricOptions)) : ric(fn, ricOptions)
   }, timeout)
 
-export default spec => ({
+const createAppIdle = spec => ({
   name: 'appIdle',
 
   init: store => {
@@ -40,3 +40,4 @@ export default spec => ({
     callback()
   }
 })
+export default createAppIdle

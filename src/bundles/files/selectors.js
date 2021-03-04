@@ -4,17 +4,22 @@ import { infoFromPath } from './utils'
 
 /**
  * @typedef {import('./protocol').Model} Files
+ * @typedef {import('./protocol').PageContent} PageContent
  * @typedef {Object} Model
  * @property {Files} files
+ *
+ * @typedef {import('redux-bundler').Selectors<ReturnType<typeof selectors>>} Selectors
  */
 
 /**
- * @typedef {import('redux-bundler').Selectors<ReturnType<typeof selectors>>} Selectors
+ * @template M, I
+ * @typedef {import('./protocol').PendingJob<M, I>} PendingJob
  */
 
 const selectors = () => ({
   /**
    * @param {Model} state
+   * @returns {null|PageContent}
    */
   selectFiles: (state) => state.files.pageContent,
 
@@ -27,11 +32,13 @@ const selectors = () => ({
 
   /**
    * @param {Model} state
+   * @returns {string[]}
    */
   selectPins: (state) => state.files.pins,
 
   /**
    * @param {Model} state
+   * @returns {number}
    */
   selectFilesSize: (state) => state.files.mfsSize,
 
@@ -52,6 +59,7 @@ const selectors = () => ({
 
   /**
    * @param {Model} state
+   * @returns {boolean}
    */
   selectShowLoadingAnimation: (state) => {
     const pending = state.files.pending.find(a => a.type === ACTIONS.FETCH)
@@ -65,6 +73,7 @@ const selectors = () => ({
 
   /**
    * @param {Model} state
+   * @returns {PendingJob<void, {progress: number, entries: {size:number, path: string}[]}>[]}
    */
   selectFilesPending: (state) =>
     state.files.pending.filter(s => s.type === ACTIONS.WRITE && s.message != null),

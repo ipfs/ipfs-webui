@@ -12,32 +12,44 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
     "strict": true,
+    "skipLibCheck": true,
     "alwaysStrict": true,
-    "target": "esnext",
-    "moduleResolution": "node",
-    "module": "esnext",
     "esModuleInterop": true,
+    "stripInternal": true,
+    "resolveJsonModule": true,
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "target": "ES2019",
+    "moduleResolution": "node",
+    "lib": [
+      "ES2019",
+      "ES2020.Promise",
+      "ES2020.String",
+      "ES2020.BigInt",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "noEmitOnError": false,
+    "noEmit": true,
+    "emitDeclarationOnly": false,
     "declaration": true,
     "declarationMap": true,
+    "incremental": true,
+    "composite": true,
     "types": [
       "node"
     ],
     "typeRoots": [
       "@types",
-      "node_modules/@types"
+      "ipfs-core-types"
     ],
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": ".",
+    "module": "esnext"
   },
   "exclude": [
     "./src/test"
@@ -54,7 +66,9 @@
     "src/bundles/ipfs-desktop.js",
     "src/bundles/ipfs-provider.js",
     "src/bundles/retry-init.js",
-    "src/bundles/task.js"
-  ],
-  "compileOnSave": false
+    "src/bundles/task.js",
+    "src/lib/count-dirs.js",
+    "src/lib/sort.js",
+    "src/lib/files.js",
+  ]
 }
