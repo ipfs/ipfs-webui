@@ -1,4 +1,4 @@
-export default [
+const services = [
   {
     name: 'Pinata',
     icon: 'https://svgshare.com/i/M7y.svg'
@@ -10,3 +10,5 @@ export default [
     icon: 'https://www.eternum.io/static/images/icons/favicon-32x32.a2341c8ec160.png'
   }
 ]
+
+export default services
