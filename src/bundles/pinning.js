@@ -32,6 +32,12 @@ const pinningBundle = {
     if (action.type === 'SET_REMOTE_PINS') {
       return { ...state, remotePins: action.payload }
     }
+    if (action.type === 'ADD_REMOTE_PIN') {
+      return { ...state, remotePins: [...state.remotePins, action.payload] }
+    }
+    if (action.type === 'REMOVE_REMOTE_PIN') {
+      return { ...state, remotePins: state.remotePins.filter(p => p.id !== action.payload.id) }
+    }
     if (action.type === 'SET_REMOTE_PINNING_SERVICES') {
       return { ...state, pinningServices: action.payload }
     }
@@ -41,43 +47,43 @@ const pinningBundle = {
     return state
   },
 
-  doFetchRemotePins: () => async ({ dispatch, store }) => {
-    // const pinningServices = store.selectPinningServices()
+  doFetchRemotePins: () => async ({ dispatch, store, getIpfs }) => {
+    const pinningServices = store.selectPinningServices()
 
-    // if (!pinningServices?.length) return
+    if (!pinningServices?.length) return
 
-    // // TODO: unmock this (e.g. const pins = ipfs.pin.remote.ls ...)
-    // const response = [
-    //   {
-    //     id: 'Pinata:UniqueIdOfPinRequest',
-    //     status: 'queued',
-    //     cid: 'QmQsUbcVx6Vu8vtL858FdxD3sVBE6m8uP3bjFoTzrGubmX',
-    //     name: '26_remote.png',
-    //     delegates: ['/dnsaddr/pin-service.example.com']
-    //   }
-    // ]
+    const ipfs = getIpfs()
 
-    // // TODO: get type of item?
+    if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return
 
-    // const remotePins = response.map(item => ({
-    //   ...item,
-    //   isRemotePin: true,
-    //   type: item.type || 'unknown',
-    //   size: Math.random() * 1000// TODO: files.stat in the future
-    // }))
+    const pinsGenerator = pinningServices.map(async service => ({
+      pins: await ipfs.pin.remote.ls({
+        service: service.name
+      }),
+      serviceName: service.name
+    }))
 
-    // // TODO: handle different status (queued = async fetch in batches to update ui?)
+    dispatch({ type: 'SET_REMOTE_PINS', payload: [] })
 
-    const remotePins = []
-
-    dispatch({ type: 'SET_REMOTE_PINS', payload: remotePins })
+    for await (const { pins, serviceName } of pinsGenerator) {
+      for await (const pin of pins) {
+        dispatch({
+          type: 'ADD_REMOTE_PIN',
+          payload: {
+            ...pin,
+            id: `${serviceName}:${pin.cid}`
+          }
+        })
+      }
+    }
   },
 
   selectRemotePins: (state) => state.pinning.remotePins || [],
 
-  doSelectRemotePinsForFile: (file) => async ({ store }) => {
+  doSelectRemotePinsForFile: (file) => ({ store }) => {
     const pinningServicesNames = store.selectPinningServices().map(remote => remote.name)
-    const remotePinForFile = store.selectRemotePins().filter(pin => pin.cid === file.cid.string)
+
+    const remotePinForFile = store.selectRemotePins().filter(pin => pin.cid.string === file.cid.string)
     const servicesBeingUsed = remotePinForFile.map(pin => pin.id.split(':')[0]).filter(pinId => pinningServicesNames.includes(pinId))
 
     return servicesBeingUsed
@@ -117,19 +123,42 @@ const pinningBundle = {
     }
   }), {}),
 
-  doSetPinning: (cid, services = []) => async ({ getIpfs, store }) => {
+  doSetPinning: (pin, services = []) => async ({ getIpfs, store, dispatch }) => {
     const ipfs = getIpfs()
+    const { cid, name } = pin
 
     const pinLocally = services.includes('local')
     try {
       pinLocally ? await ipfs.pin.add(cid) : await ipfs.pin.rm(cid)
     } catch (e) {
       console.error(e)
-    } finally {
-      await store.doPinsFetch()
     }
 
-    // TODO: handle rest of services
+    store.selectPinningServices().forEach(async service => {
+      const shouldPin = services.includes(service.name)
+      try {
+        if (shouldPin) {
+          dispatch({
+            type: 'ADD_REMOTE_PIN',
+            payload: {
+              ...pin,
+              id: `${service.name}:${pin.cid}`
+            }
+          })
+          await ipfs.pin.remote.add(cid, { service: service.name, name })
+        } else {
+          dispatch({
+            type: 'REMOVE_REMOTE_PIN',
+            payload: { id: `${service.name}:${pin.cid}` }
+          })
+          await ipfs.pin.remote.rm({ cid: [cid], service: service.name })
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    })
+
+    await store.doPinsFetch()
   },
   doAddPinningService: ({ apiEndpoint, nickname, secretApiKey }) => async ({ getIpfs }) => {
     const ipfs = getIpfs()

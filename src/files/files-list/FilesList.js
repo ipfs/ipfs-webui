@@ -23,7 +23,7 @@ const addFiles = async (filesPromise, onAddFiles) => {
 }
 
 const mergeRemotePinsIntoFiles = (files, remotePins) => {
-  const remotePinsCids = remotePins.map(c => c.cid)
+  const remotePinsCids = remotePins.map(c => c.cid.string)
 
   return files.map(f => remotePinsCids.includes(f.cid?.string) ? ({
     ...f,
@@ -32,7 +32,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins) => {
 }
 
 export const FilesList = ({
-  className, files, pins, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
+  className, files, pins, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation, availablePinningServices,
   onShare, onSetPinning, onInspect, onDownload, onDelete, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])

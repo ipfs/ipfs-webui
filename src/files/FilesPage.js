@@ -48,7 +48,7 @@ class FilesPage extends React.Component {
     this.props.doFilesFetch()
     this.props.doPinsFetch()
     this.props.doFilesSizeGet()
-    this.props.doFetchRemotePins()
+    this.props.doFetchPinningServices().then(() => this.props.doFetchRemotePins())
   }
 
   componentDidUpdate (prev) {
@@ -316,6 +316,7 @@ export default connect(
   'selectFilesPathInfo',
   'doUpdateHash',
   'doPinsFetch',
+  'doFetchPinningServices',
   'doFetchRemotePins',
   'doFilesFetch',
   'doFilesMove',

@@ -163,11 +163,11 @@ const OptionsCell = ({ doRemovePinningService, name, t }) => {
       <ContextMenu className="pv2 ph1" style={{ zIndex: 1001 }} visible={isContextVisible}
         target={buttonRef} onDismiss={() => setContextVisibility(false)} arrowAlign="right">
         { visitServiceUrl && (
-          <ContextMenuItem className='pv2 ph1' onClick={ () => setContextVisibility(false) }>
-            <a className='link flex items-center' href={visitServiceUrl} target='_blank' rel='noopener noreferrer'>
+          <a className='link flex items-center' href={visitServiceUrl} target='_blank' rel='noopener noreferrer'>
+            <ContextMenuItem className='pv2 ph1' onClick={ () => setContextVisibility(false) }>
               <StrokeExternalLink width="28" className='fill-aqua'/> <span className="ph1 charcoal">{t('visitService')}</span>
-            </a>
-          </ContextMenuItem>)
+            </ContextMenuItem>
+          </a>)
         }
         <ContextMenuItem className='pv2 ph1' onClick={ handleRemove }>
           <StrokeCancel width="28" className='fill-aqua'/> <span className="ph1">{t('remove')}</span>
