@@ -1,9 +1,10 @@
 // @ts-check
 import availablePinningServicesList from '../constants/pinning'
 
-const parseService = (service, availablePinningServices) => {
+const parseService = async (service, availablePinningServices, ipfs) => {
   const icon = availablePinningServices.find(x => x.name.toLowerCase() === service.service.toLowerCase())?.icon
-  const parsedService = { ...service, name: service.service, icon }
+  const autoUpload = await ipfs.config.get(`Pinning.RemoteServices.${service.service}.Policies.MFS.Enable`)
+  const parsedService = { ...service, name: service.service, icon, autoUpload }
 
   if (service?.stat?.status === 'invalid') {
     console.error(`Invalid stats found for service ${service.service}`)
@@ -101,11 +102,11 @@ const pinningBundle = {
 
     const availablePinningServices = store.selectAvailablePinningServices()
     const firstListOfServices = await ipfs.pin.remote.service.ls()
-    const remoteServices = firstListOfServices.map(service => parseService(service, availablePinningServices))
+    const remoteServices = await Promise.all(firstListOfServices.map(service => parseService(service, availablePinningServices, ipfs)))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
 
     const fullListOfServices = await ipfs.pin.remote.service.ls({ stat: true })
-    const fullRemoteServices = fullListOfServices.map(service => parseService(service, availablePinningServices))
+    const fullRemoteServices = await Promise.all(fullListOfServices.map(service => parseService(service, availablePinningServices, ipfs)))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: fullRemoteServices })
   },
 
@@ -173,6 +174,18 @@ const pinningBundle = {
     const ipfs = getIpfs()
 
     await ipfs.pin.remote.service.rm(name)
+
+    store.doFetchPinningServices()
+  },
+
+  doSetAutoUploadForService: (name) => async ({ getIpfs, store }) => {
+    const ipfs = getIpfs()
+
+    const configName = `Pinning.RemoteServices.${name}.Policies.MFS.Enable`
+
+    const previousPolicy = await ipfs.config.get(configName)
+
+    await ipfs.config.set(configName, !previousPolicy)
 
     store.doFetchPinningServices()
   }

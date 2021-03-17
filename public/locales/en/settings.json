@@ -6,7 +6,8 @@
   "pinningServices": {
     "title": "Pinning Services",
     "description": "<0>Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.</0> <1>Check the documentation for further information.</1>",
-    "noServicesDescription": "Support for third-party remote pinning services will be implemented in a future release, and you'll be able to add and configure them here. In the meantime, use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files."
+    "noServicesDescription": "Support for third-party remote pinning services will be implemented in a future release, and you'll be able to add and configure them here. In the meantime, use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files.",
+    "toggleAutoUpload": "Toggle Auto Upload"
   },
   "language": "Language",
   "analytics": "Analytics",
@@ -38,6 +39,10 @@
     "secretApiKey": "Secret API key",
     "autoUpload": "Auto upload"
   },
+  "autoUploadModal": {
+    "title": "Toggle Auto Upload",
+    "description": "Non id eiusmod eu tempor velit adipisicing amet laborum proident. Lorem proident pariatur consectetur adipisicing voluptate nostrud ullamco nisi. Sunt dolore incididunt irure deserunt culpa in cillum sit consectetur Lorem nostrud veniam."
+  },
   "errors": {
     "nickname": "Nickname is required",
     "apiError": "API error",
@@ -50,7 +55,8 @@
     "edit": "Change",
     "close": "Close",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "toggle": "Toggle"
   },
   "edit": "Edit",
   "visitService": "Visit service",
@@ -61,6 +67,7 @@
   "pins": "Pins",
   "autoUpload": "Auto Upload",
   "autoUploadKeys": {
+    "true": "All files",
     "ALL_FILES": "All files",
     "DISABLED": "Disabled",
     "PINS_ONLY": "Pins only"
