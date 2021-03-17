@@ -149,11 +149,11 @@ const NumberOfPinsCell = ({ rowData, t }) => {
 const AutoUploadCell = ({ autoUpload, name, doRemovePinningService, t, type, onToggleModalOpen }) => (
   <div className="flex justify-between items-center">
     <div className={!autoUpload ? 'gray' : ''}>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
-    { type !== 'LOCAL' && <OptionsCell doRemovePinningService={doRemovePinningService} name={name} t={t} onToggleModalOpen={onToggleModalOpen}/> }
+    { type !== 'LOCAL' && <OptionsCell doRemovePinningService={doRemovePinningService} name={name} t={t} onToggleModalOpen={onToggleModalOpen} autoUpload={autoUpload}/> }
   </div>
 )
 
-const OptionsCell = ({ doRemovePinningService, name, t, onToggleModalOpen }) => {
+const OptionsCell = ({ doRemovePinningService, name, autoUpload, t, onToggleModalOpen }) => {
   const buttonRef = useRef()
   const [isContextVisible, setContextVisibility] = useState(false)
 
@@ -175,7 +175,7 @@ const OptionsCell = ({ doRemovePinningService, name, t, onToggleModalOpen }) => 
       <ContextMenu className="pv2 ph1" style={{ zIndex: 1001 }} visible={isContextVisible}
         target={buttonRef} onDismiss={() => setContextVisibility(false)} arrowAlign="right">
         <ContextMenuItem className='pv2 ph1' onClick={ () => onToggleModalOpen(name) }>
-          <StrokeCloud width="28" className='fill-aqua'/> <span className="ph1">{t('pinningServices.toggleAutoUpload')}</span>
+          <StrokeCloud width="28" className='fill-aqua'/> <span className="ph1">{autoUpload ? t('pinningServices.removeAutoUpload') : t('pinningServices.addAutoUpload')}</span>
         </ContextMenuItem>
         { visitServiceUrl && (
           <a className='link flex items-center' href={visitServiceUrl} target='_blank' rel='noopener noreferrer'>
