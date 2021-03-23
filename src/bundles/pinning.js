@@ -22,7 +22,7 @@ const parseService = async (service, availablePinningServices, ipfs) => {
  * @property {string} name
  * @property {('queued'|'pinning'|'pinned'|'failed')} status
  * @property {string} cid
- * @property {Array<string>} [delegates] e.g. ["/dnsaddr/pin-service.example.com"]
+ * @property {Array<string>} [delegates] (multiaddrs endind with /p2p/peerid)
 */
 const pinningBundle = {
   name: 'pinning',
@@ -57,26 +57,25 @@ const pinningBundle = {
 
     if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return
 
-    const pinsGenerator = pinningServices.map(async service => ({
-      pins: await ipfs.pin.remote.ls({
-        service: service.name
-      }),
-      serviceName: service.name
-    }))
-
     dispatch({ type: 'SET_REMOTE_PINS', payload: [] })
 
-    for await (const { pins, serviceName } of pinsGenerator) {
-      for await (const pin of pins) {
-        dispatch({
-          type: 'ADD_REMOTE_PIN',
-          payload: {
-            ...pin,
-            id: `${serviceName}:${pin.cid}`
-          }
-        })
+    await Promise.all(pinningServices.map(async service => {
+      try {
+        const pins = ipfs.pin.remote.ls({ service: service.name })
+        for await (const pin of pins) {
+          dispatch({
+            type: 'ADD_REMOTE_PIN',
+            payload: {
+              ...pin,
+              id: `${service.name}:${pin.cid}`
+            }
+          })
+        }
+      } catch (_) {
+        // if one of services is offline, ignore it for now
+        // and continue checking remaining ones
       }
-    }
+    }))
   },
 
   selectRemotePins: (state) => state.pinning.remotePins || [],
@@ -101,8 +100,8 @@ const pinningBundle = {
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES_AVAILABLE', payload: true })
 
     const availablePinningServices = store.selectAvailablePinningServices()
-    const firstListOfServices = await ipfs.pin.remote.service.ls()
-    const remoteServices = await Promise.all(firstListOfServices.map(service => parseService(service, availablePinningServices, ipfs)))
+    const offlineListOfServices = await ipfs.pin.remote.service.ls()
+    const remoteServices = await Promise.all(offlineListOfServices.map(service => parseService(service, availablePinningServices, ipfs)))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
 
     const fullListOfServices = await ipfs.pin.remote.service.ls({ stat: true })
