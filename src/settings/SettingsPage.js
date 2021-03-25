@@ -28,7 +28,7 @@ const PAUSE_AFTER_SAVE_MS = 3000
 
 export const SettingsPage = ({
   t, tReady, isIpfsConnected, ipfsPendingFirstConnection,
-  isConfigBlocked, isLoading, isSaving, arePinningServicesAvailable,
+  isConfigBlocked, isLoading, isSaving, arePinningServicesSupported,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
   toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, command
@@ -61,14 +61,10 @@ export const SettingsPage = ({
     <Box className='mb3 pa4-l pa2 joyride-settings-pinning'>
       <Title>{t('pinningServices.title')}</Title>
       <p className='ma0 mr2 lh-copy charcoal f6'>
-        { !arePinningServicesAvailable
-          ? t('pinningServices.noServicesDescription')
-          : (<Trans i18nKey='pinningServices.description'>
-            <span>Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files.
-          You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline. </span>
-            <a className='link' href='http://docs.ipfs.io/how-to/work-with-pinning-services/'>Check the documentation for further information.</a>
-          </Trans>
-          )}
+        { arePinningServicesSupported
+          ? t('pinningServices.description')
+          : t('pinningServices.noPinRemoteDescription')
+        }&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/how-to/work-with-pinning-services/'>{t('learnMoreLink')}</a>
       </p>
       <PinningManager t={t} />
     </Box>
@@ -361,7 +357,7 @@ export default connect(
   'selectIsIpfsDesktop',
   'selectToursEnabled',
   'selectAnalyticsEnabled',
-  'selectArePinningServicesAvailable',
+  'selectArePinningServicesSupported',
   'doToggleAnalytics',
   'doSaveConfig',
   'selectIsCliTutorModeEnabled',

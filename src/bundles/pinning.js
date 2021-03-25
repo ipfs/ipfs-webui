@@ -28,7 +28,7 @@ const pinningBundle = {
   name: 'pinning',
   reducer: (state = {
     remotePins: [],
-    arePinningServicesAvailable: false
+    arePinningServicesSupported: false
   }, action) => {
     if (action.type === 'SET_REMOTE_PINS') {
       return { ...state, remotePins: action.payload }
@@ -43,7 +43,7 @@ const pinningBundle = {
       return { ...state, pinningServices: action.payload }
     }
     if (action.type === 'SET_REMOTE_PINNING_SERVICES_AVAILABLE') {
-      return { ...state, arePinningServicesAvailable: action.payload }
+      return { ...state, arePinningServicesSupported: action.payload }
     }
     return state
   },
@@ -93,11 +93,9 @@ const pinningBundle = {
     const ipfs = getIpfs()
     if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return null
 
-    const isRemotePinningSupported = (await ipfs.commands()).Subcommands.find(c => c.Name === 'pin').Subcommands.some(c => c.Name === 'remote')
-
-    if (!isRemotePinningSupported) return null
-
-    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES_AVAILABLE', payload: true })
+    const isPinRemotePresent = (await ipfs.commands()).Subcommands.find(c => c.Name === 'pin').Subcommands.some(c => c.Name === 'remote')
+    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES_AVAILABLE', payload: isPinRemotePresent })
+    if (!isPinRemotePresent) return null
 
     const availablePinningServices = store.selectAvailablePinningServices()
     const offlineListOfServices = await ipfs.pin.remote.service.ls()
@@ -113,7 +111,7 @@ const pinningBundle = {
 
   selectAvailablePinningServices: () => availablePinningServicesList,
 
-  selectArePinningServicesAvailable: (state) => state.pinning.arePinningServicesAvailable,
+  selectArePinningServicesSupported: (state) => state.pinning.arePinningServicesSupported,
 
   selectPinningServicesDefaults: () => availablePinningServicesList.reduce((prev, curr) => ({
     ...prev,

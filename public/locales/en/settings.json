@@ -3,12 +3,13 @@
   "save": "Save",
   "saving": "Saving…",
   "reset": "Reset",
+  "learnMoreLink": "Learn more.",
   "pinningServices": {
     "title": "Pinning Services",
-    "description": "<0>Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.</0> <1>Check the documentation for further information.</1>",
-    "noServicesDescription": "Support for third-party remote pinning services will be implemented in a future release, and you'll be able to add and configure them here. In the meantime, use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files.",
-    "addAutoUpload": "Add Auto Upload",
-    "removeAutoUpload": "Remove Auto Upload"
+    "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
+    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to go-ipfs 0.8.0 or later, and you'll be able to add and configure them here.",
+    "addAutoUpload": "Enable Auto Upload",
+    "removeAutoUpload": "Disable Auto Upload"
   },
   "language": "Language",
   "analytics": "Analytics",
@@ -42,7 +43,7 @@
   },
   "autoUploadModal": {
     "title": "Toggle Auto Upload",
-    "description": "Non id eiusmod eu tempor velit adipisicing amet laborum proident. Lorem proident pariatur consectetur adipisicing voluptate nostrud ullamco nisi. Sunt dolore incididunt irure deserunt culpa in cillum sit consectetur Lorem nostrud veniam."
+    "description": "Auto Upload will periodically pin the root of your \"Files\", ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline."
   },
   "errors": {
     "nickname": "Nickname is required",

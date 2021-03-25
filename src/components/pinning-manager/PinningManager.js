@@ -22,7 +22,7 @@ import './PinningManager.css'
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
-export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesAvailable, doFetchPinningServices, doPinsSizeGet, doRemovePinningService, pinsSize, numberOfPins, t }) => {
+export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesSupported, doFetchPinningServices, doPinsSizeGet, doRemovePinningService, pinsSize, numberOfPins, t }) => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [isToggleModalOpen, setToggleModalOpen] = useState(false)
   const onModalOpen = () => setModalOpen(true)
@@ -84,7 +84,7 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesA
             )}
           </AutoSizer>
         </div>
-        { arePinningServicesAvailable &&
+        { arePinningServicesSupported &&
         (<div className='flex justify-end w-100 mt2'>
           <Button className="tc mt2" bg='bg-navy' onClick={onModalOpen}>
             <span><span className="aqua">+</span> {t('actions.addService')}</span>
@@ -199,7 +199,7 @@ export default connect(
   'selectPinsSize',
   'selectNumberOfPins',
   'selectPinningServices',
-  'selectArePinningServicesAvailable',
+  'selectArePinningServicesSupported',
   'doFetchPinningServices',
   'doRemovePinningService',
   PinningManager
