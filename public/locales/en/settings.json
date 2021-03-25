@@ -42,8 +42,8 @@
     "autoUpload": "Auto upload"
   },
   "autoUploadModal": {
-    "title": "Toggle Auto Upload",
-    "description": "Auto Upload will periodically pin the root of your \"Files\", ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline."
+    "title": "Change Upload Policy for \"{name}\"",
+    "description": "When enabled, Auto Upload will periodically pin the root of your \"Files\", ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" operation on the \"Files\" screen."
   },
   "errors": {
     "nickname": "Nickname is required",
@@ -58,7 +58,8 @@
     "close": "Close",
     "save": "Save",
     "cancel": "Cancel",
-    "toggle": "Toggle"
+    "enable": "Enable",
+    "disable": "Disable"
   },
   "edit": "Edit",
   "visitService": "Visit service",
@@ -68,11 +69,9 @@
   "size": "Size",
   "pins": "Pins",
   "autoUpload": "Auto Upload",
-  "autoUploadKeys": {
+  "autoUploadPolicy": {
     "true": "All files",
-    "ALL_FILES": "All files",
-    "DISABLED": "Disabled",
-    "PINS_ONLY": "Pins only"
+    "false": "Manual"
   },
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",

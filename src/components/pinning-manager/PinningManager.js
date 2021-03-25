@@ -97,7 +97,7 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesS
         <AutoUploadModal className='outline-0' onLeave={() => {
           onToggleModalClose()
           doFetchPinningServices()
-        }} t={t} name={isToggleModalOpen} />
+        }} t={t} name={isToggleModalOpen} service={sortedServices.find(s => s.name === isToggleModalOpen)} />
       </Overlay>
 
       <Overlay show={isModalOpen} onLeave={onModalClose}>
@@ -148,7 +148,7 @@ const NumberOfPinsCell = ({ rowData, t }) => {
 }
 const AutoUploadCell = ({ autoUpload, name, doRemovePinningService, t, type, onToggleModalOpen }) => (
   <div className="flex justify-between items-center">
-    <div className={!autoUpload ? 'gray' : ''}>{ autoUpload ? t('autoUploadKeys.' + autoUpload) : 'N/A' }</div>
+    <div className={!autoUpload ? 'gray' : ''}>{ typeof autoUpload !== 'undefined' ? t('autoUploadPolicy.' + autoUpload) : '-' }</div>
     { type !== 'LOCAL' && <OptionsCell doRemovePinningService={doRemovePinningService} name={name} t={t} onToggleModalOpen={onToggleModalOpen} autoUpload={autoUpload}/> }
   </div>
 )

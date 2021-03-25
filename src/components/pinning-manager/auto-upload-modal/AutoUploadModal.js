@@ -7,7 +7,7 @@ import { withTranslation } from 'react-i18next'
 import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
 
-const AutoUploadModal = ({ name, t, onLeave, doSetAutoUploadForService, className, ...props }) => {
+const AutoUploadModal = ({ name, service, t, onLeave, doSetAutoUploadForService, className, ...props }) => {
   const onToggle = () => {
     doSetAutoUploadForService(name)
     onLeave()
@@ -16,12 +16,12 @@ const AutoUploadModal = ({ name, t, onLeave, doSetAutoUploadForService, classNam
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
       <ModalBody>
-        <p>{ t('autoUploadModal.title') }</p>
+        <p>{ t('autoUploadModal.title', { name }) }</p>
         <div className='pa2 AutoUploadModalContainer'>{t('autoUploadModal.description')}</div>
       </ModalBody>
 
       <ModalActions justify="center">
-        <Button className='ma2 tc' bg='bg-teal' onClick={onToggle}>{t('actions.toggle')}</Button>
+        <Button className='ma2 tc' bg='bg-teal' onClick={onToggle}>{service.autoUpload ? t('actions.disable') : t('actions.enable') }</Button>
         <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.cancel')}</Button>
       </ModalActions>
     </Modal>
