@@ -127,11 +127,11 @@ const File = ({
           </div>
         </button>
 
-        <div className='ph2 pv1 flex-none dn db-l tr mw3 w-20'>
+        <div className='ph2 pv1 flex-none dn db-l tr mw3 w-20 transition-all'>
           { pinned && !isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
             <GlyphPin className='fill-aqua' />
           </div> }
-          { isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
+          { isRemotePin && <div className='br-100 o-70' title={t('pinnedRemotely')} style={{ width: '2rem', height: '2rem' }}>
             <GlyphPinCloud className='fill-aqua' />
           </div> }
         </div>

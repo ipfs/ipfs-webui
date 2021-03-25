@@ -100,6 +100,7 @@
   "hashUnavailable": "hash unavailable",
   "checkboxLabel": "View more options for {name}",
   "pinned": "Pinned",
+  "pinnedRemotely": "Pinned remotely",
   "blocks": "Blocks",
   "allBlocks": "All blocks",
   "allBlocksDescription": "Total size of blocks on your entire IPFS node; this includes everything in Files, plus all locally pinned items and any temporary cached data",
