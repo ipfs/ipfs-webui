@@ -1,14 +1,14 @@
 // @ts-check
-import remoteServiceTemplatesList from '../constants/pinning'
+import { pinningServiceTemplates } from '../constants/pinning'
 
 const parseService = async (service, remoteServiceTemplates, ipfs) => {
-  const icon = remoteServiceTemplates.find(x => x.name.toLowerCase() === service.service.toLowerCase())?.icon
+  const template = remoteServiceTemplates.find(x => service.service.toLowerCase().includes(x.name.toLowerCase()))
+  const icon = template?.icon
+  const visitServiceUrl = template?.visitServiceUrl
   const autoUpload = await ipfs.config.get(`Pinning.RemoteServices.${service.service}.Policies.MFS.Enable`)
-  const parsedService = { ...service, name: service.service, icon, autoUpload }
+  const parsedService = { ...service, name: service.service, icon, visitServiceUrl, autoUpload }
 
   if (service?.stat?.status === 'invalid') {
-    console.error(`Invalid stats found for service ${service.service}`)
-
     return { ...parsedService, numberOfPins: 'Error', online: false }
   }
 
@@ -120,11 +120,11 @@ const pinningBundle = {
 
   selectPinningServices: (state) => state.pinning.pinningServices || [],
 
-  selectRemoteServiceTemplates: () => remoteServiceTemplatesList,
+  selectRemoteServiceTemplates: () => pinningServiceTemplates,
 
   selectArePinningServicesSupported: (state) => state.pinning.arePinningServicesSupported,
 
-  selectPinningServicesDefaults: () => remoteServiceTemplatesList.reduce((prev, curr) => ({
+  selectPinningServicesDefaults: () => pinningServiceTemplates.reduce((prev, curr) => ({
     ...prev,
     [curr.name]: {
       ...curr,

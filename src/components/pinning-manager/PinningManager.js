@@ -79,7 +79,7 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesS
                 <Column label={t('service')} title={t('service')} dataKey='name' width={width * 0.4} flexShrink={0} flexGrow={1} cellRenderer={ServiceCell} className='charcoal truncate f6' />
                 {/* <Column label={t('size')} title={t('size')} dataKey='totalSize' width={width * 0.2} flexShrink={0} cellRenderer={({ rowData }) => <SizeCell rowData={rowData} t={t}/>} className='charcoal truncate f6 pl2' /> */}
                 <Column label={t('pins')} title={t('pins')} dataKey='numberOfPins' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <NumberOfPinsCell rowData={rowData} t={t}/>} className='charcoal truncate f6 pl2' />
-                <Column label={t('autoUpload')} title={t('autoUpload')} dataKey='autoUpload' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} type={rowData.type} name={rowData.name} doRemovePinningService={doRemovePinningService} t={t} onToggleModalOpen={onToggleModalOpen} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
+                <Column label={t('autoUpload')} title={t('autoUpload')} dataKey='autoUpload' width={width * 0.2} flexShrink={1} cellRenderer={({ rowData }) => <AutoUploadCell autoUpload={rowData.autoUpload} type={rowData.type} name={rowData.name} visitServiceUrl={rowData.visitServiceUrl} doRemovePinningService={doRemovePinningService} t={t} onToggleModalOpen={onToggleModalOpen} />} className='pinningManagerColumn charcoal truncate f6 pl2' />
               </Table>
             )}
           </AutoSizer>
@@ -147,14 +147,14 @@ const NumberOfPinsCell = ({ rowData, t }) => {
   }
   return <div className={rowData.numberOfPins >= 0 ? '' : 'gray'}>{rowData.numberOfPins >= 0 ? rowData.numberOfPins : `${(t('app:terms:loading'))}...`}</div>
 }
-const AutoUploadCell = ({ autoUpload, name, doRemovePinningService, t, type, onToggleModalOpen }) => (
+const AutoUploadCell = ({ autoUpload, visitServiceUrl, name, doRemovePinningService, t, type, onToggleModalOpen }) => (
   <div className="flex justify-between items-center">
     <div className={!autoUpload ? 'gray' : ''}>{ typeof autoUpload !== 'undefined' ? t('autoUploadPolicy.' + autoUpload) : '-' }</div>
-    { type !== 'LOCAL' && <OptionsCell doRemovePinningService={doRemovePinningService} name={name} t={t} onToggleModalOpen={onToggleModalOpen} autoUpload={autoUpload}/> }
+    { type !== 'LOCAL' && <OptionsCell doRemovePinningService={doRemovePinningService} name={name} t={t} onToggleModalOpen={onToggleModalOpen} autoUpload={autoUpload} visitServiceUrl={visitServiceUrl} /> }
   </div>
 )
 
-const OptionsCell = ({ doRemovePinningService, name, autoUpload, t, onToggleModalOpen }) => {
+const OptionsCell = ({ doRemovePinningService, name, visitServiceUrl, autoUpload, t, onToggleModalOpen }) => {
   const buttonRef = useRef()
   const [isContextVisible, setContextVisibility] = useState(false)
 
@@ -162,11 +162,6 @@ const OptionsCell = ({ doRemovePinningService, name, autoUpload, t, onToggleModa
     doRemovePinningService(name)
     setContextVisibility(false)
   }
-
-  const visitServicesList = {
-    pinata: 'https://webtest.pinata.cloud/documentation'
-  }
-  const visitServiceUrl = visitServicesList[name.toLowerCase()]
 
   return (
     <div>
