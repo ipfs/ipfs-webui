@@ -22,7 +22,7 @@ import './PinningManager.css'
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
-export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesSupported, doFetchPinningServices, doPinsSizeGet, doRemovePinningService, pinsSize, numberOfPins, t }) => {
+export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesSupported, doFetchPinningServices, doPinsStatsGet, doRemovePinningService, pinsSize, numberOfPins, t }) => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [isToggleModalOpen, setToggleModalOpen] = useState(false)
   const onModalOpen = () => setModalOpen(true)
@@ -37,12 +37,12 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesS
   useEffect(() => {
     (async () => {
       try {
-        ipfsReady && await doPinsSizeGet()
+        ipfsReady && await doPinsStatsGet()
       } catch (e) {
-        console.error('doPinsSizeGet error', e)
+        console.error('doPinsStatsGet error', e)
       }
     })()
-  }, [doPinsSizeGet, ipfsReady])
+  }, [doPinsStatsGet, ipfsReady])
 
   useEffect(() => {
     ipfsReady && doFetchPinningServices()
@@ -190,7 +190,7 @@ const OptionsCell = ({ doRemovePinningService, name, visitServiceUrl, autoUpload
 }
 
 export default connect(
-  'doPinsSizeGet',
+  'doPinsStatsGet',
   'selectIpfsReady',
   'selectPinsSize',
   'selectNumberOfPins',
