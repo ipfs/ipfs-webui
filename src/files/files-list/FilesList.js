@@ -32,7 +32,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins) => {
 }
 
 export const FilesList = ({
-  className, files, pins, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation, availablePinningServices,
+  className, files, pins, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
   onShare, onSetPinning, onInspect, onDownload, onDelete, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])

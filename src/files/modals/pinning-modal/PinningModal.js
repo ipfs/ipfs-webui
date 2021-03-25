@@ -30,9 +30,8 @@ const PinIcon = ({ icon, index }) => {
 }
 
 export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningServices, doGetFileSizeThroughCid, doSelectRemotePinsForFile, doFetchPinningServices, className, ...props }) => {
-  const remoteServices = useMemo(() => doSelectRemotePinsForFile(file), [doSelectRemotePinsForFile, file])
-
-  const [selectedServices, setSelectedServices] = useState([...remoteServices, ...[file.pinned && 'local']])
+  const selectedRemoteServices = useMemo(() => doSelectRemotePinsForFile(file), [doSelectRemotePinsForFile, file])
+  const [selectedServices, setSelectedServices] = useState([...selectedRemoteServices, ...[file.pinned && 'local']])
   const [size, setSize] = useState(null)
 
   useEffect(() => {
@@ -43,6 +42,11 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningS
   }, [])
 
   const selectService = (key) => {
+    const service = pinningServices.find(s => s.name === key)
+    if (!service.online) {
+      // when a service is offline, click in noop
+      return
+    }
     if (selectedServices.indexOf(key) === -1) {
       return setSelectedServices([...selectedServices, key])
     }
@@ -59,11 +63,11 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningS
             <GlyphPin fill="currentColor" width={32} height={32} className="mr1 aqua flex-shrink-0"/>
             <p className="f5 w-100">{ t('pinningModal.localNode') }</p>
           </button>
-          { pinningServices.map(({ icon, name }, index) => (
+          { pinningServices.map(({ icon, name, online }, index) => (
             <button className="flex items-center pa1 hoverable-button" key={name} onClick={() => selectService(name)}>
-              <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes(name)} style={{ pointerEvents: 'none' }}/>
+              <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes(name)} style={{ pointerEvents: 'none' }} disabled={!online}/>
               <PinIcon index={index} icon={icon}/>
-              <p className="f5">{ name }</p>
+              <p className={ online ? 'f6' : 'f6 red' }>{ name }</p>
             </button>
           ))}
         </div>

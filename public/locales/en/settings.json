@@ -50,7 +50,8 @@
     "apiError": "API error",
     "apiEndpoint": "Must be a valid URL",
     "secretApiKey": "Secret key is required",
-    "failedToFetch": "Failed to fetch"
+    "failedToFetch": "Failed to fetch",
+    "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
   },
   "actions": {
     "addService": "Add Service",
@@ -71,7 +72,7 @@
   "autoUpload": "Auto Upload",
   "autoUploadPolicy": {
     "true": "All files",
-    "false": "Manual"
+    "false": "Off"
   },
   "fetchingSettings": "Fetching settings...",
   "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",

@@ -114,6 +114,8 @@ PinningManager.defaultProps = {
   pinningServices: []
 }
 
+const serviceOnline = (s) => (s.type === 'LOCAL' || s.online)
+
 const Icon = ({ rowData, index }) => {
   const colors = ['aqua', 'link', 'yellow', 'teal', 'red', 'green', 'navy', 'gray', 'charcoal']
   const color = colors[index % colors.length]
@@ -128,7 +130,7 @@ const Icon = ({ rowData, index }) => {
 const ServiceCell = ({ rowData, rowIndex }) => (
   <div className='flex items-center' title={rowData.name}>
     <Icon rowData={rowData} index={rowIndex}/>
-    <span className="truncate">{ rowData.name }</span>
+    <span className={serviceOnline(rowData) ? 'truncate' : 'truncate red'}>{ rowData.name }</span>
   </div>
 )
 
@@ -140,9 +142,8 @@ const ServiceCell = ({ rowData, rowIndex }) => (
 //     })}</p>
 // )
 const NumberOfPinsCell = ({ rowData, t }) => {
-  const { numberOfPins } = rowData
-  if (numberOfPins === 'Error') {
-    return <div className='red'>{t('errors.failedToFetch')}</div>
+  if (!serviceOnline(rowData)) {
+    return <div className='red help' title={t('errors.failedToFetchTitle')}>{t('errors.failedToFetch')}</div>
   }
   return <div className={rowData.numberOfPins >= 0 ? '' : 'gray'}>{rowData.numberOfPins >= 0 ? rowData.numberOfPins : `${(t('app:terms:loading'))}...`}</div>
 }

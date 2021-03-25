@@ -1,18 +1,18 @@
 // @ts-check
-import availablePinningServicesList from '../constants/pinning'
+import remoteServiceTemplatesList from '../constants/pinning'
 
-const parseService = async (service, availablePinningServices, ipfs) => {
-  const icon = availablePinningServices.find(x => x.name.toLowerCase() === service.service.toLowerCase())?.icon
+const parseService = async (service, remoteServiceTemplates, ipfs) => {
+  const icon = remoteServiceTemplates.find(x => x.name.toLowerCase() === service.service.toLowerCase())?.icon
   const autoUpload = await ipfs.config.get(`Pinning.RemoteServices.${service.service}.Policies.MFS.Enable`)
   const parsedService = { ...service, name: service.service, icon, autoUpload }
 
   if (service?.stat?.status === 'invalid') {
     console.error(`Invalid stats found for service ${service.service}`)
 
-    return { ...parsedService, numberOfPins: 'Error' }
+    return { ...parsedService, numberOfPins: 'Error', online: false }
   }
 
-  return { ...parsedService, numberOfPins: service.stat?.pinCount?.pinned }
+  return { ...parsedService, numberOfPins: service.stat?.pinCount?.pinned, online: true }
 }
 
 /**
@@ -40,7 +40,18 @@ const pinningBundle = {
       return { ...state, remotePins: state.remotePins.filter(p => p.id !== action.payload.id) }
     }
     if (action.type === 'SET_REMOTE_PINNING_SERVICES') {
-      return { ...state, pinningServices: action.payload }
+      const oldServices = state.pinningServices
+      const newServices = action.payload
+      // Skip update when list length did not change and new one has no stats
+      // so there is no janky update in 'Set pinning modal' when 3+ services
+      // are defined and some of them are offline.
+      if (oldServices && oldServices.length === newServices.length) {
+        const withPinStats = s => (s && typeof s.numberOfPins !== 'undefined')
+        const oldStats = oldServices.some(withPinStats)
+        const newStats = newServices.some(withPinStats)
+        if (oldStats && !newStats) return state
+      }
+      return { ...state, pinningServices: newServices }
     }
     if (action.type === 'SET_REMOTE_PINNING_SERVICES_AVAILABLE') {
       return { ...state, arePinningServicesSupported: action.payload }
@@ -97,23 +108,23 @@ const pinningBundle = {
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES_AVAILABLE', payload: isPinRemotePresent })
     if (!isPinRemotePresent) return null
 
-    const availablePinningServices = store.selectAvailablePinningServices()
+    const remoteServiceTemplates = store.selectRemoteServiceTemplates()
     const offlineListOfServices = await ipfs.pin.remote.service.ls()
-    const remoteServices = await Promise.all(offlineListOfServices.map(service => parseService(service, availablePinningServices, ipfs)))
+    const remoteServices = await Promise.all(offlineListOfServices.map(service => parseService(service, remoteServiceTemplates, ipfs)))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
 
     const fullListOfServices = await ipfs.pin.remote.service.ls({ stat: true })
-    const fullRemoteServices = await Promise.all(fullListOfServices.map(service => parseService(service, availablePinningServices, ipfs)))
+    const fullRemoteServices = await Promise.all(fullListOfServices.map(service => parseService(service, remoteServiceTemplates, ipfs)))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: fullRemoteServices })
   },
 
   selectPinningServices: (state) => state.pinning.pinningServices || [],
 
-  selectAvailablePinningServices: () => availablePinningServicesList,
+  selectRemoteServiceTemplates: () => remoteServiceTemplatesList,
 
   selectArePinningServicesSupported: (state) => state.pinning.arePinningServicesSupported,
 
-  selectPinningServicesDefaults: () => availablePinningServicesList.reduce((prev, curr) => ({
+  selectPinningServicesDefaults: () => remoteServiceTemplatesList.reduce((prev, curr) => ({
     ...prev,
     [curr.name]: {
       ...curr,

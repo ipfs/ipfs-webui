@@ -10,7 +10,7 @@ import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
 import Overlay from '../../overlay/Overlay'
 
-const PinningManagerModal = ({ t, tReady, onLeave, className, availablePinningServices, pinningServicesDefaults, ...props }) => {
+const PinningManagerModal = ({ t, tReady, onLeave, className, remoteServiceTemplates, pinningServicesDefaults, ...props }) => {
   const [selectedService, setSelectedService] = useState(false)
 
   const onCustomModalOpen = () => setSelectedService({ type: 'CUSTOM' })
@@ -27,7 +27,7 @@ const PinningManagerModal = ({ t, tReady, onLeave, className, availablePinningSe
       <ModalBody>
         <p>{ t('pinningModal.title') }</p>
         <div className='pa2 pinningManagerModalContainer'>
-          { availablePinningServices.map(({ icon, name }) => (
+          { remoteServiceTemplates.map(({ icon, name }) => (
             <button className="flex items-center pinningManagerModalItem pa1 hoverable-button" key={name} onClick={() => setSelectedService({ name, icon })}>
               <img className="mr3" src={icon} alt={name} width={42} height={42} style={{ objectFit: 'contain' }} />
               <p>{ name }</p>
@@ -62,7 +62,7 @@ PinningManagerModal.defaultProps = {
 }
 
 export default connect(
-  'selectAvailablePinningServices',
+  'selectRemoteServiceTemplates',
   'selectPinningServicesDefaults',
   withTranslation('settings')(PinningManagerModal)
 )
