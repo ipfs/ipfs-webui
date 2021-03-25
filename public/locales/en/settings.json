@@ -42,7 +42,7 @@
     "autoUpload": "Auto upload"
   },
   "autoUploadModal": {
-    "title": "Change Upload Policy for \"{name}\"",
+    "title": "Change upload policy for {name}",
     "description": "When enabled, Auto Upload will periodically pin the root of your \"Files\", ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" operation on the \"Files\" screen."
   },
   "errors": {
