@@ -43,7 +43,7 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningS
 
   const selectService = (key) => {
     const service = pinningServices.find(s => s.name === key)
-    if (!service.online) {
+    if (service && !service.online) {
       // when a service is offline, click in noop
       return
     }
