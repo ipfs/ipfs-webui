@@ -11,7 +11,7 @@
 | ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) |
 
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![dependencies Status](https://david-dm.org/ipfs-shipyard/ipfs-webui/status.svg)](https://david-dm.org/ipfs-shipyard/ipfs-webui) [![CircleCI](https://img.shields.io/circleci/project/github/ipfs-shipyard/ipfs-webui/master.svg)](https://circleci.com/gh/ipfs-shipyard/ipfs-webui)
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![dependencies Status](https://david-dm.org/ipfs/ipfs-webui/status.svg)](https://david-dm.org/ipfs/ipfs-webui) [![CircleCI](https://img.shields.io/circleci/project/github/ipfs/ipfs-webui/master.svg)](https://circleci.com/gh/ipfs/ipfs-webui)
 
 The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work.
 
@@ -266,16 +266,16 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. Commit changes
 1. Tag it: `git tag vN.N.N`
 1. Push `master` and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
-1. Wait for master to [build on CI](https://circleci.com/gh/ipfs-shipyard/ipfs-webui), and grab the CID produced from the tagged commit
-1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/releases, use the tag and CID you created 
+1. Wait for master to [build on CI](https://circleci.com/gh/ipfs/ipfs-webui), and grab the CID produced from the tagged commit
+1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created 
 1. Update the CID at projects that use ipfs-webui by submitting PR against below lines:
    - js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L8
    - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
-   - ipfs-desktop: https://github.com/ipfs-shipyard/ipfs-desktop/blob/master/package.json#L18
+   - ipfs-desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
 
 ## Contribute
 
-Feel free to dive in! [Open an issue](https://github.com/ipfs-shipyard/ipfs-webui/issues/new) or submit PRs.
+Feel free to dive in! [Open an issue](https://github.com/ipfs/ipfs-webui/issues/new) or submit PRs.
 
 To contribute to IPFS in general, see the [contributing guide](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md).
 
