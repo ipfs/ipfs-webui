@@ -51,6 +51,16 @@ const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, is
 })
 
 /**
+ * @param {IPFSService} ipfs
+ * @param {string|CID} cidOrPath
+ * @returns {Promise<number>}
+ */
+const cumulativeSize = async (ipfs, cidOrPath) => {
+  const { cumulativeSize } = await stat(ipfs, cidOrPath)
+  return cumulativeSize || 0
+}
+
+/**
  * @param {string} path
  * @returns {string}
  */
@@ -68,6 +78,7 @@ export const realMfsPath = (path) => {
  * @property {string} path
  * @property {'file'|'directory'|'unknown'} type
  * @property {CID} cid
+ * @property {number} cumulativeSize
  * @property {number} size
  *
  * @param {IPFSService} ipfs
@@ -81,6 +92,7 @@ const stat = async (ipfs, cidOrPath) => {
     : `/ipfs/${hashOrPath}`
 
   try {
+    // TODO: memoize/cache result per CID
     const stats = await ipfs.files.stat(path)
     return { path, ...stats }
   } catch (e) {
@@ -93,6 +105,7 @@ const stat = async (ipfs, cidOrPath) => {
       path: hashOrPath,
       cid: new CID(cid),
       type: 'unknown',
+      cumulativeSize: 0,
       size: 0
     }
   }
@@ -511,14 +524,11 @@ const actions = () => ({
    * Gets total size of the local pins. On successful completion `state.mfsSize` will get
    * updated.
    */
-  doPinsSizeGet: () => perform(ACTIONS.PINS_SIZE_GET, async (ipfs) => {
-    const allPinsCids = await ipfs.pin.ls({ type: 'recursive' })
-
-    let pinsSize = 0
+  doPinsStatsGet: () => perform(ACTIONS.PINS_SIZE_GET, async (ipfs) => {
+    const pinsSize = -1 // TODO: right now calculating size of all pins is too expensive (requires ipfs.files.stat per CID)
     let numberOfPins = 0
 
-    for await (const { cid } of allPinsCids) {
-      pinsSize += (await ipfs.files.stat(`/ipfs/${cid.toString()}`)).cumulativeSize
+    for await (const _ of ipfs.pin.ls({ type: 'recursive' })) { // eslint-disable-line  no-unused-vars
       numberOfPins++
     }
 
@@ -530,8 +540,7 @@ const actions = () => ({
    * updated.
    */
   doFilesSizeGet: () => perform(ACTIONS.SIZE_GET, async (ipfs) => {
-    const stat = await ipfs.files.stat('/')
-    return { size: stat.cumulativeSize }
+    return cumulativeSize(ipfs, '/')
   }),
 
   /**
@@ -544,8 +553,7 @@ const actions = () => ({
     */
     async (store) => {
       const ipfs = store.getIpfs()
-      const stat = await ipfs.files.stat(`/ipfs/${cid}`)
-      return stat.cumulativeSize
+      return cumulativeSize(ipfs, cid)
     }
 })
 
@@ -615,7 +623,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
       }
 
       parent = fileFromStats({
-        ...await ipfs.files.stat(parentInfo.realPath),
+        ...await stat(ipfs, parentInfo.realPath),
         path: parentInfo.path,
         name: '..',
         isParent: true

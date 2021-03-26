@@ -1,4 +1,4 @@
-export default [
+const services = [
   {
     name: 'Pinata',
     icon: 'https://svgshare.com/i/M7y.svg',
@@ -19,3 +19,5 @@ export default [
     addedAt: new Date(1592491648691)
   }
 ]
+
+export default services

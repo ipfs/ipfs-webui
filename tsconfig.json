@@ -47,7 +47,7 @@
     ],
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "module": "esnext"
   },
@@ -69,6 +69,6 @@
     "src/bundles/task.js",
     "src/lib/count-dirs.js",
     "src/lib/sort.js",
-    "src/lib/files.js",
+    "src/lib/files.js"
   ]
 }

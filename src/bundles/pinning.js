@@ -1,4 +1,20 @@
 // @ts-check
+import { pinningServiceTemplates } from '../constants/pinning'
+
+const parseService = async (service, remoteServiceTemplates, ipfs) => {
+  const template = remoteServiceTemplates.find(x => service.service.toLowerCase().includes(x.name.toLowerCase()))
+  const icon = template?.icon
+  const visitServiceUrl = template?.visitServiceUrl
+  const autoUpload = await ipfs.config.get(`Pinning.RemoteServices.${service.service}.Policies.MFS.Enable`)
+  const parsedService = { ...service, name: service.service, icon, visitServiceUrl, autoUpload }
+
+  if (service?.stat?.status === 'invalid') {
+    return { ...parsedService, numberOfPins: 'Error', online: false }
+  }
+
+  return { ...parsedService, numberOfPins: service.stat?.pinCount?.pinned, online: true }
+}
+
 /**
  * TODO: This might change, current version from: https://github.com/ipfs/go-ipfs/blob/petar/pincli/core/commands/remotepin.go#L53
  * @typedef {Object} RemotePin
@@ -6,114 +22,180 @@
  * @property {string} name
  * @property {('queued'|'pinning'|'pinned'|'failed')} status
  * @property {string} cid
- * @property {Array<string>} [delegates] e.g. ["/dnsaddr/pin-service.example.com"]
+ * @property {Array<string>} [delegates] (multiaddrs endind with /p2p/peerid)
 */
 const pinningBundle = {
   name: 'pinning',
   reducer: (state = {
-    remotePins: []
+    remotePins: [],
+    arePinningServicesSupported: false
   }, action) => {
     if (action.type === 'SET_REMOTE_PINS') {
       return { ...state, remotePins: action.payload }
     }
+    if (action.type === 'ADD_REMOTE_PIN') {
+      return { ...state, remotePins: [...state.remotePins, action.payload] }
+    }
+    if (action.type === 'REMOVE_REMOTE_PIN') {
+      return { ...state, remotePins: state.remotePins.filter(p => p.id !== action.payload.id) }
+    }
+    if (action.type === 'SET_REMOTE_PINNING_SERVICES') {
+      const oldServices = state.pinningServices
+      const newServices = action.payload
+      // Skip update when list length did not change and new one has no stats
+      // so there is no janky update in 'Set pinning modal' when 3+ services
+      // are defined and some of them are offline.
+      if (oldServices && oldServices.length === newServices.length) {
+        const withPinStats = s => (s && typeof s.numberOfPins !== 'undefined')
+        const oldStats = oldServices.some(withPinStats)
+        const newStats = newServices.some(withPinStats)
+        if (oldStats && !newStats) return state
+      }
+      return { ...state, pinningServices: newServices }
+    }
+    if (action.type === 'SET_REMOTE_PINNING_SERVICES_AVAILABLE') {
+      return { ...state, arePinningServicesSupported: action.payload }
+    }
     return state
   },
 
-  doFetchRemotePins: () => async ({ dispatch, store }) => {
-    // const pinningServices = store.selectPinningServices()
+  doFetchRemotePins: () => async ({ dispatch, store, getIpfs }) => {
+    const pinningServices = store.selectPinningServices()
 
-    // if (!pinningServices?.length) return
+    if (!pinningServices?.length) return
 
-    // // TODO: unmock this (e.g. const pins = ipfs.pin.remote.ls ...)
-    // const response = [
-    //   {
-    //     id: 'Pinata:UniqueIdOfPinRequest',
-    //     status: 'queued',
-    //     cid: 'QmQsUbcVx6Vu8vtL858FdxD3sVBE6m8uP3bjFoTzrGubmX',
-    //     name: '26_remote.png',
-    //     delegates: ['/dnsaddr/pin-service.example.com']
-    //   }
-    // ]
+    const ipfs = getIpfs()
 
-    // // TODO: get type of item?
+    if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return
 
-    // const remotePins = response.map(item => ({
-    //   ...item,
-    //   isRemotePin: true,
-    //   type: item.type || 'unknown',
-    //   size: Math.random() * 1000// TODO: files.stat in the future
-    // }))
+    dispatch({ type: 'SET_REMOTE_PINS', payload: [] })
 
-    // // TODO: handle different status (queued = async fetch in batches to update ui?)
-
-    const remotePins = []
-
-    dispatch({ type: 'SET_REMOTE_PINS', payload: remotePins })
+    await Promise.all(pinningServices.map(async service => {
+      try {
+        const pins = ipfs.pin.remote.ls({ service: service.name })
+        for await (const pin of pins) {
+          dispatch({
+            type: 'ADD_REMOTE_PIN',
+            payload: {
+              ...pin,
+              id: `${service.name}:${pin.cid}`
+            }
+          })
+        }
+      } catch (_) {
+        // if one of services is offline, ignore it for now
+        // and continue checking remaining ones
+      }
+    }))
   },
 
   selectRemotePins: (state) => state.pinning.remotePins || [],
 
   doSelectRemotePinsForFile: (file) => ({ store }) => {
     const pinningServicesNames = store.selectPinningServices().map(remote => remote.name)
-    const remotePinForFile = store.selectRemotePins().filter(pin => pin.cid === file.cid.string)
+
+    const remotePinForFile = store.selectRemotePins().filter(pin => pin.cid.string === file.cid.string)
     const servicesBeingUsed = remotePinForFile.map(pin => pin.id.split(':')[0]).filter(pinId => pinningServicesNames.includes(pinId))
 
     return servicesBeingUsed
   },
 
-  // selectPinningServices: state => state.pinning
-  // TODO: unmock this
-  selectPinningServices: () => ([
-    // {
-    //   name: 'Pinata',
-    //   icon: 'https://ipfs.io/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg',
-    //   totalSize: 3122312,
-    //   bandwidthUsed: '10 GB/mo',
-    //   autoUpload: 'ALL_FILES',
-    //   addedAt: new Date(1592491648581)
-    // }, {
-    //   name: 'Infura',
-    //   icon: 'https://ipfs.io/ipfs/QmTt6KeaNXyaaUBWn2zEG8RiMfPPPeMesXqnFWqqC5o6yc?filename=infura.png',
-    //   totalSize: 4412221323,
-    //   bandwidthUsed: '2 GB/mo',
-    //   autoUpload: 'DISABLED',
-    //   addedAt: new Date(1592491648591)
-    // }, {
-    //   name: 'Eternum',
-    //   icon: 'https://ipfs.io/ipfs/QmSrqJeuYrYDmSgAy3SeAyTsYMksNPfK5CSN91xk6BBnF9?filename=eternum.png',
-    //   totalSize: 512000,
-    //   bandwidthUsed: '6 GB/mo',
-    //   autoUpload: 'PINS_ONLY',
-    //   addedAt: new Date(1592491648691)
-    // }
-  ]),
-
-  selectAvailablePinningServices: () => ([
-    // {
-    //   name: 'Pinata',
-    //   icon: 'https://ipfs.io/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg'
-    // }, {
-    //   name: 'Infura',
-    //   icon: 'https://ipfs.io/ipfs/QmTt6KeaNXyaaUBWn2zEG8RiMfPPPeMesXqnFWqqC5o6yc?filename=infura.png'
-    // }, {
-    //   name: 'Eternum',
-    //   icon: 'https://ipfs.io/ipfs/QmSrqJeuYrYDmSgAy3SeAyTsYMksNPfK5CSN91xk6BBnF9?filename=eternum.png'
-    // }
-  ]),
-
-  doSetPinning: (cid, services = []) => async ({ getIpfs, store }) => {
+  doFetchPinningServices: () => async ({ getIpfs, store, dispatch }) => {
     const ipfs = getIpfs()
+    if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return null
+
+    const isPinRemotePresent = (await ipfs.commands()).Subcommands.find(c => c.Name === 'pin').Subcommands.some(c => c.Name === 'remote')
+    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES_AVAILABLE', payload: isPinRemotePresent })
+    if (!isPinRemotePresent) return null
+
+    const remoteServiceTemplates = store.selectRemoteServiceTemplates()
+    const offlineListOfServices = await ipfs.pin.remote.service.ls()
+    const remoteServices = await Promise.all(offlineListOfServices.map(service => parseService(service, remoteServiceTemplates, ipfs)))
+    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
+
+    const fullListOfServices = await ipfs.pin.remote.service.ls({ stat: true })
+    const fullRemoteServices = await Promise.all(fullListOfServices.map(service => parseService(service, remoteServiceTemplates, ipfs)))
+    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: fullRemoteServices })
+  },
+
+  selectPinningServices: (state) => state.pinning.pinningServices || [],
+
+  selectRemoteServiceTemplates: () => pinningServiceTemplates,
+
+  selectArePinningServicesSupported: (state) => state.pinning.arePinningServicesSupported,
+
+  selectPinningServicesDefaults: () => pinningServiceTemplates.reduce((prev, curr) => ({
+    ...prev,
+    [curr.name]: {
+      ...curr,
+      nickname: curr.name
+    }
+  }), {}),
+
+  doSetPinning: (pin, services = []) => async ({ getIpfs, store, dispatch }) => {
+    const ipfs = getIpfs()
+    const { cid, name } = pin
 
     const pinLocally = services.includes('local')
     try {
       pinLocally ? await ipfs.pin.add(cid) : await ipfs.pin.rm(cid)
     } catch (e) {
       console.error(e)
-    } finally {
-      await store.doPinsFetch()
     }
 
-    // TODO: handle rest of services
+    store.selectPinningServices().forEach(async service => {
+      const shouldPin = services.includes(service.name)
+      try {
+        if (shouldPin) {
+          dispatch({
+            type: 'ADD_REMOTE_PIN',
+            payload: {
+              ...pin,
+              id: `${service.name}:${pin.cid}`
+            }
+          })
+          await ipfs.pin.remote.add(cid, { service: service.name, name })
+        } else {
+          dispatch({
+            type: 'REMOVE_REMOTE_PIN',
+            payload: { id: `${service.name}:${pin.cid}` }
+          })
+          await ipfs.pin.remote.rm({ cid: [cid], service: service.name })
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    })
+
+    await store.doPinsFetch()
+  },
+  doAddPinningService: ({ apiEndpoint, nickname, secretApiKey }) => async ({ getIpfs }) => {
+    const ipfs = getIpfs()
+
+    await ipfs.pin.remote.service.add(nickname, {
+      endpoint: apiEndpoint,
+      key: secretApiKey
+    })
+  },
+
+  doRemovePinningService: (name) => async ({ getIpfs, store }) => {
+    const ipfs = getIpfs()
+
+    await ipfs.pin.remote.service.rm(name)
+
+    store.doFetchPinningServices()
+  },
+
+  doSetAutoUploadForService: (name) => async ({ getIpfs, store }) => {
+    const ipfs = getIpfs()
+
+    const configName = `Pinning.RemoteServices.${name}.Policies.MFS.Enable`
+
+    const previousPolicy = await ipfs.config.get(configName)
+
+    await ipfs.config.set(configName, !previousPolicy)
+
+    store.doFetchPinningServices()
   }
 }
 export default pinningBundle

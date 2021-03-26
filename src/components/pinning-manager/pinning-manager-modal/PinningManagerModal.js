@@ -10,19 +10,25 @@ import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
 import Overlay from '../../overlay/Overlay'
 
-const PinningManagerModal = ({ t, tReady, onLeave, className, availablePinningServices, ...props }) => {
-  const [isModalOpen, setModalOpen] = useState(false)
+const PinningManagerModal = ({ t, tReady, onLeave, className, remoteServiceTemplates, pinningServicesDefaults, ...props }) => {
+  const [selectedService, setSelectedService] = useState(false)
 
-  const onCustomModalOpen = () => setModalOpen({ type: 'CUSTOM' })
-  const onModalClose = () => setModalOpen(false)
+  const onCustomModalOpen = () => setSelectedService({ type: 'CUSTOM' })
+  const onModalClose = () => setSelectedService(false)
+  const onSuccess = () => {
+    setSelectedService(false)
+    onLeave()
+  }
+
+  const selectedServiceInfo = pinningServicesDefaults[selectedService.name] || {}
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
       <ModalBody>
         <p>{ t('pinningModal.title') }</p>
         <div className='pa2 pinningManagerModalContainer'>
-          { availablePinningServices.map(({ icon, name }) => (
-            <button className="flex items-center pinningManagerModalItem pa1 hoverable-button" key={name} onClick={() => setModalOpen({ name, icon })}>
+          { remoteServiceTemplates.map(({ icon, name }) => (
+            <button className="flex items-center pinningManagerModalItem pa1 hoverable-button" key={name} onClick={() => setSelectedService({ name, icon })}>
               <img className="mr3" src={icon} alt={name} width={42} height={42} style={{ objectFit: 'contain' }} />
               <p>{ name }</p>
             </button>
@@ -39,8 +45,8 @@ const PinningManagerModal = ({ t, tReady, onLeave, className, availablePinningSe
         <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('actions.cancel')}</Button>
       </ModalActions>
 
-      <Overlay show={!!isModalOpen} onLeave={onModalClose} hidden>
-        <PinningServiceModal className='outline-0' service={isModalOpen} onLeave={onModalClose} t={t} />
+      <Overlay show={!!selectedService} onLeave={onModalClose} hidden>
+        <PinningServiceModal className='outline-0' service={selectedService} onSuccess={onSuccess} onLeave={onModalClose} nickname={selectedServiceInfo.nickname} apiEndpoint={selectedServiceInfo.apiEndpoint} t={t} />
       </Overlay>
     </Modal>
   )
@@ -56,6 +62,7 @@ PinningManagerModal.defaultProps = {
 }
 
 export default connect(
-  'selectAvailablePinningServices',
+  'selectRemoteServiceTemplates',
+  'selectPinningServicesDefaults',
   withTranslation('settings')(PinningManagerModal)
 )

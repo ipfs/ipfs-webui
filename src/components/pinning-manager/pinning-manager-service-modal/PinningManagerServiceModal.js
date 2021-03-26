@@ -10,10 +10,28 @@ import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
 import './PinningManagerServiceModal.css'
 
-const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, ...props }) => {
-  const { register, errors, handleSubmit } = useForm()
+const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service, tReady, doAddPinningService, nickname, apiEndpoint, secretApiKey, ...props }) => {
+  const { register, errors, clearErrors, setError, handleSubmit } = useForm({
+    defaultValues: {
+      nickname,
+      apiEndpoint,
+      secretApiKey: null
+    }
+  })
   const inputClass = 'w-100 lh-copy f5 ph2 pv1 input-reset ba b--black-20 br1 focus-outline'
-  const onSubmit = data => alert(`This is a WIP feature, with data: ${JSON.stringify(data)}`)
+  const onSubmit = async data => {
+    try {
+      await doAddPinningService(data)
+      clearErrors('apiValidation')
+      onSuccess()
+    } catch (error) {
+      console.error(error)
+      setError('apiValidation', {
+        type: 'manual',
+        message: error.message
+      })
+    }
+  }
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
@@ -27,7 +45,7 @@ const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, ..
                 <label>
                   { t('pinningServiceModal.service') }
                 </label>
-                <div class="flex w-100 items-center">
+                <div className="flex w-100 items-center">
                   <img className="mr3" src={service.icon} alt={service.name} height={42} style={{ objectFit: 'contain' }} />
                   <span>{ service.name }</span>
                 </div>
@@ -59,7 +77,7 @@ const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, ..
                 className={ classNames(inputClass, errors.apiEndpoint ? 'bg-red white' : 'charcoal') }
                 placeholder={ t('pinningServiceModal.apiEndpointPlaceholder') }
               />
-              {errors.apiEndpoint && (<ErrorMsg text={ t('errors.apiEndpoint') }/>)}
+              {errors.apiEndpoint && (<ErrorMsg text={`${t('errors.apiError')}: ${t('errors.apiEndpoint')}`}/>)}
             </div>
 
             <label htmlFor="cm-secretApiKey">
@@ -76,7 +94,9 @@ const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, ..
               />
               {errors.secretApiKey && (<ErrorMsg text={ t('errors.secretApiKey') }/>)}
             </div>
-
+          </div>
+          <div>
+            { errors.apiValidation && <p className='red f5 ttc'>{ errors.apiValidation.message}</p> }
           </div>
           <p className='f6'>
             <Trans i18nKey="pinningServiceModal.description" t={t}>
@@ -97,17 +117,23 @@ const PinningManagerServiceModal = ({ t, onLeave, className, service, tReady, ..
 }
 
 PinningManagerServiceModal.propTypes = {
+  className: PropTypes.string,
+  nickname: PropTypes.string,
+  apiEndpoint: PropTypes.string,
   t: PropTypes.func.isRequired,
-  onLeave: PropTypes.func.isRequired
+  onLeave: PropTypes.func.isRequired,
+  onSuccess: PropTypes.func.isRequired
 }
 
 PinningManagerServiceModal.defaultProps = {
-  className: ''
+  className: '',
+  nickname: null,
+  apiEndpoint: null
 }
 
-const ErrorMsg = ({ text }) => (<p className='danger absolute f7' style={{ top: 26, left: 2 }}>{text}</p>)
+const ErrorMsg = ({ text }) => (<p className='red absolute f7' style={{ top: 26, left: 2 }}>{text}</p>)
 
 export default connect(
-  // 'selectAvailablePinningServices',
+  'doAddPinningService',
   withTranslation('settings')(PinningManagerServiceModal)
 )

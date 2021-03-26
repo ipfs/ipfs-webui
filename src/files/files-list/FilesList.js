@@ -23,7 +23,7 @@ const addFiles = async (filesPromise, onAddFiles) => {
 }
 
 const mergeRemotePinsIntoFiles = (files, remotePins) => {
-  const remotePinsCids = remotePins.map(c => c.cid)
+  const remotePinsCids = remotePins.map(c => c.cid.string)
 
   return files.map(f => remotePinsCids.includes(f.cid?.string) ? ({
     ...f,
