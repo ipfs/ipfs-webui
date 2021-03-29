@@ -334,26 +334,37 @@ const actions = () => ({
 
     if (files.length === 0) return undefined
 
+    /**
+     * Execute function asynchronously in a best-effort fashion.
+     * We don't want any edge case (like a directory with multiple copies of
+     * same file) to crash webui, nor want to bother user with false-negatives
+     * @param {Function} fn
+     */
+    const tryAsync = async fn => { try { await fn() } catch (_) {} }
+
     try {
-      if (removeRemotely) {
-        files.map(file =>
-          remoteServices.map(async service => {
-            try {
-              await ipfs.pin.remote.rm({ cid: [file.cid], service })
-            } catch (_) {}
-          })
-        )
-      }
-
-      if (removeLocally) {
-        await Promise.all(files.map(async file => file.pinned && ipfs.pin.rm(file.cid)))
-      }
-
+      // try removing from MFS first
       await Promise.all(
         files.map(async file => ipfs.files.rm(realMfsPath(file.path), {
           recursive: true
         }))
       )
+
+      // Pin cleanup only if MFS removal was successful
+      if (removeRemotely) {
+        // remote unpin can be slow, so we do this async in best-effort fashion
+        files.forEach(file => remoteServices.map(async service => tryAsync(() =>
+          ipfs.pin.remote.rm({ cid: [file.cid], service })
+        )))
+      }
+
+      if (removeLocally) {
+        // removal of local pin can fail if same CID is present twice,
+        // this is done in best-effort as well
+        await Promise.all(files.map(async file => file.pinned && tryAsync(() =>
+          ipfs.pin.rm(file.cid)
+        )))
+      }
 
       const src = files[0].path
       const path = src.slice(0, src.lastIndexOf('/'))
@@ -381,7 +392,7 @@ const actions = () => ({
     const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
 
     try {
-      return ipfs.files.cp(srcPath, dst)
+      return await ipfs.files.cp(srcPath, dst)
     } finally {
       await store.doFilesFetch()
     }
