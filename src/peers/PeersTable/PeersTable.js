@@ -86,7 +86,7 @@ export class PeersTable extends React.Component {
   protocolsCellRenderer = ({ rowData, cellData }) => {
     const ref = React.createRef()
     const { protocols } = rowData
-    const title = protocols.split(', ').join('\n')
+    const title = protocols.split(', ').join('\n').replaceAll('🤔', '[unnamed]')
     return (
       <CopyToClipboard text={protocols} onCopy={() => copyFeedback(ref, this.props.t)}>
         <span
