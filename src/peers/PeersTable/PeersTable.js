@@ -62,15 +62,10 @@ export class PeersTable extends React.Component {
   }
 
   latencyCellRenderer = ({ cellData, rowData }) => {
-    const ref = React.createRef()
     const style = { width: '60px' }
     const latency = `${cellData}ms`
-    if (cellData == null) return (<span className='dib o-40' style={style}>-</span>)
-    return (
-      <CopyToClipboard text={latency} onCopy={() => copyFeedback(ref, this.props.t)}>
-        <span ref={ref} className='dib copyable'>{latency}</span>
-      </CopyToClipboard>
-    )
+    if (cellData == null) return (<span className='dib o-40 no-select' style={style}>-</span>)
+    return (<span className='dib no-select'>{latency}</span>)
   }
 
   peerIdCellRenderer = ({ cellData: peerId }) => {
