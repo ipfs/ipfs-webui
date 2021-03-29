@@ -73,70 +73,48 @@ export class PeersTable extends React.Component {
     )
   }
 
-  inOutCellRenderer = ({ rowData }) => {
+  peerIdCellRenderer = ({ cellData: peerId }) => {
     const ref = React.createRef()
-    const { rateIn, rateOut, totalIn, totalOut } = rowData
-    const details = this.props.t('currentRate') + ': ' + rateIn + ' • ' + rateOut + '; ' + this.props.t('totalTransfer') + ': ' + totalIn + ' • ' + totalOut
+    const p2pMultiaddr = `/p2p/${peerId}`
     return (
-      <CopyToClipboard text={details} onCopy={() => copyFeedback(ref, this.props.t)}>
-        <span ref={ref} className='copyable' title={details}>
-          <svg width='10' height='10' className='mr1'>
-            <circle cx='5' cy='5' r='5' fill='#69c4cd' />
-            <path d='M0,5 a1,1 0 0,0 10,0' fill='#f39021' />
-          </svg>
-          {totalIn} &bull; {totalOut}
-        </span>
+      <CopyToClipboard text={p2pMultiaddr} onCopy={() => copyFeedback(ref, this.props.t)}>
+        <Cid value={peerId} identicon ref={ref} className='copyable' />
       </CopyToClipboard>
     )
   }
 
-  peerIdCellRenderer = ({ cellData: peerId }) => {
+  protocolsCellRenderer = ({ rowData, cellData }) => {
     const ref = React.createRef()
+    const { protocols } = rowData
+    const title = protocols.split(', ').join('\n')
     return (
-      <CopyToClipboard text={peerId} onCopy={() => copyFeedback(ref, this.props.t)}>
-        <Cid value={peerId} identicon ref={ref} className='copyable' />
+      <CopyToClipboard text={protocols} onCopy={() => copyFeedback(ref, this.props.t)}>
+        <span
+          ref={ref}
+          className='copyable'
+          title={title}>
+          { protocols }
+        </span>
       </CopyToClipboard>
     )
   }
 
   connectionCellRenderer = ({ rowData }) => {
     const ref = React.createRef()
-    const { address, direction } = rowData
+    const { address, direction, peerId } = rowData
+    const p2pMultiaddr = `${address}/p2p/${peerId}`
     const title = direction != null
       ? `${address}\n(${renderDirection(direction, this.props.t)})`
       : address
 
     return (
-      <CopyToClipboard text={address} onCopy={() => copyFeedback(ref, this.props.t)}>
+      <CopyToClipboard text={p2pMultiaddr} onCopy={() => copyFeedback(ref, this.props.t)}>
         <abbr
           ref={ref}
           className='copyable'
           title={title}>
           {rowData.connection}
         </abbr>
-      </CopyToClipboard>
-    )
-  }
-
-  agentCellRenderer = ({ rowData }) => {
-    const ref = React.createRef()
-    const { agentStreams, agentVersion } = rowData
-    let details = agentVersion
-    if (Array.isArray(agentStreams)) {
-      try { // add info about any mounted stream to the tooltip
-        const protocolNames = agentStreams.map(s => s.Protocol)
-        details = `${agentVersion}\n\n${protocolNames.join('\n')}`
-      } catch (_) { }
-    }
-
-    return (
-      <CopyToClipboard text={details} onCopy={() => copyFeedback(ref, this.props.t)}>
-        <span
-          ref={ref}
-          className='copyable'
-          title={details}>
-          {agentVersion}
-        </span>
       </CopyToClipboard>
     )
   }
@@ -165,7 +143,7 @@ export class PeersTable extends React.Component {
           {({ width }) => (
             <Table
               className='tl fw4 w-100 f6'
-              headerClassName='teal fw2 ttu tracked ph2'
+              headerClassName='teal fw2 ttu tracked ph2 no-select'
               rowClassName={(rowInfo) => this.rowClassRenderer(rowInfo, peerLocationsForSwarm)}
               width={width}
               height={tableHeight}
@@ -178,10 +156,9 @@ export class PeersTable extends React.Component {
               sortDirection={sortDirection}>
               <Column label={t('app:terms.location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={450} className='f6 charcoal truncate pl2' />
               <Column label={t('app:terms.latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={200} className='f6 charcoal pl2' />
-              <Column label={t('app:terms.in') + '/' + t('app:terms.out')} cellRenderer={this.inOutCellRenderer} dataKey='latency' width={270} className='f6 charcoal pl2' />
               <Column label={t('app:terms.peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f6 pl2' />
               <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />
-              <Column label={t('app:terms.agent')} cellRenderer={this.agentCellRenderer} dataKey='agentVersion' width={250} className='f6 charcoal truncate pl2' />
+              <Column label={t('protocols')} cellRenderer={this.protocolsCellRenderer} dataKey='protocols' width={520} className='charcoal monospace truncate f7 pl2' />
             </Table>
           )}
         </AutoSizer> }

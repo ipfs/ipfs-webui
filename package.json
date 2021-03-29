@@ -50,7 +50,7 @@
     "intl-messageformat": "^9.5.1",
     "ip": "^1.1.5",
     "ipfs-css": "^1.2.0",
-    "ipfs-geoip": "^6.0.0",
+    "ipfs-geoip": "^7.0.0",
     "ipfs-http-client": "49.0.2",
     "ipfs-provider": "^1.1.0",
     "ipld-explorer-components": "^1.6.1",

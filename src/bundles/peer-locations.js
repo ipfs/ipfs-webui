@@ -67,15 +67,16 @@ function createPeersLocations (opts) {
       ]
       const connection = parseConnection(peer.addr)
       const address = peer.addr.toString()
-      const agentVersion = 'go-ipfs/X.X.X/1234567'
-      const agentStreams = Array.isArray(peer.streams) ? peer.streams : null
       const latency = parseLatency(peer.latency)
-      const rateIn = 'AAA kB/s'
-      const rateOut = 'BBB mB/s'
-      const totalIn = 'YYY kB'
-      const totalOut = 'XXX mB'
       const direction = peer.direction
       const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
+
+      const protocols = (Array.isArray(peer.streams)
+        ? Array.from(new Set(peer.streams
+          .map(s => s.Protocol)
+          .map(p => { if (!p) { p = '🤔' }; return p }) // mark weird 'empty' protocols with thinking emoji
+        )).sort()
+        : []).join(', ')
 
       return {
         peerId,
@@ -84,14 +85,9 @@ function createPeersLocations (opts) {
         coordinates,
         connection,
         address,
-        agentVersion,
-        agentStreams,
+        protocols,
         direction,
         latency,
-        rateIn,
-        rateOut,
-        totalIn,
-        totalOut,
         isPrivate,
         isNearby
       }
@@ -224,7 +220,7 @@ class PeerLocationResolver {
       autoStart: true
     })
 
-    this.geoipLookupPromises = {}
+    this.geoipLookupPromises = new Map()
 
     this.pass = 0
   }
@@ -253,11 +249,11 @@ class PeerLocationResolver {
       }
 
       // no ip address cached. are we looking it up already?
-      if (this.geoipLookupPromises[ipv4Addr]) {
+      if (this.geoipLookupPromises.has(ipv4Addr)) {
         continue
       }
 
-      this.geoipLookupPromises[ipv4Addr] = this.queue.add(async () => {
+      this.geoipLookupPromises.set(ipv4Addr, this.queue.add(async () => {
         try {
           const data = await geoip.lookup(getIpfs(), ipv4Addr)
           await this.geoipCache.set(ipv4Addr, data)
@@ -265,9 +261,9 @@ class PeerLocationResolver {
           // mark this one as failed so we don't retry again
           this.failedAddrs.set(ipv4Addr, true)
         } finally {
-          delete this.geoipLookupPromises[ipv4Addr]
+          this.geoipLookupPromises.delete(ipv4Addr)
         }
-      })
+      }))
     }
 
     return res
