@@ -323,31 +323,46 @@ const actions = () => ({
   /**
    * Deletes `files` with provided paths. On completion (success sor fail) will
    * trigger `doFilesFetch` to update the state.
-   * @param {string[]} files
+   * @param {Object} args
+   * @param {FileStat[]} args.files
+   * @param {boolean} args.removeLocally
+   * @param {boolean} args.removeRemotely
+   * @param {string[]} args.remoteServices
    */
-  doFilesDelete: (files) => perform(ACTIONS.DELETE, async (ipfs, { store }) => {
+  doFilesDelete: ({ files, removeLocally, removeRemotely, remoteServices }) => perform(ACTIONS.DELETE, async (ipfs, { store }) => {
     ensureMFS(store)
 
-    if (files.length > 0) {
-      const promises = files
-        .map(file => ipfs.files.rm(realMfsPath(file), {
+    if (files.length === 0) return undefined
+
+    try {
+      if (removeRemotely) {
+        files.map(file =>
+          remoteServices.map(async service => {
+            try {
+              await ipfs.pin.remote.rm({ cid: [file.cid], service })
+            } catch (_) {}
+          })
+        )
+      }
+
+      if (removeLocally) {
+        await Promise.all(files.map(async file => file.pinned && ipfs.pin.rm(file.cid)))
+      }
+
+      await Promise.all(
+        files.map(async file => ipfs.files.rm(realMfsPath(file.path), {
           recursive: true
         }))
+      )
 
-      try {
-        await Promise.all(promises)
+      const src = files[0].path
+      const path = src.slice(0, src.lastIndexOf('/'))
+      await store.doUpdateHash(path)
 
-        const src = files[0]
-        const path = src.slice(0, src.lastIndexOf('/'))
-        await store.doUpdateHash(path)
-
-        return undefined
-      } finally {
-        await store.doFilesFetch()
-      }
+      return undefined
+    } finally {
+      await store.doFilesFetch()
     }
-
-    return undefined
   }),
 
   /**

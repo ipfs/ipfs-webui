@@ -44,9 +44,9 @@ class Modals extends React.Component {
       file: null
     },
     delete: {
-      files: 0,
-      folder: 0,
-      paths: []
+      filesCount: 0,
+      folderCount: 0,
+      files: []
     },
     link: '',
     command: 'ipfs --help'
@@ -73,10 +73,10 @@ class Modals extends React.Component {
     this.leave()
   }
 
-  delete = () => {
-    const { paths } = this.state.delete
+  delete = (args) => {
+    const { files } = this.state.delete
 
-    this.props.onRemove(paths)
+    this.props.onRemove({ files, ...args })
     this.leave()
   }
 
@@ -129,9 +129,9 @@ class Modals extends React.Component {
         this.setState({
           readyToShow: true,
           delete: {
-            files: filesCount,
-            folders: foldersCount,
-            paths: files.map(f => f.path)
+            files,
+            filesCount,
+            foldersCount
           }
         })
         break
@@ -178,6 +178,7 @@ class Modals extends React.Component {
       case cliCmdKeys.CREATE_NEW_DIRECTORY:
       case cliCmdKeys.FROM_IPFS:
         return cliCommandList[action](root.substr('/files'.length))
+      case cliCmdKeys.DELETE_FILE_FROM_IPFS:
       case cliCmdKeys.REMOVE_FILE_FROM_IPFS:
         return cliCommandList[action](path)
       case cliCmdKeys.DOWNLOAD_OBJECT_COMMAND:

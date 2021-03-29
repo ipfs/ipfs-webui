@@ -61,8 +61,13 @@ export const FilesList = ({
 
   const selectedFiles = useMemo(() =>
     selected
-      .map(name => files.find(el => el.name === name))
-      .filter(n => n), [files, selected]
+      .map(name => allFiles.find(el => el.name === name))
+      .filter(n => n)
+      .map(file => ({
+        ...file,
+        pinned: pins.map(p => p.toString()).includes(file.cid.toString())
+      }))
+  , [allFiles, pins, selected]
   )
 
   const keyHandler = (e) => {

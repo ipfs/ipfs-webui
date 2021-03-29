@@ -24,6 +24,15 @@ declare module 'ipfs' {
     add(cid: CID, options?: PinAddOptions): Promise<Pin[]>;
     ls(options?: PinListOptions): AsyncIterable<PinEntry>;
     rm(cid: CID, options?: PinRemoveOptions): Promise<Pin[]>;
+    remote: RemotePinService;
+  }
+
+  declare export interface RemotePinServicesOptions {
+    cid: CID[];
+    service: string;
+  }
+  declare export interface RemotePinService {
+    rm(options: RemotePinServicesOptions): Promise<boolean>;
   }
 
   declare export interface FileService {
