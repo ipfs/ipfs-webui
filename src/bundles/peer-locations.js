@@ -7,10 +7,14 @@ import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
 import ip from 'ip'
 import memoize from 'p-memoize'
+import { dependencies } from '../../package.json'
 
 // After this time interval, we re-check the locations for each peer
 // once again through PeerLocationResolver.
 const UPDATE_EVERY = ms.seconds(1)
+
+// We reuse cached geoip lookups as long geoipVersion is the same.
+const geoipVersion = dependencies['ipfs-geoip']
 
 // Depends on ipfsBundle, peersBundle
 function createPeersLocations (opts) {
@@ -51,7 +55,7 @@ function createPeersLocations (opts) {
     'selectPeers',
     'selectPeerLocations',
     'selectBootstrapPeers',
-    'selectIdentity',
+    'selectIdentity', // ipfs.id info for local node, used for detecting local peers
     (peers, locations = {}, bootstrapPeers, identity) => peers && peers.map(peer => {
       const peerId = peer.peer
       const locationObj = locations ? locations[peerId] : null
@@ -64,8 +68,15 @@ function createPeersLocations (opts) {
       const connection = parseConnection(peer.addr)
       const address = peer.addr.toString()
       const latency = parseLatency(peer.latency)
-      const notes = bootstrapPeers ? parseNotes(peer, bootstrapPeers) : null
+      const direction = peer.direction
       const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
+
+      const protocols = (Array.isArray(peer.streams)
+        ? Array.from(new Set(peer.streams
+          .map(s => s.Protocol)
+          .map(p => (!p?.trim() ? '[unnamed]' : p)) // mark weird 'empty' protocols
+        )).sort()
+        : []).join(', ')
 
       return {
         peerId,
@@ -74,8 +85,9 @@ function createPeersLocations (opts) {
         coordinates,
         connection,
         address,
+        protocols,
+        direction,
         latency,
-        notes,
         isPrivate,
         isNearby
       }
@@ -132,7 +144,7 @@ const toLocationString = loc => {
 }
 
 const parseConnection = (multiaddr) => {
-  return multiaddr.protoNames().join('・')
+  return multiaddr.protoNames().join(' • ')
 }
 
 const parseLatency = (latency) => {
@@ -192,28 +204,11 @@ const isPrivateAndNearby = (maddr, identity) => {
   return { isPrivate, isNearby }
 }
 
-const parseNotes = (peer, bootstrapPeers) => {
-  const peerId = peer.peer
-  const addr = peer.addr
-  const ipfsAddr = addr.encapsulate(`/ipfs/${peerId}`).toString()
-  const p2pAddr = addr.encapsulate(`/p2p/${peerId}`).toString()
-
-  if (bootstrapPeers.includes(ipfsAddr) || bootstrapPeers.includes(p2pAddr)) {
-    return { type: 'BOOTSTRAP_NODE' }
-  }
-
-  const opts = addr.toOptions()
-
-  if (opts.transport === 'p2p-circuit') {
-    return { type: 'RELAY_NODE', node: opts.host }
-  }
-}
-
 class PeerLocationResolver {
   constructor (opts) {
     this.geoipCache = getConfiguredCache({
       name: 'geoipCache',
-      version: 2,
+      version: geoipVersion,
       maxAge: ms.weeks(1),
       ...opts.cache
     })
@@ -225,7 +220,7 @@ class PeerLocationResolver {
       autoStart: true
     })
 
-    this.geoipLookupPromises = {}
+    this.geoipLookupPromises = new Map()
 
     this.pass = 0
   }
@@ -254,11 +249,11 @@ class PeerLocationResolver {
       }
 
       // no ip address cached. are we looking it up already?
-      if (this.geoipLookupPromises[ipv4Addr]) {
+      if (this.geoipLookupPromises.has(ipv4Addr)) {
         continue
       }
 
-      this.geoipLookupPromises[ipv4Addr] = this.queue.add(async () => {
+      this.geoipLookupPromises.set(ipv4Addr, this.queue.add(async () => {
         try {
           const data = await geoip.lookup(getIpfs(), ipv4Addr)
           await this.geoipCache.set(ipv4Addr, data)
@@ -266,9 +261,9 @@ class PeerLocationResolver {
           // mark this one as failed so we don't retry again
           this.failedAddrs.set(ipv4Addr, true)
         } finally {
-          delete this.geoipLookupPromises[ipv4Addr]
+          this.geoipLookupPromises.delete(ipv4Addr)
         }
-      })
+      }))
     }
 
     return res
