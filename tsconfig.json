@@ -47,7 +47,7 @@
     ],
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "baseUrl": ".",
     "module": "esnext"
   },
