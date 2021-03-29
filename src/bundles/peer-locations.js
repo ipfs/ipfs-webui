@@ -74,7 +74,7 @@ function createPeersLocations (opts) {
       const protocols = (Array.isArray(peer.streams)
         ? Array.from(new Set(peer.streams
           .map(s => s.Protocol)
-          .map(p => { if (!p) { p = '🤔' }; return p }) // mark weird 'empty' protocols with thinking emoji
+          .map(p => (!p?.trim() ? '[unnamed]' : p)) // mark weird 'empty' protocols
         )).sort()
         : []).join(', ')
 
