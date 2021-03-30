@@ -15,6 +15,15 @@ const parseService = async (service, remoteServiceTemplates, ipfs) => {
   return { ...parsedService, numberOfPins: service.stat?.pinCount?.pinned, online: true }
 }
 
+const chunkArray = (array, size) => {
+  const result = []
+  for (let i = 0; i < array.length; i += size) {
+    const chunk = array.slice(i, i + size)
+    result.push(chunk)
+  }
+  return result
+}
+
 /**
  * TODO: This might change, current version from: https://github.com/ipfs/go-ipfs/blob/petar/pincli/core/commands/remotepin.go#L53
  * @typedef {Object} RemotePin
@@ -59,7 +68,7 @@ const pinningBundle = {
     return state
   },
 
-  doFetchRemotePins: () => async ({ dispatch, store, getIpfs }) => {
+  doFetchRemotePins: (files) => async ({ dispatch, store, getIpfs }) => {
     const pinningServices = store.selectPinningServices()
 
     if (!pinningServices?.length) return
@@ -70,18 +79,24 @@ const pinningBundle = {
 
     dispatch({ type: 'SET_REMOTE_PINS', payload: [] })
 
+    const allCids = files ? files.map(f => f.cid) : []
+    const cids = chunkArray(allCids, 10)
+
     await Promise.all(pinningServices.map(async service => {
       try {
-        const pins = ipfs.pin.remote.ls({ service: service.name })
-        for await (const pin of pins) {
-          dispatch({
-            type: 'ADD_REMOTE_PIN',
-            payload: {
-              ...pin,
-              id: `${service.name}:${pin.cid}`
-            }
-          })
-        }
+        return cids.map(async cidChunk => {
+          const pins = ipfs.pin.remote.ls({ service: service.name, cid: cidChunk })
+          for await (const pin of pins) {
+            console.log(pin)
+            dispatch({
+              type: 'ADD_REMOTE_PIN',
+              payload: {
+                ...pin,
+                id: `${service.name}:${pin.cid}`
+              }
+            })
+          }
+        })
       } catch (_) {
         // if one of services is offline, ignore it for now
         // and continue checking remaining ones
