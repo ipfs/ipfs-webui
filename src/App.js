@@ -25,10 +25,6 @@ export class App extends Component {
     doUpdateUrl: PropTypes.func.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesWrite: PropTypes.func.isRequired,
-    route: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.element
-    ]).isRequired,
     routeInfo: PropTypes.object.isRequired,
     // Injected by DropTarget
     isOver: PropTypes.bool.isRequired
@@ -59,7 +55,6 @@ export class App extends Component {
 
   render () {
     const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
-
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <div className='sans-serif h-100 relative' onClick={getNavHelper(this.props.doUpdateUrl)}>
@@ -79,7 +74,7 @@ export class App extends Component {
             <main className='bg-white pv3 pa3 pa4-l'>
               { (ipfsReady || url === '/welcome' || url.startsWith('/settings'))
                 ? <Page />
-                : <ComponentLoader pastDelay />
+                : <ComponentLoader />
               }
             </main>
           </div>

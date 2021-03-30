@@ -1,9 +1,8 @@
-import Loadable from 'react-loadable'
+import Loadable from '@loadable/component'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
-const LoadableSettingsPage = Loadable({
-  loader: () => import('./SettingsPage'),
-  loading: ComponentLoader
-})
+const LoadableSettingsPage = Loadable(() => import('./SettingsPage'),
+  { fallback: <ComponentLoader/> }
+)
 
 export default LoadableSettingsPage

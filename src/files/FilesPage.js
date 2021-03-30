@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useRef, useState } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
@@ -21,84 +20,61 @@ import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE,
 import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 
-const defaultState = {
-  downloadAbort: null,
-  downloadProgress: null,
-  modals: {
-    show: null,
-    files: null
-  },
-  contextMenu: {
+const FilesPage = ({
+  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesWrite, doFilesAddPath, doUpdateHash,
+  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath,
+  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick,
+  files, filesPathInfo, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
+}) => {
+  const contextMenuRef = useRef()
+  const [downloadAbort, setDownloadAbort] = useState(null)
+  const [downloadProgress, setDownloadProgress] = useState(null)
+  const [modals, setModals] = useState({ show: null, files: null })
+  const [contextMenu, setContextMenu] = useState({
     isOpen: false,
     translateX: 0,
     translateY: 0,
     file: null
-  }
-}
+  })
 
-class FilesPage extends React.Component {
-  constructor (props) {
-    super(props)
-    this.contextMenuRef = React.createRef()
-  }
+  useEffect(() => {
+    doFetchPinningServices()
+    doFilesFetch()
+    doPinsFetch()
+    doFilesSizeGet()
+  }, [doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet])
 
-  state = defaultState
-
-  componentDidMount () {
-    this.props.doFilesFetch()
-    this.props.doPinsFetch()
-    this.props.doFilesSizeGet()
-    this.props.doFetchPinningServices().then(() => this.props.doFetchRemotePins())
-  }
-
-  componentDidUpdate (prev) {
-    const { filesPathInfo } = this.props
-
-    if (prev.files === null || !prev.ipfsConnected || filesPathInfo.path !== prev.filesPathInfo.path) {
-      this.props.doFilesFetch()
+  useEffect(() => {
+    if (ipfsConnected || filesPathInfo.path) {
+      doFilesFetch()
     }
-  }
+  }, [ipfsConnected, filesPathInfo, doFilesFetch])
 
-  onDownload = async (files) => {
-    const { doFilesDownloadLink } = this.props
-    const { downloadProgress, downloadAbort } = this.state
+  useEffect(() => {
+    files && files.content && doFetchRemotePins(files.content)
+  }, [files, doFetchRemotePins])
 
+  const onDownload = async (files) => {
     if (downloadProgress !== null) {
-      downloadAbort()
-      return
+      return downloadAbort()
     }
 
-    const updater = (v) => this.setState({ downloadProgress: v })
+    const updater = (v) => setDownloadProgress(v)
     const { url, filename, method } = await doFilesDownloadLink(files)
     const { abort } = await downloadFile(url, filename, updater, method)
-    this.setState({ downloadAbort: abort })
+    setDownloadAbort(abort)
+  }
+  const onAddFiles = (raw, root = '') => {
+    if (root === '') root = files.path
+
+    doFilesWrite(raw, root)
   }
 
-  onAddFiles = (raw, root = '') => {
-    if (root === '') {
-      root = this.props.files.path
-    }
-
-    this.props.doFilesWrite(raw, root)
-  }
-
-  onAddByPath = (path) => {
-    this.props.doFilesAddPath(this.props.files.path, path)
-  }
-
-  onInspect = (cid) => {
-    this.props.doUpdateHash(`/explore/ipfs/${cid}`)
-  }
-
-  showModal = (modal, files = null) => {
-    this.setState({ modals: { show: modal, files: files } })
-  }
-
-  hideModal = () => {
-    this.setState({ modals: { } })
-  }
-
-  handleContextMenu = (ev, clickType, file, pos) => {
+  const onAddByPath = (path) => doFilesAddPath(files.path, path)
+  const onInspect = (cid) => doUpdateHash(`/explore/ipfs/${cid}`)
+  const showModal = (modal, files = null) => setModals({ show: modal, files: files })
+  const hideModal = () => setModals({})
+  const handleContextMenu = (ev, clickType, file, pos) => {
     // This is needed to disable the native OS right-click menu
     // and deal with the clicking on the ContextMenu options
     if (ev !== undefined && typeof ev !== 'string') {
@@ -106,7 +82,7 @@ class FilesPage extends React.Component {
       ev.persist()
     }
 
-    const ctxMenu = findDOMNode(this.contextMenuRef.current)
+    const ctxMenu = findDOMNode(contextMenuRef.current)
     const ctxMenuPosition = ctxMenu.getBoundingClientRect()
 
     let translateX = 0
@@ -131,22 +107,16 @@ class FilesPage extends React.Component {
       }
     }
 
-    this.setState({
-      contextMenu: {
-        isOpen: !this.state.contextMenu.isOpen,
-        translateX,
-        translateY,
-        file
-      }
+    setContextMenu({
+      isOpen: !contextMenu.isOpen,
+      translateX,
+      translateY,
+      file
     })
   }
 
-  get mainView () {
-    const { t, files, remotePins, doExploreUserProvidedPath } = this.props
-
-    if (!files) {
-      return (<div/>)
-    }
+  const MainView = ({ t, files, remotePins, doExploreUserProvidedPath }) => {
+    if (!files) return (<div/>)
 
     if (files.type === 'unknown') {
       const path = files.path.startsWith('/pins')
@@ -164,34 +134,33 @@ class FilesPage extends React.Component {
 
     if (files.type === 'file') {
       return (
-        <FilePreview {...files} onDownload={() => this.onDownload([files])} />
+        <FilePreview {...files} onDownload={() => onDownload([files])} />
       )
     }
 
     return (
       <FilesList
         key={window.encodeURIComponent(files.path)}
-        updateSorting={this.props.doFilesUpdateSorting}
+        updateSorting={doFilesUpdateSorting}
         files={files.content}
         remotePins={remotePins}
         upperDir={files.upper}
-        downloadProgress={this.state.downloadProgress}
-        onShare={(files) => this.showModal(SHARE, files)}
-        onRename={(files) => this.showModal(RENAME, files)}
-        onSetPinning={(files) => this.showModal(PINNING, files)}
+        downloadProgress={downloadProgress}
+        onShare={(files) => showModal(SHARE, files)}
+        onRename={(files) => showModal(RENAME, files)}
         onRemove={(files) => this.showModal(DELETE, files)}
-        onInspect={this.onInspect}
-        onRemotePinClick={this.onRemotePinClick}
-        onDownload={this.onDownload}
-        onAddFiles={this.onAddFiles}
-        onNavigate={this.props.doFilesNavigateTo}
-        onMove={this.props.doFilesMove}
-        handleContextMenuClick={this.handleContextMenu} />
+        onSetPinning={(files) => showModal(PINNING, files)}
+        onInspect={onInspect}
+        onRemotePinClick={onRemotePinClick}
+        onDownload={onDownload}
+        onAddFiles={onAddFiles}
+        onNavigate={doFilesNavigateTo}
+        onMove={doFilesMove}
+        handleContextMenuClick={handleContextMenu} />
     )
   }
 
-  get title () {
-    const { filesPathInfo, t } = this.props
+  const getTitle = (filesPathInfo, t) => {
     const parts = []
 
     if (filesPathInfo) {
@@ -208,104 +177,75 @@ class FilesPage extends React.Component {
     return parts.join(' | ')
   }
 
-  render () {
-    const {
-      t, files, filesPathInfo, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled,
-      doSetCliOptions, cliOptions
-    } = this.props
-    const { contextMenu } = this.state
+  return (
+    <div data-id='FilesPage' className='mw9 center'>
+      <Helmet>
+        <title>{getTitle(filesPathInfo, t)}</title>
+      </Helmet>
 
-    return (
-      <div data-id='FilesPage' className='mw9 center'>
-        <Helmet>
-          <title>{this.title}</title>
-        </Helmet>
+      <ContextMenu
+        autofocus
+        ref={contextMenuRef}
+        isOpen={contextMenu.isOpen}
+        translateX={contextMenu.translateX}
+        translateY={contextMenu.translateY}
+        handleClick={handleContextMenu}
+        isMfs={filesPathInfo ? filesPathInfo.isMfs : false}
+        isUnknown={!!(contextMenu.file && contextMenu.file.type === 'unknown')}
+        pinned={contextMenu.file && contextMenu.file.pinned}
+        cid={contextMenu.file && contextMenu.file.cid}
+        onShare={() => showModal(SHARE, [contextMenu.file])}
+        onRemove={() => showModal(DELETE, [contextMenu.file])}
+        onRename={() => showModal(RENAME, [contextMenu.file])}
+        onInspect={() => onInspect(contextMenu.file.cid)}
+        onDownload={() => onDownload([contextMenu.file])}
+        onPinning={() => showModal(PINNING, [contextMenu.file])}
+        isCliTutorModeEnabled={isCliTutorModeEnabled}
+        onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
+        doSetCliOptions={doSetCliOptions}
+      />
 
-        <ContextMenu
-          autofocus
-          ref={this.contextMenuRef}
-          isOpen={contextMenu.isOpen}
-          translateX={contextMenu.translateX}
-          translateY={contextMenu.translateY}
-          handleClick={this.handleContextMenu}
-          isMfs={filesPathInfo ? filesPathInfo.isMfs : false}
-          isUnknown={!!(contextMenu.file && contextMenu.file.type === 'unknown')}
-          pinned={contextMenu.file && contextMenu.file.pinned}
-          cid={contextMenu.file && contextMenu.file.cid}
-          onShare={() => this.showModal(SHARE, [contextMenu.file])}
-          onRemove={() => this.showModal(DELETE, [contextMenu.file])}
-          onRename={() => this.showModal(RENAME, [contextMenu.file])}
-          onInspect={() => this.onInspect(contextMenu.file.cid)}
-          onDownload={() => this.onDownload([contextMenu.file])}
-          onPinning={() => this.showModal(PINNING, [contextMenu.file])}
-          isCliTutorModeEnabled={isCliTutorModeEnabled}
-          onCliTutorMode={() => this.showModal(CLI_TUTOR_MODE, [contextMenu.file])}
-          doSetCliOptions={doSetCliOptions}
-        />
+      <Header
+        files={files}
+        onNavigate={doFilesNavigateTo}
+        onAddFiles={onAddFiles}
+        onMove={doFilesMove}
+        onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
+        onNewFolder={(files) => showModal(NEW_FOLDER, files)}
+        onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
+        handleContextMenu={(...args) => handleContextMenu(...args, true)} />
 
-        <Header
-          files={files}
-          onNavigate={this.props.doFilesNavigateTo}
-          onAddFiles={this.onAddFiles}
-          onMove={this.props.doFilesMove}
-          onAddByPath={(files) => this.showModal(ADD_BY_PATH, files)}
-          onNewFolder={(files) => this.showModal(NEW_FOLDER, files)}
-          onCliTutorMode={() => this.showModal(CLI_TUTOR_MODE)}
-          handleContextMenu={(...args) => this.handleContextMenu(...args, true)} />
+      <MainView t={t} files={files} remotePins={remotePins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
-        { this.mainView }
+      <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
+        isCompanion={ipfsProvider === 'window.ipfs'}
+        filesExist={!!(files && files.content && files.content.length)} />
 
-        <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
-          isCompanion={this.props.ipfsProvider === 'window.ipfs'}
-          filesExist={!!(files && files.content && files.content.length)} />
+      <Modals
+        done={hideModal}
+        root={files ? files.path : null}
+        onMove={doFilesMove}
+        onMakeDir={doFilesMakeDir}
+        onShareLink={doFilesShareLink}
+        onRemove={doFilesDelete}
+        onAddByPath={onAddByPath}
+        onPinningSet={doSetPinning}
+        cliOptions={cliOptions}
+        { ...modals } />
 
-        <Modals
-          done={this.hideModal}
-          root={files ? files.path : null}
-          onMove={this.props.doFilesMove}
-          onMakeDir={this.props.doFilesMakeDir}
-          onShareLink={this.props.doFilesShareLink}
-          onRemove={this.props.doFilesDelete}
-          onAddByPath={this.onAddByPath}
-          onPinningSet={this.props.doSetPinning}
-          cliOptions={cliOptions}
-          { ...this.state.modals } />
+      <FileImportStatus />
 
-        <FileImportStatus />
-
-        <ReactJoyride
-          run={toursEnabled}
-          steps={filesTour.getSteps({ t, Trans })}
-          styles={filesTour.styles}
-          callback={handleJoyrideCallback}
-          continuous
-          scrollToFirstStep
-          locale={getJoyrideLocales(t)}
-          showProgress />
-      </div>
-    )
-  }
-}
-
-FilesPage.propTypes = {
-  t: PropTypes.func.isRequired,
-  tReady: PropTypes.bool.isRequired,
-  ipfsConnected: PropTypes.bool,
-  ipfsProvider: PropTypes.string,
-  files: PropTypes.object,
-  filesPathInfo: PropTypes.object,
-  doUpdateHash: PropTypes.func.isRequired,
-  doPinsFetch: PropTypes.func.isRequired,
-  doFilesFetch: PropTypes.func.isRequired,
-  doFilesMove: PropTypes.func.isRequired,
-  doFilesMakeDir: PropTypes.func.isRequired,
-  doFilesShareLink: PropTypes.func.isRequired,
-  doFilesDelete: PropTypes.func.isRequired,
-  doFilesAddPath: PropTypes.func.isRequired,
-  doFilesNavigateTo: PropTypes.func.isRequired,
-  doFilesUpdateSorting: PropTypes.func.isRequired,
-  doFilesWrite: PropTypes.func.isRequired,
-  doFilesDownloadLink: PropTypes.func.isRequired
+      <ReactJoyride
+        run={toursEnabled}
+        steps={filesTour.getSteps({ t, Trans })}
+        styles={filesTour.styles}
+        callback={handleJoyrideCallback}
+        continuous
+        scrollToFirstStep
+        locale={getJoyrideLocales(t)}
+        showProgress />
+    </div>
+  )
 }
 
 export default connect(

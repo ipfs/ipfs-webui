@@ -1,9 +1,8 @@
-import Loadable from 'react-loadable'
+import Loadable from '@loadable/component'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
-const LoadableFilesPage = Loadable({
-  loader: () => import('./FilesPage'),
-  loading: ComponentLoader
-})
+const LoadableFilesPage = Loadable(() => import('./FilesPage'),
+  { fallback: <ComponentLoader/> }
+)
 
 export default LoadableFilesPage

@@ -16,7 +16,7 @@ import ComponentLoader from '../loader/ComponentLoader.js'
 
 const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
   if (!ipfsInitFailed && !ipfsReady) {
-    return <ComponentLoader pastDelay />
+    return <ComponentLoader />
   }
 
   const isSameOrigin = window.location.origin === apiUrl

@@ -1,9 +1,8 @@
-import Loadable from 'react-loadable'
+import Loadable from '@loadable/component'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
-const LoadableExplorePage = Loadable({
-  loader: () => import('./ExploreContainer'),
-  loading: ComponentLoader
-})
+const LoadableExplorePage = Loadable(() => import('./ExploreContainer'),
+  { fallback: <ComponentLoader/> }
+)
 
 export default LoadableExplorePage

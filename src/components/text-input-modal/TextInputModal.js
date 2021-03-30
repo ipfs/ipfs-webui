@@ -135,7 +135,7 @@ class TextInputModal extends React.Component {
         { loading && (
           <div className="flex items-center justify-center absolute top-0 left-0 right-0 bottom-0">
             <div className="absolute top-0 left-0 right-0 bottom-0 bg-light-gray o-80"/>
-            <ComponentLoader pastDelay style={{ width: '50%', margin: 'auto' }} />
+            <ComponentLoader style={{ width: '50%', margin: 'auto' }} />
           </div>
         ) }
       </Modal>
