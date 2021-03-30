@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import TrashIcon from '../../../icons/StrokeTrash'
 import Button from '../../../components/button/Button'
+import Checkbox from '../../../components/checkbox/Checkbox'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal'
 import { connect } from 'redux-bundler-react'
 
@@ -42,13 +43,15 @@ const RemoveModal = ({ t, tReady, onCancel, onRemove, files, foldersCount, files
         <div className='charcoal w-90 center tl'>
           <p>{t(`removeModal.description${context}`, { count })}</p>
           { isLocallyPinned && (<div>
-            <input type="checkbox" className="mr1" id="removeLocalPin" name="removeLocalPin" checked={shouldRemoveLocalPin} onChange={handleLocalPinRemoval}/>
-            <label htmlFor="removeLocalPin">{t('removeModal.checkboxRemoveLocalPin')}</label>
+            <Checkbox className="mr1" name="removeLocalPin" checked={shouldRemoveLocalPin} onChange={handleLocalPinRemoval}
+              label={t('removeModal.checkboxRemoveLocalPin')} aria-label={t('selectAllEntries')}
+            />
           </div>
           )}
           { isRemotelyPinned && (<div className='mt1'>
-            <input type="checkbox" className="mr1" id="unpinFromServices" name="unpinFromServices" checked={shouldRemoveRemotePin} onChange={handleRemotePinRemoval} />
-            <label htmlFor="unpinFromServices">{t('removeModal.checkboxUnpinFromServices')}</label>
+            <Checkbox className="mr1" name="unpinFromServices" checked={shouldRemoveRemotePin} onChange={handleRemotePinRemoval}
+              label={t('removeModal.checkboxUnpinFromServices')} aria-label={t('selectAllEntries')}
+            />
           </div>
           )}
         </div>
