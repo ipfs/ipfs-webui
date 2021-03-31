@@ -37,16 +37,22 @@ const pinningBundle = {
   name: 'pinning',
   reducer: (state = {
     remotePins: [],
+    notRemotePins: [],
     arePinningServicesSupported: false
   }, action) => {
-    if (action.type === 'SET_REMOTE_PINS') {
-      return { ...state, remotePins: action.payload }
-    }
     if (action.type === 'ADD_REMOTE_PIN') {
-      return { ...state, remotePins: [...state.remotePins, action.payload] }
+      return {
+        ...state,
+        remotePins: [...state.remotePins, action.payload],
+        notRemotePins: state.notRemotePins.filter(id => id !== action.payload.id)
+      }
     }
     if (action.type === 'REMOVE_REMOTE_PIN') {
-      return { ...state, remotePins: state.remotePins.filter(p => p.id !== action.payload.id) }
+      return {
+        ...state,
+        remotePins: state.remotePins.filter(p => p.id !== action.payload.id),
+        notRemotePins: [...state.notRemotePins, action.payload.id]
+      }
     }
     if (action.type === 'SET_REMOTE_PINNING_SERVICES') {
       const oldServices = state.pinningServices
@@ -77,17 +83,31 @@ const pinningBundle = {
 
     if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return
 
-    dispatch({ type: 'SET_REMOTE_PINS', payload: [] })
-
     const allCids = files ? files.map(f => f.cid) : []
+
+    // Reuse known state for some CIDs to avoid unnecessary requests
+    const cacheId2Cid = (id) => id.split(':').slice(-1)[0]
+    const remotePins = store.selectRemotePins().map(pin => pin.id)
+    const notRemotePins = store.selectNotRemotePins()
+
+    // Check remaining CID status in chunks of 10 (remote API limitation)
     const cids = chunkArray(allCids, 10)
 
-    await Promise.all(pinningServices.map(async service => {
+    await Promise.allSettled(pinningServices.map(async service => {
       try {
-        return cids.map(async cidChunk => {
-          const pins = ipfs.pin.remote.ls({ service: service.name, cid: cidChunk })
+        // skip CIDs that we know the state of at this service
+        const skipCids = new Set(
+          [...remotePins, ...notRemotePins]
+            .filter(id => id.startsWith(service.name))
+            .map(cacheId2Cid)
+        )
+        return Promise.allSettled(cids.map(async cidChunk => {
+          const cidsToCheck = cidChunk.filter(cid => !skipCids.has(cid.toString()))
+          if (!cidsToCheck.length) return // skip if no new cids to check
+          const notPins = new Set(cidsToCheck.map(cid => cid.toString()))
+          const pins = ipfs.pin.remote.ls({ service: service.name, cid: cidsToCheck })
           for await (const pin of pins) {
-            console.log(pin)
+            notPins.delete(pin.cid.toString())
             dispatch({
               type: 'ADD_REMOTE_PIN',
               payload: {
@@ -96,7 +116,14 @@ const pinningBundle = {
               }
             })
           }
-        })
+          // store 'not pinned remotely on this service' to avoid future checks
+          for (const notPin of notPins.values()) {
+            dispatch({
+              type: 'REMOVE_REMOTE_PIN',
+              payload: { id: `${service.name}:${notPin}` }
+            })
+          }
+        }))
       } catch (_) {
         // if one of services is offline, ignore it for now
         // and continue checking remaining ones
@@ -105,6 +132,7 @@ const pinningBundle = {
   },
 
   selectRemotePins: (state) => state.pinning.remotePins || [],
+  selectNotRemotePins: (state) => state.pinning.notRemotePins || [],
 
   doSelectRemotePinsForFile: (file) => ({ store }) => {
     const pinningServicesNames = store.selectPinningServices().map(remote => remote.name)
