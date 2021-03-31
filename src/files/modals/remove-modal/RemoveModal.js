@@ -32,6 +32,9 @@ const RemoveModal = ({ t, tReady, onCancel, onRemove, files, foldersCount, files
     })()
   })
 
+  const modalTitle = t(`removeModal.title${context}`, { count })
+  const modalDescription = t(`removeModal.description${context}`, { count, name: files[0].name })
+
   const handleLocalPinRemoval = () => setShouldRemoveLocalPin(!shouldRemoveLocalPin)
   const handleRemotePinRemoval = () => setShouldRemoveRemotePin(!shouldRemoveRemotePin)
 
@@ -39,9 +42,9 @@ const RemoveModal = ({ t, tReady, onCancel, onRemove, files, foldersCount, files
 
   return (
     <Modal {...props} className={className} onCancel={onCancel} >
-      <ModalBody title={t(`removeModal.title${context}`, { count })} Icon={TrashIcon}>
+      <ModalBody title={modalTitle} Icon={TrashIcon}>
         <div className='charcoal w-90 center tl'>
-          <p>{t(`removeModal.description${context}`, { count })}</p>
+          <p>{modalDescription}</p>
           { isLocallyPinned && (<div>
             <Checkbox className="mr1" checked={shouldRemoveLocalPin} onChange={handleLocalPinRemoval} label={t('removeModal.checkboxRemoveLocalPin')}/>
           </div>
