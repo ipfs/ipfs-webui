@@ -43,15 +43,11 @@ const RemoveModal = ({ t, tReady, onCancel, onRemove, files, foldersCount, files
         <div className='charcoal w-90 center tl'>
           <p>{t(`removeModal.description${context}`, { count })}</p>
           { isLocallyPinned && (<div>
-            <Checkbox className="mr1" name="removeLocalPin" checked={shouldRemoveLocalPin} onChange={handleLocalPinRemoval}
-              label={t('removeModal.checkboxRemoveLocalPin')} aria-label={t('selectAllEntries')}
-            />
+            <Checkbox className="mr1" checked={shouldRemoveLocalPin} onChange={handleLocalPinRemoval} label={t('removeModal.checkboxRemoveLocalPin')}/>
           </div>
           )}
           { isRemotelyPinned && (<div className='mt1'>
-            <Checkbox className="mr1" name="unpinFromServices" checked={shouldRemoveRemotePin} onChange={handleRemotePinRemoval}
-              label={t('removeModal.checkboxUnpinFromServices')} aria-label={t('selectAllEntries')}
-            />
+            <Checkbox className="mr1" checked={shouldRemoveRemotePin} onChange={handleRemotePinRemoval} label={t('removeModal.checkboxUnpinFromServices')}/>
           </div>
           )}
         </div>

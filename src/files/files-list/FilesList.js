@@ -67,8 +67,7 @@ export const FilesList = ({
         ...file,
         pinned: pins.map(p => p.toString()).includes(file.cid.toString())
       }))
-  , [allFiles, pins, selected]
-  )
+  , [allFiles, pins, selected])
 
   const keyHandler = (e) => {
     const focusedFile = files.find(el => el.name === focused)
@@ -314,12 +313,12 @@ export const FilesList = ({
               </div>
             )}
           </WindowScroller>
-          { selected.length !== 0 && <SelectedActions
+          { selectedFiles.length !== 0 && <SelectedActions
             className={'fixed bottom-0 right-0'}
             style={{
               zIndex: 20
             }}
-            animateOnStart={selected.length === 1}
+            animateOnStart={selectedFiles.length === 1}
             unselect={() => toggleAll(false)}
             remove={() => onRemove(selectedFiles)}
             rename={() => onRename(selectedFiles)}
@@ -327,7 +326,7 @@ export const FilesList = ({
             setPinning={() => onSetPinning(selectedFiles)}
             download={() => onDownload(selectedFiles)}
             inspect={() => onInspect(selectedFiles[0].cid)}
-            count={selected.length}
+            count={selectedFiles.length}
             isMfs={filesPathInfo.isMfs}
             downloadProgress={downloadProgress}
             size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
