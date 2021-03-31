@@ -33,13 +33,13 @@
     "descriptionFolder": "Choose a new name for this folder."
   },
   "removeModal": {
-    "titleItem": "{count, plural, one {Remove item} other {Remove {count} items}}",
-    "titleFolder": "{count, plural, one {Remove folder} other {Remove {count} folders}}",
-    "titleFile": "{count, plural, one {Remove file} other {Remove {count} files}}",
-    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item ({name})? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder ({name})? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "descriptionFile": "{count, plural, one {Are you sure you want to remove this file ({name})? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "checkboxRemoveLocalPin": "Also remove this item's local pin (recommended)",
+    "titleItem": "{count, plural, one {Remove item: {name}?} other {Remove {count} items?}}",
+    "titleFolder": "{count, plural, one {Remove folder: {name}?} other {Remove {count} folders?}}",
+    "titleFile": "{count, plural, one {Remove file: {name}?} other {Remove {count} files?}}",
+    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
     "checkboxUnpinFromServices": "Unpin from all pinning services"
   },
   "pinningModal": {

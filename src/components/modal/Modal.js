@@ -26,7 +26,7 @@ export const ModalBody = ({ className, Icon, title, children, ...props }) => (
       </div>
     )}
 
-    <p className='charcoal fw6'>{title}</p>
+    <p className='charcoal fw6 truncate'>{title}</p>
 
     {children}
   </div>
