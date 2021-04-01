@@ -1,4 +1,4 @@
-import multiaddr from 'multiaddr'
+import multiaddr, { isMultiaddr } from 'multiaddr'
 import HttpClient from 'ipfs-http-client'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
@@ -6,6 +6,13 @@ import first from 'it-first'
 import last from 'it-last'
 import * as Enum from './enum'
 import { perform } from './task'
+// @ts-ignore
+import toUri from 'multiaddr-to-uri'
+
+// @ts-ignore
+import ipldGit from 'ipld-git'
+// @ts-ignore
+import ipldEthereum from 'ipld-ethereum'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -373,6 +380,27 @@ const actions = {
    */
     async (context) => {
       const { apiAddress } = context.getState().ipfs
+      let ipfsOptions = {
+        ipld: {
+          formats: [
+            ...Object.values(ipldEthereum),
+            ipldGit
+          ]
+        },
+        url: null
+      }
+
+      if (typeof apiAddress === 'string') {
+        ipfsOptions = {
+          ...ipfsOptions,
+          url: isMultiaddr(apiAddress) ? toUri(apiAddress) : apiAddress
+        }
+      } else {
+        ipfsOptions = {
+          ...apiAddress,
+          ...ipfsOptions
+        }
+      }
 
       const result = await getIpfs({
         // @ts-ignore - TS can't seem to infer connectionTest option
@@ -391,7 +419,7 @@ const actions = {
         },
         loadHttpClientModule: () => HttpClient,
         providers: [
-          providers.httpClient({ apiAddress })
+          providers.httpClient(ipfsOptions)
         ]
       })
 
