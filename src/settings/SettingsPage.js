@@ -301,7 +301,7 @@ export class SettingsPageContainer extends React.Component {
 
   render () {
     const {
-      t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving,
+      t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving, arePinningServicesSupported,
       configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled,
       handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, ipfsPendingFirstConnection
     } = this.props
@@ -319,6 +319,7 @@ export class SettingsPageContainer extends React.Component {
         isConfigBlocked={isConfigBlocked}
         isLoading={isLoading}
         isSaving={configIsSaving}
+        arePinningServicesSupported={arePinningServicesSupported}
         hasSaveFailed={hasSaveFailed}
         hasSaveSucceded={hasSaveSucceded}
         hasErrors={hasErrors}
