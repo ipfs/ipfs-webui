@@ -113,17 +113,19 @@ const pinningBundle = {
           const notPins = new Set(cidsToCheck.map(cid => cid.toString()))
           const pins = ipfs.pin.remote.ls({ service: service.name, cid: cidsToCheck })
           for await (const pin of pins) {
-            notPins.delete(pin.cid.toString())
-            adds.push({ id: `${service.name}:${pin.cid}`, ...pin })
+            const pinCid = pin.cid.toString()
+            notPins.delete(pinCid)
+            adds.push({ id: `${service.name}:${pinCid}`, ...pin })
           }
           // store 'not pinned remotely on this service' to avoid future checks
-          for (const notPin of notPins) {
-            removals.push(`${service.name}:${notPin}`)
+          for (const notPinCid of notPins) {
+            removals.push(`${service.name}:${notPinCid}`)
           }
         }))
-      } catch (_) {
+      } catch (e) {
         // ignore service and network errors for now
         // and continue checking remaining ones
+        console.error('unexpected error during doFetchRemotePins', e)
       }
     }))
     dispatch({ type: 'CACHE_REMOTE_PINS', payload: { adds, removals } })
@@ -182,7 +184,10 @@ const pinningBundle = {
     try {
       pinLocally ? await ipfs.pin.add(cid) : await ipfs.pin.rm(cid)
     } catch (e) {
-      console.error(`unexpected local pin error for ${cid} (${name})`, e)
+      // its ok if unpinning failed because object is not pinned
+      if (e.message !== 'not pinned or pinned indirectly') {
+        console.error(`unexpected local pin error for ${cid} (${name})`, e)
+      }
     }
 
     const adds = []
@@ -193,13 +198,13 @@ const pinningBundle = {
       try {
         const id = `${service.name}:${pin.cid}`
         if (shouldPin) {
+          adds.push({ id, ...pin })
           // TODO: remove background:true and add pin job to queue.
           // wait for pinning to finish + add indicator for ongoing pinning
           await ipfs.pin.remote.add(cid, { service: service.name, name, background: true })
-          adds.push({ id, ...pin })
         } else {
-          await ipfs.pin.remote.rm({ cid: [cid], service: service.name })
           removals.push(id)
+          await ipfs.pin.remote.rm({ cid: [cid], service: service.name })
         }
       } catch (e) {
         // log error and continue with other services
