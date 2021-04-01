@@ -100,7 +100,7 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
       }
 
       if (!content) {
-        return <ComponentLoader pastDelay />
+        return <ComponentLoader />
       }
 
       if (isBinary(content)) {

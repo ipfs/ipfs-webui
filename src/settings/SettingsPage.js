@@ -44,7 +44,7 @@ export const SettingsPage = ({
     { ipfsPendingFirstConnection
       ? <div className="absolute flex items-center justify-center w-100 h-100"
         style={{ background: 'rgba(255, 255, 255, 0.5)', zIndex: '10' }}>
-        <ComponentLoader pastDelay />
+        <ComponentLoader />
       </div>
       : null }
 

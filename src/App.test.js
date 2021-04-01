@@ -3,7 +3,7 @@
 // import { shallow } from 'enzyme'
 // import { App } from './App'
 
-// TODO: ipld-explore-components exports componets that use react-loadable and
+// TODO: ipld-explore-components exports componets that use @loadable/component and
 // dynamic `import()` to communicate to webpack useful places to split the js bundles.
 // This app test wasn't really testing anything of use, but it fails now as jest
 // can't deal with dynamic `import()` calls without additional babel config https://github.com/facebook/jest/issues/2442#issuecomment-269654883

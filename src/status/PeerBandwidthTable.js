@@ -53,7 +53,7 @@ export class PeerBandwidthTable extends Component {
     const hiddenPeers = showAll ? [] : sortedPeers.slice(5)
 
     return sortedPeers.length === 0 ? (
-      <ComponentLoader pastDelay />
+      <ComponentLoader />
     ) : (
       <Box className={className}>
         <Title>{t('bandwidthByPeer')}</Title>

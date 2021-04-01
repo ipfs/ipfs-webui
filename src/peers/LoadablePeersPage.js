@@ -1,9 +1,9 @@
-import Loadable from 'react-loadable'
+import React from 'react'
+import Loadable from '@loadable/component'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
-const LoadablePeersPage = Loadable({
-  loader: () => import('./PeersPage'),
-  loading: ComponentLoader
-})
+const LoadablePeersPage = Loadable(() => import('./PeersPage'),
+  { fallback: <ComponentLoader/> }
+)
 
 export default LoadablePeersPage
