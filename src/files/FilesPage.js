@@ -24,7 +24,7 @@ const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesWrite, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick,
-  files, filesPathInfo, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
+  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
   const contextMenuRef = useRef()
   const [downloadAbort, setDownloadAbort] = useState(null)
@@ -51,8 +51,10 @@ const FilesPage = ({
   }, [ipfsConnected, filesPathInfo, doFilesFetch])
 
   useEffect(() => {
-    files && files.content && doFetchRemotePins(files.content)
-  }, [files, doFetchRemotePins])
+    if (pinningServices.some(service => service.online)) {
+      files && files.content && doFetchRemotePins(files.content)
+    }
+  }, [files, pinningServices, doFetchRemotePins])
 
   const onDownload = async (files) => {
     if (downloadProgress !== null) {
@@ -257,6 +259,7 @@ export default connect(
   'doUpdateHash',
   'doPinsFetch',
   'doFetchPinningServices',
+  'selectPinningServices',
   'doFetchRemotePins',
   'doFilesFetch',
   'doFilesMove',
