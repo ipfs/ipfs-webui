@@ -43,7 +43,7 @@ class ContextMenu extends React.Component {
 
   render () {
     const {
-      t, onRename, onDelete, onDownload, onInspect, onShare,
+      t, onRename, onRemove, onDownload, onInspect, onShare,
       translateX, translateY, className, isMfs, isUnknown, isCliTutorModeEnabled
     } = this.props
     return (
@@ -94,12 +94,11 @@ class ContextMenu extends React.Component {
               {t('app:actions.rename')}
             </Option>
           }
-          { !isUnknown && isMfs && onDelete &&
-            <Option onClick={this.wrap('onDelete')} isCliTutorModeEnabled={isCliTutorModeEnabled}
-              onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.DELETE_FILE_FROM_IPFS)}
-            >
+          { !isUnknown && isMfs && onRemove &&
+            <Option onClick={this.wrap('onRemove')} isCliTutorModeEnabled={isCliTutorModeEnabled}
+              onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.REMOVE_FILE_FROM_IPFS)}>
               <StrokeTrash className='w2 mr2 fill-aqua' />
-              {t('app:actions.delete')}
+              {t('app:actions.remove')}
             </Option>
           }
         </DropdownMenu>
@@ -118,7 +117,7 @@ ContextMenu.propTypes = {
   translateX: PropTypes.number.isRequired,
   translateY: PropTypes.number.isRequired,
   left: PropTypes.number.isRequired,
-  onDelete: PropTypes.func,
+  onRemove: PropTypes.func,
   onRename: PropTypes.func,
   onDownload: PropTypes.func,
   onInspect: PropTypes.func,

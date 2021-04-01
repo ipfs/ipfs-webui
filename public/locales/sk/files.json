@@ -44,7 +44,7 @@
     "descriptionFile": "Vyberte nové meno pre tento súbor.",
     "descriptionFolder": "Vyberte nové meno pre túto zložku."
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, one {Zmazať položku} few {Zmazať {count} položky} many {Zmazať {count} položky} other {Zmazať {count} položky}}",
     "titleFolder": "{count, plural, one {Zmazať zložku} few {Zmazať {count} zložky} many {Zmazať {count} zložky} other {Zmazať {count} zložky}}",
     "titleFile": "{count, plural, one {Zmazať súbor} few {Zmazať {count} súbory} many {Zmazať {count} súbory} other {Zmazať {count} súbory}}",

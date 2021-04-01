@@ -33,7 +33,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins) => {
 
 export const FilesList = ({
   className, files, pins, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, onInspect, onDownload, onDelete, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, handleContextMenuClick, t
+  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
@@ -61,9 +61,13 @@ export const FilesList = ({
 
   const selectedFiles = useMemo(() =>
     selected
-      .map(name => files.find(el => el.name === name))
-      .filter(n => n), [files, selected]
-  )
+      .map(name => allFiles.find(el => el.name === name))
+      .filter(n => n)
+      .map(file => ({
+        ...file,
+        pinned: pins.map(p => p.toString()).includes(file.cid.toString())
+      }))
+  , [allFiles, pins, selected])
 
   const keyHandler = (e) => {
     const focusedFile = files.find(el => el.name === focused)
@@ -84,7 +88,7 @@ export const FilesList = ({
     }
 
     if (e.key === 'Delete' && selected.length > 0) {
-      return onDelete(selectedFiles)
+      return onRemove(selectedFiles)
     }
 
     if (e.key === ' ' && focused !== null) {
@@ -309,20 +313,20 @@ export const FilesList = ({
               </div>
             )}
           </WindowScroller>
-          { selected.length !== 0 && <SelectedActions
+          { selectedFiles.length !== 0 && <SelectedActions
             className={'fixed bottom-0 right-0'}
             style={{
               zIndex: 20
             }}
-            animateOnStart={selected.length === 1}
+            animateOnStart={selectedFiles.length === 1}
             unselect={() => toggleAll(false)}
-            remove={() => onDelete(selectedFiles)}
+            remove={() => onRemove(selectedFiles)}
             rename={() => onRename(selectedFiles)}
             share={() => onShare(selectedFiles)}
             setPinning={() => onSetPinning(selectedFiles)}
             download={() => onDownload(selectedFiles)}
             inspect={() => onInspect(selectedFiles[0].cid)}
-            count={selected.length}
+            count={selectedFiles.length}
             isMfs={filesPathInfo.isMfs}
             downloadProgress={downloadProgress}
             size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
@@ -349,7 +353,7 @@ FilesList.propTypes = {
   onSetPinning: PropTypes.func.isRequired,
   onInspect: PropTypes.func.isRequired,
   onDownload: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
   onRename: PropTypes.func.isRequired,
   onNavigate: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,

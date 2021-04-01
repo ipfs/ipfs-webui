@@ -74,7 +74,7 @@ export const DEFAULT_STATE = {
 
 export const cliCmdKeys = {
   DOWNLOAD_OBJECT_COMMAND: 'downloadObjectCommand',
-  DELETE_FILE_FROM_IPFS: 'deleteFileFromIpfs',
+  REMOVE_FILE_FROM_IPFS: 'removeFileFromIpfs',
   UPDATE_IPFS_CONFIG: 'updateIpfsConfig',
   PIN_OBJECT: 'pinObject',
   RENAME_IPFS_OBJECT: 'renameObject',
@@ -94,7 +94,7 @@ export const cliCommandList = {
   /**
    * @param {string} filePath
    */
-  [cliCmdKeys.DELETE_FILE_FROM_IPFS]: (filePath) => `ipfs files rm -r "${filePath}"`,
+  [cliCmdKeys.REMOVE_FILE_FROM_IPFS]: (filePath) => `ipfs files rm -r "${filePath}"`,
   /**
    * @param {string} cid
    */
