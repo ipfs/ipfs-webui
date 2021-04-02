@@ -207,11 +207,18 @@ const asMultiaddress = (value) => {
 
 /**
  * @typedef {Object} HTTPClientOptions
+ * @property {string} [url]
  * @property {string} [host]
  * @property {string} [port] - (e.g. '443', or '80')
  * @property {string} [protocol] - (e.g 'https', 'http')
  * @property {string} [apiPath] - ('/api/v0' by default)
  * @property {Object<string, string>} [headers]
+ */
+
+/**
+ * @typedef {Object} IPFSProviderHttpClientOptions
+ * @property {Object} [ipld]
+ * @property {string|undefined} [url]
  */
 
 /**
@@ -370,12 +377,13 @@ const actions = {
    * @returns {function(Context):Promise<InitResult>}
    */
   doInitIpfs: () => perform('IPFS_INIT',
-  /**
-   * @param {Context} context
-   * @returns {Promise<InitResult>}
-   */
+    /**
+    * @param {Context} context
+    * @returns {Promise<InitResult>}
+    */
     async (context) => {
       const { apiAddress } = context.getState().ipfs
+      /** @type {IPFSProviderHttpClientOptions} */
       let ipfsOptions = {
         ipld: {
           formats: [
