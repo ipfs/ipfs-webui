@@ -566,7 +566,7 @@ const actions = () => ({
    * updated.
    */
   doFilesSizeGet: () => perform(ACTIONS.SIZE_GET, async (ipfs) => {
-    return cumulativeSize(ipfs, '/')
+    return { size: await cumulativeSize(ipfs, '/') }
   }),
 
   /**
