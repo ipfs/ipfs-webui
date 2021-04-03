@@ -24,3 +24,4 @@ yarn-error.log*
 .idea
 .eslintcache
 tsconfig.tsbuildinfo
+.connect-deps*

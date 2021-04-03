@@ -7,6 +7,11 @@ import last from 'it-last'
 import * as Enum from './enum'
 import { perform } from './task'
 
+// @ts-ignore
+import ipldGit from 'ipld-git'
+// @ts-ignore
+import ipldEthereum from 'ipld-ethereum'
+
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
  * @typedef {import('cids')} CID
@@ -202,6 +207,7 @@ const asMultiaddress = (value) => {
 
 /**
  * @typedef {Object} HTTPClientOptions
+ * @property {string} [url]
  * @property {string} [host]
  * @property {string} [port] - (e.g. '443', or '80')
  * @property {string} [protocol] - (e.g 'https', 'http')
@@ -210,12 +216,18 @@ const asMultiaddress = (value) => {
  */
 
 /**
+ * @typedef {Object} IPFSProviderHttpClientOptions
+ * @property {Object} [ipld]
+ * @property {string|undefined} [url]
+ */
+
+/**
  * Attempts to turn parse given input as an options object for ipfs-http-client.
  * @param {string|object} value
  * @returns {HTTPClientOptions|null}
  */
 const asHttpClientOptions = (value) =>
-  typeof value === 'string' ? parseHTTPClientOptions(value) : readHTTPClinetOptions(value)
+  typeof value === 'string' ? parseHTTPClientOptions(value) : readHTTPClientOptions(value)
 
 /**
  *
@@ -224,19 +236,17 @@ const asHttpClientOptions = (value) =>
 const parseHTTPClientOptions = (input) => {
   // Try parsing and reading as json
   try {
-    return readHTTPClinetOptions(JSON.parse(input))
+    return readHTTPClientOptions(JSON.parse(input))
   } catch (_) {}
 
   // turn URL with inlined basic auth into client options object
   try {
-    const uri = new URL(input)
-    const { username, password } = uri
+    const url = new URL(input)
+    const { username, password } = url
     if (username && password) {
+      url.username = url.password = ''
       return {
-        host: uri.hostname,
-        port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
-        protocol: uri.protocol.slice(0, -1), // trim out ':' at the end
-        apiPath: (uri.pathname !== '/' ? uri.pathname : 'api/v0'),
+        url: url.toString(),
         headers: {
           authorization: `Basic ${btoa(username + ':' + password)}`
         }
@@ -251,9 +261,9 @@ const parseHTTPClientOptions = (input) => {
  * @param {Object<string, any>} value
  * @returns {HTTPClientOptions|null}
  */
-const readHTTPClinetOptions = (value) => {
+const readHTTPClientOptions = (value) => {
   // https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#importing-the-module-and-usage
-  if (value && (value.host || value.apiPath || value.protocol || value.port || value.headers)) {
+  if (value && (!!value.url || value.host || value.apiPath || value.protocol || value.port || value.headers)) {
     return value
   } else {
     return null
@@ -367,12 +377,33 @@ const actions = {
    * @returns {function(Context):Promise<InitResult>}
    */
   doInitIpfs: () => perform('IPFS_INIT',
-  /**
-   * @param {Context} context
-   * @returns {Promise<InitResult>}
-   */
+    /**
+    * @param {Context} context
+    * @returns {Promise<InitResult>}
+    */
     async (context) => {
       const { apiAddress } = context.getState().ipfs
+      /** @type {IPFSProviderHttpClientOptions} */
+      let ipfsOptions = {
+        ipld: {
+          formats: [
+            ...Object.values(ipldEthereum),
+            ipldGit
+          ]
+        }
+      }
+
+      if (typeof apiAddress === 'string') {
+        ipfsOptions = {
+          ...ipfsOptions,
+          url: apiAddress
+        }
+      } else {
+        ipfsOptions = {
+          ...apiAddress,
+          ...ipfsOptions
+        }
+      }
 
       const result = await getIpfs({
         // @ts-ignore - TS can't seem to infer connectionTest option
@@ -391,7 +422,7 @@ const actions = {
         },
         loadHttpClientModule: () => HttpClient,
         providers: [
-          providers.httpClient({ apiAddress })
+          providers.httpClient(ipfsOptions)
         ]
       })
 

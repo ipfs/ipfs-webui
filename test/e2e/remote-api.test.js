@@ -142,9 +142,7 @@ const basicAuthConnectionConfirmation = async (user, password, proxyPort) => {
   await expectPeerIdOnStatusPage(ipfsd.api)
   // (2) go to Settings and confirm API string includes expected JSON config
   const apiOptions = JSON.stringify({
-    protocol: 'http',
-    host: '127.0.0.1',
-    port: `${proxyPort}`,
+    url: `http://127.0.0.1:${proxyPort}/`,
     headers: {
       authorization: `Basic ${nodeBtoa(user + ':' + password)}`
     }
@@ -230,9 +228,7 @@ describe('API with CORS and Basic Auth', () => {
 
   it('should work when localStorage[ipfsApi] is set to a JSON string with a custom ipfs-http-client config', async () => {
     const apiOptions = JSON.stringify({
-      protocol: 'http',
-      host: '127.0.0.1',
-      port: `${proxyPort}`,
+      url: `http://127.0.0.1:${proxyPort}/`,
       headers: {
         authorization: `Basic ${nodeBtoa(user + ':' + password)}`
       }
@@ -249,9 +245,7 @@ describe('API with CORS and Basic Auth', () => {
 
   it('should work when JSON with ipfs-http-client config is entered at the Settings page', async () => {
     const apiOptions = JSON.stringify({
-      protocol: 'http',
-      host: '127.0.0.1',
-      port: `${proxyPort}`,
+      url: `http://127.0.0.1:${proxyPort}/`,
       headers: {
         authorization: `Basic ${nodeBtoa(user + ':' + password)}`
       }
