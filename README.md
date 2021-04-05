@@ -267,6 +267,7 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. Push the changes (`git push && git push --follow-tags`)
 1. Wait for the tag to [build on CI](https://circleci.com/gh/ipfs-shipyard/ipfs-webui), and grab the CID produced from the tagged commit
 1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/releases, use the tag and CID you created 
+1. Update `CHANGELOG.md` with changes from release notes
 1. Update the CID at projects that use ipfs-webui by submitting PR against below lines:
    - js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L8
    - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
