@@ -176,17 +176,17 @@ const pinningBundle = {
     }
   }), {}),
 
-  doSetPinning: (pin, services = []) => async ({ getIpfs, store, dispatch }) => {
+  doSetPinning: (pin, services = [], wasLocallyPinned, previousRemotePins = []) => async ({ getIpfs, store, dispatch }) => {
     const ipfs = getIpfs()
     const { cid, name } = pin
 
     const pinLocally = services.includes('local')
-    try {
-      pinLocally ? await ipfs.pin.add(cid) : await ipfs.pin.rm(cid)
-    } catch (e) {
-      // its ok if unpinning failed because object is not pinned
-      if (e.message !== 'not pinned or pinned indirectly') {
+    if (wasLocallyPinned !== pinLocally) {
+      try {
+        pinLocally ? await ipfs.pin.add(cid) : await ipfs.pin.rm(cid)
+      } catch (e) {
         console.error(`unexpected local pin error for ${cid} (${name})`, e)
+        dispatch({ type: 'IPFS_PIN_FAILED' })
       }
     }
 
@@ -195,6 +195,9 @@ const pinningBundle = {
 
     store.selectPinningServices().filter(s => s.online).forEach(async service => {
       const shouldPin = services.includes(service.name)
+      const wasPinned = previousRemotePins.includes(service.name)
+      if (wasPinned === shouldPin) return
+
       try {
         const id = `${service.name}:${pin.cid}`
         if (shouldPin) {
@@ -209,6 +212,7 @@ const pinningBundle = {
       } catch (e) {
         // log error and continue with other services
         console.error(`unexpected pin.remote error for ${cid}@${service.name}`, e)
+        dispatch({ type: 'IPFS_PIN_FAILED' })
       }
     })
 
