@@ -55,7 +55,7 @@
     "ipfs-http-client": "49.0.2",
     "ipfs-provider": "^2.0.1",
     "ipld-ethereum": "^5.0.1",
-    "ipld-explorer-components": "^2.0.0",
+    "ipld-explorer-components": "^2.0.1",
     "ipld-git": "^0.6.4",
     "is-binary": "^0.1.0",
     "is-ipfs": "^3.0.0",
