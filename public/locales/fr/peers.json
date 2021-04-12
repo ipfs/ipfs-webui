@@ -2,11 +2,13 @@
   "title": "Pairs",
   "localNetwork": "Réseau Local",
   "nearby": "à proximité",
-  "bootstrapNode": "Nœud de démarrage",
-  "viaRelay": "via<0>{node}</0>",
+  "protocols": "Open streams",
   "addConnection": "Ajouter une connexion",
   "insertPeerAddress": "Indiquer l'adresse du pair auquel vous souhaitez vous connecter.",
   "plusPeers": "+ {number} pairs supplémentaires",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
+  "copyFeedback": "Copié !",
   "tour": {
     "step1": {
       "title": "Page des pairs",

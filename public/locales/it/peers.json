@@ -2,11 +2,13 @@
   "title": "Peer",
   "localNetwork": "Rete Locale",
   "nearby": "vicino",
-  "bootstrapNode": "Nodo d'avvio",
-  "viaRelay": "via <0>{node}</0>",
+  "protocols": "Open streams",
   "addConnection": "Aggiungi connessione",
   "insertPeerAddress": "Inserisci l'indirizzo del peer a cui vuoi connetterti.",
   "plusPeers": "+ altri {number} peer",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
+  "copyFeedback": "Copiato!",
   "tour": {
     "step1": {
       "title": "Pagina peer",

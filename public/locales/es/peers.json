@@ -2,11 +2,13 @@
   "title": "Pares",
   "localNetwork": "Red Local",
   "nearby": "cerca",
-  "bootstrapNode": "nodo de arranque",
-  "viaRelay": "via <0>{node}</0>",
+  "protocols": "Open streams",
   "addConnection": "Agregar conexión",
   "insertPeerAddress": "Inserte la dirección de par a la que desea conectarse.",
   "plusPeers": "+ {number} más pares",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
+  "copyFeedback": "Copiado!",
   "tour": {
     "step1": {
       "title": "Página de pares",

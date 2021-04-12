@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Agregar",
+    "apply": "Apply",
     "browse": "Examinar",
     "cancel": "Cancelar",
     "change": "Cambio",
@@ -8,7 +9,7 @@
     "close": "Cerrar",
     "copy": "Copiar",
     "create": "Crear",
-    "delete": "Eliminar",
+    "remove": "Eliminar",
     "download": "Descarga",
     "edit": "Edit",
     "import": "Importar",
@@ -23,13 +24,13 @@
     "save": "Guardar",
     "saving": "Guardando...",
     "selectAll": "Select all",
+    "setPinning": "Set pinning",
     "submit": "Enviar",
     "unpin": "Unpin",
     "unselectAll": "Deseleccionar todo"
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters.",
-    "extraNotes": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
+    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "Reportar un error",
@@ -59,6 +60,7 @@
     "gateway": "Entrada",
     "in": "Dentro",
     "latency": "Latency",
+    "loading": "Loading",
     "location": "Ubicación",
     "name": "Nombre",
     "node": "Node",
@@ -68,6 +70,7 @@
     "peers": "Pares",
     "pinNoun": "Pin",
     "pins": "Pins",
+    "pinStatus": "Pin Status",
     "publicKey": "Clave pública",
     "rateIn": "Velocidad entrante",
     "rateOut": "Velocidad saliente",

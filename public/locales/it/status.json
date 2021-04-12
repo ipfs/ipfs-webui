@@ -9,10 +9,10 @@
   "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peer)}}",
   "countMore": "... e {count} in più",
   "StatusConnected": {
-    "paragraph1": "Ospiti <0>{repoSize} di file</0>",
-    "paragraph2": "{count, plural, one {Trovato <0>1 Peer</0>} other {Trovati <0>{peersCount} peer</0>}}"
+    "repoSize": "Stai ospitando {repoSize} di dati",
+    "peersCount": "{peersCount, plural, one {Hai trovato 1 peer} other {Hai trovato {peersCount} peer}}"
   },
-  "customApiConfig": "Custom JSON configuration",
+  "customApiConfig": "Configurazione JSON personalizzata",
   "AskToEnable": {
     "label": "Aiuta a migliorare l'applicazione mandando dati d'utilizzo anonimi."
   },
@@ -24,13 +24,13 @@
     },
     "step2": {
       "title": "Stato della connessione",
-      "paragraph1": "Clicca su quest'icona da qualunque punto dell'app per ritornare alla pagina dello Status. Se perdi la tua connessione all'API IPFS, l'icona diventerà rossa.",
-      "paragraph2": "If you need to configure a custom API address for your node, just click the \"Edit\" link next to where the API address is listed on this page."
+      "paragraph1": "Clicca su quest'icona da qualunque punto dell'app per ritornare alla pagina dello Stato. Se perdi la tua connessione all'API IPFS, l'icona diventerà rossa.",
+      "paragraph2": "Se hai bisogno di configurare un indirizzo API personalizzato per il tuo nodo, clicca sul link \"Modifica\" accanto all'indirizzo API che è elencato in questa pagina."
     },
     "step3": {
       "title": "Informazioni nodo",
       "paragraph1": "Qui hai le informazioni riguardanti la grandezza della tua repository, quanti peer sono connessi, il tuo peer ID e la versione di IPFS attualmente in uso.",
-      "paragraph2": "<0>Expand the <1>Advanced</1> link to see more info, such as the gateway URL and addresses. There's also a link inside the Advanced section to change your API address.</0>"
+      "paragraph2": "<0>Espandi il link <1>Avanzate</1> per vedere più info, come l'URL gateway e gli indirizzi. Inoltre è presente un link all'interno della sezione Avanzate per cambiare il tuo indirizzo API."
     },
     "step4": {
       "title": "Banca/traffico della rete.",

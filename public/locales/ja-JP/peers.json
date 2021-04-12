@@ -2,11 +2,13 @@
   "title": "仲間",
   "localNetwork": "ローカルネットワーク",
   "nearby": "直接接続されているノード",
-  "bootstrapNode": "起動中のノード",
-  "viaRelay": "via<0>{node}</0>",
+  "protocols": "Open streams",
   "addConnection": "新規接続",
   "insertPeerAddress": "追加したいピアのアドレスを入力してください。",
   "plusPeers": "+ あと{number}個のピア ",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
+  "copyFeedback": "コピーしました！",
   "tour": {
     "step1": {
       "title": "ピア",

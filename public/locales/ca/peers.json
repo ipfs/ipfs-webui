@@ -2,24 +2,26 @@
   "title": "Peers",
   "localNetwork": "Xarxa Local",
   "nearby": " a prop",
-  "bootstrapNode": "Node d'arrencada",
-  "viaRelay": "via <0>{node}</0>",
+  "protocols": "Open streams",
   "addConnection": "Afegir connexió",
-  "insertPeerAddress": "Inserta l'adreça de la llavor amb la que et vols connectar.",
-  "plusPeers": "+ {number} llavors",
+  "insertPeerAddress": "Inserta l'adreça del peer amb la que et vols connectar.",
+  "plusPeers": "+ {number} peers",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
+  "copyFeedback": "Copiat!",
   "tour": {
     "step1": {
-      "title": "Pàgina de les llavors",
-      "paragraph1": "Aquí és on pots veure les llavors a on estàs connectat i els països on son.",
+      "title": "Pàgina dels peers",
+      "paragraph1": "Aquí és on pots veure els peers a on estàs connectat i els països on son.",
       "paragraph2": "Clica \"següent\" per aprendre'n més."
     },
     "step2": {
       "title": "Mapa de Peers",
-      "paragraph1": "Una visualització d'on del món són les llavors a les que estàs connectat."
+      "paragraph1": "Una representació visual d'on del món són els peers als que estàs connectat."
     },
     "step3": {
       "title": "Taula de Peers",
-      "paragraph1": "Comprova la identitat de les llavors connectades, la seva adreça i la seva localització aproximada."
+      "paragraph1": "Comprova la identitat dels peers connectats, la seva adreça i la seva localització aproximada."
     }
   }
 }

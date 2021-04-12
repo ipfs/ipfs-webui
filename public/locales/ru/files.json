@@ -1,0 +1,114 @@
+{
+  "title": "Файлы",
+  "home": "Домой",
+  "breadcrumbs": "Хлебные крошки",
+  "finished": "Готово!",
+  "totalSize": "Общий размер: {size}",
+  "filesSelected": "{count, plural, one {Item selected} other {Items selected}}",
+  "menuOptions": "Настройки выбранного объекта",
+  "selectedAllEntries": "Выбрать все записи в таблице",
+  "individualFilesOnly": "Доступно только для индивидуальных файлов",
+  "noPDFSupport": "Ваш браузер не поддерживает PDF. Пожалуйста, скачайте PDF-файл для его просмотра.",
+  "downloadPDF": "Загрузить PDF",
+  "downloadInstead": "Попробуйте <1>загрузку</1>.",
+  "cantBePreviewed": "Извините, предпросмотр файла невозможен",
+  "addByPath": "Из IPFS",
+  "newFolder": "Новая папка",
+  "generating": "Генерация...",
+  "actions": {
+    "copyHash": "Копировать CID",
+    "share": "Делиться ссылкой"
+  },
+  "cliModal": {
+    "extraNotesPinning": "Эта команда предназначена тольк для локального подкрепления/открепления. Если вы хотите использовать сервис удаленного подкрепления, обратитесь к документации этого сервиса, чтобы узнать, как подкреплять/откреплять с помощью командной строки."
+  },
+  "shareModal": {
+    "title": "Делиться файлами",
+    "description": "Скопируйте ссылку ниже и поделитесь ей с друзьями."
+  },
+  "renameModal": {
+    "titleFile": "Переименовать файл",
+    "titleFolder": "Переименовать папку",
+    "descriptionFile": "Выберите новое имя для этого файла.",
+    "descriptionFolder": "Выберите новое имя для этой папки."
+  },
+  "removeModal": {
+    "titleItem": "{count, plural, one {Remove item? {name}} other {Remove {count} items?}}",
+    "titleFolder": "{count, plural, one {Remove folder? {name}} other {Remove {count} folders?}}",
+    "titleFile": "{count, plural, one {Remove file? {name}} other {Remove {count} files?}}",
+    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
+    "checkboxUnpinFromServices": "Unpin from all pinning services"
+  },
+  "pinningModal": {
+    "title": "Выберите, где вы хотите подкрепить эти элементы.",
+    "footer": "Нужно добавить или настроить сервис подкрепления? Перейдите в <1>Настройки</1>.",
+    "localNode": " Локальный узел ",
+    "totalSize": "Общий размер: {size}"
+  },
+  "addByPathModal": {
+    "title": "Импорт из IPFS",
+    "description": "Введите путь IPFS (CID) для импортирования.",
+    "examples": "Примеры:"
+  },
+  "newFolderModal": {
+    "title": "Новая папка",
+    "description": "Введите название папки, которую вы хотите создать."
+  },
+  "filesListLabel": "Список файлов",
+  "filesList": {
+    "noFiles": "<0>В директории нет файлов. Нажмите на кнопку \"Импортировать\", чтобы добавить что-нибудь.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {Импортирован 1 объект} few {Импортировано {count} объекта} many {Импортировано {count} объектов} other {Импортировано {count} объектов}}",
+    "importing": "{count, plural, one {Импорт 1 объекта} few {Импорт {count} объектов} many {Импорт {count} объектов} other {Импорт {count} объектов}}",
+    "toggleDropdown": "Отобразить/скрыть выпадающее меню",
+    "closeDropdown": "Скрыть выпадающее меню",
+    "count": "{count} из {count}"
+  },
+  "addFilesInfo": "<0>Здесь еще нет файлов! Добавьте файлы в ваш локальный узел IPFS, нажав на кнопку <1>Импортировать</1> выше.</0>",
+  "companionInfo": "<0>Поскольку вы используете <1>IPFS-компаньон</1>, отображение файлов ограничено файлами, добавленными во время использования расширения.</0>",
+  "tour": {
+    "step1": {
+      "title": "Страница файлов",
+      "paragraph1": "<0>Это то место, где обитают файлы в вашей <1>Переменчивой файловой системе (MFS)</1>. Вы можете добавлять файлы или папки и управлять ими с этой страницы.</0>",
+      "paragraph2": "Щелкните \"Далее\", чтобы узнать больше."
+    },
+    "step2": {
+      "title": "Хлебные крошки",
+      "paragraph1": "Эти хлебные крошки отображают путь к вашей нынешней директории. Вы можете...",
+      "bullet1": "Нажать на определенную хлебную крошку, чтобы перейти на заданную директорию",
+      "bullet2": "Нажать на правую кнопку мыши на хлебной крошке, чобы отобразить меню действий над заданной директорией",
+      "bullet3": "Перетащить файлы на хлебную крошку, чтобы переместить или импортировать их"
+    },
+    "step3": {
+      "title": "Добавить файлы",
+      "paragraph1": "Здесь вы можете видеть, сколько блоков и файлов вы подкрепили.",
+      "paragraph2": "Вы можете добавлять файлы или папки в ваш репозиторий с помощью выпадающего меню справа.",
+      "paragraph3": "<0>Если вы хотите добавить что-нибудь, что уже есть в IPFS, вы можете импортировать это в ваш MFS, предоставив <1>Идентификатор данных (CID)</1>.</0>"
+    },
+    "step5": {
+      "title": "Список файлов",
+      "paragraph1": "И наконец, перечень, в котором вы можете найти свои файлы и папки. Перетаскивайте файлы или папки, чтобы добавлять их.",
+      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!",
+      "paragraph3": "Продвинутая подсказка: перетащите файл с любой другой страницы веб-интерфейса, чтобы добавить его в корень вашего MFS."
+    }
+  },
+  "loadMore": "Загрузить больше",
+  "previousFolder": "Перейти обратно к предыдущей папке",
+  "fileLabel": "Выбрать {type} {name} с размером: {size}",
+  "hashUnavailable": "хеш недоступен",
+  "checkboxLabel": "Показать больше настроек для {name}",
+  "pinned": "Закреплено",
+  "pinnedRemotely": "Pinned remotely",
+  "blocks": "Блоки",
+  "allBlocks": "Все блоки",
+  "allBlocksDescription": "Общий размер блоков во всем вашем узле IPFS; он включает в себя все, что находится в Файлах, плюс все локально подкрепленные элементы и все временно кешированные данные",
+  "filesDescription": "Общий размер данных в текущей директории (если это субдиректория, размер всех данных в Файлах также отображается)",
+  "more": "Больше",
+  "files": "Файлы",
+  "cidNotFileNorDir": "Текущая ссылка не указывает ни на файл, ни на директорию. Попробуйте вместо этого <0>проинспектировать</0> ее.",
+  "sortBy": "Сортировка объектов по {name}"
+}

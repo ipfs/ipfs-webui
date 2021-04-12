@@ -1,0 +1,28 @@
+{
+  "ipfsApiRequestFailed": "Impossibile connettersi. Per favore, controlla se il tuo daemon è in esecuzione.",
+  "windowIpfsRequestFailed": "Richiesta IPFS fallita. Per favore, controlla le impostazioni del tuo IPFS  Companion.",
+  "ipfsInvalidApiAddress": "L'indirizzo API IPFS fornito non è valido.",
+  "ipfsConnectSuccess": "Connesso con successo all'indirizzo API IPFS",
+  "ipfsConnectFail": "Non è stato possibile connettersi all'indirizzo API IPFS fornito",
+  "ipfsPinFail": "Unable to set pinning. Try again, or see the browser console for more info.",
+  "ipfsIsBack": "Il normale servizio IPFS è stato ripreso. Divertiti!",
+  "folderExists": "Un oggetto con quel nome esiste già. Per favore, scegline un'altro.",
+  "filesFetchFailed": "Non è stato possibile recuperare quei file. Per favore, controlla il percorso e riprova.",
+  "filesRenameFailed": "Non è stato possibile rinominare i file. Per favore, riprova.",
+  "filesMakeDirFailed": "Non è stato possibile creare la cartella. Per favore, riprova.",
+  "filesCopyFailed": "Non è stato possibile copiare i file. Per favore, riprova.",
+  "filesRemoveFailed": "Failed to remove the files. Please try again.",
+  "filesAddFailed": "Non è stato possibile aggiungere i file su IPFS. Per favore, riprova.",
+  "filesEventFailed": "Non è stato possibile processare la tua richiesta. Per favore, riprova.",
+  "couldntConnectToPeer": "Non è stato possibile connettersi al peer fornito.",
+  "connectedToPeer": "Connesso con successo al peer fornito.",
+  "experimentsErrors": {
+    "npmOnIpfs": "Non ci è stato possibile fare cambiamenti al tuo sistema. Per favore, installa o disinstalla il pacchetto 'ipfs-npm' manualmente."
+  },
+  "desktopToggleErrors": {
+    "autoLaunch": "Non è stato possibile impostare l'opzione di avvio al login.",
+    "ipfsOnPath": "Non è stato possibile attivare gli strumenti IPFS a linea di comando.",
+    "downloadHashShortcut": "Non è stato possibile attivare la scorciatoria di scaricamento hash.",
+    "screenshotShortcut": "Non è stato possibile attivare la scorciatoia di screenshot."
+  }
+}

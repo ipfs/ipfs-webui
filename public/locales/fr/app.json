@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Ajouter",
+    "apply": "Appliquer",
     "browse": "Chercher",
     "cancel": "Annuler",
     "change": "Modifier",
@@ -8,7 +9,7 @@
     "close": "Fermer",
     "copy": "Copier",
     "create": "Créer",
-    "delete": "Supprimer",
+    "remove": "Supprimer",
     "download": "Télécharger",
     "edit": "Modifier",
     "import": "Importer",
@@ -23,13 +24,13 @@
     "save": "Sauvegarder",
     "saving": "Enregistrement...",
     "selectAll": "Tout sélectionner",
+    "setPinning": "Régler l'épinglage",
     "submit": "Valider",
     "unpin": "Désépingler",
     "unselectAll": "Tout désélectionner"
   },
   "cliModal": {
-    "description": "Collez la commande suivante dans votre terminal pour effectuer cette tâche dans IPFS via une ligne de commande. Souvenez-vous de remplacer certaines sections par vos propres paramètres aux endroits adéquats. ",
-    "extraNotes": "Si vous avez effectué des modifications à la configuration dans cette page de modification du code que vous voulez conserver, cliquez sur l'icône de téléchargement à côté du bouton de copie pour le télécharger en temps que fichier JSON."
+    "description": "Collez la commande suivante dans votre terminal pour effectuer cette tâche dans IPFS via une ligne de commande. Souvenez-vous de remplacer certaines sections par vos propres paramètres aux endroits adéquats. "
   },
   "nav": {
     "bugsLink": "Signaler un bug",
@@ -59,6 +60,7 @@
     "gateway": "Passerelle",
     "in": "Entrant",
     "latency": "Latence",
+    "loading": "Chargement",
     "location": "Emplacement",
     "name": "Nom",
     "node": "Nœud",
@@ -68,6 +70,7 @@
     "peers": "Pairs",
     "pinNoun": "Épingler",
     "pins": "Éléments épinglés",
+    "pinStatus": "Statut des épingles",
     "publicKey": "Clé publique",
     "rateIn": "Ratio entrant",
     "rateOut": "Ratio sortant",

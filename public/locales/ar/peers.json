@@ -2,11 +2,13 @@
   "title": "الأقران",
   "localNetwork": "شبكه محليه",
   "nearby": "مجاور",
-  "bootstrapNode": "عقدة التمهيد",
-  "viaRelay": "عبر<0>{node}</0>",
+  "protocols": "تيارات مفتوحة",
   "addConnection": "إضافة اتصال",
   "insertPeerAddress": "أدخل عنوان النظير الذي تريد الاتصال به.",
   "plusPeers": "المزيد من الأقران{number}",
+  "connectionDirectionInbound": "واردة",
+  "connectionDirectionOutbound": "الصادرة",
+  "copyFeedback": "نسخ!",
   "tour": {
     "step1": {
       "title": "صفحة الأقران",

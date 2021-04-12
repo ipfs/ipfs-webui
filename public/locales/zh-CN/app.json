@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "添加",
+    "apply": "应用",
     "browse": "浏览",
     "cancel": "取消",
     "change": "修改",
@@ -8,7 +9,7 @@
     "close": "关闭",
     "copy": "复制",
     "create": "创建",
-    "delete": "删除",
+    "remove": "移除",
     "download": "下载",
     "edit": "编辑",
     "import": "导入",
@@ -23,13 +24,13 @@
     "save": "保存",
     "saving": "保存中 …",
     "selectAll": "选择全部",
+    "setPinning": "设置固定",
     "submit": "提交",
     "unpin": "撤销固定",
     "unselectAll": "全部取消选择"
   },
   "cliModal": {
-    "description": "将以下内容粘贴到您的IPFS终端使用命令行来完成任务。请谨记您需要使用您自己的参数来替换掉占位符",
-    "extraNotes": "如果您希望保存已在该页的代码编辑器中修改过的配置，点击复制图标旁边的下载图标可以将配置文件以JSON文件的形式下载到本地"
+    "description": "将以下内容粘贴到您的IPFS终端使用命令行来完成任务。请谨记您需要使用您自己的参数来替换掉占位符"
   },
   "nav": {
     "bugsLink": "报告 bug",
@@ -59,6 +60,7 @@
     "gateway": "网关",
     "in": "接收",
     "latency": "延迟",
+    "loading": "载入中",
     "location": "地点",
     "name": "名称",
     "node": "节点",
@@ -68,6 +70,7 @@
     "peers": "节点",
     "pinNoun": "固定",
     "pins": "已固定",
+    "pinStatus": "固定状态",
     "publicKey": "公钥",
     "rateIn": "接收率",
     "rateOut": "发送率",
