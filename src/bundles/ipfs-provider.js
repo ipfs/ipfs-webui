@@ -7,10 +7,13 @@ import last from 'it-last'
 import * as Enum from './enum'
 import { perform } from './task'
 
+/* TODO: restore when  no longer bundle standalone ipld with ipld-explorer
+ * context: https://github.com/ipfs/ipld-explorer-components/pull/289
 // @ts-ignore
 import ipldGit from 'ipld-git'
 // @ts-ignore
 import ipldEthereum from 'ipld-ethereum'
+*/
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -385,12 +388,15 @@ const actions = {
       const { apiAddress } = context.getState().ipfs
       /** @type {IPFSProviderHttpClientOptions} */
       let ipfsOptions = {
+        /* TODO: restore when  no longer bundle standalone ipld with ipld-explorer
+        * context: https://github.com/ipfs/ipld-explorer-components/pull/289
         ipld: {
           formats: [
             ...Object.values(ipldEthereum),
             ipldGit
           ]
         }
+        */
       }
 
       if (typeof apiAddress === 'string') {
