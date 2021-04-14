@@ -3,7 +3,7 @@ import { pinningServiceTemplates } from '../constants/pinning'
 import memoize from 'p-memoize'
 
 const parseService = async (service, remoteServiceTemplates, ipfs) => {
-  const template = remoteServiceTemplates.find(x => service.service.toLowerCase().includes(x.name.toLowerCase()))
+  const template = remoteServiceTemplates.find(t => service.endpoint.toString() === t.apiEndpoint.toString())
   const icon = template?.icon
   const visitServiceUrl = template?.visitServiceUrl
   const autoUpload = await mfsPolicyEnableFlag(service.service, ipfs)
