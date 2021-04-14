@@ -263,12 +263,12 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 
 1. Run `tx pull -a` to pull the latest translations from Transifex ([i18n#transifex-101)](https://github.com/ipfs-shipyard/i18n#transifex-101))
 1. Bump the version in `package.json`
-1. Commit changes
+1. Commit changes and ensure everything is merged into `main` branch
 1. Tag it: `git tag vN.N.N`
-1. Push `master` and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
-1. Wait for master to [build on CI](https://circleci.com/gh/ipfs/ipfs-webui), and grab the CID produced from the tagged commit
+1. Push `main` branch and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
+1. Wait for `main` to [build on CI](https://circleci.com/gh/ipfs/ipfs-webui), and grab the CID produced from the tagged commit
 1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created 
-1. Update the CID at projects that use ipfs-webui by submitting PR against below lines:
+1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
    - js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L8
    - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
    - ipfs-desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18

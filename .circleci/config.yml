@@ -19,7 +19,7 @@ jobs:
           command: npm run build
       - run:
           command: E2E_IPFSD_TYPE=go npm run test:e2e
-      # - run:      - TODO: uncomment after pinning services are coded in js-ipfs 
+      # - run:      - TODO: uncomment after pinning services are coded in js-ipfs
           # command: E2E_IPFSD_TYPE=js npm run test:e2e
       - run:
           command: npm run bundlesize
@@ -47,7 +47,7 @@ jobs:
 
             echo "Website added to IPFS: https://ipfs.io/ipfs/$hash"
 
-            if [ "$CIRCLE_BRANCH" == "master" ] ; then
+            if [ "$CIRCLE_BRANCH" == "main" ] ; then
               dnslink-dnsimple -d dev.$DOMAIN -r _dnslink -l /ipfs/$hash
             fi
 
