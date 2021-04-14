@@ -4,7 +4,7 @@
   "breadcrumbs": "Fils d'Ariane",
   "finished": "Terminé !",
   "totalSize": "Taille totale: {size}",
-  "filesSelected": "{count, plural, one {Fichiers sélectionnés} other {Fichiers sélectionnés}}",
+  "filesSelected": "{count, plural, one {Élément sélectionné} other {Éléments sélectionnés}}",
   "menuOptions": "Options pour l'élément sélectionné ",
   "selectedAllEntries": "Tout sélectionner",
   "individualFilesOnly": "Disponible uniquement pour les fichiers individuels",
@@ -19,6 +19,9 @@
     "copyHash": "Copier le CID",
     "share": "Partager"
   },
+  "cliModal": {
+    "extraNotesPinning": "Cette commande est seulement pour l'épinglage/désépinglage local. Si vous voulez utiliser un service d'épinglage distant, consultez la documentation de ce service pour apprendre comment épingler/désépingler depuis la ligne de commande."
+  },
   "shareModal": {
     "title": "Partager des fichiers",
     "description": "Copiez le lien ci-dessous et partagez-le avec vos amis."
@@ -30,12 +33,20 @@
     "descriptionFolder": "Choisir un nouveau nom pour ce dossier."
   },
   "removeModal": {
-    "titleItem": "{count, plural, one {Supprimer l'élément} other {Supprimer {count} éléments}}",
-    "titleFolder": "{count, plural, one {Supprimer le dossier} other {Supprimer {count} dossiers}}",
-    "titleFile": "{count, plural, one {Supprimer le fichier} other {Supprimer {count} fichiers}}",
-    "descriptionItem": "{count, plural, one {Etes-vous sûr(e) de vouloir supprimer cet élément? Cette action est définitive et ne peut être annulée.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} éléments? Cette action est définitive et ne peut être annulée.}}",
-    "descriptionFolder": "{count, plural, one {Etes-vous sûr(e) de vouloir supprimer ce dossier? Cette action est définitive et ne peut être annulée.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} dossiers? Cette action est définitive et ne peut être annulée.}}",
-    "descriptionFile": "{count, plural, one {Etes-vous sûr(e) de vouloir supprimer ce fichier? Cette action est définitive et ne peut être annulée.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} fichiers? Cette action est définitive et ne peut être annulée.}}"
+    "titleItem": "{count, plural, one {Supprimer l'élément {name} ?} other {Supprimer {count} éléments ?}}",
+    "titleFolder": "{count, plural, one {Supprimer le dossier {name} ?} other {Supprimer {count} dossiers ?}}",
+    "titleFile": "{count, plural, one {Supprimer le fichier {name} ?} other {Supprimer {count} fichiers ?}}",
+    "descriptionItem": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer cet élément ? Il n'apparaîtra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} éléments ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
+    "descriptionFolder": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer ce dossier ? Il n'apparaitra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} dossiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
+    "descriptionFile": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer ce fichier? Il n'apparaitra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} fichiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
+    "checkboxRemoveLocalPin": "Aussi supprimer l'épinglage local (recommandé)",
+    "checkboxUnpinFromServices": "Désépingler de tous les services d'épinglage"
+  },
+  "pinningModal": {
+    "title": "Choisissez où vous vouler épingler ces éléments. ",
+    "footer": "Besoin d'ajouter ou de configurer un service d'épinglage? Allez aux <1>Paramètres</1>.",
+    "localNode": "Nœud local",
+    "totalSize": "Taille totale: {size}"
   },
   "addByPathModal": {
     "title": "Importer depuis IPFS",
@@ -81,7 +92,7 @@
     "step5": {
       "title": "Liste des fichiers",
       "paragraph1": "Finallement, vous pouvez ajouter des fichiers et des dossiers en utilisant le glisser deposer.",
-      "paragraph2": "Vous pouvez partager ou télécharger des fichiers, inpecter cela dans IPLD Explorer, les renomer ou encore les supprimer.",
+      "paragraph2": "Vous pouvez partager ou télécharger des fichiers, les inspecter dans l'Explorateur de IPLD, les renommer, ou les supprimer !",
       "paragraph3": "Astuce : glissez-déposez un fichier n'importe où sur l'interface web pour l'ajouter à la racine de votre MFS."
     }
   },
@@ -91,6 +102,13 @@
   "hashUnavailable": "hash non disponible",
   "checkboxLabel": "Voir plus d'options pour {name}",
   "pinned": "Épinglé",
+  "pinnedRemotely": "Épinglé à distance",
+  "blocks": "Blocs",
+  "allBlocks": "Tous les blocs",
+  "allBlocksDescription": "Taille totale des blocs de tout votre nœud IPFS. Cela inclut tout ce qui se trouve dans Fichiers, plus tous les éléments épinglés localement et le cache de données temporaire",
+  "filesDescription": "Taille totale des données dans ce dossier (si c'est un sous-dossier, la taille de tous les données dans Fichiers est aussi affichée)",
+  "more": "Plus",
+  "files": "Fichiers",
   "cidNotFileNorDir": "Le lien courant n'est pas un fichier, peut être un dossier. Essayer de l'<0>inspecter</0>.",
   "sortBy": "Trier les éléments par {name}"
 }
