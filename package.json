@@ -6,7 +6,8 @@
     "start": "run-script-os",
     "start:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-scripts start",
     "start:darwin:linux": "cross-env REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-scripts start",
-    "lint": "eslint src/ test/ && tsc --noEmit",
+    "lint": "run-s eslint typecheck",
+    "eslint": "eslint src/ test/",
     "prebuild": "lol public/locales > src/lib/languages.json",
     "build": "run-script-os",
     "build:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-scripts build",
@@ -23,7 +24,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "check": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@loadable/component": "^5.14.1",
@@ -116,6 +117,7 @@
     "big.js": "^5.2.2",
     "bundlesize": "0.18.1",
     "cross-env": "^6.0.3",
+    "dnslink-dnsimple": "1.0.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint-config-standard": "^14.1.1",
