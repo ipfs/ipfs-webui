@@ -306,8 +306,10 @@ const actions = () => ({
           try {
             await ipfs.files.cp(src, dst)
           } catch (err) {
-            throw Object.assign(new Error('Folder already exists.'), {
-              code: 'ERR_FOLDER_EXISTS'
+            // TODO: Not sure why we do this. Perhaps a generic error is used
+            // to avoid leaking private information via Countly?
+            throw Object.assign(new Error('ipfs.files.cp call failed'), {
+              code: 'ERR_FILES_CP_FAILED'
             })
           }
         }
