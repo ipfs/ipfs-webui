@@ -264,7 +264,7 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. Run `tx pull -a` to pull the latest translations from Transifex ([i18n#transifex-101)](https://github.com/ipfs-shipyard/i18n#transifex-101))
 1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
 1. Update the version (`npm version [major|minor|patch]`)
-1. Push the changes (`git push && git push --follow-tags`)
+1. Push the changes (the `main` branch and the `vN.N.N` tag: `git push && git push origin vN.N.N`)
 1. Wait for the tag to [build on CI](https://circleci.com/gh/ipfs-shipyard/ipfs-webui), and grab the CID produced from the tagged commit
 1. Add release notes to https://github.com/ipfs-shipyard/ipfs-webui/releases, use the tag and CID you created 
 1. Update `CHANGELOG.md` with changes from release notes
