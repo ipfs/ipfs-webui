@@ -4,7 +4,7 @@
   "ipfsInvalidApiAddress": "عنوان IPFS API المقدم غير صالح.",
   "ipfsConnectSuccess": "تم الاتصال بنجاح بعنوان IPFS API",
   "ipfsConnectFail": "تعذر الاتصال بعنوان IPFS API المقدم",
-  "ipfsPinFail": "Unable to set pinning. Try again, or see the browser console for more info.",
+  "ipfsPinFail": "تعذر تعيين التثبيت. حاول مرة أخرى، أو راجع وحدة تحكم المتصفح لمزيد من المعلومات.",
   "ipfsIsBack": "تم استئناف خدمة IPFS العادية. استمتع!",
   "folderExists": "يوجد عنصر بهذا الاسم بالفعل. الرجاء اختيار آخر.",
   "filesFetchFailed": "فشل الحصول على هذه الملفات. يرجى التحقق من المسار وحاول مرة أخرى.",
