@@ -262,14 +262,14 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 ## Releasing
 
 1. Run `tx pull -a` to pull the latest translations from Transifex ([i18n#transifex-101)](https://github.com/ipfs-shipyard/i18n#transifex-101))
-1. Bump the version in `package.json`
+1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
 1. Commit changes and ensure everything is merged into `main` branch
-1. Tag it: `git tag vN.N.N`
+1. Update the version (`npm version [major|minor|patch]`, it will create a new tag `vN.N.N`, note it down)
 1. Push `main` branch and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
-1. Wait for `main` to [build on CI](https://circleci.com/gh/ipfs/ipfs-webui), and grab the CID produced from the tagged commit
+1. Wait for `vN.N.N` to [build on CI](https://github.com/ipfs/ipfs-webui/actions), and grab the CID produced from the tagged commit
 1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created 
 1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
-   - js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L8
+   - js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5
    - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
    - ipfs-desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
 
