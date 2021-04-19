@@ -18,26 +18,22 @@ ModalActions.defaultProps = {
   className: ''
 }
 
-export const ModalBody = ({ className, icon, title, children, ...props }) => {
-  icon = React.createElement(icon, {
-    className: 'fill-gray w3'
-  })
-
-  return (
-    <div className={`ph2 pv3 tc ${className}`} {...props}>
+export const ModalBody = ({ className, Icon, title, children, ...props }) => (
+  <div className={`ph4 pv3 tc ${className}`} {...props}>
+    { Icon && (
       <div className='center bg-snow br-100 flex justify-center items-center' style={{ width: '80px', height: '80px' }}>
-        {icon}
+        {<Icon className='fill-gray w3'/>}
       </div>
+    )}
 
-      <p className='charcoal-muted fw5'>{title}</p>
+    <p className='charcoal fw6 truncate'>{title}</p>
 
-      {children}
-    </div>
-  )
-}
+    {children}
+  </div>
+)
 
 ModalBody.propTypes = {
-  icon: PropTypes.func.isRequired,
+  Icon: PropTypes.func,
   title: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
@@ -50,7 +46,7 @@ ModalBody.defaultProps = {
 
 export const Modal = ({ onCancel, children, className, ...props }) => {
   return (
-    <div className={`${className} bg-white w-80 shadow-4 sans-serif relative`} style={{ maxWidth: '30em' }} {...props}>
+    <div className={`${className} bg-white w-80 shadow-4 sans-serif relative`} style={{ maxWidth: '34em' }} {...props}>
       { onCancel &&
         <CancelIcon className='absolute pointer w2 h2 top-0 right-0 fill-gray' onClick={onCancel} />
       }

@@ -1,0 +1,47 @@
+{
+  "title": "Durum",
+  "nodeInfo": "Düğüm bilgisi",
+  "spaceUsed": "Kullanılan alan",
+  "networkTraffic": "Ağ trafiği",
+  "bandwidthOverTime": "Zaman içindeki bant genişliği",
+  "bandwidthByPeer": "Eşlere göre bant genişliği",
+  "distributionOfPeers": "Eşlerin dağılımı",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} tane eş)} other {{percent}% ({count} tane eş) }}",
+  "countMore": "...ve {count} tane daha",
+  "StatusConnected": {
+    "repoSize": "{repoSize} veri barındırılıyor",
+    "peersCount": "{peersCount, plural, one {1 eşi keşfetti} other {{peersCount} eşleri keşfetti}}"
+  },
+  "customApiConfig": "Özel JSON yapılandırması",
+  "AskToEnable": {
+    "label": "Anonim kullanım verilerini göndererek bu uygulamanın geliştirilmesine yardımcı olun."
+  },
+  "tour": {
+    "step1": {
+      "title": "Durum sayfası",
+      "paragraph1": "Bu, IPFS düğümünüzün başlangıç noktasıdır ve temel bilgilerini kontrol edebileceğiniz yerdir.",
+      "paragraph2": "Daha fazla bilgi edinmek için \"İleri\" yi tıklayın."
+    },
+    "step2": {
+      "title": "Bağlantı durumu",
+      "paragraph1": "Durum sayfasına dönmek için uygulamanın herhangi bir yerinden bu simgeye tıklayın. IPFS UPA ile bağlantınızı kaybederseniz, simge kırmızıya döner.",
+      "paragraph2": "Düğümünüz için özel bir UPA adresi yapılandırmanız gerekirse, bu sayfada UPA adresinin listelendiği yerin yanındaki \"Düzenle\" bağlantısını tıklamanız yeterlidir."
+    },
+    "step3": {
+      "title": "Düğüm bilgisi",
+      "paragraph1": "Burada deponuzun boyutu, kaç eşin bağlı olduğu, eş kimliğiniz ve şu anda kullanımda olan IPFS çeşidi hakkında bilgi edinebilirsiniz.",
+      "paragraph2": "<0>Ağ geçidi URL'si ve adresleri gibi daha fazla bilgi görmek için <1>Gelişmiş</1> bağlantısını genişletin. Ayrıca, API adresinizi değiştirmek için Gelişmiş bölümün içinde bir bağlantı vardır.</0>"
+    },
+    "step4": {
+      "title": "Ağ bant genişliği/trafik",
+      "paragraph1": "Bu grafik, zaman içindeki ağ bant genişliği kullanımını gösterir.",
+      "paragraph2": "Hızölçerler mevcut giden ve gelen trafiği gösterir."
+    },
+    "stepExplore": {
+      "title": "Keşfet",
+      "paragraph": "Bir CID yapıştırın ve CID'nin arkasında bulunan dosyaları keşfedin veya bu verilerin nasıl yapılandırıldığını ve protokoller arasında nasıl bağlandığını görün."
+    }
+  },
+  "bandwidthStats": "Bant genişliği istatistikleri",
+  "bandwidthStatsDisabled": "Bant genişliği metriklerini devre dışı bıraktınız. <5>Ayarlar</5>'da aşağıdaki komutu yazarak veya <1>Swarm.DisableBandwidthMetrics</1> anahtarını <3>yanlış</3> olarak değiştirerek bunları etkinleştirebilirsiniz. Ardından, değişiklikleri uygulamak için IPFS arka plan programını yeniden başlatmanız gerekir."
+}

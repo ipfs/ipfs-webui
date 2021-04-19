@@ -1,0 +1,163 @@
+{
+  "title": "Ayarlar",
+  "save": "Kaydet",
+  "saving": "Kaydediliyor…",
+  "reset": "Sıfırla",
+  "learnMoreLink": "Daha fazla bilgi edin.",
+  "pinningServices": {
+    "title": "Sabitleme Hizmetleri",
+    "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
+    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to go-ipfs 0.8.0 or later, and you'll be able to add and configure them here.",
+    "addAutoUpload": "Otomatik yüklemeyi etkinleştir",
+    "removeAutoUpload": "Otomatik Yüklemeyi Devre Dışı Bırak"
+  },
+  "language": "Dil",
+  "analytics": "Analitik",
+  "cliTutorMode": "Komut Satırı Arayüzü Eğitmen Modu",
+  "config": "IPFS Yapılandırması",
+  "languageModal": {
+    "title": "Dili değiştir",
+    "description": "Tercih ettiğiniz dili seçin.",
+    "translationProjectIntro": "Çeviriler ekleyin veya iyileştirin ve IPFS'yi herkes için daha iyi hale getirin!",
+    "translationProjectLink": "IPFS Çeviri Projesine Katılın"
+  },
+  "apiDescription": "<0>Düğümünüz, varsayılan 5001'den farklı bir bağlantı noktası da dahil olmak üzere <1>özel bir UPA adresiyle</1> yapılandırılmışsa, buraya girin.</0>",
+  "cliDescription": "<0>Genel IPFS komutlarının yanında bir \"kodu görüntüle\"<1></1> simgesi görüntülemek için bu seçeneği etkinleştirin. Buna tıkladığınızda, o komutun CLI kodunu içeren bir modal açılır, böylece onu terminalinizdeki IPFS komut satırı arayüzüne yapıştırabilirsiniz.</0>",
+  "cliModal": {
+    "extraNotesJsonConfig": "Bu sayfanın kod düzenleyicisindeki yapılandırmada kaydetmek istediğiniz değişiklikler yaptıysanız, bir JSON dosyası olarak indirmek için kopyala düğmesinin yanındaki indirme simgesini tıklayın."
+  },
+  "pinningModal": {
+    "title": "Bir sabitleme hizmeti sağlayıcısı seçin.",
+    "description": "Sabitleme hizmeti sağlayıcınızı görmüyor musunuz? <1>Özel bir tane ekleyin.<1>"
+  },
+  "pinningServiceModal": {
+    "title": "Özel bir sabitleme hizmeti yapılandırın.",
+    "description": "Özel sabitleme hizmetinizi başkalarının kullanımına açmak ister misiniz? <1>Nasıl yapılacağını öğrenin.<1>",
+    "service": "Hizmet",
+    "nickname": "Takma ad",
+    "nicknamePlaceholder": "Hizmetinizin adı",
+    "apiEndpoint": "UPA uç noktası",
+    "apiEndpointPlaceholder": "UPA uç noktası için URL",
+    "secretApiKey": "Gizli UPA anahtarı",
+    "autoUpload": "Otomatik yükle"
+  },
+  "autoUploadModal": {
+    "title": "Change upload policy for {name}",
+    "description": "When enabled, auto upload will periodically pin the root of your Files directory, ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" option on the Files screen."
+  },
+  "errors": {
+    "nickname": "Takma ad gerekli",
+    "apiError": "API hatası",
+    "apiEndpoint": "Geçerli bir URL olmalı",
+    "secretApiKey": "Gizli anahtar gerekli",
+    "failedToFetch": "Getirilemedi",
+    "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
+  },
+  "actions": {
+    "addService": "Hizmet Ekle",
+    "edit": "Değiştir",
+    "close": "Kapat",
+    "save": "Kaydet",
+    "cancel": "İptal et",
+    "enable": "Etkinleştir",
+    "disable": "Devre dışı bırak"
+  },
+  "edit": "Düzenle",
+  "visitService": "Hizmeti ziyaret edin",
+  "remove": "Kaldır",
+  "localPinning": "Yerel Sabitleme",
+  "service": "Hizmet",
+  "size": "Boyut",
+  "pins": "Raptiye",
+  "autoUpload": "Otomatik Yükle",
+  "autoUploadPolicy": {
+    "true": "Tüm dosyalar",
+    "false": "Kapalı"
+  },
+  "fetchingSettings": "Ayarlar getiriliyor ...",
+  "configApiNotAvailable": "IPFS yapılandırma UPA'sı mevcut değildir. Lütfen \"IPFS Companion\" Web Uzantısını devre dışı bırakın ve tekrar deneyin.",
+  "ipfsDaemonOffline": "IPFS arka plan programı çevrimdışı. Lütfen açın ve tekrar deneyin.",
+  "settingsUnavailable": "Ayarlar mevcut değil. Lütfen IPFS daemonunuzun çalışıp çalışmadığını kontrol edin.",
+  "settingsHaveChanged": "Ayarlar değişti; editör içeriğini güncellemek için lütfen <1>Sıfırla</1>'yı tıklayın.",
+  "errorOccured": "Değişikliklerinizi kaydederken bir hata oluştu",
+  "checkConsole": "Daha fazla bilgi için tarayıcı konsolunu kontrol edin.",
+  "changesSaved": "Değişiklikleriniz kaydedildi.",
+  "settingsWillBeUsedNextTime": "Yeni ayarlar IPFS arka plan programını yeniden başlattığınızda kullanılacaktır.",
+  "ipfsConfigDescription": "IPFS yapılandırma dosyası bir JSON belgesidir. IPFS arka plan programı başlatıldığında bir kez okunur. Değişikliklerinizi kaydedin, ardından bunları uygulamak için IPFS arka plan programını yeniden başlatın.",
+  "ipfsConfigHelp": "Daha fazla bilgi için belgelere bakın.",
+  "AnalyticsToggle": {
+    "label": "Anonim kullanım verilerini göndererek bu uygulamanın geliştirilmesine yardımcı olun",
+    "summary": "Nelerin toplanacağını yapılandırın",
+    "paragraph1": "Kullanıcı Kimliği, dosya adı veya diğer kişisel bilgiler toplanmaz. Ölçümlerin bize hangi özelliklerin bir sonraki adımda neyin üzerinde çalışacağımızı önceliklendirmemize yardımcı olacak yararlı bilgiler olduğunu ve sistem yapılandırma bilgilerinin testimize rehberlik etmesini istiyoruz.",
+    "paragraph2": "Protocol Labs, bu uygulama için anonim kullanım verilerini kaydetmek için bir <1>Countly</1> örneğini barındırır.",
+    "basicInfo": "Aşağıdaki ek bilgiler countly.ipfs.io adresine gönderilir.",
+    "optionalInfo": "Aşağıdaki bilgileri göndermeyi seçebilirsiniz:",
+    "sessions": {
+      "label": "Oturumlar",
+      "summary": "Uygulamayı ne zaman ve ne kadar süreyle kullandığınız ve tarayıcı ölçümleri",
+      "details": "<0>Aşağıdaki tarayıcı ölçümleri gönderilir:</0><1><0>Rastgele, oluşturulmuş bir cihaz kimliği</0><1>Oturum başladığında zaman damgası</1><2>Süreyi takip etmek için periyodik zaman damgaları</2><3>Uygulama sürümü; Örneğin. 2.4.4</3><4>Yerel ayar; Örneğin. en-GB</4><5>Kullanıcı aracısı; Örneğin. Mozilla / 5.0 (Macintosh; Intel Mac OS X 10_14_2)…</5><6>Ekran çözünürlüğü; Örneğin. 800 × 600</6><7>Ekran piksel yoğunluğu; Örneğin. 1</7></1>"
+    },
+    "events": {
+      "label": "Etkinlikler",
+      "summary": "dosya ekleme veya silme gibi işlemler ve ne kadar sürdüğü",
+      "details": "Uygulamaya özel eylemler. Yalnızca eylemin gerçekleştiğini, baştan sona ne kadar sürdüğünü ve olay birden fazla öğe içeriyorsa bir sayımı kaydederiz."
+    },
+    "views": {
+      "label": "Sayfa görüntülemeleri",
+      "summary": "Uygulamanın hangi bölümlerini ziyaret ediyorsunuz?",
+      "details": "Uygulamaların hangi bölümlerinin ziyaret edildiğini kaydeder. Kaydedilen yollar, tam url yerine yalnızca yolu eşleştirmek için kullanılan kalıbı içerir."
+    },
+    "location": {
+      "label": "Konum",
+      "summary": "IP adresinden ülke kodu (IP adresi atılır)",
+      "details": "IP adresiniz, Fransa için \"FR\" gibi, bulunduğunuz yerin ülke kodunu hesaplamak için kullanılır. Konum izleme izni verilmediğinde, konum aramayı devre dışı bırakması için sunucuya sinyal göndermeye yönelik tüm isteklerle birlikte boş bir konum özelliği gönderilir. Bu bilgiler çeviri çabalarımıza rehberlik eder ve etkinlikleri nereye koymamız gerektiğini anlamaya yardımcı olur."
+    },
+    "crashes": {
+      "label": "Uygulama hataları",
+      "summary": "JavaScript hata mesajları ve yığın izleri",
+      "details": "Mümkün olduğunda, uygulamayı kullanırken oluşan JavaScript hata mesajlarını ve yığın izlerini kaydeder. Uygulamanın sizin için ne zaman çalışmadığını bilmek çok yararlıdır, ancak hata mesajları Kullanıcı Kimlikleri veya dosya yolları gibi <1>tanımlanabilir bilgileri içerebilir</1>, bu nedenle bunu yalnızca bu bilgileri bizimle paylaşmaktan çekiniyorsanız etkinleştirin."
+    }
+  },
+  "cliToggle": {
+    "label": "Komut satırı arayüzü (CLI) öğretmen modunu etkinleştir"
+  },
+  "tour": {
+    "step1": {
+      "title": "Ayarlar sayfası",
+      "paragraph1": "Burada Web kullanıcı arayüzünüzün ve IPFS düğümünüzün ayarlarını değiştirebilirsiniz.",
+      "paragraph2": "IPFS Masaüstü kullanıyorsanız, bunun için de bazı özel ayarlara sahip olacaksınız."
+    },
+    "step2": {
+      "title": "Özel UPA adresi",
+      "paragraph1": "IPFS düğümünüzü özel bir API adresiyle yapılandırdıysanız, JSON'u elle düzenlemek yerine yapılandırma dosyanızı burada güncelleyebilirsiniz."
+    },
+    "step3": {
+      "title": "Sabitleme hizmetleri",
+      "paragraph1": "<0>Üçüncü taraf uzaktan sabitleme hizmetlerine sahip hesaplarınız varsa, öğeleri buraya ekleyin, böylece öğeleri doğrudan Dosyalar ekranından bu hizmetlere sabitleyebilir / sabitlemesini kaldırabilirsiniz. Üçüncü taraf sabitleme hizmetleri hakkında daha fazla bilgiyi <1>IPFS Belgeleri</1>'nde bulabilirsiniz.</0>"
+    },
+    "step4": {
+      "title": "Dil seçici",
+      "paragraph1": "<0>Web kullanıcı arayüzünün dilini değiştirebilirsiniz. Tercih ettiğiniz dil mevcut değilse, çeviri yapmamıza yardımcı olmak için <1>Transifex</1>'teki proje sayfamıza gidin!</0>"
+    },
+    "step5": {
+      "title": "Anonim kullanım analizi",
+      "paragraph1": "Kaydolursanız, anonim kullanım analizleri göndererek Web Kullanıcı Arayüzünü daha iyi hale getirmemize yardımcı olabilirsiniz.",
+      "paragraph2": "Bize hangi verileri göndereceğinizi seçebilirsiniz ve biz sizin kimliğinizi saptamayacağız, gizliliğe her şeyden önce değer veriyoruz."
+    },
+    "step6": {
+      "title": "Komut Satırı Arayüzü eğitmen modu",
+      "paragraph1": "Genel IPFS komutlarının komut satırı sürümünün kısayollarını görmek için komut satırı arayüzü eğitmen modunu etkinleştirin - IPFS'yi terminalden kullanmayı öğreniyorsanız veya sadece tazeleme ihtiyacınız varsa faydalıdır."
+    },
+    "step7": {
+      "title": "IPFS Yapılandırması",
+      "paragraph1": "IPFS düğümünüzün yapılandırmasını doğrudan Web UI'den değiştirebilirsiniz!",
+      "paragraph2": "Değişiklikleri uygulamak için daemon'u yeniden başlatmayı unutmayın."
+    }
+  },
+  "Experiments": {
+    "description": "Burada, aşağıdaki seçenekleri etkinleştirerek yeni IPFS özelliklerine ilişkin erken bir önizleme elde edebilirsiniz. Bu fikirleri test ediyoruz ve henüz mükemmel olmayabilirler, bu yüzden geri bildiriminizi duymak isteriz.",
+    "issueUrl": "Bir sorunu açın",
+    "feedbackUrl": "💌Geri bildirim bırakın",
+    "readMoreUrl": "Daha Fazla Oku"
+  }
+}

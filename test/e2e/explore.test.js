@@ -24,8 +24,8 @@ describe('Explore screen', () => {
     await page.goto(webuiUrl + `#/explore/${cid}`, { waitUntil: 'networkidle0' })
     await page.waitForSelector(`a[href="#/explore/${cid}"]`)
     // expect node type
-    await expect(page).toMatch('DAG Node')
+    await expect(page).toMatch('Raw Block')
     // expect cid details
-    await expect(page).toMatch('base32 - cidv1 - raw - sha2-256-256-46532c71d1b730e168548410ddbb4186a2c3c0659e915b19d47f373ec6c5174a')
+    await expect(page).toMatch('base32 - cidv1 - raw - sha2-256~256~46532C71D1B730E168548410DDBB4186A2C3C0659E915B19D47F373EC6C5174A')
   })
 })

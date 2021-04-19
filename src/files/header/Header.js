@@ -1,6 +1,6 @@
 import React from 'react'
 import filesize from 'filesize'
-import SimplifyNumber from 'simplify-number'
+import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 // Components
@@ -10,18 +10,12 @@ import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
 
-function BarOption ({ children, title, isLink = false, className = '', ...etc }) {
-  className += ' tc pa3'
-
-  if (etc.onClick) className += ' pointer'
-
-  return (
-    <div className={className} {...etc}>
-      <span className='nowrap db f4 navy'>{children}</span>
-      <span className={`db ttl ${isLink ? 'navy underline' : 'gray'}`}>{title}</span>
-    </div>
-  )
-}
+const BarOption = ({ children, text, isLink = false, className = '', ...etc }) => (
+  <div className={classNames(className, 'tc pa3', etc.onClick && 'pointer')} {...etc}>
+    <span className='nowrap db f4 charcoal'>{children}</span>
+    <span className={`nowrap db ttu f6 montserrat fw4 ${isLink ? 'link' : 'charcoal-muted'}`}>{text}</span>
+  </div>
+)
 
 function humanSize (size) {
   if (!size) return 'N/A'
@@ -36,6 +30,7 @@ class Header extends React.Component {
     const pos = this.dotsWrapper.getBoundingClientRect()
     this.props.handleContextMenu(ev, 'TOP', {
       ...this.props.files,
+      // TODO: change to "pinning" and not "pinned"
       pinned: this.props.pins.includes(this.props.files.cid.toString())
     }, pos)
   }
@@ -47,14 +42,14 @@ class Header extends React.Component {
 
   render () {
     const {
+      currentDirectorySize,
+      hasUpperDirectory,
       files,
-      t,
-      pins,
       filesPathInfo,
       filesSize,
-      repoNumObjects,
+      onNavigate,
       repoSize,
-      onNavigate
+      t
     } = this.props
 
     return (
@@ -66,19 +61,17 @@ class Header extends React.Component {
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
-          <BarOption title={t('app:terms.files')} isLink onClick={() => { onNavigate('/files') }}>
-            { humanSize(filesSize) }
+          <BarOption title={t('filesDescription')} text={t('app:terms:files')}>
+            { hasUpperDirectory
+              ? (
+                <span>
+                  { humanSize(currentDirectorySize) }<span className='f5 gray'>/{ humanSize(filesSize) }</span>
+                </span>
+              )
+              : humanSize(filesSize) }
           </BarOption>
 
-          <BarOption title={t('app:terms.pins')} isLink onClick={() => { onNavigate('/pins') }}>
-            { pins ? SimplifyNumber(pins.length) : '-' }
-          </BarOption>
-
-          <BarOption title={t('app:terms.blocks')}>
-            { repoNumObjects ? SimplifyNumber(repoNumObjects, { decimal: 0 }) : 'N/A' }
-          </BarOption>
-
-          <BarOption title={t('app:terms.repo')}>
+          <BarOption title={t('allBlocksDescription')} text={t('allBlocks')}>
             { humanSize(repoSize) }
           </BarOption>
 
@@ -114,9 +107,11 @@ class Header extends React.Component {
 
 export default connect(
   'selectPins',
+  'selectHasUpperDirectory',
   'selectFilesSize',
   'selectRepoSize',
   'selectRepoNumObjects',
   'selectFilesPathInfo',
+  'selectCurrentDirectorySize',
   withTranslation('files')(Header)
 )

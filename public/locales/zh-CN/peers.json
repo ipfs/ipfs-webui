@@ -2,11 +2,13 @@
   "title": "节点",
   "localNetwork": "本地网络",
   "nearby": "邻近",
-  "bootstrapNode": "引导节点",
-  "viaRelay": "通过 <0>{node}</0>",
+  "protocols": "打开流",
   "addConnection": "添加连接",
   "insertPeerAddress": "请输入你想要连接的对等节点地址。",
   "plusPeers": "+ {number} 个节点",
+  "connectionDirectionInbound": "入站",
+  "connectionDirectionOutbound": "出站",
+  "copyFeedback": "已复制！",
   "tour": {
     "step1": {
       "title": "节点页面",

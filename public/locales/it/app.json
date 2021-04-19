@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Aggiungi",
+    "apply": "Applica",
     "browse": "Esplora",
     "cancel": "Annulla",
     "change": "Cambia",
@@ -8,7 +9,7 @@
     "close": "Chiudi",
     "copy": "Copia",
     "create": "Crea",
-    "delete": "Elimina",
+    "remove": "Rimuovi",
     "download": "Scarica",
     "edit": "Modifica",
     "import": "Importa",
@@ -17,28 +18,28 @@
     "moreInfo": "Ulteriori informazioni",
     "noThanks": "No, grazie",
     "ok": "OK",
-    "pinVerb": "Affissa",
+    "pinVerb": "Fissa",
     "rename": "Rinomina",
-    "reset": "Reset",
+    "reset": "Ripristina",
     "save": "Salva",
     "saving": "Salvataggio in corso...",
-    "selectAll": "Select all",
+    "selectAll": "Seleziona tutto",
+    "setPinning": "Imposta pinning",
     "submit": "Applica",
     "unpin": "Sblocca",
     "unselectAll": "Deseleziona tutto"
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters.",
-    "extraNotes": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
+    "description": "Incolla ciò che segue nel tuo terminale per avviare questa funzione in IPFS tramite la riga di comando. Ricorda che devi sostituire i segnaposto con i parametri specifici."
   },
   "nav": {
     "bugsLink": "Segnala un problema",
     "codeLink": "Guarda il codice",
-    "revision": "Revisione"
+    "revision": "Revisiona"
   },
   "status": {
     "connectedToIpfs": "Connesso ad IPFS",
-    "connectingToIpfs": "Connecting to IPFS…",
+    "connectingToIpfs": "Connessione ad IPFS...",
     "couldNotConnect": "Connessione all'API IPFS fallita"
   },
   "terms": {
@@ -47,27 +48,29 @@
     "advanced": "Avanzate",
     "agent": "Agent",
     "api": "API",
-    "apiAddress": "API address",
+    "apiAddress": "Indirizzo API",
     "blocks": "Blocchi",
-    "connection": "Connection",
+    "connection": "Connessione",
     "downSpeed": "In entrata",
     "example": "Esempio:",
     "file": "File",
     "files": "File",
     "folder": "Cartella",
-    "folders": "Folders",
+    "folders": "Cartelle",
     "gateway": "Gateway",
     "in": "Entrata",
-    "latency": "Latency",
+    "latency": "Latenza",
+    "loading": "Caricamento",
     "location": "Luogo",
     "name": "Nome",
-    "node": "Node",
+    "node": "Nodo",
     "out": "Uscita",
     "peer": "Peer",
     "peerId": "Peer ID",
     "peers": "Peer",
-    "pinNoun": "Affissa",
-    "pins": "Affissi",
+    "pinNoun": "Fisso",
+    "pins": "Fissi",
+    "pinStatus": "Stato Pin",
     "publicKey": "Chiave pubblica",
     "rateIn": "Tasso d'entrata",
     "rateOut": "Tasso d'uscita",
@@ -82,10 +85,10 @@
   "tour": {
     "back": "Indietro",
     "close": "Chiudi",
-    "finish": "Finish",
+    "finish": "Fine",
     "next": "Avanti",
     "skip": "Salta",
-    "tooltip": "Click this button any time for a guided tour on the current page."
+    "tooltip": "Clicca su questo bottone in qualunque momento per un tour guidato nella pagina corrente."
   },
-  "startTourHelper": "Start tour"
+  "startTourHelper": "Inizia tour"
 }

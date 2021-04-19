@@ -1,5 +1,4 @@
-/* global getComputedStyle */
-import React, { Fragment } from 'react'
+import React, { useRef, Fragment, useState, useEffect, useMemo, useCallback } from 'react'
 import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
@@ -11,125 +10,67 @@ import { normalizeFiles } from '../../lib/files'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 // Reac DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { DropTarget } from 'react-dnd'
+import { useDrop } from 'react-dnd'
 // Components
 import Checkbox from '../../components/checkbox/Checkbox'
 import SelectedActions from '../selected-actions/SelectedActions'
 import File from '../file/File'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation'
 
-export class FilesList extends React.Component {
-  constructor (props) {
-    super(props)
-    this.listRef = React.createRef()
-  }
+const addFiles = async (filesPromise, onAddFiles) => {
+  const files = await filesPromise
+  onAddFiles(normalizeFiles(files))
+}
 
-  static propTypes = {
-    className: PropTypes.string,
-    files: PropTypes.array.isRequired,
-    filesSorting: PropTypes.shape({
-      by: PropTypes.string.isRequired,
-      asc: PropTypes.bool.isRequired
+const mergeRemotePinsIntoFiles = (files, remotePins) => {
+  const remotePinsCids = remotePins.map(c => c.cid.string)
+
+  return files.map(f => remotePinsCids.includes(f.cid?.string) ? ({
+    ...f,
+    isRemotePin: true
+  }) : f)
+}
+
+export const FilesList = ({
+  className, files, pins, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
+  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, handleContextMenuClick, t
+}) => {
+  const [selected, setSelected] = useState([])
+  const [focused, setFocused] = useState(null)
+  const [firstVisibleRow, setFirstVisibleRow] = useState(null)
+  const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins))
+  const listRef = useRef()
+  const filesRefs = useRef([])
+
+  const [{ canDrop, isOver, isDragging }, drop] = useDrop({
+    accept: NativeTypes.FILE,
+    drop: (_, monitor) => {
+      if (monitor.didDrop()) {
+        return
+      }
+      const { filesPromise } = monitor.getItem()
+
+      addFiles(filesPromise, onAddFiles)
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver({ shallow: true }),
+      isDragging: monitor.isDragging
     }),
-    updateSorting: PropTypes.func.isRequired,
-    root: PropTypes.string.isRequired,
-    downloadProgress: PropTypes.number,
-    filesIsFetching: PropTypes.bool,
-    filesPathInfo: PropTypes.object,
-    // React Drag'n'Drop
-    isOver: PropTypes.bool.isRequired,
-    canDrop: PropTypes.bool.isRequired,
-    connectDropTarget: PropTypes.func.isRequired,
-    // Actions
-    onShare: PropTypes.func.isRequired,
-    onInspect: PropTypes.func.isRequired,
-    onDownload: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    onRename: PropTypes.func.isRequired,
-    onNavigate: PropTypes.func.isRequired,
-    onAddFiles: PropTypes.func.isRequired,
-    onMove: PropTypes.func.isRequired,
-    // From i18next
-    t: PropTypes.func.isRequired,
-    tReady: PropTypes.bool
-  }
+    canDrop: _ => filesPathInfo.isMfs
+  })
 
-  static defaultProps = {
-    className: ''
-  }
+  const selectedFiles = useMemo(() =>
+    selected
+      .map(name => allFiles.find(el => el.name === name))
+      .filter(n => n)
+      .map(file => ({
+        ...file,
+        pinned: pins.map(p => p.toString()).includes(file.cid.toString())
+      }))
+  , [allFiles, pins, selected])
 
-  state = {
-    selected: [],
-    focused: null,
-    firstVisibleRow: null,
-    isDragging: false
-  }
-
-  filesRefs = {}
-
-  get selectedFiles () {
-    return this.state.selected.map(name =>
-      this.props.files.find(el => el.name === name)
-    ).filter(n => n)
-  }
-
-  get focusedFile () {
-    return this.props.files.find(el => el.name === this.state.focused)
-  }
-
-  get selectedMenu () {
-    if (this.state.selected.length === 0) {
-      return null
-    }
-
-    const unselectAll = () => this.toggleAll(false)
-    const size = this.selectedFiles.reduce((a, b) => a + (b.size || 0), 0)
-
-    // We need this to get the width in ems
-    const innerWidthEm = window.innerWidth / parseFloat(getComputedStyle(document.querySelector('body'))['font-size'])
-
-    return (
-      <SelectedActions
-        className={'fixed bottom-0 right-0'}
-        style={{
-          maxWidth: innerWidthEm < 60 ? '100%' : 'calc(100% - 156px)',
-          zIndex: 20
-        }}
-        animateOnStart
-        unselect={unselectAll}
-        remove={() => this.props.onDelete(this.selectedFiles)}
-        rename={() => this.props.onRename(this.selectedFiles)}
-        share={() => this.props.onShare(this.selectedFiles)}
-        download={() => this.props.onDownload(this.selectedFiles)}
-        inspect={() => this.props.onInspect(this.selectedFiles[0].cid)}
-        count={this.state.selected.length}
-        isMfs={this.props.filesPathInfo.isMfs}
-        downloadProgress={this.props.downloadProgress}
-        size={size} />
-    )
-  }
-
-  componentDidMount () {
-    document.addEventListener('keyup', this.keyHandler)
-  }
-
-  componentWillUnmount () {
-    document.removeEventListener('keyup', this.keyHandler)
-  }
-
-  componentDidUpdate () {
-    const selected = this.state.selected.filter(name => (
-      this.props.files.find(el => el.name === name)
-    ))
-
-    if (selected.length !== this.state.selected.length) {
-      this.setState({ selected })
-    }
-  }
-
-  keyHandler = (e) => {
-    const { files, filesIsFetching } = this.props
-    const { selected, focused, firstVisibleRow } = this.state
+  const keyHandler = (e) => {
+    const focusedFile = files.find(el => el.name === focused)
 
     // Disable keyboard controls if fetching files
     if (filesIsFetching) {
@@ -137,25 +78,26 @@ export class FilesList extends React.Component {
     }
 
     if (e.key === 'Escape') {
-      this.setState({ selected: [], focused: null })
-      return this.listRef.current.forceUpdateGrid()
+      setSelected([])
+      setFocused(null)
+      return listRef.current.forceUpdateGrid()
     }
 
     if (e.key === 'F2' && focused !== null) {
-      return this.props.onRename([this.focusedFile])
+      return onRename([focusedFile])
     }
 
     if (e.key === 'Delete' && selected.length > 0) {
-      return this.props.onDelete(this.selectedFiles)
+      return onRemove(selectedFiles)
     }
 
     if (e.key === ' ' && focused !== null) {
       e.preventDefault()
-      return this.toggleOne(focused, true)
+      return toggleOne(focused, true)
     }
 
     if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused !== null) {
-      return this.props.onNavigate(this.focusedFile.path)
+      return onNavigate({ path: focusedFile.path, cid: focusedFile.cid })
     }
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -176,49 +118,63 @@ export class FilesList extends React.Component {
 
         // If the file we are going to focus is out of view (removed
         // from the DOM by react-virtualized), focus the first visible file
-        if (!this.filesRefs[name]) {
+        if (!filesRefs.current[name]) {
           name = files[firstVisibleRow].name
         }
 
-        this.setState({ focused: name })
-        const domNode = findDOMNode(this.filesRefs[name])
+        setFocused(name)
+        const domNode = findDOMNode(filesRefs.current[name])
         domNode.scrollIntoView({ behaviour: 'smooth', block: 'center' })
         domNode.querySelector('input[type="checkbox"]').focus()
       }
 
-      this.listRef.current.forceUpdateGrid()
+      listRef.current.forceUpdateGrid()
     }
   }
 
-  toggleAll = (checked) => {
+  useEffect(() => {
+    document.addEventListener('keyup', keyHandler)
+    return () => document.removeEventListener('keyup', keyHandler)
+  }, /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  [])
+
+  useEffect(() => {
+    setAllFiles(mergeRemotePinsIntoFiles(files, remotePins))
+  }, [files, remotePins, filesSorting])
+
+  useEffect(() => {
+    const selectedFiles = selected.filter(name => files.find(el => el.name === name))
+
+    if (selectedFiles.length !== selected.length) {
+      setSelected(selected)
+    }
+  }, [files, selected])
+
+  const toggleAll = (checked) => {
     let selected = []
 
     if (checked) {
-      selected = this.props.files.map(file => file.name)
+      selected = files.map(file => file.name)
     }
 
-    this.setState({ selected: selected })
-    this.listRef.current.forceUpdateGrid()
+    setSelected(selected)
+    listRef.current.forceUpdateGrid()
   }
 
-  toggleOne = (name, check) => {
-    const selected = this.state.selected
+  const toggleOne = useCallback((name, check) => {
     const index = selected.indexOf(name)
 
     if (check && index < 0) {
-      selected.push(name)
+      setSelected([...selected, name].sort())
     } else if (index >= 0) {
-      selected.splice(this.state.selected.indexOf(name), 1)
+      setSelected(selected.filter(selected => selected !== name).sort())
     }
 
-    this.setState({ selected: selected.sort() })
-    this.listRef.current.forceUpdateGrid()
-  }
+    listRef.current.forceUpdateGrid()
+  }, [selected])
 
-  move = (src, dst) => {
-    const selected = this.selectedFiles
-
-    if (selected.length > 0) {
+  const move = (src, dst) => {
+    if (selectedFiles.length > 0) {
       const parts = dst.split('/')
       parts.pop()
       let basepath = parts.join('/')
@@ -227,7 +183,7 @@ export class FilesList extends React.Component {
         basepath = '/'
       }
 
-      const toMove = selected.map(({ name, path }) => ([
+      const toMove = selectedFiles.map(({ name, path }) => ([
         path,
         join(basepath, name)
       ]))
@@ -237,176 +193,181 @@ export class FilesList extends React.Component {
         toMove.push([src, dst])
       }
 
-      this.toggleAll(false)
-      toMove.forEach(op => this.props.onMove(...op))
+      toggleAll(false)
+      toMove.forEach(op => onMove(...op))
     } else {
-      this.props.onMove(src, dst)
+      onMove(src, dst)
     }
   }
 
-  sortByIcon = (order) => {
-    if (this.props.filesSorting.by === order) {
-      return this.props.filesSorting.asc ? '↑' : '↓'
+  const sortByIcon = (order) => {
+    if (filesSorting.by === order) {
+      return filesSorting.asc ? '↑' : '↓'
     }
 
     return null
   }
 
-  changeSort = (order) => () => {
-    const { filesSorting, updateSorting } = this.props
-
+  const changeSort = (order) => () => {
     if (order === filesSorting.by) {
       updateSorting(order, !filesSorting.asc)
     } else {
       updateSorting(order, true)
     }
 
-    this.listRef.current.forceUpdateGrid()
+    listRef.current.forceUpdateGrid()
   }
 
-  isDragging = (is = true) => {
-    this.setState({ isDragging: is })
-  }
-
-  emptyRowsRenderer = () => {
-    const { t } = this.props
-
-    return (
-      <Trans i18nKey='filesList.noFiles' t={t}>
-        <div className='pv3 b--light-gray bt tc gray f6'>
+  const emptyRowsRenderer = () => (
+    <Trans i18nKey='filesList.noFiles' t={t}>
+      <div className='pv3 b--light-gray bt tc gray f6'>
             There are no available files. Add some!
-        </div>
-      </Trans>
-    )
-  }
+      </div>
+    </Trans>
+  )
 
-  rowRenderer = ({ index, key, style }) => {
-    const { files, pins, filesPathInfo, isOver, canDrop, onNavigate, onInspect, onAddFiles } = this.props
-    const { selected, focused, isDragging } = this.state
-
+  const rowRenderer = ({ index, key, style }) => {
     const pinsString = pins.map(p => p.toString())
+    const listItem = allFiles[index]
+    const onNavigateHandler = () => {
+      if (listItem.type === 'unknown') return onInspect(listItem.cid)
+      return onNavigate({ path: listItem.path, cid: listItem.cid })
+    }
 
     return (
-      <div key={key} style={style} ref={r => { this.filesRefs[files[index].name] = r }}>
+      <div key={key} style={style} ref={r => { filesRefs.current[allFiles[index].name] = r }}>
         <File
-          {...files[index]}
-          pinned={pinsString.includes(files[index].cid.toString())}
+          {...listItem}
+          pinned={pinsString.includes(listItem.cid.toString())}
           isMfs={filesPathInfo.isMfs}
-          name={files[index].name}
-          onSelect={this.toggleOne}
-          onNavigate={() => {
-            if (files[index].type === 'unknown') {
-              onInspect(files[index].cid)
-            } else {
-              onNavigate(files[index].path)
-            }
-          }}
+          name={listItem.name}
+          onSelect={toggleOne}
+          onNavigate={onNavigateHandler}
           onAddFiles={onAddFiles}
-          onMove={this.move}
-          focused={focused === files[index].name}
-          selected={selected.indexOf(files[index].name) !== -1}
-          setIsDragging={this.isDragging}
-          handleContextMenuClick={this.props.handleContextMenuClick}
+          onMove={move}
+          focused={focused === listItem.name}
+          selected={selected.indexOf(listItem.name) !== -1}
+          handleContextMenuClick={handleContextMenuClick}
           translucent={isDragging || (isOver && canDrop)} />
       </div>
     )
   }
 
-  onRowsRendered = ({ startIndex }) => this.setState({ firstVisibleRow: startIndex })
+  const onRowsRendered = ({ startIndex }) => setFirstVisibleRow(startIndex)
 
-  render () {
-    let { t, files, className, showLoadingAnimation, connectDropTarget } = this.props
-    const { selected } = this.state
-    const allSelected = selected.length !== 0 && selected.length === files.length
-    const rowCount = files.length
-    const checkBoxCls = classnames({
-      'o-1': allSelected,
-      'o-70': !allSelected
-    }, ['pl2 w2 glow'])
+  const allSelected = selected.length !== 0 && selected.length === allFiles.length
+  const rowCount = allFiles.length
+  const checkBoxCls = classnames({
+    'o-1': allSelected,
+    'o-70': !allSelected
+  }, ['pl2 w2 glow'])
 
-    className = `FilesList no-select sans-serif border-box w-100 flex flex-column ${className}`
-
-    return connectDropTarget(
-      <section ref={(el) => { this.root = el }} className={className}>
-        { showLoadingAnimation
-          ? <LoadingAnimation />
-          : <Fragment>
-            <header className='gray pv3 flex items-center flex-none' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
-              <div className={checkBoxCls}>
-                <Checkbox checked={allSelected} onChange={this.toggleAll} aria-label={t('selectAllEntries')}/>
+  return (
+    <section ref={drop} className={classnames('FilesList no-select sans-serif border-box w-100 flex flex-column', className)}>
+      { showLoadingAnimation
+        ? <LoadingAnimation />
+        : <Fragment>
+          <header className='gray pv3 flex items-center flex-none' style={{ paddingRight: '1px', paddingLeft: '1px' }}>
+            <div className={checkBoxCls}>
+              <Checkbox checked={allSelected} onChange={toggleAll} aria-label={t('selectAllEntries')}/>
+            </div>
+            <div className='ph2 f6 flex-auto'>
+              <button aria-label={ t('sortBy', { name: t('app:terms.name') })} onClick={changeSort(sorts.BY_NAME)}>
+                {t('app:terms.name')} {sortByIcon(sorts.BY_NAME)}
+              </button>
+            </div>
+            <div className='pl2 pr1 tr f6 flex-none dn db-l mw4'>
+              <span>
+                {t('app:terms.pinStatus')}
+              </span>
+            </div>
+            <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
+              <button aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
+                {t('app:terms.size')} {sortByIcon(sorts.BY_SIZE)}
+              </button>
+            </div>
+            <div className='pa2' style={{ width: '2.5rem' }} />
+          </header>
+          <WindowScroller>
+            {({ height, isScrolling, onChildScroll, scrollTop }) => (
+              <div className='flex-auto'>
+                <AutoSizer disableHeight>
+                  {({ width }) => (
+                    <List
+                      ref={listRef}
+                      autoHeight
+                      width={width}
+                      height={height}
+                      className='outline-0'
+                      aria-label={ t('filesListLabel')}
+                      rowCount={rowCount}
+                      rowHeight={55}
+                      rowRenderer={rowRenderer}
+                      noRowsRenderer={emptyRowsRenderer}
+                      onRowsRendered={onRowsRendered}
+                      isScrolling={isScrolling}
+                      onScroll={onChildScroll}
+                      scrollTop={scrollTop}/>
+                  )}
+                </AutoSizer>
               </div>
-              <div className='ph2 f6 flex-auto'>
-                <button aria-label={ t('sortBy', { name: t('app:terms.name') })} onClick={this.changeSort(sorts.BY_NAME)}>
-                  {t('app:terms.name')} {this.sortByIcon(sorts.BY_NAME)}
-                </button>
-              </div>
-              <div className='ph2 pv1 flex-none dn db-l tr mw3'>
-                { /* Badges */ }
-              </div>
-              <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
-                <button aria-label={ t('sortBy', { name: t('size') })} onClick={this.changeSort(sorts.BY_SIZE)}>
-                  {t('app:terms.size')} {this.sortByIcon(sorts.BY_SIZE)}
-                </button>
-              </div>
-              <div className='pa2' style={{ width: '2.5rem' }} />
-            </header>
-            <WindowScroller>
-              {({ height, isScrolling, onChildScroll, scrollTop }) => (
-                <div className='flex-auto'>
-                  <AutoSizer disableHeight>
-                    {({ width }) => (
-                      <List
-                        ref={this.listRef}
-                        autoHeight
-                        width={width}
-                        height={height}
-                        className='outline-0'
-                        aria-label={ t('filesListLabel')}
-                        rowCount={rowCount}
-                        rowHeight={55}
-                        rowRenderer={this.rowRenderer}
-                        noRowsRenderer={this.emptyRowsRenderer}
-                        onRowsRendered={this.onRowsRendered}
-                        isScrolling={isScrolling}
-                        onScroll={onChildScroll}
-                        scrollTop={scrollTop}
-                        data={files /* NOTE: this is a placebo prop to force the list to re-render */} />
-                    )}
-                  </AutoSizer>
-                </div>
-              )}
-            </WindowScroller>
-            {this.selectedMenu}
-          </Fragment> }
-      </section>
-    )
-  }
+            )}
+          </WindowScroller>
+          { selectedFiles.length !== 0 && <SelectedActions
+            className={'fixed bottom-0 right-0'}
+            style={{
+              zIndex: 20
+            }}
+            animateOnStart={selectedFiles.length === 1}
+            unselect={() => toggleAll(false)}
+            remove={() => onRemove(selectedFiles)}
+            rename={() => onRename(selectedFiles)}
+            share={() => onShare(selectedFiles)}
+            setPinning={() => onSetPinning(selectedFiles)}
+            download={() => onDownload(selectedFiles)}
+            inspect={() => onInspect(selectedFiles[0].cid)}
+            count={selectedFiles.length}
+            isMfs={filesPathInfo.isMfs}
+            downloadProgress={downloadProgress}
+            size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
+          }
+        </Fragment> }
+    </section>
+  )
 }
 
-const dropTarget = {
-  drop: ({ onAddFiles }, monitor) => {
-    if (monitor.didDrop()) {
-      return
-    }
-    const { filesPromise } = monitor.getItem()
-
-    const add = async () => {
-      const files = await filesPromise
-      onAddFiles(normalizeFiles(files))
-    }
-
-    add()
-  },
-  canDrop: props => props.filesPathInfo.isMfs
+FilesList.propTypes = {
+  className: PropTypes.string,
+  files: PropTypes.array.isRequired,
+  remotePins: PropTypes.array,
+  filesSorting: PropTypes.shape({
+    by: PropTypes.string.isRequired,
+    asc: PropTypes.bool.isRequired
+  }),
+  updateSorting: PropTypes.func.isRequired,
+  downloadProgress: PropTypes.number,
+  filesIsFetching: PropTypes.bool,
+  filesPathInfo: PropTypes.object,
+  // Actions
+  onShare: PropTypes.func.isRequired,
+  onSetPinning: PropTypes.func.isRequired,
+  onInspect: PropTypes.func.isRequired,
+  onDownload: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  onRename: PropTypes.func.isRequired,
+  onNavigate: PropTypes.func.isRequired,
+  onAddFiles: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
+  handleContextMenuClick: PropTypes.func.isRequired,
+  // From i18next
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool
 }
 
-const dropCollect = (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver({ shallow: true }),
-  canDrop: monitor.canDrop()
-})
-
-export const FilesListWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(withTranslation('files')(FilesList))
+FileList.defaultProps = {
+  className: '',
+  remotePins: []
+}
 
 export default connect(
   'selectPins',
@@ -414,5 +375,5 @@ export default connect(
   'selectFilesSorting',
   'selectFilesPathInfo',
   'selectShowLoadingAnimation',
-  FilesListWithDropTarget
+  withTranslation('files')(FilesList)
 )

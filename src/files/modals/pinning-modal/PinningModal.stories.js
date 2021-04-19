@@ -1,17 +1,15 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import i18n from '../../../i18n-decorator'
-import DeleteModal from './DeleteModal'
+import i18n from '../../../i18n'
+import { PinningModal } from './PinningModal'
 
 storiesOf('Files/Modals', module)
-  .addDecorator(i18n)
-  .add('Delete', () => (
+  .add('Pinning', () => (
     <div className='ma3'>
-      <DeleteModal
+      <PinningModal
+        t={i18n.getFixedT('en', 'files')}
         onCancel={action('Cancel')}
-        onDelete={action('Delete')}
-        files={4}
-        folders={0} />
+        onSubmit={action('Pinning')} />
     </div>
   ))

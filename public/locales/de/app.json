@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Hinzufügen",
+    "apply": "Apply",
     "browse": "Durchstöbern",
     "cancel": "Abbrechen",
     "change": "Ändern",
@@ -8,7 +9,7 @@
     "close": "Schließen",
     "copy": "Kopieren",
     "create": "Erstellen",
-    "delete": "Löschen",
+    "remove": "Entfernen",
     "download": "Herunterladen",
     "edit": "Bearbeiten",
     "import": "Importieren",
@@ -23,13 +24,13 @@
     "save": "Speichern",
     "saving": "Speichervorgang läuft…",
     "selectAll": "Alle auswählen",
+    "setPinning": "Set pinning",
     "submit": "Absenden",
     "unpin": "Loslösen",
     "unselectAll": "Alle abwählen"
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters.",
-    "extraNotes": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
+    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "Fehler melden",
@@ -59,6 +60,7 @@
     "gateway": "Gateway",
     "in": "Eingang",
     "latency": "Latenz",
+    "loading": "Loading",
     "location": "Standort",
     "name": "Name",
     "node": "Node",
@@ -68,6 +70,7 @@
     "peers": "Peers",
     "pinNoun": "Anpinnen",
     "pins": "Pins",
+    "pinStatus": "Pin Status",
     "publicKey": "Öffentlicher Schlüssel",
     "rateIn": "Eingangsrate",
     "rateOut": "Ausgangsrate",

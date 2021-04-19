@@ -1,11 +1,12 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import ms from 'milliseconds'
 
+const swarmPeersTTL = ms.seconds(10)
 const bundle = createAsyncResourceBundle({
   name: 'peers',
   actionBaseType: 'PEERS',
-  getPromise: ({ getIpfs }) => getIpfs().swarm.peers({ verbose: true }),
-  staleAfter: ms.seconds(10),
+  getPromise: ({ getIpfs }) => getIpfs().swarm.peers({ verbose: true, timeout: swarmPeersTTL }),
+  staleAfter: swarmPeersTTL,
   persist: false,
   checkIfOnline: false
 })

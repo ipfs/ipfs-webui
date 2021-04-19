@@ -102,7 +102,7 @@ const bundle = {
   name: 'config_save',
 
   /**
-   * @param {Model} [state]
+   * @param {Model} state
    * @param {Message} action
    * @returns {Model}
    */

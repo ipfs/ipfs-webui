@@ -29,7 +29,7 @@
     "descriptionFile": "Vyberte nové jméno pro tento soubor.",
     "descriptionFolder": "Vyberte nové jméno pro tuto složku."
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, one {Smazat položku} few {Smazat {count} položky} many {Smazat {count} položek} other {Smazat {count} položek}}",
     "titleFolder": "{count, plural, one {Smazat složku} few {Smazat {count} složky} many {Smazat {count} složek} other {Smazat {count} složek}}",
     "titleFile": "{count, plural, one {Smazat soubor} few {Smazat {count} soubory} many {Smazat {count} souborů} other {Smazat {count} souborů}}",

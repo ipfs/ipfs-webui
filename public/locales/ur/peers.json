@@ -1,0 +1,27 @@
+{
+  "title": "پیر",
+  "localNetwork": "مقامی نیٹورک",
+  "nearby": "نزدیک",
+  "protocols": "Open streams",
+  "addConnection": "ربط شامل کریں",
+  "insertPeerAddress": "پیر کا پتہ درج کریں جس سے کہ آپ مربوط ہونا چاہتے ہیں۔",
+  "plusPeers": "+ {number} مزید پیر",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
+  "copyFeedback": "Copied!",
+  "tour": {
+    "step1": {
+      "title": "پِیر پیج",
+      "paragraph1": "یہاں سے آپ ان پِیر کو دیکھ سکتے ہیں جن سے آپ مربوط ہیں اور وہ ملک جہاں سے وہ پیر ہیں۔",
+      "paragraph2": "مزید پڑھنے کے لیے ’’اگلا‘‘ پر کلک کریں۔"
+    },
+    "step2": {
+      "title": "پِیر کا نقشہ",
+      "paragraph1": "آپ کے ساتھ مربوط پِیر دنیا میں کہاں کہاں ہیں اس کا نظارہ۔"
+    },
+    "step3": {
+      "title": "پِیر ٹیبل",
+      "paragraph1": "مربوط پِیر کی آئی ڈی، ان کے پتے اور قریب کا مقام چیک کریں۔"
+    }
+  }
+}

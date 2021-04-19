@@ -23,7 +23,7 @@ storiesOf('Files', module)
         onInspect={action('Inspect')}
         onRename={action('Rename')}
         onDownload={action('Download')}
-        onDelete={action('Delete')}
+        onRemove={action('Remove')}
         handleClick={action('Handle Click')}
         onNavigate={action('Navigate')}
         onCopyHash={action('Copy CID')} />

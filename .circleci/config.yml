@@ -1,8 +1,10 @@
-version: 2
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.1.0
 jobs:
   build:
     docker:
-      - image: circleci/node:12.16.2-browsers-legacy
+      - image: cimg/node:14.15.4-browsers
         environment:
           NO_SANDBOX: true
     steps:
@@ -17,8 +19,8 @@ jobs:
           command: npm run build
       - run:
           command: E2E_IPFSD_TYPE=go npm run test:e2e
-      - run:
-          command: E2E_IPFSD_TYPE=js npm run test:e2e
+      # - run:      - TODO: uncomment after pinning services are coded in js-ipfs
+          # command: E2E_IPFSD_TYPE=js npm run test:e2e
       - run:
           command: npm run bundlesize
       - persist_to_workspace:
@@ -45,7 +47,7 @@ jobs:
 
             echo "Website added to IPFS: https://ipfs.io/ipfs/$hash"
 
-            if [ "$CIRCLE_BRANCH" == "master" ] ; then
+            if [ "$CIRCLE_BRANCH" == "main" ] ; then
               dnslink-dnsimple -d dev.$DOMAIN -r _dnslink -l /ipfs/$hash
             fi
 

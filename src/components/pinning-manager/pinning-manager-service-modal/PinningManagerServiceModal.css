@@ -1,0 +1,16 @@
+
+.pinningManagerServiceModalContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    align-items: center;
+    justify-content: center;
+    padding: 20px 54px 0;
+}
+
+.pinningManagerServiceModalContainer > * {
+    margin-bottom: 26px;
+}
+
+.pinningManagerServiceModalContainer .white::placeholder {
+    color: #fff;
+}

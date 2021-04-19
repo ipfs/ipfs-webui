@@ -24,3 +24,11 @@ button.button-inside-focus:focus {
 button.button-inside-focus:focus > *:first-child {
     outline: 1px solid #bbb;
 }
+
+button.hoverable-button:hover {
+    background: #E8E9ED
+}
+
+button.hoverable-button:focus {
+    outline: none;
+}

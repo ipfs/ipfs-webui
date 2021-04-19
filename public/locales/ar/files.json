@@ -29,7 +29,7 @@
     "descriptionFile": "اختر اسمًا جديدًا لهذا الملف.",
     "descriptionFolder": "اختر اسمًا جديدًا لهذا المجلد."
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, zero {حذف العناصر} one {Delete item} two {Delete {count} items} few {Delete {count} items} many {Delete {count} items} other {Delete {count} items}}",
     "titleFolder": "{count, plural, zero {حذف المجلدات} one {Delete folder} two {Delete {count} folders} few {Delete {count} folders} many {Delete {count} folders} other {Delete {count} folders}}",
     "titleFile": "{count, plural, zero {حذف الملفات} one {Delete file} two {Delete {count} files} few {Delete {count} files} many {Delete {count} files} other {Delete {count} files}}",

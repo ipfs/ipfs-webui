@@ -36,7 +36,7 @@ class FilesExploreForm extends React.Component {
         path = `/ipfs/${path}`
       }
 
-      this.props.onBrowse(path)
+      this.props.onBrowse({ path })
       this.setState({ path: '' })
     }
   }

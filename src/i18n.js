@@ -5,38 +5,11 @@ import LocalStorageBackend from 'i18next-localstorage-backend'
 import HttpBackend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
-import ar from 'i18next-icu/locale-data/ar'
-import ca from 'i18next-icu/locale-data/ca'
-import cs from 'i18next-icu/locale-data/cs'
-import da from 'i18next-icu/locale-data/da'
-import de from 'i18next-icu/locale-data/de'
-import en from 'i18next-icu/locale-data/en'
-import es from 'i18next-icu/locale-data/es'
-import fr from 'i18next-icu/locale-data/fr'
-import it from 'i18next-icu/locale-data/it'
-import ja from 'i18next-icu/locale-data/ja'
-import ko from 'i18next-icu/locale-data/ko'
-import nl from 'i18next-icu/locale-data/nl'
-import no from 'i18next-icu/locale-data/no'
-import pl from 'i18next-icu/locale-data/pl'
-import pt from 'i18next-icu/locale-data/pt'
-import ro from 'i18next-icu/locale-data/ro'
-import ru from 'i18next-icu/locale-data/ru'
-import sv from 'i18next-icu/locale-data/sv'
-import zh from 'i18next-icu/locale-data/zh'
-
-const localeData = [ar, ca, cs, da, de, en, es, fr, it, ja, ko, nl, no, pl, pt, ro, ru, sv, zh]
-
-export const localesList =
-  // add here the language variants
-  ['ja-JP', 'ko-KR', 'zh-CN', 'zh-HK', 'zh-TW']
-    .concat(localeData.map((locale) => locale[0].locale))
-    // add here languages you want to exclude
-    .filter(item => !['ja', 'ko', 'zh'].includes(item))
-    .sort()
+import locales from './lib/languages.json'
+export const localesList = Object.values(locales)
 
 i18n
-  .use(new ICU({ localeData }))
+  .use(ICU)
   .use(Backend)
   .use(LanguageDetector)
   .init({

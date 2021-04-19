@@ -44,7 +44,7 @@
     "descriptionFile": "Kies een nieuwe naam voor dit bestand.",
     "descriptionFolder": "Kies een nieuwe naam voor deze map."
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, one {Verwijder item} other {Verwijder {count}items}}",
     "titleFolder": "{count, plural, one {Verwijder map} other {Verwijder {count}mappen}}",
     "titleFile": "{count, plural, one {Verwijder bestand} other {Verwijder {count}bestanden}}",

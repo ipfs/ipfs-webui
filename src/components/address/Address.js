@@ -4,6 +4,9 @@ import Multiaddr from 'multiaddr'
 const Address = ({ value }) => {
   if (!value) return null
 
+  // future-proofing interop for multiaddr > 8.x
+  value = value.buffer || value
+
   const ma = Multiaddr(value)
   const protos = ma.protoNames().concat(['ipfs', 'p2p'])
   const parts = ma.toString().split('/')

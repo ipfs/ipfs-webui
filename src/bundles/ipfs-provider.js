@@ -1,5 +1,4 @@
 import multiaddr from 'multiaddr'
-// @ts-ignore
 import HttpClient from 'ipfs-http-client'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
@@ -7,6 +6,14 @@ import first from 'it-first'
 import last from 'it-last'
 import * as Enum from './enum'
 import { perform } from './task'
+
+/* TODO: restore when  no longer bundle standalone ipld with ipld-explorer
+ * context: https://github.com/ipfs/ipld-explorer-components/pull/289
+// @ts-ignore
+import ipldGit from 'ipld-git'
+// @ts-ignore
+import ipldEthereum from 'ipld-ethereum'
+*/
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -19,6 +26,8 @@ import { perform } from './task'
  * @property {boolean} failed
  * @property {boolean} ready
  * @property {boolean} invalidAddress
+ * @property {boolean} pendingFirstConnection
+ *
  *
  * @typedef {import('./task').Perform<'IPFS_INIT', Error, InitResult, void>} Init
  * @typedef {Object} Stopped
@@ -34,19 +43,37 @@ import { perform } from './task'
  * @typedef {Object} Dismiss
  * @property {'IPFS_API_ADDRESS_INVALID_DISMISS'} type
  *
+ * @typedef {Object} ConnectSuccess
+ * @property {'IPFS_CONNECT_SUCCEED'} type
+ *
+ * @typedef {Object} ConnectFail
+ * @property {'IPFS_CONNECT_FAILED'} type
+ *
+ * @typedef {Object} DismissError
+ * @property {'NOTIFY_DISMISSED'} type
+ *
+ * @typedef {Object} PendingFirstConnection
+ * @property {'IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION'} type
+ * @property {boolean} pending
+ *
  * @typedef {Object} InitResult
  * @property {ProviderName} provider
  * @property {IPFSService} ipfs
  * @property {string} [apiAddress]
- * @typedef {Init|Stopped|AddressUpdated|AddressInvalid|Dismiss} Message
+ * @typedef {Init|Stopped|AddressUpdated|AddressInvalid|Dismiss|PendingFirstConnection|ConnectFail|ConnectSuccess|DismissError} Message
  */
 
 export const ACTIONS = Enum.from([
   'IPFS_INIT',
   'IPFS_STOPPED',
   'IPFS_API_ADDRESS_UPDATED',
+  'IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION',
   'IPFS_API_ADDRESS_INVALID',
-  'IPFS_API_ADDRESS_INVALID_DISMISS'
+  'IPFS_API_ADDRESS_INVALID_DISMISS',
+  // Notifier actions
+  'IPFS_CONNECT_FAILED',
+  'IPFS_CONNECT_SUCCEED',
+  'NOTIFY_DISMISSED'
 ])
 
 /**
@@ -99,6 +126,16 @@ const update = (state, message) => {
     case ACTIONS.IPFS_API_ADDRESS_INVALID_DISMISS: {
       return { ...state, invalidAddress: true }
     }
+    case ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION: {
+      const { pending } = message
+      return { ...state, pendingFirstConnection: pending }
+    }
+    case ACTIONS.IPFS_CONNECT_SUCCEED: {
+      return { ...state, failed: false }
+    }
+    case ACTIONS.IPFS_CONNECT_FAILED: {
+      return { ...state, failed: true }
+    }
     default: {
       return state
     }
@@ -114,7 +151,8 @@ const init = () => {
     provider: null,
     failed: false,
     ready: false,
-    invalidAddress: false
+    invalidAddress: false,
+    pendingFirstConnection: false
   }
 }
 
@@ -124,6 +162,14 @@ const init = () => {
 const readAPIAddressSetting = () => {
   const setting = readSetting('ipfsApi')
   return setting == null ? null : asAPIOptions(setting)
+}
+
+/**
+ * @param {string|object} value
+ * @returns {boolean}
+ */
+export const checkValidAPIAddress = (value) => {
+  return asAPIOptions(value) != null
 }
 
 /**
@@ -164,6 +210,7 @@ const asMultiaddress = (value) => {
 
 /**
  * @typedef {Object} HTTPClientOptions
+ * @property {string} [url]
  * @property {string} [host]
  * @property {string} [port] - (e.g. '443', or '80')
  * @property {string} [protocol] - (e.g 'https', 'http')
@@ -172,12 +219,18 @@ const asMultiaddress = (value) => {
  */
 
 /**
+ * @typedef {Object} IPFSProviderHttpClientOptions
+ * @property {Object} [ipld]
+ * @property {string|undefined} [url]
+ */
+
+/**
  * Attempts to turn parse given input as an options object for ipfs-http-client.
  * @param {string|object} value
  * @returns {HTTPClientOptions|null}
  */
 const asHttpClientOptions = (value) =>
-  typeof value === 'string' ? parseHTTPClientOptions(value) : readHTTPClinetOptions(value)
+  typeof value === 'string' ? parseHTTPClientOptions(value) : readHTTPClientOptions(value)
 
 /**
  *
@@ -186,19 +239,17 @@ const asHttpClientOptions = (value) =>
 const parseHTTPClientOptions = (input) => {
   // Try parsing and reading as json
   try {
-    return readHTTPClinetOptions(JSON.parse(input))
+    return readHTTPClientOptions(JSON.parse(input))
   } catch (_) {}
 
   // turn URL with inlined basic auth into client options object
   try {
-    const uri = new URL(input)
-    const { username, password } = uri
+    const url = new URL(input)
+    const { username, password } = url
     if (username && password) {
+      url.username = url.password = ''
       return {
-        host: uri.hostname,
-        port: uri.port || (uri.protocol === 'https:' ? '443' : '80'),
-        protocol: uri.protocol.slice(0, -1), // trim out ':' at the end
-        apiPath: (uri.pathname !== '/' ? uri.pathname : 'api/v0'),
+        url: url.toString(),
         headers: {
           authorization: `Basic ${btoa(username + ':' + password)}`
         }
@@ -213,9 +264,9 @@ const parseHTTPClientOptions = (input) => {
  * @param {Object<string, any>} value
  * @returns {HTTPClientOptions|null}
  */
-const readHTTPClinetOptions = (value) => {
+const readHTTPClientOptions = (value) => {
   // https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#importing-the-module-and-usage
-  if (value && (value.host || value.apiPath || value.protocol || value.port || value.headers)) {
+  if (value && (!!value.url || value.host || value.apiPath || value.protocol || value.port || value.headers)) {
     return value
   } else {
     return null
@@ -297,7 +348,11 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectIpfsInitFailed: state => state.ipfs.failed
+  selectIpfsInitFailed: state => state.ipfs.failed,
+  /**
+   * @param {State} state
+   */
+  selectIpfsPendingFirstConnection: state => state.ipfs.pendingFirstConnection
 }
 
 /**
@@ -308,28 +363,53 @@ const selectors = {
 
 const actions = {
   /**
-   * @returns {function(Context):Promise<void>}
+   * @returns {function(Context):Promise<boolean>}
    */
   doTryInitIpfs: () => async ({ store }) => {
-    // We need to swallow error that `doInitIpfs` could produce othrewise it
-    // will bubble up and nothing will handle it. There is a code in
-    // `bundles/retry-init.js` that reacts to `IPFS_INIT` action and attempts
-    // to retry.
+    // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT`
+    // action and attempts to retry.
     try {
       await store.doInitIpfs()
+      return true
     } catch (_) {
+      // Catches connection errors like timeouts
+      return false
     }
   },
   /**
    * @returns {function(Context):Promise<InitResult>}
    */
   doInitIpfs: () => perform('IPFS_INIT',
-  /**
-   * @param {Context} context
-   * @returns {Promise<InitResult>}
-   */
+    /**
+    * @param {Context} context
+    * @returns {Promise<InitResult>}
+    */
     async (context) => {
       const { apiAddress } = context.getState().ipfs
+      /** @type {IPFSProviderHttpClientOptions} */
+      let ipfsOptions = {
+        /* TODO: restore when  no longer bundle standalone ipld with ipld-explorer
+        * context: https://github.com/ipfs/ipld-explorer-components/pull/289
+        ipld: {
+          formats: [
+            ...Object.values(ipldEthereum),
+            ipldGit
+          ]
+        }
+        */
+      }
+
+      if (typeof apiAddress === 'string') {
+        ipfsOptions = {
+          ...ipfsOptions,
+          url: apiAddress
+        }
+      } else {
+        ipfsOptions = {
+          ...apiAddress,
+          ...ipfsOptions
+        }
+      }
 
       const result = await getIpfs({
         // @ts-ignore - TS can't seem to infer connectionTest option
@@ -348,12 +428,12 @@ const actions = {
         },
         loadHttpClientModule: () => HttpClient,
         providers: [
-          providers.httpClient({ apiAddress })
+          providers.httpClient(ipfsOptions)
         ]
       })
 
       if (!result) {
-        throw Error('Could not connect to the IPFS API')
+        throw Error(`Could not connect to the IPFS API (${apiAddress})`)
       } else {
         return result
       }
@@ -370,17 +450,46 @@ const actions = {
 
   /**
    * @param {string} address
-   * @returns {function(Context):Promise<void>}
+   * @returns {function(Context):Promise<boolean>}
    */
   doUpdateIpfsApiAddress: (address) => async (context) => {
     const apiAddress = asAPIOptions(address)
     if (apiAddress == null) {
-      context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID' })
+      context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_INVALID })
+      return false
     } else {
       await writeSetting('ipfsApi', apiAddress)
-      context.dispatch({ type: 'IPFS_API_ADDRESS_UPDATED', payload: apiAddress })
+      context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_UPDATED, payload: apiAddress })
 
-      await context.store.doTryInitIpfs()
+      // Sends action to indicate we're going to try to update the IPFS API address.
+      // There is logic to retry doTryInitIpfs in bundles/retry-init.js, so
+      // we're triggering the PENDING_FIRST_CONNECTION action here to avoid blocking
+      // the UI while we automatically retry.
+      context.dispatch({
+        type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
+        pending: true
+      })
+      context.dispatch({
+        type: ACTIONS.IPFS_STOPPED
+      })
+      context.dispatch({
+        type: ACTIONS.NOTIFY_DISMISSED
+      })
+      const succeeded = await context.store.doTryInitIpfs()
+      if (succeeded) {
+        context.dispatch({
+          type: ACTIONS.IPFS_CONNECT_SUCCEED
+        })
+      } else {
+        context.dispatch({
+          type: ACTIONS.IPFS_CONNECT_FAILED
+        })
+      }
+      context.dispatch({
+        type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
+        pending: false
+      })
+      return succeeded
     }
   },
 

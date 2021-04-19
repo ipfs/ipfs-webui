@@ -70,6 +70,31 @@ const notify = {
       }
     }
 
+    if (action.type === 'IPFS_CONNECT_FAILED' || action.type === 'IPFS_PIN_FAILED') {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        eventId: action.type
+      }
+    }
+    if (action.type === 'IPFS_CONNECT_SUCCEED') {
+      return {
+        ...state,
+        show: true,
+        error: false,
+        eventId: action.type
+      }
+    }
+    if (action.type === 'IPFS_API_ADDRESS_INVALID') {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        eventId: action.type
+      }
+    }
+
     return state
   },
 
@@ -83,6 +108,18 @@ const notify = {
 
       if (eventId === 'STATS_FETCH_FAILED') {
         return provider === 'window.ipfs' ? 'windowIpfsRequestFailed' : 'ipfsApiRequestFailed'
+      }
+      if (eventId === 'IPFS_CONNECT_FAILED') {
+        return 'ipfsConnectFail'
+      }
+      if (eventId === 'IPFS_CONNECT_SUCCEED') {
+        return 'ipfsConnectSuccess'
+      }
+      if (eventId === 'IPFS_API_ADDRESS_INVALID') {
+        return 'ipfsInvalidApiAddress'
+      }
+      if (eventId === 'IPFS_PIN_FAILED') {
+        return 'ipfsPinFail'
       }
 
       if (eventId === 'FILES_EVENT_FAILED') {
@@ -104,7 +141,7 @@ const notify = {
           case FILES_ACTIONS.COPY:
             return 'filesCopyFailed'
           case FILES_ACTIONS.DELETE:
-            return 'filesDeleteFailed'
+            return 'filesRemoveFailed'
           default:
             return 'filesEventFailed'
         }

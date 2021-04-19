@@ -1,5 +1,16 @@
 {
   "title": "配置",
+  "save": "保存",
+  "saving": "保存中 …",
+  "reset": "重置",
+  "learnMoreLink": "学到更多。",
+  "pinningServices": {
+    "title": "固定服务",
+    "description": "当您希望确保您节点上的项目永远不会被执行垃圾回收时，请使用本地固定，这样即便您将项目从文件中删除，项目依旧会保存在您的节点内。您还可以将您的帐户与其他远程固定服务连接，以自动或有选择地将文件同步至其他固定服务商，这样即便您自己的本地节点失效时，您依旧可以获得文件的副本/或者将这些文件分享给其他人。",
+    "noPinRemoteDescription": "缺少对第三方远程固定服务的支持特性。将您的IPFS 节点更新为IPFS 0.8.0或更高版本，然后您就可以在此处添加以及配置它们。",
+    "addAutoUpload": "启用自动上传",
+    "removeAutoUpload": "禁用自动上传"
+  },
   "language": "语言",
   "analytics": "分析",
   "cliTutorMode": "CLI 引导模式",
@@ -12,6 +23,57 @@
   },
   "apiDescription": "<0>如果您的节点配置了一个<1>自定义的API地址</1>，或者包含了其他非默认的5001端口的情况下，在这里修改。</0>",
   "cliDescription": "<0>启用这个选来会在下方IPFS命令旁显示一个“查看代码”<1></1>图标。单击它将打开一个带有命令的CLI代码的引导模式，因此您可以将其粘贴到IPFS 节点的命令行终端中执行。</0>",
+  "cliModal": {
+    "extraNotesJsonConfig": "如果您希望保存已在该页的代码编辑器中修改过的配置，点击复制图标旁边的下载图标可以将配置文件以JSON文件的形式下载到本地"
+  },
+  "pinningModal": {
+    "title": "选择一个固定服务商",
+    "description": "没有看到您的固定服务提供商？<1>您添加一个自定义的固定服务提供商。<1>"
+  },
+  "pinningServiceModal": {
+    "title": "配置一个自定义的固定服务",
+    "description": "想要为他人创建一个您自己提供的固定服务？<1>学习如何创建<1>",
+    "service": "服务",
+    "nickname": "昵称",
+    "nicknamePlaceholder": "您的服务名称",
+    "apiEndpoint": "API 终端节点",
+    "apiEndpointPlaceholder": "此API 终端节点的 URL",
+    "secretApiKey": "API 认证密钥",
+    "autoUpload": "自动上传"
+  },
+  "autoUploadModal": {
+    "title": "为{name}更改上传策略",
+    "description": "当启用时，自动上传将定期地固定您的根目录，确保所有内容都被远程固定至其他节点，这样即使您的本地IPFS 节点脱机，这些文件也能被访问。如果您禁用它，您仍然可以使用“文件”页面上的“固定”选项手动地固定每个文件。"
+  },
+  "errors": {
+    "nickname": "需要填写昵称",
+    "apiError": "API 错误",
+    "apiEndpoint": "需要一个有效的 URL",
+    "secretApiKey": "需要填写认证密钥",
+    "failedToFetch": "获取失败",
+    "failedToFetchTitle": "无法从此远程服务获取固定计数 (Pin Count)。确保它处于联机状态以及您输入了正确的凭据。如果这是一个新添加的服务，请尝试删除并重新添加。"
+  },
+  "actions": {
+    "addService": "增加服务",
+    "edit": "修改",
+    "close": "关闭",
+    "save": "保存",
+    "cancel": "取消",
+    "enable": "启用",
+    "disable": "禁用"
+  },
+  "edit": "编辑",
+  "visitService": "访问服务",
+  "remove": "移除",
+  "localPinning": "本地固定",
+  "service": "服务",
+  "size": "大小",
+  "pins": "已固定",
+  "autoUpload": "自动上传",
+  "autoUploadPolicy": {
+    "true": "所有文件",
+    "false": "关"
+  },
   "fetchingSettings": "拉取配置中 ...",
   "configApiNotAvailable": "IPFS 配置 API 不可用。请禁用 \"IPFS 伴侣\" 浏览器插件并重试。",
   "ipfsDaemonOffline": "IPFS 守护进程处于离线状态，请使其在线并重试。",
@@ -66,19 +128,27 @@
       "paragraph2": "如果你正在运行 IPFS Desktop ，会有一些特定的设置。"
     },
     "step2": {
+      "title": "自定义API地址",
+      "paragraph1": "如果您为IPFS 节点配置了自定义的API地址，你可以直接在这里更新配置而不需要手动修改JSON配置文件。"
+    },
+    "step3": {
+      "title": "固定服务",
+      "paragraph1": "<0>如果您有第三方远程固定服务的账户，请添加在此处，这样您可以直接进行远程固定或取消固定文件的操作。您可以在<1>IPFS 文档</1>中了解到更多有关第三方固定服务的详细说明。</0>"
+    },
+    "step4": {
       "title": "语言选择",
       "paragraph1": "<0>您可以更改 Web UI 的语言设置。如果您的首选语言不可用，请访问 <1>Transifex</1> 中的项目页面以帮助我们翻译！</0>"
     },
-    "step3": {
+    "step5": {
       "title": "匿名化的使用分析",
       "paragraph1": "如果您选择加入，您可以通过发送匿名化的使用情况分析来帮助我们改善 Web UI。",
       "paragraph2": "您可以选择向我们发送的数据。我们非常重视隐私，所采集的数据无法识别您的身份。"
     },
-    "step4": {
-      "title": "自定义API地址",
-      "paragraph1": "如果您为IPFS 节点配置了自定义的API地址，你可以直接在这里更新配置而不需要手动修改JSON配置文件。"
+    "step6": {
+      "title": "CLI 引导模式",
+      "paragraph1": "启用CLI 引导模式来查看常见IPFS终端命令——如果您正在从终端学习使用IPFS，或者您只是需要查询命令，这将非常有用。"
     },
-    "step5": {
+    "step7": {
       "title": "IPFS 配置",
       "paragraph1": "您可以直接 从Web UI 更改 IPFS 节点的配置。",
       "paragraph2": "不要忘记重新启动守护程序以应用更改！"

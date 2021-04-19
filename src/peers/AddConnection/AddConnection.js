@@ -67,7 +67,7 @@ class AddConnection extends React.Component {
             onCancel={this.toggleModal}
             onInputChange={this.onInputChange}
             submitText={t('app:actions.add')}
-            icon={Icon}
+            Icon={Icon}
             title={t('addConnection')}
             description={this.getDescription()}
             loading={loading}

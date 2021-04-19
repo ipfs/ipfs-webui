@@ -25,11 +25,8 @@ export class App extends Component {
     doUpdateUrl: PropTypes.func.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesWrite: PropTypes.func.isRequired,
-    route: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.element
-    ]).isRequired,
     routeInfo: PropTypes.object.isRequired,
+    filesPathInfo: PropTypes.object,
     // Injected by DropTarget
     isOver: PropTypes.bool.isRequired
   }
@@ -39,9 +36,9 @@ export class App extends Component {
   }
 
   addFiles = async (filesPromise) => {
-    const { doFilesWrite, doUpdateHash, routeInfo } = this.props
+    const { doFilesWrite, doUpdateHash, routeInfo, filesPathInfo } = this.props
     const isFilesPage = routeInfo.pattern === '/files*'
-    const addAtPath = isFilesPage ? routeInfo.params.path : '/'
+    const addAtPath = isFilesPage ? (filesPathInfo?.realPath || routeInfo.params.path) : '/'
     const files = await filesPromise
 
     doFilesWrite(normalizeFiles(files), addAtPath)
@@ -59,12 +56,11 @@ export class App extends Component {
 
   render () {
     const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
-
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-      <div className='sans-serif h-100' onClick={getNavHelper(this.props.doUpdateUrl)}>
+      <div className='sans-serif h-100 relative' onClick={getNavHelper(this.props.doUpdateUrl)}>
         {/* Tinted overlay that appears when dragging and dropping an item */}
-        { canDrop && isOver && <div className='w-100 h-100 top-0 left-0 absolute' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
+        { canDrop && isOver && <div className='h-100 top-0 right-0 fixed appOverlay' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
         <div className='flex flex-row-reverse-l flex-column-reverse justify-end justify-start-l' style={{ minHeight: '100vh' }}>
           <div className='flex-auto-l'>
             <div className='flex items-center ph3 ph4-l' style={{ WebkitAppRegion: 'drag', height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
@@ -79,7 +75,7 @@ export class App extends Component {
             <main className='bg-white pv3 pa3 pa4-l'>
               { (ipfsReady || url === '/welcome' || url.startsWith('/settings'))
                 ? <Page />
-                : <ComponentLoader pastDelay />
+                : <ComponentLoader />
               }
             </main>
           </div>

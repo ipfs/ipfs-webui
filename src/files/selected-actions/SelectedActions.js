@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import { withTranslation } from 'react-i18next'
+import StrokePin from '../../icons/StrokePin'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
 import StrokeShare from '../../icons/StrokeShare'
 import StrokePencil from '../../icons/StrokePencil'
@@ -49,6 +50,7 @@ class SelectedActions extends React.Component {
     size: PropTypes.number.isRequired,
     unselect: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired,
+    setPinning: PropTypes.func.isRequired,
     share: PropTypes.func.isRequired,
     download: PropTypes.func.isRequired,
     rename: PropTypes.func.isRequired,
@@ -98,7 +100,7 @@ class SelectedActions extends React.Component {
   }
 
   render () {
-    const { t, tReady, animateOnStart, count, size, unselect, remove, share, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
+    const { t, tReady, animateOnStart, count, size, unselect, remove, share, setPinning, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
 
     const isSingle = count === 1
 
@@ -109,7 +111,7 @@ class SelectedActions extends React.Component {
     }
 
     return (
-      <div className={classNames('sans-serif bt w-100 pa3 ph4-l', className, animateOnStart && 'selectedActionsAnimated')} style={{ ...styles.bar, ...style }} {...props}>
+      <div className={classNames('sans-serif bt w-100 pa3 ph4-l selectedActions', className, animateOnStart && 'selectedActionsAnimated')} style={{ ...styles.bar, ...style }} {...props}>
         <div className='flex items-center justify-between'>
           <div className='w5-l'>
             <div className='flex items-center'>
@@ -133,7 +135,11 @@ class SelectedActions extends React.Component {
             </button>
             <button role="menuitem" className={classNames('tc mh2', classes.action(isMfs))} onClick={isMfs ? remove : null}>
               <StrokeTrash className={classes.svg(isMfs)} fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{t('app:actions.delete')}</p>
+              <p className='ma0 f6'>{t('app:actions.remove')}</p>
+            </button>
+            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? setPinning : null}>
+              <StrokePin className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>
+              <p className='ma0 f6'>{t('app:actions.setPinning')}</p>
             </button>
             <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? inspect : null} {...singleFileTooltip}>
               <StrokeIpld className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>
@@ -144,7 +150,7 @@ class SelectedActions extends React.Component {
               <p className='ma0 f6'>{t('app:actions.rename')}</p>
             </button>
           </div>
-          <div className='w5-l'>
+          <div>
             <button onClick={unselect} className='flex items-center justify-end f6 charcoal'>
               {/* TODO: Should we go back to the files list when we tab out of here? */}
               <span className='mr2 dn db-l'>{t('app:actions.unselectAll')}</span>

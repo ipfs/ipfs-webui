@@ -16,7 +16,7 @@ function RenameModal ({ t, tReady, onCancel, onSubmit, filename, folder, classNa
       defaultValue={filename}
       title={t(`renameModal.title${context}`)}
       description={t(`renameModal.description${context}`)}
-      icon={PencilIcon}
+      Icon={PencilIcon}
       submitText={t('app:actions.save')}
       {...props} />
   )

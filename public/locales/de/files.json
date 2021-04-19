@@ -29,7 +29,7 @@
     "descriptionFile": "Wähle einen neuen Namen für diese Datei.",
     "descriptionFolder": "Wähle einen neuen Namen für diesen Ordner."
   },
-  "deleteModal": {
+  "removeModal": {
     "titleItem": "{count, plural, one {Element löschen} other {{count} Elemente löschen}}",
     "titleFolder": "{count, plural, one {Ordner löschen} other {{count} Ordner löschen}}",
     "titleFile": "{count, plural, one {Datei löschen} other {{count} Dateien löschen}}",

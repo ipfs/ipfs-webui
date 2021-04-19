@@ -149,7 +149,7 @@ const actions = {
   }
 }
 
-export default {
+const experimentsBundle = {
   name: 'experiments',
 
   persistActions: [
@@ -158,7 +158,7 @@ export default {
   ],
 
   /**
-   * @param {Model} [state]
+   * @param {Model} state
    * @param {Message} action
    * @returns {Model}
    */
@@ -195,3 +195,4 @@ export default {
   ...selectors,
   ...actions
 }
+export default experimentsBundle

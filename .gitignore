@@ -22,3 +22,6 @@ yarn-error.log*
 
 .vscode
 .idea
+.eslintcache
+tsconfig.tsbuildinfo
+.connect-deps*

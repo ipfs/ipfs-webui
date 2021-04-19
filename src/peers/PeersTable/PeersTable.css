@@ -1,3 +1,11 @@
 .peersTableItem {
-    transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.copyable {
+  cursor: pointer;
+  user-select: none;
+}
+abbr.copyable {
+  text-decoration: none !important;
 }

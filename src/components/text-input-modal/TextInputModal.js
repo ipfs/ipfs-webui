@@ -12,7 +12,7 @@ class TextInputModal extends React.Component {
     onChange: PropTypes.func,
     onInputChange: PropTypes.func,
     title: PropTypes.string.isRequired,
-    icon: PropTypes.func.isRequired,
+    Icon: PropTypes.func.isRequired,
     description: PropTypes.node,
     submitText: PropTypes.string,
     validate: PropTypes.func,
@@ -34,7 +34,7 @@ class TextInputModal extends React.Component {
   }
 
   onChange = (event) => {
-    let val = event.target.value
+    let val = event.target.value.trim()
 
     if (this.props.onChange) {
       val = this.props.onChange(val)
@@ -98,7 +98,7 @@ class TextInputModal extends React.Component {
       mustBeDifferent,
       onSubmit,
       className,
-      icon,
+      Icon,
       submitText,
       validate,
       defaultValue,
@@ -111,11 +111,11 @@ class TextInputModal extends React.Component {
 
     return (
       <Modal {...props} className={className} onCancel={onCancel}>
-        <ModalBody title={title} icon={icon}>
+        <ModalBody title={title} Icon={Icon}>
           { description && typeof description === 'object' && description }
 
           { description && typeof description === 'string' &&
-            <p className='gray w-80 center'>{description}</p>
+            <p className='charcoal w-90 tl center'>{description}</p>
           }
 
           <input
@@ -123,7 +123,7 @@ class TextInputModal extends React.Component {
             onKeyPress={this.onKeyPress}
             value={this.state.value}
             required
-            className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-75 center focus-outline ${this.inputClass}`}
+            className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-90 center focus-outline ${this.inputClass}`}
             type='text' />
         </ModalBody>
 
@@ -135,7 +135,7 @@ class TextInputModal extends React.Component {
         { loading && (
           <div className="flex items-center justify-center absolute top-0 left-0 right-0 bottom-0">
             <div className="absolute top-0 left-0 right-0 bottom-0 bg-light-gray o-80"/>
-            <ComponentLoader pastDelay style={{ width: '50%', margin: 'auto' }} />
+            <ComponentLoader style={{ width: '50%', margin: 'auto' }} />
           </div>
         ) }
       </Modal>

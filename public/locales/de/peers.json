@@ -2,11 +2,13 @@
   "title": "Peers",
   "localNetwork": "Lokales Netzwerk",
   "nearby": "in der Nähe",
-  "bootstrapNode": "Bootstrap Node",
-  "viaRelay": "über <0>{node}</0>",
+  "protocols": "Open streams",
   "addConnection": "Verbindung hinzufügen",
   "insertPeerAddress": "Tragen Sie die Peer-Adresse ein, zu der Sie eine Verbindung aufbauen möchten.",
   "plusPeers": "+ {number} weitere Peers",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
+  "copyFeedback": "Kopiert!",
   "tour": {
     "step1": {
       "title": "Peers Seite",

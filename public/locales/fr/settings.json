@@ -1,5 +1,16 @@
 {
   "title": "Paramètres",
+  "save": "Sauvegarder",
+  "saving": "Enregistrement...",
+  "reset": "Réinitialiser",
+  "learnMoreLink": "En savoir plus.",
+  "pinningServices": {
+    "title": "Services d'épinglage",
+    "description": "Utilisez l'épinglage local quand vous voulez être sûr(e) qu'un élément sur votre nœud n'est jamais supprimé par le ramasse-miettes, même si vous le supprimez de Fichiers. Vous pouvez aussi lier vos comptes à d'autres services d'épinglage pour garder automatiquement ou selectivement une copie chez ces fournisseurs de services, vous permettant d'avoir des copies de vos fichiers et/ou de les rendre disponibles quand votre nœud est hors ligne.",
+    "noPinRemoteDescription": "Le support pour l'épinglage par des services d'épinglage tiers distants est manquant. Mettez votre nœud IPFS à jour vers go-ipfs 0.8.0 ou plus, et vous serez capable de les ajouter et les configurer ici.",
+    "addAutoUpload": "Activer le téléversement automatique",
+    "removeAutoUpload": "Désactiver le Téléversement Automatique"
+  },
   "language": "Langue",
   "analytics": "Analyses",
   "cliTutorMode": "Mode tutoriel pour l'invite de commande (CLI)",
@@ -12,6 +23,57 @@
   },
   "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API personnalisée</1>, y compris un port autre que le 5001 par défaut, entrez-la ici.</0>",
   "cliDescription": "<0>Activez cette option pour faire apparaître une icône \"Voir code\" <1></1> près des principales commandes IPFS. En cliquant dessus, vous ouvrez un pop-up avec le code pour cette commande, pour pouvoir le coller dans votre invite de lignes de commandes (CLI).</0>",
+  "cliModal": {
+    "extraNotesJsonConfig": "Si vous avez effectué des modifications à la configuration dans cette page d'édition du code que vous voulez conserver, cliquez sur l'icône de téléchargement à côté du bouton de copie pour le télécharger en tant que fichier JSON."
+  },
+  "pinningModal": {
+    "title": "Choisissez un fournisseur de service d'épinglage.",
+    "description": "Vous ne voyez pas le service d'épinglage que vous utilisez? <1>Ajoutez-en un personnalisé.<1>"
+  },
+  "pinningServiceModal": {
+    "title": "Configurer un service d'épinglage.",
+    "description": "Vous voulez que votre service d'épinglage soit accessible aux autres? <1>Découvrez comment.<1>",
+    "service": "Service",
+    "nickname": "Surnom",
+    "nicknamePlaceholder": "Nom de votre service",
+    "apiEndpoint": "Point d'entrée de l'API",
+    "apiEndpointPlaceholder": "URL de son point d'entrée d'API",
+    "secretApiKey": "Clé secrète d'API",
+    "autoUpload": "Téléverser automatiquement"
+  },
+  "autoUploadModal": {
+    "title": "Changer la politique de téléversement pour {name}",
+    "description": "Quand il est activé, l'autoversement va périodiquement épingler la racine de votre dossier Fichiers, pour qu'e tout soit épinglé à distance et disponible pour les autres pairs quand votre nœud IPFS local est hors ligne. Si vous le désactivez, vous pouvez toujours épingler chaque fichier manuellement en utilisant l'option \"Régler l'épinglage\" dans l'onglet Fichiers."
+  },
+  "errors": {
+    "nickname": "Un surnom est requis.",
+    "apiError": "Erreur d'API",
+    "apiEndpoint": "Doit être une URL valide",
+    "secretApiKey": "Une clé secrète est requise",
+    "failedToFetch": "Impossible d'obtenir l'information",
+    "failedToFetchTitle": "Impossible d'obtenir le décompte des éléments épinglés pour ce service distant. Vérifiez qu'il est en ligne et que vous avez entré correctement les identifiants. Si c'est un service que vous venez d'ajoutez, essayez de le supprimer et de l'ajouter à nouveau. "
+  },
+  "actions": {
+    "addService": "Ajouter un service",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "enable": "Activer",
+    "disable": "Désactiver"
+  },
+  "edit": "Modifier",
+  "visitService": "Visiter le service",
+  "remove": "Supprimer",
+  "localPinning": "Épinglage local",
+  "service": "Service",
+  "size": "Taille",
+  "pins": "Éléments épinglés",
+  "autoUpload": "Téléversement automatique",
+  "autoUploadPolicy": {
+    "true": "Tous les fichiers",
+    "false": "Éteint"
+  },
   "fetchingSettings": "Récupération des paramètres...",
   "configApiNotAvailable": "L'API de configuration IPFS n'est pas disponible. Merci de désactiver l'extension IPFS Companion et de réessayer.",
   "ipfsDaemonOffline": "Le daemon IPFS est hors-ligne. Merci de le relancer.",
@@ -66,19 +128,27 @@
       "paragraph2": "Si vous utilisez IPFS Desktop vous pourrez également régler quelques paramètres qui lui sont spécifiques."
     },
     "step2": {
-      "title": "Sélection de la langue",
-      "paragraph1": "<0>Vous pouvez changer la lange de l'interface web. Si votre langue préférée n'est pas disponible, jetez un œil sur notre <1>page sur Transifex</1> pour nous aider à traduire !</0>"
-    },
-    "step3": {
-      "title": "Statistiques anonymes d'utilisation",
-      "paragraph1": "En cochant ceci, vous pouvez nous aider à améliorer l'interface web en envoyant anonymement des statistiques d'utilisation.",
-      "paragraph2": "Vous pourrez choisier les données que vous enverrez et elles ne permettront pas de vous identifier, nous attachons une grande importance a votre vie privée."
-    },
-    "step4": {
       "title": "Adresse d'API personnalisée",
       "paragraph1": "Si vous avez configuré votre nœud IPFS avec une adresse d'API personnalisée, vous pouvez mettre à jour votre fichier de configuration ici au lieu de modifier le fichier JSON à la main."
     },
+    "step3": {
+      "title": "Services d'épinglage",
+      "paragraph1": "<0>Si vous avez des comptes sur des services d'épinglage à distance tiers, ajoutez-les ici pour épingler/désépingler des éléments sur ces services directement depuis la page Fichiers. Vous pouvez en apprendre plus sur les services d'épinglage tiers dans la <1>Documentation IPFS</1>.</0>"
+    },
+    "step4": {
+      "title": "Sélection de la langue",
+      "paragraph1": "<0>Vous pouvez changer la langue de l'interface web. Si votre langue préférée n'est pas disponible, jetez un œil sur notre <1>page sur Transifex</1> pour nous aider à traduire !</0>"
+    },
     "step5": {
+      "title": "Statistiques anonymes d'utilisation",
+      "paragraph1": "En cochant ceci, vous pouvez nous aider à améliorer l'interface web en envoyant anonymement des statistiques d'utilisation.",
+      "paragraph2": "Vous pourrez choisir les données que vous enverrez et elles ne permettront pas de vous identifier, nous attachons une grande importance à votre vie privée."
+    },
+    "step6": {
+      "title": "Mode tuteur pour CLI",
+      "paragraph1": "Activer le Mode tuteur pour CLI pour voir les raccourcis vers la version \"ligne de commande\" des commandes courantes d'IPFS. Pratique si vous voulez apprendre à utiliser IPFS depuis un terminal, ou si vous voulez juste avoir un pense-bête."
+    },
+    "step7": {
       "title": "Configuration IPFS",
       "paragraph1": "Vous pouvez changer la configuration de votre nœud IPFS depuis l'interface web !",
       "paragraph2": "N'oubliez pas de redémarrer le daemon pour que les changements soient pris en compte."

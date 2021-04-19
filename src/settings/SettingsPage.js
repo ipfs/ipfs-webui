@@ -12,6 +12,7 @@ import Tick from '../icons/GlyphSmallTick'
 import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
+import PinningManager from '../components/pinning-manager/PinningManager'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import JsonEditor from './editor/JsonEditor'
@@ -19,14 +20,15 @@ import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
 import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
 import Checkbox from '../components/checkbox/Checkbox'
+import ComponentLoader from '../loader/ComponentLoader.js'
 import StrokeCode from '../icons/StrokeCode'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
 export const SettingsPage = ({
-  t, tReady, isIpfsConnected,
-  isConfigBlocked, isLoading, isSaving,
+  t, tReady, isIpfsConnected, ipfsPendingFirstConnection,
+  isConfigBlocked, isLoading, isSaving, arePinningServicesSupported,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
   toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, command
@@ -36,7 +38,17 @@ export const SettingsPage = ({
       <title>{t('title')} | IPFS</title>
     </Helmet>
 
-    <Box className='mb3 pa4 joyride-settings-customapi'>
+    {/* Enable a full screen loader after updating to a new IPFS API address.
+      * Will not show on consequent retries after a failure.
+      */}
+    { ipfsPendingFirstConnection
+      ? <div className="absolute flex items-center justify-center w-100 h-100"
+        style={{ background: 'rgba(255, 255, 255, 0.5)', zIndex: '10' }}>
+        <ComponentLoader />
+      </div>
+      : null }
+
+    <Box className='mb3 pa4-l pa2 joyride-settings-customapi'>
       <div className='lh-copy charcoal'>
         <Title>{t('app:terms.apiAddress')}</Title>
         <Trans i18nKey='apiDescription' t={t}>
@@ -46,7 +58,18 @@ export const SettingsPage = ({
       </div>
     </Box>
 
-    <Box className='mb3 pa4'>
+    <Box className='mb3 pa4-l pa2 joyride-settings-pinning'>
+      <Title>{t('pinningServices.title')}</Title>
+      <p className='ma0 mr2 lh-copy charcoal f6'>
+        { arePinningServicesSupported
+          ? t('pinningServices.description')
+          : t('pinningServices.noPinRemoteDescription')
+        }&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/how-to/work-with-pinning-services/'>{t('learnMoreLink')}</a>
+      </p>
+      <PinningManager t={t} />
+    </Box>
+
+    <Box className='mb3 pa4-l pa2'>
       <div className='mb4 joyride-settings-language'>
         <Title>{t('language')}</Title>
         <LanguageSelector t={t} />
@@ -60,7 +83,7 @@ export const SettingsPage = ({
 
     <Experiments t={t} />
 
-    <Box className='mb3 pa4'>
+    <Box className='mb3 pa4-l pa2 joyride-settings-tutormode'>
       <div className='charcoal'>
         <Title>{t('cliTutorMode')}</Title>
         <Checkbox className='dib' onChange={doToggleCliTutorMode} checked={isCliTutorModeEnabled}
@@ -72,47 +95,49 @@ export const SettingsPage = ({
     </Box>
 
     { isIpfsConnected &&
-    (<Box className='mb3 pa4 joyride-settings-config'>
-      <Title>{t('config')}</Title>
-      <div className='flex pb3'>
-        <div className='flex-auto'>
-          <div className='mw7'>
-            <SettingsInfo
-              t={t}
-              tReady={tReady}
-              config={config}
-              isIpfsConnected={isIpfsConnected}
-              isConfigBlocked={isConfigBlocked}
-              isLoading={isLoading}
-              hasExternalChanges={hasExternalChanges}
-              hasSaveFailed={hasSaveFailed}
-              hasSaveSucceded={hasSaveSucceded} />
+    (<Box className='mb3 pa4-l pa2'>
+      <div className='joyride-settings-config'>
+        <Title>{t('config')}</Title>
+        <div className='flex pb3'>
+          <div className='flex-auto'>
+            <div className='mw7'>
+              <SettingsInfo
+                t={t}
+                tReady={tReady}
+                config={config}
+                isIpfsConnected={isIpfsConnected}
+                isConfigBlocked={isConfigBlocked}
+                isLoading={isLoading}
+                hasExternalChanges={hasExternalChanges}
+                hasSaveFailed={hasSaveFailed}
+                hasSaveSucceded={hasSaveSucceded} />
+            </div>
           </div>
+          { config ? (
+            <div className='flex flex-column justify-center flex-row-l items-center-l'>
+              <CliTutorMode showIcon={true} config={config} t={t} command={command}/>
+              <Button
+                minWidth={100}
+                height={40}
+                bg='bg-charcoal'
+                className='tc'
+                disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
+                onClick={onReset}>
+                {t('app:actions.reset')}
+              </Button>
+              <SaveButton
+                t={t}
+                tReady={tReady}
+                hasErrors={hasErrors}
+                hasSaveFailed={hasSaveFailed}
+                hasSaveSucceded={hasSaveSucceded}
+                hasLocalChanges={hasLocalChanges}
+                hasExternalChanges={hasExternalChanges}
+                isSaving={isSaving}
+                onClick={onSave} />
+            </div>
+          ) : null }
         </div>
-        { config ? (
-          <div className='flex flex-column justify-center flex-row-l items-center-l'>
-            <CliTutorMode showIcon={true} config={config} t={t} command={command}/>
-            <Button
-              minWidth={100}
-              height={40}
-              bg='bg-charcoal'
-              className='tc'
-              disabled={isSaving || (!hasLocalChanges && !hasExternalChanges)}
-              onClick={onReset}>
-              {t('app:actions.reset')}
-            </Button>
-            <SaveButton
-              t={t}
-              tReady={tReady}
-              hasErrors={hasErrors}
-              hasSaveFailed={hasSaveFailed}
-              hasSaveSucceded={hasSaveSucceded}
-              hasLocalChanges={hasLocalChanges}
-              hasExternalChanges={hasExternalChanges}
-              isSaving={isSaving}
-              onClick={onSave} />
-          </div>
-        ) : null }
       </div>
       { config ? (
         <JsonEditor
@@ -276,9 +301,9 @@ export class SettingsPageContainer extends React.Component {
 
   render () {
     const {
-      t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving,
+      t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving, arePinningServicesSupported,
       configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled,
-      handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode
+      handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, ipfsPendingFirstConnection
     } = this.props
     const { hasErrors, hasLocalChanges, hasExternalChanges, editableConfig, editorKey } = this.state
     const hasSaveSucceded = this.isRecent(configSaveLastSuccess)
@@ -290,9 +315,11 @@ export class SettingsPageContainer extends React.Component {
         t={t}
         tReady={tReady}
         isIpfsConnected={ipfsConnected}
+        ipfsPendingFirstConnection={ipfsPendingFirstConnection}
         isConfigBlocked={isConfigBlocked}
         isLoading={isLoading}
         isSaving={configIsSaving}
+        arePinningServicesSupported={arePinningServicesSupported}
         hasSaveFailed={hasSaveFailed}
         hasSaveSucceded={hasSaveSucceded}
         hasErrors={hasErrors}
@@ -321,6 +348,7 @@ export const TranslatedSettingsPage = withTranslation('settings')(SettingsPageCo
 export default connect(
   'selectConfig',
   'selectIpfsConnected',
+  'selectIpfsPendingFirstConnection',
   'selectIsConfigBlocked',
   'selectConfigLastError',
   'selectConfigIsLoading',
@@ -330,6 +358,7 @@ export default connect(
   'selectIsIpfsDesktop',
   'selectToursEnabled',
   'selectAnalyticsEnabled',
+  'selectArePinningServicesSupported',
   'doToggleAnalytics',
   'doSaveConfig',
   'selectIsCliTutorModeEnabled',

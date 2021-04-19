@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import i18n, { localesList } from '../../../i18n'
-import { getLanguage } from '../../../lib/i18n'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
@@ -16,15 +15,15 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
-      <ModalBody icon={SpeakerIcon}>
+      <ModalBody Icon={SpeakerIcon}>
         <p className='charcoal w-80 center'>{t('languageModal.description')}</p>
         <div className='pa2 flex flex-wrap'>
           { localesList.map((lang) =>
             <button
-              key={`lang-${lang}`}
+              key={`lang-${lang.locale}`}
               className='pa2 w-33 flex nowrap bg-transparent bn outline-0 blue justify-center'
-              onClick={() => handleClick(lang)}>
-              { getLanguage(lang) }
+              onClick={() => handleClick(lang.locale)}>
+              { lang.nativeName }
             </button>
           )}
         </div>
@@ -34,7 +33,7 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
         </p>
       </ModalBody>
 
-      <ModalActions>
+      <ModalActions justify="center">
         <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('app:actions.close')}</Button>
       </ModalActions>
     </Modal>

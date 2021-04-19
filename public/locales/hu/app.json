@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Hozzáadás",
+    "apply": "Apply",
     "browse": "Tallózás",
     "cancel": "Mégsem",
     "change": "Változtatás",
@@ -8,7 +9,7 @@
     "close": "Bezárás",
     "copy": "Másolás",
     "create": "Létrehozás",
-    "delete": "Törlés",
+    "remove": "Remove",
     "download": "Letölt",
     "edit": "Szerkesztés",
     "import": "Importálás",
@@ -23,13 +24,13 @@
     "save": "Mentés",
     "saving": "Mentés",
     "selectAll": "Mindent kijelöl",
+    "setPinning": "Set pinning",
     "submit": "Beküldés",
     "unpin": "Levesz",
     "unselectAll": "Minden kijelölést töröl"
   },
   "cliModal": {
-    "description": "Másold be a következőt a terminálodba, hogy lefusson ez a parancs az IPSF-ben. Figyelj, hogy cseréld ki a paramétereket!",
-    "extraNotes": "Ha szeretnél változtatni ebben a beállításban a kódszerkesztőben, akkor kattints a letöltés ikonra a másolás gomb mellett, így JSON-ban le tudod tölteni."
+    "description": "Másold be a következőt a terminálodba, hogy lefusson ez a parancs az IPSF-ben. Figyelj, hogy cseréld ki a paramétereket!"
   },
   "nav": {
     "bugsLink": "Hiba beküldése",
@@ -59,6 +60,7 @@
     "gateway": "Átjáró",
     "in": "Be",
     "latency": "Válaszidő",
+    "loading": "Loading",
     "location": "Helyszín",
     "name": "Név",
     "node": "Csomópont",
@@ -68,6 +70,7 @@
     "peers": "Ügyfelek",
     "pinNoun": "Kitűzés",
     "pins": "Kitűzések",
+    "pinStatus": "Pin Status",
     "publicKey": "Nyilvános kulcs",
     "rateIn": "Bejövő sebesség",
     "rateOut": "Kimenő sebesség",
