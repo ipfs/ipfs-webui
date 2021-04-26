@@ -203,6 +203,7 @@ const actions = {
    * @returns {function(Context):void}
    */
   doDisableAnalytics: () => ({ dispatch, store }) => {
+    root.Countly.opt_out()
     removeConsent(consentGroups.all, store)
     dispatch({ type: 'ANALYTICS_DISABLED', payload: { consent: [] } })
   },
@@ -211,6 +212,7 @@ const actions = {
    */
   doEnableAnalytics: () => ({ dispatch, store }) => {
     removeConsent(consentGroups.all, store)
+    root.Countly.opt_in()
     addConsent(consentGroups.safe, store)
     dispatch({ type: 'ANALYTICS_ENABLED', payload: { consent: consentGroups.safe } })
   },
@@ -231,6 +233,15 @@ const actions = {
    * @returns {function(Context):void}
    */
   doRemoveConsent: (name) => ({ dispatch, store }) => {
+    const existingConsents = store.selectAnalyticsConsent()
+    const remainingConsents = existingConsents.filter(item => item !== name)
+    // Ensure the users is fully opted out of analytics if they remove all consents.
+    // This means the consent removal event is not sent to countly, which is good.
+    // If a user tells us to send nothing, we send nothing.
+    // see: https://github.com/ipfs/ipfs-webui/issues/1041
+    if (remainingConsents.length === 0) {
+      root.Countly.opt_out()
+    }
     removeConsent(name, store)
     dispatch({ type: 'ANALYTICS_REMOVE_CONSENT', payload: { name } })
   },
@@ -239,6 +250,11 @@ const actions = {
    * @returns {function(Context):void}
    */
   doAddConsent: (name) => ({ dispatch, store }) => {
+    const existingConsents = store.selectAnalyticsConsent()
+    if (existingConsents.length === 0) {
+      // Going from 0 to 1 consents opts you in to analytics
+      root.Countly.opt_in()
+    }
     addConsent(name, store)
     dispatch({ type: 'ANALYTICS_ADD_CONSENT', payload: { name } })
   }
