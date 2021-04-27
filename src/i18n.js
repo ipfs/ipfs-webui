@@ -4,6 +4,7 @@ import Backend from 'i18next-chained-backend'
 import LocalStorageBackend from 'i18next-localstorage-backend'
 import HttpBackend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import { version } from '../package.json'
 
 import locales from './lib/languages.json'
 export const localesList = Object.values(locales)
@@ -20,7 +21,7 @@ i18n
       ],
       backendOptions: [
         { // LocalStorageBackend
-          defaultVersion: 'v1',
+          defaultVersion: version,
           expirationTime: (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? 1 : 7 * 24 * 60 * 60 * 1000
         },
         { // HttpBackend
