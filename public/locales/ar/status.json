@@ -9,8 +9,8 @@
   "pieChartLabel": "{count, plural, zero {{percent}% ({count} الأقران)} one {{percent}% ({count} Peer)} two {{percent}% ({count} Peers)} few {{percent}% ({count} Peers)} many {{percent}% ({count} Peers)} other {{percent}% ({count} Peers)}}",
   "countMore": "و...  {count} اكثر",
   "StatusConnected": {
-    "paragraph1": "استضافة <0>{repoSize}  الملفات </0>",
-    "paragraph2": "{count, plural, zero {Discovered <0>{peersCount} peers</0>} one {Discovered <0>1 peer</0>} two {Discovered <0>1 peer</0>} few {Discovered <0>1 peer</0>} many {المكتشفة <0>1 الأقران</0>} other {المكتشفة <0>{peersCount} الأقران</0>}}"
+    "repoSize": "استضافة {repoSize} البيانات",
+    "peersCount": "{peersCount, plural, zero {اكتشف 1 نظير} one {الأقران} two {الأقران} few {الأقران} many {الأقران} other {المكتشفة {peersCount} الأقران}}"
   },
   "customApiConfig": "تكوين JSON المخصص",
   "AskToEnable": {

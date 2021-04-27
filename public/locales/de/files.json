@@ -4,7 +4,7 @@
   "breadcrumbs": "Breadcrumbs",
   "finished": "Fertig!",
   "totalSize": "Gesamtgröße: {size}",
-  "filesSelected": "{count, plural, one {Datei ausgewählt} other {Dateien ausgewählt}}",
+  "filesSelected": "{count, plural, one {Item selected} other {Items selected}}",
   "menuOptions": "Optionen für das ausgewählte Element",
   "selectedAllEntries": "Alle Tabelleneinträge auswählen",
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
@@ -19,6 +19,9 @@
     "copyHash": "CID kopieren",
     "share": "Link teilen"
   },
+  "cliModal": {
+    "extraNotesPinning": "This command is only for local pinning/unpinning. If you want to use a remote pinning service, consult that service's documentation to learn how to pin/unpin from the command line."
+  },
   "shareModal": {
     "title": "Dateien teilen",
     "description": "Kopiere den untenstehenden Link und teile ihn mit deinen Freunden."
@@ -30,12 +33,20 @@
     "descriptionFolder": "Wähle einen neuen Namen für diesen Ordner."
   },
   "removeModal": {
-    "titleItem": "{count, plural, one {Element löschen} other {{count} Elemente löschen}}",
-    "titleFolder": "{count, plural, one {Ordner löschen} other {{count} Ordner löschen}}",
-    "titleFile": "{count, plural, one {Datei löschen} other {{count} Dateien löschen}}",
-    "descriptionItem": "{count, plural, one {Bist Du sicher, dass Du dieses Element löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du diese {count} Elemente löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}",
-    "descriptionFolder": "{count, plural, one {Bist Du sicher, dass Du diesen Ordner löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du diese {count} Ordner löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}",
-    "descriptionFile": "{count, plural, one {Bist Du sicher, dass Du diese Datei löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.} other {Bist Du sicher, dass Du diese {count} Dateien löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.}}"
+    "titleItem": "{count, plural, one {Remove item? {name}} other {Remove {count} items?}}",
+    "titleFolder": "{count, plural, one {Remove folder? {name}} other {Remove {count} folders?}}",
+    "titleFile": "{count, plural, one {Remove file? {name}} other {Remove {count} files?}}",
+    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
+    "checkboxUnpinFromServices": "Unpin from all pinning services"
+  },
+  "pinningModal": {
+    "title": "Select where you would like to pin these items.",
+    "footer": "Need to add or configure a pinning service? Go to <1>Settings</1>.",
+    "localNode": "Local node",
+    "totalSize": "Gesamtgröße: {size}"
   },
   "addByPathModal": {
     "title": "Aus IPFS importieren",
@@ -81,7 +92,7 @@
     "step5": {
       "title": "Datei Liste",
       "paragraph1": "Schließlich, die Liste mit allen Dateien und Ordnern. Füge Dateien und Ordner mit Drag and Drop hinzu.",
-      "paragraph2": "Du kannst Dateien teilen oder herunterladen, sie in dem IPLD Explorer untersuchen, sie umbenennen oder löschen!",
+      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!",
       "paragraph3": "Profi-Tipp: Ziehe eine Datei von jeder anderen Seite der Web-UI hierher, um sie zum Wurzel-Verzeichnis deines MFS hinzuzufügen."
     }
   },
@@ -91,6 +102,13 @@
   "hashUnavailable": "Hash nicht verfügbar",
   "checkboxLabel": "Weitere Optionen für {name} anzeigen",
   "pinned": "Gepinned",
+  "pinnedRemotely": "Pinned remotely",
+  "blocks": "Blöcke",
+  "allBlocks": "All blocks",
+  "allBlocksDescription": "Total size of blocks on your entire IPFS node; this includes everything in Files, plus all locally pinned items and any temporary cached data",
+  "filesDescription": "Total size of data in the current directory (if a subdirectory, the size of all data in Files is also displayed)",
+  "more": "Mehr",
+  "files": "Dateien",
   "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <0>untersuchen</0>.",
   "sortBy": "Sortieren nach {name}"
 }

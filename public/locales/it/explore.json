@@ -3,10 +3,10 @@
   "tabName": "Esplora",
   "homeLink": "Home",
   "UpdateAvailable": {
-    "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
+    "paragraph1": "Una nuova versione di IPLD Explorer è disponibile; <1>Per favore, ricarica</1>."
   },
   "StartExploringPage": {
-    "title": "Esplora | IPLD",
+    "title": "Esplora - IPLD",
     "header": "Esplora la Merkle Forest",
     "leadParagraph": "Incolla un CID nella casella di testo per recuperare il nodo IPDL, oppure scegli un dataset in primo piano."
   },
@@ -40,7 +40,7 @@
     "explorer": {
       "step1": {
         "title": "Esplora risorse IPLD",
-        "paragraph1": "Your journey with IPLD Explorer starts here. Click \"Next\" to learn more."
+        "paragraph1": "Il tuo percorso con IPLD Explorer inizia qui. Clicca \"Avanti\" per saperne di più."
       },
       "step2": {
         "title": "Breadcrumb",

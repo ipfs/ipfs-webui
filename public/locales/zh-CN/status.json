@@ -9,8 +9,8 @@
   "pieChartLabel": "{count, plural, other {{percent}% ({count} 节点)}}",
   "countMore": "...{count} 更多",
   "StatusConnected": {
-    "paragraph1": "已托管 <0>{repoSize} 文件</0>",
-    "paragraph2": "{count, plural, other {已发现 <0>{peersCount} 节点</0>}}"
+    "repoSize": "已托管 {repoSize} 文件",
+    "peersCount": "{peersCount, plural, other {已发现 {peersCount} 节点}}"
   },
   "customApiConfig": "自定义JSON配置",
   "AskToEnable": {

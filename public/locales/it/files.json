@@ -4,7 +4,7 @@
   "breadcrumbs": "Breadcrumb",
   "finished": "Finito!",
   "totalSize": "Totale: {size}",
-  "filesSelected": "{count, plural, one {File selezionato} other {File selezionati}}",
+  "filesSelected": "{count, plural, one {Item selected} other {Items selected}}",
   "menuOptions": "Opzioni per oggetti selezionati",
   "selectedAllEntries": "Seleziona tutte le voci della tabella",
   "individualFilesOnly": "Disponibile solamente per file individuali",
@@ -19,6 +19,9 @@
     "copyHash": "Copia CID",
     "share": "Condividi collegamento"
   },
+  "cliModal": {
+    "extraNotesPinning": "Questo comando è solo per il pinning/unpinning locale. Se vuoi usare un servizio di pinning remoto, consulta la documentazione di quel servizio per imparare come fare il pin/unpin dalla linea di comando."
+  },
   "shareModal": {
     "title": "Condividi file",
     "description": "Copia il collegamento sottostante e condividilo con i tuoi amici"
@@ -30,12 +33,20 @@
     "descriptionFolder": "Scegli un nuovo nome per questa cartella."
   },
   "removeModal": {
-    "titleItem": "{count, plural, one {Elimina oggetto} other {Elimina {count} oggetti}}",
-    "titleFolder": "{count, plural, one {Elimina cartella} other {Elimina {count} cartelle}}",
-    "titleFile": "{count, plural, one {Elimina file} other {Elimina {count} file}}",
-    "descriptionItem": "{count, plural, one {Sei sicuro di voler eliminare questo oggetto? Questa azione è permanente ed irreversibile.} other {Sei sicuro di voler eliminare {count} oggetti? Questa azione è permanente ed irreversibile.}}",
-    "descriptionFolder": "{count, plural, one {Sei sicuro di voler eliminare questa cartella? Questa azione è permanente ed irreversibile.} other {Sei sicuro di voler eliminare {count} cartelle? Questa azione è permanente ed irreversibile.}}",
-    "descriptionFile": "{count, plural, one {Sei sicuro di voler eliminare questo file? Questa azione è permanente ed irreversibile.} other {Sei sicuro di voler eliminare {count} file? Questa azione è permanente ed irreversibile.}}"
+    "titleItem": "{count, plural, one {Remove item? {name}} other {Remove {count} items?}}",
+    "titleFolder": "{count, plural, one {Remove folder? {name}} other {Remove {count} folders?}}",
+    "titleFile": "{count, plural, one {Remove file? {name}} other {Remove {count} files?}}",
+    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
+    "checkboxUnpinFromServices": "Unpin from all pinning services"
+  },
+  "pinningModal": {
+    "title": "Seleziona dove vorresti mettere il pin a questi oggetti.",
+    "footer": "Hai bisogno di aggiungere o configurare un servizio di pinning? Vai alle <1>Impostazioni</1>.",
+    "localNode": "Nodo locale.",
+    "totalSize": "Totale: {size}"
   },
   "addByPathModal": {
     "title": "Importa da IPFS",
@@ -67,10 +78,10 @@
     },
     "step2": {
       "title": "Breadcrumb",
-      "paragraph1": "These breadcrumbs display the path to your current directory. You can…",
-      "bullet1": "Click an individual breadcrumb to go to that directory",
-      "bullet2": "Right-click a breadcrumb to get the actions menu for that directory",
-      "bullet3": "Drag files onto a breadcrumb to move or import them"
+      "paragraph1": "Questi tracciati mostrano il percorso verso la tua cartella attuale. Potresti...",
+      "bullet1": "Clicca su un tracciato per andare in quella cartella",
+      "bullet2": "Clicca col tasto destro su un tracciato per visualizzare il menu delle azioni di quella cartella",
+      "bullet3": "Trascina i file su un tracciato per spostarli od importarli"
     },
     "step3": {
       "title": "Aggiungi file",
@@ -81,16 +92,23 @@
     "step5": {
       "title": "Lista di file",
       "paragraph1": "Infine, la lista dove puoi trovare i tuoi file e cartelle. Trascina e rilascia file o cartelle per aggiungerli/e.",
-      "paragraph2": "Puoi condividere o scaricare file, ispezionarli nell'IPLD Explorer, rinominarli od eliminarli!",
+      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!",
       "paragraph3": "Suggerimento: trascina e rilascia un file da qualsiasi pagina del Web UI per aggiungerli al root del tuo MFS."
     }
   },
-  "loadMore": "Load more",
+  "loadMore": "Carica di più",
   "previousFolder": "Torna alla cartella precedente",
   "fileLabel": "Seleziona {type} {name} con dimensione: {size}",
   "hashUnavailable": "Hash non disponibile",
   "checkboxLabel": "Mostra più opzioni per {name}",
   "pinned": "Affissato",
+  "pinnedRemotely": "Pinned remotely",
+  "blocks": "Blocchi",
+  "allBlocks": "Tutti i blocchi",
+  "allBlocksDescription": "Dimensione totale dei blocchi sul tuo intero nodo IPFS; questo include tutto ciò che si trova in Files, più tutti gli elementi localmente pinnati e qualsiasi dato temporaneo nella cache",
+  "filesDescription": "Dimensione totale dei dati nella directory corrente (se è una subdirectory, viene visualizzata anche la dimensione di tutti i dati nei Files)",
+  "more": "Altro",
+  "files": "File",
   "cidNotFileNorDir": "Il collegamento corrente non è né un file né un percorso. Prova invece ad <0>ispezionarlo</0>.",
   "sortBy": "Ordina oggetti per {name}"
 }

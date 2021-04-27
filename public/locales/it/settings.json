@@ -1,5 +1,16 @@
 {
   "title": "Impostazioni",
+  "save": "Salva",
+  "saving": "Salvataggio in corso...",
+  "reset": "Ripristina",
+  "learnMoreLink": "Per saperne di più.",
+  "pinningServices": {
+    "title": "Servizi di pinning",
+    "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
+    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to go-ipfs 0.8.0 or later, and you'll be able to add and configure them here.",
+    "addAutoUpload": "Enable auto upload",
+    "removeAutoUpload": "Disable Auto Upload"
+  },
   "language": "Lingua",
   "analytics": "Analitica",
   "cliTutorMode": "Modalità mentore CLI",
@@ -12,6 +23,57 @@
   },
   "apiDescription": "<0>Se il tuo nodo è configurato con un <1>indirizzo API personalizzato</1> che include una porta diversa alla predefinita 5001, inseriscila qui.</0>",
   "cliDescription": "<0>Abilita quest'opzione per mostrare un'icona \"view code\" <1></1> accanto ai comuni comandi IPFS. Cliccandoci, si aprirà una finestra modale col codice di quel comando CLI dimodoché tu possa incollarlo nell'interfaccia a riga di comando nel tuo terminale.",
+  "cliModal": {
+    "extraNotesJsonConfig": "Se, in questa pagina dell'editor di codice, hai fatto cambiamenti al config che vorresti salvare, clicca sull'icona scarica accanto al bottone \"copia\" per scaricarlo come file JSON."
+  },
+  "pinningModal": {
+    "title": "Seleziona un servizio di pinning.",
+    "description": "Non vedi il tuo provider di pinning? <1>Aggiungine uno.<1>"
+  },
+  "pinningServiceModal": {
+    "title": "Configura un provider di pinning personalizzato.",
+    "description": "Vuoi rendere il tuo servizio di pinning personalizzato disponibile a tutti? <1>Impara come.<1>",
+    "service": "Servizio",
+    "nickname": "Soprannome",
+    "nicknamePlaceholder": "Nome per il tuo servizio",
+    "apiEndpoint": "Endpoint API",
+    "apiEndpointPlaceholder": "URL per la sua endpoint API",
+    "secretApiKey": "Chiave segreta dell'API",
+    "autoUpload": "Auto upload"
+  },
+  "autoUploadModal": {
+    "title": "Change upload policy for {name}",
+    "description": "When enabled, auto upload will periodically pin the root of your Files directory, ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" option on the Files screen."
+  },
+  "errors": {
+    "nickname": "Il soprannome è obbligatorio",
+    "apiError": "API error",
+    "apiEndpoint": "Deve essere un URL valido",
+    "secretApiKey": "La chiave segreta è obbligatoria",
+    "failedToFetch": "Failed to fetch",
+    "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
+  },
+  "actions": {
+    "addService": "Aggiungi servizio",
+    "edit": "Cambia",
+    "close": "Chiudi",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "enable": "Abilita",
+    "disable": "Disabilita"
+  },
+  "edit": "Modifica",
+  "visitService": "Visita servizio",
+  "remove": "Rimuovi",
+  "localPinning": "Pinning locale",
+  "service": "Servizio",
+  "size": "Dimensione",
+  "pins": "Fissi",
+  "autoUpload": "Auto Upload",
+  "autoUploadPolicy": {
+    "true": "Tutti i file",
+    "false": "Off"
+  },
   "fetchingSettings": "Recupero delle impostazioni...",
   "configApiNotAvailable": "L'IPFS config API non è disponibile. Per favore, disabilita l'estensione web \"IPFS Companion\" e riprova.",
   "ipfsDaemonOffline": "Il demone IPFS è offline. Per favore, avvialo e riprova.",
@@ -66,19 +128,27 @@
       "paragraph2": "Se hai IPFS Desktop avviato, avrai anche alcune impostazioni specifiche per quel programma."
     },
     "step2": {
+      "title": "Indirizzo API Personalizzato",
+      "paragraph1": "Se hai configurato il tuo nodo IPFS con un indirizzo API personalizzato, puoi aggiornare il tuo file di configurazione qui invece di modificare il JSON a mano."
+    },
+    "step3": {
+      "title": "Servizi di pinning",
+      "paragraph1": "<0>Se hai degli account con servizi di pinning remoto di terze parti, aggiungili qui in modo da poter pinnare/unpinnare elementi da quei servizi direttamente dalla schermata Files. Puoi saperne di più sui servizi di pinning di terze parti nei <1>documenti IPFS</1>.</0>"
+    },
+    "step4": {
       "title": "Selettore di lingue",
       "paragraph1": "<0>Puoi cambiare la lingua del Web UI. Se la tua lingua preferita non è disponibile, dirigiti alla pagina del nostro progetto in <1>Transifex</1> per aiutarci a tradurre!</0>"
     },
-    "step3": {
+    "step5": {
       "title": "Analisi d'utilizzo anonima",
       "paragraph1": "Se abiliti quest'opzione, puoi aiutarci a rendere Web UI migliore mandando le analisi d'utilizzo anonime.",
       "paragraph2": "Puoi scegliere quali dati mandarci e noi non potremo identificarti, ci sta a cuore la privacy sopra ogni altra cosa."
     },
-    "step4": {
-      "title": "Indirizzo API Personalizzato",
-      "paragraph1": "Se hai configurato il tuo nodo IPFS con un indirizzo API personalizzato, puoi aggiornare il tuo file di configurazione qui invece di modificare il JSON a mano."
+    "step6": {
+      "title": "Modalità tutor CLI",
+      "paragraph1": "Abilita la modalità CLI tutor per vedere le scorciatoie da terminale dei comandi IPFS più comuni - essa è utile se stai imparando ad usare IPFS dal terminale, o se hai solo bisogno di un ripasso."
     },
-    "step5": {
+    "step7": {
       "title": "Configurazione IPFS",
       "paragraph1": "Puoi modificare la configurazione del tuo nodo IPFS direttamente dal tuo Web UI!",
       "paragraph2": "Non dimenticarti di riavviare il demone per applicare le modifiche."

@@ -13,7 +13,7 @@
   "AboutIpld": {
     "paragraph1":"<0>IPLD ist <1>das Datenmodell des inhaltsadressierbaren Webs</1>. Es erlaubt uns, alle Hash-verknüpften Datenstrukturen als Teilmengen eines einheitlichen Informationsraumes zu behandeln und alle Datenmodelle zu vereinheitlichen, die Daten mit Hashes als Instanzen von IPLD verknüpfen.</0>",
     "paragraph2": "<0>Die Adressierung von Inhalten über Hashes ist zu einem weit verbreiteten Mittel geworden, um Daten in verteilten Systemen zu verbinden – von den Blockchains, die Deine bevorzugten Kryptowährungen ausführen, über die Commits, die Deinen Code unterstützen, bis hin zu Web-Inhalten insgesamt. Obwohl jedoch alle diese Werkzeuge auf einige gängige Stammfunktionen angewiesen sind, sind ihre spezifischen zugrunde liegenden Datenstrukturen nicht kompatibel.</0>",
-    "paragraph3": "<0>Auftritt IPLD: ein einziger Namensraum für alle Hash-bestimmten Protokolle. Über IPLD können Links protokollübergreifend durchlaufen werden, sodass die Daten unabhängig vom zugrunde liegenden Protokoll abgerufen werden können.</0>"
+    "paragraph3": "<0>Präsentiere IPLD: ein einziger Namensraum für alle Hash-inspirierten Protokolle. Über IPLD können Links protokollübergreifend durchlaufen werden, sodass die Daten unabhängig vom zugrunde liegenden Protokoll abgerufen werden können.</0>"
   },
   "ExplorePage": {
     "title": "Erkundung – IPLD"

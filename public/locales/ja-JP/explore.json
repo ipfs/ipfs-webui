@@ -1,9 +1,9 @@
 {
   "appName": "IPLDエクスプローラー",
   "tabName": "探索",
-  "homeLink": "Home",
+  "homeLink": "ホーム",
   "UpdateAvailable": {
-    "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
+    "paragraph1": "IPLD Explorerの新しいバージョンが利用可能です。<1>再読み込み</1>してください。"
   },
   "StartExploringPage": {
     "title": "IPLDを探す",
@@ -40,17 +40,17 @@
     "explorer": {
       "step1": {
         "title": "IPLDエクスプローラー",
-        "paragraph1": "Your journey with IPLD Explorer starts here. Click \"Next\" to learn more."
+        "paragraph1": "あなたとIPLD Explorerの旅はここから始まります。Nextをクリックしてください。"
       },
       "step2": {
-        "title": "パン粉",
+        "title": "パンくずリスト",
         "paragraph1": "このノードに至るパス。",
         "paragraph2": "それをクリックして、その親または子に移動します。"
       },
       "step3": {
         "title": "ノード情報",
         "paragraph1": "ここにノードに関する詳細情報があり、IPFSゲートウェイで開くことができます。",
-        "paragraph2": "If the node is a directory you can see its children and navigate to them."
+        "paragraph2": "もしノードがディレクトリであれば、ディレクトリが持っているコンテンツが確認できますし、そこに移動することも可能です。"
       },
       "step4": {
         "title": "CID情報",
