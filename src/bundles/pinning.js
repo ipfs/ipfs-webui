@@ -23,9 +23,14 @@ const mfsPolicyEnableFlag = memoize(async (serviceName, ipfs) => {
   try {
     return await ipfs.config.get(`Pinning.RemoteServices.${serviceName}.Policies.MFS.Enable`)
   } catch (e) {
-    console.error(`unexpected config.get error for "${serviceName}"`, e)
-    return false
+    if (e.message?.includes('key has no attribute')) {
+      try { // retry with notation from https://github.com/ipfs/go-ipfs/pull/8096
+        return await ipfs.config.get(`Pinning.RemoteServices["${serviceName}"].Policies.MFS.Enable`)
+      } catch (_) {}
+    }
+    console.error(`unexpected config.get error for "${serviceName}": ${e.message}`)
   }
+  return false
 }, { maxAge: 3000 })
 
 const uniqueCidBatches = (arrayOfCids, size) => {
