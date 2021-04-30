@@ -8,8 +8,8 @@
     "title": "Servizi di pinning",
     "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
     "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to go-ipfs 0.8.0 or later, and you'll be able to add and configure them here.",
-    "addAutoUpload": "Enable auto upload",
-    "removeAutoUpload": "Disable Auto Upload"
+    "addAutoUpload": "Abilita auto upload",
+    "removeAutoUpload": "Disabilita auto upload"
   },
   "language": "Lingua",
   "analytics": "Analitica",
@@ -42,12 +42,12 @@
     "autoUpload": "Auto upload"
   },
   "autoUploadModal": {
-    "title": "Change upload policy for {name}",
+    "title": "Cambia politica di upload per {name}",
     "description": "When enabled, auto upload will periodically pin the root of your Files directory, ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" option on the Files screen."
   },
   "errors": {
     "nickname": "Il soprannome è obbligatorio",
-    "apiError": "API error",
+    "apiError": "Errore API",
     "apiEndpoint": "Deve essere un URL valido",
     "secretApiKey": "La chiave segreta è obbligatoria",
     "failedToFetch": "Failed to fetch",
