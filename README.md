@@ -1,6 +1,6 @@
 # IPFS Web UI
 
-> A web interface to [IPFS](https://ipfs.io).
+> A web interface to [IPFS](https://ipfs.io), shipped with [go-ipfs](https://github.com/ipfs/go-ipfs), [js-ipfs](https://github.com/ipfs/js-ipfs), and [ipfs-desktop](https://github.com/ipfs/ipfs-desktop/).
 >
 > Check on your node stats, explore the IPLD powered merkle forest, see peers around the world and manage your files, without needing to touch the CLI.
 
@@ -8,10 +8,12 @@
 
 | Files | Explore | Peers | Settings |
 |-------|---------|-------|----------|
-| ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) |
+| ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) | 
+
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://www.transifex.com/ipfs/ipfs-webui/)
 
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![dependencies Status](https://david-dm.org/ipfs/ipfs-webui/status.svg)](https://david-dm.org/ipfs/ipfs-webui)
+The [latest release version](https://github.com/ipfs/ipfs-webui/releases/latest) is always at https://webui.ipfs.io, and the preview of `main` branch is at https://dev.webui.ipfs.io.
 
 The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work.
 
