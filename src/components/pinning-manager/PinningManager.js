@@ -163,6 +163,8 @@ const OptionsCell = ({ doRemovePinningService, name, visitServiceUrl, autoUpload
     setContextVisibility(false)
   }
 
+  const showAutoUpload = !name.includes('.') // temporary mitigation for https://github.com/ipfs/ipfs-webui/issues/1770
+
   return (
     <div>
       <button className="button-inside-focus" onClick={() => setContextVisibility(true)} ref={buttonRef} aria-label={t('showOptions')}>
@@ -170,9 +172,11 @@ const OptionsCell = ({ doRemovePinningService, name, visitServiceUrl, autoUpload
       </button>
       <ContextMenu className="pv2 ph1" style={{ zIndex: 1001 }} visible={isContextVisible}
         target={buttonRef} onDismiss={() => setContextVisibility(false)} arrowAlign="right">
-        <ContextMenuItem className='pv2 ph1' onClick={ () => onToggleModalOpen(name) }>
-          <StrokeCloud width="28" className='fill-aqua'/> <span className="ph1">{autoUpload ? t('pinningServices.removeAutoUpload') : t('pinningServices.addAutoUpload')}</span>
-        </ContextMenuItem>
+        { showAutoUpload && (
+          <ContextMenuItem className='pv2 ph1' onClick={ () => onToggleModalOpen(name) }>
+            <StrokeCloud width="28" className='fill-aqua'/> <span className="ph1">{autoUpload ? t('pinningServices.removeAutoUpload') : t('pinningServices.addAutoUpload')}</span>
+          </ContextMenuItem>)
+        }
         { visitServiceUrl && (
           <a className='link flex items-center' href={visitServiceUrl} target='_blank' rel='noopener noreferrer'>
             <ContextMenuItem className='pv2 ph1' onClick={ () => setContextVisibility(false) }>

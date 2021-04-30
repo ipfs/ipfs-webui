@@ -20,7 +20,17 @@ const parseService = async (service, remoteServiceTemplates, ipfs) => {
 }
 
 const mfsPolicyEnableFlag = memoize(async (serviceName, ipfs) => {
-  return await ipfs.config.get(`Pinning.RemoteServices.${serviceName}.Policies.MFS.Enable`)
+  try {
+    return await ipfs.config.get(`Pinning.RemoteServices.${serviceName}.Policies.MFS.Enable`)
+  } catch (e) {
+    if (e.message?.includes('key has no attribute')) {
+      try { // retry with notation from https://github.com/ipfs/go-ipfs/pull/8096
+        return await ipfs.config.get(`Pinning.RemoteServices["${serviceName}"].Policies.MFS.Enable`)
+      } catch (_) {}
+    }
+    console.error(`unexpected config.get error for "${serviceName}": ${e.message}`)
+  }
+  return false
 }, { maxAge: 3000 })
 
 const uniqueCidBatches = (arrayOfCids, size) => {
@@ -222,6 +232,9 @@ const pinningBundle = {
   },
   doAddPinningService: ({ apiEndpoint, nickname, secretApiKey }) => async ({ getIpfs }) => {
     const ipfs = getIpfs()
+
+    // temporary mitigation for https://github.com/ipfs/ipfs-webui/issues/1770
+    nickname = nickname.replaceAll('.', '_')
 
     await ipfs.pin.remote.service.add(nickname, {
       endpoint: apiEndpoint,
