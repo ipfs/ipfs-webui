@@ -150,7 +150,7 @@ const FilesPage = ({
         downloadProgress={downloadProgress}
         onShare={(files) => showModal(SHARE, files)}
         onRename={(files) => showModal(RENAME, files)}
-        onRemove={(files) => this.showModal(DELETE, files)}
+        onRemove={(files) => showModal(DELETE, files)}
         onSetPinning={(files) => showModal(PINNING, files)}
         onInspect={onInspect}
         onRemotePinClick={onRemotePinClick}
