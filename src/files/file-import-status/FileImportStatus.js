@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from 'react'
-import filesize from 'filesize'
+import { humanSize } from '../../lib/files'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
@@ -20,7 +20,7 @@ const Import = (job, t) =>
       <span className="fileImportStatusName truncate">{item.path}</span>
       <span className='gray mh2'> |
         { item.entries && (<span> { t('filesImportStatus.count', { count: item.entries.length }) } | </span>) }
-        <span className='ml2'>{ filesize(item.size) }</span>
+        <span className='ml2'>{ humanSize(item.size) }</span>
       </span>
       {viewImportStatus(job, item.progress)}
     </li>

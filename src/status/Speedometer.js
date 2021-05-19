@@ -30,7 +30,11 @@ function Speedometer ({ total = 100, title, filled = 0, noSpeed = false, color =
     }
   }
 
+  // network bandwidth units in base-10 bits (Mbps)
+  // to align with what ISP usually shows on invoice
   const data = filesize(filled, {
+    standard: 'jedec',
+    base: 10,
     output: 'array',
     round: 0,
     bits: !noSpeed
@@ -43,7 +47,7 @@ function Speedometer ({ total = 100, title, filled = 0, noSpeed = false, color =
       </div>
 
       <div className='absolute' style={{ top: '60%', left: '50%', transform: 'translate(-50%, -50%)' }} >
-        <span className='f3'>{data[0]}</span><span className='ml1 f7'>{data[1]}{ noSpeed ? '' : '/s' }</span>
+        <span className='f3'>{data[0]}</span><span className='ml1 f7'>{data[1]}{ noSpeed ? '' : 'ps' }</span>
         <span className='db f7 fw5'>{title}</span>
       </div>
     </div>

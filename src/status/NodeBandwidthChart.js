@@ -7,8 +7,16 @@ import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import { Title } from './Commons'
 
-const chartsize = filesize.partial({ round: 1, exponent: 2, bits: true })
-const tootltipSize = filesize.partial({ round: 0, bits: true, output: 'array' })
+// network bandwidth units in base-10 bits (Mbps)
+// to align with what ISP usually shows on invoice
+const humanUnits = {
+  standard: 'jedec',
+  base: 10,
+  bits: true
+}
+
+const chartsize = filesize.partial({ round: 1, exponent: 2, ...humanUnits })
+const tootltipSize = filesize.partial({ round: 0, output: 'array', ...humanUnits })
 
 const defaultSettings = {
   defaultFontFamily: "'Inter UI', system-ui, sans-serif",
@@ -29,7 +37,7 @@ const defaultSettings = {
     yAxes: [{
       stacked: true,
       ticks: {
-        callback: v => chartsize(v) + '/s',
+        callback: v => chartsize(v) + 'ps',
         suggestedMax: 200000,
         maxTicksLimit: 5
       }
@@ -65,12 +73,12 @@ const Tooltip = ({ t, bw, show, pos }) => {
         <div className='dt-row'>
           <span className='dtc f7 charcoal tr'>{t('app:terms.in').toLowerCase()}:</span>
           <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
-          <span className='f7 charcoal-muted'>{bw.in[1]}/s</span>
+          <span className='f7 charcoal-muted'>{bw.in[1]}ps</span>
         </div>
         <div className='dt-row'>
           <span className='dtc f7 charcoal tr'>{t('app:terms.out').toLowerCase()}:</span>
           <span className='f4 ml1 charcoal-muted'>{bw.out[0]}</span>
-          <span className='f7 charcoal-muted'>{bw.out[1]}/s</span>
+          <span className='f7 charcoal-muted'>{bw.out[1]}ps</span>
         </div>
       </div>
     </div>

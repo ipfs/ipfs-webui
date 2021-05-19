@@ -1,3 +1,4 @@
+import filesize from 'filesize'
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
  * @typedef {import('../bundles/files/actions').FileStat} FileStat
@@ -137,4 +138,21 @@ export async function getShareableLink (files, ipfs) {
   }
 
   return `https://ipfs.io/ipfs/${cid}${filename || ''}`
+}
+
+/**
+ * @param {number} size in bytes
+ * @returns {string} human-readable size
+ */
+export function humanSize (size, opts) {
+  if (typeof size === 'undefined') return 'N/A'
+  return filesize(size || 0, {
+    // base-2 byte units (GiB, MiB, KiB) to remove any ambiguity
+    spacer: String.fromCharCode(160), // non-breakable space (&nbsp)
+    round: size >= 1073741824 ? 1 : 0, // show decimal > 1GiB
+    standard: 'iec',
+    base: 2,
+    bits: false,
+    ...opts
+  })
 }
