@@ -64,7 +64,7 @@ const FilesPage = ({
     const updater = (v) => setDownloadProgress(v)
     const { url, filename, method } = await doFilesDownloadLink(files)
     const { abort } = await downloadFile(url, filename, updater, method)
-    setDownloadAbort(abort)
+    setDownloadAbort(() => abort)
   }
   const onAddFiles = (raw, root = '') => {
     if (root === '') root = files.path
