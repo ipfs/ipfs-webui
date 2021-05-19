@@ -38,7 +38,7 @@
     "nicknamePlaceholder": "Name for your service",
     "apiEndpoint": "API endpoint",
     "apiEndpointPlaceholder": "URL for its API endpoint",
-    "secretApiKey": "Secret API key",
+    "secretApiKey": "Secret Access Token",
     "autoUpload": "Auto upload"
   },
   "autoUploadModal": {
@@ -49,7 +49,7 @@
     "nickname": "Nickname is required",
     "apiError": "API error",
     "apiEndpoint": "Must be a valid URL",
-    "secretApiKey": "Secret key is required",
+    "secretApiKey": "Secret Access Token is required",
     "failedToFetch": "Failed to fetch",
     "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
   },
