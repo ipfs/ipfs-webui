@@ -142,6 +142,7 @@ export async function getShareableLink (files, ipfs) {
 
 /**
  * @param {number} size in bytes
+ * @param {object} opts format customization
  * @returns {string} human-readable size
  */
 export function humanSize (size, opts) {
