@@ -1,5 +1,16 @@
 {
   "title": "Einstellungen",
+  "save": "Speichern",
+  "saving": "Speichervorgang läuft…",
+  "reset": "Zurücksetzen",
+  "learnMoreLink": "Mehr erfahren.",
+  "pinningServices": {
+    "title": "Pinning-Dienste",
+    "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
+    "noPinRemoteDescription": "Unterstützung für Remote-Pinning-Dienste von Drittanbietern fehlt. Aktualisiere deinen IPFS-Knoten auf go-ipfs 0.8.0 oder höher, damit du sie hier hinzufügen und konfigurieren kannst.",
+    "addAutoUpload": "Automatisch hochladen aktivieren",
+    "removeAutoUpload": "Automatisch hochladen deaktivieren"
+  },
   "language": "Sprache",
   "analytics": "Analysetools",
   "cliTutorMode": "CLI-Tutor-Modus",
@@ -12,6 +23,57 @@
   },
   "apiDescription": "<0>Wenn Dein Node mit einer <1>benutzerdefinierten API-Adresse</1> konfiguriert ist, einschließlich eines anderen Ports als dem Standard-Port 5001, gib sie bitte hier ein.</0>",
   "cliDescription": "<0>Aktiviere diese Option, um ein \"Code anzeigen\" <1></1> Symbol neben häufigen IPFS Befehlen anzuzeigen. Wenn du auf das Symbol klickst, öffnet sich ein Fenster mit CLI-Code des Befehls, den du in die IPFS Kommandozeile deines Terminals einfügen kannst.</0>",
+  "cliModal": {
+    "extraNotesJsonConfig": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
+  },
+  "pinningModal": {
+    "title": "Wähle einen Pinning-Dienstanbieter aus.",
+    "description": "Du siehst deinen Pinning-Dienstleister nicht? <1>Füge einen eigenen hinzu.<1>"
+  },
+  "pinningServiceModal": {
+    "title": "Konfiguriere einen benutzerdefinierten Pinning-Service.",
+    "description": "Möchtest du deinen benutzerdefinierten Pinning-Service anderen zur Verfügung stellen? <1>Erfahre wie.<1>",
+    "service": "Service",
+    "nickname": "Name",
+    "nicknamePlaceholder": "Name for your service",
+    "apiEndpoint": "API-Endpunkt",
+    "apiEndpointPlaceholder": "URL for its API endpoint",
+    "secretApiKey": "Secret access token",
+    "autoUpload": "Automatisch hochladen"
+  },
+  "autoUploadModal": {
+    "title": "Change upload policy for {name}",
+    "description": "When enabled, auto upload will periodically pin the root of your Files directory, ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" option on the Files screen."
+  },
+  "errors": {
+    "nickname": "Name ist erforderlich",
+    "apiError": "API-Fehler",
+    "apiEndpoint": "Muss eine gültige URL sein",
+    "secretApiKey": "Secret access token is required",
+    "failedToFetch": "Failed to fetch",
+    "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
+  },
+  "actions": {
+    "addService": "Add Service",
+    "edit": "Ändern",
+    "close": "Schließen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "enable": "Aktivieren",
+    "disable": "Deaktivieren"
+  },
+  "edit": "Bearbeiten",
+  "visitService": "Visit service",
+  "remove": "Entfernen",
+  "localPinning": "Local Pinning",
+  "service": "Service",
+  "size": "Größe",
+  "pins": "Pins",
+  "autoUpload": "Automatisch hochladen",
+  "autoUploadPolicy": {
+    "true": "All files",
+    "false": "Aus"
+  },
   "fetchingSettings": "Einstellungen werden geladen...",
   "configApiNotAvailable": "Die API zur IPFS-Konfigurations ist nicht verfügbar. Bitte deaktiviere die Browser-Erweiterung \"IPFS Companion\" und versuche es erneut.",
   "ipfsDaemonOffline": "Der IPFS Daemon ist offline. Bitte starten Sie ihn und versuchen es erneut.",
@@ -66,19 +128,27 @@
       "paragraph2": "Wenn Du IPFS Desktop benutzt, hast Du auch einige spezifische Einstellungen dafür."
     },
     "step2": {
+      "title": "Benutzerdefinierte API-Adresse",
+      "paragraph1": "Wenn du deinen IPFS Knoten mit einer benutzerdefinierten API Adresse konfiguriert hast, kannst du deine Konfigurationsdatei direkt hier bearbeiten, anstatt das JSON von Hand zu bearbeiten."
+    },
+    "step3": {
+      "title": "Pinning services",
+      "paragraph1": "<0>If you have accounts with third-party remote pinning services, add them here so you can pin/unpin items to those services directly from the Files screen. You can learn more about third-party pinning services in the <1>IPFS Docs</1>.</0>"
+    },
+    "step4": {
       "title": "Sprachauswahl",
       "paragraph1": "<0>Hier kannst du die Sprache der Web-UI ändern. Falls deine bevorzugte Sprache nicht verfügbar ist, geh' zu unserer Projektseite in <1>Transifex</1>, um uns beim Übersetzen zu helfen!</0>"
     },
-    "step3": {
+    "step5": {
       "title": "Anonyme Nutzungsanalyse",
       "paragraph1": "Wenn Du hier zustimmst, kannst Du uns helfen, die Web-UI zu verbessern, indem Du anonyme Nutzungsanalysen sendest.",
       "paragraph2": "Du kannst selbst entscheiden, welche Daten du uns senden möchtest. Wir können Dich außerdem nicht identifizieren. Der Schutz deiner Privatsphäre steht bei uns an erster Stelle."
     },
-    "step4": {
-      "title": "Benutzerdefinierte API-Adresse",
-      "paragraph1": "Wenn du deinen IPFS Knoten mit einer benutzerdefinierten API Adresse konfiguriert hast, kannst du deine Konfigurationsdatei direkt hier bearbeiten, anstatt das JSON von Hand zu bearbeiten."
+    "step6": {
+      "title": "CLI tutor mode",
+      "paragraph1": "Enable CLI tutor mode to see shortcuts to the command-line version of common IPFS commands — helpful if you're learning to use IPFS from the terminal, or if you just need a refresher."
     },
-    "step5": {
+    "step7": {
       "title": "IPFS-Konfiguration",
       "paragraph1": "Du kannst die Konfiguration deines IPFS Nodes direkt mit der Web-UI bearbeiten!",
       "paragraph2": "Vergiss nicht, den Daemon neu zu starten, um die Änderungen anzuwenden."

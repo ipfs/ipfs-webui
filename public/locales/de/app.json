@@ -1,7 +1,7 @@
 {
   "actions": {
     "add": "Hinzufügen",
-    "apply": "Apply",
+    "apply": "Anwenden",
     "browse": "Durchstöbern",
     "cancel": "Abbrechen",
     "change": "Ändern",
@@ -30,7 +30,7 @@
     "unselectAll": "Alle abwählen"
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": "Füge folgendes in dein Terminal ein, um diese Aufgabe in IPFS über die Kommandozeile auszuführen. Denke daran, dass du Platzhalter durch Ihre spezifischen Parameter ersetzen musst."
   },
   "nav": {
     "bugsLink": "Fehler melden",
@@ -60,7 +60,7 @@
     "gateway": "Gateway",
     "in": "Eingang",
     "latency": "Latenz",
-    "loading": "Loading",
+    "loading": "Wird geladen",
     "location": "Standort",
     "name": "Name",
     "node": "Node",
@@ -70,7 +70,7 @@
     "peers": "Peers",
     "pinNoun": "Anpinnen",
     "pins": "Pins",
-    "pinStatus": "Pin Status",
+    "pinStatus": "Anheftstatus",
     "publicKey": "Öffentlicher Schlüssel",
     "rateIn": "Eingangsrate",
     "rateOut": "Ausgangsrate",
@@ -79,7 +79,7 @@
     "totalIn": "Gesamteingang",
     "totalOut": "Gesamtausgang",
     "unknown": "Unbekannt",
-    "ui": "UI",
+    "ui": "Benutzeroberfläche",
     "upSpeed": "Ausgehend"
   },
   "tour": {

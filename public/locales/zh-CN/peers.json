@@ -2,7 +2,7 @@
   "title": "节点",
   "localNetwork": "本地网络",
   "nearby": "邻近",
-  "protocols": "打开流",
+  "protocols": "连接协议",
   "addConnection": "添加连接",
   "insertPeerAddress": "请输入你想要连接的对等节点地址。",
   "plusPeers": "+ {number} 个节点",

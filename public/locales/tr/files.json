@@ -4,7 +4,7 @@
   "breadcrumbs": "Kırıntılar",
   "finished": "Bitti!",
   "totalSize": "Toplam boyut: {size}",
-  "filesSelected": "{count, plural, one {Item selected} other {Items selected}}",
+  "filesSelected": "{count, plural, one {Öge seçildi} other {Ögeler seçildi}}",
   "menuOptions": "Seçili öğe için seçenekler",
   "selectedAllEntries": "Tüm tablo girişlerini seçin",
   "individualFilesOnly": "Yalnızca bireysel dosyalar için kullanılabilir",
@@ -40,7 +40,7 @@
     "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
-    "checkboxUnpinFromServices": "Unpin from all pinning services"
+    "checkboxUnpinFromServices": "Tüm sabitleme hizmetlerinden sabitlemeyi kaldır"
   },
   "pinningModal": {
     "title": "Bu öğeleri nereye sabitlemek istediğinizi seçin.",
@@ -102,7 +102,7 @@
   "hashUnavailable": "özüt kullanılamıyor",
   "checkboxLabel": "{name} için daha fazla seçenek görüntüleyin",
   "pinned": "Sabitlendi",
-  "pinnedRemotely": "Pinned remotely",
+  "pinnedRemotely": "Uzaktan sabitlendi",
   "blocks": "Bloklar",
   "allBlocks": "Tüm bloklar",
   "allBlocksDescription": "Tüm IPFS düğümünüzdeki toplam blok boyutu; Bu, Dosyalar'daki her şeyin yanı sıra yerel olarak sabitlenmiş tüm öğeleri ve geçici olarak önbelleğe alınmış verileri içerir",

@@ -4,12 +4,12 @@
   "breadcrumbs": "Breadcrumbs",
   "finished": "Fertig!",
   "totalSize": "Gesamtgröße: {size}",
-  "filesSelected": "{count, plural, one {Item selected} other {Items selected}}",
+  "filesSelected": "{count, plural, one {Element ausgewählt} other {Elemente ausgewählt}}",
   "menuOptions": "Optionen für das ausgewählte Element",
   "selectedAllEntries": "Alle Tabelleneinträge auswählen",
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
   "noPDFSupport": "Dein Browser unterstützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen:",
-  "downloadPDF": "PDF herunterladen.",
+  "downloadPDF": "PDF herunterladen",
   "downloadInstead": "Versuche stattdessen, es <1>herunterzuladen</1>.",
   "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",
   "addByPath": "Aus IPFS",
@@ -20,7 +20,7 @@
     "share": "Link teilen"
   },
   "cliModal": {
-    "extraNotesPinning": "This command is only for local pinning/unpinning. If you want to use a remote pinning service, consult that service's documentation to learn how to pin/unpin from the command line."
+    "extraNotesPinning": "Dieser Befehl ist nur zum lokalen Anheften/Loslösen vorgesehen. Wenn du einen Remote-Pinning-Dienst verwenden möchten, lies die Dokumentation dieses Dienstes, um zu erfahren, wie du über die Kommandozeile etwas anheften/loslösen kannst."
   },
   "shareModal": {
     "title": "Dateien teilen",
@@ -33,19 +33,19 @@
     "descriptionFolder": "Wähle einen neuen Namen für diesen Ordner."
   },
   "removeModal": {
-    "titleItem": "{count, plural, one {Remove item? {name}} other {Remove {count} items?}}",
-    "titleFolder": "{count, plural, one {Remove folder? {name}} other {Remove {count} folders?}}",
-    "titleFile": "{count, plural, one {Remove file? {name}} other {Remove {count} files?}}",
-    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
-    "checkboxUnpinFromServices": "Unpin from all pinning services"
+    "titleItem": "{count, plural, one {Element {name} entfernen?} other {{count} Elemente entfernen?}}",
+    "titleFolder": "{count, plural, one {Ordner {name} löschen?} other {{count} Ordner löschen?}}",
+    "titleFile": "{count, plural, one {Datei {name} entfernen?} other {{count} Dateien entfernen?}}",
+    "descriptionItem": "{count, plural, one {Möchtest du dieses Element wirklich entfernen? Es wird nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.} other {Möchtest du diese {count} Elemente wirklich entfernen? Sie werden nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "descriptionFolder": "{count, plural, one {Möchtest du diesen Ordner wirklich entfernen? Er wird nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.} other {Möchtest du diese {count} Ordner wirklich entfernen? Sie werden nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "descriptionFile": "{count, plural, one {Möchtest du diese Datei wirklich entfernen? Sie wird nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.} other {Möchtest du diese {count} Dateien wirklich entfernen? Sie werden nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "checkboxRemoveLocalPin": "Auch den lokalen Pin entfernen (empfohlen)",
+    "checkboxUnpinFromServices": "Von allen Pinning-Diensten loslösen"
   },
   "pinningModal": {
-    "title": "Select where you would like to pin these items.",
-    "footer": "Need to add or configure a pinning service? Go to <1>Settings</1>.",
-    "localNode": "Local node",
+    "title": "Wähle aus, wo du diese Elemente anheften möchtest.",
+    "footer": "Du möchtest einen Pinning-Dienst hinzufügen oder konfigurieren? Gehe zu <1>Einstellungen</1>.",
+    "localNode": "Lokaler Knoten",
     "totalSize": "Gesamtgröße: {size}"
   },
   "addByPathModal": {
@@ -72,7 +72,7 @@
   "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>",
   "tour": {
     "step1": {
-      "title": "Datei Seite",
+      "title": "Dateien-Seite",
       "paragraph1": "<0>Hier leben die Dateien deines <1>veränderbaren Dateisystems (MFS)</1>. Du kannst Dateien oder Ordner hinzufügen und sie von dieser Seite aus verwalten.</0>",
       "paragraph2": "Klicke \"Weiter\", um mehr zu erfahren."
     },
@@ -92,7 +92,7 @@
     "step5": {
       "title": "Datei Liste",
       "paragraph1": "Schließlich, die Liste mit allen Dateien und Ordnern. Füge Dateien und Ordner mit Drag and Drop hinzu.",
-      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!",
+      "paragraph2": "Du kannst Dateien teilen oder herunterladen, sie in dem IPLD Explorer untersuchen, sie umbenennen oder entfernen!",
       "paragraph3": "Profi-Tipp: Ziehe eine Datei von jeder anderen Seite der Web-UI hierher, um sie zum Wurzel-Verzeichnis deines MFS hinzuzufügen."
     }
   },
@@ -101,12 +101,12 @@
   "fileLabel": "Wähle {type}{name} mit Größe: {size} ",
   "hashUnavailable": "Hash nicht verfügbar",
   "checkboxLabel": "Weitere Optionen für {name} anzeigen",
-  "pinned": "Gepinned",
-  "pinnedRemotely": "Pinned remotely",
+  "pinned": "Angeheftet",
+  "pinnedRemotely": "Entfernt angeheftet",
   "blocks": "Blöcke",
-  "allBlocks": "All blocks",
-  "allBlocksDescription": "Total size of blocks on your entire IPFS node; this includes everything in Files, plus all locally pinned items and any temporary cached data",
-  "filesDescription": "Total size of data in the current directory (if a subdirectory, the size of all data in Files is also displayed)",
+  "allBlocks": "Alle Blöcke",
+  "allBlocksDescription": "Die Gesamtgröße aller Blöcke auf deinem IPFS Knoten; Dies umfasst alles in Dateien, sowie alle lokal angehefteten Elemente und alle temporär gespeicherten Daten",
+  "filesDescription": "Gesamtgröße der Daten im aktuellen Verzeichnis (wenn es sich um ein Unterverzeichnis handelt, wird auch die Größe aller Daten in Dateien angezeigt)",
   "more": "Mehr",
   "files": "Dateien",
   "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <0>untersuchen</0>.",

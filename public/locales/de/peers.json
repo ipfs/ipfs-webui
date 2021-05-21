@@ -2,12 +2,12 @@
   "title": "Peers",
   "localNetwork": "Lokales Netzwerk",
   "nearby": "in der Nähe",
-  "protocols": "Open streams",
+  "protocols": "Offene Verbindungen",
   "addConnection": "Verbindung hinzufügen",
   "insertPeerAddress": "Tragen Sie die Peer-Adresse ein, zu der Sie eine Verbindung aufbauen möchten.",
   "plusPeers": "+ {number} weitere Peers",
-  "connectionDirectionInbound": "inbound",
-  "connectionDirectionOutbound": "outbound",
+  "connectionDirectionInbound": "eingehend",
+  "connectionDirectionOutbound": "ausgehend",
   "copyFeedback": "Kopiert!",
   "tour": {
     "step1": {

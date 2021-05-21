@@ -4,7 +4,7 @@
   "ipfsInvalidApiAddress": "Sağlanan IPFS UPA adresi geçersiz.",
   "ipfsConnectSuccess": "IPFS UPA adresine başarıyla bağlanıldı",
   "ipfsConnectFail": "Sağlanan IPFS UPA adresine bağlanılamıyor",
-  "ipfsPinFail": "Unable to set pinning. Try again, or see the browser console for more info.",
+  "ipfsPinFail": "Sabitleme başarısız. Tekrar deneyin veya daha fazla bilgi için tarayıcı konsolunu kontrol edin.",
   "ipfsIsBack": "Normal IPFS hizmeti devam etti. Tadını çıkarın!",
   "folderExists": "Bu isimde bir öğe zaten var. Lütfen diğerini seçin.",
   "filesFetchFailed": "Bu dosyalar alınamadı. Lütfen yolu kontrol edin ve tekrar deneyin.",
