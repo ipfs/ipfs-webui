@@ -1,21 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { /* Trans, */ withTranslation } from 'react-i18next'
-import filesize from 'filesize'
+import { humanSize } from '../../../lib/files'
 import Button from '../../../components/button/Button'
 import Checkbox from '../../../components/checkbox/Checkbox'
 import GlyphPin from '../../../icons/GlyphPin'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal'
 import { connect } from 'redux-bundler-react'
 import './PinningModal.css'
-
-const humanSize = (size) => {
-  if (!size) return 'N/A'
-
-  return filesize(size || 0, {
-    round: size >= 1000000000 ? 1 : 0, spacer: ''
-  })
-}
 
 const PinIcon = ({ icon, index }) => {
   if (icon) {

@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState, useMemo, useRef } from 'react'
 import { connect } from 'redux-bundler-react'
-// import filesize from 'filesize'
 import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
 import { sortByProperty } from '../../lib/sort'
 
@@ -137,8 +136,8 @@ const ServiceCell = ({ rowData, rowIndex }) => (
 // const SizeCell = ({ rowData, t }) => (
 //   <p className={ !rowData.totalSize ? 'gray nowrap' : 'nowrap'}>{ !rowData.totalSize
 //     ? `${(t('app:terms:loading'))}...`
-//     : filesize(rowData.totalSize || 0, {
-//       round: rowData.totalSize >= 1000000000 ? 1 : 0, spacer: ''
+//     : humanSize(rowData.totalSize || 0, {
+//       round: rowData.totalSize >= 1073741824 ? 1 : 0, spacer: ''
 //     })}</p>
 // )
 const NumberOfPinsCell = ({ rowData, t }) => {

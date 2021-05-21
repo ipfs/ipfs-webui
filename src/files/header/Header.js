@@ -1,8 +1,8 @@
 import React from 'react'
-import filesize from 'filesize'
 import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
+import { humanSize } from '../../lib/files'
 // Components
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import FileInput from '../file-input/FileInput'
@@ -17,13 +17,11 @@ const BarOption = ({ children, text, isLink = false, className = '', ...etc }) =
   </div>
 )
 
-function humanSize (size) {
-  if (!size) return 'N/A'
-
-  return filesize(size || 0, {
-    round: size >= 1000000000 ? 1 : 0, spacer: ''
-  })
-}
+// Tweak human-readable size format to be more compact
+const size = (s) => humanSize(s, {
+  round: s >= 1073741824 ? 1 : 0, // show decimal > 1GiB
+  spacer: ''
+})
 
 class Header extends React.Component {
   handleContextMenu = (ev) => {
@@ -65,14 +63,14 @@ class Header extends React.Component {
             { hasUpperDirectory
               ? (
                 <span>
-                  { humanSize(currentDirectorySize) }<span className='f5 gray'>/{ humanSize(filesSize) }</span>
+                  { size(currentDirectorySize) }<span className='f5 gray'>/{ size(filesSize) }</span>
                 </span>
               )
-              : humanSize(filesSize) }
+              : size(filesSize) }
           </BarOption>
 
           <BarOption title={t('allBlocksDescription')} text={t('allBlocks')}>
-            { humanSize(repoSize) }
+            { size(repoSize) }
           </BarOption>
 
           <div className='pa3'>

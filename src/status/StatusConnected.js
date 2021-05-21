@@ -1,10 +1,10 @@
 import React from 'react'
 import { withTranslation, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import filesize from 'filesize'
+import { humanSize } from '../lib/files'
 
 export const StatusConnected = ({ t, peersCount, repoSize }) => {
-  const humanRepoSize = filesize(repoSize || 0, { round: 1 })
+  const humanRepoSize = humanSize(repoSize || 0)
   return (
     <header>
       <h1 className='montserrat fw2 f3 charcoal ma0 pt0 pb2'>
