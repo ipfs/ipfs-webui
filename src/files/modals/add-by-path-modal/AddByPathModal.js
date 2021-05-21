@@ -28,7 +28,7 @@ function ByPathModal ({ t, tReady, onCancel, onSubmit, className, ...props }) {
 
   return (
     <TextInputModal
-      validate={(p) => validatePath(p)}
+      validate={(p) => validatePath(p.trim())}
       onSubmit={(p) => onSubmit(p.trim())}
       onChange={(p) => p.trimStart()}
       onCancel={onCancel}
