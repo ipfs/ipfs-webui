@@ -1,5 +1,4 @@
-const { teardown: teardownPuppeteer } = require('jest-environment-puppeteer')
-const { teardown: teardownDevServer } = require('jest-dev-server')
+const { teardown: teardownDevServer } = require('jest-process-manager')
 
 module.exports = async function globalTeardown (globalConfig) {
   const teardown = []
@@ -8,6 +7,6 @@ module.exports = async function globalTeardown (globalConfig) {
   if (ipfsd) teardown.push(ipfsd.stop())
   // continue with global teardown
   teardown.push(teardownDevServer())
-  teardown.push(teardownPuppeteer(globalConfig))
+  // teardown.push(teardownPlaywright(globalConfig))
   await Promise.all(teardown)
 }

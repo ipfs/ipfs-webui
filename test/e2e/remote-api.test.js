@@ -1,4 +1,4 @@
-/* global ipfs, webuiUrl, page, describe, it, expect, beforeAll */
+/* global ipfs, webuiUrl, page, describe, it, expect, beforeAll, waitForText */
 
 const { createController } = require('ipfsd-ctl')
 const getPort = require('get-port')
@@ -105,11 +105,11 @@ const switchIpfsApiEndpointViaLocalStorage = async (endpoint) => {
 }
 
 const switchIpfsApiEndpointViaSettings = async (endpoint) => {
-  await expect(page).toClick('a[href="#/settings"]')
+  await page.click('a[href="#/settings"]')
   const selector = 'input[id="api-address"]'
-  await page.waitForSelector(selector, { visible: true })
-  await expect(page).toFill(selector, endpoint)
-  await page.type(selector, '\n')
+  await expect(page).toHaveSelector(selector)
+  await page.fill(selector, endpoint)
+  await page.press(selector, 'Enter')
   await waitForIpfsApiEndpoint(endpoint)
 }
 
@@ -118,7 +118,8 @@ const waitForIpfsApiEndpoint = async (endpoint) => {
     try {
       // unwrap port if JSON config is passed
       const json = JSON.parse(endpoint)
-      endpoint = json.port || endpoint
+      const uri = new URL(json.url)
+      endpoint = uri.port || endpoint
     } catch (_) {}
     try {
       // unwrap port if inlined basic auth was passed
@@ -128,10 +129,11 @@ const waitForIpfsApiEndpoint = async (endpoint) => {
         endpoint = uri.port || endpoint
       }
     } catch (_) {}
-    await page.waitForFunction(`localStorage.getItem('ipfsApi') && localStorage.getItem('ipfsApi').includes('${endpoint}')`)
+    // await page.waitForFunction(`localStorage.getItem('ipfsApi') && localStorage.getItem('ipfsApi').includes('${endpoint}')`)
+    await page.waitForFunction(endpoint => window.localStorage.getItem('ipfsApi') && window.localStorage.getItem('ipfsApi').includes(endpoint), endpoint)
     return
   }
-  await page.waitForFunction('localStorage.getItem(\'ipfsApi\') === null')
+  await page.waitForFunction(() => window.localStorage.getItem('ipfsApi') === null)
 }
 
 const basicAuthConnectionConfirmation = async (user, password, proxyPort) => {
@@ -140,6 +142,7 @@ const basicAuthConnectionConfirmation = async (user, password, proxyPort) => {
   await expectHttpApiAddressOnStatusPage('Custom JSON configuration')
   // confirm webui is actually connected to expected node :^)
   await expectPeerIdOnStatusPage(ipfsd.api)
+
   // (2) go to Settings and confirm API string includes expected JSON config
   const apiOptions = JSON.stringify({
     url: `http://127.0.0.1:${proxyPort}/`,
@@ -152,28 +155,31 @@ const basicAuthConnectionConfirmation = async (user, password, proxyPort) => {
 
 const expectPeerIdOnStatusPage = async (api) => {
   const { id } = await api.id()
-  await expect(page).toMatch(id)
+  await waitForText(id)
 }
 
 const expectHttpApiAddressOnStatusPage = async (value) => {
-  await expect(page).toClick('a[href="#/"]')
+  await page.waitForSelector('a[href="#/"]')
+  await page.click('a[href="#/"]')
   await page.reload() // instant addr update for faster CI
-  await page.waitForSelector('summary', { visible: true })
-  await expect(page).toClick('summary', { text: 'Advanced' })
-  const apiAddressOnStatus = await page.waitForSelector('div[id="http-api-address"]', { visible: true })
-  await expect(apiAddressOnStatus).toMatch(String(value))
+  await page.waitForSelector('summary', { state: 'visible' })
+  await page.click('summary')
+  await page.waitForSelector('div[id="http-api-address"]', { state: 'visible' })
+  await waitForText(String(value))
 }
 
 const expectHttpApiAddressOnSettingsPage = async (value) => {
-  await expect(page).toClick('a[href="#/settings"]')
-  await page.waitForSelector('input[id="api-address"]', { visible: true })
+  await expect(page).toHaveSelector('a[href="#/settings"]')
+  await page.click('a[href="#/settings"]')
+  await page.waitForSelector('input[id="api-address"]', { state: 'visible' })
   const apiAddrInput = await page.$('#api-address')
   const apiAddrValue = await page.evaluate(x => x.value, apiAddrInput)
   // if API address is defined as JSON, match objects
   try {
     const json = JSON.parse(apiAddrValue)
     const expectedJson = JSON.parse(value)
-    return await expect(json).toMatchObject(expectedJson)
+    await expect(json).toMatchObject(expectedJson)
+    return
   } catch (_) {}
   // else, match strings (Multiaddr or URL)
   await expect(apiAddrValue).toMatch(String(value))
@@ -221,8 +227,12 @@ describe('API @ URL', () => {
 })
 
 describe('API with CORS and Basic Auth', () => {
+  afterEach(async () => {
+    await switchIpfsApiEndpointViaLocalStorage(null)
+  })
+
   it('should work when localStorage[ipfsApi] is set to URL with inlined Basic Auth credentials', async () => {
-    await switchIpfsApiEndpointViaLocalStorage(`http://${user}:${password}@127.0.0.1:${proxyPort}`)
+    await switchIpfsApiEndpointViaLocalStorage(`http://${user}:${password}@127.0.0.1:${proxyPort}/`)
     await basicAuthConnectionConfirmation(user, password, proxyPort)
   })
 
@@ -238,7 +248,7 @@ describe('API with CORS and Basic Auth', () => {
   })
 
   it('should work when URL with inlined credentials are entered at the Settings page', async () => {
-    const basicAuthApiAddr = `http://${user}:${password}@127.0.0.1:${proxyPort}`
+    const basicAuthApiAddr = `http://${user}:${password}@127.0.0.1:${proxyPort}/`
     await switchIpfsApiEndpointViaSettings(basicAuthApiAddr)
     await basicAuthConnectionConfirmation(user, password, proxyPort)
   })

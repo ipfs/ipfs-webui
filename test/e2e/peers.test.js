@@ -1,4 +1,4 @@
-/* global webuiUrl, ipfs page, describe, it, expect, beforeAll, afterAll */
+/* global webuiUrl, ipfs, page, describe, it, beforeAll, afterAll, waitForText */
 
 const { createController } = require('ipfsd-ctl')
 
@@ -18,15 +18,15 @@ describe('Peers screen', () => {
     peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
     // connect to peer to have something  in the peer table
     await ipfs.swarm.connect(peeraddr)
-    await page.goto(webuiUrl + '#/peers', { waitUntil: 'networkidle0' })
+    await page.goto(webuiUrl + '#/peers', { waitUntil: 'networkidle' })
   })
 
   it('should have a clickable "Add connection" button', async () => {
     const addConnection = 'Add connection'
-    await expect(page).toMatch(addConnection)
-    await expect(page).toClick('button', { text: addConnection })
+    await waitForText(addConnection)
+    await page.click(`text=${addConnection}`)
     await page.waitForSelector('div[role="dialog"]')
-    await expect(page).toMatch('Insert the peer address you want to connect to')
+    await waitForText('Insert the peer address you want to connect to')
   })
 
   it('should confirm connection after "Add connection" ', async () => {
@@ -36,11 +36,11 @@ describe('Peers screen', () => {
     await page.keyboard.type('\n')
     // expect connection confirmation
     await page.waitForSelector('.bg-green', { visible: true })
-    await expect(page).toMatch('Successfully connected to the provided peer')
+    await waitForText('Successfully connected to the provided peer')
   })
 
   it('should have a peer from a "Local Network"', async () => {
-    await expect(page).toMatch('Local Network')
+    await waitForText('Local Network')
   })
 
   afterAll(async () => {
