@@ -416,9 +416,8 @@ const actions = () => ({
    * Generates sharable link for the provided files.
    * @param {FileStat[]} files
    */
-  doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
-    ensureMFS(store)
-
+  doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async (ipfs) => {
+    // ensureMFS deliberately omitted here, see https://github.com/ipfs/ipfs-webui/issues/1744 for context.
     return await getShareableLink(files, ipfs)
   }),
 
