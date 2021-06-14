@@ -1,4 +1,4 @@
-/* global webuiUrl, waitForTitle, page, describe, it, expect, beforeAll */
+/* global webuiUrl, waitForTitle, page, describe, it, beforeAll, waitForText */
 
 const scrollLinkContainer = async () => {
   const linkContainer = '[role="menubar"]'
@@ -12,13 +12,13 @@ const scrollLinkContainer = async () => {
 
 describe('Navigation menu', () => {
   beforeAll(async () => {
-    await page.goto(webuiUrl + '#/blank', { waitUntil: 'networkidle0' })
+    await page.goto(webuiUrl + '#/blank', { waitUntil: 'networkidle' })
   })
 
   it('should work for Status page', async () => {
     const link = 'a[href="#/"]'
     await page.waitForSelector(link)
-    await expect(page).toMatch('Status')
+    await waitForText('Status')
     await page.click(link)
     await waitForTitle('Status | IPFS')
   })
@@ -26,7 +26,7 @@ describe('Navigation menu', () => {
   it('should work for Files page', async () => {
     const link = 'a[href="#/files"]'
     await page.waitForSelector(link)
-    await expect(page).toMatch('Files')
+    await waitForText('Files')
     await page.click(link)
     await waitForTitle('/ | Files | IPFS')
   })
@@ -34,7 +34,7 @@ describe('Navigation menu', () => {
   it('should work for Explore page', async () => {
     const link = 'a[href="#/explore"]'
     await page.waitForSelector(link)
-    await expect(page).toMatch('Explore')
+    await waitForText('Explore')
     await scrollLinkContainer()
     await page.click(link)
     await waitForTitle('Explore | IPLD')
@@ -43,7 +43,7 @@ describe('Navigation menu', () => {
   it('should work for Peers page', async () => {
     const link = 'a[href="#/peers"]'
     await page.waitForSelector(link)
-    await expect(page).toMatch('Peers')
+    await waitForText('Peers')
     await scrollLinkContainer()
     await page.click(link)
     await waitForTitle('Peers | IPFS')
@@ -52,7 +52,7 @@ describe('Navigation menu', () => {
   it('should work for Settings page', async () => {
     const link = 'a[href="#/settings"]'
     await page.waitForSelector(link)
-    await expect(page).toMatch('Settings')
+    await waitForText('Settings')
     await scrollLinkContainer()
     await page.click(link)
     await waitForTitle('Settings | IPFS')
