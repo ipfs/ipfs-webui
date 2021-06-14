@@ -7,21 +7,27 @@ const { Date, console, Promise, setTimeout } = require('window-or-global')
 
 expect.extend(matchers)
 
+// global.waitForText
+// utility function that simplifies text matching
 function waitForTextFn (page) {
+  const debug = process.env.DEBUG === 'true'
   const waitForText = async (text, { timeout, selector } = { timeout: 30000, selector: 'body' }) => {
+    if (page.isClosed()) throw Error(`waitForText("${text}") aborted due to page close`)
     timeout = timeout || 30000
     selector = selector || 'body'
     const start = new Date()
-    const retryInterval = 500
+    const retryInterval = 250
     try {
       return await expect(page).toHaveText(selector, text, { timeout })
     } catch (e) {
-      console.log(`waiting for text "${text}" to appear on page. retrying in ${retryInterval}ms`)
+      if (debug) console.log(`waiting for text "${text}" to appear on page. retrying in ${retryInterval}ms`)
       const elapsed = (new Date()) - start
       if (elapsed < timeout) {
         await new Promise(resolve => setTimeout(resolve, retryInterval))
         return await waitForText(text, { timeout: timeout - elapsed - retryInterval })
       }
+      // throw user-friendly error on timeout
+      throw new Error(`waitForText("${text}") timeout`)
     }
   }
   return waitForText
