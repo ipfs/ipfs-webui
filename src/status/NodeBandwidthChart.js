@@ -128,18 +128,18 @@ class NodeBandwidthChart extends React.Component {
       return {
         datasets: [
           {
-            label: t('app:terms.in'),
-            data: nodeBandwidthChartData.in,
-            borderColor: gradientIn,
-            backgroundColor: gradientIn,
-            pointRadius: 2,
-            cubicInterpolationMode: 'monotone'
-          },
-          {
             label: t('app:terms.out'),
             data: nodeBandwidthChartData.out,
             borderColor: gradientOut,
             backgroundColor: gradientOut,
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone'
+          },
+          {
+            label: t('app:terms.in'),
+            data: nodeBandwidthChartData.in,
+            borderColor: gradientIn,
+            backgroundColor: gradientIn,
             pointRadius: 2,
             cubicInterpolationMode: 'monotone'
           }

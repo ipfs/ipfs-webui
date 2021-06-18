@@ -46,15 +46,15 @@ class NetworkTraffic extends React.Component {
         <div className='flex flex-column justify-between' style={{ maxWidth: 400 }}>
           <div className='mh2 mv3 mt0-l'>
             <Speedometer
-              title={t('app:terms.upSpeed')}
-              color='#f39021'
-              {...upSpeed} />
-          </div>
-          <div className='mh2 mt3 mt0-l'>
-            <Speedometer
               title={t('app:terms.downSpeed')}
               color='#69c4cd'
               {...downSpeed} />
+          </div>
+          <div className='mh2 mt3 mt0-l'>
+            <Speedometer
+              title={t('app:terms.upSpeed')}
+              color='#f39021'
+              {...upSpeed} />
           </div>
         </div>
       </div>
