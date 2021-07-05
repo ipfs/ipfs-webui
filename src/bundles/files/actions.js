@@ -3,6 +3,7 @@
 import { join, dirname, basename } from 'path'
 import { getDownloadLink, getShareableLink } from '../../lib/files'
 import countDirs from '../../lib/count-dirs'
+import memoize from 'p-memoize'
 import all from 'it-all'
 import map from 'it-map'
 import last from 'it-last'
@@ -73,6 +74,8 @@ export const realMfsPath = (path) => {
   return path
 }
 
+const memStat = memoize((path, ipfs) => ipfs.files.stat(path))
+
 /**
  * @typedef {Object} Stat
  * @property {string} path
@@ -92,8 +95,12 @@ const stat = async (ipfs, cidOrPath) => {
     : `/ipfs/${hashOrPath}`
 
   try {
-    // TODO: memoize/cache result per CID
-    const stats = await ipfs.files.stat(path)
+    let stats
+    if (path.startsWith('/ipfs/')) {
+      stats = await memStat(path, ipfs)
+    } else {
+      stats = await ipfs.files.stat(path)
+    }
     return { path, ...stats }
   } catch (e) {
     // Discard error and mark DAG as 'unknown' to unblock listing other pins.
@@ -621,13 +628,16 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
     ? []
     : entries
   const files = []
-  const showStats = res.length < 100
+
+  // precaution: there was a historical performance issue when too many dirs were present
+  let dirCount = 0
 
   for (const f of res) {
     const absPath = join(path, f.name)
     let file = null
 
-    if (showStats && (f.type === 'directory' || f.type === 'dir')) {
+    if (dirCount < 1000 && (f.type === 'directory' || f.type === 'dir')) {
+      dirCount += 1
       file = fileFromStats({ ...await stat(ipfs, f.cid), path: absPath })
     } else {
       file = fileFromStats({ ...f, path: absPath })
