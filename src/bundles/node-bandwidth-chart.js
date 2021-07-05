@@ -22,7 +22,7 @@ function createNodeBandwidthChart (opts) {
     doUpdateNodeBandwidthChartData: (bw, timestamp, chartData) => ({ dispatch }) => {
       chartData = {
         in: chartData.in.concat({ x: timestamp, y: parseInt(bw.rateIn.toFixed(0), 10) }),
-        out: chartData.out.concat({ x: timestamp, y: parseInt(bw.rateOut.toFixed(0), 10) })
+        out: chartData.out.concat({ x: timestamp, y: parseInt(bw.rateOut.toFixed(0) * -1, 10) })
       }
 
       const startIndex = chartData.in.findIndex(d => d.x >= timestamp - opts.windowSize)

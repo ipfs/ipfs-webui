@@ -7,16 +7,15 @@ import PropTypes from 'prop-types'
 import filesize from 'filesize'
 import { Title } from './Commons'
 
-// network bandwidth units in base-10 bits (Mbps)
-// to align with what ISP usually shows on invoice
-const humanUnits = {
-  standard: 'jedec',
-  base: 10,
-  bits: true
+// matching units returned by 'ipfs stats bw' in CLI
+const bwUnits = {
+  standard: 'iec',
+  base: 2,
+  bits: false
 }
 
-const chartsize = filesize.partial({ round: 1, exponent: 2, ...humanUnits })
-const tootltipSize = filesize.partial({ round: 0, output: 'array', ...humanUnits })
+const chartsize = filesize.partial({ round: 1, exponent: 2, ...bwUnits })
+const tootltipSize = filesize.partial({ round: 0, output: 'array', ...bwUnits })
 
 const defaultSettings = {
   defaultFontFamily: "'Inter UI', system-ui, sans-serif",
@@ -37,13 +36,14 @@ const defaultSettings = {
     yAxes: [{
       stacked: true,
       ticks: {
-        callback: v => chartsize(v) + 'ps',
+        callback: v => chartsize(v) + '/s',
         suggestedMax: 200000,
         maxTicksLimit: 5
       }
     }]
   },
   legend: {
+    reverse: true,
     display: true,
     position: 'bottom'
   }
@@ -73,12 +73,12 @@ const Tooltip = ({ t, bw, show, pos }) => {
         <div className='dt-row'>
           <span className='dtc f7 charcoal tr'>{t('app:terms.in').toLowerCase()}:</span>
           <span className='f4 ml1 charcoal-muted'>{bw.in[0]}</span>
-          <span className='f7 charcoal-muted'>{bw.in[1]}ps</span>
+          <span className='f7 charcoal-muted'>{bw.in[1]}/s</span>
         </div>
         <div className='dt-row'>
           <span className='dtc f7 charcoal tr'>{t('app:terms.out').toLowerCase()}:</span>
           <span className='f4 ml1 charcoal-muted'>{bw.out[0]}</span>
-          <span className='f7 charcoal-muted'>{bw.out[1]}ps</span>
+          <span className='f7 charcoal-muted'>{bw.out[1]}/s</span>
         </div>
       </div>
     </div>
@@ -128,18 +128,18 @@ class NodeBandwidthChart extends React.Component {
       return {
         datasets: [
           {
-            label: t('app:terms.in'),
-            data: nodeBandwidthChartData.in,
-            borderColor: gradientIn,
-            backgroundColor: gradientIn,
-            pointRadius: 2,
-            cubicInterpolationMode: 'monotone'
-          },
-          {
             label: t('app:terms.out'),
             data: nodeBandwidthChartData.out,
             borderColor: gradientOut,
             backgroundColor: gradientOut,
+            pointRadius: 2,
+            cubicInterpolationMode: 'monotone'
+          },
+          {
+            label: t('app:terms.in'),
+            data: nodeBandwidthChartData.in,
+            borderColor: gradientIn,
+            backgroundColor: gradientIn,
             pointRadius: 2,
             cubicInterpolationMode: 'monotone'
           }
@@ -179,8 +179,8 @@ class NodeBandwidthChart extends React.Component {
             data.show = false
           } else {
             data.bw = {
-              in: tootltipSize(model.dataPoints[0].yLabel),
-              out: tootltipSize(model.dataPoints[1].yLabel)
+              out: tootltipSize(Math.abs(model.dataPoints[0].yLabel)),
+              in: tootltipSize(Math.abs(model.dataPoints[1].yLabel))
             }
 
             const rect = this._chart.canvas.getBoundingClientRect()
