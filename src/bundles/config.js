@@ -110,7 +110,7 @@ function getURLFromAddress (name, config) {
 const checkIfGatewayUrlIsAccessible = memoize(async (url) => {
   try {
     const { status } = await fetch(
-    `${url}/ipfs/bafkqaaa`
+    `${url}/ipfs/bafkqae2xmvwgg33nmuqhi3zajfiemuzahiwss`
     )
     return status === 200
   } catch (e) {
@@ -125,7 +125,7 @@ const checkIfGatewayUrlIsAccessible = memoize(async (url) => {
 const checkIfSubdomainGatewayUrlIsAccessible = memoize(async (url) => {
   try {
     url = new URL(url)
-    url.hostname = `bafkqaaa.ipfs.${url.hostname}`
+    url.hostname = `bafkqae2xmvwgg33nmuqhi3zajfiemuzahiwss.ipfs.${url.hostname}`
     const { status } = await fetch(url.toString())
     return status === 200
   } catch (e) {
