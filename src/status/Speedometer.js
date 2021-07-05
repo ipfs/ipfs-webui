@@ -37,7 +37,7 @@ function Speedometer ({ total = 100, title, filled = 0, noSpeed = false, color =
     base: 2,
     output: 'array',
     round: 0,
-    bits: !noSpeed
+    bits: false
   })
 
   return (

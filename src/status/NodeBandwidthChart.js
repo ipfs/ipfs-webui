@@ -10,7 +10,8 @@ import { Title } from './Commons'
 // matching units returned by 'ipfs stats bw' in CLI
 const bwUnits = {
   standard: 'iec',
-  base: 2
+  base: 2,
+  bits: false
 }
 
 const chartsize = filesize.partial({ round: 1, exponent: 2, ...bwUnits })
