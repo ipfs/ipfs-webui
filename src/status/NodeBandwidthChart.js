@@ -42,6 +42,7 @@ const defaultSettings = {
     }]
   },
   legend: {
+    reverse: true,
     display: true,
     position: 'bottom'
   }
@@ -177,8 +178,8 @@ class NodeBandwidthChart extends React.Component {
             data.show = false
           } else {
             data.bw = {
-              in: tootltipSize(model.dataPoints[0].yLabel),
-              out: tootltipSize(model.dataPoints[1].yLabel)
+              out: tootltipSize(Math.abs(model.dataPoints[0].yLabel)),
+              in: tootltipSize(Math.abs(model.dataPoints[1].yLabel))
             }
 
             const rect = this._chart.canvas.getBoundingClientRect()
