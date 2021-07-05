@@ -33,13 +33,13 @@
     "descriptionFolder": "Bu klasör için yeni bir ad seçin."
   },
   "removeModal": {
-    "titleItem": "{count, plural, one {Remove item? {name}} other {Remove {count} items?}}",
-    "titleFolder": "{count, plural, one {Remove folder? {name}} other {Remove {count} folders?}}",
-    "titleFile": "{count, plural, one {Remove file? {name}} other {Remove {count} files?}}",
+    "titleItem": "{count, plural, one {Ögeyi silmek istediğinizden emin misiniz? {name}} other {{count} ögeyi silmek istediğinizden emin misiniz?}}",
+    "titleFolder": "{count, plural, one {Klasörü silmek istediğinizden emin misiniz? {name}} other {{count}klasörü silmek istediğinizden emin misiniz?}}",
+    "titleFile": "{count, plural, one {Dosyayı silmek istediğinizden emin misiniz? {name}} other {{count}dosyayı silmek istediğinizden emin misiniz?}}",
     "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
+    "checkboxRemoveLocalPin": "Yerel sabitlemeyi de kaldır (önerilen)",
     "checkboxUnpinFromServices": "Tüm sabitleme hizmetlerinden sabitlemeyi kaldır"
   },
   "pinningModal": {
@@ -92,7 +92,7 @@
     "step5": {
       "title": "Dosyalar listesi",
       "paragraph1": "Son olarak, dosyalarınızı ve klasörlerinizi bulabileceğiniz liste. Dosyaları veya klasörleri eklemek için sürükleyip bırakın.",
-      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!",
+      "paragraph2": "Dosyaları paylaşabilir veya indirebilir, IPLD Explorer'da inceleyebilir, yeniden adlandırabilir veya silebilirsiniz!",
       "paragraph3": "Uzman ipucu: MFS'nizin kök dizinine eklemek için Web kullanıcı arayüzünün herhangi bir sayfasından bir dosyayı sürükleyip bırakın."
     }
   },

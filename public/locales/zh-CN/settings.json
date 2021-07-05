@@ -3,7 +3,7 @@
   "save": "保存",
   "saving": "保存中 …",
   "reset": "重置",
-  "learnMoreLink": "学到更多。",
+  "learnMoreLink": "了解更多。",
   "pinningServices": {
     "title": "固定服务",
     "description": "当您希望确保您节点上的项目永远不会被执行垃圾回收时，请使用本地固定，这样即便您将项目从文件中删除，项目依旧会保存在您的节点内。您还可以将您的帐户与其他远程固定服务连接，以自动或有选择地将文件同步至其他固定服务商，这样即便您自己的本地节点失效时，您依旧可以获得文件的副本/或者将这些文件分享给其他人。",
@@ -38,7 +38,7 @@
     "nicknamePlaceholder": "您的服务名称",
     "apiEndpoint": "API 终端节点",
     "apiEndpointPlaceholder": "此API 终端节点的 URL",
-    "secretApiKey": "API 认证密钥",
+    "secretApiKey": "访问令牌",
     "autoUpload": "自动上传"
   },
   "autoUploadModal": {
@@ -49,7 +49,7 @@
     "nickname": "需要填写昵称",
     "apiError": "API 错误",
     "apiEndpoint": "需要一个有效的 URL",
-    "secretApiKey": "需要填写认证密钥",
+    "secretApiKey": "需要访问令牌",
     "failedToFetch": "获取失败",
     "failedToFetchTitle": "无法从此远程服务获取固定计数 (Pin Count)。确保它处于联机状态以及您输入了正确的凭据。如果这是一个新添加的服务，请尝试删除并重新添加。"
   },

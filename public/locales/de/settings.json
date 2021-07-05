@@ -6,7 +6,7 @@
   "learnMoreLink": "Mehr erfahren.",
   "pinningServices": {
     "title": "Pinning-Dienste",
-    "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
+    "description": "Verwende lokales Anheften, wenn Du sicherstellen möchtest, dass ein Element auf Deinem Knoten niemals durch den Garbage-Collector gelöscht wird, selbst wenn Du es aus Dateien entfernst. Du kannst Deine Konten auch mit anderen Remote-Pinning-Diensten verknüpfen, um Dateien bei diesen Anbietern automatisch oder selektiv beizubehalten. So kannst Du Sicherungskopien Deiner Dateien aufbewahren und / oder anderen zur Verfügung stellen, wenn Dein lokaler Knoten offline ist.",
     "noPinRemoteDescription": "Unterstützung für Remote-Pinning-Dienste von Drittanbietern fehlt. Aktualisiere deinen IPFS-Knoten auf go-ipfs 0.8.0 oder höher, damit du sie hier hinzufügen und konfigurieren kannst.",
     "addAutoUpload": "Automatisch hochladen aktivieren",
     "removeAutoUpload": "Automatisch hochladen deaktivieren"
@@ -21,10 +21,10 @@
     "translationProjectIntro": "Füge Übersetzungen hinzu oder verbessere sie und mache IPFS besser für jeden!",
     "translationProjectLink": "Dem IPFS-Übersetzungsprojekt beitreten"
   },
-  "apiDescription": "<0>Wenn Dein Node mit einer <1>benutzerdefinierten API-Adresse</1> konfiguriert ist, einschließlich eines anderen Ports als dem Standard-Port 5001, gib sie bitte hier ein.</0>",
+  "apiDescription": "<0>Wenn Dein Knoten mit einer <1>benutzerdefinierten API-Adresse</1> konfiguriert ist, einschließlich eines anderen Ports als dem Standard-Port 5001, gib sie bitte hier ein.</0>",
   "cliDescription": "<0>Aktiviere diese Option, um ein \"Code anzeigen\" <1></1> Symbol neben häufigen IPFS Befehlen anzuzeigen. Wenn du auf das Symbol klickst, öffnet sich ein Fenster mit CLI-Code des Befehls, den du in die IPFS Kommandozeile deines Terminals einfügen kannst.</0>",
   "cliModal": {
-    "extraNotesJsonConfig": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
+    "extraNotesJsonConfig": "Wenn Du im Code-Editor dieser Seite Änderungen an der Konfiguration vorgenommen hast, die Du speichern möchtest, klicke auf das Herunterladen-Symbol neben der Schaltfläche zum Kopieren, um sie als JSON-Datei herunterzuladen."
   },
   "pinningModal": {
     "title": "Wähle einen Pinning-Dienstanbieter aus.",
@@ -33,28 +33,28 @@
   "pinningServiceModal": {
     "title": "Konfiguriere einen benutzerdefinierten Pinning-Service.",
     "description": "Möchtest du deinen benutzerdefinierten Pinning-Service anderen zur Verfügung stellen? <1>Erfahre wie.<1>",
-    "service": "Service",
+    "service": "Dienst",
     "nickname": "Name",
-    "nicknamePlaceholder": "Name for your service",
+    "nicknamePlaceholder": "Name für Deinen Dienst",
     "apiEndpoint": "API-Endpunkt",
-    "apiEndpointPlaceholder": "URL for its API endpoint",
-    "secretApiKey": "Secret access token",
+    "apiEndpointPlaceholder": "URL für den API-Endpunkt",
+    "secretApiKey": "Geheimer Zugriffsschlüssel",
     "autoUpload": "Automatisch hochladen"
   },
   "autoUploadModal": {
-    "title": "Change upload policy for {name}",
-    "description": "When enabled, auto upload will periodically pin the root of your Files directory, ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" option on the Files screen."
+    "title": "Upload-Richtlinie für {name} ändern",
+    "description": "Wenn aktiviert, wird regelmäßig das Wurzelverzeichnis Deines Dateiverzeichnisses automatisch angeheftet, damit alles entfernt angeheftet ist und anderen Knoten zur Verfügung steht, auch wenn Dein lokaler IPFS-Knoten offline geht. Wenn Du dies deaktivierst, kannst Du jede Datei weiterhin manuell mit der Option \"Anheften einstellen\" auf der Seite \"Dateien\" anheften."
   },
   "errors": {
     "nickname": "Name ist erforderlich",
     "apiError": "API-Fehler",
     "apiEndpoint": "Muss eine gültige URL sein",
-    "secretApiKey": "Secret access token is required",
-    "failedToFetch": "Failed to fetch",
-    "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
+    "secretApiKey": "Geheimer Zugriffsschlüssel ist erforderlich",
+    "failedToFetch": "Fehler beim Abrufen",
+    "failedToFetchTitle": "Pin-Anzahl kann nicht von diesem Remote-Dienst abgerufen werden. Stelle sicher, dass er online ist und Du die richtigen Anmeldeinformationen eingegeben hast. Wenn dies ein neu hinzugefügter Dienst ist, versuche, ihn zu entfernen und erneut hinzuzufügen."
   },
   "actions": {
-    "addService": "Add Service",
+    "addService": "Dienst hinzufügen",
     "edit": "Ändern",
     "close": "Schließen",
     "save": "Speichern",
@@ -63,15 +63,15 @@
     "disable": "Deaktivieren"
   },
   "edit": "Bearbeiten",
-  "visitService": "Visit service",
+  "visitService": "Dienst besuchen",
   "remove": "Entfernen",
-  "localPinning": "Local Pinning",
-  "service": "Service",
+  "localPinning": "Lokal Anheften",
+  "service": "Dienst",
   "size": "Größe",
   "pins": "Pins",
   "autoUpload": "Automatisch hochladen",
   "autoUploadPolicy": {
-    "true": "All files",
+    "true": "Alle Dateien",
     "false": "Aus"
   },
   "fetchingSettings": "Einstellungen werden geladen...",
@@ -89,7 +89,7 @@
     "label": "Helfen Sie uns die App zu verbessern, indem Sie anonyme Nutzerdaten senden.",
     "summary": "Konfigurieren Sie, was gesammelt wird.",
     "paragraph1": "Keine CIDs, Dateinamen oder andere persönlichen Daten werden gesammelt. Wir nutzen die Metriken um zu sehen, welche Features nützlich sind um zu entscheiden, was wir als nächstes erweitern sollen. Ferner nutzen wir Informationen zur Systemkonfiguration um unser Testing zu verfeinern.",
-    "paragraph2": "Protocol Labs hosted eine <1>Countly</1> Instanz, die anonymisierte Nutzerdaten für diese App aufzeichnet",
+    "paragraph2": "Protocol Labs hosted eine <1>Countly</1> Instanz, die anonymisierte Nutzerdaten für diese App aufzeichnet.",
     "basicInfo": "Folgende zusätzliche Informationen werden an countly.ipfs.io gesendet",
     "optionalInfo": "Sie können per Opt-in folgende Informationen senden:",
     "sessions": {
@@ -123,8 +123,8 @@
   },
   "tour": {
     "step1": {
-      "title": "Einstellungsseite",
-      "paragraph1": "Hier kannst Du die Einstellungen deiner Web-UI und deines IPFS Node verändern.",
+      "title": "Einstellungen",
+      "paragraph1": "Hier kannst Du die Einstellungen deiner Web-UI und deines IPFS Knotens verändern.",
       "paragraph2": "Wenn Du IPFS Desktop benutzt, hast Du auch einige spezifische Einstellungen dafür."
     },
     "step2": {
@@ -132,8 +132,8 @@
       "paragraph1": "Wenn du deinen IPFS Knoten mit einer benutzerdefinierten API Adresse konfiguriert hast, kannst du deine Konfigurationsdatei direkt hier bearbeiten, anstatt das JSON von Hand zu bearbeiten."
     },
     "step3": {
-      "title": "Pinning services",
-      "paragraph1": "<0>If you have accounts with third-party remote pinning services, add them here so you can pin/unpin items to those services directly from the Files screen. You can learn more about third-party pinning services in the <1>IPFS Docs</1>.</0>"
+      "title": "Pinning-Dienste",
+      "paragraph1": "<0>Wenn Du Konten bei Remote-Pinning-Diensten von Drittanbietern hast, füge diese hier hinzu, damit Du Elemente direkt über die Seite \"Dateien\" an diese Dienste anheften oder loslösen kannst. Weitere Informationen zu Pinning-Diensten von Drittanbietern findest Du in der <1>IPFS-Dokumentation</1>.</0>"
     },
     "step4": {
       "title": "Sprachauswahl",
@@ -145,8 +145,8 @@
       "paragraph2": "Du kannst selbst entscheiden, welche Daten du uns senden möchtest. Wir können Dich außerdem nicht identifizieren. Der Schutz deiner Privatsphäre steht bei uns an erster Stelle."
     },
     "step6": {
-      "title": "CLI tutor mode",
-      "paragraph1": "Enable CLI tutor mode to see shortcuts to the command-line version of common IPFS commands — helpful if you're learning to use IPFS from the terminal, or if you just need a refresher."
+      "title": "CLI-Tutor-Modus",
+      "paragraph1": "Aktiviere den CLI-Tutor-Modus, um die Kommandozeilenversion gängiger IPFS-Befehle anzuzeigen. Dies ist hilfreich, wenn Du die Verwendung von IPFS über das Terminal erlernst oder nur eine Auffrischung benötigst."
     },
     "step7": {
       "title": "IPFS-Konfiguration",

@@ -6,7 +6,7 @@
   "learnMoreLink": "En savoir plus.",
   "pinningServices": {
     "title": "Services d'épinglage",
-    "description": "Utilisez l'épinglage local quand vous voulez être sûr(e) qu'un élément sur votre nœud n'est jamais supprimé par le ramasse-miettes, même si vous le supprimez de Fichiers. Vous pouvez aussi lier vos comptes à d'autres services d'épinglage pour garder automatiquement ou selectivement une copie chez ces fournisseurs de services, vous permettant d'avoir des copies de vos fichiers et/ou de les rendre disponibles quand votre nœud est hors ligne.",
+    "description": "Utilisez l'épinglage local quand vous voulez être sûr(e) qu'un élément sur votre nœud n'est jamais supprimé par le ramasse-miettes, même si vous le supprimez de Fichiers. Vous pouvez aussi lier vos comptes à d'autres services d'épinglage pour garder automatiquement ou selectivement une copie chez ces fournisseurs de service, vous permettant d'avoir des copies de vos fichiers et/ou de les rendre disponibles quand votre nœud est hors ligne.",
     "noPinRemoteDescription": "Le support pour l'épinglage par des services d'épinglage tiers distants est manquant. Mettez votre nœud IPFS à jour vers go-ipfs 0.8.0 ou plus, et vous serez capable de les ajouter et les configurer ici.",
     "addAutoUpload": "Activer le téléversement automatique",
     "removeAutoUpload": "Désactiver le Téléversement Automatique"
@@ -38,19 +38,19 @@
     "nicknamePlaceholder": "Nom de votre service",
     "apiEndpoint": "Point d'entrée de l'API",
     "apiEndpointPlaceholder": "URL de son point d'entrée d'API",
-    "secretApiKey": "Clé secrète d'API",
+    "secretApiKey": "Jeton d'accès secret",
     "autoUpload": "Téléverser automatiquement"
   },
   "autoUploadModal": {
     "title": "Changer la politique de téléversement pour {name}",
-    "description": "Quand il est activé, l'autoversement va périodiquement épingler la racine de votre dossier Fichiers, pour qu'e tout soit épinglé à distance et disponible pour les autres pairs quand votre nœud IPFS local est hors ligne. Si vous le désactivez, vous pouvez toujours épingler chaque fichier manuellement en utilisant l'option \"Régler l'épinglage\" dans l'onglet Fichiers."
+    "description": "Quand il est activé, l'autoversement va périodiquement épingler la racine de votre dossier Fichiers, pour que tout soit épinglé à distance et disponible pour les autres pairs quand votre nœud IPFS local est hors ligne. Si vous le désactivez, vous pouvez toujours épingler chaque fichier manuellement en utilisant l'option \"Régler l'épinglage\" dans l'onglet Fichiers."
   },
   "errors": {
     "nickname": "Un surnom est requis.",
     "apiError": "Erreur d'API",
     "apiEndpoint": "Doit être une URL valide",
-    "secretApiKey": "Une clé secrète est requise",
-    "failedToFetch": "Impossible d'obtenir l'information",
+    "secretApiKey": "Le jeton d'accès secret est obligatoire",
+    "failedToFetch": "Impossible à obtenir ",
     "failedToFetchTitle": "Impossible d'obtenir le décompte des éléments épinglés pour ce service distant. Vérifiez qu'il est en ligne et que vous avez entré correctement les identifiants. Si c'est un service que vous venez d'ajoutez, essayez de le supprimer et de l'ajouter à nouveau. "
   },
   "actions": {

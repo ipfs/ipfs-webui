@@ -50,7 +50,7 @@
   },
   "addByPathModal": {
     "title": "Aus IPFS importieren",
-    "description": "Tragen Sie einen IPFS Pfad (CID) zum Importieren ein.",
+    "description": "Gib einen IPFS Pfad (CID) zum Importieren ein.",
     "examples": "Beispiele:"
   },
   "newFolderModal": {
@@ -87,11 +87,11 @@
       "title": "Dateien hinzufügen",
       "paragraph1": "Hier kannst du sehen, wie viele Blöcke und Dateien du angepinnt hast.",
       "paragraph2": "Du kannst Dateien oder Ordner mit dem Dropdown auf der rechten Seite zu deiner Ablage hinzufügen.",
-      "paragraph3": "<0>Wenn du etwas, was schon in IPFS ist, hinzufügen möchtest, kannst du es in dein MFS importieren, indem du dessen <1>Inhalts-Bezeichner (CID)</1> einträgst.</0>"
+      "paragraph3": "<0>Wenn du etwas, was schon in IPFS ist, hinzufügen möchtest, kannst du es in dein MFS importieren, indem du dessen <1>Content Identifier (CID)</1> angibst.</0>"
     },
     "step5": {
       "title": "Datei Liste",
-      "paragraph1": "Schließlich, die Liste mit allen Dateien und Ordnern. Füge Dateien und Ordner mit Drag and Drop hinzu.",
+      "paragraph1": "Schließlich die Liste mit allen Dateien und Ordnern. Füge Dateien und Ordner mit Drag and Drop hinzu.",
       "paragraph2": "Du kannst Dateien teilen oder herunterladen, sie in dem IPLD Explorer untersuchen, sie umbenennen oder entfernen!",
       "paragraph3": "Profi-Tipp: Ziehe eine Datei von jeder anderen Seite der Web-UI hierher, um sie zum Wurzel-Verzeichnis deines MFS hinzuzufügen."
     }

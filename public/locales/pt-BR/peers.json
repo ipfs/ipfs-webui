@@ -2,12 +2,12 @@
   "title": "Pares",
   "localNetwork": "Rede Local",
   "nearby": "próximo",
-  "protocols": "Open streams",
+  "protocols": "Streams abertos",
   "addConnection": "Adicionar conexão",
   "insertPeerAddress": "Insira o endereço do par ao que você deseja conectar.",
   "plusPeers": "+ {number} mais pares",
-  "connectionDirectionInbound": "inbound",
-  "connectionDirectionOutbound": "outbound",
+  "connectionDirectionInbound": "entrada",
+  "connectionDirectionOutbound": "saída",
   "copyFeedback": "Copiado!",
   "tour": {
     "step1": {

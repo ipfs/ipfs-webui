@@ -1,0 +1,47 @@
+{
+  "title": "Estado",
+  "nodeInfo": "Informação sobre o nó",
+  "spaceUsed": "Espaço utilizado",
+  "networkTraffic": "Tráfego da rede",
+  "bandwidthOverTime": "Largura de banda utilizada",
+  "bandwidthByPeer": "Largura de banda por par",
+  "distributionOfPeers": "Distribuição dos pares",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Par)} other {{percent}% ({count}Pares)}}",
+  "countMore": "...e mais{count} pares",
+  "StatusConnected": {
+    "repoSize": "Hospedando {repoSize} de dados",
+    "peersCount": "{peersCount, plural, one {Descoberto um par} other {Descobertos {peersCount} pares}}"
+  },
+  "customApiConfig": "Configuração JSON personalizada",
+  "AskToEnable": {
+    "label": "Ajude a melhorar este aplicativos enviado dados de utilização anônimos."
+  },
+  "tour": {
+    "step1": {
+      "title": "Página de status",
+      "paragraph1": "Este é o ponto de partida do seu nó IPFS e onde você pode verificar suas informações básicas.",
+      "paragraph2": "Clique \"Próximo\" para saber mais."
+    },
+    "step2": {
+      "title": "Estado da conexão",
+      "paragraph1": "Clique neste ícone de qualquer lugar no aplicativo para retornar à página de status. Se você perder sua conexão com a API IPFS, o ícone ficará vermelho.",
+      "paragraph2": "Se você precisar configurar um endereço API personalizado para seu nó, basta clicar no link \"Editar\" ao lado de onde o endereço API está listado nesta página."
+    },
+    "step3": {
+      "title": "Informação sobre o nó",
+      "paragraph1": "Aqui você tem informações sobre o tamanho de seu repositório, quantos pares estão conectados, sua identificação de pares e o sabor IPFS que está em uso no momento.",
+      "paragraph2": "<0>Expanda o link <1>Avançado</1> para ver mais informações, tais como a URL e os endereços da porta de entrada. Há também um link dentro da seção Avançado para mudar seu endereço API.</0>"
+    },
+    "step4": {
+      "title": "Largura de banda/tráfego da rede",
+      "paragraph1": "Este gráfico mostra o uso da largura de banda da rede ao longo do tempo.",
+      "paragraph2": "Os velocímetros mostram o tráfego de saída e de entrada atual."
+    },
+    "stepExplore": {
+      "title": "Explorar",
+      "paragraph": "Cole um CID e explore os arquivos contidos por trás do CID ou veja como esses dados são estruturados e ligados através de protocolos."
+    }
+  },
+  "bandwidthStats": "Estatísticas de largura de banda",
+  "bandwidthStatsDisabled": "Você tem as métricas de largura de banda desativadas. Você pode habilitá-las digitando o comando abaixo ou mudando a chave <1>Swarm. Desabilitar Métrica de largura de banda</1> para <3>falso</3> em <5>Configurações</5>. Então, você precisa reiniciar o daemon IPFS para aplicar as mudanças."
+}

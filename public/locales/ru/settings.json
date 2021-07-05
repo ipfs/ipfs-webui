@@ -38,7 +38,7 @@
     "nicknamePlaceholder": "Название вашего сервиса",
     "apiEndpoint": "Точка достука API",
     "apiEndpointPlaceholder": "URL для ее точки достука API",
-    "secretApiKey": "Секретный API ключ",
+    "secretApiKey": "Secret access token",
     "autoUpload": "Автозагрузка"
   },
   "autoUploadModal": {
@@ -49,7 +49,7 @@
     "nickname": "Логин обязателен",
     "apiError": "API error",
     "apiEndpoint": " Должен быть действующий URL",
-    "secretApiKey": "Секретный ключ обязателен",
+    "secretApiKey": "Secret access token is required",
     "failedToFetch": "Failed to fetch",
     "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
   },

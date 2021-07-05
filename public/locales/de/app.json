@@ -24,7 +24,7 @@
     "save": "Speichern",
     "saving": "Speichervorgang läuft…",
     "selectAll": "Alle auswählen",
-    "setPinning": "Set pinning",
+    "setPinning": "Anheften einstellen",
     "submit": "Absenden",
     "unpin": "Loslösen",
     "unselectAll": "Alle abwählen"
@@ -79,7 +79,7 @@
     "totalIn": "Gesamteingang",
     "totalOut": "Gesamtausgang",
     "unknown": "Unbekannt",
-    "ui": "Benutzeroberfläche",
+    "ui": "UI",
     "upSpeed": "Ausgehend"
   },
   "tour": {
