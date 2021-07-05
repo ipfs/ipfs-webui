@@ -39,7 +39,8 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
     <form onSubmit={onSubmit}>
       <input
         id='api-address'
-        aria-label={t('apiAddressForm.apiLabel')}
+        aria-label={t('terms.apiAddress')}
+        placeholder={t('apiAddressForm.placeholder')}
         type='text'
         className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
         onChange={onChange}

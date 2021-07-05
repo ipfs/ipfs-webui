@@ -42,6 +42,9 @@
     "connectingToIpfs": "Connecting to IPFS…",
     "couldNotConnect": "Could not connect to the IPFS API"
   },
+  "apiAddressForm": {
+    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+  },
   "terms": {
     "address": "Address",
     "addresses": "Addresses",
