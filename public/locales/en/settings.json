@@ -39,6 +39,7 @@
     "apiEndpoint": "API endpoint",
     "apiEndpointPlaceholder": "URL for its API endpoint",
     "secretApiKey": "Secret access token",
+    "secretApiKeyHowToLink": "How to generate a new token",
     "autoUpload": "Auto upload"
   },
   "autoUploadModal": {

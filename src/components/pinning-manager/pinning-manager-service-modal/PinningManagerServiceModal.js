@@ -10,7 +10,7 @@ import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import Button from '../../button/Button'
 import './PinningManagerServiceModal.css'
 
-const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service, tReady, doAddPinningService, nickname, apiEndpoint, secretApiKey, ...props }) => {
+const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service, tReady, doAddPinningService, nickname, apiEndpoint, visitServiceUrl, secretApiKey, ...props }) => {
   const { register, errors, clearErrors, setError, handleSubmit } = useForm({
     defaultValues: {
       nickname,
@@ -82,6 +82,9 @@ const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service,
 
             <label htmlFor="cm-secretApiKey">
               { t('pinningServiceModal.secretApiKey') }
+              { service.icon && service.name && visitServiceUrl && (
+                <a className='f7 link pv0 lh-copy dib' href={ visitServiceUrl } rel='noopener noreferrer' target="_blank"> { t('pinningServiceModal.secretApiKeyHowToLink') }</a>
+              )}
             </label>
             <div className='relative'>
               <input id='cm-secretApiKey'
@@ -101,7 +104,7 @@ const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service,
           <p className='f6'>
             <Trans i18nKey="pinningServiceModal.description" t={t}>
               Want to make your custom pinning service available to others?
-              <a href='https://docs.ipfs.io/how-to/work-with-pinning-services/' rel='noopener noreferrer' target="_blank" className='pv0' type='link'>Learn how.</a>
+              <a href='https://docs.ipfs.io/how-to/work-with-pinning-services/' rel='noopener noreferrer' target="_blank" className='pv0 dib link' type='link'>Learn how.</a>
             </Trans>
           </p>
         </ModalBody>
