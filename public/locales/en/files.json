@@ -10,7 +10,7 @@
   "individualFilesOnly": "Only available for individual files",
   "noPDFSupport": "Your browser does not support PDFs. Please download the PDF to view it:",
   "downloadPDF": "Download PDF",
-  "downloadInstead": "Try <1>downloading</1> it instead.",
+  "openInstead": "Try opening it instead <1>with your local gateway</1> or <1>with ipfs.io</1>.",
   "cantBePreviewed": "Sorry, this file can’t be previewed",
   "addByPath": "From IPFS",
   "newFolder": "New folder",

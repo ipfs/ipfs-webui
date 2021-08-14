@@ -28,7 +28,7 @@ const Preview = (props) => {
   </div>
 }
 
-const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl, read, onDownload }) => {
+const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl, gatewayUrl: localGatewayUrl, read, onDownload }) => {
   const [content, setContent] = useState(null)
   const [hasMoreContent, setHasMoreContent] = useState(false)
   const [buffer, setBuffer] = useState(null)
@@ -56,7 +56,7 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
   }, // eslint-disable-next-line react-hooks/exhaustive-deps
   [])
 
-  const src = `${gatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
+  const src = `${availableGatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
   const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
   switch (type) {
@@ -84,12 +84,15 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
     case 'image':
       return <img className={className} alt={name} src={src} />
     default: {
+      const srcLocal = `${localGatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
+      const srcIpfsIo = `https://ipfs.io/ipfs/${cid}?filename=${encodeURIComponent(name)}`
+
       const cantPreview = (
         <div className='mt4'>
           <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
           <p>
-            <Trans i18nKey='downloadInstead' t={t}>
-                Try <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue' >downloading</a> it instead.
+            <Trans i18nKey='openInstead' t={t}>
+              Try opening it instead <a href={srcLocal} download target='_blank' rel='noopener noreferrer' className='link blue'>with your local gateway</a> or <a href={srcIpfsIo} download target='_blank' rel='noopener noreferrer' className='link blue'>with ipfs.io</a>.
             </Trans>
           </p>
         </div>
@@ -138,5 +141,6 @@ Preview.propTypes = {
 
 export default connect(
   'selectAvailableGatewayUrl',
+  'selectGatewayUrl',
   withTranslation('files')(Preview)
 )
