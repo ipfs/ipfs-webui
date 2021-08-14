@@ -46,11 +46,12 @@ export function normalizeFiles (files) {
  * @returns {Promise<FileDownload>}
  */
 async function downloadSingle (file, gatewayUrl, apiUrl) {
-  let url, filename, method
+  let url, filename, name, method
 
   if (file.type === 'directory') {
     url = `${apiUrl}/api/v0/get?arg=${file.cid}&archive=true&compress=true`
-    filename = `${file.name}.tar.gz`
+    name = file.name || `download_${file.cid}` // Name is not always available.
+    filename = `${name}.tar.gz`
     method = 'POST' // API is POST-only
   } else {
     url = `${gatewayUrl}/ipfs/${file.cid}`
