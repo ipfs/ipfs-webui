@@ -412,8 +412,6 @@ const actions = () => ({
    * @param {FileStat[]} files
    */
   doFilesDownloadLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async (ipfs, { store }) => {
-    ensureMFS(store)
-
     const apiUrl = store.selectApiUrl()
     const gatewayUrl = store.selectGatewayUrl()
     return await getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
