@@ -2,7 +2,6 @@ import memoize from 'p-memoize'
 import toUri from 'multiaddr-to-uri'
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
-const DEFAULT_URI = 'https://ipfs.io'
 const LOCAL_HOSTNAMES = ['127.0.0.1', '[::1]', '0.0.0.0', '[::]']
 
 const bundle = createAsyncResourceBundle({
@@ -22,7 +21,9 @@ const bundle = createAsyncResourceBundle({
     }
 
     const config = JSON.parse(conf)
-    const url = getURLFromAddress('Gateway', config) || DEFAULT_URI
+
+    const publicGateway = store.selectPublicGateway()
+    const url = getURLFromAddress('Gateway', config) || publicGateway
 
     // Normalize local hostnames to localhost
     // to leverage subdomain gateway, if present
@@ -38,7 +39,7 @@ const bundle = createAsyncResourceBundle({
     }
 
     if (!await checkIfGatewayUrlIsAccessible(url)) {
-      store.doSetAvailableGateway(DEFAULT_URI)
+      store.doSetAvailableGateway(publicGateway)
     }
 
     // stringy json for quick compares
@@ -54,12 +55,14 @@ bundle.selectConfigObject = createSelector(
 
 bundle.selectApiUrl = createSelector(
   'selectConfigObject',
-  (config) => getURLFromAddress('API', config) || DEFAULT_URI
+  'selectPublicGateway',
+  (config, publicGateway) => getURLFromAddress('API', config) || publicGateway
 )
 
 bundle.selectGatewayUrl = createSelector(
   'selectConfigObject',
-  (config) => getURLFromAddress('Gateway', config) || DEFAULT_URI
+  'selectPublicGateway',
+  (config, publicGateway) => getURLFromAddress('Gateway', config) || publicGateway
 )
 
 bundle.selectAvailableGatewayUrl = createSelector(
