@@ -21,7 +21,7 @@ import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 
 const FilesPage = ({
-  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesWrite, doFilesAddPath, doUpdateHash,
+  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
@@ -67,6 +67,18 @@ const FilesPage = ({
     const { abort } = await downloadFile(url, filename, updater, method)
     setDownloadAbort(() => abort)
   }
+
+  const onDownloadCar = async (files) => {
+    if (downloadProgress !== null) {
+      return downloadAbort()
+    }
+
+    const url = await doFilesDownloadCarLink(files)
+    const link = document.createElement('a')
+    link.href = url
+    link.click()
+  }
+
   const onAddFiles = (raw, root = '') => {
     if (root === '') root = files.path
 
@@ -202,6 +214,7 @@ const FilesPage = ({
         onRename={() => showModal(RENAME, [contextMenu.file])}
         onInspect={() => onInspect(contextMenu.file.cid)}
         onDownload={() => onDownload([contextMenu.file])}
+        onDownloadCar={() => onDownloadCar([contextMenu.file])}
         onPinning={() => showModal(PINNING, [contextMenu.file])}
         isCliTutorModeEnabled={isCliTutorModeEnabled}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
@@ -274,6 +287,7 @@ export default connect(
   'selectToursEnabled',
   'doFilesWrite',
   'doFilesDownloadLink',
+  'doFilesDownloadCarLink',
   'doExploreUserProvidedPath',
   'doFilesSizeGet',
   'selectIsCliTutorModeEnabled',
