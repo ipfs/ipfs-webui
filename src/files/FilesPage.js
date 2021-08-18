@@ -21,7 +21,7 @@ import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 
 const FilesPage = ({
-  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesWrite, doFilesAddPath, doUpdateHash,
+  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesExportDagLink, doFilesWrite, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
@@ -66,6 +66,18 @@ const FilesPage = ({
     const { abort } = await downloadFile(url, filename, updater, method)
     setDownloadAbort(() => abort)
   }
+
+  const onExportDag = async (files) => {
+    if (downloadProgress !== null) {
+      return downloadAbort()
+    }
+
+    const updater = (v) => setDownloadProgress(v)
+    const { url, filename, method } = await doFilesExportDagLink(files)
+    const { abort } = await downloadFile(url, filename, updater, method)
+    setDownloadAbort(() => abort)
+  }
+
   const onAddFiles = (raw, root = '') => {
     if (root === '') root = files.path
 
@@ -201,6 +213,7 @@ const FilesPage = ({
         onRename={() => showModal(RENAME, [contextMenu.file])}
         onInspect={() => onInspect(contextMenu.file.cid)}
         onDownload={() => onDownload([contextMenu.file])}
+        onExportDag={() => onExportDag([contextMenu.file])}
         onPinning={() => showModal(PINNING, [contextMenu.file])}
         isCliTutorModeEnabled={isCliTutorModeEnabled}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
@@ -273,6 +286,7 @@ export default connect(
   'selectToursEnabled',
   'doFilesWrite',
   'doFilesDownloadLink',
+  'doFilesExportDagLink',
   'doExploreUserProvidedPath',
   'doFilesSizeGet',
   'selectIsCliTutorModeEnabled',

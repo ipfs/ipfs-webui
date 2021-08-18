@@ -142,6 +142,29 @@ export async function getShareableLink (files, ipfs) {
 }
 
 /**
+ *
+ * @param {FileStat[]} files
+ * @param {string} apiUrl
+ * @param {IPFSService} ipfs
+ * @returns {Promise<FileDownload>}
+ */
+export async function getDagCarLink (files, apiUrl, ipfs) {
+  let cid
+
+  if (files.length === 1) {
+    cid = files[0].cid
+  } else {
+    cid = await makeCIDFromFiles(files, ipfs)
+  }
+
+  return {
+    url: `${apiUrl}/api/v0/dag/export?arg=${cid}`,
+    filename: `dag_${cid}.car`,
+    method: 'POST' // API is POST-only
+  }
+}
+
+/**
  * @param {number} size in bytes
  * @param {object} opts format customization
  * @returns {string} human-readable size

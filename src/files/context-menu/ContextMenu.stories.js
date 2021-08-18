@@ -23,6 +23,7 @@ storiesOf('Files', module)
         onInspect={action('Inspect')}
         onRename={action('Rename')}
         onDownload={action('Download')}
+        onExportDag={action('Export DAG')}
         onRemove={action('Remove')}
         handleClick={action('Handle Click')}
         onNavigate={action('Navigate')}
