@@ -331,6 +331,19 @@ const actions = () => ({
   }),
 
   /**
+   * Imports given `source` CAR file to the provided `root` path. On completion
+   * (success or fail) will trigger `doFilesFetch` to update the state.
+   * @param {FileStream[]} source
+   * @param {string} root
+   */
+  doImportCar: (source, root) => spawn(ACTIONS.IMPORT_CAR, async function * (ipfs, { store }) {
+    console.log(source, root)
+
+    // const res = await ipfs.dag.import(source)
+    console.log(ipfs.dag)
+  }),
+
+  /**
    * Deletes `files` with provided paths. On completion (success sor fail) will
    * trigger `doFilesFetch` to update the state.
    * @param {Object} args
