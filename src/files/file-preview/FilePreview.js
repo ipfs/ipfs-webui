@@ -28,7 +28,7 @@ const Preview = (props) => {
   </div>
 }
 
-const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl, read, onDownload }) => {
+const PreviewItem = ({ t, name, cid, size, type, gatewayUrl, read, onDownload }) => {
   const [content, setContent] = useState(null)
   const [hasMoreContent, setHasMoreContent] = useState(false)
   const [buffer, setBuffer] = useState(null)
@@ -129,7 +129,7 @@ Preview.propTypes = {
   name: PropTypes.string.isRequired,
   hash: PropTypes.instanceOf(CID),
   size: PropTypes.number.isRequired,
-  availableGatewayUrl: PropTypes.string.isRequired,
+  gatewayUrl: PropTypes.string.isRequired,
   read: PropTypes.func.isRequired,
   content: PropTypes.object,
   t: PropTypes.func.isRequired,
@@ -137,6 +137,6 @@ Preview.propTypes = {
 }
 
 export default connect(
-  'selectAvailableGatewayUrl',
+  'selectGatewayUrl',
   withTranslation('files')(Preview)
 )
