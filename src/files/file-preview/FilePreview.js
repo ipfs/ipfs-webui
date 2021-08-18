@@ -104,7 +104,6 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
       }
 
       if (isBinary(content)) {
-        loadContent()
         return cantPreview
       }
 
