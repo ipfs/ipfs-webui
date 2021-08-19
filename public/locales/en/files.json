@@ -13,6 +13,7 @@
   "downloadInstead": "Try <1>downloading</1> it instead.",
   "cantBePreviewed": "Sorry, this file can’t be previewed",
   "addByPath": "From IPFS",
+  "fromDagCar": "From CAR Archive",
   "newFolder": "New folder",
   "generating": "Generating…",
   "actions": {

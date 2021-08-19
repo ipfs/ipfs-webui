@@ -21,7 +21,7 @@ import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 
 const FilesPage = ({
-  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesWrite, doFilesAddPath, doUpdateHash,
+  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesWrite, doImportCar, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
@@ -66,10 +66,17 @@ const FilesPage = ({
     const { abort } = await downloadFile(url, filename, updater, method)
     setDownloadAbort(() => abort)
   }
+
   const onAddFiles = (raw, root = '') => {
     if (root === '') root = files.path
 
     doFilesWrite(raw, root)
+  }
+
+  const onImportCar = (raw, root = '') => {
+    if (root === '') root = files.path
+
+    doImportCar(raw, root)
   }
 
   const onAddByPath = (path) => doFilesAddPath(files.path, path)
@@ -211,6 +218,7 @@ const FilesPage = ({
         files={files}
         onNavigate={doFilesNavigateTo}
         onAddFiles={onAddFiles}
+        onImportCar={onImportCar}
         onMove={doFilesMove}
         onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
         onNewFolder={(files) => showModal(NEW_FOLDER, files)}
@@ -272,6 +280,7 @@ export default connect(
   'selectFilesSorting',
   'selectToursEnabled',
   'doFilesWrite',
+  'doImportCar',
   'doFilesDownloadLink',
   'doExploreUserProvidedPath',
   'doFilesSizeGet',

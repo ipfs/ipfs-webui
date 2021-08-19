@@ -17,6 +17,8 @@ export const ACTIONS = {
   MAKE_DIR: ('FILES_MAKEDIR'),
   /** @type {'FILES_WRITE'} */
   WRITE: ('FILES_WRITE'),
+  /** @type {'IMPORT_CAR'} */
+  IMPORT_CAR: ('IMPORT_CAR'),
   /** @type {'FILES_DOWNLOADLINK'} */
   DOWNLOAD_LINK: ('FILES_DOWNLOADLINK'),
   /** @type {'FILES_SHARE_LINK'} */
@@ -82,6 +84,7 @@ export const cliCmdKeys = {
   ADD_DIRECTORY: 'addNewDirectory',
   CREATE_NEW_DIRECTORY: 'createNewDirectory',
   FROM_IPFS: 'fromIpfs',
+  FROM_DAG_CAR: 'fromDagCar',
   ADD_NEW_PEER: 'addNewPeer'
 }
 
@@ -128,5 +131,6 @@ export const cliCommandList = {
    * @param {string} path
    */
   [cliCmdKeys.FROM_IPFS]: (path) => `ipfs cp /ipfs/<cid> "${path}/<dest-name>"`,
+  [cliCmdKeys.FROM_DAG_CAR]: () => 'ipfs dag import <car-file>',
   [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-multiaddr>'
 }
