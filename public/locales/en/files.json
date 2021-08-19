@@ -110,6 +110,6 @@
   "filesDescription": "Total size of data in the current directory (if a subdirectory, the size of all data in Files is also displayed)",
   "more": "More",
   "files": "Files",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <0>inspect</0> it instead.",
+  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
   "sortBy": "Sort items by {name}"
 }
