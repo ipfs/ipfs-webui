@@ -1,5 +1,5 @@
 import React from 'react'
-import Multiaddr from 'multiaddr'
+import { multiaddr } from 'multiaddr'
 
 const Address = ({ value }) => {
   if (!value) return null
@@ -7,7 +7,7 @@ const Address = ({ value }) => {
   // future-proofing interop for multiaddr > 8.x
   value = value.buffer || value
 
-  const ma = Multiaddr(value)
+  const ma = multiaddr(value)
   const protos = ma.protoNames().concat(['ipfs', 'p2p'])
   const parts = ma.toString().split('/')
 
