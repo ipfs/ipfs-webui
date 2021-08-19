@@ -6,6 +6,7 @@
  * @property {() => Promise<void|Array<{path:string, size:number, content:AsyncIterable<Uint8Array>}>>} selectDirectory
  * @property {(consent:string[]) => void} removeConsent
  * @property {(consent:string[]) => void} addConsent
+ * @property {(language:string) => void} updateLanguage
  */
 // @ts-ignore
 /** @type {{ ipfsDesktop: IPFSDesktop }} */
@@ -57,6 +58,14 @@ const desktopActions = {
    */
   doDesktopRemoveConsent: consent => () => {
     return root.ipfsDesktop.removeConsent(consent)
+  },
+
+  /**
+   * @param {string} language
+   * @returns {() => void}
+   */
+  doDesktopUpdateLanguage: language => () => {
+    return root.ipfsDesktop.updateLanguage(language)
   }
 }
 
