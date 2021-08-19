@@ -45,6 +45,9 @@
   "apiAddressForm": {
     "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
+  "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://dweb.link)"
+  },
   "terms": {
     "address": "Address",
     "addresses": "Addresses",
@@ -75,6 +78,7 @@
     "pins": "Pins",
     "pinStatus": "Pin Status",
     "publicKey": "Public key",
+    "publicGateway": "Public Gateway",
     "rateIn": "Rate in",
     "rateOut": "Rate out",
     "repo": "Repo",

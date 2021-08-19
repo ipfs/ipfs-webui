@@ -15,6 +15,7 @@ import LanguageSelector from '../components/language-selector/LanguageSelector'
 import PinningManager from '../components/pinning-manager/PinningManager'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
+import PublicGatewayForm from '../components/public-gateway-form/PublicGatewayForm'
 import JsonEditor from './editor/JsonEditor'
 import Experiments from '../components/experiments/ExperimentsPanel'
 import Title from './Title'
@@ -55,6 +56,16 @@ export const SettingsPage = ({
           <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/go-ipfs/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here.</p>
         </Trans>
         <ApiAddressForm/>
+      </div>
+    </Box>
+
+    <Box className='mb3 pa4-l pa2'>
+      <div className='lh-copy charcoal'>
+        <Title>{t('app:terms.publicGateway')}</Title>
+        <Trans i18nKey='publicGatewayDescription' t={t}>
+          <p>Choose which <a className='link blue' href="http://docs.ipfs.io/concepts/ipfs-gateway/#public-gateways" target='_blank' rel='noopener noreferrer'>public gateway</a> you want to use to open your files.</p>
+        </Trans>
+        <PublicGatewayForm/>
       </div>
     </Box>
 

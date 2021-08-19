@@ -122,10 +122,11 @@ export async function getDownloadLink (files, gatewayUrl, apiUrl, ipfs) {
 
 /**
  * @param {FileStat[]} files
+ * @param {string} gatewayUrl
  * @param {IPFSService} ipfs
  * @returns {Promise<string>}
  */
-export async function getShareableLink (files, ipfs) {
+export async function getShareableLink (files, gatewayUrl, ipfs) {
   let cid
   let filename
 
@@ -138,7 +139,7 @@ export async function getShareableLink (files, ipfs) {
     cid = await makeCIDFromFiles(files, ipfs)
   }
 
-  return `https://ipfs.io/ipfs/${cid}${filename || ''}`
+  return `${gatewayUrl}/ipfs/${cid}${filename || ''}`
 }
 
 /**
