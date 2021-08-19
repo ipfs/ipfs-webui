@@ -156,6 +156,7 @@ const getPins = async function * (ipfs) {
  * @typedef {Object} ConfigSelectors
  * @property {function():string} selectApiUrl
  * @property {function():string} selectGatewayUrl
+ * @property {function():string} selectPublicGateway
  *
  * @typedef {Object} UnkonwActions
  * @property {function(string):Promise<unknown>} doUpdateHash
@@ -423,9 +424,10 @@ const actions = () => ({
    * Generates sharable link for the provided files.
    * @param {FileStat[]} files
    */
-  doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async (ipfs) => {
+  doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
     // ensureMFS deliberately omitted here, see https://github.com/ipfs/ipfs-webui/issues/1744 for context.
-    return await getShareableLink(files, ipfs)
+    const publicGateway = store.selectPublicGateway()
+    return await getShareableLink(files, publicGateway, ipfs)
   }),
 
   /**
