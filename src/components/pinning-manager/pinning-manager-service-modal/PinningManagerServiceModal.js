@@ -22,7 +22,6 @@ const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service,
   const onSubmit = async data => {
     try {
       await doAddPinningService(data)
-      clearErrors('apiValidation')
       onSuccess()
     } catch (error) {
       console.error(error)
@@ -32,10 +31,13 @@ const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service,
       })
     }
   }
+  const cleanErrors = () => {
+    clearErrors('apiValidation')
+  }
 
   return (
     <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} onChange={cleanErrors}>
         <ModalBody>
           <p>{ t('pinningServiceModal.title') }</p>
 
