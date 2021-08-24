@@ -27,6 +27,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ipld/dag-pb": "^2.1.9",
     "@loadable/component": "^5.14.1",
     "@tableflip/react-dropdown": "^1.3.0",
     "@tableflip/react-inspector": "^2.3.0",
@@ -54,11 +55,11 @@
     "ipfs-css": "^1.3.0",
     "ipfs-geoip": "^7.0.0",
     "ipfs-http-client": "^52.0.1",
-    "ipfs-provider": "^2.0.1",
+    "ipfs-provider": "ipfs-shipyard/ipfs-provider#aae9c02212ed0e2469a08ef5dc6a86f3a2582826",
     "ipld-dag-pb": "^0.22.3",
     "ipld-explorer-components": "2.0.2",
     "is-binary": "^0.1.0",
-    "is-ipfs": "^6.0.1",
+    "is-ipfs": "^6.0.2",
     "it-all": "^1.0.5",
     "it-first": "^1.0.6",
     "it-last": "^1.0.5",

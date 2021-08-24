@@ -1,5 +1,5 @@
 import { multiaddr } from 'multiaddr'
-import { create } from 'ipfs-http-client'
+import httpClient from 'ipfs-http-client'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
 import first from 'it-first'
@@ -426,7 +426,7 @@ const actions = {
 
           return true
         },
-        loadHttpClientModule: () => create,
+        loadHttpClientModule: () => httpClient,
         providers: [
           providers.httpClient(ipfsOptions)
         ]
