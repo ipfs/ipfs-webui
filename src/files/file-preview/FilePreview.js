@@ -22,7 +22,7 @@ const Drag = ({ name, size, cid, path, children }) => {
 }
 
 const Preview = (props) => {
-  const { t, name, cid, size, availableGatewayUrl: gatewayUrl, read, onDownload } = props
+  const { t, name, cid, size, availableGatewayUrl, publicGateway, read, onDownload } = props
   const [content, setContent] = useState(null)
   const [hasMoreContent, setHasMoreContent] = useState(false)
   const [buffer, setBuffer] = useState(null)
@@ -51,7 +51,7 @@ const Preview = (props) => {
   }, // eslint-disable-next-line react-hooks/exhaustive-deps
   [])
 
-  const src = `${gatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
+  const src = `${availableGatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
   const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
   switch (type) {
@@ -89,13 +89,22 @@ const Preview = (props) => {
         </Drag>
       )
     default: {
+      const srcPublic = `${publicGateway}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
+
       const cantPreview = (
         <div className='mt4'>
           <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
           <p>
-            <Trans i18nKey='downloadInstead' t={t}>
-                Try <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue' >downloading</a> it instead.
-            </Trans>
+            { availableGatewayUrl === publicGateway
+              ? <Trans i18nKey='openWithPublicGateway' t={t}>
+            Try opening it instead with your <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue'>public gateway</a>.
+              </Trans>
+              : <Trans i18nKey='openWithLocalAndPublicGateway' t={t}>
+          Try opening it instead with your <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue'>local gateway</a> or <a href={srcPublic} download target='_blank' rel='noopener noreferrer' className='link blue'>public gateway</a>.
+              </Trans>
+
+            }
+
           </p>
         </div>
       )
@@ -143,5 +152,6 @@ Preview.propTypes = {
 
 export default connect(
   'selectAvailableGatewayUrl',
+  'selectPublicGateway',
   withTranslation('files')(Preview)
 )

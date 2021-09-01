@@ -48,7 +48,13 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
         value={value}
       />
       <div className='tr'>
-        <Button className='tc' disabled={!isValidApiAddress}>{t('actions.submit')}</Button>
+        <Button
+          minWidth={100}
+          height={40}
+          className='mt2 mt0-l ml2-l tc'
+          disabled={!isValidApiAddress || value === ipfsApiAddress}>
+          {t('actions.submit')}
+        </Button>
       </div>
     </form>
   )
