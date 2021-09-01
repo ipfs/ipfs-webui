@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/Button'
-import { checkValidHttpUrl } from '../../bundles/gateway'
+import { checkValidHttpUrl, DEFAULT_GATEWAY } from '../../bundles/gateway'
 
 const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
   const [value, setValue] = useState(publicGateway)
@@ -29,6 +29,12 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
     doUpdatePublicGateway(value)
   }
 
+  const onReset = async (event) => {
+    event.preventDefault()
+    setValue(DEFAULT_GATEWAY)
+    doUpdatePublicGateway(DEFAULT_GATEWAY)
+  }
+
   const onKeyPress = (event) => {
     if (event.key === 'Enter') {
       onSubmit(event)
@@ -48,7 +54,22 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
         value={value}
       />
       <div className='tr'>
-        <Button className='tc' disabled={!isValidGatewayUrl}>{t('actions.submit')}</Button>
+        <Button
+          minWidth={100}
+          height={40}
+          bg='bg-charcoal'
+          className='tc'
+          disabled={value === DEFAULT_GATEWAY}
+          onClick={onReset}>
+          {t('app:actions.reset')}
+        </Button>
+        <Button
+          minWidth={100}
+          height={40}
+          className='mt2 mt0-l ml2-l tc'
+          disabled={!isValidGatewayUrl || value === publicGateway}>
+          {t('actions.submit')}
+        </Button>
       </div>
     </form>
   )

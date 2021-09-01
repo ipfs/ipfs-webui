@@ -1,6 +1,6 @@
 import { readSetting, writeSetting } from './local-storage'
 
-const DEFAULT_GATEWAY = 'https://dweb.link'
+export const DEFAULT_GATEWAY = 'https://dweb.link'
 
 const readPublicGatewaySetting = () => {
   const setting = readSetting('ipfsPublicGateway')
