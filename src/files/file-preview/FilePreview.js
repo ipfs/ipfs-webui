@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
-import isBinary from 'is-binary'
+import { isBinary } from 'istextorbinary'
 import { Trans, withTranslation } from 'react-i18next'
 import typeFromExt from '../type-from-ext'
 import ComponentLoader from '../../loader/ComponentLoader.js'
@@ -103,7 +103,7 @@ const PreviewItem = ({ t, name, cid, size, type, availableGatewayUrl: gatewayUrl
         return <ComponentLoader />
       }
 
-      if (isBinary(content)) {
+      if (isBinary(name, content)) {
         return cantPreview
       }
 
