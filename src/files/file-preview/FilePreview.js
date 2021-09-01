@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
-import isBinary from 'is-binary'
+import { isBinary } from 'istextorbinary'
 import { Trans, withTranslation } from 'react-i18next'
 import typeFromExt from '../type-from-ext'
 import ComponentLoader from '../../loader/ComponentLoader.js'
@@ -117,8 +117,7 @@ const Preview = (props) => {
         return <ComponentLoader />
       }
 
-      if (isBinary(content)) {
-        loadContent()
+      if (isBinary(name, content)) {
         return cantPreview
       }
 
