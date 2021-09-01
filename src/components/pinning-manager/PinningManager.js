@@ -141,7 +141,7 @@ const ServiceCell = ({ rowData, rowIndex }) => (
 //     })}</p>
 // )
 const NumberOfPinsCell = ({ rowData, t }) => {
-  if (!serviceOnline(rowData)) {
+  if (rowData.numberOfPins < 0) {
     return <div className='red help' title={t('errors.failedToFetchTitle')}>{t('errors.failedToFetch')}</div>
   }
   return <div className={rowData.numberOfPins >= 0 ? '' : 'gray'}>{rowData.numberOfPins >= 0 ? rowData.numberOfPins : `${(t('app:terms:loading'))}...`}</div>
