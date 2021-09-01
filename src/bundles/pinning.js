@@ -10,7 +10,7 @@ const parseService = async (service, remoteServiceTemplates, ipfs) => {
   const parsedService = { ...service, name: service.service, icon, visitServiceUrl, autoUpload }
 
   if (service?.stat?.status === 'invalid') {
-    return { ...parsedService, numberOfPins: 'Error', online: false }
+    return { ...parsedService, numberOfPins: -1, online: false }
   }
 
   const numberOfPins = service.stat?.pinCount?.pinned
