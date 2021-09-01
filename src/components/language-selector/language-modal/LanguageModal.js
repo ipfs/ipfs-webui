@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'redux-bundler-react'
 import i18n, { localesList } from '../../../i18n'
 
 // Components
@@ -7,9 +8,12 @@ import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
 import SpeakerIcon from '../../../icons/StrokeSpeaker'
 import Button from '../../button/Button'
 
-const LanguageModal = ({ t, tReady, onLeave, link, className, ...props }) => {
+const LanguageModal = ({ t, tReady, onLeave, link, className, isIpfsDesktop, doDesktopUpdateLanguage, ...props }) => {
   const handleClick = (lang) => {
     i18n.changeLanguage(lang)
+    if (isIpfsDesktop) {
+      doDesktopUpdateLanguage(lang)
+    }
     onLeave()
   }
 
@@ -50,4 +54,8 @@ LanguageModal.defaultProps = {
   className: ''
 }
 
-export default LanguageModal
+export default connect(
+  'selectIsIpfsDesktop',
+  'doDesktopUpdateLanguage',
+  LanguageModal
+)
