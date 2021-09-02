@@ -1,6 +1,7 @@
 import { readSetting, writeSetting } from './local-storage'
 
 export const DEFAULT_GATEWAY = 'https://dweb.link'
+const IMG_HASH = 'bafybeibwzifw52ttrkqlikfzext5akxu7lz4xiwjgwzmqcpdzmp3n5vnbe' // 1x1px image
 
 const readPublicGatewaySetting = () => {
   const setting = readSetting('ipfsPublicGateway')
@@ -22,6 +23,40 @@ export const checkValidHttpUrl = (value) => {
   }
 
   return url.protocol === 'http:' || url.protocol === 'https:'
+}
+
+export const checkViaImgSrc = (gatewayUrl) => {
+  const url = new URL(gatewayUrl)
+  const imgUrl = new URL(`${url.protocol}//${url.hostname}/ipfs/${IMG_HASH}?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
+
+  // we check if gateway is up by loading 1x1 px image:
+  // this is more robust check than loading js, as it won't be blocked
+  // by privacy protections present in modern browsers or in extensions such as Privacy Badger
+  const imgCheckTimeout = 15000
+  return new Promise((resolve, reject) => {
+    const timeout = () => {
+      if (!timer) return false
+      clearTimeout(timer)
+      timer = null
+      return true
+    }
+
+    let timer = setTimeout(() => { if (timeout()) reject(new Error()) }, imgCheckTimeout)
+    const img = new Image()
+
+    img.onerror = () => {
+      timeout()
+      reject(new Error())
+    }
+
+    img.onload = () => {
+      // subdomain works
+      timeout()
+      resolve()
+    }
+
+    img.src = imgUrl
+  })
 }
 
 const bundle = {
