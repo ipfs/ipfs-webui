@@ -1,6 +1,6 @@
 import { readSetting, writeSetting } from './local-storage'
 
-export const DEFAULT_GATEWAY = 'https://dweb.link'
+export const DEFAULT_GATEWAY = 'https://ipfs.io' // TODO: switch to dweb.link when https://github.com/ipfs/go-ipfs/issues/7318
 const IMG_HASH = 'bafybeibwzifw52ttrkqlikfzext5akxu7lz4xiwjgwzmqcpdzmp3n5vnbe' // 1x1px image
 
 const readPublicGatewaySetting = () => {
