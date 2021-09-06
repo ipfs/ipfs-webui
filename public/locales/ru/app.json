@@ -42,6 +42,12 @@
     "connectingToIpfs": "Подключение к IPFS…",
     "couldNotConnect": "Не удалось подключиться к IPFS API"
   },
+  "apiAddressForm": {
+    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+  },
+  "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://dweb.link)"
+  },
   "terms": {
     "address": "Адрес",
     "addresses": "Адреса",
@@ -72,6 +78,7 @@
     "pins": "Закрепления",
     "pinStatus": "Статус процесса",
     "publicKey": "Публичный ключ",
+    "publicGateway": "Public Gateway",
     "rateIn": "Входящий рейтинг",
     "rateOut": "Исходящий рейтинг",
     "repo": "Репо",

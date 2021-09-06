@@ -42,6 +42,12 @@
     "connectingToIpfs": "Csatlakozás az IPFS-hez",
     "couldNotConnect": "Nem tudok csatlakozni az IPFS API-hoz"
   },
+  "apiAddressForm": {
+    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+  },
+  "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://dweb.link)"
+  },
   "terms": {
     "address": "Cím",
     "addresses": "Címek",
@@ -72,6 +78,7 @@
     "pins": "Kitűzések",
     "pinStatus": "Pin Status",
     "publicKey": "Nyilvános kulcs",
+    "publicGateway": "Public Gateway",
     "rateIn": "Bejövő sebesség",
     "rateOut": "Kimenő sebesség",
     "repo": "Repo",

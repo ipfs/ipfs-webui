@@ -10,7 +10,8 @@
   "individualFilesOnly": "Доступно только для индивидуальных файлов",
   "noPDFSupport": "Ваш браузер не поддерживает PDF. Пожалуйста, скачайте PDF-файл для его просмотра.",
   "downloadPDF": "Загрузить PDF",
-  "downloadInstead": "Попробуйте <1>загрузку</1>.",
+  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
+  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
   "cantBePreviewed": "Извините, предпросмотр файла невозможен",
   "addByPath": "Из IPFS",
   "newFolder": "Новая папка",
@@ -109,6 +110,6 @@
   "filesDescription": "Общий размер данных в текущей директории (если это субдиректория, размер всех данных в Файлах также отображается)",
   "more": "Больше",
   "files": "Файлы",
-  "cidNotFileNorDir": "Текущая ссылка не указывает ни на файл, ни на директорию. Попробуйте вместо этого <0>проинспектировать</0> ее.",
+  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
   "sortBy": "Сортировка объектов по {name}"
 }

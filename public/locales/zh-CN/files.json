@@ -10,7 +10,8 @@
   "individualFilesOnly": "仅对文件有效",
   "noPDFSupport": "您的浏览器不支持阅读 PDF 文件。请下载后阅读。",
   "downloadPDF": "下载 PDF 文件",
-  "downloadInstead": "请尝试<1>下载</1>",
+  "openWithPublicGateway": "尝试使用您的<1>公共网关</1>来打开",
+  "openWithLocalAndPublicGateway": "尝试使用您的<1>本地网关</1>或者<3>公共网关</3>来打开。",
   "cantBePreviewed": "对不起，本文件不支持预览。",
   "addByPath": "来自 IPFS 路径",
   "newFolder": "新建文件夹",
@@ -109,6 +110,6 @@
   "filesDescription": "当前目录的总数据大小（如果包含子文件夹也将一并合计）",
   "more": "更多",
   "files": "文件",
-  "cidNotFileNorDir": "当前的连接不是一个文件或目录，请检查 <0>并替换</0> 。",
+  "cidNotFileNorDir": "当前的连接不是一个文件或目录，请使用<1>检查</1> 功能替代。",
   "sortBy": "按照{name}排序项目"
 }

@@ -42,6 +42,12 @@
     "connectingToIpfs": ".IPFS سے مربوط ہو رہا ہے...",
     "couldNotConnect": ".IPFS API سے مربوط نہیں ہو رہا ہے"
   },
+  "apiAddressForm": {
+    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+  },
+  "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://dweb.link)"
+  },
   "terms": {
     "address": "پتہ",
     "addresses": "پتے",
@@ -72,6 +78,7 @@
     "pins": "پنوں",
     "pinStatus": "پن کی حالت",
     "publicKey": "عوامی کلید",
+    "publicGateway": "Public Gateway",
     "rateIn": "میں شرح",
     "rateOut": "درجہ بندی",
     "repo": "ریپو",

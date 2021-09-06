@@ -42,6 +42,12 @@
     "connectingToIpfs": "正在连接 IPFS",
     "couldNotConnect": "无法连接到IPFS API"
   },
+  "apiAddressForm": {
+    "placeholder": "输入一个URL (http://127.0.0.1:5001) 或一个 Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+  },
+  "publicGatewayForm": {
+    "placeholder": "输入一个URL (https://dweb.link)"
+  },
   "terms": {
     "address": "地址",
     "addresses": "地址",
@@ -72,6 +78,7 @@
     "pins": "已固定",
     "pinStatus": "固定状态",
     "publicKey": "公钥",
+    "publicGateway": "公共网关",
     "rateIn": "接收率",
     "rateOut": "发送率",
     "repo": "库",

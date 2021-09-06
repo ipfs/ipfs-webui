@@ -22,6 +22,7 @@
     "translationProjectLink": "IPFS Çeviri Projesine Katılın"
   },
   "apiDescription": "<0>Düğümünüz, varsayılan 5001'den farklı bir bağlantı noktası da dahil olmak üzere <1>özel bir UPA adresiyle</1> yapılandırılmışsa, buraya girin.</0>",
+  "publicGatewayDescription": "<0>Choose which <1>public gateway</1> you want to use when generating shareable links.</0>",
   "cliDescription": "<0>Genel IPFS komutlarının yanında bir \"kodu görüntüle\"<1></1> simgesi görüntülemek için bu seçeneği etkinleştirin. Buna tıkladığınızda, o komutun CLI kodunu içeren bir modal açılır, böylece onu terminalinizdeki IPFS komut satırı arayüzüne yapıştırabilirsiniz.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Bu sayfanın kod düzenleyicisindeki yapılandırmada kaydetmek istediğiniz değişiklikler yaptıysanız, bir JSON dosyası olarak indirmek için kopyala düğmesinin yanındaki indirme simgesini tıklayın."
@@ -39,6 +40,7 @@
     "apiEndpoint": "UPA uç noktası",
     "apiEndpointPlaceholder": "UPA uç noktası için URL",
     "secretApiKey": "Secret access token",
+    "secretApiKeyHowToLink": "How to generate a new token",
     "autoUpload": "Otomatik yükle"
   },
   "autoUploadModal": {

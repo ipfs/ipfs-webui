@@ -6,8 +6,8 @@
   "learnMoreLink": "Per saperne di più.",
   "pinningServices": {
     "title": "Servizi di pinning",
-    "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
-    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to go-ipfs 0.8.0 or later, and you'll be able to add and configure them here.",
+    "description": "Usa il pinning locale quando vuoi assicurarti che un oggetto sul tuo nodo non venga mai gettato dal Garbage Collector, anche quando lo rimuovi da \"File\". Puoi anche collegare il tuo account con altri servizi di pinning remoto per mantenere i file automaticamente o selettivamente con quei provider, permettendoti di mantenere copie di backup dei tuoi file o renderli disponibili agli altri quando il tuo nodo locale è offline.",
+    "noPinRemoteDescription": "Manca il supporto per servizi di pinning remoto di terze parti. Aggiorna il tuo nodo IPFS a go-ipfs 0.8.0 o successivi in modo da poterli aggiungere e configurare da qui.",
     "addAutoUpload": "Abilita auto upload",
     "removeAutoUpload": "Disabilita auto upload"
   },
@@ -22,6 +22,7 @@
     "translationProjectLink": "Unisciti al Progetto di Traduzione IPFS"
   },
   "apiDescription": "<0>Se il tuo nodo è configurato con un <1>indirizzo API personalizzato</1> che include una porta diversa alla predefinita 5001, inseriscila qui.</0>",
+  "publicGatewayDescription": "<0>Choose which <1>public gateway</1> you want to use when generating shareable links.</0>",
   "cliDescription": "<0>Abilita quest'opzione per mostrare un'icona \"view code\" <1></1> accanto ai comuni comandi IPFS. Cliccandoci, si aprirà una finestra modale col codice di quel comando CLI dimodoché tu possa incollarlo nell'interfaccia a riga di comando nel tuo terminale.",
   "cliModal": {
     "extraNotesJsonConfig": "Se, in questa pagina dell'editor di codice, hai fatto cambiamenti al config che vorresti salvare, clicca sull'icona scarica accanto al bottone \"copia\" per scaricarlo come file JSON."
@@ -38,20 +39,21 @@
     "nicknamePlaceholder": "Nome per il tuo servizio",
     "apiEndpoint": "Endpoint API",
     "apiEndpointPlaceholder": "URL per la sua endpoint API",
-    "secretApiKey": "Secret access token",
+    "secretApiKey": "Token d'accesso segreto",
+    "secretApiKeyHowToLink": "Come generare un nuovo token",
     "autoUpload": "Auto upload"
   },
   "autoUploadModal": {
     "title": "Cambia politica di upload per {name}",
-    "description": "When enabled, auto upload will periodically pin the root of your Files directory, ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" option on the Files screen."
+    "description": "Quando abilitato, l'auto upload periodicamente pinnerà la radice del percorso dei tuoi \"File\", assicurandosi che tutto sia pinnato in remoto e disponibile verso altri peer anche quando il tuo nodo IPFS locale sarà offline. Se lo disabiliti, potrai ancora pinnare ogni singolo file manualmente utilizzando l'opzione \"Imposta pinning\" nella schermata \"File\"."
   },
   "errors": {
     "nickname": "Il soprannome è obbligatorio",
     "apiError": "Errore API",
     "apiEndpoint": "Deve essere un URL valido",
-    "secretApiKey": "Secret access token is required",
-    "failedToFetch": "Failed to fetch",
-    "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
+    "secretApiKey": "È richiesto il token d'accesso segreto",
+    "failedToFetch": "Recupero fallito",
+    "failedToFetchTitle": "Non è stato possibile recuperare il conteggio dei pin da questo servizio remoto. Assicurati che sia online e che tu abbia inserito le credenziali corrette. Se è un servizio aggiunto di recente, prova a rimuoverlo e aggiungerlo di nuovo."
   },
   "actions": {
     "addService": "Aggiungi servizio",

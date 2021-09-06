@@ -22,6 +22,7 @@
     "translationProjectLink": "Присоединитесь к проекту перевода IPFS"
   },
   "apiDescription": "<0>Если в вашем узле настроен <1>собственный адрес API</1>, включая порт, отличный от порта по умолчанию 5001, введите его здесь.</0>",
+  "publicGatewayDescription": "<0>Choose which <1>public gateway</1> you want to use when generating shareable links.</0>",
   "cliDescription": "<0>Активируйте эту опцию, чтобы отображать значок \"просмотреть код\" <1></1> рядом с общими командами IPFS. Нажатие на него открывает модальное окно с кодом заданной команды в командной строке, так чтобы вы могли вставить его в интерфейс командной строки IPFS в вашей консоли.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Если вы произвели изменения настроек в редакторе кода на этой странице, которые вы хотели бы сохранить, нажмите на значок \"скачать\" рядом с кнопкой \"копировать\", чтобы скачать их в виде JSON-файла."
@@ -39,6 +40,7 @@
     "apiEndpoint": "Точка достука API",
     "apiEndpointPlaceholder": "URL для ее точки достука API",
     "secretApiKey": "Secret access token",
+    "secretApiKeyHowToLink": "How to generate a new token",
     "autoUpload": "Автозагрузка"
   },
   "autoUploadModal": {

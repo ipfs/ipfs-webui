@@ -42,6 +42,12 @@
     "connectingToIpfs": "جارٍ الاتصال بـ IPFS ...",
     "couldNotConnect": "تعذر الاتصال بواجهة برمجة تطبيقات IPFS"
   },
+  "apiAddressForm": {
+    "placeholder": "أدخل عنوان (http://127.0.0.1:5001) أو متعدد العناوين (/ip4/127.0.0.1/tcp/5001)"
+  },
+  "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://dweb.link)"
+  },
   "terms": {
     "address": "عنوان",
     "addresses": "عناوين",
@@ -72,6 +78,7 @@
     "pins": "رموز المرور ",
     "pinStatus": "حالة المشبك",
     "publicKey": "المفتاح العام",
+    "publicGateway": "Public Gateway",
     "rateIn": "التقييم",
     "rateOut": "خارج التقييم",
     "repo": "مخزن",

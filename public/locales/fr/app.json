@@ -42,6 +42,12 @@
     "connectingToIpfs": "Connexion à IPFS...",
     "couldNotConnect": "La connexion à l'API IPFS a échoué"
   },
+  "apiAddressForm": {
+    "placeholder": "Entrez une URL (http://127.0.0.1:5001) ou une Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+  },
+  "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://dweb.link)"
+  },
   "terms": {
     "address": "Adresse",
     "addresses": "Adresses",
@@ -72,6 +78,7 @@
     "pins": "Éléments épinglés",
     "pinStatus": "Statut des épingles",
     "publicKey": "Clé publique",
+    "publicGateway": "Public Gateway",
     "rateIn": "Ratio entrant",
     "rateOut": "Ratio sortant",
     "repo": "Répertoire",
