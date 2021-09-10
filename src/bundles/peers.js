@@ -1,5 +1,6 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import ms from 'milliseconds'
+import multiaddr from 'multiaddr'
 
 const swarmPeersTTL = ms.seconds(10)
 const bundle = createAsyncResourceBundle({
@@ -31,12 +32,24 @@ bundle.selectPeersCount = createSelector(
   }
 )
 
-bundle.doConnectSwarm = addr => async ({ dispatch, getIpfs }) => {
+bundle.doConnectSwarm = (addr, permanent) => async ({ dispatch, getIpfs }) => {
   dispatch({ type: 'SWARM_CONNECT_STARTED', payload: { addr } })
   const ipfs = getIpfs()
 
   try {
     await ipfs.swarm.connect(addr)
+
+    if (permanent) {
+      const peers = (await ipfs.config.get('Peering.Peers')) || []
+
+      await ipfs.config.set('Peering.Peers', [
+        ...peers,
+        {
+          ID: multiaddr(addr).getPeerId(),
+          Addrs: [addr]
+        }
+      ])
+    }
   } catch (err) {
     return dispatch({
       type: 'SWARM_CONNECT_FAILED',

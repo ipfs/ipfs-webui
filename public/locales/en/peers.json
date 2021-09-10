@@ -5,6 +5,7 @@
   "protocols": "Open streams",
   "addConnection": "Add connection",
   "insertPeerAddress": "Insert the peer address you want to connect to.",
+  "addPermanentPeer": "Add to the permanent peering configuration",
   "plusPeers": "+ {number} more peers",
   "connectionDirectionInbound": "inbound",
   "connectionDirectionOutbound": "outbound",
