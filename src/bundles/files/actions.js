@@ -391,15 +391,20 @@ const actions = () => ({
    * trigger `doFilesFetch` to update the state.
    * @param {string} root
    * @param {string} src
+   * @param {string} name
    */
-  doFilesAddPath: (root, src) => perform(ACTIONS.ADD_BY_PATH, async (ipfs, { store }) => {
+  doFilesAddPath: (root, src, name = '') => perform(ACTIONS.ADD_BY_PATH, async (ipfs, { store }) => {
     ensureMFS(store)
 
     const path = realMfsPath(src)
-    /** @type {string} */
-    const name = (path.split('/').pop())
+    const cid = /** @type {string} */(path.split('/').pop())
+
+    if (!name) {
+      name = cid
+    }
+
     const dst = realMfsPath(join(root, name))
-    const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
+    const srcPath = src.startsWith('/') ? src : `/ipfs/${cid}`
 
     try {
       return await ipfs.files.cp(srcPath, dst)
