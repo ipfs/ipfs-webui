@@ -51,7 +51,7 @@ const NavLink = ({
 }
 
 export const NavBar = ({ t }) => {
-  const codeUrl = 'https://github.com/ipfs-shipyard/ipfs-webui'
+  const codeUrl = 'https://github.com/ipfs/ipfs-webui'
   const bugsUrl = `${codeUrl}/issues`
   const gitRevision = process.env.REACT_APP_GIT_REV
   const revisionUrl = `${codeUrl}/commit/${gitRevision}`
