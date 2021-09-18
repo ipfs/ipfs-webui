@@ -6,7 +6,7 @@
     "paragraph1": "A new version of IPLD Explorer is available; <1>please reload</1>."
   },
   "StartExploringPage": {
-    "title": "Explore | IPLD",
+    "title": "Explore - IPLD",
     "header": "Explore the Merkle Forest",
     "leadParagraph": "Paste a CID into the box to fetch the IPLD node it addresses, or choose a featured dataset."
   },
@@ -16,17 +16,22 @@
     "paragraph3": "<0>Enter IPLD: a single namespace for all hash-inspired protocols. Through IPLD, links can be traversed across protocols, allowing you to explore data regardless of the underlying protocol.</0>"
   },
   "ExplorePage": {
-    "title": "Exploring | IPLD"
+    "title": "Exploring - IPLD"
   },
   "IpldExploreForm": {
     "explore": "Explore"
+  },
+  "IpldCarExploreForm": {
+    "imports": "Import",
+    "uploadCarFile": "Upload CAR File"
   },
   "CidInfo": {
     "header": "CID info",
     "hashDigest": "Hash digest"
   },
   "ObjectInfo": {
-    "gatewayLink": "View on IPFS Gateway"
+    "publicGateway": "View on Public Gateway",
+    "privateGateway": "View on Local Gateway"
   },
   "base": "base",
   "version": "version",
