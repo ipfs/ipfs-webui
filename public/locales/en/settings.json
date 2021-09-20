@@ -171,5 +171,13 @@
   "generateKeyModal": {
     "title": "Generate Key",
     "description": "TODO DESCRIPTION"
+  },
+  "renameKeyModal": {
+    "title": "Rename Key",
+    "description": "TODO DESCRIPTION"
+  },
+  "removeKeyModal": {
+    "title": "Remove Key",
+    "description": "TODO DESCRIPTION"
   }
 }

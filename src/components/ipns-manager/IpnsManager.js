@@ -8,28 +8,30 @@ import Button from '../button/Button'
 import Overlay from '../overlay/Overlay'
 import GenerateKeyModal from './generate-key-modal/GenerateKeyModal'
 import RenameKeyModal from './rename-key-modal/RenameKeyModal'
+import RemoveKeyModal from './remove-key-modal/RemoveKeyModal'
 
 import ContextMenu from '../context-menu/ContextMenu'
 import ContextMenuItem from '../context-menu/ContextMenuItem'
 import GlyphDots from '../../icons/GlyphDots'
 import StrokePencil from '../../icons/StrokePencil'
+import StrokeCancel from '../../icons/StrokeCancel'
 
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
-const AutoOptionsCell = ({ t, name, showRenameKeyModal }) => (
+const AutoOptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal }) => (
   <div className='flex justify-end'>
     { name !== 'self' && <OptionsCell
-      name={name} t={t} showRenameKeyModal={showRenameKeyModal} /> }
+      name={name} t={t} showRenameKeyModal={showRenameKeyModal} showRemoveKeyModal={showRemoveKeyModal} /> }
   </div>
 )
 
-const OptionsCell = ({ t, name, showRenameKeyModal }) => {
+const OptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal }) => {
   const buttonRef = useRef()
   const [isContextVisible, setContextVisibility] = useState(false)
 
-  const handleRename = () => {
-    showRenameKeyModal(name)
+  const handle = fn => () => {
+    fn(name)
     setContextVisibility(false)
   }
 
@@ -40,15 +42,18 @@ const OptionsCell = ({ t, name, showRenameKeyModal }) => {
       </button>
       <ContextMenu className="pv2 ph1" style={{ zIndex: 1001 }} visible={isContextVisible}
         target={buttonRef} onDismiss={() => setContextVisibility(false)} arrowAlign="right">
-        <ContextMenuItem className='pv2 ph1' onClick={handleRename}>
+        <ContextMenuItem className='pv2 ph1' onClick={handle(showRenameKeyModal)}>
           <StrokePencil width="28" className='fill-aqua'/> <span className="ph1">{t('app:actions.rename')}</span>
+        </ContextMenuItem>
+        <ContextMenuItem className='pv2 ph1' onClick={handle(showRemoveKeyModal)}>
+          <StrokeCancel width="28" className='fill-aqua'/> <span className="ph1">{t('app:actions.remove')}</span>
         </ContextMenuItem>
       </ContextMenu>
     </div>
   )
 }
 
-export const IpnsManager = ({ ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, t, ipnsKeys }) => {
+export const IpnsManager = ({ ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, t, ipnsKeys }) => {
   const [isGenerateKeyModalOpen, setGenerateKeyModalOpen] = useState(false)
   const showGenerateKeyModal = () => setGenerateKeyModalOpen(true)
   const hideGenerateKeyModal = () => setGenerateKeyModalOpen(false)
@@ -57,6 +62,11 @@ export const IpnsManager = ({ ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doR
   const showRenameKeyModal = (name) => setRenameKeyModalOpen(name)
   const hideRenameKeyModal = () => setRenameKeyModalOpen('')
   const isRenameKeyModalOpen = () => renameKeyModalName !== ''
+
+  const [removeKeyModalName, setRemoveKeyModalOpen] = useState('')
+  const showRemoveKeyModal = (name) => setRemoveKeyModalOpen(name)
+  const hideRemoveKeyModal = () => setRemoveKeyModalOpen('')
+  const isRemoveKeyModalOpen = () => removeKeyModalName !== ''
 
   useEffect(() => {
     ipfsReady && doFetchIpnsKeys()
@@ -96,7 +106,7 @@ export const IpnsManager = ({ ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doR
                   dataKey='options'
                   width={width * 0.1}
                   flexShrink={1}
-                  cellRenderer={({ rowData }) => <AutoOptionsCell t={t} name={rowData.name} showRenameKeyModal={showRenameKeyModal} />}
+                  cellRenderer={({ rowData }) => <AutoOptionsCell t={t} name={rowData.name} showRenameKeyModal={showRenameKeyModal} showRemoveKeyModal={showRemoveKeyModal} />}
                   className='pinningManagerColumn charcoal truncate f6 pl2' />
               </Table>
             )}
@@ -130,6 +140,18 @@ export const IpnsManager = ({ ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doR
             hideRenameKeyModal()
           }}
           onCancel={hideRenameKeyModal}
+          t={t} />
+      </Overlay>
+
+      <Overlay show={isRemoveKeyModalOpen()} onLeave={hideRemoveKeyModal}>
+        <RemoveKeyModal
+          className='outline-0'
+          name={removeKeyModalName}
+          onRemove={(name) => {
+            doRemoveIpnsKey(removeKeyModalName)
+            hideRemoveKeyModal()
+          }}
+          onCancel={hideRemoveKeyModal}
           t={t} />
       </Overlay>
     </Fragment>
