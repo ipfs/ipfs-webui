@@ -10,6 +10,7 @@ import RenameModal from './rename-modal/RenameModal'
 import PinningModal from './pinning-modal/PinningModal'
 import RemoveModal from './remove-modal/RemoveModal'
 import AddByPathModal from './add-by-path-modal/AddByPathModal'
+import PublishModal from './publish-modal/PublishModal'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts'
 import { realMfsPath } from '../../bundles/files/actions'
@@ -21,6 +22,7 @@ const DELETE = 'delete'
 const ADD_BY_PATH = 'add_by_path'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
+const PUBLISH = 'publish'
 
 export {
   NEW_FOLDER,
@@ -29,7 +31,8 @@ export {
   DELETE,
   ADD_BY_PATH,
   CLI_TUTOR_MODE,
-  PINNING
+  PINNING,
+  PUBLISH
 }
 
 class Modals extends React.Component {
@@ -41,6 +44,9 @@ class Modals extends React.Component {
       filename: ''
     },
     pinning: {
+      file: null
+    },
+    publish: {
       file: null
     },
     delete: {
@@ -87,6 +93,12 @@ class Modals extends React.Component {
 
   onPinningSet = (...pinningServices) => {
     this.props.onPinningSet(...pinningServices)
+    this.leave()
+  }
+
+  publish = (key) => {
+    // TODO
+    console.log(key)
     this.leave()
   }
 
@@ -151,6 +163,14 @@ class Modals extends React.Component {
         return this.setState({
           readyToShow: true,
           pinning: { file }
+        })
+      }
+      case PUBLISH: {
+        const file = files[0]
+
+        return this.setState({
+          readyToShow: true,
+          publish: { file }
         })
       }
       default:
@@ -244,6 +264,14 @@ class Modals extends React.Component {
             className='outline-0'
             onCancel={this.leave}
             onPinningSet={this.onPinningSet} />
+        </Overlay>
+
+        <Overlay show={show === PUBLISH && readyToShow} onLeave={this.leave}>
+          <PublishModal
+            file={this.state.publish.file}
+            className='outline-0'
+            onCancel={this.leave}
+            onSubmit={this.publish} />
         </Overlay>
       </div>
     )

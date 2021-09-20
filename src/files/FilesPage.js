@@ -16,7 +16,7 @@ import FilesList from './files-list/FilesList'
 import { getJoyrideLocales } from '../helpers/i8n'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING } from './modals/Modals'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals'
 import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 
@@ -202,6 +202,7 @@ const FilesPage = ({
         onInspect={() => onInspect(contextMenu.file.cid)}
         onDownload={() => onDownload([contextMenu.file])}
         onPinning={() => showModal(PINNING, [contextMenu.file])}
+        onPublish={() => showModal(PUBLISH, [contextMenu.file])}
         isCliTutorModeEnabled={isCliTutorModeEnabled}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
         doSetCliOptions={doSetCliOptions}

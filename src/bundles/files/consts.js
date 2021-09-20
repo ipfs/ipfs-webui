@@ -82,7 +82,8 @@ export const cliCmdKeys = {
   ADD_DIRECTORY: 'addNewDirectory',
   CREATE_NEW_DIRECTORY: 'createNewDirectory',
   FROM_IPFS: 'fromIpfs',
-  ADD_NEW_PEER: 'addNewPeer'
+  ADD_NEW_PEER: 'addNewPeer',
+  PUBLISH_WITH_IPNS: 'publishWithIPNS'
 }
 
 export const cliCmdPrefixes = {
@@ -128,5 +129,10 @@ export const cliCommandList = {
    * @param {string} path
    */
   [cliCmdKeys.FROM_IPFS]: (path) => `ipfs cp /ipfs/<cid> "${path}/<dest-name>"`,
-  [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-multiaddr>'
+  [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-multiaddr>',
+  /**
+   * @param {string} ipfsPath
+   * @param {string} name
+   */
+  [cliCmdKeys.PUBLISH_WITH_IPNS]: (ipfsPath, name) => `ipfs name publish ${ipfsPath} --key="${name}"`
 }

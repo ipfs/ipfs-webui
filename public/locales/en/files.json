@@ -18,7 +18,8 @@
   "generating": "Generating…",
   "actions": {
     "copyHash": "Copy CID",
-    "share": "Share link"
+    "share": "Share link",
+    "publishWithIpns": "Publish with IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "This command is only for local pinning/unpinning. If you want to use a remote pinning service, consult that service's documentation to learn how to pin/unpin from the command line."
@@ -111,5 +112,9 @@
   "more": "More",
   "files": "Files",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
-  "sortBy": "Sort items by {name}"
+  "sortBy": "Sort items by {name}",
+  "publishModal": {
+    "title": "Publish with IPNS",
+    "toPublish": "To publish:"
+  }
 }
