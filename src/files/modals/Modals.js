@@ -97,8 +97,9 @@ class Modals extends React.Component {
   }
 
   publish = (key) => {
-    // TODO
-    console.log(key)
+    const file = this.state.publish.file
+    const cid = file.cid.toString()
+    this.props.onPublish(cid, key)
     this.leave()
   }
 
@@ -286,7 +287,8 @@ Modals.propTypes = {
   onMove: PropTypes.func.isRequired,
   onMakeDir: PropTypes.func.isRequired,
   onShareLink: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired
+  onRemove: PropTypes.func.isRequired,
+  onPublish: PropTypes.func.isRequired
 }
 
 export default withTranslation('files')(Modals)

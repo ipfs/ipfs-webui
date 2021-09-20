@@ -23,7 +23,7 @@ import FileImportStatus from './file-import-status/FileImportStatus'
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesWrite, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath,
-  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick,
+  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
   const contextMenuRef = useRef()
@@ -233,6 +233,7 @@ const FilesPage = ({
         onRemove={doFilesDelete}
         onAddByPath={onAddByPath}
         onPinningSet={doSetPinning}
+        onPublish={doPublishIpnsKey}
         cliOptions={cliOptions}
         { ...modals } />
 
@@ -282,5 +283,6 @@ export default connect(
   'doSetCliOptions',
   'selectCliOptions',
   'doSetPinning',
+  'doPublishIpnsKey',
   withTour(withTranslation('files')(FilesPage))
 )

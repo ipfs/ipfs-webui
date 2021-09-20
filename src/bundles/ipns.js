@@ -57,7 +57,7 @@ const ipnsBundle = {
 
   doPublishIpnsKey: (cid, key) => async ({ getIpfs, store }) => {
     const ipfs = getIpfs()
-    await ipfs.name.publish(cid, key)
+    await ipfs.name.publish(cid, { key })
   }
 }
 export default ipnsBundle
