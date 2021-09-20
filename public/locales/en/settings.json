@@ -57,6 +57,7 @@
   },
   "actions": {
     "addService": "Add Service",
+    "generateKey": "Generate Key",
     "edit": "Change",
     "close": "Close",
     "save": "Save",
@@ -161,5 +162,13 @@
     "issueUrl": "Open an issue",
     "feedbackUrl": "💌Leave feedback",
     "readMoreUrl": "Read More"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Publishing Keys",
+    "description": "TODO DESCRIPTION"
+  },
+  "generateKeyModal": {
+    "title": "Generate Key",
+    "description": "TODO DESCRIPTION"
   }
 }

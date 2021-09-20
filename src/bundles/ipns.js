@@ -23,7 +23,7 @@ const ipnsBundle = {
 
     // Stronger defaults than the listed on the docs:
     // https://github.com/ipfs/js-ipfs/blob/master/docs/core-api/KEY.md#ipfskeygenname-options
-    await ipfs.key.generate(name, {
+    await ipfs.key.gen(name, {
       type: 'ed25519',
       size: 4096
     })
