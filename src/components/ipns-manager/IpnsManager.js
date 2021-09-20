@@ -53,7 +53,7 @@ const OptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal }) => {
   )
 }
 
-export const IpnsManager = ({ ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, t, ipnsKeys }) => {
+export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, availableGateway, ipnsKeys }) => {
   const [isGenerateKeyModalOpen, setGenerateKeyModalOpen] = useState(false)
   const showGenerateKeyModal = () => setGenerateKeyModalOpen(true)
   const hideGenerateKeyModal = () => setGenerateKeyModalOpen(false)
@@ -100,8 +100,27 @@ export const IpnsManager = ({ ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doR
                 sort={(...sortArgs) => setSortSettings(...sortArgs)}
                 sortBy={sortSettings.sortBy}
                 sortDirection={sortSettings.sortDirection}>
-                <Column label={t('app:terms.name')} title={t('app:terms.name')} dataKey='name' width={width * 0.3} flexShrink={0} flexGrow={1} cellRenderer={({ rowData }) => rowData.name} className='charcoal truncate f6' />
-                <Column label={t('app:terms.id')} title={t('app:terms.id')} dataKey='id' width={width * 0.6} flexShrink={1} cellRenderer={({ rowData }) => rowData.id} className='charcoal monospace truncate f6 pl2' />
+                <Column
+                  label={t('app:terms.name')}
+                  title={t('app:terms.name')}
+                  dataKey='name'
+                  width={width * 0.3}
+                  flexShrink={0}
+                  flexGrow={1}
+                  cellRenderer={({ rowData }) => rowData.name}
+                  className='charcoal truncate f6' />
+                <Column
+                  label={t('app:terms.id')}
+                  title={t('app:terms.id')}
+                  dataKey='id'
+                  width={width * 0.6}
+                  className='charcoal monospace truncate f6 pl2'
+                  flexShrink={1}
+                  cellRenderer={({ rowData }) => (
+                    rowData.published
+                      ? <a href={`${availableGateway}/ipns/${rowData.id}`} target='_blank' rel='noopener noreferrer' className='link blue'>{rowData.id}</a>
+                      : rowData.id
+                  )} />
                 <Column
                   dataKey='options'
                   width={width * 0.1}
@@ -165,6 +184,7 @@ IpnsManager.defaultProps = {
 export default connect(
   'selectIpfsReady',
   'selectIpnsKeys',
+  'selectAvailableGateway',
   'doFetchIpnsKeys',
   'doGenerateIpnsKey',
   'doRemoveIpnsKey',

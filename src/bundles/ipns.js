@@ -1,3 +1,5 @@
+import all from 'it-all'
+
 const ipnsBundle = {
   name: 'ipns',
   reducer: (state = {
@@ -14,7 +16,15 @@ const ipnsBundle = {
 
   doFetchIpnsKeys: () => async ({ getIpfs, dispatch }) => {
     const ipfs = getIpfs()
-    const keys = await ipfs.key.list()
+    const rawKeys = await ipfs.key.list()
+    const keys = []
+
+    for (const { id, name } of rawKeys) {
+      const names = await all(ipfs.name.resolve(`/ipns/${id}`, { offline: true }))
+      const published = names.length > 0
+      keys.push({ id, name, published })
+    }
+
     dispatch({ type: 'CACHE_IPNS_KEYS', payload: keys })
   },
 
@@ -43,6 +53,11 @@ const ipnsBundle = {
     await ipfs.key.rename(oldName, newName)
 
     store.doFetchIpnsKeys()
+  },
+
+  doPublishIpnsKey: (cid, key) => async ({ getIpfs, store }) => {
+    const ipfs = getIpfs()
+    await ipfs.name.publish(cid, key)
   }
 }
 export default ipnsBundle
