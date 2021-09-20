@@ -13,6 +13,7 @@ import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
 import PinningManager from '../components/pinning-manager/PinningManager'
+import IpnsManager from '../components/ipns-manager/IpnsManager'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import PublicGatewayForm from '../components/public-gateway-form/PublicGatewayForm'
@@ -80,6 +81,14 @@ export const SettingsPage = ({
         }&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/how-to/work-with-pinning-services/'>{t('learnMoreLink')}</a>
       </p>
       <PinningManager t={t} />
+    </Box>
+
+    <Box className='mb3 pa4-l pa2 joyride-settings-pinning'>
+      <Title>{t('ipnsPublishingKeys.title')}</Title>
+      <p className='ma0 mr2 lh-copy charcoal f6'>
+        {t('ipnsPublishingKeys.description')}&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/concepts/glossary/#ipns'>{t('learnMoreLink')}</a>
+      </p>
+      <IpnsManager t={t} />
     </Box>
 
     <Box className='mb3 pa4-l pa2'>
