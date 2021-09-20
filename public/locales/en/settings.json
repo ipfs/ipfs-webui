@@ -166,18 +166,18 @@
   },
   "ipnsPublishingKeys": {
     "title": "IPNS Publishing Keys",
-    "description": "TODO DESCRIPTION"
+    "description": "Use an IPNS key to create and update mutable links to IPFS content. IPNS allows for publishing the latest version of any IPFS content, even though the underlying IPFS hash has changed."
   },
   "generateKeyModal": {
     "title": "Generate Key",
-    "description": "TODO DESCRIPTION"
+    "description": "Generate a new IPNS key to publish content under."
   },
   "renameKeyModal": {
     "title": "Rename Key",
-    "description": "TODO DESCRIPTION"
+    "description": "Renaming IPNS key <1>{name}</1>."
   },
   "removeKeyModal": {
     "title": "Remove Key",
-    "description": "TODO DESCRIPTION"
+    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>?"
   }
 }

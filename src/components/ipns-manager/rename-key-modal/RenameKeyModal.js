@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Icon from '../../../icons/StrokePencil'
 import TextInputModal from '../../text-input-modal/TextInputModal'
+import { Trans } from 'react-i18next'
 
 const RenameKeyModal = ({ t, tReady, name, onCancel, onSubmit, className, ...props }) => {
   return (
@@ -11,7 +12,13 @@ const RenameKeyModal = ({ t, tReady, name, onCancel, onSubmit, className, ...pro
       onCancel={onCancel}
       className={className}
       title={t('renameKeyModal.title')}
-      description={t('renameKeyModal.description')}
+      description={
+        <div className='charcoal w-90 center tl mb3'>
+          <Trans t={t} i18nKey='renameKeyModal.description' tOptions={{ name }}>
+            Renaming IPNS key <span className='charcoal-muted monospace'>{name}</span>.
+          </Trans>
+        </div>
+      }
       Icon={Icon}
       defaultValue={name}
       mustBeDifferent={true}
