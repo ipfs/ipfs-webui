@@ -52,6 +52,8 @@
   "addByPathModal": {
     "title": "Import from IPFS",
     "description": "Insert an IPFS path (CID) to import.",
+    "importPathPlaceholder": "Path or CID (required)",
+    "namePlaceholder": "Name (optional)",
     "examples": "Examples:"
   },
   "newFolderModal": {

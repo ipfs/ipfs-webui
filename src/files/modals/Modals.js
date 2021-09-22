@@ -52,8 +52,8 @@ class Modals extends React.Component {
     command: 'ipfs --help'
   }
 
-  onAddByPath = (path) => {
-    this.props.onAddByPath(path)
+  onAddByPath = (path, name) => {
+    this.props.onAddByPath(path, name)
     this.leave()
   }
 
