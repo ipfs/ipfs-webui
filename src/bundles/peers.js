@@ -32,7 +32,7 @@ bundle.selectPeersCount = createSelector(
   }
 )
 
-bundle.doConnectSwarm = (addr, permanent) => async ({ dispatch, getIpfs }) => {
+bundle.doConnectSwarm = (addr, permanent) => async ({ dispatch, getIpfs, store }) => {
   dispatch({ type: 'SWARM_CONNECT_STARTED', payload: { addr } })
   const ipfs = getIpfs()
 
@@ -40,15 +40,25 @@ bundle.doConnectSwarm = (addr, permanent) => async ({ dispatch, getIpfs }) => {
     await ipfs.swarm.connect(addr)
 
     if (permanent) {
-      const peers = (await ipfs.config.get('Peering.Peers')) || []
+      const maddr = multiaddr(addr)
+      const peerId = maddr.getPeerId()
+      const rawAddr = maddr.decapsulateCode(421).toString() // drop /p2p suffix
 
-      await ipfs.config.set('Peering.Peers', [
-        ...peers,
-        {
-          ID: multiaddr(addr).getPeerId(),
-          Addrs: [addr]
+      // TODO: switch to ipfs.swarm.peering when https://github.com/ipfs/go-ipfs/pull/8147 ships
+      let peers = (await ipfs.config.get('Peering.Peers')) || []
+      const preexisting = peers.find(p => p.ID === peerId)
+      if (preexisting) {
+        if (!preexisting.Addrs.find(a => a === rawAddr)) {
+          // add new addr to existing address list for the peer
+          preexisting.Addrs.push(rawAddr)
         }
-      ])
+      } else {
+        // add new peer to the list
+        peers = [...peers, { ID: peerId, Addrs: [rawAddr] }]
+      }
+
+      await ipfs.config.set('Peering.Peers', peers)
+      await store.doMarkConfigAsOutdated() // force Settings screen to re-fetch
     }
   } catch (err) {
     return dispatch({
