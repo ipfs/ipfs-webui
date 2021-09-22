@@ -6,8 +6,6 @@ import { withTranslation } from 'react-i18next'
 import isIPFS from 'is-ipfs'
 import Icon from '../../../icons/StrokeDecentralization'
 
-const FILENAME_REGEX = /\?filename=(.+)/
-
 class AddByPathModal extends React.Component {
   static propTypes = {
     onCancel: PropTypes.func.isRequired,
@@ -34,24 +32,16 @@ class AddByPathModal extends React.Component {
 
   onChange = (event) => {
     const target = event.target
-    const value = target.value.trim()
+    const value = target.value
     const name = target.name
-
-    if (name === 'path') {
-      const matches = value.match(FILENAME_REGEX)
-      if (matches && matches[1]) {
-        this.setState({ name: matches[1] })
-      }
-    }
-
     this.setState({ [name]: value })
   }
 
   onSubmit = () => {
     let { path, name } = this.state
-
     if (this.validatePath(path)) {
-      path = path.replace(FILENAME_REGEX, '')
+      // avoid issues with paths by forcing a flat filename without leading/trailing spaces
+      name = name.replaceAll('/', '_').trim()
       this.props.onSubmit(path, name)
     }
   }
