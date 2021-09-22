@@ -3,6 +3,7 @@ import { withTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import isIPFS from 'is-ipfs'
 
+import Checkbox from '../../components/checkbox/Checkbox'
 import Icon from '../../icons/StrokeDecentralization'
 import Button from '../../components/button/Button'
 import Overlay from '../../components/overlay/Overlay'
@@ -25,13 +26,13 @@ class AddConnection extends React.Component {
     })
   }
 
+  onPeeringToggle = () => {
+    this.setState({ permanent: !this.state.permanent })
+  }
+
   onChange = (event) => {
-    const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
-
+    const { value, name } = event.target
     this.setState({ [name]: value })
-
     if (name === 'maddr') {
       this.setState({ isValid: isIPFS.peerMultiaddr(value) })
     }
@@ -77,13 +78,14 @@ class AddConnection extends React.Component {
 
   get description () {
     const { t } = this.props
-    const codeClass = 'w-90 mb1 pa1 bg-snow f7 charcoal-muted truncate'
+    const codeClass = 'w-90 mb1 pa1 dib bg-snow f7 charcoal-muted truncate'
 
     return (
       <div className='mb3 flex flex-column items-center'>
-        <p className='gray w-80'>{t('insertPeerAddress')}</p>
+        <p className='charcoal w-80'>{t('insertPeerAddress')}</p>
         <span className='w-80 mv2 f7 charcoal-muted'>{t('app:terms.example')}</span>
-        <code className={codeClass}>/ip4/76.176.168.65/tcp/4001/p2p/QmbBHw1Xx9pUpAbrVZUKTPL5Rsph5Q9GQhRvcWVBPFgGtC</code>
+        <code className={codeClass}>/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN</code>
+        <code className={codeClass}>/ip4/147.75.109.213/udp/4001/quic/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN</code>
       </div>
     )
   }
@@ -104,16 +106,6 @@ class AddConnection extends React.Component {
               { this.description }
 
               <input
-                id='permanent'
-                name='permanent'
-                type='checkbox'
-                checked={this.state.permanent}
-                className='mr1'
-                onChange={this.onChange} />
-
-              <label htmlFor='permanent'>{t('addPermanentPeer')}</label>
-
-              <input
                 name='maddr'
                 type='text'
                 value={this.state.maddr}
@@ -121,6 +113,12 @@ class AddConnection extends React.Component {
                 onKeyPress={this.onKeyPress}
                 required
                 className={`input-reset charcoal ba b--black-20 br1 pa2 mv2 db w-90 center focus-outline ${this.inputClass}`} />
+
+              <Checkbox
+                className='dib'
+                onChange={this.onPeeringToggle}
+                checked={this.state.permanent}
+                label={<span className='f6 charcoal-muted lh-copy'>{t('addPermanentPeer')}</span>}/>
             </ModalBody>
 
             <ModalActions>
