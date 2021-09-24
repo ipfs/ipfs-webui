@@ -34,7 +34,7 @@ const PublishModal = ({ t, tReady, onCancel, onSubmit, file, ipnsKeys, className
 
       <ModalActions>
         <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>{t('app:actions.cancel')}</Button>
-        <Button className='ma2 tc' bg='bg-teal' onClick={handlePublish}>{t('app:actions.publish')}</Button>
+        <Button className='ma2 tc' bg='bg-teal' disabled={selectedKey === ''} onClick={handlePublish}>{t('app:actions.publish')}</Button>
       </ModalActions>
     </Modal>
   )
