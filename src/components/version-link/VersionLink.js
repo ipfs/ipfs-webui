@@ -15,18 +15,20 @@ const findUrl = name => {
   return provider.url
 }
 
-// formats an ipfs agentVersion string from /go-ipfs/0.32.29 to go-ipfs@0.32.29
+// formats an ipfs agentVersion string from /go-ipfs/0.10.0/desktop to go-ipfs v0.10.0 desktop
 const VersionLink = ({ agentVersion }) => {
   if (!agentVersion) return <span>Unknown</span>
   const parts = agentVersion.split('/').filter(str => !!str)
   const name = parts[0]
   const url = findUrl(name)
   const version = parts[1]
+  const suffix = parts[2]
   if (!url) {
     return (
       <span>
         {name}
         <ReleaseLink agent={name} version={version} />
+        {suffix ? <span> {suffix}</span> : ''}
       </span>
     )
   }
@@ -36,6 +38,7 @@ const VersionLink = ({ agentVersion }) => {
         {name}
       </a>
       <ReleaseLink agent={name} version={version} />
+      {suffix ? <span> {suffix}</span> : ''}
     </span>
   )
 }
