@@ -42,8 +42,8 @@ const VersionLink = ({ agentVersion }) => {
 
 const ReleaseLink = ({ agent, version }) => {
   if (!version) return ''
-  if (agent === 'js-ipfs') {
-    const releaseUrl = `${providers['js-ipfs'].url}/releases/tag/v${version}`
+  if (Object.prototype.hasOwnProperty.call(providers, agent)) {
+    const releaseUrl = `${providers[agent].url}/releases/tag/v${version}`
     return (
       <a href={releaseUrl} className='link blue ml2' target='_blank' rel='noopener noreferrer'>
         v{version}
