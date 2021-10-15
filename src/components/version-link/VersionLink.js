@@ -22,7 +22,7 @@ const VersionLink = ({ agentVersion }) => {
   const name = parts[0]
   const url = findUrl(name)
   const version = parts[1]
-  const suffix = parts[2]
+  const suffix = parts.slice(2).join('/')
   if (!url) {
     return (
       <span>
