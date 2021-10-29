@@ -10,8 +10,7 @@
 |-------|---------|-------|----------|
 | ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) | 
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://www.transifex.com/ipfs/ipfs-webui/)
-
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://www.transifex.com/ipfs/ipfs-webui/) [![](https://img.shields.io/badge/matrix%20chat-%23lobby:ipfs.io-blue.svg?style=flat-square)](https://matrix.to/#/#lobby:ipfs.io)
 
 The [latest release version](https://github.com/ipfs/ipfs-webui/releases/latest) is always at https://webui.ipfs.io, and the preview of `main` branch is at https://dev.webui.ipfs.io.
 
