@@ -72,7 +72,7 @@ const FilesPage = ({
     doFilesWrite(raw, root)
   }
 
-  const onAddByPath = (path) => doFilesAddPath(files.path, path)
+  const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
   const onInspect = (cid) => doUpdateHash(`/explore/ipfs/${cid}`)
   const showModal = (modal, files = null) => setModals({ show: modal, files: files })
   const hideModal = () => setModals({})
