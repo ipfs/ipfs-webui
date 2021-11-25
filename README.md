@@ -207,6 +207,12 @@ To disable headless mode and see the browser, set the environment variable `DEBU
 > DEBUG=true npm run test:e2e # e2e in slowed down mode in a browser window
 ```
 
+To build and run e2e only for a specific test script, pass its filename:
+
+```sh
+> npm run build && npm run test:e2e test/e2e/settings.test.js
+```
+
 #### Breakpoints
 
 It is possible to set a "breakpoint" via `await jestPuppeteer.debug()` to stop tests at a specific line:
