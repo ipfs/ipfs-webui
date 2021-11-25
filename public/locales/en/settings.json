@@ -166,11 +166,11 @@
   },
   "ipnsPublishingKeys": {
     "title": "IPNS Publishing Keys",
-    "description": "Use an IPNS key to create and update mutable links to IPFS content. IPNS allows for publishing the latest version of any IPFS content, even though the underlying IPFS hash has changed."
+    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
   },
   "generateKeyModal": {
-    "title": "Generate Key",
-    "description": "Generate a new IPNS key to publish content under."
+    "title": "Generate New IPNS Key",
+    "description": "Enter pet name of key to create."
   },
   "renameKeyModal": {
     "title": "Rename Key",

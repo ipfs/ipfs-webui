@@ -72,6 +72,14 @@ export const SettingsPage = ({
       </div>
     </Box>
 
+    <Box className='mb3 pa4-l pa2'>
+      <Title>{t('ipnsPublishingKeys.title')}</Title>
+      <p className='ma0 mr2 lh-copy charcoal f6'>
+        {t('ipnsPublishingKeys.description')}&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/concepts/glossary/#ipns'>{t('learnMoreLink')}</a>
+      </p>
+      <IpnsManager t={t} />
+    </Box>
+
     <Box className='mb3 pa4-l pa2 joyride-settings-pinning'>
       <Title>{t('pinningServices.title')}</Title>
       <p className='ma0 mr2 lh-copy charcoal f6'>
@@ -81,14 +89,6 @@ export const SettingsPage = ({
         }&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/how-to/work-with-pinning-services/'>{t('learnMoreLink')}</a>
       </p>
       <PinningManager t={t} />
-    </Box>
-
-    <Box className='mb3 pa4-l pa2 joyride-settings-pinning'>
-      <Title>{t('ipnsPublishingKeys.title')}</Title>
-      <p className='ma0 mr2 lh-copy charcoal f6'>
-        {t('ipnsPublishingKeys.description')}&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/concepts/glossary/#ipns'>{t('learnMoreLink')}</a>
-      </p>
-      <IpnsManager t={t} />
     </Box>
 
     <Box className='mb3 pa4-l pa2'>
