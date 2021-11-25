@@ -117,6 +117,7 @@
   "sortBy": "Sort items by {name}",
   "publishModal": {
     "title": "Publish with IPNS",
-    "toPublish": "To publish:"
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Select key for publishing:"
   }
 }
