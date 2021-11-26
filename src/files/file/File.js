@@ -137,7 +137,7 @@ const File = ({
         <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
           {size}
         </div>
-        <button ref={dotsWrapper} className='ph2 db button-inside-focus' style={{ width: '2.5rem' }} onClick={handleCtxLeftClick} aria-label={ t('checkboxLabel', { name })} >
+        <button ref={dotsWrapper} className='ph2 db button-inside-focus file-context-menu' style={{ width: '2.5rem' }} onClick={handleCtxLeftClick} aria-label={ t('checkboxLabel', { name })} >
           <GlyphDots className='fill-gray-muted pointer hover-fill-gray transition-all'/>
         </button>
       </div>
