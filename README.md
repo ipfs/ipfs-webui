@@ -204,7 +204,7 @@ By default, the test run headless, so you won't see the browser. To debug test e
 To disable headless mode and see the browser, set the environment variable `DEBUG=true`:
 
 ```sh
-> DEBUG=true npm run test:e2e # e2e in slowed down mode in a browser window
+> DEBUG=true npm run test:e2e # will show a browser window
 ```
 
 To build and run e2e only for a specific test script, pass its filename:
@@ -215,20 +215,11 @@ To build and run e2e only for a specific test script, pass its filename:
 
 #### Breakpoints
 
-It is possible to set a "breakpoint" via `await jestPuppeteer.debug()` to stop tests at a specific line:
+When running with `DEBUG=true` it is possible to set a "breakpoint" via `await page.pause()` to stop tests at a specific line:
 
 ```js
 jest.setTimeout(600000) // increase test suite timeout
-await jestPuppeteer.debug() // puppeteer will pause here
-```
-
-In a **continuous integration** environment we lint the code, run the unit tests, build the app, start an http server and run the unit e2e tests:
-
-```sh
-> npm run lint
-> npm test
-> npm run build
-> npm run test:e2e
+await page.pause()
 ```
 
 ## Coverage

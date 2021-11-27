@@ -1,4 +1,4 @@
-/* global webuiUrl, waitForTitle, page, describe, it, beforeAll, waitForText */
+/* global webuiUrl, waitForTitle, page, describe, it, beforeAll */
 
 const scrollLinkContainer = async () => {
   const linkContainer = '[role="menubar"]'
@@ -18,7 +18,7 @@ describe('Navigation menu', () => {
   it('should work for Status page', async () => {
     const link = 'a[href="#/"]'
     await page.waitForSelector(link)
-    await waitForText('Status')
+    await page.waitForSelector('text=Status')
     await page.click(link)
     await waitForTitle('Status | IPFS')
   })
@@ -26,7 +26,7 @@ describe('Navigation menu', () => {
   it('should work for Files page', async () => {
     const link = 'a[href="#/files"]'
     await page.waitForSelector(link)
-    await waitForText('Files')
+    await page.waitForSelector('text=Files')
     await page.click(link)
     await waitForTitle('/ | Files | IPFS')
   })
@@ -34,7 +34,7 @@ describe('Navigation menu', () => {
   it('should work for Explore page', async () => {
     const link = 'a[href="#/explore"]'
     await page.waitForSelector(link)
-    await waitForText('Explore')
+    await page.waitForSelector('text=Explore')
     await scrollLinkContainer()
     await page.click(link)
     await waitForTitle('Explore | IPLD')
@@ -43,7 +43,7 @@ describe('Navigation menu', () => {
   it('should work for Peers page', async () => {
     const link = 'a[href="#/peers"]'
     await page.waitForSelector(link)
-    await waitForText('Peers')
+    await page.waitForSelector('text=Peers')
     await scrollLinkContainer()
     await page.click(link)
     await waitForTitle('Peers | IPFS')
@@ -52,7 +52,7 @@ describe('Navigation menu', () => {
   it('should work for Settings page', async () => {
     const link = 'a[href="#/settings"]'
     await page.waitForSelector(link)
-    await waitForText('Settings')
+    await page.waitForSelector('text=Settings')
     await scrollLinkContainer()
     await page.click(link)
     await waitForTitle('Settings | IPFS')

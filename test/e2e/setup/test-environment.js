@@ -3,35 +3,8 @@ const { getPlaywrightEnv } = require('jest-playwright-preset')
 const PlaywrightEnvironment = getPlaywrightEnv()
 const { expect } = require('@playwright/test')
 const { matchers } = require('expect-playwright')
-const { Date, console, Promise, setTimeout } = require('window-or-global')
 
 expect.extend(matchers)
-
-// global.waitForText
-// utility function that simplifies text matching
-function waitForTextFn (page) {
-  const debug = process.env.DEBUG === 'true'
-  const waitForText = async (text, { timeout, selector } = { timeout: 30000, selector: 'body' }) => {
-    if (page.isClosed()) throw Error(`waitForText("${text}") aborted due to page close`)
-    timeout = timeout || 30000
-    selector = selector || 'body'
-    const start = new Date()
-    const retryInterval = 250
-    try {
-      return await expect(page).toHaveText(selector, text, { timeout })
-    } catch (e) {
-      if (debug) console.log(`waiting for text "${text}" to appear on page. retrying in ${retryInterval}ms`)
-      const elapsed = (new Date()) - start
-      if (elapsed < timeout) {
-        await new Promise(resolve => setTimeout(resolve, retryInterval))
-        return await waitForText(text, { timeout: timeout - elapsed - retryInterval })
-      }
-      // throw user-friendly error on timeout
-      throw new Error(`waitForText("${text}") timeout`)
-    }
-  }
-  return waitForText
-}
 
 class WebuiTestEnvironment extends PlaywrightEnvironment {
   async setup () {
@@ -41,9 +14,8 @@ class WebuiTestEnvironment extends PlaywrightEnvironment {
     this.global.ipfs = global.__IPFS__
     this.global.webuiUrl = global.__WEBUI_URL__
     this.global.waitForTitle = title => page.waitForFunction(`document.title === '${title}'`)
-    this.global.waitForText = waitForTextFn(this.global.page)
 
-    const { ipfs, webuiUrl, page, waitForText } = this.global
+    const { ipfs, webuiUrl, page } = this.global
 
     page.setDefaultTimeout(30 * 1000)
 
@@ -62,7 +34,7 @@ class WebuiTestEnvironment extends PlaywrightEnvironment {
     // open Status page, confirm working connection to API
     await page.goto(webuiUrl + '#/', { waitUntil: 'networkidle' })
     const { id } = await ipfs.id()
-    await waitForText(id)
+    await page.waitForSelector(`text=${id}`)
   }
 }
 

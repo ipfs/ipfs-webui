@@ -1,4 +1,4 @@
-/* global ipfs, webuiUrl, page, describe, it, expect, beforeAll, waitForText */
+/* global ipfs, webuiUrl, page, describe, it, expect, beforeAll, beforeEach, afterEach, afterAll, localStorage */
 
 const { createController } = require('ipfsd-ctl')
 const getPort = require('get-port')
@@ -155,7 +155,7 @@ const basicAuthConnectionConfirmation = async (user, password, proxyPort) => {
 
 const expectPeerIdOnStatusPage = async (api) => {
   const { id } = await api.id()
-  await waitForText(id)
+  await page.waitForSelector(`text="${id}"`)
 }
 
 const expectHttpApiAddressOnStatusPage = async (value) => {
@@ -165,7 +165,13 @@ const expectHttpApiAddressOnStatusPage = async (value) => {
   await page.waitForSelector('summary', { state: 'visible' })
   await page.click('summary')
   await page.waitForSelector('div[id="http-api-address"]', { state: 'visible' })
-  await waitForText(String(value))
+  value = String(value)
+  if (value.startsWith('/')) {
+    // multiaddr starts with / which makes it look like RegExp
+    // selector without quotes is partial match, so we just skip it
+    value = value.substring(1)
+  }
+  await page.waitForSelector(`text=${value}`)
 }
 
 const expectHttpApiAddressOnSettingsPage = async (value) => {

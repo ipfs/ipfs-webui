@@ -1,4 +1,4 @@
-/* global webuiUrl, ipfs, page, describe, it, beforeAll, waitForText */
+/* global webuiUrl, ipfs, page, describe, it, beforeAll */
 
 describe('Settings screen', () => {
   beforeAll(async () => {
@@ -6,11 +6,11 @@ describe('Settings screen', () => {
   })
 
   it('should show config of IPFS node', async () => {
-    await waitForText('Addresses')
-    await waitForText('Bootstrap')
-    await waitForText('PeerID')
+    await page.waitForSelector('text=Addresses')
+    await page.waitForSelector('text=Bootstrap')
+    await page.waitForSelector('text=PeerID')
     // check PeerID in config to confirm it comes from expected instance
     const { id } = await ipfs.id()
-    await waitForText(id)
+    await page.waitForSelector(`text=${id}`)
   })
 })

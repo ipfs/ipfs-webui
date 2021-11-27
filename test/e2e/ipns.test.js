@@ -1,4 +1,4 @@
-/* global webuiUrl, ipfs, page, describe, it, beforeAll, waitForText */
+/* global webuiUrl, ipfs, page, describe, it, beforeAll, expect */
 
 describe('IPNS publishing', () => {
   beforeAll(async () => {
@@ -15,11 +15,11 @@ describe('IPNS publishing', () => {
     })
 
     it('should have a clickable "Generate key" button', async () => {
-      const genKey = 'Generate Key'
-      await waitForText(genKey)
-      await page.click(`text=${genKey}`)
+      const genKey = 'text=Generate Key'
+      await page.waitForSelector(genKey)
+      await page.click(genKey)
       await page.waitForSelector('div[role="dialog"]')
-      await waitForText('Enter pet name of key to create')
+      await page.waitForSelector('text=Enter pet name of key to create')
     })
 
     it('should list new IPNS key with provided pet name ', async () => {
@@ -66,12 +66,16 @@ describe('IPNS publishing', () => {
       await page.click('button:has-text("Publish to IPNS")')
       await page.waitForSelector('div[role="dialog"] .publishModalKeys')
       await page.click(`div[role="dialog"] .publishModalKeys button:has-text("${keyName}")`)
-      await page.click('div[role="dialog"] button:has-text("Publish")')
+      await page.click(`text=${keyName}`)
+      const publishButton = 'div[role="dialog"] button:has-text("Publish")'
+      const enabled = await page.isEnabled(publishButton)
+      expect(enabled).toBeTruthy()
+      await page.click(publishButton)
     })
 
-    /* TODO
+    /*
     it('should execute IPNS publish and reflect that on Settings screen', async () => {
-      await page.goto(webuiUrl + '#/settings', { waitUntil: 'networkidle' })
+      await page.click('a:has-text("Settings")')
       await waitForIPNSKeyList(ipfs, keyName)
       // inspect link behind key id -- it should point at CID we used for publishing
       const { id } = await ipns.key.list().filter(k => k.name === keyName)[0]
@@ -87,10 +91,10 @@ describe('IPNS publishing', () => {
 // Confirm contents of IPNS Publishing Keys table on Settings screen
 // are in sync with ipfs.key.list
 async function waitForIPNSKeyList (ipfs, specificKey) {
-  await waitForText('IPNS Publishing Keys')
-  if (specificKey) await waitForText(specificKey)
+  await page.waitForSelector('text=IPNS Publishing Keys')
+  if (specificKey) await page.waitForSelector(`text=${specificKey}`)
   for (const { id, name } of await ipfs.key.list()) {
-    await waitForText(id)
-    await waitForText(name)
+    await page.waitForSelector(`text=${id}`)
+    await page.waitForSelector(`text=${name}`)
   }
 }

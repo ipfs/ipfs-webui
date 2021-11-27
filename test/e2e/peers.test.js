@@ -1,4 +1,4 @@
-/* global webuiUrl, ipfs, page, describe, it, beforeAll, afterAll, waitForText */
+/* global webuiUrl, ipfs, page, describe, it, beforeAll, afterAll */
 
 const { createController } = require('ipfsd-ctl')
 
@@ -23,10 +23,10 @@ describe('Peers screen', () => {
 
   it('should have a clickable "Add connection" button', async () => {
     const addConnection = 'Add connection'
-    await waitForText(addConnection)
+    await page.waitForSelector(`text=${addConnection}`)
     await page.click(`text=${addConnection}`)
     await page.waitForSelector('div[role="dialog"]')
-    await waitForText('Insert the peer address you want to connect to')
+    await page.waitForSelector('text=Insert the peer address you want to connect to')
   })
 
   it('should confirm connection after "Add connection" ', async () => {
@@ -36,11 +36,11 @@ describe('Peers screen', () => {
     await page.keyboard.type('\n')
     // expect connection confirmation
     await page.waitForSelector('.bg-green', { visible: true })
-    await waitForText('Successfully connected to the provided peer')
+    await page.waitForSelector('text=Successfully connected to the provided peer')
   })
 
   it('should have a peer from a "Local Network"', async () => {
-    await waitForText('Local Network')
+    await page.waitForSelector('text=Local Network')
   })
 
   afterAll(async () => {
