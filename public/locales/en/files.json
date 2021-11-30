@@ -118,6 +118,7 @@
   "publishModal": {
     "title": "Publish to IPNS",
     "cidToPublish": "CID:",
-    "publishUnderKey": "Select key for publishing:"
+    "publishUnderKey": "Select key for publishing:",
+    "publishedAt": "Successfully published at:"
   }
 }

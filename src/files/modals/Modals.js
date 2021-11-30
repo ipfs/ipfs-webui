@@ -96,11 +96,10 @@ class Modals extends React.Component {
     this.leave()
   }
 
-  publish = (key) => {
+  publish = async (key) => {
     const file = this.state.publish.file
     const cid = file.cid.toString()
-    this.props.onPublish(cid, key)
-    this.leave()
+    await this.props.onPublish(cid, key)
   }
 
   componentDidUpdate (prev) {
@@ -271,7 +270,7 @@ class Modals extends React.Component {
           <PublishModal
             file={this.state.publish.file}
             className='outline-0'
-            onCancel={this.leave}
+            onLeave={this.leave}
             onSubmit={this.publish} />
         </Overlay>
       </div>
