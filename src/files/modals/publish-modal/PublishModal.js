@@ -46,8 +46,11 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
     if (link) {
       return (
         <div>
-          <p className='charcoal tl center'>{t('publishModal.publishedAt')} {selectedKey.name}.</p>
-
+          <div className='tl pv3'>{t('publishModal.publishedUnderKey')}<br/>
+            <span className='f6 charcoal-muted monospace'>{selectedKey.name}</span><br/>
+            <span className='f6 charcoal-muted monospace'>{selectedKey.id}</span>
+          </div>
+          <p className='charcoal tl center'>{t('publishModal.sharingPrompt')}</p>
           <div className='flex center pb2'>
             <input
               value={link}
@@ -78,7 +81,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
   return (
     <Modal {...props} className={className} onCancel={onLeave} >
       <ModalBody Icon={Icon} title={t('publishModal.title')}>
-        <div className='tl pv3'>{t('publishModal.cidToPublish')} <span className='f6 charcoal-muted monospace'>{file.cid.toString()}</span></div>
+        <div className='tl pv3'>{t('publishModal.cidToPublish')}<br/><span className='f6 charcoal-muted monospace'>{file.cid.toString()}</span></div>
         {modalBody()}
       </ModalBody>
 
