@@ -1,13 +1,29 @@
-/* global webuiUrl, ipfs, page, describe, it, beforeAll, expect */
+/* global webuiUrl, ipfs, page, describe, it, beforeAll, afterAll, expect */
+
+const { createController } = require('ipfsd-ctl')
 
 describe('IPNS publishing', () => {
+  const keyName = 'pet-name-e2e-ipns-test'
+  let ipfsd
+  let peeraddr
+
   beforeAll(async () => {
-    await page.goto(webuiUrl + '#/settings', { waitUntil: 'networkidle' })
+    // spawn a second ephemeral local node as a peer for ipns publishing
+    ipfsd = await createController({
+      type: 'go',
+      ipfsBin: require('go-ipfs').path(),
+      ipfsHttpModule: require('ipfs-http-client'),
+      test: true,
+      disposable: true
+    })
+    const { addresses } = await ipfsd.api.id()
+    peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
   })
 
-  const keyName = 'pet-name-e2e-ipns-test'
-
   describe('Settings screen', () => {
+    beforeAll(async () => {
+      await page.goto(webuiUrl + '#/settings', { waitUntil: 'networkidle' })
+    })
     it('should list IPNS keys', async () => {
       await page.goto(webuiUrl + '#/settings', { waitUntil: 'networkidle' })
       // confirm the self key is displayed
@@ -70,21 +86,22 @@ describe('IPNS publishing', () => {
       const publishButton = 'div[role="dialog"] button:has-text("Publish")'
       const enabled = await page.isEnabled(publishButton)
       expect(enabled).toBeTruthy()
+      // connect to other peer to have something in the peer table
+      // (ipns will fail to publish without peers)
+      await ipfs.swarm.connect(peeraddr)
       await page.click(publishButton)
+      await page.waitForSelector('text=Successfully published')
+      await page.click('button:has-text("Copy")')
+      // confirm IPNS record in local store points at the CID
+      const { id } = (await ipfs.key.list()).filter(k => k.name === keyName)[0]
+      for await (const name of ipfs.name.resolve(`/ipns/${id}`, { recursive: true })) {
+        expect(name).toEqual(testCid)
+      }
     })
+  })
 
-    /*
-    it('should execute IPNS publish and reflect that on Settings screen', async () => {
-      await page.click('a:has-text("Settings")')
-      await waitForIPNSKeyList(ipfs, keyName)
-      // inspect link behind key id -- it should point at CID we used for publishing
-      const { id } = await ipns.key.list().filter(k => k.name === keyName)[0]
-      const keyIdCell = `a:has-text("${id}")`
-      await page.waitForSelector(keyIdCell)
-      const href = await page.getAttribute(keyIdCell, 'href')
-      expect(href.includes(testCid)).toBeTruthy()
-    })
-    */
+  afterAll(async () => {
+    if (ipfsd) await ipfsd.stop()
   })
 })
 
