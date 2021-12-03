@@ -30,8 +30,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
     if (!start) return
 
     const interval = setInterval(() => {
-      const diff = (new Date().getTime() - start) / 1000
-      const progress = diff > expectedPublishTime ? 100 : Math.floor(100 * diff / expectedPublishTime)
+      const progress = calculateProgress()
       setProgress(progress)
 
       if (progress >= 100) {
@@ -41,6 +40,11 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
 
     return () => clearInterval(interval)
   }, [start]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const calculateProgress = () => {
+    const diff = (new Date().getTime() - start) / 1000
+    return diff > expectedPublishTime ? 100 : Math.floor(100 * diff / expectedPublishTime)
+  }
 
   const changeKey = (key) => {
     setLink('')
