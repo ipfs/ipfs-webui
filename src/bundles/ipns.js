@@ -64,10 +64,7 @@ const ipnsBundle = {
   },
 
   doUpdateExpectedPublishTime: (time) => async ({ store, dispatch }) => {
-    console.log(time)
-    console.log(store.selectExpectedPublishTime())
     const avg = Math.floor((time + store.selectExpectedPublishTime()) / 2)
-    console.log(avg)
     await writeSetting('expectedPublishTime', avg)
     dispatch({ type: 'SET_EXPECTED_PUBLISH_TIME', payload: avg })
   }

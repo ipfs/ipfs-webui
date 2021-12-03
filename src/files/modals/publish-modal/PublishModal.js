@@ -32,7 +32,6 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
     const interval = setInterval(() => {
       const diff = (new Date().getTime() - start) / 1000
       const progress = diff > expectedPublishTime ? 100 : Math.floor(100 * diff / expectedPublishTime)
-      console.log(diff, progress, expectedPublishTime)
       setProgress(progress)
 
       if (progress >= 100) {
