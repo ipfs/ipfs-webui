@@ -7,22 +7,41 @@ import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal'
 import Icon from '../../../icons/StrokeSpeaker'
 import { connect } from 'redux-bundler-react'
 import Radio from '../../../components/radio/Radio'
+import ProgressBar from '../../../components/progress-bar/ProgressBar'
 import './PublishModal.css'
 
-const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGateway, className, doFetchIpnsKeys, ...props }) => {
+const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGateway, className, doFetchIpnsKeys, doUpdateExpectedPublishTime, expectedPublishTime, ...props }) => {
   const [disabled, setDisabled] = useState(true)
-  const [pending, setPending] = useState(false)
   const [error, setError] = useState(null)
   const [selectedKey, setSelectedKey] = useState({ name: '', id: '' })
   const [link, setLink] = useState('')
+  const [progress, setProgress] = useState(0)
+  const [start, setStart] = useState(null)
 
   useEffect(() => {
-    setDisabled(selectedKey.name === '' || pending)
-  }, [selectedKey, pending])
+    setDisabled(selectedKey.name === '' || start !== null)
+  }, [selectedKey, start])
 
   useEffect(() => {
     doFetchIpnsKeys()
   }, [doFetchIpnsKeys])
+
+  useEffect(() => {
+    if (!start) return
+
+    const interval = setInterval(() => {
+      const diff = (new Date().getTime() - start) / 1000
+      const progress = diff > expectedPublishTime ? 100 : Math.floor(100 * diff / expectedPublishTime)
+      console.log(diff, progress, expectedPublishTime)
+      setProgress(progress)
+
+      if (progress >= 100) {
+        clearInterval(interval)
+      }
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [start]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const changeKey = (key) => {
     setLink('')
@@ -32,13 +51,17 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
 
   const publish = async () => {
     try {
-      setPending(true)
+      const startTs = new Date().getTime()
+      setStart(startTs)
+
       await onSubmit(selectedKey.name)
       setLink(`${publicGateway}/ipns/${selectedKey.id}`)
+
+      // Update the expected time with the new timing.
+      const endTs = new Date().getTime()
+      doUpdateExpectedPublishTime((endTs - startTs) / 1000)
     } catch (err) {
       setError(err)
-    } finally {
-      setPending(false)
     }
   }
 
@@ -58,6 +81,15 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
               className={'input-reset flex-grow-1 charcoal-muted ba b--black-20 br1 pa2 mr2 focus-outline'}
               type='text' />
           </div>
+        </div>
+      )
+    }
+
+    if (start) {
+      return (
+        <div>
+          <p className='charcoal tl center'>{t('publishModal.pleaseWait')}</p>
+          <ProgressBar bg='bg-navy' progress={progress} />
         </div>
       )
     }
@@ -92,9 +124,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
           ? <CopyToClipboard text={link} onCopy={onLeave}>
             <Button className='ma2 tc'>{t('app:actions.copy')}</Button>
           </CopyToClipboard>
-          : <Button className='ma2 tc' bg='bg-teal' disabled={disabled} onClick={publish}>{
-            pending ? 'TODO:SPINNER' : t('app:actions.publish')
-          }</Button>
+          : <Button className='ma2 tc' bg='bg-teal' disabled={disabled} onClick={publish}>{t('app:actions.publish')}</Button>
         }
 
       </ModalActions>
@@ -116,7 +146,9 @@ PublishModal.defaultProps = {
 
 export default connect(
   'selectIpnsKeys',
+  'selectExpectedPublishTime',
   'selectPublicGateway',
   'doFetchIpnsKeys',
+  'doUpdateExpectedPublishTime',
   withTranslation('files')(PublishModal)
 )

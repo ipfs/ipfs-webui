@@ -1,18 +1,28 @@
 import all from 'it-all'
+import { readSetting, writeSetting } from './local-storage'
+
+const init = () => ({
+  keys: [],
+  expectedPublishTime: readSetting('expectedPublishTime') || 60
+})
 
 const ipnsBundle = {
   name: 'ipns',
-  reducer: (state = {
-    keys: []
-  }, action) => {
+  reducer: (state = init(), action) => {
     if (action.type === 'CACHE_IPNS_KEYS') {
       return { ...state, keys: action.payload }
+    }
+
+    if (action.type === 'SET_EXPECTED_PUBLISH_TIME') {
+      return { ...state, expectedPublishTime: action.payload }
     }
 
     return state
   },
 
   selectIpnsKeys: (state) => state.ipns.keys || [],
+
+  selectExpectedPublishTime: (state) => state.ipns.expectedPublishTime,
 
   doFetchIpnsKeys: () => async ({ getIpfs, dispatch }) => {
     const ipfs = getIpfs()
@@ -51,6 +61,16 @@ const ipnsBundle = {
   doPublishIpnsKey: (cid, key) => async ({ getIpfs, store }) => {
     const ipfs = getIpfs()
     await ipfs.name.publish(cid, { key })
+  },
+
+  doUpdateExpectedPublishTime: (time) => async ({ store, dispatch }) => {
+    console.log(time)
+    console.log(store.selectExpectedPublishTime())
+    const avg = Math.floor((time + store.selectExpectedPublishTime()) / 2)
+    console.log(avg)
+    await writeSetting('expectedPublishTime', avg)
+    dispatch({ type: 'SET_EXPECTED_PUBLISH_TIME', payload: avg })
   }
 }
+
 export default ipnsBundle

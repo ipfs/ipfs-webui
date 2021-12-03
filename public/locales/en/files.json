@@ -120,6 +120,7 @@
     "cidToPublish": "CID:",
     "publishUnderKey": "Select key for publishing:",
     "publishedUnderKey": "Successfully published under the key:",
-    "sharingPrompt": "Copy the link below and share it with your friends. IPNS address will resolve as long your node remains available on the network to refresh IPNS record once a day."
+    "sharingPrompt": "Copy the link below and share it with your friends. IPNS address will resolve as long your node remains available on the network to refresh IPNS record once a day.",
+    "pleaseWait": "Please wait while the IPNS key is published."
   }
 }
