@@ -121,6 +121,6 @@
     "publishUnderKey": "Select key for publishing:",
     "publishedUnderKey": "Successfully published under the key:",
     "sharingPrompt": "Copy the link below and share it with your friends. IPNS address will resolve as long your node remains available on the network to refresh IPNS record once a day.",
-    "pleaseWait": "Please wait while the IPNS key is published."
+    "pleaseWait": "Please wait while initial 20 copies of the updated IPNS record are being stored with help of DHT peers…"
   }
 }

@@ -36,7 +36,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
       if (progress >= 100) {
         clearInterval(interval)
       }
-    }, 1000)
+    }, 100)
 
     return () => clearInterval(interval)
   }, [start]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -92,7 +92,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
       return (
         <div>
           <p className='charcoal tl center'>{t('publishModal.pleaseWait')}</p>
-          <ProgressBar bg='bg-navy' progress={progress} />
+          <ProgressBar bg='bg-teal' style={{ height: '8px' }} progress={progress} />
         </div>
       )
     }
