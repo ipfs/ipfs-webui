@@ -16,3 +16,10 @@ storiesOf('Progress Bars', module)
       <ProgressBar bg='bg-snow' progress={58} />
     </div>
   ))
+  .add('CSS Animation', () => (
+    <div className='ma2'>
+      <ProgressBar bg='bg-navy' time={4} />
+      <ProgressBar bg='bg-yellow' time={60} />
+      <ProgressBar bg='bg-snow' time={20} />
+    </div>
+  ))

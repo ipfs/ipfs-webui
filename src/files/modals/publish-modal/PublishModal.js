@@ -15,7 +15,6 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
   const [error, setError] = useState(null)
   const [selectedKey, setSelectedKey] = useState({ name: '', id: '' })
   const [link, setLink] = useState('')
-  const [progress, setProgress] = useState(0)
   const [start, setStart] = useState(null)
 
   useEffect(() => {
@@ -25,26 +24,6 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
   useEffect(() => {
     doFetchIpnsKeys()
   }, [doFetchIpnsKeys])
-
-  useEffect(() => {
-    if (!start) return
-
-    const interval = setInterval(() => {
-      const progress = calculateProgress()
-      setProgress(progress)
-
-      if (progress >= 100) {
-        clearInterval(interval)
-      }
-    }, 1000)
-
-    return () => clearInterval(interval)
-  }, [start]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const calculateProgress = () => {
-    const diff = (new Date().getTime() - start) / 1000
-    return diff > expectedPublishTime ? 100 : Math.floor(100 * diff / expectedPublishTime)
-  }
 
   const changeKey = (key) => {
     setLink('')
@@ -92,7 +71,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
       return (
         <div>
           <p className='charcoal tl center'>{t('publishModal.pleaseWait')}</p>
-          <ProgressBar bg='bg-navy' progress={progress} />
+          <ProgressBar bg='bg-navy' time={expectedPublishTime} />
         </div>
       )
     }
