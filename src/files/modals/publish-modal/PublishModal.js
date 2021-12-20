@@ -71,7 +71,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
       return (
         <div>
           <p className='charcoal tl center'>{t('publishModal.pleaseWait')}</p>
-          <ProgressBar bg='bg-navy' time={expectedPublishTime} />
+          <ProgressBar bg='bg-teal' style={{ height: '8px' }} time={expectedPublishTime} />
         </div>
       )
     }
