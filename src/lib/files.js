@@ -38,28 +38,23 @@ export function normalizeFiles (files) {
  * @typedef {Object} FileDownload
  * @property {string} url
  * @property {string} filename
- * @property {string} method
  *
  * @param {FileStat} file
  * @param {string} gatewayUrl
- * @param {string} apiUrl
  * @returns {Promise<FileDownload>}
  */
-async function downloadSingle (file, gatewayUrl, apiUrl) {
-  let url, filename, method
+async function downloadSingle (file, gatewayUrl) {
+  let url, filename
 
   if (file.type === 'directory') {
-    const name = file.name || `download_${file.cid}` // Name is not always available.
-    url = `${apiUrl}/api/v0/get?arg=${file.cid}&archive=true&compress=true`
-    filename = `${name}.tar.gz`
-    method = 'POST' // API is POST-only
+    filename = `${file.name || `download_${file.cid}`}.tar.gz`
+    url = `${gatewayUrl}/api/v0/get?arg=${file.cid}&archive=true&compress=true`
   } else {
-    url = `${gatewayUrl}/ipfs/${file.cid}?download=true&filename=${file.name}`
     filename = file.name
-    method = 'GET'
+    url = `${gatewayUrl}/ipfs/${file.cid}?download=true&filename=${file.name}`
   }
 
-  return { url, filename, method }
+  return { url, filename }
 }
 
 /**
@@ -90,22 +85,15 @@ export async function makeCIDFromFiles (files, ipfs) {
 /**
  *
  * @param {FileStat[]} files
- * @param {string} apiUrl
+ * @param {string} gatewayUrl
  * @param {IPFSService} ipfs
  * @returns {Promise<FileDownload>}
  */
-async function downloadMultiple (files, apiUrl, ipfs) {
-  if (!apiUrl) {
-    const e = new Error('api url undefined')
-    return Promise.reject(e)
-  }
-
+async function downloadMultiple (files, gatewayUrl, ipfs) {
   const cid = await makeCIDFromFiles(files, ipfs)
-
   return {
-    url: `${apiUrl}/api/v0/get?arg=${cid}&archive=true&compress=true`,
-    filename: `download_${cid}.tar.gz`,
-    method: 'POST' // API is POST-only
+    url: `${gatewayUrl}/api/v0/get?arg=${cid}&archive=true&compress=true`,
+    filename: `download_${cid}.tar.gz`
   }
 }
 
@@ -113,16 +101,15 @@ async function downloadMultiple (files, apiUrl, ipfs) {
  *
  * @param {FileStat[]} files
  * @param {string} gatewayUrl
- * @param {string} apiUrl
  * @param {IPFSService} ipfs
  * @returns {Promise<FileDownload>}
  */
-export async function getDownloadLink (files, gatewayUrl, apiUrl, ipfs) {
+export async function getDownloadLink (files, gatewayUrl, ipfs) {
   if (files.length === 1) {
-    return downloadSingle(files[0], gatewayUrl, apiUrl)
+    return downloadSingle(files[0], gatewayUrl)
   }
 
-  return downloadMultiple(files, apiUrl, ipfs)
+  return downloadMultiple(files, gatewayUrl, ipfs)
 }
 
 /**
