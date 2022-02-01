@@ -112,7 +112,7 @@ jobs:
 
       # pin the built site to ipfs-websites cluster, output the cid as `steps.ipfs.outputs.cid`
       # see: https://github.com/ipfs-shipyard/ipfs-github-action
-      - uses: ipfs-shipyard/ipfs-github-action@v2.0.0
+      - uses: ipfs-shipyard/ipfs-github-action@v2.1.0
         id: ipfs
         with:
           path_to_add: build
@@ -121,6 +121,8 @@ jobs:
           cluster_password: ${{ secrets.CLUSTER_PASSWORD }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GODEBUG: netdns=go
+
       - run: echo ${{ steps.ipfs.outputs.url }}
       - run: echo ${{ github.ref }}
 
