@@ -68,6 +68,10 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
  * @returns {Promise<CID>}
  */
 export async function makeCIDFromFiles (files, ipfs) {
+  // Note: we don't use 'object patch' here, it was deprecated.
+  // We are using MFS for creating CID of an ephemeral directory
+  // because it handles HAMT-sharding of big directories automatically
+  // See: https://github.com/ipfs/go-ipfs/issues/8106
   const dirpath = `/zzzz_${Date.now()}`
   await ipfs.files.mkdir(dirpath, {})
 
