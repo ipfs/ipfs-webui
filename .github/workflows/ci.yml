@@ -112,19 +112,52 @@ jobs:
 
       # pin the built site to ipfs-websites cluster, output the cid as `steps.ipfs.outputs.cid`
       # see: https://github.com/ipfs-shipyard/ipfs-github-action
-      - uses: ipfs-shipyard/ipfs-github-action@v2.1.0
-        id: ipfs
+      - uses: ipfs/download-ipfs-distribution-action@v1
         with:
-          path_to_add: build
-          cluster_host: /dnsaddr/ipfs-websites.collab.ipfscluster.io
-          cluster_user: ${{ secrets.CLUSTER_USER }}
-          cluster_password: ${{ secrets.CLUSTER_PASSWORD }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GODEBUG: netdns=go
+          name: go-ipfs
+      - uses: ipfs/download-ipfs-distribution-action@v1
+        with:
+          name: ipfs-cluster-ctl
+      - name: Fix DNS resolver
+        run: |
+          # fix resolv - DNS provided by Github is unreliable for DNSLik/dnsaddr
+          sudo sed -i -e 's/nameserver 127.0.0.*/nameserver 1.1.1.1/g' /etc/resolv.conf
 
-      - run: echo ${{ steps.ipfs.outputs.url }}
+      - uses: ipfs/start-ipfs-daemon-action@v1
+      - name: Import build/ to IPFS
+        id: ipfs
+        run: |
+          root_cid=$(ipfs add --cid-version 1 -Q -r ./build)
+          echo "::set-output name=cid::$root_cid"
+
+      - run: echo ${{ steps.ipfs.outputs.cid }}
       - run: echo ${{ github.ref }}
+
+      - name: Pin to ipfs-websites.collab.ipfscluster.io
+        run: |
+          ipfs-cluster-ctl --enc=json \
+            --host "${CLUSTER_HOST}" \
+            --basic-auth "$CLUSTER_USER:$CLUSTER_PASSWORD" \
+            peers ls > cluster-peers-ls
+          for maddr in $(jq -r '.[].ipfs.addresses[]?' cluster-peers-ls); do
+            ipfs swarm peering add $maddr &
+            ipfs swarm connect $maddr &
+          done
+          ipfs-cluster-ctl --enc=json \
+              --host "${CLUSTER_HOST}" \
+              --basic-auth "${CLUSTER_USER}:${CLUSTER_PASSWORD}" \
+              pin add \
+              --name "${PIN_NAME}" \
+              --replication-min 1 \
+              --replication-max 3 \
+              --wait \
+              $PIN_CID
+        env:
+          CLUSTER_HOST: "/dnsaddr/ipfs-websites.collab.ipfscluster.io"
+          CLUSTER_USER: ${{ secrets.CLUSTER_USER }}
+          CLUSTER_PASSWORD: ${{ secrets.CLUSTER_PASSWORD }}
+          PIN_CID: ${{ steps.ipfs.outputs.cid }}
+          PIN_NAME: "ipfs-webui@${{ github.sha }}"
 
       # dev dnslink is updated on each main branch update
       - run: npx dnslink-dnsimple --domain dev.webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
