@@ -1,0 +1,65 @@
+{
+  "appName": "Penjelajah IPLD",
+  "tabName": "Jelajah",
+  "homeLink": "Rumah",
+  "UpdateAvailable": {
+    "paragraph1": "Versi baru Penjelajah IPLD tersedia; <1>tolong muat ulang</1>."
+  },
+  "StartExploringPage": {
+    "title": "Jelajahi - IPLD",
+    "header": "Jelajahi Merkle Forest",
+    "leadParagraph": "Tempelkan CID ke dalam kotak untuk mengambil node IPLD yang dituju, atau pilih kumpulan data unggulan."
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD adalah <1>model data web yang dapat dialamatkan dengan konten.</1> Ini memungkinkan kita untuk memperlakukan semua struktur data yang ditautkan dengan hash sebagai himpunan bagian dari ruang informasi terpadu, menyatukan semua model data yang menautkan data dengan hash sebagai instance dari IPLD.</0>",
+    "paragraph2": "<0>Pengalamatan konten melalui hash telah menjadi sarana yang digunakan secara luas untuk menghubungkan data dalam sistem distribusi, mulai dari blockchain yang menjalankan mata uang kripto favorit Anda, hingga komitmen yang mendukung kode Anda, hingga konten web secara luas. Namun, sementara semua alat ini bergantung pada beberapa primitif umum, struktur data spesifik yang mendasarinya tidak dapat dioperasikan.</0>",
+    "paragraph3": "<0>Masukkan IPLD: satu ruang nama untuk semua protokol yang terinspirasi hash. Melalui IPLD, tautan dapat dilintasi lintas protokol, memungkinkan Anda menjelajahi data terlepas dari protokol yang mendasarinya.</0>"
+  },
+  "ExplorePage": {
+    "title": "Menjelajahi - IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "Jelajah"
+  },
+  "CidInfo": {
+    "header": "Info CID",
+    "hashDigest": "Intisari Hash"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "Lihat di Gerbang IPFS"
+  },
+  "base": "basis",
+  "version": "versi",
+  "codec": "codec",
+  "multihash": "multihash",
+  "tour": {
+    "projects": {
+      "title": "Kumpulan data unggulan",
+      "paragraph1": "Jelajahi kumpulan data unggulan atau tempel CID untuk melihat bagaimana data tersebut disusun dan ditautkan di seluruh protokol."
+    },
+    "explorer": {
+      "step1": {
+        "title": "Penjelajah IPLD",
+        "paragraph1": "Perjalanan Anda dengan Penjelajah IPLD dimulai di sini. Klik \"Berikutnya\" untuk mempelajari lebih lanjut."
+      },
+      "step2": {
+        "title": "Tepung roti",
+        "paragraph1": "Jalur yang mengarah ke node ini.",
+        "paragraph2": "Klik untuk melintasi ke orang tua atau anak-anaknya."
+      },
+      "step3": {
+        "title": "Info Node",
+        "paragraph1": "Di sini Anda memiliki info rinci tentang node dan Anda dapat membukanya di gerbang IPFS.",
+        "paragraph2": "Jika node adalah direktori, Anda dapat melihat anak-anaknya dan menavigasi ke mereka."
+      },
+      "step4": {
+        "title": "Info CID",
+        "paragraph1": "CID yang didekomposisi sehingga Anda dapat mempelajari artinya."
+      },
+      "step5": {
+        "title": "Representasi visual",
+        "paragraph1": "Representasi visual dari node dan anak-anaknya."
+      }
+    }
+  }
+}
