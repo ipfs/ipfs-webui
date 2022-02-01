@@ -143,7 +143,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        backend: [js, go]
+        backend: [go] # TODO: add 'js' – see https://github.com/ipfs/ipfs-webui/issues/1737
     steps:
       - uses: actions/checkout@v2
 
