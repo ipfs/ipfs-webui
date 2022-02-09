@@ -21,8 +21,10 @@ const PinIcon = ({ icon, index }) => {
   return <GlyphPin width={32} height={32} className={glyphClass}/>
 }
 
-export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningServices, doGetFileSizeThroughCid, doSelectRemotePinsForFile, doFetchPinningServices, className, ...props }) => {
-  const selectedRemoteServices = useMemo(() => doSelectRemotePinsForFile(file), [doSelectRemotePinsForFile, file])
+export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningServices, remotePins, notRemotePins, doGetFileSizeThroughCid, doSelectRemotePinsForFile, doFetchPinningServices, doFetchRemotePins, className, ...props }) => {
+  // const selectedRemoteServices = useMemo(() => doSelectRemotePinsForFile(file, pinningServices, remotePins), [doSelectRemotePinsForFile, pinningServices, remotePins, file])
+  const selectedRemoteServices = useMemo(() => doSelectRemotePinsForFile(file, remotePins, notRemotePins), [doSelectRemotePinsForFile, file, remotePins, notRemotePins])
+  // const selectedRemoteServices = doSelectRemotePinsForFile(file)
   const [selectedServices, setSelectedServices] = useState([...selectedRemoteServices, ...[file.pinned && 'local']])
   const [size, setSize] = useState(null)
 
@@ -30,15 +32,23 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningS
     doFetchPinningServices()
     const fetchSize = async () => setSize(await doGetFileSizeThroughCid(file.cid))
     fetchSize()
+    doFetchRemotePins([{ cid: file.cid }])
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [file])
+
+  useEffect(() => {
+    // Trigger status check for services without cached result
+    setSelectedServices([...selectedRemoteServices, ...[file.pinned && 'local']])
+  }, [file, selectedRemoteServices])
 
   const selectService = (key) => {
+    /*
     const service = pinningServices.find(s => s.name === key)
     if (service && !service.online) {
       // when a service is offline, click in noop
       return
     }
+    */
     if (selectedServices.indexOf(key) === -1) {
       return setSelectedServices([...selectedServices, key])
     }
@@ -55,11 +65,11 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningS
             <GlyphPin fill="currentColor" width={32} height={32} className="mr1 aqua flex-shrink-0"/>
             <p className="f5 w-100">{ t('pinningModal.localNode') }</p>
           </button>
-          { pinningServices.map(({ icon, name, online }, index) => (
+          { pinningServices.map(({ icon, name }, index) => (
             <button className="flex items-center pa1 hoverable-button" key={name} onClick={() => selectService(name)}>
-              <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes(name)} style={{ pointerEvents: 'none' }} disabled={!online}/>
+              <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes(name)} style={{ pointerEvents: 'none' }}/>
               <PinIcon index={index} icon={icon}/>
-              <p className={ online ? 'f6' : 'f6 red' }>{ name }</p>
+              <p className='f5'>{ name }</p>
             </button>
           ))}
         </div>
@@ -93,8 +103,11 @@ PinningModal.defaultProps = {
 
 export default connect(
   'selectPinningServices',
+  'selectRemotePins',
+  'selectNotRemotePins',
   'doSelectRemotePinsForFile',
   'doGetFileSizeThroughCid',
   'doFetchPinningServices',
+  'doFetchRemotePins',
   withTranslation('files')(PinningModal)
 )

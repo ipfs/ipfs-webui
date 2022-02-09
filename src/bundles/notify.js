@@ -69,8 +69,17 @@ const notify = {
         eventId: `experimentsErrors.${action.payload.key}`
       }
     }
+    if (action.type === 'IPFS_PIN_FAILED') {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        msgArgs: action.msgArgs,
+        eventId: action.type
+      }
+    }
 
-    if (action.type === 'IPFS_CONNECT_FAILED' || action.type === 'IPFS_PIN_FAILED') {
+    if (action.type === 'IPFS_CONNECT_FAILED') {
       return {
         ...state,
         show: true,

@@ -2,12 +2,13 @@
 import { pinningServiceTemplates } from '../constants/pinning'
 import memoize from 'p-memoize'
 
+const CID_PIN_CHECK_BATCH_SIZE = 10 // Pinata returns error when >10
+
 const parseService = async (service, remoteServiceTemplates, ipfs) => {
   const template = remoteServiceTemplates.find(t => service.endpoint.toString() === t.apiEndpoint.toString())
   const icon = template?.icon
   const visitServiceUrl = template?.visitServiceUrl
-  const autoUpload = await mfsPolicyEnableFlag(service.service, ipfs)
-  const parsedService = { ...service, name: service.service, icon, visitServiceUrl, autoUpload }
+  const parsedService = { ...service, name: service.service, icon, visitServiceUrl }
 
   if (service?.stat?.status === 'invalid') {
     return { ...parsedService, numberOfPins: -1, online: false }
@@ -15,8 +16,9 @@ const parseService = async (service, remoteServiceTemplates, ipfs) => {
 
   const numberOfPins = service.stat?.pinCount?.pinned
   const online = typeof numberOfPins === 'number'
+  const autoUpload = online ? await mfsPolicyEnableFlag(service.service, ipfs) : undefined
 
-  return { ...parsedService, numberOfPins, online }
+  return { ...parsedService, numberOfPins, online, autoUpload }
 }
 
 const mfsPolicyEnableFlag = memoize(async (serviceName, ipfs) => {
@@ -86,14 +88,10 @@ const pinningBundle = {
     return state
   },
 
-  doFetchRemotePins: (files) => async ({ dispatch, store, getIpfs }) => {
-    // Only check services that are confirmed to be online
-    const pinningServices = store.selectPinningServices().filter(s => s.online)
-
+  doFetchRemotePins: (files, skipCache = false) => async ({ dispatch, store, getIpfs }) => {
+    const pinningServices = store.selectPinningServices()
     if (!pinningServices?.length) return
-
     const ipfs = getIpfs()
-
     if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return
 
     const allCids = files ? files.map(f => f.cid) : []
@@ -103,8 +101,8 @@ const pinningBundle = {
     const remotePins = store.selectRemotePins().map(pin => pin.id)
     const notRemotePins = store.selectNotRemotePins()
 
-    // Check remaining CID status in chunks of 10 (remote API limitation)
-    const cids = uniqueCidBatches(allCids, 10)
+    // Check remaining CID status in chunks based on API limitation seen in real world
+    const cids = uniqueCidBatches(allCids, CID_PIN_CHECK_BATCH_SIZE)
 
     const adds = []
     const removals = []
@@ -112,26 +110,32 @@ const pinningBundle = {
     await Promise.allSettled(pinningServices.map(async service => {
       try {
         // skip CIDs that we know the state of at this service
-        const skipCids = new Set(
+        const skipCids = skipCache ? new Set() : new Set(
           [...remotePins, ...notRemotePins]
             .filter(id => id.startsWith(service.name))
             .map(cacheId2Cid)
         )
-        return Promise.allSettled(cids.map(async cidChunk => {
+        for (const cidChunk of cids) {
           const cidsToCheck = cidChunk.filter(cid => !skipCids.has(cid.toString()))
-          if (!cidsToCheck.length) return // skip if no new cids to check
+          if (!cidsToCheck.length) continue // skip if no new cids to check
           const notPins = new Set(cidsToCheck.map(cid => cid.toString()))
-          const pins = ipfs.pin.remote.ls({ service: service.name, cid: cidsToCheck })
-          for await (const pin of pins) {
-            const pinCid = pin.cid.toString()
-            notPins.delete(pinCid)
-            adds.push({ id: `${service.name}:${pinCid}`, ...pin })
+          try {
+            // TODO: execute remote.ls with +1m backoff per service when response Type == "error" and Message includes "429 Too Many Requests"
+            const pins = ipfs.pin.remote.ls({ service: service.name, cid: cidsToCheck })
+            for await (const pin of pins) {
+              const pinCid = pin.cid.toString()
+              notPins.delete(pinCid)
+              adds.push({ id: `${service.name}:${pinCid}`, ...pin })
+            }
+            // store 'not pinned remotely on this service' to avoid future checks
+          } catch (e) {
+            console.error(`Error: pin.remote.ls service=${service.name} cid=${cidsToCheck}: ${e.toString()}`)
           }
-          // store 'not pinned remotely on this service' to avoid future checks
+          // cache remaining ones as not pinned
           for (const notPinCid of notPins) {
             removals.push(`${service.name}:${notPinCid}`)
           }
-        }))
+        }
       } catch (e) {
         // ignore service and network errors for now
         // and continue checking remaining ones
@@ -146,13 +150,12 @@ const pinningBundle = {
 
   doSelectRemotePinsForFile: (file) => ({ store }) => {
     const pinningServicesNames = store.selectPinningServices().map(remote => remote.name)
-
     const remotePinForFile = store.selectRemotePins().filter(pin => pin.cid.string === file.cid.string)
     const servicesBeingUsed = remotePinForFile.map(pin => pin.id.split(':')[0]).filter(pinId => pinningServicesNames.includes(pinId))
-
     return servicesBeingUsed
   },
 
+  // list of services without online check (reads list from config, should be instant)
   doFetchPinningServices: () => async ({ getIpfs, store, dispatch }) => {
     const ipfs = getIpfs()
     if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return null
@@ -162,14 +165,23 @@ const pinningBundle = {
     if (!isPinRemotePresent) return null
 
     const remoteServiceTemplates = store.selectRemoteServiceTemplates()
-    // list of services without online check (should be instant)
     const offlineListOfServices = await ipfs.pin.remote.service.ls()
     const remoteServices = await Promise.all(offlineListOfServices.map(service => parseService(service, remoteServiceTemplates, ipfs)))
     dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
-    // slower list of services + their pin stats (usually slower)
-    const fullListOfServices = await ipfs.pin.remote.service.ls({ stat: true })
-    const fullRemoteServices = await Promise.all(fullListOfServices.map(service => parseService(service, remoteServiceTemplates, ipfs)))
-    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: fullRemoteServices })
+  },
+
+  // fetching pin stats for services is slower/expensive, so we only do that on Settings
+  doFetchPinningServicesStats: () => async ({ getIpfs, store, dispatch }) => {
+    const ipfs = getIpfs()
+    if (!ipfs || store?.ipfs?.ipfs?.ready || !ipfs.pin.remote) return null
+    const isPinRemotePresent = (await ipfs.commands()).Subcommands.find(c => c.Name === 'pin').Subcommands.some(c => c.Name === 'remote')
+    if (!isPinRemotePresent) return null
+
+    const remoteServiceTemplates = store.selectRemoteServiceTemplates()
+    const servicesWithStats = await ipfs.pin.remote.service.ls({ stat: true })
+    const remoteServices = await Promise.all(servicesWithStats.map(service => parseService(service, remoteServiceTemplates, ipfs)))
+
+    dispatch({ type: 'SET_REMOTE_PINNING_SERVICES', payload: remoteServices })
   },
 
   selectPinningServices: (state) => state.pinning.pinningServices || [],
@@ -196,20 +208,21 @@ const pinningBundle = {
         pinLocally ? await ipfs.pin.add(cid) : await ipfs.pin.rm(cid)
       } catch (e) {
         console.error(`unexpected local pin error for ${cid} (${name})`, e)
-        dispatch({ type: 'IPFS_PIN_FAILED' })
+        const msgArgs = { serviceName: 'local', errorMsg: e.toString() }
+        dispatch({ type: 'IPFS_PIN_FAILED', msgArgs })
       }
     }
 
     const adds = []
     const removals = []
 
-    store.selectPinningServices().filter(s => s.online).forEach(async service => {
+    store.selectPinningServices().forEach(async service => {
       const shouldPin = services.includes(service.name)
       const wasPinned = previousRemotePins.includes(service.name)
       if (wasPinned === shouldPin) return
 
+      const id = `${service.name}:${pin.cid}`
       try {
-        const id = `${service.name}:${pin.cid}`
         if (shouldPin) {
           adds.push({ id, ...pin })
           // TODO: remove background:true and add pin job to queue.
@@ -221,8 +234,9 @@ const pinningBundle = {
         }
       } catch (e) {
         // log error and continue with other services
-        console.error(`unexpected pin.remote error for ${cid}@${service.name}`, e)
-        dispatch({ type: 'IPFS_PIN_FAILED' })
+        console.error(`ipfs.pin.remote error for ${cid}@${service.name}`, e)
+        const msgArgs = { serviceName: service.name, errorMsg: e.toString() }
+        dispatch({ type: 'IPFS_PIN_FAILED', msgArgs })
       }
     })
 
