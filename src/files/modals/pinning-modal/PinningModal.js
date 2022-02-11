@@ -22,9 +22,7 @@ const PinIcon = ({ icon, index }) => {
 }
 
 export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningServices, remotePins, notRemotePins, doGetFileSizeThroughCid, doSelectRemotePinsForFile, doFetchPinningServices, doFetchRemotePins, className, ...props }) => {
-  // const selectedRemoteServices = useMemo(() => doSelectRemotePinsForFile(file, pinningServices, remotePins), [doSelectRemotePinsForFile, pinningServices, remotePins, file])
   const selectedRemoteServices = useMemo(() => doSelectRemotePinsForFile(file, remotePins, notRemotePins), [doSelectRemotePinsForFile, file, remotePins, notRemotePins])
-  // const selectedRemoteServices = doSelectRemotePinsForFile(file)
   const [selectedServices, setSelectedServices] = useState([...selectedRemoteServices, ...[file.pinned && 'local']])
   const [size, setSize] = useState(null)
 
@@ -42,13 +40,6 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningS
   }, [file, selectedRemoteServices])
 
   const selectService = (key) => {
-    /*
-    const service = pinningServices.find(s => s.name === key)
-    if (service && !service.online) {
-      // when a service is offline, click in noop
-      return
-    }
-    */
     if (selectedServices.indexOf(key) === -1) {
       return setSelectedServices([...selectedServices, key])
     }
