@@ -560,21 +560,6 @@ const actions = () => ({
   doFilesClear: () => send({ type: ACTIONS.CLEAR_ALL }),
 
   /**
-   * Gets total size of the local pins. On successful completion `state.mfsSize` will get
-   * updated.
-   */
-  doPinsStatsGet: () => perform(ACTIONS.PINS_SIZE_GET, async (ipfs) => {
-    const pinsSize = -1 // TODO: right now calculating size of all pins is too expensive (requires ipfs.files.stat per CID)
-    let numberOfPins = 0
-
-    for await (const _ of ipfs.pin.ls({ type: 'recursive' })) { // eslint-disable-line  no-unused-vars
-      numberOfPins++
-    }
-
-    return { pinsSize, numberOfPins }
-  }),
-
-  /**
    * Gets size of the MFS. On successful completion `state.mfsSize` will get
    * updated.
    */

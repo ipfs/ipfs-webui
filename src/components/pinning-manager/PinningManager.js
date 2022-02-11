@@ -21,7 +21,7 @@ import './PinningManager.css'
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
-export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesSupported, doFetchPinningServices, doPinsStatsGet, doRemovePinningService, pinsSize, numberOfPins, t }) => {
+export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesSupported, doFetchPinningServices, doFetchPinningServicesStats, doRemovePinningService, pinsSize, numberOfPins, t }) => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [isToggleModalOpen, setToggleModalOpen] = useState(false)
   const onModalOpen = () => setModalOpen(true)
@@ -33,19 +33,10 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesS
     sortBy: 'addedAt',
     sortDirection: SortDirection.ASC
   })
-  useEffect(() => {
-    (async () => {
-      try {
-        ipfsReady && await doPinsStatsGet()
-      } catch (e) {
-        console.error('doPinsStatsGet error', e)
-      }
-    })()
-  }, [doPinsStatsGet, ipfsReady])
 
   useEffect(() => {
-    ipfsReady && doFetchPinningServices()
-  }, [ipfsReady, doFetchPinningServices])
+    ipfsReady && doFetchPinningServices() && doFetchPinningServicesStats()
+  }, [ipfsReady, doFetchPinningServices, doFetchPinningServicesStats])
 
   const localPinning = useMemo(() =>
     ({ name: t('localPinning'), type: 'LOCAL', totalSize: pinsSize, numberOfPins }),
@@ -96,6 +87,7 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesS
         <AutoUploadModal className='outline-0' onLeave={() => {
           onToggleModalClose()
           doFetchPinningServices()
+          doFetchPinningServicesStats()
         }} t={t} name={isToggleModalOpen} service={sortedServices.find(s => s.name === isToggleModalOpen)} />
       </Overlay>
 
@@ -103,6 +95,7 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesS
         <PinningModal className='outline-0' onLeave={() => {
           onModalClose()
           doFetchPinningServices()
+          doFetchPinningServicesStats()
         }} t={t} />
       </Overlay>
     </Fragment>
@@ -193,13 +186,13 @@ const OptionsCell = ({ doRemovePinningService, name, visitServiceUrl, autoUpload
 }
 
 export default connect(
-  'doPinsStatsGet',
   'selectIpfsReady',
   'selectPinsSize',
   'selectNumberOfPins',
   'selectPinningServices',
   'selectArePinningServicesSupported',
   'doFetchPinningServices',
+  'doFetchPinningServicesStats',
   'doRemovePinningService',
   PinningManager
 )

@@ -50,11 +50,12 @@ const FilesPage = ({
     }
   }, [ipfsConnected, filesPathInfo, doFilesFetch])
 
+  /* TODO: uncomment below if we ever want automatic remote pin check
+  *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)
   useEffect(() => {
-    if (pinningServices.some(service => service.online)) {
-      files && files.content && doFetchRemotePins(files.content)
-    }
+    files && files.content && doFetchRemotePins(files.content)
   }, [files, pinningServices, doFetchRemotePins])
+  */
 
   const onDownload = async (files) => {
     if (downloadProgress !== null) {
