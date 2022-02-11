@@ -128,7 +128,7 @@ const notify = {
         return 'ipfsInvalidApiAddress'
       }
       if (eventId === 'IPFS_PIN_FAILED') {
-        return 'ipfsPinFail'
+        return 'ipfsPinFailReason'
       }
 
       if (eventId === 'FILES_EVENT_FAILED') {
