@@ -9,8 +9,6 @@ export type Model = {
   pins: string[]
   sorting: Sorting
   mfsSize: number
-  pinsSize: number
-  numberOfPins: number
 
   pending: PendingJob<any, any>[]
   finished: FinishedJob<any>[]

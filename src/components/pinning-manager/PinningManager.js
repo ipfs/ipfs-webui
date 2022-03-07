@@ -21,7 +21,7 @@ import './PinningManager.css'
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
-export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesSupported, doFetchPinningServices, doFetchPinningServicesStats, doRemovePinningService, pinsSize, numberOfPins, t }) => {
+export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesSupported, doFetchPinningServices, doFetchPinningServicesStats, doFetchLocalPinsStats, doRemovePinningService, localPinsSize, localNumberOfPins, t }) => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [isToggleModalOpen, setToggleModalOpen] = useState(false)
   const onModalOpen = () => setModalOpen(true)
@@ -35,12 +35,12 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesS
   })
 
   useEffect(() => {
-    ipfsReady && doFetchPinningServices() && doFetchPinningServicesStats()
-  }, [ipfsReady, doFetchPinningServices, doFetchPinningServicesStats])
+    ipfsReady && doFetchPinningServices() && doFetchPinningServicesStats() && doFetchLocalPinsStats()
+  }, [ipfsReady, doFetchPinningServices, doFetchPinningServicesStats, doFetchLocalPinsStats])
 
   const localPinning = useMemo(() =>
-    ({ name: t('localPinning'), type: 'LOCAL', totalSize: pinsSize, numberOfPins }),
-  [numberOfPins, pinsSize, t])
+    ({ name: t('localPinning'), type: 'LOCAL', totalSize: localPinsSize, numberOfPins: localNumberOfPins }),
+  [localNumberOfPins, localPinsSize, t])
 
   const sortedServices = useMemo(() =>
     (pinningServices || []).sort(sortByProperty(sortSettings.sortBy, sortSettings.sortDirection === SortDirection.ASC ? 1 : -1)),
@@ -187,12 +187,13 @@ const OptionsCell = ({ doRemovePinningService, name, visitServiceUrl, autoUpload
 
 export default connect(
   'selectIpfsReady',
-  'selectPinsSize',
-  'selectNumberOfPins',
+  'selectLocalPinsSize',
+  'selectLocalNumberOfPins',
   'selectPinningServices',
   'selectArePinningServicesSupported',
   'doFetchPinningServices',
   'doFetchPinningServicesStats',
+  'doFetchLocalPinsStats',
   'doRemovePinningService',
   PinningManager
 )

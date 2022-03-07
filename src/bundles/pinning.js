@@ -2,6 +2,7 @@
 import { pinningServiceTemplates } from '../constants/pinning'
 import memoize from 'p-memoize'
 import CID from 'cids'
+import all from 'it-all'
 
 // This bundle leverages createCacheBundle and persistActions for
 // the persistence layer that keeps pins in IndexDB store
@@ -61,6 +62,8 @@ const pinningBundle = {
     pinningServices: [],
     remotePins: [],
     notRemotePins: [],
+    localPinsSize: 0,
+    localNumberOfPins: 0,
     arePinningServicesSupported: false
   }, action) => {
     if (action.type === 'UPDATE_REMOTE_PINS') {
@@ -69,6 +72,10 @@ const pinningBundle = {
       const remotePins = uniq([...state.remotePins, ...adds].filter(p => !removals.some(r => r === p)))
       const notRemotePins = uniq([...state.notRemotePins, ...removals].filter(p => !adds.some(a => a === p)))
       return { ...state, remotePins, notRemotePins }
+    }
+    if (action.type === 'SET_LOCAL_PINS_STATS') {
+      const { localPinsSize, localNumberOfPins } = action.payload
+      return { ...state, localNumberOfPins, localPinsSize }
     }
     if (action.type === 'SET_REMOTE_PINNING_SERVICES') {
       const oldServices = state.pinningServices
@@ -148,11 +155,26 @@ const pinningBundle = {
   selectRemotePins: (state) => state.pinning.remotePins || [],
   selectNotRemotePins: (state) => state.pinning.notRemotePins || [],
 
+  selectLocalPinsSize: (state) => state.pinning.localPinsSize,
+  selectLocalNumberOfPins: (state) => state.pinning.localNumberOfPins,
+
   doSelectRemotePinsForFile: (file) => ({ store }) => {
     const pinningServicesNames = store.selectPinningServices().map(remote => remote.name)
     const remotePinForFile = store.selectRemotePins().filter(pin => cacheId2Cid(pin) === file.cid.toString())
     const servicesBeingUsed = remotePinForFile.map(pin => cacheId2ServiceName(pin)).filter(name => pinningServicesNames.includes(name))
     return servicesBeingUsed
+  },
+
+  // gets the amount of local pins
+  doFetchLocalPinsStats: () => async ({ getIpfs, dispatch }) => {
+    const ipfs = getIpfs()
+    if (!ipfs) return null
+
+    const localPins = await all(ipfs.pin.ls({ type: 'recursive' }))
+    const localPinsSize = -1 // TODO: right now calculating size of all pins is too expensive (requires ipfs.files.stat per CID)
+    const localNumberOfPins = localPins.length
+
+    dispatch({ type: 'SET_LOCAL_PINS_STATS', payload: { localPinsSize, localNumberOfPins } })
   },
 
   // list of services without online check (reads list from config, should be instant)
