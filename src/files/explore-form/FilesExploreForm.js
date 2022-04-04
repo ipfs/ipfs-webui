@@ -94,7 +94,7 @@ class FilesExploreForm extends React.Component {
             onClick={this.onInspect}
             bg='bg-teal'
             className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white overflow-hidden tc' >
-            <StrokeIpld style={{ height: 24 }} className='dib fill-current-color v-mid' />
+            <StrokeIpld style={{ height: '2em' }} className='dib fill-current-color v-mid' />
             <span className='ml2'>{t('app:actions.inspect')}</span>
           </Button>
           <Button
@@ -104,7 +104,7 @@ class FilesExploreForm extends React.Component {
             title={t('app:actions.browse')}
             onClick={this.onBrowse}
             className='ExploreFormButton button-reset pv1 ph2 ba f7 fw4 white bg-gray overflow-hidden tc' >
-            <StrokeFolder style={{ height: 24 }} className='dib fill-current-color v-mid' />
+            <StrokeFolder style={{ height: '2em' }} className='dib fill-current-color v-mid' />
             <span className='ml2'>{t('app:actions.browse')}</span>
           </Button>
         </div>
