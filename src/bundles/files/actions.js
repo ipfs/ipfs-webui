@@ -135,17 +135,6 @@ const getRawPins = async function * (ipfs) {
 const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
 
 /**
- * @param {IPFSService} ipfs
- * @returns {AsyncIterable<FileStat>}
- */
-const getPins = async function * (ipfs) {
-  for await (const cid of getPinCIDs(ipfs)) {
-    const info = await stat(ipfs, cid)
-    yield fileFromStats({ ...info, pinned: true }, '/pins')
-  }
-}
-
-/**
  * @typedef {import('./protocol').Message} Message
  * @typedef {import('./protocol').Model} Model
 
@@ -201,20 +190,9 @@ const actions = () => ({
    * @param {Info} info
    * @returns {function(Context): *}
    */
-  doFetch: ({ path, realPath, isMfs, isPins, isRoot }) => perform(ACTIONS.FETCH, async (ipfs, { store }) => {
-    if (isRoot && !isMfs && !isPins) {
+  doFetch: ({ path, realPath, isMfs, isRoot }) => perform(ACTIONS.FETCH, async (ipfs, { store }) => {
+    if (isRoot && !isMfs) {
       throw new Error('not supposed to be here')
-    }
-
-    if (isRoot && isPins) {
-      const pins = await all(getPins(ipfs)) // FIX: pins path
-
-      return {
-        path: '/pins',
-        fetched: Date.now(),
-        type: 'directory',
-        content: pins
-      }
     }
 
     const resolvedPath = realPath.startsWith('/ipns')

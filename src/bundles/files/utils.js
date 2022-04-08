@@ -189,7 +189,6 @@ export const sortFiles = (files, sorting) => {
  * @property {string} path
  * @property {string} realPath
  * @property {boolean} isMfs
- * @property {boolean} isPins
  * @property {boolean} isRoot
  *
  * @param {string} path
@@ -201,7 +200,6 @@ export const infoFromPath = (path, uriDecode = true) => {
     path,
     realPath: '',
     isMfs: false,
-    isPins: false,
     isRoot: false
   }
 
@@ -219,13 +217,6 @@ export const infoFromPath = (path, uriDecode = true) => {
   } else if (info.path.startsWith('/files')) {
     check('/files')
     info.isMfs = true
-  } else if (info.path.startsWith('/pins')) {
-    check('/pins')
-    info.isPins = true
-
-    if (info.realPath !== '/') {
-      info.realPath = `/ipfs${info.realPath}`
-    }
   } else {
     return
   }
