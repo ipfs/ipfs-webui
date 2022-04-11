@@ -1,4 +1,4 @@
-# IPFS Web UI
+# IPFS Web UI forked for GalaxyX
 
 > A web interface to [IPFS](https://ipfs.io), shipped with [go-ipfs](https://github.com/ipfs/go-ipfs), [js-ipfs](https://github.com/ipfs/js-ipfs), and [ipfs-desktop](https://github.com/ipfs/ipfs-desktop/).
 >
