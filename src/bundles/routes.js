@@ -8,6 +8,7 @@ import SettingsPage from '../settings/LoadableSettingsPage'
 import AnalyticsPage from '../settings/AnalyticsPage'
 import WelcomePage from '../welcome/LoadableWelcomePage'
 import BlankPage from '../blank/BlankPage'
+import LoginPage from '../login/Loader'
 
 export default createRouteBundle({
   '/explore': StartExploringPage,
@@ -23,5 +24,6 @@ export default createRouteBundle({
   '/blank': BlankPage,
   '/status*': StatusPage,
   '/': StatusPage,
-  '': StatusPage
+  '': StatusPage,
+  '/login': LoginPage
 }, { routeInfoSelector: 'selectHash' })
