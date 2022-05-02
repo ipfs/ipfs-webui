@@ -1,0 +1,17 @@
+.ExploreFormButton,
+.ExploreFormButton:hover + .ExploreFormButton  {
+  max-width: 3.3em
+}
+
+.ExploreFormButton:last-of-type,
+.ExploreFormButton:hover {
+  max-width: 200px;
+}
+
+.files-explore-form-input-container{
+  flex: 3;
+}
+
+.files-explore-form-buttons{
+  flex:2
+}

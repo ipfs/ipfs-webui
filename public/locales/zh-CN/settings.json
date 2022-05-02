@@ -1,0 +1,165 @@
+{
+  "title": "配置",
+  "save": "保存",
+  "saving": "保存中 …",
+  "reset": "重置",
+  "learnMoreLink": "了解更多。",
+  "pinningServices": {
+    "title": "固定服务",
+    "description": "当您希望确保您节点上的项目永远不会被执行垃圾回收时，请使用本地固定，这样即便您将项目从文件中删除，项目依旧会保存在您的节点内。您还可以将您的帐户与其他远程固定服务连接，以自动或有选择地将文件同步至其他固定服务商，这样即便您自己的本地节点失效时，您依旧可以获得文件的副本/或者将这些文件分享给其他人。",
+    "noPinRemoteDescription": "缺少对第三方远程固定服务的支持特性。将您的IPFS 节点更新为IPFS 0.8.0或更高版本，然后您就可以在此处添加以及配置它们。",
+    "addAutoUpload": "启用自动上传",
+    "removeAutoUpload": "禁用自动上传"
+  },
+  "language": "语言",
+  "analytics": "分析",
+  "cliTutorMode": "CLI 引导模式",
+  "config": "IPFS 配置",
+  "languageModal": {
+    "title": "修改语言",
+    "description": "选择首选语言。",
+    "translationProjectIntro": "添加或改进翻译，使IPFS更适合每个人！",
+    "translationProjectLink": "加入IPFS翻译项目"
+  },
+  "apiDescription": "<0>如果您的节点配置了一个<1>自定义的API地址</1>，或者包含了其他非默认的5001端口的情况下，在这里修改。</0>",
+  "publicGatewayDescription": "<0>请选择当您生成一个分享链接时，使用哪一个<1>公共网关</1>。</0>",
+  "cliDescription": "<0>启用这个选来会在下方IPFS命令旁显示一个“查看代码”<1></1>图标。单击它将打开一个带有命令的CLI代码的引导模式，因此您可以将其粘贴到IPFS 节点的命令行终端中执行。</0>",
+  "cliModal": {
+    "extraNotesJsonConfig": "如果您希望保存已在该页的代码编辑器中修改过的配置，点击复制图标旁边的下载图标可以将配置文件以JSON文件的形式下载到本地"
+  },
+  "pinningModal": {
+    "title": "选择一个固定服务商",
+    "description": "没有看到您的固定服务提供商？<1>您添加一个自定义的固定服务提供商。<1>"
+  },
+  "pinningServiceModal": {
+    "title": "配置一个自定义的固定服务",
+    "description": "想要为他人创建一个您自己提供的固定服务？<1>学习如何创建<1>",
+    "service": "服务",
+    "nickname": "昵称",
+    "nicknamePlaceholder": "您的服务名称",
+    "apiEndpoint": "API 终端节点",
+    "apiEndpointPlaceholder": "此API 终端节点的 URL",
+    "secretApiKey": "访问令牌",
+    "secretApiKeyHowToLink": "如何生成一个新的token",
+    "autoUpload": "自动上传"
+  },
+  "autoUploadModal": {
+    "title": "为{name}更改上传策略",
+    "description": "当启用时，自动上传将定期地固定您的根目录，确保所有内容都被远程固定至其他节点，这样即使您的本地IPFS 节点脱机，这些文件也能被访问。如果您禁用它，您仍然可以使用“文件”页面上的“固定”选项手动地固定每个文件。"
+  },
+  "errors": {
+    "nickname": "需要填写昵称",
+    "apiError": "API 错误",
+    "apiEndpoint": "需要一个有效的 URL",
+    "secretApiKey": "需要访问令牌",
+    "failedToFetch": "获取失败",
+    "failedToFetchTitle": "无法从此远程服务获取固定计数 (Pin Count)。确保它处于联机状态以及您输入了正确的凭据。如果这是一个新添加的服务，请尝试删除并重新添加。"
+  },
+  "actions": {
+    "addService": "增加服务",
+    "edit": "修改",
+    "close": "关闭",
+    "save": "保存",
+    "cancel": "取消",
+    "enable": "启用",
+    "disable": "禁用"
+  },
+  "edit": "编辑",
+  "visitService": "访问服务",
+  "remove": "移除",
+  "localPinning": "本地固定",
+  "service": "服务",
+  "size": "大小",
+  "pins": "已固定",
+  "autoUpload": "自动上传",
+  "autoUploadPolicy": {
+    "true": "所有文件",
+    "false": "关"
+  },
+  "fetchingSettings": "拉取配置中 ...",
+  "configApiNotAvailable": "IPFS 配置 API 不可用。请禁用 \"IPFS 伴侣\" 浏览器插件并重试。",
+  "ipfsDaemonOffline": "IPFS 守护进程处于离线状态，请使其在线并重试。",
+  "settingsUnavailable": "配置不可用，请检查你的 IPFS 守护进程是否还在运行。",
+  "settingsHaveChanged": "配置已经改变，请单击 <1>重置</1> 按钮刷新编辑器中的内容。",
+  "errorOccured": "在保存修改的配置文件过程中出错。",
+  "checkConsole": "请查看浏览器控制台了解更多的信息。",
+  "changesSaved": "你修改的配置已经保存。",
+  "settingsWillBeUsedNextTime": "新的配置信息会在下次重新启动 IPFS 守护进程后生效。",
+  "ipfsConfigDescription": "IPFS 配置文件是一个 JSON 文件， IPFS 守护进程会在启动过程中读取一次。保存修改的配置，重启 IPFS 守护进程以使用你修改后的配置。",
+  "ipfsConfigHelp": "查看文档获取更多信息",
+  "AnalyticsToggle": {
+    "label": "向我们提供匿名数据来帮助我们改进",
+    "summary": "配置收集哪些数据",
+    "paragraph1": "不会收集任何 CID 、文件名或个人信息。我们仅收集度量数据来帮助我们优化后续工作的优先级，同时收集系统配置信息引导我们进行测试。",
+    "paragraph2": "Protocol Labs 运行了 <1>Countly</1> 实例帮助我们收集这个应用产生的匿名数据。",
+    "basicInfo": "下列数据会发送到 countly.ipfs.io",
+    "optionalInfo": "你可以选择发送以下数据：",
+    "sessions": {
+      "label": "会话",
+      "summary": "何时使用了此应用，使用了多长时间，以及相关的浏览器信息。",
+      "details": "<0>将会发送下列浏览器度量数据：</0><1><0>随机产生的设备 ID</0><1>会话开始时的时间戳</1><2>用于跟踪持续时间的定期时间戳</2><3>应用版本，例如：2.4.4</3><4>语言环境，例如 zh-CN</4><5>用户浏览器版本，例如 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>屏幕分辨率，例如 800×600</6><7>屏幕像素密度，例如 1</7></1>"
+    },
+    "events": {
+      "label": "事件",
+      "summary": "添加或删除文件等操作以及花费的时间",
+      "details": "应用程序特定的动作。 我们仅记录动作发生的情况，从开始到结束需要多长时间。另外，如果操作涉及多个对象时还会进行计数。"
+    },
+    "views": {
+      "label": "页面浏览数",
+      "summary": "您访问了应用的哪些页面",
+      "details": "记录了你访问了应用的哪些页面。记录的路径仅包括用于匹配路由的部分而不是完整的 URL 。"
+    },
+    "location": {
+      "label": "地点",
+      "summary": "IP 地址的国家代码（ IP 地址将会被丢弃）",
+      "details": "您的IP地址用于计算您所在位置的国家/地区代码，例如法国的 \"FR\" 。 如果没有给予跟踪位置许可，则发送空位置属性，其中所有请求都向服务器发出信号以禁用位置查找。 这些信息有助于指导我们的翻译工作，并找出我们应该在哪些方面展示活动。"
+    },
+    "crashes": {
+      "label": "应用错误",
+      "summary": "JavaScript 错误消息和堆栈跟踪",
+      "details": "尽可能记录使用应用程序时出现的 JavaScript 错误消息和堆栈跟踪。 了解应用程序何时不能正常工作，但<1>错误消息可能包含可识别信息</1>（如 CID 或文件路径），因此，只有在您愿意与我们共享这些信息时才启用此功能。"
+    }
+  },
+  "cliToggle": {
+    "label": "启用命令行（CLI）引导模式"
+  },
+  "tour": {
+    "step1": {
+      "title": "配置页面",
+      "paragraph1": "您可以在此处更改 Web UI 和 IPFS 节点的设置。",
+      "paragraph2": "如果你正在运行 IPFS Desktop ，会有一些特定的设置。"
+    },
+    "step2": {
+      "title": "自定义API地址",
+      "paragraph1": "如果您为IPFS 节点配置了自定义的API地址，你可以直接在这里更新配置而不需要手动修改JSON配置文件。"
+    },
+    "step3": {
+      "title": "固定服务",
+      "paragraph1": "<0>如果您有第三方远程固定服务的账户，请添加在此处，这样您可以直接进行远程固定或取消固定文件的操作。您可以在<1>IPFS 文档</1>中了解到更多有关第三方固定服务的详细说明。</0>"
+    },
+    "step4": {
+      "title": "语言选择",
+      "paragraph1": "<0>您可以更改 Web UI 的语言设置。如果您的首选语言不可用，请访问 <1>Transifex</1> 中的项目页面以帮助我们翻译！</0>"
+    },
+    "step5": {
+      "title": "匿名化的使用分析",
+      "paragraph1": "如果您选择加入，您可以通过发送匿名化的使用情况分析来帮助我们改善 Web UI。",
+      "paragraph2": "您可以选择向我们发送的数据。我们非常重视隐私，所采集的数据无法识别您的身份。"
+    },
+    "step6": {
+      "title": "CLI 引导模式",
+      "paragraph1": "启用CLI 引导模式来查看常见IPFS终端命令——如果您正在从终端学习使用IPFS，或者您只是需要查询命令，这将非常有用。"
+    },
+    "step7": {
+      "title": "IPFS 配置",
+      "paragraph1": "您可以直接 从Web UI 更改 IPFS 节点的配置。",
+      "paragraph2": "不要忘记重新启动守护程序以应用更改！"
+    }
+  },
+  "Experiments": {
+    "description": "在这里，您可以通过激活下方选项获得使用早期预览版 IPFS 功能的身份。 我们正在测试这些功能，但它们可能还不完美，所以我们很乐意听取您的反馈意见。",
+    "issueUrl": "提交 bug",
+    "feedbackUrl": "💌提供反馈",
+    "readMoreUrl": "查看更多"
+  }
+}

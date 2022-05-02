@@ -1,0 +1,31 @@
+{
+  "title": "Instellingen",
+  "save": "Opslaan",
+  "saving": "Bezig met opslaan...",
+  "reset": "Resetten",
+  "language": "Taal",
+  "config": "IPFS Configuratie",
+  "languageModal": {
+    "title": "Taal instellen",
+    "description": "Kies je voorkeurstaal"
+  },
+  "actions": {
+    "edit": "Aanpassen",
+    "close": "Sluiten"
+  },
+  "fetchingSettings": "Bezig met ophalen van instellingen....",
+  "configApiNotAvailable": "De IPFS configuratie API is niet beschikbaar. Schakel de \"IPFS Compantion\" extensie uit en probeer opnieuw.",
+  "settingsUnavailable": "Instellingen niet beschikbaar. Check of de IPFS daemon draait.",
+  "settingsHaveChanged": "De instellingen zijn gewijzigd, klik <1>reset</1> om de inhoud te verversen",
+  "errorOccured": "Er is een fout opgereden tijdens het opslaan van de wijzigingen",
+  "checkConsole": "Check de browser console voor extra info.",
+  "changesSaved": "Je wijzigingen zijn opgeslagen",
+  "settingsWillBeUsedNextTime": "De nieuwe instellingen worden gebruikt na een herstart van de IPFS daemon.",
+  "ipfsConfigDescription": "Het IPFS configuratie bestand is een JSON document. Het wordt ingelezen bij het opstarten van de IPFS daemon. Sla je wijzigingen op en herstart de IPFS daemon om ze toe te passen.",
+  "ipfsDesktop": "IPFS Desktop",
+  "launchOnStartup": "Starten bij opstarten",
+  "autoAddScreenshots": "Screenshots automatisch toevoegen",
+  "autoAddScreenshotsDescription": "Gebruik <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>S</3> om een screenshot te nemen en toe te voegen aan je repository.",
+  "downloadCopiedHash": "Download gekopieerde hash",
+  "downloadCopiedHashDescription": "Gebruik <0>{ctrlKey}</0> + <2>{altKey}</2> + <3>D</3> om de laatst gekopieerde hash te downloaden."
+}

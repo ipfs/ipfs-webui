@@ -1,0 +1,79 @@
+{
+  "title": "Configurações",
+  "save": "Guardar",
+  "saving": "A guardar...",
+  "reset": "Começar de novo",
+  "language": "Linguagem",
+  "config": "Configuração do IPFS",
+  "analytics": "Analíticas",
+  "languageModal": {
+    "title": "Alterar a Linguagem",
+    "description": "Escolha a sua linguagem"
+  },
+  "actions": {
+    "edit": "Alterar",
+    "close": "Fechar"
+  },
+  "fetchingSettings": "A obter as configurações...",
+  "configApiNotAvailable": "A API de configuração do IPFS não está disponível. Por favor desative a extensão \"IPFS Companion\" e tente novamente.",
+  "ipfsDaemonOffline": "O nó IPFS está offline. Por favor ative-o e tente novamente,",
+  "settingsUnavailable": "As configurações não estão disponíveis. Confira, por favor, se o seu nó IPFS está em execução.",
+  "settingsHaveChanged": "As configurações foram alteradas, por favor clique em <1>Começar de novo</1> para atualizar os conteúdos do editor.",
+  "errorOccured": "Ocorreu um erro enquanto guardávamos as configurações.",
+  "checkConsole": "Confira a consola de desenvolvedor do seu navegador para mais informações.",
+  "changesSaved": "As suas alterações foram guardadas",
+  "settingsWillBeUsedNextTime": "As novas configurações irão ser utilizadas da próxima vez que reiniciar o seu nó IPFS.",
+  "ipfsConfigDescription": "A configuração do IPFS é um documento json. Apenas é lida quando o nó IPFS é iniciado. Guarde as suas alterações e, de seguida, reinicie o nó IPFS para que estas entrem em efeito.",
+  "ipfsDesktop": "IPFS Desktop",
+  "launchOnStartup": "Iniciar com o arranque",
+  "autoAddScreenshots": "Adicionar capturas de ecrã automaticamente",
+  "autoAddScreenshotsDescription": "Utilize <0>{ctrlKey}</0>+<2>{altKey}</2>+<3>S</3> para tirar uma captura de ecrã e adicioná-la ao seu repositório.",
+  "downloadCopiedHash": "Descarregar a hash copiada",
+  "downloadCopiedHashDescription": "Utilize <0>{ctrlKey}</0>+<2>{altKey}</2>+<3>D</3> para descarregar a última hash copiada.",
+  "AnalyticsToggle": {
+    "label": "Ajude a melhorar esta aplicação enviando dados de utilização anónimos",
+    "summary": "Configure o que é recolhido",
+    "paragraph1": "Não são recolhidos CIDs (identificadores de conteúdos), nomes de ficheiros ou outras informações pessoais. Queremos que as métricas nos mostrem que funcionalidades são úteis para nos ajudar a saber a que devemos dar prioridade no desenvolvimento, assim como informações da configuração do sistema para nos ajudar nos testes do software.",
+    "paragraph2": "O Protocol Labs aloja uma instância de <1>Contar</1> (Countly) para  registar a utilização de forma anónima desta aplicação.",
+    "basicInfo": "A seguinte informação adicional é enviada para countly.ipfs.io",
+    "optionalInfo": "Pode aceitar para enviar a seguinte informação:",
+    "sessions": {
+      "label": "Sessões",
+      "summary": "quando e por quanto tempo usa a aplicação e as métricas do navegador",
+      "details": "<0>São enviadas as seguintes métricas de navegador:</0><1><0>Um identificador (ID) gerado aleatoriamente</0><1>Marca temporal de quando a sessão começa</1><2>Marcas temporais periódicas para rastrear a duração</2><3>Versão da aplicação, por exemplo 2.4.4</3><4>Locale (idioma e região), por exemplo en-GB</4><5>Agendo de utilizador (user agent), por exemplo Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ...</5><6>Resolução do ecrã, por exemplo 800x600</6><7>Densidade de píxeis do ecrã, por exemplo 1</7></1>"
+    },
+    "events": {
+      "label": "Eventos",
+      "summary": "acções como adicionar ou eliminar ficheiros e quanto tempo demorou",
+      "details": "Ações específicas da aplicação. Gravamos apenas que a ação aconteceu, quanto tempo demorou do início ao fim e uma contagem caso o evento tenha envolvido vários itens."
+    },
+    "views": {
+      "label": "Visualizações de páginas",
+      "summary": "que secções da aplicação visita",
+      "details": "Grava que secções das aplicações são visitadas. Os caminhos gravados apenas incluem o padrão usado para corresponder à rota em vez do URL completo."
+    },
+    "location": {
+      "label": "Localização",
+      "summary": "Código do país do endereço IP. O endereço IP é descartado",
+      "details": "O seu endereço IP é usado para calcular um código de país para a sua localização, como por exemplo \"FR\" para França. Onde não é cedido o consentimento para rastrear a localização, é enviada uma propriedade vazia da localização em todos os pedidos para sinalizar o servidor para desativar a procura da localização. Esta informação ajuda-nos a orientar a tarefa de tradução e a descobrir onde devemos colocar os eventos."
+    },
+    "crashes": {
+      "label": "Erros da aplicação",
+      "summary": "Mensagens de erro JavaScript e rastreamentos de pilha (stack traces)",
+      "details": "Grava mensagens de erro JavaScript e rastreamentos de pilha (stack traces) que ocorrem ao utilizar a aplicação, quando possível. É muito útil para saber onde a aplicação não está a funcionar, mas as <1>mensagens de erro podem conter informação pessoal</1>, como CIDs (identificadores de conteúdo) e caminhos de ficheiros, por isso ative esta opção apenas se estiver confortável em partilhar essa informação connosco."
+    }
+  },
+  "Experiments": {
+    "description": "Aqui pode experimentar novas funcionalidades do IPFS ativando as opções abaixo. Estamos a testar estas ideias e estas ainda podem não estar perfeitas por isso gostaríamos de saber a sua opinião.",
+    "issueUrl": "Abrir um relatório de erros",
+    "feedbackUrl": "💌Deixar um comentário",
+    "readMoreUrl": "Ler mais",
+    "npmOnIpfs": {
+      "title": "NPM em IPFS",
+      "label": "Ativar ipfs-npm",
+      "description": "Instale os módulos npm através do IPFS com a ferramenta da linha de comandos 'ipfs-npm'!"
+    }
+  },
+  "ipfsCmdTools": "Ferramentas de linha de comandos IPFS",
+  "ipfsCmdToolsDescription": "Adicione o binário <0>ipfs</0> ao <0>PATH</0> do seu sistema para que o possa usar na sua linha de comandos."
+}

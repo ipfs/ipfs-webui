@@ -1,0 +1,65 @@
+{
+  "appName": "IPLD-Explorer",
+  "tabName": "Erkunden",
+  "homeLink": "Home",
+  "UpdateAvailable": {
+    "paragraph1": "Eine neue Version des IPLD Explorer ist verfügbar. <1>Bitte neu laden</1>."
+  },
+  "StartExploringPage": {
+    "title": "Erkunden – IPLD",
+    "header": "Merkle-Wald erkunden",
+    "leadParagraph": "Füge eine CID in das Feld ein, um den von ihr adressierten IPLD-Knoten abzurufen, oder wähle einen vorgestellten Datensatz."
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD ist <1>das Datenmodell des inhaltsadressierbaren Webs</1>. Es erlaubt uns, alle Hash-verknüpften Datenstrukturen als Teilmengen eines einheitlichen Informationsraumes zu behandeln und alle Datenmodelle zu vereinheitlichen, die Daten mit Hashes als Instanzen von IPLD verknüpfen.</0>",
+    "paragraph2": "<0>Die Adressierung von Inhalten durch Hashes ist zu einem weit verbreiteten Mittel geworden, um Daten in verteilten Systemen zu verbinden – von den Blockchains, die Deine bevorzugten Kryptowährungen ausführen, über die Commits, die Deinen Code sichern, bis hin zum gesamten Webinhalt. Obwohl alle diese Werkzeuge auf einigen gemeinsamen Grundelementen aufbauen, sind ihre spezifischen zugrunde liegenden Datenstrukturen trotzdem nicht kompatibel.</0>",
+    "paragraph3": "<0>Wir präsentieren IPLD: ein einziger Namensraum für alle Hash-inspirierten Protokolle. Über IPLD können Links protokollübergreifend durchlaufen werden, sodass Du die Daten unabhängig vom zugrunde liegenden Protokoll abrufen kannst.</0>"
+  },
+  "ExplorePage": {
+    "title": "Erkundung – IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "Erkunden"
+  },
+  "CidInfo": {
+    "header": "CID Informationen",
+    "hashDigest": "Hash-Extrakt"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "Auf IPFS-Gateway ansehen"
+  },
+  "base": "Base",
+  "version": "Version",
+  "codec": "Codec",
+  "multihash": "Multihash",
+  "tour": {
+    "projects": {
+      "title": "Empfohlene Datensätze",
+      "paragraph1": "Sieh Dir die vorgestellten Datensätze an oder füge eine CID ein, um zu sehen, wie diese Daten protokollübergreifend strukturiert und verknüpft sind."
+    },
+    "explorer": {
+      "step1": {
+        "title": "IPLD-Explorer",
+        "paragraph1": "Deine Reise mit dem IPLD Explorer beginnt hier. Klicke \"Weiter\" um mehr zu erfahren."
+      },
+      "step2": {
+        "title": "Breadcrumbs",
+        "paragraph1": "Der Pfad, der zu diesem Knoten führt.",
+        "paragraph2": "Klicke hier, um zu den Eltern oder Kindern zu gelangen."
+      },
+      "step3": {
+        "title": "Node informationen",
+        "paragraph1": "Hier findest Du detaillierte Informationen über den Node. Du kannst es außerdem im IPFS Gateway öffnen.",
+        "paragraph2": "Wenn der Knoten ein Verzeichnis ist, kannst Du seine Kinder sehen und zu ihnen navigieren."
+      },
+      "step4": {
+        "title": "CID Informationen",
+        "paragraph1": "Die zerlegte CID, damit Du seine Bedeutung sehen kannst."
+      },
+      "step5": {
+        "title": "Visuelle Repräsentation",
+        "paragraph1": "Eine visuelle Repräsentation des Knotens und seiner Kinder."
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "appName": "IPLD 탐색기",
+  "StartExploringPage": {
+    "title": "탐색 | IPLD",
+    "header": "Merkle Forest 탐색",
+    "leadParagraph": "CID를 붙여 넣고 주소가 지정된 IPLD 노드를 가져오거나, 추천 데이터셋을 선택하세요."
+  },
+  "AboutIpld": {
+    "paragraph1":"<0>IPLD는 <1>콘텐츠에 주소를 지정가능한 웹의 데이터 모델입니다.</1>이를 통해서 모든 해시-연결된 데이터 구조는 통합된 정보 공간에서 서브셋으로 존재할 수 있습니다. 해시가 있는 데이터를 IPLD의 인스턴스로 모든 데이터 모델을 통합 할 수 있습니다.</0>",
+    "paragraph2": "<0>해시를 통한 콘텐츠 주소 지정은 분산 시스템의 데이터를 좋아하는 암호화폐를 실행하는 blockchain에서 코드를 백업하는 커밋에 이르기까지 웹의 콘텐츠에 연결하는 데 널리 사용되는 방법이되었습니다. 하지만 이런 모든 도구는 일부 공통 요소에 의존하지만 고유 한 기본 데이터 구조는 상호 운용 될 수 없었습니다.</0>",
+    "paragraph3": "<0>Enter IPLD: 모든 해시로 부터 영감을 받은 단일 프로토콜 네임스페이스. IPLD를 통해 링크는 프로토콜을 가로질러 작동하므로 기본 프로토콜과 관계없이 데이터를 탐색 할 수 있습니다.</0>"
+  },
+  "ExplorePage": {
+    "title": "Exploring | IPLD"
+  },
+  "IpldExploreForm": {
+    "explore": "탐색"
+  },
+  "CidInfo": {
+    "header": "CID 정보",
+    "hashDigest": "해시 다이제스트"
+  },
+  "ObjectInfo": {
+    "gatewayLink": "IPFS 게이트웨이로 보기"
+  },
+  "base": "base",
+  "version": "버전",
+  "codec": "코덱",
+  "multihash": "멀티해시"
+}

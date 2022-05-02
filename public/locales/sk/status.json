@@ -1,0 +1,49 @@
+{
+  "title": "Stav",
+  "peer": "Uzol",
+  "peers": "Uzly",
+  "addresses": "Adresa",
+  "nodeInfo": "Informácie o uzle",
+  "peerId": "ID uzlu",
+  "gateway": "Brána",
+  "api": "API",
+  "version": "Verzia",
+  "advanced": "Pokročilý",
+  "publicKey": "Verejný kľúč",
+  "upSpeed": "Odchádzajúci",
+  "downSpeed": "Prichádzajúci",
+  "spaceUsed": "Miesto využité",
+  "networkTraffic": "Sieťová prevádzka",
+  "bandwidthOverTime": "Internetová prevádzka cez čas",
+  "bandwidthByPeer": "Internetová prevádzka podľa uzlu",
+  "distributionOfPeers": "Distribúcia uzlov",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Uzol)} few {{percent}% ({count} Uzlov)} many {{percent}% ({count} Uzlov)} other {{percent}% ({count} Uzlov)}}",
+  "rateIn": "Vstup",
+  "rateOut": "Výstup",
+  "totalIn": "Vstup celkom",
+  "totalOut": "Výstup celkom",
+  "more": "...a {count} viac",
+  "in": "Vstup",
+  "out": "Výstup",
+  "codeLink": "Pozrite sa na kód",
+  "bugsLink": "Nahláste chybu",
+  "revision": "Revízia",
+  "StatusConnected": {
+    "header1": "Pripojené k IPFS",
+    "paragraph1": "Hostuje <0>{repoSize} súborov</0>",
+    "paragraph2": "{count, plural, one {Objavený <0>1 uzol</0>} few {Objavených <0>{peersCount} uzlov</0>} many {Objavených <0>{peersCount} </0>uzlov} other {Objavených <0>{peersCount} uzlov</0>}}"
+  },
+  "StatusNotConnected": {
+    "header1": "Pripojenie k API zlyhalo",
+    "paragraph1": "<0>Spustite IPFS službu v terminále:</0>",
+    "paragraph2": "<0>Pre viac informácií ako začať s IPFS si môžete <1>prečítať príručku</1>.</0>"
+  },
+  "AskToEnable": {
+    "label": "Help improve this app by sending anonymous usage data.",
+    "yesLabel": "OK",
+    "noLabel": "No thanks",
+    "detailsLabel": "More info"
+  },
+  "bandwidthStats": "Bandwidth Stats",
+  "bandwidthStatsDisabled": "You have the bandwidth metrics disabled. You can enable them by typing the command bellow or changing the key <1>Swarm.DisableBandwidthMetrics</1> to <3>false</3> on <5>Settings</5>. Then, you need to restart the IPFS daemon to apply the changes."
+}

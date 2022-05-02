@@ -1,0 +1,67 @@
+{
+  "data": { "type": "Buffer", "data": [8, 1] },
+  "links": [
+    {
+      "path": "contact-ipfs",
+      "size": 5814,
+      "target": "QmXdUm5xgmmFK5ykH3Yvk2PFtL9eDs4FGJ9wpScXUMVsU1",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    },
+    {
+      "path": "css",
+      "size": 42684,
+      "target": "QmRNaib6Pz2PUVLpEbMkEdETu5cup77Dtkief58o4NRPaM",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    },
+    {
+      "path": "docs",
+      "size": 6750964,
+      "target": "QmSNmHbujerGN3ZmtXdkUY1MoRhULFQztV4tRWpXW8pjkV",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    },
+    {
+      "path": "fonts",
+      "size": 914365,
+      "target": "QmX7GQcyrVaKnS24y6nvU4LEB9hkcK5TkxoxRBaGFUUD6Q",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    },
+    {
+      "path": "images",
+      "size": 1509477,
+      "target": "QmZMWv34NMLbhBxWysqViFdiMkGf4WtfXc5GQDnV8NWo5J",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    },
+    {
+      "path": "index.html",
+      "size": 17069,
+      "target": "Qme8Kh3QbmeBjDZEVTmL6NEf8AWQZr6vyBpoxqC3WwmScc",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    },
+    {
+      "path": "js",
+      "size": 755010,
+      "target": "QmSGnYkR3jJFPfooK7HZbam4418fpSRsCbtLpxMeikciTS",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    },
+    {
+      "path": "legal",
+      "size": 5726,
+      "target": "QmaXsRWbBAxTF7Z4SrScHitj4CvjyCcnCjqXwBLgnkpP5W",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    },
+    {
+      "path": "media",
+      "size": 12900,
+      "target": "QmYMe5tKxTQdyNL7Vs9QtehBTci6F1CDYYkeo9wFdoVSE7",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    },
+    {
+      "path": "sitemap.xml",
+      "size": 2202,
+      "target": "QmbBZGoTh58At3D5uvr5HzCqRtPp39rZeydtPE2isW3gEq",
+      "source": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW"
+    }
+  ],
+  "cid": "QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW",
+  "size": 10016715
+}

@@ -1,0 +1,15 @@
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.877);
+  color: #110d21;
+}
+.dropdown-item{
+  color: white;
+}
+.context-menu-container {
+  background: #110d2118 !important;
+  border: 1px solid rgba(255, 255, 255, 0.356);
+  box-sizing: border-box;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+

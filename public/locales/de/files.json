@@ -1,0 +1,115 @@
+{
+  "title": "Dateien",
+  "home": "Home",
+  "breadcrumbs": "Breadcrumbs",
+  "finished": "Fertig!",
+  "totalSize": "Gesamtgröße: {size}",
+  "filesSelected": "{count, plural, one {Element ausgewählt} other {Elemente ausgewählt}}",
+  "menuOptions": "Optionen für das ausgewählte Element",
+  "selectedAllEntries": "Alle Tabelleneinträge auswählen",
+  "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
+  "noPDFSupport": "Dein Browser unterstützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen:",
+  "downloadPDF": "PDF herunterladen",
+  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
+  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
+  "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",
+  "addByPath": "Aus IPFS",
+  "newFolder": "Neuer Ordner",
+  "generating": "Erstelle…",
+  "actions": {
+    "copyHash": "CID kopieren",
+    "share": "Link teilen"
+  },
+  "cliModal": {
+    "extraNotesPinning": "Dieser Befehl ist nur zum lokalen Anheften/Loslösen vorgesehen. Wenn du einen Remote-Pinning-Dienst verwenden möchten, lies die Dokumentation dieses Dienstes, um zu erfahren, wie du über die Kommandozeile etwas anheften/loslösen kannst."
+  },
+  "shareModal": {
+    "title": "Dateien teilen",
+    "description": "Kopiere den untenstehenden Link und teile ihn mit deinen Freunden."
+  },
+  "renameModal": {
+    "titleFile": "Datei umbenennen",
+    "titleFolder": "Ordner umbenennen",
+    "descriptionFile": "Wähle einen neuen Namen für diese Datei.",
+    "descriptionFolder": "Wähle einen neuen Namen für diesen Ordner."
+  },
+  "removeModal": {
+    "titleItem": "{count, plural, one {Element {name} entfernen?} other {{count} Elemente entfernen?}}",
+    "titleFolder": "{count, plural, one {Ordner {name} löschen?} other {{count} Ordner löschen?}}",
+    "titleFile": "{count, plural, one {Datei {name} entfernen?} other {{count} Dateien entfernen?}}",
+    "descriptionItem": "{count, plural, one {Möchtest du dieses Element wirklich entfernen? Es wird nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.} other {Möchtest du diese {count} Elemente wirklich entfernen? Sie werden nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "descriptionFolder": "{count, plural, one {Möchtest du diesen Ordner wirklich entfernen? Er wird nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.} other {Möchtest du diese {count} Ordner wirklich entfernen? Sie werden nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "descriptionFile": "{count, plural, one {Möchtest du diese Datei wirklich entfernen? Sie wird nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.} other {Möchtest du diese {count} Dateien wirklich entfernen? Sie werden nicht mehr auf der Dateien-Seite angezeigt und bei der nächsten geplanten Bereinigung dauerhaft entfernt (obwohl möglicherweise Kopien auf anderen IPFS-Knoten vorhanden sind). Diese Aktion kann nicht rückgängig gemacht werden.}}",
+    "checkboxRemoveLocalPin": "Auch den lokalen Pin entfernen (empfohlen)",
+    "checkboxUnpinFromServices": "Von allen Pinning-Diensten loslösen"
+  },
+  "pinningModal": {
+    "title": "Wähle aus, wo du diese Elemente anheften möchtest.",
+    "footer": "Du möchtest einen Pinning-Dienst hinzufügen oder konfigurieren? Gehe zu <1>Einstellungen</1>.",
+    "localNode": "Lokaler Knoten",
+    "totalSize": "Gesamtgröße: {size}"
+  },
+  "addByPathModal": {
+    "title": "Aus IPFS importieren",
+    "description": "Gib einen IPFS Pfad (CID) zum Importieren ein.",
+    "examples": "Beispiele:"
+  },
+  "newFolderModal": {
+    "title": "Neuer Ordner",
+    "description": "Gib den Namen des zu erstellenden Ordners ein."
+  },
+  "filesListLabel": "Datei Liste",
+  "filesList": {
+    "noFiles": "<0>Keine Dateien in diesem Verzeichnis. Klicke auf die Schaltfläche \"Importieren\", um Dateien hinzuzufügen.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {1 Element importiert} other {{count} Elemente importiert}}",
+    "importing": "{count, plural, one { 1 Element wird importiert} other {{count} Elemente werden importiert}}",
+    "toggleDropdown": "Dropdown umschalten",
+    "closeDropdown": "Dropdown schließen",
+    "count": "{count} von {count}"
+  },
+  "addFilesInfo": "<0>Noch keine Dateien vorhanden! Füge Dateien zu deinem IPFS-Node hinzu, indem du oben auf die Schaltfläche <1>\"Importieren\"</1> klickst.</0>",
+  "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>",
+  "tour": {
+    "step1": {
+      "title": "Dateien-Seite",
+      "paragraph1": "<0>Hier leben die Dateien deines <1>veränderbaren Dateisystems (MFS)</1>. Du kannst Dateien oder Ordner hinzufügen und sie von dieser Seite aus verwalten.</0>",
+      "paragraph2": "Klicke \"Weiter\", um mehr zu erfahren."
+    },
+    "step2": {
+      "title": "Breadcrumbs",
+      "paragraph1": "Diese Breadcrumbs zeigen den Pfad zum aktuellen Arbeitsverzeichnis. Du kannst…",
+      "bullet1": "Auf einzelne Breadcrumbs blicken, um zu diesem Verzeichnis zu gelangen.",
+      "bullet2": "Rechts-klick auf ein Breadcrumb machen, um das Aktionen-Menü für dieses Verzeichnis anzuzeigen",
+      "bullet3": "Dateien auf ein Breadcrumb ziehen um es zu bewegen oder zu importieren"
+    },
+    "step3": {
+      "title": "Dateien hinzufügen",
+      "paragraph1": "Hier kannst du sehen, wie viele Blöcke und Dateien du angepinnt hast.",
+      "paragraph2": "Du kannst Dateien oder Ordner mit dem Dropdown auf der rechten Seite zu deiner Ablage hinzufügen.",
+      "paragraph3": "<0>Wenn du etwas, was schon in IPFS ist, hinzufügen möchtest, kannst du es in dein MFS importieren, indem du dessen <1>Content Identifier (CID)</1> angibst.</0>"
+    },
+    "step5": {
+      "title": "Datei Liste",
+      "paragraph1": "Schließlich die Liste mit allen Dateien und Ordnern. Füge Dateien und Ordner mit Drag and Drop hinzu.",
+      "paragraph2": "Du kannst Dateien teilen oder herunterladen, sie in dem IPLD Explorer untersuchen, sie umbenennen oder entfernen!",
+      "paragraph3": "Profi-Tipp: Ziehe eine Datei von jeder anderen Seite der Web-UI hierher, um sie zum Wurzel-Verzeichnis deines MFS hinzuzufügen."
+    }
+  },
+  "loadMore": "Mehr laden",
+  "previousFolder": "Zurück zum vorherigen Ordner",
+  "fileLabel": "Wähle {type}{name} mit Größe: {size} ",
+  "hashUnavailable": "Hash nicht verfügbar",
+  "checkboxLabel": "Weitere Optionen für {name} anzeigen",
+  "pinned": "Angeheftet",
+  "pinnedRemotely": "Entfernt angeheftet",
+  "blocks": "Blöcke",
+  "allBlocks": "Alle Blöcke",
+  "allBlocksDescription": "Die Gesamtgröße aller Blöcke auf deinem IPFS Knoten; Dies umfasst alles in Dateien, sowie alle lokal angehefteten Elemente und alle temporär gespeicherten Daten",
+  "filesDescription": "Gesamtgröße der Daten im aktuellen Verzeichnis (wenn es sich um ein Unterverzeichnis handelt, wird auch die Größe aller Daten in Dateien angezeigt)",
+  "more": "Mehr",
+  "files": "Dateien",
+  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
+  "sortBy": "Sortieren nach {name}"
+}

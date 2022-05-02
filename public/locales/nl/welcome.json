@@ -1,0 +1,31 @@
+{
+  "title": "Welkom bij IPFS",
+  "configureApiPort": {
+    "header": "Is je API poort anders dan 5001?",
+    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
+  },
+  "apiAddressForm": {
+    "apiLabel": "API ADRES",
+    "submitButton": "Verzend"
+  },
+  "connected": {
+    "header": "Verbind met IPFS",
+    "paragraph1": "<0>Now, it’s time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
+    "paragraph2": "<0>Via dit adres kan je steeds de de IPFS node wijzigen waarmee je verbindt.</0>"
+  },
+  "notConnected": {
+    "header": "Draait je IPFS daemon?",
+    "paragraph1": "<0>Verbinden het de API mislukt.</0>",
+    "paragraph2": "<0>Configureer zeker je <1>IPFS API</1>om cross-origin (CORS) aanvragen toe te staan. Dit kan met volgende commando's:</0>",
+    "paragraph3": "<0>Start een IPFS daemon in een terminal:</0>",
+    "paragraph4": "<0>Lees <1>de handleiding</1> om te starten met IPFS.</0> "
+  },
+  "aboutIpfs": {
+    "header": "Wat is IPFS?",
+    "paragraph1": "<0><0>IPFS is een protocol</0> dat een inhoud-geadresseerd file systeem definieert, het ophalen coördineer en ideeën van onder andere Kademlia, BitTorrent en Git combineert.</0>",
+    "paragraph2": "<0><0>IPFS is een bestandssysteem.</0> Het heeft bestanden en mappen en een mountbaar bestandssysteem door gebruik te maken van FUSE.</0>",
+    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity.</0>",
+    "paragraph4": "<0><0>IPFS is p2p.</0> Het ondersteund wereldwijde peer-to-peer overdracht van bestanden met een volledig gedecentraliseerde architectuur, zonder centrale zwakke punten.</0>",
+    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
+  }
+}

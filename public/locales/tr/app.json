@@ -1,0 +1,101 @@
+{
+  "actions": {
+    "add": "Ekle",
+    "apply": "Uygula",
+    "browse": "Araştır",
+    "cancel": "İptal et",
+    "change": "Değiştir",
+    "clear": "Temizle",
+    "close": "Kapat",
+    "copy": "Kopyala",
+    "create": "Oluştur",
+    "remove": "Kaldır",
+    "download": "İndir",
+    "edit": "Düzenle",
+    "import": "İçe aktar",
+    "inspect": "İncele",
+    "more": "Daha fazla",
+    "moreInfo": "Daha fazla bilgi",
+    "noThanks": "Hayır teşekkürler",
+    "ok": "Tamam",
+    "pinVerb": "Sabitle",
+    "rename": "Adını değiştir",
+    "reset": "Sıfırla",
+    "save": "Kaydet",
+    "saving": "Kaydediliyor…",
+    "selectAll": "Hepsini seç",
+    "setPinning": "Sabitlemeyi ayarla",
+    "submit": "Gönder",
+    "unpin": "Sabitleme",
+    "unselectAll": "Hepsinin seçimini kaldır"
+  },
+  "cliModal": {
+    "description": "Komut satırı aracılığıyla IPFS'de bu görevi gerçekleştirmek için aşağıdakileri terminalinize yapıştırın. Yer tutucuları belirli parametrelerinizle değiştirmeniz gerekeceğini unutmayın."
+  },
+  "nav": {
+    "bugsLink": "Hata bildirin",
+    "codeLink": "Kodu gör",
+    "revision": "Revizyon"
+  },
+  "status": {
+    "connectedToIpfs": "IPFS'ye bağlı",
+    "connectingToIpfs": "IPFS'ye bağlanılıyor…",
+    "couldNotConnect": "IPFS UPA'ya bağlanılamadı"
+  },
+  "apiAddressForm": {
+    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+  },
+  "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://dweb.link)"
+  },
+  "terms": {
+    "address": "Adres",
+    "addresses": "Adresler",
+    "advanced": "İleri",
+    "agent": "Ajan",
+    "api": "UPA",
+    "apiAddress": "UPA Adresi",
+    "blocks": "Bloklar",
+    "connection": "Bağlantı",
+    "downSpeed": "Gelen",
+    "example": "Örnek:",
+    "file": "Dosya",
+    "files": "Dosyalar",
+    "folder": "Klasör",
+    "folders": "Klasörler",
+    "gateway": "Köprü",
+    "in": "İçeri",
+    "latency": "Gecikme",
+    "loading": "Yükleniyor",
+    "location": "Konum",
+    "name": "Ad",
+    "node": "Düğüm",
+    "out": "Dışarı",
+    "peer": "Eş",
+    "peerId": "Eş kimliği",
+    "peers": "Eşler",
+    "pinNoun": "Raptiye",
+    "pins": "Raptiye",
+    "pinStatus": "Pin Durumu",
+    "publicKey": "Genel anahtar",
+    "publicGateway": "Public Gateway",
+    "rateIn": "Giren oranı",
+    "rateOut": "Çıkan oranı",
+    "repo": "Repo",
+    "size": "Boyut",
+    "totalIn": "Toplam gelen",
+    "totalOut": "Toplam çıkan",
+    "unknown": "Bilinmeyen",
+    "ui": "Kullanıcı Arayüzü",
+    "upSpeed": "Çıkan"
+  },
+  "tour": {
+    "back": "Geri",
+    "close": "Kapat",
+    "finish": "Bitir",
+    "next": "Sonraki",
+    "skip": "Atla",
+    "tooltip": "Mevcut sayfada rehberli bir tur için istediğiniz zaman bu düğmeyi tıklayın."
+  },
+  "startTourHelper": "Tura başla"
+}

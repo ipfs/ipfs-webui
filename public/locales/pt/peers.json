@@ -1,0 +1,12 @@
+{
+  "title": "Pares",
+  "peerId": "ID do Par",
+  "peers": "Pares",
+  "address": "Endereço",
+  "location": "Localização",
+  "unknownLocation": "Desconhecido",
+  "addConnection": "Adicionar conexão",
+  "insertPeerAddress": "Insira o endereço do par ao qual quer conectar.",
+  "add": "Adicionar",
+  "example": "Exemplo:"
+}

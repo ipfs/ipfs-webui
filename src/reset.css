@@ -1,0 +1,28 @@
+button {
+    appearance: none !important; /* !important due to tachyons reset`*/
+    outline: none;
+    background: transparent;
+    border: none;
+    text-align: initial;
+    color: inherit;
+}
+
+button:not(.disabled) {
+    cursor: pointer;
+}
+
+button.button-inside-focus:focus {
+    outline: none;
+}
+
+button.button-inside-focus:focus > *:first-child {
+    outline: 1px solid #bbb;
+}
+
+button.hoverable-button:hover {
+    background: #372c6341
+}
+
+button.hoverable-button:focus {
+    outline: none;
+}

@@ -1,0 +1,19 @@
+/* Has to be like this due to limitations on overriding overflow: hidden in virtualized table */
+.pinningManager .ReactVirtualized__Table__row,
+.pinningManager .ReactVirtualized__Table__Grid,
+.pinningManagerColumn {
+    overflow: visible !important;
+}
+
+.pinningManager .ReactVirtualized__Grid.ReactVirtualized__Table__Grid:focus {
+    outline: none;
+}
+
+.ReactVirtualized__Table__row:nth-child(odd){
+  background-color: #312F6233;
+}
+
+.ReactVirtualized__Table__headerRow{
+  border-bottom: 1px solid #312F62;
+}
+

@@ -1,0 +1,47 @@
+{
+  "title": "Stato",
+  "nodeInfo": "Informazioni nodo",
+  "spaceUsed": "Spazio utilizzato",
+  "networkTraffic": "Traffico di rete",
+  "bandwidthOverTime": "Larghezza di banda nel tempo",
+  "bandwidthByPeer": "Larghezza di banda per peer",
+  "distributionOfPeers": "Distribuzione dei peer",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peer)}}",
+  "countMore": "... e {count} in più",
+  "StatusConnected": {
+    "repoSize": "Stai ospitando {repoSize} di dati",
+    "peersCount": "{peersCount, plural, one {Hai trovato 1 peer} other {Hai trovato {peersCount} peer}}"
+  },
+  "customApiConfig": "Configurazione JSON personalizzata",
+  "AskToEnable": {
+    "label": "Aiuta a migliorare l'applicazione mandando dati d'utilizzo anonimi."
+  },
+  "tour": {
+    "step1": {
+      "title": "Pagina dello stato",
+      "paragraph1": "Questo è il punto d'inizio del tuo nodo IPFS, dove puoi vedere le sue informazioni di base.",
+      "paragraph2": "Clicca \"Avanti\" per saperne di più."
+    },
+    "step2": {
+      "title": "Stato della connessione",
+      "paragraph1": "Clicca su quest'icona da qualunque punto dell'app per ritornare alla pagina dello Stato. Se perdi la tua connessione all'API IPFS, l'icona diventerà rossa.",
+      "paragraph2": "Se hai bisogno di configurare un indirizzo API personalizzato per il tuo nodo, clicca sul link \"Modifica\" accanto all'indirizzo API che è elencato in questa pagina."
+    },
+    "step3": {
+      "title": "Informazioni nodo",
+      "paragraph1": "Qui hai le informazioni riguardanti la grandezza della tua repository, quanti peer sono connessi, il tuo peer ID e la versione di IPFS attualmente in uso.",
+      "paragraph2": "<0>Espandi il link <1>Avanzate</1> per vedere più info, come l'URL gateway e gli indirizzi. Inoltre è presente un link all'interno della sezione Avanzate per cambiare il tuo indirizzo API."
+    },
+    "step4": {
+      "title": "Banca/traffico della rete.",
+      "paragraph1": "Questo grafico mostra l'utilizzo della banda di rete nel tempo.",
+      "paragraph2": "Il tachimetro mostra il traffico corrente in entrata ed in uscita."
+    },
+    "stepExplore": {
+      "title": "Esplora",
+      "paragraph": "Incolla un CID ed esplora i file contenuti in esso o guarda come quei dati sono strutturati e collegati attraverso i protocolli."
+    }
+  },
+  "bandwidthStats": "Statistiche di banda",
+  "bandwidthStatsDisabled": "Hai le metriche di banda disabilitate. Puoi abilitarle digitando il comando sottostante od impostando la proprietà <1>Swarm.DisableBandwidthMetrics</1> a <3>false</3> in <5>Impostazioni</5>. Dopodiché devi riavviare il demone IPFS per applicare le modifiche."
+}

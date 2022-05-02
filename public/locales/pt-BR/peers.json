@@ -1,0 +1,27 @@
+{
+  "title": "Pares",
+  "localNetwork": "Rede Local",
+  "nearby": "próximo",
+  "protocols": "Streams abertos",
+  "addConnection": "Adicionar conexão",
+  "insertPeerAddress": "Insira o endereço do par ao que você deseja conectar.",
+  "plusPeers": "+ {number} mais pares",
+  "connectionDirectionInbound": "entrada",
+  "connectionDirectionOutbound": "saída",
+  "copyFeedback": "Copiado!",
+  "tour": {
+    "step1": {
+      "title": "Página dos pares",
+      "paragraph1": "Aqui é onde você pode ver os pares com os quais está conectado e os países em que eles estão.",
+      "paragraph2": "Clique \"Próximo\" para saber mais."
+    },
+    "step2": {
+      "title": "Mapa de pares",
+      "paragraph1": "Uma visualização de onde os pares aos quais você está conectado estão no mundo."
+    },
+    "step3": {
+      "title": "Tabela de pares",
+      "paragraph1": "Verifica os IDs dos pares conectados, seus endereços e sua localização aproximada."
+    }
+  }
+}

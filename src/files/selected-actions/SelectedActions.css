@@ -1,0 +1,33 @@
+.selectedActions {
+  width: 100%;
+}
+
+.selectedActionsAnimated {
+  animation: selectedActions 0.3s ease-in-out both;
+}
+
+@keyframes selectedActions {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+.filelist-selected-count-container {
+  border-radius: 50%;
+  border: 1px solid white;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.filelist-selected-count-text {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: right;
+}

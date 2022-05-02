@@ -1,0 +1,78 @@
+{
+  "title": "Filer",
+  "home": "Hjem",
+  "breadcrumbs": "Sti",
+  "finished": "Færdig!",
+  "totalSize": "Total størrelse: {size}",
+  "filesSelected": "{count, plural, one {Valgte fil} other {Valgte filer}}",
+  "individualFilesOnly": "Kun tilgængelig for individuelle filer",
+  "fileName": "Filnavn",
+  "size": "Størrelse",
+  "noPDFSupport": "Din browser understøtter ikke PDF'er. Venligst, download PDF'en for at vise denne.",
+  "downloadPDF": "Download PDF.",
+  "downloadInstead": "Prøv at <1>downloade</1> den i stedet.",
+  "cantBePreviewed": "Beklager, denne fil kan ikke forhåndvises.",
+  "addFile": "Fil",
+  "addFolder": "Mappe",
+  "addByPath": "Fra IPFS",
+  "addToIPFS": "Tilføj",
+  "newFolder": "Ny mappe",
+  "generating": "Opretter...",
+  "actions": {
+    "add": "Tilføj",
+    "delete": "Slet",
+    "rename": "Omdøb",
+    "download": "Download",
+    "inspect": "Inspicer",
+    "copyHash": "Kopier hash",
+    "share": "Del",
+    "close": "Luk",
+    "copy": "Kopier",
+    "cancel": "Fortryd",
+    "clear": "Ryd",
+    "create": "Opret",
+    "save": "Lagring",
+    "unselectAll": "Fravælg alle"
+  },
+  "shareModal": {
+    "title": "Del filer",
+    "description": "Kopier linket nedenfor og del det med dine venner."
+  },
+  "renameModal": {
+    "titleFile": "Omdøb fil",
+    "titleFolder": "Omdøb mappe",
+    "descriptionFile": "Vælg et nyt navn til denne fil.",
+    "descriptionFolder": "Vælg et nyt navn til denne mappe."
+  },
+  "removeModal": {
+    "titleItem": "{count, plural, one {Fjern element} other {Fjern {count} elementer}}",
+    "titleFolder": "{count, plural, one {Fjern mappe} other {Fjern {count} mapper}}",
+    "titleFile": "{count, plural, one {Fjern fil} other {Fjern {count} filer}}",
+    "descriptionItem": "{count, plural, one {Er du sikker på du ønsker at slette dette element? Denne handling er permanent og kan ikke omgøres.} other {Er du sikker på du ønsker at slette {count} elementer? Denne handling er permanent og kan ikke omgøres.}}",
+    "descriptionFolder": "{count, plural, one {Er du sikker på du ønsker at slette denne mappe? Denne handling er permanent og kan ikke omgøres.} other {Er du sikker på du ønsker at slette {count} mapper? Denne handling er permanent og kan ikke omgøres.}}",
+    "descriptionFile": "{count, plural, one {Er du sikker på du ønsker at slette denne file? Denne handling er permanent og kan ikke omgøres.} other {Er du sikker på du ønsker at slette {count} filer? Denne handling er permanent og kan ikke omgøres.}}"
+  },
+  "addByPathModal": {
+    "title": "Tilføj fra IPFS",
+    "description": "Indsæt en IPFS sti (CID) for at tilføje.",
+    "examples": "Eksempler:"
+  },
+  "newFolderModal": {
+    "title": "Ny mappe",
+    "description": "Angiv navnet på mappen du ønsker at oprette."
+  },
+  "welcomeInfo": {
+    "header": "Velkommen til IPFS Web-grænsefladen",
+    "paragraph1": "<0><0>Tjek status</0> for din klient, dets klient-ID og forbindelsesinfo, netværkstrafik og antallet af forbundne klienter.</0>",
+    "paragraph2": "<0>Med lethed <1>administrer filer</1> i dit IPFS fil-bibliotek. Du kan trække og slippe for at tilføje filer, flytte og navneændre dem, slette, dele eller downloade dem.</0>",
+    "paragraph3": "<0>Du kan <1>udforske IPLD Data</1> som underbygger hvordan IPFS fungerer.</0>",
+    "paragraph4": "<0>Se alle dine <1>forbundle klient-forbindelser</1>, geografisk placeret på baggrund af deres IP adresser.</0>",
+    "paragraph5": "<0><0>Gennemgå indstillinger</0> for din IPFS klient, og tilpas dem for bedre at understøtte dine behov.</0>",
+    "paragraph6": "<0>Hvis du ønsker at bidrage med at skubbe Web brugergrænsegladen fremad, <1>så tjek koden</1> eller <3>indrapport en fejl </3>!</0>"
+  },
+  "filesList": {
+    "noFiles": "<0>Ingen filer i dette bibliotek. Klik på “Tilføj” knappen for at tilføje nogle.</0>"
+  },
+  "addFilesInfo": "<0>Tilføj filer til din lokale IPFS klient ved at klikke på <1>Tilføj til IPFS</1> knappen foroven.</0>",
+  "companionInfo": "<0>Eftersom du benytter <1>IPFS Følgesvend</1>, vil fil-visningen være begrænset til filer der benyttes mens udvidelsen benyttes.</0>"
+}

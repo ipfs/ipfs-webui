@@ -1,0 +1,76 @@
+{
+  "title": "파일",
+  "home": "홈",
+  "breadcrumbs": "이동경로",
+  "finished": "끝났습니다!",
+  "totalSize": "총 크기: {size}",
+  "filesSelected": "{count, plural, other {파일 선택됨}}",
+  "individualFilesOnly": "단 하나의 파일에만 가능합니다.",
+  "fileName": "파일이름",
+  "size": "크기",
+  "noPDFSupport": "당신의 브라우저는 PDF를 지원하지 않습니다. PDF를 다운로드해 보십시오.",
+  "downloadPDF": "PDF 다운로드",
+  "downloadInstead": "그 대신<1>다운로드</1>를 시도하십시오",
+  "cantBePreviewed": "이 파일은 미리 볼 수 없습니다.",
+  "addFile": "파일 추가",
+  "addFolder": "폴더 추가",
+  "addByPath": "경로 추가",
+  "addToIPFS": "IPFS에 추가",
+  "newFolder": "새 폴더",
+  "actions": {
+    "add": "추가",
+    "delete": "삭제",
+    "rename": "이름변경",
+    "download": "다운로드",
+    "inspect": "정보",
+    "copyHash": "해시 복사",
+    "share": "공유",
+    "close": "닫기",
+    "copy": "복사",
+    "cancel": "취소",
+    "clear": "초기화",
+    "create": "생성",
+    "save": "저장",
+    "unselectAll": "전부 선택취소"
+  },
+  "shareModal": {
+    "title": "파일공유",
+    "description": "아래 링크를 복사하여, 친구와 공유하세요."
+  },
+  "renameModal": {
+    "titleFile": "파일 이름변경",
+    "titleFolder": "폴더 이름변경",
+    "descriptionFile": "파일의 새 이름을 적으세요",
+    "descriptionFolder": "폴더의 새 이름을 적으세요"
+  },
+  "removeModal": {
+    "titleItem": "{count, plural, other {{count}개 삭제}}",
+    "titleFolder": "{count, plural, other {{count}개 폴더 삭제}}",
+    "titleFile": "{count, plural, other {{count}개 파일 삭제}}",
+    "descriptionItem": "{count, plural, other {정말 {count}개의 아이템을 삭제하시겠습니까? 이 행동은 되돌릴 수 없습니다.}}",
+    "descriptionFolder": "{count, plural, other {정말 {count}개의 폴더를 삭제하시겠습니까? 이 행동은 되돌릴 수 없습니다.}}",
+    "descriptionFile": "{count, plural, other {정말 {count}개의 파일을 삭제하시겠습니까? 이 행동은 되돌릴 수 없습니다.}}"
+  },
+  "addByPathModal": {
+    "title": "경로 추가",
+    "description": "추가하기 위해서 경로를 입력하세요"
+  },
+  "newFolderModal": {
+    "title": "새 폴더",
+    "description": "폴더를 생성하기 위해 이름을 입력하세요."
+  },
+  "welcomeInfo": {
+    "header": "Welcome to the IPFS Web UI",
+    "paragraph1": "<0><0>Check the status</0> of your node, it's Peer ID and connection info, the network traffic and the number of connected peers.</0>",
+    "paragraph2": "<0>Easily manage files in your IPFS repo. Drag and drop here to add files, move and rename them, delete, share or download them.</0>",
+    "paragraph3": "<0>You can <1>explore IPLD data</1> that underpins how IPFS works.</0>",
+    "paragraph4": "<0>See all of your <1>connected peers</1>, geolocated by their IP address.</0>",
+    "paragraph5": "<0><0>Review the settings</0> for your IPFS node, and update them to better suit your needs.</0>",
+    "paragraph6": "<0>If you want to help push the Web UI forward, <1>check out its code</1> or <3>report a bug</3>!</0>"
+  },
+  "filesList": {
+    "noFiles": "<0>No files in this directory. Click the “Add to IPFS” button to add some.</0>"
+  },
+  "addFilesInfo": "<0>Add files to your local IPFS node by clicking the <1>Add to IPFS</1> button above.</0>",
+  "companionInfo": "<0>As you are using <1>IPFS Companion</1>, the files view is limited to files added while using the extension.</0>"
+}

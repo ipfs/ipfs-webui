@@ -1,0 +1,25 @@
+.LinksTable .ReactVirtualized__Table__Grid {
+  background: transparent
+}
+
+.LinksTable .ReactVirtualized__Table__rowColumn.no-ellipsis {
+  text-overflow: unset;
+}
+
+.LinksTable{
+  margin-top: 27px;
+}
+
+.ReactVirtualized__Table__headerRow{
+  border-bottom: 1px solid #312F62;
+  padding-bottom: 5px;
+  height: 30px !important;
+}
+
+.ReactVirtualized__Table__headerColumn, .ReactVirtualized__Table__rowColumn{
+  margin-right: 0px !important;
+}
+
+.ReactVirtualized__Table__headerColumn:first-of-type, .ReactVirtualized__Table__rowColumn:first-of-type{
+  margin-left: 0 !important;
+}

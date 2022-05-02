@@ -1,0 +1,38 @@
+{
+  "title": "Bienvenue | IPFS",
+  "description": "Page d'accueil",
+  "connected": {
+    "paragraph1": "Bienvenue dans le futur d'internet ! Vous êtes maintenant un membre important du web distribué."
+  },
+  "notConnected": {
+    "paragraph1": "<0>Lisez le guide d'installation dans la <1>Documentation IPFS</1>, ou essayez ces solutions courantes :</0> ",
+    "paragraph2": "<0>Votre daemon IPFS a-t-il démarré ? Essayez de le démarrer ou de le relancer depuis votre terminal :</0>",
+    "paragraph3": "<0>Votre API IPFS est-elle configurée pour autoriser les <1>requêtes inter-origines (CORS)</1>? Si ce n'est pas le cas, lancez ces commandes et démarrez votre daemon depuis votre terminal :</0>",
+    "paragraph4": "<0>Votre API IPFS est-elle sur un port autre que 5001 ? Si votre nœud est configuré avec une <1>adresse API personnalisée</1>, entrez-la ici.</0>"
+  },
+  "aboutIpfs": {
+    "header": "Qu'est-ce qu'IPFS ?",
+    "paragraph1": "<0><0>Un protocole de distribution hypermedia</0> qui emprunte des idées de Kademlia, BitTorrent, Git, et bien d'autres</0>",
+    "paragraph2": "<0><0>Un réseau de transfert de fichiers pair-à-pair</0> avec une architecture complètement décentralisée et aucun unique point d'échec, de censure, ou de contrôle</0>",
+    "paragraph3": "<0><0>Un tremplin vers le web de demain</0> — les navigateurs traditionnels peuvent acceder aux fichiers IPFS grâce à des passerelles comme <2>https://ipfs.io</2> ou directement en utilisant l'extension <4>IPFS Companion</4></0>",
+    "paragraph4": "<0><0>Un CDN de nouvelle génération</0> — ajoutez simplement un fichier à votre nœud pour le rendre accessible grâce à l'adressage par le contenu qui le rend facile à mettre en cache, et une distribution de la bande passante à la BitTorrent.</0>",
+    "paragraph5": "<0><0>Une boîte à outil de développeur</0> pour bâtir des <2>applications et services complètement distribués</2>, soutenue par une communauté open-source solide</0>"
+  },
+  "welcomeInfo": {
+    "header": "Dans cette application, vous pouvez...",
+    "paragraph1": "<0><0>Vérifier le statut de votre nœud</0>, y compris le nombre de pairs avec lesquels vous êtes connecté, l'espace utilisé, des statistiques sur la bande passante, et plus encore</0>",
+    "paragraph2": "<0><0>Consultez et gérez vos fichiers</0> dans votre répertoire IPFS, y compris grâce à l'import en glisser-déposer, l'épinglage facile, le partage rapide ou les différentes options de téléchargement</0>",
+    "paragraph3": "<0><0>Visitez la \"Forêt de Merkle\"</0> avec des extraits de bases de données et explorez IPLD, le modèle de données sur lequel fonctionne IPFS</0>",
+    "paragraph4": "<0><0>Voyez qui est connecté à votre nœud</0>, géolocalisé sur une carte du monde grâce à leur adresse IP</0>",
+    "paragraph5": "<0><0>Vérifiez ou modifiez les préférences de votre nœud </0>— aucune ligne de commande nécessaire</0>",
+    "paragraph6": "<0><0>Consultez le code source de cette application</0> pour <2>signaler un bug</2> ou contribuer et rendre IPFS meilleur pour tout le monde !</0>"
+  },
+  "tour": {
+    "step1": {
+      "title": "Page de bienvenue",
+      "paragraph1": "Cette page vous informe si vous êtes connectés à IPFS, et vous donne des idées de quoi faire avec cette application.",
+      "paragraph2": "Si vous n'êtes pas connecté à l'API IPFS, cette page apparaît aussi à la place de certaines autres pages, avec des indications sur comment vous connecter.",
+      "paragraph3": "Vous pouvez consulter cette page de n'importe où dans l'application en cliquant sur le logo IPFS en forme de cube dans la barre de navigation."
+    }
+  }
+}

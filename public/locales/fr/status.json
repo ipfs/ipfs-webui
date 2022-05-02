@@ -1,0 +1,47 @@
+{
+  "title": "Statut",
+  "nodeInfo": "Information du pair",
+  "spaceUsed": "Espace utilisé",
+  "networkTraffic": "Trafic réseau",
+  "bandwidthOverTime": "Bande passante en fonction du temps",
+  "bandwidthByPeer": "Bande passante par pair",
+  "distributionOfPeers": "Répartition des pairs",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Pair)} other {{percent}% ({count} Pairs)}}",
+  "countMore": "...et {count} de plus",
+  "StatusConnected": {
+    "repoSize": "{repoSize} de données hébergées",
+    "peersCount": "{peersCount, plural, one {1 pair découvert} other {{peersCount} pairs découverts}}"
+  },
+  "customApiConfig": "JSON de configuration personnalisée",
+  "AskToEnable": {
+    "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes."
+  },
+  "tour": {
+    "step1": {
+      "title": "Page des status",
+      "paragraph1": "C'est le point de départ de votre nœud IPFS et où consulter les informations de base.",
+      "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
+    },
+    "step2": {
+      "title": "Statut de la connection",
+      "paragraph1": "Cliquez sur l'icône depuis n'importe quelle page de l'application pour revenir à la page Statut. Si vous perdez votre connexion avec l'API d'IPFS, l'icône deviendra rouge.",
+      "paragraph2": "Si vous voulez configurer une adresse d'API personnalisée pour votre nœud, cliquez sur le lien \"Modifier\" près d'où l'adresse d'API est indiquée, sur cette page. "
+    },
+    "step3": {
+      "title": "Information du pair",
+      "paragraph1": "Ici se trouvent des informations sur la taille de votre répertoire, le nombre de nœuds auxquels vous êtes connecté, votre peerID et la version d'IPFS utilisée.",
+      "paragraph2": "<0>Déplier le lien <1>Avancé</1> pour plus d'information, comme l'URL de la passerelle et ses adresses. Il y a aussi un lien dans la section Avancé pour changer votre adresse d'API.</0>"
+    },
+    "step4": {
+      "title": "Trafic réseau",
+      "paragraph1": "Ce graphe montre l'utilisation du réseau au cours du temps.",
+      "paragraph2": "Les compteurs montrent les vitesses des trafics entrant et sortant."
+    },
+    "stepExplore": {
+      "title": "Explorer",
+      "paragraph": "Copiez un CID et explorez les fichiers contenus à l'intérieur ou observez comment les données sont structurés et liées grâce aux protocoles."
+    }
+  },
+  "bandwidthStats": "Statistiques réseau",
+  "bandwidthStatsDisabled": "Vous avez déactivé les statistiques de la bande passante. Vous pouvez les réactiver en tapant la ligne de commande ci-dessous ou en changeant la clé <1>Swarm.DisableBandwidthMetrics</1> à <3>false</3> dans <5>Paramètres</5>. Ensuite, vous devrez redémarrer le daemon IPFS pour que cela soit pris en compte. "
+}

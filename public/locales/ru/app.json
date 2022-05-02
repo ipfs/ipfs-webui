@@ -1,0 +1,101 @@
+{
+  "actions": {
+    "add": "Добавить",
+    "apply": "Применить",
+    "browse": "Смотреть",
+    "cancel": "Отмена",
+    "change": "Изменить",
+    "clear": "Очистить",
+    "close": "Закрыть",
+    "copy": "Копировать",
+    "create": "Создать",
+    "remove": "Удалить",
+    "download": "Загрузить",
+    "edit": "Изменить",
+    "import": "Импорт",
+    "inspect": "Проверить",
+    "more": "Больше",
+    "moreInfo": "Подробнее",
+    "noThanks": "Нет, спасибо",
+    "ok": "Да",
+    "pinVerb": "Закрепить",
+    "rename": "Переименовать",
+    "reset": "Сброс",
+    "save": "Сохранить",
+    "saving": "Сохранение...",
+    "selectAll": "Выбрать все",
+    "setPinning": "Установить процесс ",
+    "submit": "Применить",
+    "unpin": "Открепить",
+    "unselectAll": "Снять выделение"
+  },
+  "cliModal": {
+    "description": "Вставьте следующее в консоль, чтобы выполнить эту задачу в IPFS с помощью командной строки. Помните, что вам будет необходимо заменить местозаполнители вашими конкретными параметрами."
+  },
+  "nav": {
+    "bugsLink": "Сообщить об ошибке",
+    "codeLink": "Смотреть код",
+    "revision": "Ревизия"
+  },
+  "status": {
+    "connectedToIpfs": "Подключено к IPFS",
+    "connectingToIpfs": "Подключение к IPFS…",
+    "couldNotConnect": "Не удалось подключиться к IPFS API"
+  },
+  "apiAddressForm": {
+    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+  },
+  "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://dweb.link)"
+  },
+  "terms": {
+    "address": "Адрес",
+    "addresses": "Адреса",
+    "advanced": "Дополнительно",
+    "agent": "Агент",
+    "api": "API",
+    "apiAddress": "API-адрес",
+    "blocks": "Блоки",
+    "connection": "Подключение",
+    "downSpeed": "Входящий",
+    "example": "Пример:",
+    "file": "Файл",
+    "files": "Файлы",
+    "folder": "Папка",
+    "folders": "Папки",
+    "gateway": "Шлюз",
+    "in": "В",
+    "latency": "Задержка",
+    "loading": "Загрузка",
+    "location": "Местоположение",
+    "name": "Имя",
+    "node": "Нода",
+    "out": "Внешний",
+    "peer": "Пир",
+    "peerId": "ID пира",
+    "peers": "Пиры",
+    "pinNoun": "Закрепить",
+    "pins": "Закрепления",
+    "pinStatus": "Статус процесса",
+    "publicKey": "Публичный ключ",
+    "publicGateway": "Public Gateway",
+    "rateIn": "Входящий рейтинг",
+    "rateOut": "Исходящий рейтинг",
+    "repo": "Репо",
+    "size": "Размер",
+    "totalIn": "Всего пришло",
+    "totalOut": "Всего вышло",
+    "unknown": "Неизвестно",
+    "ui": "Пользовательский интерфейс",
+    "upSpeed": "Исходящий"
+  },
+  "tour": {
+    "back": "Назад",
+    "close": "Закрыть",
+    "finish": "Завершить",
+    "next": "Далее",
+    "skip": "Пропустить",
+    "tooltip": "Нажмите эту кнопку для начала ознакомления."
+  },
+  "startTourHelper": "Начать ознакомление"
+}

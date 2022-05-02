@@ -1,0 +1,49 @@
+{
+  "title": "Status",
+  "peer": "Klient",
+  "peers": "Klient-forbindelser",
+  "addresses": "Adresser",
+  "nodeInfo": "Node info",
+  "peerId": "Klient ID",
+  "gateway": "Gateway",
+  "api": "API",
+  "version": "Version",
+  "advanced": "Avanceret",
+  "publicKey": "Public key",
+  "upSpeed": "Udgående",
+  "downSpeed": "Indgående",
+  "spaceUsed": "Anvendt plads",
+  "networkTraffic": "Network traffic",
+  "bandwidthOverTime": "Båndbredde over tid",
+  "bandwidthByPeer": "Båndbredde per klient",
+  "distributionOfPeers": "Fordeling af noder",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} klient-forbindelse)} other {{percent}% ({count} klient-forbindelser)}}",
+  "rateIn": "Rate in",
+  "rateOut": "Rate out",
+  "totalIn": "Total in",
+  "totalOut": "Total out",
+  "more": "....og {count} mere",
+  "in": "Ind",
+  "out": "Ud",
+  "codeLink": "Gennemse koden",
+  "bugsLink": "Rapporter en fejl",
+  "revision": "Udgave",
+  "StatusConnected": {
+    "header1": "Forbundet til IPFS",
+    "paragraph1": "Hoster<0>{repoSize} af filer</0>",
+    "paragraph2": "{count, plural, one {Fandt<0>1 klient</0>} other {Fandt<0>{peersCount} klienter</0>}}"
+  },
+  "StatusNotConnected": {
+    "header1": "Fejlede ved forbindelse til API'et",
+    "paragraph1": "<0>Kør en IPFS-baggrundsprocess fra en terminal:</0>",
+    "paragraph2": "<0>For mere info om at komme i gang med IPFS, kan du <1>læse guiden</1>.</0>"
+  },
+  "AskToEnable": {
+    "label": "Hjælp med at forbedre denne App ved at sende anonyme brugsdata.",
+    "yesLabel": "OK",
+    "noLabel": "Nej tak",
+    "detailsLabel": "Mere info"
+  },
+  "bandwidthStats": "Bandwidth stats",
+  "bandwidthStatsDisabled": "Du har slået båndbreddemåling fra. Du kan slå det til igen ved at indtaste kommandoen neden for eller ved at ændre nøglen <1>Swarm.DisableBandwidthMetrics</1> til <3>false</3> for <5>Indstillinger</5>. Dernæst, er du nød til at genstarte IPFS baggrunds-processen for at ændringerne træder i kraft."
+}

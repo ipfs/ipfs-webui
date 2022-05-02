@@ -1,0 +1,15 @@
+{
+  "short_name": "IPFS WebUI",
+  "name": "IPFS Web UI",
+  "icons": [
+     {
+      "src": "ipfs-logo-512-ice.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#0b3a53",
+  "background_color": "#0b3a53"
+}

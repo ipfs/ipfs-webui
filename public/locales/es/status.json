@@ -1,0 +1,47 @@
+{
+  "title": "Estado",
+  "nodeInfo": "Información del nodo",
+  "spaceUsed": "Espacio usado",
+  "networkTraffic": "Tráfico de red",
+  "bandwidthOverTime": "ancho de banda en el tiempo",
+  "bandwidthByPeer": "Ancho de banda por par",
+  "distributionOfPeers": "Distribución de pares",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peers)}}",
+  "countMore": "...y {count} más",
+  "StatusConnected": {
+    "repoSize": "Hosting {repoSize} of data",
+    "peersCount": "{peersCount, plural, one {Discovered 1 peer} other {Discovered {peersCount} peers}}"
+  },
+  "customApiConfig": "Custom JSON configuration",
+  "AskToEnable": {
+    "label": "Ayude a mejorar esta aplicación enviando datos de uso anónimos."
+  },
+  "tour": {
+    "step1": {
+      "title": "Página de estado",
+      "paragraph1": "Este es el punto de partida de su nodo IPFS y donde puede consultar su información básica.",
+      "paragraph2": "Haga clic en \"Siguiente\" para obtener más información."
+    },
+    "step2": {
+      "title": "Estado de conexión",
+      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the IPFS API, the icon will turn red.",
+      "paragraph2": "If you need to configure a custom API address for your node, just click the \"Edit\" link next to where the API address is listed on this page."
+    },
+    "step3": {
+      "title": "Información del nodo",
+      "paragraph1": "Aquí tiene información sobre el tamaño de su repositorio, cuántos pares están conectados, su ID de par y el sabor de IPFS que está actualmente en uso.",
+      "paragraph2": "<0>Expand the <1>Advanced</1> link to see more info, such as the gateway URL and addresses. There's also a link inside the Advanced section to change your API address.</0>"
+    },
+    "step4": {
+      "title": "Ancho de banda de red/tráfico",
+      "paragraph1": "Este gráfico muestra el uso del ancho de banda de la red a lo largo del tiempo.",
+      "paragraph2": "Los velocímetros muestran el tráfico actual entrante y saliente."
+    },
+    "stepExplore": {
+      "title": "Explorar",
+      "paragraph": "Pegue un CID y explore los archivos contenidos detrás del CID o vea cómo esos datos están estructurados y vinculados entre protocolos."
+    }
+  },
+  "bandwidthStats": "Estadísticas de ancho de banda",
+  "bandwidthStatsDisabled": "Tiene deshabilitadas las métricas de ancho de banda. Puede habilitarlos escribiendo el siguiente comando o cambiando la clave <1>Swarm.DisableBandwidthMetrics</1> a <3>falso</3> en <5>Configuraciones</5>. Luego, debe reiniciar el demonio IPFS para aplicar los cambios."
+}

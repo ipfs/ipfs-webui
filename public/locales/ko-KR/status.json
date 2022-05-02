@@ -1,0 +1,41 @@
+{
+  "title": "상태",
+  "peer": "피어",
+  "peers": "피어들",
+  "addresses": "주소들",
+  "nodeInfo": "노드 정보",
+  "peerId": "피어 아이디",
+  "gateway": "게이트웨이",
+  "api": "API",
+  "version": "버전",
+  "advanced": "고급설정",
+  "publicKey": "공개키",
+  "upSpeed": "나가는",
+  "downSpeed": "들어오는",
+  "spaceUsed": "사용된 저장용량",
+  "networkTraffic": "네트워크 트래픽",
+  "bandwidthOverTime": "대역폭이 사용된 시간",
+  "bandwidthByPeer": "피어의 대역폭",
+  "distributionOfPeers": "피어들의 분산",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peers)}}",
+  "rateIn": "들어온 비율",
+  "rateOut": "나간 비율",
+  "totalIn": "총 들어온 양",
+  "totalOut": "총 나간 양",
+  "more": "…그리고 {count} 더",
+  "in": "들어옴",
+  "out": "나감",
+  "codeLink": "코드 보기",
+  "bugsLink": "버그 신고",
+  "revision": "개정",
+  "StatusConnected": {
+    "header1": "Connected to IPFS",
+    "paragraph1": "Hosting <0>{repoSize} of files</0>",
+    "paragraph2": "{count, plural, one {Discovered <0>1 peer</0>} other {Discovered <0>{peersCount} peers</0>}}"
+  },
+  "StatusNotConnected": {
+    "header1": "Failed to connect to the API",
+    "paragraph1": "<0>Start an IPFS daemon in a terminal:</0>",
+    "paragraph2": "<0>For more info on how to get started with IPFS you can <1>read the guide</1>.</0>"
+  }
+}

@@ -1,0 +1,66 @@
+.fileImportStatus {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.fileImportStatusButton {
+  min-height: 27px;
+  max-height: 3rem;
+  padding: 5px 14px;
+}
+
+.fileImportStatusButton .fileImportStatusArrow {
+    transition: transform 0.2s ease-in-out;
+}
+
+.fileImportStatusButton[aria-expanded="false"] .fileImportStatusArrow {
+    transform: rotate(180deg) translateY(-2px);
+}
+
+.fileImportStatusArrow {
+    margin-left: auto;
+    width: 1.5rem;
+}
+
+.fileImportStatusCancel {
+    width: 2rem;
+    margin-left: 0.5rem;
+    margin-right: -1.2rem;
+}
+
+.fileImportStatusRow {
+    /* height: 153px; */
+    max-height: 350px;
+    overflow: auto;
+
+    transition: height 0.2s ease-in-out;
+}
+
+.fileImportStatusRow[aria-hidden="true"] {
+    height: 0
+}
+
+.fileImportStatusIcon {
+    width: 36px;
+}
+
+.fileLoadingIndicator {
+    height: 4px;
+    overflow: hidden;
+}
+
+.fileLoadingIndicatorBar {
+    width: 25%;
+    height: 100%;
+    animation: fileLoadingIndicatorBar 2s ease-in-out infinite;
+}
+
+@keyframes fileLoadingIndicatorBar {
+    0% { transform: translateX(-100%) }
+    99.9% { transform: translateX(450%) }
+    100% { transform: translateX(-100%) }
+}
+
+.fileImportStatusName {
+    flex: 1 1;
+}

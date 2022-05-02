@@ -1,0 +1,92 @@
+{
+  "title": "Archivos",
+  "home": "Inicio",
+  "breadcrumbs": "Migas de Pan",
+  "finished": "Finalizado!",
+  "totalSize": "Tamaño total: {size}",
+  "filesSelected": "{count, plural, one {Archivos seleccionados} other {Archivos seleccionados}}",
+  "menuOptions": "Options for selected item",
+  "selectedAllEntries": "Select all table entries",
+  "individualFilesOnly": "Solo disponible para archivos individuales",
+  "noPDFSupport": "Su navegador no admite archivos PDF. Por favor descargue el PDF para verlo:",
+  "downloadPDF": "Descargar PDF",
+  "downloadInstead": "Intenta <1>descargarlo</1>",
+  "cantBePreviewed": "Lo sentimos, este archivo no se puede previsualizar",
+  "addByPath": "De IPFS",
+  "newFolder": "Nueva carpeta",
+  "generating": "Generando…",
+  "actions": {
+    "copyHash": "Copiar CID",
+    "share": "Compartir enlace"
+  },
+  "shareModal": {
+    "title": "Compartir archivos",
+    "description": "Copia el enlace de abajo y compártelo con tus amigos."
+  },
+  "renameModal": {
+    "titleFile": "Renombrar archivo",
+    "titleFolder": "Renombrar carpeta",
+    "descriptionFile": "Elija un nuevo nombre para este archivo.",
+    "descriptionFolder": "Elija un nuevo nombre para esta carpeta."
+  },
+  "removeModal": {
+    "titleItem": "{count, plural, one {Delete item} other {Delete {count} items}}",
+    "titleFolder": "{count, plural, one {Delete folder} other {Delete {count} folders}}",
+    "titleFile": "{count, plural, one {Delete file} other {Delete {count} files}}",
+    "descriptionItem": "{count, plural, one {Are you sure you want to delete this item? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} items? This action is permanent and cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, one {Are you sure you want to delete this folder? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} folders? This action is permanent and cannot be reversed.}}",
+    "descriptionFile": "{count, plural, one {Are you sure you want to delete this file? This action is permanent and cannot be reversed.} other {Are you sure you want to delete these {count} files? This action is permanent and cannot be reversed.}}"
+  },
+  "addByPathModal": {
+    "title": "Importar desde IPFS",
+    "description": "Inserte una ruta IPFS (CID) para importar.",
+    "examples": "Ejemplos:"
+  },
+  "newFolderModal": {
+    "title": "Nueva carpeta",
+    "description": "Inserte el nombre de la carpeta que desea crear."
+  },
+  "filesListLabel": "Lista de archivos",
+  "filesList": {
+    "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
+    "importing": "{count, plural, one {Importing 1 item} other {Importing {count} items}}",
+    "toggleDropdown": "Alternar menú desplegable",
+    "closeDropdown": "Cerrar menú desplegable",
+    "count": "{count} de {count}"
+  },
+  "addFilesInfo": "<0>No files here yet! Add files to your local IPFS node by clicking the <1>Import</1> button above.</0>",
+  "companionInfo": "<0>Como estas usando <1>IPFS Companion</1>, la vista de archivos está limitada a los archivos agregados mientras se usa la extensión.</0>",
+  "tour": {
+    "step1": {
+      "title": "Página de archivos",
+      "paragraph1": "<0>Aquí es donde los archivos en su <1>Mutable File System (MFS)</1> en vivo. Puede agregar archivos o carpetas y administrarlos desde esta página.</0>",
+      "paragraph2": "Haga clic en \"Siguiente\" para obtener más información."
+    },
+    "step2": {
+      "title": "Migas de Pan",
+      "paragraph1": "El directorio de trabajo actual, puede navegar a través de la jerarquía de carpetas haciendo clic en ellos."
+    },
+    "step3": {
+      "title": "Agregar archivos",
+      "paragraph1": "Aquí puede ver cuántos bloques y archivos ha anclado.",
+      "paragraph2": "Puede agregar archivos o carpetas a su repositorio a través del menú desplegable a la derecha.",
+      "paragraph3": "<0>Si desea agregar algo que ya está en IPFS, puede importarlo a su MFS pasando su <1>Identificador de Contenido (CID)</1>.</0>"
+    },
+    "step5": {
+      "title": "Lista de archivos",
+      "paragraph1": "Finalmente, el listado donde puede encontrar sus archivos y carpetas. Arrastre y suelte archivos o carpetas para agregarlos.",
+      "paragraph2": "Puede compartir o descargar archivos, inspeccionarlos en el Explorador de IPLD, cambiarles el nombre o eliminarlos.",
+      "paragraph3": "Consejo profesional: arrastre y suelte un archivo desde cualquier otra página de la interfaz de usuario web para agregarlos a la raíz de su MFS."
+    }
+  },
+  "previousFolder": "Go back to previous folder",
+  "fileLabel": "Select {type} {name} with size: {size}",
+  "hashUnavailable": "hash no disponible",
+  "checkboxLabel": "View more options for {name}",
+  "pinned": "Sujeto",
+  "cidNotFileNorDir": "El enlace actual no es un archivo ni un directorio. Intenta <0>examinarlo</0> en su lugar.",
+  "sortBy": "Sort items by {name}"
+}

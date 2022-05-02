@@ -1,0 +1,31 @@
+{
+  "title": "Velkommen til IPFS",
+  "configureApiPort": {
+    "header": "Er dit API sat til anden port end 5001?",
+    "paragraph1": "<0>If your IPFS node is configured with a <1>custom API address</1>, please set it here.</0>"
+  },
+  "apiAddressForm": {
+    "apiLabel": "API ADRESSE",
+    "submitButton": "Benyt"
+  },
+  "connected": {
+    "header": "Forbundet til IPFS",
+    "paragraph1": "<0>Now, it’s time for you to explore your node. Head to <1>Files page</1> to manage and share your files, or explore the <3>Merkle Forest</3> of peer-hosted hash-linked data via <5>IPLD explorer</5>.</0>",
+    "paragraph2": "<0>Du kan altid vende tilbage til denne adresse ved at ændre hvilken IPFS klient du er forbundet til.</0>"
+  },
+  "notConnected": {
+    "header": "Kører din IPFS baggrunds-process?",
+    "paragraph1": "<0>Mislykkedes med at forbinde til API'et.</0>",
+    "paragraph2": "<0>Sørg for at du <1>konfigurerer dit IPFS API</1> til at tillade cross-origin (CORS) forespørgsler, som afvikler kommandoerne nedenfor:</0>",
+    "paragraph3": "<0>Kør en IPFS-baggrundsprocess fra en terminal:</0>",
+    "paragraph4": "<0>For mere info om at komme i gang med IPFS, kan du <1>læse guiden</1>.</0>"
+  },
+  "aboutIpfs": {
+    "header": "Hvad er IPFS?",
+    "paragraph1": "<0><0>IPFS er en protokol</0> som definerer et indholds-adresseret filsystem, koordinerer indholdslevering og kombinerer idéerne fra Kademlia, Bitorrent, Git mm.</0>",
+    "paragraph2": "<0><0>IPFS er et filsystem.</0> Det har biblioteker og filer og et monterbart filsystem ved hjælp af FUSE.</0>",
+    "paragraph3": "<0><0>IPFS is a web.</0> Files are accessible via HTTP gateways like <2>https://ipfs.io</2>. Browsers <4>can be extended</4> to use the <6>ipfs://</6> scheme directly, and hash-addressed content guarantees authenticity.</0>",
+    "paragraph4": "<0><0>IPFS er P2P.</0> Det understøtter verdensomspændende klient-til-klient overførsler med en decentral arkitektur og uden central single point of failure.</0>",
+    "paragraph5": "<0><0>IPFS is a CDN.</0> Add a file to your local repository, and it's now available to the world with cache-friendly content-hash addressing and BitTorrent-like bandwidth distribution.</0>"
+  }
+}

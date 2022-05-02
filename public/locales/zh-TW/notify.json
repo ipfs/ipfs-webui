@@ -1,0 +1,28 @@
+{
+  "ipfsApiRequestFailed": "無法連線。請檢查你的 IPFS 守護程式是否正在執行。",
+  "windowIpfsRequestFailed": "IPFS 請求失敗，請檢查您的 IPFS Companion 設置。",
+  "ipfsInvalidApiAddress": "提供的 IPFS API 地址無效",
+  "ipfsConnectSuccess": "已成功連接到 IPFS API 地址",
+  "ipfsConnectFail": "無法連接到提供的 IPFS API 地址",
+  "ipfsPinFail": "無法錨釘。請重新嘗試，或者查看瀏覽器控制台來獲得更多資訊。",
+  "ipfsIsBack": "IPFS 服務已恢復正常！",
+  "folderExists": "已有同名項目了，請更換另一個。",
+  "filesFetchFailed": "下載這些文件失敗，請檢查路徑並再試一次。",
+  "filesRenameFailed": "重新命名失敗。請重新再試一次。",
+  "filesMakeDirFailed": "建立路徑失敗。請重新再試一次。",
+  "filesCopyFailed": "複製檔案失敗。請重新再試一次。",
+  "filesRemoveFailed": "移除檔案失敗。請重新再試一次。",
+  "filesAddFailed": "新增檔案到 IPFS 失敗。請重新再試一次。",
+  "filesEventFailed": "您的請求執行失敗。請重新再試一次。",
+  "couldntConnectToPeer": "無法連結到指定的節點。",
+  "connectedToPeer": "成功連結到指定的節點。",
+  "experimentsErrors": {
+    "npmOnIpfs": "我們無法更改您的作業系統。請手動重新安裝或移除 \"ipfs-npm' 套件。"
+  },
+  "desktopToggleErrors": {
+    "autoLaunch": "無法啟用開機時自動啟動程式。",
+    "ipfsOnPath": "無法啟用 IPFS 指令列工具。",
+    "downloadHashShortcut": "無法啟用下載 hash 快捷鍵。",
+    "screenshotShortcut": "無法啟用螢幕截圖快捷鍵。"
+  }
+}

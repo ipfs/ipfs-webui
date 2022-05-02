@@ -1,0 +1,101 @@
+{
+  "actions": {
+    "add": "Aggiungi",
+    "apply": "Applica",
+    "browse": "Esplora",
+    "cancel": "Annulla",
+    "change": "Cambia",
+    "clear": "Svuota",
+    "close": "Chiudi",
+    "copy": "Copia",
+    "create": "Crea",
+    "remove": "Rimuovi",
+    "download": "Scarica",
+    "edit": "Modifica",
+    "import": "Importa",
+    "inspect": "Ispeziona",
+    "more": "Altro",
+    "moreInfo": "Ulteriori informazioni",
+    "noThanks": "No, grazie",
+    "ok": "OK",
+    "pinVerb": "Fissa",
+    "rename": "Rinomina",
+    "reset": "Ripristina",
+    "save": "Salva",
+    "saving": "Salvataggio in corso...",
+    "selectAll": "Seleziona tutto",
+    "setPinning": "Imposta pinning",
+    "submit": "Applica",
+    "unpin": "Sblocca",
+    "unselectAll": "Deseleziona tutto"
+  },
+  "cliModal": {
+    "description": "Incolla ciò che segue nel tuo terminale per avviare questa funzione in IPFS tramite la riga di comando. Ricorda che devi sostituire i segnaposto con i parametri specifici."
+  },
+  "nav": {
+    "bugsLink": "Segnala un problema",
+    "codeLink": "Guarda il codice",
+    "revision": "Revisiona"
+  },
+  "status": {
+    "connectedToIpfs": "Connesso ad IPFS",
+    "connectingToIpfs": "Connessione ad IPFS...",
+    "couldNotConnect": "Connessione all'API IPFS fallita"
+  },
+  "apiAddressForm": {
+    "placeholder": "Inserisci un URL (http://127.0.0.1:5001) o un Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+  },
+  "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://dweb.link)"
+  },
+  "terms": {
+    "address": "Indirizzo",
+    "addresses": "Indirizzi",
+    "advanced": "Avanzate",
+    "agent": "Agent",
+    "api": "API",
+    "apiAddress": "Indirizzo API",
+    "blocks": "Blocchi",
+    "connection": "Connessione",
+    "downSpeed": "In entrata",
+    "example": "Esempio:",
+    "file": "File",
+    "files": "File",
+    "folder": "Cartella",
+    "folders": "Cartelle",
+    "gateway": "Gateway",
+    "in": "Entrata",
+    "latency": "Latenza",
+    "loading": "Caricamento",
+    "location": "Luogo",
+    "name": "Nome",
+    "node": "Nodo",
+    "out": "Uscita",
+    "peer": "Peer",
+    "peerId": "Peer ID",
+    "peers": "Peer",
+    "pinNoun": "Fisso",
+    "pins": "Fissi",
+    "pinStatus": "Stato Pin",
+    "publicKey": "Chiave pubblica",
+    "publicGateway": "Public Gateway",
+    "rateIn": "Tasso d'entrata",
+    "rateOut": "Tasso d'uscita",
+    "repo": "Repo",
+    "size": "Dimensione",
+    "totalIn": "Totale entrata",
+    "totalOut": "Totale uscita",
+    "unknown": "Sconosciuto",
+    "ui": "UI",
+    "upSpeed": "In uscita"
+  },
+  "tour": {
+    "back": "Indietro",
+    "close": "Chiudi",
+    "finish": "Fine",
+    "next": "Avanti",
+    "skip": "Salta",
+    "tooltip": "Clicca su questo bottone in qualunque momento per un tour guidato nella pagina corrente."
+  },
+  "startTourHelper": "Inizia tour"
+}

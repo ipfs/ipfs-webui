@@ -1,0 +1,49 @@
+{
+  "title": "Status",
+  "nodeInfo": "Node info",
+  "info": "Info",
+  "active": "Active",
+  "spaceUsed": "Space used",
+  "networkTraffic": "Network traffic",
+  "bandwidthOverTime": "Bandwidth over time",
+  "bandwidthByPeer": "Bandwidth by peer",
+  "distributionOfPeers": "Distribution of peers",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peers)}}",
+  "countMore": "...and {count} more",
+  "StatusConnected": {
+    "repoSize": "Hosting {repoSize} of data",
+    "peersCount": "{peersCount, plural, one {Discovered 1 peer} other {Discovered {peersCount} peers}}"
+  },
+  "customApiConfig": "Custom JSON configuration",
+  "AskToEnable": {
+    "label": "Help improve this app by sending anonymous usage data."
+  },
+  "tour": {
+    "step1": {
+      "title": "Status page",
+      "paragraph1": "This is the starting point of your IPFS node and where you can check its basic info.",
+      "paragraph2": "Click \"Next\" to learn more."
+    },
+    "step2": {
+      "title": "Connection status",
+      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the IPFS API, the icon will turn red.",
+      "paragraph2": "If you need to configure a custom API address for your node, just click the \"Edit\" link next to where the API address is listed on this page."
+    },
+    "step3": {
+      "title": "Node info",
+      "paragraph1": "Here you have information about the size of your repo, how many peers are connected, your peer ID and the IPFS flavour that's currently in use.",
+      "paragraph2": "<0>Expand the <1>Advanced</1> link to see more info, such as the gateway URL and addresses. There's also a link inside the Advanced section to change your API address.</0>"
+    },
+    "step4": {
+      "title": "Network bandwidth/traffic",
+      "paragraph1": "This chart shows the network bandwidth usage over time.",
+      "paragraph2": "The speedometers show the current outgoing and incoming traffic."
+    },
+    "stepExplore": {
+      "title": "Explore",
+      "paragraph": "Paste a CID and explore the files contained behind the CID or see how that data is structured and linked across protocols."
+    }
+  },
+  "bandwidthStats": "Bandwidth stats",
+  "bandwidthStatsDisabled": "You have the bandwidth metrics disabled. You can enable them by typing the command bellow or changing the key <1>Swarm.DisableBandwidthMetrics</1> to <3>false</3> on <5>Settings</5>. Then, you need to restart the IPFS daemon to apply the changes."
+}

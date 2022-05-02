@@ -1,0 +1,13 @@
+.pinningManagerServiceModalContainer .white::placeholder {
+    color: #fff;
+}
+
+
+.pinning-service-list-item{
+  background-color: #fff2;
+  border: 1px solid #fff4;
+  height: 38px;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 20px;
+}

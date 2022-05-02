@@ -1,0 +1,18 @@
+.Checkbox > span:first-of-type {
+  background-color: transparent;
+  border-radius: 5px;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.Checkbox > input {
+  display: none;
+}
+
+.Checkbox input:checked + span svg {
+  opacity: 1;
+}
+
+.Checkbox > input:disabled + span {
+  cursor: not-allowed;
+  opacity: 1;
+}

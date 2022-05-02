@@ -1,0 +1,28 @@
+{
+  "ipfsApiRequestFailed": "Verbindung fehlgeschlagen. Bitte überprüfe, ob dein Daemon läuft.",
+  "windowIpfsRequestFailed": "IPFS-Anfrage fehlgeschlagen. Bitte überprüfe Deine IPFS Companion-Einstellungen.",
+  "ipfsInvalidApiAddress": "Die angegebene IPFS-API-Adresse ist ungültig.",
+  "ipfsConnectSuccess": "Erfolgreich mit der IPFS-API-Adresse verbunden",
+  "ipfsConnectFail": "Es kann keine Verbindung zur angegebenen IPFS-API-Adresse hergestellt werden",
+  "ipfsPinFail": "Anheften kann nicht eingestellt werden. Versuche es erneut oder sieh' Dir die Browserkonsole für mehr Informationen an.",
+  "ipfsIsBack": "Der normale IPFS-Dienst wurde fortgesetzt. Viel Spaß!",
+  "folderExists": "Ein Element mit diesem Namen ist bereits vorhanden. Bitte wähle einen anderen.",
+  "filesFetchFailed": "Fehler beim Abrufen dieser Dateien. Bitte überprüfe den Pfad und versuche es erneut.",
+  "filesRenameFailed": "Fehler beim Umbenennen der Dateien. Bitte versuche es erneut.",
+  "filesMakeDirFailed": "Verzeichnis konnte nicht erstellt werden. Bitte versuche es erneut.",
+  "filesCopyFailed": "Fehler beim Kopieren der Dateien. Bitte versuche es erneut.",
+  "filesRemoveFailed": "Fehler beim Entfernen der Dateien. Bitte versuche es erneut.",
+  "filesAddFailed": "Fehler beim Hinzufügen von Dateien zu IPFS. Bitte versuche es erneut.",
+  "filesEventFailed": "Fehler beim Verarbeiten Deiner Anfrage. Bitte versuche es erneut.",
+  "couldntConnectToPeer": "Es konnte keine Verbindung zum angegebenen Peer hergestellt werden.",
+  "connectedToPeer": "Erfolgreich mit dem angegebenen Peer verbunden.",
+  "experimentsErrors": {
+    "npmOnIpfs": "Wir konnten keine Änderungen an Deinem System vornehmen. Bitte installiere oder deinstalliere das Paket 'ipfs-npm' manuell."
+  },
+  "desktopToggleErrors": {
+    "autoLaunch": "Automatisch starten konnte nicht umgeschaltet werden.",
+    "ipfsOnPath": "IPFS-Kommandozeilenwerkzeuge konnten nicht umgeschaltet werden.",
+    "downloadHashShortcut": "Download-Hash-Tastaturkürzel konnte nicht umgeschaltet werden.",
+    "screenshotShortcut": "Screenshot-Tastaturkürzel konnte nicht umgeschaltet werden."
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "title": "Configuración",
+  "language": "Idioma",
+  "analytics": "Analítica",
+  "cliTutorMode": "CLI Tutor Mode",
+  "config": "Config. IPFS",
+  "languageModal": {
+    "title": "Cambiar idioma",
+    "description": "Elige tu idioma preferido.",
+    "translationProjectIntro": "¡Agregue o mejore las traducciones y haga que IPFS sea mejor para todos!",
+    "translationProjectLink": "Únase al Proyecto de Traducción de IPFS"
+  },
+  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
+  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
+  "fetchingSettings": "Recuperando ajustes...",
+  "configApiNotAvailable": "La API de configuración de IPFS no está disponible. Desactive la Extensión Web \"IPFS Companion\" e inténtelo de nuevo.",
+  "ipfsDaemonOffline": "El demonio IPFS está fuera de línea. Enciéndalo e intente nuevamente.",
+  "settingsUnavailable": "Configuración no disponible. Por favor, compruebe que su servicio IPFS se está ejecutando.",
+  "settingsHaveChanged": "La configuración ha cambiado; haga clic en <1>Restablecer</1>  para actualizar el contenido del editor. ",
+  "errorOccured": "Se produjo un error al guardar sus cambios",
+  "checkConsole": "Compruebe la consola del navegador para más información.",
+  "changesSaved": "Se han guardado los cambios.",
+  "settingsWillBeUsedNextTime": "La nueva configuración se utilizará la próxima vez que reinicie el servicio de IPFS.",
+  "ipfsConfigDescription": "El archivo de configuración de IPFS es un documento JSON. Se lee una vez cuando se inicia el demonio IPFS. Guarde sus cambios, luego reinicie el demonio IPFS para aplicarlos.",
+  "ipfsConfigHelp": "Consulte la documentación para más información.",
+  "AnalyticsToggle": {
+    "label": "Ayude a mejorar esta aplicación enviando datos de uso anónimos",
+    "summary": "Configurar lo que se recopila",
+    "paragraph1": "No se recopilan CID, nombres de archivo u otra información personal. Queremos que las métricas nos muestren qué características son útiles para ayudarnos a priorizar en qué trabajar a continuación, y la información de configuración del sistema para guiar nuestras pruebas.",
+    "paragraph2": "Protocol Labs aloja una instancia de <1>Countly</1> para registrar datos de uso anónimos para esta aplicación.",
+    "basicInfo": "La siguiente información adicional se envía a countly.ipfs.io",
+    "optionalInfo": "Puede optar por enviar la siguiente información:",
+    "sessions": {
+      "label": "Sesiones",
+      "summary": "Cuándo y cuánto tiempo usa la aplicación y las métricas del navegador",
+      "details": "<0>Se envían las siguientes métricas del navegador:</0><1><0>ID de dispositivo generado al azar</0><1>Marca de tiempo cuando comienza la sesión</1><2>Marcas de tiempo periódicas para rastrear la duración</2><3>Version de aplicacion; p.ej. 2.4.4</3><4>Local; p.ej. en-GB</4><5>Agente de usuario; p.ej. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>Resolución de la pantalla; p.ej. 800 × 600</6><7>Densidad de píxeles de la pantalla; p.ej. 1</7></1>"
+    },
+    "events": {
+      "label": "Eventos",
+      "summary": "acciones como la adición o eliminación de archivos, y el tiempo que tomó",
+      "details": "Acciones específicas de la aplicación. Solo registramos que la acción sucedió, cuánto tiempo tomó de principio a fin y un recuento si el evento involucró múltiples elementos."
+    },
+    "views": {
+      "label": "Vistas de página",
+      "summary": "Qué secciones de la aplicación visitas",
+      "details": "Registra qué secciones de las aplicaciones se visitan. Las rutas registradas solo incluyen el patrón utilizado para coincidir con la ruta en lugar de la url completa."
+    },
+    "location": {
+      "label": "Ubicación",
+      "summary": "Código de país de la dirección IP (la dirección IP se descarta)",
+      "details": "Su dirección IP se utiliza para calcular un código de país para su ubicación, como \"FR\" para Francia. Cuando no se da el consentimiento para rastrear la ubicación, se envía una propiedad de ubicación vacía con todas las solicitudes para indicar al servidor que desactive la búsqueda de ubicación. Esta información ayuda a guiar nuestro esfuerzo de traducción y determinar dónde debemos organizar los eventos."
+    },
+    "crashes": {
+      "label": "Errores de la aplicación",
+      "summary": "Mensajes de error de JavaScript y seguimientos de pila",
+      "details": "Registra los mensajes de error de JavaScript y los rastros de la pila que ocurren mientras se usa la aplicación, donde sea posible. Es muy útil saber cuándo la aplicación no funciona para usted, pero  <1>los mensajes de error pueden incluir información</1> como CID o rutas de archivos, por lo que solo habilítelo si se siente cómodo compartiendo esa información con nosotros."
+    }
+  },
+  "cliToggle": {
+    "label": "Enable command-line interface (CLI) tutor mode"
+  },
+  "tour": {
+    "step1": {
+      "title": "Página de configuración",
+      "paragraph1": "Aquí puede cambiar la configuración de su interfaz de usuario web y nodo IPFS.",
+      "paragraph2": "Si está ejecutando IPFS Desktop, también tendrá algunas configuraciones específicas."
+    },
+    "step2": {
+      "title": "Selector de idioma",
+      "paragraph1": "<0>Puede cambiar el idioma de la interfaz de usuario web. Si su idioma preferido no está disponible, diríjase a nuestra página de proyecto en <1>Transifex</1> para ayudarnos a traducir!</0>"
+    },
+    "step3": {
+      "title": "Análisis de uso anónimo",
+      "paragraph1": "Si opta por participar, puede ayudarnos a mejorar la interfaz de usuario Web enviando análisis de uso anónimos.",
+      "paragraph2": "Puede elegir qué datos nos envía y no podremos identificarlo, valoramos la privacidad por encima de todo."
+    },
+    "step4": {
+      "title": "Custom API address",
+      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    },
+    "step5": {
+      "title": "Config. IPFS",
+      "paragraph1": "¡Puede cambiar la configuración de su nodo IPFS directamente desde la interfaz de usuario Web!",
+      "paragraph2": "No olvides reiniciar el demonio para aplicar los cambios."
+    }
+  },
+  "Experiments": {
+    "description": "Aquí puede obtener una vista previa temprana de las nuevas características de IPFS habilitando las opciones a continuación. Estamos probando estas ideas y es posible que aún no sean perfectas, por lo que nos encantaría escuchar sus comentarios.",
+    "issueUrl": "Abrir un problema",
+    "feedbackUrl": "💌Deja un comentario",
+    "readMoreUrl": "Lee mas"
+  }
+}

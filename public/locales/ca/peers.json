@@ -1,0 +1,27 @@
+{
+  "title": "Peers",
+  "localNetwork": "Xarxa Local",
+  "nearby": " a prop",
+  "protocols": "Open streams",
+  "addConnection": "Afegir connexió",
+  "insertPeerAddress": "Inserta l'adreça del peer amb la que et vols connectar.",
+  "plusPeers": "+ {number} peers",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
+  "copyFeedback": "Copiat!",
+  "tour": {
+    "step1": {
+      "title": "Pàgina dels peers",
+      "paragraph1": "Aquí és on pots veure els peers a on estàs connectat i els països on son.",
+      "paragraph2": "Clica \"següent\" per aprendre'n més."
+    },
+    "step2": {
+      "title": "Mapa de Peers",
+      "paragraph1": "Una representació visual d'on del món són els peers als que estàs connectat."
+    },
+    "step3": {
+      "title": "Taula de Peers",
+      "paragraph1": "Comprova la identitat dels peers connectats, la seva adreça i la seva localització aproximada."
+    }
+  }
+}

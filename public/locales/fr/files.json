@@ -1,0 +1,115 @@
+{
+  "title": "Fichiers",
+  "home": "Accueil",
+  "breadcrumbs": "Fils d'Ariane",
+  "finished": "Terminé !",
+  "totalSize": "Taille totale: {size}",
+  "filesSelected": "{count, plural, one {Élément sélectionné} other {Éléments sélectionnés}}",
+  "menuOptions": "Options pour l'élément sélectionné ",
+  "selectedAllEntries": "Tout sélectionner",
+  "individualFilesOnly": "Disponible uniquement pour les fichiers individuels",
+  "noPDFSupport": "Votre navigateur ne prend pas en charge les PDF. Merci de télécharger le PDF pour le visualiser :",
+  "downloadPDF": "Télécharger un PDF",
+  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
+  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
+  "cantBePreviewed": "Désolé, ce fichier ne peut pas être prévisualisé",
+  "addByPath": "Depuis IPFS",
+  "newFolder": "Nouveau répertoire",
+  "generating": "Génération...",
+  "actions": {
+    "copyHash": "Copier le CID",
+    "share": "Partager"
+  },
+  "cliModal": {
+    "extraNotesPinning": "Cette commande est seulement pour l'épinglage/désépinglage local. Si vous voulez utiliser un service d'épinglage distant, consultez la documentation de ce service pour apprendre comment épingler/désépingler depuis la ligne de commande."
+  },
+  "shareModal": {
+    "title": "Partager des fichiers",
+    "description": "Copiez le lien ci-dessous et partagez-le avec vos amis."
+  },
+  "renameModal": {
+    "titleFile": "Renommer le fichier",
+    "titleFolder": "Renommer le dossier",
+    "descriptionFile": "Choisir un nouveau nom pour ce fichier.",
+    "descriptionFolder": "Choisir un nouveau nom pour ce dossier."
+  },
+  "removeModal": {
+    "titleItem": "{count, plural, one {Supprimer l'élément {name} ?} other {Supprimer {count} éléments ?}}",
+    "titleFolder": "{count, plural, one {Supprimer le dossier {name} ?} other {Supprimer {count} dossiers ?}}",
+    "titleFile": "{count, plural, one {Supprimer le fichier {name} ?} other {Supprimer {count} fichiers ?}}",
+    "descriptionItem": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer cet élément ? Il n'apparaîtra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} éléments ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
+    "descriptionFolder": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer ce dossier ? Il n'apparaitra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} dossiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
+    "descriptionFile": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer ce fichier? Il n'apparaitra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} fichiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
+    "checkboxRemoveLocalPin": "Aussi supprimer l'épinglage local (recommandé)",
+    "checkboxUnpinFromServices": "Désépingler de tous les services d'épinglage"
+  },
+  "pinningModal": {
+    "title": "Choisissez où vous vouler épingler ces éléments. ",
+    "footer": "Besoin d'ajouter ou de configurer un service d'épinglage? Allez aux <1>Paramètres</1>.",
+    "localNode": "Nœud local",
+    "totalSize": "Taille totale: {size}"
+  },
+  "addByPathModal": {
+    "title": "Importer depuis IPFS",
+    "description": "Entrez un chemin IPFS (CID) pour l'importer.",
+    "examples": "Exemples :"
+  },
+  "newFolderModal": {
+    "title": "Nouveau dossier",
+    "description": "Insérer le nom du dossier que vous voulez créer."
+  },
+  "filesListLabel": "Liste des fichiers",
+  "filesList": {
+    "noFiles": "<0>Pas de fichiers dans ce dossier. Cliquez sur le boutton \"Importer\" pour en ajouter.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {1 élément importé} other {{count} éléments importés}}",
+    "importing": "{count, plural, one {Import de 1 élément} other {Import de {count} éléments}}",
+    "toggleDropdown": "Dérouler la liste",
+    "closeDropdown": "Fermer la liste",
+    "count": "{count} sur {count}"
+  },
+  "addFilesInfo": "<0>Aucun fichier ici pour l'instant ! Ajoutez-en à votre nœud IPFS local en cliquant sur le bouton <1>Importer</1> ci-dessus.</0>",
+  "companionInfo": "<0>Comme vous utilisez <1>IPFS Companion</1>, la liste des fichiers est limitée aux fichiers ajoutés lors de l'utilisation de l'extension.</0>",
+  "tour": {
+    "step1": {
+      "title": "Page des fichiers",
+      "paragraph1": "<0>Cest ici que les fichiers de votre <1> Mutable File System (MFS) </1> se trouvent. Vous pouvez ajouter des fichiers ou des dossiers et les gérer sur cette page.</0>",
+      "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
+    },
+    "step2": {
+      "title": "Fils d'Ariane",
+      "paragraph1": "Ce fil d'Ariane montre le chemin vers votre dossier courant. Vous pouvez...",
+      "bullet1": "Cliquer sur une étape du fil d'Ariane pour aller vers ce dossier",
+      "bullet2": "Faire un clic droit sur un élément du fil d'Ariane pour afficher le menu contextuel des actions pour ce dossier",
+      "bullet3": "Glisser-déposer des fichiers sur une étape du fil d'Ariane pour les déplacer ou les importer."
+    },
+    "step3": {
+      "title": "Ajouter des fichiers",
+      "paragraph1": "Ici vous pouvez voir comment les blocs et les fichiers sont épinglés.",
+      "paragraph2": "Vous pouvez ajouter des fichiers ou des dossiers dans votre dépot en utilisant le menu déroulant sur la droite.",
+      "paragraph3": "<0>Si vous voulez ajouter quelque chose déjà présent sur IPFS, vous pouvez l'importer dans votre MFS en entrant son <1>Identifiant de contenu (CID)</1>.</0>"
+    },
+    "step5": {
+      "title": "Liste des fichiers",
+      "paragraph1": "Finallement, vous pouvez ajouter des fichiers et des dossiers en utilisant le glisser deposer.",
+      "paragraph2": "Vous pouvez partager ou télécharger des fichiers, les inspecter dans l'Explorateur de IPLD, les renommer, ou les supprimer !",
+      "paragraph3": "Astuce : glissez-déposez un fichier n'importe où sur l'interface web pour l'ajouter à la racine de votre MFS."
+    }
+  },
+  "loadMore": "En charger plus",
+  "previousFolder": "Revenir au dossier précédent",
+  "fileLabel": "Sélectionner {type}{name} de taille : {size}",
+  "hashUnavailable": "hash non disponible",
+  "checkboxLabel": "Voir plus d'options pour {name}",
+  "pinned": "Épinglé",
+  "pinnedRemotely": "Épinglé à distance",
+  "blocks": "Blocs",
+  "allBlocks": "Tous les blocs",
+  "allBlocksDescription": "Taille totale des blocs de tout votre nœud IPFS. Cela inclut tout ce qui se trouve dans Fichiers, plus tous les éléments épinglés localement et le cache de données temporaire",
+  "filesDescription": "Taille totale des données dans ce dossier (si c'est un sous-dossier, la taille de tous les données dans Fichiers est aussi affichée)",
+  "more": "Plus",
+  "files": "Fichiers",
+  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
+  "sortBy": "Trier les éléments par {name}"
+}

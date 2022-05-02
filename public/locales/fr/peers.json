@@ -1,0 +1,27 @@
+{
+  "title": "Pairs",
+  "localNetwork": "Réseau Local",
+  "nearby": "à proximité",
+  "protocols": "Flux ouverts",
+  "addConnection": "Ajouter une connexion",
+  "insertPeerAddress": "Indiquer l'adresse du pair auquel vous souhaitez vous connecter.",
+  "plusPeers": "+ {number} pairs supplémentaires",
+  "connectionDirectionInbound": "entrants",
+  "connectionDirectionOutbound": "sortants",
+  "copyFeedback": "Copié !",
+  "tour": {
+    "step1": {
+      "title": "Page des pairs",
+      "paragraph1": "C'est ici que vous pouvez voir les pairs auxquels vous êtes connecté(e) et les pays où ils se trouvent.",
+      "paragraph2": "Cliquez sur \"Suivant\" pour en savoir plus."
+    },
+    "step2": {
+      "title": "Carte des pairs",
+      "paragraph1": "Une visualisation d'où se trouvent dans le monde les pairs auxquels vous êtes connecté(e)."
+    },
+    "step3": {
+      "title": "Tableau des pairs",
+      "paragraph1": "Vérifiez les ID des pairs connectés, leurs adresses et leur emplacement approximatif."
+    }
+  }
+}

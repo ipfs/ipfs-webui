@@ -1,0 +1,12 @@
+{
+  "title": "Klient-forbindelser",
+  "peerId": "Klient ID",
+  "peers": "Klient-forbindelser",
+  "address": "Adresse",
+  "location": "Lokation",
+  "unknownLocation": "Ukendt",
+  "addConnection": "Tilføj forbindelse",
+  "insertPeerAddress": "Indsæt en klient adresse som du ønsker at forbinde til.",
+  "add": "Tilføj",
+  "example": "Eksempel:"
+}

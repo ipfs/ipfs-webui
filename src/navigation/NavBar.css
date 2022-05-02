@@ -1,0 +1,65 @@
+.navbar-item-active {
+  border-bottom: 5px solid rgba(201, 210, 215, 0.4);
+}
+
+@media only screen and (max-height: 40em) {
+  .navbar-footer {
+    display: none;
+  }
+}
+
+#top-bar {
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
+  user-select: none;
+  height: 50px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.btn-toolbox {
+  width: 12px;
+  height: 12px;
+  margin: 0 5px;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.btn-toolbox.btn-toolbox-disabled {
+  background: #b9b9b9;
+  border: 0.5px solid #b9b9b9;
+
+  box-shadow: inset 0px 0px 6px #b9b9b9;
+}
+
+.btn-toolbox-close {
+  background: #ee6a5f;
+  border: 0.5px solid #ce5347;
+
+  box-shadow: inset 0px 0px 6px #ec6d62;
+}
+.btn-toolbox-min {
+  background: #d6a243;
+  border: 0.5px solid #d6a243;
+
+  box-shadow: inset 0px 0px 6px #d6a243;
+}
+.btn-toolbox-max {
+  background: #7dca24;
+  border: 0.5px solid #7dca24;
+
+  box-shadow: inset 0px 0px 6px #7dca24;
+}
+
+#close-button {
+  -webkit-app-region: no-drag;
+}
+
+.retro-h-divider{
+  width: 1px;
+  height: 40px;
+  background-color: #312F62;
+}

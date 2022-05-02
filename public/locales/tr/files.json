@@ -1,0 +1,115 @@
+{
+  "title": "Dosyalar",
+  "home": "Ana Sayfa",
+  "breadcrumbs": "Kırıntılar",
+  "finished": "Bitti!",
+  "totalSize": "Toplam boyut: {size}",
+  "filesSelected": "{count, plural, one {Öge seçildi} other {Ögeler seçildi}}",
+  "menuOptions": "Seçili öğe için seçenekler",
+  "selectedAllEntries": "Tüm tablo girişlerini seçin",
+  "individualFilesOnly": "Yalnızca bireysel dosyalar için kullanılabilir",
+  "noPDFSupport": "Tarayıcınız PDF'leri desteklemiyor. Görüntülemek için lütfen PDF'yi indirin:",
+  "downloadPDF": "PDF İndir",
+  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
+  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
+  "cantBePreviewed": "Maalesef bu dosya önizlenemiyor",
+  "addByPath": "IPFS'den",
+  "newFolder": "Yeni dosya",
+  "generating": "Oluşturuluyor…",
+  "actions": {
+    "copyHash": "CID'yi kopyala",
+    "share": "Linki paylaş"
+  },
+  "cliModal": {
+    "extraNotesPinning": "Bu komut yalnızca yerel sabitleme/sabitlemeyi kaldırma içindir. Bir uzaktan iğneleme hizmeti kullanmak istiyorsanız, komut satırını nasıl sabitleyeceğinizi/sabitlemeyi kaldıracağınızı öğrenmek için o hizmetin belgelerine bakın."
+  },
+  "shareModal": {
+    "title": "Dosyaları paylaş",
+    "description": "Aşağıdaki bağlantıyı kopyalayın ve arkadaşlarınızla paylaşın."
+  },
+  "renameModal": {
+    "titleFile": "Dosyayı yeniden isimlendir",
+    "titleFolder": "Dosyayı yeniden adlandır",
+    "descriptionFile": "Bu dosya için yeni bir isim seçin.",
+    "descriptionFolder": "Bu klasör için yeni bir ad seçin."
+  },
+  "removeModal": {
+    "titleItem": "{count, plural, one {Ögeyi silmek istediğinizden emin misiniz? {name}} other {{count} ögeyi silmek istediğinizden emin misiniz?}}",
+    "titleFolder": "{count, plural, one {Klasörü silmek istediğinizden emin misiniz? {name}} other {{count}klasörü silmek istediğinizden emin misiniz?}}",
+    "titleFile": "{count, plural, one {Dosyayı silmek istediğinizden emin misiniz? {name}} other {{count}dosyayı silmek istediğinizden emin misiniz?}}",
+    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "checkboxRemoveLocalPin": "Yerel sabitlemeyi de kaldır (önerilen)",
+    "checkboxUnpinFromServices": "Tüm sabitleme hizmetlerinden sabitlemeyi kaldır"
+  },
+  "pinningModal": {
+    "title": "Bu öğeleri nereye sabitlemek istediğinizi seçin.",
+    "footer": "Bir sabitleme hizmeti eklemeniz veya yapılandırmanız mı gerekiyor? <1>Ayarlara</1> git.",
+    "localNode": "Yerel düğüm",
+    "totalSize": "Toplam boyut: {size}"
+  },
+  "addByPathModal": {
+    "title": "IPFS'den içe aktar",
+    "description": "İçe aktarmak için bir IPFS yolu (CID) girin.",
+    "examples": "Örnekler:"
+  },
+  "newFolderModal": {
+    "title": "Yeni dosya",
+    "description": "Oluşturmak istediğiniz klasörün adını girin."
+  },
+  "filesListLabel": "Dosyalar listesi",
+  "filesList": {
+    "noFiles": "<0>Bu dizinde dosya yok. Bazılarını eklemek için \"İçe Aktar\" düğmesini tıklayın.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, one {1 öğe içe aktarıldı} other {{count} öğe içe aktarıldı}}",
+    "importing": "{count, plural, one {1 öğe içe aktarılıyor} other {{count} öğe içe aktarılıyor}}",
+    "toggleDropdown": "Açılır menüyü aç / kapat",
+    "closeDropdown": "Açılır menüyü kapat",
+    "count": "{count} / {count}"
+  },
+  "addFilesInfo": "<0>Burada henüz dosya yok! Yukarıdaki <1>İçe Aktar</1> düğmesini tıklayarak yerel IPFS düğümünüze dosya ekleyin.</0>",
+  "companionInfo": "<0><1>IPFS Companion</1>'ı kullandığınız için, dosya görünümü, uzantı kullanılırken eklenen dosyalarla sınırlıdır.</0>",
+  "tour": {
+    "step1": {
+      "title": "Dosyalar sayfası",
+      "paragraph1": "<0>Bu, <1>Değişken Dosya Sisteminizdeki (MFS)</1> dosyaların bulunduğu yerdir. Bu sayfadan dosya veya klasör ekleyebilir ve bunları yönetebilirsiniz.</0>",
+      "paragraph2": "Daha fazla bilgi edinmek için \"İleri\" yi tıklayın."
+    },
+    "step2": {
+      "title": "Kırıntılar",
+      "paragraph1": "Bu kırıntılar, geçerli dizininizin yolunu görüntüler. Yapabilirsin…",
+      "bullet1": "Bu dizine gitmek için tek bir kırıntıyı tıklayın",
+      "bullet2": "Bir dizinin eylemler menüsünü almak için bir kırıntıyı sağ tıklayın",
+      "bullet3": "Dosyaları taşımak veya içe aktarmak için bir kırıntıya sürükleyin"
+    },
+    "step3": {
+      "title": "Dosyaları ekle",
+      "paragraph1": "Burada kaç blok ve dosya sabitlediğinizi görebilirsiniz.",
+      "paragraph2": "Sağdaki açılır menü aracılığıyla deponuza dosya veya klasör ekleyebilirsiniz.",
+      "paragraph3": "<0>Zaten IPFS'de olan bir şey eklemek istiyorsanız, bunu <1>İçerik Tanımlayıcısına (CID)</1> ileterek MFS'nize aktarabilirsiniz.</0>"
+    },
+    "step5": {
+      "title": "Dosyalar listesi",
+      "paragraph1": "Son olarak, dosyalarınızı ve klasörlerinizi bulabileceğiniz liste. Dosyaları veya klasörleri eklemek için sürükleyip bırakın.",
+      "paragraph2": "Dosyaları paylaşabilir veya indirebilir, IPLD Explorer'da inceleyebilir, yeniden adlandırabilir veya silebilirsiniz!",
+      "paragraph3": "Uzman ipucu: MFS'nizin kök dizinine eklemek için Web kullanıcı arayüzünün herhangi bir sayfasından bir dosyayı sürükleyip bırakın."
+    }
+  },
+  "loadMore": "Daha fazla yükle",
+  "previousFolder": "Önceki klasöre dön",
+  "fileLabel": "Şu boyutta {type} {name} seçin: {size}",
+  "hashUnavailable": "özüt kullanılamıyor",
+  "checkboxLabel": "{name} için daha fazla seçenek görüntüleyin",
+  "pinned": "Sabitlendi",
+  "pinnedRemotely": "Uzaktan sabitlendi",
+  "blocks": "Bloklar",
+  "allBlocks": "Tüm bloklar",
+  "allBlocksDescription": "Tüm IPFS düğümünüzdeki toplam blok boyutu; Bu, Dosyalar'daki her şeyin yanı sıra yerel olarak sabitlenmiş tüm öğeleri ve geçici olarak önbelleğe alınmış verileri içerir",
+  "filesDescription": "Geçerli dizindeki toplam veri boyutu (bir alt dizin ise, Dosyalar'daki tüm verilerin boyutu da görüntülenir)",
+  "more": "Daha fazla",
+  "files": "Dosyalar",
+  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
+  "sortBy": "Öğeleri {name}'a göre sırala"
+}

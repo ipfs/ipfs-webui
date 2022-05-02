@@ -1,0 +1,7 @@
+.pinningModalContainer {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(2, auto);
+    justify-content: flex-start;
+}

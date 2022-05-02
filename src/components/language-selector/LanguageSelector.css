@@ -1,0 +1,40 @@
+.transform-none {
+  transform: none;
+  transition: all ease-in-out 0.3s;
+  transform-origin: top center;
+}
+
+.transform-foldingup {
+  transform: rotateX(90deg);
+  transition: all ease-in-out 0.3s;
+  transform-origin: top center;
+  /* height: 0; */
+}
+
+.maxw320 {
+  max-width: 450px;
+}
+
+.hContent {
+  height: fit-content;
+}
+
+.h0 {
+  height: 0;
+}
+
+.lang-button-w{
+  width: 33%;
+}
+
+@media (max-width: 580px) {
+  .lang-button-w{
+    width: 49%;
+  }
+}
+
+@media (max-width: 400px) {
+  .lang-button-w{
+    width: 90%;
+  }
+}

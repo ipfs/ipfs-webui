@@ -1,0 +1,47 @@
+{
+  "title": "Status",
+  "nodeInfo": "Node informationen",
+  "spaceUsed": "Benutzter Speicher",
+  "networkTraffic": "Netzwerkverkehr",
+  "bandwidthOverTime": "Zeitlicher Verlauf der Bandbreite",
+  "bandwidthByPeer": "Bandbreite pro Peer",
+  "distributionOfPeers": "Verteilung der Peers",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peers)}}",
+  "countMore": "...und {count} weitere",
+  "StatusConnected": {
+    "repoSize": "{repoSize} an Daten gehostet",
+    "peersCount": "{peersCount, plural, one {1 Knoten entdeckt} other {{peersCount} Knoten entdeckt}}"
+  },
+  "customApiConfig": "Benutzerdefinierte JSON-Konfiguration",
+  "AskToEnable": {
+    "label": "Helfen Sie uns, die App zu verbessern, indem Sie anonyme Nutzerdaten senden."
+  },
+  "tour": {
+    "step1": {
+      "title": "Status Seite",
+      "paragraph1": "Dies ist der Startpunkt deines IPFS Node, an dem Du die grundlegenden Informationen abrufen kannst.",
+      "paragraph2": "Klicke \"Weiter\", um mehr zu erfahren."
+    },
+    "step2": {
+      "title": "Verbindungs-Status",
+      "paragraph1": "Klicke an beliebiger Stelle in der App dieses Symbol, um wieder zur Statusseite zurückzukehren. Wenn du die Verbindung mit der IPFS-API verlierst, wird das Symbol rot.",
+      "paragraph2": "Wenn du eine benutzerdefinierte API-Adresse für deinen Knoten konfigurieren möchtest, klicke einfach auf \"Bearbeiten\" neben der API-Adresse auf dieser Seite."
+    },
+    "step3": {
+      "title": "Node informationen",
+      "paragraph1": "Hier sind Informationen über die Größe deiner Ablage, mit wie vielen Peers du verbunden bist, deine Peer ID und die IPFS Version, die gerade benutzt wird.",
+      "paragraph2": "<0>Klicke auf <1>Erweitert</1>, um weitere Informationen, wie die Gateway URL und Adressen zu sehen. Es gibt auch einen Link im Abschnitt Erweitert, über den du deine API-Adresse ändern kannst."
+    },
+    "step4": {
+      "title": "Netzwerk-Bandbreite/Verkehr",
+      "paragraph1": "Dieses Diagramm zeigt den Netzwerkverkehr über die Zeit.",
+      "paragraph2": "Die Geschwindigkeitsanzeigen zeigen den aktuellen ausgehenden und eingehenden Netzwerkverkehr."
+    },
+    "stepExplore": {
+      "title": "Erkunden",
+      "paragraph": "Gib eine CID ein und erkunde die Dateien, die sich hinter der CID befinden oder sieh, wie die Daten protokollübergreifend strukturiert und verknüpft sind."
+    }
+  },
+  "bandwidthStats": "Informationen zur Bandbreite",
+  "bandwidthStatsDisabled": "Sie haben Metriken zur Bandbreite deaktiviert. Sie können diese aktivieren, indem Sie den unten angeführten Befehl ausführen oder die Einstellung <1>Swarm.DisableBandwidthMetrics</1> auf <3>false</3> in den <5>Einstellungen</5>ändern. Danach müssen Sie den  IPFS neu starten, um die Änderungen anzuwenden."
+}

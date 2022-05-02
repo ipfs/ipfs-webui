@@ -1,0 +1,59 @@
+[main]
+host = https://www.transifex.com
+lang_map = zh_CN: zh-CN, zh_HK: zh-HK, zh_TW: zh-TW, ko_KR: ko-KR, pt_PT: pt-PT, pt_BR: pt-BR, ja_JP: ja-JP, hi_IN: hi-IN, he_IL: he-IL, fa_IR: fa-IR, bn_IN: bn-IN
+
+[ipfs-webui.app-json]
+file_filter = public/locales/<lang>/app.json
+minimum_perc = 75
+source_file = public/locales/en/app.json
+source_lang = en
+type = KEYVALUEJSON
+
+[ipfs-webui.notify-json]
+file_filter = public/locales/<lang>/notify.json
+minimum_perc = 75
+source_file = public/locales/en/notify.json
+source_lang = en
+type = KEYVALUEJSON
+
+[ipfs-webui.welcome-json]
+file_filter = public/locales/<lang>/welcome.json
+minimum_perc = 75
+source_file = public/locales/en/welcome.json
+source_lang = en
+type = KEYVALUEJSON
+
+[ipfs-webui.files-json]
+file_filter = public/locales/<lang>/files.json
+minimum_perc = 75
+source_file = public/locales/en/files.json
+source_lang = en
+type = KEYVALUEJSON
+
+[ipfs-webui.peers-json]
+file_filter = public/locales/<lang>/peers.json
+minimum_perc = 75
+source_file = public/locales/en/peers.json
+source_lang = en
+type = KEYVALUEJSON
+
+[ipfs-webui.settings-json]
+file_filter = public/locales/<lang>/settings.json
+minimum_perc = 75
+source_file = public/locales/en/settings.json
+source_lang = en
+type = KEYVALUEJSON
+
+[ipfs-webui.status-json]
+file_filter = public/locales/<lang>/status.json
+minimum_perc = 75
+source_file = public/locales/en/status.json
+source_lang = en
+type = KEYVALUEJSON
+
+[ipld-explorer.explore-json]
+file_filter = public/locales/<lang>/explore.json
+minimum_perc = 75
+source_file = public/locales/en/explore.json
+source_lang = en
+type = KEYVALUEJSON

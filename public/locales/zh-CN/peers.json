@@ -1,0 +1,27 @@
+{
+  "title": "节点",
+  "localNetwork": "本地网络",
+  "nearby": "邻近",
+  "protocols": "连接协议",
+  "addConnection": "添加连接",
+  "insertPeerAddress": "请输入你想要连接的对等节点地址。",
+  "plusPeers": "+ {number} 个节点",
+  "connectionDirectionInbound": "入站",
+  "connectionDirectionOutbound": "出站",
+  "copyFeedback": "已复制！",
+  "tour": {
+    "step1": {
+      "title": "节点页面",
+      "paragraph1": "您可以在此处查看您所连接的节点以及他们所在的国家/地区。",
+      "paragraph2": "单击“下一步”了解更多信息。"
+    },
+    "step2": {
+      "title": "节点地图",
+      "paragraph1": "可视化您所连接节点的世界位置分布。"
+    },
+    "step3": {
+      "title": "节点列表",
+      "paragraph1": "查看已连接节点的 ID、地址和大致位置。"
+    }
+  }
+}

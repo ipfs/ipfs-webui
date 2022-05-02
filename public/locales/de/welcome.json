@@ -1,0 +1,38 @@
+{
+  "title": "Willkommen | IPFS",
+  "description": "Startseite",
+  "connected": {
+    "paragraph1": "Willkommen in der Zukunft des Internets! Jetzt bist du ein wertvoller Teil des verteilten Webs."
+  },
+  "notConnected": {
+    "paragraph1": "<0>Lese die Installationsanleitung in der <1>IPFS-Dokumentation</1> oder probiere die folgenden häufigen Lösungen aus:</0>",
+    "paragraph2": "<0>Läuft Dein IPFS-Daemon? Versuche, es vom Terminal aus zu starten oder neu zu starten:</0>",
+    "paragraph3": "<0>Ist Deine IPFS-API so konfiguriert, dass sie <1>Cross-Origin-Anfragen (CORS)</1> zulässt? Wenn nicht, führe diese Befehle aus und starte Deinen Daemon vom Terminal aus:</0>",
+    "paragraph4": "<0>Ist die IPFS-API auf einem anderen Port als 5001? Wenn Dein Knoten mit einer <1>benutzerdefinierten API-Adresse</1> konfiguriert ist, gib diese hier ein.</0>"
+  },
+  "aboutIpfs": {
+    "header": "Was ist IPFS?",
+    "paragraph1": "<0><0>Ein Hypermedia-Verteilungsprotokoll</0>, welches Ideen von Kademlia, BitTorrent, Git und anderen enthält</0>",
+    "paragraph2": "<0><0>Ein Peer-to-Peer-Dateiübertragungsnetzwerk</0> mit einer vollständig dezentralen Architektur und ohne zentralen Punkt für Fehler, Zensur oder Kontrolle</0>",
+    "paragraph3": "<0><0>Ein Einstieg in das Web von morgen</0> — herkömmliche Browser können über Gateways wie <2>https://ipfs.io</2> oder direkt über die <4>IPFS Companion</4> Browser-Erweiterung auf IPFS-Dateien zugreifen</0>",
+    "paragraph4": "<0><0>Ein CDN der nächsten Generation</0> — füge einfach eine Datei zu Deinem Knoten hinzu, um sie der Welt mit cachefreundlicher Inhalts-Hash-Adressierung und Bandbreitenverteilung im BitTorrent-Stil zur Verfügung zu stellen</0>",
+    "paragraph5": "<0><0>Ein Entwickler-Werkzeug</0> zum Erstellen <2>vollständig verteilter Apps und Dienste</2>, das von einer robusten Open-Source-Community unterstützt wird</0>"
+  },
+  "welcomeInfo": {
+    "header": "In dieser App kannst du …",
+    "paragraph1": "<0><0>Überprüfe deinen Knotenstatus</0>, einschließlich der Anzahl der Peers, mit denen du verbunden bist, deine Speicher- und Bandbreitenstatistik und mehr</0>",
+    "paragraph2": "<0><0>Anzeigen und Verwalten</0> von Dateien in deinem IPFS-Repo, einschließlich Import von Dateien per Drag & Drop, einfachem Anpinnen sowie schnelles Teilen und Herunterladen</0>",
+    "paragraph3": "<0><0>Besuche den \"Merkle-Wald\"</0> mit einigen Beispieldatensätzen und erkunde IPLD, das Datenmodell, welches die Grundlage der Funktionsweise von IPFS darstellt</0>",
+    "paragraph4": "<0><0>Schau dir an, wer mit deinem Knoten verbunden ist</0>, mit Position auf einer Weltkarte über deren IP Adresse</0>",
+    "paragraph5": "<0><0>Überprüfe oder bearbeite deine Knoteneinstellungen</0> — keine Kommandozeile nötig</0>",
+    "paragraph6": "<0><0>Schau dir den den Quellcode dieser App an</0>, um <2>einen Fehler zu melden</2> oder etwas anderes beizutragen und verbessere IPFS für alle!</0>"
+  },
+  "tour": {
+    "step1": {
+      "title": "Startseite",
+      "paragraph1": "Diese Seite zeigt dir an, ob du mit IPFS verbunden bist und schlägt dir Ideen vor, mit Dingen, die du in dieser App tun kannst.",
+      "paragraph2": "Wenn Du nicht mit der IPFS-API verbunden bist, wird diese Seite mit Hinweisen zum Herstellen der Verbindung anstelle einiger anderer Seiten angezeigt.",
+      "paragraph3": "Du kannst diese Seite von überall in der App aus besuchen, indem Du auf das IPFS-Würfel-Logo in der Navigationsleiste klickst."
+    }
+  }
+}
