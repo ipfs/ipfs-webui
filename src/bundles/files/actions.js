@@ -1,5 +1,3 @@
-/* eslint-disable generator-star-spacing */
-/* eslint-disable yield-star-spacing */
 /* eslint-disable require-yield */
 
 import { join, dirname, basename } from 'path'
@@ -125,9 +123,9 @@ const stat = async (ipfs, cidOrPath) => {
  * @param {IPFSService} ipfs
  * @returns {AsyncIterable<Pin>}
  */
-const getRawPins = async function* (ipfs) {
-  yield* ipfs.pin.ls({ type: 'recursive' })
-  yield* ipfs.pin.ls({ type: 'direct' })
+const getRawPins = async function * (ipfs) {
+  yield * ipfs.pin.ls({ type: 'recursive' })
+  yield * ipfs.pin.ls({ type: 'direct' })
 }
 
 /**
@@ -140,7 +138,7 @@ const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
  * @param {IPFSService} ipfs
  * @returns {AsyncIterable<FileStat>}
  */
-const getPins = async function* (ipfs) {
+const getPins = async function * (ipfs) {
   for await (const cid of getPinCIDs(ipfs)) {
     const info = await stat(ipfs, cid)
     yield fileFromStats({ ...info, pinned: true }, '/pins')
@@ -192,55 +190,10 @@ const actions = () => ({
     const isConnected = store.selectIpfsConnected()
     const isFetching = store.selectFilesIsFetching()
     const info = store.selectFilesPathInfo()
-
-    console.log('doFilesFetch selectFilesPathInfo : ', { info, isReady, isConnected, isFetching })
     if (isReady && isConnected && !isFetching && info) {
       await store.doFetch(info)
     }
   },
-
-  // doSyncFilesFetch: (syncPath) => async ({ ipfs, store }) => {
-  //   // const isReady = store.selectIpfsReady()
-  //   // const isConnected = store.selectIpfsConnected()
-  //   // const isFetching = store.selectFilesIsFetching()
-  //   // const info = store.selectFilesPathInfo()
-  //   const info = infoFromPath(syncPath)
-  //   console.log('info: at doSyncFileFetch: ', info)
-  //   const { realPath } = info
-  //   try {
-  //     const resolvedPath = realPath?.startsWith('/ipns')
-  //       ? await last(ipfs.name.resolve(realPath))
-  //       : realPath
-  //     // console.log('resolvePath : ', resolvedPath)
-  //     const stats = await stat(ipfs, resolvedPath)
-
-  //     // console.log('doSyncFilesFetch:: doSyncFilesFetch : ', { info, isReady, isConnected, isFetching })
-  //     console.log('doSyncFilesFetch:: doSyncFilesFetch : ', { info, stats })
-
-  //     // console.log('checking condition : ', isReady && isConnected && !isFetching && info, { isReady, isConnected, isFetching, info })
-  //     // if (isReady && isConnected && info) {
-  //     if (info) {
-  //       try {
-  //         // const res = await dirStats(ipfs, stats.cid, {
-  //         //   path,
-  //         //   isRoot,
-  //         //   sorting: store.selectFilesSorting()
-  //         // })
-
-  //         console.log('doSyncFilesFetch : result : dirStats > ')
-  //         return 'this is result without checkingdirstats'
-  //       } catch (ex) {
-  //         console.log('doSyncFilesFetch:dirStats exception ::>> ', ex)
-  //         return null
-  //       }
-  //     }
-  //     console.log('doSyncFilesFetch result is TRUE: ')
-  //     return true
-  //   } catch (ex) {
-  //     console.log('Sync local path is invalid : ex - 1:', ex)
-  //     return undefined
-  //   }
-  // },
 
   /**
    * Fetches conten for the currently selected path. And updates
@@ -308,7 +261,7 @@ const actions = () => ({
    * @param {FileStream[]} source
    * @param {string} root
    */
-  doFilesWrite: (source, root) => spawn(ACTIONS.WRITE, async function* (ipfs, { store }) {
+  doFilesWrite: (source, root) => spawn(ACTIONS.WRITE, async function * (ipfs, { store }) {
     const files = source
       // Skip ignored files
       .filter($ => !IGNORED_FILES.includes(basename($.path)))
@@ -386,10 +339,8 @@ const actions = () => ({
    * @param {boolean} args.removeRemotely
    * @param {string[]} args.remoteServices
    */
-  doFilesDelete: ({ files, removeLocally, removeRemotely, remoteServices }, notEnsureMFS = false) => perform(ACTIONS.DELETE, async (ipfs, { store }) => {
-    if (!notEnsureMFS) {
-      ensureMFS(store)
-    }
+  doFilesDelete: ({ files, removeLocally, removeRemotely, remoteServices }) => perform(ACTIONS.DELETE, async (ipfs, { store }) => {
+    ensureMFS(store)
 
     if (files.length === 0) return undefined
 
@@ -399,7 +350,7 @@ const actions = () => ({
      * same file) to crash webui, nor want to bother user with false-negatives
      * @param {Function} fn
      */
-    const tryAsync = async fn => { try { await fn() } catch (_) { } }
+    const tryAsync = async fn => { try { await fn() } catch (_) {} }
 
     try {
       // try removing from MFS first
@@ -525,12 +476,9 @@ const actions = () => ({
    * triggers `doFilesFetch` to update the state.
    * @param {string} path
    */
-  doFilesMakeDir: (path, noCheckEnsureMFS = false) => perform(ACTIONS.MAKE_DIR, async (ipfs, { store }) => {
-    if (!noCheckEnsureMFS) {
-      ensureMFS(store)
-    }
+  doFilesMakeDir: (path) => perform(ACTIONS.MAKE_DIR, async (ipfs, { store }) => {
+    ensureMFS(store)
 
-    // alert('new mkdir path at ipfs: ' + path)
     try {
       await ipfs.files.mkdir(realMfsPath(path), {
         parents: true

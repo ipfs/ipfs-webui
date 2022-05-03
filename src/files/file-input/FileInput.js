@@ -76,7 +76,6 @@ class FileInput extends React.Component {
           <AddButton active={this.state.dropdown} onClick={this.toggleDropdown} />
           <DropdownMenu
             top={-10}
-            width={160}
             open={this.state.dropdown}
             onDismiss={this.toggleDropdown} >
             <Option onClick={this.onAddFile} id='add-file' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.ADD_FILE)}

@@ -8,15 +8,15 @@ import CLITutorIcon from '../../icons/retro/CLITutorIcon'
 
 export const Option = ({ children, onClick, className = '', isCliTutorModeEnabled, onCliTutorMode, ...props }) => (
   isCliTutorModeEnabled
-    ? <div className='flex items-center justify-between spacegrotesk'>
-      <button role='menuitem' className={`hover-bg-blue white hover-white pa2 pl1 pr0 pointer flex items-center spacegrotesk f7 retro-black flex-grow-1 ${className}`} onClick={onClick} {...props}>
+    ? <div className='flex items-center justify-between w95fa'>
+      <button role='menuitem' className={`hover-bg-blue hover-white pa2 pl1 pr0 pointer flex items-center w95fa f7 retro-black flex-grow-1 ${className}`} onClick={onClick} {...props}>
         {children}
       </button>
-      <button {...props} className={`hover-bg-blue white retro-black hover-white pointer flex items-center ${className}`}>
+      <button {...props} className={`hover-bg-blue retro-black hover-white pointer flex items-center ${className}`}>
         <CLITutorIcon {...props} onClick={() => onCliTutorMode(true)} className='dib  fill-current-color pointer' style={{ height: 24 }}/>
       </button>
     </div>
-    : <button role="menuitem" className={`dropdown-item pa2 pl1 pointer flex items-center  f7 retro-black spacegrotesk ${className}`} onClick={onClick} {...props}>
+    : <button role="menuitem" className={`dropdown-item pa2 pl1 pointer flex items-center w95fa f7 retro-black spacegrotesk ${className}`} onClick={onClick} {...props}>
       {children}
     </button>
 )

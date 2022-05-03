@@ -2,7 +2,6 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { withTranslation, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import ReactJoyride from 'react-joyride'
 import StatusConnected from './StatusConnected'
 import BandwidthStatsDisabled from './BandwidthStatsDisabled'
 import IsNotConnected from '../components/is-not-connected/IsNotConnected'
@@ -11,8 +10,7 @@ import NodeInfoAdvanced from './NodeInfoAdvanced'
 import NodeBandwidthChart from './NodeBandwidthChart'
 import NetworkTraffic from './NetworkTraffic'
 import Box from '../components/box/Box'
-import { statusTour } from '../lib/tours'
-import { getJoyrideLocales } from '../helpers/i8n'
+import { statusTour, TourComponent } from '../lib/tours'
 import withTour from '../components/tour/withTour'
 import StatusConnectedInfo from './StatusConnectedInfo'
 
@@ -20,9 +18,13 @@ const StatusPage = ({
   t,
   ipfsConnected,
   toursEnabled,
+  doEnableTours,
+  doDisableTours,
   handleJoyrideCallback,
   nodeBandwidthEnabled
 }) => {
+  doEnableTours()
+  console.log(toursEnabled)
   return (
     <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
@@ -62,15 +64,11 @@ const StatusPage = ({
           </Box>
           : <BandwidthStatsDisabled />
         }
-        <ReactJoyride
+        <TourComponent
           run={toursEnabled}
           steps={statusTour.getSteps({ t, Trans })}
-          styles={statusTour.styles}
-          callback={handleJoyrideCallback}
-          continuous
-          scrollToFirstStep
-          locale={getJoyrideLocales(t)}
-          showProgress />
+          onLeave={doDisableTours}
+        />
       </div>
     </div>
   )
@@ -81,6 +79,8 @@ export default connect(
   'selectNodeBandwidthEnabled',
   'selectAnalyticsAskToEnable',
   'selectToursEnabled',
+  'doEnableTours',
+  'doDisableTours',
   'doEnableAnalytics',
   'doDisableAnalytics',
   withTour(withTranslation('status')(StatusPage))

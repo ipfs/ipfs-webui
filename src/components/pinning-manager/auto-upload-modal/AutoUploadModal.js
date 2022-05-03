@@ -5,10 +5,8 @@ import { withTranslation } from 'react-i18next'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
-// import RetroButton from '../../common/atoms/RetroButton'
+import RetroButton from '../../common/atoms/RetroButton'
 import RetroText from '../../common/atoms/RetroText'
-import BlueBorderButton from '../../common/atoms/BlueBorderButton'
-import FullGradientButton from '../../common/atoms/FullGradientButton'
 
 const AutoUploadModal = ({ name, service, t, onLeave, doSetAutoUploadForService, className, ...props }) => {
   const onToggle = () => {
@@ -17,22 +15,22 @@ const AutoUploadModal = ({ name, service, t, onLeave, doSetAutoUploadForService,
   }
 
   return (
-    <Modal {...props} className={className + ' generic-modal spacegrotesk'} onCancel={onLeave} style={{ maxWidth: '34em' }}>
-      <ModalBody className='textinputmodal-body white spacegrotesk tc gray pb2' title={t('autoUploadModal.title', { name })}>
-        <div className='pa2 AutoUploadModalContainer spacegrotesk '>{t('autoUploadModal.description')}</div>
+    <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
+      <ModalBody title={t('autoUploadModal.title', { name })}>
+        <div className='pa2 AutoUploadModalContainer w95fa'>{t('autoUploadModal.description')}</div>
       </ModalBody>
 
       <ModalActions justify="around">
-        <BlueBorderButton width='130px' className='ma2 tc' bg='bg-gray' onClick={onLeave}>
-          <RetroText className='white spacegrotesk'>
-            {t('actions.cancel')}
-          </RetroText>
-        </BlueBorderButton>
-        <FullGradientButton width='130px' className='ma2 tc' bg='bg-teal' onClick={onToggle}>
-          <RetroText className='white spacegrotesk'>
+        <RetroButton width='100px' className='ma2 tc' bg='bg-teal' onClick={onToggle}>
+          <RetroText>
             {service.autoUpload ? t('actions.disable') : t('actions.enable')}
           </RetroText>
-        </FullGradientButton>
+        </RetroButton>
+        <RetroButton width='100px' className='ma2 tc' bg='bg-gray' onClick={onLeave}>
+          <RetroText>
+            {t('actions.cancel')}
+          </RetroText>
+        </RetroButton>
       </ModalActions>
     </Modal>
   )

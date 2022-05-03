@@ -100,15 +100,9 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesS
       </div>
 
       <Overlay show={isToggleModalOpen} onLeave={onToggleModalClose}>
-        <AutoUploadModal id='autouploadmodal' className='outline-0 transBottomUp' onLeave={() => {
-          const modalNode = document.getElementById('autouploadmodal')
-          if (modalNode) {
-            modalNode.classList.add('translateY')
-          }
-          setTimeout(() => {
-            onToggleModalClose()
-            doFetchPinningServices()
-          }, 500)
+        <AutoUploadModal className='outline-0' onLeave={() => {
+          onToggleModalClose()
+          doFetchPinningServices()
         }} t={t} name={isToggleModalOpen} service={sortedServices.find(s => s.name === isToggleModalOpen)} />
       </Overlay>
 
@@ -166,25 +160,25 @@ const OptionsCell = ({ doRemovePinningService, name, visitServiceUrl, autoUpload
 
   return (
     <div>
-      <RefButton className="button-inside-focus" border='none' onClick={() => setContextVisibility(true)} ref={buttonRef} aria-label={t('showOptions')}>
+      <RefButton className="button-inside-focus" onClick={() => setContextVisibility(true)} ref={buttonRef} aria-label={t('showOptions')}>
         <OptionsIcon />
       </RefButton>
-      <ContextMenu className="bg-near-purple" style={{ zIndex: 1001 }} visible={isContextVisible}
+      <ContextMenu className="" style={{ zIndex: 1001 }} visible={isContextVisible}
         target={buttonRef} onDismiss={() => setContextVisibility(false)} arrowAlign="right">
         {showAutoUpload && (
           <ContextMenuItem className='' onClick={() => onToggleModalOpen(name)}>
-            <span className="f7 white spacegrotesk">{autoUpload ? t('pinningServices.removeAutoUpload') : t('pinningServices.addAutoUpload')}</span>
+            <span className="f7">{autoUpload ? t('pinningServices.removeAutoUpload') : t('pinningServices.addAutoUpload')}</span>
           </ContextMenuItem>)
         }
         {visitServiceUrl && (
           <a className='link flex items-center' href={visitServiceUrl} target='_blank' rel='noopener noreferrer'>
             <ContextMenuItem className='w-100 black hover-white' onClick={() => setContextVisibility(false)}>
-              <span className="f7 white spacegrotesk">{t('visitService')}</span>
+              <span className="f7">{t('visitService')}</span>
             </ContextMenuItem>
           </a>)
         }
         <ContextMenuItem className='' onClick={handleRemove}>
-          <span className="f7 white spacegrotesk">{t('remove')}</span>
+          <span className="f7">{t('remove')}</span>
         </ContextMenuItem>
       </ContextMenu>
     </div>

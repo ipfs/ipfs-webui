@@ -22,6 +22,7 @@ const DELETE = 'delete'
 const ADD_BY_PATH = 'add_by_path'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
+const TOUR = 'tour'
 
 export {
   NEW_FOLDER,
@@ -30,7 +31,8 @@ export {
   DELETE,
   ADD_BY_PATH,
   CLI_TUTOR_MODE,
-  PINNING
+  PINNING,
+  TOUR
 }
 
 class Modals extends React.Component {

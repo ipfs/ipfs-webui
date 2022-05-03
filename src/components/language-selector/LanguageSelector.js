@@ -64,7 +64,7 @@ class LanguageSelector extends Component {
           <div className={`border-purple white spacegrotesk fs12 mt2 maxw320 ${this.state.hideLangModal ? 'h0' : 'hContent'} ${this.state.isLanguageModalOpen ? ' transform-none' : 'transform-foldingup'}`}>
             <div className='pa2 flex flex-wrap border-gray-purple bg-near-purple'>
               {localesList.map((lang) =>
-                Flags[lang.locale] ? <button
+                <button
                   key={`lang-${lang.locale}`}
                   className='pa2 lang-button-w flex nowrap bg-transparent bn outline-0 spacegrotesk fs12 white justify-start'
                   onClick={() => this.handleClick(lang.locale)}>
@@ -72,7 +72,7 @@ class LanguageSelector extends Component {
                     <img src={Flags[lang.locale]} alt={lang.locale} width={24} height={24} />
                     &nbsp;&nbsp;{lang.nativeName}
                   </div>
-                </button> : null
+                </button>
               )}
             </div>
           </div>

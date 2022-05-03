@@ -3,9 +3,7 @@ import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
-import ReactJoyride from 'react-joyride'
 // Lib
-import { filesTour } from '../lib/tours'
 import downloadFile from './download-file'
 // Components
 import ContextMenu from './context-menu/ContextMenu'
@@ -13,17 +11,17 @@ import withTour from '../components/tour/withTour'
 import InfoBoxes from './info-boxes/InfoBoxes'
 import FilePreview from './file-preview/FilePreview'
 import FilesList from './files-list/FilesList'
-import { getJoyrideLocales } from '../helpers/i8n'
 
 // Icons
 import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING } from './modals/Modals'
 import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 import SubHeader from './header/SubHeader'
+import { filesTour, TourComponent } from '../lib/tours'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesWrite, doFilesAddPath, doUpdateHash,
-  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath,
+  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath, doDisableTours,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
@@ -68,7 +66,6 @@ const FilesPage = ({
     setDownloadAbort(() => abort)
   }
   const onAddFiles = (raw, root = '') => {
-    console.log('onAddFiles : ', { raw, root })
     if (root === '') root = files.path
     try {
       doFilesWrite(raw, root)
@@ -131,9 +128,9 @@ const FilesPage = ({
         : files.path
 
       return (
-        <div className='spacegrotesk white ma3 mt0'>
+        <div className='w95fa white ma3 mt0'>
           <Trans i18nKey='cidNotFileNorDir' t={t}>
-            The current link isn't a file, nor a directory. Try to <button className='link purple pointer pa0' onClick={() => doExploreUserProvidedPath(path)}>inspect</button> it instead.
+            The current link isn't a file, nor a directory. Try to <button className='link blue pointer pa0' onClick={() => doExploreUserProvidedPath(path)}>inspect</button> it instead.
           </Trans>
         </div>
       )
@@ -155,9 +152,7 @@ const FilesPage = ({
         downloadProgress={downloadProgress}
         onShare={(files) => showModal(SHARE, files)}
         onRename={(files) => showModal(RENAME, files)}
-        onRemove={(files) => {
-          showModal(DELETE, files)
-        }}
+        onRemove={(files) => showModal(DELETE, files)}
         onSetPinning={(files) => showModal(PINNING, files)}
         onInspect={onInspect}
         onRemotePinClick={onRemotePinClick}
@@ -226,13 +221,8 @@ const FilesPage = ({
           isOpen={contextMenu.isOpen}
           files={files}
           onAddFiles={onAddFiles}
-          onAddByPath={(files) => {
-            console.log('add by path : ', files)
-            showModal(ADD_BY_PATH, files)
-          }}
-          onNewFolder={(files) => {
-            showModal(NEW_FOLDER, files)
-          }}
+          onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
+          onNewFolder={(files) => showModal(NEW_FOLDER, files)}
           onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
           handleContextMenu={(...args) => handleContextMenu(...args, true)}
         />
@@ -250,17 +240,22 @@ const FilesPage = ({
         done={hideModal}
         root={files ? files.path : null}
         onMove={doFilesMove}
+        onMakeDir={doFilesMakeDir}
         onShareLink={doFilesShareLink}
         onRemove={doFilesDelete}
         onAddByPath={onAddByPath}
         onPinningSet={doSetPinning}
         cliOptions={cliOptions}
-        onMakeDir={doFilesMakeDir}
         {...modals} />
 
       <FileImportStatus />
 
-      <ReactJoyride
+      <TourComponent
+        run={toursEnabled}
+        steps={filesTour.getSteps({ t, Trans })}
+        onLeave={doDisableTours}
+      />
+      {/* <ReactJoyride
         run={toursEnabled}
         steps={filesTour.getSteps({ t, Trans })}
         styles={filesTour.styles}
@@ -268,7 +263,7 @@ const FilesPage = ({
         continuous
         scrollToFirstStep
         locale={getJoyrideLocales(t)}
-        showProgress />
+        showProgress /> */}
     </div>
   )
 }
@@ -281,11 +276,11 @@ export default connect(
   'selectFilesPathInfo',
   'doUpdateHash',
   'doPinsFetch',
+  'doDisableTours',
   'doFetchPinningServices',
   'selectPinningServices',
   'doFetchRemotePins',
   'doFilesFetch',
-  'doSyncFilesFetch',
   'doFilesMove',
   'doFilesMakeDir',
   'doFilesShareLink',

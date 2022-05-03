@@ -106,7 +106,6 @@ const selectors = () => ({
      * @param {string} routeInfo.url
      */
     (routeInfo) => {
-      console.log('routeInfo.url: ', routeInfo.url)
       return infoFromPath(routeInfo.url)
     }
   )

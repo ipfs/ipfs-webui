@@ -82,9 +82,9 @@ export const NavBar = ({ t }) => {
     }
   }
 
-  // const onGreetzClick = async () => {
+  // const onGreetzClick = () => {
   //   if (isElectron() && window.desktopControls) {
-  //     console.log(await window.desktopControls.greetz())
+  //     window.desktopControls.greetz()
   //   }
   // }
 
