@@ -23,25 +23,25 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
   }
 
   return (
-    <Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '30em' }}>
-      <ModalBody Icon={CLITutorIcon}>
-        <p className='w95fa w-80 center' style={{ lineHeight: '1.3' }}>
+    <Modal {...props} className={className + ' generic-modal spacegrotesk'} onCancel={onLeave} style={{ maxWidth: '30em' }}>
+      <ModalBody Icon={CLITutorIcon} className='textinputmodal-body white spacegrotesk tc gray pb2'>
+        <p className='spacegrotesk w-100 white center' style={{ lineHeight: '1.3' }}>
           {t('app:cliModal.description')}
         </p>
-        <p className='w95fa black-60 w-90 center'>
-          { command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('settings:cliModal.extraNotesJsonConfig') : ''}
-          { command && command.startsWith(cliCmdPrefixes.PIN_OBJECT) ? t('files:cliModal.extraNotesPinning') : ''}
+        <p className='spacegrotesk gray w-100 center'>
+          {command && command === cliCommandList[cliCmdKeys.UPDATE_IPFS_CONFIG]() ? t('settings:cliModal.extraNotesJsonConfig') : ''}
+          {command && command.startsWith(cliCmdPrefixes.PIN_OBJECT) ? t('files:cliModal.extraNotesPinning') : ''}
         </p>
         <div>
-          <Shell className='tl mb1' title="Shell">
-            <code className='db w95fa'><span className='no-select w95fa'>$ </span>{command}</code>
+          <Shell className='tl mb2 spacegrotesk' title="Shell">
+            <code className='db spacegrotesk'><span className='no-select spacegrotesk'>$ </span>{command}</code>
           </Shell>
         </div>
       </ModalBody>
 
       <ModalActions>
-        <div className='w-100 flex items-center justify-around'>
-          <RetroGradientButton width='90px' minHeight='28px' height='28px' className='ma2 tc' bg='bg-gray' onClick={onLeave}>
+        <div className='w-100 flex items-center justify-around mt2'>
+          <RetroGradientButton width='120px' minHeight='38px' height='38px' className=' tc' bg='bg-gray' onClick={onLeave}>
             <RetroText className='spacegrotesk white'>
               {t('app:actions.close')}
             </RetroText>
@@ -52,7 +52,7 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
                 ? <DownloadIcon onClick={downloadConfig} className='dib fill-current-color retro-black hover-white hover-bg-blue pointer mh2' style={{ height: 24 }}
                 /> : <div />
             }
-            <FullGradientButton width='90px' minHeight='28px' height='28px' className='tc' onClick={() => onClickCopyToClipboard(command)}>
+            <FullGradientButton width='120px' minHeight='38px' height='38px' className='tc' onClick={() => onClickCopyToClipboard(command)}>
               <RetroText className='spacegrotesk white'>
                 {t('app:actions.copy')}
               </RetroText>
@@ -80,18 +80,45 @@ const CliTutorMode = ({
 
   if (isCliTutorModeEnabled) {
     if (filesPage) {
-      return <CliTutorialModal className='outline-0' onLeave={onLeave} t={t} command={command}/>
+      return <CliTutorialModal
+        id='clitutormodal_files'
+        className='outline-0 transBottomUp'
+        onLeave={() => {
+          const modalNode = document.getElementById('clitutormodal_files')
+          if (modalNode) {
+            modalNode.classList.add('translateY')
+          }
+          setTimeout(() => {
+            onLeave()
+          }, 200)
+        }}
+        t={t}
+        command={command}
+      />
     }
     return (
       <Fragment>
         {
           showIcon
-            ? <CLITutorIcon onClick={() => doOpenCliTutorModal(true)} fill='#8476bb' className={'dib pointer ' + buttonClassName} style={{ height: 44 }}/>
-            : <div/>
+            ? <CLITutorIcon onClick={() => doOpenCliTutorModal(true)} fill='#8476bb' className={'dib pointer ' + buttonClassName} style={{ height: 44 }} />
+            : <div />
         }
         <Overlay show={isCliTutorModalOpen} onLeave={() => doOpenCliTutorModal(false)}>
-          <CliTutorialModal className='outline-0' onLeave={() => doOpenCliTutorModal(false)} t={t} command={command}
-            downloadConfig={() => downloadConfig(config)}/>
+          <CliTutorialModal
+            id='clitutormodal'
+            className='outline-0 transBottomUp'
+            onLeave={() => {
+              const modalNode = document.getElementById('clitutormodal')
+              if (modalNode) {
+                modalNode.classList.add('translateY')
+              }
+              setTimeout(() => {
+                doOpenCliTutorModal(false)
+              }, 500)
+            }}
+            t={t}
+            command={command}
+            downloadConfig={() => downloadConfig(config)} />
         </Overlay>
       </Fragment>
     )

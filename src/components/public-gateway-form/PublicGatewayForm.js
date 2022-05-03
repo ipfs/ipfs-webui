@@ -96,7 +96,7 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
           <BlueGradientButton
             width='100px'
             height='28px'
-            className='mt2 mt0-l ml2-l tc'
+            className=' mt0-l ml2-l tc'
             disabled={!isValidGatewayUrl || value === publicGateway}>
             <RetroText color={!isValidGatewayUrl || value === publicGateway ? 'white' : 'white'}>
               {t('actions.submit')}

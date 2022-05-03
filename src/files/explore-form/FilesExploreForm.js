@@ -47,6 +47,10 @@ class FilesExploreForm extends React.Component {
     }
   }
 
+  onClickBtnBrowse = (evt) => {
+    this.onBrowse(evt)
+  }
+
   onInspect(evt) {
     evt.preventDefault()
 
@@ -69,15 +73,15 @@ class FilesExploreForm extends React.Component {
     return this.path !== '' && (isIPFS.cid(this.path) || isIPFS.path(this.path))
   }
 
-  get inputClass() {
+  get inputBorder() {
     if (this.path === '') {
-      return 'focus-outline'
+      return undefined
     }
 
     if (this.isValid) {
-      return 'b--green-muted focus-outline-green'
+      return '1px solid #8476bb'
     } else {
-      return 'b--red-muted focus-outline-red'
+      return '1px solid #fa5050'
     }
   }
 
@@ -90,10 +94,18 @@ class FilesExploreForm extends React.Component {
             <RetroInput
               leftIcon={<SearchIcon />}
               height='40px'
+              border={this.inputBorder}
               placeholder='QmHash/bafyHash'
               onChange={this.onChange}
               onKeyDown={this.onKeyDown}
-              rightButton={<RetroGradientButton width={'100px'} height='32px'>Browse</RetroGradientButton>}
+              rightButton={
+                <RetroGradientButton
+                  width={'100px'}
+                  height='32px'
+                  onClick={this.onClickBtnBrowse}
+                >
+                  Browse
+                </RetroGradientButton>}
               value={this.state.path} />
             <small id='ipfs-path-desc' className='o-0 absolute f6 black-60 db mb2'>Paste in a CID or IPFS path</small>
           </div>
@@ -103,14 +115,14 @@ class FilesExploreForm extends React.Component {
             <RetroText color={!this.isValid ? '#9C9C9C' : '#000'} textTransform='capitalize'>
               {t('satus:active')}
             </RetroText>
-            <GreenCircleIcon/>
+            <GreenCircleIcon />
           </RetroButton>
           <div className='retro-h-divider' style={{ height: 30, margin: 'auto' }}></div>
           <RetroButton minHeight='28px' border='none' height='40px' style={{ marginLeft: '1px' }} disabled={!this.isValid} onClick={this.onBrowse}>
             <RetroText color={!this.isValid ? '#9C9C9C' : '#000'} textTransform='capitalize'>
               {t('satus:info')}
             </RetroText>
-            <InfoCirleIcon/>
+            <InfoCirleIcon />
           </RetroButton>
         </div>
       </div>

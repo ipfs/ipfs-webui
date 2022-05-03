@@ -53,14 +53,15 @@ const ContextMenu = ({ className, children, target, visible, onDismiss }) => {
       }}>
         <DropdownMenu
           open={ visible }
-          className='w95fa'
+          className='w95fa bg-near-purple'
+          background={'#1d182c44'}
           width='auto'
           arrowHeight={0}
           top={coordinates.height}
           left={-coordinates.width}
           translateX={-coordinates.width}
           onDismiss={onDismiss}>
-          <RetroContainer>
+          <RetroContainer bgColor='#1d182c44' className='backdrop-filter'>
             <div className='flex flex-column' ref={containerRef} role="menu">
               {children}
             </div>

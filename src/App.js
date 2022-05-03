@@ -1,3 +1,4 @@
+/* eslint-disable space-before-function-paren */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
@@ -18,7 +19,9 @@ import Notify from './components/notify/Notify'
 // import Connected from './components/connected/Connected'
 // import TourHelper from './components/tour/TourHelper'
 import FilesExploreForm from './files/explore-form/FilesExploreForm'
-
+import { join } from 'path'
+import { constructFileFromLocalFileData } from 'get-file-object-from-local-path'
+const ipfsSyncedPath = '/files/synced_path'
 export class App extends Component {
   static propTypes = {
     doTryInitIpfs: PropTypes.func.isRequired,
@@ -31,8 +34,76 @@ export class App extends Component {
     isOver: PropTypes.bool.isRequired
   }
 
-  componentDidMount () {
+  initIpcRenderer = () => {
+    const { doFilesMakeDir, doFilesDelete, doFilesWrite } = this.props
+    if (window.ipcRenderer) {
+      try {
+        //* this is needed to sync with local file path surely.
+        doFilesMakeDir(ipfsSyncedPath)
+        window.ipcRenderer.invoke('invoke-path-watch')
+        console.log('ipcRenderer: ', window.ipcRenderer)
+        window.ipcRenderer.receive('synced_local_add_dir', async (...args) => {
+          const resSyncedIPFSPath = await window.ipcRenderer.invoke('invoke-sync-path-fetch')
+          console.log('resSyncedLocalPath : ', resSyncedIPFSPath)
+          const path = args?.[0]
+          if (path) {
+            const subPath = path.toString().replace(resSyncedIPFSPath, '')
+            console.log('sub dir path: ', subPath)
+            doFilesMakeDir(join(ipfsSyncedPath, subPath), true)
+          }
+          console.log('synced_local_add_dir : ', { args })
+        })
+
+        window.ipcRenderer.receive('synced_local_add_file', async (...args) => {
+          console.log('synced_local_add_file : ', { args })
+          const resSyncedIPFSPath = await window.ipcRenderer.invoke('invoke-sync-path-fetch')
+          const fileData = constructFileFromLocalFileData(args?.[1])
+          const subPath = args?.[0].toString().replace(resSyncedIPFSPath, '')
+          const fullPath = join(ipfsSyncedPath, subPath)
+          const subs = fullPath.split('/')
+          const addedAtPath = subs.slice(0, -1).join('/')
+          console.log('constructFileFromLocalFileData : ', { fileData, addedAtPath })
+          doFilesWrite(normalizeFiles([fileData]), addedAtPath)
+        })
+        window.ipcRenderer.receive('synced_local_delete_file', async (...args) => {
+          console.log('synced_local_delete_file : ', { args })
+          const resSyncedIPFSPath = await window.ipcRenderer.invoke('invoke-sync-path-fetch')
+          console.log('resSyncedLocalPath : ', resSyncedIPFSPath)
+          const path = args?.[0]
+          if (path) {
+            const subPath = path.toString().replace(resSyncedIPFSPath, '')
+            console.log('sub dir path: ', subPath)
+            const fullPath = join(ipfsSyncedPath, subPath)
+            doFilesDelete({ files: [{ path: fullPath }] }, true)
+          }
+        })
+        window.ipcRenderer.receive('synced_local_delete_dir', async (...args) => {
+          console.log('synced_local_delete_dir : ', { args })
+          const resSyncedIPFSPath = await window.ipcRenderer.invoke('invoke-sync-path-fetch')
+          const path = args?.[0]
+          if (path) {
+            const subPath = path.toString().replace(resSyncedIPFSPath, '')
+            console.log('sub dir path: ', subPath)
+            doFilesDelete?.({ files: [{ path: join(ipfsSyncedPath, subPath) }] }, true)
+          }
+        })
+        window.ipcRenderer.receive('synced_local_change', (...args) => {
+          console.log('synced_local_change : ', { args })
+        })
+      } catch (ex) {
+        console.log('exception at doFilsMakeDir at first : ', ex)
+      }
+    }
+  }
+
+  componentDidMount() {
     this.props.doTryInitIpfs()
+
+    this.initIpcRenderer()
+    // const { doFilesDelete } = this.props
+    // setTimeout(() => {
+    //   doFilesDelete?.({ files: [{ path: ipfsSyncedPath + '/autodir3455' }] })
+    // }, 3000)
   }
 
   addFiles = async (filesPromise) => {
@@ -54,7 +125,7 @@ export class App extends Component {
     }
   }
 
-  render () {
+  render() {
     const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
@@ -130,6 +201,8 @@ export default connect(
   'doUpdateHash',
   'doTryInitIpfs',
   'doFilesWrite',
+  'doFilesMakeDir',
+  'doFilesDelete',
   'doDisableTooltip',
   'selectFilesPathInfo',
   withTranslation('app')(AppWithDropTarget)

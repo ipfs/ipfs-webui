@@ -50,6 +50,7 @@ class ContextMenu extends React.Component {
       <Dropdown className={className}>
         <DropdownMenu
           ref={this.dropdownMenuRef}
+          width={160}
           top={-20}
           translateX={-translateX}
           translateY={-translateY}

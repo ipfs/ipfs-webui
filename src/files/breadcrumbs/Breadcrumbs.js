@@ -86,7 +86,7 @@ const Breadcrumbs = ({ t, tReady, path, onClick, className, onContextMenuHandle,
       <div className='nowrap overflow-hidden relative flex flex-wrap' ref={anchors}>
         <div className={`absolute left-0 top-0 h-100 w1 ${overflows ? '' : 'dn'}`} style={{ background: 'linear-gradient(to right, #ffffff 0%, transparent 100%)' }} />
 
-        {bread.map((link, index) => (
+        {bread && bread.map((link, index) => (
           <div style={{ textShadow: '0px 4px 5px rgba(0, 0, 0, 0.6)', fontSize: 16 }} className={`${index === 0 ? 'spacegrotesk-bold' : 'spacegrotesk'} white  fw4`} key={`${index}link`}>
             <DropableBreadcrumb index={index} link={link} immutable={isImmutable}
               onAddFiles={onAddFiles} onMove={onMove} onClick={onClick} onContextMenuHandle={onContextMenuHandle} getPathInfo={doGetPathInfo} checkIfPinned={doCheckIfPinned} />
@@ -107,11 +107,14 @@ Breadcrumbs.propTypes = {
 }
 
 function makeBread(root, t, isImmutable, setImmutable) {
-  if (root.endsWith('/')) {
-    root = root.substring(0, root.length - 1)
+  if (!root) {
+    return
+  }
+  if (root?.endsWith('/')) {
+    root = root?.substring(0, root.length - 1)
   }
 
-  const parts = root.split('/').map(part => ({
+  const parts = root?.split('/').map(part => ({
     name: part,
     path: part
   }))

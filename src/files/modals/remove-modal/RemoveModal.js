@@ -43,7 +43,11 @@ const RemoveModal = ({ t, tReady, onCancel, onRemove, files, foldersCount, files
   const handleLocalPinRemoval = () => setShouldRemoveLocalPin(!shouldRemoveLocalPin)
   const handleRemotePinRemoval = () => setShouldRemoveRemotePin(!shouldRemoveRemotePin)
 
-  const handleRemove = () => onRemove({ removeLocally: shouldRemoveLocalPin, removeRemotely: shouldRemoveRemotePin, remoteServices: pinningServices.map(s => s.name) })
+  const handleRemove = () => onRemove({
+    removeLocally: shouldRemoveLocalPin,
+    removeRemotely: shouldRemoveRemotePin,
+    remoteServices: pinningServices.map(s => s.name)
+  })
 
   return (
     <Modal {...props} className={className + ' generic-modal spacegrotesk'} onCancel={onCancel} >

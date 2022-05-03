@@ -1,3 +1,4 @@
+/* eslint-disable space-before-function-paren */
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
@@ -28,7 +29,9 @@ import RetroText from '../components/common/atoms/RetroText'
 import CLITutorIcon from '../icons/retro/CLITutorIcon'
 import BlueBorderButton from '../components/common/atoms/BlueBorderButton'
 import BlueGradientButton from '../components/common/atoms/BlueGradientButton'
+import FullGradientButton from '../components/common/atoms/FullGradientButton'
 
+// const REACT_APP_PLATFORM = process.env.REACT_APP_PLATFORM
 const PAUSE_AFTER_SAVE_MS = 3000
 
 export const SettingsPage = ({
@@ -38,6 +41,26 @@ export const SettingsPage = ({
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
   toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, command
 }) => {
+  const [syncPath, setSyncPath] = React.useState(undefined)
+  React.useEffect(() => {
+    if (window.ipcRenderer) {
+      window.ipcRenderer.invoke('invoke-sync-path-fetch').then(res => {
+        console.log(res)
+        setSyncPath(res?.[0])
+      })
+    }
+  }, [])
+
+  const onClickSyncPath = () => {
+    if (window.ipcRenderer) {
+      window.ipcRenderer.invoke('invoke-select-local-path').then(res => {
+        setSyncPath(res)
+      })
+    } else {
+      alert('Error window.ipcRenderer is not defined.')
+    }
+  }
+
   return (
     <div data-id='SettingsPage' className='mw9 center'>
       <Helmet>
@@ -64,6 +87,18 @@ export const SettingsPage = ({
             <ApiAddressForm style={{ marginRight: '-10px' }} />
           </div>
         </Box>}
+
+      {
+        isIpfsDesktop && <Box className='mb3 pa3 pa2'>
+          <Title>Synced Local Path</Title>
+          <p className='white spacegrotesk fs14'>{syncPath}</p>
+          <FullGradientButton h={'38px'} width='150px' onClick={onClickSyncPath}>
+            <RetroText className='white tc spacegrotesk'>
+              Select
+            </RetroText>
+          </FullGradientButton>
+        </Box>
+      }
 
       <Box className='mb3 pa3 pa2'>
         <div className='lh-copy white'>
@@ -192,7 +227,7 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
       width='100px'
       height='38px'
       minHeight='38px'
-      className='mt2 mt0-l ml2-l tc'
+      className=' mt0-l ml2-l tc'
       bg={bg}
       disabled={!hasLocalChanges || hasErrors}
       danger={hasSaveFailed || hasExternalChanges}
@@ -224,7 +259,7 @@ const SettingsInfo = ({ t, isIpfsConnected, isConfigBlocked, hasExternalChanges,
   } else if (!config) {
     return (
       <p className='ma0 lh-copy spacegrotesk white f6 mw7'>
-        { isLoading ? t('fetchingSettings') : t('settingsUnavailable') }
+        {isLoading ? t('fetchingSettings') : t('settingsUnavailable')}
       </p>
     )
   } else if (hasExternalChanges) {
@@ -293,7 +328,7 @@ export class SettingsPageContainer extends React.Component {
     this.props.doSaveConfig(this.state.editableConfig)
   }
 
-  isValidJson (str) {
+  isValidJson(str) {
     try {
       JSON.parse(str)
       return true
@@ -302,11 +337,11 @@ export class SettingsPageContainer extends React.Component {
     }
   }
 
-  isRecent (msSinceEpoch) {
+  isRecent(msSinceEpoch) {
     return msSinceEpoch > Date.now() - PAUSE_AFTER_SAVE_MS
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.configSaveLastSuccess !== prevProps.configSaveLastSuccess) {
       setTimeout(() => this.onReset(), PAUSE_AFTER_SAVE_MS)
     }
@@ -326,7 +361,7 @@ export class SettingsPageContainer extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const {
       t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving, arePinningServicesSupported,
       configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled,
