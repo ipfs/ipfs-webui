@@ -1,60 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import GlyphCode from '../../icons/GlyphCode'
 import HttpClient from 'ipfs-http-client'
+import ReplInput from './ReplInput'
+import ReplHistory from './ReplHistory'
+import { connect } from 'redux-bundler-react'
 
-export default function Repl () {
+function Repl ({ ipfs }) {
   const [username] = useState('mikiasabera@MacBook-Pro')
   const [client, setClient] = useState(null)
   const [showRepl, setShowRepl] = useState(false)
   const [history, setHistory] = useState([])
   const [historyRef, setHistoryRef] = useState(null)
-  const [inputRef, setInputRef] = useState(null)
-  const [commandHistory, setCommandHistory] = useState([])
-  const [commandHistoryCursor, setCommandHistoryCursor] = useState(0)
   const [commandOptions, setCommandOptions] = useState([])
-  const [input, setInput] = useState('')
-
-  const handleKeyUp = (e) => {
-    // Enter
-    if (e.keyCode === 13) {
-      processCommand(e.target.value)
-      setCommandHistoryCursor(0)
-    }
-
-    // Up
-    if (e.keyCode === 38) {
-      e.preventDefault()
-      if (commandHistory.length > commandHistoryCursor && commandHistoryCursor >= 0) {
-        setCommandHistoryCursor(s => {
-          const newCursor = s + 1
-          setInput(commandHistory[commandHistory.length - 1 - newCursor] || '')
-          return newCursor
-        })
-      }
-
-      setTimeout(() => {
-        console.log({ inputRef })
-        inputRef.focus()
-      }, 0)
-    }
-
-    // Down
-    if (e.keyCode === 40) {
-      e.preventDefault()
-      if (commandHistory.length >= commandHistoryCursor && commandHistoryCursor > 0) {
-        setCommandHistoryCursor(s => {
-          const newCursor = commandHistoryCursor - 1
-          setInput(commandHistory[commandHistory.length - 1 - newCursor] || '')
-          return newCursor
-        })
-      }
-
-      setTimeout(() => {
-        console.log({ inputRef })
-        inputRef.focus()
-      }, 0)
-    }
-  }
 
   useEffect(() => {
     const scrollToBottom = () => {
@@ -68,8 +25,12 @@ export default function Repl () {
   }, [history, historyRef])
 
   useEffect(() => {
+    if (!ipfs || !ipfs.ready || !ipfs.apiAddress) {
+      return
+    }
+
     if (!client) {
-      const c = HttpClient()
+      const c = HttpClient({ url: ipfs.apiAddress })
       if (c) {
         setClient(c)
         setCommandOptions(
@@ -78,15 +39,15 @@ export default function Repl () {
             return {
               ...acc,
               [key]: typeof command === 'function'
-                ? { params: command.length }
-                : { params: 0, commands: Object.keys(command) }
+                ? { type: 'command', params: command.length }
+                : { type: 'object', params: 0, commands: Object.keys(command) }
             }
           }, {})
         )
       }
     }
     console.log({ ls: client?.ls() })
-  }, [])
+  }, [ipfs, client])
 
   /**
    *
@@ -94,8 +55,6 @@ export default function Repl () {
    */
   const processCommand = (command) => {
     setHistory(s => [...s, `${username} % ${command}`])
-    setCommandHistory(s => [...s, command])
-    setInput('')
 
     const [first, second, ...rest] = command.split(' ')
     if (first === 'exit') {
@@ -125,6 +84,10 @@ export default function Repl () {
       return
     }
 
+    if (commandOptions[second].type === 'command') {
+      client[second]()
+    }
+
     console.log({ first, second, rest })
   }
 
@@ -134,25 +97,8 @@ export default function Repl () {
         <div className='w-100 pl4 h5'>
           <label htmlFor="shell-input">
             <div className='h-100 br1 overflow-hidden white bg-black-70 flex flex-column-reverse'>
-              <div className='flex pa2'>
-                {'> '}
-                <input
-                  ref={setInputRef}
-                  id="shell-input"
-                  className='f7 pl2 w-100 mb0 bg-transparent monospace b--none white'
-                  onKeyUp={handleKeyUp}
-                  value={input}
-                  // eslint-disable-next-line jsx-a11y/no-autofocus
-                  autoFocus
-                  onChange={e => setInput(e.target.value)}
-                />
-              </div>
-
-              <div className='snow pa2 f7 h-100 overflow-y-auto' ref={setHistoryRef}>
-                {history.map((line, i) => (
-                  <div key={i}>{line}</div>
-                ))}
-              </div>
+              <ReplInput ready={!!client} handleRunCommand={processCommand} />
+              <ReplHistory history={history} setHistoryRef={setHistoryRef} />
             </div>
           </label>
         </div>
@@ -165,3 +111,5 @@ export default function Repl () {
     </div>
   )
 }
+
+export default connect('selectIpfs', Repl)

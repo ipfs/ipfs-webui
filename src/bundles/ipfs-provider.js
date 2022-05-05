@@ -294,6 +294,10 @@ const selectors = {
   /**
    * @param {State} state
    */
+  selectIpfs: state => state.ipfs,
+  /**
+   * @param {State} state
+   */
   selectIpfsReady: state => state.ipfs.ready,
   /**
    * @param {State} state
