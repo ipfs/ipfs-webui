@@ -46,7 +46,6 @@ function Repl ({ ipfs }) {
         )
       }
     }
-    console.log({ ls: client?.ls() })
   }, [ipfs, client])
 
   const availableCommands = useMemo(() => {
@@ -67,12 +66,10 @@ function Repl ({ ipfs }) {
 
   const parseFunctionString = (string) => {
     // eslint-disable-next-line no-useless-escape
-    const [name, ...args] = string.split(/[\(,\)]/g).slice(0, -1).map(v => v.trim()).filter(x => !!x)
-    if (name) {
-      return { name, args }
-    }
-
-    return { name: string, args: [] }
+    const [fnName, ...args] = string.split(/[\(,\)]/g).slice(0, -1).map(v => v.trim()).filter(x => !!x)
+    const name = fnName || string
+    const command = commandOptions[name]
+    return { name, args, command, calledAs: string }
   }
 
   /**
@@ -103,14 +100,12 @@ function Repl ({ ipfs }) {
     let result = client
 
     for (const c of chain) {
-      const existing = commandOptions[c.name]
-
-      if (!existing) {
+      if (!c.command) {
         setHistory(s => [...s, `command not found: ${command}`])
         return
       }
 
-      if (existing.type === 'function') {
+      if (c.command.type === 'function') {
         try {
           const output = await result[c.name](...c.args)
           setHistory(s => [...s, JSON.stringify(output)])
@@ -121,11 +116,11 @@ function Repl ({ ipfs }) {
         return
       }
 
-      if (existing.type === 'object') {
-        if (c.name.includes('(')) {
-          setHistory(s => [...s, `${c.name} is not a function`])
-          return
-        }
+      console.log({ c })
+      // Incorrectly called as a function
+      if (c.command.type === 'object' && c.calledAs.includes('(')) {
+        setHistory(s => [...s, `${c.name} is not a function`])
+        return
       }
 
       result = result[c.name]
@@ -140,7 +135,7 @@ function Repl ({ ipfs }) {
   }
 
   return (
-    <div className='fixed bottom-0 right-0 relative w-100 pl6 pb5'>
+    <div className='fixed bottom-0 right-0 relative w-100 pl6-ns pb5'>
       {showRepl ? (
         <div className='w-100 pl4 h5'>
           <label htmlFor="shell-input">

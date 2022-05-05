@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
+import CartRightIcon from '../../icons/CartRightIcon'
 
 export default function ReplInput ({ ready, handleRunCommand }) {
   const [input, setInput] = useState('')
@@ -48,13 +49,13 @@ export default function ReplInput ({ ready, handleRunCommand }) {
 
   return (
     <div className='flex pa2 items-center'>
-      {'> '}
+      <CartRightIcon />
       {ready ? (
         <input
           ref={setInputRef}
           id="shell-input"
           style={{ outline: 'none' }}
-          className='f7 pl2 mb0 bg-transparent monospace b--none white b--none '
+          className='f7 pl2 mb0 bg-transparent monospace b--none white b--none w-100'
           onKeyUp={handleKeyUp}
           value={input}
           autoComplete='off'
