@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import PropTypes from 'prop-types'
 
 export default function ReplInput ({ ready, handleRunCommand }) {
   const [input, setInput] = useState('')
@@ -68,4 +69,9 @@ export default function ReplInput ({ ready, handleRunCommand }) {
       )}
     </div>
   )
+}
+
+ReplInput.propTypes = {
+  ready: PropTypes.bool,
+  handleRunCommand: PropTypes.func
 }

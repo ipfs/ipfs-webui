@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import GlyphCode from '../../icons/GlyphCode'
 import HttpClient from 'ipfs-http-client'
 import ReplInput from './ReplInput'
@@ -39,7 +39,7 @@ function Repl ({ ipfs }) {
             return {
               ...acc,
               [key]: typeof command === 'function'
-                ? { type: 'command', params: command.length }
+                ? { type: 'function', params: command.length }
                 : { type: 'object', params: 0, commands: Object.keys(command) }
             }
           }, {})
@@ -49,14 +49,41 @@ function Repl ({ ipfs }) {
     console.log({ ls: client?.ls() })
   }, [ipfs, client])
 
+  const availableCommands = useMemo(() => {
+    if (!commandOptions) {
+      return ''
+    }
+
+    return (
+      <>
+
+        Available Commands
+
+        {Object.keys(commandOptions).map(line => <div key={line} className='pl2'>{line}</div>)}
+
+      </>
+    )
+  }, [commandOptions])
+
+  const parseFunctionString = (string) => {
+    // eslint-disable-next-line no-useless-escape
+    const [name, ...args] = string.split(/[\(,\)]/g).slice(0, -1).map(v => v.trim()).filter(x => !!x)
+    if (name) {
+      return { name, args }
+    }
+
+    return { name: string, args: [] }
+  }
+
   /**
    *
    * @param {*} command
    */
-  const processCommand = (command) => {
+  const processCommand = async (command) => {
     setHistory(s => [...s, `${username} % ${command}`])
 
-    const [first, second, ...rest] = command.split(' ')
+    const [first, ...rest] = command.split('.')
+
     if (first === 'exit') {
       setShowRepl(false)
       return
@@ -67,28 +94,49 @@ function Repl ({ ipfs }) {
       return
     }
 
-    if (!second) {
-      setHistory(s => [...s, <>
-
-        Available Commands
-
-        {Object.keys(commandOptions).map(line => <div key={line} className='pl2'>{line}</div>)}
-
-      </>
-      ])
+    if (command === 'ifps') {
+      setHistory(s => [...s, availableCommands])
       return
     }
 
-    if (!commandOptions[second]) {
-      setHistory(s => [...s, `command not found: ${first} ${second}`])
-      return
+    const chain = rest.map(r => parseFunctionString(r))
+    let result = client
+
+    for (const c of chain) {
+      const existing = commandOptions[c.name]
+
+      if (!existing) {
+        setHistory(s => [...s, `command not found: ${command}`])
+        return
+      }
+
+      if (existing.type === 'function') {
+        try {
+          const output = await result[c.name](...c.args)
+          setHistory(s => [...s, JSON.stringify(output)])
+        } catch (err) {
+          console.log({ err })
+          setHistory(s => [...s, `Error running command: ${err.message}`])
+        }
+        return
+      }
+
+      if (existing.type === 'object') {
+        if (c.name.includes('(')) {
+          setHistory(s => [...s, `${c.name} is not a function`])
+          return
+        }
+      }
+
+      result = result[c.name]
     }
 
-    if (commandOptions[second].type === 'command') {
-      client[second]()
+    const output = result
+    if (JSON.stringify(output) === '{}') {
+      setHistory(s => [...s, JSON.stringify(`Available keys: ${Object.keys(result).join(', ')}`)])
+    } else {
+      setHistory(s => [...s, JSON.stringify(output)])
     }
-
-    console.log({ first, second, rest })
   }
 
   return (

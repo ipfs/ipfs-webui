@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 export default function ReplHistory ({ history, setHistoryRef }) {
   return (
@@ -8,4 +9,9 @@ export default function ReplHistory ({ history, setHistoryRef }) {
       ))}
     </div>
   )
+}
+
+ReplHistory.propTypes = {
+  history: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setHistoryRef: PropTypes.func.isRequired
 }
