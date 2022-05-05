@@ -91,7 +91,7 @@ function Repl ({ ipfs }) {
       return
     }
 
-    if (command === 'ifps') {
+    if (command === 'ipfs') {
       setHistory(s => [...s, availableCommands])
       return
     }
@@ -116,7 +116,6 @@ function Repl ({ ipfs }) {
         return
       }
 
-      console.log({ c })
       // Incorrectly called as a function
       if (c.command.type === 'object' && c.calledAs.includes('(')) {
         setHistory(s => [...s, `${c.name} is not a function`])
