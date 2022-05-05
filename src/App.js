@@ -18,6 +18,7 @@ import Notify from './components/notify/Notify'
 import Connected from './components/connected/Connected'
 import TourHelper from './components/tour/TourHelper'
 import FilesExploreForm from './files/explore-form/FilesExploreForm'
+import Repl from './components/repl/Repl'
 
 export class App extends Component {
   static propTypes = {
@@ -95,6 +96,8 @@ export class App extends Component {
         />
 
         <Notify />
+
+        <Repl />
       </div>
     )
   }
