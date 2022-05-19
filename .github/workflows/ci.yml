@@ -118,6 +118,8 @@ jobs:
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
           name: ipfs-cluster-ctl
+          cache: false
+          version: v1.0.1
       - name: Fix DNS resolver
         run: |
           # fix resolv - DNS provided by Github is unreliable for DNSLik/dnsaddr
