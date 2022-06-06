@@ -20,6 +20,7 @@ import identityBundle from './identity'
 import bundleCache from '../lib/bundle-cache'
 import ipfsDesktop from './ipfs-desktop'
 import repoStats from './repo-stats'
+import bitswapStats from './bitswap-stats'
 import createAnalyticsBundle from './analytics'
 import experimentsBundle from './experiments'
 import cliTutorModeBundle from './cli-tutor-mode'
@@ -51,6 +52,7 @@ export default composeBundles(
   experimentsBundle,
   ipfsDesktop,
   repoStats,
+  bitswapStats,
   cliTutorModeBundle,
   createAnalyticsBundle({})
 )

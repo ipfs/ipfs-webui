@@ -10,6 +10,7 @@
   "countMore": "...and {count} more",
   "StatusConnected": {
     "repoSize": "Hosting {repoSize} of data",
+    "shareSize": "Downloaded {downloadedSize} and Shared {sharedSize} ({ratio})",
     "peersCount": "{peersCount, plural, one {Discovered 1 peer} other {Discovered {peersCount} peers}}"
   },
   "customApiConfig": "Custom JSON configuration",

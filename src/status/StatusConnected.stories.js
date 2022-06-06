@@ -9,5 +9,5 @@ storiesOf('StatusConnected', module)
   .addDecorator(i18n)
   .addDecorator(checkA11y)
   .add('Default', () => (
-    <StatusConnected peersCount={1001} repoSize={123123912321312} />
+    <StatusConnected peersCount={1001} repoSize={123123912321312} downloadSize={123123912321312 / 2} sharedSize={123123912321312 * 2.3333}/>
   ))
