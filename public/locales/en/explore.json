@@ -21,12 +21,17 @@
   "IpldExploreForm": {
     "explore": "Explore"
   },
+  "IpldCarExploreForm": {
+    "imports": "Import",
+    "uploadCarFile": "Upload CAR File"
+  },
   "CidInfo": {
     "header": "CID info",
     "hashDigest": "Hash digest"
   },
   "ObjectInfo": {
-    "gatewayLink": "View on IPFS Gateway"
+    "publicGateway": "View on Public Gateway",
+    "privateGateway": "View on Local Gateway"
   },
   "base": "base",
   "version": "version",
