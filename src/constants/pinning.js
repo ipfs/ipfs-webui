@@ -1,6 +1,9 @@
 // This is a list of predefined templates for popular services from the IPFS
 // community.  We are open to reviewing PRs that add more entries here,
 // but only well-established and mission-aligned services will be accepted.
+
+const complianceReportsHomepage = 'https://ipfs-shipyard.github.io/pinning-service-compliance'
+
 const pinningServiceTemplates = [
   {
     name: 'Pinata',
@@ -11,5 +14,6 @@ const pinningServiceTemplates = [
 ]
 
 export {
+  complianceReportsHomepage,
   pinningServiceTemplates
 }
