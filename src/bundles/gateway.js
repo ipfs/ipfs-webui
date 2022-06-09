@@ -30,7 +30,6 @@ export const checkValidHttpUrl = (value) => {
 }
 
 export const checkViaImgSrc = (gatewayUrl) => {
-
   const url = new URL(gatewayUrl)
   var imgSrcPromises = []
 
