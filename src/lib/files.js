@@ -159,7 +159,7 @@ export async function getCarLink (files, gatewayUrl, ipfs) {
 
   if (files.length === 1) {
     cid = files[0].cid
-    filename = files[0].name
+    filename = encodeURIComponent(files[0].name)
   } else {
     cid = await makeCIDFromFiles(files, ipfs)
   }
