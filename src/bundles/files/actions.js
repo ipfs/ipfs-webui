@@ -1,7 +1,7 @@
 /* eslint-disable require-yield */
 
 import { join, dirname, basename } from 'path'
-import { getDownloadLink, getShareableLink } from '../../lib/files'
+import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files'
 import countDirs from '../../lib/count-dirs'
 import memoize from 'p-memoize'
 import all from 'it-all'
@@ -421,6 +421,15 @@ const actions = () => ({
     const apiUrl = store.selectApiUrl()
     const gatewayUrl = store.selectGatewayUrl()
     return await getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
+  }),
+
+  /**
+   * Creates a download link for the DAG CAR.
+   * @param {FileStat[]} files
+   */
+  doFilesDownloadCarLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async (ipfs, { store }) => {
+    const gatewayUrl = store.selectGatewayUrl()
+    return await getCarLink(files, gatewayUrl, ipfs)
   }),
 
   /**
