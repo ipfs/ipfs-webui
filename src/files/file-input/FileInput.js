@@ -7,6 +7,7 @@ import { normalizeFiles } from '../../lib/files'
 import DocumentIcon from '../../icons/StrokeDocument'
 import FolderIcon from '../../icons/StrokeFolder'
 import NewFolderIcon from '../../icons/StrokeNewFolder'
+import DataIcon from '../../icons/StrokeData'
 import DecentralizationIcon from '../../icons/StrokeDecentralization'
 // Components
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
@@ -50,6 +51,16 @@ class FileInput extends React.Component {
     this.toggleDropdown()
   }
 
+  onAddByCar = () => {
+    this.toggleDropdown()
+    return this.carInput.click()
+  }
+
+  onCarInputChange = (input) => async () => {
+    this.props.onImportCar(normalizeFiles(input.files))
+    input.value = null
+  }
+
   onNewFolder = () => {
     this.props.onNewFolder()
     this.toggleDropdown()
@@ -87,6 +98,11 @@ class FileInput extends React.Component {
               <DecentralizationIcon className='fill-aqua w2 mr1' />
               {t('addByPath')}
             </Option>
+            <Option onClick={this.onAddByCar} id='add-by-car' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_DAG_CAR)}
+              isCliTutorModeEnabled={isCliTutorModeEnabled}>
+              <DataIcon className='fill-aqua w2 mr1' />
+              {t('fromDagCar')}
+            </Option>
             <Option onClick={this.onNewFolder} id='add-new-folder' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.CREATE_NEW_DIRECTORY)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <NewFolderIcon className='fill-aqua w2 h2 mr1' />
@@ -111,6 +127,13 @@ class FileInput extends React.Component {
           webkitdirectory='true'
           ref={el => { this.folderInput = el }}
           onChange={this.onInputChange(this.folderInput)} />
+
+        <input
+          id='car-input'
+          type='file'
+          className='dn'
+          ref={el => { this.carInput = el }}
+          onChange={this.onCarInputChange(this.carInput)} />
       </div>
     )
   }
@@ -120,7 +143,8 @@ FileInput.propTypes = {
   t: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
   onAddByPath: PropTypes.func.isRequired,
-  onNewFolder: PropTypes.func.isRequired
+  onNewFolder: PropTypes.func.isRequired,
+  onImportCar: PropTypes.func.isRequired
 }
 
 export default connect(

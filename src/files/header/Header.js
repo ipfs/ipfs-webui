@@ -78,8 +78,9 @@ class Header extends React.Component {
               { (files && files.type === 'directory' && filesPathInfo.isMfs)
                 ? <FileInput
                   onNewFolder={this.props.onNewFolder}
-                  onAddFiles={this.props.onAddFiles}
                   onAddByPath={this.props.onAddByPath}
+                  onImportCar={this.props.onImportCar}
+                  onAddFiles={this.props.onAddFiles}
                   onCliTutorMode={this.props.onCliTutorMode}
                 />
                 : <div ref={el => { this.dotsWrapper = el }}>
