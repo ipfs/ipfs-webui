@@ -41,7 +41,8 @@
     "apiEndpointPlaceholder": "URL for its API endpoint",
     "secretApiKey": "Secret access token",
     "secretApiKeyHowToLink": "How to generate a new token",
-    "autoUpload": "Auto upload"
+    "autoUpload": "Auto upload",
+    "complianceLabel": "{nickname} pinning compliance report"
   },
   "autoUploadModal": {
     "title": "Change upload policy for {name}",

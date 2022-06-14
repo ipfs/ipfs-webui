@@ -40,7 +40,7 @@ const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service,
       <form onSubmit={handleSubmit(onSubmit)} onChange={cleanErrors}>
         <ModalBody>
           <p>{ t('pinningServiceModal.title') }</p>
-          {complianceReportUrl && (<a className="mb1 tl f7 charcoal-muted no-underline underline-hover" target="_blank" rel="noreferrer" href={complianceReportUrl}>{ nickname } pinning compliance report</a>) }
+          {complianceReportUrl && (<a className="mb1 tl f7 charcoal-muted no-underline underline-hover" target="_blank" rel="noreferrer" href={complianceReportUrl}>{t('pinningServiceModal.complianceLabel', { nickname })}</a>) }
 
           <div className='pa2 pinningManagerServiceModalContainer'>
             { service.icon && service.name && (
