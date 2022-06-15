@@ -45,6 +45,7 @@
   },
   "pinningModal": {
     "title": "Select where you would like to pin these items.",
+    "complianceLabel": "🔍 Check pinning services' compliance",
     "footer": "Need to add or configure a pinning service? Go to <1>Settings</1>.",
     "localNode": "Local node",
     "totalSize": "Total size: {size}"
