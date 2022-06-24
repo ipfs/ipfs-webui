@@ -148,6 +148,26 @@ export async function getShareableLink (files, gatewayUrl, ipfs) {
 }
 
 /**
+ *
+ * @param {FileStat[]} files
+ * @param {string} gatewayUrl
+ * @param {IPFSService} ipfs
+ * @returns {Promise<string>}
+ */
+export async function getCarLink (files, gatewayUrl, ipfs) {
+  let cid, filename
+
+  if (files.length === 1) {
+    cid = files[0].cid
+    filename = encodeURIComponent(files[0].name)
+  } else {
+    cid = await makeCIDFromFiles(files, ipfs)
+  }
+
+  return `${gatewayUrl}/ipfs/${cid}?format=car&filename=${filename || cid}.car`
+}
+
+/**
  * @param {number} size in bytes
  * @param {object} opts format customization
  * @returns {string} human-readable size

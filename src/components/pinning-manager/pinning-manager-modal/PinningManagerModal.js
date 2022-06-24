@@ -46,7 +46,7 @@ const PinningManagerModal = ({ t, tReady, onLeave, className, remoteServiceTempl
       </ModalActions>
 
       <Overlay show={!!selectedService} onLeave={onModalClose} hidden>
-        <PinningServiceModal className='outline-0' service={selectedService} onSuccess={onSuccess} onLeave={onModalClose} nickname={selectedServiceInfo.nickname} apiEndpoint={selectedServiceInfo.apiEndpoint} visitServiceUrl={selectedServiceInfo.visitServiceUrl} t={t} />
+        <PinningServiceModal className='outline-0' service={selectedService} onSuccess={onSuccess} onLeave={onModalClose} nickname={selectedServiceInfo.nickname} apiEndpoint={selectedServiceInfo.apiEndpoint} visitServiceUrl={selectedServiceInfo.visitServiceUrl} complianceReportUrl={selectedServiceInfo.complianceReportUrl} t={t} />
       </Overlay>
     </Modal>
   )
