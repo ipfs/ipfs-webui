@@ -54,7 +54,7 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
     filename = `${name}.tar.gz`
     method = 'POST' // API is POST-only
   } else {
-    url = `${gatewayUrl}/ipfs/${file.cid}`
+    url = `${gatewayUrl}/ipfs/${file.cid}?download=true&filename=${file.name}`
     filename = file.name
     method = 'GET'
   }
