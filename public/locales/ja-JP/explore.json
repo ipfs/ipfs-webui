@@ -21,12 +21,17 @@
   "IpldExploreForm": {
     "explore": "探索"
   },
+  "IpldCarExploreForm": {
+    "imports": "インポート",
+    "uploadCarFile": "Upload CAR File"
+  },
   "CidInfo": {
     "header": "CID情報",
     "hashDigest": "ハッシュダイジェスト"
   },
   "ObjectInfo": {
-    "gatewayLink": "IPFSゲートウェイで表示"
+    "publicGateway": "View on Public Gateway",
+    "privateGateway": "View on Local Gateway"
   },
   "base": "ベース",
   "version": "バージョン",

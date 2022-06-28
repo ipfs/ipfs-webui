@@ -21,12 +21,17 @@
   "IpldExploreForm": {
     "explore": "Обзор"
   },
+  "IpldCarExploreForm": {
+    "imports": "Импорт",
+    "uploadCarFile": "Upload CAR File"
+  },
   "CidInfo": {
     "header": "Инфо о CID",
     "hashDigest": "Справочник хешей"
   },
   "ObjectInfo": {
-    "gatewayLink": "Просмотреть в шлюзе IPFS"
+    "publicGateway": "View on Public Gateway",
+    "privateGateway": "View on Local Gateway"
   },
   "base": "база",
   "version": "версия",

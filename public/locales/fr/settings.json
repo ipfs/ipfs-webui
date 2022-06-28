@@ -6,7 +6,7 @@
   "learnMoreLink": "En savoir plus.",
   "pinningServices": {
     "title": "Services d'épinglage",
-    "description": "Utilisez l'épinglage local quand vous voulez être sûr(e) qu'un élément sur votre nœud n'est jamais supprimé par le ramasse-miettes, même si vous le supprimez de Fichiers. Vous pouvez aussi lier vos comptes à d'autres services d'épinglage pour garder automatiquement ou selectivement une copie chez ces fournisseurs de service, vous permettant d'avoir des copies de vos fichiers et/ou de les rendre disponibles quand votre nœud est hors ligne.",
+    "description": "Utilisez l'épinglage local quand vous voulez être sûr(e) qu'un élément sur votre nœud n'est jamais supprimé par le ramasse-miettes, même si vous le supprimez de Fichiers. Vous pouvez aussi lier vos comptes à d'autres services d'épinglage pour garder automatiquement ou sélectivement une copie chez ces fournisseurs de service, vous permettant de conserver des copies de vos fichiers et/ou de les rendre disponibles quand votre nœud est hors ligne.",
     "noPinRemoteDescription": "Le support pour l'épinglage par des services d'épinglage tiers distants est manquant. Mettez votre nœud IPFS à jour vers go-ipfs 0.8.0 ou plus, et vous serez capable de les ajouter et les configurer ici.",
     "addAutoUpload": "Activer le téléversement automatique",
     "removeAutoUpload": "Désactiver le Téléversement Automatique"
@@ -22,7 +22,7 @@
     "translationProjectLink": "Participez projet de traduction IPFS"
   },
   "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API personnalisée</1>, y compris un port autre que le 5001 par défaut, entrez-la ici.</0>",
-  "publicGatewayDescription": "<0>Choose which <1>public gateway</1> you want to use when generating shareable links.</0>",
+  "publicGatewayDescription": "<0>Choisissez quelle <1>passerelle publique</1> vous voulez utiliser quand vous créez des liens partageables.</0>",
   "cliDescription": "<0>Activez cette option pour faire apparaître une icône \"Voir code\" <1></1> près des principales commandes IPFS. En cliquant dessus, vous ouvrez un pop-up avec le code pour cette commande, pour pouvoir le coller dans votre invite de lignes de commandes (CLI).</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Si vous avez effectué des modifications à la configuration dans cette page d'édition du code que vous voulez conserver, cliquez sur l'icône de téléchargement à côté du bouton de copie pour le télécharger en tant que fichier JSON."
@@ -41,7 +41,8 @@
     "apiEndpointPlaceholder": "URL de son point d'entrée d'API",
     "secretApiKey": "Jeton d'accès secret",
     "secretApiKeyHowToLink": "Comment générer un nouveau jeton",
-    "autoUpload": "Téléverser automatiquement"
+    "autoUpload": "Téléverser automatiquement",
+    "complianceLabel": "🔍 Rapport de conformance du service d'épinglage {nickname}"
   },
   "autoUploadModal": {
     "title": "Changer la politique de téléversement pour {name}",

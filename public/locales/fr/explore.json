@@ -21,12 +21,17 @@
   "IpldExploreForm": {
     "explore": "Explorer"
   },
+  "IpldCarExploreForm": {
+    "imports": "Imports",
+    "uploadCarFile": "Ajouter un fichier CAR"
+  },
   "CidInfo": {
     "header": "Info CID",
     "hashDigest": "Hash"
   },
   "ObjectInfo": {
-    "gatewayLink": "Visualiser sur la passerelle IPFS"
+    "publicGateway": "Voir sur la passerelle publique",
+    "privateGateway": "Voir sur la passerelle locale"
   },
   "base": "base",
   "version": "version",
@@ -50,7 +55,7 @@
       "step3": {
         "title": "Information du pair",
         "paragraph1": "Trouvez ici le détail des informations sur votre nœud et ouvrez-le dans la passerelle IPFS.",
-        "paragraph2": "Si le nœud est un dossier vous pouvez voir les sous-dossiers et naviguer à l'intérieur. "
+        "paragraph2": "Si le nœud est un dossier, vous pouvez voir les sous-dossiers et naviguer à l'intérieur. "
       },
       "step4": {
         "title": "Info CID",

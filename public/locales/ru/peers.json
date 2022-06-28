@@ -2,12 +2,13 @@
   "title": "Пиры",
   "localNetwork": "Локальная сеть",
   "nearby": "рядом",
-  "protocols": "Open streams",
+  "protocols": "Открытые каналы",
   "addConnection": "Добавить подключение",
   "insertPeerAddress": "Добавить адрес пира, к которому вы хотите присоединиться.",
+  "addPermanentPeer": "Добавить в постоянную конфигурацию пиринга",
   "plusPeers": "+{number}коллег больше",
-  "connectionDirectionInbound": "inbound",
-  "connectionDirectionOutbound": "outbound",
+  "connectionDirectionInbound": "входящий",
+  "connectionDirectionOutbound": "исходящий",
   "copyFeedback": "Скопировано!",
   "tour": {
     "step1": {
