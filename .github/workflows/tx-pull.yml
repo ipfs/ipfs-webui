@@ -18,7 +18,7 @@ jobs:
         curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
     - name: Pull translations from Transifex
       run: |
-        tx pull -a
+        tx -t ${{ secrets.TX_TOKEN }} pull -a
 
   pull-request:
     runs-on: ubuntu-latest
