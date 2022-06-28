@@ -1,0 +1,91 @@
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  install-tx-client-and-pull-translations:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache public folder
+      uses: actions/cache@v3
+      with:
+        path: public
+        key: ${{ github.sha }}
+    - name: Install Transifex client
+      run: |
+        curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+    - name: Pull translations from Transifex
+      run: |
+        tx pull -a
+
+  pull-request:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get cached public folder
+      uses: actions/cache@v3
+      with:
+        path: public
+        key: ${{ github.sha }}
+
+    # - name: Setup node
+    #   uses: actions/setup-node@v2
+    #   with:
+    #     node-version: 16.14.x
+    - uses: stefanzweifel/git-auto-commit-action@49620cd3ed21ee620a48530e81dba0d139c9cb80
+      with:
+        # Optional. Commit message for the created commit.
+        # Defaults to "Apply automatic changes"
+        commit_message: "chore: Pull transifex translations"
+
+        # Optional. Local and remote branch name where commit is going to be pushed
+        #  to. Defaults to the current branch.
+        #  You might need to set `create_branch: true` if the branch does not exist.
+        branch: tx-pull-${{ github.sha }}
+
+        # Optional. Options used by `git-commit`.
+        # See https://git-scm.com/docs/git-commit#_options
+        commit_options: '--no-verify --signoff'
+
+        # Optional glob pattern of files which should be added to the commit
+        # Defaults to all (.)
+        # See the `pathspec`-documentation for git
+        # - https://git-scm.com/docs/git-add#Documentation/git-add.txt-ltpathspecgt82308203
+        # - https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefpathspecapathspec
+        file_pattern: public/**/*.json
+
+        # Optional. Local file path to the repository.
+        # Defaults to the root of the repository.
+        repository: .
+
+        # Optional. Options used by `git-add`.
+        # See https://git-scm.com/docs/git-add#_options
+        add_options: '-u'
+
+        # Optional. Disable dirty check and always try to create a commit and push
+        skip_dirty_check: true
+
+        # Optional. Skip internal call to `git fetch`
+        skip_fetch: true
+
+        # Optional. Skip internal call to `git checkout`
+        skip_checkout: true
+
+        # Optional. Prevents the shell from expanding filenames.
+        # Details: https://www.gnu.org/software/bash/manual/html_node/Filename-Expansion.html
+        disable_globbing: true
+
+        # Optional. Create given branch name in local and remote repository.
+        create_branch: true
+    - name: pull-request
+      uses: repo-sync/pull-request@ff8726ae82c9970bde6527e419133aa167297c40
+      with:
+        source_branch: "tx-pull-${{ github.sha }}"
+        destination_branch: "main"
+        pr_title: "chore: Pull transifex translations"
+        pr_body: "Automated PR created by .github/workflows/tx-pull.yml"
+        pr_label: "area/i18n/translations"
+        pr_draft: false
+        pr_allow_empty: false
+        github_token: ${{ secrets.GITHUB_TOKEN }}
