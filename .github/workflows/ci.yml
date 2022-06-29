@@ -23,11 +23,13 @@ jobs:
     needs: build
     uses: ./.github/workflows/test-unit.yml
 
-  publish-preview:
+  publishPreview:
     name: publish preview
     needs: build
     environment: Deploy
     runs-on: ubuntu-latest
+    outputs:
+      cid: ${{ steps.ipfs.outputs.cid }}
     steps:
       - uses: actions/checkout@v2
 
@@ -41,6 +43,16 @@ jobs:
         with:
           name: ipfs-webui_${{ github.sha }}
           path: build
+
+      - name: Cache bigger downloads
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: ${{ github.workspace }}/.cache
+          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
+            ${{ runner.os }}-
 
       # pin the built site to ipfs-websites cluster, output the cid as `steps.ipfs.outputs.cid`
       # see: https://github.com/ipfs-shipyard/ipfs-github-action
@@ -64,6 +76,9 @@ jobs:
 
       - run: echo ${{ steps.ipfs.outputs.cid }}
       - run: echo ${{ github.ref }}
+      - name: Create ipfs-webui.car file
+        run: |
+          ipfs dag export ${{ steps.ipfs.outputs.cid }} > ${{ github.workspace }}/.cache/ipfs-webui@${{ github.sha }}.car
 
       - name: Pin to ipfs-websites.collab.ipfscluster.io
         run: |
