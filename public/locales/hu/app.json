@@ -27,7 +27,8 @@
     "setPinning": "Set pinning",
     "submit": "Beküldés",
     "unpin": "Levesz",
-    "unselectAll": "Minden kijelölést töröl"
+    "unselectAll": "Minden kijelölést töröl",
+    "downloadCar": "Download as CAR"
   },
   "cliModal": {
     "description": "Másold be a következőt a terminálodba, hogy lefusson ez a parancs az IPSF-ben. Figyelj, hogy cseréld ki a paramétereket!"

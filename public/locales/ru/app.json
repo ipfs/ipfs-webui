@@ -27,7 +27,8 @@
     "setPinning": "Установить процесс ",
     "submit": "Применить",
     "unpin": "Открепить",
-    "unselectAll": "Снять выделение"
+    "unselectAll": "Снять выделение",
+    "downloadCar": "Download as CAR"
   },
   "cliModal": {
     "description": "Вставьте следующее в консоль, чтобы выполнить эту задачу в IPFS с помощью командной строки. Помните, что вам будет необходимо заменить местозаполнители вашими конкретными параметрами."
@@ -43,10 +44,10 @@
     "couldNotConnect": "Не удалось подключиться к IPFS API"
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": "Добавьте URL (http://127.0.0.1:5001) или Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://dweb.link)"
+    "placeholder": "Введите URL (https://dweb.link)"
   },
   "terms": {
     "address": "Адрес",
@@ -78,7 +79,7 @@
     "pins": "Закрепления",
     "pinStatus": "Статус процесса",
     "publicKey": "Публичный ключ",
-    "publicGateway": "Public Gateway",
+    "publicGateway": "Публичный шлюз",
     "rateIn": "Входящий рейтинг",
     "rateOut": "Исходящий рейтинг",
     "repo": "Репо",

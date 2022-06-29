@@ -27,7 +27,8 @@
     "setPinning": "設置為錨釘",
     "submit": "提交",
     "unpin": "取消錨釘",
-    "unselectAll": "取消全部選擇"
+    "unselectAll": "取消全部選擇",
+    "downloadCar": "Download as CAR"
   },
   "cliModal": {
     "description": "請將下方的命令複製貼上到您的終端機以完成這個 IPFS 任務\n請留意您將必須使用您自己的特定參數來替代預設的提示字串。"
