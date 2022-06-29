@@ -270,7 +270,8 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. Wait for `vN.N.N` to [build on CI](https://github.com/ipfs/ipfs-webui/actions), and grab the CID produced from the tagged commit
 1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created 
 1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
-   - js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5
+   - ~js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5~
+      - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730 
    - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
    - ipfs-desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
 
