@@ -5,6 +5,7 @@
   "protocols": "连接协议",
   "addConnection": "添加连接",
   "insertPeerAddress": "请输入你想要连接的对等节点地址。",
+  "addPermanentPeer": "添加至永久节点配置",
   "plusPeers": "+ {number} 个节点",
   "connectionDirectionInbound": "入站",
   "connectionDirectionOutbound": "出站",

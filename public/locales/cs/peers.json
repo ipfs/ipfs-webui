@@ -2,16 +2,19 @@
   "title": "Uzly",
   "localNetwork": "Lokální síť",
   "nearby": "poblíž",
-  "bootstrapNode": "bootstrap uzel",
-  "viaRelay": "přes <0>{node}</0>",
+  "protocols": "Otevřené toky",
   "addConnection": "Přidat připojení",
   "insertPeerAddress": "Zadejte adresu uzlu, ke které se chcete připojit.",
-  "plusPeers": "+ {number} more peers",
+  "addPermanentPeer": "Přidat do trvalé konfigurace peeringu",
+  "plusPeers": "+ {number} dalších vrstevníků",
+  "connectionDirectionInbound": "příchozí",
+  "connectionDirectionOutbound": "odchozí",
+  "copyFeedback": "Zkopírováno!",
   "tour": {
     "step1": {
       "title": "Stránka uzlů",
       "paragraph1": "Na tomto místě můžete vidět uzly, se kterými jste spojeni, a zemi, ve které jsou.",
-      "paragraph2": "Click \"Next\" to learn more."
+      "paragraph2": "Klikněte na tlačítko \"Další\" a dozvíte se více."
     },
     "step2": {
       "title": "Mapa uzlů",

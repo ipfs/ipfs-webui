@@ -1,6 +1,7 @@
 {
   "actions": {
     "add": "Přidat",
+    "apply": "Použít",
     "browse": "Procházet",
     "cancel": "Zrušit",
     "change": "Změnit",
@@ -8,9 +9,9 @@
     "close": "Zavřít",
     "copy": "Zkopírovat",
     "create": "Vytvořit",
-    "delete": "Smazat",
+    "remove": "Odstranit",
     "download": "Stáhnout",
-    "edit": "Edit",
+    "edit": "Upravit",
     "import": "Import",
     "inspect": "Prozkoumat",
     "more": "Více",
@@ -22,14 +23,15 @@
     "reset": "Resetovat",
     "save": "Uložit",
     "saving": "Ukládání…",
-    "selectAll": "Select all",
+    "selectAll": "Vybrat vše",
+    "setPinning": "Nastavit připínání",
     "submit": "Odeslat",
     "unpin": "Odepnout",
-    "unselectAll": "Odznačit vše"
+    "unselectAll": "Odznačit vše",
+    "downloadCar": "Stáhnout jako CAR"
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters.",
-    "extraNotes": "If you've made changes to the config in this page's code editor that you'd like to save, click the download icon next to the copy button to download it as a JSON file."
+    "description": "Chcete-li tento úkol provést v IPFS prostřednictvím příkazového řádku, vložte do terminálu následující příkaz. Nezapomeňte, že je třeba nahradit zástupné znaky konkrétními parametry."
   },
   "nav": {
     "bugsLink": "Nahlásit chybu",
@@ -38,8 +40,14 @@
   },
   "status": {
     "connectedToIpfs": "Připojeno k IPFS",
-    "connectingToIpfs": "Connecting to IPFS…",
-    "couldNotConnect": "Could not connect to the IPFS API"
+    "connectingToIpfs": "Připojení k IPFS...",
+    "couldNotConnect": "Nepodařilo se připojit k rozhraní API systému IPFS"
+  },
+  "apiAddressForm": {
+    "placeholder": "Zadejte adresu URL (http://127.0.0.1:5001) nebo Multiaddr (/ip4/127.0.0.1/tcp/5001)."
+  },
+  "publicGatewayForm": {
+    "placeholder": "Zadejte adresu URL (https://dweb.link)"
   },
   "terms": {
     "address": "Adresa",
@@ -47,31 +55,34 @@
     "advanced": "Pokročilý",
     "agent": "Agent",
     "api": "API",
-    "apiAddress": "API address",
+    "apiAddress": "Adresa API",
     "blocks": "Bloky",
-    "connection": "Connection",
+    "connection": "Připojení",
     "downSpeed": "Příchozí",
     "example": "Příklad:",
     "file": "Soubor",
     "files": "Soubory",
     "folder": "Složka",
-    "folders": "Folders",
+    "folders": "Složky",
     "gateway": "Brána",
     "in": "Vstup",
-    "latency": "Latency",
+    "latency": "Prodleva",
+    "loading": "Načítání",
     "location": "Umístění",
     "name": "Jméno",
-    "node": "Node",
+    "node": "Uzel",
     "out": "Výstup",
     "peer": "Uzel",
     "peerId": "ID uzlu",
     "peers": "Uzly",
     "pinNoun": "Připnout",
     "pins": "Špendlíky",
+    "pinStatus": "Stav připnutí",
     "publicKey": "Veřejný klíč",
+    "publicGateway": "Veřejná brána",
     "rateIn": "Hodnota uvnitř",
     "rateOut": "Hodnota ven",
-    "repo": "Repo",
+    "repo": "Repozitář",
     "size": "Velikost",
     "totalIn": "Celkem dovnitř",
     "totalOut": "Celkem ven",
@@ -82,10 +93,10 @@
   "tour": {
     "back": "Zpět",
     "close": "Zavřít",
-    "finish": "Finish",
+    "finish": "Dokončit",
     "next": "Další",
     "skip": "Přeskočit",
-    "tooltip": "Click this button any time for a guided tour on the current page."
+    "tooltip": "Kliknutím na toto tlačítko kdykoli zobrazíte prohlídku aktuální stránky."
   },
-  "startTourHelper": "Start tour"
+  "startTourHelper": "Zahájení prohlídky"
 }

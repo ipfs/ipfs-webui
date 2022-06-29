@@ -1,31 +1,38 @@
 {
-  "title": "Vítejte v IPFS",
-  "configureApiPort": {
-    "header": "Běží API na jiném portě jako 5001?",
-    "paragraph1": "<0>Pokud je váš uzel IPFS nakonfigurován s <1>vlastní adresou API</1>, nastavte ji zde.</0>"
-  },
-  "apiAddressForm": {
-    "apiLabel": "ADRESA API",
-    "submitButton": "Odeslat"
-  },
+  "title": "Vítejte | IPFS",
+  "description": "Úvodní stránka",
   "connected": {
-    "header": "Připojeno k IPFS",
-    "paragraph1": "<0>Nyní je čas prozkoumat svůj uzel. Chcete-li spravovat a sdílet své soubory, přejděte na <1>stránku Soubory</1> nebo prozkoumejte <3>Merkle Forest</3> s daty hash spojenými s ostatními uživateli pomocí <5>průzkumníka IPLD.</0>",
-    "paragraph2": "<0>Na tuto adresu se můžete vždy vrátit a změnit uzel IPFS, ke kterému jste připojeni.</0>"
+    "paragraph1": "Vítejte v budoucnosti internetu! Nyní jste cennou součástí distribuovaného webu."
   },
   "notConnected": {
-    "header": "Beží vaše IPFS služba?",
-    "paragraph1": "<0>Připojení k API selhalo.</0>",
-    "paragraph2": "<0>Ujistěte se, že <1>nakonfigurujete své rozhraní IPFS API</1> tak, aby umožňovalo požadavky křížového původu (CORS), spuštěním následujících příkazů:</0>",
-    "paragraph3": "<0>Spusťte démona IPFS v terminálu:</0>",
-    "paragraph4": "<0>Pro více informací jak začít s IPFS si můžete <1>přečíst příručku</1>.</0>"
+    "paragraph1": "<0>Podívejte se na průvodce instalací v dokumentech IPFS<1> nebo vyzkoušejte tyto běžné opravy:</0>",
+    "paragraph2": "<0>Je spuštěn démon IPFS? Zkuste jej spustit nebo restartovat z terminálu:</0>",
+    "paragraph3": "<0>Je vaše rozhraní IPFS API nakonfigurováno tak, aby umožňovalo <1>požadavky s křížovým původem (CORS)</1>? Pokud ne, spusťte tyto příkazy a poté spusťte démona z terminálu:</0>",
+    "paragraph4": "<0>Je rozhraní IPFS API na jiném portu než 5001? Pokud je váš uzel nakonfigurován s <1>vlastní adresou API</1>, zadejte ji zde</0>."
   },
   "aboutIpfs": {
     "header": "Co je to IPFS?",
-    "paragraph1": "<0><0>IPFS je protokol</0>, který definuje obsah-adresující systém souborů, koordinuje doručování obsahu a kombinuje nápady z Kademlia, BitTorrent, Git a dalších.</0>",
-    "paragraph2": "<0><0>IPFS je souborový systém.</0> Má adresáře a soubory a připojitelný souborový systém přes FUSE.</0>",
-    "paragraph3": "<0><0>IPFS je web.</0> Soubory jsou přístupné přes HTTP brány jako <2>https://ipfs.io</2>. Prohlížeče <4>lze rozšířit tak</4>, aby přímo používaly schéma <6>ipfs://</6> a obsah adresovaný hash zaručuje autentičnost.</0>",
-    "paragraph4": "<0><0>IPFS je p2p.</0> Podporuje celosvětové přenosy souborů typu peer-to-peer s kompletně decentralizovanou architekturou a bez centrálního bodu selhání.</0>",
-    "paragraph5": "<0><0>IPFS je CDN.</0> Přidejte soubor do svého místního úložiště a nyní je k dispozici pro celý svět pomocí adresování hashů a distribuce šířky pásma typu BitTorrent.</0>"
+    "paragraph1": "<0><0>Hypermediální distribuční protokol</0>, který zahrnuje myšlenky z Kademlie, BitTorrentu, Gitu a dalších.</0>",
+    "paragraph2": "<0><0>Síť pro přenos souborů peer-to-peer</0> se zcela decentralizovanou architekturou bez centrálního bodu selhání, cenzury nebo kontroly</0>",
+    "paragraph3": "<0><0>Vstup na web zítřka</0> - tradiční prohlížeče mohou přistupovat k souborům IPFS prostřednictvím bran, jako je <2>https://ipfs.io</2>, nebo přímo pomocí rozšíření <4>IPFS Companion</4></0>.",
+    "paragraph4": "<0><0>CDN nové generace</0> - stačí přidat soubor do uzlu a zpřístupnit jej světu pomocí adresování obsahu do mezipaměti a širokopásmová distribuce ve stylu BitTorrentu.</0>",
+    "paragraph5": "<0><0>Sada vývojářských nástrojů</0> pro tvorbu <2>kompletně distribuovaných aplikací a služeb</2> podporovaná robustní open-source komunitou</0>"
+  },
+  "welcomeInfo": {
+    "header": "V této aplikaci můžete ...",
+    "paragraph1": "<0><0>Zkontrolujte stav svého uzlu</0>, včetně počtu partnerů, ke kterým jste připojeni, statistik úložiště a šířky pásma a dalších údajů.</0>",
+    "paragraph2": "<0><0>Zobrazení a správa souborů</0> v repozitáři IPFS, včetně importu souborů přetažením, snadného připnutí a možností rychlého sdílení a stahování</0>",
+    "paragraph3": "<0><0>Navštivte \"Merkleho les\"</0> s několika ukázkovými soubory dat a prozkoumejte IPLD, datový model, který je základem fungování IPFS.</0>",
+    "paragraph4": "<0><0>Podívejte se, kdo je připojen k vašemu uzlu</0>, geolokačně na mapě světa podle jeho IP adresy</0>",
+    "paragraph5": "<0><0>Zkontrolujte nebo upravte nastavení uzlu</0> - není nutný příkazový řádek</0>",
+    "paragraph6": "<0><0>Podívejte se na zdrojový kód této aplikace</0>, <2>nahlaste chybu</2> nebo přispějte a vylepšete IPFS pro všechny!</0>"
+  },
+  "tour": {
+    "step1": {
+      "title": "Úvodní stránka",
+      "paragraph1": "Tato stránka vás informuje o tom, zda jste připojeni k IPFS, a nabízí nápady, co můžete v této aplikaci dělat.",
+      "paragraph2": "Pokud nejste připojeni k rozhraní API systému IPFS, zobrazí se místo některých jiných stránek také tato stránka s radami, jak se připojit.",
+      "paragraph3": "Tuto stránku můžete navštívit odkudkoli v aplikaci kliknutím na logo kostky IPFS v navigačním panelu."
+    }
   }
 }
