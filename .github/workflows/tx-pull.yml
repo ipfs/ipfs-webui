@@ -1,7 +1,8 @@
+name: Transifex sync
 on:
-  push:
-    branches:
-    - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
   install-tx-client-and-pull-translations:
