@@ -51,3 +51,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: "./ipfs-webui.tar.gz"
+
+      - name: Attach .car file to Release Notes
+        uses: skx/github-action-publish-binaries@c881a3f8ffb80b684f367660178d38ceabc065c2 #release-0.15
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: "${{ github.workspace }}/.cache/ipfs-webui@${{ github.sha }}.car"
