@@ -3,14 +3,14 @@
   "nodeInfo": "ノード情報",
   "spaceUsed": "使用容量",
   "networkTraffic": "ネットワーク通信量",
-  "bandwidthOverTime": "時間あたりの帯域",
-  "bandwidthByPeer": "ピアあたりの帯域",
-  "distributionOfPeers": "ピアによる分散",
+  "bandwidthOverTime": "時間あたりの帯域幅",
+  "bandwidthByPeer": "ピアあたりの帯域幅",
+  "distributionOfPeers": "ピアの分布",
   "pieChartLabel": "{count, plural, other {{percent}%({count} ピア)}}",
   "countMore": "ほか{count}項目",
   "StatusConnected": {
-    "repoSize": "Hosting {repoSize} of data",
-    "peersCount": "{peersCount, plural, one {Discovered 1 peer} other {Discovered {peersCount} peers}}"
+    "repoSize": "<0>{repoSize}個のファイル</0>をホスティング中",
+    "peersCount": "{peersCount, plural, other {<0>{peersCount}個のピア</0>と通信中}}"
   },
   "customApiConfig": "カスタム JSON設定",
   "AskToEnable": {
@@ -19,7 +19,7 @@
   "tour": {
     "step1": {
       "title": "ステータスページ",
-      "paragraph1": "ここはあなたのIPFSノードとその基本情報を確認するページです。",
+      "paragraph1": "あなたのIPFSノードと基本情報を確認するページです。",
       "paragraph2": "説明を読むためには「次へ」をクリック"
     },
     "step2": {
@@ -29,19 +29,19 @@
     },
     "step3": {
       "title": "ノード情報",
-      "paragraph1": "ここにはあなたのリポジトリのサイズといくつのピアが接続しているか、またあなたのピアIDと現在利用しているIPFS設定が表示されています。",
-      "paragraph2": "<0><1>高度な</1>リンクを展開すると、ゲートウェイのURLやアドレスなどの詳細情報が表示されます。また、APIアドレスを変更するためのリンクも詳細セクション内にあります。</0>"
+      "paragraph1": "ここには\n・あなたのリポジトリサイズ\n・ピアの接続数\n・あなたのピアID\n・現在利用しているIPFS設定\nが表示されています。",
+      "paragraph2": "<0><1>詳細</1>リンクを展開すると、ゲートウェイのURLやアドレスなどの詳細情報が表示されます。また、APIアドレスを変更するためのリンクも詳細セクション内にあります。</0>"
     },
     "step4": {
-      "title": "ネットワーク帯域/通信量",
-      "paragraph1": "このグラフは時間ごとのネットワーク帯域を示しています。",
-      "paragraph2": "このスピードメーターは現在のトラフィックの流出量と流入量を示しています。"
+      "title": "ネットワーク帯域幅/通信量",
+      "paragraph1": "このグラフは時間ごとのネットワーク帯域幅を示しています。",
+      "paragraph2": "このスピードメーターは現在の上りと下りのトラフィック量を示しています。"
     },
     "stepExplore": {
       "title": "探索",
       "paragraph": "CIDを貼り付けることでCIDを紐付けられたコンテンツを探索したり、それがどのように構成されているか、プロトコル上で繋がっているかを調べることができます。"
     }
   },
-  "bandwidthStats": "帯域状況",
-  "bandwidthStatsDisabled": "帯域の状況の測定が無効化されています。これを有効にするためには次のようなコマンドを実行するか、<5>設定</5>の中のキー<1>Swarm.DisableBandwidthMetrics</1>の値を<3>false</3>に変更してください。その後、設定を反映させるためにIPFSデーモンを再起動してください。"
+  "bandwidthStats": "帯域幅の状況",
+  "bandwidthStatsDisabled": "帯域幅状況の測定が無効化されています。\nこれを有効にするためには次のコマンドを実行するか、<5>設定</5>画面のキー<1>Swarm.DisableBandwidthMetrics</1>を<3>false</3>に変更してください。操作後、設定を反映させるためにIPFSデーモンを再起動してください。"
 }

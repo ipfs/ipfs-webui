@@ -5,6 +5,7 @@
   "protocols": "Streams abertos",
   "addConnection": "Adicionar conexão",
   "insertPeerAddress": "Insira o endereço do par ao que você deseja conectar.",
+  "addPermanentPeer": "Adicionar à configuração permanente de pares",
   "plusPeers": "+ {number} mais pares",
   "connectionDirectionInbound": "entrada",
   "connectionDirectionOutbound": "saída",

@@ -6,11 +6,11 @@
   "bandwidthOverTime": "Larghezza di banda nel tempo",
   "bandwidthByPeer": "Larghezza di banda per peer",
   "distributionOfPeers": "Distribuzione dei peer",
-  "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} other {{percent}% ({count} Peer)}}",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} Peer)} many {{percent}% ({count} Peer)} other {{percent}% ({count} Peer)}}",
   "countMore": "... e {count} in più",
   "StatusConnected": {
     "repoSize": "Stai ospitando {repoSize} di dati",
-    "peersCount": "{peersCount, plural, one {Hai trovato 1 peer} other {Hai trovato {peersCount} peer}}"
+    "peersCount": "{peersCount, plural, one {Hai trovato 1 peer} many {Hai trovato {peersCount} peer} other {Hai trovato {peersCount} peer}}"
   },
   "customApiConfig": "Configurazione JSON personalizzata",
   "AskToEnable": {

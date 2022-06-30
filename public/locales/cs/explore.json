@@ -30,8 +30,8 @@
     "hashDigest": "Hash digest"
   },
   "ObjectInfo": {
-    "publicGateway": "View on Public Gateway",
-    "privateGateway": "View on Local Gateway"
+    "publicGateway": "Zobrazení na veřejné bráně",
+    "privateGateway": "Zobrazení na místní bráně"
   },
   "base": "základ",
   "version": "verze",

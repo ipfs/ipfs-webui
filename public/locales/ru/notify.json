@@ -4,7 +4,7 @@
   "ipfsInvalidApiAddress": "Указанный IPFS API-адрес недействителен.",
   "ipfsConnectSuccess": "Успешно подключено к  IPFS API-адресу",
   "ipfsConnectFail": "Невозможно связаться с заданным адресом IPFS API",
-  "ipfsPinFail": "Unable to set pinning. Try again, or see the browser console for more info.",
+  "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
   "ipfsIsBack": "Служба IPFS возобновлена. Наслаждайтесь!",
   "folderExists": "Элемент с таким именем уже существует. Пожалуйста, выберите другое.",
   "filesFetchFailed": "Не удалось получить файлы. Пожалуйста, проверьте путь и попробуйте снова.",

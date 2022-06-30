@@ -45,6 +45,7 @@
   },
   "pinningModal": {
     "title": "選擇你想將這些文件錨釘的位置",
+    "complianceLabel": "🔍 Check pinning services' compliance",
     "footer": "需要新增或設置錨定服務？請到<0>設定<0>。",
     "localNode": "本地節點",
     "totalSize": "總大小: {size}"
@@ -52,6 +53,8 @@
   "addByPathModal": {
     "title": "從 IPFS 導入",
     "description": "將要導入 IPFS 路徑 (CID) 輸入於此",
+    "importPathPlaceholder": "Path or CID (required)",
+    "namePlaceholder": "Name (optional)",
     "examples": "範例:"
   },
   "newFolderModal": {

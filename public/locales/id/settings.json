@@ -41,7 +41,8 @@
     "apiEndpointPlaceholder": "URL untuk titik akhir API-nya",
     "secretApiKey": "Token akses rahasia",
     "secretApiKeyHowToLink": "Cara menghasilkan token baru",
-    "autoUpload": "Unggah otomatis"
+    "autoUpload": "Unggah otomatis",
+    "complianceLabel": "🔍 {nickname} pinning compliance report"
   },
   "autoUploadModal": {
     "title": "Ubah kebijakan unggah untuk {name}",
