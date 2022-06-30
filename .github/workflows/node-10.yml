@@ -10,7 +10,23 @@ on:
   workflow_dispatch:
 
 jobs:
+
+  reset-badge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create success badge
+        if: ${{ needs.test-node.result == 'success' }}
+        uses: RubbaBoy/BYOB@v1.2.1
+        with:
+          ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
+          NAME: "10.x"
+          LABEL: "10.x"
+          STATUS: "Building..."
+          COLOR: green
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   test-node:
+    needs: [reset-badge]
     strategy:
       fail-fast: true
       matrix:
