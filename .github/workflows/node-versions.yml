@@ -19,6 +19,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
 
+    - name: Update badge text while starting build
+      uses: RubbaBoy/BYOB@v1.2.1
+      with:
+        ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
+        NAME: ${{matrix.os}}-${{matrix.node-version}}
+        LABEL: "${{matrix.node-version}}"
+        STATUS: "Building..."
+        COLOR: grey
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - uses: actions/checkout@v2
 
     - name: Use Node.js ${{ matrix.node-version }}
@@ -53,8 +63,8 @@ jobs:
       with:
         ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
         NAME: ${{matrix.os}}-${{matrix.node-version}}
-        LABEL: "${{matrix.os}}"
-        STATUS: ${{ steps.node_version.outputs.version }}
+        LABEL: "${{ steps.node_version.outputs.version }}"
+        STATUS: "Pass"
         COLOR: green
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -64,7 +74,7 @@ jobs:
       with:
         ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
         NAME: ${{matrix.os}}-${{matrix.node-version}}
-        LABEL: "${{matrix.os}}"
-        STATUS: ${{ steps.node_version.outputs.version }}
+        LABEL: "${{ steps.node_version.outputs.version }}"
+        STATUS: "Fail"
         COLOR: red
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
