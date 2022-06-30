@@ -49,7 +49,7 @@ jobs:
     if: always()
     steps:
       - name: Create success badge
-        if: ${{ needs.test-node.result === 'success' }}
+        if: ${{ needs.test-node.result == 'success' }}
         uses: RubbaBoy/BYOB@v1.2.1
         with:
           ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
@@ -60,7 +60,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create failure badge
-        if: ${{ needs.test-node.result !== 'success' }}
+        if: ${{ needs.test-node.result != 'success' }}
         uses: RubbaBoy/BYOB@v1.2.1
         with:
           ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
