@@ -19,7 +19,7 @@ jobs:
         uses: RubbaBoy/BYOB@v1.2.1
         with:
           ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
-          NAME: "10.x"
+          NAME: "node-10.x"
           LABEL: "10.x"
           STATUS: "Building..."
           COLOR: green
@@ -69,7 +69,7 @@ jobs:
         uses: RubbaBoy/BYOB@v1.2.1
         with:
           ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
-          NAME: ${{ needs.test-node.outputs.gh-node-version }}
+          NAME: "node-${{ needs.test-node.outputs.gh-node-version }}"
           LABEL: "${{ needs.test-node.outputs.node-version }}"
           STATUS: ${{needs.test-node.result}}
           COLOR: green
@@ -80,7 +80,7 @@ jobs:
         uses: RubbaBoy/BYOB@v1.2.1
         with:
           ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
-          NAME: ${{ needs.test-node.outputs.gh-node-version }}
+          NAME: "node-${{ needs.test-node.outputs.gh-node-version }}"
           LABEL: "${{ needs.test-node.outputs.node-version }}"
           STATUS: ${{needs.test-node.result}}
           COLOR: red
