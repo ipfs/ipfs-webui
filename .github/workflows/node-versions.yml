@@ -26,6 +26,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Get exact nodejs version
+      id: node_version
+      run: |
+        echo "::set-output name=version::$(node --version)"
+
     - name: Cache bigger downloads
       uses: actions/cache@v2
       id: cache
@@ -41,3 +46,25 @@ jobs:
 
     - name: Confirm build works with Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
       run: npm run build
+
+    - name: Create success badge
+      if: failure()
+      uses: RubbaBoy/BYOB@v1.2.1
+      with:
+        ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
+        NAME: ${{matrix.os}}-${{matrix.node-version}}
+        LABEL: "${{matrix.os}}"
+        STATUS: ${{ steps.node_version.outputs.version }}
+        COLOR: red
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create failure badge
+      if: success()
+      uses: RubbaBoy/BYOB@v1.2.1
+      with:
+        ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
+        NAME: ${{matrix.os}}-${{matrix.node-version}}
+        LABEL: "${{matrix.os}}"
+        STATUS: ${{ steps.node_version.outputs.version }}
+        COLOR: green
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
