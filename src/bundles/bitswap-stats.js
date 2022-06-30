@@ -3,9 +3,14 @@ import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 const bundle = createAsyncResourceBundle({
   name: 'bitswapStats',
   getPromise: async ({ getIpfs }) => {
-    const rawData = await getIpfs().stats.bitswap()
-    // early gc, dont keep arround the peer list
-    return { downloadedSize: rawData.dataReceived, sharedSize: rawData.dataSent }
+    try {
+      const { dataReceived, dataSent } = await getIpfs().stats.bitswap()
+      // early gc, dont keep arround the peer list
+      return { downloadedSize: dataReceived, sharedSize: dataSent }
+    } catch (error) {
+      console.error(`Failed to get bitswap stats`, error)
+      return { downloadedSize: 0, sharedSize: 0 }
+    }
   },
   staleAfter: 60000,
   persist: false,
