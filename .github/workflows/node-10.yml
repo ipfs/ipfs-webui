@@ -1,4 +1,4 @@
-name: Test build on different node versions on all platforms
+name: Test NodeJS v10.x
 
 on:
   schedule:
