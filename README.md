@@ -22,17 +22,11 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 
 ## Install
 
+**Supported NodeJS versions**: ![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-10.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-12.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-14.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-16.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-18.x)
+
 ```sh
 > npm install
 ```
-
-### Supported NodeJS versions
-
-**Ubuntu** ![](https://byob.yarr.is/SgtPooki/ipfs-webui/ubuntu-latest-10.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/ubuntu-latest-12.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/ubuntu-latest-14.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/ubuntu-latest-16.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/ubuntu-latest-18.x)
-
-**macOS** ![](https://byob.yarr.is/SgtPooki/ipfs-webui/macos-latest-10.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/macos-latest-12.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/macos-latest-14.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/macos-latest-16.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/macos-latest-18.x)
-
-**Windows** ![](https://byob.yarr.is/SgtPooki/ipfs-webui/windows-latest-10.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/windows-latest-12.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/windows-latest-14.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/windows-latest-16.x) ![](https://byob.yarr.is/SgtPooki/ipfs-webui/windows-latest-18.x)
 
 ## Usage
 
