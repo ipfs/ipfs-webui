@@ -12,15 +12,14 @@ jobs:
   reset-badge:
     runs-on: ubuntu-latest
     steps:
-      - name: Create success badge
-        if: ${{ needs.test-node.result == 'success' }}
+      - name: "Reset ${{ inputs.gh-node-version }} badge"
         uses: RubbaBoy/BYOB@v1.2.1
         with:
           ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
           NAME: "node-${{ inputs.gh-node-version }}"
           LABEL: "${{ inputs.gh-node-version }}"
           STATUS: "Building..."
-          COLOR: green
+          COLOR: grey
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   test-node:
