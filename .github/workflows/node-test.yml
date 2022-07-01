@@ -7,8 +7,11 @@ on:
         required: true
         type: string
 
-jobs:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.gh-node-version }}
+  cancel-in-progress: true
 
+jobs:
   reset-badge:
     runs-on: ubuntu-latest
     steps:
