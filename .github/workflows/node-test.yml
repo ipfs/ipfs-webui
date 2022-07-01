@@ -28,7 +28,7 @@ jobs:
   test-node:
     needs: [reset-badge]
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
