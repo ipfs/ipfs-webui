@@ -36,22 +36,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ github.sha }}
 
-      - name: Install and Build 🔧
-        if: steps.build-cache.outputs.cache-hit != 'true'
-        run: |
-          npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-          npm run build
-
-      - name: Create archive
-        run: tar -czf ipfs-webui.tar.gz build/*
-
-      - name: Attach prebuilt archive to Release Notes
-        uses: skx/github-action-publish-binaries@c881a3f8ffb80b684f367660178d38ceabc065c2 #release-0.15
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: "./ipfs-webui.tar.gz"
-
       - name: Attach .car file to Release Notes
         uses: skx/github-action-publish-binaries@c881a3f8ffb80b684f367660178d38ceabc065c2 #release-0.15
         env:
