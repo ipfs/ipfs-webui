@@ -79,6 +79,12 @@ jobs:
       - name: Create ipfs-webui.car file
         run: |
           ipfs dag export ${{ steps.ipfs.outputs.cid }} > ${{ github.workspace }}/.cache/ipfs-webui@${{ github.sha }}.car
+      - name: Attach produced build to Github Action
+        uses: actions/upload-artifact@v2
+        with:
+          name: ipfs-webui@${{ github.sha }}.car
+          path: ${{ github.workspace }}/.cache/ipfs-webui@${{ github.sha }}.car
+          if-no-files-found: error
 
       - name: Pin to ipfs-websites.collab.ipfscluster.io
         run: |
