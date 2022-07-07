@@ -41,4 +41,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: "${{ github.workspace }}/.cache/ipfs-webui_${{ github.sha }}.car"
+          args: "build/ipfs-webui_${{ github.sha }}.car"
