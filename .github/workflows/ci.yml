@@ -86,7 +86,20 @@ jobs:
           path: build/ipfs-webui_${{ github.sha }}.car
           if-no-files-found: error
 
+      - name: Pin to estuary.tech
+        id: pin-estuary
+        continue-on-error: true
+        run: |
+          curl -X POST https://api.estuary.tech/pinning/pins -d '{ "name": "'$PIN_NAME'", "cid": "'$PIN_CID'" }' -H "Content-Type: application/json" -H "Authorization: Bearer $ESTUARY_API_TOKEN"
+          curl -X GET https://api.estuary.tech/pinning/pins -H "Content-Type: application/json" -H "Authorization: Bearer $ESTUARY_API_TOKEN"
+        env:
+          ESTUARY_API_TOKEN: ${{ secrets.ESTUARY_API_TOKEN }}
+          PIN_CID: ${{ steps.ipfs.outputs.cid }}
+          PIN_NAME: "ipfs-webui@${{ github.sha }}"
+
       - name: Pin to ipfs-websites.collab.ipfscluster.io
+        id: pin-cluster
+        continue-on-error: true
         run: |
           ipfs-cluster-ctl --enc=json \
             --host "${CLUSTER_HOST}" \
@@ -111,6 +124,13 @@ jobs:
           CLUSTER_PASSWORD: ${{ secrets.CLUSTER_PASSWORD }}
           PIN_CID: ${{ steps.ipfs.outputs.cid }}
           PIN_NAME: "ipfs-webui@${{ github.sha }}"
+
+      - name: Fail job due to pinning failure
+        if: steps.pin-estuary.outcome == 'failure' && steps.pin-cluster.outcome == 'failure'
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('Pinning did not succeed')
 
       # dev dnslink is updated on each main branch update
       - run: npx dnslink-dnsimple --domain dev.webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
