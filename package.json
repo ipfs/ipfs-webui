@@ -16,7 +16,7 @@
     "test": "run-s -cl test:unit test:build test:e2e",
     "test:unit": "react-scripts test --env=jsdom --runInBand --watchAll=false",
     "test:unit:watch": "react-scripts test --env=jsdom",
-    "test:e2e": "cross-env JEST_PUPPETEER_CONFIG=test/e2e/jest-puppeteer.config.js jest --verbose -c test/e2e/jest.config.js --runInBand",
+    "test:e2e": "cross-env JEST_PUPPETEER_CONFIG=test/e2e/jest-puppeteer.config.js jest --detectOpenHandles --verbose -c test/e2e/jest.config.js --runInBand",
     "test:build": "shx test -f build/index.html || run-s build",
     "test:coverage": "react-scripts test --coverage",
     "analyze": "webpack-bundle-analyzer build/stats.json",
