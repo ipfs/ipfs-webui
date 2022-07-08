@@ -37,7 +37,7 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
-          name: ipfs-webui_${{ github.sha }}
+          name: ipfs-webui_${{ github.sha }}-build
           path: build
 
       - name: Run E2E against ${{ matrix.backend }}-ipfs

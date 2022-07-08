@@ -50,6 +50,6 @@ jobs:
       - name: Attach produced build to Github Action
         uses: actions/upload-artifact@v2
         with:
-          name: ipfs-webui_${{ github.sha }}
+          name: ipfs-webui_${{ github.sha }}-build
           path: build
           if-no-files-found: error
