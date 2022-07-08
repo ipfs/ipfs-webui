@@ -264,6 +264,15 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 
 1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true) is [successful](https://github.com/ipfs/ipfs-webui/runs/7121497704?check_suite_focus=true) or [fails because there are no updates](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true).
 1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
+1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
+   - ~js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5~
+      - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730
+   - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
+   - ipfs-desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
+
+<!-- DEPRECATED STEPS as of https://github.com/ipfs/ipfs-webui/releases/tag/v2.16.0. Leaving only for posterity: 
+1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true) is [successful](https://github.com/ipfs/ipfs-webui/runs/7121497704?check_suite_focus=true) or [fails because there are no updates](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true).
+1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
 1. Commit changes and ensure everything is merged into `main` branch
 1. Update the version (`npm version [major|minor|patch]`, it will create a new tag `vN.N.N`, note it down)
 1. Push `main` branch and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
@@ -274,6 +283,7 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
       - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730
    - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
    - ipfs-desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
+-->
 
 ## Contribute
 
