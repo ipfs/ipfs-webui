@@ -45,6 +45,7 @@
   },
   "pinningModal": {
     "title": "Pilih di mana Anda ingin menyematkan item ini.",
+    "complianceLabel": "🔍 Check pinning services' compliance",
     "footer": "Perlu menambahkan atau mengonfigurasi layanan penyematan? Buka <1>Pengaturan</1>.",
     "localNode": "Node lokal",
     "totalSize": "Ukuran total: {size}"

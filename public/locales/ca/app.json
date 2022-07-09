@@ -27,7 +27,8 @@
     "setPinning": "Set pinning",
     "submit": "Enviar",
     "unpin": "Desancora",
-    "unselectAll": "Deseleccionar-ho tot"
+    "unselectAll": "Deseleccionar-ho tot",
+    "downloadCar": "Download as CAR"
   },
   "cliModal": {
     "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters."

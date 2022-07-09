@@ -21,12 +21,17 @@
   "IpldExploreForm": {
     "explore": "Keşfet"
   },
+  "IpldCarExploreForm": {
+    "imports": "İçe aktar",
+    "uploadCarFile": "Upload CAR File"
+  },
   "CidInfo": {
     "header": "CID bilgisi",
     "hashDigest": "Özüt özeti"
   },
   "ObjectInfo": {
-    "gatewayLink": "IPFS Ağ Geçidinde Görüntüle"
+    "publicGateway": "View on Public Gateway",
+    "privateGateway": "View on Local Gateway"
   },
   "base": "temel",
   "version": "sürüm",

@@ -4,14 +4,14 @@
   "breadcrumbs": "Fils d'Ariane",
   "finished": "Terminé !",
   "totalSize": "Taille totale: {size}",
-  "filesSelected": "{count, plural, one {Élément sélectionné} other {Éléments sélectionnés}}",
+  "filesSelected": "{count, plural, one {Élément sélectionné} many {Éléments sélectionnés} other {Éléments sélectionnés}}",
   "menuOptions": "Options pour l'élément sélectionné ",
   "selectedAllEntries": "Tout sélectionner",
   "individualFilesOnly": "Disponible uniquement pour les fichiers individuels",
   "noPDFSupport": "Votre navigateur ne prend pas en charge les PDF. Merci de télécharger le PDF pour le visualiser :",
   "downloadPDF": "Télécharger un PDF",
-  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
-  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
+  "openWithPublicGateway": "Essayer de l'ouvrir plutôt avec votre <1>passerelle publique</1>.",
+  "openWithLocalAndPublicGateway": "Essayer de l'ouvrir plutôt avec votre <1>passerelle locale</1> ou votre <3>passerelle publique</3>.",
   "cantBePreviewed": "Désolé, ce fichier ne peut pas être prévisualisé",
   "addByPath": "Depuis IPFS",
   "newFolder": "Nouveau répertoire",
@@ -34,17 +34,18 @@
     "descriptionFolder": "Choisir un nouveau nom pour ce dossier."
   },
   "removeModal": {
-    "titleItem": "{count, plural, one {Supprimer l'élément {name} ?} other {Supprimer {count} éléments ?}}",
-    "titleFolder": "{count, plural, one {Supprimer le dossier {name} ?} other {Supprimer {count} dossiers ?}}",
-    "titleFile": "{count, plural, one {Supprimer le fichier {name} ?} other {Supprimer {count} fichiers ?}}",
-    "descriptionItem": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer cet élément ? Il n'apparaîtra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} éléments ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
-    "descriptionFolder": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer ce dossier ? Il n'apparaitra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} dossiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
-    "descriptionFile": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer ce fichier? Il n'apparaitra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} fichiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
+    "titleItem": "{count, plural, one {Supprimer l'élément {name} ?} many {Supprimer {count} éléments ?} other {Supprimer {count} éléments ?}}",
+    "titleFolder": "{count, plural, one {Supprimer le dossier {name} ?} many {Supprimer {count} dossiers ?} other {Supprimer {count} dossiers ?}}",
+    "titleFile": "{count, plural, one {Supprimer le fichier {name} ?} many {Supprimer {count} fichiers ?} other {Supprimer {count} fichiers ?}}",
+    "descriptionItem": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer cet élément ? Il n'apparaîtra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} many {Êtes-vous sûr(e) de vouloir supprimer ces {count} éléments ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} éléments ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
+    "descriptionFolder": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer ce dossier ? Il n'apparaitra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} many {Êtes-vous sûr(e) de vouloir supprimer ces {count} dossiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} dossiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
+    "descriptionFile": "{count, plural, one {Êtes-vous sûr(e) de vouloir supprimer ce fichier? Il n'apparaitra plus dans l'onglet Fichiers, et sera supprimé de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} many {Êtes-vous sûr(e) de vouloir supprimer ces {count} fichiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.} other {Êtes-vous sûr(e) de vouloir supprimer ces {count} fichiers ? Ils n'apparaitront plus dans l'onglet Fichiers, et seront supprimés de façon définitive lors du prochain nettoyage (mais des copies peuvent exister sur d'autres nœuds IPFS). Cette action est irréversible.}}",
     "checkboxRemoveLocalPin": "Aussi supprimer l'épinglage local (recommandé)",
     "checkboxUnpinFromServices": "Désépingler de tous les services d'épinglage"
   },
   "pinningModal": {
     "title": "Choisissez où vous vouler épingler ces éléments. ",
+    "complianceLabel": "🔍 Vérifier la conformance des services d'épinglage",
     "footer": "Besoin d'ajouter ou de configurer un service d'épinglage? Allez aux <1>Paramètres</1>.",
     "localNode": "Nœud local",
     "totalSize": "Taille totale: {size}"
@@ -52,6 +53,8 @@
   "addByPathModal": {
     "title": "Importer depuis IPFS",
     "description": "Entrez un chemin IPFS (CID) pour l'importer.",
+    "importPathPlaceholder": "Chemin ou CID (requis)",
+    "namePlaceholder": "Nom (optionnel)",
     "examples": "Exemples :"
   },
   "newFolderModal": {
@@ -63,8 +66,8 @@
     "noFiles": "<0>Pas de fichiers dans ce dossier. Cliquez sur le boutton \"Importer\" pour en ajouter.</0>"
   },
   "filesImportStatus": {
-    "imported": "{count, plural, one {1 élément importé} other {{count} éléments importés}}",
-    "importing": "{count, plural, one {Import de 1 élément} other {Import de {count} éléments}}",
+    "imported": "{count, plural, one {1 élément importé} many {{count} éléments importés} other {{count} éléments importés}}",
+    "importing": "{count, plural, one {Import de 1 élément} many {Import de {count} éléments} other {Import de {count} éléments}}",
     "toggleDropdown": "Dérouler la liste",
     "closeDropdown": "Fermer la liste",
     "count": "{count} sur {count}"
@@ -110,6 +113,6 @@
   "filesDescription": "Taille totale des données dans ce dossier (si c'est un sous-dossier, la taille de tous les données dans Fichiers est aussi affichée)",
   "more": "Plus",
   "files": "Fichiers",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
+  "cidNotFileNorDir": "Le lien actuel n'est ni un fichier ni un dossier. Essayez plutôt de <1>l'inspecter</1>.",
   "sortBy": "Trier les éléments par {name}"
 }

@@ -5,6 +5,7 @@
   "protocols": "تيارات مفتوحة",
   "addConnection": "إضافة اتصال",
   "insertPeerAddress": "أدخل عنوان النظير الذي تريد الاتصال به.",
+  "addPermanentPeer": "أضف إلى التكوين التناظري الدائم",
   "plusPeers": "المزيد من الأقران{number}",
   "connectionDirectionInbound": "واردة",
   "connectionDirectionOutbound": "الصادرة",

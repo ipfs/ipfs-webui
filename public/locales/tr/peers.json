@@ -2,12 +2,13 @@
   "title": "Eşler",
   "localNetwork": "Yerel ağ",
   "nearby": "yakınlarda",
-  "protocols": "Open streams",
+  "protocols": "Yayınları aç",
   "addConnection": "Bağlantı ekle",
   "insertPeerAddress": "Bağlanmak istediğiniz eş adresini girin.",
+  "addPermanentPeer": "Kalıcı eşleme yapılandırmasına ekleyin",
   "plusPeers": "+ {number} eş daha",
-  "connectionDirectionInbound": "inbound",
-  "connectionDirectionOutbound": "outbound",
+  "connectionDirectionInbound": "gelen",
+  "connectionDirectionOutbound": "giden",
   "copyFeedback": "Kopyalandı!",
   "tour": {
     "step1": {

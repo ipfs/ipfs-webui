@@ -4,7 +4,7 @@
   "ipfsInvalidApiAddress": "提供的 IPFS API 地址無效",
   "ipfsConnectSuccess": "已成功連接到 IPFS API 地址",
   "ipfsConnectFail": "無法連接到提供的 IPFS API 地址",
-  "ipfsPinFail": "無法錨釘。請重新嘗試，或者查看瀏覽器控制台來獲得更多資訊。",
+  "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
   "ipfsIsBack": "IPFS 服務已恢復正常！",
   "folderExists": "已有同名項目了，請更換另一個。",
   "filesFetchFailed": "下載這些文件失敗，請檢查路徑並再試一次。",

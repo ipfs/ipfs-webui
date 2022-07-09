@@ -10,8 +10,8 @@
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
   "noPDFSupport": "Dein Browser unterstützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen:",
   "downloadPDF": "PDF herunterladen",
-  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
-  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
+  "openWithPublicGateway": "Versuche es stattdessen mit Deinem <1>öffentlichen Gateway</1> zu öffnen.",
+  "openWithLocalAndPublicGateway": "Versuche es stattdessen mit Deinem <1>lokalen Gateway</1> oder <3>öffentlichen Gateway</3> zu öffnen.",
   "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",
   "addByPath": "Aus IPFS",
   "newFolder": "Neuer Ordner",
@@ -45,6 +45,7 @@
   },
   "pinningModal": {
     "title": "Wähle aus, wo du diese Elemente anheften möchtest.",
+    "complianceLabel": "🔍 Check pinning services' compliance",
     "footer": "Du möchtest einen Pinning-Dienst hinzufügen oder konfigurieren? Gehe zu <1>Einstellungen</1>.",
     "localNode": "Lokaler Knoten",
     "totalSize": "Gesamtgröße: {size}"
@@ -52,6 +53,8 @@
   "addByPathModal": {
     "title": "Aus IPFS importieren",
     "description": "Gib einen IPFS Pfad (CID) zum Importieren ein.",
+    "importPathPlaceholder": "Pfad oder CID (erforderlich)",
+    "namePlaceholder": "Name (optional)",
     "examples": "Beispiele:"
   },
   "newFolderModal": {
@@ -110,6 +113,6 @@
   "filesDescription": "Gesamtgröße der Daten im aktuellen Verzeichnis (wenn es sich um ein Unterverzeichnis handelt, wird auch die Größe aller Daten in Dateien angezeigt)",
   "more": "Mehr",
   "files": "Dateien",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
+  "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <1>untersuchen</1>.",
   "sortBy": "Sortieren nach {name}"
 }

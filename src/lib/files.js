@@ -54,7 +54,7 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
     filename = `${name}.tar.gz`
     method = 'POST' // API is POST-only
   } else {
-    url = `${gatewayUrl}/ipfs/${file.cid}`
+    url = `${gatewayUrl}/ipfs/${file.cid}?download=true&filename=${file.name}`
     filename = file.name
     method = 'GET'
   }
@@ -145,6 +145,26 @@ export async function getShareableLink (files, gatewayUrl, ipfs) {
   }
 
   return `${gatewayUrl}/ipfs/${cid}${filename || ''}`
+}
+
+/**
+ *
+ * @param {FileStat[]} files
+ * @param {string} gatewayUrl
+ * @param {IPFSService} ipfs
+ * @returns {Promise<string>}
+ */
+export async function getCarLink (files, gatewayUrl, ipfs) {
+  let cid, filename
+
+  if (files.length === 1) {
+    cid = files[0].cid
+    filename = encodeURIComponent(files[0].name)
+  } else {
+    cid = await makeCIDFromFiles(files, ipfs)
+  }
+
+  return `${gatewayUrl}/ipfs/${cid}?format=car&filename=${filename || cid}.car`
 }
 
 /**

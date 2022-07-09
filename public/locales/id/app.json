@@ -27,7 +27,8 @@
     "setPinning": "Setel penyematan",
     "submit": "Kirimkan",
     "unpin": "Lepaskan semat",
-    "unselectAll": "Batalkan pilihan semua"
+    "unselectAll": "Batalkan pilihan semua",
+    "downloadCar": "Download as CAR"
   },
   "cliModal": {
     "description": "Rekatkan yang berikut ini ke terminal Anda untuk melakukan tugas ini di IPFS melalui baris perintah. Ingatlah bahwa Anda harus mengganti tempat penampung dengan parameter spesifik Anda."

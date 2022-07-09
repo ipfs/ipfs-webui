@@ -8,7 +8,7 @@
 
 | Files | Explore | Peers | Settings |
 |-------|---------|-------|----------|
-| ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) | 
+| ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) |
 
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://www.transifex.com/ipfs/ipfs-webui/) [![](https://img.shields.io/badge/matrix%20chat-%23lobby:ipfs.io-blue.svg?style=flat-square)](https://matrix.to/#/#lobby:ipfs.io)
 
@@ -22,7 +22,7 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 
 ## Install
 
-With `node` >= 10 and `npm` >= 6.4.1 installed, run
+With a supported Node.js version: [![](https://byob.yarr.is/ipfs/ipfs-webui/node-12.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/ipfs/ipfs-webui/node-14.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/ipfs/ipfs-webui/node-16.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/ipfs/ipfs-webui/node-18.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
 
 ```sh
 > npm install
@@ -157,7 +157,7 @@ CI setup of ipfs-webui repo runs tests against both JS and GO implementations:
 
 It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
  and `go-ipfs` in `devDependencies` section of `package.json` and applying the change via `npm i`
- 
+
 One can also override the binary used in e2e tests by providing a path to an alternative one via `IPFS_GO_EXEC` (or `IPFS_JS_EXEC`):
 
 ```sh
@@ -268,9 +268,10 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. Update the version (`npm version [major|minor|patch]`, it will create a new tag `vN.N.N`, note it down)
 1. Push `main` branch and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
 1. Wait for `vN.N.N` to [build on CI](https://github.com/ipfs/ipfs-webui/actions), and grab the CID produced from the tagged commit
-1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created 
+1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created
 1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
-   - js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5
+   - ~js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5~
+      - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730
    - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
    - ipfs-desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
 
