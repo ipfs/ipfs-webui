@@ -64,7 +64,7 @@ jobs:
 
     - name: Install node-pre-gyp
       run: |
-        npm install --no-save node-pre-gyp
+        npm install node-pre-gyp --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
     - name: Install dependencies
       run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
