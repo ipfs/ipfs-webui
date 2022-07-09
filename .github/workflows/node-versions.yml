@@ -30,4 +30,4 @@ jobs:
     uses: ./.github/workflows/node-test.yml
     secrets: inherit
     with:
-      gh-node-version: 'lts/*'
+      gh-node-version: 'latest'
