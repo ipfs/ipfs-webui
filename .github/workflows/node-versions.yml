@@ -8,12 +8,6 @@ on:
 
 jobs:
 
-  test-node-10:
-    uses: ./.github/workflows/node-test.yml
-    secrets: inherit
-    with:
-      gh-node-version: '10.x'
-
   test-node-12:
     uses: ./.github/workflows/node-test.yml
     secrets: inherit
