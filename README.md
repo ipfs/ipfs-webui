@@ -22,7 +22,7 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 
 ## Install
 
-With a supported Node.js version: [![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-10.x)](https://github.com/SgtPooki/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-12.x)](https://github.com/SgtPooki/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-14.x)](https://github.com/SgtPooki/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-16.x)](https://github.com/SgtPooki/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-18.x)](https://github.com/SgtPooki/ipfs-webui/actions/workflows/node-versions.yml)
+With a supported Node.js version: [![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-12.x)](https://github.com/SgtPooki/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-14.x)](https://github.com/SgtPooki/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-16.x)](https://github.com/SgtPooki/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/SgtPooki/ipfs-webui/node-18.x)](https://github.com/SgtPooki/ipfs-webui/actions/workflows/node-versions.yml)
 
 ```sh
 > npm install
