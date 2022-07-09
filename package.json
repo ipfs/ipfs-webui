@@ -1,6 +1,6 @@
 {
   "name": "ipfs-webui",
-  "version": "2.17.2",
+  "version": "2.17.3",
   "private": true,
   "scripts": {
     "start": "run-script-os",
@@ -272,11 +272,18 @@
           "tarballDir": "dist"
         }
       ],
-      ["@semantic-release/github", {
-        "assets": [
-          {"path": "build/ipfs-webui_*.car", "name": "ipfs-webui@${nextRelease.gitTag}.car", "label": "IPFS webui (${nextRelease.gitTag}) CAR file"}
-        ]
-      }],
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            {
+              "path": "build/ipfs-webui_*.car",
+              "name": "ipfs-webui@${nextRelease.gitTag}.car",
+              "label": "IPFS webui (${nextRelease.gitTag}) CAR file"
+            }
+          ]
+        }
+      ],
       "@semantic-release/git"
     ]
   },
