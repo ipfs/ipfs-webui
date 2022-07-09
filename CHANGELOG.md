@@ -1,3 +1,21 @@
+## [2.17.0](https://github.com/ipfs/ipfs-webui/compare/v2.16.0...v2.17.0) (2022-07-09)
+
+
+ CID `bafybeicau362acbsnxjbpukuyuufh4vjzw6yoph7wpa67f2rgujdhd3goq`
+
+ --- 
+
+
+
+### Features
+
+* test npm build&install against LTS node versions ([#1967](https://github.com/ipfs/ipfs-webui/issues/1967)) ([39dc9e9](https://github.com/ipfs/ipfs-webui/commit/39dc9e930718fcec43f166c8e222d2b4fa0bf3c6))
+
+
+### Trivial Changes
+
+* **readme:** remove node 10.x badge ([b2d63ce](https://github.com/ipfs/ipfs-webui/commit/b2d63ce371c88148db09940abcac7cec08320f64))
+
 ## [2.16.0](https://github.com/ipfs/ipfs-webui/compare/v2.15.1...v2.16.0) (2022-07-08)
 
 
