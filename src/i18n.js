@@ -4,7 +4,9 @@ import Backend from 'i18next-chained-backend'
 import LocalStorageBackend from 'i18next-localstorage-backend'
 import HttpBackend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import { version } from '../package.json'
+import pkgJson from '../package.json'
+
+const { version } = pkgJson
 
 import locales from './lib/languages.json'
 export const localesList = Object.values(locales)

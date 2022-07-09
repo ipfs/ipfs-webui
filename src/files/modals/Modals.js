@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { join } from 'path'
+import { join } from 'path-browserify'
 import { withTranslation } from 'react-i18next'
 import Overlay from '../../components/overlay/Overlay'
 // Modals

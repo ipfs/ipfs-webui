@@ -1,4 +1,4 @@
-import { dirname } from 'path'
+import { dirname } from 'path-browserify'
 
 /**
 * countDirs: find all the dirs that will be created from a list of paths.
