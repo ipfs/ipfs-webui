@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Reset ${{ inputs.gh-node-version }} badge"
-        uses: RubbaBoy/BYOB@v1.2.1
+        uses: RubbaBoy/BYOB@24f464284c1fd32028524b59607d417a2e36fee7
         with:
           ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
           NAME: "node-${{ inputs.gh-node-version }}"
@@ -71,7 +71,7 @@ jobs:
     steps:
       - name: Create success badge
         if: ${{ needs.test-node.result == 'success' }}
-        uses: RubbaBoy/BYOB@v1.2.1
+        uses: RubbaBoy/BYOB@24f464284c1fd32028524b59607d417a2e36fee7
         with:
           ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
           NAME: "node-${{ inputs.gh-node-version }}"
@@ -82,7 +82,7 @@ jobs:
 
       - name: Create failure badge
         if: ${{ needs.test-node.result != 'success' }}
-        uses: RubbaBoy/BYOB@v1.2.1
+        uses: RubbaBoy/BYOB@24f464284c1fd32028524b59607d417a2e36fee7
         with:
           ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
           NAME: "node-${{ inputs.gh-node-version }}"
