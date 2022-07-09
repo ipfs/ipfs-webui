@@ -43,6 +43,10 @@ jobs:
       with:
         node-version: ${{ inputs.gh-node-version }}
 
+    - name: Remove .npmrc to allow non-strict engines
+      run: |
+        rm .npmrc
+
     - name: Get exact nodejs version
       id: node_version
       run: |
