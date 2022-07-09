@@ -1,3 +1,16 @@
+## [2.17.2](https://github.com/ipfs/ipfs-webui/compare/v2.17.1...v2.17.2) (2022-07-09)
+
+
+ CID `bafybeiezem6yxyzo3w56lewwat4ms333nch2j4e2tdxdqd2gbuijj3wutq`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([972023c](https://github.com/ipfs/ipfs-webui/commit/972023c697554fa6b9e0722c605ab089ab4f6d88))
+
 ## [2.17.1](https://github.com/ipfs/ipfs-webui/compare/v2.17.0...v2.17.1) (2022-07-09)
 
 
