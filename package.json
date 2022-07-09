@@ -103,6 +103,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
+    "@mapbox/node-pre-gyp": "^1.0.9",
     "@olizilla/lol": "2.0.0",
     "@playwright/test": "^1.12.1",
     "@semantic-release/changelog": "^6.0.1",
