@@ -4,7 +4,7 @@
   "breadcrumbs": "Хлебные крошки",
   "finished": "Готово!",
   "totalSize": "Общий размер: {size}",
-  "filesSelected": "{count, plural, one {Item selected} other {Items selected}}",
+  "filesSelected": "{count, plural, one {Выбран файл} few {Выбрано файлов} many {Выбрано файлов} other {Выбрано файлов}}",
   "menuOptions": "Настройки выбранного объекта",
   "selectedAllEntries": "Выбрать все записи в таблице",
   "individualFilesOnly": "Доступно только для индивидуальных файлов",
@@ -34,9 +34,9 @@
     "descriptionFolder": "Выберите новое имя для этой папки."
   },
   "removeModal": {
-    "titleItem": "{count, plural, one {Remove item? {name}} other {Remove {count} items?}}",
-    "titleFolder": "{count, plural, one {Remove folder? {name}} other {Remove {count} folders?}}",
-    "titleFile": "{count, plural, one {Remove file? {name}} other {Remove {count} files?}}",
+    "titleItem": "{count, plural, one {Удалить {name} объект?} few {Удалить {count} объектов?} many {Удалить {count} объектов?} other {Удалить {count} объектов?}}",
+    "titleFolder": "{count, plural, one {Удалить папку {name}?} few {Удалить {count} папок?} many {Удалить {count} папок?} other {Удалить {count}папок?}}",
+    "titleFile": "{count, plural, one {Удалить файл {name}?} few {Удалить {count} файлов?} many {Удалить {count} файлов?} other {Удалить {count} файлов?}}",
     "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
@@ -45,6 +45,7 @@
   },
   "pinningModal": {
     "title": "Выберите, где вы хотите подкрепить эти элементы.",
+    "complianceLabel": "🔍 Check pinning services' compliance",
     "footer": "Нужно добавить или настроить сервис подкрепления? Перейдите в <1>Настройки</1>.",
     "localNode": " Локальный узел ",
     "totalSize": "Общий размер: {size}"
@@ -52,6 +53,8 @@
   "addByPathModal": {
     "title": "Импорт из IPFS",
     "description": "Введите путь IPFS (CID) для импортирования.",
+    "importPathPlaceholder": "Путь или CID (обязательно)",
+    "namePlaceholder": "Имя (опционально)",
     "examples": "Примеры:"
   },
   "newFolderModal": {

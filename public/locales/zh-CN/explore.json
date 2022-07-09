@@ -21,12 +21,17 @@
   "IpldExploreForm": {
     "explore": "浏览"
   },
+  "IpldCarExploreForm": {
+    "imports": "导入",
+    "uploadCarFile": "上传CAR文件"
+  },
   "CidInfo": {
     "header": "CID 信息",
     "hashDigest": "哈希摘要"
   },
   "ObjectInfo": {
-    "gatewayLink": "在 IPFS 网关上查看"
+    "publicGateway": "在公共网关上查看",
+    "privateGateway": "在本地网关上查看"
   },
   "base": "基点",
   "version": "版本",

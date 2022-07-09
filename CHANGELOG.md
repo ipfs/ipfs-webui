@@ -1,3 +1,63 @@
+## [2.17.1](https://github.com/ipfs/ipfs-webui/compare/v2.17.0...v2.17.1) (2022-07-09)
+
+
+ CID `bafybeidh5hyn64y7cddejdlo7enfuz5mklomlswxqmiaq2pnfuw6zlqkfy`
+
+ --- 
+
+
+
+### Trivial Changes
+
+* **readme:** Fix node badges ([#1968](https://github.com/ipfs/ipfs-webui/issues/1968)) ([c56ffdc](https://github.com/ipfs/ipfs-webui/commit/c56ffdcc750eb15bc19df8cfe015475919e064da))
+
+## [2.17.0](https://github.com/ipfs/ipfs-webui/compare/v2.16.0...v2.17.0) (2022-07-09)
+
+
+ CID `bafybeicau362acbsnxjbpukuyuufh4vjzw6yoph7wpa67f2rgujdhd3goq`
+
+ --- 
+
+
+
+### Features
+
+* test npm build&install against LTS node versions ([#1967](https://github.com/ipfs/ipfs-webui/issues/1967)) ([39dc9e9](https://github.com/ipfs/ipfs-webui/commit/39dc9e930718fcec43f166c8e222d2b4fa0bf3c6))
+
+
+### Trivial Changes
+
+* **readme:** remove node 10.x badge ([b2d63ce](https://github.com/ipfs/ipfs-webui/commit/b2d63ce371c88148db09940abcac7cec08320f64))
+
+## [2.16.0](https://github.com/ipfs/ipfs-webui/compare/v2.15.1...v2.16.0) (2022-07-08)
+
+
+ CID `bafybeif2m4cd3vwwx532hclbuifl2ihqvtv627jatrljrh44gzmvtlg4xe`
+
+ --- 
+
+
+
+### Features
+
+* Add ipfs-gui-bot for semantic release ([36d5eea](https://github.com/ipfs/ipfs-webui/commit/36d5eeaec72f9bfd5614e34d35992fdff56385cd))
+* automate releases ([#1957](https://github.com/ipfs/ipfs-webui/issues/1957)) ([8bc04ac](https://github.com/ipfs/ipfs-webui/commit/8bc04ac620c80868679b6ca904acb35563066895))
+
+
+### Bug Fixes
+
+* **ci:** .github/workflows/tx-pull.yml ([7ddf870](https://github.com/ipfs/ipfs-webui/commit/7ddf870ca94828e39ca07940830f41b836bc9470))
+* npm install before semantic release ([e806924](https://github.com/ipfs/ipfs-webui/commit/e8069248927506fe4eda7763b78b2762a548019c))
+* semantic-release uses GITHUB_TOKEN ([1f74b1b](https://github.com/ipfs/ipfs-webui/commit/1f74b1bec26835f3ea355cf4f125eba889810196))
+* updated ipfs-geoip (2022-06-28) ([#1958](https://github.com/ipfs/ipfs-webui/issues/1958)) ([9e4dde2](https://github.com/ipfs/ipfs-webui/commit/9e4dde2586f3b59c6544993b1b84a97cc695fd12))
+
+
+### Trivial Changes
+
+* **i18n:** pull translations automatically ([#1956](https://github.com/ipfs/ipfs-webui/issues/1956)) ([0c47a69](https://github.com/ipfs/ipfs-webui/commit/0c47a6908790ab0390f8e674e17155963484d416))
+* pull transifex translations ([#1960](https://github.com/ipfs/ipfs-webui/issues/1960)) ([e9a0fe2](https://github.com/ipfs/ipfs-webui/commit/e9a0fe2d3cf31a6e6b9dd0680a57056c16a93f78))
+* **readme:** js-ipfs CID update blocked by [#1730](https://github.com/ipfs/ipfs-webui/issues/1730) ([#1959](https://github.com/ipfs/ipfs-webui/issues/1959)) ([89b021c](https://github.com/ipfs/ipfs-webui/commit/89b021c7b20b920a8dbe807adab669dba42f573f))
+
 # Changelog
 All notable changes to this project will be documented in this file.
 

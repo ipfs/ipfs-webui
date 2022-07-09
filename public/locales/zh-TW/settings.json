@@ -41,7 +41,8 @@
     "apiEndpointPlaceholder": "這個 API 終端節點的 URL",
     "secretApiKey": "加密 token",
     "secretApiKeyHowToLink": "如何生成一個新的 token",
-    "autoUpload": "自動上傳"
+    "autoUpload": "自動上傳",
+    "complianceLabel": "🔍 {nickname} pinning compliance report"
   },
   "autoUploadModal": {
     "title": "替{name}更改上傳策略",

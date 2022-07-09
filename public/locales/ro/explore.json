@@ -21,12 +21,17 @@
   "IpldExploreForm": {
     "explore": "Explorează"
   },
+  "IpldCarExploreForm": {
+    "imports": "Importă",
+    "uploadCarFile": "Încarcă un fișier CAR"
+  },
   "CidInfo": {
     "header": "Informații CID",
     "hashDigest": "Hash digest"
   },
   "ObjectInfo": {
-    "gatewayLink": "Vizualizează prin IPFS Gateway"
+    "publicGateway": "View on Public Gateway",
+    "privateGateway": "View on Local Gateway"
   },
   "base": "bază",
   "version": "versiune",
