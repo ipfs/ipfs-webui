@@ -26,8 +26,8 @@ jobs:
     with:
       gh-node-version: '16.x'
 
-  test-node-lts:
+  test-node-18:
     uses: ./.github/workflows/node-test.yml
     secrets: inherit
     with:
-      gh-node-version: 'latest'
+      gh-node-version: '18.x'
