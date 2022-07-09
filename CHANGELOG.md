@@ -1,3 +1,16 @@
+## [2.17.1](https://github.com/ipfs/ipfs-webui/compare/v2.17.0...v2.17.1) (2022-07-09)
+
+
+ CID `bafybeidh5hyn64y7cddejdlo7enfuz5mklomlswxqmiaq2pnfuw6zlqkfy`
+
+ --- 
+
+
+
+### Trivial Changes
+
+* **readme:** Fix node badges ([#1968](https://github.com/ipfs/ipfs-webui/issues/1968)) ([c56ffdc](https://github.com/ipfs/ipfs-webui/commit/c56ffdcc750eb15bc19df8cfe015475919e064da))
+
 ## [2.17.0](https://github.com/ipfs/ipfs-webui/compare/v2.16.0...v2.17.0) (2022-07-09)
 
 
