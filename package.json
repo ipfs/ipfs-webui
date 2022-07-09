@@ -2,6 +2,14 @@
   "name": "ipfs-webui",
   "version": "2.17.3",
   "private": true,
+  "files": [
+    "src",
+    "public",
+    "@types",
+    "ipfs-core-types",
+    "docs",
+    "build"
+  ],
   "scripts": {
     "start": "run-script-os",
     "start:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-scripts start",
