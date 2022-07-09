@@ -6,9 +6,9 @@ import HttpBackend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import pkgJson from '../package.json'
 
-const { version } = pkgJson
-
 import locales from './lib/languages.json'
+
+const { version } = pkgJson
 export const localesList = Object.values(locales)
 
 i18n
