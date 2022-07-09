@@ -213,7 +213,7 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-        
+
       # Update the version (npm version [major|minor|patch])
       - name: Run semantic release
         run: |
