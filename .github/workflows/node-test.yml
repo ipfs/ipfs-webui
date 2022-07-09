@@ -62,6 +62,10 @@ jobs:
           ${{ runner.os }}-${{ inputs.gh-node-version }}-${{ hashFiles('package.json', 'package-lock.json') }}
           ${{ runner.os }}-${{ inputs.gh-node-version }}
 
+    - name: Install node-pre-gyp
+      run: |
+        npm install --no-save node-pre-gyp
+
     - name: Install dependencies
       run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
