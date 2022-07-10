@@ -1,0 +1,28 @@
+{
+  "ipfsApiRequestFailed": "Nepodařilo se připojit. Zkontrolujte, zda je démon spuštěn.",
+  "windowIpfsRequestFailed": "Požadavek na IPFS se nezdařil. Zkontrolujte prosím nastavení systému IPFS Companion.",
+  "ipfsInvalidApiAddress": "Zadaná adresa API IPFS je neplatná.",
+  "ipfsConnectSuccess": "Úspěšné připojení k adrese API systému IPFS",
+  "ipfsConnectFail": "Nelze se připojit k zadané adrese API systému IPFS",
+  "ipfsPinFailReason": "Nelze nastavit připnutí na {serviceName}: {errorMsg}",
+  "ipfsIsBack": "Obnovila se běžná služba IPFS. Užijte si to!",
+  "folderExists": "Položka s tímto názvem již existuje. Vyberte prosím jinou.",
+  "filesFetchFailed": "Tyto soubory se nepodařilo získat. Zkontrolujte prosím cestu a zkuste to znovu.",
+  "filesRenameFailed": "Nepodařilo se přejmenovat soubory. Zkuste to prosím znovu.",
+  "filesMakeDirFailed": "Nepodařilo se vytvořit adresář. Zkuste to znovu.",
+  "filesCopyFailed": "Soubory se nepodařilo zkopírovat. Zkuste to prosím znovu.",
+  "filesRemoveFailed": "Soubory se nepodařilo odstranit. Zkuste to prosím znovu.",
+  "filesAddFailed": "Nepodařilo se přidat soubory do IPFS. Zkuste to prosím znovu.",
+  "filesEventFailed": "Váš požadavek se nepodařilo zpracovat. Zkuste to prosím znovu.",
+  "couldntConnectToPeer": "Nepodařilo se připojit k zadanému partnerovi.",
+  "connectedToPeer": "Úspěšné připojení k zadanému partnerovi.",
+  "experimentsErrors": {
+    "npmOnIpfs": "Nemohli jsme provést změny ve vašem systému. Nainstalujte nebo odinstalujte balíček 'ipfs-npm' ručně."
+  },
+  "desktopToggleErrors": {
+    "autoLaunch": "Nepodařilo se přepnout možnost spuštění při startu.",
+    "ipfsOnPath": "Nepodařilo se přepnout nástroje příkazového řádku IPFS.",
+    "downloadHashShortcut": "Nepodařilo se přepnout zástupce hash pro stahování.",
+    "screenshotShortcut": "Nepodařilo se přepnout zástupce snímku obrazovky."
+  }
+}

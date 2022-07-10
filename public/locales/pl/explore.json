@@ -1,30 +1,70 @@
 {
   "appName": "Przeglądarka IPLD",
+  "tabName": "Przeglądaj",
+  "homeLink": "Strona główna",
+  "UpdateAvailable": {
+    "paragraph1": "Nowa wersja przeglądarki IPLD jest dostępna; <1>prosimy odświeżyć stronę</1>."
+  },
   "StartExploringPage": {
-    "title": "Przeglądarka | IPLD",
-    "header": "Eksploruj Las Merkle’a",
-    "leadParagraph": "Wklej CID aby pobrać dowolny węzeł IPLD lub wybierz jeden z polecanych zbiorów."
+    "title": "Przeglądaj - IPLD",
+    "header": "Przeglądaj Las Merkle’a",
+    "leadParagraph": "Wklej CID w pole, aby pobrać dowolny węzeł IPLD, lub wybierz jeden z wyróżnionych zbiorów danych."
   },
   "AboutIpld": {
-    "paragraph1":"<0>IPLD to <1>model danych dla sieci adresowanej treścią (ang. content-addressed web).</1> Umożliwia traktowanie obiektów połączonych skrótem (haszem) jako podzbiorów jednej przestrzeni danych w której modele danych to instancje IPLD.</0>",
+    "paragraph1":"<0>IPLD to <1>model danych dla sieci adresowanej treścią (ang. content-addressable web).</1> Umożliwia traktowanie obiektów połączonych skrótem (haszem) jako podzbiorów jednolitej przestrzeni danych, w której modele danych to instancje IPLD.</0>",
     "paragraph2": "<0>Adresowanie treścią przy użyciu skrótów funkcji haszujących stało się popularną techniką w rozproszonych systemach takich jak kryptowaluty, systemy kontroli wersji lub systemy dystrybucji treści w internecie. Niestety pomimo podobnej zasady działania, wszystkie te narzędzia używają niekompatybilnych ze sobą struktur danych.</0>",
-    "paragraph3": "<0>Z pomocą przychodzi IPLD: wspólna przestrzeń nazw dla wszystkich protokołów. Dzięki IPLD, linki między obiektami mogą prowadzić przez wiele protokołów, umożliwiając dostęp i przetwarzanie danych w zunifikowany sposób.</0>"
+    "paragraph3": "<0>Z pomocą przychodzi IPLD: wspólna przestrzeń nazw dla wszystkich protokołów. Dzięki IPLD, łącza między obiektami mogą przechodzić z protokołu na protokół, umożliwiając dostęp oraz przetwarzanie danych w ujednolicony sposób.</0>"
   },
   "ExplorePage": {
-    "title": "Przeglądanie | IPLD"
+    "title": "Przeglądanie - IPLD"
   },
   "IpldExploreForm": {
     "explore": "Przeglądaj"
   },
+  "IpldCarExploreForm": {
+    "imports": "Zaimportuj",
+    "uploadCarFile": "Wrzuć plik CAR"
+  },
   "CidInfo": {
-    "header": "Szczegóły CID",
+    "header": "Informacje CID",
     "hashDigest": "wynik funkcji haszującej"
   },
   "ObjectInfo": {
-    "gatewayLink": "Wyświetl przy użyciu bramy IPFS"
+    "publicGateway": "View on Public Gateway",
+    "privateGateway": "View on Local Gateway"
   },
   "base": "baza",
   "version": "wersja",
   "codec": "kodek",
-  "multihash": "multihash"
+  "multihash": "multihash",
+  "tour": {
+    "projects": {
+      "title": "Wyróżnione zbiory danych",
+      "paragraph1": "Zbadaj wyróżnione zbiory danych lub wklej CID w celu sprawdzenia, w jaki sposób dane te są złożone i połączone między protokołami."
+    },
+    "explorer": {
+      "step1": {
+        "title": "Przeglądarka IPLD",
+        "paragraph1": "Tutaj zaczyna się Twoja przygoda z przeglądarką IPLD. Kliknij \"Dalej\", aby dowiedzieć się więcej."
+      },
+      "step2": {
+        "title": "Okruszki",
+        "paragraph1": "Ścieżka prowadząca do tego węzła.",
+        "paragraph2": "Kliknij, aby przejść do jego węzłów nadrzędnych lub podrzędnych."
+      },
+      "step3": {
+        "title": "Informacje węzła",
+        "paragraph1": "Tutaj są widoczne detale dotyczące tego węzła. Można je obejrzeć także w bramie IPFS.",
+        "paragraph2": "Jeśli węzeł jest katalogiem, możesz zobaczyć jego węzły podrzędne oraz do nich przejść."
+      },
+      "step4": {
+        "title": "Informacje CID",
+        "paragraph1": "Identyfikator zawartości (CID) rozłożony w ramach poznania jego składu."
+      },
+      "step5": {
+        "title": "Reprezentacja graficzna",
+        "paragraph1": "Graficzna reprezentacja węzłów i ich zależności."
+      }
+    }
+  }
 }

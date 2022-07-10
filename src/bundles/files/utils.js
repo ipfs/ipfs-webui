@@ -209,7 +209,7 @@ export const infoFromPath = (path, uriDecode = true) => {
    * @param {string} prefix
    */
   const check = (prefix) => {
-    info.realPath = info.path.substr(prefix.length).trim() || '/'
+    info.realPath = info.path.substring(prefix.length).trim() || '/'
     info.isRoot = info.realPath === '/'
   }
 

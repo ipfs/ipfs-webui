@@ -1,10 +1,11 @@
 {
-  "title": "仲間",
+  "title": "ピア",
   "localNetwork": "ローカルネットワーク",
-  "nearby": "直接接続されているノード",
+  "nearby": "近隣のノード",
   "protocols": "Open streams",
   "addConnection": "新規接続",
   "insertPeerAddress": "追加したいピアのアドレスを入力してください。",
+  "addPermanentPeer": "Add to the permanent peering configuration",
   "plusPeers": "+ あと{number}個のピア ",
   "connectionDirectionInbound": "inbound",
   "connectionDirectionOutbound": "outbound",
@@ -12,16 +13,16 @@
   "tour": {
     "step1": {
       "title": "ピア",
-      "paragraph1": "ここではあなたと繋がっているピアとそのピアが存在していると思われる国が確認できます。",
-      "paragraph2": "説明を読むためには「次へ」をクリック"
+      "paragraph1": "ここでは接続中のピアとそのピアが存在していると思われる国を確認できます。",
+      "paragraph2": "より詳しい説明を読むには「次へ」をクリックしてください。"
     },
     "step2": {
       "title": "ピアマップ",
       "paragraph1": "世界中でどのピアと繋がっているのかを視覚化したものです。"
     },
     "step3": {
-      "title": "ピア表",
-      "paragraph1": "接続しているピアのIDと、予想されたピアの場所が確認できます。"
+      "title": "ピアテーブル",
+      "paragraph1": "接続されているピアのIDと設置場所（推測）が確認できます。"
     }
   }
 }

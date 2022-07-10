@@ -4,12 +4,12 @@ import { withTranslation } from 'react-i18next'
 import Toast from './Toast'
 
 const Notify = ({ t, notify, notifyI18nKey, doNotifyDismiss }) => {
-  const { show, error } = notify
+  const { show, error, msgArgs } = notify
   if (!show) return null
 
   return (
     <Toast error={error} onDismiss={doNotifyDismiss}>
-      {t(notifyI18nKey)}
+      {t(notifyI18nKey, msgArgs)}
     </Toast>
   )
 }

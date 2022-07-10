@@ -27,7 +27,8 @@
     "setPinning": "Sabitlemeyi ayarla",
     "submit": "Gönder",
     "unpin": "Sabitleme",
-    "unselectAll": "Hepsinin seçimini kaldır"
+    "unselectAll": "Hepsinin seçimini kaldır",
+    "downloadCar": "Download as CAR"
   },
   "cliModal": {
     "description": "Komut satırı aracılığıyla IPFS'de bu görevi gerçekleştirmek için aşağıdakileri terminalinize yapıştırın. Yer tutucuları belirli parametrelerinizle değiştirmeniz gerekeceğini unutmayın."
@@ -43,10 +44,10 @@
     "couldNotConnect": "IPFS UPA'ya bağlanılamadı"
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": "Bir URL (http://127.0.0.1:5001) veya bir Multiaddr (/ip4/127.0.0.1/tcp/5001) girin"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://dweb.link)"
+    "placeholder": "Bir URL girin (https://dweb.link)"
   },
   "terms": {
     "address": "Adres",
@@ -78,7 +79,7 @@
     "pins": "Raptiye",
     "pinStatus": "Pin Durumu",
     "publicKey": "Genel anahtar",
-    "publicGateway": "Public Gateway",
+    "publicGateway": "Genel Ağ Geçidi",
     "rateIn": "Giren oranı",
     "rateOut": "Çıkan oranı",
     "repo": "Repo",

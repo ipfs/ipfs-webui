@@ -27,7 +27,8 @@
     "setPinning": "设置固定",
     "submit": "提交",
     "unpin": "撤销固定",
-    "unselectAll": "全部取消选择"
+    "unselectAll": "全部取消选择",
+    "downloadCar": "下载CAR文件"
   },
   "cliModal": {
     "description": "将以下内容粘贴到您的IPFS终端使用命令行来完成任务。请谨记您需要使用您自己的参数来替换掉占位符"

@@ -197,7 +197,7 @@ class Modals extends React.Component {
       case cliCmdKeys.ADD_DIRECTORY:
       case cliCmdKeys.CREATE_NEW_DIRECTORY:
       case cliCmdKeys.FROM_IPFS:
-        return cliCommandList[action](root.substr('/files'.length))
+        return cliCommandList[action](root.substring('/files'.length))
       case cliCmdKeys.DELETE_FILE_FROM_IPFS:
       case cliCmdKeys.REMOVE_FILE_FROM_IPFS:
         return cliCommandList[action](path)

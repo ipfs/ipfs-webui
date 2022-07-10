@@ -49,6 +49,11 @@
     "nativeName": "Magyar",
     "englishName": "Hungarian"
   },
+  "id": {
+    "locale": "id",
+    "nativeName": "Bahasa Indonesia",
+    "englishName": "Indonesian"
+  },
   "it": {
     "locale": "it",
     "nativeName": "Italiano",

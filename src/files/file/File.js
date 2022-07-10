@@ -18,7 +18,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 
 const File = ({
   name, type, size, cid, path, pinned, t, selected, focused, translucent, coloured, cantSelect, cantDrag, isMfs, isRemotePin,
-  onAddFiles, onMove, onSelect, onNavigate, handleContextMenuClick
+  onAddFiles, onMove, onSelect, onNavigate, onSetPinning, handleContextMenuClick
 }) => {
   const dotsWrapper = useRef()
 
@@ -126,13 +126,18 @@ const File = ({
           </div>
         </button>
 
-        <div className='ph2 pv1 flex-none dn db-l tr mw3 w-20 transition-all'>
-          { pinned && !isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
-            <GlyphPin className='fill-aqua' />
-          </div> }
-          { isRemotePin && <div className='br-100 o-70' title={t('pinnedRemotely')} style={{ width: '2rem', height: '2rem' }}>
-            <GlyphPinCloud className='fill-aqua' />
-          </div> }
+        <div className='ph2 pv1 flex-none hide-child dn db-l tr mw3 w-20 transition-all'>
+          <button className='ph2 db button-inside-focus' style={{ width: '2.5rem', height: '2rem' }} onClick={() => onSetPinning([{ cid, pinned }])}>
+            { pinned && !isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
+              <GlyphPin className='fill-aqua' />
+            </div> }
+            { isRemotePin && <div className='br-100 o-70' title={t('pinnedRemotely')} style={{ width: '2rem', height: '2rem' }}>
+              <GlyphPinCloud className='fill-aqua' />
+            </div> }
+            { !pinned && !isRemotePin && <div className='br-100 hide-child' title={t('app:actions.setPinning')} style={{ width: '2rem', height: '2rem' }}>
+              <GlyphPin className='fill-gray-muted child' />
+            </div> }
+          </button>
         </div>
         <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
           {size}

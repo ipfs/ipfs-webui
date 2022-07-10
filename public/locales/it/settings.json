@@ -22,7 +22,7 @@
     "translationProjectLink": "Unisciti al Progetto di Traduzione IPFS"
   },
   "apiDescription": "<0>Se il tuo nodo è configurato con un <1>indirizzo API personalizzato</1> che include una porta diversa alla predefinita 5001, inseriscila qui.</0>",
-  "publicGatewayDescription": "<0>Choose which <1>public gateway</1> you want to use when generating shareable links.</0>",
+  "publicGatewayDescription": "<0>Scegli quale <1>gateway pubblico</1> vorresti utilizzare durante la generazione di collegamenti condivisibili.</0>",
   "cliDescription": "<0>Abilita quest'opzione per mostrare un'icona \"view code\" <1></1> accanto ai comuni comandi IPFS. Cliccandoci, si aprirà una finestra modale col codice di quel comando CLI dimodoché tu possa incollarlo nell'interfaccia a riga di comando nel tuo terminale.",
   "cliModal": {
     "extraNotesJsonConfig": "Se, in questa pagina dell'editor di codice, hai fatto cambiamenti al config che vorresti salvare, clicca sull'icona scarica accanto al bottone \"copia\" per scaricarlo come file JSON."
@@ -41,7 +41,8 @@
     "apiEndpointPlaceholder": "URL per la sua endpoint API",
     "secretApiKey": "Token d'accesso segreto",
     "secretApiKeyHowToLink": "Come generare un nuovo token",
-    "autoUpload": "Auto upload"
+    "autoUpload": "Auto upload",
+    "complianceLabel": "🔍 {nickname} pinning compliance report"
   },
   "autoUploadModal": {
     "title": "Cambia politica di upload per {name}",

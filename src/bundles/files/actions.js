@@ -1,7 +1,7 @@
 /* eslint-disable require-yield */
 
 import { join, dirname, basename } from 'path'
-import { getDownloadLink, getShareableLink } from '../../lib/files'
+import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files'
 import countDirs from '../../lib/count-dirs'
 import memoize from 'p-memoize'
 import all from 'it-all'
@@ -68,7 +68,7 @@ const cumulativeSize = async (ipfs, cidOrPath) => {
 // TODO: use sth else
 export const realMfsPath = (path) => {
   if (path.startsWith('/files')) {
-    return path.substr('/files'.length) || '/'
+    return path.substring('/files'.length) || '/'
   }
 
   return path
@@ -424,6 +424,15 @@ const actions = () => ({
   }),
 
   /**
+   * Creates a download link for the DAG CAR.
+   * @param {FileStat[]} files
+   */
+  doFilesDownloadCarLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async (ipfs, { store }) => {
+    const gatewayUrl = store.selectGatewayUrl()
+    return await getCarLink(files, gatewayUrl, ipfs)
+  }),
+
+  /**
    * Generates sharable link for the provided files.
    * @param {FileStat[]} files
    */
@@ -558,21 +567,6 @@ const actions = () => ({
    * Clears all the tasks (pending, complete and failed).
    */
   doFilesClear: () => send({ type: ACTIONS.CLEAR_ALL }),
-
-  /**
-   * Gets total size of the local pins. On successful completion `state.mfsSize` will get
-   * updated.
-   */
-  doPinsStatsGet: () => perform(ACTIONS.PINS_SIZE_GET, async (ipfs) => {
-    const pinsSize = -1 // TODO: right now calculating size of all pins is too expensive (requires ipfs.files.stat per CID)
-    let numberOfPins = 0
-
-    for await (const _ of ipfs.pin.ls({ type: 'recursive' })) { // eslint-disable-line  no-unused-vars
-      numberOfPins++
-    }
-
-    return { pinsSize, numberOfPins }
-  }),
 
   /**
    * Gets size of the MFS. On successful completion `state.mfsSize` will get

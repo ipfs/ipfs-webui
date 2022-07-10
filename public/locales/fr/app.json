@@ -27,7 +27,8 @@
     "setPinning": "Régler l'épinglage",
     "submit": "Valider",
     "unpin": "Désépingler",
-    "unselectAll": "Tout désélectionner"
+    "unselectAll": "Tout désélectionner",
+    "downloadCar": "Télécharger le CAR"
   },
   "cliModal": {
     "description": "Collez la commande suivante dans votre terminal pour effectuer cette tâche dans IPFS via une ligne de commande. Souvenez-vous de remplacer certaines sections par vos propres paramètres aux endroits adéquats. "
@@ -46,7 +47,7 @@
     "placeholder": "Entrez une URL (http://127.0.0.1:5001) ou une Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://dweb.link)"
+    "placeholder": "Entrez une URL (https://dweb.link)"
   },
   "terms": {
     "address": "Adresse",
@@ -78,7 +79,7 @@
     "pins": "Éléments épinglés",
     "pinStatus": "Statut des épingles",
     "publicKey": "Clé publique",
-    "publicGateway": "Public Gateway",
+    "publicGateway": "Passerelle publique",
     "rateIn": "Ratio entrant",
     "rateOut": "Ratio sortant",
     "repo": "Répertoire",

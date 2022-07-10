@@ -41,7 +41,8 @@
     "apiEndpointPlaceholder": "此API 终端节点的 URL",
     "secretApiKey": "访问令牌",
     "secretApiKeyHowToLink": "如何生成一个新的token",
-    "autoUpload": "自动上传"
+    "autoUpload": "自动上传",
+    "complianceLabel": "🔍 {nickname} 固定服务合规报告"
   },
   "autoUploadModal": {
     "title": "为{name}更改上传策略",

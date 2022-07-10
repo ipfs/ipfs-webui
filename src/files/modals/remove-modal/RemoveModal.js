@@ -27,7 +27,7 @@ const RemoveModal = ({ t, tReady, onCancel, onRemove, files, foldersCount, files
 
   useEffect(() => {
     (async () => {
-      const isPinned = files.some(f => remotePins.find(p => p.cid.string === f.cid.string))
+      const isPinned = files.some(f => remotePins.find(p => p.endsWith(f.cid.toString())))
       setRemotelyPinned(isPinned)
     })()
   })

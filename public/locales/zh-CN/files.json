@@ -45,6 +45,7 @@
   },
   "pinningModal": {
     "title": "选择你想将这些文件固定到哪里",
+    "complianceLabel": "🔍 检查固定服务合规性",
     "footer": "需要增加或配置一个固定服务？前往<1>设置</1>。",
     "localNode": "本地节点",
     "totalSize": "总计大小: {size}"
@@ -52,6 +53,8 @@
   "addByPathModal": {
     "title": "从IPFS导入",
     "description": "输入要导入到的IPFS路径（CID）。",
+    "importPathPlaceholder": "路径或CID (必要)",
+    "namePlaceholder": "名称 (可选)",
     "examples": "示例："
   },
   "newFolderModal": {
