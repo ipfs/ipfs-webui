@@ -132,7 +132,7 @@ export const cliCommandList = {
    * @param {string} name
    */
   [cliCmdKeys.PUBLISH_WITH_IPNS]: (ipfsPath, name) => `ipfs name publish ${ipfsPath} --key="${name}"`,
-  /*
+  /**
    * @param {string} cid
    */
   [cliCmdKeys.DOWNLOAD_CAR_COMMAND]: (cid) => `ipfs dag export ${cid}`
