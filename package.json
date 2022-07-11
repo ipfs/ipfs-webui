@@ -277,7 +277,7 @@
         "@semantic-release/npm",
         {
           "npmPublish": false,
-          "tarballDir": "build"
+          "tarballDir": "dist"
         }
       ],
       ["@semantic-release/github", {

@@ -229,7 +229,7 @@ jobs:
 
       # Update the version (npm version [major|minor|patch])
       - name: Run semantic release
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "ipfs-gui-bot"
           git config user.email "108953096+ipfs-gui-bot@users.noreply.github.com"
