@@ -277,21 +277,18 @@
         "@semantic-release/npm",
         {
           "npmPublish": false,
-          "tarballDir": "dist"
+          "tarballDir": "build"
         }
       ],
-      [
-        "@semantic-release/github",
-        {
-          "assets": [
-            {
-              "path": "build/ipfs-webui_*.car",
-              "name": "ipfs-webui@${nextRelease.gitTag}.car",
-              "label": "IPFS webui (${nextRelease.gitTag}) CAR file"
-            }
-          ]
-        }
-      ],
+      ["@semantic-release/github", {
+        "assets": [
+          {
+            "path": "ipfs-webui_*.car",
+            "name": "ipfs-webui@${nextRelease.gitTag}.car",
+            "label": "IPFS webui (${nextRelease.gitTag}) CAR file"
+          }
+        ]
+      }],
       "@semantic-release/git"
     ]
   },
