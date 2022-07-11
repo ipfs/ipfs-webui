@@ -29,19 +29,22 @@ export const checkValidHttpUrl = (value) => {
   return url.protocol === 'http:' || url.protocol === 'https:'
 }
 
+/**
+ * Check if any hashes from IMG_ARRAY can be loaded from the provided gatewayUrl
+ * @see https://github.com/ipfs/ipfs-webui/issues/1937#issuecomment-1152894211 for more info
+ */
 export const checkViaImgSrc = (gatewayUrl) => {
   const url = new URL(gatewayUrl)
-  var imgSrcPromises = []
 
-  // we check if gateway is up by loading 1x1 px image:
-  // this is more robust check than loading js, as it won't be blocked
-  // by privacy protections present in modern browsers or in extensions such as Privacy Badger
-  IMG_ARRAY.forEach(element => {
+  /**
+   * we check if gateway is up by loading 1x1 px image:
+   * this is more robust check than loading js, as it won't be blocked
+   * by privacy protections present in modern browsers or in extensions such as Privacy Badger
+   */
+  return Promise.any(IMG_ARRAY.map(element => {
     const imgUrl = new URL(`${url.protocol}//${url.hostname}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
-    imgSrcPromises.push(checkImgSrcPromise(imgUrl))
-  })
-
-  return Promise.any(imgSrcPromises)
+    return checkImgSrcPromise(imgUrl)
+  }))
 }
 
 const checkImgSrcPromise = (imgUrl) => {
