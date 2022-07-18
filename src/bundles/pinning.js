@@ -118,21 +118,9 @@ const pinningBundle = {
     resumePendingPins(store)
     intervalFetchPins(store)
   },
-  reducer: (state = {
-    pinningServices: [],
-    remotePins: [],
-    pendingPins: [],
-    failedPins: [],
-    completedPins: [],
-    notRemotePins: [],
-    localPinsSize: 0,
-    localNumberOfPins: 0,
-    arePinningServicesSupported: false
-  }, action) => {
+  reducer: (state, action) => {
     if (action.type === 'UPDATE_REMOTE_PINS') {
       const { adds = [], removals = [], pending = [], failed = [] } = action.payload
-
-      console.log(action.payload, state.completedPins)
 
       const remotePins = uniq([...state.remotePins, ...adds].filter(notIn(removals, pending, failed)))
       const notRemotePins = uniq([...state.notRemotePins, ...removals].filter(notIn(adds, pending, failed)))
@@ -158,7 +146,7 @@ const pinningBundle = {
       const oldServices = state.pinningServices
       const newServices = action.payload
       // Skip update when list length did not change and new one has no stats
-      if (oldServices.length === newServices.length) {
+      if (oldServices?.length === newServices?.length) {
         const withPinStats = s => (s && typeof s.numberOfPins !== 'undefined')
         const oldStats = oldServices.some(withPinStats)
         const newStats = newServices.some(withPinStats)
@@ -169,7 +157,24 @@ const pinningBundle = {
     if (action.type === 'SET_REMOTE_PINNING_SERVICES_AVAILABLE') {
       return { ...state, arePinningServicesSupported: action.payload }
     }
-    return state
+
+    /**
+     * state defaults should be set here.
+     *
+     * @see https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#rules-of-reducers
+     */
+    return {
+      ...state,
+      pinningServices: state?.pinningServices ?? [],
+      remotePins: state?.remotePins ?? [],
+      pendingPins: state?.pendingPins ?? [],
+      failedPins: state?.failedPins ?? [],
+      completedPins: state?.completedPins ?? [],
+      notRemotePins: state?.notRemotePins ?? [],
+      localPinsSize: state?.localPinsSize ?? 0,
+      localNumberOfPins: state?.localNumberOfPins ?? 0,
+      arePinningServicesSupported: state?.arePinningServicesSupported ?? false
+    }
   },
 
   doFetchRemotePins: (files, skipCache = false) => async ({ dispatch, store, getIpfs }) => {
