@@ -55,11 +55,11 @@ const createFilesBundle = () => {
             : null
           const { pageContent, pins } = result
             ? {
-              pageContent: result,
-              pins: result.type === 'directory' && result.path === '/pins'
-                ? result.content.map($ => $.cid.toString())
-                : state.pins
-            }
+                pageContent: result,
+                pins: result.type === 'directory' && result.path === '/pins'
+                  ? result.content.map($ => $.cid.toString())
+                  : state.pins
+              }
             : state
 
           return {

@@ -49,11 +49,13 @@ describe('Files screen', () => {
 
     // expect human readable sizes in format from ./src/lib/files.js#humanSize
     // → this ensures metadata was correctly read for each item in the MFS
-    const human = (b) => (b ? filesize(b, {
-      standard: 'iec',
-      base: 2,
-      round: b >= 1073741824 ? 1 : 0
-    }) : '-')
+    const human = (b) => (b
+      ? filesize(b, {
+        standard: 'iec',
+        base: 2,
+        round: b >= 1073741824 ? 1 : 0
+      })
+      : '-')
     for await (const file of ipfs.files.ls('/')) {
       // the text matcher used by waitForText is particular about whitespace. When the file size is rendered, it uses a `&nbsp;` element, which translates to unicode character 0xa0.
       // If we try to match a plain space, it will fail, so we replace space with `\u00a0` here.

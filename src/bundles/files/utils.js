@@ -198,7 +198,7 @@ export const sortFiles = (files, sorting) => {
  */
 export const infoFromPath = (path, uriDecode = true) => {
   const info = {
-    path: path,
+    path,
     realPath: '',
     isMfs: false,
     isPins: false,

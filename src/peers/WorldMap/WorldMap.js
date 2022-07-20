@@ -154,7 +154,7 @@ const MapPins = connect('selectPeersCoordinates', ({ width, height, path, peersC
     el.append('path')
       .datum({
         type: 'Point',
-        coordinates: coordinates
+        coordinates
       })
       .attr('d', path.pointRadius(() => getDotsSize(peerIds.length)))
       .attr('fill', () => getDotsColor(peerIds.length))
