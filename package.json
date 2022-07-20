@@ -129,6 +129,8 @@
     "@storybook/react": "^5.3.19",
     "@svgr/cli": "^5.4.0",
     "@types/node": "^14.0.27",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
     "babel-eslint": "^10.1.0",
     "basic-auth": "^2.0.1",
     "big.js": "^5.2.2",
@@ -138,11 +140,13 @@
     "dnslink-dnsimple": "1.0.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "eslint-config-react-app": "^7.0.1",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-standard": "^4.1.0",
+    "expect-playwright": "^0.8.0",
     "fake-indexeddb": "^3.1.2",
     "get-port": "^5.1.1",
     "go-ipfs": "0.12.0",
@@ -281,15 +285,18 @@
           "tarballDir": "dist"
         }
       ],
-      ["@semantic-release/github", {
-        "assets": [
-          {
-            "path": "ipfs-webui_*.car",
-            "name": "ipfs-webui@${nextRelease.gitTag}.car",
-            "label": "IPFS webui (${nextRelease.gitTag}) CAR file"
-          }
-        ]
-      }],
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            {
+              "path": "ipfs-webui_*.car",
+              "name": "ipfs-webui@${nextRelease.gitTag}.car",
+              "label": "IPFS webui (${nextRelease.gitTag}) CAR file"
+            }
+          ]
+        }
+      ],
       "@semantic-release/git"
     ]
   },
