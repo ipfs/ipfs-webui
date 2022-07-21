@@ -1,6 +1,6 @@
 /* eslint-disable require-yield */
 
-import { join, dirname, basename } from 'path-browserify'
+import { join, dirname, basename } from 'path'
 import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files'
 import countDirs from '../../lib/count-dirs'
 import memoize from 'p-memoize'

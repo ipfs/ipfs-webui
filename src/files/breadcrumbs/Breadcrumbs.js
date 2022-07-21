@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { basename, join } from 'path-browserify'
+import { basename, join } from 'path'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'

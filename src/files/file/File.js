@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { join, basename } from 'path-browserify'
+import { join, basename } from 'path'
 import { withTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import { normalizeFiles, humanSize } from '../../lib/files'
