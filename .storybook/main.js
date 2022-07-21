@@ -10,6 +10,7 @@ module.exports = {
     '@storybook/addon-a11y',
     '@storybook/addon-knobs',
     '@storybook/addon-postcss',
+    '@storybook/preset-create-react-app',
   ],
   staticDirs: [
     '../public'
