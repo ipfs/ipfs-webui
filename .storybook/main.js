@@ -5,16 +5,30 @@
 
 const webpack = require('webpack');
 
-module.exports = {
+const webpackOverride = require('../config-overrides');
+
+/** @type {import('@storybook/core-common').StorybookConfig} */
+const storybookConfig = {
   core: {
     builder: 'webpack5',
   },
-  stories: ['../src/**/*.stories.js'],
+  reactOptions: {
+    legacyRootApi: true,
+  },
+  stories: [
+    '../src/**/*.stories.@(ts|js|tsx|jsx)',
+    // '../src/components/**/*.stories.@(ts|js|tsx)',
+    // '../src/components/identicon/*.stories.@(ts|js|tsx)',
+    // '../src/components/language-selector/*.stories.@(ts|js|tsx)'
+  ],
+  framework: '@storybook/react',
   addons: [
+    '@storybook/addon-essentials',
     '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
-    '@storybook/addon-knobs',
+    // '@storybook/addon-knobs',
+    '@storybook/addon-controls',
     // '@storybook/addon-postcss',
     '@storybook/preset-create-react-app',
   ],
@@ -23,19 +37,25 @@ module.exports = {
   ],
   features: {
     postcss: false,
+    storyStoreV7: true
   },
-  webpackFinal: async (config) => ({
-    ...config,
-    // @see https://github.com/storybookjs/storybook/issues/18276#issuecomment-1137101774
-    plugins: config.plugins.map(plugin => {
-      if (plugin.constructor.name === 'IgnorePlugin') {
-        return new webpack.IgnorePlugin({
-            resourceRegExp: plugin.options.resourceRegExp,
-            contextRegExp: plugin.options.contextRegExp
-        });
-      }
+  webpackFinal: async (config) => {
 
-      return plugin;
-    }),
-}),
+    return webpackOverride({
+      ...config,
+      // @see https://github.com/storybookjs/storybook/issues/18276#issuecomment-1137101774
+      plugins: config.plugins.map(plugin => {
+        if (plugin.constructor.name === 'IgnorePlugin') {
+          return new webpack.IgnorePlugin({
+              resourceRegExp: plugin.options.resourceRegExp,
+              contextRegExp: plugin.options.contextRegExp
+          });
+        }
+
+        return plugin;
+      })
+  })
+},
 };
+
+module.exports = storybookConfig
