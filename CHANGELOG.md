@@ -1,3 +1,16 @@
+## [2.17.3](https://github.com/ipfs/ipfs-webui/compare/v2.17.2...v2.17.3) (2022-07-09)
+
+
+ CID `bafybeihfkeactw26tghz7m3puzh4zqlukvft2f7atfdc7t2qmqn2vszhc4`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* publish car file with semantic-release ([#1971](https://github.com/ipfs/ipfs-webui/issues/1971)) ([1747030](https://github.com/ipfs/ipfs-webui/commit/17470303f02e156171b9a178130f353d164a9e06))
+
 ## [2.17.2](https://github.com/ipfs/ipfs-webui/compare/v2.17.1...v2.17.2) (2022-07-09)
 
 
