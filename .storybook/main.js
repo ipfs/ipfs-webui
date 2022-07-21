@@ -15,12 +15,15 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-a11y',
     '@storybook/addon-knobs',
-    '@storybook/addon-postcss',
+    // '@storybook/addon-postcss',
     '@storybook/preset-create-react-app',
   ],
   staticDirs: [
     '../public'
   ],
+  features: {
+    postcss: false,
+  },
   webpackFinal: async (config) => ({
     ...config,
     // @see https://github.com/storybookjs/storybook/issues/18276#issuecomment-1137101774
