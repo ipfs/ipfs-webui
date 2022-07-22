@@ -22,7 +22,7 @@ const addFiles = async (filesPromise, onAddFiles) => {
   onAddFiles(normalizeFiles(files))
 }
 
-const mergeRemotePinsIntoFiles = (files, remotePins, pendingPins, failedPins, onDismissFailedPin) => {
+const mergeRemotePinsIntoFiles = (files, remotePins, pendingPins, failedPins) => {
   const remotePinsCids = remotePins.map(id => id.split(':').at(-1))
   const pendingPinsCids = pendingPins.map(id => id.split(':').at(-1))
   const failedPinsCids = failedPins.map(id => id.split(':').at(-1))
@@ -45,7 +45,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins, pendingPins, failedPins, on
       isRemotePin,
       isPendingPin,
       isFailedPin,
-      onDismissFailedPin: () => onDismissFailedPin(...fileFailedPins)
+      failedPins: fileFailedPins
     }
   })
 }
@@ -57,7 +57,7 @@ export const FilesList = ({
   const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
-  const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins, doDismissFailedPin))
+  const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
   const listRef = useRef()
   const filesRefs = useRef([])
   const refreshPinCache = true // manually clicking on Pin Status column skips cache and updates remote status
@@ -253,6 +253,9 @@ export const FilesList = ({
       if (listItem.type === 'unknown') return onInspect(listItem.cid)
       return onNavigate({ path: listItem.path, cid: listItem.cid })
     }
+    const onDismissFailedPinHandler = () => {
+      doDismissFailedPin(...listItem.failedPins)
+    }
 
     return (
       <div key={key} style={style} ref={r => { filesRefs.current[allFiles[index].name] = r }}>
@@ -265,6 +268,7 @@ export const FilesList = ({
           onNavigate={onNavigateHandler}
           onAddFiles={onAddFiles}
           onSetPinning={onSetPinning}
+          onDismissFailedPin={onDismissFailedPinHandler}
           onMove={move}
           focused={focused === listItem.name}
           selected={selected.indexOf(listItem.name) !== -1}
