@@ -1,12 +1,24 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import i18n from '../../../i18n-decorator'
+import i18nDecorator from '../../../i18n-decorator'
 import AddFilesInfo from './AddFilesInfo'
 
-storiesOf('Files/Info Boxes', module)
-  .addDecorator(i18n)
-  .add('Add Files', () => (
-    <div className='ma3 sans-serif'>
-      <AddFilesInfo />
-    </div>
-  ))
+/**
+ * @type {import('@storybook/react').Meta}
+ */
+const AddFilesInfoStory = {
+  title: 'Files/Info Boxes',
+  component: AddFilesInfo,
+  decorators: [
+    i18nDecorator
+  ],
+  render: () => {
+    return (
+      <div className='ma3 sans-serif'>
+        <AddFilesInfo />
+      </div>
+    )
+  }
+}
+
+export default AddFilesInfoStory
+
+export const Default = {}
