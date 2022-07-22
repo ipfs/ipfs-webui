@@ -254,8 +254,9 @@ const pinningBundle = {
 
   doSelectRemotePinsForFile: (file) => ({ store }) => {
     const pinningServicesNames = store.selectPinningServices().map(remote => remote.name)
-    const remotePinForFile = store.selectRemotePins().filter(pin => cacheId2Cid(pin) === file.cid.toString())
-    const servicesBeingUsed = remotePinForFile.map(pin => cacheId2ServiceName(pin)).filter(name => pinningServicesNames.includes(name))
+    const remoteAndPendingPins = uniq([...store.selectPendingPins(), ...store.selectRemotePins()])
+    const remoteAndPendingPinsForFile = remoteAndPendingPins.filter(pin => cacheId2Cid(pin) === file.cid.toString())
+    const servicesBeingUsed = remoteAndPendingPinsForFile.map(pin => cacheId2ServiceName(pin)).filter(name => pinningServicesNames.includes(name))
     return servicesBeingUsed
   },
 
