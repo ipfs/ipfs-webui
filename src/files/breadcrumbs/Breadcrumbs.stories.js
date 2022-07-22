@@ -1,21 +1,34 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import { checkA11y } from '@storybook/addon-a11y'
-import i18n from '../../i18n-decorator'
+// @ts-check
+import React from '@storybook/react'
 import Breadcrumbs from './Breadcrumbs'
 
-storiesOf('Files/Header', module)
-  .addDecorator(checkA11y)
-  .addDecorator(i18n)
-  .add('Breadcrumbs', () => (
-    <div className='ma3'>
-      <Breadcrumbs
-        path='/home/this is a very very very long folder/another sub path/oi/other'
-        onClick={action('Navigate')} />
+/**
+ * @type {import('@storybook/react').Meta}
+ */
+const BreadcrumbsStory = {
+  title: 'Files/Header',
+  component: Breadcrumbs,
+  argTypes: {
+    onClick: { action: 'clicked' }
+  }
+}
 
-      <Breadcrumbs
-        path='/ipns/ipfs.io/index.html'
-        onClick={action('Navigate')} />
-    </div>
-  ))
+export default BreadcrumbsStory
+
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
+export const Default = {
+  args: {
+    path: '/home/this is a very very very long folder/another sub path/oi/other'
+  }
+}
+
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
+export const Combined = {
+  args: {
+    path: '/ipns/ipfs.io/index.html'
+  }
+}
