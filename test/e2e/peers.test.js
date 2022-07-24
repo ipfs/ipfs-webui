@@ -1,11 +1,13 @@
-/* global webuiUrl, ipfs, page, describe, it, beforeAll, afterAll, waitForText */
-
+const { test } = require('@playwright/test')
 const { createController } = require('ipfsd-ctl')
+const ipfsClient = require('ipfs-http-client')
 
-describe('Peers screen', () => {
+const addConnection = 'text=Add connection'
+
+test.describe('Peers screen', () => {
   let ipfsd
   let peeraddr
-  beforeAll(async () => {
+  test.beforeAll(async () => {
     // spawn an ephemeral local node for manual swarm connect test
     ipfsd = await createController({
       type: 'go',
@@ -16,34 +18,39 @@ describe('Peers screen', () => {
     })
     const { addresses } = await ipfsd.api.id()
     peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
-    // connect to peer to have something  in the peer table
-    await ipfs.swarm.connect(peeraddr)
-    await page.goto(webuiUrl + '#/peers', { waitUntil: 'networkidle' })
+
+    // connect ipfs-backend used by webui to this new peer to have something  in the peer table
+    const webuiIpfs = ipfsClient(process.env.IPFS_RPC_ADDR)
+    await webuiIpfs.swarm.connect(peeraddr)
   })
 
-  it('should have a clickable "Add connection" button', async () => {
-    const addConnection = 'Add connection'
-    await waitForText(addConnection)
-    await page.click(`text=${addConnection}`)
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/#/peers')
+  })
+
+  test('should have a clickable "Add connection" button', async ({ page }) => {
+    await page.waitForSelector(addConnection)
+  })
+
+  test('should confirm connection after "Add connection" ', async ({ page }) => {
+    await page.waitForSelector(addConnection)
+    await page.click(addConnection)
     await page.waitForSelector('div[role="dialog"]')
-    await waitForText('Insert the peer address you want to connect to')
-  })
-
-  it('should confirm connection after "Add connection" ', async () => {
+    await page.waitForSelector('text=Insert the peer address you want to connect to')
     // enter multiaddr of a disposable local node spawned for this test
     await page.type('div[role="dialog"] input[type="text"]', peeraddr)
     // hit Enter
-    await page.keyboard.type('\n')
+    await page.keyboard.press('Enter')
     // expect connection confirmation
     await page.waitForSelector('.bg-green', { visible: true })
-    await waitForText('Successfully connected to the provided peer')
+    await page.waitForSelector('text=Successfully connected to the provided peer')
   })
 
-  it('should have a peer from a "Local Network"', async () => {
-    await waitForText('Local Network')
+  test('should have a peer from a "Local Network"', async ({ page }) => {
+    await page.waitForSelector('text=Local Network')
   })
 
-  afterAll(async () => {
+  test.afterAll(async () => {
     if (ipfsd) await ipfsd.stop()
   })
 })
