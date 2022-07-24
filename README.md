@@ -28,6 +28,11 @@ With a supported Node.js version: [![](https://byob.yarr.is/ipfs/ipfs-webui/node
 > npm install
 ```
 
+#### A Note on NodeJS support
+We aim to support ipfs-webui development and build with  "Current" and "Active LTS"  Nodejs versions.
+
+See <https://nodejs.org/en/about/releases/> for more information about which versions have which release statuses.
+
 ## Usage
 
 **When working on the code**, run an ipfs daemon, the local [dev server](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-start), the [unit tests](https://facebook.github.io/jest/), and the [storybook](https://storybook.js.org/) component viewer and see the results of your changes as you save files.
