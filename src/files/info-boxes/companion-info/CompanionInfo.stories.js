@@ -4,11 +4,9 @@ import CompanionInfo from './CompanionInfo'
 /**
  * @type {import('@storybook/react').Meta}
  */
-const CompanionInfoStory = {
+export default {
   title: 'Files/Info Boxes/CompanionInfo',
   component: CompanionInfo
 }
-
-export default CompanionInfoStory
 
 export const Default = {}

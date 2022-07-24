@@ -8,8 +8,8 @@ const CidStory = {
   component: Cid,
   parameters: {
     actions: {
-      disable: false,
-    },
+      disable: false
+    }
   },
   argTypes: {
     onClick: { action: 'clicked' }

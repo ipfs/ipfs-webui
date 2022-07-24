@@ -5,14 +5,12 @@ import AddFilesInfo from './AddFilesInfo'
 /**
  * @type {import('@storybook/react').Meta}
  */
-const AddFilesInfoStory = {
+export default {
   title: 'Files/Info Boxes/AddFilesInfo',
   component: AddFilesInfo,
   decorators: [
     i18nDecorator
   ]
 }
-
-export default AddFilesInfoStory
 
 export const Default = {}

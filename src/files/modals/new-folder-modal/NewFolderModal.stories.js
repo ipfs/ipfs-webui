@@ -1,15 +1,18 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import i18n from '../../../i18n-decorator'
-import NewFolderModal from './NewFolderModal'
+import React from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import i18n from '../../../i18n-decorator';
+import NewFolderModal from './NewFolderModal';
 
-storiesOf('Files/Modals', module)
-  .addDecorator(i18n)
-  .add('New Folder', () => (
-    <div className='ma3'>
-      <NewFolderModal
-        onCancel={action('Cancel')}
-        onSubmit={action('Submit')} />
+/**
+ * @type {import('@storybook/react').Meta}
+ */
+export default {
+    title: 'Files/Modals',
+    decorators: [i18n],
+};
+
+export const NewFolder = () => (
+    <div className="ma3">
+        <NewFolderModal onCancel={action('Cancel')} onSubmit={action('Submit')} />
     </div>
-  ))
+);

@@ -7,7 +7,7 @@ import LanguageSelectorEl from './LanguageSelector'
 /**
  * @type {import('@storybook/react').Meta}
  */
-const LanguageSelector = {
+export default {
   title: 'LanguageSelector',
   component: LanguageSelectorEl,
   parameters: {
@@ -25,7 +25,6 @@ const LanguageSelector = {
   }
 }
 
-export default LanguageSelector
 const Template = (args) => <div className={args.wrapperClassName}>
   <LanguageSelectorEl t={i18n.getFixedT(args.lang, 'settings')} />
 </div>

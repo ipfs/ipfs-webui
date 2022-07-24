@@ -4,7 +4,7 @@ import InfoBoxes from './InfoBoxes'
 /**
  * @type {import('@storybook/react').Meta}
  */
-const InfoBoxesStory = {
+export default {
   title: 'Files/Info Boxes/InfoBoxes',
   component: InfoBoxes,
   args: {
@@ -13,8 +13,6 @@ const InfoBoxesStory = {
     filesExist: true
   }
 }
-
-export default InfoBoxesStory
 
 export const Default = {
   title: 'Info Boxes'

@@ -7,7 +7,7 @@ import config from './fixtures/example-config.json'
 /**
  * @type {import('@storybook/react').Meta}
  */
-const JsonEditorStory = {
+export default {
   title: 'JSON Editor',
   component: JsonEditor,
   args: {
@@ -15,7 +15,5 @@ const JsonEditorStory = {
     readOnly: false
   }
 }
-
-export default JsonEditorStory
 
 export const Default = {}

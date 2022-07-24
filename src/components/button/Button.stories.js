@@ -1,18 +1,41 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import Button from './Button'
+import React from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import Button from './Button';
 
-storiesOf('Button', module)
-  .add('Colors', () => (
+
+/**
+ * @type {import('@storybook/react').Meta}
+ */
+export default {
+  title: 'Button',
+  argTyp
+};
+
+export const Colors = () => (
     <div>
-      <Button className='ma2' onClick={action('aqua-click')}>Aqua</Button>
-      <Button className='ma2' bg='bg-teal' onClick={action('teal-click')}>Teal</Button>
-      <Button className='ma2' bg='bg-navy' onClick={action('navy-click')}>Navy</Button>
-      <Button className='ma2' bg='bg-orange' onClick={action('orange-click')}>Orange</Button>
-      <Button className='ma2' bg='bg-red' onClick={action('red-click')}>Red</Button>
-      <Button className='ma2' disabled onClick={action('disabled-click')}>Disabled</Button>
-      <Button className='ma2' minWidth={100} onClick={action('smol-click')}>Smol</Button>
-      <Button className='ma2' onClick={action('smol-click')} style={{ background: 'hotpink' }}>Custom</Button>
+        <Button className="ma2" onClick={action('aqua-click')}>
+            Aqua
+        </Button>
+        <Button className="ma2" bg="bg-teal" onClick={action('teal-click')}>
+            Teal
+        </Button>
+        <Button className="ma2" bg="bg-navy" onClick={action('navy-click')}>
+            Navy
+        </Button>
+        <Button className="ma2" bg="bg-orange" onClick={action('orange-click')}>
+            Orange
+        </Button>
+        <Button className="ma2" bg="bg-red" onClick={action('red-click')}>
+            Red
+        </Button>
+        <Button className="ma2" disabled onClick={action('disabled-click')}>
+            Disabled
+        </Button>
+        <Button className="ma2" minWidth={100} onClick={action('smol-click')}>
+            Smol
+        </Button>
+        <Button className="ma2" onClick={action('smol-click')} style={{ background: 'hotpink' }}>
+            Custom
+        </Button>
     </div>
-  ))
+);

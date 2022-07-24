@@ -5,15 +5,13 @@ import Breadcrumbs from './Breadcrumbs'
 /**
  * @type {import('@storybook/react').Meta}
  */
-const BreadcrumbsStory = {
+export default {
   title: 'Files/Header',
   component: Breadcrumbs,
   argTypes: {
     onClick: { action: 'clicked' }
   }
 }
-
-export default BreadcrumbsStory
 
 /**
  * @type {import('@storybook/react').StoryObj}
