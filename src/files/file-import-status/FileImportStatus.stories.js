@@ -20,6 +20,9 @@ export default {
     decorators: [i18nDecorator, checkA11y, withKnobs],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ImportASingleFileExpandedInProgress = () => (
     <div className="sans-serif vh-80 bg-navy" style={containerStyle}>
         <FileImportStatus
@@ -43,6 +46,9 @@ ImportASingleFileExpandedInProgress.story = {
     name: 'Import a single file (expanded, in progress)',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ImportASingleFileCollapsedInProgress = () => (
     <div className="sans-serif vh-80 bg-navy" style={containerStyle}>
         <FileImportStatus
@@ -67,6 +73,9 @@ ImportASingleFileCollapsedInProgress.story = {
     name: 'Import a single file (collapsed, in progress)',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ImportASingleFileExpandedComplete = () => (
     <div className="sans-serif vh-80 bg-navy" style={containerStyle}>
         <FileImportStatus
@@ -91,6 +100,9 @@ ImportASingleFileExpandedComplete.story = {
     name: 'Import a single file (expanded, complete)',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ImportMultipleFilesExpandedInProgress = () => (
     <div className="sans-serif vh-80 bg-navy" style={containerStyle}>
         <FileImportStatus
@@ -134,6 +146,9 @@ ImportMultipleFilesExpandedInProgress.story = {
     name: 'Import multiple files (expanded, in progress)',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ImportMultipleFilesCollapsedInProgress = () => (
     <div className="sans-serif vh-80 bg-navy" style={containerStyle}>
         <FileImportStatus
@@ -181,6 +196,9 @@ ImportMultipleFilesCollapsedInProgress.story = {
     name: 'Import multiple files (collapsed, in progress)',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ImportMultipleFilesExpandedComplete = () => (
     <div className="sans-serif vh-80 bg-navy" style={containerStyle}>
         <FileImportStatus

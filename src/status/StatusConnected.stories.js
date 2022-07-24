@@ -12,4 +12,7 @@ export default {
     decorators: [i18n, checkA11y],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Default = () => <StatusConnected peersCount={1001} repoSize={123123912321312} />;

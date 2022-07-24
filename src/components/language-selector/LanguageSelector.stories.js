@@ -29,6 +29,9 @@ const Template = (args) => <div className={args.wrapperClassName}>
   <LanguageSelectorEl t={i18n.getFixedT(args.lang, 'settings')} />
 </div>
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Default = Template.bind({ })
 
 Default.args = {

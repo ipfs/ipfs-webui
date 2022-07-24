@@ -11,6 +11,9 @@ export default {
     decorators: [i18n],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Share = () => (
     <div className="ma3">
         <ShareModal

@@ -10,6 +10,9 @@ export default {
     title: 'Pinning Manager',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Default = () => (
     <div className="pa4 bg-light-gray">
         <PinningManager

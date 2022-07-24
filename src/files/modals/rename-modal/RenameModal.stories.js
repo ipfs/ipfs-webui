@@ -11,6 +11,9 @@ export default {
     decorators: [i18n],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Rename = () => (
     <div className="ma3">
         <RenameModal filename="my-agenda.markdown" onCancel={action('Cancel')} onSubmit={action('Rename')} />

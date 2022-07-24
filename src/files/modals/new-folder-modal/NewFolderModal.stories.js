@@ -11,6 +11,9 @@ export default {
     decorators: [i18n],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const NewFolder = () => (
     <div className="ma3">
         <NewFolderModal onCancel={action('Cancel')} onSubmit={action('Submit')} />

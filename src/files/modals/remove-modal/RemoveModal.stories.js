@@ -11,6 +11,9 @@ export default {
     decorators: [i18n],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Remove = () => (
     <div className="ma3">
         <RemoveModal onCancel={action('Cancel')} onRemove={action('Remove')} files={4} folders={0} />

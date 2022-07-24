@@ -11,6 +11,9 @@ export default {
   argTyp
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Colors = () => (
     <div>
         <Button className="ma2" onClick={action('aqua-click')}>

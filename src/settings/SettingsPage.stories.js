@@ -15,6 +15,9 @@ export default {
     decorators: [checkA11y, withKnobs, i18nDecorator],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Default = () => (
     <div className="sans-serif">
         <SettingsPage

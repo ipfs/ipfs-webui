@@ -34,6 +34,9 @@ export const Default = {
   }
 }
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Large = {
   args: {
     cid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW',

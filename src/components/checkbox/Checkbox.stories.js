@@ -16,18 +16,27 @@ export default {
     decorators: [checkA11y],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Default = () => (
     <div>
         <Checkbox className="ma2" label="Click me!" onChange={action('Checked')} />
     </div>
 );
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Disabled = () => (
     <div>
         <Checkbox label="Click me!" className="ma2" disabled onChange={action('Checked')} />
     </div>
 );
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Big = () => (
     <div>
         <Checkbox style={bigPicture} label="Click me!" className="ma2" onChange={action('Checked')} />

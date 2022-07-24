@@ -17,6 +17,9 @@ const CidStory = {
 }
 export default CidStory
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const CidV0 = {
   args: {
     className: 'db ma2 monospace',
@@ -25,6 +28,9 @@ export const CidV0 = {
   }
 }
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const CidV0Identicon = {
   args: {
     className: 'db ma2 monospace',
@@ -33,6 +39,9 @@ export const CidV0Identicon = {
   }
 }
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const CidV1 = {
   args: {
     className: 'db ma2 monospace',
@@ -41,6 +50,9 @@ export const CidV1 = {
   }
 }
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const CidV1Sha3 = {
   args: {
     className: 'db ma2 monospace',

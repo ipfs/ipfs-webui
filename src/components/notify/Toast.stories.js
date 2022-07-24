@@ -11,6 +11,9 @@ export default {
     decorators: [checkA11y],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Default = () => (
     <div style={{ height: '100vh' }}>
         <Toast onDismiss={action('cancel')}>
@@ -19,6 +22,9 @@ export const Default = () => (
     </div>
 );
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Error = () => (
     <div style={{ height: '100vh' }}>
         <Toast onDismiss={action('cancel')} error>

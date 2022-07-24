@@ -10,6 +10,9 @@ export default {
     title: 'Files/Modals',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Pinning = () => (
     <div className="ma3">
         <PinningModal t={i18n.getFixedT('en', 'files')} onCancel={action('Cancel')} onSubmit={action('Pinning')} />

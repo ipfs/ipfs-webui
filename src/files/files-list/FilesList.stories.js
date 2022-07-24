@@ -19,6 +19,9 @@ export default {
     decorators: [i18nDecorator, DndDecorator, withKnobs],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ListWith10Files = () => (
     <div className="h-100">
         <FilesList
@@ -44,6 +47,9 @@ ListWith10Files.story = {
     name: 'List with 10 files',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ListWith100Files = () => (
     <div className="h-100">
         <FilesList
@@ -69,6 +75,9 @@ ListWith100Files.story = {
     name: 'List with 100 files',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ListWith1000Files = () => (
     <div className="h-100">
         <FilesList
@@ -94,6 +103,9 @@ ListWith1000Files.story = {
     name: 'List with 1000 files',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const ListWith5000Files = () => (
     <div className="h-100">
         <FilesList

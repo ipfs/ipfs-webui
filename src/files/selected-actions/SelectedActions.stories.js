@@ -12,6 +12,9 @@ export default {
     decorators: [withKnobs, i18n],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const _SelectedActions = () => (
     <div className="ma3">
         <SelectedActions

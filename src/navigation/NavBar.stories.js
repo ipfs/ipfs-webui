@@ -13,6 +13,9 @@ export default {
     decorators: [checkA11y, withKnobs],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Default = () => (
     <div className="sans-serif vh-100 bg-navy" style={{ width: 156 }}>
         <NavBar

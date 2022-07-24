@@ -8,6 +8,9 @@ export default {
     title: 'Progress Bars',
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Colors = () => (
     <div className="ma2">
         <ProgressBar bg="bg-navy" progress={42} />

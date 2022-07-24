@@ -11,6 +11,9 @@ export default {
     decorators: [i18n],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const AddByPath = () => (
     <div className="ma3">
         <AddByPathModal onCancel={action('Cancel')} onSubmit={action('Submit')} files={4} folders={0} />

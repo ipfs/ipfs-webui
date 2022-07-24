@@ -21,6 +21,9 @@ export default {
     decorators: [withKnobs],
 };
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const List = () => {
     const size = number('Size', 32, { range: true, min: 1, max: 200, step: 1 });
     const fill = color('Fill', undefined);

@@ -9,4 +9,7 @@ export default {
   component: CompanionInfo
 }
 
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
 export const Default = {}
