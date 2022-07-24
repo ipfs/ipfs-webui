@@ -29,13 +29,9 @@ With a supported Node.js version: [![](https://byob.yarr.is/ipfs/ipfs-webui/node
 ```
 
 #### A Note on NodeJS support
-We will only support *even numbered* nodejs versions that are classified in one of the following release statuses:
+We aim to support ipfs-webui development and build with  "Current" and "Active LTS"  Nodejs versions.
 
-* Current (Support = P1)
-* Active LTS (Support = P0)
-* Maintenance LTS (Support = P2)
-
-See https://nodejs.org/en/about/releases/ for more information about which versions have which release statuses.
+See <https://nodejs.org/en/about/releases/> for more information about which versions have which release statuses.
 
 ## Usage
 
