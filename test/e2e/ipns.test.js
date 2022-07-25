@@ -3,7 +3,6 @@ const { createController } = require('ipfsd-ctl')
 const ipfsClient = require('ipfs-http-client')
 
 test.describe('IPNS publishing', () => {
-  const keyName = 'pet-name-e2e-ipns-test'
   let ipfsd
   let peeraddr
 
@@ -21,16 +20,18 @@ test.describe('IPNS publishing', () => {
   })
 
   test.describe('Settings screen', () => {
+    let ipfs
     test.beforeEach(async ({ page }) => {
+      ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
       await page.goto('/#/settings')
     })
     test('should list IPNS keys', async ({ page }) => {
       // confirm the self key is displayed
-      const ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
       await waitForIPNSKeyList(ipfs, 'self', page)
     })
 
     test('should support adding new keys', async ({ page }) => {
+      const keyName = 'pet-name-e2e-ipns-test-' + new Date().getTime()
       // open dialog
       const genKey = 'text=Generate Key'
       await page.waitForSelector(genKey)
@@ -44,14 +45,37 @@ test.describe('IPNS publishing', () => {
       // hit Enter
       await page.press(selector, 'Enter')
       // expect it to be added to key list under provided pet name
-      const ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
-      await waitForIPNSKeyList(ipfs, 'self', page)
+      await waitForIPNSKeyList(ipfs, keyName, page)
+    })
+
+    test('should support removing keys', async ({ page }) => {
+      // create key that we want to remove
+      const rmKeyName = 'rm-key-test-' + new Date().getTime()
+      const { id } = await ipfs.key.gen(rmKeyName)
+      await page.reload()
+      // remove key via UI on Settings page
+      await page.waitForSelector(`text=${rmKeyName}`)
+      await page.locator(`text=${rmKeyName}${id} >> [aria-label="Show options"]`).click()
+      await page.waitForSelector('text=Rename')
+      await page.locator('button[role="menuitem"]:has-text("Remove")').click()
+      await page.waitForSelector('text=Confirm IPNS Key Removal')
+      await page.locator('button:has-text("Remove")').click()
+      await page.waitForSelector(`text=${rmKeyName}`, { state: 'detached' })
+      for (const { name } of await ipfs.key.list()) {
+        expect(name).not.toEqual(rmKeyName)
+      }
     })
   })
 
   test.describe('Files screen', () => {
+    let keyName
+    let ipfs
     test.beforeEach(async ({ page }) => {
+      keyName = 'pet-name-e2e-ipns-test-' + new Date().getTime()
+      ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
+      await ipfs.key.gen(keyName)
       await page.goto('/#/files')
+      await page.reload()
     })
 
     const testFilename = 'ipns-test.txt'
@@ -86,7 +110,6 @@ test.describe('IPNS publishing', () => {
       expect(enabled).toBeTruthy()
       // connect to other peer to have something in the peer table
       // (ipns will fail to publish without peers)
-      const ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
       await ipfs.swarm.connect(peeraddr)
       await page.click(publishButton)
       await page.waitForSelector('text=Successfully published')
@@ -110,6 +133,7 @@ async function waitForIPNSKeyList (ipfs, specificKey, page) {
   await page.waitForSelector('text=IPNS Publishing Keys')
   if (specificKey) await page.waitForSelector(`text=${specificKey}`)
   for (const { id, name } of await ipfs.key.list()) {
+    if (name.startsWith('rm-key-test-')) continue // avoid race with removal tests
     await page.waitForSelector(`text=${id}`)
     await page.waitForSelector(`text=${name}`)
   }
