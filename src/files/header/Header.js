@@ -65,7 +65,7 @@ class Header extends React.Component {
                 <span>
                   { size(currentDirectorySize) }<span className='f5 gray'>/{ size(filesSize) }</span>
                 </span>
-              )
+                )
               : size(filesSize) }
           </BarOption>
 

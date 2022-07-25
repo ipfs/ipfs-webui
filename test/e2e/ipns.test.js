@@ -1,13 +1,13 @@
-/* global webuiUrl, ipfs, page, describe, it, beforeAll, afterAll, expect */
-
+const { test, expect } = require('@playwright/test')
 const { createController } = require('ipfsd-ctl')
+const ipfsClient = require('ipfs-http-client')
 
-describe('IPNS publishing', () => {
+test.describe('IPNS publishing', () => {
   const keyName = 'pet-name-e2e-ipns-test'
   let ipfsd
   let peeraddr
 
-  beforeAll(async () => {
+  test.beforeAll(async () => {
     // spawn a second ephemeral local node as a peer for ipns publishing
     ipfsd = await createController({
       type: 'go',
@@ -20,43 +20,44 @@ describe('IPNS publishing', () => {
     peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
   })
 
-  describe('Settings screen', () => {
-    beforeAll(async () => {
-      await page.goto(webuiUrl + '#/settings', { waitUntil: 'networkidle' })
+  test.describe('Settings screen', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/#/settings')
     })
-    it('should list IPNS keys', async () => {
-      await page.goto(webuiUrl + '#/settings', { waitUntil: 'networkidle' })
+    test('should list IPNS keys', async ({ page }) => {
       // confirm the self key is displayed
-      await waitForIPNSKeyList(ipfs, 'self')
+      const ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
+      await waitForIPNSKeyList(ipfs, 'self', page)
     })
 
-    it('should have a clickable "Generate key" button', async () => {
+    test('should support adding new keys', async ({ page }) => {
+      // open dialog
       const genKey = 'text=Generate Key'
       await page.waitForSelector(genKey)
       await page.click(genKey)
       await page.waitForSelector('div[role="dialog"]')
+      // expect prompt for key name
       await page.waitForSelector('text=Enter pet name of key to create')
-    })
-
-    it('should list new IPNS key with provided pet name ', async () => {
       // provide key name
-      await page.type('div[role="dialog"] input[type="text"]', keyName)
+      const selector = 'div[role="dialog"] input[type="text"]'
+      await page.type(selector, keyName)
       // hit Enter
-      await page.keyboard.type('\n')
+      await page.press(selector, 'Enter')
       // expect it to be added to key list under provided pet name
-      await waitForIPNSKeyList(ipfs, 'self')
+      const ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
+      await waitForIPNSKeyList(ipfs, 'self', page)
     })
   })
 
-  describe('Files screen', () => {
-    beforeAll(async () => {
-      await page.goto(webuiUrl + '#/files', { waitUntil: 'networkidle' })
+  test.describe('Files screen', () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/#/files')
     })
 
     const testFilename = 'ipns-test.txt'
     const testCid = '/ipfs/bafyaaeqkcaeaeeqknfyg44znorsxg5akdafa'
 
-    it('should have "Publish to IPNS" context action', async () => {
+    test('should have functional "Publish to IPNS" context action', async ({ page }) => {
       // first: create a test file
       const button = 'button[id="import-button"]'
       await page.waitForSelector(button, { state: 'visible' })
@@ -66,7 +67,7 @@ describe('IPNS publishing', () => {
       await page.waitForSelector('div[role="dialog"] input[name="name"]')
       await page.fill('div[role="dialog"] input[name="path"]', testCid)
       await page.fill('div[role="dialog"] input[name="name"]', testFilename)
-      await page.keyboard.type('\n')
+      await page.keyboard.press('Enter')
       // expect file with matching filename to be added to the file list
       await page.waitForSelector(`.File:has-text("${testFilename}")`)
       // click on the context menu
@@ -75,9 +76,6 @@ describe('IPNS publishing', () => {
       await page.waitForSelector(`.File:has-text("${testFilename}")`)
       // expect IPNS action to be present in the context menu
       await page.waitForSelector('button:has-text("Publish to IPNS")')
-    })
-
-    it('should allow selecting IPNS keys', async () => {
       // .. continue by clicking on context action
       await page.click('button:has-text("Publish to IPNS")')
       await page.waitForSelector('div[role="dialog"] .publishModalKeys')
@@ -88,6 +86,7 @@ describe('IPNS publishing', () => {
       expect(enabled).toBeTruthy()
       // connect to other peer to have something in the peer table
       // (ipns will fail to publish without peers)
+      const ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
       await ipfs.swarm.connect(peeraddr)
       await page.click(publishButton)
       await page.waitForSelector('text=Successfully published')
@@ -100,14 +99,14 @@ describe('IPNS publishing', () => {
     })
   })
 
-  afterAll(async () => {
+  test.afterAll(async () => {
     if (ipfsd) await ipfsd.stop()
   })
 })
 
 // Confirm contents of IPNS Publishing Keys table on Settings screen
 // are in sync with ipfs.key.list
-async function waitForIPNSKeyList (ipfs, specificKey) {
+async function waitForIPNSKeyList (ipfs, specificKey, page) {
   await page.waitForSelector('text=IPNS Publishing Keys')
   if (specificKey) await page.waitForSelector(`text=${specificKey}`)
   for (const { id, name } of await ipfs.key.list()) {

@@ -135,7 +135,8 @@ export const SettingsPage = ({
                 hasSaveSucceded={hasSaveSucceded} />
             </div>
           </div>
-          { config ? (
+          { config
+            ? (
             <div className='flex flex-column justify-center flex-row-l items-center-l'>
               <CliTutorMode showIcon={true} config={config} t={t} command={command}/>
               <Button
@@ -158,16 +159,19 @@ export const SettingsPage = ({
                 isSaving={isSaving}
                 onClick={onSave} />
             </div>
-          ) : null }
+              )
+            : null }
         </div>
       </div>
-      { config ? (
+      { config
+        ? (
         <JsonEditor
           value={config}
           onChange={onChange}
           readOnly={isSaving}
           key={editorKey} />
-      ) : null }
+          )
+        : null }
     </Box>
     )}
 
@@ -194,11 +198,13 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
       disabled={!hasLocalChanges || hasErrors}
       danger={hasSaveFailed || hasExternalChanges}
       onClick={onClick}>
-      { hasSaveSucceded && !hasSaveFailed ? (
+      { hasSaveSucceded && !hasSaveFailed
+        ? (
         <Tick height={16} className='fill-snow' style={{ transform: 'scale(3)' }} />
-      ) : (
-        isSaving ? t('app:actions.saving') : t('app:actions.save')
-      )}
+          )
+        : (
+            isSaving ? t('app:actions.saving') : t('app:actions.save')
+          )}
     </Button>
   )
 }

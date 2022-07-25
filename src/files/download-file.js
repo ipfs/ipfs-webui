@@ -29,7 +29,9 @@ const downloadFile = (srcUrl, filename, progressCallback, method = 'GET') => {
   }
 
   xhr.onprogress = (e) => {
-    total = e.lengthComputable ? e.total : (total ||
+    total = e.lengthComputable
+      ? e.total
+      : (total ||
       xhr.getResponseHeader('X-Content-Length') ||
       xhr.getResponseHeader('Content-Length'))
 

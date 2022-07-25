@@ -7,7 +7,9 @@ import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
 import ip from 'ip'
 import memoize from 'p-memoize'
-import { dependencies } from '../../package.json'
+import pkgJson from '../../package.json'
+
+const { dependencies } = pkgJson
 
 // After this time interval, we re-check the locations for each peer
 // once again through PeerLocationResolver.

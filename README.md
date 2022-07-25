@@ -28,6 +28,11 @@ With a supported Node.js version: [![](https://byob.yarr.is/ipfs/ipfs-webui/node
 > npm install
 ```
 
+#### A Note on NodeJS support
+We aim to support ipfs-webui development and build with  "Current" and "Active LTS"  Nodejs versions.
+
+See <https://nodejs.org/en/about/releases/> for more information about which versions have which release statuses.
+
 ## Usage
 
 **When working on the code**, run an ipfs daemon, the local [dev server](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-start), the [unit tests](https://facebook.github.io/jest/), and the [storybook](https://storybook.js.org/) component viewer and see the results of your changes as you save files.
@@ -135,7 +140,7 @@ Make sure `npm run build` is run before starting E2E tests:
 
 ```sh
 > npm run build
-> npm run test:e2e # end-to-end smoke tests (fast, headless, use go-ipfs)
+> npm run test:e2e # end-to-end smoke tests (fast, headless, use Kubo (go-ipfs))
 ```
 
 ### Customizing E2E Tests
@@ -207,20 +212,17 @@ To disable headless mode and see the browser, set the environment variable `DEBU
 > DEBUG=true npm run test:e2e # will show a browser window
 ```
 
-To build and run e2e only for a specific test script, pass its filename:
+To build and run e2e only for a specific test script, pass its name:
 
 ```sh
-> npm run build && npm run test:e2e test/e2e/settings.test.js
+> npm run build && npm run test:e2e -- --grep "Settings"
 ```
 
 #### Breakpoints
 
-When running with `DEBUG=true` it is possible to set a "breakpoint" via `await page.pause()` to stop tests at a specific line:
+It is possible to set a "breakpoint" via `await page.pause()` to stop tests at a specific line.
 
-```js
-jest.setTimeout(600000) // increase test suite timeout
-await page.pause()
-```
+Read more at <https://playwright.dev/docs/debug#using-pagepause>
 
 ## Coverage
 
