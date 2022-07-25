@@ -94,7 +94,7 @@ const FilesPage = ({
 
   const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
   const onInspect = (cid) => doUpdateHash(`/explore/ipfs/${cid}`)
-  const showModal = (modal, files = null) => setModals({ show: modal, files: files })
+  const showModal = (modal, files = null) => setModals({ show: modal, files })
   const hideModal = () => setModals({})
   const handleContextMenu = (ev, clickType, file, pos) => {
     // This is needed to disable the native OS right-click menu
