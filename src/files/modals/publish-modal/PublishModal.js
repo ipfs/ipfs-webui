@@ -86,6 +86,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
             </button>
           ))}
         </div>
+        <span className="mb1 tl f7 charcoal-muted">{ t('publishModal.help') }</span>
 
         { error && <p className='ma0 lh-copy red f5 mw7'>{error.toString()}</p>}
       </div>
