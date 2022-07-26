@@ -55,8 +55,8 @@ const createFilesBundle = () => {
             : null
           const { pageContent } = result
             ? {
-              pageContent: result
-            }
+                pageContent: result
+              }
             : state
 
           return {
