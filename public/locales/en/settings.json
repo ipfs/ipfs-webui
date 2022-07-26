@@ -171,11 +171,11 @@
   },
   "generateKeyModal": {
     "title": "Generate New IPNS Key",
-    "description": "Enter pet name of key to create."
+    "description": "Enter a nickname for this key to generate:"
   },
   "renameKeyModal": {
     "title": "Rename Key",
-    "description": "Enter a new pet name for IPNS key <1>{name}</1>."
+    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
   },
   "removeKeyModal": {
     "title": "Confirm IPNS Key Removal",

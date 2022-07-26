@@ -38,7 +38,7 @@ test.describe('IPNS publishing', () => {
       await page.click(genKey)
       await page.waitForSelector('div[role="dialog"]')
       // expect prompt for key name
-      await page.waitForSelector('text=Enter pet name of key to create')
+      await page.waitForSelector('text=Enter a nickname for this key to generate')
       // provide key name
       const selector = 'div[role="dialog"] input[type="text"]'
       await page.type(selector, keyName)
