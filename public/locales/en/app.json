@@ -28,6 +28,8 @@
     "submit": "Submit",
     "unpin": "Unpin",
     "unselectAll": "Unselect all",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "Download as CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "Out",
     "peer": "Peer",
     "peerId": "Peer ID",
+    "id": "ID",
     "peers": "Peers",
     "pinNoun": "Pin",
     "pins": "Pins",
