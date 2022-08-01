@@ -5,6 +5,7 @@ import { humanSize } from '../../../lib/files'
 import Button from '../../../components/button/Button'
 import Checkbox from '../../../components/checkbox/Checkbox'
 import GlyphPin from '../../../icons/GlyphPin'
+import Icon from '../../../icons/StrokePinCloud'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal'
 import { complianceReportsHomepage } from '../../../constants/pinning'
 import { connect } from 'redux-bundler-react'
@@ -50,7 +51,7 @@ export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningS
 
   return (
     <Modal {...props} className={className} onCancel={onCancel} >
-      <ModalBody title={t('pinningModal.title')}>
+      <ModalBody title={t('pinningModal.title')} Icon={Icon}>
         <div className="pinningModalContainer">
           <button className="flex items-center pa1 hoverable-button" key={t('pinningModal.localNode')} onClick={() => selectService('local')}>
             <Checkbox className='pv3 pl3 pr1 flex-none' checked={selectedServices.includes('local')} style={{ pointerEvents: 'none' }}/>

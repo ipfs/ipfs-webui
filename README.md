@@ -209,7 +209,13 @@ By default, the test run headless, so you won't see the browser. To debug test e
 To disable headless mode and see the browser, set the environment variable `DEBUG=true`:
 
 ```sh
-> DEBUG=true npm run test:e2e
+> DEBUG=true npm run test:e2e # will show a browser window
+```
+
+To build and run e2e only for a specific test script, pass its name:
+
+```sh
+> npm run build && npm run test:e2e -- --grep "Settings"
 ```
 
 #### Breakpoints

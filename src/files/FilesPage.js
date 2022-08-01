@@ -16,14 +16,14 @@ import FilesList from './files-list/FilesList'
 import { getJoyrideLocales } from '../helpers/i8n'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING } from './modals/Modals'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals'
 import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins, doExploreUserProvidedPath,
-  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick,
+  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
   const contextMenuRef = useRef()
@@ -221,6 +221,7 @@ const FilesPage = ({
         onDownload={() => onDownload([contextMenu.file])}
         onDownloadCar={() => onDownloadCar([contextMenu.file])}
         onPinning={() => showModal(PINNING, [contextMenu.file])}
+        onPublish={() => showModal(PUBLISH, [contextMenu.file])}
         isCliTutorModeEnabled={isCliTutorModeEnabled}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
         doSetCliOptions={doSetCliOptions}
@@ -251,6 +252,7 @@ const FilesPage = ({
         onRemove={doFilesDelete}
         onAddByPath={onAddByPath}
         onPinningSet={doSetPinning}
+        onPublish={doPublishIpnsKey}
         cliOptions={cliOptions}
         { ...modals } />
 
@@ -303,5 +305,6 @@ export default connect(
   'doSetCliOptions',
   'selectCliOptions',
   'doSetPinning',
+  'doPublishIpnsKey',
   withTour(withTranslation('files')(FilesPage))
 )
