@@ -9,6 +9,7 @@ import FileInput from '../file-input/FileInput'
 import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
+import GlyphPinCloud from '../../icons/GlyphPinCloud'
 
 const BarOption = ({ children, text, isLink = false, className = '', ...etc }) => (
   <div className={classNames(className, 'tc pa3', etc.onClick && 'pointer')} {...etc}>
@@ -47,6 +48,10 @@ class Header extends React.Component {
       filesSize,
       onNavigate,
       repoSize,
+      pendingPins,
+      failedPins,
+      completedPins,
+      doUpdateHash,
       t
     } = this.props
 
@@ -57,6 +62,18 @@ class Header extends React.Component {
             onClick={onNavigate} onContextMenuHandle={(...args) => this.handleBreadCrumbsContextMenu(...args)}
             onAddFiles={this.props.onAddFiles} onMove={this.props.onMove}/>
         </div>
+
+        { (pendingPins.length + failedPins.length + completedPins.length) &&
+          <div className='mb3 ml-auto mr2'>
+            <Button bg='bg-teal'
+              color='white'
+              fill='fill-white'
+              className='f6 relative flex justify-center items-center tc br-100 PendingAnimation'
+              minWidth='none'
+              onClick={() => doUpdateHash('/pins') }>
+              <GlyphPinCloud className='w2' />
+            </Button>
+          </div> }
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
           <BarOption title={t('filesDescription')} text={t('app:terms:files')}>
@@ -111,5 +128,9 @@ export default connect(
   'selectRepoNumObjects',
   'selectFilesPathInfo',
   'selectCurrentDirectorySize',
+  'selectPendingPins',
+  'selectFailedPins',
+  'selectCompletedPins',
+  'doUpdateHash',
   withTranslation('files')(Header)
 )
