@@ -12,6 +12,8 @@ import { readSetting, writeSetting } from './local-storage'
 
 const CID_PIN_CHECK_BATCH_SIZE = 10 // Pinata returns error when >10
 
+const PIN_CHECK_INTERVAL = 30000
+
 // id = `${serviceName}:${cid}`
 const cacheId2Cid = (id) => id.split(':').at(-1)
 const cacheId2ServiceName = (id) => id.split(':').at(0)
@@ -64,7 +66,7 @@ const remotePinLs = (ipfs, params) => {
   const backoffs = readSetting('remotesServicesBackoffs') || {}
   const { service } = params
 
-  const { lastTry, tryAfter } = backoffs[service] || { lastTry: 0, tryAfter: 30000 } // Start with 30s
+  const { lastTry, tryAfter } = backoffs[service] || { lastTry: 0, tryAfter: PIN_CHECK_INTERVAL }
   if (lastTry + tryAfter > new Date().getTime()) {
     throw new Error('still within back-off period')
   }
@@ -108,7 +110,7 @@ const intervalFetchPins = (store) => {
       ...store.selectFailedPins()
     ].map(serviceCid => ({ cid: serviceCid.split(':')[1] }))
     store.doFetchRemotePins(pins, true)
-  }, 30000)
+  }, PIN_CHECK_INTERVAL)
 }
 
 const pinningBundle = {
