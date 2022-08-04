@@ -55,6 +55,8 @@ class Header extends React.Component {
       t
     } = this.props
 
+    const pinsInQueue = pendingPins.length + failedPins.length + completedPins.length
+
     return (
       <div className='db flex-l justify-between items-center'>
         <div className='mb3 overflow-hidden mr2'>
@@ -63,16 +65,11 @@ class Header extends React.Component {
             onAddFiles={this.props.onAddFiles} onMove={this.props.onMove}/>
         </div>
 
-        { (pendingPins.length + failedPins.length + completedPins.length) &&
-          <div className='mb3 ml-auto mr2'>
-            <Button bg='bg-teal'
-              color='white'
-              fill='fill-white'
-              className='f6 relative flex justify-center items-center tc br-100 PendingAnimation'
-              minWidth='none'
-              onClick={() => doUpdateHash('/pins') }>
-              <GlyphPinCloud className='w2' />
-            </Button>
+        { pinsInQueue &&
+          <div className='mb3 ml-auto mr2 PendingAnimation flex justify-center items-center pointer'>
+            <GlyphPinCloud
+              onClick={() => doUpdateHash('/pins')}
+              className='w2 fill-aqua' />
           </div> }
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
