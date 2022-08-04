@@ -65,12 +65,13 @@ class Header extends React.Component {
             onAddFiles={this.props.onAddFiles} onMove={this.props.onMove}/>
         </div>
 
-        { pinsInQueue &&
-          <div className='mb3 ml-auto mr2 pa3 PendingAnimation flex justify-center items-center pointer'>
+        { pinsInQueue
+          ? <div className='mb3 ml-auto mr2 pa3 PendingAnimation flex justify-center items-center pointer'>
             <GlyphPinCloud
               onClick={() => doUpdateHash('/pins')}
               className='w2 fill-aqua' />
-          </div> }
+          </div>
+          : '' }
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
           <BarOption title={t('filesDescription')} text={t('app:terms:files')}>
