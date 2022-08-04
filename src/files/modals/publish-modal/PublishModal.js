@@ -8,10 +8,9 @@ import Icon from '../../../icons/StrokeSpeaker'
 import { connect } from 'redux-bundler-react'
 import Radio from '../../../components/radio/Radio'
 import ProgressBar from '../../../components/progress-bar/ProgressBar'
-import './PublishModal.css'
-
 import GlyphCopy from '../../../icons/GlyphCopy'
 import GlyphTick from '../../../icons/GlyphTick'
+import './PublishModal.css'
 
 const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGateway, className, doFetchIpnsKeys, doUpdateExpectedPublishTime, expectedPublishTime, ...props }) => {
   const [disabled, setDisabled] = useState(true)
