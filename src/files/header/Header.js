@@ -66,7 +66,7 @@ class Header extends React.Component {
         </div>
 
         { pinsInQueue &&
-          <div className='mb3 ml-auto mr2 PendingAnimation flex justify-center items-center pointer'>
+          <div className='mb3 ml-auto mr2 pa3 PendingAnimation flex justify-center items-center pointer'>
             <GlyphPinCloud
               onClick={() => doUpdateHash('/pins')}
               className='w2 fill-aqua' />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
-import DocumentIcon from '../icons/GlyphDocGeneric'
+import GlyphCancel from '../icons/GlyphCancel'
 import GlyphPinCloud from '../icons/GlyphPinCloud'
 import '../files/file/PendingAnimation.css'
 
@@ -13,36 +13,34 @@ const Status = {
 const Pin = (t, pin, status = Status.Pending, onDismiss) => {
   const [service, cid] = pin.split(':')
 
-  let cloudClass = ''
+  let cloudClass = 'pa1'
   let alt = ''
+  let dismissAlt = t('clickToDismiss')
   if (status === Status.Pending) {
-    cloudClass = 'fill-aqua PendingAnimation'
+    cloudClass += ' fill-aqua PendingAnimation'
     alt = t('pinningRemotely')
+    dismissAlt = t('clickToCancel')
   } else if (status === Status.Completed) {
-    cloudClass = 'fill-aqua'
-    alt = t('pinningCompletedClickToDismiss')
+    cloudClass += ' fill-aqua'
+    alt = t('pinningCompleted')
   } else if (status === Status.Failed) {
-    cloudClass = 'fill-red'
-    alt = t('pinningFailedClickToDismiss')
+    cloudClass += ' fill-red'
+    alt = t('pinningFailed')
   }
 
-  const el = onDismiss
-    ? <button onClick={() => onDismiss(pin)} className='w2 h2 pa0'>
-      <GlyphPinCloud className={cloudClass} />
-    </button>
-    : <GlyphPinCloud className={cloudClass} />
-
   return (<li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={cid}>
-    <DocumentIcon className="fill-aqua pa1 w1" style={{ width: '36px' }} />
+    <GlyphPinCloud className={cloudClass} style={{ width: '36px' }} alt={alt} title={alt} />
     <span className="truncate">{cid}</span>
     <span className='gray mh2'>| {service}</span>
-    <span className='br-100 o-70 ml-auto w2 h2' alt={alt} title={alt} >
-      {el}
+    <span className='br-100 o-70 ml-auto w2 h2' alt={dismissAlt} title={dismissAlt} >
+      <button onClick={() => onDismiss(pin)} className='w2 h2 pa0'>
+        <GlyphCancel className={cloudClass} />
+      </button>
     </span>
   </li>)
 }
 
-const PinsStatuses = ({ pendingPins, failedPins, completedPins, onDismissFailedPin, onDismissCompletedPin, t }) => {
+const PinsStatuses = ({ pendingPins, failedPins, completedPins, onDismissFailedPin, onDismissCompletedPin, doCancelPendingPin, t }) => {
   return (
     <div>
       <h3>Pins</h3>
@@ -50,7 +48,7 @@ const PinsStatuses = ({ pendingPins, failedPins, completedPins, onDismissFailedP
       <ul className='pa0 ma0'>
         {completedPins.map(pin => Pin(t, pin, Status.Completed, onDismissCompletedPin))}
         {failedPins.map(pin => Pin(t, pin, Status.Failed, onDismissFailedPin))}
-        {pendingPins.map(pin => Pin(t, pin, Status.Pending))}
+        {pendingPins.map(pin => Pin(t, pin, Status.Pending, doCancelPendingPin))}
       </ul>
     </div>
   )

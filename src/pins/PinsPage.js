@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import PinsStatuses from './PinsStatuses'
 
-const PinsPage = ({ pendingPins, failedPins, completedPins, doDismissCompletedPin, doDismissFailedPin }) => {
+const PinsPage = ({ pendingPins, failedPins, completedPins, doDismissCompletedPin, doDismissFailedPin, doCancelPendingPin }) => {
   return (
     <div data-id='PinsPage' className='mw9 center'>
       <Helmet>
@@ -15,6 +15,7 @@ const PinsPage = ({ pendingPins, failedPins, completedPins, doDismissCompletedPi
         pendingPins={pendingPins}
         failedPins={failedPins}
         completedPins={completedPins}
+        doCancelPendingPin={doCancelPendingPin}
         onDismissCompletedPin={doDismissCompletedPin}
         onDismissFailedPin={doDismissFailedPin} />
     </div>
@@ -27,5 +28,6 @@ export default connect(
   'selectCompletedPins',
   'doDismissCompletedPin',
   'doDismissFailedPin',
+  'doCancelPendingPin',
   withTranslation('files')(PinsPage)
 )

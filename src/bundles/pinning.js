@@ -115,7 +115,7 @@ const intervalFetchPins = (store) => {
 
 const pinningBundle = {
   name: 'pinning',
-  persistActions: ['UPDATE_REMOTE_PINS', 'DISMISS_REMOTE_PINS'],
+  persistActions: ['UPDATE_REMOTE_PINS', 'DISMISS_REMOTE_PINS', 'CANCEL_PENDING_PINS'],
   init: store => {
     resumePendingPins(store)
     intervalFetchPins(store)
@@ -323,6 +323,17 @@ const pinningBundle = {
 
   doDismissFailedPin: (...pins) => async ({ dispatch }) => {
     dispatch({ type: 'DISMISS_REMOTE_PINS', payload: { failed: pins } })
+  },
+
+  doCancelPendingPin: (...pins) => async ({ getIpfs, dispatch }) => {
+    const ipfs = getIpfs()
+
+    for (const pin of pins) {
+      const [service, cid] = pin.split(':')
+      await ipfs.pin.remote.rm({ cid: [new CID(cid)], service })
+    }
+
+    dispatch({ type: 'UPDATE_REMOTE_PINS', payload: { removals: pins } })
   },
 
   doSetPinning: (file, services = [], wasLocallyPinned, previousRemotePins = []) => async ({ getIpfs, store, dispatch }) => {
