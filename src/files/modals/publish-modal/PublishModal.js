@@ -30,7 +30,8 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
 
   useEffect(() => {
     if (copied) {
-      setTimeout(() => setCopied(false), 2000)
+      const timeoutId = setTimeout(() => setCopied(false), 2000)
+      return () => clearTimeout(timeoutId)
     }
   }, [copied])
 
