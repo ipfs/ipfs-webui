@@ -30,7 +30,8 @@
     "unselectAll": "Unselect all",
     "generate": "Generate",
     "publish": "Publish",
-    "downloadCar": "Download as CAR"
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters."

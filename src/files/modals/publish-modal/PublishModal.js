@@ -10,12 +10,16 @@ import Radio from '../../../components/radio/Radio'
 import ProgressBar from '../../../components/progress-bar/ProgressBar'
 import './PublishModal.css'
 
+import GlyphCopy from '../../../icons/GlyphCopy'
+import GlyphTick from '../../../icons/GlyphTick'
+
 const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGateway, className, doFetchIpnsKeys, doUpdateExpectedPublishTime, expectedPublishTime, ...props }) => {
   const [disabled, setDisabled] = useState(true)
   const [error, setError] = useState(null)
   const [selectedKey, setSelectedKey] = useState({ name: '', id: '' })
   const [link, setLink] = useState('')
   const [start, setStart] = useState(null)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     setDisabled(selectedKey.name === '' || start !== null)
@@ -24,6 +28,12 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
   useEffect(() => {
     doFetchIpnsKeys()
   }, [doFetchIpnsKeys])
+
+  useEffect(() => {
+    if (copied) {
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }, [copied])
 
   const changeKey = (key) => {
     setLink('')
@@ -49,19 +59,36 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
 
   const modalBody = () => {
     if (link) {
+      console.log(link)
       return (
         <div>
-          <div className='tl pv3'>{t('publishModal.publishedUnderKey')}<br/>
-            <span className='f6 charcoal-muted monospace'>{selectedKey.name}</span><br/>
-            <span className='f6 charcoal-muted monospace'>{selectedKey.id}</span>
+          <div className='tl pv3'>{t('publishModal.publishedUnderKey')}
+            <div className='f6 mv2 charcoal-muted monospace'>
+              <a target='_blank' rel='noopener noreferrer' className='link' href={link}>{selectedKey.name}</a>
+            </div>
+            <div className='f6 charcoal-muted monospace truncate'>
+              <a target='_blank' rel='noopener noreferrer' className='link' href={link}>{selectedKey.id}</a>
+            </div>
           </div>
           <p className='charcoal tl center'>{t('publishModal.sharingPrompt')}</p>
-          <div className='flex center pb2'>
+          <div className='flex center mb2 relative'>
             <input
               value={link}
               readOnly
-              className={'input-reset flex-grow-1 charcoal-muted ba b--black-20 br1 pa2 mr2 focus-outline'}
+              className={'input-reset flex-grow-1 charcoal-muted ba b--black-20 br1 pa2 focus-outline'}
               type='text' />
+
+            <div className='absolute h2 pl2 flex items-center' style={{ right: '1px', top: '50%', transform: 'translateY(-50%)', background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.35), #ffffff 10%, #ffffff 100%)' }} >
+              { copied
+                ? <>
+                  <span className="charcoal-muted strong f5">Link copied</span>
+                  <GlyphTick className='fill-aqua w2' />
+                </>
+                : <CopyToClipboard text={link} onCopy={() => setCopied(true)}>
+                  <GlyphCopy className='fill-charcoal-muted w2 h2 pointer' />
+                </CopyToClipboard>
+              }
+            </div>
           </div>
         </div>
       )
@@ -96,7 +123,10 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
   return (
     <Modal {...props} className={className} onCancel={onLeave} >
       <ModalBody Icon={Icon} title={t('publishModal.title')}>
-        <div className='tl pv3'>{t('publishModal.cidToPublish')}<br/><span className='f6 charcoal-muted monospace'>{file.cid.toString()}</span></div>
+        <div className='tl pv3'>
+          {t('publishModal.cidToPublish')}
+          <div className='f6 mt1 charcoal-muted monospace'>{file.cid.toString()}</div>
+        </div>
         {modalBody()}
       </ModalBody>
 
@@ -104,9 +134,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
         <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('app:actions.cancel')}</Button>
 
         { link
-          ? <CopyToClipboard text={link} onCopy={onLeave}>
-            <Button className='ma2 tc'>{t('app:actions.copy')}</Button>
-          </CopyToClipboard>
+          ? <Button className='ma2 tc'>{t('app:actions.done')}</Button>
           : <Button className='ma2 tc' bg='bg-teal' disabled={disabled} onClick={publish}>{t('app:actions.publish')}</Button>
         }
 
