@@ -59,7 +59,6 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
 
   const modalBody = () => {
     if (link) {
-      console.log(link)
       return (
         <div>
           <div className='tl pv3'>{t('publishModal.publishedUnderKey')}
