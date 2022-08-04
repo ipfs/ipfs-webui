@@ -113,7 +113,7 @@ test.describe('IPNS publishing', () => {
       await ipfs.swarm.connect(peeraddr)
       await page.click(publishButton)
       await page.waitForSelector('text=Successfully published')
-      await page.click('button:has-text("Copy")')
+      await page.click('button:has-text("Done")')
       // confirm IPNS record in local store points at the CID
       const { id } = (await ipfs.key.list()).filter(k => k.name === keyName)[0]
       for await (const name of ipfs.name.resolve(`/ipns/${id}`, { recursive: true })) {
