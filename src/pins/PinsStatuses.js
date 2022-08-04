@@ -34,7 +34,7 @@ const Pin = (t, pin, status = Status.Pending, onDismiss) => {
     <span className='gray mh2'>| {service}</span>
     <span className='br-100 o-70 ml-auto w2 h2' alt={dismissAlt} title={dismissAlt} >
       <button onClick={() => onDismiss(pin)} className='w2 h2 pa0'>
-        <GlyphCancel className={cloudClass} />
+        <GlyphCancel className='fill-aqua' />
       </button>
     </span>
   </li>)
