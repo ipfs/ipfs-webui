@@ -131,11 +131,12 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
       </ModalBody>
 
       <ModalActions>
-        <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('app:actions.cancel')}</Button>
-
         { link
-          ? <Button className='ma2 tc'>{t('app:actions.done')}</Button>
-          : <Button className='ma2 tc' bg='bg-teal' disabled={disabled} onClick={publish}>{t('app:actions.publish')}</Button>
+          ? <Button className='ma2 tc ml-auto' onClick={onLeave}>{t('app:actions.done')}</Button>
+          : <>
+            <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('app:actions.cancel')}</Button>
+            <Button className='ma2 tc' bg='bg-teal' disabled={disabled} onClick={publish}>{t('app:actions.publish')}</Button>
+          </>
         }
 
       </ModalActions>
