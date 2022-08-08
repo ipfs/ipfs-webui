@@ -10,6 +10,7 @@ import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
 import GlyphPinCloud from '../../icons/GlyphPinCloud'
+import './BreathingCloud.css'
 
 const BarOption = ({ children, text, isLink = false, className = '', ...etc }) => (
   <div className={classNames(className, 'tc pa3', etc.onClick && 'pointer')} {...etc}>
@@ -51,7 +52,6 @@ class Header extends React.Component {
       pendingPins,
       failedPins,
       completedPins,
-      doUpdateHash,
       t
     } = this.props
 
@@ -65,15 +65,15 @@ class Header extends React.Component {
             onAddFiles={this.props.onAddFiles} onMove={this.props.onMove}/>
         </div>
 
-        { pinsInQueue
-          ? <div className='mb3 ml-auto mr2 pa3 PendingAnimation flex justify-center items-center pointer'>
-            <GlyphPinCloud
-              onClick={() => doUpdateHash('/pins')}
-              className='w2 fill-aqua' />
-          </div>
-          : '' }
-
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
+          { pinsInQueue
+            ? <a href='#/pins' alt={t('pinningQueue')} title={t('pinningQueue')} className='ml3'>
+                <GlyphPinCloud
+                  style={{ width: '3rem' }}
+                  className='fill-teal BreathingCloud' />
+              </a>
+            : '' }
+
           <BarOption title={t('filesDescription')} text={t('app:terms:files')}>
             { hasUpperDirectory
               ? (
@@ -129,6 +129,5 @@ export default connect(
   'selectPendingPins',
   'selectFailedPins',
   'selectCompletedPins',
-  'doUpdateHash',
   withTranslation('files')(Header)
 )

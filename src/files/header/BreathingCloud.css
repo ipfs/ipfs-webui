@@ -1,0 +1,21 @@
+.BreathingCloud {
+  animation: BreathingCloud 2.5s ease-in-out infinite;
+}
+
+@keyframes BreathingCloud {
+  0% {
+   filter: drop-shadow(0 0 1px #69c4cd) ;
+  }
+
+  25% {
+    filter: drop-shadow(0 0 1px #69c4cd) drop-shadow(0 0 1px #69c4cd);
+  }
+
+  60% {
+    filter: drop-shadow(0 0 1px #69c4cd);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 1px #69c4cd);
+  }
+}
