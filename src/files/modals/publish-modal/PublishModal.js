@@ -80,7 +80,7 @@ const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, publicGate
             <div className='absolute h2 pl2 flex items-center' style={{ right: '1px', top: '50%', transform: 'translateY(-50%)', background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.35), #ffffff 10%, #ffffff 100%)' }} >
               { copied
                 ? <>
-                  <span className="charcoal-muted strong f5">Link copied</span>
+                  <span className="charcoal-muted strong f5">{t('publishModal.linkCopied')}</span>
                   <GlyphTick className='fill-aqua w2' />
                 </>
                 : <CopyToClipboard text={link} onCopy={() => setCopied(true)}>
