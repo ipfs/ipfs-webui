@@ -28,6 +28,8 @@
     "submit": "Enviar",
     "unpin": "Desancora",
     "unselectAll": "Deseleccionar-ho tot",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "Download as CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "Sortida",
     "peer": "Llavor",
     "peerId": "ID de la llavor",
+    "id": "ID",
     "peers": "Llavors",
     "pinNoun": "Ancora",
     "pins": "Ancoratges",

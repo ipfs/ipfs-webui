@@ -4,6 +4,7 @@
   "saving": "Ukládání…",
   "reset": "Resetovat",
   "learnMoreLink": "Zjistit více.",
+  "showOptions": "Zobrazit možnosti",
   "pinningServices": {
     "title": "Služby připínání",
     "description": "Místní připnutí použijte, pokud chcete zajistit, aby položka v uzlu nebyla nikdy shromážděna jako odpad, i když ji odstraníte ze Souborů. Své účty můžete také propojit s jinými službami vzdáleného připínání, abyste mohli automaticky nebo selektivně uchovávat soubory u těchto poskytovatelů, což vám umožní uchovávat záložní kopie souborů a/nebo je zpřístupnit ostatním, když je váš místní uzel offline.",
@@ -58,6 +59,7 @@
   },
   "actions": {
     "addService": "Přidat službu",
+    "generateKey": "Generovat klíč",
     "edit": "Změnit",
     "close": "Zavřít",
     "save": "Uložit",
@@ -162,5 +164,21 @@
     "issueUrl": "Otevřete problém",
     "feedbackUrl": "💌Zanechte zpětnou vazbu",
     "readMoreUrl": "Přečtěte si více"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Vydavatelské klíče",
+    "description": "Meziplanetární jmenný systém (IPNS) poskytuje kryptografické adresy pro publikování aktualizací obsahu, u něhož se očekává, že se bude v průběhu času měnit. Tato funkce vyžaduje, aby byl váš uzel alespoň jednou denně online, aby se zajistilo, že záznamy IPNS budou ve veřejném DHT udržovány při životě."
+  },
+  "generateKeyModal": {
+    "title": "Generování nového klíče IPNS",
+    "description": "Zadejte přezdívku tohoto klíče, který se má vygenerovat:"
+  },
+  "renameKeyModal": {
+    "title": "Přejmenujte Klíč",
+    "description": "Zadejte novou přezdívku klíče IPNS <1>{name}</1> ."
+  },
+  "removeKeyModal": {
+    "title": "Potvrďte odstranění klíče IPNS",
+    "description": "Opravdu chcete odstranit klíč IPNS <1>{name}</1>? Tuto operaci nelze vrátit zpět a adresa IPNS spravovaná tímto klíčem bude navždy ztracena. Zvažte nejprve jeho zálohování: ipfs key export --help"
   }
 }

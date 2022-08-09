@@ -4,6 +4,7 @@
   "saving": "保存中 …",
   "reset": "重置",
   "learnMoreLink": "了解更多。",
+  "showOptions": "Show options",
   "pinningServices": {
     "title": "固定服务",
     "description": "当您希望确保您节点上的项目永远不会被执行垃圾回收时，请使用本地固定，这样即便您将项目从文件中删除，项目依旧会保存在您的节点内。您还可以将您的帐户与其他远程固定服务连接，以自动或有选择地将文件同步至其他固定服务商，这样即便您自己的本地节点失效时，您依旧可以获得文件的副本/或者将这些文件分享给其他人。",
@@ -58,6 +59,7 @@
   },
   "actions": {
     "addService": "增加服务",
+    "generateKey": "Generate Key",
     "edit": "修改",
     "close": "关闭",
     "save": "保存",
@@ -162,5 +164,21 @@
     "issueUrl": "提交 bug",
     "feedbackUrl": "💌提供反馈",
     "readMoreUrl": "查看更多"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Publishing Keys",
+    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+  },
+  "generateKeyModal": {
+    "title": "Generate New IPNS Key",
+    "description": "Enter a nickname for this key to generate:"
+  },
+  "renameKeyModal": {
+    "title": "Rename Key",
+    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Confirm IPNS Key Removal",
+    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
   }
 }

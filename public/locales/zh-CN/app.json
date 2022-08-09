@@ -28,6 +28,8 @@
     "submit": "提交",
     "unpin": "撤销固定",
     "unselectAll": "全部取消选择",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "下载CAR文件"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "发送",
     "peer": "节点",
     "peerId": "节点 ID",
+    "id": "ID",
     "peers": "节点",
     "pinNoun": "固定",
     "pins": "已固定",

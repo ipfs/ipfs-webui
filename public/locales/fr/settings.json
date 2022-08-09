@@ -4,6 +4,7 @@
   "saving": "Enregistrement...",
   "reset": "Réinitialiser",
   "learnMoreLink": "En savoir plus.",
+  "showOptions": "Montrer les options",
   "pinningServices": {
     "title": "Services d'épinglage",
     "description": "Utilisez l'épinglage local quand vous voulez être sûr(e) qu'un élément sur votre nœud n'est jamais supprimé par le ramasse-miettes, même si vous le supprimez de Fichiers. Vous pouvez aussi lier vos comptes à d'autres services d'épinglage pour garder automatiquement ou sélectivement une copie chez ces fournisseurs de service, vous permettant de conserver des copies de vos fichiers et/ou de les rendre disponibles quand votre nœud est hors ligne.",
@@ -58,6 +59,7 @@
   },
   "actions": {
     "addService": "Ajouter un service",
+    "generateKey": "Générer une clé",
     "edit": "Modifier",
     "close": "Fermer",
     "save": "Sauvegarder",
@@ -162,5 +164,21 @@
     "issueUrl": "Ouvrir une issue Github",
     "feedbackUrl": "💌Laisser un commentaire",
     "readMoreUrl": "En savoir plus"
+  },
+  "ipnsPublishingKeys": {
+    "title": "Clés de publication IPNS",
+    "description": "L'Interplanetary Name System (IPNS) fournit des adresses cryptographiques pour publier des mises-à-jours des contenus qui peuvent changer au cours du temps. Cette fonctionnalité nécessite que votre nœud soit en ligne au moins une fois par jour pour garantir que les enregistrements IPNS soient maintenus disponibles sur la DHT publique."
+  },
+  "generateKeyModal": {
+    "title": "Générer une nouvelle clé IPNS",
+    "description": "Entrez un surnom pour la clé à générer :"
+  },
+  "renameKeyModal": {
+    "title": "Renommer la clé",
+    "description": "Entrez un nouveau nom pour la clé IPNS <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Confirmez la suppression de la clé IPNS",
+    "description": "Êtes-vous sûr(e) de vouloir supprimer la clé IPNS <1>{name}</1>? Cette opération ne peut être annulée, et l'adresse IPNS associée à cette clé sera perdue DÉFINITIVEMENT. Pensez à l'archiver avant : ipfs export --help"
   }
 }

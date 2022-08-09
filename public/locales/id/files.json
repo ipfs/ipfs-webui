@@ -18,7 +18,8 @@
   "generating": "Menghasilkan…",
   "actions": {
     "copyHash": "Salin CID",
-    "share": "Membagikan tautan"
+    "share": "Membagikan tautan",
+    "publishWithIpns": "Publikasikan ke IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "Perintah ini hanya untuk menyematkan/melepas semat lokal. Jika Anda ingin menggunakan layanan penyematan jarak jauh, lihat dokumentasi layanan tersebut untuk mempelajari cara menyematkan/melepas semat dari baris perintah."
@@ -45,7 +46,7 @@
   },
   "pinningModal": {
     "title": "Pilih di mana Anda ingin menyematkan item ini.",
-    "complianceLabel": "🔍 Check pinning services' compliance",
+    "complianceLabel": "🔍 Periksa kepatuhan layanan penyematan",
     "footer": "Perlu menambahkan atau mengonfigurasi layanan penyematan? Buka <1>Pengaturan</1>.",
     "localNode": "Node lokal",
     "totalSize": "Ukuran total: {size}"
@@ -114,5 +115,14 @@
   "more": "Lebih",
   "files": "Berkas",
   "cidNotFileNorDir": "Tautan saat ini bukan berkas, atau direktori. Cobalah untuk <1>memeriksanya</1> sebagai gantinya.",
-  "sortBy": "Urutkan item berdasarkan {name}"
+  "sortBy": "Urutkan item berdasarkan {name}",
+  "publishModal": {
+    "title": "Publikasikan ke IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Pilih kunci untuk penerbitan:",
+    "help": "Buka Pengaturan untuk mempelajari tentang IPNS dan membuat lebih banyak kunci.",
+    "publishedUnderKey": "Berhasil diterbitkan di bawah kunci:",
+    "sharingPrompt": "Salin tautan di bawah ini dan bagikan dengan orang lain. Alamat IPNS akan diselesaikan selama node Anda tetap tersedia di jaringan sekali sehari untuk menyegarkan catatan IPNS.",
+    "pleaseWait": "Harap tunggu sementara 20 salinan awal dari catatan IPNS yang diperbarui disimpan dengan bantuan rekan-rekan DHT…"
+  }
 }

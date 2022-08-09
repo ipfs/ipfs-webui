@@ -28,6 +28,8 @@
     "submit": "جمع کریں",
     "unpin": "اَن پِن",
     "unselectAll": "تمام غیر منتخب کریں",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "Download as CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "آؤٹ",
     "peer": "پیر",
     "peerId": "پیر کی شناخت",
+    "id": "ID",
     "peers": "پیر",
     "pinNoun": "پِن",
     "pins": "پنوں",

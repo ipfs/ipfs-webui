@@ -4,6 +4,7 @@
   "saving": "保存中……",
   "reset": "リセット",
   "learnMoreLink": "もっと詳しく知る。",
+  "showOptions": "Show options",
   "pinningServices": {
     "title": "ピンサービス",
     "description": "あなたのノードのアイテムに対し、ガベージコレクションを絶対に走らせたくない場合（ファイルを削除した場合を含む）はローカルピンを使用してください。\n\n持続的にファイルを保持したい場合、あなたのアカウントを他のリモートピンサービスに紐付けることが出来ます。紐付けを行うと、ローカルノードがオフラインとなった場合でも、あなたのファイルのバックアップコピーを他のホスト上で保持することが出来ます。",
@@ -58,6 +59,7 @@
   },
   "actions": {
     "addService": "サービスを追加",
+    "generateKey": "Generate Key",
     "edit": "変更",
     "close": "閉じる",
     "save": "保存",
@@ -162,5 +164,21 @@
     "issueUrl": "WebUIに関する問題/議論/質問を投稿",
     "feedbackUrl": "フィードバックを送信",
     "readMoreUrl": "もっと読む"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Publishing Keys",
+    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+  },
+  "generateKeyModal": {
+    "title": "Generate New IPNS Key",
+    "description": "Enter a nickname for this key to generate:"
+  },
+  "renameKeyModal": {
+    "title": "Rename Key",
+    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Confirm IPNS Key Removal",
+    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
   }
 }

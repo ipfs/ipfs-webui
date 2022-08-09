@@ -28,6 +28,8 @@
     "submit": "Beküldés",
     "unpin": "Levesz",
     "unselectAll": "Minden kijelölést töröl",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "Download as CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "Ki",
     "peer": "Végpont",
     "peerId": "Végpont azonosító",
+    "id": "ID",
     "peers": "Ügyfelek",
     "pinNoun": "Kitűzés",
     "pins": "Kitűzések",

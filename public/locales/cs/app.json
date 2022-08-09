@@ -28,6 +28,8 @@
     "submit": "Odeslat",
     "unpin": "Odepnout",
     "unselectAll": "Odznačit vše",
+    "generate": "Generovat",
+    "publish": "Publikovat",
     "downloadCar": "Stáhnout jako CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "Výstup",
     "peer": "Uzel",
     "peerId": "ID uzlu",
+    "id": "ID",
     "peers": "Uzly",
     "pinNoun": "Připnout",
     "pins": "Špendlíky",
