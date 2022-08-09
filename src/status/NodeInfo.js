@@ -29,7 +29,7 @@ class NodeInfo extends React.Component {
       <DefinitionList>
         <Definition term={t('terms.peerId')} desc={this.getField(identity, 'id')} />
         <Definition term={t('terms.agent')} desc={<VersionLink agentVersion={this.getField(identity, 'agentVersion')} />} />
-        <Definition term={t('terms.revision')} desc={<a href={'https://github.com/ipfs-shipyard/ipfs-webui/commit/' + process.env.REACT_APP_GIT_REV} className='link blue' target='_blank' rel='noopener noreferrer'>{process.env.REACT_APP_GIT_REV}</a>} />
+        <Definition term={t('terms.ui')} desc={process.env.REACT_APP_GIT_REV} />
       </DefinitionList>
     )
   }
