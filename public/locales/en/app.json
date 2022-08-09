@@ -28,15 +28,17 @@
     "submit": "Submit",
     "unpin": "Unpin",
     "unselectAll": "Unselect all",
-    "downloadCar": "Download as CAR"
+    "generate": "Generate",
+    "publish": "Publish",
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Paste the following into your terminal to do this task in IPFS via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "Report a bug",
-    "codeLink": "See the code",
-    "revision": "Revision"
+    "codeLink": "See the code"
   },
   "status": {
     "connectedToIpfs": "Connected to IPFS",
@@ -74,6 +76,7 @@
     "out": "Out",
     "peer": "Peer",
     "peerId": "Peer ID",
+    "id": "ID",
     "peers": "Peers",
     "pinNoun": "Pin",
     "pins": "Pins",
@@ -88,7 +91,8 @@
     "totalOut": "Total out",
     "unknown": "Unknown",
     "ui": "UI",
-    "upSpeed": "Outgoing"
+    "upSpeed": "Outgoing",
+    "revision": "Revision"
   },
   "tour": {
     "back": "Back",

@@ -89,6 +89,6 @@ ace.define('ace/theme/ipfs_dark', ['require', 'exports', 'module', 'ace/lib/dom'
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWNg0Db1ZVCxc/sPAAd4AlUHlLenAAAAAElFTkSuQmCC) right repeat-y
   }`
 
-  var dom = acequire('../lib/dom')
+  const dom = acequire('../lib/dom')
   dom.importCssString(exports.cssText, exports.cssClass)
 })

@@ -34,7 +34,8 @@ const StatusPage = ({
       <Box className='pa3 joyride-status-node' style={{ minHeight: 0 }}>
         <div className='flex'>
           <div className='flex-auto'>
-            { ipfsConnected ? (
+            { ipfsConnected
+              ? (
               <div>
                 <StatusConnected />
                 <NodeInfo />
@@ -42,11 +43,12 @@ const StatusPage = ({
                   <NodeInfoAdvanced />
                 </div>
               </div>
-            ) : (
+                )
+              : (
               <div>
                 <IsNotConnected />
               </div>
-            )}
+                )}
           </div>
         </div>
       </Box>

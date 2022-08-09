@@ -20,6 +20,7 @@ storiesOf('Files', module)
         left={10}
         cid={'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC'}
         onShare={action('Share')}
+        onPublish={action('Publish With IPNS')}
         onInspect={action('Inspect')}
         onRename={action('Rename')}
         onDownload={action('Download')}

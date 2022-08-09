@@ -1,3 +1,60 @@
+## [2.17.3](https://github.com/ipfs/ipfs-webui/compare/v2.17.2...v2.17.3) (2022-07-09)
+
+
+ CID `bafybeihfkeactw26tghz7m3puzh4zqlukvft2f7atfdc7t2qmqn2vszhc4`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* publish car file with semantic-release ([#1971](https://github.com/ipfs/ipfs-webui/issues/1971)) ([1747030](https://github.com/ipfs/ipfs-webui/commit/17470303f02e156171b9a178130f353d164a9e06))
+
+## [2.17.2](https://github.com/ipfs/ipfs-webui/compare/v2.17.1...v2.17.2) (2022-07-09)
+
+
+ CID `bafybeiezem6yxyzo3w56lewwat4ms333nch2j4e2tdxdqd2gbuijj3wutq`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([972023c](https://github.com/ipfs/ipfs-webui/commit/972023c697554fa6b9e0722c605ab089ab4f6d88))
+
+## [2.17.1](https://github.com/ipfs/ipfs-webui/compare/v2.17.0...v2.17.1) (2022-07-09)
+
+
+ CID `bafybeidh5hyn64y7cddejdlo7enfuz5mklomlswxqmiaq2pnfuw6zlqkfy`
+
+ --- 
+
+
+
+### Trivial Changes
+
+* **readme:** Fix node badges ([#1968](https://github.com/ipfs/ipfs-webui/issues/1968)) ([c56ffdc](https://github.com/ipfs/ipfs-webui/commit/c56ffdcc750eb15bc19df8cfe015475919e064da))
+
+## [2.17.0](https://github.com/ipfs/ipfs-webui/compare/v2.16.0...v2.17.0) (2022-07-09)
+
+
+ CID `bafybeicau362acbsnxjbpukuyuufh4vjzw6yoph7wpa67f2rgujdhd3goq`
+
+ --- 
+
+
+
+### Features
+
+* test npm build&install against LTS node versions ([#1967](https://github.com/ipfs/ipfs-webui/issues/1967)) ([39dc9e9](https://github.com/ipfs/ipfs-webui/commit/39dc9e930718fcec43f166c8e222d2b4fa0bf3c6))
+
+
+### Trivial Changes
+
+* **readme:** remove node 10.x badge ([b2d63ce](https://github.com/ipfs/ipfs-webui/commit/b2d63ce371c88148db09940abcac7cec08320f64))
+
 ## [2.16.0](https://github.com/ipfs/ipfs-webui/compare/v2.15.1...v2.16.0) (2022-07-08)
 
 

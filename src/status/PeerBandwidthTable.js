@@ -52,9 +52,11 @@ export class PeerBandwidthTable extends Component {
     const visiblePeers = showAll ? sortedPeers : sortedPeers.slice(0, 5)
     const hiddenPeers = showAll ? [] : sortedPeers.slice(5)
 
-    return sortedPeers.length === 0 ? (
+    return sortedPeers.length === 0
+      ? (
       <ComponentLoader />
-    ) : (
+        )
+      : (
       <Box className={className}>
         <Title>{t('bandwidthByPeer')}</Title>
         <table className='collapse'>
@@ -78,11 +80,13 @@ export class PeerBandwidthTable extends Component {
             ))}
           </tbody>
         </table>
-        {!showAll && hiddenPeers.length ? (
+        {!showAll && hiddenPeers.length
+          ? (
           <button className='sans-serif f5 ma0 buttonv3 ph2 tc pointer underline-hover navy-muted' onClick={this.onShowAllClick}>{t('countMore', { count: hiddenPeers.length })}</button>
-        ) : null}
+            )
+          : null}
       </Box>
-    )
+        )
   }
 }
 
