@@ -28,6 +28,8 @@
     "submit": "Applica",
     "unpin": "Sblocca",
     "unselectAll": "Deseleziona tutto",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "Download as CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "Uscita",
     "peer": "Peer",
     "peerId": "Peer ID",
+    "id": "ID",
     "peers": "Peer",
     "pinNoun": "Fisso",
     "pins": "Fissi",

@@ -28,6 +28,8 @@
     "submit": "Применить",
     "unpin": "Открепить",
     "unselectAll": "Снять выделение",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "Download as CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "Внешний",
     "peer": "Пир",
     "peerId": "ID пира",
+    "id": "ID",
     "peers": "Пиры",
     "pinNoun": "Закрепить",
     "pins": "Закрепления",

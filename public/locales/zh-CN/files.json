@@ -18,7 +18,8 @@
   "generating": "生成 ...",
   "actions": {
     "copyHash": "复制 CID",
-    "share": "分享链接"
+    "share": "分享链接",
+    "publishWithIpns": "Publish to IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "这条命令只适用于本地固定/取消固定。如果您想要使用远程固定服务，请参阅该服务的文档以了解如何从命令行执行远程固定/取消固定。"
@@ -114,5 +115,14 @@
   "more": "更多",
   "files": "文件",
   "cidNotFileNorDir": "当前的连接不是一个文件或目录，请使用<1>检查</1> 功能替代。",
-  "sortBy": "按照{name}排序项目"
+  "sortBy": "按照{name}排序项目",
+  "publishModal": {
+    "title": "Publish to IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Select key for publishing:",
+    "help": "Go to Settings to learn about IPNS and create more keys.",
+    "publishedUnderKey": "Successfully published under the key:",
+    "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
+    "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
+  }
 }

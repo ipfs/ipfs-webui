@@ -28,6 +28,8 @@
     "submit": "Gönder",
     "unpin": "Sabitleme",
     "unselectAll": "Hepsinin seçimini kaldır",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "Download as CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "Dışarı",
     "peer": "Eş",
     "peerId": "Eş kimliği",
+    "id": "ID",
     "peers": "Eşler",
     "pinNoun": "Raptiye",
     "pins": "Raptiye",

@@ -4,6 +4,7 @@
   "saving": "Kaydediliyor…",
   "reset": "Sıfırla",
   "learnMoreLink": "Daha fazla bilgi edin.",
+  "showOptions": "Show options",
   "pinningServices": {
     "title": "Sabitleme Hizmetleri",
     "description": "Düğümünüzdeki bir öğenin, Dosyalar'dan kaldırsanız bile asla çöp toplanmadığından emin olmak istediğinizde yerel sabitlemeyi kullanın. Ayrıca, dosyalarınızın yedek kopyalarını saklamanıza ve/veya yerel düğümünüz çevrimdışı olduğunda bunları başkalarının kullanımına sunmanıza olanak tanıyarak, dosyaları bu sağlayıcılarda otomatik olarak veya seçici olarak kalıcı hale getirmek için hesaplarınızı diğer uzaktan sabitleme hizmetleriyle bağlayabilirsiniz.",
@@ -58,6 +59,7 @@
   },
   "actions": {
     "addService": "Hizmet Ekle",
+    "generateKey": "Generate Key",
     "edit": "Değiştir",
     "close": "Kapat",
     "save": "Kaydet",
@@ -162,5 +164,21 @@
     "issueUrl": "Bir sorunu açın",
     "feedbackUrl": "💌Geri bildirim bırakın",
     "readMoreUrl": "Daha Fazla Oku"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Publishing Keys",
+    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+  },
+  "generateKeyModal": {
+    "title": "Generate New IPNS Key",
+    "description": "Enter a nickname for this key to generate:"
+  },
+  "renameKeyModal": {
+    "title": "Rename Key",
+    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Confirm IPNS Key Removal",
+    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
   }
 }
