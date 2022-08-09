@@ -268,8 +268,8 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
    - ~js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5~
       - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730
-   - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
-   - ipfs-desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
+   - Kubo: https://github.com/ipfs/kubo/blob/master/core/corehttp/webui.go#L4
+   - IPFS Desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
 
 <!-- DEPRECATED STEPS as of https://github.com/ipfs/ipfs-webui/releases/tag/v2.16.0. Leaving only for posterity: 
 1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true) is [successful](https://github.com/ipfs/ipfs-webui/runs/7121497704?check_suite_focus=true) or [fails because there are no updates](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true).
