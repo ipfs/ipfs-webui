@@ -74,7 +74,7 @@ export const NavBar = ({ t }) => {
       </div>
       <div className='dn db-l navbar-footer mb2 tc center f7 o-80 glow'>
         { gitRevision && <div className='mb1'>
-          <a className='link white' href={revisionUrl} target='_blank' rel='noopener noreferrer'>{t('app:nav.revision')} {gitRevision}</a>
+          <a className='link white' href={revisionUrl} target='_blank' rel='noopener noreferrer'>{t('app:terms.revision')} {gitRevision}</a>
         </div> }
         <div className='mb1'>
           <a className='link white' href={codeUrl} target='_blank' rel='noopener noreferrer'>{t('app:nav.codeLink')}</a>
