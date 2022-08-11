@@ -106,18 +106,11 @@ const File = ({
     'o-1': selected || focused
   }, ['pl2 w2'])
 
-  const dismissFailedPin = (event) => {
-    event.stopPropagation()
-    onDismissFailedPin()
-  }
-
   const pinningIcon = () => {
     if (isFailedPin) {
       return (
         <div className='br-100 o-70' title={t('pinningFailedClickToDismiss')} style={{ width: '2rem', height: '2rem' }}>
-          <button onClick={dismissFailedPin} className='w2 h2 pa0'>
-            <GlyphPinCloud className='fill-red' />
-          </button>
+          <GlyphPinCloud className='fill-red' />
         </div>
       )
     } else if (isPendingPin) {
@@ -169,7 +162,7 @@ const File = ({
         </button>
 
         <div className='ph2 pv1 flex-none hide-child dn db-l tr mw3 w-20 transition-all'>
-          <button className='ph2 db button-inside-focus' style={{ width: '2.5rem', height: '2rem' }} onClick={() => onSetPinning([{ cid, pinned }])}>
+          <button className='ph2 db button-inside-focus' style={{ width: '2.5rem', height: '2rem' }} onClick={isFailedPin ? onDismissFailedPin : () => onSetPinning([{ cid, pinned }])}>
             {pinningIcon()}
           </button>
         </div>
