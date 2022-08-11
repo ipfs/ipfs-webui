@@ -23,15 +23,15 @@
   },
   "IpldCarExploreForm": {
     "imports": "Impor",
-    "uploadCarFile": "Upload CAR File"
+    "uploadCarFile": "Unggah Berkas CAR"
   },
   "CidInfo": {
     "header": "Info CID",
     "hashDigest": "Intisari Hash"
   },
   "ObjectInfo": {
-    "publicGateway": "View on Public Gateway",
-    "privateGateway": "View on Local Gateway"
+    "publicGateway": "Lihat di Gerbang Umum",
+    "privateGateway": "Lihat di Gerbang Lokal"
   },
   "base": "basis",
   "version": "versi",

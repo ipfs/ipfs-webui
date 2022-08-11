@@ -28,6 +28,8 @@
     "submit": "提交",
     "unpin": "取消錨釘",
     "unselectAll": "取消全部選擇",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "Download as CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "發送",
     "peer": "節點",
     "peerId": "節點 ID",
+    "id": "ID",
     "peers": "節點",
     "pinNoun": "錨釘",
     "pins": "錨釘",

@@ -28,6 +28,8 @@
     "submit": "Valider",
     "unpin": "Désépingler",
     "unselectAll": "Tout désélectionner",
+    "generate": "Générer",
+    "publish": "Publier",
     "downloadCar": "Télécharger le CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "Sortant",
     "peer": "Pair",
     "peerId": "Peer ID",
+    "id": "ID",
     "peers": "Pairs",
     "pinNoun": "Épingler",
     "pins": "Éléments épinglés",

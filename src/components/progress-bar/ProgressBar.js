@@ -18,7 +18,8 @@ ProgressBar.propTypes = {
   width: PropTypes.string,
   height: PropTypes.string,
   br: PropTypes.string,
-  progress: PropTypes.number.isRequired
+  time: PropTypes.number,
+  progress: PropTypes.number
 }
 
 ProgressBar.defaultProps = {

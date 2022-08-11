@@ -18,7 +18,8 @@
   "generating": "Генерация...",
   "actions": {
     "copyHash": "Копировать CID",
-    "share": "Делиться ссылкой"
+    "share": "Делиться ссылкой",
+    "publishWithIpns": "Publish to IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "Эта команда предназначена тольк для локального подкрепления/открепления. Если вы хотите использовать сервис удаленного подкрепления, обратитесь к документации этого сервиса, чтобы узнать, как подкреплять/откреплять с помощью командной строки."
@@ -114,5 +115,14 @@
   "more": "Больше",
   "files": "Файлы",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
-  "sortBy": "Сортировка объектов по {name}"
+  "sortBy": "Сортировка объектов по {name}",
+  "publishModal": {
+    "title": "Publish to IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Select key for publishing:",
+    "help": "Go to Settings to learn about IPNS and create more keys.",
+    "publishedUnderKey": "Successfully published under the key:",
+    "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
+    "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
+  }
 }

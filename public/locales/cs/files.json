@@ -18,7 +18,8 @@
   "generating": "Vytváření…",
   "actions": {
     "copyHash": "Zkopírovat CID",
-    "share": "Sdílet odkaz"
+    "share": "Sdílet odkaz",
+    "publishWithIpns": "Zveřejněte do IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "Tento příkaz je určen pouze pro místní připínání/odpínání. Pokud chcete použít vzdálenou službu připínání, podívejte se do dokumentace k této službě a zjistěte, jak připínat/odpínat z příkazového řádku."
@@ -114,5 +115,14 @@
   "more": "Více",
   "files": "Soubory",
   "cidNotFileNorDir": "Aktuální odkaz není soubor ani adresář. Zkuste jej místo toho <1>zkontrolovat</1>.",
-  "sortBy": "Seřadit položky podle {name}"
+  "sortBy": "Seřadit položky podle {name}",
+  "publishModal": {
+    "title": "Zveřejněte do IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Vyberte klíč pro publikování:",
+    "help": "Přejděte do Nastavení, kde se dozvíte o IPNS a vytvoříte další klíče.",
+    "publishedUnderKey": "Úspěšně zveřejněno pod klíčem:",
+    "sharingPrompt": "Zkopírujte níže uvedený odkaz a sdílejte jej s ostatními. Adresa IPNS se bude řešit tak dlouho, dokud bude váš uzel v síti dostupný, a to jednou denně, aby se záznam IPNS obnovil.",
+    "pleaseWait": "Počkejte prosím, než se pomocí DHT peerů uloží počátečních 20 kopií aktualizovaného záznamu IPNS..."
+  }
 }

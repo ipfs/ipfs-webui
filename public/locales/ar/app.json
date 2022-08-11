@@ -28,6 +28,8 @@
     "submit": "إرسال",
     "unpin": "إلغاء التثبيت",
     "unselectAll": "إلغاء تحديد الكل",
+    "generate": "Generate",
+    "publish": "Publish",
     "downloadCar": "Download as CAR"
   },
   "cliModal": {
@@ -74,6 +76,7 @@
     "out": "خارج",
     "peer": "الند",
     "peerId": "معرف الأقران",
+    "id": "ID",
     "peers": "الأقران",
     "pinNoun": "رمز المرور",
     "pins": "رموز المرور ",
