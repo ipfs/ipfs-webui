@@ -10,7 +10,7 @@ import Button from '../../components/button/Button'
 // Icons
 import GlyphDots from '../../icons/GlyphDots'
 import GlyphPinCloud from '../../icons/GlyphPinCloud'
-import './BreathingCloud.css'
+import '../PendingAnimation.css'
 
 const BarOption = ({ children, text, isLink = false, className = '', ...etc }) => (
   <div className={classNames(className, 'tc pa3', etc.onClick && 'pointer')} {...etc}>
@@ -70,7 +70,7 @@ class Header extends React.Component {
             ? <a href='#/pins' alt={t('pinningQueue')} title={t('pinningQueue')} className='ml3'>
                 <GlyphPinCloud
                   style={{ width: '3rem' }}
-                  className='fill-teal BreathingCloud' />
+                  className='fill-teal PendingAnimation' />
               </a>
             : '' }
 

@@ -15,7 +15,7 @@ import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
 import CID from 'cids'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import './PendingAnimation.css'
+import '../PendingAnimation.css'
 
 const File = ({
   name, type, size, cid, path, pinned, t, selected, focused, translucent, coloured, cantSelect, cantDrag, isMfs, isRemotePin, isPendingPin, isFailedPin,

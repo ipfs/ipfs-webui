@@ -2,7 +2,7 @@ import React from 'react'
 import { withTranslation } from 'react-i18next'
 import GlyphCancel from '../icons/GlyphCancel'
 import GlyphPinCloud from '../icons/GlyphPinCloud'
-import '../files/file/PendingAnimation.css'
+import '../files/PendingAnimation.css'
 
 const Status = {
   Pending: 0,
