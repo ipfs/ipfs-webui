@@ -30,15 +30,15 @@
     "unselectAll": "Alle abwählen",
     "generate": "Generieren",
     "publish": "Veröffentlichen",
-    "downloadCar": "Als CAR herunterladen"
+    "downloadCar": "Als CAR herunterladen",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Füge folgendes in dein Terminal ein, um diese Aufgabe in IPFS über die Kommandozeile auszuführen. Denke daran, dass du Platzhalter durch Ihre spezifischen Parameter ersetzen musst."
   },
   "nav": {
     "bugsLink": "Fehler melden",
-    "codeLink": "Quelltext anzeigen",
-    "revision": "Revision"
+    "codeLink": "Quelltext anzeigen"
   },
   "status": {
     "connectedToIpfs": "Mit dem IPFS verbunden",
@@ -91,7 +91,8 @@
     "totalOut": "Gesamtausgang",
     "unknown": "Unbekannt",
     "ui": "UI",
-    "upSpeed": "Ausgehend"
+    "upSpeed": "Ausgehend",
+    "revision": "Revision"
   },
   "tour": {
     "back": "Zurück",

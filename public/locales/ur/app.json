@@ -30,15 +30,15 @@
     "unselectAll": "تمام غیر منتخب کریں",
     "generate": "Generate",
     "publish": "Publish",
-    "downloadCar": "Download as CAR"
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "کمانڈ لائن کے ذریعہ IPFS میں اسے کام کرنے کے لیے اپنے ٹرمینل میں اسے درج کریں۔ یاد رکھیں کہ آپ کو اپنے مخصوص پیرامیٹرز کے ساتھ پلیس ہولڈرز کو تبدیل کرنے کی ضرورت ہوگی۔"
   },
   "nav": {
     "bugsLink": "خرابی کی اطلاع دیں",
-    "codeLink": "کوڈ دیکھیں",
-    "revision": "نظرثانی"
+    "codeLink": "کوڈ دیکھیں"
   },
   "status": {
     "connectedToIpfs": ".IPFS سے مربوط ہوا",
@@ -91,7 +91,8 @@
     "totalOut": "کُل باہر",
     "unknown": "نامعلوم",
     "ui": "UI",
-    "upSpeed": "باہر جانے والا"
+    "upSpeed": "باہر جانے والا",
+    "revision": "نظرثانی"
   },
   "tour": {
     "back": "پیچھے",
