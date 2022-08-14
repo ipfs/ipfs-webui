@@ -30,15 +30,15 @@
     "unselectAll": "Снять выделение",
     "generate": "Generate",
     "publish": "Publish",
-    "downloadCar": "Download as CAR"
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Вставьте следующее в консоль, чтобы выполнить эту задачу в IPFS с помощью командной строки. Помните, что вам будет необходимо заменить местозаполнители вашими конкретными параметрами."
   },
   "nav": {
     "bugsLink": "Сообщить об ошибке",
-    "codeLink": "Смотреть код",
-    "revision": "Ревизия"
+    "codeLink": "Смотреть код"
   },
   "status": {
     "connectedToIpfs": "Подключено к IPFS",
@@ -91,7 +91,8 @@
     "totalOut": "Всего вышло",
     "unknown": "Неизвестно",
     "ui": "Пользовательский интерфейс",
-    "upSpeed": "Исходящий"
+    "upSpeed": "Исходящий",
+    "revision": "Ревизия"
   },
   "tour": {
     "back": "Назад",

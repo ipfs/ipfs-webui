@@ -122,6 +122,7 @@
     "publishUnderKey": "Pilih kunci untuk penerbitan:",
     "help": "Buka Pengaturan untuk mempelajari tentang IPNS dan membuat lebih banyak kunci.",
     "publishedUnderKey": "Berhasil diterbitkan di bawah kunci:",
+    "linkCopied": "Link copied!",
     "sharingPrompt": "Salin tautan di bawah ini dan bagikan dengan orang lain. Alamat IPNS akan diselesaikan selama node Anda tetap tersedia di jaringan sekali sehari untuk menyegarkan catatan IPNS.",
     "pleaseWait": "Harap tunggu sementara 20 salinan awal dari catatan IPNS yang diperbarui disimpan dengan bantuan rekan-rekan DHT…"
   }

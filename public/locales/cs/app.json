@@ -30,15 +30,15 @@
     "unselectAll": "Odznačit vše",
     "generate": "Generovat",
     "publish": "Publikovat",
-    "downloadCar": "Stáhnout jako CAR"
+    "downloadCar": "Stáhnout jako CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Chcete-li tento úkol provést v IPFS prostřednictvím příkazového řádku, vložte do terminálu následující příkaz. Nezapomeňte, že je třeba nahradit zástupné znaky konkrétními parametry."
   },
   "nav": {
     "bugsLink": "Nahlásit chybu",
-    "codeLink": "Podívejte se na kód",
-    "revision": "Revize"
+    "codeLink": "Podívejte se na kód"
   },
   "status": {
     "connectedToIpfs": "Připojeno k IPFS",
@@ -91,7 +91,8 @@
     "totalOut": "Celkem ven",
     "unknown": "Neznámé",
     "ui": "UI",
-    "upSpeed": "Odchozí"
+    "upSpeed": "Odchozí",
+    "revision": "Revize"
   },
   "tour": {
     "back": "Zpět",

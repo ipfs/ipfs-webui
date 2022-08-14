@@ -122,6 +122,7 @@
     "publishUnderKey": "Sélectionner une clé pour publier :",
     "help": "Allez dans Paramètres pour en savoir plus à propos d'IPNS et créer plus de clés.",
     "publishedUnderKey": "Publié avec succès sous la clé :",
+    "linkCopied": "Lien copié !",
     "sharingPrompt": "Copiez le lien ci-dessous et partagez-le avec les autres. L'adresse IPNS sera résolue tant que votre nœud reste disponible sur le réseau une fois par jour pour rafraichir l'enregistrement IPNS. ",
     "pleaseWait": "Merci d'attendre pendant que les 20 premières copies de l'enregistrement IPNS mis à jour sont stockés avec l'aide des pairs DHT..."
   }

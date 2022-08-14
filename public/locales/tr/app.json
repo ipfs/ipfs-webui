@@ -30,15 +30,15 @@
     "unselectAll": "Hepsinin seçimini kaldır",
     "generate": "Generate",
     "publish": "Publish",
-    "downloadCar": "Download as CAR"
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Komut satırı aracılığıyla IPFS'de bu görevi gerçekleştirmek için aşağıdakileri terminalinize yapıştırın. Yer tutucuları belirli parametrelerinizle değiştirmeniz gerekeceğini unutmayın."
   },
   "nav": {
     "bugsLink": "Hata bildirin",
-    "codeLink": "Kodu gör",
-    "revision": "Revizyon"
+    "codeLink": "Kodu gör"
   },
   "status": {
     "connectedToIpfs": "IPFS'ye bağlı",
@@ -91,7 +91,8 @@
     "totalOut": "Toplam çıkan",
     "unknown": "Bilinmeyen",
     "ui": "Kullanıcı Arayüzü",
-    "upSpeed": "Çıkan"
+    "upSpeed": "Çıkan",
+    "revision": "Revizyon"
   },
   "tour": {
     "back": "Geri",
