@@ -39,6 +39,7 @@ i18n
       'zh-Hans': ['zh-CN', 'en'],
       'zh-Hant': ['zh-TW', 'en'],
       zh: ['zh-CN', 'en'],
+      ko: ['ko-KR', 'en'],
       default: ['en']
     },
     debug: process.env.DEBUG,
