@@ -43,7 +43,7 @@ const Pin = (t, pin, status = Status.Pending, onDismiss) => {
 const PinsStatuses = ({ pendingPins, failedPins, completedPins, onDismissFailedPin, onDismissCompletedPin, doCancelPendingPin, t }) => {
   return (
     <div>
-      <h3>Pins</h3>
+      <h3>{(pendingPins.length + failedPins.length + completedPins.length) > 0 ? t('remotePinningInProgress') : t('noPinsInProgress')}</h3>
 
       <ul className='pa0 ma0'>
         {completedPins.map(pin => Pin(t, pin, Status.Completed, onDismissCompletedPin))}
