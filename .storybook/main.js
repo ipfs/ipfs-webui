@@ -3,23 +3,20 @@
  * @see https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#from-version-52x-to-53x
  */
 
-const webpack = require('webpack');
+const webpack = require('webpack')
 
-const webpackOverride = require('../config-overrides');
+const webpackOverride = require('../config-overrides')
 
 /** @type {import('@storybook/core-common').StorybookConfig} */
 const storybookConfig = {
   core: {
-    builder: 'webpack5',
+    builder: 'webpack5'
   },
   reactOptions: {
-    legacyRootApi: true,
+    legacyRootApi: true
   },
   stories: [
-    '../src/**/*.stories.@(ts|js|tsx|jsx)',
-    // '../src/components/**/*.stories.@(ts|js|tsx)',
-    // '../src/components/identicon/*.stories.@(ts|js|tsx)',
-    // '../src/components/language-selector/*.stories.@(ts|js|tsx)'
+    '../src/**/*.stories.@(ts|js|tsx|jsx)'
   ],
   framework: '@storybook/react',
   addons: [
@@ -30,7 +27,7 @@ const storybookConfig = {
     // '@storybook/addon-knobs',
     '@storybook/addon-controls',
     // '@storybook/addon-postcss',
-    '@storybook/preset-create-react-app',
+    '@storybook/preset-create-react-app'
   ],
   staticDirs: [
     '../public'
@@ -40,22 +37,21 @@ const storybookConfig = {
     storyStoreV7: true
   },
   webpackFinal: async (config) => {
-
     return webpackOverride({
       ...config,
       // @see https://github.com/storybookjs/storybook/issues/18276#issuecomment-1137101774
       plugins: config.plugins.map(plugin => {
         if (plugin.constructor.name === 'IgnorePlugin') {
           return new webpack.IgnorePlugin({
-              resourceRegExp: plugin.options.resourceRegExp,
-              contextRegExp: plugin.options.contextRegExp
-          });
+            resourceRegExp: plugin.options.resourceRegExp,
+            contextRegExp: plugin.options.contextRegExp
+          })
         }
 
-        return plugin;
+        return plugin
       })
-  })
-},
-};
+    })
+  }
+}
 
 module.exports = storybookConfig
