@@ -18,7 +18,8 @@
   "generating": "Generazione...",
   "actions": {
     "copyHash": "Copia CID",
-    "share": "Condividi collegamento"
+    "share": "Condividi collegamento",
+    "publishWithIpns": "Publish to IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "Questo comando è solo per il pinning/unpinning locale. Se vuoi usare un servizio di pinning remoto, consulta la documentazione di quel servizio per imparare come fare il pin/unpin dalla linea di comando."
@@ -114,5 +115,15 @@
   "more": "Altro",
   "files": "File",
   "cidNotFileNorDir": "Il collegamento attuale non è né un file e né un percorso. Prova ad <1>ispezionarlo</1>.",
-  "sortBy": "Ordina oggetti per {name}"
+  "sortBy": "Ordina oggetti per {name}",
+  "publishModal": {
+    "title": "Publish to IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Select key for publishing:",
+    "help": "Go to Settings to learn about IPNS and create more keys.",
+    "publishedUnderKey": "Successfully published under the key:",
+    "linkCopied": "Link copied!",
+    "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
+    "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
+  }
 }

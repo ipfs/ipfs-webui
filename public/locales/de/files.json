@@ -18,7 +18,8 @@
   "generating": "Erstelle…",
   "actions": {
     "copyHash": "CID kopieren",
-    "share": "Link teilen"
+    "share": "Link teilen",
+    "publishWithIpns": "Im IPNS veröffentlichen"
   },
   "cliModal": {
     "extraNotesPinning": "Dieser Befehl ist nur zum lokalen Anheften/Loslösen vorgesehen. Wenn du einen Remote-Pinning-Dienst verwenden möchten, lies die Dokumentation dieses Dienstes, um zu erfahren, wie du über die Kommandozeile etwas anheften/loslösen kannst."
@@ -45,7 +46,7 @@
   },
   "pinningModal": {
     "title": "Wähle aus, wo du diese Elemente anheften möchtest.",
-    "complianceLabel": "🔍 Check pinning services' compliance",
+    "complianceLabel": "Prüfe die Compliance vom Pinning-Service",
     "footer": "Du möchtest einen Pinning-Dienst hinzufügen oder konfigurieren? Gehe zu <1>Einstellungen</1>.",
     "localNode": "Lokaler Knoten",
     "totalSize": "Gesamtgröße: {size}"
@@ -114,5 +115,15 @@
   "more": "Mehr",
   "files": "Dateien",
   "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <1>untersuchen</1>.",
-  "sortBy": "Sortieren nach {name}"
+  "sortBy": "Sortieren nach {name}",
+  "publishModal": {
+    "title": "Im IPNS veröffentlichen",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Wähle Schlüssel zum Veröffentlichen:",
+    "help": "Gehe zu den Einstellungen um über IPNS zu lernen und erstelle mehr Schlüssel.",
+    "publishedUnderKey": "Erfolgreich unter dem Schlüssel veröffentlicht:",
+    "linkCopied": "Link copied!",
+    "sharingPrompt": "Kopieren den untenstehenden Link und teile ihn mit anderen. Die IPNS-Adresse wird aufgelöst, so lange dein Node mindestes ein Mal täglich im Netzwerk verfügbar ist, um den IPNS-Record zu erneuern.",
+    "pleaseWait": "Bitte warte solange die initialen 20 Kopien des geänderten IPNS-Records mit der Hilfe von DHT-Peers gespeichert wurde ..."
+  }
 }

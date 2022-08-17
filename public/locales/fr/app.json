@@ -28,15 +28,17 @@
     "submit": "Valider",
     "unpin": "Désépingler",
     "unselectAll": "Tout désélectionner",
-    "downloadCar": "Télécharger le CAR"
+    "generate": "Générer",
+    "publish": "Publier",
+    "downloadCar": "Télécharger le CAR",
+    "done": "Terminé"
   },
   "cliModal": {
     "description": "Collez la commande suivante dans votre terminal pour effectuer cette tâche dans IPFS via une ligne de commande. Souvenez-vous de remplacer certaines sections par vos propres paramètres aux endroits adéquats. "
   },
   "nav": {
     "bugsLink": "Signaler un bug",
-    "codeLink": "Voir le code",
-    "revision": "Révision"
+    "codeLink": "Voir le code"
   },
   "status": {
     "connectedToIpfs": "Connecté à IPFS",
@@ -74,6 +76,7 @@
     "out": "Sortant",
     "peer": "Pair",
     "peerId": "Peer ID",
+    "id": "ID",
     "peers": "Pairs",
     "pinNoun": "Épingler",
     "pins": "Éléments épinglés",
@@ -88,7 +91,8 @@
     "totalOut": "Total sortant",
     "unknown": "Inconnu",
     "ui": "UI",
-    "upSpeed": "Sortant"
+    "upSpeed": "Sortant",
+    "revision": "Révision"
   },
   "tour": {
     "back": "Retour",

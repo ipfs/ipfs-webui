@@ -4,6 +4,7 @@
   "saving": "ادخار",
   "reset": "إعادة تعيين",
   "learnMoreLink": "أعرف أكثر.",
+  "showOptions": "Show options",
   "pinningServices": {
     "title": "خدمات التثبيت",
     "description": "استخدم التثبيت المحلي عندما تريد التأكد من عدم جمع عنصر ما على العقدة مطلقًا، حتى إذا قمت بإزالته من الملفات. يمكنك أيضًا ربط حساباتك بخدمات التثبيت عن بُعد الأخرى للملفات المستمرة تلقائيًا أو بشكل انتقائي مع هؤلاء الموفرين، مما يتيح لك الاحتفاظ بنسخ احتياطية من ملفاتك و - أو إتاحتها للآخرين عندما تكون العقدة المحلية الخاصة بك غير متصلة بالإنترنت.",
@@ -58,6 +59,7 @@
   },
   "actions": {
     "addService": "أضف خدمة",
+    "generateKey": "Generate Key",
     "edit": "تغيير",
     "close": "أغلق",
     "save": "حفظ",
@@ -162,5 +164,21 @@
     "issueUrl": "افتح قضية",
     "feedbackUrl": "💌اترك تقييم للخدمة",
     "readMoreUrl": "قراءة المزيد"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Publishing Keys",
+    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+  },
+  "generateKeyModal": {
+    "title": "Generate New IPNS Key",
+    "description": "Enter a nickname for this key to generate:"
+  },
+  "renameKeyModal": {
+    "title": "Rename Key",
+    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Confirm IPNS Key Removal",
+    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
   }
 }

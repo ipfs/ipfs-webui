@@ -28,15 +28,17 @@
     "submit": "إرسال",
     "unpin": "إلغاء التثبيت",
     "unselectAll": "إلغاء تحديد الكل",
-    "downloadCar": "Download as CAR"
+    "generate": "Generate",
+    "publish": "Publish",
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "الصق ما يلي في الجهاز الطرفي للقيام بهذه المهمة في IPFS عبر سطر الأوامر. تذكر أنك ستحتاج إلى استبدال العناصر النائبة بمعلماتك المحددة."
   },
   "nav": {
     "bugsLink": "الإبلاغ عن خطأ",
-    "codeLink": "انظر الرمز",
-    "revision": "مراجعة"
+    "codeLink": "انظر الرمز"
   },
   "status": {
     "connectedToIpfs": "متصل بـ IPFS",
@@ -74,6 +76,7 @@
     "out": "خارج",
     "peer": "الند",
     "peerId": "معرف الأقران",
+    "id": "ID",
     "peers": "الأقران",
     "pinNoun": "رمز المرور",
     "pins": "رموز المرور ",
@@ -88,7 +91,8 @@
     "totalOut": "إجمالي المستحقات",
     "unknown": "مجهول",
     "ui": "واجهة المستخدم",
-    "upSpeed": "منفتح"
+    "upSpeed": "منفتح",
+    "revision": "مراجعة"
   },
   "tour": {
     "back": "عودة",

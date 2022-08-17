@@ -28,15 +28,17 @@
     "submit": "Beküldés",
     "unpin": "Levesz",
     "unselectAll": "Minden kijelölést töröl",
-    "downloadCar": "Download as CAR"
+    "generate": "Generate",
+    "publish": "Publish",
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Másold be a következőt a terminálodba, hogy lefusson ez a parancs az IPSF-ben. Figyelj, hogy cseréld ki a paramétereket!"
   },
   "nav": {
     "bugsLink": "Hiba beküldése",
-    "codeLink": "Kód megnézése",
-    "revision": "Felülvizsgálat"
+    "codeLink": "Kód megnézése"
   },
   "status": {
     "connectedToIpfs": "Csatlakozva az IPFS-hez",
@@ -74,6 +76,7 @@
     "out": "Ki",
     "peer": "Végpont",
     "peerId": "Végpont azonosító",
+    "id": "ID",
     "peers": "Ügyfelek",
     "pinNoun": "Kitűzés",
     "pins": "Kitűzések",
@@ -88,7 +91,8 @@
     "totalOut": "Kimenő összes",
     "unknown": "Ismeretlen",
     "ui": "UI",
-    "upSpeed": "Kimenő"
+    "upSpeed": "Kimenő",
+    "revision": "Felülvizsgálat"
   },
   "tour": {
     "back": "Vissza",

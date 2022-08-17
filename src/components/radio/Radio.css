@@ -1,0 +1,20 @@
+.Radio > span:first-of-type {
+  background-color: #DDE6EB;
+}
+
+.Radio > input {
+  left: -99999px;
+}
+
+.Radio input:checked + span span {
+  opacity: 1;
+}
+
+.Radio > input:disabled + span {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.Radio input:focus + span {
+  outline: 1px solid #bbb;
+}

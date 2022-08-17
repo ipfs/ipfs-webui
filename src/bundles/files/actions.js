@@ -48,7 +48,7 @@ const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, is
   name: name || path.split('/').pop() || cid.toString(),
   path: path || `${prefix}/${cid.toString()}`,
   pinned: Boolean(pinned),
-  isParent: isParent
+  isParent
 })
 
 /**
@@ -668,7 +668,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
   }
 
   return {
-    path: path,
+    path,
     fetched: Date.now(),
     type: 'directory',
     cid,

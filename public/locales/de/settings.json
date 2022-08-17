@@ -4,6 +4,7 @@
   "saving": "Speichervorgang läuft…",
   "reset": "Zurücksetzen",
   "learnMoreLink": "Mehr erfahren.",
+  "showOptions": "Optionen anzeigen",
   "pinningServices": {
     "title": "Pinning-Dienste",
     "description": "Verwende lokales Anheften, wenn Du sicherstellen möchtest, dass ein Element auf Deinem Knoten niemals durch den Garbage-Collector gelöscht wird, selbst wenn Du es aus Dateien entfernst. Du kannst Deine Konten auch mit anderen Remote-Pinning-Diensten verknüpfen, um Dateien bei diesen Anbietern automatisch oder selektiv beizubehalten. So kannst Du Sicherungskopien Deiner Dateien aufbewahren und / oder anderen zur Verfügung stellen, wenn Dein lokaler Knoten offline ist.",
@@ -42,7 +43,7 @@
     "secretApiKey": "Geheimer Zugriffsschlüssel",
     "secretApiKeyHowToLink": "Wie man einen neuen Token erzeugt",
     "autoUpload": "Automatisch hochladen",
-    "complianceLabel": "🔍 {nickname} pinning compliance report"
+    "complianceLabel": "{nickname} Pinning Compliance melden"
   },
   "autoUploadModal": {
     "title": "Upload-Richtlinie für {name} ändern",
@@ -58,6 +59,7 @@
   },
   "actions": {
     "addService": "Dienst hinzufügen",
+    "generateKey": "Schlüssel erzeugen",
     "edit": "Ändern",
     "close": "Schließen",
     "save": "Speichern",
@@ -162,5 +164,21 @@
     "issueUrl": "Ein issue öffnen",
     "feedbackUrl": "💌Feedback geben",
     "readMoreUrl": "Mehr lesen"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS veröffentliche Schlüssel",
+    "description": "Das InterPlanetary Name System (IPNS) stellt kryptographische Adressen zur Verfügung, um Updates zu Inhalten zu veröffentlichen, von denen anzunehmen ist, dass sie sich über die Zeit ändern. Diese Funktion erfordert, dass dein Node mindestens einmal täglich online ist, um sicherzustellen, dass IPNS Records am Leben erhalten werden in der öffentlichen DHT."
+  },
+  "generateKeyModal": {
+    "title": "Neuen IPNS-Schlüssel erstellen",
+    "description": "Gib einen Spitznamen für den zu erstellenden Schlüssel an:"
+  },
+  "renameKeyModal": {
+    "title": "Schlüssel umbenennen",
+    "description": "Gib einen neuen Spitznamen für den IPNS-Schlüssel <1>{name}</1> an."
+  },
+  "removeKeyModal": {
+    "title": "Bestätige Entfernen von IPNS-Schlüssel",
+    "description": "Bist du sicher, dass du den IPNS-Key <1>{name}</1> löschen möchtest? Diese Operation kann nicht rückgängig gemacht werden und die IPNS-Adresse, die von diesem Schlüssel verwaltet wird, wird FÜR IMMER verloren sein. Ziehe in Erwägung den Schlüssel zuerst zu sichern: ipfs key export --help"
   }
 }

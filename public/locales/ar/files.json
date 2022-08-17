@@ -18,7 +18,8 @@
   "generating": "جارٍ الإنشاء ...",
   "actions": {
     "copyHash": "انسخ CID",
-    "share": "مشاركة الرابط"
+    "share": "مشاركة الرابط",
+    "publishWithIpns": "Publish to IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "هذا الأمر مخصص فقط للتثبيت / إلغاء التثبيت المحلي. إذا كنت تريد استخدام خدمة التثبيت عن بُعد ، فاستشر وثائق تلك الخدمة لمعرفة كيفية التثبيت / إلغاء التثبيت من سطر الأوامر."
@@ -114,5 +115,15 @@
   "more": "أكثر",
   "files": "الملفات",
   "cidNotFileNorDir": "الرابط الحالي ليس ملفًا ولا دليلًا. حاول <1>تفقده</1> بدلا من ذلك.",
-  "sortBy": "فرز العناصر حسب {name}"
+  "sortBy": "فرز العناصر حسب {name}",
+  "publishModal": {
+    "title": "Publish to IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Select key for publishing:",
+    "help": "Go to Settings to learn about IPNS and create more keys.",
+    "publishedUnderKey": "Successfully published under the key:",
+    "linkCopied": "Link copied!",
+    "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
+    "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
+  }
 }

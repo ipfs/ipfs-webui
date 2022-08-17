@@ -28,15 +28,17 @@
     "submit": "Applica",
     "unpin": "Sblocca",
     "unselectAll": "Deseleziona tutto",
-    "downloadCar": "Download as CAR"
+    "generate": "Generate",
+    "publish": "Publish",
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Incolla ciò che segue nel tuo terminale per avviare questa funzione in IPFS tramite la riga di comando. Ricorda che devi sostituire i segnaposto con i parametri specifici."
   },
   "nav": {
     "bugsLink": "Segnala un problema",
-    "codeLink": "Guarda il codice",
-    "revision": "Revisiona"
+    "codeLink": "Guarda il codice"
   },
   "status": {
     "connectedToIpfs": "Connesso ad IPFS",
@@ -74,6 +76,7 @@
     "out": "Uscita",
     "peer": "Peer",
     "peerId": "Peer ID",
+    "id": "ID",
     "peers": "Peer",
     "pinNoun": "Fisso",
     "pins": "Fissi",
@@ -88,7 +91,8 @@
     "totalOut": "Totale uscita",
     "unknown": "Sconosciuto",
     "ui": "UI",
-    "upSpeed": "In uscita"
+    "upSpeed": "In uscita",
+    "revision": "Revisiona"
   },
   "tour": {
     "back": "Indietro",

@@ -4,6 +4,7 @@
   "saving": "Salvataggio in corso...",
   "reset": "Ripristina",
   "learnMoreLink": "Per saperne di più.",
+  "showOptions": "Show options",
   "pinningServices": {
     "title": "Servizi di pinning",
     "description": "Usa il pinning locale quando vuoi assicurarti che un oggetto sul tuo nodo non venga mai gettato dal Garbage Collector, anche quando lo rimuovi da \"File\". Puoi anche collegare il tuo account con altri servizi di pinning remoto per mantenere i file automaticamente o selettivamente con quei provider, permettendoti di mantenere copie di backup dei tuoi file o renderli disponibili agli altri quando il tuo nodo locale è offline.",
@@ -58,6 +59,7 @@
   },
   "actions": {
     "addService": "Aggiungi servizio",
+    "generateKey": "Generate Key",
     "edit": "Cambia",
     "close": "Chiudi",
     "save": "Salva",
@@ -162,5 +164,21 @@
     "issueUrl": "Pubblica un problema",
     "feedbackUrl": "💌Condividi la tua opinione",
     "readMoreUrl": "Leggi di più"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Publishing Keys",
+    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+  },
+  "generateKeyModal": {
+    "title": "Generate New IPNS Key",
+    "description": "Enter a nickname for this key to generate:"
+  },
+  "renameKeyModal": {
+    "title": "Rename Key",
+    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Confirm IPNS Key Removal",
+    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
   }
 }

@@ -1,12 +1,6 @@
-const { teardown: teardownDevServer } = require('jest-process-manager')
+const path = require('path')
+const fs = require('fs')
 
-module.exports = async function globalTeardown (globalConfig) {
-  const teardown = []
-  // custom teardown
-  const ipfsd = global.__IPFSD__
-  if (ipfsd) teardown.push(ipfsd.stop())
-  // continue with global teardown
-  teardown.push(teardownDevServer())
-  // teardown.push(teardownPlaywright(globalConfig))
-  await Promise.all(teardown)
+module.exports = async config => {
+  fs.rmSync(path.join(__dirname, 'ipfs-backend.json'), { force: true })
 }

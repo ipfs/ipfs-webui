@@ -116,11 +116,13 @@ const pinningBundle = {
     await Promise.allSettled(pinningServices.map(async service => {
       try {
         // skip CIDs that we know the state of at this service
-        const skipCids = skipCache ? new Set() : new Set(
-          [...remotePins, ...notRemotePins]
-            .filter(id => id.startsWith(service.name))
-            .map(cacheId2Cid)
-        )
+        const skipCids = skipCache
+          ? new Set()
+          : new Set(
+            [...remotePins, ...notRemotePins]
+              .filter(id => id.startsWith(service.name))
+              .map(cacheId2Cid)
+          )
         for (const cidChunk of cids) {
           const cidsToCheck = cidChunk.filter(cid => !skipCids.has(cid.toString()))
           if (!cidsToCheck.length) continue // skip if no new cids to check

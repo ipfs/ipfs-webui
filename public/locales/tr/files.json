@@ -18,7 +18,8 @@
   "generating": "Oluşturuluyor…",
   "actions": {
     "copyHash": "CID'yi kopyala",
-    "share": "Linki paylaş"
+    "share": "Linki paylaş",
+    "publishWithIpns": "Publish to IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "Bu komut yalnızca yerel sabitleme/sabitlemeyi kaldırma içindir. Bir uzaktan iğneleme hizmeti kullanmak istiyorsanız, komut satırını nasıl sabitleyeceğinizi/sabitlemeyi kaldıracağınızı öğrenmek için o hizmetin belgelerine bakın."
@@ -114,5 +115,15 @@
   "more": "Daha fazla",
   "files": "Dosyalar",
   "cidNotFileNorDir": "Geçerli bağlantı bir dosya veya dizin değil. Bunun yerine <1>incelemeyi</1> deneyin.",
-  "sortBy": "Öğeleri {name}'a göre sırala"
+  "sortBy": "Öğeleri {name}'a göre sırala",
+  "publishModal": {
+    "title": "Publish to IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Select key for publishing:",
+    "help": "Go to Settings to learn about IPNS and create more keys.",
+    "publishedUnderKey": "Successfully published under the key:",
+    "linkCopied": "Link copied!",
+    "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
+    "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
+  }
 }
