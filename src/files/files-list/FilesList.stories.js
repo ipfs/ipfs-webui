@@ -47,7 +47,7 @@ export default {
     handleContextMenuClick: action('Context Menu Click'),
     maxWidth: '100%',
     filesSorting: { by: 'name', asc: true },
-    updateSorting: updateSorting
+    updateSorting
   }
 }
 
