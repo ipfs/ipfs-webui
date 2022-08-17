@@ -4,6 +4,8 @@ import React from '@storybook/react'
 import i18n from '../../i18n'
 import LanguageSelectorEl from './LanguageSelector'
 
+const t = i18n.getFixedT('en', 'settings')
+
 /**
  * @type {import('@storybook/react').Meta}
  */
@@ -14,27 +16,19 @@ export default {
     actions: {
       disable: false,
       handles: ['click .Button.tc']
-    },
-    argTypes: {
-      onClick: { action: 'clicked' }
-    },
-    args: {
-      lang: 'en',
-      wrapperClassName: 'pa4 bg-light-gray'
     }
-  }
+  },
+  render: ({ wrapperClassName }) => (<div className={wrapperClassName}>
+    <LanguageSelectorEl t={t} />
+  </div>)
 }
-
-const Template = (args) => <div className={args.wrapperClassName}>
-  <LanguageSelectorEl t={i18n.getFixedT(args.lang, 'settings')} />
-</div>
 
 /**
  * @type {import('@storybook/react').StoryObj}
  */
-export const Default = Template.bind({ })
-
-Default.args = {
-  lang: 'en',
-  wrapperClassName: 'pa4 bg-light-gray'
+export const Default = {
+  name: 'LanguageSelector',
+  args: {
+    wrapperClassName: 'pa4 bg-light-gray'
+  }
 }

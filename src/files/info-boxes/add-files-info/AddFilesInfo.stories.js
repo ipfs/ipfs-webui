@@ -16,4 +16,6 @@ export default {
 /**
  * @type {import('@storybook/react').StoryObj}
  */
-export const Default = {}
+export const Default = {
+  name: 'AddFilesInfo'
+}

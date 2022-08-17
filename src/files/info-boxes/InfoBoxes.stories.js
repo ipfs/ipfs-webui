@@ -18,5 +18,5 @@ export default {
  * @type {import('@storybook/react').StoryObj}
  */
 export const Default = {
-  title: 'Info Boxes'
+  name: 'InfoBoxes'
 }

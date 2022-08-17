@@ -1,34 +1,33 @@
-import React from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { checkA11y } from '@storybook/addon-a11y';
-import Toast from './Toast';
+import React from '@storybook/react'
+import { action } from '@storybook/addon-actions'
+
+import Toast from './Toast'
 
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
-    title: 'Toast',
-    decorators: [checkA11y],
-};
+  title: 'Toast'
+}
 
 /**
  * @type {import('@storybook/react').StoryObj}
  */
 export const Default = () => (
-    <div style={{ height: '100vh' }}>
-        <Toast onDismiss={action('cancel')}>
-            <b>Hurray!</b> New things are available.
-        </Toast>
-    </div>
-);
+  <div style={{ height: '100vh' }}>
+    <Toast onDismiss={action('cancel')}>
+      <b>Hurray!</b> New things are available.
+    </Toast>
+  </div>
+)
 
 /**
  * @type {import('@storybook/react').StoryObj}
  */
 export const Error = () => (
-    <div style={{ height: '100vh' }}>
-        <Toast onDismiss={action('cancel')} error>
+  <div style={{ height: '100vh' }}>
+    <Toast onDismiss={action('cancel')} error>
             Oh no! Something dreadful has occured.
-        </Toast>
-    </div>
-);
+    </Toast>
+  </div>
+)

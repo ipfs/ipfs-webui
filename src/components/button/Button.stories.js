@@ -1,44 +1,43 @@
-import React from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import Button from './Button';
+import React from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 
+import Button from './Button'
 
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
-  title: 'Button',
-  argTyp
-};
+  title: 'Button'
+}
 
 /**
  * @type {import('@storybook/react').StoryObj}
  */
 export const Colors = () => (
-    <div>
-        <Button className="ma2" onClick={action('aqua-click')}>
+  <div>
+    <Button className="ma2" onClick={action('aqua-click')}>
             Aqua
-        </Button>
-        <Button className="ma2" bg="bg-teal" onClick={action('teal-click')}>
+    </Button>
+    <Button className="ma2" bg="bg-teal" onClick={action('teal-click')}>
             Teal
-        </Button>
-        <Button className="ma2" bg="bg-navy" onClick={action('navy-click')}>
+    </Button>
+    <Button className="ma2" bg="bg-navy" onClick={action('navy-click')}>
             Navy
-        </Button>
-        <Button className="ma2" bg="bg-orange" onClick={action('orange-click')}>
+    </Button>
+    <Button className="ma2" bg="bg-orange" onClick={action('orange-click')}>
             Orange
-        </Button>
-        <Button className="ma2" bg="bg-red" onClick={action('red-click')}>
+    </Button>
+    <Button className="ma2" bg="bg-red" onClick={action('red-click')}>
             Red
-        </Button>
-        <Button className="ma2" disabled onClick={action('disabled-click')}>
+    </Button>
+    <Button className="ma2" disabled onClick={action('disabled-click')}>
             Disabled
-        </Button>
-        <Button className="ma2" minWidth={100} onClick={action('smol-click')}>
+    </Button>
+    <Button className="ma2" minWidth={100} onClick={action('smol-click')}>
             Smol
-        </Button>
-        <Button className="ma2" onClick={action('smol-click')} style={{ background: 'hotpink' }}>
+    </Button>
+    <Button className="ma2" onClick={action('hotpink-click')} style={{ background: 'hotpink' }}>
             Custom
-        </Button>
-    </div>
-);
+    </Button>
+  </div>
+)

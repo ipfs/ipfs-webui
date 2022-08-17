@@ -1,5 +1,4 @@
 // @ts-check
-import React from '@storybook/react'
 import Breadcrumbs from './Breadcrumbs'
 
 /**
