@@ -1,8 +1,8 @@
 import React from 'react'
 
 const providers = {
-  'go-ipfs': {
-    url: 'https://github.com/ipfs/go-ipfs'
+  kubo: {
+    url: 'https://github.com/ipfs/kubo'
   },
   'js-ipfs': {
     url: 'https://github.com/ipfs/js-ipfs'
@@ -15,7 +15,7 @@ const findUrl = name => {
   return provider.url
 }
 
-// formats an ipfs agentVersion string from /go-ipfs/0.10.0/desktop to go-ipfs v0.10.0 desktop
+// formats an ipfs agentVersion string from /kubo/0.14.0/desktop to kubo v0.14.0 desktop
 const VersionLink = ({ agentVersion }) => {
   if (!agentVersion) return <span>Unknown</span>
   const parts = agentVersion.split('/').filter(str => !!str)
