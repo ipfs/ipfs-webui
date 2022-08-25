@@ -62,7 +62,6 @@ module.exports = function webpackOverride (config) {
       Buffer: ['buffer', 'Buffer']
     })
   ])
-  // const plugins = []
 
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'production'
