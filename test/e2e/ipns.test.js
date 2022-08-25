@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test')
+const { test, expect } = require('./setup/coverage')
 const { createController } = require('ipfsd-ctl')
 const ipfsClient = require('ipfs-http-client')
 

@@ -1,4 +1,4 @@
-const { test } = require('@playwright/test')
+const { test } = require('./setup/coverage')
 
 test.describe('Settings screen', () => {
   test.beforeEach(async ({ page }) => {

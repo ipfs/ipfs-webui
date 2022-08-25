@@ -1,0 +1,6 @@
+
+{
+  include: ['src/**/*.js'],
+  exclude: ['**/*.test.js', '**/*.stories.js'],
+  reporter: ['html', 'text', 'lcov']
+}

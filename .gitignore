@@ -31,5 +31,7 @@ tsconfig.tsbuildinfo
 .tool-versions
 .envrc
 .cid
+.cache
+.nyc_output
 
 tx
