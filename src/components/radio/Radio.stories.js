@@ -1,28 +1,32 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import { checkA11y } from '@storybook/addon-a11y'
-import Radio from './Radio'
+import React from 'react';
+import { action } from '@storybook/addon-actions';
+import { checkA11y } from '@storybook/addon-a11y';
+import Radio from './Radio';
 
 const bigPicture = {
-  transform: 'scale(5)',
-  transformOrigin: 'top left'
-}
+    transform: 'scale(5)',
+    transformOrigin: 'top left',
+};
 
-storiesOf('Radio', module)
-  .addDecorator(checkA11y)
-  .add('Default', () => (
+export default {
+    title: 'Radio',
+    decorators: [checkA11y],
+};
+
+export const Default = () => (
     <div>
-      <Radio className='ma2' label='Click me!' onChange={action('Checked')} />
+        <Radio className="ma2" label="Click me!" onChange={action('Checked')} />
     </div>
-  ))
-  .add('Disabled', () => (
+);
+
+export const Disabled = () => (
     <div>
-      <Radio label='Click me!' className='ma2' disabled onChange={action('Checked')} />
+        <Radio label="Click me!" className="ma2" disabled onChange={action('Checked')} />
     </div>
-  ))
-  .add('Big', () => (
+);
+
+export const Big = () => (
     <div>
-      <Radio style={bigPicture} label='Click me!' className='ma2' onChange={action('Checked')} />
+        <Radio style={bigPicture} label="Click me!" className="ma2" onChange={action('Checked')} />
     </div>
-  ))
+);
