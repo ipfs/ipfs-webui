@@ -1,7 +1,7 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 import i18n from '../../../i18n'
-import { PublishModal } from './PublishModal'
+import PublishModal from './PublishModal'
 
 export default {
   title: 'Files/Modals'

@@ -16,7 +16,7 @@ export default {
 }
 
 /**
- * @type {import('@storybook/react').StoryObj}
+ * @type {import('@storybook/react').StoryFn}
  */
 export const Default = () => (
   <div>
@@ -25,7 +25,7 @@ export const Default = () => (
 )
 
 /**
- * @type {import('@storybook/react').StoryObj}
+ * @type {import('@storybook/react').StoryFn}
  */
 export const Disabled = () => (
   <div>
@@ -34,7 +34,7 @@ export const Disabled = () => (
 )
 
 /**
- * @type {import('@storybook/react').StoryObj}
+ * @type {import('@storybook/react').StoryFn}
  */
 export const Big = () => (
   <div>

@@ -1,6 +1,5 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-import { checkA11y } from '@storybook/addon-a11y'
 import Radio from './Radio'
 
 const bigPicture = {
@@ -8,23 +7,35 @@ const bigPicture = {
   transformOrigin: 'top left'
 }
 
+/**
+ * @type {import('@storybook/react').Meta}
+ */
 export default {
   title: 'Radio',
-  decorators: [checkA11y]
+  component: Radio
 }
 
+/**
+ * @type {import('@storybook/react').StoryFn}
+ */
 export const Default = () => (
     <div>
         <Radio className="ma2" label="Click me!" onChange={action('Checked')} />
     </div>
 )
 
+/**
+ * @type {import('@storybook/react').StoryFn}
+ */
 export const Disabled = () => (
     <div>
         <Radio label="Click me!" className="ma2" disabled onChange={action('Checked')} />
     </div>
 )
 
+/**
+ * @type {import('@storybook/react').StoryFn}
+ */
 export const Big = () => (
     <div>
         <Radio style={bigPicture} label="Click me!" className="ma2" onChange={action('Checked')} />

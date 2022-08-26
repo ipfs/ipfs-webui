@@ -16,7 +16,7 @@ const containerStyle = { width: 156 }
  * @type {import('@storybook/react').Meta}
  */
 export default {
-  title: 'Files/FilImportStatus',
+  title: 'Files/FileImportStatus',
   decorators: [i18nDecorator, withKnobs]
 }
 
