@@ -152,6 +152,10 @@ jobs:
     needs: build
     uses: ./.github/workflows/test-e2e.yml
 
+  test-storybook:
+    name: 'test:e2e'
+    uses: ./.github/workflows/test-storybook.yml
+
   # separate check for TS
   typecheck:
     name: typecheck
@@ -171,7 +175,7 @@ jobs:
   release:
     name: 'Run semantic release'
     runs-on: ubuntu-latest
-    needs: [build, publishPreview, eslint, typecheck, test-e2e, test-unit]
+    needs: [build, publishPreview, eslint, typecheck, test-e2e, test-unit, test-storybook]
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2

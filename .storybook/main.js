@@ -27,7 +27,8 @@ const storybookConfig = {
     // '@storybook/addon-knobs',
     '@storybook/addon-controls',
     // '@storybook/addon-postcss',
-    '@storybook/preset-create-react-app'
+    '@storybook/preset-create-react-app',
+    '@storybook/addon-coverage'
   ],
   staticDirs: [
     '../public'
