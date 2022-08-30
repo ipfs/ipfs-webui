@@ -47,17 +47,5 @@ jobs:
         id: coverage
         run:
           coverage=$(npx nyc report --reporter=text)
+          echo $coverage
           echo "::set-output name=text::$coverage"
-
-      - name: Comment on PR with coverage
-        uses: actions/github-script@v6
-        with:
-          script: |
-            if (context.issue?.number != null) {
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: '${{ steps.coverage.outputs.text }}'
-              })
-            }
