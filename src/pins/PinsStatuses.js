@@ -1,8 +1,7 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import GlyphCancel from '../icons/GlyphCancel'
-import GlyphPinCloud from '../icons/GlyphPinCloud'
-import GlyphPinCloudFailed from '../icons/GlyphPinCloudFailed'
+import GlyphPinCloud from '../icons/hocs/GlyphPinCloud'
 import '../files/PendingAnimation.css'
 
 const Status = {
@@ -30,9 +29,7 @@ const Pin = (t, pin, status = Status.Pending, onDismiss) => {
   }
 
   return (<li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={cid}>
-    {status === Status.Failed
-      ? <GlyphPinCloudFailed className={cloudClass} style={{ width: '36px' }} alt={alt} title={alt} />
-      : <GlyphPinCloud className={cloudClass} style={{ width: '36px' }} alt={alt} title={alt} />}
+    <GlyphPinCloud className={cloudClass} style={{ width: '36px' }} alt={alt} title={alt} failed={status === Status.Failed} />
     <span className="truncate">{cid}</span>
     <span className='gray mh2'>| {service}</span>
     <span className='br-100 o-70 ml-auto w2 h2' alt={dismissAlt} title={dismissAlt} >
