@@ -1,17 +1,39 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import i18n from '../../../i18n-decorator'
 import RemoveModal from './RemoveModal'
 
-storiesOf('Files/Modals', module)
-  .addDecorator(i18n)
-  .add('Remove', () => (
-    <div className='ma3'>
-      <RemoveModal
-        onCancel={action('Cancel')}
-        onRemove={action('Remove')}
-        files={4}
-        folders={0} />
-    </div>
-  ))
+/**
+ * @type {import('@storybook/react').Meta}
+ */
+export default {
+  title: 'Files/Modals',
+  component: RemoveModal,
+  args: {
+    onCancel: action('Cancel'),
+    onSubmit: action('Submit'),
+    filesCount: 4,
+    foldersCount: 0,
+    files: [
+      {
+        cid: 'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC',
+        pinned: false
+      },
+      {
+        cid: 'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC',
+        pinned: false
+      },
+      {
+        cid: 'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC',
+        pinned: false
+      },
+      {
+        cid: 'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC',
+        pinned: false
+      }
+    ]
+  }
+}
+
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
+export const Remove = {}

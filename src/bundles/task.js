@@ -223,7 +223,8 @@ export const perform = (type, task, ...[init]) =>
         })
       }
     }
-  } catch (error) {
+  } catch (err) {
+    const error = /** @type {Error} */(err)
     context.dispatch({
       type,
       task: {

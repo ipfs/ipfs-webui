@@ -8,6 +8,7 @@
 /playwright-report
 test/e2e/setup/ipfs-backend.json
 test/e2e/state.json
+storybook-static
 
 # production
 /build

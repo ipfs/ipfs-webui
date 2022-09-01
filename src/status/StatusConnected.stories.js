@@ -1,13 +1,17 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
-import { checkA11y } from '@storybook/addon-a11y'
+import React from '@storybook/react'
 import i18n from '../i18n-decorator'
 
 import { TranslatedStatusConnected as StatusConnected } from './StatusConnected.js'
 
-storiesOf('StatusConnected', module)
-  .addDecorator(i18n)
-  .addDecorator(checkA11y)
-  .add('Default', () => (
-    <StatusConnected peersCount={1001} repoSize={123123912321312} />
-  ))
+/**
+ * @type {import('@storybook/react').Meta}
+ */
+export default {
+  title: 'StatusConnected',
+  decorators: [i18n]
+}
+
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
+export const Default = () => <StatusConnected peersCount={1001} repoSize={123123912321312} />
