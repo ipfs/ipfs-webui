@@ -122,6 +122,7 @@
     "publishUnderKey": "Wähle Schlüssel zum Veröffentlichen:",
     "help": "Gehe zu den Einstellungen um über IPNS zu lernen und erstelle mehr Schlüssel.",
     "publishedUnderKey": "Erfolgreich unter dem Schlüssel veröffentlicht:",
+    "linkCopied": "Link copied!",
     "sharingPrompt": "Kopieren den untenstehenden Link und teile ihn mit anderen. Die IPNS-Adresse wird aufgelöst, so lange dein Node mindestes ein Mal täglich im Netzwerk verfügbar ist, um den IPNS-Record zu erneuern.",
     "pleaseWait": "Bitte warte solange die initialen 20 Kopien des geänderten IPNS-Records mit der Hilfe von DHT-Peers gespeichert wurde ..."
   }

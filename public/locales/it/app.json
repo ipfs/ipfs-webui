@@ -30,15 +30,15 @@
     "unselectAll": "Deseleziona tutto",
     "generate": "Generate",
     "publish": "Publish",
-    "downloadCar": "Download as CAR"
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Incolla ciò che segue nel tuo terminale per avviare questa funzione in IPFS tramite la riga di comando. Ricorda che devi sostituire i segnaposto con i parametri specifici."
   },
   "nav": {
     "bugsLink": "Segnala un problema",
-    "codeLink": "Guarda il codice",
-    "revision": "Revisiona"
+    "codeLink": "Guarda il codice"
   },
   "status": {
     "connectedToIpfs": "Connesso ad IPFS",
@@ -91,7 +91,8 @@
     "totalOut": "Totale uscita",
     "unknown": "Sconosciuto",
     "ui": "UI",
-    "upSpeed": "In uscita"
+    "upSpeed": "In uscita",
+    "revision": "Revisiona"
   },
   "tour": {
     "back": "Indietro",

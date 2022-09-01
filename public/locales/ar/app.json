@@ -30,15 +30,15 @@
     "unselectAll": "إلغاء تحديد الكل",
     "generate": "Generate",
     "publish": "Publish",
-    "downloadCar": "Download as CAR"
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "الصق ما يلي في الجهاز الطرفي للقيام بهذه المهمة في IPFS عبر سطر الأوامر. تذكر أنك ستحتاج إلى استبدال العناصر النائبة بمعلماتك المحددة."
   },
   "nav": {
     "bugsLink": "الإبلاغ عن خطأ",
-    "codeLink": "انظر الرمز",
-    "revision": "مراجعة"
+    "codeLink": "انظر الرمز"
   },
   "status": {
     "connectedToIpfs": "متصل بـ IPFS",
@@ -91,7 +91,8 @@
     "totalOut": "إجمالي المستحقات",
     "unknown": "مجهول",
     "ui": "واجهة المستخدم",
-    "upSpeed": "منفتح"
+    "upSpeed": "منفتح",
+    "revision": "مراجعة"
   },
   "tour": {
     "back": "عودة",

@@ -122,6 +122,7 @@
     "publishUnderKey": "Vyberte klíč pro publikování:",
     "help": "Přejděte do Nastavení, kde se dozvíte o IPNS a vytvoříte další klíče.",
     "publishedUnderKey": "Úspěšně zveřejněno pod klíčem:",
+    "linkCopied": "Link copied!",
     "sharingPrompt": "Zkopírujte níže uvedený odkaz a sdílejte jej s ostatními. Adresa IPNS se bude řešit tak dlouho, dokud bude váš uzel v síti dostupný, a to jednou denně, aby se záznam IPNS obnovil.",
     "pleaseWait": "Počkejte prosím, než se pomocí DHT peerů uloží počátečních 20 kopií aktualizovaného záznamu IPNS..."
   }

@@ -30,15 +30,15 @@
     "unselectAll": "全部取消选择",
     "generate": "Generate",
     "publish": "Publish",
-    "downloadCar": "下载CAR文件"
+    "downloadCar": "下载CAR文件",
+    "done": "Done"
   },
   "cliModal": {
     "description": "将以下内容粘贴到您的IPFS终端使用命令行来完成任务。请谨记您需要使用您自己的参数来替换掉占位符"
   },
   "nav": {
     "bugsLink": "报告 bug",
-    "codeLink": "查看源码",
-    "revision": "修订"
+    "codeLink": "查看源码"
   },
   "status": {
     "connectedToIpfs": "已连接到 IPFS",
@@ -91,7 +91,8 @@
     "totalOut": "总共发送",
     "unknown": "未知",
     "ui": "UI 版本",
-    "upSpeed": "发送"
+    "upSpeed": "发送",
+    "revision": "修订"
   },
   "tour": {
     "back": "返回",
