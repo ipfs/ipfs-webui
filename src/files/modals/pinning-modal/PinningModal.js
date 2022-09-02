@@ -87,8 +87,7 @@ PinningModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onPinningSet: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
-  file: PropTypes.object,
-  tReady: PropTypes.bool
+  file: PropTypes.object.isRequired
 }
 
 PinningModal.defaultProps = {

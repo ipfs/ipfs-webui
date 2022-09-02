@@ -22,7 +22,7 @@ const addFiles = async (filesPromise, onAddFiles) => {
   onAddFiles(normalizeFiles(files))
 }
 
-const mergeRemotePinsIntoFiles = (files, remotePins, pendingPins, failedPins) => {
+const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], failedPins = []) => {
   const remotePinsCids = remotePins.map(id => id.split(':').at(-1))
   const pendingPinsCids = pendingPins.map(id => id.split(':').at(-1))
   const failedPinsCids = failedPins.map(id => id.split(':').at(-1))
@@ -62,6 +62,7 @@ export const FilesList = ({
   const filesRefs = useRef([])
   const refreshPinCache = true // manually clicking on Pin Status column skips cache and updates remote status
 
+  filesPathInfo = filesPathInfo ?? {}
   const [{ canDrop, isOver, isDragging }, drop] = useDrop({
     accept: NativeTypes.FILE,
     drop: (_, monitor) => {

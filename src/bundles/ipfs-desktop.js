@@ -8,8 +8,9 @@
  * @property {(consent:string[]) => void} addConsent
  * @property {(language:string) => void} updateLanguage
  */
+
 // @ts-ignore
-/** @type {{ ipfsDesktop: IPFSDesktop }} */
+/** @type {{ ipfsDesktop?: IPFSDesktop } & Window} */
 const root = (window)
 
 /**
@@ -29,11 +30,11 @@ const baseSelectors = {
 
 const desktopSelectors = {
   ...baseSelectors,
-  selectDesktopVersion: () => root.ipfsDesktop.version,
+  selectDesktopVersion: () => root.ipfsDesktop?.version,
 
-  selectDesktopCountlyDeviceId: () => root.ipfsDesktop.countlyDeviceId,
+  selectDesktopCountlyDeviceId: () => root.ipfsDesktop?.countlyDeviceId,
 
-  selectDesktopCountlyActions: () => root.ipfsDesktop.countlyActions
+  selectDesktopCountlyActions: () => root.ipfsDesktop?.countlyActions
 }
 
 /**
@@ -49,7 +50,7 @@ const desktopActions = {
    * @returns {() => void}
    */
   doDesktopAddConsent: consent => () => {
-    return root.ipfsDesktop.addConsent(consent)
+    return root.ipfsDesktop?.addConsent(consent)
   },
 
   /**
@@ -57,7 +58,7 @@ const desktopActions = {
    * @returns {() => void}
    */
   doDesktopRemoveConsent: consent => () => {
-    return root.ipfsDesktop.removeConsent(consent)
+    return root.ipfsDesktop?.removeConsent(consent)
   },
 
   /**
@@ -65,7 +66,7 @@ const desktopActions = {
    * @returns {() => void}
    */
   doDesktopUpdateLanguage: language => () => {
-    return root.ipfsDesktop.updateLanguage(language)
+    return root.ipfsDesktop?.updateLanguage(language)
   }
 }
 

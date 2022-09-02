@@ -86,7 +86,7 @@ export const spawn = (type, task, ...[init]) => async (context) => {
         while (true) {
           const next = await process.next()
           if (next.done) {
-            return next.value
+            return await next.value
           } else {
             yield next.value
           }

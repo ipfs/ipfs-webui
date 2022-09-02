@@ -327,7 +327,10 @@ const createAnalyticsBundle = ({
         root.Countly.q.push(['track_pageview', routeInfo.pattern])
       })
 
-      Countly.init()
+      // Fix for storybook error 'Countly.init is not a function'
+      if (typeof Countly.init === 'function') {
+        Countly.init()
+      }
     },
 
     // Listen to redux actions
