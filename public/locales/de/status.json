@@ -1,6 +1,6 @@
 {
   "title": "Status",
-  "nodeInfo": "Node informationen",
+  "nodeInfo": "Knoteninfo",
   "spaceUsed": "Benutzter Speicher",
   "networkTraffic": "Netzwerkverkehr",
   "bandwidthOverTime": "Zeitlicher Verlauf der Bandbreite",
@@ -19,7 +19,7 @@
   "tour": {
     "step1": {
       "title": "Status Seite",
-      "paragraph1": "Dies ist der Startpunkt deines IPFS Node, an dem Du die grundlegenden Informationen abrufen kannst.",
+      "paragraph1": "Dies ist der Startpunkt deines IPFS Knotens. Hier kannst Du seine grundlegenden Informationen einsehen.",
       "paragraph2": "Klicke \"Weiter\", um mehr zu erfahren."
     },
     "step2": {
@@ -28,7 +28,7 @@
       "paragraph2": "Wenn du eine benutzerdefinierte API-Adresse für deinen Knoten konfigurieren möchtest, klicke einfach auf \"Bearbeiten\" neben der API-Adresse auf dieser Seite."
     },
     "step3": {
-      "title": "Node informationen",
+      "title": "Knoteninfo",
       "paragraph1": "Hier sind Informationen über die Größe deiner Ablage, mit wie vielen Peers du verbunden bist, deine Peer ID und die IPFS Version, die gerade benutzt wird.",
       "paragraph2": "<0>Klicke auf <1>Erweitert</1>, um weitere Informationen, wie die Gateway URL und Adressen zu sehen. Es gibt auch einen Link im Abschnitt Erweitert, über den du deine API-Adresse ändern kannst."
     },

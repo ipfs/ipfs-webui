@@ -31,7 +31,7 @@
     "generate": "Generieren",
     "publish": "Veröffentlichen",
     "downloadCar": "Als CAR herunterladen",
-    "done": "Done"
+    "done": "Fertig"
   },
   "cliModal": {
     "description": "Füge folgendes in dein Terminal ein, um diese Aufgabe in IPFS über die Kommandozeile auszuführen. Denke daran, dass du Platzhalter durch Ihre spezifischen Parameter ersetzen musst."
@@ -72,7 +72,7 @@
     "loading": "Wird geladen",
     "location": "Standort",
     "name": "Name",
-    "node": "Node",
+    "node": "Knoten",
     "out": "Ausgang",
     "peer": "Peer",
     "peerId": "Peer-ID",
