@@ -32,3 +32,14 @@ jobs:
 
       - name: Run test-storybook:ci
         run: npm run test-storybook:ci
+
+      - name: Generate nyc coverage report
+        id: coverage
+        run: npx nyc report --reporter=lcov
+
+      - uses: codecov/codecov-action@v3
+        with:
+          flags: storybook_tests # optional
+          name: storybook-coverage # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
