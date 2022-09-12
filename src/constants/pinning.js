@@ -23,6 +23,12 @@ const pinningServiceTemplates = [
     icon: 'https://dweb.link/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg',
     apiEndpoint: 'https://api.pinata.cloud/psa',
     visitServiceUrl: 'https://pinata.cloud/documentation#PinningServicesAPI'
+  },
+  {
+    name: 'Filebase',
+    icon: 'https://dweb.link/ipfs/QmWBaeu6y1zEcKbsEqCuhuDHPL3W8pZouCPdafMCRCSUWk?filename=filebase.png',
+    apiEndpoint: 'https://api.filebase.io/v1/ipfs',
+    visitServiceUrl: 'https://docs.filebase.com/api-documentation/ipfs-pinning-service-api'
   }
 ].map((service) => {
   const domain = new URL(service.apiEndpoint).hostname
