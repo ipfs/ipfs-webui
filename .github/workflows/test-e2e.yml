@@ -41,9 +41,9 @@ jobs:
       - name: Run E2E against ${{ matrix.backend }}-ipfs
         run: E2E_IPFSD_TYPE=${{ matrix.backend }} npm run test:e2e
 
-      - name: Generate nyc coverage report
-        id: coverage
-        run:
-          coverage=$(npx nyc report --reporter=text)
-          echo $coverage
-          echo "::set-output name=text::$coverage"
+      - uses: codecov/codecov-action@v3
+        with:
+          flags: e2e_tests # optional
+          name: e2e-coverage # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
