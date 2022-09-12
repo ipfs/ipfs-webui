@@ -34,11 +34,20 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ipfs-webui_${{ github.sha }}-build
-          path: build
+      # This is required to ensure that our code is instrumented with coverage details
+      - name: Run test build
+        run: npm run test:build
 
       - name: Run E2E against ${{ matrix.backend }}-ipfs
         run: E2E_IPFSD_TYPE=${{ matrix.backend }} npm run test:e2e
+
+      - name: Generate nyc coverage report
+        id: coverage
+        run: npx nyc report --reporter=lcov
+
+      - uses: codecov/codecov-action@v3
+        with:
+          flags: e2e_tests # optional
+          name: e2e-coverage # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)

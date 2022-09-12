@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test')
+const { test, expect } = require('./setup/coverage')
 
 test.describe('Navigation menu', () => {
   test.beforeEach(async ({ page }) => {

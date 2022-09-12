@@ -3,6 +3,7 @@
 const webuiPort = 3001
 const rpcPort = 55001
 
+/** @type {import('@playwright/test').Config} */
 const config = {
   testDir: './',
   timeout: process.env.CI ? 90 * 1000 : 30 * 1000,
@@ -55,9 +56,21 @@ const config = {
       command: `http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
       port: webuiPort,
       cwd: '../../',
-      reuseExistingServer: !process.env.CI
+      reuseExistingServer: !process.env.CI,
+      env: {
+        REACT_APP_ENV: 'test',
+        NODE_ENV: 'test',
+        PORT: webuiPort
+      }
     }
-  ]
+  ],
+  collectCoverage: true,
+  coverageConfig: {
+    include: [
+      'src/**/*.{js,jsx,ts,tsx}',
+      '!src/**/*.stories.{js,jsx,ts,tsx}'
+    ]
+  }
 }
 
 module.exports = config
