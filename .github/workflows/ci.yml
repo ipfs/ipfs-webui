@@ -149,11 +149,10 @@ jobs:
 
   test-e2e:
     name: 'test:e2e'
-    needs: build
     uses: ./.github/workflows/test-e2e.yml
 
   test-storybook:
-    name: 'test:e2e'
+    name: 'test:storybook'
     uses: ./.github/workflows/test-storybook.yml
 
   # separate check for TS
