@@ -34,11 +34,9 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ipfs-webui_${{ github.sha }}-build
-          path: build
+      # This is required to ensure that our code is instrumented with coverage details
+      - name: Run test build
+        run: npm run test:build
 
       - name: Run E2E against ${{ matrix.backend }}-ipfs
         run: E2E_IPFSD_TYPE=${{ matrix.backend }} npm run test:e2e
