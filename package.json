@@ -23,6 +23,7 @@
     "build:icons": "svgr -d src/icons node_modules/ipfs-css/icons && standard --fix src/icons/*",
     "test": "run-s -cl test:unit test:build test:e2e",
     "test:unit": "react-app-rewired test --env=jsdom --runInBand --watchAll=false",
+    "test:unit:coverage": "react-app-rewired test  --env=jsdom --runInBand --watchAll=false --coverageDirectory='./.nyc_output' --coverage",
     "test:unit:watch": "react-app-rewired test --env=jsdom",
     "test:e2e": "cross-env REACT_APP_ENV=test npx playwright test -c ./test/e2e",
     "test:build": "cross-env REACT_APP_ENV=test run-s build",
