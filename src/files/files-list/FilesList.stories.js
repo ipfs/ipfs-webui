@@ -1,93 +1,92 @@
-import React from 'react'
-import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { withKnobs, boolean } from '@storybook/addon-knobs'
 import i18nDecorator from '../../i18n-decorator'
 import DndDecorator from '../../dnd-decorator'
 import FilesList from './FilesList'
+import { send } from '../../bundles/files/utils.js'
+import { ACTIONS } from '../../bundles/files/consts.js'
+
 // Fixtures
 import filesListA from './fixtures/list-with-10-files.json'
 import filesListC from './fixtures/list-with-100-files.json'
 import filesListE from './fixtures/list-with-1000-files.json'
 import filesListF from './fixtures/list-with-5000-files.json'
 
-storiesOf('Files/Files List', module)
-  .addDecorator(i18nDecorator)
-  .addDecorator(DndDecorator)
-  .addDecorator(withKnobs)
-  .add('List with 10 files', () => (
-    <div className='h-100'>
-      <FilesList
-        root='/'
-        filesPathInfo={{ isMfs: true }}
-        pins={[]}
-        files={filesListA}
-        filesIsFetching={boolean('filesIsFetching', false)}
-        onShare={action('Share')}
-        onInspect={action('Inspect')}
-        onRename={action('Rename')}
-        onDownload={action('Download')}
-        onRemove={action('Remove')}
-        onNavigate={action('Navigate')}
-        onCancelUpload={action('Cancel Upload')}
-        maxWidth={'100%'}
-        filesSorting={{ by: 'name', asc: true }} />
-    </div>
-  ))
-  .add('List with 100 files', () => (
-    <div className='h-100'>
-      <FilesList
-        root='/'
-        filesPathInfo={{ isMfs: true }}
-        pins={[]}
-        files={filesListC}
-        filesIsFetching={boolean('filesIsFetching', false)}
-        onShare={action('Share')}
-        onInspect={action('Inspect')}
-        onRename={action('Rename')}
-        onDownload={action('Download')}
-        onRemove={action('Remove')}
-        onNavigate={action('Navigate')}
-        onCancelUpload={action('Cancel Upload')}
-        maxWidth={'100%'}
-        filesSorting={{ by: 'name', asc: true }} />
-    </div>
-  ))
-  .add('List with 1000 files', () => (
-    <div className='h-100'>
-      <FilesList
-        root='/'
-        filesPathInfo={{ isMfs: true }}
-        pins={[]}
-        files={filesListE}
-        filesIsFetching={boolean('filesIsFetching', false)}
-        onShare={action('Share')}
-        onInspect={action('Inspect')}
-        onRename={action('Rename')}
-        onDownload={action('Download')}
-        onRemove={action('Remove')}
-        onNavigate={action('Navigate')}
-        onCancelUpload={action('Cancel Upload')}
-        maxWidth={'100%'}
-        filesSorting={{ by: 'name', asc: true }} />
-    </div>
-  ))
-  .add('List with 5000 files', () => (
-    <div className='h-100'>
-      <FilesList
-        root='/'
-        filesPathInfo={{ isMfs: true }}
-        pins={[]}
-        files={filesListF}
-        filesIsFetching={boolean('filesIsFetching', false)}
-        onShare={action('Share')}
-        onInspect={action('Inspect')}
-        onRename={action('Rename')}
-        onDownload={action('Download')}
-        onRemove={action('Remove')}
-        onNavigate={action('Navigate')}
-        onCancelUpload={action('Cancel Upload')}
-        maxWidth={'100%'}
-        filesSorting={{ by: 'name', asc: true }} />
-    </div>
-  ))
+const updateSorting = (by, asc) => send({
+  type: ACTIONS.UPDATE_SORT,
+  payload: { by, asc }
+})
+
+/**
+ * @type {import('@storybook/react').Meta}
+ */
+export default {
+  title: 'Files/Files List',
+  decorators: [i18nDecorator, DndDecorator, withKnobs],
+  component: FilesList,
+  parameters: {
+    actions: {
+      disable: false
+    }
+  },
+  args: {
+    root: '/',
+    filesPathInfo: { isMfs: true },
+    pins: [],
+    filesIsFetching: boolean('filesIsFetching', false),
+    onShare: action('Share'),
+    onInspect: action('Inspect'),
+    onRename: action('Rename'),
+    onDownload: action('Download'),
+    onRemove: action('Remove'),
+    onNavigate: action('Navigate'),
+    onCancelUpload: action('Cancel Upload'),
+    onMove: action('Move'),
+    onSetPinning: action('Set Pinning'),
+    onAddFiles: action('Add Files'),
+    handleContextMenuClick: action('Context Menu Click'),
+    maxWidth: '100%',
+    filesSorting: { by: 'name', asc: true },
+    updateSorting
+  }
+}
+
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
+export const ListWith10Files = {
+  name: 'List with 10 files',
+  args: {
+    files: filesListA
+  }
+}
+
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
+export const ListWith100Files = {
+  name: 'List with 100 files',
+  args: {
+    files: filesListC
+  }
+}
+
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
+export const ListWith1000Files = {
+  name: 'List with 1000 files',
+  args: {
+    files: filesListE
+  }
+}
+
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
+export const ListWith5000Files = {
+  name: 'List with 5000 Files',
+  args: {
+    files: filesListF
+  }
+}

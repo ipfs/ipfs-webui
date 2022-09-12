@@ -173,7 +173,7 @@ export async function getCarLink (files, gatewayUrl, ipfs) {
  * @returns {string} human-readable size
  */
 export function humanSize (size, opts) {
-  if (typeof size === 'undefined') return 'N/A'
+  if (typeof size === 'undefined' || size === null) return 'N/A'
   return filesize(size || 0, {
     // base-2 byte units (GiB, MiB, KiB) to remove any ambiguity
     spacer: String.fromCharCode(160), // non-breakable space (&nbsp)

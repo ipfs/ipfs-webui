@@ -71,6 +71,6 @@
     "src/bundles/task.js",
     "src/lib/count-dirs.js",
     "src/lib/sort.js",
-    "src/lib/files.js"
+    "src/lib/files.js",
   ]
 }

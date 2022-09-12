@@ -91,7 +91,8 @@ const attempt = async (fn) => {
   try {
     const value = await fn()
     return { ok: true, value }
-  } catch (error) {
+  } catch (err) {
+    const error = /** @type {Error} */(err)
     return { ok: false, error }
   }
 }
