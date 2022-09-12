@@ -7,7 +7,7 @@ import * as path from 'path'
 import * as crypto from 'crypto'
 import { test as baseTest } from '@playwright/test'
 
-const istanbulCLIOutput = path.join(process.cwd(), 'coverage', 'playwright')
+const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output')
 
 export function generateUUID () {
   return crypto.randomBytes(16).toString('hex')
