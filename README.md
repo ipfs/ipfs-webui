@@ -1,6 +1,6 @@
 # IPFS Web UI
 
-> A web interface to [IPFS](https://ipfs.io), shipped with [go-ipfs](https://github.com/ipfs/go-ipfs), [js-ipfs](https://github.com/ipfs/js-ipfs), and [ipfs-desktop](https://github.com/ipfs/ipfs-desktop/).
+> A web interface to [IPFS](https://ipfs.io), shipped with [Kubo](https://github.com/ipfs/kubo), [js-ipfs](https://github.com/ipfs/js-ipfs), and [ipfs-desktop](https://github.com/ipfs/ipfs-desktop/).
 >
 > Check on your node stats, explore the IPLD powered merkle forest, see peers around the world and manage your files, without needing to touch the CLI.
 
@@ -97,11 +97,11 @@ If you need to run IPFS in a Docker container, you can still have Web UI availab
 Using the default ports:
 
 ```sh
-docker pull ipfs/go-ipfs
-docker run -p 8080:8080 -p 5001:5001 -it ipfs/go-ipfs
+docker pull ipfs/kubo
+docker run -p 8080:8080 -p 5001:5001 -it ipfs/kubo
 ```
 
-See the [go-ipfs page](https://hub.docker.com/r/ipfs/go-ipfs) on Docker Hub to get started using IPFS with Docker.
+See the [kubo page](https://hub.docker.com/r/ipfs/kubo) on Docker Hub to get started using IPFS with Docker.
 
 ## Build
 
@@ -140,7 +140,7 @@ Make sure `npm run build` is run before starting E2E tests:
 
 ```sh
 > npm run build
-> npm run test:e2e # end-to-end smoke tests (fast, headless, use Kubo (go-ipfs))
+> npm run test:e2e # end-to-end smoke tests (fast, headless, use Kubo)
 ```
 
 ### Customizing E2E Tests
@@ -263,14 +263,14 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 
 1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true) is [successful](https://github.com/ipfs/ipfs-webui/runs/7121497704?check_suite_focus=true) or [fails because there are no updates](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true).
 1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
-1. Manually dispatch [ci.yml](https://github.com/ipfs/ipfs-webui/actions/workflows/ci.yml) workflow on `main` branch. This will create a new release. 
+1. Manually dispatch [ci.yml](https://github.com/ipfs/ipfs-webui/actions/workflows/ci.yml) workflow on `main` branch. This will create a new release.
 1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
    - ~js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5~
       - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730
    - Kubo: https://github.com/ipfs/kubo/blob/master/core/corehttp/webui.go#L4
    - IPFS Desktop: https://github.com/ipfs/ipfs-desktop/blob/main/package.json#L20
 
-<!-- DEPRECATED STEPS as of https://github.com/ipfs/ipfs-webui/releases/tag/v2.16.0. Leaving only for posterity: 
+<!-- DEPRECATED STEPS as of https://github.com/ipfs/ipfs-webui/releases/tag/v2.16.0. Leaving only for posterity:
 1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true) is [successful](https://github.com/ipfs/ipfs-webui/runs/7121497704?check_suite_focus=true) or [fails because there are no updates](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true).
 1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
 1. Commit changes and ensure everything is merged into `main` branch
