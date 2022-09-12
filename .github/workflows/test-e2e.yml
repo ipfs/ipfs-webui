@@ -41,6 +41,10 @@ jobs:
       - name: Run E2E against ${{ matrix.backend }}-ipfs
         run: E2E_IPFSD_TYPE=${{ matrix.backend }} npm run test:e2e
 
+      - name: Generate nyc coverage report
+        id: coverage
+        run: npx nyc report --reporter=lcov
+
       - uses: codecov/codecov-action@v3
         with:
           flags: e2e_tests # optional
