@@ -1,3 +1,29 @@
+## [2.18.1](https://github.com/ipfs/ipfs-webui/compare/v2.18.0...v2.18.1) (2022-09-13)
+
+
+ CID `bafybeiageaoxg6d7npaof6eyzqbwvbubyler7bq44hayik2hvqcggg7d2y`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* show '0 B' instead of '-' for zero-length files ([#2018](https://github.com/ipfs/ipfs-webui/issues/2018)) ([fda3bf5](https://github.com/ipfs/ipfs-webui/commit/fda3bf50009a40e9bea284404c8f6b04a2e1e040))
+* update webui.ipfs.io dnslink on manual release ([#2024](https://github.com/ipfs/ipfs-webui/issues/2024)) ([0f1e1c2](https://github.com/ipfs/ipfs-webui/commit/0f1e1c23a926736f77f4684049751f6960015a53)), closes [#2021](https://github.com/ipfs/ipfs-webui/issues/2021)
+
+
+### Tests
+
+* add playwright code coverage ([#2014](https://github.com/ipfs/ipfs-webui/issues/2014)) ([0ecc822](https://github.com/ipfs/ipfs-webui/commit/0ecc8228e547e852621a2fc6eeb1116032008f1a))
+
+
+### Trivial Changes
+
+* pull transifex translations ([#2019](https://github.com/ipfs/ipfs-webui/issues/2019)) ([5e59065](https://github.com/ipfs/ipfs-webui/commit/5e590655b3177d29dc3a554cd56f36ea41eb7245))
+* **readme:** correct IPFS Desktop release link ([b76c0db](https://github.com/ipfs/ipfs-webui/commit/b76c0dbb0ce5bf49953ce4f13488958eaabbb387))
+* remove unused dependencies ([#2015](https://github.com/ipfs/ipfs-webui/issues/2015)) ([f007d78](https://github.com/ipfs/ipfs-webui/commit/f007d781f31d1481eae8622d34aea78456bd09b7))
+
 ## [2.18.0](https://github.com/ipfs/ipfs-webui/compare/v2.17.3...v2.18.0) (2022-09-09)
 
 
