@@ -29,6 +29,12 @@ const pinningServiceTemplates = [
     icon: 'https://dweb.link/ipfs/QmWBaeu6y1zEcKbsEqCuhuDHPL3W8pZouCPdafMCRCSUWk?filename=filebase.png',
     apiEndpoint: 'https://api.filebase.io/v1/ipfs',
     visitServiceUrl: 'https://docs.filebase.com/api-documentation/ipfs-pinning-service-api'
+  },
+  {
+    name: 'Web3.Storage',
+    icon: 'https://bafybeiaqsdwuwemchbofzok4cq7cuvotfs6bgickxdqr6f7hdt7a64cwwa.ipfs.w3s.link/Web3.Storage-logo.svg',
+    apiEndpoint: 'https://api.web3.storage/pins',
+    visitServiceUrl: 'https://web3.storage/docs/how-tos/pinning-services-api/'
   }
 ].map((service) => {
   const domain = new URL(service.apiEndpoint).hostname
