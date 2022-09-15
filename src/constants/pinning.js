@@ -29,7 +29,20 @@ const pinningServiceTemplates = [
     icon: 'https://dweb.link/ipfs/QmWBaeu6y1zEcKbsEqCuhuDHPL3W8pZouCPdafMCRCSUWk?filename=filebase.png',
     apiEndpoint: 'https://api.filebase.io/v1/ipfs',
     visitServiceUrl: 'https://docs.filebase.com/api-documentation/ipfs-pinning-service-api'
+  },
+  {
+    name: 'Web3.Storage',
+    icon: 'https://dweb.link/ipfs/bafybeiaqsdwuwemchbofzok4cq7cuvotfs6bgickxdqr6f7hdt7a64cwwa/Web3.Storage-logo.svg',
+    apiEndpoint: 'https://api.web3.storage/pins',
+    visitServiceUrl: 'https://web3.storage/docs/how-tos/pinning-services-api/'
+  },
+  {
+    name: 'Estuary',
+    icon: 'https://dweb.link/ipfs/bafkreicn36fjx2tlanzslpayomdhgerh7oovlaasfkg7ltzgztf7a3buu4?filename=Estuary-logo.svg',
+    apiEndpoint: 'https://api.estuary.tech/pinning/pins',
+    visitServiceUrl: 'https://docs.estuary.tech/tutorial-get-an-api-key'
   }
+
 ].map((service) => {
   const domain = new URL(service.apiEndpoint).hostname
   service.complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
