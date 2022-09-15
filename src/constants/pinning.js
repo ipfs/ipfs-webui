@@ -32,7 +32,7 @@ const pinningServiceTemplates = [
   },
   {
     name: 'Web3.Storage',
-    icon: 'https://bafybeiaqsdwuwemchbofzok4cq7cuvotfs6bgickxdqr6f7hdt7a64cwwa.ipfs.w3s.link/Web3.Storage-logo.svg',
+    icon: 'https://dweb.link/ipfs/bafybeiaqsdwuwemchbofzok4cq7cuvotfs6bgickxdqr6f7hdt7a64cwwa/Web3.Storage-logo.svg',
     apiEndpoint: 'https://api.web3.storage/pins',
     visitServiceUrl: 'https://web3.storage/docs/how-tos/pinning-services-api/'
   },
