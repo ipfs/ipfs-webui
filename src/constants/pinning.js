@@ -35,13 +35,13 @@ const pinningServiceTemplates = [
   {
     name: 'Web3.Storage',
     icon: 'https://dweb.link/ipfs/bafybeiaqsdwuwemchbofzok4cq7cuvotfs6bgickxdqr6f7hdt7a64cwwa/Web3.Storage-logo.svg',
-    apiEndpoint: 'https://api.web3.storage/pins',
+    apiEndpoint: 'https://api.web3.storage',
     visitServiceUrl: 'https://web3.storage/docs/how-tos/pinning-services-api/'
   },
   {
     name: 'Estuary',
     icon: 'https://dweb.link/ipfs/bafkreicn36fjx2tlanzslpayomdhgerh7oovlaasfkg7ltzgztf7a3buu4?filename=Estuary-logo.svg',
-    apiEndpoint: 'https://api.estuary.tech/pinning/pins',
+    apiEndpoint: 'https://api.estuary.tech/pinning',
     visitServiceUrl: 'https://docs.estuary.tech/tutorial-get-an-api-key'
   }
 
