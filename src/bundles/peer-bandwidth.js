@@ -69,7 +69,7 @@ const bundle = function (opts) {
         const now = Date.now()
         return {
           ...state,
-          now: now, // Pick up another peer if possible
+          now, // Pick up another peer if possible
           peers: state.peers.map(p => {
             if (p.id !== action.payload.peerId) return p
             return {

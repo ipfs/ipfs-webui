@@ -4,10 +4,11 @@
   "saving": "Kaydediliyor…",
   "reset": "Sıfırla",
   "learnMoreLink": "Daha fazla bilgi edin.",
+  "showOptions": "Show options",
   "pinningServices": {
     "title": "Sabitleme Hizmetleri",
-    "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
-    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to go-ipfs 0.8.0 or later, and you'll be able to add and configure them here.",
+    "description": "Düğümünüzdeki bir öğenin, Dosyalar'dan kaldırsanız bile asla çöp toplanmadığından emin olmak istediğinizde yerel sabitlemeyi kullanın. Ayrıca, dosyalarınızın yedek kopyalarını saklamanıza ve/veya yerel düğümünüz çevrimdışı olduğunda bunları başkalarının kullanımına sunmanıza olanak tanıyarak, dosyaları bu sağlayıcılarda otomatik olarak veya seçici olarak kalıcı hale getirmek için hesaplarınızı diğer uzaktan sabitleme hizmetleriyle bağlayabilirsiniz.",
+    "noPinRemoteDescription": "Üçüncü taraf uzaktan sabitleme hizmetleri desteği eksik. IPFS düğümünüzü go-ipfs 0.8.0 veya sonraki bir sürümüne güncelleyin ve bunları buradan ekleyip yapılandırabilirsiniz.",
     "addAutoUpload": "Otomatik yüklemeyi etkinleştir",
     "removeAutoUpload": "Otomatik Yüklemeyi Devre Dışı Bırak"
   },
@@ -22,7 +23,7 @@
     "translationProjectLink": "IPFS Çeviri Projesine Katılın"
   },
   "apiDescription": "<0>Düğümünüz, varsayılan 5001'den farklı bir bağlantı noktası da dahil olmak üzere <1>özel bir UPA adresiyle</1> yapılandırılmışsa, buraya girin.</0>",
-  "publicGatewayDescription": "<0>Choose which <1>public gateway</1> you want to use when generating shareable links.</0>",
+  "publicGatewayDescription": "<0>Paylaşılabilir bağlantılar oluştururken kullanmak istediğiniz <1>genel ağ geçidini</1> seçin.</0>  ",
   "cliDescription": "<0>Genel IPFS komutlarının yanında bir \"kodu görüntüle\"<1></1> simgesi görüntülemek için bu seçeneği etkinleştirin. Buna tıkladığınızda, o komutun CLI kodunu içeren bir modal açılır, böylece onu terminalinizdeki IPFS komut satırı arayüzüne yapıştırabilirsiniz.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Bu sayfanın kod düzenleyicisindeki yapılandırmada kaydetmek istediğiniz değişiklikler yaptıysanız, bir JSON dosyası olarak indirmek için kopyala düğmesinin yanındaki indirme simgesini tıklayın."
@@ -39,24 +40,26 @@
     "nicknamePlaceholder": "Hizmetinizin adı",
     "apiEndpoint": "UPA uç noktası",
     "apiEndpointPlaceholder": "UPA uç noktası için URL",
-    "secretApiKey": "Secret access token",
-    "secretApiKeyHowToLink": "How to generate a new token",
-    "autoUpload": "Otomatik yükle"
+    "secretApiKey": "Gizli token belirteci",
+    "secretApiKeyHowToLink": "Yeni bir token nasıl oluşturulur",
+    "autoUpload": "Otomatik yükle",
+    "complianceLabel": "🔍 {nickname} pinning compliance report"
   },
   "autoUploadModal": {
-    "title": "Change upload policy for {name}",
-    "description": "When enabled, auto upload will periodically pin the root of your Files directory, ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" option on the Files screen."
+    "title": "{name} için yükleme politikasını değiştirin",
+    "description": "Etkinleştirildiğinde, otomatik yükleme, Dosyalar dizininizin kökünü düzenli olarak sabitler ve yerel IPFS düğümünüz çevrimdışı olduğunda bile her şeyin uzaktan sabitlenmesini ve diğer eşler tarafından kullanılabilir olmasını sağlar. Devre dışı bırakırsanız, Dosyalar ekranındaki \"Sabitlemeyi ayarla\" seçeneğini kullanarak her dosyayı manuel olarak sabitleyebilirsiniz."
   },
   "errors": {
     "nickname": "Takma ad gerekli",
     "apiError": "API hatası",
     "apiEndpoint": "Geçerli bir URL olmalı",
-    "secretApiKey": "Secret access token is required",
+    "secretApiKey": "Gizli erişim token'ı gerekli",
     "failedToFetch": "Getirilemedi",
-    "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
+    "failedToFetchTitle": "Bu uzak hizmetten pin sayısı alınamıyor. Çevrimiçi olduğundan ve doğru kimlik bilgilerini girdiğinizden emin olun. Bu yeni eklenen bir hizmetse, kaldırıp tekrar eklemeyi deneyin."
   },
   "actions": {
     "addService": "Hizmet Ekle",
+    "generateKey": "Generate Key",
     "edit": "Değiştir",
     "close": "Kapat",
     "save": "Kaydet",
@@ -161,5 +164,21 @@
     "issueUrl": "Bir sorunu açın",
     "feedbackUrl": "💌Geri bildirim bırakın",
     "readMoreUrl": "Daha Fazla Oku"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Publishing Keys",
+    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+  },
+  "generateKeyModal": {
+    "title": "Generate New IPNS Key",
+    "description": "Enter a nickname for this key to generate:"
+  },
+  "renameKeyModal": {
+    "title": "Rename Key",
+    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Confirm IPNS Key Removal",
+    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
   }
 }

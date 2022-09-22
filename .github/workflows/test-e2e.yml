@@ -1,0 +1,53 @@
+on:
+  workflow_call:
+
+jobs:
+
+  test-e2e:
+    name: 'test:e2e'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        backend: [go] # TODO: add 'js' – see https://github.com/ipfs/ipfs-webui/issues/1737
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.12.0
+      - name: Setup npm@8.1.0
+        run: |
+          npm install -g npm@8.1.0
+
+      - name: Cache bigger downloads
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: ${{ github.workspace }}/.cache
+          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
+
+      # This is required to ensure that our code is instrumented with coverage details
+      - name: Run test build
+        run: npm run test:build
+
+      - name: Run E2E against ${{ matrix.backend }}-ipfs
+        run: E2E_IPFSD_TYPE=${{ matrix.backend }} npm run test:e2e
+
+      - name: Generate nyc coverage report
+        id: coverage
+        run: npx nyc report --reporter=lcov
+
+      - uses: codecov/codecov-action@v3
+        with:
+          flags: e2e_tests # optional
+          name: e2e-coverage # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)

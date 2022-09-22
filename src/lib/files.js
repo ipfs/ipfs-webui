@@ -54,7 +54,7 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
     filename = `${name}.tar.gz`
     method = 'POST' // API is POST-only
   } else {
-    url = `${gatewayUrl}/ipfs/${file.cid}`
+    url = `${gatewayUrl}/ipfs/${file.cid}?download=true&filename=${file.name}`
     filename = file.name
     method = 'GET'
   }
@@ -68,18 +68,23 @@ async function downloadSingle (file, gatewayUrl, apiUrl) {
  * @returns {Promise<CID>}
  */
 export async function makeCIDFromFiles (files, ipfs) {
-  let cid = await ipfs.object.new({ template: 'unixfs-dir' })
+  // Note: we don't use 'object patch' here, it was deprecated.
+  // We are using MFS for creating CID of an ephemeral directory
+  // because it handles HAMT-sharding of big directories automatically
+  // See: https://github.com/ipfs/go-ipfs/issues/8106
+  const dirpath = `/zzzz_${Date.now()}`
+  await ipfs.files.mkdir(dirpath, {})
 
-  for (const file of files) {
-    cid = await ipfs.object.patch.addLink(cid, {
-      name: file.name,
-      // @ts-ignore - can this be `null` ?
-      size: file.size,
-      cid: file.cid
-    })
+  for (const { cid, name } of files) {
+    await ipfs.files.cp(`/ipfs/${cid}`, `${dirpath}/${name}`)
   }
 
-  return cid
+  const stat = await ipfs.files.stat(dirpath)
+
+  // Do not wait for this
+  ipfs.files.rm(dirpath, { recursive: true })
+
+  return stat.cid
 }
 
 /**
@@ -143,12 +148,32 @@ export async function getShareableLink (files, gatewayUrl, ipfs) {
 }
 
 /**
+ *
+ * @param {FileStat[]} files
+ * @param {string} gatewayUrl
+ * @param {IPFSService} ipfs
+ * @returns {Promise<string>}
+ */
+export async function getCarLink (files, gatewayUrl, ipfs) {
+  let cid, filename
+
+  if (files.length === 1) {
+    cid = files[0].cid
+    filename = encodeURIComponent(files[0].name)
+  } else {
+    cid = await makeCIDFromFiles(files, ipfs)
+  }
+
+  return `${gatewayUrl}/ipfs/${cid}?format=car&filename=${filename || cid}.car`
+}
+
+/**
  * @param {number} size in bytes
  * @param {object} opts format customization
  * @returns {string} human-readable size
  */
 export function humanSize (size, opts) {
-  if (typeof size === 'undefined') return 'N/A'
+  if (typeof size === 'undefined' || size === null) return 'N/A'
   return filesize(size || 0, {
     // base-2 byte units (GiB, MiB, KiB) to remove any ambiguity
     spacer: String.fromCharCode(160), // non-breakable space (&nbsp)

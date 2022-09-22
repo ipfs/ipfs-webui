@@ -381,7 +381,9 @@ const actions = {
           try {
             await last(ipfs.stats.bw())
           } catch (err) {
-            if (!/bandwidth reporter disabled in config/.test(err)) {
+            const error = /** @type {Error} */(err)
+            const errorString = error.toString() || error.message || /** @type {string} */(/** @type {unknown} */(error))
+            if (!/bandwidth reporter disabled in config/.test(errorString)) {
               throw err
             }
           }

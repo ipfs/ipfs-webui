@@ -27,15 +27,18 @@
     "setPinning": "ضبط التثبيت",
     "submit": "إرسال",
     "unpin": "إلغاء التثبيت",
-    "unselectAll": "إلغاء تحديد الكل"
+    "unselectAll": "إلغاء تحديد الكل",
+    "generate": "Generate",
+    "publish": "Publish",
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "الصق ما يلي في الجهاز الطرفي للقيام بهذه المهمة في IPFS عبر سطر الأوامر. تذكر أنك ستحتاج إلى استبدال العناصر النائبة بمعلماتك المحددة."
   },
   "nav": {
     "bugsLink": "الإبلاغ عن خطأ",
-    "codeLink": "انظر الرمز",
-    "revision": "مراجعة"
+    "codeLink": "انظر الرمز"
   },
   "status": {
     "connectedToIpfs": "متصل بـ IPFS",
@@ -46,7 +49,7 @@
     "placeholder": "أدخل عنوان (http://127.0.0.1:5001) أو متعدد العناوين (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://dweb.link)"
+    "placeholder": "أدخل عنوان  (https://dweb.link)"
   },
   "terms": {
     "address": "عنوان",
@@ -73,12 +76,13 @@
     "out": "خارج",
     "peer": "الند",
     "peerId": "معرف الأقران",
+    "id": "ID",
     "peers": "الأقران",
     "pinNoun": "رمز المرور",
     "pins": "رموز المرور ",
     "pinStatus": "حالة المشبك",
     "publicKey": "المفتاح العام",
-    "publicGateway": "Public Gateway",
+    "publicGateway": "بوابة عامة",
     "rateIn": "التقييم",
     "rateOut": "خارج التقييم",
     "repo": "مخزن",
@@ -87,7 +91,8 @@
     "totalOut": "إجمالي المستحقات",
     "unknown": "مجهول",
     "ui": "واجهة المستخدم",
-    "upSpeed": "منفتح"
+    "upSpeed": "منفتح",
+    "revision": "مراجعة"
   },
   "tour": {
     "back": "عودة",

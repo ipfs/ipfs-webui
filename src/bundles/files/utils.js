@@ -86,7 +86,7 @@ export const spawn = (type, task, ...[init]) => async (context) => {
         while (true) {
           const next = await process.next()
           if (next.done) {
-            return next.value
+            return await next.value
           } else {
             yield next.value
           }
@@ -198,7 +198,7 @@ export const sortFiles = (files, sorting) => {
  */
 export const infoFromPath = (path, uriDecode = true) => {
   const info = {
-    path: path,
+    path,
     realPath: '',
     isMfs: false,
     isPins: false,
@@ -209,7 +209,7 @@ export const infoFromPath = (path, uriDecode = true) => {
    * @param {string} prefix
    */
   const check = (prefix) => {
-    info.realPath = info.path.substr(prefix.length).trim() || '/'
+    info.realPath = info.path.substring(prefix.length).trim() || '/'
     info.isRoot = info.realPath === '/'
   }
 

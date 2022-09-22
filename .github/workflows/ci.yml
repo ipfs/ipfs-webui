@@ -16,64 +16,36 @@ env:
 jobs:
   build:
     name: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 15
-
-      - name: Cache bigger downloads
-        uses: actions/cache@v2
-        id: cache
-        with:
-          path: ${{ github.workspace }}/.cache
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-            ${{ runner.os }}-
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-
-      # Separate cache for build dir, we reuse it in release publish workflow
-      - name: Cache build output
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/cache@v2
-        id: build-cache
-        with:
-          path: build
-          key: ${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-${{ github.sha }}
-
-      - name: Confirm build works
-        if: steps.build-cache.outputs.cache-hit != 'true'
-        run: npm run build
-
-      # Persist produced build dir:
-      # - this is not for releases, but for quick testing during the dev
-      # - action artifacts can be downloaded for 90 days, then are removed by github
-      - name: Attach produced build to Github Action
-        uses: actions/upload-artifact@v2
-        with:
-          name: ipfs-webui_${{ github.sha }}
-          path: build
-          if-no-files-found: error
+    uses: ./.github/workflows/build.yml
 
   test-unit:
     name: 'test:unit'
     needs: build
+    uses: ./.github/workflows/test-unit.yml
+
+  publishPreview:
+    name: publish preview
+    needs: build
+    environment: Deploy
     runs-on: ubuntu-latest
+    outputs:
+      cid: ${{ steps.ipfs.outputs.cid }}
     steps:
       - uses: actions/checkout@v2
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: 15
+          node-version: 16.12.0
+      - name: Setup npm@8.1.0
+        run: |
+          npm install -g npm@8.1.0
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ipfs-webui_${{ github.sha }}-build
+          path: build
 
       - name: Cache bigger downloads
         uses: actions/cache@v2
@@ -85,44 +57,83 @@ jobs:
             ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
             ${{ runner.os }}-
 
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-
-      - name: Run unit tests
-        run: npm run test:unit
-
-  publish-preview:
-    name: publish preview
-    needs: build
-    environment: Deploy
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 15
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ipfs-webui_${{ github.sha }}
-          path: build
-
       # pin the built site to ipfs-websites cluster, output the cid as `steps.ipfs.outputs.cid`
       # see: https://github.com/ipfs-shipyard/ipfs-github-action
-      - uses: ipfs-shipyard/ipfs-github-action@v2.0.0
-        id: ipfs
+      - uses: ipfs/download-ipfs-distribution-action@v1
         with:
-          path_to_add: build
-          cluster_host: /dnsaddr/ipfs-websites.collab.ipfscluster.io
-          cluster_user: ${{ secrets.CLUSTER_USER }}
-          cluster_password: ${{ secrets.CLUSTER_PASSWORD }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo ${{ steps.ipfs.outputs.url }}
+          name: go-ipfs
+      - uses: ipfs/download-ipfs-distribution-action@v1
+        with:
+          name: ipfs-cluster-ctl
+      - name: Fix DNS resolver
+        run: |
+          # fix resolv - DNS provided by Github is unreliable for DNSLik/dnsaddr
+          sudo sed -i -e 's/nameserver 127.0.0.*/nameserver 1.1.1.1/g' /etc/resolv.conf
+
+      - uses: ipfs/start-ipfs-daemon-action@v1
+      - name: Import build/ to IPFS
+        id: ipfs
+        run: |
+          root_cid=$(ipfs add --cid-version 1 -Q -r ./build)
+          echo "::set-output name=cid::$root_cid"
+
+      - run: echo ${{ steps.ipfs.outputs.cid }}
       - run: echo ${{ github.ref }}
+      - name: Create ipfs-webui.car file
+        run: |
+          ipfs dag export ${{ steps.ipfs.outputs.cid }} > ipfs-webui_${{ github.sha }}.car
+      - name: Attach produced build to Github Action
+        uses: actions/upload-artifact@v2
+        with:
+          name: ipfs-webui_${{ github.sha }}.car
+          path: ipfs-webui_${{ github.sha }}.car
+          if-no-files-found: error
+
+      - name: Pin to estuary.tech
+        id: pin-estuary
+        continue-on-error: true
+        run: |
+          curl -X POST https://api.estuary.tech/pinning/pins -d '{ "name": "'$PIN_NAME'", "cid": "'$PIN_CID'" }' -H "Content-Type: application/json" -H "Authorization: Bearer $ESTUARY_API_TOKEN"
+          curl -X GET https://api.estuary.tech/pinning/pins -H "Content-Type: application/json" -H "Authorization: Bearer $ESTUARY_API_TOKEN"
+        env:
+          ESTUARY_API_TOKEN: ${{ secrets.ESTUARY_API_TOKEN }}
+          PIN_CID: ${{ steps.ipfs.outputs.cid }}
+          PIN_NAME: "ipfs-webui@${{ github.sha }}"
+
+      - name: Pin to ipfs-websites.collab.ipfscluster.io
+        id: pin-cluster
+        continue-on-error: true
+        run: |
+          ipfs-cluster-ctl --enc=json \
+            --host "${CLUSTER_HOST}" \
+            --basic-auth "$CLUSTER_USER:$CLUSTER_PASSWORD" \
+            peers ls > cluster-peers-ls
+          for maddr in $(jq -r '.ipfs.addresses[]?' cluster-peers-ls); do
+            ipfs swarm peering add "$maddr" &
+            ipfs swarm connect "$maddr" &
+          done
+          ipfs-cluster-ctl --enc=json \
+              --host "${CLUSTER_HOST}" \
+              --basic-auth "${CLUSTER_USER}:${CLUSTER_PASSWORD}" \
+              pin add \
+              --name "${PIN_NAME}" \
+              --replication-min 1 \
+              --replication-max 3 \
+              --wait \
+              $PIN_CID
+        env:
+          CLUSTER_HOST: "/dnsaddr/ipfs-websites.collab.ipfscluster.io"
+          CLUSTER_USER: ${{ secrets.CLUSTER_USER }}
+          CLUSTER_PASSWORD: ${{ secrets.CLUSTER_PASSWORD }}
+          PIN_CID: ${{ steps.ipfs.outputs.cid }}
+          PIN_NAME: "ipfs-webui@${{ github.sha }}"
+
+      - name: Fail job due to pinning failure
+        if: steps.pin-estuary.outcome == 'failure' && steps.pin-cluster.outcome == 'failure'
+        uses: actions/github-script@v3
+        with:
+          script: |
+              core.setFailed('Pinning did not succeed')
 
       # dev dnslink is updated on each main branch update
       - run: npx dnslink-dnsimple --domain dev.webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
@@ -132,95 +143,43 @@ jobs:
 
       # production dnslink is updated on release (during tag build)
       - run: npx dnslink-dnsimple --domain webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
 
   test-e2e:
     name: 'test:e2e'
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        backend: [js, go]
-    steps:
-      - uses: actions/checkout@v2
+    uses: ./.github/workflows/test-e2e.yml
 
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 15
-
-      - name: Cache bigger downloads
-        uses: actions/cache@v2
-        id: cache
-        with:
-          path: ${{ github.workspace }}/.cache
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-            ${{ runner.os }}-
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ipfs-webui_${{ github.sha }}
-          path: build
-
-      - name: Run E2E against ${{ matrix.backend }}-ipfs
-        run: E2E_IPFSD_TYPE=${{ matrix.backend }} npm run test:e2e
+  test-storybook:
+    name: 'test:storybook'
+    uses: ./.github/workflows/test-storybook.yml
 
   # separate check for TS
   typecheck:
     name: typecheck
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 15
-
-      - name: Cache bigger downloads
-        uses: actions/cache@v2
-        id: cache
-        with:
-          path: ${{ github.workspace }}/.cache
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-            ${{ runner.os }}-
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-
-      - name: Fancy Typecheck with GH annotations
-        uses: gozala/typescript-error-reporter-action@v1.0.8
-        with:
-          project: tsconfig.json
-
-      # make sure local check is also ok
-      - name: Userland check
-        run: npm run typecheck
+    uses: ./.github/workflows/typecheck.yml
 
   # separate check for eslint
   eslint:
     name: eslint
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
+    uses: ./.github/workflows/eslint.yml
 
-      - name: Setup node
-        uses: actions/setup-node@v1
+  # automatically commit new tag and changelog updates when a push to main happens.
+  # This will then trigger
+  #    1. The 'ci.yml' workflow for the newly committed git tag,
+  #    2. The 'publish-release-build.yml' workflow
+  release:
+    name: 'Run semantic release'
+    runs-on: ubuntu-latest
+    needs: [build, publishPreview, eslint, typecheck, test-e2e, test-unit, test-storybook]
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
         with:
-          node-version: 15
+          persist-credentials: false
 
       - name: Cache bigger downloads
         uses: actions/cache@v2
@@ -232,9 +191,51 @@ jobs:
             ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
             ${{ runner.os }}-
 
+      - name: Cache build dir
+        uses: actions/cache@v2
+        id: build-cache
+        with:
+          path: build
+          key: ${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ github.sha }}
+
+      # This is needed for custom-release-notes-generator.js to inject the CID in the release notes
+      - name: Write CID to tmp file
+        run: |
+          echo ${{ needs.publishPreview.outputs.cid }} > .cid
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.12.0
+      - name: Setup npm@8.1.0
+        run: |
+          npm install -g npm@8.1.0
+
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
-      - name: ESLint
-        run: npm run eslint
+      - name: Download CAR artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ipfs-webui_${{ github.sha }}.car
 
+      - name: Dry-run semantic release
+        if: github.ref != 'refs/heads/main'
+        run: |
+          git config user.name "ipfs-gui-bot"
+          git config user.email "108953096+ipfs-gui-bot@users.noreply.github.com"
+          npx semantic-release --ci --dry-run -b ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # Update the version (npm version [major|minor|patch])
+      - name: Run semantic release
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "ipfs-gui-bot"
+          git config user.email "108953096+ipfs-gui-bot@users.noreply.github.com"
+          npx semantic-release --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

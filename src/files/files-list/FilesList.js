@@ -22,18 +22,20 @@ const addFiles = async (filesPromise, onAddFiles) => {
   onAddFiles(normalizeFiles(files))
 }
 
-const mergeRemotePinsIntoFiles = (files, remotePins) => {
-  const remotePinsCids = remotePins.map(c => c.cid.string)
+const mergeRemotePinsIntoFiles = (files, remotePins = []) => {
+  const remotePinsCids = remotePins.map(id => id.split(':').at(-1))
 
-  return files.map(f => remotePinsCids.includes(f.cid?.string) ? ({
-    ...f,
-    isRemotePin: true
-  }) : f)
+  return files.map(f => remotePinsCids.includes(f.cid?.toString())
+    ? ({
+        ...f,
+        isRemotePin: true
+      })
+    : f)
 }
 
 export const FilesList = ({
-  className, files, pins, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, handleContextMenuClick, t
+  className, files, pins, pinningServices, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
+  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
@@ -41,7 +43,9 @@ export const FilesList = ({
   const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins))
   const listRef = useRef()
   const filesRefs = useRef([])
+  const refreshPinCache = true // manually clicking on Pin Status column skips cache and updates remote status
 
+  filesPathInfo = filesPathInfo ?? {}
   const [{ canDrop, isOver, isDragging }, drop] = useDrop({
     accept: NativeTypes.FILE,
     drop: (_, monitor) => {
@@ -244,6 +248,7 @@ export const FilesList = ({
           onSelect={toggleOne}
           onNavigate={onNavigateHandler}
           onAddFiles={onAddFiles}
+          onSetPinning={onSetPinning}
           onMove={move}
           focused={focused === listItem.name}
           selected={selected.indexOf(listItem.name) !== -1}
@@ -277,9 +282,10 @@ export const FilesList = ({
               </button>
             </div>
             <div className='pl2 pr1 tr f6 flex-none dn db-l mw4'>
-              <span>
-                {t('app:terms.pinStatus')}
-              </span>
+              { pinningServices && pinningServices.length
+                ? <button aria-label={t('app:terms.pinStatus')} onClick={() => doFetchRemotePins(files, refreshPinCache)}>{t('app:terms.pinStatus')}</button>
+                : <>{t('app:terms.pinStatus')}</>
+              }
             </div>
             <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
               <button aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
@@ -371,6 +377,8 @@ FileList.defaultProps = {
 
 export default connect(
   'selectPins',
+  'selectPinningServices',
+  'doFetchRemotePins',
   'selectFilesIsFetching',
   'selectFilesSorting',
   'selectFilesPathInfo',

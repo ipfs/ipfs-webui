@@ -27,15 +27,18 @@
     "setPinning": "Anheften einstellen",
     "submit": "Absenden",
     "unpin": "Loslösen",
-    "unselectAll": "Alle abwählen"
+    "unselectAll": "Alle abwählen",
+    "generate": "Generieren",
+    "publish": "Veröffentlichen",
+    "downloadCar": "Als CAR herunterladen",
+    "done": "Fertig"
   },
   "cliModal": {
     "description": "Füge folgendes in dein Terminal ein, um diese Aufgabe in IPFS über die Kommandozeile auszuführen. Denke daran, dass du Platzhalter durch Ihre spezifischen Parameter ersetzen musst."
   },
   "nav": {
     "bugsLink": "Fehler melden",
-    "codeLink": "Quelltext anzeigen",
-    "revision": "Revision"
+    "codeLink": "Quelltext anzeigen"
   },
   "status": {
     "connectedToIpfs": "Mit dem IPFS verbunden",
@@ -43,10 +46,10 @@
     "couldNotConnect": "Es konnte keine Verbindung zur IPFS-API hergestellt werden"
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": "Gib eine URL (http://127.0.0.1:5001) oder eine Multiadresse (/ip4/127.0.0.1/tcp/5001) ein"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://dweb.link)"
+    "placeholder": "Gib eine URL ein (https://dweb.link)"
   },
   "terms": {
     "address": "Adresse",
@@ -69,16 +72,17 @@
     "loading": "Wird geladen",
     "location": "Standort",
     "name": "Name",
-    "node": "Node",
+    "node": "Knoten",
     "out": "Ausgang",
     "peer": "Peer",
     "peerId": "Peer-ID",
+    "id": "ID",
     "peers": "Peers",
     "pinNoun": "Anpinnen",
     "pins": "Pins",
     "pinStatus": "Anheftstatus",
     "publicKey": "Öffentlicher Schlüssel",
-    "publicGateway": "Public Gateway",
+    "publicGateway": "Öffentliches Gateway",
     "rateIn": "Eingangsrate",
     "rateOut": "Ausgangsrate",
     "repo": "Speicher",
@@ -87,7 +91,8 @@
     "totalOut": "Gesamtausgang",
     "unknown": "Unbekannt",
     "ui": "UI",
-    "upSpeed": "Ausgehend"
+    "upSpeed": "Ausgehend",
+    "revision": "Revision"
   },
   "tour": {
     "back": "Zurück",

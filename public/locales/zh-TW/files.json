@@ -18,7 +18,8 @@
   "generating": "生成…",
   "actions": {
     "copyHash": "複製 CID",
-    "share": "分享連結"
+    "share": "分享連結",
+    "publishWithIpns": "Publish to IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "這條指令只適用於本地錨釘/取消錨釘。如果您想要使用遠端錨釘服務，請參閱該服務的說明文件以瞭解如何透過指令執行遠端錨釘/取消固錨釘。"
@@ -45,6 +46,7 @@
   },
   "pinningModal": {
     "title": "選擇你想將這些文件錨釘的位置",
+    "complianceLabel": "🔍 Check pinning services' compliance",
     "footer": "需要新增或設置錨定服務？請到<0>設定<0>。",
     "localNode": "本地節點",
     "totalSize": "總大小: {size}"
@@ -52,6 +54,8 @@
   "addByPathModal": {
     "title": "從 IPFS 導入",
     "description": "將要導入 IPFS 路徑 (CID) 輸入於此",
+    "importPathPlaceholder": "Path or CID (required)",
+    "namePlaceholder": "Name (optional)",
     "examples": "範例:"
   },
   "newFolderModal": {
@@ -111,5 +115,15 @@
   "more": "更多",
   "files": "檔案",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
-  "sortBy": "按照{name}排序項目"
+  "sortBy": "按照{name}排序項目",
+  "publishModal": {
+    "title": "Publish to IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Select key for publishing:",
+    "help": "Go to Settings to learn about IPNS and create more keys.",
+    "publishedUnderKey": "Successfully published under the key:",
+    "linkCopied": "Link copied!",
+    "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
+    "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
+  }
 }

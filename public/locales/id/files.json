@@ -1,0 +1,129 @@
+{
+  "title": "Berkas",
+  "home": "Rumah",
+  "breadcrumbs": "Breadcrumbs",
+  "finished": "Selesai!",
+  "totalSize": "Ukuran total: {size}",
+  "filesSelected": "{count, plural, other {Item yang dipilih}}",
+  "menuOptions": "Opsi untuk item yang dipilih",
+  "selectedAllEntries": "Pilih semua entri tabel",
+  "individualFilesOnly": "Hanya tersedia untuk berkas individual",
+  "noPDFSupport": "Peramban Anda tidak mendukung PDF. Silakan unduh PDF untuk melihatnya:",
+  "downloadPDF": "Unduh PDF",
+  "openWithPublicGateway": "Coba buka dengan <1>gerbang publik</1> Anda.",
+  "openWithLocalAndPublicGateway": "Coba buka dengan <1>gerbang lokal</1> Anda atau <3>gerbang publik</3>.",
+  "cantBePreviewed": "Maaf, berkas ini tidak dapat dipratinjau",
+  "addByPath": "Dari IPFS",
+  "newFolder": "Map baru",
+  "generating": "Menghasilkan…",
+  "actions": {
+    "copyHash": "Salin CID",
+    "share": "Membagikan tautan",
+    "publishWithIpns": "Publikasikan ke IPNS"
+  },
+  "cliModal": {
+    "extraNotesPinning": "Perintah ini hanya untuk menyematkan/melepas semat lokal. Jika Anda ingin menggunakan layanan penyematan jarak jauh, lihat dokumentasi layanan tersebut untuk mempelajari cara menyematkan/melepas semat dari baris perintah."
+  },
+  "shareModal": {
+    "title": "Bagikan file",
+    "description": "Salin tautan di bawah ini dan bagikan dengan teman-teman Anda."
+  },
+  "renameModal": {
+    "titleFile": "Ganti nama berkas",
+    "titleFolder": "Ganti nama map",
+    "descriptionFile": "Pilih nama baru untuk berkas ini.",
+    "descriptionFolder": "Pilih nama baru untuk map ini."
+  },
+  "removeModal": {
+    "titleItem": "{count, plural, other {Hapus {count} item?}}",
+    "titleFolder": "{count, plural, other {Hapus {count} map?}}",
+    "titleFile": "{count, plural, other {Hapus {count} berkas?}}",
+    "descriptionItem": "{count, plural, other {Anda yakin ingin menghapus item ini {count}? Mereka tidak akan lagi muncul di layar Berkas, dan akan dihapus secara permanen pada pembersihan terjadwal berikutnya (meskipun salinan mungkin ada di node IPFS lainnya). Tindakan ini tidak dapat dibatalkan.}}",
+    "descriptionFolder": "{count, plural, other {Anda yakin ingin menghapus map ini {count}? Mereka tidak akan lagi muncul di layar Berkas, dan akan dihapus secara permanen pada pembersihan terjadwal berikutnya (meskipun salinan mungkin ada di node IPFS lainnya). Tindakan ini tidak dapat dibatalkan.}}",
+    "descriptionFile": "{count, plural, other {Anda yakin ingin menghapus berkas ini {count}? Mereka tidak akan lagi muncul di layar Berkas, dan akan dihapus secara permanen pada pembersihan terjadwal berikutnya (meskipun salinan mungkin ada di node IPFS lainnya). Tindakan ini tidak dapat dibatalkan.}}",
+    "checkboxRemoveLocalPin": "Hapus juga semat lokal (disarankan)",
+    "checkboxUnpinFromServices": "Lepas sematan dari semua layanan penyematan"
+  },
+  "pinningModal": {
+    "title": "Pilih di mana Anda ingin menyematkan item ini.",
+    "complianceLabel": "🔍 Periksa kepatuhan layanan penyematan",
+    "footer": "Perlu menambahkan atau mengonfigurasi layanan penyematan? Buka <1>Pengaturan</1>.",
+    "localNode": "Node lokal",
+    "totalSize": "Ukuran total: {size}"
+  },
+  "addByPathModal": {
+    "title": "Impor dari IPFS",
+    "description": "Masukkan jalur IPFS (CID) untuk diimpor.",
+    "importPathPlaceholder": "Jalur atau CID (wajib)",
+    "namePlaceholder": "Nama (opsional)",
+    "examples": "Contoh:"
+  },
+  "newFolderModal": {
+    "title": "Map baru",
+    "description": "Masukkan nama map yang ingin Anda buat."
+  },
+  "filesListLabel": "Daftar berkas",
+  "filesList": {
+    "noFiles": "<0>Tidak ada berkas dalam direktori ini. Klik tombol \"Impor\" untuk menambahkan beberapa.</0>"
+  },
+  "filesImportStatus": {
+    "imported": "{count, plural, other {{count} item yang diimpor}}",
+    "importing": "{count, plural, other {Mengimpor {count} item}}",
+    "toggleDropdown": "Alihkan tarik-turun",
+    "closeDropdown": "Tutup tarik-turun",
+    "count": "{count} dari {count}"
+  },
+  "addFilesInfo": "<0>Belum ada berkas di sini! Tambahkan berkas ke node IPFS lokal Anda dengan mengklik tombol <1>Impor</1> di atas.</0>",
+  "companionInfo": "<0>Saat Anda menggunakan <1>Sahabat IPFS</1>, tampilan berkas terbatas pada berkas yang ditambahkan saat menggunakan ekstensi.</0>",
+  "tour": {
+    "step1": {
+      "title": "Halaman Berkas",
+      "paragraph1": "<0>Di sinilah berkas-berkas di <1>Sistem File Mutable (MFS)</1> Anda tinggal. Anda dapat menambahkan berkas atau map dan mengelolanya dari halaman ini.</0>",
+      "paragraph2": "Klik \"Berikutnya\" untuk mempelajari lebih lanjut."
+    },
+    "step2": {
+      "title": "Breadcrumbs",
+      "paragraph1": "Breadcrumbs ini menampilkan jalur ke direktori Anda saat ini. Kamu bisa…",
+      "bullet1": "Klik breadcrumb individu untuk pergi ke direktori itu",
+      "bullet2": "Klik kanan breadcrumb untuk mendapatkan menu tindakan untuk direktori itu",
+      "bullet3": "Seret berkas ke breadcrumb untuk memindahkan atau mengimpornya"
+    },
+    "step3": {
+      "title": "Tambahkan berkas",
+      "paragraph1": "Di sini Anda dapat melihat berapa banyak blok dan berkas yang telah Anda sematkan.",
+      "paragraph2": "Anda dapat menambahkan berkas atau map ke repo Anda melalui tarik turun di sebelah kanan.",
+      "paragraph3": "<0>Jika Anda ingin menambahkan sesuatu yang sudah ada di IPFS, Anda dapat mengimpornya ke MFS Anda dengan meneruskan <1>Content Identifier (CID)</1>.</0>"
+    },
+    "step5": {
+      "title": "Daftar berkas",
+      "paragraph1": "Terakhir, daftar tempat Anda dapat menemukan berkas dan map Anda. Seret dan lepas berkas atau map untuk menambahkannya.",
+      "paragraph2": "Anda dapat membagikan atau mengunduh berkas, memeriksanya di Penjelajah IPLD, mengganti nama atau menghapusnya!",
+      "paragraph3": "Kiat pro: seret dan jatuhkan berkas dari halaman lain UI Web untuk menambahkannya ke akar MFS Anda."
+    }
+  },
+  "loadMore": "Muat lebih banyak",
+  "previousFolder": "Kembali ke map sebelumnya",
+  "fileLabel": "Pilih {type}{name} dengan ukuran: {size}",
+  "hashUnavailable": "hash tidak tersedia",
+  "checkboxLabel": "Lihat opsi lainnya untuk {name}",
+  "pinned": "Disematkan",
+  "pinnedRemotely": "Disematkan dari jarak jauh",
+  "blocks": "Blok",
+  "allBlocks": "Semua blok",
+  "allBlocksDescription": "Ukuran total blok di seluruh node IPFS Anda; ini mencakup semua yang ada di Berkas, ditambah semua item yang disematkan secara lokal dan semua data cache sementara",
+  "filesDescription": "Ukuran total data dalam direktori saat ini (jika subdirektori, ukuran semua data dalam Berkas juga ditampilkan)",
+  "more": "Lebih",
+  "files": "Berkas",
+  "cidNotFileNorDir": "Tautan saat ini bukan berkas, atau direktori. Cobalah untuk <1>memeriksanya</1> sebagai gantinya.",
+  "sortBy": "Urutkan item berdasarkan {name}",
+  "publishModal": {
+    "title": "Publikasikan ke IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Pilih kunci untuk penerbitan:",
+    "help": "Buka Pengaturan untuk mempelajari tentang IPNS dan membuat lebih banyak kunci.",
+    "publishedUnderKey": "Berhasil diterbitkan di bawah kunci:",
+    "linkCopied": "Link copied!",
+    "sharingPrompt": "Salin tautan di bawah ini dan bagikan dengan orang lain. Alamat IPNS akan diselesaikan selama node Anda tetap tersedia di jaringan sekali sehari untuk menyegarkan catatan IPNS.",
+    "pleaseWait": "Harap tunggu sementara 20 salinan awal dari catatan IPNS yang diperbarui disimpan dengan bantuan rekan-rekan DHT…"
+  }
+}

@@ -1,7 +1,7 @@
 /* eslint-disable require-yield */
 
 import { join, dirname, basename } from 'path'
-import { getDownloadLink, getShareableLink } from '../../lib/files'
+import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files'
 import countDirs from '../../lib/count-dirs'
 import memoize from 'p-memoize'
 import all from 'it-all'
@@ -48,7 +48,7 @@ const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, is
   name: name || path.split('/').pop() || cid.toString(),
   path: path || `${prefix}/${cid.toString()}`,
   pinned: Boolean(pinned),
-  isParent: isParent
+  isParent
 })
 
 /**
@@ -68,7 +68,7 @@ const cumulativeSize = async (ipfs, cidOrPath) => {
 // TODO: use sth else
 export const realMfsPath = (path) => {
   if (path.startsWith('/files')) {
-    return path.substr('/files'.length) || '/'
+    return path.substring('/files'.length) || '/'
   }
 
   return path
@@ -391,15 +391,20 @@ const actions = () => ({
    * trigger `doFilesFetch` to update the state.
    * @param {string} root
    * @param {string} src
+   * @param {string} name
    */
-  doFilesAddPath: (root, src) => perform(ACTIONS.ADD_BY_PATH, async (ipfs, { store }) => {
+  doFilesAddPath: (root, src, name = '') => perform(ACTIONS.ADD_BY_PATH, async (ipfs, { store }) => {
     ensureMFS(store)
 
     const path = realMfsPath(src)
-    /** @type {string} */
-    const name = (path.split('/').pop())
+    const cid = /** @type {string} */(path.split('/').pop())
+
+    if (!name) {
+      name = cid
+    }
+
     const dst = realMfsPath(join(root, name))
-    const srcPath = src.startsWith('/') ? src : `/ipfs/${name}`
+    const srcPath = src.startsWith('/') ? src : `/ipfs/${cid}`
 
     try {
       return await ipfs.files.cp(srcPath, dst)
@@ -416,6 +421,15 @@ const actions = () => ({
     const apiUrl = store.selectApiUrl()
     const gatewayUrl = store.selectGatewayUrl()
     return await getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
+  }),
+
+  /**
+   * Creates a download link for the DAG CAR.
+   * @param {FileStat[]} files
+   */
+  doFilesDownloadCarLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async (ipfs, { store }) => {
+    const gatewayUrl = store.selectGatewayUrl()
+    return await getCarLink(files, gatewayUrl, ipfs)
   }),
 
   /**
@@ -555,21 +569,6 @@ const actions = () => ({
   doFilesClear: () => send({ type: ACTIONS.CLEAR_ALL }),
 
   /**
-   * Gets total size of the local pins. On successful completion `state.mfsSize` will get
-   * updated.
-   */
-  doPinsStatsGet: () => perform(ACTIONS.PINS_SIZE_GET, async (ipfs) => {
-    const pinsSize = -1 // TODO: right now calculating size of all pins is too expensive (requires ipfs.files.stat per CID)
-    let numberOfPins = 0
-
-    for await (const _ of ipfs.pin.ls({ type: 'recursive' })) { // eslint-disable-line  no-unused-vars
-      numberOfPins++
-    }
-
-    return { pinsSize, numberOfPins }
-  }),
-
-  /**
    * Gets size of the MFS. On successful completion `state.mfsSize` will get
    * updated.
    */
@@ -669,7 +668,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
   }
 
   return {
-    path: path,
+    path,
     fetched: Date.now(),
     type: 'directory',
     cid,

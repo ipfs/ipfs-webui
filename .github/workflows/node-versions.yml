@@ -1,0 +1,33 @@
+name: Test build on different node versions on all platforms
+
+on:
+  schedule:
+  - cron: '0 12 * * 0'
+
+  workflow_dispatch:
+
+jobs:
+
+  test-node-12:
+    uses: ./.github/workflows/node-test.yml
+    secrets: inherit
+    with:
+      gh-node-version: '12.x'
+
+  test-node-14:
+    uses: ./.github/workflows/node-test.yml
+    secrets: inherit
+    with:
+      gh-node-version: '14.x'
+
+  test-node-16:
+    uses: ./.github/workflows/node-test.yml
+    secrets: inherit
+    with:
+      gh-node-version: '16.x'
+
+  test-node-18:
+    uses: ./.github/workflows/node-test.yml
+    secrets: inherit
+    with:
+      gh-node-version: '18.x'

@@ -4,9 +4,11 @@ import Backend from 'i18next-chained-backend'
 import LocalStorageBackend from 'i18next-localstorage-backend'
 import HttpBackend from 'i18next-http-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import { version } from '../package.json'
+import pkgJson from '../package.json'
 
 import locales from './lib/languages.json'
+
+const { version } = pkgJson
 export const localesList = Object.values(locales)
 
 i18n
@@ -37,6 +39,7 @@ i18n
       'zh-Hans': ['zh-CN', 'en'],
       'zh-Hant': ['zh-TW', 'en'],
       zh: ['zh-CN', 'en'],
+      ko: ['ko-KR', 'en'],
       default: ['en']
     },
     debug: process.env.DEBUG,

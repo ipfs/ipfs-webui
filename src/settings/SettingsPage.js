@@ -13,6 +13,7 @@ import Box from '../components/box/Box'
 import Button from '../components/button/Button'
 import LanguageSelector from '../components/language-selector/LanguageSelector'
 import PinningManager from '../components/pinning-manager/PinningManager'
+import IpnsManager from '../components/ipns-manager/IpnsManager'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle'
 import ApiAddressForm from '../components/api-address-form/ApiAddressForm'
 import PublicGatewayForm from '../components/public-gateway-form/PublicGatewayForm'
@@ -71,6 +72,14 @@ export const SettingsPage = ({
       </div>
     </Box>
 
+    <Box className='mb3 pa4-l pa2'>
+      <Title>{t('ipnsPublishingKeys.title')}</Title>
+      <p className='ma0 mr2 lh-copy charcoal f6'>
+        {t('ipnsPublishingKeys.description')}&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/concepts/glossary/#ipns'>{t('learnMoreLink')}</a>
+      </p>
+      <IpnsManager t={t} />
+    </Box>
+
     <Box className='mb3 pa4-l pa2 joyride-settings-pinning'>
       <Title>{t('pinningServices.title')}</Title>
       <p className='ma0 mr2 lh-copy charcoal f6'>
@@ -126,7 +135,8 @@ export const SettingsPage = ({
                 hasSaveSucceded={hasSaveSucceded} />
             </div>
           </div>
-          { config ? (
+          { config
+            ? (
             <div className='flex flex-column justify-center flex-row-l items-center-l'>
               <CliTutorMode showIcon={true} config={config} t={t} command={command}/>
               <Button
@@ -149,16 +159,19 @@ export const SettingsPage = ({
                 isSaving={isSaving}
                 onClick={onSave} />
             </div>
-          ) : null }
+              )
+            : null }
         </div>
       </div>
-      { config ? (
+      { config
+        ? (
         <JsonEditor
           value={config}
           onChange={onChange}
           readOnly={isSaving}
           key={editorKey} />
-      ) : null }
+          )
+        : null }
     </Box>
     )}
 
@@ -185,11 +198,13 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
       disabled={!hasLocalChanges || hasErrors}
       danger={hasSaveFailed || hasExternalChanges}
       onClick={onClick}>
-      { hasSaveSucceded && !hasSaveFailed ? (
+      { hasSaveSucceded && !hasSaveFailed
+        ? (
         <Tick height={16} className='fill-snow' style={{ transform: 'scale(3)' }} />
-      ) : (
-        isSaving ? t('app:actions.saving') : t('app:actions.save')
-      )}
+          )
+        : (
+            isSaving ? t('app:actions.saving') : t('app:actions.save')
+          )}
     </Button>
   )
 }

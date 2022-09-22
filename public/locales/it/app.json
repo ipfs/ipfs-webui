@@ -27,15 +27,18 @@
     "setPinning": "Imposta pinning",
     "submit": "Applica",
     "unpin": "Sblocca",
-    "unselectAll": "Deseleziona tutto"
+    "unselectAll": "Deseleziona tutto",
+    "generate": "Generate",
+    "publish": "Publish",
+    "downloadCar": "Download as CAR",
+    "done": "Done"
   },
   "cliModal": {
     "description": "Incolla ciò che segue nel tuo terminale per avviare questa funzione in IPFS tramite la riga di comando. Ricorda che devi sostituire i segnaposto con i parametri specifici."
   },
   "nav": {
     "bugsLink": "Segnala un problema",
-    "codeLink": "Guarda il codice",
-    "revision": "Revisiona"
+    "codeLink": "Guarda il codice"
   },
   "status": {
     "connectedToIpfs": "Connesso ad IPFS",
@@ -46,7 +49,7 @@
     "placeholder": "Inserisci un URL (http://127.0.0.1:5001) o un Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://dweb.link)"
+    "placeholder": "Inserisci un URL (https://dweb.link)"
   },
   "terms": {
     "address": "Indirizzo",
@@ -73,12 +76,13 @@
     "out": "Uscita",
     "peer": "Peer",
     "peerId": "Peer ID",
+    "id": "ID",
     "peers": "Peer",
     "pinNoun": "Fisso",
     "pins": "Fissi",
     "pinStatus": "Stato Pin",
     "publicKey": "Chiave pubblica",
-    "publicGateway": "Public Gateway",
+    "publicGateway": "Gateway pubblico",
     "rateIn": "Tasso d'entrata",
     "rateOut": "Tasso d'uscita",
     "repo": "Repo",
@@ -87,7 +91,8 @@
     "totalOut": "Totale uscita",
     "unknown": "Sconosciuto",
     "ui": "UI",
-    "upSpeed": "In uscita"
+    "upSpeed": "In uscita",
+    "revision": "Revisiona"
   },
   "tour": {
     "back": "Indietro",

@@ -1,0 +1,184 @@
+{
+  "title": "Pengaturan",
+  "save": "Simpan",
+  "saving": "Menyimpan...",
+  "reset": "Mengatur ulang",
+  "learnMoreLink": "Belajarlah lagi.",
+  "showOptions": "Tampilkan opsi",
+  "pinningServices": {
+    "title": "Layanan Penyematan",
+    "description": "Gunakan penyematan lokal saat Anda ingin memastikan item di node Anda tidak pernah menjadi sampah, bahkan jika Anda menghapusnya dari Berkas. Anda juga dapat menautkan akun Anda dengan layanan penyematan jarak jauh lainnya untuk secara otomatis atau selektif menyimpan berkas dengan penyedia tersebut, memungkinkan Anda untuk menyimpan salinan cadangan berkas Anda dan/atau membuatnya tersedia untuk orang lain saat node lokal Anda offline.",
+    "noPinRemoteDescription": "Dukungan untuk layanan penyematan jarak jauh pihak ketiga tidak ada. Perbarui node IPFS Anda ke go-ipfs 0.8.0 atau yang lebih baru, dan Anda dapat menambahkan dan mengonfigurasinya di sini.",
+    "addAutoUpload": "Aktifkan unggah otomatis",
+    "removeAutoUpload": "Nonaktifkan Unggah Otomatis"
+  },
+  "language": "Bahasa",
+  "analytics": "Analitik",
+  "cliTutorMode": "Mode Tutor CLI",
+  "config": "Konfigurasi IPFS",
+  "languageModal": {
+    "title": "Ganti bahasa",
+    "description": "Pilih bahasa pilihan Anda.",
+    "translationProjectIntro": "Tambahkan atau tingkatkan terjemahan dan jadikan IPFS lebih baik untuk semua orang!",
+    "translationProjectLink": "Bergabunglah dengan Proyek Terjemahan IPFS"
+  },
+  "apiDescription": "<0>Jika node Anda dikonfigurasi dengan <1>alamat API kustom</1>, termasuk port selain 5001, masukkan di sini.</0>",
+  "publicGatewayDescription": "<0>Pilih <1>gerbang publik</1> mana yang ingin Anda gunakan saat membuat tautan yang dapat dibagikan.</0>",
+  "cliDescription": "<0>Aktifkan opsi ini untuk menampilkan ikon \"lihat kode\" <1></1> di sebelah perintah umum IPFS. Mengkliknya akan membuka modal dengan kode CLI perintah itu, sehingga Anda dapat menempelkannya ke antarmuka baris perintah IPFS di terminal Anda.</0>",
+  "cliModal": {
+    "extraNotesJsonConfig": "Jika Anda telah membuat perubahan pada konfigurasi di editor kode halaman ini yang ingin Anda simpan, klik ikon unduh di sebelah tombol salin untuk mengunduhnya sebagai berkas JSON. "
+  },
+  "pinningModal": {
+    "title": "Pilih penyedia layanan penyematan.",
+    "description": "Tidak melihat penyedia layanan penyematan Anda? <1>Tambahkan yang kustom.<1>"
+  },
+  "pinningServiceModal": {
+    "title": "Konfigurasikan layanan penyematan kursus.",
+    "description": "Ingin membuat layanan penyematan kustom Anda tersedia untuk orang lain? <1>Belajar bagaimana.<1>",
+    "service": "Layanan",
+    "nickname": "Nama panggilan",
+    "nicknamePlaceholder": "Nama untuk layanan Anda",
+    "apiEndpoint": "Titik akhir API",
+    "apiEndpointPlaceholder": "URL untuk titik akhir API-nya",
+    "secretApiKey": "Token akses rahasia",
+    "secretApiKeyHowToLink": "Cara menghasilkan token baru",
+    "autoUpload": "Unggah otomatis",
+    "complianceLabel": "{nickname}menyematkan laporan kepatuhan"
+  },
+  "autoUploadModal": {
+    "title": "Ubah kebijakan unggah untuk {name}",
+    "description": "Saat diaktifkan, unggah otomatis akan secara berkala menyematkan akar direktori Berkas Anda, memastikan semuanya disematkan dari jarak jauh dan tersedia untuk rekan-rekan lain bahkan ketika node IPFS lokal Anda offline. Jika Anda menonaktifkannya, Anda masih dapat menyematkan setiap berkas secara manual menggunakan opsi \"Setel penyematan\" di layar Berkas."
+  },
+  "errors": {
+    "nickname": "Nama panggilan wajib diisi",
+    "apiError": "Kesalahan API",
+    "apiEndpoint": "Harus berupa URL yang valid",
+    "secretApiKey": "Token akses rahasia diperlukan",
+    "failedToFetch": "Gagal mengambil",
+    "failedToFetchTitle": "Tidak dapat mengambil jumlah pin dari layanan jarak jauh ini. Pastikan itu online dan Anda memasukkan kredensial yang benar. Jika ini adalah layanan yang baru ditambahkan, coba hapus dan tambahkan lagi."
+  },
+  "actions": {
+    "addService": "Tambahkan Layanan",
+    "generateKey": "Hasilkan Kunci",
+    "edit": "Mengubah",
+    "close": "Tutup",
+    "save": "Simpan",
+    "cancel": "Batalkan",
+    "enable": "Diaktifkan",
+    "disable": "Nonaktifkan"
+  },
+  "edit": "Sunting",
+  "visitService": "Kunjungi layanan",
+  "remove": "Hapus",
+  "localPinning": "Penyematan Lokal",
+  "service": "Melayani",
+  "size": "Ukuran",
+  "pins": "Semat",
+  "autoUpload": "Unggah Otomatis",
+  "autoUploadPolicy": {
+    "true": "Semua berkas",
+    "false": "Mati"
+  },
+  "fetchingSettings": "Mengambil setelan...",
+  "configApiNotAvailable": "API konfigurasi IPFS tidak tersedia. Harap nonaktifkan Ekstensi Web \"Sahabat IPFS\" dan coba lagi.",
+  "ipfsDaemonOffline": "Daemon IPFS sedang offline. Harap aktifkan dan coba lagi.",
+  "settingsUnavailable": "Pengaturan tidak tersedia. Silakan periksa daemon IPFS Anda sedang berjalan.",
+  "settingsHaveChanged": "Pengaturan telah berubah; silakan klik <1>Reset</1> untuk memperbarui konten editor.",
+  "errorOccured": "Terjadi kesalahan saat menyimpan perubahan Anda",
+  "checkConsole": "Periksa konsol peramban untuk info lebih lanjut.",
+  "changesSaved": "Perubahan yang Anda buat sudah disimpan.",
+  "settingsWillBeUsedNextTime": "Pengaturan baru akan digunakan saat berikutnya Anda memulai ulang daemon IPFS.",
+  "ipfsConfigDescription": "Konfigurasi berkas IPFS adalah dokumen JSON. Ini dibaca sekali ketika daemon IPFS dimulai. Simpan perubahan Anda, lalu mulai ulang daemon IPFS untuk menerapkannya.",
+  "ipfsConfigHelp": "Periksa dokumentasi untuk informasi lebih lanjut.",
+  "AnalyticsToggle": {
+    "label": "Bantu tingkatkan aplikasi ini dengan mengirimkan data penggunaan anonim",
+    "summary": "Konfigurasikan apa yang dikumpulkan",
+    "paragraph1": "Tidak ada CID, nama berkas, atau informasi pribadi lainnya yang dikumpulkan. Kami ingin metrik menunjukkan kepada kami fitur mana yang berguna untuk membantu kami memprioritaskan apa yang harus dikerjakan selanjutnya, dan informasi konfigurasi sistem untuk memandu pengujian kami.",
+    "paragraph2": "Protocol Labs menghosting instance <1>Countly</1> untuk merekam data penggunaan anonim untuk aplikasi ini.",
+    "basicInfo": "Informasi tambahan berikut dikirim ke countly.ipfs.io",
+    "optionalInfo": "Anda dapat memilih untuk mengirimkan informasi berikut:",
+    "sessions": {
+      "label": "Sesi",
+      "summary": "Kapan dan berapa lama Anda menggunakan aplikasi, dan metrik peramban",
+      "details": "<0>Metrik peramban berikut dikirim:</0><1><0>ID perangkat yang dibuat secara acak</0><1>Stempel waktu saat sesi dimulai</1><2>Stempel waktu berkala untuk melacak durasi</2><3>Versi aplikasi; misalnya 2.4.4</3><4>Lokal; misalnya en-GB</4><5>Agen pengguna; misalnya Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>Resolusi layar; misalnya 800 × 600</6><7>Kerapatan piksel layar; misalnya 1</7></1>"
+    },
+    "events": {
+      "label": "Acara",
+      "summary": "tindakan seperti menambah atau menghapus berkas, dan berapa lama waktu yang dibutuhkan",
+      "details": "Tindakan khusus aplikasi. Kami hanya mencatat bahwa tindakan tersebut terjadi, berapa lama waktu yang dibutuhkan dari awal hingga selesai, dan menghitung jika peristiwa tersebut melibatkan banyak item."
+    },
+    "views": {
+      "label": "Tampilan halaman",
+      "summary": "Bagian mana dari aplikasi yang Anda kunjungi",
+      "details": "Merekam bagian mana dari aplikasi yang dikunjungi. Jalur yang direkam hanya menyertakan pola yang digunakan untuk mencocokkan rute, bukan url lengkap."
+    },
+    "location": {
+      "label": "Lokasi",
+      "summary": "Kode negara dari alamat IP (alamat IP dibuang)",
+      "details": "Alamat IP Anda digunakan untuk menghitung kode negara untuk lokasi Anda, seperti \"FR\" untuk Prancis. Jika izin tidak diberikan untuk melacak lokasi, properti lokasi kosong dikirim dengan semua permintaan untuk memberi sinyal ke server untuk menonaktifkan pencarian lokasi. Informasi ini membantu memandu upaya penerjemahan kami dan mencari tahu di mana kami harus mengadakan acara."
+    },
+    "crashes": {
+      "label": "Kesalahan aplikasi",
+      "summary": "Pesan kesalahan JavaScript dan jejak tumpukan",
+      "details": "Merekam pesan kesalahan JavaScript dan pelacakan tumpukan yang terjadi saat menggunakan aplikasi, jika memungkinkan. Sangat membantu untuk mengetahui kapan aplikasi tidak berfungsi untuk Anda, tetapi <1>pesan kesalahan mungkin menyertakan informasi yang dapat diidentifikasi</1> seperti CID atau jalur berkas, jadi hanya aktifkan ini jika Anda merasa nyaman berbagi informasi itu dengan kami."
+    }
+  },
+  "cliToggle": {
+    "label": "Aktifkan mode tutor antarmuka baris perintah (CLI)"
+  },
+  "tour": {
+    "step1": {
+      "title": "Halaman pengaturan",
+      "paragraph1": "Di sini Anda dapat mengubah pengaturan UI Web dan node IPFS Anda.",
+      "paragraph2": "Jika Anda menjalankan Desktop IPFS, Anda juga akan memiliki beberapa pengaturan khusus."
+    },
+    "step2": {
+      "title": "Alamat API kustom",
+      "paragraph1": "Jika Anda telah mengonfigurasi node IPFS Anda dengan alamat API kustom, Anda dapat memperbarui berkas konfigurasi Anda di sini alih-alih mengedit JSON secara manual."
+    },
+    "step3": {
+      "title": "Layanan penyematan",
+      "paragraph1": "<0>Jika Anda memiliki akun dengan layanan penyematan jarak jauh pihak ketiga, tambahkan di sini sehingga Anda dapat menyematkan/melepaskan item ke layanan tersebut langsung dari layar Berkas. Anda dapat mempelajari lebih lanjut tentang layanan penyematan pihak ketiga di <1>Dokumen IPFS</1>.</0>"
+    },
+    "step4": {
+      "title": "Pemilih bahasa",
+      "paragraph1": "<0>Anda dapat mengubah bahasa UI Web. Jika bahasa pilihan Anda tidak tersedia, kunjungi halaman proyek kami di <1>Transifex</1> untuk membantu kami menerjemahkan!</0>"
+    },
+    "step5": {
+      "title": "Analisis penggunaan anonim",
+      "paragraph1": "Jika Anda ikut serta, Anda dapat membantu kami membuat UI Web lebih baik dengan mengirimkan analitik penggunaan anonim.",
+      "paragraph2": "Anda dapat memilih data apa yang Anda kirimkan kepada kami dan kami tidak akan dapat mengidentifikasi Anda, kami menghargai privasi di atas segalanya."
+    },
+    "step6": {
+      "title": "Mode tutor CLI",
+      "paragraph1": "Aktifkan mode tutor CLI untuk melihat pintasan ke versi baris perintah dari perintah IPFS umum — berguna jika Anda belajar menggunakan IPFS dari terminal, atau jika Anda hanya perlu penyegaran."
+    },
+    "step7": {
+      "title": "Konfigurasi IPFS",
+      "paragraph1": "Anda dapat mengubah konfigurasi node IPFS Anda langsung dari UI Web!",
+      "paragraph2": "Jangan lupa untuk memulai ulang daemon untuk menerapkan perubahan."
+    }
+  },
+  "Experiments": {
+    "description": "Di sini Anda bisa mendapatkan pratinjau awal ke fitur IPFS baru dengan mengaktifkan opsi di bawah ini. Kami sedang menguji ide-ide ini, dan mungkin belum sempurna, jadi kami ingin mendengar tanggapan Anda.",
+    "issueUrl": "Buka sebuah isu",
+    "feedbackUrl": "💌Tinggalkan umpan balik",
+    "readMoreUrl": "Baca selengkapnya"
+  },
+  "ipnsPublishingKeys": {
+    "title": "Kunci Penerbitan IPNS",
+    "description": "Sistem Nama InterPlanetary (IPNS) menyediakan alamat kriptografik untuk menerbitkan pembaruan pada konten yang diperkirakan akan berubah seiring waktu. Fitur ini mengharuskan node Anda untuk online setidaknya sekali sehari untuk memastikan catatan IPNS tetap hidup di DHT publik."
+  },
+  "generateKeyModal": {
+    "title": "Hasilkan Kunci IPNS Baru",
+    "description": "Masukkan nama panggilan untuk kunci ini untuk menghasilkan:"
+  },
+  "renameKeyModal": {
+    "title": "Ganti Nama Kunci",
+    "description": "Masukkan nama panggilan baru untuk kunci IPNS<1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Konfirmasi Penghapusan Kunci IPNS",
+    "description": "Apakah Anda yakin ingin menghapus kunci IPNS? <1>{name}</1>? Operasi ini tidak dapat dibatalkan, dan alamat IPNS yang dikelola oleh kunci ini akan hilang SELAMANYA. Pertimbangkan untuk mencadangkannya terlebih dahulu: ipfs key export --help"
+  }
+}

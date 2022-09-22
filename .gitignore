@@ -5,6 +5,10 @@
 
 # testing
 /coverage
+/playwright-report
+test/e2e/setup/ipfs-backend.json
+test/e2e/state.json
+storybook-static
 
 # production
 /build
@@ -25,3 +29,10 @@ yarn-error.log*
 .eslintcache
 tsconfig.tsbuildinfo
 .connect-deps*
+.tool-versions
+.envrc
+.cid
+.cache
+.nyc_output
+
+tx

@@ -1,8 +1,20 @@
 {
   "title": "設定",
+  "save": "保存",
+  "saving": "保存中……",
+  "reset": "リセット",
+  "learnMoreLink": "もっと詳しく知る。",
+  "showOptions": "Show options",
+  "pinningServices": {
+    "title": "ピンサービス",
+    "description": "あなたのノードのアイテムに対し、ガベージコレクションを絶対に走らせたくない場合（ファイルを削除した場合を含む）はローカルピンを使用してください。\n\n持続的にファイルを保持したい場合、あなたのアカウントを他のリモートピンサービスに紐付けることが出来ます。紐付けを行うと、ローカルノードがオフラインとなった場合でも、あなたのファイルのバックアップコピーを他のホスト上で保持することが出来ます。",
+    "noPinRemoteDescription": "サービスがインストールされておらず、リモートのピンサービスへの接続が出来ません。IPFSノードを go-ipfs 0.8.0以降にアップデートしてください。\nアップデートが完了するとここからリモートのピンを設定することが出来るようになります。",
+    "addAutoUpload": "自動アップロードを有効化",
+    "removeAutoUpload": "自動アップロードを無効化"
+  },
   "language": "言語",
   "analytics": "分析",
-  "cliTutorMode": "CLI Tutor Mode",
+  "cliTutorMode": "CUI チューターモード",
   "config": "IPFS設定",
   "languageModal": {
     "title": "言語を変更",
@@ -10,9 +22,64 @@
     "translationProjectIntro": "IPFSをみんなにとってよりよくするために翻訳を追加、校正しましょう!",
     "translationProjectLink": "IPFS翻訳プロジェクトに参加"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
-  "fetchingSettings": "設定を読み込んでいます",
+  "apiDescription": "<0>デフォルトの5001番以外のポートを含む<1>独自のAPIアドレス</1>を使用している場合は、その値をここに入力してください</0>",
+  "publicGatewayDescription": "<0>共有リンクを生成するときに、どの<1>ゲートウェイ（パブリック）</1>を使用したいか選んでください</0>",
+  "cliDescription": "<0>\"コードを見る\"オプション<1></1>を有効にするためには、このオプションを有効にします。\"コードを見る\"ボタンは普通のIPFSコマンドの隣に表示されます。\nこのボタンを押すことで、CUIのチートシートが表示され、そこからコマンドをコピー&ペーストすることが出来ます。</0>",
+  "cliModal": {
+    "extraNotesJsonConfig": "このページのコードエディタに使いたいコードを書いて、コピーボタンの隣にあるダウンロードアイコンを押せば、JSONファイルの形式でスクリプトが保存されます。このスクリプトはそのままインポートして使うことが出来ます。"
+  },
+  "pinningModal": {
+    "title": "ピンサービスのプロバイダを選択してください",
+    "description": "ピンサービスのプロバイダが見つかりませんか？<1>独自のプロバイダを追加できます<1>"
+  },
+  "pinningServiceModal": {
+    "title": "独自のピンサービスを設定します",
+    "description": "ピンサービスが他の人にも使えるようにしませんか？<1>方法はここで紹介しています<1>",
+    "service": "サービス",
+    "nickname": "ニックネーム",
+    "nicknamePlaceholder": "サービスの名前を決めます",
+    "apiEndpoint": "APIエンドポイント",
+    "apiEndpointPlaceholder": "APIエンドポイントのURLを入力します",
+    "secretApiKey": "アクセストークン（シークレット）",
+    "secretApiKeyHowToLink": "新規トークンの生成方法",
+    "autoUpload": "自動アップロード",
+    "complianceLabel": "🔍 {nickname} pinning compliance report"
+  },
+  "autoUploadModal": {
+    "title": "{name}のアップロードポリシーを変更する",
+    "description": "この設定を有効にすると自動アップロードの時にあなたのファイルディレクトリのルートを定期的にピンします（すべてのファイルをリモートにピンします。IPFSノードがオフラインとなったときでも他のピアからそのファイルを利用することが出来ます）。\n無効にすると自動でのピンは行われません（ファイル画面から自分でピンを設定することは可能です）。"
+  },
+  "errors": {
+    "nickname": "ニックネームが必要です",
+    "apiError": "APIエラー",
+    "apiEndpoint": "有効なURLが必要です",
+    "secretApiKey": "アクセストークン（シークレット）が必要です",
+    "failedToFetch": "読み込みに失敗しました",
+    "failedToFetchTitle": "リモートサービスからピンのカウントを取得できませんでした。ピンがオンラインで、かつ、正しい情報を入力しているか確認してください。\n新規に追加したサービスであれば、一度削除してもう一度追加し直してみてください。"
+  },
+  "actions": {
+    "addService": "サービスを追加",
+    "generateKey": "Generate Key",
+    "edit": "変更",
+    "close": "閉じる",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "enable": "有効",
+    "disable": "無効"
+  },
+  "edit": "編集",
+  "visitService": "サービスのURLを開く",
+  "remove": "削除",
+  "localPinning": "ローカルピン",
+  "service": "サービス",
+  "size": "サイズ",
+  "pins": "ピン",
+  "autoUpload": "自動アップロード",
+  "autoUploadPolicy": {
+    "true": "すべてのファイル",
+    "false": "オフ"
+  },
+  "fetchingSettings": "設定を読み込んでいます…",
   "configApiNotAvailable": "IPFS設定APIが利用できません。拡張機能「IPFS Companion」を無効にして再度接続を試してください。",
   "ipfsDaemonOffline": "IPFSデーモンが起動していないようです。デーモンを起動して再度接続を試してください。",
   "settingsUnavailable": "設定を読み込めません。IPFSデーモンが起動していることを確認してください。",
@@ -29,10 +96,10 @@
     "paragraph1": "CIDやファイル名、個人情報は収集されません。我々はどの機能を次に開発すれば便利なのかを判断するための指標として利用します。加えて、IPFSデーモンのシステム設定情報をテストのために利用します。",
     "paragraph2": "Protocol Labsはこのアプリの匿名の使用状況を記録するために、<1>Countly</1>インスタンスを持っています。",
     "basicInfo": "次に示すより詳しい情報はcountly.ipfs.ioに送信されます。",
-    "optionalInfo": "あなたが送信する情報を選択してください:",
+    "optionalInfo": "送信する情報を選択してください:",
     "sessions": {
       "label": "セッション",
-      "summary": "いつ、どれくらい長くこのアプリを利用しているのかとブラウザの指標",
+      "summary": "いつ、どれくらい長くアプリを使用しているのかとブラウザの指標",
       "details": "ブラウザ指標として次のものが送信されます。<1><0>ランダムに生成されたデバイスID</0><1>セッションが開始された時刻</1><2>セッションが保持されている期間</2><3>アプリのバージョン: 例. 2.4.4</3><4>言語: 例. en-GB</4><5>ユーザエージェント: 例 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) ...</5><6>画面解像度: 例 800×600</6><7>画面ピクセル密度</7></1>"
     },
     "events": {
@@ -47,7 +114,7 @@
     },
     "location": {
       "label": "位置",
-      "summary": "IPアドレスから推測された国コード(IPアドレスは破棄します)",
+      "summary": "IPアドレスから推測された国コード(IPアドレスは保存されません)",
       "details": "あなたのIPアドレスから\"FR\"ならばフランスであるというように、あなたの国を計算します。位置情報を追跡されたくないのであれば、位置検索を無効にするためにサーバーの設定を変更し、空の位置情報を全てのリクエストに設定してください。この情報は、我々がどの言語を集中して翻訳に専念するか、次のイベントをどこで開催するのかを決定するために利用されます。"
     },
     "crashes": {
@@ -57,7 +124,7 @@
     }
   },
   "cliToggle": {
-    "label": "Enable command-line interface (CLI) tutor mode"
+    "label": "コマンドライン・インターフェイス（CUI）のチューターモードを有効にする"
   },
   "tour": {
     "step1": {
@@ -66,22 +133,30 @@
       "paragraph2": "もしあなたがIPFS Desktopを利用しているのであれば、ここでも特殊な設定が確認できるでしょう"
     },
     "step2": {
+      "title": "任意のAPIアドレスを使用する",
+      "paragraph1": "IPFSノードのAPIアドレスを変更している場合、設定ファイルはここから更新できます（JSONファイルを直接編集する必要はありません）。"
+    },
+    "step3": {
+      "title": "サービスをピン留めする",
+      "paragraph1": "<0>他のリモートピンサービスのアカウントをお持ちの場合は、ここで追加してください。ピン留め/解除をファイル画面から直接出来るようになります。詳しくは<1>IPFSドキュメント</1>を参照してください。</0>"
+    },
+    "step4": {
       "title": "言語リスト",
       "paragraph1": "<0>WebUIの言語を変更します。もし利用したい言語が見つからないときには<1>Transifex</1>で行われている翻訳プロジェクトに参加して、あなたが翻訳を作成してください。</0>"
     },
-    "step3": {
+    "step5": {
       "title": "利用状況の分析",
       "paragraph1": "あなたが情報提供に承諾しているのであれば、WebUIをよりよくするための匿名化された利用統計の送信を行います。",
       "paragraph2": "あなたは送信されるデータを選択できますし、我々はあなたをあなたとして特定することはできません。我々はプライバシーを何よりも重視しています。"
     },
-    "step4": {
-      "title": "Custom API address",
-      "paragraph1": "If you've configured your IPFS node with a custom API address, you can update your config file right here instead of editing the JSON by hand."
+    "step6": {
+      "title": "CUI チューターモード",
+      "paragraph1": "CUI版のコマンドのショートカットを見るためには、CUIチューターモードを有効にしてください - もしあなたがターミナルからのIPFS操作を勉強中の時や、コマンドをうっかり忘れてしまっている場合に役立つでしょう"
     },
-    "step5": {
+    "step7": {
       "title": "IPFS設定",
       "paragraph1": "このWebUIではあなたのIPFSノードの設定を変更することができます!",
-      "paragraph2": "ただ、変更した設定を反映させるためのIPFSノードの再起動を忘れないでください！"
+      "paragraph2": "変更した設定を反映させるには、IPFSノードの再起動を忘れないでください！"
     }
   },
   "Experiments": {
@@ -89,5 +164,21 @@
     "issueUrl": "WebUIに関する問題/議論/質問を投稿",
     "feedbackUrl": "フィードバックを送信",
     "readMoreUrl": "もっと読む"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Publishing Keys",
+    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+  },
+  "generateKeyModal": {
+    "title": "Generate New IPNS Key",
+    "description": "Enter a nickname for this key to generate:"
+  },
+  "renameKeyModal": {
+    "title": "Rename Key",
+    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Confirm IPNS Key Removal",
+    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
   }
 }

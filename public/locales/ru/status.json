@@ -9,8 +9,8 @@
   "pieChartLabel": "{count, plural, one {{percent}% ({count} пир)} few {{percent}% ({count} пира)} many {{percent}% ({count} пиров)} other {{percent}% ({count} пиров)}}",
   "countMore": "...и {count} больше",
   "StatusConnected": {
-    "repoSize": "Hosting {repoSize} of data",
-    "peersCount": "{peersCount, plural, one {Discovered 1 peer} other {Discovered {peersCount} peers}}"
+    "repoSize": "Хостинг данных: {repoSize} ",
+    "peersCount": "{peersCount, plural, one {Обнаружен 1 пир} few {Обнаруженно {peersCount} пиров} many {Обнаруженно {peersCount} пиров} other {Обнаруженно {peersCount}пиров}}"
   },
   "customApiConfig": "Пользовательская JSON конфигурация ",
   "AskToEnable": {

@@ -39,10 +39,20 @@
     "nativeName": "Français",
     "englishName": "French"
   },
+  "hi-IN": {
+    "locale": "hi-IN",
+    "nativeName": "हिन्दी",
+    "englishName": "Hindi"
+  },
   "hu": {
     "locale": "hu",
     "nativeName": "Magyar",
     "englishName": "Hungarian"
+  },
+  "id": {
+    "locale": "id",
+    "nativeName": "Bahasa Indonesia",
+    "englishName": "Indonesian"
   },
   "it": {
     "locale": "it",

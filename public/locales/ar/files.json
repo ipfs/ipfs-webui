@@ -10,15 +10,16 @@
   "individualFilesOnly": "متاح فقط للملفات الفردية",
   "noPDFSupport": "متصفحك لا يدعم ملفات PDF. يرجى تنزيل ملف PDF لعرضه:",
   "downloadPDF": "تحميل PDF",
-  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
-  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
+  "openWithPublicGateway": "حاول فتحه بدلاً من ذلك باستخدام ملف <1>البوابة العامة</1>.",
+  "openWithLocalAndPublicGateway": "حاول فتحه بدلاً من ذلك باستخدام ملف <1>البوابة المحلية</1> أو<3>البوابة العامة</3>.",
   "cantBePreviewed": "عذرًا ، لا يمكن معاينة هذا الملف",
   "addByPath": "من IPFS",
   "newFolder": "ملف جديد",
   "generating": "جارٍ الإنشاء ...",
   "actions": {
     "copyHash": "انسخ CID",
-    "share": "مشاركة الرابط"
+    "share": "مشاركة الرابط",
+    "publishWithIpns": "Publish to IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "هذا الأمر مخصص فقط للتثبيت / إلغاء التثبيت المحلي. إذا كنت تريد استخدام خدمة التثبيت عن بُعد ، فاستشر وثائق تلك الخدمة لمعرفة كيفية التثبيت / إلغاء التثبيت من سطر الأوامر."
@@ -45,6 +46,7 @@
   },
   "pinningModal": {
     "title": "حدد المكان الذي تريد تثبيت هذه العناصر فيه.",
+    "complianceLabel": "🔍 Check pinning services' compliance",
     "footer": "هل تحتاج إلى إضافة أو تكوين خدمة تثبيت؟ اذهب إلى <1>إعدادات</1>.",
     "localNode": "العقدة المحلية",
     "totalSize": "الحجم الإجمالي:{size}"
@@ -52,6 +54,8 @@
   "addByPathModal": {
     "title": "استيراد من IPFS",
     "description": "إدراج مسار IPFS (CID) للاستيراد.",
+    "importPathPlaceholder": "المسار أو الرقم التعريفي للعميل (مطلوب)",
+    "namePlaceholder": "الاسم (اختياري)",
     "examples": "أمثلة:"
   },
   "newFolderModal": {
@@ -110,6 +114,16 @@
   "filesDescription": "الحجم الإجمالي للبيانات في الدليل الحالي (من دليل فرعي ، يتم أيضًا عرض حجم جميع البيانات في الملفات)",
   "more": "أكثر",
   "files": "الملفات",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
-  "sortBy": "فرز العناصر حسب {name}"
+  "cidNotFileNorDir": "الرابط الحالي ليس ملفًا ولا دليلًا. حاول <1>تفقده</1> بدلا من ذلك.",
+  "sortBy": "فرز العناصر حسب {name}",
+  "publishModal": {
+    "title": "Publish to IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Select key for publishing:",
+    "help": "Go to Settings to learn about IPNS and create more keys.",
+    "publishedUnderKey": "Successfully published under the key:",
+    "linkCopied": "Link copied!",
+    "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
+    "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
+  }
 }

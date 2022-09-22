@@ -55,8 +55,6 @@ export const NavBar = ({ t }) => {
   const bugsUrl = `${codeUrl}/issues`
   const gitRevision = process.env.REACT_APP_GIT_REV
   const revisionUrl = `${codeUrl}/commit/${gitRevision}`
-  const webUiVersion = process.env.REACT_APP_VERSION
-  const webUiVersionUrl = `${codeUrl}/releases/tag/v${webUiVersion}`
   return (
     <div className='h-100 fixed-l flex flex-column justify-between' style={{ overflowY: 'auto', width: 'inherit' }}>
       <div className='flex flex-column'>
@@ -75,11 +73,8 @@ export const NavBar = ({ t }) => {
         </div>
       </div>
       <div className='dn db-l navbar-footer mb2 tc center f7 o-80 glow'>
-        { webUiVersion && <div className='mb1'>
-          <a className='link white' href={webUiVersionUrl} target='_blank' rel='noopener noreferrer'>{t('app:terms.ui')} v{webUiVersion}</a>
-        </div> }
         { gitRevision && <div className='mb1'>
-          <a className='link white' href={revisionUrl} target='_blank' rel='noopener noreferrer'>{t('app:nav.revision')} {gitRevision}</a>
+          <a className='link white' href={revisionUrl} target='_blank' rel='noopener noreferrer'>{t('app:terms.revision')} {gitRevision}</a>
         </div> }
         <div className='mb1'>
           <a className='link white' href={codeUrl} target='_blank' rel='noopener noreferrer'>{t('app:nav.codeLink')}</a>

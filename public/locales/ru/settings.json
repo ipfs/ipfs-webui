@@ -4,12 +4,13 @@
   "saving": "Сохранение...",
   "reset": "Сброс",
   "learnMoreLink": "Узнайте больше.",
+  "showOptions": "Show options",
   "pinningServices": {
     "title": "Служба подкрепления",
     "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
     "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to go-ipfs 0.8.0 or later, and you'll be able to add and configure them here.",
-    "addAutoUpload": "Enable auto upload",
-    "removeAutoUpload": "Disable Auto Upload"
+    "addAutoUpload": "Включить автозагрузку",
+    "removeAutoUpload": "Выключить автозагрузку"
   },
   "language": "Язык",
   "analytics": "Аналитика",
@@ -39,24 +40,26 @@
     "nicknamePlaceholder": "Название вашего сервиса",
     "apiEndpoint": "Точка достука API",
     "apiEndpointPlaceholder": "URL для ее точки достука API",
-    "secretApiKey": "Secret access token",
-    "secretApiKeyHowToLink": "How to generate a new token",
-    "autoUpload": "Автозагрузка"
+    "secretApiKey": "Секретный ключ",
+    "secretApiKeyHowToLink": "Как сгенерировать новый секретный ключ",
+    "autoUpload": "Автозагрузка",
+    "complianceLabel": "🔍 {nickname} pinning compliance report"
   },
   "autoUploadModal": {
-    "title": "Change upload policy for {name}",
+    "title": "Изменить политику загрузки для {name}",
     "description": "When enabled, auto upload will periodically pin the root of your Files directory, ensuring everything is pinned remotely and available to other peers even when your local IPFS node goes offline. If you disable it, you can still pin each file manually using the \"Set pinning\" option on the Files screen."
   },
   "errors": {
     "nickname": "Логин обязателен",
-    "apiError": "API error",
+    "apiError": "Ошибка API",
     "apiEndpoint": " Должен быть действующий URL",
-    "secretApiKey": "Secret access token is required",
-    "failedToFetch": "Failed to fetch",
+    "secretApiKey": "Секретный ключ обязателен",
+    "failedToFetch": "Ошибка загрузки",
     "failedToFetchTitle": "Unable to fetch pin count from this remote service. Make sure it is online and that you entered correct credentials. If this is a newly added service, try removing and adding it again."
   },
   "actions": {
     "addService": "Добавить сервис",
+    "generateKey": "Generate Key",
     "edit": "Изменить",
     "close": "Закрыть",
     "save": "Сохранить",
@@ -161,5 +164,21 @@
     "issueUrl": "Открыть вопрос",
     "feedbackUrl": "💌Оставить отзыв",
     "readMoreUrl": "Узнать больше"
+  },
+  "ipnsPublishingKeys": {
+    "title": "IPNS Publishing Keys",
+    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+  },
+  "generateKeyModal": {
+    "title": "Generate New IPNS Key",
+    "description": "Enter a nickname for this key to generate:"
+  },
+  "renameKeyModal": {
+    "title": "Rename Key",
+    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Confirm IPNS Key Removal",
+    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
   }
 }

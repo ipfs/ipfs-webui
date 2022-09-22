@@ -1,60 +1,47 @@
-/* global webuiUrl, waitForTitle, page, describe, it, beforeAll, waitForText */
+const { test, expect } = require('./setup/coverage')
 
-const scrollLinkContainer = async () => {
-  const linkContainer = '[role="menubar"]'
-  await page.waitForSelector(linkContainer)
-  await page.evaluate(selector => {
-    const scrollableSection = document.querySelector(selector)
-
-    scrollableSection.scrollLeft = scrollableSection.offsetWidth
-  }, linkContainer)
-}
-
-describe('Navigation menu', () => {
-  beforeAll(async () => {
-    await page.goto(webuiUrl + '#/blank', { waitUntil: 'networkidle' })
+test.describe('Navigation menu', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/#/blank')
   })
 
-  it('should work for Status page', async () => {
+  test('should work for Status page', async ({ page }) => {
     const link = 'a[href="#/"]'
     await page.waitForSelector(link)
-    await waitForText('Status')
+    await page.waitForSelector('text=Status')
     await page.click(link)
-    await waitForTitle('Status | IPFS')
+    await expect(page).toHaveTitle('Status | IPFS')
   })
 
-  it('should work for Files page', async () => {
+  test('should work for Files page', async ({ page }) => {
     const link = 'a[href="#/files"]'
     await page.waitForSelector(link)
-    await waitForText('Files')
+    await page.waitForSelector('text=Files')
     await page.click(link)
-    await waitForTitle('/ | Files | IPFS')
+    await expect(page).toHaveTitle('/ | Files | IPFS')
   })
 
-  it('should work for Explore page', async () => {
+  test('should work for Explore page', async ({ page }) => {
     const link = 'a[href="#/explore"]'
     await page.waitForSelector(link)
-    await waitForText('Explore')
-    await scrollLinkContainer()
+    await page.waitForSelector('text=Explore')
     await page.click(link)
-    await waitForTitle('Explore | IPLD')
+    await expect(page).toHaveTitle('Explore | IPLD')
   })
 
-  it('should work for Peers page', async () => {
+  test('should work for Peers page', async ({ page }) => {
     const link = 'a[href="#/peers"]'
     await page.waitForSelector(link)
-    await waitForText('Peers')
-    await scrollLinkContainer()
+    await page.waitForSelector('text=Peers')
     await page.click(link)
-    await waitForTitle('Peers | IPFS')
+    await expect(page).toHaveTitle('Peers | IPFS')
   })
 
-  it('should work for Settings page', async () => {
+  test('should work for Settings page', async ({ page }) => {
     const link = 'a[href="#/settings"]'
     await page.waitForSelector(link)
-    await waitForText('Settings')
-    await scrollLinkContainer()
+    await page.waitForSelector('text=Settings')
     await page.click(link)
-    await waitForTitle('Settings | IPFS')
+    await expect(page).toHaveTitle('Settings | IPFS')
   })
 })

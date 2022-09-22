@@ -55,11 +55,11 @@ const createFilesBundle = () => {
             : null
           const { pageContent, pins } = result
             ? {
-              pageContent: result,
-              pins: result.type === 'directory' && result.path === '/pins'
-                ? result.content.map($ => $.cid.toString())
-                : state.pins
-            }
+                pageContent: result,
+                pins: result.type === 'directory' && result.path === '/pins'
+                  ? result.content.map($ => $.cid.toString())
+                  : state.pins
+              }
             : state
 
           return {
@@ -96,22 +96,6 @@ const createFilesBundle = () => {
             }
           } else {
             return state
-          }
-        }
-        case ACTIONS.PINS_SIZE_GET: {
-          const { task, type } = action
-          const pinsSize = task.status === 'Exit' && task.result.ok
-            ? task.result.value.pinsSize
-            : 0
-
-          const numberOfPins = task.status === 'Exit' && task.result.ok
-            ? task.result.value.numberOfPins
-            : 0
-
-          return {
-            ...updateJob(state, task, type),
-            pinsSize,
-            numberOfPins
           }
         }
         case ACTIONS.SIZE_GET: {

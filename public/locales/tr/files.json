@@ -10,15 +10,16 @@
   "individualFilesOnly": "Yalnızca bireysel dosyalar için kullanılabilir",
   "noPDFSupport": "Tarayıcınız PDF'leri desteklemiyor. Görüntülemek için lütfen PDF'yi indirin:",
   "downloadPDF": "PDF İndir",
-  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
-  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
+  "openWithPublicGateway": "Bunun yerine <1>genel ağ geçidinizle</1> açmayı deneyin.",
+  "openWithLocalAndPublicGateway": "Bunun yerine  <1>yerel ağ geçidinizle</1> veya <3>genel ağ geçidinizle</3> açmayı deneyin.",
   "cantBePreviewed": "Maalesef bu dosya önizlenemiyor",
   "addByPath": "IPFS'den",
   "newFolder": "Yeni dosya",
   "generating": "Oluşturuluyor…",
   "actions": {
     "copyHash": "CID'yi kopyala",
-    "share": "Linki paylaş"
+    "share": "Linki paylaş",
+    "publishWithIpns": "Publish to IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "Bu komut yalnızca yerel sabitleme/sabitlemeyi kaldırma içindir. Bir uzaktan iğneleme hizmeti kullanmak istiyorsanız, komut satırını nasıl sabitleyeceğinizi/sabitlemeyi kaldıracağınızı öğrenmek için o hizmetin belgelerine bakın."
@@ -37,14 +38,15 @@
     "titleItem": "{count, plural, one {Ögeyi silmek istediğinizden emin misiniz? {name}} other {{count} ögeyi silmek istediğinizden emin misiniz?}}",
     "titleFolder": "{count, plural, one {Klasörü silmek istediğinizden emin misiniz? {name}} other {{count}klasörü silmek istediğinizden emin misiniz?}}",
     "titleFile": "{count, plural, one {Dosyayı silmek istediğinizden emin misiniz? {name}} other {{count}dosyayı silmek istediğinizden emin misiniz?}}",
-    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionItem": "{count, plural, one {Bu öğeyi kaldırmak istediğinizden emin misiniz? Artık Dosyalar ekranında görünmeyecek ve bir sonraki zamanlanmış temizlemede kalıcı olarak kaldırılacaktır (ancak diğer IPFS düğümlerinde kopyalar olabilir). Bu eylem ve geri alınamaz.} other {Bu {count} öğeyi kaldırmak istediğinizden emin misiniz? Artık Dosyalar ekranında görünmeyecek ve bir sonraki zamanlanmış temizlemede kalıcı olarak kaldırılacaktır (ancak diğer IPFS düğümlerinde kopyalar olabilir). Bu eylem ve geri alınamaz.}}",
+    "descriptionFolder": "{count, plural, one {Bu klasörü kaldırmak istediğinizden emin misiniz? Artık Dosyalar ekranında görünmeyecek ve bir sonraki zamanlanmış temizlemede kalıcı olarak kaldırılacaktır (ancak diğer IPFS düğümlerinde kopyalar olabilir). Bu işlem geri alınamaz.} other {Bu {count} klasörü kaldırmak istediğinizden emin misiniz? Artık Dosyalar ekranında görünmeyecek ve bir sonraki zamanlanmış temizlemede kalıcı olarak kaldırılacaktır (ancak diğer IPFS düğümlerinde kopyalar olabilir). Bu işlem geri alınamaz.}}",
+    "descriptionFile": "{count, plural, one {Bu dosyayı kaldırmak istediğinizden emin misiniz? Artık Dosyalar ekranında görünmeyecek ve bir sonraki zamanlanmış temizlemede kalıcı olarak kaldırılacaktır (ancak diğer IPFS düğümlerinde kopyalar olabilir). Bu işlem geri alınamaz.} other {Bu {count} dosyayı kaldırmak istediğinizden emin misiniz? Artık Dosyalar ekranında görünmeyecekler ve bir sonraki zamanlanmış temizlemede kalıcı olarak kaldırılacaklar (ancak diğer IPFS düğümlerinde kopyaları olabilir). Bu işlem geri alınamaz.}}",
     "checkboxRemoveLocalPin": "Yerel sabitlemeyi de kaldır (önerilen)",
     "checkboxUnpinFromServices": "Tüm sabitleme hizmetlerinden sabitlemeyi kaldır"
   },
   "pinningModal": {
     "title": "Bu öğeleri nereye sabitlemek istediğinizi seçin.",
+    "complianceLabel": "🔍 Check pinning services' compliance",
     "footer": "Bir sabitleme hizmeti eklemeniz veya yapılandırmanız mı gerekiyor? <1>Ayarlara</1> git.",
     "localNode": "Yerel düğüm",
     "totalSize": "Toplam boyut: {size}"
@@ -52,6 +54,8 @@
   "addByPathModal": {
     "title": "IPFS'den içe aktar",
     "description": "İçe aktarmak için bir IPFS yolu (CID) girin.",
+    "importPathPlaceholder": "Yol veya Müşteri Kimliği (gerekli)",
+    "namePlaceholder": "İsim (İsteğe bağlı)",
     "examples": "Örnekler:"
   },
   "newFolderModal": {
@@ -110,6 +114,16 @@
   "filesDescription": "Geçerli dizindeki toplam veri boyutu (bir alt dizin ise, Dosyalar'daki tüm verilerin boyutu da görüntülenir)",
   "more": "Daha fazla",
   "files": "Dosyalar",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
-  "sortBy": "Öğeleri {name}'a göre sırala"
+  "cidNotFileNorDir": "Geçerli bağlantı bir dosya veya dizin değil. Bunun yerine <1>incelemeyi</1> deneyin.",
+  "sortBy": "Öğeleri {name}'a göre sırala",
+  "publishModal": {
+    "title": "Publish to IPNS",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Select key for publishing:",
+    "help": "Go to Settings to learn about IPNS and create more keys.",
+    "publishedUnderKey": "Successfully published under the key:",
+    "linkCopied": "Link copied!",
+    "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
+    "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
+  }
 }

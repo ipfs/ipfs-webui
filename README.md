@@ -8,10 +8,9 @@
 
 | Files | Explore | Peers | Settings |
 |-------|---------|-------|----------|
-| ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) | 
+| ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) |
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/badge/freenode-%23ipfs-blue.svg)](http://webchat.freenode.net/?channels=%23ipfs) [![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://www.transifex.com/ipfs/ipfs-webui/)
-
+[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://www.transifex.com/ipfs/ipfs-webui/) [![](https://img.shields.io/badge/matrix%20chat-%23lobby:ipfs.io-blue.svg?style=flat-square)](https://matrix.to/#/#lobby:ipfs.io)
 
 The [latest release version](https://github.com/ipfs/ipfs-webui/releases/latest) is always at https://webui.ipfs.io, and the preview of `main` branch is at https://dev.webui.ipfs.io.
 
@@ -23,11 +22,16 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 
 ## Install
 
-With `node` >= 10 and `npm` >= 6.4.1 installed, run
+With a supported Node.js version: [![](https://byob.yarr.is/ipfs/ipfs-webui/node-12.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/ipfs/ipfs-webui/node-14.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/ipfs/ipfs-webui/node-16.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/ipfs/ipfs-webui/node-18.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
 
 ```sh
 > npm install
 ```
+
+#### A Note on NodeJS support
+We aim to support ipfs-webui development and build with  "Current" and "Active LTS"  Nodejs versions.
+
+See <https://nodejs.org/en/about/releases/> for more information about which versions have which release statuses.
 
 ## Usage
 
@@ -136,7 +140,7 @@ Make sure `npm run build` is run before starting E2E tests:
 
 ```sh
 > npm run build
-> npm run test:e2e # end-to-end smoke tests (fast, headless, use go-ipfs)
+> npm run test:e2e # end-to-end smoke tests (fast, headless, use Kubo (go-ipfs))
 ```
 
 ### Customizing E2E Tests
@@ -158,7 +162,7 @@ CI setup of ipfs-webui repo runs tests against both JS and GO implementations:
 
 It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
  and `go-ipfs` in `devDependencies` section of `package.json` and applying the change via `npm i`
- 
+
 One can also override the binary used in e2e tests by providing a path to an alternative one via `IPFS_GO_EXEC` (or `IPFS_JS_EXEC`):
 
 ```sh
@@ -205,26 +209,20 @@ By default, the test run headless, so you won't see the browser. To debug test e
 To disable headless mode and see the browser, set the environment variable `DEBUG=true`:
 
 ```sh
-> DEBUG=true npm run test:e2e # e2e in slowed down mode in a browser window
+> DEBUG=true npm run test:e2e # will show a browser window
+```
+
+To build and run e2e only for a specific test script, pass its name:
+
+```sh
+> npm run build && npm run test:e2e -- --grep "Settings"
 ```
 
 #### Breakpoints
 
-It is possible to set a "breakpoint" via `await jestPuppeteer.debug()` to stop tests at a specific line:
+It is possible to set a "breakpoint" via `await page.pause()` to stop tests at a specific line.
 
-```js
-jest.setTimeout(600000) // increase test suite timeout
-await jestPuppeteer.debug() // puppeteer will pause here
-```
-
-In a **continuous integration** environment we lint the code, run the unit tests, build the app, start an http server and run the unit e2e tests:
-
-```sh
-> npm run lint
-> npm test
-> npm run build
-> npm run test:e2e
-```
+Read more at <https://playwright.dev/docs/debug#using-pagepause>
 
 ## Coverage
 
@@ -263,17 +261,29 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 
 ## Releasing
 
-1. Run `tx pull -af` to pull the latest translations from Transifex ([i18n#transifex-101)](https://github.com/ipfs-shipyard/i18n#transifex-101))
+1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true) is [successful](https://github.com/ipfs/ipfs-webui/runs/7121497704?check_suite_focus=true) or [fails because there are no updates](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true).
+1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
+1. Manually dispatch [ci.yml](https://github.com/ipfs/ipfs-webui/actions/workflows/ci.yml) workflow on `main` branch. This will create a new release. 
+1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
+   - ~js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5~
+      - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730
+   - Kubo: https://github.com/ipfs/kubo/blob/master/core/corehttp/webui.go#L4
+   - IPFS Desktop: https://github.com/ipfs/ipfs-desktop/blob/main/package.json#L20
+
+<!-- DEPRECATED STEPS as of https://github.com/ipfs/ipfs-webui/releases/tag/v2.16.0. Leaving only for posterity: 
+1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true) is [successful](https://github.com/ipfs/ipfs-webui/runs/7121497704?check_suite_focus=true) or [fails because there are no updates](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true).
 1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
 1. Commit changes and ensure everything is merged into `main` branch
 1. Update the version (`npm version [major|minor|patch]`, it will create a new tag `vN.N.N`, note it down)
 1. Push `main` branch and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
 1. Wait for `vN.N.N` to [build on CI](https://github.com/ipfs/ipfs-webui/actions), and grab the CID produced from the tagged commit
-1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created 
+1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created
 1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
-   - js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5
-   - go-ipfs: https://github.com/ipfs/go-ipfs/blob/master/core/corehttp/webui.go#L4
-   - ipfs-desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
+   - ~js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5~
+      - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730
+   - Kubo: https://github.com/ipfs/kubo/blob/master/core/corehttp/webui.go#L4
+   - IPFS Desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
+-->
 
 ## Contribute
 

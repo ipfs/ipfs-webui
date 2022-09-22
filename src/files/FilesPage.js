@@ -16,14 +16,14 @@ import FilesList from './files-list/FilesList'
 import { getJoyrideLocales } from '../helpers/i8n'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING } from './modals/Modals'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals'
 import Header from './header/Header'
 import FileImportStatus from './file-import-status/FileImportStatus'
 
 const FilesPage = ({
-  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesWrite, doFilesAddPath, doUpdateHash,
+  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath,
-  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick,
+  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
   const contextMenuRef = useRef()
@@ -50,31 +50,51 @@ const FilesPage = ({
     }
   }, [ipfsConnected, filesPathInfo, doFilesFetch])
 
+  /* TODO: uncomment below if we ever want automatic remote pin check
+  *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)
   useEffect(() => {
-    if (pinningServices.some(service => service.online)) {
-      files && files.content && doFetchRemotePins(files.content)
-    }
+    files && files.content && doFetchRemotePins(files.content)
   }, [files, pinningServices, doFetchRemotePins])
+  */
 
   const onDownload = async (files) => {
     if (downloadProgress !== null) {
       return downloadAbort()
     }
 
-    const updater = (v) => setDownloadProgress(v)
     const { url, filename, method } = await doFilesDownloadLink(files)
-    const { abort } = await downloadFile(url, filename, updater, method)
-    setDownloadAbort(() => abort)
+
+    if (method === 'GET') {
+      const link = document.createElement('a')
+      link.href = url
+      link.click()
+    } else {
+      const updater = (v) => setDownloadProgress(v)
+      const { abort } = await downloadFile(url, filename, updater, method)
+      setDownloadAbort(() => abort)
+    }
   }
+
+  const onDownloadCar = async (files) => {
+    if (downloadProgress !== null) {
+      return downloadAbort()
+    }
+
+    const url = await doFilesDownloadCarLink(files)
+    const link = document.createElement('a')
+    link.href = url
+    link.click()
+  }
+
   const onAddFiles = (raw, root = '') => {
     if (root === '') root = files.path
 
     doFilesWrite(raw, root)
   }
 
-  const onAddByPath = (path) => doFilesAddPath(files.path, path)
+  const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
   const onInspect = (cid) => doUpdateHash(`/explore/ipfs/${cid}`)
-  const showModal = (modal, files = null) => setModals({ show: modal, files: files })
+  const showModal = (modal, files = null) => setModals({ show: modal, files })
   const hideModal = () => setModals({})
   const handleContextMenu = (ev, clickType, file, pos) => {
     // This is needed to disable the native OS right-click menu
@@ -201,7 +221,9 @@ const FilesPage = ({
         onRename={() => showModal(RENAME, [contextMenu.file])}
         onInspect={() => onInspect(contextMenu.file.cid)}
         onDownload={() => onDownload([contextMenu.file])}
+        onDownloadCar={() => onDownloadCar([contextMenu.file])}
         onPinning={() => showModal(PINNING, [contextMenu.file])}
+        onPublish={() => showModal(PUBLISH, [contextMenu.file])}
         isCliTutorModeEnabled={isCliTutorModeEnabled}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
         doSetCliOptions={doSetCliOptions}
@@ -232,6 +254,7 @@ const FilesPage = ({
         onRemove={doFilesDelete}
         onAddByPath={onAddByPath}
         onPinningSet={doSetPinning}
+        onPublish={doPublishIpnsKey}
         cliOptions={cliOptions}
         { ...modals } />
 
@@ -273,6 +296,7 @@ export default connect(
   'selectToursEnabled',
   'doFilesWrite',
   'doFilesDownloadLink',
+  'doFilesDownloadCarLink',
   'doExploreUserProvidedPath',
   'doFilesSizeGet',
   'selectIsCliTutorModeEnabled',
@@ -281,5 +305,6 @@ export default connect(
   'doSetCliOptions',
   'selectCliOptions',
   'doSetPinning',
+  'doPublishIpnsKey',
   withTour(withTranslation('files')(FilesPage))
 )

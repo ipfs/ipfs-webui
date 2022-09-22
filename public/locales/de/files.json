@@ -10,15 +10,16 @@
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
   "noPDFSupport": "Dein Browser unterstützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen:",
   "downloadPDF": "PDF herunterladen",
-  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
-  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
+  "openWithPublicGateway": "Versuche es stattdessen mit Deinem <1>öffentlichen Gateway</1> zu öffnen.",
+  "openWithLocalAndPublicGateway": "Versuche es stattdessen mit Deinem <1>lokalen Gateway</1> oder <3>öffentlichen Gateway</3> zu öffnen.",
   "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",
   "addByPath": "Aus IPFS",
   "newFolder": "Neuer Ordner",
   "generating": "Erstelle…",
   "actions": {
     "copyHash": "CID kopieren",
-    "share": "Link teilen"
+    "share": "Link teilen",
+    "publishWithIpns": "Im IPNS veröffentlichen"
   },
   "cliModal": {
     "extraNotesPinning": "Dieser Befehl ist nur zum lokalen Anheften/Loslösen vorgesehen. Wenn du einen Remote-Pinning-Dienst verwenden möchten, lies die Dokumentation dieses Dienstes, um zu erfahren, wie du über die Kommandozeile etwas anheften/loslösen kannst."
@@ -45,6 +46,7 @@
   },
   "pinningModal": {
     "title": "Wähle aus, wo du diese Elemente anheften möchtest.",
+    "complianceLabel": "Prüfe die Compliance vom Pinning-Service",
     "footer": "Du möchtest einen Pinning-Dienst hinzufügen oder konfigurieren? Gehe zu <1>Einstellungen</1>.",
     "localNode": "Lokaler Knoten",
     "totalSize": "Gesamtgröße: {size}"
@@ -52,6 +54,8 @@
   "addByPathModal": {
     "title": "Aus IPFS importieren",
     "description": "Gib einen IPFS Pfad (CID) zum Importieren ein.",
+    "importPathPlaceholder": "Pfad oder CID (erforderlich)",
+    "namePlaceholder": "Name (optional)",
     "examples": "Beispiele:"
   },
   "newFolderModal": {
@@ -69,7 +73,7 @@
     "closeDropdown": "Dropdown schließen",
     "count": "{count} von {count}"
   },
-  "addFilesInfo": "<0>Noch keine Dateien vorhanden! Füge Dateien zu deinem IPFS-Node hinzu, indem du oben auf die Schaltfläche <1>\"Importieren\"</1> klickst.</0>",
+  "addFilesInfo": "<0>Noch keine Dateien vorhanden! Füge Dateien zu deinem IPFS-Knoten hinzu, indem du oben auf die Schaltfläche <1>\"Importieren\"</1> klickst.</0>",
   "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>",
   "tour": {
     "step1": {
@@ -110,6 +114,16 @@
   "filesDescription": "Gesamtgröße der Daten im aktuellen Verzeichnis (wenn es sich um ein Unterverzeichnis handelt, wird auch die Größe aller Daten in Dateien angezeigt)",
   "more": "Mehr",
   "files": "Dateien",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
-  "sortBy": "Sortieren nach {name}"
+  "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <1>untersuchen</1>.",
+  "sortBy": "Sortieren nach {name}",
+  "publishModal": {
+    "title": "Im IPNS veröffentlichen",
+    "cidToPublish": "CID:",
+    "publishUnderKey": "Wähle Schlüssel zum Veröffentlichen:",
+    "help": "Gehe zu den Einstellungen um über IPNS zu lernen und erstelle mehr Schlüssel.",
+    "publishedUnderKey": "Erfolgreich unter dem Schlüssel veröffentlicht:",
+    "linkCopied": "Link kopiert!",
+    "sharingPrompt": "Kopieren den untenstehenden Link und teile ihn mit anderen. Die IPNS-Adresse wird aufgelöst, so lange dein Node mindestes ein Mal täglich im Netzwerk verfügbar ist, um den IPNS-Record zu erneuern.",
+    "pleaseWait": "Bitte warte solange die initialen 20 Kopien des geänderten IPNS-Records mit der Hilfe von DHT-Peers gespeichert wurde ..."
+  }
 }

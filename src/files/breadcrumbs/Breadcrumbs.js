@@ -123,7 +123,7 @@ function makeBread (root, t, isImmutable, setImmutable) {
     const name = parts[i].name
 
     parts[i] = {
-      name: name,
+      name,
       path: parts[i - 1].path + '/' + parts[i].path
     }
 

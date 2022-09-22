@@ -27,15 +27,18 @@
     "setPinning": "设置固定",
     "submit": "提交",
     "unpin": "撤销固定",
-    "unselectAll": "全部取消选择"
+    "unselectAll": "全部取消选择",
+    "generate": "生成",
+    "publish": "发布",
+    "downloadCar": "下载CAR文件",
+    "done": "完成"
   },
   "cliModal": {
     "description": "将以下内容粘贴到您的IPFS终端使用命令行来完成任务。请谨记您需要使用您自己的参数来替换掉占位符"
   },
   "nav": {
     "bugsLink": "报告 bug",
-    "codeLink": "查看源码",
-    "revision": "修订"
+    "codeLink": "查看源码"
   },
   "status": {
     "connectedToIpfs": "已连接到 IPFS",
@@ -73,6 +76,7 @@
     "out": "发送",
     "peer": "节点",
     "peerId": "节点 ID",
+    "id": "ID",
     "peers": "节点",
     "pinNoun": "固定",
     "pins": "已固定",
@@ -87,7 +91,8 @@
     "totalOut": "总共发送",
     "unknown": "未知",
     "ui": "UI 版本",
-    "upSpeed": "发送"
+    "upSpeed": "发送",
+    "revision": "修订版本"
   },
   "tour": {
     "back": "返回",
