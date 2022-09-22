@@ -24,7 +24,7 @@ const pinningServiceTemplates = [
     name: 'Crust Pinner',
     icon: 'http://dweb.link/ipfs/QmRf1sssyxJqr4unHd7PP2pSSmYvaKT2ajoFHhMTpzKocu?filename=crust.svg',
     apiEndpoint: 'https://pin.crustcode.com/psa',
-    visitServiceUrl: 'https://wiki.crust.network/docs/en/buildIPFSW3AuthPin'
+    visitServiceUrl: 'https://crustfiles.io/docs/CrustFiles_DeveloperGuide/'
   },
   {
     name: 'Pinata',
