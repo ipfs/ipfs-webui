@@ -60,7 +60,7 @@ jobs:
       # see: https://github.com/ipfs-shipyard/ipfs-github-action
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
-          name: go-ipfs
+          name: kubo
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
           name: ipfs-cluster-ctl

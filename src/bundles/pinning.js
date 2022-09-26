@@ -36,7 +36,7 @@ const mfsPolicyEnableFlag = memoize(async (serviceName, ipfs) => {
     return await ipfs.config.get(`Pinning.RemoteServices.${serviceName}.Policies.MFS.Enable`)
   } catch (e) {
     if (e.message?.includes('key has no attribute')) {
-      try { // retry with notation from https://github.com/ipfs/go-ipfs/pull/8096
+      try { // retry with notation from https://github.com/ipfs/kubo/pull/8096
         return await ipfs.config.get(`Pinning.RemoteServices["${serviceName}"].Policies.MFS.Enable`)
       } catch (_) {}
     }
@@ -129,7 +129,7 @@ const pinningBundle = {
           const notPins = new Set(cidsToCheck.map(cid => cid.toString()))
           try {
             /* TODO: wrap pin.remote.*calls with progressive backoff when response Type == "error" and Message includes "429 Too Many Requests"
-            *  and see if we could make go-ipfs include Retry-After header in payload description for this type of error */
+            *  and see if we could make kubo include Retry-After header in payload description for this type of error */
             const pins = ipfs.pin.remote.ls({ service: service.name, cid: cidsToCheck.map(cid => new CID(cid)) })
             for await (const pin of pins) {
               const pinCid = pin.cid.toString()
