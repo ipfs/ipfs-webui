@@ -1,34 +1,8 @@
 diff --git a/node_modules/multiaddr/src/protocols-table.js b/node_modules/multiaddr/src/protocols-table.js
-index 4578e43..caf622b 100644
+index 4578e43..840f7b2 100644
 --- a/node_modules/multiaddr/src/protocols-table.js
 +++ b/node_modules/multiaddr/src/protocols-table.js
-@@ -28,19 +28,20 @@ Protocols.table = [
-   [33, 16, 'dccp'],
-   [41, 128, 'ip6'],
-   [42, V, 'ip6zone'],
--  [53, V, 'dns', 'resolvable'],
--  [54, V, 'dns4', 'resolvable'],
--  [55, V, 'dns6', 'resolvable'],
--  [56, V, 'dnsaddr', 'resolvable'],
-+  [53, V, 'dns', true],
-+  [54, V, 'dns4', true],
-+  [55, V, 'dns6', true],
-+  [56, V, 'dnsaddr', true],
-   [132, 16, 'sctp'],
-   [273, 16, 'udp'],
-   [275, 0, 'p2p-webrtc-star'],
-   [276, 0, 'p2p-webrtc-direct'],
-   [277, 0, 'p2p-stardust'],
-+  [280, 0, 'webrtc'],
-   [290, 0, 'p2p-circuit'],
-   [301, 0, 'udt'],
-   [302, 0, 'utp'],
--  [400, V, 'unix', false, 'path'],
-+  [400, V, 'unix', false, true],
-   // `ipfs` is added before `p2p` for legacy support.
-   // All text representations will default to `p2p`, but `ipfs` will
-   // still be supported
-@@ -52,6 +53,8 @@ Protocols.table = [
+@@ -52,6 +52,8 @@ Protocols.table = [
    [445, 296, 'onion3'],
    [446, V, 'garlic64'],
    [460, 0, 'quic'],
