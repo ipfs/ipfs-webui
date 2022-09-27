@@ -1,40 +1,40 @@
-import React, { Fragment, useEffect, useState, useMemo, useRef } from 'react';
-import { connect } from 'redux-bundler-react';
-import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized';
-import { sortByProperty } from '../../lib/sort';
+import React, { Fragment, useEffect, useState, useMemo, useRef } from 'react'
+import { connect } from 'redux-bundler-react'
+import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
+import { sortByProperty } from '../../lib/sort'
 // Components
-import Button from '../button/Button';
-import Overlay from '../overlay/Overlay';
-import PinningModal from './pinning-manager-modal/PinningManagerModal';
-import AutoUploadModal from './auto-upload-modal/AutoUploadModal';
-import GlyphPin from '../../icons/GlyphPin';
-import ContextMenu from '../context-menu/ContextMenu';
-import ContextMenuItem from '../context-menu/ContextMenuItem';
-import GlyphDots from '../../icons/GlyphDots';
-import StrokeCancel from '../../icons/StrokeCancel';
-import StrokeExternalLink from '../../icons/StrokeExternalLink';
-import StrokeCloud from '../../icons/StrokeCloud';
-import './PinningManager.css';
-const ROW_HEIGHT = 50;
-const HEADER_HEIGHT = 32;
+import Button from '../button/Button'
+import Overlay from '../overlay/Overlay'
+import PinningModal from './pinning-manager-modal/PinningManagerModal'
+import AutoUploadModal from './auto-upload-modal/AutoUploadModal'
+import GlyphPin from '../../icons/GlyphPin'
+import ContextMenu from '../context-menu/ContextMenu'
+import ContextMenuItem from '../context-menu/ContextMenuItem'
+import GlyphDots from '../../icons/GlyphDots'
+import StrokeCancel from '../../icons/StrokeCancel'
+import StrokeExternalLink from '../../icons/StrokeExternalLink'
+import StrokeCloud from '../../icons/StrokeCloud'
+import './PinningManager.css'
+const ROW_HEIGHT = 50
+const HEADER_HEIGHT = 32
 export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesSupported, doFetchPinningServices, doFetchPinningServicesStats, doFetchLocalPinsStats, doRemovePinningService, localPinsSize, localNumberOfPins, t }) => {
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [isToggleModalOpen, setToggleModalOpen] = useState(false);
-    const onModalOpen = () => setModalOpen(true);
-    const onModalClose = () => setModalOpen(false);
-    const onToggleModalOpen = (name) => setToggleModalOpen(name);
-    const onToggleModalClose = () => setToggleModalOpen(false);
-    const [sortSettings, setSortSettings] = useState({
-        sortBy: 'addedAt',
-        sortDirection: SortDirection.ASC
-    });
-    useEffect(() => {
-        ipfsReady && doFetchPinningServices() && doFetchPinningServicesStats() && doFetchLocalPinsStats();
-    }, [ipfsReady, doFetchPinningServices, doFetchPinningServicesStats, doFetchLocalPinsStats]);
-    const localPinning = useMemo(() => ({ name: t('localPinning'), type: 'LOCAL', totalSize: localPinsSize, numberOfPins: localNumberOfPins }), [localNumberOfPins, localPinsSize, t]);
-    const sortedServices = useMemo(() => (pinningServices || []).sort(sortByProperty(sortSettings.sortBy, sortSettings.sortDirection === SortDirection.ASC ? 1 : -1)), [pinningServices, sortSettings.sortBy, sortSettings.sortDirection]);
-    const sortedList = useMemo(() => [localPinning, ...sortedServices], [localPinning, sortedServices]);
-    return (<Fragment>
+  const [isModalOpen, setModalOpen] = useState(false)
+  const [isToggleModalOpen, setToggleModalOpen] = useState(false)
+  const onModalOpen = () => setModalOpen(true)
+  const onModalClose = () => setModalOpen(false)
+  const onToggleModalOpen = (name) => setToggleModalOpen(name)
+  const onToggleModalClose = () => setToggleModalOpen(false)
+  const [sortSettings, setSortSettings] = useState({
+    sortBy: 'addedAt',
+    sortDirection: SortDirection.ASC
+  })
+  useEffect(() => {
+    ipfsReady && doFetchPinningServices() && doFetchPinningServicesStats() && doFetchLocalPinsStats()
+  }, [ipfsReady, doFetchPinningServices, doFetchPinningServicesStats, doFetchLocalPinsStats])
+  const localPinning = useMemo(() => ({ name: t('localPinning'), type: 'LOCAL', totalSize: localPinsSize, numberOfPins: localNumberOfPins }), [localNumberOfPins, localPinsSize, t])
+  const sortedServices = useMemo(() => (pinningServices || []).sort(sortByProperty(sortSettings.sortBy, sortSettings.sortDirection === SortDirection.ASC ? 1 : -1)), [pinningServices, sortSettings.sortBy, sortSettings.sortDirection])
+  const sortedList = useMemo(() => [localPinning, ...sortedServices], [localPinning, sortedServices])
+  return (<Fragment>
       <div className="mv4 pinningManager">
         <div className='ph1 ph3-l flex items-center bg-white lh-copy charcoal f6 fw5'>
           <AutoSizer disableHeight>
@@ -56,38 +56,38 @@ export const PinningManager = ({ pinningServices, ipfsReady, arePinningServicesS
 
       <Overlay show={isToggleModalOpen} onLeave={onToggleModalClose}>
         <AutoUploadModal className='outline-0' onLeave={() => {
-            onToggleModalClose();
-            doFetchPinningServices();
-            doFetchPinningServicesStats();
+          onToggleModalClose()
+          doFetchPinningServices()
+          doFetchPinningServicesStats()
         }} t={t} name={isToggleModalOpen} service={sortedServices.find(s => s.name === isToggleModalOpen)}/>
       </Overlay>
 
       <Overlay show={isModalOpen} onLeave={onModalClose}>
         <PinningModal className='outline-0' onLeave={() => {
-            onModalClose();
-            doFetchPinningServices();
-            doFetchPinningServicesStats();
+          onModalClose()
+          doFetchPinningServices()
+          doFetchPinningServicesStats()
         }} t={t}/>
       </Overlay>
-    </Fragment>);
-};
+    </Fragment>)
+}
 PinningManager.defaultProps = {
-    pinningServices: []
-};
-const serviceOnline = (s) => (s.type === 'LOCAL' || s.online);
+  pinningServices: []
+}
+const serviceOnline = (s) => (s.type === 'LOCAL' || s.online)
 const Icon = ({ rowData, index }) => {
-    const colors = ['aqua', 'link', 'yellow', 'teal', 'red', 'green', 'navy', 'gray', 'charcoal'];
-    const color = colors[index % colors.length];
-    const iconClass = `mr2 pr1 fill-${color} flex-shrink-0`;
-    if (rowData.icon) {
-        return <img src={rowData.icon} alt={rowData.name} width="28" height="28" className={iconClass} style={{ objectFit: 'contain' }}/>;
-    }
-    return <GlyphPin width="28" height="28" className={iconClass}/>;
-};
+  const colors = ['aqua', 'link', 'yellow', 'teal', 'red', 'green', 'navy', 'gray', 'charcoal']
+  const color = colors[index % colors.length]
+  const iconClass = `mr2 pr1 fill-${color} flex-shrink-0`
+  if (rowData.icon) {
+    return <img src={rowData.icon} alt={rowData.name} width="28" height="28" className={iconClass} style={{ objectFit: 'contain' }}/>
+  }
+  return <GlyphPin width="28" height="28" className={iconClass}/>
+}
 const ServiceCell = ({ rowData, rowIndex }) => (<div className='flex items-center' title={rowData.name}>
     <Icon rowData={rowData} index={rowIndex}/>
     <span className={serviceOnline(rowData) ? 'truncate' : 'truncate red'}>{rowData.name}</span>
-  </div>);
+  </div>)
 // const SizeCell = ({ rowData, t }) => (
 //   <p className={ !rowData.totalSize ? 'gray nowrap' : 'nowrap'}>{ !rowData.totalSize
 //     ? `${(t('app:terms:loading'))}...`
@@ -96,24 +96,24 @@ const ServiceCell = ({ rowData, rowIndex }) => (<div className='flex items-cente
 //     })}</p>
 // )
 const NumberOfPinsCell = ({ rowData, t }) => {
-    if (rowData.numberOfPins < 0) {
-        return <div className='red help' title={t('errors.failedToFetchTitle')}>{t('errors.failedToFetch')}</div>;
-    }
-    return <div className={rowData.numberOfPins >= 0 ? '' : 'gray'}>{rowData.numberOfPins >= 0 ? rowData.numberOfPins : `${(t('app:terms:loading'))}...`}</div>;
-};
+  if (rowData.numberOfPins < 0) {
+    return <div className='red help' title={t('errors.failedToFetchTitle')}>{t('errors.failedToFetch')}</div>
+  }
+  return <div className={rowData.numberOfPins >= 0 ? '' : 'gray'}>{rowData.numberOfPins >= 0 ? rowData.numberOfPins : `${(t('app:terms:loading'))}...`}</div>
+}
 const AutoUploadCell = ({ autoUpload, visitServiceUrl, name, doRemovePinningService, t, type, onToggleModalOpen }) => (<div className="flex justify-between items-center">
     <div className={!autoUpload ? 'gray' : ''}>{typeof autoUpload !== 'undefined' ? t('autoUploadPolicy.' + autoUpload) : '-'}</div>
     {type !== 'LOCAL' && <OptionsCell doRemovePinningService={doRemovePinningService} name={name} t={t} onToggleModalOpen={onToggleModalOpen} autoUpload={autoUpload} visitServiceUrl={visitServiceUrl}/>}
-  </div>);
+  </div>)
 const OptionsCell = ({ doRemovePinningService, name, visitServiceUrl, autoUpload, t, onToggleModalOpen }) => {
-    const buttonRef = useRef();
-    const [isContextVisible, setContextVisibility] = useState(false);
-    const handleRemove = () => {
-        doRemovePinningService(name);
-        setContextVisibility(false);
-    };
-    const showAutoUpload = !name.includes('.'); // temporary mitigation for https://github.com/ipfs/ipfs-webui/issues/1770
-    return (<div>
+  const buttonRef = useRef()
+  const [isContextVisible, setContextVisibility] = useState(false)
+  const handleRemove = () => {
+    doRemovePinningService(name)
+    setContextVisibility(false)
+  }
+  const showAutoUpload = !name.includes('.') // temporary mitigation for https://github.com/ipfs/ipfs-webui/issues/1770
+  return (<div>
       <button className="button-inside-focus" onClick={() => setContextVisibility(true)} ref={buttonRef} aria-label={t('showOptions')}>
         <GlyphDots width={24} className='fill-gray-muted hover-fill-gray transition-all'/>
       </button>
@@ -130,6 +130,6 @@ const OptionsCell = ({ doRemovePinningService, name, visitServiceUrl, autoUpload
           <StrokeCancel width="28" className='fill-aqua'/> <span className="ph1">{t('remove')}</span>
         </ContextMenuItem>
       </ContextMenu>
-    </div>);
-};
-export default connect('selectIpfsReady', 'selectLocalPinsSize', 'selectLocalNumberOfPins', 'selectPinningServices', 'selectArePinningServicesSupported', 'doFetchPinningServices', 'doFetchPinningServicesStats', 'doFetchLocalPinsStats', 'doRemovePinningService', PinningManager);
+    </div>)
+}
+export default connect('selectIpfsReady', 'selectLocalPinsSize', 'selectLocalNumberOfPins', 'selectPinningServices', 'selectArePinningServicesSupported', 'doFetchPinningServices', 'doFetchPinningServicesStats', 'doFetchLocalPinsStats', 'doRemovePinningService', PinningManager)

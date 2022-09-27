@@ -1,46 +1,48 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown';
-import StrokeCopy from '../../icons/StrokeCopy';
-import StrokeShare from '../../icons/StrokeShare';
-import StrokeSpeaker from '../../icons/StrokeSpeaker';
-import StrokePencil from '../../icons/StrokePencil';
-import StrokeIpld from '../../icons/StrokeIpld';
-import StrokeTrash from '../../icons/StrokeTrash';
-import StrokeDownload from '../../icons/StrokeDownload';
-import StrokeData from '../../icons/StrokeData';
-import StrokePin from '../../icons/StrokePin';
-import { cliCmdKeys } from '../../bundles/files/consts';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withTranslation } from 'react-i18next'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
+import StrokeCopy from '../../icons/StrokeCopy'
+import StrokeShare from '../../icons/StrokeShare'
+import StrokeSpeaker from '../../icons/StrokeSpeaker'
+import StrokePencil from '../../icons/StrokePencil'
+import StrokeIpld from '../../icons/StrokeIpld'
+import StrokeTrash from '../../icons/StrokeTrash'
+import StrokeDownload from '../../icons/StrokeDownload'
+import StrokeData from '../../icons/StrokeData'
+import StrokePin from '../../icons/StrokePin'
+import { cliCmdKeys } from '../../bundles/files/consts'
 class ContextMenu extends React.Component {
-    constructor(props) {
-        super(props);
-        this.dropdownMenuRef = React.createRef();
+  constructor (props) {
+    super(props)
+    this.dropdownMenuRef = React.createRef()
+  }
+
+  state = {
+    dropdown: false
+  }
+
+  wrap = (name, cliOptions) => () => {
+    if (name === 'onCliTutorMode' && cliOptions) {
+      this.props.doSetCliOptions(cliOptions)
     }
-    state = {
-        dropdown: false
-    };
-    wrap = (name, cliOptions) => () => {
-        if (name === 'onCliTutorMode' && cliOptions) {
-            this.props.doSetCliOptions(cliOptions);
-        }
-        this.props.handleClick();
-        this.props[name]();
-    };
-    componentDidUpdate() {
-        if (this.props.autofocus && this.props.isOpen) {
-            if (!this.dropdownMenuRef.current)
-                return;
-            const firstButton = this.dropdownMenuRef.current.querySelector('button');
-            if (!firstButton)
-                return;
-            firstButton.focus();
-        }
+    this.props.handleClick()
+    this.props[name]()
+  }
+
+  componentDidUpdate () {
+    if (this.props.autofocus && this.props.isOpen) {
+      if (!this.dropdownMenuRef.current) { return }
+      const firstButton = this.dropdownMenuRef.current.querySelector('button')
+      if (!firstButton) { return }
+      firstButton.focus()
     }
-    render() {
-        const { t, onRename, onRemove, onDownload, onInspect, onShare, onDownloadCar, onPublish, translateX, translateY, className, isMfs, isUnknown, isCliTutorModeEnabled } = this.props;
-        return (<Dropdown className={className}>
+  }
+
+  render () {
+    const { t, onRename, onRemove, onDownload, onInspect, onShare, onDownloadCar, onPublish, translateX, translateY, className, isMfs, isUnknown, isCliTutorModeEnabled } = this.props
+    return (<Dropdown className={className}>
         <DropdownMenu ref={this.dropdownMenuRef} top={-8} arrowMarginRight='11px' left='calc(100% - 200px)' translateX={-translateX} translateY={-translateY} open={this.props.isOpen} onDismiss={this.props.handleClick}>
           {onShare &&
                 <Option onClick={this.wrap('onShare')}>
@@ -88,40 +90,40 @@ class ContextMenu extends React.Component {
               {t('actions.publishWithIpns')}
             </Option>}
         </DropdownMenu>
-      </Dropdown>);
-    }
+      </Dropdown>)
+  }
 }
 ContextMenu.propTypes = {
-    isMfs: PropTypes.bool.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    isUnknown: PropTypes.bool.isRequired,
-    hash: PropTypes.string,
-    pinned: PropTypes.bool,
-    handleClick: PropTypes.func,
-    translateX: PropTypes.number.isRequired,
-    translateY: PropTypes.number.isRequired,
-    left: PropTypes.number.isRequired,
-    onRemove: PropTypes.func,
-    onRename: PropTypes.func,
-    onDownload: PropTypes.func,
-    onDownloadCar: PropTypes.func,
-    onInspect: PropTypes.func,
-    onShare: PropTypes.func,
-    onPublish: PropTypes.func,
-    className: PropTypes.string,
-    t: PropTypes.func.isRequired,
-    tReady: PropTypes.bool.isRequired,
-    autofocus: PropTypes.bool
-};
+  isMfs: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  isUnknown: PropTypes.bool.isRequired,
+  hash: PropTypes.string,
+  pinned: PropTypes.bool,
+  handleClick: PropTypes.func,
+  translateX: PropTypes.number.isRequired,
+  translateY: PropTypes.number.isRequired,
+  left: PropTypes.number.isRequired,
+  onRemove: PropTypes.func,
+  onRename: PropTypes.func,
+  onDownload: PropTypes.func,
+  onDownloadCar: PropTypes.func,
+  onInspect: PropTypes.func,
+  onShare: PropTypes.func,
+  onPublish: PropTypes.func,
+  className: PropTypes.string,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired,
+  autofocus: PropTypes.bool
+}
 ContextMenu.defaultProps = {
-    isMfs: false,
-    isOpen: false,
-    isUnknown: false,
-    top: 0,
-    left: 0,
-    right: 'auto',
-    translateX: 0,
-    translateY: 0,
-    className: ''
-};
-export default withTranslation('files', { withRef: true })(ContextMenu);
+  isMfs: false,
+  isOpen: false,
+  isUnknown: false,
+  top: 0,
+  left: 0,
+  right: 'auto',
+  translateX: 0,
+  translateY: 0,
+  className: ''
+}
+export default withTranslation('files', { withRef: true })(ContextMenu)

@@ -1,1 +1,1 @@
-export { default } from "stream-browserify";
+export { default } from 'stream-browserify'

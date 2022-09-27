@@ -1,17 +1,17 @@
-import React from 'react';
-import { withTranslation } from 'react-i18next';
+import React from 'react'
+import { withTranslation } from 'react-i18next'
 // Components
-import GlyphDots from '../../icons/GlyphDots';
-import Checkbox from '../../components/checkbox/Checkbox';
-import FileIcon from '../../files/file-icon/FileIcon';
+import GlyphDots from '../../icons/GlyphDots'
+import Checkbox from '../../components/checkbox/Checkbox'
+import FileIcon from '../../files/file-icon/FileIcon'
 // Styles
-import './LoadingAnimation.css';
+import './LoadingAnimation.css'
 const FakeHeader = ({ t }) => (<header className='gray pv2 flex items-center flex-none'>
     <div className='pa2 w2'><Checkbox disabled/></div>
     <div className='ph2 f6 flex-auto'>{t('app:terms.name')}</div>
     <div className='pl2 pr4 tr f6 flex-none dn db-l'>{t('app:terms.size')}</div>
     <div className='pa2' style={{ width: '2.5rem' }}/>
-  </header>);
+  </header>)
 const FakeFile = ({ nameWidth }) => (<div className='b--light-gray relative flex items-center bt' style={{ height: 55 }}>
     <div className='pa2 w2'>
       <Checkbox disabled/>
@@ -29,7 +29,7 @@ const FakeFile = ({ nameWidth }) => (<div className='b--light-gray relative flex
     <div className='ph2' style={{ width: '2.5rem' }}>
       <GlyphDots className='fill-gray-muted pointer'/>
     </div>
-  </div>);
+  </div>)
 const LoadingAnimation = ({ t }) => (<div className='LoadingAnimation'>
     <div className='LoadingAnimationSwipe'>
       <FakeHeader t={t}/>
@@ -44,5 +44,5 @@ const LoadingAnimation = ({ t }) => (<div className='LoadingAnimation'>
       <FakeFile nameWidth={30}/>
       <FakeFile nameWidth={50}/>
     </div>
-  </div>);
-export default withTranslation('files')(LoadingAnimation);
+  </div>)
+export default withTranslation('files')(LoadingAnimation)

@@ -1,20 +1,20 @@
 // @ts-check
-import InfoBoxes from './InfoBoxes';
+import InfoBoxes from './InfoBoxes'
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
-    title: 'Files/Info Boxes/InfoBoxes',
-    component: InfoBoxes,
-    args: {
-        isRoot: true,
-        isCompanion: true,
-        filesExist: true
-    }
-};
+  title: 'Files/Info Boxes/InfoBoxes',
+  component: InfoBoxes,
+  args: {
+    isRoot: true,
+    isCompanion: true,
+    filesExist: true
+  }
+}
 /**
  * @type {import('@storybook/react').StoryObj}
  */
 export const Default = {
-    name: 'InfoBoxes'
-};
+  name: 'InfoBoxes'
+}

@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'redux-bundler-react';
-import i18n, { localesList } from '../../../i18n';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'redux-bundler-react'
+import i18n, { localesList } from '../../../i18n'
 // Components
-import { Modal, ModalBody, ModalActions } from '../../modal/Modal';
-import SpeakerIcon from '../../../icons/StrokeSpeaker';
-import Button from '../../button/Button';
+import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
+import SpeakerIcon from '../../../icons/StrokeSpeaker'
+import Button from '../../button/Button'
 const LanguageModal = ({ t, tReady, onLeave, link, className, isIpfsDesktop, doDesktopUpdateLanguage, ...props }) => {
-    const handleClick = (lang) => {
-        i18n.changeLanguage(lang);
-        if (isIpfsDesktop) {
-            doDesktopUpdateLanguage(lang);
-        }
-        onLeave();
-    };
-    return (<Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
+  const handleClick = (lang) => {
+    i18n.changeLanguage(lang)
+    if (isIpfsDesktop) {
+      doDesktopUpdateLanguage(lang)
+    }
+    onLeave()
+  }
+  return (<Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
       <ModalBody Icon={SpeakerIcon}>
         <p className='charcoal w-80 center'>{t('languageModal.description')}</p>
         <div className='pa2 flex flex-wrap'>
@@ -31,14 +31,14 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, isIpfsDesktop, doD
       <ModalActions justify="center">
         <Button className='ma2 tc' bg='bg-gray' onClick={onLeave}>{t('app:actions.close')}</Button>
       </ModalActions>
-    </Modal>);
-};
+    </Modal>)
+}
 LanguageModal.propTypes = {
-    onLeave: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired,
-    tReady: PropTypes.bool
-};
+  onLeave: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool
+}
 LanguageModal.defaultProps = {
-    className: ''
-};
-export default connect('selectIsIpfsDesktop', 'doDesktopUpdateLanguage', LanguageModal);
+  className: ''
+}
+export default connect('selectIsIpfsDesktop', 'doDesktopUpdateLanguage', LanguageModal)

@@ -1,22 +1,22 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { withTranslation, Trans } from 'react-i18next';
-import { connect } from 'redux-bundler-react';
-import ReactJoyride from 'react-joyride';
-import StatusConnected from './StatusConnected';
-import BandwidthStatsDisabled from './BandwidthStatsDisabled';
-import IsNotConnected from '../components/is-not-connected/IsNotConnected';
-import NodeInfo from './NodeInfo';
-import NodeInfoAdvanced from './NodeInfoAdvanced';
-import NodeBandwidthChart from './NodeBandwidthChart';
-import NetworkTraffic from './NetworkTraffic';
-import Box from '../components/box/Box';
-import AskToEnable from '../components/ask/AskToEnable';
-import { statusTour } from '../lib/tours';
-import { getJoyrideLocales } from '../helpers/i8n';
-import withTour from '../components/tour/withTour';
+import React from 'react'
+import { Helmet } from 'react-helmet'
+import { withTranslation, Trans } from 'react-i18next'
+import { connect } from 'redux-bundler-react'
+import ReactJoyride from 'react-joyride'
+import StatusConnected from './StatusConnected'
+import BandwidthStatsDisabled from './BandwidthStatsDisabled'
+import IsNotConnected from '../components/is-not-connected/IsNotConnected'
+import NodeInfo from './NodeInfo'
+import NodeInfoAdvanced from './NodeInfoAdvanced'
+import NodeBandwidthChart from './NodeBandwidthChart'
+import NetworkTraffic from './NetworkTraffic'
+import Box from '../components/box/Box'
+import AskToEnable from '../components/ask/AskToEnable'
+import { statusTour } from '../lib/tours'
+import { getJoyrideLocales } from '../helpers/i8n'
+import withTour from '../components/tour/withTour'
 const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics, doDisableAnalytics, toursEnabled, handleJoyrideCallback, nodeBandwidthEnabled }) => {
-    return (<div data-id='StatusPage' className='mw9 center'>
+  return (<div data-id='StatusPage' className='mw9 center'>
       <Helmet>
         <title>{t('title')} | IPFS</title>
       </Helmet>
@@ -24,14 +24,14 @@ const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics,
         <div className='flex'>
           <div className='flex-auto'>
             {ipfsConnected
-            ? (<div>
+              ? (<div>
                 <StatusConnected />
                 <NodeInfo />
                 <div className='pt2'>
                   <NodeInfoAdvanced />
                 </div>
               </div>)
-            : (<div>
+              : (<div>
                 <IsNotConnected />
               </div>)}
           </div>
@@ -41,7 +41,7 @@ const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics,
             <AskToEnable className='mt3' label={t('AskToEnable.label')} yesLabel={t('app:actions.ok')} noLabel={t('app:actions.noThanks')} detailsLabel={t('app:actions.moreInfo')} detailsLink='#/settings/analytics' onYes={doEnableAnalytics} onNo={doDisableAnalytics}/>}
       <div style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
         {nodeBandwidthEnabled
-            ? <Box className='mt3 pa3'>
+          ? <Box className='mt3 pa3'>
             <div className='flex flex-column flex-row-l joyride-status-charts'>
               <div className='pr0 pr2-l flex-auto'>
                 <NodeBandwidthChart />
@@ -51,9 +51,9 @@ const StatusPage = ({ t, ipfsConnected, analyticsAskToEnable, doEnableAnalytics,
               </div>
             </div>
           </Box>
-            : <BandwidthStatsDisabled />}
+          : <BandwidthStatsDisabled />}
         <ReactJoyride run={toursEnabled} steps={statusTour.getSteps({ t, Trans })} styles={statusTour.styles} callback={handleJoyrideCallback} continuous scrollToFirstStep locale={getJoyrideLocales(t)} showProgress/>
       </div>
-    </div>);
-};
-export default connect('selectIpfsConnected', 'selectNodeBandwidthEnabled', 'selectAnalyticsAskToEnable', 'selectToursEnabled', 'doEnableAnalytics', 'doDisableAnalytics', withTour(withTranslation('status')(StatusPage)));
+    </div>)
+}
+export default connect('selectIpfsConnected', 'selectNodeBandwidthEnabled', 'selectAnalyticsAskToEnable', 'selectToursEnabled', 'doEnableAnalytics', 'doDisableAnalytics', withTour(withTranslation('status')(StatusPage)))

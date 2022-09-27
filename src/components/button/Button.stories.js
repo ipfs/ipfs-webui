@@ -1,12 +1,12 @@
-import React from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import Button from './Button';
+import React from '@storybook/react'
+import { action } from '@storybook/addon-actions'
+import Button from './Button'
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
-    title: 'Button'
-};
+  title: 'Button'
+}
 /**
  * @type {import('@storybook/react').StoryObj}
  */
@@ -35,4 +35,4 @@ export const Colors = () => (<div>
     <Button className="ma2" onClick={action('hotpink-click')} style={{ background: 'hotpink' }}>
             Custom
     </Button>
-  </div>);
+  </div>)

@@ -1,11 +1,11 @@
-import React from '@storybook/react';
-import ProgressBar from './ProgressBar';
+import React from '@storybook/react'
+import ProgressBar from './ProgressBar'
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
-    title: 'Progress Bars'
-};
+  title: 'Progress Bars'
+}
 /**
  * @type {import('@storybook/react').StoryObj}
  */
@@ -19,4 +19,4 @@ export const Colors = () => (<div className="ma2">
     <ProgressBar bg="bg-teal" progress={23}/>
     <ProgressBar bg="bg-green" progress={65}/>
     <ProgressBar bg="bg-snow" progress={58}/>
-  </div>);
+  </div>)

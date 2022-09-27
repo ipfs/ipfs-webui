@@ -9,9 +9,9 @@
 // but as this is an unejected create-react-app at the moment, we can't easily add it.
 // leaving in as a reminder to fix. Of note **the e2e smoke test still runs in ci.**
 it.skip('renders without crashing', () => {
-    // const noop = () => {}
-    // const Page = () => 'test'
-    // shallow(null
-    //   <App doTryInitIpfs={noop} doUpdateUrl={noop} route={Page} queryObject={{}} />
-    // )
-});
+  // const noop = () => {}
+  // const Page = () => 'test'
+  // shallow(null
+  //   <App doTryInitIpfs={noop} doUpdateUrl={noop} route={Page} queryObject={{}} />
+  // )
+})

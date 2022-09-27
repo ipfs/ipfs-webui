@@ -1,4 +1,4 @@
-import { dirname } from 'path';
+import { dirname } from 'path'
 /**
 * countDirs: find all the dirs that will be created from a list of paths.
 *
@@ -22,15 +22,14 @@ import { dirname } from 'path';
 * @param {{path:string}[]} files
 * @returns {number}
 */
-function countDirs(files) {
-    if (!files || !files.length)
-        return 0;
-    const paths = files.map(f => f.path)
-        .filter(p => !!p);
+function countDirs (files) {
+  if (!files || !files.length) { return 0 }
+  const paths = files.map(f => f.path)
+    .filter(p => !!p)
     // [ /foo/bar, /foo/other, /foo/zoom, /aaa/other ]
-    const directories = new Set();
-    paths.forEach(path => findUniqueDirectories(path, directories));
-    return directories.size;
+  const directories = new Set()
+  paths.forEach(path => findUniqueDirectories(path, directories))
+  return directories.size
 }
 /**
  *
@@ -38,15 +37,12 @@ function countDirs(files) {
  * @param {Set<string>} [res]
  * @returns {Set<string>}
  */
-function findUniqueDirectories(path, res = new Set()) {
-    if (!path)
-        return res;
-    const name = dirname(path);
-    if (name === '.')
-        return res;
-    res.add(name);
-    if (name === '/')
-        return res;
-    return findUniqueDirectories(name, res);
+function findUniqueDirectories (path, res = new Set()) {
+  if (!path) { return res }
+  const name = dirname(path)
+  if (name === '.') { return res }
+  res.add(name)
+  if (name === '/') { return res }
+  return findUniqueDirectories(name, res)
 }
-export default countDirs;
+export default countDirs

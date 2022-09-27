@@ -1,29 +1,28 @@
-import React, { useState } from 'react';
-import { Trans } from 'react-i18next';
-import { connect } from 'redux-bundler-react';
-import Checkbox from '../checkbox/Checkbox';
-import Details from '../details/Details';
+import React, { useState } from 'react'
+import { Trans } from 'react-i18next'
+import { connect } from 'redux-bundler-react'
+import Checkbox from '../checkbox/Checkbox'
+import Details from '../details/Details'
 const ExampleRequest = ({ url, method = 'GET' }) => {
-    return (<pre className='overflow-x-scroll pa3 mr3 f6 ba b--black-10 br2 bg-snow-muted'>
+  return (<pre className='overflow-x-scroll pa3 mr3 f6 ba b--black-10 br2 bg-snow-muted'>
       <code className='green'>{method}</code> {url}
-    </pre>);
-};
+    </pre>)
+}
 const QueryParams = ({ url }) => {
-    if (!url)
-        return null;
-    const params = (new URL(url)).searchParams;
-    const entries = [...params];
-    return (<dl className='pa3 mr3 f7 overflow-x-scroll monospace nowrap ba b--black-10 br2 bg-snow-muted'>
+  if (!url) { return null }
+  const params = (new URL(url)).searchParams
+  const entries = [...params]
+  return (<dl className='pa3 mr3 f7 overflow-x-scroll monospace nowrap ba b--black-10 br2 bg-snow-muted'>
       {entries.map(([key, value]) => (<div key={`QueryParams-${key}`}>
           <dt className='dib green'>{key}:</dt>
           <dd className='dib ml1'>{value}</dd>
         </div>))}
-    </dl>);
-};
+    </dl>)
+}
 const AnalyticType = ({ children, onChange, enabled, label, summary, exampleRequest, queryParams, sourceLink, sourceLinkLabel = 'view source' }) => {
-    // show hide state. update react.
-    const [isOpen, setOpen] = useState(false);
-    return (<section className='bg-white bb b--black-10'>
+  // show hide state. update react.
+  const [isOpen, setOpen] = useState(false)
+  return (<section className='bg-white bb b--black-10'>
       <div className='flex items-center'>
         <Checkbox className='pv3 pl3 pr1 bg-white flex-none' onChange={onChange} checked={enabled} label={<span className='fw5 f6'>{label}</span>}/>
         <div className='truncate fw4 f6 flex-auto charcoal-muted'>&ndash; {summary}</div>
@@ -43,10 +42,10 @@ const AnalyticType = ({ children, onChange, enabled, label, summary, exampleRequ
               <QueryParams url={exampleRequest}/>
             </div>)}
         </div>)}
-    </section>);
-};
+    </section>)
+}
 const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleConsent, doToggleAnalytics, analyticsEnabled, t, open }) => {
-    return (<React.Fragment>
+  return (<React.Fragment>
       <Checkbox className='dib' onChange={doToggleAnalytics} checked={analyticsEnabled} label={<span className='f5'>
           {t('AnalyticsToggle.label')}
         </span>}/>
@@ -107,6 +106,6 @@ const AnalyticsToggle = ({ analyticsActionsToRecord, analyticsConsent, doToggleC
 
         </Details>
       </div>
-    </React.Fragment>);
-};
-export default connect('selectAnalyticsEnabled', 'selectAnalyticsConsent', 'selectAnalyticsActionsToRecord', 'doToggleAnalytics', 'doToggleConsent', AnalyticsToggle);
+    </React.Fragment>)
+}
+export default connect('selectAnalyticsEnabled', 'selectAnalyticsConsent', 'selectAnalyticsActionsToRecord', 'doToggleAnalytics', 'doToggleConsent', AnalyticsToggle)

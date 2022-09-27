@@ -1,23 +1,23 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { connect } from 'redux-bundler-react';
-import { withTranslation } from 'react-i18next';
-import ReactJoyride from 'react-joyride';
-import withTour from '../components/tour/withTour';
-import { welcomeTour } from '../lib/tours';
-import { getJoyrideLocales } from '../helpers/i8n';
+import React from 'react'
+import { Helmet } from 'react-helmet'
+import { connect } from 'redux-bundler-react'
+import { withTranslation } from 'react-i18next'
+import ReactJoyride from 'react-joyride'
+import withTour from '../components/tour/withTour'
+import { welcomeTour } from '../lib/tours'
+import { getJoyrideLocales } from '../helpers/i8n'
 // Components
-import IsConnected from '../components/is-connected/IsConnected';
-import IsNotConnected from '../components/is-not-connected/IsNotConnected';
-import AboutIpfs from '../components/about-ipfs/AboutIpfs';
-import AboutWebUI from '../components/about-webui/AboutWebUI';
-import ComponentLoader from '../loader/ComponentLoader.js';
+import IsConnected from '../components/is-connected/IsConnected'
+import IsNotConnected from '../components/is-not-connected/IsNotConnected'
+import AboutIpfs from '../components/about-ipfs/AboutIpfs'
+import AboutWebUI from '../components/about-webui/AboutWebUI'
+import ComponentLoader from '../loader/ComponentLoader.js'
 const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
-    if (!ipfsInitFailed && !ipfsReady) {
-        return <ComponentLoader />;
-    }
-    const isSameOrigin = window.location.origin === apiUrl;
-    return (<div>
+  if (!ipfsInitFailed && !ipfsReady) {
+    return <ComponentLoader />
+  }
+  const isSameOrigin = window.location.origin === apiUrl
+  return (<div>
       <Helmet>
         <title>{t('title')}</title>
       </Helmet>
@@ -25,11 +25,11 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, tour
         <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t}/>
       </div>
       <ReactJoyride run={toursEnabled} steps={welcomeTour.getSteps({ t })} styles={welcomeTour.styles} callback={handleJoyrideCallback} scrollToFirstStep locale={getJoyrideLocales(t)}/>
-    </div>);
-};
+    </div>)
+}
 const ConnectionStatus = ({ t, connected, sameOrigin }) => {
-    if (connected) {
-        return (<div>
+  if (connected) {
+    return (<div>
         <IsConnected />
         <div className='flex-ns mt3'>
           <div className='mr3-ns lh-copy mid-gray w-50-ns'>
@@ -39,8 +39,8 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
             <AboutIpfs />
           </div>
         </div>
-      </div>);
-    }
-    return (<IsNotConnected />);
-};
-export default connect('selectIpfsInitFailed', 'selectIpfsConnected', 'selectIpfsReady', 'selectApiUrl', 'selectToursEnabled', withTour(withTranslation('welcome')(WelcomePage)));
+      </div>)
+  }
+  return (<IsNotConnected />)
+}
+export default connect('selectIpfsInitFailed', 'selectIpfsConnected', 'selectIpfsReady', 'selectApiUrl', 'selectToursEnabled', withTour(withTranslation('welcome')(WelcomePage)))

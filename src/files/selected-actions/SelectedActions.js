@@ -1,99 +1,106 @@
-import React from 'react';
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import { humanSize } from '../../lib/files';
-import { withTranslation } from 'react-i18next';
-import StrokePin from '../../icons/StrokePin';
-import GlyphSmallCancel from '../../icons/GlyphSmallCancel';
-import StrokeShare from '../../icons/StrokeShare';
-import StrokePencil from '../../icons/StrokePencil';
-import StrokeIpld from '../../icons/StrokeIpld';
-import StrokeTrash from '../../icons/StrokeTrash';
-import StrokeDownload from '../../icons/StrokeDownload';
-import './SelectedActions.css';
+import React from 'react'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { humanSize } from '../../lib/files'
+import { withTranslation } from 'react-i18next'
+import StrokePin from '../../icons/StrokePin'
+import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
+import StrokeShare from '../../icons/StrokeShare'
+import StrokePencil from '../../icons/StrokePencil'
+import StrokeIpld from '../../icons/StrokeIpld'
+import StrokeTrash from '../../icons/StrokeTrash'
+import StrokeDownload from '../../icons/StrokeDownload'
+import './SelectedActions.css'
 const styles = {
-    bar: {
-        background: '#F0F6FA',
-        borderColor: '#CFE0E2',
-        color: '#59595A'
-    },
-    count: {
-        backgroundColor: '#69C4CD',
-        color: '#F9FAFB',
-        width: '38px',
-        height: '38px'
-    },
-    countNumber: {
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)'
-    },
-    size: {
-        color: '#A4BFCC'
-    }
-};
+  bar: {
+    background: '#F0F6FA',
+    borderColor: '#CFE0E2',
+    color: '#59595A'
+  },
+  count: {
+    backgroundColor: '#69C4CD',
+    color: '#F9FAFB',
+    width: '38px',
+    height: '38px'
+  },
+  countNumber: {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
+  size: {
+    color: '#A4BFCC'
+  }
+}
 const classes = {
-    svg: (v) => v ? 'w3 pointer hover-fill-navy-muted' : 'w3',
-    action: (v) => v ? 'pointer' : 'disabled o-50'
-};
+  svg: (v) => v ? 'w3 pointer hover-fill-navy-muted' : 'w3',
+  action: (v) => v ? 'pointer' : 'disabled o-50'
+}
 class SelectedActions extends React.Component {
-    constructor(props) {
-        super(props);
-        this.containerRef = React.createRef();
+  constructor (props) {
+    super(props)
+    this.containerRef = React.createRef()
+  }
+
+  static propTypes = {
+    count: PropTypes.number.isRequired,
+    size: PropTypes.number.isRequired,
+    unselect: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
+    setPinning: PropTypes.func.isRequired,
+    share: PropTypes.func.isRequired,
+    download: PropTypes.func.isRequired,
+    rename: PropTypes.func.isRequired,
+    inspect: PropTypes.func.isRequired,
+    downloadProgress: PropTypes.number,
+    t: PropTypes.func.isRequired,
+    tReady: PropTypes.bool.isRequired,
+    isMfs: PropTypes.bool.isRequired,
+    animateOnStart: PropTypes.bool
+  }
+
+  static defaultProps = {
+    className: ''
+  }
+
+  state = {
+    force100: false
+  }
+
+  componentDidUpdate (prev) {
+    if (this.props.downloadProgress === 100 && prev.downloadProgress !== 100) {
+      this.setState({ force100: true })
+      setTimeout(() => {
+        this.setState({ force100: false })
+      }, 2000)
     }
-    static propTypes = {
-        count: PropTypes.number.isRequired,
-        size: PropTypes.number.isRequired,
-        unselect: PropTypes.func.isRequired,
-        remove: PropTypes.func.isRequired,
-        setPinning: PropTypes.func.isRequired,
-        share: PropTypes.func.isRequired,
-        download: PropTypes.func.isRequired,
-        rename: PropTypes.func.isRequired,
-        inspect: PropTypes.func.isRequired,
-        downloadProgress: PropTypes.number,
-        t: PropTypes.func.isRequired,
-        tReady: PropTypes.bool.isRequired,
-        isMfs: PropTypes.bool.isRequired,
-        animateOnStart: PropTypes.bool
-    };
-    static defaultProps = {
-        className: ''
-    };
-    state = {
-        force100: false
-    };
-    componentDidUpdate(prev) {
-        if (this.props.downloadProgress === 100 && prev.downloadProgress !== 100) {
-            this.setState({ force100: true });
-            setTimeout(() => {
-                this.setState({ force100: false });
-            }, 2000);
-        }
+  }
+
+  componentDidMount () {
+    this.containerRef.current && this.containerRef.current.focus()
+  }
+
+  get downloadText () {
+    if (this.state.force100) {
+      return this.props.t('finished')
     }
-    componentDidMount() {
-        this.containerRef.current && this.containerRef.current.focus();
+    if (!this.props.downloadProgress) {
+      return this.props.t('app:actions.download')
     }
-    get downloadText() {
-        if (this.state.force100) {
-            return this.props.t('finished');
-        }
-        if (!this.props.downloadProgress) {
-            return this.props.t('app:actions.download');
-        }
-        if (this.props.downloadProgress === 100) {
-            return this.props.t('finished');
-        }
-        return this.props.downloadProgress.toFixed(0) + '%';
+    if (this.props.downloadProgress === 100) {
+      return this.props.t('finished')
     }
-    render() {
-        const { t, tReady, animateOnStart, count, size, unselect, remove, share, setPinning, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props;
-        const isSingle = count === 1;
-        let singleFileTooltip = { title: t('individualFilesOnly') };
-        if (count === 1) {
-            singleFileTooltip = {};
-        }
-        return (<div className={classNames('sans-serif bt w-100 pa3 ph4-l selectedActions', className, animateOnStart && 'selectedActionsAnimated')} style={{ ...styles.bar, ...style }} {...props}>
+    return this.props.downloadProgress.toFixed(0) + '%'
+  }
+
+  render () {
+    const { t, tReady, animateOnStart, count, size, unselect, remove, share, setPinning, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
+    const isSingle = count === 1
+    let singleFileTooltip = { title: t('individualFilesOnly') }
+    if (count === 1) {
+      singleFileTooltip = {}
+    }
+    return (<div className={classNames('sans-serif bt w-100 pa3 ph4-l selectedActions', className, animateOnStart && 'selectedActionsAnimated')} style={{ ...styles.bar, ...style }} {...props}>
         <div className='flex items-center justify-between'>
           <div className='w5-l'>
             <div className='flex items-center'>
@@ -141,7 +148,7 @@ class SelectedActions extends React.Component {
             </button>
           </div>
         </div>
-      </div>);
-    }
+      </div>)
+  }
 }
-export default withTranslation('files')(SelectedActions);
+export default withTranslation('files')(SelectedActions)

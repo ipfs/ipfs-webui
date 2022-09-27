@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'redux-bundler-react';
-import { withTranslation, Trans } from 'react-i18next';
-import PinningServiceModal from '../pinning-manager-service-modal/PinningManagerServiceModal';
-import './PinningManagerModal.css';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'redux-bundler-react'
+import { withTranslation, Trans } from 'react-i18next'
+import PinningServiceModal from '../pinning-manager-service-modal/PinningManagerServiceModal'
+import './PinningManagerModal.css'
 // Components
-import { Modal, ModalBody, ModalActions } from '../../modal/Modal';
-import Button from '../../button/Button';
-import Overlay from '../../overlay/Overlay';
+import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
+import Button from '../../button/Button'
+import Overlay from '../../overlay/Overlay'
 const PinningManagerModal = ({ t, tReady, onLeave, className, remoteServiceTemplates, pinningServicesDefaults, ...props }) => {
-    const [selectedService, setSelectedService] = useState(false);
-    const onCustomModalOpen = () => setSelectedService({ type: 'CUSTOM' });
-    const onModalClose = () => setSelectedService(false);
-    const onSuccess = () => {
-        setSelectedService(false);
-        onLeave();
-    };
-    const selectedServiceInfo = pinningServicesDefaults[selectedService.name] || {};
-    return (<Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
+  const [selectedService, setSelectedService] = useState(false)
+  const onCustomModalOpen = () => setSelectedService({ type: 'CUSTOM' })
+  const onModalClose = () => setSelectedService(false)
+  const onSuccess = () => {
+    setSelectedService(false)
+    onLeave()
+  }
+  const selectedServiceInfo = pinningServicesDefaults[selectedService.name] || {}
+  return (<Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '34em' }}>
       <ModalBody>
         <p>{t('pinningModal.title')}</p>
         <div className='pa2 pinningManagerModalContainer'>
@@ -40,13 +40,13 @@ const PinningManagerModal = ({ t, tReady, onLeave, className, remoteServiceTempl
       <Overlay show={!!selectedService} onLeave={onModalClose} hidden>
         <PinningServiceModal className='outline-0' service={selectedService} onSuccess={onSuccess} onLeave={onModalClose} nickname={selectedServiceInfo.nickname} apiEndpoint={selectedServiceInfo.apiEndpoint} visitServiceUrl={selectedServiceInfo.visitServiceUrl} complianceReportUrl={selectedServiceInfo.complianceReportUrl} t={t}/>
       </Overlay>
-    </Modal>);
-};
+    </Modal>)
+}
 PinningManagerModal.propTypes = {
-    t: PropTypes.func.isRequired,
-    onLeave: PropTypes.func.isRequired
-};
+  t: PropTypes.func.isRequired,
+  onLeave: PropTypes.func.isRequired
+}
 PinningManagerModal.defaultProps = {
-    className: ''
-};
-export default connect('selectRemoteServiceTemplates', 'selectPinningServicesDefaults', withTranslation('settings')(PinningManagerModal));
+  className: ''
+}
+export default connect('selectRemoteServiceTemplates', 'selectPinningServicesDefaults', withTranslation('settings')(PinningManagerModal))

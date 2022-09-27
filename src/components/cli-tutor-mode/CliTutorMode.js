@@ -1,21 +1,21 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'redux-bundler-react';
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'redux-bundler-react'
 // Components
-import { Modal, ModalBody, ModalActions } from '../modal/Modal';
-import StrokeCode from '../../icons/StrokeCode';
-import Button from '../button/Button';
-import Overlay from '../overlay/Overlay';
-import Shell from '../shell/Shell';
-import StrokeDownload from '../../icons/StrokeDownload';
-import { cliCmdKeys, cliCommandList, cliCmdPrefixes } from '../../bundles/files/consts';
+import { Modal, ModalBody, ModalActions } from '../modal/Modal'
+import StrokeCode from '../../icons/StrokeCode'
+import Button from '../button/Button'
+import Overlay from '../overlay/Overlay'
+import Shell from '../shell/Shell'
+import StrokeDownload from '../../icons/StrokeDownload'
+import { cliCmdKeys, cliCommandList, cliCmdPrefixes } from '../../bundles/files/consts'
 export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...props }) => {
-    const onClickCopyToClipboard = (cmd) => {
-        navigator.clipboard.writeText(cmd).then(() => {
-            onLeave();
-        });
-    };
-    return (<Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
+  const onClickCopyToClipboard = (cmd) => {
+    navigator.clipboard.writeText(cmd).then(() => {
+      onLeave()
+    })
+  }
+  return (<Modal {...props} className={className} onCancel={onLeave} style={{ maxWidth: '40em' }}>
       <ModalBody Icon={StrokeCode}>
         <p className='charcoal w-80 center' style={{ lineHeight: '1.3' }}>
           {t('app:cliModal.description')}
@@ -44,40 +44,40 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
           </Button>
         </div>
       </ModalActions>
-    </Modal>);
-};
+    </Modal>)
+}
 const CliTutorMode = ({ t, filesPage, isCliTutorModeEnabled, onLeave, isCliTutorModalOpen, command, config, showIcon, doOpenCliTutorModal }) => {
-    const downloadConfig = (config) => {
-        const url = window.URL.createObjectURL(new Blob([config]));
-        const link = document.createElement('a');
-        link.style.display = 'none';
-        link.href = url;
-        link.download = 'settings.json';
-        document.body.appendChild(link);
-        link.click();
-        window.URL.revokeObjectURL(url);
-    };
-    if (isCliTutorModeEnabled) {
-        if (filesPage) {
-            return <CliTutorialModal className='outline-0' onLeave={onLeave} t={t} command={command}/>;
-        }
-        return (<Fragment>
+  const downloadConfig = (config) => {
+    const url = window.URL.createObjectURL(new Blob([config]))
+    const link = document.createElement('a')
+    link.style.display = 'none'
+    link.href = url
+    link.download = 'settings.json'
+    document.body.appendChild(link)
+    link.click()
+    window.URL.revokeObjectURL(url)
+  }
+  if (isCliTutorModeEnabled) {
+    if (filesPage) {
+      return <CliTutorialModal className='outline-0' onLeave={onLeave} t={t} command={command}/>
+    }
+    return (<Fragment>
         {showIcon
-                ? <StrokeCode onClick={() => doOpenCliTutorModal(true)} className='dib fill-link pointer mh2' style={{ height: 44 }}/>
-                : <div />}
+          ? <StrokeCode onClick={() => doOpenCliTutorModal(true)} className='dib fill-link pointer mh2' style={{ height: 44 }}/>
+          : <div />}
         <Overlay show={isCliTutorModalOpen} onLeave={() => doOpenCliTutorModal(false)}>
           <CliTutorialModal className='outline-0' onLeave={() => doOpenCliTutorModal(false)} t={t} command={command} downloadConfig={() => downloadConfig(config)}/>
         </Overlay>
-      </Fragment>);
-    }
-    return null;
-};
+      </Fragment>)
+  }
+  return null
+}
 CliTutorialModal.propTypes = {
-    onLeave: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired,
-    command: PropTypes.string.isRequired
-};
+  onLeave: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  command: PropTypes.string.isRequired
+}
 CliTutorialModal.defaultProps = {
-    className: ''
-};
-export default connect('doOpenCliTutorModal', 'selectIsCliTutorModalOpen', 'selectIsCliTutorModeEnabled', CliTutorMode);
+  className: ''
+}
+export default connect('doOpenCliTutorModal', 'selectIsCliTutorModalOpen', 'selectIsCliTutorModeEnabled', CliTutorMode)

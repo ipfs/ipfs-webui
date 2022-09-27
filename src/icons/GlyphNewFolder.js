@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 const GlyphNewFolder = props => (<svg width={58} height={58} xmlnsXlink='http://www.w3.org/1999/xlink' {...props}>
     <defs>
       <path id='a' d='M0 .256h30.593v25.376H0z'/>
@@ -19,5 +19,5 @@ const GlyphNewFolder = props => (<svg width={58} height={58} xmlnsXlink='http://
         <path fill='#000' fillRule='nonzero' mask='url(#d)' d='M1.14 21.252h28.594v-2H1.14z'/>
       </g>
     </g>
-  </svg>);
-export default GlyphNewFolder;
+  </svg>)
+export default GlyphNewFolder

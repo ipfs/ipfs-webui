@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { connect } from 'redux-bundler-react';
-import { withTranslation, Trans } from 'react-i18next';
-import classNames from 'classnames';
-import ApiAddressForm from '../api-address-form/ApiAddressForm';
-import Box from '../box/Box';
-import Shell from '../shell/Shell.js';
-import GlyphAttention from '../../icons/GlyphAttention';
+import React, { useState } from 'react'
+import { connect } from 'redux-bundler-react'
+import { withTranslation, Trans } from 'react-i18next'
+import classNames from 'classnames'
+import ApiAddressForm from '../api-address-form/ApiAddressForm'
+import Box from '../box/Box'
+import Shell from '../shell/Shell.js'
+import GlyphAttention from '../../icons/GlyphAttention'
 const TABS = {
-    UNIX: 'unix',
-    POWERSHELL: 'windowsPS',
-    WINDOWS: 'windowsCMD'
-};
+  UNIX: 'unix',
+  POWERSHELL: 'windowsPS',
+  WINDOWS: 'windowsCMD'
+}
 const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUpdateIpfsApiAddress }) => {
-    const [activeTab, setActiveTab] = useState(TABS.UNIX);
-    const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.io'];
-    const origin = window.location.origin;
-    const addOrigin = defaultDomains.indexOf(origin) === -1;
-    return (<Box className='pv3 ph4 lh-copy charcoal'>
+  const [activeTab, setActiveTab] = useState(TABS.UNIX)
+  const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.io']
+  const origin = window.location.origin
+  const addOrigin = defaultDomains.indexOf(origin) === -1
+  return (<Box className='pv3 ph4 lh-copy charcoal'>
       <div className='flex flex-wrap items-center'>
         <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation'/>
         <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('app:status.couldNotConnect')}</h1>
@@ -70,6 +70,6 @@ const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUp
         </Trans>
         <ApiAddressForm t={t} defaultValue={ipfsApiAddress || ''} updateAddress={doUpdateIpfsApiAddress}/>
       </ol>
-    </Box>);
-};
-export default connect('selectIpfsConnected', 'selectApiUrl', withTranslation('welcome')(IsNotConnected));
+    </Box>)
+}
+export default connect('selectIpfsConnected', 'selectApiUrl', withTranslation('welcome')(IsNotConnected))

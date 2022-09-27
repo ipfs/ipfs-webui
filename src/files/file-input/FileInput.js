@@ -1,55 +1,63 @@
-import React from 'react';
-import { connect } from 'redux-bundler-react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import { normalizeFiles } from '../../lib/files';
+import React from 'react'
+import { connect } from 'redux-bundler-react'
+import PropTypes from 'prop-types'
+import { withTranslation } from 'react-i18next'
+import { normalizeFiles } from '../../lib/files'
 // Icons
-import DocumentIcon from '../../icons/StrokeDocument';
-import FolderIcon from '../../icons/StrokeFolder';
-import NewFolderIcon from '../../icons/StrokeNewFolder';
-import DecentralizationIcon from '../../icons/StrokeDecentralization';
+import DocumentIcon from '../../icons/StrokeDocument'
+import FolderIcon from '../../icons/StrokeFolder'
+import NewFolderIcon from '../../icons/StrokeNewFolder'
+import DecentralizationIcon from '../../icons/StrokeDecentralization'
 // Components
-import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown';
-import Button from '../../components/button/Button';
-import { cliCmdKeys } from '../../bundles/files/consts';
+import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
+import Button from '../../components/button/Button'
+import { cliCmdKeys } from '../../bundles/files/consts'
 const AddButton = withTranslation('app')(({ t, onClick }) => (<Button id='import-button' bg='bg-navy' color='white' className='f6 flex justify-center items-center' minWidth='100px' onClick={onClick}>
       <span><span className='aqua'>+</span> {t('actions.import')}</span>
-    </Button>));
+    </Button>))
 class FileInput extends React.Component {
-    state = {
-        dropdown: false
-    };
-    toggleDropdown = () => {
-        this.setState(s => ({ dropdown: !s.dropdown }));
-    };
-    onAddFolder = () => {
-        this.toggleDropdown();
-        return this.folderInput.click();
-    };
-    onAddFile = async () => {
-        this.toggleDropdown();
-        return this.filesInput.click();
-    };
-    onInputChange = (input) => async () => {
-        this.props.onAddFiles(normalizeFiles(input.files));
-        input.value = null;
-    };
-    onAddByPath = () => {
-        this.props.onAddByPath();
-        this.toggleDropdown();
-    };
-    onNewFolder = () => {
-        this.props.onNewFolder();
-        this.toggleDropdown();
-    };
-    onCliTutorMode = async (cliOptions) => {
-        await this.props.doSetCliOptions(cliOptions);
-        this.props.onCliTutorMode();
-        this.toggleDropdown();
-    };
-    render() {
-        const { t, isCliTutorModeEnabled } = this.props;
-        return (<div className={this.props.className}>
+  state = {
+    dropdown: false
+  }
+
+  toggleDropdown = () => {
+    this.setState(s => ({ dropdown: !s.dropdown }))
+  }
+
+  onAddFolder = () => {
+    this.toggleDropdown()
+    return this.folderInput.click()
+  }
+
+  onAddFile = async () => {
+    this.toggleDropdown()
+    return this.filesInput.click()
+  }
+
+  onInputChange = (input) => async () => {
+    this.props.onAddFiles(normalizeFiles(input.files))
+    input.value = null
+  }
+
+  onAddByPath = () => {
+    this.props.onAddByPath()
+    this.toggleDropdown()
+  }
+
+  onNewFolder = () => {
+    this.props.onNewFolder()
+    this.toggleDropdown()
+  }
+
+  onCliTutorMode = async (cliOptions) => {
+    await this.props.doSetCliOptions(cliOptions)
+    this.props.onCliTutorMode()
+    this.toggleDropdown()
+  }
+
+  render () {
+    const { t, isCliTutorModeEnabled } = this.props
+    return (<div className={this.props.className}>
         <Dropdown>
           <AddButton onClick={this.toggleDropdown}/>
           <DropdownMenu top={3} open={this.state.dropdown} onDismiss={this.toggleDropdown}>
@@ -72,16 +80,16 @@ class FileInput extends React.Component {
           </DropdownMenu>
         </Dropdown>
 
-        <input id='file-input' type='file' className='dn' multiple ref={el => { this.filesInput = el; }} onChange={this.onInputChange(this.filesInput)}/>
+        <input id='file-input' type='file' className='dn' multiple ref={el => { this.filesInput = el }} onChange={this.onInputChange(this.filesInput)}/>
 
-        <input id='directory-input' type='file' className='dn' multiple webkitdirectory='true' ref={el => { this.folderInput = el; }} onChange={this.onInputChange(this.folderInput)}/>
-      </div>);
-    }
+        <input id='directory-input' type='file' className='dn' multiple webkitdirectory='true' ref={el => { this.folderInput = el }} onChange={this.onInputChange(this.folderInput)}/>
+      </div>)
+  }
 }
 FileInput.propTypes = {
-    t: PropTypes.func.isRequired,
-    onAddFiles: PropTypes.func.isRequired,
-    onAddByPath: PropTypes.func.isRequired,
-    onNewFolder: PropTypes.func.isRequired
-};
-export default connect('selectIsCliTutorModeEnabled', 'doOpenCliTutorModal', 'doSetCliOptions', withTranslation('files')(FileInput));
+  t: PropTypes.func.isRequired,
+  onAddFiles: PropTypes.func.isRequired,
+  onAddByPath: PropTypes.func.isRequired,
+  onNewFolder: PropTypes.func.isRequired
+}
+export default connect('selectIsCliTutorModeEnabled', 'doOpenCliTutorModal', 'doSetCliOptions', withTranslation('files')(FileInput))

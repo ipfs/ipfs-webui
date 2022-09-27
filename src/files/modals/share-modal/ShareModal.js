@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ShareIcon from '../../../icons/StrokeShare';
-import Button from '../../../components/button/Button';
-import { withTranslation } from 'react-i18next';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal';
+import React from 'react'
+import PropTypes from 'prop-types'
+import ShareIcon from '../../../icons/StrokeShare'
+import Button from '../../../components/button/Button'
+import { withTranslation } from 'react-i18next'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal'
 const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (<Modal {...props} className={className} onCancel={onLeave}>
     <ModalBody title={t('shareModal.title')} Icon={ShareIcon}>
       <p className='charcoal w-90 tl center'>{t('shareModal.description')}</p>
@@ -20,14 +20,14 @@ const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (<Moda
         <Button className='ma2 tc'>{t('app:actions.copy')}</Button>
       </CopyToClipboard>
     </ModalActions>
-  </Modal>);
+  </Modal>)
 ShareModal.propTypes = {
-    onLeave: PropTypes.func.isRequired,
-    link: PropTypes.string,
-    t: PropTypes.func.isRequired,
-    tReady: PropTypes.bool.isRequired
-};
+  onLeave: PropTypes.func.isRequired,
+  link: PropTypes.string,
+  t: PropTypes.func.isRequired,
+  tReady: PropTypes.bool.isRequired
+}
 ShareModal.defaultProps = {
-    className: ''
-};
-export default withTranslation('files')(ShareModal);
+  className: ''
+}
+export default withTranslation('files')(ShareModal)

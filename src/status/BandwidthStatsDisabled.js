@@ -1,9 +1,9 @@
-import React from 'react';
-import { withTranslation, Trans } from 'react-i18next';
-import Shell from '../components/shell/Shell';
-import Box from '../components/box/Box';
+import React from 'react'
+import { withTranslation, Trans } from 'react-i18next'
+import Shell from '../components/shell/Shell'
+import Box from '../components/box/Box'
 const StatusNotConnected = ({ t }) => {
-    return (<Box className='mt3 pa3'>
+  return (<Box className='mt3 pa3'>
       <h2 className='ttu yellow tracked f6 fw4 aqua mt0 mb4'>{t('bandwidthStats')}</h2>
 
       <p className='mw6 mr2 lh-copy charcoal f6'>
@@ -18,6 +18,6 @@ const StatusNotConnected = ({ t }) => {
       <Shell className='mw6'>
         <code className='db'><b className='no-select'>$ </b>ipfs config --json Swarm.DisableBandwidthMetrics false</code>
       </Shell>
-    </Box>);
-};
-export default withTranslation('status')(StatusNotConnected);
+    </Box>)
+}
+export default withTranslation('status')(StatusNotConnected)
