@@ -1,6 +1,7 @@
 // const { devices } = require('@playwright/test')
 const webuiPort = 3001
 const rpcPort = 55001
+
 /** @type {import('@playwright/test').Config} */
 const config = {
   testDir: './',
@@ -45,7 +46,7 @@ const config = {
   globalTeardown: require.resolve('./setup/global-teardown'),
   webServer: [
     {
-      command: `node ipfs-backend.js ${rpcPort}`,
+      command: `node -r esm ipfs-backend.js ${rpcPort}`,
       url: `http://127.0.0.1:${rpcPort}/webui`,
       cwd: './setup',
       reuseExistingServer: !process.env.CI

@@ -2,7 +2,7 @@ import { test } from './setup/coverage.js'
 import { fixtureData } from './fixtures/index.js'
 import all from 'it-all'
 import filesize from 'filesize'
-import * as ipfsClient from 'ipfs-http-client'
+import ipfsClient from 'ipfs-http-client'
 test.describe('Files screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/files')

@@ -1,6 +1,6 @@
 import { test } from './setup/coverage.js'
 import { createController } from 'ipfsd-ctl'
-import * as ipfsClient from 'ipfs-http-client'
+import ipfsClient from 'ipfs-http-client'
 const addConnection = 'text=Add connection'
 test.describe('Peers screen', () => {
   let ipfsd

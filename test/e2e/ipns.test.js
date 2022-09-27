@@ -1,6 +1,6 @@
 import { test, expect } from './setup/coverage.js'
 import { createController } from 'ipfsd-ctl'
-import * as ipfsClient from 'ipfs-http-client'
+import ipfsClient from 'ipfs-http-client'
 test.describe('IPNS publishing', () => {
   let ipfsd
   let peeraddr

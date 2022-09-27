@@ -1,7 +1,8 @@
 import { test, expect } from './setup/coverage.js'
 import fs from 'fs'
 import path from 'path'
-import * as ipfsClient from 'ipfs-http-client'
+import ipfsClient from 'ipfs-http-client'
+
 test.describe('Explore screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/explore')
