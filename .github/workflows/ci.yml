@@ -1,6 +1,13 @@
 name: ci
 on:
   workflow_dispatch:
+    inputs:
+      kubo-version:
+        description: Kubo version to use during the run
+        required: false
+      ipfs-cluster-ctl-version:
+        description: IPFS Cluster CTL version to use during the run
+        required: false
   push:
     branches:
       - main
@@ -61,9 +68,11 @@ jobs:
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
           name: kubo
+          version: ${{ github.event.inputs.kubo-version }}
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
           name: ipfs-cluster-ctl
+          version: ${{ github.event.inputs.ipfs-cluster-ctl-version }}
       - name: Fix DNS resolver
         run: |
           # fix resolv - DNS provided by Github is unreliable for DNSLik/dnsaddr
