@@ -1,12 +1,10 @@
-import React from 'react'
-import { withTranslation, Trans } from 'react-i18next'
-import { connect } from 'redux-bundler-react'
-import { humanSize } from '../lib/files'
-
+import React from 'react';
+import { withTranslation, Trans } from 'react-i18next';
+import { connect } from 'redux-bundler-react';
+import { humanSize } from '../lib/files';
 export const StatusConnected = ({ t, peersCount, repoSize }) => {
-  const humanRepoSize = humanSize(repoSize || 0)
-  return (
-    <header>
+    const humanRepoSize = humanSize(repoSize || 0);
+    return (<header>
       <h1 className='montserrat fw2 f3 charcoal ma0 pt0 pb2'>
         <Trans i18nKey='app:status.connectedToIpfs' t={t}>Connected to IPFS</Trans>
       </h1>
@@ -23,14 +21,7 @@ export const StatusConnected = ({ t, peersCount, repoSize }) => {
           </a>
         </span>
       </p>
-    </header>
-  )
-}
-
-export const TranslatedStatusConnected = withTranslation('status')(StatusConnected)
-
-export default connect(
-  'selectPeersCount',
-  'selectRepoSize',
-  TranslatedStatusConnected
-)
+    </header>);
+};
+export const TranslatedStatusConnected = withTranslation('status')(StatusConnected);
+export default connect('selectPeersCount', 'selectRepoSize', TranslatedStatusConnected);

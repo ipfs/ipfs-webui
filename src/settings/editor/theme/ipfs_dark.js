@@ -1,9 +1,12 @@
 /* global ace */
 // modified from https://github.com/thlorenz/brace/blob/master/theme/solarized_dark.js
 ace.define('ace/theme/ipfs_dark', ['require', 'exports', 'module', 'ace/lib/dom'], function (acequire, exports, module) {
-  exports.isDark = true
-  exports.cssClass = 'ace-ipfs-dark'
-  exports.cssText = `
+    const dom = acequire('../lib/dom');
+    dom.importCssString(exports.cssText, exports.cssClass);
+});
+export const isDark = true;
+export const cssClass = 'ace-ipfs-dark';
+export const cssText = `
   .ace-ipfs-dark .ace_gutter {
   background: #0b3a53;
   color: #9ad4db;
@@ -87,8 +90,4 @@ ace.define('ace/theme/ipfs_dark', ['require', 'exports', 'module', 'ace/lib/dom'
   }
   .ace-ipfs-dark .ace_indent-guide {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWNg0Db1ZVCxc/sPAAd4AlUHlLenAAAAAElFTkSuQmCC) right repeat-y
-  }`
-
-  const dom = acequire('../lib/dom')
-  dom.importCssString(exports.cssText, exports.cssClass)
-})
+  }`;

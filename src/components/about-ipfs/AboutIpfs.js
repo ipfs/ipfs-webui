@@ -1,10 +1,8 @@
-import React from 'react'
-import { withTranslation, Trans } from 'react-i18next'
-import Box from '../box/Box'
-
+import React from 'react';
+import { withTranslation, Trans } from 'react-i18next';
+import Box from '../box/Box';
 export const AboutIpfs = ({ t }) => {
-  return (
-    <Box>
+    return (<Box>
       <h2 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('aboutIpfs.header')}</h2>
       <ul className='pl3'>
         <Trans i18nKey='aboutIpfs.paragraph1' t={t}>
@@ -23,8 +21,6 @@ export const AboutIpfs = ({ t }) => {
           <li className='mb2'><strong>A developer toolset</strong> for building completely <a className='link blue' target='_blank' rel='noopener noreferrer' href='https://awesome.ipfs.io/'>distributed apps and services</a>, backed by a robust open-source community</li>
         </Trans>
       </ul>
-    </Box>
-  )
-}
-
-export default withTranslation('welcome')(AboutIpfs)
+    </Box>);
+};
+export default withTranslation('welcome')(AboutIpfs);

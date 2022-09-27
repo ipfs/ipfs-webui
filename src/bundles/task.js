@@ -1,10 +1,8 @@
 // @ts-check
-
 /**
   * @template State, Message, Ext, Extra
   * @typedef {import('redux-bundler').Context<State, Message, Ext, Extra>} BundlerContext
   */
-
 /**
  * A Result is the result of a computation that may fail.
  *
@@ -12,7 +10,6 @@
  * @template T
  * @typedef {{ok:false, error:X} | {ok:true, value: T}} Result
  */
-
 /**
  * Represents task in it's initialization phase.
  *
@@ -22,7 +19,6 @@
  * @property {Symbol} id - Unique identifier of this task.
  * @property {Init} init - Initialization paramater provided on spawn.
  */
-
 /**
  * Reperesents task in it's completion phase.
  *
@@ -34,7 +30,6 @@
  * @property {number} duration - Time spend from initialization to completion.
  * @property {Result<Failure, Success>} result - Result of the task.
  */
-
 /**
  * Type reperesenting a state of the performed task. It is state machine
  * representing task state that will initial be in `InitState` and on completion
@@ -45,7 +40,6 @@
  * @template Init = void
  * @typedef {InitState<Init>|ExitState<Failure, Success>} PerformState
  */
-
 /**
  * Type representing actions dispatched when performing a task.
  *
@@ -57,7 +51,6 @@
  * @property {Type} type
  * @property {PerformState<Failure, Success, Init>} task
  */
-
 /**
  * Takes the action `type`, a `task` (in form of async function) and an optional
  * `init` parameters to produce a `doX` style action creator. On exectuion
@@ -94,12 +87,11 @@
  * @param {Init[]} rest
  * @returns {(context:Context) => Promise<Success>}
  */
-export const perform = (type, task, ...[init]) =>
-  // eslint-disable-next-line require-yield
-  spawn(type, async function * (context) {
-    return await task(context)
-  }, init)
-
+export const perform = (type, task, ...[init]) => 
+// eslint-disable-next-line require-yield
+spawn(type, async function* (context) {
+    return await task(context);
+}, init);
 /**
  * @template Message
  * @typedef {Object} SendState
@@ -107,7 +99,6 @@ export const perform = (type, task, ...[init]) =>
  * @property {'Send'} status
  * @property {Message} message
  */
-
 /**
  * Type reperesenting a state of the spawned task. It is state machine that will
  * transition from InitState -> SendState -> ExitState. It is guaranteed that
@@ -121,7 +112,6 @@ export const perform = (type, task, ...[init]) =>
  * @template Input = void
  * @typedef {InitState<Input>|SendState<Message>|ExitState<Fail, Success>} SpawnState
  */
-
 /**
  * Represents actions that will be dispatched by the `spawn`-ed task.
  * This is more advanced superset of `Perform` as spawned tasks can send
@@ -136,7 +126,6 @@ export const perform = (type, task, ...[init]) =>
  * @property {Name} type
  * @property {SpawnState<Message, Fail, Success, Init>} task
  */
-
 /**
  * This is more advanced form of `perform`, which can be used to execute tasks
  * that need to send messages (that turn into dispatched actions) during
@@ -186,55 +175,55 @@ export const perform = (type, task, ...[init]) =>
  * @param {(context:Context) => AsyncGenerator<Message, Success, void>} task - Task
  * @param {Init[]} rest - Optinal initialization parameter.
  * @returns {(context:Context) => Promise<Success>}
- */export const spawn = (type, task, ...[init]) => async (context) => {
-  // Generate unique id for this task
-  const id = Symbol(type)
-  const start = performance.now()
-
-  try {
-    context.dispatch({ type, task: { id, status: 'Init', init } })
-
-    const process = task(context)
-    while (true) {
-      const next = await process.next()
-      if (next.done) {
-        const { value } = next
-        context.dispatch({
-          type,
-          task: {
-            id,
-            status: 'Exit',
-            duration: performance.now() - start,
-            result: {
-              ok: true, value
+ */ export const spawn = (type, task, ...[init]) => async (context) => {
+    // Generate unique id for this task
+    const id = Symbol(type);
+    const start = performance.now();
+    try {
+        context.dispatch({ type, task: { id, status: 'Init', init } });
+        const process = task(context);
+        while (true) {
+            const next = await process.next();
+            if (next.done) {
+                const { value } = next;
+                context.dispatch({
+                    type,
+                    task: {
+                        id,
+                        status: 'Exit',
+                        duration: performance.now() - start,
+                        result: {
+                            ok: true, value
+                        }
+                    }
+                });
+                return value;
             }
-          }
-        })
-        return value
-      } else {
-        const { value } = next
-        context.dispatch({
-          type,
-          task: {
-            id,
-            status: 'Send',
-            message: value
-          }
-        })
-      }
+            else {
+                const { value } = next;
+                context.dispatch({
+                    type,
+                    task: {
+                        id,
+                        status: 'Send',
+                        message: value
+                    }
+                });
+            }
+        }
     }
-  } catch (err) {
-    const error = /** @type {Error} */(err)
-    context.dispatch({
-      type,
-      task: {
-        id,
-        status: 'Exit',
-        duration: performance.now() - start,
-        result: { ok: false, error }
-      }
-    })
-    // Propagate error to a caller.
-    throw error
-  }
-}
+    catch (err) {
+        const error = /** @type {Error} */ (err);
+        context.dispatch({
+            type,
+            task: {
+                id,
+                status: 'Exit',
+                duration: performance.now() - start,
+                result: { ok: false, error }
+            }
+        });
+        // Propagate error to a caller.
+        throw error;
+    }
+};

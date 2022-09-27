@@ -1,1 +1,1 @@
-module.exports = require('stream-browserify')
+export { default } from "stream-browserify";

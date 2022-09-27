@@ -1,1 +1,1 @@
-module.exports = require('assert')
+export { default } from "assert";

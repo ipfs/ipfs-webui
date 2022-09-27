@@ -1,15 +1,13 @@
 // @ts-check
-import CompanionInfo from './CompanionInfo'
-
+import CompanionInfo from './CompanionInfo';
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
-  title: 'Files/Info Boxes/CompanionInfo',
-  component: CompanionInfo
-}
-
+    title: 'Files/Info Boxes/CompanionInfo',
+    component: CompanionInfo
+};
 /**
  * @type {import('@storybook/react').StoryObj}
  */
-export const Default = {}
+export const Default = {};

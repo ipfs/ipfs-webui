@@ -1,6 +1,5 @@
-import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-
+import { getFilesFromDataTransferItems } from 'datatransfer-files-promise';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 // If you drop a dir "foo" which contains "cat.jpg" & "dog.png" we receive a
 // single item in the `event.dataTransfer.items` for the directory.
 //
@@ -27,18 +26,18 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 // See: https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItem/webkitGetAsEntry
 // See: https://github.com/grabantot/datatransfer-files-promise/blob/72b6cc763f9b400c59197bcc787268965310c260/index.js
 const createBackend = (manager) => {
-  const backend = HTML5Backend(manager)
-  const handler = backend.handleTopDropCapture
-  backend.handleTopDropCapture = (event) => {
-    handler.call(backend, event)
-    if (backend.currentNativeSource && event.dataTransfer.items) {
-      // Prevent handling drag & drop of text inside webui
-      if ([...event.dataTransfer.items].every(({ kind }) => kind === 'string')) return
-
-      const filesPromise = getFilesFromDataTransferItems(event.dataTransfer.items)
-      backend.currentNativeSource.item.filesPromise = filesPromise
-    }
-  }
-  return backend
-}
-export default createBackend
+    const backend = HTML5Backend(manager);
+    const handler = backend.handleTopDropCapture;
+    backend.handleTopDropCapture = (event) => {
+        handler.call(backend, event);
+        if (backend.currentNativeSource && event.dataTransfer.items) {
+            // Prevent handling drag & drop of text inside webui
+            if ([...event.dataTransfer.items].every(({ kind }) => kind === 'string'))
+                return;
+            const filesPromise = getFilesFromDataTransferItems(event.dataTransfer.items);
+            backend.currentNativeSource.item.filesPromise = filesPromise;
+        }
+    };
+    return backend;
+};
+export default createBackend;

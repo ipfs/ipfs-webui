@@ -1,10 +1,8 @@
-import React from 'react'
-import { withTranslation, Trans } from 'react-i18next'
-import Box from '../box/Box'
-
+import React from 'react';
+import { withTranslation, Trans } from 'react-i18next';
+import Box from '../box/Box';
 export const AboutWebUI = ({ t }) => {
-  return (
-    <Box>
+    return (<Box>
       <h2 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('welcomeInfo.header')}</h2>
       <ul className='pl3'>
         <Trans i18nKey='welcomeInfo.paragraph1' t={t}>
@@ -26,8 +24,6 @@ export const AboutWebUI = ({ t }) => {
           <li className='f5'><a href='https://github.com/ipfs-shipyard/ipfs-webui' className='link blue b' target='_blank' rel='noopener noreferrer'>Check this app's source code</a> to <a href='https://github.com/ipfs-shipyard/ipfs-webui/issues' className='link blue' target='_blank' rel='noopener noreferrer'>report a bug</a> or make a contribution, and make IPFS better for everyone!</li>
         </Trans>
       </ul>
-    </Box>
-  )
-}
-
-export default withTranslation('welcome')(AboutWebUI)
+    </Box>);
+};
+export default withTranslation('welcome')(AboutWebUI);
