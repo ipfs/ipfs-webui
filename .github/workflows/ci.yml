@@ -20,7 +20,6 @@ jobs:
 
   test-unit:
     name: 'test:unit'
-    needs: build
     uses: ./.github/workflows/test-unit.yml
 
   publishPreview:
@@ -61,7 +60,7 @@ jobs:
       # see: https://github.com/ipfs-shipyard/ipfs-github-action
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
-          name: go-ipfs
+          name: kubo
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
           name: ipfs-cluster-ctl
