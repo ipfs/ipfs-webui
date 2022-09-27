@@ -5,9 +5,6 @@ on:
       kubo-version:
         description: Kubo version to use during the run
         required: false
-      ipfs-cluster-ctl-version:
-        description: IPFS Cluster CTL version to use during the run
-        required: false
   push:
     branches:
       - main
@@ -145,13 +142,13 @@ jobs:
 
       # dev dnslink is updated on each main branch update
       - run: npx dnslink-dnsimple --domain dev.webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && !github.event.inputs.kubo-version
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
 
       # production dnslink is updated on release (during tag build)
       - run: npx dnslink-dnsimple --domain webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && !github.event.inputs.kubo-version
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
 
@@ -230,7 +227,7 @@ jobs:
           name: ipfs-webui_${{ github.sha }}.car
 
       - name: Dry-run semantic release
-        if: github.ref != 'refs/heads/main'
+        if: github.ref != 'refs/heads/main' || github.event.inputs.kubo-version
         run: |
           git config user.name "ipfs-gui-bot"
           git config user.email "108953096+ipfs-gui-bot@users.noreply.github.com"
@@ -240,7 +237,7 @@ jobs:
 
       # Update the version (npm version [major|minor|patch])
       - name: Run semantic release
-        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && !github.event.inputs.kubo-version
         run: |
           git config user.name "ipfs-gui-bot"
           git config user.email "108953096+ipfs-gui-bot@users.noreply.github.com"
