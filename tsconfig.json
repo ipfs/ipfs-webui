@@ -70,7 +70,7 @@
     "src/bundles/local-storage.js",
     "src/bundles/task.js",
     "src/lib/count-dirs.js",
-    "src/lib/sort.js",
+    "src/lib/sort.ts",
     "src/lib/files.js",
   ]
 }
