@@ -229,7 +229,14 @@ const pinningBundle = {
     const pinLocally = services.includes('local')
     if (wasLocallyPinned !== pinLocally) {
       try {
-        pinLocally ? await ipfs.pin.add(cid) : await ipfs.pin.rm(cid)
+        const msgArgs = { serviceName: 'Local node' }
+        if (pinLocally) {
+          await ipfs.pin.add(cid)
+          dispatch({ type: 'IPFS_PIN_SUCCEED', msgArgs })
+        } else {
+          await ipfs.pin.rm(cid)
+          dispatch({ type: 'IPFS_UNPIN_SUCCEED', msgArgs })
+        }
       } catch (e) {
         console.error(`unexpected local pin error for ${cid} (${name})`, e)
         const msgArgs = { serviceName: 'local', errorMsg: e.toString() }
@@ -247,15 +254,18 @@ const pinningBundle = {
 
       const id = `${service.name}:${cid}`
       try {
+        const msgArgs = { serviceName: service.name }
         if (shouldPin) {
           adds.push(id)
           /* TODO: remove background:true below and add pin job to persisted queue.
            * We want track ongoing pinning across restarts of webui/ipfs-desktop
            * See: https://github.com/ipfs/ipfs-webui/issues/1752 */
           await ipfs.pin.remote.add(cid, { service: service.name, name, background: true })
+          dispatch({ type: 'IPFS_PIN_SUCCEED', msgArgs })
         } else {
           removals.push(id)
           await ipfs.pin.remote.rm({ cid: [cid], service: service.name })
+          dispatch({ type: 'IPFS_UNPIN_SUCCEED', msgArgs })
         }
       } catch (e) {
         // log error and continue with other services
