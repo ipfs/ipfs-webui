@@ -1,4 +1,4 @@
-const { test } = require('@playwright/test')
+const { test } = require('./setup/coverage')
 const { fixtureData } = require('./fixtures')
 const all = require('it-all')
 const filesize = require('filesize')

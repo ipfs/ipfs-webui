@@ -43,7 +43,7 @@ const mfsPolicyEnableFlag = memoize(async (serviceName, ipfs) => {
     return await ipfs.config.get(`Pinning.RemoteServices.${serviceName}.Policies.MFS.Enable`)
   } catch (e) {
     if (e.message?.includes('key has no attribute')) {
-      try { // retry with notation from https://github.com/ipfs/go-ipfs/pull/8096
+      try { // retry with notation from https://github.com/ipfs/kubo/pull/8096
         return await ipfs.config.get(`Pinning.RemoteServices["${serviceName}"].Policies.MFS.Enable`)
       } catch (_) {}
     }

@@ -1,3 +1,65 @@
+## [2.18.1](https://github.com/ipfs/ipfs-webui/compare/v2.18.0...v2.18.1) (2022-09-13)
+
+
+ CID `bafybeiageaoxg6d7npaof6eyzqbwvbubyler7bq44hayik2hvqcggg7d2y`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* show '0 B' instead of '-' for zero-length files ([#2018](https://github.com/ipfs/ipfs-webui/issues/2018)) ([fda3bf5](https://github.com/ipfs/ipfs-webui/commit/fda3bf50009a40e9bea284404c8f6b04a2e1e040))
+* update webui.ipfs.io dnslink on manual release ([#2024](https://github.com/ipfs/ipfs-webui/issues/2024)) ([0f1e1c2](https://github.com/ipfs/ipfs-webui/commit/0f1e1c23a926736f77f4684049751f6960015a53)), closes [#2021](https://github.com/ipfs/ipfs-webui/issues/2021)
+
+
+### Tests
+
+* add playwright code coverage ([#2014](https://github.com/ipfs/ipfs-webui/issues/2014)) ([0ecc822](https://github.com/ipfs/ipfs-webui/commit/0ecc8228e547e852621a2fc6eeb1116032008f1a))
+
+
+### Trivial Changes
+
+* pull transifex translations ([#2019](https://github.com/ipfs/ipfs-webui/issues/2019)) ([5e59065](https://github.com/ipfs/ipfs-webui/commit/5e590655b3177d29dc3a554cd56f36ea41eb7245))
+* **readme:** correct IPFS Desktop release link ([b76c0db](https://github.com/ipfs/ipfs-webui/commit/b76c0dbb0ce5bf49953ce4f13488958eaabbb387))
+* remove unused dependencies ([#2015](https://github.com/ipfs/ipfs-webui/issues/2015)) ([f007d78](https://github.com/ipfs/ipfs-webui/commit/f007d781f31d1481eae8622d34aea78456bd09b7))
+
+## [2.18.0](https://github.com/ipfs/ipfs-webui/compare/v2.17.3...v2.18.0) (2022-09-09)
+
+
+ CID `bafybeidb5eryh72zajiokdggzo7yct2d6hhcflncji5im2y5w26uuygdsm`
+
+ --- 
+
+
+
+### Features
+
+* IPNS Publishing ([#1973](https://github.com/ipfs/ipfs-webui/issues/1973)) ([4ff4939](https://github.com/ipfs/ipfs-webui/commit/4ff4939cdeb19b93634b5c70739ba3510d0c2ab3))
+* ux improvements to publish modal ([#1998](https://github.com/ipfs/ipfs-webui/issues/1998)) ([ea4f632](https://github.com/ipfs/ipfs-webui/commit/ea4f6323a38fec1bc63b3f45aed18324068f6ac2))
+
+
+### Bug Fixes
+
+* **ci:** parsing "ipfs-cluster-ctl peers ls" output ([#1966](https://github.com/ipfs/ipfs-webui/issues/1966)) ([828e460](https://github.com/ipfs/ipfs-webui/commit/828e4605a4d330f4cbf8604b7ee4625d8f6ae8a5))
+* korean detection ([#2005](https://github.com/ipfs/ipfs-webui/issues/2005)) ([362dab8](https://github.com/ipfs/ipfs-webui/commit/362dab8793222c5944c6fda37920998ed9063b41))
+* Kubo agent text to link via ReleaseLink [#2010](https://github.com/ipfs/ipfs-webui/issues/2010) ([#2011](https://github.com/ipfs/ipfs-webui/issues/2011)) ([3d04988](https://github.com/ipfs/ipfs-webui/commit/3d04988dbb4b631b16af09d4b092edf525be07be))
+* nodejs readme badges ([#1985](https://github.com/ipfs/ipfs-webui/issues/1985)) ([a9e661b](https://github.com/ipfs/ipfs-webui/commit/a9e661b4ba6406a28bc50ee393e34442ee5fc58a))
+* remove web ui version and keep revision ([#2000](https://github.com/ipfs/ipfs-webui/issues/2000)) ([42ed78d](https://github.com/ipfs/ipfs-webui/commit/42ed78d947dbe6625adb0f40aa2f8dcee1f11814))
+* resolve issues with automated releases  ([#1974](https://github.com/ipfs/ipfs-webui/issues/1974)) ([9a7cfad](https://github.com/ipfs/ipfs-webui/commit/9a7cfad3ea95ae9c56e88f63231da7a3a8b05c40))
+
+
+### Trivial Changes
+
+* add missing classnames dependency ([#1977](https://github.com/ipfs/ipfs-webui/issues/1977)) ([c4216b8](https://github.com/ipfs/ipfs-webui/commit/c4216b8bd1503d933a7cfb8d80e365f1634bb452))
+* **deps:** update react-scripts ([#1969](https://github.com/ipfs/ipfs-webui/issues/1969)) ([136b260](https://github.com/ipfs/ipfs-webui/commit/136b260f8d464b773706ed8ce9a0d56c71b78b42))
+* pull transifex translations ([#1996](https://github.com/ipfs/ipfs-webui/issues/1996)) ([0de4267](https://github.com/ipfs/ipfs-webui/commit/0de42675c734cdf2f3c9e71ba1e4696973abc60c))
+* Pull transifex translations ([#2003](https://github.com/ipfs/ipfs-webui/issues/2003)) ([cc51b15](https://github.com/ipfs/ipfs-webui/commit/cc51b159d2a1f2bd3503eed071eeb6777ecee8ee))
+* **readme:** NodeJS version support info ([#1986](https://github.com/ipfs/ipfs-webui/issues/1986)) ([829450d](https://github.com/ipfs/ipfs-webui/commit/829450ddbe17bc1ab388fd1ab9c6b900efcca0ca))
+* **readme:** update release steps ([#1963](https://github.com/ipfs/ipfs-webui/issues/1963)) ([c5b4822](https://github.com/ipfs/ipfs-webui/commit/c5b48224621846ff958e2377bf1fb43d60303f7f))
+* Update .github/workflows/stale.yml [skip ci] ([f15818d](https://github.com/ipfs/ipfs-webui/commit/f15818d444a7041ba984c410989b386616bf28fc))
+* update storybook and stories ([#2007](https://github.com/ipfs/ipfs-webui/issues/2007)) ([83ceac1](https://github.com/ipfs/ipfs-webui/commit/83ceac1066a00771fd618e3d58b0617268c7bacc)), closes [/github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack-5](https://github.com/ipfs//github.com/storybookjs/storybook/blob/next/MIGRATION.md/issues/webpack-5)
+
 ## [2.17.3](https://github.com/ipfs/ipfs-webui/compare/v2.17.2...v2.17.3) (2022-07-09)
 
 

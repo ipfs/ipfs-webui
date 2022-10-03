@@ -124,7 +124,7 @@ const checkIfGatewayUrlIsAccessible = memoize(async (url) => {
 
 // Separate test is necessary to see if subdomain mode is possible,
 // because some browser+OS combinations won't resolve them:
-// https://github.com/ipfs/go-ipfs/issues/7527
+// https://github.com/ipfs/kubo/issues/7527
 const checkIfSubdomainGatewayUrlIsAccessible = memoize(async (url) => {
   try {
     url = new URL(url)

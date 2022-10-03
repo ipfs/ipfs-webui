@@ -96,7 +96,7 @@ const File = ({
     styles.borderTop = '1px solid #eee'
   }
 
-  size = size ? humanSize(size, { round: 0 }) : '-'
+  size = humanSize(size, { round: 0 })
   const hash = cid.toString() || t('hashUnavailable')
 
   const select = (select) => onSelect(name, select)

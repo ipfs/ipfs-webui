@@ -155,7 +155,7 @@
     },
     "step7": {
       "title": "IPFS-Konfiguration",
-      "paragraph1": "Du kannst die Konfiguration deines IPFS Nodes direkt mit der Web-UI bearbeiten!",
+      "paragraph1": "Du kannst die Konfiguration deines IPFS Knotens direkt mit der Web-UI bearbeiten!",
       "paragraph2": "Vergiss nicht, den Daemon neu zu starten, um die Änderungen anzuwenden."
     }
   },

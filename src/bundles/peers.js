@@ -44,7 +44,7 @@ bundle.doConnectSwarm = (addr, permanent) => async ({ dispatch, getIpfs, store }
       const peerId = maddr.getPeerId()
       const rawAddr = maddr.decapsulateCode(421).toString() // drop /p2p suffix
 
-      // TODO: switch to ipfs.swarm.peering when https://github.com/ipfs/go-ipfs/pull/8147 ships
+      // TODO: switch to ipfs.swarm.peering when https://github.com/ipfs/kubo/pull/8147 ships
       let peers = (await ipfs.config.get('Peering.Peers')) || []
       const preexisting = peers.find(p => p.ID === peerId)
       if (preexisting) {

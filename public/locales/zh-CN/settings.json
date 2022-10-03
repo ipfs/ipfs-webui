@@ -4,7 +4,7 @@
   "saving": "保存中 …",
   "reset": "重置",
   "learnMoreLink": "了解更多。",
-  "showOptions": "Show options",
+  "showOptions": "显示选项",
   "pinningServices": {
     "title": "固定服务",
     "description": "当您希望确保您节点上的项目永远不会被执行垃圾回收时，请使用本地固定，这样即便您将项目从文件中删除，项目依旧会保存在您的节点内。您还可以将您的帐户与其他远程固定服务连接，以自动或有选择地将文件同步至其他固定服务商，这样即便您自己的本地节点失效时，您依旧可以获得文件的副本/或者将这些文件分享给其他人。",
@@ -59,7 +59,7 @@
   },
   "actions": {
     "addService": "增加服务",
-    "generateKey": "Generate Key",
+    "generateKey": "生成密钥",
     "edit": "修改",
     "close": "关闭",
     "save": "保存",
@@ -166,19 +166,19 @@
     "readMoreUrl": "查看更多"
   },
   "ipnsPublishingKeys": {
-    "title": "IPNS Publishing Keys",
-    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+    "title": "IPNS发布密钥",
+    "description": "星际名称系统（IPNS）提供加密的地址，可用于发布随时间变化的内容更新。这项功能要求您的节点每天至少连接至IPFS网络一次，以确保IPNS的解析记录在公共DHT上保持有效。"
   },
   "generateKeyModal": {
-    "title": "Generate New IPNS Key",
-    "description": "Enter a nickname for this key to generate:"
+    "title": "生成新的IPNS密钥",
+    "description": "请输入一个名称以生成密钥："
   },
   "renameKeyModal": {
-    "title": "Rename Key",
-    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+    "title": "重命名密钥",
+    "description": "为此IPNS密钥<1>{name}</1>输入一个新的名称。"
   },
   "removeKeyModal": {
-    "title": "Confirm IPNS Key Removal",
-    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
+    "title": "确认移除此IPNS密钥",
+    "description": "你确认你想要删除此IPNS密钥<1>{name}</1>吗？此操作不可逆，以及此密钥管理的IPNS地址将永远丢失。考虑备份?: 请使用IPFS密钥导出功能"
   }
 }

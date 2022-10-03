@@ -20,7 +20,6 @@ jobs:
 
   test-unit:
     name: 'test:unit'
-    needs: build
     uses: ./.github/workflows/test-unit.yml
 
   publishPreview:
@@ -61,7 +60,7 @@ jobs:
       # see: https://github.com/ipfs-shipyard/ipfs-github-action
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
-          name: go-ipfs
+          name: kubo
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
           name: ipfs-cluster-ctl
@@ -143,17 +142,16 @@ jobs:
 
       # production dnslink is updated on release (during tag build)
       - run: npx dnslink-dnsimple --domain webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
 
   test-e2e:
     name: 'test:e2e'
-    needs: build
     uses: ./.github/workflows/test-e2e.yml
 
   test-storybook:
-    name: 'test:e2e'
+    name: 'test:storybook'
     uses: ./.github/workflows/test-storybook.yml
 
   # separate check for TS

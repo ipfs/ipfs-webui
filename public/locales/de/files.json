@@ -73,7 +73,7 @@
     "closeDropdown": "Dropdown schließen",
     "count": "{count} von {count}"
   },
-  "addFilesInfo": "<0>Noch keine Dateien vorhanden! Füge Dateien zu deinem IPFS-Node hinzu, indem du oben auf die Schaltfläche <1>\"Importieren\"</1> klickst.</0>",
+  "addFilesInfo": "<0>Noch keine Dateien vorhanden! Füge Dateien zu deinem IPFS-Knoten hinzu, indem du oben auf die Schaltfläche <1>\"Importieren\"</1> klickst.</0>",
   "companionInfo": "<0>Da du den <1>IPFS Companion</1> nutzt, ist die Dateiansicht auf Dateien begrenzt, die während der Nutzung der Erweiterung hinzugefügt wurden.</0>",
   "tour": {
     "step1": {
@@ -122,7 +122,7 @@
     "publishUnderKey": "Wähle Schlüssel zum Veröffentlichen:",
     "help": "Gehe zu den Einstellungen um über IPNS zu lernen und erstelle mehr Schlüssel.",
     "publishedUnderKey": "Erfolgreich unter dem Schlüssel veröffentlicht:",
-    "linkCopied": "Link copied!",
+    "linkCopied": "Link kopiert!",
     "sharingPrompt": "Kopieren den untenstehenden Link und teile ihn mit anderen. Die IPNS-Adresse wird aufgelöst, so lange dein Node mindestes ein Mal täglich im Netzwerk verfügbar ist, um den IPNS-Record zu erneuern.",
     "pleaseWait": "Bitte warte solange die initialen 20 Kopien des geänderten IPNS-Records mit der Hilfe von DHT-Peers gespeichert wurde ..."
   }
