@@ -66,13 +66,11 @@ class Header extends React.Component {
         </div>
 
         <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
-          { pinsInQueue
-            ? <a href='#/pins' alt={t('pinningQueue')} title={t('pinningQueue')} className='ml3'>
-                <GlyphPinCloud
-                  style={{ width: '3rem' }}
-                  className='fill-teal PendingAnimation' />
-              </a>
-            : '' }
+          { pinsInQueue > 0 && <a href='#/pins' alt={t('pinningQueue')} title={t('pinningQueue')} className='ml3'>
+            <GlyphPinCloud
+              style={{ width: '3rem' }}
+              className='fill-teal PendingAnimation' />
+          </a> }
 
           <BarOption title={t('filesDescription')} text={t('app:terms:files')}>
             { hasUpperDirectory
