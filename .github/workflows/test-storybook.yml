@@ -35,6 +35,7 @@ jobs:
 
       - uses: codecov/codecov-action@v3
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           flags: storybook_tests # optional
           name: storybook-coverage # optional
           file: ./coverage/storybook/coverage-storybook.json
