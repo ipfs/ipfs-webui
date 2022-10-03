@@ -8,7 +8,7 @@
   "pinningServices": {
     "title": "خدمات التثبيت",
     "description": "استخدم التثبيت المحلي عندما تريد التأكد من عدم جمع عنصر ما على العقدة مطلقًا، حتى إذا قمت بإزالته من الملفات. يمكنك أيضًا ربط حساباتك بخدمات التثبيت عن بُعد الأخرى للملفات المستمرة تلقائيًا أو بشكل انتقائي مع هؤلاء الموفرين، مما يتيح لك الاحتفاظ بنسخ احتياطية من ملفاتك و - أو إتاحتها للآخرين عندما تكون العقدة المحلية الخاصة بك غير متصلة بالإنترنت.",
-    "noPinRemoteDescription": "دعم خدمات التثبيت عن بُعد التابعة لجهات خارجية مفقود. قم بتحديث عقدة IPFS الخاصة بك إلى go-ipfs 0.8.0 أو أحدث، وستتمكن من إضافتها وتكوينها هنا.",
+    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
     "addAutoUpload": "تمكين التحميل التلقائي",
     "removeAutoUpload": "تعطيل التحميل التلقائي"
   },
