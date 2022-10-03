@@ -95,8 +95,6 @@ const resumePendingPins = (store) => {
 
       pendingPins.forEach(pin => {
         const [service, cid] = pin.split(':')
-        console.log(service, cid)
-
         store.doSetPinning({ cid: new CID(cid) }, [service], false)
       })
     }
