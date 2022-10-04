@@ -22,7 +22,7 @@ import FileImportStatus from './file-import-status/FileImportStatus'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
-  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, doExploreUserProvidedPath,
+  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins, doExploreUserProvidedPath,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
@@ -137,13 +137,11 @@ const FilesPage = ({
     })
   }
 
-  const MainView = ({ t, files, remotePins, doExploreUserProvidedPath }) => {
+  const MainView = ({ t, files, remotePins, pendingPins, failedPins, doExploreUserProvidedPath }) => {
     if (!files) return (<div/>)
 
     if (files.type === 'unknown') {
-      const path = files.path.startsWith('/pins')
-        ? files.path.slice(6)
-        : files.path
+      const path = files.path
 
       return (
         <div>
@@ -166,6 +164,8 @@ const FilesPage = ({
         updateSorting={doFilesUpdateSorting}
         files={files.content}
         remotePins={remotePins}
+        pendingPins={pendingPins}
+        failedPins={failedPins}
         upperDir={files.upper}
         downloadProgress={downloadProgress}
         onShare={(files) => showModal(SHARE, files)}
@@ -191,8 +191,6 @@ const FilesPage = ({
 
     if (filesPathInfo.isMfs) {
       parts.push(t('app:terms.files'))
-    } else if (filesPathInfo.isPins) {
-      parts.push(t('app:terms.pins'))
     }
 
     parts.push('IPFS')
@@ -239,7 +237,7 @@ const FilesPage = ({
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
         handleContextMenu={(...args) => handleContextMenu(...args, true)} />
 
-      <MainView t={t} files={files} remotePins={remotePins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
+      <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={ipfsProvider === 'window.ipfs'}
@@ -278,6 +276,8 @@ export default connect(
   'selectIpfsConnected',
   'selectFiles',
   'selectRemotePins',
+  'selectPendingPins',
+  'selectFailedPins',
   'selectFilesPathInfo',
   'doUpdateHash',
   'doPinsFetch',
