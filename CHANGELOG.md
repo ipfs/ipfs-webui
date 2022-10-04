@@ -1,3 +1,35 @@
+## [2.19.0](https://github.com/ipfs/ipfs-webui/compare/v2.18.1...v2.19.0) (2022-10-03)
+
+
+ CID `bafybeiavrvt53fks6u32n5p2morgblcmck4bh4ymf4rrwu7ah5zsykmqqa`
+
+ --- 
+
+
+
+### Features
+
+* add codecov_token to codecov step ([#2044](https://github.com/ipfs/ipfs-webui/issues/2044)) ([ee7cc63](https://github.com/ipfs/ipfs-webui/commit/ee7cc635b94959af5e94a11e7ab3b11e2b9dcee8))
+* add Web3.Storage and Estuary to pinning service templates ([#2026](https://github.com/ipfs/ipfs-webui/issues/2026)) ([3aae1f2](https://github.com/ipfs/ipfs-webui/commit/3aae1f25c3777f42cedb6069691e707ac2a2269b))
+
+
+### Bug Fixes
+
+* **settings:** randomize pinning service templates ([#2027](https://github.com/ipfs/ipfs-webui/issues/2027)) ([cd211ac](https://github.com/ipfs/ipfs-webui/commit/cd211ac2af589080f133a76c47ffe1563775cfb6))
+
+
+### Tests
+
+* add unit&storybook coverage to codecov ([#2023](https://github.com/ipfs/ipfs-webui/issues/2023)) ([1961b17](https://github.com/ipfs/ipfs-webui/commit/1961b179b7a6de289cf799429d95015756490b0a))
+
+
+### Trivial Changes
+
+* go-ipfs -> kubo name update ([#2022](https://github.com/ipfs/ipfs-webui/issues/2022)) ([183c476](https://github.com/ipfs/ipfs-webui/commit/183c476581fcbfa612aacf6b3622a9d6a8620afc))
+* pull new translations ([#2041](https://github.com/ipfs/ipfs-webui/issues/2041)) ([1be6342](https://github.com/ipfs/ipfs-webui/commit/1be6342a54b4e147641484102dd1282dc4dcaeb9))
+* Pull transifex translations ([#2028](https://github.com/ipfs/ipfs-webui/issues/2028)) ([5011e12](https://github.com/ipfs/ipfs-webui/commit/5011e120e59bb5b07bc28bdfb60ed6a5128fc525))
+* replace topojson with topojson-client ([#2035](https://github.com/ipfs/ipfs-webui/issues/2035)) ([e06a878](https://github.com/ipfs/ipfs-webui/commit/e06a8780a9c41ea9e1e04fa840f7171db8e94bcc))
+
 ## [2.18.1](https://github.com/ipfs/ipfs-webui/compare/v2.18.0...v2.18.1) (2022-09-13)
 
 

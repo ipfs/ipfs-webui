@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import * as topojson from 'topojson'
+import * as topojson from 'topojson-client'
 import ReactFauxDOM from 'react-faux-dom'
 import worldData from './world.json'
 

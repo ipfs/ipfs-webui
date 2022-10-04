@@ -8,17 +8,16 @@ import { normalizeFiles, humanSize } from '../../lib/files'
 import { useDrag, useDrop } from 'react-dnd'
 // Components
 import GlyphDots from '../../icons/GlyphDots'
-import GlyphPin from '../../icons/GlyphPin'
-import GlyphPinCloud from '../../icons/GlyphPinCloud'
 import Tooltip from '../../components/tooltip/Tooltip'
 import Checkbox from '../../components/checkbox/Checkbox'
 import FileIcon from '../file-icon/FileIcon'
 import CID from 'cids'
 import { NativeTypes } from 'react-dnd-html5-backend'
+import PinIcon from '../pin-icon/PinIcon'
 
 const File = ({
-  name, type, size, cid, path, pinned, t, selected, focused, translucent, coloured, cantSelect, cantDrag, isMfs, isRemotePin,
-  onAddFiles, onMove, onSelect, onNavigate, onSetPinning, handleContextMenuClick
+  name, type, size, cid, path, pinned, t, selected, focused, translucent, coloured, cantSelect, cantDrag, isMfs, isRemotePin, isPendingPin, isFailedPin,
+  onAddFiles, onMove, onSelect, onNavigate, onSetPinning, onDismissFailedPin, handleContextMenuClick
 }) => {
   const dotsWrapper = useRef()
 
@@ -127,16 +126,8 @@ const File = ({
         </button>
 
         <div className='ph2 pv1 flex-none hide-child dn db-l tr mw3 w-20 transition-all'>
-          <button className='ph2 db button-inside-focus' style={{ width: '2.5rem', height: '2rem' }} onClick={() => onSetPinning([{ cid, pinned }])}>
-            { pinned && !isRemotePin && <div className='br-100 o-70' title={t('pinned')} style={{ width: '2rem', height: '2rem' }}>
-              <GlyphPin className='fill-aqua' />
-            </div> }
-            { isRemotePin && <div className='br-100 o-70' title={t('pinnedRemotely')} style={{ width: '2rem', height: '2rem' }}>
-              <GlyphPinCloud className='fill-aqua' />
-            </div> }
-            { !pinned && !isRemotePin && <div className='br-100 hide-child' title={t('app:actions.setPinning')} style={{ width: '2rem', height: '2rem' }}>
-              <GlyphPin className='fill-gray-muted child' />
-            </div> }
+          <button className='ph2 db button-inside-focus' style={{ width: '2.5rem', height: '2rem' }} onClick={isFailedPin ? onDismissFailedPin : () => onSetPinning([{ cid, pinned }])}>
+            <PinIcon isFailedPin={isFailedPin} isPendingPin={isPendingPin} isRemotePin={isRemotePin} pinned={pinned} />
           </button>
         </div>
         <div className='size pl2 pr4 pv1 flex-none f6 dn db-l tr charcoal-muted w-10 mw4'>
@@ -162,6 +153,7 @@ File.propTypes = {
   onNavigate: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
+  onDismissFailedPin: PropTypes.func.isRequired,
   coloured: PropTypes.bool,
   translucent: PropTypes.bool,
   handleContextMenuClick: PropTypes.func,

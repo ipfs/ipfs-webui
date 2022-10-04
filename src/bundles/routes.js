@@ -1,6 +1,7 @@
 import { createRouteBundle } from 'redux-bundler'
 import StatusPage from '../status/LoadableStatusPage'
 import FilesPage from '../files/LoadableFilesPage'
+import PinsPage from '../pins/LoadablePinsPage'
 import StartExploringPage from '../explore/LoadableStartExploringPage'
 import ExplorePage from '../explore/LoadableExplorePage'
 import PeersPage from '../peers/LoadablePeersPage'
@@ -15,7 +16,7 @@ export default createRouteBundle({
   '/files*': FilesPage,
   '/ipfs*': FilesPage,
   '/ipns*': FilesPage,
-  '/pins*': FilesPage,
+  '/pins*': PinsPage,
   '/peers': PeersPage,
   '/settings/analytics': AnalyticsPage,
   '/settings*': SettingsPage,

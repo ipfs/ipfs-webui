@@ -1,0 +1,22 @@
+.PendingAnimation {
+  animation: PendingAnimation 2.5s ease-in-out infinite;
+}
+
+
+@keyframes PendingAnimation {
+  0% {
+   opacity: 0.3;
+  }
+
+  25% {
+    opacity: 0.7;
+  }
+
+  60% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 0.3;
+  }
+}
