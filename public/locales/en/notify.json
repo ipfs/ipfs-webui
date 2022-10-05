@@ -5,6 +5,8 @@
   "ipfsConnectSuccess": "Successfully connected to the IPFS API address",
   "ipfsConnectFail": "Unable to connect to the provided IPFS API address",
   "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
+  "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
+  "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
   "ipfsIsBack": "Normal IPFS service has resumed. Enjoy!",
   "folderExists": "An item with that name already exists. Please choose another.",
   "filesFetchFailed": "Failed to get those files. Please check the path and try again.",
