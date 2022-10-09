@@ -108,10 +108,16 @@
   "checkboxLabel": "Lihat opsi lainnya untuk {name}",
   "pinned": "Disematkan",
   "pinnedRemotely": "Disematkan dari jarak jauh",
+  "pinningRemotely": "Menyematkan dari jarak jauh",
+  "pinningCompleted": "Penyematan selesai",
+  "pinningFailed": "Penyematan gagal",
+  "clickToDismiss": "Klik untuk menutup",
+  "clickToCancel": "Klik untuk membatalkan",
   "blocks": "Blok",
   "allBlocks": "Semua blok",
   "allBlocksDescription": "Ukuran total blok di seluruh node IPFS Anda; ini mencakup semua yang ada di Berkas, ditambah semua item yang disematkan secara lokal dan semua data cache sementara",
   "filesDescription": "Ukuran total data dalam direktori saat ini (jika subdirektori, ukuran semua data dalam Berkas juga ditampilkan)",
+  "pinningQueue": "Menyematkan antrean",
   "more": "Lebih",
   "files": "Berkas",
   "cidNotFileNorDir": "Tautan saat ini bukan berkas, atau direktori. Cobalah untuk <1>memeriksanya</1> sebagai gantinya.",
@@ -122,8 +128,10 @@
     "publishUnderKey": "Pilih kunci untuk penerbitan:",
     "help": "Buka Pengaturan untuk mempelajari tentang IPNS dan membuat lebih banyak kunci.",
     "publishedUnderKey": "Berhasil diterbitkan di bawah kunci:",
-    "linkCopied": "Link copied!",
+    "linkCopied": "Tautan disalin!",
     "sharingPrompt": "Salin tautan di bawah ini dan bagikan dengan orang lain. Alamat IPNS akan diselesaikan selama node Anda tetap tersedia di jaringan sekali sehari untuk menyegarkan catatan IPNS.",
     "pleaseWait": "Harap tunggu sementara 20 salinan awal dari catatan IPNS yang diperbarui disimpan dengan bantuan rekan-rekan DHT…"
-  }
+  },
+  "noPinsInProgress": "Semua selesai, tidak ada pin jarak jauh yang sedang berlangsung.",
+  "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:"
 }

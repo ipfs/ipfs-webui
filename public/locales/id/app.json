@@ -31,7 +31,7 @@
     "generate": "Hasilkan",
     "publish": "Menerbitkan",
     "downloadCar": "Unduh sebagai CAR",
-    "done": "Done"
+    "done": "Selesai"
   },
   "cliModal": {
     "description": "Rekatkan yang berikut ini ke terminal Anda untuk melakukan tugas ini di IPFS melalui baris perintah. Ingatlah bahwa Anda harus mengganti tempat penampung dengan parameter spesifik Anda."

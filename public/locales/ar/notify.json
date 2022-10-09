@@ -5,6 +5,8 @@
   "ipfsConnectSuccess": "تم الاتصال بنجاح بعنوان IPFS API",
   "ipfsConnectFail": "تعذر الاتصال بعنوان IPFS API المقدم",
   "ipfsPinFailReason": "تعذر تعيين التثبيت في {serviceName}: {errorMsg}",
+  "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
+  "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
   "ipfsIsBack": "تم استئناف خدمة IPFS العادية. استمتع!",
   "folderExists": "يوجد عنصر بهذا الاسم بالفعل. الرجاء اختيار آخر.",
   "filesFetchFailed": "فشل الحصول على هذه الملفات. يرجى التحقق من المسار وحاول مرة أخرى.",
