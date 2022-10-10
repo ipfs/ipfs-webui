@@ -5,6 +5,8 @@
   "ipfsConnectSuccess": "S'ha connectat correctament a l'adreça API d'IPFS",
   "ipfsConnectFail": "No s'ha pogut connectar a l'adreça IPFS de l'API proporcionada",
   "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
+  "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
+  "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
   "ipfsIsBack": "El servei IPFS normal s'ha reprès. Gaudeix-ne!",
   "folderExists": "Ja existeix un item amb aquest nom. Siusplau escolliu-ne un altre.",
   "filesFetchFailed": "No s'han pogut obtenir aquests fitxers. Siusplau comproveu el path i torneu-ho a provar.",

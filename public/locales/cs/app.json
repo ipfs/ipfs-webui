@@ -31,7 +31,7 @@
     "generate": "Generovat",
     "publish": "Publikovat",
     "downloadCar": "Stáhnout jako CAR",
-    "done": "Done"
+    "done": "Hotovo"
   },
   "cliModal": {
     "description": "Chcete-li tento úkol provést v IPFS prostřednictvím příkazového řádku, vložte do terminálu následující příkaz. Nezapomeňte, že je třeba nahradit zástupné znaky konkrétními parametry."
