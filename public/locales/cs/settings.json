@@ -8,7 +8,7 @@
   "pinningServices": {
     "title": "Služby připínání",
     "description": "Místní připnutí použijte, pokud chcete zajistit, aby položka v uzlu nebyla nikdy shromážděna jako odpad, i když ji odstraníte ze Souborů. Své účty můžete také propojit s jinými službami vzdáleného připínání, abyste mohli automaticky nebo selektivně uchovávat soubory u těchto poskytovatelů, což vám umožní uchovávat záložní kopie souborů a/nebo je zpřístupnit ostatním, když je váš místní uzel offline.",
-    "noPinRemoteDescription": "Chybí podpora pro služby vzdáleného připnutí třetích stran. Aktualizujte svůj uzel IPFS na verzi go-ipfs 0.8.0 nebo novější a budete je moci přidat a konfigurovat zde.",
+    "noPinRemoteDescription": "Chybí podpora pro služby vzdáleného připnutí třetích stran. Aktualizujte svůj uzel IPFS na verzi Kubo 0.8.0 nebo novější a budete je moci přidat a konfigurovat zde.",
     "addAutoUpload": "Povolit automatické nahrávání",
     "removeAutoUpload": "Zakázat automatické nahrávání"
   },

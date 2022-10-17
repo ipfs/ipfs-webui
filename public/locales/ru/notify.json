@@ -5,6 +5,8 @@
   "ipfsConnectSuccess": "Успешно подключено к  IPFS API-адресу",
   "ipfsConnectFail": "Невозможно связаться с заданным адресом IPFS API",
   "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
+  "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
+  "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
   "ipfsIsBack": "Служба IPFS возобновлена. Наслаждайтесь!",
   "folderExists": "Элемент с таким именем уже существует. Пожалуйста, выберите другое.",
   "filesFetchFailed": "Не удалось получить файлы. Пожалуйста, проверьте путь и попробуйте снова.",

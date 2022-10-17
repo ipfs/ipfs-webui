@@ -108,10 +108,16 @@
   "checkboxLabel": "Voir plus d'options pour {name}",
   "pinned": "Épinglé",
   "pinnedRemotely": "Épinglé à distance",
+  "pinningRemotely": "Épinglage à distance",
+  "pinningCompleted": "Épinglage terminé",
+  "pinningFailed": "L'épinglage a échoué",
+  "clickToDismiss": "Cliquez pour fermer",
+  "clickToCancel": "Cliquez pour annuler",
   "blocks": "Blocs",
   "allBlocks": "Tous les blocs",
   "allBlocksDescription": "Taille totale des blocs de tout votre nœud IPFS. Cela inclut tout ce qui se trouve dans Fichiers, plus tous les éléments épinglés localement et le cache de données temporaire",
   "filesDescription": "Taille totale des données dans ce dossier (si c'est un sous-dossier, la taille de tous les données dans Fichiers est aussi affichée)",
+  "pinningQueue": "Queue d'épinglage",
   "more": "Plus",
   "files": "Fichiers",
   "cidNotFileNorDir": "Le lien actuel n'est ni un fichier ni un dossier. Essayez plutôt de <1>l'inspecter</1>.",
@@ -125,5 +131,7 @@
     "linkCopied": "Lien copié !",
     "sharingPrompt": "Copiez le lien ci-dessous et partagez-le avec les autres. L'adresse IPNS sera résolue tant que votre nœud reste disponible sur le réseau une fois par jour pour rafraichir l'enregistrement IPNS. ",
     "pleaseWait": "Merci d'attendre pendant que les 20 premières copies de l'enregistrement IPNS mis à jour sont stockés avec l'aide des pairs DHT..."
-  }
+  },
+  "noPinsInProgress": "Terminé, aucun épinglage distant en cours.",
+  "remotePinningInProgress": "Épinglage distant en cours:"
 }

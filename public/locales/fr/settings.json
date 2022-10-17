@@ -8,7 +8,7 @@
   "pinningServices": {
     "title": "Services d'épinglage",
     "description": "Utilisez l'épinglage local quand vous voulez être sûr(e) qu'un élément sur votre nœud n'est jamais supprimé par le ramasse-miettes, même si vous le supprimez de Fichiers. Vous pouvez aussi lier vos comptes à d'autres services d'épinglage pour garder automatiquement ou sélectivement une copie chez ces fournisseurs de service, vous permettant de conserver des copies de vos fichiers et/ou de les rendre disponibles quand votre nœud est hors ligne.",
-    "noPinRemoteDescription": "Le support pour l'épinglage par des services d'épinglage tiers distants est manquant. Mettez votre nœud IPFS à jour vers go-ipfs 0.8.0 ou plus, et vous serez capable de les ajouter et les configurer ici.",
+    "noPinRemoteDescription": "Cette version ne supporte pas les services tiers d'épinglage distants. Mettez à jour votre nœud IPFS vers Kubo 0.8.0 ou plus récent, et vous pourrez les ajouter et les configurer ici. ",
     "addAutoUpload": "Activer le téléversement automatique",
     "removeAutoUpload": "Désactiver le Téléversement Automatique"
   },

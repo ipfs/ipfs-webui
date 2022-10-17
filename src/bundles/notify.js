@@ -69,11 +69,32 @@ const notify = {
         eventId: `experimentsErrors.${action.payload.key}`
       }
     }
+
     if (action.type === 'IPFS_PIN_FAILED') {
       return {
         ...state,
         show: true,
         error: true,
+        msgArgs: action.msgArgs,
+        eventId: action.type
+      }
+    }
+
+    if (action.type === 'IPFS_PIN_SUCCEED') {
+      return {
+        ...state,
+        show: true,
+        error: false,
+        msgArgs: action.msgArgs,
+        eventId: action.type
+      }
+    }
+
+    if (action.type === 'IPFS_UNPIN_SUCCEED') {
+      return {
+        ...state,
+        show: true,
+        error: false,
         msgArgs: action.msgArgs,
         eventId: action.type
       }
@@ -87,6 +108,7 @@ const notify = {
         eventId: action.type
       }
     }
+
     if (action.type === 'IPFS_CONNECT_SUCCEED') {
       return {
         ...state,
@@ -95,6 +117,7 @@ const notify = {
         eventId: action.type
       }
     }
+
     if (action.type === 'IPFS_API_ADDRESS_INVALID') {
       return {
         ...state,
@@ -129,6 +152,12 @@ const notify = {
       }
       if (eventId === 'IPFS_PIN_FAILED') {
         return 'ipfsPinFailReason'
+      }
+      if (eventId === 'IPFS_PIN_SUCCEED') {
+        return 'ipfsPinSucceedReason'
+      }
+      if (eventId === 'IPFS_UNPIN_SUCCEED') {
+        return 'ipfsUnpinSucceedReason'
       }
 
       if (eventId === 'FILES_EVENT_FAILED') {
