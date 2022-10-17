@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install Transifex client
       run: |
         curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
@@ -25,7 +27,7 @@ jobs:
         # Optional. Local and remote branch name where commit is going to be pushed
         #  to. Defaults to the current branch.
         #  You might need to set `create_branch: true` if the branch does not exist.
-        branch: i18n-sync
+        branch: main
 
         # Optional. Options used by `git-commit`.
         # See https://git-scm.com/docs/git-commit#_options
@@ -46,33 +48,10 @@ jobs:
         # See https://git-scm.com/docs/git-add#_options
         add_options: '-A'
 
-        # Optional. Options used by `git-push`.
-        # See https://git-scm.com/docs/git-push#_options
-        push_options: '--force'
-
         # Optional. Disable dirty check and always try to create a commit and push
-        skip_dirty_check: true
+        skip_dirty_check: false
 
-        # Optional. Skip internal call to `git fetch`
-        skip_fetch: true
-
-        # Optional. Skip internal call to `git checkout`
-        skip_checkout: true
 
         # Optional. Prevents the shell from expanding filenames.
         # Details: https://www.gnu.org/software/bash/manual/html_node/Filename-Expansion.html
         disable_globbing: true
-
-        # Optional. Create given branch name in local and remote repository.
-        create_branch: true
-    - name: pull-request
-      uses: repo-sync/pull-request@65785d95a5a466e46a9d0708933a3bd51bbf9dde
-      with:
-        source_branch: "i18n-sync"
-        destination_branch: "main"
-        pr_title: "chore: pull new translations"
-        pr_body: "Automated PR created by .github/workflows/tx-pull.yml"
-        pr_label: "area/i18n/translations"
-        pr_draft: false
-        pr_allow_empty: false
-        github_token: ${{ secrets.GITHUB_TOKEN }}
