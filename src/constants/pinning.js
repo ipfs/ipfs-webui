@@ -43,8 +43,13 @@ const pinningServiceTemplates = [
     icon: 'https://dweb.link/ipfs/bafkreicn36fjx2tlanzslpayomdhgerh7oovlaasfkg7ltzgztf7a3buu4?filename=Estuary-logo.svg',
     apiEndpoint: 'https://api.estuary.tech/pinning',
     visitServiceUrl: 'https://docs.estuary.tech/tutorial-get-an-api-key'
+  },
+  {
+    name: 'ipfs-search.com',
+    icon: 'https://dweb.link/ipfs/bafybeiehpd5qs3yp4idykablgrnjlq2oox44pr3fpyqrt7u2df27rkw7l4?filename=ipfs-search-logo.svg',
+    apiEndpoint: 'https://api.ipfs-search.com/v1/queue-pinservice/',
+    visitServiceUrl: 'https://ipfs-search.readthedocs.io/en/latest/queue-pinservice.html'
   }
-
 ].map((service) => {
   const domain = new URL(service.apiEndpoint).hostname
   service.complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
