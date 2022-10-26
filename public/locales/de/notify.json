@@ -5,6 +5,8 @@
   "ipfsConnectSuccess": "Erfolgreich mit der IPFS-API-Adresse verbunden",
   "ipfsConnectFail": "Es kann keine Verbindung zur angegebenen IPFS-API-Adresse hergestellt werden",
   "ipfsPinFailReason": "Konnte nicht an {serviceName} anpinnen: {errorMsg}",
+  "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
+  "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
   "ipfsIsBack": "Der normale IPFS-Dienst wurde fortgesetzt. Viel Spaß!",
   "folderExists": "Ein Element mit diesem Namen ist bereits vorhanden. Bitte wähle einen anderen.",
   "filesFetchFailed": "Fehler beim Abrufen dieser Dateien. Bitte überprüfe den Pfad und versuche es erneut.",

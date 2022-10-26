@@ -5,6 +5,8 @@
   "ipfsConnectSuccess": "已成功連接到 IPFS API 地址",
   "ipfsConnectFail": "無法連接到提供的 IPFS API 地址",
   "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
+  "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
+  "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
   "ipfsIsBack": "IPFS 服務已恢復正常！",
   "folderExists": "已有同名項目了，請更換另一個。",
   "filesFetchFailed": "下載這些文件失敗，請檢查路徑並再試一次。",

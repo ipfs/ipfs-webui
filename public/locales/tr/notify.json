@@ -5,6 +5,8 @@
   "ipfsConnectSuccess": "IPFS UPA adresine başarıyla bağlanıldı",
   "ipfsConnectFail": "Sağlanan IPFS UPA adresine bağlanılamıyor",
   "ipfsPinFailReason": "{serviceName} servisinde sabitleme ayarlanamıyor: {errorMsg}",
+  "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
+  "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
   "ipfsIsBack": "Normal IPFS hizmeti devam etti. Tadını çıkarın!",
   "folderExists": "Bu isimde bir öğe zaten var. Lütfen diğerini seçin.",
   "filesFetchFailed": "Bu dosyalar alınamadı. Lütfen yolu kontrol edin ve tekrar deneyin.",

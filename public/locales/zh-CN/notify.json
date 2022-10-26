@@ -5,6 +5,8 @@
   "ipfsConnectSuccess": "已成功连接到IPFS API地址",
   "ipfsConnectFail": "无法连接到提供的IPFS API地址",
   "ipfsPinFailReason": "无法在{serviceName}上设置固定:{errorMsg}",
+  "ipfsPinSucceedReason": "在{serviceName}中固定成功",
+  "ipfsUnpinSucceedReason": "在{serviceName}成功取消固定",
   "ipfsIsBack": "已恢复IPFS服务。请安心！",
   "folderExists": "已经有文件拥有相同的名称了，请换一个别的。",
   "filesFetchFailed": "获取这些文件失败，请检查路径并再重新尝试一次。",

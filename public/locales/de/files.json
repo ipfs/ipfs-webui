@@ -108,10 +108,16 @@
   "checkboxLabel": "Weitere Optionen für {name} anzeigen",
   "pinned": "Angeheftet",
   "pinnedRemotely": "Entfernt angeheftet",
+  "pinningRemotely": "Pinning remotely",
+  "pinningCompleted": "Pinning completed",
+  "pinningFailed": "Pinning failed",
+  "clickToDismiss": "Click to dismiss",
+  "clickToCancel": "Click to cancel",
   "blocks": "Blöcke",
   "allBlocks": "Alle Blöcke",
   "allBlocksDescription": "Die Gesamtgröße aller Blöcke auf deinem IPFS Knoten; Dies umfasst alles in Dateien, sowie alle lokal angehefteten Elemente und alle temporär gespeicherten Daten",
   "filesDescription": "Gesamtgröße der Daten im aktuellen Verzeichnis (wenn es sich um ein Unterverzeichnis handelt, wird auch die Größe aller Daten in Dateien angezeigt)",
+  "pinningQueue": "Pinning queue",
   "more": "Mehr",
   "files": "Dateien",
   "cidNotFileNorDir": "Der aktuelle Link ist weder eine Datei, noch ein Verzeichnis. Versuche stattdessen, es zu <1>untersuchen</1>.",
@@ -125,5 +131,7 @@
     "linkCopied": "Link kopiert!",
     "sharingPrompt": "Kopieren den untenstehenden Link und teile ihn mit anderen. Die IPNS-Adresse wird aufgelöst, so lange dein Node mindestes ein Mal täglich im Netzwerk verfügbar ist, um den IPNS-Record zu erneuern.",
     "pleaseWait": "Bitte warte solange die initialen 20 Kopien des geänderten IPNS-Records mit der Hilfe von DHT-Peers gespeichert wurde ..."
-  }
+  },
+  "noPinsInProgress": "All done, no remote pins in progress.",
+  "remotePinningInProgress": "Remote pinning in progress:"
 }

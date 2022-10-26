@@ -108,10 +108,16 @@
   "checkboxLabel": "查看更多选项{name}",
   "pinned": "已固定",
   "pinnedRemotely": "远程固定",
+  "pinningRemotely": "远程固定",
+  "pinningCompleted": "固定完成",
+  "pinningFailed": "固定失败",
+  "clickToDismiss": "按此忽略",
+  "clickToCancel": "按此取消",
   "blocks": "块",
   "allBlocks": "所有块",
   "allBlocksDescription": "您整个IPFS 节点内的所有已使用的块大小，这包括所有的文件，加上所有的本地固定的文件以及任何任何临时缓存的数据。",
   "filesDescription": "当前目录的总数据大小（如果包含子文件夹也将一并合计）",
+  "pinningQueue": "固定队列",
   "more": "更多",
   "files": "文件",
   "cidNotFileNorDir": "当前的连接不是一个文件或目录，请使用<1>检查</1> 功能替代。",
@@ -125,5 +131,7 @@
     "linkCopied": "链接已复制！",
     "sharingPrompt": "复制以下链接分享给其他人。只要您的节点保持可用，此IPNS地址将会以每天更新一次的频率更新解析记录",
     "pleaseWait": "请等待片刻以使得初始的20份IPNS更新记录副本储存至DHT节点"
-  }
+  },
+  "noPinsInProgress": "全部已完成，没有正在进行的远程固定操作",
+  "remotePinningInProgress": "远程固定中:"
 }

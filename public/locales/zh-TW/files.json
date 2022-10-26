@@ -108,10 +108,16 @@
   "checkboxLabel": "查看更多選項{name}",
   "pinned": "已錨釘",
   "pinnedRemotely": "遠程錨釘",
+  "pinningRemotely": "Pinning remotely",
+  "pinningCompleted": "Pinning completed",
+  "pinningFailed": "Pinning failed",
+  "clickToDismiss": "Click to dismiss",
+  "clickToCancel": "Click to cancel",
   "blocks": "區塊",
   "allBlocks": "所有資料區塊",
   "allBlocksDescription": "總計 IPFS 節點內的所有資料區塊大小；這包括所有的檔案，加上所有的本機錨釘的檔案以及任何任何臨時塊取的資料。",
   "filesDescription": "當前目錄中數據的總大小（同時顯示子資料夾的數據大小） ",
+  "pinningQueue": "Pinning queue",
   "more": "更多",
   "files": "檔案",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
@@ -125,5 +131,7 @@
     "linkCopied": "Link copied!",
     "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
     "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
-  }
+  },
+  "noPinsInProgress": "All done, no remote pins in progress.",
+  "remotePinningInProgress": "Remote pinning in progress:"
 }
