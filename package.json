@@ -34,7 +34,8 @@
     "storybook": "start-storybook -p 9009",
     "build-storybook": "build-storybook",
     "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"build-storybook --quiet && http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && test-storybook --coverage\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@loadable/component": "^5.14.1",
@@ -328,5 +329,10 @@
   "engines": {
     "node": "=16.12.0",
     "npm": "=8.1.0"
-  }
+  },
+  "overrides": [
+    {
+      "multiaddr": "8.1.2"
+    }
+  ]
 }
