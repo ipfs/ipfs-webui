@@ -74,10 +74,5 @@ function webpackOverride (config) {
 
 module.exports = {
   webpack: webpackOverride,
-  jest: (config) => {
-
-    config.roots.push('<rootDir>/test')
-
-    return config
-  }
+  jest: (config) => config
 }
