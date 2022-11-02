@@ -12,7 +12,6 @@ import ipfsHttpModule from 'ipfs-http-client'
 import { createController } from 'ipfsd-ctl'
 
 describe('identity.js', function () {
-
   describe('Kubo webtransport fix test', function () {
     let ipfs
     let ipfsd
@@ -43,7 +42,6 @@ describe('identity.js', function () {
     })
 
     it('should get the id', async function () {
-
       expect(async () => await ipfs.id()).not.toThrow()
       expect((await ipfs.id()).id).toEqual(expect.any(String))
     })
