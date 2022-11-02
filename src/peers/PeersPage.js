@@ -15,7 +15,7 @@ import AddConnection from './AddConnection/AddConnection'
 import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
 
-const PeersPage = ({ t, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled }) => (
+const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
   <div data-id='PeersPage' className='overflow-hidden'>
     <Helmet>
       <title>{t('title')} | IPFS</title>
