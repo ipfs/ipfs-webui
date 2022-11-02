@@ -44,7 +44,7 @@ function modifyBabelLoaderRule (rules, root = true) {
   return foundRules
 }
 
-module.exports = function webpackOverride (config) {
+function webpackOverride (config) {
   const fallback = config.resolve.fallback || {}
 
   Object.assign(fallback, {
@@ -70,4 +70,14 @@ module.exports = function webpackOverride (config) {
   }
 
   return config
+}
+
+module.exports = {
+  webpack: webpackOverride,
+  jest: (config) => {
+
+    config.roots.push('<rootDir>/test')
+
+    return config
+  }
 }
