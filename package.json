@@ -62,7 +62,7 @@
     "intl-messageformat": "^9.11.3",
     "ip": "^1.1.5",
     "ipfs-css": "^1.4.0",
-    "ipfs-geoip": "^9.0.0",
+    "ipfs-geoip": "^9.0.1",
     "ipfs-http-client": "49.0.2",
     "ipfs-provider": "^2.1.0",
     "ipld-explorer-components": "^2.4.1",
