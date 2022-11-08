@@ -34,8 +34,7 @@
     "storybook": "start-storybook -p 9009",
     "build-storybook": "build-storybook",
     "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"build-storybook --quiet && http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && test-storybook --coverage\"",
-    "typecheck": "tsc --noEmit",
-    "postinstall": "patch-package"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@loadable/component": "^5.14.1",
@@ -62,7 +61,7 @@
     "intl-messageformat": "^9.11.3",
     "ip": "^1.1.5",
     "ipfs-css": "^1.4.0",
-    "ipfs-geoip": "^9.0.1",
+    "ipfs-geoip": "^8.0.0",
     "ipfs-http-client": "49.0.2",
     "ipfs-provider": "^2.1.0",
     "ipld-explorer-components": "^2.4.1",
@@ -174,7 +173,6 @@
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "os-browserify": "^0.3.0",
-    "patch-package": "^6.4.7",
     "path-browserify": "^1.0.1",
     "playwright-chromium": "^1.24.0",
     "postcss-flexbugs-fixes": "^5.0.2",
@@ -207,10 +205,6 @@
     "not op_mini all"
   ],
   "jest": {
-    "testMatch": [
-      "**/__tests__/**/*.[jt]s?(x)",
-      "**/?(*.)+(spec|test).[jt]s?(x)"
-    ],
     "moduleNameMapper": {
       "^dnd-core$": "dnd-core/dist/cjs",
       "^react-dnd$": "react-dnd/dist/cjs",
@@ -329,10 +323,5 @@
   "engines": {
     "node": "=16.12.0",
     "npm": "=8.1.0"
-  },
-  "overrides": [
-    {
-      "multiaddr": "8.1.2"
-    }
-  ]
+  }
 }
