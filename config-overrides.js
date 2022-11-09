@@ -62,28 +62,17 @@ function modifyBabelLoaderRuleForBuild (rules) {
  *
  * @param {import('webpack').RuleSetRule[]} rules
  */
-function modifyBabelLoaderRuleForTest (rules, root = true) {
-  const foundRules = []
-  rules.forEach(rule => {
-    if (ruleTester(rule, 'babel-loader')) {
-      foundRules.push(rule)
-    } else if (rule.oneOf) {
-      const nestedRules = modifyBabelLoaderRuleForTest(rule.oneOf, false)
-      foundRules.push(...nestedRules)
+function modifyBabelLoaderRuleForTest (rules) {
+  return rules.map(rule => {
+    if (rule.oneOf) {
+      rule.oneOf = modifyBabelLoaderRuleForTest(rule.oneOf)
+    } else if (rule.use) {
+      rule.use = modifyBabelLoaderRuleForTest(rule.use)
+    } else if (rule.options && rule.options.plugins) {
+      rule.options.plugins.push('istanbul')
     }
+    return rule
   })
-
-  if (root) {
-    foundRules.forEach(rule => {
-      if (rule.include?.indexOf('src') >= 0) {
-        console.log('Found CRA babel-loader rule for source files. Modifying it to instrument for code coverage.')
-        console.log('rule: ', rule)
-        rule.options.plugins.push('istanbul')
-      }
-    })
-  }
-
-  return foundRules
 }
 
 function webpackOverride (config) {
