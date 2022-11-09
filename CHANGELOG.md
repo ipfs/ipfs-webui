@@ -1,3 +1,30 @@
+## [2.20.0](https://github.com/ipfs/ipfs-webui/compare/v2.19.0...v2.20.0) (2022-11-09)
+
+
+ CID `bafybeibjbq3tmmy7wuihhhwvbladjsd3gx3kfjepxzkq6wylik6wc3whzy`
+
+ --- 
+
+
+
+### Features
+
+* add success notification on "set pinning" action ([#2038](https://github.com/ipfs/ipfs-webui/issues/2038)) ([e410164](https://github.com/ipfs/ipfs-webui/commit/e410164f8b641a1cedaed9e99e8a3f4983464854))
+* track remote pins in progress ([#1919](https://github.com/ipfs/ipfs-webui/issues/1919)) ([d3a6524](https://github.com/ipfs/ipfs-webui/commit/d3a652400902e564ebae5f257acfd254ee52472a))
+* update to ipfs-geoip v9 ([#2061](https://github.com/ipfs/ipfs-webui/issues/2061)) ([546fb5a](https://github.com/ipfs/ipfs-webui/commit/546fb5a2713d74520263f7e6d043c0181261b8d9))
+
+
+### Bug Fixes
+
+*  /webtransport breaks status page ([#2057](https://github.com/ipfs/ipfs-webui/issues/2057)) ([ea89e7f](https://github.com/ipfs/ipfs-webui/commit/ea89e7f98c748a72409f2caaa329d13596fa65c7)), closes [#2033](https://github.com/ipfs/ipfs-webui/issues/2033)
+
+
+### Trivial Changes
+
+* pull new translations ([#2049](https://github.com/ipfs/ipfs-webui/issues/2049)) ([f6062b2](https://github.com/ipfs/ipfs-webui/commit/f6062b237d9cfeb0dc68d3f602c7dd5123b7a1b0))
+* pull new translations ([#2056](https://github.com/ipfs/ipfs-webui/issues/2056)) ([e13ff17](https://github.com/ipfs/ipfs-webui/commit/e13ff17ab87fa93f0431053bf95caabfe1cd0f5f))
+* pull new translations ([#2059](https://github.com/ipfs/ipfs-webui/issues/2059)) ([0bb5bf3](https://github.com/ipfs/ipfs-webui/commit/0bb5bf349d933b8a01d485b13e12d4c4822bee2f))
+
 ## [2.19.0](https://github.com/ipfs/ipfs-webui/compare/v2.18.1...v2.19.0) (2022-10-03)
 
 
