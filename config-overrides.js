@@ -43,12 +43,10 @@ function modifyBabelLoaderRuleForBuild (rules) {
         if (!Array.isArray(rule.exclude)) {
           rule.exclude = [rule.exclude]
         }
-      } else {
-        rule.exclude = []
+        PURE_ESM_MODULES.forEach(module => {
+          rule.exclude.push(new RegExp(`node_modules/${module}`))
+        })
       }
-      PURE_ESM_MODULES.forEach(module => {
-        rule.exclude.push(new RegExp(`node_modules/${module}`))
-      })
     }
     return rule
   })
