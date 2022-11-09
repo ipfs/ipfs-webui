@@ -10,39 +10,35 @@ const PURE_ESM_MODULES = [
 ]
 
 /**
- * Returns true if the rule matches the given loader
+ * This function goes through the loader rules and applies modifier function to the said rule.
+ * Validation can be set within the modifier function.
  *
- * @param {import('webpack').RuleSetRule} rule
- * @param {string} testString
- * @returns
+ * @param {import('webpack').RuleSetRule[]} rules
+ * @param {function} modifier defaults to identity function
+ * @returns {import('webpack').RuleSetRule[]}
  */
-function ruleTester (rule, testString) {
-  if (rule.loader != null) {
-    if (rule.loader.includes(testString)) {
-      return true
+function modifyBabelLoaderRules (rules, modifier = r => r) {
+  return rules.map(rule => {
+    if (rule.oneOf) {
+      rule.oneOf = modifyBabelLoaderRules(rule.oneOf, modifier)
+    } else if (rule.use) {
+      rule.use = modifyBabelLoaderRules(rule.use, modifier)
+    } else {
+      rule = modifier(rule)
     }
-  } else if (rule.use?.loader != null) {
-    if (typeof rule.use.loader !== 'string') {
-      if (rule.use.loader.find(loader => loader.indexOf(testString) >= 0)) {
-        return true
-      }
-    } else if (rule.use.loader.indexOf(testString) >= 0) {
-      return true
-    }
-  }
-  return false
+    return rule
+  })
 }
 
 /**
- * Adds exclude rules for pure ESM Modules
+ * Adds exclude rules for pure ESM Modules.
  *
  * @param {import('webpack').RuleSetRule[]} rules
+ * @returns {import('webpack').RuleSetRule[]}
  */
 function modifyBabelLoaderRuleForBuild (rules) {
-  return rules.map(rule => {
-    if (rule.oneOf) {
-      rule.oneOf = modifyBabelLoaderRuleForBuild(rule.oneOf)
-    } else if (ruleTester(rule, 'babel-loader')) {
+  return modifyBabelLoaderRules(rules, rule => {
+    if (rule.loader && rule.loader.includes('babel-loader')) {
       if ('exclude' in rule) {
         if (!Array.isArray(rule.exclude)) {
           rule.exclude = [rule.exclude]
@@ -59,23 +55,21 @@ function modifyBabelLoaderRuleForBuild (rules) {
 }
 
 /**
+ * Adds instrumentation plugin for code coverage in test mode.
  *
  * @param {import('webpack').RuleSetRule[]} rules
+ * @returns {import('webpack').RuleSetRule[]}
  */
 function modifyBabelLoaderRuleForTest (rules) {
-  return rules.map(rule => {
-    if (rule.oneOf) {
-      rule.oneOf = modifyBabelLoaderRuleForTest(rule.oneOf)
-    } else if (rule.use) {
-      rule.use = modifyBabelLoaderRuleForTest(rule.use)
-    } else if (rule.options && rule.options.plugins) {
+  return modifyBabelLoaderRules(rules, rule => {
+    if (rule.options && rule.options.plugins) {
       rule.options.plugins.push('istanbul')
     }
     return rule
   })
 }
 
-function webpackOverride (config) {
+function webpackOverride(config) {
   const fallback = config.resolve.fallback || {}
 
   Object.assign(fallback, {
