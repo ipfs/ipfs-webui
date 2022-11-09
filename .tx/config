@@ -58,3 +58,10 @@ source_lang  = en
 type         = KEYVALUEJSON
 minimum_perc = 75
 
+[o:ipfs:p:ipfs-webui:r:search-json]
+file_filter  = public/locales/<lang>/search.json
+source_file  = public/locales/en/search.json
+source_lang  = en
+type         = KEYVALUEJSON
+minimum_perc = 75
+

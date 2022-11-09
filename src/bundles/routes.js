@@ -5,6 +5,7 @@ import PinsPage from '../pins/LoadablePinsPage'
 import StartExploringPage from '../explore/LoadableStartExploringPage'
 import ExplorePage from '../explore/LoadableExplorePage'
 import PeersPage from '../peers/LoadablePeersPage'
+import SearchPage from '../search/LoadableSearchPage'
 import SettingsPage from '../settings/LoadableSettingsPage'
 import AnalyticsPage from '../settings/AnalyticsPage'
 import WelcomePage from '../welcome/LoadableWelcomePage'
@@ -18,6 +19,7 @@ export default createRouteBundle({
   '/ipns*': FilesPage,
   '/pins*': PinsPage,
   '/peers': PeersPage,
+  '/search': SearchPage,
   '/settings/analytics': AnalyticsPage,
   '/settings*': SettingsPage,
   '/welcome': WelcomePage,

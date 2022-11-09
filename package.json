@@ -64,6 +64,7 @@
     "ipfs-geoip": "^8.0.0",
     "ipfs-http-client": "49.0.2",
     "ipfs-provider": "^2.1.0",
+    "ipfs-search-client": "^1.0.1",
     "ipld-explorer-components": "^2.4.1",
     "is-ipfs": "^3.0.0",
     "istextorbinary": "^6.0.0",

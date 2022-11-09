@@ -1,0 +1,24 @@
+.IPFSSearchFormButton,
+.IPFSSearchFormButton:hover + .IPFSSearchFormButton  {
+  max-width: 3.3em
+}
+
+.IPFSSearchFormButton:last-of-type,
+.IPFSSearchFormButton:hover {
+  max-width: 200px;
+}
+
+.ipfs-search-power-desc {
+  display:flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.ipfs-search-power-desc span {
+    margin-right: 8px;
+}
+
+.ipfs-search-logo {
+  width: 100px;
+}

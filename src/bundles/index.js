@@ -25,6 +25,7 @@ import experimentsBundle from './experiments'
 import cliTutorModeBundle from './cli-tutor-mode'
 import gatewayBundle from './gateway'
 import ipnsBundle from './ipns'
+import searchBundle from './search'
 
 export default composeBundles(
   createCacheBundle({
@@ -54,5 +55,6 @@ export default composeBundles(
   repoStats,
   cliTutorModeBundle,
   createAnalyticsBundle({}),
-  ipnsBundle
+  ipnsBundle,
+  searchBundle
 )

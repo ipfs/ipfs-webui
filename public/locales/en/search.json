@@ -1,0 +1,18 @@
+{
+  "title": "Search",
+  "tableColumnHeaders": {
+    "title": "Title",
+    "hash": "Hash",
+    "fileSize": "File Size",
+    "link": "Details",
+    "type": "Type",
+    "lastSeen": "Last Seen"
+  },
+  "tour": {
+    "step1": {
+      "title": "Search Page",
+      "paragraph1": "This is where you can see IPFS Search results from ipfs-search.com",
+      "paragraph2": "Click \"Next\" to learn more."
+    }
+  }
+}

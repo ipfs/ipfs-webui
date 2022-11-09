@@ -18,7 +18,7 @@ import Notify from './components/notify/Notify'
 import Connected from './components/connected/Connected'
 import TourHelper from './components/tour/TourHelper'
 import FilesExploreForm from './files/explore-form/FilesExploreForm'
-
+import IPFSSearchForm from './search/ipfs-search-form/IPFSSearchForm'
 export class App extends Component {
   static propTypes = {
     doTryInitIpfs: PropTypes.func.isRequired,
@@ -55,7 +55,7 @@ export class App extends Component {
   }
 
   render () {
-    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
+    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, doFetchSearchResults, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <div className='sans-serif h-100 relative' onClick={getNavHelper(this.props.doUpdateUrl)}>
@@ -64,8 +64,12 @@ export class App extends Component {
         <div className='flex flex-row-reverse-l flex-column-reverse justify-end justify-start-l' style={{ minHeight: '100vh' }}>
           <div className='flex-auto-l'>
             <div className='flex items-center ph3 ph4-l' style={{ WebkitAppRegion: 'drag', height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
-              <div className='joyride-app-explore' style={{ width: 560 }}>
-                <FilesExploreForm onBrowse={doFilesNavigateTo} onInspect={doExploreUserProvidedPath} />
+
+            <div className='joyride-app-explore' style={{ width: 560 }}>
+                {url.startsWith('/search')
+                  ? <IPFSSearchForm ipfsSearch={doFetchSearchResults} />
+                  : <FilesExploreForm onBrowse={doFilesNavigateTo} onInspect={doExploreUserProvidedPath} />
+                }
               </div>
               <div className='dn flex-ns flex-auto items-center justify-end'>
                 <TourHelper />
@@ -133,5 +137,6 @@ export default connect(
   'doFilesWrite',
   'doDisableTooltip',
   'selectFilesPathInfo',
+  'doFetchSearchResults',
   withTranslation('app')(AppWithDropTarget)
 )
