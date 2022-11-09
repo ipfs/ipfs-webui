@@ -1,6 +1,6 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { getConfiguredCache } from 'money-clip'
-import geoip from 'ipfs-geoip'
+import { lookup } from 'ipfs-geoip'
 import PQueue from 'p-queue'
 import HLRU from 'hashlru'
 import Multiaddr from 'multiaddr'
@@ -255,7 +255,7 @@ class PeerLocationResolver {
 
       this.geoipLookupPromises.set(ipv4Addr, this.queue.add(async () => {
         try {
-          const data = await geoip.lookup(gatewayUrls, ipv4Addr)
+          const data = await lookup(gatewayUrls, ipv4Addr)
           await this.geoipCache.set(ipv4Addr, data)
         } catch (e) {
           // mark this one as failed so we don't retry again
