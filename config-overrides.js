@@ -5,34 +5,63 @@
  * @see https://alchemy.com/blog/how-to-polyfill-node-core-modules-in-webpack-5
  */
 const webpack = require('webpack')
+const PURE_ESM_MODULES = [
+  'ipfs-geoip'
+]
+
+function ruleTester (rule, testString) {
+  if (rule.loader != null) {
+    if (rule.loader.includes(testString)) {
+      return true
+    }
+  } else if (rule.use?.loader != null) {
+    if (typeof rule.use.loader !== 'string') {
+      if (rule.use.loader.find(loader => loader.indexOf(testString) >= 0)) {
+        return true
+      }
+    } else if (rule.use.loader.indexOf(testString) >= 0) {
+      return true
+    }
+  }
+}
+
+function modifyBabelLoaderRuleForBuild (rules) {
+  return rules.map(rule => {
+    if (rule.oneOf) {
+      rule.oneOf = modifyBabelLoaderRuleForBuild(rule.oneOf)
+    } else if (ruleTester(rule, 'babel-loader')) {
+      if ('exclude' in rule) {
+        if (!Array.isArray(rule.exclude)) {
+          rule.exclude = [rule.exclude]
+        }
+      } else {
+        rule.exclude = []
+      }
+      PURE_ESM_MODULES.forEach(module => {
+        rule.exclude.push(new RegExp(`node_modules/${module}`))
+      })
+    }
+    return rule
+  })
+}
 
 /**
  *
  * @param {import('webpack').RuleSetRule[]} rules
  */
-function modifyBabelLoaderRule (rules, root = true) {
+function modifyBabelLoaderRuleForTest(rules, root = true) {
   const foundRules = []
-  rules.forEach((rule, i) => {
-    if (rule.loader != null) {
-      if (rule.loader.includes('babel-loader')) {
-        foundRules.push(rule)
-      }
-    } else if (rule.use?.loader != null) {
-      if (typeof rule.use.loader !== 'string') {
-        if (rule.use.loader.find(loader => loader.indexOf('babel-loader') >= 0)) {
-          foundRules.push(rule)
-        }
-      } else if (rule.use.loader.indexOf('babel-loader') >= 0) {
-        foundRules.push(rule)
-      }
+  rules.forEach(rule => {
+    if (ruleTester(rule, 'babel-loader')) {
+      foundRules.push(rule)
     } else if (rule.oneOf) {
-      const nestedRules = modifyBabelLoaderRule(rule.oneOf, false)
+      const nestedRules = modifyBabelLoaderRuleForTest(rule.oneOf, false)
       foundRules.push(...nestedRules)
     }
   })
 
   if (root) {
-    foundRules.forEach((rule, index) => {
+    foundRules.forEach(rule => {
       if (rule.include?.indexOf('src') >= 0) {
         console.log('Found CRA babel-loader rule for source files. Modifying it to instrument for code coverage.')
         console.log('rule: ', rule)
@@ -63,10 +92,12 @@ function webpackOverride (config) {
     })
   ])
 
+  config.module.rules = modifyBabelLoaderRuleForBuild(config.module.rules)
+
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'production'
   if (REACT_APP_ENV === 'test') {
-    modifyBabelLoaderRule(config.module.rules)
+    config.module.rules = modifyBabelLoaderRuleForTest(config.module.rules)
   }
 
   return config
