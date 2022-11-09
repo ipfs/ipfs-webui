@@ -9,6 +9,13 @@ const PURE_ESM_MODULES = [
   'ipfs-geoip'
 ]
 
+/**
+ * Returns true if the rule matches the given loader
+ *
+ * @param {import('webpack').RuleSetRule} rule
+ * @param {string} testString
+ * @returns
+ */
 function ruleTester (rule, testString) {
   if (rule.loader != null) {
     if (rule.loader.includes(testString)) {
@@ -23,8 +30,14 @@ function ruleTester (rule, testString) {
       return true
     }
   }
+  return false
 }
 
+/**
+ * Adds exclude rules for pure ESM Modules
+ *
+ * @param {import('webpack').RuleSetRule[]} rules
+ */
 function modifyBabelLoaderRuleForBuild (rules) {
   return rules.map(rule => {
     if (rule.oneOf) {
@@ -49,7 +62,7 @@ function modifyBabelLoaderRuleForBuild (rules) {
  *
  * @param {import('webpack').RuleSetRule[]} rules
  */
-function modifyBabelLoaderRuleForTest(rules, root = true) {
+function modifyBabelLoaderRuleForTest (rules, root = true) {
   const foundRules = []
   rules.forEach(rule => {
     if (ruleTester(rule, 'babel-loader')) {
