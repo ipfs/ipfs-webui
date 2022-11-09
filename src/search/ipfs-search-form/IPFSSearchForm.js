@@ -1,17 +1,14 @@
-import React, { useState } from 'react'
-// import isIPFS from 'is-ipfs'
+import React from 'react'
+import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import StrokeSearch from '../../icons/StrokeSearch'
-// import StrokeIpld from '../../icons/StrokeIpld'
 import Button from '../../components/button/Button'
 import IPFSSearchLogoText from '../../icons/IPFSSearchLogoText'
 import './IPFSSearchForm.css'
 
-const IPFSSearchForm = ({ t, ipfsSearch }) => {
-  const [searchInput, setSearchInput] = useState('')
-  // const [searchType, setSearchType] = useState(null)
-  // const [hideIPFSSearch, setHideIPFSSearch] = useState(false)
+const IPFSSearchForm = ({ t, ipfsSearch, searchInput, doUpdateSearchInput }) => {
+  // const [searchInput, setSearchInput] = useState('')
 
   const onKeyDown = (evt) => {
     if (evt.key === 'Enter') {
@@ -26,8 +23,9 @@ const IPFSSearchForm = ({ t, ipfsSearch }) => {
   }
 
   const onChange = (evt) => {
-    const updatedPath = evt.target.value
-    setSearchInput(updatedPath)
+    const updatedSearchInput = evt.target.value
+    doUpdateSearchInput(updatedSearchInput)
+    // setSearchInput(updatedPath)
   }
 
   const isValid = () => {
@@ -78,4 +76,8 @@ IPFSSearchForm.propTypes = {
   ipfsSearch: PropTypes.func.isRequired
 }
 
-export default withTranslation('search')(IPFSSearchForm)
+export default connect(
+  'doUpdateSearchInput',
+  'selectSearchInput',
+  withTranslation('search')(IPFSSearchForm)
+)

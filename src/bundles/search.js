@@ -8,8 +8,7 @@ const bundle = {
       loading: false,
       lastError: null,
       lastFetch: null,
-      // queryString: null,
-      // searchType: null,
+      searchInput: '',
       searchResults: null
     }
     return (state = initialState, { type, payload }) => {
@@ -30,6 +29,10 @@ const bundle = {
             lastError: null,
             searchResults: payload
           })
+        case 'UPDATE_SEARCH_INPUT':
+          return Object.assign({}, state, {
+            searchInput: payload
+          })
         default:
           return state
       }
@@ -46,6 +49,10 @@ const bundle = {
         dispatch({ type: 'FETCH_SEARCH_ERROR', error })
       })
   },
+  doUpdateSearchInput: (searchInput) => ({ dispatch }) => {
+    dispatch({ type: 'UPDATE_SEARCH_INPUT', payload: searchInput })
+  },
+  selectSearchInput: state => state.search.searchInput,
   selectSearchResultsRaw: state => state.search.searchResults,
   // selector for just the actual data if we have it
   selectSearchResults: state => state.search.searchResults?.hits

@@ -24,26 +24,37 @@ const IPFSSearchTable = ({ t, searchResults }) => {
     setSortDirection(sortDirection)
   }
 
+  //   const typesLookup = {
+  //   audio: 'audio',
+  //   image: 'images',
+  //   video: 'video',
+  //   text: 'text',
+  //   directory: 'directories',
+  //   other: 'other',
+  //   application: 'other'
+  // }
+
+  // const getFileType = (type, mimetype) => {
+  //   if (type === 'directory') {
+  //     return 'directory'
+  //   }
+  //   if (type === 'unknown' || !mimetype) {
+  //     return 'other'
+  //   }
+  //   return typesLookup[mimetype.split('/')[0]]
+  // }
+
   const thumbnailCellRenderer = ({ rowData }) => {
     // const ref = React.createRef()
-    const { title, hash, mimetype, type } = rowData
-    const fileType = mimetype ? typesLookup[mimetype.split('/')[0]] : 'other'
-    console.log(hash)
-    console.log(fileType)
+    const { title, hash, type } = rowData
+    // const fileType = getFileType(type, mimetype)
+    const ipfsSearchDetailBaseUrl = 'https://ipfs-search.com/#/search'
+    const detailLink = `${ipfsSearchDetailBaseUrl}?q=${hash}&page=1`
     return (
-      <FileIcon name={title} type={type} />
-      // <img src={getResourceURL(hash)} alt={title} name={title} style={{ objectFit: 'contain' }} ></img>
+      <a href={detailLink} target="_blank" rel="noopener noreferrer" style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <FileIcon name={title} type={type} />
+      </a>
     )
-  }
-
-  const typesLookup = {
-    audio: 'audio',
-    image: 'images',
-    video: 'video',
-    text: 'text',
-    directory: 'directories',
-    other: 'other',
-    application: 'other'
   }
 
   // const detailViewCellRender = ({ rowData }) => {
@@ -63,9 +74,18 @@ const IPFSSearchTable = ({ t, searchResults }) => {
     const exploreDetailUrl = `/#/explore/${hash}`
 
     return (
-      <a href={exploreDetailUrl} target="_blank" rel="noopener noreferrer" style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <a href={exploreDetailUrl} rel="noopener noreferrer" style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <StrokeIpld />
       </a>
+    )
+  }
+
+  const dateViewCellRender = ({ rowData }) => {
+    const lastSeen = rowData['last-seen']
+    const lastSeenDate = new Date(lastSeen)
+    const formattedDate = lastSeen ? `${lastSeenDate.toLocaleDateString()} ${lastSeenDate.toLocaleTimeString()} ` : 'N/A'
+    return (
+      <span>{formattedDate}</span>
     )
   }
 
@@ -92,7 +112,7 @@ const IPFSSearchTable = ({ t, searchResults }) => {
             <Column label={t('search:tableColumnHeaders:hash')} dataKey='hash' width={200} className='f6 charcoal truncate pl2' />
             <Column label={t('search:tableColumnHeaders:fileSize')} dataKey='size' width={250} className='charcoal truncate f6 pl2' />
             <Column label={t('search:tableColumnHeaders:type')} dataKey='mimetype' width={250} className='f6 charcoal truncate pl2' />
-            <Column label={t('search:tableColumnHeaders:lastSeen')} dataKey='last-seen' width={520} className='charcoal truncate f6 pl2' />
+            <Column label={t('search:tableColumnHeaders:lastSeen')} cellRenderer={dateViewCellRender} dataKey='last-seen' width={520} className='charcoal truncate f6 pl2' />
           </Table>
         )}
       </AutoSizer> }
