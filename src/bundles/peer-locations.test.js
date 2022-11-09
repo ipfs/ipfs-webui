@@ -274,55 +274,58 @@ describe('PeerLocationResolver', () => {
 
       const result = await getPromise({
         store: {
-          selectPeers: () => [{
-            peer: '1aaa1',
-            latency: 'n/a',
-            addr: {
-              stringTuples: () => [[4, '123.123.123.123']]
+          selectPeers: () => [
+            {
+              peer: '1aaa1',
+              latency: 'n/a',
+              addr: {
+                stringTuples: () => [[4, '123.123.123.123']]
+              }
+            },
+            {
+              peer: '1b1',
+              latency: '1ms',
+              addr: {
+                stringTuples: () => [[4, '127.0.0.1']]
+              }
+            },
+            {
+              peer: '3b3',
+              latency: '1ms',
+              addr: {
+                stringTuples: () => [[4, '16.19.16.19']]
+              }
+            },
+            {
+              peer: '44asd',
+              latency: '1ms',
+              addr: {
+                stringTuples: () => [[4, '4.4.4.4']]
+              }
+            },
+            {
+              peer: '4sameAs4',
+              latency: '1ms',
+              addr: {
+                stringTuples: () => [[4, '4.4.4.4']]
+              }
+            },
+            {
+              peer: 'newPeerThatShouldThrow',
+              latency: '100s',
+              addr: {
+                stringTuples: () => [[4, '5.5.5.5']]
+              }
+            },
+            {
+              peer: 'sameIpAs1',
+              latency: 'n/a',
+              addr: {
+                stringTuples: () => [[4, '123.123.123.123']]
+              }
             }
-          },
-          {
-            peer: '1b1',
-            latency: '1ms',
-            addr: {
-              stringTuples: () => [[4, '127.0.0.1']]
-            }
-          },
-          {
-            peer: '3b3',
-            latency: '1ms',
-            addr: {
-              stringTuples: () => [[4, '16.19.16.19']]
-            }
-          },
-          {
-            peer: '44asd',
-            latency: '1ms',
-            addr: {
-              stringTuples: () => [[4, '4.4.4.4']]
-            }
-          },
-          {
-            peer: '4sameAs4',
-            latency: '1ms',
-            addr: {
-              stringTuples: () => [[4, '4.4.4.4']]
-            }
-          },
-          {
-            peer: 'newPeerThatShouldThrow',
-            latency: '100s',
-            addr: {
-              stringTuples: () => [[4, '5.5.5.5']]
-            }
-          },
-          {
-            peer: 'sameIpAs1',
-            latency: 'n/a',
-            addr: {
-              stringTuples: () => [[4, '123.123.123.123']]
-            }
-          }]
+          ],
+          selectAvailableGatewayUrl: () => 'https://ipfs.io'
         },
         getIpfs: () => 'smth'
       })
@@ -346,10 +349,13 @@ describe('PeerLocationResolver', () => {
         }
       }))
 
+      const mockStore = {
+        selectAvailableGatewayUrl: () => 'https://ipfs.io',
+        selectPeers: () => peers
+      }
+
       const result = await getPromise({
-        store: {
-          selectPeers: () => peers
-        }
+        store: mockStore
       })
 
       expect(result).toEqual({
@@ -368,10 +374,9 @@ describe('PeerLocationResolver', () => {
       // ==== 100 ====
 
       const result100 = await getPromise({
-        store: {
-          selectPeers: () => peers
-        }
+        store: mockStore
       })
+
       const expect100 = new Array(100).fill().reduce((prev, _, index) => ({
         ...prev,
         [`${index}aa`]: 'location-cached'
@@ -382,9 +387,7 @@ describe('PeerLocationResolver', () => {
       // ==== 200 ====
 
       const result200 = await getPromise({
-        store: {
-          selectPeers: () => peers
-        }
+        store: mockStore
       })
       const expect200 = new Array(200).fill().reduce((prev, _, index) => ({
         ...prev,
@@ -396,9 +399,7 @@ describe('PeerLocationResolver', () => {
       // ==== Over 200 ====
 
       const resultMore = await getPromise({
-        store: {
-          selectPeers: () => peers
-        }
+        store: mockStore
       })
 
       const expectMore = new Array(1000).fill().reduce((prev, _, index) => ({
