@@ -7,7 +7,19 @@ export const api = new DefaultApi()
 export const maxPages = 100
 export const batchSize = 15
 
-export function ipfsApiSearch (query, type, batch = 0) {
+// export const apiMetadataQuery = (hash) => {
+//   return api.metadatahashGet(hash).then(({ metadata }) => {
+//     return {
+//       hash,
+//       author: metadata.Author?.[0],
+//       title: metadata.title?.[0] || metadata.resourceName?.[0],
+//       mimetype: metadata['Content-Type']?.[0],
+//       creation_date: metadata['Creation-Date']?.[0]
+//     }
+//   })
+// }
+
+export const ipfsApiSearch = (query, type, batch = 0) => {
   if (batch && batch > maxPages) return Promise.reject(Error('API error: Page limit exceeded'))
 
   const apiType = type === 'directories' ? 'directory' : 'file'

@@ -38,11 +38,11 @@ const bundle = {
       }
     }
   },
-  doFetchSearchResults: (searchInput) => ({ dispatch }) => {
+  doFetchSearchResults: (searchInput, batch = 0) => ({ dispatch }) => {
     dispatch({ type: 'FETCH_SEARCH_START' })
     // const { searchInput, searchType, batchSize } = searchParams
-    ipfsApiSearch(searchInput)
-      .then(payload => {
+    ipfsApiSearch(searchInput, null, batch)
+      .then(async payload => {
         dispatch({ type: 'FETCH_SEARCH_SUCCESS', payload })
       })
       .catch(error => {
@@ -57,15 +57,5 @@ const bundle = {
   // selector for just the actual data if we have it
   selectSearchResults: state => state.search.searchResults?.hits
 }
-
-// bundle.reactSearchFetch = createSelector(
-//   'selectSearchShouldUpdate',
-//   'selectRouteInfo',
-//   (shouldUpdate, routeInfo) => {
-//     if (shouldUpdate && routeInfo.url === '/search') {
-//       return { actionCreator: 'doFetchSearch' }
-//     }
-//   }
-// )
 
 export default bundle

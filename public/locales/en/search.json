@@ -2,11 +2,14 @@
   "title": "Search",
   "tableColumnHeaders": {
     "title": "Title",
+    "author": "Author",
     "hash": "Hash",
-    "fileSize": "File Size",
+    "fileSize": "Size",
     "link": "Details",
     "type": "Type",
-    "lastSeen": "Last Seen"
+    "lastSeen": "Last Seen",
+    "explore": "Explore",
+    "detail": "Search Detail"
   },
   "tour": {
     "step1": {
