@@ -7,6 +7,8 @@ import Button from '../../components/button/Button'
 import IPFSSearchLogoText from '../../icons/IPFSSearchLogoText'
 import './IPFSSearchForm.css'
 
+const ipfsSearchUrl = 'https://ipfs-search.com'
+
 const IPFSSearchForm = ({ t, ipfsSearch, searchInput, doUpdateSearchInput }) => {
   // const [searchInput, setSearchInput] = useState('')
 
@@ -51,7 +53,9 @@ const IPFSSearchForm = ({ t, ipfsSearch, searchInput, doUpdateSearchInput }) => 
           <input id='ipfs-search' className={`input-reset bn pa2 mb1 db w-100 f6 br-0 placeholder-light ${inputClass}`} style={{ borderRadius: '3px 0 0 3px' }} type='text' placeholder='Search' aria-describedby='ipfs-search-desc' onChange={onChange} onKeyDown={onKeyDown} value={searchInput} />
           <div id='ipfs-search-desc' className='w-100 absolute f6 black-60 mb2 ipfs-search-power-desc' >
             <span>Powered by</span>
-            <span className='ipfs-search-logo'><IPFSSearchLogoText /></span>
+            <a href={`${ipfsSearchUrl}/#/search?q=${searchInput}&page=1`} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <span className='ipfs-search-logo'><IPFSSearchLogoText /></span>
+            </a>
           </div>
         </div>
       </div>

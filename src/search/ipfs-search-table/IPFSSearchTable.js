@@ -1,55 +1,60 @@
 import React, { useState } from 'react'
 // import PropTypes from 'prop-types'
-// import classNames from 'classnames'
-// import ms from 'milliseconds'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import { Table, Column, AutoSizer, SortDirection } from 'react-virtualized'
-// import Cid from '../../components/cid/Cid'
 import { sortByProperty } from '../../lib/sort'
 // import { getResourceURL } from '../../helpers/ApiSearchHelper'
-// import IPFSSearchLogoText from '../../icons/IPFSSearchLogoText'
+import IPFSSearchLogoHex from '../../icons/IPFSSearchLogoHex'
 import FileIcon from '../../files/file-icon/FileIcon'
 import StrokeIpld from '../../icons/StrokeIpld'
+import typeFromExt from '../../files/type-from-ext'
 import './IPFSSearchTable.css'
 
 const IPFSSearchTable = ({ t, searchResults }) => {
   const [sortBy, setSortBy] = useState('')
   const [sortDirection, setSortDirection] = useState(SortDirection.ASC)
   const sortedList = (searchResults || []).sort(sortByProperty(sortBy, sortDirection === SortDirection.ASC ? 1 : -1))
-  const tableHeight = 400
+  const tableHeight = 500
 
   const sort = ({ sortBy, sortDirection }) => {
     setSortBy(sortBy)
     setSortDirection(sortDirection)
   }
 
-  //   const typesLookup = {
-  //   audio: 'audio',
-  //   image: 'images',
-  //   video: 'video',
-  //   text: 'text',
-  //   directory: 'directories',
-  //   other: 'other',
-  //   application: 'other'
-  // }
+  const typesQueryLookup = {
+    audio: 'audio',
+    image: 'images',
+    video: 'video',
+    text: 'text',
+    html: 'text',
+    pdf: 'text',
+    directory: 'directories'
+  }
 
-  // const getFileType = (type, mimetype) => {
-  //   if (type === 'directory') {
-  //     return 'directory'
-  //   }
-  //   if (type === 'unknown' || !mimetype) {
-  //     return 'other'
-  //   }
-  //   return typesLookup[mimetype.split('/')[0]]
-  // }
+  const getQueryFileType = (type, title) => {
+    if (type === 'directory') {
+      return 'directories'
+    }
+    if (type === 'unknown') {
+      return 'other'
+    }
+
+    let strippedTitle = new DOMParser().parseFromString(title, 'text/html')
+    strippedTitle = strippedTitle.body.textContent || ''
+
+    const fileTypeFromExt = typeFromExt(strippedTitle)
+    return typesQueryLookup[fileTypeFromExt] || 'other'
+  }
 
   const thumbnailCellRenderer = ({ rowData }) => {
     // const ref = React.createRef()
     const { title, hash, type } = rowData
-    // const fileType = getFileType(type, mimetype)
-    const ipfsSearchDetailBaseUrl = 'https://ipfs-search.com/#/search'
-    const detailLink = `${ipfsSearchDetailBaseUrl}?q=${hash}&page=1`
+    const queryFileType = getQueryFileType(type, title)
+    // const ipfsSearchDetailBaseUrl = 'https://ipfs-search.com/#/search'
+    // const detailLink = `${ipfsSearchDetailBaseUrl}?q=${hash}&page=1`
+    const ipfsSearchDetailBaseUrl = 'https://ipfs-search.com/#/search/detail'
+    const detailLink = `${ipfsSearchDetailBaseUrl}/${queryFileType}/${hash}?q=${hash}&page=1`
     return (
       <a href={detailLink} target="_blank" rel="noopener noreferrer" style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <FileIcon name={title} type={type} />
@@ -57,17 +62,17 @@ const IPFSSearchTable = ({ t, searchResults }) => {
     )
   }
 
-  // const detailViewCellRender = ({ rowData }) => {
-  //   const { mimetype, hash } = rowData
-  //   const type = mimetype ? typesLookup[mimetype.split('/')[0]] : 'other'
-  //   const ipfsSearchDetailBaseUrl = 'https://ipfs-search.com/#/search/detail'
-  //   const detailLink = `${ipfsSearchDetailBaseUrl}/${type}/${hash}?page=1`
-  //   return (
-  //     <a href={detailLink} target="_blank" rel="noopener noreferrer" style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  //       <IPFSSearchLogoText />
-  //     </a>
-  //   )
-  // }
+  const detailViewCellRender = ({ rowData }) => {
+    const { title, hash, type } = rowData
+    const queryFileType = getQueryFileType(type, title)
+    const ipfsSearchDetailBaseUrl = 'https://ipfs-search.com/#/search/detail'
+    const detailLink = `${ipfsSearchDetailBaseUrl}/${queryFileType}/${hash}?q=${hash}&page=1`
+    return (
+      <a href={detailLink} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <IPFSSearchLogoHex />
+      </a>
+    )
+  }
 
   const exploreViewCellRender = ({ rowData }) => {
     const { hash } = rowData
@@ -89,6 +94,34 @@ const IPFSSearchTable = ({ t, searchResults }) => {
     )
   }
 
+  const titleCellRender = ({ rowData }) => {
+    const title = rowData?.title || rowData?.metadata?.metadata?.title?.[0] || rowData?.metadata?.metadata?.resourceName?.[0] || rowData?.references?.[0]?.name || ''
+    let strippedTitle = new DOMParser().parseFromString(title, 'text/html')
+    strippedTitle = strippedTitle.body.textContent || ''
+
+    return (
+      <span>{strippedTitle}</span>
+    )
+  }
+
+  const authorCellRender = ({ rowData }) => {
+    const author = rowData?.author || rowData?.metadata?.metadata?.Author?.[0] || ''
+
+    return (
+      <span>{author}</span>
+    )
+  }
+
+  const sizeCellRender = ({ rowData }) => {
+    const { size } = rowData
+    const fileSizeKB = size ? Number(size / 1000).toFixed(2) : null
+    const fileSizeString = fileSizeKB ? `${fileSizeKB} kB` : ''
+
+    return (
+      <span>{fileSizeString}</span>
+    )
+  }
+
   return (
     <div className={'bg-white-70 center'} style={{ height: `${tableHeight}px`, maxWidth: '1764' }}>
       { searchResults && <AutoSizer disableHeight>
@@ -105,14 +138,15 @@ const IPFSSearchTable = ({ t, searchResults }) => {
             sort={sort}
             sortBy={sortBy}
             sortDirection={sortDirection}>
-            <Column label={null} disableSort={true} cellRenderer={thumbnailCellRenderer} width={100} className='f6 charcoal pl2' />
-            <Column label={null} disableSort={true} cellRenderer={exploreViewCellRender} width={100} className='f6 charcoal pl2' />
-            { /* <Column label={null} disableSort={true} cellRenderer={detailViewCellRender} dataKey='' width={200} className='f6 charcoal pl2' /> */ }
-            <Column label={t('search:tableColumnHeaders:title')} dataKey='title' width={450} className='f6 charcoal truncate pl2' />
-            <Column label={t('search:tableColumnHeaders:hash')} dataKey='hash' width={200} className='f6 charcoal truncate pl2' />
-            <Column label={t('search:tableColumnHeaders:fileSize')} dataKey='size' width={250} className='charcoal truncate f6 pl2' />
-            <Column label={t('search:tableColumnHeaders:type')} dataKey='mimetype' width={250} className='f6 charcoal truncate pl2' />
-            <Column label={t('search:tableColumnHeaders:lastSeen')} cellRenderer={dateViewCellRender} dataKey='last-seen' width={520} className='charcoal truncate f6 pl2' />
+            <Column label={null} disableSort={true} cellRenderer={thumbnailCellRenderer} dataKey='ipfs-search' width={100} className='f6 charcoal pl2' />
+            <Column label={null} disableSort={true} cellRenderer={detailViewCellRender} dataKey='ipfs-detail-search' width={100} className='f6 charcoal pl2' />
+            <Column label={null} disableSort={true} cellRenderer={exploreViewCellRender} dataKey='explore' width={75} className='f6 charcoal pl2' />
+            <Column label={t('search:tableColumnHeaders:title')} cellRenderer={titleCellRender} dataKey='title' width={450} className='f6 charcoal truncate pl2' />
+            <Column label={t('search:tableColumnHeaders:author')} cellRenderer={authorCellRender} dataKey='author' width={250} className='f6 charcoal truncate pl2' />
+            {/* <Column label={t('search:tableColumnHeaders:hash')} dataKey='hash' width={200} className='f6 charcoal truncate pl2' /> */}
+            <Column label={t('search:tableColumnHeaders:fileSize')} dataKey='size' cellRenderer={sizeCellRender} width={150} className='charcoal truncate f6 pl2' />
+            <Column label={t('search:tableColumnHeaders:type')} dataKey='mimetype' width={200} className='f6 charcoal truncate pl2' />
+            <Column label={t('search:tableColumnHeaders:lastSeen')} cellRenderer={dateViewCellRender} dataKey='last-seen' width={250} className='charcoal truncate f6 pl2' />
           </Table>
         )}
       </AutoSizer> }
