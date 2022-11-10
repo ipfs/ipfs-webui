@@ -35,26 +35,20 @@ export function normalizeFiles (files) {
 }
 
 /**
- * @typedef {Object} FileDownload
- * @property {string} url
- * @property {string} filename
- *
- * @param {FileStat} file
+ * @param {string} type
+ * @param {string} name
+ * @param {CID} cid
  * @param {string} gatewayUrl
- * @returns {Promise<FileDownload>}
+ * @returns {string}
  */
-async function downloadSingle (file, gatewayUrl) {
-  let url, filename
+function getDownloadURL (type, name, cid, gatewayUrl) {
+  const filename = `${name || `download_${cid.toString()}`}.tar`
 
-  if (file.type === 'directory') {
-    filename = `${file.name || `download_${file.cid}`}.tar.gz`
-    url = `${gatewayUrl}/api/v0/get?arg=${file.cid}&archive=true&compress=true`
+  if (type === 'directory') {
+    return `${gatewayUrl}/ipfs/${cid.toString()}?download=true&format=tar&filename=${filename}`
   } else {
-    filename = file.name
-    url = `${gatewayUrl}/ipfs/${file.cid}?download=true&filename=${file.name}`
+    return `${gatewayUrl}/ipfs/${cid.toString()}?download=true&filename=${filename}`
   }
-
-  return { url, filename }
 }
 
 /**
@@ -87,29 +81,15 @@ export async function makeCIDFromFiles (files, ipfs) {
  * @param {FileStat[]} files
  * @param {string} gatewayUrl
  * @param {IPFSService} ipfs
- * @returns {Promise<FileDownload>}
- */
-async function downloadMultiple (files, gatewayUrl, ipfs) {
-  const cid = await makeCIDFromFiles(files, ipfs)
-  return {
-    url: `${gatewayUrl}/api/v0/get?arg=${cid}&archive=true&compress=true`,
-    filename: `download_${cid}.tar.gz`
-  }
-}
-
-/**
- *
- * @param {FileStat[]} files
- * @param {string} gatewayUrl
- * @param {IPFSService} ipfs
- * @returns {Promise<FileDownload>}
+ * @returns {Promise<string>}
  */
 export async function getDownloadLink (files, gatewayUrl, ipfs) {
   if (files.length === 1) {
-    return downloadSingle(files[0], gatewayUrl)
+    return getDownloadURL(files[0].type, files[0].name, files[0].cid, gatewayUrl)
   }
 
-  return downloadMultiple(files, gatewayUrl, ipfs)
+  const cid = await makeCIDFromFiles(files, ipfs)
+  return getDownloadURL('directory', '', cid, gatewayUrl)
 }
 
 /**

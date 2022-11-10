@@ -55,9 +55,8 @@ const FilesPage = ({
   */
 
   const onDownload = async (files) => {
-    const { url, filename } = await doFilesDownloadLink(files)
+    const url = await doFilesDownloadLink(files)
     const link = document.createElement('a')
-    link.download = filename // TODO: filename isn't working. Keep getting 'get.tar.gz' - is it being overwritten?
     link.href = url
     link.click()
   }
