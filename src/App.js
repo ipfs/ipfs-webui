@@ -67,7 +67,7 @@ export class App extends Component {
 
             <div className='joyride-app-explore' style={{ width: 560 }}>
                 {url.startsWith('/search')
-                  ? <IPFSSearchForm ipfsSearch={doFetchSearchResults} />
+                  ? <IPFSSearchForm onSearch={doFetchSearchResults} />
                   : <FilesExploreForm onBrowse={doFilesNavigateTo} onInspect={doExploreUserProvidedPath} />
                 }
               </div>
