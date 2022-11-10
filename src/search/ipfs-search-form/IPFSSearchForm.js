@@ -1,11 +1,10 @@
 import React from 'react'
-import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
-import StrokeSearch from '../../icons/StrokeSearch'
+import StrokeIpld from '../../icons/StrokeIpld'
 import Button from '../../components/button/Button'
-import IPFSSearchLogoText from '../../icons/IPFSSearchLogoText'
 import './IPFSSearchForm.css'
+import IPFSSearchLogoText from '../../icons/IPFSSearchLogoText'
 
 const ipfsSearchUrl = 'https://ipfs-search.com'
 
@@ -58,18 +57,19 @@ const IPFSSearchForm = ({ t, ipfsSearch, searchInput, doUpdateSearchInput }) => 
             </a>
           </div>
         </div>
-      </div>
-      <div className='flex flex-row-reverse mb2'>
-        <Button
-          minWidth={0}
-          disabled={!isValid}
-          style={{ borderRadius: '0' }}
-          title={t('app:actions.search')}
-          onClick={onSearch}
-          className='IPFSSearchFormButton button-reset pv1 ph2 ba f7 fw4 white bg-gray overflow-hidden tc' >
-          <StrokeSearch style={{ height: '2em' }} className='dib fill-current-color v-mid' />
-          <span className='ml2'>{t('app:actions.search')}</span>
-        </Button>
+        <div className='flex flex-row-reverse mb2'>
+          <Button
+            minWidth={0}
+            disabled={!this.isValid}
+            title={t('app:actions.search')}
+            style={{ borderRadius: '0 3px 3px 0' }}
+            onClick={this.onSearch}
+            bg='bg-teal'
+            className='IPFSSearchFormButton button-reset pv1 ph2 ba f7 fw4 white overflow-hidden tc' >
+            <StrokeIpld style={{ height: '2em' }} className='dib fill-current-color v-mid' />
+            <span className='ml2'>{t('app:actions.search')}</span>
+          </Button>
+        </div>
       </div>
     </div>
   )
@@ -77,11 +77,7 @@ const IPFSSearchForm = ({ t, ipfsSearch, searchInput, doUpdateSearchInput }) => 
 
 IPFSSearchForm.propTypes = {
   t: PropTypes.func.isRequired,
-  ipfsSearch: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired
 }
 
-export default connect(
-  'doUpdateSearchInput',
-  'selectSearchInput',
-  withTranslation('search')(IPFSSearchForm)
-)
+export default withTranslation('search')(IPFSSearchForm)
