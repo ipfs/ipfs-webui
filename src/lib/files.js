@@ -42,11 +42,11 @@ export function normalizeFiles (files) {
  * @returns {string}
  */
 function getDownloadURL (type, name, cid, gatewayUrl) {
-  const filename = `${name || `download_${cid.toString()}`}.tar`
-
   if (type === 'directory') {
+    const filename = `${name || `download_${cid.toString()}`}.tar`
     return `${gatewayUrl}/ipfs/${cid.toString()}?download=true&format=tar&filename=${filename}`
   } else {
+    const filename = `${name || cid}`
     return `${gatewayUrl}/ipfs/${cid.toString()}?download=true&filename=${filename}`
   }
 }
