@@ -55,35 +55,17 @@ const IPFSSearchTable = ({ t, searchResults }) => {
     const ipfsSearchDetailBaseUrl = 'https://ipfs-search.com/#/search/detail'
     const detailLink = `${ipfsSearchDetailBaseUrl}/${queryFileType}/${hash}?q=${hash}&page=1`
     return (
-      <a href={detailLink} target="_blank" rel="noopener noreferrer" style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <a href={detailLink} target='_blank' rel='noopener noreferrer' style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <FileIcon name={title} type={type} />
       </a>
     )
   }
-
-  // const detailViewCellRender = ({ rowData }) => {
-  //   const { title, hash, type, mimetype } = rowData
-  //   const queryFileType = getQueryFileType(type, title, mimetype)
-  //   const ipfsSearchDetailBaseUrl = 'https://ipfs-search.com/#/search/detail'
-  //   const detailLink = `${ipfsSearchDetailBaseUrl}/${queryFileType}/${hash}?q=${hash}&page=1`
-  //   return (
-  //     <a href={detailLink} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  //       <GlyphLinkExternal />
-  //     </a>
-  //   )
-  // }
 
   const detailViewHeader = () => {
     return (
         <IPFSSearchLogoHex />
     )
   }
-
-  // const exploreViewHeader = () => {
-  //   return (
-  //       <StrokeIpld />
-  //   )
-  // }
 
   const exploreViewCellRender = ({ rowData }) => {
     const { hash } = rowData
