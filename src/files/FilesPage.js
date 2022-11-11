@@ -56,16 +56,12 @@ const FilesPage = ({
 
   const onDownload = async (files) => {
     const url = await doFilesDownloadLink(files)
-    const link = document.createElement('a')
-    link.href = url
-    link.click()
+    window.location.href = url
   }
 
   const onDownloadCar = async (files) => {
     const url = await doFilesDownloadCarLink(files)
-    const link = document.createElement('a')
-    link.href = url
-    link.click()
+    window.location.href = url
   }
 
   const onAddFiles = (raw, root = '') => {
