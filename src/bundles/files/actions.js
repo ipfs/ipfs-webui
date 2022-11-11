@@ -397,7 +397,7 @@ const actions = () => ({
    */
   doFilesDownloadLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async (ipfs, { store }) => {
     const gatewayUrl = store.selectGatewayUrl()
-    return await getDownloadLink(files, gatewayUrl, ipfs)
+    return getDownloadLink(files, gatewayUrl, ipfs)
   }),
 
   /**
@@ -406,7 +406,7 @@ const actions = () => ({
    */
   doFilesDownloadCarLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async (ipfs, { store }) => {
     const gatewayUrl = store.selectGatewayUrl()
-    return await getCarLink(files, gatewayUrl, ipfs)
+    return getCarLink(files, gatewayUrl, ipfs)
   }),
 
   /**
@@ -416,7 +416,7 @@ const actions = () => ({
   doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
     // ensureMFS deliberately omitted here, see https://github.com/ipfs/ipfs-webui/issues/1744 for context.
     const publicGateway = store.selectPublicGateway()
-    return await getShareableLink(files, publicGateway, ipfs)
+    return getShareableLink(files, publicGateway, ipfs)
   }),
 
   /**
