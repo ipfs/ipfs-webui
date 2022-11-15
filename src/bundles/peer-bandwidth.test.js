@@ -194,10 +194,12 @@ it('should get bandwidth for added peers', async () => {
   bwPeers.forEach(({ bw }) => expect(bw).toBeFalsy())
 
   // Wait for all the bandwdith stats to come in
-  await sleep(30)
+  while (bwPeers.some(p => typeof p.bw === 'undefined')) {
+    await sleep(30)
+    bwPeers = store.selectPeerBandwidthPeers()
+  }
 
   // Now all the peers should have had their bandwidth updated
-  bwPeers = store.selectPeerBandwidthPeers()
   expect(bwPeers.length).toBe(peers.length)
 
   bwPeers.forEach(({ bw }) => expect(bw).toBeTruthy())
