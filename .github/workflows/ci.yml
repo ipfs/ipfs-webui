@@ -1,10 +1,6 @@
 name: ci
 on:
   workflow_dispatch:
-    inputs:
-      kubo-version:
-        description: Kubo version to use during the run
-        required: false
   push:
     branches:
       - main
@@ -65,7 +61,6 @@ jobs:
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
           name: kubo
-          version: ${{ github.event.inputs.kubo-version }}
       - uses: ipfs/download-ipfs-distribution-action@v1
         with:
           name: ipfs-cluster-ctl
@@ -141,13 +136,13 @@ jobs:
 
       # dev dnslink is updated on each main branch update
       - run: npx dnslink-dnsimple --domain dev.webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: github.ref == 'refs/heads/main' && !github.event.inputs.kubo-version
+        if: github.ref == 'refs/heads/main'
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
 
       # production dnslink is updated on release (during tag build)
       - run: npx dnslink-dnsimple --domain webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && !github.event.inputs.kubo-version
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
 
@@ -226,7 +221,7 @@ jobs:
           name: ipfs-webui_${{ github.sha }}.car
 
       - name: Dry-run semantic release
-        if: github.ref != 'refs/heads/main' && !github.event.inputs.kubo-version
+        if: github.ref != 'refs/heads/main'
         run: |
           git config user.name "ipfs-gui-bot"
           git config user.email "108953096+ipfs-gui-bot@users.noreply.github.com"
@@ -236,7 +231,7 @@ jobs:
 
       # Update the version (npm version [major|minor|patch])
       - name: Run semantic release
-        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && !github.event.inputs.kubo-version
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
         run: |
           git config user.name "ipfs-gui-bot"
           git config user.email "108953096+ipfs-gui-bot@users.noreply.github.com"
