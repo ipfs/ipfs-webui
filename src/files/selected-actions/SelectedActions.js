@@ -55,7 +55,6 @@ class SelectedActions extends React.Component {
     download: PropTypes.func.isRequired,
     rename: PropTypes.func.isRequired,
     inspect: PropTypes.func.isRequired,
-    downloadProgress: PropTypes.number,
     t: PropTypes.func.isRequired,
     tReady: PropTypes.bool.isRequired,
     isMfs: PropTypes.bool.isRequired,
@@ -70,37 +69,12 @@ class SelectedActions extends React.Component {
     force100: false
   }
 
-  componentDidUpdate (prev) {
-    if (this.props.downloadProgress === 100 && prev.downloadProgress !== 100) {
-      this.setState({ force100: true })
-      setTimeout(() => {
-        this.setState({ force100: false })
-      }, 2000)
-    }
-  }
-
   componentDidMount () {
     this.containerRef.current && this.containerRef.current.focus()
   }
 
-  get downloadText () {
-    if (this.state.force100) {
-      return this.props.t('finished')
-    }
-
-    if (!this.props.downloadProgress) {
-      return this.props.t('app:actions.download')
-    }
-
-    if (this.props.downloadProgress === 100) {
-      return this.props.t('finished')
-    }
-
-    return this.props.downloadProgress.toFixed(0) + '%'
-  }
-
   render () {
-    const { t, tReady, animateOnStart, count, size, unselect, remove, share, setPinning, download, downloadProgress, rename, inspect, className, style, isMfs, ...props } = this.props
+    const { t, tReady, animateOnStart, count, size, unselect, remove, share, setPinning, download, rename, inspect, className, style, isMfs, ...props } = this.props
 
     const isSingle = count === 1
 
@@ -131,7 +105,7 @@ class SelectedActions extends React.Component {
             </button>
             <button role="menuitem" className='tc mh2' onClick={download}>
               <StrokeDownload className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{this.downloadText}</p>
+              <p className='ma0 f6'>{t('app:actions.download')}</p>
             </button>
             <button role="menuitem" className={classNames('tc mh2', classes.action(isMfs))} onClick={isMfs ? remove : null}>
               <StrokeTrash className={classes.svg(isMfs)} fill='#A4BFCC' aria-hidden="true"/>

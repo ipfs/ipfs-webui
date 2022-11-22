@@ -51,7 +51,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], fail
 }
 
 export const FilesList = ({
-  className, files, pins, pinningServices, remotePins, pendingPins, failedPins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
+  className, files, pins, pinningServices, remotePins, pendingPins, failedPins, filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
   onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])
@@ -355,7 +355,6 @@ export const FilesList = ({
             inspect={() => onInspect(selectedFiles[0].cid)}
             count={selectedFiles.length}
             isMfs={filesPathInfo.isMfs}
-            downloadProgress={downloadProgress}
             size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
           }
         </Fragment> }
@@ -374,7 +373,6 @@ FilesList.propTypes = {
     asc: PropTypes.bool.isRequired
   }),
   updateSorting: PropTypes.func.isRequired,
-  downloadProgress: PropTypes.number,
   filesIsFetching: PropTypes.bool,
   filesPathInfo: PropTypes.object,
   // Actions

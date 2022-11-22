@@ -6,7 +6,6 @@ import { withTranslation, Trans } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 // Lib
 import { filesTour } from '../lib/tours'
-import downloadFile from './download-file'
 // Components
 import ContextMenu from './context-menu/ContextMenu'
 import withTour from '../components/tour/withTour'
@@ -27,8 +26,6 @@ const FilesPage = ({
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
   const contextMenuRef = useRef()
-  const [downloadAbort, setDownloadAbort] = useState(null)
-  const [downloadProgress, setDownloadProgress] = useState(null)
   const [modals, setModals] = useState({ show: null, files: null })
   const [contextMenu, setContextMenu] = useState({
     isOpen: false,
@@ -58,32 +55,13 @@ const FilesPage = ({
   */
 
   const onDownload = async (files) => {
-    if (downloadProgress !== null) {
-      return downloadAbort()
-    }
-
-    const { url, filename, method } = await doFilesDownloadLink(files)
-
-    if (method === 'GET') {
-      const link = document.createElement('a')
-      link.href = url
-      link.click()
-    } else {
-      const updater = (v) => setDownloadProgress(v)
-      const { abort } = await downloadFile(url, filename, updater, method)
-      setDownloadAbort(() => abort)
-    }
+    const url = await doFilesDownloadLink(files)
+    window.location.href = url
   }
 
   const onDownloadCar = async (files) => {
-    if (downloadProgress !== null) {
-      return downloadAbort()
-    }
-
     const url = await doFilesDownloadCarLink(files)
-    const link = document.createElement('a')
-    link.href = url
-    link.click()
+    window.location.href = url
   }
 
   const onAddFiles = (raw, root = '') => {
@@ -167,7 +145,6 @@ const FilesPage = ({
         pendingPins={pendingPins}
         failedPins={failedPins}
         upperDir={files.upper}
-        downloadProgress={downloadProgress}
         onShare={(files) => showModal(SHARE, files)}
         onRename={(files) => showModal(RENAME, files)}
         onRemove={(files) => showModal(DELETE, files)}
