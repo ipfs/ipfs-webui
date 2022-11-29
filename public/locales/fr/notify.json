@@ -4,7 +4,7 @@
   "ipfsInvalidApiAddress": "L'adresse d'API IPFS fournie est invalide.",
   "ipfsConnectSuccess": "Connecté à l'adresse d'API IPFS avec succès.",
   "ipfsConnectFail": "Impossible de se connecter à l'adresse d'API IPFS fournie",
-  "ipfsPinFailReason": "Impossible de définir l'épinglage via{serviceName} : {errorMsg}",
+  "ipfsPinFailReason": "Impossible d'épingler via {serviceName} : {errorMsg}",
   "ipfsPinSucceedReason": "Épinglé avec succès à {serviceName}",
   "ipfsUnpinSucceedReason": "Désépinglé avec succès de {serviceName}",
   "ipfsIsBack": "Le service IPFS a repris normalement. Profitez !",
