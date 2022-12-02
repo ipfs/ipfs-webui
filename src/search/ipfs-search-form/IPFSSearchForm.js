@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import StrokeIpld from '../../icons/StrokeIpld'
