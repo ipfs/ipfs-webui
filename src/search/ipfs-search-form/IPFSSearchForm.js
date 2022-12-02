@@ -80,4 +80,8 @@ IPFSSearchForm.propTypes = {
   onSearch: PropTypes.func.isRequired
 }
 
-export default withTranslation('search')(IPFSSearchForm)
+export default connect(
+  'doUpdateSearchInput',
+  'selectSearchInput',
+  withTranslation('search')(IPFSSearchForm)
+)
