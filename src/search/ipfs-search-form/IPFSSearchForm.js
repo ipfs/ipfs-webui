@@ -2,32 +2,29 @@ import React from 'react'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
-import StrokeIpld from '../../icons/StrokeIpld'
+import StrokeSearch from '../../icons/StrokeSearch'
 import Button from '../../components/button/Button'
 import './IPFSSearchForm.css'
 import IPFSSearchLogoText from '../../icons/IPFSSearchLogoText'
 
 const ipfsSearchUrl = 'https://ipfs-search.com'
 
-const IPFSSearchForm = ({ t, ipfsSearch, searchInput, doUpdateSearchInput }) => {
-  // const [searchInput, setSearchInput] = useState('')
-
+const IPFSSearchForm = ({ t, onSearch, searchInput, doUpdateSearchInput }) => {
   const onKeyDown = (evt) => {
     if (evt.key === 'Enter') {
-      onSearch(evt)
+      searchIPFS(searchInput)
     }
   }
 
-  const onSearch = (evt) => {
+  const searchIPFS = (evt) => {
     evt.preventDefault()
 
-    ipfsSearch(searchInput)
+    onSearch(searchInput)
   }
 
   const onChange = (evt) => {
     const updatedSearchInput = evt.target.value
     doUpdateSearchInput(updatedSearchInput)
-    // setSearchInput(updatedPath)
   }
 
   const isValid = () => {
@@ -58,20 +55,20 @@ const IPFSSearchForm = ({ t, ipfsSearch, searchInput, doUpdateSearchInput }) => 
             </a>
           </div>
         </div>
+      </div>
         <div className='flex flex-row-reverse mb2'>
           <Button
             minWidth={0}
-            disabled={!this.isValid}
+            disabled={!isValid}
             title={t('app:actions.search')}
             style={{ borderRadius: '0 3px 3px 0' }}
-            onClick={this.onSearch}
+            onClick={searchIPFS}
             bg='bg-teal'
             className='IPFSSearchFormButton button-reset pv1 ph2 ba f7 fw4 white overflow-hidden tc' >
-            <StrokeIpld style={{ height: '2em' }} className='dib fill-current-color v-mid' />
+            <StrokeSearch style={{ height: '2em' }} className='dib fill-current-color v-mid' />
             <span className='ml2'>{t('app:actions.search')}</span>
           </Button>
         </div>
-      </div>
     </div>
   )
 }

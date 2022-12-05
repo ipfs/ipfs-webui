@@ -3,8 +3,17 @@ import { connect } from 'redux-bundler-react'
 import { Helmet } from 'react-helmet'
 import { withTranslation } from 'react-i18next'
 import IPFSSearchTable from './ipfs-search-table/IPFSSearchTable'
+import StartSearchingContainer from './StartSearchingContainer'
 
 const SearchPage = ({ t, toursEnabled, handleJoyrideCallback, searchResults }) => {
+  const renderSearchContent = () => {
+    if (searchResults) {
+      return <IPFSSearchTable />
+    }
+
+    return <StartSearchingContainer />
+  }
+
   return (
     <div data-id='SearchPage' className='overflow-hidden'>
     <Helmet>
@@ -12,8 +21,8 @@ const SearchPage = ({ t, toursEnabled, handleJoyrideCallback, searchResults }) =
     </Helmet>
 
     <div>
-      {searchResults &&
-        <IPFSSearchTable />
+      {
+        renderSearchContent()
       }
     </div>
 
@@ -22,7 +31,6 @@ const SearchPage = ({ t, toursEnabled, handleJoyrideCallback, searchResults }) =
 }
 
 export default connect(
-  // 'doFetchSearchResults',
   'selectSearchResults',
   withTranslation('search')(SearchPage)
 )
