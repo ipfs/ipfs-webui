@@ -17,5 +17,15 @@
       "paragraph1": "This is where you can see IPFS Search results from ipfs-search.com",
       "paragraph2": "Click \"Next\" to learn more."
     }
+  },
+  "StartSearchingPage": {
+    "title": "Search | IPFS",
+    "header": "Search the Interplanetary File System",
+    "leadParagraph": "Type a search query into the box to search the distributed web."
+  },
+  "AboutSearch": {
+    "paragraph1":"<0>IPFS <1>powers the distributed web.</1> It is a peer-to-peer hypermedia protocol designed to preserve and grow humanity's knowledge by making the web upgradeable, resilient, and more open.</0>",
+    "paragraph2": "<0><1>ipfs-search</1> listens to IPFS nodes and extracts hashes from the DHT (distributed hash table) gossip. A crawler uses the hashes to collect data to be indexed.</0>",
+    "paragraph3": "<0>The search engine is free, open source, and allows you to search the Interplanetary File System through a regular search engine interface.</0>"
   }
 }

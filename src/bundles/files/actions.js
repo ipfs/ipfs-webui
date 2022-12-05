@@ -147,9 +147,9 @@ const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
  * @property {function():string} selectGatewayUrl
  * @property {function():string} selectPublicGateway
  *
- * @typedef {Object} UnkonwActions
+ * @typedef {Object} UnknownActions
  * @property {function(string):Promise<unknown>} doUpdateHash
- * @typedef {Selectors & Actions & IPFSProviderStore & ConnectedSelectors & ConfigSelectors & UnkonwActions} Ext
+ * @typedef {Selectors & Actions & IPFSProviderStore & ConnectedSelectors & ConfigSelectors & UnknownActions} Ext
  * @typedef {import('../ipfs-provider').Extra} Extra
  * @typedef {import('redux-bundler').Store<Model, Message, Ext>} Store
  * @typedef {import('redux-bundler').Context<Model, Message, Ext, Extra>} Context
