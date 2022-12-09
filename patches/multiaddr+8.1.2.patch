@@ -19,13 +19,14 @@ index 7258b50..09f28f9 100644
  
      case 421: // ipfs
 diff --git a/node_modules/multiaddr/src/protocols-table.js b/node_modules/multiaddr/src/protocols-table.js
-index 4578e43..840f7b2 100644
+index 4578e43..db46337 100644
 --- a/node_modules/multiaddr/src/protocols-table.js
 +++ b/node_modules/multiaddr/src/protocols-table.js
-@@ -52,6 +52,8 @@ Protocols.table = [
+@@ -52,6 +52,9 @@ Protocols.table = [
    [445, 296, 'onion3'],
    [446, V, 'garlic64'],
    [460, 0, 'quic'],
++  [461, 0, 'quic-v1'],
 +  [465, 0, 'webtransport'],
 +  [466, V, 'certhash'],
    [477, 0, 'ws'],
