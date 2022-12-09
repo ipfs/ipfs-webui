@@ -1,3 +1,29 @@
+## [2.21.0](https://github.com/ipfs/ipfs-webui/compare/v2.20.0...v2.21.0) (2022-12-09)
+
+
+ CID `bafybeiequgo72mrvuml56j4gk7crewig5bavumrrzhkqbim6b3s2yqi7ty`
+
+ --- 
+
+
+
+### Features
+
+* use direct links to download all files ([#1894](https://github.com/ipfs/ipfs-webui/issues/1894)) ([d1bcbbf](https://github.com/ipfs/ipfs-webui/commit/d1bcbbfef95037dc094c60f80e279dab85e60ba1))
+
+
+### Bug Fixes
+
+* support /quic-v1 ([#2073](https://github.com/ipfs/ipfs-webui/issues/2073)) ([04eb7b3](https://github.com/ipfs/ipfs-webui/commit/04eb7b33f2f552ab835646406129fdf14b9ff044))
+
+
+### Trivial Changes
+
+* bump playwright deps ([#2066](https://github.com/ipfs/ipfs-webui/issues/2066)) ([f138960](https://github.com/ipfs/ipfs-webui/commit/f1389606a751e7536dc3956ca85346dd5b7d9a19))
+* **ci:** fix flaky unit test ([#2068](https://github.com/ipfs/ipfs-webui/issues/2068)) ([bd038cd](https://github.com/ipfs/ipfs-webui/commit/bd038cd5fd42ae1634a9e24c9150d89e5f586e0e)), closes [/github.com/ipfs/ipfs-webui/issues/2065#issuecomment-1315933342](https://github.com/ipfs//github.com/ipfs/ipfs-webui/issues/2065/issues/issuecomment-1315933342)
+* Pull transifex translations ([#2069](https://github.com/ipfs/ipfs-webui/issues/2069)) ([36f3641](https://github.com/ipfs/ipfs-webui/commit/36f36416ff861b5884d5722d16ee278f71745336))
+* revert [#2032](https://github.com/ipfs/ipfs-webui/issues/2032) ([#2064](https://github.com/ipfs/ipfs-webui/issues/2064)) ([9473d7d](https://github.com/ipfs/ipfs-webui/commit/9473d7d1d4759a151008e5a652b6becd2ce0f5d1)), closes [/github.com/ipfs/ipfs-webui/pull/2032#issuecomment-1278928440](https://github.com/ipfs//github.com/ipfs/ipfs-webui/pull/2032/issues/issuecomment-1278928440)
+
 ## [2.20.0](https://github.com/ipfs/ipfs-webui/compare/v2.19.0...v2.20.0) (2022-11-09)
 
 
