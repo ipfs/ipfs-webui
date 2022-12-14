@@ -101,6 +101,13 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
     return null
   }
 
+  const handleExpandByKeyboard = (ev) => {
+    const isTargetElementBeingClicked = ev.nativeEvent.target.tagName === 'BUTTON'
+    if (ev.nativeEvent?.code !== 'Space' || isTargetElementBeingClicked) return
+
+    setExpanded(!expanded)
+  }
+
   const numberOfImportedItems = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile.message.entries.length, 0)
   const numberOfPendingItems = filesPending.reduce((total, pending) => total + groupByPath(pending.message.entries).size, 0)
   const progress = Math.floor(filesPending.reduce((total, { message: { progress } }) => total + progress, 0) / filesPending.length)
@@ -108,7 +115,15 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
       <div className="relative br1 dark-gray w-40 center ba b--light-gray bg-white" style={{ pointerEvents: 'auto' }}>
-        <div className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100 justify-between" style={{ background: '#F0F6FA' }}>
+        <div
+          tabIndex="0"
+          onClick={() => setExpanded(!expanded)}
+          onKeyPress={handleExpandByKeyboard}
+          role="button"
+          className="fileImportStatusButton pv2 ph3 relative flex items-center no-select pointer charcoal w-100 justify-between"
+          aria-expanded={expanded}
+          style={{ background: '#F0F6FA' }}
+        >
           <span>
             { filesPending.length
               ? `${t('filesImportStatus.importing', { count: numberOfPendingItems })} (${progress}%)`
@@ -116,11 +131,11 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
             }
           </span>
           <div className="flex items-center">
-            <button className='fileImportStatusArrow' onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={ t('filesImportStatus.toggleDropdown') }>
-              <GlyphSmallArrows className='w-100' fill="currentColor" opacity="0.7" aria-hidden="true"/>
+            <button className='fileImportStatusArrow ph0 flex' onClick={() => setExpanded(!expanded)} aria-expanded={expanded} aria-label={ t('filesImportStatus.toggleDropdown') }>
+              <GlyphSmallArrows viewBox="10 10 80 80" fill="currentColor" opacity="0.7" aria-hidden="true"/>
             </button>
-            <button className='fileImportStatusCancel' onClick={ handleImportStatusClose } aria-label={ t('filesImportStatus.closeDropdown') }>
-              <GlyphSmallCancel className='w-100' fill="currentColor" opacity="0.7"/>
+            <button className='fileImportStatusCancel ph0 flex' onClick={handleImportStatusClose} aria-label={ t('filesImportStatus.closeDropdown') }>
+              <GlyphSmallCancel fill="currentColor" opacity="0.7"/>
             </button>
           </div>
         </div>

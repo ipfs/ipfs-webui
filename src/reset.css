@@ -11,7 +11,7 @@ button:not(.disabled) {
     cursor: pointer;
 }
   
-button:not(.default):focus {
+button:not(.default):focus-visible {
     outline: 1px solid #bbb;
     outline-offset: -1px;
 }
