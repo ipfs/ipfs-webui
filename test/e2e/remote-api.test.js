@@ -30,7 +30,7 @@ test.describe('Remote API tests', () => {
     ipfsd = await createController({
       type: 'go',
       ipfsBin: require('go-ipfs').path(),
-      ipfsHttpModule: require('ipfs-http-client'),
+      kuboRpcClient: require('kubo-rpc-client'),
       test: true,
       disposable: true
     })
@@ -244,7 +244,7 @@ test.describe('Remote API tests', () => {
       await basicAuthConnectionConfirmation(user, password, proxyPort, page, rpcId)
     })
 
-    test('should work when localStorage[ipfsApi] is set to a JSON string with a custom ipfs-http-client config', async ({ page }) => {
+    test('should work when localStorage[ipfsApi] is set to a JSON string with a custom kubo-rpc-client config', async ({ page }) => {
       const apiOptions = JSON.stringify({
         url: `http://127.0.0.1:${proxyPort}/`,
         headers: {
@@ -261,7 +261,7 @@ test.describe('Remote API tests', () => {
       await basicAuthConnectionConfirmation(user, password, proxyPort, page, rpcId)
     })
 
-    test('should work when JSON with ipfs-http-client config is entered at the Settings page', async ({ page }) => {
+    test('should work when JSON with kubo-rpc-client config is entered at the Settings page', async ({ page }) => {
       const apiOptions = JSON.stringify({
         url: `http://127.0.0.1:${proxyPort}/`,
         headers: {

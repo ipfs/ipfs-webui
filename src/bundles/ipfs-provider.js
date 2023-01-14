@@ -1,5 +1,6 @@
 import multiaddr from 'multiaddr'
-import HttpClient from 'ipfs-http-client'
+// import HttpClient from 'ipfs-http-client'
+// import kuboRpcClient from 'kubo-rpc-client'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
 import first from 'it-first'
@@ -226,7 +227,7 @@ const asMultiaddress = (value) => {
  */
 
 /**
- * Attempts to turn parse given input as an options object for ipfs-http-client.
+ * Attempts to turn parse given input as an options object for kubo-rpc-client.
  * @param {string|object} value
  * @returns {HTTPClientOptions|null}
  */
@@ -266,7 +267,7 @@ const parseHTTPClientOptions = (input) => {
  * @returns {HTTPClientOptions|null}
  */
 const readHTTPClientOptions = (value) => {
-  // https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#importing-the-module-and-usage
+  // https://github.com/ipfs/js-kubo-rpc-client#importing-the-module-and-usage
   if (value && (!!value.url || value.host || value.apiPath || value.protocol || value.port || value.headers)) {
     return value
   } else {
@@ -360,6 +361,7 @@ const actions = {
         }
         */
       }
+      const kuboRpcClient = await import('kubo-rpc-client')
 
       if (typeof apiAddress === 'string') {
         ipfsOptions = {
@@ -390,7 +392,7 @@ const actions = {
 
           return true
         },
-        loadHttpClientModule: () => HttpClient,
+        loadHttpClientModule: () => kuboRpcClient.create(),
         providers: [
           providers.httpClient(ipfsOptions)
         ]

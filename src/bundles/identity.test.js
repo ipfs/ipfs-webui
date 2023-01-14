@@ -8,14 +8,20 @@
  * Run the tests with
  *    KUBO_PORT_2033_TEST=5001 npm run test:unit -- --runTestsByPath "test/kubo-webtransport.test.js" --env=./custom-jest-env.js
  */
-import ipfsHttpModule from 'ipfs-http-client'
-import { createController } from 'ipfsd-ctl'
+import kuboRpcClient from 'kubo-rpc-client'
+import * as ipfsdCtl from 'ipfsd-ctl'
+console.log('ipfsdCtl: ', ipfsdCtl)
+const { createController } = ipfsdCtl
+console.log('createController: ', createController)
 
 describe('identity.js', function () {
   describe('Kubo webtransport fix test', function () {
     let ipfs
     let ipfsd
     beforeAll(async () => {
+      // const ipfsdCtl = await import('ipfsd-ctl')
+      // console.log('ipfsdCtl: ', ipfsdCtl)
+      // const createController = ipfsdCtl.createController
       /**
        * This test allows for a manual run of the Kubo daemon to reproduce and
        * prove a fix for https://github.com/ipfs/ipfs-webui/issues/2033
@@ -25,13 +31,13 @@ describe('identity.js', function () {
         ipfsd = await createController({
           type: 'go',
           ipfsBin: (await import('go-ipfs')).default.path(),
-          ipfsHttpModule,
+          kuboRpcClient: kuboRpcClient.create,
           test: true,
           disposable: true
         })
         ipfs = ipfsd.api
       } else {
-        ipfs = ipfsHttpModule(`http://localhost:${KUBO_PORT}`)
+        ipfs = kuboRpcClient(`http://localhost:${KUBO_PORT}`)
       }
     })
 

@@ -67,7 +67,7 @@ function modifyBabelLoaderRuleForTest (rules) {
   })
 }
 
-function webpackOverride(config) {
+function webpackOverride (config) {
   const fallback = config.resolve.fallback || {}
 
   Object.assign(fallback, {
@@ -99,5 +99,43 @@ function webpackOverride(config) {
 
 module.exports = {
   webpack: webpackOverride,
-  jest: (config) => config
+  jest: (config) => {
+    console.log('config.roots: ', config.roots)
+    console.log('config.modulePaths: ', config.modulePaths)
+    console.log('config.moduleDirectories: ', config.moduleDirectories)
+    console.log('config.transform: ', config.transform)
+    console.log('config.transformIgnorePatterns: ', config.transformIgnorePatterns)
+    return ({
+      ...config,
+      modulePaths: [
+        ...config.modulePaths,
+        'node_modules',
+        '<rootDir>',
+        '<rootDir>/node_modules'
+      ],
+      transform: {
+        // '^.*(?:kubo-rpc-client|ipfsd-ctl).*$': '<rootDir>/jest-esm-transformer.js',
+        '^.+/node_modules/kubo-rpc-client.+$': '<rootDir>/jest-esm-transformer.js',
+        // '^.+/node_modules/@libp2p\\/logger.+$': '<rootDir>/jest-esm-transformer.js',
+        // '^.+/node_modules/nanoid.+$': '<rootDir>/jest-esm-transformer.js',
+        // '^.+/node_modules/temp-write.+$': '<rootDir>/jest-esm-transformer.js',
+        // '^.+/node_modules/ipfsd-ctl.+$': '<rootDir>/jest-esm-transformer.js',
+        // '.+ipfsd-ctl.+': '<rootDir>/jest-esm-transformer.js',
+        // '^.*kubo-rpc-client.*$': 'babel-jest',
+        ...config.transform
+        // 'node_modules/kubo-rpc-client/.+\\.(js|jsx|mjs|cjs|ts|tsx)$': 'babel-jest'
+        // 'kubo-rpc-client': 'jest-esm-transformer'
+      },
+      transformIgnorePatterns: [
+        '<rootDir>[/\\\\]node_modules[/\\\\](?!kubo-rpc-client|ipfsd-ctl|ipfsd-ctl\\/node_modules\\/|@libp2p\\/logger|nanoid|temp-write|@multiformats/multiaddr|is-ip|ip-regex|execa|strip-final-newline|npm-run-path|path-key|onetime|mimic-fn|human-signals|is-stream|p-wait-for).+\\.(js|jsx|mjs|cjs|ts|tsx)$',
+        '^.+\\.module\\.(css|sass|scss)$'
+      ],
+      moduleNameMapper: {
+        'ipfsd-ctl': '<rootDir>/node_modules/ipfsd-ctl/dist/src/index.js',
+        '@libp2p/logger': '<rootDir>/node_modules/@libp2p/logger/dist/src/index.js',
+        nanoid: '<rootDir>/node_modules/@libp2p/logger/dist/src/index.js',
+        '@multiformats/multiaddr': '<rootDir>/node_modules/@multiformats/multiaddr/dist/src/index.js'
+      }
+    })
+  }
 }

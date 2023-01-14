@@ -2,7 +2,8 @@ const { test } = require('./setup/coverage')
 const { fixtureData } = require('./fixtures')
 const all = require('it-all')
 const filesize = require('filesize')
-const ipfsClient = require('ipfs-http-client')
+// const ipfsClient = require('ipfs-http-client')
+const kuboRpcClient = require('kubo-rpc-client').create
 
 test.describe('Files screen', () => {
   test.beforeEach(async ({ page }) => {
@@ -43,7 +44,7 @@ test.describe('Files screen', () => {
     await page.waitForSelector('text=file2.txt')
 
     // expect valid CID to be present on the page
-    const ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
+    const ipfs = kuboRpcClient(process.env.IPFS_RPC_ADDR)
     const [result1, result2] = await all(ipfs.addAll([file1.data, file2.data]))
     await page.waitForSelector(`text=${result1.cid.toString()}`)
     await page.waitForSelector(`text=${result2.cid.toString()}`)

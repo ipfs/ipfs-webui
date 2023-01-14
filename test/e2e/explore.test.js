@@ -1,7 +1,8 @@
 const { test, expect } = require('./setup/coverage')
 const fs = require('fs')
 const path = require('path')
-const ipfsClient = require('ipfs-http-client')
+// const ipfsClient = require('ipfs-http-client')
+const kuboRpcClient = require('kubo-rpc-client').create
 
 test.describe('Explore screen', () => {
   test.beforeEach(async ({ page }) => {
@@ -18,7 +19,7 @@ test.describe('Explore screen', () => {
     // add a local file to repo so test is fast and works in offline mode
     const cid = 'bafkreicgkmwhdunxgdqwqveecdo3wqmgulb4azm6sfnrtvd7g47mnrixji'
     const expectedData = fs.readFileSync(path.join(__dirname, '../../LICENSE'), 'utf8')
-    const ipfs = ipfsClient(process.env.IPFS_RPC_ADDR)
+    const ipfs = kuboRpcClient(process.env.IPFS_RPC_ADDR)
     const result = await ipfs.add(expectedData, { cidVersion: 1 })
     await expect(result.cid.toString()).toStrictEqual(cid)
 
