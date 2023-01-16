@@ -100,6 +100,7 @@ function webpackOverride (config) {
 module.exports = {
   webpack: webpackOverride,
   jest: (config) => {
+    console.log('config.globals: ', config.globals)
     console.log('config.roots: ', config.roots)
     console.log('config.modulePaths: ', config.modulePaths)
     console.log('config.moduleDirectories: ', config.moduleDirectories)
@@ -107,6 +108,10 @@ module.exports = {
     console.log('config.transformIgnorePatterns: ', config.transformIgnorePatterns)
     return ({
       ...config,
+      globals: {
+        ...config.globals,
+        crypto: require('crypto')
+      },
       modulePaths: [
         ...config.modulePaths,
         'node_modules',
@@ -115,13 +120,14 @@ module.exports = {
       ],
       transform: {
         // '^.*(?:kubo-rpc-client|ipfsd-ctl).*$': '<rootDir>/jest-esm-transformer.js',
-        '^.+/node_modules/kubo-rpc-client.+$': '<rootDir>/jest-esm-transformer.js',
-        // '^.+/node_modules/@libp2p\\/logger.+$': '<rootDir>/jest-esm-transformer.js',
-        // '^.+/node_modules/nanoid.+$': '<rootDir>/jest-esm-transformer.js',
-        // '^.+/node_modules/temp-write.+$': '<rootDir>/jest-esm-transformer.js',
-        // '^.+/node_modules/ipfsd-ctl.+$': '<rootDir>/jest-esm-transformer.js',
-        // '.+ipfsd-ctl.+': '<rootDir>/jest-esm-transformer.js',
-        // '^.*kubo-rpc-client.*$': 'babel-jest',
+        '^.+kubo-rpc-client.+$': '<rootDir>/jest-esm-transformer.js',
+        '@multiformats/multiaddr': '<rootDir>/jest-esm-transformer.js',
+        // '^.+ipfsd-ctl/node_modules.+$': '<rootDir>/jest-esm-transformer.js',
+        // '^.+execa/node_modules.+$': '<rootDir>/jest-esm-transformer.js',
+        // 'node_modules/nanoid': '<rootDir>/jest-esm-transformer.js',
+        // '^.+/node_modules/kubo-rpc-client.+$': 'jest-esm-transformer',
+        // '^.+/node_modules/ipfsd-ctl.+$': 'jest-esm-transformer',
+        // '^.+/node_modules/ipfs-core-utils/src/multibases.js$': '<rootDir>/jest-esm-transformer.js',
         ...config.transform
         // 'node_modules/kubo-rpc-client/.+\\.(js|jsx|mjs|cjs|ts|tsx)$': 'babel-jest'
         // 'kubo-rpc-client': 'jest-esm-transformer'
@@ -133,8 +139,9 @@ module.exports = {
       moduleNameMapper: {
         'ipfsd-ctl': '<rootDir>/node_modules/ipfsd-ctl/dist/src/index.js',
         '@libp2p/logger': '<rootDir>/node_modules/@libp2p/logger/dist/src/index.js',
-        nanoid: '<rootDir>/node_modules/@libp2p/logger/dist/src/index.js',
-        '@multiformats/multiaddr': '<rootDir>/node_modules/@multiformats/multiaddr/dist/src/index.js'
+        nanoid: '<rootDir>/node_modules/nanoid/index.js',
+        // '@multiformats/multiaddr': '<rootDir>/node_modules/@multiformats/multiaddr/dist/src/index.js',
+        'ipfs-core-utils/multibases': '<rootDir>/node_modules/ipfs-core-utils/src/multibases.js'
       }
     })
   }

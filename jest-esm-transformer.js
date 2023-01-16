@@ -1,4 +1,4 @@
-// const path = require('path')
+const path = require('path')
 
 // const babelTransform = require('react-app-rewired/scripts/utils/babelTransform')
 // const cssTransform = require('react-scripts/config/jest/cssTransform')
@@ -12,9 +12,15 @@ module.exports = {
     // if (sourcePath.includes('ipfsd-ctl')) {
     //   throw new Error('test123')
     // }
+    // const relativePath = path.relative(process.cwd(), sourcePath).replace('node_modules', './node_modules')
+    // return {
+    //   code: `
+    //     module.exports = require("esm")(module, { force: false, mainFields: ['main', 'exports'], cache: false})("${relativePath}")
+    //     `
+    // }
     return {
       code: `
-        module.exports = require("esm")(module, { force: true, mainFields: ['main', 'exports'] })("${sourcePath}")
+        module.exports = require("esm")(module, { force: false, mainFields: ['main', 'exports'] })("${sourcePath}")
         `
     }
   },

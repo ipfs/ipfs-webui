@@ -19,6 +19,7 @@ describe('identity.js', function () {
     let ipfs
     let ipfsd
     beforeAll(async () => {
+      jest.setTimeout(60 * 1000)
       // const ipfsdCtl = await import('ipfsd-ctl')
       // console.log('ipfsdCtl: ', ipfsdCtl)
       // const createController = ipfsdCtl.createController
@@ -31,7 +32,7 @@ describe('identity.js', function () {
         ipfsd = await createController({
           type: 'go',
           ipfsBin: (await import('go-ipfs')).default.path(),
-          kuboRpcClient: kuboRpcClient.create,
+          kuboRpcClient,
           test: true,
           disposable: true
         })
