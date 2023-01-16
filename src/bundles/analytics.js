@@ -9,6 +9,7 @@ import { ACTIONS as FILES } from './files/consts'
 import { ACTIONS as CONIFG } from './config-save'
 import { ACTIONS as INIT } from './ipfs-provider'
 import { ACTIONS as EXP } from './experiments'
+import { getDeploymentEnv } from '../env'
 
 /**
  * @typedef {import('./ipfs-provider').Init} Init
@@ -91,13 +92,22 @@ const ASYNC_ACTIONS_TO_RECORD = [
 
 const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612'
 const COUNTLY_KEY_WEBUI_TEST = '700fd825c3b257e021bd9dbc6cbf044d33477531'
+const COUNTLY_KEY_WEBUI_KUBO = 'c4524cc93fed92a5838d4ea27c5a65526b4e7558'
 
-function pickAppKey () {
+/**
+ * @see https://github.com/ipfs/ipfs-webui/issues/2078
+ * @returns {Promise<string>}
+ */
+async function pickAppKey () {
   const isProd = process.env.NODE_ENV === 'production'
 
   if (root.ipfsDesktop && root.ipfsDesktop.countlyAppKey) {
     return root.ipfsDesktop.countlyAppKey
   } else {
+    const env = await getDeploymentEnv()
+    if (env === 'kubo') {
+      return COUNTLY_KEY_WEBUI_KUBO
+    }
     return isProd ? COUNTLY_KEY_WEBUI : COUNTLY_KEY_WEBUI_TEST
   }
 }
@@ -262,7 +272,6 @@ const actions = {
 
 const createAnalyticsBundle = ({
   countlyUrl = 'https://countly.ipfs.io',
-  countlyAppKey = pickAppKey(),
   appVersion = process.env.REACT_APP_VERSION,
   // @ts-ignore - declared but never used
   appGitRevision = process.env.REACT_APP_GIT_REV,
@@ -294,7 +303,7 @@ const createAnalyticsBundle = ({
 
       Countly.require_consent = true
       Countly.url = countlyUrl
-      Countly.app_key = countlyAppKey
+      Countly.app_key = await pickAppKey()
       Countly.app_version = appVersion
       Countly.debug = debug
 
