@@ -153,12 +153,12 @@ const selectors = {
    * @param {State} state
    */
   selectAnalyticsAskToEnable: (state) => {
-    const { lastEnabledAt, lastDisabledAt, consent } = state.analytics
-    // user has not explicitly chosen
-    if (!lastEnabledAt && !lastDisabledAt && consent.length === 0) {
-      // ask to enable.
+    const { lastDisabledAt, consent } = state.analytics
+    // user has previously opted out of all and should be warned necessary analytics are now opt-out by default
+    if (lastDisabledAt && consent.length === 0) {
       return true
     }
+
     // user has already made an explicit choice; dont ask again.
     return false
   },

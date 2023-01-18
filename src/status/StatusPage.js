@@ -56,12 +56,8 @@ const StatusPage = ({
         <AskToEnable
           className='mt3'
           label={t('AskToEnable.label')}
-          yesLabel={t('app:actions.ok')}
-          noLabel={t('app:actions.noThanks')}
-          detailsLabel={t('app:actions.moreInfo')}
-          detailsLink='#/settings/analytics'
-          onYes={doEnableAnalytics}
-          onNo={doDisableAnalytics} />
+          yesLabel={t('app:actions.close')}
+          onYes={doEnableAnalytics} />
       }
       <div style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
         { nodeBandwidthEnabled
