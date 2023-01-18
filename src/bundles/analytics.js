@@ -149,6 +149,10 @@ const selectors = {
    */
   selectAnalyticsEnabled: (state) => state.analytics.consent.length > 0,
   /**
+   * @param {State} state
+   */
+  selectAnalyticsConsentDisabled: (state) => state.analytics.lastDisabledAt && state.analytics.consent.length === 0,
+  /**
    * Ask the user if we may enable analytics.
    * @param {State} state
    */
@@ -314,6 +318,9 @@ const createAnalyticsBundle = ({
       if (store.selectAnalyticsEnabled()) {
         const consent = store.selectAnalyticsConsent()
         addConsent(consent, store)
+      } else if (store.selectAnalyticsConsentDisabled()) {
+        // add consent by default for previous users who may have opted out
+        addConsent(consentGroups.safe, store)
       }
 
       store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {

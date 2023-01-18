@@ -28,13 +28,11 @@ export class App extends Component {
     routeInfo: PropTypes.object.isRequired,
     filesPathInfo: PropTypes.object,
     // Injected by DropTarget
-    isOver: PropTypes.bool.isRequired,
-    doEnableAnalytics: PropTypes.object.isRequired
+    isOver: PropTypes.bool.isRequired
   }
 
   componentDidMount () {
     this.props.doTryInitIpfs()
-    this.props.doEnableAnalytics()
   }
 
   addFiles = async (filesPromise) => {
@@ -135,6 +133,5 @@ export default connect(
   'doFilesWrite',
   'doDisableTooltip',
   'selectFilesPathInfo',
-  'doEnableAnalytics',
   withTranslation('app')(AppWithDropTarget)
 )
