@@ -151,15 +151,27 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectAnalyticsConsentDisabled: (state) => state.analytics.lastDisabledAt && state.analytics.consent.length === 0,
+  selectAnalyticsInitialConsent: (state) => {
+    const { lastEnabledAt, lastDisabledAt, consent } = state.analytics
+    // user never made a metrics decision
+    if (consent.length === 0 && !lastDisabledAt && !lastEnabledAt) {
+      return true
+    }
+    // user previously opted out prior to being opted in by default
+    if (consent.length === 0 && lastDisabledAt && !lastEnabledAt) {
+      return true
+    }
+
+    return false
+  },
   /**
    * Ask the user if we may enable analytics.
    * @param {State} state
    */
   selectAnalyticsAskToEnable: (state) => {
-    const { lastDisabledAt, consent } = state.analytics
-    // user has previously opted out of all and should be warned necessary analytics are now opt-out by default
-    if (lastDisabledAt && consent.length === 0) {
+    const { lastEnabledAt, lastDisabledAt, consent } = state.analytics
+    // user previously opted out prior to being opted in by default
+    if (consent.length === 0 && lastDisabledAt && !lastEnabledAt) {
       return true
     }
 
@@ -314,13 +326,13 @@ const createAnalyticsBundle = ({
       // Don't track clicks or links as it can include full url.
       // Countly.q.push(['track_clicks'])
       // Countly.q.push(['track_links'])
-
       if (store.selectAnalyticsEnabled()) {
         const consent = store.selectAnalyticsConsent()
         addConsent(consent, store)
-      } else if (store.selectAnalyticsConsentDisabled()) {
-        // add consent by default for previous users who may have opted out
-        addConsent(consentGroups.safe, store)
+      } else if (store.selectAnalyticsInitialConsent()) {
+        // add consent/opt in by default if user previously opted out
+        // or if user previously had made no decision
+        store.doEnableAnalytics()
       }
 
       store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
