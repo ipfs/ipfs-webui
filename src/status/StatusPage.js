@@ -22,6 +22,7 @@ const StatusPage = ({
   analyticsAskToEnable,
   doEnableAnalytics,
   doDisableAnalytics,
+  doToggleAskToEnable,
   toursEnabled,
   handleJoyrideCallback,
   nodeBandwidthEnabled
@@ -57,7 +58,7 @@ const StatusPage = ({
           className='mt3'
           label={t('AskToEnable.label')}
           yesLabel={t('app:actions.close')}
-          onYes={doEnableAnalytics} />
+          onYes={() => doToggleAskToEnable(false)} />
       }
       <div style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
         { nodeBandwidthEnabled
@@ -94,5 +95,6 @@ export default connect(
   'selectToursEnabled',
   'doEnableAnalytics',
   'doDisableAnalytics',
+  'doToggleAskToEnable',
   withTour(withTranslation('status')(StatusPage))
 )

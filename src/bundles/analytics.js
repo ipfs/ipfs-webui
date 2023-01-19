@@ -58,6 +58,7 @@ import { ACTIONS as EXP } from './experiments'
  * @property {number} lastEnabledAt
  * @property {number} lastDisabledAt
  * @property {string[]} consent
+ * @property {boolean} showAskToEnable
  *
  * @typedef {Object} State
  * @property {Model} analytics
@@ -72,7 +73,8 @@ const ACTIONS = Enum.from([
   'ANALYTICS_ENABLED',
   'ANALYTICS_DISABLED',
   'ANALYTICS_ADD_CONSENT',
-  'ANALYTICS_REMOVE_CONSENT'
+  'ANALYTICS_REMOVE_CONSENT',
+  'ANALYTICS_ASK_TO_ENDABLE'
 ])
 
 // Only record specific actions listed here.
@@ -151,32 +153,16 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectAnalyticsInitialConsent: (state) => {
-    const { lastEnabledAt, lastDisabledAt, consent } = state.analytics
-    // user never made a metrics decision
-    if (consent.length === 0 && !lastDisabledAt && !lastEnabledAt) {
-      return true
-    }
-    // user previously opted out prior to being opted in by default
-    if (consent.length === 0 && lastDisabledAt && !lastEnabledAt) {
-      return true
-    }
-
-    return false
-  },
+  selectAnalyticsConsentNeverChosen: (state) => state.analytics.consent.length === 0 && !state.analytics.lastDisabledAt && !state.analytics.lastEnabledAt,
+  /**
+   * @param {State} state
+   */
+  selectAnalyticsConsentOptedOut: (state) => state.analytics.consent.length === 0 && state.analytics.lastDisabledAt && !state.analytics.lastEnabledAt,
   /**
    * Ask the user if we may enable analytics.
    * @param {State} state
    */
-  selectAnalyticsAskToEnable: (state) => {
-    const { lastEnabledAt, lastDisabledAt, consent } = state.analytics
-    // user previously opted out prior to being opted in by default
-    if (consent.length === 0 && lastDisabledAt && !lastEnabledAt) {
-      return true
-    }
-
-    return false
-  },
+  selectAnalyticsAskToEnable: (state) => state.analytics.showAskToEnable,
 
   selectAnalyticsActionsToRecord: createSelector(
     'selectIsIpfsDesktop',
@@ -272,6 +258,13 @@ const actions = {
     }
     addConsent(name, store)
     dispatch({ type: 'ANALYTICS_ADD_CONSENT', payload: { name } })
+  },
+  /**
+   * @param {boolean?} shouldAsk
+   * @returns {function(Context):void}
+   */
+  doToggleAskToEnable: (shouldAsk) => ({ dispatch, store }) => {
+    dispatch({ type: 'ANALYTICS_ASK_TO_ENDABLE', payload: { shouldAsk } })
   }
 }
 
@@ -291,7 +284,8 @@ const createAnalyticsBundle = ({
       ACTIONS.ANALYTICS_DISABLED,
       ACTIONS.ANALYTICS_DISABLED,
       ACTIONS.ANALYTICS_ADD_CONSENT,
-      ACTIONS.ANALYTICS_REMOVE_CONSENT
+      ACTIONS.ANALYTICS_REMOVE_CONSENT,
+      ACTIONS.ANALYTICS_ASK_TO_ENDABLE
     ],
 
     /**
@@ -328,7 +322,11 @@ const createAnalyticsBundle = ({
       if (store.selectAnalyticsEnabled()) {
         const consent = store.selectAnalyticsConsent()
         addConsent(consent, store)
-      } else if (store.selectAnalyticsInitialConsent()) {
+      } else if (store.selectAnalyticsConsentOptedOut() || store.selectAnalyticsConsentNeverChosen()) {
+        if (store.selectAnalyticsConsentOptedOut()) {
+          store.doToggleAskToEnable(true)
+        }
+
         // add consent/opt in by default
         store.doEnableAnalytics()
       }
@@ -388,6 +386,7 @@ const createAnalyticsBundle = ({
       state = state || {
         lastEnabledAt: 0,
         lastDisabledAt: 0,
+        showAskToEnable: false,
         consent: []
       }
 
@@ -404,6 +403,10 @@ const createAnalyticsBundle = ({
           const consent = state.consent.filter(item => item !== action.payload.name)
           const lastDisabledAt = (consent.length === 0) ? Date.now() : state.lastDisabledAt
           return { ...state, lastDisabledAt, consent }
+        }
+        case ACTIONS.ANALYTICS_ASK_TO_ENDABLE: {
+          const showAskToEnableBanner = action.payload?.shouldAsk || false
+          return { ...state, showAskToEnable: showAskToEnableBanner }
         }
         default: {
           // deal with missing consent state from 2.4.0 release.
