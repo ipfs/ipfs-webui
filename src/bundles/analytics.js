@@ -49,16 +49,20 @@ import { ACTIONS as EXP } from './experiments'
  * @property {'ANALYTICS_ADD_CONSENT'} type
  * @property {{name:string}} payload
  *
+ * @typedef {Object} ToggleAskToEnable
+ * @property {'ANALYTICS_ASK_TO_ENABLE'} type
+ * @property {{shouldAsk:boolean?}} payload
+ *
  * @typedef {ExperimentsToggle|DesktopSettingToggle} Toggle
  * @typedef {MakeDir|Write|AddByPath|Move|Delete|DownloadLink} FilesMessage
- * @typedef {AnalyticsEnabled|AnalyticsDisabled|RemoveConsent|AddConsent} AnalyticsMessage
+ * @typedef {AnalyticsEnabled|AnalyticsDisabled|RemoveConsent|AddConsent|ToggleAskToEnable} AnalyticsMessage
  * @typedef {Init|ConfigSave|Toggle|FilesMessage|AnalyticsMessage} Message
  *
  * @typedef {Object} Model
  * @property {number} lastEnabledAt
  * @property {number} lastDisabledAt
  * @property {string[]} consent
- * @property {boolean} showAskToEnable
+ * @property {boolean?} showAskToEnable
  *
  * @typedef {Object} State
  * @property {Model} analytics
@@ -74,7 +78,7 @@ const ACTIONS = Enum.from([
   'ANALYTICS_DISABLED',
   'ANALYTICS_ADD_CONSENT',
   'ANALYTICS_REMOVE_CONSENT',
-  'ANALYTICS_ASK_TO_ENDABLE'
+  'ANALYTICS_ASK_TO_ENABLE'
 ])
 
 // Only record specific actions listed here.
@@ -263,8 +267,8 @@ const actions = {
    * @param {boolean?} shouldAsk
    * @returns {function(Context):void}
    */
-  doToggleAskToEnable: (shouldAsk) => ({ dispatch, store }) => {
-    dispatch({ type: 'ANALYTICS_ASK_TO_ENDABLE', payload: { shouldAsk } })
+  doToggleAskToEnable: (shouldAsk) => ({ dispatch }) => {
+    dispatch({ type: 'ANALYTICS_ASK_TO_ENABLE', payload: { shouldAsk } })
   }
 }
 
@@ -285,7 +289,7 @@ const createAnalyticsBundle = ({
       ACTIONS.ANALYTICS_DISABLED,
       ACTIONS.ANALYTICS_ADD_CONSENT,
       ACTIONS.ANALYTICS_REMOVE_CONSENT,
-      ACTIONS.ANALYTICS_ASK_TO_ENDABLE
+      ACTIONS.ANALYTICS_ASK_TO_ENABLE
     ],
 
     /**
@@ -404,7 +408,7 @@ const createAnalyticsBundle = ({
           const lastDisabledAt = (consent.length === 0) ? Date.now() : state.lastDisabledAt
           return { ...state, lastDisabledAt, consent }
         }
-        case ACTIONS.ANALYTICS_ASK_TO_ENDABLE: {
+        case ACTIONS.ANALYTICS_ASK_TO_ENABLE: {
           const showAskToEnableBanner = action.payload?.shouldAsk || false
           return { ...state, showAskToEnable: showAskToEnableBanner }
         }
