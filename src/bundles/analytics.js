@@ -175,7 +175,6 @@ const selectors = {
       return true
     }
 
-    // user has already made an explicit choice; dont ask again.
     return false
   },
 
@@ -330,8 +329,7 @@ const createAnalyticsBundle = ({
         const consent = store.selectAnalyticsConsent()
         addConsent(consent, store)
       } else if (store.selectAnalyticsInitialConsent()) {
-        // add consent/opt in by default if user previously opted out
-        // or if user previously had made no decision
+        // add consent/opt in by default
         store.doEnableAnalytics()
       }
 
