@@ -51,7 +51,6 @@ describe('new/returning user default behavior', () => {
       consent: ['sessions', 'events', 'views']
     }
     const store = createStore({}, mockDefaultState)
-    console.log(store.getState())
     expect(store.selectAnalyticsEnabled()).toBe(true)
     expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views'])
     // should not show analytics banner for these users
@@ -66,8 +65,6 @@ describe('new/returning user default behavior', () => {
       consent: []
     }
     const store = createStore({}, mockDefaultState)
-    console.log(store.getState())
-    console.log('trueeee', mockDefaultState)
     expect(global.Countly.opt_in).toHaveBeenCalled()
     expect(global.Countly.opt_in.mock.calls.length).toBe(1)
     expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location'])
