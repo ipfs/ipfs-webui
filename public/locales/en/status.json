@@ -13,7 +13,7 @@
     "peersCount": "{peersCount, plural, one {Discovered 1 peer} other {Discovered {peersCount} peers}}"
   },
   "customApiConfig": "Custom JSON configuration",
-  "AskToEnable": {
+  "AnalyticsBanner": {
     "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
   },
   "tour": {

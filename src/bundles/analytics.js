@@ -49,20 +49,21 @@ import { ACTIONS as EXP } from './experiments'
  * @property {'ANALYTICS_ADD_CONSENT'} type
  * @property {{name:string}} payload
  *
- * @typedef {Object} ToggleAskToEnable
- * @property {'ANALYTICS_ASK_TO_ENABLE'} type
- * @property {{shouldAsk:boolean?}} payload
+ * @typedef {Object} ToggleShowAnalyticsBanner
+ * @property {'SET_SHOW_ANALYTICS_BANNER'} type
+ * @property {{shouldShow:boolean?}} payload
  *
  * @typedef {ExperimentsToggle|DesktopSettingToggle} Toggle
  * @typedef {MakeDir|Write|AddByPath|Move|Delete|DownloadLink} FilesMessage
- * @typedef {AnalyticsEnabled|AnalyticsDisabled|RemoveConsent|AddConsent|ToggleAskToEnable} AnalyticsMessage
+ * @typedef {AnalyticsEnabled|AnalyticsDisabled|RemoveConsent|AddConsent|ToggleShowAnalyticsBanner} AnalyticsMessage
  * @typedef {Init|ConfigSave|Toggle|FilesMessage|AnalyticsMessage} Message
  *
  * @typedef {Object} Model
  * @property {number} lastEnabledAt
  * @property {number} lastDisabledAt
  * @property {string[]} consent
- * @property {boolean?} showAskToEnable
+ * @property {boolean?} showAnalyticsBanner
+ * @property {boolean?} optedOut
  *
  * @typedef {Object} State
  * @property {Model} analytics
@@ -78,7 +79,7 @@ const ACTIONS = Enum.from([
   'ANALYTICS_DISABLED',
   'ANALYTICS_ADD_CONSENT',
   'ANALYTICS_REMOVE_CONSENT',
-  'ANALYTICS_ASK_TO_ENABLE'
+  'SET_SHOW_ANALYTICS_BANNER'
 ])
 
 // Only record specific actions listed here.
@@ -157,16 +158,16 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectAnalyticsConsentNeverChosen: (state) => state.analytics.consent.length === 0 && !state.analytics.lastDisabledAt && !state.analytics.lastEnabledAt,
+  selectAnalyticsOptedOutPriorToDefaultOptIn: (state) => state.analytics.consent.length === 0 && state.analytics.lastDisabledAt > state.analytics.lastEnabledAt,
   /**
    * @param {State} state
    */
-  selectAnalyticsConsentOptedOut: (state) => state.analytics.consent.length === 0 && state.analytics.lastDisabledAt && !state.analytics.lastEnabledAt,
+  selectAnalyticsOptedOut: (state) => state.analytics.optedOut,
   /**
-   * Ask the user if we may enable analytics.
+   * Show or hide the analytics banner.
    * @param {State} state
    */
-  selectAnalyticsAskToEnable: (state) => state.analytics.showAskToEnable,
+  selectShowAnalyticsBanner: (state) => state.analytics.showAnalyticsBanner,
 
   selectAnalyticsActionsToRecord: createSelector(
     'selectIsIpfsDesktop',
@@ -264,11 +265,11 @@ const actions = {
     dispatch({ type: 'ANALYTICS_ADD_CONSENT', payload: { name } })
   },
   /**
-   * @param {boolean?} shouldAsk
+   * @param {boolean?} shouldShow
    * @returns {function(Context):void}
    */
-  doToggleAskToEnable: (shouldAsk) => ({ dispatch }) => {
-    dispatch({ type: 'ANALYTICS_ASK_TO_ENABLE', payload: { shouldAsk } })
+  doToggleShowAnalyticsBanner: (shouldShow) => ({ dispatch }) => {
+    dispatch({ type: 'SET_SHOW_ANALYTICS_BANNER', payload: { shouldShow } })
   }
 }
 
@@ -289,7 +290,7 @@ const createAnalyticsBundle = ({
       ACTIONS.ANALYTICS_DISABLED,
       ACTIONS.ANALYTICS_ADD_CONSENT,
       ACTIONS.ANALYTICS_REMOVE_CONSENT,
-      ACTIONS.ANALYTICS_ASK_TO_ENABLE
+      ACTIONS.SET_SHOW_ANALYTICS_BANNER
     ],
 
     /**
@@ -326,11 +327,10 @@ const createAnalyticsBundle = ({
       if (store.selectAnalyticsEnabled()) {
         const consent = store.selectAnalyticsConsent()
         addConsent(consent, store)
-      } else if (store.selectAnalyticsConsentOptedOut() || store.selectAnalyticsConsentNeverChosen()) {
-        if (store.selectAnalyticsConsentOptedOut()) {
-          store.doToggleAskToEnable(true)
+      } else if (!store.selectAnalyticsOptedOut()) {
+        if (store.selectAnalyticsOptedOutPriorToDefaultOptIn()) {
+          store.doToggleShowAnalyticsBanner(true)
         }
-
         // add consent/opt in by default
         store.doEnableAnalytics()
       }
@@ -390,27 +390,29 @@ const createAnalyticsBundle = ({
       state = state || {
         lastEnabledAt: 0,
         lastDisabledAt: 0,
-        showAskToEnable: false,
+        showAnalyticsBanner: false,
+        optedOut: false,
         consent: []
       }
 
       switch (action.type) {
         case ACTIONS.ANALYTICS_ENABLED:
-          return { ...state, lastEnabledAt: Date.now(), consent: action.payload.consent }
+          return { ...state, lastEnabledAt: Date.now(), consent: action.payload.consent, optedOut: false }
         case ACTIONS.ANALYTICS_DISABLED:
-          return { ...state, lastDisabledAt: Date.now(), consent: action.payload.consent }
+          return { ...state, lastDisabledAt: Date.now(), consent: action.payload.consent, optedOut: true, showAnalyticsBanner: false }
         case ACTIONS.ANALYTICS_ADD_CONSENT: {
           const consent = state.consent.filter(item => item !== action.payload.name).concat(action.payload.name)
-          return { ...state, lastEnabledAt: Date.now(), consent }
+          return { ...state, lastEnabledAt: Date.now(), consent, optedOut: false }
         }
         case ACTIONS.ANALYTICS_REMOVE_CONSENT: {
           const consent = state.consent.filter(item => item !== action.payload.name)
           const lastDisabledAt = (consent.length === 0) ? Date.now() : state.lastDisabledAt
-          return { ...state, lastDisabledAt, consent }
+          const didOptOutCompletely = consent.length === 0
+          return { ...state, lastDisabledAt, consent, optedOut: didOptOutCompletely, showAnalyticsBanner: false }
         }
-        case ACTIONS.ANALYTICS_ASK_TO_ENABLE: {
-          const showAskToEnableBanner = action.payload?.shouldAsk || false
-          return { ...state, showAskToEnable: showAskToEnableBanner }
+        case ACTIONS.SET_SHOW_ANALYTICS_BANNER: {
+          const shouldShowAnalyticsBanner = action.payload?.shouldShow || false
+          return { ...state, showAnalyticsBanner: shouldShowAnalyticsBanner }
         }
         default: {
           // deal with missing consent state from 2.4.0 release.

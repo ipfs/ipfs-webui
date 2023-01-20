@@ -11,7 +11,7 @@ import NodeInfoAdvanced from './NodeInfoAdvanced'
 import NodeBandwidthChart from './NodeBandwidthChart'
 import NetworkTraffic from './NetworkTraffic'
 import Box from '../components/box/Box'
-import AskToEnable from '../components/ask/AskToEnable'
+import AnalyticsBanner from '../components/analytics-banner/AnalyticsBanner'
 import { statusTour } from '../lib/tours'
 import { getJoyrideLocales } from '../helpers/i8n'
 import withTour from '../components/tour/withTour'
@@ -19,10 +19,10 @@ import withTour from '../components/tour/withTour'
 const StatusPage = ({
   t,
   ipfsConnected,
-  analyticsAskToEnable,
+  showAnalyticsBanner,
   doEnableAnalytics,
   doDisableAnalytics,
-  doToggleAskToEnable,
+  doToggleShowAnalyticsBanner,
   toursEnabled,
   handleJoyrideCallback,
   nodeBandwidthEnabled
@@ -53,12 +53,12 @@ const StatusPage = ({
           </div>
         </div>
       </Box>
-      { ipfsConnected && analyticsAskToEnable &&
-        <AskToEnable
+      { ipfsConnected && showAnalyticsBanner &&
+        <AnalyticsBanner
           className='mt3'
-          label={t('AskToEnable.label')}
+          label={t('AnalyticsBanner.label')}
           yesLabel={t('app:actions.close')}
-          onYes={() => doToggleAskToEnable(false)} />
+          onYes={() => doToggleShowAnalyticsBanner(false)} />
       }
       <div style={{ opacity: ipfsConnected ? 1 : 0.4 }}>
         { nodeBandwidthEnabled
@@ -91,10 +91,10 @@ const StatusPage = ({
 export default connect(
   'selectIpfsConnected',
   'selectNodeBandwidthEnabled',
-  'selectAnalyticsAskToEnable',
+  'selectShowAnalyticsBanner',
   'selectToursEnabled',
   'doEnableAnalytics',
   'doDisableAnalytics',
-  'doToggleAskToEnable',
+  'doToggleShowAnalyticsBanner',
   withTour(withTranslation('status')(StatusPage))
 )

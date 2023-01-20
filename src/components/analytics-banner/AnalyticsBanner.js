@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../button/Button'
 
-const AskToEnable = ({ className, label, yesLabel, onYes }) => {
+const AnalyticsBanner = ({ className, label, yesLabel, onYes }) => {
   return (
     <div className={`f6 pv3 pv2-ns ph3 tc bg-snow charcoal flex ${className}`}>
       <span className='fw4 lh-copy dib mb2 tl'>
@@ -14,4 +14,4 @@ const AskToEnable = ({ className, label, yesLabel, onYes }) => {
   )
 }
 
-export default AskToEnable
+export default AnalyticsBanner
