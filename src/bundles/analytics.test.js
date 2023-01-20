@@ -73,7 +73,16 @@ describe('new/returning user default behavior', () => {
   })
 
   it('should hide analytics banner if user has closed the banner', () => {
-    const store = createStore()
+    const mockDefaultState = {
+      lastEnabledAt: 0,
+      lastDisabledAt: Date.now(),
+      showAnalyticsBanner: false,
+      optedOut: false,
+      consent: []
+    }
+    const store = createStore({}, mockDefaultState)
+    expect(store.selectShowAnalyticsBanner()).toBe(true)
+    expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location'])
     store.doToggleShowAnalyticsBanner(false)
     expect(store.selectShowAnalyticsBanner()).toBe(false)
   })
@@ -131,6 +140,7 @@ describe('user manages all analytics consent with settings page toggle', () => {
       optedOut: true
     }
     const store = createStore({}, mockDefaultState)
+    expect(store.selectAnalyticsEnabled()).toBe(false)
     store.doToggleAnalytics()
     expect(store.selectAnalyticsEnabled()).toBe(true)
     expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location'])
@@ -142,7 +152,7 @@ describe('user manages all analytics consent with settings page toggle', () => {
 })
 
 describe('user manages analytics consent with individual settings toggles', () => {
-  it('should toggle on crashes consent', () => {
+  it('should toggle consent on for "crashes"', () => {
     const mockDefaultState = {
       lastEnabledAt: Date.now,
       lastDisabledAt: 1674166495717, // past
@@ -154,7 +164,7 @@ describe('user manages analytics consent with individual settings toggles', () =
     expect(store.selectAnalyticsEnabled()).toBe(true)
     expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location', 'crashes'])
   })
-  it('should toggle off one (sessions) consent', () => {
+  it('should toggle consent off for one ("sessions")', () => {
     const mockDefaultState = {
       lastEnabledAt: Date.now,
       lastDisabledAt: 1674166495717, // past
@@ -166,7 +176,7 @@ describe('user manages analytics consent with individual settings toggles', () =
     expect(store.selectAnalyticsEnabled()).toBe(true)
     expect(store.selectAnalyticsConsent()).toEqual(['events', 'views', 'location'])
   })
-  it('should opt_out if toggle off all individual consent', () => {
+  it('should opt_out if consent is toggled off for all existing consents', () => {
     const mockDefaultState = {
       lastEnabledAt: Date.now,
       lastDisabledAt: 1674166495717, // past
