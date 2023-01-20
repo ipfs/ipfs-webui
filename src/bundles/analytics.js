@@ -158,7 +158,7 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectAnalyticsOptedOutPriorToDefaultOptIn: (state) => state.analytics.consent.length === 0 && state.analytics.lastDisabledAt > state.analytics.lastEnabledAt,
+  selectAnalyticsOptedOutPriorToDefaultOptIn: (state) => !state.analytics.optedOut && state.analytics.consent.length === 0 && state.analytics.lastDisabledAt > state.analytics.lastEnabledAt,
   /**
    * @param {State} state
    */
@@ -397,18 +397,17 @@ const createAnalyticsBundle = ({
 
       switch (action.type) {
         case ACTIONS.ANALYTICS_ENABLED:
-          return { ...state, lastEnabledAt: Date.now(), consent: action.payload.consent, optedOut: false }
+          return { ...state, lastEnabledAt: 0, consent: action.payload.consent, optedOut: false }
         case ACTIONS.ANALYTICS_DISABLED:
-          return { ...state, lastDisabledAt: Date.now(), consent: action.payload.consent, optedOut: true, showAnalyticsBanner: false }
+          return { ...state, lastDisabledAt: 0, consent: action.payload.consent, optedOut: true, showAnalyticsBanner: false }
         case ACTIONS.ANALYTICS_ADD_CONSENT: {
           const consent = state.consent.filter(item => item !== action.payload.name).concat(action.payload.name)
-          return { ...state, lastEnabledAt: Date.now(), consent, optedOut: false }
+          return { ...state, lastEnabledAt: 0, consent, optedOut: false }
         }
         case ACTIONS.ANALYTICS_REMOVE_CONSENT: {
           const consent = state.consent.filter(item => item !== action.payload.name)
-          const lastDisabledAt = (consent.length === 0) ? Date.now() : state.lastDisabledAt
           const didOptOutCompletely = consent.length === 0
-          return { ...state, lastDisabledAt, consent, optedOut: didOptOutCompletely, showAnalyticsBanner: false }
+          return { ...state, lastDisabledAt: 0, lastEnabledAt: 0, consent, optedOut: didOptOutCompletely, showAnalyticsBanner: false }
         }
         case ACTIONS.SET_SHOW_ANALYTICS_BANNER: {
           const shouldShowAnalyticsBanner = action.payload?.shouldShow || false

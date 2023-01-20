@@ -71,7 +71,6 @@ describe('new/returning user default behavior', () => {
     // should show analytics banner for these users
     expect(store.selectShowAnalyticsBanner()).toBe(true)
   })
-
   it('should hide analytics banner if user has closed the banner', () => {
     const mockDefaultState = {
       lastEnabledAt: 0,
@@ -85,6 +84,7 @@ describe('new/returning user default behavior', () => {
     expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location'])
     store.doToggleShowAnalyticsBanner(false)
     expect(store.selectShowAnalyticsBanner()).toBe(false)
+    expect(store.selectAnalyticsOptedOutPriorToDefaultOptIn()).toBe(false)
   })
 })
 
@@ -128,6 +128,7 @@ describe('user manages all analytics consent with settings page toggle', () => {
     store.doToggleAnalytics()
     expect(store.selectAnalyticsEnabled()).toBe(false)
     expect(store.selectAnalyticsConsent()).toEqual([])
+    expect(store.selectAnalyticsOptedOut()).toBe(true)
     expect(global.Countly.opt_in).not.toHaveBeenCalled()
     expect(global.Countly.opt_out).toHaveBeenCalled()
     expect(global.Countly.opt_out.mock.calls.length).toBe(1)
