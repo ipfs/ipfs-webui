@@ -44,7 +44,7 @@ describe('new/returning user default behavior', () => {
   })
   it('should enable existing analytics by default for returning user who was opted_in', () => {
     const mockDefaultState = {
-      lastEnabledAt: Date.now(),
+      lastEnabledAt: (new Date('2022-01-02')).getTime(),
       lastDisabledAt: 0,
       showAnalyticsBanner: false,
       optedOut: false,
@@ -59,7 +59,7 @@ describe('new/returning user default behavior', () => {
   it('should enable analytics for returning user who opted_out prior to new opt-in by default updates', () => {
     const mockDefaultState = {
       lastEnabledAt: 0,
-      lastDisabledAt: Date.now(),
+      lastDisabledAt: (new Date('2022-01-02')).getTime(),
       showAnalyticsBanner: false,
       optedOut: false,
       consent: []
@@ -74,7 +74,7 @@ describe('new/returning user default behavior', () => {
   it('should hide analytics banner if user has closed the banner', () => {
     const mockDefaultState = {
       lastEnabledAt: 0,
-      lastDisabledAt: Date.now(),
+      lastDisabledAt: (new Date('2022-01-01')).getTime(),
       showAnalyticsBanner: false,
       optedOut: false,
       consent: []
@@ -92,7 +92,7 @@ describe('user enables and disables analytics', () => {
   it('should enable analytics if user who has opted out explicitly enables it', () => {
     const mockDefaultState = {
       lastEnabledAt: 0,
-      lastDisabledAt: Date.now(),
+      lastDisabledAt: (new Date('2022-01-01')).getTime(),
       showAnalyticsBanner: false,
       optedOut: true,
       consent: []
@@ -119,7 +119,7 @@ describe('user enables and disables analytics', () => {
 describe('user manages all analytics consent with settings page toggle', () => {
   it('should toggle analytics consent off for user with consent enabled', () => {
     const mockDefaultState = {
-      lastEnabledAt: Date.now(),
+      lastEnabledAt: (new Date('2022-01-02')).getTime(),
       lastDisabledAt: 0,
       consent: ['sessions', 'events', 'views'],
       optedOut: false
@@ -135,8 +135,8 @@ describe('user manages all analytics consent with settings page toggle', () => {
   })
   it('should toggle analytics consent on for user with consent disabled', () => {
     const mockDefaultState = {
-      lastEnabledAt: 1674166495717, // past
-      lastDisabledAt: Date.now(),
+      lastEnabledAt: (new Date('2022-01-01')).getTime(),
+      lastDisabledAt: (new Date('2022-01-02')).getTime(),
       consent: [],
       optedOut: true
     }
@@ -155,8 +155,8 @@ describe('user manages all analytics consent with settings page toggle', () => {
 describe('user manages analytics consent with individual settings toggles', () => {
   it('should toggle consent on for "crashes"', () => {
     const mockDefaultState = {
-      lastEnabledAt: Date.now,
-      lastDisabledAt: 1674166495717, // past
+      lastEnabledAt: (new Date('2022-01-02')).getTime(),
+      lastDisabledAt: (new Date('2022-01-01')).getTime(),
       consent: ['sessions', 'events', 'views', 'location'],
       optedOut: false
     }
@@ -167,8 +167,8 @@ describe('user manages analytics consent with individual settings toggles', () =
   })
   it('should toggle consent off for one ("sessions")', () => {
     const mockDefaultState = {
-      lastEnabledAt: Date.now,
-      lastDisabledAt: 1674166495717, // past
+      lastEnabledAt: (new Date('2022-01-02')).getTime(),
+      lastDisabledAt: (new Date('2022-01-01')).getTime(),
       consent: ['sessions', 'events', 'views', 'location'],
       optedOut: false
     }
@@ -179,8 +179,8 @@ describe('user manages analytics consent with individual settings toggles', () =
   })
   it('should opt_out if consent is toggled off for all existing consents', () => {
     const mockDefaultState = {
-      lastEnabledAt: Date.now,
-      lastDisabledAt: 1674166495717, // past
+      lastEnabledAt: (new Date('2022-01-02')).getTime(),
+      lastDisabledAt: (new Date('2022-01-01')).getTime(),
       consent: ['views', 'location'],
       optedOut: false
     }
