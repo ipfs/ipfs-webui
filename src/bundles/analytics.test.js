@@ -33,7 +33,6 @@ function createStore (analyticsOpts = {}, mockAnalyticsCachedState) {
   })
 }
 
-it('should render', () => {})
 describe('new/returning user default behavior', () => {
   it('should enable analytics by default for new user who has not opted in or out', () => {
     const store = createStore()
