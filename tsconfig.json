@@ -72,6 +72,6 @@
     "src/lib/count-dirs.js",
     "src/lib/sort.js",
     "src/lib/files.js",
-    "src/**/*.js"
+    "src/env.js"
   ]
 }
