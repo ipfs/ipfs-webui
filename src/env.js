@@ -1,9 +1,17 @@
 
 /**
  * @see https://github.com/ipfs/ipfs-webui/issues/2078#issuecomment-1384444232
+ * @see https://github.com/ipfs/ipfs-webui/issues/2078#issuecomment-1384605253
  * @returns {Promise<'local'|'kubo'|'webui.ipfs'>}
  */
 export async function getDeploymentEnv () {
+  const origin = globalThis.location.origin
+  if (origin.includes('webui-ipfs') || origin.includes('webui.ipfs')) {
+    if (origin.includes('localhost')) {
+      return 'local'
+    }
+    return 'webui.ipfs'
+  }
   try {
     const response = await fetch('/webui', { method: 'HEAD' })
     if (response.redirected) {
