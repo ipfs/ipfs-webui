@@ -317,7 +317,10 @@ const createAnalyticsBundle = ({
 
       Countly.require_consent = true
       Countly.url = countlyUrl
-      Countly.app_key = await pickAppKey()
+      const countlyAppKeyPromise = pickAppKey()
+      countlyAppKeyPromise.then((appKey) => {
+        Countly.app_key = appKey
+      })
       Countly.app_version = appVersion
       Countly.debug = debug
 
@@ -357,6 +360,7 @@ const createAnalyticsBundle = ({
 
       // Fix for storybook error 'Countly.init is not a function'
       if (typeof Countly.init === 'function') {
+        await countlyAppKeyPromise
         Countly.init()
       }
     },
