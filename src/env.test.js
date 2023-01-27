@@ -15,10 +15,16 @@ describe('env.js', function () {
         expect(fetchMock.mock.calls.length).toBe(numberOfFetchCalls)
       })
     }
-    globalThis.fetch = fetchMock
+    const originalFetch = globalThis.fetch
+    beforeAll(() => {
+      globalThis.fetch = fetchMock
+    })
 
     afterEach(function () {
       jest.clearAllMocks()
+    })
+    afterAll(() => {
+      globalThis.fetch = originalFetch
     })
     /**
      * webui.ipfs deployed endpoints
