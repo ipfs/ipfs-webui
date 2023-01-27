@@ -1,3 +1,27 @@
+## [2.22.0](https://github.com/ipfs/ipfs-webui/compare/v2.21.0...v2.22.0) (2023-01-27)
+
+
+ CID `bafybeifeqt7mvxaniphyu2i3qhovjaf3sayooxbh5enfdqtiehxjv2ldte`
+
+ --- 
+
+
+
+### Features
+
+* different countly keys for kubo and webui.ipfs.io deployments ([#2081](https://github.com/ipfs/ipfs-webui/issues/2081)) ([2e766fa](https://github.com/ipfs/ipfs-webui/commit/2e766faa154cb5c9896c615c8bc7766ae461ebf5))
+
+
+### Bug Fixes
+
+* import status window UX ([#2075](https://github.com/ipfs/ipfs-webui/issues/2075)) ([4104cc6](https://github.com/ipfs/ipfs-webui/commit/4104cc6b2ceca20fedb74911ba6926b52aebc4fc))
+* webui update metrics to opt-out by default (part of 2074) ([#2084](https://github.com/ipfs/ipfs-webui/issues/2084)) ([cac7663](https://github.com/ipfs/ipfs-webui/commit/cac766378d75556e37ef7082bc3bc560748f8e97))
+
+
+### Trivial Changes
+
+* pull new translations ([#2076](https://github.com/ipfs/ipfs-webui/issues/2076)) ([ad9e4ff](https://github.com/ipfs/ipfs-webui/commit/ad9e4ff40585e427063bc370325b5e3780ae903f))
+
 ## [2.21.0](https://github.com/ipfs/ipfs-webui/compare/v2.20.0...v2.21.0) (2022-12-09)
 
 
