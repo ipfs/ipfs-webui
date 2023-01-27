@@ -284,7 +284,7 @@ const actions = {
 }
 
 const createAnalyticsBundle = ({
-  countlyUrl = 'https://countly.ipfs.io',
+  countlyUrl = 'https://countly.ipfs.tech',
   appVersion = process.env.REACT_APP_VERSION,
   // @ts-ignore - declared but never used
   appGitRevision = process.env.REACT_APP_GIT_REV,
