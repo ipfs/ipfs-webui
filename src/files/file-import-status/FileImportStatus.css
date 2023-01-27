@@ -5,25 +5,19 @@
 
 .fileImportStatusButton {
     max-height: 3rem;
+    padding-right: 0;
 }
 
 .fileImportStatusButton .fileImportStatusArrow {
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.15s ease-in-out;
 }
 
 .fileImportStatusButton[aria-expanded="false"] .fileImportStatusArrow {
     transform: rotate(180deg) translateY(-2px);
 }
 
-.fileImportStatusArrow {
-    margin-left: auto;
-    width: 1.5rem;
-}
-
-.fileImportStatusCancel {
-    width: 2.9rem;
-    margin-left: 0.5rem;
-    margin-right: -1.2rem;
+.fileImportStatusArrow svg, .fileImportStatusCancel svg {
+    width: 2rem;
 }
 
 .fileImportStatusRow {

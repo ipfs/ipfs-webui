@@ -34,6 +34,11 @@
     "nativeName": "Español",
     "englishName": "Spanish"
   },
+  "fi": {
+    "locale": "fi",
+    "nativeName": "Suomi",
+    "englishName": "Finnish"
+  },
   "fr": {
     "locale": "fr",
     "nativeName": "Français",

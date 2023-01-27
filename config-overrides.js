@@ -5,46 +5,69 @@
  * @see https://alchemy.com/blog/how-to-polyfill-node-core-modules-in-webpack-5
  */
 const webpack = require('webpack')
+const PURE_ESM_MODULES = [
+  'ipfs-geoip'
+]
 
 /**
+ * This function goes through the loader rules and applies modifier function to the said rule.
+ * Validation can be set within the modifier function.
  *
  * @param {import('webpack').RuleSetRule[]} rules
+ * @param {function} modifier defaults to identity function
+ * @returns {import('webpack').RuleSetRule[]}
  */
-function modifyBabelLoaderRule (rules, root = true) {
-  const foundRules = []
-  rules.forEach((rule, i) => {
-    if (rule.loader != null) {
-      if (rule.loader.includes('babel-loader')) {
-        foundRules.push(rule)
-      }
-    } else if (rule.use?.loader != null) {
-      if (typeof rule.use.loader !== 'string') {
-        if (rule.use.loader.find(loader => loader.indexOf('babel-loader') >= 0)) {
-          foundRules.push(rule)
-        }
-      } else if (rule.use.loader.indexOf('babel-loader') >= 0) {
-        foundRules.push(rule)
-      }
-    } else if (rule.oneOf) {
-      const nestedRules = modifyBabelLoaderRule(rule.oneOf, false)
-      foundRules.push(...nestedRules)
+function modifyBabelLoaderRules (rules, modifier = r => r) {
+  return rules.map(rule => {
+    if (rule.oneOf) {
+      rule.oneOf = modifyBabelLoaderRules(rule.oneOf, modifier)
+    } else if (rule.use) {
+      rule.use = modifyBabelLoaderRules(rule.use, modifier)
+    } else {
+      rule = modifier(rule)
     }
+    return rule
   })
-
-  if (root) {
-    foundRules.forEach((rule, index) => {
-      if (rule.include?.indexOf('src') >= 0) {
-        console.log('Found CRA babel-loader rule for source files. Modifying it to instrument for code coverage.')
-        console.log('rule: ', rule)
-        rule.options.plugins.push('istanbul')
-      }
-    })
-  }
-
-  return foundRules
 }
 
-module.exports = function webpackOverride (config) {
+/**
+ * Adds exclude rules for pure ESM Modules.
+ *
+ * @param {import('webpack').RuleSetRule[]} rules
+ * @returns {import('webpack').RuleSetRule[]}
+ */
+function modifyBabelLoaderRuleForBuild (rules) {
+  return modifyBabelLoaderRules(rules, rule => {
+    if (rule.loader && rule.loader.includes('babel-loader')) {
+      if ('exclude' in rule) {
+        if (!Array.isArray(rule.exclude)) {
+          rule.exclude = [rule.exclude]
+        }
+        PURE_ESM_MODULES.forEach(module => {
+          rule.exclude.push(new RegExp(`node_modules/${module}`))
+        })
+      }
+    }
+    return rule
+  })
+}
+
+/**
+ * Adds instrumentation plugin for code coverage in test mode.
+ *
+ * @param {import('webpack').RuleSetRule[]} rules
+ * @returns {import('webpack').RuleSetRule[]}
+ */
+function modifyBabelLoaderRuleForTest (rules) {
+  return modifyBabelLoaderRules(rules, rule => {
+    if (rule.options && rule.options.plugins) {
+      rule.options.plugins.push('istanbul')
+    }
+    return rule
+  })
+}
+
+function webpackOverride(config) {
   const fallback = config.resolve.fallback || {}
 
   Object.assign(fallback, {
@@ -63,11 +86,18 @@ module.exports = function webpackOverride (config) {
     })
   ])
 
+  config.module.rules = modifyBabelLoaderRuleForBuild(config.module.rules)
+
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'production'
   if (REACT_APP_ENV === 'test') {
-    modifyBabelLoaderRule(config.module.rules)
+    config.module.rules = modifyBabelLoaderRuleForTest(config.module.rules)
   }
 
   return config
+}
+
+module.exports = {
+  webpack: webpackOverride,
+  jest: (config) => config
 }

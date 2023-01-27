@@ -8,7 +8,7 @@
   "pinningServices": {
     "title": "Sabitleme Hizmetleri",
     "description": "Düğümünüzdeki bir öğenin, Dosyalar'dan kaldırsanız bile asla çöp toplanmadığından emin olmak istediğinizde yerel sabitlemeyi kullanın. Ayrıca, dosyalarınızın yedek kopyalarını saklamanıza ve/veya yerel düğümünüz çevrimdışı olduğunda bunları başkalarının kullanımına sunmanıza olanak tanıyarak, dosyaları bu sağlayıcılarda otomatik olarak veya seçici olarak kalıcı hale getirmek için hesaplarınızı diğer uzaktan sabitleme hizmetleriyle bağlayabilirsiniz.",
-    "noPinRemoteDescription": "Üçüncü taraf uzaktan sabitleme hizmetleri desteği eksik. IPFS düğümünüzü go-ipfs 0.8.0 veya sonraki bir sürümüne güncelleyin ve bunları buradan ekleyip yapılandırabilirsiniz.",
+    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
     "addAutoUpload": "Otomatik yüklemeyi etkinleştir",
     "removeAutoUpload": "Otomatik Yüklemeyi Devre Dışı Bırak"
   },

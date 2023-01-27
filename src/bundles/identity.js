@@ -3,7 +3,9 @@ import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 const bundle = createAsyncResourceBundle({
   name: 'identity',
   actionBaseType: 'IDENTITY',
-  getPromise: ({ getIpfs }) => getIpfs().id(),
+  getPromise: ({ getIpfs }) => getIpfs().id().catch((err) => {
+    console.error('Failed to get identity', err)
+  }),
   staleAfter: Infinity,
   persist: false,
   checkIfOnline: false

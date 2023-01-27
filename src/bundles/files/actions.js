@@ -135,17 +135,6 @@ const getRawPins = async function * (ipfs) {
 const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
 
 /**
- * @param {IPFSService} ipfs
- * @returns {AsyncIterable<FileStat>}
- */
-const getPins = async function * (ipfs) {
-  for await (const cid of getPinCIDs(ipfs)) {
-    const info = await stat(ipfs, cid)
-    yield fileFromStats({ ...info, pinned: true }, '/pins')
-  }
-}
-
-/**
  * @typedef {import('./protocol').Message} Message
  * @typedef {import('./protocol').Model} Model
 
@@ -201,20 +190,9 @@ const actions = () => ({
    * @param {Info} info
    * @returns {function(Context): *}
    */
-  doFetch: ({ path, realPath, isMfs, isPins, isRoot }) => perform(ACTIONS.FETCH, async (ipfs, { store }) => {
-    if (isRoot && !isMfs && !isPins) {
+  doFetch: ({ path, realPath, isMfs, isRoot }) => perform(ACTIONS.FETCH, async (ipfs, { store }) => {
+    if (isRoot && !isMfs) {
       throw new Error('not supposed to be here')
-    }
-
-    if (isRoot && isPins) {
-      const pins = await all(getPins(ipfs)) // FIX: pins path
-
-      return {
-        path: '/pins',
-        fetched: Date.now(),
-        type: 'directory',
-        content: pins
-      }
     }
 
     const resolvedPath = realPath.startsWith('/ipns')
@@ -418,9 +396,8 @@ const actions = () => ({
    * @param {FileStat[]} files
    */
   doFilesDownloadLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async (ipfs, { store }) => {
-    const apiUrl = store.selectApiUrl()
     const gatewayUrl = store.selectGatewayUrl()
-    return await getDownloadLink(files, gatewayUrl, apiUrl, ipfs)
+    return getDownloadLink(files, gatewayUrl, ipfs)
   }),
 
   /**
@@ -429,7 +406,7 @@ const actions = () => ({
    */
   doFilesDownloadCarLink: (files) => perform(ACTIONS.DOWNLOAD_LINK, async (ipfs, { store }) => {
     const gatewayUrl = store.selectGatewayUrl()
-    return await getCarLink(files, gatewayUrl, ipfs)
+    return getCarLink(files, gatewayUrl, ipfs)
   }),
 
   /**
@@ -439,7 +416,7 @@ const actions = () => ({
   doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
     // ensureMFS deliberately omitted here, see https://github.com/ipfs/ipfs-webui/issues/1744 for context.
     const publicGateway = store.selectPublicGateway()
-    return await getShareableLink(files, publicGateway, ipfs)
+    return getShareableLink(files, publicGateway, ipfs)
   }),
 
   /**

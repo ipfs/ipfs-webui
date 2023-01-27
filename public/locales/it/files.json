@@ -108,10 +108,16 @@
   "checkboxLabel": "Mostra più opzioni per {name}",
   "pinned": "Affissato",
   "pinnedRemotely": "Pinnato in remoto",
+  "pinningRemotely": "Pinning remotely",
+  "pinningCompleted": "Pinning completed",
+  "pinningFailed": "Pinning failed",
+  "clickToDismiss": "Click to dismiss",
+  "clickToCancel": "Click to cancel",
   "blocks": "Blocchi",
   "allBlocks": "Tutti i blocchi",
   "allBlocksDescription": "Dimensione totale dei blocchi sul tuo intero nodo IPFS; questo include tutto ciò che si trova in Files, più tutti gli elementi localmente pinnati e qualsiasi dato temporaneo nella cache",
   "filesDescription": "Dimensione totale dei dati nella directory corrente (se è una subdirectory, viene visualizzata anche la dimensione di tutti i dati nei Files)",
+  "pinningQueue": "Pinning queue",
   "more": "Altro",
   "files": "File",
   "cidNotFileNorDir": "Il collegamento attuale non è né un file e né un percorso. Prova ad <1>ispezionarlo</1>.",
@@ -125,5 +131,7 @@
     "linkCopied": "Link copied!",
     "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
     "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
-  }
+  },
+  "noPinsInProgress": "All done, no remote pins in progress.",
+  "remotePinningInProgress": "Remote pinning in progress:"
 }

@@ -8,7 +8,7 @@
   "pinningServices": {
     "title": "錨釘服務",
     "description": "當您希望即使刪除了檔案也希望確保您節點上的項目永遠不會被執行垃圾回收時可以使用本機錨釘。您也能夠將自動地將您的帳號與其他遠端錨定服務連結在一起，或是挑選重要檔案與那些錨釘服務提供者合作以保留檔案副本使其即使在您自己的本機節點關閉時也能夠長期存活",
-    "noPinRemoteDescription": "缺少對第三方遠程錨釘服務的支援。將您的 IPFS  節點更新到 IPFS 0.8.0 或更高版本，然後您就可以在此處進行新增及設置。",
+    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
     "addAutoUpload": "啟動自動上傳",
     "removeAutoUpload": "禁止自動上傳"
   },

@@ -8,7 +8,7 @@
   "pinningServices": {
     "title": "Layanan Penyematan",
     "description": "Gunakan penyematan lokal saat Anda ingin memastikan item di node Anda tidak pernah menjadi sampah, bahkan jika Anda menghapusnya dari Berkas. Anda juga dapat menautkan akun Anda dengan layanan penyematan jarak jauh lainnya untuk secara otomatis atau selektif menyimpan berkas dengan penyedia tersebut, memungkinkan Anda untuk menyimpan salinan cadangan berkas Anda dan/atau membuatnya tersedia untuk orang lain saat node lokal Anda offline.",
-    "noPinRemoteDescription": "Dukungan untuk layanan penyematan jarak jauh pihak ketiga tidak ada. Perbarui node IPFS Anda ke go-ipfs 0.8.0 atau yang lebih baru, dan Anda dapat menambahkan dan mengonfigurasinya di sini.",
+    "noPinRemoteDescription": "Dukungan untuk layanan penyematan jarak jauh pihak ketiga tidak ada. Perbarui node IPFS Anda ke Kubo 0.8.0 atau yang lebih baru, dan Anda dapat menambahkan dan mengonfigurasinya di sini.",
     "addAutoUpload": "Aktifkan unggah otomatis",
     "removeAutoUpload": "Nonaktifkan Unggah Otomatis"
   },

@@ -8,7 +8,7 @@
   "pinningServices": {
     "title": "ピンサービス",
     "description": "あなたのノードのアイテムに対し、ガベージコレクションを絶対に走らせたくない場合（ファイルを削除した場合を含む）はローカルピンを使用してください。\n\n持続的にファイルを保持したい場合、あなたのアカウントを他のリモートピンサービスに紐付けることが出来ます。紐付けを行うと、ローカルノードがオフラインとなった場合でも、あなたのファイルのバックアップコピーを他のホスト上で保持することが出来ます。",
-    "noPinRemoteDescription": "サービスがインストールされておらず、リモートのピンサービスへの接続が出来ません。IPFSノードを go-ipfs 0.8.0以降にアップデートしてください。\nアップデートが完了するとここからリモートのピンを設定することが出来るようになります。",
+    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
     "addAutoUpload": "自動アップロードを有効化",
     "removeAutoUpload": "自動アップロードを無効化"
   },

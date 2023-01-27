@@ -108,10 +108,16 @@
   "checkboxLabel": "عرض المزيد من الخيارات لـ{name}",
   "pinned": "تم التثبيت",
   "pinnedRemotely": "مثبت عن بعد",
+  "pinningRemotely": "Pinning remotely",
+  "pinningCompleted": "Pinning completed",
+  "pinningFailed": "Pinning failed",
+  "clickToDismiss": "Click to dismiss",
+  "clickToCancel": "Click to cancel",
   "blocks": "تم التثبيت",
   "allBlocks": "كل الكتل",
   "allBlocksDescription": "الحجم الإجمالي للكتل على عقدة IPFS بالكامل ؛ يتضمن ذلك كل شيء في الملفات ، بالإضافة إلى جميع العناصر المثبتة محليًا وأي بيانات مخزنة مؤقتًا",
   "filesDescription": "الحجم الإجمالي للبيانات في الدليل الحالي (من دليل فرعي ، يتم أيضًا عرض حجم جميع البيانات في الملفات)",
+  "pinningQueue": "Pinning queue",
   "more": "أكثر",
   "files": "الملفات",
   "cidNotFileNorDir": "الرابط الحالي ليس ملفًا ولا دليلًا. حاول <1>تفقده</1> بدلا من ذلك.",
@@ -125,5 +131,7 @@
     "linkCopied": "Link copied!",
     "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
     "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
-  }
+  },
+  "noPinsInProgress": "All done, no remote pins in progress.",
+  "remotePinningInProgress": "Remote pinning in progress:"
 }

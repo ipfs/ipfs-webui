@@ -1,3 +1,88 @@
+## [2.21.0](https://github.com/ipfs/ipfs-webui/compare/v2.20.0...v2.21.0) (2022-12-09)
+
+
+ CID `bafybeiequgo72mrvuml56j4gk7crewig5bavumrrzhkqbim6b3s2yqi7ty`
+
+ --- 
+
+
+
+### Features
+
+* use direct links to download all files ([#1894](https://github.com/ipfs/ipfs-webui/issues/1894)) ([d1bcbbf](https://github.com/ipfs/ipfs-webui/commit/d1bcbbfef95037dc094c60f80e279dab85e60ba1))
+
+
+### Bug Fixes
+
+* support /quic-v1 ([#2073](https://github.com/ipfs/ipfs-webui/issues/2073)) ([04eb7b3](https://github.com/ipfs/ipfs-webui/commit/04eb7b33f2f552ab835646406129fdf14b9ff044))
+
+
+### Trivial Changes
+
+* bump playwright deps ([#2066](https://github.com/ipfs/ipfs-webui/issues/2066)) ([f138960](https://github.com/ipfs/ipfs-webui/commit/f1389606a751e7536dc3956ca85346dd5b7d9a19))
+* **ci:** fix flaky unit test ([#2068](https://github.com/ipfs/ipfs-webui/issues/2068)) ([bd038cd](https://github.com/ipfs/ipfs-webui/commit/bd038cd5fd42ae1634a9e24c9150d89e5f586e0e)), closes [/github.com/ipfs/ipfs-webui/issues/2065#issuecomment-1315933342](https://github.com/ipfs//github.com/ipfs/ipfs-webui/issues/2065/issues/issuecomment-1315933342)
+* Pull transifex translations ([#2069](https://github.com/ipfs/ipfs-webui/issues/2069)) ([36f3641](https://github.com/ipfs/ipfs-webui/commit/36f36416ff861b5884d5722d16ee278f71745336))
+* revert [#2032](https://github.com/ipfs/ipfs-webui/issues/2032) ([#2064](https://github.com/ipfs/ipfs-webui/issues/2064)) ([9473d7d](https://github.com/ipfs/ipfs-webui/commit/9473d7d1d4759a151008e5a652b6becd2ce0f5d1)), closes [/github.com/ipfs/ipfs-webui/pull/2032#issuecomment-1278928440](https://github.com/ipfs//github.com/ipfs/ipfs-webui/pull/2032/issues/issuecomment-1278928440)
+
+## [2.20.0](https://github.com/ipfs/ipfs-webui/compare/v2.19.0...v2.20.0) (2022-11-09)
+
+
+ CID `bafybeibjbq3tmmy7wuihhhwvbladjsd3gx3kfjepxzkq6wylik6wc3whzy`
+
+ --- 
+
+
+
+### Features
+
+* add success notification on "set pinning" action ([#2038](https://github.com/ipfs/ipfs-webui/issues/2038)) ([e410164](https://github.com/ipfs/ipfs-webui/commit/e410164f8b641a1cedaed9e99e8a3f4983464854))
+* track remote pins in progress ([#1919](https://github.com/ipfs/ipfs-webui/issues/1919)) ([d3a6524](https://github.com/ipfs/ipfs-webui/commit/d3a652400902e564ebae5f257acfd254ee52472a))
+* update to ipfs-geoip v9 ([#2061](https://github.com/ipfs/ipfs-webui/issues/2061)) ([546fb5a](https://github.com/ipfs/ipfs-webui/commit/546fb5a2713d74520263f7e6d043c0181261b8d9))
+
+
+### Bug Fixes
+
+*  /webtransport breaks status page ([#2057](https://github.com/ipfs/ipfs-webui/issues/2057)) ([ea89e7f](https://github.com/ipfs/ipfs-webui/commit/ea89e7f98c748a72409f2caaa329d13596fa65c7)), closes [#2033](https://github.com/ipfs/ipfs-webui/issues/2033)
+
+
+### Trivial Changes
+
+* pull new translations ([#2049](https://github.com/ipfs/ipfs-webui/issues/2049)) ([f6062b2](https://github.com/ipfs/ipfs-webui/commit/f6062b237d9cfeb0dc68d3f602c7dd5123b7a1b0))
+* pull new translations ([#2056](https://github.com/ipfs/ipfs-webui/issues/2056)) ([e13ff17](https://github.com/ipfs/ipfs-webui/commit/e13ff17ab87fa93f0431053bf95caabfe1cd0f5f))
+* pull new translations ([#2059](https://github.com/ipfs/ipfs-webui/issues/2059)) ([0bb5bf3](https://github.com/ipfs/ipfs-webui/commit/0bb5bf349d933b8a01d485b13e12d4c4822bee2f))
+
+## [2.19.0](https://github.com/ipfs/ipfs-webui/compare/v2.18.1...v2.19.0) (2022-10-03)
+
+
+ CID `bafybeiavrvt53fks6u32n5p2morgblcmck4bh4ymf4rrwu7ah5zsykmqqa`
+
+ --- 
+
+
+
+### Features
+
+* add codecov_token to codecov step ([#2044](https://github.com/ipfs/ipfs-webui/issues/2044)) ([ee7cc63](https://github.com/ipfs/ipfs-webui/commit/ee7cc635b94959af5e94a11e7ab3b11e2b9dcee8))
+* add Web3.Storage and Estuary to pinning service templates ([#2026](https://github.com/ipfs/ipfs-webui/issues/2026)) ([3aae1f2](https://github.com/ipfs/ipfs-webui/commit/3aae1f25c3777f42cedb6069691e707ac2a2269b))
+
+
+### Bug Fixes
+
+* **settings:** randomize pinning service templates ([#2027](https://github.com/ipfs/ipfs-webui/issues/2027)) ([cd211ac](https://github.com/ipfs/ipfs-webui/commit/cd211ac2af589080f133a76c47ffe1563775cfb6))
+
+
+### Tests
+
+* add unit&storybook coverage to codecov ([#2023](https://github.com/ipfs/ipfs-webui/issues/2023)) ([1961b17](https://github.com/ipfs/ipfs-webui/commit/1961b179b7a6de289cf799429d95015756490b0a))
+
+
+### Trivial Changes
+
+* go-ipfs -> kubo name update ([#2022](https://github.com/ipfs/ipfs-webui/issues/2022)) ([183c476](https://github.com/ipfs/ipfs-webui/commit/183c476581fcbfa612aacf6b3622a9d6a8620afc))
+* pull new translations ([#2041](https://github.com/ipfs/ipfs-webui/issues/2041)) ([1be6342](https://github.com/ipfs/ipfs-webui/commit/1be6342a54b4e147641484102dd1282dc4dcaeb9))
+* Pull transifex translations ([#2028](https://github.com/ipfs/ipfs-webui/issues/2028)) ([5011e12](https://github.com/ipfs/ipfs-webui/commit/5011e120e59bb5b07bc28bdfb60ed6a5128fc525))
+* replace topojson with topojson-client ([#2035](https://github.com/ipfs/ipfs-webui/issues/2035)) ([e06a878](https://github.com/ipfs/ipfs-webui/commit/e06a8780a9c41ea9e1e04fa840f7171db8e94bcc))
+
 ## [2.18.1](https://github.com/ipfs/ipfs-webui/compare/v2.18.0...v2.18.1) (2022-09-13)
 
 

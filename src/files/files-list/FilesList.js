@@ -8,7 +8,7 @@ import { join } from 'path'
 import { sorts } from '../../bundles/files'
 import { normalizeFiles } from '../../lib/files'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
-// Reac DnD
+// React DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { useDrop } from 'react-dnd'
 // Components
@@ -22,25 +22,42 @@ const addFiles = async (filesPromise, onAddFiles) => {
   onAddFiles(normalizeFiles(files))
 }
 
-const mergeRemotePinsIntoFiles = (files, remotePins = []) => {
+const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], failedPins = []) => {
   const remotePinsCids = remotePins.map(id => id.split(':').at(-1))
+  const pendingPinsCids = pendingPins.map(id => id.split(':').at(-1))
+  const failedPinsCids = failedPins.map(id => id.split(':').at(-1))
 
-  return files.map(f => remotePinsCids.includes(f.cid?.toString())
-    ? ({
-        ...f,
-        isRemotePin: true
-      })
-    : f)
+  return files.map(f => {
+    const fileFailedPins = failedPinsCids.reduce((acc, cid, i) => {
+      if (cid === f.cid?.toString()) {
+        acc.push(failedPins[i])
+      }
+
+      return acc
+    }, [])
+
+    const isRemotePin = remotePinsCids.includes(f.cid?.toString())
+    const isPendingPin = pendingPinsCids.includes(f.cid?.toString())
+    const isFailedPin = fileFailedPins.length > 0
+
+    return {
+      ...f,
+      isRemotePin,
+      isPendingPin,
+      isFailedPin,
+      failedPins: fileFailedPins
+    }
+  })
 }
 
 export const FilesList = ({
-  className, files, pins, pinningServices, remotePins, filesSorting, updateSorting, downloadProgress, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, handleContextMenuClick, t
+  className, files, pins, pinningServices, remotePins, pendingPins, failedPins, filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
+  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
-  const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins))
+  const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
   const listRef = useRef()
   const filesRefs = useRef([])
   const refreshPinCache = true // manually clicking on Pin Status column skips cache and updates remote status
@@ -143,8 +160,8 @@ export const FilesList = ({
   [])
 
   useEffect(() => {
-    setAllFiles(mergeRemotePinsIntoFiles(files, remotePins))
-  }, [files, remotePins, filesSorting])
+    setAllFiles(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
+  }, [files, remotePins, filesSorting, pendingPins, failedPins])
 
   useEffect(() => {
     const selectedFiles = selected.filter(name => files.find(el => el.name === name))
@@ -237,6 +254,9 @@ export const FilesList = ({
       if (listItem.type === 'unknown') return onInspect(listItem.cid)
       return onNavigate({ path: listItem.path, cid: listItem.cid })
     }
+    const onDismissFailedPinHandler = () => {
+      doDismissFailedPin(...listItem.failedPins)
+    }
 
     return (
       <div key={key} style={style} ref={r => { filesRefs.current[allFiles[index].name] = r }}>
@@ -249,6 +269,7 @@ export const FilesList = ({
           onNavigate={onNavigateHandler}
           onAddFiles={onAddFiles}
           onSetPinning={onSetPinning}
+          onDismissFailedPin={onDismissFailedPinHandler}
           onMove={move}
           focused={focused === listItem.name}
           selected={selected.indexOf(listItem.name) !== -1}
@@ -334,7 +355,6 @@ export const FilesList = ({
             inspect={() => onInspect(selectedFiles[0].cid)}
             count={selectedFiles.length}
             isMfs={filesPathInfo.isMfs}
-            downloadProgress={downloadProgress}
             size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
           }
         </Fragment> }
@@ -346,12 +366,13 @@ FilesList.propTypes = {
   className: PropTypes.string,
   files: PropTypes.array.isRequired,
   remotePins: PropTypes.array,
+  pendingPins: PropTypes.array,
+  failedPins: PropTypes.array,
   filesSorting: PropTypes.shape({
     by: PropTypes.string.isRequired,
     asc: PropTypes.bool.isRequired
   }),
   updateSorting: PropTypes.func.isRequired,
-  downloadProgress: PropTypes.number,
   filesIsFetching: PropTypes.bool,
   filesPathInfo: PropTypes.object,
   // Actions
@@ -372,7 +393,9 @@ FilesList.propTypes = {
 
 FileList.defaultProps = {
   className: '',
-  remotePins: []
+  remotePins: [],
+  pendingPins: [],
+  failedPins: []
 }
 
 export default connect(
@@ -383,5 +406,6 @@ export default connect(
   'selectFilesSorting',
   'selectFilesPathInfo',
   'selectShowLoadingAnimation',
+  'doDismissFailedPin',
   withTranslation('files')(FilesList)
 )

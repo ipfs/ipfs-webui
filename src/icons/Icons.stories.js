@@ -2,7 +2,7 @@ import React from '@storybook/react'
 import { withKnobs, text, number, color } from '@storybook/addon-knobs'
 
 const requireContext = require.context('.', true, /\.js?$/)
-const modules = requireContext.keys().filter((c) => !c.includes('.stories'))
+const modules = requireContext.keys().filter((c) => !c.includes('.stories') && !c.includes('index.js'))
 const icons = modules.map((m) => ({
   name: m.replace('./', '').replace('.js', ''),
   Icon: requireContext(m).default

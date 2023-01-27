@@ -5,7 +5,7 @@
 
 const webpack = require('webpack')
 
-const webpackOverride = require('../config-overrides')
+const { webpack: webpackOverride } = require('../config-overrides')
 
 /** @type {import('@storybook/core-common').StorybookConfig} */
 const storybookConfig = {

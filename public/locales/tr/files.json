@@ -108,10 +108,16 @@
   "checkboxLabel": "{name} için daha fazla seçenek görüntüleyin",
   "pinned": "Sabitlendi",
   "pinnedRemotely": "Uzaktan sabitlendi",
+  "pinningRemotely": "Pinning remotely",
+  "pinningCompleted": "Pinning completed",
+  "pinningFailed": "Pinning failed",
+  "clickToDismiss": "Click to dismiss",
+  "clickToCancel": "Click to cancel",
   "blocks": "Bloklar",
   "allBlocks": "Tüm bloklar",
   "allBlocksDescription": "Tüm IPFS düğümünüzdeki toplam blok boyutu; Bu, Dosyalar'daki her şeyin yanı sıra yerel olarak sabitlenmiş tüm öğeleri ve geçici olarak önbelleğe alınmış verileri içerir",
   "filesDescription": "Geçerli dizindeki toplam veri boyutu (bir alt dizin ise, Dosyalar'daki tüm verilerin boyutu da görüntülenir)",
+  "pinningQueue": "Pinning queue",
   "more": "Daha fazla",
   "files": "Dosyalar",
   "cidNotFileNorDir": "Geçerli bağlantı bir dosya veya dizin değil. Bunun yerine <1>incelemeyi</1> deneyin.",
@@ -125,5 +131,7 @@
     "linkCopied": "Link copied!",
     "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
     "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
-  }
+  },
+  "noPinsInProgress": "All done, no remote pins in progress.",
+  "remotePinningInProgress": "Remote pinning in progress:"
 }

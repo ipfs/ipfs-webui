@@ -23,8 +23,8 @@ const PinIcon = ({ icon, index }) => {
   return <GlyphPin width={32} height={32} className={glyphClass}/>
 }
 
-export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningServices, remotePins, notRemotePins, doGetFileSizeThroughCid, doSelectRemotePinsForFile, doFetchPinningServices, doFetchRemotePins, className, ...props }) => {
-  const selectedRemoteServices = useMemo(() => doSelectRemotePinsForFile(file, remotePins, notRemotePins), [doSelectRemotePinsForFile, file, remotePins, notRemotePins])
+export const PinningModal = ({ t, tReady, onCancel, onPinningSet, file, pinningServices, remotePins, notRemotePins, pendingPins, doGetFileSizeThroughCid, doSelectRemotePinsForFile, doFetchPinningServices, doFetchRemotePins, className, ...props }) => {
+  const selectedRemoteServices = useMemo(() => doSelectRemotePinsForFile(file, remotePins, notRemotePins, pendingPins), [doSelectRemotePinsForFile, file, remotePins, notRemotePins, pendingPins])
   const [selectedServices, setSelectedServices] = useState([...selectedRemoteServices, ...[file.pinned && 'local']])
   const [size, setSize] = useState(null)
 
@@ -97,6 +97,7 @@ PinningModal.defaultProps = {
 export default connect(
   'selectPinningServices',
   'selectRemotePins',
+  'selectPendingPins',
   'selectNotRemotePins',
   'doSelectRemotePinsForFile',
   'doGetFileSizeThroughCid',

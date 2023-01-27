@@ -5,6 +5,8 @@
   "ipfsConnectSuccess": "Connesso con successo all'indirizzo API IPFS",
   "ipfsConnectFail": "Non è stato possibile connettersi all'indirizzo API IPFS fornito",
   "ipfsPinFailReason": "Blocco non impostato a {serviceName}: {errorMsg}",
+  "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
+  "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
   "ipfsIsBack": "Il normale servizio IPFS è stato ripreso. Divertiti!",
   "folderExists": "Un oggetto con quel nome esiste già. Per favore, scegline un'altro.",
   "filesFetchFailed": "Non è stato possibile recuperare quei file. Per favore, controlla il percorso e riprova.",

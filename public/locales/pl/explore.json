@@ -30,8 +30,8 @@
     "hashDigest": "wynik funkcji haszującej"
   },
   "ObjectInfo": {
-    "publicGateway": "View on Public Gateway",
-    "privateGateway": "View on Local Gateway"
+    "publicGateway": "Oglądaj przez publiczną bramkę",
+    "privateGateway": "Oglądaj przez lokalną bramkę"
   },
   "base": "baza",
   "version": "wersja",

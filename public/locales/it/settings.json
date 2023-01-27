@@ -8,7 +8,7 @@
   "pinningServices": {
     "title": "Servizi di pinning",
     "description": "Usa il pinning locale quando vuoi assicurarti che un oggetto sul tuo nodo non venga mai gettato dal Garbage Collector, anche quando lo rimuovi da \"File\". Puoi anche collegare il tuo account con altri servizi di pinning remoto per mantenere i file automaticamente o selettivamente con quei provider, permettendoti di mantenere copie di backup dei tuoi file o renderli disponibili agli altri quando il tuo nodo locale è offline.",
-    "noPinRemoteDescription": "Manca il supporto per servizi di pinning remoto di terze parti. Aggiorna il tuo nodo IPFS a go-ipfs 0.8.0 o successivi in modo da poterli aggiungere e configurare da qui.",
+    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
     "addAutoUpload": "Abilita auto upload",
     "removeAutoUpload": "Disabilita auto upload"
   },
