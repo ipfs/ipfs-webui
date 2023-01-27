@@ -4,7 +4,7 @@
  * @returns {Promise<'local'|'kubo'|'webui.ipfs'>}
  */
 
-const webuiRegex = /(?:webui-ipfs|webui\.ipfs)/
+const webuiRegex = /webui[-.]ipfs/
 const localhostRegex = /(?:localhost|127.0.0.1)/
 const ipfsRegex = /ipfs/
 export async function getDeploymentEnv () {

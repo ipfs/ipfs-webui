@@ -108,15 +108,15 @@ const COUNTLY_KEY_WEBUI_KUBO = 'c4524cc93fed92a5838d4ea27c5a65526b4e7558'
 async function pickAppKey () {
   const isProd = process.env.NODE_ENV === 'production'
 
-  if (root.ipfsDesktop && root.ipfsDesktop.countlyAppKey) {
+  if (root.ipfsDesktop?.countlyAppKey) {
     return root.ipfsDesktop.countlyAppKey
-  } else {
-    const env = await getDeploymentEnv()
-    if (env === 'kubo') {
-      return COUNTLY_KEY_WEBUI_KUBO
-    }
-    return isProd ? COUNTLY_KEY_WEBUI : COUNTLY_KEY_WEBUI_TEST
   }
+
+  const env = await getDeploymentEnv()
+  if (env === 'kubo') {
+    return COUNTLY_KEY_WEBUI_KUBO
+  }
+  return isProd ? COUNTLY_KEY_WEBUI : COUNTLY_KEY_WEBUI_TEST
 }
 
 const consentGroups = {
