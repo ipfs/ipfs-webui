@@ -4,10 +4,13 @@
  * @see https://github.com/ipfs/ipfs-webui/issues/2078#issuecomment-1384605253
  * @returns {Promise<'local'|'kubo'|'webui.ipfs'>}
  */
+
+const webuiRegex = /(?:webui-ipfs|webui\.ipfs)/
+const localhostRegex = /localhost/
 export async function getDeploymentEnv () {
-  const origin = globalThis.location.origin
-  if (origin.includes('webui-ipfs') || origin.includes('webui.ipfs')) {
-    if (origin.includes('localhost')) {
+  const { origin } = globalThis.location
+  if (webuiRegex.test(origin)) {
+    if (localhostRegex.test(origin)) {
       return 'local'
     }
     return 'webui.ipfs'
