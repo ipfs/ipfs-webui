@@ -13,8 +13,8 @@
     "peersCount": "{peersCount, plural, zero {اكتشف 1 نظير} one {الأقران} two {الأقران} few {الأقران} many {الأقران} other {المكتشفة {peersCount} الأقران}}"
   },
   "customApiConfig": "تكوين JSON المخصص",
-  "AskToEnable": {
-    "label": "ساعد في تحسين هذا التطبيق عن طريق إرسال بيانات استخدام مجهولة."
+  "AnalyticsBanner": {
+    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
   },
   "tour": {
     "step1": {

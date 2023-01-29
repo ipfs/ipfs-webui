@@ -13,8 +13,8 @@
     "peersCount": "{peersCount, plural, other {已发现 {peersCount} 节点}}"
   },
   "customApiConfig": "自定义JSON配置",
-  "AskToEnable": {
-    "label": "向我们发送匿名输入来帮助我们改进。"
+  "AnalyticsBanner": {
+    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
   },
   "tour": {
     "step1": {

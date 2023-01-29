@@ -8,7 +8,7 @@
   "pinningServices": {
     "title": "Pinning-Dienste",
     "description": "Verwende lokales Anheften, wenn Du sicherstellen möchtest, dass ein Element auf Deinem Knoten niemals durch den Garbage-Collector gelöscht wird, selbst wenn Du es aus Dateien entfernst. Du kannst Deine Konten auch mit anderen Remote-Pinning-Diensten verknüpfen, um Dateien bei diesen Anbietern automatisch oder selektiv beizubehalten. So kannst Du Sicherungskopien Deiner Dateien aufbewahren und / oder anderen zur Verfügung stellen, wenn Dein lokaler Knoten offline ist.",
-    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
+    "noPinRemoteDescription": "Es fehlt die Unterstützung für Remote-Pinning-Dienste von Drittanbietern. Aktualisiere Deinen IPFS Knoten auf Kubo 0.8.0 oder neuer um sie hier hinzufügen und konfigurieren zu können.",
     "addAutoUpload": "Automatisch hochladen aktivieren",
     "removeAutoUpload": "Automatisch hochladen deaktivieren"
   },
