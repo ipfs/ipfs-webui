@@ -13,8 +13,8 @@
     "peersCount": "{peersCount, plural, one {Обнаружен 1 пир} few {Обнаруженно {peersCount} пиров} many {Обнаруженно {peersCount} пиров} other {Обнаруженно {peersCount}пиров}}"
   },
   "customApiConfig": "Пользовательская JSON конфигурация ",
-  "AskToEnable": {
-    "label": "Помогите нам улучшить приложение, отправляя анонимные данные о его использовании."
+  "AnalyticsBanner": {
+    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
   },
   "tour": {
     "step1": {

@@ -13,8 +13,8 @@
     "peersCount": "{peersCount, plural, one {1 Knoten entdeckt} other {{peersCount} Knoten entdeckt}}"
   },
   "customApiConfig": "Benutzerdefinierte JSON-Konfiguration",
-  "AskToEnable": {
-    "label": "Helfen Sie uns, die App zu verbessern, indem Sie anonyme Nutzerdaten senden."
+  "AnalyticsBanner": {
+    "label": "Wir haben kürzlich unsere Telemetrierichtlinie aktualisiert, um auf Opt-out-Metriken umzustellen. Bei dir war die Telemetrieerfassung zuvor deaktiviert. Du kannst die Telemetrieerfassung (erneut) auf der Einstellungsseite deaktivieren."
   },
   "tour": {
     "step1": {
