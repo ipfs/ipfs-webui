@@ -4,7 +4,10 @@
  * @see https://github.com/facebook/create-react-app/issues/11756#issuecomment-1184657437
  * @see https://alchemy.com/blog/how-to-polyfill-node-core-modules-in-webpack-5
  */
-const webpack = require('webpack')
+import webpack from 'webpack'
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
 const PURE_ESM_MODULES = [
   'ipfs-geoip'
 ]
@@ -97,7 +100,7 @@ function webpackOverride (config) {
   return config
 }
 
-module.exports = {
+export default {
   webpack: webpackOverride,
   jest: (config) => {
     console.log('config.globals: ', config.globals)
