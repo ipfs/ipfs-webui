@@ -1,6 +1,7 @@
 {
   "name": "ipfs-webui",
   "version": "2.22.0",
+  "type": "module",
   "private": true,
   "files": [
     "src",
