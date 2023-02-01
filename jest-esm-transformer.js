@@ -1,4 +1,4 @@
-const path = require('path')
+// import path from 'path'
 
 // const babelTransform = require('react-app-rewired/scripts/utils/babelTransform')
 // const cssTransform = require('react-scripts/config/jest/cssTransform')
@@ -6,7 +6,7 @@ const path = require('path')
 
 // const esmOptions = { force: true, mainFields: ['main', 'exports'] }
 // const esmJSON = JSON.stringify()
-module.exports = {
+const transformer = {
   process (sourceText, sourcePath, options) {
     console.log('process sourcePath: ', sourcePath)
     // if (sourcePath.includes('ipfsd-ctl')) {
@@ -49,3 +49,5 @@ module.exports = {
     // }
   }
 }
+
+export default transformer

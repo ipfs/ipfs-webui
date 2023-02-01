@@ -1,23 +1,10 @@
 module.exports = {
   env: {
+    development: {
+      plugins: ['transform-es2015-modules-commonjs']
+    },
     test: {
-      // presets: [
-      //   [
-      //     '@babel/preset-env',
-      //     {
-      //       targets: {
-      //         node: 'current'
-      //       }
-      //     }
-      //   ]
-
-      // ],
-
-      plugins: [
-        ['@babel/plugin-transform-modules-commonjs', {
-          // allowTopLevelThis: true
-        }]
-      ]
+      plugins: ['transform-es2015-modules-commonjs']
     }
   }
 }

@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals'
 import { createSelector } from 'redux-bundler'
 import createPeersLocationBundle from './peer-locations.js'
 

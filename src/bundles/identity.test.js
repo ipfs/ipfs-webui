@@ -8,7 +8,8 @@
  * Run the tests with
  *    KUBO_PORT_2033_TEST=5001 npm run test:unit -- --runTestsByPath "test/kubo-webtransport.test.js" --env=./custom-jest-env.js
  */
-import kuboRpcClient from 'kubo-rpc-client'
+import { jest } from '@jest/globals'
+import * as kuboRpcClient from 'kubo-rpc-client'
 import * as ipfsdCtl from 'ipfsd-ctl'
 console.log('ipfsdCtl: ', ipfsdCtl)
 const { createController } = ipfsdCtl

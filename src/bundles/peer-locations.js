@@ -1,7 +1,7 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { getConfiguredCache } from 'money-clip'
 import { lookup } from 'ipfs-geoip'
-import PQueue from 'p-queue'
+import { default as PQueue } from 'p-queue'
 import HLRU from 'hashlru'
 import Multiaddr from 'multiaddr'
 import ms from 'milliseconds'
@@ -9,6 +9,7 @@ import ip from 'ip'
 import memoize from 'p-memoize'
 import pkgJson from '../../package.json'
 
+// const PQueue = pqueue.default
 const { dependencies } = pkgJson
 
 // After this time interval, we re-check the locations for each peer
