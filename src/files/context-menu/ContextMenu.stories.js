@@ -1,5 +1,5 @@
 // @ts-check
-import ContextMenu from './ContextMenu'
+import ContextMenu from './ContextMenu.js'
 
 /**
  * @type {import('@storybook/react').Meta}

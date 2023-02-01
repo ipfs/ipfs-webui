@@ -2,9 +2,9 @@ import React from 'react'
 import multiaddr from 'multiaddr'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
-import Address from '../components/address/Address'
-import Details from '../components/details/Details'
-import ProviderLink from '../components/provider-link/ProviderLink'
+import Address from '../components/address/Address.js'
+import Details from '../components/details/Details.js'
+import ProviderLink from '../components/provider-link/ProviderLink.js'
 import { Definition, DefinitionList } from '../components/definition/Definition.js'
 
 function isMultiaddr (addr) {

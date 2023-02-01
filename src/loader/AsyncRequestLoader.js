@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import debounce from 'react-debounce-render'
-import { Loader } from './Loader'
+import { Loader } from './Loader.js'
 
 export const AsyncRequestLoader = ({ asyncActive }) => (
   <div

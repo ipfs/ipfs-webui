@@ -1,8 +1,8 @@
 import { action } from '@storybook/addon-actions'
 import { withKnobs, boolean } from '@storybook/addon-knobs'
-import i18nDecorator from '../../i18n-decorator'
-import DndDecorator from '../../dnd-decorator'
-import FilesList from './FilesList'
+import i18nDecorator from '../../i18n-decorator.js'
+import DndDecorator from '../../dnd-decorator.js'
+import FilesList from './FilesList.js'
 import { send } from '../../bundles/files/utils.js'
 import { ACTIONS } from '../../bundles/files/consts.js'
 

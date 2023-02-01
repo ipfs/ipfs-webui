@@ -1,8 +1,8 @@
 import React from '@storybook/react'
 import { withKnobs, number } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
-import i18n from '../../i18n-decorator'
-import SelectedActions from './SelectedActions'
+import i18n from '../../i18n-decorator.js'
+import SelectedActions from './SelectedActions.js'
 
 /**
  * @type {import('@storybook/react').Meta}

@@ -1,17 +1,17 @@
 import React, { useMemo, useState, useCallback } from 'react'
-import { humanSize } from '../../lib/files'
+import { humanSize } from '../../lib/files.js'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 // Icons
-import DocumentIcon from '../../icons/GlyphDocGeneric'
-import FolderIcon from '../../icons/GlyphFolder'
+import DocumentIcon from '../../icons/GlyphDocGeneric.js'
+import FolderIcon from '../../icons/GlyphFolder.js'
 import './FileImportStatus.css'
-import GlyphSmallArrows from '../../icons/GlyphSmallArrow'
-import GlyphTick from '../../icons/GlyphTick'
-import GlyphCancel from '../../icons/GlyphCancel'
-import GlyphSmallCancel from '../../icons/GlyphSmallCancel'
-import ProgressBar from '../../components/progress-bar/ProgressBar'
+import GlyphSmallArrows from '../../icons/GlyphSmallArrow.js'
+import GlyphTick from '../../icons/GlyphTick.js'
+import GlyphCancel from '../../icons/GlyphCancel.js'
+import GlyphSmallCancel from '../../icons/GlyphSmallCancel.js'
+import ProgressBar from '../../components/progress-bar/ProgressBar.js'
 
 const Import = (job, t) =>
   [...groupByPath(job?.message?.entries || new Map()).values()].map(item => (

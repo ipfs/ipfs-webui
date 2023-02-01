@@ -1,5 +1,5 @@
 import React from '@storybook/react'
-import ProgressBar from './ProgressBar'
+import ProgressBar from './ProgressBar.js'
 
 /**
  * @type {import('@storybook/react').Meta}

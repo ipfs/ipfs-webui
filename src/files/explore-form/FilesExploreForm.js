@@ -2,9 +2,9 @@ import React from 'react'
 import isIPFS from 'is-ipfs'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
-import StrokeFolder from '../../icons/StrokeFolder'
-import StrokeIpld from '../../icons/StrokeIpld'
-import Button from '../../components/button/Button'
+import StrokeFolder from '../../icons/StrokeFolder.js'
+import StrokeIpld from '../../icons/StrokeIpld.js'
+import Button from '../../components/button/Button.js'
 import './FilesExploreForm.css'
 
 class FilesExploreForm extends React.Component {

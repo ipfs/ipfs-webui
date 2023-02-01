@@ -1,5 +1,5 @@
 import { createSelector } from 'redux-bundler'
-import createPeersLocationBundle from './peer-locations'
+import createPeersLocationBundle from './peer-locations.js'
 
 jest.mock('redux-bundler', () => ({
   createAsyncResourceBundle: (args) => ({ ...args }),

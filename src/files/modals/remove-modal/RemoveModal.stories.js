@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions'
-import RemoveModal from './RemoveModal'
+import RemoveModal from './RemoveModal.js'
 
 /**
  * @type {import('@storybook/react').Meta}

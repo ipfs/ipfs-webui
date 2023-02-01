@@ -1,7 +1,7 @@
 /* global it expect */
 import React from 'react'
 import { shallow } from 'enzyme'
-import { AsyncRequestLoader } from './AsyncRequestLoader'
+import { AsyncRequestLoader } from './AsyncRequestLoader.js'
 
 it('hidden if there are no async requests', () => {
   const wrapper = shallow(

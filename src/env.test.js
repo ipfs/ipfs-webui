@@ -1,6 +1,6 @@
 /* global describe, it, expect, afterEach, jest */
 // @ts-check
-import { getDeploymentEnv } from './env'
+import { getDeploymentEnv } from './env.js'
 
 describe('env.js', function () {
   describe('getDeploymentEnv', function () {

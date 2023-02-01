@@ -1,5 +1,5 @@
 import React from '@storybook/react'
-import ComponentLoader from './ComponentLoader'
+import ComponentLoader from './ComponentLoader.js'
 
 /**
  * @type {import('@storybook/react').Meta}

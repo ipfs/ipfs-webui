@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
-import Box from '../box/Box'
-import GlyphTick from '../../icons/GlyphTick'
+import Box from '../box/Box.js'
+import GlyphTick from '../../icons/GlyphTick.js'
 
 export const IsConnected = ({ t }) => {
   return (

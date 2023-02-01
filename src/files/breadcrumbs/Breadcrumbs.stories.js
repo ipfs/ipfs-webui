@@ -1,5 +1,5 @@
 // @ts-check
-import Breadcrumbs from './Breadcrumbs'
+import Breadcrumbs from './Breadcrumbs.js'
 
 /**
  * @type {import('@storybook/react').Meta}

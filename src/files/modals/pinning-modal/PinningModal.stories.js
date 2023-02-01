@@ -1,8 +1,8 @@
 import React from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import i18n from '../../../i18n'
-import PinningModal from './PinningModal'
+import i18n from '../../../i18n.js'
+import PinningModal from './PinningModal.js'
 
 /**
  * @type {import('@storybook/react').Meta}

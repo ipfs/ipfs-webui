@@ -2,7 +2,7 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
-import PinsStatuses from './PinsStatuses'
+import PinsStatuses from './PinsStatuses.js'
 
 const PinsPage = ({ pendingPins, failedPins, completedPins, doDismissCompletedPin, doDismissFailedPin, doCancelPendingPin }) => {
   return (

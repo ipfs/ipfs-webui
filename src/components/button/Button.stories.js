@@ -1,7 +1,7 @@
 import React from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Button from './Button'
+import Button from './Button.js'
 
 /**
  * @type {import('@storybook/react').Meta}

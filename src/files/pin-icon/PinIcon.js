@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
-import GlyphPin from '../../icons/GlyphPin'
-import GlyphPinCloud from '../../icons/GlyphPinCloud'
+import GlyphPin from '../../icons/GlyphPin.js'
+import GlyphPinCloud from '../../icons/GlyphPinCloud.js'
 import '../PendingAnimation.css'
 
 const PinningIcon = ({ t, isFailedPin, isPendingPin, isRemotePin, pinned }) => {

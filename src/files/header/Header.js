@@ -2,14 +2,14 @@ import React from 'react'
 import classNames from 'classnames'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
-import { humanSize } from '../../lib/files'
+import { humanSize } from '../../lib/files.js'
 // Components
-import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
-import FileInput from '../file-input/FileInput'
-import Button from '../../components/button/Button'
+import Breadcrumbs from '../breadcrumbs/Breadcrumbs.js'
+import FileInput from '../file-input/FileInput.js'
+import Button from '../../components/button/Button.js'
 // Icons
-import GlyphDots from '../../icons/GlyphDots'
-import GlyphPinCloud from '../../icons/GlyphPinCloud'
+import GlyphDots from '../../icons/GlyphDots.js'
+import GlyphPinCloud from '../../icons/GlyphPinCloud.js'
 import '../PendingAnimation.css'
 
 const BarOption = ({ children, text, isLink = false, className = '', ...etc }) => (

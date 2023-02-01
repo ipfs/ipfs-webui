@@ -5,9 +5,9 @@ import multiaddr from 'multiaddr'
 import { getIpfs, providers } from 'ipfs-provider'
 import first from 'it-first'
 import last from 'it-last'
-import * as Enum from './enum'
-import { perform } from './task'
-import { readSetting, writeSetting } from './local-storage'
+import * as Enum from './enum.js'
+import { perform } from './task.js'
+import { readSetting, writeSetting } from './local-storage.js'
 
 /* TODO: restore when  no longer bundle standalone ipld with ipld-explorer
  * context: https://github.com/ipfs/ipld-explorer-components/pull/289

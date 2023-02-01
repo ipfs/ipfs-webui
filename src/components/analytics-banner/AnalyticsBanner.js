@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '../button/Button'
+import Button from '../button/Button.js'
 
 const AnalyticsBanner = ({ className, label, yesLabel, onYes }) => {
   return (

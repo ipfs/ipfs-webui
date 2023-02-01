@@ -1,5 +1,5 @@
 // @ts-check
-import IdenticonEl from './Identicon'
+import IdenticonEl from './Identicon.js'
 
 /**
  * @type {import('@storybook/react').Meta}

@@ -1,5 +1,5 @@
-import GlyphPinCloudRegular from '../GlyphPinCloud'
-import GlyphPinCloudFailed from '../GlyphPinCloudFailed'
+import GlyphPinCloudRegular from '../GlyphPinCloud.js'
+import GlyphPinCloudFailed from '../GlyphPinCloudFailed.js'
 
 const GlyphPinCloud = ({ failed = false, ...props }) => failed
   ? <GlyphPinCloudFailed {...props} />

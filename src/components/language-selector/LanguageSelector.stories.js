@@ -1,8 +1,8 @@
 // @ts-check
 import React from '@storybook/react'
 
-import i18n from '../../i18n'
-import LanguageSelectorEl from './LanguageSelector'
+import i18n from '../../i18n.js'
+import LanguageSelectorEl from './LanguageSelector.js'
 
 const t = i18n.getFixedT('en', 'settings')
 

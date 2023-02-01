@@ -1,4 +1,4 @@
-import Cid from './Cid'
+import Cid from './Cid.js'
 
 /**
  * @type {import('@storybook/react').Meta}

@@ -1,5 +1,5 @@
 import React from 'react'
-import Identicon from '../identicon/Identicon'
+import Identicon from '../identicon/Identicon.js'
 
 export function cidStartAndEnd (value) {
   const chars = value.split('')

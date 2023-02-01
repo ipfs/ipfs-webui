@@ -1,7 +1,7 @@
 import React from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Toast from './Toast'
+import Toast from './Toast.js'
 
 /**
  * @type {import('@storybook/react').Meta}

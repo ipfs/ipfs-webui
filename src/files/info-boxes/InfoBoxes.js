@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CompanionInfo from './companion-info/CompanionInfo'
-import AddFilesInfo from './add-files-info/AddFilesInfo'
+import CompanionInfo from './companion-info/CompanionInfo.js'
+import AddFilesInfo from './add-files-info/AddFilesInfo.js'
 
 const InfoBoxes = ({ isRoot, isCompanion, filesExist }) => (
   <div>

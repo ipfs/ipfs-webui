@@ -1,6 +1,6 @@
 import { createSelector } from 'redux-bundler'
-import { ACTIONS } from './consts'
-import { infoFromPath } from './utils'
+import { ACTIONS } from './consts.js'
+import { infoFromPath } from './utils.js'
 
 /**
  * @typedef {import('./protocol').Model} Files

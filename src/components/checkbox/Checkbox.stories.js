@@ -1,7 +1,7 @@
 import React from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import Checkbox from './Checkbox'
+import Checkbox from './Checkbox.js'
 
 const bigPicture = {
   transform: 'scale(5)',

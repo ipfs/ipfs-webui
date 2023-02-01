@@ -1,7 +1,7 @@
 import React from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import i18n from '../../../i18n-decorator'
-import AddByPathModal from './AddByPathModal'
+import i18n from '../../../i18n-decorator.js'
+import AddByPathModal from './AddByPathModal.js'
 
 /**
  * @type {import('@storybook/react').Meta}

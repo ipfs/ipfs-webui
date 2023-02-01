@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
-import Toast from './Toast'
+import Toast from './Toast.js'
 
 const Notify = ({ t, notify, notifyI18nKey, doNotifyDismiss }) => {
   const { show, error, msgArgs } = notify

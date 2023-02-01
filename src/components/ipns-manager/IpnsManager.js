@@ -1,20 +1,20 @@
 import React, { Fragment, useState, useRef, useMemo, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
-import { sortByProperty } from '../../lib/sort'
+import { sortByProperty } from '../../lib/sort.js'
 import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
 
 // Components
-import Button from '../button/Button'
-import Overlay from '../overlay/Overlay'
-import GenerateKeyModal from './generate-key-modal/GenerateKeyModal'
-import RenameKeyModal from './rename-key-modal/RenameKeyModal'
-import RemoveKeyModal from './remove-key-modal/RemoveKeyModal'
+import Button from '../button/Button.js'
+import Overlay from '../overlay/Overlay.js'
+import GenerateKeyModal from './generate-key-modal/GenerateKeyModal.js'
+import RenameKeyModal from './rename-key-modal/RenameKeyModal.js'
+import RemoveKeyModal from './remove-key-modal/RemoveKeyModal.js'
 
-import ContextMenu from '../context-menu/ContextMenu'
-import ContextMenuItem from '../context-menu/ContextMenuItem'
-import GlyphDots from '../../icons/GlyphDots'
-import StrokePencil from '../../icons/StrokePencil'
-import StrokeCancel from '../../icons/StrokeCancel'
+import ContextMenu from '../context-menu/ContextMenu.js'
+import ContextMenuItem from '../context-menu/ContextMenuItem.js'
+import GlyphDots from '../../icons/GlyphDots.js'
+import StrokePencil from '../../icons/StrokePencil.js'
+import StrokeCancel from '../../icons/StrokeCancel.js'
 
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32

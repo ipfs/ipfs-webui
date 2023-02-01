@@ -1,5 +1,5 @@
 /* global it, expect */
-import countDirs from './count-dirs'
+import countDirs from './count-dirs.js'
 
 it('should return 1 for the root dir', () => {
   expect(countDirs([{ path: '/' }])).toBe(1)

@@ -1,7 +1,7 @@
 // @ts-check
 
-import * as Enum from './enum'
-import { perform } from './task'
+import * as Enum from './enum.js'
+import { perform } from './task.js'
 
 /**
  * @typedef {import('./task').Perform<'CONFIG_SAVE', Error, void, void>} ConfigSave

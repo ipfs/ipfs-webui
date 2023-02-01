@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTranslation, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import { humanSize } from '../lib/files'
+import { humanSize } from '../lib/files.js'
 
 export const StatusConnected = ({ t, peersCount, repoSize }) => {
   const humanRepoSize = humanSize(repoSize || 0)

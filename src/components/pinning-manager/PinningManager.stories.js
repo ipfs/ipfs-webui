@@ -1,8 +1,8 @@
 import React from '@storybook/react'
 
-import i18n from '../../i18n'
-import PinningManager from './PinningManager'
-import PinningServicesMock from './fixtures/pinningServices'
+import i18n from '../../i18n.js'
+import PinningManager from './PinningManager.js'
+import PinningServicesMock from './fixtures/pinningServices.js'
 
 const t = i18n.getFixedT('en', 'settings')
 

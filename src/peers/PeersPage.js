@@ -3,17 +3,17 @@ import { connect } from 'redux-bundler-react'
 import { Helmet } from 'react-helmet'
 import { withTranslation } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
-import withTour from '../components/tour/withTour'
-import { peersTour } from '../lib/tours'
-import { getJoyrideLocales } from '../helpers/i8n'
+import withTour from '../components/tour/withTour.js'
+import { peersTour } from '../lib/tours.js'
+import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Components
-import Box from '../components/box/Box'
-import WorldMap from './WorldMap/WorldMap'
-import PeersTable from './PeersTable/PeersTable'
-import AddConnection from './AddConnection/AddConnection'
-import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode'
-import { cliCmdKeys, cliCommandList } from '../bundles/files/consts'
+import Box from '../components/box/Box.js'
+import WorldMap from './WorldMap/WorldMap.js'
+import PeersTable from './PeersTable/PeersTable.js'
+import AddConnection from './AddConnection/AddConnection.js'
+import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode.js'
+import { cliCmdKeys, cliCommandList } from '../bundles/files/consts.js'
 
 const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
   <div data-id='PeersPage' className='overflow-hidden'>
