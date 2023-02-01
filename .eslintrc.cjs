@@ -7,7 +7,7 @@ module.exports = {
     }
   },
   extends: ['react-app', 'standard', 'plugin:jsx-a11y/recommended'],
-  plugins: ['jsx-a11y', 'storybook'],
+  plugins: ['jsx-a11y', 'storybook', 'import'],
   // ignore .ts files because it fails to parse it.
   ignorePatterns: 'src/**/*.ts',
   rules: {
@@ -18,7 +18,8 @@ module.exports = {
       files: ['src/**/*.stories.js'],
       excludedFiles: '*.test.js',
       rules: {
-        'import/no-anonymous-default-export': 'off'
+        'import/no-anonymous-default-export': 'off',
+        'import/esm-extensions': 'error',
       }
     }
   ]
