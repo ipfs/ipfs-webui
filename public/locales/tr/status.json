@@ -13,8 +13,8 @@
     "peersCount": "{peersCount, plural, one {1 eşi keşfetti} other {{peersCount} eşleri keşfetti}}"
   },
   "customApiConfig": "Özel JSON yapılandırması",
-  "AskToEnable": {
-    "label": "Anonim kullanım verilerini göndererek bu uygulamanın geliştirilmesine yardımcı olun."
+  "AnalyticsBanner": {
+    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
   },
   "tour": {
     "step1": {

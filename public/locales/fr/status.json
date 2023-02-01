@@ -13,8 +13,8 @@
     "peersCount": "{peersCount, plural, one {1 pair découvert} many {{peersCount} pairs découverts} other {{peersCount} pairs découverts}}"
   },
   "customApiConfig": "JSON de configuration personnalisée",
-  "AskToEnable": {
-    "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes."
+  "AnalyticsBanner": {
+    "label": "Nous avons récemment mis à jour notre politique de télémétrie qui est désormais activée par défaut. Votre télémétrie était précédemment désactivée. Vous pouvez la désactiver (à nouveau) dans la page Paramètres."
   },
   "tour": {
     "step1": {

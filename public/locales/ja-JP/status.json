@@ -13,8 +13,8 @@
     "peersCount": "{peersCount, plural, other {<0>{peersCount}個のピア</0>と通信中}}"
   },
   "customApiConfig": "カスタム JSON設定",
-  "AskToEnable": {
-    "label": "匿名の利用状況データを送信することで、このアプリケーションの改善に協力する"
+  "AnalyticsBanner": {
+    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
   },
   "tour": {
     "step1": {

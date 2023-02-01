@@ -13,8 +13,8 @@
     "peersCount": "{peersCount, plural, one {Objeven 1 peer} few {Objeveny {peersCount} peery} many {Objeveno {peersCount} peerů} other {Objeveno {peersCount} peerů}}"
   },
   "customApiConfig": "Vlastní konfigurace JSON",
-  "AskToEnable": {
-    "label": "Pomozte vylepšit tuto aplikaci odesláním anonymních dat o využití."
+  "AnalyticsBanner": {
+    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
   },
   "tour": {
     "step1": {

@@ -9,6 +9,7 @@ import { ACTIONS as FILES } from './files/consts'
 import { ACTIONS as CONIFG } from './config-save'
 import { ACTIONS as INIT } from './ipfs-provider'
 import { ACTIONS as EXP } from './experiments'
+import { getDeploymentEnv } from '../env'
 
 /**
  * @typedef {import('./ipfs-provider').Init} Init
@@ -49,15 +50,21 @@ import { ACTIONS as EXP } from './experiments'
  * @property {'ANALYTICS_ADD_CONSENT'} type
  * @property {{name:string}} payload
  *
+ * @typedef {Object} ToggleShowAnalyticsBanner
+ * @property {'SET_SHOW_ANALYTICS_BANNER'} type
+ * @property {{shouldShow:boolean?}} payload
+ *
  * @typedef {ExperimentsToggle|DesktopSettingToggle} Toggle
  * @typedef {MakeDir|Write|AddByPath|Move|Delete|DownloadLink} FilesMessage
- * @typedef {AnalyticsEnabled|AnalyticsDisabled|RemoveConsent|AddConsent} AnalyticsMessage
+ * @typedef {AnalyticsEnabled|AnalyticsDisabled|RemoveConsent|AddConsent|ToggleShowAnalyticsBanner} AnalyticsMessage
  * @typedef {Init|ConfigSave|Toggle|FilesMessage|AnalyticsMessage} Message
  *
  * @typedef {Object} Model
  * @property {number} lastEnabledAt
  * @property {number} lastDisabledAt
  * @property {string[]} consent
+ * @property {boolean?} showAnalyticsBanner
+ * @property {boolean?} optedOut
  *
  * @typedef {Object} State
  * @property {Model} analytics
@@ -72,7 +79,8 @@ const ACTIONS = Enum.from([
   'ANALYTICS_ENABLED',
   'ANALYTICS_DISABLED',
   'ANALYTICS_ADD_CONSENT',
-  'ANALYTICS_REMOVE_CONSENT'
+  'ANALYTICS_REMOVE_CONSENT',
+  'SET_SHOW_ANALYTICS_BANNER'
 ])
 
 // Only record specific actions listed here.
@@ -91,15 +99,24 @@ const ASYNC_ACTIONS_TO_RECORD = [
 
 const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612'
 const COUNTLY_KEY_WEBUI_TEST = '700fd825c3b257e021bd9dbc6cbf044d33477531'
+const COUNTLY_KEY_WEBUI_KUBO = 'c4524cc93fed92a5838d4ea27c5a65526b4e7558'
 
-function pickAppKey () {
+/**
+ * @see https://github.com/ipfs/ipfs-webui/issues/2078
+ * @returns {Promise<string>}
+ */
+async function pickAppKey () {
   const isProd = process.env.NODE_ENV === 'production'
 
-  if (root.ipfsDesktop && root.ipfsDesktop.countlyAppKey) {
+  if (root.ipfsDesktop?.countlyAppKey) {
     return root.ipfsDesktop.countlyAppKey
-  } else {
-    return isProd ? COUNTLY_KEY_WEBUI : COUNTLY_KEY_WEBUI_TEST
   }
+
+  const env = await getDeploymentEnv()
+  if (env === 'kubo') {
+    return COUNTLY_KEY_WEBUI_KUBO
+  }
+  return isProd ? COUNTLY_KEY_WEBUI : COUNTLY_KEY_WEBUI_TEST
 }
 
 const consentGroups = {
@@ -149,19 +166,18 @@ const selectors = {
    */
   selectAnalyticsEnabled: (state) => state.analytics.consent.length > 0,
   /**
-   * Ask the user if we may enable analytics.
    * @param {State} state
    */
-  selectAnalyticsAskToEnable: (state) => {
-    const { lastEnabledAt, lastDisabledAt, consent } = state.analytics
-    // user has not explicitly chosen
-    if (!lastEnabledAt && !lastDisabledAt && consent.length === 0) {
-      // ask to enable.
-      return true
-    }
-    // user has already made an explicit choice; dont ask again.
-    return false
-  },
+  selectAnalyticsOptedOutPriorToDefaultOptIn: (state) => !state.analytics.optedOut && state.analytics.consent.length === 0 && state.analytics.lastDisabledAt > state.analytics.lastEnabledAt,
+  /**
+   * @param {State} state
+   */
+  selectAnalyticsOptedOut: (state) => state.analytics.optedOut,
+  /**
+   * Show or hide the analytics banner.
+   * @param {State} state
+   */
+  selectShowAnalyticsBanner: (state) => state.analytics.showAnalyticsBanner,
 
   selectAnalyticsActionsToRecord: createSelector(
     'selectIsIpfsDesktop',
@@ -257,12 +273,18 @@ const actions = {
     }
     addConsent(name, store)
     dispatch({ type: 'ANALYTICS_ADD_CONSENT', payload: { name } })
+  },
+  /**
+   * @param {boolean?} shouldShow
+   * @returns {function(Context):void}
+   */
+  doToggleShowAnalyticsBanner: (shouldShow) => ({ dispatch }) => {
+    dispatch({ type: 'SET_SHOW_ANALYTICS_BANNER', payload: { shouldShow } })
   }
 }
 
 const createAnalyticsBundle = ({
-  countlyUrl = 'https://countly.ipfs.io',
-  countlyAppKey = pickAppKey(),
+  countlyUrl = 'https://countly.ipfs.tech',
   appVersion = process.env.REACT_APP_VERSION,
   // @ts-ignore - declared but never used
   appGitRevision = process.env.REACT_APP_GIT_REV,
@@ -276,7 +298,8 @@ const createAnalyticsBundle = ({
       ACTIONS.ANALYTICS_DISABLED,
       ACTIONS.ANALYTICS_DISABLED,
       ACTIONS.ANALYTICS_ADD_CONSENT,
-      ACTIONS.ANALYTICS_REMOVE_CONSENT
+      ACTIONS.ANALYTICS_REMOVE_CONSENT,
+      ACTIONS.SET_SHOW_ANALYTICS_BANNER
     ],
 
     /**
@@ -294,7 +317,10 @@ const createAnalyticsBundle = ({
 
       Countly.require_consent = true
       Countly.url = countlyUrl
-      Countly.app_key = countlyAppKey
+      const countlyAppKeyPromise = pickAppKey()
+      countlyAppKeyPromise.then((appKey) => {
+        Countly.app_key = appKey
+      })
       Countly.app_version = appVersion
       Countly.debug = debug
 
@@ -310,10 +336,15 @@ const createAnalyticsBundle = ({
       // Don't track clicks or links as it can include full url.
       // Countly.q.push(['track_clicks'])
       // Countly.q.push(['track_links'])
-
       if (store.selectAnalyticsEnabled()) {
         const consent = store.selectAnalyticsConsent()
         addConsent(consent, store)
+      } else if (!store.selectAnalyticsOptedOut()) {
+        if (store.selectAnalyticsOptedOutPriorToDefaultOptIn()) {
+          store.doToggleShowAnalyticsBanner(true)
+        }
+        // add consent/opt in by default
+        store.doEnableAnalytics()
       }
 
       store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
@@ -329,6 +360,7 @@ const createAnalyticsBundle = ({
 
       // Fix for storybook error 'Countly.init is not a function'
       if (typeof Countly.init === 'function') {
+        await countlyAppKeyPromise
         Countly.init()
       }
     },
@@ -371,22 +403,29 @@ const createAnalyticsBundle = ({
       state = state || {
         lastEnabledAt: 0,
         lastDisabledAt: 0,
+        showAnalyticsBanner: false,
+        optedOut: false,
         consent: []
       }
 
       switch (action.type) {
         case ACTIONS.ANALYTICS_ENABLED:
-          return { ...state, lastEnabledAt: Date.now(), consent: action.payload.consent }
+          return { ...state, lastEnabledAt: Date.now(), consent: action.payload.consent, optedOut: false }
         case ACTIONS.ANALYTICS_DISABLED:
-          return { ...state, lastDisabledAt: Date.now(), consent: action.payload.consent }
+          return { ...state, lastDisabledAt: Date.now(), consent: action.payload.consent, optedOut: true, showAnalyticsBanner: false }
         case ACTIONS.ANALYTICS_ADD_CONSENT: {
           const consent = state.consent.filter(item => item !== action.payload.name).concat(action.payload.name)
-          return { ...state, lastEnabledAt: Date.now(), consent }
+          return { ...state, lastEnabledAt: Date.now(), consent, optedOut: false }
         }
         case ACTIONS.ANALYTICS_REMOVE_CONSENT: {
           const consent = state.consent.filter(item => item !== action.payload.name)
           const lastDisabledAt = (consent.length === 0) ? Date.now() : state.lastDisabledAt
-          return { ...state, lastDisabledAt, consent }
+          const didOptOutCompletely = consent.length === 0
+          return { ...state, lastDisabledAt, consent, optedOut: didOptOutCompletely, showAnalyticsBanner: false }
+        }
+        case ACTIONS.SET_SHOW_ANALYTICS_BANNER: {
+          const shouldShowAnalyticsBanner = action.payload?.shouldShow || false
+          return { ...state, showAnalyticsBanner: shouldShowAnalyticsBanner }
         }
         default: {
           // deal with missing consent state from 2.4.0 release.
