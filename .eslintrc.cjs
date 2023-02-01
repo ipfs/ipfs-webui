@@ -20,7 +20,7 @@ module.exports = {
       excludedFiles: '*.test.js',
       rules: {
         'import/no-anonymous-default-export': 'off',
-        'import/esm-extensions': 'error',
+        'import/esm-extensions': 'error'
       }
     }
   ]
