@@ -74,10 +74,10 @@ function webpackOverride (config) {
   const fallback = config.resolve.fallback || {}
 
   Object.assign(fallback, {
-    assert: require.resolve('./src/webpack-fallbacks/assert'),
-    stream: require.resolve('./src/webpack-fallbacks/stream'),
-    os: require.resolve('./src/webpack-fallbacks/os'),
-    path: require.resolve('./src/webpack-fallbacks/path')
+    assert: require.resolve('./src/webpack-fallbacks/assert.cjs'),
+    stream: require.resolve('./src/webpack-fallbacks/stream.cjs'),
+    os: require.resolve('./src/webpack-fallbacks/os.cjs'),
+    path: require.resolve('./src/webpack-fallbacks/path.cjs')
   })
 
   config.resolve.fallback = fallback
