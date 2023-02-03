@@ -9,11 +9,13 @@
  *    KUBO_PORT_2033_TEST=5001 npm run test:unit -- --runTestsByPath "test/kubo-webtransport.test.js" --env=./custom-jest-env.js
  */
 import { jest } from '@jest/globals'
-import * as kuboRpcClient from 'kubo-rpc-client'
-import * as ipfsdCtl from 'ipfsd-ctl'
-console.log('ipfsdCtl: ', ipfsdCtl)
-const { createController } = ipfsdCtl
-console.log('createController: ', createController)
+// import kuboRpcClient from 'kubo-rpc-client'
+// import * as ipfsdCtl from 'ipfsd-ctl'
+import * as goIpfs from 'go-ipfs'
+// const goIpfsBin = goIpfs.path()
+// console.log('ipfsdCtl: ', ipfsdCtl)
+// const { createController } = ipfsdCtl
+// console.log('createController: ', createController)
 
 describe('identity.js', function () {
   describe('Kubo webtransport fix test', function () {
@@ -21,9 +23,10 @@ describe('identity.js', function () {
     let ipfsd
     beforeAll(async () => {
       jest.setTimeout(60 * 1000)
-      // const ipfsdCtl = await import('ipfsd-ctl')
-      // console.log('ipfsdCtl: ', ipfsdCtl)
-      // const createController = ipfsdCtl.createController
+      const ipfsdCtl = (await import('ipfsd-ctl'))
+      console.log('typeof ipfsdCtl: ', typeof ipfsdCtl)
+      const createController = ipfsdCtl.createController
+      const kuboRpcClient = await import('kubo-rpc-client')
       /**
        * This test allows for a manual run of the Kubo daemon to reproduce and
        * prove a fix for https://github.com/ipfs/ipfs-webui/issues/2033
@@ -32,7 +35,7 @@ describe('identity.js', function () {
       if (KUBO_PORT == null) {
         ipfsd = await createController({
           type: 'go',
-          ipfsBin: (await import('go-ipfs')).default.path(),
+          ipfsBin: await goIpfs.path(),
           kuboRpcClient,
           test: true,
           disposable: true
@@ -50,6 +53,7 @@ describe('identity.js', function () {
     })
 
     it('should get the id', async function () {
+      console.log('should get the id: ')
       expect(async () => await ipfs.id()).not.toThrow()
       expect((await ipfs.id()).id).toEqual(expect.any(String))
     })
