@@ -1,10 +1,16 @@
-// const ipfsClient = require('ipfs-http-client')
-const kuboRpcClient = require('kubo-rpc-client')
+// import ipfsClient from 'ipfs-http-client'
+import * as kuboRpcModule from 'kubo-rpc-client'
 
-const Ctl = require('ipfsd-ctl')
-const path = require('path')
-const { console } = require('window-or-global')
-const fs = require('fs')
+import * as Ctl from 'ipfsd-ctl'
+
+import path from 'path'
+import windowOrGlobal from 'window-or-global'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const { console } = windowOrGlobal
+console.log('Ctl: ', Ctl)
 
 async function run (rpcPort) {
   const endpoint = process.env.E2E_API_URL
@@ -12,13 +18,13 @@ async function run (rpcPort) {
   let ipfs
   if (endpoint) {
     // create http client for endpoint passed via E2E_API_URL=
-    ipfs = kuboRpcClient.create(endpoint)
+    ipfs = kuboRpcModule.create(endpoint)
   } else {
     // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
     const type = process.env.E2E_IPFSD_TYPE || 'go'
     const factory = Ctl.createFactory({
-      kuboRpcClient,
-      ipfsModule: require('ipfs'),
+      kuboRpcModule,
+      ipfsModule: await import('ipfs'),
       type,
       ipfsOptions: {
         config: {
@@ -32,7 +38,7 @@ async function run (rpcPort) {
     },
     {
       go: {
-        ipfsBin: process.env.IPFS_GO_EXEC || require('go-ipfs').path()
+        ipfsBin: process.env.IPFS_GO_EXEC || (await import('go-ipfs')).default.path()
       },
       js: {
         ipfsBin: process.env.IPFS_JS_EXEC || path.resolve(__dirname, '../../../node_modules/ipfs/src/cli.js')
