@@ -90,11 +90,21 @@ function webpackOverride (config) {
   ])
 
   config.module.rules = modifyBabelLoaderRuleForBuild(config.module.rules)
+  config.module.rules.push({
+    test: /\.(js|jsx)$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'babel-loader',
+    options: { presets: ['@babel/env', '@babel/preset-react'] }
+  })
+  config.module.rules.push({
+    test: /\.css$/i,
+    use: ['style-loader', 'css-loader']
+  })
 
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'production'
   if (REACT_APP_ENV === 'test') {
-    config.module.rules = modifyBabelLoaderRuleForTest(config.module.rules)
+    // config.module.rules = modifyBabelLoaderRuleForTest(config.module.rules)
   }
 
   return config
@@ -108,53 +118,11 @@ const configOverride = {
      */
     return ({
       ...config,
-      // transform: {},
-      setupFilesAfterEnv: ['./src/setupJestTests.js'],
-      setupFiles: ['fake-indexeddb/auto'],
-      // fakeTimers: {
-      //   enableGlobally: true,
-      //   doNotFake: ['nextTick'],
-      //   timerLimit: 1000
-      // },
-      // timers: 'fake'
-      //   globals: {
-      //     ...config.globals,
-      //     crypto: require('crypto')
-      //   },
-      //   modulePaths: [
-      //     ...config.modulePaths,
-      //     'node_modules',
-      //     '<rootDir>',
-      //     '<rootDir>/node_modules'
-      //   ],
-      transform: {
-        // '.js': 'jest-esm-transformer',
-        //   // '^.*(?:kubo-rpc-client|ipfsd-ctl).*$': '<rootDir>/jest-esm-transformer.js',
-        // '^.+kubo-rpc-client.+$': '<rootDir>/jest-esm-transformer.js',
-        // '^.+kubo-rpc-client.+$': 'jest-esm-transformer',
-        // '^.+ipfs-core-utils/multibases.+$': 'jest-esm-transformer'
-        //   // '@multiformats/multiaddr': '<rootDir>/jest-esm-transformer.js',
-        //   // '^.+ipfsd-ctl/node_modules.+$': '<rootDir>/jest-esm-transformer.js',
-        //   // '^.+execa/node_modules.+$': '<rootDir>/jest-esm-transformer.js',
-        //   // 'node_modules/nanoid': '<rootDir>/jest-esm-transformer.js',
-        //   // '^.+/node_modules/kubo-rpc-client.+$': 'jest-esm-transformer',
-        //   // '^.+/node_modules/ipfsd-ctl.+$': 'jest-esm-transformer',
-        //   // '^.+/node_modules/ipfs-core-utils/src/multibases.js$': '<rootDir>/jest-esm-transformer.js',
-        // ...config.transform
-      //   // 'node_modules/kubo-rpc-client/.+\\.(js|jsx|mjs|cjs|ts|tsx)$': 'babel-jest'
-      //   // 'kubo-rpc-client': 'jest-esm-transformer'
+      setupFiles: [...config.setupFiles, 'fake-indexeddb/auto'],
+      moduleNameMapper: {
+        ...config.moduleNameMapper,
+        '\\.(css|less)$': 'identity-obj-proxy'
       }
-    //   // transformIgnorePatterns: [
-    //   //   '<rootDir>[/\\\\]node_modules[/\\\\](?!kubo-rpc-client|ipfsd-ctl|ipfsd-ctl\\/node_modules\\/|@libp2p\\/logger|nanoid|temp-write|@multiformats/multiaddr|is-ip|ip-regex|execa|strip-final-newline|npm-run-path|path-key|onetime|mimic-fn|human-signals|is-stream|p-wait-for).+\\.(js|jsx|mjs|cjs|ts|tsx)$',
-    //   //   '^.+\\.module\\.(css|sass|scss)$'
-    //   // ],
-    //   // moduleNameMapper: {
-    //   //   'ipfsd-ctl': '<rootDir>/node_modules/ipfsd-ctl/dist/src/index.js',
-    //   //   '@libp2p/logger': '<rootDir>/node_modules/@libp2p/logger/dist/src/index.js',
-    //   //   nanoid: '<rootDir>/node_modules/nanoid/index.js',
-    //   //   // '@multiformats/multiaddr': '<rootDir>/node_modules/@multiformats/multiaddr/dist/src/index.js',
-    //   //   'ipfs-core-utils/multibases': '<rootDir>/node_modules/ipfs-core-utils/src/multibases.js'
-    //   // }
     })
   }
 }
