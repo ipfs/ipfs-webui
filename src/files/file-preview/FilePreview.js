@@ -8,7 +8,7 @@ import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
 import CID from 'cids'
 import { useDrag } from 'react-dnd'
-import fromUint8ArrayToString from 'uint8arrays/to-string'
+import fromUint8ArrayToString from 'uint8arrays/to-string.js'
 import Button from '../../components/button/Button.js'
 
 const Drag = ({ name, size, cid, path, children }) => {
