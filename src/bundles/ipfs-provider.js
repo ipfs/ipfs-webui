@@ -1,6 +1,5 @@
 import multiaddr from 'multiaddr'
 // import HttpClient from 'ipfs-http-client'
-// import kuboRpcClient from 'kubo-rpc-client'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
 import first from 'it-first'
@@ -361,7 +360,7 @@ const actions = {
         }
         */
       }
-      const kuboRpcClient = await import('kubo-rpc-client')
+      const ipfshttpModule = await import('ipfs-http-client')
 
       if (typeof apiAddress === 'string') {
         ipfsOptions = {
@@ -392,7 +391,7 @@ const actions = {
 
           return true
         },
-        loadHttpClientModule: () => kuboRpcClient.create(),
+        loadHttpClientModule: () => ipfshttpModule.default,
         providers: [
           providers.httpClient(ipfsOptions)
         ]

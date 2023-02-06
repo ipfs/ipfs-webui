@@ -5,8 +5,6 @@
  * @see https://alchemy.com/blog/how-to-polyfill-node-core-modules-in-webpack-5
  */
 import webpack from 'webpack'
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
 
 const PURE_ESM_MODULES = [
   'ipfs-geoip'
@@ -74,10 +72,9 @@ function webpackOverride (config) {
   const fallback = config.resolve.fallback || {}
 
   Object.assign(fallback, {
-    assert: require.resolve('./src/webpack-fallbacks/assert.cjs'),
-    stream: require.resolve('./src/webpack-fallbacks/stream.cjs'),
-    os: require.resolve('./src/webpack-fallbacks/os.cjs'),
-    path: require.resolve('./src/webpack-fallbacks/path.cjs')
+    stream: 'stream-browserify',
+    os: 'os-browserify/browser',
+    path: 'path-browserify'
   })
 
   config.resolve.fallback = fallback
@@ -96,15 +93,11 @@ function webpackOverride (config) {
     loader: 'babel-loader',
     options: { presets: ['@babel/env', '@babel/preset-react'] }
   })
-  config.module.rules.push({
-    test: /\.css$/i,
-    use: ['style-loader', 'css-loader']
-  })
 
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'production'
   if (REACT_APP_ENV === 'test') {
-    // config.module.rules = modifyBabelLoaderRuleForTest(config.module.rules)
+    config.module.rules = modifyBabelLoaderRuleForTest(config.module.rules)
   }
 
   return config
@@ -121,7 +114,8 @@ const configOverride = {
       setupFiles: [...config.setupFiles, 'fake-indexeddb/auto'],
       moduleNameMapper: {
         ...config.moduleNameMapper,
-        '\\.(css|less)$': 'identity-obj-proxy'
+        'multiformats/basics': '<rootDir>/node_modules/multiformats/cjs/src/basics.js',
+        'multiformats/bases/(.*)$': '<rootDir>/node_modules/multiformats/cjs/src/bases/$1.js'
       }
     })
   }

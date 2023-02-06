@@ -25,6 +25,7 @@ import experimentsBundle from './experiments.js'
 import cliTutorModeBundle from './cli-tutor-mode.js'
 import gatewayBundle from './gateway.js'
 import ipnsBundle from './ipns.js'
+// const { exploreBundle } = ipldExplorerComponents
 
 export default composeBundles(
   createCacheBundle({
