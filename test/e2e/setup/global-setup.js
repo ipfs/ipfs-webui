@@ -1,8 +1,12 @@
-const { chromium } = require('@playwright/test')
-const path = require('path')
-const fs = require('fs')
+import { chromium } from '@playwright/test'
+import path from 'node:path'
+import fs from 'node:fs'
+import { fileURLToPath } from 'url'
 
-module.exports = async config => {
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const globalSetup = async config => {
   // Read and expose backend info in env availables inside of test() blocks
   const { rpcAddr, id, agentVersion } = JSON.parse(fs.readFileSync(path.join(__dirname, 'ipfs-backend.json')))
   process.env.IPFS_RPC_ADDR = rpcAddr
@@ -19,3 +23,5 @@ module.exports = async config => {
   await page.context().storageState({ path: storageState })
   await browser.close()
 }
+
+export default globalSetup

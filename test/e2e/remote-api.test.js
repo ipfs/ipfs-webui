@@ -1,10 +1,11 @@
-const { test, expect } = require('./setup/coverage')
-const { createController } = require('ipfsd-ctl')
-const getPort = require('get-port')
-const http = require('http')
-const httpProxy = require('http-proxy')
-const basicAuth = require('basic-auth')
-const toUri = require('multiaddr-to-uri')
+import { test, expect } from './setup/coverage.js'
+import { createController } from 'ipfsd-ctl'
+import getPort from 'get-port'
+import { createServer } from 'http'
+import httpProxy from 'http-proxy'
+import basicAuth from 'basic-auth'
+import toUri from 'multiaddr-to-uri'
+const { createProxyServer } = httpProxy
 
 test.describe('Remote API tests', () => {
   // Basic Auth Proxy Setup
@@ -42,7 +43,7 @@ test.describe('Remote API tests', () => {
     user = 'user'
     password = 'pass'
 
-    const proxy = httpProxy.createProxyServer()
+    const proxy = createProxyServer()
     rpcMaddr = ipfsd.apiAddr.toString()
     const remoteApiUrl = toUri(rpcMaddr, { assumeHttp: true })
     rpcUrl = new URL(remoteApiUrl).toString() // normalization for browsers
@@ -59,7 +60,7 @@ test.describe('Remote API tests', () => {
       res.end(`proxyd error: ${JSON.stringify(err)}`)
     })
 
-    proxyd = http.createServer((req, res) => {
+    proxyd = createServer((req, res) => {
     // console.log(`${req.method}\t\t${req.url}`)
 
       res.oldWriteHead = res.writeHead

@@ -1,7 +1,7 @@
-const { test } = require('./setup/coverage')
-const { createController } = require('ipfsd-ctl')
+import { test } from './setup/coverage.js'
+import { createController } from 'ipfsd-ctl'
 // const ipfsClient = require('ipfs-http-client')
-const kuboRpcClient = require('kubo-rpc-client').create
+import { create as kuboRpcClient } from 'kubo-rpc-client'
 
 const addConnection = 'text=Add connection'
 

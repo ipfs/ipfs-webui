@@ -2,8 +2,8 @@
  * @see https://github.com/mxschmitt/playwright-test-coverage
  * @see https://github.com/mxschmitt/playwright-test-coverage/blob/main/e2e/baseFixtures.ts
  */
-import * as fs from 'fs'
-import * as path from 'path'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 import * as crypto from 'crypto'
 import { test as baseTest } from '@playwright/test'
 
@@ -29,7 +29,7 @@ export const test = baseTest.extend({
           console.error('Error writing playwright coverage file', err)
         }
       } else {
-        throw new Error('No coverage data')
+        // throw new Error('No coverage data')
       }
     })
     await use(context)

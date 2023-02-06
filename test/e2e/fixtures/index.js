@@ -1,11 +1,7 @@
-const fs = require('fs')
-const path = require('path')
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
-const fixtureData = (filename, encoding = 'utf8') => {
-  const filepath = path.join(__dirname, filename)
-  return { path: filepath, data: fs.readFileSync(filepath, encoding) }
-}
-
-module.exports = {
-  fixtureData
+export const fixtureData = (filename, encoding = 'utf8') => {
+  const filepath = join(__dirname, filename)
+  return { path: filepath, data: readFileSync(filepath, encoding) }
 }

@@ -1,8 +1,10 @@
-const { test, expect } = require('./setup/coverage')
-const fs = require('fs')
-const path = require('path')
-// const ipfsClient = require('ipfs-http-client')
-const kuboRpcClient = require('kubo-rpc-client').create
+import { test, expect } from './setup/coverage.js'
+import { readFileSync } from 'fs'
+import { join, dirname } from 'path'
+import ipfsHttpClient from 'ipfs-http-client'
+import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 test.describe('Explore screen', () => {
   test.beforeEach(async ({ page }) => {
@@ -18,8 +20,8 @@ test.describe('Explore screen', () => {
   test('should open arbitrary CID', async ({ page }) => {
     // add a local file to repo so test is fast and works in offline mode
     const cid = 'bafkreicgkmwhdunxgdqwqveecdo3wqmgulb4azm6sfnrtvd7g47mnrixji'
-    const expectedData = fs.readFileSync(path.join(__dirname, '../../LICENSE'), 'utf8')
-    const ipfs = kuboRpcClient(process.env.IPFS_RPC_ADDR)
+    const expectedData = readFileSync(join(__dirname, '../../LICENSE'), 'utf8')
+    const ipfs = ipfsHttpClient(process.env.IPFS_RPC_ADDR)
     const result = await ipfs.add(expectedData, { cidVersion: 1 })
     await expect(result.cid.toString()).toStrictEqual(cid)
 

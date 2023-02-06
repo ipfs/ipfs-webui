@@ -1,9 +1,9 @@
-const { test } = require('./setup/coverage')
-const { fixtureData } = require('./fixtures')
-const all = require('it-all')
-const filesize = require('filesize')
+import { test } from './setup/coverage.js'
+import { fixtureData } from './fixtures/index.js'
+import all from 'it-all'
+import filesize from 'filesize'
 // const ipfsClient = require('ipfs-http-client')
-const kuboRpcClient = require('kubo-rpc-client').create
+import { create as kuboRpcClient } from 'kubo-rpc-client'
 
 test.describe('Files screen', () => {
   test.beforeEach(async ({ page }) => {
