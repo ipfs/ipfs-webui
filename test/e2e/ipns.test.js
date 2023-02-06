@@ -1,7 +1,8 @@
 import { test, expect } from './setup/coverage.js'
 import { createController } from 'ipfsd-ctl'
-// const ipfsClient = require('ipfs-http-client')
-import { create as kuboRpcClient } from 'kubo-rpc-client'
+import ipfsHttpModule from 'ipfs-http-client'
+import { path as getGoIpfsPath } from 'go-ipfs'
+// import { create as kuboRpcClient } from 'kubo-rpc-client'
 
 test.describe('IPNS publishing', () => {
   let ipfsd
@@ -11,8 +12,11 @@ test.describe('IPNS publishing', () => {
     // spawn a second ephemeral local node as a peer for ipns publishing
     ipfsd = await createController({
       type: 'go',
-      ipfsBin: require('go-ipfs').path(),
-      kuboRpcModule: require('kubo-rpc-client'),
+      ipfsBin: getGoIpfsPath(),
+      ipfsHttpModule: {
+        create: ipfsHttpModule
+      },
+      // kuboRpcModule,
       test: true,
       disposable: true
     })
@@ -23,7 +27,7 @@ test.describe('IPNS publishing', () => {
   test.describe('Settings screen', () => {
     let ipfs
     test.beforeEach(async ({ page }) => {
-      ipfs = kuboRpcClient(process.env.IPFS_RPC_ADDR)
+      ipfs = ipfsHttpModule(process.env.IPFS_RPC_ADDR)
       await page.goto('/#/settings')
     })
     test('should list IPNS keys', async ({ page }) => {
@@ -73,7 +77,7 @@ test.describe('IPNS publishing', () => {
     let ipfs
     test.beforeEach(async ({ page }) => {
       keyName = 'pet-name-e2e-ipns-test-' + new Date().getTime()
-      ipfs = kuboRpcClient(process.env.IPFS_RPC_ADDR)
+      ipfs = ipfsHttpModule(process.env.IPFS_RPC_ADDR)
       await ipfs.key.gen(keyName)
       await page.goto('/#/files')
       await page.reload()
