@@ -1,12 +1,11 @@
 // import * as kuboRpcModule from 'kubo-rpc-client'
 import ipfsHttpModule from 'ipfs-http-client'
-
 import * as Ctl from 'ipfsd-ctl'
-
-import path from 'path'
 import windowOrGlobal from 'window-or-global'
-import fs from 'fs'
+import fs from 'node:fs'
+import path from 'node:path'
 import { fileURLToPath } from 'url'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const { console } = windowOrGlobal
