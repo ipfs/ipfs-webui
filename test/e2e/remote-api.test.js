@@ -5,6 +5,8 @@ import { createServer } from 'http'
 import httpProxy from 'http-proxy'
 import basicAuth from 'basic-auth'
 import toUri from 'multiaddr-to-uri'
+import { path as getGoIpfsPath } from 'go-ipfs'
+import ipfsHttpModule from 'ipfs-http-client'
 const { createProxyServer } = httpProxy
 
 test.describe('Remote API tests', () => {
@@ -30,8 +32,11 @@ test.describe('Remote API tests', () => {
   // spawn an ephemeral local node to ensure we connect to a different, remote node
     ipfsd = await createController({
       type: 'go',
-      ipfsBin: require('go-ipfs').path(),
-      kuboRpcClient: require('kubo-rpc-client'),
+      ipfsBin: getGoIpfsPath(),
+      // kuboRpcModule,
+      ipfsHttpModule: {
+        create: ipfsHttpModule
+      },
       test: true,
       disposable: true
     })
