@@ -2,6 +2,8 @@ import { test } from './setup/coverage.js'
 import { createController } from 'ipfsd-ctl'
 // const ipfsClient = require('ipfs-http-client')
 import { create as kuboRpcClient } from 'kubo-rpc-client'
+import ipfsHttpModule from 'ipfs-http-client'
+import { path as getGoIpfsPath } from 'go-ipfs'
 
 const addConnection = 'text=Add connection'
 
@@ -12,8 +14,11 @@ test.describe('Peers screen', () => {
     // spawn an ephemeral local node for manual swarm connect test
     ipfsd = await createController({
       type: 'go',
-      ipfsBin: require('go-ipfs').path(),
-      kuboRpcClient: require('kubp-rpc-client'),
+      ipfsBin: getGoIpfsPath(),
+      ipfsHttpModule: {
+        create: ipfsHttpModule
+      },
+      // kuboRpcModule,
       test: true,
       disposable: true
     })
