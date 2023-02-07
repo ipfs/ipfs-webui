@@ -6,7 +6,6 @@ import filesize from 'filesize'
 // import { create as kuboRpcClient } from 'kubo-rpc-client'
 import ipfsHttpModule from 'ipfs-http-client'
 
-
 test.describe('Files screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/files')
