@@ -1,4 +1,4 @@
-// import React from '@storybook/react'
+import React from 'react'
 import ProgressBar from './ProgressBar.js'
 
 /**

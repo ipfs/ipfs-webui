@@ -18,25 +18,41 @@ const filterByTextQuery = (icon) => {
  */
 export default {
   title: 'Icons',
-  decorators: [withKnobs]
+  component: List,
+  // decorators: [withKnobs],
+  argTypes: {
+    iconFilter: {
+      control: { type: 'text' }
+    },
+    size: {
+      control: {
+        type: 'range',
+        min: 1,
+        max: 200,
+        step: 1
+      }
+    },
+    fill: {
+      control: {
+        type: 'color'
+      }
+    },
+    stroke: {
+      control: {
+        type: 'color'
+      }
+    }
+  }
 }
-
 /**
  * @type {import('@storybook/react').StoryObj}
  */
-export const List = () => {
-  const size = number('Size', 32, { range: true, min: 1, max: 200, step: 1 })
-  const fill = color('Fill', undefined)
-  const stroke = color('Stroke', undefined)
-
-  return (
-    <div className="flex w-100 flex-wrap">
-      {icons.filter(filterByTextQuery).map(({ Icon, name }) => (
-        <div className="flex items-center flex-column ma3">
-          <Icon fill={fill} stroke={stroke} width={size} height={size} className="transition-all" />
-          <span>{name}</span>
-        </div>
-      ))}
-    </div>
-  )
+export const Default = {
+  name: 'Icons',
+  args: {
+    iconFilter: '',
+    size: 32,
+    fill: undefined,
+    stroke: undefined
+  }
 }

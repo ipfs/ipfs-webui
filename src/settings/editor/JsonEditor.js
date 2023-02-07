@@ -1,12 +1,12 @@
 import React from 'react'
-import AceEditorImport from 'react-ace'
+import * as AceEditorImport from 'react-ace'
 
 import 'brace/mode/json.js'
 import './theme/ipfs_dark.js'
 
 const AceEditor = AceEditorImport.default
 
-class JsonEditor extends React.Component {
+export class JsonEditor extends React.Component {
   render () {
     const { value, readOnly, onChange } = this.props
     const lineHeight = 16

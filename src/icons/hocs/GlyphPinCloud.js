@@ -1,3 +1,4 @@
+import React from 'react'
 import GlyphPinCloudRegular from '../GlyphPinCloud.js'
 import GlyphPinCloudFailed from '../GlyphPinCloudFailed.js'
 

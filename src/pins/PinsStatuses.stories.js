@@ -1,22 +1,14 @@
-// import React from '@storybook/react'
+import React from 'react'
 import { action } from '@storybook/addon-actions'
 import i18nDecorator from '../i18n-decorator.js'
-import PinsStatuses from './PinsStatuses.js'
-
-/**
- * @type {import('@storybook/react').Meta}
- */
-export default {
-  title: 'Pins/PinsStatuses',
-  decorators: [i18nDecorator]
-}
+import PinsStatusesComponent from './PinsStatuses.js'
 
 /**
  * @type {import('@storybook/react').StoryObj}
  */
-export const Default = () => (
+const PinStatusesStory = () => (
   <div className='sans-serif pa2'>
-    <PinsStatuses
+    <PinsStatusesComponent
       pendingPins={[
         'Pinata:QmZ4tDuvesekSs4qM5ZBKpXiZGun7S2CYtEZRB3DYXkjGx',
         'local:QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG',
@@ -38,3 +30,17 @@ export const Default = () => (
     />
   </div>
 )
+
+/**
+ * @type {import('@storybook/react').Meta}
+ */
+export default {
+  title: 'Pins/PinsStatuses',
+  component: PinStatusesStory,
+  decorators: [i18nDecorator]
+}
+
+/**
+ * @type {import('@storybook/react').StoryObj}
+ */
+export const PinsStatuses = {}

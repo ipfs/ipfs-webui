@@ -1,3 +1,4 @@
+import React from 'react'
 import { Provider } from 'redux-bundler-react'
 import { I18nextProvider } from 'react-i18next'
 import { DndProvider } from 'react-dnd'
