@@ -94,6 +94,14 @@ function webpackOverride (config) {
     options: { presets: ['@babel/env', '@babel/preset-react'] }
   })
 
+  config.module.rules.push({
+    test: /\.(m?js)$/,
+    type: 'javascript/auto',
+    resolve: {
+      fullySpecified: false
+    }
+  })
+
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'production'
   if (REACT_APP_ENV === 'test') {

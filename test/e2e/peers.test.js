@@ -1,7 +1,7 @@
 import { test } from './setup/coverage.js'
 import { createController } from 'ipfsd-ctl'
 // const ipfsClient = require('ipfs-http-client')
-import { create as kuboRpcClient } from 'kubo-rpc-client'
+// import { create as kuboRpcClient } from 'kubo-rpc-client'
 import ipfsHttpModule from 'ipfs-http-client'
 import { path as getGoIpfsPath } from 'go-ipfs'
 
@@ -26,7 +26,7 @@ test.describe('Peers screen', () => {
     peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
 
     // connect ipfs-backend used by webui to this new peer to have something  in the peer table
-    const webuiIpfs = kuboRpcClient(process.env.IPFS_RPC_ADDR)
+    const webuiIpfs = ipfsHttpModule(process.env.IPFS_RPC_ADDR)
     await webuiIpfs.swarm.connect(peeraddr)
   })
 

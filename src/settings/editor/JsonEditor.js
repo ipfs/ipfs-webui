@@ -1,10 +1,8 @@
 import React from 'react'
-import * as AceEditorImport from 'react-ace'
+import AceEditor from 'react-ace'
 
 import 'brace/mode/json.js'
 import './theme/ipfs_dark.js'
-
-const AceEditor = AceEditorImport.default
 
 export class JsonEditor extends React.Component {
   render () {
