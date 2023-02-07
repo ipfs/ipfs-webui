@@ -4,9 +4,9 @@ import { DndProvider } from 'react-dnd'
 import 'react-virtualized/styles.css'
 import '../src/index.css'
 
-import getStore from '../src/bundles'
-import i18n from '../src/i18n'
-import DndBackend from '../src/lib/dnd-backend'
+import getStore from '../src/bundles/index.js'
+import i18n from '../src/i18n.js'
+import DndBackend from '../src/lib/dnd-backend.js'
 
 /**
  * @type {import('@storybook/addons').BaseAnnotations}
@@ -38,3 +38,8 @@ const baseAnnotations = {
 
 export const decorators = baseAnnotations.decorators
 export const argTypes = baseAnnotations.argTypes
+
+// module.exports = {
+//   decorators: baseAnnotations.decorators,
+//   argTypes: baseAnnotations.argTypes
+// }

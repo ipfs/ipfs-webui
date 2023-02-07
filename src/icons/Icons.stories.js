@@ -1,4 +1,4 @@
-import React from '@storybook/react'
+// import React from '@storybook/react'
 import { withKnobs, text, number, color } from '@storybook/addon-knobs'
 
 const requireContext = require.context('.', true, /\.js?$/)

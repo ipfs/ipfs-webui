@@ -1,4 +1,4 @@
-import React from '@storybook/react'
+// import React from '@storybook/react'
 
 import i18n from '../../i18n.js'
 import PinningManager from './PinningManager.js'

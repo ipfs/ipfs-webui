@@ -1,4 +1,4 @@
-import React from '@storybook/react'
+// import React from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import i18nDecorator from '../i18n-decorator.js'
 import PinsStatuses from './PinsStatuses.js'

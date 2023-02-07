@@ -1,4 +1,4 @@
-import React from '@storybook/react'
+// import React from '@storybook/react'
 import i18n from '../i18n-decorator.js'
 
 import { TranslatedStatusConnected as StatusConnected } from './StatusConnected.js'
