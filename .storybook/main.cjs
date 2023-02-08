@@ -38,7 +38,6 @@ const storybookConfig = {
     babelModeV7: true
   },
   webpackFinal: async (config) => {
-    // console.log('config: ', config)
     const { webpack: webpackOverride } = (await import('../config-overrides.js')).default
 
     config.module.rules.push({

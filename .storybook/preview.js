@@ -39,8 +39,3 @@ const baseAnnotations = {
 
 export const decorators = baseAnnotations.decorators
 export const argTypes = baseAnnotations.argTypes
-
-// module.exports = {
-//   decorators: baseAnnotations.decorators,
-//   argTypes: baseAnnotations.argTypes
-// }
