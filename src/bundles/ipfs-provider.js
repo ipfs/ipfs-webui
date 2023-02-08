@@ -1,5 +1,4 @@
 import multiaddr from 'multiaddr'
-// import HttpClient from 'ipfs-http-client'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
 import first from 'it-first'

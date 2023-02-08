@@ -45,8 +45,6 @@ const config = {
     },
   ],
   */
-  // globalSetup: require.resolve('./setup/global-setup'),
-  // globalTeardown: require.resolve('./setup/global-teardown'),
   globalSetup: './setup/global-setup.js',
   globalTeardown: './setup/global-teardown.js',
   webServer: [
@@ -78,5 +76,4 @@ const config = {
   }
 }
 
-// module.exports = defineConfig(config)
 export default defineConfig(config)

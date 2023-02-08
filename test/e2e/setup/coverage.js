@@ -29,7 +29,7 @@ export const test = baseTest.extend({
           console.error('Error writing playwright coverage file', err)
         }
       } else {
-        // throw new Error('No coverage data')
+        throw new Error('No coverage data')
       }
     })
     await use(context)

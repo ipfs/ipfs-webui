@@ -1,6 +1,5 @@
 import { test } from './setup/coverage.js'
 import { createController } from 'ipfsd-ctl'
-// const ipfsClient = require('ipfs-http-client')
 // import { create as kuboRpcClient } from 'kubo-rpc-client'
 import ipfsHttpModule from 'ipfs-http-client'
 import { path as getGoIpfsPath } from 'go-ipfs'
