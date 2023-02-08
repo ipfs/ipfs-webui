@@ -74,7 +74,7 @@ jobs:
         id: ipfs
         run: |
           root_cid=$(ipfs add --cid-version 1 -Q -r ./build)
-          echo "::set-output name=cid::$root_cid"
+          echo "cid=$root_cid" >> $GITHUB_OUTPUT
 
       - run: echo ${{ steps.ipfs.outputs.cid }}
       - run: echo ${{ github.ref }}
