@@ -51,7 +51,7 @@ jobs:
     - name: Get exact nodejs version
       id: node_version
       run: |
-        echo "::set-output name=version::$(node --version)"
+        echo "version=$(node --version)" >> $GITHUB_OUTPUT
 
     - name: Cache bigger downloads
       uses: actions/cache@v2
