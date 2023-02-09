@@ -88,14 +88,14 @@ function webpackOverride (config) {
 
   config.module.rules = modifyBabelLoaderRuleForBuild(config.module.rules)
   config.module.rules.push({
-    test: /\.(js|jsx)$/,
+    test: /\.jsx?$/,
     exclude: /(node_modules|bower_components)/,
     loader: 'babel-loader',
     options: { presets: ['@babel/env', '@babel/preset-react'] }
   })
 
   config.module.rules.push({
-    test: /\.(m?js)$/,
+    test: /\.m?js$/,
     type: 'javascript/auto',
     resolve: {
       fullySpecified: false
