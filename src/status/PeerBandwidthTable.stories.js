@@ -27,11 +27,11 @@ const defaultState = {
   peerLocations: {
     peer1: {
       country_name: 'United States',
-      country_code: 'US',
+      country_code: 'US'
     },
     peer2: {
       country_name: 'Canada',
-      country_code: 'CA',
+      country_code: 'CA'
     }
   }
 }
@@ -69,6 +69,6 @@ export default {
 export const PeerBandwidthTable = {
   args: {
     peerBandwidthPeers: defaultState.peerBandwidthPeers,
-    peerLocations: defaultState.peerLocations,
+    peerLocations: defaultState.peerLocations
   }
 }
