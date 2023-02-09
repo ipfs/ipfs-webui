@@ -1,4 +1,5 @@
 // const { devices } = require('@playwright/test')
+import { defineConfig } from '@playwright/test'
 
 const webuiPort = 3001
 const rpcPort = 55001
@@ -11,6 +12,7 @@ const config = {
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: (process.env.DEBUG || process.env.CI) ? 1 : undefined,
+  reuseExistingServer: !process.env.CI,
   reporter: 'list',
   use: {
     headless: !process.env.DEBUG,
@@ -43,8 +45,8 @@ const config = {
     },
   ],
   */
-  globalSetup: require.resolve('./setup/global-setup'),
-  globalTeardown: require.resolve('./setup/global-teardown'),
+  globalSetup: './setup/global-setup.js',
+  globalTeardown: './setup/global-teardown.js',
   webServer: [
     {
       command: `node ipfs-backend.js ${rpcPort}`,
@@ -53,7 +55,8 @@ const config = {
       reuseExistingServer: !process.env.CI
     },
     {
-      command: `http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
+      // command: 'npm run start',
+      command: `npx http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
       port: webuiPort,
       cwd: '../../',
       reuseExistingServer: !process.env.CI,
@@ -73,4 +76,4 @@ const config = {
   }
 }
 
-module.exports = config
+export default defineConfig(config)

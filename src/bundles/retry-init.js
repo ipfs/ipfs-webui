@@ -1,5 +1,5 @@
 import { createSelector } from 'redux-bundler'
-import { ACTIONS } from './ipfs-provider'
+import { ACTIONS } from './ipfs-provider.js'
 
 /**
  * @typedef {import('./ipfs-provider').Message} Message

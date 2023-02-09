@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
-import Button from '../button/Button'
-import { checkValidAPIAddress } from '../../bundles/ipfs-provider'
+import Button from '../button/Button.js'
+import { checkValidAPIAddress } from '../../bundles/ipfs-provider.js'
 
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFailed }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))

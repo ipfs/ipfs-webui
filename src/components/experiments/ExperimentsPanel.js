@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import Checkbox from '../checkbox/Checkbox'
-import Box from '../box/Box'
-import Title from '../../settings/Title'
+import Checkbox from '../checkbox/Checkbox.js'
+import Box from '../box/Box.js'
+import Title from '../../settings/Title.js'
 
 const Experiments = ({ doExpToggleAction, experiments, t }) => {
   // if there are no experiments to show don't render

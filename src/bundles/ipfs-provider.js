@@ -1,12 +1,11 @@
 import multiaddr from 'multiaddr'
-import HttpClient from 'ipfs-http-client'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
 import first from 'it-first'
 import last from 'it-last'
-import * as Enum from './enum'
-import { perform } from './task'
-import { readSetting, writeSetting } from './local-storage'
+import * as Enum from './enum.js'
+import { perform } from './task.js'
+import { readSetting, writeSetting } from './local-storage.js'
 
 /* TODO: restore when  no longer bundle standalone ipld with ipld-explorer
  * context: https://github.com/ipfs/ipld-explorer-components/pull/289
@@ -226,7 +225,7 @@ const asMultiaddress = (value) => {
  */
 
 /**
- * Attempts to turn parse given input as an options object for ipfs-http-client.
+ * Attempts to turn parse given input as an options object for kubo-rpc-client.
  * @param {string|object} value
  * @returns {HTTPClientOptions|null}
  */
@@ -266,7 +265,7 @@ const parseHTTPClientOptions = (input) => {
  * @returns {HTTPClientOptions|null}
  */
 const readHTTPClientOptions = (value) => {
-  // https://github.com/ipfs/js-ipfs/tree/master/packages/ipfs-http-client#importing-the-module-and-usage
+  // https://github.com/ipfs/js-kubo-rpc-client#importing-the-module-and-usage
   if (value && (!!value.url || value.host || value.apiPath || value.protocol || value.port || value.headers)) {
     return value
   } else {
@@ -360,6 +359,7 @@ const actions = {
         }
         */
       }
+      const ipfshttpModule = await import('ipfs-http-client')
 
       if (typeof apiAddress === 'string') {
         ipfsOptions = {
@@ -390,7 +390,7 @@ const actions = {
 
           return true
         },
-        loadHttpClientModule: () => HttpClient,
+        loadHttpClientModule: () => ipfshttpModule.default,
         providers: [
           providers.httpClient(ipfsOptions)
         ]

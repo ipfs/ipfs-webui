@@ -1,5 +1,5 @@
 import React from 'react'
-import CancelIcon from '../../icons/GlyphSmallCancel'
+import CancelIcon from '../../icons/GlyphSmallCancel.js'
 
 const Toast = ({ error, children, onDismiss }) => {
   const bg = error ? 'bg-yellow' : 'bg-green'

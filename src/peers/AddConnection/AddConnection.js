@@ -3,13 +3,13 @@ import { withTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import isIPFS from 'is-ipfs'
 
-import Checkbox from '../../components/checkbox/Checkbox'
-import Icon from '../../icons/StrokeDecentralization'
-import Button from '../../components/button/Button'
-import Overlay from '../../components/overlay/Overlay'
+import Checkbox from '../../components/checkbox/Checkbox.js'
+import Icon from '../../icons/StrokeDecentralization.js'
+import Button from '../../components/button/Button.js'
+import Overlay from '../../components/overlay/Overlay.js'
 
-import ComponentLoader from '../../loader/ComponentLoader'
-import { Modal, ModalActions, ModalBody } from '../../components/modal/Modal'
+import ComponentLoader from '../../loader/ComponentLoader.js'
+import { Modal, ModalActions, ModalBody } from '../../components/modal/Modal.js'
 
 class AddConnection extends React.Component {
   state = {

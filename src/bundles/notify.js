@@ -1,6 +1,6 @@
 import { createSelector } from 'redux-bundler'
-import { ACTIONS as EXP_ACTIONS } from './experiments'
-import { ACTIONS as FILES_ACTIONS } from './files'
+import { ACTIONS as EXP_ACTIONS } from './experiments.js'
+import { ACTIONS as FILES_ACTIONS } from './files/index.js'
 
 /*
 # Notify

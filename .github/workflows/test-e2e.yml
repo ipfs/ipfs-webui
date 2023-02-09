@@ -34,6 +34,9 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+
       # This is required to ensure that our code is instrumented with coverage details
       - name: Run test build
         run: npm run test:build

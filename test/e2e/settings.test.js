@@ -1,4 +1,4 @@
-const { test } = require('./setup/coverage')
+import { test } from './setup/coverage.js'
 
 test.describe('Settings screen', () => {
   test.beforeEach(async ({ page }) => {

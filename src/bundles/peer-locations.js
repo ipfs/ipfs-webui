@@ -168,7 +168,12 @@ const getPublicIP = memoize((identity) => {
       if ((ip.isV4Format(addr.address) || ip.isV6Format(addr.address)) && !ip.isPrivate(addr.address)) {
         return addr.address
       }
-    } catch (_) {}
+    } catch (e) {
+      // TODO: We should provide a way to log these errors when debugging
+      // if (['development', 'test'].includes(process.env.REACT_APP_ENV)) {
+      //   console.error(e)
+      // }
+    }
   }
 })
 

@@ -1,6 +1,7 @@
-/* global it, expect, jest */
+/* global it, expect */
+import { jest } from '@jest/globals'
 import { composeBundlesRaw } from 'redux-bundler'
-import createFilesBundle from './files'
+import createFilesBundle from './files/index.js'
 import CID from 'cids'
 
 const iterate = async function * (items) {

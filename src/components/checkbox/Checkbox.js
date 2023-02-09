@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Tick from '../../icons/GlyphSmallTick'
+import Tick from '../../icons/GlyphSmallTick.js'
 import './Checkbox.css'
 
 const Checkbox = ({ className, label, disabled, checked, onChange, ...props }) => {

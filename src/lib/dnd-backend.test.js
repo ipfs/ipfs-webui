@@ -1,5 +1,5 @@
 /* global it, expect */
-import DnDBackend from './dnd-backend'
+import DnDBackend from './dnd-backend.js'
 
 function makeEntry (item) {
   if (item.isFile) {

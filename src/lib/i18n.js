@@ -1,4 +1,4 @@
-import i18n from '../i18n'
+import i18n from '../i18n.js'
 // languages.json generated from our locale dir via https://github.com/olizilla/lol
 import languages from './languages.json'
 

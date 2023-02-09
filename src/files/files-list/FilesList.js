@@ -5,17 +5,17 @@ import { connect } from 'redux-bundler-react'
 import { Trans, withTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import { join } from 'path'
-import { sorts } from '../../bundles/files'
-import { normalizeFiles } from '../../lib/files'
+import { sorts } from '../../bundles/files/index.js'
+import { normalizeFiles } from '../../lib/files.js'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 // React DnD
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { useDrop } from 'react-dnd'
 // Components
-import Checkbox from '../../components/checkbox/Checkbox'
-import SelectedActions from '../selected-actions/SelectedActions'
-import File from '../file/File'
-import LoadingAnimation from '../../components/loading-animation/LoadingAnimation'
+import Checkbox from '../../components/checkbox/Checkbox.js'
+import SelectedActions from '../selected-actions/SelectedActions.js'
+import File from '../file/File.js'
+import LoadingAnimation from '../../components/loading-animation/LoadingAnimation.js'
 
 const addFiles = async (filesPromise, onAddFiles) => {
   const files = await filesPromise

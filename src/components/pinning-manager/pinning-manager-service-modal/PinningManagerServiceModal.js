@@ -6,8 +6,8 @@ import { withTranslation, Trans } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 
 // Components
-import { Modal, ModalBody, ModalActions } from '../../modal/Modal'
-import Button from '../../button/Button'
+import { Modal, ModalBody, ModalActions } from '../../modal/Modal.js'
+import Button from '../../button/Button.js'
 import './PinningManagerServiceModal.css'
 
 const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service, tReady, doAddPinningService, nickname, apiEndpoint, visitServiceUrl, secretApiKey, complianceReportUrl, ...props }) => {

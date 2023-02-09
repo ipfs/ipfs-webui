@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import { getCurrentLanguage } from '../../lib/i18n'
+import { getCurrentLanguage } from '../../lib/i18n.js'
 
 // Components
-import Button from '../button/Button'
-import Overlay from '../overlay/Overlay'
-import LanguageModal from './language-modal/LanguageModal'
+import Button from '../button/Button.js'
+import Overlay from '../overlay/Overlay.js'
+import LanguageModal from './language-modal/LanguageModal.js'
 
 class LanguageSelector extends Component {
   state = { isLanguageModalOpen: false }

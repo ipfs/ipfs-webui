@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import PencilIcon from '../../../icons/StrokePencil'
-import TextInputModal from '../../../components/text-input-modal/TextInputModal'
+import PencilIcon from '../../../icons/StrokePencil.js'
+import TextInputModal from '../../../components/text-input-modal/TextInputModal.js'
 import { withTranslation } from 'react-i18next'
 
 function RenameModal ({ t, tReady, onCancel, onSubmit, filename, folder, className, ...props }) {

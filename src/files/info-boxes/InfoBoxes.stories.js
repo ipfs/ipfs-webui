@@ -1,5 +1,5 @@
 // @ts-check
-import InfoBoxes from './InfoBoxes'
+import InfoBoxes from './InfoBoxes.js'
 
 /**
  * @type {import('@storybook/react').Meta}

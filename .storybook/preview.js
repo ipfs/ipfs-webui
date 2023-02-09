@@ -1,12 +1,13 @@
+import React from 'react'
 import { Provider } from 'redux-bundler-react'
 import { I18nextProvider } from 'react-i18next'
 import { DndProvider } from 'react-dnd'
 import 'react-virtualized/styles.css'
 import '../src/index.css'
 
-import getStore from '../src/bundles'
-import i18n from '../src/i18n'
-import DndBackend from '../src/lib/dnd-backend'
+import getStore from '../src/bundles/index.js'
+import i18n from '../src/i18n.js'
+import DndBackend from '../src/lib/dnd-backend.js'
 
 /**
  * @type {import('@storybook/addons').BaseAnnotations}

@@ -4,7 +4,8 @@
  * @see https://github.com/facebook/create-react-app/issues/11756#issuecomment-1184657437
  * @see https://alchemy.com/blog/how-to-polyfill-node-core-modules-in-webpack-5
  */
-const webpack = require('webpack')
+import webpack from 'webpack'
+
 const PURE_ESM_MODULES = [
   'ipfs-geoip'
 ]
@@ -67,14 +68,13 @@ function modifyBabelLoaderRuleForTest (rules) {
   })
 }
 
-function webpackOverride(config) {
+function webpackOverride (config) {
   const fallback = config.resolve.fallback || {}
 
   Object.assign(fallback, {
-    assert: require.resolve('./src/webpack-fallbacks/assert'),
-    stream: require.resolve('./src/webpack-fallbacks/stream'),
-    os: require.resolve('./src/webpack-fallbacks/os'),
-    path: require.resolve('./src/webpack-fallbacks/path')
+    stream: 'stream-browserify',
+    os: 'os-browserify/browser',
+    path: 'path-browserify'
   })
 
   config.resolve.fallback = fallback
@@ -87,6 +87,20 @@ function webpackOverride(config) {
   ])
 
   config.module.rules = modifyBabelLoaderRuleForBuild(config.module.rules)
+  config.module.rules.push({
+    test: /\.jsx?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'babel-loader',
+    options: { presets: ['@babel/env', '@babel/preset-react'] }
+  })
+
+  config.module.rules.push({
+    test: /\.m?js$/,
+    type: 'javascript/auto',
+    resolve: {
+      fullySpecified: false
+    }
+  })
 
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'production'
@@ -97,7 +111,22 @@ function webpackOverride(config) {
   return config
 }
 
-module.exports = {
+const configOverride = {
   webpack: webpackOverride,
-  jest: (config) => config
+  jest: (config) => {
+    /**
+     * @type {import('jest').Config}
+     */
+    return ({
+      ...config,
+      setupFiles: [...config.setupFiles, 'fake-indexeddb/auto'],
+      moduleNameMapper: {
+        ...config.moduleNameMapper,
+        'multiformats/basics': '<rootDir>/node_modules/multiformats/cjs/src/basics.js',
+        'multiformats/bases/(.*)$': '<rootDir>/node_modules/multiformats/cjs/src/bases/$1.js'
+      }
+    })
+  }
 }
+
+export default configOverride

@@ -1,12 +1,12 @@
 // @ts-check
-import IdenticonEl from './Identicon'
+import { Identicon } from './Identicon.js'
 
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
   title: 'Identicon',
-  component: IdenticonEl,
+  component: Identicon,
   parameters: {
     actions: {
       disable: false,

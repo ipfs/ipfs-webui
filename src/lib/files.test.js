@@ -1,5 +1,5 @@
 /* global it, expect */
-import { normalizeFiles } from './files'
+import { normalizeFiles } from './files.js'
 
 function expectRightFormat (output) {
   expect(Array.isArray(output)).toBe(true)

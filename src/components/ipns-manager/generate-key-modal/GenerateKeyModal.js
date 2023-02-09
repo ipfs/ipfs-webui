@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Icon from '../../../icons/StrokeSpeaker'
-import TextInputModal from '../../../components/text-input-modal/TextInputModal'
+import Icon from '../../../icons/StrokeSpeaker.js'
+import TextInputModal from '../../text-input-modal/TextInputModal.js'
 
 const GenerateKeyModal = ({ t, tReady, onCancel, onSubmit, className, ...props }) => {
   return (

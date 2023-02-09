@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import filesize from 'filesize'
-import { Title } from './Commons'
+import { Title } from './Commons.js'
 
 // matching units returned by 'ipfs stats bw' in CLI
 const bwUnits = {

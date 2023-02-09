@@ -1,5 +1,5 @@
 import all from 'it-all'
-import { readSetting, writeSetting } from './local-storage'
+import { readSetting, writeSetting } from './local-storage.js'
 
 const init = () => ({
   keys: [],

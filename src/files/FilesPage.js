@@ -5,19 +5,19 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 // Lib
-import { filesTour } from '../lib/tours'
+import { filesTour } from '../lib/tours.js'
 // Components
-import ContextMenu from './context-menu/ContextMenu'
-import withTour from '../components/tour/withTour'
-import InfoBoxes from './info-boxes/InfoBoxes'
-import FilePreview from './file-preview/FilePreview'
-import FilesList from './files-list/FilesList'
-import { getJoyrideLocales } from '../helpers/i8n'
+import ContextMenu from './context-menu/ContextMenu.js'
+import withTour from '../components/tour/withTour.js'
+import InfoBoxes from './info-boxes/InfoBoxes.js'
+import FilePreview from './file-preview/FilePreview.js'
+import FilesList from './files-list/FilesList.js'
+import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals'
-import Header from './header/Header'
-import FileImportStatus from './file-import-status/FileImportStatus'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
+import Header from './header/Header.js'
+import FileImportStatus from './file-import-status/FileImportStatus.js'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,

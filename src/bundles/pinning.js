@@ -1,10 +1,10 @@
 // @ts-check
-import { pinningServiceTemplates } from '../constants/pinning'
+import { pinningServiceTemplates } from '../constants/pinning.js'
 import memoize from 'p-memoize'
 import CID from 'cids'
 import all from 'it-all'
 
-import { readSetting, writeSetting } from './local-storage'
+import { readSetting, writeSetting } from './local-storage.js'
 
 // This bundle leverages createCacheBundle and persistActions for
 // the persistence layer that keeps pins in IndexDB store

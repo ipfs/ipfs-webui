@@ -1,5 +1,5 @@
 import fileExtension from 'file-extension'
-import extToType from './extToType'
+import extToType from './extToType.js'
 
 function fileType (filename) {
   const ext = fileExtension(filename)

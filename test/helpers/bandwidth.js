@@ -1,4 +1,4 @@
-import { randomBig } from './random'
+import { randomBig } from './random.js'
 
 export function fakeBandwidth () {
   const rb = () => randomBig(0, Number.MAX_VALUE)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import VersionLink from '../components/version-link/VersionLink'
+import VersionLink from '../components/version-link/VersionLink.js'
 import { Definition, DefinitionList } from '../components/definition/Definition.js'
 
 class NodeInfo extends React.Component {

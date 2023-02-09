@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import { Dropdown as Drop, DropdownMenu as Menu } from '@tableflip/react-dropdown'
-import StrokeCode from '../../icons/StrokeCode'
+import StrokeCode from '../../icons/StrokeCode.js'
 
 export const Option = ({ children, onClick, className = '', isCliTutorModeEnabled, onCliTutorMode, ...props }) => (
   isCliTutorModeEnabled

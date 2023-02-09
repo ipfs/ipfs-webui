@@ -1,5 +1,5 @@
 // Components
-import JsonEditor from './JsonEditor'
+import { JsonEditor } from './JsonEditor.js'
 
 // Fixtures
 import config from './fixtures/example-config.json'

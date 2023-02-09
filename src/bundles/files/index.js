@@ -1,7 +1,7 @@
-import { sortFiles } from './utils'
-import { DEFAULT_STATE, ACTIONS, SORTING } from './consts'
-import selectors from './selectors'
-import actions from './actions'
+import { sortFiles } from './utils.js'
+import { DEFAULT_STATE, ACTIONS, SORTING } from './consts.js'
+import selectors from './selectors.js'
+import actions from './actions.js'
 
 export { ACTIONS }
 

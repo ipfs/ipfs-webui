@@ -1,16 +1,16 @@
 /* eslint-disable require-yield */
 
 import { join, dirname, basename } from 'path'
-import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files'
-import countDirs from '../../lib/count-dirs'
+import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files.js'
+import countDirs from '../../lib/count-dirs.js'
 import memoize from 'p-memoize'
 import all from 'it-all'
 import map from 'it-map'
 import last from 'it-last'
 import CID from 'cids'
 
-import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath } from './utils'
-import { IGNORED_FILES, ACTIONS } from './consts'
+import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath } from './utils.js'
+import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService

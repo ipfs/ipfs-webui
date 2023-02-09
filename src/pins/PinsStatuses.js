@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
-import GlyphCancel from '../icons/GlyphCancel'
-import GlyphPinCloud from '../icons/hocs/GlyphPinCloud'
+import GlyphCancel from '../icons/GlyphCancel.js'
+import GlyphPinCloud from '../icons/hocs/GlyphPinCloud.js'
 import '../files/PendingAnimation.css'
 
 const Status = {

@@ -1,6 +1,6 @@
-import { sortByName, sortBySize } from '../../lib/sort'
-import { IS_MAC, SORTING } from './consts'
-import * as Task from '../task'
+import { sortByName, sortBySize } from '../../lib/sort.js'
+import { IS_MAC, SORTING } from './consts.js'
+import * as Task from '../task.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService

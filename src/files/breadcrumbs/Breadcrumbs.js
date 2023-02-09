@@ -7,7 +7,7 @@ import { withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 
-import { normalizeFiles } from '../../lib/files'
+import { normalizeFiles } from '../../lib/files.js'
 
 import './Breadcrumbs.css'
 

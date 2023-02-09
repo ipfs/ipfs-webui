@@ -3,13 +3,13 @@
 // @ts-ignore
 import root from 'window-or-global'
 import changeCase from 'change-case'
-import * as Enum from './enum'
+import * as Enum from './enum.js'
 import { createSelector } from 'redux-bundler'
-import { ACTIONS as FILES } from './files/consts'
-import { ACTIONS as CONIFG } from './config-save'
-import { ACTIONS as INIT } from './ipfs-provider'
-import { ACTIONS as EXP } from './experiments'
-import { getDeploymentEnv } from '../env'
+import { ACTIONS as FILES } from './files/consts.js'
+import { ACTIONS as CONIFG } from './config-save.js'
+import { ACTIONS as INIT } from './ipfs-provider.js'
+import { ACTIONS as EXP } from './experiments.js'
+import { getDeploymentEnv } from '../env.js'
 
 /**
  * @typedef {import('./ipfs-provider').Init} Init
