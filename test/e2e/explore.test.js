@@ -1,7 +1,7 @@
 import { test, expect } from './setup/coverage.js'
 import { readFileSync } from 'fs'
 import { join, dirname } from 'path'
-import ipfsHttpClient from 'ipfs-http-client'
+import * as kuboRpcModule from 'kubo-rpc-client'
 import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -21,7 +21,7 @@ test.describe('Explore screen', () => {
     // add a local file to repo so test is fast and works in offline mode
     const cid = 'bafkreicgkmwhdunxgdqwqveecdo3wqmgulb4azm6sfnrtvd7g47mnrixji'
     const expectedData = readFileSync(join(__dirname, '../../LICENSE'), 'utf8')
-    const ipfs = ipfsHttpClient(process.env.IPFS_RPC_ADDR)
+    const ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
     const result = await ipfs.add(expectedData, { cidVersion: 1 })
     await expect(result.cid.toString()).toStrictEqual(cid)
 

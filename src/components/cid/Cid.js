@@ -3,7 +3,7 @@ import { Identicon } from '../identicon/Identicon.js'
 import ErrorBoundary from '../error/ErrorBoundary.js'
 
 export function cidStartAndEnd (value) {
-  const chars = value.split('')
+  const chars = value.toString().split('')
   if (chars.length <= 9) return value
   const start = chars.slice(0, 4).join('')
   const end = chars.slice(chars.length - 4).join('')
