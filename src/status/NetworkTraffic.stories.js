@@ -13,6 +13,7 @@ const getStore = composeBundlesRaw({
     return state ?? { rateIn: 0, rateOut: 0 }
   }
 })
+
 const store = getStore({ nodeBandwidth: { rateIn: 0, rateOut: 0 } })
 
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
