@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'redux-bundler-react'
 import './index.css'
 import 'react-virtualized/styles.css'
-import App from './App'
-import getStore from './bundles'
-import bundleCache from './lib/bundle-cache'
+import App from './App.js'
+import getStore from './bundles/index.js'
+import bundleCache from './lib/bundle-cache.js'
 import { I18nextProvider } from 'react-i18next'
-import i18n from './i18n'
+import i18n from './i18n.js'
 import { DndProvider } from 'react-dnd'
-import DndBackend from './lib/dnd-backend'
+import DndBackend from './lib/dnd-backend.js'
 
 const appVersion = process.env.REACT_APP_VERSION
 const gitRevision = process.env.REACT_APP_GIT_REV

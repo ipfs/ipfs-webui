@@ -1,4 +1,4 @@
-const { test, expect } = require('./setup/coverage')
+import { test, expect } from './setup/coverage.js'
 
 test.describe('Navigation menu', () => {
   test.beforeEach(async ({ page }) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CancelIcon from '../../icons/GlyphSmallCancel'
+import CancelIcon from '../../icons/GlyphSmallCancel.js'
 
 export const ModalActions = ({ justify, className, children, ...props }) => (
   <div className={`flex justify-${justify} pa2 ${className}`} style={{ backgroundColor: '#f4f6f8' }} {...props}>

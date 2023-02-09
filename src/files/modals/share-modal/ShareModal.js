@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ShareIcon from '../../../icons/StrokeShare'
-import Button from '../../../components/button/Button'
+import ShareIcon from '../../../icons/StrokeShare.js'
+import Button from '../../../components/button/Button.js'
 import { withTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal'
+import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
 
 const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (
   <Modal {...props} className={className} onCancel={onLeave} >

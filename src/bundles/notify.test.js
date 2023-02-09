@@ -1,7 +1,7 @@
 /* global it, expect */
 import { composeBundlesRaw, createReactorBundle } from 'redux-bundler'
-import notifyBundle from './notify'
-import sleep from '../../test/helpers/sleep'
+import notifyBundle from './notify.js'
+import sleep from '../../test/helpers/sleep.js'
 
 const appTimeBundle = {
   name: 'appTime',

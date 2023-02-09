@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 
 // Components
-import { Modal, ModalBody, ModalActions } from '../modal/Modal'
-import StrokeCode from '../../icons/StrokeCode'
-import Button from '../button/Button'
-import Overlay from '../overlay/Overlay'
-import Shell from '../shell/Shell'
-import StrokeDownload from '../../icons/StrokeDownload'
-import { cliCmdKeys, cliCommandList, cliCmdPrefixes } from '../../bundles/files/consts'
+import { Modal, ModalBody, ModalActions } from '../modal/Modal.js'
+import StrokeCode from '../../icons/StrokeCode.js'
+import Button from '../button/Button.js'
+import Overlay from '../overlay/Overlay.js'
+import Shell from '../shell/Shell.js'
+import StrokeDownload from '../../icons/StrokeDownload.js'
+import { cliCmdKeys, cliCommandList, cliCmdPrefixes } from '../../bundles/files/consts.js'
 
 export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfig, ...props }) => {
   const onClickCopyToClipboard = (cmd) => {

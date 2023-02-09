@@ -1,10 +1,10 @@
 /* global it, expect */
 import { composeBundlesRaw, createReactorBundle } from 'redux-bundler'
-import createPeerBandwidthBundle from './peer-bandwidth'
-import { fakeCid } from '../../test/helpers/cid'
-import { randomInt } from '../../test/helpers/random'
-import sleep from '../../test/helpers/sleep'
-import { fakeBandwidth } from '../../test/helpers/bandwidth'
+import createPeerBandwidthBundle from './peer-bandwidth.js'
+import { fakeCid } from '../../test/helpers/cid.js'
+import { randomInt } from '../../test/helpers/random.js'
+import sleep from '../../test/helpers/sleep.js'
+import { fakeBandwidth } from '../../test/helpers/bandwidth.js'
 
 async function fakePeer () {
   const peer = (await fakeCid()).toBaseEncodedString('base58btc')

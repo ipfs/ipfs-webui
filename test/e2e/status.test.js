@@ -1,4 +1,4 @@
-const { test } = require('./setup/coverage')
+import { test } from './setup/coverage.js'
 
 test.describe('Status page', () => {
   test.beforeEach(async ({ page }) => {

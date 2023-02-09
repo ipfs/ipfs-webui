@@ -4,20 +4,20 @@ import { connect } from 'redux-bundler-react'
 import { getNavHelper } from 'internal-nav-helper'
 import ReactJoyride from 'react-joyride'
 import { withTranslation } from 'react-i18next'
-import { normalizeFiles } from './lib/files'
+import { normalizeFiles } from './lib/files.js'
 // React DnD
 import { DropTarget } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 // Lib
-import { appTour } from './lib/tours'
-import { getJoyrideLocales } from './helpers/i8n'
+import { appTour } from './lib/tours.js'
+import { getJoyrideLocales } from './helpers/i8n.js'
 // Components
-import NavBar from './navigation/NavBar'
-import ComponentLoader from './loader/ComponentLoader'
-import Notify from './components/notify/Notify'
-import Connected from './components/connected/Connected'
-import TourHelper from './components/tour/TourHelper'
-import FilesExploreForm from './files/explore-form/FilesExploreForm'
+import NavBar from './navigation/NavBar.js'
+import ComponentLoader from './loader/ComponentLoader.js'
+import Notify from './components/notify/Notify.js'
+import Connected from './components/connected/Connected.js'
+import TourHelper from './components/tour/TourHelper.js'
+import FilesExploreForm from './files/explore-form/FilesExploreForm.js'
 
 export class App extends Component {
   static propTypes = {

@@ -1,6 +1,7 @@
-/* global describe, it, expect, beforeEach, afterEach, jest */
+/* global describe, it, expect, beforeEach, afterEach */
+import { jest } from '@jest/globals'
 import { composeBundlesRaw } from 'redux-bundler'
-import createAnalyticsBundle from './analytics'
+import createAnalyticsBundle from './analytics.js'
 
 beforeEach(() => {
   global.Countly = {

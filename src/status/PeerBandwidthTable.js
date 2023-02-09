@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
-import { humanSize } from '../lib/files'
+import { humanSize } from '../lib/files.js'
 import CountryFlag from 'react-country-flag'
-import Box from '../components/box/Box'
-import { Title } from './Commons'
+import Box from '../components/box/Box.js'
+import { Title } from './Commons.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
 const isWindows = window.navigator.appVersion.indexOf('Win') !== -1

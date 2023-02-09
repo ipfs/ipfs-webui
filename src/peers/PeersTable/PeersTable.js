@@ -7,8 +7,8 @@ import { withTranslation } from 'react-i18next'
 import { Table, Column, AutoSizer, SortDirection } from 'react-virtualized'
 import CountryFlag from 'react-country-flag'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import Cid from '../../components/cid/Cid'
-import { sortByProperty } from '../../lib/sort'
+import Cid from '../../components/cid/Cid.js'
+import { sortByProperty } from '../../lib/sort.js'
 
 import './PeersTable.css'
 

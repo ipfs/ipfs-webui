@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '../button/Button'
-import { Modal, ModalActions, ModalBody } from '../modal/Modal'
-import ComponentLoader from '../../loader/ComponentLoader'
+import Button from '../button/Button.js'
+import { Modal, ModalActions, ModalBody } from '../modal/Modal.js'
+import ComponentLoader from '../../loader/ComponentLoader.js'
 import { withTranslation } from 'react-i18next'
 
 class TextInputModal extends React.Component {

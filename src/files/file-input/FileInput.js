@@ -2,16 +2,16 @@ import React from 'react'
 import { connect } from 'redux-bundler-react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
-import { normalizeFiles } from '../../lib/files'
+import { normalizeFiles } from '../../lib/files.js'
 // Icons
-import DocumentIcon from '../../icons/StrokeDocument'
-import FolderIcon from '../../icons/StrokeFolder'
-import NewFolderIcon from '../../icons/StrokeNewFolder'
-import DecentralizationIcon from '../../icons/StrokeDecentralization'
+import DocumentIcon from '../../icons/StrokeDocument.js'
+import FolderIcon from '../../icons/StrokeFolder.js'
+import NewFolderIcon from '../../icons/StrokeNewFolder.js'
+import DecentralizationIcon from '../../icons/StrokeDecentralization.js'
 // Components
-import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown'
-import Button from '../../components/button/Button'
-import { cliCmdKeys } from '../../bundles/files/consts'
+import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown.js'
+import Button from '../../components/button/Button.js'
+import { cliCmdKeys } from '../../bundles/files/consts.js'
 
 const AddButton = withTranslation('app')(
   ({ t, onClick }) => (

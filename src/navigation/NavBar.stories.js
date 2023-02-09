@@ -1,9 +1,9 @@
-import React from '@storybook/react'
+import React from 'react'
 
 import { action } from '@storybook/addon-actions'
 import { withKnobs, boolean } from '@storybook/addon-knobs'
-import i18n from '../i18n'
-import { NavBar } from './NavBar'
+import i18n from '../i18n.js'
+import { NavBar } from './NavBar.js'
 
 /**
  * @type {import('@storybook/react').Meta}

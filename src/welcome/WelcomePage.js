@@ -3,15 +3,15 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
-import withTour from '../components/tour/withTour'
-import { welcomeTour } from '../lib/tours'
-import { getJoyrideLocales } from '../helpers/i8n'
+import withTour from '../components/tour/withTour.js'
+import { welcomeTour } from '../lib/tours.js'
+import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Components
-import IsConnected from '../components/is-connected/IsConnected'
-import IsNotConnected from '../components/is-not-connected/IsNotConnected'
-import AboutIpfs from '../components/about-ipfs/AboutIpfs'
-import AboutWebUI from '../components/about-webui/AboutWebUI'
+import IsConnected from '../components/is-connected/IsConnected.js'
+import IsNotConnected from '../components/is-not-connected/IsNotConnected.js'
+import AboutIpfs from '../components/about-ipfs/AboutIpfs.js'
+import AboutWebUI from '../components/about-webui/AboutWebUI.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
 const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {

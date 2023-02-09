@@ -1,10 +1,13 @@
-const { test, expect } = require('./setup/coverage')
-const { createController } = require('ipfsd-ctl')
-const getPort = require('get-port')
-const http = require('http')
-const httpProxy = require('http-proxy')
-const basicAuth = require('basic-auth')
-const toUri = require('multiaddr-to-uri')
+import { test, expect } from './setup/coverage.js'
+import { createController } from 'ipfsd-ctl'
+import getPort from 'get-port'
+import { createServer } from 'http'
+import httpProxy from 'http-proxy'
+import basicAuth from 'basic-auth'
+import toUri from 'multiaddr-to-uri'
+import { path as getGoIpfsPath } from 'go-ipfs'
+import ipfsHttpModule from 'ipfs-http-client'
+const { createProxyServer } = httpProxy
 
 test.describe('Remote API tests', () => {
   // Basic Auth Proxy Setup
@@ -29,8 +32,11 @@ test.describe('Remote API tests', () => {
   // spawn an ephemeral local node to ensure we connect to a different, remote node
     ipfsd = await createController({
       type: 'go',
-      ipfsBin: require('go-ipfs').path(),
-      ipfsHttpModule: require('ipfs-http-client'),
+      ipfsBin: getGoIpfsPath(),
+      // kuboRpcModule,
+      ipfsHttpModule: {
+        create: ipfsHttpModule
+      },
       test: true,
       disposable: true
     })
@@ -42,7 +48,7 @@ test.describe('Remote API tests', () => {
     user = 'user'
     password = 'pass'
 
-    const proxy = httpProxy.createProxyServer()
+    const proxy = createProxyServer()
     rpcMaddr = ipfsd.apiAddr.toString()
     const remoteApiUrl = toUri(rpcMaddr, { assumeHttp: true })
     rpcUrl = new URL(remoteApiUrl).toString() // normalization for browsers
@@ -59,7 +65,7 @@ test.describe('Remote API tests', () => {
       res.end(`proxyd error: ${JSON.stringify(err)}`)
     })
 
-    proxyd = http.createServer((req, res) => {
+    proxyd = createServer((req, res) => {
     // console.log(`${req.method}\t\t${req.url}`)
 
       res.oldWriteHead = res.writeHead
@@ -244,7 +250,7 @@ test.describe('Remote API tests', () => {
       await basicAuthConnectionConfirmation(user, password, proxyPort, page, rpcId)
     })
 
-    test('should work when localStorage[ipfsApi] is set to a JSON string with a custom ipfs-http-client config', async ({ page }) => {
+    test('should work when localStorage[ipfsApi] is set to a JSON string with a custom kubo-rpc-client config', async ({ page }) => {
       const apiOptions = JSON.stringify({
         url: `http://127.0.0.1:${proxyPort}/`,
         headers: {
@@ -261,7 +267,7 @@ test.describe('Remote API tests', () => {
       await basicAuthConnectionConfirmation(user, password, proxyPort, page, rpcId)
     })
 
-    test('should work when JSON with ipfs-http-client config is entered at the Settings page', async ({ page }) => {
+    test('should work when JSON with kubo-rpc-client config is entered at the Settings page', async ({ page }) => {
       const apiOptions = JSON.stringify({
         url: `http://127.0.0.1:${proxyPort}/`,
         headers: {

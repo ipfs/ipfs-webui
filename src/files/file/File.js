@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 import { join, basename } from 'path'
 import { withTranslation } from 'react-i18next'
 import classnames from 'classnames'
-import { normalizeFiles, humanSize } from '../../lib/files'
+import { normalizeFiles, humanSize } from '../../lib/files.js'
 // React DnD
 import { useDrag, useDrop } from 'react-dnd'
 // Components
-import GlyphDots from '../../icons/GlyphDots'
-import Tooltip from '../../components/tooltip/Tooltip'
-import Checkbox from '../../components/checkbox/Checkbox'
-import FileIcon from '../file-icon/FileIcon'
+import GlyphDots from '../../icons/GlyphDots.js'
+import Tooltip from '../../components/tooltip/Tooltip.js'
+import Checkbox from '../../components/checkbox/Checkbox.js'
+import FileIcon from '../file-icon/FileIcon.js'
 import CID from 'cids'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import PinIcon from '../pin-icon/PinIcon'
+import PinIcon from '../pin-icon/PinIcon.js'
 
 const File = ({
   name, type, size, cid, path, pinned, t, selected, focused, translucent, coloured, cantSelect, cantDrag, isMfs, isRemotePin, isPendingPin, isFailedPin,

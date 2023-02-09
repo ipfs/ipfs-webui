@@ -1,33 +1,102 @@
-import { createSelector } from 'redux-bundler'
-import createPeersLocationBundle from './peer-locations'
+import createPeersLocationBundle from './peer-locations.js'
+import { createSelector, composeBundlesRaw, createReactorBundle } from 'redux-bundler'
+import pkgJson from '../../package.json'
+import { getConfiguredCache } from 'money-clip'
 
-jest.mock('redux-bundler', () => ({
-  createAsyncResourceBundle: (args) => ({ ...args }),
-  createSelector: (...args) => args[args.length - 1]
-}))
+const { dependencies } = pkgJson
 
-jest.mock('money-clip', () => ({
-  getConfiguredCache: () => ({
-    get: jest.fn((arg) => (arg === '5.5.5.5' || arg === '123.123.123.123') ? false : 'location-cached'),
-    set: jest.fn()
-  })
-}))
+// We reuse cached geoip lookups as long geoipVersion is the same.
+const geoipVersion = dependencies['ipfs-geoip']
 
-jest.mock('ipfs-geoip', () => ({
-  lookup: (_, address) => {
-    if (address === '5.5.5.5') throw new Error()
-    return `${address}+looked-up`
+function createMockIpfsBundle (ipfs) {
+  return {
+    name: 'ipfs',
+    getExtraArgs: () => ({ getIpfs: () => ipfs }),
+    selectIpfsConnected: () => true,
+    selectIpfsReady: () => true
   }
-}))
+}
 
-jest.mock('multiaddr', () =>
-  (args) => ({ nodeAddress: () => args })
-)
+const mockPeersBundle = {
+  name: 'peers',
+  reducer (state = { data: [] }, action) {
+    return action.type === 'UPDATE_MOCK_PEERS'
+      ? { ...state, data: action.payload }
+      : state
+  },
+  selectPeers: state => state.peers.data,
+  doUpdateMockPeers: data => ({ dispatch }) => {
+    dispatch({ type: 'UPDATE_MOCK_PEERS', payload: data })
+  }
+}
 
-jest.mock('hashlru', () => () => ({
-  has: (arg) => arg === '16.19.16.19',
-  set: jest.fn()
-}))
+const createMockIpfs = (opts) => {
+  opts = opts || {}
+  opts.minLatency = opts.minLatency || 1
+  opts.maxLatency = opts.maxLatency || 100
+
+  return {
+    stats: {
+      bw: async function * () {
+        // const bw = await new Promise(resolve => setTimeout(() => resolve(fakeBandwidth()), randomInt(opts.minLatency, opts.maxLatency)))
+        // yield bw
+      }
+    }
+  }
+}
+function createStore ({ selectors, store = {}, bundleOpts = undefined }) {
+  const mockPeerLocationsBundle = createPeersLocationBundle(bundleOpts)
+  const mockExtrasBundle = {
+    ...selectors
+  }
+  const fakeTime = Date.now()
+  return composeBundlesRaw(
+    {
+      name: 'appTime',
+      reducer: () => fakeTime,
+      selectAppTime: state => fakeTime
+    },
+    createReactorBundle(),
+    createMockIpfsBundle(createMockIpfs()),
+    mockPeersBundle,
+    mockPeerLocationsBundle,
+    {
+      name: 'mockExtrasBundle',
+      ...mockExtrasBundle
+    }
+  )(store)
+}
+
+function callSelectorMethod (selectorFn, ...args) {
+  return selectorFn({}, args.map((arg) => () => arg))()
+}
+
+async function cacheIpAddresses (mockCache, ...ipAddresses) {
+  await Promise.all(ipAddresses.map((ip) => {
+    return mockCache.set(ip, 'location-cached')
+  }))
+}
+async function mockGeoIpCache (...ipAddresses) {
+  const mockCache = getConfiguredCache({
+    name: 'geoipCache',
+    version: geoipVersion,
+    maxAge: 1000 * 60 * 60
+  })
+  await cacheIpAddresses(mockCache, ...ipAddresses)
+
+  return mockCache
+}
+
+async function getPeerLocationsFromStore ({ store, failMs = 5000 }) {
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error(`Timed out waiting ${failMs}ms for peerLocations from store`)), failMs)
+    const unsub = store.subscribeToSelectors(['selectPeerLocations'], ({ peerLocations }) => {
+      clearTimeout(timeout)
+      unsub()
+      resolve(peerLocations)
+    })
+  })
+}
 
 describe('reactPeerLocationsFetch', () => {
   it.skip('should declare its dependencies', async () => {
@@ -43,17 +112,17 @@ describe('reactPeerLocationsFetch', () => {
 
   it('should trigger doFetchPeerLocations', () => {
     const { reactPeerLocationsFetch } = createPeersLocationBundle()
-    const result = reactPeerLocationsFetch({ url: '/peers' }, true, true)
+    const result = callSelectorMethod(reactPeerLocationsFetch, { url: '/peers' }, true, true)
 
     expect(result).toEqual({ actionCreator: 'doFetchPeerLocations' })
   })
 
   it('should do nothing when the route is not peers or its not time to update', () => {
     const { reactPeerLocationsFetch } = createPeersLocationBundle()
-    expect(reactPeerLocationsFetch({ url: '/another-url' }, true, true)).toBeFalsy()
-    expect(reactPeerLocationsFetch({ url: '/peers' }, false, true)).toBeFalsy()
-    expect(reactPeerLocationsFetch({ url: '/peers' }, false, false)).toBeFalsy()
-    expect(reactPeerLocationsFetch({ url: '/peers' }, true, false)).toBeFalsy()
+    expect(callSelectorMethod(reactPeerLocationsFetch, { url: '/another-url' }, true, true)).toBeFalsy()
+    expect(callSelectorMethod(reactPeerLocationsFetch, { url: '/peers' }, false, true)).toBeFalsy()
+    expect(callSelectorMethod(reactPeerLocationsFetch, { url: '/peers' }, false, false)).toBeFalsy()
+    expect(callSelectorMethod(reactPeerLocationsFetch, { url: '/peers' }, true, false)).toBeFalsy()
   })
 })
 
@@ -73,7 +142,7 @@ describe('selectPeerLocationsForSwarm', () => {
   it('should do nothing if peers is not defined', () => {
     const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
 
-    expect(selectPeerLocationsForSwarm()).toBeFalsy()
+    expect(callSelectorMethod(selectPeerLocationsForSwarm)).toBeFalsy()
   })
 
   it('should map the peers with the location information', () => {
@@ -116,7 +185,7 @@ describe('selectPeerLocationsForSwarm', () => {
       latency: '1s'
     }
 
-    const result = selectPeerLocationsForSwarm([peer1, peer2], locations, ['/p2p/1'])
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1, peer2], locations, ['/p2p/1'])
     expect(result).toEqual([
       {
         address: '1.test',
@@ -179,7 +248,7 @@ describe('selectPeerLocationsForSwarm', () => {
       ]
     }
 
-    const result = selectPeerLocationsForSwarm([peer1], locations, ['/ipfs/1'], identity)
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], locations, ['/ipfs/1'], identity)
     expect(result).toEqual([
       {
         address: '1.test',
@@ -212,12 +281,14 @@ describe('selectPeerLocationsForSwarm', () => {
 
     const identity = {
       addresses: [
-        { address: '127.0.0.1' },
-        { address: '2001:0db8:85a3:0000:0000:8a2e:0370:7334' }
+        // migration to ESM: multiaddr must be string, Buffer, or another Multiaddr
+        '/ip4/127.0.0.1/udp/1234',
+        '/ip6/2001:0db8:85a3:0000:0000:8a2e:0370:7334/udp/3333',
+        '/ip4/127.0.0.1'
       ]
     }
 
-    const result = selectPeerLocationsForSwarm([peer1], null, ['/ipfs/1'], identity)
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], null, ['/ipfs/1'], identity)
     expect(result).toEqual([
       {
         address: '1.test',
@@ -248,12 +319,12 @@ describe('selectPeersCoordinates', () => {
 
   it('should do nothing when there are no peers', () => {
     const { selectPeersCoordinates } = createPeersLocationBundle()
-    expect(selectPeersCoordinates()).toEqual([])
+    expect(callSelectorMethod(selectPeersCoordinates)).toEqual([])
   })
 
   it('should aggregate peers by close coordinates', () => {
     const { selectPeersCoordinates } = createPeersLocationBundle()
-    const result = selectPeersCoordinates([
+    const result = callSelectorMethod(selectPeersCoordinates, [
       { peerId: '1', coordinates: [1, 1] },
       { peerId: '2' },
       { peerId: '3', coordinates: [1000, 1000] },
@@ -270,64 +341,83 @@ describe('selectPeersCoordinates', () => {
 describe('PeerLocationResolver', () => {
   describe('findLocations', () => {
     it('should find the location of given peers', async () => {
-      const { getPromise } = createPeersLocationBundle()
+      await mockGeoIpCache('4.4.4.4')
 
-      const result = await getPromise({
-        store: {
-          selectPeers: () => [
-            {
-              peer: '1aaa1',
-              latency: 'n/a',
-              addr: {
-                stringTuples: () => [[4, '123.123.123.123']]
-              }
-            },
-            {
-              peer: '1b1',
-              latency: '1ms',
-              addr: {
-                stringTuples: () => [[4, '127.0.0.1']]
-              }
-            },
-            {
-              peer: '3b3',
-              latency: '1ms',
-              addr: {
-                stringTuples: () => [[4, '16.19.16.19']]
-              }
-            },
-            {
-              peer: '44asd',
-              latency: '1ms',
-              addr: {
-                stringTuples: () => [[4, '4.4.4.4']]
-              }
-            },
-            {
-              peer: '4sameAs4',
-              latency: '1ms',
-              addr: {
-                stringTuples: () => [[4, '4.4.4.4']]
-              }
-            },
-            {
-              peer: 'newPeerThatShouldThrow',
-              latency: '100s',
-              addr: {
-                stringTuples: () => [[4, '5.5.5.5']]
-              }
-            },
-            {
-              peer: 'sameIpAs1',
-              latency: 'n/a',
-              addr: {
-                stringTuples: () => [[4, '123.123.123.123']]
-              }
-            }
-          ],
-          selectAvailableGatewayUrl: () => 'https://ipfs.io'
+      const fakePeers = [
+        {
+          peer: '1aaa1',
+          latency: 'n/a',
+          addr: {
+            stringTuples: () => [[4, '123.123.123.123']]
+          }
         },
-        getIpfs: () => 'smth'
+        {
+          peer: '1b1',
+          latency: '1ms',
+          addr: {
+            stringTuples: () => [[4, '127.0.0.1']]
+          }
+        },
+        {
+          peer: '3b3',
+          latency: '1ms',
+          addr: {
+            stringTuples: () => [[4, '16.19.16.19']]
+          }
+        },
+        {
+          peer: '44asd',
+          latency: '1ms',
+          addr: {
+            stringTuples: () => [[4, '4.4.4.4']]
+          }
+        },
+        {
+          peer: '4sameAs4',
+          latency: '1ms',
+          addr: {
+            stringTuples: () => [[4, '4.4.4.4']]
+          }
+        },
+        {
+          peer: 'newPeerThatShouldThrow',
+          latency: '100s',
+          addr: {
+            stringTuples: () => [[4, '5.5.5.5']]
+          }
+        },
+        {
+          peer: 'sameIpAs1',
+          latency: 'n/a',
+          addr: {
+            stringTuples: () => [[4, '123.123.123.123']]
+          }
+        }
+      ]
+
+      const store = await createStore({
+        selectors: {
+          selectAvailableGatewayUrl: () => 'https://ipfs.io',
+          selectIsOnline: () => true,
+          selectBootstrapPeers: () => fakePeers,
+          selectPeers: () => fakePeers,
+          selectRouteInfo: _ => ({ url: '/peers' }),
+          selectIdentity: () => ({
+            addresses: [
+              '/p2p/1aaa1',
+              '/ip4/4.4.4.4/udp/1234'
+            ]
+          })
+        }
+      })
+
+      const result = await new Promise((resolve, reject) => {
+        const timeout = setTimeout(reject, 5000)
+        const unsub = store.subscribeToSelectors(['selectPeerLocations'], ({ peerLocations }) => {
+          clearTimeout(timeout)
+          unsub()
+          resolve(peerLocations)
+        })
       })
 
       expect(result).toEqual({
@@ -339,26 +429,40 @@ describe('PeerLocationResolver', () => {
 
   describe('optimizedPeerSet', () => {
     it('should return sets of 10, 100, 200 peers and more according to the number of calls', async () => {
-      const { getPromise } = createPeersLocationBundle()
-
-      const peers = new Array(1000).fill().map((_, index) => ({
-        peer: `${index}aa`,
-        latency: '1ms',
-        addr: {
-          stringTuples: () => [[4, `${index}.0.${index}.${index}`]]
-        }
-      }))
-
-      const mockStore = {
-        selectAvailableGatewayUrl: () => 'https://ipfs.io',
-        selectPeers: () => peers
-      }
-
-      const result = await getPromise({
-        store: mockStore
+      const ipAddresses = []
+      const peers = new Array(1000).fill().map((_, index) => {
+        const ipAddress = `${index}.0.${index}.${index}`
+        ipAddresses.push(ipAddress)
+        return ({
+          peer: `${index}aa`,
+          latency: '1ms',
+          addr: {
+            stringTuples: () => [[4, ipAddress]]
+          }
+        })
       })
 
-      expect(result).toEqual({
+      const mockedGeoIpCache = await mockGeoIpCache(...ipAddresses.slice(0, 10))
+
+      const store = await createStore({
+        selectors: {
+          selectAvailableGatewayUrl: () => 'https://ipfs.io',
+          selectIsOnline: () => true,
+          selectBootstrapPeers: () => peers,
+          selectPeers: () => peers,
+          selectRouteInfo: _ => ({ url: '/peers' }),
+          selectIdentity: () => ({
+            addresses: [
+              '/p2p/1aaa1',
+              '/ip4/4.4.4.4/udp/1234'
+            ]
+          })
+        }
+      })
+
+      const result10 = await getPeerLocationsFromStore({ store })
+
+      const expect10 = {
         '0aa': 'location-cached',
         '1aa': 'location-cached',
         '2aa': 'location-cached',
@@ -369,43 +473,45 @@ describe('PeerLocationResolver', () => {
         '7aa': 'location-cached',
         '8aa': 'location-cached',
         '9aa': 'location-cached'
-      })
+      }
+      expect(result10).toEqual(expect10)
 
       // ==== 100 ====
+      await cacheIpAddresses(mockedGeoIpCache, ...ipAddresses.slice(10, 100))
+      await store.doMarkPeerLocationsAsOutdated()
 
-      const result100 = await getPromise({
-        store: mockStore
-      })
+      const result100 = await getPeerLocationsFromStore({ store })
 
-      const expect100 = new Array(100).fill().reduce((prev, _, index) => ({
+      const expect100 = new Array(90).fill().reduce((prev, _, index) => ({
         ...prev,
-        [`${index}aa`]: 'location-cached'
-      }), {})
+        [`${index + 10}aa`]: 'location-cached'
+      }), expect10)
 
       expect(result100).toEqual(expect100)
 
       // ==== 200 ====
+      await cacheIpAddresses(mockedGeoIpCache, ...ipAddresses.slice(100, 200))
+      await store.doMarkPeerLocationsAsOutdated()
 
-      const result200 = await getPromise({
-        store: mockStore
-      })
-      const expect200 = new Array(200).fill().reduce((prev, _, index) => ({
+      const result200 = await getPeerLocationsFromStore({ store })
+
+      const expect200 = new Array(100).fill().reduce((prev, _, index) => ({
         ...prev,
-        [`${index}aa`]: 'location-cached'
-      }), {})
+        [`${index + 100}aa`]: 'location-cached'
+      }), expect100)
 
       expect(result200).toEqual(expect200)
 
       // ==== Over 200 ====
+      await cacheIpAddresses(mockedGeoIpCache, ...ipAddresses.slice(200, 1000))
+      await store.doMarkPeerLocationsAsOutdated()
 
-      const resultMore = await getPromise({
-        store: mockStore
-      })
+      const resultMore = await getPeerLocationsFromStore({ store })
 
-      const expectMore = new Array(1000).fill().reduce((prev, _, index) => ({
+      const expectMore = new Array(800).fill().reduce((prev, _, index) => ({
         ...prev,
-        [`${index}aa`]: 'location-cached'
-      }), {})
+        [`${index + 200}aa`]: 'location-cached'
+      }), expect200)
 
       expect(resultMore).toEqual(expectMore)
     })

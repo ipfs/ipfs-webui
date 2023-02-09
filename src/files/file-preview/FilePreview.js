@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { isBinary } from 'istextorbinary'
 import { Trans, withTranslation } from 'react-i18next'
-import typeFromExt from '../type-from-ext'
+import typeFromExt from '../type-from-ext/index.js'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
 import CID from 'cids'
 import { useDrag } from 'react-dnd'
-import fromUint8ArrayToString from 'uint8arrays/to-string'
-import Button from '../../components/button/Button'
+import fromUint8ArrayToString from 'uint8arrays/to-string.js'
+import Button from '../../components/button/Button.js'
 
 const Drag = ({ name, size, cid, path, children }) => {
   const [, drag] = useDrag({

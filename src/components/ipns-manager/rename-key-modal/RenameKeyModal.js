@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Icon from '../../../icons/StrokePencil'
-import TextInputModal from '../../text-input-modal/TextInputModal'
+import Icon from '../../../icons/StrokePencil.js'
+import TextInputModal from '../../text-input-modal/TextInputModal.js'
 import { Trans } from 'react-i18next'
 
 const RenameKeyModal = ({ t, tReady, name, onCancel, onSubmit, className, ...props }) => {

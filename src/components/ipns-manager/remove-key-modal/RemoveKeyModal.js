@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TrashIcon from '../../../icons/StrokeTrash'
-import Button from '../../../components/button/Button'
-import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal'
+import TrashIcon from '../../../icons/StrokeTrash.js'
+import Button from '../../button/Button.js'
+import { Modal, ModalActions, ModalBody } from '../../modal/Modal.js'
 import { Trans } from 'react-i18next'
 
 const RemoveKeyModal = ({ t, tReady, name, onCancel, onRemove, className, ...props }) => {

@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions'
 
-import i18n from '../../../i18n'
-import { PublishModal } from './PublishModal'
+import i18n from '../../../i18n.js'
+import { PublishModal } from './PublishModal.js'
 
 const ipnsKeys = [
   {

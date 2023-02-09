@@ -2,7 +2,7 @@ import React, { useRef, useState, useLayoutEffect, useEffect } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { DropdownMenu } from '@tableflip/react-dropdown'
-import Portal from '../../helpers/Portal'
+import Portal from '../../helpers/Portal.js'
 
 /**
  * Shows a context menu with specified children elements relative to a target element

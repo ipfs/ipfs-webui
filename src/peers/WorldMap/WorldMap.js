@@ -8,12 +8,12 @@ import { debounce } from 'redux-bundler'
 
 import staticMapSrc from './StaticMap.svg'
 
-import Address from '../../components/address/Address'
-import Popover from '../../components/popover/Popover'
+import Address from '../../components/address/Address.js'
+import Popover from '../../components/popover/Popover.js'
 
 // Styles
 import './WorldMap.css'
-import Cid from '../../components/cid/Cid'
+import Cid from '../../components/cid/Cid.js'
 
 const calculateWidth = (windowWidth) => {
   // the d3 generated svg width includes a lot of ocean, that we crop for now, as it looks weird.

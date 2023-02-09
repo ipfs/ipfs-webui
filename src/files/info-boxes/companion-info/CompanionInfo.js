@@ -1,6 +1,6 @@
 import React from 'react'
 import { withTranslation, Trans } from 'react-i18next'
-import Box from '../../../components/box/Box'
+import Box from '../../../components/box/Box.js'
 
 const CompanionInfo = ({ t }) => (
   <div className='mv4 tc navy f5' >

@@ -1,6 +1,6 @@
 // @ts-check
-import i18nDecorator from '../../../i18n-decorator'
-import AddFilesInfo from './AddFilesInfo'
+import i18nDecorator from '../../../i18n-decorator.js'
+import AddFilesInfo from './AddFilesInfo.js'
 
 /**
  * @type {import('@storybook/react').Meta}

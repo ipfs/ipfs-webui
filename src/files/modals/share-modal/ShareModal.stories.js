@@ -1,7 +1,7 @@
-import React from '@storybook/react'
+import React from 'react'
 import { action } from '@storybook/addon-actions'
-import i18n from '../../../i18n-decorator'
-import ShareModal from './ShareModal'
+import i18n from '../../../i18n-decorator.js'
+import ShareModal from './ShareModal.js'
 
 /**
  * @type {import('@storybook/react').Meta}

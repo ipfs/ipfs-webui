@@ -1,9 +1,9 @@
 /* global it, expect */
 import { composeBundlesRaw, createReactorBundle } from 'redux-bundler'
-import createNodeBandwidthChartBundle from './node-bandwidth-chart'
-import { randomInt } from '../../test/helpers/random'
-import sleep from '../../test/helpers/sleep'
-import { fakeBandwidth } from '../../test/helpers/bandwidth'
+import createNodeBandwidthChartBundle from './node-bandwidth-chart.js'
+import { randomInt } from '../../test/helpers/random.js'
+import sleep from '../../test/helpers/sleep.js'
+import { fakeBandwidth } from '../../test/helpers/bandwidth.js'
 
 const mockNodeBandwidthBundle = {
   name: 'nodeBandwidth',

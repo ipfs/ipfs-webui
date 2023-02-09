@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
-import Speedometer from './Speedometer'
-import { Title } from './Commons'
+import Speedometer from './Speedometer.js'
+import { Title } from './Commons.js'
 
 class NetworkTraffic extends React.Component {
   state = {
