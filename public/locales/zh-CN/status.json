@@ -14,7 +14,7 @@
   },
   "customApiConfig": "自定义JSON配置",
   "AnalyticsBanner": {
-    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
+    "label": "我们最近更新了数据收集政策以切换新的数据收集规则指标。您之前已经禁用了数据收集。您可以在设置页面上（再次）禁用数据收集。"
   },
   "tour": {
     "step1": {
