@@ -1,17 +1,19 @@
 diff --git a/node_modules/ipld-explorer-components/dist/bundles/explore.js b/node_modules/ipld-explorer-components/dist/bundles/explore.js
-index 123bc7f..b5b4fe4 100644
+index 123bc7f..29534b6 100644
 --- a/node_modules/ipld-explorer-components/dist/bundles/explore.js
 +++ b/node_modules/ipld-explorer-components/dist/bundles/explore.js
-@@ -388,6 +388,8 @@ function getIpld() {
+@@ -388,7 +388,9 @@ function getIpld() {
  
  function _getIpld() {
    _getIpld = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+-    var ipldDeps, _ipldDeps$map, _ipldDeps$map2, ipld, formats, ipldEthereum, ipldJson;
 +    var _ipldEthereum$default;
 +
-     var ipldDeps, _ipldDeps$map, _ipldDeps$map2, ipld, formats, ipldEthereum, ipldJson;
++    var ipldDeps, _ipldDeps$map, _ipldDeps$map2, ipld, formatImports, formats, ipldEthereum, ipldJson;
  
      return regeneratorRuntime.wrap(function _callee3$(_context4) {
-@@ -405,34 +407,48 @@ function _getIpld() {
+       while (1) {
+@@ -405,26 +407,42 @@ function _getIpld() {
              /* webpackChunkName: "ipld" */
              'ipld-git'), import(
              /* webpackChunkName: "ipld" */
@@ -22,45 +24,49 @@ index 123bc7f..b5b4fe4 100644
  
            case 2:
              ipldDeps = _context4.sent;
-             // CommonJs exports object is .default when imported ESM style
+-            // CommonJs exports object is .default when imported ESM style
              _ipldDeps$map = ipldDeps.map(function (mod) {
 -              return mod["default"];
+-            }), _ipldDeps$map2 = _toArray(_ipldDeps$map), ipld = _ipldDeps$map2[0], formats = _ipldDeps$map2.slice(1); // ipldEthereum is an Object, each key points to a ipld format impl
 +              var _mod$default;
 +
++              // CommonJs exports object is .default when imported ESM style
 +              var actualModule = (_mod$default = mod["default"]) !== null && _mod$default !== void 0 ? _mod$default : mod;
-+
-+              if (actualModule.name != null && actualModule.code != null && actualModule.codec == null) {
-+                // fix throw new Error(`Resolver already exists for codec "${codecName}"`) from ipld when `codecName` is undefined
-+                actualModule.codec = actualModule.code;
-+              }
-+
 +              return actualModule;
-             }), _ipldDeps$map2 = _toArray(_ipldDeps$map), ipld = _ipldDeps$map2[0], formats = _ipldDeps$map2.slice(1); // ipldEthereum is an Object, each key points to a ipld format impl
++            }), _ipldDeps$map2 = _toArray(_ipldDeps$map), ipld = _ipldDeps$map2[0], formatImports = _ipldDeps$map2.slice(1);
++            formats = formatImports.map(function (actualModule) {
++              if (actualModule.util == null) {
++                // actualModule has no util. using blockcodec-to-ipld-format
++                var convertedModule = convert(actualModule);
++                return convertedModule;
++              }
  
 -            ipldEthereum = formats.pop();
 -            formats.push.apply(formats, _toConsumableArray(Object.values(ipldEthereum))); // ipldJson uses the new format, use the conversion tool
-+            _context4.next = 6;
++              return actualModule;
++            }); // ipldEthereum is an Object, each key points to a ipld format impl
+ 
+-            _context4.next = 8;
++            _context4.next = 7;
 +            return import(
 +            /* webpackChunkName: "ipld" */
 +            'ipld-ethereum');
 +
-+          case 6:
++          case 7:
 +            ipldEthereum = _context4.sent;
 +            formats.push.apply(formats, _toConsumableArray(Object.values((_ipldEthereum$default = ipldEthereum["default"]) !== null && _ipldEthereum$default !== void 0 ? _ipldEthereum$default : ipldEthereum))); // ipldJson uses the new format, use the conversion tool
- 
--            _context4.next = 8;
-+            _context4.next = 10;
++
++            _context4.next = 11;
              return import(
              /* webpackChunkName: "ipld" */
              '@ipld/dag-json');
  
 -          case 8:
-+          case 10:
++          case 11:
              ipldJson = _context4.sent;
              formats.push(convert(ipldJson));
-+            console.log('formats: ', formats);
              return _context4.abrupt("return", {
-               ipld: ipld,
+@@ -432,7 +450,7 @@ function _getIpld() {
                formats: formats
              });
  
@@ -70,48 +76,32 @@ index 123bc7f..b5b4fe4 100644
              return _context4.stop();
          }
 diff --git a/node_modules/ipld-explorer-components/dist/components/object-info/ObjectInfo.js b/node_modules/ipld-explorer-components/dist/components/object-info/ObjectInfo.js
-index c4bcf4e..cd8112e 100644
+index c4bcf4e..c130703 100644
 --- a/node_modules/ipld-explorer-components/dist/components/object-info/ObjectInfo.js
 +++ b/node_modules/ipld-explorer-components/dist/components/object-info/ObjectInfo.js
 @@ -15,6 +15,7 @@ import { withTranslation } from 'react-i18next';
  import { ObjectInspector, chromeLight } from '@tableflip/react-inspector';
  import filesize from 'filesize';
  import LinksTable from './LinksTable';
-+import multicodec from 'multicodec';
++import { decodeCid } from '../cid-info/decode-cid';
  var humansize = filesize.partial({
    round: 0
  });
-@@ -77,16 +78,30 @@ var nodeStyles = {
-     color: '#383838'
-   }
+@@ -122,6 +123,8 @@ var DagNodeIcon = function DagNodeIcon(_ref) {
  };
-+/**
-+ * Support getting the style object for a node type using the codec number by redirecting the number to the name
-+ */
+ 
+ var ObjectInfo = function ObjectInfo(_ref2) {
++  var _cidInfo$cid$codec;
 +
-+var nodeStylesProxy = new Proxy(nodeStyles, {
-+  get: function get(target, prop) {
-+    if (isNaN(prop)) {
-+      return target[prop];
-+    }
-+
-+    console.log("getting codec name from code number for ".concat(prop, ": "), multicodec.getNameFromCode(prop));
-+    return target[multicodec.getNameFromCode(prop)];
-+  }
-+});
- export function shortNameForNode(type) {
--  var style = nodeStyles[type];
-+  var style = nodeStylesProxy[type];
-   return style && style.shortName || 'DAG';
- }
- export function nameForNode(type) {
--  var style = nodeStyles[type];
-+  var style = nodeStylesProxy[type];
-   return style && style.name || 'DAG Node';
- }
- export function colorForNode(type) {
--  var style = nodeStyles[type];
-+  var style = nodeStylesProxy[type];
-   return style && style.color || '#ea5037';
- } // '/a/b' => ['$', '$.a', '$.a.b']
- // See: https://github.com/xyc/react-inspector#api
+   var t = _ref2.t,
+       tReady = _ref2.tReady,
+       className = _ref2.className,
+@@ -137,6 +140,8 @@ var ObjectInfo = function ObjectInfo(_ref2) {
+       publicGatewayUrl = _ref2.publicGatewayUrl,
+       props = _objectWithoutProperties(_ref2, ["t", "tReady", "className", "type", "cid", "localPath", "size", "data", "links", "format", "onLinkClick", "gatewayUrl", "publicGatewayUrl"]);
+ 
++  var cidInfo = decodeCid(cid);
++  type = (_cidInfo$cid$codec = cidInfo.cid.codec) !== null && _cidInfo$cid$codec !== void 0 ? _cidInfo$cid$codec : type;
+   return /*#__PURE__*/React.createElement("section", _extends({
+     className: "pa4 sans-serif ".concat(className)
+   }, props), /*#__PURE__*/React.createElement("h2", {
