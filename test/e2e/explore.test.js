@@ -44,8 +44,6 @@ async function testExploredCid ({ cid, type, humanReadableCID, page }) {
   await page.waitForSelector('#CidInfo-human-readable-cid')
   const actualHumanReadableCID = await page.$eval('#CidInfo-human-readable-cid', firstRes => firstRes.textContent)
   expect(actualHumanReadableCID).toBe(humanReadableCID)
-  // console.log(`actualHumanReadableCID: `, actualHumanReadableCID);
-  // await page.waitForSelector(`"${humanReadableCID}"`)
 }
 
 test.describe('Explore screen', () => {
@@ -71,16 +69,12 @@ test.describe('Explore screen', () => {
       const result = await ipfs.add(expectedData, { cidVersion: 1 })
       await expect(result.cid.toString()).toStrictEqual(cid)
 
-      // open inspector
-      await page.goto(`/#/explore/${cid}`)
-
-      // expect node type
-      await page.waitForSelector(`"${cid}"`)
-      await page.waitForSelector('[title="raw"]')
-      await page.waitForSelector('text=Raw Block')
-
-      // expect cid details
-      await page.waitForSelector('text=base32 - cidv1 - raw - sha2-256~256~46532C71D1B730E168548410DDBB4186A2C3C0659E915B19D47F373EC6C5174A')
+      await testExploredCid({
+        cid,
+        page,
+        type: 'raw',
+        humanReadableCID: 'base32 - cidv1 - raw - sha2-256~256~46532C71D1B730E168548410DDBB4186A2C3C0659E915B19D47F373EC6C5174A'
+      })
     })
 
     test('should open dag-pb', async ({ page }) => {
