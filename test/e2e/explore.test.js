@@ -3,6 +3,10 @@ import { readFileSync } from 'fs'
 import { join, dirname } from 'path'
 import * as kuboRpcModule from 'kubo-rpc-client'
 import { fileURLToPath } from 'url'
+import {encode, decode} from '@ipld/dag-cbor'
+import * as dagCbor from '@ipld/dag-cbor'
+import {CID} from 'multiformats/cid'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
@@ -76,7 +80,29 @@ test.describe('Explore screen', () => {
     // const cid = 'bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy'
     // const cid = 'bafyreigyjpb4hum3prop73k2ttpeikeeq636jtcpdjeytjrogh436vs2lu'
     // const cid = 'zdpuAzE1oAAMpsfdoexcJv6PmL9UhE8nddUYGU32R98tzV5fv'
-    const cid = 'bafyreiengp2sbi6ez34a2jctv34bwyjl7yoliteleaswgcwtqzrhmpyt2m'
+    // const cid = 'bafyreiengp2sbi6ez34a2jctv34bwyjl7yoliteleaswgcwtqzrhmpyt2m'
+    const cidInstance = CID.parse('bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy')
+    console.log(`cidInstance: `, cidInstance);
+    console.log('CID.asCID("bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy")', CID.asCID('bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy'))
+    console.log('CID.asCID(cidInstance)', CID.asCID(cidInstance))
+    const cid = cidInstance.toString()
+    console.log(`cid: `, cid);
+
+    // const expectedData = readFileSync(join(__dirname, '../../LICENSE'), 'utf8')
+    const ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
+
+    // console.log(`rawCid: `, rawCid);
+    // console.log(`cid: `, cid);
+    // console.log(`bytes: `, bytes);
+    // const getResult = await ipfs.dag.get(cidInstance)
+    // console.log(`getResult: `, getResult);
+    console.log(`cidInstance.bytes: `, cidInstance.bytes);
+    console.log(`CID.decode(cidInstance.bytes): `, CID.decode(cidInstance.bytes));
+    console.log(`cidInstance.multihash: `, cidInstance.multihash);
+    console.log(`cidInstance.multihash.digest: `, cidInstance.multihash.digest);
+    const addResult = await ipfs.add(cidInstance.multihash.bytes, { cid })
+    console.log(`addResult: `, addResult);
+    // const cid = addResult.cid.toString()
 
     // open inspector
     await page.goto(`/#/explore/${cid}`)
@@ -87,11 +113,11 @@ test.describe('Explore screen', () => {
     // await spinner.waitFor({ state: 'hidden' })
     // await page.waitForSelector(`a[href="#/explore/${cid}"]`)
     // expect node type
-    // await page.waitForSelector('[title="dag-cbor"]')
     // await page.waitForSelector('text=bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy')
     // await page.waitForSelector('text=bafyreigyjpb4hum3prop73k2ttpeikeeq636jtcpdjeytjrogh436vs2lu')
     // await page.waitForSelector('text=zdpuAzE1oAAMpsfdoexcJv6PmL9UhE8nddUYGU32R98tzV5fv')
-    await page.waitForSelector('text=bafyreiengp2sbi6ez34a2jctv34bwyjl7yoliteleaswgcwtqzrhmpyt2m')
+    await page.waitForSelector(`text=${cid}`)
+    await page.waitForSelector('[title="dag-cbor"]')
     // await page.waitForSelector('text=dag-cbor')
     // // expect cid details
     // await page.waitForSelector('text=base32 - cidv1 - dag-cbor - sha2-256~256~ED7AFE0623E4900EA28DA4633C81DF91D37D4D81EC98A37')
