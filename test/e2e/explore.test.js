@@ -3,9 +3,9 @@ import { readFileSync } from 'fs'
 import { join, dirname } from 'path'
 import * as kuboRpcModule from 'kubo-rpc-client'
 import { fileURLToPath } from 'url'
-import {CID} from 'multiformats/cid'
+import { CID } from 'multiformats/cid'
 import * as dagPb from '@ipld/dag-pb'
-import {sha256} from 'multiformats/hashes/sha2'
+import { sha256 } from 'multiformats/hashes/sha2'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -29,8 +29,8 @@ const createCID = async (value, codec, hasher, version = 1) => {
 }
 
 async function testExploredCid ({ cid, type, humanReadableCID, page }) {
-  await page.fill('[data-id="FilesExploreForm"] input[id="ipfs-path"]', cid);
-  await page.press('[data-id="FilesExploreForm"] button[title="Inspect"]', 'Enter');
+  await page.fill('[data-id="FilesExploreForm"] input[id="ipfs-path"]', cid)
+  await page.press('[data-id="FilesExploreForm"] button[title="Inspect"]', 'Enter')
 
   // wait for loading
   const spinner = page.locator('.la-ball-triangle-path')
@@ -42,7 +42,7 @@ async function testExploredCid ({ cid, type, humanReadableCID, page }) {
 
   // expect cid details
   await page.waitForSelector('#CidInfo-human-readable-cid')
-  const actualHumanReadableCID = await page.$eval('#CidInfo-human-readable-cid', firstRes => firstRes.textContent);
+  const actualHumanReadableCID = await page.$eval('#CidInfo-human-readable-cid', firstRes => firstRes.textContent)
   expect(actualHumanReadableCID).toBe(humanReadableCID)
   // console.log(`actualHumanReadableCID: `, actualHumanReadableCID);
   // await page.waitForSelector(`"${humanReadableCID}"`)
@@ -84,7 +84,6 @@ test.describe('Explore screen', () => {
     })
 
     test('should open dag-pb', async ({ page }) => {
-
       const ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
       const cidData = new Uint8Array(Buffer.from('hello world'))
       const dagPbAsDagJson = {
@@ -120,7 +119,7 @@ test.describe('Explore screen', () => {
       const type = 'dag-cbor'
       const cidData = new Uint8Array(Buffer.from('hello world'))
       const dagCborAsDagJson = {
-        data: cidData,
+        data: cidData
       }
 
       // add bytes to backend node so that explore page can load the content
@@ -147,6 +146,5 @@ test.describe('Explore screen', () => {
       })
       await page.waitForSelector('"UnixFS"')
     })
-  });
-
+  })
 })
