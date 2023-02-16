@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url'
 import {encode, decode} from '@ipld/dag-cbor'
 import * as dagCbor from '@ipld/dag-cbor'
 import {CID} from 'multiformats/cid'
+import uint8ArrayFromString from 'uint8arrays/from-string.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -13,6 +14,7 @@ const __dirname = dirname(__filename)
 test.describe('Explore screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/explore')
+    await page.waitForSelector('.joyride-app-status .teal') // '.joyride-app-status .red' means disconnected.
   })
 
   test('should have Project Apollo Archive as one of examples', async ({ page }) => {
@@ -31,30 +33,53 @@ test.describe('Explore screen', () => {
 
     // open inspector
     await page.goto(`/#/explore/${cid}`)
-    // await page.waitForSelector(`a[href="#/explore/${cid}"]`)
+
     // expect node type
-    await page.waitForSelector('text=bafkreicgkmwhdunxgdqwqveecdo3wqmgulb4azm6sfnrtvd7g47mnrixji')
+    await page.waitForSelector(`"${cid}"`)
+    await page.waitForSelector('[title="raw"]')
     await page.waitForSelector('text=Raw Block')
+
     // expect cid details
     await page.waitForSelector('text=base32 - cidv1 - raw - sha2-256~256~46532C71D1B730E168548410DDBB4186A2C3C0659E915B19D47F373EC6C5174A')
   })
 
-  test('should open unixFS CID', async ({ page }) => {
-    // test.slow();
+  test('should open cidv0 dag-pb unixFS CID', async ({ page }) => {
+    test.slow();
     const cid = 'QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D'
 
+    await page.fill('[data-id="FilesExploreForm"] input[id="ipfs-path"]', cid);
+    await page.press('[data-id="FilesExploreForm"] button[title="Inspect"]', 'Enter');
+
     // open inspector
-    await page.goto(`/#/explore/${cid}`)
+    // await page.goto(`/#/explore/${cid}`)
+    await page.waitForURL(`/#/explore/${cid}`);
+    // await page.waitForSelector('.e2e-explorePage')
+    // const html = await page.content()
+    // const explorePage = page.locator('.e2e-explorePage')
+    // await explorePage.waitFor({ state: 'attached' })
     const spinner = page.locator('.la-ball-triangle-path')
-    await spinner.waitFor({ state: 'hidden' })
+    await spinner.waitFor({ state: 'hidden', timeout: 30000 })
     // expect node type
     // await page.waitForSelector('.joyride-explorer-node')
-    await page.waitForSelector('text=QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D')
+    await page.waitForSelector(`"${cid}"`)
     await page.waitForSelector('[title="dag-pb"]')
-    // await page.waitForSelector('"dag-pb"')
-    // await page.waitForSelector('text=UnixFS')
+    // const foo = await page.locator('section > [title="dag-pb"] > a').innerText()
+    // console.log(`foo: `, foo);
+    // const nodeType = await page.$('[title="dag-pb"]')
+    // expect(await nodeType.$eval('a', el => el.innerText)).toBe('UnixFS')
     // // expect cid details
-    // await page.waitForSelector('text=base58btc - cidv0 - dag-pb - sha2-256~256~422896A1CE82A7B1CC0BA27C7D8DE2886C7DF95588473D')
+    // await page.waitForSelector('#CidInfo-human-readable-cid')
+    // const foo = await page.locator('#CidInfo-human-readable-cid').innerText()
+    console.log(`await page.content(): `, await page.content());
+    const foo = await page.$eval('#CidInfo-human-readable-cid', firstRes => firstRes.textContent);
+    console.log(`foo: `, foo);
+    // console.log(`await foo.innerText(): `, await foo.innerText());
+
+    // await page.waitForSelector('"base58btc - cidv0 - dag-pb - sha2-256~256~422896A1CE82A7B1CC0BA27C7D8DE2886C7DF95588473D5E88A28A9FCFA0E43E"')
+    await page.waitForSelector('"base58btc"')
+    await page.waitForSelector('"cidv0"')
+    await page.waitForSelector('"dag-pb"')
+    await page.waitForSelector('"sha2-256"')
   })
 
   test('should open unixFS CID2', async ({ page }) => {
@@ -63,60 +88,46 @@ test.describe('Explore screen', () => {
 
     // open inspector
     await page.goto(`/#/explore/${cid}`)
+
+    // wait for spinner
     const spinner = page.locator('.la-ball-triangle-path')
     await spinner.waitFor({ state: 'hidden' })
+
     // expect node type
-    await page.waitForSelector('text=QmdmQXB2mzChmMeKY47C43LxUdg1NDJ5MWcKMKxDu7RgQm')
+    await page.waitForSelector(`"${cid}"`)
     await page.waitForSelector('[title="dag-pb"]')
     // await page.waitForSelector('text=dag-pb')
     // await page.waitForSelector('text=UnixFS')
+
     // expect cid details
     // await page.waitForSelector('text=base58btc - cidv0 - dag-pb - sha2-256~256~E536C7F88D731F374DCCB568AFF6F56E838A19382E4880')
   })
 
 
   test('should open dag-cbor cid', async ({ page }) => {
-    // test.slow();
-    // const cid = 'bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy'
-    // const cid = 'bafyreigyjpb4hum3prop73k2ttpeikeeq636jtcpdjeytjrogh436vs2lu'
-    // const cid = 'zdpuAzE1oAAMpsfdoexcJv6PmL9UhE8nddUYGU32R98tzV5fv'
-    // const cid = 'bafyreiengp2sbi6ez34a2jctv34bwyjl7yoliteleaswgcwtqzrhmpyt2m'
-    const cidInstance = CID.parse('bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy')
-    console.log(`cidInstance: `, cidInstance);
-    console.log('CID.asCID("bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy")', CID.asCID('bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy'))
-    console.log('CID.asCID(cidInstance)', CID.asCID(cidInstance))
-    const cid = cidInstance.toString()
-    console.log(`cid: `, cid);
-
-    // const expectedData = readFileSync(join(__dirname, '../../LICENSE'), 'utf8')
     const ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
 
-    // console.log(`rawCid: `, rawCid);
-    // console.log(`cid: `, cid);
-    // console.log(`bytes: `, bytes);
-    // const getResult = await ipfs.dag.get(cidInstance)
-    // console.log(`getResult: `, getResult);
-    console.log(`cidInstance.bytes: `, cidInstance.bytes);
-    console.log(`CID.decode(cidInstance.bytes): `, CID.decode(cidInstance.bytes));
-    console.log(`cidInstance.multihash: `, cidInstance.multihash);
-    console.log(`cidInstance.multihash.digest: `, cidInstance.multihash.digest);
-    const addResult = await ipfs.add(cidInstance.multihash.bytes, { cid })
-    console.log(`addResult: `, addResult);
-    // const cid = addResult.cid.toString()
+    const dagJsonCborNode = {
+      data: uint8ArrayFromString('hello world')
+    }
+
+    // add bytes to backend node so that explore page can load the content
+    const cidInstance = await ipfs.dag.put(dagJsonCborNode, {
+      storeCodec: 'dag-cbor',
+      hashAlg: 'sha2-256'
+    })
+    const cborCid = cidInstance.toString()
+    console.log(`cborCid: `, cborCid);
 
     // open inspector
-    await page.goto(`/#/explore/${cid}`)
+    await page.goto(`/#/explore/${cborCid}`)
+
+    // wait for loading
     const spinner = page.locator('.la-ball-triangle-path')
     await spinner.waitFor({ state: 'hidden' })
-    // const foo = page.locator('.joyride-explorer-cid')
-    // await foo.waitFor({ state: 'attached' })
-    // await spinner.waitFor({ state: 'hidden' })
-    // await page.waitForSelector(`a[href="#/explore/${cid}"]`)
+
     // expect node type
-    // await page.waitForSelector('text=bafyreihnpl7ami7esahkfdnemm6idx4r2n6u3apmtcrxlqwuapgjsciihy')
-    // await page.waitForSelector('text=bafyreigyjpb4hum3prop73k2ttpeikeeq636jtcpdjeytjrogh436vs2lu')
-    // await page.waitForSelector('text=zdpuAzE1oAAMpsfdoexcJv6PmL9UhE8nddUYGU32R98tzV5fv')
-    await page.waitForSelector(`text=${cid}`)
+    await page.waitForSelector(`"${cborCid}"`)
     await page.waitForSelector('[title="dag-cbor"]')
     // await page.waitForSelector('text=dag-cbor')
     // // expect cid details

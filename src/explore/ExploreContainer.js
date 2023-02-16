@@ -9,12 +9,14 @@ const ExploreContainer = ({
   availableGatewayUrl,
   publicGateway
 }) => (
-  <ExplorePage
-    runTour={toursEnabled}
-    joyrideCallback={handleJoyrideCallback}
-    gatewayUrl={availableGatewayUrl}
-    publicGateway={publicGateway}
-  />
+  <div className="e2e-explorePage">
+    <ExplorePage
+      runTour={toursEnabled}
+      joyrideCallback={handleJoyrideCallback}
+      gatewayUrl={availableGatewayUrl}
+      publicGateway={publicGateway}
+    />
+  </div>
 )
 
 export default connect(
