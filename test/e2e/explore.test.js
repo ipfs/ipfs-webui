@@ -28,9 +28,11 @@ const createCID = async (value, codec, hasher, version = 1) => {
   }
 }
 
-async function testExploredCid ({ cid, type, humanReadableCID, page }) {
-  await page.fill('[data-id="FilesExploreForm"] input[id="ipfs-path"]', cid)
-  await page.press('[data-id="FilesExploreForm"] button[title="Inspect"]', 'Enter')
+async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm = true }) {
+  if (fillOutForm) {
+    await page.fill('[data-id="FilesExploreForm"] input[id="ipfs-path"]', cid)
+    await page.press('[data-id="FilesExploreForm"] button[title="Inspect"]', 'Enter')
+  }
 
   // wait for loading
   const spinner = page.locator('.la-ball-triangle-path')
@@ -136,6 +138,16 @@ test.describe('Explore screen', () => {
         page,
         cid: 'QmdmQXB2mzChmMeKY47C43LxUdg1NDJ5MWcKMKxDu7RgQm',
         humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~E536C7F88D731F374DCCB568AFF6F56E838A19382E488039B1CA8AD2599E82FE',
+        type: 'dag-pb'
+      })
+      await page.waitForSelector('"UnixFS"')
+      const firstChild = await page.waitForSelector('"1 - Barrel - Part 1"')
+      await firstChild.click()
+      await testExploredCid({
+        fillOutForm: false,
+        page,
+        cid: 'QmbQDovX7wRe9ek7u6QXe9zgCXkTzoUSsTFJEkrYV1HrVR',
+        humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~C212195DE60CE9B899EFDB2830101B16556018A24C7428E32198FAAB9D493F94',
         type: 'dag-pb'
       })
       await page.waitForSelector('"UnixFS"')
