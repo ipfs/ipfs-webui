@@ -14,7 +14,7 @@
   },
   "customApiConfig": "Konfigurasi JSON kustom",
   "AnalyticsBanner": {
-    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
+    "label": "Kami baru saja memperbarui kebijakan telemetri untuk beralih ke metrik penyisihan. Anda sebelumnya telah menonaktifkan pengumpulan telemetri. Anda dapat menonaktifkan pengumpulan telemetri (lagi) di halaman pengaturan."
   },
   "tour": {
     "step1": {
