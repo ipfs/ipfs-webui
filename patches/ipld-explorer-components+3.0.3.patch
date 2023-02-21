@@ -1,19 +1,163 @@
 diff --git a/node_modules/ipld-explorer-components/dist/bundles/explore.js b/node_modules/ipld-explorer-components/dist/bundles/explore.js
-index 123bc7f..29534b6 100644
+index 123bc7f..8dba962 100644
 --- a/node_modules/ipld-explorer-components/dist/bundles/explore.js
 +++ b/node_modules/ipld-explorer-components/dist/bundles/explore.js
-@@ -388,7 +388,9 @@ function getIpld() {
+@@ -296,7 +296,36 @@ function ensureLeadingSlash(str) {
+ function makeIpld(IpldResolver, ipldFormats, getIpfs) {
+   return new IpldResolver({
+     blockService: painfullyCompatibleBlockService(getIpfs()),
+-    formats: ipldFormats
++    formats: ipldFormats,
++    loadFormat: function loadFormat(codec) {
++      return _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
++        var format;
++        return regeneratorRuntime.wrap(function _callee2$(_context3) {
++          while (1) {
++            switch (_context3.prev = _context3.next) {
++              case 0:
++                format = ipldFormats.find(function (f) {
++                  return f.codec === codec;
++                });
++
++                if (!(format == null)) {
++                  _context3.next = 3;
++                  break;
++                }
++
++                throw new Error('No format found for codec: ' + codec);
++
++              case 3:
++                return _context3.abrupt("return", format);
++
++              case 4:
++              case "end":
++                return _context3.stop();
++            }
++          }
++        }, _callee2);
++      }))();
++    }
+   });
+ } // This wrapper ensures the new block service from js-ipfs AND js-ipfs-http-client
+ // works with the legacy code present in ipld-explorer-components
+@@ -313,61 +342,72 @@ function painfullyCompatibleBlockService(ipfs) {
+       if (prop === 'get') {
+         // augument ipfs.block.get()
+         return /*#__PURE__*/function () {
+-          var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(cid, options) {
++          var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(cid, options) {
+             var block;
+-            return regeneratorRuntime.wrap(function _callee2$(_context3) {
++            return regeneratorRuntime.wrap(function _callee3$(_context4) {
+               while (1) {
+-                switch (_context3.prev = _context3.next) {
++                switch (_context4.prev = _context4.next) {
+                   case 0:
+-                    _context3.prev = 0;
+-                    _context3.next = 3;
++                    _context4.prev = 0;
++                    _context4.next = 3;
+                     return ipfs.block.get(cid, options);
+ 
+                   case 3:
+-                    block = _context3.sent;
+-                    _context3.next = 15;
++                    block = _context4.sent;
++                    _context4.next = 15;
+                     break;
+ 
+                   case 6:
+-                    _context3.prev = 6;
+-                    _context3.t0 = _context3["catch"](0);
++                    _context4.prev = 6;
++                    _context4.t0 = _context4["catch"](0);
+ 
+-                    if (!_context3.t0.toString().includes('Unknown type, must be binary type')) {
+-                      _context3.next = 14;
++                    if (!_context4.t0.toString().includes('Unknown type, must be binary type')) {
++                      _context4.next = 14;
+                       break;
+                     }
+ 
+-                    _context3.next = 11;
++                    _context4.next = 11;
+                     return ipfs.block.get(CID.parse(cid.toString()), options);
+ 
+                   case 11:
+-                    block = _context3.sent;
+-                    _context3.next = 15;
++                    block = _context4.sent;
++                    _context4.next = 15;
+                     break;
+ 
+                   case 14:
+-                    throw _context3.t0;
++                    throw _context4.t0;
+ 
+                   case 15:
+                     if (!(typeof block.cid === 'undefined')) {
+-                      _context3.next = 17;
++                      _context4.next = 19;
+                       break;
+                     }
+ 
+-                    return _context3.abrupt("return", {
++                    if (!(typeof cid === 'string')) {
++                      _context4.next = 18;
++                      break;
++                    }
++
++                    return _context4.abrupt("return", {
++                      cid: CID.parse(cid),
++                      data: block
++                    });
++
++                  case 18:
++                    return _context4.abrupt("return", {
+                       cid: cid,
+                       data: block
+                     });
+ 
+-                  case 17:
+-                    return _context3.abrupt("return", block);
++                  case 19:
++                    return _context4.abrupt("return", block);
+ 
+-                  case 18:
++                  case 20:
+                   case "end":
+-                    return _context3.stop();
++                    return _context4.stop();
+                 }
+               }
+-            }, _callee2, null, [[0, 6]]);
++            }, _callee3, null, [[0, 6]]);
+           }));
+ 
+           return function (_x2, _x3) {
+@@ -387,14 +427,16 @@ function getIpld() {
+ }
  
  function _getIpld() {
-   _getIpld = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+-  _getIpld = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
 -    var ipldDeps, _ipldDeps$map, _ipldDeps$map2, ipld, formats, ipldEthereum, ipldJson;
++  _getIpld = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
 +    var _ipldEthereum$default;
-+
-+    var ipldDeps, _ipldDeps$map, _ipldDeps$map2, ipld, formatImports, formats, ipldEthereum, ipldJson;
  
-     return regeneratorRuntime.wrap(function _callee3$(_context4) {
+-    return regeneratorRuntime.wrap(function _callee3$(_context4) {
++    var ipldDeps, _ipldDeps$map, _ipldDeps$map2, ipld, formatImports, formats, ipldEthereum, ipldJson;
++
++    return regeneratorRuntime.wrap(function _callee4$(_context5) {
        while (1) {
-@@ -405,26 +407,42 @@ function _getIpld() {
+-        switch (_context4.prev = _context4.next) {
++        switch (_context5.prev = _context5.next) {
+           case 0:
+-            _context4.next = 2;
++            _context5.next = 2;
+             return Promise.all([import(
+             /* webpackChunkName: "ipld" */
+             'ipld'), import(
+@@ -405,39 +447,87 @@ function _getIpld() {
              /* webpackChunkName: "ipld" */
              'ipld-git'), import(
              /* webpackChunkName: "ipld" */
@@ -23,8 +167,9 @@ index 123bc7f..29534b6 100644
 +            'ipld-raw')]);
  
            case 2:
-             ipldDeps = _context4.sent;
+-            ipldDeps = _context4.sent;
 -            // CommonJs exports object is .default when imported ESM style
++            ipldDeps = _context5.sent;
              _ipldDeps$map = ipldDeps.map(function (mod) {
 -              return mod["default"];
 -            }), _ipldDeps$map2 = _toArray(_ipldDeps$map), ipld = _ipldDeps$map2[0], formats = _ipldDeps$map2.slice(1); // ipldEthereum is an Object, each key points to a ipld format impl
@@ -37,44 +182,85 @@ index 123bc7f..29534b6 100644
 +            formats = formatImports.map(function (actualModule) {
 +              if (actualModule.util == null) {
 +                // actualModule has no util. using blockcodec-to-ipld-format
-+                var convertedModule = convert(actualModule);
-+                return convertedModule;
-+              }
++                var options = {};
++
++                if (actualModule.code === 112) {
++                  /**
++                   * based off of
++                   * * https://github.com/ipld/js-ipld-dag-cbor/blob/b1112f00b605661f6766cd420f48f730ac77a6e0/src/resolver.js#L15-L38
++                   * * https://github.com/ipld/js-blockcodec-to-ipld-format/blob/master/src/index.js#L38-L55
++                   */
++                  options.resolve = function (buf) {
++                    var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
++                    var value = actualModule.decode(buf);
++                    var entries = path.split('/').filter(function (x) {
++                      return x;
++                    });
++
++                    if (entries.length > 0) {
++                      var entry = entries.shift();
++                      value = value.Links.find(function (link) {
++                        return link.Name === entry;
++                      });
  
 -            ipldEthereum = formats.pop();
 -            formats.push.apply(formats, _toConsumableArray(Object.values(ipldEthereum))); // ipldJson uses the new format, use the conversion tool
-+              return actualModule;
-+            }); // ipldEthereum is an Object, each key points to a ipld format impl
++                      if (typeof value === 'undefined') {
++                        throw new Error("Could not find link with name '".concat(entry, "'"));
++                      }
++                    }
++
++                    return {
++                      value: value,
++                      remainderPath: entries.join('/')
++                    };
++                  };
++                }
  
 -            _context4.next = 8;
-+            _context4.next = 7;
++                return convert(actualModule, options);
++              }
++
++              return actualModule;
++            }); // ipldEthereum is an Object, each key points to a ipld format impl
++
++            _context5.next = 7;
 +            return import(
 +            /* webpackChunkName: "ipld" */
 +            'ipld-ethereum');
 +
 +          case 7:
-+            ipldEthereum = _context4.sent;
++            ipldEthereum = _context5.sent;
 +            formats.push.apply(formats, _toConsumableArray(Object.values((_ipldEthereum$default = ipldEthereum["default"]) !== null && _ipldEthereum$default !== void 0 ? _ipldEthereum$default : ipldEthereum))); // ipldJson uses the new format, use the conversion tool
 +
-+            _context4.next = 11;
++            _context5.next = 11;
              return import(
              /* webpackChunkName: "ipld" */
              '@ipld/dag-json');
  
 -          case 8:
+-            ipldJson = _context4.sent;
 +          case 11:
-             ipldJson = _context4.sent;
++            ipldJson = _context5.sent;
              formats.push(convert(ipldJson));
-             return _context4.abrupt("return", {
-@@ -432,7 +450,7 @@ function _getIpld() {
+-            return _context4.abrupt("return", {
++            return _context5.abrupt("return", {
+               ipld: ipld,
                formats: formats
              });
  
 -          case 11:
 +          case 14:
            case "end":
-             return _context4.stop();
+-            return _context4.stop();
++            return _context5.stop();
          }
+       }
+-    }, _callee3);
++    }, _callee4);
+   }));
+   return _getIpld.apply(this, arguments);
+ }
 diff --git a/node_modules/ipld-explorer-components/dist/components/object-info/ObjectInfo.js b/node_modules/ipld-explorer-components/dist/components/object-info/ObjectInfo.js
 index c4bcf4e..c130703 100644
 --- a/node_modules/ipld-explorer-components/dist/components/object-info/ObjectInfo.js
@@ -105,3 +291,65 @@ index c4bcf4e..c130703 100644
    return /*#__PURE__*/React.createElement("section", _extends({
      className: "pa4 sans-serif ".concat(className)
    }, props), /*#__PURE__*/React.createElement("h2", {
+diff --git a/node_modules/ipld-explorer-components/dist/lib/resolve-ipld-path.js b/node_modules/ipld-explorer-components/dist/lib/resolve-ipld-path.js
+index bad007a..b9fdd31 100644
+--- a/node_modules/ipld-explorer-components/dist/lib/resolve-ipld-path.js
++++ b/node_modules/ipld-explorer-components/dist/lib/resolve-ipld-path.js
+@@ -2,6 +2,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
+ 
+ function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+ 
++import { CID } from 'multiformats/cid';
+ import normaliseDagNode from './normalise-dag-node';
+ /**
+  * @typedef {object} ResolvedIpldPathInfo
+@@ -151,6 +152,7 @@ export function ipldGetNodeAndRemainder(_x4, _x5, _x6) {
+ 
+ function _ipldGetNodeAndRemainder() {
+   _ipldGetNodeAndRemainder = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(ipld, sourceCid, path) {
++    var cidInstance;
+     return regeneratorRuntime.wrap(function _callee2$(_context2) {
+       while (1) {
+         switch (_context2.prev = _context2.next) {
+@@ -163,22 +165,36 @@ function _ipldGetNodeAndRemainder() {
+             throw new Error('sourceCid is null');
+ 
+           case 2:
+-            _context2.next = 4;
++            // TODO: find out why ipfs.dag.get with localResolve never resolves.
++            // const {value, remainderPath} = await getIpfs().dag.get(sourceCid, path, {localResolve: true})
++            // TODO: use ipfs.dag.get when it gets ipld super powers
++            // SEE: https://github.com/ipfs/js-ipfs-api/pull/755
++            // const {value} = await getIpfs().dag.get(sourceCid)
++            // TODO: handle indexing into dag-pb links without using Links prefix as per go-ipfs dag.get does.
++            // Current js-ipld-dag-pb resolver will throw with a path not available error if Links prefix is missing.
++            // ensure we're using CID instances
++            cidInstance = CID.asCID(sourceCid);
++
++            if (typeof sourceCid === 'string' && cidInstance == null) {
++              sourceCid = CID.parse(sourceCid);
++            }
++
++            _context2.next = 6;
+             return ipld.get(sourceCid);
+ 
+-          case 4:
++          case 6:
+             _context2.t0 = _context2.sent;
+-            _context2.next = 7;
++            _context2.next = 9;
+             return ipld.resolve(sourceCid, path || '/').first();
+ 
+-          case 7:
++          case 9:
+             _context2.t1 = _context2.sent.remainderPath;
+             return _context2.abrupt("return", {
+               value: _context2.t0,
+               remainderPath: _context2.t1
+             });
+ 
+-          case 9:
++          case 11:
+           case "end":
+             return _context2.stop();
+         }

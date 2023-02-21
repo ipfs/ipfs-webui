@@ -344,6 +344,26 @@
   "overrides": [
     {
       "multiaddr": "8.1.2"
+    },
+    {
+      "ipld-explorer-components": {
+        "ipfs-unixfs": "^4.0.1",
+        "ipld": "0.29.0",
+        "ipld-ethereum": "6.0.0",
+        "ipld-git": "0.6.4",
+        "ipld-raw": "7.0.0",
+        "@ipld/dag-pb": "^2.1.17",
+        "milliseconds": "^1.0.3",
+        "multibase": "4.0.2",
+        "multiformats": "^9.7.0",
+        "multihashes": "^4.0.3",
+        "react-joyride": "^2.3.0",
+        "stream-to-it": "^0.2.4",
+        "@ipld/car": "^4.1.0",
+        "@ipld/dag-cbor": "^7.0.2",
+        "@ipld/dag-json": "^8.0.10",
+        "blockcodec-to-ipld-format": "^2.0.0"
+      }
     }
   ]
 }
