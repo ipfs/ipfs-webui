@@ -42,10 +42,12 @@ async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm
   await page.waitForSelector(`"${cid}"`)
   await page.waitForSelector(`[title="${type}"]`)
 
-  // expect cid details
-  await page.waitForSelector('#CidInfo-human-readable-cid')
-  const actualHumanReadableCID = await page.$eval('#CidInfo-human-readable-cid', firstRes => firstRes.textContent)
-  expect(actualHumanReadableCID).toBe(humanReadableCID)
+  if (humanReadableCID != null) {
+    // expect cid details
+    await page.waitForSelector('#CidInfo-human-readable-cid')
+    const actualHumanReadableCID = await page.$eval('#CidInfo-human-readable-cid', firstRes => firstRes.textContent)
+    expect(actualHumanReadableCID).toBe(humanReadableCID)
+  }
 }
 
 test.describe('Explore screen', () => {
@@ -77,6 +79,9 @@ test.describe('Explore screen', () => {
         type: 'raw',
         humanReadableCID: 'base32 - cidv1 - raw - sha2-256~256~46532C71D1B730E168548410DDBB4186A2C3C0659E915B19D47F373EC6C5174A'
       })
+
+      // should not have children, but this confirms that `traverseChildren` works fine when there are no children
+      await traverseChildren({ page, type: 'raw' })
     })
 
     test('should open dag-pb', async ({ page }) => {
@@ -108,6 +113,7 @@ test.describe('Explore screen', () => {
         humanReadableCID: 'base32 - cidv1 - dag-pb - sha2-256~256~543AA6F6B9A533C8BF80568090CDF24B693AAA2F9B574A33784D8462FDC5579C',
         type: 'dag-pb'
       })
+      await traverseChildren({ page, type: 'dag-pb' })
     })
 
     test('should open dag-cbor cid', async ({ page }) => {
@@ -131,6 +137,7 @@ test.describe('Explore screen', () => {
         humanReadableCID: 'base32 - cidv1 - dag-cbor - sha2-256~256~497BC2F17946B7E5DE05715EB348E47F2A6ABE6CF34ECAE9F46E236BC6E49FF5',
         type
       })
+      await traverseChildren({ page, type: 'dag-cbor' })
     })
 
     test('should open dag-pb unixFS XKCD Archives', async ({ page }) => {
@@ -151,6 +158,57 @@ test.describe('Explore screen', () => {
         type: 'dag-pb'
       })
       await page.waitForSelector('"UnixFS"')
+      await traverseChildren({ page, type: 'dag-pb' })
     })
   })
 })
+
+/**
+ * Click the first child of the currently inspected CID and repeat until there are no more children
+ * @param {object} param0
+ * @param {import('playwright').Page} param0.page
+ * @param {string} param0.type
+ *
+ * @returns {Promise<void>}
+ */
+async function traverseChildren ({ page, type }) {
+  let hasChildren = await clickFirstExploreChild({ page, type })
+  while (hasChildren) {
+    hasChildren = await clickFirstExploreChild({ page, type })
+  }
+}
+
+/**
+ * Click the first child of the currently inspected CID if it has children
+ *
+ * - [role="rowgroup"] - table of the content, not including header
+ * - [role="row"] - each row in the table (includes headers. need to filter out by prefixing parent rowgroup selector)
+ * - [role="gridcell"] - each cell in a row
+ *
+ * @param {object} param0
+ * @param {import('playwright').Page} param0.page
+ * @param {string} param0.type
+ * @returns {Promise<boolean>} true if a child was found and clicked
+ */
+async function clickFirstExploreChild ({ page, type }) {
+  // selector for the first content row's third column cell
+  const firstCidCell = page.locator('[role="rowgroup"] [role="row"]:nth-child(1) [role="gridcell"]:nth-child(3)')
+  if (await firstCidCell.isVisible()) {
+    // get the text content (the CID) of the cell
+    const cid = await firstCidCell.textContent()
+
+    await firstCidCell.click()
+    await firstCidCell.waitFor({ state: 'detached' })
+    await testExploredCid({
+      fillOutForm: false,
+      page,
+      cid,
+      humanReadableCID: null,
+      type
+    })
+
+    return true
+  }
+  // no children found, return false so we can stop clicking through children.
+  return false
+}
