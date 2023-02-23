@@ -1,0 +1,30 @@
+{
+  "ipfsApiRequestFailed": "Could not connect. Please check if your daemon is running.",
+  "windowIpfsRequestFailed": "IPFS request failed. Please check your IPFS Companion settings.",
+  "ipfsInvalidApiAddress": "The provided IPFS API address is invalid.",
+  "ipfsConnectSuccess": "Successfully connected to the IPFS API address",
+  "ipfsConnectFail": "Unable to connect to the provided IPFS API address",
+  "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
+  "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
+  "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
+  "ipfsIsBack": "Normal IPFS service has resumed. Enjoy!",
+  "folderExists": "An item with that name already exists. Please choose another.",
+  "filesFetchFailed": "Failed to get those files. Please check the path and try again.",
+  "filesRenameFailed": "Failed to rename the files. Please try again.",
+  "filesMakeDirFailed": "Failed to create directory. Please try again.",
+  "filesCopyFailed": "Failed to copy the files. Please try again.",
+  "filesRemoveFailed": "Failed to remove the files. Please try again.",
+  "filesAddFailed": "Failed to add files to IPFS. Please try again.",
+  "filesEventFailed": "Failed to process your request. Please try again.",
+  "couldntConnectToPeer": "Could not connect to the provided peer.",
+  "connectedToPeer": "Successfully connected to the provided peer.",
+  "experimentsErrors": {
+    "npmOnIpfs": "We couldn't make changes to your system. Please install or uninstall 'ipfs-npm' package manually."
+  },
+  "desktopToggleErrors": {
+    "autoLaunch": "Could not toggle launch at startup option.",
+    "ipfsOnPath": "Could not toggle IPFS command line tools.",
+    "downloadHashShortcut": "Could not toggle download hash shortcut.",
+    "screenshotShortcut": "Could not toggle screenshot shortcut."
+  }
+}
