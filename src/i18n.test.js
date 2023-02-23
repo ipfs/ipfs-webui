@@ -1,15 +1,12 @@
 /* global describe, it, expect, beforeAll, afterAll */
 // @ts-check
 import { createServer } from 'http-server'
-import i18n from './i18n.js'
-import { readdir } from 'node:fs/promises'
+import i18n, { localesList } from './i18n.js'
 import getPort from 'get-port'
 
 const backendListenerPort = await getPort({ port: getPort.makeRange(3000, 4000) })
 
-const allLanguages = (await readdir('./public/locales', { withFileTypes: true }))
-  .filter(dirent => dirent.isDirectory())
-  .map(dirent => dirent.name)
+const allLanguages = localesList.map(({ locale }) => locale)
 
 /**
    * @type {import('http-server').HTTPServer}

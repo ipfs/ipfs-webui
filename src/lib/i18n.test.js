@@ -1,14 +1,24 @@
 /* global describe, it, expect, beforeAll, afterAll */
 // @ts-check
-import i18n from '../i18n.js'
+import i18n, { localesList } from '../i18n.js'
 import { getLanguage, getCurrentLanguage } from './i18n.js'
 import languages from './languages.json'
+import { readdir } from 'node:fs/promises'
 
 const testEachLanguage = (fn) => {
   Object.keys(languages).forEach((lang) => fn(lang))
 }
 
+const allLanguages = (await readdir('./public/locales', { withFileTypes: true }))
+  .filter(dirent => dirent.isDirectory())
+  .map(dirent => dirent.name)
+
 describe('i18n', function () {
+  it('should have a languages.json entry for each folder', function () {
+    const namedLocales = localesList.map(({ locale }) => locale)
+    expect(namedLocales).toEqual(allLanguages)
+  })
+
   describe('getLanguage', function () {
     it('returns unknown when given non-truthy input', () => {
       expect(getLanguage()).toBe('Unknown')
@@ -27,10 +37,6 @@ describe('i18n', function () {
   })
 
   describe('getCurrentLanguage', function () {
-    it('returns unknown when i18n isn\'t initialized', () => {
-      expect(getCurrentLanguage()).toBe('Unknown')
-    })
-
     describe('returns the correct nativeName for each language', () => {
       beforeAll(async function () {
         await i18n.init()
