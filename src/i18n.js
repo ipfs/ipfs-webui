@@ -16,6 +16,7 @@ i18n
   .use(Backend)
   .use(LanguageDetector)
   .init({
+    load: 'currentOnly', // see https://github.com/i18next/i18next-http-backend/issues/61
     backend: {
       backends: [
         LocalStorageBackend,
