@@ -1,4 +1,4 @@
-/* global describe, it, expect, beforeAll, afterAll */
+/* global describe, it, expect, beforeAll */
 // @ts-check
 import i18n, { localesList } from '../i18n.js'
 import { getLanguage, getCurrentLanguage } from './i18n.js'
