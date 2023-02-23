@@ -3,32 +3,50 @@
 import { createServer } from 'http-server'
 import i18n from './i18n.js'
 import { readdir } from 'node:fs/promises'
+import getPort from 'get-port'
+
+const backendListenerPort = await getPort({ port: getPort.makeRange(3000, 4000) })
 
 const allLanguages = (await readdir('./public/locales', { withFileTypes: true }))
   .filter(dirent => dirent.isDirectory())
   .map(dirent => dirent.name)
 
-describe('i18n', function () {
-  /**
+/**
    * @type {import('http-server').HTTPServer}
    */
-  let httpServer
-  beforeAll(async function () {
-    httpServer = createServer({
-      root: './public'
-    })
-    await httpServer.listen(80)
-
-    // initialize i18n
-    await i18n.init()
+let httpServer
+beforeAll(async function () {
+  httpServer = createServer({
+    root: './public',
+    cors: true
   })
+  await httpServer.listen(backendListenerPort)
 
-  afterAll(async function () {
-    await httpServer.close()
+  // initialize i18n
+  await i18n.init({
+    backend: {
+      ...i18n.options?.backend,
+      backendOptions: [
+        i18n.options?.backend?.backendOptions?.[0],
+        {
+          loadPath: `http://localhost:${backendListenerPort}/locales/{{lng}}/{{ns}}.json`
+        }
+      ]
+    }
   })
+})
 
+afterAll(async function () {
+  await httpServer.close()
+})
+describe('i18n', function () {
   it('should have a default language', function () {
     expect(i18n.language).toBe('en-US')
+    expect(i18n.isInitialized).toBe(true)
+  })
+
+  it('should return key for non-existent language', function () {
+    expect(i18n.t('app:actions.add', { lng: 'xx' })).toBe('actions.add')
   })
 
   allLanguages.concat('ko').forEach((lang) => {
@@ -44,7 +62,8 @@ describe('i18n', function () {
         expect(await i18n.t('someNs:that.doesnt.exist', { lng: lang })).toBe('that.doesnt.exist')
         // missing key on existing namespace returns that key
         expect(await i18n.t('app:that.doesnt.exist', { lng: lang })).toBe('that.doesnt.exist')
-        expect(await i18n.t('app:actions.add', { lng: lang })).not.toBe('app:actions.add')
+        const langResult = await i18n.t('app:actions.add', { lng: lang })
+        expect(langResult).not.toBe('actions.add')
       })
     })
   })
