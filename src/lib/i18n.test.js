@@ -1,8 +1,12 @@
 /* global describe, it, expect, beforeAll, afterAll */
 // @ts-check
-
-import { getLanguage } from './i18n.js'
+import i18n from '../i18n.js'
+import { getLanguage, getCurrentLanguage } from './i18n.js'
 import languages from './languages.json'
+
+const testEachLanguage = (fn) => {
+  Object.keys(languages).forEach((lang) => fn(lang))
+}
 
 describe('i18n', function () {
   describe('getLanguage', function () {
@@ -14,14 +18,29 @@ describe('i18n', function () {
     })
 
     describe('returns the correct nativeName for each language', () => {
-      Object.keys(languages).forEach((lang) => {
+      testEachLanguage((lang) => {
         it(`returns ${languages[lang].nativeName} for ${lang}`, () => {
           expect(getLanguage(lang)).toBe(languages[lang].nativeName)
         })
       })
     })
   })
-  describe('getCurrentLanguage', function () {
 
+  describe('getCurrentLanguage', function () {
+    it('returns unknown when i18n isn\'t initialized', () => {
+      expect(getCurrentLanguage()).toBe('Unknown')
+    })
+
+    describe('returns the correct nativeName for each language', () => {
+      beforeAll(async function () {
+        await i18n.init()
+      })
+      testEachLanguage((lang) => {
+        it(`returns ${languages[lang].nativeName} for ${lang}`, async () => {
+          await i18n.changeLanguage(lang)
+          expect(getCurrentLanguage()).toBe(languages[lang].nativeName)
+        })
+      })
+    })
   })
 })
