@@ -7,6 +7,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import pkgJson from '../package.json'
 
 import locales from './lib/languages.json'
+import getValidLocaleCode from './lib/i18n-localeParser.js'
 
 const { version } = pkgJson
 export const localesList = Object.values(locales)
@@ -16,6 +17,7 @@ i18n
   .use(Backend)
   .use(LanguageDetector)
   .init({
+    load: 'currentOnly', // see https://github.com/i18next/i18next-http-backend/issues/61
     backend: {
       backends: [
         LocalStorageBackend,
@@ -27,8 +29,11 @@ i18n
           expirationTime: (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? 1 : 7 * 24 * 60 * 60 * 1000
         },
         { // HttpBackend
-          // ensure a relative path is used to look up the locales, so it works when loaded from /ipfs/<cid>
-          loadPath: 'locales/{{lng}}/{{ns}}.json'
+          loadPath: (lngs, namespaces) => {
+            const locale = getValidLocaleCode({ i18n, localeCode: lngs[0], languages: locales })
+            // ensure a relative path is used to look up the locales, so it works when loaded from /ipfs/<cid>
+            return `locales/${locale}/${namespaces}.json`
+          }
         }
       ]
     },
