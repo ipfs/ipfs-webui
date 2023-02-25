@@ -28,6 +28,15 @@ const createCID = async (value, codec, hasher, version = 1) => {
   }
 }
 
+/**
+ * Fills out the explore form (optional), waits for CID of given type to be loaded, and checks if CID details are correct.
+ * @param {object} options
+ * @param {import('playwright').Page} options.page
+ * @param {string} options.cid
+ * @param {string} options.type
+ * @param {string} [options.humanReadableCID]
+ * @param {boolean} [options.fillOutForm]
+ */
 async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm = true }) {
   if (fillOutForm) {
     await page.fill('[data-id="FilesExploreForm"] input[id="ipfs-path"]', cid)
