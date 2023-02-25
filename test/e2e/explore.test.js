@@ -16,7 +16,7 @@ const __dirname = dirname(__filename)
  * @param {any} value
  * @param {import('multiformats/block').BlockEncoder<Code, any>} codec
  * @param {import('multiformats/hashes/interface').MultihashHasher<Code>} hasher
- * @returns
+ * @returns {CID | null}
  */
 const createCID = async (value, codec, hasher, version = 1) => {
   try {
