@@ -25,7 +25,7 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, isIpfsDesktop, doD
           { localesList.map((lang) =>
             <button
               key={`lang-${lang.locale}`}
-              className='pa2 w-33 flex nowrap bg-transparent bn outline-0 blue justify-center'
+              className={`pa2 w-33 flex nowrap bg-transparent bn outline-0 blue justify-center e2e-languageModal-lang e2e-languageModal-lang_${lang.locale}`}
               onClick={() => handleClick(lang.locale)}>
               { lang.nativeName }
             </button>
