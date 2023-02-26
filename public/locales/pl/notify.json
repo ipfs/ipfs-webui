@@ -1,0 +1,30 @@
+{
+  "ipfsApiRequestFailed": "Nie można się połączyć. Proszę sprawdzić, czy demon jest uruchomiony.",
+  "windowIpfsRequestFailed": "Żądanie IPFS nie powiodło się. Proszę sprawdzić ustawienia IPFS Companion.",
+  "ipfsInvalidApiAddress": "Podany adres API IPFS jest nieprawidłowy.",
+  "ipfsConnectSuccess": "Udane połączenie z adresem IPFS API",
+  "ipfsConnectFail": "Nie można się połączyć z podanym adresem IPFS API ",
+  "ipfsPinFailReason": "Nie można ustawić pinezki na {serviceName}: {errorMsg}",
+  "ipfsPinSucceedReason": "Udało się przypiąć na {serviceName}",
+  "ipfsUnpinSucceedReason": "Udało się odpiąć od  {serviceName}",
+  "ipfsIsBack": "Normalny serwis IPFS został wznowiony. Cieszcie się!",
+  "folderExists": "Pozycja o tej nazwie już istnieje. Proszę wybrać inną.",
+  "filesFetchFailed": "Nie udało się pobrać tych plików. Proszę sprawdzić ścieżkę i spróbować ponownie. ",
+  "filesRenameFailed": "Nie udało się zmienić nazwy plików. Proszę spróbować ponownie. ",
+  "filesMakeDirFailed": "Nie udało się utworzyć katalogu. Proszę spróbować ponownie.",
+  "filesCopyFailed": "Nie udało się skopiować plików. Proszę spróbować ponownie.",
+  "filesRemoveFailed": "Nie udało się usunąć plików. Proszę spróbować ponownie.",
+  "filesAddFailed": "Nie udało się dodać plików do IPFS. Proszę spróbować ponownie. ",
+  "filesEventFailed": "Nie udało się przetworzyć Twojego żądania. Proszę spróbować ponownie.",
+  "couldntConnectToPeer": "Nie udało się połączyć z podanym peerem.",
+  "connectedToPeer": "Udało się połączyć z podanym peerem.",
+  "experimentsErrors": {
+    "npmOnIpfs": "Nie mogliśmy wprowadzić zmian w Twoim systemie. Proszę zainstalować lub odinstalować pakiet 'ipfs-npm' ręcznie. "
+  },
+  "desktopToggleErrors": {
+    "autoLaunch": "Nie można było przełączyć opcji uruchamiania przy starcie.",
+    "ipfsOnPath": "Nie można włączyć narzędzi wiersza poleceń IPFS.",
+    "downloadHashShortcut": "Nie można przełączyć pobierania skrótu haszującego.",
+    "screenshotShortcut": "Nie można było przełączyć skrótu do zrzutu ekranu."
+  }
+}
