@@ -19,7 +19,7 @@
   "actions": {
     "copyHash": "CID'yi kopyala",
     "share": "Linki paylaş",
-    "publishWithIpns": "Publish to IPNS"
+    "publishWithIpns": "IPNS'e yayınla"
   },
   "cliModal": {
     "extraNotesPinning": "Bu komut yalnızca yerel sabitleme/sabitlemeyi kaldırma içindir. Bir uzaktan iğneleme hizmeti kullanmak istiyorsanız, komut satırını nasıl sabitleyeceğinizi/sabitlemeyi kaldıracağınızı öğrenmek için o hizmetin belgelerine bakın."
@@ -108,27 +108,27 @@
   "checkboxLabel": "{name} için daha fazla seçenek görüntüleyin",
   "pinned": "Sabitlendi",
   "pinnedRemotely": "Uzaktan sabitlendi",
-  "pinningRemotely": "Pinning remotely",
-  "pinningCompleted": "Pinning completed",
-  "pinningFailed": "Pinning failed",
-  "clickToDismiss": "Click to dismiss",
-  "clickToCancel": "Click to cancel",
+  "pinningRemotely": "Uzaktan tutturuluyor",
+  "pinningCompleted": "Tutturma tamamlandı",
+  "pinningFailed": "Tutturma başarısız oldu",
+  "clickToDismiss": "Yok saymak için tıklayın",
+  "clickToCancel": "İptal etmek için tıklayın",
   "blocks": "Bloklar",
   "allBlocks": "Tüm bloklar",
   "allBlocksDescription": "Tüm IPFS düğümünüzdeki toplam blok boyutu; Bu, Dosyalar'daki her şeyin yanı sıra yerel olarak sabitlenmiş tüm öğeleri ve geçici olarak önbelleğe alınmış verileri içerir",
   "filesDescription": "Geçerli dizindeki toplam veri boyutu (bir alt dizin ise, Dosyalar'daki tüm verilerin boyutu da görüntülenir)",
-  "pinningQueue": "Pinning queue",
+  "pinningQueue": "Kuyruk tutturuluyor",
   "more": "Daha fazla",
   "files": "Dosyalar",
   "cidNotFileNorDir": "Geçerli bağlantı bir dosya veya dizin değil. Bunun yerine <1>incelemeyi</1> deneyin.",
   "sortBy": "Öğeleri {name}'a göre sırala",
   "publishModal": {
-    "title": "Publish to IPNS",
+    "title": "IPNS'e yayınla",
     "cidToPublish": "CID:",
-    "publishUnderKey": "Select key for publishing:",
-    "help": "Go to Settings to learn about IPNS and create more keys.",
-    "publishedUnderKey": "Successfully published under the key:",
-    "linkCopied": "Link copied!",
+    "publishUnderKey": "Yayınlamak için anahtar seçin:",
+    "help": "IPNS hakkında bilgi edinmek ve daha fazla anahtar oluşturmak için Ayarlar'a gidin.",
+    "publishedUnderKey": "Bu anahtar altında başarılı bir şekilde yayınlandı:",
+    "linkCopied": "Link kopyalandı!",
     "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
     "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
   },
