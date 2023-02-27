@@ -1,0 +1,184 @@
+{
+  "title": "Ustawienia",
+  "save": "Zapisz",
+  "saving": "Zapisywanie...",
+  "reset": "Reset",
+  "learnMoreLink": "Dowiedz się więcej.",
+  "showOptions": "Pokaż opcje",
+  "pinningServices": {
+    "title": "Usługa pinezkowania",
+    "description": "Użyj lokalnego przypinania, gdy chcesz mieć pewność, że element na twoim węźle nigdy nie będzie gromadzony w śmieciach, nawet jeśli usuniesz go z Plików. Możesz również połączyć swoje konta z innymi usługami zdalnego przypinania, aby automatycznie lub wybiórczo przetrzymywać pliki u tych dostawców, umożliwiając przechowywanie kopii zapasowych plików i/lub udostępnianie ich innym, gdy Twój lokalny węzeł jest offline.",
+    "noPinRemoteDescription": "Brakuje wsparcia dla usług zdalnego przypinania innych firm. Zaktualizuj swój węzeł IPFS do wersji Kubo 0.8.0 lub nowszej, a będziesz mógł je dodać i skonfigurować tutaj.",
+    "addAutoUpload": "Włącz automatyczne przesyłanie danych",
+    "removeAutoUpload": "Wyłączenie automatycznego przesyłania danych"
+  },
+  "language": "Język",
+  "analytics": "Analiza",
+  "cliTutorMode": "CLI Tutor Mode",
+  "config": "IPFS Konfiguracja",
+  "languageModal": {
+    "title": "Zmiana języka",
+    "description": "Wybierz swój preferowany język.",
+    "translationProjectIntro": "Dodaj lub popraw tłumaczenia i uczyń IPFS lepszym dla wszystkich!",
+    "translationProjectLink": "Dołącz do projektu tłumaczeń IPFS"
+  },
+  "apiDescription": "<0>Jeśli twój węzeł jest skonfigurowany z <1>własnym adresem API</1>, w tym port inny niż domyślny 5001, wprowadź go tutaj.</0>",
+  "publicGatewayDescription": "<0>Wybierz, której  <1>bramy publicznej</1> chcesz użyć podczas generowania linków udostępnianych.</0>",
+  "cliDescription": "<0>Włącz tę opcję, aby wyświetlić \"widok  kodu\" <1></1> ikona obok popularnych poleceń IPFS. Kliknięcie jej otwiera widok z kodem CLI tego polecenia, więc możesz go wkleić do interfejsu wiersza poleceń IPFS w terminalu.</0>",
+  "cliModal": {
+    "extraNotesJsonConfig": "Jeśli dokonałeś zmian w configu w edytorze kodu tej strony, które chciałbyś zapisać, kliknij ikonę pobierania obok przycisku kopiowania, aby pobrać go jako plik JSON."
+  },
+  "pinningModal": {
+    "title": "Wybierz dostawcę usługi pinezkowania.",
+    "description": "Nie widzisz swojego dostawcy usług pinezkowych? <1>Dodaj niestandardowy.<1>"
+  },
+  "pinningServiceModal": {
+    "title": "Skonfiguruj niestandardową usługę przypinania.",
+    "description": "Chcesz udostępnić innym swoją usługę custom pinning? <1>Dowiedz się jak.<1>",
+    "service": "Serwis",
+    "nickname": "Pseudonim",
+    "nicknamePlaceholder": "Nazwa dla twojej usługi",
+    "apiEndpoint": "Punkt końcowy API",
+    "apiEndpointPlaceholder": "URL dla swojego punktu końcowego API",
+    "secretApiKey": "Tajny token dostępu",
+    "secretApiKeyHowToLink": "Jak wygenerować nowy tokena",
+    "autoUpload": "Automatyczne wysyłanie",
+    "complianceLabel": "🔍 {nickname} raport o zgodności z pinezkami"
+  },
+  "autoUploadModal": {
+    "title": "Zmiana polityki przesyłania danych dla  {name}",
+    "description": "Gdy jest włączona, auto upload będzie okresowo przypinał korzeń twojego katalogu z plikami, zapewniając, że wszystko jest przypięte zdalnie i dostępne dla innych peerów, nawet gdy twój lokalny węzeł IPFS będzie offline. Jeśli wyłączysz tę funkcję, nadal możesz przypiąć każdy plik ręcznie używając opcji \"Ustaw przypinanie\" na ekranie Pliki."
+  },
+  "errors": {
+    "nickname": "Wymagany jest pseudonim ",
+    "apiError": "Błąd API",
+    "apiEndpoint": "Musi być prawidłowym adresem URL",
+    "secretApiKey": "Wymagany jest tajny token dostępu",
+    "failedToFetch": "Nie udało się pobrać",
+    "failedToFetchTitle": "Nie można pobrać liczby pinów z tej usługi zdalnej. Upewnij się, że jest ona w trybie online i że wprowadziłeś poprawne dane uwierzytelniające. Jeśli jest to nowo dodana usługa, spróbuj ją usunąć i dodać ponownie."
+  },
+  "actions": {
+    "addService": "Dodaj usługę",
+    "generateKey": "Wygeneruj klucz",
+    "edit": "Zmień",
+    "close": "Zamknij",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "enable": "Włącz",
+    "disable": "Wyłącz"
+  },
+  "edit": "Edytuj",
+  "visitService": "Odwiedź serwis",
+  "remove": "Usuń",
+  "localPinning": "Lokalne przypinanie",
+  "service": "Serwis",
+  "size": "Rozmiar",
+  "pins": "Przypięte",
+  "autoUpload": "Automatyczne wysyłanie ",
+  "autoUploadPolicy": {
+    "true": "Wszystkie pliki",
+    "false": "Wyłączone"
+  },
+  "fetchingSettings": "Pobieranie ustawień... \n",
+  "configApiNotAvailable": "API konfiguracji IPFS nie jest dostępne. Proszę wyłączyć rozszerzenie \"IPFS Companion\" i spróbować ponownie.",
+  "ipfsDaemonOffline": "Demon IPFS jest w trybie offline. Proszę włączyć go i spróbować ponownie. ",
+  "settingsUnavailable": "Ustawienia nie są dostępne. Proszę sprawdzić, czy demon IPFS jest uruchomiony.",
+  "settingsHaveChanged": "Ustawienia uległy zmianie; proszę kliknąć <1>Resetuj</1> t aby zaktualizować zawartość edytora.",
+  "errorOccured": "Podczas zapisywania zmian wystąpił błąd",
+  "checkConsole": "Sprawdź konsolę przeglądarki, aby uzyskać więcej informacji.",
+  "changesSaved": "Twoje zmiany zostały zapisane.",
+  "settingsWillBeUsedNextTime": "Nowe ustawienia zostaną użyte przy następnym uruchomieniu demona IPFS.",
+  "ipfsConfigDescription": "Plik konfiguracyjny IPFS jest dokumentem JSON. Jest odczytywany raz, gdy demon IPFS jest uruchamiany. Zapisz swoje zmiany, a następnie zrestartuj demona IPFS aby je zastosować.",
+  "ipfsConfigHelp": "Sprawdź dokumentację w celu uzyskania dalszych informacji.",
+  "AnalyticsToggle": {
+    "label": "Pomóż ulepszyć tę aplikację, wysyłając anonimowe dane dotyczące użytkowania",
+    "summary": "Skonfiguruj, co jest zbierane",
+    "paragraph1": "Nie są zbierane żadne identyfikatory CID, nazwy plików ani inne dane osobowe. Chcemy, aby metryki pokazały nam, które funkcje są przydatne, aby pomóc nam ustalić priorytety, nad którymi należy pracować w następnej kolejności, oraz informacje o konfiguracji systemu, aby poprowadzić nasze testy.",
+    "paragraph2": "Protocol Labs hostuje <1>Countly</1> instancję, aby rejestrować anonimowe dane dotyczące użytkowania tej aplikacji.",
+    "basicInfo": "Do countly.ipfs.io wysyłane są następujące dodatkowe informacje",
+    "optionalInfo": "Możesz wyrazić zgodę na wysyłanie następujących informacji:",
+    "sessions": {
+      "label": "Sesje",
+      "summary": "Kiedy i jak długo korzystasz z aplikacji oraz metryki przeglądarki \n",
+      "details": "<0>Wysyłane są następujące metryki przeglądarki:</0><1><0>Losowy, wygenerowany identyfikator urządzenia</0><1>Znacznik czasowy rozpoczęcia sesji</1><2>Okresowe znaczniki czasu do śledzenia czasu trwania</2><3>Wersja aplikacji; e.g. 2.4.4</3><4>Lokalizacja; e.g. en-GB</4><5>Agent użytkownika; e.g. Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) …</5><6>Rozdzielczość ekranu; e.g. 800×600</6><7>Gęstość pikseli na ekranie; e.g. 1</7></1>"
+    },
+    "events": {
+      "label": "Wydarzenia",
+      "summary": "działania, takie jak dodawanie lub usuwanie plików, oraz jak długo to trwało ",
+      "details": "Działania specyficzne dla aplikacji. Rejestrujemy tylko to, że akcja się wydarzyła, ile czasu trwała od początku do końca oraz zliczanie, jeśli zdarzenie dotyczyło wielu elementów. "
+    },
+    "views": {
+      "label": "Odsłony stron",
+      "summary": "Które sekcje aplikacji odwiedzasz",
+      "details": "Rejestruje, które sekcje aplikacji są odwiedzane. Zarejestrowane ścieżki zawierają tylko wzór użyty do dopasowania trasy, a nie pełny adres url."
+    },
+    "location": {
+      "label": "Położenie",
+      "summary": "Kod kraju z adresu IP (adres IP jest odrzucany)",
+      "details": "Adres IP użytkownika jest wykorzystywany do obliczenia kodu kraju dla jego lokalizacji, np. \"FR\" dla Francji. Jeśli nie wyrażono zgody na śledzenie lokalizacji, przy wszystkich żądaniach wysyłana jest pusta właściwość location, aby zasygnalizować serwerowi wyłączenie wyszukiwania lokalizacji. Te informacje pomagają nam w tłumaczeniu i ustalaniu, gdzie powinniśmy umieszczać wydarzenia."
+    },
+    "crashes": {
+      "label": "Błędy aplikacji",
+      "summary": "Komunikaty błędów i ślady stosu w JavaScrip",
+      "details": "Zapisuje komunikaty błędów JavaScript i ślady stosu, które występują podczas korzystania z aplikacji, jeśli to możliwe. Jest to bardzo pomocne, aby wiedzieć, kiedy aplikacja nie działa dla Ciebie, ale <1>komunikaty o błędach mogą zawierać informacje umożliwiające identyfikację</1> jak CID lub ścieżki plików, więc włączaj tę funkcję tylko wtedy, gdy nie masz nic przeciwko dzieleniu się z nami tymi informacjami."
+    }
+  },
+  "cliToggle": {
+    "label": "Włączenie trybu samouczka interfejsu wiersza poleceń (CLI)"
+  },
+  "tour": {
+    "step1": {
+      "title": "Strona z ustawieniami",
+      "paragraph1": "Tutaj możesz zmienić ustawienia swojego Web UI i węzła IPFS.",
+      "paragraph2": "Jeśli używasz IPFS Desktop, będziesz miał również pewne specyficzne ustawienia dla niego."
+    },
+    "step2": {
+      "title": "Niestandardowy adres API",
+      "paragraph1": "Jeśli skonfigurowałeś swój węzeł IPFS z niestandardowym adresem API, możesz zaktualizować swój plik konfiguracyjny właśnie tutaj, zamiast ręcznie edytować JSON."
+    },
+    "step3": {
+      "title": "Usługi przypinania",
+      "paragraph1": "<0>Jeśli masz konta w usługach zdalnego przypinania innych firm, dodaj je tutaj, aby móc przypinać/odpinać elementy do tych usług bezpośrednio z ekranu Pliki. Więcej informacji o usługach przypinania innych firm można znaleźć w dokumencie  <1>IPFS Docs</1>.</0>"
+    },
+    "step4": {
+      "title": "Wybór języka",
+      "paragraph1": "<0>Możesz zmienić język Web UI. Jeśli twój preferowany język nie jest dostępny, odwiedź stronę naszego projektu w <1>Transifex</1> aby pomóc nam w tłumaczeniu!</0>"
+    },
+    "step5": {
+      "title": "Anonimowa analiza wykorzystania",
+      "paragraph1": "Jeśli się zgodzisz, możesz pomóc nam ulepszyć Web UI poprzez wysyłanie anonimowych analiz użytkowania.",
+      "paragraph2": "Masz możliwość wyboru jakie dane nam prześlesz, a my nie będziemy mogli Cię zidentyfikować, cenimy prywatność ponad wszystko."
+    },
+    "step6": {
+      "title": "Tryb samouczka CLI ",
+      "paragraph1": "Włącz tryb samouczka CLI, aby zobaczyć skróty do wersji wiersza poleceń typowych dla IPFS - przydatne, jeśli uczysz się korzystać z IPFS z terminala, lub jeśli potrzebujesz odświeżenia."
+    },
+    "step7": {
+      "title": "Konfiguracja IPFS",
+      "paragraph1": "Możesz zmienić konfigurację swojego węzła IPFS bezpośrednio z Web UI!",
+      "paragraph2": "Nie zapomnij zrestartować demona, aby zastosować zmiany."
+    }
+  },
+  "Experiments": {
+    "description": "Tutaj możesz uzyskać wczesny podgląd nowych funkcji IPFS poprzez włączenie poniższych opcji. Testujemy te pomysły i mogą one nie być jeszcze doskonałe, więc chętnie usłyszymy Twoją opinię.",
+    "issueUrl": "Otwórz problem",
+    "feedbackUrl": "💌Zostaw opinię",
+    "readMoreUrl": "Czytaj dalej"
+  },
+  "ipnsPublishingKeys": {
+    "title": "Publiczny klucz IPNS",
+    "description": "InterPlanetary Name System (IPNS) zapewnia kryptograficzne adresy do publikowania aktualizacji treści, które mają się zmieniać w czasie. Ta funkcja wymaga, aby twój węzeł był online przynajmniej raz dziennie, aby zapewnić, że rekordy IPNS są utrzymywane przy życiu w publicznym DHT. \n"
+  },
+  "generateKeyModal": {
+    "title": "Generowanie nowego klucza IPNS",
+    "description": "Wprowadź pseudonim dla tego klucza do wygenerowania:"
+  },
+  "renameKeyModal": {
+    "title": "Zmień nazwę klucza",
+    "description": "Wprowadź nowy pseudonim dla klucza IPNS <1>{name}</1>."
+  },
+  "removeKeyModal": {
+    "title": "Potwierdzenie usunięcia klucza IPNS",
+    "description": "Czy na pewno chcesz usunąć klucz IPNS <1>{name}</1>? Tej operacji nie można cofnąć, a adres IPNS zarządzany przez ten klucz zostanie utracony na zawsze. Warto najpierw zrobić kopię zapasową: ipfs key export --help"
+  }
+}
