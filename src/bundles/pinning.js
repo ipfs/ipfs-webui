@@ -118,11 +118,13 @@ const resumePendingPins = (store) => {
 }
 
 const intervalFetchPins = (store) => {
-  const pins = [
-    ...store.selectPendingPins(),
-    ...store.selectFailedPins()
-  ].map(serviceCid => ({ cid: serviceCid.split(':')[1] }))
-  store.doFetchRemotePins(pins, true)
+  setInterval(() => {
+    const pins = [
+      ...store.selectPendingPins(),
+      ...store.selectFailedPins()
+    ].map(serviceCid => ({ cid: serviceCid.split(':')[1] }))
+    store.doFetchRemotePins(pins, true)
+  }, PIN_CHECK_INTERVAL)
 }
 
 const pinningBundle = {
