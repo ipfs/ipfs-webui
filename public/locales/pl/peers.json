@@ -1,0 +1,28 @@
+{
+  "title": "Węzły",
+  "localNetwork": "Sieć lokalna",
+  "nearby": "w pobliżu",
+  "protocols": "Otwarte strumienie",
+  "addConnection": "Dodaj połączenie ",
+  "insertPeerAddress": "Wpisz adres peera, z którym chcesz się połączyć.",
+  "addPermanentPeer": "Dodaj do stałą konfiguracje peering ",
+  "plusPeers": "+ {number} więcej rówieśników",
+  "connectionDirectionInbound": "przychodzący",
+  "connectionDirectionOutbound": "wychodzące",
+  "copyFeedback": "Skopiowany!",
+  "tour": {
+    "step1": {
+      "title": "Strona rówieśników (peers)",
+      "paragraph1": "To tutaj możesz zobaczyć rówieśników, z którymi jesteś połączony i kraj, w którym się znajdują.",
+      "paragraph2": "Kliknij \"Dalej\", aby dowiedzieć się więcej."
+    },
+    "step2": {
+      "title": "Mapa rówieśników (peers)",
+      "paragraph1": "Wizualizacja tego, gdzie na świecie znajdują się rówieśnicy, z którymi jesteś połączony."
+    },
+    "step3": {
+      "title": "Tabela rówieśników",
+      "paragraph1": "Sprawdź identyfikatory podłączonych peerów, ich adres i przybliżoną lokalizację."
+    }
+  }
+}

@@ -31,7 +31,7 @@ describe.skip('identity.js', function () {
     beforeAll(async () => {
       // const kuboRpcModule = await import('kubo-rpc-client')
       // console.log('kuboRpcModule: ', kuboRpcModule)
-      const ipfsHttpModule = await import('ipfs-http-client')
+      const kuboRpcModule = await import('kubo-rpc-client')
       const { createController } = await import('ipfsd-ctl')
       const ipfsBin = (await import('go-ipfs')).default.path()
       console.log('ipfsBin: ', ipfsBin)
@@ -44,16 +44,13 @@ describe.skip('identity.js', function () {
         ipfsd = await createController({
           type: 'go',
           ipfsBin,
-          ipfsHttpModule: ipfsHttpModule.default,
-          // kuboRpcModule: kuboRpcModule.default,
+          kuboRpcModule,
           test: true,
           disposable: true
         })
         ipfs = ipfsd.api
       } else {
-        console.log('else')
-        // ipfs = kuboRpcModule(`http://localhost:${KUBO_PORT}`)
-        ipfs = ipfsHttpModule(`http://localhost:${KUBO_PORT}`)
+        ipfs = kuboRpcModule(`http://localhost:${KUBO_PORT}`)
       }
     })
 

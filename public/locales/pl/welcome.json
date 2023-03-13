@@ -1,0 +1,38 @@
+{
+  "title": "Witamy  | IPFS",
+  "description": "Strona powitalna",
+  "connected": {
+    "paragraph1": "Witamy w przyszłości internetu! Jesteś teraz wartościową częścią rozproszonej sieci."
+  },
+  "notConnected": {
+    "paragraph1": "<0>Zapoznaj się z przewodnikiem instalacji <1>IPFS Docs</1>, lub spróbuj tych powszechnych poprawek:</0>",
+    "paragraph2": "<0>Czy twój demon IPFS jest uruchomiony? Spróbuj uruchomić lub zrestartować go z terminala:</0>",
+    "paragraph3": "<0>Czy twój IPFS API jest skonfigurowany do zezwalania na <1>żądania cross-origin (CORS) </1>? Jeśli nie, uruchom te polecenia, a następnie uruchom swojego demona z terminala:</0>",
+    "paragraph4": "<0>Czy twój IPFS API jest udostępniony na porcie innym niż 5001? Jeśli twój węzeł jest skonfigurowany z niestandardowym <1>adresem API</1>, wprowadź go tutaj.</0>"
+  },
+  "aboutIpfs": {
+    "header": "Co to jest IPFS?",
+    "paragraph1": "<0><0>Protokół dystrybucji hipermediów</0> który łączy pomysły z Kademlia, BitTorrent, Git, i innych</0>",
+    "paragraph2": "<0><0>Sieć transferu plików peer-to-peer</0> o całkowicie zdecentralizowanej architekturze, bez centralnego punktu awarii, cenzury czy kontroli</0>",
+    "paragraph3": "<0><0>Ścieżka do przyszłościowej sieci web</0> — tradycyjne przeglądarki mogą uzyskać dostęp do plików IPFS poprzez bramy takie jak <2>https://ipfs.io</2> lub bezpośrednio za pomocą <4>IPFS Companion</4> rozszerzenia</0>",
+    "paragraph4": "<0><0>Nowa generacja CDN</0> — wystarczy dodać plik do swojego węzła, aby udostępnić go całemu światu dzięki przyjaznemu dla pamięci podręcznej adresowaniu Content-Hash i dystrybucji przepustowości w stylu BitTorrent.</0>",
+    "paragraph5": "<0><0>Zestaw narzędzi dla programistów</0> do tworzenia <2>kompletnie rozproszonych aplikacji i usług</2>, wspierany przez solidną społeczność open-source</0>"
+  },
+  "welcomeInfo": {
+    "header": "W tej aplikacji, możesz ...",
+    "paragraph1": "<0><0>Sprawdź status swojego węzła</0>, w tym ile osób jest połączonych, statystyki pamięci masowej i przepustowości oraz wiele innych informacji.</0>",
+    "paragraph2": "<0><0>Przeglądaj i zarządzaj plikami</0> w swoim repozytorium IPFS, włączając w to import plików metodą \"przeciągnij i upuść\", łatwe przypinanie oraz opcje szybkiego udostępniania i pobierania.</0>",
+    "paragraph3": "<0><0>Sprawdz  \"Merkle Forest\"</0> z kilkoma przykładowymi zestawami danych i poznawaj IPLD, modelu danych, który leży u podstaw działania IPFS </0>",
+    "paragraph4": "<0><0>Zobacz, kto jest podłączony do Twojego węzła</0>, zlokalizowany na mapie świata na podstawie adresu IP.</0>",
+    "paragraph5": "<0><0>Przeglądaj lub edytuj ustawienia węzła</0> — nie wymaga to wiersza poleceń</0>",
+    "paragraph6": "<0><0>Sprawdź kod źródłowy tej aplikacji</0> aby <2>zgłosić błąd</2> lub wnieść swój wkład i uczynić IPFS lepszym dla wszystkich!</0>"
+  },
+  "tour": {
+    "step1": {
+      "title": "Strona powitalna",
+      "paragraph1": "Ta strona informuje, czy jesteś podłączony do IPFS i oferuje pomysły na rzeczy, które możesz zrobić w tej aplikacji.",
+      "paragraph2": "Jeśli nie jesteś podłączony do IPFS API, ta strona również pojawi się w miejscu niektórych innych stron, z podpowiedziami jak się podłączyć.",
+      "paragraph3": "Możesz odwiedzić tę stronę z dowolnego miejsca w aplikacji, klikając logo kostki IPFS w pasku nawigacyjnym."
+    }
+  }
+}

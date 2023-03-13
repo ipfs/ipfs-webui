@@ -1,0 +1,47 @@
+{
+  "title": "Status",
+  "nodeInfo": "Informacje węzła",
+  "spaceUsed": "Wykorzystana przestrzeń",
+  "networkTraffic": "Ruch w sieci",
+  "bandwidthOverTime": "Przepustowość w czasie",
+  "bandwidthByPeer": "Przepustowośc rówieśnika",
+  "distributionOfPeers": "Dystrybucja rówieśników",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} rówieśników)} few {{percent}% ({count} rówieśników)} many {{percent}% ({count} rówieśników)} other {{percent}% ({count} rówieśników)}}",
+  "countMore": "...i {count} więcej",
+  "StatusConnected": {
+    "repoSize": "Hosting {repoSize} danych",
+    "peersCount": "{peersCount, plural, one {Wykryto 1 rówieśnika} few {Wykryto{peersCount} rówieśników} many {Wykryto{peersCount} rówieśników} other {Wykryto{peersCount} rówieśników}}"
+  },
+  "customApiConfig": "Niestandardowa konfiguracja JSON",
+  "AnalyticsBanner": {
+    "label": "Niedawno zaktualizowaliśmy naszą politykę telemetrii, aby przejść na metrykę opt-out. Wcześniej miałeś wyłączone zbieranie telemetrii. Możesz wyłączyć zbieranie telemetrii (ponownie) na stronie ustawień."
+  },
+  "tour": {
+    "step1": {
+      "title": "Strona statusu",
+      "paragraph1": "To jest punkt startowy twojego węzła IPFS i gdzie możesz sprawdzić jego podstawowe informacje.",
+      "paragraph2": "Kliknij \"Dalej\", aby dowiedzieć się więcej."
+    },
+    "step2": {
+      "title": "Status połączenia ",
+      "paragraph1": "Kliknij tę ikonę z dowolnego miejsca w aplikacji, aby powrócić do strony statusu. Jeśli stracisz połączenie z IPFS API, ikona zmieni kolor na czerwony. \n",
+      "paragraph2": "Jeśli potrzebujesz skonfigurować niestandardowy adres API dla swojego węzła, po prostu kliknij link \"Edytuj\" obok miejsca, w którym adres API jest wymieniony na tej stronie."
+    },
+    "step3": {
+      "title": "Informacje węzła",
+      "paragraph1": "Tutaj masz informacje o rozmiarze swojego repo, ile peerów jest podłączonych, twój peer ID i smak IPFS, który jest aktualnie używany.",
+      "paragraph2": "<0>Rozwiń  <1>Zaawansowane</1> , aby zobaczyć więcej informacji, takich jak adres URL bramy i adresy. W sekcji Zaawansowane znajduje się również link umożliwiający zmianę adresu API.</0>"
+    },
+    "step4": {
+      "title": "Szerokość pasma/natężenie ruchu sieciowego",
+      "paragraph1": "Ten wykres pokazuje wykorzystanie przepustowości sieci w czasie.",
+      "paragraph2": "Prędkościomierze pokazują aktualny ruch wychodzący i przychodzący. "
+    },
+    "stepExplore": {
+      "title": "Eksploruj",
+      "paragraph": "Wklej CID i zbadaj pliki zawarte za CID lub zobacz, jak te dane są ustrukturyzowane i połączone przez protokoły. \n"
+    }
+  },
+  "bandwidthStats": "Statystyki przepustowości",
+  "bandwidthStatsDisabled": "Masz wyłączone metryki przepustowości. Możesz je włączyć wpisując poniższe polecenie lub zmieniając klucz<1>Swarm.DisableBandwidthMetrics</1> na<3>false</3> w <5>Ustawieniach</5>. Następnie musisz zrestartować demona IPFS, aby zastosować zmiany."
+}

@@ -359,7 +359,7 @@ const actions = {
         }
         */
       }
-      const ipfshttpModule = await import('ipfs-http-client')
+      const { create } = await import('kubo-rpc-client')
 
       if (typeof apiAddress === 'string') {
         ipfsOptions = {
@@ -390,7 +390,7 @@ const actions = {
 
           return true
         },
-        loadHttpClientModule: () => ipfshttpModule.default,
+        loadHttpClientModule: () => create,
         providers: [
           providers.httpClient(ipfsOptions)
         ]

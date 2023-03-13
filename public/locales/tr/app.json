@@ -28,10 +28,10 @@
     "submit": "Gönder",
     "unpin": "Sabitleme",
     "unselectAll": "Hepsinin seçimini kaldır",
-    "generate": "Generate",
-    "publish": "Publish",
-    "downloadCar": "Download as CAR",
-    "done": "Done"
+    "generate": "Oluştur",
+    "publish": "Yayınla",
+    "downloadCar": "CAR olarak indir",
+    "done": "Bitti"
   },
   "cliModal": {
     "description": "Komut satırı aracılığıyla IPFS'de bu görevi gerçekleştirmek için aşağıdakileri terminalinize yapıştırın. Yer tutucuları belirli parametrelerinizle değiştirmeniz gerekeceğini unutmayın."

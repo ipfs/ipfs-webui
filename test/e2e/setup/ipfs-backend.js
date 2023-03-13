@@ -1,5 +1,4 @@
-// import * as kuboRpcModule from 'kubo-rpc-client'
-import ipfsHttpModule from 'ipfs-http-client'
+import * as kuboRpcModule from 'kubo-rpc-client'
 import * as Ctl from 'ipfsd-ctl'
 import windowOrGlobal from 'window-or-global'
 import fs from 'node:fs'
@@ -15,17 +14,13 @@ async function run (rpcPort) {
   let ipfsd
   let ipfs
   if (endpoint) {
-    // create http client for endpoint passed via E2E_API_URL=
-    // ipfs = kuboRpcModule.create(endpoint)
-    ipfs = ipfsHttpModule(endpoint)
+    // create http rpc client for endpoint passed via E2E_API_URL=
+    ipfs = kuboRpcModule.create(endpoint)
   } else {
     // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
     const type = process.env.E2E_IPFSD_TYPE || 'go'
     const factory = Ctl.createFactory({
-      // kuboRpcModule,
-      ipfsHttpModule: {
-        create: ipfsHttpModule
-      },
+      kuboRpcModule,
       ipfsModule: await import('ipfs'),
       type,
       ipfsOptions: {
