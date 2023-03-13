@@ -40,9 +40,7 @@ const getStore = composeBundlesRaw({
   name: 'peerBandwidth',
   selectPeerBandwidthPeers: state => state.peerBandwidth.peerBandwidthPeers,
   selectPeerLocations: state => state.peerBandwidth.peerLocations,
-  reducer: (state, { type, payload }) => {
-    return state ?? defaultState
-  }
+  reducer: (state, { type, payload }) => state ?? defaultState
 })
 const store = getStore({ peerBandwidth: defaultState })
 
