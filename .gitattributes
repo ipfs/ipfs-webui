@@ -1,2 +1,3 @@
 * text=auto
-test/e2e/fixtures/explore/blocks/* binary
+test/e2e/fixtures/explore/blocks/README.md text
+test/e2e/fixtures/explore/blocks/Qm* binary
