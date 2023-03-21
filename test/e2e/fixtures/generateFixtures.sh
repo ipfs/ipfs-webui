@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 
+# Data is loaded by the function `loadBlockFixture` in test/e2e/explore.test.js
+# Example: const data = await readFile(join(__dirname, '/fixtures/explore/blocks', blockCid), { encoding: '' })
 save_fixture() {
   local fixture_cid=$1
   shift
   local fixture_path="$1/$fixture_cid"
   echo -e "\$fixture_path: $fixture_path \n"
-  # pwd
   ipfs block get $fixture_cid > $fixture_path
 }
 
@@ -31,10 +32,11 @@ main () {
 
   save_fixture $root_cid $save_path
 
-  for cid in $(ipfs ls $root_cid | awk '{ print $1}'); do
-    echo -e "\$cid: $cid \n"
-    save_fixture $cid $save_path
-  done
+  # Children are not needed for now, but you can get them like so:
+  # for cid in $(ipfs ls $root_cid | awk '{ print $1}'); do
+  #   echo -e "\$cid: $cid \n"
+  #   save_fixture $cid $save_path
+  # done
 
 }
 
