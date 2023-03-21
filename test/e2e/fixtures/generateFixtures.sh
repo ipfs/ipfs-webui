@@ -13,7 +13,7 @@ save_fixture() {
 
 # Example call:
 # test/e2e/fixtures/generateFixtures.sh QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D explore/blocks
-# saves passed root_cid block and it's children to the passed save_path
+# saves passed root_cid block to the passed save_path
 # Originally intended for helping save fixtures for e2e explore.test.js so we could test files in offline mode. i.e.
 # not making network requests.
 main () {
@@ -27,7 +27,6 @@ main () {
   local save_path="$DIR/$1"
   shift
 
-
   echo -e "\$root_cid: $root_cid \n"
 
   save_fixture $root_cid $save_path
@@ -37,7 +36,6 @@ main () {
   #   echo -e "\$cid: $cid \n"
   #   save_fixture $cid $save_path
   # done
-
 }
 
 main $@

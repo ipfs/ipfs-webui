@@ -210,7 +210,6 @@ test.describe('Explore screen', () => {
         humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~BB413C3DE0BA745523A3D701D6CB4283BCA7E187EC21556F4456036F692A5075',
         type: 'dag-pb'
       })
-      // await traverseChildren({ page, type: 'dag-pb' })
     })
 
     test('should explore Project Apollo Archive', async ({ page }) => {
@@ -241,6 +240,7 @@ test.describe('Explore screen', () => {
         type: 'dag-pb',
         fillOutForm: false
       })
+
       await (await page.waitForSelector('"QmVmf9vLEdWeBjh74kTibHVkim6iLsRXs5jhHzbSdWjoLt"')).click()
       await testExploredCid({
         page,
@@ -249,6 +249,7 @@ test.describe('Explore screen', () => {
         type: 'dag-pb',
         fillOutForm: false
       })
+
       await (await page.waitForSelector('"QmT4hPa6EeeCaTAb4a6ddFf4Lk5da9C1f4nMBmMJgbAW3z"')).click()
       await testExploredCid({
         page,
@@ -257,6 +258,7 @@ test.describe('Explore screen', () => {
         type: 'dag-pb',
         fillOutForm: false
       })
+
       await (await page.waitForSelector('"QmZA6h4vP17Ktw5vyMdSQNTvzsncQKDSifYwJznY461rY2"')).click()
       await testExploredCid({
         page,
@@ -265,6 +267,7 @@ test.describe('Explore screen', () => {
         type: 'dag-pb',
         fillOutForm: false
       })
+
       await (await page.waitForSelector('"QmR2pm6hPxv7pEgNaPE477rVBNSZnbUgXsSn2R9RqK9tAH"')).click()
       await testExploredCid({
         page,
