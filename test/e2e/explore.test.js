@@ -1,11 +1,14 @@
-import { test, expect } from './setup/coverage.js'
+import { readFile } from 'fs/promises'
 import { readFileSync } from 'fs'
 import { join, dirname } from 'path'
-import * as kuboRpcModule from 'kubo-rpc-client'
 import { fileURLToPath } from 'url'
+
+import { create } from 'kubo-rpc-client'
 import { CID } from 'multiformats/cid'
 import * as dagPb from '@ipld/dag-pb'
 import { sha256 } from 'multiformats/hashes/sha2'
+
+import { test, expect } from './setup/coverage.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -59,6 +62,26 @@ async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm
   }
 }
 
+/**
+ * Loads saved block fixtures from fixtures/explore/blocks and adds them locally to the ipfs node
+ * @param {object} param0
+ * @param {import('kubo-rpc-client').IPFSHTTPClient} param0.ipfs
+ * @param {string} param0.blockCid
+ * @param {string} param0.blockType
+ */
+async function loadBlockFixture ({ ipfs, blockCid, blockType }) {
+  try {
+    // read the data from the file
+    const data = await readFile(join(__dirname, '/fixtures/explore/blocks', blockCid), { encoding: '' })
+    // add the data to the ipfs node
+    const result = await ipfs.block.put(data, { format: 'v0' })
+    // check that the CID returned from block.put matches the given block fixture CID
+    expect(result.toString()).toBe(blockCid)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 test.describe('Explore screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/explore')
@@ -74,11 +97,18 @@ test.describe('Explore screen', () => {
   })
 
   test.describe('Inspecting CID', () => {
+    /**
+     * @type {ReturnType<import('kubo-rpc-client')['create']>}
+     */
+    let ipfs
+    test.beforeEach(async ({ page }) => {
+      ipfs = create(process.env.IPFS_RPC_ADDR)
+    })
+
     test('should open raw CID', async ({ page }) => {
       // add a local file to repo so test is fast and works in offline mode
       const cid = 'bafkreicgkmwhdunxgdqwqveecdo3wqmgulb4azm6sfnrtvd7g47mnrixji'
       const expectedData = readFileSync(join(__dirname, '../../LICENSE'), 'utf8')
-      const ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
       const result = await ipfs.add(expectedData, { cidVersion: 1 })
       await expect(result.cid.toString()).toStrictEqual(cid)
 
@@ -94,7 +124,6 @@ test.describe('Explore screen', () => {
     })
 
     test('should open dag-pb', async ({ page }) => {
-      const ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
       const cidData = new Uint8Array(Buffer.from('hello world'))
       const dagPbAsDagJson = {
         Data: cidData,
@@ -126,7 +155,6 @@ test.describe('Explore screen', () => {
     })
 
     test('should open dag-cbor cid', async ({ page }) => {
-      const ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
       const type = 'dag-cbor'
       const cidData = new Uint8Array(Buffer.from('hello world'))
       const dagCborAsDagJson = {
@@ -168,6 +196,62 @@ test.describe('Explore screen', () => {
       })
       await page.waitForSelector('"UnixFS"')
       await traverseChildren({ page, type: 'dag-pb' })
+    })
+
+    test('should explore Project Apollo Archive', async ({ page }) => {
+      await loadBlockFixture({ ipfs, blockCid: 'QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D', blockType: 'dag-pb' })
+      await loadBlockFixture({ ipfs, blockCid: 'QmeQtZfwuq6aWRarY9P3L9MWhZ6QTonDe9ahWECGBZjyEJ', blockType: 'dag-pb' })
+      await loadBlockFixture({ ipfs, blockCid: 'QmVmf9vLEdWeBjh74kTibHVkim6iLsRXs5jhHzbSdWjoLt', blockType: 'dag-pb' })
+      await loadBlockFixture({ ipfs, blockCid: 'QmT4hPa6EeeCaTAb4a6ddFf4Lk5da9C1f4nMBmMJgbAW3z', blockType: 'dag-pb' })
+      await loadBlockFixture({ ipfs, blockCid: 'QmZA6h4vP17Ktw5vyMdSQNTvzsncQKDSifYwJznY461rY2', blockType: 'dag-pb' })
+      await loadBlockFixture({ ipfs, blockCid: 'QmR2pm6hPxv7pEgNaPE477rVBNSZnbUgXsSn2R9RqK9tAH', blockType: 'dag-pb' })
+      await testExploredCid({
+        page,
+        cid: 'QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D',
+        humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~422896A1CE82A7B1CC0BA27C7D8DE2886C7DF95588473D5E88A28A9FCFA0E43E',
+        type: 'dag-pb'
+      })
+
+      await (await page.waitForSelector('"QmeQtZfwuq6aWRarY9P3L9MWhZ6QTonDe9ahWECGBZjyEJ"')).click()
+      await testExploredCid({
+        page,
+        cid: 'QmeQtZfwuq6aWRarY9P3L9MWhZ6QTonDe9ahWECGBZjyEJ',
+        humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~EED0FABF56CC4483BD066183A55EDC7817D3549C394C1967521B35AAC9D51FF3',
+        type: 'dag-pb',
+        fillOutForm: false
+      })
+      await (await page.waitForSelector('"QmVmf9vLEdWeBjh74kTibHVkim6iLsRXs5jhHzbSdWjoLt"')).click()
+      await testExploredCid({
+        page,
+        cid: 'QmVmf9vLEdWeBjh74kTibHVkim6iLsRXs5jhHzbSdWjoLt',
+        humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~6E69D4FA6F373B9DAC05974C31CAE53A8F39A0C67A6895CAC1DD2B274C079B19',
+        type: 'dag-pb',
+        fillOutForm: false
+      })
+      await (await page.waitForSelector('"QmT4hPa6EeeCaTAb4a6ddFf4Lk5da9C1f4nMBmMJgbAW3z"')).click()
+      await testExploredCid({
+        page,
+        cid: 'QmT4hPa6EeeCaTAb4a6ddFf4Lk5da9C1f4nMBmMJgbAW3z',
+        humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~46342C25ED0D9CA0BCB2350DB258941A08BDFC0064E824FE39FBEB2171D604E9',
+        type: 'dag-pb',
+        fillOutForm: false
+      })
+      await (await page.waitForSelector('"QmZA6h4vP17Ktw5vyMdSQNTvzsncQKDSifYwJznY461rY2"')).click()
+      await testExploredCid({
+        page,
+        cid: 'QmZA6h4vP17Ktw5vyMdSQNTvzsncQKDSifYwJznY461rY2',
+        humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~A0BC8B9BA2A4F6A91311F259A648F259723F7C6E13061E42462FC15FE6E1CA5B',
+        type: 'dag-pb',
+        fillOutForm: false
+      })
+      await (await page.waitForSelector('"QmR2pm6hPxv7pEgNaPE477rVBNSZnbUgXsSn2R9RqK9tAH"')).click()
+      await testExploredCid({
+        page,
+        cid: 'QmR2pm6hPxv7pEgNaPE477rVBNSZnbUgXsSn2R9RqK9tAH',
+        humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~2801F8B9FF4924F0938CBAF0F53B43E68088DBE272C6905C8D7AAA21A67102A6',
+        type: 'dag-pb',
+        fillOutForm: false
+      })
     })
   })
 })
