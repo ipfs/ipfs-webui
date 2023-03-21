@@ -1,0 +1,14 @@
+
+ûóAbout this archive
+This is an archive of the Project Apollo Archive, a re-presentation of the public domain NASA-provided Apollo mission imagery as it was originally provided in its raw, high-resolution and unprocessed form by the Johnson Space Center on DVD-R and including from the center's Gateway to Astronaut Photography of Earth web site.
+
+Directory names are base64 encoded names of each of the albums in the archive. This was done in order to handle characters in the album names that aren't valid in directory names.
+
+Updating this archive
+Use the included apolloarchive.py script. Before running, you will need to `pip install flickrapi`. The script also needs to have an API key and secret specified.
+
+If you don't already have one, you can apply for a non-commercial flickr API at https://www.flickr.com/services/apps/create/apply.
+
+Updating the frontend
+The frontend lives in the frontend directory and can be updated using the build_frontend_index.py script. This script will update/create the frontend.html page as well as pages for each of the albums. It will also generate thumbnails in the frontend/thumbnails directory.
+ó

@@ -1,0 +1,265 @@
+
+˚GÛG"""Builds html pages for frontend
+
+Assumes a directory called albums containing directories with base64 encoded
+album names.
+"""
+# TODO: update README.txt with info on what this script does
+import os
+from glob import glob
+import base64
+import xml.etree.ElementTree as ElementTree
+from PIL import Image  # uses the Pillow fork for Python 3
+
+
+def __index_html_head():
+    return """<html>
+<head>
+<title>Project Apollo Archive - IPFS archive</title>
+<style>
+div.gallery {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 180px;
+    height: 250px;
+}
+
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: auto;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<h2>Project Apollo Archive</h2>
+"""
+
+
+def __index_html_tail():
+    return """
+</body>
+</html>"""
+
+
+def __index_html_album(thumbnail_image, album_page_link, title):
+    return """
+    <div class="gallery">
+  <a href=""" + '"' + album_page_link + '"' + """>
+    <img src=""" + '"' + thumbnail_image + '"' + """>
+  </a>
+  <div class="desc">""" + title + """</div>
+</div>
+"""
+
+
+def __html_head(album_title):
+    return """<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>""" + album_title + """</title>
+  <link rel='stylesheet prefetch' href='../css/photoswipe/4.1.1/photoswipe.min.css'>
+<link rel='stylesheet prefetch' href='../css/photoswipe/4.1.1/default-skin/default-skin.min.css'>
+      <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>"""
+
+
+def __html_tail():
+    return """<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element, as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+        <!-- don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <!--<button class="pswp__button pswp__button--share" title="Share"></button>-->
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+</div>
+  <script src='../js/photoswipe/4.1.1/photoswipe.min.js'></script>
+<script src='../js/photoswipe/4.1.1/photoswipe-ui-default.min.js'></script>
+
+    <script src="../js/index.js"></script>
+
+</body>
+</html>"""
+
+
+def __album_html_head(album_name):
+    return """<h2>""" + album_name + """</h2>
+
+  <div class="my-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+"""
+
+
+def __album_html_tail():
+    return """
+  </div>"""
+
+
+def __figure_html(photo_path, thumbnail_path, title, caption, width, height):
+    return """    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+      <a href=""" + '"' + photo_path + '"' + """ itemprop="contentUrl" data-size=""" + '"' + str(width) + "x" + str(height) + '"' + """>
+          <img src=""" + '"' + thumbnail_path + '"' + """ itemprop="thumbnail" alt="Image description" />
+      </a>
+      <figcaption itemprop="caption description">""" + title + ": " + caption + """</figcaption>
+    </figure>"""
+
+image_path = 'albums'
+frontend_path = 'frontend'
+thumbnail_path = frontend_path + '/' + 'thumbnails'
+thumbnail_size = 128, 128
+
+# create directory for thumbnails if necessary
+if not os.path.exists(os.path.join(thumbnail_path)):
+    os.makedirs(os.path.join(thumbnail_path))
+
+# create directory for frontend pages if necessary
+if not os.path.exists(os.path.join(frontend_path, 'pages')):
+    os.makedirs(os.path.join(frontend_path, 'pages'))
+
+index_file = open(os.path.join(frontend_path, 'frontend.html'), 'w')
+index_file.truncate()
+index_file.write(__index_html_head())
+
+#files = [y for x in os.walk(image_path) for y in glob(os.path.join(x[0], '*.jpg'))]
+subdirs = [(x[0] + "/").replace('\\', '/').split('/')[1] for x in os.walk(image_path)]
+# sort albums by mission, then by magazine
+apollo_mission_numbers = []
+magazine_numbers = []
+for subdir in subdirs:
+    title = str(base64.b64decode(subdir), 'utf-8')
+    # populate mission number array
+    if "Apollo" not in title:
+        apollo_mission_numbers.append(int(0))
+    else:
+        apollo_mission_numbers.append(int(title.split(' ')[1]))
+
+    # populate magazine number array
+    if "Magazine" not in title:
+        magazine_numbers.append(int(0))
+    else:
+        magazine_numbers.append(int(title.split(' ')[3].split('/')[0]))
+subdirs_sorted = list(zip(subdirs, apollo_mission_numbers, magazine_numbers))
+subdirs_sorted = sorted(subdirs_sorted, key=lambda x: (x[1], x[2]))
+
+#subdirs.sort(key=base64.b64decode)  # string sort the list of subdirectories
+for subdir in subdirs_sorted:
+    album = subdir[0]
+    if album == "":
+        continue
+    album_page = os.path.join(frontend_path, "pages", album + '.html')
+    output_file = open(album_page, 'w')
+    output_file.truncate()
+    output_file.write(__html_head(str(base64.b64decode(album), 'utf-8')))
+    output_file.write(__album_html_head(str(base64.b64decode(album), 'utf-8')))
+    print("Album " + str(base64.b64decode(album), 'utf-8'))
+    # get list of files in album
+    files = [y for x in os.walk(os.path.join(image_path, album)) for y in glob(os.path.join(x[0], '*.jpg'))]
+    titles = [[None] for i in range(len(files))]
+    # sort file list based on title from xml
+    image_counter = 0
+    for image in files:
+        e = ElementTree.parse(image + '.xml').getroot()
+        title = e.find('photo/title').text
+        titles[image_counter] = title
+        image_counter += 1
+    title_sort_index = sorted(range(len(titles)), key=titles.__getitem__)
+    sorted_files = [files[i] for i in title_sort_index]
+    image_counter = 0
+    for file in sorted_files:
+        image_counter += 1
+        e = ElementTree.parse(file + '.xml').getroot()
+        title = e.find('photo/title').text
+        print("Processing image " + title)
+        description = e.find('photo/description').text
+        path = '../../' + file.replace('\\', '/')
+        # generate thumbnail if it doesn't already exist
+        thumbnail_filepath = os.path.join(thumbnail_path, os.path.basename(file) + "._t.jpg")
+        width, height = 0, 0
+        try:
+            im = Image.open(file)
+            width, height = im.size
+        except:
+            continue
+        if not os.path.isfile(thumbnail_filepath):
+            try:
+                im.thumbnail(thumbnail_size)
+                im.save(thumbnail_filepath, "JPEG")
+            except:
+                print("could not create thumbnail for " + file)
+        thumbnail_uri = '../' + thumbnail_filepath.replace('\\', '/')
+        output_file.write(__figure_html(str(path), str('../' + thumbnail_uri), str(title), str(description), width, height))
+        if image_counter == 1:  # use first thumbnail as thumbnail for album
+            index_file.write(__index_html_album(str(thumbnail_uri), 'pages/' + album + '.html', str(base64.b64decode(album), 'utf-8')))
+    output_file.write(__album_html_tail())
+    output_file.write(__html_tail())
+    output_file.close()
+
+index_file.write(__index_html_tail())
+index_file.close()
+ÛG
