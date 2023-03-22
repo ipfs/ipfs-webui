@@ -1,3 +1,5 @@
 * text=auto
 test/e2e/fixtures/explore/blocks/README.md text
-test/e2e/fixtures/explore/blocks/Qm* binary
+test/e2e/fixtures/**/Qm* binary linguist-generated
+test/e2e/fixtures/**/*.raw binary linguist-generated
+test/e2e/fixtures/**/*.car binary linguist-generated
