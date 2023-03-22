@@ -21,6 +21,22 @@ const cacheId2ServiceName = (id) => id.split(':').at(0)
 const uniq = (arr) => [...new Set(arr)]
 const notIn = (...arrays) => p => arrays.every(array => !array.some(a => a === p))
 
+/**
+ * Returns the oldArray (ideally from the store) if it is the same as the newArray so that the store is not updated
+ * This is to prevent the store from being updated with the same data, which would cause a re-render
+ *
+ * @fixes https://github.com/ipfs/ipfs-webui/issues/2080
+ * @param {any[]} oldArray
+ * @param {any[]} newArray
+ * @returns {any[]} oldArray or newArray
+ */
+const getRerenderAwareArray = (oldArray, newArray) => {
+  if (oldArray.length !== newArray.length) return newArray
+  const diff = oldArray.filter((i) => !newArray.includes(i))
+
+  return diff.length > 0 ? newArray : oldArray
+}
+
 const parseService = async (service, remoteServiceTemplates, ipfs) => {
   const template = remoteServiceTemplates.find(t => service.endpoint.toString() === t.apiEndpoint.toString())
   const icon = template?.icon
@@ -122,11 +138,11 @@ const pinningBundle = {
     if (action.type === 'UPDATE_REMOTE_PINS') {
       const { adds = [], removals = [], pending = [], failed = [] } = action.payload
 
-      const remotePins = uniq([...state.remotePins, ...adds].filter(notIn(removals, pending, failed)))
-      const notRemotePins = uniq([...state.notRemotePins, ...removals].filter(notIn(adds, pending, failed)))
-      const pendingPins = uniq([...state.pendingPins, ...pending].filter(notIn(adds, removals, failed)))
-      const failedPins = uniq([...state.failedPins, ...failed].filter(notIn(adds, removals, pending)))
-      const completedPins = uniq([...state.completedPins, ...adds].filter(p => state.pendingPins.some(a => a === p)))
+      const remotePins = getRerenderAwareArray(state.remotePins, uniq([...state.remotePins, ...adds].filter(notIn(removals, pending, failed))))
+      const notRemotePins = getRerenderAwareArray(state.notRemotePins, uniq([...state.notRemotePins, ...removals].filter(notIn(adds, pending, failed))))
+      const pendingPins = getRerenderAwareArray(state.pendingPins, uniq([...state.pendingPins, ...pending].filter(notIn(adds, removals, failed))))
+      const failedPins = getRerenderAwareArray(state.failedPins, uniq([...state.failedPins, ...failed].filter(notIn(adds, removals, pending))))
+      const completedPins = getRerenderAwareArray(state.completedPins, uniq([...state.completedPins, ...adds].filter(p => state.pendingPins.some(a => a === p))))
 
       return { ...state, remotePins, notRemotePins, pendingPins, failedPins, completedPins }
     }
