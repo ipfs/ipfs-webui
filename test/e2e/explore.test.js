@@ -70,10 +70,10 @@ async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm
  * @param {object} param0.blockPutArgs
  */
 async function loadBlockFixtures ({ ipfs, blockCid, blockPutArgs = { format: 'v0' } }) {
-  if (Array.isArray(blockCid)) {
-    return Promise.all(blockCid.map(cid => loadBlockFixtures({ ipfs, blockCid: cid, blockPutArgs })))
-  }
   try {
+    if (Array.isArray(blockCid)) {
+      return await Promise.all(blockCid.map(cid => loadBlockFixtures({ ipfs, blockCid: cid, blockPutArgs })))
+    }
     // read the data from the file
     const data = await readFile(join(__dirname, '/fixtures/explore/blocks', blockCid), { encoding: '' })
     // add the data to the ipfs node
