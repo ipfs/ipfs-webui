@@ -14,7 +14,7 @@
   },
   "customApiConfig": "Configuração JSON personalizada",
   "AnalyticsBanner": {
-    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
+    "label": "Atualizamos recentemente nossa política de telemetria para mudar para métricas de opt-out. Anteriormente você tinha a coleta de telemetria desativada. Você pode desabilitar a coleta de telemetria (novamente) na página de configurações."
   },
   "tour": {
     "step1": {
