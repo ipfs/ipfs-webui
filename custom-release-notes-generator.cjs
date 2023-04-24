@@ -1,3 +1,4 @@
+/* eslint-disable import/esm-extensions */
 // @ts-check
 
 const config = require('conventional-changelog-conventionalcommits')
