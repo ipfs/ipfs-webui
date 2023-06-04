@@ -11,7 +11,7 @@ module.exports = {
   // ignore .ts files because it fails to parse it.
   ignorePatterns: 'src/**/*.ts',
   rules: {
-    'import/esm-extensions': 'error',
+    // 'import/esm-extensions': 'error',
     'react/prop-types': [0, { ignore: ['className'], customValidators: [], skipUndeclared: true }] // TODO: set this rule to error when all issues are resolved.
   },
   overrides: [
@@ -19,8 +19,8 @@ module.exports = {
       files: ['src/**/*.stories.js'],
       excludedFiles: '*.test.js',
       rules: {
-        'import/no-anonymous-default-export': 'off',
-        'import/esm-extensions': 'error'
+        'import/no-anonymous-default-export': 'off'
+        // 'import/esm-extensions': 'error'
       }
     }
   ]

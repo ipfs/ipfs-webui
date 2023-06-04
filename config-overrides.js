@@ -7,7 +7,10 @@
 import webpack from 'webpack'
 
 const PURE_ESM_MODULES = [
-  'ipfs-geoip'
+  'ipfs-geoip',
+  // 'ipld-explorer-components',
+  '@chainsafe/is-ip',
+  'dag-jose'
 ]
 
 /**
@@ -74,7 +77,8 @@ function webpackOverride (config) {
   Object.assign(fallback, {
     stream: 'stream-browserify',
     os: 'os-browserify/browser',
-    path: 'path-browserify'
+    path: 'path-browserify',
+    crypto: 'crypto-browserify'
   })
 
   config.resolve.fallback = fallback
@@ -103,9 +107,18 @@ function webpackOverride (config) {
   })
 
   // Instrument for code coverage in development mode
-  const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'production'
+  const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'development'
   if (REACT_APP_ENV === 'test') {
     config.module.rules = modifyBabelLoaderRuleForTest(config.module.rules)
+  } else if (REACT_APP_ENV === 'development') {
+    config.optimization = {
+      ...config.optimization,
+      minimize: false,
+      mangleExports: false,
+      innerGraph: false,
+      moduleIds: 'named'
+    }
+    config.devtool = 'source-map'
   }
 
   return config
