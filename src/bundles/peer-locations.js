@@ -56,7 +56,7 @@ function createPeersLocations (opts) {
     'selectPeerLocations',
     'selectBootstrapPeers',
     'selectIdentity', // ipfs.id info for local node, used for detecting local peers
-    (peers, locations = {}, bootstrapPeers, identity) => peers && peers.map(peer => {
+    (peers, locations = {}, bootstrapPeers, identity) => peers && Promise.all(peers.map(async (peer) => {
       const peerId = peer.peer
       const locationObj = locations ? locations[peerId] : null
       const location = toLocationString(locationObj)
@@ -69,7 +69,7 @@ function createPeersLocations (opts) {
       const address = peer.addr.toString()
       const latency = parseLatency(peer.latency)
       const direction = peer.direction
-      const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
+      const { isPrivate, isNearby } = await isPrivateAndNearby(peer.addr, identity)
 
       const protocols = (Array.isArray(peer.streams)
         ? Array.from(new Set(peer.streams
@@ -91,7 +91,7 @@ function createPeersLocations (opts) {
         isPrivate,
         isNearby
       }
-    })
+    }))
   )
 
   const COORDINATES_RADIUS = 4
@@ -177,8 +177,8 @@ const getPublicIP = memoize((identity) => {
   }
 })
 
-const isPrivateAndNearby = (maddr, identity) => {
-  const publicIP = getPublicIP(identity)
+const isPrivateAndNearby = async (maddr, identity) => {
+  const publicIP = await getPublicIP(identity)
   let isPrivate = false
   let isNearby = false
   let addr

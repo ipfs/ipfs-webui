@@ -145,7 +145,7 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(callSelectorMethod(selectPeerLocationsForSwarm)).toBeFalsy()
   })
 
-  it('should map the peers with the location information', () => {
+  it('should map the peers with the location information', async () => {
     const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
 
     const locations = {
@@ -185,7 +185,7 @@ describe('selectPeerLocationsForSwarm', () => {
       latency: '1s'
     }
 
-    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1, peer2], locations, ['/p2p/1'])
+    const result = await callSelectorMethod(selectPeerLocationsForSwarm, [peer1, peer2], locations, ['/p2p/1'])
     expect(result).toEqual([
       {
         address: '1.test',
@@ -217,7 +217,7 @@ describe('selectPeerLocationsForSwarm', () => {
     ])
   })
 
-  it('should also handle the public ip', () => {
+  it('should also handle the public ip', async () => {
     const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
 
     const locations = {
@@ -248,7 +248,7 @@ describe('selectPeerLocationsForSwarm', () => {
       ]
     }
 
-    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], locations, ['/ipfs/1'], identity)
+    const result = await callSelectorMethod(selectPeerLocationsForSwarm, [peer1], locations, ['/ipfs/1'], identity)
     expect(result).toEqual([
       {
         address: '1.test',
@@ -265,7 +265,7 @@ describe('selectPeerLocationsForSwarm', () => {
     ])
   })
 
-  it('should also handle the near addresses', () => {
+  it('should also handle the near addresses', async () => {
     const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
 
     const peer1 = {
@@ -288,7 +288,7 @@ describe('selectPeerLocationsForSwarm', () => {
       ]
     }
 
-    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], null, ['/ipfs/1'], identity)
+    const result = await callSelectorMethod(selectPeerLocationsForSwarm, [peer1], null, ['/ipfs/1'], identity)
     expect(result).toEqual([
       {
         address: '1.test',
