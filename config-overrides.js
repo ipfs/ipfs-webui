@@ -135,8 +135,7 @@ const configOverride = {
       setupFiles: [...config.setupFiles, 'fake-indexeddb/auto'],
       moduleNameMapper: {
         ...config.moduleNameMapper,
-        'multiformats/basics': '<rootDir>/node_modules/multiformats/cjs/src/basics.js',
-        'multiformats/bases/(.*)$': '<rootDir>/node_modules/multiformats/cjs/src/bases/$1.js'
+        'multiformats/basics': '<rootDir>/node_modules/multiformats/src/basics.js'
       }
     })
   }
