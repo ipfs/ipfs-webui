@@ -24,7 +24,8 @@ export class PeersTable extends React.Component {
 
     this.state = {
       sortBy: 'latency',
-      sortDirection: SortDirection.ASC
+      sortDirection: SortDirection.ASC,
+      peerLocationsForSwarm: []
     }
 
     this.sort = this.sort.bind(this)
@@ -125,11 +126,21 @@ export class PeersTable extends React.Component {
     this.setState({ sortBy, sortDirection })
   }
 
-  render () {
-    const { className, peerLocationsForSwarm, t } = this.props
-    const { sortBy, sortDirection } = this.state
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.peerLocationsForSwarm) {
+      nextProps.peerLocationsForSwarm?.then?.((peerLocationsForSwarm) => {
+        if (peerLocationsForSwarm !== this.state.peerLocationsForSwarm) {
+          this.setState({ peerLocationsForSwarm })
+        }
+      })
+    }
+  }
 
-    const sortedList = (peerLocationsForSwarm || []).sort(sortByProperty(sortBy, sortDirection === SortDirection.ASC ? 1 : -1))
+  render () {
+    const { className, t } = this.props
+    const { sortBy, sortDirection, peerLocationsForSwarm } = this.state
+
+    const sortedList = peerLocationsForSwarm.sort(sortByProperty(sortBy, sortDirection === SortDirection.ASC ? 1 : -1))
     const tableHeight = 400
 
     return (

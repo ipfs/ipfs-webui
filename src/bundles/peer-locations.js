@@ -98,10 +98,10 @@ function createPeersLocations (opts) {
 
   bundle.selectPeersCoordinates = createSelector(
     'selectPeerLocationsForSwarm',
-    peers => {
+    async (peers) => {
       if (!peers) return []
 
-      return peers.reduce((previous, { peerId, coordinates }) => {
+      return (await peers).reduce((previous, { peerId, coordinates }) => {
         if (!coordinates) return previous
 
         let hasFoundACloseCoordinate = false
