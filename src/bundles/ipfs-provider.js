@@ -7,14 +7,6 @@ import * as Enum from './enum.js'
 import { perform } from './task.js'
 import { readSetting, writeSetting } from './local-storage.js'
 
-/* TODO: restore when  no longer bundle standalone ipld with ipld-explorer
- * context: https://github.com/ipfs/ipld-explorer-components/pull/289
-// @ts-ignore
-import ipldGit from 'ipld-git'
-// @ts-ignore
-import ipldEthereum from 'ipld-ethereum'
-*/
-
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
  * @typedef {import('cids')} CID
