@@ -317,14 +317,14 @@ describe('selectPeersCoordinates', () => {
     )
   })
 
-  it('should do nothing when there are no peers', () => {
+  it('should do nothing when there are no peers', async () => {
     const { selectPeersCoordinates } = createPeersLocationBundle()
-    expect(callSelectorMethod(selectPeersCoordinates)).toEqual([])
+    expect(await callSelectorMethod(selectPeersCoordinates)).toEqual([])
   })
 
-  it('should aggregate peers by close coordinates', () => {
+  it('should aggregate peers by close coordinates', async () => {
     const { selectPeersCoordinates } = createPeersLocationBundle()
-    const result = callSelectorMethod(selectPeersCoordinates, [
+    const result = await callSelectorMethod(selectPeersCoordinates, [
       { peerId: '1', coordinates: [1, 1] },
       { peerId: '2' },
       { peerId: '3', coordinates: [1000, 1000] },
