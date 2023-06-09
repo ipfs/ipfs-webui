@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3.6.0
         with:
           node-version: 18.14.0
       - name: Setup npm@9.6.0
