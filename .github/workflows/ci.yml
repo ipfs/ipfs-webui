@@ -30,7 +30,7 @@ jobs:
     outputs:
       cid: ${{ steps.ipfs.outputs.cid }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.5.2
 
       - name: Setup node
         uses: actions/setup-node@v3.6.0
@@ -176,7 +176,7 @@ jobs:
     needs: [build, publishPreview, eslint, typecheck, test-e2e, test-unit, test-storybook]
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.5.2
         with:
           persist-credentials: false
 
