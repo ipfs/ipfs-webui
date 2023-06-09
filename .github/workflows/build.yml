@@ -17,7 +17,7 @@ jobs:
           npm install -g npm@9.6.0
 
       - name: Cache bigger downloads
-        uses: actions/cache@v2
+        uses: actions/cache@v3.3.1
         id: cache
         with:
           path: ${{ github.workspace }}/.cache
@@ -32,7 +32,7 @@ jobs:
       # Separate cache for build dir, we reuse it in release publish workflow
       - name: Cache build output
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/cache@v2
+        uses: actions/cache@v3.3.1
         id: build-cache
         with:
           path: build
