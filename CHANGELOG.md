@@ -1,3 +1,39 @@
+## [3.0.0](https://github.com/ipfs/ipfs-webui/compare/v2.22.0...v3.0.0) (2023-04-24)
+
+
+ CID `bafybeic4gops3d3lyrisqku37uio33nvt6fqxvkxihrwlqsuvf76yln4fm`
+
+ --- 
+
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to ESM (#2092)
+
+### Features
+
+* ipfs-http-client -> kubo-rpc-client ([#2098](https://github.com/ipfs/ipfs-webui/issues/2098)) ([5e53c79](https://github.com/ipfs/ipfs-webui/commit/5e53c7929fc671f16e86563032e9071bc589439e)), closes [#issuecomment-1426219633](https://github.com/ipfs/ipfs-webui/issues/issuecomment-1426219633) [/github.com/ipfs/ipfs-webui/issues/2079#issuecomment-1426337490](https://github.com/ipfs//github.com/ipfs/ipfs-webui/issues/2079/issues/issuecomment-1426337490)
+* migrate to ESM ([#2092](https://github.com/ipfs/ipfs-webui/issues/2092)) ([58a737c](https://github.com/ipfs/ipfs-webui/commit/58a737cb402c84f137c2b8659573867fea6b76f4))
+
+
+### Bug Fixes
+
+* e2e/explore.test.js succeeds in offline mode ([#2109](https://github.com/ipfs/ipfs-webui/issues/2109)) ([a5e9ac6](https://github.com/ipfs/ipfs-webui/commit/a5e9ac6e378d6c0093c0403f34fee2843c9bea26))
+* ko language falls back to ko-KR ([#2102](https://github.com/ipfs/ipfs-webui/issues/2102)) ([3369800](https://github.com/ipfs/ipfs-webui/commit/3369800b395236f5d37555582b64b92188f36df6))
+* semantic release custom notes import ([#2113](https://github.com/ipfs/ipfs-webui/issues/2113)) ([2f9f306](https://github.com/ipfs/ipfs-webui/commit/2f9f306dea5259b147a73ed4f428223d6d7f75ed))
+
+
+### Trivial Changes
+
+* add NetworkTraffic.stories.js ([#2094](https://github.com/ipfs/ipfs-webui/issues/2094)) ([7a3bf46](https://github.com/ipfs/ipfs-webui/commit/7a3bf46268b47c6e1f55541a7561276f11c2be66))
+* pull new translations ([#2101](https://github.com/ipfs/ipfs-webui/issues/2101)) ([cbabac3](https://github.com/ipfs/ipfs-webui/commit/cbabac3ae7f5f2b535f3908361c6cbf9b076d10b))
+* pull new translations ([#2104](https://github.com/ipfs/ipfs-webui/issues/2104)) ([4a691a2](https://github.com/ipfs/ipfs-webui/commit/4a691a2c5abca7d21ad2fa5af27ba941d9105dfb))
+* Pull transifex translations ([#2088](https://github.com/ipfs/ipfs-webui/issues/2088)) ([a5b8a1c](https://github.com/ipfs/ipfs-webui/commit/a5b8a1ccd30b75a623643592e23df38b6b08e977))
+* Pull transifex translations ([#2091](https://github.com/ipfs/ipfs-webui/issues/2091)) ([d209863](https://github.com/ipfs/ipfs-webui/commit/d209863110040259ce4b0865dad4123a8da4596f))
+* Pull transifex translations ([#2099](https://github.com/ipfs/ipfs-webui/issues/2099)) ([1cf2fe7](https://github.com/ipfs/ipfs-webui/commit/1cf2fe706d1f9ff7916d979748c0791627f1fe91))
+* Pull transifex translations ([#2111](https://github.com/ipfs/ipfs-webui/issues/2111)) ([57d9b63](https://github.com/ipfs/ipfs-webui/commit/57d9b63a5000aa7e0c9c8d2c44f51969abf3fbae))
+
 ## [2.22.0](https://github.com/ipfs/ipfs-webui/compare/v2.21.0...v2.22.0) (2023-01-27)
 
 
