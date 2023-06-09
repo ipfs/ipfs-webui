@@ -17,9 +17,6 @@ jobs:
         uses: actions/setup-node@v3.6.0
         with:
           node-version: 18.14.0
-      - name: Setup npm@9.6.0
-        run: |
-          npm install -g npm@9.6.0
 
       - name: Cache bigger downloads
         uses: actions/cache@v3.3.1
