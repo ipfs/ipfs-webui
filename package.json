@@ -35,7 +35,7 @@
     "storybook": "start-storybook -p 9009",
     "build-storybook": "build-storybook --modern",
     "serve-storybook": "run-s build-storybook && http-server storybook-static --port 6006",
-    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"build-storybook --modern --quiet && http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && test-storybook --coverage\"",
+    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"build-storybook --modern --quiet && http-server storybook-static --port 6006 --silent\" \"wait-on 'tcp:127.0.0.1:6006' && test-storybook --coverage\"",
     "typecheck": "tsc --noEmit",
     "postinstall": "patch-package"
   },
