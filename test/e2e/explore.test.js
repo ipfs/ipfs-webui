@@ -6,7 +6,6 @@ import { fileURLToPath } from 'url'
 import { create } from 'kubo-rpc-client'
 import { CID } from 'multiformats/cid'
 import * as dagPb from '@ipld/dag-pb'
-import * as dagCbor from '@ipld/dag-cbor'
 import { sha256 } from 'multiformats/hashes/sha2'
 
 import { test, expect } from './setup/coverage.js'
