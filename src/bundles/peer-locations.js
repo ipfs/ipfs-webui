@@ -101,7 +101,8 @@ function createPeersLocations (opts) {
     async (peers) => {
       if (!peers) return []
 
-      return (await peers).reduce((previous, { peerId, coordinates }) => {
+      const fetchedPeers = await peers
+      return fetchedPeers.reduce((previous, { peerId, coordinates }) => {
         if (!coordinates) return previous
 
         let hasFoundACloseCoordinate = false
