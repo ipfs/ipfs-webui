@@ -1,3 +1,40 @@
+## [4.0.0](https://github.com/ipfs/ipfs-webui/compare/v3.0.0...v4.0.0) (2023-06-12)
+
+
+ CID `bafybeifu32oukwmh5674fbjyvn7nkobfxyrnr4hq5gl46yv7jkvai2ze7q`
+
+ --- 
+
+
+
+### ⚠ BREAKING CHANGES
+
+* This change updates the version of
+ipld-explorer-components we're using. The new ipld-explorer-components
+does not depend on old js-ipfs nor ipld dependencies.
+
+* fix: transient dependency warning
+
+* test: fix peer-locations.test.js
+
+* test: fix src/bundles/peer-bandwidth.test.js
+
+* test: fix test/e2e/explore.test.js
+
+* fix: support async peer info
+
+* test: fix src/bundles/peer-locations.test.js
+
+* fix: don't throw on lack of coverage data
+
+* feat: use ipld-explorer-components@4.0.0
+
+* chore: attempt to remove npm strict engines
+
+### Features
+
+* use ipld-explorer-components@4.0.0 ([#2117](https://github.com/ipfs/ipfs-webui/issues/2117)) ([638e93d](https://github.com/ipfs/ipfs-webui/commit/638e93d8acb363bbf660c9d0fa6b5a62b59ca14d)), closes [#2120](https://github.com/ipfs/ipfs-webui/issues/2120)
+
 ## [3.0.0](https://github.com/ipfs/ipfs-webui/compare/v2.22.0...v3.0.0) (2023-04-24)
 
 
