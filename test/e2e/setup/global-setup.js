@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename)
 
 const globalSetup = async config => {
   // Read and expose backend info in env availables inside of test() blocks
-  const { rpcAddr, id, agentVersion } = JSON.parse(fs.readFileSync(path.join(__dirname, 'ipfs-backend.json')))
+  const { rpcAddr, id, agentVersion, apiOpts } = JSON.parse(fs.readFileSync(path.join(__dirname, 'ipfs-backend.json')))
   process.env.IPFS_RPC_ADDR = rpcAddr
   process.env.IPFS_RPC_ID = id
   process.env.IPFS_RPC_VERSION = agentVersion
@@ -19,7 +19,11 @@ const globalSetup = async config => {
   const browser = await chromium.launch()
   const page = await browser.newPage()
   await page.goto(baseURL)
-  await page.evaluate(`localStorage.setItem("ipfsApi", "${rpcAddr}")`)
+
+  await page.context().addInitScript((apiOpts) => {
+    localStorage.setItem('ipfsApi', JSON.stringify(apiOpts))
+    localStorage.setItem('explore.ipld.gatewayEnabled', 'false') // disable gateway network requests when testing e2e
+  }, apiOpts)
   await page.context().storageState({ path: storageState })
   await browser.close()
 }

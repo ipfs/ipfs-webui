@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-# Data is loaded by the function `loadBlockFixture` in test/e2e/explore.test.js
+# Data is loaded by the function `loadBlockFixtures` in test/e2e/explore.test.js
 # Example: const data = await readFile(join(__dirname, '/fixtures/explore/blocks', blockCid), { encoding: '' })
 save_fixture() {
   local fixture_cid=$1
