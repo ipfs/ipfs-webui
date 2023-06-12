@@ -145,12 +145,20 @@ const getDotsColor = (numberOfDots) => {
 
 // Just the dots on the map, this gets called a lot.
 const MapPins = connect('selectPeersCoordinates', ({ width, height, path, peersCoordinates, handleMouseEnter, handleMouseLeave }) => {
+  const [awaitedPeerCoordinates, setAwaitedPeerCoordinates] = useState([])
   const el = d3.select(ReactFauxDOM.createElement('svg'))
     .attr('width', width)
     .attr('height', height)
     .attr('viewBox', `0 0 ${width} ${height}`)
 
-  peersCoordinates.forEach(({ peerIds, coordinates }) => {
+  useEffect(() => {
+    const asyncFn = async () => {
+      setAwaitedPeerCoordinates(await peersCoordinates)
+    }
+    asyncFn()
+  }, [peersCoordinates])
+
+  awaitedPeerCoordinates.forEach(({ peerIds, coordinates }) => {
     el.append('path')
       .datum({
         type: 'Point',

@@ -58,7 +58,19 @@ async function run (rpcPort) {
   const rpcAddr = `/ip4/${apiHost}/tcp/${apiPort}`
 
   // persist details for e2e tests
-  fs.writeFileSync(path.join(__dirname, 'ipfs-backend.json'), JSON.stringify({ rpcAddr, id, agentVersion }))
+  fs.writeFileSync(path.join(__dirname, 'ipfs-backend.json'), JSON.stringify({
+    rpcAddr,
+    id,
+    agentVersion,
+    /**
+     * Used by ipld-explorer-components to connect to the API
+     */
+    apiOpts: {
+      host: apiHost,
+      port: apiPort,
+      protocol: 'http'
+    }
+  }))
 
   console.log(`\nE2E using ${agentVersion} (${endpoint || ipfsd.exec}) with Peer ID ${id} at ${rpcAddr}\n`)
 

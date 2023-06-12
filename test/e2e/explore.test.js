@@ -104,7 +104,7 @@ test.describe('Explore screen', () => {
      * @type {ReturnType<import('kubo-rpc-client')['create']>}
      */
     let ipfs
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async () => {
       ipfs = create(process.env.IPFS_RPC_ADDR)
     })
 
@@ -155,22 +155,25 @@ test.describe('Explore screen', () => {
 
     test('should open dag-cbor cid', async ({ page }) => {
       const type = 'dag-cbor'
-      const cidData = new Uint8Array(Buffer.from('hello world'))
-      const dagCborAsDagJson = {
-        data: cidData
-      }
+      const cid = 'bafyreicds4picvqi46ljgw2eombkoifaftyjgd4abvfvledghftn2xnena'
 
-      // add bytes to backend node so that explore page can load the content
-      const cidInstance = await ipfs.dag.put(dagCborAsDagJson, {
-        storeCodec: type,
-        hashAlg: 'sha2-256'
+      await loadBlockFixtures({
+        ipfs,
+        blockCid: [
+          cid
+        ],
+        blockPutArgs: {
+          storeCodec: type,
+          format: type,
+          version: 1,
+          hashAlg: 'sha2-256'
+        }
       })
-      const cborCid = cidInstance.toString()
 
       await testExploredCid({
         page,
-        cid: cborCid,
-        humanReadableCID: 'base32 - cidv1 - dag-cbor - sha2-256~256~497BC2F17946B7E5DE05715EB348E47F2A6ABE6CF34ECAE9F46E236BC6E49FF5',
+        cid,
+        humanReadableCID: 'base32 - cidv1 - dag-cbor - sha2-256~256~43971E815608E796935B447302A720A02CF0930F800D4B5590663966DD5DA468',
         type
       })
     })
