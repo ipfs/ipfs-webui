@@ -9,6 +9,9 @@ import { path as getGoIpfsPath } from 'go-ipfs'
 import * as kuboRpcModule from 'kubo-rpc-client'
 const { createProxyServer } = httpProxy
 
+// TODO: Fix parallelism of these tests
+test.describe.configure({ mode: 'serial' })
+
 test.describe('Remote API tests', () => {
   // Basic Auth Proxy Setup
   // -----------------------------------
