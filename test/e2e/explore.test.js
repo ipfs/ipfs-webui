@@ -46,12 +46,7 @@ async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm
     await page.press('[data-id="FilesExploreForm"] button[title="Inspect"]', 'Enter')
   }
 
-  // wait for loading
-  const spinner = page.locator('.la-ball-triangle-path')
-  await spinner.waitFor({ state: 'hidden' })
-
-  // expect node type
-  await page.waitForSelector(`"${cid}"`)
+  await page.waitForSelector(`.joyride-explorer-cid [title="${cid}"]`) // cid is displayed in the CID INFO section.
   await page.waitForSelector(`[title="${type}"]`)
 
   if (humanReadableCID != null) {
