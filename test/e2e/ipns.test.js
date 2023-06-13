@@ -3,6 +3,9 @@ import { createController } from 'ipfsd-ctl'
 import { path as getGoIpfsPath } from 'go-ipfs'
 import * as kuboRpcModule from 'kubo-rpc-client'
 
+// TODO: Fix parallelism of these tests
+test.describe.configure({ mode: 'serial' })
+
 test.describe('IPNS publishing', () => {
   let ipfsd
   let peeraddr
@@ -72,11 +75,15 @@ test.describe('IPNS publishing', () => {
     let keyName
     let ipfs
     test.beforeEach(async ({ page }) => {
-      keyName = 'pet-name-e2e-ipns-test-' + new Date().getTime()
+      keyName = 'pet-name-e2e-ipns-test-' + new Date().getTime() + Math.random().toString(16).slice(2)
       ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
       await ipfs.key.gen(keyName)
       await page.goto('/#/files')
       await page.reload()
+    })
+    test.afterEach(async () => {
+      await ipfs.key.rm(keyName)
+      ipfs = null
     })
 
     const testFilename = 'ipns-test.txt'
