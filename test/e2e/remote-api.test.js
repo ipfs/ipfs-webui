@@ -9,9 +9,6 @@ import { path as getGoIpfsPath } from 'go-ipfs'
 import * as kuboRpcModule from 'kubo-rpc-client'
 const { createProxyServer } = httpProxy
 
-// TODO: Fix parallelism of these tests
-test.describe.configure({ mode: 'serial' })
-
 test.describe('Remote API tests', () => {
   // Basic Auth Proxy Setup
   // -----------------------------------
@@ -118,11 +115,11 @@ test.describe('Remote API tests', () => {
   }
 
   const switchIpfsApiEndpointViaSettings = async (endpoint, page) => {
-    await page.click('a[href="#/settings"]')
+    await page.click('[role="menubar"] a[href="#/settings"]')
     const selector = 'input[id="api-address"]'
-    await page.waitForSelector(selector)
-    await page.fill(selector, endpoint)
-    await page.press(selector, 'Enter')
+    const locator = await page.locator(selector)
+    await locator.fill(endpoint)
+    await locator.press('Enter')
     await waitForIpfsApiEndpoint(endpoint, page)
   }
 
