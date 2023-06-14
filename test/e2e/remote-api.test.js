@@ -115,11 +115,11 @@ test.describe('Remote API tests', () => {
   }
 
   const switchIpfsApiEndpointViaSettings = async (endpoint, page) => {
-    await page.click('a[href="#/settings"]')
+    await page.click('[role="menubar"] a[href="#/settings"]')
     const selector = 'input[id="api-address"]'
-    await page.waitForSelector(selector)
-    await page.fill(selector, endpoint)
-    await page.press(selector, 'Enter')
+    const locator = await page.locator(selector)
+    await locator.fill(endpoint)
+    await locator.press('Enter')
     await waitForIpfsApiEndpoint(endpoint, page)
   }
 

@@ -19,7 +19,6 @@ const config = {
     viewport: { width: 1366, height: 768 },
     baseURL: `http://localhost:${webuiPort}/`,
     storageState: 'test/e2e/state.json',
-    // actionTimeout: 30* 1000,
     trace: 'on-first-retry'
   },
   /* TODO: test against other engines?
@@ -50,14 +49,15 @@ const config = {
   webServer: [
     {
       command: `node ipfs-backend.js ${rpcPort}`,
-      url: `http://127.0.0.1:${rpcPort}/webui`, // we don't use webui bundled with daemon, but it is a good test of when its http server is fully booted
+      timeout: 5 * 1000,
+      port: rpcPort,
       cwd: './setup',
       reuseExistingServer: !process.env.CI
     },
     {
-      // command: 'npm run start',
       command: `npx http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
-      port: webuiPort,
+      timeout: 5 * 1000,
+      url: `http://localhost:${webuiPort}/`,
       cwd: '../../',
       reuseExistingServer: !process.env.CI,
       env: {

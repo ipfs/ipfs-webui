@@ -9,7 +9,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        backend: [go] # TODO: add 'js' – see https://github.com/ipfs/ipfs-webui/issues/1737
+        backend: [go]
+        shardIndex: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        shardTotal: [10]
     steps:
       - uses: actions/checkout@v3.5.2
 
@@ -39,7 +41,7 @@ jobs:
         run: npm run test:build
 
       - name: Run E2E against ${{ matrix.backend }}-ipfs
-        run: E2E_IPFSD_TYPE=${{ matrix.backend }} npm run test:e2e
+        run: E2E_IPFSD_TYPE=${{ matrix.backend }} npm run test:e2e -- --repeat-each 10 --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} # run each test 10 times to ensure no flakiness
 
       - name: Generate nyc coverage report
         id: coverage
