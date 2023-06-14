@@ -1,3 +1,16 @@
+## [4.0.1](https://github.com/ipfs/ipfs-webui/compare/v4.0.0...v4.0.1) (2023-06-14)
+
+
+ CID `bafybeigs6d53gpgu34553mbi5bbkb26e4ikruoaaar75jpfdywpup2r3my`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* resolve e2e test failures ([#2122](https://github.com/ipfs/ipfs-webui/issues/2122)) ([106627d](https://github.com/ipfs/ipfs-webui/commit/106627d992fb55c75c2461a18341ca3058c77110))
+
 ## [4.0.0](https://github.com/ipfs/ipfs-webui/compare/v3.0.0...v4.0.0) (2023-06-12)
 
 
