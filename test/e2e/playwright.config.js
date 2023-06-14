@@ -11,7 +11,7 @@ const config = {
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: (process.env.DEBUG || process.env.CI) ? 1 : undefined,
+  workers: (process.env.DEBUG) ? 1 : undefined,
   reuseExistingServer: !process.env.CI,
   reporter: 'list',
   use: {
