@@ -79,7 +79,7 @@ jobs:
         run: |
           ipfs dag export ${{ steps.ipfs.outputs.cid }} > ipfs-webui_${{ github.sha }}.car
       - name: Attach produced build to Github Action
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ipfs-webui_${{ github.sha }}.car
           path: ipfs-webui_${{ github.sha }}.car
