@@ -45,7 +45,7 @@ jobs:
       # - this is not for releases, but for quick testing during the dev
       # - action artifacts can be downloaded for 90 days, then are removed by github
       - name: Attach produced build to Github Action
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ipfs-webui_${{ github.sha }}-build
           path: build
