@@ -126,7 +126,7 @@ jobs:
 
       - name: Fail job due to pinning failure
         if: steps.pin-estuary.outcome == 'failure' && steps.pin-cluster.outcome == 'failure'
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
               core.setFailed('Pinning did not succeed')
