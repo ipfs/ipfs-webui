@@ -28,7 +28,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
       - name: Fancy Typecheck with GH annotations
-        uses: gozala/typescript-error-reporter-action@v1.0.8
+        uses: gozala/typescript-error-reporter-action@v1.0.9
         with:
           project: tsconfig.json
 
