@@ -43,6 +43,12 @@ const pinningServiceTemplates = [
     icon: 'https://dweb.link/ipfs/bafkreicn36fjx2tlanzslpayomdhgerh7oovlaasfkg7ltzgztf7a3buu4?filename=Estuary-logo.svg',
     apiEndpoint: 'https://api.estuary.tech/pinning',
     visitServiceUrl: 'https://docs.estuary.tech/tutorial-get-an-api-key'
+  },
+  {
+    name: 'Scaleway',
+    icon: 'https://dweb.link/ipfs/QmQnbWQCw4YKn53hTizARdMacvw6b3yFCqpQEPrSxVgXXL',
+    apiEndpoint: 'https://fr-par.ipfs.labs.scw.cloud/<your-volume-id>/',
+    visitServiceUrl: 'https://www.scaleway.com/en/docs/labs/ipfs/api-cli/ipfs-desktop/'
   }
 
 ].map((service) => {
