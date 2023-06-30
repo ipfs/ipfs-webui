@@ -1,3 +1,5 @@
+import { isFunction, isNumber } from '../guards.js'
+
 /**
  * This method creates a function that invokes func once it’s called n or more times.
  * @see https://youmightnotneed.com/lodash#after
@@ -7,7 +9,8 @@
  * @param {(...args: A[]) => R} fn
  * @returns {(...args: A[]) => void | R}
  */
-export const after = (times, fn) => {
+export const after = (fn, times) => {
+  isFunction(fn) && isNumber(times)
   let counter = 0
   /**
    * @type {(...args: A[]) => void | R}
@@ -28,6 +31,7 @@ export const after = (times, fn) => {
  * @returns {(...args: A[]) => R}
  */
 export const once = (fn) => {
+  isFunction(fn)
   let called = false
   /**
    * @type {R}
@@ -58,6 +62,7 @@ export const once = (fn) => {
  * @returns {(...args: A[]) => void}
  */
 export const debounce = (fn, delay, { leading = false } = {}) => {
+  isFunction(fn) && isNumber(delay)
   /**
    * @type {NodeJS.Timeout}
    */
@@ -81,6 +86,7 @@ export const debounce = (fn, delay, { leading = false } = {}) => {
  * @param {(...args: A[]) => R} fn - The function to call.
  * @returns {(...args: A[]) => void | R}
  */
-export const onlyOnceAfter = (nth, fn) => {
-  return after(nth, once(fn))
+export const onlyOnceAfter = (fn, nth) => {
+  isFunction(fn) && isNumber(nth)
+  return after(once(fn), nth)
 }

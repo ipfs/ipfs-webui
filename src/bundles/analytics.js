@@ -168,7 +168,7 @@ function addEvent ({ id, duration }) {
  * You can limit how many times an event is recorded by adding them here.
  */
 const addEventLimitedFns = new Map([
-  ['IPFS_INIT_FAILED', onlyOnceAfter(5, addEvent)]
+  ['IPFS_INIT_FAILED', onlyOnceAfter(addEvent, 5)]
 ])
 
 /**
