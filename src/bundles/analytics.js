@@ -10,6 +10,7 @@ import { ACTIONS as CONIFG } from './config-save.js'
 import { ACTIONS as INIT } from './ipfs-provider.js'
 import { ACTIONS as EXP } from './experiments.js'
 import { getDeploymentEnv } from '../env.js'
+import { onlyOnceAfter } from '../lib/hofs/functions.js'
 
 /**
  * @typedef {import('./ipfs-provider').Init} Init
@@ -147,6 +148,28 @@ function removeConsent (consent, store) {
     store.doDesktopRemoveConsent(consent)
   }
 }
+
+/**
+ * Add an event to countly.
+ *
+ * @param {Object} param0
+ * @param {string} param0.id
+ * @param {number} param0.duration
+ */
+function addEvent ({ id, duration }) {
+  root.Countly.q.push(['add_event', {
+    key: id,
+    count: 1,
+    dur: duration
+  }])
+}
+
+/**
+ * You can limit how many times an event is recorded by adding them here.
+ */
+const addEventLimitedFns = new Map([
+  ['IPFS_INIT_FAILED', onlyOnceAfter(5, addEvent)]
+])
 
 /**
  * @typedef {import('redux-bundler').Selectors<typeof selectors>} Selectors
@@ -306,6 +329,7 @@ const createAnalyticsBundle = ({
      * @param {Store} store
      */
     init: async (store) => {
+      // LogRocket.init('sfqf1k/ipfs-webui')
       // test code sets a mock Counly instance on the global.
       if (!root.Countly) {
         root.Countly = {}
@@ -375,16 +399,19 @@ const createAnalyticsBundle = ({
         const payload = parseTask(action)
         if (payload) {
           const { id, duration, error } = payload
-          root.Countly.q.push(['add_event', {
-            key: id,
-            count: 1,
-            dur: duration
-          }])
+          const addEventFn = addEventLimitedFns.get(id)
+          if (addEventFn != null) {
+            addEventFn({ id, duration })
+          } else {
+            addEvent({ id, duration })
+          }
 
           // Record errors. Only from explicitly selected actions.
           if (error) {
             root.Countly.q.push(['add_log', action.type])
             root.Countly.q.push(['log_error', error])
+            // LogRocket.error(error)
+            // logger.error('Error in action', action.type, error)
           }
         }
 
