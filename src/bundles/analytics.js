@@ -172,6 +172,23 @@ const addEventLimitedFns = new Map([
 ])
 
 /**
+ * Add an event to by using a limited addEvent fn if one is defined, or calling
+ * `addEvent` directly.
+ *
+ * @param {Object} param0
+ * @param {string} param0.id
+ * @param {number} param0.duration
+ */
+function addEventWrapped ({ id, duration }) {
+  const fn = addEventLimitedFns.get(id)
+  if (fn) {
+    fn({ id, duration })
+  } else {
+    addEvent({ id, duration })
+  }
+}
+
+/**
  * @typedef {import('redux-bundler').Selectors<typeof selectors>} Selectors
  */
 
@@ -399,12 +416,7 @@ const createAnalyticsBundle = ({
         const payload = parseTask(action)
         if (payload) {
           const { id, duration, error } = payload
-          const addEventFn = addEventLimitedFns.get(id)
-          if (addEventFn != null) {
-            addEventFn({ id, duration })
-          } else {
-            addEvent({ id, duration })
-          }
+          addEventWrapped({ id, duration })
 
           // Record errors. Only from explicitly selected actions.
           if (error) {
