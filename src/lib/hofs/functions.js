@@ -47,11 +47,38 @@ export const once = (fn) => {
 }
 
 /**
+ * @see https://youmightnotneed.com/lodash#debounce
+ *
+ * @template A
+ * @template R
+ * @param {(...args: A[]) => R} fn - The function to debounce.
+ * @param {number} delay - The number of milliseconds to delay.
+ * @param {Object} options
+ * @param {boolean} [options.leading]
+ * @returns {(...args: A[]) => void}
+ */
+export const debounce = (fn, delay, { leading = false } = {}) => {
+  /**
+   * @type {NodeJS.Timeout}
+   */
+  let timerId
+
+  return (...args) => {
+    if (!timerId && leading) {
+      fn(...args)
+    }
+    clearTimeout(timerId)
+
+    timerId = setTimeout(() => fn(...args), delay)
+  }
+}
+
+/**
  * Call a function only once on the nth time it was called
  * @template A
  * @template R
- * @param {number} nth
- * @param {(...args: A[]) => R} fn
+ * @param {number} nth - The nth time the function should be called when it is actually invoked.
+ * @param {(...args: A[]) => R} fn - The function to call.
  * @returns {(...args: A[]) => void | R}
  */
 export const onlyOnceAfter = (nth, fn) => {
