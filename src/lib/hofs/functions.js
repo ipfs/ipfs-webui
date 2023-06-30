@@ -1,10 +1,17 @@
 /**
  * This method creates a function that invokes func once it’s called n or more times.
  * @see https://youmightnotneed.com/lodash#after
- * @type {<A, R>(times: number, fn: (...args: A[]) => R) => (...args: A[]) => void | R}
+ * @template A
+ * @template R
+ * @param {number} times
+ * @param {(...args: A[]) => R} fn
+ * @returns {(...args: A[]) => void | R}
  */
 export const after = (times, fn) => {
   let counter = 0
+  /**
+   * @type {(...args: A[]) => void | R}
+   */
   return (...args) => {
     counter++
     if (counter >= times) {
@@ -12,13 +19,24 @@ export const after = (times, fn) => {
     }
   }
 }
+
 /**
  * @see https://youmightnotneed.com/lodash#once
- * @type {<A, R>(fn: (...args: A[]) => R) => (...args: A[]) => R}
+ * @template A
+ * @template R
+ * @param {(...args: A[]) => R} fn
+ * @returns {(...args: A[]) => R}
  */
 export const once = (fn) => {
   let called = false
+  /**
+   * @type {R}
+   */
   let result
+
+  /**
+   * @type {(...args: A[]) => R}
+   */
   return (...args) => {
     if (!called) {
       result = fn(...args)
@@ -27,9 +45,14 @@ export const once = (fn) => {
     return result
   }
 }
+
 /**
  * Call a function only once on the nth time it was called
- * @type {<A, R>(nth: number, fn: (...args: A[]) => R) => (...args: A[]) => void | R}
+ * @template A
+ * @template R
+ * @param {number} nth
+ * @param {(...args: A[]) => R} fn
+ * @returns {(...args: A[]) => void | R}
  */
 export const onlyOnceAfter = (nth, fn) => {
   return after(nth, once(fn))
