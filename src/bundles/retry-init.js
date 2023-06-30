@@ -6,13 +6,10 @@ import { ACTIONS } from './ipfs-provider.js'
  * @typedef {Object} AppIdle
  * @property {'APP_IDLE'} type
  *
- * @typedef {Object} EnableRetryInit
- * @property {'RETRY_INIT_ENABLE'} type
- *
  * @typedef {Object} DisableRetryInit
  * @property {'RETRY_INIT_DISABLE'} type
  *
- * @typedef {import('./ipfs-provider').Message | AppIdle | EnableRetryInit | DisableRetryInit} Message
+ * @typedef {import('./ipfs-provider').Message | AppIdle | DisableRetryInit} Message
  *
  * @typedef {Object} Model
  * @property {number} [startedAt]
@@ -39,7 +36,6 @@ const initialState = () => ({ tryCount: 0, needToRetry: true, startedAt: undefin
  * @returns {Model}
  */
 const disabledState = () => {
-  console.trace('disabledState')
   return ({ ...initialState(), needToRetry: false })
 }
 
@@ -49,14 +45,6 @@ const disabledState = () => {
 const retryInit = {
   name: 'retryInit',
 
-  // /**
-  //  *
-  //  * @param {import('redux-bundler').Store<Model, Message>} store
-  //  */
-  // init: (store) => {
-  //   store.dispatch({ type: 'RETRY_INIT_ENABLE' })
-  // },
-
   /**
    * @param {Model} state
    * @param {Message} action
@@ -64,16 +52,6 @@ const retryInit = {
    */
   reducer: (state = initialState(), action) => {
     switch (action.type) {
-      // case 'APP_IDLE': {
-      //   console.log('app_idle event emitted')
-      //   /**
-      //    * Do not retry if the app is idle
-      //    */
-      //   return disabledState()
-      // }
-      // case 'RETRY_INIT_ENABLE': {
-      //   return initialState()
-      // }
       case 'RETRY_INIT_DISABLE': {
         return disabledState()
       }
