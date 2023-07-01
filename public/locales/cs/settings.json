@@ -80,7 +80,6 @@
     "false": "Vypnout"
   },
   "fetchingSettings": "Získávání nastavení...",
-  "configApiNotAvailable": "IPFS API nastavení není dostupný. Prosím vypněte rozšíření \"IFPS Companion\" a zkuste to znovu.",
   "ipfsDaemonOffline": "Démon IPFS je offline. Zapněte jej a zkuste to znovu.",
   "settingsUnavailable": "Nastavení není dostupný. Prosím zkontrolujte zdali běží IPFS služba.",
   "settingsHaveChanged": "Nastavení se změnilo; kliknutím na <1>Obnovit</1> aktualizujte obsah editoru.",

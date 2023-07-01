@@ -80,7 +80,6 @@
     "false": "Off"
   },
   "fetchingSettings": "Fetching settings...",
-  "configApiNotAvailable": "The IPFS config API is not available. Please disable the \"IPFS Companion\" Web Extension and try again.",
   "ipfsDaemonOffline": "The IPFS daemon is offline. Please turn it on and try again.",
   "settingsUnavailable": "Settings not available. Please check your IPFS daemon is running.",
   "settingsHaveChanged": "The settings have changed; please click <1>Reset</1> to update the editor contents.",

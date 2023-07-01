@@ -14,7 +14,6 @@
     "close": "Sluiten"
   },
   "fetchingSettings": "Bezig met ophalen van instellingen....",
-  "configApiNotAvailable": "De IPFS configuratie API is niet beschikbaar. Schakel de \"IPFS Compantion\" extensie uit en probeer opnieuw.",
   "settingsUnavailable": "Instellingen niet beschikbaar. Check of de IPFS daemon draait.",
   "settingsHaveChanged": "De instellingen zijn gewijzigd, klik <1>reset</1> om de inhoud te verversen",
   "errorOccured": "Er is een fout opgereden tijdens het opslaan van de wijzigingen",

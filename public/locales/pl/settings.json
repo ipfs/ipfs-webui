@@ -80,7 +80,6 @@
     "false": "Wyłączone"
   },
   "fetchingSettings": "Pobieranie ustawień... \n",
-  "configApiNotAvailable": "API konfiguracji IPFS nie jest dostępne. Proszę wyłączyć rozszerzenie \"IPFS Companion\" i spróbować ponownie.",
   "ipfsDaemonOffline": "Demon IPFS jest w trybie offline. Proszę włączyć go i spróbować ponownie. ",
   "settingsUnavailable": "Ustawienia nie są dostępne. Proszę sprawdzić, czy demon IPFS jest uruchomiony.",
   "settingsHaveChanged": "Ustawienia uległy zmianie; proszę kliknąć <1>Resetuj</1> t aby zaktualizować zawartość edytora.",
