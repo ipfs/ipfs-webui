@@ -3,9 +3,6 @@ import React from 'react'
 const providers = {
   kubo: {
     url: 'https://github.com/ipfs/kubo'
-  },
-  'js-ipfs': {
-    url: 'https://github.com/ipfs/js-ipfs'
   }
 }
 

@@ -1,17 +1,14 @@
 import React from 'react'
 
 const providers = {
-  'js-ipfs-api': {
-    url: 'https://github.com/ipfs/js-ipfs-api'
-  },
-  'js-ipfs': {
-    url: 'https://github.com/ipfs/js-ipfs'
-  },
   'window.ipfs': {
     url: 'https://github.com/ipfs-shipyard/ipfs-companion'
   },
   'ipfs-companion': {
     url: 'https://github.com/ipfs-shipyard/ipfs-companion'
+  },
+  kubo: {
+    url: 'https://github.com/ipfs/kubo'
   }
 }
 

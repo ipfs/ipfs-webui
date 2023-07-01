@@ -9,7 +9,7 @@ const appTimeBundle = {
   selectAppTime: state => state.appTime
 }
 
-const ipfsBundle = (provider = 'js-ipfs-api', opts) => {
+const ipfsBundle = (provider = 'kubo', opts) => {
   return Object.assign({}, {
     name: 'ipfs',
     selectIpfsProvider: () => provider
