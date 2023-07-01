@@ -147,22 +147,11 @@ Make sure `npm run build` is run before starting E2E tests:
 
 Default behavior can be tweaked via env variables below.
 
-#### `E2E_IPFSD_TYPE`
-
-Variable named `E2E_IPFSD_TYPE` defines which IPFS backend should be used for end-to-end tests.
-
-CI setup of ipfs-webui repo runs tests against both JS and GO implementations:
-
-```sh
-> E2E_IPFSD_TYPE=go npm run test:e2e # 'go' is the default if missing
-> E2E_IPFSD_TYPE=js npm run test:e2e
-```
-
-##### Overriding versions
+#### `IPFS_GO_EXEC`
 
 It is possible to test against arbitrary versions by tweaking `go-ipfs` in `devDependencies` section of `package.json` and applying the change via `npm i`
 
-One can also override the binary used in e2e tests by providing a path to an alternative one via `IPFS_GO_EXEC` (or `IPFS_JS_EXEC`):
+One can also override the binary used in e2e tests by providing a path to an alternative one via `IPFS_GO_EXEC`:
 
 ```sh
 > IPFS_GO_EXEC=$GOPATH/bin/ipfs  npm run test:e2e
