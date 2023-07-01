@@ -16,7 +16,7 @@ The [latest release version](https://github.com/ipfs/ipfs-webui/releases/latest)
 
 The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work.
 
-The app uses [`ipfs-http-client`](https://github.com/ipfs/js-ipfs-http-client) to communicate with your local IPFS node.
+The app uses [`kubo-rpc-client`](https://github.com/ipfs/js-kubo-rpc-client) to communicate with your local IPFS node.
 
 The app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#table-of-contents).
 
@@ -160,14 +160,12 @@ CI setup of ipfs-webui repo runs tests against both JS and GO implementations:
 
 ##### Overriding versions
 
-It is possible to test against arbitrary versions by tweaking `ipfs` (js-ipfs)
- and `go-ipfs` in `devDependencies` section of `package.json` and applying the change via `npm i`
+It is possible to test against arbitrary versions by tweaking `go-ipfs` in `devDependencies` section of `package.json` and applying the change via `npm i`
 
 One can also override the binary used in e2e tests by providing a path to an alternative one via `IPFS_GO_EXEC` (or `IPFS_JS_EXEC`):
 
 ```sh
 > IPFS_GO_EXEC=$GOPATH/bin/ipfs  npm run test:e2e
-> E2E_IPFSD_TYPE=js IPFS_JS_EXEC=/path/to/jsipfs  npm run test:e2e
 ```
 
 #### `E2E_API_URL`
@@ -265,8 +263,6 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
 1. Manually dispatch [ci.yml](https://github.com/ipfs/ipfs-webui/actions/workflows/ci.yml) workflow on `main` branch. This will create a new release.
 1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
-   - ~js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5~
-      - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730
    - Kubo: https://github.com/ipfs/kubo/blob/master/core/corehttp/webui.go#L4
    - IPFS Desktop: https://github.com/ipfs/ipfs-desktop/blob/main/package.json#L20
 
@@ -279,8 +275,6 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 1. Wait for `vN.N.N` to [build on CI](https://github.com/ipfs/ipfs-webui/actions), and grab the CID produced from the tagged commit
 1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created
 1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
-   - ~js-ipfs: https://github.com/ipfs/js-ipfs/blob/master/packages/ipfs-http-server/src/api/routes/webui.js#L5~
-      - currently blocked by https://github.com/ipfs/ipfs-webui/issues/1730
    - Kubo: https://github.com/ipfs/kubo/blob/master/core/corehttp/webui.go#L4
    - IPFS Desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
 -->
