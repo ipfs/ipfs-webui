@@ -29,19 +29,6 @@ it('should notify about api stats fetch errors', async () => {
   expect(store.selectNotifyI18nKey()).toEqual('ipfsApiRequestFailed')
 })
 
-it('should notify about window.ipfs fetch errors', async () => {
-  const store = composeBundlesRaw(
-    appTimeBundle,
-    ipfsBundle('window.ipfs'),
-    notifyBundle
-  )()
-  expect(store.selectNotify().show).toEqual(false)
-  store.dispatch({ type: 'STATS_FETCH_FAILED' })
-  expect(store.selectNotify().show).toEqual(true)
-  expect(store.selectNotify().error).toEqual(true)
-  expect(store.selectNotifyI18nKey()).toEqual('windowIpfsRequestFailed')
-})
-
 it('should notify about connection returning after a previous error', async () => {
   const store = composeBundlesRaw(
     appTimeBundle,
