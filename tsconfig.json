@@ -52,11 +52,13 @@
     "module": "esnext"
   },
   "exclude": [
-    "./src/test"
+    "./src/test",
+    "src/**/*.test.js",
   ],
   "include": [
     "**/*.ts",
     "@types",
+    // "src/**/*.js", // TODO: Include all js files when typecheck passes
     "src/bundles/files/**/*.js",
     "src/bundles/analytics.js",
     "src/bundles/config-save.js",
@@ -72,6 +74,8 @@
     "src/lib/count-dirs.js",
     "src/lib/sort.js",
     "src/lib/files.js",
-    "src/env.js"
+    "src/env.js",
+    "src/lib/hofs/**/*.js",
+    "src/lib/guards.js",
   ]
 }
