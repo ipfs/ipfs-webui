@@ -21,7 +21,7 @@ async function run (rpcPort) {
     ipfs = kuboRpcModule.create(endpoint)
   } else {
     // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
-    const type = process.env.E2E_IPFSD_TYPE || 'go'
+    const type = 'go'
     const factory = Ctl.createFactory({
       kuboRpcModule,
       type,

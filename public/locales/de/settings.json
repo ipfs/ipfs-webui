@@ -80,7 +80,6 @@
     "false": "Aus"
   },
   "fetchingSettings": "Einstellungen werden geladen...",
-  "configApiNotAvailable": "Die API zur IPFS-Konfigurations ist nicht verfügbar. Bitte deaktiviere die Browser-Erweiterung \"IPFS Companion\" und versuche es erneut.",
   "ipfsDaemonOffline": "Der IPFS Daemon ist offline. Bitte starten Sie ihn und versuchen es erneut.",
   "settingsUnavailable": "Einstellungen nicht verfügbar. Bitte überprüfe, ob Dein IPFS-Daemon läuft.",
   "settingsHaveChanged": "Die Einstellungen haben sich geändert. Bitte klicke auf <1>Zurücksetzen</1>, um den Inhalt des Editors zu aktualisieren.",

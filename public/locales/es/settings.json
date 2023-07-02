@@ -13,7 +13,6 @@
   "apiDescription": "<0>If your node is configured with a <1>custom API address</1>, including a port other than the default 5001, enter it here.</0>",
   "cliDescription": "<0>Enable this option to display a \"view code\" <1></1> icon next to common IPFS commands. Clicking it opens a modal with that command's CLI code, so you can paste it into the IPFS command-line interface in your terminal.</0>",
   "fetchingSettings": "Recuperando ajustes...",
-  "configApiNotAvailable": "La API de configuración de IPFS no está disponible. Desactive la Extensión Web \"IPFS Companion\" e inténtelo de nuevo.",
   "ipfsDaemonOffline": "El demonio IPFS está fuera de línea. Enciéndalo e intente nuevamente.",
   "settingsUnavailable": "Configuración no disponible. Por favor, compruebe que su servicio IPFS se está ejecutando.",
   "settingsHaveChanged": "La configuración ha cambiado; haga clic en <1>Restablecer</1>  para actualizar el contenido del editor. ",

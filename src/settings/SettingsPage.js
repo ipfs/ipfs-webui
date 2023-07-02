@@ -30,7 +30,7 @@ const PAUSE_AFTER_SAVE_MS = 3000
 
 export const SettingsPage = ({
   t, tReady, isIpfsConnected, ipfsPendingFirstConnection, isIpfsDesktop,
-  isConfigBlocked, isLoading, isSaving, arePinningServicesSupported,
+  isLoading, isSaving, arePinningServicesSupported,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
   toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, command
@@ -128,7 +128,6 @@ export const SettingsPage = ({
                 tReady={tReady}
                 config={config}
                 isIpfsConnected={isIpfsConnected}
-                isConfigBlocked={isConfigBlocked}
                 isLoading={isLoading}
                 hasExternalChanges={hasExternalChanges}
                 hasSaveFailed={hasSaveFailed}
@@ -209,14 +208,8 @@ const SaveButton = ({ t, hasErrors, hasSaveFailed, hasSaveSucceded, isSaving, ha
   )
 }
 
-const SettingsInfo = ({ t, isIpfsConnected, isConfigBlocked, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config }) => {
-  if (isConfigBlocked) {
-    return (
-      <p className='ma0 lh-copy charcoal f5 mw7'>
-        {t('configApiNotAvailable')}
-      </p>
-    )
-  } else if (!isIpfsConnected) {
+const SettingsInfo = ({ t, isIpfsConnected, hasExternalChanges, hasSaveFailed, hasSaveSucceded, isLoading, config }) => {
+  if (!isIpfsConnected) {
     return (
       <p className='ma0 lh-copy charcoal f5 mw7'>
         {t('ipfsDaemonOffline')}
@@ -329,7 +322,7 @@ export class SettingsPageContainer extends React.Component {
 
   render () {
     const {
-      t, tReady, isConfigBlocked, ipfsConnected, configIsLoading, configLastError, configIsSaving, arePinningServicesSupported,
+      t, tReady, ipfsConnected, configIsLoading, configLastError, configIsSaving, arePinningServicesSupported,
       configSaveLastSuccess, configSaveLastError, isIpfsDesktop, analyticsEnabled, doToggleAnalytics, toursEnabled,
       handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, ipfsPendingFirstConnection
     } = this.props
@@ -344,7 +337,6 @@ export class SettingsPageContainer extends React.Component {
         tReady={tReady}
         isIpfsConnected={ipfsConnected}
         ipfsPendingFirstConnection={ipfsPendingFirstConnection}
-        isConfigBlocked={isConfigBlocked}
         isLoading={isLoading}
         isSaving={configIsSaving}
         arePinningServicesSupported={arePinningServicesSupported}
@@ -377,7 +369,6 @@ export default connect(
   'selectConfig',
   'selectIpfsConnected',
   'selectIpfsPendingFirstConnection',
-  'selectIsConfigBlocked',
   'selectConfigLastError',
   'selectConfigIsLoading',
   'selectConfigIsSaving',
