@@ -25,7 +25,6 @@ export class PeerBandwidthTable extends Component {
   getSorter ({ field, direction }) {
     return (a, b) => {
       return a.bw[field] - b.bw[field]
-      return 0
     }
   }
 
