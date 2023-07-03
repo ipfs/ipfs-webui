@@ -80,7 +80,6 @@
     "false": "Éteint"
   },
   "fetchingSettings": "Récupération des paramètres...",
-  "configApiNotAvailable": "L'API de configuration IPFS n'est pas disponible. Merci de désactiver l'extension IPFS Companion et de réessayer.",
   "ipfsDaemonOffline": "Le daemon IPFS est hors-ligne. Merci de le relancer.",
   "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre daemon IPFS est en cours d'exécution.",
   "settingsHaveChanged": "Les paramètres ont changé. Cliquez sur <1>Réinitialiser</1> pour mettre à jour l'éditeur de contenu.",

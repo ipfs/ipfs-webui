@@ -80,7 +80,6 @@
     "false": "オフ"
   },
   "fetchingSettings": "設定を読み込んでいます…",
-  "configApiNotAvailable": "IPFS設定APIが利用できません。拡張機能「IPFS Companion」を無効にして再度接続を試してください。",
   "ipfsDaemonOffline": "IPFSデーモンが起動していないようです。デーモンを起動して再度接続を試してください。",
   "settingsUnavailable": "設定を読み込めません。IPFSデーモンが起動していることを確認してください。",
   "settingsHaveChanged": "設定が変更されました。<1>リセット</1>をクリックして編集しているファイルを再読み込みしてください。",

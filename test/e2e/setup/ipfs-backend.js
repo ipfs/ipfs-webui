@@ -9,19 +9,21 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const { console } = windowOrGlobal
 
+let ipfsd
+let ipfs
 async function run (rpcPort) {
+  if (ipfsd != null && ipfs != null) {
+    throw new Error('IPFS backend already running')
+  }
   const endpoint = process.env.E2E_API_URL
-  let ipfsd
-  let ipfs
   if (endpoint) {
     // create http rpc client for endpoint passed via E2E_API_URL=
     ipfs = kuboRpcModule.create(endpoint)
   } else {
     // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
-    const type = process.env.E2E_IPFSD_TYPE || 'go'
+    const type = 'go'
     const factory = Ctl.createFactory({
       kuboRpcModule,
-      ipfsModule: await import('ipfs'),
       type,
       ipfsOptions: {
         config: {
@@ -36,9 +38,6 @@ async function run (rpcPort) {
     {
       go: {
         ipfsBin: process.env.IPFS_GO_EXEC || (await import('go-ipfs')).default.path()
-      },
-      js: {
-        ipfsBin: process.env.IPFS_JS_EXEC || path.resolve(__dirname, '../../../node_modules/ipfs/src/cli.js')
       }
     })
 

@@ -80,7 +80,6 @@
     "false": "Mati"
   },
   "fetchingSettings": "Mengambil setelan...",
-  "configApiNotAvailable": "API konfigurasi IPFS tidak tersedia. Harap nonaktifkan Ekstensi Web \"Sahabat IPFS\" dan coba lagi.",
   "ipfsDaemonOffline": "Daemon IPFS sedang offline. Harap aktifkan dan coba lagi.",
   "settingsUnavailable": "Pengaturan tidak tersedia. Silakan periksa daemon IPFS Anda sedang berjalan.",
   "settingsHaveChanged": "Pengaturan telah berubah; silakan klik <1>Reset</1> untuk memperbarui konten editor.",

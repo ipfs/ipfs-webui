@@ -80,7 +80,6 @@
     "false": "關閉"
   },
   "fetchingSettings": "正在擷取設定...",
-  "configApiNotAvailable": "IPFS 設定 API 無法使用。請停用「IPFS 小幫手」網頁擴充功能並再試一次。",
   "ipfsDaemonOffline": "IPFS Daemon 已離線。請開啟並再試一次。",
   "settingsUnavailable": "設定無法使用。請檢查你的 IPFS Daemon 是否正在執行。",
   "settingsHaveChanged": "設定已經變更，請按<1>重設</1> 更新編輯器內容。",

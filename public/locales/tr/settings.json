@@ -80,7 +80,6 @@
     "false": "Kapalı"
   },
   "fetchingSettings": "Ayarlar getiriliyor ...",
-  "configApiNotAvailable": "IPFS yapılandırma UPA'sı mevcut değildir. Lütfen \"IPFS Companion\" Web Uzantısını devre dışı bırakın ve tekrar deneyin.",
   "ipfsDaemonOffline": "IPFS arka plan programı çevrimdışı. Lütfen açın ve tekrar deneyin.",
   "settingsUnavailable": "Ayarlar mevcut değil. Lütfen IPFS daemonunuzun çalışıp çalışmadığını kontrol edin.",
   "settingsHaveChanged": "Ayarlar değişti; editör içeriğini güncellemek için lütfen <1>Sıfırla</1>'yı tıklayın.",
