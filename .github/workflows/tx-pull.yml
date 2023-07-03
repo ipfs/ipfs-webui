@@ -8,7 +8,7 @@ jobs:
   tx-sync:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.5.2
+    - uses: actions/checkout@v3.5.3
     - name: Install Transifex client
       run: |
         curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
@@ -16,7 +16,7 @@ jobs:
     - name: Pull translations from Transifex
       run: |
         ./tx -t ${{ secrets.TX_TOKEN }} pull -a -f
-    - uses: stefanzweifel/git-auto-commit-action@49620cd3ed21ee620a48530e81dba0d139c9cb80
+    - uses: stefanzweifel/git-auto-commit-action@3ea6ae190baf489ba007f7c92608f33ce20ef04a
       with:
         # Optional. Commit message for the created commit.
         # Defaults to "Apply automatic changes"

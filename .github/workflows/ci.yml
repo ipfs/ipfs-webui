@@ -30,7 +30,7 @@ jobs:
     outputs:
       cid: ${{ steps.ipfs.outputs.cid }}
     steps:
-      - uses: actions/checkout@v3.5.2
+      - uses: actions/checkout@v3.5.3
 
       - name: Setup node
         uses: actions/setup-node@v3.6.0
@@ -38,7 +38,7 @@ jobs:
           node-version: 18.14.0
 
       - name: Download build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ipfs-webui_${{ github.sha }}-build
           path: build
@@ -79,7 +79,7 @@ jobs:
         run: |
           ipfs dag export ${{ steps.ipfs.outputs.cid }} > ipfs-webui_${{ github.sha }}.car
       - name: Attach produced build to Github Action
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ipfs-webui_${{ github.sha }}.car
           path: ipfs-webui_${{ github.sha }}.car
@@ -126,7 +126,7 @@ jobs:
 
       - name: Fail job due to pinning failure
         if: steps.pin-estuary.outcome == 'failure' && steps.pin-cluster.outcome == 'failure'
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           script: |
               core.setFailed('Pinning did not succeed')
@@ -173,7 +173,7 @@ jobs:
     needs: [build, publishPreview, eslint, typecheck, test-e2e, test-unit, test-storybook]
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3.5.2
+        uses: actions/checkout@v3.5.3
         with:
           persist-credentials: false
 

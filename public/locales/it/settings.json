@@ -80,7 +80,6 @@
     "false": "Off"
   },
   "fetchingSettings": "Recupero delle impostazioni...",
-  "configApiNotAvailable": "L'IPFS config API non è disponibile. Per favore, disabilita l'estensione web \"IPFS Companion\" e riprova.",
   "ipfsDaemonOffline": "Il demone IPFS è offline. Per favore, avvialo e riprova.",
   "settingsUnavailable": "Impostazioni non disponibili. Per favore, controlla che il tuo demone IPFS sia attivo.",
   "settingsHaveChanged": "Le impostazioni sono cambiate; per favore, clicca <1>Ripristina</1> per aggiornare il contenuto dell'editor.",
