@@ -39,8 +39,13 @@ jobs:
       - name: Run test build
         run: npm run test:build
 
-      - name: Run E2E against Kubo
+      - name: Run repeated-E2E against Kubo
+        if: github.ref != 'refs/heads/main' # only run duplicated e2e tests on PRs
         run: npm run test:e2e -- --repeat-each 10 --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} # run each test 10 times to ensure no flakiness
+
+      - name: Run non-repeated-E2E against Kubo
+        if: github.ref == 'refs/heads/main' # run non-duplicated tests on non-PRs
+        run: npm run test:e2e -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Generate nyc coverage report
         id: coverage
