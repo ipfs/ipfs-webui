@@ -15,7 +15,6 @@
     "close": "Fechar"
   },
   "fetchingSettings": "A obter as configurações...",
-  "configApiNotAvailable": "A API de configuração do IPFS não está disponível. Por favor desative a extensão \"IPFS Companion\" e tente novamente.",
   "ipfsDaemonOffline": "O nó IPFS está offline. Por favor ative-o e tente novamente,",
   "settingsUnavailable": "As configurações não estão disponíveis. Confira, por favor, se o seu nó IPFS está em execução.",
   "settingsHaveChanged": "As configurações foram alteradas, por favor clique em <1>Começar de novo</1> para atualizar os conteúdos do editor.",

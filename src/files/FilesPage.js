@@ -217,7 +217,7 @@ const FilesPage = ({
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
-        isCompanion={ipfsProvider === 'window.ipfs'}
+        isCompanion={false}
         filesExist={!!(files && files.content && files.content.length)} />
 
       <Modals

@@ -15,7 +15,6 @@
     "close": "Luk"
   },
   "fetchingSettings": "Henter indstillinger...",
-  "configApiNotAvailable": "API'et til konfiguration af IPFS er utilgængelig. Venligst, fjern \"IPFS Kompagnon\" web-udvidelsen og prøv igen.",
   "ipfsDaemonOffline": "IPFS baggrunds-processen er offline. Forsøg at starte den og prøv igen.",
   "settingsUnavailable": "Indstillinger er ikke tilgængelige. Venligst, tjek at IPFS baggrunds-processen kører.",
   "settingsHaveChanged": "Indstillingerne er opdateret, venligst klik på <1>Nulstil</1> for at opdatere editorens indhold.",

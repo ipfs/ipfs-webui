@@ -1,3 +1,30 @@
+## [4.0.2](https://github.com/ipfs/ipfs-webui/compare/v4.0.1...v4.0.2) (2023-07-03)
+
+
+ CID `bafybeicyp7ssbnj3hdzehcibmapmpuc3atrsc4ch3q6acldfh4ojjdbcxe`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* dont spam IPFS_INIT_FAILED events to countly ([#2133](https://github.com/ipfs/ipfs-webui/issues/2133)) ([b8cf74a](https://github.com/ipfs/ipfs-webui/commit/b8cf74aa30ce38090fc345b091276f18076d9bb2))
+
+
+### Trivial Changes
+
+* **deps:** bump actions/checkout from 3.5.2 to 3.5.3 ([#2128](https://github.com/ipfs/ipfs-webui/issues/2128)) ([de5aaf4](https://github.com/ipfs/ipfs-webui/commit/de5aaf4ad71d5a411c59453e9966c430905ba363))
+* **deps:** bump actions/download-artifact from 2 to 3 ([#2129](https://github.com/ipfs/ipfs-webui/issues/2129)) ([5427709](https://github.com/ipfs/ipfs-webui/commit/5427709730186f700dea32ccc6596f3911fff982))
+* **deps:** bump actions/github-script from 3 to 6 ([#2127](https://github.com/ipfs/ipfs-webui/issues/2127)) ([d31f25c](https://github.com/ipfs/ipfs-webui/commit/d31f25c901c8238424b949373bdfb2b720103618))
+* **deps:** bump actions/upload-artifact from 2 to 3 ([#2126](https://github.com/ipfs/ipfs-webui/issues/2126)) ([4b45b5f](https://github.com/ipfs/ipfs-webui/commit/4b45b5fe32cbf7cea81efe7890cdafa96972b6ae))
+* **deps:** bump gozala/typescript-error-reporter-action ([#2130](https://github.com/ipfs/ipfs-webui/issues/2130)) ([3ea7f59](https://github.com/ipfs/ipfs-webui/commit/3ea7f59980a049cd7526eb4de1f2cb430b7cfa79))
+* **deps:** bump stefanzweifel/git-auto-commit-action ([#2125](https://github.com/ipfs/ipfs-webui/issues/2125)) ([d76d95c](https://github.com/ipfs/ipfs-webui/commit/d76d95cf624ffdac6c0f2f1b11bcb4c975d39ab6))
+* **readme:** remove mentions of js-ipfs ([#2134](https://github.com/ipfs/ipfs-webui/issues/2134)) ([a43dd23](https://github.com/ipfs/ipfs-webui/commit/a43dd233a1ca40078311a34f45993b6a7c38de0a))
+* Update .github/dependabot.yml [skip ci] ([bea5f67](https://github.com/ipfs/ipfs-webui/commit/bea5f6755181eae7117435d7ae30da9cf48fd883))
+* Update .github/workflows/stale.yml [skip ci] ([c5eaecc](https://github.com/ipfs/ipfs-webui/commit/c5eaecc1fd2e6d12fee2aaa9393b96171fc1dc7f))
+* Update .github/workflows/stale.yml [skip ci] ([1fe83ec](https://github.com/ipfs/ipfs-webui/commit/1fe83ecaf23e250f9f8b50be11649a53386895c5))
+
 ## [4.0.1](https://github.com/ipfs/ipfs-webui/compare/v4.0.0...v4.0.1) (2023-06-14)
 
 

@@ -80,7 +80,6 @@
     "false": "关"
   },
   "fetchingSettings": "拉取配置中 ...",
-  "configApiNotAvailable": "IPFS 配置 API 不可用。请禁用 \"IPFS 伴侣\" 浏览器插件并重试。",
   "ipfsDaemonOffline": "IPFS 守护进程处于离线状态，请使其在线并重试。",
   "settingsUnavailable": "配置不可用，请检查你的 IPFS 守护进程是否还在运行。",
   "settingsHaveChanged": "配置已经改变，请单击 <1>重置</1> 按钮刷新编辑器中的内容。",

@@ -15,7 +15,6 @@
     "close": "Lukk"
   },
   "fetchingSettings": "Henter innstillinger...",
-  "configApiNotAvailable": "IPFS sitt konfigurasjons API er ikke tilgjengelig. Vennligst deaktiver \"IPFS Companion\" Web extension, og prøv på nytt.",
   "ipfsDaemonOffline": "IPFS-daemon er offline. Vennligst skru den på og prøv på nytt.",
   "settingsUnavailable": "Innstillinger ikke tilgjengelig. Vennligst sjekk at din IPFS daemon kjører.",
   "settingsHaveChanged": "Innstillingene er endret, vennligst klikk <1>Tilbakestill</1> for å oppdatere editor innholdet",

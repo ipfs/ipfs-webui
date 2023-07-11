@@ -9,7 +9,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        backend: [go]
         shardIndex: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         shardTotal: [10]
     steps:
@@ -40,8 +39,13 @@ jobs:
       - name: Run test build
         run: npm run test:build
 
-      - name: Run E2E against ${{ matrix.backend }}-ipfs
-        run: E2E_IPFSD_TYPE=${{ matrix.backend }} npm run test:e2e -- --repeat-each 10 --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} # run each test 10 times to ensure no flakiness
+      - name: Run repeated-E2E against Kubo
+        if: github.ref != 'refs/heads/main' # only run duplicated e2e tests on PRs
+        run: npm run test:e2e -- --repeat-each 10 --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} # run each test 10 times to ensure no flakiness
+
+      - name: Run non-repeated-E2E against Kubo
+        if: github.ref == 'refs/heads/main' # run non-duplicated tests on non-PRs
+        run: npm run test:e2e -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
       - name: Generate nyc coverage report
         id: coverage

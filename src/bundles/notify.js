@@ -139,7 +139,7 @@ const notify = {
       const { eventId, code } = notify
 
       if (eventId === 'STATS_FETCH_FAILED') {
-        return provider === 'window.ipfs' ? 'windowIpfsRequestFailed' : 'ipfsApiRequestFailed'
+        return 'ipfsApiRequestFailed'
       }
       if (eventId === 'IPFS_CONNECT_FAILED') {
         return 'ipfsConnectFail'
