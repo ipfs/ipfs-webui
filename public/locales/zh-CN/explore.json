@@ -66,5 +66,8 @@
         "paragraph1": "节点及其子节点的可视化呈现。"
       }
     }
+  },
+  "errors": {
+    "BlockFetchTimeoutError": "Failed to fetch content in {timeout}s. Please refresh the page to retry or try a different CID."
   }
 }
