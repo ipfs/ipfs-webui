@@ -66,5 +66,8 @@
         "paragraph1": "Eine visuelle Repräsentation des Knotens und seiner Kinder."
       }
     }
+  },
+  "errors": {
+    "BlockFetchTimeoutError": "Failed to fetch content in {timeout}s. Please refresh the page to retry or try a different CID."
   }
 }
