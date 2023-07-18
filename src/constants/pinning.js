@@ -43,6 +43,12 @@ const pinningServiceTemplates = [
     icon: 'https://dweb.link/ipfs/bafkreicn36fjx2tlanzslpayomdhgerh7oovlaasfkg7ltzgztf7a3buu4?filename=Estuary-logo.svg',
     apiEndpoint: 'https://api.estuary.tech/pinning',
     visitServiceUrl: 'https://docs.estuary.tech/tutorial-get-an-api-key'
+  },
+  {
+    name: '4EVERLAND',
+    icon: 'https://dweb.link/ipfs/bafkreie4mg2rmoe6fzct4rpwd2d4nuok3yx2mew567nu3s5bfnnmlb65ei?filename=4everland-logo.svg',
+    apiEndpoint: 'https://api.4everland.dev',
+    visitServiceUrl: 'https://docs.4everland.org/storage/4ever-pin/pinning-services-api'
   }
 
 ].map((service) => {
