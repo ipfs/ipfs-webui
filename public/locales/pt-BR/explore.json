@@ -68,6 +68,6 @@
     }
   },
   "errors": {
-    "BlockFetchTimeoutError": "Failed to fetch content in {timeout}s. Please refresh the page to retry or try a different CID."
+    "BlockFetchTimeoutError": "Falha ao buscar conteúdo em {timeout}s. Atualize a página para tentar novamente ou tente um CID diferente."
   }
 }

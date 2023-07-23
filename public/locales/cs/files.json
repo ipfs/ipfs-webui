@@ -109,15 +109,15 @@
   "pinned": "Připíchnuté",
   "pinnedRemotely": "Připnuto na dálku",
   "pinningRemotely": "Připnutí vzdáleně",
-  "pinningCompleted": "Pinning completed",
-  "pinningFailed": "Pinning failed",
+  "pinningCompleted": "Připnutí dokončeno",
+  "pinningFailed": "Připnutí se nezdařilo",
   "clickToDismiss": "Klikněte pro zamítnutí",
   "clickToCancel": "Kliknutím zrušte",
   "blocks": "Bloky",
   "allBlocks": "Všechny bloky",
   "allBlocksDescription": "Celková velikost bloků v celém uzlu IPFS; zahrnuje vše v Souborech a všechny lokálně připnuté položky a dočasná data v mezipaměti.",
   "filesDescription": "Celková velikost dat v aktuálním adresáři (pokud se jedná o podadresář, zobrazí se také velikost všech dat v adresáři Soubory).",
-  "pinningQueue": "Pinning queue",
+  "pinningQueue": "Fronta připnutí",
   "more": "Více",
   "files": "Soubory",
   "cidNotFileNorDir": "Aktuální odkaz není soubor ani adresář. Zkuste jej místo toho <1>zkontrolovat</1>.",
@@ -132,6 +132,6 @@
     "sharingPrompt": "Zkopírujte níže uvedený odkaz a sdílejte jej s ostatními. Adresa IPNS se bude řešit tak dlouho, dokud bude váš uzel v síti dostupný, a to jednou denně, aby se záznam IPNS obnovil.",
     "pleaseWait": "Počkejte prosím, než se pomocí DHT peerů uloží počátečních 20 kopií aktualizovaného záznamu IPNS..."
   },
-  "noPinsInProgress": "All done, no remote pins in progress.",
-  "remotePinningInProgress": "Remote pinning in progress:"
+  "noPinsInProgress": "Vše je hotovo, žádné vzdálené připnutí neprobíhá.",
+  "remotePinningInProgress": "Probíhá vzdálené připnutí:"
 }
