@@ -1,3 +1,34 @@
+## [4.1.0](https://github.com/ipfs/ipfs-webui/compare/v4.0.2...v4.1.0) (2023-07-25)
+
+
+ CID `bafybeieqdeoqkf7xf4aozd524qncgiloh33qgr25lyzrkusbcre4c3fxay`
+
+ --- 
+
+
+
+### Features
+
+* add 4EVERLAND to list of pinning service providers ([#2107](https://github.com/ipfs/ipfs-webui/issues/2107)) ([12a0f87](https://github.com/ipfs/ipfs-webui/commit/12a0f87e0b002096757372c436002958c1791a13))
+
+
+### Bug Fixes
+
+* **ci:** e2e coverage ([#2142](https://github.com/ipfs/ipfs-webui/issues/2142)) ([83353e0](https://github.com/ipfs/ipfs-webui/commit/83353e0d4561c308430fcb20fcebe9e54b5aa4c0))
+* ipld-explorer-components@4.0.2 ([#2141](https://github.com/ipfs/ipfs-webui/issues/2141)) ([670ba7c](https://github.com/ipfs/ipfs-webui/commit/670ba7cd018f2ea68cad005bb19af7eb0c8186b8))
+
+
+### Tests
+
+* only repeat e2e tests on PRs ([#2124](https://github.com/ipfs/ipfs-webui/issues/2124)) ([530c501](https://github.com/ipfs/ipfs-webui/commit/530c5017832218336876df2ad01a0802c3bf8964))
+* **storybook:** add PeerBandwidthTable.stories.js ([#2095](https://github.com/ipfs/ipfs-webui/issues/2095)) ([c969c5e](https://github.com/ipfs/ipfs-webui/commit/c969c5e47c0335a088be1d7f1d19e9914b256b11))
+
+
+### Trivial Changes
+
+* Pull transifex translations ([#2137](https://github.com/ipfs/ipfs-webui/issues/2137)) ([2284453](https://github.com/ipfs/ipfs-webui/commit/2284453959b33a1f74391f3e3cd0a580ca89b264))
+* Pull transifex translations ([#2140](https://github.com/ipfs/ipfs-webui/issues/2140)) ([95d468b](https://github.com/ipfs/ipfs-webui/commit/95d468bcc0c2c24a8f6c48875fa8f68a7601b0e7))
+
 ## [4.0.2](https://github.com/ipfs/ipfs-webui/compare/v4.0.1...v4.0.2) (2023-07-03)
 
 
