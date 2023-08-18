@@ -149,7 +149,7 @@ Default behavior can be tweaked via env variables below.
 
 #### `IPFS_GO_EXEC`
 
-It is possible to test against arbitrary versions by tweaking `go-ipfs` in `devDependencies` section of `package.json` and applying the change via `npm i`.
+It is possible to test against arbitrary versions by tweaking `kubo` in `devDependencies` section of `package.json` and applying the change via `npm i`.
 
 One can also override the binary used in e2e tests by providing a path to an alternative one via `IPFS_GO_EXEC`:
 

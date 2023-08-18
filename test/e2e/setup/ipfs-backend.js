@@ -37,7 +37,7 @@ async function run (rpcPort) {
     },
     {
       go: {
-        ipfsBin: process.env.IPFS_GO_EXEC || (await import('go-ipfs')).default.path()
+        ipfsBin: process.env.IPFS_GO_EXEC || (await import('kubo')).default.path()
       }
     })
 
