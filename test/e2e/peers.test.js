@@ -1,7 +1,7 @@
 import { test } from './setup/coverage.js'
 import { createController } from 'ipfsd-ctl'
 import * as kuboRpcModule from 'kubo-rpc-client'
-import { path as getGoIpfsPath } from 'go-ipfs'
+import { path as getGoIpfsPath } from 'kubo'
 
 const addConnection = 'text=Add connection'
 

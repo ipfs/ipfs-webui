@@ -18,7 +18,7 @@ describe.skip('identity.js', function () {
       18 |       const ipfsHttpModule = await import('ipfs-http-client')
     > 19 |       const { createController } = await import('ipfsd-ctl')
          |                                    ^
-      20 |       const ipfsBin = (await import('go-ipfs')).default.path()
+      20 |       const ipfsBin = (await import('kubo')).default.path()
       21 |       console.log('ipfsBin: ', ipfsBin)
       22 |       /**
 
@@ -33,7 +33,7 @@ describe.skip('identity.js', function () {
       // console.log('kuboRpcModule: ', kuboRpcModule)
       const kuboRpcModule = await import('kubo-rpc-client')
       const { createController } = await import('ipfsd-ctl')
-      const ipfsBin = (await import('go-ipfs')).default.path()
+      const ipfsBin = (await import('kubo')).default.path()
       console.log('ipfsBin: ', ipfsBin)
       /**
        * This test allows for a manual run of the Kubo daemon to reproduce and
