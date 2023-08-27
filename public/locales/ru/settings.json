@@ -4,7 +4,7 @@
   "saving": "Сохранение...",
   "reset": "Сброс",
   "learnMoreLink": "Узнайте больше.",
-  "showOptions": "Show options",
+  "showOptions": "Показать настройки",
   "pinningServices": {
     "title": "Служба подкрепления",
     "description": "Use local pinning when you want to ensure an item on your node is never garbage-collected, even if you remove it from Files. You can also link your accounts with other remote pinning services to automatically or selectively persist files with those providers, enabling you to keep backup copies of your files and/or make them available to others when your local node is offline.",
@@ -59,7 +59,7 @@
   },
   "actions": {
     "addService": "Добавить сервис",
-    "generateKey": "Generate Key",
+    "generateKey": "Генерировать ключ",
     "edit": "Изменить",
     "close": "Закрыть",
     "save": "Сохранить",
@@ -165,19 +165,19 @@
     "readMoreUrl": "Узнать больше"
   },
   "ipnsPublishingKeys": {
-    "title": "IPNS Publishing Keys",
-    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+    "title": "Ключи публикации IPNS",
+    "description": "Межпланетная система имен (IPNS) предоставляет криптографические адреса для публикации обновлений контента, который, ожидаемо, изменяется со временем. Для использования этой функции ваш узел должен быть в сети хотя бы один раз в день, чтобы гарантировать, что записи IPNS остаются активными в общедоступном DHT."
   },
   "generateKeyModal": {
-    "title": "Generate New IPNS Key",
+    "title": "Генерировать новый ключ IPNS",
     "description": "Enter a nickname for this key to generate:"
   },
   "renameKeyModal": {
-    "title": "Rename Key",
-    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+    "title": "Переименовать ключ",
+    "description": "Введите новый псевдоним для IPNS-ключа <1>{name}</1>."
   },
   "removeKeyModal": {
-    "title": "Confirm IPNS Key Removal",
-    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
+    "title": "Подтверждение удаления ключа IPNS",
+    "description": "Вы уверены, что хотите удалить IPNS-ключ <1>{name}</1>? Эта операция не может быть отменена, и IPNS-адрес, управляемый этим ключом, будет потерян НАВСЕГДА. Подумайте о том, чтобы сначала создать резервную копию: ipfs key export --help"
   }
 }
