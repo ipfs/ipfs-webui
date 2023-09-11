@@ -14,7 +14,7 @@ jobs:
           node-version: 18.14.0
 
       - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         id: cache
         with:
           path: ${{ github.workspace }}/.cache
@@ -27,7 +27,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
       - name: Cache test-build output
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         id: test-build-cache
         with:
           path: build
@@ -58,7 +58,7 @@ jobs:
           node-version: 18.14.0
 
       - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         id: cache
         with:
           path: ${{ github.workspace }}/.cache
@@ -74,7 +74,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Cache test-build output
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         id: test-build-cache
         with:
           path: build
@@ -88,7 +88,7 @@ jobs:
         run: npm run test:build
 
       - name: Cache nyc_output dir
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         id: nyc_output-cache
         with:
           path: ./.nyc_output
@@ -117,7 +117,7 @@ jobs:
           node-version: 18.14.0
 
       - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         id: cache
         with:
           path: ${{ github.workspace }}/.cache
@@ -131,7 +131,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
       - name: Cache nyc_output dir
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         id: nyc_output-cache
         with:
           path: ./.nyc_output

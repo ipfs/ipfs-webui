@@ -14,7 +14,7 @@ jobs:
           node-version: 18.14.0
 
       - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         id: cache
         with:
           path: ${{ github.workspace }}/.cache
@@ -29,7 +29,7 @@ jobs:
       # Separate cache for build dir, we reuse it in release publish workflow
       - name: Cache build output
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v3.3.2
         id: build-cache
         with:
           path: build

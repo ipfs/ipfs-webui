@@ -54,7 +54,7 @@ jobs:
         echo "version=$(node --version)" >> $GITHUB_OUTPUT
 
     - name: Cache bigger downloads
-      uses: actions/cache@v3.3.1
+      uses: actions/cache@v3.3.2
       id: cache
       with:
         path: ${{ github.workspace }}/.cache
