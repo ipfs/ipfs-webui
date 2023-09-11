@@ -1,3 +1,20 @@
+## [4.1.1](https://github.com/ipfs/ipfs-webui/compare/v4.1.0...v4.1.1) (2023-09-11)
+
+
+ CID `bafybeiamycmd52xvg6k3nzr6z3n33de6a2teyhquhj4kspdtnvetnkrfim`
+
+ --- 
+
+
+
+### Trivial Changes
+
+* **deps-dev:** bump protobufjs from 6.11.3 to 6.11.4 ([#2151](https://github.com/ipfs/ipfs-webui/issues/2151)) ([64a8ff3](https://github.com/ipfs/ipfs-webui/commit/64a8ff3d2ada76cccbb2be27d270926b1faeeae6))
+* **deps:** bump actions/checkout from 3.5.3 to 3.6.0 ([#2156](https://github.com/ipfs/ipfs-webui/issues/2156)) ([5c63a51](https://github.com/ipfs/ipfs-webui/commit/5c63a51143589d40afaea614661aa11f9a131da8))
+* Pull transifex translations ([#2148](https://github.com/ipfs/ipfs-webui/issues/2148)) ([f21d1c4](https://github.com/ipfs/ipfs-webui/commit/f21d1c4ba3089dd1377da13c928773fddeed62a5))
+* Pull transifex translations ([#2155](https://github.com/ipfs/ipfs-webui/issues/2155)) ([3e76925](https://github.com/ipfs/ipfs-webui/commit/3e76925eaa38e6ccaac2f48cdd7c98c796bcfbb5))
+* Pull transifex translations ([#2157](https://github.com/ipfs/ipfs-webui/issues/2157)) ([2277a09](https://github.com/ipfs/ipfs-webui/commit/2277a091db4031fa7d5f8354f1d8786966f8596b))
+
 ## [4.1.0](https://github.com/ipfs/ipfs-webui/compare/v4.0.2...v4.1.0) (2023-07-25)
 
 
