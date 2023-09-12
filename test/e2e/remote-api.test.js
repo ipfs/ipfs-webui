@@ -5,7 +5,7 @@ import { createServer } from 'http'
 import httpProxy from 'http-proxy'
 import basicAuth from 'basic-auth'
 import toUri from 'multiaddr-to-uri'
-import { path as getGoIpfsPath } from 'go-ipfs'
+import { path as getGoIpfsPath } from 'kubo'
 import * as kuboRpcModule from 'kubo-rpc-client'
 const { createProxyServer } = httpProxy
 
@@ -51,7 +51,7 @@ test.describe('Remote API tests', () => {
     rpcUrl = new URL(remoteApiUrl).toString() // normalization for browsers
     proxy.on('proxyReq', (proxyReq, req, res, options) => {
     // swap Origin before passing to the real API
-    // This way internal check of go-ipfs does get triggered (403 Forbidden on Origin mismatch)
+    // This way internal check of kubo does get triggered (403 Forbidden on Origin mismatch)
       proxyReq.setHeader('Origin', remoteApiUrl)
       proxyReq.setHeader('Referer', remoteApiUrl)
       proxyReq.setHeader('Host', new URL(remoteApiUrl).host)

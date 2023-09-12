@@ -66,5 +66,8 @@
         "paragraph1": "Une représentation visuelle du nœud et de ses enfants."
       }
     }
+  },
+  "errors": {
+    "BlockFetchTimeoutError": "Impossible d'obtenir le contenu après {timeout}s. Merci de rafraîchir la page pour réessayer ou d'essayer avec un autre CID."
   }
 }

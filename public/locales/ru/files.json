@@ -10,8 +10,8 @@
   "individualFilesOnly": "Доступно только для индивидуальных файлов",
   "noPDFSupport": "Ваш браузер не поддерживает PDF. Пожалуйста, скачайте PDF-файл для его просмотра.",
   "downloadPDF": "Загрузить PDF",
-  "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
-  "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
+  "openWithPublicGateway": "Попробуйте вместо этого открыть его своим <1>общественным шлюзом</1>.",
+  "openWithLocalAndPublicGateway": "Попробуйте вместо этого открыть его своим <1>локальным шлюзом</1> или <3>обшественным шлюзом</3>.",
   "cantBePreviewed": "Извините, предпросмотр файла невозможен",
   "addByPath": "Из IPFS",
   "newFolder": "Новая папка",
@@ -19,7 +19,7 @@
   "actions": {
     "copyHash": "Копировать CID",
     "share": "Делиться ссылкой",
-    "publishWithIpns": "Publish to IPNS"
+    "publishWithIpns": "Опубликовать в IPNS"
   },
   "cliModal": {
     "extraNotesPinning": "Эта команда предназначена тольк для локального подкрепления/открепления. Если вы хотите использовать сервис удаленного подкрепления, обратитесь к документации этого сервиса, чтобы узнать, как подкреплять/откреплять с помощью командной строки."
@@ -41,12 +41,12 @@
     "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
-    "checkboxUnpinFromServices": "Unpin from all pinning services"
+    "checkboxRemoveLocalPin": "Также удалить локальное закрепление (рекомендуется)",
+    "checkboxUnpinFromServices": "Отключить от всех служб закрепления"
   },
   "pinningModal": {
     "title": "Выберите, где вы хотите подкрепить эти элементы.",
-    "complianceLabel": "🔍 Check pinning services' compliance",
+    "complianceLabel": "🔍 Проверка соответствия сервисов закрепления требованиям",
     "footer": "Нужно добавить или настроить сервис подкрепления? Перейдите в <1>Настройки</1>.",
     "localNode": " Локальный узел ",
     "totalSize": "Общий размер: {size}"
@@ -107,23 +107,31 @@
   "hashUnavailable": "хеш недоступен",
   "checkboxLabel": "Показать больше настроек для {name}",
   "pinned": "Закреплено",
-  "pinnedRemotely": "Pinned remotely",
+  "pinnedRemotely": "Закреплено удаленно",
+  "pinningRemotely": "Pinning remotely",
+  "pinningCompleted": "Закрепление завершено",
+  "pinningFailed": "Не удалось закрепить",
+  "clickToDismiss": "Нажмите чтобы отклонить",
+  "clickToCancel": "Нажмите чтобы отменить",
   "blocks": "Блоки",
   "allBlocks": "Все блоки",
   "allBlocksDescription": "Общий размер блоков во всем вашем узле IPFS; он включает в себя все, что находится в Файлах, плюс все локально подкрепленные элементы и все временно кешированные данные",
   "filesDescription": "Общий размер данных в текущей директории (если это субдиректория, размер всех данных в Файлах также отображается)",
+  "pinningQueue": "Очередь закрепления",
   "more": "Больше",
   "files": "Файлы",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
   "sortBy": "Сортировка объектов по {name}",
   "publishModal": {
-    "title": "Publish to IPNS",
+    "title": "Опубликовать в IPNS",
     "cidToPublish": "CID:",
-    "publishUnderKey": "Select key for publishing:",
-    "help": "Go to Settings to learn about IPNS and create more keys.",
-    "publishedUnderKey": "Successfully published under the key:",
-    "linkCopied": "Link copied!",
-    "sharingPrompt": "Copy the link below and share it with others. The IPNS address will resolve as long as your node remains available on the network once a day to refresh the IPNS record.",
-    "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
-  }
+    "publishUnderKey": "Выберите ключ для публикации:",
+    "help": "Перейдите в Настройки, чтобы узнать об IPNS и создать дополнительные ключи.",
+    "publishedUnderKey": "Успешно опубликовано с помощью ключа:",
+    "linkCopied": "Ссылка скопирована!",
+    "sharingPrompt": "Скопируйте ссылку ниже и поделитесь ею с другими. IPNS-адрес будет разрешаться до тех пор, пока ваш узел остается доступным в сети один раз в день для обновления записи IPNS.",
+    "pleaseWait": "Пожалуйста, подождите, пока первоначальные 20 копий обновленной записи IPNS будут сохранены с помощью узлов DHT…"
+  },
+  "noPinsInProgress": "Все готово, никаких удаленных закреплений не выполняется.",
+  "remotePinningInProgress": "Удаленные закрепления в работе:"
 }

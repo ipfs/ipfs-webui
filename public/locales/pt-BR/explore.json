@@ -66,5 +66,8 @@
         "paragraph1": "Uma representação visual do nó e seus níveis inferiores."
       }
     }
+  },
+  "errors": {
+    "BlockFetchTimeoutError": "Falha ao buscar conteúdo em {timeout}s. Atualize a página para tentar novamente ou tente um CID diferente."
   }
 }

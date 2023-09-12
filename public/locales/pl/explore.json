@@ -66,5 +66,8 @@
         "paragraph1": "Graficzna reprezentacja węzłów i ich zależności."
       }
     }
+  },
+  "errors": {
+    "BlockFetchTimeoutError": "Failed to fetch content in {timeout}s. Please refresh the page to retry or try a different CID."
   }
 }

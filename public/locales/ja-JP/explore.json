@@ -66,5 +66,8 @@
         "paragraph1": "ノードとその子の視覚的表現。"
       }
     }
+  },
+  "errors": {
+    "BlockFetchTimeoutError": "Failed to fetch content in {timeout}s. Please refresh the page to retry or try a different CID."
   }
 }

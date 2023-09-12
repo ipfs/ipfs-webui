@@ -1,6 +1,6 @@
 import { test, expect } from './setup/coverage.js'
 import { createController } from 'ipfsd-ctl'
-import { path as getGoIpfsPath } from 'go-ipfs'
+import { path as getGoIpfsPath } from 'kubo'
 import * as kuboRpcModule from 'kubo-rpc-client'
 
 // TODO: Fix parallelism of these tests

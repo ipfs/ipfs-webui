@@ -14,7 +14,7 @@
   },
   "customApiConfig": "Пользовательская JSON конфигурация ",
   "AnalyticsBanner": {
-    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
+    "label": "Недавно мы обновили нашу политику в области телеметрии, чтобы перейти на показатели отказа. Ранее у вас был отключен сбор телеметрии. Вы можете отключить сбор телеметрии (снова) на странице настроек."
   },
   "tour": {
     "step1": {

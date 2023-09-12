@@ -110,6 +110,7 @@ function webpackOverride (config) {
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'development'
   if (REACT_APP_ENV === 'test') {
     config.module.rules = modifyBabelLoaderRuleForTest(config.module.rules)
+    config.devtool = 'inline-source-map'
   } else if (REACT_APP_ENV === 'development') {
     config.optimization = {
       ...config.optimization,
