@@ -66,7 +66,7 @@ jobs:
         # Optional. Create given branch name in local and remote repository.
         create_branch: true
     - name: pull-request
-      uses: repo-sync/pull-request@65785d95a5a466e46a9d0708933a3bd51bbf9dde
+      uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5
       with:
         source_branch: "i18n-sync"
         destination_branch: "main"
