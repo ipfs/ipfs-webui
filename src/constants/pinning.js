@@ -49,8 +49,13 @@ const pinningServiceTemplates = [
     icon: 'https://dweb.link/ipfs/bafkreie4mg2rmoe6fzct4rpwd2d4nuok3yx2mew567nu3s5bfnnmlb65ei?filename=4everland-logo.svg',
     apiEndpoint: 'https://api.4everland.dev',
     visitServiceUrl: 'https://docs.4everland.org/storage/4ever-pin/pinning-services-api'
+  },
+  {
+    name: 'Scaleway',
+    icon: 'https://dweb.link/ipfs/QmQnbWQCw4YKn53hTizARdMacvw6b3yFCqpQEPrSxVgXXL',
+    apiEndpoint: 'https://<your-volume-region-code>.ipfs.labs.scw.cloud/<your-volume-id>/',
+    visitServiceUrl: 'https://www.scaleway.com/en/docs/labs/ipfs/api-cli/ipfs-desktop/'
   }
-
 ].map((service) => {
   const domain = new URL(service.apiEndpoint).hostname
   service.complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
