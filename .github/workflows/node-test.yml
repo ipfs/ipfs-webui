@@ -37,7 +37,7 @@ jobs:
       node-version: ${{ steps.node_version.outputs.version }}
     steps:
 
-    - uses: actions/checkout@v3.6.0
+    - uses: actions/checkout@v4.1.0
 
     - name: Use Node.js ${{ inputs.gh-node-version }}
       uses: actions/setup-node@v3.6.0
