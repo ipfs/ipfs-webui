@@ -38,8 +38,8 @@
     "titleItem": "{count, plural, one {Удалить {name} объект?} few {Удалить {count} объектов?} many {Удалить {count} объектов?} other {Удалить {count} объектов?}}",
     "titleFolder": "{count, plural, one {Удалить папку {name}?} few {Удалить {count} папок?} many {Удалить {count} папок?} other {Удалить {count}папок?}}",
     "titleFile": "{count, plural, one {Удалить файл {name}?} few {Удалить {count} файлов?} many {Удалить {count} файлов?} other {Удалить {count} файлов?}}",
-    "descriptionItem": "{count, plural, one {Are you sure you want to remove this item? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action and cannot be reversed.} other {Are you sure you want to remove these {count} items? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
-    "descriptionFolder": "{count, plural, one {Are you sure you want to remove this folder? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} folders? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
+    "descriptionItem": "{count, plural, one {Вы уверены, что хотите удалить этот элемент? Он больше не будет отображаться на экране \"Файлы\" и будет безвозвратно удален при следующей запланированной очистке (хотя копии могут существовать на других узлах IPFS). Это действие и не может быть отменено.} few {Вы уверены, что хотите удалить эти {count} элементов? Они больше не будет отображаться на экране \"Файлы\" и будут безвозвратно удалены при следующей запланированной очистке (хотя копии могут существовать на других узлах IPFS). Это действие и не может быть отменено.} many {Вы уверены, что хотите удалить эти {count} элементов? Они больше не будет отображаться на экране \"Файлы\" и будут безвозвратно удалены при следующей запланированной очистке (хотя копии могут существовать на других узлах IPFS). Это действие и не может быть отменено.} other {Вы уверены, что хотите удалить эти {count} элементов? Они больше не будет отображаться на экране \"Файлы\" и будут безвозвратно удалены при следующей запланированной очистке (хотя копии могут существовать на других узлах IPFS). Это действие и не может быть отменено.}}",
+    "descriptionFolder": "{count, plural, one {Вы уверены, что хотите удалить эту папку? Она больше не будет отображаться на экране \"Файлы\" и будет безвозвратно удалена при следующей запланированной очистке (хотя копии могут существовать на других узлах IPFS). Это действие и не может быть отменено.} few {Вы уверены, что хотите удалить эти {count} папок? Они больше не будут отображаться на экране \"Файлы\" и будут безвозвратно удалены при следующей запланированной очистке (хотя копии могут существовать на других узлах IPFS). Это действие и не может быть отменено.} many {Вы уверены, что хотите удалить эти {count} папок? Они больше не будут отображаться на экране \"Файлы\" и будут безвозвратно удалены при следующей запланированной очистке (хотя копии могут существовать на других узлах IPFS). Это действие и не может быть отменено.} other {Вы уверены, что хотите удалить эти {count} папки? Они больше не будут отображаться на экране \"Файлы\" и будут безвозвратно удалены при следующей запланированной очистке (хотя копии могут существовать на других узлах IPFS). Это действие и не может быть отменено.}}",
     "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "checkboxRemoveLocalPin": "Также удалить локальное закрепление (рекомендуется)",
     "checkboxUnpinFromServices": "Отключить от всех служб закрепления"
@@ -97,7 +97,7 @@
     "step5": {
       "title": "Список файлов",
       "paragraph1": "И наконец, перечень, в котором вы можете найти свои файлы и папки. Перетаскивайте файлы или папки, чтобы добавлять их.",
-      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!",
+      "paragraph2": "Вы можете делиться файлами или скачивать их, исследовать в IPLD Explorer, переименовывать или удалять!",
       "paragraph3": "Продвинутая подсказка: перетащите файл с любой другой страницы веб-интерфейса, чтобы добавить его в корень вашего MFS."
     }
   },
@@ -120,7 +120,7 @@
   "pinningQueue": "Очередь закрепления",
   "more": "Больше",
   "files": "Файлы",
-  "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
+  "cidNotFileNorDir": "Текущая ссылка не является ни файлом, ни каталогом. Попробуйте вместо этого <1>исследовать</1> её.",
   "sortBy": "Сортировка объектов по {name}",
   "publishModal": {
     "title": "Опубликовать в IPNS",
