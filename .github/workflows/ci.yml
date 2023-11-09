@@ -131,14 +131,24 @@ jobs:
           script: |
               core.setFailed('Pinning did not succeed')
 
+      # dnslink-dnsimple requires go
+      - uses: actions/setup-go@v4
+        if: github.ref == 'refs/heads/main'
+        with:
+          go-version: "1.20.x"
+
+      - name: Set up dnslink updater
+        if: github.ref == 'refs/heads/main'
+        run: go install github.com/ipfs/dnslink-dnsimple@v0.1.0
+
       # dev dnslink is updated on each main branch update
-      - run: npx dnslink-dnsimple --domain dev.webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
+      - run: dnslink-dnsimple --domain dev.webui.ipfs.io --record _dnslink --link /ipfs/${{ steps.ipfs.outputs.cid }}
         if: github.ref == 'refs/heads/main'
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
 
       # production dnslink is updated on release (during tag build)
-      - run: npx dnslink-dnsimple --domain webui.ipfs.io --link /ipfs/${{ steps.ipfs.outputs.cid }}
+      - run: dnslink-dnsimple --domain webui.ipfs.io --record _dnslink --link /ipfs/${{ steps.ipfs.outputs.cid }}
         if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}

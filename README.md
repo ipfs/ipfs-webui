@@ -1,6 +1,6 @@
 # IPFS Web UI
 
-> A web interface to [IPFS](https://ipfs.io), shipped with [Kubo](https://github.com/ipfs/kubo), and [ipfs-desktop](https://github.com/ipfs/ipfs-desktop/).
+> A web interface to [IPFS](https://ipfs.tech), shipped with [Kubo](https://github.com/ipfs/kubo), and [ipfs-desktop](https://github.com/ipfs/ipfs-desktop/).
 >
 > Check on your node stats, explore the IPLD powered merkle forest, see peers around the world and manage your files, without needing to touch the CLI.
 
