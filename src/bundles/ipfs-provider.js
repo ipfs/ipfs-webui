@@ -1,4 +1,4 @@
-import multiaddr from 'multiaddr'
+import { multiaddr } from '@multiformats/multiaddr'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
 import first from 'it-first'
