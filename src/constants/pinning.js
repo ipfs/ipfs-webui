@@ -57,10 +57,15 @@ const pinningServiceTemplates = [
     visitServiceUrl: 'https://www.scaleway.com/en/docs/labs/ipfs/api-cli/ipfs-desktop/'
   }
 ].map((service) => {
-  const domain = new URL(service.apiEndpoint).hostname
-  service.complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
-  return service
-}).map(service => ({ service, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ service }) => service)
+  try {
+    const domain = new URL(service.apiEndpoint).hostname
+    service.complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
+  } catch (e) {
+    // if apiEndpoint is not a valid URL, don't add complianceReportUrl
+    // TODO: fix support for template apiEndpoints
+  }
+  return { service, sort: Math.random() }
+}).sort((a, b) => a.sort - b.sort).map(({ service }) => service)
 
 export {
   complianceReportsHomepage,
