@@ -14,7 +14,7 @@ import './PeersTable.css'
 
 export class PeersTable extends React.Component {
   static propTypes = {
-    peerLocationsForSwarm: PropTypes.array,
+    // peerLocationsForSwarm: PropTypes.array,
     className: PropTypes.string,
     t: PropTypes.func.isRequired
   }

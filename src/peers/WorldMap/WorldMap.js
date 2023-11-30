@@ -176,8 +176,18 @@ const MapPins = connect('selectPeersCoordinates', ({ width, height, path, peersC
 
 const MAX_PEERS = 5
 
-const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsForSwarm: allPeers, t }) => {
-  if (!allPeers) return null
+const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsForSwarm, t }) => {
+  const [allPeers, setAllPeers] = useState([])
+
+  useEffect(() => {
+    if (!peerLocationsForSwarm) return
+    const asyncFn = async () => {
+      setAllPeers(await peerLocationsForSwarm)
+    }
+    asyncFn()
+  }, [peerLocationsForSwarm])
+
+  if (!peerLocationsForSwarm) return null
 
   const peers = allPeers.filter(({ peerId }) => ids.includes(peerId))
 
