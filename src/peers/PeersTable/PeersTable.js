@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import ms from 'milliseconds'
 import { connect } from 'redux-bundler-react'
@@ -13,12 +12,13 @@ import { sortByProperty } from '../../lib/sort.js'
 import './PeersTable.css'
 
 export class PeersTable extends React.Component {
-  static propTypes = {
-    // peerLocationsForSwarm: PropTypes.array,
-    className: PropTypes.string,
-    t: PropTypes.func.isRequired
-  }
-
+  /**
+   *
+   * @param {object} props
+   * @param {Promise<any[]>} props.peerLocationsForSwarm
+   * @param {string} props.className
+   * @param {import('i18next').TFunction} props.t
+   */
   constructor (props) {
     super(props)
 
