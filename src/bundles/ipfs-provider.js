@@ -9,7 +9,7 @@ import { readSetting, writeSetting } from './local-storage.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
- * @typedef {import('cids')} CID
+ * @typedef {import('multiformats/cid').CID} CID
  * @typedef {import('ipfs').FileStat} FileStat
  * @typedef {'httpClient'|'jsIpfs'|'windowIpfs'|'webExt'} ProviderName
  * @typedef {Object} Model
