@@ -1,5 +1,5 @@
 import memoize from 'p-memoize'
-import toUri from 'multiaddr-to-uri'
+import { multiaddrToUri as toUri } from '@multiformats/multiaddr-to-uri'
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
 const LOCAL_HOSTNAMES = ['127.0.0.1', '[::1]', '0.0.0.0', '[::]']
