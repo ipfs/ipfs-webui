@@ -187,13 +187,12 @@ const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsFor
     asyncFn()
   }, [peerLocationsForSwarm])
 
-  if (!peerLocationsForSwarm) return null
-
   const peers = allPeers.filter(({ peerId }) => ids.includes(peerId))
 
-  if (!peers.length) return null
-
   const isWindows = useMemo(() => window.navigator.appVersion.indexOf('Win') !== -1, [])
+
+  if (!peers.length) return null
+  if (!peerLocationsForSwarm) return null
 
   return (
     <div className="f6 flex flex-column justify-center">
