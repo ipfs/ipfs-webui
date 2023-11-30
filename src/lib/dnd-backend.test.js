@@ -1,4 +1,4 @@
-/* global it, expect */
+//  * global it, expect
 import DnDBackend from './dnd-backend.js'
 
 function makeEntry (item) {

@@ -1,0 +1,16 @@
+diff --git a/node_modules/datatransfer-files-promise/index.js b/node_modules/datatransfer-files-promise/index.js
+index d9a2d9d..4111b9e 100644
+--- a/node_modules/datatransfer-files-promise/index.js
++++ b/node_modules/datatransfer-files-promise/index.js
+@@ -78,5 +78,9 @@ async function getFilesFromDataTransferItems (dataTransferItems, options = { raw
+   return files
+ }
+ 
+-if (this.window && this === this.window) this.getFilesFromDataTransferItems = getFilesFromDataTransferItems
+-else module.exports.getFilesFromDataTransferItems = getFilesFromDataTransferItems
++if (globalThis.window && globalThis === globalThis.window) {
++  globalThis.getFilesFromDataTransferItems = getFilesFromDataTransferItems
++}
++if (module && module.exports) {
++  module.exports.getFilesFromDataTransferItems = getFilesFromDataTransferItems
++}

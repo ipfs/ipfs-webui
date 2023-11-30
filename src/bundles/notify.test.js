@@ -43,7 +43,7 @@ it('should notify about connection returning after a previous error', async () =
   store.dispatch({ type: 'STATS_FETCH_FINISHED' })
 })
 
-it.only('should dismiss connection ok message after 3s', async () => {
+it('should dismiss connection ok message after 3s', async () => {
   let fakeTime = Date.now()
   const store = composeBundlesRaw(
     {

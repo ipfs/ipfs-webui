@@ -150,8 +150,14 @@ const configOverride = {
         'uint8arrays/equals': '<rootDir>/node_modules/uint8arrays/dist/src/equals.js',
         'uint8arrays/from-string': '<rootDir>/node_modules/uint8arrays/dist/src/from-string.js',
         'uint8arrays/to-string': '<rootDir>/node_modules/uint8arrays/dist/src/to-string.js',
-        '@chainsafe/is-ip/parse': '<rootDir>/node_modules/@chainsafe/is-ip/lib/parse.js'
-      }
+        '@chainsafe/is-ip/parse': '<rootDir>/node_modules/@chainsafe/is-ip/lib/parse.js',
+        // eslint-disable-next-line quote-props
+        'eventemitter3': '<rootDir>/node_modules/eventemitter3/dist/eventemitter3.esm.js'
+      },
+      transformIgnorePatterns: [
+        'node_module/(?!(eventemitter3)/).+\\.(js|jsx|mjs|cjs|ts|tsx)$',
+        '^.+\\.module\\.(css|sass|scss)$' // default
+      ]
     })
   }
 }
