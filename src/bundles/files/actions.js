@@ -7,7 +7,7 @@ import memoize from 'p-memoize'
 import all from 'it-all'
 import map from 'it-map'
 import last from 'it-last'
-import CID from 'cids'
+import { CID } from 'multiformats/cid'
 
 import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath } from './utils.js'
 import { IGNORED_FILES, ACTIONS } from './consts.js'
@@ -110,7 +110,7 @@ const stat = async (ipfs, cidOrPath) => {
     const [, , cid] = path.split('/')
     return {
       path: hashOrPath,
-      cid: new CID(cid),
+      cid: CID.asCID(cid) ?? CID.parse(cid),
       type: 'unknown',
       cumulativeSize: 0,
       size: 0
