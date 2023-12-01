@@ -11,7 +11,7 @@ import GlyphDots from '../../icons/GlyphDots.js'
 import Tooltip from '../../components/tooltip/Tooltip.js'
 import Checkbox from '../../components/checkbox/Checkbox.js'
 import FileIcon from '../file-icon/FileIcon.js'
-import CID from 'cids'
+import { CID } from 'multiformats/cid'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import PinIcon from '../pin-icon/PinIcon.js'
 

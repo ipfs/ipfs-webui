@@ -1,6 +1,6 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import ms from 'milliseconds'
-import multiaddr from 'multiaddr'
+import { multiaddr } from '@multiformats/multiaddr'
 
 const swarmPeersTTL = ms.seconds(10)
 const bundle = createAsyncResourceBundle({

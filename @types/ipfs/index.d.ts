@@ -1,6 +1,6 @@
 declare module 'ipfs' {
-  import type CID from 'cids'
-  import type Multiaddr from 'multiaddr'
+  import type { CID } from 'multiformats/cid'
+  import type { Multiaddr } from '@multiformats/multiaddr'
   import type { Buffer } from 'buffer'
 
   declare export interface IPFSService extends CoreService {
