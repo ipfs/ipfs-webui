@@ -33,7 +33,7 @@ const ensureKuboDaemon = async (apiOpts) => {
 
 const globalSetup = async config => {
   // Read and expose backend info in env availables inside of test() blocks
-  const { rpcAddr, id, agentVersion, apiOpts } = JSON.parse(fs.readFileSync(path.join(__dirname, 'ipfs-backend.json')))
+  const { rpcAddr, id, agentVersion, apiOpts, kuboGateway } = JSON.parse(fs.readFileSync(path.join(__dirname, 'ipfs-backend.json')))
   process.env.IPFS_RPC_ADDR = rpcAddr
   process.env.IPFS_RPC_ID = id
   process.env.IPFS_RPC_VERSION = agentVersion
@@ -47,10 +47,13 @@ const globalSetup = async config => {
   const page = await browser.newPage()
   await page.goto(baseURL)
 
-  await page.context().addInitScript((apiOpts) => {
-    localStorage.setItem('ipfsApi', JSON.stringify(apiOpts))
+  const rpcEndpoint = `${apiOpts.protocol}://${apiOpts.host}:${apiOpts.port}`
+
+  await page.context().addInitScript(({ kuboGateway, rpcEndpoint }) => {
+    localStorage.setItem('kuboGateway', JSON.stringify(kuboGateway))
+    localStorage.setItem('ipfsApi', JSON.stringify(rpcEndpoint))
     localStorage.setItem('explore.ipld.gatewayEnabled', 'false') // disable gateway network requests when testing e2e
-  }, apiOpts)
+  }, { rpcEndpoint, kuboGateway })
   await page.context().storageState({ path: storageState })
   await browser.close()
 }
