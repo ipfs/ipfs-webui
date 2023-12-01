@@ -1,7 +1,7 @@
 // @ts-check
 import { pinningServiceTemplates } from '../constants/pinning.js'
 import memoize from 'p-memoize'
-import CID from 'cids'
+import { CID } from 'multiformats/cid'
 import all from 'it-all'
 
 import { readSetting, writeSetting } from './local-storage.js'
@@ -111,7 +111,7 @@ const resumePendingPins = (store) => {
 
       pendingPins.forEach(pin => {
         const [service, cid] = pin.split(':')
-        store.doSetPinning({ cid: new CID(cid) }, [service], false)
+        store.doSetPinning({ cid: CID.asCID(cid) ?? CID.parse(cid) }, [service], false)
       })
     }
   }, 1000)
@@ -228,7 +228,7 @@ const pinningBundle = {
           if (!cidsToCheck.length) continue // skip if no new cids to check
           const notPins = new Set(cidsToCheck.map(cid => cid.toString()))
           try {
-            const pins = remotePinLs(ipfs, { service: service.name, cid: cidsToCheck.map(cid => new CID(cid)), status: ['queued', 'pinning', 'pinned', 'failed'] })
+            const pins = remotePinLs(ipfs, { service: service.name, cid: cidsToCheck.map(cid => CID.asCID(cid) ?? CID.parse(cid)), status: ['queued', 'pinning', 'pinned', 'failed'] })
             for await (const pin of pins) {
               const pinCid = pin.cid.toString()
               notPins.delete(pinCid)
@@ -344,7 +344,7 @@ const pinningBundle = {
 
     for (const pin of pins) {
       const [service, cid] = pin.split(':')
-      await ipfs.pin.remote.rm({ cid: [new CID(cid)], service })
+      await ipfs.pin.remote.rm({ cid: [CID.asCID(cid) ?? CID.parse(cid)], service })
     }
 
     dispatch({ type: 'UPDATE_REMOTE_PINS', payload: { removals: pins } })

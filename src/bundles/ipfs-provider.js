@@ -1,4 +1,4 @@
-import multiaddr from 'multiaddr'
+import { multiaddr } from '@multiformats/multiaddr'
 // @ts-ignore
 import { getIpfs, providers } from 'ipfs-provider'
 import first from 'it-first'
@@ -9,7 +9,7 @@ import { readSetting, writeSetting } from './local-storage.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
- * @typedef {import('cids')} CID
+ * @typedef {import('multiformats/cid').CID} CID
  * @typedef {import('ipfs').FileStat} FileStat
  * @typedef {'httpClient'|'jsIpfs'|'windowIpfs'|'webExt'} ProviderName
  * @typedef {Object} Model

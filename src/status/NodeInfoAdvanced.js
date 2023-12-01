@@ -1,5 +1,5 @@
 import React from 'react'
-import multiaddr from 'multiaddr'
+import { multiaddr } from '@multiformats/multiaddr'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Address from '../components/address/Address.js'

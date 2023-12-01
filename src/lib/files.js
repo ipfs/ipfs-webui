@@ -2,7 +2,7 @@ import filesize from 'filesize'
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
  * @typedef {import('../bundles/files/actions').FileStat} FileStat
- * @typedef {import('cids')} CID
+ * @typedef {import('multiformats/cid').CID} CID
  */
 
 /**

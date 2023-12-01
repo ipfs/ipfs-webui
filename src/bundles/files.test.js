@@ -2,7 +2,7 @@
 import { jest } from '@jest/globals'
 import { composeBundlesRaw } from 'redux-bundler'
 import createFilesBundle from './files/index.js'
-import CID from 'cids'
+import { CID } from 'multiformats/cid'
 
 const iterate = async function * (items) {
   yield * items
@@ -20,7 +20,7 @@ const createMockIpfs = () => {
   return {
     addAll: jest.fn((files) => iterate(files.map((file) => ({
       path: file.path,
-      cid: new CID('QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n'),
+      cid: CID.parse('QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n'),
       size: file.size
     })))),
     files: {
