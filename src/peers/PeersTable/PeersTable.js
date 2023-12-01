@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import ms from 'milliseconds'
 import { connect } from 'redux-bundler-react'
@@ -11,80 +11,60 @@ import { sortByProperty } from '../../lib/sort.js'
 
 import './PeersTable.css'
 
-export class PeersTable extends React.Component {
-  /**
-   *
-   * @param {object} props
-   * @param {Promise<any[]>} props.peerLocationsForSwarm
-   * @param {string} props.className
-   * @param {import('i18next').TFunction} props.t
-   */
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      sortBy: 'latency',
-      sortDirection: SortDirection.ASC,
-      peerLocationsForSwarm: []
-    }
-
-    this.sort = this.sort.bind(this)
-  }
-
-  flagRenderer = (flagCode, isPrivate) => {
-    // Check if the OS is Windows to render the flags as SVGs
-    // Windows doesn't render the flags as emojis  ¯\_(ツ)_/¯
-    const isWindows = window.navigator.appVersion.indexOf('Win') !== -1
-    return (
+const flagRenderer = (flagCode, isPrivate) => {
+  // Check if the OS is Windows to render the flags as SVGs
+  // Windows doesn't render the flags as emojis  ¯\_(ツ)_/¯
+  const isWindows = window.navigator.appVersion.indexOf('Win') !== -1
+  return (
       <span className='f4 pr2'>
         {isPrivate ? '🤝' : flagCode ? <CountryFlag code={flagCode} svg={isWindows} /> : '🌐'}
       </span>
-    )
-  }
+  )
+}
 
-  locationCellRenderer = ({ rowData }) => {
-    const ref = React.createRef()
-    const location = rowData.isPrivate
-      ? this.props.t('localNetwork')
-      : rowData.location
-        ? rowData.isNearby
-          ? <span>{rowData.location} <span className='charcoal-muted'>({this.props.t('nearby')})</span></span>
-          : rowData.location
-        : <span className='charcoal-muted fw4'>{this.props.t('app:terms.unknown')}</span>
-    const value = rowData.location || this.props.t('app:terms.unknown')
-    return (
-      <CopyToClipboard text={value} onCopy={() => copyFeedback(ref, this.props.t)}>
+const locationCellRenderer = (t) => ({ rowData }) => {
+  const ref = React.createRef()
+  const location = rowData.isPrivate
+    ? t('localNetwork')
+    : rowData.location
+      ? rowData.isNearby
+        ? <span>{rowData.location} <span className='charcoal-muted'>({t('nearby')})</span></span>
+        : rowData.location
+      : <span className='charcoal-muted fw4'>{t('app:terms.unknown')}</span>
+  const value = rowData.location || t('app:terms.unknown')
+  return (
+      <CopyToClipboard text={value} onCopy={() => copyFeedback(ref, t)}>
         <span title={value} className='copyable' ref={ref}>
-          { this.flagRenderer(rowData.flagCode, rowData.isPrivate) }
+          { flagRenderer(rowData.flagCode, rowData.isPrivate) }
           { location }
         </span>
       </CopyToClipboard>
-    )
-  }
+  )
+}
 
-  latencyCellRenderer = ({ cellData, rowData }) => {
-    const style = { width: '60px' }
-    const latency = `${cellData}ms`
-    if (cellData == null) return (<span className='dib o-40 no-select' style={style}>-</span>)
-    return (<span className='dib no-select'>{latency}</span>)
-  }
+const latencyCellRenderer = ({ cellData }) => {
+  const style = { width: '60px' }
+  const latency = `${cellData}ms`
+  if (cellData == null) return (<span className='dib o-40 no-select' style={style}>-</span>)
+  return (<span className='dib no-select'>{latency}</span>)
+}
 
-  peerIdCellRenderer = ({ cellData: peerId }) => {
-    const ref = React.createRef()
-    const p2pMultiaddr = `/p2p/${peerId}`
-    return (
-      <CopyToClipboard text={p2pMultiaddr} onCopy={() => copyFeedback(ref, this.props.t)}>
+const peerIdCellRenderer = (t) => ({ cellData: peerId }) => {
+  const ref = React.createRef()
+  const p2pMultiaddr = `/p2p/${peerId}`
+  return (
+      <CopyToClipboard text={p2pMultiaddr} onCopy={() => copyFeedback(ref, t)}>
         <Cid value={peerId} identicon ref={ref} className='copyable' />
       </CopyToClipboard>
-    )
-  }
+  )
+}
 
-  protocolsCellRenderer = ({ rowData, cellData }) => {
-    const ref = React.createRef()
-    const { protocols } = rowData
-    const title = protocols.split(', ').join('\n')
-    return (
-      <CopyToClipboard text={protocols} onCopy={() => copyFeedback(ref, this.props.t)}>
+const protocolsCellRenderer = (t) => ({ rowData }) => {
+  const ref = React.createRef()
+  const { protocols } = rowData
+  const title = protocols.split(', ').join('\n')
+  return (
+      <CopyToClipboard text={protocols} onCopy={() => copyFeedback(ref, t)}>
         <span
           ref={ref}
           className='copyable'
@@ -92,19 +72,19 @@ export class PeersTable extends React.Component {
           { protocols.replaceAll('[unnamed]', '🤔') }
         </span>
       </CopyToClipboard>
-    )
-  }
+  )
+}
 
-  connectionCellRenderer = ({ rowData }) => {
-    const ref = React.createRef()
-    const { address, direction, peerId } = rowData
-    const p2pMultiaddr = `${address}/p2p/${peerId}`
-    const title = direction != null
-      ? `${address}\n(${renderDirection(direction, this.props.t)})`
-      : address
+const connectionCellRenderer = (t) => ({ rowData }) => {
+  const ref = React.createRef()
+  const { address, direction, peerId } = rowData
+  const p2pMultiaddr = `${address}/p2p/${peerId}`
+  const title = direction != null
+    ? `${address}\n(${renderDirection(direction, t)})`
+    : address
 
-    return (
-      <CopyToClipboard text={p2pMultiaddr} onCopy={() => copyFeedback(ref, this.props.t)}>
+  return (
+      <CopyToClipboard text={p2pMultiaddr} onCopy={() => copyFeedback(ref, t)}>
         <abbr
           ref={ref}
           className='copyable'
@@ -112,65 +92,111 @@ export class PeersTable extends React.Component {
           {rowData.connection}
         </abbr>
       </CopyToClipboard>
-    )
-  }
+  )
+}
 
-  rowClassRenderer = ({ index }, peers = []) => {
-    const { selectedPeers } = this.props
-    const shouldAddHoverEffect = selectedPeers?.peerIds?.includes(peers[index]?.peerId)
+const rowClassRenderer = ({ index }, peers = [], selectedPeers) => {
+  const shouldAddHoverEffect = selectedPeers?.peerIds?.includes(peers[index]?.peerId)
 
-    return classNames('bb b--near-white peersTableItem', index === -1 && 'bg-near-white', shouldAddHoverEffect && 'bg-light-gray')
-  }
+  return classNames('bb b--near-white peersTableItem', index === -1 && 'bg-near-white', shouldAddHoverEffect && 'bg-light-gray')
+}
 
-  sort ({ sortBy, sortDirection }) {
-    this.setState({ sortBy, sortDirection })
-  }
+const FilterInput = ({ setFilter, t, filteredCount }) => {
+  return (
+    <div className='flex items-center justify-between pa2'>
+      <input
+        className='input-reset ba b--black-20 pa2 mb2 db w-100'
+        type='text'
+        placeholder='Filter peers'
+        onChange={(e) => setFilter(e.target.value)}
+      />
+      {/* Now to display the total number of peers filtered out on the right side of the inside of the input */}
+      <div className='f4 charcoal-muted absolute top-1 right-1'>{filteredCount}</div>
+    </div>
+  )
+}
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.peerLocationsForSwarm) {
-      nextProps.peerLocationsForSwarm?.then?.((peerLocationsForSwarm) => {
-        if (peerLocationsForSwarm !== this.state.peerLocationsForSwarm) {
-          this.setState({ peerLocationsForSwarm })
-        }
-      })
-    }
-  }
+export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers }) => {
+  const tableHeight = 400
+  const [awaitedPeerLocationsForSwarm, setAwaitedPeerLocationsForSwarm] = useState([])
+  const [sortBy, setSortBy] = useState('latency')
+  const [sortDirection, setSortDirection] = useState(SortDirection.ASC)
+  const [filter, setFilter] = useState('')
 
-  render () {
-    const { className, t } = this.props
-    const { sortBy, sortDirection, peerLocationsForSwarm } = this.state
+  const sort = useCallback(({ sortBy, sortDirection }) => {
+    setSortBy(sortBy)
+    setSortDirection(sortDirection)
+  }, [])
+  const filterCb = useCallback((value) => {
+    setFilter(value)
+  }, [])
 
-    const sortedList = peerLocationsForSwarm.sort(sortByProperty(sortBy, sortDirection === SortDirection.ASC ? 1 : -1))
-    const tableHeight = 400
+  useEffect(() => {
+    peerLocationsForSwarm?.then?.((peerLocationsForSwarm) => {
+      setAwaitedPeerLocationsForSwarm(peerLocationsForSwarm)
+    })
+  }, [peerLocationsForSwarm])
 
-    return (
-      <div className={`bg-white-70 center ${className}`} style={{ height: `${tableHeight}px`, maxWidth: 1764 }}>
-        { peerLocationsForSwarm && <AutoSizer disableHeight>
+  const filteredPeerList = useMemo(() => {
+    const filterLower = filter.toLowerCase()
+    if (filterLower === '') return awaitedPeerLocationsForSwarm
+    return awaitedPeerLocationsForSwarm.filter(({ location, latency, peerId, connection, protocols }) => {
+      if (location != null && location.toLowerCase().includes(filterLower)) {
+        return true
+      }
+      if (latency != null && [latency, `${latency}ms`].some((str) => str.toString().includes(filterLower))) {
+        return true
+      }
+      if (peerId != null && peerId.toString().includes(filter)) {
+        return true
+      }
+      console.log('connection: ', connection)
+      if (connection != null && connection.toLowerCase().includes(filterLower)) {
+        return true
+      }
+      if (protocols != null && protocols.toLowerCase().includes(filterLower)) {
+        return true
+      }
+
+      return false
+    })
+  }, [awaitedPeerLocationsForSwarm, filter])
+
+  const sortedList = useMemo(
+    () => filteredPeerList.sort(sortByProperty(sortBy, sortDirection === SortDirection.ASC ? 1 : -1)),
+    [filteredPeerList, sortBy, sortDirection]
+  )
+
+  return (
+    <div className={`bg-white-70 center ${className}`} style={{ height: `${tableHeight}px`, maxWidth: 1764 }}>
+        <FilterInput setFilter={filterCb} t={t} filteredCount={sortedList.length} />
+        { awaitedPeerLocationsForSwarm && <AutoSizer disableHeight>
           {({ width }) => (
-            <Table
-              className='tl fw4 w-100 f6'
-              headerClassName='teal fw2 ttu tracked ph2 no-select'
-              rowClassName={(rowInfo) => this.rowClassRenderer(rowInfo, peerLocationsForSwarm)}
-              width={width}
-              height={tableHeight}
-              headerHeight={32}
-              rowHeight={36}
-              rowCount={peerLocationsForSwarm.length}
-              rowGetter={({ index }) => sortedList[index]}
-              sort={this.sort}
-              sortBy={sortBy}
-              sortDirection={sortDirection}>
-              <Column label={t('app:terms.location')} cellRenderer={this.locationCellRenderer} dataKey='location' width={450} className='f6 charcoal truncate pl2' />
-              <Column label={t('app:terms.latency')} cellRenderer={this.latencyCellRenderer} dataKey='latency' width={200} className='f6 charcoal pl2' />
-              <Column label={t('app:terms.peerId')} cellRenderer={this.peerIdCellRenderer} dataKey='peerId' width={250} className='charcoal monospace truncate f6 pl2' />
-              <Column label={t('app:terms.connection')} cellRenderer={this.connectionCellRenderer} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />
-              <Column label={t('protocols')} cellRenderer={this.protocolsCellRenderer} dataKey='protocols' width={520} className='charcoal monospace truncate f7 pl2' />
-            </Table>
+            <>
+              <Table
+                className='tl fw4 w-100 f6'
+                headerClassName='teal fw2 ttu tracked ph2 no-select'
+                rowClassName={(rowInfo) => rowClassRenderer(rowInfo, awaitedPeerLocationsForSwarm, selectedPeers)}
+                width={width}
+                height={tableHeight}
+                headerHeight={32}
+                rowHeight={36}
+                rowCount={sortedList.length}
+                rowGetter={({ index }) => sortedList[index]}
+                sort={sort}
+                sortBy={sortBy}
+                sortDirection={sortDirection}>
+                <Column label={t('app:terms.location')} cellRenderer={locationCellRenderer(t)} dataKey='location' width={450} className='f6 charcoal truncate pl2' />
+                <Column label={t('app:terms.latency')} cellRenderer={latencyCellRenderer} dataKey='latency' width={200} className='f6 charcoal pl2' />
+                <Column label={t('app:terms.peerId')} cellRenderer={peerIdCellRenderer(t)} dataKey='peerId' width={250} className='charcoal monospace truncate f6 pl2' />
+                <Column label={t('app:terms.connection')} cellRenderer={connectionCellRenderer(t)} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />
+                <Column label={t('protocols')} cellRenderer={protocolsCellRenderer(t)} dataKey='protocols' width={520} className='charcoal monospace truncate f7 pl2' />
+              </Table>
+            </>
           )}
         </AutoSizer> }
       </div>
-    )
-  }
+  )
 }
 
 // API returns integer atm, but that may change in the future
