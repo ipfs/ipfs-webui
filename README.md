@@ -23,10 +23,9 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 ## Install
 
 Supported Node.js versions:
-- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-14.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
-- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-16.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
 - [![](https://byob.yarr.is/ipfs/ipfs-webui/node-18.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
 - [![](https://byob.yarr.is/ipfs/ipfs-webui/node-20.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
+- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-21.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
 
 ```sh
 > npm install
