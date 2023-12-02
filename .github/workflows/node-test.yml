@@ -54,9 +54,9 @@ jobs:
       run: |
         echo "version=$(node --version)" >> $GITHUB_OUTPUT
 
-    - name: Install node-pre-gyp
-      run: |
-        npm install node-pre-gyp --prefer-offline --no-audit --progress=false
+    # - name: Install node-pre-gyp
+    #   run: |
+    #     npm install node-pre-gyp --prefer-offline --no-audit --progress=false
 
     - name: Install dependencies
       run: npm install --progress=false
