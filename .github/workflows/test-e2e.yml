@@ -23,17 +23,18 @@ jobs:
             ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
             ${{ runner.os }}-
 
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-
       - name: Cache test-build output
         uses: actions/cache@v3.3.1
         id: test-build-cache
         with:
           path: build
-          key: test-build-${{ runner.os }}-${{ github.sha }}
+          key: test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
           restore-keys: |
-            test-build-${{ runner.os }}-${{ github.sha }}
+            test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+
+      - name: Install dependencies
+        if: steps.test-build-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
       # This is required to ensure that our code is instrumented with coverage details
       - name: Run test build
@@ -67,25 +68,26 @@ jobs:
             ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
             ${{ runner.os }}-
 
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-
-      - name: Install playwright browsers
-        run: npx playwright install --with-deps
-
       - name: Cache test-build output
         uses: actions/cache@v3.3.1
         id: test-build-cache
         with:
           path: build
-          key: test-build-${{ runner.os }}-${{ github.sha }}
+          key: test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
           restore-keys: |
-            test-build-${{ runner.os }}-${{ github.sha }}
+            test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+
+      - name: Install dependencies
+        if: steps.test-build-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
       # This is required to ensure that our code is instrumented with coverage details
       - name: Run test build
         if: steps.test-build-cache.outputs.cache-hit != 'true'
         run: npm run test:build
+
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
 
       - name: Cache nyc_output dir
         uses: actions/cache@v3.3.1
@@ -125,7 +127,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
             ${{ runner.os }}-
-
 
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm

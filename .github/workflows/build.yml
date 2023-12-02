@@ -47,6 +47,8 @@ jobs:
       # - this is not for releases, but for quick testing during the dev
       # - action artifacts can be downloaded for 90 days, then are removed by github
       - name: Attach produced build to Github Action
+        # only re-upload if we re-built
+        if: steps.build-cache.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v3
         with:
           name: ipfs-webui_${{ github.sha }}-${{ runner.os }}-build
