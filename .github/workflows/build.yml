@@ -9,19 +9,10 @@ jobs:
       - uses: actions/checkout@v3.6.0
 
       - name: Setup node
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v4
         with:
           node-version: 18.14.0
-
-      - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
-        id: cache
-        with:
-          path: ${{ github.workspace }}/.cache
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-            ${{ runner.os }}-
+          cache: 'npm'
 
       # Separate cache for build dir, we reuse it in release publish workflow
       - name: Cache build output
@@ -37,7 +28,7 @@ jobs:
       - name: Install dependencies
         # We only need to install deps if build isn't cached.
         if: steps.build-cache.outputs.cache-hit != 'true'
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
+        run: npm ci --prefer-offline --no-audit --progress=false
 
       - name: Confirm build works
         if: steps.build-cache.outputs.cache-hit != 'true'
