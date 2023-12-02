@@ -66,8 +66,18 @@ jobs:
         if: steps.test-build-cache.outputs.cache-hit != 'true'
         run: npm run test:build
 
-      - name: Install playwright browsers
-        run: npx playwright install --with-deps
+      # Cache playwright binaries, but always install dependencies.
+      - uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+      - run: npm ci
+      - run: npx playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: npx playwright install-deps
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Cache nyc_output dir
         uses: actions/cache@v3.3.1
@@ -85,6 +95,14 @@ jobs:
       - name: Run non-repeated-E2E against Kubo
         if: github.ref == 'refs/heads/main' # run non-duplicated tests on non-PRs
         run: npm run test:e2e -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+
+      - name: Store Artifacts from Failed Tests
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 7
 
   e2e-coverage: # since we run coverage in shards and some files may not contain coverage, we cache the .nyc_output directory
     name: 'e2e-coverage'
