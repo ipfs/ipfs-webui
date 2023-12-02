@@ -115,9 +115,6 @@ jobs:
           node-version: 18.14.0
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false
-
       - name: Cache nyc_output dir
         uses: actions/cache@v3.3.1
         id: nyc_output-cache
