@@ -37,11 +37,16 @@ jobs:
         with:
           node-version: 18.14.0
           cache: 'npm'
-      - name: Download build artifact
-        uses: actions/download-artifact@v3
+
+      - name: Cache build output
+        uses: actions/cache@v3.3.1
+        id: build-cache
         with:
-          name: ipfs-webui_${{ github.sha }}-${{ runner.os }}-build
           path: build
+          # Build hash should be based on runner.os, src files, and dependencies used.
+          key: ${{ runner.os }}-build-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
 
       - name: Cache bigger downloads
         uses: actions/cache@v3.3.1
