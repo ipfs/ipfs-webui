@@ -76,8 +76,6 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: npx playwright install-deps
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Cache nyc_output dir
         uses: actions/cache@v3.3.1
