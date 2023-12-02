@@ -23,7 +23,17 @@ jobs:
           restore-keys: |
             test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
 
+      - name: Cache node_modules
+        uses: actions/cache@v3.3.1
+        id: test-npm-cache
+        with:
+          path: node_modules
+          key: test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+          restore-keys: |
+            test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+
       - name: Install dependencies
+        if: steps.test-npm-cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit --progress=false
 
       # This is required to ensure that our code is instrumented with coverage details
@@ -58,13 +68,18 @@ jobs:
           restore-keys: |
             test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
 
+      # We don't want to re-install dependencies for every sharded run
+      - name: Cache node_modules
+        uses: actions/cache@v3.3.1
+        id: test-npm-cache
+        with:
+          path: node_modules
+          key: test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+          restore-keys: |
+            test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
       - name: Install dependencies
+        if: steps.test-npm-cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit --progress=false
-
-      # This is required to ensure that our code is instrumented with coverage details
-      - name: Run test build
-        if: steps.test-build-cache.outputs.cache-hit != 'true'
-        run: npm run test:build
 
       # Cache playwright binaries
       - uses: actions/cache@v3
