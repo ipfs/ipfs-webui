@@ -59,7 +59,7 @@ jobs:
         npm install node-pre-gyp --prefer-offline --no-audit --progress=false
 
     - name: Install dependencies
-      run: npm ci --prefer-offline --no-audit --progress=false
+      run: npm install --progress=false
 
     - name: Confirm build works with Node.js ${{ inputs.gh-node-version }} on ${{ matrix.os }}
       run: npm run build
