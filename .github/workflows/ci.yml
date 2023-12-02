@@ -40,7 +40,7 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: ipfs-webui_${{ github.sha }}-build
+          name: ipfs-webui_${{ github.sha }}-${{ runner.os }}-build
           path: build
 
       - name: Cache bigger downloads

@@ -23,19 +23,21 @@ jobs:
             ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
             ${{ runner.os }}-
 
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-
       # Separate cache for build dir, we reuse it in release publish workflow
       - name: Cache build output
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/cache@v3.3.1
         id: build-cache
         with:
           path: build
-          key: ${{ runner.os }}-${{ github.sha }}
+          # Build hash should be based on runner.os, src files, and dependencies used.
+          key: ${{ runner.os }}-build-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
           restore-keys: |
-            ${{ runner.os }}-${{ github.sha }}
+            ${{ runner.os }}-build-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+
+      - name: Install dependencies
+        # We only need to install deps if build isn't cached.
+        if: steps.build-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
 
       - name: Confirm build works
         if: steps.build-cache.outputs.cache-hit != 'true'
@@ -47,6 +49,6 @@ jobs:
       - name: Attach produced build to Github Action
         uses: actions/upload-artifact@v3
         with:
-          name: ipfs-webui_${{ github.sha }}-build
+          name: ipfs-webui_${{ github.sha }}-${{ runner.os }}-build
           path: build
           if-no-files-found: error
