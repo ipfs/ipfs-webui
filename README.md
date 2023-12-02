@@ -22,7 +22,11 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 
 ## Install
 
-With a supported Node.js version: [![](https://byob.yarr.is/ipfs/ipfs-webui/node-12.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/ipfs/ipfs-webui/node-14.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/ipfs/ipfs-webui/node-16.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml) [![](https://byob.yarr.is/ipfs/ipfs-webui/node-18.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
+Supported Node.js versions:
+- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-14.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
+- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-16.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
+- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-18.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
+- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-20.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
 
 ```sh
 > npm install
