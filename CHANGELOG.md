@@ -1,3 +1,32 @@
+## [4.2.0](https://github.com/ipfs/ipfs-webui/compare/v4.1.1...v4.2.0) (2023-12-02)
+
+
+ CID `bafybeidf7cpkwsjkq6xs3r6fbbxghbugilx3jtezbza7gua3k5wjixpmba`
+
+ --- 
+
+
+
+### Features
+
+* peers table can be filtered ([#2181](https://github.com/ipfs/ipfs-webui/issues/2181)) ([37b5880](https://github.com/ipfs/ipfs-webui/commit/37b5880fa0bca201e04737e3e4de0d48283eb95a))
+* **pinning:** add Scaleway pinning service ([#2132](https://github.com/ipfs/ipfs-webui/issues/2132)) ([0cc3b04](https://github.com/ipfs/ipfs-webui/commit/0cc3b0495bc9895cf9b7520eaec7a0c0e94e6a30))
+
+
+### Bug Fixes
+
+* error loading scaleway template URL ([7a3388e](https://github.com/ipfs/ipfs-webui/commit/7a3388e3d17560d3e376e57361dd78b8c7fdf8e9))
+* replace estuary with web3 for pinning ([#2182](https://github.com/ipfs/ipfs-webui/issues/2182)) ([e2fc7c8](https://github.com/ipfs/ipfs-webui/commit/e2fc7c8a92d737e2f1cfadb360b06fbe3d54748f))
+* status page supports webrtc ([#2180](https://github.com/ipfs/ipfs-webui/issues/2180)) ([ff75d4e](https://github.com/ipfs/ipfs-webui/commit/ff75d4e0194df98800d008b4e74017e61782abff)), closes [#1965](https://github.com/ipfs/ipfs-webui/issues/1965)
+* switch to new dnslink updater ([#2175](https://github.com/ipfs/ipfs-webui/issues/2175)) ([a63f48a](https://github.com/ipfs/ipfs-webui/commit/a63f48a279be76dd7708988e70a294124188158c))
+
+
+### Trivial Changes
+
+* Pull transifex translations ([#2162](https://github.com/ipfs/ipfs-webui/issues/2162)) ([c0f8f54](https://github.com/ipfs/ipfs-webui/commit/c0f8f54a2ba838262b13a1f171a65038a25fc48b))
+* pull transifex translations ([#2177](https://github.com/ipfs/ipfs-webui/issues/2177)) ([7f377ff](https://github.com/ipfs/ipfs-webui/commit/7f377ffb7d16a42dfe0ec47223cf7da0338f15f3))
+* update release transifex links ([74cce69](https://github.com/ipfs/ipfs-webui/commit/74cce695735503c3696219d51c331f9325b2b9d1))
+
 ## [4.1.1](https://github.com/ipfs/ipfs-webui/compare/v4.1.0...v4.1.1) (2023-09-11)
 
 

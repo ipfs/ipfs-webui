@@ -1,10 +1,10 @@
 import React from 'react'
-import Multiaddr from 'multiaddr'
+import { multiaddr } from '@multiformats/multiaddr'
 
 const Address = ({ value }) => {
   if (!value) return null
 
-  const ma = Multiaddr(value.toString())
+  const ma = multiaddr(value.toString())
   const protos = ma.protoNames().concat(['ipfs', 'p2p'])
   const parts = ma.toString().split('/')
 

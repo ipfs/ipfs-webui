@@ -1,7 +1,7 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import isIPFS from 'is-ipfs'
+import * as isIPFS from 'is-ipfs'
 
 import Checkbox from '../../components/checkbox/Checkbox.js'
 import Icon from '../../icons/StrokeDecentralization.js'

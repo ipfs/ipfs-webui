@@ -9,33 +9,26 @@ jobs:
       - uses: actions/checkout@v3.6.0
 
       - name: Setup node
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v4
         with:
           node-version: 18.14.0
-
-      - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
-        id: cache
-        with:
-          path: ${{ github.workspace }}/.cache
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-            ${{ runner.os }}-
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
+          cache: 'npm'
 
       # Separate cache for build dir, we reuse it in release publish workflow
       - name: Cache build output
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/cache@v3.3.1
         id: build-cache
         with:
           path: build
-          key: ${{ runner.os }}-${{ github.sha }}
+          # Build hash should be based on runner.os, src files, and dependencies used.
+          key: ${{ runner.os }}-build-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
           restore-keys: |
-            ${{ runner.os }}-${{ github.sha }}
+            ${{ runner.os }}-build-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+
+      - name: Install dependencies
+        # We only need to install deps if build isn't cached.
+        if: steps.build-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --progress=false
 
       - name: Confirm build works
         if: steps.build-cache.outputs.cache-hit != 'true'
@@ -45,8 +38,10 @@ jobs:
       # - this is not for releases, but for quick testing during the dev
       # - action artifacts can be downloaded for 90 days, then are removed by github
       - name: Attach produced build to Github Action
+        # only re-upload if we re-built
+        if: steps.build-cache.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v3
         with:
-          name: ipfs-webui_${{ github.sha }}-build
+          name: ipfs-webui_${{ github.sha }}-${{ runner.os }}-build
           path: build
           if-no-files-found: error

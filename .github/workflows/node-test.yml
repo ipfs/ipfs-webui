@@ -19,12 +19,12 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: RubbaBoy/BYOB@24f464284c1fd32028524b59607d417a2e36fee7
         with:
-          ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
-          NAME: "node-${{ inputs.gh-node-version }}"
-          LABEL: "${{ inputs.gh-node-version }}"
-          STATUS: "Building..."
-          COLOR: grey
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          icon: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
+          name: "node-${{ inputs.gh-node-version }}"
+          label: "${{ inputs.gh-node-version }}"
+          status: "Building..."
+          color: grey
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   test-node:
     needs: [reset-badge]
@@ -40,9 +40,10 @@ jobs:
     - uses: actions/checkout@v3.6.0
 
     - name: Use Node.js ${{ inputs.gh-node-version }}
-      uses: actions/setup-node@v3.6.0
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.gh-node-version }}
+        cache: 'npm'
 
     - name: Remove .npmrc to allow non-strict engines
       run: |
@@ -53,22 +54,12 @@ jobs:
       run: |
         echo "version=$(node --version)" >> $GITHUB_OUTPUT
 
-    - name: Cache bigger downloads
-      uses: actions/cache@v3.3.1
-      id: cache
-      with:
-        path: ${{ github.workspace }}/.cache
-        key: ${{ runner.os }}-${{ inputs.gh-node-version }}-${{ hashFiles('package.json', 'package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-${{ inputs.gh-node-version }}-${{ hashFiles('package.json', 'package-lock.json') }}
-          ${{ runner.os }}-${{ inputs.gh-node-version }}
-
     - name: Install node-pre-gyp
       run: |
-        npm install node-pre-gyp --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
+        npm install node-pre-gyp --prefer-offline --no-audit --progress=false
 
     - name: Install dependencies
-      run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
+      run: npm install --progress=false
 
     - name: Confirm build works with Node.js ${{ inputs.gh-node-version }} on ${{ matrix.os }}
       run: npm run build
@@ -82,20 +73,20 @@ jobs:
         if: ${{ needs.test-node.result == 'success' && github.ref == 'refs/heads/main' }}
         uses: RubbaBoy/BYOB@24f464284c1fd32028524b59607d417a2e36fee7
         with:
-          ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
-          NAME: "node-${{ inputs.gh-node-version }}"
-          LABEL: "${{ needs.test-node.outputs.node-version }}"
-          STATUS: ${{needs.test-node.result}}
-          COLOR: green
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          icon: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
+          name: "node-${{ inputs.gh-node-version }}"
+          label: "${{ needs.test-node.outputs.node-version }}"
+          status: ${{needs.test-node.result}}
+          color: green
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create failure badge
         if: ${{ needs.test-node.result != 'success' && github.ref == 'refs/heads/main' }}
         uses: RubbaBoy/BYOB@24f464284c1fd32028524b59607d417a2e36fee7
         with:
-          ICON: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
-          NAME: "node-${{ inputs.gh-node-version }}"
-          LABEL: "${{ needs.test-node.outputs.node-version }}"
-          STATUS: ${{needs.test-node.result}}
-          COLOR: red
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          icon: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
+          name: "node-${{ inputs.gh-node-version }}"
+          label: "${{ needs.test-node.outputs.node-version }}"
+          status: ${{needs.test-node.result}}
+          color: red
+          github_token: ${{ secrets.GITHUB_TOKEN }}

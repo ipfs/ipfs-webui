@@ -1,5 +1,5 @@
 import { Pin } from 'ipfs'
-import CID from 'cids'
+import type { CID } from 'multiformats/cid'
 import { Perform, Spawn } from "../task"
 
 export type { Perform, Spawn }

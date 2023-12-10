@@ -4,7 +4,7 @@ import getPort from 'get-port'
 import { createServer } from 'http'
 import httpProxy from 'http-proxy'
 import basicAuth from 'basic-auth'
-import toUri from 'multiaddr-to-uri'
+import { multiaddrToUri as toUri } from '@multiformats/multiaddr-to-uri'
 import { path as getGoIpfsPath } from 'kubo'
 import * as kuboRpcModule from 'kubo-rpc-client'
 const { createProxyServer } = httpProxy

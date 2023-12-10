@@ -3,7 +3,7 @@ import { getConfiguredCache } from 'money-clip'
 import { lookup } from 'ipfs-geoip'
 import PQueue from 'p-queue'
 import HLRU from 'hashlru'
-import Multiaddr from 'multiaddr'
+import { multiaddr } from '@multiformats/multiaddr'
 import ms from 'milliseconds'
 import ip from 'ip'
 import memoize from 'p-memoize'
@@ -164,7 +164,7 @@ const getPublicIP = memoize((identity) => {
 
   for (const maddr of identity.addresses) {
     try {
-      const addr = Multiaddr(maddr).nodeAddress()
+      const addr = multiaddr(maddr).nodeAddress()
 
       if ((ip.isV4Format(addr.address) || ip.isV6Format(addr.address)) && !ip.isPrivate(addr.address)) {
         return addr.address

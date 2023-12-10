@@ -9,31 +9,32 @@ jobs:
       - uses: actions/checkout@v3.6.0
 
       - name: Setup node
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v4
         with:
           node-version: 18.14.0
-
-      - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
-        id: cache
-        with:
-          path: ${{ github.workspace }}/.cache
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-            ${{ runner.os }}-
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
+          cache: 'npm'
 
       - name: Cache test-build output
         uses: actions/cache@v3.3.1
         id: test-build-cache
         with:
           path: build
-          key: test-build-${{ runner.os }}-${{ github.sha }}
+          key: test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
           restore-keys: |
-            test-build-${{ runner.os }}-${{ github.sha }}
+            test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+
+      - name: Cache node_modules
+        uses: actions/cache@v3.3.1
+        id: test-npm-cache
+        with:
+          path: node_modules
+          key: test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+          restore-keys: |
+            test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+
+      - name: Install dependencies
+        if: steps.test-npm-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --progress=false
 
       # This is required to ensure that our code is instrumented with coverage details
       - name: Run test build
@@ -53,39 +54,43 @@ jobs:
       - uses: actions/checkout@v3.6.0
 
       - name: Setup node
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v4
         with:
           node-version: 18.14.0
-
-      - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
-        id: cache
-        with:
-          path: ${{ github.workspace }}/.cache
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-            ${{ runner.os }}-
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
-
-      - name: Install playwright browsers
-        run: npx playwright install --with-deps
+          cache: 'npm'
 
       - name: Cache test-build output
         uses: actions/cache@v3.3.1
         id: test-build-cache
         with:
           path: build
-          key: test-build-${{ runner.os }}-${{ github.sha }}
+          key: test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
           restore-keys: |
-            test-build-${{ runner.os }}-${{ github.sha }}
+            test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
 
-      # This is required to ensure that our code is instrumented with coverage details
-      - name: Run test build
-        if: steps.test-build-cache.outputs.cache-hit != 'true'
-        run: npm run test:build
+      # We don't want to re-install dependencies for every sharded run
+      - name: Cache node_modules
+        uses: actions/cache@v3.3.1
+        id: test-npm-cache
+        with:
+          path: node_modules
+          key: test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+          restore-keys: |
+            test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+      - name: Install dependencies
+        if: steps.test-npm-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --progress=false
+
+      # Cache playwright binaries
+      - uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+      - run: npm ci
+      - run: npx playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       - name: Cache nyc_output dir
         uses: actions/cache@v3.3.1
@@ -104,6 +109,14 @@ jobs:
         if: github.ref == 'refs/heads/main' # run non-duplicated tests on non-PRs
         run: npm run test:e2e -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
+      - name: Store Artifacts from Failed Tests
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 7
+
   e2e-coverage: # since we run coverage in shards and some files may not contain coverage, we cache the .nyc_output directory
     name: 'e2e-coverage'
     runs-on: ubuntu-latest
@@ -112,23 +125,10 @@ jobs:
       - uses: actions/checkout@v3.6.0
 
       - name: Setup node
-        uses: actions/setup-node@v3.6.0
+        uses: actions/setup-node@v4
         with:
           node-version: 18.14.0
-
-      - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
-        id: cache
-        with:
-          path: ${{ github.workspace }}/.cache
-          key: ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json') }}
-            ${{ runner.os }}-
-
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --progress=false --cache ${{ github.workspace }}/.cache/npm
+          cache: 'npm'
 
       - name: Cache nyc_output dir
         uses: actions/cache@v3.3.1

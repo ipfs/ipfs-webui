@@ -46,7 +46,7 @@ async function run (rpcPort) {
   }
   const { id, agentVersion } = await ipfs.id()
 
-  const { apiHost, apiPort } = ipfs
+  const { apiHost, apiPort, gatewayHost, gatewayPort } = ipfs
 
   if (String(apiPort) !== rpcPort) {
     console.error(`Invalid RPC port returned by IPFS backend: ${apiPort} != ${rpcPort}`)
@@ -55,6 +55,7 @@ async function run (rpcPort) {
   }
 
   const rpcAddr = `/ip4/${apiHost}/tcp/${apiPort}`
+  const gatewayAddr = `http://${gatewayHost}:${gatewayPort}`
 
   // persist details for e2e tests
   fs.writeFileSync(path.join(__dirname, 'ipfs-backend.json'), JSON.stringify({
@@ -62,16 +63,27 @@ async function run (rpcPort) {
     id,
     agentVersion,
     /**
-     * Used by ipld-explorer-components to connect to the API
+     * Used by ipfs-webui to connect to Kubo via the kubo-rpc-client
      */
     apiOpts: {
       host: apiHost,
       port: apiPort,
       protocol: 'http'
+    },
+    /**
+     * Used by ipld-explorer-components to connect to the kubo gateway
+     */
+    kuboGateway: {
+      host: gatewayHost,
+      port: gatewayPort,
+      protocol: 'http'
     }
   }))
 
-  console.log(`\nE2E using ${agentVersion} (${endpoint || ipfsd.exec}) with Peer ID ${id} at ${rpcAddr}\n`)
+  console.log(`\nE2E using ${agentVersion} (${endpoint || ipfsd.exec})
+  Peer ID: ${id}
+  rpcAddr: ${rpcAddr}
+  gatewayAddr: ${gatewayAddr}`)
 
   const teardown = async () => {
     console.log(`Stopping IPFS backend ${id}`)
