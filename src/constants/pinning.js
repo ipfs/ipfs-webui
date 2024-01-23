@@ -52,9 +52,9 @@ const pinningServiceTemplates = [
   },
   {
     name: 'Scaleway',
-    icon: 'https://dweb.link/ipfs/QmQnbWQCw4YKn53hTizARdMacvw6b3yFCqpQEPrSxVgXXL',
+    icon: 'https://dweb.link/ipfs/QmTM7RtYsuJFoV7y3Ec1WdGTW8knKrjwbY6ByTGsJN6TYw?filename=scaleway.svg',
     apiEndpoint: 'https://<your-volume-region-code>.ipfs.labs.scw.cloud/<your-volume-id>/',
-    visitServiceUrl: 'https://www.scaleway.com/en/docs/labs/ipfs/api-cli/ipfs-desktop/'
+    visitServiceUrl: 'https://www.scaleway.com/en/docs/labs/ipfs-pinning/reference-content/install-ipfs-desktop/'
   }
 ].map((service) => {
   try {
