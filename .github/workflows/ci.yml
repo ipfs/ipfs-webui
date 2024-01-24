@@ -39,7 +39,7 @@ jobs:
           cache: 'npm'
 
       - name: Cache build output
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: build-cache
         with:
           path: build
@@ -49,7 +49,7 @@ jobs:
             ${{ runner.os }}-build-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
 
       - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: cache
         with:
           path: ${{ github.workspace }}/.cache
@@ -213,7 +213,7 @@ jobs:
           persist-credentials: false
 
       - name: Cache bigger downloads
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: cache
         with:
           path: ${{ github.workspace }}/.cache
@@ -223,7 +223,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Cache build dir
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: build-cache
         with:
           path: build
