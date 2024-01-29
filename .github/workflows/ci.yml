@@ -151,7 +151,7 @@ jobs:
       - name: Fail job due to pinning failure
         # only fail if pinning failed for main commits
         if: github.ref == 'refs/heads/main' && steps.pin-w3up.outcome == 'failure' && steps.pin-cluster.outcome == 'failure'
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
               core.setFailed('Pinning did not succeed')
