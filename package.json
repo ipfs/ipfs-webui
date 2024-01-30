@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@chainsafe/is-ip": "^2.0.1",
+    "@ipld/dag-pb": "^4.0.6",
     "@libp2p/interface": "^1.0.0",
     "@loadable/component": "^5.14.1",
     "@multiformats/multiaddr": "^12.1.10",
@@ -77,6 +78,7 @@
     "it-first": "^1.0.6",
     "it-last": "^1.0.5",
     "it-map": "^1.0.5",
+    "it-pipe": "^3.0.1",
     "kubo-rpc-client": "^3.0.2",
     "milliseconds": "^1.0.3",
     "money-clip": "^3.0.5",
@@ -179,7 +181,6 @@
     "get-port": "^5.1.1",
     "http-proxy": "^1.18.1",
     "http-server": "^14.1.1",
-    "ipfs": "0.58.3",
     "ipfs-core-utils": "^0.18.0",
     "ipfsd-ctl": "^13.0.0",
     "jest": "^28.1.3",
