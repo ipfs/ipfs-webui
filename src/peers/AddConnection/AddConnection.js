@@ -1,7 +1,8 @@
 import React from 'react'
 import { withTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import * as isIPFS from 'is-ipfs'
+import { multiaddr } from '@multiformats/multiaddr'
+import { P2P, Circuit, WebRTC } from '@multiformats/multiaddr-matcher'
 
 import Checkbox from '../../components/checkbox/Checkbox.js'
 import Icon from '../../icons/StrokeDecentralization.js'
@@ -10,6 +11,15 @@ import Overlay from '../../components/overlay/Overlay.js'
 
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import { Modal, ModalActions, ModalBody } from '../../components/modal/Modal.js'
+
+const multiaddrIsValid = (addrString) => {
+  try {
+    const maddr = multiaddr(addrString)
+    return [P2P, Circuit, WebRTC].some((matcher) => matcher.matches(maddr))
+  } catch (e) {
+    return false
+  }
+}
 
 class AddConnection extends React.Component {
   state = {
@@ -34,7 +44,7 @@ class AddConnection extends React.Component {
     const { value, name } = event.target
     this.setState({ [name]: value })
     if (name === 'maddr') {
-      this.setState({ isValid: isIPFS.peerMultiaddr(value) })
+      this.setState({ isValid: multiaddrIsValid(value) })
     }
   }
 

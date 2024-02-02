@@ -5,11 +5,11 @@ import { fakeCid } from '../../test/helpers/cid.js'
 import { randomInt } from '../../test/helpers/random.js'
 import sleep from '../../test/helpers/sleep.js'
 import { fakeBandwidth } from '../../test/helpers/bandwidth.js'
-import { bases } from 'multiformats/basics'
+import { base58btc } from 'multiformats/bases/base58'
 
 async function fakePeer () {
   const cid = await fakeCid()
-  const peer = bases.base58btc.encode(cid.multihash)
+  const peer = base58btc.encode(cid.multihash.bytes)
 
   return { peer }
 }
