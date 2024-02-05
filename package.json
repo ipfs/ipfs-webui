@@ -14,7 +14,7 @@
     "start": "run-script-os",
     "start:win32": "@powershell -Command $env:REACT_APP_GIT_REV=(git rev-parse --short HEAD); react-app-rewired-esm start",
     "start:darwin:linux": "cross-env NODE_ENV=development REACT_APP_ENV=development REACT_APP_GIT_REV=`git rev-parse --short HEAD` react-app-rewired-esm start",
-    "lint": "run-s eslint typecheck",
+    "lint": "run-s eslint typecheck dep-check",
     "eslint": "eslint src/ test/",
     "prebuild": "lol public/locales > src/lib/languages.json",
     "build": "run-script-os",

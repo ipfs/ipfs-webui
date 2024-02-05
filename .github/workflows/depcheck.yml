@@ -1,0 +1,21 @@
+on:
+  workflow_call:
+
+jobs:
+  depcheck:
+    name: dep-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.6.0
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.14.0
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --progress=false
+
+      - name: ESLint
+        run: npm run dep-check
