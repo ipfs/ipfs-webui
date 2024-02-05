@@ -17,5 +17,5 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --progress=false
 
-      - name: ESLint
+      - name: Dependency check
         run: npm run dep-check
