@@ -147,7 +147,6 @@
     "concurrently": "^7.3.0",
     "conventional-changelog-conventionalcommits": "^5.0.0",
     "cross-env": "^6.0.3",
-    "dnslink-dnsimple": "1.0.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^8.31.0",
