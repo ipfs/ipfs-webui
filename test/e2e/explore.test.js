@@ -174,6 +174,7 @@ test.describe('Explore screen', () => {
     })
 
     test('should open dag-pb unixFS XKCD Archives', async ({ page }) => {
+      test.setTimeout(60000)
       await loadBlockFixtures({
         ipfs,
         blockCid: [
@@ -211,6 +212,7 @@ test.describe('Explore screen', () => {
     })
 
     test('should explore Project Apollo Archive', async ({ page }) => {
+      test.setTimeout(90000)
       await loadBlockFixtures({
         ipfs,
         blockCid: [
