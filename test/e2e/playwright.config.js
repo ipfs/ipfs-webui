@@ -1,8 +1,9 @@
 // const { devices } = require('@playwright/test')
 import { defineConfig } from '@playwright/test'
+import getPort from 'aegir/get-port'
 
 const webuiPort = 3001
-const rpcPort = 55001
+const rpcPort = await getPort(55001, '0.0.0.0')
 
 /** @type {import('@playwright/test').Config} */
 const config = {
