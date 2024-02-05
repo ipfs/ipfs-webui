@@ -7,7 +7,6 @@
     "src",
     "public",
     "@types",
-    "ipfs-core-types",
     "docs",
     "build"
   ],
@@ -231,13 +230,6 @@
       "^dnd-core$": "dnd-core/dist/cjs",
       "^react-dnd$": "react-dnd/dist/cjs",
       "^react-dnd-html5-backend$": "react-dnd-html5-backend/dist/cjs"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "ipfs-core-types": [
-        "@types/ipfs-core-types"
-      ]
     }
   },
   "repository": {
