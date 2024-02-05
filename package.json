@@ -164,7 +164,6 @@
     "http-proxy": "^1.18.1",
     "http-server": "^14.1.1",
     "ipfs": "0.58.3",
-    "ipfs-core-utils": "^0.18.0",
     "ipfsd-ctl": "^13.0.0",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^28.1.3",
