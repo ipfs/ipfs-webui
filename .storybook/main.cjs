@@ -1,4 +1,3 @@
-/* eslint-disable import/esm-extensions */
 /**
  * @file StoryBook configuration file
  * @see https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#from-version-52x-to-53x
