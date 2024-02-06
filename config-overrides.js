@@ -11,7 +11,6 @@ const PURE_ESM_MODULES = [
   // 'ipld-explorer-components',
   '@chainsafe/is-ip',
   '@multiformats/multiaddr',
-  '@libp2p/interface',
   'dag-jose',
   'uint8arrays'
 ]
@@ -140,7 +139,6 @@ const configOverride = {
       moduleNameMapper: {
         ...config.moduleNameMapper,
         'multiformats/basics': '<rootDir>/node_modules/multiformats/dist/src/basics.js',
-        '@libp2p/interface/errors': '<rootDir>/node_modules/@libp2p/interface/dist/src/errors.js',
         'multiformats/bases/base32': '<rootDir>/node_modules/multiformats/dist/src/bases/base32.js',
         'multiformats/bases/base58': '<rootDir>/node_modules/multiformats/dist/src/bases/base58.js',
         'multiformats/cid': '<rootDir>/node_modules/multiformats/dist/src/cid.js',

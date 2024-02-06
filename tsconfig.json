@@ -42,8 +42,7 @@
       "node"
     ],
     "typeRoots": [
-      "@types",
-      "ipfs-core-types"
+      "@types"
     ],
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
