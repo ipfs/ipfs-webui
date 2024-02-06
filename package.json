@@ -182,7 +182,7 @@
     "uint8arrays": "^4.0.9",
     "wait-on": "^6.0.1",
     "webpack": "^5.73.0",
-    "webpack-bundle-analyzer": "^3.8.0"
+    "webpack-bundle-analyzer": "^4.10.1"
   },
   "homepage": "./",
   "bundlesize": [
