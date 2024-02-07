@@ -55,6 +55,7 @@ jobs:
         echo "version=$(node --version)" >> $GITHUB_OUTPUT
 
     - name: Install node-pre-gyp
+      if: matrix.os != 'windows-latest'
       run: |
         npm install node-pre-gyp --prefer-offline --no-audit --progress=false
 
