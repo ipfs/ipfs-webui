@@ -16,7 +16,7 @@ jobs:
 
       # Separate cache for build dir, we reuse it in release publish workflow
       - name: Cache build output
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: build-cache
         with:
           path: build

@@ -11,7 +11,6 @@ const PURE_ESM_MODULES = [
   // 'ipld-explorer-components',
   '@chainsafe/is-ip',
   '@multiformats/multiaddr',
-  '@libp2p/interface',
   'dag-jose',
   'uint8arrays'
 ]
@@ -139,12 +138,12 @@ const configOverride = {
       setupFiles: [...config.setupFiles, 'fake-indexeddb/auto'],
       moduleNameMapper: {
         ...config.moduleNameMapper,
-        'multiformats/basics': '<rootDir>/node_modules/multiformats/src/basics.js',
-        '@libp2p/interface/errors': '<rootDir>/node_modules/@libp2p/interface/dist/src/errors.js',
-        'multiformats/bases/base32': '<rootDir>/node_modules/multiformats/src/bases/base32.js',
-        'multiformats/bases/base58': '<rootDir>/node_modules/multiformats/src/bases/base58.js',
-        'multiformats/cid': '<rootDir>/node_modules/multiformats/src/cid.js',
-        'multiformats/hashes/digest': '<rootDir>/node_modules/multiformats/src/hashes/digest.js',
+        'multiformats/basics': '<rootDir>/node_modules/multiformats/dist/src/basics.js',
+        'multiformats/bases/base32': '<rootDir>/node_modules/multiformats/dist/src/bases/base32.js',
+        'multiformats/bases/base58': '<rootDir>/node_modules/multiformats/dist/src/bases/base58.js',
+        'multiformats/cid': '<rootDir>/node_modules/multiformats/dist/src/cid.js',
+        'multiformats/hashes/digest': '<rootDir>/node_modules/multiformats/dist/src/hashes/digest.js',
+        'multiformats/hashes/sha2': '<rootDir>/node_modules/multiformats/dist/src/hashes/sha2.js',
         'uint8arrays/alloc': '<rootDir>/node_modules/uint8arrays/dist/src/alloc.js',
         'uint8arrays/concat': '<rootDir>/node_modules/uint8arrays/dist/src/concat.js',
         'uint8arrays/equals': '<rootDir>/node_modules/uint8arrays/dist/src/equals.js',

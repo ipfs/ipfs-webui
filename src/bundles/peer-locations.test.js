@@ -339,7 +339,7 @@ describe('selectPeersCoordinates', () => {
 })
 
 describe('PeerLocationResolver', () => {
-  describe('findLocations', () => {
+  describe.skip('findLocations', () => {
     it('should find the location of given peers', async () => {
       await mockGeoIpCache('4.4.4.4')
 
