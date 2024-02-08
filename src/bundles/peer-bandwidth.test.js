@@ -160,7 +160,10 @@ it('should sync added and removed peers', async () => {
 
   // Add and remove the peers
   store.doUpdateMockPeers(nextPeers)
-  await sleep()
+  while (store.selectPeerBandwidthPeers().length !== nextPeers.length) {
+    // flaky test, failure will show as a timeout error
+    await sleep()
+  }
   bwPeers = store.selectPeerBandwidthPeers()
 
   expect(bwPeers.length).toBe(nextPeers.length)
@@ -255,52 +258,58 @@ it('should periodically update bandwidth for peers', async () => {
   })
 })
 
-it('should update peer bandwidth according to concurrency option', async () => {
-  const totalPeers = randomInt(5, 10)
-  const peers = await fakePeers(totalPeers)
-  const peerUpdateConcurrency = 5
+describe('should update peer bandwidth according to concurrency option', () => {
+  for (let peerUpdateConcurrency = 1; peerUpdateConcurrency <= 5; peerUpdateConcurrency++) {
+    it(`peerUpdateConcurrency=${peerUpdateConcurrency}`, async () => {
+      const totalPeers = randomInt(5, 10)
+      const peers = await fakePeers(totalPeers)
+      const reducerCallLog = []
+      const store = composeBundlesRaw(
+        createReactorBundle(),
+        mockRoutesBundle,
+        createMockIpfsBundle(createMockIpfs({ minLatency: 100, maxLatency: 150 })),
+        mockPeersBundle,
+        new Proxy(createPeerBandwidthBundle({ peerUpdateConcurrency }), {
+          get: (target, prop) => {
+            if (prop === 'reducer') {
+              const origReducer = target[prop]
+              return (state, action) => {
+                const result = origReducer(state, action)
+                reducerCallLog.push({ action, result })
+                return result
+              }
+            }
+            return target[prop]
+          }
+        })
+      )({
+        peers: { data: peers }
+      })
 
-  const store = composeBundlesRaw(
-    createReactorBundle(),
-    mockRoutesBundle,
-    createMockIpfsBundle(createMockIpfs({ minLatency: 100, maxLatency: 150 })),
-    mockPeersBundle,
-    createPeerBandwidthBundle({ peerUpdateConcurrency })
-  )({
-    peers: { data: peers }
-  })
-
-  await sleep(50)
-
-  // We should now be updating peerUpdateConcurrency peers
-  let updatingPeerIds = store.selectPeerBandwidthUpdatingPeerIds()
-  expect(updatingPeerIds.length).toBe(peerUpdateConcurrency)
-
-  await sleep(150)
-
-  // We should now have updated peerUpdateConcurrency peers
-  let bwPeers = store.selectPeerBandwidthPeers()
-
-  // Assert all these peers now have a bandwidth stat
-  updatingPeerIds.forEach(id => {
-    const peer = bwPeers.find(p => p.id === id)
-    expect(peer).toBeTruthy()
-    expect(peer.bw).toBeTruthy()
-  })
-
-  // Assert we're updating the rest of the peers now
-  updatingPeerIds = store.selectPeerBandwidthUpdatingPeerIds()
-  expect(updatingPeerIds.length).toBe(totalPeers - peerUpdateConcurrency)
-
-  await sleep(150)
-
-  // We should now have updated all peers
-  bwPeers = store.selectPeerBandwidthPeers()
-
-  // Assert all these peers now have a bandwidth stat
-  updatingPeerIds.forEach(id => {
-    const peer = bwPeers.find(p => p.id === id)
-    expect(peer).toBeTruthy()
-    expect(peer.bw).toBeTruthy()
-  })
+      let allPeersHaveBw = false
+      while(allPeersHaveBw === false) {
+        // ensure all peers are updated before continuing.
+        await sleep(50)
+        if (store.selectPeerBandwidthPeers().every(p => p.bw)) {
+          allPeersHaveBw = true
+        }
+      }
+      let maxInFlight = 0
+      let inFlight = 0
+      /**
+       * ensure that there were never any more than `peerUpdateConcurrency` count of `UPDATE_PEER_BANDWIDTH_STARTED` action types dispatched
+       * before a `UPDATE_PEER_BANDWIDTH_FINISHED` action type was dispatched
+       */
+      for (const { action } of reducerCallLog) {
+        if (action.type === 'UPDATE_PEER_BANDWIDTH_STARTED') {
+          inFlight++
+          maxInFlight = Math.max(maxInFlight, inFlight)
+        }
+        if (action.type === 'UPDATE_PEER_BANDWIDTH_FINISHED') {
+          inFlight--
+        }
+      }
+      expect(maxInFlight).toBe(peerUpdateConcurrency)
+    })
+  }
 })
