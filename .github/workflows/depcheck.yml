@@ -6,7 +6,7 @@ jobs:
     name: dep-check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.6.0
+      - uses: actions/checkout@v4.1.2
 
       - name: Setup node
         uses: actions/setup-node@v4
