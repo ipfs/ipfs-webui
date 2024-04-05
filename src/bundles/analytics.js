@@ -65,11 +65,17 @@ import { onlyOnceAfter } from '../lib/hofs/functions.js'
  * @property {number} lastDisabledAt
  * @property {string[]} consent
  * @property {boolean?} showAnalyticsBanner
+ * @property {boolean?} showAnalyticsComponents
  * @property {boolean?} optedOut
  *
  * @typedef {Object} State
  * @property {Model} analytics
  */
+
+// 2024-Q2:
+// All analytics are disabled since we no longer use Countly instance.
+// See https://github.com/ipfs/ipfs-webui/issues/2198
+const DISABLE_ALL_ANALYTICS = true
 
 // Unknown actions (can't seem to see anything
 // dispatching those).
@@ -213,6 +219,11 @@ const selectors = {
    * @param {State} state
    */
   selectAnalyticsOptedOut: (state) => state.analytics.optedOut,
+  /**
+   * Show or hide all UI compontent related to analytics.
+   * @param {State} state
+   */
+  selectShowAnalyticsComponents: (state) => state.analytics.showAnalyticsComponents,
   /**
    * Show or hide the analytics banner.
    * @param {State} state
@@ -442,8 +453,9 @@ const createAnalyticsBundle = ({
       state = state || {
         lastEnabledAt: 0,
         lastDisabledAt: 0,
+        showAnalyticsComponents: DISABLE_ALL_ANALYTICS, // hide related UI  for now, see https://github.com/ipfs/ipfs-webui/issues/2198
         showAnalyticsBanner: false,
-        optedOut: false,
+        optedOut: !DISABLE_ALL_ANALYTICS, // disable analytics by default for now, see https://github.com/ipfs/ipfs-webui/issues/2198
         consent: []
       }
 

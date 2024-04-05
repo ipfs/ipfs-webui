@@ -19,6 +19,7 @@ import withTour from '../components/tour/withTour.js'
 const StatusPage = ({
   t,
   ipfsConnected,
+  showAnalyticsComponents,
   showAnalyticsBanner,
   doEnableAnalytics,
   doDisableAnalytics,
@@ -53,7 +54,7 @@ const StatusPage = ({
           </div>
         </div>
       </Box>
-      { ipfsConnected && showAnalyticsBanner &&
+      { ipfsConnected && showAnalyticsComponents && showAnalyticsBanner &&
         <AnalyticsBanner
           className='mt3'
           label={t('AnalyticsBanner.label')}
@@ -92,6 +93,7 @@ export default connect(
   'selectIpfsConnected',
   'selectNodeBandwidthEnabled',
   'selectShowAnalyticsBanner',
+  'selectShowAnalyticsComponents',
   'selectToursEnabled',
   'doEnableAnalytics',
   'doDisableAnalytics',
