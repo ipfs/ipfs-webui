@@ -24,7 +24,7 @@ const pinningServiceTemplates = [
     name: 'Pinata',
     icon: 'https://dweb.link/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg',
     apiEndpoint: 'https://api.pinata.cloud/psa',
-    visitServiceUrl: 'https://pinata.cloud/documentation#PinningServicesAPI'
+    visitServiceUrl: 'https://docs.pinata.cloud/api-reference/pinning-service-api'
   },
   {
     name: 'Filebase',
@@ -37,12 +37,6 @@ const pinningServiceTemplates = [
     icon: 'https://dweb.link/ipfs/bafybeiaqsdwuwemchbofzok4cq7cuvotfs6bgickxdqr6f7hdt7a64cwwa/Web3.Storage-logo.svg',
     apiEndpoint: 'https://api.web3.storage',
     visitServiceUrl: 'https://web3.storage/docs/how-tos/pinning-services-api/'
-  },
-  {
-    name: 'Estuary',
-    icon: 'https://dweb.link/ipfs/bafkreicn36fjx2tlanzslpayomdhgerh7oovlaasfkg7ltzgztf7a3buu4?filename=Estuary-logo.svg',
-    apiEndpoint: 'https://api.estuary.tech/pinning',
-    visitServiceUrl: 'https://docs.estuary.tech/tutorial-get-an-api-key'
   },
   {
     name: '4EVERLAND',
