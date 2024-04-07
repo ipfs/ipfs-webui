@@ -56,7 +56,7 @@ export const SettingsPage = ({
         <div className='lh-copy charcoal'>
           <Title>{t('app:terms.apiAddress')}</Title>
           <Trans i18nKey='apiDescription' t={t}>
-            <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom API address</a>, including a port other than the default 5001, enter it here.</p>
+            <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom Kubo RPC API address</a>, including a port other than the default 5001, enter it here.</p>
           </Trans>
           <ApiAddressForm/>
         </div>
@@ -66,7 +66,7 @@ export const SettingsPage = ({
       <div className='lh-copy charcoal'>
         <Title>{t('app:terms.publicGateway')}</Title>
         <Trans i18nKey='publicGatewayDescription' t={t}>
-          <p>Choose which <a className='link blue' href="http://docs.ipfs.io/concepts/ipfs-gateway/#public-gateways" target='_blank' rel='noopener noreferrer'>public gateway</a> you want to use to open your files.</p>
+          <p>Choose which <a className='link blue' href="http://docs.ipfs.tech/concepts/ipfs-gateway/#public-gateways" target='_blank' rel='noopener noreferrer'>public gateway</a> you want to use to open your files.</p>
         </Trans>
         <PublicGatewayForm/>
       </div>
@@ -75,7 +75,7 @@ export const SettingsPage = ({
     <Box className='mb3 pa4-l pa2'>
       <Title>{t('ipnsPublishingKeys.title')}</Title>
       <p className='ma0 mr2 lh-copy charcoal f6'>
-        {t('ipnsPublishingKeys.description')}&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/concepts/glossary/#ipns'>{t('learnMoreLink')}</a>
+        {t('ipnsPublishingKeys.description')}&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.tech/concepts/glossary/#ipns'>{t('learnMoreLink')}</a>
       </p>
       <IpnsManager t={t} />
     </Box>
@@ -86,7 +86,7 @@ export const SettingsPage = ({
         { arePinningServicesSupported
           ? t('pinningServices.description')
           : t('pinningServices.noPinRemoteDescription')
-        }&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.io/how-to/work-with-pinning-services/'>{t('learnMoreLink')}</a>
+        }&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.tech/how-to/work-with-pinning-services/'>{t('learnMoreLink')}</a>
       </p>
       <PinningManager t={t} />
     </Box>

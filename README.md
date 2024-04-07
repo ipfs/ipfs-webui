@@ -62,9 +62,9 @@ In separate shells run the following:
 > npm run storybook
 ```
 
-### Configure IPFS API CORS headers
+### Configure Kubo RPC API CORS headers
 
-You must configure your IPFS API at http://127.0.0.1:5001  to allow [cross-origin (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) requests from your dev server at http://localhost:3000
+You must configure your Kubo RPC endpoint at http://127.0.0.1:5001 to allow [cross-origin (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) requests from your dev server at http://localhost:3000
 
 Similarly if you want to try out pre-release versions at https://dev.webui.ipfs.io you need to add that as an allowed domain too.
 
@@ -117,7 +117,7 @@ To create an optimized static build of the app, output to the `build` directory:
 
 ## Test
 
-The following command will run all tests: unit one for React and E2E against real HTTP API:
+The following command will run all tests: unit one for React and E2E against real Kubo RPC:
 
 ```sh
 > npm test
@@ -135,7 +135,7 @@ The WebUI uses Jest to run the isolated unit tests. Unit test files are located 
 
 ## E2E tests
 
-The end-to-end tests (E2E) test the full app in a headless Chromium browser. They spawn real IPFS node for HTTP API and a static HTTP server to serve the app.
+The end-to-end tests (E2E) test the full app in a headless Chromium browser. They spawn real Kubo node for HTTP RPC and a static HTTP server to serve the app.
 The purpose of those tests is not being comprehensible, but act as a quick regression and integration suite.
 Test files are located in `test/e2e/`.
 
@@ -162,13 +162,13 @@ One can also override the binary used in e2e tests by providing a path to an alt
 
 #### `E2E_API_URL`
 
-Instead of spawning a disposable node and repo for tests, one can point the E2E test suite at arbitrary HTTP API running on localhost:
+Instead of spawning a disposable node and repo for tests, one can point the E2E test suite at arbitrary Kubo-compatible RPC API running on localhost:
 
 ```sh
 > E2E_API_URL=http://127.0.0.1:5001 npm run test:e2e
 ```
 
-**Caveat 1:** HTTP API used in tests needs to run on the local machine for Peers screen to pass (they test manual swarm connect to ephemeral `/ip4/120.0.0.1/..` multiaddr)
+**Caveat 1:** HTTP RPC API used in tests needs to run on the local machine for Peers screen to pass (they test manual swarm connect to ephemeral `/ip4/120.0.0.1/..` multiaddr)
 
 **Caveat 2:** CORS requests from `http://localhost:3001` (static server hosting dev version of webui) need to be added to `Access-Control-Allow-Origin` whitelist array in node's config:
 

@@ -25,7 +25,7 @@ const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUp
         <h1 className='montserrat fw4 charcoal ma0 f3 red'>{t('app:status.couldNotConnect')}</h1>
       </div>
       <Trans i18nKey='notConnected.paragraph1' t={t}>
-        <p className='fw6 mb3'>Check out the installation guide in the <a className='link blue' href='https://docs.ipfs.io/install/command-line-quick-start/' target='_blank' rel='noopener noreferrer'>IPFS Docs</a>, or try these common fixes:</p>
+        <p className='fw6 mb3'>Check out the installation guide in the <a className='link blue' href='https://docs.ipfs.tech/install/command-line-quick-start/' target='_blank' rel='noopener noreferrer'>IPFS Docs</a>, or try these common fixes:</p>
       </Trans>
       <ol className='pl3 pt2'>
         <Trans i18nKey='notConnected.paragraph2' t={t}>
@@ -39,7 +39,7 @@ const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUp
         { !sameOrigin && (
           <div>
             <Trans i18nKey='notConnected.paragraph3' t={t}>
-              <li className='mb3 mt4'>Is your IPFS API configured to allow <a className='link blue' href='https://github.com/ipfs-shipyard/ipfs-webui#configure-ipfs-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
+              <li className='mb3 mt4'>Is your IPFS API configured to allow <a className='link blue' href='https://github.com/ipfs/ipfs-webui#configure-kubo-rpc-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
             </Trans>
             <div className='br1 overflow-hidden'>
               <div className='f7 mb0 sans-serif charcoal pv1 pl2 bg-black-20 flex items-center overflow-x-auto'>
