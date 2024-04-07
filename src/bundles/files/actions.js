@@ -1,6 +1,6 @@
 /* eslint-disable require-yield */
 
-import { join, dirname, basename } from 'path'
+import { join, dirname, basename, sep as pathSeparator } from 'node:path'
 import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files.js'
 import countDirs from '../../lib/count-dirs.js'
 import memoize from 'p-memoize'
@@ -287,7 +287,7 @@ const actions = () => ({
         // Only go for direct children
         if (path.indexOf('/') === -1 && path !== '') {
           const src = `/ipfs/${cid}`
-          const dst = join(realMfsPath(root || '/files'), path)
+          const dst = join(realMfsPath(root || '/files'), path).split(pathSeparator).join('/')
 
           try {
             await ipfs.files.cp(src, dst)
@@ -381,7 +381,7 @@ const actions = () => ({
       name = cid
     }
 
-    const dst = realMfsPath(join(root, name))
+    const dst = realMfsPath(join(root, name)).split(pathSeparator).join('/')
     const srcPath = src.startsWith('/') ? src : `/ipfs/${cid}`
 
     try {
@@ -609,7 +609,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
   let dirCount = 0
 
   for (const f of res) {
-    const absPath = join(path, f.name)
+    const absPath = join(path, f.name).split(pathSeparator).join('/')
     let file = null
 
     if (dirCount < 1000 && (f.type === 'directory' || f.type === 'dir')) {
