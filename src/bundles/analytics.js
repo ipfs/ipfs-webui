@@ -453,9 +453,9 @@ const createAnalyticsBundle = ({
       state = state || {
         lastEnabledAt: 0,
         lastDisabledAt: 0,
-        showAnalyticsComponents: DISABLE_ALL_ANALYTICS, // hide related UI  for now, see https://github.com/ipfs/ipfs-webui/issues/2198
+        showAnalyticsComponents: !DISABLE_ALL_ANALYTICS, // hide related UI  for now, see https://github.com/ipfs/ipfs-webui/issues/2198
         showAnalyticsBanner: false,
-        optedOut: !DISABLE_ALL_ANALYTICS, // disable analytics by default for now, see https://github.com/ipfs/ipfs-webui/issues/2198
+        optedOut: DISABLE_ALL_ANALYTICS, // disable analytics by default for now, see https://github.com/ipfs/ipfs-webui/issues/2198
         consent: []
       }
 
