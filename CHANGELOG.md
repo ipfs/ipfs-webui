@@ -1,3 +1,29 @@
+## [4.2.1](https://github.com/ipfs/ipfs-webui/compare/v4.2.0...v4.2.1) (2024-04-08)
+
+
+ CID `bafybeigggyffcf6yfhx5irtwzx3cgnk6n3dwylkvcpckzhqqrigsxowjwe`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* **peers:** add connection accepts valid multiaddrs ([#2199](https://github.com/ipfs/ipfs-webui/issues/2199)) ([91ff2ca](https://github.com/ipfs/ipfs-webui/commit/91ff2cae3d9bd9e7d9550e84b6cf2f2a7cdadb32))
+* **pinning:** update scaleway logo and link ([#2194](https://github.com/ipfs/ipfs-webui/issues/2194)) ([b8ac64f](https://github.com/ipfs/ipfs-webui/commit/b8ac64f18226dbc88a553e3b89fa41ab86435ab7))
+
+
+### Trivial Changes
+
+* **deps:** bump actions/cache from 3 to 4 ([#2196](https://github.com/ipfs/ipfs-webui/issues/2196)) ([e131185](https://github.com/ipfs/ipfs-webui/commit/e1311855056cb04a637e09b34d780f0618515a98))
+* disable countly analytics and hide unused UI ([#2216](https://github.com/ipfs/ipfs-webui/issues/2216)) ([d137048](https://github.com/ipfs/ipfs-webui/commit/d137048611fe5b56f812404395a74543611728b0)), closes [#2198](https://github.com/ipfs/ipfs-webui/issues/2198) [/github.com/ipfs/ipfs-webui/pull/2216/files#r1556085374](https://github.com/ipfs//github.com/ipfs/ipfs-webui/pull/2216/files/issues/r1556085374)
+* missed renames (api→rpc, .io→.tech) ([51b2952](https://github.com/ipfs/ipfs-webui/commit/51b2952cba39fc0ad2ce9c82d0f3b02b24c4ade7))
+* optimize CI caching ([#2183](https://github.com/ipfs/ipfs-webui/issues/2183)) ([b8a71d9](https://github.com/ipfs/ipfs-webui/commit/b8a71d9a0e141886be8f8fee8e36069126039f69))
+* package-lock.json update ([#2200](https://github.com/ipfs/ipfs-webui/issues/2200)) ([5abc5d0](https://github.com/ipfs/ipfs-webui/commit/5abc5d07630cef5a62d05194053e678750012d18))
+* remove estuary ([b560f5c](https://github.com/ipfs/ipfs-webui/commit/b560f5c3659d873baee0eaa2e135e7caefedf591))
+* Update .github/dependabot.yml [skip ci] ([f847301](https://github.com/ipfs/ipfs-webui/commit/f847301ea4b6efec13b0f18ed1681d08663c981c))
+* Update .github/workflows/stale.yml [skip ci] ([03c1c89](https://github.com/ipfs/ipfs-webui/commit/03c1c89276a207d88ec768dcecc08464acc792e3))
+
 ## [4.2.0](https://github.com/ipfs/ipfs-webui/compare/v4.1.1...v4.2.0) (2023-12-02)
 
 
