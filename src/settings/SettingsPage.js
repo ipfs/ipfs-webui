@@ -33,6 +33,7 @@ export const SettingsPage = ({
   isLoading, isSaving, arePinningServicesSupported,
   hasSaveFailed, hasSaveSucceded, hasErrors, hasLocalChanges, hasExternalChanges,
   config, onChange, onReset, onSave, editorKey, analyticsEnabled, doToggleAnalytics,
+  showAnalyticsComponents,
   toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, doToggleCliTutorMode, command
 }) => (
   <div data-id='SettingsPage' className='mw9 center'>
@@ -92,15 +93,17 @@ export const SettingsPage = ({
     </Box>
 
     <Box className='mb3 pa4-l pa2'>
-      <div className='mb4 joyride-settings-language'>
+      <div className='joyride-settings-language'>
         <Title>{t('language')}</Title>
         <LanguageSelector t={t} />
       </div>
 
-      <div className='joyride-settings-analytics'>
-        <Title>{t('analytics')}</Title>
-        <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
-      </div>
+    { showAnalyticsComponents
+      ? <div className='mt4 joyride-settings-analytics'>
+          <Title>{t('analytics')}</Title>
+          <AnalyticsToggle t={t} doToggleAnalytics={doToggleAnalytics} analyticsEnabled={analyticsEnabled} />
+        </div>
+      : null }
     </Box>
 
     <Experiments t={t} />
@@ -376,6 +379,7 @@ export default connect(
   'selectConfigSaveLastError',
   'selectIsIpfsDesktop',
   'selectToursEnabled',
+  'selectShowAnalyticsComponents',
   'selectAnalyticsEnabled',
   'selectArePinningServicesSupported',
   'doToggleAnalytics',
