@@ -167,18 +167,6 @@ jobs:
         run: go install github.com/ipfs/dnslink-dnsimple@v0.1.0
 
       # dev dnslink is updated on each main branch update
-      - run: dnslink-dnsimple --domain dev.webui.ipfs.io --record _dnslink --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: github.ref == 'refs/heads/main'
-        env:
-          DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
-
-      # production dnslink is updated on release (during tag build)
-      - run: dnslink-dnsimple --domain webui.ipfs.io --record _dnslink --link /ipfs/${{ steps.ipfs.outputs.cid }}
-        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
-        env:
-          DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
-
-      # dev dnslink is updated on each main branch update
       - run: dnslink-dnsimple --domain ipfs.tech --record _dnslink.dev.webui --link /ipfs/${{ steps.ipfs.outputs.cid }}
         if: github.ref == 'refs/heads/main'
         env:
