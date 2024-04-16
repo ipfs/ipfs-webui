@@ -178,6 +178,18 @@ jobs:
         env:
           DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
 
+      # dev dnslink is updated on each main branch update
+      - run: dnslink-dnsimple --domain ipfs.tech --record _dnslink.dev.webui --link /ipfs/${{ steps.ipfs.outputs.cid }}
+        if: github.ref == 'refs/heads/main'
+        env:
+          DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
+
+      # production dnslink is updated on release (during tag build)
+      - run: dnslink-dnsimple --domain ipfs.tech --record _dnslink.webui --link /ipfs/${{ steps.ipfs.outputs.cid }}
+        if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+        env:
+          DNSIMPLE_TOKEN: ${{ secrets.DNSIMPLE_TOKEN }}
+
   test-e2e:
     name: 'test:e2e'
     uses: ./.github/workflows/test-e2e.yml
