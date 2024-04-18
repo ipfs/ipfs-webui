@@ -35,6 +35,17 @@ function createStore (analyticsOpts = {}, mockAnalyticsCachedState) {
 }
 
 describe('new/returning user default behavior', () => {
+  // 2024-Q2: disabling and hiding all metrics for now
+  // https://github.com/ipfs/ipfs-webui/pull/2216
+  it('should disable analytics by default and hide all UI compontents', () => {
+    const store = createStore()
+    expect(store.selectAnalyticsEnabled()).toBe(false)
+    expect(store.selectShowAnalyticsComponents()).toBe(false)
+    expect(store.selectAnalyticsConsent()).toEqual([])
+    expect(global.Countly.opt_in).not.toHaveBeenCalled()
+    expect(global.Countly.opt_out).not.toHaveBeenCalled()
+  })
+  /*
   it('should enable analytics by default for new user who has not opted in or out', () => {
     const store = createStore()
     expect(global.Countly.opt_in).toHaveBeenCalled()
@@ -42,6 +53,7 @@ describe('new/returning user default behavior', () => {
     // events will be sent as consents have been given by default
     expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location'])
   })
+  */
   it('should enable existing analytics by default for returning user who was opted_in', () => {
     const mockDefaultState = {
       lastEnabledAt: (new Date('2022-01-02')).getTime(),

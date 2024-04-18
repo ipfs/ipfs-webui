@@ -24,7 +24,7 @@ const pinningServiceTemplates = [
     name: 'Pinata',
     icon: 'https://dweb.link/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg',
     apiEndpoint: 'https://api.pinata.cloud/psa',
-    visitServiceUrl: 'https://pinata.cloud/documentation#PinningServicesAPI'
+    visitServiceUrl: 'https://docs.pinata.cloud/api-reference/pinning-service-api'
   },
   {
     name: 'Filebase',
@@ -39,12 +39,6 @@ const pinningServiceTemplates = [
     visitServiceUrl: 'https://web3.storage/docs/how-tos/pinning-services-api/'
   },
   {
-    name: 'Estuary',
-    icon: 'https://dweb.link/ipfs/bafkreicn36fjx2tlanzslpayomdhgerh7oovlaasfkg7ltzgztf7a3buu4?filename=Estuary-logo.svg',
-    apiEndpoint: 'https://api.estuary.tech/pinning',
-    visitServiceUrl: 'https://docs.estuary.tech/tutorial-get-an-api-key'
-  },
-  {
     name: '4EVERLAND',
     icon: 'https://dweb.link/ipfs/bafkreie4mg2rmoe6fzct4rpwd2d4nuok3yx2mew567nu3s5bfnnmlb65ei?filename=4everland-logo.svg',
     apiEndpoint: 'https://api.4everland.dev',
@@ -52,9 +46,9 @@ const pinningServiceTemplates = [
   },
   {
     name: 'Scaleway',
-    icon: 'https://dweb.link/ipfs/QmQnbWQCw4YKn53hTizARdMacvw6b3yFCqpQEPrSxVgXXL',
+    icon: 'https://dweb.link/ipfs/QmTM7RtYsuJFoV7y3Ec1WdGTW8knKrjwbY6ByTGsJN6TYw?filename=scaleway.svg',
     apiEndpoint: 'https://<your-volume-region-code>.ipfs.labs.scw.cloud/<your-volume-id>/',
-    visitServiceUrl: 'https://www.scaleway.com/en/docs/labs/ipfs/api-cli/ipfs-desktop/'
+    visitServiceUrl: 'https://www.scaleway.com/en/docs/labs/ipfs-pinning/reference-content/install-ipfs-desktop/'
   }
 ].map((service) => {
   try {

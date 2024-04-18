@@ -107,7 +107,7 @@ const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service,
           <p className='f6'>
             <Trans i18nKey="pinningServiceModal.description" t={t}>
               Want to make your custom pinning service available to others?
-              <a href='https://docs.ipfs.io/how-to/work-with-pinning-services/' rel='noopener noreferrer' target="_blank" className='pv0 dib link' type='link'>Learn how.</a>
+              <a href='https://docs.ipfs.tech/how-to/work-with-pinning-services/' rel='noopener noreferrer' target="_blank" className='pv0 dib link' type='link'>Learn how.</a>
             </Trans>
           </p>
         </ModalBody>

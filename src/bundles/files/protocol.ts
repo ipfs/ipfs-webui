@@ -1,8 +1,11 @@
-import { Pin } from 'ipfs'
 import type { CID } from 'multiformats/cid'
 import { Perform, Spawn } from "../task"
 
 export type { Perform, Spawn }
+
+export type Pin = {
+  cid: CID
+}
 
 export type Model = {
   pageContent: null | PageContent

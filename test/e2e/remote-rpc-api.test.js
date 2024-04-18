@@ -9,14 +9,14 @@ import { path as getGoIpfsPath } from 'kubo'
 import * as kuboRpcModule from 'kubo-rpc-client'
 const { createProxyServer } = httpProxy
 
-test.describe('Remote API tests', () => {
+test.describe('Remote RPC API tests', () => {
   // Basic Auth Proxy Setup
   // -----------------------------------
   // Why do we support and test Basic Auth?
   // Some users choose to access remote API.
   // It requires setting up reverse proxy with correct CORS  and Basic Auth headers,
   // but when done properly, should work. This test sets up a proxy which
-  // acts as properly protected and configured remote API to ensure there are no
+  // acts as properly protected and configured remote RPC API to ensure there are no
   // regressions for this difficult to test use case.
   let ipfsd
   let proxyd
@@ -41,7 +41,7 @@ test.describe('Remote API tests', () => {
     const { id } = await ipfsd.api.id()
     rpcId = id
 
-    // set up proxy in front of remote API to provide CORS and Basic Auth
+    // set up proxy in front of remote RPC API to provide CORS and Basic Auth
     user = 'user'
     password = 'pass'
 
@@ -88,7 +88,7 @@ test.describe('Remote API tests', () => {
   })
 
   test.beforeEach(async ({ page }) => {
-  // Swap API port for each test, ensure we don't get false-positives
+  // Swap RPC API port for each test, ensure we don't get false-positives
     proxyPort = await getPort()
     await proxyd.listen(proxyPort)
     // remove default api port set in test/e2e/setup/global-setup.js
@@ -147,13 +147,13 @@ test.describe('Remote API tests', () => {
   }
 
   const basicAuthConnectionConfirmation = async (user, password, proxyPort, page, peerId) => {
-  // (1) confirm API section on Status page includes expected PeerID and API description
+  // (1) confirm RPC API section on Status page includes expected PeerID and RPC API description
   // account for JSON config, which we hide from status page
     await expectHttpApiAddressOnStatusPage('Custom JSON configuration', page)
     // confirm webui is actually connected to expected node :^)
     await expectPeerIdOnStatusPage(peerId, page)
 
-    // (2) go to Settings and confirm API string includes expected JSON config
+    // (2) go to Settings and confirm RPC API string includes expected JSON config
     const apiOptions = JSON.stringify({
       url: `http://127.0.0.1:${proxyPort}/`,
       headers: {
@@ -184,7 +184,7 @@ test.describe('Remote API tests', () => {
     await page.reload() // instant addr update for faster CI
     await page.waitForSelector('input[id="api-address"]')
     const apiAddrValue = await page.inputValue('#api-address')
-    // if API address is defined as JSON, match objects
+    // if RPC API address is defined as JSON, match objects
     try {
       const json = JSON.parse(apiAddrValue)
       const expectedJson = JSON.parse(value)
@@ -201,7 +201,7 @@ test.describe('Remote API tests', () => {
   // having that out of the way, tests begin below ;^)
   // ----------------------------------------------------------------------------
 
-  test.describe('API @ multiaddr', () => {
+  test.describe('RPC @ multiaddr', () => {
     test('should be possible to set via Settings page', async ({ page }) => {
       await switchIpfsApiEndpointViaSettings(rpcMaddr, page)
       await expectPeerIdOnStatusPage(rpcId, page)
@@ -219,7 +219,7 @@ test.describe('Remote API tests', () => {
     })
   })
 
-  test.describe('API @ URL', () => {
+  test.describe('RPC @ URL', () => {
     test('should be possible to set via Settings page', async ({ page }) => {
       await switchIpfsApiEndpointViaSettings(rpcUrl, page)
       await expectPeerIdOnStatusPage(rpcId, page)
@@ -237,7 +237,7 @@ test.describe('Remote API tests', () => {
     })
   })
 
-  test.describe('API with CORS and Basic Auth', () => {
+  test.describe('RPC with CORS and Basic Auth', () => {
     test.afterEach(async ({ page }) => {
       await switchIpfsApiEndpointViaLocalStorage(null, page)
     })

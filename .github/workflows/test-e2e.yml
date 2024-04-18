@@ -15,7 +15,7 @@ jobs:
           cache: 'npm'
 
       - name: Cache test-build output
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: test-build-cache
         with:
           path: build
@@ -24,7 +24,7 @@ jobs:
             test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
 
       - name: Cache node_modules
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: test-npm-cache
         with:
           path: node_modules
@@ -60,7 +60,7 @@ jobs:
           cache: 'npm'
 
       - name: Cache test-build output
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: test-build-cache
         with:
           path: build
@@ -70,7 +70,7 @@ jobs:
 
       # We don't want to re-install dependencies for every sharded run
       - name: Cache node_modules
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: test-npm-cache
         with:
           path: node_modules
@@ -82,7 +82,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit --progress=false
 
       # Cache playwright binaries
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         id: playwright-cache
         with:
           path: |
@@ -93,7 +93,7 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       - name: Cache nyc_output dir
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: nyc_output-cache
         with:
           path: ./.nyc_output
@@ -131,7 +131,7 @@ jobs:
           cache: 'npm'
 
       - name: Cache nyc_output dir
-        uses: actions/cache@v3.3.1
+        uses: actions/cache@v4
         id: nyc_output-cache
         with:
           path: ./.nyc_output
