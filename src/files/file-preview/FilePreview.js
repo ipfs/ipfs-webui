@@ -113,7 +113,7 @@ const Preview = (props) => {
         return cantPreview
       }
 
-      if (content===null) {
+      if (content === null) {
         return <ComponentLoader />
       }
 
