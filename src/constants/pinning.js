@@ -27,6 +27,12 @@ const pinningServiceTemplates = [
     visitServiceUrl: 'https://docs.pinata.cloud/api-reference/pinning-service-api'
   },
   {
+    name: 'Functionland',
+    icon: 'https://bafybeidgnnvgm6i3pfzhjakgzcdwdbvwtmkkx7vzeiyvtk2b4oxis53vhm.ipfs.dweb.link/',
+    apiEndpoint: 'https://api.cloud.fx.land',
+    visitServiceUrl: 'https://docs.fx.land/pinning-service/ipfs-pinning-service-api'
+  },
+  {
     name: 'Filebase',
     icon: 'https://dweb.link/ipfs/QmWBaeu6y1zEcKbsEqCuhuDHPL3W8pZouCPdafMCRCSUWk?filename=filebase.png',
     apiEndpoint: 'https://api.filebase.io/v1/ipfs',

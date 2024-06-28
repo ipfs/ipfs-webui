@@ -17,6 +17,12 @@ const services = [
     totalSize: 512000,
     bandwidthUsed: undefined,
     addedAt: new Date(1592491648691)
+  }, {
+    name: 'Functionland',
+    icon: 'https://fx.land/android-chrome-512x512.png',
+    totalSize: undefined,
+    bandwidthUsed: undefined,
+    addedAt: new Date(1687896930567)
   }
 ]
 
