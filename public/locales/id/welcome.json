@@ -14,7 +14,7 @@
     "header": "Apa itu IPFS?",
     "paragraph1": "<0><0>Protokol distribusi hypermedia</0> yang menggabungkan ide-ide dari Kademlia, BitTorrent, Git, dan banyak lagi</0>",
     "paragraph2": "<0><0>Jaringan transfer berkas peer-to-peer</0> dengan arsitektur yang sepenuhnya terdesentralisasi dan tidak ada titik pusat kegagalan, sensor, atau kontrol</0>",
-    "paragraph3": "<0><0>Jalan menuju web masa depan</0> — peramban tradisional dapat mengakses berkas IPFS melalui gerbang seperti <2>https://ipfs.io</2> atau langsung menggunakan ekstensi <4>Sahabat IPFS</4></0> ",
+    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
     "paragraph4": "<0><0>CDN generasi berikutnya</0> — cukup tambahkan berkas ke node Anda untuk membuatnya tersedia bagi dunia dengan pengalamatan hash konten yang ramah-cache dan distribusi bandwidth ala BitTorrent</0>",
     "paragraph5": "<0><0>Perangkat pengembang</0> untuk membangun <2>aplikasi dan layanan yang terdistribusi sepenuhnya</2>, didukung oleh komunitas sumber terbuka yang tangguh</0>"
   },

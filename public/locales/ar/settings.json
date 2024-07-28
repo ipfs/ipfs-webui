@@ -22,7 +22,7 @@
     "translationProjectIntro": "قم بإضافة أو تحسين الترجمات وجعل IPFS أفضل للجميع!",
     "translationProjectLink": "انضم إلى مشروع ترجمة IPFS"
   },
-  "apiDescription": "<0>إذا تم تكوين العقدة الخاصة بك باستخدام <1> عنوان API مخصص</1>  ، بما في ذلك منفذ آخر غير الافتراضي 5001 ، فأدخله هنا.</0>",
+  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "publicGatewayDescription": "<0>اختار أي <1>بوابة عامة</1> التي تريد استخدامها عند إنشاء روابط قابلة للمشاركة.</0>",
   "cliDescription": "<0>قم بتمكين هذا الخيار لعرض رمز \"عرض الرمز\"<1></1> بجوار أوامر IPFS الشائعة. يؤدي النقر فوقه إلى فتح مشروط برمز CLI الخاص بهذا الأمر ، بحيث يمكنك لصقه في واجهة سطر أوامر IPFS في جهازك الطرفي.</0>",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "إذا كنت تقوم بتشغيل IPFS لسطح المكتب ، فستتوفر لديك أيضًا بعض الإعدادات الخاصة به."
     },
     "step2": {
-      "title": "عنوان API المخصص",
-      "paragraph1": "إذا قمت بتكوين عقدة IPFS الخاصة بك باستخدام عنوان API مخصص ، فيمكنك تحديث ملف التكوين الخاص بك هنا بدلاً من تحرير JSON يدويًا."
+      "title": "Custom Kubo RPC API address",
+      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
     },
     "step3": {
       "title": "خدمات التثبيت",

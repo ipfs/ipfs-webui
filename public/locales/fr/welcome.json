@@ -14,7 +14,7 @@
     "header": "Qu'est-ce qu'IPFS ?",
     "paragraph1": "<0><0>Un protocole de distribution hypermedia</0> qui emprunte des idées de Kademlia, BitTorrent, Git, et bien d'autres</0>",
     "paragraph2": "<0><0>Un réseau de transfert de fichiers pair-à-pair</0> avec une architecture complètement décentralisée et aucun unique point d'échec, de censure, ou de contrôle</0>",
-    "paragraph3": "<0><0>Un tremplin vers le web de demain</0> — les navigateurs traditionnels peuvent acceder aux fichiers IPFS grâce à des passerelles comme <2>https://ipfs.io</2> ou directement en utilisant l'extension <4>IPFS Companion</4></0>",
+    "paragraph3": "<0><0>Un tremplin vers le web de demain</0> — les navigateurs traditionnels peuvent accéder aux fichier IPFS via des passerelles comme <2>https://dweb.link</2> ou directement en utilisant l'extension <4>IPFS Companion</4></0>",
     "paragraph4": "<0><0>Un CDN de nouvelle génération</0> — ajoutez simplement un fichier à votre nœud pour le rendre accessible grâce à l'adressage par le contenu qui le rend facile à mettre en cache, et une distribution de la bande passante à la BitTorrent.</0>",
     "paragraph5": "<0><0>Une boîte à outil de développeur</0> pour bâtir des <2>applications et services complètement distribués</2>, soutenue par une communauté open-source solide</0>"
   },

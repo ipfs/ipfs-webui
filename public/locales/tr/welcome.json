@@ -14,7 +14,7 @@
     "header": "IPFS nedir?",
     "paragraph1": "<0>Kademlia, BitTorrent, Git ve daha fazlasının fikirlerini içeren <0>bir hiper ortam dağıtım protokolü</0></0> ",
     "paragraph2": "<0><0>Tamamen merkezi olmayan bir mimariye sahip ve merkezi bir hata, sansür veya kontrol noktası olmayan </0> eşler arası bir dosya aktarım ağı</0> ",
-    "paragraph3": "<0><0>Yarının web'ine geçiş</0> — geleneksel tarayıcılar IPFS dosyalarına <2>https://ipfs.io</2> gibi ağ geçitleri üzerinden veya doğrudan <4>IPFS Companion</4> uzantısını kullanarak erişebilir</0> ",
+    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
     "paragraph4": "<0><0>Yeni nesil bir CDN</0> — önbellek dostu içerik karma adresleme ve BitTorrent tarzı bant genişliği dağıtımı ile dünyanın kullanımına sunmak için düğümünüze bir dosya eklemeniz yeterli</0>",
     "paragraph5": "<0>Sağlam bir açık kaynak topluluğu tarafından desteklenen, <2>tamamen dağıtılmış uygulamalar ve hizmetler</2> oluşturmak için <0>bir geliştirici araç seti</0></0> "
   },

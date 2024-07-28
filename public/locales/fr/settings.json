@@ -22,7 +22,7 @@
     "translationProjectIntro": "Ajoutez ou corrigez des traductions pour rendre IPFS meilleur pour tout le monde!",
     "translationProjectLink": "Participez projet de traduction IPFS"
   },
-  "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API personnalisée</1>, y compris un port autre que le 5001 par défaut, entrez-la ici.</0>",
+  "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API RPC pour Kubo personnalisée, y compris un port autre que le défaut 5001, entrez-la ici.</0>",
   "publicGatewayDescription": "<0>Choisissez quelle <1>passerelle publique</1> vous voulez utiliser quand vous créez des liens partageables.</0>",
   "cliDescription": "<0>Activez cette option pour faire apparaître une icône \"Voir code\" <1></1> près des principales commandes IPFS. En cliquant dessus, vous ouvrez un pop-up avec le code pour cette commande, pour pouvoir le coller dans votre invite de lignes de commandes (CLI).</0>",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "Si vous utilisez IPFS Desktop vous pourrez également régler quelques paramètres qui lui sont spécifiques."
     },
     "step2": {
-      "title": "Adresse d'API personnalisée",
-      "paragraph1": "Si vous avez configuré votre nœud IPFS avec une adresse d'API personnalisée, vous pouvez mettre à jour votre fichier de configuration ici au lieu de modifier le fichier JSON à la main."
+      "title": "Adresse de l'API RPC de Kubo personnalisée",
+      "paragraph1": "Si vous avez configuré votre nœud IPFS compatible avec Kubo avec une adresse API RPC personnalisée, vous pouvez modifier votre fichier config ici plutôt que de modifier le JSON à la main."
     },
     "step3": {
       "title": "Services d'épinglage",

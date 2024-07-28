@@ -22,7 +22,7 @@
     "translationProjectIntro": "IPFSをみんなにとってよりよくするために翻訳を追加、校正しましょう!",
     "translationProjectLink": "IPFS翻訳プロジェクトに参加"
   },
-  "apiDescription": "<0>デフォルトの5001番以外のポートを含む<1>独自のAPIアドレス</1>を使用している場合は、その値をここに入力してください</0>",
+  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "publicGatewayDescription": "<0>共有リンクを生成するときに、どの<1>ゲートウェイ（パブリック）</1>を使用したいか選んでください</0>",
   "cliDescription": "<0>\"コードを見る\"オプション<1></1>を有効にするためには、このオプションを有効にします。\"コードを見る\"ボタンは普通のIPFSコマンドの隣に表示されます。\nこのボタンを押すことで、CUIのチートシートが表示され、そこからコマンドをコピー&ペーストすることが出来ます。</0>",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "もしあなたがIPFS Desktopを利用しているのであれば、ここでも特殊な設定が確認できるでしょう"
     },
     "step2": {
-      "title": "任意のAPIアドレスを使用する",
-      "paragraph1": "IPFSノードのAPIアドレスを変更している場合、設定ファイルはここから更新できます（JSONファイルを直接編集する必要はありません）。"
+      "title": "Custom Kubo RPC API address",
+      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
     },
     "step3": {
       "title": "サービスをピン留めする",

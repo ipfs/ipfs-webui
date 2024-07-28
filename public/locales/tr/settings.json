@@ -22,7 +22,7 @@
     "translationProjectIntro": "Çeviriler ekleyin veya iyileştirin ve IPFS'yi herkes için daha iyi hale getirin!",
     "translationProjectLink": "IPFS Çeviri Projesine Katılın"
   },
-  "apiDescription": "<0>Düğümünüz, varsayılan 5001'den farklı bir bağlantı noktası da dahil olmak üzere <1>özel bir UPA adresiyle</1> yapılandırılmışsa, buraya girin.</0>",
+  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "publicGatewayDescription": "<0>Paylaşılabilir bağlantılar oluştururken kullanmak istediğiniz <1>genel ağ geçidini</1> seçin.</0>  ",
   "cliDescription": "<0>Genel IPFS komutlarının yanında bir \"kodu görüntüle\"<1></1> simgesi görüntülemek için bu seçeneği etkinleştirin. Buna tıkladığınızda, o komutun CLI kodunu içeren bir modal açılır, böylece onu terminalinizdeki IPFS komut satırı arayüzüne yapıştırabilirsiniz.</0>",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "IPFS Masaüstü kullanıyorsanız, bunun için de bazı özel ayarlara sahip olacaksınız."
     },
     "step2": {
-      "title": "Özel UPA adresi",
-      "paragraph1": "IPFS düğümünüzü özel bir API adresiyle yapılandırdıysanız, JSON'u elle düzenlemek yerine yapılandırma dosyanızı burada güncelleyebilirsiniz."
+      "title": "Custom Kubo RPC API address",
+      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
     },
     "step3": {
       "title": "Sabitleme hizmetleri",
