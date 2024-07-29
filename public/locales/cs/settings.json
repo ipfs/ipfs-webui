@@ -22,7 +22,7 @@
     "translationProjectIntro": "Přidejte nebo vylepšete překlady a vylepšete IPFS pro všechny!",
     "translationProjectLink": "Připojte se k projektu překladu IPFS"
   },
-  "apiDescription": "<0>Pokud je váš uzel nakonfigurován s <1>vlastní adresou API</1> včetně jiného portu než výchozího 5001, zadejte ji zde.</0>",
+  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "publicGatewayDescription": "<0>Vyberte, kterou <1>veřejnou bránu</1> chcete použít při generování sdílených odkazů.</0>",
   "cliDescription": "<0>Povolením této možnosti zobrazíte vedle běžných příkazů systému IPFS ikonu \"zobrazit kód\".<1></1> Kliknutím na ni se otevře modální okno s kódem CLI daného příkazu, který můžete vložit do rozhraní příkazového řádku systému IPFS v terminálu.</0>",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "Pokud používáte IPFS Desktop, budete mít také určitá konkrétní nastavení."
     },
     "step2": {
-      "title": "Vlastní adresa API",
-      "paragraph1": "Pokud jste svůj uzel IPFS nakonfigurovali s vlastní adresou API, můžete namísto ruční úpravy JSON aktualizovat konfigurační soubor přímo zde."
+      "title": "Custom Kubo RPC API address",
+      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
     },
     "step3": {
       "title": "Služby Pinning",

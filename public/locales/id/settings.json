@@ -22,7 +22,7 @@
     "translationProjectIntro": "Tambahkan atau tingkatkan terjemahan dan jadikan IPFS lebih baik untuk semua orang!",
     "translationProjectLink": "Bergabunglah dengan Proyek Terjemahan IPFS"
   },
-  "apiDescription": "<0>Jika node Anda dikonfigurasi dengan <1>alamat API kustom</1>, termasuk port selain 5001, masukkan di sini.</0>",
+  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "publicGatewayDescription": "<0>Pilih <1>gerbang publik</1> mana yang ingin Anda gunakan saat membuat tautan yang dapat dibagikan.</0>",
   "cliDescription": "<0>Aktifkan opsi ini untuk menampilkan ikon \"lihat kode\" <1></1> di sebelah perintah umum IPFS. Mengkliknya akan membuka modal dengan kode CLI perintah itu, sehingga Anda dapat menempelkannya ke antarmuka baris perintah IPFS di terminal Anda.</0>",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "Jika Anda menjalankan Desktop IPFS, Anda juga akan memiliki beberapa pengaturan khusus."
     },
     "step2": {
-      "title": "Alamat API kustom",
-      "paragraph1": "Jika Anda telah mengonfigurasi node IPFS Anda dengan alamat API kustom, Anda dapat memperbarui berkas konfigurasi Anda di sini alih-alih mengedit JSON secara manual."
+      "title": "Custom Kubo RPC API address",
+      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
     },
     "step3": {
       "title": "Layanan penyematan",

@@ -14,7 +14,7 @@
     "header": "什麼是 IPFS？",
     "paragraph1": "<0><1>超媒體分發協議<1>是結合了 Kademlia、BitTorrent 及 Git 等等不同專案的技術<0>",
     "paragraph2": "<0><1>一個點對點的檔案傳輸網路<1>並具有完全去中心化的架構，沒有中心故障、審查或控制點 <0>",
-    "paragraph3": "<0><1>一個通往未來網頁技術的通道<1>—傳統瀏覽器可以透過 Gateways 瀏覽 IPFS 資源<2>像是 https://ipfs.io<2>或是直接使用<3> IPFS Companios <3>擴充套件<0>",
+    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
     "paragraph4": "<0><1>一個次世代內容分發網路(CDN)<1> —只需要在您的節點上新增檔案就能讓全球友善節點快取其檔案拆分出來的 Hash 碎片並透過 BitTorrent 式的點對點網路來下載該檔案<0>",
     "paragraph5": "<0>一個以健康的開源社群做為後盾的<1>開發工具集<1><2>用於編譯完全分布式的應用程式與服務<2><0>"
   },

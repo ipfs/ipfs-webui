@@ -22,7 +22,7 @@
     "translationProjectIntro": "Aggiungi o perfeziona le traduzioni e rendi IPFS migliore per tutti!",
     "translationProjectLink": "Unisciti al Progetto di Traduzione IPFS"
   },
-  "apiDescription": "<0>Se il tuo nodo è configurato con un <1>indirizzo API personalizzato</1> che include una porta diversa alla predefinita 5001, inseriscila qui.</0>",
+  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "publicGatewayDescription": "<0>Scegli quale <1>gateway pubblico</1> vorresti utilizzare durante la generazione di collegamenti condivisibili.</0>",
   "cliDescription": "<0>Abilita quest'opzione per mostrare un'icona \"view code\" <1></1> accanto ai comuni comandi IPFS. Cliccandoci, si aprirà una finestra modale col codice di quel comando CLI dimodoché tu possa incollarlo nell'interfaccia a riga di comando nel tuo terminale.",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "Se hai IPFS Desktop avviato, avrai anche alcune impostazioni specifiche per quel programma."
     },
     "step2": {
-      "title": "Indirizzo API Personalizzato",
-      "paragraph1": "Se hai configurato il tuo nodo IPFS con un indirizzo API personalizzato, puoi aggiornare il tuo file di configurazione qui invece di modificare il JSON a mano."
+      "title": "Custom Kubo RPC API address",
+      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
     },
     "step3": {
       "title": "Servizi di pinning",

@@ -22,7 +22,7 @@
     "translationProjectIntro": "Dodaj lub popraw tłumaczenia i uczyń IPFS lepszym dla wszystkich!",
     "translationProjectLink": "Dołącz do projektu tłumaczeń IPFS"
   },
-  "apiDescription": "<0>Jeśli twój węzeł jest skonfigurowany z <1>własnym adresem API</1>, w tym port inny niż domyślny 5001, wprowadź go tutaj.</0>",
+  "apiDescription": "<0>Zaktualizuj ten adres jeśli twoja instancja Kubo jest dostępna pod <1>niestandardowym adresem RPC API</1>, na przykład portem innym, niż domyślny 5001.</0>",
   "publicGatewayDescription": "<0>Wybierz, której  <1>bramy publicznej</1> chcesz użyć podczas generowania linków udostępnianych.</0>",
   "cliDescription": "<0>Włącz tę opcję, aby wyświetlić \"widok  kodu\" <1></1> ikona obok popularnych poleceń IPFS. Kliknięcie jej otwiera widok z kodem CLI tego polecenia, więc możesz go wkleić do interfejsu wiersza poleceń IPFS w terminalu.</0>",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "Jeśli używasz IPFS Desktop, będziesz miał również pewne specyficzne ustawienia dla niego."
     },
     "step2": {
-      "title": "Niestandardowy adres API",
-      "paragraph1": "Jeśli skonfigurowałeś swój węzeł IPFS z niestandardowym adresem API, możesz zaktualizować swój plik konfiguracyjny właśnie tutaj, zamiast ręcznie edytować JSON."
+      "title": "Niestandardowy adres Kubo RPC API",
+      "paragraph1": "Jeśli skonfigurowałeś swój węzeł z niestandardowym adresem Kubo RPC API, tu możesz zaktualizować swój plik konfiguracyjny, zamiast ręcznie edytować JSON."
     },
     "step3": {
       "title": "Usługi przypinania",

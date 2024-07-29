@@ -22,7 +22,7 @@
     "translationProjectIntro": "添加或改进翻译，使IPFS更适合每个人！",
     "translationProjectLink": "加入IPFS翻译项目"
   },
-  "apiDescription": "<0>如果您的节点配置了一个<1>自定义的API地址</1>，或者包含了其他非默认的5001端口的情况下，在这里修改。</0>",
+  "apiDescription": "<0>如果您的节点配置了一个<1>自定义的Kubo PRC API地址</1>，以及包含了其他非默认的5001端口的情况下，在这里修改。</0>",
   "publicGatewayDescription": "<0>请选择当您生成一个分享链接时，使用哪一个<1>公共网关</1>。</0>",
   "cliDescription": "<0>启用这个选来会在下方IPFS命令旁显示一个“查看代码”<1></1>图标。单击它将打开一个带有命令的CLI代码的引导模式，因此您可以将其粘贴到IPFS 节点的命令行终端中执行。</0>",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "如果你正在运行 IPFS Desktop ，会有一些特定的设置。"
     },
     "step2": {
-      "title": "自定义API地址",
-      "paragraph1": "如果您为IPFS 节点配置了自定义的API地址，你可以直接在这里更新配置而不需要手动修改JSON配置文件。"
+      "title": "自定义Kubo RPC API地址",
+      "paragraph1": "如果您为使用Kubo兼容的 IPFS 节点配置了自定义的RPC API地址，你可以直接在这里更新配置而不需要手动修改JSON配置文件。"
     },
     "step3": {
       "title": "固定服务",

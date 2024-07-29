@@ -22,7 +22,7 @@
     "translationProjectIntro": "新增或改進翻譯，使 IPFS 更適合每個人！",
     "translationProjectLink": "加入 IPFS 翻譯專案"
   },
-  "apiDescription": "<0>如果您的節點配置了一個<1>自定義的 API 位址</1>，或者包含了其他非預設的 5001 埠號的情況下，請於此處修改。</0>",
+  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "publicGatewayDescription": "<0>Choose which <1>public gateway</1> you want to use when generating shareable links.</0>",
   "cliDescription": "<0>啟用此選項可在常用 IPFS 指令旁顯示<1>“查看程式碼”</1>的圖示。點選後會開啟一個帶有該指令的 CLI 視窗，因此您可以將其複製貼上到終端機的 IPFS 指令界面中。</0>",
   "cliModal": {
@@ -132,8 +132,8 @@
       "paragraph2": "如果你正在運行IPFS Desktop ，會有一些特定的設置。"
     },
     "step2": {
-      "title": "自定義 API 位址",
-      "paragraph1": "如果您為 IPFS 節點配置了自定義的 API 位址，您可以直接在這裡更新設置而不需要手動修改 JSON 設定檔。"
+      "title": "Custom Kubo RPC API address",
+      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
     },
     "step3": {
       "title": "正在錨釘服務",
