@@ -33,6 +33,12 @@ const pinningServiceTemplates = [
     visitServiceUrl: 'https://docs.filebase.com/api-documentation/ipfs-pinning-service-api'
   },
   {
+    name: 'Functionland',
+    icon: 'https://bafybeidgnnvgm6i3pfzhjakgzcdwdbvwtmkkx7vzeiyvtk2b4oxis53vhm.ipfs.dweb.link/',
+    apiEndpoint: 'https://api.cloud.fx.land',
+    visitServiceUrl: 'https://docs.fx.land/pinning-service/ipfs-pinning-service-api'
+  },
+  {
     name: 'Web3.Storage',
     icon: 'https://dweb.link/ipfs/bafybeiaqsdwuwemchbofzok4cq7cuvotfs6bgickxdqr6f7hdt7a64cwwa/Web3.Storage-logo.svg',
     apiEndpoint: 'https://api.web3.storage',

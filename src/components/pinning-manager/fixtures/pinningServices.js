@@ -12,6 +12,12 @@ const services = [
     bandwidthUsed: '2 GB/mo',
     addedAt: new Date(1592491648591)
   }, {
+    name: 'Functionland',
+    icon: 'https://fx.land/android-chrome-512x512.png',
+    totalSize: undefined,
+    bandwidthUsed: undefined,
+    addedAt: new Date(1687896930567)
+  }, {
     name: 'Eternum',
     icon: 'https://www.eternum.io/static/images/icons/favicon-32x32.a2341c8ec160.png',
     totalSize: 512000,
