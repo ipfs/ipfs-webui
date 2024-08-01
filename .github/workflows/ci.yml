@@ -252,7 +252,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit --progress=false
 
       - name: Download CAR artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ipfs-webui_${{ github.sha }}.car
 
