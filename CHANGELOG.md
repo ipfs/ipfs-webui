@@ -1,3 +1,34 @@
+## [4.3.0](https://github.com/ipfs/ipfs-webui/compare/v4.2.1...v4.3.0) (2024-08-12)
+
+
+ CID `bafybeihatzsgposbr3hrngo42yckdyqcc56yean2rynnwpzxstvdlphxf4`
+
+ --- 
+
+
+
+### Features
+
+* **remotepins:** add Functionland Fula ([#2242](https://github.com/ipfs/ipfs-webui/issues/2242)) ([b998f3c](https://github.com/ipfs/ipfs-webui/commit/b998f3c909f4410f0cd03ac080ff67f578fa8858))
+
+
+### Bug Fixes
+
+* improve app's bootstrap HTML metadata ([#2168](https://github.com/ipfs/ipfs-webui/issues/2168)) ([9c10520](https://github.com/ipfs/ipfs-webui/commit/9c105200708b98bd8b1328398920bdb09c299331))
+* loading empty content ([#2237](https://github.com/ipfs/ipfs-webui/issues/2237)) ([e81d132](https://github.com/ipfs/ipfs-webui/commit/e81d132205e965d53b678a31844837be5b476f2f))
+
+
+### Trivial Changes
+
+* **ci:** dnslink update on .tech tld ([222053a](https://github.com/ipfs/ipfs-webui/commit/222053a738c088a82ff17dd3a502b35af2ee62cd))
+* **ci:** stop updating webui.ipfs.io ([5b06c3f](https://github.com/ipfs/ipfs-webui/commit/5b06c3fb555be3022418a3e787a11ce4e6c996ab))
+* **deps:** bump actions/checkout from 3.6.0 to 4.1.2 ([#2213](https://github.com/ipfs/ipfs-webui/issues/2213)) ([d028190](https://github.com/ipfs/ipfs-webui/commit/d028190ccf7d6a67755b6b16b4e2eabdca5001e1))
+* **deps:** bump actions/github-script from 6 to 7 ([#2197](https://github.com/ipfs/ipfs-webui/issues/2197)) ([7342cfa](https://github.com/ipfs/ipfs-webui/commit/7342cfa2065c6fbc429534d122f71db3afdf1bd8))
+* **deps:** bump axios, @storybook/test-runner, bundlesize and wait-on ([#2215](https://github.com/ipfs/ipfs-webui/issues/2215)) ([fbbe5ff](https://github.com/ipfs/ipfs-webui/commit/fbbe5ffdba0794b7b4217c2ee21be5653e78d16c))
+* **deps:** bump ip from 1.1.8 to 1.1.9 ([#2211](https://github.com/ipfs/ipfs-webui/issues/2211)) ([d73e798](https://github.com/ipfs/ipfs-webui/commit/d73e79875f7b74754bb08344108e62ffb16008e8))
+* **deps:** bump stefanzweifel/git-auto-commit-action from 4.16.0 to 5.0.1 ([#2222](https://github.com/ipfs/ipfs-webui/issues/2222)) ([c6159c3](https://github.com/ipfs/ipfs-webui/commit/c6159c39dda5b01039cc9fa6e482ad8e99eed891))
+* pull transifex translations ([#2220](https://github.com/ipfs/ipfs-webui/issues/2220)) ([35f8aae](https://github.com/ipfs/ipfs-webui/commit/35f8aae23f7b0128616b9f3d529db44876a83422))
+
 ## [4.2.1](https://github.com/ipfs/ipfs-webui/compare/v4.2.0...v4.2.1) (2024-04-08)
 
 
