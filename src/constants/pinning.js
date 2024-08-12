@@ -34,7 +34,7 @@ const pinningServiceTemplates = [
   },
   {
     name: 'Functionland',
-    icon: 'https://bafybeidgnnvgm6i3pfzhjakgzcdwdbvwtmkkx7vzeiyvtk2b4oxis53vhm.ipfs.dweb.link/',
+    icon: 'https://dweb.link/ipfs/bafybeidgnnvgm6i3pfzhjakgzcdwdbvwtmkkx7vzeiyvtk2b4oxis53vhm?filename=functionland.png',
     apiEndpoint: 'https://api.cloud.fx.land',
     visitServiceUrl: 'https://docs.fx.land/pinning-service/ipfs-pinning-service-api'
   },
