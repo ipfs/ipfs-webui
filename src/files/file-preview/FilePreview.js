@@ -60,14 +60,14 @@ const Preview = (props) => {
         <Drag {...props}>
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <audio width='100%' controls>
-            <source src={src} />
+            <source src={safeSubresourceGwUrl(src)} />
           </audio>
         </Drag>
       )
     case 'pdf':
       return (
         <Drag {...props}>
-          <object className="FilePreviewPDF w-100" data={src} type='application/pdf'>
+          <object className="FilePreviewPDF w-100" data={safeSubresourceGwUrl(src)} type='application/pdf'>
             {t('noPDFSupport')}
             <a href={src} download target='_blank' rel='noopener noreferrer' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
           </object>
@@ -78,14 +78,14 @@ const Preview = (props) => {
         <Drag {...props}>
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video controls className={className}>
-            <source src={src} />
+            <source src={safeSubresourceGwUrl(src)} />
           </video>
         </Drag>
       )
     case 'image':
       return (
         <Drag {...props}>
-          <img className={className} alt={name} src={src} />
+          <img className={className} alt={name} src={safeSubresourceGwUrl(src)} />
         </Drag>
       )
     default: {
@@ -154,3 +154,19 @@ export default connect(
   'selectPublicGateway',
   withTranslation('files')(Preview)
 )
+
+// Potential fix for mixed-content error when redirecting to localhost subdomain
+// from https://github.com/ipfs/ipfs-webui/issues/2246#issuecomment-2322192398
+// We do it here and not in src/bundles/config.js because we dont want IPLD
+// explorer to open links in path gateway, localhost is desired there.
+//
+// Context: localhost in Kubo is a subdomain gateway, so http://locahost:8080/ipfs/cid will
+// redirect to http://cid.ipfs.localhost:8080 – perhaps subdomains are not
+// interpreted as secure context correctly and that triggers forced upgrade to
+// https. switching to IP should help.
+function safeSubresourceGwUrl (url) {
+  if (url.startsWith('http://localhost:')) {
+    return url.replace('http://localhost:', 'http://127.0.0.1:')
+  }
+  return url
+}
