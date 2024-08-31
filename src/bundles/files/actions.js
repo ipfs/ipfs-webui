@@ -214,7 +214,7 @@ const actions = () => ({
           ...fileFromStats({ ...stats, path }),
           fetched: time,
           type: 'file',
-          read: () => ipfs.cat(stats.cid),
+          read: (offset, length) => ipfs.cat(stats.cid, { offset, length }),
           name: path.split('/').pop(),
           size: stats.size,
           cid: stats.cid
