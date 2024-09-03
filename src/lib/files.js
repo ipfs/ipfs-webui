@@ -93,12 +93,15 @@ export async function getDownloadLink (files, gatewayUrl, ipfs) {
 }
 
 /**
- * @param {FileStat[]} files
- * @param {string} gatewayUrl
- * @param {IPFSService} ipfs
- * @returns {Promise<string>}
+ * Generates a shareable link for the provided files using a subdomain gateway as default or a path gateway as fallback.
+ *
+ * @param {FileStat[]} files - An array of file objects with their respective CIDs and names.
+ * @param {string} gatewayUrl - The URL of the default IPFS gateway.
+ * @param {string} subdomainGatewayUrl - The URL of the subdomain gateway.
+ * @param {IPFSService} ipfs - The IPFS service instance for interacting with the IPFS network.
+ * @returns {Promise<string>} - A promise that resolves to the shareable link for the provided files.
  */
-export async function getShareableLink (files, gatewayUrl, ipfs) {
+export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, ipfs) {
   let cid
   let filename
 
@@ -111,7 +114,23 @@ export async function getShareableLink (files, gatewayUrl, ipfs) {
     cid = await makeCIDFromFiles(files, ipfs)
   }
 
-  return `${gatewayUrl}/ipfs/${cid}${filename || ''}`
+  const url = new URL(subdomainGatewayUrl)
+
+  /**
+   * dweb.link (subdomain isolation) is listed first as the new default option.
+   * However, ipfs.io (path gateway fallback) is also listed for CIDs that cannot be represented in a 63-character DNS label.
+   * This allows users to customize both the subdomain and path gateway they use, with the subdomain gateway being used by default whenever possible.
+   */
+  let shareableLink = ''
+  const base32Cid = cid.toV1().toString()
+  if (base32Cid.length < 64) {
+    shareableLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}${filename || ''}`
+  } else {
+    shareableLink = `${gatewayUrl}/ipfs/${cid}${filename || ''}`
+  }
+
+  // console.log('Shareable link', shareableLink)
+  return shareableLink
 }
 
 /**

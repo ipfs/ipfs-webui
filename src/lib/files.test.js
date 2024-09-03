@@ -1,5 +1,7 @@
 /* global it, expect */
-import { normalizeFiles } from './files.js'
+import { normalizeFiles, getShareableLink } from './files'
+import { DEFAULT_SUBDOMAIN_GATEWAY, DEFAULT_PATH_GATEWAY } from '../bundles/gateway'
+import { CID } from 'multiformats/cid'
 
 function expectRightFormat (output) {
   expect(Array.isArray(output)).toBe(true)
@@ -248,4 +250,38 @@ it('drop multiple directories', async () => {
 
   expectRightFormat(output)
   expectRightOutput(output, expected)
+})
+
+it('should get a subdomain gateway url', async () => {
+  const ipfs = {}
+  const myCID = CID.parse('QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V')
+  const file = {
+    cid: myCID,
+    name: 'example.txt'
+    // type: 'file',
+  }
+  const files = [file]
+
+  const url = new URL(DEFAULT_SUBDOMAIN_GATEWAY)
+  const shareableLink = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
+  const base32Cid = 'bafybeifffq3aeaymxejo37sn5fyaf7nn7hkfmzwdxyjculx3lw4tyhk7uy'
+  const rightShareableLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}`
+  // expect(res).toBe('https://bafybeifffq3aeaymxejo37sn5fyaf7nn7hkfmzwdxyjculx3lw4tyhk7uy.ipfs.dweb.link')
+  expect(shareableLink).toBe(rightShareableLink)
+})
+
+it('should get a path gateway url', async () => {
+  const ipfs = {}
+  // very long CID v1 (using sha3-512)
+  const veryLongCidv1 = 'bagaaifcavabu6fzheerrmtxbbwv7jjhc3kaldmm7lbnvfopyrthcvod4m6ygpj3unrcggkzhvcwv5wnhc5ufkgzlsji7agnmofovc2g4a3ui7ja'
+  const myCID = CID.parse(veryLongCidv1)
+  const file = {
+    cid: myCID,
+    name: 'example.txt'
+  }
+  const files = [file]
+
+  const res = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
+  // expect(res).toBe('https://ipfs.io/ipfs/bagaaifcavabu6fzheerrmtxbbwv7jjhc3kaldmm7lbnvfopyrthcvod4m6ygpj3unrcggkzhvcwv5wnhc5ufkgzlsji7agnmofovc2g4a3ui7ja')
+  expect(res).toBe(DEFAULT_PATH_GATEWAY + '/ipfs/' + veryLongCidv1)
 })
