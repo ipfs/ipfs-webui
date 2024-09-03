@@ -101,7 +101,7 @@
       "paragraph3": "Pro tip: drag and drop a file from any other page of the Web UI to add them to the root of your MFS."
     }
   },
-  "loadMore": "Load more",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "Go back to previous folder",
   "fileLabel": "Select {type} {name} with size: {size}",
   "hashUnavailable": "hash unavailable",

@@ -214,7 +214,13 @@ const actions = () => ({
           ...fileFromStats({ ...stats, path }),
           fetched: time,
           type: 'file',
-          read: () => ipfs.cat(stats.cid),
+          /**
+          * Reads a portion of data from IPFS.
+          * @param {number} offset - The starting point to read from.
+          * @param {number} length - The number of bytes to read.
+          * @returns {AsyncIterable<Uint8Array>} An async generator that yields the data read from IPFS.
+          */
+          read: (offset, length) => ipfs.cat(stats.cid, { offset, length }),
           name: path.split('/').pop(),
           size: stats.size,
           cid: stats.cid
