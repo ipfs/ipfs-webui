@@ -32,7 +32,7 @@ const Preview = (props) => {
 
   const loadContent = useCallback(async () => {
     if (['audio', 'video', 'pdf', 'image'].includes(type)) {
-      // noop, we dont need to read() preview for these because we embedd them on page
+      // noop, we dont need to read() preview for these because we embed them on page
       return
     }
     const readBuffer = buffer || await read(0, maxPlainTextPreview)
