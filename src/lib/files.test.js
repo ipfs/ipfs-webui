@@ -258,7 +258,6 @@ it('should get a subdomain gateway url', async () => {
   const file = {
     cid: myCID,
     name: 'example.txt'
-    // type: 'file',
   }
   const files = [file]
 
