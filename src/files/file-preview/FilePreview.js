@@ -11,6 +11,8 @@ import { useDrag } from 'react-dnd'
 import { toString as fromUint8ArrayToString } from 'uint8arrays'
 import Button from '../../components/button/Button.js'
 
+const maxPlainTextPreview = 1024 * 10 // only preview small part of huge files
+
 const Drag = ({ name, size, cid, path, children }) => {
   const [, drag] = useDrag({
     item: { name, size, cid, path, type: 'FILE' }
@@ -29,7 +31,11 @@ const Preview = (props) => {
   const type = typeFromExt(name)
 
   const loadContent = useCallback(async () => {
-    const readBuffer = buffer || await read()
+    if (['audio', 'video', 'pdf', 'image'].includes(type)) {
+      // noop, we dont need to read() preview for these because we embed them on page
+      return
+    }
+    const readBuffer = buffer || await read(0, maxPlainTextPreview)
     if (!buffer) {
       setBuffer(readBuffer)
     }
@@ -44,7 +50,7 @@ const Preview = (props) => {
     const hasMore = !done && new TextEncoder().encode(currentContent).length < size
 
     setHasMoreContent(hasMore)
-  }, [buffer, content, read, size])
+  }, [buffer, content, read, size, type])
 
   useEffect(() => {
     loadContent()
@@ -102,19 +108,18 @@ const Preview = (props) => {
               : <Trans i18nKey='openWithLocalAndPublicGateway' t={t}>
           Try opening it instead with your <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue'>local gateway</a> or <a href={srcPublic} download target='_blank' rel='noopener noreferrer' className='link blue'>public gateway</a>.
               </Trans>
-
             }
-
           </p>
         </div>
       )
 
-      if (size > 1024 * 1024 * 4) {
-        return cantPreview
-      }
-
       if (content === null) {
         return <ComponentLoader />
+      }
+
+      // a precaution to not render too much, in case we overread
+      if (content.length > maxPlainTextPreview) {
+        return cantPreview
       }
 
       if (isBinary(name, content)) {
@@ -126,12 +131,12 @@ const Preview = (props) => {
           {content}
         </pre>
         { hasMoreContent && <div className="w-100 flex items-center justify-center">
-          <Button onClick={ loadContent }>
-            { t('loadMore')}
-          </Button>
-          <Button className="mh2" onClick={ onDownload }>
+          <p><Trans i18nKey='previewLimitReached' t={t}>This preview is limited to 10 KiB. Click the download button to access the full file.</Trans></p>
+          <p>
+          <Button className="mh2 lh-copy bn justify-center flex " onClick={ onDownload }>
             { t('app:actions.download')}
           </Button>
+          </p>
         </div>}
       </>
     }
