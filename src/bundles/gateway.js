@@ -5,7 +5,7 @@ export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
 export const DEFAULT_SUBDOMAIN_GATEWAY = 'https://dweb.link'
 const IMG_HASH_1PX = 'bafkreib6wedzfupqy7qh44sie42ub4mvfwnfukmw6s2564flajwnt4cvc4' // 1x1.png
 const IMG_ARRAY = [
-  { id: 'IMG_HASH_1PX', name: '1x1.png', hash: 'bafybeibwzifw52ttrkqlikfzext5akxu7lz4xiwjgwzmqcpdzmp3n5vnbe' },
+  { id: 'IMG_HASH_1PX', name: '1x1.png', hash: IMG_HASH_1PX },
   { id: 'IMG_HASH_1PXID', name: '1x1.png', hash: 'bafkqax4jkbheodikdifaaaaabveuqrcsaaaaaaiaaaaacaidaaaaajo3k3faaaaaanieyvcfaaaabj32hxnaaaaaaf2fetstabaonwdgaaaaacsjiravicgxmnqaaaaaaiaadyrbxqzqaaaaabeuktsevzbgbaq' },
   { id: 'IMG_HASH_FAVICON', name: 'favicon.ico', hash: 'bafkreihc7efnl2prri6j6krcopelxms3xsh7undpsjqbfsasm7ikiyha4i' }
 ]
