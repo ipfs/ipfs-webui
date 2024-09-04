@@ -129,7 +129,6 @@ export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, 
     shareableLink = `${gatewayUrl}/ipfs/${cid}${filename || ''}`
   }
 
-  // console.log('Shareable link', shareableLink)
   return shareableLink
 }
 
