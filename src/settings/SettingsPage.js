@@ -68,7 +68,7 @@ export const SettingsPage = ({
         <div className='lh-copy charcoal'>
         <Title>{t('app:terms.publicGateway')}</Title>
           <Trans i18nKey='publicSubdomainGatewayDescription' t={t}>
-            <p>Choose which <a className='link blue' href="https://docs.ipfs.tech/concepts/ipfs-gateway/#subdomain" target='_blank' rel='noopener noreferrer'>Subdomain Gateway</a> you want to use when generating shareable links (Default: Subdomain Isolation)</p>
+            <p>Select a default <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#subdomain' target='_blank' rel='noopener noreferrer'>Subdomain Gateway</a> for generating shareable links.</p>
           </Trans>
           <PublicSubdomainGatewayForm/>
         </div>
