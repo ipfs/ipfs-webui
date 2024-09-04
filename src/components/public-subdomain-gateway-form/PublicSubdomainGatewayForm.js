@@ -9,11 +9,19 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
 
-
   // Updates the border of the input to indicate validity
   useEffect(() => {
-    const isValid = checkSubdomainGateway(value)
-    setIsValidGatewayUrl(isValid)
+    const validateUrl = async () => {
+      try {
+        const isValid = await checkSubdomainGateway(value)
+        setIsValidGatewayUrl(isValid)
+      } catch (error) {
+        console.error('Error checking subdomain gateway:', error)
+        setIsValidGatewayUrl(false)
+      }
+    }
+
+    validateUrl()
   }, [value])
 
   const onChange = (event) => setValue(event.target.value)

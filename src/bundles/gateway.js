@@ -34,7 +34,7 @@ export const checkValidHttpUrl = (value) => {
   } catch (_) {
     return false
   }
-
+  console.log(`URL is valid: ${url}, url.protocol=${url.protocol}`) // lucas
   return url.protocol === 'http:' || url.protocol === 'https:'
 }
 
@@ -97,7 +97,7 @@ async function expectSubdomainRedirect (url) {
   // but we seem to be able to access xhr.responseURL which is enough to see
   // if paths are redirected to subdomains.
 
-  const { redirected, url: responseUrl } = await fetch(url.toString())
+  const { url: responseUrl } = await fetch(url.toString())
   const { hostname } = new URL(responseUrl)
 
   if (!hostname.startsWith(IMG_HASH_1PX)) {
@@ -145,7 +145,7 @@ export async function checkSubdomainGateway (gatewayUrl) {
       return true
     })
     .catch((err) => {
-      console.log(err)
+      console.error(err)
       return false
     })
 }
