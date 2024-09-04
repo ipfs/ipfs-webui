@@ -67,12 +67,12 @@ const checkImgSrcPromise = (imgUrl) => {
       return true
     }
 
-    let timer = setTimeout(() => { if (timeout()) reject(new Error()) }, imgCheckTimeout)
+    let timer = setTimeout(() => { if (timeout()) reject(new Error(`Image load timed out after ${imgCheckTimeout / 1000} seconds for URL: ${imgUrl}`)) }, imgCheckTimeout)
     const img = new Image()
 
     img.onerror = () => {
       timeout()
-      reject(new Error())
+      reject(new Error(`Failed to load image from URL: ${imgUrl}`))
     }
 
     img.onload = () => {
@@ -120,23 +120,12 @@ async function expectSubdomainRedirect (url) {
  * @returns {Promise<void>} A promise that resolves if the image loads successfully within the timeout, otherwise it rejects with an error.
  */
 async function checkViaImgUrl (imgUrl) {
-  const imgCheckTimeout = 15000
-  await new Promise((resolve, reject) => {
-    const img = new Image()
-    const timer = setTimeout(() => {
-      reject(new Error(`Timeout when attempting to load img from '${img.src}`))
-    }, imgCheckTimeout)
-    img.onerror = () => {
-      clearTimeout(timer)
-      reject(new Error(`Error when attempting to load img from '${img.src}`))
-    }
-    img.onload = () => {
-      clearTimeout(timer)
-      console.log(`Successfully loaded img from '${img.src}'`)
-      resolve(undefined)
-    }
-    img.src = imgUrl.toString()
-  })
+  try {
+    await checkImgSrcPromise(imgUrl)
+    console.log(`Successfully loaded img from '${imgUrl.toString()}'`)
+  } catch (error) {
+    throw new Error(`Error or timeout when attempting to load img from '${imgUrl.toString()}'`)
+  }
 }
 
 /**
