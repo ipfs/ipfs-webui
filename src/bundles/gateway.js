@@ -135,7 +135,7 @@ export async function checkSubdomainGateway (gatewayUrl) {
     imgSubdomainUrl = new URL(`${gwUrl.protocol}//${IMG_HASH_1PX}.ipfs.${gwUrl.hostname}/?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
     imgRedirectedPathUrl = new URL(`${gwUrl.protocol}//${gwUrl.hostname}/ipfs/${IMG_HASH_1PX}?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
   } catch (err) {
-    console.log('Invalid URL:', err)
+    console.error('Invalid URL:', err)
     return false
   }
   return await checkViaImgUrl(imgSubdomainUrl)
