@@ -7,7 +7,6 @@ import { checkValidHttpUrl, checkSubdomainGateway, DEFAULT_SUBDOMAIN_GATEWAY } f
 const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicSubdomainGateway }) => {
   const [value, setValue] = useState(publicSubdomainGateway)
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
-  const [showFailState, setShowFailState] = useState(initialIsValidGatewayUrl)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
 
   // Updates the border of the input to indicate validity
