@@ -29,9 +29,9 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
     let isValid = false
     try {
       isValid = await checkSubdomainGateway(value)
-      setShowFailState(!isValid)
+      setIsValidGatewayUrl(true)
     } catch (e) {
-      setShowFailState(true)
+      setIsValidGatewayUrl(false)
       return
     }
 
