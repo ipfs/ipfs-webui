@@ -11,6 +11,52 @@ const getLanguages = async () => {
   return languages
 }
 
+/**
+ * Function to check if an element contains a specific class within a maximum wait time.
+ * @param {Page} page - The page object.
+ * @param {ElementHandle} element - The element to check.
+ * @param {string} className - The class name to check for.
+ * @param {number} maxWaitTime - Maximum wait time in milliseconds.
+ * @param {number} pollInterval - Interval between polls in milliseconds.
+ * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the class was found.
+ */
+async function checkClassWithTimeout (page, element, className, maxWaitTime = 16000, pollInterval = 500) {
+  const startTime = Date.now()
+  while ((Date.now() - startTime) < maxWaitTime) {
+    const hasClass = await element.evaluate((el, className) => el.classList.contains(className), className)
+    if (hasClass) return true
+    await page.waitForTimeout(pollInterval)
+  }
+  return false
+}
+
+/**
+ * Function to submit a gateway and check for success/failure.
+ * @param {Page} page - The page object.
+ * @param {ElementHandle} inputElement - The input element to fill.
+ * @param {ElementHandle} submitButton - The submit button element to click.
+ * @param {string} gatewayURL - The gateway URL to fill.
+ * @param {string} expectedClass - The expected class after submission.
+ */
+async function submitGatewayAndCheck (page, inputElement, submitButton, gatewayURL, expectedClass) {
+  await inputElement.fill(gatewayURL)
+  await submitButton.click()
+  const hasExpectedClass = await checkClassWithTimeout(page, inputElement, expectedClass)
+  expect(hasExpectedClass).toBe(true)
+}
+
+/**
+ * Function to reset a gateway and verify the reset.
+ * @param {ElementHandle} resetButton - The reset button element to click.
+ * @param {ElementHandle} inputElement - The input element to check.
+ * @param {string} expectedValue - The expected value after reset.
+ */
+async function resetGatewayAndCheck (resetButton, inputElement, expectedValue) {
+  await resetButton.click()
+  const gatewayText = await inputElement.evaluate(element => element.value)
+  expect(gatewayText).toContain(expectedValue)
+}
+
 test.describe('Settings screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/settings')
@@ -24,52 +70,6 @@ test.describe('Settings screen', () => {
     const id = process.env.IPFS_RPC_ID
     await page.waitForSelector(`text=${id}`)
   })
-
-  /**
-   * Function to check if an element contains a specific class within a maximum wait time.
-   * @param {Page} page - The page object.
-   * @param {ElementHandle} element - The element to check.
-   * @param {string} className - The class name to check for.
-   * @param {number} maxWaitTime - Maximum wait time in milliseconds.
-   * @param {number} pollInterval - Interval between polls in milliseconds.
-   * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the class was found.
-   */
-  async function checkClassWithTimeout (page, element, className, maxWaitTime = 16000, pollInterval = 500) {
-    const startTime = Date.now()
-    while ((Date.now() - startTime) < maxWaitTime) {
-      const hasClass = await element.evaluate((el, className) => el.classList.contains(className), className)
-      if (hasClass) return true
-      await page.waitForTimeout(pollInterval)
-    }
-    return false
-  }
-
-  /**
-   * Function to submit a gateway and check for success/failure.
-   * @param {Page} page - The page object.
-   * @param {ElementHandle} inputElement - The input element to fill.
-   * @param {ElementHandle} submitButton - The submit button element to click.
-   * @param {string} gatewayURL - The gateway URL to fill.
-   * @param {string} expectedClass - The expected class after submission.
-   */
-  async function submitGatewayAndCheck (page, inputElement, submitButton, gatewayURL, expectedClass) {
-    await inputElement.fill(gatewayURL)
-    await submitButton.click()
-    const hasExpectedClass = await checkClassWithTimeout(page, inputElement, expectedClass)
-    expect(hasExpectedClass).toBe(true)
-  }
-
-  /**
-   * Function to reset a gateway and verify the reset.
-   * @param {ElementHandle} resetButton - The reset button element to click.
-   * @param {ElementHandle} inputElement - The input element to check.
-   * @param {string} expectedValue - The expected value after reset.
-   */
-  async function resetGatewayAndCheck (resetButton, inputElement, expectedValue) {
-    await resetButton.click()
-    const gatewayText = await inputElement.evaluate(element => element.value)
-    expect(gatewayText).toContain(expectedValue)
-  }
 
   test('Submit/Reset Public Subdomain Gateway', async ({ page }) => {
     // Wait for the necessary elements to be available in the DOM
