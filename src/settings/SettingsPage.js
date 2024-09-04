@@ -64,8 +64,8 @@ export const SettingsPage = ({
         </div>
       </Box> }
 
-      <Box className='mb3 pa4-l pa2'>
-        <div className='lh-copy charcoal'>
+    <Box className='mb3 pa4-l pa2'>
+      <div className='lh-copy charcoal'>
         <Title>{t('app:terms.publicGateway')}</Title>
           <Trans i18nKey='publicSubdomainGatewayDescription' t={t}>
             <p>Select a default <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#subdomain' target='_blank' rel='noopener noreferrer'>Subdomain Gateway</a> for generating shareable links.</p>
