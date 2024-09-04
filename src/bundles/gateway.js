@@ -102,7 +102,7 @@ async function expectSubdomainRedirect (url) {
 
   if (!hostname.startsWith(IMG_HASH_1PX)) {
     const msg = `Expected ${url.toString()} to redirect to subdomain '${IMG_HASH_1PX}' but instead received '${responseUrl}'`
-    console.log(msg)
+    console.error(msg)
     throw new Error(msg)
   }
 }
