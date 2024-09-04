@@ -74,7 +74,7 @@ export const SettingsPage = ({
         </div>
         <div className='lh-copy charcoal'>
           <Trans i18nKey='publicPathGatewayDescription' t={t}>
-            <p>Choose which <a className='link blue' href="https://docs.ipfs.tech/concepts/ipfs-gateway/#path" target='_blank' rel='noopener noreferrer'>Path Gateway</a>  you want to use when generating shareable links (Fallback: path gateway used for CIDs that can't be represented in 63 character DNS label)</p>
+            <p>Select a fallback <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#path' target='_blank' rel='noopener noreferrer'>Path Gateway</a> for generating shareable links for CIDs that exceed the 63-character DNS limit.</p>
           </Trans>
           <PublicGatewayForm/>
         </div>
