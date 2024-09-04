@@ -116,7 +116,6 @@ async function expectSubdomainRedirect (url) {
 async function checkViaImgUrl (imgUrl) {
   try {
     await checkImgSrcPromise(imgUrl)
-    console.log(`Successfully loaded img from '${imgUrl.toString()}'`)
   } catch (error) {
     throw new Error(`Error or timeout when attempting to load img from '${imgUrl.toString()}'`)
   }
