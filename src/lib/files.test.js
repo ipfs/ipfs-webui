@@ -281,6 +281,5 @@ it('should get a path gateway url', async () => {
   const files = [file]
 
   const res = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
-  // expect(res).toBe('https://ipfs.io/ipfs/bagaaifcavabu6fzheerrmtxbbwv7jjhc3kaldmm7lbnvfopyrthcvod4m6ygpj3unrcggkzhvcwv5wnhc5ufkgzlsji7agnmofovc2g4a3ui7ja')
   expect(res).toBe(DEFAULT_PATH_GATEWAY + '/ipfs/' + veryLongCidv1)
 })
