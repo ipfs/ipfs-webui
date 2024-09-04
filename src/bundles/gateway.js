@@ -3,7 +3,7 @@ import { readSetting, writeSetting } from './local-storage.js'
 // export const DEFAULT_GATEWAY = 'https://ipfs.io' // TODO: switch to dweb.link when https://github.com/ipfs/kubo/issues/7318
 export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
 export const DEFAULT_SUBDOMAIN_GATEWAY = 'https://dweb.link'
-const IMG_HASH_1PX = 'bafybeibwzifw52ttrkqlikfzext5akxu7lz4xiwjgwzmqcpdzmp3n5vnbe' // 1x1.png
+const IMG_HASH_1PX = 'bafkreib6wedzfupqy7qh44sie42ub4mvfwnfukmw6s2564flajwnt4cvc4' // 1x1.png
 const IMG_ARRAY = [
   { id: 'IMG_HASH_1PX', name: '1x1.png', hash: 'bafybeibwzifw52ttrkqlikfzext5akxu7lz4xiwjgwzmqcpdzmp3n5vnbe' },
   { id: 'IMG_HASH_1PXID', name: '1x1.png', hash: 'bafkqax4jkbheodikdifaaaaabveuqrcsaaaaaaiaaaaacaidaaaaajo3k3faaaaaanieyvcfaaaabj32hxnaaaaaaf2fetstabaonwdgaaaaacsjiravicgxmnqaaaaaaiaadyrbxqzqaaaaabeuktsevzbgbaq' },
