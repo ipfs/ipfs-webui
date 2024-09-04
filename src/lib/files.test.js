@@ -266,7 +266,6 @@ it('should get a subdomain gateway url', async () => {
   const shareableLink = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
   const base32Cid = 'bafybeifffq3aeaymxejo37sn5fyaf7nn7hkfmzwdxyjculx3lw4tyhk7uy'
   const rightShareableLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}`
-  // expect(res).toBe('https://bafybeifffq3aeaymxejo37sn5fyaf7nn7hkfmzwdxyjculx3lw4tyhk7uy.ipfs.dweb.link')
   expect(shareableLink).toBe(rightShareableLink)
 })
 
