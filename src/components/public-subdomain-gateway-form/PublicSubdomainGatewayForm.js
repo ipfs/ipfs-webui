@@ -14,7 +14,6 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
   useEffect(() => {
     const isValid = checkSubdomainGateway(value)
     setIsValidGatewayUrl(isValid)
-    setShowFailState(!isValid)
   }, [value])
 
   const onChange = (event) => setValue(event.target.value)
