@@ -9,10 +9,6 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
 
-  // Updates the border of the input to indicate validity
-  useEffect(() => {
-    setShowFailState(!isValidGatewayUrl)
-  }, [isValidGatewayUrl])
 
   // Updates the border of the input to indicate validity
   useEffect(() => {
