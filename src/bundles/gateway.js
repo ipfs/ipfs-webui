@@ -98,12 +98,6 @@ async function expectSubdomainRedirect (url) {
   // if paths are redirected to subdomains.
 
   const { redirected, url: responseUrl } = await fetch(url.toString())
-  console.log('redirected: ', redirected)
-  console.log('responseUrl: ', responseUrl)
-
-  if (redirected) {
-    console.log('definitely redirected')
-  }
   const { hostname } = new URL(responseUrl)
 
   if (!hostname.startsWith(IMG_HASH_1PX)) {
