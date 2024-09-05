@@ -34,13 +34,16 @@ async function checkClassWithTimeout (page, element, className, maxWaitTime = 16
  * Function to submit a gateway and check for success/failure.
  * @param {Page} page - The page object.
  * @param {ElementHandle} inputElement - The input element to fill.
- * @param {ElementHandle} submitButton - The submit button element to click.
+ * @param {ElementHandle|null} submitButton - The submit button element to click, or null if no button is available.
  * @param {string} gatewayURL - The gateway URL to fill.
  * @param {string} expectedClass - The expected class after submission.
  */
 async function submitGatewayAndCheck (page, inputElement, submitButton, gatewayURL, expectedClass) {
   await inputElement.fill(gatewayURL)
-  await submitButton.click()
+  // Check if the submit button is not null, and click it only if it's available
+  if (submitButton) {
+    await submitButton.click()
+  }
   const hasExpectedClass = await checkClassWithTimeout(page, inputElement, expectedClass)
   expect(hasExpectedClass).toBe(true)
 }
@@ -78,7 +81,7 @@ test.describe('Settings screen', () => {
     const publicSubdomainGatewayResetButton = await page.waitForSelector('#public-subdomain-gateway-reset-button')
 
     // Check that submitting a wrong Subdomain Gateway triggers a red outline
-    await submitGatewayAndCheck(page, publicSubdomainGatewayElement, publicSubdomainGatewaySubmitButton, DEFAULT_PATH_GATEWAY, 'focus-outline-red')
+    await submitGatewayAndCheck(page, publicSubdomainGatewayElement, null, DEFAULT_PATH_GATEWAY, 'focus-outline-red')
 
     // Check that submitting a correct Subdomain Gateway triggers a green outline
     await submitGatewayAndCheck(page, publicSubdomainGatewayElement, publicSubdomainGatewaySubmitButton, DEFAULT_SUBDOMAIN_GATEWAY + '/', 'focus-outline-green')
