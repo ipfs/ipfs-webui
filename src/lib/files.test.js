@@ -1,6 +1,6 @@
 /* global it, expect */
-import { normalizeFiles, getShareableLink } from './files'
-import { DEFAULT_SUBDOMAIN_GATEWAY, DEFAULT_PATH_GATEWAY } from '../bundles/gateway'
+import { normalizeFiles, getShareableLink } from './files.js'
+import { DEFAULT_SUBDOMAIN_GATEWAY, DEFAULT_PATH_GATEWAY } from '../bundles/gateway.js'
 import { CID } from 'multiformats/cid'
 
 function expectRightFormat (output) {
