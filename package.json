@@ -67,7 +67,7 @@
     "ipfs-css": "^1.4.0",
     "ipfs-geoip": "^9.1.0",
     "ipfs-provider": "^2.1.0",
-    "ipld-explorer-components": "^7.0.0",
+    "ipld-explorer-components": "^7.0.1",
     "is-ipfs": "^8.0.1",
     "istextorbinary": "^6.0.0",
     "it-all": "^1.0.5",
