@@ -31,8 +31,8 @@ describe.skip('identity.js', function () {
     beforeAll(async () => {
       // const kuboRpcModule = await import('kubo-rpc-client')
       // console.log('kuboRpcModule: ', kuboRpcModule)
-      const kuboRpcModule = await import('kubo-rpc-client')
-      const { createController } = await import('ipfsd-ctl')
+      const { create } = await import('kubo-rpc-client')
+      const { createNode } = await import('ipfsd-ctl')
       const ipfsBin = (await import('kubo')).default.path()
       console.log('ipfsBin: ', ipfsBin)
       /**
@@ -41,16 +41,16 @@ describe.skip('identity.js', function () {
        */
       const KUBO_PORT = process.env.KUBO_PORT_2033_TEST
       if (KUBO_PORT == null) {
-        ipfsd = await createController({
-          type: 'go',
-          ipfsBin,
-          kuboRpcModule,
+        ipfsd = await createNode({
+          type: 'kubo',
+          bin: ipfsBin,
+          rpc: create,
           test: true,
           disposable: true
         })
         ipfs = ipfsd.api
       } else {
-        ipfs = kuboRpcModule(`http://localhost:${KUBO_PORT}`)
+        ipfs = create(`http://localhost:${KUBO_PORT}`)
       }
     })
 

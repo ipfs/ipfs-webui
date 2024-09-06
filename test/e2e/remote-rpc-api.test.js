@@ -1,12 +1,12 @@
 import { test, expect } from './setup/coverage.js'
-import { createController } from 'ipfsd-ctl'
+import { createNode } from 'ipfsd-ctl'
 import getPort from 'get-port'
 import { createServer } from 'http'
 import httpProxy from 'http-proxy'
 import basicAuth from 'basic-auth'
 import { multiaddrToUri as toUri } from '@multiformats/multiaddr-to-uri'
-import { path as getGoIpfsPath } from 'kubo'
-import * as kuboRpcModule from 'kubo-rpc-client'
+import { path as kuboPath } from 'kubo'
+import { create } from 'kubo-rpc-client'
 const { createProxyServer } = httpProxy
 
 test.describe('Remote RPC API tests', () => {
@@ -30,10 +30,10 @@ test.describe('Remote RPC API tests', () => {
 
   test.beforeAll(async () => {
   // spawn an ephemeral local node to ensure we connect to a different, remote node
-    ipfsd = await createController({
-      type: 'go',
-      ipfsBin: getGoIpfsPath(),
-      kuboRpcModule,
+    ipfsd = await createNode({
+      type: 'kubo',
+      bin: process.env.IPFS_GO_EXEC || kuboPath(),
+      rpc: create,
       test: true,
       disposable: true
     })

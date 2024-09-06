@@ -8,7 +8,7 @@ save_fixture() {
   shift
   local fixture_path="$1/$fixture_cid"
   echo -e "\$fixture_path: $fixture_path \n"
-  ipfs block get $fixture_cid > $fixture_path
+  npx kubo block get $fixture_cid > $fixture_path
 }
 
 # Example call:

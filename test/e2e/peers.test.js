@@ -1,7 +1,7 @@
 import { test } from './setup/coverage.js'
-import { createController } from 'ipfsd-ctl'
-import * as kuboRpcModule from 'kubo-rpc-client'
-import { path as getGoIpfsPath } from 'kubo'
+import { createNode } from 'ipfsd-ctl'
+import { create } from 'kubo-rpc-client'
+import { path as kuboPath } from 'kubo'
 
 const addConnection = 'text=Add connection'
 
@@ -10,10 +10,10 @@ test.describe('Peers screen', () => {
   let peeraddr
   test.beforeAll(async () => {
     // spawn an ephemeral local node for manual swarm connect test
-    ipfsd = await createController({
-      type: 'go',
-      ipfsBin: getGoIpfsPath(),
-      kuboRpcModule,
+    ipfsd = await createNode({
+      type: 'kubo',
+      bin: process.env.IPFS_GO_EXEC || kuboPath(),
+      rpc: create,
       test: true,
       disposable: true
     })
@@ -21,7 +21,7 @@ test.describe('Peers screen', () => {
     peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
 
     // connect ipfs-backend used by webui to this new peer to have something  in the peer table
-    const webuiIpfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
+    const webuiIpfs = create(process.env.IPFS_RPC_ADDR)
     await webuiIpfs.swarm.connect(peeraddr)
   })
 

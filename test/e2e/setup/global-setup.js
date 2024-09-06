@@ -50,7 +50,7 @@ const globalSetup = async config => {
   const rpcEndpoint = `${apiOpts.protocol}://${apiOpts.host}:${apiOpts.port}`
 
   await page.context().addInitScript(({ kuboGateway, rpcEndpoint }) => {
-    localStorage.setItem('kuboGateway', JSON.stringify(kuboGateway))
+    localStorage.setItem('kuboGateway', JSON.stringify({ ...kuboGateway, trustlessBlockBrokerConfig: { allowInsecure: true, allowLocal: true } }))
     localStorage.setItem('ipfsApi', JSON.stringify(rpcEndpoint))
     localStorage.setItem('explore.ipld.gatewayEnabled', 'false') // disable gateway network requests when testing e2e
   }, { rpcEndpoint, kuboGateway })
