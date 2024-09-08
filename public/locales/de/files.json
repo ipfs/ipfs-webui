@@ -101,7 +101,7 @@
       "paragraph3": "Profi-Tipp: Ziehe eine Datei von jeder anderen Seite der Web-UI hierher, um sie zum Wurzel-Verzeichnis deines MFS hinzuzufügen."
     }
   },
-  "loadMore": "Mehr laden",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "Zurück zum vorherigen Ordner",
   "fileLabel": "Wähle {type}{name} mit Größe: {size} ",
   "hashUnavailable": "Hash nicht verfügbar",

@@ -8,7 +8,8 @@
   "StartExploringPage": {
     "title": "Explorează - IPDL",
     "header": "Explorează Pădurea Merkle",
-    "leadParagraph": "Introdu un CID pentru a obține un nod IPLD adresat sau alege un set de date reprezentativ."
+    "leadParagraph": "Introdu un CID pentru a obține un nod IPLD adresat sau alege un set de date reprezentativ.",
+    "noDataAvailable": "No data available"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD este <1>modelul de date a web-ului a cărui conținut este adresabil.</1> Ne permite să tratăm toate structurile de date hash-linked ca subseturi ale unui spațiu informațional unificat, unificând toate modelele de date care leagă datele cu hash-urile ca instanțe ale IPLD.</0>",

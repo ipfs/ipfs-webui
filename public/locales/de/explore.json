@@ -8,7 +8,8 @@
   "StartExploringPage": {
     "title": "Erkunden – IPLD",
     "header": "Merkle-Wald erkunden",
-    "leadParagraph": "Füge eine CID in das Feld ein, um den von ihr adressierten IPLD-Knoten abzurufen, oder wähle einen vorgestellten Datensatz."
+    "leadParagraph": "Füge eine CID in das Feld ein, um den von ihr adressierten IPLD-Knoten abzurufen, oder wähle einen vorgestellten Datensatz.",
+    "noDataAvailable": "No data available"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD ist <1>das Datenmodell des inhaltsadressierbaren Webs</1>. Es erlaubt uns, alle Hash-verknüpften Datenstrukturen als Teilmengen eines einheitlichen Informationsraumes zu behandeln und alle Datenmodelle zu vereinheitlichen, die Daten mit Hashes als Instanzen von IPLD verknüpfen.</0>",

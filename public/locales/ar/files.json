@@ -101,7 +101,7 @@
       "paragraph3": "نصيحة احترافية: اسحب ملف وأفلته من أي صفحة أخرى لواجهة مستخدم الويب لإضافتها إلى جذر MFS."
     }
   },
-  "loadMore": "تحميل المزيد",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "ارجع إلى المجلد السابق",
   "fileLabel": "حدد{type}{name} الحجم{size}",
   "hashUnavailable": "التجزئة غير متاحة",

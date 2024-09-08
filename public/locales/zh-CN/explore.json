@@ -8,7 +8,8 @@
   "StartExploringPage": {
     "title": "浏览 - IPLD",
     "header": "浏览 Merkle Forest",
-    "leadParagraph": "粘贴 CID 到文本框以获取它的寻址 IPLD 节点，或选择一个特色数据集。"
+    "leadParagraph": "粘贴 CID 到文本框以获取它的寻址 IPLD 节点，或选择一个特色数据集。",
+    "noDataAvailable": "无可用数据"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD 是<1>内容可寻址网络的数据模型</1>。 它允许我们将所有与哈希链接的数据结构视为统一信息空间的子集，统一所有将数据与哈希作为 IPLD 实例链接的数据模型。</0>",
