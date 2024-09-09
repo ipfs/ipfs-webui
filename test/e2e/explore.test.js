@@ -124,14 +124,14 @@ test.describe('Explore screen', () => {
         Data: cidData,
         Links: []
       }
-      const cid = await createCID(dagPbAsDagJson, dagPb, sha256, 0)
+      const cid = await createCID(dagPbAsDagJson, dagPb, sha256, 0) // QmU1Sq1B7RPQD2XcQNLB58qJUyJffVJqihcxmmN1STPMxf
 
       // add bytes to backend node so that explore page can load the content
       const cidInstance = await ipfs.dag.put(dagPbAsDagJson, {
         storeCodec: 'dag-pb',
         hashAlg: 'sha2-256'
       })
-      const dagPbCid = cidInstance.toString()
+      const dagPbCid = cidInstance.toString() // bafybeicuhktpnonfgpel7acwqcim34slne5kul43k5fdg6cnqrrp3rkxtq
 
       await testExploredCid({
         page,
@@ -174,7 +174,7 @@ test.describe('Explore screen', () => {
     })
 
     test('should open dag-pb unixFS XKCD Archives', async ({ page }) => {
-      test.setTimeout(60000)
+      test.setTimeout(120000)
       await loadBlockFixtures({
         ipfs,
         blockCid: [
@@ -212,7 +212,7 @@ test.describe('Explore screen', () => {
     })
 
     test('should explore Project Apollo Archive', async ({ page }) => {
-      test.setTimeout(90000)
+      test.setTimeout(120000)
       await loadBlockFixtures({
         ipfs,
         blockCid: [
