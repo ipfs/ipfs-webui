@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/Button.js'
-import { checkValidHttpUrl, checkViaImgSrc, DEFAULT_GATEWAY } from '../../bundles/gateway.js'
+import { checkValidHttpUrl, checkViaImgSrc, DEFAULT_PATH_GATEWAY } from '../../bundles/gateway.js'
 
 const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
   const [value, setValue] = useState(publicGateway)
@@ -39,8 +39,8 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
 
   const onReset = async (event) => {
     event.preventDefault()
-    setValue(DEFAULT_GATEWAY)
-    doUpdatePublicGateway(DEFAULT_GATEWAY)
+    setValue(DEFAULT_PATH_GATEWAY)
+    doUpdatePublicGateway(DEFAULT_PATH_GATEWAY)
   }
 
   const onKeyPress = (event) => {
@@ -63,15 +63,17 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
       />
       <div className='tr'>
         <Button
+          id='public-path-gateway-reset-button'
           minWidth={100}
           height={40}
           bg='bg-charcoal'
           className='tc'
-          disabled={value === DEFAULT_GATEWAY}
+          disabled={value === DEFAULT_PATH_GATEWAY}
           onClick={onReset}>
           {t('app:actions.reset')}
         </Button>
         <Button
+          id='public-path-gateway-submit-button'
           minWidth={100}
           height={40}
           className='mt2 mt0-l ml2-l tc'
