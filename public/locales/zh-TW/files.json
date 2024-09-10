@@ -101,7 +101,7 @@
       "paragraph3": "專家提示：可以從 Web UI 的任何其他頁面拖放文件，把它們添加到 MFS 的根目錄。"
     }
   },
-  "loadMore": "载入更多",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "回到上一層資料夾",
   "fileLabel": "選擇的{type}{name}的文件大小為：{size}",
   "hashUnavailable": "hash 不可用",

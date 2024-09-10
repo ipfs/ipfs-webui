@@ -101,7 +101,7 @@
       "paragraph3": "Suggerimento: trascina e rilascia un file da qualsiasi pagina del Web UI per aggiungerli al root del tuo MFS."
     }
   },
-  "loadMore": "Carica di più",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "Torna alla cartella precedente",
   "fileLabel": "Seleziona {type} {name} con dimensione: {size}",
   "hashUnavailable": "Hash non disponibile",

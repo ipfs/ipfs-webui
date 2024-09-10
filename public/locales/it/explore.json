@@ -8,7 +8,8 @@
   "StartExploringPage": {
     "title": "Esplora - IPLD",
     "header": "Esplora la Merkle Forest",
-    "leadParagraph": "Incolla un CID nella casella di testo per recuperare il nodo IPDL, oppure scegli un dataset in primo piano."
+    "leadParagraph": "Incolla un CID nella casella di testo per recuperare il nodo IPDL, oppure scegli un dataset in primo piano.",
+    "noDataAvailable": "No data available"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD è <1>il modello di dati del web content-addressable.</1> Esso ci permette di trattare tutte le strutture di dati hash-linked come sottoinsieme di uno spazio d'informazione unificato, unendo tutti i modelli di dati che collegano dati con gli hash come istanze di IPLD.</0>",

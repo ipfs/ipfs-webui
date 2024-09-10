@@ -8,7 +8,8 @@
   "StartExploringPage": {
     "title": "Průzkumník - IPLD",
     "header": "Prozkoumejte Merkelův les",
-    "leadParagraph": "Pro zobrazeni informací o IPLD uzlu vložte do pole vaše CID nebo si vyberte z několika příkladů."
+    "leadParagraph": "Pro zobrazeni informací o IPLD uzlu vložte do pole vaše CID nebo si vyberte z několika příkladů.",
+    "noDataAvailable": "No data available"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD je <1>datový model obsahově-adresovaného webu</1>. Umožňuje nám to zacházet se všemi datovými strukturami spojenými s hashem jako s podmnožinami jednotného informačního prostoru a sjednotit všechny datové modely, které propojují data s hashemi, jako instance IPLD.</0>",

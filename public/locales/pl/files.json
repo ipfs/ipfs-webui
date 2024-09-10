@@ -101,7 +101,7 @@
       "paragraph3": "Pro tip: przeciągnij i upuść plik z dowolnej innej strony Web UI by dodać je do korzenia twojego MFS."
     }
   },
-  "loadMore": "Załaduj więcej ",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "Powrót do poprzedniego katalogu",
   "fileLabel": "Wybierz {type} {name} z rozmiarem: {size}",
   "hashUnavailable": "hasz niedostępny",
