@@ -34,7 +34,6 @@ export const checkValidHttpUrl = (value) => {
   } catch (_) {
     return false
   }
-  console.log(`URL is valid: ${url}, url.protocol=${url.protocol}`) // lucas
   return url.protocol === 'http:' || url.protocol === 'https:'
 }
 
@@ -128,6 +127,10 @@ async function checkViaImgUrl (imgUrl) {
  * @returns {Promise<boolean>} A promise that resolves to true if the gateway is functioning correctly, otherwise false.
  */
 export async function checkSubdomainGateway (gatewayUrl) {
+  if (gatewayUrl === DEFAULT_SUBDOMAIN_GATEWAY) {
+    // avoid sending probe requests to the default gateway every time Settings page is opened
+    return true
+  }
   let imgSubdomainUrl
   let imgRedirectedPathUrl
   try {
