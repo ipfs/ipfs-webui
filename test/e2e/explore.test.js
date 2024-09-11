@@ -89,7 +89,9 @@ test.describe('Explore screen', () => {
 
     // need to mock any requests to URLs like "http://delegated-ipfs.dev/routing/v1/providers/QmdmQXB2mzChmMeKY47C43LxUdg1NDJ5MWcKMKxDu7RgQm" to avoid network requests
     await page.route('**/routing/v1/providers/*', route => {
-      route.fulfill({ status: 200, body: `{
+      route.fulfill({
+        status: 200,
+        body: `{
         "Addrs": [
             "/ip4/${kuboGateway.host}/tcp/${kuboGateway.port}/http"
         ],
@@ -102,7 +104,6 @@ test.describe('Explore screen', () => {
         }`
       })
     })
-
   })
 
   test.describe('Start Exploring', () => {

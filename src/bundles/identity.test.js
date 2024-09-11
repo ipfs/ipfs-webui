@@ -29,8 +29,6 @@ describe.skip('identity.js', function () {
     let ipfs
     let ipfsd
     beforeAll(async () => {
-      // const kuboRpcModule = await import('kubo-rpc-client')
-      // console.log('kuboRpcModule: ', kuboRpcModule)
       const { create } = await import('kubo-rpc-client')
       const { createNode } = await import('ipfsd-ctl')
       const ipfsBin = (await import('kubo')).default.path()

@@ -46,7 +46,7 @@ async function run (rpcPort) {
         }
       },
       // sets up all CORS headers required for accessing HTTP API port of ipfsd node
-      test: true,
+      test: true
     })
 
     ipfsd = await factory.spawn({ type: 'kubo' })
