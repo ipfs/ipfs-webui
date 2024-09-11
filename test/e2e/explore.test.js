@@ -60,7 +60,7 @@ async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm
 /**
  * Loads saved block fixtures from fixtures/explore/blocks and adds them locally to the ipfs node
  * @param {object} param0
- * @param {import('kubo-rpc-client').IPFSHTTPClient} param0.ipfs
+ * @param {import('kubo-rpc-client').KuboRPCClient} param0.ipfs
  * @param {string|string[]} param0.blockCid
  * @param {object} param0.blockPutArgs
  */
