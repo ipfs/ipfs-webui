@@ -101,7 +101,7 @@
       "paragraph3": "Продвинутая подсказка: перетащите файл с любой другой страницы веб-интерфейса, чтобы добавить его в корень вашего MFS."
     }
   },
-  "loadMore": "Загрузить больше",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "Перейти обратно к предыдущей папке",
   "fileLabel": "Выбрать {type} {name} с размером: {size}",
   "hashUnavailable": "хеш недоступен",

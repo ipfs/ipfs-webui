@@ -101,7 +101,7 @@
       "paragraph3": "Astuce : glissez-déposez un fichier n'importe où sur l'interface web pour l'ajouter à la racine de votre MFS."
     }
   },
-  "loadMore": "En charger plus",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "Revenir au dossier précédent",
   "fileLabel": "Sélectionner {type}{name} de taille : {size}",
   "hashUnavailable": "hash non disponible",

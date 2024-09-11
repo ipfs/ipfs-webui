@@ -8,7 +8,8 @@
   "StartExploringPage": {
     "title": "Explorer - IPLD",
     "header": "Explorer la forêt de Merkle",
-    "leadParagraph": "Collez un CID dans la section appropriée pour récupérer le nœud IPLD qu'il adresse, ou choisissez un jeu de données proposé."
+    "leadParagraph": "Collez un CID dans la section appropriée pour récupérer le nœud IPLD qu'il adresse, ou choisissez un jeu de données proposé.",
+    "noDataAvailable": "No data available"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD est <1>le modèle de données du web \"indexé par contenu\".</1> Il nous permet de traiter toutes les structures de données liées par hash, en tant que sous-ensemble d'un espace d'informations unifié, unifiant tous les modèles de données qui associent les données par hash, en tant qu'instances d'IPLD.",

@@ -17,6 +17,7 @@ import IpnsManager from '../components/ipns-manager/IpnsManager.js'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle.js'
 import ApiAddressForm from '../components/api-address-form/ApiAddressForm.js'
 import PublicGatewayForm from '../components/public-gateway-form/PublicGatewayForm.js'
+import PublicSubdomainGatewayForm from '../components/public-subdomain-gateway-form/PublicSubdomainGatewayForm.js'
 import { JsonEditor } from './editor/JsonEditor.js'
 import Experiments from '../components/experiments/ExperimentsPanel.js'
 import Title from './Title.js'
@@ -66,12 +67,18 @@ export const SettingsPage = ({
     <Box className='mb3 pa4-l pa2'>
       <div className='lh-copy charcoal'>
         <Title>{t('app:terms.publicGateway')}</Title>
-        <Trans i18nKey='publicGatewayDescription' t={t}>
-          <p>Choose which <a className='link blue' href="http://docs.ipfs.tech/concepts/ipfs-gateway/#public-gateways" target='_blank' rel='noopener noreferrer'>public gateway</a> you want to use to open your files.</p>
-        </Trans>
-        <PublicGatewayForm/>
-      </div>
-    </Box>
+          <Trans i18nKey='publicSubdomainGatewayDescription' t={t}>
+            <p>Select a default <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#subdomain' target='_blank' rel='noopener noreferrer'>Subdomain Gateway</a> for generating shareable links.</p>
+          </Trans>
+          <PublicSubdomainGatewayForm/>
+        </div>
+        <div className='lh-copy charcoal'>
+          <Trans i18nKey='publicPathGatewayDescription' t={t}>
+            <p>Select a fallback <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#path' target='_blank' rel='noopener noreferrer'>Path Gateway</a> for generating shareable links for CIDs that exceed the 63-character DNS limit.</p>
+          </Trans>
+          <PublicGatewayForm/>
+        </div>
+      </Box>
 
     <Box className='mb3 pa4-l pa2'>
       <Title>{t('ipnsPublishingKeys.title')}</Title>

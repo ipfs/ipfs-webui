@@ -146,6 +146,7 @@ const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
  * @property {function():string} selectApiUrl
  * @property {function():string} selectGatewayUrl
  * @property {function():string} selectPublicGateway
+ * @property {function():string} selectPublicSubdomainGateway
  *
  * @typedef {Object} UnkonwActions
  * @property {function(string):Promise<unknown>} doUpdateHash
@@ -422,7 +423,8 @@ const actions = () => ({
   doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
     // ensureMFS deliberately omitted here, see https://github.com/ipfs/ipfs-webui/issues/1744 for context.
     const publicGateway = store.selectPublicGateway()
-    return getShareableLink(files, publicGateway, ipfs)
+    const publicSubdomainGateway = store.selectPublicSubdomainGateway()
+    return getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
   }),
 
   /**

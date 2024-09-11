@@ -101,7 +101,7 @@
       "paragraph3": "Uzman ipucu: MFS'nizin kök dizinine eklemek için Web kullanıcı arayüzünün herhangi bir sayfasından bir dosyayı sürükleyip bırakın."
     }
   },
-  "loadMore": "Daha fazla yükle",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "Önceki klasöre dön",
   "fileLabel": "Şu boyutta {type} {name} seçin: {size}",
   "hashUnavailable": "özüt kullanılamıyor",

@@ -101,7 +101,7 @@
       "paragraph3": "Kiat pro: seret dan jatuhkan berkas dari halaman lain UI Web untuk menambahkannya ke akar MFS Anda."
     }
   },
-  "loadMore": "Muat lebih banyak",
+  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
   "previousFolder": "Kembali ke map sebelumnya",
   "fileLabel": "Pilih {type}{name} dengan ukuran: {size}",
   "hashUnavailable": "hash tidak tersedia",

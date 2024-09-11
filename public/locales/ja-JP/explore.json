@@ -8,7 +8,8 @@
   "StartExploringPage": {
     "title": "IPLDを探す",
     "header": "マークルフォレストを探す",
-    "leadParagraph": "CIDをボックスに貼り付けて、アドレス指定するIPLDノードを取得するか、機能データセットを選択します。"
+    "leadParagraph": "CIDをボックスに貼り付けて、アドレス指定するIPLDノードを取得するか、機能データセットを選択します。",
+    "noDataAvailable": "No data available"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLDは<1>Content-Addressable Webのデータモデルです。</1>ハッシュリンクされたすべてのデータ構造を統一された情報スペースのサブセットとして扱い、IPLDのインスタンスとして、データをハッシュとリンクするすべてのデータモデルを統一できます。 </0>",

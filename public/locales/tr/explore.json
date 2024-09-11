@@ -8,7 +8,8 @@
   "StartExploringPage": {
     "title": "Keşfet - IPLD",
     "header": "Merkle Ormanı'nı keşfedin",
-    "leadParagraph": "Adres verdiği IPLD düğümünü getirmek için kutuya bir CID yapıştırın veya öne çıkan bir veri kümesi seçin."
+    "leadParagraph": "Adres verdiği IPLD düğümünü getirmek için kutuya bir CID yapıştırın veya öne çıkan bir veri kümesi seçin.",
+    "noDataAvailable": "No data available"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD, <1> içerik adresli web'in veri modelidir.</1> Özüt bağlantılı tüm veri yapılarını birleşik bir bilgi alanının alt kümeleri olarak ele almamızı ve verileri IPLD örnekleri olarak özütlerle birbirine bağlayan tüm veri modellerini birleştirmemizi sağlar.</0>",
