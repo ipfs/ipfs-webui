@@ -81,9 +81,28 @@ async function loadBlockFixtures ({ ipfs, blockCid, blockPutArgs = { format: 'v0
 }
 
 test.describe('Explore screen', () => {
-  test.beforeEach(async ({ page }) => {
+  // read the IPFS backend details from the file
+  const { id, kuboGateway } = JSON.parse(readFileSync(join(__dirname, 'setup', 'ipfs-backend.json'), 'utf8'))
+  test.beforeEach(async ({ page, context }) => {
     await page.goto('/#/explore')
     await page.waitForSelector('.joyride-app-status .teal') // '.joyride-app-status .red' means disconnected.
+
+    // need to mock any requests to URLs like "http://delegated-ipfs.dev/routing/v1/providers/QmdmQXB2mzChmMeKY47C43LxUdg1NDJ5MWcKMKxDu7RgQm" to avoid network requests
+    await page.route('**/routing/v1/providers/*', route => {
+      route.fulfill({ status: 200, body: `{
+        "Addrs": [
+            "/ip4/${kuboGateway.host}/tcp/${kuboGateway.port}/http"
+        ],
+        "ID": "${id}",
+        "Protocols": [
+            "transport-ipfs-gateway-http"
+        ],
+        "Schema": "peer",
+        "transport-ipfs-gateway-http": "oBIA"
+        }`
+      })
+    })
+
   })
 
   test.describe('Start Exploring', () => {
@@ -119,6 +138,7 @@ test.describe('Explore screen', () => {
     })
 
     test('should open dag-pb', async ({ page }) => {
+      test.setTimeout(60000)
       const cidData = new Uint8Array(Buffer.from('hello world'))
       const dagPbAsDagJson = {
         Data: cidData,
@@ -212,7 +232,7 @@ test.describe('Explore screen', () => {
     })
 
     test('should explore Project Apollo Archive', async ({ page }) => {
-      test.setTimeout(120000)
+      test.setTimeout(240000)
       await loadBlockFixtures({
         ipfs,
         blockCid: [

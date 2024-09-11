@@ -37,7 +37,8 @@ async function run (rpcPort) {
             Gateway: `/ip4/127.0.0.1/tcp/${gatewayPort}`
           },
           Gateway: {
-            NoFetch: true
+            NoFetch: true,
+            ExposeRoutingAPI: true
           },
           Routing: {
             Type: 'none'
@@ -46,7 +47,6 @@ async function run (rpcPort) {
       },
       // sets up all CORS headers required for accessing HTTP API port of ipfsd node
       test: true,
-      disposable: true
     })
 
     ipfsd = await factory.spawn({ type: 'kubo' })
