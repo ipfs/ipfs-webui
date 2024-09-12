@@ -48,7 +48,7 @@ describe.skip('identity.js', function () {
         })
         ipfs = ipfsd.api
       } else {
-        ipfs = create(`http://localhost:${KUBO_PORT}`)
+        ipfs = create(`http://127.0.0.1:${KUBO_PORT}`)
       }
     })
 
