@@ -41,11 +41,10 @@ test.describe('Remote RPC API tests', () => {
       init: {
         config: {
           Addresses: {
-            API: rpcAddr,
+            API: rpcAddr
           },
           Gateway: {
-            NoFetch: true,
-            ExposeRoutingAPI: true
+            NoFetch: true
           },
           Routing: {
             Type: 'none'
@@ -63,7 +62,7 @@ test.describe('Remote RPC API tests', () => {
     user = 'user'
     password = 'pass'
 
-    const proxy = createProxyServer();
+    const proxy = createProxyServer()
     const remoteApiUrl = toUri(rpcAddr, { assumeHttp: true })
     rpcUrl = new URL(remoteApiUrl).toString() // normalization for browsers
     proxy.on('proxyReq', (proxyReq, req, res, options) => {
