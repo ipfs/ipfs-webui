@@ -11,7 +11,7 @@ import { create } from 'kubo-rpc-client'
 const { createProxyServer } = httpProxy
 
 // we need these tests to run in serial otherwise we try to start up two nodes on the same port
-test.describe.configure({ mode: 'serial' });
+test.describe.configure({ mode: 'serial' })
 
 test.describe('Remote RPC API tests', () => {
   // Basic Auth Proxy Setup
