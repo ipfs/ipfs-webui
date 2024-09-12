@@ -82,7 +82,7 @@ async function loadBlockFixtures ({ ipfs, blockCid, blockPutArgs = { format: 'v0
 }
 
 test.describe('Explore screen', () => {
-  test.beforeEach(async ({ page, context }) => {
+  test.beforeEach(async ({ page }) => {
     await page.goto('/#/explore')
     await page.waitForSelector('.joyride-app-status .teal') // '.joyride-app-status .red' means disconnected.
   })
