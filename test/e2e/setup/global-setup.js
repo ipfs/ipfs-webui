@@ -53,7 +53,6 @@ const globalSetup = async config => {
     localStorage.setItem('kuboGateway', JSON.stringify({ ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowInsecure: true, allowLocal: true } } }))
     localStorage.setItem('ipfsApi', JSON.stringify(rpcEndpoint))
     localStorage.setItem('explore.ipld.gatewayEnabled', 'false') // disable gateway network requests when testing e2e
-    localStorage.removeItem('debug') // this being set breaks redux-bundler...
   }, { rpcEndpoint, kuboGateway })
   await page.context().storageState({ path: storageState })
   await browser.close()
