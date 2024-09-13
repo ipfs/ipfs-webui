@@ -1,13 +1,17 @@
+// @ts-check
 import { test, expect } from './setup/coverage.js'
-import { createController } from 'ipfsd-ctl'
-import getPort from 'get-port'
+import { createNode } from 'ipfsd-ctl'
+import getPort from 'aegir/get-port'
 import { createServer } from 'http'
 import httpProxy from 'http-proxy'
 import basicAuth from 'basic-auth'
 import { multiaddrToUri as toUri } from '@multiformats/multiaddr-to-uri'
-import { path as getGoIpfsPath } from 'kubo'
-import * as kuboRpcModule from 'kubo-rpc-client'
+import { path as kuboPath } from 'kubo'
+import { create } from 'kubo-rpc-client'
 const { createProxyServer } = httpProxy
+
+// we need these tests to run in serial otherwise we try to start up two nodes on the same port
+test.describe.configure({ mode: 'serial' })
 
 test.describe('Remote RPC API tests', () => {
   // Basic Auth Proxy Setup
@@ -24,16 +28,32 @@ test.describe('Remote RPC API tests', () => {
   let password
   let proxyPort
 
-  let rpcMaddr
+  let rpcPort
+  let rpcAddr
   let rpcUrl
   let rpcId
 
   test.beforeAll(async () => {
-  // spawn an ephemeral local node to ensure we connect to a different, remote node
-    ipfsd = await createController({
-      type: 'go',
-      ipfsBin: getGoIpfsPath(),
-      kuboRpcModule,
+    rpcPort = await getPort(55055, '0.0.0.0')
+    rpcAddr = `/ip4/127.0.0.1/tcp/${rpcPort}`
+    // spawn an ephemeral local node to ensure we connect to a different, remote node
+    ipfsd = await createNode({
+      type: 'kubo',
+      bin: kuboPath(),
+      rpc: create,
+      init: {
+        config: {
+          Addresses: {
+            API: rpcAddr
+          },
+          Gateway: {
+            NoFetch: true
+          },
+          Routing: {
+            Type: 'none'
+          }
+        }
+      },
       test: true,
       disposable: true
     })
@@ -46,8 +66,7 @@ test.describe('Remote RPC API tests', () => {
     password = 'pass'
 
     const proxy = createProxyServer()
-    rpcMaddr = ipfsd.apiAddr.toString()
-    const remoteApiUrl = toUri(rpcMaddr, { assumeHttp: true })
+    const remoteApiUrl = toUri(rpcAddr, { assumeHttp: true })
     rpcUrl = new URL(remoteApiUrl).toString() // normalization for browsers
     proxy.on('proxyReq', (proxyReq, req, res, options) => {
     // swap Origin before passing to the real API
@@ -57,21 +76,19 @@ test.describe('Remote RPC API tests', () => {
       proxyReq.setHeader('Host', new URL(remoteApiUrl).host)
     })
 
-    proxy.on('error', function (err, req, res) {
+    proxy.on('error', function (err, req, /** @type {import('http').ServerResponse} */ res) {
       res.writeHead(500, { 'Content-Type': 'text/plain' })
       res.end(`proxyd error: ${JSON.stringify(err)}`)
     })
 
     proxyd = createServer((req, res) => {
-    // console.log(`${req.method}\t\t${req.url}`)
-
-      res.oldWriteHead = res.writeHead
+      const oldWriteHead = res.writeHead.bind(res)
       res.writeHead = function (statusCode, headers) {
       // hardcoded liberal CORS for easier testing
         res.setHeader('Access-Control-Allow-Origin', '*')
         // usual suspects + 'authorization' header
         res.setHeader('Access-Control-Allow-Headers', 'X-Stream-Output, X-Chunked-Output, X-Content-Length, authorization')
-        res.oldWriteHead(statusCode)
+        return oldWriteHead(statusCode)
       }
 
       const auth = basicAuth(req)
@@ -139,8 +156,7 @@ test.describe('Remote RPC API tests', () => {
           endpoint = uri.port || endpoint
         }
       } catch (_) {}
-      // await page.waitForFunction(`localStorage.getItem('ipfsApi') && localStorage.getItem('ipfsApi').includes('${endpoint}')`)
-      await page.waitForFunction(endpoint => window.localStorage.getItem('ipfsApi') && window.localStorage.getItem('ipfsApi').includes(endpoint), endpoint)
+      await page.waitForFunction(endpoint => window.localStorage.getItem('ipfsApi')?.includes(endpoint), endpoint)
       return
     }
     await page.waitForFunction(() => window.localStorage.getItem('ipfsApi') === null)
@@ -203,19 +219,19 @@ test.describe('Remote RPC API tests', () => {
 
   test.describe('RPC @ multiaddr', () => {
     test('should be possible to set via Settings page', async ({ page }) => {
-      await switchIpfsApiEndpointViaSettings(rpcMaddr, page)
+      await switchIpfsApiEndpointViaSettings(rpcAddr, page)
       await expectPeerIdOnStatusPage(rpcId, page)
     })
 
     test('should show full multiaddr on Status page', async ({ page }) => {
-      await switchIpfsApiEndpointViaSettings(rpcMaddr, page)
-      await expectHttpApiAddressOnStatusPage(rpcMaddr, page)
+      await switchIpfsApiEndpointViaSettings(rpcAddr, page)
+      await expectHttpApiAddressOnStatusPage(rpcAddr, page)
       await expectPeerIdOnStatusPage(rpcId, page)
     })
 
     test('should show full multiaddr on Settings page', async ({ page }) => {
-      await switchIpfsApiEndpointViaSettings(rpcMaddr, page)
-      await expectHttpApiAddressOnSettingsPage(rpcMaddr, page)
+      await switchIpfsApiEndpointViaSettings(rpcAddr, page)
+      await expectHttpApiAddressOnSettingsPage(rpcAddr, page)
     })
   })
 

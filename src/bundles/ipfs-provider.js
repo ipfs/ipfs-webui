@@ -368,7 +368,7 @@ const actions = {
       const result = await getIpfs({
         /**
          *
-         * @param {import('kubo-rpc-client').IPFSHTTPClient} ipfs
+         * @param {import('kubo-rpc-client').KuboRPCClient} ipfs
          * @returns {Promise<boolean>}
          */
         connectionTest: async (ipfs) => {

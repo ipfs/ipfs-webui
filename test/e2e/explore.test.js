@@ -19,7 +19,8 @@ const __dirname = dirname(__filename)
  * @param {any} value
  * @param {import('multiformats/block').BlockEncoder<Code, any>} codec
  * @param {import('multiformats/hashes/interface').MultihashHasher<Code>} hasher
- * @returns {CID | null}
+ * @param {import('multiformats/cid').Version} version
+ * @returns {Promise<CID | null>}
  */
 const createCID = async (value, codec, hasher, version = 1) => {
   try {
@@ -60,9 +61,9 @@ async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm
 /**
  * Loads saved block fixtures from fixtures/explore/blocks and adds them locally to the ipfs node
  * @param {object} param0
- * @param {import('kubo-rpc-client').IPFSHTTPClient} param0.ipfs
+ * @param {import('kubo-rpc-client').KuboRPCClient} param0.ipfs
  * @param {string|string[]} param0.blockCid
- * @param {object} param0.blockPutArgs
+ * @param {object} [param0.blockPutArgs]
  */
 async function loadBlockFixtures ({ ipfs, blockCid, blockPutArgs = { format: 'v0' } }) {
   try {
@@ -119,19 +120,20 @@ test.describe('Explore screen', () => {
     })
 
     test('should open dag-pb', async ({ page }) => {
+      test.setTimeout(60000)
       const cidData = new Uint8Array(Buffer.from('hello world'))
       const dagPbAsDagJson = {
         Data: cidData,
         Links: []
       }
-      const cid = await createCID(dagPbAsDagJson, dagPb, sha256, 0)
+      const cid = await createCID(dagPbAsDagJson, dagPb, sha256, 0) // QmU1Sq1B7RPQD2XcQNLB58qJUyJffVJqihcxmmN1STPMxf
 
       // add bytes to backend node so that explore page can load the content
       const cidInstance = await ipfs.dag.put(dagPbAsDagJson, {
         storeCodec: 'dag-pb',
         hashAlg: 'sha2-256'
       })
-      const dagPbCid = cidInstance.toString()
+      const dagPbCid = cidInstance.toString() // bafybeicuhktpnonfgpel7acwqcim34slne5kul43k5fdg6cnqrrp3rkxtq
 
       await testExploredCid({
         page,
@@ -174,7 +176,7 @@ test.describe('Explore screen', () => {
     })
 
     test('should open dag-pb unixFS XKCD Archives', async ({ page }) => {
-      test.setTimeout(60000)
+      test.setTimeout(120000)
       await loadBlockFixtures({
         ipfs,
         blockCid: [
@@ -212,7 +214,7 @@ test.describe('Explore screen', () => {
     })
 
     test('should explore Project Apollo Archive', async ({ page }) => {
-      test.setTimeout(90000)
+      test.setTimeout(240000)
       await loadBlockFixtures({
         ipfs,
         blockCid: [

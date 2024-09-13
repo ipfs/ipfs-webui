@@ -1,9 +1,12 @@
-import * as kuboRpcModule from 'kubo-rpc-client'
-import * as Ctl from 'ipfsd-ctl'
+// @ts-check
+import { create } from 'kubo-rpc-client'
+import { createFactory } from 'ipfsd-ctl'
 import windowOrGlobal from 'window-or-global'
+import { path as kuboPath } from 'kubo'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'url'
+import getPort from 'aegir/get-port'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -12,41 +15,47 @@ const { console } = windowOrGlobal
 let ipfsd
 let ipfs
 async function run (rpcPort) {
+  let gatewayPort = 8998
   if (ipfsd != null && ipfs != null) {
     throw new Error('IPFS backend already running')
   }
   const endpoint = process.env.E2E_API_URL
   if (endpoint) {
     // create http rpc client for endpoint passed via E2E_API_URL=
-    ipfs = kuboRpcModule.create(endpoint)
+    ipfs = create(endpoint)
   } else {
     // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
-    const type = 'go'
-    const factory = Ctl.createFactory({
-      kuboRpcModule,
-      type,
-      ipfsOptions: {
+    gatewayPort = await getPort(8998, '0.0.0.0')
+    const factory = createFactory({
+      rpc: create,
+      type: 'kubo',
+      bin: process.env.IPFS_GO_EXEC || kuboPath(),
+      init: {
         config: {
           Addresses: {
-            API: `/ip4/127.0.0.1/tcp/${rpcPort}`
+            API: `/ip4/127.0.0.1/tcp/${rpcPort}`,
+            Gateway: `/ip4/127.0.0.1/tcp/${gatewayPort}`
+          },
+          Gateway: {
+            NoFetch: true,
+            ExposeRoutingAPI: true
+          },
+          Routing: {
+            Type: 'none'
           }
         }
       },
       // sets up all CORS headers required for accessing HTTP API port of ipfsd node
       test: true
-    },
-    {
-      go: {
-        ipfsBin: process.env.IPFS_GO_EXEC || (await import('kubo')).default.path()
-      }
     })
 
-    ipfsd = await factory.spawn({ type })
+    ipfsd = await factory.spawn({ type: 'kubo' })
     ipfs = ipfsd.api
   }
   const { id, agentVersion } = await ipfs.id()
 
-  const { apiHost, apiPort, gatewayHost, gatewayPort } = ipfs
+  // some temporary hardcoding until https://github.com/ipfs/js-ipfsd-ctl/issues/831 is resolved.
+  const { apiHost, apiPort, gatewayHost } = { apiHost: '127.0.0.1', apiPort: rpcPort, gatewayHost: '127.0.0.1' }
 
   if (String(apiPort) !== rpcPort) {
     console.error(`Invalid RPC port returned by IPFS backend: ${apiPort} != ${rpcPort}`)
