@@ -42,7 +42,7 @@ export const SettingsPage = ({
       <title>{t('title')} | IPFS</title>
     </Helmet>
 
-    {/* Enable a full screen loader after updating to a new IPFS API address.
+    {/* Enable a full screen loader after updating to a new Kubo RPC address.
       * Will not show on consequent retries after a failure.
       */}
     { ipfsPendingFirstConnection

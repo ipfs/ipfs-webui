@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "Could not connect. Please check if your daemon is running.",
   "windowIpfsRequestFailed": "IPFS request failed. Please check your IPFS Companion settings.",
-  "ipfsInvalidApiAddress": "The provided IPFS API address is invalid.",
-  "ipfsConnectSuccess": "Successfully connected to the IPFS API address",
-  "ipfsConnectFail": "Unable to connect to the provided IPFS API address",
+  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
+  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
+  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
   "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
   "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",
