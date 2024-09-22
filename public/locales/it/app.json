@@ -49,6 +49,9 @@
     "placeholder": "Inserisci un URL (http://127.0.0.1:5001) o un Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://ipfs.io)"
+  },
+  "publicSubdomainGatewayForm": {
     "placeholder": "Inserisci un URL (https://dweb.link)"
   },
   "terms": {

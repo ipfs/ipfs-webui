@@ -23,7 +23,8 @@
     "translationProjectLink": "Bergabunglah dengan Proyek Terjemahan IPFS"
   },
   "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicGatewayDescription": "<0>Pilih <1>gerbang publik</1> mana yang ingin Anda gunakan saat membuat tautan yang dapat dibagikan.</0>",
+  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
+  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
   "cliDescription": "<0>Aktifkan opsi ini untuk menampilkan ikon \"lihat kode\" <1></1> di sebelah perintah umum IPFS. Mengkliknya akan membuka modal dengan kode CLI perintah itu, sehingga Anda dapat menempelkannya ke antarmuka baris perintah IPFS di terminal Anda.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Jika Anda telah membuat perubahan pada konfigurasi di editor kode halaman ini yang ingin Anda simpan, klik ikon unduh di sebelah tombol salin untuk mengunduhnya sebagai berkas JSON. "
