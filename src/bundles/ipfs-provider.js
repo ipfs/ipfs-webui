@@ -315,6 +315,25 @@ const selectors = {
  */
 
 const actions = {
+
+  doSetupLocalStorage: () => async () => {
+    /** For the Explore page (i.e. ipld-explorer-components) */
+    const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled')
+    if (useRemoteGatewaysToExplore === null) {
+      // by default, disable remote gateways for the Explore page (i.e. ipld-explorer-components)
+      await writeSetting('explore.ipld.gatewayEnabled', false)
+    }
+
+    const kuboGateway = readSetting('kuboGateway')
+    if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
+      // empty or invalid, set defaults
+      await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: true } } })
+    } else if (kuboGateway.trustlessBlockBrokerConfig == null) {
+      // missing trustlessBlockBrokerConfig, set defaults
+      await writeSetting('kuboGateway', { ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: true } } })
+    }
+  },
+
   /**
    * @returns {function(Context):Promise<boolean>}
    */
