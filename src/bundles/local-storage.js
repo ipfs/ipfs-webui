@@ -1,9 +1,8 @@
 /**
  * Reads setting from the `localStorage` with a given `id` as JSON. If JSON
  * parse is failed setting is interpreted as a string value.
- * @template {string|number|boolean|Record<string,any>} T
  * @param {string} id
- * @returns {T|null}
+ * @returns {string|object|null}
  */
 export const readSetting = (id) => {
   /** @type {string|null} */
