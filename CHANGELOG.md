@@ -1,3 +1,22 @@
+## [4.3.2](https://github.com/ipfs/ipfs-webui/compare/v4.3.1...v4.3.2) (2024-09-24)
+
+
+ CID `bafybeif6abowqcavbkz243biyh7pde7ick5kkwwytrh7pd2hkbtuqysjxy`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* set Explore defaults on app load ([#2268](https://github.com/ipfs/ipfs-webui/issues/2268)) ([fd8819e](https://github.com/ipfs/ipfs-webui/commit/fd8819ed910881ae97811c4e5e8872fd2966fed8))
+* **ui:** replace IPFS API with Kubo RPC ([#2267](https://github.com/ipfs/ipfs-webui/issues/2267)) ([f8ac305](https://github.com/ipfs/ipfs-webui/commit/f8ac305527cd36b4e77de63a50b78ddd3559318e))
+
+
+### Trivial Changes
+
+* pull new translations ([#2264](https://github.com/ipfs/ipfs-webui/issues/2264)) ([cfaf534](https://github.com/ipfs/ipfs-webui/commit/cfaf5347101b486616845b6f9d6449aaf127d5bf))
+
 ## [4.3.1](https://github.com/ipfs/ipfs-webui/compare/v4.3.0...v4.3.1) (2024-09-23)
 
 
