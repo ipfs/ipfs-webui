@@ -23,7 +23,8 @@
     "translationProjectLink": "Присоединитесь к проекту перевода IPFS"
   },
   "apiDescription": "<0>Если ваш узел настроен с <1>пользовательским адресом Kubo RPC API</1>, включая порт, отличный от стандартного 5001, введите его здесь.</0>",
-  "publicGatewayDescription": "<0>Выберите, какой <1>общедоступный шлюз</1> вы хотите использовать при создании общих ссылок.</0>",
+  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
+  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
   "cliDescription": "<0>Активируйте эту опцию, чтобы отображать значок \"просмотреть код\" <1></1> рядом с общими командами IPFS. Нажатие на него открывает модальное окно с кодом заданной команды в командной строке, так чтобы вы могли вставить его в интерфейс командной строки IPFS в вашей консоли.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Если вы произвели изменения настроек в редакторе кода на этой странице, которые вы хотели бы сохранить, нажмите на значок \"скачать\" рядом с кнопкой \"копировать\", чтобы скачать их в виде JSON-файла."

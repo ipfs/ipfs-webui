@@ -49,6 +49,9 @@
     "placeholder": "输入一个URL (http://127.0.0.1:5001) 或一个 Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://ipfs.io)"
+  },
+  "publicSubdomainGatewayForm": {
     "placeholder": "输入一个URL (https://dweb.link)"
   },
   "terms": {

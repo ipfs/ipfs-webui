@@ -23,7 +23,8 @@
     "translationProjectLink": "IPFS翻訳プロジェクトに参加"
   },
   "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicGatewayDescription": "<0>共有リンクを生成するときに、どの<1>ゲートウェイ（パブリック）</1>を使用したいか選んでください</0>",
+  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
+  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
   "cliDescription": "<0>\"コードを見る\"オプション<1></1>を有効にするためには、このオプションを有効にします。\"コードを見る\"ボタンは普通のIPFSコマンドの隣に表示されます。\nこのボタンを押すことで、CUIのチートシートが表示され、そこからコマンドをコピー&ペーストすることが出来ます。</0>",
   "cliModal": {
     "extraNotesJsonConfig": "このページのコードエディタに使いたいコードを書いて、コピーボタンの隣にあるダウンロードアイコンを押せば、JSONファイルの形式でスクリプトが保存されます。このスクリプトはそのままインポートして使うことが出来ます。"

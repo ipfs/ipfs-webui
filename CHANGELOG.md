@@ -1,3 +1,26 @@
+## [4.3.1](https://github.com/ipfs/ipfs-webui/compare/v4.3.0...v4.3.1) (2024-09-23)
+
+
+ CID `bafybeideglc722hiwhsy4kiyl2fivf5lr6wozy2iuixtgzkvl3v4hasaty`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* **file-preview:** safeSubresourceGwUrl ([#2253](https://github.com/ipfs/ipfs-webui/issues/2253)) ([bb861a3](https://github.com/ipfs/ipfs-webui/commit/bb861a3653bee897caf4eed83d855c869d78147a)), closes [/github.com/ipfs/ipfs-webui/issues/2246#issuecomment-2322192398](https://github.com/ipfs//github.com/ipfs/ipfs-webui/issues/2246/issues/issuecomment-2322192398)
+* **files:** avoid duplicated fetch during preview ([#2254](https://github.com/ipfs/ipfs-webui/issues/2254)) ([eefae25](https://github.com/ipfs/ipfs-webui/commit/eefae250ff57a19cc16808a1ec31e74f4b826b3f)), closes [#2217](https://github.com/ipfs/ipfs-webui/issues/2217)
+* **files:** prefer subdomain gw in copied share links ([#2255](https://github.com/ipfs/ipfs-webui/issues/2255)) ([e8c4421](https://github.com/ipfs/ipfs-webui/commit/e8c4421132994499916e6fca17f43f50e6afd943))
+
+
+### Trivial Changes
+
+* .io → .tech ([b9f622d](https://github.com/ipfs/ipfs-webui/commit/b9f622d4b880dff0d9f7164c582798a65904a9ac))
+* browserslist@latest ([#2251](https://github.com/ipfs/ipfs-webui/issues/2251)) ([809c55a](https://github.com/ipfs/ipfs-webui/commit/809c55ad30157e1f087632f316182070d156a9e8))
+* Pull transifex translations ([#2258](https://github.com/ipfs/ipfs-webui/issues/2258)) ([2250374](https://github.com/ipfs/ipfs-webui/commit/2250374175a0b481a8f3eaabb6eb3ca5e449f807))
+* use ipld-explorer-components@7.0.2 ([#2257](https://github.com/ipfs/ipfs-webui/issues/2257)) ([99ba9ac](https://github.com/ipfs/ipfs-webui/commit/99ba9acb51c993b13318eb2029e1347002705ec9))
+
 ## [4.3.0](https://github.com/ipfs/ipfs-webui/compare/v4.2.1...v4.3.0) (2024-08-12)
 
 

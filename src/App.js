@@ -21,6 +21,7 @@ import FilesExploreForm from './files/explore-form/FilesExploreForm.js'
 
 export class App extends Component {
   static propTypes = {
+    doSetupLocalStorage: PropTypes.func.isRequired,
     doTryInitIpfs: PropTypes.func.isRequired,
     doInitHelia: PropTypes.func.isRequired,
     doUpdateUrl: PropTypes.func.isRequired,
@@ -30,6 +31,11 @@ export class App extends Component {
     filesPathInfo: PropTypes.object,
     // Injected by DropTarget
     isOver: PropTypes.bool.isRequired
+  }
+
+  constructor (props) {
+    super(props)
+    props.doSetupLocalStorage()
   }
 
   componentDidMount () {
@@ -131,6 +137,7 @@ export default connect(
   'doExploreUserProvidedPath',
   'doUpdateUrl',
   'doUpdateHash',
+  'doSetupLocalStorage',
   'doTryInitIpfs',
   'doInitHelia',
   'doFilesWrite',

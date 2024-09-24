@@ -23,7 +23,8 @@
     "translationProjectLink": "Připojte se k projektu překladu IPFS"
   },
   "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicGatewayDescription": "<0>Vyberte, kterou <1>veřejnou bránu</1> chcete použít při generování sdílených odkazů.</0>",
+  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
+  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
   "cliDescription": "<0>Povolením této možnosti zobrazíte vedle běžných příkazů systému IPFS ikonu \"zobrazit kód\".<1></1> Kliknutím na ni se otevře modální okno s kódem CLI daného příkazu, který můžete vložit do rozhraní příkazového řádku systému IPFS v terminálu.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Pokud jste v editoru kódu této stránky provedli změny konfigurace, které chcete uložit, klikněte na ikonu stahování vedle tlačítka kopírovat a stáhněte je jako soubor JSON."

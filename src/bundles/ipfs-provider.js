@@ -315,6 +315,25 @@ const selectors = {
  */
 
 const actions = {
+
+  doSetupLocalStorage: () => async () => {
+    /** For the Explore page (i.e. ipld-explorer-components) */
+    const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled')
+    if (useRemoteGatewaysToExplore === null) {
+      // by default, disable remote gateways for the Explore page (i.e. ipld-explorer-components)
+      await writeSetting('explore.ipld.gatewayEnabled', false)
+    }
+
+    const kuboGateway = readSetting('kuboGateway')
+    if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
+      // empty or invalid, set defaults
+      await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
+    } else if (/** @type {Record<string, any>} */(kuboGateway).trustlessBlockBrokerConfig == null) {
+      // missing trustlessBlockBrokerConfig, set defaults
+      await writeSetting('kuboGateway', { ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
+    }
+  },
+
   /**
    * @returns {function(Context):Promise<boolean>}
    */
@@ -393,7 +412,7 @@ const actions = {
       })
 
       if (!result) {
-        throw Error(`Could not connect to the IPFS API (${apiAddress})`)
+        throw Error(`Could not connect to the Kubo RPC (${apiAddress})`)
       } else {
         return result
       }
@@ -421,7 +440,7 @@ const actions = {
       await writeSetting('ipfsApi', apiAddress)
       context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_UPDATED, payload: apiAddress })
 
-      // Sends action to indicate we're going to try to update the IPFS API address.
+      // Sends action to indicate we're going to try to update the Kubo RPC address.
       // There is logic to retry doTryInitIpfs in bundles/retry-init.js, so
       // we're triggering the PENDING_FIRST_CONNECTION action here to avoid blocking
       // the UI while we automatically retry.

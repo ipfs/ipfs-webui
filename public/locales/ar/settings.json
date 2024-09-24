@@ -23,7 +23,8 @@
     "translationProjectLink": "انضم إلى مشروع ترجمة IPFS"
   },
   "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicGatewayDescription": "<0>اختار أي <1>بوابة عامة</1> التي تريد استخدامها عند إنشاء روابط قابلة للمشاركة.</0>",
+  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
+  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
   "cliDescription": "<0>قم بتمكين هذا الخيار لعرض رمز \"عرض الرمز\"<1></1> بجوار أوامر IPFS الشائعة. يؤدي النقر فوقه إلى فتح مشروط برمز CLI الخاص بهذا الأمر ، بحيث يمكنك لصقه في واجهة سطر أوامر IPFS في جهازك الطرفي.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "إذا قمت بإجراء تغييرات على التكوين في محرر التعليمات البرمجية لهذه الصفحة وتريد حفظه ، فانقر فوق رمز التنزيل بجوار زر النسخ لتنزيله كملف JSON."

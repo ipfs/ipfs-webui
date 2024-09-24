@@ -23,7 +23,8 @@
     "translationProjectLink": "Dołącz do projektu tłumaczeń IPFS"
   },
   "apiDescription": "<0>Zaktualizuj ten adres jeśli twoja instancja Kubo jest dostępna pod <1>niestandardowym adresem RPC API</1>, na przykład portem innym, niż domyślny 5001.</0>",
-  "publicGatewayDescription": "<0>Wybierz, której  <1>bramy publicznej</1> chcesz użyć podczas generowania linków udostępnianych.</0>",
+  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
+  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
   "cliDescription": "<0>Włącz tę opcję, aby wyświetlić \"widok  kodu\" <1></1> ikona obok popularnych poleceń IPFS. Kliknięcie jej otwiera widok z kodem CLI tego polecenia, więc możesz go wkleić do interfejsu wiersza poleceń IPFS w terminalu.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Jeśli dokonałeś zmian w configu w edytorze kodu tej strony, które chciałbyś zapisać, kliknij ikonę pobierania obok przycisku kopiowania, aby pobrać go jako plik JSON."
