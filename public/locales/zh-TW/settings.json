@@ -23,7 +23,8 @@
     "translationProjectLink": "加入 IPFS 翻譯專案"
   },
   "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicGatewayDescription": "<0>Choose which <1>public gateway</1> you want to use when generating shareable links.</0>",
+  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
+  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
   "cliDescription": "<0>啟用此選項可在常用 IPFS 指令旁顯示<1>“查看程式碼”</1>的圖示。點選後會開啟一個帶有該指令的 CLI 視窗，因此您可以將其複製貼上到終端機的 IPFS 指令界面中。</0>",
   "cliModal": {
     "extraNotesJsonConfig": "如果您希望保存已在此頁的程式編輯器中修改過的設置，點擊複製圖示旁的下載圖示可以將設置文件以 JSON 檔案的形式下載到本機。"

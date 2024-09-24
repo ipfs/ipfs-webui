@@ -49,6 +49,9 @@
     "placeholder": "أدخل عنوان (http://127.0.0.1:5001) أو متعدد العناوين (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
+    "placeholder": "Enter a URL (https://ipfs.io)"
+  },
+  "publicSubdomainGatewayForm": {
     "placeholder": "أدخل عنوان  (https://dweb.link)"
   },
   "terms": {
