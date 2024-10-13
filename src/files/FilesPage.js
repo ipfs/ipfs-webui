@@ -116,7 +116,7 @@ const FilesPage = ({
   }
 
   const MainView = ({ t, files, remotePins, pendingPins, failedPins, doExploreUserProvidedPath }) => {
-    if (!files) return (<div/>)
+    if (!files || files.type === 'file') return (<div/>)
 
     if (files.type === 'unknown') {
       const path = files.path
@@ -127,12 +127,6 @@ const FilesPage = ({
             The current link isn't a file, nor a directory. Try to <button className='link blue pointer' onClick={() => doExploreUserProvidedPath(path)}>inspect</button> it instead.
           </Trans>
         </div>
-      )
-    }
-
-    if (files.type === 'file') {
-      return (
-        <FilePreview {...files} onDownload={() => onDownload([files])} />
       )
     }
 
@@ -216,6 +210,8 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
+      <Preview files={files} onDownload={() => onDownload([files])} />
+
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
         filesExist={!!(files && files.content && files.content.length)} />
@@ -246,6 +242,13 @@ const FilesPage = ({
         showProgress />
     </div>
   )
+}
+
+const Preview = ({ files, onDownload }) => {
+  if (files && files.type === 'file') {
+    return (<FilePreview {...files} onDownload={onDownload} />)
+  }
+  return (<div/>)
 }
 
 export default connect(
