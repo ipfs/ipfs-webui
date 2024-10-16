@@ -34,7 +34,7 @@
     "done": "Hotovo"
   },
   "cliModal": {
-    "description": "Chcete-li tento úkol provést v IPFS prostřednictvím příkazového řádku, vložte do terminálu následující příkaz. Nezapomeňte, že je třeba nahradit zástupné znaky konkrétními parametry."
+    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "Nahlásit chybu",
@@ -43,7 +43,7 @@
   "status": {
     "connectedToIpfs": "Připojeno k IPFS",
     "connectingToIpfs": "Připojení k IPFS...",
-    "couldNotConnect": "Nepodařilo se připojit k rozhraní API systému IPFS"
+    "couldNotConnect": "Could not connect to the Kubo RPC"
   },
   "apiAddressForm": {
     "placeholder": "Zadejte adresu URL (http://127.0.0.1:5001) nebo Multiaddr (/ip4/127.0.0.1/tcp/5001)."
@@ -60,7 +60,7 @@
     "advanced": "Pokročilý",
     "agent": "Agent",
     "api": "Kubo RPC",
-    "apiAddress": "RPC API address",
+    "apiAddress": "Kubo RPC API address",
     "blocks": "Bloky",
     "connection": "Připojení",
     "downSpeed": "Příchozí",

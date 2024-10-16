@@ -6,9 +6,9 @@
   },
   "notConnected": {
     "paragraph1": "<0>Перегляньте путівник по встановленню в <1>IPFS Документації</1>, або спробуйте часті виправлення:</0>",
-    "paragraph2": "<0>Чи ваш IPFS демон запущений? Спробуйте запустити або перезапустити його з вашого терміналу:</0>",
-    "paragraph3": "<0>Чи ваше IPFS API налаштоване аби дозволяти <1>спільне використання ресурсів з різних джерел (CORS)</1>, Якщо ні, запустіть ці команди і потім запустіть вашого демона з терміналу:</0>",
-    "paragraph4": "<0>Чи ваш IPFS API на іншому порту ніж 5001? Якщо ваш вузол налаштований на <1>власну API адресу</1>, введіть її тут.</0> "
+    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
+    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
+    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
   },
   "aboutIpfs": {
     "header": "Що таке IPFS?",
@@ -31,7 +31,7 @@
     "step1": {
       "title": "Вітальна сторінка",
       "paragraph1": "Ця сторінка дозволяє дізнатись, чи ви підключені до IPFS, і пропонує ідеї до речей які ви можете робити в цьому застосунку.",
-      "paragraph2": "Якщо ви не підлючені до IPFS API, ця сторінка також з'явиться на місці інших сторінок, з підказками для того аби ви підключились.",
+      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
       "paragraph3": "Ви можете потрапити на цю сторінку звідки завгодно із застосунку клацнувши логотип IPFS, куб в навігаційній панелі."
     }
   }

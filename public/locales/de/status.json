@@ -24,7 +24,7 @@
     },
     "step2": {
       "title": "Verbindungs-Status",
-      "paragraph1": "Klicke an beliebiger Stelle in der App dieses Symbol, um wieder zur Statusseite zurückzukehren. Wenn du die Verbindung mit der IPFS-API verlierst, wird das Symbol rot.",
+      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the Kubo RPC, the icon will turn red.",
       "paragraph2": "Wenn du eine benutzerdefinierte API-Adresse für deinen Knoten konfigurieren möchtest, klicke einfach auf \"Bearbeiten\" neben der API-Adresse auf dieser Seite."
     },
     "step3": {

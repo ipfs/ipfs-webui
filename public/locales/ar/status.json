@@ -24,7 +24,7 @@
     },
     "step2": {
       "title": "حالة الإتصال",
-      "paragraph1": "انقر فوق هذا الرمز من أي مكان في التطبيق للعودة إلى صفحة الحالة. إذا فقدت اتصالك بـ IPFS API ، سيتحول الرمز إلى اللون الأحمر.",
+      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the Kubo RPC, the icon will turn red.",
       "paragraph2": "إذا كنت بحاجة إلى تكوين عنوان API مخصص للعقدة الخاصة بك ، فما عليك سوى النقر فوق الرابط \"تحرير\" بجوار مكان إدراج عنوان API في هذه الصفحة."
     },
     "step3": {

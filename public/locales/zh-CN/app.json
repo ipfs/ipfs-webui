@@ -34,7 +34,7 @@
     "done": "完成"
   },
   "cliModal": {
-    "description": "将以下内容粘贴到您的IPFS终端使用命令行来完成任务。请谨记您需要使用您自己的参数来替换掉占位符"
+    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "报告 bug",
@@ -43,7 +43,7 @@
   "status": {
     "connectedToIpfs": "已连接到 IPFS",
     "connectingToIpfs": "正在连接 IPFS",
-    "couldNotConnect": "无法连接到IPFS API"
+    "couldNotConnect": "Could not connect to the Kubo RPC"
   },
   "apiAddressForm": {
     "placeholder": "输入一个URL (http://127.0.0.1:5001) 或一个 Multiaddr (/ip4/127.0.0.1/tcp/5001)"
@@ -60,7 +60,7 @@
     "advanced": "高级",
     "agent": "代理",
     "api": "Kubo RPC",
-    "apiAddress": "RPC API 地址",
+    "apiAddress": "Kubo RPC API address",
     "blocks": "块",
     "connection": "连接",
     "downSpeed": "接收",

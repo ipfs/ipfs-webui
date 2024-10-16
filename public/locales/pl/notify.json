@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "Nie można się połączyć. Proszę sprawdzić, czy demon jest uruchomiony.",
   "windowIpfsRequestFailed": "Żądanie IPFS nie powiodło się. Proszę sprawdzić ustawienia IPFS Companion.",
-  "ipfsInvalidApiAddress": "Podany adres API IPFS jest nieprawidłowy.",
-  "ipfsConnectSuccess": "Udane połączenie z adresem IPFS API",
-  "ipfsConnectFail": "Nie można się połączyć z podanym adresem IPFS API ",
+  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
+  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
+  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
   "ipfsPinFailReason": "Nie można ustawić pinezki na {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Udało się przypiąć na {serviceName}",
   "ipfsUnpinSucceedReason": "Udało się odpiąć od  {serviceName}",
