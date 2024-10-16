@@ -1,3 +1,21 @@
+## [4.3.3](https://github.com/ipfs/ipfs-webui/compare/v4.3.2...v4.3.3) (2024-10-16)
+
+
+ CID `bafybeid4uxz7klxcu3ffsnmn64r7ihvysamlj4ohl5h2orjsffuegcpaeq`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* file viewer refreshes when interacting ([#2276](https://github.com/ipfs/ipfs-webui/issues/2276)) ([32ef5a2](https://github.com/ipfs/ipfs-webui/commit/32ef5a23823b93894a1151ae28b028b2e1ce4417))
+
+
+### Trivial Changes
+
+* pull transifex translations ([#2270](https://github.com/ipfs/ipfs-webui/issues/2270)) ([1ff4971](https://github.com/ipfs/ipfs-webui/commit/1ff49716cb4b4ea65e9974107774e8c56e446b6f))
+
 ## [4.3.2](https://github.com/ipfs/ipfs-webui/compare/v4.3.1...v4.3.2) (2024-09-24)
 
 
