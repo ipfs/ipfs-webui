@@ -34,7 +34,7 @@
     "done": "Bitti"
   },
   "cliModal": {
-    "description": "Komut satırı aracılığıyla IPFS'de bu görevi gerçekleştirmek için aşağıdakileri terminalinize yapıştırın. Yer tutucuları belirli parametrelerinizle değiştirmeniz gerekeceğini unutmayın."
+    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "Hata bildirin",
@@ -43,7 +43,7 @@
   "status": {
     "connectedToIpfs": "IPFS'ye bağlı",
     "connectingToIpfs": "IPFS'ye bağlanılıyor…",
-    "couldNotConnect": "IPFS UPA'ya bağlanılamadı"
+    "couldNotConnect": "Could not connect to the Kubo RPC"
   },
   "apiAddressForm": {
     "placeholder": "Bir URL (http://127.0.0.1:5001) veya bir Multiaddr (/ip4/127.0.0.1/tcp/5001) girin"
@@ -60,7 +60,7 @@
     "advanced": "İleri",
     "agent": "Ajan",
     "api": "Kubo RPC",
-    "apiAddress": "RPC API address",
+    "apiAddress": "Kubo RPC API address",
     "blocks": "Bloklar",
     "connection": "Bağlantı",
     "downSpeed": "Gelen",

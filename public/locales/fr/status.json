@@ -24,7 +24,7 @@
     },
     "step2": {
       "title": "Statut de la connection",
-      "paragraph1": "Cliquez sur l'icône depuis n'importe quelle page de l'application pour revenir à la page Statut. Si vous perdez votre connexion avec l'API d'IPFS, l'icône deviendra rouge.",
+      "paragraph1": "Cliquez sur cette icône n'importe où dans l'app pour revenir à la page Statut. Si vous perdez votre connexion au RPC de Kubo, cette icône deviendra rouge.",
       "paragraph2": "Si vous voulez configurer une adresse d'API personnalisée pour votre nœud, cliquez sur le lien \"Modifier\" près d'où l'adresse d'API est indiquée, sur cette page. "
     },
     "step3": {

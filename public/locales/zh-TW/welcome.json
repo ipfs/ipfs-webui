@@ -6,9 +6,9 @@
   },
   "notConnected": {
     "paragraph1": "<0>請參考在 <1>IPFS Docs<1> 的安裝指南，或是嘗試以下的建議解決方案。<0>",
-    "paragraph2": "<0>你的 IPFS 後臺守護程式正在運行中嗎？請在您的終端機中試著啟動或是重新啟動它：<0>",
-    "paragraph3": "<0>您的 IPFS API 設置是否已啟用<1>跨域請求(cross-origin requests)<1>？如果尚未啟用，請於您的終端機中執行已下命令並啟動您的後台守護程式：<0>",
-    "paragraph4": "<0>您的 IPFS API 正在監聽 5001 埠號嗎？若您的節點設置為監聽<1>自定義的 API 位置<1>，請在此輸入。<0>"
+    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
+    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
+    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
   },
   "aboutIpfs": {
     "header": "什麼是 IPFS？",
@@ -31,7 +31,7 @@
     "step1": {
       "title": "歡迎頁面",
       "paragraph1": "這個頁面可以讓您知道是否已經連接到 IPFS 網絡，以及提供一些您可以在這個軟體可以做的事情",
-      "paragraph2": "如果您沒有連接到 IPFS API，這個頁面也能顯示位於其他能夠提示您如何連接的說明頁面",
+      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
       "paragraph3": "您可以在任何時候透過點擊位於這個軟體側邊欄上的 IPFS 圖示導引到這個頁面"
     }
   }

@@ -6,9 +6,9 @@
   },
   "notConnected": {
     "paragraph1": "<0>تحقق من دليل التثبيت في<1> IPFS Docs</1> ، أو جرب هذه الإصلاحات الشائعة:</0>",
-    "paragraph2": "<0>هل برنامج IPFS الخفي قيد التشغيل؟ حاول بدء تشغيله أو إعادة تشغيله من جهازك الطرفي:</0>",
-    "paragraph3": "<0>هل تم تكوين IPFS API الخاص بك للسماح<1> بطلبات عبر الأصل (CORS)</1>؟ إذا لم يكن الأمر كذلك ، فقم بتشغيل هذه الأوامر ثم ابدأ البرنامج الخفي من الجهاز:</0>",
-    "paragraph4": "<0>هل IPFS API الخاص بك على منفذ غير 5001؟ إذا تم تكوين العقدة الخاصة بك باستخدام<1> عنوان API مخصص</1> ، فأدخله هنا. </0>"
+    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
+    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
+    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
   },
   "aboutIpfs": {
     "header": "ما هو IPFS؟",
@@ -31,7 +31,7 @@
     "step1": {
       "title": "صفحة الترحيب",
       "paragraph1": "تتيح لك هذه الصفحة معرفة ما إذا كنت متصلاً بـ IPFS ، وتقدم أفكارًا لأشياء يمكنك القيام بها في هذا التطبيق.",
-      "paragraph2": "إذا لم تكن متصلاً بـ IPFS API ، فستظهر هذه الصفحة أيضًا في مكان بعض الصفحات الأخرى ، مع تلميحات حول كيفية الاتصال.",
+      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
       "paragraph3": "يمكنك زيارة هذه الصفحة من أي مكان في التطبيق بالنقر فوق شعار مكعب IPFS في شريط التنقل."
     }
   }

@@ -6,9 +6,9 @@
   },
   "notConnected": {
     "paragraph1": "<0>Podívejte se na průvodce instalací v dokumentech IPFS<1> nebo vyzkoušejte tyto běžné opravy:</0>",
-    "paragraph2": "<0>Je spuštěn démon IPFS? Zkuste jej spustit nebo restartovat z terminálu:</0>",
-    "paragraph3": "<0>Je vaše rozhraní IPFS API nakonfigurováno tak, aby umožňovalo <1>požadavky s křížovým původem (CORS)</1>? Pokud ne, spusťte tyto příkazy a poté spusťte démona z terminálu:</0>",
-    "paragraph4": "<0>Je rozhraní IPFS API na jiném portu než 5001? Pokud je váš uzel nakonfigurován s <1>vlastní adresou API</1>, zadejte ji zde</0>."
+    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
+    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
+    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
   },
   "aboutIpfs": {
     "header": "Co je to IPFS?",
@@ -31,7 +31,7 @@
     "step1": {
       "title": "Úvodní stránka",
       "paragraph1": "Tato stránka vás informuje o tom, zda jste připojeni k IPFS, a nabízí nápady, co můžete v této aplikaci dělat.",
-      "paragraph2": "Pokud nejste připojeni k rozhraní API systému IPFS, zobrazí se místo některých jiných stránek také tato stránka s radami, jak se připojit.",
+      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
       "paragraph3": "Tuto stránku můžete navštívit odkudkoli v aplikaci kliknutím na logo kostky IPFS v navigačním panelu."
     }
   }

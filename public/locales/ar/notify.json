@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "تعذر الاتصال. يرجى التحقق مما إذا كان البرنامج الخفي الخاص بك قيد التشغيل.",
   "windowIpfsRequestFailed": "فشل طلب IPFS. يرجى التحقق من إعدادات IPFS Companion الخاصة بك.",
-  "ipfsInvalidApiAddress": "عنوان IPFS API المقدم غير صالح.",
-  "ipfsConnectSuccess": "تم الاتصال بنجاح بعنوان IPFS API",
-  "ipfsConnectFail": "تعذر الاتصال بعنوان IPFS API المقدم",
+  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
+  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
+  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
   "ipfsPinFailReason": "تعذر تعيين التثبيت في {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
   "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",

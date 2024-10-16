@@ -34,7 +34,7 @@
     "done": "Selesai"
   },
   "cliModal": {
-    "description": "Rekatkan yang berikut ini ke terminal Anda untuk melakukan tugas ini di IPFS melalui baris perintah. Ingatlah bahwa Anda harus mengganti tempat penampung dengan parameter spesifik Anda."
+    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "Laporkan bug",
@@ -43,7 +43,7 @@
   "status": {
     "connectedToIpfs": "Terhubung ke IPFS",
     "connectingToIpfs": "Menghubungkan ke IPFS…",
-    "couldNotConnect": "Tidak dapat terhubung ke API IPFS"
+    "couldNotConnect": "Could not connect to the Kubo RPC"
   },
   "apiAddressForm": {
     "placeholder": "Masukkan URL (http://127.0.0.1:5001) atau Multiaddr (/ip4/127.0.0.1/tcp/5001)"
@@ -60,7 +60,7 @@
     "advanced": "Canggih",
     "agent": "Agen",
     "api": "Kubo RPC",
-    "apiAddress": "RPC API address",
+    "apiAddress": "Kubo RPC API address",
     "blocks": "Blok",
     "connection": "Koneksi",
     "downSpeed": "Yang baru masuk",

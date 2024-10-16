@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "無法連線。請檢查你的 IPFS 守護程式是否正在執行。",
   "windowIpfsRequestFailed": "IPFS 請求失敗，請檢查您的 IPFS Companion 設置。",
-  "ipfsInvalidApiAddress": "提供的 IPFS API 地址無效",
-  "ipfsConnectSuccess": "已成功連接到 IPFS API 地址",
-  "ipfsConnectFail": "無法連接到提供的 IPFS API 地址",
+  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
+  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
+  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
   "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
   "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",

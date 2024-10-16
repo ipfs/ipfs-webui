@@ -34,7 +34,7 @@
     "done": "終了"
   },
   "cliModal": {
-    "description": "IPFSでのこの操作をコマンドライン上で行うには、以下をコピー&ペーストしてください。パラメータは適当なものに置き換えてください。"
+    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "バグ報告",
@@ -43,7 +43,7 @@
   "status": {
     "connectedToIpfs": "IPFSに接続完了",
     "connectingToIpfs": "IPFSサービスに接続しています…",
-    "couldNotConnect": "IPFS API に接続できませんでした。"
+    "couldNotConnect": "Could not connect to the Kubo RPC"
   },
   "apiAddressForm": {
     "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
@@ -60,7 +60,7 @@
     "advanced": "詳細情報",
     "agent": "Agent",
     "api": "Kubo RPC",
-    "apiAddress": "RPC API address",
+    "apiAddress": "Kubo RPC API address",
     "blocks": "Blocks",
     "connection": "接続",
     "downSpeed": "受信量",
