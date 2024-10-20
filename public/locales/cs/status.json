@@ -24,7 +24,7 @@
     },
     "step2": {
       "title": "Stav připojení",
-      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the Kubo RPC, the icon will turn red.",
+      "paragraph1": "Kliknutím na tuto ikonu odkudkoli v aplikaci se vrátíte na stavovou stránku. Pokud dojde ke ztrátě spojení s Kubo RPC, ikona zčervená.",
       "paragraph2": "Pokud potřebujete nakonfigurovat vlastní adresu API pro svůj uzel, stačí kliknout na odkaz \"Upravit\" vedle místa, kde je na této stránce uvedena adresa API."
     },
     "step3": {

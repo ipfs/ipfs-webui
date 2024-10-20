@@ -23,8 +23,8 @@
     "translationProjectLink": "加入IPFS翻译项目"
   },
   "apiDescription": "<0>如果您的节点配置了一个<1>自定义的Kubo PRC API地址</1>，以及包含了其他非默认的5001端口的情况下，在这里修改。</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "publicSubdomainGatewayDescription": "<0>选择一个默认的<1>子域名网关</1>用于生成可共享的链接。</0>",
+  "publicPathGatewayDescription": "<0>选择一个备用的<1>路径网关</1>，用于生成超过63个字符DNS限制的CID可共享链接。</0>",
   "cliDescription": "<0>启用这个选来会在下方IPFS命令旁显示一个“查看代码”<1></1>图标。单击它将打开一个带有命令的CLI代码的引导模式，因此您可以将其粘贴到IPFS 节点的命令行终端中执行。</0>",
   "cliModal": {
     "extraNotesJsonConfig": "如果您希望保存已在该页的代码编辑器中修改过的配置，点击复制图标旁边的下载图标可以将配置文件以JSON文件的形式下载到本地"
