@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "无法连接，请检查您的IPFS 守护程序是否正在运行。",
   "windowIpfsRequestFailed": "IPFS 请求失败，请检查您的IPFS 伴侣设置。",
-  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
-  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
-  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
+  "ipfsInvalidApiAddress": "提供的Kubo RPC地址无效",
+  "ipfsConnectSuccess": "已成功连接到Kubo RPC地址",
+  "ipfsConnectFail": "无法连接到提供的Kubo RPC地址",
   "ipfsPinFailReason": "无法在{serviceName}上设置固定:{errorMsg}",
   "ipfsPinSucceedReason": "在{serviceName}中固定成功",
   "ipfsUnpinSucceedReason": "在{serviceName}成功取消固定",
