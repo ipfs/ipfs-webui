@@ -24,7 +24,7 @@
     },
     "step2": {
       "title": "连接状态",
-      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the Kubo RPC, the icon will turn red.",
+      "paragraph1": "点击应用程序中的任意位置的此图标可返回到状态页面。如果您与 Kubo RPC 的连接中断，该图标将变为红色。",
       "paragraph2": "如果您需要为您的IPFS 节点配置自定义的API地址，只需要点击 “编辑” 按钮（需要点击展开“高级”按钮后），并在页面中找到当前配置的API地址并修改它。"
     },
     "step3": {
