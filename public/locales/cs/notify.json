@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "Nepodařilo se připojit. Zkontrolujte, zda je démon spuštěn.",
   "windowIpfsRequestFailed": "Požadavek na IPFS se nezdařil. Zkontrolujte prosím nastavení systému IPFS Companion.",
-  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
-  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
-  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
+  "ipfsInvalidApiAddress": "Zadaná adresa Kubo RPC je neplatná.",
+  "ipfsConnectSuccess": "Úspěšné připojení k adrese Kubo RPC",
+  "ipfsConnectFail": "Nelze se připojit k zadané adrese Kubo RPC",
   "ipfsPinFailReason": "Nelze nastavit připnutí na {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Úspěšně připojeno k {serviceName}",
   "ipfsUnpinSucceedReason": "Úspěšně odpojeno od {serviceName}",

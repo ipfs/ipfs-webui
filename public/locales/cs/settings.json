@@ -22,9 +22,9 @@
     "translationProjectIntro": "Přidejte nebo vylepšete překlady a vylepšete IPFS pro všechny!",
     "translationProjectLink": "Připojte se k projektu překladu IPFS"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "apiDescription": "<0>Pokud je váš uzel nakonfigurován s <1>vlastní adresou rozhraní Kubo RPC API</1> včetně jiného portu než výchozího 5001, zadejte ji zde.</0>",
+  "publicSubdomainGatewayDescription": "<0>Vyberte výchozí <1>bránu subdomény</1> pro generování sdílených odkazů.</0>",
+  "publicPathGatewayDescription": "<0>Vyberte záložní <1>bránu cesty</1> pro generování sdílených odkazů pro identifikátory CID, které přesahují limit 63 znaků DNS.</0>",
   "cliDescription": "<0>Povolením této možnosti zobrazíte vedle běžných příkazů systému IPFS ikonu \"zobrazit kód\".<1></1> Kliknutím na ni se otevře modální okno s kódem CLI daného příkazu, který můžete vložit do rozhraní příkazového řádku systému IPFS v terminálu.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Pokud jste v editoru kódu této stránky provedli změny konfigurace, které chcete uložit, klikněte na ikonu stahování vedle tlačítka kopírovat a stáhněte je jako soubor JSON."
@@ -133,8 +133,8 @@
       "paragraph2": "Pokud používáte IPFS Desktop, budete mít také určitá konkrétní nastavení."
     },
     "step2": {
-      "title": "Custom Kubo RPC API address",
-      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
+      "title": "Vlastní adresa Kubo RPC API",
+      "paragraph1": "Pokud jste svůj uzel IPFS kompatibilní s Kubo nakonfigurovali s vlastní adresou rozhraní RPC API, můžete namísto ruční úpravy JSON aktualizovat konfigurační soubor přímo zde."
     },
     "step3": {
       "title": "Služby Pinning",
