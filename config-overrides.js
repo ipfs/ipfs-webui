@@ -8,7 +8,7 @@ import webpack from 'webpack'
 
 const PURE_ESM_MODULES = [
   'ipfs-geoip',
-  // 'ipld-explorer-components',
+  'ipld-explorer-components',
   '@chainsafe/is-ip',
   '@multiformats/multiaddr',
   'dag-jose',
