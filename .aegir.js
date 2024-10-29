@@ -4,24 +4,33 @@ export default {
   dependencyCheck: {
     ignore: [
       // actual production deps not getting recognized
+      '@loadable/component',
       '@tableflip/react-dropdown',
       'brace',
       'chart.js',
       'classnames',
       'details-polyfill',
       'internal-nav-helper',
+      'ipfs-css',
+      'ipld-explorer-components',
       'is-ipfs',
       'istextorbinary',
+      'prop-types',
       'react-ace',
       'react-chartjs-2',
       'react-copy-to-clipboard',
       'react-country-flag',
       'react-debounce-render',
       'react-dnd',
+      'react-helmet',
       'react-hook-form',
+      'react-i18next',
       'react-identicons',
       'react-joyride',
       'react-overlays',
+      'react-virtualized',
+      'redux-bundler-react',
+      'tachyons',
       'uint8arrays',
 
       // type-only deps
