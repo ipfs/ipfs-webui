@@ -1,5 +1,5 @@
 import { createSelector } from 'redux-bundler'
-import * as Enum from './enum.js'
+import * as Enum from '../lib/enum.js'
 export const ACTIONS = Enum.from([
   'EXPERIMENTS_TOGGLE',
   'EXPERIMENTS_UPDATE_STATE'
