@@ -7,11 +7,11 @@ import SettingsPage from '../settings/LoadableSettingsPage.js'
 import AnalyticsPage from '../settings/AnalyticsPage.js'
 import WelcomePage from '../welcome/LoadableWelcomePage.js'
 import BlankPage from '../blank/BlankPage.js'
-import ExplorePageWrapper from '../explore/explore-page-wrapper.jsx'
+import ExplorePageRenderer from '../explore/explore-page-renderer.jsx'
 
 export default createRouteBundle({
-  '/explore': ExplorePageWrapper,
-  '/explore*': ExplorePageWrapper,
+  '/explore': ExplorePageRenderer,
+  '/explore*': ExplorePageRenderer,
   '/files*': FilesPage,
   '/ipfs*': FilesPage,
   '/ipns*': FilesPage,

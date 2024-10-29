@@ -1,0 +1,46 @@
+diff --git a/node_modules/ipld-explorer-components/dist/providers/helia.js b/node_modules/ipld-explorer-components/dist/providers/helia.js
+index ed6e5c5..a0f4225 100644
+--- a/node_modules/ipld-explorer-components/dist/providers/helia.js
++++ b/node_modules/ipld-explorer-components/dist/providers/helia.js
+@@ -19,6 +19,11 @@ const defaultState = {
+ const HeliaContext = createContext(void 0);
+ const heliaReducer = (state, action) => {
+   switch (action.type) {
++    case 'KUBO_GATEWAY_UPDATE':
++      return {
++        ...state,
++        kuboGatewayOptions: action.payload
++      };
+     case "HELIA_INIT_FINISHED":
+       return {
+         ...state,
+@@ -42,20 +47,26 @@ const HeliaProvider = ({ children }) => {
+     const heliaHttpVersion = packageJson.dependencies["@helia/http"];
+     return `@helia/http@${heliaHttpVersion}`;
+   };
+-  const doInitHelia = useCallback(async () => {
++  const doInitHelia = useCallback(async (kuboGatewayOptions) => {
+     dispatch({ type: "HELIA_INIT_STARTED" });
+     try {
+-      const helia2 = await initHelia(state.kuboGatewayOptions);
++      const helia2 = await initHelia(kuboGatewayOptions ?? state.kuboGatewayOptions);
+       setHelia(helia2);
+-      dispatch({ type: "HELIA_INIT_FINISHED", payload: { kuboGatewayOptions: state.kuboGatewayOptions } });
++      dispatch({ type: "HELIA_INIT_FINISHED", payload: { kuboGatewayOptions: kuboGatewayOptions ?? state.kuboGatewayOptions } });
+     } catch (error) {
+       console.error("doInitHelia error", error);
+       dispatch({ type: "HELIA_INIT_FAILED", error });
+     }
+   }, [state.kuboGatewayOptions, setHelia, dispatch]);
++
++  // const doUpdateKuboGateway = useCallback((kuboGatewayOptions) => {
++  //   dispatch({ type: "KUBO_GATEWAY_UPDATE", payload: kuboGatewayOptions });
++  // }, [dispatch]);
++
+   useEffect(() => {
+     void doInitHelia();
+   }, []);
++  // return /* @__PURE__ */ jsxRuntimeExports.jsx(HeliaContext.Provider, { value: { state, helia, selectHeliaReady, selectHeliaIdentity, doUpdateKuboGateway, doInitHelia }, children });
+   return /* @__PURE__ */ jsxRuntimeExports.jsx(HeliaContext.Provider, { value: { state, helia, selectHeliaReady, selectHeliaIdentity, doInitHelia }, children });
+ };
+ const useHelia = () => {

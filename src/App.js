@@ -17,7 +17,7 @@ import ComponentLoader from './loader/ComponentLoader.js'
 import Notify from './components/notify/Notify.js'
 import Connected from './components/connected/Connected.js'
 import TourHelper from './components/tour/TourHelper.js'
-import FilesExploreForm from './files/explore-form/FilesExploreForm.js'
+import FilesExploreForm from './files/explore-form/FilesExploreForm.jsx'
 
 export class App extends Component {
   static propTypes = {
@@ -61,7 +61,7 @@ export class App extends Component {
   }
 
   render () {
-    const { t, route: Page, ipfsReady, doFilesNavigateTo, doExploreUserProvidedPath, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
+    const { t, route: Page, ipfsReady, doFilesNavigateTo, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <div className='sans-serif h-100 relative' onClick={getNavHelper(this.props.doUpdateUrl)}>
@@ -71,7 +71,7 @@ export class App extends Component {
           <div className='flex-auto-l'>
             <div className='flex items-center ph3 ph4-l' style={{ WebkitAppRegion: 'drag', height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
               <div className='joyride-app-explore' style={{ width: 560 }}>
-                <FilesExploreForm onBrowse={doFilesNavigateTo} onInspect={doExploreUserProvidedPath} />
+                <FilesExploreForm onBrowse={doFilesNavigateTo} />
               </div>
               <div className='dn flex-ns flex-auto items-center justify-end'>
                 <TourHelper />
@@ -132,7 +132,6 @@ export default connect(
   'selectIpfsReady',
   'selectShowTooltip',
   'doFilesNavigateTo',
-  'doExploreUserProvidedPath',
   'doUpdateUrl',
   'doUpdateHash',
   'doSetupLocalStorage',

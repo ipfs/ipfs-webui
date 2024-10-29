@@ -2,13 +2,10 @@ import React, { useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import LoadableExplorePage from './LoadableExplorePage'
 import LoadableStartExploringPage from './LoadableStartExploringPage'
-import { useExplore } from 'ipld-explorer-components/providers'
+import 'ipld-explorer-components/css'
 
 const ExplorePageRenderer = ({ routeInfo }) => {
   const { pattern, url } = routeInfo
-  const exploreStuff = useExplore()
-  // const ref = useRef()
-  console.log('exploreStuff', exploreStuff)
 
   useEffect(() => {
     /**

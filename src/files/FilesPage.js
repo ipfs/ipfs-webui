@@ -18,13 +18,15 @@ import { getJoyrideLocales } from '../helpers/i8n.js'
 import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
+import { useExplore } from 'ipld-explorer-components/providers'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
-  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins, doExploreUserProvidedPath,
+  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
+  const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
   const [modals, setModals] = useState({ show: null, files: null })
   const [contextMenu, setContextMenu] = useState({
@@ -277,7 +279,6 @@ export default connect(
   'doFilesWrite',
   'doFilesDownloadLink',
   'doFilesDownloadCarLink',
-  'doExploreUserProvidedPath',
   'doFilesSizeGet',
   'selectIsCliTutorModeEnabled',
   'selectIsCliTutorModalOpen',
