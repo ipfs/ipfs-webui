@@ -2,17 +2,16 @@ import { createRouteBundle } from 'redux-bundler'
 import StatusPage from '../status/LoadableStatusPage.js'
 import FilesPage from '../files/LoadableFilesPage.js'
 import PinsPage from '../pins/LoadablePinsPage.js'
-import StartExploringPage from '../explore/LoadableStartExploringPage.js'
-import ExplorePage from '../explore/LoadableExplorePage.js'
 import PeersPage from '../peers/LoadablePeersPage.js'
 import SettingsPage from '../settings/LoadableSettingsPage.js'
 import AnalyticsPage from '../settings/AnalyticsPage.js'
 import WelcomePage from '../welcome/LoadableWelcomePage.js'
 import BlankPage from '../blank/BlankPage.js'
+import ExplorePageWrapper from '../explore/explore-page-wrapper.jsx'
 
 export default createRouteBundle({
-  '/explore': StartExploringPage,
-  '/explore*': ExplorePage,
+  '/explore': ExplorePageWrapper,
+  '/explore*': ExplorePageWrapper,
   '/files*': FilesPage,
   '/ipfs*': FilesPage,
   '/ipns*': FilesPage,

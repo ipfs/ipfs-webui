@@ -23,7 +23,6 @@ export class App extends Component {
   static propTypes = {
     doSetupLocalStorage: PropTypes.func.isRequired,
     doTryInitIpfs: PropTypes.func.isRequired,
-    doInitHelia: PropTypes.func.isRequired,
     doUpdateUrl: PropTypes.func.isRequired,
     doUpdateHash: PropTypes.func.isRequired,
     doFilesWrite: PropTypes.func.isRequired,
@@ -40,7 +39,6 @@ export class App extends Component {
 
   componentDidMount () {
     this.props.doTryInitIpfs()
-    this.props.doInitHelia()
   }
 
   addFiles = async (filesPromise) => {
@@ -139,7 +137,6 @@ export default connect(
   'doUpdateHash',
   'doSetupLocalStorage',
   'doTryInitIpfs',
-  'doInitHelia',
   'doFilesWrite',
   'doDisableTooltip',
   'selectFilesPathInfo',
