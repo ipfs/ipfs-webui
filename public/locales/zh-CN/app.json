@@ -34,7 +34,7 @@
     "done": "完成"
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": "将以下内容粘贴到终端中，以通过命令行在Kubo中执行此任务。请谨记您需要使用您自己的参数来替换掉占位符"
   },
   "nav": {
     "bugsLink": "报告 bug",
@@ -43,13 +43,13 @@
   "status": {
     "connectedToIpfs": "已连接到 IPFS",
     "connectingToIpfs": "正在连接 IPFS",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": "无法连接到Kubo RPC"
   },
   "apiAddressForm": {
     "placeholder": "输入一个URL (http://127.0.0.1:5001) 或一个 Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": "输入一个URL (https://ipfs.io)"
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "输入一个URL (https://dweb.link)"
@@ -60,7 +60,7 @@
     "advanced": "高级",
     "agent": "代理",
     "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
+    "apiAddress": "Kubo RPC API 地址",
     "blocks": "块",
     "connection": "连接",
     "downSpeed": "接收",
