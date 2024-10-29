@@ -35,8 +35,6 @@ export default {
       'fake-indexeddb',
 
       // test deps
-      'enzyme',
-      'enzyme-adapter-react-16',
       'jest',
       'jest-environment-jsdom', // in npm script via --env=jsdom
 
