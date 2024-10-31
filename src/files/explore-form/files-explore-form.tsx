@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import StrokeFolder from '../../icons/StrokeFolder.js'
 import StrokeIpld from '../../icons/StrokeIpld.js'
 import Button from '../../components/button/Button.js'
-import './FilesExploreForm.css'
+import './files-explore-form.css'
+// @ts-expect-error - need to fix types for ipfs-webui since we are a CJS consumer...
 import { useExplore } from 'ipld-explorer-components/providers'
 
 /**
@@ -40,7 +41,7 @@ const FilesExploreForm = ({ onBrowse: onBrowseProp }) => {
   }
   const onKeyDown = (evt) => {
     if (evt.key === 'Enter') {
-      this.onBrowse(evt)
+      onBrowse(evt)
     }
   }
   const onInspect = useCallback((evt) => {
@@ -78,6 +79,7 @@ const FilesExploreForm = ({ onBrowse: onBrowseProp }) => {
           <Button
             minWidth={0}
             disabled={!isValid}
+            danger={!isValid}
             title={t('app:actions.inspect')}
             style={{ borderRadius: '0 3px 3px 0' }}
             onClick={onInspect}
@@ -89,6 +91,7 @@ const FilesExploreForm = ({ onBrowse: onBrowseProp }) => {
           <Button
             minWidth={0}
             disabled={!isValid}
+            danger={!isValid}
             style={{ borderRadius: '0' }}
             title={t('app:actions.browse')}
             onClick={onBrowse}

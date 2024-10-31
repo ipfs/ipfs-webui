@@ -14,11 +14,13 @@ const ExplorePageRenderer = ({ routeInfo }) => {
     if (helia == null) {
       doInitHelia()
     }
-  }, [helia, doInitHelia])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [helia])
 
   useEffect(() => {
     setExplorePath(window.location.hash)
-  }, [url, setExplorePath])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [url])
 
   if (pattern === '/explore') {
     return <LoadableStartExploringPage />

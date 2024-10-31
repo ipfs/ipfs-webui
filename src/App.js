@@ -17,7 +17,7 @@ import ComponentLoader from './loader/ComponentLoader.js'
 import Notify from './components/notify/Notify.js'
 import Connected from './components/connected/Connected.js'
 import TourHelper from './components/tour/TourHelper.js'
-import FilesExploreForm from './files/explore-form/FilesExploreForm.jsx'
+import FilesExploreForm from './files/explore-form/files-explore-form.tsx'
 
 export class App extends Component {
   static propTypes = {
