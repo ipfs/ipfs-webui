@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test'
 import getPort from 'aegir/get-port'
 
 const webuiPort = 3001
-const rpcPort = await getPort(55001, '0.0.0.0')
+const rpcPort = await getPort(5001, '0.0.0.0')
 
 /** @type {import('@playwright/test').Config} */
 const config = {
