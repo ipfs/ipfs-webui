@@ -1,5 +1,5 @@
 // @ts-check
-import FilesExploreForm from './FilesExploreForm.jsx'
+import FilesExploreForm from './files-explore-form'
 
 /**
  * @type {import('@storybook/react').Meta}
