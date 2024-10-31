@@ -5,7 +5,7 @@ import { connect } from 'redux-bundler-react'
 // Components
 import { Modal, ModalBody, ModalActions } from '../modal/Modal.js'
 import StrokeCode from '../../icons/StrokeCode.js'
-import Button from '../button/Button.js'
+import Button from '../button/button.tsx'
 import Overlay from '../overlay/Overlay.js'
 import Shell from '../shell/Shell.js'
 import StrokeDownload from '../../icons/StrokeDownload.js'

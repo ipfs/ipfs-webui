@@ -107,6 +107,7 @@ function webpackOverride (config) {
       fullySpecified: false
     }
   })
+  config.resolve.extensions = ['.js', '.jsx', '.tsx', '.ts', '...']
 
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'development'

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '../../../components/button/Button.js'
+import Button from '../../../components/button/button.tsx'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
 import { withTranslation } from 'react-i18next'
 import * as isIPFS from 'is-ipfs'

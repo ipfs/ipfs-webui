@@ -3,7 +3,7 @@ import * as isIPFS from 'is-ipfs'
 import { useTranslation } from 'react-i18next'
 import StrokeFolder from '../../icons/StrokeFolder.js'
 import StrokeIpld from '../../icons/StrokeIpld.js'
-import Button from '../../components/button/Button.js'
+import Button from '../../components/button/button'
 import './files-explore-form.css'
 // @ts-expect-error - need to fix types for ipfs-webui since we are a CJS consumer...
 import { useExplore } from 'ipld-explorer-components/providers'

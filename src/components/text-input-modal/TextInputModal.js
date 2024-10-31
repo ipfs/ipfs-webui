@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from '../button/Button.js'
+import Button from '../button/button.tsx'
 import { Modal, ModalActions, ModalBody } from '../modal/Modal.js'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import { withTranslation } from 'react-i18next'
