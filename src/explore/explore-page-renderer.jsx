@@ -2,19 +2,23 @@ import React, { useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import LoadableExplorePage from './LoadableExplorePage'
 import LoadableStartExploringPage from './LoadableStartExploringPage'
+import { useExplore, useHelia } from 'ipld-explorer-components/providers'
 import 'ipld-explorer-components/css'
 
 const ExplorePageRenderer = ({ routeInfo }) => {
   const { pattern, url } = routeInfo
+  const { setExplorePath } = useExplore()
+  const { doInitHelia, helia } = useHelia()
 
   useEffect(() => {
-    /**
-     * emit a fake 'hashchange' event when `routeInfo.url` changes
-     * because ipld-explorer-components depends on hashchange events
-     * @see https://github.com/ipfs/ipld-explorer-components/issues/455
-     */
-    window.dispatchEvent(new Event('hashchange'))
-  }, [url])
+    if (helia == null) {
+      doInitHelia()
+    }
+  }, [helia, doInitHelia])
+
+  useEffect(() => {
+    setExplorePath(window.location.hash)
+  }, [url, setExplorePath])
 
   if (pattern === '/explore') {
     return <LoadableStartExploringPage />
