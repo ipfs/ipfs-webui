@@ -7,7 +7,7 @@ import './PinningManagerModal.css'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../../modal/Modal.js'
-import Button from '../../button/Button.js'
+import Button from '../../button/button.tsx'
 import Overlay from '../../overlay/Overlay.js'
 
 const PinningManagerModal = ({ t, tReady, onLeave, className, remoteServiceTemplates, pinningServicesDefaults, ...props }) => {

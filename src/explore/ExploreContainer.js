@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import { ExplorePage } from 'ipld-explorer-components'
+import { ExplorePage } from 'ipld-explorer-components/pages'
 import withTour from '../components/tour/withTour.js'
 
 const ExploreContainer = ({
@@ -8,16 +8,18 @@ const ExploreContainer = ({
   handleJoyrideCallback,
   availableGatewayUrl,
   publicGateway
-}) => (
-  <div className="e2e-explorePage">
-    <ExplorePage
-      runTour={toursEnabled}
-      joyrideCallback={handleJoyrideCallback}
-      gatewayUrl={availableGatewayUrl}
-      publicGateway={publicGateway}
-    />
-  </div>
-)
+}) => {
+  return (
+    <div className="e2e-explorePage">
+      <ExplorePage
+        runTour={toursEnabled}
+        joyrideCallback={handleJoyrideCallback}
+        gatewayUrl={availableGatewayUrl}
+        publicGateway={publicGateway}
+      />
+    </div>
+  )
+}
 
 export default connect(
   'selectToursEnabled',

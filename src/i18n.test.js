@@ -4,8 +4,6 @@ import { createServer } from 'http-server'
 import i18n, { localesList } from './i18n.js'
 import getPort from 'get-port'
 
-const backendListenerPort = await getPort({ port: getPort.makeRange(3000, 4000) })
-
 const allLanguages = localesList.map(({ locale }) => locale)
 
 /**
@@ -13,6 +11,7 @@ const allLanguages = localesList.map(({ locale }) => locale)
    */
 let httpServer
 beforeAll(async function () {
+  const backendListenerPort = await getPort({ port: getPort.makeRange(3000, 4000) })
   httpServer = createServer({
     root: './public',
     cors: true

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ShareIcon from '../../../icons/StrokeShare.js'
-import Button from '../../../components/button/Button.js'
+import Button from '../../../components/button/button.tsx'
 import { withTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
