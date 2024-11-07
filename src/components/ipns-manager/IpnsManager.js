@@ -4,7 +4,7 @@ import { sortByProperty } from '../../lib/sort.js'
 import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
 
 // Components
-import Button from '../button/Button.js'
+import Button from '../button/button.tsx'
 import Overlay from '../overlay/Overlay.js'
 import GenerateKeyModal from './generate-key-modal/GenerateKeyModal.js'
 import RenameKeyModal from './rename-key-modal/RenameKeyModal.js'

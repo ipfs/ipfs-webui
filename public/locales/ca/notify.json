@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "No s'ha pogut connectar. Comproveu que el daemon estigui funcionant.",
   "windowIpfsRequestFailed": "La sol·licitud a IPFS ha fallat. Comproveu la configuració del IPFS Companion.",
-  "ipfsInvalidApiAddress": "L'adreça API d'IPFS proporcionada no és vàlida.",
-  "ipfsConnectSuccess": "S'ha connectat correctament a l'adreça API d'IPFS",
-  "ipfsConnectFail": "No s'ha pogut connectar a l'adreça IPFS de l'API proporcionada",
+  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
+  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
+  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
   "ipfsPinFailReason": "Unable to set pinning at {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
   "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",

@@ -34,7 +34,7 @@
     "done": "Done"
   },
   "cliModal": {
-    "description": "الصق ما يلي في الجهاز الطرفي للقيام بهذه المهمة في IPFS عبر سطر الأوامر. تذكر أنك ستحتاج إلى استبدال العناصر النائبة بمعلماتك المحددة."
+    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "الإبلاغ عن خطأ",
@@ -43,7 +43,7 @@
   "status": {
     "connectedToIpfs": "متصل بـ IPFS",
     "connectingToIpfs": "جارٍ الاتصال بـ IPFS ...",
-    "couldNotConnect": "تعذر الاتصال بواجهة برمجة تطبيقات IPFS"
+    "couldNotConnect": "Could not connect to the Kubo RPC"
   },
   "apiAddressForm": {
     "placeholder": "أدخل عنوان (http://127.0.0.1:5001) أو متعدد العناوين (/ip4/127.0.0.1/tcp/5001)"
@@ -60,7 +60,7 @@
     "advanced": "متقدم",
     "agent": "عميل",
     "api": "Kubo RPC",
-    "apiAddress": "RPC API address",
+    "apiAddress": "Kubo RPC API address",
     "blocks": "تم التثبيت",
     "connection": "الإتصال",
     "downSpeed": "واردة",

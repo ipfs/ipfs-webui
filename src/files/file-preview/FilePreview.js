@@ -9,7 +9,7 @@ import './FilePreview.css'
 import { CID } from 'multiformats/cid'
 import { useDrag } from 'react-dnd'
 import { toString as fromUint8ArrayToString } from 'uint8arrays'
-import Button from '../../components/button/Button.js'
+import Button from '../../components/button/button.tsx'
 
 const maxPlainTextPreview = 1024 * 10 // only preview small part of huge files
 

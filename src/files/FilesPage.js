@@ -18,13 +18,15 @@ import { getJoyrideLocales } from '../helpers/i8n.js'
 import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
+import { useExplore } from 'ipld-explorer-components/providers'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
-  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins, doExploreUserProvidedPath,
+  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
+  const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
   const [modals, setModals] = useState({ show: null, files: null })
   const [contextMenu, setContextMenu] = useState({
@@ -116,7 +118,7 @@ const FilesPage = ({
   }
 
   const MainView = ({ t, files, remotePins, pendingPins, failedPins, doExploreUserProvidedPath }) => {
-    if (!files) return (<div/>)
+    if (!files || files.type === 'file') return (<div/>)
 
     if (files.type === 'unknown') {
       const path = files.path
@@ -127,12 +129,6 @@ const FilesPage = ({
             The current link isn't a file, nor a directory. Try to <button className='link blue pointer' onClick={() => doExploreUserProvidedPath(path)}>inspect</button> it instead.
           </Trans>
         </div>
-      )
-    }
-
-    if (files.type === 'file') {
-      return (
-        <FilePreview {...files} onDownload={() => onDownload([files])} />
       )
     }
 
@@ -216,6 +212,8 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
+      <Preview files={files} onDownload={() => onDownload([files])} />
+
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
         filesExist={!!(files && files.content && files.content.length)} />
@@ -248,6 +246,13 @@ const FilesPage = ({
   )
 }
 
+const Preview = ({ files, onDownload }) => {
+  if (files && files.type === 'file') {
+    return (<FilePreview {...files} onDownload={onDownload} />)
+  }
+  return (<div/>)
+}
+
 export default connect(
   'selectIpfsProvider',
   'selectIpfsConnected',
@@ -274,7 +279,6 @@ export default connect(
   'doFilesWrite',
   'doFilesDownloadLink',
   'doFilesDownloadCarLink',
-  'doExploreUserProvidedPath',
   'doFilesSizeGet',
   'selectIsCliTutorModeEnabled',
   'selectIsCliTutorModalOpen',

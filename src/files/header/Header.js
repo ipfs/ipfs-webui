@@ -6,7 +6,7 @@ import { humanSize } from '../../lib/files.js'
 // Components
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs.js'
 import FileInput from '../file-input/FileInput.js'
-import Button from '../../components/button/Button.js'
+import Button from '../../components/button/button.tsx'
 // Icons
 import GlyphDots from '../../icons/GlyphDots.js'
 import GlyphPinCloud from '../../icons/GlyphPinCloud.js'

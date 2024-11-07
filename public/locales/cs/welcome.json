@@ -6,15 +6,15 @@
   },
   "notConnected": {
     "paragraph1": "<0>Podívejte se na průvodce instalací v dokumentech IPFS<1> nebo vyzkoušejte tyto běžné opravy:</0>",
-    "paragraph2": "<0>Je spuštěn démon IPFS? Zkuste jej spustit nebo restartovat z terminálu:</0>",
-    "paragraph3": "<0>Je vaše rozhraní IPFS API nakonfigurováno tak, aby umožňovalo <1>požadavky s křížovým původem (CORS)</1>? Pokud ne, spusťte tyto příkazy a poté spusťte démona z terminálu:</0>",
-    "paragraph4": "<0>Je rozhraní IPFS API na jiném portu než 5001? Pokud je váš uzel nakonfigurován s <1>vlastní adresou API</1>, zadejte ji zde</0>."
+    "paragraph2": "<0>Je spuštěn démon IPFS? Zkuste spustit nebo restartovat Kubo z terminálu:</0>",
+    "paragraph3": "<0>Je rozhraní API Kubo RPC nakonfigurováno tak, aby umožňovalo <1>požadavky s křížovým původem (CORS)</1>? Pokud ne, spusťte tyto příkazy a poté spusťte démona z terminálu:</0>",
+    "paragraph4": "<0>Je rozhraní API Kubo RPC na jiném portu než 5001? Pokud je váš uzel nakonfigurován s <1>vlastní adresou API</1>, zadejte ji zde.</0>"
   },
   "aboutIpfs": {
     "header": "Co je to IPFS?",
     "paragraph1": "<0><0>Hypermediální distribuční protokol</0>, který zahrnuje myšlenky z Kademlie, BitTorrentu, Gitu a dalších.</0>",
     "paragraph2": "<0><0>Síť pro přenos souborů peer-to-peer</0> se zcela decentralizovanou architekturou bez centrálního bodu selhání, cenzury nebo kontroly</0>",
-    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
+    "paragraph3": "<0><0>Vstup na web zítřka</0> - tradiční prohlížeče mohou přistupovat k souborům IPFS prostřednictvím bran, jako je <2>https://dweb.link</2>, nebo přímo pomocí rozšíření <4>IPFS Companion</4>.</0>",
     "paragraph4": "<0><0>CDN nové generace</0> - stačí přidat soubor do uzlu a zpřístupnit jej světu pomocí adresování obsahu do mezipaměti a širokopásmová distribuce ve stylu BitTorrentu.</0>",
     "paragraph5": "<0><0>Sada vývojářských nástrojů</0> pro tvorbu <2>kompletně distribuovaných aplikací a služeb</2> podporovaná robustní open-source komunitou</0>"
   },
@@ -31,7 +31,7 @@
     "step1": {
       "title": "Úvodní stránka",
       "paragraph1": "Tato stránka vás informuje o tom, zda jste připojeni k IPFS, a nabízí nápady, co můžete v této aplikaci dělat.",
-      "paragraph2": "Pokud nejste připojeni k rozhraní API systému IPFS, zobrazí se místo některých jiných stránek také tato stránka s radami, jak se připojit.",
+      "paragraph2": "Pokud nejste připojeni k rozhraní API Kubo RPC, zobrazí se místo některých jiných stránek také tato stránka s radami, jak se připojit.",
       "paragraph3": "Tuto stránku můžete navštívit odkudkoli v aplikaci kliknutím na logo kostky IPFS v navigačním panelu."
     }
   }

@@ -5,10 +5,11 @@
  * @see https://alchemy.com/blog/how-to-polyfill-node-core-modules-in-webpack-5
  */
 import webpack from 'webpack'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 const PURE_ESM_MODULES = [
   'ipfs-geoip',
-  // 'ipld-explorer-components',
+  'ipld-explorer-components',
   '@chainsafe/is-ip',
   '@multiformats/multiaddr',
   'dag-jose',
@@ -89,6 +90,11 @@ function webpackOverride (config) {
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer']
+    }),
+    new BundleAnalyzerPlugin({
+      generateStatsFile: true,
+      analyzerMode: 'disabled',
+      openAnalyzer: false
     })
   ])
 
@@ -107,6 +113,7 @@ function webpackOverride (config) {
       fullySpecified: false
     }
   })
+  config.resolve.extensions = ['.js', '.jsx', '.tsx', '.ts', '...']
 
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'development'
@@ -128,37 +135,7 @@ function webpackOverride (config) {
 }
 
 const configOverride = {
-  webpack: webpackOverride,
-  jest: (config) => {
-    /**
-     * @type {import('jest').Config}
-     */
-    return ({
-      ...config,
-      setupFiles: [...config.setupFiles, 'fake-indexeddb/auto'],
-      moduleNameMapper: {
-        ...config.moduleNameMapper,
-        'multiformats/basics': '<rootDir>/node_modules/multiformats/dist/src/basics.js',
-        'multiformats/bases/base32': '<rootDir>/node_modules/multiformats/dist/src/bases/base32.js',
-        'multiformats/bases/base58': '<rootDir>/node_modules/multiformats/dist/src/bases/base58.js',
-        'multiformats/cid': '<rootDir>/node_modules/multiformats/dist/src/cid.js',
-        'multiformats/hashes/digest': '<rootDir>/node_modules/multiformats/dist/src/hashes/digest.js',
-        'multiformats/hashes/sha2': '<rootDir>/node_modules/multiformats/dist/src/hashes/sha2.js',
-        'uint8arrays/alloc': '<rootDir>/node_modules/uint8arrays/dist/src/alloc.js',
-        'uint8arrays/concat': '<rootDir>/node_modules/uint8arrays/dist/src/concat.js',
-        'uint8arrays/equals': '<rootDir>/node_modules/uint8arrays/dist/src/equals.js',
-        'uint8arrays/from-string': '<rootDir>/node_modules/uint8arrays/dist/src/from-string.js',
-        'uint8arrays/to-string': '<rootDir>/node_modules/uint8arrays/dist/src/to-string.js',
-        '@chainsafe/is-ip/parse': '<rootDir>/node_modules/@chainsafe/is-ip/lib/parse.js',
-        // eslint-disable-next-line quote-props
-        'eventemitter3': '<rootDir>/node_modules/eventemitter3/dist/eventemitter3.esm.js'
-      },
-      transformIgnorePatterns: [
-        'node_module/(?!(eventemitter3)/).+\\.(js|jsx|mjs|cjs|ts|tsx)$',
-        '^.+\\.module\\.(css|sass|scss)$' // default
-      ]
-    })
-  }
+  webpack: webpackOverride
 }
 
 export default configOverride

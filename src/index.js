@@ -10,6 +10,7 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from './i18n.js'
 import { DndProvider } from 'react-dnd'
 import DndBackend from './lib/dnd-backend.js'
+import { HeliaProvider, ExploreProvider } from 'ipld-explorer-components/providers'
 
 const appVersion = process.env.REACT_APP_VERSION
 const gitRevision = process.env.REACT_APP_GIT_REV
@@ -26,7 +27,11 @@ async function render () {
     <Provider store={store}>
       <I18nextProvider i18n={i18n} >
         <DndProvider backend={DndBackend}>
-          <App />
+          <HeliaProvider>
+            <ExploreProvider>
+              <App />
+            </ExploreProvider>
+          </HeliaProvider>
         </DndProvider>
       </I18nextProvider>
     </Provider>,

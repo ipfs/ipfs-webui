@@ -101,7 +101,7 @@
       "paragraph3": "Pro tip: přetáhněte soubor z jakékoli jiné stránky webového uživatelského rozhraní a přidejte je do kořenového adresáře vašeho MFS."
     }
   },
-  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
+  "previewLimitReached": "Tento náhled je omezen na 10 KiB. Kliknutím na tlačítko pro stažení získáte přístup k celému souboru.",
   "previousFolder": "Návrat do předchozí složky",
   "fileLabel": "Zvolte {type} {name} velikost: {size}",
   "hashUnavailable": "hash není k dispozici",

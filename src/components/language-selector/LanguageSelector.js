@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { getCurrentLanguage } from '../../lib/i18n.js'
 
 // Components
-import Button from '../button/Button.js'
+import Button from '../button/button.tsx'
 import Overlay from '../overlay/Overlay.js'
 import LanguageModal from './language-modal/LanguageModal.js'
 

@@ -15,7 +15,7 @@ const { console } = windowOrGlobal
 let ipfsd
 let ipfs
 async function run (rpcPort) {
-  let gatewayPort = 8998
+  let gatewayPort = 8080
   if (ipfsd != null && ipfs != null) {
     throw new Error('IPFS backend already running')
   }
@@ -25,7 +25,7 @@ async function run (rpcPort) {
     ipfs = create(endpoint)
   } else {
     // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
-    gatewayPort = await getPort(8998, '0.0.0.0')
+    gatewayPort = await getPort(gatewayPort, '0.0.0.0')
     const factory = createFactory({
       rpc: create,
       type: 'kubo',

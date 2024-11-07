@@ -1,6 +1,6 @@
 // @ts-check
 
-import * as Enum from './enum.js'
+import * as Enum from '../lib/enum.js'
 import { perform } from './task.js'
 
 /**

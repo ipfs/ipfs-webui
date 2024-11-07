@@ -34,7 +34,7 @@
     "done": "Fertig"
   },
   "cliModal": {
-    "description": "Füge folgendes in dein Terminal ein, um diese Aufgabe in IPFS über die Kommandozeile auszuführen. Denke daran, dass du Platzhalter durch Ihre spezifischen Parameter ersetzen musst."
+    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
   },
   "nav": {
     "bugsLink": "Fehler melden",
@@ -43,7 +43,7 @@
   "status": {
     "connectedToIpfs": "Mit dem IPFS verbunden",
     "connectingToIpfs": "Mit IPFS verbinden…",
-    "couldNotConnect": "Es konnte keine Verbindung zur IPFS-API hergestellt werden"
+    "couldNotConnect": "Could not connect to the Kubo RPC"
   },
   "apiAddressForm": {
     "placeholder": "Gib eine URL (http://127.0.0.1:5001) oder eine Multiadresse (/ip4/127.0.0.1/tcp/5001) ein"
@@ -60,7 +60,7 @@
     "advanced": "Erweitert",
     "agent": "Agent",
     "api": "Kubo RPC",
-    "apiAddress": "RPC API address",
+    "apiAddress": "Kubo RPC API address",
     "blocks": "Blöcke",
     "connection": "Verbindung",
     "downSpeed": "Eingehend",

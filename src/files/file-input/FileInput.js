@@ -10,7 +10,7 @@ import NewFolderIcon from '../../icons/StrokeNewFolder.js'
 import DecentralizationIcon from '../../icons/StrokeDecentralization.js'
 // Components
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown.js'
-import Button from '../../components/button/Button.js'
+import Button from '../../components/button/button.tsx'
 import { cliCmdKeys } from '../../bundles/files/consts.js'
 
 const AddButton = withTranslation('app')(

@@ -23,8 +23,8 @@
     "translationProjectLink": "Participez projet de traduction IPFS"
   },
   "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API RPC pour Kubo personnalisée, y compris un port autre que le défaut 5001, entrez-la ici.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "publicSubdomainGatewayDescription": "<0>Sélectionnez votre <1>Passerelle de Sous-domaines</1> pour créer des liens partageables.</0>",
+  "publicPathGatewayDescription": "<0>Sélectionnez une <1>Passerelle de Chemins</1> de secours pour créer des liens partageables pour les CIDs excédants la limite de 63 caractères des DNS.</0>",
   "cliDescription": "<0>Activez cette option pour faire apparaître une icône \"Voir code\" <1></1> près des principales commandes IPFS. En cliquant dessus, vous ouvrez un pop-up avec le code pour cette commande, pour pouvoir le coller dans votre invite de lignes de commandes (CLI).</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Si vous avez effectué des modifications à la configuration dans cette page d'édition du code que vous voulez conserver, cliquez sur l'icône de téléchargement à côté du bouton de copie pour le télécharger en tant que fichier JSON."

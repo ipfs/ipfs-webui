@@ -6,9 +6,9 @@
   },
   "notConnected": {
     "paragraph1": "<0>Verifique o guia de instalação nos <1>Documentos IPFS</1> ou tente estas correções comuns:</0>",
-    "paragraph2": "<0>Seu daemon IPFS está em execução? Tente iniciá-lo ou reiniciá-lo em seu terminal:</0>",
-    "paragraph3": "<0>Sua API IPFS está configurada para permitir <1>solicitações de origem cruzada (CORS)</1>? Caso contrário, execute estes comandos e, em seguida, inicie o daemon a partir do terminal:</0>",
-    "paragraph4": "<0>Sua API IPFS está em uma porta diferente de 5001? Se o seu nó estiver configurado com um <1>endereço de API personalizado</1>, insira-o aqui.</0>"
+    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
+    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
+    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
   },
   "aboutIpfs": {
     "header": "O que é o IPFS?",
@@ -31,7 +31,7 @@
     "step1": {
       "title": "Página de boas-vindas",
       "paragraph1": "Esta página permite que você saiba se está conectado ao IPFS e oferece ideias de coisas que você pode fazer com este aplicativo.",
-      "paragraph2": "Se você não estiver conectado à API IPFS, esta página também aparecerá no lugar de algumas outras, com dicas de como se conectar.",
+      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
       "paragraph3": "Você pode visitar esta página de qualquer lugar no aplicativo clicando no logotipo do cubo IPFS na barra de navegação."
     }
   }
