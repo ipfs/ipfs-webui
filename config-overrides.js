@@ -90,13 +90,21 @@ function webpackOverride (config) {
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer']
-    }),
-    new BundleAnalyzerPlugin({
-      generateStatsFile: true,
-      analyzerMode: 'disabled',
-      openAnalyzer: false
     })
   ])
+
+  /**
+   * NODE_ENV is overridden by react-scripts/react-app-rewired-esm,
+   * so we set BUILD_ENV in the analyze script
+   */
+  if (process.env.BUILD_ENV === 'analyze') {
+    config.plugins.push(
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'server',
+        openAnalyzer: true
+      })
+    )
+  }
 
   config.module.rules = modifyBabelLoaderRuleForBuild(config.module.rules)
   config.module.rules.push({

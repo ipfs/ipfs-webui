@@ -29,7 +29,7 @@
     "test:e2e": "cross-env REACT_APP_ENV=test npx playwright test -c ./test/e2e",
     "test:build": "cross-env REACT_APP_ENV=test run-s build",
     "test:coverage": "jest --coverage",
-    "analyze": "webpack-bundle-analyzer build/stats.json",
+    "analyze": "cross-env BUILD_ENV=analyze npm run build",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009",
     "build-storybook": "build-storybook --modern",
