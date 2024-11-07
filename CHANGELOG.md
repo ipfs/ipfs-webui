@@ -1,3 +1,28 @@
+## [4.4.0](https://github.com/ipfs/ipfs-webui/compare/v4.3.3...v4.4.0) (2024-11-07)
+
+
+ CID `bafybeibkirkltohusogcco46jcw7khtgjf5nwphuvufjssr5pvhsuol5uy`
+
+ --- 
+
+
+
+### Features
+
+* use ipld-explorer-components@8.1.0 ([#2283](https://github.com/ipfs/ipfs-webui/issues/2283)) ([437b8fe](https://github.com/ipfs/ipfs-webui/commit/437b8fedadaf5f7ea57751284778c41587ed8486)), closes [#2259](https://github.com/ipfs/ipfs-webui/issues/2259)
+
+
+### Bug Fixes
+
+* normalize catch-all listeners to loopback ([#2287](https://github.com/ipfs/ipfs-webui/issues/2287)) ([edf14c6](https://github.com/ipfs/ipfs-webui/commit/edf14c6061ceb507520b1cfe4a41358c6274e4fa)), closes [#1821](https://github.com/ipfs/ipfs-webui/issues/1821)
+* remove iltorb dep, build for node v22.9.0 ([#2273](https://github.com/ipfs/ipfs-webui/issues/2273)) ([9ba4559](https://github.com/ipfs/ipfs-webui/commit/9ba455981d82160e4ea4a183ca36ba8368e6e0fa))
+
+
+### Trivial Changes
+
+* move enum.js to lib folder ([#2285](https://github.com/ipfs/ipfs-webui/issues/2285)) ([682de0b](https://github.com/ipfs/ipfs-webui/commit/682de0b6cd10956981899970af2877ce064ec34c))
+* pull new translations ([#2279](https://github.com/ipfs/ipfs-webui/issues/2279)) ([8205d12](https://github.com/ipfs/ipfs-webui/commit/8205d12ffbfa94f6fc2657289603a9b6d91e2ab8))
+
 ## [4.3.3](https://github.com/ipfs/ipfs-webui/compare/v4.3.2...v4.3.3) (2024-10-16)
 
 
