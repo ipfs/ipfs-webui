@@ -30,7 +30,6 @@
     "test:build": "cross-env REACT_APP_ENV=test run-s build",
     "test:coverage": "jest --coverage",
     "analyze": "webpack-bundle-analyzer build/stats.json",
-    "bundlesize": "bundlesize",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009",
     "build-storybook": "build-storybook --modern",
@@ -143,7 +142,6 @@
     "autoprefixer": "^10.4.7",
     "basic-auth": "^2.0.1",
     "big.js": "^5.2.2",
-    "bundlesize": "0.18.2",
     "concurrently": "^7.3.0",
     "conventional-changelog-conventionalcommits": "^5.0.0",
     "cross-env": "^6.0.3",
@@ -182,7 +180,7 @@
     "uint8arrays": "^4.0.9",
     "wait-on": "^7.2.0",
     "webpack": "^5.73.0",
-    "webpack-bundle-analyzer": "^3.8.0"
+    "webpack-bundle-analyzer": "^4.10.2"
   },
   "homepage": "./",
   "bundlesize": [

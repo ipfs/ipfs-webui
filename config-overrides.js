@@ -5,6 +5,7 @@
  * @see https://alchemy.com/blog/how-to-polyfill-node-core-modules-in-webpack-5
  */
 import webpack from 'webpack'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 const PURE_ESM_MODULES = [
   'ipfs-geoip',
@@ -89,6 +90,11 @@ function webpackOverride (config) {
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer']
+    }),
+    new BundleAnalyzerPlugin({
+      generateStatsFile: true,
+      analyzerMode: 'disabled',
+      openAnalyzer: false
     })
   ])
 
