@@ -3,7 +3,7 @@
 // @ts-ignore
 import root from 'window-or-global'
 import changeCase from 'change-case'
-import * as Enum from './enum.js'
+import * as Enum from '../lib/enum.js'
 import { createSelector } from 'redux-bundler'
 import { ACTIONS as FILES } from './files/consts.js'
 import { ACTIONS as CONIFG } from './config-save.js'

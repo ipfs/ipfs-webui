@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import TrashIcon from '../../../icons/StrokeTrash.js'
-import Button from '../../button/Button.js'
+import Button from '../../button/button.tsx'
 import { Modal, ModalActions, ModalBody } from '../../modal/Modal.js'
 import { Trans } from 'react-i18next'
 

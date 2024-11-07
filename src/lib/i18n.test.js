@@ -9,11 +9,13 @@ const testEachLanguage = (fn) => {
   Object.keys(languages).forEach((lang) => fn(lang))
 }
 
-const allLanguages = (await readdir('./public/locales', { withFileTypes: true }))
-  .filter(dirent => dirent.isDirectory())
-  .map(dirent => dirent.name)
-
 describe('i18n', function () {
+  let allLanguages
+  beforeAll(async function () {
+    allLanguages = (await readdir('./public/locales', { withFileTypes: true }))
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name)
+  })
   it('should have a languages.json entry for each folder', function () {
     const namedLocales = localesList.map(({ locale }) => locale)
     expect(namedLocales).toEqual(allLanguages)

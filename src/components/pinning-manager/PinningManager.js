@@ -4,7 +4,7 @@ import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
 import { sortByProperty } from '../../lib/sort.js'
 
 // Components
-import Button from '../button/Button.js'
+import Button from '../button/button.tsx'
 import Overlay from '../overlay/Overlay.js'
 import PinningModal from './pinning-manager-modal/PinningManagerModal.js'
 import AutoUploadModal from './auto-upload-modal/AutoUploadModal.js'

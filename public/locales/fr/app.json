@@ -34,7 +34,7 @@
     "done": "Terminé"
   },
   "cliModal": {
-    "description": "Collez la commande suivante dans votre terminal pour effectuer cette tâche dans IPFS via une ligne de commande. Souvenez-vous de remplacer certaines sections par vos propres paramètres aux endroits adéquats. "
+    "description": "Collez la commande suivante dans votre terminal pour effectuer cette tache via l'invite de commande. Souvenez vous de remplacer les exemples par votre propres paramètres."
   },
   "nav": {
     "bugsLink": "Signaler un bug",
@@ -43,13 +43,13 @@
   "status": {
     "connectedToIpfs": "Connecté à IPFS",
     "connectingToIpfs": "Connexion à IPFS...",
-    "couldNotConnect": "La connexion à l'API IPFS a échoué"
+    "couldNotConnect": "Nous n'avons pas pu nous connecter au RPC de Kubo"
   },
   "apiAddressForm": {
     "placeholder": "Entrez une URL (http://127.0.0.1:5001) ou une Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": "Entrez une URL (https://ipfs.io)"
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Entrez une URL (https://dweb.link)"
@@ -60,7 +60,7 @@
     "advanced": "Avancé",
     "agent": "Agent",
     "api": "RPC de Kubo",
-    "apiAddress": "Adresse de l'API RPC",
+    "apiAddress": "Adresse de l'API du RPC de Kubo",
     "blocks": "Blocs",
     "connection": "Connexion",
     "downSpeed": "Entrant",

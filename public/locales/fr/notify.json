@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "Impossible de se connecter. Vérifiez que votre daemon est en cours d'exécution.",
   "windowIpfsRequestFailed": "La requête IPFS a échoué. Vérifiez les paramètres de IPFS Companion.",
-  "ipfsInvalidApiAddress": "L'adresse d'API IPFS fournie est invalide.",
-  "ipfsConnectSuccess": "Connecté à l'adresse d'API IPFS avec succès.",
-  "ipfsConnectFail": "Impossible de se connecter à l'adresse d'API IPFS fournie",
+  "ipfsInvalidApiAddress": "L'adresse du RPC de Kubo fournie n'est pas valide.",
+  "ipfsConnectSuccess": "Connecté à l'adresse du RPC de Kubo avec succès",
+  "ipfsConnectFail": "Nous n'avons pas vu nous connecter à l'adresse du RPC de Kubo fournie",
   "ipfsPinFailReason": "Impossible d'épingler via {serviceName} : {errorMsg}",
   "ipfsPinSucceedReason": "Épinglé avec succès à {serviceName}",
   "ipfsUnpinSucceedReason": "Désépinglé avec succès de {serviceName}",

@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "Bağlanamadı. Lütfen daemon'unuzun çalışıp çalışmadığını kontrol edin.",
   "windowIpfsRequestFailed": "IPFS isteği başarısız oldu. Lütfen IPFS Companion ayarlarınızı kontrol edin.",
-  "ipfsInvalidApiAddress": "Sağlanan IPFS UPA adresi geçersiz.",
-  "ipfsConnectSuccess": "IPFS UPA adresine başarıyla bağlanıldı",
-  "ipfsConnectFail": "Sağlanan IPFS UPA adresine bağlanılamıyor",
+  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
+  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
+  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
   "ipfsPinFailReason": "{serviceName} servisinde sabitleme ayarlanamıyor: {errorMsg}",
   "ipfsPinSucceedReason": "Successfully pinned at {serviceName}",
   "ipfsUnpinSucceedReason": "Successfully unpinned from {serviceName}",

@@ -1,6 +1,5 @@
 import { composeBundles, createCacheBundle } from 'redux-bundler'
 import ipfsProvider from './ipfs-provider.js'
-import { exploreBundle, heliaBundle } from 'ipld-explorer-components'
 import appIdle from './app-idle.js'
 import nodeBandwidthChartBundle from './node-bandwidth-chart.js'
 import nodeBandwidthBundle from './node-bandwidth.js'
@@ -32,13 +31,11 @@ export default composeBundles(
   }),
   appIdle({ idleTimeout: 5000 }),
   ipfsProvider,
-  heliaBundle,
   identityBundle,
   routesBundle,
   redirectsBundle,
   toursBundle,
   filesBundle(),
-  exploreBundle(),
   configBundle,
   configSaveBundle,
   gatewayBundle,

@@ -91,9 +91,11 @@ function getURLFromAddress (name, config) {
   if (!config) return null
 
   try {
-    const address = Array.isArray(config.Addresses[name])
+    const address = (Array.isArray(config.Addresses[name])
       ? config.Addresses[name][0]
-      : config.Addresses[name]
+      : config.Addresses[name])
+      .replace(/\/0\.0\.0\.0\//, '/127.0.0.1/') // fix for https://github.com/ipfs/ipfs-webui/issues/1821
+      .replace(/\/::\//, '/::1/')
     const url = toUri(address, { assumeHttp: true })
     if (new URL(url).port === 0) throw Error('port set to 0, not deterministic')
     return url

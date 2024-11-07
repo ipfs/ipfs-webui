@@ -62,7 +62,7 @@
     "src/bundles/analytics.js",
     "src/bundles/config-save.js",
     "src/bundles/connected.js",
-    "src/bundles/enum.js",
+    "src/lib/enum.js",
     "src/bundles/experiments.js",
     "src/bundles/ipfs-desktop.js",
     "src/bundles/ipfs-provider.js",

@@ -5,7 +5,7 @@ import { withTranslation } from 'react-i18next'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../../modal/Modal.js'
-import Button from '../../button/Button.js'
+import Button from '../../button/button.tsx'
 
 const AutoUploadModal = ({ name, service, t, onLeave, doSetAutoUploadForService, className, ...props }) => {
   const onToggle = () => {
