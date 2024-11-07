@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../../modal/Modal.js'
-import Button from '../../button/Button.js'
+import Button from '../../button/button.tsx'
 import './PinningManagerServiceModal.css'
 
 const PinningManagerServiceModal = ({ t, onLeave, onSuccess, className, service, tReady, doAddPinningService, nickname, apiEndpoint, visitServiceUrl, secretApiKey, complianceReportUrl, ...props }) => {
