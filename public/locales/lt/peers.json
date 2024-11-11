@@ -1,0 +1,28 @@
+{
+  "title": "Lygiarangiai",
+  "localNetwork": "Vietinis tinklas",
+  "nearby": "nearby",
+  "protocols": "Atviri srautai",
+  "addConnection": "Pridėti ryšį",
+  "insertPeerAddress": "Įterpkite lygiarangio, prie kurio norite jungtis, adresą.",
+  "addPermanentPeer": "Add to the permanent peering configuration",
+  "plusPeers": "+ dar {number} lygiarangiai",
+  "connectionDirectionInbound": "inbound",
+  "connectionDirectionOutbound": "outbound",
+  "copyFeedback": "Nukopijuota!",
+  "tour": {
+    "step1": {
+      "title": "Lygiarangių puslapis",
+      "paragraph1": "Štai čia galite matyti lygiarangius, prie kurių esate prisijungę, ir šalį, kurioje jie yra.",
+      "paragraph2": "Spustelėkite „Kitas“ norėdami sužinoti daugiau."
+    },
+    "step2": {
+      "title": "Lygiarangių žemėlapis",
+      "paragraph1": "Čia atvaizduojama, kuriame pasaulio krašte yra lygiarangiai, prie kurių esate prisijungę."
+    },
+    "step3": {
+      "title": "Lygiarangių lentelė",
+      "paragraph1": "Žiūrėkite prisijungusių lygiarangių ID, jų adresą ir apytikslę vietą."
+    }
+  }
+}
