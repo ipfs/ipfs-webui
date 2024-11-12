@@ -40,7 +40,7 @@ jobs:
       - name: Attach produced build to Github Action
         # only re-upload if we re-built
         if: steps.build-cache.outputs.cache-hit != 'true'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ipfs-webui_${{ github.sha }}-${{ runner.os }}-build
           path: build
