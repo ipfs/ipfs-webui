@@ -74,6 +74,11 @@
     "nativeName": "한국어 (韩国)",
     "englishName": "Korean (Korea)"
   },
+  "lt": {
+    "locale": "lt",
+    "nativeName": "Lietuvių",
+    "englishName": "Lithuanian"
+  },
   "nl": {
     "locale": "nl",
     "nativeName": "Nederlands",
