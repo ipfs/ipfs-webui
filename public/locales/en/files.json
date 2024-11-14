@@ -54,6 +54,7 @@
   "addByPathModal": {
     "title": "Import from IPFS",
     "description": "Insert an IPFS path (CID) to import.",
+    "preloadNote": "NOTE: Imported path is lazy-loaded by default, and will be retrieved on-demand as you browse it. To proactively prefetch imported path to the local Datastore, choose ”Download” from the context menu.",
     "importPathPlaceholder": "Path or CID (required)",
     "namePlaceholder": "Name (optional)",
     "examples": "Examples:"
@@ -114,9 +115,11 @@
   "clickToDismiss": "Click to dismiss",
   "clickToCancel": "Click to cancel",
   "blocks": "Blocks",
-  "allBlocks": "All blocks",
-  "allBlocksDescription": "Total size of blocks on your entire IPFS node; this includes everything in Files, plus all locally pinned items and any temporary cached data",
-  "filesDescription": "Total size of data in the current directory (if a subdirectory, the size of all data in Files is also displayed)",
+  "localDatastore": "Local Datastore",
+  "localDatastoreDescription": "Total size of all blocks currently stored in the Datastore of your IPFS node (“RepoSize” from “ipfs repo stat”). This includes everything in the Files view (MFS), low-level pins, and any recently removed or temporary cached blocks that were not garbage-collected yet.",
+  "currentLocationRoot": "My Files",
+  "currentLocation": "Current Location",
+  "currentLocationDescription": "Total size of the DAG behind the current directory (“CumulativeSize” from “ipfs files stat”). This value includes both local and remote blocks, and could be bigger than the size of your local datastore.",
   "pinningQueue": "Pinning queue",
   "more": "More",
   "files": "Files",

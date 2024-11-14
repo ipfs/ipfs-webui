@@ -72,7 +72,7 @@ class Header extends React.Component {
               className='fill-teal PendingAnimation' />
           </a> }
 
-          <BarOption title={t('filesDescription')} text={t('app:terms:files')}>
+          <BarOption title={t('currentLocationDescription')} text={hasUpperDirectory ? t('currentLocation') : t('currentLocationRoot')}>
             { hasUpperDirectory
               ? (
                 <span>
@@ -82,7 +82,7 @@ class Header extends React.Component {
               : size(filesSize) }
           </BarOption>
 
-          <BarOption title={t('allBlocksDescription')} text={t('allBlocks')}>
+          <BarOption title={t('localDatastoreDescription')} text={t('localDatastore')}>
             { size(repoSize) }
           </BarOption>
 
