@@ -82,7 +82,7 @@ class Header extends React.Component {
               : size(filesSize) }
           </BarOption>
 
-          <BarOption title={t('allBlocksDescription')} text={t('allBlocks')}>
+          <BarOption title={t('localDatastoreDescription')} text={t('localDatastore')}>
             { size(repoSize) }
           </BarOption>
 
