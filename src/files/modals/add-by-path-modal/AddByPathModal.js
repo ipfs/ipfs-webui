@@ -106,6 +106,10 @@ class AddByPathModal extends React.Component {
             name='name'
             className='input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-90 center focus-outline'
             type='text' />
+
+          <div className='mt3 mb3 flex flex-column items-center'>
+            <p className='mt0 charcoal tl w-90'>{t('addByPathModal.preloadNote')}</p>
+          </div>
         </ModalBody>
 
         <ModalActions>
