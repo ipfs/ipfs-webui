@@ -54,6 +54,7 @@
   "addByPathModal": {
     "title": "从IPFS导入",
     "description": "输入要导入到的IPFS路径（CID）。",
+    "preloadNote": "注意：默认情况下，导入的路径是延迟加载的，在您浏览时将按需检索。要主动将导入的路径预取到本地数据存储，请从上下文菜单中选择“下载”。",
     "importPathPlaceholder": "路径或CID (必要)",
     "namePlaceholder": "名称 (可选)",
     "examples": "示例："
@@ -114,9 +115,11 @@
   "clickToDismiss": "按此忽略",
   "clickToCancel": "按此取消",
   "blocks": "块",
-  "allBlocks": "所有块",
-  "allBlocksDescription": "您整个IPFS 节点内的所有已使用的块大小，这包括所有的文件，加上所有的本地固定的文件以及任何任何临时缓存的数据。",
-  "filesDescription": "当前目录的总数据大小（如果包含子文件夹也将一并合计）",
+  "localDatastore": "本地数据存储",
+  "localDatastoreDescription": "当前存储在IPFS节点数据存储中的所有块的总大小 (“RepoSize” 来自 “ipfs 仓库统计”)。这包括文件视图（MFS）中的所有内容、低级引脚以及任何最近删除或临时缓存但尚未垃圾回收的块。",
+  "currentLocationRoot": "我的文件",
+  "currentLocation": "当前位置",
+  "currentLocationDescription": "当前目录后面的DAG的总大小 (“CumulativeSize” 来自 “ipfs文件统计”)。此值包括本地和远程块，并且可能大于本地数据存储的大小。",
   "pinningQueue": "固定队列",
   "more": "更多",
   "files": "文件",
