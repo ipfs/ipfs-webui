@@ -21,7 +21,7 @@ jobs:
       - name: Run test-storybook:ci
         run: npm run test-storybook:ci
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: storybook_tests # optional
