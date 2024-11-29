@@ -1,11 +1,10 @@
 import { test } from './setup/coverage.js'
-import { expect } from '@playwright/test'
 import { fixtureData } from './fixtures/index.js'
 import all from 'it-all'
 import filesize from 'filesize'
 import * as kuboRpcModule from 'kubo-rpc-client'
 
-test.describe.serial('Files screen', () => {
+test.describe('Files screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/files')
   })
@@ -96,5 +95,4 @@ test.describe.serial('Files screen', () => {
     await page.waitForURL(`/#/explore/${testCid}`)
     await page.waitForSelector('text="CID info"')
   })
-
 })
