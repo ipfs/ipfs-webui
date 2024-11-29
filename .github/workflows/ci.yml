@@ -135,6 +135,7 @@ jobs:
           CLUSTER_USER: ${{ secrets.CLUSTER_USER }}
           CLUSTER_PASSWORD: ${{ secrets.CLUSTER_PASSWORD }}
           PIN_NAME: "ipfs-webui@${{ github.sha }}"
+        timeout-minutes: 15
 
       - name: Fail job due to pinning failure
         # only fail if pinning failed for main commits
