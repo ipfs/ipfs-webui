@@ -1,10 +1,11 @@
 import { test } from './setup/coverage.js'
+import { expect } from '@playwright/test'
 import { fixtureData } from './fixtures/index.js'
 import all from 'it-all'
 import filesize from 'filesize'
 import * as kuboRpcModule from 'kubo-rpc-client'
 
-test.describe('Files screen', () => {
+test.describe.serial('Files screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/files')
   })
@@ -62,4 +63,38 @@ test.describe('Files screen', () => {
       await page.waitForSelector(`text=${human(file.size)}`)
     }
   })
+
+  test('should have active Context menu that allows Inspection of the DAG', async ({ page }) => {
+    // dedicated test file to make this isolated from the rest
+    const testFilename = 'explorer-context-menu-test.txt'
+    const testCid = 'bafkqaddjnzzxazldoqwxizltoq'
+
+    // first: create a test file
+    const button = 'button[id="import-button"]'
+    await page.waitForSelector(button, { state: 'visible' })
+    await page.click(button)
+    await page.waitForSelector('#add-by-path', { state: 'visible' })
+    page.click('button[id="add-by-path"]')
+    await page.waitForSelector('div[role="dialog"] input[name="name"]')
+    await page.fill('div[role="dialog"] input[name="path"]', `/ipfs/${testCid}`)
+    await page.fill('div[role="dialog"] input[name="name"]', testFilename)
+    await page.keyboard.press('Enter')
+    // expect file with matching filename to be added to the file list
+    await page.waitForSelector(`.File:has-text("${testFilename}")`)
+
+    // open context menu
+    const cbutton = `button[aria-label="View more options for ${testFilename}"]`
+    await page.waitForSelector(cbutton, { state: 'visible' })
+    await page.click(cbutton, { force: true })
+    await page.waitForSelector('text=Inspect', { state: 'visible' })
+
+    // click on Inspect option
+    await page.waitForSelector('text=Inspect', { state: 'visible' })
+    await page.locator('button:has-text("Inspect"):enabled').click({ force: true })
+
+    // confirm Explore screen was opened with correct CID
+    await page.waitForURL(`/#/explore/${testCid}`)
+    await page.waitForSelector('text="CID info"')
+  })
+
 })
