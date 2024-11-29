@@ -125,25 +125,15 @@ jobs:
         continue-on-error: true
         run: |
           ipfs-cluster-ctl --enc=json \
-            --host "${CLUSTER_HOST}" \
-            --basic-auth "$CLUSTER_USER:$CLUSTER_PASSWORD" \
-            peers ls > cluster-peers-ls
-          for maddr in $(jq -r '.ipfs.addresses[]?' cluster-peers-ls); do
-            ipfs swarm peering add "$maddr" &
-            ipfs swarm connect "$maddr" &
-          done
-          ipfs-cluster-ctl --enc=json \
               --host "${CLUSTER_HOST}" \
               --basic-auth "${CLUSTER_USER}:${CLUSTER_PASSWORD}" \
-              pin add \
+              add --format car --local \
               --name "${PIN_NAME}" \
-              --wait \
-              $PIN_CID
+              ipfs-webui_${{ github.sha }}.car
         env:
           CLUSTER_HOST: "/dnsaddr/ipfs-websites.collab.ipfscluster.io"
           CLUSTER_USER: ${{ secrets.CLUSTER_USER }}
           CLUSTER_PASSWORD: ${{ secrets.CLUSTER_PASSWORD }}
-          PIN_CID: ${{ steps.ipfs.outputs.cid }}
           PIN_NAME: "ipfs-webui@${{ github.sha }}"
 
       - name: Fail job due to pinning failure
