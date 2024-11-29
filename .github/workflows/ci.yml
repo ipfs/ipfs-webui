@@ -137,8 +137,6 @@ jobs:
               --basic-auth "${CLUSTER_USER}:${CLUSTER_PASSWORD}" \
               pin add \
               --name "${PIN_NAME}" \
-              --replication-min 1 \
-              --replication-max 3 \
               --wait \
               $PIN_CID
         env:
