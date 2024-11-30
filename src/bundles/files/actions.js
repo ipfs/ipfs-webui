@@ -400,6 +400,54 @@ const actions = () => ({
   }),
 
   /**
+ * Reads a CSV file containing CIDs and adds each one to IPFS at the given root path.
+ * @param {FileStream[]} source - The CSV file containing CIDs
+ * @param {string} root - Destination directory in IPFS
+ */
+  doFilesAddBulkCid: (source, root) => spawn(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
+    ensureMFS(store)
+
+    if (source.length !== 1) {
+      throw new Error('Please provide exactly one CSV file')
+    }
+
+    // Read the CSV file content
+    const file = source[0]
+    const content = await new Response(file.content).text()
+
+    // Split content into CIDs (assuming one CID per line, comma-separated)
+    const cids = content.split(/[\n,]/).map(cid => cid.trim()).filter(Boolean)
+
+    /** @type {Array<{ path: string, cid: string }>} */
+    const entries = []
+    let progress = 0
+    const totalCids = cids.length
+
+    yield { entries, progress: 0 }
+
+    for (const cid of cids) {
+      try {
+        const src = `/ipfs/${cid}`
+        const dst = realMfsPath(join(root || '/files', cid))
+
+        await ipfs.files.cp(src, dst)
+
+        entries.push({ path: dst, cid })
+        progress = (entries.length / totalCids) * 100
+
+        yield { entries, progress }
+      } catch (err) {
+        console.error(`Failed to add CID ${cid}:`, err)
+        // Continue with next CID even if one fails
+      }
+    }
+
+    yield { entries, progress: 100 }
+    await store.doFilesFetch()
+    return entries
+  }),
+
+  /**
    * Creates a download link for the provided files.
    * @param {FileStat[]} files
    */
