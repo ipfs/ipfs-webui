@@ -40,8 +40,18 @@ class FileInput extends React.Component {
     return this.filesInput.click()
   }
 
+  onAddBulkCid = async () => {
+    this.toggleDropdown()
+    return this.bulkCidInput.click()
+  }
+
   onInputChange = (input) => async () => {
     this.props.onAddFiles(normalizeFiles(input.files))
+    input.value = null
+  }
+
+  onBulkCidInputChange = (input) => async () => {
+    this.props.onAddBulkCid(normalizeFiles(input.files))
     input.value = null
   }
 
@@ -92,8 +102,12 @@ class FileInput extends React.Component {
               <NewFolderIcon className='fill-aqua w2 h2 mr1' />
               {t('newFolder')}
             </Option>
-            <Option onClick={this.onAddByPath} id='add-by-path' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_IPFS)}
-              isCliTutorModeEnabled={isCliTutorModeEnabled}>
+            <Option onClick={this.onAddBulkCid}
+              // TO-DO:
+              // id='add-bulk-cid'
+              // onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_IPFS)}
+              // isCliTutorModeEnabled={isCliTutorModeEnabled}
+            >
               <DocumentIcon className='fill-aqua w2 mr1' />
               Bulk CID Import
             </Option>
@@ -116,6 +130,15 @@ class FileInput extends React.Component {
           webkitdirectory='true'
           ref={el => { this.folderInput = el }}
           onChange={this.onInputChange(this.folderInput)} />
+
+        <input
+          // TO-DO id='file-input'
+          type='file'
+          className='dn'
+          multiple
+          accept='.csv'
+          ref={el => { this.bulkCidInput = el }}
+          onChange={this.onBulkCidInputChange(this.bulkCidInput)} />
       </div>
     )
   }
@@ -125,7 +148,8 @@ FileInput.propTypes = {
   t: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
   onAddByPath: PropTypes.func.isRequired,
-  onNewFolder: PropTypes.func.isRequired
+  onNewFolder: PropTypes.func.isRequired,
+  onAddBulkCid: PropTypes.func.isRequired
 }
 
 export default connect(
