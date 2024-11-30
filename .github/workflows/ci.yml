@@ -70,8 +70,7 @@ jobs:
         run: |
           # fix resolv - DNS provided by Github is unreliable for DNSLik/dnsaddr
           sudo sed -i -e 's/nameserver 127.0.0.*/nameserver 1.1.1.1/g' /etc/resolv.conf
-
-      - uses: ipfs/start-ipfs-daemon-action@v1
+      - run: ipfs init
       - name: Import build/ to IPFS
         id: ipfs
         run: |
