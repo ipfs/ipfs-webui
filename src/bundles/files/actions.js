@@ -378,6 +378,7 @@ const actions = () => ({
    * @param {string} src
    * @param {string} name
    */
+  // HERE
   doFilesAddPath: (root, src, name = '') => perform(ACTIONS.ADD_BY_PATH, async (ipfs, { store }) => {
     ensureMFS(store)
 

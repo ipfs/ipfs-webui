@@ -92,6 +92,11 @@ class FileInput extends React.Component {
               <NewFolderIcon className='fill-aqua w2 h2 mr1' />
               {t('newFolder')}
             </Option>
+            <Option onClick={this.onAddByPath} id='add-by-path' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_IPFS)}
+              isCliTutorModeEnabled={isCliTutorModeEnabled}>
+              <DocumentIcon className='fill-aqua w2 mr1' />
+              Bulk CID Import
+            </Option>
           </DropdownMenu>
         </Dropdown>
 
