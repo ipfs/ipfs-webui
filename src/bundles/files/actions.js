@@ -408,27 +408,40 @@ const actions = () => ({
     ensureMFS(store)
 
     if (source.length !== 1) {
-      throw new Error('Please provide exactly one CSV file')
+      throw new Error('Please provide exactly one text file')
     }
 
-    // Read the CSV file content
+    // Read the text file content
     const file = source[0]
     const content = await new Response(file.content).text()
 
-    // Split content into CIDs (assuming one CID per line, comma-separated)
-    const cids = content.split(/[\n,]/).map(cid => cid.trim()).filter(Boolean)
+    const lines = content.split('\n').map(line => line.trim()).filter(Boolean)
+    // NOTE: need to add finally fetch later
+    const cidObjects = lines.map((line) => {
+      let actualCid = line
+      let name = line
+      const cidParts = line.split(' ')
+      if (cidParts.length > 1) {
+        actualCid = cidParts[0]
+        name = cidParts.slice(1).join(' ')
+      }
+      return {
+        name,
+        cid: actualCid
+      }
+    })
 
     /** @type {Array<{ path: string, cid: string }>} */
     const entries = []
     let progress = 0
-    const totalCids = cids.length
+    const totalCids = cidObjects.length
 
     yield { entries, progress: 0 }
 
-    for (const cid of cids) {
+    for (const { cid, name } of cidObjects) {
       try {
         const src = `/ipfs/${cid}`
-        const dst = realMfsPath(join(root || '/files', cid))
+        const dst = realMfsPath(join(root || '/files', name || cid))
 
         await ipfs.files.cp(src, dst)
 

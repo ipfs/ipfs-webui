@@ -136,7 +136,7 @@ class FileInput extends React.Component {
           type='file'
           className='dn'
           multiple
-          accept='.csv'
+          accept='.txt'
           ref={el => { this.bulkCidInput = el }}
           onChange={this.onBulkCidInputChange(this.bulkCidInput)} />
       </div>
