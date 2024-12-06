@@ -51,12 +51,18 @@ class FileInput extends React.Component {
   }
 
   onBulkCidInputChange = (input) => async () => {
-    this.props.onAddBulkCid(normalizeFiles(input.files))
+    console.log('onBulkCidInputChange', input)
+    this.props.onBulkCidImport(normalizeFiles(input.files))
     input.value = null
   }
 
   onAddByPath = () => {
     this.props.onAddByPath()
+    this.toggleDropdown()
+  }
+
+  onBulkCidImport = () => {
+    this.props.onBulkCidImport()
     this.toggleDropdown()
   }
 
@@ -102,7 +108,9 @@ class FileInput extends React.Component {
               <NewFolderIcon className='fill-aqua w2 h2 mr1' />
               {t('newFolder')}
             </Option>
-            <Option onClick={this.onAddBulkCid}
+            <Option
+              // onClick={this.onAddBulkCid}
+              onClick={this.onBulkCidImport}
               // TO-DO:
               // id='add-bulk-cid'
               // onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_IPFS)}
@@ -149,7 +157,7 @@ FileInput.propTypes = {
   onAddFiles: PropTypes.func.isRequired,
   onAddByPath: PropTypes.func.isRequired,
   onNewFolder: PropTypes.func.isRequired,
-  onAddBulkCid: PropTypes.func.isRequired
+  onBulkCidImport: PropTypes.func.isRequired
 }
 
 export default connect(
