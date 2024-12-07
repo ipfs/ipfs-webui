@@ -40,21 +40,8 @@ class FileInput extends React.Component {
     return this.filesInput.click()
   }
 
-  onAddBulkCid = async () => {
-    this.toggleDropdown()
-    return this.bulkCidInput.click()
-  }
-
   onInputChange = (input) => async () => {
     this.props.onAddFiles(normalizeFiles(input.files))
-    input.value = null
-  }
-
-  // Old implementation that worked
-  onBulkCidInputChange = (input) => async () => {
-    console.log('onBulkCidInputChange', input)
-    console.log('onBulkCidInputChange files', input.files)
-    this.props.onBulkCidImport(normalizeFiles(input.files))
     input.value = null
   }
 
@@ -111,7 +98,6 @@ class FileInput extends React.Component {
               {t('newFolder')}
             </Option>
             <Option
-              // onClick={this.onAddBulkCid} // This worked before
               onClick={this.onBulkCidImport}
               // TO-DO:
               // id='add-bulk-cid'
@@ -141,15 +127,6 @@ class FileInput extends React.Component {
           ref={el => { this.folderInput = el }}
           onChange={this.onInputChange(this.folderInput)} />
 
-        {/* Old implementation that worked */}
-        <input
-          // TO-DO id='file-input'
-          type='file'
-          className='dn'
-          multiple
-          accept='.txt'
-          ref={el => { this.bulkCidInput = el }}
-          onChange={this.onBulkCidInputChange(this.bulkCidInput)} />
       </div>
     )
   }

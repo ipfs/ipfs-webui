@@ -378,7 +378,6 @@ const actions = () => ({
    * @param {string} src
    * @param {string} name
    */
-
   doFilesAddPath: (root, src, name = '') => perform(ACTIONS.ADD_BY_PATH, async (ipfs, { store }) => {
     ensureMFS(store)
 
@@ -404,7 +403,7 @@ const actions = () => ({
  * @param {FileStream[]} source - The CSV file containing CIDs
  * @param {string} root - Destination directory in IPFS
  */
-  doFilesAddBulkCid: (source, root) => spawn(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
+  doFilesBulkCidImport: (source, root) => spawn(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
     ensureMFS(store)
 
     // Ensure source is properly passed
