@@ -19,8 +19,8 @@ class BulkImportModal extends React.Component {
   }
 
   state = {
-    path: '',
-    name: '',
+    // path: '',
+    // name: '',
     selectedFile: null
   }
 
@@ -33,18 +33,8 @@ class BulkImportModal extends React.Component {
   }
 
   onChange = (event) => {
-    const target = event.target
-    const value = target.value
-    const name = target.name
-    this.setState({ [name]: value })
-  }
-
-  onBulkCidInputChange = (event) => {
     const files = event.target.files
-    console.log('files: ', files)
     this.setState({ selectedFile: files[0] })
-    // console.log('input: ', input)
-    // this.setState({ selectedFile: input.files })
   }
 
   selectFile = async () => {
@@ -52,11 +42,9 @@ class BulkImportModal extends React.Component {
   }
 
   onSubmit = async () => {
-    console.log('BulkImportModal onSubmit:', this.state.selectedFile)
     if (this.state.selectedFile) {
       const normalizedFiles = normalizeFiles([this.state.selectedFile])
-      console.log('Calling onBulkCidImport with:', { normalizedFiles, root: '/files' })
-      await this.props.onBulkCidImport(normalizedFiles, '/files')
+      await this.props.onBulkCidImport(normalizedFiles)
     }
   }
 
@@ -72,13 +60,9 @@ class BulkImportModal extends React.Component {
     return 'b--red-muted focus-outline-red'
   }
 
-  //   get isDisabled () {
-  //     if (this.state.path === '') {
-  //       return true
-  //     }
-
-  //     return !this.validatePath(this.state.path)
-  //   }
+  get isDisabled () {
+    return !this.state.selectedFile
+  }
 
   render () {
     const {
@@ -100,7 +84,7 @@ class BulkImportModal extends React.Component {
             className='dn'
             multiple
             accept='.txt'
-            onChange={this.onBulkCidInputChange}
+            onChange={this.onChange}
             // className='input-reset'
             // id='bulk-import'
             ref={el => {
@@ -136,7 +120,7 @@ class BulkImportModal extends React.Component {
 
         <ModalActions>
           <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>{t('actions.cancel')}</Button>
-          <Button className='ma2 tc' bg='bg-teal' /* disabled={this.isDisabled} */ onClick={this.onSubmit}>{t('app:actions.import')}</Button>
+          <Button className='ma2 tc' bg='bg-teal' disabled={this.isDisabled} onClick={this.onSubmit}>{t('app:actions.import')}</Button>
         </ModalActions>
       </Modal>
     )
