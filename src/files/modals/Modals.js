@@ -66,8 +66,8 @@ class Modals extends React.Component {
     this.leave()
   }
 
-  onBulkCidImport = () => {
-    this.props.onBulkCidImport()
+  onBulkCidImport = (files, root) => {
+    this.props.onBulkCidImport(files, root)
     this.leave()
   }
 
