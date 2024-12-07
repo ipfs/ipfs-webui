@@ -39,15 +39,25 @@ class BulkImportModal extends React.Component {
     this.setState({ [name]: value })
   }
 
-  onBulkCidInputChange = (input) => async () => {
-    console.log('input: ', input)
-    this.setState({ selectedFile: input.files })
+  onBulkCidInputChange = (event) => {
+    const files = event.target.files
+    console.log('files: ', files)
+    this.setState({ selectedFile: files[0] })
+    // console.log('input: ', input)
+    // this.setState({ selectedFile: input.files })
   }
 
-  onSubmit = () => {
-    console.log('Files to import:', this.state.selectedFile)
-    this.props.onBulkCidImport(normalizeFiles(this.state.selectedFile))
-    // input.value = null
+  selectFile = async () => {
+    return this.bulkCidInputt.click()
+  }
+
+  onSubmit = async () => {
+    console.log('BulkImportModal onSubmit:', this.state.selectedFile)
+    if (this.state.selectedFile) {
+      const normalizedFiles = normalizeFiles([this.state.selectedFile])
+      console.log('Calling onBulkCidImport with:', { normalizedFiles, root: '/files' })
+      await this.props.onBulkCidImport(normalizedFiles, '/files')
+    }
   }
 
   get inputClass () {
@@ -72,13 +82,13 @@ class BulkImportModal extends React.Component {
 
   render () {
     const {
-      t, onCancel, className
+      t, tReady, onCancel, onSubmit, className, ...props
     } = this.props
 
     const codeClass = 'w-100 mb1 pa1 tl bg-snow f7 charcoal-muted truncate'
 
     return (
-      <Modal className={className} onCancel={onCancel}>
+      <Modal {...props} className={className} onCancel={onCancel}>
         <ModalBody title={'Bulk Import with Text File'} Icon={Icon}>
           <div className='mb3 flex flex-column items-center'>
             <p className='mt0 charcoal tl w-100'>{'Upload a text file with a list of CIDs (names are optional).' + ' ' + 'Example:'}</p>
@@ -90,19 +100,16 @@ class BulkImportModal extends React.Component {
             className='dn'
             multiple
             accept='.txt'
-            onChange={this.onBulkCidInputChange(this.bulkCidInput)}
+            onChange={this.onBulkCidInputChange}
             // className='input-reset'
             // id='bulk-import'
             ref={el => {
               console.log('Setting ref:', el)
-              this.bulkCidInput = el
+              this.bulkCidInputt = el
             }}
           />
           <Button
-            onClick={() => {
-              console.log('clicked')
-              this.bulkCidInput.click()
-            }}
+            onClick={this.selectFile}
             className='ma2 tc'
             bg='bg-teal'
             type='button'

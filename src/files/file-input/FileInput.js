@@ -111,7 +111,7 @@ class FileInput extends React.Component {
               {t('newFolder')}
             </Option>
             <Option
-              // onClick={this.onAddBulkCid}
+              // onClick={this.onAddBulkCid} // This worked before
               onClick={this.onBulkCidImport}
               // TO-DO:
               // id='add-bulk-cid'

@@ -405,15 +405,32 @@ const actions = () => ({
  * @param {string} root - Destination directory in IPFS
  */
   doFilesAddBulkCid: (source, root) => spawn(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
-    ensureMFS(store)
-    console.log('doFilesAddBulkCid source', source)
+    console.log('Action parameters:', { source, root })
+    console.log('Arguments:', arguments)
 
-    if (source.length !== 1) {
-      throw new Error('Please provide exactly one text file')
+    ensureMFS(store)
+
+    // Ensure source is properly passed
+    if (!source) {
+      throw new Error('Source is required')
     }
 
-    // Read the text file content
-    const file = source[0]
+    // If source is passed as first argument of spawn callback
+    const actualSource = Array.isArray(source) ? source : arguments[0]
+    console.log('Actual source:', actualSource)
+
+    if (!Array.isArray(actualSource)) {
+      throw new Error('Source must be an array')
+    }
+
+    const fileStream = actualSource[0]
+    console.log('fileStream:', fileStream)
+
+    if (!fileStream || !fileStream.content) {
+      throw new Error('Invalid file format')
+    }
+
+    const file = fileStream
     const content = await new Response(file.content).text()
 
     const lines = content.split('\n').map(line => line.trim()).filter(Boolean)

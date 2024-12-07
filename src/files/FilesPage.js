@@ -73,7 +73,9 @@ const FilesPage = ({
   }
 
   const onBulkCidImport = (raw, root = '') => {
+    console.log('FilesPage onBulkCidImport:', { raw, root, filesPath: files.path })
     if (root === '') root = files.path
+    console.log('Calling doFilesAddBulkCid with:', { raw, root })
     doFilesAddBulkCid(raw, root)
   }
 
