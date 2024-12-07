@@ -21,7 +21,7 @@ import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
 
 const FilesPage = ({
-  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddBulkCid, doFilesAddPath, doUpdateHash,
+  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
@@ -73,10 +73,9 @@ const FilesPage = ({
   }
 
   const onBulkCidImport = (raw, root = '') => {
-    console.log('FilesPage onBulkCidImport:', { raw, root, filesPath: files.path })
     if (root === '') root = files.path
-    console.log('Calling doFilesAddBulkCid with:', { raw, root })
-    doFilesAddBulkCid(raw, root)
+
+    doFilesBulkCidImport(raw, root)
   }
 
   const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
@@ -211,8 +210,6 @@ const FilesPage = ({
         files={files}
         onNavigate={doFilesNavigateTo}
         onAddFiles={onAddFiles}
-        // onAddBulkCid={onAddBulkCid}
-        // onBulkCidImport={onBulkCidImport}
         onMove={doFilesMove}
         onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
         onBulkCidImport={(files) => showModal(BULK_CID_IMPORT, files)}
@@ -288,7 +285,7 @@ export default connect(
   'selectFilesSorting',
   'selectToursEnabled',
   'doFilesWrite',
-  'doFilesAddBulkCid',
+  'doFilesBulkCidImport',
   'doFilesDownloadLink',
   'doFilesDownloadCarLink',
   'doFilesSizeGet',

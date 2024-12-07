@@ -19,8 +19,6 @@ class BulkImportModal extends React.Component {
   }
 
   state = {
-    // path: '',
-    // name: '',
     selectedFile: null
   }
 
@@ -105,16 +103,6 @@ class BulkImportModal extends React.Component {
               Selected file: {this.state.selectedFile.name}
             </p>
           )}
-
-          {/* <input
-            onChange={this.onChange}
-            onKeyPress={this.onKeyPress}
-            value={this.state.value}
-            name='path'
-            required
-            placeholder={t('addByPathModal.importPathPlaceholder')}
-            className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-90 center focus-outline ${this.inputClass}`}
-            type='text' /> */}
 
         </ModalBody>
 
