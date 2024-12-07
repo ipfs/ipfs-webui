@@ -406,6 +406,7 @@ const actions = () => ({
  */
   doFilesAddBulkCid: (source, root) => spawn(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
     ensureMFS(store)
+    console.log('doFilesAddBulkCid source', source)
 
     if (source.length !== 1) {
       throw new Error('Please provide exactly one text file')

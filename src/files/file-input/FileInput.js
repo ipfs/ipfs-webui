@@ -50,8 +50,10 @@ class FileInput extends React.Component {
     input.value = null
   }
 
+  // Old implementation that worked
   onBulkCidInputChange = (input) => async () => {
     console.log('onBulkCidInputChange', input)
+    console.log('onBulkCidInputChange files', input.files)
     this.props.onBulkCidImport(normalizeFiles(input.files))
     input.value = null
   }
@@ -139,6 +141,7 @@ class FileInput extends React.Component {
           ref={el => { this.folderInput = el }}
           onChange={this.onInputChange(this.folderInput)} />
 
+        {/* Old implementation that worked */}
         <input
           // TO-DO id='file-input'
           type='file'
