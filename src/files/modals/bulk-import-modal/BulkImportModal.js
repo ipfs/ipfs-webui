@@ -31,13 +31,13 @@ class BulkImportModal extends React.Component {
       for (const line of lines) {
         const [cid] = line.trim().split(' ')
         if (!isIPFS.cid(cid)) {
-          return { isValid: false, error: '*Invalid CID(s) found' }
+          return { isValid: false, error: this.props.t('bulkImportModal.invalidCids') }
         }
       }
 
       return { isValid: true }
     } catch (err) {
-      return { isValid: false, error: '*Failed to read file contents' }
+      return { isValid: false, error: this.props.t('bulkImportModal.failedToReadFile') }
     }
   }
 
@@ -53,7 +53,7 @@ class BulkImportModal extends React.Component {
   }
 
   selectFile = async () => {
-    return this.bulkCidInputt.click()
+    return this.bulkCidInput.click()
   }
 
   onSubmit = async () => {
@@ -76,9 +76,9 @@ class BulkImportModal extends React.Component {
 
     return (
       <Modal {...props} className={className} onCancel={onCancel}>
-        <ModalBody title={'Bulk Import with Text File'} Icon={Icon}>
+        <ModalBody title={t('bulkImportModal.title')} Icon={Icon}>
           <div className='mb3 flex flex-column items-center'>
-            <p className='mt0 charcoal tl w-100'>{'Upload a text file with a list of CIDs (names are optional).' + ' ' + 'Example:'}</p>
+            <p className='mt0 charcoal tl w-100'>{t('bulkImportModal.description')}</p>
             <code className={codeClass}>bafkreibm6jg3ux5qumhcn2b3flc3tyu6dmlb4xa7u5bf44yegnrjhc4yeq<br/>QmawceGscqN4o8Y8Fv26UUmB454kn2bnkXV5tEQYc4jBd6 barrel.png<br/>QmbvrHYWXAU1BuxMPNRtfeF4DS2oPmo5hat7ocqAkNPr74 pi equals.png</code>
           </div>
 
@@ -90,10 +90,7 @@ class BulkImportModal extends React.Component {
             onChange={this.onChange}
             // className='input-reset'
             // id='bulk-import'
-            ref={el => {
-              console.log('Setting ref:', el)
-              this.bulkCidInputt = el
-            }}
+            ref={el => { this.bulkCidInput = el }}
           />
           <Button
             onClick={this.selectFile}
@@ -101,12 +98,12 @@ class BulkImportModal extends React.Component {
             bg='bg-teal'
             type='button'
           >
-            {'Select File'}
+            {t('bulkImportModal.select')}
           </Button>
 
           {this.state.selectedFile && (
             <p className='mt2 charcoal'>
-              Selected file: {this.state.selectedFile.name}
+              {`${t('bulkImportModal.selectedFile')}: ${this.state.selectedFile.name}`}
             </p>
           )}
 

@@ -105,7 +105,7 @@ class FileInput extends React.Component {
               // isCliTutorModeEnabled={isCliTutorModeEnabled}
             >
               <DocumentIcon className='fill-aqua w2 mr1' />
-              Bulk CID Import
+              {t('bulkImport')}
             </Option>
           </DropdownMenu>
         </Dropdown>
