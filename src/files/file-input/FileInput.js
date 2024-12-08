@@ -126,7 +126,6 @@ class FileInput extends React.Component {
           webkitdirectory='true'
           ref={el => { this.folderInput = el }}
           onChange={this.onInputChange(this.folderInput)} />
-
       </div>
     )
   }
