@@ -64,7 +64,7 @@
     "title": "Bulk import with text file",
     "description": "Upload a text file with a list of CIDs (names are optional). Example:",
     "select": "Select file",
-    "selectedFile": "Selected file:",
+    "selectedFile": "Selected file",
     "invalidCids": "*Invalid CID(s) found",
     "failedToReadFile": "*Failed to read file contents"
   },

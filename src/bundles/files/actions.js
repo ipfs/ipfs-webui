@@ -399,34 +399,19 @@ const actions = () => ({
   }),
 
   /**
- * Reads a CSV file containing CIDs and adds each one to IPFS at the given root path.
- * @param {FileStream[]} source - The CSV file containing CIDs
+ * Reads a text file containing CIDs and adds each one to IPFS at the given root path.
+ * @param {FileStream[]} source - The text file containing CIDs
  * @param {string} root - Destination directory in IPFS
  */
-  doFilesBulkCidImport: (source, root) => spawn(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
+  doFilesBulkCidImport: (source, root) => perform(ACTIONS.BULK_CID_IMPORT, async function (ipfs, { store }) {
     ensureMFS(store)
 
-    // Ensure source is properly passed
-    if (!source) {
-      throw new Error('Source is required')
+    if (!source?.[0]?.content) {
+      console.error('Invalid file format provided to doFilesBulkCidImport')
+      return
     }
 
-    // If source is passed as first argument of spawn callback
-    const actualSource = Array.isArray(source) ? source : arguments[0]
-    console.log('Actual source:', actualSource)
-
-    if (!Array.isArray(actualSource)) {
-      throw new Error('Source must be an array')
-    }
-
-    const fileStream = actualSource[0]
-    console.log('fileStream:', fileStream)
-
-    if (!fileStream || !fileStream.content) {
-      throw new Error('Invalid file format')
-    }
-
-    const file = fileStream
+    const file = source[0]
     const content = await new Response(file.content).text()
 
     const lines = content.split('\n').map(line => line.trim()).filter(Boolean)
@@ -445,33 +430,19 @@ const actions = () => ({
       }
     })
 
-    /** @type {Array<{ path: string, cid: string }>} */
-    const entries = []
-    let progress = 0
-    const totalCids = cidObjects.length
-
-    yield { entries, progress: 0 }
-
     for (const { cid, name } of cidObjects) {
       try {
         const src = `/ipfs/${cid}`
         const dst = realMfsPath(join(root || '/files', name || cid))
 
         await ipfs.files.cp(src, dst)
-
-        entries.push({ path: dst, cid })
-        progress = (entries.length / totalCids) * 100
-
-        yield { entries, progress }
       } catch (err) {
         console.error(`Failed to add CID ${cid}:`, err)
         // Continue with next CID even if one fails
       }
     }
 
-    yield { entries, progress: 100 }
     await store.doFilesFetch()
-    return entries
   }),
 
   /**
