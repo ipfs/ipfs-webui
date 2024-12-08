@@ -19,20 +19,37 @@ class BulkImportModal extends React.Component {
   }
 
   state = {
-    selectedFile: null
+    selectedFile: null,
+    validationError: null
   }
 
-  validatePath = (p) => {
-    if (!p.startsWith('/ipfs/')) {
-      p = `/ipfs/${p}`
+  validateFileContents = async (file) => {
+    try {
+      const text = await file.text()
+      const lines = text.split('\n').filter(line => line.trim())
+
+      for (const line of lines) {
+        const [cid] = line.trim().split(' ')
+        if (!isIPFS.cid(cid)) {
+          return { isValid: false, error: '*Invalid CID(s) found' }
+        }
+      }
+
+      return { isValid: true }
+    } catch (err) {
+      return { isValid: false, error: '*Failed to read file contents' }
     }
-
-    return isIPFS.ipfsPath(p)
   }
 
-  onChange = (event) => {
-    const files = event.target.files
-    this.setState({ selectedFile: files[0] })
+  onChange = async (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    const validation = await this.validateFileContents(file)
+    this.setState({
+      selectedFile: validation.isValid ? file : null,
+      validationError: validation.error
+    })
   }
 
   selectFile = async () => {
@@ -44,18 +61,6 @@ class BulkImportModal extends React.Component {
       const normalizedFiles = normalizeFiles([this.state.selectedFile])
       await this.props.onBulkCidImport(normalizedFiles)
     }
-  }
-
-  get inputClass () {
-    if (this.state.path === '') {
-      return ''
-    }
-
-    if (this.validatePath(this.state.path)) {
-      return 'b--green-muted focus-outline-green'
-    }
-
-    return 'b--red-muted focus-outline-red'
   }
 
   get isDisabled () {
@@ -98,12 +103,18 @@ class BulkImportModal extends React.Component {
           >
             {'Select File'}
           </Button>
+
           {this.state.selectedFile && (
             <p className='mt2 charcoal'>
               Selected file: {this.state.selectedFile.name}
             </p>
           )}
 
+          {this.state.validationError && (
+            <p className='mt2 red'>
+              {this.state.validationError}
+            </p>
+          )}
         </ModalBody>
 
         <ModalActions>
