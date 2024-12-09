@@ -83,14 +83,13 @@ class BulkImportModal extends React.Component {
           </div>
 
           <input
+            id='bulk-import'
             type='file'
             className='dn'
             multiple
             accept='.txt'
-            onChange={this.onChange}
-            // className='input-reset'
-            // id='bulk-import'
             ref={el => { this.bulkCidInput = el }}
+            onChange={this.onChange}
           />
           <Button
             onClick={this.selectFile}
