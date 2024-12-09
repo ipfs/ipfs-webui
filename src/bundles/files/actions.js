@@ -411,38 +411,38 @@ const actions = () => ({
       return
     }
 
-    const file = source[0]
-    const content = await new Response(file.content).text()
+    try {
+      const file = source[0]
+      const content = await new Response(file.content).text()
+      const lines = content.split('\n').map(line => line.trim()).filter(Boolean)
 
-    const lines = content.split('\n').map(line => line.trim()).filter(Boolean)
-    // NOTE: need to add finally fetch later
-    const cidObjects = lines.map((line) => {
-      let actualCid = line
-      let name = line
-      const cidParts = line.split(' ')
-      if (cidParts.length > 1) {
-        actualCid = cidParts[0]
-        name = cidParts.slice(1).join(' ')
-      }
-      return {
-        name,
-        cid: actualCid
-      }
-    })
+      const cidObjects = lines.map((line) => {
+        let actualCid = line
+        let name = line
+        const cidParts = line.split(' ')
+        if (cidParts.length > 1) {
+          actualCid = cidParts[0]
+          name = cidParts.slice(1).join(' ')
+        }
+        return {
+          name,
+          cid: actualCid
+        }
+      })
 
-    for (const { cid, name } of cidObjects) {
-      try {
-        const src = `/ipfs/${cid}`
-        const dst = realMfsPath(join(root || '/files', name || cid))
+      for (const { cid, name } of cidObjects) {
+        try {
+          const src = `/ipfs/${cid}`
+          const dst = realMfsPath(join(root || '/files', name || cid))
 
-        await ipfs.files.cp(src, dst)
-      } catch (err) {
-        console.error(`Failed to add CID ${cid}:`, err)
-        // Continue with next CID even if one fails
+          await ipfs.files.cp(src, dst)
+        } catch (err) {
+          console.error(`Failed to add CID ${cid}:`, err)
+        }
       }
+    } finally {
+      await store.doFilesFetch()
     }
-
-    await store.doFilesFetch()
   }),
 
   /**
