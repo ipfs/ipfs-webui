@@ -1,3 +1,31 @@
+## [4.4.1](https://github.com/ipfs/ipfs-webui/compare/v4.4.0...v4.4.1) (2024-11-30)
+
+
+ CID `bafybeiatztgdllxnp5p6zu7bdwhjmozsmd7jprff4bdjqjljxtylitvss4`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* add lithuanian to languages.json ([#2293](https://github.com/ipfs/ipfs-webui/issues/2293)) ([40c512b](https://github.com/ipfs/ipfs-webui/commit/40c512b146b0f35e5651de5de4ac3fc67bbaadf2))
+* analyze script doesn't persist stats.json ([#2290](https://github.com/ipfs/ipfs-webui/issues/2290)) ([dbbdd70](https://github.com/ipfs/ipfs-webui/commit/dbbdd70d63f07cb4b0e62dac0a1fd4ec0fc34b4d))
+* **explore:** browsing chunked files and inspecting via context menu ([#2305](https://github.com/ipfs/ipfs-webui/issues/2305)) ([0412970](https://github.com/ipfs/ipfs-webui/commit/041297041e61ea2dd9debb63e56c2ea376ed3e00)), closes [#2306](https://github.com/ipfs/ipfs-webui/issues/2306)
+
+
+### Trivial Changes
+
+* **ci:** add CAR file directly to cluster ([#2304](https://github.com/ipfs/ipfs-webui/issues/2304)) ([e2ae110](https://github.com/ipfs/ipfs-webui/commit/e2ae110650cffe341f60a088ba68ca0856d5e1ac))
+* **ci:** no replication factor when pinning - use cluster's default ([#2302](https://github.com/ipfs/ipfs-webui/issues/2302)) ([81b8f29](https://github.com/ipfs/ipfs-webui/commit/81b8f29ec8bf6b7fe577c07261c83dce99eb7919))
+* **ci:** set cluster pin timeout to 30m ([4b8fc00](https://github.com/ipfs/ipfs-webui/commit/4b8fc00ef9daa23f462bc174a93eeeeab8e575b2))
+* **ci:** udpate artifact actions to v4 ([#2292](https://github.com/ipfs/ipfs-webui/issues/2292)) ([305908f](https://github.com/ipfs/ipfs-webui/commit/305908f6862723603ab49253eeed6b358243fb0e))
+* **ci:** use repo in offline mode ([eaf63ed](https://github.com/ipfs/ipfs-webui/commit/eaf63ed577ebd291a7bf2dfd9e9279d75a275c89))
+* pull new translations ([#2291](https://github.com/ipfs/ipfs-webui/issues/2291)) ([bfe7e40](https://github.com/ipfs/ipfs-webui/commit/bfe7e40f369dc6485b333b9bc5a3c804811538a9))
+* pull transifex translations ([#2296](https://github.com/ipfs/ipfs-webui/issues/2296)) ([502abd4](https://github.com/ipfs/ipfs-webui/commit/502abd44586ebd878ce298f48de614b45cb32139))
+* pull transifex translations ([#2303](https://github.com/ipfs/ipfs-webui/issues/2303)) ([89c094b](https://github.com/ipfs/ipfs-webui/commit/89c094b0edde3ac0d6edc26890d558887f4870ea))
+* size-related labels in Files screen ([#2295](https://github.com/ipfs/ipfs-webui/issues/2295)) ([49019d4](https://github.com/ipfs/ipfs-webui/commit/49019d4f4cf33a6c2b0c99adefe6860a8a3c1f94))
+
 ## [4.4.0](https://github.com/ipfs/ipfs-webui/compare/v4.3.3...v4.4.0) (2024-11-07)
 
 
