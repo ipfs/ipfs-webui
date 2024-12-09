@@ -69,7 +69,7 @@ class BulkImportModal extends React.Component {
 
   render () {
     const {
-      t, tReady, onCancel, onSubmit, className, ...props
+      t, tReady, onCancel, className, onBulkCidImport, ...props
     } = this.props
 
     const codeClass = 'w-100 mb1 pa1 tl bg-snow f7 charcoal-muted truncate'
