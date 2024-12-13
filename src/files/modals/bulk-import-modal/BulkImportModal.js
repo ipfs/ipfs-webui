@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Button from '../../../components/button/button.tsx'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
 import { withTranslation } from 'react-i18next'
@@ -8,12 +7,6 @@ import Icon from '../../../icons/StrokeDocument.js'
 import { normalizeFiles } from '../../../lib/files.js'
 
 class BulkImportModal extends React.Component {
-  static propTypes = {
-    onCancel: PropTypes.func.isRequired,
-    onBulkCidImport: PropTypes.func.isRequired,
-    className: PropTypes.string
-  }
-
   static defaultProps = {
     className: ''
   }
