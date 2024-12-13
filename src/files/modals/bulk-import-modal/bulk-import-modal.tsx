@@ -7,9 +7,9 @@ import Icon from '../../../icons/StrokeDocument.js'
 import { normalizeFiles } from '../../../lib/files.js'
 
 const BulkImportModal = ({ onCancel, className = '', onBulkCidImport, ...props }) => {
-  const [selectedFile, setSelectedFile] = useState(null)
-  const [validationError, setValidationError] = useState(null)
-  const bulkCidInputRef = useRef(null)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [validationError, setValidationError] = useState<string | undefined>(undefined)
+  const bulkCidInputRef = useRef<HTMLInputElement>(null)
   const { t } = useTranslation('files')
 
   const validateFileContents = async (file) => {
@@ -40,7 +40,9 @@ const BulkImportModal = ({ onCancel, className = '', onBulkCidImport, ...props }
   }
 
   const selectFile = () => {
-    bulkCidInputRef.current.click()
+    if (bulkCidInputRef.current) {
+      bulkCidInputRef.current.click()
+    }
   }
 
   const onSubmit = async () => {
@@ -74,7 +76,6 @@ const BulkImportModal = ({ onCancel, className = '', onBulkCidImport, ...props }
           onClick={selectFile}
           className='ma2 tc'
           bg='bg-teal'
-          type='button'
         >
           {t('bulkImportModal.select')}
         </Button>
