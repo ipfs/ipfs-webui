@@ -1,15 +1,16 @@
 import React, { useState, useRef } from 'react'
 import Button from '../../../components/button/button.tsx'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
-import { withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import * as isIPFS from 'is-ipfs'
 import Icon from '../../../icons/StrokeDocument.js'
 import { normalizeFiles } from '../../../lib/files.js'
 
-const BulkImportModal = ({ t, tReady, onCancel, className = '', onBulkCidImport, ...props }) => {
+const BulkImportModal = ({ onCancel, className = '', onBulkCidImport, ...props }) => {
   const [selectedFile, setSelectedFile] = useState(null)
   const [validationError, setValidationError] = useState(null)
   const bulkCidInputRef = useRef(null)
+  const { t } = useTranslation('files')
 
   const validateFileContents = async (file) => {
     try {
@@ -99,4 +100,4 @@ const BulkImportModal = ({ t, tReady, onCancel, className = '', onBulkCidImport,
   )
 }
 
-export default withTranslation('files')(BulkImportModal)
+export default BulkImportModal
