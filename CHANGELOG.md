@@ -1,3 +1,21 @@
+## [4.4.2](https://github.com/ipfs/ipfs-webui/compare/v4.4.1...v4.4.2) (2024-12-20)
+
+
+ CID `bafybeigp3zm7cqoiciqk5anlheenqjsgovp7j7zq6hah4nu6iugdgb4nby`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* ipld-explorer-components@8.1.3 ([#2310](https://github.com/ipfs/ipfs-webui/issues/2310)) ([6785409](https://github.com/ipfs/ipfs-webui/commit/67854099f27e4e766fbcbb618aa6dcbe1a4601e6))
+
+
+### Trivial Changes
+
+* pull new translations ([#2308](https://github.com/ipfs/ipfs-webui/issues/2308)) ([fb3db39](https://github.com/ipfs/ipfs-webui/commit/fb3db39e4ba6eeb8675d0e4928d2fcd401558a28))
+
 ## [4.4.1](https://github.com/ipfs/ipfs-webui/compare/v4.4.0...v4.4.1) (2024-11-30)
 
 
