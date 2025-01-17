@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/button.tsx'
@@ -11,9 +11,10 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
 
   // Updates the border of the input to indicate validity
   useEffect(() => {
+    const abortController = new AbortController()
     const validateUrl = async () => {
       try {
-        const isValid = await checkSubdomainGateway(value)
+        const isValid = await checkSubdomainGateway(value, abortController.signal)
         setIsValidGatewayUrl(isValid)
       } catch (error) {
         console.error('Error checking subdomain gateway:', error)
@@ -21,25 +22,25 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
       }
     }
 
-    validateUrl()
+    const handler = setTimeout(() => {
+      validateUrl()
+    }, 80) // debounce the input by 80ms so update is not triggered on every key press
+
+    return () => {
+      abortController.abort()
+      // don't execute the last validation if the component is unmounted (value changes)
+      clearTimeout(handler)
+    }
   }, [value])
 
   const onChange = (event) => setValue(event.target.value)
 
-  const onSubmit = async (event) => {
+  const onSubmit = useCallback(async (event) => {
     event.preventDefault()
-
-    let isValid = false
-    try {
-      isValid = await checkSubdomainGateway(value)
-      setIsValidGatewayUrl(true)
-    } catch (e) {
-      setIsValidGatewayUrl(false)
-      return
+    if (isValidGatewayUrl) {
+      doUpdatePublicSubdomainGateway(value)
     }
-
-    isValid && doUpdatePublicSubdomainGateway(value)
-  }
+  }, [isValidGatewayUrl, doUpdatePublicSubdomainGateway, value])
 
   const onReset = async (event) => {
     event.preventDefault()

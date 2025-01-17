@@ -1,4 +1,5 @@
 import { readSetting, writeSetting } from './local-storage.js'
+import HLRU from 'hashlru'
 
 // TODO: switch to dweb.link when https://github.com/ipfs/kubo/issues/7318
 export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
@@ -41,7 +42,7 @@ export const checkValidHttpUrl = (value) => {
  * Check if any hashes from IMG_ARRAY can be loaded from the provided gatewayUrl
  * @see https://github.com/ipfs/ipfs-webui/issues/1937#issuecomment-1152894211 for more info
  */
-export const checkViaImgSrc = (gatewayUrl) => {
+export const checkViaImgSrc = (gatewayUrl, signal) => {
   const url = new URL(gatewayUrl)
 
   /**
@@ -50,12 +51,18 @@ export const checkViaImgSrc = (gatewayUrl) => {
    * by privacy protections present in modern browsers or in extensions such as Privacy Badger
    */
   return Promise.any(IMG_ARRAY.map(element => {
-    const imgUrl = new URL(`${url.protocol}//${url.hostname}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
-    return checkImgSrcPromise(imgUrl)
+    const imgUrl = new URL(`${url.protocol}//${url.host}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
+    return checkImgSrcPromise(imgUrl, signal)
   }))
 }
 
-const checkImgSrcPromise = (imgUrl) => {
+/**
+ * @param {string} imgUrl - The URL of the image to be loaded.
+ * @param {AbortSignal} [signal] - An AbortSignal object that can be used to cancel the check.
+ * @throws {Error} Throws an error if the image fails to load within the timeout.
+ * @returns {Promise<void>} The promise resolves if the image loads successfully within the timeout.
+ */
+const checkImgSrcPromise = (imgUrl, signal) => {
   const imgCheckTimeout = 15000
 
   return new Promise((resolve, reject) => {
@@ -81,6 +88,12 @@ const checkImgSrcPromise = (imgUrl) => {
     }
 
     img.src = imgUrl
+    // handle the signal
+    signal?.addEventListener('abort', () => {
+      img.src = ''
+      timeout()
+      reject(new Error(`Image load was aborted for URL: ${imgUrl}`))
+    })
   })
 }
 
@@ -88,15 +101,18 @@ const checkImgSrcPromise = (imgUrl) => {
  * Checks if a given URL redirects to a subdomain that starts with a specific hash.
  *
  * @param {URL} url - The URL to check for redirection.
+ * @param {AbortSignal} [signal] - An AbortSignal object that can be used to cancel the check.
  * @throws {Error} Throws an error if the URL does not redirect to the expected subdomain.
  * @returns {Promise<void>} A promise that resolves if the URL redirects correctly, otherwise it throws an error.
  */
-async function expectSubdomainRedirect (url) {
+async function expectSubdomainRedirect (url, signal) {
   // Detecting redirects on remote Origins is extra tricky,
   // but we seem to be able to access xhr.responseURL which is enough to see
   // if paths are redirected to subdomains.
 
-  const { url: responseUrl } = await fetch(url.toString())
+  const resp = await fetch(url.toString(), { signal, cors: 'cors' })
+  console.log('fetch response:', resp)
+  const { url: responseUrl } = resp
   const { hostname } = new URL(responseUrl)
 
   if (!hostname.startsWith(IMG_HASH_1PX)) {
@@ -110,45 +126,56 @@ async function expectSubdomainRedirect (url) {
  * Checks if an image can be loaded from a given URL within a specified timeout.
  *
  * @param {URL} imgUrl - The URL of the image to be loaded.
+ * @param {AbortSignal} [signal] - An AbortSignal object that can be used to cancel the check.
  * @returns {Promise<void>} A promise that resolves if the image loads successfully within the timeout, otherwise it rejects with an error.
  */
-async function checkViaImgUrl (imgUrl) {
+async function checkViaImgUrl (imgUrl, signal) {
   try {
-    await checkImgSrcPromise(imgUrl)
+    await checkImgSrcPromise(imgUrl, signal)
   } catch (error) {
     throw new Error(`Error or timeout when attempting to load img from '${imgUrl.toString()}'`)
   }
 }
 
 /**
+ * Cache of valid subdomain gateways (size 5), so custom gateways aren't probed every time the settings page is opened.
+ * @type {Map<string, boolean>}
+ */
+const subdomainGateways = HLRU(5)
+subdomainGateways.set(DEFAULT_SUBDOMAIN_GATEWAY, true)
+
+/**
  * Checks if a given gateway URL is functioning correctly by verifying image loading and redirection.
  *
  * @param {string} gatewayUrl - The URL of the gateway to be checked.
+ * @param {AbortSignal} signal - An AbortSignal object that can be used to cancel the check.
  * @returns {Promise<boolean>} A promise that resolves to true if the gateway is functioning correctly, otherwise false.
  */
-export async function checkSubdomainGateway (gatewayUrl) {
-  if (gatewayUrl === DEFAULT_SUBDOMAIN_GATEWAY) {
+export async function checkSubdomainGateway (gatewayUrl, signal) {
+  if (subdomainGateways.has(gatewayUrl)) {
     // avoid sending probe requests to the default gateway every time Settings page is opened
-    return true
+    return subdomainGateways.get(gatewayUrl)
   }
   let imgSubdomainUrl
   let imgRedirectedPathUrl
   try {
     const gwUrl = new URL(gatewayUrl)
-    imgSubdomainUrl = new URL(`${gwUrl.protocol}//${IMG_HASH_1PX}.ipfs.${gwUrl.hostname}/?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
-    imgRedirectedPathUrl = new URL(`${gwUrl.protocol}//${gwUrl.hostname}/ipfs/${IMG_HASH_1PX}?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
+    imgSubdomainUrl = new URL(`${gwUrl.protocol}//${IMG_HASH_1PX}.ipfs.${gwUrl.host}/?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
+    imgRedirectedPathUrl = new URL(`${gwUrl.protocol}//${gwUrl.host}/ipfs/${IMG_HASH_1PX}?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
   } catch (err) {
     console.error('Invalid URL:', err)
     return false
   }
-  return await checkViaImgUrl(imgSubdomainUrl)
-    .then(async () => expectSubdomainRedirect(imgRedirectedPathUrl))
+  return await checkViaImgUrl(imgSubdomainUrl, signal)
+    .then(async () => expectSubdomainRedirect(imgRedirectedPathUrl, signal))
     .then(() => {
       console.log(`Gateway at '${gatewayUrl}' is functioning correctly (verified image loading and redirection)`)
+      subdomainGateways.set(gatewayUrl, true)
       return true
     })
     .catch((err) => {
       console.error(err)
+      subdomainGateways.set(gatewayUrl, false)
       return false
     })
 }
