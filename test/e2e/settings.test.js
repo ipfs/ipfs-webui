@@ -14,7 +14,7 @@ const getLanguages = async () => {
 /**
  * Function to check if an element contains a specific class within a maximum wait time.
  * @param {Page} page - The page object.
- * @param {ElementHandle} element - The element to check.
+ * @param {import('playwright-core').ElementHandle} element - The element to check.
  * @param {string} className - The class name to check for.
  * @param {number} maxWaitTime - Maximum wait time in milliseconds.
  * @param {number} pollInterval - Interval between polls in milliseconds.
@@ -33,8 +33,8 @@ async function checkClassWithTimeout (page, element, className, maxWaitTime = 16
 /**
  * Function to submit a gateway and check for success/failure.
  * @param {Page} page - The page object.
- * @param {ElementHandle} inputElement - The input element to fill.
- * @param {ElementHandle|null} submitButton - The submit button element to click, or null if no button is available.
+ * @param {import('playwright-core').ElementHandle} inputElement - The input element to fill.
+ * @param {import('playwright-core').ElementHandle|null} submitButton - The submit button element to click, or null if no button is available.
  * @param {string} gatewayURL - The gateway URL to fill.
  * @param {string} expectedClass - The expected class after submission.
  */
@@ -61,6 +61,12 @@ async function resetGatewayAndCheck (resetButton, inputElement, expectedValue) {
 }
 
 test.describe('Settings screen', () => {
+  let kuboGateway
+
+  test.beforeAll(async () => {
+    kuboGateway = new URL(process.env.KUBO_GATEWAY)
+    kuboGateway = `${kuboGateway.protocol}//${kuboGateway.hostname === '127.0.0.1' ? 'localhost' : kuboGateway.hostname}:${kuboGateway.port}`
+  })
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/settings')
   })
@@ -107,6 +113,44 @@ test.describe('Settings screen', () => {
 
     // Check the Reset button functionality
     await resetGatewayAndCheck(publicGatewayResetButton, publicGatewayElement, DEFAULT_PATH_GATEWAY)
+  })
+
+  test('Public subdomain gateway supports url with port', async ({ page }) => {
+    // const publicSubdomainGatewayElement = await page.waitForSelector('#public-subdomain-gateway')
+    const publicSubdomainGatewayLocator = await page.locator('#public-subdomain-gateway')
+
+    // convert locator to selector
+    // const publicSubdomainGatewayElement = publicSubdomainGatewayLocator.first()
+
+    // await page.waitForSelector(publicSubdomainGatewayLocator)
+    // await publicSubdomainGatewayLocator.waitForElementState('visible')
+
+    // delete the input
+    await publicSubdomainGatewayLocator.fill('')
+    await publicSubdomainGatewayLocator.pressSequentially('http://127.0.0.1:8080')
+    // const hasExpectedClass =
+    expect(await checkClassWithTimeout(page, publicSubdomainGatewayLocator, 'focus-outline-red')).toBe(true)
+
+    // const publicSubdomainGatewaySubmitButton = await page.waitForSelector('#public-subdomain-gateway-submit-button')
+
+    // Check that submitting a wrong Subdomain Gateway with a port triggers a red outline
+    // await submitGatewayAndCheck(page, publicSubdomainGatewayElement, null, 'http://127.0.0.1:8080', 'focus-outline-red')
+
+    // Check that submitting a correct Subdomain Gateway with a port triggers a green outline
+    // await submitGatewayAndCheck(page, publicSubdomainGatewayElement, null, kuboGateway, 'focus-outline-green')
+
+    await publicSubdomainGatewayLocator.fill('')
+    await publicSubdomainGatewayLocator.pressSequentially(kuboGateway)
+    // const hasExpectedClass = await checkClassWithTimeout(page, publicSubdomainGatewayLocator, 'focus-outline-green')
+    expect(await checkClassWithTimeout(page, publicSubdomainGatewayLocator, 'focus-outline-green')).toBe(true)
+  })
+
+  test('Public path gateway fallback supports url with port', async ({ page }) => {
+    const publicGatewayElement = await page.waitForSelector('#public-gateway')
+    const publicGatewaySubmitButton = await page.waitForSelector('#public-path-gateway-submit-button')
+    // Check that submitting a correct Path Gateway with a port triggers a green outline
+    await submitGatewayAndCheck(page, publicGatewayElement, publicGatewaySubmitButton, kuboGateway, 'focus-outline-green')
+    // await submitGatewayAndCheck(page, publicGatewayElement, publicGatewaySubmitButton, kuboGateway, 'focus-outline-green')
   })
 
   test('Language selector', async ({ page }) => {

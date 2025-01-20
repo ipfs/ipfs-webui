@@ -9,29 +9,40 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
 
+  const validateUrl = useCallback(async (signal) => {
+    try {
+      const url = new URL(value) // test basic url creation
+      // ensure the hostname is not an IP address. URL constructor will fail if we prefix with subdomain
+      // eslint-disable-next-line no-new
+      new URL(`https://example.${url.host}`)
+    } catch {
+      setIsValidGatewayUrl(false)
+      console.error('URL is invalid. Must be a valid URL when prefixed with a subdomain (such as `http://{CID}.ipfs.{yourSubdomainGateway}`). IP addresses do not allow subdomains.')
+      return
+    }
+    try {
+      const isValid = await checkSubdomainGateway(value, signal)
+      setIsValidGatewayUrl(isValid)
+    } catch (error) {
+      if (signal.aborted) return
+      console.error('Error checking subdomain gateway:', error)
+      setIsValidGatewayUrl(false)
+    }
+  }, [value])
+
   // Updates the border of the input to indicate validity
   useEffect(() => {
     const abortController = new AbortController()
-    const validateUrl = async () => {
-      try {
-        const isValid = await checkSubdomainGateway(value, abortController.signal)
-        setIsValidGatewayUrl(isValid)
-      } catch (error) {
-        console.error('Error checking subdomain gateway:', error)
-        setIsValidGatewayUrl(false)
-      }
-    }
-
     const handler = setTimeout(() => {
-      validateUrl()
-    }, 80) // debounce the input by 80ms so update is not triggered on every key press
+      validateUrl(abortController.signal)
+    }, 200) // debounce the input by 200ms so img and subdomain check are not triggered on every key press
 
     return () => {
-      abortController.abort()
+      abortController.abort('Ignore previous validation')
       // don't execute the last validation if the component is unmounted (value changes)
       clearTimeout(handler)
     }
-  }, [value])
+  }, [value, validateUrl])
 
   const onChange = (event) => setValue(event.target.value)
 
