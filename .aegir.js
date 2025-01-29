@@ -28,6 +28,7 @@ export default {
       'react-identicons',
       'react-joyride',
       'react-overlays',
+      'react-qr-code',
       'react-virtualized',
       'redux-bundler-react',
       'tachyons',

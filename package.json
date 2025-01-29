@@ -1,6 +1,6 @@
 {
   "name": "ipfs-webui",
-  "version": "4.4.1",
+  "version": "4.4.2",
   "type": "module",
   "private": true,
   "files": [
@@ -96,6 +96,7 @@
     "react-identicons": "^1.2.4",
     "react-joyride": "^2.3.0",
     "react-overlays": "^2.1.1",
+    "react-qr-code": "^2.0.15",
     "react-scripts": "5.0.1",
     "react-virtualized": "^9.22.3",
     "redux-bundler": "^26.1.0",
