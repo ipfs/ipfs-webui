@@ -122,7 +122,6 @@ jobs:
         # only pin for main commits
         if: github.ref == 'refs/heads/main'
         continue-on-error: true
-        run: |
         timeout-minutes: 5 # pin should takes a few seconds, 5 min is a hard ceiling
         run: |
           echo "Avoid doing initial upload to am6-1 node with experimental pebble datastore"
