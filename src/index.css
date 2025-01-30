@@ -1,4 +1,4 @@
-@import './reset.css';
+@import "./reset.css";
 @import "../node_modules/tachyons";
 /* They forgot to include word break: https://github.com/tachyons-css/tachyons/issues/563 */
 @import "../node_modules/tachyons/src/_word-break.css";
@@ -8,15 +8,59 @@ body {
   overflow-y: scroll;
 }
 
-.placeholder-light::placeholder{
-  color: #CAD3D8;
+[data-theme="dark"] {
+  --background: #181a1b;
+  --text: #e8e6e3;
+  --element-bg: #1a1c1e;
+  --navy-dark: #0b3a53;
+  --navy-text-color: rgb(202, 198, 191);
+  --snow-muted: rgb(28, 30, 31);
+
+  body {
+      transition: background .3s ease-in;
+  }
+
+  /* from inspecting the DOM, most of the classes here are from tachyon and ipfs-css
+  * so when the data-theme attr is set to dark, we'll have them updated
+  */
+  .bg-snow-muted {
+    background: var(--snow-muted);
+  }
+
+  .charcoal {
+    color: rgb(196, 191, 183);
+  }
+
+  section {
+    background: var(--element-bg) !important;
+  }
+
+  .navy {
+    color: var(--navy-text-color);
+  }
+
+  .joyride-app-explore < div {
+    border: 1px solid red;
+  }
+}
+
+html #root {
+  background-color: var(--background);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.placeholder-light::placeholder {
+  color: #cad3d8;
 }
 
 .bg-near-white {
   background-color: #fbfbfb;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   min-height: 100%;
 }
 
@@ -26,7 +70,7 @@ html, body, #root {
 
 @media only screen and (min-width: 60em) {
   .appOverlay {
-      width: calc(100% - 148px)
+    width: calc(100% - 148px);
   }
 }
 
@@ -36,5 +80,5 @@ html, body, #root {
 
 .react-joyride__tooltip button {
   font-size: 14px !important;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
 }
