@@ -30,10 +30,9 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
     setName(e.target.value)
   }
 
-  // TODO: Handling submit
   const onSubmitFile = () => {
     console.log('submitting file', file, file.path, name)
-    // onSubmit()
+    onSubmit(file, name)
   }
 
   const isValidated = useMemo(() => {

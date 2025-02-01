@@ -399,6 +399,17 @@ const actions = () => ({
   }),
 
   /**
+   * Adds CAR file. On completion will trigger `doFilesFetch` to update the state.
+   * @param {File} file
+   * @param {string} name
+   */
+  doAddCarFile: (file, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
+    ensureMFS(store)
+
+    console.log('todo: implement upload to ipfs', file, name)
+  }),
+
+  /**
    * Creates a download link for the provided files.
    * @param {FileStat[]} files
    */

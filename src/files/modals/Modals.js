@@ -66,8 +66,8 @@ class Modals extends React.Component {
     this.leave()
   }
 
-  onAddByCar = (path, name) => {
-    console.log('todo: integrate add file')
+  onAddByCar = (file, name) => {
+    this.props.onAddByCar(file, name)
     this.leave()
   }
 

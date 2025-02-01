@@ -23,6 +23,8 @@ export const ACTIONS = {
   SHARE_LINK: ('FILES_SHARE_LINK'),
   /** @type {'FILES_ADDBYPATH'} */
   ADD_BY_PATH: ('FILES_ADDBYPATH'),
+  /** @type {'FILES_ADD_CAR'} */
+  ADD_CAR_FILE: ('FILES_ADD_CAR'),
   /** @type {'FILES_PIN_ADD'} */
   PIN_ADD: ('FILES_PIN_ADD'),
   /** @type {'FILES_PIN_REMOVE'} */
@@ -78,6 +80,7 @@ export const cliCmdKeys = {
   ADD_DIRECTORY: 'addNewDirectory',
   CREATE_NEW_DIRECTORY: 'createNewDirectory',
   FROM_IPFS: 'fromIpfs',
+  FROM_CAR: 'fromCar',
   ADD_NEW_PEER: 'addNewPeer',
   PUBLISH_WITH_IPNS: 'publishWithIPNS',
   DOWNLOAD_CAR_COMMAND: 'downloadCarCommand'

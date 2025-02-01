@@ -21,7 +21,7 @@ import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
 
 const FilesPage = ({
-  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
+  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doAddCarFile, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
@@ -73,6 +73,7 @@ const FilesPage = ({
   }
 
   const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
+  const onAddByCar = (file, name) => doAddCarFile(file, name)
   const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
   const showModal = (modal, files = null) => setModals({ show: modal, files })
   const hideModal = () => setModals({})
@@ -227,6 +228,7 @@ const FilesPage = ({
         onShareLink={doFilesShareLink}
         onRemove={doFilesDelete}
         onAddByPath={onAddByPath}
+        onAddByCar={onAddByCar}
         onPinningSet={doSetPinning}
         onPublish={doPublishIpnsKey}
         cliOptions={cliOptions}
@@ -273,6 +275,7 @@ export default connect(
   'doFilesShareLink',
   'doFilesDelete',
   'doFilesAddPath',
+  'doAddCarFile',
   'doFilesNavigateTo',
   'doFilesUpdateSorting',
   'selectFilesSorting',
