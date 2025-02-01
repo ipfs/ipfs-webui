@@ -14,12 +14,14 @@ import PublishModal from './publish-modal/PublishModal.js'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts.js'
 import { realMfsPath } from '../../bundles/files/actions.js'
+import AddByCarModal from './add-by-car-modal/AddByCarModal.js'
 // Constants
 const NEW_FOLDER = 'new_folder'
 const SHARE = 'share'
 const RENAME = 'rename'
 const DELETE = 'delete'
 const ADD_BY_PATH = 'add_by_path'
+const ADD_BY_CAR = 'add_by_car'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
 const PUBLISH = 'publish'
@@ -30,6 +32,7 @@ export {
   RENAME,
   DELETE,
   ADD_BY_PATH,
+  ADD_BY_CAR,
   CLI_TUTOR_MODE,
   PINNING,
   PUBLISH
@@ -60,6 +63,11 @@ class Modals extends React.Component {
 
   onAddByPath = (path, name) => {
     this.props.onAddByPath(path, name)
+    this.leave()
+  }
+
+  onAddByCar = (path, name) => {
+    console.log('todo: integrate add file')
     this.leave()
   }
 
@@ -150,6 +158,7 @@ class Modals extends React.Component {
       }
       case NEW_FOLDER:
       case ADD_BY_PATH:
+      case ADD_BY_CAR:
         this.setState({ readyToShow: true })
         break
       case CLI_TUTOR_MODE:
@@ -254,6 +263,10 @@ class Modals extends React.Component {
             onCancel={this.leave} />
         </Overlay>
 
+        <Overlay show={show === ADD_BY_CAR && readyToShow} onLeave={this.leave}>
+          <AddByCarModal className='outline-0' onSubmit={this.onAddByCar} onCancel={this.leave} />
+        </Overlay>
+
         <Overlay show={show === CLI_TUTOR_MODE && readyToShow} onLeave={this.leave}>
           <CliTutorMode onLeave={this.leave} filesPage={true} command={command} t={t}/>
         </Overlay>
@@ -283,6 +296,7 @@ Modals.propTypes = {
   show: PropTypes.string,
   files: PropTypes.array,
   onAddByPath: PropTypes.func.isRequired,
+  onAddByCar: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onMakeDir: PropTypes.func.isRequired,
   onShareLink: PropTypes.func.isRequired,
