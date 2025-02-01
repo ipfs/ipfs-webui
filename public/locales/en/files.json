@@ -14,6 +14,7 @@
   "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
   "cantBePreviewed": "Sorry, this file can’t be previewed",
   "addByPath": "From IPFS",
+  "addByCar": "From CAR",
   "newFolder": "New folder",
   "generating": "Generating…",
   "actions": {
@@ -57,6 +58,11 @@
     "preloadNote": "NOTE: Imported path is lazy-loaded by default, and will be retrieved on-demand as you browse it. To proactively prefetch imported path to the local Datastore, choose ”Download” from the context menu.",
     "importPathPlaceholder": "Path or CID (required)",
     "namePlaceholder": "Name (optional)",
+    "examples": "Examples:"
+  },
+  "addByCarModal": {
+    "title": "Import from CAR",
+    "description": "Insert a CAR file to import",
     "examples": "Examples:"
   },
   "newFolderModal": {
