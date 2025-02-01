@@ -50,6 +50,11 @@ class FileInput extends React.Component {
     this.toggleDropdown()
   }
 
+  onAddByCar = () => {
+    this.props.onAddByCar()
+    this.toggleDropdown()
+  }
+
   onNewFolder = () => {
     this.props.onNewFolder()
     this.toggleDropdown()
@@ -87,6 +92,10 @@ class FileInput extends React.Component {
               <DecentralizationIcon className='fill-aqua w2 mr1' />
               {t('addByPath')}
             </Option>
+            <Option onClick={this.onAddByCar} id='add-by-car' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_CAR)}>
+              <DocumentIcon className='fill-aqua w2 mr1' />
+              {t('addByCar')}
+            </Option>
             <Option onClick={this.onNewFolder} id='add-new-folder' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.CREATE_NEW_DIRECTORY)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <NewFolderIcon className='fill-aqua w2 h2 mr1' />
@@ -120,6 +129,7 @@ FileInput.propTypes = {
   t: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
   onAddByPath: PropTypes.func.isRequired,
+  onAddByCar: PropTypes.func.isRequired,
   onNewFolder: PropTypes.func.isRequired
 }
 

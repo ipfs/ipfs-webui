@@ -15,7 +15,7 @@ import FilesList from './files-list/FilesList.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
+import Modals, { DELETE, NEW_FOLDER, ADD_BY_CAR, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
@@ -206,6 +206,7 @@ const FilesPage = ({
         onAddFiles={onAddFiles}
         onMove={doFilesMove}
         onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
+        onAddByCar={(files) => showModal(ADD_BY_CAR, files)}
         onNewFolder={(files) => showModal(NEW_FOLDER, files)}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
         handleContextMenu={(...args) => handleContextMenu(...args, true)} />
