@@ -403,10 +403,29 @@ const actions = () => ({
    * @param {File} file
    * @param {string} name
    */
-  doAddCarFile: (file, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
+  doAddCarFile: (file, name = '', root = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
     ensureMFS(store)
 
-    console.log('todo: implement upload to ipfs', file, name)
+    try {
+      const result = await ipfs.add(file, {
+        pin: false,
+        wrapWithDirectory: false
+      })
+      const src = `/ipfs/${result.cid}`
+      const dst = join(realMfsPath(root || '/files'), result.path)
+      try {
+        await ipfs.files.cp(src, dst)
+      } catch (err) {
+        // TODO: Not sure why we do this. Perhaps a generic error is used
+        // to avoid leaking private information via Countly?
+        throw Object.assign(new Error('ipfs.files.cp call failed'), {
+          code: 'ERR_FILES_CP_FAILED'
+        })
+      }
+      return file
+    } finally {
+      await store.doFilesFetch()
+    }
   }),
 
   /**
