@@ -73,10 +73,8 @@ const FilesPage = ({
   }
 
   const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
-  const onAddByCar = (file, name, root = '') => {
-    if (root === '') root = files.path
-
-    doAddCarFile(file, name, root)
+  const onAddByCar = (file, name) => {
+    doAddCarFile(file, name)
   }
   const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
   const showModal = (modal, files = null) => setModals({ show: modal, files })

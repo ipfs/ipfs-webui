@@ -403,7 +403,7 @@ const actions = () => ({
    * @param {File} file
    * @param {string} name
    */
-  doAddCarFile: (file, name = '', root = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
+  doAddCarFile: (file, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
     ensureMFS(store)
 
     try {
@@ -412,7 +412,7 @@ const actions = () => ({
         wrapWithDirectory: false
       })
       const src = `/ipfs/${result.cid}`
-      const dst = join(realMfsPath(root || '/files'), result.path)
+      const dst = join(realMfsPath('/files'), name)
       try {
         await ipfs.files.cp(src, dst)
       } catch (err) {
