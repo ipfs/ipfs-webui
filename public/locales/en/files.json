@@ -63,6 +63,7 @@
   "addByCarModal": {
     "title": "Import from CAR",
     "description": "Insert a CAR file to import",
+    "namePlaceholder": "Name (optional)",
     "examples": "Examples:"
   },
   "newFolderModal": {
