@@ -19,8 +19,9 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
     const files = normalizeFiles(event.target.files)
 
     if (files[0]) {
+      const file = files[0]
       const fileName = files[0].path
-      setFile(files[0])
+      setFile(file)
       setName(fileName)
     }
   }
@@ -31,7 +32,6 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
   }
 
   const onSubmitFile = () => {
-    console.log('submitting file', file, file.path, name)
     onSubmit(file, name)
   }
 
