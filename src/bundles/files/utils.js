@@ -4,6 +4,7 @@ import * as Task from '../task.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} KuboRPCClient
  * @typedef {import('./actions').Ext} Ext
  * @typedef {import('./actions').Extra} Extra
  */
@@ -118,7 +119,7 @@ export const spawn = (type, task, ...[init]) => async (context) => {
  * @template {BundlerContext<State, Perform<Type, Error, Success, Init>, Ext, Extra>} Context
  *
  * @param {Type} type - Type of the actions this will dispatch.
- * @param {(service:IPFSService, context:Context) => Promise<Success>} task
+ * @param {(service:KuboRPCClient, context:Context) => Promise<Success>} task
  * @param {Init[]} rest
  * @returns {(context:Context) => Promise<Success>}
  */

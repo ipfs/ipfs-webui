@@ -1,6 +1,7 @@
 import filesize from 'filesize'
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} KuboRPCClient
  * @typedef {import('../bundles/files/actions').FileStat} FileStat
  * @typedef {import('multiformats/cid').CID} CID
  */
@@ -53,7 +54,7 @@ function getDownloadURL (type, name, cid, gatewayUrl) {
 
 /**
  * @param {FileStat[]} files
- * @param {IPFSService} ipfs
+ * @param {KuboRPCClient} ipfs
  * @returns {Promise<CID>}
  */
 export async function makeCIDFromFiles (files, ipfs) {
@@ -80,7 +81,7 @@ export async function makeCIDFromFiles (files, ipfs) {
  *
  * @param {FileStat[]} files
  * @param {string} gatewayUrl
- * @param {IPFSService} ipfs
+ * @param {KuboRPCClient} ipfs
  * @returns {Promise<string>}
  */
 export async function getDownloadLink (files, gatewayUrl, ipfs) {
@@ -98,7 +99,7 @@ export async function getDownloadLink (files, gatewayUrl, ipfs) {
  * @param {FileStat[]} files - An array of file objects with their respective CIDs and names.
  * @param {string} gatewayUrl - The URL of the default IPFS gateway.
  * @param {string} subdomainGatewayUrl - The URL of the subdomain gateway.
- * @param {IPFSService} ipfs - The IPFS service instance for interacting with the IPFS network.
+ * @param {KuboRPCClient} ipfs - The IPFS service instance for interacting with the IPFS network.
  * @returns {Promise<string>} - A promise that resolves to the shareable link for the provided files.
  */
 export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, ipfs) {
@@ -136,7 +137,7 @@ export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, 
  *
  * @param {FileStat[]} files
  * @param {string} gatewayUrl
- * @param {IPFSService} ipfs
+ * @param {KuboRPCClient} ipfs
  * @returns {Promise<string>}
  */
 export async function getCarLink (files, gatewayUrl, ipfs) {
