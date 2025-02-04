@@ -14,6 +14,7 @@ import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} KuboRPCClient
  * @typedef {import('../../lib/files').FileStream} FileStream
  * @typedef {import('./utils').Info} Info
  * @typedef {import('ipfs').Pin} Pin
@@ -52,7 +53,7 @@ const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, is
 })
 
 /**
- * @param {IPFSService} ipfs
+ * @param {KuboRPCClient} ipfs
  * @param {string|CID} cidOrPath
  * @returns {Promise<number>}
  */
@@ -84,7 +85,7 @@ const memStat = memoize((path, ipfs) => ipfs.files.stat(path))
  * @property {number} cumulativeSize
  * @property {number} size
  *
- * @param {IPFSService} ipfs
+ * @param {import('kubo-rpc-client').KuboRPCClient} ipfs
  * @param {string|CID} cidOrPath
  * @returns {Promise<Stat>}
  */
@@ -120,7 +121,7 @@ const stat = async (ipfs, cidOrPath) => {
 
 /**
  *
- * @param {IPFSService} ipfs
+ * @param {KuboRPCClient} ipfs
  * @returns {AsyncIterable<Pin>}
  */
 const getRawPins = async function * (ipfs) {
@@ -129,7 +130,7 @@ const getRawPins = async function * (ipfs) {
 }
 
 /**
- * @param {IPFSService} ipfs
+ * @param {KuboRPCClient} ipfs
  * @returns {AsyncIterable<CID>}
  */
 const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
@@ -400,18 +401,29 @@ const actions = () => ({
 
   /**
    * Adds CAR file. On completion will trigger `doFilesFetch` to update the state.
-   * @param {File} file
+   * @param {FileStream} carFile
    * @param {string} name
    */
-  doAddCarFile: (file, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
+  doAddCarFile: (carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
     ensureMFS(store)
 
+    const stream = carFile.content.stream().pipeThrough(new TextDecoderStream())
+    const reader = stream.getReader()
+
+    let fileResultStr = ''
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+      fileResultStr += value
+    }
+    const encoder = new TextEncoder()
+    const fileResult = encoder.encode(fileResultStr)
     try {
-      const result = await ipfs.add(file, {
-        pin: false,
-        wrapWithDirectory: false
-      })
-      const src = `/ipfs/${result.cid}`
+      const result = await all(ipfs.dag.import([fileResult], {
+        pinRoots: true
+      }))
+      const cid = result[0].root.cid
+      const src = `/ipfs/${cid}`
       const dst = join(realMfsPath('/files'), name)
       try {
         await ipfs.files.cp(src, dst)
@@ -422,7 +434,7 @@ const actions = () => ({
           code: 'ERR_FILES_CP_FAILED'
         })
       }
-      return file
+      return carFile
     } finally {
       await store.doFilesFetch()
     }
@@ -626,7 +638,7 @@ const importFiles = (ipfs, files) => {
 }
 
 /**
- * @param {IPFSService} ipfs
+ * @param {KuboRPCClient} ipfs
  * @param {CID} cid
  * @param {Object} options
  * @param {string} options.path
@@ -650,7 +662,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
     const absPath = join(path, f.name)
     let file = null
 
-    if (dirCount < 1000 && (f.type === 'directory' || f.type === 'dir')) {
+    if (dirCount < 1000 && (f.type === 'dir')) {
       dirCount += 1
       file = fileFromStats({ ...await stat(ipfs, f.cid), path: absPath })
     } else {
