@@ -166,7 +166,7 @@ jobs:
               core.setFailed('Pinning did not succeed')
 
       # dnslink-dnsimple requires go
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
         if: github.ref == 'refs/heads/main'
         with:
           go-version: "1.20.x"
