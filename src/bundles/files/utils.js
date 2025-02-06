@@ -321,18 +321,21 @@ export const ensureMFS = (store) => {
 /**
  * Get bytes from file
  * @param {FileStream} file
- * @returns {Promise<Uint8Array<ArrayBuffer>>}
+ * @returns {Promise<Uint8Array>}
  */
 export const fileToByteArray = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onloadend = () => {
       const arrayBuffer = reader.result
-      if (arrayBuffer === null) resolve(new Uint8Array([]))
-      const byteArray = new Uint8Array(arrayBuffer)
-      resolve(byteArray)
+      if (arrayBuffer instanceof ArrayBuffer) {
+        const byteArray = new Uint8Array(arrayBuffer)
+        resolve(byteArray)
+      } else {
+        resolve(new Uint8Array([]))
+      }
     }
-    reader.onerror = (error) => reject(error)
+    reader.onerror = () => reject(new Error('fileToByteArray failed'))
     reader.readAsArrayBuffer(file.content)
   })
 }
