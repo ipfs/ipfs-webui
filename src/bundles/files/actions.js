@@ -652,7 +652,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
     const absPath = join(path, f.name)
     let file = null
 
-    if (dirCount < 1000 && (f.type === 'dir')) {
+    if (dirCount < 1000 && (f.type === 'directory' || f.type === 'dir')) {
       dirCount += 1
       file = fileFromStats({ ...await stat(ipfs, f.cid), path: absPath })
     } else {
