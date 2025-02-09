@@ -129,9 +129,9 @@ const stat = async (ipfs, cidOrPath) => {
  * @param {IPFSService} ipfs
  * @returns {AsyncIterable<Pin>}
  */
-const getRawPins = async function* (ipfs) {
-  yield* ipfs.pin.ls({ type: 'recursive' })
-  yield* ipfs.pin.ls({ type: 'direct' })
+const getRawPins = async function * (ipfs) {
+  yield * ipfs.pin.ls({ type: 'recursive' })
+  yield * ipfs.pin.ls({ type: 'direct' })
 }
 
 /**
@@ -252,7 +252,7 @@ const actions = () => ({
    * @param {FileStream[]} source
    * @param {string} root
    */
-  doFilesWrite: (source, root) => spawn(ACTIONS.WRITE, async function* (ipfs, { store }) {
+  doFilesWrite: (source, root) => spawn(ACTIONS.WRITE, async function * (ipfs, { store }) {
     const files = source
       // Skip ignored files
       .filter($ => !IGNORED_FILES.includes(basename($.path)))
