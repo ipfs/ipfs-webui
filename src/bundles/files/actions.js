@@ -110,7 +110,6 @@ const stat = async (ipfs, cidOrPath) => {
 
     return { path, ...stats }
   } catch (error) {
-
     const e = error instanceof Error ? error : new Error('Unknown error')
     throw Object.assign(e, {
       code: 'ERR_FILES_STAT_FAILED',
@@ -130,9 +129,9 @@ const stat = async (ipfs, cidOrPath) => {
  * @param {IPFSService} ipfs
  * @returns {AsyncIterable<Pin>}
  */
-const getRawPins = async function * (ipfs) {
-  yield * ipfs.pin.ls({ type: 'recursive' })
-  yield * ipfs.pin.ls({ type: 'direct' })
+const getRawPins = async function* (ipfs) {
+  yield* ipfs.pin.ls({ type: 'recursive' })
+  yield* ipfs.pin.ls({ type: 'direct' })
 }
 
 /**
@@ -253,7 +252,7 @@ const actions = () => ({
    * @param {FileStream[]} source
    * @param {string} root
    */
-  doFilesWrite: (source, root) => spawn(ACTIONS.WRITE, async function * (ipfs, { store }) {
+  doFilesWrite: (source, root) => spawn(ACTIONS.WRITE, async function* (ipfs, { store }) {
     const files = source
       // Skip ignored files
       .filter($ => !IGNORED_FILES.includes(basename($.path)))
@@ -342,7 +341,7 @@ const actions = () => ({
      * same file) to crash webui, nor want to bother user with false-negatives
      * @param {Function} fn
      */
-    const tryAsync = async fn => { try { await fn() } catch (_) {} }
+    const tryAsync = async fn => { try { await fn() } catch (_) { } }
 
     try {
       // try removing from MFS first
