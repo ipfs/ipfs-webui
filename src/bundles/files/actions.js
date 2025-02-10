@@ -14,7 +14,6 @@ import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
- * @typedef {import('kubo-rpc-client').KuboRPCClient} KuboRPCClient
  * @typedef {import('../../lib/files').FileStream} FileStream
  * @typedef {import('./utils').Info} Info
  * @typedef {import('ipfs').Pin} Pin
@@ -53,7 +52,7 @@ const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, is
 })
 
 /**
- * @param {KuboRPCClient} ipfs
+ * @param {IPFSService} ipfs
  * @param {string|CID} cidOrPath
  * @returns {Promise<number>}
  */
@@ -85,7 +84,7 @@ const memStat = memoize((path, ipfs) => ipfs.files.stat(path))
  * @property {number} cumulativeSize
  * @property {number} size
  *
- * @param {import('kubo-rpc-client').KuboRPCClient} ipfs
+ * @param {IPFSService} ipfs
  * @param {string|CID} cidOrPath
  * @returns {Promise<Stat>}
  */
@@ -121,7 +120,7 @@ const stat = async (ipfs, cidOrPath) => {
 
 /**
  *
- * @param {KuboRPCClient} ipfs
+ * @param {IPFSService} ipfs
  * @returns {AsyncIterable<Pin>}
  */
 const getRawPins = async function * (ipfs) {
@@ -130,7 +129,7 @@ const getRawPins = async function * (ipfs) {
 }
 
 /**
- * @param {KuboRPCClient} ipfs
+ * @param {IPFSService} ipfs
  * @returns {AsyncIterable<CID>}
  */
 const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
@@ -628,7 +627,7 @@ const importFiles = (ipfs, files) => {
 }
 
 /**
- * @param {KuboRPCClient} ipfs
+ * @param {IPFSService} ipfs
  * @param {CID} cid
  * @param {Object} options
  * @param {string} options.path
