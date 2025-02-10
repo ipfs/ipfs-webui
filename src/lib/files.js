@@ -1,7 +1,6 @@
 import filesize from 'filesize'
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
- * @typedef {import('kubo-rpc-client').KuboRPCClient} KuboRPCClient
  * @typedef {import('../bundles/files/actions').FileStat} FileStat
  * @typedef {import('multiformats/cid').CID} CID
  */
