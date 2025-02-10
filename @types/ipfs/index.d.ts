@@ -1,3 +1,5 @@
+import { DAGImportOptions, DAGImportResult } from 'kubo-rpc-client';
+
 declare module 'ipfs' {
   import type { CID } from 'multiformats/cid'
   import type { Multiaddr } from '@multiformats/multiaddr'
@@ -9,6 +11,7 @@ declare module 'ipfs' {
     name: NameService;
     object: ObjectService;
     config: ConfigService;
+    dag: DagService;
 
     stop(options?: TimeoutOptions): Promise<void>
   }
@@ -50,6 +53,10 @@ declare module 'ipfs' {
     replace(config: Object, options?: TimeoutOptions): Promise<void>;
 
     profiles: ConfigProfiles;
+  }
+
+  declare export interface DAGService {
+    import(sources: Iterable<Uint8Array> | AsyncIterable<Uint8Array> | AsyncIterable<AsyncIterable<Uint8Array>> | Iterable<AsyncIterable<Uint8Array>>, options?: DAGImportOptions): AsyncIterable<DAGImportResult>
   }
 
   declare export interface ConfigProfiles {
