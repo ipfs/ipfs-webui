@@ -58,9 +58,7 @@ html #root {
   background-color: #fbfbfb;
 }
 
-html,
-body,
-#root {
+html, body, #root {
   min-height: 100%;
 }
 
