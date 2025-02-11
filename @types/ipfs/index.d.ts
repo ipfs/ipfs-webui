@@ -1,5 +1,3 @@
-import { DAGImportOptions, DAGImportResult } from 'kubo-rpc-client';
-
 declare module 'ipfs' {
   import type { CID } from 'multiformats/cid'
   import type { Multiaddr } from '@multiformats/multiaddr'
@@ -53,6 +51,17 @@ declare module 'ipfs' {
     replace(config: Object, options?: TimeoutOptions): Promise<void>;
 
     profiles: ConfigProfiles;
+  }
+
+  declare export interface DAGImportOptions {
+    pinRoots: boolean;
+  }
+
+  declare export interface DAGImportResult {
+    root: {
+      cid: CID;
+      pinErrorMsg?: string;
+    };
   }
 
   declare export interface DAGService {
