@@ -65,7 +65,6 @@ export class App extends Component {
 
   render () {
     const { t, route: Page, ipfsReady, doFilesNavigateTo, routeInfo: { url }, connectDropTarget, canDrop, isOver, showTooltip } = this.props
-    const currentTheme = typeof window !== 'undefined' && localStorage.getItem('theme')
     return connectDropTarget(
       <div>
         <ThemeProvider>
@@ -75,7 +74,7 @@ export class App extends Component {
             { canDrop && isOver && <div className='h-100 top-0 right-0 fixed appOverlay' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
             <div className='flex flex-row-reverse-l flex-column-reverse justify-end justify-start-l' style={{ minHeight: '100vh' }}>
               <div className='flex-auto-l'>
-                <div className='flex items-center ph3 ph4-l' style={{ WebkitAppRegion: 'drag', height: 75, background: currentTheme === 'dark' ? 'red' : '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
+                <div className='flex items-center ph3 ph4-l' style={{ WebkitAppRegion: 'drag', height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
                   <div className='joyride-app-explore' style={{ width: 560 }}>
                     <FilesExploreForm onBrowse={doFilesNavigateTo} />
                   </div>

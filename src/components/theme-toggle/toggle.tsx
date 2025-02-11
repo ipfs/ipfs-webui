@@ -3,16 +3,16 @@ import './theme-toggle.css'
 import { useTheme } from '../../hooks/theme'
 
 export const ThemeToggle = () => {
-  const { currentTheme: isDarkTheme, toggleTheme, toggleThemeWithKey } = useTheme()
+  const { darkTheme: isDarkTheme, toggleTheme } = useTheme()
   return (
     <button
       className="theme-toggle"
-      onClick={toggleTheme}
-      onKeyDown={toggleThemeWithKey}
+      onClick={() => toggleTheme()}
+      onKeyDown={toggleTheme}
       tabIndex={0}
-      aria-label={`Toggle ${isDarkTheme === 'light' ? 'light' : 'dark'} mode`}
+      aria-label={`Toggle ${isDarkTheme ? 'dark' : 'light'} mode`}
       role="switch"
-      aria-checked={isDarkTheme === 'dark'}
+      aria-checked={isDarkTheme}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

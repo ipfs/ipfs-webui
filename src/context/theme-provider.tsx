@@ -7,15 +7,14 @@ export interface ThemeProviderProps {
 export type Theme = 'light' | 'dark'
 
 export type ThemeContextValues = {
-  currentTheme: Theme,
-  toggleTheme: () => void;
-  toggleThemeWithKey: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
+  darkTheme: boolean,
+  toggleTheme: (event?: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const ThemeContext = React.createContext<ThemeContextValues | null>(null)
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = React.useState<boolean>(() => {
+  const [isDarkTheme, setDarkTheme] = React.useState<boolean>(() => {
     const savedTheme =
       typeof window !== 'undefined' && localStorage.getItem('theme')
     if (savedTheme) return savedTheme === 'dark'
@@ -23,22 +22,30 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   })
   React.useEffect(() => {
     const htmlElem = document.documentElement
-    const currentTheme = theme ? 'dark' : 'light'
+    const currentTheme = isDarkTheme ? 'dark' : 'light'
     htmlElem.setAttribute('data-theme', currentTheme)
     localStorage.setItem('theme', currentTheme)
     htmlElem.setAttribute('aria-label', `Current theme: ${currentTheme}`)
-  }, [theme])
-  const toggleTheme = () => setTheme((prevTheme) => !prevTheme)
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
-      toggleTheme()
+  }, [isDarkTheme])
+  const toggleTheme = (event: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>) => {
+    if (event.type === 'keydown') {
+      const isKeyboardEvent = (event: React.KeyboardEvent | React.MouseEvent): event is React.KeyboardEvent<HTMLButtonElement> => {
+        return event.type === 'keydown'
+      }
+      if (isKeyboardEvent(event)) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          setDarkTheme((prevTheme) => !prevTheme)
+        }
+      }
+      setDarkTheme((prevTheme) => !prevTheme)
     }
   }
   const values: ThemeContextValues = {
-    currentTheme: theme as unknown as Theme,
-    toggleTheme,
-    toggleThemeWithKey: handleKeyDown
+    darkTheme: isDarkTheme,
+    toggleTheme: (event) => {
+      event ? toggleTheme(event) : setDarkTheme(prevTheme => !prevTheme)
+    }
   }
   return (
     <ThemeContext.Provider value={values}>
