@@ -12,8 +12,7 @@ export type ThemeContextValues = {
   toggleThemeWithKey: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
 }
 
-const createThemeContext = () => React.createContext<ThemeContextValues | null>(null)
-export const ThemeContext = createThemeContext()
+export const ThemeContext = React.createContext<ThemeContextValues | null>(null)
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = React.useState<boolean>(() => {
