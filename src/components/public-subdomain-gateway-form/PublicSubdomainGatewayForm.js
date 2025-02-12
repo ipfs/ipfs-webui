@@ -3,11 +3,13 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/button.tsx'
 import { checkValidHttpUrl, checkSubdomainGateway, DEFAULT_SUBDOMAIN_GATEWAY } from '../../bundles/gateway.js'
+import { useTheme } from '../../hooks/theme'
 
 const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicSubdomainGateway }) => {
   const [value, setValue] = useState(publicSubdomainGateway)
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
+  const { darkTheme: isDarkTheme } = useTheme()
 
   // Updates the border of the input to indicate validity
   useEffect(() => {
@@ -64,6 +66,7 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
         onChange={onChange}
         onKeyPress={onKeyPress}
         value={value}
+        style={{ background: isDarkTheme ? 'var(--filter-peers-dark)' : '', border: isDarkTheme ? '0.4px solid var(--border-color)' : '' }}
       />
       <div className='tr'>
         <Button
@@ -72,6 +75,7 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
           height={40}
           bg='bg-charcoal'
           className='tc'
+          style={{ background: isDarkTheme ? 'var(--input-btn-bg)' : '' }}
           disabled={value === DEFAULT_SUBDOMAIN_GATEWAY}
           onClick={onReset}>
           {t('app:actions.reset')}
@@ -80,6 +84,7 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
           id='public-subdomain-gateway-submit-button'
           minWidth={100}
           height={40}
+          style={{ background: isDarkTheme ? 'var(--input-btn-bg)' : '' }}
           className='mt2 mt0-l ml2-l tc'
           disabled={!isValidGatewayUrl || value === publicSubdomainGateway}>
           {t('actions.submit')}

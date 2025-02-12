@@ -3,13 +3,14 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/button.tsx'
 import { checkValidHttpUrl, checkViaImgSrc, DEFAULT_PATH_GATEWAY } from '../../bundles/gateway.js'
+import { useTheme } from '../../hooks/theme'
 
 const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
   const [value, setValue] = useState(publicGateway)
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
   const [showFailState, setShowFailState] = useState(initialIsValidGatewayUrl)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
-
+  const { darkTheme: isDarkTheme } = useTheme()
   // Updates the border of the input to indicate validity
   useEffect(() => {
     setShowFailState(!isValidGatewayUrl)
@@ -60,6 +61,7 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
         onChange={onChange}
         onKeyPress={onKeyPress}
         value={value}
+        style={{ background: isDarkTheme ? 'var(--filter-peers-dark)' : '', border: isDarkTheme ? '0.4px solid var(--border-color)' : '' }}
       />
       <div className='tr'>
         <Button
@@ -68,6 +70,7 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
           height={40}
           bg='bg-charcoal'
           className='tc'
+          style={{ background: isDarkTheme ? 'var(--input-btn-bg)' : '' }}
           disabled={value === DEFAULT_PATH_GATEWAY}
           onClick={onReset}>
           {t('app:actions.reset')}
@@ -77,6 +80,7 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
           minWidth={100}
           height={40}
           className='mt2 mt0-l ml2-l tc'
+          style={{ background: isDarkTheme ? 'var(--input-btn-bg)' : '' }}
           disabled={!isValidGatewayUrl || value === publicGateway}>
           {t('actions.submit')}
         </Button>
