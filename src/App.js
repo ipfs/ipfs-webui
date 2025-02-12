@@ -19,6 +19,7 @@ import Connected from './components/connected/Connected.js'
 import TourHelper from './components/tour/TourHelper.js'
 import FilesExploreForm from './files/explore-form/files-explore-form.tsx'
 import { ThemeProvider, ThemeContext } from './context/theme-provider'
+import { ThemeToggle } from './components/theme-toggle/toggle'
 
 export class App extends Component {
   static propTypes = {
@@ -74,13 +75,16 @@ export class App extends Component {
             { canDrop && isOver && <div className='h-100 top-0 right-0 fixed appOverlay' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
             <div className='flex flex-row-reverse-l flex-column-reverse justify-end justify-start-l' style={{ minHeight: '100vh' }}>
               <div className='flex-auto-l'>
-                <div className='flex items-center ph3 ph4-l' style={{ WebkitAppRegion: 'drag', height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
+                <div className='flex items-center ph3 ph4-l webui-header' style={{ WebkitAppRegion: 'drag', height: 75, background: '#F0F6FA', paddingTop: '20px', paddingBottom: '15px' }}>
                   <div className='joyride-app-explore' style={{ width: 560 }}>
                     <FilesExploreForm onBrowse={doFilesNavigateTo} />
                   </div>
                   <div className='dn flex-ns flex-auto items-center justify-end'>
                     <TourHelper />
                     <Connected className='joyride-app-status' />
+                    <div className='pa3'>
+                      <ThemeToggle />
+                    </div>
                   </div>
                 </div>
                 <main className='bg-white pv3 pa3 pa4-l'>

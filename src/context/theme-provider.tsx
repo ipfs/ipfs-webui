@@ -33,12 +33,11 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
         return event.type === 'keydown'
       }
       if (isKeyboardEvent(event)) {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (event.key === ' ') {
           event.preventDefault()
           setDarkTheme((prevTheme) => !prevTheme)
         }
       }
-      setDarkTheme((prevTheme) => !prevTheme)
     }
   }
   const values: ThemeContextValues = {

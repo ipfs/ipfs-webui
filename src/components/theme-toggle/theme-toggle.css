@@ -1,5 +1,5 @@
 .theme-toggle {
-  --size: 2rem;
+  --size: 1.55rem;
   --icon-fill: hsl(210, 22%, 22%);
   --icon-fill-hover: hsl(210, 22%, 12%);
 
@@ -20,11 +20,16 @@
   inline-size: 100%;
   block-size: 100%;
   stroke-linecap: round;
+  color: #378085;
 }
 
 [data-theme='dark'] .theme-toggle {
   --icon-fill: hsl(25, 100%, 50%);
   --icon-fill-hover: hsl(25, 100%, 40%);
+
+  svg {
+    color: #fff;
+  }
 }
 
 .theme-toggle:hover,

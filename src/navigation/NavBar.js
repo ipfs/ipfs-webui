@@ -12,7 +12,6 @@ import StrokeIpld from '../icons/StrokeIpld.js'
 
 // Styles
 import './NavBar.css'
-import { ThemeToggle } from '../components/theme-toggle/toggle'
 
 const NavLink = ({
   to,
@@ -74,9 +73,6 @@ export const NavBar = ({ t }) => {
         </div>
       </div>
       <div className='dn db-l navbar-footer mb2 tc center f7 o-80 glow'>
-        <div className='mb4'>
-          <ThemeToggle />
-        </div>
         { gitRevision && <div className='mb1'>
           <a className='link white' href={revisionUrl} target='_blank' rel='noopener noreferrer'>{t('app:terms.revision')} {gitRevision}</a>
         </div> }
