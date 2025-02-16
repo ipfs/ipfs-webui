@@ -6,15 +6,15 @@
   },
   "notConnected": {
     "paragraph1": "<0>Lihat panduan penginstalan di <1>Dokumen IPFS</1>, atau coba perbaikan umum berikut:</0>",
-    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
-    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
-    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
+    "paragraph2": "<0>Apakah daemon IPFS Anda berjalan? Coba mulai atau mulai ulang Kubo dari terminal Anda:</0>",
+    "paragraph3": "<0>Apakah API RPC Kubo Anda dikonfigurasi untuk mengizinkan <1> permintaan lintas asal (CORS)</1>? Jika tidak, jalankan perintah berikut dan kemudian mulai daemon Anda dari terminal:</0>",
+    "paragraph4": "<0>Apakah API Kubo RPC Anda pada port selain 5001? Jika node Anda dikonfigurasi dengan <1>alamat API kustom</1>, masukkan di sini.</0>"
   },
   "aboutIpfs": {
     "header": "Apa itu IPFS?",
     "paragraph1": "<0><0>Protokol distribusi hypermedia</0> yang menggabungkan ide-ide dari Kademlia, BitTorrent, Git, dan banyak lagi</0>",
     "paragraph2": "<0><0>Jaringan transfer berkas peer-to-peer</0> dengan arsitektur yang sepenuhnya terdesentralisasi dan tidak ada titik pusat kegagalan, sensor, atau kontrol</0>",
-    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
+    "paragraph3": "<0><0>Jalan menuju web masa depan</0> — browser tradisional dapat mengakses file IPFS melalui gateway seperti <2>https://dweb.link</2> atau langsung menggunakan ekstensi <4>IPFS Companion</4></0>",
     "paragraph4": "<0><0>CDN generasi berikutnya</0> — cukup tambahkan berkas ke node Anda untuk membuatnya tersedia bagi dunia dengan pengalamatan hash konten yang ramah-cache dan distribusi bandwidth ala BitTorrent</0>",
     "paragraph5": "<0><0>Perangkat pengembang</0> untuk membangun <2>aplikasi dan layanan yang terdistribusi sepenuhnya</2>, didukung oleh komunitas sumber terbuka yang tangguh</0>"
   },
@@ -31,7 +31,7 @@
     "step1": {
       "title": "Halaman selamat datang",
       "paragraph1": "Halaman ini memberi tahu Anda jika Anda terhubung ke IPFS, dan menawarkan ide untuk hal-hal yang dapat Anda lakukan di aplikasi ini.",
-      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
+      "paragraph2": "Jika Anda tidak terhubung ke Kubo RPC API, halaman ini juga muncul menggantikan beberapa halaman lain, dengan petunjuk tentang cara terhubung.",
       "paragraph3": "Anda dapat mengunjungi halaman ini dari mana saja di aplikasi dengan mengklik logo kubus IPFS di bilah navigasi."
     }
   }

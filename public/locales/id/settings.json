@@ -22,9 +22,9 @@
     "translationProjectIntro": "Tambahkan atau tingkatkan terjemahan dan jadikan IPFS lebih baik untuk semua orang!",
     "translationProjectLink": "Bergabunglah dengan Proyek Terjemahan IPFS"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "apiDescription": "<0>Jika node Anda dikonfigurasi dengan <1>alamat API Kubo RPC kustom</1>, termasuk port selain bawaan 5001, masukkan di sini.</0>",
+  "publicSubdomainGatewayDescription": "<0>Pilih bawaan <1>Subdomain Gateway</1> untuk menghasilkan tautan yang dapat dibagikan.</0>",
+  "publicPathGatewayDescription": "<0>Pilih mundur <1>Path Gateway</1> untuk menghasilkan tautan yang dapat dibagikan untuk CID yang melebihi batas DNS 63 karakter.</0>",
   "cliDescription": "<0>Aktifkan opsi ini untuk menampilkan ikon \"lihat kode\" <1></1> di sebelah perintah umum IPFS. Mengkliknya akan membuka modal dengan kode CLI perintah itu, sehingga Anda dapat menempelkannya ke antarmuka baris perintah IPFS di terminal Anda.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Jika Anda telah membuat perubahan pada konfigurasi di editor kode halaman ini yang ingin Anda simpan, klik ikon unduh di sebelah tombol salin untuk mengunduhnya sebagai berkas JSON. "
@@ -133,8 +133,8 @@
       "paragraph2": "Jika Anda menjalankan Desktop IPFS, Anda juga akan memiliki beberapa pengaturan khusus."
     },
     "step2": {
-      "title": "Custom Kubo RPC API address",
-      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
+      "title": "Alamat API Kubo RPC khusus",
+      "paragraph1": "Jika Anda telah mengonfigurasi node IPFS yang kompatibel dengan Kubo dengan alamat API RPC khusus, Anda dapat memperbarui berkas konfigurasi Anda di sini dan tidak perlu mengedit JSON secara manual."
     },
     "step3": {
       "title": "Layanan penyematan",
