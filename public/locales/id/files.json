@@ -54,7 +54,7 @@
   "addByPathModal": {
     "title": "Impor dari IPFS",
     "description": "Masukkan jalur IPFS (CID) untuk diimpor.",
-    "preloadNote": "NOTE: Imported path is lazy-loaded by default, and will be retrieved on-demand as you browse it. To proactively prefetch imported path to the local Datastore, choose ”Download” from the context menu.",
+    "preloadNote": "CATATAN: Jalur yang diimpor dimuat lambat secara default, dan akan diambil sesuai permintaan saat Anda menelusurinya. Untuk mengambil jalur yang diimpor secara proaktif ke Datastore lokal, pilih \"Unduh\" dari menu konteks.",
     "importPathPlaceholder": "Jalur atau CID (wajib)",
     "namePlaceholder": "Nama (opsional)",
     "examples": "Contoh:"
@@ -102,7 +102,7 @@
       "paragraph3": "Kiat pro: seret dan jatuhkan berkas dari halaman lain UI Web untuk menambahkannya ke akar MFS Anda."
     }
   },
-  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
+  "previewLimitReached": "Pratinjau ini dibatasi hingga 10 KiB. Klik tombol unduh untuk mengakses berkas lengkap.",
   "previousFolder": "Kembali ke map sebelumnya",
   "fileLabel": "Pilih {type}{name} dengan ukuran: {size}",
   "hashUnavailable": "hash tidak tersedia",
@@ -115,11 +115,11 @@
   "clickToDismiss": "Klik untuk menutup",
   "clickToCancel": "Klik untuk membatalkan",
   "blocks": "Blok",
-  "localDatastore": "Local Datastore",
-  "localDatastoreDescription": "Total size of all blocks currently stored in the Datastore of your IPFS node (“RepoSize” from “ipfs repo stat”). This includes everything in the Files view (MFS), low-level pins, and any recently removed or temporary cached blocks that were not garbage-collected yet.",
-  "currentLocationRoot": "My Files",
-  "currentLocation": "Current Location",
-  "currentLocationDescription": "Total size of the DAG behind the current directory (“CumulativeSize” from “ipfs files stat”). This value includes both local and remote blocks, and could be bigger than the size of your local datastore.",
+  "localDatastore": "Penyimpanan Data Lokal",
+  "localDatastoreDescription": "Ukuran total semua blok yang saat ini disimpan di Penyimpanan Data node IPFS Anda (“RepoSize” dari “ipfs repo stat”). Ini mencakup semua yang ada di tampilan File (MFS), pin tingkat rendah, dan blok apa pun yang baru saja dihapus atau di-cache sementara yang belum dikumpulkan sampahnya.",
+  "currentLocationRoot": "Berkas Saya",
+  "currentLocation": "Lokasi Saat Ini",
+  "currentLocationDescription": "Ukuran total DAG di belakang direktori saat ini (“CumulativeSize” dari “ipfs files stat”). Nilai ini mencakup blok lokal dan jarak jauh, dan bisa lebih besar dari ukuran penyimpanan data lokal Anda.",
   "pinningQueue": "Menyematkan antrean",
   "more": "Lebih",
   "files": "Berkas",

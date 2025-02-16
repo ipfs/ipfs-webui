@@ -9,7 +9,7 @@
     "title": "Jelajahi - IPLD",
     "header": "Jelajahi Merkle Forest",
     "leadParagraph": "Tempelkan CID ke dalam kotak untuk mengambil node IPLD yang dituju, atau pilih kumpulan data unggulan.",
-    "noDataAvailable": "No data available"
+    "noDataAvailable": "Tidak ada data tersedia"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD adalah <1>model data web yang dapat dialamatkan dengan konten.</1> Ini memungkinkan kita untuk memperlakukan semua struktur data yang ditautkan dengan hash sebagai himpunan bagian dari ruang informasi terpadu, menyatukan semua model data yang menautkan data dengan hash sebagai instance dari IPLD.</0>",
