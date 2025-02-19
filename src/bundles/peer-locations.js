@@ -234,6 +234,10 @@ class PeerLocationResolver {
   async findLocations (gatewayUrls, peers) {
     const res = {}
 
+    // Normalize Gateway URLS:
+    // switch localhost to raw IP to avoid subdomain redirect AND avoid Chrome forcing https:// on such redirect
+    gatewayUrls = (Array.isArray(gatewayUrls) ? gatewayUrls : [gatewayUrls]).map(url => url.replace(/localhost:(\d+)/, '127.0.0.1:$1'))
+
     for (const p of this.optimizedPeerSet(peers)) {
       const peerId = p.peer
 
