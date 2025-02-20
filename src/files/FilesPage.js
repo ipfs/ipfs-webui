@@ -12,6 +12,8 @@ import withTour from '../components/tour/withTour.js'
 import InfoBoxes from './info-boxes/InfoBoxes.js'
 import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
+import FilesGrid from './files-grid/FilesGrid.js'
+import { ViewList, ViewModule } from '../icons/StrokeIcons.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
@@ -35,6 +37,7 @@ const FilesPage = ({
     translateY: 0,
     file: null
   })
+  const [viewMode, setViewMode] = useState('grid')
 
   useEffect(() => {
     doFetchPinningServices()
@@ -132,27 +135,32 @@ const FilesPage = ({
       )
     }
 
-    return (
-      <FilesList
-        key={window.encodeURIComponent(files.path)}
-        updateSorting={doFilesUpdateSorting}
-        files={files.content}
-        remotePins={remotePins}
-        pendingPins={pendingPins}
-        failedPins={failedPins}
-        upperDir={files.upper}
-        onShare={(files) => showModal(SHARE, files)}
-        onRename={(files) => showModal(RENAME, files)}
-        onRemove={(files) => showModal(DELETE, files)}
-        onSetPinning={(files) => showModal(PINNING, files)}
-        onInspect={onInspect}
-        onRemotePinClick={onRemotePinClick}
-        onDownload={onDownload}
-        onAddFiles={onAddFiles}
-        onNavigate={doFilesNavigateTo}
-        onMove={doFilesMove}
-        handleContextMenuClick={handleContextMenu} />
-    )
+    const commonProps = {
+      key: window.encodeURIComponent(files.path),
+      updateSorting: doFilesUpdateSorting,
+      files: files.content || [],
+      pins: files.pins || [],
+      remotePins: remotePins || [],
+      pendingPins: pendingPins || [],
+      failedPins: failedPins || [],
+      filesPathInfo,
+      onShare: (files) => showModal(SHARE, files),
+      onRename: (files) => showModal(RENAME, files),
+      onRemove: (files) => showModal(DELETE, files),
+      onSetPinning: (files) => showModal(PINNING, files),
+      onInspect,
+      onRemotePinClick,
+      onDownload,
+      onAddFiles,
+      onNavigate: doFilesNavigateTo,
+      onMove: doFilesMove,
+      handleContextMenuClick: handleContextMenu,
+      onDismissFailedPin: () => {}
+    }
+
+    return viewMode === 'list'
+      ? <FilesList {...commonProps} />
+      : <FilesGrid {...commonProps} />
   }
 
   const getTitle = (filesPathInfo, t) => {
@@ -208,7 +216,25 @@ const FilesPage = ({
         onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
         onNewFolder={(files) => showModal(NEW_FOLDER, files)}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
-        handleContextMenu={(...args) => handleContextMenu(...args, true)} />
+        handleContextMenu={(...args) => handleContextMenu(...args, true)}
+      />
+
+      <div className="flex items-center justify-end ml3">
+        <button
+          className={`pa2 pointer ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
+          onClick={() => setViewMode('list')}
+          title={t('viewList')}
+        >
+          <ViewList width="24" height="24" />
+        </button>
+        <button
+          className={`pa2 pointer ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
+          onClick={() => setViewMode('grid')}
+          title={t('viewGrid')}
+        >
+          <ViewModule width="24" height="24" />
+        </button>
+      </div>
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
