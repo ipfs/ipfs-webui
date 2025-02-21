@@ -10,10 +10,52 @@
   text-align: left;
   padding: 0;
   display: block;
+  outline: none;
+}
+
+.grid-file:focus-within,
+.grid-file.focused {
+  border-color: #9ad4db;
+  box-shadow: 0 0 0 2px rgba(154, 212, 219, 0.3);
+}
+
+.grid-file.selected {
+  background-color: #F0F6FA;
+  border-color: #9ad4db;
+}
+
+.grid-file-checkbox {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.grid-file:hover .grid-file-checkbox,
+.grid-file:focus-within .grid-file-checkbox,
+.grid-file.focused .grid-file-checkbox,
+.grid-file.selected .grid-file-checkbox {
+  opacity: 1;
+}
+
+.grid-file-content {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
 }
 
 .grid-file:hover,
-.grid-file:focus {
+.grid-file:focus-within,
+.grid-file.focused {
   transform: translateY(-2px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   outline: none;
@@ -21,7 +63,8 @@
 }
 
 .grid-file:hover .grid-file-dots,
-.grid-file:focus .grid-file-dots {
+.grid-file:focus-within .grid-file-dots,
+.grid-file.focused .grid-file-dots {
   opacity: 1;
   visibility: visible;
 }
@@ -48,7 +91,7 @@
 .grid-file-preview .file-thumbnail img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: contain !important;
+  object-fit: cover !important;
   background-color: #f5f5f5;
 }
 

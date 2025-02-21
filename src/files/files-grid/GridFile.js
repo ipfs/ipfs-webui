@@ -8,12 +8,13 @@ import FileIcon from '../file-icon/FileIcon.js'
 import FileThumbnail from '../file-preview/FileThumbnail.js'
 import PinIcon from '../pin-icon/PinIcon.js'
 import GlyphDots from '../../icons/GlyphDots.js'
+import Checkbox from '../../components/checkbox/Checkbox.js'
 import './GridFile.css'
 
 const GridFile = ({
-  name, type, size, cid, path, pinned, t,
+  name, type, size, cid, path, pinned, t, selected, focused,
   isRemotePin, isPendingPin, isFailedPin, isMfs,
-  onNavigate, onSetPinning, onDismissFailedPin, handleContextMenuClick
+  onNavigate, onSetPinning, onDismissFailedPin, handleContextMenuClick, onSelect
 }) => {
   const dotsWrapper = useRef()
   const [, drag] = useDrag({
@@ -23,6 +24,7 @@ const GridFile = ({
   const [hasPreview, setHasPreview] = useState(false)
 
   const handleContextMenu = (ev) => {
+    ev.preventDefault()
     handleContextMenuClick(ev, 'RIGHT', { name, size, type, cid, path, pinned })
   }
 
@@ -32,65 +34,86 @@ const GridFile = ({
     handleContextMenuClick(ev, 'TOP', { name, size, type, cid, path, pinned }, pos)
   }
 
+  const handleCheckboxClick = (ev) => {
+    // ev.stopPropagation()
+    onSelect(name, !selected)
+  }
+
   const formattedSize = humanSize(size, { round: 0 })
   const hash = cid.toString() || t('hashUnavailable')
 
   return (
-    <button
-      ref={drag}
-      className="grid-file"
+    <div
+      className={`grid-file ${selected ? 'selected' : ''} ${focused ? 'focused' : ''}`}
       onContextMenu={handleContextMenu}
-      onClick={() => onNavigate({ path, cid })}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          onNavigate({ path, cid })
-        }
-      }}
-      type="button"
+      role="button"
+      tabIndex={0}
       aria-label={t('fileLabel', { name, type, size: formattedSize })}
     >
-      <div className="grid-file-preview">
-        <FileThumbnail
-          name={name}
-          cid={cid}
-          onLoad={() => setHasPreview(true)}
-        />
-        {!hasPreview && <FileIcon name={name} type={type} />}
-        <button
-          ref={dotsWrapper}
-          className="grid-file-dots"
-          onClick={handleDotsClick}
+      <div className="grid-file-checkbox">
+        <Checkbox
+          disabled={false}
+          checked={selected}
+          onChange={handleCheckboxClick}
           aria-label={t('checkboxLabel', { name })}
-          type="button"
-        >
-          <GlyphDots />
-        </button>
+        />
       </div>
-      <div className="grid-file-info">
-        <div className="grid-file-name" title={name}>{name}</div>
-        <div className="grid-file-details">
-          <span className="grid-file-size">{formattedSize}</span>
+      <div
+        ref={drag}
+        className="grid-file-content"
+        onClick={() => onNavigate({ path, cid })}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            onNavigate({ path, cid })
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label={t('fileLabel', { name, type, size: formattedSize })}
+      >
+        <div className="grid-file-preview">
+          <FileThumbnail
+            name={name}
+            cid={cid}
+            onLoad={() => setHasPreview(true)}
+          />
+          {!hasPreview && <FileIcon name={name} type={type} />}
           <button
-            className="grid-file-pin"
-            onClick={(e) => {
-              e.stopPropagation()
-              isFailedPin ? onDismissFailedPin() : onSetPinning([{ cid, pinned }])
-            }}
+            ref={dotsWrapper}
+            className="grid-file-dots"
+            onClick={handleDotsClick}
+            aria-label={t('checkboxLabel', { name })}
             type="button"
-            aria-label={t(isFailedPin ? 'dismissFailedPin' : pinned ? 'unpin' : 'pin')}
           >
-            <PinIcon
-              isFailedPin={isFailedPin}
-              isPendingPin={isPendingPin}
-              isRemotePin={isRemotePin}
-              pinned={pinned}
-            />
+            <GlyphDots />
           </button>
         </div>
-        <div className="grid-file-hash" title={hash}>{hash}</div>
+        <div className="grid-file-info">
+          <div className="grid-file-name" title={name}>{name}</div>
+          <div className="grid-file-details">
+            <span className="grid-file-size">{formattedSize}</span>
+            <button
+              className="grid-file-pin"
+              onClick={(e) => {
+                e.stopPropagation()
+                isFailedPin ? onDismissFailedPin() : onSetPinning([{ cid, pinned }])
+              }}
+              type="button"
+              aria-label={t(isFailedPin ? 'dismissFailedPin' : pinned ? 'unpin' : 'pin')}
+            >
+              <PinIcon
+                isFailedPin={isFailedPin}
+                isPendingPin={isPendingPin}
+                isRemotePin={isRemotePin}
+                pinned={pinned}
+              />
+            </button>
+          </div>
+          <div className="grid-file-hash" title={hash}>{hash}</div>
+        </div>
       </div>
-    </button>
+    </div>
   )
 }
 
@@ -101,6 +124,7 @@ GridFile.propTypes = {
   cid: PropTypes.instanceOf(CID),
   path: PropTypes.string.isRequired,
   pinned: PropTypes.bool,
+  selected: PropTypes.bool,
   isRemotePin: PropTypes.bool,
   isPendingPin: PropTypes.bool,
   isFailedPin: PropTypes.bool,
@@ -109,7 +133,9 @@ GridFile.propTypes = {
   onSetPinning: PropTypes.func.isRequired,
   onDismissFailedPin: PropTypes.func.isRequired,
   handleContextMenuClick: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  focused: PropTypes.string
 }
 
 export default withTranslation('files')(GridFile)

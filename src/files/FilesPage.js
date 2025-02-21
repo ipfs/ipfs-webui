@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
@@ -21,6 +21,7 @@ import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE,
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
+import SelectedActions from './selected-actions/SelectedActions.js'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
@@ -37,7 +38,7 @@ const FilesPage = ({
     translateY: 0,
     file: null
   })
-  const [viewMode, setViewMode] = useState('grid')
+  const [viewMode, setViewMode] = useState('list')
 
   useEffect(() => {
     doFetchPinningServices()
@@ -121,6 +122,17 @@ const FilesPage = ({
   }
 
   const MainView = ({ t, files, remotePins, pendingPins, failedPins, doExploreUserProvidedPath }) => {
+    const [selected, setSelected] = useState([])
+    const selectedFiles = useMemo(() =>
+      selected
+        .map(name => files?.content?.find(el => el.name === name))
+        .filter(n => n)
+        .map(file => ({
+          ...file,
+          pinned: files?.pins?.map(p => p.toString())?.includes(file.cid.toString())
+        }))
+    , [files?.content, files?.pins, selected])
+
     if (!files || files.type === 'file') return (<div/>)
 
     if (files.type === 'unknown') {
@@ -144,6 +156,14 @@ const FilesPage = ({
       pendingPins: pendingPins || [],
       failedPins: failedPins || [],
       filesPathInfo,
+      selected,
+      onSelect: (name, isSelected) => {
+        if (isSelected) {
+          setSelected(prev => [...prev, name])
+        } else {
+          setSelected(prev => prev.filter(n => n !== name))
+        }
+      },
       onShare: (files) => showModal(SHARE, files),
       onRename: (files) => showModal(RENAME, files),
       onRemove: (files) => showModal(DELETE, files),
@@ -158,9 +178,29 @@ const FilesPage = ({
       onDismissFailedPin: () => {}
     }
 
-    return viewMode === 'list'
-      ? <FilesList {...commonProps} />
-      : <FilesGrid {...commonProps} />
+    return <>
+      {viewMode === 'list'
+        ? <FilesList {...commonProps} />
+        : <FilesGrid {...commonProps} />}
+
+      {selectedFiles.length !== 0 && <SelectedActions
+        className={'fixed bottom-0 right-0'}
+        style={{
+          zIndex: 20
+        }}
+        animateOnStart={selectedFiles.length === 1}
+        unselect={() => setSelected([])}
+        remove={() => showModal(DELETE, selectedFiles)}
+        rename={() => showModal(RENAME, selectedFiles)}
+        share={() => showModal(SHARE, selectedFiles)}
+        setPinning={() => showModal(PINNING, selectedFiles)}
+        download={() => onDownload(selectedFiles)}
+        inspect={() => onInspect(selectedFiles[0].cid)}
+        count={selectedFiles.length}
+        isMfs={filesPathInfo.isMfs}
+        size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
+      }
+    </>
   }
 
   const getTitle = (filesPathInfo, t) => {
