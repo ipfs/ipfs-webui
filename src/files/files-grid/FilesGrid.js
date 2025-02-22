@@ -5,6 +5,7 @@ import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { normalizeFiles } from '../../lib/files.js'
 import GridFile from './GridFile.js'
+import { connect } from 'redux-bundler-react'
 import './FilesGrid.css'
 
 const FilesGrid = ({
@@ -129,7 +130,7 @@ const FilesGrid = ({
           files={files}
           selected={selected.includes(file.name)}
           focused={focused === file.name}
-          pinned={pins?.includes(file.cid)}
+          pinned={pins?.includes(file.cid?.toString())}
           isRemotePin={remotePins?.includes(file.cid?.toString())}
           isPendingPin={pendingPins?.includes(file.cid?.toString())}
           isFailedPin={failedPins?.some(p => p?.includes(file.cid?.toString()))}
@@ -193,4 +194,14 @@ FilesGrid.defaultProps = {
   selected: []
 }
 
-export default withTranslation('files')(FilesGrid)
+export default connect(
+  'selectPins',
+  'selectPinningServices',
+  'doFetchRemotePins',
+  'selectFilesIsFetching',
+  'selectFilesSorting',
+  'selectFilesPathInfo',
+  'selectShowLoadingAnimation',
+  'doDismissFailedPin',
+  withTranslation('files')(FilesGrid)
+)

@@ -22,6 +22,7 @@ import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
 import SelectedActions from './selected-actions/SelectedActions.js'
+import Checkbox from '../components/checkbox/Checkbox.js'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
@@ -39,6 +40,7 @@ const FilesPage = ({
     file: null
   })
   const [viewMode, setViewMode] = useState('list')
+  const [selected, setSelected] = useState([])
 
   useEffect(() => {
     doFetchPinningServices()
@@ -122,7 +124,6 @@ const FilesPage = ({
   }
 
   const MainView = ({ t, files, remotePins, pendingPins, failedPins, doExploreUserProvidedPath }) => {
-    const [selected, setSelected] = useState([])
     const selectedFiles = useMemo(() =>
       selected
         .map(name => files?.content?.find(el => el.name === name))
@@ -131,6 +132,7 @@ const FilesPage = ({
           ...file,
           pinned: files?.pins?.map(p => p.toString())?.includes(file.cid.toString())
         }))
+        /* eslint-disable-next-line react-hooks/exhaustive-deps */
     , [files?.content, files?.pins, selected])
 
     if (!files || files.type === 'file') return (<div/>)
@@ -158,10 +160,18 @@ const FilesPage = ({
       filesPathInfo,
       selected,
       onSelect: (name, isSelected) => {
-        if (isSelected) {
-          setSelected(prev => [...prev, name])
+        if (Array.isArray(name)) {
+          if (isSelected) {
+            setSelected(name)
+          } else {
+            setSelected([])
+          }
         } else {
-          setSelected(prev => prev.filter(n => n !== name))
+          if (isSelected) {
+            setSelected(prev => [...prev, name])
+          } else {
+            setSelected(prev => prev.filter(n => n !== name))
+          }
         }
       },
       onShare: (files) => showModal(SHARE, files),
@@ -259,21 +269,42 @@ const FilesPage = ({
         handleContextMenu={(...args) => handleContextMenu(...args, true)}
       />
 
-      <div className="flex items-center justify-end ml3">
-        <button
-          className={`pa2 pointer ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
-          onClick={() => setViewMode('list')}
-          title={t('viewList')}
-        >
-          <ViewList width="24" height="24" />
-        </button>
-        <button
-          className={`pa2 pointer ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
-          onClick={() => setViewMode('grid')}
-          title={t('viewGrid')}
-        >
-          <ViewModule width="24" height="24" />
-        </button>
+      <div className="flex items-center justify-between">
+        <div>
+          {viewMode === 'grid' && files?.content?.length > 0
+            ? (
+                <Checkbox
+                  className='pv3 pl3 pr1 bg-white flex-none'
+                  onChange={(checked) => {
+                    if (checked) {
+                      setSelected(files.content.map(f => f.name))
+                    } else {
+                      setSelected([])
+                    }
+                  }}
+                  checked={files?.content?.length > 0 && selected.length === files.content.length}
+                  label={<span className='fw5 f6'>{t('selectAll')}</span>}
+                />
+              )
+            : null
+          }
+        </div>
+        <div className="flex items-center justify-end ml3">
+          <button
+            className={`pa2 pointer ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
+            onClick={() => setViewMode('list')}
+            title={t('viewList')}
+          >
+            <ViewList width="24" height="24" />
+          </button>
+          <button
+            className={`pa2 pointer ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
+            onClick={() => setViewMode('grid')}
+            title={t('viewGrid')}
+          >
+            <ViewModule width="24" height="24" />
+          </button>
+        </div>
       </div>
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
