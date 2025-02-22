@@ -9,7 +9,7 @@ import map from 'it-map'
 import last from 'it-last'
 import { CID } from 'multiformats/cid'
 
-import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath } from './utils.js'
+import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath, fileToByteArray } from './utils.js'
 import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
@@ -393,6 +393,37 @@ const actions = () => ({
 
     try {
       return await ipfs.files.cp(srcPath, dst)
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
+   * Adds CAR file. On completion will trigger `doFilesFetch` to update the state.
+   * @param {FileStream} carFile
+   * @param {string} name
+   */
+  doAddCarFile: (carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
+    ensureMFS(store)
+
+    const fileResult = await fileToByteArray(carFile)
+    try {
+      const result = await all(ipfs.dag.import([fileResult], {
+        pinRoots: true
+      }))
+      const cid = result[0].root.cid
+      const src = `/ipfs/${cid}`
+      const dst = join(realMfsPath('/files'), name)
+      try {
+        await ipfs.files.cp(src, dst)
+      } catch (err) {
+        // TODO: Not sure why we do this. Perhaps a generic error is used
+        // to avoid leaking private information via Countly?
+        throw Object.assign(new Error('ipfs.files.cp call failed'), {
+          code: 'ERR_FILES_CP_FAILED'
+        })
+      }
+      return carFile
     } finally {
       await store.doFilesFetch()
     }
