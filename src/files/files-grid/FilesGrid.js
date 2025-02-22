@@ -115,6 +115,7 @@ const FilesGrid = ({
   useEffect(() => {
     document.addEventListener('keyup', keyHandler)
     return () => document.removeEventListener('keyup', keyHandler)
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [files, focused, selected])
 
   const gridClassName = `files-grid${isOver && canDrop ? ' files-grid--drop-target' : ''}`

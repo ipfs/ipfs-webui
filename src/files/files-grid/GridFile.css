@@ -93,6 +93,7 @@
   height: 100% !important;
   object-fit: cover !important;
   background-color: #f5f5f5;
+  opacity: 0.8;
 }
 
 .grid-file-dots {
