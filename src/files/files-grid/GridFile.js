@@ -1,10 +1,12 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import { useDrag } from 'react-dnd'
 import { humanSize } from '../../lib/files.js'
 import { CID } from 'multiformats/cid'
+import { isBinary } from 'istextorbinary'
 import FileIcon from '../file-icon/FileIcon.js'
+import { connect } from 'redux-bundler-react'
 import FileThumbnail from '../file-preview/FileThumbnail.js'
 import PinIcon from '../pin-icon/PinIcon.js'
 import GlyphDots from '../../icons/GlyphDots.js'
@@ -14,14 +16,51 @@ import './GridFile.css'
 const GridFile = ({
   name, type, size, cid, path, pinned, t, selected, focused,
   isRemotePin, isPendingPin, isFailedPin, isMfs,
-  onNavigate, onSetPinning, onDismissFailedPin, handleContextMenuClick, onSelect
+  onNavigate, onSetPinning, doRead, onDismissFailedPin, handleContextMenuClick, onSelect
 }) => {
+  const MAX_TEXT_LENGTH = 400 // This is the maximum characters to show in text preview
   const dotsWrapper = useRef()
   const [, drag] = useDrag({
     item: { name, size, cid, path, pinned, type: 'FILE' },
     canDrag: isMfs
   })
   const [hasPreview, setHasPreview] = useState(false)
+  const [textPreview, setTextPreview] = useState(null)
+
+  useEffect(() => {
+    const fetchTextPreview = async () => {
+      const isTextFile = type.startsWith('text/') ||
+                        type === 'txt' ||
+                        /\.(txt|md|js|jsx|ts|tsx|json|css|html|xml|yaml|yml|ini|conf|sh|py|rb|java|c|cpp|h|hpp)$/i.test(name)
+
+      if (isTextFile && cid) {
+        try {
+          const chunks = []
+          let size = 0
+          const content = await doRead(cid, 0, MAX_TEXT_LENGTH)
+          if (!content) return
+
+          for await (const chunk of content) {
+            chunks.push(chunk)
+            size += chunk.length
+            if (size >= MAX_TEXT_LENGTH) break
+          }
+
+          const decoder = new TextDecoder()
+          const text = decoder.decode(Buffer.concat(chunks))
+          if (!isBinary(name, text)) {
+            setTextPreview(text)
+          }
+        } catch (err) {
+          console.error('Failed to load text preview:', err)
+        }
+      }
+    }
+
+    if (doRead) {
+      fetchTextPreview()
+    }
+  }, [doRead, type, cid, name])
 
   const handleContextMenu = (ev) => {
     ev.preventDefault()
@@ -76,6 +115,7 @@ const GridFile = ({
           <FileThumbnail
             name={name}
             cid={cid}
+            textPreview={textPreview}
             onLoad={() => setHasPreview(true)}
           />
           {!hasPreview && <FileIcon name={name} type={type} />}
@@ -135,7 +175,10 @@ GridFile.propTypes = {
   handleContextMenuClick: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
-  focused: PropTypes.string
+  focused: PropTypes.bool
 }
 
-export default withTranslation('files')(GridFile)
+export default connect(
+  'doRead',
+  withTranslation('files')(GridFile)
+)

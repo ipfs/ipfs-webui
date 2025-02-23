@@ -136,5 +136,6 @@
     "pleaseWait": "Bitte warte solange die initialen 20 Kopien des geänderten IPNS-Records mit der Hilfe von DHT-Peers gespeichert wurde ..."
   },
   "noPinsInProgress": "Alles fertig, es wird gerade nichts aus der Ferne angeheftet.",
-  "remotePinningInProgress": "Es wird gerade aus der Ferne angeheftet:"
+  "remotePinningInProgress": "Es wird gerade aus der Ferne angeheftet:",
+  "selectAllEntries": "Alle Tabelleneinträge auswählen"
 }

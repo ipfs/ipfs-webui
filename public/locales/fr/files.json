@@ -136,5 +136,6 @@
     "pleaseWait": "Merci d'attendre pendant que les 20 premières copies de l'enregistrement IPNS mis à jour sont stockés avec l'aide des pairs DHT..."
   },
   "noPinsInProgress": "Terminé, aucun épinglage distant en cours.",
-  "remotePinningInProgress": "Épinglage distant en cours:"
+  "remotePinningInProgress": "Épinglage distant en cours:",
+  "selectAllEntries": "Sélectionner toutes les entrées"
 }

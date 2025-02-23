@@ -69,14 +69,16 @@
   height: 100%;
   margin: 0;
   padding: 0;
+  opacity: 0.6;
   overflow: hidden;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-  font-size: 0.75rem;
+  font-size: 0.70rem;
   line-height: 1.4;
   color: #24292e;
   white-space: pre-wrap;
   word-break: break-all;
   display: -webkit-box;
+  line-clamp: 8;
   -webkit-line-clamp: 8;
   -webkit-box-orient: vertical;
 }

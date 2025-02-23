@@ -74,5 +74,6 @@
     "noFiles": "<0>Nenhum ficheiro neste diretório. Clique no botão “Adicionar” para adicionar alguns.</0>"
   },
   "addFilesInfo": "<0>Adicione ficheiros ao seu nó IPFS local clicando no botão <1>Adicionar ao IPFS</1> abaixo.</0>",
-  "companionInfo": "<0>Como está a usar o <1>IPFS Companion</1>, a visualização de ficheiros é limitada aos ficheiros adicionados enquanto usar a extensão.</0>"
+  "companionInfo": "<0>Como está a usar o <1>IPFS Companion</1>, a visualização de ficheiros é limitada aos ficheiros adicionados enquanto usar a extensão.</0>",
+  "selectAllEntries": "Selecionar todas as entradas"
 }

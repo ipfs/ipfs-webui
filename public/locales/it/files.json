@@ -136,5 +136,6 @@
     "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
   },
   "noPinsInProgress": "All done, no remote pins in progress.",
-  "remotePinningInProgress": "Remote pinning in progress:"
+  "remotePinningInProgress": "Remote pinning in progress:",
+  "selectAllEntries": "Seleziona tutte le voci della tabella"
 }

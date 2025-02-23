@@ -269,7 +269,7 @@ const FilesPage = ({
         handleContextMenu={(...args) => handleContextMenu(...args, true)}
       />
 
-      <div className="flex items-center justify-between">
+      {(files && files.type !== 'file') && <div className="flex items-center justify-between">
         <div>
           {viewMode === 'grid' && files?.content?.length > 0
             ? (
@@ -283,7 +283,7 @@ const FilesPage = ({
                     }
                   }}
                   checked={files?.content?.length > 0 && selected.length === files.content.length}
-                  label={<span className='fw5 f6'>{t('selectAll')}</span>}
+                  label={<span className='fw5 f6'>{t('selectAllEntries')}</span>}
                 />
               )
             : null
@@ -305,7 +305,7 @@ const FilesPage = ({
             <ViewModule width="24" height="24" />
           </button>
         </div>
-      </div>
+      </div>}
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 

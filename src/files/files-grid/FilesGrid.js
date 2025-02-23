@@ -127,7 +127,6 @@ const FilesGrid = ({
         <GridFile
           key={file.name}
           {...file}
-          files={files}
           selected={selected.includes(file.name)}
           focused={focused === file.name}
           pinned={pins?.includes(file.cid?.toString())}
