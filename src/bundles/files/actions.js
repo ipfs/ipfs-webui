@@ -9,7 +9,7 @@ import map from 'it-map'
 import last from 'it-last'
 import { CID } from 'multiformats/cid'
 
-import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath, fileToByteArray } from './utils.js'
+import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath } from './utils.js'
 import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
@@ -406,9 +406,9 @@ const actions = () => ({
   doAddCarFile: (carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
     ensureMFS(store)
 
-    const fileResult = await fileToByteArray(carFile)
+    const stream = carFile.content.stream()
     try {
-      const result = await all(ipfs.dag.import([fileResult], {
+      const result = await all(ipfs.dag.import(stream, {
         pinRoots: true
       }))
       const cid = result[0].root.cid
