@@ -316,25 +316,3 @@ export const ensureMFS = (store) => {
     throw new Error('Unable to perform task if not in MFS')
   }
 }
-
-/**
- * Get bytes from file
- * @param {FileStream} file
- * @returns {Promise<Uint8Array>}
- */
-export const fileToByteArray = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      const arrayBuffer = reader.result
-      if (arrayBuffer instanceof ArrayBuffer) {
-        const byteArray = new Uint8Array(arrayBuffer)
-        resolve(byteArray)
-      } else {
-        resolve(new Uint8Array([]))
-      }
-    }
-    reader.onerror = () => reject(new Error('fileToByteArray failed'))
-    reader.readAsArrayBuffer(file.content)
-  })
-}
