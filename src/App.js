@@ -18,8 +18,8 @@ import Notify from './components/notify/Notify.js'
 import Connected from './components/connected/Connected.js'
 import TourHelper from './components/tour/TourHelper.js'
 import FilesExploreForm from './files/explore-form/files-explore-form.tsx'
-import { ThemeProvider, ThemeContext } from './context/theme-provider'
-import { ThemeToggle } from './components/theme-toggle/toggle'
+import { ThemeProvider, ThemeContext } from './context/theme-provider.tsx'
+import { ThemeToggle } from './components/theme-toggle/toggle.tsx'
 
 export class App extends Component {
   static propTypes = {
