@@ -14,6 +14,7 @@ import Popover from '../../components/popover/Popover.js'
 // Styles
 import './WorldMap.css'
 import Cid from '../../components/cid/Cid.js'
+import { useTheme } from '../../hooks/theme'
 
 const calculateWidth = (windowWidth) => {
   // the d3 generated svg width includes a lot of ocean, that we crop for now, as it looks weird.
@@ -49,6 +50,7 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
   const [width, setWidth] = useState(calculateWidth(window.innerWidth))
   const [height, setHeight] = useState(calculateHeight(width))
   const [selectedTimeout, setSelectedTimeout] = useState(null)
+  const { isDarkTheme } = useTheme()
 
   useEffect(() => {
     const debouncedHandleResize = debounce(() => {
@@ -100,8 +102,8 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
         </div>
         <div className='no-events absolute bottom-0 left-0 right-0'>
           <div className='flex flex-auto flex-column items-center self-end pb5-ns no-select'>
-            <div className='f1 fw5 black'><PeersCount /></div>
-            <div className='f4 b ttu charcoal-muted'>{t('app:terms.peers')}</div>
+            <div style={{ color: isDarkTheme ? 'var(--world-map-text-dark)' : '' }} className='f1 fw5 black'><PeersCount /></div>
+            <div className='f4 b ttu charcoal-muted' style={{ color: isDarkTheme ? 'var(--charcoal-muted)' : '' }}>{t('app:terms.peers')}</div>
           </div>
         </div>
       </div>

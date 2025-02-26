@@ -3,12 +3,14 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/button.tsx'
 import { checkValidAPIAddress } from '../../bundles/ipfs-provider.js'
+import { useTheme } from '../../hooks/theme'
 
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFailed }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
   const initialIsValidApiAddress = !checkValidAPIAddress(value)
   const [showFailState, setShowFailState] = useState(initialIsValidApiAddress || ipfsInitFailed)
   const [isValidApiAddress, setIsValidApiAddress] = useState(initialIsValidApiAddress)
+  const { isDarkTheme } = useTheme()
 
   // Updates the border of the input to indicate validity
   useEffect(() => {
@@ -46,12 +48,14 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
         onChange={onChange}
         onKeyPress={onKeyPress}
         value={value}
+        style={{ background: isDarkTheme ? 'var(--filter-peers-dark)' : '', border: isDarkTheme ? '0.4px solid var(--border-color)' : '' }}
       />
       <div className='tr'>
         <Button
           minWidth={100}
           height={40}
           className='mt2 mt0-l ml2-l tc'
+          style={{ background: isDarkTheme ? 'var(--input-btn-bg)' : '' }}
           disabled={!isValidApiAddress || value === ipfsApiAddress}>
           {t('actions.submit')}
         </Button>

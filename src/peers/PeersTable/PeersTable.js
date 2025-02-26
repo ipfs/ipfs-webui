@@ -10,6 +10,7 @@ import Cid from '../../components/cid/Cid.js'
 import { sortByProperty } from '../../lib/sort.js'
 
 import './PeersTable.css'
+import { useTheme } from '../../hooks/theme'
 
 const flagRenderer = (flagCode, isPrivate) => {
   // Check if the OS is Windows to render the flags as SVGs
@@ -102,6 +103,7 @@ const rowClassRenderer = ({ index }, peers = [], selectedPeers) => {
 }
 
 const FilterInput = ({ setFilter, t, filteredCount }) => {
+  const { isDarkTheme } = useTheme()
   return (
     <div className='flex items-center justify-between pa2'>
       <input
@@ -109,6 +111,7 @@ const FilterInput = ({ setFilter, t, filteredCount }) => {
         type='text'
         placeholder='Filter peers'
         onChange={(e) => setFilter(e.target.value)}
+        style={{ background: isDarkTheme ? 'var(--filter-peers-dark)' : '', border: isDarkTheme ? '0.4px solid var(--border-color)' : '' }}
       />
       {/* Now to display the total number of peers filtered out on the right side of the inside of the input */}
       <div className='f4 charcoal-muted absolute top-1 right-1'>{filteredCount}</div>
@@ -122,6 +125,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
   const [sortBy, setSortBy] = useState('latency')
   const [sortDirection, setSortDirection] = useState(SortDirection.ASC)
   const [filter, setFilter] = useState('')
+  const { isDarkTheme } = useTheme()
 
   const sort = useCallback(({ sortBy, sortDirection }) => {
     setSortBy(sortBy)
@@ -168,7 +172,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
   )
 
   return (
-    <div className={`bg-white-70 center ${className}`} style={{ height: `${tableHeight}px`, maxWidth: 1764 }}>
+    <div className={`bg-white-70 center ${className}`} style={{ height: `${tableHeight}px`, maxWidth: 1764, background: isDarkTheme ? 'var(--box-dark)' : '' }}>
         <FilterInput setFilter={filterCb} t={t} filteredCount={sortedList.length} />
         { awaitedPeerLocationsForSwarm && <AutoSizer disableHeight>
           {({ width }) => (
@@ -185,6 +189,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
                 rowGetter={({ index }) => sortedList[index]}
                 sort={sort}
                 sortBy={sortBy}
+                background={isDarkTheme ? 'var(--box-dark)' : '' }
                 sortDirection={sortDirection}>
                 <Column label={t('app:terms.location')} cellRenderer={locationCellRenderer(t)} dataKey='location' width={450} className='f6 charcoal truncate pl2' />
                 <Column label={t('app:terms.latency')} cellRenderer={latencyCellRenderer} dataKey='latency' width={200} className='f6 charcoal pl2' />
