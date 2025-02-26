@@ -34,7 +34,7 @@
     "done": "Selesai"
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": "Tempelkan perintah berikut ke terminal Anda untuk melakukan tugas ini di Kubo melalui baris perintah. Ingatlah bahwa Anda perlu mengganti placeholder dengan parameter spesifik Anda."
   },
   "nav": {
     "bugsLink": "Laporkan bug",
@@ -43,13 +43,13 @@
   "status": {
     "connectedToIpfs": "Terhubung ke IPFS",
     "connectingToIpfs": "Menghubungkan ke IPFS…",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": "Tidak dapat terhubung ke Kubo RPC"
   },
   "apiAddressForm": {
-    "placeholder": "Masukkan URL (http://127.0.0.1:5001) atau Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": "Masukkan URL (https://ipfs.io)"
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Masukkan URL (https://dweb.link)"
@@ -60,7 +60,7 @@
     "advanced": "Canggih",
     "agent": "Agen",
     "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
+    "apiAddress": "Alamat API Kubo RPC",
     "blocks": "Blok",
     "connection": "Koneksi",
     "downSpeed": "Yang baru masuk",

@@ -1,3 +1,31 @@
+## [4.5.0](https://github.com/ipfs/ipfs-webui/compare/v4.4.2...v4.5.0) (2025-02-25)
+
+
+ CID `bafybeiata4qg7xjtwgor6r5dw63jjxyouenyromrrb4lrewxrlvav7gzgi`
+
+ --- 
+
+
+
+### Features
+
+* add QR Code to ShareModal ([#2320](https://github.com/ipfs/ipfs-webui/issues/2320)) ([5dbccfd](https://github.com/ipfs/ipfs-webui/commit/5dbccfd08f19d2e890bc95dffd98dc6ac13cc389))
+
+
+### Bug Fixes
+
+* add hint about basic http auth for rpc ([#2338](https://github.com/ipfs/ipfs-webui/issues/2338)) ([7d00889](https://github.com/ipfs/ipfs-webui/commit/7d008895ed0fdf635043c0796a5ef83efa891fc4))
+* **ci:** cluster pinning with timeout and retry ([#2321](https://github.com/ipfs/ipfs-webui/issues/2321)) ([9007e98](https://github.com/ipfs/ipfs-webui/commit/9007e98406c3eb71d3cb367f5ae1a87a5827a934))
+* **ci:** typo in ci.yml ([7fbb51b](https://github.com/ipfs/ipfs-webui/commit/7fbb51bf23192dda3527e2944a6b7b14e810a869))
+* **peers:** chrome regression and update ipfs-geoip to v9.2 ([#2333](https://github.com/ipfs/ipfs-webui/issues/2333)) ([699f735](https://github.com/ipfs/ipfs-webui/commit/699f735b0c13ad1b70444e9e27c32f61df03b776))
+
+
+### Trivial Changes
+
+* add console warning ([#2332](https://github.com/ipfs/ipfs-webui/issues/2332)) ([76a0c52](https://github.com/ipfs/ipfs-webui/commit/76a0c52e2c719d116bfea757856c0488a2de1ff4))
+* **deps:** bump actions/setup-go from 4 to 5 ([#2221](https://github.com/ipfs/ipfs-webui/issues/2221)) ([412b89f](https://github.com/ipfs/ipfs-webui/commit/412b89fb75ee4e84cd8a39a399679c568026de30))
+* pull transifex translations ([#2331](https://github.com/ipfs/ipfs-webui/issues/2331)) ([e62b487](https://github.com/ipfs/ipfs-webui/commit/e62b48738e01bbc9208d5d4664ae33db25ce7e6e))
+
 ## [4.4.2](https://github.com/ipfs/ipfs-webui/compare/v4.4.1...v4.4.2) (2024-12-20)
 
 
