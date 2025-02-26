@@ -17,7 +17,7 @@ import { cliCmdKeys, cliCommandList } from '../bundles/files/consts.js'
 import { useTheme } from '../hooks/theme'
 
 const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => {
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
   return (
     <div data-id='PeersPage' className='overflow-hidden'>
       <Helmet>

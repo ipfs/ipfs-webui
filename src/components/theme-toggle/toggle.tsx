@@ -3,7 +3,7 @@ import './theme-toggle.css'
 import { useTheme } from '../../hooks/theme'
 
 export const ThemeToggle = () => {
-  const { darkTheme: isDarkTheme, toggleTheme } = useTheme()
+  const { isDarkTheme, toggleTheme } = useTheme()
   return (
     <button
       className="theme-toggle"

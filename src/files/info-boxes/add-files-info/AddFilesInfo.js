@@ -4,7 +4,7 @@ import Box from '../../../components/box/Box.js'
 import { useTheme } from '../../../hooks/theme'
 
 const AddFilesInfo = ({ t }) => {
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
   return (
     <div className='mv4 tc navy f5' >
       <Box style={{ background: isDarkTheme ? 'var(--teal-dark)' : 'rgba(105, 196, 205, 0.1)' }}>

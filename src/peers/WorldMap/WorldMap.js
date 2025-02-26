@@ -50,7 +50,7 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
   const [width, setWidth] = useState(calculateWidth(window.innerWidth))
   const [height, setHeight] = useState(calculateHeight(width))
   const [selectedTimeout, setSelectedTimeout] = useState(null)
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
 
   useEffect(() => {
     const debouncedHandleResize = debounce(() => {

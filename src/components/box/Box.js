@@ -9,7 +9,7 @@ export const Box = ({
   children,
   ...props
 }) => {
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
   return (
     <section className={className} style={{ background: isDarkTheme ? 'var(--element-bg)' : 'var(--element-bg-light)', ...style }}>
       <ErrorBoundary>

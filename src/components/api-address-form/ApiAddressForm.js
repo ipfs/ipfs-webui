@@ -10,7 +10,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
   const initialIsValidApiAddress = !checkValidAPIAddress(value)
   const [showFailState, setShowFailState] = useState(initialIsValidApiAddress || ipfsInitFailed)
   const [isValidApiAddress, setIsValidApiAddress] = useState(initialIsValidApiAddress)
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
 
   // Updates the border of the input to indicate validity
   useEffect(() => {

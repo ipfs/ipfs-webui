@@ -103,7 +103,7 @@ const rowClassRenderer = ({ index }, peers = [], selectedPeers) => {
 }
 
 const FilterInput = ({ setFilter, t, filteredCount }) => {
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
   return (
     <div className='flex items-center justify-between pa2'>
       <input
@@ -125,7 +125,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
   const [sortBy, setSortBy] = useState('latency')
   const [sortDirection, setSortDirection] = useState(SortDirection.ASC)
   const [filter, setFilter] = useState('')
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
 
   const sort = useCallback(({ sortBy, sortDirection }) => {
     setSortBy(sortBy)

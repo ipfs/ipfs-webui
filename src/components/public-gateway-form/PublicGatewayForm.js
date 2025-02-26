@@ -10,7 +10,7 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
   const [showFailState, setShowFailState] = useState(initialIsValidGatewayUrl)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
   // Updates the border of the input to indicate validity
   useEffect(() => {
     setShowFailState(!isValidGatewayUrl)

@@ -9,7 +9,7 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
   const [value, setValue] = useState(publicSubdomainGateway)
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
 
   // Updates the border of the input to indicate validity
   useEffect(() => {

@@ -16,7 +16,7 @@ const FilesExploreForm = ({ onBrowse: onBrowseProp }) => {
   const [path, setPath] = useState('')
   const { doExploreUserProvidedPath } = useExplore()
   const { t } = useTranslation('files')
-  const { darkTheme: isDarkTheme } = useTheme()
+  const { isDarkTheme } = useTheme()
 
   const trimmedPath = useMemo(() => {
     return path.trim()

@@ -7,7 +7,7 @@ export interface ThemeProviderProps {
 export type Theme = 'light' | 'dark'
 
 export type ThemeContextValues = {
-  darkTheme: boolean,
+  isDarkTheme: boolean,
   toggleTheme: (event?: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement> | undefined) => void;
 }
 
@@ -68,7 +68,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   }
 
   const values: ThemeContextValues = {
-    darkTheme: isDarkTheme,
+    isDarkTheme,
     toggleTheme
   }
   return (
