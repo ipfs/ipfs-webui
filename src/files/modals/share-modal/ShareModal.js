@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ShareIcon from '../../../icons/StrokeShare.js'
+import QRCode from 'react-qr-code'
 import Button from '../../../components/button/button.tsx'
 import { withTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -8,9 +8,14 @@ import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.
 
 const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (
   <Modal {...props} className={className} onCancel={onLeave} >
-    <ModalBody title={t('shareModal.title')} Icon={ShareIcon}>
-      <p className='charcoal w-90 tl center'>{t('shareModal.description')}</p>
-
+    <ModalBody title={t('shareModal.title')}>
+      <p className='charcoal w-90 center'>{t('shareModal.description')}</p>
+      <div className='flex justify-center pb3'>
+        <QRCode
+          size={180}
+          value={link}
+        />
+      </div>
       <div className='flex center w-90 pb2'>
         <input
           value={link}

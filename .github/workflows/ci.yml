@@ -122,19 +122,40 @@ jobs:
         # only pin for main commits
         if: github.ref == 'refs/heads/main'
         continue-on-error: true
+        timeout-minutes: 5 # pin should takes a few seconds, 5 min is a hard ceiling
         run: |
-          ipfs-cluster-ctl --enc=json \
-              --host "${CLUSTER_HOST}" \
-              --basic-auth "${CLUSTER_USER}:${CLUSTER_PASSWORD}" \
-              add --format car --local \
-              --name "${PIN_NAME}" \
-              ipfs-webui_${{ github.sha }}.car
+          echo "Avoid doing initial upload to am6-1 node with experimental pebble datastore"
+          echo '127.0.0.1 collab-cluster-am6-1.cluster.dwebops.net' | sudo tee -a /etc/hosts
+
+          # run in a loop and retry until GA timeout-minutes hits
+          attempt=1
+          while true; do
+            echo "Attempt #$attempt"
+
+            # pinning <100MiB file should not take more than few seconds
+            timeout 1m ipfs-cluster-ctl --enc=json \
+                --host "${CLUSTER_HOST}" \
+                --basic-auth "${CLUSTER_USER}:${CLUSTER_PASSWORD}" \
+                add --format car --local \
+                --name "${PIN_NAME}" \
+                ipfs-webui_${{ github.sha }}.car && {
+                  echo "Pin succeeded on attempt #$attempt"
+                  exit 0
+                }
+
+                echo "Attempt #$attempt failed, retrying in 2 seconds..."
+                attempt=$((attempt + 1))
+                # if first attept failed, retry with debug enabled
+                if [[ $counter -eq 2 ]]; then
+                  export GOLOG_LOG_LEVEL='debug'
+                fi
+                sleep 2
+          done
         env:
           CLUSTER_HOST: "/dnsaddr/ipfs-websites.collab.ipfscluster.io"
           CLUSTER_USER: ${{ secrets.CLUSTER_USER }}
           CLUSTER_PASSWORD: ${{ secrets.CLUSTER_PASSWORD }}
           PIN_NAME: "ipfs-webui@${{ github.sha }}"
-        timeout-minutes: 15
 
       - name: Fail job due to pinning failure
         # only fail if pinning failed for main commits
@@ -145,7 +166,7 @@ jobs:
               core.setFailed('Pinning did not succeed')
 
       # dnslink-dnsimple requires go
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
         if: github.ref == 'refs/heads/main'
         with:
           go-version: "1.20.x"

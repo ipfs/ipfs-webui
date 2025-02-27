@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "Tidak dapat tersambung. Silakan periksa apakah daemon Anda berjalan.",
   "windowIpfsRequestFailed": "Permintaan IPFS gagal. Silakan periksa pengaturan Sahabat IPFS Anda.",
-  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
-  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
-  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
+  "ipfsInvalidApiAddress": "Alamat Kubo RPC yang diberikan tidak valid.",
+  "ipfsConnectSuccess": "Berhasil terhubung ke alamat Kubo RPC",
+  "ipfsConnectFail": "Tidak dapat terhubung ke alamat RPC Kubo yang diberikan",
   "ipfsPinFailReason": "Tidak dapat menyetel penyematan di {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Berhasil disematkan di {serviceName}",
   "ipfsUnpinSucceedReason": "Berhasil melepas pin dari {serviceName}",
