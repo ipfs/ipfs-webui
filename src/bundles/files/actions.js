@@ -400,10 +400,11 @@ const actions = () => ({
 
   /**
    * Adds CAR file. On completion will trigger `doFilesFetch` to update the state.
+   * @param {string} root
    * @param {FileStream} carFile
    * @param {string} name
    */
-  doAddCarFile: (carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
+  doAddCarFile: (root, carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
     ensureMFS(store)
 
     const stream = carFile.content.stream()
@@ -413,7 +414,7 @@ const actions = () => ({
       }))
       const cid = result[0].root.cid
       const src = `/ipfs/${cid}`
-      const dst = join(realMfsPath('/files'), name)
+      const dst = realMfsPath(join(root, name))
       try {
         await ipfs.files.cp(src, dst)
       } catch (err) {
