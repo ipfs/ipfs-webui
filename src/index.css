@@ -1,87 +1,15 @@
-@import "./reset.css";
+@import './reset.css';
 @import "../node_modules/tachyons";
 /* They forgot to include word break: https://github.com/tachyons-css/tachyons/issues/563 */
 @import "../node_modules/tachyons/src/_word-break.css";
 @import "../node_modules/ipfs-css";
 
-:root {
-  --input-bg-dark: #121212;
-  --input-btn-bg: #2b2e30;
-  --teal-dark: #2b79801a;
-  --box-dark: #1a1c1e;
-  --world-map-text-dark: #e8e6e3;
-  --charcoal-muted: #9d9488;
-  --filter-peers-dark: #121212;
-  --element-bg-light: #fbfbfb;
-  --dataset-name: #d3dce4;
-}
-
 body {
   overflow-y: scroll;
 }
 
-[data-theme="dark"] {
-  --background: #181a1b;
-  --text: #e8e6e3;
-  --element-bg: #1a1c1e;
-  --navy-dark: #0b3a53;
-  --navy-text-color: rgb(202, 198, 191);
-  --snow-muted: rgb(28, 30, 31);
-  --border-color: rgba(140, 130, 115, 0.5);
-
-  body {
-    transition: background 0.3s ease-in;
-  }
-
-  h2, .black, .montserrat {
-    color: var(--world-map-text-dark) !important;
-  }
-
-  /* from inspecting the DOM, most of the classes here are from tachyon and ipfs-css
-  * so when the data-theme attr is set to dark, we'll have them updated
-  */
-  .bg-snow-muted {
-    background: var(--snow-muted);
-  }
-
-  .charcoal {
-    color: rgb(196, 191, 183);
-  }
-
-  section {
-    background: var(--element-bg);
-  }
-
-  .navy {
-    color: var(--navy-text-color);
-  }
-
-  .joyride-app-explore < div {
-    border: 1px solid red;
-  }
-
-  .webui-header {
-    background: var(--snow-muted) !important;
-  }
-
-  .ReactVirtualized__Table__headerRow {
-    background: var(--box-dark);
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .ReactVirtualized__Table__row {
-    border-bottom: 1px solid var(--border-color);
-  }
-}
-
-html #root {
-  background-color: var(--background);
-  color: var(--text);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.placeholder-light::placeholder {
-  color: #cad3d8;
+.placeholder-light::placeholder{
+  color: #CAD3D8;
 }
 
 .bg-near-white {
@@ -98,7 +26,7 @@ html, body, #root {
 
 @media only screen and (min-width: 60em) {
   .appOverlay {
-    width: calc(100% - 148px);
+      width: calc(100% - 148px)
   }
 }
 

@@ -57,8 +57,6 @@
   "include": [
     "**/*.ts",
     "@types",
-    "src/context",
-    "src/hooks",
     // "src/**/*.js", // TODO: Include all js files when typecheck passes
     "src/bundles/files/**/*.js",
     "src/bundles/analytics.js",
