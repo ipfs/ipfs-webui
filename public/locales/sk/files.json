@@ -74,5 +74,6 @@
     "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
   },
   "addFilesInfo": "<0>Pridajte súbory do vášho IPFS uzlu kliknutím na <1>Pridať do IPFS</1> tlačítko.</0>",
-  "companionInfo": "<0>Keďže používate <1>IPFS Companion</1>, zobrazené súbory sú obmedzené iba na tie, ktoré ste pridali počas používania tohoto rozšírenia.</0>"
+  "companionInfo": "<0>Keďže používate <1>IPFS Companion</1>, zobrazené súbory sú obmedzené iba na tie, ktoré ste pridali počas používania tohoto rozšírenia.</0>",
+  "selectAllEntries": "Vybrať všetky položky"
 }

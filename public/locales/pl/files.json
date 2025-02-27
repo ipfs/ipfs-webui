@@ -136,5 +136,6 @@
     "pleaseWait": "Proszę poczekać, aż początkowe 20 kopii zaktualizowanego rekordu IPNS zostanie zapisanych za pomocą peerów DHT..."
   },
   "noPinsInProgress": "Wszystko zrobione, brak zdalnych pinów w toku.",
-  "remotePinningInProgress": "Trwa zdalne przypinanie:"
+  "remotePinningInProgress": "Trwa zdalne przypinanie:",
+  "selectAllEntries": "Wybierz wszystkie pozycje tabeli"
 }

@@ -88,5 +88,6 @@
   "checkboxLabel": "View more options for {name}",
   "pinned": "已固定",
   "cidNotFileNorDir": "當前連接不是一個文件或目錄，請檢查 <0>並替換</0> 。",
-  "sortBy": "Sort items by {name}"
+  "sortBy": "Sort items by {name}",
+  "selectAllEntries": "選擇所有條目"
 }

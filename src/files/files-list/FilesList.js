@@ -13,7 +13,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import { useDrop } from 'react-dnd'
 // Components
 import Checkbox from '../../components/checkbox/Checkbox.js'
-import SelectedActions from '../selected-actions/SelectedActions.js'
+// import SelectedActions from '../selected-actions/SelectedActions.js'
 import File from '../file/File.js'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation.js'
 
@@ -52,15 +52,14 @@ const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], fail
 
 export const FilesList = ({
   className, files, pins, pinningServices, remotePins, pendingPins, failedPins, filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
+  onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
 }) => {
-  const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
   const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
   const listRef = useRef()
   const filesRefs = useRef([])
-  const refreshPinCache = true // manually clicking on Pin Status column skips cache and updates remote status
+  const refreshPinCache = true
 
   filesPathInfo = filesPathInfo ?? {}
   const [{ canDrop, isOver, isDragging }, drop] = useDrop({
@@ -70,7 +69,6 @@ export const FilesList = ({
         return
       }
       const { filesPromise } = monitor.getItem()
-
       addFiles(filesPromise, onAddFiles)
     },
     collect: (monitor) => ({
@@ -99,7 +97,7 @@ export const FilesList = ({
     }
 
     if (e.key === 'Escape') {
-      setSelected([])
+      onSelect([], false)
       setFocused(null)
       return listRef.current.forceUpdateGrid()
     }
@@ -163,36 +161,17 @@ export const FilesList = ({
     setAllFiles(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
   }, [files, remotePins, filesSorting, pendingPins, failedPins])
 
-  useEffect(() => {
-    const selectedFiles = selected.filter(name => files.find(el => el.name === name))
-
-    if (selectedFiles.length !== selected.length) {
-      setSelected(selected)
-    }
-  }, [files, selected])
-
   const toggleAll = (checked) => {
-    let selected = []
-
     if (checked) {
-      selected = files.map(file => file.name)
+      onSelect(allFiles.map(file => file.name), true)
+    } else {
+      onSelect([], false)
     }
-
-    setSelected(selected)
-    listRef.current.forceUpdateGrid()
   }
 
   const toggleOne = useCallback((name, check) => {
-    const index = selected.indexOf(name)
-
-    if (check && index < 0) {
-      setSelected([...selected, name].sort())
-    } else if (index >= 0) {
-      setSelected(selected.filter(selected => selected !== name).sort())
-    }
-
-    listRef.current.forceUpdateGrid()
-  }, [selected])
+    onSelect(name, check)
+  }, [onSelect])
 
   const move = (src, dst) => {
     if (selectedFiles.length > 0) {
@@ -340,24 +319,7 @@ export const FilesList = ({
               </div>
             )}
           </WindowScroller>
-          { selectedFiles.length !== 0 && <SelectedActions
-            className={'fixed bottom-0 right-0'}
-            style={{
-              zIndex: 20
-            }}
-            animateOnStart={selectedFiles.length === 1}
-            unselect={() => toggleAll(false)}
-            remove={() => onRemove(selectedFiles)}
-            rename={() => onRename(selectedFiles)}
-            share={() => onShare(selectedFiles)}
-            setPinning={() => onSetPinning(selectedFiles)}
-            download={() => onDownload(selectedFiles)}
-            inspect={() => onInspect(selectedFiles[0].cid)}
-            count={selectedFiles.length}
-            isMfs={filesPathInfo.isMfs}
-            size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
-          }
-        </Fragment> }
+        </Fragment>}
     </section>
   )
 }

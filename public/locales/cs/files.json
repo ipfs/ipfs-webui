@@ -136,5 +136,6 @@
     "pleaseWait": "Počkejte prosím, než se pomocí DHT peerů uloží počátečních 20 kopií aktualizovaného záznamu IPNS..."
   },
   "noPinsInProgress": "Vše je hotovo, žádné vzdálené připnutí neprobíhá.",
-  "remotePinningInProgress": "Probíhá vzdálené připnutí:"
+  "remotePinningInProgress": "Probíhá vzdálené připnutí:",
+  "selectAllEntries": "Vybrat všechny položky tabulky"
 }

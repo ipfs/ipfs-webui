@@ -136,5 +136,6 @@
     "pleaseWait": "请等待片刻以使得初始的20份IPNS更新记录副本储存至DHT节点"
   },
   "noPinsInProgress": "全部已完成，没有正在进行的远程固定操作",
-  "remotePinningInProgress": "远程固定中:"
+  "remotePinningInProgress": "远程固定中:",
+  "selectAllEntries": "选择所有条目"
 }
