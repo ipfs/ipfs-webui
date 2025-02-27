@@ -399,6 +399,38 @@ const actions = () => ({
   }),
 
   /**
+   * Adds CAR file. On completion will trigger `doFilesFetch` to update the state.
+   * @param {string} root
+   * @param {FileStream} carFile
+   * @param {string} name
+   */
+  doAddCarFile: (root, carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
+    ensureMFS(store)
+
+    const stream = carFile.content.stream()
+    try {
+      const result = await all(ipfs.dag.import(stream, {
+        pinRoots: true
+      }))
+      const cid = result[0].root.cid
+      const src = `/ipfs/${cid}`
+      const dst = realMfsPath(join(root, name))
+      try {
+        await ipfs.files.cp(src, dst)
+      } catch (err) {
+        // TODO: Not sure why we do this. Perhaps a generic error is used
+        // to avoid leaking private information via Countly?
+        throw Object.assign(new Error('ipfs.files.cp call failed'), {
+          code: 'ERR_FILES_CP_FAILED'
+        })
+      }
+      return carFile
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
    * Creates a download link for the provided files.
    * @param {FileStat[]} files
    */
