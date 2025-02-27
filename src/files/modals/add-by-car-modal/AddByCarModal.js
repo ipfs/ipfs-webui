@@ -54,7 +54,7 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
 
   return (
     <Modal className={className} onCancel={onCancel}>
-      <ModalBody title='Add by CAR' Icon={Icon}>
+      <ModalBody title={t('addByCarModal.title')} Icon={Icon}>
         <div className='mb3 flex flex-row items-center'>
           <p className='mt0 charcoal tl w-90'>{t('addByCarModal.description') + ' ' + t('addByCarModal.examples')}</p>
         </div>

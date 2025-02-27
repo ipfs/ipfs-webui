@@ -63,6 +63,7 @@
   "addByCarModal": {
     "title": "Import from CAR",
     "description": "Select a CAR file to import",
+    "selectCARButtonText": "Select CAR…",
     "namePlaceholder": "Name (optional)",
     "examples": "Examples:"
   },
