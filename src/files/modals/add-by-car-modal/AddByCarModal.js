@@ -60,7 +60,7 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
         </div>
 
         <div className='flex flex-row justify-center'>
-          <Button className='mr2' onClick={onAddFileButtonClick}>Add file</Button>
+          <Button className='mr2' onClick={onAddFileButtonClick}>{t('addByCarModal.selectCARButtonText')}</Button>
           <input
             onChange={onNameChange}
             value={name}
