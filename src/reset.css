@@ -10,7 +10,7 @@ button {
 button:not(.disabled) {
     cursor: pointer;
 }
-
+  
 button:not(.default):focus-visible {
     outline: 1px solid #bbb;
     outline-offset: -1px;
@@ -31,13 +31,4 @@ button.hoverable-button:hover {
 
 button.hoverable-button:focus {
     outline: none;
-}
-
-/* override tachyons */
-[data-theme='dark'] .bg-white {
-  background-color: var(--background) !important;
-}
-
-[data-theme='dark'] .near-black {
-  color: var(--text) !important;
 }
