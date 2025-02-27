@@ -20,9 +20,11 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
 
     if (files[0]) {
       const file = files[0]
-      const fileName = files[0].path
+      const fileName = files[0].path.replaceAll('.car', '')
       setFile(file)
-      setName(fileName)
+      if (name.length === 0) {
+        setName(fileName)
+      }
     }
   }
 
@@ -35,22 +37,22 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
     onSubmit(file, name)
   }
 
-  const isValidated = useMemo(() => {
-    return name.endsWith('.car')
+  const isFileNameValid = useMemo(() => {
+    return name
   }, [name])
 
   const isDisabled = useMemo(() => {
-    return !file || !isValidated
-  }, [file, isValidated])
+    return !file || !isFileNameValid
+  }, [file, isFileNameValid])
 
   const inputClass = useMemo(() => {
     if (!file) return
-    if (isValidated) {
+    if (isFileNameValid) {
       return 'b--green-muted focus-outline-green'
     } else {
       return 'b--red-muted focus-outline-red'
     }
-  }, [isValidated, file])
+  }, [isFileNameValid, file])
 
   return (
     <Modal className={className} onCancel={onCancel}>
