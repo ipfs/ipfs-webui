@@ -399,10 +399,42 @@ const actions = () => ({
   }),
 
   /**
- * Reads a text file containing CIDs and adds each one to IPFS at the given root path.
- * @param {FileStream[]} source - The text file containing CIDs
- * @param {string} root - Destination directory in IPFS
- */
+   * Adds CAR file. On completion will trigger `doFilesFetch` to update the state.
+   * @param {string} root
+   * @param {FileStream} carFile
+   * @param {string} name
+   */
+  doAddCarFile: (root, carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
+    ensureMFS(store)
+
+    const stream = carFile.content.stream()
+    try {
+      const result = await all(ipfs.dag.import(stream, {
+        pinRoots: true
+      }))
+      const cid = result[0].root.cid
+      const src = `/ipfs/${cid}`
+      const dst = realMfsPath(join(root, name))
+      try {
+        await ipfs.files.cp(src, dst)
+      } catch (err) {
+        // TODO: Not sure why we do this. Perhaps a generic error is used
+        // to avoid leaking private information via Countly?
+        throw Object.assign(new Error('ipfs.files.cp call failed'), {
+          code: 'ERR_FILES_CP_FAILED'
+        })
+      }
+      return carFile
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
+   * Reads a text file containing CIDs and adds each one to IPFS at the given root path.
+   * @param {FileStream[]} source - The text file containing CIDs
+   * @param {string} root - Destination directory in IPFS
+   */
   doFilesBulkCidImport: (source, root) => perform(ACTIONS.BULK_CID_IMPORT, async function (ipfs, { store }) {
     ensureMFS(store)
 
