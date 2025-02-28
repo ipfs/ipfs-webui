@@ -10,6 +10,7 @@ import RenameModal from './rename-modal/RenameModal.js'
 import PinningModal from './pinning-modal/PinningModal.js'
 import RemoveModal from './remove-modal/RemoveModal.js'
 import AddByPathModal from './add-by-path-modal/AddByPathModal.js'
+import BulkImportModal from './bulk-import-modal/bulk-import-modal.tsx'
 import PublishModal from './publish-modal/PublishModal.js'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts.js'
@@ -22,6 +23,7 @@ const RENAME = 'rename'
 const DELETE = 'delete'
 const ADD_BY_PATH = 'add_by_path'
 const ADD_BY_CAR = 'add_by_car'
+const BULK_CID_IMPORT = 'bulk_cid_import'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
 const PUBLISH = 'publish'
@@ -33,6 +35,7 @@ export {
   DELETE,
   ADD_BY_PATH,
   ADD_BY_CAR,
+  BULK_CID_IMPORT,
   CLI_TUTOR_MODE,
   PINNING,
   PUBLISH
@@ -68,6 +71,11 @@ class Modals extends React.Component {
 
   onAddByCar = (file, name) => {
     this.props.onAddByCar(file, name)
+    this.leave()
+  }
+
+  onBulkCidImport = (files, root) => {
+    this.props.onBulkCidImport(files, root)
     this.leave()
   }
 
@@ -159,6 +167,9 @@ class Modals extends React.Component {
       case NEW_FOLDER:
       case ADD_BY_PATH:
       case ADD_BY_CAR:
+        this.setState({ readyToShow: true })
+        break
+      case BULK_CID_IMPORT:
         this.setState({ readyToShow: true })
         break
       case CLI_TUTOR_MODE:
@@ -265,6 +276,13 @@ class Modals extends React.Component {
 
         <Overlay show={show === ADD_BY_CAR && readyToShow} onLeave={this.leave}>
           <AddByCarModal className='outline-0' onSubmit={this.onAddByCar} onCancel={this.leave} />
+        </Overlay>
+
+        <Overlay show={show === BULK_CID_IMPORT && readyToShow} onLeave={this.leave}>
+          <BulkImportModal
+            className='outline-0'
+            onBulkCidImport={this.onBulkCidImport}
+            onCancel={this.leave} />
         </Overlay>
 
         <Overlay show={show === CLI_TUTOR_MODE && readyToShow} onLeave={this.leave}>

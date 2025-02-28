@@ -55,6 +55,11 @@ class FileInput extends React.Component {
     this.toggleDropdown()
   }
 
+  onBulkCidImport = () => {
+    this.props.onBulkCidImport()
+    this.toggleDropdown()
+  }
+
   onNewFolder = () => {
     this.props.onNewFolder()
     this.toggleDropdown()
@@ -101,6 +106,10 @@ class FileInput extends React.Component {
               <NewFolderIcon className='fill-aqua w2 h2 mr1' />
               {t('newFolder')}
             </Option>
+            <Option onClick={this.onBulkCidImport} id='bulk-cid-import'>
+              <DocumentIcon className='fill-aqua w2 mr1' />
+              {t('bulkImport')}
+            </Option>
           </DropdownMenu>
         </Dropdown>
 
@@ -130,6 +139,7 @@ FileInput.propTypes = {
   onAddFiles: PropTypes.func.isRequired,
   onAddByPath: PropTypes.func.isRequired,
   onAddByCar: PropTypes.func.isRequired,
+  onBulkCidImport: PropTypes.func.isRequired,
   onNewFolder: PropTypes.func.isRequired
 }
 

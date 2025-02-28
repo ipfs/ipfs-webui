@@ -15,13 +15,13 @@ import FilesList from './files-list/FilesList.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, ADD_BY_CAR, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
+import Modals, { DELETE, NEW_FOLDER, ADD_BY_CAR, SHARE, RENAME, BULK_CID_IMPORT, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
 
 const FilesPage = ({
-  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doAddCarFile, doUpdateHash,
+  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
@@ -70,6 +70,12 @@ const FilesPage = ({
     if (root === '') root = files.path
 
     doFilesWrite(raw, root)
+  }
+
+  const onBulkCidImport = (raw, root = '') => {
+    if (root === '') root = files.path
+
+    doFilesBulkCidImport(raw, root)
   }
 
   const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
@@ -210,6 +216,7 @@ const FilesPage = ({
         onMove={doFilesMove}
         onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
         onAddByCar={(files) => showModal(ADD_BY_CAR, files)}
+        onBulkCidImport={(files) => showModal(BULK_CID_IMPORT, files)}
         onNewFolder={(files) => showModal(NEW_FOLDER, files)}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
         handleContextMenu={(...args) => handleContextMenu(...args, true)} />
@@ -231,6 +238,7 @@ const FilesPage = ({
         onRemove={doFilesDelete}
         onAddByPath={onAddByPath}
         onAddByCar={onAddByCar}
+        onBulkCidImport={onBulkCidImport}
         onPinningSet={doSetPinning}
         onPublish={doPublishIpnsKey}
         cliOptions={cliOptions}
@@ -283,6 +291,7 @@ export default connect(
   'selectFilesSorting',
   'selectToursEnabled',
   'doFilesWrite',
+  'doFilesBulkCidImport',
   'doFilesDownloadLink',
   'doFilesDownloadCarLink',
   'doFilesSizeGet',

@@ -63,6 +63,7 @@ export type Message =
   | Move
   | Write
   | AddByPath
+  | BulkCidImport
   | DownloadLink
   | Perform<'FILES_SHARE_LINK', Error, string, void>
   | Perform<'FILES_COPY', Error, void, void>
@@ -76,6 +77,7 @@ export type MakeDir = Perform<'FILES_MAKEDIR', Error, void, void>
 export type WriteProgress = { paths: string[], progress: number }
 export type Write = Spawn<'FILES_WRITE', WriteProgress, Error, void, void>
 export type AddByPath = Perform<'FILES_ADDBYPATH', Error, void, void>
+export type BulkCidImport = Perform<'FILES_BULK_CID_IMPORT', Error, void, void>
 export type Move = Perform<'FILES_MOVE', Error, void, void>
 export type Delete = Perform<'FILES_DELETE', Error, void, void>
 export type DownloadLink = Perform<'FILES_DOWNLOADLINK', Error, FileDownload, void>

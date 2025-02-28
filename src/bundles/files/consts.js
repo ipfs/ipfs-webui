@@ -25,6 +25,8 @@ export const ACTIONS = {
   ADD_BY_PATH: ('FILES_ADDBYPATH'),
   /** @type {'FILES_ADD_CAR'} */
   ADD_CAR_FILE: ('FILES_ADD_CAR'),
+  /** @type {'FILES_BULK_CID_IMPORT'} */
+  BULK_CID_IMPORT: ('FILES_BULK_CID_IMPORT'),
   /** @type {'FILES_PIN_ADD'} */
   PIN_ADD: ('FILES_PIN_ADD'),
   /** @type {'FILES_PIN_REMOVE'} */
