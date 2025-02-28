@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import { join, basename } from 'path'
 import { withTranslation } from 'react-i18next'
 import classnames from 'classnames'
 import { normalizeFiles, humanSize } from '../../lib/files.js'
@@ -31,8 +30,20 @@ const File = ({
   }
 
   const [, drag, preview] = useDrag({
-    item: { name, size, cid, path, pinned, type: 'FILE' },
-    canDrag: !cantDrag && isMfs
+    item: {
+      name,
+      size,
+      cid,
+      path,
+      pinned,
+      type: 'FILE',
+      parentPath: path.substring(0, path.lastIndexOf('/')),
+      selectedFiles: selected ? window.__selectedFiles : []
+    },
+    canDrag: !cantDrag && isMfs,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
   })
 
   const checkIfDir = (monitor) => {
@@ -40,13 +51,18 @@ const File = ({
     const item = monitor.getItem()
     if (!item) return false
 
-    if (item.name) {
-      return type === 'directory' &&
-        name !== item.name &&
-        !selected
+    if (type !== 'directory') return false
+
+    if (item.path) {
+      if (item.path === path) return false
+
+      const itemParentPath = item.path.substring(0, item.path.lastIndexOf('/'))
+      if (itemParentPath === path) return false
+
+      return true
     }
 
-    return type === 'directory'
+    return true
   }
 
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -61,12 +77,13 @@ const File = ({
         })()
       } else {
         const src = item.path
-        const dst = join(path, basename(item.path))
-
-        onMove(src, dst)
+        onMove(src, path)
       }
     },
-    canDrop: (_, monitor) => checkIfDir(monitor),
+    canDrop: (_, monitor) => {
+      const canDrop = checkIfDir(monitor)
+      return canDrop
+    },
     collect: (monitor) => ({
       canDrop: checkIfDir(monitor),
       isOver: monitor.isOver()

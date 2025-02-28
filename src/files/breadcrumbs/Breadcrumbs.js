@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
-import { basename, join } from 'path'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
@@ -14,21 +13,56 @@ import './Breadcrumbs.css'
 const DropableBreadcrumb = ({ index, link, immutable, onAddFiles, onMove, onClick, onContextMenuHandle, getPathInfo, checkIfPinned }) => {
   const [{ isOver }, drop] = useDrop({
     accept: [NativeTypes.FILE, 'FILE'],
-    drop: async ({ files, filesPromise, path: filePath }) => {
-      if (files) {
+    drop: async (_, monitor) => {
+      const item = monitor.getItem()
+
+      if (item.files) {
         (async () => {
-          const files = await filesPromise
-          onAddFiles(await normalizeFiles(files), link.path)
+          const files = await item.filesPromise
+          onAddFiles(normalizeFiles(files), link.path)
         })()
       } else {
-        const src = filePath
-        const dst = join(link.path, basename(filePath))
+        const src = item.path
 
-        try { await onMove(src, dst) } catch (e) { console.error(e) }
+        try {
+          const selectedFiles = item.selectedFiles || window.__selectedFiles || []
+
+          if (selectedFiles.length > 0 && selectedFiles.some(file => file.path === src)) {
+            const moveOperations = selectedFiles.map(file => {
+              const fileName = file.path.split('/').pop()
+              const destinationPath = `${link.path}/${fileName}`
+              return [file.path, destinationPath]
+            })
+            for (const [src, dst] of moveOperations) {
+              try {
+                await onMove(src, dst)
+              } catch (err) {
+                console.error('Failed to move file:', { src, dst, error: err })
+              }
+            }
+          } else {
+            const fileName = src.split('/').pop()
+            const destinationPath = `${link.path}/${fileName}`
+            await onMove(src, destinationPath)
+          }
+        } catch (err) {
+          console.error('Error during file move operation:', err)
+        }
       }
     },
+    canDrop: (_, monitor) => {
+      const item = monitor.getItem()
+      if (!item) return false
+
+      if (item.path === link.path) return false
+
+      if (item.parentPath === link.path) return false
+
+      return true
+    },
     collect: (monitor) => ({
-      isOver: monitor.isOver()
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop()
     })
   })
 
