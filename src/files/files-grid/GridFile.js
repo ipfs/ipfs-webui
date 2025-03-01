@@ -118,7 +118,7 @@ const GridFile = ({
             textPreview={textPreview}
             onLoad={() => setHasPreview(true)}
           />
-          {!hasPreview && <FileIcon name={name} type={type} />}
+          {!hasPreview && <FileIcon style={{ width: 80 }} name={name} type={type} />}
           <button
             ref={dotsWrapper}
             className="grid-file-dots"
