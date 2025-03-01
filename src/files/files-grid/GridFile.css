@@ -1,7 +1,7 @@
 .grid-file {
   background: white;
   border-radius: 8px;
-  border: 2px solid #eee;
+  border: 1px solid #eee;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -20,7 +20,7 @@
 }
 
 .grid-file.selected {
-  background-color: #d7e7f3;
+  background-color: #F0F6FA;
   border-color: #9ad4db;
 }
 
@@ -56,6 +56,7 @@
 .grid-file:hover,
 .grid-file:focus-within,
 .grid-file.focused {
+  border-width: 2px;
   transform: translateY(-2px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   outline: none;
