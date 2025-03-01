@@ -15,6 +15,8 @@
   "cantBePreviewed": "Sorry, this file can’t be previewed",
   "addByPath": "From IPFS",
   "newFolder": "New folder",
+  "viewList": "Show items in list",
+  "viewGrid": "Show items in grid",
   "generating": "Generating…",
   "actions": {
     "copyHash": "Copy CID",

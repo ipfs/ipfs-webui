@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { normalizeFiles } from '../../lib/files.js'
@@ -152,10 +152,11 @@ const FilesGrid = ({
           ref={el => { filesRefs.current[file.name] = el }}
         />
       ))}
-      {files.length === 0 && (
-        <div className="files-grid-empty">
-          <p>{t('noFiles')}</p>
-        </div>
+      {files.length === 0 && (<Trans i18nKey='filesList.noFiles' t={t}>
+      <div className='pv3 b--light-gray files-grid-empty bt tc gray f6'>
+            There are no available files. Add some!
+      </div>
+      </Trans>
       )}
     </div>
   )

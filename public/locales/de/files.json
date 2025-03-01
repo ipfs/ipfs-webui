@@ -10,6 +10,8 @@
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
   "noPDFSupport": "Dein Browser unterstützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen:",
   "downloadPDF": "PDF herunterladen",
+  "viewList": "Liste anzeigen",
+  "viewGrid": "Gitter anzeigen",
   "openWithPublicGateway": "Versuche es stattdessen mit Deinem <1>öffentlichen Gateway</1> zu öffnen.",
   "openWithLocalAndPublicGateway": "Versuche es stattdessen mit Deinem <1>lokalen Gateway</1> oder <3>öffentlichen Gateway</3> zu öffnen.",
   "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",

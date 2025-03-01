@@ -59,16 +59,16 @@ class Header extends React.Component {
     const pinsInQueue = pendingPins.length + failedPins.length + completedPins.length
 
     return (
-      <div className='db flex-l justify-between items-center'>
-        <div className='flex items-start w-100 justify-between'>
-          <div className='mb3 overflow-hidden mr1'>
+      <div className='db flex-l justify-between items-center mb3'>
+        <div className='flex items-center w-100 justify-between mr3'>
+          <div className='breadheader overflow-hidden mr1'>
             <Breadcrumbs className="joyride-files-breadcrumbs" path={files ? files.path : '/404'}
             onClick={onNavigate} onContextMenuHandle={(...args) => this.handleBreadCrumbsContextMenu(...args)}
             onAddFiles={this.props.onAddFiles} onMove={this.props.onMove}/>
         </div>
         { children }
         </div>
-        <div className='mb3 flex justify-between items-center bg-snow-muted joyride-files-add'>
+        <div className='flex justify-between items-center bg-snow-muted joyride-files-add'>
           { pinsInQueue > 0 && <a href='#/pins' alt={t('pinningQueue')} title={t('pinningQueue')} className='ml3'>
             <GlyphPinCloud
               style={{ width: '3rem' }}

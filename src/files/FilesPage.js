@@ -273,6 +273,9 @@ const FilesPage = ({
             className={`pointer ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
             onClick={() => setViewMode('list')}
             title={t('viewList')}
+            style={{
+              height: '24px'
+            }}
           >
             <ViewList width="24" height="24" />
           </button>
@@ -280,6 +283,9 @@ const FilesPage = ({
             className={`pointer ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
             onClick={() => setViewMode('grid')}
             title={t('viewGrid')}
+            style={{
+              height: '24px'
+            }}
           >
             <ViewModule width="24" height="24" />
           </button>
