@@ -14,9 +14,8 @@ const FilesGrid = ({
   onMove, handleContextMenuClick, onSetPinning, onDismissFailedPin, selected = [], onSelect
 }) => {
   const [focused, setFocused] = useState(null)
-  const [firstVisibleRow] = useState(0)
   const filesRefs = useRef({})
-  const listRef = useRef()
+  const gridRef = useRef()
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: NativeTypes.FILE,
@@ -40,74 +39,73 @@ const FilesGrid = ({
     onSelect(fileName, isSelected)
   }
 
-  const toggleOne = (name, check) => {
-    if (check) {
-      onSelect(name, true)
-    } else {
-      onSelect(name, false)
-    }
-  }
-
   const keyHandler = (e) => {
     const focusedFile = files.find(el => el.name === focused)
 
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' || e.keyCode === 27) {
       onSelect([], false)
       setFocused(null)
       return
     }
 
-    if (e.key === 'F2' && focused !== null) {
+    if ((e.key === 'F2' || e.keyCode === 113) && focused !== null) {
       return onRename([focusedFile])
     }
 
-    if (e.key === 'Delete' && selected.length > 0) {
+    if ((e.key === 'Delete' || e.keyCode === 46 || e.key === 'Backspace' || e.keyCode === 8) && selected.length > 0) {
       const selectedFiles = files.filter(f => selected.includes(f.name))
       return onRemove(selectedFiles)
     }
 
-    if (e.key === ' ' && focused !== null) {
+    if ((e.key === ' ' || e.keyCode === 32) && focused !== null) {
       e.preventDefault()
-      return toggleOne(focused, !selected.includes(focused))
+      return handleSelect(focused, !selected.includes(focused))
     }
 
-    if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused !== null) {
+    if (((e.key === 'Enter' || e.keyCode === 13) ||
+        ((e.key === 'ArrowRight' || e.keyCode === 39) && e.metaKey)) &&
+        focused !== null) {
       return onNavigate({ path: focusedFile.path, cid: focusedFile.cid })
     }
 
-    if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+    const isArrowKey = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key) ||
+                      (e.keyCode >= 37 && e.keyCode <= 40)
+
+    if (isArrowKey) {
       e.preventDefault()
-      let index = 0
+      const columns = Math.floor((gridRef.current?.clientWidth || window.innerWidth) / 220)
+      const currentIndex = files.findIndex(el => el.name === focused)
+      let newIndex = currentIndex
 
-      if (focused !== null) {
-        const prev = files.findIndex(el => el.name === focused)
-        const columns = Math.floor(window.innerWidth / 220)
-
-        switch (e.key) {
-          case 'ArrowDown':
-            index = prev + columns
-            break
-          case 'ArrowUp':
-            index = prev - columns
-            break
-          case 'ArrowRight':
-            index = prev + 1
-            break
-          case 'ArrowLeft':
-            index = prev - 1
-            break
-          default:
-            break
-        }
+      switch (e.key || e.keyCode) {
+        case 'ArrowDown':
+        case 40:
+          newIndex = currentIndex + columns
+          break
+        case 'ArrowUp':
+        case 38:
+          newIndex = currentIndex - columns
+          break
+        case 'ArrowRight':
+        case 39:
+          newIndex = currentIndex + 1
+          break
+        case 'ArrowLeft':
+        case 37:
+          newIndex = currentIndex - 1
+          break
+        default:
+          break
       }
 
-      if (index >= 0 && index < files.length) {
-        const name = files[index].name
+      if (newIndex >= 0 && newIndex < files.length) {
+        const name = files[newIndex].name
         setFocused(name)
         const element = filesRefs.current[name]
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'center' })
-          element.querySelector('input[type="checkbox"]').focus()
+        if (element && element.scrollIntoView) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+          const checkbox = element.querySelector('input[type="checkbox"]')
+          if (checkbox) checkbox.focus()
         }
       }
     }
@@ -122,7 +120,10 @@ const FilesGrid = ({
   const gridClassName = `files-grid${isOver && canDrop ? ' files-grid--drop-target' : ''}`
 
   return (
-    <div ref={drop} className={gridClassName}>
+    <div ref={(el) => {
+      drop(el)
+      gridRef.current = el
+    }} className={gridClassName}>
       {files.map(file => (
         <GridFile
           key={file.name}
@@ -146,17 +147,15 @@ const FilesGrid = ({
           onDismissFailedPin={onDismissFailedPin}
           handleContextMenuClick={handleContextMenuClick}
           onSelect={handleSelect}
-          filesRefs={filesRefs}
-          firstVisibleRow={firstVisibleRow}
-          listRef={listRef}
           ref={el => { filesRefs.current[file.name] = el }}
         />
       ))}
-      {files.length === 0 && (<Trans i18nKey='filesList.noFiles' t={t}>
-      <div className='pv3 b--light-gray files-grid-empty bt tc gray f6'>
+      {files.length === 0 && (
+        <Trans i18nKey='filesList.noFiles' t={t}>
+          <div className='pv3 b--light-gray files-grid-empty bt tc gray f6'>
             There are no available files. Add some!
-      </div>
-      </Trans>
+          </div>
+        </Trans>
       )}
     </div>
   )

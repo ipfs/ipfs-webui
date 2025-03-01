@@ -1,7 +1,7 @@
 .grid-file {
   background: white;
   border-radius: 8px;
-  border: 1px solid #eee;
+  border: 2px solid #eee;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -20,7 +20,7 @@
 }
 
 .grid-file.selected {
-  background-color: #F0F6FA;
+  background-color: #d7e7f3;
   border-color: #9ad4db;
 }
 
