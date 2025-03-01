@@ -267,7 +267,24 @@ const FilesPage = ({
         onNewFolder={(files) => showModal(NEW_FOLDER, files)}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
         handleContextMenu={(...args) => handleContextMenu(...args, true)}
-      />
+      >
+        <div className="flex items-center justify-end">
+          <button
+            className={`pointer ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
+            onClick={() => setViewMode('list')}
+            title={t('viewList')}
+          >
+            <ViewList width="24" height="24" />
+          </button>
+          <button
+            className={`pointer ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
+            onClick={() => setViewMode('grid')}
+            title={t('viewGrid')}
+          >
+            <ViewModule width="24" height="24" />
+          </button>
+        </div>
+      </Header>
 
       {(files && files.type !== 'file') && <div className="flex items-center justify-between">
         <div>
@@ -288,22 +305,6 @@ const FilesPage = ({
               )
             : null
           }
-        </div>
-        <div className="flex items-center justify-end ml3">
-          <button
-            className={`pa2 pointer ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
-            onClick={() => setViewMode('list')}
-            title={t('viewList')}
-          >
-            <ViewList width="24" height="24" />
-          </button>
-          <button
-            className={`pa2 pointer ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
-            onClick={() => setViewMode('grid')}
-            title={t('viewGrid')}
-          >
-            <ViewModule width="24" height="24" />
-          </button>
         </div>
       </div>}
 

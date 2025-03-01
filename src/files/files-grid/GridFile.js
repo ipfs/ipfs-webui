@@ -150,7 +150,7 @@ const GridFile = ({
               />
             </button>
           </div>
-          <div className="grid-file-hash" title={hash}>{hash}</div>
+          <div className="grid-file-hash" title={hash}>{hash.slice(0, 10)}...{hash.slice(-10)}</div>
         </div>
       </div>
     </div>
