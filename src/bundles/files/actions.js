@@ -186,6 +186,57 @@ const actions = () => ({
   },
 
   /**
+   * Fetches directory contents with optimized performance
+   * @param {string} path - Directory path to fetch
+  */
+  doFetchDirectory: (path) => perform(ACTIONS.DIRECTORY_FETCH, async (ipfs) => {
+    if (!ipfs) {
+      throw new Error('IPFS is not available')
+    }
+
+    try {
+      const resolvedPath = path.startsWith('/ipns') ? await last(ipfs.name.resolve(path)) : path
+
+      const stats = await stat(ipfs, resolvedPath)
+
+      if (stats.type !== 'directory') {
+        return {
+          path,
+          type: stats.type,
+          content: []
+        }
+      }
+
+      const entries = []
+      for await (const entry of ipfs.ls(stats.cid)) {
+        if (entry.type === 'dir') {
+          entries.push({
+            name: entry.name,
+            type: entry.type,
+            path: entry.path,
+            size: entry.size,
+            cid: entry.cid
+          })
+        }
+      }
+
+      entries.sort((a, b) => a.name.localeCompare(b.name))
+
+      return {
+        path,
+        type: 'directory',
+        content: entries
+      }
+    } catch (err) {
+      return {
+        path,
+        type: 'unknown',
+        content: []
+      }
+    }
+  }),
+
+  /**
    * Fetches conten for the currently selected path. And updates
    * `state.pageContent` on succesful completion.
    * @param {Info} info

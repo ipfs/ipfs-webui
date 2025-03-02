@@ -52,7 +52,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], fail
 
 export const FilesList = ({
   className, files, pins, pinningServices, remotePins, pendingPins, failedPins, filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
+  onShare, onSetPinning, onInspect, doFilesMove, onDownload, onRemove, onRename, onNavigate, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
@@ -94,7 +94,7 @@ export const FilesList = ({
       })
       .filter(n => n)
 
-    // Global file storage for drag operations
+    // decided to make selected files global for drag operations with breadcrumbs
     window.__selectedFiles = files
     return files
   }, [allFiles, pins, selected, filesPathInfo])
@@ -107,30 +107,30 @@ export const FilesList = ({
       return
     }
 
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' || e.keyCode === 27) {
       setSelected([])
       setFocused(null)
       return listRef.current.forceUpdateGrid()
     }
 
-    if (e.key === 'F2' && focused !== null) {
+    if ((e.key === 'F2' || e.keyCode === 113) && focused !== null) {
       return onRename([focusedFile])
     }
 
-    if ((e.key === 'Delete' || e.key === 'Backspace') && selected.length > 0) {
+    if ((e.key === 'Delete' || e.key === 'Backspace' || e.keyCode === 8 || e.keyCode === 46) && selected.length > 0) {
       return onRemove(selectedFiles)
     }
 
-    if (e.key === ' ' && focused !== null) {
+    if ((e.key === ' ' || e.keyCode === 32) && focused !== null) {
       e.preventDefault()
       return toggleOne(focused, true)
     }
 
-    if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused !== null) {
+    if (((e.key === 'Enter' || e.keyCode === 13) && focused !== null) || ((e.key === 'ArrowRight' && e.metaKey) || (e.key === 'ArrowRight' && e.keyCode === 39))) {
       return onNavigate({ path: focusedFile.path, cid: focusedFile.cid })
     }
 
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    if ((e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.keyCode === 40 || e.keyCode === 38) && focused !== null) {
       e.preventDefault()
       let index = 0
 
@@ -204,6 +204,11 @@ export const FilesList = ({
   }, [selected])
 
   const move = (src, dst) => {
+    if (Array.isArray(src)) {
+      onMove(src)
+      return
+    }
+
     if (selectedFiles.length > 0) {
       const isDraggedFileSelected = selectedFiles.some(file => file.path === src)
 
@@ -214,17 +219,18 @@ export const FilesList = ({
       const toMove = filesToMove.map(file => {
         const sourcePath = file.path
         const fileName = basename(sourcePath)
-        const destinationPath = join(dst, fileName)
+        const destinationPath = dst.endsWith(fileName) ? dst : join(dst, fileName)
 
         return [sourcePath, destinationPath]
       })
 
       toggleAll(false)
-      toMove.forEach(op => onMove(...op))
+      toMove.forEach(op => doFilesMove(...op))
     } else {
       const fileName = basename(src)
-      const dstPath = join(dst, fileName)
-      onMove(src, dstPath)
+      const dstPath = dst.endsWith(fileName) ? dst : join(dst, fileName)
+
+      doFilesMove(src, dstPath)
     }
   }
 
@@ -415,5 +421,13 @@ export default connect(
   'selectFilesPathInfo',
   'selectShowLoadingAnimation',
   'doDismissFailedPin',
+  'doFilesMove',
+  'doFilesWrite',
+  'doFilesDelete',
+  'doFilesAddByPath',
+  'doFilesShareLink',
+  'doFilesDownloadLink',
+  'doFilesMakeDir',
+  'doFilesUpdateSorting',
   withTranslation('files')(FilesList)
 )

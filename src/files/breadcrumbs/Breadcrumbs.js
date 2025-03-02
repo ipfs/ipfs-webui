@@ -25,9 +25,10 @@ const DropableBreadcrumb = ({ index, link, immutable, onAddFiles, onMove, onClic
         const src = item.path
 
         try {
-          const selectedFiles = item.selectedFiles || window.__selectedFiles || []
+          const selectedFiles = Array.isArray(item.selectedFiles) ? item.selectedFiles : []
+          const isDraggedFileSelected = selectedFiles.length > 0 && selectedFiles.some(file => file.path === src)
 
-          if (selectedFiles.length > 0 && selectedFiles.some(file => file.path === src)) {
+          if (isDraggedFileSelected) {
             const moveOperations = selectedFiles.map(file => {
               const fileName = file.path.split('/').pop()
               const destinationPath = `${link.path}/${fileName}`

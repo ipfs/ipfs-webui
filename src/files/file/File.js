@@ -38,7 +38,7 @@ const File = ({
       pinned,
       type: 'FILE',
       parentPath: path.substring(0, path.lastIndexOf('/')),
-      selectedFiles: selected ? window.__selectedFiles : []
+      selectedFiles: selected ? (window.__selectedFiles || []) : []
     },
     canDrag: !cantDrag && isMfs,
     collect: (monitor) => ({
@@ -77,7 +77,20 @@ const File = ({
         })()
       } else {
         const src = item.path
-        onMove(src, path)
+        const selectedFiles = Array.isArray(item.selectedFiles) ? item.selectedFiles : []
+        const isDraggedFileSelected = selectedFiles.length > 0 && selectedFiles.some(file => file.path === src)
+
+        if (isDraggedFileSelected) {
+          selectedFiles.forEach(file => {
+            const fileName = file.path.split('/').pop()
+            const destinationPath = `${path}/${fileName}`
+            onMove(file.path, destinationPath)
+          })
+        } else {
+          const fileName = src.split('/').pop()
+          const destinationPath = `${path}/${fileName}`
+          onMove(src, destinationPath)
+        }
       }
     },
     canDrop: (_, monitor) => {

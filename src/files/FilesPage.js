@@ -15,7 +15,7 @@ import FilesList from './files-list/FilesList.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH, MOVE } from './modals/Modals.js'
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
@@ -24,7 +24,7 @@ const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
-  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
+  files, filesPathInfo, doFetchDirectory, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
@@ -144,13 +144,13 @@ const FilesPage = ({
         onShare={(files) => showModal(SHARE, files)}
         onRename={(files) => showModal(RENAME, files)}
         onRemove={(files) => showModal(DELETE, files)}
+        onMove={(files) => showModal(MOVE, files)}
         onSetPinning={(files) => showModal(PINNING, files)}
         onInspect={onInspect}
         onRemotePinClick={onRemotePinClick}
         onDownload={onDownload}
         onAddFiles={onAddFiles}
         onNavigate={doFilesNavigateTo}
-        onMove={doFilesMove}
         handleContextMenuClick={handleContextMenu} />
     )
   }
@@ -220,6 +220,7 @@ const FilesPage = ({
 
       <Modals
         done={hideModal}
+        mainFiles={files}
         root={files ? files.path : null}
         onMove={doFilesMove}
         onMakeDir={doFilesMakeDir}
@@ -227,6 +228,7 @@ const FilesPage = ({
         onRemove={doFilesDelete}
         onAddByPath={onAddByPath}
         onPinningSet={doSetPinning}
+        onFetchDirectory={doFetchDirectory}
         onPublish={doPublishIpnsKey}
         cliOptions={cliOptions}
         { ...modals } />
@@ -284,6 +286,7 @@ export default connect(
   'selectIsCliTutorModalOpen',
   'doOpenCliTutorModal',
   'doSetCliOptions',
+  'doFetchDirectory',
   'selectCliOptions',
   'doSetPinning',
   'doPublishIpnsKey',

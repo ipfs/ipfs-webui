@@ -7,6 +7,7 @@ import Overlay from '../../components/overlay/Overlay.js'
 import NewFolderModal from './new-folder-modal/NewFolderModal.js'
 import ShareModal from './share-modal/ShareModal.js'
 import RenameModal from './rename-modal/RenameModal.js'
+import MoveModal from './move-modal/MoveModal.js'
 import PinningModal from './pinning-modal/PinningModal.js'
 import RemoveModal from './remove-modal/RemoveModal.js'
 import AddByPathModal from './add-by-path-modal/AddByPathModal.js'
@@ -23,6 +24,7 @@ const ADD_BY_PATH = 'add_by_path'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
 const PUBLISH = 'publish'
+const MOVE = 'move'
 
 export {
   NEW_FOLDER,
@@ -32,7 +34,8 @@ export {
   ADD_BY_PATH,
   CLI_TUTOR_MODE,
   PINNING,
-  PUBLISH
+  PUBLISH,
+  MOVE
 }
 
 class Modals extends React.Component {
@@ -42,6 +45,12 @@ class Modals extends React.Component {
       folder: false,
       path: '',
       filename: ''
+    },
+    move: {
+      files: [],
+      source: '',
+      destination: '',
+      folder: false
     },
     pinning: {
       file: null
@@ -74,6 +83,44 @@ class Modals extends React.Component {
 
     if (newName !== '' && newName !== filename) {
       onMove(path, path.replace(filename, newName))
+    }
+
+    this.leave()
+  }
+
+  move = async (destination) => {
+    const { files } = this.state.move
+    const { onMove, onMakeDir } = this.props
+
+    if (destination !== '') {
+      const normalizedDestination = destination.startsWith('/files') ? destination : `/files${destination}`
+
+      const segments = normalizedDestination.split('/').filter(Boolean)
+      let currentPath = ''
+
+      const startIndex = segments[0] === 'files' ? 1 : 0
+
+      for (let i = startIndex; i < segments.length; i++) {
+        currentPath = `/${segments.slice(0, i + 1).join('/')}`
+        try {
+          await onMakeDir(currentPath)
+        } catch (err) {
+          // ignoring error if folder exists
+          if (!err.message.includes('file already exists')) {
+            throw err
+          }
+        }
+      }
+
+      for (const file of files) {
+        const fileName = file.path.split('/').pop()
+
+        const destPath = normalizedDestination.endsWith(fileName)
+          ? normalizedDestination
+          : join(normalizedDestination, fileName)
+
+        await onMove(file.path, destPath)
+      }
     }
 
     this.leave()
@@ -132,6 +179,23 @@ class Modals extends React.Component {
         })
         break
       }
+      case MOVE: {
+        const isFolder = files.some(f => f.type === 'directory')
+        const sourcePath = files[0].path
+        const sourceDir = sourcePath.substring(0, sourcePath.lastIndexOf('/'))
+
+        this.setState({
+          readyToShow: true,
+          move: {
+            files,
+            source: sourceDir,
+            destination: sourceDir,
+            folder: isFolder,
+            count: files.length
+          }
+        })
+        break
+      }
       case DELETE: {
         let filesCount = 0
         let foldersCount = 0
@@ -174,7 +238,7 @@ class Modals extends React.Component {
         })
       }
       default:
-        // do nothing
+        // do nothing for now
     }
   }
 
@@ -213,8 +277,9 @@ class Modals extends React.Component {
   }
 
   render () {
-    const { show, t } = this.props
-    const { readyToShow, link, rename, command } = this.state
+    const { show, t, mainFiles, onFetchDirectory, files } = this.props
+    const { readyToShow, link, rename, move, pinning, publish, delete: deleteFiles, command } = this.state
+
     return (
       <div>
         <Overlay show={show === NEW_FOLDER && readyToShow} onLeave={this.leave}>
@@ -239,10 +304,21 @@ class Modals extends React.Component {
             onSubmit={this.rename} />
         </Overlay>
 
+        <Overlay show={show === MOVE && readyToShow} onLeave={this.leave}>
+          <MoveModal
+            className='outline-0'
+            {...move}
+            mainFiles={mainFiles}
+            files={files}
+            onFetchDirectory={onFetchDirectory}
+            onCancel={this.leave}
+            onSubmit={this.move} />
+        </Overlay>
+
         <Overlay show={show === DELETE && readyToShow} onLeave={this.leave}>
           <RemoveModal
             className='outline-0'
-            { ...this.state.delete }
+            {...deleteFiles}
             onCancel={this.leave}
             onRemove={this.delete} />
         </Overlay>
@@ -260,16 +336,16 @@ class Modals extends React.Component {
 
         <Overlay show={show === PINNING && readyToShow} onLeave={this.leave}>
           <PinningModal
-            file={this.state.pinning.file}
             className='outline-0'
-            onCancel={this.leave}
+            {...pinning}
+            onLeave={this.leave}
             onPinningSet={this.onPinningSet} />
         </Overlay>
 
         <Overlay show={show === PUBLISH && readyToShow} onLeave={this.leave}>
           <PublishModal
-            file={this.state.publish.file}
             className='outline-0'
+            {...publish}
             onLeave={this.leave}
             onSubmit={this.publish} />
         </Overlay>
@@ -281,13 +357,18 @@ class Modals extends React.Component {
 Modals.propTypes = {
   t: PropTypes.func.isRequired,
   show: PropTypes.string,
-  files: PropTypes.array,
+  files: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object
+  ]),
   onAddByPath: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onMakeDir: PropTypes.func.isRequired,
   onShareLink: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  onPublish: PropTypes.func.isRequired
+  onPublish: PropTypes.func.isRequired,
+  done: PropTypes.func.isRequired,
+  root: PropTypes.string
 }
 
 export default withTranslation('files')(Modals)
