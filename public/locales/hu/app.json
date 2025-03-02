@@ -47,7 +47,7 @@
     "couldNotConnect": "Could not connect to the Kubo RPC"
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
     "placeholder": "Enter a URL (https://ipfs.io)"
