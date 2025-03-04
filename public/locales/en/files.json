@@ -16,7 +16,10 @@
   "addByPath": "From IPFS",
   "bulkImport": "Bulk import",
   "newFolder": "New folder",
+  "viewList": "Show items in list",
+  "viewGrid": "Show items in grid",
   "generating": "Generating…",
+  "dropHere": "Drop here to move",
   "actions": {
     "copyHash": "Copy CID",
     "share": "Share link",
@@ -44,6 +47,28 @@
     "descriptionFile": "{count, plural, one {Are you sure you want to remove this file? It will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.} other {Are you sure you want to remove these {count} files? They will no longer appear on the Files screen, and will be permanently removed in the next scheduled cleanup (though copies may exist on other IPFS nodes). This action cannot be reversed.}}",
     "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
     "checkboxUnpinFromServices": "Unpin from all pinning services"
+  },
+  "shortcutModal": {
+    "title": "Keyboard Shortcuts",
+    "description": "The following keyboard shortcuts are available in the Files section:",
+    "navigation": "Navigation",
+    "selection": "Selection",
+    "actions": "Actions",
+    "other": "Other",
+    "moveDown": "Move down",
+    "moveUp": "Move up",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "navigate": "Navigate to selected item",
+    "rename": "Rename selected item",
+    "delete": "Delete selected item(s)",
+    "toggleSelection": "Toggle selection",
+    "selectAll": "Select all items",
+    "deselectAll": "Deselect all items",
+    "copy": "Copy selected item(s)",
+    "paste": "Paste item(s)",
+    "cut": "Cut selected item(s)",
+    "showShortcuts": "Show keyboard shortcuts"
   },
   "pinningModal": {
     "title": "Select where you would like to pin these items.",
@@ -145,5 +170,6 @@
     "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
   },
   "noPinsInProgress": "All done, no remote pins in progress.",
-  "remotePinningInProgress": "Remote pinning in progress:"
+  "remotePinningInProgress": "Remote pinning in progress:",
+  "selectAllEntries": "Select all entries"
 }

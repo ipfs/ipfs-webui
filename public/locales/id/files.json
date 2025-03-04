@@ -145,5 +145,6 @@
     "pleaseWait": "Harap tunggu sementara 20 salinan awal dari catatan IPNS yang diperbarui disimpan dengan bantuan rekan-rekan DHT…"
   },
   "noPinsInProgress": "Semua selesai, tidak ada pin jarak jauh yang sedang berlangsung.",
-  "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:"
+  "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:",
+  "selectAllEntries": "Pilih semua entri tabel"
 }
