@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
-import { useDrag } from 'react-dnd'
-import { humanSize } from '../../lib/files.js'
+import { useDrag, useDrop } from 'react-dnd'
+import { humanSize, normalizeFiles } from '../../lib/files.js'
 import { CID } from 'multiformats/cid'
 import { isBinary } from 'istextorbinary'
 import FileIcon from '../file-icon/FileIcon.js'
@@ -11,19 +11,65 @@ import FileThumbnail from '../file-preview/FileThumbnail.js'
 import PinIcon from '../pin-icon/PinIcon.js'
 import GlyphDots from '../../icons/GlyphDots.js'
 import Checkbox from '../../components/checkbox/Checkbox.js'
+import { NativeTypes } from 'react-dnd-html5-backend'
+import { join, basename } from 'path'
 import './GridFile.css'
 
 const GridFile = ({
   name, type, size, cid, path, pinned, t, selected, focused,
   isRemotePin, isPendingPin, isFailedPin, isMfs,
-  onNavigate, onSetPinning, doRead, onDismissFailedPin, handleContextMenuClick, onSelect
+  onNavigate, onSetPinning, doRead, onDismissFailedPin, handleContextMenuClick, onSelect, onMove, onAddFiles
 }) => {
   const MAX_TEXT_LENGTH = 400 // This is the maximum characters to show in text preview
   const dotsWrapper = useRef()
-  const [, drag] = useDrag({
+  const fileRef = useRef()
+
+  const [, drag, preview] = useDrag({
     item: { name, size, cid, path, pinned, type: 'FILE' },
-    canDrag: isMfs
+    canDrag: isMfs,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
   })
+
+  const checkIfDir = (monitor) => {
+    if (!isMfs) return false
+    if (type !== 'directory') return false
+
+    const item = monitor.getItem()
+    if (!item) return false
+
+    if (item.name) {
+      return name !== item.name && !selected
+    }
+
+    return true
+  }
+
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: [NativeTypes.FILE, 'FILE'],
+    drop: (_, monitor) => {
+      const item = monitor.getItem()
+
+      if (item.files) {
+        (async () => {
+          const files = await item.filesPromise
+          onAddFiles(normalizeFiles(files), path)
+        })()
+      } else {
+        const src = item.path
+        const dst = join(path, basename(item.path))
+
+        onMove(src, dst)
+      }
+    },
+    canDrop: (_, monitor) => checkIfDir(monitor),
+    collect: (monitor) => ({
+      canDrop: checkIfDir(monitor),
+      isOver: monitor.isOver()
+    })
+  })
+
   const [hasPreview, setHasPreview] = useState(false)
   const [textPreview, setTextPreview] = useState(null)
 
@@ -81,9 +127,23 @@ const GridFile = ({
   const formattedSize = humanSize(size, { round: 0 })
   const hash = cid.toString() || t('hashUnavailable')
 
+  const setRefs = (el) => {
+    fileRef.current = el
+
+    drag(el)
+
+    if (type === 'directory') {
+      drop(el)
+    }
+
+    preview(el)
+  }
+
+  const fileClassName = `grid-file ${selected ? 'selected' : ''} ${focused ? 'focused' : ''} ${isOver && canDrop ? 'drop-target' : ''}`
+
   return (
     <div
-      className={`grid-file ${selected ? 'selected' : ''} ${focused ? 'focused' : ''}`}
+      className={fileClassName}
       onContextMenu={handleContextMenu}
       role="button"
       tabIndex={0}
@@ -98,7 +158,7 @@ const GridFile = ({
         />
       </div>
       <div
-        ref={drag}
+        ref={setRefs}
         className="grid-file-content"
         onClick={() => onNavigate({ path, cid })}
         onKeyDown={(e) => {
@@ -112,6 +172,11 @@ const GridFile = ({
         aria-label={t('fileLabel', { name, type, size: formattedSize })}
       >
         <div className="grid-file-preview">
+          {isOver && canDrop && (
+            <div className="drop-indicator">
+              <span>{t('dropHere', { defaultValue: 'Drop here' })}</span>
+            </div>
+          )}
           <FileThumbnail
             name={name}
             cid={cid}
@@ -174,6 +239,8 @@ GridFile.propTypes = {
   onDismissFailedPin: PropTypes.func.isRequired,
   handleContextMenuClick: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
+  onAddFiles: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
   focused: PropTypes.bool
 }

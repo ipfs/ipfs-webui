@@ -17,7 +17,7 @@ import { ViewList, ViewModule } from '../icons/StrokeIcons.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, CLI_TUTOR_MODE, PINNING, PUBLISH, SHORTCUTS } from './modals/Modals.js'
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
@@ -54,6 +54,22 @@ const FilesPage = ({
       doFilesFetch()
     }
   }, [ipfsConnected, filesPathInfo, doFilesFetch])
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return
+      }
+
+      if ((e.key === '?' || e.keyCode === 191) && e.shiftKey) {
+        e.preventDefault()
+        showModal(SHORTCUTS)
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   /* TODO: uncomment below if we ever want automatic remote pin check
   *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)

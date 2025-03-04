@@ -12,12 +12,13 @@
   "downloadPDF": "Download PDF",
   "openWithPublicGateway": "Try opening it instead with your <1>public gateway</1>.",
   "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
-  "cantBePreviewed": "Sorry, this file can’t be previewed",
+  "cantBePreviewed": "Sorry, this file can't be previewed",
   "addByPath": "From IPFS",
   "newFolder": "New folder",
   "viewList": "Show items in list",
   "viewGrid": "Show items in grid",
   "generating": "Generating…",
+  "dropHere": "Drop here to move",
   "actions": {
     "copyHash": "Copy CID",
     "share": "Share link",
@@ -46,6 +47,28 @@
     "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
     "checkboxUnpinFromServices": "Unpin from all pinning services"
   },
+  "shortcutModal": {
+    "title": "Keyboard Shortcuts",
+    "description": "The following keyboard shortcuts are available in the Files section:",
+    "navigation": "Navigation",
+    "selection": "Selection",
+    "actions": "Actions",
+    "other": "Other",
+    "moveDown": "Move down",
+    "moveUp": "Move up",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "navigate": "Navigate to selected item",
+    "rename": "Rename selected item",
+    "delete": "Delete selected item(s)",
+    "toggleSelection": "Toggle selection",
+    "selectAll": "Select all items",
+    "deselectAll": "Deselect all items",
+    "copy": "Copy selected item(s)",
+    "paste": "Paste item(s)",
+    "cut": "Cut selected item(s)",
+    "showShortcuts": "Show keyboard shortcuts"
+  },
   "pinningModal": {
     "title": "Select where you would like to pin these items.",
     "complianceLabel": "🔍 Check pinning services' compliance",
@@ -56,7 +79,7 @@
   "addByPathModal": {
     "title": "Import from IPFS",
     "description": "Insert an IPFS path (CID) to import.",
-    "preloadNote": "NOTE: Imported path is lazy-loaded by default, and will be retrieved on-demand as you browse it. To proactively prefetch imported path to the local Datastore, choose ”Download” from the context menu.",
+    "preloadNote": "NOTE: Imported path is lazy-loaded by default, and will be retrieved on-demand as you browse it. To proactively prefetch imported path to the local Datastore, choose \"Download\" from the context menu.",
     "importPathPlaceholder": "Path or CID (required)",
     "namePlaceholder": "Name (optional)",
     "examples": "Examples:"
@@ -67,7 +90,7 @@
   },
   "filesListLabel": "Files list",
   "filesList": {
-    "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
+    "noFiles": "<0>No files in this directory. Click the \"Import\" button to add some.</0>"
   },
   "filesImportStatus": {
     "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
@@ -118,10 +141,10 @@
   "clickToCancel": "Click to cancel",
   "blocks": "Blocks",
   "localDatastore": "Local Datastore",
-  "localDatastoreDescription": "Total size of all blocks currently stored in the Datastore of your IPFS node (“RepoSize” from “ipfs repo stat”). This includes everything in the Files view (MFS), low-level pins, and any recently removed or temporary cached blocks that were not garbage-collected yet.",
+  "localDatastoreDescription": "Total size of all blocks currently stored in the Datastore of your IPFS node (\"RepoSize\" from \"ipfs repo stat\"). This includes everything in the Files view (MFS), low-level pins, and any recently removed or temporary cached blocks that were not garbage-collected yet.",
   "currentLocationRoot": "My Files",
   "currentLocation": "Current Location",
-  "currentLocationDescription": "Total size of the DAG behind the current directory (“CumulativeSize” from “ipfs files stat”). This value includes both local and remote blocks, and could be bigger than the size of your local datastore.",
+  "currentLocationDescription": "Total size of the DAG behind the current directory (\"CumulativeSize\" from \"ipfs files stat\"). This value includes both local and remote blocks, and could be bigger than the size of your local datastore.",
   "pinningQueue": "Pinning queue",
   "more": "More",
   "files": "Files",

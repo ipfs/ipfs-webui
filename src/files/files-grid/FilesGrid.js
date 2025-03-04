@@ -11,7 +11,7 @@ import './FilesGrid.css'
 const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t,
   onShare, onInspect, onDownload, onRemove, onRename, onNavigate, onAddFiles,
-  onMove, handleContextMenuClick, onSetPinning, onDismissFailedPin, selected = [], onSelect
+  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
 }) => {
   const [focused, setFocused] = useState(null)
   const filesRefs = useRef({})
@@ -41,6 +41,11 @@ const FilesGrid = ({
 
   const keyHandler = (e) => {
     const focusedFile = files.find(el => el.name === focused)
+
+    // Disable keyboard controls if fetching files
+    if (filesIsFetching) {
+      return
+    }
 
     if (e.key === 'Escape' || e.keyCode === 27) {
       onSelect([], false)

@@ -24,6 +24,67 @@
   border-color: #9ad4db;
 }
 
+.grid-file.drop-target {
+  background-color: #e6f7f9;
+  border: 2px dashed #2aaac1;
+  box-shadow: 0 0 0 4px rgba(42, 170, 193, 0.2);
+  transform: translateY(-2px);
+  z-index: 10;
+}
+
+.grid-file.drop-target .grid-file-preview {
+  background-color: #d1f0f4;
+}
+
+.grid-file.drop-target::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(42, 170, 193, 0.05);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Drop indicator */
+.drop-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(42, 170, 193, 0.15);
+  z-index: 5;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.drop-indicator span {
+  background-color: #2aaac1;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(42, 170, 193, 0.1);
+  }
+  50% {
+    background-color: rgba(42, 170, 193, 0.25);
+  }
+  100% {
+    background-color: rgba(42, 170, 193, 0.1);
+  }
+}
+
 .grid-file-checkbox {
   position: absolute;
   top: 8px;

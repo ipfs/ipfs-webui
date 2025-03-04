@@ -99,7 +99,7 @@ export const FilesList = ({
     if (e.key === 'Escape') {
       onSelect([], false)
       setFocused(null)
-      return listRef.current.forceUpdateGrid()
+      return listRef.current?.forceUpdateGrid?.()
     }
 
     if (e.key === 'F2' && focused !== null) {
@@ -128,26 +128,30 @@ export const FilesList = ({
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
       }
 
-      if (index === -1) {
+      if (index === -1 || index >= files.length) {
         return
       }
 
-      if (index < files.length) {
-        let name = files[index].name
+      let name = files[index].name
 
-        // If the file we are going to focus is out of view (removed
-        // from the DOM by react-virtualized), focus the first visible file
-        if (!filesRefs.current[name]) {
-          name = files[firstVisibleRow].name
-        }
-
-        setFocused(name)
-        const domNode = findDOMNode(filesRefs.current[name])
-        domNode.scrollIntoView({ behaviour: 'smooth', block: 'center' })
-        domNode.querySelector('input[type="checkbox"]').focus()
+      // If the file we are going to focus is out of view (removed
+      // from the DOM by react-virtualized), focus the first visible file
+      if (!filesRefs.current[name]) {
+        name = files[firstVisibleRow].name
       }
 
-      listRef.current.forceUpdateGrid()
+      setFocused(name)
+
+      setTimeout(() => {
+        const domNode = filesRefs.current[name] && findDOMNode(filesRefs.current[name])
+        if (domNode) {
+          domNode.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          const checkbox = domNode.querySelector('input[type="checkbox"]')
+          if (checkbox) checkbox.focus()
+        }
+
+        listRef.current?.forceUpdateGrid?.()
+      }, 0)
     }
   }
 
@@ -155,7 +159,7 @@ export const FilesList = ({
     document.addEventListener('keyup', keyHandler)
     return () => document.removeEventListener('keyup', keyHandler)
   }, /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  [])
+  [files, focused, firstVisibleRow, filesRefs.current, listRef.current])
 
   useEffect(() => {
     setAllFiles(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
@@ -215,7 +219,7 @@ export const FilesList = ({
       updateSorting(order, true)
     }
 
-    listRef.current.forceUpdateGrid()
+    listRef.current?.forceUpdateGrid?.()
   }
 
   const emptyRowsRenderer = () => (
