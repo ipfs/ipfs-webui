@@ -131,6 +131,10 @@ export const cliCommandList = {
    * @param {string} path
    */
   [cliCmdKeys.FROM_IPFS]: (path) => `ipfs files cp /ipfs/<cid> "${path}/<dest-name>"`,
+  /**
+   * @param {string} path
+   */
+  [cliCmdKeys.FROM_CAR]: (path) => `ipfs dag import file.car && ipfs files cp /ipfs/<imported-cid> "${path}/<dest-name>"`,
   [cliCmdKeys.ADD_NEW_PEER]: () => 'ipfs swarm connect <peer-multiaddr>',
   /**
    * @param {string} ipfsPath

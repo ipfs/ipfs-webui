@@ -103,7 +103,8 @@ class FileInput extends React.Component {
               <DecentralizationIcon className='fill-aqua w2 mr1' />
               {t('addByPath')}
             </Option>
-            <Option onClick={this.onAddByCar} id='add-by-car' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_CAR)}>
+            <Option onClick={this.onAddByCar} id='add-by-car' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_CAR)}
+              isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <DataIcon className='fill-aqua w2 mr1' />
               {t('addByCar')}
             </Option>
