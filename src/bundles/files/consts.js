@@ -23,6 +23,8 @@ export const ACTIONS = {
   SHARE_LINK: ('FILES_SHARE_LINK'),
   /** @type {'FILES_ADDBYPATH'} */
   ADD_BY_PATH: ('FILES_ADDBYPATH'),
+  /** @type {'FILES_BULK_CID_IMPORT'} */
+  BULK_CID_IMPORT: ('FILES_BULK_CID_IMPORT'),
   /** @type {'FILES_PIN_ADD'} */
   PIN_ADD: ('FILES_PIN_ADD'),
   /** @type {'FILES_PIN_REMOVE'} */

@@ -10,6 +10,7 @@ import RenameModal from './rename-modal/RenameModal.js'
 import PinningModal from './pinning-modal/PinningModal.js'
 import RemoveModal from './remove-modal/RemoveModal.js'
 import AddByPathModal from './add-by-path-modal/AddByPathModal.js'
+import BulkImportModal from './bulk-import-modal/bulk-import-modal.tsx'
 import PublishModal from './publish-modal/PublishModal.js'
 import ShortcutModal from './shortcut-modal/ShortcutModal.js'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode.js'
@@ -21,6 +22,7 @@ const SHARE = 'share'
 const RENAME = 'rename'
 const DELETE = 'delete'
 const ADD_BY_PATH = 'add_by_path'
+const BULK_CID_IMPORT = 'bulk_cid_import'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
 const PUBLISH = 'publish'
@@ -32,6 +34,7 @@ export {
   RENAME,
   DELETE,
   ADD_BY_PATH,
+  BULK_CID_IMPORT,
   CLI_TUTOR_MODE,
   PINNING,
   PUBLISH,
@@ -63,6 +66,11 @@ class Modals extends React.Component {
 
   onAddByPath = (path, name) => {
     this.props.onAddByPath(path, name)
+    this.leave()
+  }
+
+  onBulkCidImport = (files, root) => {
+    this.props.onBulkCidImport(files, root)
     this.leave()
   }
 
@@ -153,6 +161,9 @@ class Modals extends React.Component {
       }
       case NEW_FOLDER:
       case ADD_BY_PATH:
+        this.setState({ readyToShow: true })
+        break
+      case BULK_CID_IMPORT:
         this.setState({ readyToShow: true })
         break
       case CLI_TUTOR_MODE:
@@ -257,6 +268,13 @@ class Modals extends React.Component {
           <AddByPathModal
             className='outline-0'
             onSubmit={this.onAddByPath}
+            onCancel={this.leave} />
+        </Overlay>
+
+        <Overlay show={show === BULK_CID_IMPORT && readyToShow} onLeave={this.leave}>
+          <BulkImportModal
+            className='outline-0'
+            onBulkCidImport={this.onBulkCidImport}
             onCancel={this.leave} />
         </Overlay>
 
