@@ -14,6 +14,7 @@
   "openWithLocalAndPublicGateway": "Попробуйте вместо этого открыть его своим <1>локальным шлюзом</1> или <3>обшественным шлюзом</3>.",
   "cantBePreviewed": "Извините, предпросмотр файла невозможен",
   "addByPath": "Из IPFS",
+  "bulkImport": "Bulk import",
   "newFolder": "Новая папка",
   "generating": "Генерация...",
   "actions": {
@@ -58,6 +59,14 @@
     "importPathPlaceholder": "Путь или CID (обязательно)",
     "namePlaceholder": "Имя (опционально)",
     "examples": "Примеры:"
+  },
+  "bulkImportModal": {
+    "title": "Bulk import with text file",
+    "description": "Upload a text file with a list of CIDs (names are optional). Example:",
+    "select": "Select file",
+    "selectedFile": "Selected file",
+    "invalidCids": "*Invalid CID(s) found",
+    "failedToReadFile": "*Failed to read file contents"
   },
   "newFolderModal": {
     "title": "Новая папка",
