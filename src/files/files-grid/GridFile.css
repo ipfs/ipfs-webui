@@ -22,6 +22,7 @@
 .grid-file.selected {
   background-color: #F0F6FA;
   border-color: #9ad4db;
+  border-style: dashed;
 }
 
 .grid-file.drop-target {
@@ -117,11 +118,11 @@
 .grid-file:hover,
 .grid-file:focus-within,
 .grid-file.focused {
-  border-width: 2px;
-  transform: translateY(-2px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   outline: none;
   border-color: #9ad4db;
+  border-style: solid;
+  background-color: #F0F6FA;
 }
 
 .grid-file:hover .grid-file-dots,
