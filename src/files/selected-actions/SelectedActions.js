@@ -214,6 +214,7 @@ class SelectedActions extends React.Component {
           </div>
           <div>
             <button onClick={unselect} className='flex items-center justify-end f6 charcoal'>
+              {/* TODO: Should we go back to the files list when we tab out of here? */}
               <span className='mr2 dn db-l'>{t('app:actions.unselectAll')}</span>
               <span className='mr2 dn db-m'>{t('app:actions.clear')}</span>
               <GlyphSmallCancel onClick={unselect} className='fill-charcoal w1 o-70' viewBox='37 40 27 27' />
