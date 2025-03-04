@@ -118,11 +118,9 @@
 .grid-file:hover,
 .grid-file:focus-within,
 .grid-file.focused {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   outline: none;
   border-color: #9ad4db;
   border-style: solid;
-  background-color: #F0F6FA;
 }
 
 .grid-file:hover .grid-file-dots,
