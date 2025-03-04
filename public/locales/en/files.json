@@ -62,11 +62,10 @@
     "examples": "Examples:"
   },
   "addByCarModal": {
-    "title": "Import from CAR",
-    "description": "Select a CAR file to import",
+    "title": "CAR Import",
+    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
     "selectCARButtonText": "Select CAR…",
-    "namePlaceholder": "Name (optional)",
-    "examples": "Examples:"
+    "namePlaceholder": "Name"
   },
   "bulkImportModal": {
     "title": "Bulk import with text file",

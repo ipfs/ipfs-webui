@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react'
 import { withTranslation } from 'react-i18next'
 import Modal, { ModalActions, ModalBody } from '../../../components/modal/Modal'
-import Icon from '../../../icons/StrokeDecentralization.js'
+import Icon from '../../../icons/StrokeData.js'
 import Button from '../../../components/button/button'
 import { normalizeFiles } from '../../../lib/files.js'
 
@@ -58,29 +58,28 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
     <Modal className={className} onCancel={onCancel}>
       <ModalBody title={t('addByCarModal.title')} Icon={Icon}>
         <div className='mb3 flex flex-row items-center'>
-          <p className='mt0 charcoal tl w-90'>{t('addByCarModal.description') + ' ' + t('addByCarModal.examples')}</p>
+          <p className='mt0 charcoal tl w-90'>{t('addByCarModal.description')}</p>
         </div>
 
-        <div className='flex flex-row justify-center'>
-          <Button className='mr2' onClick={onAddFileButtonClick}>{t('addByCarModal.selectCARButtonText')}</Button>
-          <input
-            onChange={onNameChange}
-            value={name}
-            name='name'
-            placeholder={t('addByCarModal.namePlaceholder')}
-            className={`input-reset charcoal ba b--black-20 br1 pa2 db w-90 center focus-outline ${inputClass}`}
-            type='text'
-          />
-        </div>
+        <input
+          onChange={onNameChange}
+          value={name}
+          name='name'
+          placeholder={t('addByCarModal.namePlaceholder')}
+          className={`input-reset charcoal ba b--black-20 br1 pa2 db w-90 center focus-outline ${inputClass}`}
+          type='text'
+        />
+
         <input
           className='dn'
           ref={fileInputRef}
-          id='file-input'
+          id='car-file-input'
           type='file'
           placeholder='File'
           accept='.car'
           onChange={onFileInputChange}
         />
+        <Button className='ma2 tc' bg='bg-teal' onClick={onAddFileButtonClick}>{t('addByCarModal.selectCARButtonText')}</Button>
       </ModalBody>
 
       <ModalActions>
