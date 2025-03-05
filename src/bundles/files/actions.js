@@ -418,15 +418,19 @@ const actions = () => ({
       const dst = realMfsPath(join(root, name))
       let dstExists = false
 
-      // Check if destination path already exists
-      await ipfs.files.stat(dst).then(() => {
-        dstExists = true
-      }).catch(() => {
-        // Swallow error. We can add the file to the dst path
-      })
+      try {
+        // Check if destination path already exists
+        await ipfs.files.stat(dst).then(() => {
+          dstExists = true
+        }).catch(() => {
+          // Swallow error. We can add the file to the dst path
+        })
 
-      if (dstExists) {
-        throw new Error(`The name "${name}" already exists in the current directory. Try importing with a different name.`)
+        if (dstExists) {
+          throw new Error(`The name "${name}" already exists in the current directory. Try importing with a different name.`)
+        }
+      } catch (/** @type {any} */ err) {
+        // Swallow error. We can add the file to the dst path
       }
 
       try {
