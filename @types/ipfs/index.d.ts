@@ -2,6 +2,7 @@ declare module 'ipfs' {
   import type { CID } from 'multiformats/cid'
   import type { Multiaddr } from '@multiformats/multiaddr'
   import type { Buffer } from 'buffer'
+  import type { KuboRPCClient } from 'kubo-rpc-client'
 
   declare export interface IPFSService extends CoreService {
     pin: PinService;
@@ -9,7 +10,7 @@ declare module 'ipfs' {
     name: NameService;
     object: ObjectService;
     config: ConfigService;
-    dag: DagService;
+    dag: KuboRPCClient['dag'];
 
     stop(options?: TimeoutOptions): Promise<void>
   }
@@ -51,21 +52,6 @@ declare module 'ipfs' {
     replace(config: Object, options?: TimeoutOptions): Promise<void>;
 
     profiles: ConfigProfiles;
-  }
-
-  declare export interface DAGImportOptions {
-    pinRoots: boolean;
-  }
-
-  declare export interface DAGImportResult {
-    root: {
-      cid: CID;
-      pinErrorMsg?: string;
-    };
-  }
-
-  declare export interface DAGService {
-    import(sources: Iterable<Uint8Array> | AsyncIterable<Uint8Array> | AsyncIterable<AsyncIterable<Uint8Array>> | Iterable<AsyncIterable<Uint8Array>>, options?: DAGImportOptions): AsyncIterable<DAGImportResult>
   }
 
   declare export interface ConfigProfiles {

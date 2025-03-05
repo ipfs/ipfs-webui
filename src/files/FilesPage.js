@@ -79,6 +79,11 @@ const FilesPage = ({
   }
 
   const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
+  /**
+   *
+   * @param {File} file
+   * @param {string} name
+   */
   const onAddByCar = (file, name) => {
     doAddCarFile(files.path, file, name)
   }

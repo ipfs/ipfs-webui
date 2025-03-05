@@ -404,11 +404,12 @@ const actions = () => ({
    * @param {FileStream} carFile
    * @param {string} name
    */
-  doAddCarFile: (root, carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (ipfs, { store }) => {
+  doAddCarFile: (root, carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (/** @type {IPFSService} */ ipfs, { store }) => {
     ensureMFS(store)
 
     const stream = carFile.content.stream()
     try {
+      // @ts-expect-error - https://github.com/ipfs/js-kubo-rpc-client/issues/278
       const result = await all(ipfs.dag.import(stream, {
         pinRoots: true
       }))
