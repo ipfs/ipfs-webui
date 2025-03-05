@@ -14,6 +14,7 @@
   "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
   "cantBePreviewed": "Sorry, this file can’t be previewed",
   "addByPath": "From IPFS",
+  "addByCar": "From CAR",
   "bulkImport": "Bulk import",
   "newFolder": "New folder",
   "generating": "Generating…",
@@ -59,6 +60,13 @@
     "importPathPlaceholder": "Path or CID (required)",
     "namePlaceholder": "Name (optional)",
     "examples": "Examples:"
+  },
+  "addByCarModal": {
+    "title": "CAR Import",
+    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
+    "selectCARButtonText": "Select CAR…",
+    "namePlaceholder": "Name",
+    "renameImportPath": "Rename import"
   },
   "bulkImportModal": {
     "title": "Bulk import with text file",

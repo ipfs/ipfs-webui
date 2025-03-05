@@ -15,12 +15,14 @@ import PublishModal from './publish-modal/PublishModal.js'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts.js'
 import { realMfsPath } from '../../bundles/files/actions.js'
+import AddByCarModal from './add-by-car-modal/AddByCarModal.js'
 // Constants
 const NEW_FOLDER = 'new_folder'
 const SHARE = 'share'
 const RENAME = 'rename'
 const DELETE = 'delete'
 const ADD_BY_PATH = 'add_by_path'
+const ADD_BY_CAR = 'add_by_car'
 const BULK_CID_IMPORT = 'bulk_cid_import'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
@@ -32,6 +34,7 @@ export {
   RENAME,
   DELETE,
   ADD_BY_PATH,
+  ADD_BY_CAR,
   BULK_CID_IMPORT,
   CLI_TUTOR_MODE,
   PINNING,
@@ -63,6 +66,11 @@ class Modals extends React.Component {
 
   onAddByPath = (path, name) => {
     this.props.onAddByPath(path, name)
+    this.leave()
+  }
+
+  onAddByCar = (file, name) => {
+    this.props.onAddByCar(file, name)
     this.leave()
   }
 
@@ -158,6 +166,7 @@ class Modals extends React.Component {
       }
       case NEW_FOLDER:
       case ADD_BY_PATH:
+      case ADD_BY_CAR:
         this.setState({ readyToShow: true })
         break
       case BULK_CID_IMPORT:
@@ -208,6 +217,7 @@ class Modals extends React.Component {
       case cliCmdKeys.ADD_DIRECTORY:
       case cliCmdKeys.CREATE_NEW_DIRECTORY:
       case cliCmdKeys.FROM_IPFS:
+      case cliCmdKeys.FROM_CAR:
         return cliCommandList[action](root.substring('/files'.length))
       case cliCmdKeys.DELETE_FILE_FROM_IPFS:
       case cliCmdKeys.REMOVE_FILE_FROM_IPFS:
@@ -265,6 +275,10 @@ class Modals extends React.Component {
             onCancel={this.leave} />
         </Overlay>
 
+        <Overlay show={show === ADD_BY_CAR && readyToShow} onLeave={this.leave}>
+          <AddByCarModal className='outline-0' onSubmit={this.onAddByCar} onCancel={this.leave} />
+        </Overlay>
+
         <Overlay show={show === BULK_CID_IMPORT && readyToShow} onLeave={this.leave}>
           <BulkImportModal
             className='outline-0'
@@ -301,6 +315,7 @@ Modals.propTypes = {
   show: PropTypes.string,
   files: PropTypes.array,
   onAddByPath: PropTypes.func.isRequired,
+  onAddByCar: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onMakeDir: PropTypes.func.isRequired,
   onShareLink: PropTypes.func.isRequired,
