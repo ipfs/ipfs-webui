@@ -415,6 +415,17 @@ const actions = () => ({
       const cid = result[0].root.cid
       const src = `/ipfs/${cid}`
       const dst = realMfsPath(join(root, name))
+      let dstExists = false
+
+      // Check if destination path already exists
+      await ipfs.files.stat(dst).then(() => {
+        dstExists = true
+      })
+
+      if (dstExists) {
+        throw new Error(`The name "${name}" already exists in the current directory. Try importing with a different name.`)
+      }
+
       try {
         await ipfs.files.cp(src, dst)
       } catch (err) {
