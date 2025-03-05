@@ -58,10 +58,12 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
     <Modal className={className} onCancel={onCancel}>
       <ModalBody title={t('addByCarModal.title')} Icon={Icon}>
         <div className='mb3 flex flex-row items-center'>
-          <p className='mt0 charcoal tl w-90'>{t('addByCarModal.description')}</p>
+          <p className='mt0 center charcoal tl w-90'>{t('addByCarModal.description')}</p>
         </div>
 
+        <label htmlFor='import-car-file-name' className='mt0 f7 center charcoal-muted tl w-90'>{t('addByCarModal.renameImportPath')}</label>
         <input
+          id='import-car-file-name'
           onChange={onNameChange}
           value={name}
           name='name'
@@ -80,6 +82,11 @@ const AddByCarModal = ({ t, className, onCancel, onSubmit, ...props }) => {
           onChange={onFileInputChange}
         />
         <Button className='ma2 tc' bg='bg-teal' onClick={onAddFileButtonClick}>{t('addByCarModal.selectCARButtonText')}</Button>
+        {/* Gray text showing original car file name */}
+        { file != null
+          ? <div className='mt1 f7 center charcoal-muted tl w-90'>{file.path}</div>
+          : null
+        }
       </ModalBody>
 
       <ModalActions>
