@@ -417,18 +417,22 @@ const actions = () => ({
       const dst = realMfsPath(join(root, name))
       let dstExists = false
 
-      // Check if destination path already exists
-      await ipfs.files.stat(dst).then(() => {
-        dstExists = true
-      })
+      try {
+        // Check if destination path already exists
+        await ipfs.files.stat(dst).then(() => {
+          dstExists = true
+        })
 
-      if (dstExists) {
-        throw new Error(`The name "${name}" already exists in the current directory. Try importing with a different name.`)
+        if (dstExists) {
+          throw new Error(`The name "${name}" already exists in the current directory. Try importing with a different name.`)
+        }
+      } catch (/** @type {any} */ err) {
+        // the file does not exist yet.. swallow error for checking if it exists
       }
 
       try {
         await ipfs.files.cp(src, dst)
-      } catch (err) {
+      } catch (/** @type {any} */ err) {
         // TODO: Not sure why we do this. Perhaps a generic error is used
         // to avoid leaking private information via Countly?
         throw Object.assign(new Error('ipfs.files.cp call failed'), {
