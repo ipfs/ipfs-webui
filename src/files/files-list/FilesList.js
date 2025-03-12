@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { Trans, withTranslation } from 'react-i18next'
 import classnames from 'classnames'
-import { join } from 'path'
+import { join, basename } from 'path'
 import { sorts } from '../../bundles/files/index.js'
 import { normalizeFiles } from '../../lib/files.js'
 import { List, WindowScroller, AutoSizer } from 'react-virtualized'
@@ -52,7 +52,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], fail
 
 export const FilesList = ({
   className, files, pins, pinningServices, remotePins, pendingPins, failedPins, filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
+  onShare, onSetPinning, onInspect, doFilesMove, onDownload, onRemove, onRename, onNavigate, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
 }) => {
   const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
@@ -80,15 +80,24 @@ export const FilesList = ({
     canDrop: _ => filesPathInfo.isMfs
   })
 
-  const selectedFiles = useMemo(() =>
-    selected
-      .map(name => allFiles.find(el => el.name === name))
+  const selectedFiles = useMemo(() => {
+    const files = selected
+      .map(name => {
+        const file = allFiles.find(el => el.name === name)
+        if (!file) return null
+        return {
+          ...file,
+          // Ensure we have the complete path
+          path: file.path || join(filesPathInfo.path, file.name),
+          pinned: pins.map(p => p.toString()).includes(file.cid.toString())
+        }
+      })
       .filter(n => n)
-      .map(file => ({
-        ...file,
-        pinned: pins.map(p => p.toString()).includes(file.cid.toString())
-      }))
-  , [allFiles, pins, selected])
+
+    // decided to make selected files global for drag operations with breadcrumbs
+    window.__selectedFiles = files
+    return files
+  }, [allFiles, pins, selected, filesPathInfo])
 
   const keyHandler = (e) => {
     const focusedFile = files.find(el => el.name === focused)
@@ -98,30 +107,30 @@ export const FilesList = ({
       return
     }
 
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' || e.keyCode === 27) {
       setSelected([])
       setFocused(null)
       return listRef.current.forceUpdateGrid()
     }
 
-    if (e.key === 'F2' && focused !== null) {
+    if ((e.key === 'F2' || e.keyCode === 113) && focused !== null) {
       return onRename([focusedFile])
     }
 
-    if (e.key === 'Delete' && selected.length > 0) {
+    if ((e.key === 'Delete' || e.key === 'Backspace' || e.keyCode === 8 || e.keyCode === 46) && selected.length > 0) {
       return onRemove(selectedFiles)
     }
 
-    if (e.key === ' ' && focused !== null) {
+    if ((e.key === ' ' || e.keyCode === 32) && focused !== null) {
       e.preventDefault()
       return toggleOne(focused, true)
     }
 
-    if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused !== null) {
+    if (((e.key === 'Enter' || e.keyCode === 13) && focused !== null) || ((e.key === 'ArrowRight' && e.metaKey) || (e.key === 'ArrowRight' && e.keyCode === 39))) {
       return onNavigate({ path: focusedFile.path, cid: focusedFile.cid })
     }
 
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    if ((e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.keyCode === 40 || e.keyCode === 38) && focused !== null) {
       e.preventDefault()
       let index = 0
 
@@ -195,29 +204,33 @@ export const FilesList = ({
   }, [selected])
 
   const move = (src, dst) => {
+    if (Array.isArray(src)) {
+      onMove(src)
+      return
+    }
+
     if (selectedFiles.length > 0) {
-      const parts = dst.split('/')
-      parts.pop()
-      let basepath = parts.join('/')
+      const isDraggedFileSelected = selectedFiles.some(file => file.path === src)
 
-      if (basepath === '') {
-        basepath = '/'
-      }
+      const filesToMove = isDraggedFileSelected
+        ? selectedFiles
+        : [{ path: src, name: basename(src) }]
 
-      const toMove = selectedFiles.map(({ name, path }) => ([
-        path,
-        join(basepath, name)
-      ]))
+      const toMove = filesToMove.map(file => {
+        const sourcePath = file.path
+        const fileName = basename(sourcePath)
+        const destinationPath = dst.endsWith(fileName) ? dst : join(dst, fileName)
 
-      const res = toMove.find(a => a[0] === src)
-      if (!res) {
-        toMove.push([src, dst])
-      }
+        return [sourcePath, destinationPath]
+      })
 
       toggleAll(false)
-      toMove.forEach(op => onMove(...op))
+      toMove.forEach(op => doFilesMove(...op))
     } else {
-      onMove(src, dst)
+      const fileName = basename(src)
+      const dstPath = dst.endsWith(fileName) ? dst : join(dst, fileName)
+
+      doFilesMove(src, dstPath)
     }
   }
 
@@ -349,6 +362,7 @@ export const FilesList = ({
             unselect={() => toggleAll(false)}
             remove={() => onRemove(selectedFiles)}
             rename={() => onRename(selectedFiles)}
+            move={() => move(selectedFiles)}
             share={() => onShare(selectedFiles)}
             setPinning={() => onSetPinning(selectedFiles)}
             download={() => onDownload(selectedFiles)}
@@ -407,5 +421,13 @@ export default connect(
   'selectFilesPathInfo',
   'selectShowLoadingAnimation',
   'doDismissFailedPin',
+  'doFilesMove',
+  'doFilesWrite',
+  'doFilesDelete',
+  'doFilesAddByPath',
+  'doFilesShareLink',
+  'doFilesDownloadLink',
+  'doFilesMakeDir',
+  'doFilesUpdateSorting',
   withTranslation('files')(FilesList)
 )

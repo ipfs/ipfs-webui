@@ -2,6 +2,16 @@
     width: 100%;
 }
 
+.fs-count {
+  display: none;
+}
+
+@media only screen and (min-width: 35em) {
+    .fs-count {
+      display: block;
+    }
+}
+
 @media only screen and (min-width: 60em) {
     .selectedActions {
         width: calc(100% - 148px)
@@ -15,4 +25,64 @@
 @keyframes selectedActions {
     from { transform: translateY(100%) }
     to { transform: translateY(0%) }
+}
+
+.more-menu {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 0.5rem;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #edf0f4;
+  min-width: 200px;
+  z-index: 10;
+}
+
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  border-bottom: 1px solid #edf0f4;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.more-menu-item:last-child {
+  border-bottom: none;
+}
+
+.more-menu-item:hover {
+  background-color: #f0f6fa;
+}
+
+.more-menu-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.more-menu-item.disabled:hover {
+  background-color: transparent;
+}
+
+.more-menu-item svg {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.more-menu-item span {
+  font-size: 0.875rem;
+  color: #4A4A4A;
+}
+
+.more-menu-item:hover svg {
+  fill: #0b3a53;
+}
+
+.more-menu-item:hover span {
+  color: #0b3a53;
 }
