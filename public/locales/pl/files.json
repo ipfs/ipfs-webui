@@ -14,6 +14,7 @@
   "openWithLocalAndPublicGateway": "Spróbuj otworzyć go za pomocą swojej <1>lokalnej bramy</1> lub <3>punlicznej bramy</3>.",
   "cantBePreviewed": "Przepraszamy, nie można wyświetlić podglądu tego pliku",
   "addByPath": "Z IPFS",
+  "bulkImport": "Bulk import",
   "newFolder": "Nowy folder",
   "generating": "Generowanie...",
   "actions": {
@@ -58,6 +59,14 @@
     "importPathPlaceholder": "Ścieżka lub CID (wymagane)",
     "namePlaceholder": "Nazwa (opcjonalnie)",
     "examples": "Przykłady:"
+  },
+  "bulkImportModal": {
+    "title": "Bulk import with text file",
+    "description": "Upload a text file with a list of CIDs (names are optional). Example:",
+    "select": "Select file",
+    "selectedFile": "Selected file",
+    "invalidCids": "*Invalid CID(s) found",
+    "failedToReadFile": "*Failed to read file contents"
   },
   "newFolderModal": {
     "title": "Nowy folder",

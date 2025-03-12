@@ -2,6 +2,7 @@ declare module 'ipfs' {
   import type { CID } from 'multiformats/cid'
   import type { Multiaddr } from '@multiformats/multiaddr'
   import type { Buffer } from 'buffer'
+  import type { KuboRPCClient } from 'kubo-rpc-client'
 
   declare export interface IPFSService extends CoreService {
     pin: PinService;
@@ -9,6 +10,7 @@ declare module 'ipfs' {
     name: NameService;
     object: ObjectService;
     config: ConfigService;
+    dag: KuboRPCClient['dag'];
 
     stop(options?: TimeoutOptions): Promise<void>
   }

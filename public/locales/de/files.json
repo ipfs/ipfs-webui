@@ -16,6 +16,7 @@
   "openWithLocalAndPublicGateway": "Versuche es stattdessen mit Deinem <1>lokalen Gateway</1> oder <3>öffentlichen Gateway</3> zu öffnen.",
   "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",
   "addByPath": "Aus IPFS",
+  "bulkImport": "Bulk import",
   "newFolder": "Neuer Ordner",
   "generating": "Erstelle…",
   "actions": {
@@ -60,6 +61,14 @@
     "importPathPlaceholder": "Pfad oder CID (erforderlich)",
     "namePlaceholder": "Name (optional)",
     "examples": "Beispiele:"
+  },
+  "bulkImportModal": {
+    "title": "Bulk import with text file",
+    "description": "Upload a text file with a list of CIDs (names are optional). Example:",
+    "select": "Select file",
+    "selectedFile": "Selected file",
+    "invalidCids": "*Invalid CID(s) found",
+    "failedToReadFile": "*Failed to read file contents"
   },
   "newFolderModal": {
     "title": "Neuer Ordner",

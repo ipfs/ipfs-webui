@@ -4,6 +4,7 @@ import * as Task from '../task.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('../../lib/files').FileStream} FileStream
  * @typedef {import('./actions').Ext} Ext
  * @typedef {import('./actions').Extra} Extra
  */
