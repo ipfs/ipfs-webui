@@ -15,13 +15,14 @@ import FilesList from './files-list/FilesList.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, CLI_TUTOR_MODE, PINNING, PUBLISH, MOVE } from './modals/Modals.js'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_CAR, ADD_BY_PATH, BULK_CID_IMPORT, CLI_TUTOR_MODE, PINNING, PUBLISH, MOVE } from './modals/Modals.js'
+
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
 
 const FilesPage = ({
-  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
+  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, doFetchDirectory, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
@@ -79,6 +80,14 @@ const FilesPage = ({
   }
 
   const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
+  /**
+   *
+   * @param {File} file
+   * @param {string} name
+   */
+  const onAddByCar = (file, name) => {
+    doAddCarFile(files.path, file, name)
+  }
   const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
   const showModal = (modal, files = null) => setModals({ show: modal, files })
   const hideModal = () => setModals({})
@@ -212,6 +221,7 @@ const FilesPage = ({
         onAddFiles={onAddFiles}
         onMove={doFilesMove}
         onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
+        onAddByCar={(files) => showModal(ADD_BY_CAR, files)}
         onBulkCidImport={(files) => showModal(BULK_CID_IMPORT, files)}
         onNewFolder={(files) => showModal(NEW_FOLDER, files)}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
@@ -234,6 +244,7 @@ const FilesPage = ({
         onShareLink={doFilesShareLink}
         onRemove={doFilesDelete}
         onAddByPath={onAddByPath}
+        onAddByCar={onAddByCar}
         onBulkCidImport={onBulkCidImport}
         onPinningSet={doSetPinning}
         onFetchDirectory={doFetchDirectory}
@@ -282,6 +293,7 @@ export default connect(
   'doFilesShareLink',
   'doFilesDelete',
   'doFilesAddPath',
+  'doAddCarFile',
   'doFilesNavigateTo',
   'doFilesUpdateSorting',
   'selectFilesSorting',
