@@ -14,6 +14,7 @@
   "openWithLocalAndPublicGateway": "尝试使用您的<1>本地网关</1>或者<3>公共网关</3>来打开。",
   "cantBePreviewed": "对不起，本文件不支持预览。",
   "addByPath": "来自 IPFS 路径",
+  "addByCar": "From CAR",
   "bulkImport": "Bulk import",
   "newFolder": "新建文件夹",
   "generating": "生成 ...",
@@ -59,6 +60,13 @@
     "importPathPlaceholder": "路径或CID (必要)",
     "namePlaceholder": "名称 (可选)",
     "examples": "示例："
+  },
+  "addByCarModal": {
+    "title": "CAR Import",
+    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
+    "selectCARButtonText": "Select CAR…",
+    "namePlaceholder": "名称",
+    "renameImportPath": "Rename import"
   },
   "bulkImportModal": {
     "title": "Bulk import with text file",

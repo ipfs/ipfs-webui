@@ -30,7 +30,7 @@
     "unselectAll": "Batalkan pilihan semua",
     "generate": "Hasilkan",
     "publish": "Menerbitkan",
-    "downloadCar": "Unduh sebagai CAR",
+    "downloadCar": "Ekspor CAR",
     "done": "Selesai"
   },
   "cliModal": {
@@ -46,7 +46,7 @@
     "couldNotConnect": "Tidak dapat terhubung ke Kubo RPC"
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": "Masukkan URL (http://user:password@127.0.0.1:5001) atau Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
     "placeholder": "Masukkan URL (https://ipfs.io)"
