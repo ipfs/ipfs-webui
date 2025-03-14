@@ -30,7 +30,7 @@
     "unselectAll": "取消全部選擇",
     "generate": "Generate",
     "publish": "Publish",
-    "downloadCar": "Download as CAR",
+    "downloadCar": "Export CAR",
     "done": "Done"
   },
   "cliModal": {

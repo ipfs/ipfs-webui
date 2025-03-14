@@ -30,7 +30,7 @@
     "unselectAll": "Hepsinin seçimini kaldır",
     "generate": "Oluştur",
     "publish": "Yayınla",
-    "downloadCar": "CAR olarak indir",
+    "downloadCar": "Export CAR",
     "done": "Bitti"
   },
   "cliModal": {
