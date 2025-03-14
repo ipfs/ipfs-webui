@@ -10,9 +10,7 @@ import DocPicture from '../../icons/GlyphDocPicture.js'
 import DocText from '../../icons/GlyphDocText.js'
 import Cube from '../../icons/StrokeCube.js'
 
-const style = { width: 36 }
-
-export default function FileIcon ({ name, type, cls = '' }) {
+export default function FileIcon ({ name, type, style = { width: 36 }, cls = '' }) {
   if (type === 'directory') {
     return <Folder className={`fill-aqua ${cls}`} style={style} />
   }
