@@ -14,6 +14,7 @@ import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
 import FilesGrid from './files-grid/files-grid.js'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
+import FileNotFound from './file-not-found/FileNotFound.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
@@ -24,8 +25,6 @@ import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
 import SelectedActions from './selected-actions/SelectedActions.js'
 import Checkbox from '../components/checkbox/Checkbox.js'
-import GlyphAttention from '../icons/GlyphAttention.js'
-import FileNotFound from './file-not-found/FileNotFound.js'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
@@ -358,7 +357,7 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
-      <Preview files={files} path={filesPathInfo.path} onDownload={() => onDownload([files])} />
+      <Preview files={files} path={filesPathInfo.path} t={t} onDownload={() => onDownload([files])} />
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
@@ -394,13 +393,13 @@ const FilesPage = ({
   )
 }
 
-const Preview = ({ files, path, onDownload }) => {
+const Preview = ({ files, path, t, onDownload }) => {
   if (files && files.type === 'file') {
     return (<FilePreview {...files} onDownload={onDownload} />)
   }
 
   return (
-    <FileNotFound path={path} />
+    <FileNotFound path={path} t={t} />
   )
 }
 
