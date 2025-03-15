@@ -12,6 +12,7 @@ import withTour from '../components/tour/withTour.js'
 import InfoBoxes from './info-boxes/InfoBoxes.js'
 import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
+import FileNotFound from './file-not-found/FileNotFound.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
@@ -19,7 +20,6 @@ import Modals, { DELETE, NEW_FOLDER, ADD_BY_CAR, SHARE, RENAME, ADD_BY_PATH, BUL
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
-import { FileNotFound } from './file-not-found/FileNotFound.js'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
@@ -229,7 +229,7 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
-      <Preview files={files} path={filesPathInfo.path} onDownload={() => onDownload([files])} />
+      <Preview files={files} path={filesPathInfo.path} t={t} onDownload={() => onDownload([files])} />
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
@@ -265,13 +265,13 @@ const FilesPage = ({
   )
 }
 
-const Preview = ({ files, path, onDownload }) => {
+const Preview = ({ files, path, t, onDownload }) => {
   if (files && files.type === 'file') {
     return (<FilePreview {...files} onDownload={onDownload} />)
   }
 
   return (
-    <FileNotFound path={path} />
+    <FileNotFound path={path} t={t} />
   )
 }
 

@@ -153,5 +153,14 @@
     "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
   },
   "noPinsInProgress": "All done, no remote pins in progress.",
-  "remotePinningInProgress": "Remote pinning in progress:"
+  "remotePinningInProgress": "Remote pinning in progress:",
+  "previewNotFound": {
+    "title": "IPFS can't find this item",
+    "helpTitle": "These are common troubleshooting steps might help:",
+    "helpListItemPathTypo": "Are there typos in the path you entered?",
+    "helpListItemFileMoved": "Was the file moved, renamed, or deleted?",
+    "helpListItemBookmarkMigrated": "Did you copy a URL or bookmark from another computer? If so, you'll need to",
+    "helpListItemBookmarkMigratedLink": "point this instance at that computer's node",
+    "backButton": "Go to Home"
+  }
 }
