@@ -13,12 +13,14 @@ import InfoBoxes from './info-boxes/InfoBoxes.js'
 import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
+import Button from '../components/button/button'
 
 // Icons
 import Modals, { DELETE, NEW_FOLDER, ADD_BY_CAR, SHARE, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
+import GlyphAttention from '../icons/GlyphAttention.js'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
@@ -228,7 +230,7 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
-      <Preview files={files} onDownload={() => onDownload([files])} />
+      <Preview files={files} path={filesPathInfo.path} onDownload={() => onDownload([files])} />
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
@@ -264,11 +266,32 @@ const FilesPage = ({
   )
 }
 
-const Preview = ({ files, onDownload }) => {
+const Preview = ({ files, path, onDownload }) => {
   if (files && files.type === 'file') {
     return (<FilePreview {...files} onDownload={onDownload} />)
   }
-  return (<div/>)
+
+  return (
+    <div
+      className='mb3 pa4-l pa2 mw9 center'
+      style={{ background: 'rgba(251, 251, 251)' }}
+    >
+      <div className='flex flex-row items-center mb3'>
+        <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
+        <div className='red fw6 truncate'>IPFS can't find this item</div>
+      </div>
+      <div className='mb3 charcoal fw6 truncate'>{path}</div>
+      <div className='mb3'>These are common troubleshooting steps might help:</div>
+      <ul>
+        <li>Are there typos in the path you entered?</li>
+        <li>Was the file moved, renamed, or deleted?</li>
+        <li>Did you copy a URL or bookmark from another computer? If so, you'll need to <a href="#/peers">point this instance at that computer's node</a>.</li>
+      </ul>
+      <a href="#/files">
+        <Button className='ma2 tc' bg='bg-teal'>Go to Home</Button>
+      </a>
+    </div>
+  )
 }
 
 export default connect(
