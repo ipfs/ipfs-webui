@@ -7,7 +7,7 @@ import ReactJoyride from 'react-joyride'
 // Lib
 import { filesTour } from '../lib/tours.js'
 // Components
-import ContextMenu from '../components/context-menu/context-menu.js'
+import ContextMenu from './context-menu/context-menu.js'
 import withTour from '../components/tour/with-tour.js'
 import InfoBoxes from './info-boxes/info-boxes.js'
 import FilePreview from './file-preview/file-preview.js'
