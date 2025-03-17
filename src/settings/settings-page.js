@@ -20,7 +20,7 @@ import PublicGatewayForm from '../components/public-gateway-form/public-gateway-
 import PublicSubdomainGatewayForm from '../components/public-subdomain-gateway-form/public-subdomain-gateway-form.js'
 import { JsonEditor } from '../settings/editor/json-editor.js'
 import Experiments from '../components/experiments/experiments-panel.js'
-import Title from '../settings/title.js'
+import Title from './title.js'
 import CliTutorMode from '../components/cli-tutor-mode/cli-tutor-mode.js'
 import Checkbox from '../components/checkbox/checkbox.js'
 import ComponentLoader from '../loader/component-loader.js'
