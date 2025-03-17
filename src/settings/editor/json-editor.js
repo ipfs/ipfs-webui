@@ -2,7 +2,7 @@ import React from 'react'
 import AceEditor from 'react-ace'
 
 import 'brace/mode/json.js'
-import './theme/ipfs_dark.js'
+import './theme/ipfs-dark.js'
 
 export class JsonEditor extends React.Component {
   render () {
@@ -17,7 +17,7 @@ export class JsonEditor extends React.Component {
           readOnly={readOnly}
           onChange={onChange}
           mode='json'
-          theme='ipfs_dark'
+          theme='ipfs-dark'
           width='100%'
           height={height + 'px'}
           fontSize={12}

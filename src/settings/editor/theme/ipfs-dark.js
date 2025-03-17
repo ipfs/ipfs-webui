@@ -1,6 +1,6 @@
 /* global ace */
 // modified from https://github.com/thlorenz/brace/blob/master/theme/solarized_dark.js
-ace.define('ace/theme/ipfs_dark', ['require', 'exports', 'module', 'ace/lib/dom'], function (acequire, exports, module) {
+ace.define('ace/theme/ipfs-dark', ['require', 'exports', 'module', 'ace/lib/dom'], function (acequire, exports, module) {
   exports.isDark = true
   exports.cssClass = 'ace-ipfs-dark'
   exports.cssText = `
