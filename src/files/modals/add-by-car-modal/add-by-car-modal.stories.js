@@ -1,7 +1,7 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 import i18n from '../../../i18n-decorator.js'
-import AddByCarModal from 'add-by-car-modal'
+import AddByCarModal from './add-by-car-modal.js'
 
 /**
  * @type {import('@storybook/react').Meta}
