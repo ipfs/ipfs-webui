@@ -6,7 +6,7 @@ import {
   // , boolean
 } from '@storybook/addon-knobs'
 import i18nDecorator from '../../i18n-decorator.js'
-import { FileImportStatus } from 'file-import-status.js'
+import { FileImportStatus } from './file-import-status.js'
 import i18n from '../../i18n.js'
 import { Array } from 'window-or-global'
 
