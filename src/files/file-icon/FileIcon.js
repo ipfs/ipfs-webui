@@ -1,3 +1,4 @@
+import React from 'react'
 import typeFromExt from '../type-from-ext/index.js'
 
 import Folder from '../../icons/GlyphFolder.js'
