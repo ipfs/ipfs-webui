@@ -88,7 +88,11 @@ export const FilesList = ({
       }))
   , [allFiles, pins, selected])
 
-  const keyHandler = (e) => {
+  const toggleOne = useCallback((name, check) => {
+    onSelect(name, check)
+  }, [onSelect])
+
+  const keyHandler = useCallback((e) => {
     const focusedFile = files.find(el => el.name === focused)
 
     // Disable keyboard controls if fetching files
@@ -141,25 +145,28 @@ export const FilesList = ({
       }
 
       setFocused(name)
-
-      setTimeout(() => {
-        const domNode = filesRefs.current[name] && findDOMNode(filesRefs.current[name])
-        if (domNode) {
-          domNode.scrollIntoView({ behavior: 'smooth', block: 'center' })
-          const checkbox = domNode.querySelector('input[type="checkbox"]')
-          if (checkbox) checkbox.focus()
-        }
-
-        listRef.current?.forceUpdateGrid?.()
-      }, 0)
     }
-  }
+  }, [
+    files,
+    focused,
+    firstVisibleRow,
+    filesIsFetching,
+    onNavigate,
+    onRemove,
+    onRename,
+    onSelect,
+    selected.length,
+    selectedFiles,
+    toggleOne,
+    listRef
+  ])
 
   useEffect(() => {
     document.addEventListener('keyup', keyHandler)
-    return () => document.removeEventListener('keyup', keyHandler)
-  }, /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  [files, focused, firstVisibleRow, filesRefs.current, listRef.current])
+    return () => {
+      document.removeEventListener('keyup', keyHandler)
+    }
+  }, [keyHandler])
 
   useEffect(() => {
     setAllFiles(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
@@ -172,10 +179,6 @@ export const FilesList = ({
       onSelect([], false)
     }
   }
-
-  const toggleOne = useCallback((name, check) => {
-    onSelect(name, check)
-  }, [onSelect])
 
   const move = (src, dst) => {
     if (selectedFiles.length > 0) {
@@ -271,6 +274,21 @@ export const FilesList = ({
     'o-70': !allSelected
   }, ['pl2 w2 glow'])
 
+  // Add a separate useEffect to handle scrolling when focus changes
+  const currentFilesRef = filesRefs.current[focused]
+  useEffect(() => {
+    if (focused) {
+      const domNode = currentFilesRef && findDOMNode(currentFilesRef)
+      if (domNode) {
+        domNode.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        const checkbox = domNode.querySelector('input[type="checkbox"]')
+        if (checkbox) checkbox.focus()
+      }
+
+      listRef.current?.forceUpdateGrid?.()
+    }
+  }, [currentFilesRef, focused, listRef])
+
   return (
     <section ref={drop} className={classnames('FilesList no-select sans-serif border-box w-100 flex flex-column', className)}>
       { showLoadingAnimation
@@ -357,7 +375,7 @@ FilesList.propTypes = {
   tReady: PropTypes.bool
 }
 
-FileList.defaultProps = {
+FilesList.defaultProps = {
   className: '',
   remotePins: [],
   pendingPins: [],
