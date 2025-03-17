@@ -12,8 +12,8 @@ import withTour from '../components/tour/withTour.js'
 import InfoBoxes from './info-boxes/InfoBoxes.js'
 import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
-import FilesGrid from './files-grid/FilesGrid.js'
-import { ViewList, ViewModule } from '../icons/StrokeIcons.js'
+import FilesGrid from './files-grid/files-grid.js'
+import { ViewList, ViewModule } from '../icons/stroke-icons.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons

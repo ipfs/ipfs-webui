@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import typeFromExt from '../type-from-ext/index.js'
-import './FileThumbnail.css'
+import './file-thumbnail.css'
 
 const FileThumbnail = ({ name, cid, availableGatewayUrl, textPreview, onLoad }) => {
   const [error, setError] = useState(false)

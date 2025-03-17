@@ -4,9 +4,9 @@ import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { normalizeFiles } from '../../lib/files.js'
-import GridFile from './GridFile.js'
+import GridFile from './grid-file.js'
 import { connect } from 'redux-bundler-react'
-import './FilesGrid.css'
+import './files-grid.css'
 
 const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t,

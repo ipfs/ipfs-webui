@@ -7,13 +7,13 @@ import { CID } from 'multiformats/cid'
 import { isBinary } from 'istextorbinary'
 import FileIcon from '../file-icon/FileIcon.js'
 import { connect } from 'redux-bundler-react'
-import FileThumbnail from '../file-preview/FileThumbnail.js'
+import FileThumbnail from '../file-preview/file-thumbnail.js'
 import PinIcon from '../pin-icon/PinIcon.js'
 import GlyphDots from '../../icons/GlyphDots.js'
 import Checkbox from '../../components/checkbox/Checkbox.js'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
-import './GridFile.css'
+import './grid-file.css'
 
 const GridFile = ({
   name, type, size, cid, path, pinned, t, selected, focused,
