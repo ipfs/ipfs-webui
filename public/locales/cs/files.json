@@ -14,6 +14,7 @@
   "openWithLocalAndPublicGateway": "Místo toho ji zkuste otevřít pomocí <1>místní</1> nebo <3>veřejné brány</3>.",
   "cantBePreviewed": "Litujeme, tento soubor nelze zobrazit",
   "addByPath": "Od IPFS",
+  "addByCar": "From CAR",
   "bulkImport": "Bulk import",
   "newFolder": "Nová složka",
   "generating": "Vytváření…",
@@ -59,6 +60,13 @@
     "importPathPlaceholder": "Cesta nebo CID (povinné)",
     "namePlaceholder": "Název (nepovinné)",
     "examples": "Příklady:"
+  },
+  "addByCarModal": {
+    "title": "CAR Import",
+    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
+    "selectCARButtonText": "Select CAR…",
+    "namePlaceholder": "Jméno",
+    "renameImportPath": "Rename import"
   },
   "bulkImportModal": {
     "title": "Bulk import with text file",
@@ -145,6 +153,5 @@
     "pleaseWait": "Počkejte prosím, než se pomocí DHT peerů uloží počátečních 20 kopií aktualizovaného záznamu IPNS..."
   },
   "noPinsInProgress": "Vše je hotovo, žádné vzdálené připnutí neprobíhá.",
-  "remotePinningInProgress": "Probíhá vzdálené připnutí:",
-  "selectAllEntries": "Vybrat všechny položky tabulky"
+  "remotePinningInProgress": "Probíhá vzdálené připnutí:"
 }

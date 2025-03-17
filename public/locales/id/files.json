@@ -14,7 +14,8 @@
   "openWithLocalAndPublicGateway": "Coba buka dengan <1>gerbang lokal</1> Anda atau <3>gerbang publik</3>.",
   "cantBePreviewed": "Maaf, berkas ini tidak dapat dipratinjau",
   "addByPath": "Dari IPFS",
-  "bulkImport": "Bulk import",
+  "addByCar": "Dari CAR",
+  "bulkImport": "Impor massal",
   "newFolder": "Map baru",
   "generating": "Menghasilkan…",
   "actions": {
@@ -60,13 +61,20 @@
     "namePlaceholder": "Nama (opsional)",
     "examples": "Contoh:"
   },
+  "addByCarModal": {
+    "title": "Impor CAR",
+    "description": "Pilih berkas CAR untuk mengimpor DAG dan tentukan nama untuk diimpor ke direktori saat ini.",
+    "selectCARButtonText": "Pilih CAR...",
+    "namePlaceholder": "Nama",
+    "renameImportPath": "Ubah nama impor"
+  },
   "bulkImportModal": {
-    "title": "Bulk import with text file",
-    "description": "Upload a text file with a list of CIDs (names are optional). Example:",
-    "select": "Select file",
-    "selectedFile": "Selected file",
-    "invalidCids": "*Invalid CID(s) found",
-    "failedToReadFile": "*Failed to read file contents"
+    "title": "Impor massal dengan berkas teks",
+    "description": "Unggah berkas teks dengan daftar CID (nama bersifat opsional). Contoh:",
+    "select": "Pilih berkas",
+    "selectedFile": "Berkas yang dipilih",
+    "invalidCids": "*CID(s) tidak valid ditemukan",
+    "failedToReadFile": "*Gagal membaca isi berkas"
   },
   "newFolderModal": {
     "title": "Map baru",
@@ -145,6 +153,5 @@
     "pleaseWait": "Harap tunggu sementara 20 salinan awal dari catatan IPNS yang diperbarui disimpan dengan bantuan rekan-rekan DHT…"
   },
   "noPinsInProgress": "Semua selesai, tidak ada pin jarak jauh yang sedang berlangsung.",
-  "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:",
-  "selectAllEntries": "Pilih semua entri tabel"
+  "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:"
 }

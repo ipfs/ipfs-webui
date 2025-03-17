@@ -88,6 +88,5 @@
   "checkboxLabel": "View more options for {name}",
   "pinned": "Sujeto",
   "cidNotFileNorDir": "El enlace actual no es un archivo ni un directorio. Intenta <0>examinarlo</0> en su lugar.",
-  "sortBy": "Sort items by {name}",
-  "selectAllEntries": "Seleccionar todas las entradas"
+  "sortBy": "Sort items by {name}"
 }

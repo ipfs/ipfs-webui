@@ -74,6 +74,5 @@
     "noFiles": "<0>No files in this directory. Click the “Add” button to add some.</0>"
   },
   "addFilesInfo": "<0>Voeg bestanden toe aan je lokale IPFS node door op de <1>Toevoegen aan IPFS</1> knop te klikken.</0>",
-  "companionInfo": "<0>Waneer je <1>IPFS Companion</1> gebruikt, zie je enkel de files die je hebt toegevoegd tijdens het gebruik van deze extensie.</0>",
-  "selectAllEntries": "Selecteer alle items"
+  "companionInfo": "<0>Waneer je <1>IPFS Companion</1> gebruikt, zie je enkel de files die je hebt toegevoegd tijdens het gebruik van deze extensie.</0>"
 }

@@ -10,12 +10,11 @@
   "individualFilesOnly": "Nur für individuelle Dateien verfügbar",
   "noPDFSupport": "Dein Browser unterstützt keine PDFs. Bitte lade das PDF herunter, um es anzusehen:",
   "downloadPDF": "PDF herunterladen",
-  "viewList": "Liste anzeigen",
-  "viewGrid": "Gitter anzeigen",
   "openWithPublicGateway": "Versuche es stattdessen mit Deinem <1>öffentlichen Gateway</1> zu öffnen.",
   "openWithLocalAndPublicGateway": "Versuche es stattdessen mit Deinem <1>lokalen Gateway</1> oder <3>öffentlichen Gateway</3> zu öffnen.",
   "cantBePreviewed": "Für diese Datei ist keine Vorschau verfügbar",
   "addByPath": "Aus IPFS",
+  "addByCar": "From CAR",
   "bulkImport": "Bulk import",
   "newFolder": "Neuer Ordner",
   "generating": "Erstelle…",
@@ -61,6 +60,13 @@
     "importPathPlaceholder": "Pfad oder CID (erforderlich)",
     "namePlaceholder": "Name (optional)",
     "examples": "Beispiele:"
+  },
+  "addByCarModal": {
+    "title": "CAR Import",
+    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
+    "selectCARButtonText": "Select CAR…",
+    "namePlaceholder": "Name",
+    "renameImportPath": "Rename import"
   },
   "bulkImportModal": {
     "title": "Bulk import with text file",
@@ -147,6 +153,5 @@
     "pleaseWait": "Bitte warte solange die initialen 20 Kopien des geänderten IPNS-Records mit der Hilfe von DHT-Peers gespeichert wurde ..."
   },
   "noPinsInProgress": "Alles fertig, es wird gerade nichts aus der Ferne angeheftet.",
-  "remotePinningInProgress": "Es wird gerade aus der Ferne angeheftet:",
-  "selectAllEntries": "Alle Tabelleneinträge auswählen"
+  "remotePinningInProgress": "Es wird gerade aus der Ferne angeheftet:"
 }

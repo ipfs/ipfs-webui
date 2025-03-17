@@ -14,6 +14,7 @@
   "openWithLocalAndPublicGateway": "Essayer de l'ouvrir plutôt avec votre <1>passerelle locale</1> ou votre <3>passerelle publique</3>.",
   "cantBePreviewed": "Désolé, ce fichier ne peut pas être prévisualisé",
   "addByPath": "Depuis IPFS",
+  "addByCar": "From CAR",
   "bulkImport": "Bulk import",
   "newFolder": "Nouveau répertoire",
   "generating": "Génération...",
@@ -59,6 +60,13 @@
     "importPathPlaceholder": "Chemin ou CID (requis)",
     "namePlaceholder": "Nom (optionnel)",
     "examples": "Exemples :"
+  },
+  "addByCarModal": {
+    "title": "CAR Import",
+    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
+    "selectCARButtonText": "Select CAR…",
+    "namePlaceholder": "Nom",
+    "renameImportPath": "Rename import"
   },
   "bulkImportModal": {
     "title": "Bulk import with text file",
@@ -145,6 +153,5 @@
     "pleaseWait": "Merci d'attendre pendant que les 20 premières copies de l'enregistrement IPNS mis à jour sont stockés avec l'aide des pairs DHT..."
   },
   "noPinsInProgress": "Terminé, aucun épinglage distant en cours.",
-  "remotePinningInProgress": "Épinglage distant en cours:",
-  "selectAllEntries": "Sélectionner toutes les entrées"
+  "remotePinningInProgress": "Épinglage distant en cours:"
 }

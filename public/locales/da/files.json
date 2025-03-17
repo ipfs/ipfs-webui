@@ -74,6 +74,5 @@
     "noFiles": "<0>Ingen filer i dette bibliotek. Klik på “Tilføj” knappen for at tilføje nogle.</0>"
   },
   "addFilesInfo": "<0>Tilføj filer til din lokale IPFS klient ved at klikke på <1>Tilføj til IPFS</1> knappen foroven.</0>",
-  "companionInfo": "<0>Eftersom du benytter <1>IPFS Følgesvend</1>, vil fil-visningen være begrænset til filer der benyttes mens udvidelsen benyttes.</0>",
-  "selectAllEntries": "Vælg alle indgange"
+  "companionInfo": "<0>Eftersom du benytter <1>IPFS Følgesvend</1>, vil fil-visningen være begrænset til filer der benyttes mens udvidelsen benyttes.</0>"
 }
