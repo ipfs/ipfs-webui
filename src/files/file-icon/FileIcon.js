@@ -1,4 +1,3 @@
-import React from 'react'
 import typeFromExt from '../type-from-ext/index.js'
 
 import Folder from '../../icons/GlyphFolder.js'
@@ -10,6 +9,10 @@ import DocPicture from '../../icons/GlyphDocPicture.js'
 import DocText from '../../icons/GlyphDocText.js'
 import Cube from '../../icons/StrokeCube.js'
 
+/**
+ * @param {{ name: string, type: string, style?: React.CSSProperties, cls?: string }} props
+ * @returns {React.ReactElement}
+ */
 export default function FileIcon ({ name, type, style = { width: 36 }, cls = '' }) {
   if (type === 'directory') {
     return <Folder className={`fill-aqua ${cls}`} style={style} />

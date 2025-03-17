@@ -3,12 +3,24 @@ import PropTypes from 'prop-types'
 import Tick from '../../icons/GlyphSmallTick.js'
 import './Checkbox.css'
 
+/**
+ * @param {Object} props
+ * @param {string} [props.className]
+ * @param {React.ReactNode} [props.label]
+ * @param {boolean} [props.disabled]
+ * @param {boolean} [props.checked]
+ * @param {function(boolean): void} props.onChange
+ * @returns {React.ReactElement}
+ */
 const Checkbox = ({ className, label, disabled, checked, onChange, ...props }) => {
   className = `Checkbox dib sans-serif ${className}`
   if (!disabled) {
     className += ' pointer'
   }
 
+  /**
+   * @param {React.ChangeEvent<HTMLInputElement>} event
+   */
   const change = (event) => {
     onChange(event.target.checked)
   }

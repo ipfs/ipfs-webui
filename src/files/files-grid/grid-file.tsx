@@ -182,7 +182,6 @@ const GridFile: FC<GridFilePropsConnected> = ({
       aria-label={t('fileLabel', { name, type, size: formattedSize })}
     >
       <div className="grid-file-checkbox">
-        {/* @ts-expect-error - checkbox is not typed properly */}
         <Checkbox
           disabled={false}
           checked={selected}
