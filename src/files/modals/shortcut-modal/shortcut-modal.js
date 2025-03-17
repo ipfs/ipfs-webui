@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Modal } from '../../../components/modal/Modal.js'
 import CancelIcon from '../../../icons/GlyphSmallCancel.js'
 
@@ -91,8 +91,9 @@ ShortcutSection.propTypes = {
   platform: PropTypes.string.isRequired
 }
 
-const ShortcutModal = ({ t, onLeave, className, ...props }) => {
+const ShortcutModal = ({ onLeave, className, ...props }) => {
   const [platform, setPlatform] = useState('other')
+  const { t } = useTranslation('files')
 
   // Detect platform on component mount
   useEffect(() => {
@@ -173,7 +174,6 @@ const ShortcutModal = ({ t, onLeave, className, ...props }) => {
 
 ShortcutModal.propTypes = {
   onLeave: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired,
   className: PropTypes.string
 }
 
@@ -181,4 +181,4 @@ ShortcutModal.defaultProps = {
   className: ''
 }
 
-export default withTranslation('files')(ShortcutModal)
+export default ShortcutModal
