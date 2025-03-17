@@ -1,7 +1,7 @@
 /* global it */
 // import React from 'react'
 // import { shallow } from 'enzyme'
-// import { App } from 'app'
+// import { App } from './app'
 
 // TODO: ipld-explore-components exports componets that use @loadable/component and
 // dynamic `import()` to communicate to webpack useful places to split the js bundles.
