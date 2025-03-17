@@ -12,7 +12,7 @@ import { List, WindowScroller, AutoSizer } from 'react-virtualized'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { useDrop } from 'react-dnd'
 // Components
-import Checkbox from '../../components/checkbox/checkbox.js/index.js'
+import Checkbox from '../../components/checkbox/checkbox.js'
 import SelectedActions from '../selected-actions/selected-actions.js'
 import File from '../file/file.js'
 import LoadingAnimation from '../../components/loading-animation/loading-animation.js'

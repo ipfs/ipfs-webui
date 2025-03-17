@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withTranslation } from 'react-i18next'
 import TrashIcon from '../../../icons/stroke-trash.js'
 import Button from '../../../components/button/button.tsx'
-import Checkbox from '../../../components/checkbox/checkbox.js/index.js'
+import Checkbox from '../../../components/checkbox/checkbox.js'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/modal.js'
 import { connect } from 'redux-bundler-react'
 

@@ -9,7 +9,7 @@ import { useDrag, useDrop } from 'react-dnd'
 // Components
 import GlyphDots from '../../icons/glyph-dots.js'
 import Tooltip from '../../components/tooltip/tooltip.js'
-import Checkbox from '../../components/checkbox/checkbox.js/index.js'
+import Checkbox from '../../components/checkbox/checkbox.js'
 import FileIcon from '../file-icon/file-icon.js'
 import { CID } from 'multiformats/cid'
 import { NativeTypes } from 'react-dnd-html5-backend'
