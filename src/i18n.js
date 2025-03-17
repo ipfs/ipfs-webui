@@ -7,7 +7,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import pkgJson from '../package.json'
 
 import locales from './lib/languages.json'
-import getValidLocaleCode from './lib/i18n-localeParser.js'
+import getValidLocaleCode from './lib/i18n-locale-parser.js'
 
 const { version } = pkgJson
 export const localesList = Object.values(locales)
