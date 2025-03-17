@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
@@ -35,17 +35,12 @@ const FilesGrid = ({
     onAddFiles(normalizeFiles(files))
   }
 
-  const handleSelect = (fileName, isSelected) => {
+  const handleSelect = useCallback((fileName, isSelected) => {
     onSelect(fileName, isSelected)
-  }
+  }, [onSelect])
 
-  const keyHandler = (e) => {
-    const focusedFile = files.find(el => el.name === focused)
-
-    // Disable keyboard controls if fetching files
-    if (filesIsFetching) {
-      return
-    }
+  const keyHandler = useCallback((e) => {
+    const focusedFile = focused == null ? null : files.find(el => el.name === focused)
 
     if (e.key === 'Escape' || e.keyCode === 27) {
       onSelect([], false)
@@ -53,7 +48,7 @@ const FilesGrid = ({
       return
     }
 
-    if ((e.key === 'F2' || e.keyCode === 113) && focused !== null) {
+    if ((e.key === 'F2' || e.keyCode === 113) && focusedFile != null) {
       return onRename([focusedFile])
     }
 
@@ -62,42 +57,57 @@ const FilesGrid = ({
       return onRemove(selectedFiles)
     }
 
-    if ((e.key === ' ' || e.keyCode === 32) && focused !== null) {
+    if ((e.key === ' ' || e.keyCode === 32) && focusedFile != null) {
       e.preventDefault()
-      return handleSelect(focused, !selected.includes(focused))
+      return handleSelect(focusedFile.name, !selected.includes(focusedFile.name))
     }
 
     if (((e.key === 'Enter' || e.keyCode === 13) ||
         ((e.key === 'ArrowRight' || e.keyCode === 39) && e.metaKey)) &&
-        focused !== null) {
+        focusedFile != null) {
       return onNavigate({ path: focusedFile.path, cid: focusedFile.cid })
     }
 
-    const isArrowKey = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key) ||
-                      (e.keyCode >= 37 && e.keyCode <= 40)
+    const isArrowKey = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key) || (e.keyCode >= 37 && e.keyCode <= 40)
 
     if (isArrowKey) {
       e.preventDefault()
       const columns = Math.floor((gridRef.current?.clientWidth || window.innerWidth) / 220)
-      const currentIndex = files.findIndex(el => el.name === focused)
+      const currentIndex = files.findIndex(el => el.name === focusedFile?.name)
       let newIndex = currentIndex
 
-      switch (e.key || e.keyCode) {
+      switch (e.key ?? e.keyCode) {
         case 'ArrowDown':
         case 40:
-          newIndex = currentIndex + columns
+          if (currentIndex === -1) {
+            newIndex = files.length - 1 // if no focused file, set to last file
+          } else {
+            newIndex = currentIndex + columns
+          }
           break
         case 'ArrowUp':
         case 38:
-          newIndex = currentIndex - columns
+          if (currentIndex === -1) {
+            newIndex = 0 // if no focused file, set to first file
+          } else {
+            newIndex = currentIndex - columns
+          }
           break
         case 'ArrowRight':
         case 39:
-          newIndex = currentIndex + 1
+          if (currentIndex === -1) {
+            newIndex = files.length - 1 // if no focused file, set to last file
+          } else {
+            newIndex = currentIndex + 1
+          }
           break
         case 'ArrowLeft':
         case 37:
-          newIndex = currentIndex - 1
+          if (currentIndex === -1) {
+            newIndex = 0 // if no focused file, set to first file
+          } else {
+            newIndex = currentIndex - 1
+          }
           break
         default:
           break
@@ -114,13 +124,16 @@ const FilesGrid = ({
         }
       }
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files, focused])
 
   useEffect(() => {
+    if (filesIsFetching) return
     document.addEventListener('keyup', keyHandler)
-    return () => document.removeEventListener('keyup', keyHandler)
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [files, focused, selected])
+    return () => {
+      document.removeEventListener('keyup', keyHandler)
+    }
+  }, [keyHandler, filesIsFetching])
 
   const gridClassName = `files-grid${isOver && canDrop ? ' files-grid--drop-target' : ''}`
 

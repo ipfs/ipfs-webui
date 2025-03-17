@@ -76,5 +76,7 @@
     "src/env.js",
     "src/lib/hofs/**/*.js",
     "src/lib/guards.js",
+    "src/files/file-preview/file-thumbnail.tsx",
+    "src/files/type-from-ext/index.js"
   ]
 }

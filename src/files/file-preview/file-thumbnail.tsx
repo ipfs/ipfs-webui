@@ -1,10 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
+// @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 import typeFromExt from '../type-from-ext/index.js'
 import './file-thumbnail.css'
 
-const FileThumbnail = ({ name, cid, availableGatewayUrl, textPreview, onLoad }) => {
+export interface FileThumbnailProps {
+  name: string
+  cid: string
+  availableGatewayUrl: string
+  textPreview: string
+  onLoad: () => void
+}
+
+const FileThumbnail = ({ name, cid, availableGatewayUrl, textPreview, onLoad }: FileThumbnailProps) => {
   const [error, setError] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
