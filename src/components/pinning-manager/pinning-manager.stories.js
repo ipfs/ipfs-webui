@@ -2,7 +2,7 @@ import React from 'react'
 
 import i18n from '../../i18n.js'
 import PinningManager from './pinning-manager.js'
-import PinningServicesMock from 'fixtures/pinning-services.js'
+import PinningServicesMock from './fixtures/pinning-services.js'
 
 const t = i18n.getFixedT('en', 'settings')
 
