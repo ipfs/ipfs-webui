@@ -81,7 +81,7 @@ export default {
       '!**/*.test.js',
       '!**/*.stories.js',
       '!test/**',
-      '!src/setupTests.js'
+      '!src/setup-tests.js'
     ],
 
     productionIgnorePatterns: [
@@ -93,7 +93,7 @@ export default {
       '**/*.test.js',
       '**/*.stories.js',
       'test/**',
-      'src/setupTests.js'
+      'src/setup-tests.js'
     ]
   }
 }

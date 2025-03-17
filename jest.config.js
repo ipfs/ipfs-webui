@@ -10,7 +10,7 @@ export default {
     '/test/e2e'
   ],
   testEnvironment: 'jsdom',
-  setupFiles: ['<rootDir>/src/setupTests.js', 'fake-indexeddb/auto'],
+  setupFiles: ['<rootDir>/src/setup-tests.js', 'fake-indexeddb/auto'],
   moduleNameMapper: {
     // ...config.moduleNameMapper,
     '^dnd-core$': 'dnd-core/dist/cjs',

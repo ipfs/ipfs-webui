@@ -1,7 +1,7 @@
 import i18n from '../i18n.js'
 // languages.json generated from our locale dir via https://github.com/olizilla/lol
 import languages from './languages.json'
-import getValidLocaleCode from './i18n-localeParser.js'
+import getValidLocaleCode from './i18n-locale-parser.js'
 
 export const getCurrentLanguage = () => {
   return getLanguage(i18n.language)

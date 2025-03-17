@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
-import LoadableExplorePage from './LoadableExplorePage'
-import LoadableStartExploringPage from './LoadableStartExploringPage'
+import LoadableExplorePage from './loadable-explore-page.js'
+import LoadableStartExploringPage from './loadable-start-exploring-page.js'
 import { useExplore, useHelia } from 'ipld-explorer-components/providers'
 import 'ipld-explorer-components/css'
 

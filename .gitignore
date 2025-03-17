@@ -36,3 +36,4 @@ tsconfig.tsbuildinfo
 .nyc_output
 
 tx
+test-results
