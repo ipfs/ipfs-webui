@@ -1,28 +1,59 @@
-import React, { useRef, useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useRef, useState, useEffect, type FC } from 'react'
 import { withTranslation } from 'react-i18next'
-import { useDrag, useDrop } from 'react-dnd'
-import { humanSize, normalizeFiles } from '../../lib/files.js'
+import { useDrag, useDrop, type DropTargetMonitor } from 'react-dnd'
+import { FileStream, humanSize, normalizeFiles } from '../../lib/files.js'
 import { CID } from 'multiformats/cid'
 import { isBinary } from 'istextorbinary'
 import FileIcon from '../file-icon/FileIcon.js'
+// @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
-import FileThumbnail from '../file-preview/file-thumbnail.tsx'
+import FileThumbnail from '../file-preview/file-thumbnail.js'
 import PinIcon from '../pin-icon/PinIcon.js'
 import GlyphDots from '../../icons/GlyphDots.js'
 import Checkbox from '../../components/checkbox/Checkbox.js'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
 import './grid-file.css'
+import { TFunction } from 'i18next'
+import { ContextMenuFile } from '../types.js'
 
-const GridFile = ({
+type SetPinningProps = { cid: CID, pinned: boolean }
+
+export interface GridFileProps {
+  name: string
+  type: string
+  size: number
+  cid: CID
+  path: string
+  pinned: boolean
+  selected: boolean
+  focused: boolean
+  isRemotePin: boolean
+  isPendingPin: boolean
+  isFailedPin: boolean
+  isMfs: boolean
+  onNavigate: ({ path, cid }: { path: string, cid: CID }) => void
+  onSetPinning: (props: SetPinningProps[]) => void
+  onDismissFailedPin: (cid?: CID) => void
+  handleContextMenuClick: (ev: React.MouseEvent, clickType: string, file: ContextMenuFile, pos?: { x: number, y: number }) => void
+  onSelect: (name: string, isSelected: boolean) => void
+  onMove: (src: string, dst: string) => void
+  onAddFiles: (files: FileStream[], path: string) => void
+}
+
+interface GridFilePropsConnected extends GridFileProps {
+  doRead: (cid: CID, offset: number, length: number) => Promise<AsyncIterable<Uint8Array>>
+  t: TFunction
+}
+
+const GridFile: FC<GridFilePropsConnected> = ({
   name, type, size, cid, path, pinned, t, selected, focused,
   isRemotePin, isPendingPin, isFailedPin, isMfs,
   onNavigate, onSetPinning, doRead, onDismissFailedPin, handleContextMenuClick, onSelect, onMove, onAddFiles
 }) => {
   const MAX_TEXT_LENGTH = 400 // This is the maximum characters to show in text preview
-  const dotsWrapper = useRef()
-  const fileRef = useRef()
+  const dotsWrapper = useRef<HTMLButtonElement | null>(null)
+  const fileRef = useRef<HTMLDivElement | null>(null)
 
   const [, drag, preview] = useDrag({
     item: { name, size, cid, path, pinned, type: 'FILE' },
@@ -32,7 +63,7 @@ const GridFile = ({
     })
   })
 
-  const checkIfDir = (monitor) => {
+  const checkIfDir = (monitor: DropTargetMonitor) => {
     if (!isMfs) return false
     if (type !== 'directory') return false
 
@@ -71,7 +102,7 @@ const GridFile = ({
   })
 
   const [hasPreview, setHasPreview] = useState(false)
-  const [textPreview, setTextPreview] = useState(null)
+  const [textPreview, setTextPreview] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchTextPreview = async () => {
@@ -81,9 +112,9 @@ const GridFile = ({
 
       if (isTextFile && cid) {
         try {
-          const chunks = []
+          const chunks: Uint8Array[] = []
           let size = 0
-          const content = await doRead(cid, 0, MAX_TEXT_LENGTH)
+          const content: AsyncIterable<Uint8Array> = await doRead(cid, 0, MAX_TEXT_LENGTH)
           if (!content) return
 
           for await (const chunk of content) {
@@ -91,10 +122,12 @@ const GridFile = ({
             size += chunk.length
             if (size >= MAX_TEXT_LENGTH) break
           }
+          // TODO: Buffer does not exist in browsers, we need to use Uint8Array instead
+          const fullBuffer = Buffer.concat(chunks)
 
           const decoder = new TextDecoder()
-          const text = decoder.decode(Buffer.concat(chunks))
-          if (!isBinary(name, text)) {
+          const text = decoder.decode(fullBuffer)
+          if (!isBinary(name, fullBuffer)) {
             setTextPreview(text)
           }
         } catch (err) {
@@ -103,31 +136,30 @@ const GridFile = ({
       }
     }
 
-    if (doRead) {
+    if (doRead != null) {
       fetchTextPreview()
     }
   }, [doRead, type, cid, name])
 
-  const handleContextMenu = (ev) => {
+  const handleContextMenu = (ev: React.MouseEvent<HTMLDivElement>) => {
     ev.preventDefault()
     handleContextMenuClick(ev, 'RIGHT', { name, size, type, cid, path, pinned })
   }
 
-  const handleDotsClick = (ev) => {
+  const handleDotsClick = (ev: React.MouseEvent<HTMLButtonElement>) => {
     ev.stopPropagation()
-    const pos = dotsWrapper.current.getBoundingClientRect()
+    const pos = dotsWrapper.current?.getBoundingClientRect()
     handleContextMenuClick(ev, 'TOP', { name, size, type, cid, path, pinned }, pos)
   }
 
-  const handleCheckboxClick = (ev) => {
-    // ev.stopPropagation()
+  const handleCheckboxClick = () => {
     onSelect(name, !selected)
   }
 
   const formattedSize = humanSize(size, { round: 0 })
   const hash = cid.toString() || t('hashUnavailable')
 
-  const setRefs = (el) => {
+  const setRefs = (el: HTMLDivElement) => {
     fileRef.current = el
 
     drag(el)
@@ -150,6 +182,7 @@ const GridFile = ({
       aria-label={t('fileLabel', { name, type, size: formattedSize })}
     >
       <div className="grid-file-checkbox">
+        {/* @ts-expect-error - checkbox is not typed properly */}
         <Checkbox
           disabled={false}
           checked={selected}
@@ -222,30 +255,7 @@ const GridFile = ({
   )
 }
 
-GridFile.propTypes = {
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  size: PropTypes.number,
-  cid: PropTypes.instanceOf(CID),
-  path: PropTypes.string.isRequired,
-  pinned: PropTypes.bool,
-  selected: PropTypes.bool,
-  isRemotePin: PropTypes.bool,
-  isPendingPin: PropTypes.bool,
-  isFailedPin: PropTypes.bool,
-  isMfs: PropTypes.bool,
-  onNavigate: PropTypes.func.isRequired,
-  onSetPinning: PropTypes.func.isRequired,
-  onDismissFailedPin: PropTypes.func.isRequired,
-  handleContextMenuClick: PropTypes.func.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  onMove: PropTypes.func.isRequired,
-  onAddFiles: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired,
-  focused: PropTypes.bool
-}
-
 export default connect(
   'doRead',
   withTranslation('files')(GridFile)
-)
+) as FC<GridFileProps>

@@ -113,6 +113,12 @@ const FilesPage = ({
   const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
   const showModal = (modal, files = null) => setModals({ show: modal, files })
   const hideModal = () => setModals({})
+  /**
+   * @param {React.MouseEvent} ev
+   * @param {string} clickType
+   * @param {ContextMenuFile} file
+   * @param {Pick<DOMRect, 'y' | 'right' | 'bottom'>} [pos]
+   */
   const handleContextMenu = (ev, clickType, file, pos) => {
     // This is needed to disable the native OS right-click menu
     // and deal with the clicking on the ContextMenu options
@@ -216,6 +222,7 @@ const FilesPage = ({
       onNavigate: doFilesNavigateTo,
       onMove: doFilesMove,
       handleContextMenuClick: handleContextMenu,
+      // TODO: Implement this
       onDismissFailedPin: () => {}
     }
 

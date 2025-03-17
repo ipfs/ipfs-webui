@@ -48,7 +48,10 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "module": "esnext"
+    "module": "esnext",
+    "paths": {
+      "*": ["*", "*.ts", "*.tsx"]
+    }
   },
   "exclude": [
     "./src/test",
@@ -56,6 +59,7 @@
   ],
   "include": [
     "**/*.ts",
+    // "**/*.tsx",
     "@types",
     // "src/**/*.js", // TODO: Include all js files when typecheck passes
     "src/bundles/files/**/*.js",
@@ -77,6 +81,12 @@
     "src/lib/hofs/**/*.js",
     "src/lib/guards.js",
     "src/files/file-preview/file-thumbnail.tsx",
-    "src/files/type-from-ext/index.js"
+    "src/files/type-from-ext/index.js",
+    "src/files/files-grid/files-grid.tsx",
+    "src/files/files-grid/grid-file.tsx",
+    "src/files/file-icon/FileIcon.js",
+    "src/files/pin-icon/PinIcon.js",
+    "src/icons/GlyphDots.js",
+    "src/components/checkbox/Checkbox.js"
   ]
 }

@@ -1,21 +1,49 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react'
-import PropTypes from 'prop-types'
+import { useRef, useState, useEffect, useCallback, type FC, type MouseEvent } from 'react'
 import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { normalizeFiles } from '../../lib/files.js'
-import GridFile from './grid-file.js'
+import { ExtendedFile, FileStream, normalizeFiles } from '../../lib/files.js'
+import GridFile from './grid-file.jsx'
+// @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 import './files-grid.css'
+import { TFunction } from 'i18next'
+import type { ContextMenuFile } from 'src/files/types.js'
+import type { CID } from 'multiformats/cid'
+
+export interface FilesGridProps {
+  files: ContextMenuFile[]
+  pins: string[]
+  remotePins: string[]
+  pendingPins: string[]
+  failedPins: string[]
+}
+
+type SetPinningProps = { cid: CID, pinned: boolean }
+
+interface FilesGridPropsConnected extends FilesGridProps {
+  filesPathInfo: { isMfs: boolean }
+  t: TFunction
+  onRemove: (files: ContextMenuFile[]) => void
+  onRename: (files: ContextMenuFile[]) => void
+  onNavigate: (props: { path: string, cid: CID }) => void
+  onAddFiles: (files: FileStream[]) => void
+  onMove: (src: string, dst: string) => void
+  onSetPinning: (props: SetPinningProps[]) => void
+  onDismissFailedPin: (cid?: CID) => void
+  handleContextMenuClick: (e: MouseEvent, clickType: string, file: ContextMenuFile, pos?: { x: number, y: number }) => void
+  onSelect: (fileName: string | string[], isSelected: boolean) => void
+  filesIsFetching: boolean
+  selected: string[]
+}
 
 const FilesGrid = ({
-  files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t,
-  onShare, onInspect, onDownload, onRemove, onRename, onNavigate, onAddFiles,
+  files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
   onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
-}) => {
-  const [focused, setFocused] = useState(null)
-  const filesRefs = useRef({})
-  const gridRef = useRef()
+}: FilesGridPropsConnected) => {
+  const [focused, setFocused] = useState<string | null>(null)
+  const filesRefs = useRef<Record<string, HTMLDivElement>>({})
+  const gridRef = useRef<HTMLDivElement | null>(null)
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: NativeTypes.FILE,
@@ -30,45 +58,43 @@ const FilesGrid = ({
     })
   })
 
-  const addFiles = async (filesPromise, onAddFiles) => {
+  const addFiles = async (filesPromise: Promise<ExtendedFile[]>, onAddFiles: (files: FileStream[]) => void) => {
     const files = await filesPromise
     onAddFiles(normalizeFiles(files))
   }
 
-  const handleSelect = useCallback((fileName, isSelected) => {
+  const handleSelect = useCallback((fileName: string, isSelected: boolean) => {
     onSelect(fileName, isSelected)
   }, [onSelect])
 
-  const keyHandler = useCallback((e) => {
+  const keyHandler = useCallback((e: KeyboardEvent) => {
     const focusedFile = focused == null ? null : files.find(el => el.name === focused)
 
-    if (e.key === 'Escape' || e.keyCode === 27) {
+    if (e.key === 'Escape') {
       onSelect([], false)
       setFocused(null)
       return
     }
 
-    if ((e.key === 'F2' || e.keyCode === 113) && focusedFile != null) {
+    if ((e.key === 'F2') && focusedFile != null) {
       return onRename([focusedFile])
     }
 
-    if ((e.key === 'Delete' || e.keyCode === 46 || e.key === 'Backspace' || e.keyCode === 8) && selected.length > 0) {
+    if ((e.key === 'Delete' || e.key === 'Backspace') && selected.length > 0) {
       const selectedFiles = files.filter(f => selected.includes(f.name))
       return onRemove(selectedFiles)
     }
 
-    if ((e.key === ' ' || e.keyCode === 32) && focusedFile != null) {
+    if ((e.key === ' ') && focusedFile != null) {
       e.preventDefault()
       return handleSelect(focusedFile.name, !selected.includes(focusedFile.name))
     }
 
-    if (((e.key === 'Enter' || e.keyCode === 13) ||
-        ((e.key === 'ArrowRight' || e.keyCode === 39) && e.metaKey)) &&
-        focusedFile != null) {
+    if (focusedFile != null && ((e.key === 'Enter') || (e.key === 'ArrowRight' && e.metaKey) || (e.key === 'NumpadEnter'))) {
       return onNavigate({ path: focusedFile.path, cid: focusedFile.cid })
     }
 
-    const isArrowKey = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key) || (e.keyCode >= 37 && e.keyCode <= 40)
+    const isArrowKey = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)
 
     if (isArrowKey) {
       e.preventDefault()
@@ -76,9 +102,8 @@ const FilesGrid = ({
       const currentIndex = files.findIndex(el => el.name === focusedFile?.name)
       let newIndex = currentIndex
 
-      switch (e.key ?? e.keyCode) {
+      switch (e.key) {
         case 'ArrowDown':
-        case 40:
           if (currentIndex === -1) {
             newIndex = files.length - 1 // if no focused file, set to last file
           } else {
@@ -86,7 +111,6 @@ const FilesGrid = ({
           }
           break
         case 'ArrowUp':
-        case 38:
           if (currentIndex === -1) {
             newIndex = 0 // if no focused file, set to first file
           } else {
@@ -94,7 +118,6 @@ const FilesGrid = ({
           }
           break
         case 'ArrowRight':
-        case 39:
           if (currentIndex === -1) {
             newIndex = files.length - 1 // if no focused file, set to last file
           } else {
@@ -102,7 +125,6 @@ const FilesGrid = ({
           }
           break
         case 'ArrowLeft':
-        case 37:
           if (currentIndex === -1) {
             newIndex = 0 // if no focused file, set to first file
           } else {
@@ -119,8 +141,8 @@ const FilesGrid = ({
         const element = filesRefs.current[name]
         if (element && element.scrollIntoView) {
           element.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-          const checkbox = element.querySelector('input[type="checkbox"]')
-          if (checkbox) checkbox.focus()
+          const checkbox: HTMLInputElement | null = element.querySelector('input[type="checkbox"]')
+          if (checkbox != null) checkbox.focus()
         }
       }
     }
@@ -153,19 +175,13 @@ const FilesGrid = ({
           isPendingPin={pendingPins?.includes(file.cid?.toString())}
           isFailedPin={failedPins?.some(p => p?.includes(file.cid?.toString()))}
           isMfs={filesPathInfo?.isMfs}
-          onShare={onShare}
-          onInspect={onInspect}
-          onDownload={onDownload}
-          onRemove={onRemove}
-          onRename={onRename}
-          onNavigate={onNavigate}
+          onNavigate={() => onNavigate({ path: file.path, cid: file.cid })}
           onAddFiles={onAddFiles}
           onMove={onMove}
           onSetPinning={onSetPinning}
           onDismissFailedPin={onDismissFailedPin}
           handleContextMenuClick={handleContextMenuClick}
           onSelect={handleSelect}
-          ref={el => { filesRefs.current[file.name] = el }}
         />
       ))}
       {files.length === 0 && (
@@ -179,38 +195,6 @@ const FilesGrid = ({
   )
 }
 
-FilesGrid.propTypes = {
-  files: PropTypes.array.isRequired,
-  pins: PropTypes.array,
-  remotePins: PropTypes.array,
-  pendingPins: PropTypes.array,
-  failedPins: PropTypes.array,
-  filesPathInfo: PropTypes.object,
-  selected: PropTypes.array,
-  onSelect: PropTypes.func.isRequired,
-  onShare: PropTypes.func.isRequired,
-  onInspect: PropTypes.func.isRequired,
-  onDownload: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  onRename: PropTypes.func.isRequired,
-  onNavigate: PropTypes.func.isRequired,
-  onAddFiles: PropTypes.func.isRequired,
-  onMove: PropTypes.func.isRequired,
-  onSetPinning: PropTypes.func.isRequired,
-  onDismissFailedPin: PropTypes.func.isRequired,
-  handleContextMenuClick: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired
-}
-
-FilesGrid.defaultProps = {
-  pins: [],
-  remotePins: [],
-  pendingPins: [],
-  failedPins: [],
-  filesPathInfo: {},
-  selected: []
-}
-
 export default connect(
   'selectPins',
   'selectPinningServices',
@@ -221,4 +205,4 @@ export default connect(
   'selectShowLoadingAnimation',
   'doDismissFailedPin',
   withTranslation('files')(FilesGrid)
-)
+) as FC<FilesGridProps>

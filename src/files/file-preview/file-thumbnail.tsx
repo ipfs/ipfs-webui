@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react'
-import PropTypes from 'prop-types'
+import { CID } from 'multiformats/cid'
+import { useState, useEffect, useCallback, type FC } from 'react'
 // @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 import typeFromExt from '../type-from-ext/index.js'
@@ -7,13 +7,16 @@ import './file-thumbnail.css'
 
 export interface FileThumbnailProps {
   name: string
-  cid: string
-  availableGatewayUrl: string
-  textPreview: string
+  cid: CID
+  textPreview: string | null
   onLoad: () => void
 }
 
-const FileThumbnail = ({ name, cid, availableGatewayUrl, textPreview, onLoad }: FileThumbnailProps) => {
+interface FileThumbnailPropsConnected extends FileThumbnailProps {
+  availableGatewayUrl: string
+}
+
+const FileThumbnail: FC<FileThumbnailPropsConnected> = ({ name, cid, availableGatewayUrl, textPreview, onLoad }) => {
   const [error, setError] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -73,15 +76,7 @@ const FileThumbnail = ({ name, cid, availableGatewayUrl, textPreview, onLoad }: 
   return null
 }
 
-FileThumbnail.propTypes = {
-  name: PropTypes.string.isRequired,
-  cid: PropTypes.object.isRequired,
-  availableGatewayUrl: PropTypes.string.isRequired,
-  textPreview: PropTypes.string,
-  onLoad: PropTypes.func
-}
-
 export default connect(
   'selectAvailableGatewayUrl',
   FileThumbnail
-)
+) as FC<FileThumbnailProps>
