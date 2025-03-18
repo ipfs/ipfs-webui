@@ -48,7 +48,7 @@ const OptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal, doExport
           <StrokeCancel width="28" className='fill-aqua'/> <span className="ph1">{t('app:actions.remove')}</span>
         </ContextMenuItem>
         <ContextMenuItem className='pv2 ph1' onClick={handle(doExportIpnsKey)}>
-          <StrokeCancel width="28" className='fill-aqua'/> <span className="ph1">{t('app:actions.export')}</span>
+          <StrokeShare width="28" className='fill-aqua'/> <span className="ph1">{t('app:actions.export')}</span>
         </ContextMenuItem>
       </ContextMenu>
     </div>
