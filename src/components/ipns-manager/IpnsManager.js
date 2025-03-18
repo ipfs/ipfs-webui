@@ -145,7 +145,7 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
           <Button className="tc mt2" bg='bg-navy' onClick={showGenerateKeyModal}>
             <span><span className="aqua">+</span> {t('actions.generateKey')}</span>
           </Button>
-          <input
+          <Button
             type="file"
             onChange={handleImportKey}
             style={{ display: 'none' }}
