@@ -67,8 +67,7 @@
     "cancel": "Cancel",
     "enable": "Enable",
     "disable": "Disable",
-    "import": "Import Key",
-    "export": "Export Key"
+    "import": "Import Key"    
   },
   "edit": "Edit",
   "visitService": "Visit service",
