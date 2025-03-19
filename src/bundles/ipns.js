@@ -72,18 +72,7 @@ const ipnsBundle = {
     reader.readAsText(file)
   },
 
-  doExportIpnsKey: (name) => async ({ getIpfs }) => {
-    const ipfs = getIpfs()
-    const key = await ipfs.key.export(name)
-    const blob = new Blob([key], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${name}.key`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  },
+ 
 
   doUpdateExpectedPublishTime: (time) => async ({ store, dispatch }) => {
     const oldExpectedTime = store.selectExpectedPublishTime()
