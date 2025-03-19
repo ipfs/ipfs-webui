@@ -20,3 +20,8 @@
   padding: 2rem;
   text-align: center;
 }
+
+.files-grid:focus,
+.files-grid:focus-visible {
+  outline: none;
+}

@@ -70,6 +70,8 @@ const FilesGrid = ({
   const keyHandler = useCallback((e: KeyboardEvent) => {
     const focusedFile = focused == null ? null : files.find(el => el.name === focused)
 
+    gridRef.current?.focus?.()
+
     if (e.key === 'Escape') {
       onSelect([], false)
       setFocused(null)
@@ -163,7 +165,7 @@ const FilesGrid = ({
     <div ref={(el) => {
       drop(el)
       gridRef.current = el
-    }} className={gridClassName}>
+    }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')} onFocus={() => setFocused(files[0]?.name)}>
       {files.map(file => (
         <GridFile
           key={file.name}

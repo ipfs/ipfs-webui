@@ -106,6 +106,7 @@
     "description": "Insert the name of the folder you want to create."
   },
   "filesListLabel": "Files list",
+  "filesGridLabel": "Files grid",
   "filesList": {
     "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
   },
