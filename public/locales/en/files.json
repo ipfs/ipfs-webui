@@ -143,6 +143,11 @@
       "paragraph1": "Finally, the listing where you can find your files and folders. Drag and drop files or folders to add them.",
       "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!",
       "paragraph3": "Pro tip: drag and drop a file from any other page of the Web UI to add them to the root of your MFS."
+    },
+    "step6": {
+      "title": "Files grid",
+      "paragraph1": "The grid view displays your files and folders as thumbnails, making it easy to visually browse your content.",
+      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!"
     }
   },
   "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",

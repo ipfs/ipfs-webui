@@ -310,7 +310,7 @@ const FilesPage = ({
       >
         <div className="flex items-center justify-end">
           <button
-            className={`pointer ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
+            className={`pointer filelist-view ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
             onClick={() => setViewMode('list')}
             title={t('viewList')}
             style={{
@@ -320,7 +320,7 @@ const FilesPage = ({
             <ViewList width="24" height="24" />
           </button>
           <button
-            className={`pointer ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
+            className={`pointer filegrid-view ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
             onClick={() => setViewMode('grid')}
             title={t('viewGrid')}
             style={{
