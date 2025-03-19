@@ -62,7 +62,7 @@ const FilesPage = ({
         return
       }
 
-      if ((e.key === '?' || e.keyCode === 191) && e.shiftKey) {
+      if (e.key === '?' && e.shiftKey) {
         e.preventDefault()
         showModal(SHORTCUTS)
       }
