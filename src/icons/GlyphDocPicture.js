@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+/**
+ * @param {React.SVGProps<SVGSVGElement>} props
+ * @returns {React.ReactElement}
+ */
 function SvgGlyphDocPicture (props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.42 21" {...props}>

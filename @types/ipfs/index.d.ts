@@ -16,6 +16,7 @@ declare module 'ipfs' {
   }
 
   declare export interface CoreService {
+    // TODO: cat returns AsyncIterable<Uint8Array>. see https://github.com/ipfs/js-kubo-rpc-client/blob/1ab7941819dd1a48df653ee159e6983608e72132/src/index.ts#L353C50-L353C75
     cat(pathOrCID: string | CID, options?: CatOptions): AsyncIterable<Buffer>;
     ls(pathOrCID: string | CID, options?: ListOptions): AsyncIterable<ListEntry>;
     add(file: FileContent | FileObject, options?: AddOptions): Promise<UnixFSEntry>;
@@ -94,9 +95,9 @@ declare module 'ipfs' {
   }
 
   declare export type PinType =
-    | "recursive"
-    | "direct"
-    | "indirect"
+    | 'recursive'
+    | 'direct'
+    | 'indirect'
 
   declare export type PinEntry = {
     cid: CID,

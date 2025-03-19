@@ -1,3 +1,6 @@
+/**
+ * @type {Record<string, string>}
+ */
 const extToType = {
   wav: 'audio',
   bwf: 'audio',

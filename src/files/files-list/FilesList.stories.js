@@ -33,6 +33,11 @@ export default {
     root: '/',
     filesPathInfo: { isMfs: true },
     pins: [],
+    remotePins: [],
+    pendingPins: [],
+    failedPins: [],
+    selected: [],
+    onSelect: action('Select'),
     filesIsFetching: boolean('filesIsFetching', false),
     onShare: action('Share'),
     onInspect: action('Inspect'),
@@ -47,7 +52,9 @@ export default {
     handleContextMenuClick: action('Context Menu Click'),
     maxWidth: '100%',
     filesSorting: { by: 'name', asc: true },
-    updateSorting
+    updateSorting,
+    doFetchRemotePins: action('Fetch Remote Pins'),
+    doDismissFailedPin: action('Dismiss Failed Pin')
   }
 }
 
