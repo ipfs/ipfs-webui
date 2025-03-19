@@ -51,7 +51,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], fail
 }
 
 export const FilesList = ({
-  className, files, pins, pinningServices, remotePins, pendingPins, failedPins, filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
+  className = '', files, pins, pinningServices, remotePins = [], pendingPins = [], failedPins = [], filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
   onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
 }) => {
   const [focused, setFocused] = useState(null)
@@ -373,13 +373,6 @@ FilesList.propTypes = {
   // From i18next
   t: PropTypes.func.isRequired,
   tReady: PropTypes.bool
-}
-
-FilesList.defaultProps = {
-  className: '',
-  remotePins: [],
-  pendingPins: [],
-  failedPins: []
 }
 
 export default connect(
