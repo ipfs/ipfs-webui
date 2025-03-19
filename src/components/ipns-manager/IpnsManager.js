@@ -18,14 +18,14 @@ import StrokeCancel from '../../icons/StrokeCancel.js'
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
 
-const AutoOptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal, doExportIpnsKey }) => (
+const AutoOptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal }) => (
   <div className='flex justify-end'>
     { name !== 'self' && <OptionsCell
-      name={name} t={t} showRenameKeyModal={showRenameKeyModal} showRemoveKeyModal={showRemoveKeyModal} doExportIpnsKey={doExportIpnsKey} /> }
+      name={name} t={t} showRenameKeyModal={showRenameKeyModal} showRemoveKeyModal={showRemoveKeyModal} /> }
   </div>
 )
 
-const OptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal, doExportIpnsKey }) => {
+const OptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal }) => {
   const buttonRef = useRef()
   const [isContextVisible, setContextVisibility] = useState(false)
 
@@ -47,15 +47,12 @@ const OptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal, doExport
         <ContextMenuItem className='pv2 ph1' onClick={handle(showRemoveKeyModal)}>
           <StrokeCancel width="28" className='fill-aqua'/> <span className="ph1">{t('app:actions.remove')}</span>
         </ContextMenuItem>
-        <ContextMenuItem className='pv2 ph1' onClick={handle(doExportIpnsKey)}>
-          <StrokeShare width="28" className='fill-aqua'/> <span className="ph1">{t('app:actions.export')}</span>
-        </ContextMenuItem>
       </ContextMenu>
     </div>
   )
 }
 
-export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, doImportIpnsKey, doExportIpnsKey, availableGateway, ipnsKeys }) => {
+export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, doImportIpnsKey, availableGateway, ipnsKeys }) => {
   const [isGenerateKeyModalOpen, setGenerateKeyModalOpen] = useState(false)
   const showGenerateKeyModal = () => setGenerateKeyModalOpen(true)
   const hideGenerateKeyModal = () => setGenerateKeyModalOpen(false)
@@ -134,7 +131,7 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
                   dataKey='options'
                   width={width * 0.1}
                   flexShrink={1}
-                  cellRenderer={({ rowData }) => <AutoOptionsCell t={t} name={rowData.name} showRenameKeyModal={showRenameKeyModal} showRemoveKeyModal={showRemoveKeyModal} doExportIpnsKey={() => doExportIpnsKey(rowData.name)} />}
+                  cellRenderer={({ rowData }) => <AutoOptionsCell t={t} name={rowData.name} showRenameKeyModal={showRenameKeyModal} showRemoveKeyModal={showRemoveKeyModal} />}
                   className='pinningManagerColumn charcoal truncate f6 pl2' />
               </Table>
             )}
@@ -145,7 +142,7 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
           <Button className="tc mt2" bg='bg-navy' onClick={showGenerateKeyModal}>
             <span><span className="aqua">+</span> {t('actions.generateKey')}</span>
           </Button>
-          <Button
+          <input
             type="file"
             onChange={handleImportKey}
             style={{ display: 'none' }}
@@ -208,6 +205,5 @@ export default connect(
   'doRemoveIpnsKey',
   'doRenameIpnsKey',
   'doImportIpnsKey',
-  'doExportIpnsKey',
   IpnsManager
 )
