@@ -341,7 +341,7 @@ const actions = () => ({
      * same file) to crash webui, nor want to bother user with false-negatives
      * @param {Function} fn
      */
-    const tryAsync = async fn => { try { await fn() } catch (_) { } }
+    const tryAsync = async fn => { try { await fn() } catch (_) {} }
 
     try {
       // try removing from MFS first
