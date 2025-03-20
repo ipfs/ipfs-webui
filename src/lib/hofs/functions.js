@@ -9,7 +9,7 @@ import { isFunction, isNumber } from '../guards.js'
  * @param {(...args: A[]) => R} fn
  * @returns {(...args: A[]) => void | R}
  */
-export const after = (fn, times) => {
+const after = (fn, times) => {
   isFunction(fn) && isNumber(times)
   let counter = 0
   /**
@@ -30,7 +30,7 @@ export const after = (fn, times) => {
  * @param {(...args: A[]) => R} fn
  * @returns {(...args: A[]) => R}
  */
-export const once = (fn) => {
+const once = (fn) => {
   isFunction(fn)
   let called = false
   /**
@@ -61,7 +61,7 @@ export const once = (fn) => {
  * @param {boolean} [options.leading]
  * @returns {(...args: A[]) => void}
  */
-export const debounce = (fn, delay, { leading = false } = {}) => {
+const debounce = (fn, delay, { leading = false } = {}) => {
   isFunction(fn) && isNumber(delay)
   /**
    * @type {NodeJS.Timeout}

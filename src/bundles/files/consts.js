@@ -72,7 +72,7 @@ export const DEFAULT_STATE = {
   failed: []
 }
 
-export const cliCmdKeys = {
+const cliCmdKeys = {
   DOWNLOAD_OBJECT_COMMAND: 'downloadObjectCommand',
   REMOVE_FILE_FROM_IPFS: 'removeFileFromIpfs',
   UPDATE_IPFS_CONFIG: 'updateIpfsConfig',
@@ -88,11 +88,11 @@ export const cliCmdKeys = {
   DOWNLOAD_CAR_COMMAND: 'downloadCarCommand'
 }
 
-export const cliCmdPrefixes = {
+const cliCmdPrefixes = {
   PIN_OBJECT: 'ipfs pin'
 }
 
-export const cliCommandList = {
+const cliCommandList = {
   [cliCmdKeys.UPDATE_IPFS_CONFIG]: () => 'ipfs config replace <path-to-settings.json>',
   /**
    * @param {string} filePath
