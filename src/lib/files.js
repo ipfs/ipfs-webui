@@ -20,7 +20,7 @@ import filesize from 'filesize'
  * @param {ExtendedFile[]} files
  * @returns {FileStream[]}
  */
-export function normalizeFiles (files) {
+function normalizeFiles (files) {
   const streams = []
 
   for (const file of files) {
@@ -56,7 +56,7 @@ function getDownloadURL (type, name, cid, gatewayUrl) {
  * @param {IPFSService} ipfs
  * @returns {Promise<CID>}
  */
-export async function makeCIDFromFiles (files, ipfs) {
+async function makeCIDFromFiles (files, ipfs) {
   // Note: we don't use 'object patch' here, it was deprecated.
   // We are using MFS for creating CID of an ephemeral directory
   // because it handles HAMT-sharding of big directories automatically
@@ -157,7 +157,7 @@ export async function getCarLink (files, gatewayUrl, ipfs) {
  * @param {object} opts format customization
  * @returns {string} human-readable size
  */
-export function humanSize (size, opts) {
+function humanSize (size, opts) {
   if (typeof size === 'undefined' || size === null) return 'N/A'
   return filesize(size || 0, {
     // base-2 byte units (GiB, MiB, KiB) to remove any ambiguity
