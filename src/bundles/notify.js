@@ -24,6 +24,17 @@ const notify = {
       return { ...state, show: false }
     }
 
+    if (action.type === 'FILES_STAT_FAILED') {
+      return {
+        ...state,
+        show: true,
+        error: true,
+        eventId: 'FILES_EVENT_FAILED',
+        code: action.payload.error.code,
+        msgArgs: { message: action.payload.error.message }
+      }
+    }
+
     if (action.type === 'STATS_FETCH_FAILED') {
       return {
         ...state,
