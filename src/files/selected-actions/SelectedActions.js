@@ -98,7 +98,7 @@ class SelectedActions extends React.Component {
               </div>
             </div>
           </div>
-          <div className='flex' role="menu" aria-label={t('menuOptions')} ref={ this.containerRef } tabIndex="0">
+          <div className='flex' role="menu" aria-label={t('menuOptions')} ref={ this.containerRef }>
             <button role="menuitem" className='tc mh2' onClick={share}>
               <StrokeShare className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>
               <p className='ma0 f6'>{t('actions.share')}</p>

@@ -31,6 +31,7 @@ export interface GridFileProps {
   isRemotePin: boolean
   isPendingPin: boolean
   isFailedPin: boolean
+  refSetter?: (ref: HTMLDivElement | null) => void
   isMfs: boolean
   onNavigate: ({ path, cid }: { path: string, cid: CID }) => void
   onSetPinning: (props: SetPinningProps[]) => void
@@ -48,7 +49,7 @@ interface GridFilePropsConnected extends GridFileProps {
 
 const GridFile: FC<GridFilePropsConnected> = ({
   name, type, size, cid, path, pinned, t, selected, focused,
-  isRemotePin, isPendingPin, isFailedPin, isMfs,
+  isRemotePin, isPendingPin, isFailedPin, isMfs, refSetter,
   onNavigate, onSetPinning, doRead, onDismissFailedPin, handleContextMenuClick, onSelect, onMove, onAddFiles
 }) => {
   const MAX_TEXT_LENGTH = 400 // This is the maximum characters to show in text preview
@@ -178,7 +179,10 @@ const GridFile: FC<GridFilePropsConnected> = ({
       className={fileClassName}
       onContextMenu={handleContextMenu}
       role="button"
+      ref={refSetter}
+      data-type={type}
       tabIndex={0}
+      title={`${name}`}
       aria-label={t('fileLabel', { name, type, size: formattedSize })}
     >
       <div className="grid-file-checkbox">

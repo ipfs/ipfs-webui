@@ -2,6 +2,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
+  position: relative;
+  z-index: 0;
   padding: 1rem;
   min-height: 200px;
 }

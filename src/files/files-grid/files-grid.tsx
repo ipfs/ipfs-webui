@@ -89,7 +89,8 @@ const FilesGrid = ({
 
     if ((e.key === ' ') && focusedFile != null) {
       e.preventDefault()
-      return handleSelect(focusedFile.name, !selected.includes(focusedFile.name))
+      handleSelect(focusedFile.name, !selected.includes(focusedFile.name))
+      return
     }
 
     if (focusedFile != null && ((e.key === 'Enter') || (e.key === 'ArrowRight' && e.metaKey) || (e.key === 'NumpadEnter'))) {
@@ -120,15 +121,15 @@ const FilesGrid = ({
           }
           break
         case 'ArrowRight':
-          if (currentIndex === -1) {
-            newIndex = files.length - 1 // if no focused file, set to last file
+          if (currentIndex === -1 || currentIndex === files.length - 1) {
+            newIndex = 0 // if no focused file, set to last file
           } else {
             newIndex = currentIndex + 1
           }
           break
         case 'ArrowLeft':
-          if (currentIndex === -1) {
-            newIndex = 0 // if no focused file, set to first file
+          if (currentIndex === -1 || currentIndex === 0) {
+            newIndex = files.length - 1 // if no focused file, set to last file
           } else {
             newIndex = currentIndex - 1
           }
@@ -153,9 +154,9 @@ const FilesGrid = ({
 
   useEffect(() => {
     if (filesIsFetching) return
-    document.addEventListener('keyup', keyHandler)
+    document.addEventListener('keydown', keyHandler)
     return () => {
-      document.removeEventListener('keyup', keyHandler)
+      document.removeEventListener('keydown', keyHandler)
     }
   }, [keyHandler, filesIsFetching])
 
@@ -165,11 +166,12 @@ const FilesGrid = ({
     <div ref={(el) => {
       drop(el)
       gridRef.current = el
-    }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')} onFocus={() => setFocused(files[0]?.name)}>
+    }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')}>
       {files.map(file => (
         <GridFile
           key={file.name}
           {...file}
+          refSetter={(r: HTMLDivElement | null) => { filesRefs.current[file.name] = r as HTMLDivElement }}
           selected={selected.includes(file.name)}
           focused={focused === file.name}
           pinned={pins?.includes(file.cid?.toString())}

@@ -162,9 +162,9 @@ export const FilesList = ({
   ])
 
   useEffect(() => {
-    document.addEventListener('keyup', keyHandler)
+    document.addEventListener('keydown', keyHandler)
     return () => {
-      document.removeEventListener('keyup', keyHandler)
+      document.removeEventListener('keydown', keyHandler)
     }
   }, [keyHandler])
 
