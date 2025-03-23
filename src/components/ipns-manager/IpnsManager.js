@@ -2,7 +2,6 @@ import React, { Fragment, useState, useRef, useMemo, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { sortByProperty } from '../../lib/sort.js'
 import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
-import useCliTutorMode from '../../hooks/useCliTutorMode' // Import the custom hook
 
 // Components
 import Button from '../button/button.tsx'
@@ -10,6 +9,7 @@ import Overlay from '../overlay/Overlay.js'
 import GenerateKeyModal from './generate-key-modal/GenerateKeyModal.js'
 import RenameKeyModal from './rename-key-modal/RenameKeyModal.js'
 import RemoveKeyModal from './remove-key-modal/RemoveKeyModal.js'
+
 import ContextMenu from '../context-menu/ContextMenu.js'
 import ContextMenuItem from '../context-menu/ContextMenuItem.js'
 import GlyphDots from '../../icons/GlyphDots.js'
@@ -53,7 +53,7 @@ const OptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal }) => {
   )
 }
 
-export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, doImportIpnsKey, availableGateway, ipnsKeys }) => {
+export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, availableGateway, ipnsKeys }) => {
   const [isGenerateKeyModalOpen, setGenerateKeyModalOpen] = useState(false)
   const showGenerateKeyModal = () => setGenerateKeyModalOpen(true)
   const hideGenerateKeyModal = () => setGenerateKeyModalOpen(false)
@@ -80,23 +80,6 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
   const sortedKeys = useMemo(() =>
     (ipnsKeys || []).sort(sortByProperty(sortSettings.sortBy, sortSettings.sortDirection === SortDirection.ASC ? 1 : -1)),
   [ipnsKeys, sortSettings.sortBy, sortSettings.sortDirection])
-
-  const handleImportKey = (event) => {
-    const file = event.target.files[0]
-    if (file) {
-      doImportIpnsKey(file)
-    }
-  }
-
-  // Use the CLI Tutor Mode hook
-  const {
-    isCliTutorModeEnabled,
-    showCliTutorModal,
-    cliOptions,
-    doToggleCliTutorMode,
-    doSetCliOptions,
-    doOpenCliTutorModal,
-  } = useCliTutorMode()
 
   return (
     <Fragment>
@@ -153,15 +136,6 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
           <Button className="tc mt2" bg='bg-navy' onClick={showGenerateKeyModal}>
             <span><span className="aqua">+</span> {t('actions.generateKey')}</span>
           </Button>
-          <input
-            type="file"
-            onChange={handleImportKey}
-            style={{ display: 'none' }}
-            id="ipns-key-import-input"
-          />
-          <label htmlFor="ipns-key-import-input" className="button ma2">
-            {t('app:actions.import')}
-          </label>
         </div>
       </div>
 
@@ -215,6 +189,5 @@ export default connect(
   'doGenerateIpnsKey',
   'doRemoveIpnsKey',
   'doRenameIpnsKey',
-  'doImportIpnsKey',
   IpnsManager
 )
