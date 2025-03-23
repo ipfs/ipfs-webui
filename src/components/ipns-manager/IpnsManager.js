@@ -2,6 +2,7 @@ import React, { Fragment, useState, useRef, useMemo, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { sortByProperty } from '../../lib/sort.js'
 import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
+import useCliTutorMode from '../../hooks/useCliTutorMode' // Import the custom hook
 
 // Components
 import Button from '../button/button.tsx'
@@ -86,6 +87,16 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
       doImportIpnsKey(file)
     }
   }
+
+  // Use the CLI Tutor Mode hook
+  const {
+    isCliTutorModeEnabled,
+    showCliTutorModal,
+    cliOptions,
+    doToggleCliTutorMode,
+    doSetCliOptions,
+    doOpenCliTutorModal,
+  } = useCliTutorMode()
 
   return (
     <Fragment>
