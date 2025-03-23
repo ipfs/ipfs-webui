@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
-import useCliTutorMode from '../../hooks/useCliTutorMode' // Import the custom hook
 
 // Components
 import { Modal, ModalBody, ModalActions } from '../modal/Modal.js'
@@ -57,14 +56,8 @@ export const CliTutorialModal = ({ command, t, onLeave, className, downloadConfi
 }
 
 const CliTutorMode = ({
-  t, filesPage, onLeave, command, config, showIcon
+  t, filesPage, isCliTutorModeEnabled, onLeave, isCliTutorModalOpen, command, config, showIcon, doOpenCliTutorModal
 }) => {
-  const {
-    isCliTutorModeEnabled,
-    isCliTutorModalOpen,
-    doOpenCliTutorModal,
-  } = useCliTutorMode() // Use the custom hook
-
   const downloadConfig = (config) => {
     const url = window.URL.createObjectURL(new Blob([config]))
     const link = document.createElement('a')
@@ -109,5 +102,8 @@ CliTutorialModal.defaultProps = {
 }
 
 export default connect(
+  'doOpenCliTutorModal',
+  'selectIsCliTutorModalOpen',
+  'selectIsCliTutorModeEnabled',
   CliTutorMode
 )
