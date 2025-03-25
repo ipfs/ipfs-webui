@@ -1,8 +1,6 @@
-// Import globals from global scope
-const webuiUrl = globalThis.webuiUrl || 'http://localhost:3000'
+const webuiPort = 3001
+const webuiUrl = `http://localhost:${webuiPort}`
 const waitForIpfsStats = globalThis.waitForIpfsStats || (async () => {
-  console.log('Using fallback waitForIpfsStats')
-  // Wait a bit to simulate API check
   await new Promise(resolve => setTimeout(resolve, 1000))
 })
 

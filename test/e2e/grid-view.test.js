@@ -27,9 +27,6 @@ test.describe('Files grid view', () => {
   })
 
   test('should focus and navigate with arrow keys', async ({ page }) => {
-    // Focus the grid
-    await page.locator('.files-grid').click()
-
     // Press right arrow to focus the first item
     await page.keyboard.press('ArrowRight')
 
@@ -49,8 +46,6 @@ test.describe('Files grid view', () => {
   })
 
   test('should select files with space key', async ({ page }) => {
-    await page.locator('.files-grid').click()
-
     // Navigate to first item
     await page.keyboard.press('ArrowRight')
 
@@ -74,7 +69,6 @@ test.describe('Files grid view', () => {
 
   test('should deselect files with space key', async ({ page }) => {
     // Focus and select first item
-    await page.locator('.files-grid').click()
     await page.keyboard.press('ArrowRight')
     await page.keyboard.press('Space')
 
@@ -94,14 +88,11 @@ test.describe('Files grid view', () => {
 
   test('should scroll into view when focusing files out of viewport', async ({ page }) => {
     // Make sure we have enough files to create scrolling
-    if (await page.locator('.grid-file, .file-row').count() < 20) {
+    if (await page.locator('.grid-file').count() < 20) {
       await addTestFiles(page, 'files', 20)
     }
     await page.reload()
     await selectViewMode(page, 'grid')
-
-    // Focus the grid
-    await page.locator('.files-grid').click()
 
     // Navigate to first item
     await page.keyboard.press('ArrowRight')
@@ -124,7 +115,7 @@ test.describe('Files grid view', () => {
       // Create a folder if none exists
       await page.locator('button[aria-label="Import"], button:has-text("Import")').click()
       await page.locator('button#add-new-folder').click()
-      await page.locator('input').fill('test-folder')
+      await page.locator('input.modal-input').fill('test-folder')
       await page.locator('button', { hasText: 'Create' }).click()
 
       // Wait for folder to appear
@@ -135,8 +126,6 @@ test.describe('Files grid view', () => {
     const folder = page.locator('.grid-file[title$="/"], .grid-file[data-type="directory"]').first()
     const folderName = await folder.getAttribute('title')
 
-    // Focus the grid
-    await page.locator('.files-grid').click()
     await page.keyboard.press('ArrowRight')
     // Navigate to the folder (may need multiple presses)
     for (let i = 0; i < 5; i++) {
