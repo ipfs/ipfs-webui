@@ -31,7 +31,7 @@
     "unselectAll": "Снять выделение",
     "generate": "Генерировать",
     "publish": "Опубликовать",
-    "downloadCar": "Загрузить как CAR",
+    "downloadCar": "Export CAR",
     "done": "Готово"
   },
   "cliModal": {

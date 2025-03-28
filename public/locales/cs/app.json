@@ -31,7 +31,7 @@
     "unselectAll": "Odznačit vše",
     "generate": "Generovat",
     "publish": "Publikovat",
-    "downloadCar": "Stáhnout jako CAR",
+    "downloadCar": "Export CAR",
     "done": "Hotovo"
   },
   "cliModal": {
