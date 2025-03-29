@@ -14,6 +14,8 @@ import StrokeData from '../../icons/StrokeData.js'
 import StrokePin from '../../icons/StrokePin.js'
 import { cliCmdKeys } from '../../bundles/files/consts.js'
 
+let activeMenu = null
+
 class ContextMenu extends React.Component {
   constructor (props) {
     super(props)
@@ -24,15 +26,27 @@ class ContextMenu extends React.Component {
     dropdown: false
   }
 
-  wrap = (name, cliOptions) => () => {
-    if (name === 'onCliTutorMode' && cliOptions) {
-      this.props.doSetCliOptions(cliOptions)
+  componentDidMount () {
+    if (this.props.isOpen) {
+      if (activeMenu && activeMenu !== this) {
+        activeMenu.props.handleClick() // Close other menus
+      }
+      activeMenu = this
     }
-    this.props.handleClick()
-    this.props[name]()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (prevProps) {
+    if (!prevProps.isOpen && this.props.isOpen) {
+      if (activeMenu && activeMenu !== this) {
+        activeMenu.props.handleClick() // Close other menus
+      }
+      activeMenu = this
+    } else if (prevProps.isOpen && !this.props.isOpen) {
+      if (activeMenu === this) {
+        activeMenu = null
+      }
+    }
+
     if (this.props.autofocus && this.props.isOpen) {
       if (!this.dropdownMenuRef.current) return
 
@@ -41,6 +55,14 @@ class ContextMenu extends React.Component {
 
       firstButton.focus()
     }
+  }
+
+  wrap = (name, cliOptions) => () => {
+    if (name === 'onCliTutorMode' && cliOptions) {
+      this.props.doSetCliOptions(cliOptions)
+    }
+    this.props.handleClick()
+    this.props[name]()
   }
 
   render () {

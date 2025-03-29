@@ -1,24 +1,35 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import { Dropdown as Drop, DropdownMenu as Menu } from '@tableflip/react-dropdown'
 import StrokeCode from '../../icons/StrokeCode.js'
 
-export const Option = ({ children, onClick, className = '', isCliTutorModeEnabled, onCliTutorMode, ...props }) => (
-  isCliTutorModeEnabled
+export const Option = ({ children, onClick, className = '', isCliTutorModeEnabled, onCliTutorMode, ...props }) => {
+  return isCliTutorModeEnabled
     ? <div className='flex items-center justify-between'>
-      <button role='menuitem' className={`bg-animate hover-bg-near-white pa2 pointer flex items-center flex-grow-1 ${className}`} onClick={onClick} {...props}>
+        <button role='menuitem' className={`bg-animate hover-bg-near-white pa2 pointer flex items-center flex-grow-1 ${className}`} onClick={onClick} {...props}>
+          {children}
+            </button>
+        <button {...props} className={`bg-animate hover-bg-near-white pa2 pointer flex items-center  ${className}`}>
+          <StrokeCode {...props} onClick={() => onCliTutorMode(true)} className='dib fill-link pointer' style={{ height: 38 }}/>
+          </button>
+      </div>
+    : <button role="menuitem" className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>
         {children}
       </button>
-      <button {...props} className={`bg-animate hover-bg-near-white pa2 pointer flex items-center  ${className}`}>
-        <StrokeCode {...props} onClick={() => onCliTutorMode(true)} className='dib fill-link pointer' style={{ height: 38 }}/>
-      </button>
-    </div>
-    : <button role="menuitem" className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>
-      {children}
-    </button>
-)
+}
 
 export const DropdownMenu = forwardRef((props, ref) => {
   const { children, arrowMarginRight, width = 200, translateX = 0, translateY = 0, ...rest } = props
+
+  const disableContextMenu = (e) => {
+    e.preventDefault()
+  }
+
+  useEffect(() => {
+    document.addEventListener('contextmenu', disableContextMenu)
+    return () => {
+      document.removeEventListener('contextmenu', disableContextMenu)
+    }
+  }, [])
 
   return (
     <Menu
