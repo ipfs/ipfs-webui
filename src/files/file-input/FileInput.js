@@ -9,7 +9,7 @@ import FolderIcon from '../../icons/StrokeFolder.js'
 import NewFolderIcon from '../../icons/StrokeNewFolder.js'
 import DecentralizationIcon from '../../icons/StrokeDecentralization.js'
 // Components
-import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown.js'
+import { Dropdown, DropdownMenu, Option } from '../dropdown/dropdown.tsx'
 import Button from '../../components/button/button.tsx'
 import { cliCmdKeys } from '../../bundles/files/consts.js'
 
