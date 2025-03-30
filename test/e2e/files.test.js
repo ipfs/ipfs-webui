@@ -19,6 +19,7 @@ test.describe('Files screen', () => {
     await page.waitForSelector('text=Folder')
     await page.waitForSelector('text=From IPFS')
     await page.waitForSelector('text=New folder')
+    await page.waitForSelector('text=Bulk import')
     await page.click(button, { force: true })
   })
 

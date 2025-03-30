@@ -8,6 +8,7 @@ import DocumentIcon from '../../icons/StrokeDocument.js'
 import FolderIcon from '../../icons/StrokeFolder.js'
 import NewFolderIcon from '../../icons/StrokeNewFolder.js'
 import DecentralizationIcon from '../../icons/StrokeDecentralization.js'
+import DataIcon from '../../icons/StrokeData.js'
 // Components
 import { Dropdown, DropdownMenu, Option } from '../dropdown/dropdown.tsx'
 import Button from '../../components/button/button.tsx'
@@ -50,6 +51,16 @@ class FileInput extends React.Component {
     this.toggleDropdown()
   }
 
+  onAddByCar = () => {
+    this.props.onAddByCar()
+    this.toggleDropdown()
+  }
+
+  onBulkCidImport = () => {
+    this.props.onBulkCidImport()
+    this.toggleDropdown()
+  }
+
   onNewFolder = () => {
     this.props.onNewFolder()
     this.toggleDropdown()
@@ -82,15 +93,24 @@ class FileInput extends React.Component {
               <FolderIcon className='fill-aqua w2 mr1' />
               {t('app:terms.folder')}
             </Option>
+            <Option onClick={this.onNewFolder} id='add-new-folder' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.CREATE_NEW_DIRECTORY)}
+              isCliTutorModeEnabled={isCliTutorModeEnabled}>
+              <NewFolderIcon className='fill-aqua w2 h2 mr1' />
+              {t('newFolder')}
+            </Option>
             <Option onClick={this.onAddByPath} id='add-by-path' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_IPFS)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
               <DecentralizationIcon className='fill-aqua w2 mr1' />
               {t('addByPath')}
             </Option>
-            <Option onClick={this.onNewFolder} id='add-new-folder' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.CREATE_NEW_DIRECTORY)}
+            <Option onClick={this.onAddByCar} id='add-by-car' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_CAR)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
-              <NewFolderIcon className='fill-aqua w2 h2 mr1' />
-              {t('newFolder')}
+              <DataIcon className='fill-aqua w2 mr1' />
+              {t('addByCar')}
+            </Option>
+            <Option onClick={this.onBulkCidImport} id='bulk-cid-import'>
+              <DocumentIcon className='fill-aqua w2 mr1' />
+              {t('bulkImport')}
             </Option>
           </DropdownMenu>
         </Dropdown>
@@ -120,6 +140,8 @@ FileInput.propTypes = {
   t: PropTypes.func.isRequired,
   onAddFiles: PropTypes.func.isRequired,
   onAddByPath: PropTypes.func.isRequired,
+  onAddByCar: PropTypes.func.isRequired,
+  onBulkCidImport: PropTypes.func.isRequired,
   onNewFolder: PropTypes.func.isRequired
 }
 

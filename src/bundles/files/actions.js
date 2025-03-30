@@ -399,6 +399,99 @@ const actions = () => ({
   }),
 
   /**
+   * Adds CAR file. On completion will trigger `doFilesFetch` to update the state.
+   * @param {string} root
+   * @param {FileStream} carFile
+   * @param {string} name
+   */
+  doAddCarFile: (root, carFile, name = '') => perform(ACTIONS.ADD_CAR_FILE, async (/** @type {IPFSService} */ ipfs, { store }) => {
+    ensureMFS(store)
+
+    const stream = carFile.content.stream()
+    try {
+      // @ts-expect-error - https://github.com/ipfs/js-kubo-rpc-client/issues/278
+      const result = await all(ipfs.dag.import(stream, {
+        pinRoots: true
+      }))
+      const cid = result[0].root.cid
+      const src = `/ipfs/${cid}`
+      const dst = realMfsPath(join(root, name))
+      let dstExists = false
+
+      // Check if destination path already exists
+      await ipfs.files.stat(dst).then(() => {
+        dstExists = true
+      }).catch(() => {
+        // Swallow error. We can add the file to the dst path
+      })
+
+      if (dstExists) {
+        throw new Error(`The name "${name}" already exists in the current directory. Try importing with a different name.`)
+      }
+
+      try {
+        await ipfs.files.cp(src, dst)
+      } catch (/** @type {any} */ err) {
+        // TODO: Not sure why we do this. Perhaps a generic error is used
+        // to avoid leaking private information via Countly?
+        throw Object.assign(new Error('ipfs.files.cp call failed'), {
+          code: 'ERR_FILES_CP_FAILED'
+        })
+      }
+      return carFile
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
+   * Reads a text file containing CIDs and adds each one to IPFS at the given root path.
+   * @param {FileStream[]} source - The text file containing CIDs
+   * @param {string} root - Destination directory in IPFS
+   */
+  doFilesBulkCidImport: (source, root) => perform(ACTIONS.BULK_CID_IMPORT, async function (ipfs, { store }) {
+    ensureMFS(store)
+
+    if (!source?.[0]?.content) {
+      console.error('Invalid file format provided to doFilesBulkCidImport')
+      return
+    }
+
+    try {
+      const file = source[0]
+      const content = await new Response(file.content).text()
+      const lines = content.split('\n').map(line => line.trim()).filter(Boolean)
+
+      const cidObjects = lines.map((line) => {
+        let actualCid = line
+        let name = line
+        const cidParts = line.split(' ')
+        if (cidParts.length > 1) {
+          actualCid = cidParts[0]
+          name = cidParts.slice(1).join(' ')
+        }
+        return {
+          name,
+          cid: actualCid
+        }
+      })
+
+      for (const { cid, name } of cidObjects) {
+        try {
+          const src = `/ipfs/${cid}`
+          const dst = realMfsPath(join(root || '/files', name || cid))
+
+          await ipfs.files.cp(src, dst)
+        } catch (err) {
+          console.error(`Failed to add CID ${cid}:`, err)
+        }
+      }
+    } finally {
+      await store.doFilesFetch()
+    }
+  }),
+
+  /**
    * Creates a download link for the provided files.
    * @param {FileStat[]} files
    */
