@@ -63,12 +63,21 @@ export const DropdownMenu = forwardRef<HTMLDivElement, DropdownMenuProps>((props
     e.preventDefault()
   }
 
+  const keyDownHandler = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && props.open) {
+      props?.onDismiss?.()
+    }
+  }
+
   useEffect(() => {
+    document.addEventListener('keydown', keyDownHandler)
     document.addEventListener('contextmenu', disableContextMenu)
     return () => {
       document.removeEventListener('contextmenu', disableContextMenu)
+      document.removeEventListener('keydown', keyDownHandler)
     }
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.open])
 
   return (
     <Menu

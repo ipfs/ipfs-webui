@@ -109,12 +109,12 @@ const FilesPage = ({
       }
     }
 
-    setContextMenu({
-      isOpen: !contextMenu.isOpen,
+    setContextMenu((prev) => ({
+      isOpen: !prev.isOpen,
       translateX,
       translateY,
       file
-    })
+    }))
   }
 
   const MainView = ({ t, files, remotePins, pendingPins, failedPins, doExploreUserProvidedPath }) => {

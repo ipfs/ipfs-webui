@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, forwardRef } from 'react'
 import { WithTranslation, withTranslation } from 'react-i18next'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Dropdown, DropdownMenu, Option } from '../dropdown/dropdown.tsx'
 import StrokeCopy from '../../icons/StrokeCopy.js'
 import StrokeShare from '../../icons/StrokeShare.js'
@@ -12,6 +11,7 @@ import StrokeDownload from '../../icons/StrokeDownload.js'
 import StrokeData from '../../icons/StrokeData.js'
 import StrokePin from '../../icons/StrokePin.js'
 import { cliCmdKeys } from '../../bundles/files/consts.js'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 interface ContextMenuProps extends WithTranslation {
   isMfs: boolean

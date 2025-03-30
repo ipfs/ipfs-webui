@@ -75,6 +75,6 @@
     "src/lib/files.js",
     "src/env.js",
     "src/lib/hofs/**/*.js",
-    "src/lib/guards.js",
+    "src/lib/guards.js", "src/files/context-menu/ContextMenu.stories.tsx"
   ]
 }
