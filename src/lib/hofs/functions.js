@@ -1,4 +1,4 @@
-import { isFunction, isNumber } from '../guards.js'
+import { isFunction, isNumber } from '../guards.js';
 
 /**
  * This method creates a function that invokes func once it’s called n or more times.
@@ -10,18 +10,18 @@ import { isFunction, isNumber } from '../guards.js'
  * @returns {(...args: A[]) => void | R}
  */
 export const after = (fn, times) => {
-  isFunction(fn) && isNumber(times)
-  let counter = 0
+  isFunction(fn) && isNumber(times);
+  let counter = 0;
   /**
    * @type {(...args: A[]) => void | R}
    */
   return (...args) => {
-    counter++
+    counter++;
     if (counter >= times) {
-      return fn(...args)
+      return fn(...args);
     }
-  }
-}
+  };
+};
 
 /**
  * @see https://youmightnotneed.com/lodash#once
@@ -30,25 +30,25 @@ export const after = (fn, times) => {
  * @param {(...args: A[]) => R} fn
  * @returns {(...args: A[]) => R}
  */
-export const once = (fn) => {
-  isFunction(fn)
-  let called = false
+export const once = fn => {
+  isFunction(fn);
+  let called = false;
   /**
    * @type {R}
    */
-  let result
+  let result;
 
   /**
    * @type {(...args: A[]) => R}
    */
   return (...args) => {
     if (!called) {
-      result = fn(...args)
-      called = true
+      result = fn(...args);
+      called = true;
     }
-    return result
-  }
-}
+    return result;
+  };
+};
 
 /**
  * @see https://youmightnotneed.com/lodash#debounce
@@ -62,21 +62,21 @@ export const once = (fn) => {
  * @returns {(...args: A[]) => void}
  */
 export const debounce = (fn, delay, { leading = false } = {}) => {
-  isFunction(fn) && isNumber(delay)
+  isFunction(fn) && isNumber(delay);
   /**
    * @type {NodeJS.Timeout}
    */
-  let timerId
+  let timerId;
 
   return (...args) => {
     if (!timerId && leading) {
-      fn(...args)
+      fn(...args);
     }
-    clearTimeout(timerId)
+    clearTimeout(timerId);
 
-    timerId = setTimeout(() => fn(...args), delay)
-  }
-}
+    timerId = setTimeout(() => fn(...args), delay);
+  };
+};
 
 /**
  * Call a function only once on the nth time it was called
@@ -87,6 +87,6 @@ export const debounce = (fn, delay, { leading = false } = {}) => {
  * @returns {(...args: A[]) => void | R}
  */
 export const onlyOnceAfter = (fn, nth) => {
-  isFunction(fn) && isNumber(nth)
-  return after(once(fn), nth)
-}
+  isFunction(fn) && isNumber(nth);
+  return after(once(fn), nth);
+};

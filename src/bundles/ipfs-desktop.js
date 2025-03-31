@@ -11,7 +11,7 @@
 
 // @ts-ignore
 /** @type {{ ipfsDesktop?: IPFSDesktop } & Window} */
-const root = (window)
+const root = window;
 
 /**
  * @typedef {import('redux-bundler').Selectors<typeof baseSelectors>} BaseSelectors
@@ -25,8 +25,8 @@ const baseSelectors = {
   /**
    * @returns {string[]}
    */
-  selectDesktopCountlyActions: () => ([])
-}
+  selectDesktopCountlyActions: () => [],
+};
 
 const desktopSelectors = {
   ...baseSelectors,
@@ -34,15 +34,13 @@ const desktopSelectors = {
 
   selectDesktopCountlyDeviceId: () => root.ipfsDesktop?.countlyDeviceId,
 
-  selectDesktopCountlyActions: () => root.ipfsDesktop?.countlyActions
-}
+  selectDesktopCountlyActions: () => root.ipfsDesktop?.countlyActions,
+};
 
 /**
  * @typedef {import('redux-bundler').Selectors<typeof desktopSelectors>} Selectors
  */
-const selectors = root.ipfsDesktop
-  ? desktopSelectors
-  : baseSelectors
+const selectors = root.ipfsDesktop ? desktopSelectors : baseSelectors;
 
 const desktopActions = {
   /**
@@ -50,7 +48,7 @@ const desktopActions = {
    * @returns {() => void}
    */
   doDesktopAddConsent: consent => () => {
-    return root.ipfsDesktop?.addConsent(consent)
+    return root.ipfsDesktop?.addConsent(consent);
   },
 
   /**
@@ -58,7 +56,7 @@ const desktopActions = {
    * @returns {() => void}
    */
   doDesktopRemoveConsent: consent => () => {
-    return root.ipfsDesktop?.removeConsent(consent)
+    return root.ipfsDesktop?.removeConsent(consent);
   },
 
   /**
@@ -66,9 +64,9 @@ const desktopActions = {
    * @returns {() => void}
    */
   doDesktopUpdateLanguage: language => () => {
-    return root.ipfsDesktop?.updateLanguage(language)
-  }
-}
+    return root.ipfsDesktop?.updateLanguage(language);
+  },
+};
 
 /**
  * @typedef {never} Message
@@ -80,9 +78,7 @@ const desktopActions = {
  * @typedef {import('redux-bundler').Context<State, Message, Ext>} Context
  */
 
-const actions = root.ipfsDesktop
-  ? desktopActions
-  : {}
+const actions = root.ipfsDesktop ? desktopActions : {};
 
 const bundle = {
   name: 'ipfsDesktop',
@@ -92,7 +88,7 @@ const bundle = {
    */
   reducer: (state = {}) => state,
   ...selectors,
-  ...actions
-}
+  ...actions,
+};
 
-export default bundle
+export default bundle;

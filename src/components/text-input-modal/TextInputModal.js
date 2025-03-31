@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Button from '../button/button.tsx'
-import { Modal, ModalActions, ModalBody } from '../modal/Modal.js'
-import ComponentLoader from '../../loader/ComponentLoader.js'
-import { withTranslation } from 'react-i18next'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Button from '../button/button.tsx';
+import { Modal, ModalActions, ModalBody } from '../modal/Modal.js';
+import ComponentLoader from '../../loader/ComponentLoader.js';
+import { withTranslation } from 'react-i18next';
 
 class TextInputModal extends React.Component {
   static propTypes = {
@@ -18,78 +18,81 @@ class TextInputModal extends React.Component {
     validate: PropTypes.func,
     defaultValue: PropTypes.string,
     mustBeDifferent: PropTypes.bool,
-    loading: PropTypes.bool
-  }
+    loading: PropTypes.bool,
+  };
 
   static defaultProps = {
     className: '',
     defaultValue: '',
     submitText: 'Save',
-    mustBeDifferent: false
+    mustBeDifferent: false,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { value: props.defaultValue };
   }
 
-  constructor (props) {
-    super(props)
-    this.state = { value: props.defaultValue }
-  }
-
-  onChange = (event) => {
-    let val = event.target.value
+  onChange = event => {
+    let val = event.target.value;
 
     if (this.props.onChange) {
-      val = this.props.onChange(val)
+      val = this.props.onChange(val);
     }
 
-    this.props.onInputChange && this.props.onInputChange(val)
+    this.props.onInputChange && this.props.onInputChange(val);
 
-    this.setState({ value: val })
-  }
+    this.setState({ value: val });
+  };
 
   onSubmit = () => {
-    if (!this.props.validate ||
-      (this.props.validate && this.props.validate(this.state.value))) {
-      this.props.onSubmit(this.state.value)
+    if (!this.props.validate || (this.props.validate && this.props.validate(this.state.value))) {
+      this.props.onSubmit(this.state.value);
     }
-  }
+  };
 
-  onKeyPress = (event) => {
+  onKeyPress = event => {
     if (event.key === 'Enter') {
-      this.onSubmit()
+      this.onSubmit();
     }
-  }
+  };
 
-  get inputClass () {
-    if (!this.props.validate ||
+  get inputClass() {
+    if (
+      !this.props.validate ||
       this.state.value === '' ||
-      (this.props.mustBeDifferent && this.state.value === this.props.defaultValue)) {
-      return ''
+      (this.props.mustBeDifferent && this.state.value === this.props.defaultValue)
+    ) {
+      return '';
     }
 
     if (this.props.error) {
-      return 'b--red-muted focus-outline-red'
+      return 'b--red-muted focus-outline-red';
     }
 
     if (this.props.validate(this.state.value)) {
-      return 'b--green-muted focus-outline-green'
+      return 'b--green-muted focus-outline-green';
     }
 
-    return 'b--red-muted focus-outline-red'
+    return 'b--red-muted focus-outline-red';
   }
 
-  get isDisabled () {
-    if (this.state.value === '' ||
-      (this.props.mustBeDifferent && this.state.value === this.props.defaultValue)) {
-      return true
+  get isDisabled() {
+    if (
+      this.state.value === '' ||
+      (this.props.mustBeDifferent && this.state.value === this.props.defaultValue)
+    ) {
+      return true;
     }
 
     if (!this.props.validate) {
-      return false
+      return false;
     }
 
-    return !this.props.validate(this.state.value)
+    return !this.props.validate(this.state.value);
   }
 
-  render () {
+  render() {
     const {
       t,
       onCancel,
@@ -107,16 +110,16 @@ class TextInputModal extends React.Component {
       error,
       loading,
       ...props
-    } = this.props
+    } = this.props;
 
     return (
       <Modal {...props} className={className} onCancel={onCancel}>
         <ModalBody title={title} Icon={Icon}>
-          { description && typeof description === 'object' && description }
+          {description && typeof description === 'object' && description}
 
-          { description && typeof description === 'string' &&
-            <p className='charcoal w-90 tl center'>{description}</p>
-          }
+          {description && typeof description === 'string' && (
+            <p className="charcoal w-90 tl center">{description}</p>
+          )}
 
           <input
             onChange={this.onChange}
@@ -124,23 +127,33 @@ class TextInputModal extends React.Component {
             value={this.state.value}
             required
             className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-90 center focus-outline ${this.inputClass}`}
-            type='text' />
+            type="text"
+          />
         </ModalBody>
 
         <ModalActions>
-          <Button className='ma2 tc' bg='bg-gray' onClick={onCancel}>{t('actions.cancel')}</Button>
-          <Button className='ma2 tc' bg='bg-teal' disabled={this.isDisabled} onClick={this.onSubmit}>{submitText}</Button>
+          <Button className="ma2 tc" bg="bg-gray" onClick={onCancel}>
+            {t('actions.cancel')}
+          </Button>
+          <Button
+            className="ma2 tc"
+            bg="bg-teal"
+            disabled={this.isDisabled}
+            onClick={this.onSubmit}
+          >
+            {submitText}
+          </Button>
         </ModalActions>
 
-        { loading && (
+        {loading && (
           <div className="flex items-center justify-center absolute top-0 left-0 right-0 bottom-0">
-            <div className="absolute top-0 left-0 right-0 bottom-0 bg-light-gray o-80"/>
+            <div className="absolute top-0 left-0 right-0 bottom-0 bg-light-gray o-80" />
             <ComponentLoader style={{ width: '50%', margin: 'auto' }} />
           </div>
-        ) }
+        )}
       </Modal>
-    )
+    );
   }
 }
 
-export default withTranslation('app')(TextInputModal)
+export default withTranslation('app')(TextInputModal);

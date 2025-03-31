@@ -1,11 +1,11 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgStrokeNewFolder (props) {
+function SvgStrokeNewFolder(props) {
   return (
     <svg viewBox="0 0 65 102" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M52.62 33.38H35.17a3.76 3.76 0 01-3.44-2.25l-2.28-4.83a6 6 0 00-5.57-3.8H11.56C5.19 22.5 0 28 0 34.68v32.64C0 74 5.19 79.5 11.56 79.5h41.06c6.37 0 11.56-5.46 11.56-12.18V45.56c0-6.72-5.19-12.18-11.56-12.18zM11.56 25.1h12.32a3.45 3.45 0 013.21 2.25l2.34 4.95a6.33 6.33 0 005.74 3.7h17.45a9.22 9.22 0 018.9 8.5H2.6v-9.8c0-5.3 4.02-9.6 8.96-9.6zm41.06 51.8H11.56c-4.94 0-9-4.3-9-9.58V46h59v21.32c.02 5.28-4 9.58-8.94 9.58zM33.09 0v10h-2V0zM12.64 15.858L7.79 7.112l1.75-.97 4.848 8.746zm43.749-8.746l-4.848 8.746-1.75-.97 4.848-8.746zM33.09 102V92h-2v10zM12.64 86.142l-4.85 8.746 1.75.97 4.848-8.746zm43.749 8.746l-4.848-8.746-1.75.97 4.848 8.746z" />
     </svg>
-  )
+  );
 }
 
-export default SvgStrokeNewFolder
+export default SvgStrokeNewFolder;

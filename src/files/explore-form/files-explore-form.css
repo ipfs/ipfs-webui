@@ -1,6 +1,6 @@
 .ExploreFormButton,
-.ExploreFormButton:hover + .ExploreFormButton  {
-  max-width: 3.3em
+.ExploreFormButton:hover + .ExploreFormButton {
+  max-width: 3.3em;
 }
 
 .ExploreFormButton:last-of-type,

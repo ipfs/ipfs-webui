@@ -1,12 +1,12 @@
-import React from 'react'
-import ComponentLoader from './ComponentLoader.js'
+import React from 'react';
+import ComponentLoader from './ComponentLoader.js';
 
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
-  title: 'ComponentLoader'
-}
+  title: 'ComponentLoader',
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -17,4 +17,4 @@ export const Default = () => (
     <ComponentLoader style={{ width: 200, margin: '100px auto' }} />
     <ComponentLoader style={{ width: 300, margin: '100px auto' }} />
   </div>
-)
+);

@@ -1,34 +1,33 @@
 button {
-    appearance: none !important; /* !important due to tachyons reset`*/
-    outline: none;
-    background: transparent;
-    border: none;
-    text-align: initial;
-    color: inherit;
+  appearance: none !important; /* !important due to tachyons reset`*/
+  outline: none;
+  background: transparent;
+  border: none;
+  text-align: initial;
+  color: inherit;
 }
 
 button:not(.disabled) {
-    cursor: pointer;
+  cursor: pointer;
 }
-  
+
 button:not(.default):focus-visible {
-    outline: 1px solid #bbb;
-    outline-offset: -1px;
+  outline: 1px solid #bbb;
+  outline-offset: -1px;
 }
 
 button.button-inside-focus:focus {
-    outline: none;
+  outline: none;
 }
 
-
 button.button-inside-focus:focus > *:first-child {
-    outline: 1px solid #bbb;
+  outline: 1px solid #bbb;
 }
 
 button.hoverable-button:hover {
-    background: #E8E9ED
+  background: #e8e9ed;
 }
 
 button.hoverable-button:focus {
-    outline: none;
+  outline: none;
 }

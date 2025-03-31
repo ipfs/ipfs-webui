@@ -1,16 +1,16 @@
-import React from 'react'
-import { withKnobs, number } from '@storybook/addon-knobs'
-import { action } from '@storybook/addon-actions'
-import i18n from '../../i18n-decorator.js'
-import SelectedActions from './SelectedActions.js'
+import React from 'react';
+import { withKnobs, number } from '@storybook/addon-knobs';
+import { action } from '@storybook/addon-actions';
+import i18n from '../../i18n-decorator.js';
+import SelectedActions from './SelectedActions.js';
 
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
   title: 'Files',
-  decorators: [withKnobs, i18n]
-}
+  decorators: [withKnobs, i18n],
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -29,4 +29,4 @@ export const _SelectedActions = () => (
       inspect={action('Inspect Files')}
     />
   </div>
-)
+);

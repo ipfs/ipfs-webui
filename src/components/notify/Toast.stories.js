@@ -1,14 +1,14 @@
-import React from 'react'
-import { action } from '@storybook/addon-actions'
+import React from 'react';
+import { action } from '@storybook/addon-actions';
 
-import Toast from './Toast.js'
+import Toast from './Toast.js';
 
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
-  title: 'Toast'
-}
+  title: 'Toast',
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -19,7 +19,7 @@ export const Default = () => (
       <b>Hurray!</b> New things are available.
     </Toast>
   </div>
-)
+);
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -27,7 +27,7 @@ export const Default = () => (
 export const Error = () => (
   <div style={{ height: '100vh' }}>
     <Toast onDismiss={action('cancel')} error>
-            Oh no! Something dreadful has occured.
+      Oh no! Something dreadful has occured.
     </Toast>
   </div>
-)
+);

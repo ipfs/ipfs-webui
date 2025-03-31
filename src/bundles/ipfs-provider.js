@@ -1,11 +1,11 @@
-import { multiaddr } from '@multiformats/multiaddr'
+import { multiaddr } from '@multiformats/multiaddr';
 // @ts-ignore
-import { getIpfs, providers } from 'ipfs-provider'
-import first from 'it-first'
-import last from 'it-last'
-import * as Enum from '../lib/enum.js'
-import { perform } from './task.js'
-import { readSetting, writeSetting } from './local-storage.js'
+import { getIpfs, providers } from 'ipfs-provider';
+import first from 'it-first';
+import last from 'it-last';
+import * as Enum from '../lib/enum.js';
+import { perform } from './task.js';
+import { readSetting, writeSetting } from './local-storage.js';
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -65,8 +65,8 @@ export const ACTIONS = Enum.from([
   // Notifier actions
   'IPFS_CONNECT_FAILED',
   'IPFS_CONNECT_SUCCEED',
-  'NOTIFY_DISMISSED'
-])
+  'NOTIFY_DISMISSED',
+]);
 
 /**
  * @param {Model} state
@@ -76,63 +76,63 @@ export const ACTIONS = Enum.from([
 const update = (state, message) => {
   switch (message.type) {
     case ACTIONS.IPFS_INIT: {
-      const { task } = message
+      const { task } = message;
       switch (task.status) {
         case 'Init': {
-          return { ...state, ready: false }
+          return { ...state, ready: false };
         }
         case 'Exit': {
-          const { result } = task
+          const { result } = task;
           if (result.ok) {
-            const { provider, apiAddress, ipfs: service } = result.value
-            ipfs = service
+            const { provider, apiAddress, ipfs: service } = result.value;
+            ipfs = service;
             return {
               ...state,
               ready: true,
               failed: false,
               provider,
-              apiAddress: apiAddress || state.apiAddress
-            }
+              apiAddress: apiAddress || state.apiAddress,
+            };
           } else {
             return {
               ...state,
               ready: false,
-              failed: true
-            }
+              failed: true,
+            };
           }
         }
         default: {
-          return state
+          return state;
         }
       }
     }
     case ACTIONS.IPFS_STOPPED: {
-      return { ...state, ready: false, failed: false }
+      return { ...state, ready: false, failed: false };
     }
     case ACTIONS.IPFS_API_ADDRESS_UPDATED: {
-      return { ...state, apiAddress: message.payload, invalidAddress: false }
+      return { ...state, apiAddress: message.payload, invalidAddress: false };
     }
     case ACTIONS.IPFS_API_ADDRESS_INVALID: {
-      return { ...state, invalidAddress: true }
+      return { ...state, invalidAddress: true };
     }
     case ACTIONS.IPFS_API_ADDRESS_INVALID_DISMISS: {
-      return { ...state, invalidAddress: true }
+      return { ...state, invalidAddress: true };
     }
     case ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION: {
-      const { pending } = message
-      return { ...state, pendingFirstConnection: pending }
+      const { pending } = message;
+      return { ...state, pendingFirstConnection: pending };
     }
     case ACTIONS.IPFS_CONNECT_SUCCEED: {
-      return { ...state, failed: false }
+      return { ...state, failed: false };
     }
     case ACTIONS.IPFS_CONNECT_FAILED: {
-      return { ...state, failed: true }
+      return { ...state, failed: true };
     }
     default: {
-      return state
+      return state;
     }
   }
-}
+};
 
 /**
  * @returns {Model}
@@ -144,31 +144,31 @@ const init = () => {
     failed: false,
     ready: false,
     invalidAddress: false,
-    pendingFirstConnection: false
-  }
-}
+    pendingFirstConnection: false,
+  };
+};
 
 /**
  * @returns {HTTPClientOptions|string|null}
  */
 const readAPIAddressSetting = () => {
-  const setting = readSetting('ipfsApi')
-  return setting == null ? null : asAPIOptions(setting)
-}
+  const setting = readSetting('ipfsApi');
+  return setting == null ? null : asAPIOptions(setting);
+};
 
 /**
  * @param {string|object} value
  * @returns {boolean}
  */
-export const checkValidAPIAddress = (value) => {
-  return asAPIOptions(value) != null
-}
+export const checkValidAPIAddress = value => {
+  return asAPIOptions(value) != null;
+};
 
 /**
  * @param {string|object} value
  * @returns {HTTPClientOptions|string|null}
  */
-const asAPIOptions = (value) => asHttpClientOptions(value) || asMultiaddress(value) || asURL(value)
+const asAPIOptions = value => asHttpClientOptions(value) || asMultiaddress(value) || asURL(value);
 
 /**
  * Attempts to turn cast given value into URL.
@@ -176,13 +176,13 @@ const asAPIOptions = (value) => asHttpClientOptions(value) || asMultiaddress(val
  * @param {any} value
  * @returns {string|null}
  */
-const asURL = (value) => {
+const asURL = value => {
   try {
-    return new URL(value).toString()
+    return new URL(value).toString();
   } catch (_) {
-    return null
+    return null;
   }
-}
+};
 
 /**
  * Attempts to turn cast given value into Multiaddr.
@@ -190,15 +190,15 @@ const asURL = (value) => {
  * @param {any} value
  * @returns {string|null}
  */
-const asMultiaddress = (value) => {
+const asMultiaddress = value => {
   // ignore empty string, as it will produce '/'
   if (value != null && value !== '') {
     try {
-      return multiaddr(value).toString()
+      return multiaddr(value).toString();
     } catch (_) {}
   }
-  return null
-}
+  return null;
+};
 
 /**
  * @typedef {Object} HTTPClientOptions
@@ -221,61 +221,64 @@ const asMultiaddress = (value) => {
  * @param {string|object} value
  * @returns {HTTPClientOptions|null}
  */
-const asHttpClientOptions = (value) =>
-  typeof value === 'string' ? parseHTTPClientOptions(value) : readHTTPClientOptions(value)
+const asHttpClientOptions = value =>
+  typeof value === 'string' ? parseHTTPClientOptions(value) : readHTTPClientOptions(value);
 
 /**
  *
  * @param {string} input
  */
-const parseHTTPClientOptions = (input) => {
+const parseHTTPClientOptions = input => {
   // Try parsing and reading as json
   try {
-    return readHTTPClientOptions(JSON.parse(input))
+    return readHTTPClientOptions(JSON.parse(input));
   } catch (_) {}
 
   // turn URL with inlined basic auth into client options object
   try {
-    const url = new URL(input)
-    const { username, password } = url
+    const url = new URL(input);
+    const { username, password } = url;
     if (username && password) {
-      url.username = url.password = ''
+      url.username = url.password = '';
       return {
         url: url.toString(),
         headers: {
-          authorization: `Basic ${btoa(username + ':' + password)}`
-        }
-      }
+          authorization: `Basic ${btoa(username + ':' + password)}`,
+        },
+      };
     }
-  } catch (_) { }
+  } catch (_) {}
 
-  return null
-}
+  return null;
+};
 
 /**
  * @param {Object<string, any>} value
  * @returns {HTTPClientOptions|null}
  */
-const readHTTPClientOptions = (value) => {
+const readHTTPClientOptions = value => {
   // https://github.com/ipfs/js-kubo-rpc-client#importing-the-module-and-usage
-  if (value && (!!value.url || value.host || value.apiPath || value.protocol || value.port || value.headers)) {
-    return value
+  if (
+    value &&
+    (!!value.url || value.host || value.apiPath || value.protocol || value.port || value.headers)
+  ) {
+    return value;
   } else {
-    return null
+    return null;
   }
-}
+};
 
 /** @type {IPFSService|null} */
-let ipfs = null
+let ipfs = null;
 
 /**
  * @typedef {typeof extra} Extra
  */
 const extra = {
-  getIpfs () {
-    return ipfs
-  }
-}
+  getIpfs() {
+    return ipfs;
+  },
+};
 
 /**
  * @typedef {import('redux-bundler').Selectors<typeof selectors>} Selectors
@@ -305,8 +308,8 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectIpfsPendingFirstConnection: state => state.ipfs.pendingFirstConnection
-}
+  selectIpfsPendingFirstConnection: state => state.ipfs.pendingFirstConnection,
+};
 
 /**
  * @typedef {import('redux-bundler').Actions<typeof actions>} Actions
@@ -315,52 +318,67 @@ const selectors = {
  */
 
 const actions = {
-
   doSetupLocalStorage: () => async () => {
     /** For the Explore page (i.e. ipld-explorer-components) */
-    const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled')
+    const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled');
     if (useRemoteGatewaysToExplore === null) {
       // by default, disable remote gateways for the Explore page (i.e. ipld-explorer-components)
-      await writeSetting('explore.ipld.gatewayEnabled', false)
+      await writeSetting('explore.ipld.gatewayEnabled', false);
     }
 
-    const kuboGateway = readSetting('kuboGateway')
-    if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
+    const kuboGateway = readSetting('kuboGateway');
+    if (
+      kuboGateway === null ||
+      typeof kuboGateway === 'string' ||
+      typeof kuboGateway === 'boolean' ||
+      typeof kuboGateway === 'number'
+    ) {
       // empty or invalid, set defaults
-      await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
-    } else if (/** @type {Record<string, any>} */(kuboGateway).trustlessBlockBrokerConfig == null) {
+      await writeSetting('kuboGateway', {
+        trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } },
+      });
+    } else if (
+      /** @type {Record<string, any>} */ (kuboGateway).trustlessBlockBrokerConfig == null
+    ) {
       // missing trustlessBlockBrokerConfig, set defaults
-      await writeSetting('kuboGateway', { ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
+      await writeSetting('kuboGateway', {
+        ...kuboGateway,
+        trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } },
+      });
     }
   },
 
   /**
    * @returns {function(Context):Promise<boolean>}
    */
-  doTryInitIpfs: () => async ({ store }) => {
-    // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT`
-    // action and attempts to retry.
-    try {
-      await store.doInitIpfs()
-      return true
-    } catch (_) {
-      // Catches connection errors like timeouts
-      return false
-    }
-  },
+  doTryInitIpfs:
+    () =>
+    async ({ store }) => {
+      // There is a code in `bundles/retry-init.js` that reacts to `IPFS_INIT`
+      // action and attempts to retry.
+      try {
+        await store.doInitIpfs();
+        return true;
+      } catch (_) {
+        // Catches connection errors like timeouts
+        return false;
+      }
+    },
   /**
    * @returns {function(Context):Promise<InitResult>}
    */
-  doInitIpfs: () => perform('IPFS_INIT',
-    /**
-    * @param {Context} context
-    * @returns {Promise<InitResult>}
-    */
-    async (context) => {
-      const { apiAddress } = context.getState().ipfs
-      /** @type {IPFSProviderHttpClientOptions} */
-      let ipfsOptions = {
-        /* TODO: restore when  no longer bundle standalone ipld with ipld-explorer
+  doInitIpfs: () =>
+    perform(
+      'IPFS_INIT',
+      /**
+       * @param {Context} context
+       * @returns {Promise<InitResult>}
+       */
+      async context => {
+        const { apiAddress } = context.getState().ipfs;
+        /** @type {IPFSProviderHttpClientOptions} */
+        let ipfsOptions = {
+          /* TODO: restore when  no longer bundle standalone ipld with ipld-explorer
         * context: https://github.com/ipfs/ipld-explorer-components/pull/289
         ipld: {
           formats: [
@@ -369,61 +387,63 @@ const actions = {
           ]
         }
         */
-      }
-      const { create } = await import('kubo-rpc-client')
+        };
+        const { create } = await import('kubo-rpc-client');
 
-      if (typeof apiAddress === 'string') {
-        ipfsOptions = {
-          ...ipfsOptions,
-          url: apiAddress
+        if (typeof apiAddress === 'string') {
+          ipfsOptions = {
+            ...ipfsOptions,
+            url: apiAddress,
+          };
+        } else {
+          ipfsOptions = {
+            ...apiAddress,
+            ...ipfsOptions,
+          };
         }
-      } else {
-        ipfsOptions = {
-          ...apiAddress,
-          ...ipfsOptions
-        }
-      }
 
-      const result = await getIpfs({
-        /**
-         *
-         * @param {import('kubo-rpc-client').KuboRPCClient} ipfs
-         * @returns {Promise<boolean>}
-         */
-        connectionTest: async (ipfs) => {
-          // ipfs connection is working if can we fetch the bw stats.
-          // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
-          try {
-            await last(ipfs.stats.bw())
-          } catch (err) {
-            const error = /** @type {Error} */(err)
-            const errorString = error.toString() || error.message || /** @type {string} */(/** @type {unknown} */(error))
-            if (!/bandwidth reporter disabled in config/.test(errorString)) {
-              throw err
+        const result = await getIpfs({
+          /**
+           *
+           * @param {import('kubo-rpc-client').KuboRPCClient} ipfs
+           * @returns {Promise<boolean>}
+           */
+          connectionTest: async ipfs => {
+            // ipfs connection is working if can we fetch the bw stats.
+            // See: https://github.com/ipfs-shipyard/ipfs-webui/issues/835#issuecomment-466966884
+            try {
+              await last(ipfs.stats.bw());
+            } catch (err) {
+              const error = /** @type {Error} */ (err);
+              const errorString =
+                error.toString() ||
+                error.message ||
+                /** @type {string} */ (/** @type {unknown} */ (error));
+              if (!/bandwidth reporter disabled in config/.test(errorString)) {
+                throw err;
+              }
             }
-          }
 
-          return true
-        },
-        loadHttpClientModule: () => create,
-        providers: [
-          providers.httpClient(ipfsOptions)
-        ]
-      })
+            return true;
+          },
+          loadHttpClientModule: () => create,
+          providers: [providers.httpClient(ipfsOptions)],
+        });
 
-      if (!result) {
-        throw Error(`Could not connect to the Kubo RPC (${apiAddress})`)
-      } else {
-        return result
+        if (!result) {
+          throw Error(`Could not connect to the Kubo RPC (${apiAddress})`);
+        } else {
+          return result;
+        }
       }
-    }),
+    ),
   /**
    * @returns {function(Context):Promise<void>}
    */
-  doStopIpfs: () => async (context) => {
+  doStopIpfs: () => async context => {
     if (ipfs) {
-      await ipfs.stop()
-      context.dispatch({ type: 'IPFS_STOPPED' })
+      await ipfs.stop();
+      context.dispatch({ type: 'IPFS_STOPPED' });
     }
   },
 
@@ -431,14 +451,14 @@ const actions = {
    * @param {string} address
    * @returns {function(Context):Promise<boolean>}
    */
-  doUpdateIpfsApiAddress: (address) => async (context) => {
-    const apiAddress = asAPIOptions(address)
+  doUpdateIpfsApiAddress: address => async context => {
+    const apiAddress = asAPIOptions(address);
     if (apiAddress == null) {
-      context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_INVALID })
-      return false
+      context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_INVALID });
+      return false;
     } else {
-      await writeSetting('ipfsApi', apiAddress)
-      context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_UPDATED, payload: apiAddress })
+      await writeSetting('ipfsApi', apiAddress);
+      context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_UPDATED, payload: apiAddress });
 
       // Sends action to indicate we're going to try to update the Kubo RPC address.
       // There is logic to retry doTryInitIpfs in bundles/retry-init.js, so
@@ -446,48 +466,48 @@ const actions = {
       // the UI while we automatically retry.
       context.dispatch({
         type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
-        pending: true
-      })
+        pending: true,
+      });
       context.dispatch({
-        type: ACTIONS.IPFS_STOPPED
-      })
+        type: ACTIONS.IPFS_STOPPED,
+      });
       context.dispatch({
-        type: ACTIONS.NOTIFY_DISMISSED
-      })
-      const succeeded = await context.store.doTryInitIpfs()
+        type: ACTIONS.NOTIFY_DISMISSED,
+      });
+      const succeeded = await context.store.doTryInitIpfs();
       if (succeeded) {
         context.dispatch({
-          type: ACTIONS.IPFS_CONNECT_SUCCEED
-        })
+          type: ACTIONS.IPFS_CONNECT_SUCCEED,
+        });
       } else {
         context.dispatch({
-          type: ACTIONS.IPFS_CONNECT_FAILED
-        })
+          type: ACTIONS.IPFS_CONNECT_FAILED,
+        });
       }
       context.dispatch({
         type: ACTIONS.IPFS_API_ADDRESS_PENDING_FIRST_CONNECTION,
-        pending: false
-      })
-      return succeeded
+        pending: false,
+      });
+      return succeeded;
     }
   },
 
   /**
    * @returns {function(Context):void}
    */
-  doDismissIpfsInvalidAddress: () => (context) => {
-    context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID_DISMISS' })
+  doDismissIpfsInvalidAddress: () => context => {
+    context.dispatch({ type: 'IPFS_API_ADDRESS_INVALID_DISMISS' });
   },
 
   /**
    * @param {string} path
    * @returns {function(Context):Promise<FileStat>}
    */
-  doGetPathInfo: (path) => async () => {
+  doGetPathInfo: path => async () => {
     if (ipfs) {
-      return await ipfs.files.stat(path)
+      return await ipfs.files.stat(path);
     } else {
-      throw Error('IPFS is not initialized')
+      throw Error('IPFS is not initialized');
     }
   },
 
@@ -495,17 +515,19 @@ const actions = {
    * @param {CID} cid
    * @returns {function(Context):Promise<boolean>}
    */
-  doCheckIfPinned: (cid) => async () => {
+  doCheckIfPinned: cid => async () => {
     if (ipfs == null) {
-      return false
+      return false;
     }
 
     try {
-      const value = await first(ipfs.pin.ls({ paths: [cid], type: 'recursive' }))
-      return !!value
-    } catch (_) { return false }
-  }
-}
+      const value = await first(ipfs.pin.ls({ paths: [cid], type: 'recursive' }));
+      return !!value;
+    } catch (_) {
+      return false;
+    }
+  },
+};
 
 /**
  * @typedef {Actions & Selectors} IPFSProviderStore
@@ -521,11 +543,11 @@ const bundle = {
    * @returns {Model}
    */
   reducer: (state, message) => update(state == null ? init() : state, message),
-  getExtraArgs () {
-    return extra
+  getExtraArgs() {
+    return extra;
   },
   ...selectors,
-  ...actions
-}
+  ...actions,
+};
 
-export default bundle
+export default bundle;

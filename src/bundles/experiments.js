@@ -1,9 +1,6 @@
-import { createSelector } from 'redux-bundler'
-import * as Enum from '../lib/enum.js'
-export const ACTIONS = Enum.from([
-  'EXPERIMENTS_TOGGLE',
-  'EXPERIMENTS_UPDATE_STATE'
-])
+import { createSelector } from 'redux-bundler';
+import * as Enum from '../lib/enum.js';
+export const ACTIONS = Enum.from(['EXPERIMENTS_TOGGLE', 'EXPERIMENTS_UPDATE_STATE']);
 
 /**
  * @typedef {import('./task').Perform<'EXPERIMENTS_TOGGLE', Fail, Succeed, Init>} Toggle
@@ -33,7 +30,7 @@ export const ACTIONS = Enum.from([
 /**
  * @type {Array<{key:string}>}
  */
-const EXPERIMENTS = []
+const EXPERIMENTS = [];
 
 /**
  *
@@ -47,11 +44,11 @@ const mergeState = (state, payload) =>
       ...all,
       [key]: {
         ...state[key],
-        ...payload[key]
-      }
+        ...payload[key],
+      },
     }),
     state
-  )
+  );
 
 /**
  * @param {Model} state
@@ -64,12 +61,12 @@ const toggleEnabled = (state, key) => {
       ...state,
       [key]: {
         ...state[key],
-        enabled: !(state && state[key] && state[key].enabled)
-      }
+        enabled: !(state && state[key] && state[key].enabled),
+      },
     },
     key
-  )
-}
+  );
+};
 
 /**
  * @param {Model} state
@@ -81,10 +78,10 @@ const unblock = (state, key) => {
     ...state,
     [key]: {
       ...state[key],
-      blocked: false
-    }
-  }
-}
+      blocked: false,
+    },
+  };
+};
 
 /**
  * @param {Model} state
@@ -96,10 +93,10 @@ const block = (state, key) => {
     ...state,
     [key]: {
       ...state[key],
-      blocked: true
-    }
-  }
-}
+      blocked: true,
+    },
+  };
+};
 
 /**
  * @typedef {import('redux-bundler').Selectors<typeof selectors>} Selectors
@@ -116,13 +113,13 @@ const selectors = {
     /**
      * @param {Model} state
      */
-    (state) =>
+    state =>
       EXPERIMENTS.map(e => ({
         ...e,
-        ...state[e.key]
+        ...state[e.key],
       }))
-  )
-}
+  ),
+};
 
 /**
  * @typedef {import('redux-bundler').Actions<typeof actions>} Actions
@@ -135,27 +132,26 @@ const actions = {
    * @param {string} key
    * @returns {function(Context): void}
    */
-  doExpToggleAction: key => ({ dispatch }) => {
-    if (!key) return
+  doExpToggleAction:
+    key =>
+    ({ dispatch }) => {
+      if (!key) return;
 
-    dispatch({
-      type: ACTIONS.EXPERIMENTS_TOGGLE,
-      task: {
-        status: 'Init',
-        id: Symbol(ACTIONS.EXPERIMENTS_TOGGLE),
-        init: { key }
-      }
-    })
-  }
-}
+      dispatch({
+        type: ACTIONS.EXPERIMENTS_TOGGLE,
+        task: {
+          status: 'Init',
+          id: Symbol(ACTIONS.EXPERIMENTS_TOGGLE),
+          init: { key },
+        },
+      });
+    },
+};
 
 const experimentsBundle = {
   name: 'experiments',
 
-  persistActions: [
-    ACTIONS.EXPERIMENTS_TOGGLE,
-    ACTIONS.EXPERIMENTS_UPDATE_STATE
-  ],
+  persistActions: [ACTIONS.EXPERIMENTS_TOGGLE, ACTIONS.EXPERIMENTS_UPDATE_STATE],
 
   /**
    * @param {Model} state
@@ -165,34 +161,34 @@ const experimentsBundle = {
   reducer: (state = {}, action) => {
     switch (action.type) {
       case ACTIONS.EXPERIMENTS_TOGGLE: {
-        const { task } = action
+        const { task } = action;
         switch (task.status) {
           case 'Init': {
-            return block(state, task.init.key)
+            return block(state, task.init.key);
           }
           case 'Exit': {
-            const { result } = task
+            const { result } = task;
             if (result.ok) {
-              return toggleEnabled(state, result.value.key)
+              return toggleEnabled(state, result.value.key);
             } else {
-              return unblock(state, result.error.key)
+              return unblock(state, result.error.key);
             }
           }
           default: {
-            return state
+            return state;
           }
         }
       }
       case ACTIONS.EXPERIMENTS_UPDATE_STATE: {
-        return mergeState(state, action.payload)
+        return mergeState(state, action.payload);
       }
 
       default:
-        return state
+        return state;
     }
   },
 
   ...selectors,
-  ...actions
-}
-export default experimentsBundle
+  ...actions,
+};
+export default experimentsBundle;

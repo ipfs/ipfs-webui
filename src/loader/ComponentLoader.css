@@ -1,4 +1,6 @@
-.ComponentLoader { animation: fadeCube 4s ease-in-out infinite both;}
+.ComponentLoader {
+  animation: fadeCube 4s ease-in-out infinite both;
+}
 
 .ComponentLoader .shape {
   stroke-dashoffset: 4187;
@@ -10,28 +12,41 @@
   animation: fadePaths 4s ease-in-out infinite both;
 }
 
-
 @keyframes cube {
-  0% { 
-    stroke-dashoffset: 4187
+  0% {
+    stroke-dashoffset: 4187;
   }
   50% {
-    stroke-dashoffset: 0
+    stroke-dashoffset: 0;
   }
   100% {
-    stroke-dashoffset: 0
+    stroke-dashoffset: 0;
   }
 }
 
 @keyframes fadePaths {
-  0% { opacity: 0; }
-  40% { opacity: 0; }
-  60% { opacity: 1; }
-  100% { opacity: 1; }
+  0% {
+     opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+     opacity: 1;
+  }
 }
 
 @keyframes fadeCube {
-  60% { opacity: 1; }
-  75% { opacity: 0; }
-  100% { opacity: 0; }
+  60% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }

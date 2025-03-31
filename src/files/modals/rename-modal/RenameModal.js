@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import PencilIcon from '../../../icons/StrokePencil.js'
-import TextInputModal from '../../../components/text-input-modal/TextInputModal.js'
-import { withTranslation } from 'react-i18next'
+import React from 'react';
+import PropTypes from 'prop-types';
+import PencilIcon from '../../../icons/StrokePencil.js';
+import TextInputModal from '../../../components/text-input-modal/TextInputModal.js';
+import { withTranslation } from 'react-i18next';
 
-function RenameModal ({ t, tReady, onCancel, onSubmit, filename, folder, className, ...props }) {
-  const context = folder ? 'Folder' : 'File'
+function RenameModal({ t, tReady, onCancel, onSubmit, filename, folder, className, ...props }) {
+  const context = folder ? 'Folder' : 'File';
 
   return (
     <TextInputModal
@@ -18,8 +18,9 @@ function RenameModal ({ t, tReady, onCancel, onSubmit, filename, folder, classNa
       description={t(`renameModal.description${context}`)}
       Icon={PencilIcon}
       submitText={t('app:actions.save')}
-      {...props} />
-  )
+      {...props}
+    />
+  );
 }
 
 RenameModal.propTypes = {
@@ -28,12 +29,12 @@ RenameModal.propTypes = {
   filename: PropTypes.string.isRequired,
   folder: PropTypes.bool,
   t: PropTypes.func.isRequired,
-  tReady: PropTypes.bool.isRequired
-}
+  tReady: PropTypes.bool.isRequired,
+};
 
 RenameModal.defaultProps = {
   className: '',
-  folder: false
-}
+  folder: false,
+};
 
-export default withTranslation('files')(RenameModal)
+export default withTranslation('files')(RenameModal);

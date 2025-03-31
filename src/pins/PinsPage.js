@@ -1,12 +1,19 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import { connect } from 'redux-bundler-react'
-import { withTranslation } from 'react-i18next'
-import PinsStatuses from './PinsStatuses.js'
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'redux-bundler-react';
+import { withTranslation } from 'react-i18next';
+import PinsStatuses from './PinsStatuses.js';
 
-const PinsPage = ({ pendingPins, failedPins, completedPins, doDismissCompletedPin, doDismissFailedPin, doCancelPendingPin }) => {
+const PinsPage = ({
+  pendingPins,
+  failedPins,
+  completedPins,
+  doDismissCompletedPin,
+  doDismissFailedPin,
+  doCancelPendingPin,
+}) => {
   return (
-    <div data-id='PinsPage' className='mw9 center'>
+    <div data-id="PinsPage" className="mw9 center">
       <Helmet>
         <title>Pins Status</title>
       </Helmet>
@@ -17,10 +24,11 @@ const PinsPage = ({ pendingPins, failedPins, completedPins, doDismissCompletedPi
         completedPins={completedPins}
         doCancelPendingPin={doCancelPendingPin}
         onDismissCompletedPin={doDismissCompletedPin}
-        onDismissFailedPin={doDismissFailedPin} />
+        onDismissFailedPin={doDismissFailedPin}
+      />
     </div>
-  )
-}
+  );
+};
 
 export default connect(
   'selectPendingPins',
@@ -30,4 +38,4 @@ export default connect(
   'doDismissFailedPin',
   'doCancelPendingPin',
   withTranslation('files')(PinsPage)
-)
+);

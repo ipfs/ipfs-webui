@@ -1,6 +1,6 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphShare (props) {
+function SvgGlyphShare(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <circle cx={31.6} cy={50} r={10.05} />
@@ -9,7 +9,7 @@ function SvgGlyphShare (props) {
       <circle cx={68.4} cy={34.13} r={10.05} />
       <circle cx={68.4} cy={65.87} r={10.05} />
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphShare
+export default SvgGlyphShare;

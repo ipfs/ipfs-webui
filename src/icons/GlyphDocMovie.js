@@ -1,6 +1,6 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphDocMovie (props) {
+function SvgGlyphDocMovie(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.42 21" {...props}>
       <path
@@ -12,7 +12,7 @@ function SvgGlyphDocMovie (props) {
       <path d="M10.22 2.58v2.66a2 2 0 002 2h2.66" opacity={0.45} />
       <path d="M5.41 9.93v6.43H13V9.93zm1.17 5.84H6v-.58h.58zm0-1.17H6V14h.58zm0-1.16H6v-.59h.58zm0-1.17H6v-.59h.58zm0-1.17H6v-.58h.58zm4.67 4.67H7.16v-2.33h4.09zm0-2.92H7.16v-2.33h4.09zm1.17 2.92h-.58v-.58h.58zm0-1.17h-.58V14h.58zm0-1.16h-.58v-.59h.58zm0-1.17h-.58v-.59h.58zm0-1.17h-.58v-.58h.58z" />
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphDocMovie
+export default SvgGlyphDocMovie;

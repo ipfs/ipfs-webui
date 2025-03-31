@@ -1,11 +1,11 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphPower (props) {
+function SvgGlyphPower(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M50 20.11A29.89 29.89 0 1079.89 50 29.89 29.89 0 0050 20.11zm-3.22 17a3.22 3.22 0 016.44 0v6.43a3.22 3.22 0 01-6.44 0zM50 66.08a16.14 16.14 0 01-11.41-27.49 3.28 3.28 0 011.76-.65 2.48 2.48 0 012.42 2.41 2.58 2.58 0 01-.77 1.77A10.81 10.81 0 0038.59 50a11.25 11.25 0 0022.5 0 10.93 10.93 0 00-3.21-7.88 3.37 3.37 0 01-.65-1.77 2.48 2.48 0 012.42-2.41 2.16 2.16 0 011.76.65A16.14 16.14 0 0150 66.08z" />
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphPower
+export default SvgGlyphPower;

@@ -1,6 +1,6 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphDocMusic (props) {
+function SvgGlyphDocMusic(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.42 21" {...props}>
       <path
@@ -12,7 +12,7 @@ function SvgGlyphDocMusic (props) {
       <path d="M10.22 2.58v2.66a2 2 0 002 2h2.66" opacity={0.45} />
       <path d="M8.26 11.79v3.68a1.12 1.12 0 01-.68 1A1.23 1.23 0 016 16.22c-.25-.39-.07-1 .57-1.32a1.41 1.41 0 011.21-.08V10l4.73-.94V15a1.13 1.13 0 01-.69 1 1.22 1.22 0 01-1.57-.22c-.25-.38-.07-1 .58-1.31a1.4 1.4 0 011.2-.09V11z" />
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphDocMusic
+export default SvgGlyphDocMusic;

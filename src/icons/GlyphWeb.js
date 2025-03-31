@@ -1,6 +1,6 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphWeb (props) {
+function SvgGlyphWeb(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.4 21" {...props}>
       <path
@@ -12,7 +12,7 @@ function SvgGlyphWeb (props) {
       <path opacity={0.45} d="M10.2 2.6v2.7c0 1.1.9 2 2 2h2.7" />
       <path d="M5.5 7.6h3.6c.1 0 .3-.1.3-.3 0-.1-.1-.3-.3-.3H5.5c-.1 0-.3.1-.3.3 0 .2.2.3.3.3zm0 2.2h3.6c.1 0 .3-.1.3-.3s-.2-.2-.3-.2H5.5c-.1 0-.3.1-.3.3s.2.2.3.2zm7.6 1.9l-.1-.1H5.5c-.1 0-.3.1-.3.3v4.6h7.6c.1 0 .3-.1.3-.3v-4.5c0 .1 0 .1 0 0zm-1.1.4l-6.2 3.8v-3.8H12zM6.4 16l6.2-3.8V16H6.4z" />
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphWeb
+export default SvgGlyphWeb;

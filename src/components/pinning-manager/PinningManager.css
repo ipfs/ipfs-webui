@@ -2,9 +2,9 @@
 .pinningManager .ReactVirtualized__Table__row,
 .pinningManager .ReactVirtualized__Table__Grid,
 .pinningManagerColumn {
-    overflow: visible !important;
+  overflow: visible !important;
 }
 
 .pinningManager .ReactVirtualized__Grid.ReactVirtualized__Table__Grid:focus {
-    outline: none;
+  outline: none;
 }

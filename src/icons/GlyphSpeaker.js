@@ -1,6 +1,6 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphSpeaker (props) {
+function SvgGlyphSpeaker(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <g data-name="glyph_search">
@@ -8,7 +8,7 @@ function SvgGlyphSpeaker (props) {
         <path d="M67.87 32.14a3.26 3.26 0 00-.83.12h-.15v.16a42.9 42.9 0 00-.77 8.12 43.62 43.62 0 00.73 7.92v.15H67a3.11 3.11 0 00.87.13c2.82 0 5.11-3.74 5.11-8.34s-2.29-8.26-5.11-8.26z" />
       </g>
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphSpeaker
+export default SvgGlyphSpeaker;

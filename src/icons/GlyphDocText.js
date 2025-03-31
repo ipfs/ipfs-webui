@@ -1,6 +1,6 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphDocText (props) {
+function SvgGlyphDocText(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.42 21" {...props}>
       <path
@@ -12,7 +12,7 @@ function SvgGlyphDocText (props) {
       <path d="M10.22 2.58v2.66a2 2 0 002 2h2.66" opacity={0.45} />
       <path d="M9.91 9.82h3.46v.5H9.91zm-4.86 2.06h8.32v.5H5.05zm0 2.05h8.32v.5H5.05zm0 2.06h8.32v.5H5.05zM8 10.36h-.4l-.32-.82L7 8.73l-.27.82-.31.81H6L5 7.77h.55l.61 1.87.63-1.87h.32l.64 1.87.65-1.87H9z" />
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphDocText
+export default SvgGlyphDocText;

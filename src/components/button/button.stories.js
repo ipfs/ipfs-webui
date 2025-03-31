@@ -1,14 +1,14 @@
-import React from 'react'
-import { action } from '@storybook/addon-actions'
+import React from 'react';
+import { action } from '@storybook/addon-actions';
 
-import Button from './button'
+import Button from './button';
 
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
-  title: 'Button'
-}
+  title: 'Button',
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -16,28 +16,28 @@ export default {
 export const Colors = () => (
   <div>
     <Button className="ma2" onClick={action('aqua-click')}>
-            Aqua
+      Aqua
     </Button>
     <Button className="ma2" bg="bg-teal" onClick={action('teal-click')}>
-            Teal
+      Teal
     </Button>
     <Button className="ma2" bg="bg-navy" onClick={action('navy-click')}>
-            Navy
+      Navy
     </Button>
     <Button className="ma2" bg="bg-orange" onClick={action('orange-click')}>
-            Orange
+      Orange
     </Button>
     <Button className="ma2" bg="bg-red" onClick={action('red-click')}>
-            Red
+      Red
     </Button>
     <Button className="ma2" disabled onClick={action('disabled-click')}>
-            Disabled
+      Disabled
     </Button>
     <Button className="ma2" minWidth={100} onClick={action('smol-click')}>
-            Smol
+      Smol
     </Button>
     <Button className="ma2" onClick={action('hotpink-click')} style={{ background: 'hotpink' }}>
-            Custom
+      Custom
     </Button>
   </div>
-)
+);

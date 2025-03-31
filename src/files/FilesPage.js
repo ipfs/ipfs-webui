@@ -1,53 +1,95 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { findDOMNode } from 'react-dom'
-import { Helmet } from 'react-helmet'
-import { connect } from 'redux-bundler-react'
-import { withTranslation, Trans } from 'react-i18next'
-import ReactJoyride from 'react-joyride'
+import React, { useEffect, useRef, useState } from 'react';
+import { findDOMNode } from 'react-dom';
+import { Helmet } from 'react-helmet';
+import { connect } from 'redux-bundler-react';
+import { withTranslation, Trans } from 'react-i18next';
+import ReactJoyride from 'react-joyride';
 // Lib
-import { filesTour } from '../lib/tours.js'
+import { filesTour } from '../lib/tours.js';
 // Components
-import ContextMenu from './context-menu/ContextMenu.js'
-import withTour from '../components/tour/withTour.js'
-import InfoBoxes from './info-boxes/InfoBoxes.js'
-import FilePreview from './file-preview/FilePreview.js'
-import FilesList from './files-list/FilesList.js'
-import { getJoyrideLocales } from '../helpers/i8n.js'
+import ContextMenu from './context-menu/ContextMenu.js';
+import withTour from '../components/tour/withTour.js';
+import InfoBoxes from './info-boxes/InfoBoxes.js';
+import FilePreview from './file-preview/FilePreview.js';
+import FilesList from './files-list/FilesList.js';
+import { getJoyrideLocales } from '../helpers/i8n.js';
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, ADD_BY_CAR, SHARE, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
-import Header from './header/Header.js'
-import FileImportStatus from './file-import-status/FileImportStatus.js'
-import { useExplore } from 'ipld-explorer-components/providers'
+import Modals, {
+  DELETE,
+  NEW_FOLDER,
+  ADD_BY_CAR,
+  SHARE,
+  RENAME,
+  ADD_BY_PATH,
+  BULK_CID_IMPORT,
+  CLI_TUTOR_MODE,
+  PINNING,
+  PUBLISH,
+} from './modals/Modals.js';
+import Header from './header/Header.js';
+import FileImportStatus from './file-import-status/FileImportStatus.js';
+import { useExplore } from 'ipld-explorer-components/providers';
 
 const FilesPage = ({
-  doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
-  doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
-  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
-  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
+  doFetchPinningServices,
+  doFilesFetch,
+  doPinsFetch,
+  doFilesSizeGet,
+  doFilesDownloadLink,
+  doFilesDownloadCarLink,
+  doFilesWrite,
+  doAddCarFile,
+  doFilesBulkCidImport,
+  doFilesAddPath,
+  doUpdateHash,
+  doFilesUpdateSorting,
+  doFilesNavigateTo,
+  doFilesMove,
+  doSetCliOptions,
+  doFetchRemotePins,
+  remotePins,
+  pendingPins,
+  failedPins,
+  ipfsProvider,
+  ipfsConnected,
+  doFilesMakeDir,
+  doFilesShareLink,
+  doFilesDelete,
+  doSetPinning,
+  onRemotePinClick,
+  doPublishIpnsKey,
+  files,
+  filesPathInfo,
+  pinningServices,
+  toursEnabled,
+  handleJoyrideCallback,
+  isCliTutorModeEnabled,
+  cliOptions,
+  t,
 }) => {
-  const { doExploreUserProvidedPath } = useExplore()
-  const contextMenuRef = useRef()
-  const [modals, setModals] = useState({ show: null, files: null })
+  const { doExploreUserProvidedPath } = useExplore();
+  const contextMenuRef = useRef();
+  const [modals, setModals] = useState({ show: null, files: null });
   const [contextMenu, setContextMenu] = useState({
     isOpen: false,
     translateX: 0,
     translateY: 0,
-    file: null
-  })
+    file: null,
+  });
 
   useEffect(() => {
-    doFetchPinningServices()
-    doFilesFetch()
-    doPinsFetch()
-    doFilesSizeGet()
-  }, [doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet])
+    doFetchPinningServices();
+    doFilesFetch();
+    doPinsFetch();
+    doFilesSizeGet();
+  }, [doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet]);
 
   useEffect(() => {
     if (ipfsConnected || filesPathInfo.path) {
-      doFilesFetch()
+      doFilesFetch();
     }
-  }, [ipfsConnected, filesPathInfo, doFilesFetch])
+  }, [ipfsConnected, filesPathInfo, doFilesFetch]);
 
   /* TODO: uncomment below if we ever want automatic remote pin check
   *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)
@@ -56,70 +98,70 @@ const FilesPage = ({
   }, [files, pinningServices, doFetchRemotePins])
   */
 
-  const onDownload = async (files) => {
-    const url = await doFilesDownloadLink(files)
-    window.location.href = url
-  }
+  const onDownload = async files => {
+    const url = await doFilesDownloadLink(files);
+    window.location.href = url;
+  };
 
-  const onDownloadCar = async (files) => {
-    const url = await doFilesDownloadCarLink(files)
-    window.location.href = url
-  }
+  const onDownloadCar = async files => {
+    const url = await doFilesDownloadCarLink(files);
+    window.location.href = url;
+  };
 
   const onAddFiles = (raw, root = '') => {
-    if (root === '') root = files.path
+    if (root === '') root = files.path;
 
-    doFilesWrite(raw, root)
-  }
+    doFilesWrite(raw, root);
+  };
 
   const onBulkCidImport = (raw, root = '') => {
-    if (root === '') root = files.path
+    if (root === '') root = files.path;
 
-    doFilesBulkCidImport(raw, root)
-  }
+    doFilesBulkCidImport(raw, root);
+  };
 
-  const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
+  const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name);
   /**
    *
    * @param {File} file
    * @param {string} name
    */
   const onAddByCar = (file, name) => {
-    doAddCarFile(files.path, file, name)
-  }
-  const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
-  const showModal = (modal, files = null) => setModals({ show: modal, files })
-  const hideModal = () => setModals({})
+    doAddCarFile(files.path, file, name);
+  };
+  const onInspect = cid => doUpdateHash(`/explore/${cid}`);
+  const showModal = (modal, files = null) => setModals({ show: modal, files });
+  const hideModal = () => setModals({});
   const handleContextMenu = (ev, clickType, file, pos) => {
     // This is needed to disable the native OS right-click menu
     // and deal with the clicking on the ContextMenu options
     if (ev !== undefined && typeof ev !== 'string') {
-      ev.preventDefault()
-      ev.persist()
+      ev.preventDefault();
+      ev.persist();
     }
 
-    const ctxMenu = findDOMNode(contextMenuRef.current)
-    const ctxMenuPosition = ctxMenu.getBoundingClientRect()
+    const ctxMenu = findDOMNode(contextMenuRef.current);
+    const ctxMenuPosition = ctxMenu.getBoundingClientRect();
 
-    let translateX = 0
-    let translateY = 0
+    let translateX = 0;
+    let translateY = 0;
 
     switch (clickType) {
       case 'RIGHT': {
-        const rightPadding = window.innerWidth - ctxMenu.parentNode.getBoundingClientRect().right
-        translateX = (window.innerWidth - ev.clientX) - rightPadding - 20
-        translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - ev.clientY - 10
-        break
+        const rightPadding = window.innerWidth - ctxMenu.parentNode.getBoundingClientRect().right;
+        translateX = window.innerWidth - ev.clientX - rightPadding - 20;
+        translateY = ctxMenuPosition.y + ctxMenuPosition.height / 2 - ev.clientY - 10;
+        break;
       }
       case 'TOP': {
-        const pagePositions = ctxMenu.parentNode.getBoundingClientRect()
-        translateX = pagePositions.right - pos.right
-        translateY = -(pos.bottom - pagePositions.top + 11)
-        break
+        const pagePositions = ctxMenu.parentNode.getBoundingClientRect();
+        translateX = pagePositions.right - pos.right;
+        translateY = -(pos.bottom - pagePositions.top + 11);
+        break;
       }
       default: {
-        translateX = 1
-        translateY = (ctxMenuPosition.y + ctxMenuPosition.height / 2) - (pos && pos.y) - 30
+        translateX = 1;
+        translateY = ctxMenuPosition.y + ctxMenuPosition.height / 2 - (pos && pos.y) - 30;
       }
     }
 
@@ -127,23 +169,34 @@ const FilesPage = ({
       isOpen: !contextMenu.isOpen,
       translateX,
       translateY,
-      file
-    })
-  }
+      file,
+    });
+  };
 
-  const MainView = ({ t, files, remotePins, pendingPins, failedPins, doExploreUserProvidedPath }) => {
-    if (!files || files.type === 'file') return (<div/>)
+  const MainView = ({
+    t,
+    files,
+    remotePins,
+    pendingPins,
+    failedPins,
+    doExploreUserProvidedPath,
+  }) => {
+    if (!files || files.type === 'file') return <div />;
 
     if (files.type === 'unknown') {
-      const path = files.path
+      const path = files.path;
 
       return (
         <div>
-          <Trans i18nKey='cidNotFileNorDir' t={t}>
-            The current link isn't a file, nor a directory. Try to <button className='link blue pointer' onClick={() => doExploreUserProvidedPath(path)}>inspect</button> it instead.
+          <Trans i18nKey="cidNotFileNorDir" t={t}>
+            The current link isn't a file, nor a directory. Try to{' '}
+            <button className="link blue pointer" onClick={() => doExploreUserProvidedPath(path)}>
+              inspect
+            </button>{' '}
+            it instead.
           </Trans>
         </div>
-      )
+      );
     }
 
     return (
@@ -155,37 +208,38 @@ const FilesPage = ({
         pendingPins={pendingPins}
         failedPins={failedPins}
         upperDir={files.upper}
-        onShare={(files) => showModal(SHARE, files)}
-        onRename={(files) => showModal(RENAME, files)}
-        onRemove={(files) => showModal(DELETE, files)}
-        onSetPinning={(files) => showModal(PINNING, files)}
+        onShare={files => showModal(SHARE, files)}
+        onRename={files => showModal(RENAME, files)}
+        onRemove={files => showModal(DELETE, files)}
+        onSetPinning={files => showModal(PINNING, files)}
         onInspect={onInspect}
         onRemotePinClick={onRemotePinClick}
         onDownload={onDownload}
         onAddFiles={onAddFiles}
         onNavigate={doFilesNavigateTo}
         onMove={doFilesMove}
-        handleContextMenuClick={handleContextMenu} />
-    )
-  }
+        handleContextMenuClick={handleContextMenu}
+      />
+    );
+  };
 
   const getTitle = (filesPathInfo, t) => {
-    const parts = []
+    const parts = [];
 
     if (filesPathInfo) {
-      parts.push(filesPathInfo.realPath)
+      parts.push(filesPathInfo.realPath);
     }
 
     if (filesPathInfo.isMfs) {
-      parts.push(t('app:terms.files'))
+      parts.push(t('app:terms.files'));
     }
 
-    parts.push('IPFS')
-    return parts.join(' | ')
-  }
+    parts.push('IPFS');
+    return parts.join(' | ');
+  };
 
   return (
-    <div data-id='FilesPage' className='mw9 center'>
+    <div data-id="FilesPage" className="mw9 center">
       <Helmet>
         <title>{getTitle(filesPathInfo, t)}</title>
       </Helmet>
@@ -219,20 +273,30 @@ const FilesPage = ({
         onNavigate={doFilesNavigateTo}
         onAddFiles={onAddFiles}
         onMove={doFilesMove}
-        onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
-        onAddByCar={(files) => showModal(ADD_BY_CAR, files)}
-        onBulkCidImport={(files) => showModal(BULK_CID_IMPORT, files)}
-        onNewFolder={(files) => showModal(NEW_FOLDER, files)}
+        onAddByPath={files => showModal(ADD_BY_PATH, files)}
+        onAddByCar={files => showModal(ADD_BY_CAR, files)}
+        onBulkCidImport={files => showModal(BULK_CID_IMPORT, files)}
+        onNewFolder={files => showModal(NEW_FOLDER, files)}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
-        handleContextMenu={(...args) => handleContextMenu(...args, true)} />
+        handleContextMenu={(...args) => handleContextMenu(...args, true)}
+      />
 
-      <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
+      <MainView
+        t={t}
+        files={files}
+        remotePins={remotePins}
+        pendingPins={pendingPins}
+        failedPins={failedPins}
+        doExploreUserProvidedPath={doExploreUserProvidedPath}
+      />
 
       <Preview files={files} onDownload={() => onDownload([files])} />
 
-      <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
+      <InfoBoxes
+        isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
-        filesExist={!!(files && files.content && files.content.length)} />
+        filesExist={!!(files && files.content && files.content.length)}
+      />
 
       <Modals
         done={hideModal}
@@ -247,7 +311,8 @@ const FilesPage = ({
         onPinningSet={doSetPinning}
         onPublish={doPublishIpnsKey}
         cliOptions={cliOptions}
-        { ...modals } />
+        {...modals}
+      />
 
       <FileImportStatus />
 
@@ -259,17 +324,18 @@ const FilesPage = ({
         continuous
         scrollToFirstStep
         locale={getJoyrideLocales(t)}
-        showProgress />
+        showProgress
+      />
     </div>
-  )
-}
+  );
+};
 
 const Preview = ({ files, onDownload }) => {
   if (files && files.type === 'file') {
-    return (<FilePreview {...files} onDownload={onDownload} />)
+    return <FilePreview {...files} onDownload={onDownload} />;
   }
-  return (<div/>)
-}
+  return <div />;
+};
 
 export default connect(
   'selectIpfsProvider',
@@ -308,4 +374,4 @@ export default connect(
   'doSetPinning',
   'doPublishIpnsKey',
   withTour(withTranslation('files')(FilesPage))
-)
+);

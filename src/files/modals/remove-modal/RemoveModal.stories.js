@@ -1,5 +1,5 @@
-import { action } from '@storybook/addon-actions'
-import RemoveModal from './RemoveModal.js'
+import { action } from '@storybook/addon-actions';
+import RemoveModal from './RemoveModal.js';
 
 /**
  * @type {import('@storybook/react').Meta}
@@ -15,25 +15,25 @@ export default {
     files: [
       {
         cid: 'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC',
-        pinned: false
+        pinned: false,
       },
       {
         cid: 'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC',
-        pinned: false
+        pinned: false,
       },
       {
         cid: 'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC',
-        pinned: false
+        pinned: false,
       },
       {
         cid: 'QmQK3p7MmycDutWkWAzJ4hNN1YBKK9bLTDz9jTtkWf16wC',
-        pinned: false
-      }
-    ]
-  }
-}
+        pinned: false,
+      },
+    ],
+  },
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
  */
-export const Remove = {}
+export const Remove = {};

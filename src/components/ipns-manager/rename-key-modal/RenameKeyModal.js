@@ -1,21 +1,21 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Icon from '../../../icons/StrokePencil.js'
-import TextInputModal from '../../text-input-modal/TextInputModal.js'
-import { Trans } from 'react-i18next'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Icon from '../../../icons/StrokePencil.js';
+import TextInputModal from '../../text-input-modal/TextInputModal.js';
+import { Trans } from 'react-i18next';
 
 const RenameKeyModal = ({ t, tReady, name, onCancel, onSubmit, className, ...props }) => {
   return (
     <TextInputModal
-      onSubmit={(p) => onSubmit(p.trim())}
-      onChange={(p) => p.trimStart()}
+      onSubmit={p => onSubmit(p.trim())}
+      onChange={p => p.trimStart()}
       onCancel={onCancel}
       className={className}
       title={t('renameKeyModal.title')}
       description={
-        <div className='charcoal w-90 center tl mb3'>
-          <Trans t={t} i18nKey='renameKeyModal.description' tOptions={{ name }}>
-            Renaming IPNS key <span className='charcoal-muted monospace'>{name}</span>.
+        <div className="charcoal w-90 center tl mb3">
+          <Trans t={t} i18nKey="renameKeyModal.description" tOptions={{ name }}>
+            Renaming IPNS key <span className="charcoal-muted monospace">{name}</span>.
           </Trans>
         </div>
       }
@@ -25,19 +25,19 @@ const RenameKeyModal = ({ t, tReady, name, onCancel, onSubmit, className, ...pro
       submitText={t('app:actions.rename')}
       {...props}
     />
-  )
-}
+  );
+};
 
 RenameKeyModal.propTypes = {
   t: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  className: PropTypes.string
-}
+  className: PropTypes.string,
+};
 
 RenameKeyModal.defaultProps = {
-  className: ''
-}
+  className: '',
+};
 
-export default RenameKeyModal
+export default RenameKeyModal;

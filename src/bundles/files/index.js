@@ -1,11 +1,11 @@
-import { sortFiles } from './utils.js'
-import { DEFAULT_STATE, ACTIONS, SORTING } from './consts.js'
-import selectors from './selectors.js'
-import actions from './actions.js'
+import { sortFiles } from './utils.js';
+import { DEFAULT_STATE, ACTIONS, SORTING } from './consts.js';
+import selectors from './selectors.js';
+import actions from './actions.js';
 
-export { ACTIONS }
+export { ACTIONS };
 
-export const sorts = SORTING
+export const sorts = SORTING;
 
 /**
  * @typedef {import('./protocol').Model} Model
@@ -32,89 +32,87 @@ const createFilesBundle = () => {
         case ACTIONS.MAKE_DIR:
         case ACTIONS.PIN_ADD:
         case ACTIONS.PIN_REMOVE:
-          return updateJob(state, action.task, action.type)
+          return updateJob(state, action.task, action.type);
         case ACTIONS.WRITE: {
-          return updateJob(state, action.task, action.type)
+          return updateJob(state, action.task, action.type);
         }
         case ACTIONS.PIN_LIST: {
-          const { task, type } = action
+          const { task, type } = action;
 
-          const pins = task.status === 'Exit' && task.result.ok
-            ? task.result.value.pins.map(String)
-            : state.pins
+          const pins =
+            task.status === 'Exit' && task.result.ok
+              ? task.result.value.pins.map(String)
+              : state.pins;
 
           return {
             ...updateJob(state, task, type),
-            pins
-          }
+            pins,
+          };
         }
         case ACTIONS.FETCH: {
-          const { task, type } = action
-          const result = task.status === 'Exit' && task.result.ok
-            ? task.result.value
-            : null
+          const { task, type } = action;
+          const result = task.status === 'Exit' && task.result.ok ? task.result.value : null;
           const { pageContent } = result
             ? {
-                pageContent: result
+                pageContent: result,
               }
-            : state
+            : state;
 
           return {
             ...updateJob(state, task, type),
-            pageContent
-          }
+            pageContent,
+          };
         }
         case ACTIONS.DISMISS_ERRORS: {
           return {
             ...state,
-            failed: []
-          }
+            failed: [],
+          };
         }
         case ACTIONS.CLEAR_ALL: {
           return {
             ...state,
             failed: [],
             finished: [],
-            pending: []
-          }
+            pending: [],
+          };
         }
         case ACTIONS.UPDATE_SORT: {
-          const { pageContent } = state
+          const { pageContent } = state;
           if (pageContent && pageContent.type === 'directory') {
-            const content = sortFiles(pageContent.content, action.payload)
+            const content = sortFiles(pageContent.content, action.payload);
             return {
               ...state,
               pageContent: {
                 ...pageContent,
-                content
+                content,
               },
-              sorting: action.payload
-            }
+              sorting: action.payload,
+            };
           } else {
-            return state
+            return state;
           }
         }
         case ACTIONS.SIZE_GET: {
-          const { task, type } = action
-          const mfsSize = task.status === 'Exit' && task.result.ok
-            ? task.result.value.size
-            : state.mfsSize
+          const { task, type } = action;
+          const mfsSize =
+            task.status === 'Exit' && task.result.ok ? task.result.value.size : state.mfsSize;
 
           return {
             ...updateJob(state, task, type),
-            mfsSize
-          }
+            mfsSize,
+          };
         }
         default: {
-          return state
+          return state;
         }
       }
     },
     ...actions(),
-    ...selectors()
-  }
-}
-export default createFilesBundle
+    ...selectors(),
+  };
+};
+export default createFilesBundle;
 /**
  * Updates state of the given job.
  * @param {Model} state
@@ -133,13 +131,13 @@ const updateJob = (state, task, type) => {
             ...task,
             type,
             status: 'Pending',
-            start: Date.now()
-          }
-        ]
-      }
+            start: Date.now(),
+          },
+        ],
+      };
     }
     case 'Send': {
-      const { pending, rest } = pullPending(state.pending, task)
+      const { pending, rest } = pullPending(state.pending, task);
       return {
         ...state,
         pending: [
@@ -147,13 +145,13 @@ const updateJob = (state, task, type) => {
           {
             ...pending,
             ...task,
-            status: 'Pending'
-          }
-        ]
-      }
+            status: 'Pending',
+          },
+        ],
+      };
     }
     case 'Exit': {
-      const { pending, rest } = pullPending(state.pending, task)
+      const { pending, rest } = pullPending(state.pending, task);
 
       if (task.result.ok) {
         return {
@@ -166,10 +164,10 @@ const updateJob = (state, task, type) => {
               ...task,
               end: Date.now(),
               value: task.result.value,
-              status: 'Done'
-            }
-          ]
-        }
+              status: 'Done',
+            },
+          ],
+        };
       } else {
         return {
           ...state,
@@ -181,18 +179,18 @@ const updateJob = (state, task, type) => {
               ...task,
               end: Date.now(),
               error: task.result.error,
-              status: 'Failed'
-            }
-          ]
-        }
+              status: 'Failed',
+            },
+          ],
+        };
       }
     }
     default: {
-      console.error('Task has an invalid state', task)
-      return state
+      console.error('Task has an invalid state', task);
+      return state;
     }
   }
-}
+};
 
 /**
  * @template T, I
@@ -208,15 +206,15 @@ const updateJob = (state, task, type) => {
  * @returns {{pending:PendingJob<T, I>, rest:PendingJob<T, I>[]}}
  */
 const pullPending = (tasks, task) => {
-  const { id } = task
-  const pending = tasks.find($ => $.id === id)
+  const { id } = task;
+  const pending = tasks.find($ => $.id === id);
 
   if (pending == null) {
-    throw Error('Unable to find a pending task')
+    throw Error('Unable to find a pending task');
   }
 
   return {
     pending,
-    rest: tasks.filter($ => $.id !== id)
-  }
-}
+    rest: tasks.filter($ => $.id !== id),
+  };
+};

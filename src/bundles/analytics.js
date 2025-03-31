@@ -1,16 +1,16 @@
 // @ts-check
 
 // @ts-ignore
-import root from 'window-or-global'
-import changeCase from 'change-case'
-import * as Enum from '../lib/enum.js'
-import { createSelector } from 'redux-bundler'
-import { ACTIONS as FILES } from './files/consts.js'
-import { ACTIONS as CONIFG } from './config-save.js'
-import { ACTIONS as INIT } from './ipfs-provider.js'
-import { ACTIONS as EXP } from './experiments.js'
-import { getDeploymentEnv } from '../env.js'
-import { onlyOnceAfter } from '../lib/hofs/functions.js'
+import root from 'window-or-global';
+import changeCase from 'change-case';
+import * as Enum from '../lib/enum.js';
+import { createSelector } from 'redux-bundler';
+import { ACTIONS as FILES } from './files/consts.js';
+import { ACTIONS as CONIFG } from './config-save.js';
+import { ACTIONS as INIT } from './ipfs-provider.js';
+import { ACTIONS as EXP } from './experiments.js';
+import { getDeploymentEnv } from '../env.js';
+import { onlyOnceAfter } from '../lib/hofs/functions.js';
 
 /**
  * @typedef {import('./ipfs-provider').Init} Init
@@ -75,11 +75,11 @@ import { onlyOnceAfter } from '../lib/hofs/functions.js'
 // 2024-Q2:
 // All analytics are disabled since we no longer use Countly instance.
 // See https://github.com/ipfs/ipfs-webui/issues/2198
-const DISABLE_ALL_ANALYTICS = true
+const DISABLE_ALL_ANALYTICS = true;
 
 // Unknown actions (can't seem to see anything
 // dispatching those).
-const DESKTOP = Enum.from(['DESKTOP_SETTING_TOGGLE'])
+const DESKTOP = Enum.from(['DESKTOP_SETTING_TOGGLE']);
 
 // Local action types
 const ACTIONS = Enum.from([
@@ -87,8 +87,8 @@ const ACTIONS = Enum.from([
   'ANALYTICS_DISABLED',
   'ANALYTICS_ADD_CONSENT',
   'ANALYTICS_REMOVE_CONSENT',
-  'SET_SHOW_ANALYTICS_BANNER'
-])
+  'SET_SHOW_ANALYTICS_BANNER',
+]);
 
 // Only record specific actions listed here.
 const ASYNC_ACTIONS_TO_RECORD = [
@@ -101,45 +101,45 @@ const ASYNC_ACTIONS_TO_RECORD = [
   FILES.DELETE,
   FILES.DOWNLOAD_LINK,
   EXP.EXPERIMENTS_TOGGLE,
-  DESKTOP.DESKTOP_SETTING_TOGGLE
-]
+  DESKTOP.DESKTOP_SETTING_TOGGLE,
+];
 
-const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612'
-const COUNTLY_KEY_WEBUI_TEST = '700fd825c3b257e021bd9dbc6cbf044d33477531'
-const COUNTLY_KEY_WEBUI_KUBO = 'c4524cc93fed92a5838d4ea27c5a65526b4e7558'
+const COUNTLY_KEY_WEBUI = '8fa213e6049bff23b08e5f5fbac89e7c27397612';
+const COUNTLY_KEY_WEBUI_TEST = '700fd825c3b257e021bd9dbc6cbf044d33477531';
+const COUNTLY_KEY_WEBUI_KUBO = 'c4524cc93fed92a5838d4ea27c5a65526b4e7558';
 
 /**
  * @see https://github.com/ipfs/ipfs-webui/issues/2078
  * @returns {Promise<string>}
  */
-async function pickAppKey () {
-  const isProd = process.env.NODE_ENV === 'production'
+async function pickAppKey() {
+  const isProd = process.env.NODE_ENV === 'production';
 
   if (root.ipfsDesktop?.countlyAppKey) {
-    return root.ipfsDesktop.countlyAppKey
+    return root.ipfsDesktop.countlyAppKey;
   }
 
-  const env = await getDeploymentEnv()
+  const env = await getDeploymentEnv();
   if (env === 'kubo') {
-    return COUNTLY_KEY_WEBUI_KUBO
+    return COUNTLY_KEY_WEBUI_KUBO;
   }
-  return isProd ? COUNTLY_KEY_WEBUI : COUNTLY_KEY_WEBUI_TEST
+  return isProd ? COUNTLY_KEY_WEBUI : COUNTLY_KEY_WEBUI_TEST;
 }
 
 const consentGroups = {
   all: ['sessions', 'events', 'views', 'location', 'crashes'],
-  safe: ['sessions', 'events', 'views', 'location']
-}
+  safe: ['sessions', 'events', 'views', 'location'],
+};
 
 /**
  * @param {string|string[]} consent
  * @param {Store} store
  */
-function addConsent (consent, store) {
-  root.Countly.q.push(['add_consent', consent])
+function addConsent(consent, store) {
+  root.Countly.q.push(['add_consent', consent]);
 
   if (store.selectIsIpfsDesktop()) {
-    store.doDesktopAddConsent(consent)
+    store.doDesktopAddConsent(consent);
   }
 }
 
@@ -147,11 +147,11 @@ function addConsent (consent, store) {
  * @param {string|string[]} consent
  * @param {Store} store
  */
-function removeConsent (consent, store) {
-  root.Countly.q.push(['remove_consent', consent])
+function removeConsent(consent, store) {
+  root.Countly.q.push(['remove_consent', consent]);
 
   if (store.selectIsIpfsDesktop()) {
-    store.doDesktopRemoveConsent(consent)
+    store.doDesktopRemoveConsent(consent);
   }
 }
 
@@ -162,20 +162,21 @@ function removeConsent (consent, store) {
  * @param {string} param0.id
  * @param {number} param0.duration
  */
-function addEvent ({ id, duration }) {
-  root.Countly.q.push(['add_event', {
-    key: id,
-    count: 1,
-    dur: duration
-  }])
+function addEvent({ id, duration }) {
+  root.Countly.q.push([
+    'add_event',
+    {
+      key: id,
+      count: 1,
+      dur: duration,
+    },
+  ]);
 }
 
 /**
  * You can limit how many times an event is recorded by adding them here.
  */
-const addEventLimitedFns = new Map([
-  ['IPFS_INIT_FAILED', onlyOnceAfter(addEvent, 5)]
-])
+const addEventLimitedFns = new Map([['IPFS_INIT_FAILED', onlyOnceAfter(addEvent, 5)]]);
 
 /**
  * Add an event to by using a limited addEvent fn if one is defined, or calling
@@ -185,12 +186,12 @@ const addEventLimitedFns = new Map([
  * @param {string} param0.id
  * @param {number} param0.duration
  */
-function addEventWrapped ({ id, duration }) {
-  const fn = addEventLimitedFns.get(id)
+function addEventWrapped({ id, duration }) {
+  const fn = addEventLimitedFns.get(id);
   if (fn) {
-    fn({ id, duration })
+    fn({ id, duration });
   } else {
-    addEvent({ id, duration })
+    addEvent({ id, duration });
   }
 }
 
@@ -202,33 +203,36 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectAnalytics: (state) => state.analytics,
+  selectAnalytics: state => state.analytics,
   /**
    * @param {State} state
    */
-  selectAnalyticsConsent: (state) => state.analytics.consent,
+  selectAnalyticsConsent: state => state.analytics.consent,
   /**
    * @param {State} state
    */
-  selectAnalyticsEnabled: (state) => state.analytics.consent.length > 0,
+  selectAnalyticsEnabled: state => state.analytics.consent.length > 0,
   /**
    * @param {State} state
    */
-  selectAnalyticsOptedOutPriorToDefaultOptIn: (state) => !state.analytics.optedOut && state.analytics.consent.length === 0 && state.analytics.lastDisabledAt > state.analytics.lastEnabledAt,
+  selectAnalyticsOptedOutPriorToDefaultOptIn: state =>
+    !state.analytics.optedOut &&
+    state.analytics.consent.length === 0 &&
+    state.analytics.lastDisabledAt > state.analytics.lastEnabledAt,
   /**
    * @param {State} state
    */
-  selectAnalyticsOptedOut: (state) => state.analytics.optedOut,
+  selectAnalyticsOptedOut: state => state.analytics.optedOut,
   /**
    * Show or hide all UI compontent related to analytics.
    * @param {State} state
    */
-  selectShowAnalyticsComponents: (state) => state.analytics.showAnalyticsComponents,
+  selectShowAnalyticsComponents: state => state.analytics.showAnalyticsComponents,
   /**
    * Show or hide the analytics banner.
    * @param {State} state
    */
-  selectShowAnalyticsBanner: (state) => state.analytics.showAnalyticsBanner,
+  selectShowAnalyticsBanner: state => state.analytics.showAnalyticsBanner,
 
   selectAnalyticsActionsToRecord: createSelector(
     'selectIsIpfsDesktop',
@@ -241,10 +245,10 @@ const selectors = {
     (isDesktop, desktopActions) => {
       return isDesktop
         ? desktopActions.concat(ASYNC_ACTIONS_TO_RECORD).sort()
-        : Array.from(ASYNC_ACTIONS_TO_RECORD).sort()
+        : Array.from(ASYNC_ACTIONS_TO_RECORD).sort();
     }
-  )
-}
+  ),
+};
 
 /**
  * @typedef {import('./ipfs-desktop').Ext} DesktopExt
@@ -258,88 +262,102 @@ const actions = {
   /**
    * @returns {function(Context):void}
    */
-  doToggleAnalytics: () => ({ store }) => {
-    const enable = !store.selectAnalyticsEnabled()
-    if (enable) {
-      store.doEnableAnalytics()
-    } else {
-      store.doDisableAnalytics()
-    }
-  },
+  doToggleAnalytics:
+    () =>
+    ({ store }) => {
+      const enable = !store.selectAnalyticsEnabled();
+      if (enable) {
+        store.doEnableAnalytics();
+      } else {
+        store.doDisableAnalytics();
+      }
+    },
   /**
    * @returns {function(Context):void}
    */
-  doDisableAnalytics: () => ({ dispatch, store }) => {
-    root.Countly.opt_out()
-    removeConsent(consentGroups.all, store)
-    dispatch({ type: 'ANALYTICS_DISABLED', payload: { consent: [] } })
-  },
+  doDisableAnalytics:
+    () =>
+    ({ dispatch, store }) => {
+      root.Countly.opt_out();
+      removeConsent(consentGroups.all, store);
+      dispatch({ type: 'ANALYTICS_DISABLED', payload: { consent: [] } });
+    },
   /**
    * @returns {function(Context):void}
    */
-  doEnableAnalytics: () => ({ dispatch, store }) => {
-    removeConsent(consentGroups.all, store)
-    root.Countly.opt_in()
-    addConsent(consentGroups.safe, store)
-    dispatch({ type: 'ANALYTICS_ENABLED', payload: { consent: consentGroups.safe } })
-  },
-  /**
-   * @param {string} name
-   * @returns {function(Context):void}
-   */
-  doToggleConsent: (name) => ({ store }) => {
-    const isEnabled = store.selectAnalyticsConsent().includes(name)
-    if (isEnabled) {
-      store.doRemoveConsent(name)
-    } else {
-      store.doAddConsent(name)
-    }
-  },
+  doEnableAnalytics:
+    () =>
+    ({ dispatch, store }) => {
+      removeConsent(consentGroups.all, store);
+      root.Countly.opt_in();
+      addConsent(consentGroups.safe, store);
+      dispatch({ type: 'ANALYTICS_ENABLED', payload: { consent: consentGroups.safe } });
+    },
   /**
    * @param {string} name
    * @returns {function(Context):void}
    */
-  doRemoveConsent: (name) => ({ dispatch, store }) => {
-    const existingConsents = store.selectAnalyticsConsent()
-    const remainingConsents = existingConsents.filter(item => item !== name)
-    // Ensure the users is fully opted out of analytics if they remove all consents.
-    // This means the consent removal event is not sent to countly, which is good.
-    // If a user tells us to send nothing, we send nothing.
-    // see: https://github.com/ipfs/ipfs-webui/issues/1041
-    if (remainingConsents.length === 0) {
-      root.Countly.opt_out()
-    }
-    removeConsent(name, store)
-    dispatch({ type: 'ANALYTICS_REMOVE_CONSENT', payload: { name } })
-  },
+  doToggleConsent:
+    name =>
+    ({ store }) => {
+      const isEnabled = store.selectAnalyticsConsent().includes(name);
+      if (isEnabled) {
+        store.doRemoveConsent(name);
+      } else {
+        store.doAddConsent(name);
+      }
+    },
   /**
    * @param {string} name
    * @returns {function(Context):void}
    */
-  doAddConsent: (name) => ({ dispatch, store }) => {
-    const existingConsents = store.selectAnalyticsConsent()
-    if (existingConsents.length === 0) {
-      // Going from 0 to 1 consents opts you in to analytics
-      root.Countly.opt_in()
-    }
-    addConsent(name, store)
-    dispatch({ type: 'ANALYTICS_ADD_CONSENT', payload: { name } })
-  },
+  doRemoveConsent:
+    name =>
+    ({ dispatch, store }) => {
+      const existingConsents = store.selectAnalyticsConsent();
+      const remainingConsents = existingConsents.filter(item => item !== name);
+      // Ensure the users is fully opted out of analytics if they remove all consents.
+      // This means the consent removal event is not sent to countly, which is good.
+      // If a user tells us to send nothing, we send nothing.
+      // see: https://github.com/ipfs/ipfs-webui/issues/1041
+      if (remainingConsents.length === 0) {
+        root.Countly.opt_out();
+      }
+      removeConsent(name, store);
+      dispatch({ type: 'ANALYTICS_REMOVE_CONSENT', payload: { name } });
+    },
+  /**
+   * @param {string} name
+   * @returns {function(Context):void}
+   */
+  doAddConsent:
+    name =>
+    ({ dispatch, store }) => {
+      const existingConsents = store.selectAnalyticsConsent();
+      if (existingConsents.length === 0) {
+        // Going from 0 to 1 consents opts you in to analytics
+        root.Countly.opt_in();
+      }
+      addConsent(name, store);
+      dispatch({ type: 'ANALYTICS_ADD_CONSENT', payload: { name } });
+    },
   /**
    * @param {boolean?} shouldShow
    * @returns {function(Context):void}
    */
-  doToggleShowAnalyticsBanner: (shouldShow) => ({ dispatch }) => {
-    dispatch({ type: 'SET_SHOW_ANALYTICS_BANNER', payload: { shouldShow } })
-  }
-}
+  doToggleShowAnalyticsBanner:
+    shouldShow =>
+    ({ dispatch }) => {
+      dispatch({ type: 'SET_SHOW_ANALYTICS_BANNER', payload: { shouldShow } });
+    },
+};
 
 const createAnalyticsBundle = ({
   countlyUrl = 'https://countly.ipfs.tech',
   appVersion = process.env.REACT_APP_VERSION,
   // @ts-ignore - declared but never used
   appGitRevision = process.env.REACT_APP_GIT_REV,
-  debug = false
+  debug = false,
 }) => {
   return {
     name: 'analytics',
@@ -350,70 +368,70 @@ const createAnalyticsBundle = ({
       ACTIONS.ANALYTICS_DISABLED,
       ACTIONS.ANALYTICS_ADD_CONSENT,
       ACTIONS.ANALYTICS_REMOVE_CONSENT,
-      ACTIONS.SET_SHOW_ANALYTICS_BANNER
+      ACTIONS.SET_SHOW_ANALYTICS_BANNER,
     ],
 
     /**
      * @param {Store} store
      */
-    init: async (store) => {
+    init: async store => {
       // LogRocket.init('sfqf1k/ipfs-webui')
       // test code sets a mock Counly instance on the global.
       if (!root.Countly) {
-        root.Countly = {}
-        root.Countly.q = []
+        root.Countly = {};
+        root.Countly.q = [];
         // @ts-ignore
-        await import('countly-sdk-web')
+        await import('countly-sdk-web');
       }
-      const Countly = root.Countly
+      const Countly = root.Countly;
 
-      Countly.require_consent = true
-      Countly.url = countlyUrl
-      const countlyAppKeyPromise = pickAppKey()
-      countlyAppKeyPromise.then((appKey) => {
-        Countly.app_key = appKey
-      })
-      Countly.app_version = appVersion
-      Countly.debug = debug
+      Countly.require_consent = true;
+      Countly.url = countlyUrl;
+      const countlyAppKeyPromise = pickAppKey();
+      countlyAppKeyPromise.then(appKey => {
+        Countly.app_key = appKey;
+      });
+      Countly.app_version = appVersion;
+      Countly.debug = debug;
 
       if (store.selectIsIpfsDesktop()) {
-        Countly.app_version = store.selectDesktopVersion()
-        Countly.q.push(['change_id', store.selectDesktopCountlyDeviceId(), true])
+        Countly.app_version = store.selectDesktopVersion();
+        Countly.q.push(['change_id', store.selectDesktopCountlyDeviceId(), true]);
       }
 
       // Configure what to track. Nothing is sent without user consent.
-      Countly.q.push(['track_sessions'])
-      Countly.q.push(['track_errors'])
+      Countly.q.push(['track_sessions']);
+      Countly.q.push(['track_errors']);
 
       // Don't track clicks or links as it can include full url.
       // Countly.q.push(['track_clicks'])
       // Countly.q.push(['track_links'])
       if (store.selectAnalyticsEnabled()) {
-        const consent = store.selectAnalyticsConsent()
-        addConsent(consent, store)
+        const consent = store.selectAnalyticsConsent();
+        addConsent(consent, store);
       } else if (!store.selectAnalyticsOptedOut()) {
         if (store.selectAnalyticsOptedOutPriorToDefaultOptIn()) {
-          store.doToggleShowAnalyticsBanner(true)
+          store.doToggleShowAnalyticsBanner(true);
         }
         // add consent/opt in by default
-        store.doEnableAnalytics()
+        store.doEnableAnalytics();
       }
 
       store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
         // skip routes with no hash, as we'll be immediately redirected to `/#`
-        if (!root.location || !root.location.hash) return
+        if (!root.location || !root.location.hash) return;
         /*
         By tracking the pattern rather than the window.location, we limit the info
         we collect to just the app sections that are viewed, and avoid recording
         specific CIDs or local repo paths that would contain personal information.
         */
-        root.Countly.q.push(['track_pageview', routeInfo.pattern])
-      })
+        root.Countly.q.push(['track_pageview', routeInfo.pattern]);
+      });
 
       // Fix for storybook error 'Countly.init is not a function'
       if (typeof Countly.init === 'function') {
-        await countlyAppKeyPromise
-        Countly.init()
+        await countlyAppKeyPromise;
+        Countly.init();
       }
     },
 
@@ -424,24 +442,24 @@ const createAnalyticsBundle = ({
        * @returns {function(Message):void}
        */
       const middleware = next => action => {
-        const payload = parseTask(action)
+        const payload = parseTask(action);
         if (payload) {
-          const { id, duration, error } = payload
-          addEventWrapped({ id, duration })
+          const { id, duration, error } = payload;
+          addEventWrapped({ id, duration });
 
           // Record errors. Only from explicitly selected actions.
           if (error) {
-            root.Countly.q.push(['add_log', action.type])
-            root.Countly.q.push(['log_error', error])
+            root.Countly.q.push(['add_log', action.type]);
+            root.Countly.q.push(['log_error', error]);
             // LogRocket.error(error)
             // logger.error('Error in action', action.type, error)
           }
         }
 
-        return next(action)
-      }
+        return next(action);
+      };
 
-      return middleware
+      return middleware;
     },
 
     /**
@@ -456,53 +474,72 @@ const createAnalyticsBundle = ({
         showAnalyticsComponents: !DISABLE_ALL_ANALYTICS, // hide related UI  for now, see https://github.com/ipfs/ipfs-webui/issues/2198
         showAnalyticsBanner: false,
         optedOut: DISABLE_ALL_ANALYTICS, // disable analytics by default for now, see https://github.com/ipfs/ipfs-webui/issues/2198
-        consent: []
-      }
+        consent: [],
+      };
 
       switch (action.type) {
         case ACTIONS.ANALYTICS_ENABLED:
-          return { ...state, lastEnabledAt: Date.now(), consent: action.payload.consent, optedOut: false }
+          return {
+            ...state,
+            lastEnabledAt: Date.now(),
+            consent: action.payload.consent,
+            optedOut: false,
+          };
         case ACTIONS.ANALYTICS_DISABLED:
-          return { ...state, lastDisabledAt: Date.now(), consent: action.payload.consent, optedOut: true, showAnalyticsBanner: false }
+          return {
+            ...state,
+            lastDisabledAt: Date.now(),
+            consent: action.payload.consent,
+            optedOut: true,
+            showAnalyticsBanner: false,
+          };
         case ACTIONS.ANALYTICS_ADD_CONSENT: {
-          const consent = state.consent.filter(item => item !== action.payload.name).concat(action.payload.name)
-          return { ...state, lastEnabledAt: Date.now(), consent, optedOut: false }
+          const consent = state.consent
+            .filter(item => item !== action.payload.name)
+            .concat(action.payload.name);
+          return { ...state, lastEnabledAt: Date.now(), consent, optedOut: false };
         }
         case ACTIONS.ANALYTICS_REMOVE_CONSENT: {
-          const consent = state.consent.filter(item => item !== action.payload.name)
-          const lastDisabledAt = (consent.length === 0) ? Date.now() : state.lastDisabledAt
-          const didOptOutCompletely = consent.length === 0
-          return { ...state, lastDisabledAt, consent, optedOut: didOptOutCompletely, showAnalyticsBanner: false }
+          const consent = state.consent.filter(item => item !== action.payload.name);
+          const lastDisabledAt = consent.length === 0 ? Date.now() : state.lastDisabledAt;
+          const didOptOutCompletely = consent.length === 0;
+          return {
+            ...state,
+            lastDisabledAt,
+            consent,
+            optedOut: didOptOutCompletely,
+            showAnalyticsBanner: false,
+          };
         }
         case ACTIONS.SET_SHOW_ANALYTICS_BANNER: {
-          const shouldShowAnalyticsBanner = action.payload?.shouldShow || false
-          return { ...state, showAnalyticsBanner: shouldShowAnalyticsBanner }
+          const shouldShowAnalyticsBanner = action.payload?.shouldShow || false;
+          return { ...state, showAnalyticsBanner: shouldShowAnalyticsBanner };
         }
         default: {
           // deal with missing consent state from 2.4.0 release.
           if (!state.consent) {
             if (state.lastEnabledAt > state.lastDisabledAt) {
-              return { ...state, consent: consentGroups.safe }
+              return { ...state, consent: consentGroups.safe };
             } else {
-              return { ...state, consent: [] }
+              return { ...state, consent: [] };
             }
           }
 
-          return state
+          return state;
         }
       }
     },
 
     ...selectors,
 
-    ...actions
-  }
-}
+    ...actions,
+  };
+};
 
 /**
  * @param {Message} action
  */
-const parseTask = (action) => {
+const parseTask = action => {
   switch (action.type) {
     case FILES.MAKE_DIR:
     case FILES.WRITE:
@@ -512,15 +549,15 @@ const parseTask = (action) => {
     case FILES.DOWNLOAD_LINK:
     case INIT.IPFS_INIT:
     case CONIFG.CONFIG_SAVE:
-      return parseTaskResult(action.task, action.type)
+      return parseTaskResult(action.task, action.type);
     case EXP.EXPERIMENTS_TOGGLE:
-      return parseToggleResult(action.task, 'EXPERIMENTS')
+      return parseToggleResult(action.task, 'EXPERIMENTS');
     case DESKTOP.DESKTOP_SETTING_TOGGLE:
-      return parseToggleResult(action.task, 'DESKTOP_SETTING')
+      return parseToggleResult(action.task, 'DESKTOP_SETTING');
     default:
-      return null
+      return null;
   }
-}
+};
 
 /**
  * @param {Init['task']|ConfigSave['task']|FilesMessage['task']} task
@@ -528,14 +565,14 @@ const parseTask = (action) => {
  */
 const parseTaskResult = (task, name) => {
   if (task.status === 'Exit') {
-    const { duration, result } = task
-    const id = result.ok ? name : `${name}_FAILED`
-    const error = result.ok ? null : result.error
-    return { id, duration, error }
+    const { duration, result } = task;
+    const id = result.ok ? name : `${name}_FAILED`;
+    const error = result.ok ? null : result.error;
+    return { id, duration, error };
   } else {
-    return null
+    return null;
   }
-}
+};
 
 /**
  * @param {Toggle['task']} task
@@ -543,20 +580,16 @@ const parseTaskResult = (task, name) => {
  */
 const parseToggleResult = (task, name) => {
   if (task.status === 'Exit') {
-    const { result, duration } = task
-    const { key } = result.ok ? result.value : result.error
-    const error = result.ok ? null : result.error
-    const status = !result.ok
-      ? 'FAILED'
-      : result.value.value
-        ? 'ENABLED'
-        : 'DISABLED'
+    const { result, duration } = task;
+    const { key } = result.ok ? result.value : result.error;
+    const error = result.ok ? null : result.error;
+    const status = !result.ok ? 'FAILED' : result.value.value ? 'ENABLED' : 'DISABLED';
 
-    const id = `${name}_${changeCase.constantCase(key)}_${status}`
+    const id = `${name}_${changeCase.constantCase(key)}_${status}`;
 
-    return { id, duration, error }
+    return { id, duration, error };
   }
-  return null
-}
+  return null;
+};
 
-export default createAnalyticsBundle
+export default createAnalyticsBundle;

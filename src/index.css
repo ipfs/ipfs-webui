@@ -1,22 +1,24 @@
 @import './reset.css';
-@import "../node_modules/tachyons";
+@import '../node_modules/tachyons';
 /* They forgot to include word break: https://github.com/tachyons-css/tachyons/issues/563 */
-@import "../node_modules/tachyons/src/_word-break.css";
-@import "../node_modules/ipfs-css";
+@import '../node_modules/tachyons/src/_word-break.css';
+@import '../node_modules/ipfs-css';
 
 body {
   overflow-y: scroll;
 }
 
-.placeholder-light::placeholder{
-  color: #CAD3D8;
+.placeholder-light::placeholder {
+  color: #cad3d8;
 }
 
 .bg-near-white {
   background-color: #fbfbfb;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   min-height: 100%;
 }
 
@@ -26,7 +28,7 @@ html, body, #root {
 
 @media only screen and (min-width: 60em) {
   .appOverlay {
-      width: calc(100% - 148px)
+    width: calc(100% - 148px);
   }
 }
 

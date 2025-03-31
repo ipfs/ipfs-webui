@@ -1,6 +1,6 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphChart (props) {
+function SvgGlyphChart(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path
@@ -8,7 +8,7 @@ function SvgGlyphChart (props) {
         data-name="glyph_chart"
       />
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphChart
+export default SvgGlyphChart;

@@ -1,6 +1,6 @@
-import { sortByName, sortBySize } from '../../lib/sort.js'
-import { IS_MAC, SORTING } from './consts.js'
-import * as Task from '../task.js'
+import { sortByName, sortBySize } from '../../lib/sort.js';
+import { IS_MAC, SORTING } from './consts.js';
+import * as Task from '../task.js';
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -10,9 +10,9 @@ import * as Task from '../task.js'
  */
 
 /**
-  * @template State, Message, Ext, Extra
-  * @typedef {import('redux-bundler').Context<State, Message, Ext, Extra>} BundlerContext
-  */
+ * @template State, Message, Ext, Extra
+ * @typedef {import('redux-bundler').Context<State, Message, Ext, Extra>} BundlerContext
+ */
 
 /**
  * Utility function that takes a task name and task (in form of async generator) and
@@ -71,34 +71,36 @@ import * as Task from '../task.js'
  * @param {Init[]} rest - Optinal initialization parameter.
  * @returns {(context:Context) => Promise<Success>}
  */
-export const spawn = (type, task, ...[init]) => async (context) => {
-  const ipfs = context.getIpfs()
-  if (ipfs == null) {
-    throw Error('IPFS node was not found')
-  } else {
-    const spawn = Task.spawn(
-      type,
-      /**
-       * @param {Context} context
-       * @returns {AsyncGenerator<Message, Success, void>}}
-       */
-      async function * (context) {
-        const process = task(ipfs, context)
-        while (true) {
-          const next = await process.next()
-          if (next.done) {
-            return await next.value
-          } else {
-            yield next.value
+export const spawn =
+  (type, task, ...[init]) =>
+  async context => {
+    const ipfs = context.getIpfs();
+    if (ipfs == null) {
+      throw Error('IPFS node was not found');
+    } else {
+      const spawn = Task.spawn(
+        type,
+        /**
+         * @param {Context} context
+         * @returns {AsyncGenerator<Message, Success, void>}}
+         */
+        async function* (context) {
+          const process = task(ipfs, context);
+          while (true) {
+            const next = await process.next();
+            if (next.done) {
+              return await next.value;
+            } else {
+              yield next.value;
+            }
           }
-        }
-      },
-      init
-    )
+        },
+        init
+      );
 
-    return await spawn(context)
-  }
-}
+      return await spawn(context);
+    }
+  };
 
 /**
  * @template Name, Failure, Success, Init
@@ -123,22 +125,24 @@ export const spawn = (type, task, ...[init]) => async (context) => {
  * @param {Init[]} rest
  * @returns {(context:Context) => Promise<Success>}
  */
-export const perform = (type, task, ...[init]) => async (context) => {
-  const ipfs = context.getIpfs()
-  if (ipfs == null) {
-    throw Error('IPFS node was not found')
-  } else {
-    const perform = Task.perform(
-      type,
-      /**
-       * @param {Context} context
-       */
-      context => task(ipfs, context),
-      init
-    )
-    return await perform(context)
-  }
-}
+export const perform =
+  (type, task, ...[init]) =>
+  async context => {
+    const ipfs = context.getIpfs();
+    if (ipfs == null) {
+      throw Error('IPFS node was not found');
+    } else {
+      const perform = Task.perform(
+        type,
+        /**
+         * @param {Context} context
+         */
+        context => task(ipfs, context),
+        init
+      );
+      return await perform(context);
+    }
+  };
 
 /**
  * Creates an action creator that just dispatches given action.
@@ -146,9 +150,11 @@ export const perform = (type, task, ...[init]) => async (context) => {
  * @param {T} action
  * @returns {(context:BundlerContext<any, T, any, any>) => Promise<void>}
  */
-export const send = (action) => async ({ store }) => {
-  store.dispatch(action)
-}
+export const send =
+  action =>
+  async ({ store }) => {
+    store.dispatch(action);
+  };
 
 /**
  * @typedef {Object} Sorting
@@ -164,26 +170,26 @@ export const send = (action) => async ({ store }) => {
  * @returns {T[]}
  */
 export const sortFiles = (files, sorting) => {
-  const sortDir = sorting.asc ? 1 : -1
-  const nameSort = sortByName(sortDir)
-  const sizeSort = sortBySize(sortDir)
+  const sortDir = sorting.asc ? 1 : -1;
+  const nameSort = sortByName(sortDir);
+  const sizeSort = sortBySize(sortDir);
 
   return files.sort((a, b) => {
     if (a.type === b.type || IS_MAC) {
       if (sorting.by === SORTING.BY_NAME) {
-        return nameSort(a.name, b.name)
+        return nameSort(a.name, b.name);
       } else {
-        return sizeSort(a.cumulativeSize || a.size, b.cumulativeSize || b.size)
+        return sizeSort(a.cumulativeSize || a.size, b.cumulativeSize || b.size);
       }
     }
 
     if (a.type === 'directory') {
-      return -1
+      return -1;
     } else {
-      return 1
+      return 1;
     }
-  })
-}
+  });
+};
 
 /**
  * @typedef {Object} Info
@@ -201,108 +207,108 @@ export const infoFromPath = (path, uriDecode = true) => {
     path,
     realPath: '',
     isMfs: false,
-    isRoot: false
-  }
+    isRoot: false,
+  };
 
   /**
    * @param {string} prefix
    */
-  const check = (prefix) => {
-    info.realPath = info.path.substring(prefix.length).trim() || '/'
-    info.isRoot = info.realPath === '/'
-  }
+  const check = prefix => {
+    info.realPath = info.path.substring(prefix.length).trim() || '/';
+    info.isRoot = info.realPath === '/';
+  };
 
   if (info.path.startsWith('/ipns') || info.path.startsWith('/ipfs')) {
-    info.realPath = info.path
-    info.isRoot = info.path === '/ipns' || info.path === '/ipfs'
+    info.realPath = info.path;
+    info.isRoot = info.path === '/ipns' || info.path === '/ipfs';
   } else if (info.path.startsWith('/files')) {
-    check('/files')
-    info.isMfs = true
+    check('/files');
+    info.isMfs = true;
   } else {
-    return
+    return;
   }
 
   if (info.path.endsWith('/') && info.realPath !== '/') {
-    info.path = info.path.substring(0, info.path.length - 1)
-    info.realPath = info.realPath.substring(0, info.realPath.length - 1)
+    info.path = info.path.substring(0, info.path.length - 1);
+    info.realPath = info.realPath.substring(0, info.realPath.length - 1);
   }
 
   if (uriDecode) {
-    info.realPath = decodeURIComponent(info.realPath)
-    info.path = decodeURIComponent(info.path)
+    info.realPath = decodeURIComponent(info.realPath);
+    info.path = decodeURIComponent(info.path);
   }
 
-  return info
-}
+  return info;
+};
 
 /**
  * @template T
  * @implements {AsyncIterable<T>}
  */
 export class Channel {
-  constructor () {
-    this.done = false
+  constructor() {
+    this.done = false;
     /** @type {T[]} */
-    this.queue = []
+    this.queue = [];
     /** @type {{resolve(value:IteratorResult<T, void>):void, reject(error:any):void}[]} */
-    this.pending = []
+    this.pending = [];
   }
 
-  [Symbol.asyncIterator] () {
-    return this
+  [Symbol.asyncIterator]() {
+    return this;
   }
 
   /**
    * @returns {Promise<IteratorResult<T, void>>}
    */
-  async next () {
-    const { done, queue, pending } = this
+  async next() {
+    const { done, queue, pending } = this;
     if (done) {
-      return { done, value: undefined }
+      return { done, value: undefined };
     } else if (queue.length > 0) {
-      const value = queue[queue.length - 1]
-      queue.pop()
-      return { done, value }
+      const value = queue[queue.length - 1];
+      queue.pop();
+      return { done, value };
     } else {
       return await new Promise((resolve, reject) => {
-        pending.unshift({ resolve, reject })
-      })
+        pending.unshift({ resolve, reject });
+      });
     }
   }
 
   /**
    * @param {T} value
    */
-  send (value) {
-    const { done, pending, queue } = this
+  send(value) {
+    const { done, pending, queue } = this;
     if (done) {
-      throw Error('Channel is closed')
+      throw Error('Channel is closed');
     } else if (pending.length) {
-      const promise = pending[pending.length - 1]
-      pending.pop()
-      promise.resolve({ done, value })
+      const promise = pending[pending.length - 1];
+      pending.pop();
+      promise.resolve({ done, value });
     } else {
-      queue.unshift(value)
+      queue.unshift(value);
     }
   }
 
   /**
    * @param {Error|void} error
    */
-  close (error) {
-    const { done, pending } = this
+  close(error) {
+    const { done, pending } = this;
     if (done) {
-      throw Error('Channel is already closed')
+      throw Error('Channel is already closed');
     } else {
-      this.done = true
+      this.done = true;
       for (const promise of pending) {
         if (error) {
-          promise.reject(error)
+          promise.reject(error);
         } else {
-          promise.resolve({ done: true, value: undefined })
+          promise.resolve({ done: true, value: undefined });
         }
       }
-      pending.length = 0
+      pending.length = 0;
     }
   }
 }
@@ -310,9 +316,9 @@ export class Channel {
 /**
  * @param {import('./selectors').Selectors} store
  */
-export const ensureMFS = (store) => {
-  const info = store.selectFilesPathInfo()
+export const ensureMFS = store => {
+  const info = store.selectFilesPathInfo();
   if (!info || !info.isMfs) {
-    throw new Error('Unable to perform task if not in MFS')
+    throw new Error('Unable to perform task if not in MFS');
   }
-}
+};

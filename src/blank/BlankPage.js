@@ -1,7 +1,5 @@
-import React from 'react'
+import React from 'react';
 
-const BlankPage = () => (
-  <div data-id='BlankPage' />
-)
+const BlankPage = () => <div data-id="BlankPage" />;
 
-export default BlankPage
+export default BlankPage;

@@ -1,10 +1,10 @@
 // @ts-check
-import React from 'react'
+import React from 'react';
 
-import i18n from '../../i18n.js'
-import LanguageSelectorEl from './LanguageSelector.js'
+import i18n from '../../i18n.js';
+import LanguageSelectorEl from './LanguageSelector.js';
 
-const t = i18n.getFixedT('en', 'settings')
+const t = i18n.getFixedT('en', 'settings');
 
 /**
  * @type {import('@storybook/react').Meta}
@@ -15,13 +15,15 @@ export default {
   parameters: {
     actions: {
       disable: false,
-      handles: ['click .Button.tc']
-    }
+      handles: ['click .Button.tc'],
+    },
   },
-  render: ({ wrapperClassName }) => (<div className={wrapperClassName}>
-    <LanguageSelectorEl t={t} />
-  </div>)
-}
+  render: ({ wrapperClassName }) => (
+    <div className={wrapperClassName}>
+      <LanguageSelectorEl t={t} />
+    </div>
+  ),
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -29,6 +31,6 @@ export default {
 export const Default = {
   name: 'LanguageSelector',
   args: {
-    wrapperClassName: 'pa4 bg-light-gray'
-  }
-}
+    wrapperClassName: 'pa4 bg-light-gray',
+  },
+};

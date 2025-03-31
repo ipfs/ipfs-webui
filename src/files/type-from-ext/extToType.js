@@ -502,6 +502,6 @@ const extToType = {
   xyw: 'text',
   zabw: 'text',
   zrtf: 'text',
-  zw: 'text'
-}
-export default extToType
+  zw: 'text',
+};
+export default extToType;

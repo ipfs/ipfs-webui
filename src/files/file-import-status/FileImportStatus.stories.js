@@ -1,24 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-import { action } from '@storybook/addon-actions'
+import { action } from '@storybook/addon-actions';
 import {
-  withKnobs
+  withKnobs,
   // , boolean
-} from '@storybook/addon-knobs'
-import i18nDecorator from '../../i18n-decorator.js'
-import { FileImportStatus } from './FileImportStatus.js'
-import i18n from '../../i18n.js'
-import { Array } from 'window-or-global'
+} from '@storybook/addon-knobs';
+import i18nDecorator from '../../i18n-decorator.js';
+import { FileImportStatus } from './FileImportStatus.js';
+import i18n from '../../i18n.js';
+import { Array } from 'window-or-global';
 
-const containerStyle = { width: 156 }
+const containerStyle = { width: 156 };
 
 /**
  * @type {import('@storybook/react').Meta}
  */
 export default {
   title: 'Files/FileImportStatus',
-  decorators: [i18nDecorator, withKnobs]
-}
+  decorators: [i18nDecorator, withKnobs],
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -34,17 +34,17 @@ export const ImportASingleFileExpandedInProgress = () => (
           status: 'Pending',
           message: {
             progress: 30,
-            entries: [catFile]
-          }
-        }
+            entries: [catFile],
+          },
+        },
       ]}
     />
   </div>
-)
+);
 
 ImportASingleFileExpandedInProgress.story = {
-  name: 'Import a single file (expanded, in progress)'
-}
+  name: 'Import a single file (expanded, in progress)',
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -61,17 +61,17 @@ export const ImportASingleFileCollapsedInProgress = () => (
           status: 'Pending',
           message: {
             progress: 30,
-            entries: [catFile]
-          }
-        }
+            entries: [catFile],
+          },
+        },
       ]}
     />
   </div>
-)
+);
 
 ImportASingleFileCollapsedInProgress.story = {
-  name: 'Import a single file (collapsed, in progress)'
-}
+  name: 'Import a single file (collapsed, in progress)',
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -88,17 +88,17 @@ export const ImportASingleFileExpandedComplete = () => (
           end: 1601069572246,
           message: {
             progress: 100,
-            entries: [catFile]
-          }
-        }
+            entries: [catFile],
+          },
+        },
       ]}
     />
   </div>
-)
+);
 
 ImportASingleFileExpandedComplete.story = {
-  name: 'Import a single file (expanded, complete)'
-}
+  name: 'Import a single file (expanded, complete)',
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -114,9 +114,9 @@ export const ImportMultipleFilesExpandedInProgress = () => (
           status: 'Pending',
           message: {
             progress: 30,
-            entries: [catFile]
-          }
-        }
+            entries: [catFile],
+          },
+        },
       ]}
       filesFinished={[
         {
@@ -125,8 +125,8 @@ export const ImportMultipleFilesExpandedInProgress = () => (
           end: 1601069572246,
           message: {
             progress: 100,
-            entries: [novelFile]
-          }
+            entries: [novelFile],
+          },
         },
         {
           status: 'Done',
@@ -134,17 +134,17 @@ export const ImportMultipleFilesExpandedInProgress = () => (
           end: 1601069572246,
           message: {
             progress: 100,
-            entries: [...dirOfFiles]
-          }
-        }
+            entries: [...dirOfFiles],
+          },
+        },
       ]}
     />
   </div>
-)
+);
 
 ImportMultipleFilesExpandedInProgress.story = {
-  name: 'Import multiple files (expanded, in progress)'
-}
+  name: 'Import multiple files (expanded, in progress)',
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -163,10 +163,10 @@ export const ImportMultipleFilesCollapsedInProgress = () => (
           entries: [
             {
               path: Math.random().toString(36).slice(2),
-              size: Math.round(Math.random() * 1000)
-            }
-          ]
-        }
+              size: Math.round(Math.random() * 1000),
+            },
+          ],
+        },
       }))}
       filesFinished={[
         {
@@ -175,8 +175,8 @@ export const ImportMultipleFilesCollapsedInProgress = () => (
           end: 1601069572246,
           message: {
             progress: 100,
-            entries: [novelFile]
-          }
+            entries: [novelFile],
+          },
         },
         {
           status: 'Done',
@@ -184,17 +184,17 @@ export const ImportMultipleFilesCollapsedInProgress = () => (
           end: 1601069572246,
           message: {
             progress: 100,
-            entries: [...dirOfFiles]
-          }
-        }
+            entries: [...dirOfFiles],
+          },
+        },
       ]}
     />
   </div>
-)
+);
 
 ImportMultipleFilesCollapsedInProgress.story = {
-  name: 'Import multiple files (collapsed, in progress)'
-}
+  name: 'Import multiple files (collapsed, in progress)',
+};
 
 /**
  * @type {import('@storybook/react').StoryObj}
@@ -212,43 +212,43 @@ export const ImportMultipleFilesExpandedComplete = () => (
           entries: [
             {
               path: Math.random().toString(36).slice(2),
-              size: Math.round(Math.random() * 1000)
-            }
-          ]
-        }
+              size: Math.round(Math.random() * 1000),
+            },
+          ],
+        },
       }))}
     />
   </div>
-)
+);
 
 ImportMultipleFilesExpandedComplete.story = {
-  name: 'Import multiple files (expanded, complete)'
-}
+  name: 'Import multiple files (expanded, complete)',
+};
 
 const catFile = {
   path: 'awesome-cat-image-that-is-extermely-awesome.gif',
-  size: 2.1e6
-}
+  size: 2.1e6,
+};
 
 const novelFile = {
   path: 'my-nover.docx',
-  size: 12200
-}
+  size: 12200,
+};
 
 const dirOfFiles = [
   {
     path: 'folder full of files/readme.md',
-    size: 0.2e6
+    size: 0.2e6,
   },
   {
     path: 'folder full of files/chapter-1.md',
-    size: 1.1e6
+    size: 1.1e6,
   },
   {
     path: 'folder full of files/chapter-2.md',
-    size: 1.1e6
-  }
-]
+    size: 1.1e6,
+  },
+];
 
 // /**
 //  * @type {import('@storybook/react').Meta}

@@ -1,6 +1,6 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphDocGeneric (props) {
+function SvgGlyphDocGeneric(props) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.42 21" {...props}>
       <path
@@ -11,7 +11,7 @@ function SvgGlyphDocGeneric (props) {
       <path d="M13.78 18.88H4.64a1.36 1.36 0 01-1.36-1.36v-14a1.36 1.36 0 011.36-1.4h5.58a.25.25 0 01.18.08l4.66 4.66a.22.22 0 01.07.17v10.49a1.35 1.35 0 01-1.35 1.36zM4.64 2.62a.87.87 0 00-.86.86v14a.87.87 0 00.86.86h9.14a.86.86 0 00.85-.86V7.14l-4.51-4.52z" />
       <path d="M10.22 2.58v2.66a2 2 0 002 2h2.66" opacity={0.45} />
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphDocGeneric
+export default SvgGlyphDocGeneric;

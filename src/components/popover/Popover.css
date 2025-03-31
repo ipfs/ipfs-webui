@@ -1,46 +1,50 @@
 .popover {
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-    pointer-events: all;
-    z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  pointer-events: all;
+  z-index: 10;
 }
 
-.popover[aria-hidden="false"] {
-    opacity: 1;
+.popover[aria-hidden='false'] {
+  opacity: 1;
 }
 
 .popover--align-top {
-    transform: translate(-50%, calc(-100% - 10px));
-    transition: top 0.3s ease-in-out, left 0.3s ease-in-out;
-    will-change: top, left;
+  transform: translate(-50%, calc(-100% - 10px));
+  transition:
+    top 0.3s ease-in-out,
+    left 0.3s ease-in-out;
+  will-change: top, left;
 }
 
 .popover--align-top::before {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    width: 10px;
-    height: 10px;
-    background: inherit;
-    box-shadow: 2px 6px 6px 0px rgba( 0, 0, 0, .2 );
-    transform: translate(-50%, -50%) rotate(45deg);
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  box-shadow: 2px 6px 6px 0px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .popover--align-bottom {
-    transform: translate(-50%, 20px);
-    transition: top 0.3s ease-in-out, left 0.3s ease-in-out;
-    will-change: top, left;
+  transform: translate(-50%, 20px);
+  transition:
+    top 0.3s ease-in-out,
+    left 0.3s ease-in-out;
+  will-change: top, left;
 }
 
 .popover--align-bottom::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 10px;
-    height: 10px;
-    background: inherit;
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, .2);
-    transform: translate(-50%, -50%) rotate(45deg);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%) rotate(45deg);
 }

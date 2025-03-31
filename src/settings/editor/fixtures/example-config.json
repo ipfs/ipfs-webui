@@ -1,23 +1,14 @@
 {
   "API": {
     "HTTPHeaders": {
-      "Access-Control-Allow-Methods": [
-        "PUT",
-        "POST",
-        "GET"
-      ],
-      "Access-Control-Allow-Origin": [
-        "*"
-      ]
+      "Access-Control-Allow-Methods": ["PUT", "POST", "GET"],
+      "Access-Control-Allow-Origin": ["*"]
     }
   },
   "Addresses": {
     "API": "/ip4/127.0.0.1/tcp/5001",
     "Gateway": "/ip4/127.0.0.1/tcp/8080",
-    "Swarm": [
-      "/ip4/0.0.0.0/tcp/4001",
-      "/ip6/::/tcp/4001"
-    ]
+    "Swarm": ["/ip4/0.0.0.0/tcp/4001", "/ip6/::/tcp/4001"]
   },
   "Bootstrap": [
     "/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN",
@@ -80,16 +71,9 @@
   },
   "Gateway": {
     "HTTPHeaders": {
-      "Access-Control-Allow-Headers": [
-        "X-Requested-With",
-        "Range"
-      ],
-      "Access-Control-Allow-Methods": [
-        "GET"
-      ],
-      "Access-Control-Allow-Origin": [
-        "*"
-      ]
+      "Access-Control-Allow-Headers": ["X-Requested-With", "Range"],
+      "Access-Control-Allow-Methods": ["GET"],
+      "Access-Control-Allow-Origin": ["*"]
     },
     "PathPrefixes": [],
     "RootRedirect": "",

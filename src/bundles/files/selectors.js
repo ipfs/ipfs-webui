@@ -1,6 +1,6 @@
-import { createSelector } from 'redux-bundler'
-import { ACTIONS } from './consts.js'
-import { infoFromPath } from './utils.js'
+import { createSelector } from 'redux-bundler';
+import { ACTIONS } from './consts.js';
+import { infoFromPath } from './utils.js';
 
 /**
  * @typedef {import('./protocol').Model} Files
@@ -21,73 +21,76 @@ const selectors = () => ({
    * @param {Model} state
    * @returns {null|PageContent}
    */
-  selectFiles: (state) => state.files.pageContent,
+  selectFiles: state => state.files.pageContent,
 
   /**
    * @param {Model} state
    */
-  selectCurrentDirectorySize: (state) => {
-    return state.files.pageContent?.type === 'directory' && state.files.pageContent?.content?.reduce((prev, curr) => prev + curr.size, 0)
+  selectCurrentDirectorySize: state => {
+    return (
+      state.files.pageContent?.type === 'directory' &&
+      state.files.pageContent?.content?.reduce((prev, curr) => prev + curr.size, 0)
+    );
   },
 
   /**
    * @param {Model} state
    * @returns {string[]}
    */
-  selectPins: (state) => state.files.pins,
+  selectPins: state => state.files.pins,
 
   /**
    * @param {Model} state
    * @returns {number}
    */
-  selectFilesSize: (state) => state.files.mfsSize,
+  selectFilesSize: state => state.files.mfsSize,
 
   /**
    * @param {Model} state
    */
-  selectFilesIsFetching: (state) => state.files.pending.some(a => a.type === ACTIONS.FETCH),
+  selectFilesIsFetching: state => state.files.pending.some(a => a.type === ACTIONS.FETCH),
 
   /**
    * @param {Model} state
    * @returns {boolean}
    */
-  selectShowLoadingAnimation: (state) => {
-    const pending = state.files.pending.find(a => a.type === ACTIONS.FETCH)
-    return pending ? (Date.now() - pending.start) > 1000 : false
+  selectShowLoadingAnimation: state => {
+    const pending = state.files.pending.find(a => a.type === ACTIONS.FETCH);
+    return pending ? Date.now() - pending.start > 1000 : false;
   },
 
   /**
    * @param {Model} state
    */
-  selectFilesSorting: (state) => state.files.sorting,
+  selectFilesSorting: state => state.files.sorting,
 
   /**
    * @param {Model} state
    * @returns {PendingJob<void, {progress: number, entries: {size:number, path: string}[]}>[]}
    */
-  selectFilesPending: (state) =>
+  selectFilesPending: state =>
     state.files.pending.filter(s => s.type === ACTIONS.WRITE && s.message != null),
 
   /**
    * @param {Model} state
    */
-  selectFilesFinished: (state) =>
-    state.files.finished.filter(s => s.type === ACTIONS.WRITE),
+  selectFilesFinished: state => state.files.finished.filter(s => s.type === ACTIONS.WRITE),
 
   /**
    * @param {Model} state
    */
-  selectFilesHasError: (state) => state.files.failed.length > 0,
+  selectFilesHasError: state => state.files.failed.length > 0,
 
   /**
    * @param {Model} state
    */
-  selectFilesErrors: (state) => state.files.failed,
+  selectFilesErrors: state => state.files.failed,
 
   /**
    * @param {Model} state
    */
-  selectHasUpperDirectory: (state) => state.files.pageContent?.type === 'directory' && state.files.pageContent?.upper,
+  selectHasUpperDirectory: state =>
+    state.files.pageContent?.type === 'directory' && state.files.pageContent?.upper,
 
   selectFilesPathInfo: createSelector(
     'selectRouteInfo',
@@ -95,10 +98,10 @@ const selectors = () => ({
      * @param {object} routeInfo
      * @param {string} routeInfo.url
      */
-    (routeInfo) => {
-      return infoFromPath(routeInfo.url)
+    routeInfo => {
+      return infoFromPath(routeInfo.url);
     }
-  )
-})
+  ),
+});
 
-export default selectors
+export default selectors;

@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Icon from '../../../icons/StrokeSpeaker.js'
-import TextInputModal from '../../text-input-modal/TextInputModal.js'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Icon from '../../../icons/StrokeSpeaker.js';
+import TextInputModal from '../../text-input-modal/TextInputModal.js';
 
 const GenerateKeyModal = ({ t, tReady, onCancel, onSubmit, className, ...props }) => {
   return (
     <TextInputModal
-      onSubmit={(p) => onSubmit(p.trim())}
-      onChange={(p) => p.trimStart()}
+      onSubmit={p => onSubmit(p.trim())}
+      onChange={p => p.trimStart()}
       onCancel={onCancel}
       className={className}
       title={t('generateKeyModal.title')}
@@ -16,18 +16,18 @@ const GenerateKeyModal = ({ t, tReady, onCancel, onSubmit, className, ...props }
       submitText={t('app:actions.generate')}
       {...props}
     />
-  )
-}
+  );
+};
 
 GenerateKeyModal.propTypes = {
   t: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  className: PropTypes.string
-}
+  className: PropTypes.string,
+};
 
 GenerateKeyModal.defaultProps = {
-  className: ''
-}
+  className: '',
+};
 
-export default GenerateKeyModal
+export default GenerateKeyModal;

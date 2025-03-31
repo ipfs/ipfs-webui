@@ -1,18 +1,22 @@
 .selectedActions {
-    width: 100%;
+  width: 100%;
 }
 
 @media only screen and (min-width: 60em) {
-    .selectedActions {
-        width: calc(100% - 148px)
-    }
+  .selectedActions {
+    width: calc(100% - 148px);
+  }
 }
 
 .selectedActionsAnimated {
-    animation: selectedActions 0.3s ease-in-out both;
+  animation: selectedActions 0.3s ease-in-out both;
 }
 
 @keyframes selectedActions {
-    from { transform: translateY(100%) }
-    to { transform: translateY(0%) }
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
 }

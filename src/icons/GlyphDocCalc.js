@@ -1,13 +1,8 @@
-import * as React from 'react'
+import * as React from 'react';
 
-function SvgGlyphDocCalc (props) {
+function SvgGlyphDocCalc(props) {
   return (
-    <svg
-      data-name="Warstwa 1"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 18.42 21"
-      {...props}
-    >
+    <svg data-name="Warstwa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.42 21" {...props}>
       <path
         d="M10.22 2.37H4.64a1.11 1.11 0 00-1.11 1.11v14a1.11 1.11 0 001.11 1.11h9.14a1.11 1.11 0 001.1-1.11V7z"
         opacity={0.1}
@@ -17,7 +12,7 @@ function SvgGlyphDocCalc (props) {
       <path d="M10.22 2.58v2.66a2 2 0 002 2h2.66" opacity={0.45} />
       <path d="M8.32 13.03l-1.7 1.82v.02h5.75v.57H6.05v-4.59h.57v3.16l1.67-1.79.42.39.84.78 1.84-1.97h-.75v-.57h1.73v1.72h-.58v-.73l-2.21 2.37-.42-.4-.84-.78z" />
     </svg>
-  )
+  );
 }
 
-export default SvgGlyphDocCalc
+export default SvgGlyphDocCalc;
