@@ -1,0 +1,21 @@
+# Build output
+build/
+dist/
+
+# Dependencies
+node_modules/
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Storybook
+storybook-static/
+
+# Generated files
+src/lib/languages.json
+
+# Other
+.git/
+.github/
+.tx/
