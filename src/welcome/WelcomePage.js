@@ -14,12 +14,10 @@ import AboutIpfs from '../components/about-ipfs/AboutIpfs.tsx'
 import AboutWebUI from '../components/about-webui/AboutWebUI.tsx'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
-const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
+const WelcomePage = ({ t, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
   if (!ipfsInitFailed && !ipfsReady) {
     return <ComponentLoader />
   }
-
-  const isSameOrigin = window.location.origin === apiUrl
 
   return (
     <div>
@@ -27,7 +25,7 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, tour
         <title>{t('title')}</title>
       </Helmet>
       <div className='lh-copy charcoal'>
-        <ConnectionStatus connected={ipfsConnected} sameOrigin={isSameOrigin} t={t} />
+        <ConnectionStatus connected={ipfsConnected} />
       </div>
       <ReactJoyride
         run={toursEnabled}
@@ -40,7 +38,7 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, tour
   )
 }
 
-const ConnectionStatus = ({ t, connected, sameOrigin }) => {
+const ConnectionStatus = ({ connected }) => {
   if (connected) {
     return (
       <div>
