@@ -1,6 +1,6 @@
 import React from 'react'
 import { withTranslation, Trans } from 'react-i18next'
-import Shell from '../components/shell/Shell.js'
+import Shell from '../components/shell/Shell.tsx'
 import Box from '../components/box/Box.tsx'
 
 const StatusNotConnected = ({ t }) => {
