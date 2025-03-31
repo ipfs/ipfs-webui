@@ -1,9 +1,10 @@
 import React from 'react'
-import { withTranslation } from 'react-i18next'
-import Box from '../box/Box.js'
+import { useTranslation } from 'react-i18next'
+import Box from '../box/Box.tsx'
 import GlyphTick from '../../icons/GlyphTick.js'
 
-export const IsConnected = ({ t }) => {
+const IsConnected = () => {
+  const { t } = useTranslation('welcome')
   return (
     <Box className='pv3 ph4'>
       <div>
@@ -17,4 +18,4 @@ export const IsConnected = ({ t }) => {
   )
 }
 
-export default withTranslation('welcome')(IsConnected)
+export default IsConnected

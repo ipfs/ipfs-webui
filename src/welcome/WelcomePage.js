@@ -8,10 +8,10 @@ import { welcomeTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Components
-import IsConnected from '../components/is-connected/IsConnected.js'
+import IsConnected from '../components/is-connected/IsConnected.tsx'
 import IsNotConnected from '../components/is-not-connected/IsNotConnected.js'
-import AboutIpfs from '../components/about-ipfs/AboutIpfs.js'
-import AboutWebUI from '../components/about-webui/AboutWebUI.js'
+import AboutIpfs from '../components/about-ipfs/AboutIpfs.tsx'
+import AboutWebUI from '../components/about-webui/AboutWebUI.tsx'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
 const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
