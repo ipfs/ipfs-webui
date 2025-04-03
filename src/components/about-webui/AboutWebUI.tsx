@@ -1,8 +1,9 @@
 import React from 'react'
-import { withTranslation, Trans } from 'react-i18next'
-import Box from '../box/Box.js'
+import { Trans, useTranslation } from 'react-i18next'
+import Box from '../box/Box.tsx'
 
-export const AboutWebUI = ({ t }) => {
+const AboutWebUI = () => {
+  const { t } = useTranslation('welcome')
   return (
     <Box>
       <h2 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('welcomeInfo.header')}</h2>
@@ -30,4 +31,4 @@ export const AboutWebUI = ({ t }) => {
   )
 }
 
-export default withTranslation('welcome')(AboutWebUI)
+export default AboutWebUI

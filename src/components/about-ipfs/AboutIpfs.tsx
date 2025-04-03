@@ -1,8 +1,10 @@
 import React from 'react'
-import { withTranslation, Trans } from 'react-i18next'
-import Box from '../box/Box.js'
+import { Trans, useTranslation } from 'react-i18next'
+import Box from '../box/Box.tsx'
 
-export const AboutIpfs = ({ t }) => {
+const AboutIpfs = () => {
+  const { t } = useTranslation('welcome')
+
   return (
     <Box>
       <h2 className='mt0 mb3 montserrat fw2 f3 charcoal'>{t('aboutIpfs.header')}</h2>
@@ -27,4 +29,4 @@ export const AboutIpfs = ({ t }) => {
   )
 }
 
-export default withTranslation('welcome')(AboutIpfs)
+export default AboutIpfs
