@@ -3,9 +3,9 @@ import { DEFAULT_STATE, ACTIONS, SORTING } from './consts.js'
 import selectors from './selectors.js'
 import actions from './actions.js'
 
-export { ACTIONS }
+{ ACTIONS }
 
-export const sorts = SORTING
+const sorts = SORTING
 
 /**
  * @typedef {import('./protocol').Model} Model
