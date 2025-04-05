@@ -121,7 +121,16 @@ function webpackOverride (config) {
       fullySpecified: false
     }
   })
-  config.resolve.extensions = ['.js', '.jsx', '.tsx', '.ts', '...']
+
+  // Make sure .tsx and .ts extensions are properly prioritized
+  // This ordering allows imports like './file.js' to resolve to './file.ts' or './file.tsx'
+  config.resolve.extensions = ['.js', '.jsx', '.ts', '.tsx', '...']
+
+  // Enable resolving .js imports to .ts/.tsx files without specific aliases
+  config.resolve.extensionAlias = {
+    '.js': ['.js', '.ts', '.tsx'],
+    '.jsx': ['.jsx', '.tsx']
+  }
 
   // Instrument for code coverage in development mode
   const REACT_APP_ENV = process.env.REACT_APP_ENV ?? process.env.NODE_ENV ?? 'development'

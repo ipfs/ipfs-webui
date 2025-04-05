@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+/**
+ * @param {React.SVGProps<SVGSVGElement>} props
+ * @returns {React.ReactElement}
+ */
 function SvgGlyphDocCalc (props) {
   return (
     <svg

@@ -39,22 +39,10 @@ const pinningServiceTemplates = [
     visitServiceUrl: 'https://docs.fx.land/pinning-service/ipfs-pinning-service-api'
   },
   {
-    name: 'Web3.Storage',
-    icon: 'https://dweb.link/ipfs/bafybeiaqsdwuwemchbofzok4cq7cuvotfs6bgickxdqr6f7hdt7a64cwwa/Web3.Storage-logo.svg',
-    apiEndpoint: 'https://api.web3.storage',
-    visitServiceUrl: 'https://web3.storage/docs/how-tos/pinning-services-api/'
-  },
-  {
     name: '4EVERLAND',
     icon: 'https://dweb.link/ipfs/bafkreie4mg2rmoe6fzct4rpwd2d4nuok3yx2mew567nu3s5bfnnmlb65ei?filename=4everland-logo.svg',
     apiEndpoint: 'https://api.4everland.dev',
     visitServiceUrl: 'https://docs.4everland.org/storage/4ever-pin/pinning-services-api'
-  },
-  {
-    name: 'Scaleway',
-    icon: 'https://dweb.link/ipfs/QmTM7RtYsuJFoV7y3Ec1WdGTW8knKrjwbY6ByTGsJN6TYw?filename=scaleway.svg',
-    apiEndpoint: 'https://<your-volume-region-code>.ipfs.labs.scw.cloud/<your-volume-id>/',
-    visitServiceUrl: 'https://www.scaleway.com/en/docs/labs/ipfs-pinning/reference-content/install-ipfs-desktop/'
   }
 ].map((service) => {
   try {
