@@ -36,6 +36,7 @@ const DropableBreadcrumb = ({ index, link, immutable, onAddFiles, onMove, onClic
 
   const handleOnContextMenuHandle = async (ev) => {
     ev.preventDefault()
+    ev.stopPropagation()
 
     const { path } = link
     const sanitizedPath = path.substring(path.indexOf('/', 1), path.length)
