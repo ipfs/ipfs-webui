@@ -186,7 +186,6 @@ const FilesPage = ({
       )
     }
 
-
     const commonProps = {
       key: window.encodeURIComponent(files.path),
       updateSorting: doFilesUpdateSorting,
@@ -245,6 +244,7 @@ const FilesPage = ({
         share={() => showModal(SHARE, selectedFiles)}
         setPinning={() => showModal(PINNING, selectedFiles)}
         download={() => onDownload(selectedFiles)}
+        move={() => showModal(MOVE, selectedFiles)}
         inspect={() => onInspect(selectedFiles[0].cid)}
         count={selectedFiles.length}
         isMfs={filesPathInfo.isMfs}

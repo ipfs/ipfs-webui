@@ -16,6 +16,7 @@ import Checkbox from '../../components/checkbox/Checkbox.js'
 // import SelectedActions from '../selected-actions/SelectedActions.js'
 import File from '../file/File.js'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation.js'
+import SelectedActions from '../selected-actions/SelectedActions.js'
 
 const addFiles = async (filesPromise, onAddFiles) => {
   const files = await filesPromise
@@ -109,6 +110,13 @@ export const FilesList = ({
       return
     }
 
+    if ((e.target.tagName === 'INPUT' ||
+      e.target.tagName === 'TEXTAREA' ||
+      e.target.tagName === 'SELECT') &&
+      e.target.closest('.modal')) {
+      return
+    }
+
     if (e.key === 'Escape') {
       onSelect([], false)
       setFocused(null)
@@ -119,7 +127,7 @@ export const FilesList = ({
       return onRename([focusedFile])
     }
 
-    if ((e.key === 'Delete' || e.key === 'Backspace' || e.keyCode === 8 || e.keyCode === 46) && selected.length > 0) {
+    if ((e.key === 'Delete' || e.key === 'Backspace' || e.keyCode === 8 || e.keyCode === 46) && selectedFiles.length > 0) {
       return onRemove(selectedFiles)
     }
 
@@ -164,7 +172,6 @@ export const FilesList = ({
     onRemove,
     onRename,
     onSelect,
-    selected.length,
     selectedFiles,
     toggleOne,
     listRef

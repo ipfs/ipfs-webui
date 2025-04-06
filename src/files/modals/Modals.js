@@ -43,7 +43,7 @@ export {
   CLI_TUTOR_MODE,
   PINNING,
   PUBLISH,
-  MOVE
+  MOVE,
   SHORTCUTS
 }
 
