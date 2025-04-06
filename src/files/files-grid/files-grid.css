@@ -1,0 +1,29 @@
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  position: relative;
+  z-index: 0;
+  padding: 1rem;
+  min-height: 200px;
+}
+
+.files-grid--drop-target {
+  background-color: rgba(117, 189, 255, 0.1);
+  border: 2px dashed #75bdff;
+  border-radius: 8px;
+}
+
+.files-grid-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.files-grid:focus,
+.files-grid:focus-visible {
+  outline: none;
+}

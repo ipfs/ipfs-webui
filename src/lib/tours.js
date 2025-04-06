@@ -151,14 +151,23 @@ export const filesTour = {
     },
     {
       content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>{t('tour.step6.title')}</h2>
+        <p className='tl f6'>{t('tour.step6.paragraph1')}</p>
+        <p className='tl f6'>{t('tour.step6.paragraph2')}</p>
+      </div>,
+      placement: 'bottom',
+      target: '.filegrid-view'
+    },
+    {
+      content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step5.title')}</h2>
         <p className='tl f6'>{t('tour.step5.paragraph1')}</p>
         <p className='tl f6'>{t('tour.step5.paragraph2')}</p>
         <p className='tl f6'>{t('tour.step5.paragraph3')}</p>
       </div>,
       locale: { last: t('tour.finish') },
-      placement: 'center',
-      target: 'body'
+      placement: 'bottom',
+      target: '.filelist-view'
     }
   ],
   styles: {
