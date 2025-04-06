@@ -7,7 +7,7 @@ import { isBinary } from 'istextorbinary'
 import FileIcon from '../file-icon/FileIcon.js'
 // @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
-import FileThumbnail from '../file-preview/file-thumbnail.js'
+import FileThumbnail from '../file-preview/file-thumbnail'
 import PinIcon from '../pin-icon/PinIcon.js'
 import GlyphDots from '../../icons/GlyphDots.js'
 import Checkbox from '../../components/checkbox/Checkbox.js'

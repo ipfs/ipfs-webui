@@ -105,5 +105,27 @@
     "skip": "Skip",
     "tooltip": "Click this button any time for a guided tour on the current page."
   },
+  "shortcutModal": {
+    "title": "Keyboard Shortcuts",
+    "description": "The following keyboard shortcuts are available in the Files section:",
+    "navigation": "Navigation",
+    "selection": "Selection",
+    "actions": "Actions",
+    "other": "Other",
+    "moveDown": "Move down",
+    "moveUp": "Move up",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "navigate": "Navigate to selected item",
+    "rename": "Rename selected item",
+    "delete": "Delete selected item(s)",
+    "toggleSelection": "Toggle selection",
+    "selectAll": "Select all items",
+    "deselectAll": "Deselect all items",
+    "copy": "Copy selected item(s)",
+    "paste": "Paste item(s)",
+    "cut": "Cut selected item(s)",
+    "showShortcuts": "Show keyboard shortcuts"
+  },
   "startTourHelper": "Start tour"
 }

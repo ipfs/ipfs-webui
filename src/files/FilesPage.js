@@ -12,13 +12,11 @@ import withTour from '../components/tour/withTour.js'
 import InfoBoxes from './info-boxes/InfoBoxes.js'
 import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
-import FilesGrid from './files-grid/files-grid.js'
+import FilesGrid from './files-grid/files-grid.tsx'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
-
 // Icons
 import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, SHORTCUTS, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
-
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
