@@ -13,6 +13,7 @@ import RemoveModal from './remove-modal/RemoveModal.js'
 import AddByPathModal from './add-by-path-modal/AddByPathModal.js'
 import BulkImportModal from './bulk-import-modal/bulk-import-modal.tsx'
 import PublishModal from './publish-modal/PublishModal.js'
+import ShortcutModal from './shortcut-modal/shortcut-modal.js'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts.js'
 import { realMfsPath } from '../../bundles/files/actions.js'
@@ -29,6 +30,7 @@ const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
 const PUBLISH = 'publish'
 const MOVE = 'move'
+const SHORTCUTS = 'shortcuts'
 
 export {
   NEW_FOLDER,
@@ -42,6 +44,7 @@ export {
   PINNING,
   PUBLISH,
   MOVE
+  SHORTCUTS
 }
 
 class Modals extends React.Component {
@@ -257,6 +260,9 @@ class Modals extends React.Component {
           publish: { file }
         })
       }
+      case SHORTCUTS:
+        this.setState({ readyToShow: true })
+        break
       default:
         // do nothing for now
     }
@@ -380,6 +386,12 @@ class Modals extends React.Component {
             {...publish}
             onLeave={this.leave}
             onSubmit={this.publish} />
+        </Overlay>
+
+        <Overlay show={show === SHORTCUTS && readyToShow} onLeave={this.leave}>
+          <ShortcutModal
+            className='outline-0'
+            onLeave={this.leave} />
         </Overlay>
       </div>
     )

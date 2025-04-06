@@ -234,6 +234,18 @@ const actions = () => ({
         content: []
       }
     }
+
+   * Reads data from a CID with optional offset and length.
+   * @param {import('multiformats/cid').CID} cid - The CID to read from
+   * @param {number} [offset] - The starting point to read from
+   * @param {number} [length] - The number of bytes to read
+  */
+  doRead: (cid, offset = 0, length) => perform(ACTIONS.READ_FILE, async (ipfs) => {
+    if (!ipfs) {
+      throw new Error('IPFS is not available')
+    }
+    return ipfs.cat(cid, { offset, length })
+
   }),
 
   /**

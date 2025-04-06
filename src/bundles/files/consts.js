@@ -44,7 +44,9 @@ export const ACTIONS = {
   /** @type {'FILES_UPDATE_SORT'} */
   UPDATE_SORT: ('FILES_UPDATE_SORT'),
   /** @type {'FILES_DIRECTORY_FETCH'} */
-  DIRECTORY_FETCH: ('FILES_DIRECTORY_FETCH')
+  DIRECTORY_FETCH: ('FILES_DIRECTORY_FETCH'),
+  /** @type {'FILES_READ'} */
+  READ_FILE: ('FILES_READ')
 }
 
 export const SORTING = {

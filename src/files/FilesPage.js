@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
@@ -12,14 +12,18 @@ import withTour from '../components/tour/withTour.js'
 import InfoBoxes from './info-boxes/InfoBoxes.js'
 import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
+import FilesGrid from './files-grid/files-grid.js'
+import { ViewList, ViewModule } from '../icons/stroke-icons.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_CAR, ADD_BY_PATH, BULK_CID_IMPORT, CLI_TUTOR_MODE, PINNING, PUBLISH, MOVE } from './modals/Modals.js'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_CAR, ADD_BY_PATH, BULK_CID_IMPORT, CLI_TUTOR_MODE, SHORTCUTS, PINNING, PUBLISH, MOVE } from './modals/Modals.js'
 
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
+import SelectedActions from './selected-actions/SelectedActions.js'
+import Checkbox from '../components/checkbox/Checkbox.js'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
@@ -36,6 +40,8 @@ const FilesPage = ({
     translateY: 0,
     file: null
   })
+  const [viewMode, setViewMode] = useState('list')
+  const [selected, setSelected] = useState([])
 
   useEffect(() => {
     doFetchPinningServices()
@@ -49,6 +55,22 @@ const FilesPage = ({
       doFilesFetch()
     }
   }, [ipfsConnected, filesPathInfo, doFilesFetch])
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return
+      }
+
+      if (e.key === '?' && e.shiftKey) {
+        e.preventDefault()
+        showModal(SHORTCUTS)
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   /* TODO: uncomment below if we ever want automatic remote pin check
   *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)
@@ -91,6 +113,12 @@ const FilesPage = ({
   const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
   const showModal = (modal, files = null) => setModals({ show: modal, files })
   const hideModal = () => setModals({})
+  /**
+   * @param {React.MouseEvent} ev
+   * @param {string} clickType
+   * @param {ContextMenuFile} file
+   * @param {Pick<DOMRect, 'y' | 'right' | 'bottom'>} [pos]
+   */
   const handleContextMenu = (ev, clickType, file, pos) => {
     // This is needed to disable the native OS right-click menu
     // and deal with the clicking on the ContextMenu options
@@ -133,6 +161,17 @@ const FilesPage = ({
   }
 
   const MainView = ({ t, files, remotePins, pendingPins, failedPins, doExploreUserProvidedPath }) => {
+    const selectedFiles = useMemo(() =>
+      selected
+        .map(name => files?.content?.find(el => el.name === name))
+        .filter(n => n)
+        .map(file => ({
+          ...file,
+          pinned: files?.pins?.map(p => p.toString())?.includes(file.cid.toString())
+        }))
+        /* eslint-disable-next-line react-hooks/exhaustive-deps */
+    , [files?.content, files?.pins, selected])
+
     if (!files || files.type === 'file') return (<div/>)
 
     if (files.type === 'unknown') {
@@ -147,27 +186,71 @@ const FilesPage = ({
       )
     }
 
-    return (
-      <FilesList
-        key={window.encodeURIComponent(files.path)}
-        updateSorting={doFilesUpdateSorting}
-        files={files.content}
-        remotePins={remotePins}
-        pendingPins={pendingPins}
-        failedPins={failedPins}
-        upperDir={files.upper}
-        onShare={(files) => showModal(SHARE, files)}
-        onRename={(files) => showModal(RENAME, files)}
-        onRemove={(files) => showModal(DELETE, files)}
-        onMove={(files) => showModal(MOVE, files)}
-        onSetPinning={(files) => showModal(PINNING, files)}
-        onInspect={onInspect}
-        onRemotePinClick={onRemotePinClick}
-        onDownload={onDownload}
-        onAddFiles={onAddFiles}
-        onNavigate={doFilesNavigateTo}
-        handleContextMenuClick={handleContextMenu} />
-    )
+
+    const commonProps = {
+      key: window.encodeURIComponent(files.path),
+      updateSorting: doFilesUpdateSorting,
+      files: files.content || [],
+      pins: files.pins || [],
+      remotePins: remotePins || [],
+      pendingPins: pendingPins || [],
+      failedPins: failedPins || [],
+      filesPathInfo,
+      selected,
+      onSelect: (name, isSelected) => {
+        if (Array.isArray(name)) {
+          if (isSelected) {
+            setSelected(name)
+          } else {
+            setSelected([])
+          }
+        } else {
+          if (isSelected) {
+            setSelected(prev => [...prev, name])
+          } else {
+            setSelected(prev => prev.filter(n => n !== name))
+          }
+        }
+      },
+      onShare: (files) => showModal(SHARE, files),
+      onRename: (files) => showModal(RENAME, files),
+      onRemove: (files) => showModal(DELETE, files),
+      onSetPinning: (files) => showModal(PINNING, files),
+      onInspect,
+      onRemotePinClick,
+      onDownload,
+      onAddFiles,
+      onNavigate: doFilesNavigateTo,
+      onMove: (files) => showModal(MOVE, files),
+      upperDir: files.upper,
+      handleContextMenuClick: handleContextMenu,
+      // TODO: Implement this
+      onDismissFailedPin: () => {}
+    }
+
+    return <>
+      {viewMode === 'list'
+        ? <FilesList {...commonProps} />
+        : <FilesGrid {...commonProps} />}
+
+      {selectedFiles.length !== 0 && <SelectedActions
+        className={'fixed bottom-0 right-0'}
+        style={{
+          zIndex: 20
+        }}
+        animateOnStart={selectedFiles.length === 1}
+        unselect={() => setSelected([])}
+        remove={() => showModal(DELETE, selectedFiles)}
+        rename={() => showModal(RENAME, selectedFiles)}
+        share={() => showModal(SHARE, selectedFiles)}
+        setPinning={() => showModal(PINNING, selectedFiles)}
+        download={() => onDownload(selectedFiles)}
+        inspect={() => onInspect(selectedFiles[0].cid)}
+        count={selectedFiles.length}
+        isMfs={filesPathInfo.isMfs}
+        size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
+      }
+    </>
   }
 
   const getTitle = (filesPathInfo, t) => {
@@ -225,7 +308,53 @@ const FilesPage = ({
         onBulkCidImport={(files) => showModal(BULK_CID_IMPORT, files)}
         onNewFolder={(files) => showModal(NEW_FOLDER, files)}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
-        handleContextMenu={(...args) => handleContextMenu(...args, true)} />
+        handleContextMenu={(...args) => handleContextMenu(...args, true)}
+      >
+        <div className="flex items-center justify-end">
+          <button
+            className={`pointer filelist-view ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
+            onClick={() => setViewMode('list')}
+            title={t('viewList')}
+            style={{
+              height: '24px'
+            }}
+          >
+            <ViewList width="24" height="24" />
+          </button>
+          <button
+            className={`pointer filegrid-view ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
+            onClick={() => setViewMode('grid')}
+            title={t('viewGrid')}
+            style={{
+              height: '24px'
+            }}
+          >
+            <ViewModule width="24" height="24" />
+          </button>
+        </div>
+      </Header>
+
+      {(files && files.type !== 'file') && <div className="flex items-center justify-between">
+        <div>
+          {viewMode === 'grid' && files?.content?.length > 0
+            ? (
+                <Checkbox
+                  className='pv3 pl3 pr1 bg-white flex-none'
+                  onChange={(checked) => {
+                    if (checked) {
+                      setSelected(files.content.map(f => f.name))
+                    } else {
+                      setSelected([])
+                    }
+                  }}
+                  checked={files?.content?.length > 0 && selected.length === files.content.length}
+                  label={<span className='fw5 f6'>{t('selectAllEntries')}</span>}
+                />
+              )
+            : null
+          }
+        </div>
+      </div>}
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
