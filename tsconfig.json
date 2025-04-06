@@ -79,8 +79,8 @@
     "src/lib/files.js",
     "src/env.js",
     "src/lib/hofs/**/*.js",
-    "src/lib/guards.js", 
-    "src/files/context-menu/ContextMenu.stories.tsx"
+    "src/lib/guards.js",
+    "src/files/context-menu/ContextMenu.stories.tsx",
     "src/files/file-preview/file-thumbnail.tsx",
     "src/files/type-from-ext/index.js",
     "src/files/files-grid/files-grid.tsx",
