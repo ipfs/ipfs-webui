@@ -163,5 +163,25 @@
   },
   "noPinsInProgress": "All done, no remote pins in progress.",
   "remotePinningInProgress": "Remote pinning in progress:",
-  "selectAllEntries": "Select all entries"
+  "selectAllEntries": "Select all entries",
+  "shortcutModal": {
+    "navigation": "Navigation",
+    "selection": "Selection",
+    "actions": "Actions",
+    "other": "Other",
+    "moveDown": "Move down",
+    "moveUp": "Move up",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "navigate": "Navigate to selected item",
+    "rename": "Rename selected item",
+    "delete": "Delete selected item(s)",
+    "toggleSelection": "Toggle selection",
+    "selectAll": "Select all items",
+    "deselectAll": "Deselect all items",
+    "copy": "Copy selected item(s)",
+    "paste": "Paste item(s)",
+    "cut": "Cut selected item(s)",
+    "showShortcuts": "Show keyboard shortcuts"
+  }
 }

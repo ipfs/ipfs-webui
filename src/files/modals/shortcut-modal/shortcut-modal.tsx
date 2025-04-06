@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Modal } from '../../../components/modal/Modal.js'
-import { useShortcuts } from '../../../contexts/ShortcutsContext.tsx'
+// @ts-ignore
+import { Modal } from '../../../components/modal/Modal'
+import { useShortcuts } from '../../../contexts/ShortcutsContext'
 
 interface KeySymbols {
   [key: string]: string | {
@@ -67,7 +68,8 @@ const KeyboardKey: React.FC<KeyboardKeyProps> = ({ children, platform }) => {
 interface ShortcutItemProps {
   shortcut: string | string[]
   description: string
-  platform: PlatformType
+  platform: PlatformType,
+  hidden?: boolean
 }
 
 const ShortcutItem: React.FC<ShortcutItemProps> = ({ shortcut, description, platform }) => (
@@ -88,6 +90,7 @@ const ShortcutItem: React.FC<ShortcutItemProps> = ({ shortcut, description, plat
 interface ShortcutData {
   shortcut: string | string[]
   description: string
+  hidden?: boolean
 }
 
 interface ShortcutSectionProps {
@@ -100,7 +103,7 @@ const ShortcutSection: React.FC<ShortcutSectionProps> = ({ title, shortcuts, pla
   <div className="mb2 ba b--black-20">
     <h3 className="f7 fw6 bb b--black-20 black pa2 ma0">{title}</h3>
     <div className="br1">
-      {shortcuts.map((shortcut, i) => (
+      {shortcuts.filter(shortcut => !shortcut.hidden).map((shortcut, i) => (
         <ShortcutItem
           key={i}
           shortcut={shortcut.shortcut}
@@ -120,7 +123,7 @@ interface ShortcutModalProps {
 const ShortcutModal: React.FC<ShortcutModalProps> = ({ onLeave, className = '', ...props }) => {
   const [platform, setPlatform] = useState<PlatformType>('other')
   const { t } = useTranslation('app')
-  const { shortcuts } = useShortcuts()
+  const shortcuts = useShortcuts()
 
   useEffect(() => {
     const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0 ||
@@ -136,7 +139,8 @@ const ShortcutModal: React.FC<ShortcutModalProps> = ({ onLeave, className = '', 
       }
       acc[group].push({
         shortcut: shortcut.keys,
-        description: shortcut.label
+        description: shortcut.label,
+        hidden: shortcut.hidden
       })
       return acc
     }, {} as Record<string, ShortcutData[]>)
@@ -174,7 +178,7 @@ const ShortcutModal: React.FC<ShortcutModalProps> = ({ onLeave, className = '', 
           {sortedGroups.map(([group, shortcuts]) => (
             <ShortcutSection
               key={group}
-              title={t(`shortcutModal.${group.toLowerCase()}`) || group}
+              title={group}
               shortcuts={shortcuts}
               platform={platform}
             />

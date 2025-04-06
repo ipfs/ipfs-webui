@@ -16,7 +16,7 @@ import FilesGrid from './files-grid/files-grid.tsx'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, SHORTCUTS, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
+import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
@@ -53,22 +53,6 @@ const FilesPage = ({
       doFilesFetch()
     }
   }, [ipfsConnected, filesPathInfo, doFilesFetch])
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-        return
-      }
-
-      if (e.key === '?' && e.shiftKey) {
-        e.preventDefault()
-        showModal(SHORTCUTS)
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [])
 
   /* TODO: uncomment below if we ever want automatic remote pin check
   *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)

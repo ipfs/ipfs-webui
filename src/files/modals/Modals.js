@@ -27,7 +27,6 @@ const BULK_CID_IMPORT = 'bulk_cid_import'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
 const PUBLISH = 'publish'
-const SHORTCUTS = 'shortcuts'
 
 export {
   NEW_FOLDER,
@@ -39,8 +38,7 @@ export {
   BULK_CID_IMPORT,
   CLI_TUTOR_MODE,
   PINNING,
-  PUBLISH,
-  SHORTCUTS
+  PUBLISH
 }
 
 class Modals extends React.Component {
@@ -195,9 +193,6 @@ class Modals extends React.Component {
           publish: { file }
         })
       }
-      case SHORTCUTS:
-        this.setState({ readyToShow: true })
-        break
       default:
         // do nothing
     }

@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useCallback, useEffect } from 'react'
 import ShortcutModal from '../files/modals/shortcut-modal/shortcut-modal'
-import Overlay from '../components/overlay/Overlay'
+// @ts-ignore
+import Overlay from '../components/overlay/Overlay.js'
 import { TFunction } from 'i18next'
 
 interface Shortcut {
   keys: string[]
   label: string
+  hidden?: boolean
   action: () => void
   group?: string
 }
@@ -85,10 +87,17 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFuncti
   )
 }
 
-export const useShortcuts = () => {
+export const useShortcuts = (shortcuts?: Shortcut[]) => {
   const context = useContext(ShortcutsContext)
   if (!context) {
     throw new Error('useShortcuts must be used within a ShortcutsProvider')
   }
-  return context
+
+  useEffect(() => {
+    if (shortcuts) {
+      context.updateShortcuts(shortcuts)
+    }
+  }, [])
+
+  return context.shortcuts
 }

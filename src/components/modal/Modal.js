@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CancelIcon from '../../icons/GlyphSmallCancel.js'
 
+// @ts-ignore
 export const ModalActions = ({ justify = 'between', className = '', children, ...props }) => (
   <div className={`flex justify-${justify} pa2 ${className}`} style={{ backgroundColor: '#f4f6f8' }} {...props}>
     { children }
@@ -10,9 +11,11 @@ export const ModalActions = ({ justify = 'between', className = '', children, ..
 
 ModalActions.propTypes = {
   justify: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
+  children: PropTypes.node
 }
 
+// @ts-ignore
 export const ModalBody = ({ className = '', Icon, title, children, ...props }) => (
   <div className={`ph4 pv3 tc ${className}`} {...props}>
     { Icon && (
@@ -32,9 +35,11 @@ ModalBody.propTypes = {
   title: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
-  ])
+  ]),
+  children: PropTypes.node
 }
 
+// @ts-ignore
 export const Modal = ({ onCancel, children, className, ...props }) => {
   return (
     <div className={`${className} bg-white w-80 shadow-4 sans-serif relative`} style={{ maxWidth: '34em' }} {...props}>

@@ -101,6 +101,9 @@
     "src/icons/GlyphPinCloud.js",
     "src/icons/GlyphPin.js",
     "src/icons/StrokeCube.js",
-    "src/files/type-from-ext/extToType.js"
+    "src/files/type-from-ext/extToType.js",
+    "src/contexts/ShortcutsContext.tsx",
+    "src/files/modals/shortcut-modal/shortcut-modal.tsx",
+    "src/icons/GlyphSmallCancel.js"
   ]
 }
