@@ -81,17 +81,16 @@ export const FilesList = ({
 
   const selectedFiles = useMemo(() => {
     const files = selected
-      .map(name => {
-        const file = allFiles.find(el => el.name === name)
-        if (!file) return null
+      .map(name => allFiles.find(el => el.name === name))
+      .filter(n => n)
+      .map(file => {
         return {
           ...file,
           // Ensure we have the complete path
-          path: file.path || join(filesPathInfo.path, file.name),
+          path: file?.path || join(filesPathInfo.path, file.name),
           pinned: pins.map(p => p.toString()).includes(file.cid.toString())
         }
       })
-      .filter(n => n)
 
     // decided to make selected files global for drag operations with breadcrumbs
     window.__selectedFiles = files
