@@ -26,6 +26,6 @@ jobs:
 
       - name: Deploy to Web Directory
         run: |
-          rm -rf /var/www/ipfs-webui
-          mkdir -p /var/www/ipfs-webui
-          cp -r dist/* /var/www/ipfs-webui/
+          sudo rm -rf /var/www/ipfs-webui
+          sudo mkdir -p /var/www/ipfs-webui
+          sudo cp -r dist/* /var/www/ipfs-webui/
