@@ -17,7 +17,10 @@
   "addByCar": "Dari CAR",
   "bulkImport": "Impor massal",
   "newFolder": "Map baru",
+  "viewList": "Show items in list",
+  "viewGrid": "Show items in grid",
   "generating": "Menghasilkan…",
+  "dropHere": "Drop here to move",
   "actions": {
     "copyHash": "Salin CID",
     "share": "Membagikan tautan",
@@ -45,6 +48,28 @@
     "descriptionFile": "{count, plural, other {Anda yakin ingin menghapus berkas ini {count}? Mereka tidak akan lagi muncul di layar Berkas, dan akan dihapus secara permanen pada pembersihan terjadwal berikutnya (meskipun salinan mungkin ada di node IPFS lainnya). Tindakan ini tidak dapat dibatalkan.}}",
     "checkboxRemoveLocalPin": "Hapus juga semat lokal (disarankan)",
     "checkboxUnpinFromServices": "Lepas sematan dari semua layanan penyematan"
+  },
+  "shortcutModal": {
+    "title": "Keyboard Shortcuts",
+    "description": "The following keyboard shortcuts are available in the Files section:",
+    "navigation": "Navigation",
+    "selection": "Selection",
+    "actions": "Actions",
+    "other": "Other",
+    "moveDown": "Move down",
+    "moveUp": "Move up",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "navigate": "Navigate to selected item",
+    "rename": "Rename selected item",
+    "delete": "Delete selected item(s)",
+    "toggleSelection": "Toggle selection",
+    "selectAll": "Select all items",
+    "deselectAll": "Deselect all items",
+    "copy": "Copy selected item(s)",
+    "paste": "Paste item(s)",
+    "cut": "Cut selected item(s)",
+    "showShortcuts": "Show keyboard shortcuts"
   },
   "pinningModal": {
     "title": "Pilih di mana Anda ingin menyematkan item ini.",
@@ -81,6 +106,7 @@
     "description": "Masukkan nama map yang ingin Anda buat."
   },
   "filesListLabel": "Daftar berkas",
+  "filesGridLabel": "Files grid",
   "filesList": {
     "noFiles": "<0>Tidak ada berkas dalam direktori ini. Klik tombol \"Impor\" untuk menambahkan beberapa.</0>"
   },
@@ -117,6 +143,11 @@
       "paragraph1": "Terakhir, daftar tempat Anda dapat menemukan berkas dan map Anda. Seret dan lepas berkas atau map untuk menambahkannya.",
       "paragraph2": "Anda dapat membagikan atau mengunduh berkas, memeriksanya di Penjelajah IPLD, mengganti nama atau menghapusnya!",
       "paragraph3": "Kiat pro: seret dan jatuhkan berkas dari halaman lain UI Web untuk menambahkannya ke akar MFS Anda."
+    },
+    "step6": {
+      "title": "Files grid",
+      "paragraph1": "The grid view displays your files and folders as thumbnails, making it easy to visually browse your content.",
+      "paragraph2": "Anda dapat membagikan atau mengunduh berkas, memeriksanya di Penjelajah IPLD, mengganti nama atau menghapusnya!"
     }
   },
   "previewLimitReached": "Pratinjau ini dibatasi hingga 10 KiB. Klik tombol unduh untuk mengakses berkas lengkap.",
@@ -153,5 +184,6 @@
     "pleaseWait": "Harap tunggu sementara 20 salinan awal dari catatan IPNS yang diperbarui disimpan dengan bantuan rekan-rekan DHT…"
   },
   "noPinsInProgress": "Semua selesai, tidak ada pin jarak jauh yang sedang berlangsung.",
-  "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:"
+  "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:",
+  "selectAllEntries": "Select all entries"
 }
