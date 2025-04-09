@@ -139,7 +139,7 @@
     "@types/node": "^14.18.36",
     "@types/path-browserify": "^1.0.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "aegir": "^42.2.2",
+    "aegir": "^45.1.4",
     "autoprefixer": "^10.4.7",
     "basic-auth": "^2.0.1",
     "big.js": "^5.2.2",
