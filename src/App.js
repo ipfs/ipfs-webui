@@ -18,6 +18,7 @@ import Notify from './components/notify/Notify.js'
 import Connected from './components/connected/Connected.js'
 import TourHelper from './components/tour/TourHelper.js'
 import FilesExploreForm from './files/explore-form/files-explore-form.tsx'
+import { ShortcutsProvider } from './contexts/ShortcutsContext.tsx'
 
 export class App extends Component {
   static propTypes = {
@@ -65,6 +66,7 @@ export class App extends Component {
     return connectDropTarget(
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <div className='sans-serif h-100 relative' onClick={getNavHelper(this.props.doUpdateUrl)}>
+        <ShortcutsProvider t={t}>
         {/* Tinted overlay that appears when dragging and dropping an item */}
         { canDrop && isOver && <div className='h-100 top-0 right-0 fixed appOverlay' style={{ background: 'rgba(99, 202, 210, 0.2)' }} /> }
         <div className='flex flex-row-reverse-l flex-column-reverse justify-end justify-start-l' style={{ minHeight: '100vh' }}>
@@ -101,6 +103,7 @@ export class App extends Component {
         />
 
         <Notify />
+        </ShortcutsProvider>
       </div>
     )
   }
