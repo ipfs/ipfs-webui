@@ -7,12 +7,12 @@ import ReactJoyride from 'react-joyride'
 // Lib
 import { filesTour } from '../lib/tours.js'
 // Components
-import ContextMenu from './context-menu/ContextMenu.js'
+import ContextMenu from './context-menu'
 import withTour from '../components/tour/withTour.js'
 import InfoBoxes from './info-boxes/InfoBoxes.js'
 import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
-import FilesGrid from './files-grid/files-grid.js'
+import FilesGrid from './files-grid/files-grid.tsx'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
@@ -152,12 +152,12 @@ const FilesPage = ({
       }
     }
 
-    setContextMenu({
-      isOpen: !contextMenu.isOpen,
+    setContextMenu((prev) => ({
+      isOpen: !prev.isOpen,
       translateX,
       translateY,
       file
-    })
+    }))
   }
 
   const MainView = ({ t, files, remotePins, pendingPins, failedPins, doExploreUserProvidedPath }) => {
