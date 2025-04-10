@@ -1,3 +1,21 @@
+## [4.7.0](https://github.com/ipfs/ipfs-webui/compare/v4.6.0...v4.7.0) (2025-04-09)
+
+
+ CID `bafybeibfd5kbebqqruouji6ct5qku3tay273g7mt24mmrfzrsfeewaal5y`
+
+ --- 
+
+
+
+### Features
+
+* Add thumbnails support for files in grid view ([#2337](https://github.com/ipfs/ipfs-webui/issues/2337)) ([546d20a](https://github.com/ipfs/ipfs-webui/commit/546d20af2a7b6bcbb7ee759d9f94efc5ac62ce46))
+
+
+### Trivial Changes
+
+* remove web3.storage and Scaleway ([#2353](https://github.com/ipfs/ipfs-webui/issues/2353)) ([8939bea](https://github.com/ipfs/ipfs-webui/commit/8939bea5743350a1980cfa3c850aeb109cdededd))
+
 ## [4.6.0](https://github.com/ipfs/ipfs-webui/compare/v4.5.0...v4.6.0) (2025-03-14)
 
 
