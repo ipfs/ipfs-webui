@@ -39,6 +39,13 @@
     "descriptionFile": "Choose a new name for this file.",
     "descriptionFolder": "Choose a new name for this folder."
   },
+  "moveModal": {
+    "titleFiles": "{count, plural, one {Move file} other {Move {count} files}}",
+    "titleFolder": "Move folder",
+    "descriptionFiles": "{count, plural, one {Choose a new location for this file.} other {Choose a new location for these {count} files.}}",
+    "descriptionFolder": "Choose a new location for this folder.",
+    "directoryCreationInfo": "If the directory does not exist, it will be created automatically"
+  },
   "removeModal": {
     "titleItem": "{count, plural, one {Remove item? {name}} other {Remove {count} items?}}",
     "titleFolder": "{count, plural, one {Remove folder? {name}} other {Remove {count} folders?}}",
