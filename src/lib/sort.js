@@ -26,7 +26,7 @@ export function sortBySize (dir = 1) {
  * @param {1|-1} dir - sorting direction, 1 for ascending or -1 for descending
  * @returns {(a:T, b:T) => number}
  */
-export function sortByProperty (property, dir = 1) {
+function sortByProperty (property, dir = 1) {
   // @ts-ignore - `a` and `b` may not be numbers
   return ({ [property]: a }, { [property]: b }) => (a == null) - (b == null) || dir * +(a > b) || dir * -(a < b)
 }

@@ -160,7 +160,7 @@ const readAPIAddressSetting = () => {
  * @param {string|object} value
  * @returns {boolean}
  */
-export const checkValidAPIAddress = (value) => {
+const checkValidAPIAddress = (value) => {
   return asAPIOptions(value) != null
 }
 
