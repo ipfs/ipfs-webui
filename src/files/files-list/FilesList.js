@@ -118,6 +118,8 @@ export const FilesList = ({
       return
     }
 
+    console.log('toggleOne', e.key, focused.current)
+
     if (e.key === ' ' && focused.current !== null) {
       toggleOne(focused.current, true)
       return

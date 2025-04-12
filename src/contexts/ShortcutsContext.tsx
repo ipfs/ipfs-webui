@@ -22,6 +22,28 @@ const ShortcutsContext = createContext<ShortcutsContextType | null>(null)
 export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFunction }> = ({ children, t }) => {
   const defaultShortcut: Shortcut[] = [
     {
+      keys: ['Shift', 'H'],
+      label: t('app:shortcutModal.tourHelp'),
+      action: () => {
+        const tourHelper = document.getElementById('tour-helper')
+        if (tourHelper) {
+          tourHelper.click()
+        }
+      },
+      group: t('app:shortcutModal.general')
+    },
+    {
+      keys: ['/'],
+      label: t('app:shortcutModal.ipfsPath'),
+      action: () => {
+        const ipfsPath = document.getElementById('ipfs-path')
+        if (ipfsPath) {
+          ipfsPath.focus()
+        }
+      },
+      group: t('app:shortcutModal.general')
+    },
+    {
       keys: ['Shift', '?'],
       label: t('app:shortcutModal.showShortcuts'),
       action: () => {},
@@ -31,7 +53,7 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFuncti
   const [shortcuts, setShortcuts] = React.useState<Shortcut[]>(defaultShortcut)
   const [showShortcuts, setShowShortcuts] = React.useState(false)
 
-  shortcuts[0].action = () => setShowShortcuts(prev => !prev)
+  shortcuts[2].action = () => setShowShortcuts(prev => !prev)
 
   const isPressed = (keys: string[], e: KeyboardEvent) => {
     return keys.every(key => {
@@ -44,11 +66,17 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFuncti
           return e.altKey
         case 'meta':
           return e.metaKey
+        case 'space':
+          return e.key === ' '
         default:
           return e.key === key
       }
     })
   }
+
+  useEffect(() => {
+    setShortcuts(defaultShortcut)
+  }, [window.location.hash])
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     const target = e.target as HTMLElement
@@ -56,6 +84,13 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFuncti
          target.tagName === 'TEXTAREA' ||
          target.tagName === 'SELECT') &&
         target.closest('.modal')) return
+
+    if ((document.activeElement?.tagName === 'INPUT' &&
+         (document.activeElement as HTMLInputElement).type !== 'checkbox') ||
+        document.activeElement?.tagName === 'TEXTAREA' ||
+        (document.activeElement as HTMLElement)?.isContentEditable) {
+      return
+    }
 
     shortcuts.forEach(shortcut => {
       if (isPressed(shortcut.keys, e)) {
