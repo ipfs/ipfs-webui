@@ -23,9 +23,9 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFuncti
   const defaultShortcut: Shortcut[] = [
     {
       keys: ['Shift', '?'],
-      label: t('shortcutModal.showShortcuts'),
+      label: t('app:shortcutModal.showShortcuts'),
       action: () => {},
-      group: t('shortcutModal.other')
+      group: t('app:shortcutModal.general')
     }
   ]
   const [shortcuts, setShortcuts] = React.useState<Shortcut[]>(defaultShortcut)
@@ -97,6 +97,7 @@ export const useShortcuts = (shortcuts?: Shortcut[]) => {
     if (shortcuts) {
       context.updateShortcuts(shortcuts)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return context.shortcuts

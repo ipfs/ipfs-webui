@@ -16,6 +16,7 @@ import Checkbox from '../../components/checkbox/Checkbox.js'
 // import SelectedActions from '../selected-actions/SelectedActions.js'
 import File from '../file/File.js'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation.js'
+import { useShortcuts } from '../../contexts/ShortcutsContext.js'
 
 const addFiles = async (filesPromise, onAddFiles) => {
   const files = await filesPromise
@@ -54,7 +55,7 @@ export const FilesList = ({
   className = '', files, pins, pinningServices, remotePins = [], pendingPins = [], failedPins = [], filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
   onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
 }) => {
-  const [focused, setFocused] = useState(null)
+  const focused = useRef(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
   const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
   const listRef = useRef()
@@ -93,7 +94,7 @@ export const FilesList = ({
   }, [onSelect])
 
   const keyHandler = useCallback((e) => {
-    const focusedFile = files.find(el => el.name === focused)
+    const focusedFile = files.find(el => el.name === focused.current)
 
     // Disable keyboard controls if fetching files
     if (filesIsFetching) {
@@ -102,53 +103,67 @@ export const FilesList = ({
 
     if (e.key === 'Escape') {
       onSelect([], false)
-      setFocused(null)
-      return listRef.current?.forceUpdateGrid?.()
+      focused.current = null
+      listRef.current?.forceUpdateGrid?.()
+      return
     }
 
-    if (e.key === 'F2' && focused !== null) {
-      return onRename([focusedFile])
+    if (e.key === 'F2' && focused.current !== null) {
+      onRename([focusedFile])
+      return
     }
 
     if (e.key === 'Delete' && selected.length > 0) {
-      return onRemove(selectedFiles)
+      onRemove(selectedFiles)
+      return
     }
 
-    if (e.key === ' ' && focused !== null) {
-      e.preventDefault()
-      return toggleOne(focused, true)
+    if (e.key === ' ' && focused.current !== null) {
+      toggleOne(focused.current, true)
+      return
     }
 
-    if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused !== null) {
-      return onNavigate({ path: focusedFile.path, cid: focusedFile.cid })
+    if ((e.key === 'Enter' || (e.key === 'ArrowRight' && e.metaKey)) && focused.current !== null) {
+      onNavigate({ path: focusedFile.path, cid: focusedFile.cid })
+      return
     }
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault()
       let index = 0
 
-      if (focused !== null) {
-        const prev = files.findIndex(el => el.name === focused)
+      if (focused.current !== null) {
+        const prev = files.findIndex(el => el.name === focused.current)
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
       }
 
-      if (index === -1 || index >= files.length) {
-        return
+      if (index === -1) {
+        index = files.length - 1
       }
 
-      let name = files[index].name
+      if (index >= files.length) {
+        index = 0
+      }
+
+      let name = files[index]?.name || null
 
       // If the file we are going to focus is out of view (removed
       // from the DOM by react-virtualized), focus the first visible file
       if (!filesRefs.current[name]) {
-        name = files[firstVisibleRow].name
+        name = files[firstVisibleRow]?.name || null
       }
 
-      setFocused(name)
+      focused.current = name
+      listRef.current?.forceUpdateGrid?.()
+
+      if (listRef.current && name !== null) {
+        const newIndex = files.findIndex(f => f.name === name)
+        if (newIndex !== -1) {
+          filesRefs.current[name].scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+        }
+      }
     }
   }, [
     files,
-    focused,
     firstVisibleRow,
     filesIsFetching,
     onNavigate,
@@ -161,12 +176,75 @@ export const FilesList = ({
     listRef
   ])
 
-  useEffect(() => {
-    document.addEventListener('keydown', keyHandler)
-    return () => {
-      document.removeEventListener('keydown', keyHandler)
+  useShortcuts([{
+    keys: ['ArrowUp'],
+    label: t('shortcutModal.moveUp'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'ArrowUp' })
     }
-  }, [keyHandler])
+  }, {
+    keys: ['ArrowDown'],
+    label: t('shortcutModal.moveDown'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'ArrowDown' })
+    }
+  }, {
+    keys: ['F2'],
+    label: t('shortcutModal.rename'),
+    group: t('shortcutModal.actions'),
+    action: () => {
+      keyHandler({ key: 'F2' })
+    }
+  }, {
+    keys: ['Delete'],
+    label: t('shortcutModal.delete'),
+    group: t('shortcutModal.actions'),
+    action: () => {
+      keyHandler({ key: 'Delete' })
+    }
+  },
+  {
+    keys: ['Backspace'],
+    hidden: true,
+    label: t('shortcutModal.delete'),
+    group: t('shortcutModal.actions'),
+    action: () => {
+      keyHandler({ key: 'Backspace' })
+    }
+  },
+  {
+    keys: ['Space'],
+    label: t('shortcutModal.toggleSelection'),
+    group: t('shortcutModal.selection'),
+    action: () => {
+      keyHandler({ key: ' ' })
+    }
+  }, {
+    keys: ['Escape'],
+    label: t('shortcutModal.deselectAll'),
+    group: t('shortcutModal.selection'),
+    action: () => {
+      keyHandler({ key: 'Escape' })
+    }
+  }, {
+    keys: ['Enter'],
+    label: t('shortcutModal.navigate'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'Enter' })
+    }
+  },
+  {
+    keys: ['NumpadEnter'],
+    hidden: true,
+    label: t('shortcutModal.navigate'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'NumpadEnter' })
+    }
+  }])
 
   useEffect(() => {
     setAllFiles(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
@@ -257,7 +335,7 @@ export const FilesList = ({
           onSetPinning={onSetPinning}
           onDismissFailedPin={onDismissFailedPinHandler}
           onMove={move}
-          focused={focused === listItem.name}
+          focused={focused.current === listItem.name}
           selected={selected.indexOf(listItem.name) !== -1}
           handleContextMenuClick={handleContextMenuClick}
           translucent={isDragging || (isOver && canDrop)} />
@@ -275,19 +353,17 @@ export const FilesList = ({
   }, ['pl2 w2 glow'])
 
   // Add a separate useEffect to handle scrolling when focus changes
-  const currentFilesRef = filesRefs.current[focused]
+  const currentFilesRef = filesRefs.current[focused.current]
   useEffect(() => {
-    if (focused) {
+    if (focused.current && currentFilesRef) {
       const domNode = currentFilesRef && findDOMNode(currentFilesRef)
       if (domNode) {
-        domNode.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        domNode.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
         const checkbox = domNode.querySelector('input[type="checkbox"]')
         if (checkbox) checkbox.focus()
       }
-
-      listRef.current?.forceUpdateGrid?.()
     }
-  }, [currentFilesRef, focused, listRef])
+  }, [currentFilesRef])
 
   return (
     <section ref={drop} className={classnames('FilesList no-select sans-serif border-box w-100 flex flex-column', className)}>
@@ -335,7 +411,8 @@ export const FilesList = ({
                       onRowsRendered={onRowsRendered}
                       isScrolling={isScrolling}
                       onScroll={onChildScroll}
-                      scrollTop={scrollTop}/>
+                      scrollTop={scrollTop}
+                    />
                   )}
                 </AutoSizer>
               </div>

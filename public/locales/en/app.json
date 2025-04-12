@@ -108,7 +108,8 @@
   "shortcutModal": {
     "title": "Keyboard Shortcuts",
     "description": "The following keyboard shortcuts are available in the Files section:",
-    "showShortcuts": "Show keyboard shortcuts"
+    "showShortcuts": "Show keyboard shortcuts",
+    "general": "General"
   },
   "startTourHelper": "Start tour"
 }

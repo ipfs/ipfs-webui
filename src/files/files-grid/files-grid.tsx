@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, type FC, type MouseEvent } from 'react'
+import { useRef, useCallback, type FC, type MouseEvent } from 'react'
 import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -42,7 +42,8 @@ const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
   onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
 }: FilesGridPropsConnected) => {
-  const [focused, setFocused] = useState<string | null>(null)
+  // const [focused, setFocused] = useState<string | null>(null)
+  const focused = useRef<string | null>(null)
   const filesRefs = useRef<Record<string, HTMLDivElement>>({})
   const gridRef = useRef<HTMLDivElement | null>(null)
 
@@ -55,19 +56,18 @@ const FilesGrid = ({
     onSelect(fileName, isSelected)
   }, [onSelect])
 
-  const keyHandler = useCallback((e: KeyboardEvent) => {
+  const keyHandler = (e: KeyboardEvent) => {
     if (filesIsFetching) return
-    const focusedFile = focused == null ? null : files.find(el => el.name === focused)
 
-    gridRef.current?.focus?.()
+    const focusedFile = focused.current == null ? null : files.find(el => el.name === focused.current)
 
     if (e.key === 'Escape') {
       onSelect([], false)
-      setFocused(null)
+      focused.current = null
       return
     }
 
-    if ((e.key === 'F2' && e.shiftKey) && focusedFile != null) {
+    if (e.key === 'F2' && focusedFile != null) {
       return onRename([focusedFile])
     }
 
@@ -77,7 +77,6 @@ const FilesGrid = ({
     }
 
     if ((e.key === ' ') && focusedFile != null) {
-      // e.preventDefault()
       handleSelect(focusedFile.name, !selected.includes(focusedFile.name))
       return
     }
@@ -89,7 +88,6 @@ const FilesGrid = ({
     const isArrowKey = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)
 
     if (isArrowKey) {
-      // e.preventDefault()
       const columns = Math.floor((gridRef.current?.clientWidth || window.innerWidth) / 220)
       const currentIndex = files.findIndex(el => el.name === focusedFile?.name)
       let newIndex = currentIndex
@@ -129,7 +127,7 @@ const FilesGrid = ({
 
       if (newIndex >= 0 && newIndex < files.length) {
         const name = files[newIndex].name
-        setFocused(name)
+        focused.current = name
         const element = filesRefs.current[name]
         if (element && element.scrollIntoView) {
           element.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
@@ -138,8 +136,7 @@ const FilesGrid = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files, focused])
+  }
 
   useShortcuts([{
     keys: ['ArrowUp'],
@@ -170,11 +167,11 @@ const FilesGrid = ({
       keyHandler({ key: 'ArrowRight' } as KeyboardEvent)
     }
   }, {
-    keys: ['Shift', 'F2'],
+    keys: ['F2'],
     label: t('shortcutModal.rename'),
     group: t('shortcutModal.actions'),
     action: () => {
-      keyHandler({ key: 'F2', shiftKey: true } as KeyboardEvent)
+      keyHandler({ key: 'F2' } as KeyboardEvent)
     }
   }, {
     keys: ['Delete'],
@@ -202,8 +199,8 @@ const FilesGrid = ({
     }
   }, {
     keys: ['Escape'],
-    label: t('shortcutModal.escape'),
-    group: t('shortcutModal.navigation'),
+    label: t('shortcutModal.deselectAll'),
+    group: t('shortcutModal.selection'),
     action: () => {
       keyHandler({ key: 'Escape' } as KeyboardEvent)
     }
@@ -261,7 +258,7 @@ const FilesGrid = ({
           {...file}
           refSetter={(r: HTMLDivElement | null) => { filesRefs.current[file.name] = r as HTMLDivElement }}
           selected={selected.includes(file.name)}
-          focused={focused === file.name}
+          focused={focused.current === file.name}
           pinned={pins?.includes(file.cid?.toString())}
           isRemotePin={remotePins?.includes(file.cid?.toString())}
           isPendingPin={pendingPins?.includes(file.cid?.toString())}

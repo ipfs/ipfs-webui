@@ -181,7 +181,6 @@
     "deselectAll": "Deselect all items",
     "copy": "Copy selected item(s)",
     "paste": "Paste item(s)",
-    "cut": "Cut selected item(s)",
-    "showShortcuts": "Show keyboard shortcuts"
+    "cut": "Cut selected item(s)"
   }
 }

@@ -100,7 +100,7 @@ interface ShortcutSectionProps {
 }
 
 const ShortcutSection: React.FC<ShortcutSectionProps> = ({ title, shortcuts, platform }) => (
-  <div className="mb2 ba b--black-20">
+  <div className="ba b--black-20">
     <h3 className="f7 fw6 bb b--black-20 black pa2 ma0">{title}</h3>
     <div className="br1">
       {shortcuts.filter(shortcut => !shortcut.hidden).map((shortcut, i) => (
@@ -146,7 +146,7 @@ const ShortcutModal: React.FC<ShortcutModalProps> = ({ onLeave, className = '', 
     }, {} as Record<string, ShortcutData[]>)
   }, [shortcuts])
 
-  const groupOrder = ['Navigation', 'Selection', 'Actions', 'General', 'Other']
+  const groupOrder = ['General', 'Navigation', 'Selection', 'Actions', 'Other']
 
   const sortedGroups = useMemo(() => {
     return Object.entries(groupedShortcuts)
@@ -168,11 +168,10 @@ const ShortcutModal: React.FC<ShortcutModalProps> = ({ onLeave, className = '', 
 
       <div className="pa2 overflow-auto" style={{ maxHeight: '70vh' }}>
         <div
-          className="grid gap-2"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '.5rem'
           }}
         >
           {sortedGroups.map(([group, shortcuts]) => (
