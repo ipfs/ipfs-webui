@@ -20,6 +20,7 @@ interface ShortcutsContextType {
 const ShortcutsContext = createContext<ShortcutsContextType | null>(null)
 
 export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFunction }> = ({ children, t }) => {
+  const [showShortcuts, setShowShortcuts] = React.useState(false)
   const defaultShortcut: Shortcut[] = [
     {
       keys: ['Shift', 'H'],
@@ -46,14 +47,13 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFuncti
     {
       keys: ['Shift', '?'],
       label: t('app:shortcutModal.showShortcuts'),
-      action: () => {},
+      action: () => {
+        setShowShortcuts(prev => !prev)
+      },
       group: t('app:shortcutModal.general')
     }
   ]
   const [shortcuts, setShortcuts] = React.useState<Shortcut[]>(defaultShortcut)
-  const [showShortcuts, setShowShortcuts] = React.useState(false)
-
-  shortcuts[2].action = () => setShowShortcuts(prev => !prev)
 
   const isPressed = (keys: string[], e: KeyboardEvent) => {
     return keys.every(key => {
@@ -74,9 +74,11 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFuncti
     })
   }
 
+  const hash = window.location.hash
+
   useEffect(() => {
     setShortcuts(defaultShortcut)
-  }, [window.location.hash])
+  }, [hash])
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     const target = e.target as HTMLElement
