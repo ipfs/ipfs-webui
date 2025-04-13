@@ -9,7 +9,7 @@ import getStore from '../src/bundles/index.js'
 import i18n from '../src/i18n.js'
 import DndBackend from '../src/lib/dnd-backend.js'
 import { HeliaProvider, ExploreProvider } from 'ipld-explorer-components/providers'
-
+import { ShortcutsProvider } from '../src/contexts/ShortcutsContext.js'
 /**
  * @type {import('@storybook/addons').BaseAnnotations}
  */
@@ -21,7 +21,9 @@ const baseAnnotations = {
           <DndProvider backend={DndBackend}>
             <HeliaProvider>
               <ExploreProvider>
-                <Story />
+                <ShortcutsProvider>
+                  <Story />
+                </ShortcutsProvider>
               </ExploreProvider>
             </HeliaProvider>
           </DndProvider>

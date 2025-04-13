@@ -55,12 +55,18 @@ export const FilesList = ({
   className = '', files, pins, pinningServices, remotePins = [], pendingPins = [], failedPins = [], filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
   onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
 }) => {
+  const [focusedState, setFocusedState] = useState(null)
   const focused = useRef(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
   const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
   const listRef = useRef()
   const filesRefs = useRef([])
   const refreshPinCache = true
+
+  const updateFocused = (name) => {
+    setFocusedState(name)
+    focused.current = name
+  }
 
   filesPathInfo = filesPathInfo ?? {}
   const [{ canDrop, isOver, isDragging }, drop] = useDrop({
@@ -103,7 +109,7 @@ export const FilesList = ({
 
     if (e.key === 'Escape') {
       onSelect([], false)
-      focused.current = null
+      updateFocused(null)
       listRef.current?.forceUpdateGrid?.()
       return
     }
@@ -154,7 +160,7 @@ export const FilesList = ({
         name = files[firstVisibleRow]?.name || null
       }
 
-      focused.current = name
+      updateFocused(name)
       listRef.current?.forceUpdateGrid?.()
 
       if (listRef.current && name !== null) {
@@ -337,7 +343,7 @@ export const FilesList = ({
           onSetPinning={onSetPinning}
           onDismissFailedPin={onDismissFailedPinHandler}
           onMove={move}
-          focused={focused.current === listItem.name}
+          focused={focusedState === listItem.name}
           selected={selected.indexOf(listItem.name) !== -1}
           handleContextMenuClick={handleContextMenuClick}
           translucent={isDragging || (isOver && canDrop)} />

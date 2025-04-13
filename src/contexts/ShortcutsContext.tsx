@@ -2,7 +2,7 @@ import React, { createContext, useContext, useCallback, useEffect } from 'react'
 import ShortcutModal from '../files/modals/shortcut-modal/shortcut-modal'
 // @ts-ignore
 import Overlay from '../components/overlay/Overlay.js'
-import { TFunction } from 'i18next'
+import { t } from 'i18next'
 
 interface Shortcut {
   keys: string[]
@@ -19,7 +19,7 @@ interface ShortcutsContextType {
 
 const ShortcutsContext = createContext<ShortcutsContextType | null>(null)
 
-export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFunction }> = ({ children, t }) => {
+export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [showShortcuts, setShowShortcuts] = React.useState(false)
   const defaultShortcut: Shortcut[] = [
     {

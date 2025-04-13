@@ -1,4 +1,4 @@
-import { useRef, useCallback, type FC, type MouseEvent } from 'react'
+import { useRef, useCallback, type FC, type MouseEvent, useState } from 'react'
 import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -42,10 +42,15 @@ const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
   onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
 }: FilesGridPropsConnected) => {
-  // const [focused, setFocused] = useState<string | null>(null)
+  const [focusedState, setFocusedState] = useState<string | null>(null)
   const focused = useRef<string | null>(null)
   const filesRefs = useRef<Record<string, HTMLDivElement>>({})
   const gridRef = useRef<HTMLDivElement | null>(null)
+
+  const updateFocused = (name: string | null) => {
+    setFocusedState(name)
+    focused.current = name
+  }
 
   const addFiles = async (filesPromise: Promise<ExtendedFile[]>, onAddFiles: (files: FileStream[]) => void) => {
     const files = await filesPromise
@@ -63,7 +68,7 @@ const FilesGrid = ({
 
     if (e.key === 'Escape') {
       onSelect([], false)
-      focused.current = null
+      updateFocused(null)
       return
     }
 
@@ -127,7 +132,7 @@ const FilesGrid = ({
 
       if (newIndex >= 0 && newIndex < files.length) {
         const name = files[newIndex].name
-        focused.current = name
+        updateFocused(name)
         const element = filesRefs.current[name]
         if (element && element.scrollIntoView) {
           element.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
@@ -258,7 +263,7 @@ const FilesGrid = ({
           {...file}
           refSetter={(r: HTMLDivElement | null) => { filesRefs.current[file.name] = r as HTMLDivElement }}
           selected={selected.includes(file.name)}
-          focused={focused.current === file.name}
+          focused={focusedState === file.name}
           pinned={pins?.includes(file.cid?.toString())}
           isRemotePin={remotePins?.includes(file.cid?.toString())}
           isPendingPin={pendingPins?.includes(file.cid?.toString())}
