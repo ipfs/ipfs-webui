@@ -78,6 +78,7 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode, t: TFuncti
 
   useEffect(() => {
     setShortcuts(defaultShortcut)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hash])
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
