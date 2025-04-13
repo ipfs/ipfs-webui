@@ -1,6 +1,7 @@
-import React from 'react'
+// @ts-nocheck
+import * as React from 'react'
 import PropTypes from 'prop-types'
-import CancelIcon from '../../icons/GlyphSmallCancel.js'
+import CancelIcon from '../../icons/GlyphSmallCancel'
 
 // @ts-ignore
 export const ModalActions = ({ justify = 'between', className = '', children, ...props }) => (

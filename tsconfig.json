@@ -104,6 +104,8 @@
     "src/files/type-from-ext/extToType.js",
     "src/contexts/ShortcutsContext.tsx",
     "src/files/modals/shortcut-modal/shortcut-modal.tsx",
-    "src/icons/GlyphSmallCancel.js"
+    "src/icons/GlyphSmallCancel.tsx",
+    "src/components/overlay/Overlay.tsx",
+    "src/icons/GlyphSmallCancel.tsx"
   ]
 }
