@@ -54,6 +54,12 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   ]
   const [shortcuts, setShortcuts] = React.useState<Shortcut[]>(defaultShortcut)
+  const [allowUpdate, setAllowUpdate] = React.useState(true)
+
+  const closeModal = () => {
+    setShowShortcuts(false)
+    setAllowUpdate(true)
+  }
 
   const isPressed = (keys: string[], e: KeyboardEvent) => {
     return keys.every(key => {
@@ -77,7 +83,7 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const hash = window.location.hash
 
   useEffect(() => {
-    setShortcuts(defaultShortcut)
+    if (allowUpdate) setShortcuts(defaultShortcut)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hash])
 
@@ -111,14 +117,17 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   return (
     <ShortcutsContext.Provider value={{
       shortcuts,
-      updateShortcuts: (newShortcuts: Shortcut[]) => setShortcuts([...defaultShortcut, ...newShortcuts])
+      updateShortcuts: (newShortcuts: Shortcut[]) => {
+        setAllowUpdate(false)
+        setShortcuts([...defaultShortcut, ...newShortcuts])
+      }
     }}>
       {children}
       <div>
-        <Overlay show={showShortcuts} hidden={!showShortcuts} className='' onLeave={() => setShowShortcuts(false)}>
+        <Overlay show={showShortcuts} hidden={!showShortcuts} className='' onLeave={closeModal}>
           <ShortcutModal
             className='outline-0'
-            onLeave={() => setShowShortcuts(false)} />
+            onLeave={closeModal} />
         </Overlay>
       </div>
     </ShortcutsContext.Provider>
