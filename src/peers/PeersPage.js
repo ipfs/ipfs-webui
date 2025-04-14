@@ -8,7 +8,7 @@ import { peersTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Components
-import Box from '../components/box/Box.js'
+import Box from '../components/box/Box'
 import WorldMap from './WorldMap/WorldMap.js'
 import PeersTable from './PeersTable/PeersTable.js'
 import AddConnection from './AddConnection/AddConnection.js'

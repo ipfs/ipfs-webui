@@ -1,6 +1,6 @@
 import React from 'react'
 import { withTranslation, Trans } from 'react-i18next'
-import Box from '../box/Box.js'
+import Box from '../box/Box'
 
 export const AboutWebUI = ({ t }) => {
   return (
