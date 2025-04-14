@@ -1,6 +1,6 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-import Radio from './Radio.js'
+import Radio from './Radio'
 
 const bigPicture = {
   transform: 'scale(5)',
