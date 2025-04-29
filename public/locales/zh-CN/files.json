@@ -14,10 +14,13 @@
   "openWithLocalAndPublicGateway": "尝试使用您的<1>本地网关</1>或者<3>公共网关</3>来打开。",
   "cantBePreviewed": "对不起，本文件不支持预览。",
   "addByPath": "来自 IPFS 路径",
-  "addByCar": "From CAR",
-  "bulkImport": "Bulk import",
+  "addByCar": "来自 CAR",
+  "bulkImport": "批量导入",
   "newFolder": "新建文件夹",
+  "viewList": "显示列表中的项目",
+  "viewGrid": "显示网格中的项目",
   "generating": "生成 ...",
+  "dropHere": "拖拽到这里来移动",
   "actions": {
     "copyHash": "复制 CID",
     "share": "分享链接",
@@ -46,6 +49,28 @@
     "checkboxRemoveLocalPin": "同时也从本地固定中移除（推荐）",
     "checkboxUnpinFromServices": "从所有固定服务中取消固定"
   },
+  "shortcutModal": {
+    "title": "快捷键",
+    "description": "“文件”部分提供以下快捷键：",
+    "navigation": "导航",
+    "selection": "选项",
+    "actions": "操作",
+    "other": "其它",
+    "moveDown": "下移",
+    "moveUp": "上移",
+    "moveLeft": "左移",
+    "moveRight": "右移",
+    "navigate": "导航到选择的项目",
+    "rename": "重命名选择的项目",
+    "delete": "删除所有选择的项目",
+    "toggleSelection": "切换选项",
+    "selectAll": "全选",
+    "deselectAll": "反选所有",
+    "copy": "复制已选择的项目",
+    "paste": "粘贴已选择的项目",
+    "cut": "剪贴已选择的项目",
+    "showShortcuts": "显示快捷键"
+  },
   "pinningModal": {
     "title": "选择你想将这些文件固定到哪里",
     "complianceLabel": "🔍 检查固定服务合规性",
@@ -62,25 +87,26 @@
     "examples": "示例："
   },
   "addByCarModal": {
-    "title": "CAR Import",
-    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
-    "selectCARButtonText": "Select CAR…",
+    "title": "导入 CAR",
+    "description": "选择要导入当前目录下DAG的CAR文件，并为其指定名称.",
+    "selectCARButtonText": "选择 CAR",
     "namePlaceholder": "名称",
-    "renameImportPath": "Rename import"
+    "renameImportPath": "重命名并导入"
   },
   "bulkImportModal": {
-    "title": "Bulk import with text file",
-    "description": "Upload a text file with a list of CIDs (names are optional). Example:",
-    "select": "Select file",
-    "selectedFile": "Selected file",
-    "invalidCids": "*Invalid CID(s) found",
-    "failedToReadFile": "*Failed to read file contents"
+    "title": "使用文本文件进行批量导入",
+    "description": "上传一个包含CID列表的文本文件（名称是可选的）。例如：",
+    "select": "选择文件",
+    "selectedFile": "已选择的文件",
+    "invalidCids": "*发现一个或多个无效的CID",
+    "failedToReadFile": "*读取文件内容失败"
   },
   "newFolderModal": {
     "title": "新建文件夹",
     "description": "输入新建文件夹名称"
   },
   "filesListLabel": "文件列表",
+  "filesGridLabel": "文件数据网格",
   "filesList": {
     "noFiles": "<0>这个目录下没有文件，可单击“导入”按钮加入一些文件</0>"
   },
@@ -117,6 +143,11 @@
       "paragraph1": "最后，您可以在列表中找到您的文件和文件夹。通过拖放文件或文件夹来添加它们。",
       "paragraph2": "您可以分享或下载文件，在 IPLD 资源管理器中查看、重命名或删除它们。",
       "paragraph3": "专家提示：可以从 Web UI 的任何其他页面拖放文件，把它们添加到 MFS 的根目录。"
+    },
+    "step6": {
+      "title": "文件数据网格",
+      "paragraph1": "网格视图会将您的文件和文件夹显示为缩略图，便于您直观地浏览内容",
+      "paragraph2": "您可以分享或下载文件，在 IPLD 资源管理器中查看、重命名或删除它们。"
     }
   },
   "previewLimitReached": "此预览已限制为10 KiB。单击下载按钮访问完整文件。",
@@ -153,5 +184,6 @@
     "pleaseWait": "请等待片刻以使得初始的20份IPNS更新记录副本储存至DHT节点"
   },
   "noPinsInProgress": "全部已完成，没有正在进行的远程固定操作",
-  "remotePinningInProgress": "远程固定中:"
+  "remotePinningInProgress": "远程固定中:",
+  "selectAllEntries": "全选"
 }
