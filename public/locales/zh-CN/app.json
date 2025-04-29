@@ -30,7 +30,7 @@
     "unselectAll": "全部取消选择",
     "generate": "生成",
     "publish": "发布",
-    "downloadCar": "Export CAR",
+    "downloadCar": "导出CAR",
     "done": "完成"
   },
   "cliModal": {
@@ -46,7 +46,7 @@
     "couldNotConnect": "无法连接到Kubo RPC"
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": "输入一个URL(http://user:password@127.0.0.1:5001) 或以Multiaddr形式(/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
     "placeholder": "输入一个URL (https://ipfs.io)"
