@@ -11,7 +11,7 @@ import i18n from './i18n.js'
 import { DndProvider } from 'react-dnd'
 import DndBackend from './lib/dnd-backend.js'
 import { HeliaProvider, ExploreProvider } from 'ipld-explorer-components/providers'
-
+import { ShortcutsProvider } from './contexts/ShortcutsContext.js'
 const appVersion = process.env.REACT_APP_VERSION
 const gitRevision = process.env.REACT_APP_GIT_REV
 
@@ -37,7 +37,9 @@ async function render () {
         <DndProvider backend={DndBackend}>
           <HeliaProvider>
             <ExploreProvider>
-              <App />
+              <ShortcutsProvider>
+                <App />
+              </ShortcutsProvider>
             </ExploreProvider>
           </HeliaProvider>
         </DndProvider>
