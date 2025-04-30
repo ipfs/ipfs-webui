@@ -25,6 +25,7 @@ export const _SelectedActions = () => (
       remove={action('Remove Files')}
       share={action('Share Files')}
       download={action('Download Files')}
+      move={action('Move Files')}
       rename={action('Rename Files')}
       inspect={action('Inspect Files')}
     />

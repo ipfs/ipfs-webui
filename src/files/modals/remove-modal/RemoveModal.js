@@ -32,7 +32,7 @@ const RemoveModal = ({ t, tReady, onCancel, onRemove, files, foldersCount, files
     })()
   })
 
-  const modalData = { count, name: files[0].name }
+  const modalData = { count, name: files[0]?.name }
   const modalTitle = t(`removeModal.title${context}`, modalData)
   const modalDescription = t(`removeModal.description${context}`, modalData)
 
