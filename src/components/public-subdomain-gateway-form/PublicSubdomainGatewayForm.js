@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/button.tsx'
@@ -9,37 +9,49 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
 
+  const validateUrl = useCallback(async (signal) => {
+    try {
+      const url = new URL(value) // test basic url creation
+      // ensure the hostname is not an IP address. URL constructor will fail if we prefix with subdomain
+      // eslint-disable-next-line no-new
+      new URL(`https://example.${url.host}`)
+    } catch {
+      setIsValidGatewayUrl(false)
+      console.error('URL is invalid. Must be a valid URL when prefixed with a subdomain (such as `http://{CID}.ipfs.{yourSubdomainGateway}`). IP addresses do not allow subdomains.')
+      return
+    }
+    try {
+      const isValid = await checkSubdomainGateway(value, signal)
+      setIsValidGatewayUrl(isValid)
+    } catch (error) {
+      if (signal.aborted) return
+      console.error('Error checking subdomain gateway:', error)
+      setIsValidGatewayUrl(false)
+    }
+  }, [value])
+
   // Updates the border of the input to indicate validity
   useEffect(() => {
-    const validateUrl = async () => {
-      try {
-        const isValid = await checkSubdomainGateway(value)
-        setIsValidGatewayUrl(isValid)
-      } catch (error) {
-        console.error('Error checking subdomain gateway:', error)
-        setIsValidGatewayUrl(false)
-      }
-    }
+    const abortController = new AbortController()
+    const handler = setTimeout(() => {
+      validateUrl(abortController.signal)
+    }, 200) // debounce the input by 200ms so img and subdomain check are not triggered on every key press
 
-    validateUrl()
-  }, [value])
+    return () => {
+      abortController.abort('Ignore previous validation')
+      // don't execute the last validation if the component is unmounted (value changes)
+      clearTimeout(handler)
+    }
+  }, [value, validateUrl])
 
   const onChange = (event) => setValue(event.target.value)
 
-  const onSubmit = async (event) => {
+  const onSubmit = useCallback(async (event) => {
     event.preventDefault()
-
-    let isValid = false
-    try {
-      isValid = await checkSubdomainGateway(value)
-      setIsValidGatewayUrl(true)
-    } catch (e) {
-      setIsValidGatewayUrl(false)
-      return
+    if (isValidGatewayUrl) {
+      doUpdatePublicSubdomainGateway(value)
     }
-
-    isValid && doUpdatePublicSubdomainGateway(value)
-  }
+  }, [isValidGatewayUrl, doUpdatePublicSubdomainGateway, value])
 
   const onReset = async (event) => {
     event.preventDefault()
