@@ -70,6 +70,11 @@ const FilesGrid = ({
   const keyHandler = useCallback((e: KeyboardEvent) => {
     const focusedFile = focused == null ? null : files.find(el => el.name === focused)
 
+    if (((e.target as HTMLElement).tagName === 'INPUT' ||
+        (e.target as HTMLElement).tagName === 'TEXTAREA' ||
+        (e.target as HTMLElement).tagName === 'SELECT') &&
+      (e.target as HTMLElement).closest('.modal')) return
+
     gridRef.current?.focus?.()
 
     if (e.key === 'Escape') {

@@ -10,6 +10,8 @@ import StrokePencil from '../../icons/StrokePencil.js'
 import StrokeIpld from '../../icons/StrokeIpld.js'
 import StrokeTrash from '../../icons/StrokeTrash.js'
 import StrokeDownload from '../../icons/StrokeDownload.js'
+import StrokeMove from '../../icons/StrokeMove.js'
+import StrokeMore from '../../icons/StrokeMore.js'
 import './SelectedActions.css'
 
 const styles = {
@@ -43,6 +45,11 @@ class SelectedActions extends React.Component {
   constructor (props) {
     super(props)
     this.containerRef = React.createRef()
+    this.state = {
+      force100: false,
+      showMoreMenu: false,
+      windowWidth: window.innerWidth
+    }
   }
 
   static propTypes = {
@@ -50,6 +57,7 @@ class SelectedActions extends React.Component {
     size: PropTypes.number.isRequired,
     unselect: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired,
+    move: PropTypes.func.isRequired,
     setPinning: PropTypes.func.isRequired,
     share: PropTypes.func.isRequired,
     download: PropTypes.func.isRequired,
@@ -65,23 +73,105 @@ class SelectedActions extends React.Component {
     className: ''
   }
 
-  state = {
-    force100: false
+  updateWidth = () => {
+    this.setState({ windowWidth: window.innerWidth })
   }
 
   componentDidMount () {
     this.containerRef.current && this.containerRef.current.focus()
+    window.addEventListener('resize', this.updateWidth)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.updateWidth)
+  }
+
+  toggleMoreMenu = () => {
+    this.setState(state => ({ showMoreMenu: !state.showMoreMenu }))
   }
 
   render () {
-    const { t, tReady, animateOnStart, count, size, unselect, remove, share, setPinning, download, rename, inspect, className, style, isMfs, ...props } = this.props
-
+    const { t, tReady, animateOnStart, count, size, unselect, remove, move, share, setPinning, download, rename, inspect, className, style, isMfs, ...props } = this.props
+    const { showMoreMenu, windowWidth } = this.state
     const isSingle = count === 1
 
     let singleFileTooltip = { title: t('individualFilesOnly') }
-
     if (count === 1) {
       singleFileTooltip = {}
+    }
+
+    const items = [
+      {
+        action: share,
+        icon: <StrokeShare className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>,
+        label: t('actions.share'),
+        className: '',
+        disabled: false,
+        extras: {}
+      },
+      {
+        action: download,
+        icon: <StrokeDownload className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>,
+        label: t('app:actions.download'),
+        className: '',
+        disabled: false,
+        extras: {}
+      },
+      {
+        action: remove,
+        icon: <StrokeTrash className={classes.svg(isMfs)} fill='#A4BFCC' aria-hidden="true"/>,
+        label: t('app:actions.remove'),
+        className: classes.action(isMfs),
+        disabled: !isMfs,
+        extras: {}
+      },
+      {
+        action: move,
+        icon: <StrokeMove className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>,
+        label: t('app:actions.move'),
+        className: classes.action(isMfs),
+        disabled: !isMfs,
+        extras: {}
+      },
+      {
+        action: setPinning,
+        icon: <StrokePin className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>,
+        label: t('app:actions.setPinning'),
+        className: classes.action(isSingle),
+        disabled: !isSingle,
+        extras: {}
+      },
+      {
+        action: inspect,
+        icon: <StrokeIpld className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>,
+        label: t('app:actions.inspect'),
+        className: classes.action(isSingle),
+        disabled: !isSingle,
+        extras: singleFileTooltip
+      },
+      {
+        action: rename,
+        icon: <StrokePencil className={classes.svg(isSingle && isMfs)} fill='#A4BFCC' aria-hidden="true"/>,
+        label: t('app:actions.rename'),
+        className: classes.action(isSingle && isMfs),
+        disabled: !(isSingle && isMfs),
+        extras: singleFileTooltip
+      }
+    ]
+
+    // max widths breakpoints
+    const breakpoints = () => {
+      if (windowWidth <= 400) {
+        return 1
+      } else if (windowWidth <= 768) {
+        return 2
+      } else if (windowWidth <= 1045) {
+        return 3
+      } else if (windowWidth <= 1250) {
+        return 4
+      }
+
+      return items.length
     }
 
     return (
@@ -92,37 +182,35 @@ class SelectedActions extends React.Component {
               <div className='mr3 relative f3 fw6 flex-shrink-0 dib br-100' style={styles.count}>
                 <span className='absolute' style={styles.countNumber}>{count}</span>
               </div>
-              <div className='dn db-l f6'>
+              <div className='f6 fs-count'>
                 <p className='ma0'>{t('filesSelected', { count })}</p>
                 <p className='ma0 mt1' style={styles.size}>{t('totalSize', { size: humanSize(size) })}</p>
               </div>
             </div>
           </div>
-          <div className='flex' role="menu" aria-label={t('menuOptions')} ref={ this.containerRef }>
-            <button role="menuitem" className='tc mh2' onClick={share}>
-              <StrokeShare className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{t('actions.share')}</p>
-            </button>
-            <button role="menuitem" className='tc mh2' onClick={download}>
-              <StrokeDownload className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{t('app:actions.download')}</p>
-            </button>
-            <button role="menuitem" className={classNames('tc mh2', classes.action(isMfs))} onClick={isMfs ? remove : null}>
-              <StrokeTrash className={classes.svg(isMfs)} fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{t('app:actions.remove')}</p>
-            </button>
-            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? setPinning : null}>
-              <StrokePin className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{t('app:actions.setPinning')}</p>
-            </button>
-            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle))} onClick={isSingle ? inspect : null} {...singleFileTooltip}>
-              <StrokeIpld className={classes.svg(isSingle)} fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{t('app:actions.inspect')}</p>
-            </button>
-            <button role="menuitem" className={classNames('tc mh2', classes.action(isSingle && isMfs))} onClick={(isSingle && isMfs) ? rename : null} {...singleFileTooltip}>
-              <StrokePencil className={classes.svg(isSingle && isMfs)} fill='#A4BFCC' aria-hidden="true"/>
-              <p className='ma0 f6'>{t('app:actions.rename')}</p>
-            </button>
+          <div className='flex relative' role="menu" aria-label={t('menuOptions')} ref={this.containerRef} tabIndex="0">
+            <div className='flex dn db-l'>
+              {items.slice(0, breakpoints()).map((item, i) => (
+                <button key={i} role="menuitem" className={classNames('tc mh2', item.className)} onClick={item.disabled ? null : item.action} disabled={item.disabled} {...item.extras}>
+                  {item.icon}
+                  <p className='ma0 f6'>{item.label}</p>
+                </button>
+              ))}
+              {(breakpoints() < (items.length) && <button role="menuitem" className='tc mh2' onClick={this.toggleMoreMenu}>
+                <StrokeMore className='w3 hover-fill-navy-muted' fill='#A4BFCC' aria-hidden="true"/>
+                <p className='ma0 f6'>{t('app:actions.more')}</p>
+              </button>)}
+              {showMoreMenu && (
+                <div className='more-menu'>
+                  {items.slice(breakpoints(), items.length).map((item, i) => (
+                    <button key={i} role="menuitem" className={classNames('more-menu-item', { disabled: item.disabled })} onClick={item.disabled ? null : item.action} {...item.extras}>
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
           <div>
             <button onClick={unselect} className='flex items-center justify-end f6 charcoal'>

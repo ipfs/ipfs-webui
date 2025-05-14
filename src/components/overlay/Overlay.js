@@ -20,7 +20,7 @@ function Overlay ({ children, show, onLeave, className, hidden, ...props }) {
     <Modal
       {...props}
       show={show}
-      className={`${className} fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around`}
+      className={`${className} modal fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around`}
       renderBackdrop={renderBackdrop}
       onKeyDown={handleKeyDown}
       onBackdropClick={onLeave}>
