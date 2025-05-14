@@ -69,6 +69,16 @@
     }
   },
   "errors": {
-    "BlockFetchTimeoutError": "在{timeout}内抓取内容失败. 请刷新页面或尝试一个不同的CID"
+    "BlockFetchTimeoutError": "在{timeout}内抓取内容失败. 请刷新页面或尝试一个不同的CID",
+    "BlockFetchError": "获取内容失败：{error}. 这可能意味着内容在网络上不可用，或者存在连接问题。",
+    "CidSyntaxError": "无效的CID格式:{cid}, 请确保您正使用的是有效的CID",
+    "checkIpfsNetwork": "检查IPFS网络上的内容可用性",
+    "troubleshootingTips": {
+      "title": "故障诊断 Tips",
+      "refresh": "尝试刷新页面",
+      "checkConnection": "检查你的互联网连接",
+      "tryLater": "请稍后重试 - 内容可能仍在网络中传播",
+      "checkCidSyntax": "验证CID格式是否正确或您的CAR文件是否有效"
+    }
   }
 }

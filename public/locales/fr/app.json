@@ -30,7 +30,7 @@
     "unselectAll": "Tout désélectionner",
     "generate": "Générer",
     "publish": "Publier",
-    "downloadCar": "Télécharger le CAR",
+    "downloadCar": "Export CAR",
     "done": "Terminé"
   },
   "cliModal": {

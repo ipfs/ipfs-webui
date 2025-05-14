@@ -1,3 +1,42 @@
+## [4.7.0](https://github.com/ipfs/ipfs-webui/compare/v4.6.0...v4.7.0) (2025-04-09)
+
+
+ CID `bafybeibfd5kbebqqruouji6ct5qku3tay273g7mt24mmrfzrsfeewaal5y`
+
+ --- 
+
+
+
+### Features
+
+* Add thumbnails support for files in grid view ([#2337](https://github.com/ipfs/ipfs-webui/issues/2337)) ([546d20a](https://github.com/ipfs/ipfs-webui/commit/546d20af2a7b6bcbb7ee759d9f94efc5ac62ce46))
+
+
+### Trivial Changes
+
+* remove web3.storage and Scaleway ([#2353](https://github.com/ipfs/ipfs-webui/issues/2353)) ([8939bea](https://github.com/ipfs/ipfs-webui/commit/8939bea5743350a1980cfa3c850aeb109cdededd))
+
+## [4.6.0](https://github.com/ipfs/ipfs-webui/compare/v4.5.0...v4.6.0) (2025-03-14)
+
+
+ CID `bafybeibpaa5kqrj4gkemiswbwndjqiryl65cks64ypwtyerxixu56gnvvm`
+
+ --- 
+
+
+
+### Features
+
+* add dark mode ([#2322](https://github.com/ipfs/ipfs-webui/issues/2322)) ([d751fc6](https://github.com/ipfs/ipfs-webui/commit/d751fc63903bc72086b177f82bc4933136e89d0f))
+* bulk CIDs import  ([#2307](https://github.com/ipfs/ipfs-webui/issues/2307)) ([830a30d](https://github.com/ipfs/ipfs-webui/commit/830a30d6c3ab4d38eee0aa160d1a22bd959473b7)), closes [#2305](https://github.com/ipfs/ipfs-webui/issues/2305) [#2306](https://github.com/ipfs/ipfs-webui/issues/2306) [#2293](https://github.com/ipfs/ipfs-webui/issues/2293) [#2290](https://github.com/ipfs/ipfs-webui/issues/2290) [#2306](https://github.com/ipfs/ipfs-webui/issues/2306) [#2304](https://github.com/ipfs/ipfs-webui/issues/2304) [#2302](https://github.com/ipfs/ipfs-webui/issues/2302) [#2292](https://github.com/ipfs/ipfs-webui/issues/2292) [#2291](https://github.com/ipfs/ipfs-webui/issues/2291) [#2296](https://github.com/ipfs/ipfs-webui/issues/2296) [#2303](https://github.com/ipfs/ipfs-webui/issues/2303) [#2295](https://github.com/ipfs/ipfs-webui/issues/2295) [#2308](https://github.com/ipfs/ipfs-webui/issues/2308)
+* **files:** CAR Import ([#2323](https://github.com/ipfs/ipfs-webui/issues/2323)) ([e66590f](https://github.com/ipfs/ipfs-webui/commit/e66590fc592bf44e4ae770c43c33467bd698cdbf))
+
+
+### Trivial Changes
+
+* Pull transifex translations ([#2340](https://github.com/ipfs/ipfs-webui/issues/2340)) ([493223a](https://github.com/ipfs/ipfs-webui/commit/493223a461bdb6dd0be38b8665a4a73d54d5a337))
+* Pull transifex translations ([#2343](https://github.com/ipfs/ipfs-webui/issues/2343)) ([007dbb1](https://github.com/ipfs/ipfs-webui/commit/007dbb14ffaa8eec69042d2476f91b7cb8c6b73b))
+
 ## [4.5.0](https://github.com/ipfs/ipfs-webui/compare/v4.4.2...v4.5.0) (2025-02-25)
 
 

@@ -123,7 +123,7 @@ class TextInputModal extends React.Component {
             onKeyPress={this.onKeyPress}
             value={this.state.value}
             required
-            className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-90 center focus-outline ${this.inputClass}`}
+            className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-90 center focus-outline modal-input ${this.inputClass}`}
             type='text' />
         </ModalBody>
 

@@ -30,7 +30,7 @@
     "unselectAll": "選択を全て解除",
     "generate": "生成",
     "publish": "Publish",
-    "downloadCar": "CARをダウンロード",
+    "downloadCar": "Export CAR",
     "done": "終了"
   },
   "cliModal": {
