@@ -1,11 +1,17 @@
 import React from 'react'
 
-import Button from '../../components/button/button'
+import Button from '../../components/button/button.js'
 
 import GlyphAttention from '../../icons/GlyphAttention.js'
-import { withTranslation } from 'react-i18next'
+import { useTranslation, withTranslation } from 'react-i18next'
 
-const FileNotFound = ({ path, t }) => {
+export interface FileNotFoundProps {
+  path: string
+}
+
+const FileNotFound = ({ path }: FileNotFoundProps) => {
+  const { t } = useTranslation('files')
+  
   return (
     <div
       className='mb3 pa4-l pa2 mw9 center'
@@ -29,4 +35,4 @@ const FileNotFound = ({ path, t }) => {
   )
 }
 
-export default withTranslation('files')(FileNotFound)
+export default FileNotFound

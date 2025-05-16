@@ -14,7 +14,7 @@ import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
 import FilesGrid from './files-grid/files-grid.js'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
-import FileNotFound from './file-not-found/FileNotFound.js'
+import FileNotFound from './file-not-found/FileNotFound.tsx'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
