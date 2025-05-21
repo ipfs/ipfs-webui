@@ -26,6 +26,7 @@ import Checkbox from '../components/checkbox/Checkbox.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 import StrokeCode from '../icons/StrokeCode.js'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts.js'
+import ChangeLogLevelForm from '../components/change-log-level-form/ChangeLogLevelForm.js'
 
 const PAUSE_AFTER_SAVE_MS = 3000
 
@@ -61,6 +62,18 @@ export const SettingsPage = ({
             <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom Kubo RPC API address</a>, including a port other than the default 5001, enter it here.</p>
           </Trans>
           <ApiAddressForm/>
+        </div>
+      </Box> }
+
+      { isIpfsDesktop
+        ? null
+        : <Box className='mb3 pa4-l pa2 joyride-settings-customapi'>
+        <div className='lh-copy charcoal'>
+          <Title>{t('app:terms.logLevel')}</Title>
+          <Trans i18nKey='changeLogLevelDescription' t={t}>
+            <p>Change the <a className='link blue' href='https://docs.ipfs.tech/reference/kubo/rpc/#api-v0-log-level' target='_blank' rel='noopener noreferrer'>Logging Level</a>.</p>
+          </Trans>
+          <ChangeLogLevelForm />
         </div>
       </Box> }
 
