@@ -41,6 +41,12 @@ export class App extends Component {
     this.props.doTryInitIpfs()
   }
 
+  componentDidUpdate (prevProps) {
+    if (!prevProps.ipfsReady && this.props.ipfsReady) {
+      this.props.doInitLogLevel()
+    }
+  }
+
   addFiles = async (filesPromise) => {
     const { doFilesWrite, doUpdateHash, routeInfo, filesPathInfo } = this.props
     const isFilesPage = routeInfo.pattern === '/files*'
@@ -139,5 +145,6 @@ export default connect(
   'doFilesWrite',
   'doDisableTooltip',
   'selectFilesPathInfo',
+  'doInitLogLevel',
   withTranslation('app')(AppWithDropTarget)
 )
