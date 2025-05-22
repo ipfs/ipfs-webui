@@ -1,15 +1,16 @@
-import { useRef, useState, useEffect, useCallback, type FC, type MouseEvent } from 'react'
+import { useRef, useCallback, type FC, type MouseEvent, useState } from 'react'
 import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { ExtendedFile, FileStream, normalizeFiles } from '../../lib/files.js'
-import GridFile from './grid-file.jsx'
+import GridFile from './grid-file'
 // @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 import './files-grid.css'
 import { TFunction } from 'i18next'
 import type { ContextMenuFile } from 'src/files/types.js'
 import type { CID } from 'multiformats/cid'
+import { useShortcuts } from '../../contexts/ShortcutsContext'
 
 export interface FilesGridProps {
   files: ContextMenuFile[]
@@ -41,22 +42,15 @@ const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
   onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
 }: FilesGridPropsConnected) => {
-  const [focused, setFocused] = useState<string | null>(null)
+  const [focusedState, setFocusedState] = useState<string | null>(null)
+  const focused = useRef<string | null>(null)
   const filesRefs = useRef<Record<string, HTMLDivElement>>({})
   const gridRef = useRef<HTMLDivElement | null>(null)
 
-  const [{ isOver, canDrop }, drop] = useDrop({
-    accept: NativeTypes.FILE,
-    drop: (_, monitor) => {
-      if (monitor.didDrop()) return
-      const { filesPromise } = monitor.getItem()
-      addFiles(filesPromise, onAddFiles)
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver({ shallow: true }),
-      canDrop: filesPathInfo?.isMfs
-    })
-  })
+  const updateFocused = (name: string | null) => {
+    setFocusedState(name)
+    focused.current = name
+  }
 
   const addFiles = async (filesPromise: Promise<ExtendedFile[]>, onAddFiles: (files: FileStream[]) => void) => {
     const files = await filesPromise
@@ -67,18 +61,18 @@ const FilesGrid = ({
     onSelect(fileName, isSelected)
   }, [onSelect])
 
-  const keyHandler = useCallback((e: KeyboardEvent) => {
-    const focusedFile = focused == null ? null : files.find(el => el.name === focused)
+  const keyHandler = (e: KeyboardEvent) => {
+    if (filesIsFetching) return
 
-    gridRef.current?.focus?.()
+    const focusedFile = focused.current == null ? null : files.find(el => el.name === focused.current)
 
     if (e.key === 'Escape') {
       onSelect([], false)
-      setFocused(null)
+      updateFocused(null)
       return
     }
 
-    if ((e.key === 'F2') && focusedFile != null) {
+    if (e.key === 'F2' && focusedFile != null) {
       return onRename([focusedFile])
     }
 
@@ -88,7 +82,6 @@ const FilesGrid = ({
     }
 
     if ((e.key === ' ') && focusedFile != null) {
-      e.preventDefault()
       handleSelect(focusedFile.name, !selected.includes(focusedFile.name))
       return
     }
@@ -100,7 +93,6 @@ const FilesGrid = ({
     const isArrowKey = ['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)
 
     if (isArrowKey) {
-      e.preventDefault()
       const columns = Math.floor((gridRef.current?.clientWidth || window.innerWidth) / 220)
       const currentIndex = files.findIndex(el => el.name === focusedFile?.name)
       let newIndex = currentIndex
@@ -140,7 +132,7 @@ const FilesGrid = ({
 
       if (newIndex >= 0 && newIndex < files.length) {
         const name = files[newIndex].name
-        setFocused(name)
+        updateFocused(name)
         const element = filesRefs.current[name]
         if (element && element.scrollIntoView) {
           element.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
@@ -149,16 +141,114 @@ const FilesGrid = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files, focused])
+  }
 
-  useEffect(() => {
-    if (filesIsFetching) return
-    document.addEventListener('keydown', keyHandler)
-    return () => {
-      document.removeEventListener('keydown', keyHandler)
+  useShortcuts([{
+    keys: ['ArrowUp'],
+    label: t('shortcutModal.moveUp'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'ArrowUp' } as KeyboardEvent)
     }
-  }, [keyHandler, filesIsFetching])
+  }, {
+    keys: ['ArrowDown'],
+    label: t('shortcutModal.moveDown'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'ArrowDown' } as KeyboardEvent)
+    }
+  }, {
+    keys: ['ArrowLeft'],
+    label: t('shortcutModal.moveLeft'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'ArrowLeft' } as KeyboardEvent)
+    }
+  }, {
+    keys: ['ArrowRight'],
+    label: t('shortcutModal.moveRight'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'ArrowRight' } as KeyboardEvent)
+    }
+  }, {
+    keys: ['F2'],
+    label: t('shortcutModal.rename'),
+    group: t('shortcutModal.actions'),
+    action: () => {
+      keyHandler({ key: 'F2' } as KeyboardEvent)
+    }
+  }, {
+    keys: ['Delete'],
+    label: t('shortcutModal.delete'),
+    group: t('shortcutModal.actions'),
+    action: () => {
+      keyHandler({ key: 'Delete' } as KeyboardEvent)
+    }
+  },
+  {
+    keys: ['Backspace'],
+    hidden: true,
+    label: t('shortcutModal.delete'),
+    group: t('shortcutModal.actions'),
+    action: () => {
+      keyHandler({ key: 'Backspace' } as KeyboardEvent)
+    }
+  },
+  {
+    keys: ['Space'],
+    label: t('shortcutModal.toggleSelection'),
+    group: t('shortcutModal.selection'),
+    action: () => {
+      keyHandler({ key: ' ' } as KeyboardEvent)
+    }
+  }, {
+    keys: ['Escape'],
+    label: t('shortcutModal.deselectAll'),
+    group: t('shortcutModal.selection'),
+    action: () => {
+      keyHandler({ key: 'Escape' } as KeyboardEvent)
+    }
+  }, {
+    keys: ['Enter'],
+    label: t('shortcutModal.navigate'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'Enter' } as KeyboardEvent)
+    }
+  },
+  {
+    keys: ['NumpadEnter'],
+    hidden: true,
+    label: t('shortcutModal.navigate'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'NumpadEnter' } as KeyboardEvent)
+    }
+  },
+  {
+    keys: ['ArrowRight', 'Meta'],
+    hidden: true,
+    label: t('shortcutModal.navigate'),
+    group: t('shortcutModal.navigation'),
+    action: () => {
+      keyHandler({ key: 'ArrowRight', metaKey: true } as KeyboardEvent)
+    }
+  }
+  ])
+
+  const [{ isOver, canDrop }, drop] = useDrop({
+    accept: NativeTypes.FILE,
+    drop: (_, monitor) => {
+      if (monitor.didDrop()) return
+      const { filesPromise } = monitor.getItem()
+      addFiles(filesPromise, onAddFiles)
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver({ shallow: true }),
+      canDrop: filesPathInfo?.isMfs
+    })
+  })
 
   const gridClassName = `files-grid${isOver && canDrop ? ' files-grid--drop-target' : ''}`
 
@@ -173,7 +263,7 @@ const FilesGrid = ({
           {...file}
           refSetter={(r: HTMLDivElement | null) => { filesRefs.current[file.name] = r as HTMLDivElement }}
           selected={selected.includes(file.name)}
-          focused={focused === file.name}
+          focused={focusedState === file.name}
           pinned={pins?.includes(file.cid?.toString())}
           isRemotePin={remotePins?.includes(file.cid?.toString())}
           isPendingPin={pendingPins?.includes(file.cid?.toString())}

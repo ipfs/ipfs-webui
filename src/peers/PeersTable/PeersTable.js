@@ -108,6 +108,7 @@ const FilterInput = ({ setFilter, t, filteredCount }) => {
         className='input-reset ba b--black-20 pa2 mb2 db w-100'
         type='text'
         placeholder='Filter peers'
+        id='peers-filter'
         onChange={(e) => setFilter(e.target.value)}
       />
       {/* Now to display the total number of peers filtered out on the right side of the inside of the input */}
