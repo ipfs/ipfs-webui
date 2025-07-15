@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { withTranslation, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
@@ -15,6 +15,7 @@ import AnalyticsBanner from '../components/analytics-banner/AnalyticsBanner.js'
 import { statusTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 import withTour from '../components/tour/withTour.js'
+import { IDENTITY_REFRESH_INTERVAL } from '../bundles/identity.js'
 
 const StatusPage = ({
   t,
@@ -26,8 +27,27 @@ const StatusPage = ({
   doToggleShowAnalyticsBanner,
   toursEnabled,
   handleJoyrideCallback,
-  nodeBandwidthEnabled
+  nodeBandwidthEnabled,
+  doFetchIdentity,
+  isNodeInfoOpen
 }) => {
+  // Refresh identity when page mounts
+  useEffect(() => {
+    if (ipfsConnected) {
+      doFetchIdentity()
+    }
+  }, [ipfsConnected, doFetchIdentity])
+
+  // Refresh identity when Advanced section is open
+  useEffect(() => {
+    if (ipfsConnected && isNodeInfoOpen) {
+      const intervalId = setInterval(() => {
+        doFetchIdentity()
+      }, IDENTITY_REFRESH_INTERVAL)
+
+      return () => clearInterval(intervalId)
+    }
+  }, [ipfsConnected, isNodeInfoOpen, doFetchIdentity])
   return (
     <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
@@ -95,8 +115,10 @@ export default connect(
   'selectShowAnalyticsBanner',
   'selectShowAnalyticsComponents',
   'selectToursEnabled',
+  'selectIsNodeInfoOpen',
   'doEnableAnalytics',
   'doDisableAnalytics',
   'doToggleShowAnalyticsBanner',
+  'doFetchIdentity',
   withTour(withTranslation('status')(StatusPage))
 )
