@@ -66,7 +66,7 @@ const cumulativeSize = async (ipfs, cidOrPath) => {
  * @returns {string}
  */
 // TODO: use sth else
-export const realMfsPath = (path) => {
+const realMfsPath = (path) => {
   if (path.startsWith('/files')) {
     return path.substring('/files'.length) || '/'
   }
