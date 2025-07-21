@@ -15,7 +15,7 @@ import AnalyticsBanner from '../components/analytics-banner/AnalyticsBanner.js'
 import { statusTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 import withTour from '../components/tour/withTour.js'
-import { IDENTITY_REFRESH_INTERVAL } from '../bundles/identity.js'
+import { IDENTITY_REFRESH_INTERVAL_MS } from '../bundles/identity.js'
 
 const StatusPage = ({
   t,
@@ -43,7 +43,7 @@ const StatusPage = ({
     if (ipfsConnected && isNodeInfoOpen) {
       const intervalId = setInterval(() => {
         doFetchIdentity()
-      }, IDENTITY_REFRESH_INTERVAL)
+      }, IDENTITY_REFRESH_INTERVAL_MS)
 
       return () => clearInterval(intervalId)
     }

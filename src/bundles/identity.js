@@ -1,7 +1,7 @@
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 
 // Matches APP_IDLE and peer bandwidth update intervals
-export const IDENTITY_REFRESH_INTERVAL = 5000
+export const IDENTITY_REFRESH_INTERVAL_MS = 5000
 
 const bundle = createAsyncResourceBundle({
   name: 'identity',
@@ -9,7 +9,7 @@ const bundle = createAsyncResourceBundle({
   getPromise: ({ getIpfs }) => getIpfs().id().catch((err) => {
     console.error('Failed to get identity', err)
   }),
-  staleAfter: IDENTITY_REFRESH_INTERVAL,
+  staleAfter: IDENTITY_REFRESH_INTERVAL_MS,
   persist: false,
   checkIfOnline: false
 })
