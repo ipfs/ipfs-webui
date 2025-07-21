@@ -1,12 +1,14 @@
 import { sortByName, sortBySize } from '../../lib/sort.js'
 import { IS_MAC, SORTING } from './consts.js'
 import * as Task from '../task.js'
+import { debouncedProvide } from '../../lib/files.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
  * @typedef {import('../../lib/files').FileStream} FileStream
  * @typedef {import('./actions').Ext} Ext
  * @typedef {import('./actions').Extra} Extra
+ * @typedef {import('multiformats/cid').CID} CID
  */
 
 /**
@@ -314,5 +316,21 @@ export const ensureMFS = (store) => {
   const info = store.selectFilesPathInfo()
   if (!info || !info.isMfs) {
     throw new Error('Unable to perform task if not in MFS')
+  }
+}
+
+/**
+ * Dispatches an async provide operation for a CID.
+ *
+ * @param {CID|null|undefined} cid - The CID to provide
+ * @param {IPFSService} ipfs - The IPFS service instance
+ * @param {string} context - Context for logging
+ */
+export const dispatchAsyncProvide = (cid, ipfs, context) => {
+  if (cid) {
+    console.debug(`[${context}] Dispatching one-time ad-hoc provide for root CID ${cid.toString()} (non-recursive) for improved performance when sharing today`)
+    debouncedProvide(cid, ipfs).catch((error) => {
+      console.error(`[${context}] debouncedProvide failed:`, error)
+    })
   }
 }
