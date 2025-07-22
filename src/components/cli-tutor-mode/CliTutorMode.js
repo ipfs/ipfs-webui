@@ -7,7 +7,7 @@ import { Modal, ModalBody, ModalActions } from '../modal/Modal.js'
 import StrokeCode from '../../icons/StrokeCode.js'
 import Button from '../button/button.tsx'
 import Overlay from '../overlay/Overlay.js'
-import Shell from '../shell/Shell.js'
+import Shell from '../shell/Shell.tsx'
 import StrokeDownload from '../../icons/StrokeDownload.js'
 import { cliCmdKeys, cliCommandList, cliCmdPrefixes } from '../../bundles/files/consts.js'
 
