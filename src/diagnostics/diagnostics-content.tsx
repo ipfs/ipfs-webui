@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { withTranslation, WithTranslation } from 'react-i18next'
-import { connect } from 'redux-bundler-react'
+import { useTranslation } from 'react-i18next'
 import Box from '../components/box/Box.js'
+import { createConnectedComponent } from '../components/connected-component.js'
 import { Definition, DefinitionList } from '../components/definition/Definition.js'
 import VersionLink from '../components/version-link/VersionLink.js'
 
@@ -11,12 +11,17 @@ interface Identity {
   addresses?: string[]
 }
 
-interface DiagnosticsContentProps extends WithTranslation {
+interface ReduxBundlerProps {
   identity: Identity | null
   doFetchIdentity: () => void
 }
 
-const DiagnosticsContent: React.FC<DiagnosticsContentProps> = ({ t, identity, doFetchIdentity }) => {
+interface DiagnosticsContentProps extends ReduxBundlerProps {
+}
+
+const DiagnosticsContent: React.FC<DiagnosticsContentProps> = ({ identity, doFetchIdentity }) => {
+  const { t } = useTranslation('diagnostics')
+
   useEffect(() => {
     if (identity) {
       doFetchIdentity()
@@ -80,8 +85,8 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = ({ t, identity, do
   )
 }
 
-export default connect(
+export default createConnectedComponent<ReduxBundlerProps>(
+  DiagnosticsContent,
   'selectIdentity',
-  'doFetchIdentity',
-  withTranslation('diagnostics')(DiagnosticsContent)
+  'doFetchIdentity'
 )

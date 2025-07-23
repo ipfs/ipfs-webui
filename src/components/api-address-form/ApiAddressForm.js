@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
+import { createConnectedComponent } from '../connected-component.js'
 import Button from '../button/button.tsx'
 import { checkValidAPIAddress } from '../../bundles/ipfs-provider.js'
 
@@ -69,9 +69,19 @@ const asAPIString = (value) => {
   return JSON.stringify(value)
 }
 
-export default connect(
+/**
+ * @typedef {Object} ReduxBundlerProps
+ * @property {(value: string) => void} doUpdateIpfsApiAddress
+ * @property {string} selectIpfsApiAddress
+ * @property {boolean} selectIpfsInitFailed
+ */
+
+/**
+ * @template {ReduxBundlerProps}
+ */
+export default createConnectedComponent(
+  withTranslation('app')(ApiAddressForm),
   'doUpdateIpfsApiAddress',
   'selectIpfsApiAddress',
-  'selectIpfsInitFailed',
-  withTranslation('app')(ApiAddressForm)
+  'selectIpfsInitFailed'
 )

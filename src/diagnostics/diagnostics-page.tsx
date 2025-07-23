@@ -1,17 +1,21 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { connect } from 'redux-bundler-react'
 import Box from '../components/box/Box.js'
+import { createConnectedComponent } from '../components/connected-component.js'
 import Helmet from '../components/helmet-wrapper.jsx'
-import IsNotConnected from '../components/is-not-connected/IsNotConnected.js'
+import IsNotConnected from '../components/is-not-connected/is-not-connected.js'
 import DiagnosticsContent from './diagnostics-content.jsx'
 
-interface DiagnosticsPageProps {
+interface ReduxBundlerProps {
   ipfsConnected: boolean
+}
+
+interface DiagnosticsPageProps extends ReduxBundlerProps {
 }
 
 const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({ ipfsConnected }) => {
   const { t } = useTranslation('diagnostics')
+
   return (
     <div data-id='DiagnosticsPage' className='mw9 center'>
       <Helmet>
@@ -31,7 +35,10 @@ const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({ ipfsConnected }) => {
   )
 }
 
-export default connect(
-  'selectIpfsConnected',
-  DiagnosticsPage
+/**
+ * @template {ReduxBundlerProps}
+ */
+export default createConnectedComponent(
+  DiagnosticsPage,
+  'selectIpfsConnected'
 )
