@@ -61,6 +61,8 @@ const ACTIONS = Enum.from([
   'LOGS_LOAD_HISTORY',
   'LOGS_SET_LOADING_HISTORY',
   'LOGS_UPDATE_STORAGE_STATS',
+  'LOGS_SET_HAS_MORE_HISTORY',
+  'LOGS_LOAD_LATEST',
   'LOGS_SHOW_WARNING',
   'LOGS_AUTO_DISABLE'
 ])
@@ -89,7 +91,9 @@ const defaultState = {
   isLoadingHistory: false,
   storageStats: null,
   pendingBatch: [],
-  batchTimeout: null
+  batchTimeout: null,
+  // Track position in the overall log timeline
+  viewOffset: 0 // 0 = showing latest logs, 100 = showing logs 100 positions back, etc.
 }
 
 const logsBundle = {
@@ -109,6 +113,7 @@ const logsBundle = {
           ...state,
           isStreaming: true,
           streamController: action.payload?.controller || null,
+          viewOffset: 0, // Reset to latest position when starting streaming
           rateState: {
             ...state.rateState,
             hasWarned: false,
@@ -144,13 +149,27 @@ const logsBundle = {
       case ACTIONS.LOGS_ADD_BATCH: {
         const batchEntries = action.payload
         const memoryLimit = state.bufferConfig.memory
-        const newEntries = [...state.entries, ...batchEntries]
 
+        // If user is viewing historical logs (offset > 0), don't update memory buffer
+        // This prevents jarring "jumps" back to latest while browsing history
+        if (state.viewOffset > 0) {
+          console.log('User viewing historical logs, not updating memory buffer. Offset:', state.viewOffset)
+          return {
+            ...state,
+            pendingBatch: [], // Clear pending batch (logs still get stored in IndexedDB)
+            batchTimeout: null
+            // Keep existing entries and viewOffset unchanged
+          }
+        }
+
+        // User is at latest position, update memory buffer normally
+        const newEntries = [...state.entries, ...batchEntries]
         return {
           ...state,
           entries: newEntries.slice(-memoryLimit), // Keep only last N entries in memory
           pendingBatch: [],
           batchTimeout: null
+          // viewOffset stays 0 (latest position)
         }
       }
       case ACTIONS.LOGS_CLEAR_ENTRIES: {
@@ -158,7 +177,8 @@ const logsBundle = {
           ...state,
           entries: [],
           pendingBatch: [],
-          hasMoreHistory: false
+          hasMoreHistory: false,
+          viewOffset: 0 // Reset position when clearing
         }
       }
       case ACTIONS.LOGS_UPDATE_BUFFER_CONFIG: {
@@ -174,12 +194,30 @@ const logsBundle = {
         }
       }
       case ACTIONS.LOGS_LOAD_HISTORY: {
-        const historicalEntries = action.payload
+        const { logs: historicalEntries, maxEntries } = action.payload
+        // Sliding window: add to top, trim from bottom to maintain max size
+        const newEntries = [...historicalEntries, ...state.entries]
+        const trimmedEntries = newEntries.slice(0, maxEntries)
+
+        // Update view offset to track position in timeline
+        const newOffset = state.viewOffset + historicalEntries.length
+
+        console.log('Sliding window update:', {
+          loadedHistorical: historicalEntries.length,
+          previousTotal: state.entries.length,
+          newTotal: newEntries.length,
+          afterTrim: trimmedEntries.length,
+          maxEntries,
+          oldOffset: state.viewOffset,
+          newOffset
+        })
+
         return {
           ...state,
-          entries: [...historicalEntries, ...state.entries],
+          entries: trimmedEntries,
           isLoadingHistory: false,
-          hasMoreHistory: historicalEntries.length > 0
+          viewOffset: newOffset
+          // hasMoreHistory is managed separately via LOGS_SET_HAS_MORE_HISTORY
         }
       }
       case ACTIONS.LOGS_SET_LOADING_HISTORY: {
@@ -192,6 +230,21 @@ const logsBundle = {
         return {
           ...state,
           storageStats: action.payload
+        }
+      }
+      case ACTIONS.LOGS_SET_HAS_MORE_HISTORY: {
+        return {
+          ...state,
+          hasMoreHistory: action.payload
+        }
+      }
+      case ACTIONS.LOGS_LOAD_LATEST: {
+        const { logs, hasMoreHistory } = action.payload
+        return {
+          ...state,
+          entries: logs,
+          viewOffset: 0, // Reset to latest position
+          hasMoreHistory // Set based on whether there are older logs in storage
         }
       }
       case ACTIONS.LOGS_SHOW_WARNING: {
@@ -234,6 +287,7 @@ const logsBundle = {
   selectIsLoadingHistory: state => state.logs?.isLoadingHistory || false,
   selectLogStorageStats: state => state.logs?.storageStats || null,
   selectPendingLogBatch: state => state.logs?.pendingBatch || [],
+  selectLogViewOffset: state => state.logs?.viewOffset || 0,
 
   // Actions
   doSetLogLevel: (subsystem, level) => async ({ getIpfs, dispatch }) => {
@@ -285,9 +339,18 @@ const logsBundle = {
         dispatch({ type: ACTIONS.LOGS_UPDATE_STORAGE_STATS, payload: stats })
 
         // Set hasMoreHistory based on whether there are more logs than what we loaded
+        console.log('Log storage stats:', {
+          totalEntries: stats.totalEntries,
+          recentLogsLoaded: recentLogs.length,
+          hasMoreHistory: stats.totalEntries > recentLogs.length
+        })
+
         if (stats.totalEntries > recentLogs.length) {
-          // We have more history available - this will be used by the UI to show "Load more" button
-          dispatch({ type: ACTIONS.LOGS_LOAD_HISTORY, payload: [] }) // Empty array means we have more but haven't loaded it yet
+          // We have more history available - update the hasMoreHistory flag
+          dispatch({
+            type: ACTIONS.LOGS_SET_HAS_MORE_HISTORY,
+            payload: true
+          })
         }
       } catch (error) {
         console.warn('Failed to load recent logs from storage:', error)
@@ -391,12 +454,24 @@ const logsBundle = {
     logStorage.updateConfig({ maxEntries: config.indexedDB })
   },
 
-  doLoadHistoricalLogs: (beforeTimestamp, limit = 100) => async ({ dispatch }) => {
+  doLoadHistoricalLogs: (beforeTimestamp, limit = 100) => async ({ dispatch, store }) => {
     dispatch({ type: ACTIONS.LOGS_SET_LOADING_HISTORY, payload: true })
 
     try {
       const historicalLogs = await logStorage.getLogsBefore(beforeTimestamp, limit)
-      dispatch({ type: ACTIONS.LOGS_LOAD_HISTORY, payload: historicalLogs })
+      const bufferConfig = store.selectLogBufferConfig()
+
+      dispatch({
+        type: ACTIONS.LOGS_LOAD_HISTORY,
+        payload: {
+          logs: historicalLogs,
+          maxEntries: bufferConfig.memory // Use this to trim from bottom
+        }
+      })
+
+      // If we got fewer logs than requested, there might not be more history
+      const hasMoreHistory = historicalLogs.length === limit
+      dispatch({ type: ACTIONS.LOGS_SET_HAS_MORE_HISTORY, payload: hasMoreHistory })
     } catch (error) {
       console.error('Failed to load historical logs:', error)
       dispatch({ type: ACTIONS.LOGS_SET_LOADING_HISTORY, payload: false })
@@ -418,6 +493,33 @@ const logsBundle = {
 
   doAutoDisableStreaming: () => ({ dispatch }) => {
     dispatch({ type: ACTIONS.LOGS_AUTO_DISABLE })
+  },
+
+  doSetHasMoreHistory: (hasMore) => ({ dispatch }) => {
+    dispatch({ type: ACTIONS.LOGS_SET_HAS_MORE_HISTORY, payload: hasMore })
+  },
+
+  doGoToLatestLogs: () => async ({ dispatch, store }) => {
+    const bufferConfig = store.selectLogBufferConfig()
+
+    // Load the latest logs from storage and reset view position
+    try {
+      const latestLogs = await logStorage.getRecentLogs(bufferConfig.memory)
+      const storageStats = await logStorage.getStorageStats()
+
+      // Check if there are more logs in storage than what we're showing
+      const hasMoreHistory = storageStats.totalEntries > latestLogs.length
+
+      dispatch({
+        type: ACTIONS.LOGS_LOAD_LATEST,
+        payload: { logs: latestLogs, hasMoreHistory }
+      })
+
+      // Update storage stats
+      dispatch({ type: ACTIONS.LOGS_UPDATE_STORAGE_STATS, payload: storageStats })
+    } catch (error) {
+      console.error('Failed to load latest logs:', error)
+    }
   }
 }
 
@@ -567,7 +669,15 @@ function createBatchProcessor (dispatch, controller, bufferConfig) {
 
     // Store in IndexedDB (async, don't wait)
     try {
-      logStorage.appendLogs(entries).catch(error => {
+      logStorage.appendLogs(entries).then(async () => {
+        // Update storage stats after adding logs
+        try {
+          const updatedStats = await logStorage.getStorageStats()
+          dispatch({ type: ACTIONS.LOGS_UPDATE_STORAGE_STATS, payload: updatedStats })
+        } catch (error) {
+          console.warn('Failed to update storage stats:', error)
+        }
+      }).catch(error => {
         console.warn('Failed to store logs in IndexedDB:', error)
       })
     } catch (error) {

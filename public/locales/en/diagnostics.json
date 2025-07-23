@@ -41,8 +41,17 @@
       "noEntries": "No log entries yet. Start streaming to see logs.",
       "loading": "Loading log subsystems...",
       "loadingHistory": "Loading historical logs",
-      "loadMore": "Load More History",
-      "streaming": "Live streaming..."
+      "streaming": "Live streaming...",
+      "newLogsAvailable": "📍 New logs arriving (not shown)",
+      "goToLatest": "📍 Go to Latest",
+      "goToTop": "⬆️ Go to Top",
+      "loadMoreHistory": "⬆️ Load More",
+      "historicalView": "📜 Historical View",
+      "newLogsArriving": "🔄 New logs arriving",
+      "autoScrollPaused": "📌 Auto-scroll paused",
+      "tooltipGoToTop": "Scroll to top of current view",
+      "tooltipLoadMore": "Load more historical logs",
+      "tooltipGoToLatest": "Load and view the latest logs"
     },
     "storage": {
       "title": "Storage Statistics",
