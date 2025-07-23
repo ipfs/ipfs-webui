@@ -35,7 +35,7 @@ const LogsScreen = ({
   const [warningModal, setWarningModal] = useState({ isOpen: false, type: null })
   const [pendingLevelChange, setPendingLevelChange] = useState(null)
   const [showBufferConfig, setShowBufferConfig] = useState(false)
-  const [tempBufferConfig, setTempBufferConfig] = useState(logBufferConfig)
+  const [tempBufferConfig, setTempBufferConfig] = useState({ ...logBufferConfig, selectedSubsystem: '' })
 
   // Refs for virtual scrolling
   const logContainerRef = useRef(null)
@@ -68,7 +68,7 @@ const LogsScreen = ({
 
   // Update temp config when buffer config changes
   useEffect(() => {
-    setTempBufferConfig(logBufferConfig)
+    setTempBufferConfig({ ...logBufferConfig, selectedSubsystem: '' })
   }, [logBufferConfig])
 
   const handleLevelChange = (subsystem, level) => {
@@ -80,6 +80,13 @@ const LogsScreen = ({
     }
 
     doSetLogLevel(subsystem, level)
+
+    // Refresh subsystem data after level change to show updated levels
+    if (subsystem !== 'all') {
+      setTimeout(() => {
+        doFetchLogSubsystems()
+      }, 100)
+    }
   }
 
   const confirmLevelChange = () => {
@@ -155,7 +162,7 @@ const LogsScreen = ({
         <div className='flex items-center justify-between mb3'>
           <div>
             <h3 className='montserrat fw4 charcoal ma0 f5'>
-              {t('logs.streaming.status', { status: isLogStreaming ? 'Active' : 'Stopped' })}
+              {isLogStreaming ? t('logs.streaming.statusActive') : t('logs.streaming.statusStopped')}
             </h3>
             {isLogStreaming && (
               <div className='flex items-center mt2'>
@@ -195,9 +202,9 @@ const LogsScreen = ({
         {logStorageStats && (
           <div className='bt b--black-20 pt3'>
             <h4 className='montserrat fw6 charcoal ma0 f6 mb2'>{t('logs.storage.title')}</h4>
-            <div className='flex items-center gap3 charcoal-muted f6'>
-              <span>{t('logs.storage.totalEntries')}: {logStorageStats.totalEntries.toLocaleString()}</span>
-              <span>{t('logs.storage.estimatedSize')}: {formatBytes(logStorageStats.estimatedSize)}</span>
+            <div className='flex items-center charcoal-muted f6'>
+              <span className='mr3'>{t('logs.storage.totalEntries')}: {logStorageStats.totalEntries.toLocaleString()}</span>
+              <span className='mr3'>{t('logs.storage.estimatedSize')}: {formatBytes(logStorageStats.estimatedSize)}</span>
               <span>{t('logs.storage.memoryBuffer')}: {safeLogEntries.length}/{logBufferConfig.memory}</span>
             </div>
           </div>
@@ -281,51 +288,72 @@ const LogsScreen = ({
       <Box className='mb3' style={{}}>
         <h3 className='montserrat fw4 charcoal ma0 f5 mb3'>{t('logs.levels.title')}</h3>
 
-        {/* Global Log Level */}
-        <div className='mb3'>
-          <label className='db fw6 mb2'>{t('logs.levels.global')}</label>
-          <select
-            className='input-reset ba b--black-20 pa2 mr2'
-            value={globalLogLevel}
-            onChange={(e) => handleLevelChange('all', e.target.value)}
-          >
-            {LOG_LEVELS.map(level => (
-              <option key={level} value={level}>
-                {t(`logs.levels.${level}`)}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className='flex gap4'>
+          {/* Global Log Level */}
+          <div className='flex-auto'>
+            <label className='db fw6 mb2'>{t('logs.levels.global')}</label>
+            <select
+              className='input-reset ba b--black-20 pa2 w-100'
+              value={globalLogLevel}
+              onChange={(e) => handleLevelChange('all', e.target.value)}
+            >
+              {LOG_LEVELS.map(level => (
+                <option key={level} value={level}>
+                  {t(`logs.levels.${level}`)}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Subsystem Log Levels */}
-        <div>
-          <label className='db fw6 mb2'>{t('logs.levels.subsystem')}</label>
-          {isLoadingSubsystems
-            ? (
-            <p className='gray'>{t('logs.entries.loading')}</p>
-              )
-            : (
-            <div className='grid grid-cols-3 gap3'>
-              {safeLogSubsystems.map(subsystem => (
-                <div key={subsystem.name} className='flex items-center'>
-                  <span className='mr2 w4 truncate' title={subsystem.name}>
-                    {subsystem.name}:
-                  </span>
+          {/* Subsystem Log Levels */}
+          <div className='flex-auto'>
+            <label className='db fw6 mb2'>{t('logs.levels.subsystem')}</label>
+            {isLoadingSubsystems
+              ? (
+              <p className='gray'>{t('logs.entries.loading')}</p>
+                )
+              : (
+              <div className='flex items-end gap2'>
+                <div className='flex-auto'>
                   <select
-                    className='input-reset ba b--black-20 pa1 f6'
-                    value={subsystem.level}
-                    onChange={(e) => handleLevelChange(subsystem.name, e.target.value)}
+                    className='input-reset ba b--black-20 pa2 w-100'
+                    value={tempBufferConfig.selectedSubsystem || ''}
+                    onChange={(e) => setTempBufferConfig({
+                      ...tempBufferConfig,
+                      selectedSubsystem: e.target.value
+                    })}
                   >
-                    {LOG_LEVELS.map(level => (
-                      <option key={level} value={level}>
-                        {level}
+                    <option value=''>{t('logs.levels.selectSubsystem')}</option>
+                    {safeLogSubsystems.map(subsystem => (
+                      <option key={subsystem.name} value={subsystem.name}>
+                        {subsystem.name}
                       </option>
                     ))}
                   </select>
                 </div>
-              ))}
-            </div>
-              )}
+                {tempBufferConfig.selectedSubsystem && (
+                  <div className='flex-none'>
+                    <select
+                      className='input-reset ba b--black-20 pa2'
+                      value={safeLogSubsystems.find(s => s.name === tempBufferConfig.selectedSubsystem)?.level || 'info'}
+                      onChange={(e) => handleLevelChange(tempBufferConfig.selectedSubsystem, e.target.value)}
+                    >
+                      {LOG_LEVELS.map(level => (
+                        <option key={level} value={level}>
+                          {t(`logs.levels.${level}`)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+                )}
+            {tempBufferConfig.selectedSubsystem && (
+              <div className='mt2 charcoal-muted f6'>
+                {t('logs.levels.currentLevel')}: {safeLogSubsystems.find(s => s.name === tempBufferConfig.selectedSubsystem)?.level || 'info'}
+              </div>
+            )}
+          </div>
         </div>
       </Box>
 

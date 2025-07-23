@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import Modal from './modal/Modal.js'
+import { Modal, ModalBody, ModalActions } from './modal/Modal.js'
+import Overlay from './overlay/Overlay.js'
 import Button from './button/button.jsx'
 
 interface LogWarningModalProps {
@@ -79,17 +80,17 @@ const LogWarningModal: React.FC<LogWarningModalProps> = ({
 
   const content = getWarningContent()
 
-  if (!isOpen) return null
-
   return (
-    <Modal onCancel={onClose} className="outline-0">
-      <div className="pa4 bg-white br2 shadow-2 mw6">
-        <h3 className="montserrat fw4 charcoal ma0 f4 mb3 flex items-center">
-          <span className="mr2 f3">⚠️</span>
-          {content.title}
-        </h3>
+    <Overlay show={isOpen} onLeave={onClose}>
+      <Modal onCancel={onClose} className="outline-0">
+        <ModalBody>
+          <div className="flex items-center mb3">
+            <span className="mr2 f3">⚠️</span>
+            <h3 className="montserrat fw4 charcoal ma0 f4">
+              {content.title}
+            </h3>
+          </div>
 
-        <div className="mb4">
           <p className="charcoal lh-copy mb3">{content.message}</p>
 
           {content.details.length > 0 && (
@@ -121,17 +122,17 @@ const LogWarningModal: React.FC<LogWarningModalProps> = ({
               </ul>
             </div>
           )}
-        </div>
+        </ModalBody>
 
-        <div className="flex justify-end gap2">
+        <ModalActions>
           <Button
-            className="mr2 bg-gray white"
+            className="ma2 tc bg-gray white"
             onClick={onClose}
           >
             {t('logs.warnings.cancel')}
           </Button>
           <Button
-            className="bg-red white"
+            className="ma2 tc bg-red white"
             onClick={() => {
               onConfirm()
               onClose()
@@ -139,9 +140,9 @@ const LogWarningModal: React.FC<LogWarningModalProps> = ({
           >
             {content.confirmText}
           </Button>
-        </div>
-      </div>
-    </Modal>
+        </ModalActions>
+      </Modal>
+    </Overlay>
   )
 }
 

@@ -267,7 +267,7 @@ const logsBundle = {
     })
 
     // Set up batch processing
-    const batchProcessor = createBatchProcessor(dispatch, store, controller, bufferConfig)
+    const batchProcessor = createBatchProcessor(dispatch, controller, bufferConfig)
 
     try {
       // Initialize log storage
@@ -287,7 +287,7 @@ const logsBundle = {
         // Set hasMoreHistory based on whether there are more logs than what we loaded
         if (stats.totalEntries > recentLogs.length) {
           // We have more history available - this will be used by the UI to show "Load more" button
-          store.dispatch({ type: ACTIONS.LOGS_LOAD_HISTORY, payload: [] }) // Empty array means we have more but haven't loaded it yet
+          dispatch({ type: ACTIONS.LOGS_LOAD_HISTORY, payload: [] }) // Empty array means we have more but haven't loaded it yet
         }
       } catch (error) {
         console.warn('Failed to load recent logs from storage:', error)
@@ -358,7 +358,7 @@ const logsBundle = {
       } else {
         // Fallback: simulate log entries for demo purposes
         console.warn('Log streaming not fully supported, using simulation')
-        simulateLogEntries(batchProcessor, controller, bufferConfig)
+        simulateLogEntries(batchProcessor, controller)
       }
     } catch (error) {
       console.error('Failed to start log streaming:', error)
@@ -511,11 +511,13 @@ function parseLogEntry (entry) {
 }
 
 // Batch processor for efficient log handling with rate monitoring
-function createBatchProcessor (dispatch, store, controller, bufferConfig) {
+function createBatchProcessor (dispatch, controller, bufferConfig) {
   let pendingEntries = []
   let lastBatchTime = Date.now()
   let entryCounts = [] // Rolling window of entry counts per second
   let batchTimeout = null
+  let hasWarned = false
+  let autoDisabled = false
 
   const processBatch = async () => {
     if (pendingEntries.length === 0) return
@@ -550,16 +552,16 @@ function createBatchProcessor (dispatch, store, controller, bufferConfig) {
     })
 
     // Check for warnings and auto-disable
-    const rateState = store.selectLogRateState()
-
-    if (currentRate > bufferConfig.autoDisableThreshold && !rateState.autoDisabled) {
+    if (currentRate > bufferConfig.autoDisableThreshold && !autoDisabled) {
       console.warn(`Log rate too high (${currentRate.toFixed(1)}/s), auto-disabling streaming`)
+      autoDisabled = true
       dispatch({ type: ACTIONS.LOGS_AUTO_DISABLE })
       return
     }
 
-    if (currentRate > bufferConfig.warnThreshold && !rateState.hasWarned && !rateState.autoDisabled) {
+    if (currentRate > bufferConfig.warnThreshold && !hasWarned && !autoDisabled) {
       console.warn(`High log rate detected: ${currentRate.toFixed(1)} logs/second`)
+      hasWarned = true
       dispatch({ type: ACTIONS.LOGS_SHOW_WARNING })
     }
 
@@ -602,9 +604,9 @@ function createBatchProcessor (dispatch, store, controller, bufferConfig) {
       clearTimeout(batchTimeout)
       batchTimeout = null
     }
-    // Process any remaining entries
+    // Process any remaining entries after current Redux cycle completes
     if (pendingEntries.length > 0) {
-      processBatch()
+      setTimeout(processBatch, 10) // Small delay to ensure we're outside the reducer
     }
   })
 
@@ -612,7 +614,7 @@ function createBatchProcessor (dispatch, store, controller, bufferConfig) {
 }
 
 // Simulate log entries for demonstration
-function simulateLogEntries (batchProcessor, controller, bufferConfig) {
+function simulateLogEntries (batchProcessor, controller) {
   const levels = ['debug', 'info', 'warn', 'error']
   const subsystems = ['bitswap', 'dht', 'swarm', 'pubsub', 'routing', 'blockservice', 'exchange', 'namesys']
   const messages = [
