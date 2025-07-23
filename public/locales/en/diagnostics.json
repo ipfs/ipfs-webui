@@ -1,0 +1,32 @@
+{
+  "title": "Diagnostics",
+  "description": "View detailed diagnostic information about your IPFS node and system configuration.",
+  "nodeInfo": {
+    "title": "Node Information",
+    "peerId": "Peer ID",
+    "agent": "Agent",
+    "ui": "UI Version"
+  },
+  "systemInfo": {
+    "title": "System Information",
+    "platform": "Platform",
+    "userAgent": "User Agent",
+    "language": "Language",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "connection": {
+    "title": "Connection Status",
+    "status": "Status",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "addresses": "Addresses"
+  },
+  "repo": {
+    "title": "Repository Information",
+    "path": "Repository Path",
+    "defaultPath": "Default IPFS repository path",
+    "version": "Repository Version",
+    "defaultVersion": "Latest"
+  }
+}
