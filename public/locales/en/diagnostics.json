@@ -12,7 +12,11 @@
       "start": "Start Streaming",
       "stop": "Stop Streaming",
       "clear": "Clear Logs",
-      "status": "Streaming: {{status}}"
+      "status": "Streaming: {{status}}",
+      "config": "Configure",
+      "rate": "Rate",
+      "highRate": "High Rate",
+      "autoDisabled": "Auto-disabled"
     },
     "levels": {
       "title": "Log Levels",
@@ -32,7 +36,59 @@
       "subsystem": "Subsystem",
       "message": "Message",
       "noEntries": "No log entries yet. Start streaming to see logs.",
-      "loading": "Loading log subsystems..."
+      "loading": "Loading log subsystems...",
+      "loadingHistory": "Loading historical logs",
+      "loadMore": "Load More History",
+      "streaming": "Live streaming..."
+    },
+    "storage": {
+      "title": "Storage Statistics",
+      "totalEntries": "Total Entries",
+      "estimatedSize": "Estimated Size",
+      "memoryBuffer": "Memory Buffer"
+    },
+    "config": {
+      "title": "Buffer Configuration",
+      "memoryBuffer": "Memory Buffer (entries)",
+      "persistentBuffer": "Persistent Buffer (entries)",
+      "warnThreshold": "Warning Threshold (logs/sec)",
+      "autoDisableThreshold": "Auto-disable Threshold (logs/sec)",
+      "cancel": "Cancel",
+      "apply": "Apply Changes"
+    },
+    "warnings": {
+      "potentialIssues": "Potential Issues:",
+      "recommendations": "Recommendations:",
+      "cancel": "Cancel",
+      "debugGlobal": {
+        "title": "Enable Debug Logging Globally?",
+        "message": "You are about to enable DEBUG level logging for all subsystems. This will generate a very high volume of logs and may impact browser performance.",
+        "detail1": "Debug logs can generate 100+ messages per second",
+        "detail2": "High CPU usage and memory consumption",
+        "detail3": "Potential browser tab crashes or freezing",
+        "suggestion1": "Consider enabling debug logs for specific subsystems only",
+        "suggestion2": "Use for short debugging sessions (< 5 minutes)",
+        "suggestion3": "Monitor the log rate indicator and disable if needed",
+        "confirm": "Enable Debug Globally"
+      },
+      "highRate": {
+        "title": "High Log Rate Detected",
+        "message": "Current log rate is {{rate}} logs/second, which may cause performance issues.",
+        "detail1": "High log rates can slow down the browser",
+        "detail2": "Memory usage will increase rapidly",
+        "suggestion1": "Consider reducing log levels for busy subsystems",
+        "suggestion2": "Use buffer configuration to limit memory usage",
+        "confirm": "Continue"
+      },
+      "autoDisable": {
+        "title": "Log Streaming Auto-Disabled",
+        "message": "Log streaming was automatically disabled due to extremely high rate ({{rate}} logs/sec).",
+        "detail1": "This protects your browser from potential crashes",
+        "detail2": "Logs are still being cached in persistent storage",
+        "suggestion1": "Reduce log levels before re-enabling streaming",
+        "suggestion2": "Check subsystem log levels and disable debug mode",
+        "confirm": "Understood"
+      }
     }
   },
   "connectivity": {
