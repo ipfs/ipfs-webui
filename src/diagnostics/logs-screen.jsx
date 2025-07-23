@@ -4,6 +4,7 @@ import { createConnectedComponent } from '../components/connected-component.jsx'
 import Box from '../components/box/Box.js'
 import Button from '../components/button/button.jsx'
 import LogWarningModal from '../components/log-warning-modal.tsx'
+import { humanSize } from '../lib/files.js'
 
 const LOG_LEVELS = ['debug', 'info', 'warn', 'error', 'dpanic', 'panic', 'fatal']
 
@@ -226,14 +227,6 @@ const LogsScreen = ({
     }
   }
 
-  const formatBytes = (bytes) => {
-    if (bytes === 0) return '0 B'
-    const k = 1024
-    const sizes = ['B', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-  }
-
   const getLogRangeDisplay = () => {
     if (!logStorageStats || safeLogEntries.length === 0) {
       return `Log Entries (${safeLogEntries.length})`
@@ -302,18 +295,6 @@ const LogsScreen = ({
             </Button>
           </div>
         </div>
-
-        {/* Storage Stats */}
-        {logStorageStats && (
-          <div className='bt b--black-20 pt3'>
-            <h4 className='montserrat fw6 charcoal ma0 f6 mb2'>{t('logs.storage.title')}</h4>
-            <div className='flex items-center charcoal-muted f6'>
-              <span className='mr3'>{t('logs.storage.totalEntries')}: {logStorageStats.totalEntries.toLocaleString()}</span>
-              <span className='mr3'>{t('logs.storage.estimatedSize')}: {formatBytes(logStorageStats.estimatedSize)}</span>
-              <span>{t('logs.storage.memoryBuffer')}: {safeLogEntries.length}/{logBufferConfig.memory}</span>
-            </div>
-          </div>
-        )}
 
         {/* Buffer Configuration */}
         {showBufferConfig && (
@@ -466,7 +447,7 @@ const LogsScreen = ({
       </Box>
 
       {/* Log Entries */}
-      <Box style={{}}>
+      <Box className='mb3' style={{}}>
         <div className='flex items-center justify-between mb3'>
           <div className='flex items-center'>
             <h3 className='montserrat fw4 charcoal ma0 f5'>
@@ -534,16 +515,16 @@ const LogsScreen = ({
             : <div>
               {safeLogEntries.map((entry, index) => (
                 <div key={`${entry.timestamp}-${entry.subsystem}-${index}`} className='flex mb1 lh-copy hover-bg-light-gray pa1 br1'>
-                  <span className='w3 mr2 gray truncate f7' title={entry.timestamp}>
+                  <span className='flex-none mr2 gray f7' style={{ minWidth: '90px' }} title={entry.timestamp}>
                     {formatTimestamp(entry.timestamp)}
                   </span>
                   <span
-                    className='w3 mr2 fw6 truncate f7'
-                    style={{ color: getLevelColor(entry.level) }}
+                    className='flex-none mr2 fw6 f7'
+                    style={{ minWidth: '60px', color: getLevelColor(entry.level) }}
                   >
                     {entry.level.toUpperCase()}
                   </span>
-                  <span className='w4 mr2 blue truncate f7' title={entry.subsystem}>
+                  <span className='flex-none mr2 blue f7' style={{ minWidth: '120px' }} title={entry.subsystem}>
                     {entry.subsystem}
                   </span>
                   <span className='flex-auto f7 pre-wrap'>
@@ -561,6 +542,18 @@ const LogsScreen = ({
             </div>}
         </div>
       </Box>
+
+      {/* Storage Stats */}
+      {logStorageStats && (
+        <div className='bt b--black-20 pt3'>
+          <h4 className='montserrat fw6 charcoal ma0 f6 mb2'>{t('logs.storage.title')}</h4>
+          <div className='flex items-center charcoal-muted f6'>
+            <span className='mr3'>{t('logs.storage.totalEntries')}: {logStorageStats.totalEntries.toLocaleString()}</span>
+            <span className='mr3'>{t('logs.storage.estimatedSize')}: {humanSize(logStorageStats.estimatedSize)}</span>
+            <span>{t('logs.storage.memoryBuffer')}: {safeLogEntries.length}/{logBufferConfig.memory}</span>
+          </div>
+        </div>
+      )}
 
       {/* Warning Modal */}
       <LogWarningModal
