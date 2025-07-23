@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect, useCallback, ReactNode } from 'react'
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, ReactNode, useRef } from 'react'
 import { useBridgeContext, useBridgeSelector } from '../helpers/context-bridge'
 
 /**
@@ -23,7 +23,7 @@ export interface IdentityData {
 export interface IdentityContextValue {
   /** The identity data, undefined if not loaded */
   identity?: IdentityData
-  /** Whether identity is currently being fetched */
+  /** Whether identity is being fetched for the first time */
   isLoading: boolean
   /** Whether there was an error fetching identity */
   hasError: boolean
@@ -31,6 +31,10 @@ export interface IdentityContextValue {
   lastSuccess?: number
   /** Function to manually refetch identity */
   refetch: () => void
+  /**
+   * Whether identity is being updated (loading, but we already have a good identity response)
+   */
+  isRefreshing: boolean
 }
 
 /**
@@ -102,8 +106,6 @@ IdentityContext.displayName = 'IdentityContext'
  */
 interface IdentityProviderProps {
   children: ReactNode
-  /** Whether to poll for identity updates every 5 seconds (default: false) */
-  shouldPoll?: boolean
 }
 
 /**
@@ -112,28 +114,27 @@ interface IdentityProviderProps {
 const IdentityProviderImpl: React.FC<IdentityProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(identityReducer, initialState)
   const shouldPoll = useBridgeSelector<boolean>('selectIsNodeInfoOpen') || false
-
-  // Access redux selectors through context bridge (reactive)
   const ipfsConnected = useBridgeSelector<boolean>('selectIpfsConnected') || false
   const ipfs = useBridgeSelector<any>('selectIpfs')
 
-  /**
-     * Fetch identity from IPFS
-     */
-  const fetchIdentity = useCallback(async () => {
-    if (!ipfsConnected || !ipfs) {
-      return
-    }
+  // keep last good identity to prevent UI flash
+  const lastGoodIdentityRef = useRef<IdentityData | undefined>(state.identity)
+  useEffect(() => {
+    if (state.identity) lastGoodIdentityRef.current = state.identity
+  }, [state.identity])
 
+  const identityStable = state.identity ?? lastGoodIdentityRef.current
+  const isInitialLoading = identityStable == null && state.isLoading
+  const isRefreshing = identityStable != null && state.isLoading
+
+  const fetchIdentity = useCallback(async () => {
+    if (!ipfsConnected || !ipfs) return
     try {
       dispatch({ type: 'FETCH_START' })
       const identity = await ipfs.id()
       dispatch({
         type: 'FETCH_SUCCESS',
-        payload: {
-          identity,
-          timestamp: Date.now()
-        }
+        payload: { identity, timestamp: Date.now() }
       })
     } catch (error) {
       console.error('Failed to fetch identity:', error)
@@ -141,50 +142,37 @@ const IdentityProviderImpl: React.FC<IdentityProviderProps> = ({ children }) => 
     }
   }, [ipfs, ipfsConnected])
 
-  /**
-     * Auto-fetch identity when IPFS becomes available or connected
-     * Only fetches once on mount/connection, not repeatedly
-     */
   useEffect(() => {
     if (ipfsConnected && !state.isLoading) {
-      // Only fetch if we don't have identity or if connection was restored
       if (!state.identity || !state.lastSuccess) {
         fetchIdentity()
       }
     }
   }, [ipfsConnected, fetchIdentity, state.isLoading, state.identity, state.lastSuccess])
 
-  /**
-     * Periodic refresh of identity - only when shouldPoll is true
-     * This should only be enabled when advanced node info is displayed
-     */
   useEffect(() => {
-    if (!shouldPoll || !ipfsConnected || !state.lastSuccess) {
-      return
-    }
+    if (!shouldPoll || !ipfsConnected || !state.lastSuccess) return
 
-    const REFRESH_INTERVAL = 5000 // Same as IDENTITY_REFRESH_INTERVAL_MS
+    const REFRESH_INTERVAL = 5000
     const timeSinceLastSuccess = Date.now() - state.lastSuccess
 
     if (timeSinceLastSuccess < REFRESH_INTERVAL) {
-      // Set a timeout for the remaining time
       const timeout = setTimeout(fetchIdentity, REFRESH_INTERVAL - timeSinceLastSuccess)
       return () => clearTimeout(timeout)
     } else {
-      // Time to refresh now
       fetchIdentity()
     }
   }, [shouldPoll, ipfsConnected, state.lastSuccess, fetchIdentity])
 
-  const contextValue: IdentityContextValue = {
-    identity: state.identity,
-    isLoading: state.isLoading,
+  const contextValue: IdentityContextValue = useMemo(() => ({
+    identity: identityStable,
+    isLoading: isInitialLoading,
+    isRefreshing,
     hasError: state.hasError,
     lastSuccess: state.lastSuccess,
     refetch: fetchIdentity
-  }
+  }), [identityStable, isInitialLoading, isRefreshing, state.hasError, state.lastSuccess, fetchIdentity])
 
-  // Bridge the context value to redux bundles
   useBridgeContext('identity', contextValue)
 
   return (
