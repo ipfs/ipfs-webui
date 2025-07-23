@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
 import { withTranslation, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import ReactJoyride from 'react-joyride'
+import { IdentityProvider } from '../contexts/identity-context.jsx'
 import StatusConnected from './StatusConnected.js'
 import BandwidthStatsDisabled from './BandwidthStatsDisabled.js'
 import IsNotConnected from '../components/is-not-connected/IsNotConnected.js'
@@ -15,9 +16,8 @@ import AnalyticsBanner from '../components/analytics-banner/AnalyticsBanner.js'
 import { statusTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 import withTour from '../components/tour/withTour.js'
-import { IDENTITY_REFRESH_INTERVAL_MS } from '../bundles/identity.js'
 
-const StatusPage = ({
+const StatusPageContent = ({
   t,
   ipfsConnected,
   showAnalyticsComponents,
@@ -27,27 +27,9 @@ const StatusPage = ({
   doToggleShowAnalyticsBanner,
   toursEnabled,
   handleJoyrideCallback,
-  nodeBandwidthEnabled,
-  doFetchIdentity,
-  isNodeInfoOpen
+  nodeBandwidthEnabled
 }) => {
-  // Refresh identity when page mounts
-  useEffect(() => {
-    if (ipfsConnected) {
-      doFetchIdentity()
-    }
-  }, [ipfsConnected, doFetchIdentity])
-
-  // Refresh identity when Advanced section is open
-  useEffect(() => {
-    if (ipfsConnected && isNodeInfoOpen) {
-      const intervalId = setInterval(() => {
-        doFetchIdentity()
-      }, IDENTITY_REFRESH_INTERVAL_MS)
-
-      return () => clearInterval(intervalId)
-    }
-  }, [ipfsConnected, isNodeInfoOpen, doFetchIdentity])
+  // Identity refreshing is now handled automatically by IdentityProvider
   return (
     <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
@@ -60,10 +42,12 @@ const StatusPage = ({
               ? (
               <div>
                 <StatusConnected />
-                <NodeInfo />
-                <div className='pt2'>
-                  <NodeInfoAdvanced />
-                </div>
+                <IdentityProvider>
+                  <NodeInfo />
+                  <div className='pt2'>
+                    <NodeInfoAdvanced />
+                  </div>
+                </IdentityProvider>
               </div>
                 )
               : (
@@ -115,10 +99,8 @@ export default connect(
   'selectShowAnalyticsBanner',
   'selectShowAnalyticsComponents',
   'selectToursEnabled',
-  'selectIsNodeInfoOpen',
   'doEnableAnalytics',
   'doDisableAnalytics',
   'doToggleShowAnalyticsBanner',
-  'doFetchIdentity',
-  withTour(withTranslation('status')(StatusPage))
+  withTour(withTranslation('status')(StatusPageContent))
 )

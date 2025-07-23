@@ -2,6 +2,7 @@ import React from 'react'
 import { multiaddr } from '@multiformats/multiaddr'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
+import { useIdentity } from '../contexts/identity-context.jsx'
 import Address from '../components/address/Address.js'
 import Details from '../components/details/Details.js'
 import ProviderLink from '../components/provider-link/ProviderLink.js'
@@ -27,12 +28,19 @@ const getField = (obj, field, fn) => {
   return ''
 }
 
-const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUrl, isNodeInfoOpen, doSetIsNodeInfoOpen }) => {
+const NodeInfoAdvanced = ({ t, ipfsProvider, ipfsApiAddress, gatewayUrl, isNodeInfoOpen, doSetIsNodeInfoOpen }) => {
+  const { identity, isLoading } = useIdentity()
+
   let publicKey = null
   let addresses = null
   if (identity) {
     publicKey = getField(identity, 'publicKey')
     addresses = [...new Set(identity.addresses)].sort().map(addr => <Address key={addr} value={addr} />)
+  }
+
+  if (isLoading) {
+    publicKey = t('loading')
+    addresses = t('loading')
   }
 
   const handleSummaryClick = (ev) => {
@@ -71,7 +79,6 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
 }
 
 export default connect(
-  'selectIdentity',
   'selectIpfsProvider',
   'selectIpfsApiAddress',
   'selectGatewayUrl',
