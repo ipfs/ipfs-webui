@@ -28,9 +28,6 @@ const LogsScreen = ({
   doUpdateLogBufferConfig,
   doLoadHistoricalLogs,
   doUpdateStorageStats,
-  doShowLogWarning,
-  doAutoDisableStreaming,
-  doSetHasMoreHistory,
   doGoToLatestLogs
 }) => {
   const { t } = useTranslation('diagnostics')
@@ -56,9 +53,6 @@ const LogsScreen = ({
       ...subsystem,
       level: subsystemLevels[subsystem.name] || subsystem.level
     }))
-
-    console.log('log level - autonat', mergedSubsystems.filter(s => s.name === 'autonat')?.[0]?.level)
-    console.log('subsystemLevels state:', subsystemLevels)
     return mergedSubsystems
   }, [logSubsystems, subsystemLevels])
 
@@ -602,8 +596,5 @@ export default createConnectedComponent(
   'doUpdateLogBufferConfig',
   'doLoadHistoricalLogs',
   'doUpdateStorageStats',
-  'doShowLogWarning',
-  'doAutoDisableStreaming',
-  'doSetHasMoreHistory',
   'doGoToLatestLogs'
 )

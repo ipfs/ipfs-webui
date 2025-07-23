@@ -115,12 +115,6 @@ const logsBundle = {
             [action.subsystem]: action.level
           }
         }
-        console.log('LOGS_SET_LEVEL reducer:', {
-          subsystem: action.subsystem,
-          level: action.level,
-          oldSubsystemLevels: state.subsystemLevels,
-          newSubsystemLevels: newState.subsystemLevels
-        })
         return newState
       }
       case ACTIONS.LOGS_START_STREAMING: {
@@ -168,7 +162,6 @@ const logsBundle = {
         // If user is viewing historical logs (offset > 0), don't update memory buffer
         // This prevents jarring "jumps" back to latest while browsing history
         if (state.viewOffset > 0) {
-          console.log('User viewing historical logs, not updating memory buffer. Offset:', state.viewOffset)
           return {
             ...state,
             pendingBatch: [], // Clear pending batch (logs still get stored in IndexedDB)
@@ -216,16 +209,6 @@ const logsBundle = {
 
         // Update view offset to track position in timeline
         const newOffset = state.viewOffset + historicalEntries.length
-
-        console.log('Sliding window update:', {
-          loadedHistorical: historicalEntries.length,
-          previousTotal: state.entries.length,
-          newTotal: newEntries.length,
-          afterTrim: trimmedEntries.length,
-          maxEntries,
-          oldOffset: state.viewOffset,
-          newOffset
-        })
 
         return {
           ...state,
@@ -315,7 +298,6 @@ const logsBundle = {
 
       await ipfs.log.level(subsystem, level)
       dispatch({ type: ACTIONS.LOGS_SET_LEVEL, subsystem, level })
-      console.log('Set log level for', subsystem, level)
     } catch (error) {
       console.error(`Failed to set log level for ${subsystem}:`, error)
       throw error
@@ -356,12 +338,6 @@ const logsBundle = {
         dispatch({ type: ACTIONS.LOGS_UPDATE_STORAGE_STATS, payload: stats })
 
         // Set hasMoreHistory based on whether there are more logs than what we loaded
-        console.log('Log storage stats:', {
-          totalEntries: stats.totalEntries,
-          recentLogsLoaded: recentLogs.length,
-          hasMoreHistory: stats.totalEntries > recentLogs.length
-        })
-
         if (stats.totalEntries > recentLogs.length) {
           // We have more history available - update the hasMoreHistory flag
           dispatch({
