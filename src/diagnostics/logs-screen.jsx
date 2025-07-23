@@ -19,6 +19,7 @@ const LogsScreen = ({
   isLoadingHistory,
   logStorageStats,
   logViewOffset,
+  subsystemLevels,
   doFetchLogSubsystems,
   doSetLogLevel,
   doStartLogStreaming,
@@ -47,14 +48,26 @@ const LogsScreen = ({
 
   // Ensure we have safe defaults for arrays
   const safeLogEntries = useMemo(() => Array.isArray(logEntries) ? logEntries : [], [logEntries])
-  const safeLogSubsystems = useMemo(() => Array.isArray(logSubsystems) ? logSubsystems : [], [logSubsystems])
+  const safeLogSubsystems = useMemo(() => {
+    const subsystems = Array.isArray(logSubsystems) ? logSubsystems : []
+
+    // Merge with tracked subsystem levels from session
+    const mergedSubsystems = subsystems.map(subsystem => ({
+      ...subsystem,
+      level: subsystemLevels[subsystem.name] || subsystem.level
+    }))
+
+    console.log('log level - autonat', mergedSubsystems.filter(s => s.name === 'autonat')?.[0]?.level)
+    console.log('subsystemLevels state:', subsystemLevels)
+    return mergedSubsystems
+  }, [logSubsystems, subsystemLevels])
 
   useEffect(() => {
     doFetchLogSubsystems()
     doUpdateStorageStats()
     // Load initial logs from history on page load
     doGoToLatestLogs()
-  }, [doFetchLogSubsystems, doUpdateStorageStats, doGoToLatestLogs])
+  }, []) // Only run once on mount
 
   // Monitor for warnings and auto-disable
   useEffect(() => {
@@ -128,12 +141,7 @@ const LogsScreen = ({
 
     doSetLogLevel(subsystem, level)
 
-    // Refresh subsystem data after level change to show updated levels
-    if (subsystem !== 'all') {
-      setTimeout(() => {
-        doFetchLogSubsystems()
-      }, 100)
-    }
+    // No need to refetch subsystems since we track levels in session state
   }
 
   const confirmLevelChange = () => {
@@ -421,10 +429,13 @@ const LogsScreen = ({
                   <select
                     className='input-reset ba b--black-20 pa2 w-100'
                     value={tempBufferConfig.selectedSubsystem || ''}
-                    onChange={(e) => setTempBufferConfig({
-                      ...tempBufferConfig,
-                      selectedSubsystem: e.target.value
-                    })}
+                    onChange={(e) => {
+                      const selectedSubsystem = e.target.value
+                      setTempBufferConfig({
+                        ...tempBufferConfig,
+                        selectedSubsystem
+                      })
+                    }}
                   >
                     <option value=''>{t('logs.levels.selectSubsystem')}</option>
                     {safeLogSubsystems.map(subsystem => (
@@ -486,7 +497,7 @@ const LogsScreen = ({
 
           {/* Navigation Controls */}
           <div className='flex gap2'>
-                                    <Button
+            <Button
               className='bg-blue white f6 pa2'
               onClick={handleGoToTop}
               disabled={safeLogEntries.length === 0}
@@ -525,11 +536,8 @@ const LogsScreen = ({
           )}
 
           {safeLogEntries.length === 0
-            ? (
-            <p className='gray tc pa3'>{t('logs.entries.noEntries')}</p>
-              )
-            : (
-            <div>
+            ? <p className='gray tc pa3'>{t('logs.entries.noEntries')}</p>
+            : <div>
               {safeLogEntries.map((entry, index) => (
                 <div key={`${entry.timestamp}-${entry.subsystem}-${index}`} className='flex mb1 lh-copy hover-bg-light-gray pa1 br1'>
                   <span className='w3 mr2 gray truncate f7' title={entry.timestamp}>
@@ -556,8 +564,7 @@ const LogsScreen = ({
                   📍 {t('logs.entries.streaming')}
                 </div>
               )}
-            </div>
-              )}
+            </div>}
         </div>
       </Box>
 
@@ -586,6 +593,7 @@ export default createConnectedComponent(
   'selectIsLoadingHistory',
   'selectLogStorageStats',
   'selectLogViewOffset',
+  'selectSubsystemLevels',
   'doFetchLogSubsystems',
   'doSetLogLevel',
   'doStartLogStreaming',

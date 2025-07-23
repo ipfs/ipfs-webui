@@ -93,7 +93,9 @@ const defaultState = {
   pendingBatch: [],
   batchTimeout: null,
   // Track position in the overall log timeline
-  viewOffset: 0 // 0 = showing latest logs, 100 = showing logs 100 positions back, etc.
+  viewOffset: 0, // 0 = showing latest logs, 100 = showing logs 100 positions back, etc.
+  // Track subsystem levels we've set in this session
+  subsystemLevels: {} // { subsystemName: level }
 }
 
 const logsBundle = {
@@ -105,8 +107,21 @@ const logsBundle = {
         if (action.subsystem === 'all') {
           return { ...state, globalLogLevel: action.level }
         }
-        // For individual subsystems, we'll let the component handle the UI state
-        return state
+        // Track individual subsystem levels for UI display
+        const newState = {
+          ...state,
+          subsystemLevels: {
+            ...state.subsystemLevels,
+            [action.subsystem]: action.level
+          }
+        }
+        console.log('LOGS_SET_LEVEL reducer:', {
+          subsystem: action.subsystem,
+          level: action.level,
+          oldSubsystemLevels: state.subsystemLevels,
+          newSubsystemLevels: newState.subsystemLevels
+        })
+        return newState
       }
       case ACTIONS.LOGS_START_STREAMING: {
         return {
@@ -288,6 +303,7 @@ const logsBundle = {
   selectLogStorageStats: state => state.logs?.storageStats || null,
   selectPendingLogBatch: state => state.logs?.pendingBatch || [],
   selectLogViewOffset: state => state.logs?.viewOffset || 0,
+  selectSubsystemLevels: state => state.logs?.subsystemLevels || {},
 
   // Actions
   doSetLogLevel: (subsystem, level) => async ({ getIpfs, dispatch }) => {
@@ -299,6 +315,7 @@ const logsBundle = {
 
       await ipfs.log.level(subsystem, level)
       dispatch({ type: ACTIONS.LOGS_SET_LEVEL, subsystem, level })
+      console.log('Set log level for', subsystem, level)
     } catch (error) {
       console.error(`Failed to set log level for ${subsystem}:`, error)
       throw error
@@ -529,17 +546,30 @@ const logSubsystemsBundle = createAsyncResourceBundle({
   actionBaseType: 'LOG_SUBSYSTEMS',
   getPromise: async ({ getIpfs }) => {
     try {
-      const response = await getIpfs().log.ls()
-      const subsystems = Array.isArray(response)
-        ? response.map(name => ({ name, level: 'info' }))
-        : response.Strings?.map(name => ({ name, level: 'info' })) || []
-      return subsystems
+      const ipfs = getIpfs()
+
+      // Get subsystem names
+      const response = await ipfs.log.ls()
+      const subsystemNames = Array.isArray(response)
+        ? response
+        : response.Strings || []
+
+      // Create subsystem list with just names - default to info level
+      const subsystems = subsystemNames.map(name => ({
+        name,
+        level: 'info' // Default level, will be overridden by session tracking
+      }))
+
+      // Sort subsystems alphabetically by name
+      const sortedSubsystems = subsystems.sort((a, b) => a.name.localeCompare(b.name))
+
+      return sortedSubsystems
     } catch (error) {
       console.error('Failed to fetch log subsystems:', error)
       throw error
     }
   },
-  staleAfter: 60000,
+  staleAfter: 300000, // 5 minutes - subsystem names rarely change
   persist: false,
   checkIfOnline: false
 })
