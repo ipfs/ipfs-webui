@@ -7,9 +7,21 @@ import { multiaddr } from '@multiformats/multiaddr'
 import ms from 'milliseconds'
 import ip from 'ip'
 import memoize from 'p-memoize'
+import { createContextSelector } from '../helpers/context-bridge'
 import pkgJson from '../../package.json'
 
 const { dependencies } = pkgJson
+
+/**
+ * Selector that reads identity from the context bridge
+ * Returns the same format as the original selectIdentity for compatibility
+ */
+const selectIdentityFromContext = createContextSelector('identity')
+
+const selectIdentityData = () => {
+  const identityContext = selectIdentityFromContext()
+  return identityContext?.identity
+}
 
 // After this time interval, we re-check the locations for each peer
 // once again through PeerLocationResolver.
@@ -55,7 +67,7 @@ function createPeersLocations (opts) {
     'selectPeers',
     'selectPeerLocations',
     'selectBootstrapPeers',
-    'selectIdentity', // ipfs.id info for local node, used for detecting local peers
+    selectIdentityData, // ipfs.id info from identity context, used for detecting local peers
     (peers, locations = {}, bootstrapPeers, identity) => peers && Promise.all(peers.map(async (peer) => {
       const peerId = peer.peer
       const locationObj = locations ? locations[peerId] : null
