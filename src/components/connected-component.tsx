@@ -1,4 +1,5 @@
 import React from 'react'
+// @ts-expect-error - no types for redux-bundler-react
 import { connect } from 'redux-bundler-react'
 
 // Type for the connect HOC result - omits the props that redux-bundler will provide

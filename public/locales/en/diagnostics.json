@@ -1,6 +1,61 @@
 {
   "title": "Diagnostics",
   "description": "View detailed diagnostic information about your IPFS node and system configuration.",
+  "tabs": {
+    "logs": "Logs",
+    "connectivity": "Connectivity"
+  },
+  "logs": {
+    "title": "Node Logs",
+    "description": "Real-time logs from your IPFS node with configurable log levels.",
+    "streaming": {
+      "start": "Start Streaming",
+      "stop": "Stop Streaming",
+      "clear": "Clear Logs",
+      "status": "Streaming: {{status}}"
+    },
+    "levels": {
+      "title": "Log Levels",
+      "global": "Global Level",
+      "subsystem": "Subsystem Levels",
+      "debug": "Debug",
+      "info": "Info",
+      "warn": "Warning",
+      "error": "Error",
+      "dpanic": "DPanic",
+      "panic": "Panic",
+      "fatal": "Fatal"
+    },
+    "entries": {
+      "timestamp": "Time",
+      "level": "Level",
+      "subsystem": "Subsystem",
+      "message": "Message",
+      "noEntries": "No log entries yet. Start streaming to see logs.",
+      "loading": "Loading log subsystems..."
+    }
+  },
+  "connectivity": {
+    "title": "Connectivity Check",
+    "description": "Test your IPFS node's connectivity and network reachability.",
+    "checkIpfs": {
+      "title": "IPFS Network Check",
+      "description": "Verify that your node can connect to the IPFS network and is reachable by other peers.",
+      "runCheck": "Run Connectivity Check",
+      "checking": "Checking connectivity...",
+      "endpoint": "Check Endpoint",
+      "customEndpoint": "Use Custom Endpoint"
+    },
+    "results": {
+      "title": "Check Results",
+      "nodeId": "Node ID",
+      "addresses": "Listening Addresses",
+      "reachable": "Publicly Reachable",
+      "natStatus": "NAT Status",
+      "dhtStatus": "DHT Status",
+      "lastCheck": "Last Check"
+    }
+  },
   "nodeInfo": {
     "title": "Node Information",
     "peerId": "Peer ID",
