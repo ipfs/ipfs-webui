@@ -1,8 +1,8 @@
 import React from 'react'
-import { Helmet } from 'react-helmet'
 import { useTranslation } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import Box from '../components/box/Box.js'
+import Helmet from '../components/helmet-wrapper.jsx'
 import IsNotConnected from '../components/is-not-connected/IsNotConnected.js'
 import DiagnosticsContent from './diagnostics-content.jsx'
 
@@ -17,7 +17,6 @@ const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({ ipfsConnected }) => {
       <Helmet>
         <title>{t('title')} | IPFS</title>
       </Helmet>
-
       <Box className='pa3' style={{ minHeight: 0 }}>
         <div className='flex'>
           <div className='flex-auto'>
