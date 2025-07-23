@@ -109,21 +109,11 @@ const LogsScreen = ({
   useEffect(() => {
     const shouldAutoScroll = isLogStreaming && autoScrollEnabled && logViewOffset === 0 && logContainerRef.current && safeLogEntries.length > 0
 
-    console.log('Auto-scroll check:', {
-      isLogStreaming,
-      autoScrollEnabled,
-      logViewOffset,
-      hasContainer: !!logContainerRef.current,
-      entriesLength: safeLogEntries.length,
-      shouldAutoScroll
-    })
-
     if (shouldAutoScroll) {
       const container = logContainerRef.current
       // Small delay to ensure DOM has updated with new content
       setTimeout(() => {
         container.scrollTop = container.scrollHeight
-        console.log('Auto-scrolled to bottom:', container.scrollHeight)
       }, 10)
     }
   }, [safeLogEntries.length, isLogStreaming, autoScrollEnabled, logViewOffset])
@@ -154,17 +144,9 @@ const LogsScreen = ({
   }
 
   const handleScrollToTop = useCallback(() => {
-    console.log('handleScrollToTop called:', {
-      hasMoreHistory,
-      isLoadingHistory,
-      entriesLength: safeLogEntries.length,
-      oldestTimestamp: safeLogEntries[0]?.timestamp
-    })
-
     if (hasMoreHistory && !isLoadingHistory && safeLogEntries.length > 0) {
       const oldestEntry = safeLogEntries[0]
       if (oldestEntry?.timestamp) {
-        console.log('Loading 100 historical logs before:', oldestEntry.timestamp)
         doLoadHistoricalLogs(oldestEntry.timestamp, 100)
       }
     }
@@ -202,32 +184,19 @@ const LogsScreen = ({
     if (logViewOffset === 0) {
       // Enable auto-scroll when user scrolls to bottom
       if (isNearBottom && !autoScrollEnabled) {
-        console.log('User scrolled to bottom, enabling auto-scroll')
         setAutoScrollEnabled(true)
       }
 
       // Disable auto-scroll when user scrolls away from bottom
       if (!isNearBottom && autoScrollEnabled) {
-        console.log('User scrolled away from bottom, disabling auto-scroll')
         setAutoScrollEnabled(false)
       }
     }
 
-    // Debug logging for infinite scroll
-    if (isNearTop) {
-      console.log('Near top detected:', {
-        scrollTop,
-        hasMoreHistory,
-        isLoadingHistory,
-        entriesLength: safeLogEntries.length
-      })
-    }
-
     if (isNearTop && hasMoreHistory && !isLoadingHistory) {
-      console.log('Triggering infinite scroll load')
       handleScrollToTop()
     }
-  }, [hasMoreHistory, isLoadingHistory, handleScrollToTop, safeLogEntries.length, autoScrollEnabled, logViewOffset])
+  }, [hasMoreHistory, isLoadingHistory, handleScrollToTop, autoScrollEnabled, logViewOffset])
 
   const applyBufferConfig = () => {
     doUpdateLogBufferConfig(tempBufferConfig)
@@ -531,7 +500,6 @@ const LogsScreen = ({
               onClick={() => {
                 doGoToLatestLogs()
                 setAutoScrollEnabled(true) // Re-enable auto-scroll when going to latest
-                console.log('Go to latest clicked, enabling auto-scroll')
               }}
               disabled={safeLogEntries.length === 0}
               title={t('logs.entries.tooltipGoToLatest')}
