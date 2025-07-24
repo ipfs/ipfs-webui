@@ -1,4 +1,6 @@
-function SvgStrokeInfo (props) {
+import React from 'react'
+
+function SvgStrokeInfo (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M74.47 28a31.19 31.19 0 109.13 22 31 31 0 00-9.13-22zm-1.84 42.21a28.57 28.57 0 110-40.42 28.61 28.61 0 010 40.42z" />

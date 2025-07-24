@@ -1,4 +1,6 @@
-function SvgStrokeCopy (props) {
+import React from 'react'
+
+function SvgStrokeCopy (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M67.36 30.73H29.1a3.92 3.92 0 00-3.91 3.91V72.9a3.92 3.92 0 003.91 3.91h38.26a3.92 3.92 0 003.91-3.91V34.64a3.91 3.91 0 00-3.91-3.91zm1.31 42.17a1.31 1.31 0 01-1.31 1.31H29.1a1.31 1.31 0 01-1.31-1.31V34.64a1.31 1.31 0 011.31-1.31h38.26a1.31 1.31 0 011.31 1.31z" />

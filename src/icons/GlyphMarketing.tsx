@@ -1,4 +1,6 @@
-function SvgGlyphMarketing (props) {
+import React from 'react'
+
+function SvgGlyphMarketing (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M55.7 54.3c-1.2 0-2.1.9-2.1 2.1 0 1.2.9 2.1 2.1 2.1 1.2 0 2.1-1 2.1-2.1 0-1.2-.9-2.1-2.1-2.1zm-13.1-9.2c-1.2 0-2.1.9-2.1 2.1 0 1.2.9 2.1 2.1 2.1 1.2 0 2.1-.9 2.1-2.1.1-1.1-.9-2.1-2.1-2.1zm-9.1 10.5c-1.2 0-2.1.9-2.1 2.1s.9 2.1 2.1 2.1c1.2 0 2.1-.9 2.1-2.1 0-1.2-.9-2.1-2.1-2.1z" />

@@ -1,4 +1,6 @@
-function SvgStrokePower (props) {
+import React from 'react'
+
+function SvgStrokePower (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M50 22.6c15.1 0 27.4 12.3 27.4 27.4S65.1 77.4 50 77.4 22.6 65.1 22.6 50 34.9 22.6 50 22.6m0-2.5c-16.5 0-29.9 13.4-29.9 29.9S33.5 79.9 50 79.9 79.9 66.5 79.9 50 66.5 20.1 50 20.1z" />

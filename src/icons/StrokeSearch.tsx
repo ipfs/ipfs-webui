@@ -1,4 +1,6 @@
-function SvgStrokeSearch (props) {
+import React from 'react'
+
+function SvgStrokeSearch (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M81.92 74.8L65.8 58.67a26.73 26.73 0 004.91-15.46A27.06 27.06 0 1058.13 66l16.3 16.31a5 5 0 007.1 0l.39-.38a5 5 0 000-7.1zM19.61 43.21a24.05 24.05 0 1124 24 24 24 0 01-24-24zM79.8 79.77l-.39.39a2 2 0 01-2.86 0L60.6 64.2a26.12 26.12 0 003.32-3.2L79.8 76.92a2 2 0 010 2.85z" />

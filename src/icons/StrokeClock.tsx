@@ -1,4 +1,6 @@
-function SvgStrokeClock (props) {
+import React from 'react'
+
+function SvgStrokeClock (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M52.42 15.92A34.08 34.08 0 1086.49 50a34.12 34.12 0 00-34.07-34.08zm0 65.16A31.08 31.08 0 1183.49 50a31.11 31.11 0 01-31.07 31.08z" />

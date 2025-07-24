@@ -1,4 +1,6 @@
-function SvgGlyphWindow (props) {
+import React from 'react'
+
+function SvgGlyphWindow (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M76.11 62.86H55.44V39.67h20.67zm-17.67-3h14.67V42.67H58.44z" />

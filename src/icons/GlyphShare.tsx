@@ -1,4 +1,6 @@
-function SvgGlyphShare (props) {
+import React from 'react'
+
+function SvgGlyphShare (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <circle cx={31.6} cy={50} r={10.05} />

@@ -1,4 +1,6 @@
-function SvgStrokeDocText (props) {
+import React from 'react'
+
+function SvgStrokeDocText (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M50 46.4h14.2c.6 0 1-.4 1-1s-.4-1-1-1H50c-.6 0-1 .4-1 1s.4 1 1 1zm14.1 7H35c-.6 0-1 .4-1 1s.4 1 1 1h29.1c.6 0 1-.4 1-1s-.4-1-1-1zm0 8.8H35c-.6 0-1 .4-1 1s.4 1 1 1h29.1c.6 0 1-.4 1-1s-.4-1-1-1z" />

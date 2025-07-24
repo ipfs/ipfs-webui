@@ -1,4 +1,6 @@
-function SvgStrokeLock (props) {
+import React from 'react'
+
+function SvgStrokeLock (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M71.52 43.11h-2.91v-7.83a18.61 18.61 0 00-37.22 0v7.83h-2.91a5.59 5.59 0 00-5.58 5.58v29.06a5.58 5.58 0 005.58 5.58h43a5.58 5.58 0 005.58-5.58V48.69a5.59 5.59 0 00-5.54-5.58zm-37.13-7.83a15.61 15.61 0 0131.22 0v7.83H61v-7.83a11 11 0 10-21.94 0v7.83h-4.67zM58 43.11H42v-7.83a8 8 0 1115.94 0zm16.1 34.64a2.58 2.58 0 01-2.58 2.58h-43a2.58 2.58 0 01-2.58-2.58V48.69a2.58 2.58 0 012.58-2.58h43a2.58 2.58 0 012.58 2.58z" />

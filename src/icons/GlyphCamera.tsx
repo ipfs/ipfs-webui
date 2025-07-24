@@ -1,4 +1,6 @@
-function SvgGlyphCamera (props) {
+import React from 'react'
+
+function SvgGlyphCamera (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M79.08 37.5v-1.6a4.2 4.2 0 00-4.28-4.13H27.1a6.11 6.11 0 00-6.18 5.73z" />

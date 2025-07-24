@@ -1,4 +1,6 @@
-function SvgStrokeMarker (props) {
+import React from 'react'
+
+function SvgStrokeMarker (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M53 31.27a8.93 8.93 0 108.93 8.93A8.95 8.95 0 0053 31.27zm0 16.36a7.43 7.43 0 117.43-7.43A7.43 7.43 0 0153 47.63z" />

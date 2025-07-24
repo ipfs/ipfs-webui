@@ -1,4 +1,6 @@
-function SvgGlyphServer (props) {
+import React from 'react'
+
+function SvgGlyphServer (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M50.1 79.53a2 2 0 01-2-2V22a2 2 0 014 0v55.53a2 2 0 01-2 2z" />

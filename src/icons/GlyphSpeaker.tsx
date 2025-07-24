@@ -1,4 +1,6 @@
-function SvgGlyphSpeaker (props) {
+import React from 'react'
+
+function SvgGlyphSpeaker (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <g data-name="glyph_search">

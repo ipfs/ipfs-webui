@@ -1,4 +1,6 @@
-function SvgGlyphDevices (props) {
+import React from 'react'
+
+function SvgGlyphDevices (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M33.1 38.7H18.4c-.9 0-1.6.7-1.6 1.6v27.5c0 .9.7 1.6 1.6 1.6H33c.9 0 1.6-.7 1.6-1.6V40.3c.1-.9-.7-1.6-1.5-1.6zM81 33.2l-14.9-.1L81 50.9zm-16.1.9v17.7h14.8z" />

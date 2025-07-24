@@ -1,4 +1,6 @@
-function SvgStrokeTick (props) {
+import React from 'react'
+
+function SvgStrokeTick (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M52.42 18.81A31.19 31.19 0 1083.6 50a31.22 31.22 0 00-31.18-31.19zm0 59.78A28.59 28.59 0 1181 50a28.62 28.62 0 01-28.58 28.59z" />

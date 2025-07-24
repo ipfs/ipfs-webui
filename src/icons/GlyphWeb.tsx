@@ -1,4 +1,6 @@
-function SvgGlyphWeb (props) {
+import React from 'react'
+
+function SvgGlyphWeb (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.4 21" {...props}>
       <path

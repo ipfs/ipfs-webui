@@ -1,4 +1,6 @@
-function SvgStrokeDownload (props) {
+import React from 'react'
+
+function SvgStrokeDownload (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M76.3 61.6H23.7c-3.1 0-5.6 2.5-5.6 5.6v7.5c0 3.1 2.5 5.6 5.6 5.6h52.7c3.1 0 5.6-2.5 5.6-5.6v-7.5c-.1-3.1-2.6-5.6-5.7-5.6zm2.4 13.1c0 1.3-1 2.3-2.3 2.3H23.7c-1.3 0-2.3-1-2.3-2.3v-7.5c0-1.3 1-2.3 2.3-2.3h52.7c1.3 0 2.3 1 2.3 2.3v7.5z" />

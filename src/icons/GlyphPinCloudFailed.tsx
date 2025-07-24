@@ -1,4 +1,6 @@
-function SvgGlyphPinCloudFailed (props) {
+import React from 'react'
+
+function SvgGlyphPinCloudFailed (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 150 150"

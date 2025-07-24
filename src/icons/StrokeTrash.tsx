@@ -1,4 +1,6 @@
-function SvgStrokeTrash (props) {
+import React from 'react'
+
+function SvgStrokeTrash (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M25.98 73.62a9.68 9.68 0 009.45 9.88h29.15a9.68 9.68 0 009.44-9.88V30.2h-48zm3-40.42h42v40.42a6.68 6.68 0 01-6.44 6.88H35.43a6.68 6.68 0 01-6.45-6.88z" />

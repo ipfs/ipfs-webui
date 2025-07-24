@@ -1,4 +1,6 @@
-function SvgGlyphWallet (props) {
+import React from 'react'
+
+function SvgGlyphWallet (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M60.13 42.21c-3.29 0-6 3.68-6 7.68v.34c0 4 2.67 7.56 6 7.56h20.54V42.21zm1.22 9.92a2.46 2.46 0 112.46-2.46 2.46 2.46 0 01-2.46 2.46z" />

@@ -1,4 +1,6 @@
-function SvgGlyphPencil (props) {
+import React from 'react'
+
+function SvgGlyphPencil (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M23.2 60.5l-4.38 16.33a3.61 3.61 0 00.93 3.42 3.53 3.53 0 002.53 1 3.94 3.94 0 00.89-.11l16.31-4.36z" />

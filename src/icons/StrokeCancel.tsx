@@ -1,4 +1,6 @@
-function SvgStrokeCancel (props) {
+import React from 'react'
+
+function SvgStrokeCancel (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M52 18.81A31.19 31.19 0 1083.19 50 31.22 31.22 0 0052 18.81zm0 59.78A28.59 28.59 0 1180.59 50 28.63 28.63 0 0152 78.59z" />

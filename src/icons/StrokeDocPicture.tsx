@@ -1,4 +1,6 @@
-function SvgStrokeDocPicture (props) {
+import React from 'react'
+
+function SvgStrokeDocPicture (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M70.14 50.7H35.87a.75.75 0 00-.75.75v21.24a.76.76 0 00.75.75h34.27a.76.76 0 00.75-.75V51.45a.75.75 0 00-.75-.75zm-33.52 1.5h32.77v19.5l-7-10.93a.75.75 0 00-.57-.34.74.74 0 00-.62.24l-3.95 4.4-4.15-6.22a.76.76 0 00-.58-.33.72.72 0 00-.62.28l-10.57 13a.83.83 0 00-.09.16h-4.62zm31.14 19.74H43.13l9.29-11.41 4.14 6.17a.77.77 0 00.57.33.74.74 0 00.61-.25l3.94-4.37z" />

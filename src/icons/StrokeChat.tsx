@@ -1,4 +1,6 @@
-function SvgStrokeChat (props) {
+import React from 'react'
+
+function SvgStrokeChat (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M72.7 34.42H31.3a1 1 0 100 2h41.4a1 1 0 000-2zm0 9.46H31.3a1 1 0 000 2h41.4a1 1 0 000-2zM55 53.34H31.3a1 1 0 100 2H55a1 1 0 100-2z" />

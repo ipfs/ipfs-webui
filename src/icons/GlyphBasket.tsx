@@ -1,4 +1,6 @@
-function SvgGlyphBasket (props) {
+import React from 'react'
+
+function SvgGlyphBasket (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M75.7 44.74h-5V28.25a5.31 5.31 0 00-5.31-5.31H34.61a5.31 5.31 0 00-5.31 5.31v16.49h-5V28.25a10.32 10.32 0 0110.31-10.31h30.78A10.32 10.32 0 0175.7 28.25z" />

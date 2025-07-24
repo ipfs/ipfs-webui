@@ -1,4 +1,6 @@
-function SvgGlyphCode (props) {
+import React from 'react'
+
+function SvgGlyphCode (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M75 24H25.1c-4.2 0-8 4.1-8 8.6v35.3c.1 4.4 3.6 8 8 8.1H75c4.4-.1 7.9-3.7 7.9-8.1V32.6c0-4.1-3.4-8.6-7.9-8.6zm-49.9 3H75c2.7 0 4.9 3 4.9 5.6v1.3H20.1v-1.3c0-2.8 2.5-5.6 5-5.6zM75 73H25.1c-2.5-.1-4.5-2-5-4.4h59.7c-.3 2.4-2.3 4.3-4.8 4.4z" />

@@ -89,19 +89,5 @@
     "src/icons/GlyphDots.js",
     "src/components/checkbox/Checkbox.js",
     "src/icons/*.tsx",
-    "src/icons/GlyphPin.js",
-    "src/icons/GlyphPinCloud.js",
-    "src/icons/GlyphSmallTick.js",
-    "src/icons/GlyphDocText.js",
-    "src/icons/GlyphDocPicture.js",
-    "src/icons/GlyphDocMusic.js",
-    "src/icons/GlyphDocMovie.js",
-    "src/icons/GlyphDocGeneric.js",
-    "src/icons/GlyphDocCalc.js",
-    "src/icons/GlyphFolder.js",
-    "src/icons/GlyphPinCloud.js",
-    "src/icons/GlyphPin.js",
-    "src/icons/StrokeCube.js",
-    "src/files/type-from-ext/extToType.js"
-  ]
+    "src/files/type-from-ext/extToType.js"]
 }

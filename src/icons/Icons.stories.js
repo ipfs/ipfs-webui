@@ -1,4 +1,4 @@
-import * as iconImports from './index.js'
+import * as iconImports from './index'
 
 const icons = Object.keys(iconImports).map((m) => ({
   name: m,

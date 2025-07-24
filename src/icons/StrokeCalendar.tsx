@@ -1,4 +1,6 @@
-function SvgStrokeCalendar (props) {
+import React from 'react'
+
+function SvgStrokeCalendar (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <path d="M75.9 22.34H68v-2.89a1.5 1.5 0 00-3 0v2.89H39.81v-2.89a1.5 1.5 0 00-3 0v2.89h-7.88a5.6 5.6 0 00-5.59 5.58v48.54a5.6 5.6 0 005.59 5.59h47a5.6 5.6 0 005.59-5.59V27.92a5.6 5.6 0 00-5.62-5.58zm-47 3h7.88v4.55a1.5 1.5 0 003 0v-4.55H65v4.55a1.5 1.5 0 003 0v-4.55h7.9a2.59 2.59 0 012.59 2.58v11.57H26.34V27.92a2.59 2.59 0 012.59-2.58zm47 53.71h-47a2.59 2.59 0 01-2.59-2.59v-35h52.18v35a2.59 2.59 0 01-2.59 2.59z" />
