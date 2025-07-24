@@ -1,21 +1,31 @@
 import React from 'react'
 import * as iconImports from './index'
 
-const icons = Object.keys(iconImports).map((m) => ({
-  name: m,
-  // @ts-ignore
-  Icon: iconImports[m]
-}))
+type SvgComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
-const filterByTextQuery = (icon: any, searchQuery: String) => {
-  return icon.name.toLowerCase().includes(searchQuery.toLowerCase())
+const icons = Object.entries(iconImports)
+  .map(([name, Icon]) => ({
+    name,
+    Icon: Icon as SvgComponent
+  }))
+
+function filterByTextQuery (icon: { name: string }, query: string | undefined | null): boolean {
+  if (!query) return true
+  return icon.name.toLowerCase().includes(query.toLowerCase())
+}
+
+interface ListProps {
+  iconFilter?: string;
+  size?: number | string;
+  fill?: string;
+  stroke?: string;
 }
 
 /**
  * @type {import('@storybook/react').StoryObj}
  */
-const List = ({ iconFilter, size, fill, stroke }: any) => {
-  const iconFilterNotSet = iconFilter == null || iconFilter.length === 0
+const List = ({ iconFilter, size, fill, stroke }: ListProps) => {
+  const iconFilterNotSet = !iconFilter || iconFilter.length === 0
 
   return (
     <>
