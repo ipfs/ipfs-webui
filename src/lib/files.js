@@ -167,19 +167,17 @@ export async function debouncedProvide (cid, ipfs) {
   const now = Date.now()
   const lastProvideTime = provideCache.get(cidStr)
 
-  if (lastProvideTime && (now - lastProvideTime) < PROVIDE_DEBOUNCE_TIME) {
+  if (lastProvideTime != null && (now - lastProvideTime) < PROVIDE_DEBOUNCE_TIME) {
     return
   }
 
   try {
-    // @ts-ignore - ipfs is actually a KuboRPCClient with routing API
+    // @ts-expect-error - ipfs is actually a KuboRPCClient with routing API
     const provideEvents = ipfs.routing.provide(cid, { recursive: false })
 
     for await (const event of provideEvents) {
       console.debug(`[PROVIDE] ${cidStr}:`, event)
     }
-
-    provideCache.set(cidStr, now)
 
     // Clean up old cache entries
     for (const [cachedCid, timestamp] of provideCache.entries()) {
@@ -187,6 +185,8 @@ export async function debouncedProvide (cid, ipfs) {
         provideCache.delete(cachedCid)
       }
     }
+
+    provideCache.set(cidStr, now)
   } catch (error) {
     console.error(`[PROVIDE] Failed for CID ${cidStr}:`, error)
   }

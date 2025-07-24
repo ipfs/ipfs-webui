@@ -327,9 +327,9 @@ export const ensureMFS = (store) => {
  * @param {string} context - Context for logging
  */
 export const dispatchAsyncProvide = (cid, ipfs, context) => {
-  if (cid) {
+  if (cid != null) {
     console.debug(`[${context}] Dispatching one-time ad-hoc provide for root CID ${cid.toString()} (non-recursive) for improved performance when sharing today`)
-    debouncedProvide(cid, ipfs).catch((error) => {
+    void debouncedProvide(cid, ipfs).catch((error) => {
       console.error(`[${context}] debouncedProvide failed:`, error)
     })
   }
