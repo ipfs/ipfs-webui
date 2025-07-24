@@ -1,5 +1,6 @@
 import all from 'it-all'
 import { readSetting, writeSetting } from './local-storage.js'
+import { dispatchAsyncProvide } from './files/utils.js'
 
 const init = () => ({
   keys: [],
@@ -61,6 +62,9 @@ const ipnsBundle = {
   doPublishIpnsKey: (cid, key) => async ({ getIpfs, store }) => {
     const ipfs = getIpfs()
     await ipfs.name.publish(cid, { key })
+
+    // Trigger background provide operation for the published CID
+    dispatchAsyncProvide(cid, ipfs, 'IPNS')
   },
 
   doUpdateExpectedPublishTime: (time) => async ({ store, dispatch }) => {

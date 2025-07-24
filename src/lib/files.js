@@ -99,7 +99,7 @@ export async function getDownloadLink (files, gatewayUrl, ipfs) {
  * @param {string} gatewayUrl - The URL of the default IPFS gateway.
  * @param {string} subdomainGatewayUrl - The URL of the subdomain gateway.
  * @param {IPFSService} ipfs - The IPFS service instance for interacting with the IPFS network.
- * @returns {Promise<string>} - A promise that resolves to the shareable link for the provided files.
+ * @returns {Promise<{link: string, cid: CID}>} - A promise that resolves to an object containing the shareable link and root CID.
  */
 export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, ipfs) {
   let cid
@@ -129,7 +129,7 @@ export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, 
     shareableLink = `${gatewayUrl}/ipfs/${cid}${filename || ''}`
   }
 
-  return shareableLink
+  return { link: shareableLink, cid }
 }
 
 /**
@@ -150,6 +150,46 @@ export async function getCarLink (files, gatewayUrl, ipfs) {
   }
 
   return `${gatewayUrl}/ipfs/${cid}?format=car&filename=${filename || cid}.car`
+}
+
+// Cache for tracking provide operations to avoid spamming the network
+const provideCache = new Map()
+const PROVIDE_DEBOUNCE_TIME = 15 * 60 * 1000 // 15 minutes in milliseconds
+
+/**
+ * Debounced function to provide a CID to the IPFS DHT network.
+ *
+ * @param {CID} cid - The CID to provide to the network
+ * @param {IPFSService} ipfs - The IPFS service instance
+ */
+export async function debouncedProvide (cid, ipfs) {
+  const cidStr = cid.toString()
+  const now = Date.now()
+  const lastProvideTime = provideCache.get(cidStr)
+
+  if (lastProvideTime != null && (now - lastProvideTime) < PROVIDE_DEBOUNCE_TIME) {
+    return
+  }
+
+  try {
+    // @ts-expect-error - ipfs is actually a KuboRPCClient with routing API
+    const provideEvents = ipfs.routing.provide(cid, { recursive: false })
+
+    for await (const event of provideEvents) {
+      console.debug(`[PROVIDE] ${cidStr}:`, event)
+    }
+
+    // Clean up old cache entries
+    for (const [cachedCid, timestamp] of provideCache.entries()) {
+      if ((now - timestamp) > PROVIDE_DEBOUNCE_TIME) {
+        provideCache.delete(cachedCid)
+      }
+    }
+
+    provideCache.set(cidStr, now)
+  } catch (error) {
+    console.error(`[PROVIDE] Failed for CID ${cidStr}:`, error)
+  }
 }
 
 /**

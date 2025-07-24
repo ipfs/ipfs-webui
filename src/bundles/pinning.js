@@ -5,6 +5,7 @@ import { CID } from 'multiformats/cid'
 import all from 'it-all'
 
 import { readSetting, writeSetting } from './local-storage.js'
+import { dispatchAsyncProvide } from './files/utils.js'
 
 // This bundle leverages createCacheBundle and persistActions for
 // the persistence layer that keeps pins in IndexDB store
@@ -361,6 +362,9 @@ const pinningBundle = {
         if (pinLocally) {
           await ipfs.pin.add(cid)
           dispatch({ type: 'IPFS_PIN_SUCCEED', msgArgs })
+
+          // Trigger background provide operation for pinned CID
+          dispatchAsyncProvide(cid, ipfs, 'PIN')
         } else {
           await ipfs.pin.rm(cid)
           dispatch({ type: 'IPFS_UNPIN_SUCCEED', msgArgs })

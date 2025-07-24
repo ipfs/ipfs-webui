@@ -9,7 +9,7 @@ import map from 'it-map'
 import last from 'it-last'
 import { CID } from 'multiformats/cid'
 
-import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath } from './utils.js'
+import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath, dispatchAsyncProvide } from './utils.js'
 import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
@@ -523,14 +523,23 @@ const actions = () => ({
   }),
 
   /**
-   * Generates sharable link for the provided files.
-   * @param {FileStat[]} files
+   * Triggers provide operation for a copied CID.
+   * @param {import('multiformats/cid').CID} cid
    */
-  doFilesShareLink: (files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
+  doFilesCopyCidProvide: (cid) => perform('FILES_COPY_CID_PROVIDE', async (ipfs) => {
+    dispatchAsyncProvide(cid, ipfs, 'COPY')
+  }),
+
+  doFilesShareLink: (/** @type {FileStat[]} */ files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
     // ensureMFS deliberately omitted here, see https://github.com/ipfs/ipfs-webui/issues/1744 for context.
     const publicGateway = store.selectPublicGateway()
     const publicSubdomainGateway = store.selectPublicSubdomainGateway()
-    return getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
+    const { link: shareableLink, cid } = await getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
+
+    // Trigger background provide operation with the CID from getShareableLink
+    dispatchAsyncProvide(cid, ipfs, 'SHARE')
+
+    return shareableLink
   }),
 
   /**
