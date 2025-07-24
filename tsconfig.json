@@ -86,8 +86,8 @@
     "src/files/files-grid/grid-file.tsx",
     "src/files/file-icon/FileIcon.js",
     "src/files/pin-icon/PinIcon.js",
-    "src/icons/GlyphDots.js",
     "src/components/checkbox/Checkbox.js",
     "src/icons/*.tsx",
+    "src/icons/*.js",
     "src/files/type-from-ext/extToType.js"]
 }
