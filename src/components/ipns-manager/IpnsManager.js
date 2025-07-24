@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useMemo, useEffect } from 'react'
+import { Fragment, useState, useRef, useMemo, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { sortByProperty } from '../../lib/sort.js'
 import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
@@ -12,9 +12,9 @@ import RemoveKeyModal from './remove-key-modal/RemoveKeyModal.js'
 
 import ContextMenu from '../context-menu/ContextMenu.js'
 import ContextMenuItem from '../context-menu/ContextMenuItem.js'
-import GlyphDots from '../../icons/GlyphDots.js'
-import StrokePencil from '../../icons/StrokePencil.js'
-import StrokeCancel from '../../icons/StrokeCancel.js'
+import GlyphDots from '../../icons/GlyphDots'
+import StrokePencil from '../../icons/StrokePencil'
+import StrokeCancel from '../../icons/StrokeCancel'
 
 const ROW_HEIGHT = 50
 const HEADER_HEIGHT = 32
