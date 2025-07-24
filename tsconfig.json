@@ -89,5 +89,6 @@
     "src/components/checkbox/Checkbox.js",
     "src/icons/*.tsx",
     "src/icons/*.js",
+    "src/icons/hocs/GlyphPinCloud.tsx",
     "src/files/type-from-ext/extToType.js"]
 }
