@@ -1,8 +1,6 @@
-/**
- * @param {React.SVGProps<SVGSVGElement>} props
- * @returns {React.ReactElement}
- */
-function SvgGlyphFolder (props) {
+import React from 'react'
+
+function SvgGlyphFolder (props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.42 21" {...props}>
       <path
