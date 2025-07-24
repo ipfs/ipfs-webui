@@ -1,3 +1,4 @@
+import React from 'react'
 import * as iconImports from './index'
 
 const icons = Object.keys(iconImports).map((m) => ({
