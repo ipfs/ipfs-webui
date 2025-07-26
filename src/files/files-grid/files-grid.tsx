@@ -3,7 +3,7 @@ import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { ExtendedFile, FileStream, normalizeFiles } from '../../lib/files.js'
-import GridFile from './grid-file.jsx'
+import GridFile from './grid-file'
 // @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 import './files-grid.css'
