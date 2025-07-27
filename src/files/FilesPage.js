@@ -17,7 +17,7 @@ import { ViewList, ViewModule } from '../icons/stroke-icons.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, SHORTCUTS, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
+import Modals, { DELETE, NEW_FOLDER, SHARE, RENAME, ADD_BY_CAR, ADD_BY_PATH, BULK_CID_IMPORT, CLI_TUTOR_MODE, SHORTCUTS, PINNING, PUBLISH, MOVE } from './modals/Modals.js'
 
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
@@ -29,7 +29,7 @@ const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
-  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
+  files, filesPathInfo, doFetchDirectory, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
@@ -220,7 +220,8 @@ const FilesPage = ({
       onDownload,
       onAddFiles,
       onNavigate: doFilesNavigateTo,
-      onMove: doFilesMove,
+      onMove: (files) => showModal(MOVE, files),
+      upperDir: files.upper,
       handleContextMenuClick: handleContextMenu,
       // TODO: Implement this
       onDismissFailedPin: () => {}
@@ -243,6 +244,7 @@ const FilesPage = ({
         share={() => showModal(SHARE, selectedFiles)}
         setPinning={() => showModal(PINNING, selectedFiles)}
         download={() => onDownload(selectedFiles)}
+        move={() => showModal(MOVE, selectedFiles)}
         inspect={() => onInspect(selectedFiles[0].cid)}
         count={selectedFiles.length}
         isMfs={filesPathInfo.isMfs}
@@ -364,6 +366,7 @@ const FilesPage = ({
 
       <Modals
         done={hideModal}
+        mainFiles={files}
         root={files ? files.path : null}
         onMove={doFilesMove}
         onMakeDir={doFilesMakeDir}
@@ -373,6 +376,7 @@ const FilesPage = ({
         onAddByCar={onAddByCar}
         onBulkCidImport={onBulkCidImport}
         onPinningSet={doSetPinning}
+        onFetchDirectory={doFetchDirectory}
         onPublish={doPublishIpnsKey}
         cliOptions={cliOptions}
         { ...modals } />
@@ -432,6 +436,7 @@ export default connect(
   'selectIsCliTutorModalOpen',
   'doOpenCliTutorModal',
   'doSetCliOptions',
+  'doFetchDirectory',
   'selectCliOptions',
   'doSetPinning',
   'doPublishIpnsKey',

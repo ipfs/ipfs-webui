@@ -3,19 +3,22 @@
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -23,61 +26,71 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   },
   {
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -85,61 +98,71 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   },
   {
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -147,61 +170,71 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   },
   {
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -209,61 +242,71 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   },
   {
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -271,61 +314,71 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   },
   {
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -333,61 +386,71 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   },
   {
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -395,61 +458,71 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   },
   {
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -457,61 +530,71 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   },
   {
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -519,61 +602,71 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   },
   {
     "name": "teste.xlsx",
     "type": "file",
     "size": 2,
-    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ"
+    "cid": "QmYJmoKWDFh1wmZLATh3fiVzMuhhTyNm9NLGuLEJM7HdNZ",
+    "path": "/root/teste.xlsx"
   },
   {
     "name": "App.test.js",
     "type": "file",
     "size": 1703,
-    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8"
+    "cid": "QmeQ6ttKKmqwyphbWBdk3vQnCXdDM91jD65ps9TWR7gCk8",
+    "path": "/root/App.test.js"
   },
   {
     "name": "Cancioneiro.docx",
     "type": "file",
     "size": 65984,
-    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA"
+    "cid": "QmR612mP7kfP8nhHPmYApTWm33J8jbUP2RW3YJzPPgonAA",
+    "path": "/root/Cancioneiro.docx"
   },
   {
     "name": "docs",
@@ -581,42 +674,49 @@
     "size": 0,
     "speed": 2548.58,
     "status": 54,
-    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf"
+    "cid": "QmQyunNqiWpmgHVnTPzUy6unEwPmr6c72J1PamFpfynwmf",
+    "path": "/root/docs"
   },
   {
     "name": "index.css",
     "type": "file",
     "size": 421,
-    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj"
+    "cid": "QmZbYTN8TTfVNcKEqvZ8DZUgSedcgukZyh1VYfN3B7RSRj",
+    "path": "/root/index.css"
   },
   {
     "name": "index.js",
     "type": "file",
     "size": 379,
-    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW"
+    "cid": "QmZbCSHdKHmr9phb5sb81zD8CiQsX9niEvWuX5qdhafWAW",
+    "path": "/root/index.js"
   },
   {
     "name": "puppeteer.js",
     "type": "file",
     "size": 537,
-    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL"
+    "cid": "QmTqUrgF2SpsZX63ec5R1xeoMbt992YDbKG2PzHmQk5HsL",
+    "path": "/root/puppeteer.js"
   },
   {
     "name": "registerServiceWorker.js",
     "type": "file",
     "size": 4368,
-    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm"
+    "cid": "QmNTaN3egazzjsbWcsBxykqCeJZUW5gL5XAvyq3aQHPShm",
+    "path": "/root/registerServiceWorker.js"
   },
   {
     "name": "rsa-en.pdf",
     "type": "file",
     "size": 476778,
-    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv"
+    "cid": "QmSkxjPDcydDAZN7hdsA3xQgTMks5zttezsfSjNYWpfVWv",
+    "path": "/root/rsa-en.pdf"
   },
   {
     "name": "setupTests.js",
     "type": "file",
     "size": 120,
-    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5"
+    "cid": "QmTcQsQ2v9sVcjRUiqjUKQyqc92gvQJ2Wg3BKwc6VGEtR5",
+    "path": "/root/setupTests.js"
   }
 ]
