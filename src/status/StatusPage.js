@@ -17,7 +17,7 @@ import { statusTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 import withTour from '../components/tour/withTour.js'
 
-const StatusPageContent = ({
+const StatusPage = ({
   t,
   ipfsConnected,
   showAnalyticsComponents,
