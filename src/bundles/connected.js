@@ -1,4 +1,5 @@
 import { createSelector } from 'redux-bundler'
+import { contextBridge } from '../helpers/context-bridge'
 
 /**
  * @typedef {Object} Model
@@ -80,6 +81,24 @@ const connected = {
         return state
     }
   },
+
+  /**
+   * Bridge ipfsConnected state to context bridge for use by React contexts
+   */
+  reactConnectedToBridge: createSelector(
+    'selectIpfsConnected',
+    (ipfsConnected) => {
+      contextBridge.setContext('selectIpfsConnected', ipfsConnected)
+    }
+  ),
+
+  reactIsNodeInfoOpenToBridge: createSelector(
+    'selectIsNodeInfoOpen',
+    (isNodeInfoOpen) => {
+      contextBridge.setContext('selectIsNodeInfoOpen', isNodeInfoOpen)
+    }
+  ),
+
   ...actions,
   ...selectors
 }
