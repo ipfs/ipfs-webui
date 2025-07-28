@@ -102,5 +102,5 @@ export default connect(
   'doEnableAnalytics',
   'doDisableAnalytics',
   'doToggleShowAnalyticsBanner',
-  withTour(withTranslation('status')(StatusPageContent))
+  withTour(withTranslation('status')(StatusPage))
 )
