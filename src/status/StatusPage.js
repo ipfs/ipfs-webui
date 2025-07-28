@@ -29,7 +29,6 @@ const StatusPage = ({
   handleJoyrideCallback,
   nodeBandwidthEnabled
 }) => {
-  // Identity refreshing is now handled automatically by IdentityProvider
   return (
     <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
