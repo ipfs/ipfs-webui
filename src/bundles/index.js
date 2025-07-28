@@ -23,6 +23,7 @@ import experimentsBundle from './experiments.js'
 import cliTutorModeBundle from './cli-tutor-mode.js'
 import gatewayBundle from './gateway.js'
 import ipnsBundle from './ipns.js'
+import logsBundle, { logSubsystemsBundle } from './logs.js'
 
 export default composeBundles(
   createCacheBundle({
@@ -50,5 +51,7 @@ export default composeBundles(
   repoStats,
   cliTutorModeBundle,
   createAnalyticsBundle({}),
-  ipnsBundle
+  ipnsBundle,
+  logsBundle,
+  logSubsystemsBundle
 )
