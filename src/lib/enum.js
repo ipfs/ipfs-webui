@@ -1,5 +1,3 @@
-// @ts-check
-
 /**
  * @template {string} T
  * @param {T[]} variants

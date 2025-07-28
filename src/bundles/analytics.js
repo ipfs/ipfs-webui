@@ -3,7 +3,7 @@
 // @ts-ignore
 import root from 'window-or-global'
 import changeCase from 'change-case'
-import * as Enum from '../lib/enum.js'
+import { from } from '../lib/enum.js'
 import { createSelector } from 'redux-bundler'
 import { ACTIONS as FILES } from './files/consts.js'
 import { ACTIONS as CONIFG } from './config-save.js'
@@ -79,10 +79,10 @@ const DISABLE_ALL_ANALYTICS = true
 
 // Unknown actions (can't seem to see anything
 // dispatching those).
-const DESKTOP = Enum.from(['DESKTOP_SETTING_TOGGLE'])
+const DESKTOP = from(['DESKTOP_SETTING_TOGGLE'])
 
 // Local action types
-const ACTIONS = Enum.from([
+const ACTIONS = from([
   'ANALYTICS_ENABLED',
   'ANALYTICS_DISABLED',
   'ANALYTICS_ADD_CONSENT',
@@ -136,10 +136,12 @@ const consentGroups = {
  * @param {Store} store
  */
 function addConsent (consent, store) {
-  root.Countly.q.push(['add_consent', consent])
+  const consentArray = Array.isArray(consent) ? consent : [consent]
+
+  root.Countly.q.push(['add_consent', consentArray])
 
   if (store.selectIsIpfsDesktop()) {
-    store.doDesktopAddConsent(consent)
+    store.doDesktopAddConsent(consentArray)
   }
 }
 
@@ -148,10 +150,12 @@ function addConsent (consent, store) {
  * @param {Store} store
  */
 function removeConsent (consent, store) {
-  root.Countly.q.push(['remove_consent', consent])
+  const consentArray = Array.isArray(consent) ? consent : [consent]
+
+  root.Countly.q.push(['remove_consent', consentArray])
 
   if (store.selectIsIpfsDesktop()) {
-    store.doDesktopRemoveConsent(consent)
+    store.doDesktopRemoveConsent(consentArray)
   }
 }
 
