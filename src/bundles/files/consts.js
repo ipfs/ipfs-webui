@@ -60,6 +60,9 @@ export const IGNORED_FILES = [
   'desktop.ini'
 ]
 
+// Maximum length for DNS labels (used for subdomain gateway CID validation)
+export const DNS_LABEL_MAX_LENGTH = 63
+
 /** @type {Model} */
 export const DEFAULT_STATE = {
   pageContent: null,
