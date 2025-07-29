@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '../components/box/Box.js'
 import Button from '../components/button/button.jsx'
 import LogWarningModal from '../components/log-warning-modal.tsx'
+import VirtualLogsViewer from '../components/logs/virtual-logs-viewer'
 import { humanSize } from '../lib/files.js'
 import { useLogs } from '../contexts/logs/index'
 
@@ -11,7 +12,7 @@ const LOG_LEVELS = ['debug', 'info', 'warn', 'error', 'dpanic', 'panic', 'fatal'
 const LogsScreen = () => {
   const { t } = useTranslation('diagnostics')
   const {
-    entries: logEntries,
+    displayEntries: logEntries,
     subsystems: logSubsystems,
     isStreaming: isLogStreaming,
     globalLogLevel,
@@ -33,7 +34,7 @@ const LogsScreen = () => {
     clearEntries: doClearLogEntries,
     updateBufferConfig: doUpdateLogBufferConfig,
     loadHistoricalLogs: doLoadHistoricalLogs,
-    loadRecentLogs: doLoadRecentLogs,
+    // loadRecentLogs: doLoadRecentLogs,
     updateStorageStats: doUpdateStorageStats,
     goToLatestLogs: doGoToLatestLogs,
     showWarning: doShowWarning,
@@ -47,9 +48,7 @@ const LogsScreen = () => {
   const [tempBufferConfig, setTempBufferConfig] = useState({ ...logBufferConfig, selectedSubsystem: '' })
   const [copiedGologLevel, setCopiedGologLevel] = useState(false)
 
-  // Refs for virtual scrolling
-  const logContainerRef = useRef(null)
-  const [isAtTop, setIsAtTop] = useState(false)
+  // Auto-scroll state
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true)
 
   // Ensure we have safe defaults for arrays
@@ -97,24 +96,6 @@ const LogsScreen = () => {
     setTempBufferConfig({ ...logBufferConfig, selectedSubsystem: '' })
   }, [logBufferConfig])
 
-  // Handle scroll position after loading historical logs
-  useEffect(() => {
-    if (!isLoadingHistory && logContainerRef.current && safeLogEntries.length > 0) {
-      // After historical logs are loaded, scroll to a position that shows continuity
-      // This ensures smooth infinite scroll experience
-      const container = logContainerRef.current
-      const shouldAutoScroll = container.scrollTop < 100 // Only if user was near top
-
-      if (shouldAutoScroll) {
-        // Scroll down a bit from the top to show some of the newly loaded content
-        // but not so much that it feels jarring
-        setTimeout(() => {
-          container.scrollTop = 150 // Show some historical logs but not overwhelm
-        }, 50)
-      }
-    }
-  }, [isLoadingHistory, safeLogEntries.length])
-
   // Disable auto-scroll when viewing historical logs, enable when at latest
   useEffect(() => {
     if (logViewOffset > 0) {
@@ -124,30 +105,6 @@ const LogsScreen = () => {
       setAutoScrollEnabled(true)
     }
   }, [logViewOffset])
-
-  // Auto-scroll to bottom when new logs arrive during streaming OR when initially loaded
-  useEffect(() => {
-    const shouldAutoScroll = autoScrollEnabled && logViewOffset === 0 && logContainerRef.current && safeLogEntries.length > 0
-
-    if (shouldAutoScroll) {
-      const container = logContainerRef.current
-      // Small delay to ensure DOM has updated with new content
-      setTimeout(() => {
-        container.scrollTop = container.scrollHeight
-      }, 10)
-    }
-  }, [safeLogEntries.length, isLogStreaming, autoScrollEnabled, logViewOffset])
-
-  // Scroll to bottom when logs are initially loaded on page load
-  useEffect(() => {
-    if (safeLogEntries.length > 0 && logViewOffset === 0 && logContainerRef.current && !isLoadingHistory) {
-      const container = logContainerRef.current
-      // Longer delay to ensure all rendering is complete
-      setTimeout(() => {
-        container.scrollTop = container.scrollHeight
-      }, 200)
-    }
-  }, [safeLogEntries.length, isLoadingHistory, logViewOffset]) // Trigger when entries change and loading is complete
 
   const handleLevelChange = (subsystem, level) => {
     // Check if this is enabling debug globally
@@ -177,7 +134,8 @@ const LogsScreen = () => {
     }
   }
 
-  const handleScrollToTop = useCallback(() => {
+  const handleGoToTop = useCallback(() => {
+    // Load more historical logs if available
     if (hasMoreHistory && !isLoadingHistory && safeLogEntries.length > 0) {
       const oldestEntry = safeLogEntries[0]
       if (oldestEntry?.timestamp) {
@@ -185,68 +143,6 @@ const LogsScreen = () => {
       }
     }
   }, [hasMoreHistory, isLoadingHistory, safeLogEntries, doLoadHistoricalLogs])
-
-  const handleScrollToBottom = useCallback(() => {
-    // When viewing historical logs and scrolling to bottom, load more recent logs
-    if (logViewOffset > 0 && !isLoadingHistory && safeLogEntries.length > 0) {
-      const newestEntry = safeLogEntries[safeLogEntries.length - 1]
-      if (newestEntry?.timestamp) {
-        // Load logs newer than the current newest entry
-        doLoadRecentLogs(newestEntry.timestamp, 100)
-      }
-    }
-  }, [logViewOffset, isLoadingHistory, safeLogEntries, doLoadRecentLogs])
-
-  const handleGoToTop = useCallback(() => {
-    const container = logContainerRef.current
-    if (!container) return
-
-    const isNearTop = container.scrollTop < 50
-
-    // If already at top and there's more history, load more
-    if (isNearTop && hasMoreHistory && !isLoadingHistory) {
-      handleScrollToTop()
-    } else {
-      // Otherwise just scroll to top
-      container.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-  }, [hasMoreHistory, isLoadingHistory, handleScrollToTop])
-
-  // Monitor scroll position for infinite scroll and auto-scroll
-  const handleScroll = useCallback((e) => {
-    e.stopPropagation() // Prevent scroll from bubbling to parent
-    const container = e.target
-    const scrollTop = container.scrollTop
-    const scrollHeight = container.scrollHeight
-    const clientHeight = container.clientHeight
-
-    const isNearTop = scrollTop < 50
-    const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50
-
-    setIsAtTop(isNearTop)
-
-    // Only manage auto-scroll when we're at the latest logs (not historical view)
-    if (logViewOffset === 0) {
-      // Enable auto-scroll when user scrolls to bottom
-      if (isNearBottom && !autoScrollEnabled) {
-        setAutoScrollEnabled(true)
-      }
-
-      // Disable auto-scroll when user scrolls away from bottom
-      if (!isNearBottom && autoScrollEnabled) {
-        setAutoScrollEnabled(false)
-      }
-    }
-
-    if (isNearTop && hasMoreHistory && !isLoadingHistory) {
-      handleScrollToTop()
-    }
-
-    // Load more recent logs when scrolling to bottom (if viewing historical logs)
-    if (isNearBottom && logViewOffset > 0 && !isLoadingHistory) {
-      handleScrollToBottom()
-    }
-  }, [hasMoreHistory, isLoadingHistory, handleScrollToTop, autoScrollEnabled, logViewOffset, handleScrollToBottom])
 
   const applyBufferConfig = () => {
     doUpdateLogBufferConfig(tempBufferConfig)
@@ -560,9 +456,9 @@ const LogsScreen = () => {
               className='bg-blue white f6 pa2'
               onClick={handleGoToTop}
               disabled={safeLogEntries.length === 0}
-              title={hasMoreHistory && isAtTop ? t('logs.entries.tooltipLoadMore') : t('logs.entries.tooltipGoToTop')}
+              title={hasMoreHistory ? t('logs.entries.tooltipLoadMore') : t('logs.entries.tooltipGoToTop')}
             >
-              {hasMoreHistory && isAtTop ? t('logs.entries.loadMoreHistory') : t('logs.entries.goToTop')}
+              {hasMoreHistory ? t('logs.entries.loadMoreHistory') : t('logs.entries.goToTop')}
             </Button>
 
             <Button
@@ -579,52 +475,14 @@ const LogsScreen = () => {
           </div>
         </div>
 
-        <div
-          ref={logContainerRef}
-          className='ba b--black-20 pa2 bg-near-white f6 overflow-auto relative'
-          style={{ height: '400px', fontFamily: 'Monaco, Consolas, monospace' }}
-          onScroll={handleScroll}
-        >
-          {/* Loading indicator when fetching historical logs */}
-          {isLoadingHistory && (
-            <div className='sticky top-0 bg-light-yellow pa2 mb2 tc br2 f6'>
-              <span className='charcoal-muted'>
-                🔄 {t('logs.entries.loadingHistory')}...
-              </span>
-            </div>
-          )}
-
-          {safeLogEntries.length === 0
-            ? <p className='gray tc pa3'>{t('logs.entries.noEntries')}</p>
-            : <div>
-              {safeLogEntries.map((entry, index) => (
-                <div key={`${entry.timestamp}-${entry.subsystem}-${index}`} className='flex mb1 lh-copy hover-bg-light-gray pa1 br1'>
-                  <span className='flex-none mr2 gray f7' style={{ minWidth: '90px' }} title={entry.timestamp}>
-                    {formatTimestamp(entry.timestamp)}
-                  </span>
-                  <span
-                    className='flex-none mr2 fw6 f7'
-                    style={{ minWidth: '60px', color: getLevelColor(entry.level) }}
-                  >
-                    {entry.level.toUpperCase()}
-                  </span>
-                  <span className='flex-none mr2 blue f7' style={{ minWidth: '120px' }} title={entry.subsystem}>
-                    {entry.subsystem}
-                  </span>
-                  <span className='flex-auto f7 pre-wrap'>
-                    {entry.message}
-                  </span>
-                </div>
-              ))}
-
-              {/* Auto-scroll to bottom indicator */}
-              {isLogStreaming && logViewOffset === 0 && autoScrollEnabled && (
-                <div className='tc pa2 charcoal-muted f6'>
-                  📍 {t('logs.entries.streaming')}
-                </div>
-              )}
-            </div>}
-        </div>
+        <VirtualLogsViewer
+          height={400}
+          formatTimestamp={formatTimestamp}
+          getLevelColor={getLevelColor}
+          autoScrollEnabled={autoScrollEnabled}
+          isStreaming={isLogStreaming}
+          viewOffset={logViewOffset}
+        />
       </Box>
 
       {/* Storage Stats */}

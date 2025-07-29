@@ -41,6 +41,7 @@
       "noEntries": "No log entries yet. Start streaming to see logs.",
       "loading": "Loading log subsystems...",
       "loadingHistory": "Loading historical logs",
+      "loadingRecent": "Loading newer logs",
       "streaming": "Live streaming...",
       "newLogsAvailable": "📍 New logs arriving (not shown)",
       "goToLatest": "📍 Go to Latest",
