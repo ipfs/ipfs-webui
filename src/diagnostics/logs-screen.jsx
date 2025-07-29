@@ -122,9 +122,9 @@ const LogsScreen = () => {
     }
   }, [logViewOffset])
 
-  // Auto-scroll to bottom when new logs arrive during streaming
+  // Auto-scroll to bottom when new logs arrive during streaming OR when initially loaded
   useEffect(() => {
-    const shouldAutoScroll = isLogStreaming && autoScrollEnabled && logViewOffset === 0 && logContainerRef.current && safeLogEntries.length > 0
+    const shouldAutoScroll = autoScrollEnabled && logViewOffset === 0 && logContainerRef.current && safeLogEntries.length > 0
 
     if (shouldAutoScroll) {
       const container = logContainerRef.current
@@ -134,6 +134,17 @@ const LogsScreen = () => {
       }, 10)
     }
   }, [safeLogEntries.length, isLogStreaming, autoScrollEnabled, logViewOffset])
+
+  // Scroll to bottom when logs are initially loaded on page load
+  useEffect(() => {
+    if (safeLogEntries.length > 0 && logViewOffset === 0 && logContainerRef.current && !isLoadingHistory) {
+      const container = logContainerRef.current
+      // Longer delay to ensure all rendering is complete
+      setTimeout(() => {
+        container.scrollTop = container.scrollHeight
+      }, 200)
+    }
+  }, [safeLogEntries.length, isLoadingHistory, logViewOffset]) // Trigger when entries change and loading is complete
 
   const handleLevelChange = (subsystem, level) => {
     // Check if this is enabling debug globally
