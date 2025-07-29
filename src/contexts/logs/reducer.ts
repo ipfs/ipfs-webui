@@ -4,10 +4,10 @@ import { LogsState, LogsAction, LogRateState, LogBufferConfig } from './types'
  * Default buffer configuration
  */
 export const DEFAULT_BUFFER_CONFIG: LogBufferConfig = {
-  memory: 10_000, // Keep last 10k entries in memory
+  memory: 1_000, // Keep last 10k entries in memory
   indexedDB: 200_000, // Store up to 200k entries in IndexedDB
-  warnThreshold: 1_000,
-  autoDisableThreshold: 6_000
+  warnThreshold: 50,
+  autoDisableThreshold: 100
 }
 
 /**
