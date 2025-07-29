@@ -24,7 +24,13 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
   // Use the improved batch processor hook
   const batchProcessor = useBatchProcessor(
     useCallback((entries) => dispatch({ type: 'ADD_BATCH', entries }), []),
-    state.bufferConfig
+    state.bufferConfig,
+    useCallback((currentRate: number, recentCounts: Array<{ second: number; count: number }>) => {
+      dispatch({
+        type: 'UPDATE_RATE_STATE',
+        rateState: { currentRate, recentCounts }
+      })
+    }, [])
   )
 
   // Internal action implementations with proper error handling

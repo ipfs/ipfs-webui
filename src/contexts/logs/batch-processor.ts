@@ -8,7 +8,8 @@ import { logStorage } from '../../lib/log-storage'
  */
 export function useBatchProcessor (
   onBatch: (entries: LogEntry[]) => void,
-  bufferConfig: LogBufferConfig
+  bufferConfig: LogBufferConfig,
+  onRateUpdate?: (rate: number, counts: Array<{ second: number; count: number }>) => void
 ) {
   // Use refs to hold mutable state that doesn't trigger re-renders
   const controllerRef = useRef<AbortController | null>(null)
@@ -49,6 +50,11 @@ export function useBatchProcessor (
     const totalEntries = entryCountsRef.current.reduce((sum, { count }) => sum + count, 0)
     const currentRate = totalEntries / Math.max(entryCountsRef.current.length, 1)
 
+    // Update rate state via callback
+    if (onRateUpdate) {
+      onRateUpdate(currentRate, [...entryCountsRef.current])
+    }
+
     // Check for warnings and auto-disable
     if (currentRate > bufferConfig.autoDisableThreshold && !autoDisabledRef.current) {
       console.warn(`Log rate too high (${currentRate.toFixed(1)}/s), auto-disabling streaming`)
@@ -72,7 +78,7 @@ export function useBatchProcessor (
     // Call the batch callback
     onBatch(entries)
     lastBatchTimeRef.current = now
-  }, [onBatch, bufferConfig])
+  }, [onBatch, bufferConfig, onRateUpdate])
 
   const start = useCallback((controller: AbortController) => {
     controllerRef.current = controller
