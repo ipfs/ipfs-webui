@@ -21,7 +21,10 @@ const LogsScreen = ({
   logStorageStats,
   logViewOffset,
   subsystemLevels,
+  actualLogLevels,
+  isLoadingLevels,
   doFetchLogSubsystems,
+  doFetchLogLevels,
   doSetLogLevel,
   doStartLogStreaming,
   doStopLogStreaming,
@@ -49,19 +52,21 @@ const LogsScreen = ({
   const safeLogSubsystems = useMemo(() => {
     const subsystems = Array.isArray(logSubsystems) ? logSubsystems : []
 
-    // Merge with tracked subsystem levels from session
+    // Merge with actual log levels from API, fallback to session tracking
     const mergedSubsystems = subsystems.map(subsystem => ({
       ...subsystem,
-      level: subsystemLevels[subsystem.name] || subsystem.level
+      level: actualLogLevels[subsystem.name] || subsystemLevels[subsystem.name] || subsystem.level || 'info'
     }))
     return mergedSubsystems
-  }, [logSubsystems, subsystemLevels])
+  }, [logSubsystems, subsystemLevels, actualLogLevels])
 
   useEffect(() => {
     doFetchLogSubsystems()
+    doFetchLogLevels()
     doUpdateStorageStats()
     // Load initial logs from history on page load
     doGoToLatestLogs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // Only run once on mount
 
   // Monitor for warnings and auto-disable
@@ -135,8 +140,6 @@ const LogsScreen = ({
     }
 
     doSetLogLevel(subsystem, level)
-
-    // No need to refetch subsystems since we track levels in session state
   }
 
   const confirmLevelChange = () => {
@@ -372,15 +375,13 @@ const LogsScreen = ({
 
       {/* Log Level Controls */}
       <Box className='mb3' style={{}}>
-        <h3 className='montserrat fw4 charcoal ma0 f5 mb3'>{t('logs.levels.title')}</h3>
-
         <div className='flex gap4'>
           {/* Global Log Level */}
           <div className='flex-auto'>
             <label className='db fw6 mb2'>{t('logs.levels.global')}</label>
             <select
               className='input-reset ba b--black-20 pa2 w-100'
-              value={globalLogLevel}
+              value={actualLogLevels['*'] || globalLogLevel}
               onChange={(e) => handleLevelChange('all', e.target.value)}
             >
               {LOG_LEVELS.map(level => (
@@ -394,7 +395,7 @@ const LogsScreen = ({
           {/* Subsystem Log Levels */}
           <div className='flex-auto'>
             <label className='db fw6 mb2'>{t('logs.levels.subsystem')}</label>
-            {isLoadingSubsystems
+            {isLoadingSubsystems || isLoadingLevels
               ? (
               <p className='gray'>{t('logs.entries.loading')}</p>
                 )
@@ -581,7 +582,10 @@ export default createConnectedComponent(
   'selectLogStorageStats',
   'selectLogViewOffset',
   'selectSubsystemLevels',
+  'selectActualLogLevels',
+  'selectIsLoadingLevels',
   'doFetchLogSubsystems',
+  'doFetchLogLevels',
   'doSetLogLevel',
   'doStartLogStreaming',
   'doStopLogStreaming',

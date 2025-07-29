@@ -1,34 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { createConnectedComponent } from '../components/connected-component.jsx'
 import LogsScreen from './logs-screen.jsx'
-import ConnectivityScreen from './connectivity-screen.jsx'
 
-interface Identity {
-  id: string
-  agentVersion: string
-  addresses?: string[]
+interface DiagnosticsContentProps {
 }
 
-interface ReduxBundlerProps {
-  identity: Identity | null
-  doFetchIdentity: () => void
-}
+type TabKey = 'logs'
 
-interface DiagnosticsContentProps extends ReduxBundlerProps {
-}
-
-type TabKey = 'logs' | 'connectivity'
-
-const DiagnosticsContent: React.FC<DiagnosticsContentProps> = ({ identity, doFetchIdentity }) => {
+const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
   const { t } = useTranslation('diagnostics')
   const [activeTab, setActiveTab] = useState<TabKey>('logs')
-
-  useEffect(() => {
-    if (identity) {
-      doFetchIdentity()
-    }
-  }, [identity, doFetchIdentity])
 
   const renderTabButton = (tabKey: TabKey, label: string) => (
     <button
@@ -48,8 +29,6 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = ({ identity, doFet
     switch (activeTab) {
       case 'logs':
         return <LogsScreen />
-      case 'connectivity':
-        return <ConnectivityScreen />
       default:
         return null
     }
@@ -64,20 +43,13 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = ({ identity, doFet
       <div className='bb b--black-20 mb4'>
         <nav className='flex'>
           {renderTabButton('logs', t('tabs.logs'))}
-          {renderTabButton('connectivity', t('tabs.connectivity'))}
         </nav>
       </div>
 
       {/* Tab Content */}
-      <div>
-        {renderTabContent()}
-      </div>
+      {renderTabContent()}
     </div>
   )
 }
 
-export default createConnectedComponent<ReduxBundlerProps>(
-  DiagnosticsContent,
-  'selectIdentity',
-  'doFetchIdentity'
-)
+export default DiagnosticsContent

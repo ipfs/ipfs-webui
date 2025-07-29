@@ -37,14 +37,14 @@ export class LogStorage {
   private config: LogStorageConfig
   private initPromise: Promise<void> | null = null
 
-  constructor(config: Partial<LogStorageConfig> = {}) {
+  constructor (config: Partial<LogStorageConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config }
   }
 
   /**
    * Initialize the IndexedDB connection
    */
-  async init(): Promise<void> {
+  async init (): Promise<void> {
     if (this.initPromise) {
       return this.initPromise
     }
@@ -85,7 +85,7 @@ export class LogStorage {
   /**
    * Append new log entries with circular buffer behavior
    */
-  async appendLogs(entries: LogEntry[]): Promise<void> {
+  async appendLogs (entries: LogEntry[]): Promise<void> {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
@@ -114,7 +114,7 @@ export class LogStorage {
   /**
    * Get logs before a specific timestamp for infinite scroll
    */
-  async getLogsBefore(beforeTimestamp: string, limit: number = 100): Promise<LogEntry[]> {
+  async getLogsBefore (beforeTimestamp: string, limit: number = 100): Promise<LogEntry[]> {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
@@ -145,7 +145,7 @@ export class LogStorage {
   /**
    * Get the most recent logs
    */
-  async getRecentLogs(limit: number = 500): Promise<LogEntry[]> {
+  async getRecentLogs (limit: number = 500): Promise<LogEntry[]> {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
@@ -175,7 +175,7 @@ export class LogStorage {
   /**
    * Clear old entries to maintain circular buffer
    */
-  private async enforceMaxEntries(): Promise<void> {
+  private async enforceMaxEntries (): Promise<void> {
     if (!this.db) return
 
     const transaction = this.db.transaction([this.config.storeName], 'readwrite')
@@ -221,7 +221,7 @@ export class LogStorage {
   /**
    * Get storage statistics
    */
-  async getStorageStats(): Promise<LogStorageStats> {
+  async getStorageStats (): Promise<LogStorageStats> {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
@@ -289,7 +289,7 @@ export class LogStorage {
   /**
    * Clear all stored logs
    */
-  async clearAllLogs(): Promise<void> {
+  async clearAllLogs (): Promise<void> {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
@@ -306,7 +306,7 @@ export class LogStorage {
   /**
    * Update configuration (requires reinit)
    */
-  updateConfig(newConfig: Partial<LogStorageConfig>): void {
+  updateConfig (newConfig: Partial<LogStorageConfig>): void {
     this.config = { ...this.config, ...newConfig }
     // Reset init promise to force reinitialization
     this.initPromise = null
@@ -316,7 +316,7 @@ export class LogStorage {
   /**
    * Close the database connection
    */
-  close(): void {
+  close (): void {
     if (this.db) {
       this.db.close()
       this.db = null

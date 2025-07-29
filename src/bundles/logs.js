@@ -64,7 +64,9 @@ const ACTIONS = Enum.from([
   'LOGS_SET_HAS_MORE_HISTORY',
   'LOGS_LOAD_LATEST',
   'LOGS_SHOW_WARNING',
-  'LOGS_AUTO_DISABLE'
+  'LOGS_AUTO_DISABLE',
+  'LOGS_FETCH_LEVELS',
+  'LOGS_UPDATE_LEVELS'
 ])
 
 const DEFAULT_BUFFER_CONFIG = {
@@ -95,7 +97,30 @@ const defaultState = {
   // Track position in the overall log timeline
   viewOffset: 0, // 0 = showing latest logs, 100 = showing logs 100 positions back, etc.
   // Track subsystem levels we've set in this session
-  subsystemLevels: {} // { subsystemName: level }
+  subsystemLevels: {}, // { subsystemName: level }
+  // Track actual log levels from API
+  actualLogLevels: {}, // { subsystemName: level }
+  isLoadingLevels: false
+}
+
+/**
+ * Until the below issues are resolved, we must query manually:
+ *
+ * * https://github.com/ipfs/kubo/pull/10885
+ * * https://github.com/ipfs/js-kubo-rpc-client/issues/339
+ */
+async function getLogLevels () {
+  const resp = await fetch('http://127.0.0.1:5001/api/v0/log/get-level', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  if (!resp.ok) {
+    throw new Error('Could not fetch log levels: ' + resp.statusText)
+  }
+  const json = await resp.json()
+  return json.Levels
 }
 
 const logsBundle = {
@@ -269,6 +294,19 @@ const logsBundle = {
           }
         }
       }
+      case ACTIONS.LOGS_FETCH_LEVELS: {
+        return {
+          ...state,
+          isLoadingLevels: true
+        }
+      }
+      case ACTIONS.LOGS_UPDATE_LEVELS: {
+        return {
+          ...state,
+          actualLogLevels: action.payload,
+          isLoadingLevels: false
+        }
+      }
       default:
         return state
     }
@@ -287,9 +325,11 @@ const logsBundle = {
   selectPendingLogBatch: state => state.logs?.pendingBatch || [],
   selectLogViewOffset: state => state.logs?.viewOffset || 0,
   selectSubsystemLevels: state => state.logs?.subsystemLevels || {},
+  selectActualLogLevels: state => state.logs?.actualLogLevels || {},
+  selectIsLoadingLevels: state => state.logs?.isLoadingLevels || false,
 
   // Actions
-  doSetLogLevel: (subsystem, level) => async ({ getIpfs, dispatch }) => {
+  doSetLogLevel: (subsystem, level) => async ({ getIpfs, dispatch, store }) => {
     try {
       const ipfs = getIpfs()
       if (!ipfs) {
@@ -297,6 +337,34 @@ const logsBundle = {
       }
 
       await ipfs.log.level(subsystem, level)
+
+      if (subsystem === 'all') {
+        // For global level changes, fetch all log levels from the API to get the complete updated state
+        try {
+          const response = await getLogLevels()
+          if (response && typeof response === 'object') {
+            dispatch({ type: ACTIONS.LOGS_UPDATE_LEVELS, payload: response })
+          }
+        } catch (error) {
+          console.warn('Failed to fetch updated log levels after global change:', error)
+          // Fallback: just update the global level in our state
+          const currentActualLevels = store.selectActualLogLevels()
+          const updatedLevels = {
+            ...currentActualLevels,
+            '*': level
+          }
+          dispatch({ type: ACTIONS.LOGS_UPDATE_LEVELS, payload: updatedLevels })
+        }
+      } else {
+        // For subsystem level changes, just update that specific subsystem
+        const currentActualLevels = store.selectActualLogLevels()
+        const updatedLevels = {
+          ...currentActualLevels,
+          [subsystem]: level
+        }
+        dispatch({ type: ACTIONS.LOGS_UPDATE_LEVELS, payload: updatedLevels })
+      }
+
       dispatch({ type: ACTIONS.LOGS_SET_LEVEL, subsystem, level })
     } catch (error) {
       console.error(`Failed to set log level for ${subsystem}:`, error)
@@ -412,9 +480,7 @@ const logsBundle = {
         }
         processChunks()
       } else {
-        // Fallback: simulate log entries for demo purposes
-        console.warn('Log streaming not fully supported, using simulation')
-        simulateLogEntries(batchProcessor, controller)
+        throw new Error('Log streaming not supported')
       }
     } catch (error) {
       console.error('Failed to start log streaming:', error)
@@ -513,6 +579,36 @@ const logsBundle = {
     } catch (error) {
       console.error('Failed to load latest logs:', error)
     }
+  },
+
+  doFetchLogLevels: () => async ({ getIpfs, dispatch }) => {
+    try {
+      const ipfs = getIpfs()
+      if (!ipfs) {
+        throw new Error('IPFS not available')
+      }
+
+      dispatch({ type: ACTIONS.LOGS_FETCH_LEVELS })
+
+      // Fetch all log levels from the API
+      const response = await getLogLevels()
+
+      // Parse the response - it should be an object with subsystem names as keys and levels as values
+      // The global level is typically under the "*" key
+      const logLevels = {}
+
+      if (response && typeof response === 'object') {
+        // Handle the response format from the API
+        Object.keys(response).forEach(subsystem => {
+          logLevels[subsystem] = response[subsystem]
+        })
+      }
+
+      dispatch({ type: ACTIONS.LOGS_UPDATE_LEVELS, payload: logLevels })
+    } catch (error) {
+      console.error('Failed to fetch log levels:', error)
+      dispatch({ type: ACTIONS.LOGS_UPDATE_LEVELS, payload: {} })
+    }
   }
 }
 
@@ -530,10 +626,21 @@ const logSubsystemsBundle = createAsyncResourceBundle({
         ? response
         : response.Strings || []
 
-      // Create subsystem list with just names - default to info level
+      // Fetch actual log levels from the API
+      let logLevels = {}
+      try {
+        const levelsResponse = await getLogLevels()
+        if (levelsResponse && typeof levelsResponse === 'object') {
+          logLevels = levelsResponse
+        }
+      } catch (error) {
+        console.warn('Failed to fetch log levels, using defaults:', error)
+      }
+
+      // Create subsystem list with actual levels from API
       const subsystems = subsystemNames.map(name => ({
         name,
-        level: 'info' // Default level, will be overridden by session tracking
+        level: logLevels[name] || logLevels['*'] || 'info' // Use subsystem level, fallback to global, then default
       }))
 
       // Sort subsystems alphabetically by name
@@ -729,61 +836,5 @@ function createBatchProcessor (dispatch, controller, bufferConfig) {
   return { addEntry }
 }
 
-// Simulate log entries for demonstration
-function simulateLogEntries (batchProcessor, controller) {
-  const levels = ['debug', 'info', 'warn', 'error']
-  const subsystems = ['bitswap', 'dht', 'swarm', 'pubsub', 'routing', 'blockservice', 'exchange', 'namesys']
-  const messages = [
-    'Connection established',
-    'Processing request',
-    'Block received',
-    'Peer discovered',
-    'DHT query complete',
-    'Content routing update',
-    'Swarm connection lost',
-    'Republishing provider records',
-    'Bootstrap peer connected',
-    'Block exchange started',
-    'Routing table updated',
-    'Network bandwidth measured'
-  ]
-
-  // Simulate varying log rates based on global log level
-  const baseInterval = 2000 // Default for info level
-  const burstProbability = 0.1 // Chance of burst mode
-
-  const simulate = () => {
-    if (controller.signal.aborted) {
-      return
-    }
-
-    // Occasionally simulate bursts (like when debug is enabled)
-    const isBurst = Math.random() < burstProbability
-    const entriesThisRound = isBurst ? Math.floor(Math.random() * 20) + 5 : 1
-
-    for (let i = 0; i < entriesThisRound; i++) {
-      const entry = {
-        timestamp: new Date().toISOString(),
-        level: levels[Math.floor(Math.random() * levels.length)],
-        subsystem: subsystems[Math.floor(Math.random() * subsystems.length)],
-        message: messages[Math.floor(Math.random() * messages.length)]
-      }
-
-      batchProcessor.addEntry(entry)
-    }
-
-    // Vary interval based on activity
-    const nextInterval = isBurst
-      ? 100 + Math.random() * 200 // Fast when bursting
-      : baseInterval + Math.random() * 1000
-
-    setTimeout(simulate, nextInterval)
-  }
-
-  // Start simulation
-  setTimeout(simulate, 1000)
-}
-
-// Export both bundles
 export { logSubsystemsBundle }
 export default logsBundle
