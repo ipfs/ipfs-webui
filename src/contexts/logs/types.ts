@@ -86,6 +86,7 @@ export interface LogsContextValue {
   setLogLevel: (subsystem: string, level: string) => void
   updateBufferConfig: (config: Partial<LogBufferConfig>) => void
   loadHistoricalLogs: (beforeTimestamp?: string, limit?: number) => void
+  loadRecentLogs: (afterTimestamp: string, limit?: number) => void
   goToLatestLogs: () => void
   fetchSubsystems: () => void
   fetchLogLevels: () => void
@@ -129,9 +130,11 @@ export type LogsAction =
   | { type: 'UPDATE_BUFFER_CONFIG'; config: Partial<LogBufferConfig> }
   | { type: 'UPDATE_RATE_STATE'; rateState: Partial<LogRateState> }
   | { type: 'LOAD_HISTORY'; logs: LogEntry[]; maxEntries: number }
+  | { type: 'LOAD_RECENT'; logs: LogEntry[]; maxEntries: number; reachedLatest: boolean }
   | { type: 'SET_LOADING_HISTORY'; loading: boolean }
   | { type: 'UPDATE_STORAGE_STATS'; stats: LogStorageStats }
   | { type: 'SET_HAS_MORE_HISTORY'; hasMore: boolean }
+  | { type: 'SET_VIEW_OFFSET'; offset: number }
   | { type: 'LOAD_LATEST'; logs: LogEntry[]; hasMoreHistory: boolean }
   | { type: 'SHOW_WARNING' }
   | { type: 'AUTO_DISABLE' }

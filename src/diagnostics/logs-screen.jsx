@@ -33,6 +33,7 @@ const LogsScreen = () => {
     clearEntries: doClearLogEntries,
     updateBufferConfig: doUpdateLogBufferConfig,
     loadHistoricalLogs: doLoadHistoricalLogs,
+    loadRecentLogs: doLoadRecentLogs,
     updateStorageStats: doUpdateStorageStats,
     goToLatestLogs: doGoToLatestLogs,
     showWarning: doShowWarning,
@@ -185,6 +186,17 @@ const LogsScreen = () => {
     }
   }, [hasMoreHistory, isLoadingHistory, safeLogEntries, doLoadHistoricalLogs])
 
+  const handleScrollToBottom = useCallback(() => {
+    // When viewing historical logs and scrolling to bottom, load more recent logs
+    if (logViewOffset > 0 && !isLoadingHistory && safeLogEntries.length > 0) {
+      const newestEntry = safeLogEntries[safeLogEntries.length - 1]
+      if (newestEntry?.timestamp) {
+        // Load logs newer than the current newest entry
+        doLoadRecentLogs(newestEntry.timestamp, 100)
+      }
+    }
+  }, [logViewOffset, isLoadingHistory, safeLogEntries, doLoadRecentLogs])
+
   const handleGoToTop = useCallback(() => {
     const container = logContainerRef.current
     if (!container) return
@@ -229,7 +241,12 @@ const LogsScreen = () => {
     if (isNearTop && hasMoreHistory && !isLoadingHistory) {
       handleScrollToTop()
     }
-  }, [hasMoreHistory, isLoadingHistory, handleScrollToTop, autoScrollEnabled, logViewOffset])
+
+    // Load more recent logs when scrolling to bottom (if viewing historical logs)
+    if (isNearBottom && logViewOffset > 0 && !isLoadingHistory) {
+      handleScrollToBottom()
+    }
+  }, [hasMoreHistory, isLoadingHistory, handleScrollToTop, autoScrollEnabled, logViewOffset, handleScrollToBottom])
 
   const applyBufferConfig = () => {
     doUpdateLogBufferConfig(tempBufferConfig)

@@ -176,6 +176,23 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
       }
     }
 
+    case 'LOAD_RECENT': {
+      const { logs: recentEntries, maxEntries, reachedLatest } = action
+      // Add recent logs to the end of current entries
+      const newEntries = [...state.entries, ...recentEntries]
+      const trimmedEntries = newEntries.slice(-maxEntries)
+
+      // If we reached latest, reset view offset to 0
+      const newOffset = reachedLatest ? 0 : Math.max(0, state.viewOffset - recentEntries.length)
+
+      return {
+        ...state,
+        entries: trimmedEntries,
+        isLoadingHistory: false,
+        viewOffset: newOffset
+      }
+    }
+
     case 'SET_LOADING_HISTORY': {
       return {
         ...state,
@@ -194,6 +211,13 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
       return {
         ...state,
         hasMoreHistory: action.hasMore
+      }
+    }
+
+    case 'SET_VIEW_OFFSET': {
+      return {
+        ...state,
+        viewOffset: action.offset
       }
     }
 

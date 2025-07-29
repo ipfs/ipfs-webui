@@ -228,6 +228,33 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     }
   }, [state.bufferConfig.memory, state.entries])
 
+  const loadRecentLogs = useCallback(async (afterTimestamp: string, limit = 100) => {
+    dispatch({ type: 'SET_LOADING_HISTORY', loading: true })
+
+    try {
+      const recentLogs = await logStorage.getLogsAfter(afterTimestamp, limit)
+
+      if (recentLogs.length > 0) {
+        // If we got fewer logs than requested, we might be at the latest
+        const reachedLatest = recentLogs.length < limit
+
+        dispatch({
+          type: 'LOAD_RECENT',
+          logs: recentLogs,
+          maxEntries: state.bufferConfig.memory,
+          reachedLatest
+        })
+      } else {
+        // No more recent logs, we're at the latest
+        dispatch({ type: 'SET_VIEW_OFFSET', offset: 0 })
+      }
+    } catch (error) {
+      console.error('Failed to load recent logs:', error)
+    } finally {
+      dispatch({ type: 'SET_LOADING_HISTORY', loading: false })
+    }
+  }, [state.bufferConfig.memory])
+
   const goToLatestLogsInternal = useCallback(async () => {
     try {
       const latestLogs = await logStorage.getRecentLogs(state.bufferConfig.memory)
@@ -332,6 +359,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     setLogLevel,
     updateBufferConfig,
     loadHistoricalLogs,
+    loadRecentLogs,
     goToLatestLogs: goToLatestLogsInternal,
     fetchSubsystems: fetchSubsystemsInternal,
     fetchLogLevels: fetchLogLevelsInternal,
@@ -344,6 +372,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     setLogLevel,
     updateBufferConfig,
     loadHistoricalLogs,
+    loadRecentLogs,
     goToLatestLogsInternal,
     fetchSubsystemsInternal,
     fetchLogLevelsInternal,
