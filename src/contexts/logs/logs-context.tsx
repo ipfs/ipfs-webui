@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo } from 'react'
-import { LogsContextValue, LogsProviderProps } from './types'
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, useRef } from 'react'
+import { LogBufferConfig, LogsContextValue, LogsProviderProps } from './types'
 import { logsReducer, initLogsState } from './reducer'
 import { getLogLevels, parseLogEntry, fetchLogSubsystems } from './api'
 import { useBatchProcessor } from './batch-processor'
@@ -18,8 +18,14 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
   // Use lazy initialization to avoid recreating deep objects on every render
   const [state, dispatch] = useReducer(logsReducer, undefined, initLogsState)
 
-  // Use the batch processor hook at component level
-  const batchProcessor = useBatchProcessor(dispatch, state.streamController, state.bufferConfig)
+  // Use ref for mount status to avoid stale closures
+  const isMounted = useRef(true)
+
+  // Use the improved batch processor hook
+  const batchProcessor = useBatchProcessor(
+    useCallback((entries) => dispatch({ type: 'ADD_BATCH', entries }), []),
+    state.bufferConfig
+  )
 
   // Internal action implementations with proper error handling
   const fetchSubsystemsInternal = useCallback(async () => {
@@ -89,6 +95,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
 
     const controller = new AbortController()
     dispatch({ type: 'START_STREAMING', controller })
+    batchProcessor.start(controller)
 
     try {
       await logStorage.init()
@@ -118,7 +125,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
               if (controller.signal.aborted) break
 
               const logEntry = parseLogEntry(entry)
-              if (logEntry && batchProcessor) {
+              if (logEntry) {
                 batchProcessor.addEntry(logEntry)
               }
             }
@@ -141,7 +148,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
               if (done) break
 
               const logEntry = parseLogEntry(value)
-              if (logEntry && batchProcessor) {
+              if (logEntry) {
                 batchProcessor.addEntry(logEntry)
               }
             }
@@ -179,12 +186,12 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     dispatch({ type: 'CLEAR_ENTRIES' })
   }, [])
 
-  const updateBufferConfig = useCallback((config: Partial<typeof state.bufferConfig>) => {
+  const updateBufferConfig = useCallback((config: Partial<LogBufferConfig>) => {
     dispatch({ type: 'UPDATE_BUFFER_CONFIG', config })
-    if (config.indexedDB) {
+    if (config.indexedDB != null) {
       logStorage.updateConfig({ maxEntries: config.indexedDB })
     }
-  }, [state.bufferConfig])
+  }, [])
 
   const loadHistoricalLogs = useCallback(async (beforeTimestamp?: string, limit = 100) => {
     dispatch({ type: 'SET_LOADING_HISTORY', loading: true })
@@ -235,12 +242,17 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     }
   }, [])
 
-  // Initialize log storage and bootstrap data on mount
+  // Mount/unmount and bootstrap effect
   useEffect(() => {
-    let isMounted = true
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
 
+  // Initialize log storage and bootstrap data
+  useEffect(() => {
     async function bootstrap () {
-      if (!isMounted) return
+      if (!isMounted.current) return
 
       try {
         await logStorage.init()
@@ -248,7 +260,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
         console.warn('Failed to initialize log storage:', error)
       }
 
-      if (!isMounted) return
+      if (!isMounted.current) return
 
       // Load initial data in parallel when IPFS is connected
       if (ipfsConnected && ipfs) {
@@ -264,16 +276,9 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     bootstrap()
 
     return () => {
-      isMounted = false
-    }
-  }, [ipfsConnected, ipfs, fetchSubsystemsInternal, fetchLogLevelsInternal, updateStorageStatsInternal, goToLatestLogsInternal])
-
-  // Clean up streaming on unmount to prevent leaks
-  useEffect(() => {
-    return () => {
       dispatch({ type: 'STOP_STREAMING' })
     }
-  }, [])
+  }, [ipfsConnected, ipfs, fetchSubsystemsInternal, fetchLogLevelsInternal, updateStorageStatsInternal, goToLatestLogsInternal])
 
   // Group related actions for cleaner context value assembly
   const logActions = useMemo(() => ({

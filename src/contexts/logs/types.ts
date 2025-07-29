@@ -137,27 +137,6 @@ export type LogsAction =
   | { type: 'UPDATE_SUBSYSTEMS'; subsystems: LogSubsystem[] }
 
 /**
- * Default buffer configuration
- */
-export const DEFAULT_BUFFER_CONFIG: LogBufferConfig = {
-  memory: 500,
-  indexedDB: 10000,
-  warnThreshold: 100,
-  autoDisableThreshold: 500
-}
-
-/**
- * Default rate state
- */
-export const DEFAULT_RATE_STATE: LogRateState = {
-  currentRate: 0,
-  recentCounts: [],
-  lastCountTime: Date.now(),
-  hasWarned: false,
-  autoDisabled: false
-}
-
-/**
  * Logs Provider Props
  */
 export interface LogsProviderProps {
@@ -190,5 +169,6 @@ export interface RawLogEntry {
  * Batch processor interface
  */
 export interface BatchProcessor {
+  start: (controller: AbortController) => void
   addEntry: (entry: LogEntry) => void
 }

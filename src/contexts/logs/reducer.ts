@@ -1,4 +1,25 @@
-import { LogsState, LogsAction, DEFAULT_BUFFER_CONFIG, DEFAULT_RATE_STATE } from './types'
+import { LogsState, LogsAction, LogRateState, LogBufferConfig } from './types'
+
+/**
+ * Default buffer configuration
+ */
+export const DEFAULT_BUFFER_CONFIG: LogBufferConfig = {
+  memory: 500,
+  indexedDB: 10000,
+  warnThreshold: 100,
+  autoDisableThreshold: 500
+}
+
+/**
+ * Default rate state
+ */
+export const DEFAULT_RATE_STATE: LogRateState = {
+  currentRate: 0,
+  recentCounts: [],
+  lastCountTime: Date.now(),
+  hasWarned: false,
+  autoDisabled: false
+}
 
 /**
  * Initial empty state shell - will be populated by initLogsState
@@ -105,9 +126,10 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
 
       // User is at latest position, update memory buffer normally
       const newEntries = [...state.entries, ...batchEntries]
+      const finalEntries = newEntries.slice(-memoryLimit)
       return {
         ...state,
-        entries: newEntries.slice(-memoryLimit), // Keep only last N entries in memory
+        entries: finalEntries, // Keep only last N entries in memory
         pendingBatch: [],
         batchTimeout: null
       }

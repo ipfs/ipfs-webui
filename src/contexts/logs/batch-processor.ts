@@ -1,18 +1,17 @@
-import { useRef, useCallback } from 'react'
-import { LogEntry, LogBufferConfig, LogsAction, BatchProcessor } from './types'
+import { useRef, useCallback, useEffect } from 'react'
+import { LogEntry, LogBufferConfig } from './types'
 import { logStorage } from '../../lib/log-storage'
-import type React from 'react'
 
 /**
  * Custom hook for batch processing logs with rate monitoring
  * Uses refs to maintain mutable state without recreating on every render
  */
 export function useBatchProcessor (
-  dispatch: React.Dispatch<LogsAction>,
-  controller: AbortController | null,
+  onBatch: (entries: LogEntry[]) => void,
   bufferConfig: LogBufferConfig
-): BatchProcessor | null {
+) {
   // Use refs to hold mutable state that doesn't trigger re-renders
+  const controllerRef = useRef<AbortController | null>(null)
   const pendingEntriesRef = useRef<LogEntry[]>([])
   const lastBatchTimeRef = useRef(Date.now())
   const entryCountsRef = useRef<Array<{ second: number; count: number }>>([])
@@ -50,51 +49,42 @@ export function useBatchProcessor (
     const totalEntries = entryCountsRef.current.reduce((sum, { count }) => sum + count, 0)
     const currentRate = totalEntries / Math.max(entryCountsRef.current.length, 1)
 
-    // Update rate state
-    dispatch({
-      type: 'UPDATE_RATE_STATE',
-      rateState: { currentRate, recentCounts: [...entryCountsRef.current] }
-    })
-
     // Check for warnings and auto-disable
     if (currentRate > bufferConfig.autoDisableThreshold && !autoDisabledRef.current) {
       console.warn(`Log rate too high (${currentRate.toFixed(1)}/s), auto-disabling streaming`)
       autoDisabledRef.current = true
-      dispatch({ type: 'AUTO_DISABLE' })
-      return
     }
 
     if (currentRate > bufferConfig.warnThreshold && !hasWarnedRef.current && !autoDisabledRef.current) {
       console.warn(`High log rate detected: ${currentRate.toFixed(1)} logs/second`)
       hasWarnedRef.current = true
-      dispatch({ type: 'SHOW_WARNING' })
     }
 
     // Store in IndexedDB (async, don't wait)
     try {
-      logStorage.appendLogs(entries)
-        .then(async () => {
-          try {
-            const updatedStats = await logStorage.getStorageStats()
-            dispatch({ type: 'UPDATE_STORAGE_STATS', stats: updatedStats })
-          } catch (error) {
-            console.warn('Failed to update storage stats:', error)
-          }
-        })
-        .catch(error => {
-          console.warn('Failed to store logs in IndexedDB:', error)
-        })
+      logStorage.appendLogs(entries).catch(error => {
+        console.warn('Failed to store logs in IndexedDB:', error)
+      })
     } catch (error) {
       console.warn('Failed to store logs in IndexedDB:', error)
     }
 
-    // Add to memory buffer
-    dispatch({ type: 'ADD_BATCH', entries })
+    // Call the batch callback
+    onBatch(entries)
     lastBatchTimeRef.current = now
-  }, [dispatch, bufferConfig])
+  }, [onBatch, bufferConfig])
+
+  const start = useCallback((controller: AbortController) => {
+    controllerRef.current = controller
+    // Reset rate counters when starting
+    hasWarnedRef.current = false
+    autoDisabledRef.current = false
+    entryCountsRef.current = []
+    lastBatchTimeRef.current = Date.now()
+  }, [])
 
   const addEntry = useCallback((entry: LogEntry) => {
-    if (!controller || controller.signal.aborted) return
+    if (!controllerRef.current || controllerRef.current.signal.aborted) return
 
     pendingEntriesRef.current.push(entry)
 
@@ -109,10 +99,11 @@ export function useBatchProcessor (
       // Set a fallback timeout to ensure batches are processed even with low rates
       batchTimeoutRef.current = window.setTimeout(processBatch, 1000)
     }
-  }, [controller, processBatch])
+  }, [processBatch])
 
-  // Set up cleanup when controller changes or component unmounts
-  useCallback(() => {
+  // Set up cleanup when controller changes
+  useEffect(() => {
+    const controller = controllerRef.current
     if (!controller) return
 
     const cleanup = () => {
@@ -120,25 +111,15 @@ export function useBatchProcessor (
         clearTimeout(batchTimeoutRef.current)
         batchTimeoutRef.current = null
       }
-      // Process any remaining entries after current Redux cycle completes
+      // Process any remaining entries after current cycle completes
       if (pendingEntriesRef.current.length > 0) {
-        setTimeout(processBatch, 10) // Small delay to ensure we're outside the reducer
+        setTimeout(processBatch, 10)
       }
     }
 
     controller.signal.onabort = cleanup
-
     return cleanup
-  }, [controller, processBatch])()
+  }, [processBatch])
 
-  // Reset refs when starting new stream
-  if (controller && !autoDisabledRef.current) {
-    hasWarnedRef.current = false
-    autoDisabledRef.current = false
-  }
-
-  // Only return processor if we have a valid controller
-  if (!controller) return null
-
-  return { addEntry }
+  return { start, addEntry }
 }
