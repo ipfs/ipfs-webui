@@ -35,7 +35,8 @@ const LogsScreen = () => {
     loadHistoricalLogs: doLoadHistoricalLogs,
     updateStorageStats: doUpdateStorageStats,
     goToLatestLogs: doGoToLatestLogs,
-    showWarning: doShowWarning
+    showWarning: doShowWarning,
+    gologLevelString
   } = useLogs()
 
   // Component state
@@ -43,6 +44,7 @@ const LogsScreen = () => {
   const [pendingLevelChange, setPendingLevelChange] = useState(null)
   const [showBufferConfig, setShowBufferConfig] = useState(false)
   const [tempBufferConfig, setTempBufferConfig] = useState({ ...logBufferConfig, selectedSubsystem: '' })
+  const [copiedGologLevel, setCopiedGologLevel] = useState(false)
 
   // Refs for virtual scrolling
   const logContainerRef = useRef(null)
@@ -161,6 +163,16 @@ const LogsScreen = () => {
     if (pendingLevelChange) {
       doSetLogLevel(pendingLevelChange.subsystem, pendingLevelChange.level)
       setPendingLevelChange(null)
+    }
+  }
+
+  const copyGologLevelToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(gologLevelString)
+      setCopiedGologLevel(true)
+      setTimeout(() => setCopiedGologLevel(false), 1000)
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error)
     }
   }
 
@@ -466,6 +478,37 @@ const LogsScreen = () => {
                 {t('logs.levels.currentLevel')}: {safeLogSubsystems.find(s => s.name === tempBufferConfig.selectedSubsystem)?.level || 'info'}
               </div>
             )}
+          </div>
+        </div>
+      </Box>
+
+      {/* GOLOG Level Display */}
+      <Box className='mb3'>
+        <div className='mb2'>
+          <h3 className='montserrat fw4 charcoal ma0 f5 mb2'>{t('logs.gologLevel.title')}</h3>
+          <p className='charcoal-muted f6 mb3'>{t('logs.gologLevel.description')}</p>
+          <div className='flex items-center gap2'>
+            <div className='flex-auto'>
+              {gologLevelString === null
+                ? (
+                <div className='input-reset ba b--black-20 pa2 bg-light-gray f6 charcoal-muted'>
+                  {t('logs.entries.loading')}...
+                </div>
+                  )
+                : (
+                <div className='input-reset ba b--black-20 pa2 bg-light-gray f6' style={{ fontFamily: 'Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
+                  {gologLevelString}
+                </div>
+                  )}
+            </div>
+            <Button
+              className='bg-blue white f6'
+              onClick={copyGologLevelToClipboard}
+              title={t('logs.gologLevel.copyToClipboard')}
+              disabled={gologLevelString === null}
+            >
+              {copiedGologLevel ? t('logs.gologLevel.copied') : `📋 ${t('logs.gologLevel.copyToClipboard')}`}
+            </Button>
           </div>
         </div>
       </Box>

@@ -76,6 +76,9 @@ export interface LogsContextValue {
   rateState: LogRateState
   storageStats: LogStorageStats | null
 
+  // Computed values
+  gologLevelString: string | null
+
   // Actions
   startStreaming: () => void
   stopStreaming: () => void

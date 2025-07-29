@@ -70,6 +70,12 @@
       "cancel": "Cancel",
       "apply": "Apply Changes"
     },
+    "gologLevel": {
+      "title": "Current Log Configuration",
+      "description": "GOLOG_LOG_LEVEL equivalent for current settings",
+      "copyToClipboard": "Copy to clipboard",
+      "copied": "Copied!"
+    },
     "warnings": {
       "potentialIssues": "Potential Issues:",
       "recommendations": "Recommendations:",

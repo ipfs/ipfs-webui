@@ -260,6 +260,28 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     dispatch({ type: 'SHOW_WARNING' })
   }, [])
 
+  // Compute GOLOG_LOG_LEVEL equivalent string
+  const gologLevelString = useMemo(() => {
+    // Only calculate if log levels have been loaded
+    if (state.isLoadingLevels || Object.keys(state.actualLogLevels).length === 0) {
+      return null
+    }
+
+    // Use the actual effective global level, fallback to stored global level
+    const effectiveGlobalLevel = state.actualLogLevels['*'] || state.globalLogLevel
+    const parts = [effectiveGlobalLevel]
+
+    // Add subsystems that differ from the effective global level
+    state.subsystems.forEach(subsystem => {
+      const subsystemLevel = state.actualLogLevels[subsystem.name] || state.subsystemLevels[subsystem.name] || subsystem.level || 'info'
+      if (subsystemLevel !== effectiveGlobalLevel) {
+        parts.push(`${subsystem.name}=${subsystemLevel}`)
+      }
+    })
+
+    return parts.join(',')
+  }, [state.isLoadingLevels, state.actualLogLevels, state.globalLogLevel, state.subsystems, state.subsystemLevels])
+
   // Mount/unmount and bootstrap effect
   useEffect(() => {
     // Update storage config with current buffer settings
@@ -329,8 +351,12 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     showWarning
   ])
 
-  // Combine state and actions - React will optimize this automatically
-  const contextValue: LogsContextValue = { ...state, ...logActions }
+  // Combine state, computed values, and actions - React will optimize this automatically
+  const contextValue: LogsContextValue = {
+    ...state,
+    ...logActions,
+    gologLevelString
+  }
 
   return (
     <LogsContext.Provider value={contextValue}>
