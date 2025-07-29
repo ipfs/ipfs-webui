@@ -1,40 +1,41 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { createConnectedComponent } from '../components/connected-component.jsx'
 import Box from '../components/box/Box.js'
 import Button from '../components/button/button.jsx'
 import LogWarningModal from '../components/log-warning-modal.tsx'
 import { humanSize } from '../lib/files.js'
+import { useLogs } from '../contexts/logs/index'
 
 const LOG_LEVELS = ['debug', 'info', 'warn', 'error', 'dpanic', 'panic', 'fatal']
 
-const LogsScreen = ({
-  logEntries,
-  logSubsystems,
-  isLogStreaming,
-  globalLogLevel,
-  isLoadingSubsystems,
-  logBufferConfig,
-  logRateState,
-  hasMoreHistory,
-  isLoadingHistory,
-  logStorageStats,
-  logViewOffset,
-  subsystemLevels,
-  actualLogLevels,
-  isLoadingLevels,
-  doFetchLogSubsystems,
-  doFetchLogLevels,
-  doSetLogLevel,
-  doStartLogStreaming,
-  doStopLogStreaming,
-  doClearLogEntries,
-  doUpdateLogBufferConfig,
-  doLoadHistoricalLogs,
-  doUpdateStorageStats,
-  doGoToLatestLogs
-}) => {
+const LogsScreen = () => {
   const { t } = useTranslation('diagnostics')
+  const {
+    entries: logEntries,
+    subsystems: logSubsystems,
+    isStreaming: isLogStreaming,
+    globalLogLevel,
+    isLoadingSubsystems,
+    bufferConfig: logBufferConfig,
+    rateState: logRateState,
+    hasMoreHistory,
+    isLoadingHistory,
+    storageStats: logStorageStats,
+    viewOffset: logViewOffset,
+    subsystemLevels,
+    actualLogLevels,
+    isLoadingLevels,
+    fetchSubsystems: doFetchLogSubsystems,
+    fetchLogLevels: doFetchLogLevels,
+    setLogLevel: doSetLogLevel,
+    startStreaming: doStartLogStreaming,
+    stopStreaming: doStopLogStreaming,
+    clearEntries: doClearLogEntries,
+    updateBufferConfig: doUpdateLogBufferConfig,
+    loadHistoricalLogs: doLoadHistoricalLogs,
+    updateStorageStats: doUpdateStorageStats,
+    goToLatestLogs: doGoToLatestLogs
+  } = useLogs()
 
   // Component state
   const [warningModal, setWarningModal] = useState({ isOpen: false, type: null })
@@ -568,30 +569,4 @@ const LogsScreen = ({
   )
 }
 
-export default createConnectedComponent(
-  LogsScreen,
-  'selectLogEntries',
-  'selectLogSubsystems',
-  'selectIsLogStreaming',
-  'selectGlobalLogLevel',
-  'selectIsLoadingSubsystems',
-  'selectLogBufferConfig',
-  'selectLogRateState',
-  'selectHasMoreHistory',
-  'selectIsLoadingHistory',
-  'selectLogStorageStats',
-  'selectLogViewOffset',
-  'selectSubsystemLevels',
-  'selectActualLogLevels',
-  'selectIsLoadingLevels',
-  'doFetchLogSubsystems',
-  'doFetchLogLevels',
-  'doSetLogLevel',
-  'doStartLogStreaming',
-  'doStopLogStreaming',
-  'doClearLogEntries',
-  'doUpdateLogBufferConfig',
-  'doLoadHistoricalLogs',
-  'doUpdateStorageStats',
-  'doGoToLatestLogs'
-)
+export default LogsScreen

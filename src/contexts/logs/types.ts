@@ -1,0 +1,194 @@
+import type React from 'react'
+
+/**
+ * Log entry data structure
+ */
+export interface LogEntry {
+  timestamp: string
+  level: string
+  subsystem: string
+  message: string
+  id?: string
+}
+
+/**
+ * Log subsystem data structure
+ */
+export interface LogSubsystem {
+  name: string
+  level: string
+}
+
+/**
+ * Log buffer configuration
+ */
+export interface LogBufferConfig {
+  memory: number
+  indexedDB: number
+  warnThreshold: number
+  autoDisableThreshold: number
+}
+
+/**
+ * Log rate state for monitoring
+ */
+export interface LogRateState {
+  currentRate: number
+  recentCounts: Array<{ second: number; count: number }>
+  lastCountTime: number
+  hasWarned: boolean
+  autoDisabled: boolean
+}
+
+/**
+ * Storage statistics - matches log-storage.ts interface
+ */
+export interface LogStorageStats {
+  totalEntries: number
+  estimatedSize: number
+  oldestTimestamp?: string | null
+  newestTimestamp?: string | null
+}
+
+/**
+ * Logs context value
+ */
+export interface LogsContextValue {
+  // Log entries and streaming
+  entries: LogEntry[]
+  isStreaming: boolean
+  hasMoreHistory: boolean
+  isLoadingHistory: boolean
+  viewOffset: number
+
+  // Log levels
+  globalLogLevel: string
+  subsystemLevels: Record<string, string>
+  actualLogLevels: Record<string, string>
+  isLoadingLevels: boolean
+
+  // Subsystems
+  subsystems: LogSubsystem[]
+  isLoadingSubsystems: boolean
+
+  // Configuration and monitoring
+  bufferConfig: LogBufferConfig
+  rateState: LogRateState
+  storageStats: LogStorageStats | null
+
+  // Actions
+  startStreaming: () => void
+  stopStreaming: () => void
+  clearEntries: () => void
+  setLogLevel: (subsystem: string, level: string) => void
+  updateBufferConfig: (config: Partial<LogBufferConfig>) => void
+  loadHistoricalLogs: (beforeTimestamp?: string, limit?: number) => void
+  goToLatestLogs: () => void
+  fetchSubsystems: () => void
+  fetchLogLevels: () => void
+  updateStorageStats: () => void
+}
+
+/**
+ * Logs state for the reducer
+ */
+export interface LogsState {
+  entries: LogEntry[]
+  isStreaming: boolean
+  globalLogLevel: string
+  streamController: AbortController | null
+  bufferConfig: LogBufferConfig
+  rateState: LogRateState
+  hasMoreHistory: boolean
+  isLoadingHistory: boolean
+  storageStats: LogStorageStats | null
+  pendingBatch: LogEntry[]
+  batchTimeout: number | null
+  viewOffset: number
+  subsystemLevels: Record<string, string>
+  actualLogLevels: Record<string, string>
+  isLoadingLevels: boolean
+  subsystems: LogSubsystem[]
+  isLoadingSubsystems: boolean
+}
+
+/**
+ * Actions for the logs reducer
+ */
+export type LogsAction =
+  | { type: 'SET_LEVEL'; subsystem: string; level: string }
+  | { type: 'START_STREAMING'; controller: AbortController }
+  | { type: 'STOP_STREAMING' }
+  | { type: 'ADD_ENTRY'; entry: LogEntry }
+  | { type: 'ADD_BATCH'; entries: LogEntry[] }
+  | { type: 'CLEAR_ENTRIES' }
+  | { type: 'UPDATE_BUFFER_CONFIG'; config: Partial<LogBufferConfig> }
+  | { type: 'UPDATE_RATE_STATE'; rateState: Partial<LogRateState> }
+  | { type: 'LOAD_HISTORY'; logs: LogEntry[]; maxEntries: number }
+  | { type: 'SET_LOADING_HISTORY'; loading: boolean }
+  | { type: 'UPDATE_STORAGE_STATS'; stats: LogStorageStats }
+  | { type: 'SET_HAS_MORE_HISTORY'; hasMore: boolean }
+  | { type: 'LOAD_LATEST'; logs: LogEntry[]; hasMoreHistory: boolean }
+  | { type: 'SHOW_WARNING' }
+  | { type: 'AUTO_DISABLE' }
+  | { type: 'FETCH_LEVELS' }
+  | { type: 'UPDATE_LEVELS'; levels: Record<string, string> }
+  | { type: 'FETCH_SUBSYSTEMS' }
+  | { type: 'UPDATE_SUBSYSTEMS'; subsystems: LogSubsystem[] }
+
+/**
+ * Default buffer configuration
+ */
+export const DEFAULT_BUFFER_CONFIG: LogBufferConfig = {
+  memory: 500,
+  indexedDB: 10000,
+  warnThreshold: 100,
+  autoDisableThreshold: 500
+}
+
+/**
+ * Default rate state
+ */
+export const DEFAULT_RATE_STATE: LogRateState = {
+  currentRate: 0,
+  recentCounts: [],
+  lastCountTime: Date.now(),
+  hasWarned: false,
+  autoDisabled: false
+}
+
+/**
+ * Logs Provider Props
+ */
+export interface LogsProviderProps {
+  children: React.ReactNode
+  ipfs?: any
+  ipfsConnected?: boolean
+}
+
+/**
+ * API Response types for type safety
+ */
+export interface LogLevelsResponse {
+  Levels: Record<string, string>
+}
+
+/**
+ * Raw log entry from IPFS API (before parsing)
+ */
+export interface RawLogEntry {
+  ts?: string
+  timestamp?: string
+  level?: string
+  system?: string
+  logger?: string
+  msg?: string
+  message?: string
+}
+
+/**
+ * Batch processor interface
+ */
+export interface BatchProcessor {
+  addEntry: (entry: LogEntry) => void
+}
