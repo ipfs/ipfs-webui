@@ -87,6 +87,7 @@ export interface LogsContextValue {
   fetchSubsystems: () => void
   fetchLogLevels: () => void
   updateStorageStats: () => void
+  showWarning: () => void
 }
 
 /**
@@ -131,6 +132,7 @@ export type LogsAction =
   | { type: 'LOAD_LATEST'; logs: LogEntry[]; hasMoreHistory: boolean }
   | { type: 'SHOW_WARNING' }
   | { type: 'AUTO_DISABLE' }
+  | { type: 'RESET_WARNING' }
   | { type: 'FETCH_LEVELS' }
   | { type: 'UPDATE_LEVELS'; levels: Record<string, string> }
   | { type: 'FETCH_SUBSYSTEMS' }

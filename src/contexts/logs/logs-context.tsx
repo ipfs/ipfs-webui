@@ -25,11 +25,19 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
   const batchProcessor = useBatchProcessor(
     useCallback((entries) => dispatch({ type: 'ADD_BATCH', entries }), []),
     state.bufferConfig,
-    useCallback((currentRate: number, recentCounts: Array<{ second: number; count: number }>) => {
+    useCallback((currentRate: number, recentCounts: Array<{ second: number; count: number }>, stats?: any) => {
       dispatch({
         type: 'UPDATE_RATE_STATE',
         rateState: { currentRate, recentCounts }
       })
+
+      // Update storage stats if provided
+      if (stats) {
+        dispatch({ type: 'UPDATE_STORAGE_STATS', stats })
+      }
+    }, []),
+    useCallback(() => {
+      dispatch({ type: 'AUTO_DISABLE' })
     }, [])
   )
 
@@ -248,12 +256,20 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     }
   }, [])
 
+  const showWarning = useCallback(() => {
+    dispatch({ type: 'SHOW_WARNING' })
+  }, [])
+
   // Mount/unmount and bootstrap effect
   useEffect(() => {
+    // Update storage config with current buffer settings
+    logStorage.updateConfig({ maxEntries: state.bufferConfig.indexedDB })
+    console.log('Updated storage config to maxEntries:', state.bufferConfig.indexedDB)
+
     return () => {
       isMounted.current = false
     }
-  }, [])
+  }, [state.bufferConfig.indexedDB])
 
   // Initialize log storage and bootstrap data
   useEffect(() => {
@@ -297,7 +313,8 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     goToLatestLogs: goToLatestLogsInternal,
     fetchSubsystems: fetchSubsystemsInternal,
     fetchLogLevels: fetchLogLevelsInternal,
-    updateStorageStats: updateStorageStatsInternal
+    updateStorageStats: updateStorageStatsInternal,
+    showWarning
   }), [
     startStreaming,
     stopStreaming,
@@ -308,7 +325,8 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     goToLatestLogsInternal,
     fetchSubsystemsInternal,
     fetchLogLevelsInternal,
-    updateStorageStatsInternal
+    updateStorageStatsInternal,
+    showWarning
   ])
 
   // Combine state and actions - React will optimize this automatically

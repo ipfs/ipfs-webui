@@ -34,7 +34,8 @@ const LogsScreen = () => {
     updateBufferConfig: doUpdateLogBufferConfig,
     loadHistoricalLogs: doLoadHistoricalLogs,
     updateStorageStats: doUpdateStorageStats,
-    goToLatestLogs: doGoToLatestLogs
+    goToLatestLogs: doGoToLatestLogs,
+    showWarning: doShowWarning
   } = useLogs()
 
   // Component state
@@ -77,6 +78,8 @@ const LogsScreen = () => {
         !logRateState.autoDisabled &&
         isLogStreaming) {
       setWarningModal({ isOpen: true, type: 'high-rate' })
+      // Mark that warning has been shown to prevent it from showing again
+      doShowWarning()
     }
   }, [logRateState, logBufferConfig, isLogStreaming])
 
@@ -233,7 +236,7 @@ const LogsScreen = () => {
 
   const getLogRangeDisplay = () => {
     if (!logStorageStats || safeLogEntries.length === 0) {
-      return `Log Entries (${safeLogEntries.length})`
+      return t('logs.storage.logEntriesCount', { count: safeLogEntries.length })
     }
 
     const totalEntries = logStorageStats.totalEntries
@@ -244,13 +247,21 @@ const LogsScreen = () => {
       const rangeStart = Math.max(1, totalEntries - currentCount + 1)
       const rangeEnd = totalEntries
 
-      return `Log Entries (${currentCount}) (showing ${rangeStart.toLocaleString()}-${rangeEnd.toLocaleString()} of ${totalEntries.toLocaleString()})`
+      return t('logs.storage.logEntriesRange', {
+        total: totalEntries.toLocaleString(),
+        start: rangeStart.toLocaleString(),
+        end: rangeEnd.toLocaleString()
+      })
     } else {
       // Showing historical logs - the range is based on our position in history
       const rangeEnd = totalEntries - logViewOffset
       const rangeStart = Math.max(1, rangeEnd - currentCount + 1)
 
-      return `Log Entries (${currentCount}) (showing ${rangeStart.toLocaleString()}-${rangeEnd.toLocaleString()} of ${totalEntries.toLocaleString()})`
+      return t('logs.storage.logEntriesRange', {
+        total: totalEntries.toLocaleString(),
+        start: rangeStart.toLocaleString(),
+        end: rangeEnd.toLocaleString()
+      })
     }
   }
 

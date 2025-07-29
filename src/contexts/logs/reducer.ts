@@ -4,10 +4,10 @@ import { LogsState, LogsAction, LogRateState, LogBufferConfig } from './types'
  * Default buffer configuration
  */
 export const DEFAULT_BUFFER_CONFIG: LogBufferConfig = {
-  memory: 500,
-  indexedDB: 10000,
-  warnThreshold: 100,
-  autoDisableThreshold: 500
+  memory: 10_000, // Keep last 10k entries in memory
+  indexedDB: 200_000, // Store up to 200k entries in IndexedDB
+  warnThreshold: 1_000,
+  autoDisableThreshold: 6_000
 }
 
 /**
@@ -79,8 +79,8 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
         viewOffset: 0,
         rateState: {
           ...state.rateState,
-          hasWarned: false,
           autoDisabled: false
+          // Don't reset hasWarned - let it persist across streaming sessions
         }
       }
     }
@@ -229,6 +229,16 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
         rateState: {
           ...state.rateState,
           autoDisabled: true
+        }
+      }
+    }
+
+    case 'RESET_WARNING': {
+      return {
+        ...state,
+        rateState: {
+          ...state.rateState,
+          hasWarned: false
         }
       }
     }

@@ -9,7 +9,8 @@ import { logStorage } from '../../lib/log-storage'
 export function useBatchProcessor (
   onBatch: (entries: LogEntry[]) => void,
   bufferConfig: LogBufferConfig,
-  onRateUpdate?: (rate: number, counts: Array<{ second: number; count: number }>) => void
+  onRateUpdate?: (rate: number, counts: Array<{ second: number; count: number }>, stats?: any) => void,
+  onAutoDisable?: () => void
 ) {
   // Use refs to hold mutable state that doesn't trigger re-renders
   const controllerRef = useRef<AbortController | null>(null)
@@ -17,7 +18,6 @@ export function useBatchProcessor (
   const lastBatchTimeRef = useRef(Date.now())
   const entryCountsRef = useRef<Array<{ second: number; count: number }>>([])
   const batchTimeoutRef = useRef<number | null>(null)
-  const hasWarnedRef = useRef(false)
   const autoDisabledRef = useRef(false)
 
   const processBatch = useCallback(async () => {
@@ -59,18 +59,29 @@ export function useBatchProcessor (
     if (currentRate > bufferConfig.autoDisableThreshold && !autoDisabledRef.current) {
       console.warn(`Log rate too high (${currentRate.toFixed(1)}/s), auto-disabling streaming`)
       autoDisabledRef.current = true
+      if (onAutoDisable) {
+        onAutoDisable()
+      }
     }
 
-    if (currentRate > bufferConfig.warnThreshold && !hasWarnedRef.current && !autoDisabledRef.current) {
-      console.warn(`High log rate detected: ${currentRate.toFixed(1)} logs/second`)
-      hasWarnedRef.current = true
-    }
+    // Note: Warning state is managed by the context, not here
+    // The context will check the rate and show warnings appropriately
 
-    // Store in IndexedDB (async, don't wait)
+    // Store in IndexedDB (async, don't wait) - append new entries and remove old ones if needed
     try {
-      logStorage.appendLogs(entries).catch(error => {
-        console.warn('Failed to store logs in IndexedDB:', error)
-      })
+      // Always append new entries - the storage layer will handle circular buffer behavior
+      await logStorage.appendLogs(entries)
+
+      // Update storage stats after adding entries
+      try {
+        const updatedStats = await logStorage.getStorageStats()
+        if (onRateUpdate) {
+          // Pass updated stats via the rate update callback
+          onRateUpdate(currentRate, [...entryCountsRef.current], updatedStats)
+        }
+      } catch (error) {
+        console.warn('Failed to update storage stats:', error)
+      }
     } catch (error) {
       console.warn('Failed to store logs in IndexedDB:', error)
     }
@@ -78,12 +89,11 @@ export function useBatchProcessor (
     // Call the batch callback
     onBatch(entries)
     lastBatchTimeRef.current = now
-  }, [onBatch, bufferConfig, onRateUpdate])
+  }, [onBatch, bufferConfig, onRateUpdate, onAutoDisable])
 
   const start = useCallback((controller: AbortController) => {
     controllerRef.current = controller
     // Reset rate counters when starting
-    hasWarnedRef.current = false
     autoDisabledRef.current = false
     entryCountsRef.current = []
     lastBatchTimeRef.current = Date.now()
