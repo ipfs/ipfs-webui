@@ -34,8 +34,8 @@ const ChangeLogLevelForm = ({ t, ipfsInitFailed, ipfsLogLevel, ipfsLogLevelError
   return (
     <form onSubmit={onSubmit}>
       <input
-        id='api-address'
-        aria-label={t('terms.apiAddress')}
+        id='log-level'
+        aria-label={t('terms.logLevel')}
         placeholder={t('changeLogLevelForm.placeholder')}
         type='text'
         className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
