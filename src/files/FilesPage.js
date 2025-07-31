@@ -14,6 +14,7 @@ import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
 import FilesGrid from './files-grid/files-grid.js'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
+import FileNotFound from './file-not-found/FileNotFound.tsx'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
@@ -357,7 +358,7 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
-      <Preview files={files} onDownload={() => onDownload([files])} />
+      <Preview files={files} path={filesPathInfo.path} t={t} onDownload={() => onDownload([files])} />
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
@@ -393,11 +394,14 @@ const FilesPage = ({
   )
 }
 
-const Preview = ({ files, onDownload }) => {
+const Preview = ({ files, path, t, onDownload }) => {
   if (files && files.type === 'file') {
     return (<FilePreview {...files} onDownload={onDownload} />)
   }
-  return (<div/>)
+
+  return (
+    <FileNotFound path={path} t={t} />
+  )
 }
 
 export default connect(
