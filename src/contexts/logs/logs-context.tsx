@@ -1,9 +1,12 @@
-import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, useRef } from 'react'
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, useRef, useState } from 'react'
 import { LogBufferConfig, LogsContextValue, LogsProviderProps } from './types'
 import { logsReducer, initLogsState } from './reducer'
 import { getLogLevels, parseLogEntry, fetchLogSubsystems } from './api'
 import { useBatchProcessor } from './batch-processor'
 import { logStorage } from '../../lib/log-storage'
+import { BufferedCursor } from 'buffered-cursor'
+import { FetchOptions, timestampStrategy } from 'buffered-cursor/strategies'
+import type { LogEntry } from '../../lib/log-storage'
 
 /**
  * Logs context
@@ -20,6 +23,10 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
 
   // Use ref for mount status to avoid stale closures
   const isMounted = useRef(true)
+
+  // Buffered cursor for efficient log loading
+  const [cursor, setCursor] = useState<BufferedCursor<any, Date> | null>(null)
+  const [displayEntries, setDisplayEntries] = useState<LogEntry[]>([])
 
   // Use the improved batch processor hook
   const batchProcessor = useBatchProcessor(
@@ -229,14 +236,21 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
   }, [state.bufferConfig.memory])
 
   const loadRecentLogs = useCallback(async (afterTimestamp: string, limit = 100) => {
+    console.log('loadRecentLogs called with:', { afterTimestamp, limit })
     dispatch({ type: 'SET_LOADING_HISTORY', loading: true })
 
     try {
       const recentLogs = await logStorage.getLogsAfter(afterTimestamp, limit)
+      console.log('loadRecentLogs got:', recentLogs.length, 'logs')
 
       if (recentLogs.length > 0) {
-        // If we got fewer logs than requested, we might be at the latest
-        const reachedLatest = recentLogs.length < limit
+        // Check if there are more logs available after the ones we just loaded
+        // by trying to get one more log after the last one we received
+        const lastLog = recentLogs[recentLogs.length - 1]
+        const moreLogsAfter = await logStorage.getLogsAfter(lastLog.timestamp, 1)
+        const reachedLatest = moreLogsAfter.length === 0
+
+        console.log('loadRecentLogs dispatching LOAD_RECENT with reachedLatest:', reachedLatest, 'logs:', recentLogs.length, 'lastTimestamp:', lastLog.timestamp, 'moreLogsAfter:', moreLogsAfter.length)
 
         dispatch({
           type: 'LOAD_RECENT',
@@ -246,6 +260,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
         })
       } else {
         // No more recent logs, we're at the latest
+        console.log('loadRecentLogs: no more recent logs, setting viewOffset to 0')
         dispatch({ type: 'SET_VIEW_OFFSET', offset: 0 })
       }
     } catch (error) {
@@ -291,6 +306,10 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     dispatch({ type: 'MERGE_STREAM_BUFFER' })
   }, [])
 
+  const setViewOffset = useCallback((offset: number) => {
+    dispatch({ type: 'SET_VIEW_OFFSET', offset })
+  }, [])
+
   // Compute GOLOG_LOG_LEVEL equivalent string
   const gologLevelString = useMemo(() => {
     // Only calculate if log levels have been loaded
@@ -312,6 +331,49 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
 
     return parts.join(',')
   }, [state.isLoadingLevels, state.actualLogLevels, state.globalLogLevel, state.subsystems, state.subsystemLevels])
+
+  // Initialize buffered cursor
+  useEffect(() => {
+    async function initializeCursor () {
+      try {
+        await logStorage.init()
+
+        const cur = new BufferedCursor<LogEntry, Date>({
+          strategy: timestampStrategy<LogEntry>(async (key: Date | null, opts: FetchOptions<Date>) => {
+            // if (key === null) {
+            //   const recentLogs = await logStorage.getRecentLogs(opts.limit)
+            //   return recentLogs.map(r => ({ ts: new Date(r.timestamp), value: r }))
+            // }
+            console.log('timestampStrategy called with:', { key, opts })
+            const timestamp = key?.toISOString() ?? new Date().toISOString()
+            let rows: LogEntry[]
+            if (opts.direction === 'before') {
+              rows = await logStorage.getLogsBefore(timestamp, opts.limit)
+            } else {
+              rows = await logStorage.getLogsAfter(timestamp, opts.limit)
+            }
+            const cursorItems = rows.reverse().map(r => ({ ts: new Date(r.timestamp), value: r }))
+
+            // dispatch({ type: 'LOAD_HISTORY', logs: rows, maxEntries: state.bufferConfig.memory })
+            return cursorItems
+          }),
+          pageSize: Math.floor(state.bufferConfig.memory / 2),
+          retentionPages: 2
+        })
+
+        // bootstrap will call fetch(null, after) → fill initial window
+        console.log('bootstrapping cursor with direction:', 'before')
+        await cur.bootstrap('before')
+        console.log('cursor toArray:', cur.toArray())
+        setDisplayEntries(cur.toArray().map(e => e.value))
+        setCursor(cur)
+      } catch (error) {
+        console.error('Failed to initialize cursor:', error)
+      }
+    }
+
+    initializeCursor()
+  }, [state.bufferConfig.memory])
 
   // Mount/unmount and bootstrap effect
   useEffect(() => {
@@ -359,7 +421,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     }
   }, [ipfsConnected, ipfs, fetchSubsystemsInternal, fetchLogLevelsInternal, updateStorageStatsInternal, goToLatestLogsInternal])
 
-  // Group related actions for cleaner context value assembly
+  // Provide a memoized actions object to prevent unnecessary re-renders
   const logActions = useMemo(() => ({
     startStreaming,
     stopStreaming,
@@ -373,7 +435,8 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     fetchLogLevels: fetchLogLevelsInternal,
     updateStorageStats: updateStorageStatsInternal,
     showWarning,
-    mergeStreamBuffer
+    mergeStreamBuffer,
+    setViewOffset
   }), [
     startStreaming,
     stopStreaming,
@@ -387,15 +450,30 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     fetchLogLevelsInternal,
     updateStorageStatsInternal,
     showWarning,
-    mergeStreamBuffer
+    mergeStreamBuffer,
+    setViewOffset
   ])
+
+  const updateDisplayEntries = useCallback(() => {
+    if (cursor != null) {
+      setDisplayEntries(cursor.toArray().map(e => e.value))
+    }
+  }, [cursor])
 
   // Combine state, computed values, and actions - React will optimize this automatically
   const contextValue: LogsContextValue = {
     ...state,
     ...logActions,
-    gologLevelString
+    gologLevelString,
+    cursor,
+    displayEntries,
+    updateDisplayEntries
+    // displayEntries: cursor?.toArray().sort((a, b) => a.key.getTime() - b.key.getTime()).map(e => e.value) ?? []
   }
+
+  useEffect(() => {
+    console.log('displayEntries changed:', displayEntries)
+  }, [displayEntries])
 
   return (
     <LogsContext.Provider value={contextValue}>
@@ -412,6 +490,7 @@ export function useLogs (): LogsContextValue {
   if (context === undefined) {
     throw new Error('useLogs must be used within a LogsProvider')
   }
+
   return context
 }
 

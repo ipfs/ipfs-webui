@@ -59,6 +59,7 @@ export function initLogsState (): LogsState {
  * Logs reducer with immutable state updates
  */
 export function logsReducer (state: LogsState, action: LogsAction): LogsState {
+  console.log('logsReducer called with action "%s":', action.type, action)
   switch (action.type) {
     case 'SET_LEVEL': {
       if (action.subsystem === 'all') {
@@ -173,47 +174,75 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
       }
     }
 
-    case 'LOAD_HISTORY': {
-      const { logs: historicalEntries, maxEntries } = action
-      // Sliding window: add to top, trim from bottom to maintain max size
-      const newEntries = [...historicalEntries, ...state.displayEntries]
-      // Sort by timestamp to ensure chronological order
-      const sortedEntries = newEntries.sort((a, b) =>
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-      )
-      const trimmedEntries = sortedEntries.slice(0, maxEntries)
+    // case 'LOAD_HISTORY': {
+    //   const { logs: historicalEntries, maxEntries } = action
+    //   // Sliding window: add to top, trim from bottom to maintain max size
+    //   const newEntries = [...historicalEntries, ...state.displayEntries]
+    //   // Sort by timestamp to ensure chronological order
+    //   const sortedEntries = newEntries.sort((a, b) =>
+    //     new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+    //   )
+    //   const trimmedEntries = sortedEntries.slice(0, maxEntries)
 
-      // Update view offset to track position in timeline
-      const newOffset = state.viewOffset + historicalEntries.length
+    //   // Update view offset to track position in timeline
+    //   const newOffset = state.viewOffset + historicalEntries.length
 
-      return {
-        ...state,
-        displayEntries: trimmedEntries,
-        isLoadingHistory: false,
-        viewOffset: newOffset
-      }
-    }
+    //   return {
+    //     ...state,
+    //     displayEntries: trimmedEntries,
+    //     isLoadingHistory: false,
+    //     viewOffset: newOffset
+    //   }
+    // }
 
-    case 'LOAD_RECENT': {
-      const { logs: recentEntries, maxEntries, reachedLatest } = action
-      // Add recent logs to the end of current entries
-      const newEntries = [...state.displayEntries, ...recentEntries]
-      // Sort by timestamp to ensure chronological order
-      const sortedEntries = newEntries.sort((a, b) =>
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-      )
-      const trimmedEntries = sortedEntries.slice(-maxEntries)
+    // case 'LOAD_RECENT': {
+    //   const { logs: recentEntries, maxEntries, reachedLatest } = action
+    //   console.log('LOAD_RECENT reducer:', {
+    //     currentEntries: state.displayEntries.length,
+    //     recentEntries: recentEntries.length,
+    //     maxEntries,
+    //     reachedLatest,
+    //     currentViewOffset: state.viewOffset
+    //   })
 
-      // If we reached latest, reset view offset to 0
-      const newOffset = reachedLatest ? 0 : Math.max(0, state.viewOffset - recentEntries.length)
+    //   // Add recent logs to the end of current entries
+    //   const newEntries = [...state.displayEntries, ...recentEntries]
+    //   // Sort by timestamp to ensure chronological order
+    //   const sortedEntries = newEntries.sort((a, b) =>
+    //     new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+    //   )
 
-      return {
-        ...state,
-        displayEntries: trimmedEntries,
-        isLoadingHistory: false,
-        viewOffset: newOffset
-      }
-    }
+    //   // When loading recent logs, prioritize keeping the newest entries
+    //   // This ensures that when you're at the bottom, you see the most recent logs
+    //   const finalEntries = sortedEntries.length > maxEntries
+    //     ? sortedEntries.slice(-maxEntries) // Keep the newest entries
+    //     : sortedEntries
+
+    //   // If we reached latest, reset view offset to 0
+    //   // Otherwise, keep the same view offset since we're just replacing old entries with new ones
+    //   const newOffset = reachedLatest ? 0 : state.viewOffset
+
+    //   console.log('LOAD_RECENT result:', {
+    //     finalEntriesCount: finalEntries.length,
+    //     newOffset,
+    //     reachedLatest,
+    //     totalNewEntries: sortedEntries.length,
+    //     keptEntries: finalEntries.length,
+    //     removedEntries: sortedEntries.length - finalEntries.length,
+    //     oldestTimestamp: finalEntries[0]?.timestamp,
+    //     newestTimestamp: finalEntries[finalEntries.length - 1]?.timestamp,
+    //     // Also show the timestamps of the new entries that were loaded
+    //     newEntriesOldest: recentEntries[0]?.timestamp,
+    //     newEntriesNewest: recentEntries[recentEntries.length - 1]?.timestamp
+    //   })
+
+    //   return {
+    //     ...state,
+    //     displayEntries: finalEntries,
+    //     isLoadingHistory: false,
+    //     viewOffset: newOffset
+    //   }
+    // }
 
     case 'SET_LOADING_HISTORY': {
       return {

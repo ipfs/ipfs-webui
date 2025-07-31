@@ -1,4 +1,5 @@
 import type React from 'react'
+import type { BufferedCursor } from 'buffered-cursor'
 
 /**
  * Log entry data structure
@@ -56,12 +57,14 @@ export interface LogStorageStats {
 export interface LogsContextValue {
   // Log entries and streaming
   displayEntries: LogEntry[] // What's shown in UI
+  updateDisplayEntries: () => void
   streamBuffer: LogEntry[] // Background buffer for new streaming logs
   newLogsCount: number // Count of new logs in buffer while viewing history
   isStreaming: boolean
   hasMoreHistory: boolean
   isLoadingHistory: boolean
   viewOffset: number
+  setViewOffset: (offset: number) => void
 
   // Log levels
   globalLogLevel: string
@@ -80,6 +83,9 @@ export interface LogsContextValue {
 
   // Computed values
   gologLevelString: string | null
+
+  // Buffered cursor for efficient loading
+  cursor: BufferedCursor<LogEntry, Date> | null
 
   // Actions
   startStreaming: () => void

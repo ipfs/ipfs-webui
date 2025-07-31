@@ -36,6 +36,7 @@ export class LogStorage {
   private db: IDBDatabase | null = null
   private config: LogStorageConfig
   private initPromise: Promise<void> | null = null
+  private _lastUpdateTime: number = Date.now()
 
   constructor (config: Partial<LogStorageConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config }
@@ -109,6 +110,8 @@ export class LogStorage {
 
     // Implement circular buffer - remove old entries if we exceed maxEntries
     await this.enforceMaxEntries()
+
+    this.markUpdated()
   }
 
   /**
@@ -118,7 +121,7 @@ export class LogStorage {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
-    return new Promise((resolve, reject) => {
+    return new Promise<LogEntry[]>((resolve, reject) => {
       const transaction = this.db!.transaction([this.config.storeName], 'readonly')
       const store = transaction.objectStore('log-entries')
       const index = store.index('timestamp')
@@ -149,7 +152,7 @@ export class LogStorage {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
-    return new Promise((resolve, reject) => {
+    return new Promise<LogEntry[]>((resolve, reject) => {
       const transaction = this.db!.transaction([this.config.storeName], 'readonly')
       const store = transaction.objectStore('log-entries')
       const index = store.index('timestamp')
@@ -180,7 +183,7 @@ export class LogStorage {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
-    return new Promise((resolve, reject) => {
+    return new Promise<LogEntry[]>((resolve, reject) => {
       const transaction = this.db!.transaction([this.config.storeName], 'readonly')
       const store = transaction.objectStore('log-entries')
       const index = store.index('timestamp')
@@ -195,7 +198,7 @@ export class LogStorage {
           results.push(cursor.value)
           cursor.continue()
         } else {
-          resolve(results.reverse()) // Return in chronological order
+          resolve(results) // Return in chronological order
         }
       }
 
@@ -215,7 +218,7 @@ export class LogStorage {
     // Count total entries
     const countRequest = store.count()
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       countRequest.onsuccess = () => {
         const totalCount = countRequest.result
 
@@ -246,6 +249,8 @@ export class LogStorage {
       }
 
       countRequest.onerror = () => reject(countRequest.error)
+    }).finally(() => {
+      this.markUpdated()
     })
   }
 
@@ -324,13 +329,15 @@ export class LogStorage {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const transaction = this.db!.transaction([this.config.storeName], 'readwrite')
       const store = transaction.objectStore('log-entries')
       const request = store.clear()
 
       request.onsuccess = () => resolve()
       request.onerror = () => reject(request.error)
+    }).finally(() => {
+      this.markUpdated()
     })
   }
 
@@ -342,6 +349,36 @@ export class LogStorage {
     // Reset init promise to force reinitialization
     this.initPromise = null
     this.db = null
+    console.log('logStorage updated config', this.config)
+  }
+
+  /**
+   * Get the number of entries in the storage
+   */
+  async size (): Promise<number> {
+    if (!this.db) return Promise.resolve(0)
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db!.transaction([this.config.storeName], 'readonly')
+      const objectStore = transaction.objectStore(this.config.storeName)
+      const countRequest = objectStore.count()
+
+      countRequest.onsuccess = () => {
+        resolve(countRequest.result)
+      }
+
+      countRequest.onerror = () => {
+        reject(countRequest.error)
+      }
+    })
+  }
+
+  private markUpdated (): void {
+    this._lastUpdateTime = Date.now()
+  }
+
+  lastUpdateTime (): number {
+    return this._lastUpdateTime
   }
 
   /**
