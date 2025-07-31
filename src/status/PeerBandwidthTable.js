@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next'
 import PropTypes from 'prop-types'
 import { humanSize } from '../lib/files.js'
 import CountryFlag from 'react-country-flag'
-import Box from '../components/box/Box.js'
+import Box from '../components/box/Box'
 import { Title } from './Commons.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
