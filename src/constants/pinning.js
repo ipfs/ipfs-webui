@@ -46,8 +46,8 @@ const pinningServiceTemplates = [
   }
 ].map((service) => {
   try {
-    const domain = new URL(service.apiEndpoint).hostname
-    service.complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
+    const domain = new URL(service.apiEndpoint).hostname;
+    /** @type {PinningServiceTemplate} */ (service).complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
   } catch (e) {
     // if apiEndpoint is not a valid URL, don't add complianceReportUrl
     // TODO: fix support for template apiEndpoints
