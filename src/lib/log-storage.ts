@@ -112,68 +112,6 @@ export class LogStorage {
   }
 
   /**
-   * Get logs before a specific timestamp for infinite scroll
-   */
-  async getLogsBefore (beforeTimestamp: string, limit: number = 100): Promise<LogEntry[]> {
-    await this.init()
-    if (!this.db) throw new Error('Database not initialized')
-
-    return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction([this.config.storeName], 'readonly')
-      const store = transaction.objectStore('log-entries')
-      const index = store.index('timestamp')
-
-      const range = IDBKeyRange.upperBound(beforeTimestamp, true)
-      const request = index.openCursor(range, 'prev') // Reverse order (newest first)
-
-      const results: LogEntry[] = []
-
-      request.onsuccess = () => {
-        const cursor = request.result
-        if (cursor && results.length < limit) {
-          results.push(cursor.value)
-          cursor.continue()
-        } else {
-          resolve(results)
-        }
-      }
-
-      request.onerror = () => reject(request.error)
-    })
-  }
-
-  /**
-   * Get logs after a specific timestamp for loading more recent entries
-   */
-  async getLogsAfter (afterTimestamp: string, limit: number = 100): Promise<LogEntry[]> {
-    await this.init()
-    if (!this.db) throw new Error('Database not initialized')
-
-    return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction([this.config.storeName], 'readonly')
-      const store = transaction.objectStore('log-entries')
-      const index = store.index('timestamp')
-
-      const range = IDBKeyRange.lowerBound(afterTimestamp, true)
-      const request = index.openCursor(range, 'next') // Forward order (oldest first)
-
-      const results: LogEntry[] = []
-
-      request.onsuccess = () => {
-        const cursor = request.result
-        if (cursor && results.length < limit) {
-          results.push(cursor.value)
-          cursor.continue()
-        } else {
-          resolve(results)
-        }
-      }
-
-      request.onerror = () => reject(request.error)
-    })
-  }
-
-  /**
    * Get the most recent logs
    */
   async getRecentLogs (limit: number = 500): Promise<LogEntry[]> {

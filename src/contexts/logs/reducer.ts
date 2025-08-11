@@ -29,8 +29,6 @@ const initialStateShell: Partial<LogsState> = {
   isStreaming: false,
   globalLogLevel: 'info',
   streamController: null,
-  hasMoreHistory: false,
-  isLoadingHistory: false,
   storageStats: null,
   pendingBatch: [],
   batchTimeout: null,
@@ -140,7 +138,6 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
         ...state,
         entries: [],
         pendingBatch: [],
-        hasMoreHistory: false,
         viewOffset: 0
       }
     }
@@ -159,47 +156,6 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
       }
     }
 
-    case 'LOAD_HISTORY': {
-      const { logs: historicalEntries, maxEntries } = action
-      // Sliding window: add to top, trim from bottom to maintain max size
-      const newEntries = [...historicalEntries, ...state.entries]
-      const trimmedEntries = newEntries.slice(0, maxEntries)
-
-      // Update view offset to track position in timeline
-      const newOffset = state.viewOffset + historicalEntries.length
-
-      return {
-        ...state,
-        entries: trimmedEntries,
-        isLoadingHistory: false,
-        viewOffset: newOffset
-      }
-    }
-
-    case 'LOAD_RECENT': {
-      const { logs: recentEntries, maxEntries, reachedLatest } = action
-      // Add recent logs to the end of current entries
-      const newEntries = [...state.entries, ...recentEntries]
-      const trimmedEntries = newEntries.slice(-maxEntries)
-
-      // If we reached latest, reset view offset to 0
-      const newOffset = reachedLatest ? 0 : Math.max(0, state.viewOffset - recentEntries.length)
-
-      return {
-        ...state,
-        entries: trimmedEntries,
-        isLoadingHistory: false,
-        viewOffset: newOffset
-      }
-    }
-
-    case 'SET_LOADING_HISTORY': {
-      return {
-        ...state,
-        isLoadingHistory: action.loading
-      }
-    }
-
     case 'UPDATE_STORAGE_STATS': {
       return {
         ...state,
@@ -207,27 +163,12 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
       }
     }
 
-    case 'SET_HAS_MORE_HISTORY': {
-      return {
-        ...state,
-        hasMoreHistory: action.hasMore
-      }
-    }
-
-    case 'SET_VIEW_OFFSET': {
-      return {
-        ...state,
-        viewOffset: action.offset
-      }
-    }
-
     case 'LOAD_LATEST': {
-      const { logs, hasMoreHistory } = action
+      const { logs } = action
       return {
         ...state,
         entries: logs,
-        viewOffset: 0, // Reset to latest position
-        hasMoreHistory
+        viewOffset: 0 // Reset to latest position
       }
     }
 

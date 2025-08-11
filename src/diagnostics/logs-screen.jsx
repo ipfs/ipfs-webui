@@ -18,8 +18,6 @@ const LogsScreen = () => {
     isLoadingSubsystems,
     bufferConfig: logBufferConfig,
     rateState: logRateState,
-    hasMoreHistory,
-    isLoadingHistory,
     storageStats: logStorageStats,
     viewOffset: logViewOffset,
     subsystemLevels,
@@ -32,8 +30,6 @@ const LogsScreen = () => {
     stopStreaming: doStopLogStreaming,
     clearEntries: doClearLogEntries,
     updateBufferConfig: doUpdateLogBufferConfig,
-    loadHistoricalLogs: doLoadHistoricalLogs,
-    loadRecentLogs: doLoadRecentLogs,
     updateStorageStats: doUpdateStorageStats,
     goToLatestLogs: doGoToLatestLogs,
     showWarning: doShowWarning,
@@ -49,7 +45,6 @@ const LogsScreen = () => {
 
   // Refs for virtual scrolling
   const logContainerRef = useRef(null)
-  const [isAtTop, setIsAtTop] = useState(false)
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true)
 
   // Ensure we have safe defaults for arrays
@@ -84,7 +79,7 @@ const LogsScreen = () => {
       // Mark that warning has been shown to prevent it from showing again
       doShowWarning()
     }
-  }, [logRateState, logBufferConfig, isLogStreaming])
+  }, [logRateState, logBufferConfig, isLogStreaming, doShowWarning])
 
   useEffect(() => {
     if (logRateState.autoDisabled) {
@@ -96,24 +91,6 @@ const LogsScreen = () => {
   useEffect(() => {
     setTempBufferConfig({ ...logBufferConfig, selectedSubsystem: '' })
   }, [logBufferConfig])
-
-  // Handle scroll position after loading historical logs
-  useEffect(() => {
-    if (!isLoadingHistory && logContainerRef.current && safeLogEntries.length > 0) {
-      // After historical logs are loaded, scroll to a position that shows continuity
-      // This ensures smooth infinite scroll experience
-      const container = logContainerRef.current
-      const shouldAutoScroll = container.scrollTop < 100 // Only if user was near top
-
-      if (shouldAutoScroll) {
-        // Scroll down a bit from the top to show some of the newly loaded content
-        // but not so much that it feels jarring
-        setTimeout(() => {
-          container.scrollTop = 150 // Show some historical logs but not overwhelm
-        }, 50)
-      }
-    }
-  }, [isLoadingHistory, safeLogEntries.length])
 
   // Disable auto-scroll when viewing historical logs, enable when at latest
   useEffect(() => {
@@ -140,14 +117,14 @@ const LogsScreen = () => {
 
   // Scroll to bottom when logs are initially loaded on page load
   useEffect(() => {
-    if (safeLogEntries.length > 0 && logViewOffset === 0 && logContainerRef.current && !isLoadingHistory) {
+    if (safeLogEntries.length > 0 && logViewOffset === 0 && logContainerRef.current) {
       const container = logContainerRef.current
       // Longer delay to ensure all rendering is complete
       setTimeout(() => {
         container.scrollTop = container.scrollHeight
       }, 200)
     }
-  }, [safeLogEntries.length, isLoadingHistory, logViewOffset]) // Trigger when entries change and loading is complete
+  }, [safeLogEntries.length, logViewOffset]) // Trigger when entries change and loading is complete
 
   const handleLevelChange = (subsystem, level) => {
     // Check if this is enabling debug globally
@@ -177,41 +154,6 @@ const LogsScreen = () => {
     }
   }
 
-  const handleScrollToTop = useCallback(() => {
-    if (hasMoreHistory && !isLoadingHistory && safeLogEntries.length > 0) {
-      const oldestEntry = safeLogEntries[0]
-      if (oldestEntry?.timestamp) {
-        doLoadHistoricalLogs(oldestEntry.timestamp, 100)
-      }
-    }
-  }, [hasMoreHistory, isLoadingHistory, safeLogEntries, doLoadHistoricalLogs])
-
-  const handleScrollToBottom = useCallback(() => {
-    // When viewing historical logs and scrolling to bottom, load more recent logs
-    if (logViewOffset > 0 && !isLoadingHistory && safeLogEntries.length > 0) {
-      const newestEntry = safeLogEntries[safeLogEntries.length - 1]
-      if (newestEntry?.timestamp) {
-        // Load logs newer than the current newest entry
-        doLoadRecentLogs(newestEntry.timestamp, 100)
-      }
-    }
-  }, [logViewOffset, isLoadingHistory, safeLogEntries, doLoadRecentLogs])
-
-  const handleGoToTop = useCallback(() => {
-    const container = logContainerRef.current
-    if (!container) return
-
-    const isNearTop = container.scrollTop < 50
-
-    // If already at top and there's more history, load more
-    if (isNearTop && hasMoreHistory && !isLoadingHistory) {
-      handleScrollToTop()
-    } else {
-      // Otherwise just scroll to top
-      container.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-  }, [hasMoreHistory, isLoadingHistory, handleScrollToTop])
-
   // Monitor scroll position for infinite scroll and auto-scroll
   const handleScroll = useCallback((e) => {
     e.stopPropagation() // Prevent scroll from bubbling to parent
@@ -220,12 +162,9 @@ const LogsScreen = () => {
     const scrollHeight = container.scrollHeight
     const clientHeight = container.clientHeight
 
-    const isNearTop = scrollTop < 50
     const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50
 
-    setIsAtTop(isNearTop)
-
-    // Only manage auto-scroll when we're at the latest logs (not historical view)
+    // Only manage auto-scroll when we're at the latest logs
     if (logViewOffset === 0) {
       // Enable auto-scroll when user scrolls to bottom
       if (isNearBottom && !autoScrollEnabled) {
@@ -237,16 +176,7 @@ const LogsScreen = () => {
         setAutoScrollEnabled(false)
       }
     }
-
-    if (isNearTop && hasMoreHistory && !isLoadingHistory) {
-      handleScrollToTop()
-    }
-
-    // Load more recent logs when scrolling to bottom (if viewing historical logs)
-    if (isNearBottom && logViewOffset > 0 && !isLoadingHistory) {
-      handleScrollToBottom()
-    }
-  }, [hasMoreHistory, isLoadingHistory, handleScrollToTop, autoScrollEnabled, logViewOffset, handleScrollToBottom])
+  }, [autoScrollEnabled, logViewOffset])
 
   const applyBufferConfig = () => {
     doUpdateLogBufferConfig(tempBufferConfig)
@@ -294,6 +224,7 @@ const LogsScreen = () => {
       })
     } else {
       // Showing historical logs - the range is based on our position in history
+      // This is currently not used, but we may add it back in the future
       const rangeEnd = totalEntries - logViewOffset
       const rangeStart = Math.max(1, rangeEnd - currentCount + 1)
 
@@ -335,7 +266,6 @@ const LogsScreen = () => {
             <Button
               className={`mr2 ${isLogStreaming ? 'bg-red white' : 'bg-green white'}`}
               onClick={isLogStreaming ? doStopLogStreaming : doStartLogStreaming}
-              disabled={logRateState.autoDisabled}
             >
               {isLogStreaming ? t('logs.streaming.stop') : t('logs.streaming.start')}
             </Button>
@@ -537,16 +467,6 @@ const LogsScreen = () => {
             <h3 className='montserrat fw4 charcoal ma0 f5'>
               {getLogRangeDisplay()}
             </h3>
-            {logViewOffset > 0 && (
-              <span className='ml2 f6 pa1 br2 bg-light-yellow charcoal-muted'>
-                {t('logs.entries.historicalView')}
-              </span>
-            )}
-            {logViewOffset > 0 && isLogStreaming && (
-              <span className='ml2 f6 pa1 br2 bg-light-blue charcoal-muted'>
-                {t('logs.entries.newLogsArriving')}
-              </span>
-            )}
             {isLogStreaming && !autoScrollEnabled && logViewOffset === 0 && (
               <span className='ml2 f6 pa1 br2 bg-light-gray charcoal-muted'>
                 {t('logs.entries.autoScrollPaused')}
@@ -557,18 +477,11 @@ const LogsScreen = () => {
           {/* Navigation Controls */}
           <div className='flex gap2'>
             <Button
-              className='bg-blue white f6 pa2'
-              onClick={handleGoToTop}
-              disabled={safeLogEntries.length === 0}
-              title={hasMoreHistory && isAtTop ? t('logs.entries.tooltipLoadMore') : t('logs.entries.tooltipGoToTop')}
-            >
-              {hasMoreHistory && isAtTop ? t('logs.entries.loadMoreHistory') : t('logs.entries.goToTop')}
-            </Button>
-
-            <Button
               className='bg-green white f6 pa2'
               onClick={() => {
-                doGoToLatestLogs()
+                if (logContainerRef.current) {
+                  logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight
+                }
                 setAutoScrollEnabled(true) // Re-enable auto-scroll when going to latest
               }}
               disabled={safeLogEntries.length === 0}
@@ -581,19 +494,10 @@ const LogsScreen = () => {
 
         <div
           ref={logContainerRef}
-          className='ba b--black-20 pa2 bg-near-white f6 overflow-auto relative'
+          className='ba b--black-20 pa2 bg-near-white f6 overflow-auto overflow-x-hidden relative'
           style={{ height: '400px', fontFamily: 'Monaco, Consolas, monospace' }}
           onScroll={handleScroll}
         >
-          {/* Loading indicator when fetching historical logs */}
-          {isLoadingHistory && (
-            <div className='sticky top-0 bg-light-yellow pa2 mb2 tc br2 f6'>
-              <span className='charcoal-muted'>
-                🔄 {t('logs.entries.loadingHistory')}...
-              </span>
-            </div>
-          )}
-
           {safeLogEntries.length === 0
             ? <p className='gray tc pa3'>{t('logs.entries.noEntries')}</p>
             : <div>

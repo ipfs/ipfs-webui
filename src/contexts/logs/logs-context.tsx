@@ -122,10 +122,6 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
 
         const stats = await logStorage.getStorageStats()
         dispatch({ type: 'UPDATE_STORAGE_STATS', stats })
-
-        if (stats.totalEntries > recentLogs.length) {
-          dispatch({ type: 'SET_HAS_MORE_HISTORY', hasMore: true })
-        }
       } catch (error) {
         console.warn('Failed to load recent logs from storage:', error)
       }
@@ -207,65 +203,14 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     }
   }, [])
 
-  const loadHistoricalLogs = useCallback(async (beforeTimestamp?: string, limit = 100) => {
-    dispatch({ type: 'SET_LOADING_HISTORY', loading: true })
-
-    try {
-      // If no timestamp provided, use the oldest timestamp from current entries
-      const timestamp = beforeTimestamp || (state.entries.length > 0 ? state.entries[0].timestamp : new Date().toISOString())
-      const historicalLogs = await logStorage.getLogsBefore(timestamp, limit)
-      dispatch({
-        type: 'LOAD_HISTORY',
-        logs: historicalLogs,
-        maxEntries: state.bufferConfig.memory
-      })
-
-      const hasMoreHistory = historicalLogs.length === limit
-      dispatch({ type: 'SET_HAS_MORE_HISTORY', hasMore: hasMoreHistory })
-    } catch (error) {
-      console.error('Failed to load historical logs:', error)
-      dispatch({ type: 'SET_LOADING_HISTORY', loading: false })
-    }
-  }, [state.bufferConfig.memory, state.entries])
-
-  const loadRecentLogs = useCallback(async (afterTimestamp: string, limit = 100) => {
-    dispatch({ type: 'SET_LOADING_HISTORY', loading: true })
-
-    try {
-      const recentLogs = await logStorage.getLogsAfter(afterTimestamp, limit)
-
-      if (recentLogs.length > 0) {
-        // If we got fewer logs than requested, we might be at the latest
-        const reachedLatest = recentLogs.length < limit
-
-        dispatch({
-          type: 'LOAD_RECENT',
-          logs: recentLogs,
-          maxEntries: state.bufferConfig.memory,
-          reachedLatest
-        })
-      } else {
-        // No more recent logs, we're at the latest
-        dispatch({ type: 'SET_VIEW_OFFSET', offset: 0 })
-      }
-    } catch (error) {
-      console.error('Failed to load recent logs:', error)
-    } finally {
-      dispatch({ type: 'SET_LOADING_HISTORY', loading: false })
-    }
-  }, [state.bufferConfig.memory])
-
   const goToLatestLogsInternal = useCallback(async () => {
     try {
       const latestLogs = await logStorage.getRecentLogs(state.bufferConfig.memory)
       const storageStats = await logStorage.getStorageStats()
 
-      const hasMoreHistory = storageStats.totalEntries > latestLogs.length
-
       dispatch({
         type: 'LOAD_LATEST',
-        logs: latestLogs,
-        hasMoreHistory
+        logs: latestLogs
       })
 
       dispatch({ type: 'UPDATE_STORAGE_STATS', stats: storageStats })
@@ -358,8 +303,6 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     clearEntries,
     setLogLevel,
     updateBufferConfig,
-    loadHistoricalLogs,
-    loadRecentLogs,
     goToLatestLogs: goToLatestLogsInternal,
     fetchSubsystems: fetchSubsystemsInternal,
     fetchLogLevels: fetchLogLevelsInternal,
@@ -371,8 +314,6 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     clearEntries,
     setLogLevel,
     updateBufferConfig,
-    loadHistoricalLogs,
-    loadRecentLogs,
     goToLatestLogsInternal,
     fetchSubsystemsInternal,
     fetchLogLevelsInternal,

@@ -57,8 +57,6 @@ export interface LogsContextValue {
   // Log entries and streaming
   entries: LogEntry[]
   isStreaming: boolean
-  hasMoreHistory: boolean
-  isLoadingHistory: boolean
   viewOffset: number
 
   // Log levels
@@ -85,8 +83,6 @@ export interface LogsContextValue {
   clearEntries: () => void
   setLogLevel: (subsystem: string, level: string) => void
   updateBufferConfig: (config: Partial<LogBufferConfig>) => void
-  loadHistoricalLogs: (beforeTimestamp?: string, limit?: number) => void
-  loadRecentLogs: (afterTimestamp: string, limit?: number) => void
   goToLatestLogs: () => void
   fetchSubsystems: () => void
   fetchLogLevels: () => void
@@ -104,8 +100,6 @@ export interface LogsState {
   streamController: AbortController | null
   bufferConfig: LogBufferConfig
   rateState: LogRateState
-  hasMoreHistory: boolean
-  isLoadingHistory: boolean
   storageStats: LogStorageStats | null
   pendingBatch: LogEntry[]
   batchTimeout: number | null
@@ -129,13 +123,8 @@ export type LogsAction =
   | { type: 'CLEAR_ENTRIES' }
   | { type: 'UPDATE_BUFFER_CONFIG'; config: Partial<LogBufferConfig> }
   | { type: 'UPDATE_RATE_STATE'; rateState: Partial<LogRateState> }
-  | { type: 'LOAD_HISTORY'; logs: LogEntry[]; maxEntries: number }
-  | { type: 'LOAD_RECENT'; logs: LogEntry[]; maxEntries: number; reachedLatest: boolean }
-  | { type: 'SET_LOADING_HISTORY'; loading: boolean }
   | { type: 'UPDATE_STORAGE_STATS'; stats: LogStorageStats }
-  | { type: 'SET_HAS_MORE_HISTORY'; hasMore: boolean }
-  | { type: 'SET_VIEW_OFFSET'; offset: number }
-  | { type: 'LOAD_LATEST'; logs: LogEntry[]; hasMoreHistory: boolean }
+  | { type: 'LOAD_LATEST'; logs: LogEntry[] }
   | { type: 'SHOW_WARNING' }
   | { type: 'AUTO_DISABLE' }
   | { type: 'RESET_WARNING' }
