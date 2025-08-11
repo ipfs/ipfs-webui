@@ -1,5 +1,3 @@
-import type React from 'react'
-
 /**
  * Log entry data structure
  */
@@ -132,15 +130,6 @@ export type LogsAction =
   | { type: 'UPDATE_LEVELS'; levels: Record<string, string> }
   | { type: 'FETCH_SUBSYSTEMS' }
   | { type: 'UPDATE_SUBSYSTEMS'; subsystems: LogSubsystem[] }
-
-/**
- * Logs Provider Props
- */
-export interface LogsProviderProps {
-  children: React.ReactNode
-  ipfs?: any
-  ipfsConnected?: boolean
-}
 
 /**
  * API Response types for type safety

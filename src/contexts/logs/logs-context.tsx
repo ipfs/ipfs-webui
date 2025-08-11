@@ -1,9 +1,16 @@
-import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, useRef } from 'react'
-import { LogBufferConfig, LogsContextValue, LogsProviderProps } from './types'
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, useRef, Dispatch } from 'react'
+import { BatchProcessor, LogBufferConfig, LogsAction, LogsContextValue } from './types'
 import { logsReducer, initLogsState } from './reducer'
 import { getLogLevels, parseLogEntry, fetchLogSubsystems } from './api'
 import { useBatchProcessor } from './batch-processor'
 import { logStorage } from '../../lib/log-storage'
+import { KuboRPCClient } from 'kubo-rpc-client'
+
+interface LogsProviderProps {
+  children: React.ReactNode
+  ipfs?: KuboRPCClient
+  ipfsConnected?: boolean
+}
 
 /**
  * Logs context
@@ -11,6 +18,23 @@ import { logStorage } from '../../lib/log-storage'
 const LogsContext = createContext<LogsContextValue | undefined>(undefined)
 LogsContext.displayName = 'LogsContext'
 
+const processStream = async (stream: AsyncIterable<any>, controller: AbortController, batchProcessor: BatchProcessor, dispatch: Dispatch<LogsAction>) => {
+  try {
+    for await (const entry of stream) {
+      if (controller.signal.aborted) break
+
+      const logEntry = parseLogEntry(entry)
+      if (logEntry) {
+        batchProcessor.addEntry(logEntry)
+      }
+    }
+  } catch (error) {
+    if (!controller.signal.aborted) {
+      console.error('Log streaming error:', error)
+      dispatch({ type: 'STOP_STREAMING' })
+    }
+  }
+}
 /**
  * Streamlined logs provider component with performance optimizations
  */
@@ -129,51 +153,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
       const stream = ipfs.log.tail()
 
       if (stream && typeof stream[Symbol.asyncIterator] === 'function') {
-        const processStream = async () => {
-          try {
-            for await (const entry of stream) {
-              if (controller.signal.aborted) break
-
-              const logEntry = parseLogEntry(entry)
-              if (logEntry) {
-                batchProcessor.addEntry(logEntry)
-              }
-            }
-          } catch (error) {
-            if (!controller.signal.aborted) {
-              console.error('Log streaming error:', error)
-              dispatch({ type: 'STOP_STREAMING' })
-            }
-          }
-        }
-        processStream()
-      } else if (stream && stream.getReader) {
-        const reader = stream.getReader()
-        const processChunks = async () => {
-          try {
-            while (true) {
-              if (controller.signal.aborted) break
-
-              const { done, value } = await reader.read()
-              if (done) break
-
-              const logEntry = parseLogEntry(value)
-              if (logEntry) {
-                batchProcessor.addEntry(logEntry)
-              }
-            }
-          } catch (error) {
-            if (!controller.signal.aborted) {
-              console.error('Log streaming error:', error)
-              dispatch({ type: 'STOP_STREAMING' })
-            }
-          } finally {
-            if (reader) {
-              reader.releaseLock()
-            }
-          }
-        }
-        processChunks()
+        processStream(stream, controller, batchProcessor, dispatch)
       } else {
         throw new Error('Log streaming not supported')
       }
