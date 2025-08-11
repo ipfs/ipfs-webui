@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
-import { logStorage } from 'src/lib/log-storage'
+import { useCallback, useMemo } from 'react'
 import { useLogs } from '../contexts/logs'
 
 export interface VirtualLogsConfig {
@@ -10,115 +9,70 @@ export interface VirtualLogsConfig {
 
 export function useVirtualLogs ({
   overscanCount = 5,
-  batchSize = 100,
-  threshold = 50
+  batchSize = 500,
+  threshold = 200
 }: VirtualLogsConfig = {}) {
   const {
     displayEntries,
     viewOffset,
     hasMoreHistory,
     isLoadingHistory,
-    // loadHistoricalLogs,
-    // loadRecentLogs,
-    updateDisplayEntries,
-    cursor
-    // setViewOffset
+    loadHistoricalLogs,
+    loadRecentLogs
   } = useLogs()
 
-  const [rowCount, setRowCount] = useState<number>(0)
+  // Use displayEntries as the primary source
+  const actualEntries = displayEntries
 
-  const lastUpdateTime = logStorage.lastUpdateTime()
+  // Row count is simply the number of entries
+  const rowCount = useMemo(() => {
+    return actualEntries.length
+  }, [actualEntries.length])
 
-  useEffect(() => {
-    async function updateRowCount () {
-      const size = await logStorage.size()
-      setRowCount(size)
-      console.log('rowCount updated:', size)
-    }
-    updateRowCount()
-  }, [lastUpdateTime, displayEntries.length])
-
-  // useEffect(() => {
-  //   console.log('viewOffset(VIEW_OFFSET) changed:', viewOffset)
-  // }, [viewOffset])
-
-  // const [displayEntries, setDisplayEntries] = useState<LogEntry[]>(displayEntriesFromContext)
-
-  // const displayEntriesRef = useRef<LogEntry[]>([])
-
-  // // Use cursor if available, otherwise fall back to displayEntries
-  // const actualEntries = useMemo(() => {
-  //   if (cursor) {
-  //     return cursor.toArray().map(e => e.value)
-  //   }
-  //   return []
-  //   // return displayEntries
-  // }, [cursor?.toArray])
-  // const isAtEnd = useMemo(() => {
-
-  // Row count is the total number of entries in the logStorage
-  // const logStorageSize = logStorage.size()
-  // const rowCount = useMemo(async () => await logStorageSize, [logStorageSize])
-  // const rowCount = useMemo(() => {
-  //   if (cursor) {
-  //     return cursor.isAtEnd() ? displayEntries.length : displayEntries.length + 1
-  //   }
-  //   return displayEntries.length
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [cursor?.isAtEnd(), displayEntries.length])
-
-  // Check if a row is loaded - mark top rows as unloaded when there's more history
-  const isRowLoaded = useCallback(({ index }: Record<string, any> & { index: number }) => {
-    console.log('isRowLoaded called:', { index, threshold })
-    if (index < threshold && !cursor?.isAtStart()) {
-      return false
-    }
-    if (index > displayEntries.length - threshold && !cursor?.isAtEnd()) {
-      return false
-    }
-    return index < displayEntries.length
-  }, [cursor, displayEntries, threshold])
+  // All rows are loaded since we don't use sentinels
+  const isRowLoaded = useCallback(
+    ({ index }: { index: number }) => {
+      return index < actualEntries.length
+    },
+    [actualEntries.length]
+  )
 
   // Load more rows when scrolling near edges
-  const loadMoreRows = useCallback(async ({ startIndex, stopIndex, ...rest }: Record<string, any> & { startIndex: number; stopIndex: number }) => {
-    console.log('loadMoreRows called:', { startIndex, stopIndex, hasMoreHistory, isLoadingHistory, viewOffset, threshold, rest })
-    console.log('VIEW_OFFSET rest:', rest)
-
-    if (cursor != null) {
-      let firstItem = cursor?.toArray()[0]
-      let lastItem = cursor?.toArray()[cursor?.toArray().length - 1]
-      console.log('first cursor item before load:', firstItem?.value)
-      console.log('last cursor item before load:', lastItem?.value)
-      // Use buffered cursor for loading
-      if (startIndex < threshold && !cursor?.isAtStart()) {
-        console.log('Loading historical logs with cursor...')
-        await cursor?.loadBefore()
-        updateDisplayEntries()
-        firstItem = cursor?.toArray()[0]
-        // setViewOffset(viewOffset)
-      } else if (stopIndex > displayEntries.length - threshold && !cursor?.isAtEnd()) {
-        console.log('Loading recent logs with cursor...')
-        await cursor?.loadAfter()
-        lastItem = cursor?.toArray()[cursor?.toArray().length - 1]
-        updateDisplayEntries()
+  const loadMoreRows = useCallback(
+    async ({ startIndex, stopIndex }: { startIndex: number; stopIndex: number }) => {
+      // Loading older logs when scrolling near top
+      if (hasMoreHistory && startIndex < threshold && !isLoadingHistory) {
+        const oldest = actualEntries[0]
+        if (oldest?.timestamp) {
+          await loadHistoricalLogs(oldest.timestamp, batchSize)
+        }
       }
-      console.log('first cursor item after load:', firstItem?.value)
-      console.log('last cursor item after load:', lastItem?.value)
-    }
-  }, [hasMoreHistory, isLoadingHistory, viewOffset, threshold, cursor, displayEntries.length, updateDisplayEntries])
+
+      // Loading newer logs when scrolling near bottom (when viewing history)
+      if (viewOffset > 0 && stopIndex > actualEntries.length - threshold && !isLoadingHistory) {
+        const newest = actualEntries[actualEntries.length - 1]
+        if (newest?.timestamp) {
+          await loadRecentLogs(newest.timestamp, batchSize)
+        }
+      }
+    },
+    [actualEntries, hasMoreHistory, viewOffset, isLoadingHistory, loadHistoricalLogs, loadRecentLogs, batchSize, threshold]
+  )
 
   // Get the actual entry for a given row index
-  const getEntryAtIndex = useCallback((index: number) => {
-    return displayEntries[index]
-  }, [displayEntries])
+  const getEntryAtIndex = useCallback(
+    (index: number) => {
+      return actualEntries[index]
+    },
+    [actualEntries]
+  )
 
   return {
     rowCount,
     isRowLoaded,
     loadMoreRows,
     getEntryAtIndex,
-    displayEntries,
-    // displayEntriesRef,
+    entries: actualEntries, // Keep for react-virtualized compatibility
     overscanCount,
     batchSize,
     threshold,
