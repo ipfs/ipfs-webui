@@ -4,10 +4,10 @@ import { LogsState, LogsAction, LogRateState, LogBufferConfig } from './types'
  * Default buffer configuration
  */
 export const DEFAULT_BUFFER_CONFIG: LogBufferConfig = {
-  memory: 1_000, // Keep last 1k entries in memory (react-virtualized will handle the rest)
+  memory: 1_000, // Keep last 10k entries in memory
   indexedDB: 200_000, // Store up to 200k entries in IndexedDB
   warnThreshold: 50,
-  autoDisableThreshold: 1_000
+  autoDisableThreshold: 100
 }
 
 /**
@@ -25,8 +25,7 @@ export const DEFAULT_RATE_STATE: LogRateState = {
  * Initial empty state shell - will be populated by initLogsState
  */
 const initialStateShell: Partial<LogsState> = {
-  displayEntries: [],
-  streamBuffer: [],
+  entries: [],
   isStreaming: false,
   globalLogLevel: 'info',
   streamController: null,
@@ -40,8 +39,7 @@ const initialStateShell: Partial<LogsState> = {
   actualLogLevels: {},
   isLoadingLevels: false,
   subsystems: [],
-  isLoadingSubsystems: false,
-  newLogsCount: 0
+  isLoadingSubsystems: false
 }
 
 /**
@@ -116,46 +114,34 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
       const batchEntries = action.entries
       const memoryLimit = state.bufferConfig.memory
 
+      // If user is viewing historical logs (offset > 0), don't update memory buffer
+      // This prevents jarring "jumps" back to latest while browsing history
       if (state.viewOffset > 0) {
-        // User is viewing historical logs - buffer new logs and send to IndexedDB
-        const newStreamBuffer = [...state.streamBuffer, ...batchEntries]
-        const sortedBuffer = newStreamBuffer.sort((a, b) =>
-          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-        )
-
         return {
           ...state,
-          streamBuffer: sortedBuffer.slice(-memoryLimit), // Keep buffer size reasonable
-          newLogsCount: state.newLogsCount + batchEntries.length,
           pendingBatch: [],
           batchTimeout: null
         }
-      } else {
-        // User is at latest position - update display directly
-        const newDisplayEntries = [...state.displayEntries, ...batchEntries]
-        const sortedEntries = newDisplayEntries.sort((a, b) =>
-          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-        )
-        const finalEntries = sortedEntries.slice(-memoryLimit)
+      }
 
-        return {
-          ...state,
-          displayEntries: finalEntries,
-          pendingBatch: [],
-          batchTimeout: null
-        }
+      // User is at latest position, update memory buffer normally
+      const newEntries = [...state.entries, ...batchEntries]
+      const finalEntries = newEntries.slice(-memoryLimit)
+      return {
+        ...state,
+        entries: finalEntries, // Keep only last N entries in memory
+        pendingBatch: [],
+        batchTimeout: null
       }
     }
 
     case 'CLEAR_ENTRIES': {
       return {
         ...state,
-        displayEntries: [],
-        streamBuffer: [],
+        entries: [],
         pendingBatch: [],
         hasMoreHistory: false,
-        viewOffset: 0,
-        newLogsCount: 0
+        viewOffset: 0
       }
     }
 
@@ -176,19 +162,15 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
     case 'LOAD_HISTORY': {
       const { logs: historicalEntries, maxEntries } = action
       // Sliding window: add to top, trim from bottom to maintain max size
-      const newEntries = [...historicalEntries, ...state.displayEntries]
-      // Sort by timestamp to ensure chronological order
-      const sortedEntries = newEntries.sort((a, b) =>
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-      )
-      const trimmedEntries = sortedEntries.slice(0, maxEntries)
+      const newEntries = [...historicalEntries, ...state.entries]
+      const trimmedEntries = newEntries.slice(0, maxEntries)
 
       // Update view offset to track position in timeline
       const newOffset = state.viewOffset + historicalEntries.length
 
       return {
         ...state,
-        displayEntries: trimmedEntries,
+        entries: trimmedEntries,
         isLoadingHistory: false,
         viewOffset: newOffset
       }
@@ -197,19 +179,15 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
     case 'LOAD_RECENT': {
       const { logs: recentEntries, maxEntries, reachedLatest } = action
       // Add recent logs to the end of current entries
-      const newEntries = [...state.displayEntries, ...recentEntries]
-      // Sort by timestamp to ensure chronological order
-      const sortedEntries = newEntries.sort((a, b) =>
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-      )
-      const trimmedEntries = sortedEntries.slice(-maxEntries)
+      const newEntries = [...state.entries, ...recentEntries]
+      const trimmedEntries = newEntries.slice(-maxEntries)
 
       // If we reached latest, reset view offset to 0
       const newOffset = reachedLatest ? 0 : Math.max(0, state.viewOffset - recentEntries.length)
 
       return {
         ...state,
-        displayEntries: trimmedEntries,
+        entries: trimmedEntries,
         isLoadingHistory: false,
         viewOffset: newOffset
       }
@@ -245,43 +223,11 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
 
     case 'LOAD_LATEST': {
       const { logs, hasMoreHistory } = action
-
-      // Sort logs to ensure chronological order
-      const sortedLogs = [...logs].sort((a, b) =>
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-      )
-
-      // Merge with any buffered stream logs
-      const allEntries = [...sortedLogs, ...state.streamBuffer]
-      const finalSorted = allEntries.sort((a, b) =>
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-      )
-      const trimmed = finalSorted.slice(-state.bufferConfig.memory)
-
       return {
         ...state,
-        displayEntries: trimmed,
-        streamBuffer: [], // Clear buffer since we've merged
-        newLogsCount: 0, // Reset count
+        entries: logs,
         viewOffset: 0, // Reset to latest position
         hasMoreHistory
-      }
-    }
-
-    case 'MERGE_STREAM_BUFFER': {
-      // Merge buffered stream logs into display when returning to latest view
-      const allEntries = [...state.displayEntries, ...state.streamBuffer]
-      const sortedEntries = allEntries.sort((a, b) =>
-        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-      )
-      const trimmed = sortedEntries.slice(-state.bufferConfig.memory)
-
-      return {
-        ...state,
-        displayEntries: trimmed,
-        streamBuffer: [],
-        newLogsCount: 0,
-        viewOffset: 0
       }
     }
 

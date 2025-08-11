@@ -55,9 +55,7 @@ export interface LogStorageStats {
  */
 export interface LogsContextValue {
   // Log entries and streaming
-  displayEntries: LogEntry[] // What's shown in UI
-  streamBuffer: LogEntry[] // Background buffer for new streaming logs
-  newLogsCount: number // Count of new logs in buffer while viewing history
+  entries: LogEntry[]
   isStreaming: boolean
   hasMoreHistory: boolean
   isLoadingHistory: boolean
@@ -94,15 +92,13 @@ export interface LogsContextValue {
   fetchLogLevels: () => void
   updateStorageStats: () => void
   showWarning: () => void
-  mergeStreamBuffer: () => void
 }
 
 /**
  * Logs state for the reducer
  */
 export interface LogsState {
-  displayEntries: LogEntry[] // What's shown in UI
-  streamBuffer: LogEntry[] // Background buffer for new streaming logs
+  entries: LogEntry[]
   isStreaming: boolean
   globalLogLevel: string
   streamController: AbortController | null
@@ -119,7 +115,6 @@ export interface LogsState {
   isLoadingLevels: boolean
   subsystems: LogSubsystem[]
   isLoadingSubsystems: boolean
-  newLogsCount: number // Count of new logs in buffer while viewing history
 }
 
 /**
@@ -141,7 +136,6 @@ export type LogsAction =
   | { type: 'SET_HAS_MORE_HISTORY'; hasMore: boolean }
   | { type: 'SET_VIEW_OFFSET'; offset: number }
   | { type: 'LOAD_LATEST'; logs: LogEntry[]; hasMoreHistory: boolean }
-  | { type: 'MERGE_STREAM_BUFFER' }
   | { type: 'SHOW_WARNING' }
   | { type: 'AUTO_DISABLE' }
   | { type: 'RESET_WARNING' }

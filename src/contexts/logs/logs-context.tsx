@@ -212,7 +212,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
 
     try {
       // If no timestamp provided, use the oldest timestamp from current entries
-      const timestamp = beforeTimestamp || (state.displayEntries.length > 0 ? state.displayEntries[0].timestamp : new Date().toISOString())
+      const timestamp = beforeTimestamp || (state.entries.length > 0 ? state.entries[0].timestamp : new Date().toISOString())
       const historicalLogs = await logStorage.getLogsBefore(timestamp, limit)
       dispatch({
         type: 'LOAD_HISTORY',
@@ -226,7 +226,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
       console.error('Failed to load historical logs:', error)
       dispatch({ type: 'SET_LOADING_HISTORY', loading: false })
     }
-  }, [state.bufferConfig.memory])
+  }, [state.bufferConfig.memory, state.entries])
 
   const loadRecentLogs = useCallback(async (afterTimestamp: string, limit = 100) => {
     dispatch({ type: 'SET_LOADING_HISTORY', loading: true })
@@ -287,10 +287,6 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     dispatch({ type: 'SHOW_WARNING' })
   }, [])
 
-  const mergeStreamBuffer = useCallback(() => {
-    dispatch({ type: 'MERGE_STREAM_BUFFER' })
-  }, [])
-
   // Compute GOLOG_LOG_LEVEL equivalent string
   const gologLevelString = useMemo(() => {
     // Only calculate if log levels have been loaded
@@ -337,17 +333,13 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
 
       if (!isMounted.current) return
 
-      // Always load logs from storage, even if IPFS is not connected
-      await Promise.allSettled([
-        updateStorageStatsInternal(),
-        goToLatestLogsInternal()
-      ])
-
-      // Load IPFS-specific data only when connected
+      // Load initial data in parallel when IPFS is connected
       if (ipfsConnected && ipfs) {
         await Promise.allSettled([
           fetchSubsystemsInternal(),
-          fetchLogLevelsInternal()
+          fetchLogLevelsInternal(),
+          updateStorageStatsInternal(),
+          goToLatestLogsInternal()
         ])
       }
     }
@@ -372,8 +364,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     fetchSubsystems: fetchSubsystemsInternal,
     fetchLogLevels: fetchLogLevelsInternal,
     updateStorageStats: updateStorageStatsInternal,
-    showWarning,
-    mergeStreamBuffer
+    showWarning
   }), [
     startStreaming,
     stopStreaming,
@@ -386,8 +377,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     fetchSubsystemsInternal,
     fetchLogLevelsInternal,
     updateStorageStatsInternal,
-    showWarning,
-    mergeStreamBuffer
+    showWarning
   ])
 
   // Combine state, computed values, and actions - React will optimize this automatically

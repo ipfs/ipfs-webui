@@ -67,15 +67,15 @@ export function useBatchProcessor (
     // Note: Warning state is managed by the context, not here
     // The context will check the rate and show warnings appropriately
 
-    // Store in IndexedDB (async, don't wait) - always store regardless of view mode
+    // Store in IndexedDB (async, don't wait) - append new entries and remove old ones if needed
     try {
-      // Always append new entries to IndexedDB for persistence
+      // Always append new entries - the storage layer will handle circular buffer behavior
       await logStorage.appendLogs(entries)
 
       // Update storage stats after adding entries
       try {
+        const updatedStats = await logStorage.getStorageStats()
         if (onRateUpdate) {
-          const updatedStats = await logStorage.getStorageStats()
           // Pass updated stats via the rate update callback
           onRateUpdate(currentRate, [...entryCountsRef.current], updatedStats)
         }
