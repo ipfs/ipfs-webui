@@ -40,10 +40,8 @@ const globalSetup = async config => {
   if (process.env.E2E_API_URL) {
     const url = new URL(process.env.E2E_API_URL)
     port = url.port
-    await run(port)
-  } else {
-    await run(port)
   }
+  await run(port)
   // Wait for ipfs-backend.json to be created by the webServer
   let attempts = 0
   const maxAttempts = 10 // 10 seconds with 1 second intervals
