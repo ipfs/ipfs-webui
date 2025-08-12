@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 
 interface TooltipProps {
   children: React.ReactElement
@@ -36,6 +36,8 @@ const Tooltip: React.FC<TooltipProps> = ({ children, text, ...props }) => {
     setShow(false)
   }
 
+  const tooltipDisplayClass = useMemo(() => show && overflow ? 'db' : 'dn', [show, overflow])
+
   return (
     <div className='relative' {...props}>
       <div
@@ -62,9 +64,7 @@ const Tooltip: React.FC<TooltipProps> = ({ children, text, ...props }) => {
           wordWrap: 'break-word',
           width: '100%'
         }}
-        className={`white z-max bg-navy-muted br2 pa1 f6 absolute ${
-          show && overflow ? 'db' : 'dn'
-        }`}
+        className={`white z-max bg-navy-muted br2 pa1 f6 absolute ${tooltipDisplayClass}`}
       >
         <span
           style={{
