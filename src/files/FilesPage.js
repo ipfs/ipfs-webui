@@ -400,7 +400,6 @@ const Preview = ({ files, onDownload }) => {
   if (files && files.type === 'file') {
     return (<FilePreview {...files} onDownload={onDownload} />)
   }
-
   return (<div/>)
 }
 
