@@ -76,7 +76,7 @@
     "kubo-rpc-client": "^5.2.0",
     "milliseconds": "^1.0.3",
     "money-clip": "^3.0.5",
-    "multiformats": "^13.0.1",
+    "multiformats": "^13.4.0",
     "p-memoize": "^4.0.0",
     "p-queue": "^7.3.0",
     "prop-types": "^15.7.2",
@@ -309,6 +309,7 @@
       "react-dom": "^16.13.1"
     },
     "@multiformats/multiaddr": "$@multiformats/multiaddr",
+    "multiformats": "^13.4.0",
     "eventemitter3": "^5.0.1"
   }
 }
