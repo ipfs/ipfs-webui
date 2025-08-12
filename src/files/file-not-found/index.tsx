@@ -1,7 +1,5 @@
 import React from 'react'
-
 import Button from '../../components/button/button.js'
-
 import GlyphAttention from '../../icons/GlyphAttention.js'
 import { useTranslation } from 'react-i18next'
 
