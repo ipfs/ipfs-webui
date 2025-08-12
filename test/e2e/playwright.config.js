@@ -1,9 +1,6 @@
-// const { devices } = require('@playwright/test')
 import { defineConfig } from '@playwright/test'
-import getPort from 'aegir/get-port'
 
 const webuiPort = 3001
-const rpcPort = await getPort(5001, '0.0.0.0')
 
 /** @type {import('@playwright/test').Config} */
 const config = {
@@ -48,13 +45,6 @@ const config = {
   globalSetup: './setup/global-setup.js',
   globalTeardown: './setup/global-teardown.js',
   webServer: [
-    {
-      command: `node ipfs-backend.js ${rpcPort}`,
-      timeout: 5 * 1000,
-      port: rpcPort,
-      cwd: './setup',
-      reuseExistingServer: !process.env.CI
-    },
     {
       command: `npx http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
       timeout: 5 * 1000,
