@@ -213,8 +213,19 @@ const actions = () => ({
       ? await last(ipfs.name.resolve(realPath))
       : realPath
 
-    const stats = await stat(ipfs, resolvedPath)
     const time = Date.now()
+    /** @type {Stat} */
+    let stats
+    try {
+      stats = await stat(ipfs, resolvedPath)
+    } catch (error) {
+      console.error(`Error fetching stats for path "${resolvedPath}":`, error)
+      return {
+        fetched: time,
+        type: 'not-found',
+        path: resolvedPath
+      }
+    }
 
     switch (stats.type) {
       case 'unknown': {

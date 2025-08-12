@@ -14,7 +14,7 @@ import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
 import FilesGrid from './files-grid/files-grid.js'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
-import FileNotFound from './file-not-found/FileNotFound.tsx'
+import FileNotFound from './file-not-found/index.tsx'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
@@ -185,6 +185,9 @@ const FilesPage = ({
           </Trans>
         </div>
       )
+    }
+    if (files.type === 'not-found') {
+      return <FileNotFound path={files.path} />
     }
 
     const commonProps = {
@@ -398,9 +401,7 @@ const Preview = ({ files, path, t, onDownload }) => {
     return (<FilePreview {...files} onDownload={onDownload} />)
   }
 
-  return (
-    <FileNotFound path={path} t={t} />
-  )
+  return (<div/>)
 }
 
 export default connect(
