@@ -360,7 +360,7 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
-      <Preview files={files} path={filesPathInfo.path} t={t} onDownload={() => onDownload([files])} />
+      <Preview files={files} onDownload={() => onDownload([files])} />
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
@@ -396,7 +396,7 @@ const FilesPage = ({
   )
 }
 
-const Preview = ({ files, path, t, onDownload }) => {
+const Preview = ({ files, onDownload }) => {
   if (files && files.type === 'file') {
     return (<FilePreview {...files} onDownload={onDownload} />)
   }
