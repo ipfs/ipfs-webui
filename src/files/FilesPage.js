@@ -28,7 +28,7 @@ import Checkbox from '../components/checkbox/Checkbox.js'
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
-  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
+  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCopyCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
@@ -291,6 +291,7 @@ const FilesPage = ({
         onDownloadCar={() => onDownloadCar([contextMenu.file])}
         onPinning={() => showModal(PINNING, [contextMenu.file])}
         onPublish={() => showModal(PUBLISH, [contextMenu.file])}
+        onCopyCid={(cid) => doFilesCopyCidProvide(cid)}
         isCliTutorModeEnabled={isCliTutorModeEnabled}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
         doSetCliOptions={doSetCliOptions}
@@ -416,6 +417,7 @@ export default connect(
   'doFilesMove',
   'doFilesMakeDir',
   'doFilesShareLink',
+  'doFilesCopyCidProvide',
   'doFilesDelete',
   'doFilesAddPath',
   'doAddCarFile',

@@ -33,6 +33,7 @@ export default {
     'cheerio/lib/utils': '<rootDir>/node_modules/cheerio/dist/commonjs/utils.js',
     '@ipld/dag-pb': '<rootDir>/node_modules/@ipld/dag-pb/src/index.js',
     '@multiformats/multiaddr': '<rootDir>/node_modules/@multiformats/multiaddr/dist/src/index.js',
+    multiformats: '<rootDir>/node_modules/multiformats/dist/src/index.js',
     'uint8-varint': '<rootDir>/node_modules/uint8-varint/dist/src/index.js',
     '@chainsafe/netmask': '<rootDir>/node_modules/@chainsafe/netmask/dist/src/index.js',
     '@chainsafe/is-ip': '<rootDir>/node_modules/@chainsafe/is-ip/lib/is-ip.js',
