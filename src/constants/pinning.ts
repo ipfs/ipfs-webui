@@ -1,25 +1,14 @@
-// @ts-check
-// This is a list of predefined templates for popular services from the IPFS
-// community.  We are open to reviewing PRs that add more entries here,
-// but only well-established and mission-aligned services will be accepted.
-// Services listed here are returned in a random order to ensure UI does not
-// promote any of them more than others.
-
 const complianceReportsHomepage = 'https://ipfs-shipyard.github.io/pinning-service-compliance'
 
-/**
- * @typedef {object} PinningServiceTemplate
- * @property {string} name
- * @property {string} icon
- * @property {string} apiEndpoint
- * @property {string} visitServiceUrl
- * @property {string} [complianceReportUrl]
- */
+interface PinningServiceTemplate {
+  name: string
+  icon: string
+  apiEndpoint: string
+  visitServiceUrl: string
+  complianceReportUrl?: string
+}
 
-/**
- * @type {PinningServiceTemplate[]}
- */
-const pinningServiceTemplates = [
+const pinningServiceTemplates: PinningServiceTemplate[] = [
   {
     name: 'Pinata',
     icon: 'https://dweb.link/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg',
@@ -46,13 +35,15 @@ const pinningServiceTemplates = [
   }
 ].map((service) => {
   try {
-    const domain = new URL(service.apiEndpoint).hostname;
-    /** @type {PinningServiceTemplate} */ (service).complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
+    const domain = new URL(service.apiEndpoint).hostname
+    const enhancedService: PinningServiceTemplate = {
+      ...service,
+      complianceReportUrl: `${complianceReportsHomepage}/${domain}.html`
+    }
+    return { service: enhancedService, sort: Math.random() }
   } catch (e) {
-    // if apiEndpoint is not a valid URL, don't add complianceReportUrl
-    // TODO: fix support for template apiEndpoints
+    return { service, sort: Math.random() }
   }
-  return { service, sort: Math.random() }
 }).sort((a, b) => a.sort - b.sort).map(({ service }) => service)
 
 export {

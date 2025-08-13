@@ -88,7 +88,7 @@
     "src/files/pin-icon/PinIcon.js",
     "src/icons/GlyphDots.js",
     "src/components/checkbox/Checkbox.js",
-    "src/constants/pinning.js",
+    "src/constants/pinning.ts",
     "src/icons/GlyphPin.js",
     "src/icons/GlyphPinCloud.js",
     "src/icons/GlyphSmallTick.js",
