@@ -1,3 +1,10 @@
+// @ts-check
+// This is a list of predefined templates for popular services from the IPFS
+// community.  We are open to reviewing PRs that add more entries here,
+// but only well-established and mission-aligned services will be accepted.
+// Services listed here are returned in a random order to ensure UI does not
+// promote any of them more than others.
+
 const complianceReportsHomepage = 'https://ipfs-shipyard.github.io/pinning-service-compliance'
 
 interface PinningServiceTemplate {
@@ -42,6 +49,8 @@ const pinningServiceTemplates: PinningServiceTemplate[] = [
     }
     return { service: enhancedService, sort: Math.random() }
   } catch (e) {
+    // if apiEndpoint is not a valid URL, don't add complianceReportUrl
+    // TODO: fix support for template apiEndpoints
     return { service, sort: Math.random() }
   }
 }).sort((a, b) => a.sort - b.sort).map(({ service }) => service)
