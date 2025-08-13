@@ -6,6 +6,8 @@ import last from 'it-last'
 import * as Enum from '../lib/enum.js'
 import { perform } from './task.js'
 import { readSetting, writeSetting } from './local-storage.js'
+import { contextBridge } from '../helpers/context-bridge'
+import { createSelector } from 'redux-bundler'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -305,7 +307,12 @@ const selectors = {
   /**
    * @param {State} state
    */
-  selectIpfsPendingFirstConnection: state => state.ipfs.pendingFirstConnection
+  selectIpfsPendingFirstConnection: state => state.ipfs.pendingFirstConnection,
+  /**
+   * Returns the IPFS instance. This is the same instance that getIpfs() returns.
+   * Used by the identity context to access IPFS directly.
+   */
+  selectIpfs: () => ipfs
 }
 
 /**
@@ -524,6 +531,17 @@ const bundle = {
   getExtraArgs () {
     return extra
   },
+
+  /**
+   * Bridge ipfs instance to context bridge for use by React contexts
+   */
+  reactIpfsToBridge: createSelector(
+    'selectIpfs',
+    (ipfsInstance) => {
+      contextBridge.setContext('selectIpfs', ipfsInstance)
+    }
+  ),
+
   ...selectors,
   ...actions
 }

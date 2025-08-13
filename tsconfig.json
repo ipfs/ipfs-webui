@@ -102,6 +102,8 @@
     "src/icons/GlyphPinCloud.js",
     "src/icons/GlyphPin.js",
     "src/icons/StrokeCube.js",
-    "src/files/type-from-ext/extToType.js"
+    "src/files/type-from-ext/extToType.js",
+    "src/helpers/context-bridge.tsx",
+    "src/helpers/connected-context-provider.tsx"
   ]
 }

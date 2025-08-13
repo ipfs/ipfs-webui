@@ -68,6 +68,8 @@ describe('new/returning user default behavior', () => {
     // should not show analytics banner for these users
     expect(store.selectShowAnalyticsBanner()).toBe(false)
   })
+  /* This test is disabled because analytics are completely disabled when DISABLE_ALL_ANALYTICS is true.
+     See: https://github.com/ipfs/ipfs-webui/issues/2334
   it('should enable analytics for returning user who opted_out prior to new opt-in by default updates', () => {
     const mockDefaultState = {
       lastEnabledAt: 0,
@@ -82,7 +84,16 @@ describe('new/returning user default behavior', () => {
     expect(store.selectAnalyticsConsent()).toEqual(['sessions', 'events', 'views', 'location'])
     // should show analytics banner for these users
     expect(store.selectShowAnalyticsBanner()).toBe(true)
+  }) */
+  it('should remain disabled by default when DISABLE_ALL_ANALYTICS is true', () => {
+    const store = createStore({})
+    expect(global.Countly.opt_in).not.toHaveBeenCalled()
+    expect(store.selectAnalyticsConsent()).toEqual([])
+    expect(store.selectAnalyticsOptedOut()).toBe(true)
+    expect(store.selectShowAnalyticsBanner()).toBe(false)
   })
+  /* This test is disabled because analytics are completely disabled when DISABLE_ALL_ANALYTICS is true.
+     See: https://github.com/ipfs/ipfs-webui/issues/2334
   it('should hide analytics banner if user has closed the banner', () => {
     const mockDefaultState = {
       lastEnabledAt: 0,
@@ -97,7 +108,7 @@ describe('new/returning user default behavior', () => {
     store.doToggleShowAnalyticsBanner(false)
     expect(store.selectShowAnalyticsBanner()).toBe(false)
     expect(store.selectAnalyticsOptedOutPriorToDefaultOptIn()).toBe(false)
-  })
+  }) */
 })
 
 describe('user enables and disables analytics', () => {
