@@ -107,5 +107,8 @@
     "src/icons/GlyphSmallCancel.tsx",
     "src/components/overlay/Overlay.tsx",
     "src/icons/GlyphSmallCancel.tsx"
+    "src/helpers/context-bridge.tsx",
+    "src/helpers/connected-context-provider.tsx"
+
   ]
 }

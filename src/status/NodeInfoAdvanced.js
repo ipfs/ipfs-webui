@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { multiaddr } from '@multiformats/multiaddr'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
+import { useIdentity } from '../contexts/identity-context.jsx'
 import Address from '../components/address/Address.js'
 import Details from '../components/details/Details.js'
 import ProviderLink from '../components/provider-link/ProviderLink.js'
@@ -15,25 +16,20 @@ function isMultiaddr (addr) {
     return false
   }
 }
-const getField = (obj, field, fn) => {
-  if (obj && obj[field]) {
-    if (fn) {
-      return fn(obj[field])
-    }
 
-    return obj[field]
-  }
+const NodeInfoAdvanced = ({ t, ipfsProvider, ipfsApiAddress, gatewayUrl, isNodeInfoOpen, doSetIsNodeInfoOpen }) => {
+  const { identity, isLoading } = useIdentity()
+  const loadingString = t('loading')
 
-  return ''
-}
+  const addressComponent = useMemo(() => {
+    if (isLoading || identity?.addresses == null) return loadingString
+    return [...new Set(identity.addresses)].sort().map(addr => <Address key={addr} value={addr} />)
+  }, [identity?.addresses, isLoading, loadingString])
 
-const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUrl, isNodeInfoOpen, doSetIsNodeInfoOpen }) => {
-  let publicKey = null
-  let addresses = null
-  if (identity) {
-    publicKey = getField(identity, 'publicKey')
-    addresses = [...new Set(identity.addresses)].sort().map(addr => <Address key={addr} value={addr} />)
-  }
+  const publicKeyComponent = useMemo(() => {
+    if (isLoading) return loadingString
+    return identity?.publicKey ?? null
+  }, [identity?.publicKey, isLoading, loadingString])
 
   const handleSummaryClick = (ev) => {
     doSetIsNodeInfoOpen(!isNodeInfoOpen)
@@ -53,25 +49,24 @@ const NodeInfoAdvanced = ({ t, identity, ipfsProvider, ipfsApiAddress, gatewayUr
         <Definition advanced term={t('app:terms.gateway')} desc={gatewayUrl} />
         {ipfsProvider === 'httpClient'
           ? <Definition advanced term={t('app:terms.api')} desc={
-            (<div id="http-api-address" className="flex items-center">
+            (<div id='http-api-address' className='flex items-center'>
               {isMultiaddr(ipfsApiAddress)
                 ? (<Address value={ipfsApiAddress} />)
                 : asAPIString(ipfsApiAddress)
               }
-              <a className='ml2 link blue sans-serif fw6' href="#/settings">{t('app:actions.edit')}</a>
+              <a className='ml2 link blue sans-serif fw6' href='#/settings'>{t('app:actions.edit')}</a>
             </div>)
           } />
           : <Definition advanced term={t('app:terms.api')} desc={<ProviderLink name={ipfsProvider} />} />
         }
-        <Definition advanced term={t('app:terms.addresses')} desc={addresses} />
-        <Definition advanced term={t('app:terms.publicKey')} desc={publicKey} />
+        <Definition advanced term={t('app:terms.addresses')} desc={addressComponent} />
+        <Definition advanced term={t('app:terms.publicKey')} desc={publicKeyComponent} />
       </DefinitionList>
     </Details>
   )
 }
 
 export default connect(
-  'selectIdentity',
   'selectIpfsProvider',
   'selectIpfsApiAddress',
   'selectGatewayUrl',

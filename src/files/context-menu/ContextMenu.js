@@ -45,7 +45,7 @@ class ContextMenu extends React.Component {
 
   render () {
     const {
-      t, onRename, onRemove, onDownload, onInspect, onShare, onDownloadCar, onPublish,
+      t, onRename, onRemove, onDownload, onInspect, onShare, onDownloadCar, onPublish, onCopyCid,
       translateX, translateY, className, isMfs, isUnknown, isCliTutorModeEnabled
     } = this.props
     return (
@@ -65,7 +65,12 @@ class ContextMenu extends React.Component {
               {t('actions.share')}
             </Option>
           }
-          <CopyToClipboard text={String(this.props.cid)} onCopy={this.props.handleClick}>
+          <CopyToClipboard text={String(this.props.cid)} onCopy={() => {
+            this.props.handleClick()
+            if (onCopyCid) {
+              onCopyCid(this.props.cid)
+            }
+          }}>
             <Option>
               <StrokeCopy className='w2 mr2 fill-aqua' />
               {t('actions.copyHash')}
@@ -140,6 +145,7 @@ ContextMenu.propTypes = {
   onInspect: PropTypes.func,
   onShare: PropTypes.func,
   onPublish: PropTypes.func,
+  onCopyCid: PropTypes.func,
   className: PropTypes.string,
   t: PropTypes.func.isRequired,
   tReady: PropTypes.bool.isRequired,

@@ -262,10 +262,11 @@ it('should get a subdomain gateway url', async () => {
   const files = [file]
 
   const url = new URL(DEFAULT_SUBDOMAIN_GATEWAY)
-  const shareableLink = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
+  const { link: shareableLink, cid } = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
   const base32Cid = 'bafybeifffq3aeaymxejo37sn5fyaf7nn7hkfmzwdxyjculx3lw4tyhk7uy'
   const rightShareableLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}`
   expect(shareableLink).toBe(rightShareableLink)
+  expect(cid).toBeDefined()
 })
 
 it('should get a path gateway url', async () => {
@@ -279,6 +280,7 @@ it('should get a path gateway url', async () => {
   }
   const files = [file]
 
-  const res = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
+  const { link: res, cid } = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
   expect(res).toBe(DEFAULT_PATH_GATEWAY + '/ipfs/' + veryLongCidv1)
+  expect(cid).toBeDefined()
 })
