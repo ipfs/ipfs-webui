@@ -1,28 +1,25 @@
 import type { RawLogEntry, LogEntry, LogLevelsResponse, LogSubsystem } from './types'
+import type { KuboRPCClient } from 'kubo-rpc-client'
 
-/**
- * Fetch current log levels from IPFS daemon
- *
- * We need to wait for the following issues to be resolved:
- *
- * * https://github.com/ipfs/kubo/pull/10885
- * * https://github.com/ipfs/js-kubo-rpc-client/issues/339
- */
-export async function getLogLevels (): Promise<Record<string, string>> {
-  const resp = await fetch('http://127.0.0.1:5001/api/v0/log/get-level', { method: 'POST' })
-  if (!resp.ok) throw new Error(`Log levels fetch failed: ${resp.status}`)
-  const body = (await resp.json()) as LogLevelsResponse
-  return body.Levels ?? {}
+export async function getLogLevels (ipfs: KuboRPCClient, signal?: AbortSignal): Promise<LogLevelsResponse['levels']> {
+  try {
+    // @ts-expect-error - kubo-rpc-client is not typed correctly since https://github.com/ipfs/kubo/pull/10885 was merged.
+    const response = await ipfs.log.level('*', undefined, { signal }) as LogLevelsResponse
+    return response.levels
+  } catch (e) {
+    console.error('Failed to fetch log levels', e)
+    throw e
+  }
 }
 
 /**
  * Fetch subsystem list from IPFS instance
  */
-export async function fetchLogSubsystems (ipfs: any): Promise<LogSubsystem[]> {
-  const response = await ipfs.log.ls()
+export async function fetchLogSubsystems (ipfs: KuboRPCClient, signal?: AbortSignal): Promise<LogSubsystem[]> {
+  const response = await ipfs.log.ls({ signal })
   const names: string[] = Array.isArray(response) ? response : response.Strings || []
-  const levels = await getLogLevels()
-  const subsystems = names.map(name => ({ name, level: levels[name] ?? levels['*'] ?? 'info' }))
+  const levels = await getLogLevels(ipfs, signal)
+  const subsystems = names.map(name => ({ name, level: levels[name] ?? levels['(default)'] ?? 'unknown' }))
 
   // Sort subsystems alphabetically by name
   return subsystems.sort((a, b) => a.name.localeCompare(b.name))

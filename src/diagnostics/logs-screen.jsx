@@ -128,7 +128,7 @@ const LogsScreen = () => {
 
   const handleLevelChange = (subsystem, level) => {
     // Check if this is enabling debug globally
-    if (subsystem === 'all' && level === 'debug' && globalLogLevel !== 'debug') {
+    if (subsystem === '*' && level === 'debug' && globalLogLevel !== 'debug') {
       setPendingLevelChange({ subsystem, level })
       setWarningModal({ isOpen: true, type: 'debug-global' })
       return
@@ -363,8 +363,11 @@ const LogsScreen = () => {
             <label className='db fw6 mb2'>{t('logs.levels.global')}</label>
             <select
               className='input-reset ba b--black-20 pa2 w-100'
-              value={actualLogLevels['*'] || globalLogLevel}
-              onChange={(e) => handleLevelChange('all', e.target.value)}
+              value={actualLogLevels['(default)'] || globalLogLevel}
+              onChange={(e) => {
+                console.log('setting global log level to', e.target.value)
+                handleLevelChange('*', e.target.value)
+              }}
             >
               {LOG_LEVELS.map(level => (
                 <option key={level} value={level}>

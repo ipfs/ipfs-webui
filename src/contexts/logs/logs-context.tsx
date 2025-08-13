@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, useRef, Dispatch } from 'react'
 import { BatchProcessor, LogBufferConfig, LogsAction, LogsContextValue } from './types'
 import { logsReducer, initLogsState } from './reducer'
-import { getLogLevels, parseLogEntry, fetchLogSubsystems } from './api'
+import { parseLogEntry, fetchLogSubsystems, getLogLevels } from './api'
 import { useBatchProcessor } from './batch-processor'
 import { logStorage } from '../../lib/log-storage'
 import { KuboRPCClient } from 'kubo-rpc-client'
@@ -81,32 +81,38 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
 
   const fetchLogLevelsInternal = useCallback(async () => {
     if (!ipfsConnected || !ipfs) return
+    const controller = new AbortController()
 
     try {
       dispatch({ type: 'FETCH_LEVELS' })
-      const logLevels = await getLogLevels()
+      const logLevels = await getLogLevels(ipfs, controller.signal)
       dispatch({ type: 'UPDATE_LEVELS', levels: logLevels })
     } catch (error) {
       console.error('Failed to fetch log levels:', error)
       dispatch({ type: 'UPDATE_LEVELS', levels: {} })
+    }
+    return () => {
+      controller.abort()
     }
   }, [ipfs, ipfsConnected])
 
   const setLogLevel = useCallback(async (subsystem: string, level: string) => {
     if (!ipfsConnected || !ipfs) return
 
+    const controller = new AbortController()
+
     try {
       await ipfs.log.level(subsystem, level)
-
-      if (subsystem === 'all') {
+      if (subsystem === '*') {
         try {
-          const response = await getLogLevels()
+          const response = await getLogLevels(ipfs, controller.signal)
+          console.log('response', response)
           dispatch({ type: 'UPDATE_LEVELS', levels: response })
         } catch (error) {
           console.warn('Failed to fetch updated log levels after global change:', error)
           const updatedLevels = {
             ...state.actualLogLevels,
-            '*': level
+            '(default)': level
           }
           dispatch({ type: 'UPDATE_LEVELS', levels: updatedLevels })
         }
@@ -122,6 +128,10 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     } catch (error) {
       console.error(`Failed to set log level for ${subsystem}:`, error)
       throw error
+    }
+
+    return () => {
+      controller.abort()
     }
   }, [ipfs, ipfsConnected, state.actualLogLevels])
 
@@ -220,7 +230,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     }
 
     // Use the actual effective global level, fallback to stored global level
-    const effectiveGlobalLevel = state.actualLogLevels['*'] || state.globalLogLevel
+    const effectiveGlobalLevel = state.actualLogLevels['(default)'] || state.globalLogLevel
     const parts = [effectiveGlobalLevel]
 
     // Add subsystems that differ from the effective global level

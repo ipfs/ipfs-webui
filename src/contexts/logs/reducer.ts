@@ -57,7 +57,7 @@ export function initLogsState (): LogsState {
 export function logsReducer (state: LogsState, action: LogsAction): LogsState {
   switch (action.type) {
     case 'SET_LEVEL': {
-      if (action.subsystem === 'all') {
+      if (action.subsystem === '*') {
         return { ...state, globalLogLevel: action.level }
       }
       return {

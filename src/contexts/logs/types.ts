@@ -135,7 +135,7 @@ export type LogsAction =
  * API Response types for type safety
  */
 export interface LogLevelsResponse {
-  Levels: Record<string, string>
+  levels: Record<string, string>
 }
 
 /**
