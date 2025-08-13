@@ -105,6 +105,7 @@
     "src/helpers/context-bridge.tsx",
     "src/helpers/connected-context-provider.tsx",
     "src/contexts/**/*.ts",
-    "src/contexts/**/*.tsx"
+    "src/contexts/**/*.tsx",
+    "src/helpers/connected-context-provider.tsx"
   ]
 }
