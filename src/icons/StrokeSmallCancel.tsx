@@ -1,11 +1,8 @@
 import * as React from 'react'
-
-function SvgStrokeSmallCancel (props) {
-  return (
+import type { SVGProps } from 'react'
+const SvgStrokeSmallCancel = (props: SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
-      <path d="M40.5 68.8l-5.6-5.6 9.7-9.7-9.7-9.7 5.6-5.6 9.7 9.7 9.7-9.7 5.6 5.6-9.7 9.7 9.7 9.7-5.6 5.6-9.7-9.7-9.7 9.7zm9.7-13.2l9.7 9.7 2.1-2.1-9.7-9.7 9.7-9.7-2.1-2.1-9.7 9.7-9.7-9.7-2.1 2.1 9.7 9.7-9.7 9.7 2.1 2.1 9.7-9.7z" />
+        <path d="m40.5 68.8-5.6-5.6 9.7-9.7-9.7-9.7 5.6-5.6 9.7 9.7 9.7-9.7 5.6 5.6-9.7 9.7 9.7 9.7-5.6 5.6-9.7-9.7zm9.7-13.2 9.7 9.7 2.1-2.1-9.7-9.7 9.7-9.7-2.1-2.1-9.7 9.7-9.7-9.7-2.1 2.1 9.7 9.7-9.7 9.7 2.1 2.1z" />
     </svg>
-  )
-}
-
+)
 export default SvgStrokeSmallCancel
