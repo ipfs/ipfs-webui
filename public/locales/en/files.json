@@ -185,5 +185,14 @@
   },
   "noPinsInProgress": "All done, no remote pins in progress.",
   "remotePinningInProgress": "Remote pinning in progress:",
-  "selectAllEntries": "Select all entries"
+  "selectAllEntries": "Select all entries",
+  "previewNotFound": {
+    "title": "IPFS can't find this item",
+    "helpTitle": "These are common troubleshooting steps might help:",
+    "helpListItemPathTypo": "Are there typos in the path you entered?",
+    "helpListItemFileMoved": "Was the file moved, renamed, or deleted?",
+    "helpListItemBookmarkMigrated": "Did you copy a URL or bookmark from another computer? If so, you'll need to",
+    "helpListItemBookmarkMigratedLink": "point this instance at that computer's node",
+    "backButton": "Go to Home"
+  }
 }
