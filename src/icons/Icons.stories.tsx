@@ -1,19 +1,29 @@
-import React from 'react'
-
+import React, { FC } from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import * as iconImports from './index.js'
-const icons = Object.keys(iconImports).map((m) => ({
+
+interface IconItem {
+  name: string
+  Icon: React.ComponentType<{ fill?: string; stroke?: string; width?: number; height?: number; className?: string }>
+}
+
+const icons: IconItem[] = Object.keys(iconImports).map((m) => ({
   name: m,
-  Icon: iconImports[m]
+  Icon: iconImports[m as keyof typeof iconImports] as IconItem['Icon']
 }))
 
-const filterByTextQuery = (icon, searchQuery) => {
+const filterByTextQuery = (icon: IconItem, searchQuery: string): boolean => {
   return icon.name.toLowerCase().includes(searchQuery.toLowerCase())
 }
 
-/**
- * @type {import('@storybook/react').StoryObj}
- */
-const List = ({ iconFilter, size, fill, stroke }) => {
+interface ListProps {
+  iconFilter: string
+  size: number
+  fill?: string
+  stroke?: string
+}
+
+const List: FC<ListProps> = ({ iconFilter, size, fill, stroke }) => {
   const iconFilterNotSet = iconFilter == null || iconFilter.length === 0
 
   return (
@@ -31,10 +41,7 @@ const List = ({ iconFilter, size, fill, stroke }) => {
   )
 }
 
-/**
- * @type {import('@storybook/react').Meta}
- */
-export default {
+const meta: Meta<ListProps> = {
   title: 'Icons',
   component: List,
   // decorators: [withKnobs],
@@ -62,10 +69,9 @@ export default {
     }
   }
 }
-/**
- * @type {import('@storybook/react').StoryObj}
- */
-export const Default = {
+export default meta
+
+export const Default: StoryObj<ListProps> = {
   name: 'Icons',
   args: {
     iconFilter: '',
