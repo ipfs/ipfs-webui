@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback, type FC, type MouseEvent } from 'react'
+import React, { useRef, useState, useEffect, useCallback, type FC, type MouseEvent } from 'react'
 import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
