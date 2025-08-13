@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import * as iconImports from './index.js'
+import * as iconImports from './all.js'
 
 interface IconItem {
   name: string
