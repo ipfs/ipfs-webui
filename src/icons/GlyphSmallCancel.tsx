@@ -5,4 +5,5 @@ const SvgGlyphSmallCancel = (props: SVGProps<SVGSVGElement>) => (
         <path d="m63.79 63.2-3.88 3.88-9.71-9.7-9.7 9.7-3.88-3.88 9.7-9.71-9.7-9.7 3.88-3.88 9.7 9.7 9.71-9.7 3.88 3.88-9.7 9.7z" />
     </svg>
 )
+
 export default SvgGlyphSmallCancel
