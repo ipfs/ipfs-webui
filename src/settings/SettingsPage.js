@@ -9,7 +9,7 @@ import withTour from '../components/tour/withTour.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 // Components
 import Tick from '../icons/GlyphSmallTick.js'
-import Box from '../components/box/Box.js'
+import Box from '../components/box/Box'
 import Button from '../components/button/button.tsx'
 import LanguageSelector from '../components/language-selector/LanguageSelector.js'
 import PinningManager from '../components/pinning-manager/PinningManager.js'
