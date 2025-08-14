@@ -124,7 +124,7 @@
     "@storybook/addon-controls": "^6.5.16",
     "@storybook/addon-coverage": "^0.0.8",
     "@storybook/addon-essentials": "^6.5.16",
-    "@storybook/addon-knobs": "^5.3.19",
+    "@storybook/addon-knobs": "^8.0.1",
     "@storybook/addon-links": "^6.5.16",
     "@storybook/addons": "^6.5.16",
     "@storybook/builder-webpack5": "^6.5.16",
