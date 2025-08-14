@@ -1,12 +1,11 @@
-// @ts-nocheck
-import * as React from 'react'
+// @ts-expect-error - React import needed for JSX compilation
+import React from 'react'
 import PropTypes from 'prop-types'
 import CancelIcon from '../../icons/GlyphSmallCancel'
 
-// @ts-ignore
-export const ModalActions = ({ justify = 'between', className = '', children, ...props }) => (
+export const ModalActions = ({ justify = 'between', className = '', ...props }) => (
   <div className={`flex justify-${justify} pa2 ${className}`} style={{ backgroundColor: '#f4f6f8' }} {...props}>
-    { children }
+    {props.children}
   </div>
 )
 
@@ -16,7 +15,7 @@ ModalActions.propTypes = {
   children: PropTypes.node
 }
 
-// @ts-ignore
+// @ts-expect-error - undefined props
 export const ModalBody = ({ className = '', Icon, title, children, ...props }) => (
   <div className={`ph4 pv3 tc ${className}`} {...props}>
     { Icon && (
@@ -40,7 +39,7 @@ ModalBody.propTypes = {
   children: PropTypes.node
 }
 
-// @ts-ignore
+// @ts-expect-error - undefined props
 export const Modal = ({ onCancel, children, className, ...props }) => {
   return (
     <div className={`${className} bg-white w-80 shadow-4 sans-serif relative`} style={{ maxWidth: '34em' }} {...props}>

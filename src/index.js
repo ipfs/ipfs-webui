@@ -42,8 +42,9 @@ async function render () {
           <DndProvider backend={DndBackend}>
             <HeliaProvider>
               <ExploreProvider>
-               <ShortcutsProvider>
-                <App />
+                <ShortcutsProvider>
+                  <App />
+                </ShortcutsProvider>
               </ExploreProvider>
             </HeliaProvider>
           </DndProvider>

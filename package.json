@@ -138,7 +138,6 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^14.18.36",
     "@types/path-browserify": "^1.0.0",
-    "@types/prop-types": "^15.7.14",
     "@types/react-overlays": "^3.1.0",
     "@typescript-eslint/parser": "^5.62.0",
     "aegir": "^42.2.2",

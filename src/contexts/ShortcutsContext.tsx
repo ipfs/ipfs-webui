@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useCallback, useEffect } from 'react'
 import ShortcutModal from '../files/modals/shortcut-modal/shortcut-modal'
-// @ts-ignore
 import Overlay from '../components/overlay/Overlay.js'
 import { t } from 'i18next'
 
