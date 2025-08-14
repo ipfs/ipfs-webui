@@ -1,0 +1,9 @@
+import React from 'react'
+import type { SVGProps } from 'react'
+const SvgStrokeDocMusic = (props: SVGProps<SVGSVGElement>) => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
+        <path d="M75.1 37.2 56.5 17.8H30c-3 0-5.5 2.5-5.5 5.5v53.4c0 3 2.5 5.5 5.5 5.5h40c3 0 5.5-2.5 5.5-5.5V37.5zM56.9 22.5l14 14.6h-7.1c-4 0-6.9-2.5-6.9-6zM70 79.2H30c-1.4 0-2.5-1.1-2.5-2.5V23.3c0-1.4 1.1-2.5 2.5-2.5h24.9v10.3c0 4.6 3.8 8 8.9 8h8.6v37.6c.1 1.4-1 2.5-2.4 2.5" />
+        <path d="M45.1 56.4v12.8c0 1.5-1 2.9-2.4 3.5-1.8 1.1-4.1.7-5.5-.9-.9-1.4-.2-3.5 2-4.6 1.3-.7 2.8-.8 4.2-.3V50.2l16.5-3.3v20.7c-.1 1.5-1 2.9-2.4 3.5-1.8 1.1-4.1.8-5.5-.8-.9-1.3-.2-3.5 2-4.6 1.3-.7 2.8-.8 4.2-.3V53.6z" />
+    </svg>
+)
+export default SvgStrokeDocMusic
