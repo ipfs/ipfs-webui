@@ -32,6 +32,23 @@ async function run (rpcPort) {
       bin: process.env.IPFS_GO_EXEC || kuboPath(),
       init: {
         config: {
+          API: {
+            HTTPHeaders: {
+              'Access-Control-Allow-Methods': [
+                'PUT',
+                'POST',
+                'GET',
+                'HEAD',
+                'OPTIONS'
+              ],
+              'Access-Control-Allow-Origin': [
+                '*' // allow all origins for testing
+              ],
+              Vary: [
+                'Origin'
+              ]
+            }
+          },
           Addresses: {
             API: `/ip4/127.0.0.1/tcp/${rpcPort}`,
             Gateway: `/ip4/127.0.0.1/tcp/${gatewayPort}`
