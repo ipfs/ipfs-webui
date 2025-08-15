@@ -1,10 +1,12 @@
-import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, useRef, Dispatch } from 'react'
-import { BatchProcessor, LogBufferConfig, LogsAction, LogsContextValue } from './types'
+import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, useRef, useState } from 'react'
 import { logsReducer, initLogsState } from './reducer'
-import { parseLogEntry, fetchLogSubsystems, getLogLevels } from './api'
-import { useBatchProcessor } from './batch-processor'
-import { logStorage } from '../../lib/log-storage'
-import { KuboRPCClient } from 'kubo-rpc-client'
+import { parseLogEntry, getLogLevels, setLogLevelsBatch as setLogLevelsBatchApi } from './api'
+import { useBatchProcessor } from './use-batch-processor'
+import { logStorage } from './log-storage'
+import type { KuboRPCClient } from 'kubo-rpc-client'
+import type { LogEntry } from './api'
+import type { LogBufferConfig, LogRateState } from './reducer'
+import type { LogStorageStats } from './log-storage'
 
 interface LogsProviderProps {
   children: React.ReactNode
@@ -13,34 +15,54 @@ interface LogsProviderProps {
 }
 
 /**
+ * Logs context value
+ */
+export interface LogsContextValue {
+  // Log entries and streaming
+  entries: LogEntry[]
+  isStreaming: boolean
+
+  // Log levels
+  globalLogLevel: string
+  subsystemLevels: Record<string, string>
+  actualLogLevels: Record<string, string>
+  isLoadingLevels: boolean
+
+  // Configuration and monitoring
+  bufferConfig: LogBufferConfig
+  rateState: LogRateState
+  storageStats: LogStorageStats | null
+
+  // Computed values
+  gologLevelString: string | null
+  subsystems: Array<{ name: string; level: string }>
+
+  // Actions
+  startStreaming: () => void
+  stopStreaming: () => void
+  clearEntries: () => void
+  setLogLevelsBatch: (levels: Array<{ subsystem: string; level: string }>) => Promise<void>
+  updateBufferConfig: (config: Partial<LogBufferConfig>) => void
+
+  fetchLogLevels: () => void
+  updateStorageStats: () => void
+  showWarning: () => void
+}
+
+/**
  * Logs context
  */
 const LogsContext = createContext<LogsContextValue | undefined>(undefined)
 LogsContext.displayName = 'LogsContext'
 
-const processStream = async (stream: AsyncIterable<any>, controller: AbortController, batchProcessor: BatchProcessor, dispatch: Dispatch<LogsAction>) => {
-  try {
-    for await (const entry of stream) {
-      if (controller.signal.aborted) break
-
-      const logEntry = parseLogEntry(entry)
-      if (logEntry) {
-        batchProcessor.addEntry(logEntry)
-      }
-    }
-  } catch (error) {
-    if (!controller.signal.aborted) {
-      console.error('Log streaming error:', error)
-      dispatch({ type: 'STOP_STREAMING' })
-    }
-  }
-}
 /**
  * Streamlined logs provider component with performance optimizations
  */
 const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsConnected = false }) => {
   // Use lazy initialization to avoid recreating deep objects on every render
   const [state, dispatch] = useReducer(logsReducer, undefined, initLogsState)
+  const [bootstrapped, setBootstrapped] = useState(false)
+  const streamControllerRef = useRef<AbortController | null>(null)
 
   // Use ref for mount status to avoid stale closures
   const isMounted = useRef(true)
@@ -61,23 +83,13 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
       }
     }, []),
     useCallback(() => {
-      dispatch({ type: 'AUTO_DISABLE' })
+      const controller = streamControllerRef.current
+      if (!controller) {
+        throw new Error('Stream controller not found')
+      }
+      dispatch({ type: 'AUTO_DISABLE', controller })
     }, [])
   )
-
-  // Internal action implementations with proper error handling
-  const fetchSubsystemsInternal = useCallback(async () => {
-    if (!ipfsConnected || !ipfs) return
-
-    try {
-      dispatch({ type: 'FETCH_SUBSYSTEMS' })
-      const subsystems = await fetchLogSubsystems(ipfs)
-      dispatch({ type: 'UPDATE_SUBSYSTEMS', subsystems })
-    } catch (error) {
-      console.error('Failed to fetch log subsystems:', error)
-      dispatch({ type: 'UPDATE_SUBSYSTEMS', subsystems: [] })
-    }
-  }, [ipfs, ipfsConnected])
 
   const fetchLogLevelsInternal = useCallback(async () => {
     if (!ipfsConnected || !ipfs) return
@@ -96,44 +108,57 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     }
   }, [ipfs, ipfsConnected])
 
-  const setLogLevel = useCallback(async (subsystem: string, level: string) => {
+  const setLogLevelsBatch = useCallback(async (levels: Array<{ subsystem: string; level: string }>) => {
     if (!ipfsConnected || !ipfs) return
 
-    const controller = new AbortController()
-
     try {
-      await ipfs.log.level(subsystem, level)
-      if (subsystem === '*') {
-        try {
-          const response = await getLogLevels(ipfs, controller.signal)
-          console.log('response', response)
-          dispatch({ type: 'UPDATE_LEVELS', levels: response })
-        } catch (error) {
-          console.warn('Failed to fetch updated log levels after global change:', error)
-          const updatedLevels = {
-            ...state.actualLogLevels,
-            '(default)': level
-          }
-          dispatch({ type: 'UPDATE_LEVELS', levels: updatedLevels })
-        }
-      } else {
-        const updatedLevels = {
-          ...state.actualLogLevels,
-          [subsystem]: level
-        }
-        dispatch({ type: 'UPDATE_LEVELS', levels: updatedLevels })
-      }
+      // Set all levels in batch and get the final state
+      const finalLevels = await setLogLevelsBatchApi(ipfs, levels)
 
-      dispatch({ type: 'SET_LEVEL', subsystem, level })
+      // Update the state with the final levels
+      dispatch({ type: 'UPDATE_LEVELS', levels: finalLevels })
+
+      // Update individual subsystem levels in state
+      levels.forEach(({ subsystem, level }) => {
+        dispatch({ type: 'SET_LEVEL', subsystem, level })
+      })
     } catch (error) {
-      console.error(`Failed to set log level for ${subsystem}:`, error)
+      console.error('Failed to set log levels in batch:', error)
       throw error
     }
+  }, [ipfs, ipfsConnected])
 
-    return () => {
-      controller.abort()
+  const processStream = useCallback(async (stream: AsyncIterable<any>) => {
+    const controller = streamControllerRef.current
+    if (!controller) {
+      throw new Error('Stream controller not found')
     }
-  }, [ipfs, ipfsConnected, state.actualLogLevels])
+
+    try {
+      for await (const entry of stream) {
+        if (controller.signal.aborted) break
+        const logEntry = parseLogEntry(entry)
+        if (logEntry) {
+          batchProcessor.addEntry(logEntry)
+        }
+      }
+    } catch (error) {
+      if (!controller.signal.aborted) {
+        console.error('Log streaming error:', error)
+        dispatch({ type: 'STOP_STREAMING', controller })
+      }
+    }
+  }, [batchProcessor, dispatch])
+
+  const stopStreaming = useCallback(() => {
+    const controller = streamControllerRef.current
+    if (!controller) {
+      throw new Error('Stream controller not found')
+    }
+    dispatch({ type: 'STOP_STREAMING', controller })
+    batchProcessor.stop()
+    streamControllerRef.current = null
+  }, [batchProcessor, dispatch])
 
   const startStreaming = useCallback(async () => {
     if (!ipfsConnected || !ipfs) {
@@ -142,12 +167,14 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     }
 
     const controller = new AbortController()
-    dispatch({ type: 'START_STREAMING', controller })
-    batchProcessor.start(controller)
+    streamControllerRef.current = controller
+    dispatch({ type: 'START_STREAMING' })
+    batchProcessor.start(streamControllerRef)
 
     try {
       await logStorage.init()
 
+      // Load recent logs from storage
       try {
         const recentLogs = await logStorage.getRecentLogs(state.bufferConfig.memory)
         if (recentLogs.length > 0) {
@@ -160,22 +187,18 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
         console.warn('Failed to load recent logs from storage:', error)
       }
 
-      const stream = ipfs.log.tail()
+      const stream = ipfs.log.tail({ signal: controller.signal })
 
       if (stream && typeof stream[Symbol.asyncIterator] === 'function') {
-        processStream(stream, controller, batchProcessor, dispatch)
+        void processStream(stream)
       } else {
         throw new Error('Log streaming not supported')
       }
     } catch (error) {
       console.error('Failed to start log streaming:', error)
-      dispatch({ type: 'STOP_STREAMING' })
+      stopStreaming()
     }
-  }, [ipfs, ipfsConnected, state.bufferConfig, batchProcessor])
-
-  const stopStreaming = useCallback(() => {
-    dispatch({ type: 'STOP_STREAMING' })
-  }, [])
+  }, [ipfsConnected, ipfs, batchProcessor, state.bufferConfig.memory, processStream, stopStreaming])
 
   const clearEntries = useCallback(async () => {
     try {
@@ -193,22 +216,6 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     }
   }, [])
 
-  const goToLatestLogsInternal = useCallback(async () => {
-    try {
-      const latestLogs = await logStorage.getRecentLogs(state.bufferConfig.memory)
-      const storageStats = await logStorage.getStorageStats()
-
-      dispatch({
-        type: 'LOAD_LATEST',
-        logs: latestLogs
-      })
-
-      dispatch({ type: 'UPDATE_STORAGE_STATS', stats: storageStats })
-    } catch (error) {
-      console.error('Failed to load latest logs:', error)
-    }
-  }, [state.bufferConfig.memory])
-
   const updateStorageStatsInternal = useCallback(async () => {
     try {
       const stats = await logStorage.getStorageStats()
@@ -217,6 +224,18 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
       console.error('Failed to update storage stats:', error)
     }
   }, [])
+
+  const loadExistingEntries = useCallback(async () => {
+    try {
+      await logStorage.init()
+      const recentLogs = await logStorage.getRecentLogs(state.bufferConfig.memory)
+      if (recentLogs.length > 0) {
+        dispatch({ type: 'ADD_BATCH', entries: recentLogs })
+      }
+    } catch (error) {
+      console.warn('Failed to load existing log entries:', error)
+    }
+  }, [state.bufferConfig.memory])
 
   const showWarning = useCallback(() => {
     dispatch({ type: 'SHOW_WARNING' })
@@ -234,29 +253,46 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     const parts = [effectiveGlobalLevel]
 
     // Add subsystems that differ from the effective global level
-    state.subsystems.forEach(subsystem => {
-      const subsystemLevel = state.actualLogLevels[subsystem.name] || state.subsystemLevels[subsystem.name] || subsystem.level || 'info'
-      if (subsystemLevel !== effectiveGlobalLevel) {
-        parts.push(`${subsystem.name}=${subsystemLevel}`)
+    Object.entries(state.actualLogLevels).forEach(([subsystem, level]) => {
+      if (subsystem !== '(default)' && level !== effectiveGlobalLevel) {
+        parts.push(`${subsystem}=${level}`)
       }
     })
 
     return parts.join(',')
-  }, [state.isLoadingLevels, state.actualLogLevels, state.globalLogLevel, state.subsystems, state.subsystemLevels])
+  }, [state.isLoadingLevels, state.actualLogLevels, state.globalLogLevel])
+
+  // Compute subsystems list from actual log levels
+  const subsystems = useMemo(() => {
+    return Object.entries(state.actualLogLevels)
+      .filter(([name]) => name !== '(default)')
+      .map(([name, level]) => ({
+        name,
+        level: level || 'info'
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+  }, [state.actualLogLevels])
 
   // Mount/unmount and bootstrap effect
   useEffect(() => {
     // Update storage config with current buffer settings
     logStorage.updateConfig({ maxEntries: state.bufferConfig.indexedDB })
-    console.log('Updated storage config to maxEntries:', state.bufferConfig.indexedDB)
+  }, [state.bufferConfig.indexedDB])
 
+  // Cleanup effect - stops streaming on unmount
+  useEffect(() => {
+    isMounted.current = true
     return () => {
+      stopStreaming()
       isMounted.current = false
     }
-  }, [state.bufferConfig.indexedDB])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Initialize log storage and bootstrap data
   useEffect(() => {
+    if (bootstrapped) return
+
     async function bootstrap () {
       if (!isMounted.current) return
 
@@ -271,43 +307,38 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
       // Load initial data in parallel when IPFS is connected
       if (ipfsConnected && ipfs) {
         await Promise.allSettled([
-          fetchSubsystemsInternal(),
           fetchLogLevelsInternal(),
           updateStorageStatsInternal(),
-          goToLatestLogsInternal()
-        ])
+          loadExistingEntries()
+        ]).then(() => {
+          setBootstrapped(true)
+        })
       }
     }
 
     bootstrap()
-
-    return () => {
-      dispatch({ type: 'STOP_STREAMING' })
-    }
-  }, [ipfsConnected, ipfs, fetchSubsystemsInternal, fetchLogLevelsInternal, updateStorageStatsInternal, goToLatestLogsInternal])
+  }, [ipfsConnected, ipfs, fetchLogLevelsInternal, updateStorageStatsInternal, loadExistingEntries, bootstrapped])
 
   // Group related actions for cleaner context value assembly
   const logActions = useMemo(() => ({
     startStreaming,
     stopStreaming,
     clearEntries,
-    setLogLevel,
+    setLogLevelsBatch,
     updateBufferConfig,
-    goToLatestLogs: goToLatestLogsInternal,
-    fetchSubsystems: fetchSubsystemsInternal,
     fetchLogLevels: fetchLogLevelsInternal,
     updateStorageStats: updateStorageStatsInternal,
+    loadExistingEntries,
     showWarning
   }), [
     startStreaming,
     stopStreaming,
     clearEntries,
-    setLogLevel,
+    setLogLevelsBatch,
     updateBufferConfig,
-    goToLatestLogsInternal,
-    fetchSubsystemsInternal,
     fetchLogLevelsInternal,
     updateStorageStatsInternal,
+    loadExistingEntries,
     showWarning
   ])
 
@@ -315,7 +346,8 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
   const contextValue: LogsContextValue = {
     ...state,
     ...logActions,
-    gologLevelString
+    gologLevelString,
+    subsystems
   }
 
   return (

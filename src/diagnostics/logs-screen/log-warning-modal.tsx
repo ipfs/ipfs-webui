@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Modal, ModalBody, ModalActions } from './modal/Modal.js'
-import Overlay from './overlay/Overlay.js'
-import Button from './button/button.jsx'
+import { Modal, ModalBody, ModalActions } from '../../components/modal/Modal.js'
+import Overlay from '../../components/overlay/Overlay.js'
+import Button from '../../components/button/button.js'
+
+export type WarningModalTypes = 'debug-global' | 'high-rate' | 'auto-disable' | null
 
 interface LogWarningModalProps {
   isOpen: boolean
   onClose: () => void
   onConfirm: () => void
-  warningType: 'debug-global' | 'high-rate' | 'auto-disable'
+  warningType: WarningModalTypes
   currentRate?: number
 }
 
@@ -21,7 +23,7 @@ const LogWarningModal: React.FC<LogWarningModalProps> = ({
 }) => {
   const { t } = useTranslation('diagnostics')
 
-  const getWarningContent = () => {
+  const content = useMemo(() => {
     switch (warningType) {
       case 'debug-global':
         return {
@@ -76,13 +78,15 @@ const LogWarningModal: React.FC<LogWarningModalProps> = ({
           suggestions: []
         }
     }
-  }
+  }, [warningType, t, currentRate])
 
-  const content = getWarningContent()
+  if (warningType == null) return null
 
   return (
+    // @ts-expect-error - Overlay is not typed
     <Overlay show={isOpen} onLeave={onClose}>
       <Modal onCancel={onClose} className="outline-0">
+        {/* @ts-expect-error - ModalBody is not typed */}
         <ModalBody>
           <div className="flex items-center mb3">
             <span className="mr2 f3">⚠️</span>

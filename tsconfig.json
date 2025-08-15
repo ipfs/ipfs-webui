@@ -39,7 +39,8 @@
     "incremental": true,
     "composite": true,
     "types": [
-      "node"
+      "node",
+      "jest"
     ],
     "typeRoots": [
       "@types"
@@ -93,6 +94,18 @@
     "src/helpers/connected-context-provider.tsx",
     "src/contexts/**/*.ts",
     "src/contexts/**/*.tsx",
-    "src/helpers/connected-context-provider.tsx"
+    "src/helpers/connected-context-provider.tsx",
+    "src/diagnostics/**/*.tsx",
+    "src/diagnostics/**/*.ts",
+    "src/components/button/button.tsx",
+    "src/components/box/Box.js",
+    "src/components/is-not-connected/is-not-connected.tsx",
+    "src/components/api-address-form/ApiAddressForm.js",
+    "src/components/shell/Shell.js",
+    "src/components/modal/Modal.js",
+    "src/components/overlay/Overlay.js",
+    "src/components/connected-component.tsx",
+    "src/components/helmet-wrapper.tsx",
+    "src/loader/ComponentLoader.js"
   ]
 }

@@ -1,6 +1,17 @@
 import { useRef, useCallback, useEffect } from 'react'
-import { LogEntry, LogBufferConfig } from './types'
-import { logStorage } from '../../lib/log-storage'
+import { logStorage } from './log-storage'
+import type { LogEntry } from './api'
+import type { LogBufferConfig } from './reducer'
+import type { MutableRefObject } from 'react'
+
+/**
+ * Batch processor interface
+ */
+export interface BatchProcessor {
+  start: (controller: MutableRefObject<AbortController | null>) => void
+  stop: () => void
+  addEntry: (entry: LogEntry) => void
+}
 
 /**
  * Custom hook for batch processing logs with rate monitoring
@@ -11,7 +22,7 @@ export function useBatchProcessor (
   bufferConfig: LogBufferConfig,
   onRateUpdate?: (rate: number, counts: Array<{ second: number; count: number }>, stats?: any) => void,
   onAutoDisable?: () => void
-) {
+): BatchProcessor {
   // Use refs to hold mutable state that doesn't trigger re-renders
   const controllerRef = useRef<AbortController | null>(null)
   const pendingEntriesRef = useRef<LogEntry[]>([])
@@ -91,13 +102,31 @@ export function useBatchProcessor (
     lastBatchTimeRef.current = now
   }, [onBatch, bufferConfig, onRateUpdate, onAutoDisable])
 
-  const start = useCallback((controller: AbortController) => {
-    controllerRef.current = controller
+  const start = useCallback((controller: MutableRefObject<AbortController | null>) => {
+    controllerRef.current = controller.current
     // Reset rate counters when starting
     autoDisabledRef.current = false
     entryCountsRef.current = []
     lastBatchTimeRef.current = Date.now()
   }, [])
+
+  const stop = useCallback(() => {
+    // Clear any pending timeout
+    if (batchTimeoutRef.current) {
+      clearTimeout(batchTimeoutRef.current)
+      batchTimeoutRef.current = null
+    }
+
+    controllerRef.current?.abort()
+
+    // Clear the controller reference
+    controllerRef.current = null
+
+    // Process any remaining entries before stopping
+    if (pendingEntriesRef.current.length > 0) {
+      setTimeout(processBatch, 10)
+    }
+  }, [processBatch])
 
   const addEntry = useCallback((entry: LogEntry) => {
     if (!controllerRef.current || controllerRef.current.signal.aborted) return
@@ -127,15 +156,11 @@ export function useBatchProcessor (
         clearTimeout(batchTimeoutRef.current)
         batchTimeoutRef.current = null
       }
-      // Process any remaining entries after current cycle completes
-      if (pendingEntriesRef.current.length > 0) {
-        setTimeout(processBatch, 10)
-      }
     }
 
     controller.signal.onabort = cleanup
     return cleanup
-  }, [processBatch])
+  }, [])
 
-  return { start, addEntry }
+  return { start, stop, addEntry }
 }

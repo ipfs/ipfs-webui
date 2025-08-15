@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createConnectedComponent } from '../components/connected-component.js'
-import LogsScreen from './logs-screen.jsx'
+import LogsScreen from './logs-screen/logs-screen.js'
 import { LogsProvider } from '../contexts/logs/index'
 
 interface ReduxBundlerProps {

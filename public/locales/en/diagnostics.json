@@ -65,9 +65,19 @@
     },
     "gologLevel": {
       "title": "Current Log Configuration",
-      "description": "GOLOG_LOG_LEVEL equivalent for current settings",
+      "description": "GOLOG_LOG_LEVEL equivalent for current settings. Use to prototype log level set for your Kubo node.",
       "copyToClipboard": "Copy to clipboard",
-      "copied": "Copied!"
+      "copied": "Copied!",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel",
+      "clickToEdit": "Click to edit GOLOG_LOG_LEVEL"
+    },
+    "autocomplete": {
+      "globalLevel": "Global level",
+      "subsystem": "Subsystem",
+      "level": "Log level",
+      "invalidLevel": "Invalid log level. Valid levels are: debug, info, warn, error, dpanic, panic, fatal"
     },
     "warnings": {
       "potentialIssues": "Potential Issues:",

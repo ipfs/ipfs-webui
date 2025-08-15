@@ -1,73 +1,65 @@
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import Box from '../components/box/Box.js'
-import Button from '../components/button/button.jsx'
-import LogWarningModal from '../components/log-warning-modal.tsx'
-import { humanSize } from '../lib/files.js'
-import { useLogs } from '../contexts/logs/index'
+import Box from '../../components/box/Box.js'
+import Button from '../../components/button/button'
+import LogWarningModal from './log-warning-modal'
+import { humanSize } from '../../lib/files.js'
+import { useLogs } from '../../contexts/logs/index'
+import { StreamingStatus } from './streaming-status'
+import GologLevelSection from './golog-level-section'
+import type { WarningModalTypes } from './log-warning-modal'
 
-const LOG_LEVELS = ['debug', 'info', 'warn', 'error', 'dpanic', 'panic', 'fatal']
+type LogLevelColor = 'gray' | 'blue' | 'orange' | 'red' | 'darkred' | 'black'
+
+const getLevelColor = (level: string): LogLevelColor => {
+  switch (level.toLowerCase()) {
+    case 'debug': return 'gray'
+    case 'info': return 'blue'
+    case 'warn': return 'orange'
+    case 'error': return 'red'
+    case 'dpanic':
+    case 'panic':
+    case 'fatal': return 'darkred'
+    default: return 'black'
+  }
+}
+
+const formatTimestamp = (timestamp: string): string => {
+  try {
+    return new Date(timestamp).toLocaleTimeString()
+  } catch {
+    return timestamp
+  }
+}
 
 const LogsScreen = () => {
   const { t } = useTranslation('diagnostics')
   const {
     entries: logEntries,
-    subsystems: logSubsystems,
     isStreaming: isLogStreaming,
-    globalLogLevel,
-    isLoadingSubsystems,
     bufferConfig: logBufferConfig,
     rateState: logRateState,
     storageStats: logStorageStats,
-    viewOffset: logViewOffset,
-    subsystemLevels,
-    actualLogLevels,
-    isLoadingLevels,
-    fetchSubsystems: doFetchLogSubsystems,
-    fetchLogLevels: doFetchLogLevels,
-    setLogLevel: doSetLogLevel,
+    setLogLevelsBatch: doSetLogLevelsBatch,
     startStreaming: doStartLogStreaming,
     stopStreaming: doStopLogStreaming,
     clearEntries: doClearLogEntries,
     updateBufferConfig: doUpdateLogBufferConfig,
-    updateStorageStats: doUpdateStorageStats,
-    goToLatestLogs: doGoToLatestLogs,
-    showWarning: doShowWarning,
-    gologLevelString
+    showWarning: doShowWarning
   } = useLogs()
 
   // Component state
-  const [warningModal, setWarningModal] = useState({ isOpen: false, type: null })
-  const [pendingLevelChange, setPendingLevelChange] = useState(null)
+  const [warningModal, setWarningModal] = useState<{ isOpen: boolean, type: WarningModalTypes }>({ isOpen: false, type: null })
+  const [pendingLevelChange, setPendingLevelChange] = useState<{ subsystem: string, level: string } | null>(null)
   const [showBufferConfig, setShowBufferConfig] = useState(false)
   const [tempBufferConfig, setTempBufferConfig] = useState({ ...logBufferConfig, selectedSubsystem: '' })
-  const [copiedGologLevel, setCopiedGologLevel] = useState(false)
 
   // Refs for virtual scrolling
-  const logContainerRef = useRef(null)
+  const logContainerRef = useRef<HTMLDivElement>(null)
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true)
 
   // Ensure we have safe defaults for arrays
   const safeLogEntries = useMemo(() => Array.isArray(logEntries) ? logEntries : [], [logEntries])
-  const safeLogSubsystems = useMemo(() => {
-    const subsystems = Array.isArray(logSubsystems) ? logSubsystems : []
-
-    // Merge with actual log levels from API, fallback to session tracking
-    const mergedSubsystems = subsystems.map(subsystem => ({
-      ...subsystem,
-      level: actualLogLevels[subsystem.name] || subsystemLevels[subsystem.name] || subsystem.level || 'info'
-    }))
-    return mergedSubsystems
-  }, [logSubsystems, subsystemLevels, actualLogLevels])
-
-  useEffect(() => {
-    doFetchLogSubsystems()
-    doFetchLogLevels()
-    doUpdateStorageStats()
-    // Load initial logs from history on page load
-    doGoToLatestLogs()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // Only run once on mount
 
   // Monitor for warnings and auto-disable
   useEffect(() => {
@@ -92,69 +84,45 @@ const LogsScreen = () => {
     setTempBufferConfig({ ...logBufferConfig, selectedSubsystem: '' })
   }, [logBufferConfig])
 
-  // Disable auto-scroll when viewing historical logs, enable when at latest
-  useEffect(() => {
-    if (logViewOffset > 0) {
-      setAutoScrollEnabled(false)
-    } else {
-      // When returning to latest logs, enable auto-scroll
-      setAutoScrollEnabled(true)
-    }
-  }, [logViewOffset])
-
   // Auto-scroll to bottom when new logs arrive during streaming OR when initially loaded
   useEffect(() => {
-    const shouldAutoScroll = autoScrollEnabled && logViewOffset === 0 && logContainerRef.current && safeLogEntries.length > 0
-
-    if (shouldAutoScroll) {
-      const container = logContainerRef.current
-      // Small delay to ensure DOM has updated with new content
-      setTimeout(() => {
-        container.scrollTop = container.scrollHeight
-      }, 10)
-    }
-  }, [safeLogEntries.length, isLogStreaming, autoScrollEnabled, logViewOffset])
+    if (logContainerRef.current == null) return
+    if (!autoScrollEnabled) return
+    if (safeLogEntries.length === 0) return
+    const container = logContainerRef.current
+    // Small delay to ensure DOM has updated with new content
+    setTimeout(() => {
+      container.scrollTop = container.scrollHeight
+    }, 10)
+  }, [safeLogEntries.length, isLogStreaming, autoScrollEnabled])
 
   // Scroll to bottom when logs are initially loaded on page load
   useEffect(() => {
-    if (safeLogEntries.length > 0 && logViewOffset === 0 && logContainerRef.current) {
+    if (safeLogEntries.length > 0 && logContainerRef.current) {
       const container = logContainerRef.current
       // Longer delay to ensure all rendering is complete
       setTimeout(() => {
         container.scrollTop = container.scrollHeight
       }, 200)
     }
-  }, [safeLogEntries.length, logViewOffset]) // Trigger when entries change and loading is complete
+  }, [safeLogEntries.length]) // Trigger when entries change and loading is complete
 
-  const handleLevelChange = (subsystem, level) => {
-    // Check if this is enabling debug globally
-    if (subsystem === '*' && level === 'debug' && globalLogLevel !== 'debug') {
-      setPendingLevelChange({ subsystem, level })
-      setWarningModal({ isOpen: true, type: 'debug-global' })
-      return
-    }
-
-    doSetLogLevel(subsystem, level)
-  }
-
-  const confirmLevelChange = () => {
+  const confirmLevelChange = async () => {
     if (pendingLevelChange) {
-      doSetLogLevel(pendingLevelChange.subsystem, pendingLevelChange.level)
-      setPendingLevelChange(null)
+      try {
+        await doSetLogLevelsBatch([{
+          subsystem: pendingLevelChange.subsystem,
+          level: pendingLevelChange.level
+        }])
+        setPendingLevelChange(null)
+      } catch (error) {
+        console.error('Failed to set log level:', error)
+        // Optionally show error to user
+      }
     }
   }
 
-  const copyGologLevelToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(gologLevelString)
-      setCopiedGologLevel(true)
-      setTimeout(() => setCopiedGologLevel(false), 1000)
-    } catch (error) {
-      console.error('Failed to copy to clipboard:', error)
-    }
-  }
-
-  // Monitor scroll position for infinite scroll and auto-scroll
+  // Monitor scroll position for auto-scroll only
   const handleScroll = useCallback((e) => {
     e.stopPropagation() // Prevent scroll from bubbling to parent
     const container = e.target
@@ -164,44 +132,20 @@ const LogsScreen = () => {
 
     const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50
 
-    // Only manage auto-scroll when we're at the latest logs
-    if (logViewOffset === 0) {
-      // Enable auto-scroll when user scrolls to bottom
-      if (isNearBottom && !autoScrollEnabled) {
-        setAutoScrollEnabled(true)
-      }
-
-      // Disable auto-scroll when user scrolls away from bottom
-      if (!isNearBottom && autoScrollEnabled) {
-        setAutoScrollEnabled(false)
-      }
+    // Enable auto-scroll when user scrolls to bottom
+    if (isNearBottom && !autoScrollEnabled) {
+      setAutoScrollEnabled(true)
     }
-  }, [autoScrollEnabled, logViewOffset])
+
+    // Disable auto-scroll when user scrolls away from bottom
+    if (!isNearBottom && autoScrollEnabled) {
+      setAutoScrollEnabled(false)
+    }
+  }, [autoScrollEnabled])
 
   const applyBufferConfig = () => {
     doUpdateLogBufferConfig(tempBufferConfig)
     setShowBufferConfig(false)
-  }
-
-  const getLevelColor = (level) => {
-    switch (level.toLowerCase()) {
-      case 'debug': return 'gray'
-      case 'info': return 'blue'
-      case 'warn': return 'orange'
-      case 'error': return 'red'
-      case 'dpanic':
-      case 'panic':
-      case 'fatal': return 'darkred'
-      default: return 'black'
-    }
-  }
-
-  const formatTimestamp = (timestamp) => {
-    try {
-      return new Date(timestamp).toLocaleTimeString()
-    } catch {
-      return timestamp
-    }
   }
 
   const getLogRangeDisplay = () => {
@@ -212,28 +156,15 @@ const LogsScreen = () => {
     const totalEntries = logStorageStats.totalEntries
     const currentCount = safeLogEntries.length
 
-    if (logViewOffset === 0) {
-      // Showing latest logs
-      const rangeStart = Math.max(1, totalEntries - currentCount + 1)
-      const rangeEnd = totalEntries
+    // Always showing latest logs since there's no infinite scroll
+    const rangeStart = Math.max(1, totalEntries - currentCount + 1)
+    const rangeEnd = totalEntries
 
-      return t('logs.storage.logEntriesRange', {
-        total: totalEntries.toLocaleString(),
-        start: rangeStart.toLocaleString(),
-        end: rangeEnd.toLocaleString()
-      })
-    } else {
-      // Showing historical logs - the range is based on our position in history
-      // This is currently not used, but we may add it back in the future
-      const rangeEnd = totalEntries - logViewOffset
-      const rangeStart = Math.max(1, rangeEnd - currentCount + 1)
-
-      return t('logs.storage.logEntriesRange', {
-        total: totalEntries.toLocaleString(),
-        start: rangeStart.toLocaleString(),
-        end: rangeEnd.toLocaleString()
-      })
-    }
+    return t('logs.storage.logEntriesRange', {
+      total: totalEntries.toLocaleString(),
+      start: rangeStart.toLocaleString(),
+      end: rangeEnd.toLocaleString()
+    })
   }
 
   return (
@@ -248,19 +179,11 @@ const LogsScreen = () => {
             <h3 className='montserrat fw4 charcoal ma0 f5'>
               {isLogStreaming ? t('logs.streaming.statusActive') : t('logs.streaming.statusStopped')}
             </h3>
-            {isLogStreaming && (
-              <div className='flex items-center mt2'>
-                <span className='charcoal-muted f6 mr3'>
-                  {t('logs.streaming.rate')}: {logRateState.currentRate.toFixed(1)} logs/sec
-                </span>
-                {logRateState.currentRate > logBufferConfig.warnThreshold && (
-                  <span className='orange f6'>⚠️ {t('logs.streaming.highRate')}</span>
-                )}
-                {logRateState.autoDisabled && (
-                  <span className='red f6'>🛑 {t('logs.streaming.autoDisabled')}</span>
-                )}
-              </div>
-            )}
+            <StreamingStatus
+              isLogStreaming={isLogStreaming}
+              logRateState={logRateState}
+              logBufferConfig={logBufferConfig}
+            />
           </div>
           <div className='flex gap2'>
             <Button
@@ -355,113 +278,8 @@ const LogsScreen = () => {
         )}
       </Box>
 
-      {/* Log Level Controls */}
-      <Box className='mb3' style={{}}>
-        <div className='flex gap4'>
-          {/* Global Log Level */}
-          <div className='flex-auto'>
-            <label className='db fw6 mb2'>{t('logs.levels.global')}</label>
-            <select
-              className='input-reset ba b--black-20 pa2 w-100'
-              value={actualLogLevels['(default)'] || globalLogLevel}
-              onChange={(e) => {
-                console.log('setting global log level to', e.target.value)
-                handleLevelChange('*', e.target.value)
-              }}
-            >
-              {LOG_LEVELS.map(level => (
-                <option key={level} value={level}>
-                  {t(`logs.levels.${level}`)}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Subsystem Log Levels */}
-          <div className='flex-auto'>
-            <label className='db fw6 mb2'>{t('logs.levels.subsystem')}</label>
-            {isLoadingSubsystems || isLoadingLevels
-              ? (
-              <p className='gray'>{t('logs.entries.loading')}</p>
-                )
-              : (
-              <div className='flex items-end gap2'>
-                <div className='flex-auto'>
-                  <select
-                    className='input-reset ba b--black-20 pa2 w-100'
-                    value={tempBufferConfig.selectedSubsystem || ''}
-                    onChange={(e) => {
-                      const selectedSubsystem = e.target.value
-                      setTempBufferConfig({
-                        ...tempBufferConfig,
-                        selectedSubsystem
-                      })
-                    }}
-                  >
-                    <option value=''>{t('logs.levels.selectSubsystem')}</option>
-                    {safeLogSubsystems.map(subsystem => (
-                      <option key={subsystem.name} value={subsystem.name}>
-                        {subsystem.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {tempBufferConfig.selectedSubsystem && (
-                  <div className='flex-none'>
-                    <select
-                      className='input-reset ba b--black-20 pa2'
-                      value={safeLogSubsystems.find(s => s.name === tempBufferConfig.selectedSubsystem)?.level || 'info'}
-                      onChange={(e) => handleLevelChange(tempBufferConfig.selectedSubsystem, e.target.value)}
-                    >
-                      {LOG_LEVELS.map(level => (
-                        <option key={level} value={level}>
-                          {t(`logs.levels.${level}`)}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-              </div>
-                )}
-            {tempBufferConfig.selectedSubsystem && (
-              <div className='mt2 charcoal-muted f6'>
-                {t('logs.levels.currentLevel')}: {safeLogSubsystems.find(s => s.name === tempBufferConfig.selectedSubsystem)?.level || 'info'}
-              </div>
-            )}
-          </div>
-        </div>
-      </Box>
-
-      {/* GOLOG Level Display */}
-      <Box className='mb3'>
-        <div className='mb2'>
-          <h3 className='montserrat fw4 charcoal ma0 f5 mb2'>{t('logs.gologLevel.title')}</h3>
-          <p className='charcoal-muted f6 mb3'>{t('logs.gologLevel.description')}</p>
-          <div className='flex items-center gap2'>
-            <div className='flex-auto'>
-              {gologLevelString === null
-                ? (
-                <div className='input-reset ba b--black-20 pa2 bg-light-gray f6 charcoal-muted'>
-                  {t('logs.entries.loading')}...
-                </div>
-                  )
-                : (
-                <div className='input-reset ba b--black-20 pa2 bg-light-gray f6' style={{ fontFamily: 'Monaco, Consolas, "Liberation Mono", "Courier New", monospace' }}>
-                  {gologLevelString}
-                </div>
-                  )}
-            </div>
-            <Button
-              className='bg-blue white f6'
-              onClick={copyGologLevelToClipboard}
-              title={t('logs.gologLevel.copyToClipboard')}
-              disabled={gologLevelString === null}
-            >
-              {copiedGologLevel ? t('logs.gologLevel.copied') : `📋 ${t('logs.gologLevel.copyToClipboard')}`}
-            </Button>
-          </div>
-        </div>
-      </Box>
+      {/* GOLOG Level Display / Edit */}
+      <GologLevelSection />
 
       {/* Log Entries */}
       <Box className='mb3' style={{}}>
@@ -470,7 +288,7 @@ const LogsScreen = () => {
             <h3 className='montserrat fw4 charcoal ma0 f5'>
               {getLogRangeDisplay()}
             </h3>
-            {isLogStreaming && !autoScrollEnabled && logViewOffset === 0 && (
+            {isLogStreaming && !autoScrollEnabled && (
               <span className='ml2 f6 pa1 br2 bg-light-gray charcoal-muted'>
                 {t('logs.entries.autoScrollPaused')}
               </span>
@@ -525,9 +343,9 @@ const LogsScreen = () => {
               ))}
 
               {/* Auto-scroll to bottom indicator */}
-              {isLogStreaming && logViewOffset === 0 && autoScrollEnabled && (
+              {isLogStreaming && autoScrollEnabled && (
                 <div className='tc pa2 charcoal-muted f6'>
-                  📍 {t('logs.entries.streaming')}
+                  {t('logs.entries.streaming')}
                 </div>
               )}
             </div>}
@@ -540,6 +358,7 @@ const LogsScreen = () => {
           <h4 className='montserrat fw6 charcoal ma0 f6 mb2'>{t('logs.storage.title')}</h4>
           <div className='flex items-center charcoal-muted f6'>
             <span className='mr3'>{t('logs.storage.totalEntries')}: {logStorageStats.totalEntries.toLocaleString()}</span>
+            {/* @ts-expect-error - humanSize is not typed properly */}
             <span className='mr3'>{t('logs.storage.estimatedSize')}: {humanSize(logStorageStats.estimatedSize)}</span>
             <span>{t('logs.storage.memoryBuffer')}: {safeLogEntries.length}/{logBufferConfig.memory}</span>
           </div>

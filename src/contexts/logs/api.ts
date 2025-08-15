@@ -1,5 +1,56 @@
-import type { RawLogEntry, LogEntry, LogLevelsResponse, LogSubsystem } from './types'
 import type { KuboRPCClient } from 'kubo-rpc-client'
+
+/**
+ * Raw log entry from Kubo RPC API (before parsing)
+ */
+interface RawLogEntry {
+  /**
+   * The timestamp of the log
+   */
+  ts: string
+  /**
+   * The level of the log
+   */
+  level: string
+  /**
+   * The subsystem of the log
+   */
+  logger: string
+  /**
+   * The src line of code where the log was called from
+   */
+  caller: string
+  /**
+   * The message of the log
+   */
+  msg: string
+}
+
+/**
+ * Normalized log entry data structure
+ */
+export interface LogEntry {
+  timestamp: string
+  level: string
+  subsystem: string
+  message: string
+  id?: string
+}
+
+/**
+ * API Response types for type safety
+ */
+export interface LogLevelsResponse {
+  levels: Record<string, string>
+}
+
+/**
+ * Log subsystem data structure
+ */
+export interface LogSubsystem {
+  name: string
+  level: string
+}
 
 export async function getLogLevels (ipfs: KuboRPCClient, signal?: AbortSignal): Promise<LogLevelsResponse['levels']> {
   try {
@@ -8,6 +59,36 @@ export async function getLogLevels (ipfs: KuboRPCClient, signal?: AbortSignal): 
     return response.levels
   } catch (e) {
     console.error('Failed to fetch log levels', e)
+    throw e
+  }
+}
+
+/**
+ * Set a single log level
+ */
+async function setLogLevel (ipfs: KuboRPCClient, subsystem: string, level: string, signal?: AbortSignal): Promise<void> {
+  try {
+    await ipfs.log.level(subsystem, level, { signal })
+  } catch (e) {
+    console.error(`Failed to set log level for ${subsystem} to ${level}`, e)
+    throw e
+  }
+}
+
+/**
+ * Set multiple log levels in batch and return the final state
+ */
+export async function setLogLevelsBatch (ipfs: KuboRPCClient, levels: Array<{ subsystem: string; level: string }>, signal?: AbortSignal): Promise<LogLevelsResponse['levels']> {
+  try {
+    // Set all levels in sequence
+    for (const { subsystem, level } of levels) {
+      await setLogLevel(ipfs, subsystem, level, signal)
+    }
+
+    // Fetch the final state after all changes
+    return await getLogLevels(ipfs, signal)
+  } catch (e) {
+    console.error('Failed to set log levels in batch', e)
     throw e
   }
 }
@@ -28,35 +109,12 @@ export async function fetchLogSubsystems (ipfs: KuboRPCClient, signal?: AbortSig
 /**
  * Parse raw log entry into structured LogEntry
  */
-export function parseLogEntry (raw: unknown): LogEntry | null {
-  if (typeof raw === 'string') {
-    try {
-      const parsed = JSON.parse(raw)
-      return {
-        timestamp: parsed.ts ?? parsed.timestamp ?? new Date().toISOString(),
-        level: parsed.level ?? 'info',
-        subsystem: parsed.system ?? parsed.logger ?? 'unknown',
-        message: parsed.msg ?? parsed.message ?? raw
-      }
-    } catch {
-      const parts = raw.split(' ')
-      if (parts.length >= 3) {
-        return {
-          timestamp: new Date().toISOString(),
-          level: parts[0],
-          subsystem: parts[1],
-          message: parts.slice(2).join(' ')
-        }
-      }
-    }
-  } else if (raw && typeof raw === 'object') {
-    const obj = raw as RawLogEntry
-    return {
-      timestamp: obj.ts ?? obj.timestamp ?? new Date().toISOString(),
-      level: obj.level ?? 'info',
-      subsystem: obj.system ?? obj.logger ?? 'unknown',
-      message: obj.msg ?? obj.message ?? JSON.stringify(raw)
-    }
+export function parseLogEntry (raw: unknown): LogEntry {
+  const obj = raw as RawLogEntry
+  return {
+    timestamp: obj.ts,
+    level: obj.level,
+    subsystem: obj.logger,
+    message: obj.msg
   }
-  return null
 }

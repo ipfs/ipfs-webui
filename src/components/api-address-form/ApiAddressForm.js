@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { withTranslation } from 'react-i18next'
 import { createConnectedComponent } from '../connected-component.js'
-import Button from '../button/button.tsx'
+import Button from '../button/button.jsx'
 import { checkValidAPIAddress } from '../../bundles/ipfs-provider.js'
 
+// @ts-expect-error - Component not fully migrated to TypeScript yet
 const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFailed }) => {
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
   const initialIsValidApiAddress = !checkValidAPIAddress(value)
@@ -22,13 +23,16 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
     setShowFailState(!isValid)
   }, [value])
 
+  // @ts-expect-error - Component not fully migrated to TypeScript yet
   const onChange = (event) => setValue(event.target.value)
 
+  // @ts-expect-error - Component not fully migrated to TypeScript yet
   const onSubmit = async (event) => {
     event.preventDefault()
     doUpdateIpfsApiAddress(value)
   }
 
+  // @ts-expect-error - Component not fully migrated to TypeScript yet
   const onKeyPress = (event) => {
     if (event.key === 'Enter') {
       onSubmit(event)
@@ -50,6 +54,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
       <div className='tr'>
         <Button
           minWidth={100}
+          // @ts-expect-error - Button is not typed
           height={40}
           className='mt2 mt0-l ml2-l tc'
           disabled={!isValidApiAddress || value === ipfsApiAddress}>
@@ -61,6 +66,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
 }
 
 /**
+ * @param {string|number|object|null|undefined} value
  * @returns {string}
  */
 const asAPIString = (value) => {

@@ -1,15 +1,7 @@
 /**
- * IndexedDB-based log storage service with circular buffer behavior
- * Provides persistent storage for log entries with efficient querying
+ * IndexedDB-based log storage service
  */
-
-export interface LogEntry {
-  timestamp: string
-  level: string
-  subsystem: string
-  message: string
-  id?: string // Added for efficient indexing
-}
+import type { LogEntry } from './api'
 
 export interface LogStorageConfig {
   dbName: string

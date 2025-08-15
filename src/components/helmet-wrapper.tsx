@@ -1,4 +1,5 @@
 import React from 'react'
+// @ts-expect-error - Helmet is not typed
 import { Helmet as ReactHelmet } from 'react-helmet'
 
 interface HelmetProps {
