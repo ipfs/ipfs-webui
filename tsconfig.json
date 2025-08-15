@@ -92,6 +92,6 @@
     "src/helpers/context-bridge.tsx",
     "src/helpers/connected-context-provider.tsx",
     "src/components/version-link/**/*",
-    "src/lib/parse-agent-version.ts"
-    ]
+    "src/lib/*.ts"
+  ]
 }
