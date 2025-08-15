@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useIdentity } from '../contexts/identity-context.jsx'
-import VersionLink from '../components/version-link/VersionLink.js'
+import VersionLink from '../components/version-link/version-link.jsx'
 import { Definition, DefinitionList } from '../components/definition/Definition.js'
 
 const NodeInfo = () => {
