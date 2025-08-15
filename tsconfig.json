@@ -106,6 +106,7 @@
     "src/components/overlay/Overlay.js",
     "src/components/connected-component.tsx",
     "src/components/helmet-wrapper.tsx",
-    "src/loader/ComponentLoader.js"
+    "src/loader/ComponentLoader.js",
+    "src/components/unsupported-kubo-version/unsupported-kubo-version.tsx"
   ]
 }

@@ -7,7 +7,9 @@ import { humanSize } from '../../lib/files.js'
 import { useLogs } from '../../contexts/logs/index'
 import { StreamingStatus } from './streaming-status'
 import GologLevelSection from './golog-level-section'
+import UnsupportedKuboVersion from '../../components/unsupported-kubo-version/unsupported-kubo-version'
 import type { WarningModalTypes } from './log-warning-modal'
+import { IdentityProvider } from '../../contexts/identity-context'
 
 type LogLevelColor = 'gray' | 'blue' | 'orange' | 'red' | 'darkred' | 'black'
 
@@ -40,6 +42,7 @@ const LogsScreen = () => {
     bufferConfig: logBufferConfig,
     rateState: logRateState,
     storageStats: logStorageStats,
+    isLogLevelsSupported,
     setLogLevelsBatch: doSetLogLevelsBatch,
     startStreaming: doStartLogStreaming,
     stopStreaming: doStopLogStreaming,
@@ -165,6 +168,19 @@ const LogsScreen = () => {
       start: rangeStart.toLocaleString(),
       end: rangeEnd.toLocaleString()
     })
+  }
+
+  // Show unsupported version message if log levels are not supported
+  if (!isLogLevelsSupported) {
+    return (
+      <div>
+        <h2 className='montserrat fw4 charcoal ma0 f4 mb3'>{t('logs.title')}</h2>
+        <p className='charcoal-muted mb4'>{t('logs.description')}</p>
+        <IdentityProvider>
+          <UnsupportedKuboVersion />
+        </IdentityProvider>
+      </div>
+    )
   }
 
   return (
