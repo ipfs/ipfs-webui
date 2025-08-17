@@ -357,7 +357,11 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
-      <Preview files={files} onDownload={() => onDownload([files])} />
+      <Preview files={files} onDownload={() => onDownload([files])} onClose={() => {
+        // Navigate to parent directory to close file view
+        const parentPath = files.path.substring(0, files.path.lastIndexOf('/')) || '/'
+        doUpdateHash(parentPath)
+      }} />
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
@@ -393,9 +397,9 @@ const FilesPage = ({
   )
 }
 
-const Preview = ({ files, onDownload }) => {
+const Preview = ({ files, onDownload, onClose }) => {
   if (files && files.type === 'file') {
-    return (<FilePreview {...files} onDownload={onDownload} />)
+    return (<FilePreview {...files} onDownload={onDownload} onClose={onClose} />)
   }
   return (<div/>)
 }
