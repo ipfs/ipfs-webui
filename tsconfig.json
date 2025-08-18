@@ -90,6 +90,8 @@
     "src/components/checkbox/Checkbox.js",
     "src/files/type-from-ext/extToType.js",
     "src/helpers/context-bridge.tsx",
-    "src/helpers/connected-context-provider.tsx"
+    "src/helpers/connected-context-provider.tsx",
+    "src/components/version-link/**/*",
+    "src/lib/*.ts"
   ]
 }
