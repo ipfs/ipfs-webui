@@ -134,6 +134,8 @@
     "@storybook/react": "^6.5.16",
     "@storybook/test-runner": "^0.17.0",
     "@svgr/cli": "^8.1.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^12.1.5",
     "@types/esm": "^3.2.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^14.18.36",
