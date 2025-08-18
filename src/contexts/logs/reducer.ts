@@ -37,6 +37,8 @@ export interface LogsState {
   subsystemLevels: Record<string, string>
   actualLogLevels: Record<string, string>
   isLoadingLevels: boolean
+  isLogLevelsSupported: boolean
+  isLogTailSupported: boolean
 }
 
 /**
@@ -45,7 +47,7 @@ export interface LogsState {
 export type LogsAction =
   | { type: 'SET_LEVEL'; subsystem: string; level: string }
   | { type: 'START_STREAMING' }
-  | { type: 'STOP_STREAMING'; controller: AbortController }
+  | { type: 'STOP_STREAMING' }
   | { type: 'ADD_ENTRY'; entry: LogEntry }
   | { type: 'ADD_BATCH'; entries: LogEntry[] }
   | { type: 'CLEAR_ENTRIES' }
@@ -53,10 +55,11 @@ export type LogsAction =
   | { type: 'UPDATE_RATE_STATE'; rateState: Partial<LogRateState> }
   | { type: 'UPDATE_STORAGE_STATS'; stats: LogStorageStats }
   | { type: 'SHOW_WARNING' }
-  | { type: 'AUTO_DISABLE'; controller: AbortController }
+  | { type: 'AUTO_DISABLE' }
   | { type: 'RESET_WARNING' }
   | { type: 'FETCH_LEVELS' }
   | { type: 'UPDATE_LEVELS'; levels: Record<string, string> }
+  | { type: 'SET_UNSUPPORTED' }
 
 /**
  * Default buffer configuration
@@ -91,7 +94,9 @@ const initialStateShell: Partial<LogsState> = {
   batchTimeout: null,
   subsystemLevels: {},
   actualLogLevels: {},
-  isLoadingLevels: false
+  isLoadingLevels: false,
+  isLogLevelsSupported: true,
+  isLogTailSupported: true
 }
 
 /**
@@ -136,8 +141,6 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
     }
 
     case 'STOP_STREAMING': {
-      // Clean up the stream controller if it exists
-      action.controller.abort()
       // Clear batch timeout
       if (state.batchTimeout) {
         clearTimeout(state.batchTimeout)
@@ -212,8 +215,6 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
     }
 
     case 'AUTO_DISABLE': {
-      // Clean up the stream controller if it exists
-      action.controller.abort()
       return {
         ...state,
         isStreaming: false,
@@ -246,6 +247,14 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
         ...state,
         actualLogLevels: action.levels,
         isLoadingLevels: false
+      }
+    }
+
+    case 'SET_UNSUPPORTED': {
+      return {
+        ...state,
+        isLogLevelsSupported: false,
+        isLogTailSupported: false
       }
     }
 

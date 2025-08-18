@@ -3,6 +3,7 @@ import { logsReducer, initLogsState } from './reducer'
 import { parseLogEntry, getLogLevels, setLogLevelsBatch as setLogLevelsBatchApi } from './api'
 import { useBatchProcessor } from './use-batch-processor'
 import { logStorage } from './log-storage'
+import { useBridgeSelector } from '../../helpers/context-bridge'
 import type { KuboRPCClient } from 'kubo-rpc-client'
 import type { LogEntry } from './api'
 import type { LogBufferConfig, LogRateState } from './reducer'
@@ -69,13 +70,13 @@ LogsContext.displayName = 'LogsContext'
 /**
  * Streamlined logs provider component with performance optimizations
  */
-const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsConnected = false }) => {
+export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
   // Use lazy initialization to avoid recreating deep objects on every render
   const [state, dispatch] = useReducer(logsReducer, undefined, initLogsState)
   const [bootstrapped, setBootstrapped] = useState(false)
-  const [isLogLevelsSupported, setIsLogLevelsSupported] = useState(true)
-  const [isLogTailSupported, setIsLogTailSupported] = useState(true)
   const streamControllerRef = useRef<AbortController | null>(null)
+  const ipfs = useBridgeSelector('selectIpfs') as KuboRPCClient
+  const ipfsConnected = useBridgeSelector('selectIpfsConnected') as boolean
 
   // Use ref for mount status to avoid stale closures
   const isMounted = useRef(true)
@@ -96,11 +97,8 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
       }
     }, []),
     useCallback(() => {
-      const controller = streamControllerRef.current
-      if (!controller) {
-        throw new Error('Stream controller not found')
-      }
-      dispatch({ type: 'AUTO_DISABLE', controller })
+      streamControllerRef.current?.abort()
+      dispatch({ type: 'AUTO_DISABLE' })
     }, [])
   )
 
@@ -112,13 +110,11 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
       dispatch({ type: 'FETCH_LEVELS' })
       const logLevels = await getLogLevels(ipfs, controller.signal)
       dispatch({ type: 'UPDATE_LEVELS', levels: logLevels })
-      setIsLogLevelsSupported(true)
     } catch (error: unknown) {
       if (error instanceof Error) {
         if (error.message.includes('argument "level" is required')) {
           console.error('Failed to fetch log levels - unsupported Kubo version:', error)
-          // setIsLogLevelsSupported(false)
-          dispatch({ type: 'UPDATE_LEVELS', levels: {} })
+          dispatch({ type: 'SET_UNSUPPORTED' })
           return
         }
       }
@@ -132,9 +128,6 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
 
   const setLogLevelsBatch = useCallback(async (levels: Array<{ subsystem: string; level: string }>) => {
     if (!ipfsConnected || !ipfs) return
-    if (!isLogLevelsSupported) {
-      throw new Error('Log level management is not supported in this version of Kubo')
-    }
 
     try {
       // Set all levels in batch and get the final state
@@ -151,36 +144,29 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
       console.error('Failed to set log levels in batch:', error)
       throw error
     }
-  }, [ipfs, ipfsConnected, isLogLevelsSupported])
+  }, [ipfs, ipfsConnected])
 
   const processStream = useCallback(async (stream: AsyncIterable<any>) => {
-    const controller = streamControllerRef.current
-    if (!controller) {
-      throw new Error('Stream controller not found')
-    }
-
     try {
       for await (const entry of stream) {
-        if (controller.signal.aborted) break
+        if (streamControllerRef.current?.signal.aborted) break
         const logEntry = parseLogEntry(entry)
         if (logEntry) {
           batchProcessor.addEntry(logEntry)
         }
       }
     } catch (error) {
-      if (!controller.signal.aborted) {
+      if (!streamControllerRef.current?.signal.aborted) {
         console.error('Log streaming error:', error)
-        dispatch({ type: 'STOP_STREAMING', controller })
+        streamControllerRef.current?.abort()
+        dispatch({ type: 'STOP_STREAMING' })
       }
     }
   }, [batchProcessor, dispatch])
 
   const stopStreaming = useCallback(() => {
-    const controller = streamControllerRef.current
-    if (!controller) {
-      throw new Error('Stream controller not found')
-    }
-    dispatch({ type: 'STOP_STREAMING', controller })
+    streamControllerRef.current?.abort()
+    dispatch({ type: 'STOP_STREAMING' })
     batchProcessor.stop()
     streamControllerRef.current = null
   }, [batchProcessor, dispatch])
@@ -372,9 +358,7 @@ const LogsProviderImpl: React.FC<LogsProviderProps> = ({ children, ipfs, ipfsCon
     ...state,
     ...logActions,
     gologLevelString,
-    subsystems,
-    isLogLevelsSupported,
-    isLogTailSupported
+    subsystems
   }
 
   return (
@@ -394,8 +378,3 @@ export function useLogs (): LogsContextValue {
   }
   return context
 }
-
-/**
- * Logs provider component
- */
-export const LogsProvider = LogsProviderImpl

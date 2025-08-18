@@ -1,20 +1,14 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { createConnectedComponent } from '../components/connected-component.js'
 import LogsScreen from './logs-screen/logs-screen.js'
 import { LogsProvider } from '../contexts/logs/index'
 
-interface ReduxBundlerProps {
-  ipfs: any
-  ipfsConnected: boolean
-}
-
-interface DiagnosticsContentProps extends ReduxBundlerProps {
+interface DiagnosticsContentProps {
 }
 
 type TabKey = 'logs'
 
-const DiagnosticsContent: React.FC<DiagnosticsContentProps> = ({ ipfs, ipfsConnected }) => {
+const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
   const { t } = useTranslation('diagnostics')
   const [activeTab, setActiveTab] = useState<TabKey>('logs')
 
@@ -36,7 +30,7 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = ({ ipfs, ipfsConne
     switch (activeTab) {
       case 'logs':
         return (
-          <LogsProvider ipfs={ipfs} ipfsConnected={ipfsConnected}>
+          <LogsProvider>
             <LogsScreen />
           </LogsProvider>
         )
@@ -66,8 +60,4 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = ({ ipfs, ipfsConne
 /**
  * @template {ReduxBundlerProps}
  */
-export default createConnectedComponent(
-  DiagnosticsContent,
-  'selectIpfs',
-  'selectIpfsConnected'
-)
+export default DiagnosticsContent

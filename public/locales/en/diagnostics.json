@@ -116,11 +116,9 @@
     "unsupported": {
       "title": "Unsupported Kubo Version",
       "description": "Your current version of Kubo ({version}) does not support the log level management feature required for this diagnostics page.",
-      "currentVersion": "Your Kubo version ({version}) is too old to support log level configuration.",
       "upgradeTitle": "Upgrade Required",
-      "upgradeDescription": "To use the log level management features, you need to upgrade to a newer version of Kubo that supports the log.level API endpoint.",
-      "downloadKubo": "Download Kubo",
-      "viewReleases": "View Releases"
+      "upgradeDescription": "To use the log level management features, you need to upgrade to a newer version of Kubo that supports getting log levels and tailing logs from the RPC API endpoint.",
+      "downloadKubo": "Download Kubo"
     }
   },
   "connectivity": {

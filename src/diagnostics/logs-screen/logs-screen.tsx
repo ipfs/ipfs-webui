@@ -48,7 +48,8 @@ const LogsScreen = () => {
     stopStreaming: doStopLogStreaming,
     clearEntries: doClearLogEntries,
     updateBufferConfig: doUpdateLogBufferConfig,
-    showWarning: doShowWarning
+    showWarning: doShowWarning,
+    isLogTailSupported
   } = useLogs()
 
   // Component state
@@ -171,15 +172,11 @@ const LogsScreen = () => {
   }
 
   // Show unsupported version message if log levels are not supported
-  if (!isLogLevelsSupported) {
+  if (!isLogLevelsSupported || !isLogTailSupported) {
     return (
-      <div>
-        <h2 className='montserrat fw4 charcoal ma0 f4 mb3'>{t('logs.title')}</h2>
-        <p className='charcoal-muted mb4'>{t('logs.description')}</p>
-        <IdentityProvider>
-          <UnsupportedKuboVersion />
-        </IdentityProvider>
-      </div>
+      <IdentityProvider>
+        <UnsupportedKuboVersion />
+      </IdentityProvider>
     )
   }
 
