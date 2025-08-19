@@ -1,6 +1,6 @@
 import React from 'react'
 import { withTranslation, Trans } from 'react-i18next'
-import Box from '../../../components/box/Box.js'
+import Box from '../../../components/box/Box.tsx'
 
 const AddFilesInfo = ({ t }) => (
   <div className='mv4 tc navy f5' >

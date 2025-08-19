@@ -3,8 +3,8 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
 import classNames from 'classnames'
 import ApiAddressForm from '../api-address-form/ApiAddressForm.js'
-import Box from '../box/Box.js'
-import Shell from '../shell/Shell.js'
+import Box from '../box/Box.tsx'
+import Shell from '../shell/Shell.tsx'
 import GlyphAttention from '../../icons/GlyphAttention.js'
 
 const TABS = {
