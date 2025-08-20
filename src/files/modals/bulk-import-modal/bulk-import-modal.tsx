@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import Button from '../../../components/button/button.tsx'
-import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
+import { Modal, ModalActions, ModalBody } from '../../../components/modal/modal'
 import { useTranslation } from 'react-i18next'
 import * as isIPFS from 'is-ipfs'
 import Icon from '../../../icons/StrokeDocument.js'
