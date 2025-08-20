@@ -92,6 +92,7 @@
     "src/helpers/context-bridge.tsx",
     "src/helpers/connected-context-provider.tsx",
     "src/components/version-link/**/*",
-    "src/lib/*.ts"
+    "src/lib/*.ts",
+    "src/components/modal/**/*"
   ]
 }

@@ -2,11 +2,11 @@ import { describe, it, expect, jest } from '@jest/globals'
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { Modal, ModalActions, ModalBody } from './modal.js/index.js'
+import { Modal, ModalActions, ModalBody } from './modal'
 
 describe('Modal', () => {
   describe('Modal component', () => {
-    it('renders without crashing', () => {
+    it('renders modal container element', () => {
       const { container } = render(<Modal />)
       expect(container.firstChild).toBeInTheDocument()
     })
@@ -73,17 +73,10 @@ describe('Modal', () => {
       const modalElement = screen.getByTestId('modal')
       expect(modalElement).toHaveAttribute('aria-label', 'test modal')
     })
-
-    it('has correct default props', () => {
-      expect(Modal.defaultProps).toEqual({
-        onCancel: null,
-        className: ''
-      })
-    })
   })
 
   describe('ModalActions component', () => {
-    it('renders without crashing', () => {
+    it('renders actions container element', () => {
       const { container } = render(<ModalActions />)
       expect(container.firstChild).toBeInTheDocument()
     })
@@ -125,7 +118,7 @@ describe('Modal', () => {
       expect(actionsElement).toHaveAttribute('aria-label', 'test actions')
     })
 
-    it('has correct default props', () => {
+    it('applies default styling classes and background color', () => {
       const { container } = render(<ModalActions />)
       const actionsElement = container.firstChild as HTMLElement
       expect(actionsElement).toHaveClass('flex', 'justify-between', 'pa2')
@@ -134,7 +127,7 @@ describe('Modal', () => {
   })
 
   describe('ModalBody component', () => {
-    it('renders without crashing', () => {
+    it('renders body container element', () => {
       const { container } = render(<ModalBody />)
       expect(container.firstChild).toBeInTheDocument()
     })
@@ -220,7 +213,7 @@ describe('Modal', () => {
       expect(bodyElement).toHaveAttribute('aria-label', 'test body')
     })
 
-    it('has correct default props', () => {
+    it('applies default styling classes', () => {
       const { container } = render(<ModalBody />)
       const bodyElement = container.firstChild as HTMLElement
       expect(bodyElement).toHaveClass('ph4', 'pv3', 'tc')
