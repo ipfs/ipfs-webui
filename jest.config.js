@@ -1,6 +1,5 @@
 /** @type {import('jest').Config} */
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
+const config = {
   testMatch: [
     '**/__tests__/**/*.[jt]s?(x)',
     '**/?(*.)+(spec|test).[jt]s?(x)'
@@ -28,8 +27,7 @@ export default {
     'uint8arrays/from-string': '<rootDir>/node_modules/uint8arrays/dist/src/from-string.js',
     'uint8arrays/to-string': '<rootDir>/node_modules/uint8arrays/dist/src/to-string.js',
     '@chainsafe/is-ip/parse': '<rootDir>/node_modules/@chainsafe/is-ip/lib/parse.js',
-    // eslint-disable-next-line quote-props
-    'eventemitter3': '<rootDir>/node_modules/eventemitter3/dist/eventemitter3.esm.js',
+    eventemitter3: '<rootDir>/node_modules/eventemitter3/dist/eventemitter3.esm.js',
     'cheerio/lib/utils': '<rootDir>/node_modules/cheerio/dist/commonjs/utils.js',
     '@ipld/dag-pb': '<rootDir>/node_modules/@ipld/dag-pb/src/index.js',
     '@multiformats/multiaddr': '<rootDir>/node_modules/@multiformats/multiaddr/dist/src/index.js',
@@ -43,8 +41,9 @@ export default {
     '^.+\\.[tj]sx?$': 'babel-jest'
   },
   transformIgnorePatterns: [
-    'node_module/(?!(eventemitter3)/).+\\.(js|jsx|mjs|cjs|ts|tsx)$',
+    'node_modules/(?!(eventemitter3|cheerio)/).+\\.(js|jsx|mjs|cjs|ts|tsx)$',
     '^.+\\.module\\.(css|sass|scss)$' // default
   ]
-
 }
+
+export default config
