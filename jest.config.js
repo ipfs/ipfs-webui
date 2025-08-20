@@ -1,5 +1,6 @@
 /** @type {import('jest').Config} */
 const config = {
+  extensionsToTreatAsEsm: ['.ts', '.tsx', '.jsx'],
   testMatch: [
     '**/__tests__/**/*.[jt]s?(x)',
     '**/?(*.)+(spec|test).[jt]s?(x)'
@@ -38,10 +39,9 @@ const config = {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
   },
   transform: {
-    '^.+\\.[tj]sx?$': 'babel-jest'
+    '^.+\\.[tj]sx?$': ['babel-jest', { presets: [['@babel/preset-env', { targets: { node: 'current' } }]] }]
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(eventemitter3|cheerio)/).+\\.(js|jsx|mjs|cjs|ts|tsx)$',
     '^.+\\.module\\.(css|sass|scss)$' // default
   ]
 }
