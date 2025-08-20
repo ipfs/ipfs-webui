@@ -2,7 +2,7 @@ import { describe, it, expect, jest } from '@jest/globals'
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { Modal, ModalActions, ModalBody } from './modal-component.js'
+import { Modal, ModalActions, ModalBody } from './modal.js/index.js'
 
 describe('Modal', () => {
   describe('Modal component', () => {
