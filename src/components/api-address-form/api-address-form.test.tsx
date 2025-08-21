@@ -89,8 +89,10 @@ const renderWithI18n = (storeProps: any = {}) => {
   const store = createMockStore(finalStoreProps)
 
   const renderResult = render(
+    // @ts-expect-error - redux-bundler-react is not typed
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
+        {/* @ts-expect-error - redux-bundler-react is not typed */}
         <ApiAddressForm />
       </I18nextProvider>
     </Provider>
