@@ -15,7 +15,7 @@ import LanguageSelector from '../components/language-selector/LanguageSelector.j
 import PinningManager from '../components/pinning-manager/PinningManager.js'
 import IpnsManager from '../components/ipns-manager/IpnsManager.js'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle.js'
-import ApiAddressForm from '../components/api-address-form/ApiAddressForm.js'
+import ApiAddressForm from '../components/api-address-form/index'
 import PublicGatewayForm from '../components/public-gateway-form/PublicGatewayForm.js'
 import PublicSubdomainGatewayForm from '../components/public-subdomain-gateway-form/PublicSubdomainGatewayForm.js'
 import { JsonEditor } from './editor/JsonEditor.js'
