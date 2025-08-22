@@ -60,6 +60,9 @@ jest.mock('../../helpers/context-bridge', () => {
   }
 })
 
+// Get reference to the mocked function to avoid jest.mock hoisting referenced jest.fn() causing errors.
+const mockCheckValidAPIAddress = jest.mocked(require('../../bundles/ipfs-provider.js').checkValidAPIAddress)
+
 // Setup i18n for testing
 i18n
   .use(initReactI18next)
@@ -128,8 +131,7 @@ describe('ApiAddressForm', () => {
 
   describe('rendering', () => {
     it('should render the form with correct elements', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n()
 
@@ -140,8 +142,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should render with initial value from ipfsApiAddress prop', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       const testAddress = 'http://localhost:5001'
       renderWithI18n({ ipfsApiAddress: testAddress })
@@ -151,8 +152,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should render with empty string when ipfsApiAddress is null', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n({ ipfsApiAddress: null })
 
@@ -161,8 +161,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should render with empty string when ipfsApiAddress is undefined', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n({ ipfsApiAddress: undefined })
 
@@ -171,8 +170,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should render with JSON string when ipfsApiAddress is an object', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       const testObject = { url: 'http://localhost:5001', protocol: 'http' }
       renderWithI18n({ ipfsApiAddress: testObject })
@@ -184,8 +182,7 @@ describe('ApiAddressForm', () => {
 
   describe('input validation', () => {
     it('should show green border when address is valid', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n()
 
@@ -203,8 +200,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should show red border when ipfsInitFailed is true', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n({ ipfsInitFailed: true })
 
@@ -225,22 +221,20 @@ describe('ApiAddressForm', () => {
     })
 
     it('should call checkValidAPIAddress with current input value', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n()
 
       const input = screen.getByLabelText('Kubo RPC API address')
       fireEvent.change(input, { target: { value: 'http://test-address:5001' } })
 
-      expect(checkValidAPIAddress).toHaveBeenCalledWith('http://test-address:5001')
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('http://test-address:5001')
     })
   })
 
   describe('button state', () => {
     it('should disable submit button when address is invalid', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(false)
+      mockCheckValidAPIAddress.mockReturnValue(false)
 
       renderWithI18n()
 
@@ -249,8 +243,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should enable submit button when address is valid', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n({ ipfsApiAddress: 'http://different-address:5001' })
 
@@ -262,8 +255,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should disable submit button when value equals current ipfsApiAddress', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       const currentAddress = 'http://current-address:5001'
       renderWithI18n({ ipfsApiAddress: currentAddress })
@@ -273,8 +265,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should enable submit button when value differs from current ipfsApiAddress', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       const currentAddress = 'http://current-address:5001'
       renderWithI18n({ ipfsApiAddress: currentAddress })
@@ -289,8 +280,7 @@ describe('ApiAddressForm', () => {
 
   describe('form submission', () => {
     it('should call doUpdateIpfsApiAddress when form is submitted', async () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       const { mockDoUpdateIpfsApiAddress, container } = renderWithI18n()
 
@@ -308,8 +298,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should call doUpdateIpfsApiAddress when Enter key is pressed', async () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       const { mockDoUpdateIpfsApiAddress } = renderWithI18n()
 
@@ -323,8 +312,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should not call doUpdateIpfsApiAddress when other keys are pressed', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       const { mockDoUpdateIpfsApiAddress } = renderWithI18n()
 
@@ -335,8 +323,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should prevent default form submission behavior', async () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       const { mockDoUpdateIpfsApiAddress, container } = renderWithI18n()
 
@@ -353,8 +340,7 @@ describe('ApiAddressForm', () => {
 
   describe('input interaction', () => {
     it('should update input value when user types', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n()
 
@@ -365,8 +351,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should call checkValidAPIAddress on every input change', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n()
 
@@ -376,16 +361,15 @@ describe('ApiAddressForm', () => {
       fireEvent.change(input, { target: { value: 'second-value' } })
       fireEvent.change(input, { target: { value: 'third-value' } })
 
-      expect(checkValidAPIAddress).toHaveBeenCalledWith('first-value')
-      expect(checkValidAPIAddress).toHaveBeenCalledWith('second-value')
-      expect(checkValidAPIAddress).toHaveBeenCalledWith('third-value')
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('first-value')
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('second-value')
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('third-value')
     })
   })
 
   describe('edge cases', () => {
     it('should handle empty string input', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(false)
+      mockCheckValidAPIAddress.mockReturnValue(false)
 
       renderWithI18n()
 
@@ -393,12 +377,11 @@ describe('ApiAddressForm', () => {
       fireEvent.change(input, { target: { value: '' } })
 
       expect(input).toHaveValue('')
-      expect(checkValidAPIAddress).toHaveBeenCalledWith('')
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('')
     })
 
     it('should handle special characters in input', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n()
 
@@ -407,12 +390,11 @@ describe('ApiAddressForm', () => {
       fireEvent.change(input, { target: { value: specialValue } })
 
       expect(input).toHaveValue(specialValue)
-      expect(checkValidAPIAddress).toHaveBeenCalledWith(specialValue)
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith(specialValue)
     })
 
     it('should handle very long input', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n()
 
@@ -421,14 +403,13 @@ describe('ApiAddressForm', () => {
       fireEvent.change(input, { target: { value: longValue } })
 
       expect(input).toHaveValue(longValue)
-      expect(checkValidAPIAddress).toHaveBeenCalledWith(longValue)
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith(longValue)
     })
   })
 
   describe('accessibility', () => {
     it('should have proper ARIA label', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n()
 
@@ -437,8 +418,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should have proper placeholder text', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       renderWithI18n()
 
@@ -447,8 +427,7 @@ describe('ApiAddressForm', () => {
     })
 
     it('should have proper form role', () => {
-      const { checkValidAPIAddress } = require('../../bundles/ipfs-provider.js')
-      checkValidAPIAddress.mockReturnValue(true)
+      mockCheckValidAPIAddress.mockReturnValue(true)
 
       const { container } = renderWithI18n()
 
