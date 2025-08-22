@@ -162,6 +162,7 @@ const IdentityProviderImpl: React.FC<IdentityProviderProps> = ({ children }) => 
     } else {
       fetchIdentity()
     }
+    return () => {}
   }, [shouldPoll, ipfsConnected, state.lastSuccess, fetchIdentity])
 
   const contextValue: IdentityContextValue = useMemo(() => ({

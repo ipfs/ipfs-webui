@@ -1,24 +1,30 @@
 import React, { useState } from 'react'
-import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
+import { createConnectedComponent } from '../connected-component.js'
 import classNames from 'classnames'
 import ApiAddressForm from '../api-address-form/ApiAddressForm.js'
 import Box from '../box/Box.js'
 import Shell from '../shell/Shell.js'
 import GlyphAttention from '../../icons/GlyphAttention.js'
 
+interface ReduxBundlerProps {
+  ipfsConnected: boolean
+  apiUrl: string
+}
+
 const TABS = {
   UNIX: 'unix',
   POWERSHELL: 'windowsPS',
   WINDOWS: 'windowsCMD'
 }
-
+// @ts-expect-error - Component not fully migrated to TypeScript yet
 const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUpdateIpfsApiAddress }) => {
   const [activeTab, setActiveTab] = useState(TABS.UNIX)
   const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.io']
   const origin = window.location.origin
   const addOrigin = defaultDomains.indexOf(origin) === -1
   return (
+    // @ts-expect-error - expects required style prop
     <Box className='pv3 ph4 lh-copy charcoal'>
       <div className='flex flex-wrap items-center'>
         <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
@@ -31,6 +37,7 @@ const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUp
         <Trans i18nKey='notConnected.paragraph2' t={t}>
           <li className='mb3'>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</li>
         </Trans>
+        {/* @ts-expect-error - expects required className prop */}
         <Shell title='Any Shell'>
           <code className='db'><b className='no-select'>$ </b>ipfs daemon</code>
           <code className='db'>Initializing daemon...</code>
@@ -88,8 +95,8 @@ const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUp
   )
 }
 
-export default connect(
+export default createConnectedComponent<ReduxBundlerProps>(
+  withTranslation('welcome')(IsNotConnected),
   'selectIpfsConnected',
-  'selectApiUrl',
-  withTranslation('welcome')(IsNotConnected)
+  'selectApiUrl'
 )
