@@ -542,6 +542,36 @@ const bundle = {
     }
   ),
 
+  /**
+   * Bridge API address to context bridge
+   */
+  reactApiAddressToBridge: createSelector(
+    'selectIpfsApiAddress',
+    (apiAddress) => {
+      contextBridge.setContext('selectIpfsApiAddress', apiAddress)
+    }
+  ),
+
+  /**
+   * Bridge init failed state to context bridge
+   */
+  reactInitFailedToBridge: createSelector(
+    'selectIpfsInitFailed',
+    (initFailed) => {
+      contextBridge.setContext('selectIpfsInitFailed', initFailed)
+    }
+  ),
+
+  /**
+   * Bridge update API address function to context bridge
+   */
+  reactUpdateApiAddressToBridge: createSelector(
+    'doUpdateIpfsApiAddress',
+    (updateIpfsApiAddress) => {
+      contextBridge.setContext('doUpdateIpfsApiAddress', updateIpfsApiAddress)
+    }
+  ),
+
   ...selectors,
   ...actions
 }

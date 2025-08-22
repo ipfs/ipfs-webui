@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { connect } from 'redux-bundler-react'
-import { withTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
+import { useBridgeSelector } from '../../helpers/context-bridge'
 import Button from '../button/button'
+
+// Import the validation function from the bundle
 import { checkValidAPIAddress } from '../../bundles/ipfs-provider.js'
 
-const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFailed }) => {
+interface ApiAddressFormProps {
+}
+
+const ApiAddressForm: React.FC<ApiAddressFormProps> = () => {
+  const { t } = useTranslation('app')
+
+  // Get values from the context bridge (redux bundle is still source of truth)
+  const ipfsApiAddress = useBridgeSelector<string>('selectIpfsApiAddress')
+  const ipfsInitFailed = useBridgeSelector<boolean>('selectIpfsInitFailed')
+  const doUpdateIpfsApiAddress = useBridgeSelector<(address: string) => Promise<boolean>>('doUpdateIpfsApiAddress')
+
   const [value, setValue] = useState(asAPIString(ipfsApiAddress))
   const initialIsValidApiAddress = !checkValidAPIAddress(value)
   const [showFailState, setShowFailState] = useState(initialIsValidApiAddress || ipfsInitFailed)
@@ -22,14 +34,16 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
     setShowFailState(!isValid)
   }, [value])
 
-  const onChange = (event) => setValue(event.target.value)
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value)
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    doUpdateIpfsApiAddress(value)
+    if (doUpdateIpfsApiAddress) {
+      await doUpdateIpfsApiAddress(value)
+    }
   }
 
-  const onKeyPress = (event) => {
+  const onKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       onSubmit(event)
     }
@@ -50,7 +64,7 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
       <div className='tr'>
         <Button
           minWidth={100}
-          height={40}
+          // height={40}
           className='mt2 mt0-l ml2-l tc'
           disabled={!isValidApiAddress || value === ipfsApiAddress}>
           {t('actions.submit')}
@@ -63,15 +77,10 @@ const ApiAddressForm = ({ t, doUpdateIpfsApiAddress, ipfsApiAddress, ipfsInitFai
 /**
  * @returns {string}
  */
-const asAPIString = (value) => {
+const asAPIString = (value: any): string => {
   if (value == null) return ''
   if (typeof value === 'string') return value
   return JSON.stringify(value)
 }
 
-export default connect(
-  'doUpdateIpfsApiAddress',
-  'selectIpfsApiAddress',
-  'selectIpfsInitFailed',
-  withTranslation('app')(ApiAddressForm)
-)
+export default ApiAddressForm
