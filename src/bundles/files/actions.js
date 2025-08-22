@@ -725,7 +725,7 @@ const importFiles = (ipfs, files) => {
  * @param {string} options.path
  * @param {boolean} [options.isRoot]
  * @param {import('./utils').Sorting} options.sorting
- * @returns {Promise<DirectoryContent>}
+ * @returns {Promise<import('./protocol').DirectoryContent>}
  */
 const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
   const entries = await all(ipfs.ls(cid)) || []

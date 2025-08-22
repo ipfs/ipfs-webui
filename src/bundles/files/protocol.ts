@@ -50,7 +50,7 @@ export type DirectoryContent = {
   cid: CID,
 
   content: FileStat[]
-  upper: void | FileStat,
+  upper: FileStat | null,
 }
 
 export type PageContent =
