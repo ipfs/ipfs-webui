@@ -1,5 +1,5 @@
 import React from 'react'
-import ErrorBoundary from '../error/ErrorBoundary.js'
+import ErrorBoundary from '../error/error-boundary.js'
 
 export const Box = ({
   className = 'pa4',
@@ -9,7 +9,7 @@ export const Box = ({
 }) => {
   return (
     <section className={className} style={{ background: '#fbfbfb', ...style }}>
-      <ErrorBoundary>
+      <ErrorBoundary resetKeys={[global.location.pathname]}>
         {children}
       </ErrorBoundary>
     </section>
