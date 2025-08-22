@@ -62,7 +62,7 @@ const Preview = (props) => {
   const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
   // Close button header
-  const closeButtonHeader = onClose && (
+  const closeButtonHeader = onClose != null && (
     <div className="flex items-center justify-between mb3 pb2 bb b--light-gray">
       <div className="flex items-center">
         <h2 className="ma0 f4 charcoal truncate">{name}</h2>
