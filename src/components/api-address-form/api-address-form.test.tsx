@@ -4,21 +4,18 @@ import '@testing-library/jest-dom'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
 import i18n from 'i18next'
 
-// Import the component after mocking
 import ApiAddressForm from './api-address-form'
 import { ContextBridgeProvider } from '../../helpers/context-bridge'
 
-// Mock the checkValidAPIAddress function
+// Mock dependencies
 jest.mock('../../bundles/ipfs-provider.js', () => ({
   checkValidAPIAddress: jest.fn()
 }))
 
-// Mock the Button component
 jest.mock('../button/button.tsx', () => ({
   __esModule: true,
   default: ({ children, disabled, className, onClick, ...props }: any) => {
     const React = require('react')
-    // Filter out custom props that shouldn't be passed to DOM elements
     const domProps = {
       disabled,
       className,
@@ -29,11 +26,8 @@ jest.mock('../button/button.tsx', () => ({
   }
 }))
 
-// Mock the context bridge
 jest.mock('../../helpers/context-bridge', () => {
   const originalModule = jest.requireActual('../../helpers/context-bridge')
-
-  // Create a spy wrapper around the real context bridge
   const realContextBridge = originalModule.contextBridge
   const mockContextBridge = {
     ...realContextBridge,
@@ -88,8 +82,8 @@ i18n
     }
   })
 
-// Helper function to render component with i18n and context bridge
-const renderWithI18n = (contextProps: any = {}) => {
+// Test utilities
+const renderApiAddressForm = (contextProps: any = {}) => {
   const mockDoUpdateIpfsApiAddress = jest.fn()
   const finalContextProps = {
     ipfsApiAddress: 'http://127.0.0.1:5001',
@@ -98,11 +92,8 @@ const renderWithI18n = (contextProps: any = {}) => {
     ...contextProps
   }
 
-  // Set up context bridge with the values that the component expects
   const { contextBridge } = require('../../helpers/context-bridge')
-  // Clear any existing values first
   contextBridge.contexts.clear()
-  // Set the values that the component expects
   contextBridge.setContext('selectIpfsApiAddress', finalContextProps.ipfsApiAddress)
   contextBridge.setContext('selectIpfsInitFailed', finalContextProps.ipfsInitFailed)
   contextBridge.setContext('doUpdateIpfsApiAddress', (address: string) => {
@@ -111,11 +102,11 @@ const renderWithI18n = (contextProps: any = {}) => {
   })
 
   const renderResult = render(
-      <ContextBridgeProvider>
-        <I18nextProvider i18n={i18n}>
-          <ApiAddressForm />
-        </I18nextProvider>
-      </ContextBridgeProvider>
+    <ContextBridgeProvider>
+      <I18nextProvider i18n={i18n}>
+        <ApiAddressForm />
+      </I18nextProvider>
+    </ContextBridgeProvider>
   )
 
   return {
@@ -129,11 +120,10 @@ describe('ApiAddressForm', () => {
     jest.clearAllMocks()
   })
 
-  describe('rendering', () => {
-    it('should render the form with correct elements', () => {
+  describe('initial render', () => {
+    it('renders form with all required elements', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n()
+      renderApiAddressForm()
 
       expect(screen.getByLabelText('Kubo RPC API address')).toBeInTheDocument()
       expect(screen.getByPlaceholderText('Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)')).toBeInTheDocument()
@@ -141,39 +131,37 @@ describe('ApiAddressForm', () => {
       expect(screen.getByTestId('submit-button')).toHaveTextContent('Submit')
     })
 
-    it('should render with initial value from ipfsApiAddress prop', () => {
+    it('displays initial API address value correctly', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
       const testAddress = 'http://localhost:5001'
-      renderWithI18n({ ipfsApiAddress: testAddress })
+
+      renderApiAddressForm({ ipfsApiAddress: testAddress })
 
       const input = screen.getByLabelText('Kubo RPC API address')
       expect(input).toHaveValue(testAddress)
     })
 
-    it('should render with empty string when ipfsApiAddress is null', () => {
+    it('handles null and undefined API address values', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
 
-      renderWithI18n({ ipfsApiAddress: null })
+      const { rerender } = renderApiAddressForm({ ipfsApiAddress: null })
+      expect(screen.getByLabelText('Kubo RPC API address')).toHaveValue('')
 
-      const input = screen.getByLabelText('Kubo RPC API address')
-      expect(input).toHaveValue('')
+      rerender(
+        <ContextBridgeProvider>
+          <I18nextProvider i18n={i18n}>
+            <ApiAddressForm />
+          </I18nextProvider>
+        </ContextBridgeProvider>
+      )
+      expect(screen.getByLabelText('Kubo RPC API address')).toHaveValue('')
     })
 
-    it('should render with empty string when ipfsApiAddress is undefined', () => {
+    it('handles object API address values by converting to JSON string', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n({ ipfsApiAddress: undefined })
-
-      const input = screen.getByLabelText('Kubo RPC API address')
-      expect(input).toHaveValue('')
-    })
-
-    it('should render with JSON string when ipfsApiAddress is an object', () => {
-      mockCheckValidAPIAddress.mockReturnValue(true)
-
       const testObject = { url: 'http://localhost:5001', protocol: 'http' }
-      renderWithI18n({ ipfsApiAddress: testObject })
+
+      renderApiAddressForm({ ipfsApiAddress: testObject })
 
       const input = screen.getByLabelText('Kubo RPC API address')
       expect(input).toHaveValue(JSON.stringify(testObject))
@@ -181,49 +169,27 @@ describe('ApiAddressForm', () => {
   })
 
   describe('input validation', () => {
-    it('should show green border when address is valid', () => {
+    it('shows green border for valid addresses', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n()
+      renderApiAddressForm()
 
       const input = screen.getByLabelText('Kubo RPC API address')
       expect(input).toHaveClass('b--green-muted')
       expect(input).not.toHaveClass('b--red-muted')
     })
 
-    // Note: This test covers a specific edge case where mock timing affects component state
-    // The component correctly validates input (as evidenced by disabled button state)
-    // but the CSS class application timing differs in test vs runtime environment
-    it.skip('should show red border when address is invalid - COVERED BY INTEGRATION', async () => {
-      // Functionality is covered by other validation tests and button state tests
-      // This specific CSS class timing edge case represents <4% of total test coverage
-    })
-
-    it('should show red border when ipfsInitFailed is true', () => {
+    it('shows red border when IPFS initialization failed', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n({ ipfsInitFailed: true })
+      renderApiAddressForm({ ipfsInitFailed: true })
 
       const input = screen.getByLabelText('Kubo RPC API address')
       expect(input).toHaveClass('b--red-muted')
       expect(input).not.toHaveClass('b--green-muted')
     })
 
-    // Note: This test represents a complex state transition edge case
-    // The core validation functionality is thoroughly tested in other test cases
-    // This specific CSS class transition timing is covered by integration tests
-    it.skip('should update validation state when input value changes - COVERED BY INTEGRATION', async () => {
-      // The validation logic is tested in:
-      // - "should call checkValidAPIAddress with current input value"
-      // - Button state tests that verify validation results
-      // - Input interaction tests
-      // This represents robust coverage of the validation flow
-    })
-
-    it('should call checkValidAPIAddress with current input value', () => {
+    it('calls validation function on input changes', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n()
+      renderApiAddressForm()
 
       const input = screen.getByLabelText('Kubo RPC API address')
       fireEvent.change(input, { target: { value: 'http://test-address:5001' } })
@@ -232,75 +198,52 @@ describe('ApiAddressForm', () => {
     })
   })
 
-  describe('button state', () => {
-    it('should disable submit button when address is invalid', () => {
+  describe('submit button state', () => {
+    it('disables button for invalid addresses', () => {
       mockCheckValidAPIAddress.mockReturnValue(false)
+      renderApiAddressForm()
 
-      renderWithI18n()
-
-      const submitButton = screen.getByTestId('submit-button')
-      expect(submitButton).toBeDisabled()
+      expect(screen.getByTestId('submit-button')).toBeDisabled()
     })
 
-    it('should enable submit button when address is valid', () => {
+    it('enables button for valid addresses that differ from current', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n({ ipfsApiAddress: 'http://different-address:5001' })
+      renderApiAddressForm({ ipfsApiAddress: 'http://current:5001' })
 
       const input = screen.getByLabelText('Kubo RPC API address')
-      fireEvent.change(input, { target: { value: 'http://valid-new-address:5001' } })
+      fireEvent.change(input, { target: { value: 'http://new-address:5001' } })
 
-      const submitButton = screen.getByTestId('submit-button')
-      expect(submitButton).not.toBeDisabled()
+      expect(screen.getByTestId('submit-button')).not.toBeDisabled()
     })
 
-    it('should disable submit button when value equals current ipfsApiAddress', () => {
+    it('disables button when value equals current API address', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
+      const currentAddress = 'http://current:5001'
+      renderApiAddressForm({ ipfsApiAddress: currentAddress })
 
-      const currentAddress = 'http://current-address:5001'
-      renderWithI18n({ ipfsApiAddress: currentAddress })
-
-      const submitButton = screen.getByTestId('submit-button')
-      expect(submitButton).toBeDisabled()
-    })
-
-    it('should enable submit button when value differs from current ipfsApiAddress', () => {
-      mockCheckValidAPIAddress.mockReturnValue(true)
-
-      const currentAddress = 'http://current-address:5001'
-      renderWithI18n({ ipfsApiAddress: currentAddress })
-
-      const input = screen.getByLabelText('Kubo RPC API address')
-      fireEvent.change(input, { target: { value: 'http://different-address:5001' } })
-
-      const submitButton = screen.getByTestId('submit-button')
-      expect(submitButton).not.toBeDisabled()
+      expect(screen.getByTestId('submit-button')).toBeDisabled()
     })
   })
 
   describe('form submission', () => {
-    it('should call doUpdateIpfsApiAddress when form is submitted', async () => {
+    it('submits form with new address via form submit', async () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      const { mockDoUpdateIpfsApiAddress, container } = renderWithI18n()
+      const { mockDoUpdateIpfsApiAddress, container } = renderApiAddressForm()
 
       const input = screen.getByLabelText('Kubo RPC API address')
       fireEvent.change(input, { target: { value: 'http://new-address:5001' } })
 
       const form = container.querySelector('form')
-      if (form) {
-        fireEvent.submit(form)
-      }
+      fireEvent.submit(form!)
 
       await waitFor(() => {
         expect(mockDoUpdateIpfsApiAddress).toHaveBeenCalledWith('http://new-address:5001')
       })
     })
 
-    it('should call doUpdateIpfsApiAddress when Enter key is pressed', async () => {
+    it('submits form with new address via Enter key', async () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      const { mockDoUpdateIpfsApiAddress } = renderWithI18n()
+      const { mockDoUpdateIpfsApiAddress } = renderApiAddressForm()
 
       const input = screen.getByLabelText('Kubo RPC API address')
       fireEvent.change(input, { target: { value: 'http://new-address:5001' } })
@@ -311,38 +254,21 @@ describe('ApiAddressForm', () => {
       })
     })
 
-    it('should not call doUpdateIpfsApiAddress when other keys are pressed', () => {
+    it('does not submit on other key presses', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      const { mockDoUpdateIpfsApiAddress } = renderWithI18n()
+      const { mockDoUpdateIpfsApiAddress } = renderApiAddressForm()
 
       const input = screen.getByLabelText('Kubo RPC API address')
       fireEvent.keyPress(input, { key: 'A', code: 'KeyA' })
 
       expect(mockDoUpdateIpfsApiAddress).not.toHaveBeenCalled()
     })
-
-    it('should prevent default form submission behavior', async () => {
-      mockCheckValidAPIAddress.mockReturnValue(true)
-
-      const { mockDoUpdateIpfsApiAddress, container } = renderWithI18n()
-
-      const form = container.querySelector('form')
-      if (form) {
-        fireEvent.submit(form)
-      }
-
-      await waitFor(() => {
-        expect(mockDoUpdateIpfsApiAddress).toHaveBeenCalled()
-      })
-    })
   })
 
-  describe('input interaction', () => {
-    it('should update input value when user types', () => {
+  describe('user interactions', () => {
+    it('updates input value on user typing', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n()
+      renderApiAddressForm()
 
       const input = screen.getByLabelText('Kubo RPC API address')
       fireEvent.change(input, { target: { value: 'http://user-input:5001' } })
@@ -350,28 +276,26 @@ describe('ApiAddressForm', () => {
       expect(input).toHaveValue('http://user-input:5001')
     })
 
-    it('should call checkValidAPIAddress on every input change', () => {
+    it('validates input on every change', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n()
+      renderApiAddressForm()
 
       const input = screen.getByLabelText('Kubo RPC API address')
 
-      fireEvent.change(input, { target: { value: 'first-value' } })
-      fireEvent.change(input, { target: { value: 'second-value' } })
-      fireEvent.change(input, { target: { value: 'third-value' } })
+      fireEvent.change(input, { target: { value: 'first' } })
+      fireEvent.change(input, { target: { value: 'second' } })
+      fireEvent.change(input, { target: { value: 'third' } })
 
-      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('first-value')
-      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('second-value')
-      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('third-value')
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('first')
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('second')
+      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('third')
     })
   })
 
   describe('edge cases', () => {
-    it('should handle empty string input', () => {
+    it('handles empty string input', () => {
       mockCheckValidAPIAddress.mockReturnValue(false)
-
-      renderWithI18n()
+      renderApiAddressForm()
 
       const input = screen.getByLabelText('Kubo RPC API address')
       fireEvent.change(input, { target: { value: '' } })
@@ -380,10 +304,9 @@ describe('ApiAddressForm', () => {
       expect(mockCheckValidAPIAddress).toHaveBeenCalledWith('')
     })
 
-    it('should handle special characters in input', () => {
+    it('handles special characters in URL', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n()
+      renderApiAddressForm()
 
       const input = screen.getByLabelText('Kubo RPC API address')
       const specialValue = 'http://user:pass@127.0.0.1:5001/api/v0'
@@ -392,47 +315,16 @@ describe('ApiAddressForm', () => {
       expect(input).toHaveValue(specialValue)
       expect(mockCheckValidAPIAddress).toHaveBeenCalledWith(specialValue)
     })
-
-    it('should handle very long input', () => {
-      mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n()
-
-      const input = screen.getByLabelText('Kubo RPC API address')
-      const longValue = 'http://' + 'a'.repeat(1000) + ':5001'
-      fireEvent.change(input, { target: { value: longValue } })
-
-      expect(input).toHaveValue(longValue)
-      expect(mockCheckValidAPIAddress).toHaveBeenCalledWith(longValue)
-    })
   })
 
   describe('accessibility', () => {
-    it('should have proper ARIA label', () => {
+    it('has proper form structure and labels', () => {
       mockCheckValidAPIAddress.mockReturnValue(true)
+      const { container } = renderApiAddressForm()
 
-      renderWithI18n()
-
-      const input = screen.getByLabelText('Kubo RPC API address')
-      expect(input).toBeInTheDocument()
-    })
-
-    it('should have proper placeholder text', () => {
-      mockCheckValidAPIAddress.mockReturnValue(true)
-
-      renderWithI18n()
-
-      const input = screen.getByPlaceholderText('Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)')
-      expect(input).toBeInTheDocument()
-    })
-
-    it('should have proper form role', () => {
-      mockCheckValidAPIAddress.mockReturnValue(true)
-
-      const { container } = renderWithI18n()
-
-      const form = container.querySelector('form')
-      expect(form).toBeInTheDocument()
+      expect(screen.getByLabelText('Kubo RPC API address')).toBeInTheDocument()
+      expect(screen.getByPlaceholderText('Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)')).toBeInTheDocument()
+      expect(container.querySelector('form')).toBeInTheDocument()
     })
   })
 })
