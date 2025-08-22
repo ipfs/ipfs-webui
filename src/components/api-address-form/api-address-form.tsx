@@ -4,12 +4,13 @@ import { useBridgeSelector } from '../../helpers/context-bridge'
 import Button from '../button/button'
 
 // Import the validation function from the bundle
-import { checkValidAPIAddress } from '../../bundles/ipfs-provider.js'
+import { checkValidAPIAddress as checkValidApiAddressOriginal } from '../../bundles/ipfs-provider.js'
 
 interface ApiAddressFormProps {
+  checkValidAPIAddress?: (address: string) => boolean
 }
 
-const ApiAddressForm: React.FC<ApiAddressFormProps> = () => {
+const ApiAddressForm: React.FC<ApiAddressFormProps> = ({ checkValidAPIAddress = checkValidApiAddressOriginal }) => {
   const { t } = useTranslation('app')
 
   // Get values from the context bridge (redux bundle is still source of truth)
@@ -32,7 +33,7 @@ const ApiAddressForm: React.FC<ApiAddressFormProps> = () => {
     const isValid = checkValidAPIAddress(value)
     setIsValidApiAddress(isValid)
     setShowFailState(!isValid)
-  }, [value])
+  }, [value, checkValidAPIAddress])
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value)
 
