@@ -1,8 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { Provider } from 'redux-bundler-react'
-import { composeBundlesRaw } from 'redux-bundler'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
 import i18n from 'i18next'
 
@@ -87,67 +85,39 @@ i18n
     }
   })
 
-// Helper function to create mock redux-bundler store
-const createMockStore = (storeProps: any = {}) => {
-  const defaultStoreProps = {
+// Helper function to render component with i18n and context bridge
+const renderWithI18n = (contextProps: any = {}) => {
+  const mockDoUpdateIpfsApiAddress = jest.fn()
+  const finalContextProps = {
     ipfsApiAddress: 'http://127.0.0.1:5001',
     ipfsInitFailed: false,
-    doUpdateIpfsApiAddress: jest.fn(),
-    ...storeProps
-  }
-
-  const mockBundle = {
-    name: 'mockApiAddressBundle',
-    reducer: (state = {}, action: any) => state,
-    selectIpfsApiAddress: () => defaultStoreProps.ipfsApiAddress,
-    selectIpfsInitFailed: () => defaultStoreProps.ipfsInitFailed,
-    doUpdateIpfsApiAddress: (...args: any[]) => {
-      defaultStoreProps.doUpdateIpfsApiAddress(...args)
-      return { type: 'UPDATE_IPFS_API_ADDRESS', payload: args[0] }
-    }
-  }
-
-  return composeBundlesRaw(mockBundle)({})
-}
-
-// Helper function to render component with i18n and redux store
-const renderWithI18n = (storeProps: any = {}) => {
-  const mockDoUpdateIpfsApiAddress = jest.fn()
-  const finalStoreProps = {
     doUpdateIpfsApiAddress: mockDoUpdateIpfsApiAddress,
-    ...storeProps
+    ...contextProps
   }
 
-  const store = createMockStore(finalStoreProps)
-
-  // Set up context bridge with the same values that the redux store provides
+  // Set up context bridge with the values that the component expects
   const { contextBridge } = require('../../helpers/context-bridge')
   // Clear any existing values first
   contextBridge.contexts.clear()
-  // Set the values that the new component expects
-  contextBridge.setContext('selectIpfsApiAddress', finalStoreProps.ipfsApiAddress)
-  contextBridge.setContext('selectIpfsInitFailed', finalStoreProps.ipfsInitFailed)
-  // The new component expects doUpdateIpfsApiAddress to be a function that takes a string
+  // Set the values that the component expects
+  contextBridge.setContext('selectIpfsApiAddress', finalContextProps.ipfsApiAddress)
+  contextBridge.setContext('selectIpfsInitFailed', finalContextProps.ipfsInitFailed)
   contextBridge.setContext('doUpdateIpfsApiAddress', (address: string) => {
     mockDoUpdateIpfsApiAddress(address)
     return Promise.resolve(true)
   })
 
   const renderResult = render(
-    // @ts-expect-error - redux-bundler-react is not typed
-    <Provider store={store}>
       <ContextBridgeProvider>
         <I18nextProvider i18n={i18n}>
           <ApiAddressForm />
         </I18nextProvider>
       </ContextBridgeProvider>
-    </Provider>
   )
 
   return {
     ...renderResult,
-    mockDoUpdateIpfsApiAddress,
-    store
+    mockDoUpdateIpfsApiAddress
   }
 }
 
