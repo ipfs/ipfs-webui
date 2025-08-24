@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useCallback, useEffect } from 'react'
+import React, { createContext, useContext, useCallback, useEffect, useRef, useMemo } from 'react'
 import ShortcutModal from '../files/modals/shortcut-modal/shortcut-modal'
 import Overlay from '../components/overlay/Overlay.js'
 import { t } from 'i18next'
 
 interface Shortcut {
+  id: string
   keys: string[]
   label: string
   hidden?: boolean
@@ -13,6 +14,8 @@ interface Shortcut {
 
 interface ShortcutsContextType {
   shortcuts: Shortcut[]
+  registerShortcuts: (shortcuts: Omit<Shortcut, 'id'>[]) => string[]
+  unregisterShortcuts: (ids: string[]) => void
   updateShortcuts: (newShortcuts: Shortcut[]) => void
 }
 
@@ -22,28 +25,7 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [showShortcuts, setShowShortcuts] = React.useState(false)
   const defaultShortcut: Shortcut[] = [
     {
-      keys: ['Shift', 'H'],
-      label: t('app:shortcutModal.tourHelp'),
-      action: () => {
-        const tourHelper = document.getElementById('tour-helper')
-        if (tourHelper) {
-          tourHelper.click()
-        }
-      },
-      group: t('app:shortcutModal.general')
-    },
-    {
-      keys: ['/'],
-      label: t('app:shortcutModal.ipfsPath'),
-      action: () => {
-        const ipfsPath = document.getElementById('ipfs-path')
-        if (ipfsPath) {
-          ipfsPath.focus()
-        }
-      },
-      group: t('app:shortcutModal.general')
-    },
-    {
+      id: 'show-shortcuts',
       keys: ['Shift', '?'],
       label: t('app:shortcutModal.showShortcuts'),
       action: () => {
@@ -53,11 +35,10 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   ]
   const [shortcuts, setShortcuts] = React.useState<Shortcut[]>(defaultShortcut)
-  const [allowUpdate, setAllowUpdate] = React.useState(true)
+  const registeredShortcutsRef = useRef<Map<string, Shortcut>>(new Map())
 
   const closeModal = () => {
     setShowShortcuts(false)
-    setAllowUpdate(true)
   }
 
   const isPressed = (keys: string[], e: KeyboardEvent) => {
@@ -79,13 +60,6 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     })
   }
 
-  const hash = window.location.hash
-
-  useEffect(() => {
-    if (allowUpdate) setShortcuts(defaultShortcut)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hash])
-
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     const target = e.target as HTMLElement
     if ((target.tagName === 'INPUT' ||
@@ -103,6 +77,9 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     shortcuts.forEach(shortcut => {
       if (isPressed(shortcut.keys, e)) {
         e.preventDefault()
+        if (shortcut.id !== 'show-shortcuts') {
+          closeModal()
+        }
         shortcut.action()
       }
     })
@@ -113,13 +90,39 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [handleKeyDown])
 
+  const registerShortcuts = useCallback((newShortcuts: Omit<Shortcut, 'id'>[]) => {
+    const ids: string[] = []
+    const shortcutsToAdd: Shortcut[] = []
+
+    newShortcuts.forEach((shortcut, index) => {
+      const id = `${shortcut.group || 'custom'}-${Date.now()}-${index}`
+      ids.push(id)
+      const shortcutWithId = { ...shortcut, id }
+      shortcutsToAdd.push(shortcutWithId)
+      registeredShortcutsRef.current.set(id, shortcutWithId)
+    })
+
+    setShortcuts(prev => [...prev, ...shortcutsToAdd])
+    return ids
+  }, [])
+
+  const unregisterShortcuts = useCallback((ids: string[]) => {
+    ids.forEach(id => {
+      registeredShortcutsRef.current.delete(id)
+    })
+
+    setShortcuts(prev => prev.filter(shortcut => !ids.includes(shortcut.id)))
+  }, [])
+
   return (
     <ShortcutsContext.Provider value={{
       shortcuts,
-      updateShortcuts: (newShortcuts: Shortcut[]) => {
-        setAllowUpdate(false)
+      registerShortcuts,
+      unregisterShortcuts,
+      updateShortcuts: useCallback((newShortcuts: Shortcut[]) => {
         setShortcuts([...defaultShortcut, ...newShortcuts])
-      }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])
     }}>
       {children}
       <div>
@@ -133,16 +136,23 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   )
 }
 
-export const useShortcuts = (shortcuts?: Shortcut[]) => {
+export const useShortcuts = (shortcuts: Omit<Shortcut, 'id'>[]) => {
   const context = useContext(ShortcutsContext)
   if (!context) {
-    throw new Error('useShortcuts must be used within a ShortcutsProvider')
+    throw new Error('Shortcuts hook is out of context')
   }
 
+  const memoizedShortcuts = useMemo(() => shortcuts, [shortcuts])
+
   useEffect(() => {
-    if (shortcuts) {
-      context.updateShortcuts(shortcuts)
+    if (memoizedShortcuts.length > 0) {
+      const ids = context.registerShortcuts(memoizedShortcuts)
+
+      return () => {
+        context.unregisterShortcuts(ids)
+      }
     }
+    return undefined
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

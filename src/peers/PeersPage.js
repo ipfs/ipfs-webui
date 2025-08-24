@@ -26,17 +26,6 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => {
       setIsOpen((prev) => !prev)
     },
     group: t('app:shortcutModal.general')
-  }, {
-    keys: ['Shift', 'F'],
-    label: t('peers:filterPeers'),
-    action: () => {
-      const filterInput = document.getElementById('peers-filter')
-
-      if (filterInput) {
-        filterInput.focus()
-      }
-    },
-    group: t('app:shortcutModal.general')
   }])
 
   return (<div data-id='PeersPage' className='overflow-hidden'>

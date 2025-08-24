@@ -1,6 +1,4 @@
-// @ts-expect-error - React import needed for JSX compilation
 import React from 'react'
-import PropTypes from 'prop-types'
 import CancelIcon from '../../icons/GlyphSmallCancel'
 
 export const ModalActions = ({ justify = 'between', className = '', ...props }) => (
@@ -8,12 +6,6 @@ export const ModalActions = ({ justify = 'between', className = '', ...props }) 
     {props.children}
   </div>
 )
-
-ModalActions.propTypes = {
-  justify: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node
-}
 
 // @ts-expect-error - undefined props
 export const ModalBody = ({ className = '', Icon, title, children, ...props }) => (
@@ -30,15 +22,6 @@ export const ModalBody = ({ className = '', Icon, title, children, ...props }) =
   </div>
 )
 
-ModalBody.propTypes = {
-  Icon: PropTypes.func,
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ]),
-  children: PropTypes.node
-}
-
 // @ts-expect-error - undefined props
 export const Modal = ({ onCancel, children, className, ...props }) => {
   return (
@@ -50,10 +33,6 @@ export const Modal = ({ onCancel, children, className, ...props }) => {
       {children}
     </div>
   )
-}
-
-Modal.propTypes = {
-  onCancel: PropTypes.func
 }
 
 Modal.defaultProps = {

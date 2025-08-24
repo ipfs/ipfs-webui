@@ -41,11 +41,11 @@ async function render () {
         <I18nextProvider i18n={i18n} >
           <DndProvider backend={DndBackend}>
             <HeliaProvider>
+            <ShortcutsProvider>
               <ExploreProvider>
-                <ShortcutsProvider>
                   <App />
-                </ShortcutsProvider>
-              </ExploreProvider>
+                </ExploreProvider>
+              </ShortcutsProvider>
             </HeliaProvider>
           </DndProvider>
         </I18nextProvider>

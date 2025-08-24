@@ -123,7 +123,7 @@ interface ShortcutModalProps {
 const ShortcutModal: React.FC<ShortcutModalProps> = ({ onLeave, className = '', ...props }) => {
   const [platform, setPlatform] = useState<PlatformType>('other')
   const { t } = useTranslation('app')
-  const shortcuts = useShortcuts()
+  const shortcuts = useShortcuts([])
 
   useEffect(() => {
     const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0 ||
