@@ -9,7 +9,7 @@ export const Box = ({
 }) => {
   return (
     <section className={className} style={{ background: '#fbfbfb', ...style }}>
-      <ErrorBoundary resetKeys={[global.location.pathname]}>
+      <ErrorBoundary resetKeys={[globalThis.location?.pathname || '']}>
         {children}
       </ErrorBoundary>
     </section>
