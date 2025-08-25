@@ -10,6 +10,7 @@ import { CID } from 'multiformats/cid'
 import { useDrag } from 'react-dnd'
 import { toString as fromUint8ArrayToString } from 'uint8arrays'
 import Button from '../../components/button/button.tsx'
+import GlyphCancel from '../../icons/GlyphCancel.js'
 
 const maxPlainTextPreview = 1024 * 10 // only preview small part of huge files
 
@@ -24,7 +25,7 @@ const Drag = ({ name, size, cid, path, children }) => {
 }
 
 const Preview = (props) => {
-  const { t, name, cid, size, availableGatewayUrl, publicGateway, read, onDownload } = props
+  const { t, name, cid, size, availableGatewayUrl, publicGateway, read, onDownload, onClose } = props
   const [content, setContent] = useState(null)
   const [hasMoreContent, setHasMoreContent] = useState(false)
   const [buffer, setBuffer] = useState(null)
@@ -60,39 +61,64 @@ const Preview = (props) => {
   const src = `${availableGatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
   const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
 
+  // Close button header
+  const closeButtonHeader = onClose != null && (
+    <div className="flex items-center justify-between mb3 pb2 bb b--light-gray">
+      <div className="flex items-center">
+        <h2 className="ma0 f4 charcoal truncate">{name}</h2>
+      </div>
+      <GlyphCancel
+        onClick={onClose}
+        style={{ width: '44px', height: '44px', fill: '#244c5a', cursor: 'pointer' }}
+      />
+    </div>
+  )
+
   switch (type) {
     case 'audio':
       return (
-        <Drag {...props}>
-          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-          <audio width='100%' controls>
-            <source src={safeSubresourceGwUrl(src)} />
-          </audio>
-        </Drag>
+        <div>
+          {closeButtonHeader}
+          <Drag {...props}>
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+            <audio width='100%' controls>
+              <source src={safeSubresourceGwUrl(src)} />
+            </audio>
+          </Drag>
+        </div>
       )
     case 'pdf':
       return (
-        <Drag {...props}>
-          <object className="FilePreviewPDF w-100" data={safeSubresourceGwUrl(src)} type='application/pdf'>
-            {t('noPDFSupport')}
-            <a href={src} download target='_blank' rel='noopener noreferrer' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
-          </object>
-        </Drag>
+        <div>
+          {closeButtonHeader}
+          <Drag {...props}>
+            <object className="FilePreviewPDF w-100" data={safeSubresourceGwUrl(src)} type='application/pdf'>
+              {t('noPDFSupport')}
+              <a href={src} download target='_blank' rel='noopener noreferrer' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
+            </object>
+          </Drag>
+        </div>
       )
     case 'video':
       return (
-        <Drag {...props}>
-          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-          <video controls className={className}>
-            <source src={safeSubresourceGwUrl(src)} />
-          </video>
-        </Drag>
+        <div>
+          {closeButtonHeader}
+          <Drag {...props}>
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+            <video controls className={className}>
+              <source src={safeSubresourceGwUrl(src)} />
+            </video>
+          </Drag>
+        </div>
       )
     case 'image':
       return (
-        <Drag {...props}>
-          <img className={className} alt={name} src={safeSubresourceGwUrl(src)} />
-        </Drag>
+        <div>
+          {closeButtonHeader}
+          <Drag {...props}>
+            <img className={className} alt={name} src={safeSubresourceGwUrl(src)} />
+          </Drag>
+        </div>
       )
     default: {
       const srcPublic = `${publicGateway}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
@@ -114,31 +140,49 @@ const Preview = (props) => {
       )
 
       if (content === null) {
-        return <ComponentLoader />
+        return (
+          <div>
+            {closeButtonHeader}
+            <ComponentLoader />
+          </div>
+        )
       }
 
       // a precaution to not render too much, in case we overread
       if (content.length > maxPlainTextPreview) {
-        return cantPreview
+        return (
+          <div>
+            {closeButtonHeader}
+            {cantPreview}
+          </div>
+        )
       }
 
       if (isBinary(name, content)) {
-        return cantPreview
+        return (
+          <div>
+            {closeButtonHeader}
+            {cantPreview}
+          </div>
+        )
       }
 
-      return <>
-        <pre className={`${className} overflow-auto monospace`}>
-          {content}
-        </pre>
-        { hasMoreContent && <div className="w-100 flex items-center justify-center">
-          <p><Trans i18nKey='previewLimitReached' t={t}>This preview is limited to 10 KiB. Click the download button to access the full file.</Trans></p>
-          <p>
-          <Button className="mh2 lh-copy bn justify-center flex " onClick={ onDownload }>
-            { t('app:actions.download')}
-          </Button>
-          </p>
-        </div>}
-      </>
+      return (
+        <div>
+          {closeButtonHeader}
+          <pre className={`${className} overflow-auto monospace`}>
+            {content}
+          </pre>
+          { hasMoreContent && <div className="w-100 flex items-center justify-center">
+            <p><Trans i18nKey='previewLimitReached' t={t}>This preview is limited to 10 KiB. Click the download button to access the full file.</Trans></p>
+            <p>
+            <Button className="mh2 lh-copy bn justify-center flex " onClick={ onDownload }>
+              { t('app:actions.download')}
+            </Button>
+            </p>
+          </div>}
+        </div>
+      )
     }
   }
 }
@@ -151,7 +195,8 @@ Preview.propTypes = {
   read: PropTypes.func.isRequired,
   content: PropTypes.object,
   t: PropTypes.func.isRequired,
-  tReady: PropTypes.bool.isRequired
+  tReady: PropTypes.bool.isRequired,
+  onClose: PropTypes.func
 }
 
 export default connect(
