@@ -51,13 +51,10 @@
       "*": ["*", "*.ts", "*.tsx"]
     }
   },
-  "exclude": [
-    "src/**/*.test.js"
-  ],
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "@types",
+    "@types/**/*",
     // "src/**/*.js", // TODO: Include all js files when typecheck passes
     "src/bundles/files/**/*.js",
     "src/bundles/analytics.js",
