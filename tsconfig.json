@@ -85,6 +85,7 @@
     "src/contexts/**/*",
     "src/constants/**/*",
     "src/helpers/**/*",
+    "src/icons/**/*",
     "src/loader/ComponentLoader.js",
     "src/i18n-decorator.js",
     "src/i18n.js",
