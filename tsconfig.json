@@ -54,6 +54,7 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "**/*.json",
     "@types/**/*",
     // "src/**/*.js", // TODO: Include all js files when typecheck passes
     "src/bundles/files/**/*.js",
@@ -78,6 +79,11 @@
     "src/files/file-icon/FileIcon.js",
     "src/files/pin-icon/PinIcon.js",
     "src/components/checkbox/Checkbox.js",
-    "src/files/type-from-ext/extToType.js"
+    "src/files/type-from-ext/extToType.js",
+    "src/pins/**/*",
+    "src/loader/ComponentLoader.js",
+    "src/i18n-decorator.js",
+    "src/i18n.js",
+    "src/lib/i18n-localeParser.js"
   ]
 }
