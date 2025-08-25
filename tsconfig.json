@@ -87,6 +87,7 @@
     "src/helpers/**/*",
     "src/icons/**/*",
     "src/loader/**/*",
+    "src/navigation/**/*",
     "src/i18n-decorator.js",
     "src/i18n.js",
     "src/lib/i18n-localeParser.js"
