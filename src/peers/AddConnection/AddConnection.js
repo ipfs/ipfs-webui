@@ -10,7 +10,7 @@ import Button from '../../components/button/button.tsx'
 import Overlay from '../../components/overlay/Overlay.js'
 
 import ComponentLoader from '../../loader/ComponentLoader.js'
-import { Modal, ModalActions, ModalBody } from '../../components/modal/Modal.js'
+import { Modal, ModalActions, ModalBody } from '../../components/modal/modal'
 
 const multiaddrIsValid = (addrString) => {
   try {
