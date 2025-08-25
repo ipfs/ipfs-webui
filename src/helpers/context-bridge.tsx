@@ -131,11 +131,12 @@ export function useBridgeSelector<T> (contextName: string): T | undefined {
   React.useEffect(() => {
     // Set initial value
     const currentValue = contextBridge.getContext<T>(contextName)
-    setValue(currentValue)
+
+    setValue(() => currentValue)
 
     // Subscribe to changes
     const unsubscribe = contextBridge.subscribe<T>(contextName, (newValue) => {
-      setValue(newValue)
+      setValue(() => newValue)
     })
 
     return unsubscribe
