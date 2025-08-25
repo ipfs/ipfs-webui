@@ -1,3 +1,6 @@
+/**
+ * @param {(key: string) => string} translate
+ */
 export const getJoyrideLocales = (translate) => ({
   back: translate('tour.back'),
   close: translate('tour.close'),
