@@ -81,6 +81,8 @@
     "src/components/checkbox/Checkbox.js",
     "src/files/type-from-ext/extToType.js",
     "src/pins/**/*",
+    "src/blank/**/*",
+    "src/contexts/**/*",
     "src/loader/ComponentLoader.js",
     "src/i18n-decorator.js",
     "src/i18n.js",
