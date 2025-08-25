@@ -83,6 +83,7 @@
     "src/pins/**/*",
     "src/blank/**/*",
     "src/contexts/**/*",
+    "src/constants/**/*",
     "src/loader/ComponentLoader.js",
     "src/i18n-decorator.js",
     "src/i18n.js",
