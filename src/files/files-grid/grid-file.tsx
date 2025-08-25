@@ -5,7 +5,6 @@ import { humanSize, normalizeFiles } from '../../lib/files.js'
 import { CID } from 'multiformats/cid'
 import { isBinary } from 'istextorbinary'
 import FileIcon from '../file-icon/FileIcon.js'
-// @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 import FileThumbnail from '../file-preview/file-thumbnail.js'
 import PinIcon from '../pin-icon/PinIcon.js'
