@@ -1,6 +1,5 @@
 import { CID } from 'multiformats/cid'
 import React, { useState, useEffect, useCallback, type FC } from 'react'
-// @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 import typeFromExt from '../type-from-ext/index.js'
 import './file-thumbnail.css'

@@ -1,6 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 
+/**
+ * @param {Object} props
+ * @param {string} [props.title]
+ * @param {React.ReactNode} props.children
+ * @param {string} [props.className]
+ */
 const Shell = ({
   title = 'Shell',
   children,

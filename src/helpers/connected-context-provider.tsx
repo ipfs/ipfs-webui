@@ -2,7 +2,6 @@
  * @see {@link ./REDUX-BUNDLER-MIGRATION-GUIDE.md} for more information
  */
 import React, { createContext, useContext, useMemo, ReactNode } from 'react'
-// @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 
 /**

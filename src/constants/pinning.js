@@ -17,7 +17,16 @@ const complianceReportsHomepage = 'https://ipfs-shipyard.github.io/pinning-servi
  */
 
 /**
- * @type {PinningServiceTemplate[]}
+ * @typedef {object} PinningServiceTemplateWithCompliance
+ * @property {string} name
+ * @property {string} icon
+ * @property {string} apiEndpoint
+ * @property {string} visitServiceUrl
+ * @property {string} [complianceReportUrl]
+ */
+
+/**
+ * @type {PinningServiceTemplateWithCompliance[]}
  */
 const pinningServiceTemplates = [
   {
@@ -45,14 +54,18 @@ const pinningServiceTemplates = [
     visitServiceUrl: 'https://docs.4everland.org/storage/4ever-pin/pinning-services-api'
   }
 ].map((service) => {
+  let complianceReportUrl
   try {
     const domain = new URL(service.apiEndpoint).hostname
-    service.complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
+    complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
   } catch (e) {
     // if apiEndpoint is not a valid URL, don't add complianceReportUrl
     // TODO: fix support for template apiEndpoints
   }
-  return { service, sort: Math.random() }
+  return {
+    service: { ...service, complianceReportUrl },
+    sort: Math.random()
+  }
 }).sort((a, b) => a.sort - b.sort).map(({ service }) => service)
 
 export {

@@ -2,6 +2,10 @@ import React from 'react'
 import { withTranslation, Trans } from 'react-i18next'
 import Box from '../box/Box.js'
 
+/**
+ * @param {Object} props
+ * @param {import('i18next').TFunction} props.t
+ */
 export const AboutWebUI = ({ t }) => {
   return (
     <Box>

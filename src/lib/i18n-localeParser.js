@@ -13,7 +13,7 @@ export default function getValidLocaleCode ({ i18n, localeCode, languages }) {
   if (info != null) {
     return localeCode
   }
-
+  // @ts-expect-error - fallbackLng is not typed correctly.
   const fallbackLanguages = i18n.options.fallbackLng[localeCode]
   if (info == null && fallbackLanguages != null) {
     /**

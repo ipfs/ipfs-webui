@@ -5,7 +5,7 @@ import { debouncedProvide } from '../../lib/files.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
- * @typedef {import('../../lib/files').FileStream} FileStream
+ * @typedef {import('../../files/types').FileStream} FileStream
  * @typedef {import('./actions').Ext} Ext
  * @typedef {import('./actions').Extra} Extra
  * @typedef {import('multiformats/cid').CID} CID

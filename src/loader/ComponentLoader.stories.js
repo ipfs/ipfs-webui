@@ -11,10 +11,12 @@ export default {
 /**
  * @type {import('@storybook/react').StoryObj}
  */
-export const Default = () => (
+export const Default = {
+  render: () => (
   <div className="flex items-center">
     <ComponentLoader style={{ width: 100, margin: '100px auto' }} />
     <ComponentLoader style={{ width: 200, margin: '100px auto' }} />
     <ComponentLoader style={{ width: 300, margin: '100px auto' }} />
   </div>
-)
+  )
+}

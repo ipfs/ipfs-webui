@@ -1,6 +1,10 @@
 import React from 'react'
 import './ComponentLoader.css'
 
+/**
+ * @param {Object} props
+ * @param {React.CSSProperties} [props.style]
+ */
 const ComponentLoader = (props) => (
   <div {...props} style={{ width: 300, margin: '10vh auto', ...props.style }}>
     <svg className='ComponentLoader' style={{ width: '100%' }} viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
