@@ -41,7 +41,11 @@ const ApiAddressForm: React.FC<ApiAddressFormProps> = ({ checkValidAPIAddress = 
 
   const onSubmit = useCallback(async (event: React.FormEvent) => {
     event.preventDefault()
-    if (doUpdateIpfsApiAddress && !isSubmitting) {
+    if (doUpdateIpfsApiAddress == null) {
+      // function is not available, so we can't submit
+      return
+    }
+    if (!isSubmitting) {
       setIsSubmitting(true)
       try {
         await doUpdateIpfsApiAddress(value)

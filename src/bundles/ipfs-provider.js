@@ -531,6 +531,10 @@ const bundle = {
   getExtraArgs () {
     return extra
   },
+  /**
+   *
+   * @param {typeof actions & typeof selectors} store
+   */
   init: (store) => {
     contextBridge.setContext('doUpdateIpfsApiAddress', store.doUpdateIpfsApiAddress)
   },
