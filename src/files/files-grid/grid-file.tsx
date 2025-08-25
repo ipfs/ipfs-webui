@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, type FC } from 'react'
 import { withTranslation } from 'react-i18next'
 import { useDrag, useDrop, type DropTargetMonitor } from 'react-dnd'
-import { FileStream, humanSize, normalizeFiles } from '../../lib/files.js'
+import { humanSize, normalizeFiles } from '../../lib/files.js'
 import { CID } from 'multiformats/cid'
 import { isBinary } from 'istextorbinary'
 import FileIcon from '../file-icon/FileIcon.js'
@@ -15,7 +15,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
 import './grid-file.css'
 import { TFunction } from 'i18next'
-import { ContextMenuFile } from '../types.js'
+import type { ContextMenuFile, FileStream } from '../types'
 
 type SetPinningProps = { cid: CID, pinned: boolean }
 

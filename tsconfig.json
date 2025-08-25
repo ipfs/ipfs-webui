@@ -38,11 +38,9 @@
     "declarationMap": true,
     "incremental": true,
     "composite": true,
-    "types": [
-      "node"
-    ],
     "typeRoots": [
-      "@types"
+      "./node_modules/@types",
+      "./@types"
     ],
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
@@ -54,12 +52,11 @@
     }
   },
   "exclude": [
-    "./src/test",
     "src/**/*.test.js"
   ],
   "include": [
     "**/*.ts",
-    // "**/*.tsx",
+    "**/*.tsx",
     "@types",
     // "src/**/*.js", // TODO: Include all js files when typecheck passes
     "src/bundles/files/**/*.js",
@@ -80,19 +77,10 @@
     "src/env.js",
     "src/lib/hofs/**/*.js",
     "src/lib/guards.js",
-    "src/files/file-preview/file-thumbnail.tsx",
     "src/files/type-from-ext/index.js",
-    "src/files/files-grid/files-grid.tsx",
-    "src/files/files-grid/grid-file.tsx",
     "src/files/file-icon/FileIcon.js",
     "src/files/pin-icon/PinIcon.js",
-    "src/icons/**/*.tsx",
     "src/components/checkbox/Checkbox.js",
-    "src/files/type-from-ext/extToType.js",
-    "src/helpers/context-bridge.tsx",
-    "src/helpers/connected-context-provider.tsx",
-    "src/components/version-link/**/*",
-    "src/lib/*.ts",
-    "src/components/modal/**/*"
+    "src/files/type-from-ext/extToType.js"
   ]
 }
