@@ -531,6 +531,9 @@ const bundle = {
   getExtraArgs () {
     return extra
   },
+  init: (store) => {
+    contextBridge.setContext('doUpdateIpfsApiAddress', store.doUpdateIpfsApiAddress)
+  },
 
   /**
    * Bridge ipfs instance to context bridge for use by React contexts
@@ -559,16 +562,6 @@ const bundle = {
     'selectIpfsInitFailed',
     (initFailed) => {
       contextBridge.setContext('selectIpfsInitFailed', initFailed)
-    }
-  ),
-
-  /**
-   * Bridge update API address function to context bridge
-   */
-  reactUpdateApiAddressToBridge: createSelector(
-    'doUpdateIpfsApiAddress',
-    (updateIpfsApiAddress) => {
-      contextBridge.setContext('doUpdateIpfsApiAddress', updateIpfsApiAddress)
     }
   ),
 
