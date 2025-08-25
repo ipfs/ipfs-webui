@@ -26,6 +26,7 @@ import { IGNORED_FILES, ACTIONS } from './consts.js'
  * @property {CID} cid
  * @property {string} name
  * @property {string} path
+ * @property {string} parentPath
  * @property {boolean} pinned
  * @property {boolean|void} isParent
  *
@@ -41,15 +42,22 @@ import { IGNORED_FILES, ACTIONS } from './consts.js'
  * @param {string} [prefix]
  * @returns {FileStat}
  */
-const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, isParent }, prefix = '/ipfs') => ({
-  size: cumulativeSize || size || 0,
-  type: type === 'dir' ? 'directory' : type,
-  cid,
-  name: name || path.split('/').pop() || cid.toString(),
-  path: path || `${prefix}/${cid.toString()}`,
-  pinned: Boolean(pinned),
-  isParent
-})
+const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, isParent }, prefix = '/ipfs') => {
+  const pathParts = path.split('/')
+  const pathFileName = pathParts.pop()
+  const parentPath = pathParts.join('/') || '/'
+  const file = {
+    size: cumulativeSize || size || 0,
+    type: type === 'dir' ? 'directory' : type,
+    cid,
+    name: name || pathFileName || cid.toString(),
+    path: path || `${prefix}/${cid.toString()}`,
+    parentPath,
+    pinned: Boolean(pinned),
+    isParent
+  }
+  return file
+}
 
 /**
  * @param {IPFSService} ipfs
@@ -717,6 +725,7 @@ const importFiles = (ipfs, files) => {
  * @param {string} options.path
  * @param {boolean} [options.isRoot]
  * @param {import('./utils').Sorting} options.sorting
+ * @returns {Promise<import('./protocol').DirectoryContent>}
  */
 const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
   const entries = await all(ipfs.ls(cid)) || []
@@ -746,6 +755,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
   }
 
   let parent = null
+  let parentPathForDir = '/'
 
   if (!isRoot) {
     const parentPath = dirname(path)
@@ -764,11 +774,13 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
         name: '..',
         isParent: true
       })
+      parentPathForDir = parentInfo.path
     }
   }
 
   return {
     path,
+    parentPath: parentPathForDir,
     fetched: Date.now(),
     type: 'directory',
     cid,
