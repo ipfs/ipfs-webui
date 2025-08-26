@@ -1,7 +1,7 @@
 import React from 'react'
 
 /**
- * @type {import('react-joyride').Tour}
+ * @type {import('react-joyride').CustomTour}
  */
 export const appTour = {
   getSteps: ({ t }) => [{
@@ -26,7 +26,7 @@ export const appTour = {
 }
 
 /**
- * @type {import('react-joyride').Tour}
+ * @type {import('react-joyride').CustomTour}
  */
 export const welcomeTour = {
   getSteps: ({ t }) => [
@@ -52,7 +52,7 @@ export const welcomeTour = {
 }
 
 /**
- * @type {import('react-joyride').Tour}
+ * @type {import('react-joyride').CustomTour}
  */
 export const statusTour = {
   getSteps: ({ t, Trans }) => [
@@ -115,7 +115,7 @@ export const statusTour = {
 }
 
 /**
- * @type {import('react-joyride').Tour}
+ * @type {import('react-joyride').CustomTour}
  */
 export const filesTour = {
   getSteps: ({ t, Trans }) => [
@@ -193,7 +193,7 @@ export const filesTour = {
 }
 
 /**
- * @type {import('react-joyride').Tour}
+ * @type {import('react-joyride').CustomTour}
  */
 export const peersTour = {
   getSteps: ({ t }) => [
@@ -235,7 +235,7 @@ export const peersTour = {
 }
 
 /**
- * @type {import('react-joyride').Tour}
+ * @type {import('react-joyride').CustomTour}
  */
 export const settingsTour = {
   getSteps: ({ t, Trans }) => [

@@ -9,13 +9,13 @@ import { STATUS } from 'react-joyride'
 const withTour = WrappedComponent => {
   class WithTour extends React.Component {
     /**
-     * @param {any} data
+     * @param {import('react-joyride').CallBackProps} data
      */
     handleJoyrideCallback = (data) => {
       const { doDisableTours } = this.props
       const { action, status } = data
 
-      if (action === 'close' || [STATUS.FINISHED].includes(status)) {
+      if (action === 'close' || status === STATUS.FINISHED) {
         doDisableTours()
       }
     }
