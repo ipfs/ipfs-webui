@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Modal, ModalBody, ModalActions } from '../../components/modal/Modal.js'
+import { Modal, ModalBody, ModalActions } from '../../components/modal/modal'
 import Overlay from '../../components/overlay/Overlay.js'
 import Button from '../../components/button/button.js'
 
@@ -86,7 +86,6 @@ const LogWarningModal: React.FC<LogWarningModalProps> = ({
     // @ts-expect-error - Overlay is not typed
     <Overlay show={isOpen} onLeave={onClose}>
       <Modal onCancel={onClose} className="outline-0">
-        {/* @ts-expect-error - ModalBody is not typed */}
         <ModalBody>
           <div className="flex items-center mb3">
             <span className="mr2 f3">⚠️</span>

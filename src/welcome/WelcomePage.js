@@ -9,7 +9,7 @@ import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Components
 import IsConnected from '../components/is-connected/IsConnected.js'
-import IsNotConnected from '../components/is-not-connected/is-not-connected.js'
+import IsNotConnected from '../components/is-not-connected/is-not-connected'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs.js'
 import AboutWebUI from '../components/about-webui/AboutWebUI.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
@@ -58,7 +58,7 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, tour
  *
  * @returns {JSX.Element}
  */
-const ConnectionStatus = ({ t: _t, connected, sameOrigin: _sameOrigin }) => {
+const ConnectionStatus = ({ t: _t, connected }) => {
   if (connected) {
     return (
       <div>
@@ -75,7 +75,6 @@ const ConnectionStatus = ({ t: _t, connected, sameOrigin: _sameOrigin }) => {
     )
   }
   return (
-    // @ts-expect-error - IsNotConnected needs type fixes
     <IsNotConnected />
   )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '../components/box/Box.js'
 import { createConnectedComponent } from '../components/connected-component.js'
-import Helmet from '../components/helmet-wrapper.jsx'
+import { Helmet } from 'react-helmet'
 import IsNotConnected from '../components/is-not-connected/is-not-connected.js'
 import DiagnosticsContent from './diagnostics-content.jsx'
 

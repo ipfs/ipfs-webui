@@ -1,6 +1,7 @@
 import memoize from 'p-memoize'
 import { multiaddrToUri as toUri } from '@multiformats/multiaddr-to-uri'
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
+import { contextBridge } from '../helpers/context-bridge'
 
 const LOCAL_HOSTNAMES = ['127.0.0.1', '[::1]', '0.0.0.0', '[::]']
 
@@ -57,6 +58,14 @@ bundle.selectApiUrl = createSelector(
   'selectConfigObject',
   'selectPublicGateway',
   (config, publicGateway) => getURLFromAddress('API', config) || publicGateway
+)
+
+bundle.reactApiUrlToBridge = createSelector(
+  'selectApiUrl',
+  (apiUrl) => {
+    contextBridge.setContext('selectApiUrl', apiUrl)
+    contextBridge.setContext('selectIsSameOrigin', window.location.origin === apiUrl)
+  }
 )
 
 bundle.selectGatewayUrl = createSelector(

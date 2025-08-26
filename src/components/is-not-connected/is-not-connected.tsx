@@ -1,16 +1,11 @@
 import React, { useState } from 'react'
-import { withTranslation, Trans } from 'react-i18next'
-import { createConnectedComponent } from '../connected-component.js'
+import { Trans, useTranslation } from 'react-i18next'
 import classNames from 'classnames'
 import ApiAddressForm from '../api-address-form/api-address-form'
 import Box from '../box/Box.js'
 import Shell from '../shell/Shell.js'
 import GlyphAttention from '../../icons/GlyphAttention.js'
-
-interface ReduxBundlerProps {
-  ipfsConnected: boolean
-  apiUrl: string
-}
+import { useBridgeSelector } from '../../helpers/context-bridge'
 
 const TABS = {
   UNIX: 'unix',
@@ -18,13 +13,19 @@ const TABS = {
   WINDOWS: 'windowsCMD'
 }
 
-const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUpdateIpfsApiAddress }) => {
+interface IsNotConnectedProps {
+
+}
+
+const IsNotConnected: React.FC<IsNotConnectedProps> = () => {
+  const { t } = useTranslation('welcome')
+  const isSameOrigin = useBridgeSelector('selectIsSameOrigin')
   const [activeTab, setActiveTab] = useState(TABS.UNIX)
   const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.io']
   const origin = window.location.origin
   const addOrigin = defaultDomains.indexOf(origin) === -1
+
   return (
-    // @ts-expect-error - expects required style prop
     <Box className='pv3 ph4 lh-copy charcoal'>
       <div className='flex flex-wrap items-center'>
         <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
@@ -37,13 +38,12 @@ const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUp
         <Trans i18nKey='notConnected.paragraph2' t={t}>
           <li className='mb3'>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</li>
         </Trans>
-        {/* @ts-expect-error - expects required className prop */}
         <Shell title='Any Shell'>
           <code className='db'><b className='no-select'>$ </b>ipfs daemon</code>
           <code className='db'>Initializing daemon...</code>
           <code className='db'>RPC API server listening on /ip4/127.0.0.1/tcp/5001</code>
         </Shell>
-        { !sameOrigin && (
+        { !isSameOrigin && (
           <div>
             <Trans i18nKey='notConnected.paragraph3' t={t}>
               <li className='mb3 mt4'>Is your Kubo RPC API configured to allow <a className='link blue' href='https://github.com/ipfs/ipfs-webui#configure-kubo-rpc-api-cors-headers'>cross-origin (CORS) requests</a>? If not, run these commands and then start your daemon from the terminal:</li>
@@ -92,8 +92,4 @@ const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUp
   )
 }
 
-export default createConnectedComponent<ReduxBundlerProps>(
-  withTranslation('welcome')(IsNotConnected),
-  'selectIpfsConnected',
-  'selectApiUrl'
-)
+export default IsNotConnected
