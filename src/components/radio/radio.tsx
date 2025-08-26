@@ -7,6 +7,7 @@ export interface RadioProps {
   disabled?: boolean
   checked?: boolean
   onChange: (checked: boolean) => void
+  style?: React.HTMLAttributes<HTMLLabelElement>['style']
 }
 
 const Radio: React.FC<RadioProps> = ({ className = '', label = '', disabled = false, checked = false, onChange = () => {}, ...props }) => {
