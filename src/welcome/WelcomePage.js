@@ -16,7 +16,7 @@ import ComponentLoader from '../loader/ComponentLoader.js'
 
 /**
  * @param {Object} props
- * @param {(key: string) => string} props.t
+ * @param {import('i18next').TFunction} props.t
  * @param {string} props.apiUrl
  * @param {boolean} props.ipfsInitFailed
  * @param {boolean} props.ipfsConnected
@@ -52,7 +52,7 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, tour
 
 /**
  * @param {Object} props
- * @param {(key: string) => string} props.t
+ * @param {import('i18next').TFunction} props.t
  * @param {boolean} props.connected
  * @param {boolean} props.sameOrigin
  *

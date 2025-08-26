@@ -56,7 +56,7 @@ const Pin = (t, pin, status = Status.Pending, onDismiss) => {
  * @param {(pin: string) => void} props.onDismissFailedPin
  * @param {(pin: string) => void} props.onDismissCompletedPin
  * @param {(pin: string) => void} props.doCancelPendingPin
- * @param {(key: string) => string} props.t
+ * @param {import('i18next').TFunction} props.t
  */
 const PinsStatuses = ({ pendingPins, failedPins, completedPins, onDismissFailedPin, onDismissCompletedPin, doCancelPendingPin, t }) => {
   return (
