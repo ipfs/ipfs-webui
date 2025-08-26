@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './Radio.css'
+import './radio-styles.css'
 
 const Radio = ({ className, label, disabled, checked, onChange, ...props }) => {
   className = `Radio dib sans-serif ${className}`
