@@ -5,7 +5,7 @@ import { sortByProperty } from '../../lib/sort.js'
 
 // Components
 import Button from '../button/button.tsx'
-import Overlay from '../overlay/overlay-component'
+import Overlay from '../overlay/overlay'
 import PinningModal from './pinning-manager-modal/PinningManagerModal.js'
 import AutoUploadModal from './auto-upload-modal/AutoUploadModal.js'
 import GlyphPin from '../../icons/GlyphPin.js'
