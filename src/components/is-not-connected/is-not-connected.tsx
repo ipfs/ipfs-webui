@@ -13,11 +13,7 @@ const TABS = {
   WINDOWS: 'windowsCMD'
 }
 
-interface IsNotConnectedProps {
-
-}
-
-const IsNotConnected: React.FC<IsNotConnectedProps> = () => {
+const IsNotConnected = () => {
   const { t } = useTranslation('welcome')
   const isSameOrigin = useBridgeSelector('selectIsSameOrigin')
   const [activeTab, setActiveTab] = useState(TABS.UNIX)

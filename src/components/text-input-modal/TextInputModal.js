@@ -92,6 +92,7 @@ class TextInputModal extends React.Component {
   render () {
     const {
       t,
+      tReady,
       onCancel,
       onChange,
       onInputChange,
