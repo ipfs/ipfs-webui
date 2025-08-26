@@ -1,20 +1,14 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '../components/box/Box.js'
-import { createConnectedComponent } from '../components/connected-component.js'
 import { Helmet } from 'react-helmet'
-import IsNotConnected from '../components/is-not-connected/is-not-connected.js'
-import DiagnosticsContent from './diagnostics-content.jsx'
+import IsNotConnected from '../components/is-not-connected/is-not-connected'
+import DiagnosticsContent from './diagnostics-content'
+import { useBridgeSelector } from '../helpers/context-bridge'
 
-interface ReduxBundlerProps {
-  ipfsConnected: boolean
-}
-
-interface DiagnosticsPageProps extends ReduxBundlerProps {
-}
-
-const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({ ipfsConnected }) => {
+const DiagnosticsPage: React.FC = () => {
   const { t } = useTranslation('diagnostics')
+  const ipfsConnected = useBridgeSelector('selectIpfsConnected')
 
   return (
     <div data-id='DiagnosticsPage' className='mw9 center'>
@@ -38,7 +32,4 @@ const DiagnosticsPage: React.FC<DiagnosticsPageProps> = ({ ipfsConnected }) => {
 /**
  * @template {ReduxBundlerProps}
  */
-export default createConnectedComponent(
-  DiagnosticsPage,
-  'selectIpfsConnected'
-)
+export default DiagnosticsPage
