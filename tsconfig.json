@@ -99,7 +99,6 @@
     "src/components/shell/Shell.js",
     "src/i18n-decorator.js",
     "src/i18n.js",
-    "src/lib/i18n-localeParser.js",
-    "src/components/overlay/Overlay.js"
+    "src/lib/i18n-localeParser.js"
   ]
 }

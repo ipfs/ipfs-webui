@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Modal, ModalBody, ModalActions } from '../../components/modal/modal'
-import Overlay from '../../components/overlay/Overlay.js'
+import Overlay from '../../components/overlay/overlay'
 import Button from '../../components/button/button.js'
 
 export type WarningModalTypes = 'debug-global' | 'high-rate' | 'auto-disable' | null

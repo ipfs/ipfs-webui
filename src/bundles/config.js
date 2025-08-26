@@ -63,14 +63,6 @@ bundle.reactIsSameOriginToBridge = createSelector(
   }
 )
 
-bundle.reactApiUrlToBridge = createSelector(
-  'selectApiUrl',
-  (apiUrl) => {
-    contextBridge.setContext('selectApiUrl', apiUrl)
-    contextBridge.setContext('selectIsSameOrigin', window.location.origin === apiUrl)
-  }
-)
-
 bundle.selectGatewayUrl = createSelector(
   'selectConfigObject',
   'selectPublicGateway',
