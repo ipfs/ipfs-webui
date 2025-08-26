@@ -531,6 +531,13 @@ const bundle = {
   getExtraArgs () {
     return extra
   },
+  /**
+   *
+   * @param {typeof actions & typeof selectors} store
+   */
+  init: (store) => {
+    contextBridge.setContext('doUpdateIpfsApiAddress', store.doUpdateIpfsApiAddress)
+  },
 
   /**
    * Bridge ipfs instance to context bridge for use by React contexts
@@ -539,6 +546,26 @@ const bundle = {
     'selectIpfs',
     (ipfsInstance) => {
       contextBridge.setContext('selectIpfs', ipfsInstance)
+    }
+  ),
+
+  /**
+   * Bridge API address to context bridge
+   */
+  reactApiAddressToBridge: createSelector(
+    'selectIpfsApiAddress',
+    (apiAddress) => {
+      contextBridge.setContext('selectIpfsApiAddress', apiAddress)
+    }
+  ),
+
+  /**
+   * Bridge init failed state to context bridge
+   */
+  reactInitFailedToBridge: createSelector(
+    'selectIpfsInitFailed',
+    (initFailed) => {
+      contextBridge.setContext('selectIpfsInitFailed', initFailed)
     }
   ),
 

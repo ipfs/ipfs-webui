@@ -25,6 +25,7 @@ type UnknownContent = {
   type: 'unknown',
   fetched: Time,
   path: string,
+  parentPath: string,
   cid: CID,
   size: 0
 }
@@ -33,6 +34,7 @@ type FileContent = {
   type: 'file',
   fetched: Time,
   path: string,
+  parentPath: string,
   cid: CID,
   size: number,
 
@@ -44,10 +46,11 @@ export type DirectoryContent = {
   type: 'directory',
   fetched: Time,
   path: string,
+  parentPath: string,
   cid: CID,
 
   content: FileStat[]
-  upper: void | FileStat,
+  upper: FileStat | null,
 }
 
 export type PageContent =

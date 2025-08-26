@@ -151,7 +151,7 @@ const IdentityProviderImpl: React.FC<IdentityProviderProps> = ({ children }) => 
   }, [ipfsConnected, fetchIdentity, state.isLoading, state.identity, state.lastSuccess])
 
   useEffect(() => {
-    if (!shouldPoll || !ipfsConnected || !state.lastSuccess) return
+    if (!shouldPoll || !ipfsConnected || !state.lastSuccess) return () => {}
 
     const REFRESH_INTERVAL = 5000
     const timeSinceLastSuccess = Date.now() - state.lastSuccess

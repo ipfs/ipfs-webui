@@ -2,13 +2,12 @@ import React, { useRef, useState, useEffect, useCallback, type FC, type MouseEve
 import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { ExtendedFile, FileStream, normalizeFiles } from '../../lib/files.js'
+import { normalizeFiles } from '../../lib/files.js'
 import GridFile from './grid-file.jsx'
-// @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 import './files-grid.css'
 import { TFunction } from 'i18next'
-import type { ContextMenuFile } from 'src/files/types.js'
+import type { ContextMenuFile, ExtendedFile, FileStream } from '../types'
 import type { CID } from 'multiformats/cid'
 
 export interface FilesGridProps {

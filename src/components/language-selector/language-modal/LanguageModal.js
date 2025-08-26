@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 import i18n, { localesList } from '../../../i18n.js'
 
 // Components
-import { Modal, ModalBody, ModalActions } from '../../modal/Modal.js'
+import { Modal, ModalBody, ModalActions } from '../../modal/modal'
 import SpeakerIcon from '../../../icons/StrokeSpeaker.js'
 import Button from '../../button/button.tsx'
 

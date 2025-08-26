@@ -4,7 +4,7 @@ import QRCode from 'react-qr-code'
 import Button from '../../../components/button/button.tsx'
 import { withTranslation } from 'react-i18next'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
+import { Modal, ModalActions, ModalBody } from '../../../components/modal/modal'
 
 const ShareModal = ({ t, tReady, onLeave, link, className, ...props }) => (
   <Modal {...props} className={className} onCancel={onLeave} >

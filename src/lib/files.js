@@ -6,19 +6,13 @@ import filesize from 'filesize'
  */
 
 /**
- * @typedef {Object} FileExt
- * @property {string} [filepath]
- * @property {string} [webkitRelativePath]
+ * @typedef {import('../files/types').FileExt} FileExt
  *
- * @typedef {FileExt &  File} ExtendedFile
+ * @typedef {import('../files/types').ExtendedFile} ExtendedFile
  *
- * @typedef {Object} FileStream
- * @property {string} path
- * @property {Blob} content
- * @property {number} size
  *
  * @param {ExtendedFile[]} files
- * @returns {FileStream[]}
+ * @returns {import('../files/types').FileStream[]}
  */
 export function normalizeFiles (files) {
   const streams = []

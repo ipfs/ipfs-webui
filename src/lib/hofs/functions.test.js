@@ -29,10 +29,12 @@ describe('hofFns', function () {
     })
 
     it('should throw an error if the passed fn is not a function', function () {
+      // @ts-expect-error - we want to test the error case
       expect(() => after('not a function', 3)).toThrow(TypeError)
     })
 
     it('should throw an error if times is not a number', function () {
+      // @ts-expect-error - we want to test the error case
       expect(() => after(jest.fn(), 'not a number')).toThrow(TypeError)
     })
   })
@@ -50,6 +52,7 @@ describe('hofFns', function () {
     })
 
     it('should throw an error if the passed fn is not a function', function () {
+      // @ts-expect-error - we want to test the error case
       expect(() => once('not a function')).toThrow(TypeError)
     })
   })
@@ -71,6 +74,7 @@ describe('hofFns', function () {
     })
 
     it('should throw an error if the passed fn is not a function', function () {
+      // @ts-expect-error - we want to test the error case
       expect(() => debounce('not a function')).toThrow(TypeError)
     })
   })
@@ -104,10 +108,12 @@ describe('hofFns', function () {
     })
 
     it('should throw an error if the passed fn is not a function', function () {
+      // @ts-expect-error - we want to test the error case
       expect(() => onlyOnceAfter('not a function', 2)).toThrow(TypeError)
     })
 
     it('should throw an error if nth is not a number', function () {
+      // @ts-expect-error - we want to test the error case
       expect(() => onlyOnceAfter(jest.fn(), 'not a number')).toThrow(TypeError)
     })
   })

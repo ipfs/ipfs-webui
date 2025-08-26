@@ -14,6 +14,14 @@ import StrokeLab from '../icons/StrokeLab.js'
 // Styles
 import './NavBar.css'
 
+/**
+ * @param {Object} props
+ * @param {string} props.to
+ * @param {React.ComponentType<React.SVGProps<SVGSVGElement>>} props.icon
+ * @param {string} [props.alternative]
+ * @param {boolean} [props.disabled]
+ * @param {string} props.children
+ */
 const NavLink = ({
   to,
   icon,
@@ -38,7 +46,7 @@ const NavLink = ({
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <a href={disabled ? null : href} className={anchorClass} role='menuitem' title={children}>
+    <a href={disabled ? undefined : href} className={anchorClass} role='menuitem' title={children}>
       <div className='db ph2 pv1'>
         <div className='db'>
           <Svg width='46' role='presentation' className={svgClass} />
@@ -51,6 +59,10 @@ const NavLink = ({
   )
 }
 
+/**
+ * @param {Object} props
+ * @param {import('i18next').TFunction} props.t
+ */
 export const NavBar = ({ t }) => {
   const codeUrl = 'https://github.com/ipfs/ipfs-webui'
   const bugsUrl = `${codeUrl}/issues`
