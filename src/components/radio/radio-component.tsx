@@ -1,14 +1,21 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import './radio-styles.css'
 
-const Radio = ({ className, label, disabled, checked, onChange, ...props }) => {
+export interface RadioProps {
+  className?: string
+  label?: React.ReactNode
+  disabled?: boolean
+  checked?: boolean
+  onChange: (checked: boolean) => void
+}
+
+const Radio: React.FC<RadioProps> = ({ className = '', label = '', disabled = false, checked = false, onChange = () => {}, ...props }) => {
   className = `Radio dib sans-serif ${className}`
   if (!disabled) {
     className += ' pointer'
   }
 
-  const change = (event) => {
+  const change: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     onChange(event.target.checked)
   }
 
@@ -23,22 +30,6 @@ const Radio = ({ className, label, disabled, checked, onChange, ...props }) => {
       </span>
     </label>
   )
-}
-
-Radio.propTypes = {
-  className: PropTypes.string,
-  label: PropTypes.node,
-  disabled: PropTypes.bool,
-  checked: PropTypes.bool,
-  onChange: PropTypes.func
-}
-
-Radio.defaultProps = {
-  className: '',
-  label: '',
-  disabled: false,
-  checked: null,
-  onChange: () => {}
 }
 
 export default Radio
