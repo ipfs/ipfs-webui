@@ -13,23 +13,23 @@ import IsNotConnected from '../components/is-not-connected/IsNotConnected.js'
 import AboutIpfs from '../components/about-ipfs/AboutIpfs.js'
 import AboutWebUI from '../components/about-webui/AboutWebUI.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
+import { useBridgeSelector } from '../helpers/context-bridge'
 
 /**
  * @param {Object} props
  * @param {import('i18next').TFunction} props.t
- * @param {string} props.apiUrl
  * @param {boolean} props.ipfsInitFailed
  * @param {boolean} props.ipfsConnected
  * @param {boolean} props.ipfsReady
  * @param {boolean} props.toursEnabled
  * @param {(data: any) => void} props.handleJoyrideCallback
  */
-const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
+const WelcomePage = ({ t, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
+  const isSameOrigin = useBridgeSelector('selectIsSameOrigin')
+
   if (!ipfsInitFailed && !ipfsReady) {
     return <ComponentLoader />
   }
-
-  const isSameOrigin = window.location.origin === apiUrl
 
   return (
     <div>
@@ -75,7 +75,6 @@ const ConnectionStatus = ({ t: _t, connected, sameOrigin: _sameOrigin }) => {
     )
   }
   return (
-    // @ts-expect-error - IsNotConnected needs type fixes
     <IsNotConnected />
   )
 }
@@ -84,7 +83,6 @@ export default connect(
   'selectIpfsInitFailed',
   'selectIpfsConnected',
   'selectIpfsReady',
-  'selectApiUrl',
   'selectToursEnabled',
   withTour(withTranslation('welcome')(WelcomePage))
 )
