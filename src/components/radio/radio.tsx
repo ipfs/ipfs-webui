@@ -1,5 +1,5 @@
 import React from 'react'
-import './radio-styles.css'
+import './radio.css'
 
 export interface RadioProps {
   className?: string

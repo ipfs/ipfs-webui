@@ -1,5 +1,5 @@
 import React from 'react'
-import Radio from './radio-component'
+import Radio from './radio'
 
 const bigPicture = {
   transform: 'scale(5)',
