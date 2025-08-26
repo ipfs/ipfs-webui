@@ -187,16 +187,16 @@ const bundle = {
   doSetAvailableGateway: url => ({ dispatch }) => dispatch({ type: 'SET_AVAILABLE_GATEWAY', payload: url }),
 
   doUpdatePublicGateway: (address) => async ({ dispatch }) => {
-  const { writeSetting } = getLocalStorageUtils()
-  await writeSetting('ipfsPublicGateway', address)
-  dispatch({ type: 'SET_PUBLIC_GATEWAY', payload: address })
-},
+    const { writeSetting } = getLocalStorageUtils()
+    await writeSetting('ipfsPublicGateway', address)
+    dispatch({ type: 'SET_PUBLIC_GATEWAY', payload: address })
+  },
 
   doUpdatePublicSubdomainGateway: (address) => async ({ dispatch }) => {
-  const { writeSetting } = getLocalStorageUtils()
-  await writeSetting('ipfsPublicSubdomainGateway', address)
-  dispatch({ type: 'SET_PUBLIC_SUBDOMAIN_GATEWAY', payload: address })
-},
+    const { writeSetting } = getLocalStorageUtils()
+    await writeSetting('ipfsPublicSubdomainGateway', address)
+    dispatch({ type: 'SET_PUBLIC_SUBDOMAIN_GATEWAY', payload: address })
+  },
 
   selectAvailableGateway: (state) => state?.gateway?.availableGateway,
 

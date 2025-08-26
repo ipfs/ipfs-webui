@@ -9,7 +9,6 @@ interface LocalStorageContextValue {
 const LocalStorageContext = createContext<LocalStorageContextValue | undefined>(undefined)
 
 export const LocalStorageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  
   /**
    * Reads setting from the `localStorage` with a given `id` as JSON. If JSON
    * parse is failed setting is interpreted as a string value.

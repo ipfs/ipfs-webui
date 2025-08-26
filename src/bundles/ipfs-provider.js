@@ -335,24 +335,24 @@ const selectors = {
 const actions = {
 
   doSetupLocalStorage: () => async () => {
-  const { readSetting, writeSetting } = getLocalStorageUtils()
-  
-  /** For the Explore page (i.e. ipld-explorer-components) */
-  const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled')
-  if (useRemoteGatewaysToExplore === null) {
-    // by default, disable remote gateways for the Explore page (i.e. ipld-explorer-components)
-    await writeSetting('explore.ipld.gatewayEnabled', false)
-  }
+    const { readSetting, writeSetting } = getLocalStorageUtils()
 
-  const kuboGateway = readSetting('kuboGateway')
-  if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
+    /** For the Explore page (i.e. ipld-explorer-components) */
+    const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled')
+    if (useRemoteGatewaysToExplore === null) {
+    // by default, disable remote gateways for the Explore page (i.e. ipld-explorer-components)
+      await writeSetting('explore.ipld.gatewayEnabled', false)
+    }
+
+    const kuboGateway = readSetting('kuboGateway')
+    if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
     // empty or invalid, set defaults
-    await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
-  } else if (/** @type {Record<string, any>} */(kuboGateway).trustlessBlockBrokerConfig == null) {
+      await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
+    } else if (/** @type {Record<string, any>} */(kuboGateway).trustlessBlockBrokerConfig == null) {
     // missing trustlessBlockBrokerConfig, set defaults
-    await writeSetting('kuboGateway', { ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
-  }
-},
+      await writeSetting('kuboGateway', { ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
+    }
+  },
 
   /**
    * @returns {function(Context):Promise<boolean>}

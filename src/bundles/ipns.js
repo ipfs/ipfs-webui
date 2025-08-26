@@ -81,14 +81,14 @@ const ipnsBundle = {
   },
 
   doUpdateExpectedPublishTime: (time) => async ({ store, dispatch }) => {
-  const { writeSetting } = getLocalStorageUtils()
-  // moderate expectation: publishing should take no longer than average
-  // between old expectation and the length of the last publish + some buffer
-  const oldExpectedTime = store.selectExpectedPublishTime()
-  const avg = Math.floor((time * 1.5 + oldExpectedTime) / 2)
-  await writeSetting('expectedPublishTime', avg)
-  dispatch({ type: 'SET_EXPECTED_PUBLISH_TIME', payload: avg })
-}
+    const { writeSetting } = getLocalStorageUtils()
+    // moderate expectation: publishing should take no longer than average
+    // between old expectation and the length of the last publish + some buffer
+    const oldExpectedTime = store.selectExpectedPublishTime()
+    const avg = Math.floor((time * 1.5 + oldExpectedTime) / 2)
+    await writeSetting('expectedPublishTime', avg)
+    dispatch({ type: 'SET_EXPECTED_PUBLISH_TIME', payload: avg })
+  }
 }
 
 export default ipnsBundle
