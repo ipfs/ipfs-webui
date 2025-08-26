@@ -1,4 +1,14 @@
-import { readSetting, writeSetting } from './local-storage.js'
+import { createContextSelector } from '../helpers/context-bridge.jsx'
+
+const selectLocalStorageFromContext = createContextSelector('localStorage')
+
+const getLocalStorageUtils = () => {
+  const localStorageContext = selectLocalStorageFromContext()
+  return {
+    readSetting: localStorageContext?.readSetting || (() => null),
+    writeSetting: localStorageContext?.writeSetting || (() => {})
+  }
+}
 
 // TODO: switch to dweb.link when https://github.com/ipfs/kubo/issues/7318
 export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
@@ -11,11 +21,13 @@ const IMG_ARRAY = [
 ]
 
 const readPublicGatewaySetting = () => {
+  const { readSetting } = getLocalStorageUtils()
   const setting = readSetting('ipfsPublicGateway')
   return setting || DEFAULT_PATH_GATEWAY
 }
 
 const readPublicSubdomainGatewaySetting = () => {
+  const { readSetting } = getLocalStorageUtils()
   const setting = readSetting('ipfsPublicSubdomainGateway')
   return setting || DEFAULT_SUBDOMAIN_GATEWAY
 }
@@ -175,14 +187,16 @@ const bundle = {
   doSetAvailableGateway: url => ({ dispatch }) => dispatch({ type: 'SET_AVAILABLE_GATEWAY', payload: url }),
 
   doUpdatePublicGateway: (address) => async ({ dispatch }) => {
-    await writeSetting('ipfsPublicGateway', address)
-    dispatch({ type: 'SET_PUBLIC_GATEWAY', payload: address })
-  },
+  const { writeSetting } = getLocalStorageUtils()
+  await writeSetting('ipfsPublicGateway', address)
+  dispatch({ type: 'SET_PUBLIC_GATEWAY', payload: address })
+},
 
   doUpdatePublicSubdomainGateway: (address) => async ({ dispatch }) => {
-    await writeSetting('ipfsPublicSubdomainGateway', address)
-    dispatch({ type: 'SET_PUBLIC_SUBDOMAIN_GATEWAY', payload: address })
-  },
+  const { writeSetting } = getLocalStorageUtils()
+  await writeSetting('ipfsPublicSubdomainGateway', address)
+  dispatch({ type: 'SET_PUBLIC_SUBDOMAIN_GATEWAY', payload: address })
+},
 
   selectAvailableGateway: (state) => state?.gateway?.availableGateway,
 

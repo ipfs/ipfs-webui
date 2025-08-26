@@ -4,12 +4,22 @@ import memoize from 'p-memoize'
 import { CID } from 'multiformats/cid'
 import all from 'it-all'
 
-import { readSetting, writeSetting } from './local-storage.js'
 import { dispatchAsyncProvide } from './files/utils.js'
+import { createContextSelector } from '../helpers/context-bridge.jsx'
 
 // This bundle leverages createCacheBundle and persistActions for
 // the persistence layer that keeps pins in IndexDB store
 // to ensure they are around across restarts/reloads/refactors/releases.
+
+const selectLocalStorageFromContext = createContextSelector('localStorage')
+
+const getLocalStorageUtils = () => {
+  const localStorageContext = selectLocalStorageFromContext()
+  return {
+    readSetting: localStorageContext?.readSetting || (() => null),
+    writeSetting: localStorageContext?.writeSetting || (() => {})
+  }
+}
 
 const CID_PIN_CHECK_BATCH_SIZE = 10 // Pinata returns error when >10
 
@@ -80,6 +90,7 @@ const uniqueCidBatches = (arrayOfCids, size) => {
 }
 
 const remotePinLs = (ipfs, params) => {
+  const { readSetting, writeSetting } = getLocalStorageUtils()
   const backoffs = readSetting('remotesServicesBackoffs') || {}
   const { service } = params
 

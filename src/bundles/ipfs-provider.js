@@ -5,9 +5,19 @@ import first from 'it-first'
 import last from 'it-last'
 import * as Enum from '../lib/enum.js'
 import { perform } from './task.js'
-import { readSetting, writeSetting } from './local-storage.js'
 import { contextBridge } from '../helpers/context-bridge'
 import { createSelector } from 'redux-bundler'
+import { createContextSelector } from '../helpers/context-bridge.jsx'
+
+const selectLocalStorageFromContext = createContextSelector('localStorage')
+
+const getLocalStorageUtils = () => {
+  const localStorageContext = selectLocalStorageFromContext()
+  return {
+    readSetting: localStorageContext?.readSetting || (() => null),
+    writeSetting: localStorageContext?.writeSetting || (() => {})
+  }
+}
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -154,6 +164,7 @@ const init = () => {
  * @returns {HTTPClientOptions|string|null}
  */
 const readAPIAddressSetting = () => {
+  const { readSetting } = getLocalStorageUtils()
   const setting = readSetting('ipfsApi')
   return setting == null ? null : asAPIOptions(setting)
 }
@@ -324,22 +335,24 @@ const selectors = {
 const actions = {
 
   doSetupLocalStorage: () => async () => {
-    /** For the Explore page (i.e. ipld-explorer-components) */
-    const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled')
-    if (useRemoteGatewaysToExplore === null) {
-      // by default, disable remote gateways for the Explore page (i.e. ipld-explorer-components)
-      await writeSetting('explore.ipld.gatewayEnabled', false)
-    }
+  const { readSetting, writeSetting } = getLocalStorageUtils()
+  
+  /** For the Explore page (i.e. ipld-explorer-components) */
+  const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled')
+  if (useRemoteGatewaysToExplore === null) {
+    // by default, disable remote gateways for the Explore page (i.e. ipld-explorer-components)
+    await writeSetting('explore.ipld.gatewayEnabled', false)
+  }
 
-    const kuboGateway = readSetting('kuboGateway')
-    if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
-      // empty or invalid, set defaults
-      await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
-    } else if (/** @type {Record<string, any>} */(kuboGateway).trustlessBlockBrokerConfig == null) {
-      // missing trustlessBlockBrokerConfig, set defaults
-      await writeSetting('kuboGateway', { ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
-    }
-  },
+  const kuboGateway = readSetting('kuboGateway')
+  if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
+    // empty or invalid, set defaults
+    await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
+  } else if (/** @type {Record<string, any>} */(kuboGateway).trustlessBlockBrokerConfig == null) {
+    // missing trustlessBlockBrokerConfig, set defaults
+    await writeSetting('kuboGateway', { ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
+  }
+},
 
   /**
    * @returns {function(Context):Promise<boolean>}
@@ -439,6 +452,7 @@ const actions = {
    * @returns {function(Context):Promise<boolean>}
    */
   doUpdateIpfsApiAddress: (address) => async (context) => {
+    const { writeSetting } = getLocalStorageUtils()
     const apiAddress = asAPIOptions(address)
     if (apiAddress == null) {
       context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_INVALID })
