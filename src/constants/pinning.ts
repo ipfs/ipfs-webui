@@ -1,4 +1,3 @@
-// @ts-check
 // This is a list of predefined templates for popular services from the IPFS
 // community.  We are open to reviewing PRs that add more entries here,
 // but only well-established and mission-aligned services will be accepted.
@@ -13,6 +12,15 @@ interface PinningServiceTemplate {
   apiEndpoint: string
   visitServiceUrl: string
   complianceReportUrl?: string
+}
+
+interface PinningServiceTemplateWithCompliance extends PinningServiceTemplate {
+  complianceReportUrl: string
+}
+
+interface SortablePinningServiceTemplate {
+  service: PinningServiceTemplate | PinningServiceTemplateWithCompliance
+  sort: number
 }
 
 const pinningServiceTemplates: PinningServiceTemplate[] = [
@@ -40,20 +48,23 @@ const pinningServiceTemplates: PinningServiceTemplate[] = [
     apiEndpoint: 'https://api.4everland.dev',
     visitServiceUrl: 'https://docs.4everland.org/storage/4ever-pin/pinning-services-api'
   }
-].map((service) => {
+].map<SortablePinningServiceTemplate>((service) => {
+  let complianceReportUrl: string | undefined
   try {
     const domain = new URL(service.apiEndpoint).hostname
-    const enhancedService: PinningServiceTemplate = {
-      ...service,
-      complianceReportUrl: `${complianceReportsHomepage}/${domain}.html`
-    }
-    return { service: enhancedService, sort: Math.random() }
+    complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
   } catch (e) {
     // if apiEndpoint is not a valid URL, don't add complianceReportUrl
     // TODO: fix support for template apiEndpoints
     return { service, sort: Math.random() }
   }
-}).sort((a, b) => a.sort - b.sort).map(({ service }) => service)
+  return {
+    service: { ...service, complianceReportUrl } satisfies PinningServiceTemplateWithCompliance,
+    sort: Math.random()
+  } satisfies SortablePinningServiceTemplate
+})
+  .sort((a, b) => a.sort - b.sort)
+  .map<PinningServiceTemplate>(({ service }) => service)
 
 export {
   complianceReportsHomepage,

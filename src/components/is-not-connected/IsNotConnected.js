@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
 import classNames from 'classnames'
-import ApiAddressForm from '../api-address-form/ApiAddressForm.js'
+import ApiAddressForm from '../api-address-form/api-address-form'
 import Box from '../box/Box.js'
 import Shell from '../shell/Shell.js'
 import GlyphAttention from '../../icons/GlyphAttention.js'
@@ -13,7 +13,14 @@ const TABS = {
   WINDOWS: 'windowsCMD'
 }
 
-const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUpdateIpfsApiAddress }) => {
+/**
+ * @param {Object} props
+ * @param {import('i18next').TFunction} props.t
+ * @param {string} props.apiUrl
+ * @param {boolean} props.connected
+ * @param {boolean} props.sameOrigin
+ */
+const IsNotConnected = ({ t, apiUrl: _apiUrl, connected: _connected, sameOrigin }) => {
   const [activeTab, setActiveTab] = useState(TABS.UNIX)
   const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.io']
   const origin = window.location.origin
@@ -79,10 +86,7 @@ const IsNotConnected = ({ t, apiUrl, connected, sameOrigin, ipfsApiAddress, doUp
         <Trans i18nKey='notConnected.paragraph4' t={t}>
           <li className='mt4 mb3'>Is your Kubo RPC on a port other than 5001? If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom RPC API address</a>, enter it here.</li>
         </Trans>
-        <ApiAddressForm
-          t={t}
-          defaultValue={ipfsApiAddress || ''}
-          updateAddress={doUpdateIpfsApiAddress} />
+        <ApiAddressForm />
       </ol>
     </Box>
   )

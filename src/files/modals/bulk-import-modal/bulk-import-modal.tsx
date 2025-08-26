@@ -1,18 +1,26 @@
 import React, { useState, useRef } from 'react'
-import Button from '../../../components/button/button.tsx'
-import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
+import Button from '../../../components/button/button'
+import { Modal, ModalActions, ModalBody } from '../../../components/modal/modal'
 import { useTranslation } from 'react-i18next'
 import * as isIPFS from 'is-ipfs'
 import Icon from '../../../icons/StrokeDocument.js'
 import { normalizeFiles } from '../../../lib/files.js'
+import { FileStream } from '../../types'
 
-const BulkImportModal = ({ onCancel, className = '', onBulkCidImport, ...props }) => {
+interface BulkImportModalProps {
+  onCancel: () => void
+  className?: string
+  onBulkCidImport: (files: FileStream[]) => Promise<void>
+  [key: string]: any
+}
+
+const BulkImportModal: React.FC<BulkImportModalProps> = ({ onCancel, className = '', onBulkCidImport, ...props }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [validationError, setValidationError] = useState<string | undefined>(undefined)
   const bulkCidInputRef = useRef<HTMLInputElement>(null)
   const { t } = useTranslation('files')
 
-  const validateFileContents = async (file) => {
+  const validateFileContents = async (file: File) => {
     try {
       const text = await file.text()
       const lines = text.split('\n').filter(line => line.trim())
@@ -30,8 +38,8 @@ const BulkImportModal = ({ onCancel, className = '', onBulkCidImport, ...props }
     }
   }
 
-  const onChange = async (event) => {
-    const file = event.target.files[0]
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
+    const file = event.target.files?.[0]
     if (!file) return
 
     const validation = await validateFileContents(file)

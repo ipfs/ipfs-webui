@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 
 // Components
-import { Modal, ModalBody, ModalActions } from '../modal/Modal.js'
+import { Modal, ModalBody, ModalActions } from '../modal/modal'
 import StrokeCode from '../../icons/StrokeCode.js'
 import Button from '../button/button.tsx'
 import Overlay from '../overlay/Overlay.js'

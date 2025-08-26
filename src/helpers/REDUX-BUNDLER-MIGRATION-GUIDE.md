@@ -52,11 +52,67 @@ const bundle = {
     (ipfsConnected) => {
       contextBridge.setContext('selectIpfsConnected', ipfsConnected)
     }
-  )
+  ),
+
+  // Bridge action creators to context bridge
+  init: (store) => {
+    contextBridge.setContext('doUpdateIpfsApiAddress', store.doUpdateIpfsApiAddress)
+  }
 }
 ```
 
-## Step 2: Create Self-Contained Context
+## Step 2: Bridge Action Creators (do* Actions)
+
+When React contexts need to dispatch actions that are still managed by redux-bundler bundles, you must bridge the action creators in the bundle's `init` function. **You cannot simply create a new `useSelector` for action creators** - they need to be explicitly bound.
+
+### Bridging Action Creators
+
+```js
+// src/bundles/ipfs-provider.js
+import { contextBridge } from '../helpers/context-bridge.jsx'
+
+const bundle = {
+  // ... existing bundle code
+
+  // Bridge action creators to context bridge
+  init: (store) => {
+    contextBridge.setContext('doUpdateIpfsApiAddress', store.doUpdateIpfsApiAddress)
+    contextBridge.setContext('doDismissIpfsInvalidAddress', store.doDismissIpfsInvalidAddress)
+    // Add other do* actions as needed
+  }
+}
+```
+
+### Using Bridged Action Creators in React Contexts
+
+```tsx
+// src/contexts/some-context.tsx
+const SomeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [state, dispatch] = useReducer(someReducer, initialState)
+
+  // ✅ Get action creators from redux-bundler via bridge
+  const updateIpfsApiAddress = useBridgeSelector<Function>('doUpdateIpfsApiAddress')
+  const dismissIpfsInvalidAddress = useBridgeSelector<Function>('doDismissIpfsInvalidAddress')
+
+  const handleApiAddressUpdate = useCallback(async (newAddress: string) => {
+    if (updateIpfsApiAddress) {
+      await updateIpfsApiAddress(newAddress)
+    }
+  }, [updateIpfsApiAddress])
+
+  const handleDismissInvalidAddress = useCallback(() => {
+    if (dismissIpfsInvalidAddress) {
+      dismissIpfsInvalidAddress()
+    }
+  }, [dismissIpfsInvalidAddress])
+
+  // ... rest of context logic
+}
+```
+
+**⚠️ Important**: Action creators must be bridged in the bundle's `init` function. You cannot create a new `useSelector` or `react*` selector for action creators - they need to be explicitly bound to the context bridge.
+
+## Step 3: Create Self-Contained Context
 
 ### Before (Redux Bundle)
 ```js
@@ -105,7 +161,7 @@ const IdentityProviderImpl: React.FC<IdentityProviderProps> = ({ children }) => 
 
 **📍 Current State**: Identity context is the source of truth for identity data, but consumes IPFS/connection data from redux bundles that haven't been migrated yet.
 
-## Step 3: Update Dependent Bundles
+## Step 4: Update Dependent Bundles
 
 ### Before (Using Redux Selector)
 ```js
@@ -144,7 +200,7 @@ bundle.selectPeerLocationsForSwarm = createSelector(
 )
 ```
 
-## Step 4: Update React Components
+## Step 5: Update React Components
 
 ### Before (Redux Connect)
 ```js
@@ -171,7 +227,7 @@ const NodeInfo = ({ t }) => {
 export default NodeInfo // No connect needed!
 ```
 
-## Step 5: Remove Original Bundle
+## Step 6: Remove Original Bundle
 
 Once all dependencies are migrated:
 
@@ -188,7 +244,7 @@ export default composeBundles(
 )
 ```
 
-## Step 6: Final Migration to Pure React Contexts
+## Step 7: Final Migration to Pure React Contexts
 
 Once all `connect()` usage is removed and everything uses `useBridgeSelector`, you can start migrating to pure React contexts that use hooks directly instead of the bridge.
 
@@ -299,32 +355,33 @@ const NodeInfo = () => {
 ### Phase 1: Bridge-Based Migration (Per Bundle)
 
 - [ ] **Step 1**: Ensure redux bundles bridge their values with `contextBridge.setContext`
-- [ ] **Step 2**: Create self-contained context using `useBridgeSelector` for redux dependencies
-- [ ] **Step 3**: Add bridge registration with `useBridgeContext()` to expose context to bundles
-- [ ] **Step 4**: Identify all dependent bundles and update them to use `createContextSelector()`
-- [ ] **Step 5**: Update React components to use context hooks instead of `connect()`
-- [ ] **Step 6**: Test that all functionality works (initial load, updates, polling)
-- [ ] **Step 7**: Remove original bundle from bundle composition
-- [ ] **Step 8**: Delete original bundle file
+- [ ] **Step 2**: Bridge action creators (do* actions) in bundle's `init` function if needed
+- [ ] **Step 3**: Create self-contained context using `useBridgeSelector` for redux dependencies
+- [ ] **Step 4**: Add bridge registration with `useBridgeContext()` to expose context to bundles
+- [ ] **Step 5**: Identify all dependent bundles and update them to use `createContextSelector()`
+- [ ] **Step 6**: Update React components to use context hooks instead of `connect()`
+- [ ] **Step 7**: Test that all functionality works (initial load, updates, polling)
+- [ ] **Step 8**: Remove original bundle from bundle composition
+- [ ] **Step 9**: Delete original bundle file
 
 ### Phase 2: Pure React Context Migration
 
 Once all bundles are migrated and no `connect()` usage remains:
 
-- [ ] **Step 9**: Migrate contexts to use direct hooks instead of `useBridgeSelector`
-- [ ] **Step 10**: Implement context-to-context communication with direct hooks
-- [ ] **Step 11**: Keep `useBridgeContext()` for any remaining redux bundles
-- [ ] **Step 12**: Test all inter-context dependencies work correctly
+- [ ] **Step 10**: Migrate contexts to use direct hooks instead of `useBridgeSelector`
+- [ ] **Step 11**: Implement context-to-context communication with direct hooks
+- [ ] **Step 12**: Keep `useBridgeContext()` for any remaining redux bundles
+- [ ] **Step 13**: Test all inter-context dependencies work correctly
 
 ### Phase 3: Remove Bridge System (Final)
 
 When all redux bundles are migrated to contexts:
 
-- [ ] **Step 13**: Remove all `useBridgeContext()` calls from contexts
-- [ ] **Step 14**: Remove `ContextBridgeProvider` from app root
-- [ ] **Step 15**: Delete bridge system files (`context-bridge.tsx`, etc.)
-- [ ] **Step 16**: Clean up any remaining bridge imports
-- [ ] **Step 17**: Final testing - pure React context architecture! 🎉
+- [ ] **Step 14**: Remove all `useBridgeContext()` calls from contexts
+- [ ] **Step 15**: Remove `ContextBridgeProvider` from app root
+- [ ] **Step 16**: Delete bridge system files (`context-bridge.tsx`, etc.)
+- [ ] **Step 17**: Clean up any remaining bridge imports
+- [ ] **Step 18**: Final testing - pure React context architecture! 🎉
 
 ### Key Patterns:
 
@@ -355,6 +412,7 @@ const selectContextData = createContextSelector('myContext')
 
 **🎯 Bridge Direction Rules:**
 - **Redux → React**: Use `contextBridge.setContext()` in redux reactors
+- **Redux Action Creators → React**: Use `contextBridge.setContext()` in bundle's `init` function
 - **React → Redux**: Use `useBridgeContext()` in React providers
 - **React → React**: Use direct hooks (no bridge needed)
 
@@ -442,6 +500,43 @@ const bundle = {
 ```
 
 **⚠️ Only use when:** Redux bundle is the source of truth and React contexts need access.
+
+### Bridging Action Creators (do* Actions)
+
+**Use in redux bundle `init` function** to expose action creators to React contexts:
+
+```js
+// src/bundles/ipfs-provider.js
+const bundle = {
+  // ... existing bundle code
+
+  // ✅ Bridge action creators in init function
+  init: (store) => {
+    contextBridge.setContext('doUpdateIpfsApiAddress', store.doUpdateIpfsApiAddress)
+    contextBridge.setContext('doDismissIpfsInvalidAddress', store.doDismissIpfsInvalidAddress)
+  }
+}
+```
+
+**⚠️ Important**: Action creators must be bridged in the bundle's `init` function. You cannot create a new `useSelector` or `react*` selector for action creators - they need to be explicitly bound to the context bridge.
+
+**Use in React contexts** to access bridged action creators:
+
+```tsx
+// src/contexts/some-context.tsx
+const SomeProvider = ({ children }) => {
+  // ✅ Get action creators from redux-bundler via bridge
+  const updateIpfsApiAddress = useBridgeSelector<Function>('doUpdateIpfsApiAddress')
+
+  const handleUpdate = useCallback(async (address: string) => {
+    if (updateIpfsApiAddress) {
+      await updateIpfsApiAddress(address)
+    }
+  }, [updateIpfsApiAddress])
+
+  // ... rest of context logic
+}
+```
 
 ## Benefits After Migration
 
