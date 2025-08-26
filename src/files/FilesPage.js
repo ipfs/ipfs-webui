@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
@@ -29,7 +29,7 @@ import Checkbox from '../components/checkbox/Checkbox.js'
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
-  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
+  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCopyCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
@@ -101,6 +101,13 @@ const FilesPage = ({
 
     doFilesBulkCidImport(raw, root)
   }
+
+  const onClosePreview = useCallback(() => {
+    // if the parentPath is / or null then we are at the root of the files page, (preview close button shouldn't even be visible in this case)
+    if (files?.parentPath == null || files?.parentPath === '/') return
+
+    doUpdateHash(files?.parentPath)
+  }, [files?.parentPath, doUpdateHash])
 
   const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
   /**
@@ -295,6 +302,7 @@ const FilesPage = ({
         onDownloadCar={() => onDownloadCar([contextMenu.file])}
         onPinning={() => showModal(PINNING, [contextMenu.file])}
         onPublish={() => showModal(PUBLISH, [contextMenu.file])}
+        onCopyCid={(cid) => doFilesCopyCidProvide(cid)}
         isCliTutorModeEnabled={isCliTutorModeEnabled}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
         doSetCliOptions={doSetCliOptions}
@@ -360,7 +368,7 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
-      <Preview files={files} onDownload={() => onDownload([files])} />
+      <Preview files={files} onDownload={() => onDownload([files])} onClose={onClosePreview} />
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
@@ -396,9 +404,9 @@ const FilesPage = ({
   )
 }
 
-const Preview = ({ files, onDownload }) => {
+const Preview = ({ files, onDownload, onClose }) => {
   if (files && files.type === 'file') {
-    return (<FilePreview {...files} onDownload={onDownload} />)
+    return (<FilePreview {...files} onDownload={onDownload} onClose={onClose} />)
   }
   return (<div/>)
 }
@@ -420,6 +428,7 @@ export default connect(
   'doFilesMove',
   'doFilesMakeDir',
   'doFilesShareLink',
+  'doFilesCopyCidProvide',
   'doFilesDelete',
   'doFilesAddPath',
   'doAddCarFile',

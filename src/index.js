@@ -11,6 +11,7 @@ import i18n from './i18n.js'
 import { DndProvider } from 'react-dnd'
 import DndBackend from './lib/dnd-backend.js'
 import { HeliaProvider, ExploreProvider } from 'ipld-explorer-components/providers'
+import { ContextBridgeProvider } from './helpers/context-bridge.jsx'
 
 const appVersion = process.env.REACT_APP_VERSION
 const gitRevision = process.env.REACT_APP_GIT_REV
@@ -33,15 +34,17 @@ async function render () {
   const store = getStore(initialData)
   ReactDOM.render(
     <Provider store={store}>
-      <I18nextProvider i18n={i18n} >
-        <DndProvider backend={DndBackend}>
-          <HeliaProvider>
-            <ExploreProvider>
-              <App />
-            </ExploreProvider>
-          </HeliaProvider>
-        </DndProvider>
-      </I18nextProvider>
+      <ContextBridgeProvider>
+        <I18nextProvider i18n={i18n} >
+          <DndProvider backend={DndBackend}>
+            <HeliaProvider>
+              <ExploreProvider>
+                <App />
+              </ExploreProvider>
+            </HeliaProvider>
+          </DndProvider>
+        </I18nextProvider>
+      </ContextBridgeProvider>
     </Provider>,
     document.getElementById('root')
   )

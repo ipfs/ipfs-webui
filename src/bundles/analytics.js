@@ -3,7 +3,7 @@
 // @ts-ignore
 import root from 'window-or-global'
 import changeCase from 'change-case'
-import * as Enum from '../lib/enum.js'
+import { from } from '../lib/enum.js'
 import { createSelector } from 'redux-bundler'
 import { ACTIONS as FILES } from './files/consts.js'
 import { ACTIONS as CONIFG } from './config-save.js'
@@ -79,10 +79,10 @@ const DISABLE_ALL_ANALYTICS = true
 
 // Unknown actions (can't seem to see anything
 // dispatching those).
-const DESKTOP = Enum.from(['DESKTOP_SETTING_TOGGLE'])
+const DESKTOP = from(['DESKTOP_SETTING_TOGGLE'])
 
 // Local action types
-const ACTIONS = Enum.from([
+const ACTIONS = from([
   'ANALYTICS_ENABLED',
   'ANALYTICS_DISABLED',
   'ANALYTICS_ADD_CONSENT',
@@ -136,10 +136,12 @@ const consentGroups = {
  * @param {Store} store
  */
 function addConsent (consent, store) {
-  root.Countly.q.push(['add_consent', consent])
+  const consentArray = Array.isArray(consent) ? consent : [consent]
+
+  root.Countly.q.push(['add_consent', consentArray])
 
   if (store.selectIsIpfsDesktop()) {
-    store.doDesktopAddConsent(consent)
+    store.doDesktopAddConsent(consentArray)
   }
 }
 
@@ -148,10 +150,12 @@ function addConsent (consent, store) {
  * @param {Store} store
  */
 function removeConsent (consent, store) {
-  root.Countly.q.push(['remove_consent', consent])
+  const consentArray = Array.isArray(consent) ? consent : [consent]
+
+  root.Countly.q.push(['remove_consent', consentArray])
 
   if (store.selectIsIpfsDesktop()) {
-    store.doDesktopRemoveConsent(consent)
+    store.doDesktopRemoveConsent(consentArray)
   }
 }
 
@@ -362,9 +366,38 @@ const createAnalyticsBundle = ({
       if (!root.Countly) {
         root.Countly = {}
         root.Countly.q = []
-        // @ts-ignore
-        await import('countly-sdk-web')
+        if (DISABLE_ALL_ANALYTICS) {
+          // Set up mock Countly methods to prevent errors
+          root.Countly.opt_out = () => {}
+          root.Countly.opt_in = () => {}
+          root.Countly.init = () => {}
+        } else {
+          // @ts-ignore
+          await import('countly-sdk-web')
+        }
       }
+
+      // Always set up route subscription (essential for app functionality)
+      store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
+        // skip routes with no hash, as we'll be immediately redirected to `/#`
+        if (!root.location || !root.location.hash) return
+        /*
+        By tracking the pattern rather than the window.location, we limit the info
+        we collect to just the app sections that are viewed, and avoid recording
+        specific CIDs or local repo paths that would contain personal information.
+        */
+        // Only track pageviews if analytics are enabled
+        if (DISABLE_ALL_ANALYTICS) return
+        root.Countly.q.push(['track_pageview', routeInfo.pattern])
+      })
+
+      // Skip all Countly configuration and user flows when analytics are disabled
+      // Requests to https://countly.ipfs.tech will always fail since the domain was shut down
+      // See: https://github.com/ipfs/ipfs-webui/issues/2334
+      if (DISABLE_ALL_ANALYTICS) {
+        return
+      }
+
       const Countly = root.Countly
 
       Countly.require_consent = true
@@ -398,17 +431,6 @@ const createAnalyticsBundle = ({
         // add consent/opt in by default
         store.doEnableAnalytics()
       }
-
-      store.subscribeToSelectors(['selectRouteInfo'], ({ routeInfo }) => {
-        // skip routes with no hash, as we'll be immediately redirected to `/#`
-        if (!root.location || !root.location.hash) return
-        /*
-        By tracking the pattern rather than the window.location, we limit the info
-        we collect to just the app sections that are viewed, and avoid recording
-        specific CIDs or local repo paths that would contain personal information.
-        */
-        root.Countly.q.push(['track_pageview', routeInfo.pattern])
-      })
 
       // Fix for storybook error 'Countly.init is not a function'
       if (typeof Countly.init === 'function') {

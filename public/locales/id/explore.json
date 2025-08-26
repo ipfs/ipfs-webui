@@ -70,15 +70,15 @@
   },
   "errors": {
     "BlockFetchTimeoutError": "Gagal mengambil konten dalam {timeout}s. Harap segarkan halaman untuk mencoba lagi atau mencoba CID lain.",
-    "BlockFetchError": "Failed to fetch content: {error}. This could mean the content is not available on the network or there are connectivity issues.",
-    "CidSyntaxError": "Invalid CID format: {cid}. Please ensure you are using a valid CID.",
-    "checkIpfsNetwork": "Check content availability on IPFS Network",
+    "BlockFetchError": "Gagal mengambil konten: {error}. Ini dapat berarti konten tidak tersedia di jaringan atau ada masalah konektivitas.",
+    "CidSyntaxError": "Format CID tidak valid: {cid}. Pastikan Anda menggunakan CID yang valid.",
+    "checkIpfsNetwork": "Periksa ketersediaan konten di Jaringan IPFS",
     "troubleshootingTips": {
-      "title": "Troubleshooting Tips",
-      "refresh": "Try refreshing the page",
-      "checkConnection": "Check your internet connection",
-      "tryLater": "Try again later - the content may still be propagating through the network",
-      "checkCidSyntax": "Verify that your CID is formatted correctly or that your CAR file is valid"
+      "title": "Tips Pemecahan Masalah",
+      "refresh": "Coba segarkan halaman",
+      "checkConnection": "Periksa koneksi internet Anda",
+      "tryLater": "Coba lagi nanti - konten mungkin masih disebarkan melalui jaringan",
+      "checkCidSyntax": "Verifikasi bahwa CID Anda diformat dengan benar atau berkas CAR Anda valid"
     }
   }
 }

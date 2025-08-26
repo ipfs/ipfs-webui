@@ -16,7 +16,7 @@ i18n
   .use(ICU)
   .use(Backend)
   .use(LanguageDetector)
-  .init({
+  .init(/** @type {import('i18next').InitOptions} */ ({
     load: 'currentOnly', // see https://github.com/i18next/i18next-http-backend/issues/61
     backend: {
       backends: [
@@ -29,7 +29,7 @@ i18n
           expirationTime: (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') ? 1 : 7 * 24 * 60 * 60 * 1000
         },
         { // HttpBackend
-          loadPath: (lngs, namespaces) => {
+          loadPath: (/** @type {string[]} */ lngs, /** @type {string[]} */ namespaces) => {
             const locale = getValidLocaleCode({ i18n, localeCode: lngs[0], languages: locales })
             // ensure a relative path is used to look up the locales, so it works when loaded from /ipfs/<cid>
             return `locales/${locale}/${namespaces}.json`
@@ -56,6 +56,6 @@ i18n
       bindStore: 'added removed',
       nsMode: 'default'
     }
-  })
+  }))
 
 export default i18n

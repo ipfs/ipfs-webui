@@ -6,7 +6,7 @@ import { withTranslation, Trans } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 
 // Components
-import { Modal, ModalBody, ModalActions } from '../../modal/Modal.js'
+import { Modal, ModalBody, ModalActions } from '../../modal/modal'
 import Button from '../../button/button.tsx'
 import './PinningManagerServiceModal.css'
 

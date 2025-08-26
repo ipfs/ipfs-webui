@@ -1,7 +1,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
-import { withTranslation } from 'react-i18next'
+import { withTranslation, Trans } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 import withTour from '../components/tour/withTour.js'
 import { welcomeTour } from '../lib/tours.js'
@@ -14,6 +14,16 @@ import AboutIpfs from '../components/about-ipfs/AboutIpfs.js'
 import AboutWebUI from '../components/about-webui/AboutWebUI.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 
+/**
+ * @param {Object} props
+ * @param {import('i18next').TFunction} props.t
+ * @param {string} props.apiUrl
+ * @param {boolean} props.ipfsInitFailed
+ * @param {boolean} props.ipfsConnected
+ * @param {boolean} props.ipfsReady
+ * @param {boolean} props.toursEnabled
+ * @param {(data: any) => void} props.handleJoyrideCallback
+ */
 const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
   if (!ipfsInitFailed && !ipfsReady) {
     return <ComponentLoader />
@@ -31,7 +41,7 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, tour
       </div>
       <ReactJoyride
         run={toursEnabled}
-        steps={welcomeTour.getSteps({ t })}
+        steps={welcomeTour.getSteps({ t, Trans })}
         styles={welcomeTour.styles}
         callback={handleJoyrideCallback}
         scrollToFirstStep
@@ -40,7 +50,15 @@ const WelcomePage = ({ t, apiUrl, ipfsInitFailed, ipfsConnected, ipfsReady, tour
   )
 }
 
-const ConnectionStatus = ({ t, connected, sameOrigin }) => {
+/**
+ * @param {Object} props
+ * @param {import('i18next').TFunction} props.t
+ * @param {boolean} props.connected
+ * @param {boolean} props.sameOrigin
+ *
+ * @returns {JSX.Element}
+ */
+const ConnectionStatus = ({ t: _t, connected, sameOrigin: _sameOrigin }) => {
   if (connected) {
     return (
       <div>
@@ -57,6 +75,7 @@ const ConnectionStatus = ({ t, connected, sameOrigin }) => {
     )
   }
   return (
+    // @ts-expect-error - IsNotConnected needs type fixes
     <IsNotConnected />
   )
 }
