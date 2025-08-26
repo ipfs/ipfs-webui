@@ -12,7 +12,7 @@
 
 [![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://www.transifex.com/ipfs/ipfs-webui/) [![](https://img.shields.io/badge/matrix%20chat-%23lobby:ipfs.io-blue.svg?style=flat-square)](https://matrix.to/#/#lobby:ipfs.io)
 
-The [latest release version](https://github.com/ipfs/ipfs-webui/releases/latest) is always at https://webui.ipfs.io, and the preview of `main` branch is at https://dev.webui.ipfs.io.
+The [latest release version](https://github.com/ipfs/ipfs-webui/releases/latest) is always at https://webui.ipfs.tech, and the preview of `main` branch is at https://dev.webui.ipfs.tech.
 
 The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work.
 
@@ -66,7 +66,7 @@ In separate shells run the following:
 
 You must configure your Kubo RPC endpoint at http://127.0.0.1:5001 to allow [cross-origin (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) requests from your dev server at http://localhost:3000
 
-Similarly if you want to try out pre-release versions at https://dev.webui.ipfs.io you need to add that as an allowed domain too.
+Similarly if you want to try out pre-release versions at https://dev.webui.ipfs.tech you need to add that as an allowed domain too.
 
 #### Easy mode
 
@@ -79,7 +79,7 @@ Run the **[cors-config.sh](./cors-config.sh)** script with:
 #### The manual way
 
 ```sh
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.io", "http://127.0.0.1:5001"]'
+> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.tech", "http://127.0.0.1:5001"]'
 > ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["POST"]'
 ```
 

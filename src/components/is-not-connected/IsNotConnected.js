@@ -17,7 +17,7 @@ const IsNotConnected = () => {
   const { t } = useTranslation('welcome')
   const isSameOrigin = useBridgeSelector('selectIsSameOrigin')
   const [activeTab, setActiveTab] = useState(TABS.UNIX)
-  const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.io']
+  const defaultDomains = ['http://localhost:3000', 'http://127.0.0.1:5001', 'https://webui.ipfs.tech']
   const origin = window.location.origin
   const addOrigin = defaultDomains.indexOf(origin) === -1
 
