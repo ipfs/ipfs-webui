@@ -51,6 +51,7 @@ export default {
       'jest-environment-jsdom', // in npm script via --env=jsdom
       '@testing-library/react', // jsx is not tested properly
       '@testing-library/jest-dom', // jsx is not tested properly
+      '@testing-library/user-event', // jsx is not tested properly
 
 
       // storybook deps
