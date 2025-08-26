@@ -1,16 +1,6 @@
 import React from 'react'
 import { Modal } from 'react-overlays'
 
-/**
- * @param {Object} props
- * @param {React.ReactNode} props.children
- * @param {boolean} props.show
- * @param {() => void} props.onLeave
- * @param {string} props.className
- * @param {boolean} props.hidden
- * @returns {JSX.Element}
- */
-
 type ModalProps = React.ComponentProps<typeof Modal>
 
 export interface OverlayProps extends Omit<ModalProps, 'renderBackdrop' | 'onEscapeKeyDown' | 'onBackdropClick'> {
@@ -22,7 +12,6 @@ export interface OverlayProps extends Omit<ModalProps, 'renderBackdrop' | 'onEsc
 const Overlay: React.FC<OverlayProps> = ({ children, show, onLeave, className = '', hidden, ...props }) => {
   const handleEscapeKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
-
     onLeave()
   }
 
