@@ -14,7 +14,7 @@ import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
- * @typedef {import('../../lib/files').FileStream} FileStream
+ * @typedef {import('../../files/types').FileStream} FileStream
  * @typedef {import('./utils').Info} Info
  * @typedef {import('ipfs').Pin} Pin
  */
