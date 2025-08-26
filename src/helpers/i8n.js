@@ -1,5 +1,5 @@
 /**
- * @param {(key: string) => string} translate
+ * @param {import('i18next').TFunction} translate
  */
 export const getJoyrideLocales = (translate) => ({
   back: translate('tour.back'),

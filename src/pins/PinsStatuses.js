@@ -11,7 +11,7 @@ const Status = {
 }
 
 /**
- * @param {(key: string) => string} t
+ * @param {import('i18next').TFunction} t
  * @param {string} pin
  * @param {number} status
  * @param {(pin: string) => void} onDismiss
