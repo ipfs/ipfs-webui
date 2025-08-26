@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Modal } from 'react-overlays'
 
 /**
@@ -11,20 +10,23 @@ import { Modal } from 'react-overlays'
  * @param {boolean} props.hidden
  * @returns {JSX.Element}
  */
-function Overlay ({ children, show, onLeave, className, hidden, ...props }) {
-  /**
-   * @type {React.KeyboardEventHandler<HTMLDivElement>}
-   */
-  const handleEscapeKeyDown = (e) => {
+
+type ModalProps = React.ComponentProps<typeof Modal>
+
+export interface OverlayProps extends Omit<ModalProps, 'renderBackdrop' | 'onEscapeKeyDown' | 'onBackdropClick'> {
+  show: boolean
+  onLeave: () => void
+  hidden: boolean
+}
+
+const Overlay: React.FC<OverlayProps> = ({ children, show, onLeave, className = '', hidden, ...props }) => {
+  const handleEscapeKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
 
     onLeave()
   }
 
-  /**
-   * @type {React.FC<React.HTMLAttributes<HTMLDivElement>>}
-   */
-  const renderBackdrop = (props) => (
+  const renderBackdrop: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => (
     <div className='fixed top-0 left-0 right-0 bottom-0 bg-black o-50' hidden={hidden} {...props} />
   )
 
@@ -39,15 +41,6 @@ function Overlay ({ children, show, onLeave, className, hidden, ...props }) {
       {children}
     </Modal>
   )
-}
-
-Overlay.propTypes = {
-  show: PropTypes.bool.isRequired,
-  onLeave: PropTypes.func.isRequired
-}
-
-Overlay.defaultProps = {
-  className: ''
 }
 
 export default Overlay

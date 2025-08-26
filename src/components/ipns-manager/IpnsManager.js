@@ -5,7 +5,7 @@ import { AutoSizer, Table, Column, SortDirection } from 'react-virtualized'
 
 // Components
 import Button from '../button/button.tsx'
-import Overlay from '../overlay/Overlay.js'
+import Overlay from '../overlay/overlay-component'
 import GenerateKeyModal from './generate-key-modal/GenerateKeyModal.js'
 import RenameKeyModal from './rename-key-modal/RenameKeyModal.js'
 import RemoveKeyModal from './remove-key-modal/RemoveKeyModal.js'

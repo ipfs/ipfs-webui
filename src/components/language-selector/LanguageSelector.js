@@ -3,7 +3,7 @@ import { getCurrentLanguage } from '../../lib/i18n.js'
 
 // Components
 import Button from '../button/button.tsx'
-import Overlay from '../overlay/Overlay.js'
+import Overlay from '../overlay/overlay-component'
 import LanguageModal from './language-modal/LanguageModal.js'
 
 class LanguageSelector extends Component {

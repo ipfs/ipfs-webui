@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { join } from 'path'
 import { withTranslation } from 'react-i18next'
-import Overlay from '../../components/overlay/Overlay.js'
+import Overlay from '../../components/overlay/overlay-component'
 // Modals
 import NewFolderModal from './new-folder-modal/NewFolderModal.js'
 import ShareModal from './share-modal/ShareModal.js'
