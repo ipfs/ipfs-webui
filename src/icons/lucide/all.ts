@@ -11,6 +11,7 @@
  * 7. run `npx eslint --fix src/icons/lucide/**` to fix the linting errors
  * 8. delete the svg files.
  *
+ * Note: some icons may not scale properly: make sure you set the viewBox to "0 0 width height"
  *
  * Why not import `lucide` directly?
  *
