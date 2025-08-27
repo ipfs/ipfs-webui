@@ -13,7 +13,7 @@ interface GologLevelAutocompleteProps {
   disabled?: boolean
   placeholder?: string
   className?: string
-  onSubmit?: () => void
+  onSubmit?: (event?: React.FormEvent) => (Promise<void> | void)
   onValidityChange?: (isValid: boolean) => void
   error?: string
 }
@@ -28,7 +28,8 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
   placeholder = '',
   className = '',
   onSubmit,
-  error
+  error,
+  onValidityChange
 }) => {
   const { t } = useTranslation('diagnostics')
   const [isOpen, setIsOpen] = useState(false)
@@ -38,12 +39,15 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [errorMessage, setErrorMessage] = useState(error || '')
   const [isFocused, setIsFocused] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setErrorMessage(error || '')
-  }, [error])
+    // Update validity when error prop changes
+    onValidityChange?.(!error)
+  }, [error, onValidityChange])
 
   const validateGologLevel = useCallback((input: string): { isValid: boolean; errorMessage: string } => {
     if (input.trim().length === 0) {
@@ -69,6 +73,11 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
         // Check if subsystem exists
         if (!validSubsystems.includes(subsystemName)) {
           return { isValid: false, errorMessage: t('logs.autocomplete.invalidSubsystem', { subsystem: subsystemName, subsystems: validSubsystems.join(', ') }) }
+        }
+
+        // If level is empty, it's valid (waiting for level selection)
+        if (level.length === 0) {
+          continue
         }
 
         // Check if level is valid
@@ -118,11 +127,19 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
     const equalIndex = currentPart.indexOf('=')
     const isInSubsystemPart = equalIndex > 0 && cursorPos > currentPartStart + equalIndex
 
-    // Check if the current part is complete (has subsystem=level)
-    // Only consider complete if there's a valid log level after the equals sign
-    const levelAfterEquals = currentPart.substring(equalIndex + 1).trim()
-    const isValidLevel = LOG_LEVELS.some(level => level.toLowerCase() === levelAfterEquals.toLowerCase())
-    const isComplete = equalIndex > 0 && levelAfterEquals.length > 0 && isValidLevel
+    // Check if the current part is complete
+    let isComplete = false
+
+    if (equalIndex > 0) {
+      // This is a subsystem=level part
+      const levelAfterEquals = currentPart.substring(equalIndex + 1).trim()
+      const isValidLevel = LOG_LEVELS.some(level => level.toLowerCase() === levelAfterEquals.toLowerCase())
+      isComplete = levelAfterEquals.length > 0 && isValidLevel
+    } else {
+      // This is a global level part
+      const isValidGlobalLevel = LOG_LEVELS.some(level => level.toLowerCase() === currentPart.trim().toLowerCase())
+      isComplete = currentPart.trim().length > 0 && isValidGlobalLevel
+    }
 
     // Check if cursor is at the end of a complete part (ready for comma)
     const isAtEndOfCompletePart = isComplete && cursorPos === currentPartStart + currentPart.length
@@ -144,13 +161,8 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
     const context = parseInputContext(inputValue, cursorPosition)
     const suggestions: Array<{ text: string; type: 'global' | 'subsystem' | 'level' }> = []
 
-    // Don't show suggestions if we're at the end of a complete part (ready for comma)
-    if (context.isAtEndOfCompletePart) {
-      return []
-    }
-
-    // Additional check: if the current part is complete and cursor is at the end, don't show suggestions
-    if (context.isComplete && cursorPosition === inputValue.length) {
+    // Don't show suggestions if we're submitting, at the end of a complete part, or if the current part is complete
+    if (isSubmitting || context.isAtEndOfCompletePart || context.isComplete) {
       return []
     }
 
@@ -213,7 +225,7 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
     }
 
     return suggestions // Show all suggestions without limit
-  }, [inputValue, cursorPosition, subsystems, parseInputContext])
+  }, [inputValue, cursorPosition, subsystems, parseInputContext, isSubmitting])
 
   // Handle input change
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -224,28 +236,18 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
     setCursorPosition(newCursorPosition)
     setSelectedIndex(0)
 
-    // Check if we should show suggestions based on the new cursor position
-    const context = parseInputContext(newValue, newCursorPosition)
-
-    // Don't show suggestions if we're at the end of a complete part
-    if (context.isAtEndOfCompletePart) {
-      setIsOpen(false)
-    } else {
-      setIsOpen(true)
-    }
-
     onChange(newValue)
 
-    // Validate if not focused or dropdown is not open (no valid suggestions)
-    if (!isFocused || !isOpen) {
-      const validation = validateGologLevel(newValue)
-      if (!validation.isValid) {
-        setErrorMessage(validation.errorMessage)
-      } else {
-        setErrorMessage('')
-      }
+    // Always validate on input change
+    const validation = validateGologLevel(newValue)
+
+    // Update validity state immediately
+    if (!validation.isValid) {
+      onValidityChange?.(false)
+    } else {
+      onValidityChange?.(true)
     }
-  }, [onChange, parseInputContext, isFocused, isOpen, validateGologLevel])
+  }, [onChange, validateGologLevel, onValidityChange])
 
   // Handle suggestion selection
   const handleSuggestionSelect = useCallback((suggestion: { text: string; type: string }) => {
@@ -278,6 +280,16 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
     setInputValue(newValue)
     onChange(newValue)
 
+    // Validate after suggestion selection
+    const validation = validateGologLevel(newValue)
+    if (!validation.isValid) {
+      setErrorMessage(validation.errorMessage)
+      onValidityChange?.(false)
+    } else {
+      setErrorMessage('')
+      onValidityChange?.(true)
+    }
+
     // Don't close dropdown if we just added an equals sign
     if (suggestion.type === 'subsystem' && !context.currentPart.includes('=')) {
       // Keep dropdown open and position cursor after equals sign
@@ -301,14 +313,41 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
         }
       }, 0)
     }
-  }, [inputValue, cursorPosition, onChange, parseInputContext])
+  }, [inputValue, cursorPosition, onChange, parseInputContext, validateGologLevel, onValidityChange])
 
   // Handle keyboard navigation
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (!isOpen || suggestions.length === 0) {
-      if (e.key === 'Enter') {
-        // if we are not selecting from the dropdown, then submit the form
-        onSubmit?.()
+  const handleKeyDown = useCallback(async (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+
+      // If dropdown is open and we have suggestions, select the current suggestion
+      if (isOpen && suggestions.length > 0) {
+        if (suggestions[selectedIndex]) {
+          handleSuggestionSelect(suggestions[selectedIndex])
+        }
+        return
+      }
+
+      // Otherwise, submit the form
+      if (onSubmit && !isSubmitting) {
+        // Validate one more time before submitting
+        const validation = validateGologLevel(inputValue)
+        onValidityChange?.(validation.isValid)
+
+        // Remove focus from input to close suggestions
+        inputRef.current?.blur()
+        setIsOpen(false)
+
+        setIsSubmitting(true)
+        try {
+          await onSubmit(undefined)
+        } catch (error: unknown) {
+          // Handle submission error if needed
+          console.error('Form submission error:', error)
+          setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred')
+        } finally {
+          setIsSubmitting(false)
+        }
       }
       return
     }
@@ -322,23 +361,15 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
         e.preventDefault()
         setSelectedIndex(prev => (prev - 1 + suggestions.length) % suggestions.length)
         break
-      case 'Enter':
-        // if we are selecting from the dropdown, then handle the suggestion select
-        e.preventDefault()
-        if (suggestions[selectedIndex]) {
-          handleSuggestionSelect(suggestions[selectedIndex])
-        }
-        break
       case 'Escape':
         setIsOpen(false)
         break
     }
-  }, [isOpen, suggestions, selectedIndex, handleSuggestionSelect, onSubmit])
+  }, [isOpen, suggestions, selectedIndex, handleSuggestionSelect, onSubmit, isSubmitting])
 
   // Handle focus/blur
   const handleFocus = useCallback(() => {
     setIsFocused(true)
-    setErrorMessage('') // Clear error when focusing
 
     // Set cursor to end of input when focused
     setTimeout(() => {
@@ -380,10 +411,14 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
         const validation = validateGologLevel(inputValue)
         if (!validation.isValid) {
           setErrorMessage(validation.errorMessage)
+          onValidityChange?.(false)
+        } else {
+          setErrorMessage('')
+          onValidityChange?.(true)
         }
       }
     }, 150)
-  }, [isTransitioning, validateGologLevel, inputValue])
+  }, [isTransitioning, validateGologLevel, inputValue, onValidityChange])
 
   // Update input value when prop changes
   useEffect(() => {
@@ -396,6 +431,40 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
       inputRef.current.setSelectionRange(cursorPosition, cursorPosition)
     }
   }, [cursorPosition])
+
+  // Handle dropdown state based on suggestions
+  useEffect(() => {
+    const context = parseInputContext(inputValue, cursorPosition)
+
+    // Don't show suggestions if we're submitting, at the end of a complete part, or if the current part is complete
+    if (isSubmitting || context.isAtEndOfCompletePart || context.isComplete) {
+      setIsOpen(false)
+    } else {
+      // Only open dropdown if there are suggestions available AND the component has focus
+      setIsOpen(suggestions.length > 0 && isFocused)
+    }
+  }, [inputValue, cursorPosition, suggestions.length, parseInputContext, isFocused, isSubmitting])
+
+  // Handle error message display based on suggestions and validation
+  useEffect(() => {
+    // If error prop is provided, use it (external error takes precedence)
+    if (error) {
+      setErrorMessage(error)
+      return
+    }
+
+    const validation = validateGologLevel(inputValue)
+    const hasSuggestions = suggestions.length > 0
+
+    // Only show error if not focused, or if focused but no suggestions available
+    const shouldShowError = !isFocused || (isFocused && !hasSuggestions)
+
+    if (!validation.isValid && shouldShowError) {
+      setErrorMessage(validation.errorMessage)
+    } else if (validation.isValid) {
+      setErrorMessage('')
+    }
+  }, [inputValue, suggestions.length, validateGologLevel, isFocused, error])
 
   return (
     <div className={`relative ${className}`}>
@@ -450,7 +519,7 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
         </div>
       )}
       {errorMessage && (
-        <div className="absolute top-100 left-0 f6 red pa2 z-888">
+        <div className="absolute top-100 left-0 f6 red pa2 z-888 mw7">
           {errorMessage}
         </div>
       )}

@@ -7,11 +7,13 @@ import { useLogs } from '../../contexts/logs/index'
 
 const GologLevelSection: React.FC = () => {
   const { t } = useTranslation('diagnostics')
-  const { gologLevelString, subsystems, setLogLevelsBatch, globalLogLevel } = useLogs()
+  const { gologLevelString, subsystems, setLogLevelsBatch, actualLogLevels } = useLogs()
 
   // Component state for editing
   const [value, setValue] = useState('')
   const [isValid, setIsValid] = useState(true)
+
+  const globalLogLevel = actualLogLevels['(default)']
 
   // Initialize value when gologLevelString is available
   useEffect(() => {
@@ -19,12 +21,6 @@ const GologLevelSection: React.FC = () => {
       setValue(gologLevelString)
     }
   }, [gologLevelString])
-
-  const onChange = useCallback((newValue: string) => {
-    setValue(newValue)
-    // Validation is now handled by the GologLevelAutocomplete component
-    setIsValid(true) // We'll let the autocomplete handle validation
-  }, [])
 
   const onSubmit = useCallback(async (event?: React.FormEvent) => {
     event?.preventDefault()
@@ -99,11 +95,11 @@ const GologLevelSection: React.FC = () => {
         <form onSubmit={onSubmit}>
           <GologLevelAutocomplete
             value={value}
-            onChange={onChange}
+            onChange={setValue}
             subsystems={subsystems}
             placeholder={t('logs.gologLevel.description')}
             className='w-100 lh-copy monospace f5 mb2 charcoal input-reset'
-            onSubmit={() => onSubmit()}
+            onSubmit={onSubmit}
             onValidityChange={setIsValid}
           />
           <div className='tr'>

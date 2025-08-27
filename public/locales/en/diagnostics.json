@@ -69,7 +69,7 @@
     },
     "gologLevel": {
       "title": "Current Log Configuration",
-      "description": "GOLOG_LOG_LEVEL equivalent for current settings. Use to prototype log level set for your Kubo node.",
+      "description": "GOLOG_LOG_LEVEL equivalent for current settings. Use to prototype the log level settings for your Kubo node.",
       "copyToClipboard": "Copy to clipboard",
       "copied": "Copied!",
       "edit": "Edit",

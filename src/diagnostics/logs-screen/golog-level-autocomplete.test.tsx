@@ -1,7 +1,7 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { jest, describe, it, expect, beforeEach } from '@jest/globals'
+import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals'
 import '@testing-library/jest-dom'
 import { GologLevelAutocomplete } from './golog-level-autocomplete'
 
@@ -44,6 +44,10 @@ const defaultProps = {
 describe('GologLevelAutocomplete', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  afterEach(() => {
+    cleanup()
   })
 
   describe('rendering', () => {
@@ -420,7 +424,7 @@ describe('GologLevelAutocomplete', () => {
       // Add a comma to move to the next subsystem selection mode
       await userEvent.type(input, ',')
 
-      // Should now show subsystem suggestions (excluding 'core' since it's already used)
+      // Should now show subsystem suggestions immediately (excluding 'core' since it's already used)
       await waitFor(() => {
         expect(screen.getByText('network')).toBeInTheDocument()
         expect(screen.getByText('storage')).toBeInTheDocument()
@@ -478,14 +482,14 @@ describe('GologLevelAutocomplete', () => {
   describe('error handling', () => {
     it('should display error message when error prop is provided', () => {
       const errorMessage = 'Invalid log level provided'
-      render(<GologLevelAutocomplete {...defaultProps} error={errorMessage} />)
+      render(<GologLevelAutocomplete {...defaultProps} value="invalid" error={errorMessage} />)
 
       expect(screen.getByText(errorMessage)).toBeInTheDocument()
     })
 
     it('should apply error styling to input when error is present', () => {
       const errorMessage = 'Invalid log level provided'
-      render(<GologLevelAutocomplete {...defaultProps} error={errorMessage} />)
+      render(<GologLevelAutocomplete {...defaultProps} value="invalid" error={errorMessage} />)
 
       const input = screen.getByRole('textbox')
       expect(input).toHaveClass('b--red-muted')
@@ -493,7 +497,7 @@ describe('GologLevelAutocomplete', () => {
     })
 
     it('should not apply error styling when no error is present', () => {
-      render(<GologLevelAutocomplete {...defaultProps} />)
+      render(<GologLevelAutocomplete {...defaultProps} value="info" />)
 
       const input = screen.getByRole('textbox')
       expect(input).toHaveClass('b--black-20')

@@ -28,7 +28,6 @@ export interface LogRateState {
 export interface LogsState {
   entries: LogEntry[]
   isStreaming: boolean
-  globalLogLevel: string
   bufferConfig: LogBufferConfig
   rateState: LogRateState
   storageStats: LogStorageStats | null
@@ -85,7 +84,6 @@ export const DEFAULT_RATE_STATE: LogRateState = {
 const initialStateShell: Partial<LogsState> = {
   entries: [],
   isStreaming: false,
-  globalLogLevel: 'info',
   storageStats: null,
   pendingBatch: [],
   batchTimeout: null,
@@ -112,7 +110,7 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
   switch (action.type) {
     case 'SET_LEVEL': {
       if (action.subsystem === '*') {
-        return { ...state, globalLogLevel: action.level }
+        return { ...state, subsystemLevels: { ...state.subsystemLevels, '(default)': action.level } }
       }
       return {
         ...state,

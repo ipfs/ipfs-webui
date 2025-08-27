@@ -24,7 +24,6 @@ export interface LogsContextValue {
   isStreaming: boolean
 
   // Log levels
-  globalLogLevel: string
   subsystemLevels: Record<string, string>
   actualLogLevels: Record<string, string>
   isLoadingLevels: boolean
@@ -242,7 +241,7 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
     }
 
     // Use the actual effective global level, fallback to stored global level
-    const effectiveGlobalLevel = state.actualLogLevels['(default)'] || state.globalLogLevel
+    const effectiveGlobalLevel = state.actualLogLevels['(default)']
     const parts = [effectiveGlobalLevel]
 
     // Add subsystems that differ from the effective global level
@@ -253,7 +252,7 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
     })
 
     return parts.join(',')
-  }, [state.isLoadingLevels, state.actualLogLevels, state.globalLogLevel])
+  }, [state.isLoadingLevels, state.actualLogLevels])
 
   // Compute subsystems list from actual log levels
   const subsystems = useMemo(() => {
