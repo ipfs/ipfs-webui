@@ -28,17 +28,6 @@ export interface LogsContextValue {
   subsystemLevels: Record<string, string>
   actualLogLevels: Record<string, string>
   isLoadingLevels: boolean
-  /**
-   * Kubo only adds support for getting log levels in version 0.37.0 and later.
-   * @see https://github.com/ipfs/kubo/issues/10867
-   */
-  isLogLevelsSupported: boolean
-
-  /**
-   * Kubo only adds (useful) support for log tailing in version 0.36.0 and later.
-   * @see https://github.com/ipfs/kubo/issues/10816
-   */
-  isLogTailSupported: boolean
 
   // Configuration and monitoring
   bufferConfig: LogBufferConfig
@@ -111,13 +100,6 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
       const logLevels = await getLogLevels(ipfs, controller.signal)
       dispatch({ type: 'UPDATE_LEVELS', levels: logLevels })
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        if (error.message.includes('argument "level" is required')) {
-          console.error('Failed to fetch log levels - unsupported Kubo version:', error)
-          dispatch({ type: 'SET_UNSUPPORTED' })
-          return
-        }
-      }
       console.error('Failed to fetch log levels:', error)
       dispatch({ type: 'UPDATE_LEVELS', levels: {} })
     }

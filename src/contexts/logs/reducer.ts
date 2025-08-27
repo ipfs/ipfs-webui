@@ -37,8 +37,6 @@ export interface LogsState {
   subsystemLevels: Record<string, string>
   actualLogLevels: Record<string, string>
   isLoadingLevels: boolean
-  isLogLevelsSupported: boolean
-  isLogTailSupported: boolean
 }
 
 /**
@@ -59,7 +57,6 @@ export type LogsAction =
   | { type: 'RESET_WARNING' }
   | { type: 'FETCH_LEVELS' }
   | { type: 'UPDATE_LEVELS'; levels: Record<string, string> }
-  | { type: 'SET_UNSUPPORTED' }
 
 /**
  * Default buffer configuration
@@ -94,9 +91,7 @@ const initialStateShell: Partial<LogsState> = {
   batchTimeout: null,
   subsystemLevels: {},
   actualLogLevels: {},
-  isLoadingLevels: false,
-  isLogLevelsSupported: true,
-  isLogTailSupported: true
+  isLoadingLevels: false
 }
 
 /**
@@ -247,14 +242,6 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
         ...state,
         actualLogLevels: action.levels,
         isLoadingLevels: false
-      }
-    }
-
-    case 'SET_UNSUPPORTED': {
-      return {
-        ...state,
-        isLogLevelsSupported: false,
-        isLogTailSupported: false
       }
     }
 

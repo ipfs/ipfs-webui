@@ -1,9 +1,8 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '../box/Box.js'
 import Button from '../button/button'
 import { useIdentity } from '../../contexts/identity-context'
-import { parseAgentVersion } from '../../lib/parse-agent-version'
 
 interface UnsupportedKuboVersionProps {
 }
@@ -13,19 +12,18 @@ interface UnsupportedKuboVersionProps {
  */
 const UnsupportedKuboVersion: React.FC<UnsupportedKuboVersionProps> = () => {
   const { t } = useTranslation('diagnostics')
-  const { identity } = useIdentity()
-  const agentVersion = useMemo(() => parseAgentVersion(identity?.agentVersion ?? ''), [identity?.agentVersion])
+  const { identity, agentVersionObject } = useIdentity()
 
   // If user is using IPFS-Desktop, we need to send them to the IPFS-Desktop release page.
   // Otherwise, we need to send them to the Kubo release page.
   // TODO: do we need to link to any other release pages?
   const openReleasePage = useCallback(() => {
     let url = 'https://github.com/ipfs/kubo/releases'
-    if (agentVersion.name === 'kubo' && agentVersion.suffix === 'desktop') {
+    if (agentVersionObject?.name === 'kubo' && agentVersionObject.suffix === 'desktop') {
       url = 'https://github.com/ipfs/ipfs-desktop/releases'
     }
     window.open(url, '_blank')
-  }, [agentVersion.name, agentVersion.suffix])
+  }, [agentVersionObject])
 
   return (
     <Box className='pa4 tc' style={{ width: '100%' }}>
