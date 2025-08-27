@@ -3,36 +3,14 @@ import { useTranslation } from 'react-i18next'
 import Box from '../../components/box/Box.js'
 import Button from '../../components/button/button'
 import LogWarningModal from './log-warning-modal'
-import { humanSize } from '../../lib/files.js'
 import { useLogs } from '../../contexts/logs/index'
 import { StreamingStatus } from './streaming-status'
 import GologLevelSection from './golog-level-section'
 import UnsupportedKuboVersion from '../../components/unsupported-kubo-version/unsupported-kubo-version'
 import type { WarningModalTypes } from './log-warning-modal'
 import { useAgentVersionMinimum } from '../../lib/hooks/use-agent-version-minimum'
-
-type LogLevelColor = 'gray' | 'blue' | 'orange' | 'red' | 'darkred' | 'black'
-
-const getLevelColor = (level: string): LogLevelColor => {
-  switch (level.toLowerCase()) {
-    case 'debug': return 'gray'
-    case 'info': return 'blue'
-    case 'warn': return 'orange'
-    case 'error': return 'red'
-    case 'dpanic':
-    case 'panic':
-    case 'fatal': return 'darkred'
-    default: return 'black'
-  }
-}
-
-const formatTimestamp = (timestamp: string): string => {
-  try {
-    return new Date(timestamp).toLocaleTimeString()
-  } catch {
-    return timestamp
-  }
-}
+import { LogViewer } from './log-viewer'
+import { LogStorageStats } from './log-storage-stats'
 
 const LogsScreen = () => {
   const { t } = useTranslation('diagnostics')
@@ -333,59 +311,21 @@ const LogsScreen = () => {
           </div>
         </div>
 
-        <div
-          ref={logContainerRef}
-          className='ba b--black-20 pa2 bg-near-white f6 overflow-auto overflow-x-hidden relative'
-          style={{ height: '400px', fontFamily: 'Monaco, Consolas, monospace' }}
+        <LogViewer
+          logEntries={safeLogEntries}
+          isLogStreaming={isLogStreaming}
+          autoScrollEnabled={autoScrollEnabled}
+          containerRef={logContainerRef}
           onScroll={handleScroll}
-        >
-          {safeLogEntries.length === 0
-            ? <p className='gray tc pa3'>{t('logs.entries.noEntries')}</p>
-            : <div>
-              {safeLogEntries.map((entry, index) => (
-                <div key={`${entry.timestamp}-${entry.subsystem}-${index}`} className='flex mb1 lh-copy hover-bg-light-gray pa1 br1'>
-                  <span className='flex-none mr2 gray f7' style={{ minWidth: '90px' }} title={entry.timestamp}>
-                    {formatTimestamp(entry.timestamp)}
-                  </span>
-                  <span
-                    className='flex-none mr2 fw6 f7'
-                    style={{ minWidth: '60px', color: getLevelColor(entry.level) }}
-                  >
-                    {entry.level.toUpperCase()}
-                  </span>
-                  <span className='flex-none mr2 blue f7' style={{ minWidth: '120px' }} title={entry.subsystem}>
-                    {entry.subsystem}
-                  </span>
-                  <span className='flex-auto f7 pre-wrap'>
-                    {entry.message}
-                  </span>
-                </div>
-              ))}
-
-              {/* Auto-scroll to bottom indicator */}
-              {isLogStreaming && autoScrollEnabled && (
-                <div className='tc pa2 charcoal-muted f6'>
-                  {t('logs.entries.streaming')}
-                </div>
-              )}
-            </div>}
-        </div>
+        />
       </Box>
 
-      {/* Storage Stats */}
-      {logStorageStats && (
-        <div className='bt b--black-20 pt3'>
-          <h4 className='montserrat fw6 charcoal ma0 f6 mb2'>{t('logs.storage.title')}</h4>
-          <div className='flex items-center charcoal-muted f6'>
-            <span className='mr3'>{t('logs.storage.totalEntries')}: {logStorageStats.totalEntries.toLocaleString()}</span>
-            {/* @ts-expect-error - humanSize is not typed properly */}
-            <span className='mr3'>{t('logs.storage.estimatedSize')}: {humanSize(logStorageStats.estimatedSize)}</span>
-            <span>{t('logs.storage.memoryBuffer')}: {safeLogEntries.length}/{logBufferConfig.memory}</span>
-          </div>
-        </div>
-      )}
+      <LogStorageStats
+        logStorageStats={logStorageStats}
+        logBufferConfig={logBufferConfig}
+        safeLogEntries={safeLogEntries}
+      />
 
-      {/* Warning Modal */}
       <LogWarningModal
         isOpen={warningModal.isOpen}
         warningType={warningModal.type}
