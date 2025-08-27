@@ -1,6 +1,7 @@
-import React, { type CSSProperties, useMemo, useState } from 'react'
+import React, { type CSSProperties, useMemo, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { GlyphShrink, GlyphExpand } from '../../icons/all'
+import Tooltip from 'src/components/tooltip/Tooltip'
+import { GlyphShrink, GlyphExpand, GlyphPlay, GlyphPause } from '../../icons/all'
 
 type LogLevelColor = 'gray' | 'blue' | 'orange' | 'red' | 'darkred' | 'black'
 
@@ -28,30 +29,58 @@ const formatTimestamp = (timestamp: string): string => {
 interface TopControlsProps {
   isExpanded: boolean
   setIsExpanded: (isExpanded: boolean) => void
+  isStreaming: boolean
+  startStreaming: () => void
+  stopStreaming: () => void
 }
 
-const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded }) => {
+const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, isStreaming, startStreaming, stopStreaming }) => {
+  const { t } = useTranslation('diagnostics')
+
   const SizeControl = useMemo(() => {
     if (!isExpanded) {
-      return <GlyphExpand width={32} height={32} className='absolute pointer gray o-30 hover-o-100 hover-black' onClick={() => setIsExpanded(true)} />
+      return GlyphExpand
     }
-    return <GlyphShrink width={32} height={32} className='absolute pointer gray o-30 hover-o-100 hover-black' onClick={() => setIsExpanded(false)} />
-  }, [isExpanded, setIsExpanded])
+    return GlyphShrink
+  }, [isExpanded])
 
-  return <div className='absolute top-1 right-0 mr5 z-10'>
-    {SizeControl}
+  const PlayPauseControl = useMemo(() => {
+    if (isStreaming) {
+      return GlyphPause
+    }
+    return GlyphPlay
+  }, [isStreaming])
+
+  const toggleStreaming = useCallback(() => {
+    if (isStreaming) {
+      stopStreaming()
+    } else {
+      startStreaming()
+    }
+  }, [isStreaming, startStreaming, stopStreaming])
+
+  return <div className='absolute top-1 right-0 mr4 z-10 flex flex-row' style={{ gap: '0.5rem' }}>
+    <Tooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')}>
+      <PlayPauseControl width={32} height={32} className='pointer gray o-30 hover-o-100 hover-black' onClick={toggleStreaming} />
+    </Tooltip>
+    <Tooltip text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')}>
+      <SizeControl width={32} height={32} className='pointer gray o-30 hover-o-100 hover-black mb1' onClick={() => setIsExpanded(!isExpanded)} />
+    </Tooltip>
   </div>
 }
 
-export const LogViewer: React.FC<{
+export interface LogViewerProps {
   logEntries: any[]
-  isLogStreaming: boolean
+  isStreaming: boolean
   autoScrollEnabled: boolean
-  isPaused?: boolean
   containerRef: React.RefObject<HTMLDivElement>
   onScroll: (e: React.UIEvent<HTMLDivElement>) => void
   style?: React.CSSProperties
-}> = ({ logEntries, isLogStreaming, autoScrollEnabled, isPaused = false, containerRef, onScroll, style }) => {
+  startStreaming: () => void
+  stopStreaming: () => void
+}
+
+export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, autoScrollEnabled, containerRef, onScroll, style, startStreaming, stopStreaming }) => {
   const { t } = useTranslation('diagnostics')
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -78,7 +107,7 @@ export const LogViewer: React.FC<{
 
   return (
     <div className='relative' style={styles}>
-      <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+      <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} />
       <div
         ref={containerRef}
         className='ba b--black-20 pa2 bg-near-white f6 overflow-auto overflow-x-hidden'
@@ -109,16 +138,9 @@ export const LogViewer: React.FC<{
              ))}
 
           {/* Auto-scroll to bottom indicator */}
-          {isLogStreaming && autoScrollEnabled && !isPaused && (
+          {isStreaming && autoScrollEnabled && (
             <div className='tc pa2 charcoal-muted f6'>
               {t('logs.entries.streaming')}
-            </div>
-          )}
-
-          {/* Paused indicator */}
-          {isPaused && (
-            <div className='tc pa2 orange f6'>
-              {t('logs.entries.pause')} - {t('logs.entries.autoScrollPaused')}
             </div>
           )}
         </div>}

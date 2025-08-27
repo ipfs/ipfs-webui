@@ -62,7 +62,7 @@ const Tooltip: React.FC<TooltipProps> = ({ children, text, ...props }) => {
           left: '50%',
           transform: 'translate(-50%, 100%)',
           wordWrap: 'break-word',
-          width: '100%'
+          width: 'max-content'
         }}
         className={`white z-max bg-navy-muted br2 pa1 f6 absolute ${tooltipDisplayClass}`}
       >

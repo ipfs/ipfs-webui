@@ -184,12 +184,6 @@ const LogsScreen = () => {
             />
           </div>
           <div className='flex gap2'>
-            <Button
-              className={`mr2 ${isLogStreaming ? 'bg-red white' : 'bg-green white'}`}
-              onClick={isLogStreaming ? doStopLogStreaming : doStartLogStreaming}
-            >
-              {isLogStreaming ? t('logs.streaming.stop') : t('logs.streaming.start')}
-            </Button>
             <Button className='bg-gray white' onClick={doClearLogEntries}>
               {t('logs.streaming.clear')}
             </Button>
@@ -313,10 +307,12 @@ const LogsScreen = () => {
 
         <LogViewer
           logEntries={safeLogEntries}
-          isLogStreaming={isLogStreaming}
+          isStreaming={isLogStreaming}
           autoScrollEnabled={autoScrollEnabled}
           containerRef={logContainerRef}
           onScroll={handleScroll}
+          startStreaming={doStartLogStreaming}
+          stopStreaming={doStopLogStreaming}
         />
       </Box>
 
