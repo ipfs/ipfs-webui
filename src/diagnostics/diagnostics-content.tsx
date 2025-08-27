@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import LogsScreen from './logs-screen/logs-screen.js'
 import { LogsProvider } from '../contexts/logs/index'
-import { IdentityProvider } from 'src/contexts/identity-context'
+import { IdentityProvider } from '../contexts/identity-context'
 
 interface DiagnosticsContentProps {
 }

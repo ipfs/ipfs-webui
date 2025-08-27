@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, ReactNode, useRef } from 'react'
-import { AgentVersionObject, parseAgentVersion } from 'src/lib/parse-agent-version'
+import { type AgentVersionObject, parseAgentVersion } from '../lib/parse-agent-version'
 import { useBridgeContext, useBridgeSelector } from '../helpers/context-bridge'
 
 /**
