@@ -44,7 +44,7 @@
       "newLogsAvailable": "📍 New logs arriving (not shown)",
       "goToLatest": "📍 Go to Latest",
       "autoScrollPaused": "📌 Auto-scroll paused",
-      "tooltipGoToLatest": "Scroll to the bottom of current logs",
+      "tooltipGoToLatest": "Scroll to latest logs",
       "tooltipExpand": "Expand logs",
       "tooltipCollapse": "Collapse logs",
       "tooltipPlay": "Start streaming",

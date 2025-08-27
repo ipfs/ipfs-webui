@@ -286,23 +286,6 @@ const LogsScreen = () => {
               </span>
             )}
           </div>
-
-          {/* Navigation Controls */}
-          <div className='flex gap2'>
-            <Button
-              className='bg-green white f6 pa2'
-              onClick={() => {
-                if (logContainerRef.current) {
-                  logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight
-                }
-                setAutoScrollEnabled(true) // Re-enable auto-scroll when going to latest
-              }}
-              disabled={safeLogEntries.length === 0}
-              title={t('logs.entries.tooltipGoToLatest')}
-            >
-              {t('logs.entries.goToLatest')}
-            </Button>
-          </div>
         </div>
 
         <LogViewer

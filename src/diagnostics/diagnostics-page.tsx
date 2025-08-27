@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '../components/box/Box.js'
 import { Helmet } from 'react-helmet'
@@ -10,6 +10,13 @@ const DiagnosticsPage: React.FC = () => {
   const { t } = useTranslation('diagnostics')
   const ipfsConnected = useBridgeSelector('selectIpfsConnected')
 
+  const Component = useMemo(() => {
+    if (ipfsConnected) {
+      return DiagnosticsContent
+    }
+    return IsNotConnected
+  }, [ipfsConnected])
+
   return (
     <div data-id='DiagnosticsPage' className='mw9 center'>
       <Helmet>
@@ -18,10 +25,7 @@ const DiagnosticsPage: React.FC = () => {
       <Box className='pa3' style={{ minHeight: 0 }}>
         <div className='flex'>
           <div className='flex-auto'>
-            { ipfsConnected
-              ? <DiagnosticsContent />
-              : <IsNotConnected />
-            }
+            <Component />
           </div>
         </div>
       </Box>
