@@ -38,3 +38,19 @@ html, body, #root {
   font-size: 14px !important;
   font-family: 'Montserrat';
 }
+
+/* =========================
+    Interactive elements in draggable regions
+   ========================= */
+
+/* Ensure interactive elements work properly within draggable regions */
+input:not([type="hidden"]),
+textarea,
+select,
+button,
+[role="button"],
+[contenteditable="true"] {
+  -webkit-app-region: no-drag !important;
+  app-region: no-drag !important;
+  pointer-events: auto;
+}
