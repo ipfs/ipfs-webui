@@ -42,7 +42,6 @@ export interface LogsState {
  * Actions for the logs reducer
  */
 export type LogsAction =
-  | { type: 'SET_LEVEL'; subsystem: string; level: string }
   | { type: 'START_STREAMING' }
   | { type: 'STOP_STREAMING' }
   | { type: 'ADD_ENTRY'; entry: LogEntry }
@@ -108,19 +107,6 @@ export function initLogsState (): LogsState {
  */
 export function logsReducer (state: LogsState, action: LogsAction): LogsState {
   switch (action.type) {
-    case 'SET_LEVEL': {
-      if (action.subsystem === '*') {
-        return { ...state, subsystemLevels: { ...state.subsystemLevels, '(default)': action.level } }
-      }
-      return {
-        ...state,
-        subsystemLevels: {
-          ...state.subsystemLevels,
-          [action.subsystem]: action.level
-        }
-      }
-    }
-
     case 'START_STREAMING': {
       return {
         ...state,

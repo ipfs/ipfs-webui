@@ -24,7 +24,7 @@ const DiagnosticsPage: React.FC = () => {
       </Helmet>
       <div className='flex'>
         <div className='flex-auto'>
-          <Component />
+          <Component key={ipfsConnected ? 'connected' : 'not-connected'} />
         </div>
       </div>
     </div>

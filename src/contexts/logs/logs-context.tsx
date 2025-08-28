@@ -114,13 +114,8 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
       // Set all levels in batch and get the final state
       const finalLevels = await setLogLevelsBatchApi(ipfs, levels)
 
-      // Update the state with the final levels
+      // Update the state with the final levels from the API response
       dispatch({ type: 'UPDATE_LEVELS', levels: finalLevels })
-
-      // Update individual subsystem levels in state
-      levels.forEach(({ subsystem, level }) => {
-        dispatch({ type: 'SET_LEVEL', subsystem, level })
-      })
     } catch (error) {
       console.error('Failed to set log levels in batch:', error)
       throw error

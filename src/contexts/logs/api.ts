@@ -80,13 +80,22 @@ async function setLogLevel (ipfs: KuboRPCClient, subsystem: string, level: strin
  */
 export async function setLogLevelsBatch (ipfs: KuboRPCClient, levels: Array<{ subsystem: string; level: string }>, signal?: AbortSignal): Promise<LogLevelsResponse['levels']> {
   try {
-    // Set all levels in sequence
-    for (const { subsystem, level } of levels) {
+    // Separate global level from subsystem levels
+    const globalLevel = levels.find(({ subsystem }) => subsystem === '*')
+    const subsystemLevels = levels.filter(({ subsystem }) => subsystem !== '*')
+
+    // Set global level first (if present)
+    if (globalLevel) {
+      await setLogLevel(ipfs, globalLevel.subsystem, globalLevel.level, signal)
+    }
+
+    // Then set individual subsystem levels
+    for (const { subsystem, level } of subsystemLevels) {
       await setLogLevel(ipfs, subsystem, level, signal)
     }
 
     // Fetch the final state after all changes
-    return await getLogLevels(ipfs, signal)
+    return getLogLevels(ipfs, signal)
   } catch (e) {
     console.error('Failed to set log levels in batch', e)
     throw e
