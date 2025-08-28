@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 import Box from '../../components/box/Box.js'
 import Button from '../../components/button/button'
@@ -7,7 +7,7 @@ import { useLogs } from '../../contexts/logs/index'
 
 const GologLevelSection: React.FC = () => {
   const { t } = useTranslation('diagnostics')
-  const { gologLevelString, subsystems, setLogLevelsBatch, actualLogLevels } = useLogs()
+  const { gologLevelString, subsystems, setLogLevelsBatch, actualLogLevels, calculateGologLevelString, parseGologLevelString, subsystemsToActualLevels } = useLogs()
 
   // Component state for editing
   const [value, setValue] = useState('')
@@ -31,39 +31,16 @@ const GologLevelSection: React.FC = () => {
     }
 
     try {
-      // Parse the GOLOG_LOG_LEVEL string and build complete batch of changes
-      const parts = value.split(',')
-      const levelsToSet = []
-      let globalLevel = null
+      // Parse the GOLOG_LOG_LEVEL string using the utility function
+      const levelsToSet = parseGologLevelString(value)
 
-      // Parse all parts to find global level and subsystem levels (global level may not always be first)
-      for (let i = 0; i < parts.length; i++) {
-        const part = parts[i].trim()
-
-        if (part.includes('=')) {
-          // This is a subsystem=level part
-          const equalIndex = part.indexOf('=')
-          const subsystemName = part.substring(0, equalIndex).trim()
-          const level = part.substring(equalIndex + 1).trim()
-          if (level.trim() === '') {
-            setErrorMessage(t('logs.gologLevel.invalidSubsystemLevel', { subsystem: subsystemName }))
-            return
-          }
-
-          // Always include this subsystem level from the string
-          levelsToSet.push({ subsystem: subsystemName, level })
-        } else if (part && !globalLevel) {
-          // This is a global level (first non-empty part without equals)
-          globalLevel = part
+      // Validate the parsed levels
+      for (const { subsystem, level } of levelsToSet) {
+        if (level.trim() === '') {
+          setErrorMessage(t('logs.gologLevel.invalidSubsystemLevel', { subsystem }))
+          return
         }
       }
-
-      // Add global level if found and different from current
-      if (globalLevel) {
-        levelsToSet.push({ subsystem: '*', level: globalLevel })
-      }
-
-      console.log('levelsToSet', levelsToSet)
 
       await setLogLevelsBatch(levelsToSet)
     } catch (error: unknown) {
@@ -72,8 +49,6 @@ const GologLevelSection: React.FC = () => {
     }
   }, [value, isValid, gologLevelString, globalLogLevel, setLogLevelsBatch])
 
-  console.log('gologLevelString', gologLevelString)
-
   const onReset = useCallback((event: React.FormEvent) => {
     event.preventDefault()
     if (gologLevelString !== null) {
@@ -81,6 +56,10 @@ const GologLevelSection: React.FC = () => {
       setIsValid(true)
     }
   }, [gologLevelString])
+
+  const canSubmit = useMemo(() => {
+    return isValid && errorMessage === '' && calculateGologLevelString(subsystemsToActualLevels(parseGologLevelString(value))) !== gologLevelString
+  }, [isValid, value, gologLevelString, errorMessage, calculateGologLevelString, subsystemsToActualLevels, parseGologLevelString])
 
   if (gologLevelString === null) {
     return (
@@ -136,7 +115,7 @@ const GologLevelSection: React.FC = () => {
               minWidth={100}
               className='mt2 mt0-ns ml0 ml2-ns tc'
               onClick={onSubmit}
-              disabled={!isValid || value === gologLevelString || errorMessage !== ''}>
+              disabled={!canSubmit}>
               {t('app:actions.submit')}
             </Button>
           </div>

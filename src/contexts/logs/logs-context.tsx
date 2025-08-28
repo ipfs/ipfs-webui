@@ -47,6 +47,11 @@ export interface LogsContextValue {
   fetchLogLevels: () => void
   updateStorageStats: () => void
   showWarning: () => void
+
+  // Utilities
+  calculateGologLevelString: (actualLevels: Record<string, string>) => string | null
+  parseGologLevelString: (input: string) => Array<{ subsystem: string; level: string }>
+  subsystemsToActualLevels: (subsystems: Array<{ subsystem: string; level: string }>) => Record<string, string>
 }
 
 /**
@@ -228,6 +233,79 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
     dispatch({ type: 'SHOW_WARNING' })
   }, [])
 
+  // Utility function to parse golog level string into subsystems array
+  const parseGologLevelString = useCallback((input: string): Array<{ subsystem: string; level: string }> => {
+    if (!input.trim()) return []
+
+    const parts = input.split(',')
+    const levelsToSet: Array<{ subsystem: string; level: string }> = []
+    let globalLevel: string | null = null
+
+    // Parse all parts to find global level and subsystem levels
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i].trim()
+
+      if (part.includes('=')) {
+        // This is a subsystem=level part
+        const equalIndex = part.indexOf('=')
+        const subsystemName = part.substring(0, equalIndex).trim()
+        const level = part.substring(equalIndex + 1).trim()
+        if (level.trim() !== '') {
+          levelsToSet.push({ subsystem: subsystemName, level })
+        }
+      } else if (part && !globalLevel) {
+        // This is a global level (first non-empty part without equals)
+        globalLevel = part
+      }
+    }
+
+    // Add global level if found
+    if (globalLevel) {
+      levelsToSet.push({ subsystem: '*', level: globalLevel })
+    }
+
+    return levelsToSet
+  }, [])
+
+  // Utility function to convert subsystems array to actual log levels object
+  const subsystemsToActualLevels = useCallback((subsystems: Array<{ subsystem: string; level: string }>) => {
+    const actualLevels: Record<string, string> = {}
+
+    // Find global level
+    const globalLevel = subsystems.find(({ subsystem }) => subsystem === '*' || subsystem === '(default)')
+    const globalLevelValue = globalLevel?.level || 'info'
+    actualLevels['(default)'] = globalLevelValue
+
+    // Add subsystem levels (only those that differ from global level)
+    subsystems.forEach(({ subsystem, level }) => {
+      if (subsystem !== '*' && level !== globalLevelValue) {
+        actualLevels[subsystem] = level
+      }
+    })
+
+    return actualLevels
+  }, [])
+
+  // Utility function to calculate golog level string from actual log levels
+  const calculateGologLevelString = useCallback((actualLevels: Record<string, string>) => {
+    if (Object.keys(actualLevels).length === 0) {
+      return null
+    }
+
+    // Use the actual effective global level, fallback to stored global level
+    const effectiveGlobalLevel = actualLevels['(default)']
+    const parts = [effectiveGlobalLevel]
+
+    // Add subsystems that differ from the effective global level
+    Object.entries(actualLevels).forEach(([subsystem, level]) => {
+      if (subsystem !== '(default)' && level !== effectiveGlobalLevel) {
+        parts.push(`${subsystem}=${level}`)
+      }
+    })
+
+    return parts.join(',')
+  }, [])
+
   // Compute GOLOG_LOG_LEVEL equivalent string
   const gologLevelString = useMemo(() => {
     // Only calculate if log levels have been loaded
@@ -235,19 +313,8 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
       return null
     }
 
-    // Use the actual effective global level, fallback to stored global level
-    const effectiveGlobalLevel = state.actualLogLevels['(default)']
-    const parts = [effectiveGlobalLevel]
-
-    // Add subsystems that differ from the effective global level
-    Object.entries(state.actualLogLevels).forEach(([subsystem, level]) => {
-      if (subsystem !== '(default)' && level !== effectiveGlobalLevel) {
-        parts.push(`${subsystem}=${level}`)
-      }
-    })
-
-    return parts.join(',')
-  }, [state.isLoadingLevels, state.actualLogLevels])
+    return calculateGologLevelString(state.actualLogLevels)
+  }, [state.isLoadingLevels, state.actualLogLevels, calculateGologLevelString])
 
   // Compute subsystems list from actual log levels
   const subsystems = useMemo(() => {
@@ -338,7 +405,10 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
     ...logActions,
     entries: safeLogEntries,
     gologLevelString,
-    subsystems
+    subsystems,
+    calculateGologLevelString,
+    parseGologLevelString,
+    subsystemsToActualLevels
   }
 
   return (
