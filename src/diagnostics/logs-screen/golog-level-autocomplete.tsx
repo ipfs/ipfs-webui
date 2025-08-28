@@ -15,6 +15,7 @@ interface GologLevelAutocompleteProps {
   className?: string
   onSubmit?: (event?: React.FormEvent) => (Promise<void> | void)
   onValidityChange?: (isValid: boolean) => void
+  onErrorChange?: (errorMessage: string) => void
   error?: string
 }
 
@@ -29,7 +30,8 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
   className = '',
   onSubmit,
   error,
-  onValidityChange
+  onValidityChange,
+  onErrorChange
 }) => {
   const { t } = useTranslation('diagnostics')
   const [isOpen, setIsOpen] = useState(false)
@@ -47,7 +49,8 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
     setErrorMessage(error || '')
     // Update validity when error prop changes
     onValidityChange?.(!error)
-  }, [error, onValidityChange])
+    onErrorChange?.(error || '')
+  }, [error, onValidityChange, onErrorChange])
 
   const validateGologLevel = useCallback((input: string): { isValid: boolean; errorMessage: string } => {
     if (input.trim().length === 0) {
@@ -75,9 +78,8 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
           return { isValid: false, errorMessage: t('logs.autocomplete.invalidSubsystem', { subsystem: subsystemName, subsystems: validSubsystems.join(', ') }) }
         }
 
-        // If level is empty, it's valid (waiting for level selection)
         if (level.length === 0) {
-          continue
+          return { isValid: false, errorMessage: t('logs.autocomplete.invalidSubsystemLevel', { subsystem: subsystemName, subsystems: validSubsystems.join(', ') }) }
         }
 
         // Check if level is valid
@@ -93,7 +95,7 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
       } else {
         // we have already seen a global level, so they can't have another one.. if this is not a valid subsystem, then it's invalid
         if (validSubsystems.includes(part)) {
-        // if it is a valid subsystem, then we need to display an error that they need to add an = and a level
+          // if it is a valid subsystem, then we need to display an error that they need to add an = and a level
           return { isValid: false, errorMessage: t('logs.autocomplete.invalidSubsystemLevel', { subsystem: part, subsystems: validSubsystems.join(', ') }) }
         }
         return { isValid: false, errorMessage: t('logs.autocomplete.invalidSubsystem', { subsystem: part, subsystems: validSubsystems.join(', ') }) }
@@ -365,7 +367,7 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
         setIsOpen(false)
         break
     }
-  }, [isOpen, suggestions, selectedIndex, handleSuggestionSelect, onSubmit, isSubmitting])
+  }, [isOpen, suggestions, selectedIndex, handleSuggestionSelect, onSubmit, isSubmitting, validateGologLevel, onValidityChange, inputValue])
 
   // Handle focus/blur
   const handleFocus = useCallback(() => {
@@ -450,6 +452,7 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
     // If error prop is provided, use it (external error takes precedence)
     if (error) {
       setErrorMessage(error)
+      onErrorChange?.(error)
       return
     }
 
@@ -461,10 +464,12 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
 
     if (!validation.isValid && shouldShowError) {
       setErrorMessage(validation.errorMessage)
+      onErrorChange?.(validation.errorMessage)
     } else if (validation.isValid) {
       setErrorMessage('')
+      onErrorChange?.('')
     }
-  }, [inputValue, suggestions.length, validateGologLevel, isFocused, error])
+  }, [inputValue, suggestions.length, validateGologLevel, isFocused, error, onErrorChange])
 
   return (
     <div className={`relative ${className}`}>
@@ -518,11 +523,11 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
           ))}
         </div>
       )}
-      {errorMessage && (
-        <div className="absolute top-100 left-0 f6 red pa2 z-888 mw7">
+      {/* {errorMessage && showInternalError && (
+        <div className="absolute top-100 left-0 f6 red pa2 z-888 mw2 mw6-l mw6-m">
           {errorMessage}
         </div>
-      )}
+      )} */}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import Box from '../../components/box/Box.js'
 import Button from '../../components/button/button'
 import { GologLevelAutocomplete } from './golog-level-autocomplete'
@@ -12,6 +12,7 @@ const GologLevelSection: React.FC = () => {
   // Component state for editing
   const [value, setValue] = useState('')
   const [isValid, setIsValid] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const globalLogLevel = actualLogLevels['(default)']
 
@@ -44,6 +45,10 @@ const GologLevelSection: React.FC = () => {
           const equalIndex = part.indexOf('=')
           const subsystemName = part.substring(0, equalIndex).trim()
           const level = part.substring(equalIndex + 1).trim()
+          if (level.trim() === '') {
+            setErrorMessage(t('logs.gologLevel.invalidSubsystemLevel', { subsystem: subsystemName }))
+            return
+          }
 
           // Always include this subsystem level from the string
           levelsToSet.push({ subsystem: subsystemName, level })
@@ -54,9 +59,11 @@ const GologLevelSection: React.FC = () => {
       }
 
       // Add global level if found and different from current
-      if (globalLevel && globalLogLevel !== globalLevel) {
+      if (globalLevel) {
         levelsToSet.push({ subsystem: '*', level: globalLevel })
       }
+
+      console.log('levelsToSet', levelsToSet)
 
       await setLogLevelsBatch(levelsToSet)
     } catch (error: unknown) {
@@ -64,6 +71,8 @@ const GologLevelSection: React.FC = () => {
       setIsValid(false)
     }
   }, [value, isValid, gologLevelString, globalLogLevel, setLogLevelsBatch])
+
+  console.log('gologLevelString', gologLevelString)
 
   const onReset = useCallback((event: React.FormEvent) => {
     event.preventDefault()
@@ -91,7 +100,11 @@ const GologLevelSection: React.FC = () => {
     <Box className='mb3 pa4-l pa2'>
       <div className='mb2'>
         <h3 className='ttu tracked f6 fw4 teal mt0 mb3'>{t('logs.gologLevel.title')}</h3>
-        <p className=''>{t('logs.gologLevel.description')}</p>
+        <p>
+          <Trans i18nKey='logs.gologLevel.descriptionWithLink' t={t}>
+            <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/environment-variables.md#golog_log_level' target='_blank' rel='noopener noreferrer'> </a>
+          </Trans>
+        </p>
         <form onSubmit={onSubmit}>
           <GologLevelAutocomplete
             value={value}
@@ -101,8 +114,14 @@ const GologLevelSection: React.FC = () => {
             className='w-100 lh-copy monospace f5 mb2 charcoal input-reset'
             onSubmit={onSubmit}
             onValidityChange={setIsValid}
+            onErrorChange={setErrorMessage}
           />
-          <div className='tr'>
+          {errorMessage && (
+            <div className='f6 red pa2 mb2'>
+              {errorMessage}
+            </div>
+          )}
+          <div className='flex flex-column flex-row-ns justify-end'>
             <Button
               id='golog-level-reset-button'
               minWidth={100}
@@ -115,8 +134,9 @@ const GologLevelSection: React.FC = () => {
             <Button
               id='golog-level-submit-button'
               minWidth={100}
-              className='mt2 mt0-l ml2-l tc'
-              disabled={!isValid || value === gologLevelString}>
+              className='mt2 mt0-ns ml0 ml2-ns tc'
+              onClick={onSubmit}
+              disabled={!isValid || value === gologLevelString || errorMessage !== ''}>
               {t('app:actions.submit')}
             </Button>
           </div>

@@ -70,6 +70,7 @@
     "gologLevel": {
       "title": "Current Log Configuration",
       "description": "GOLOG_LOG_LEVEL equivalent for current settings. Use to prototype the log level settings for your Kubo node.",
+      "descriptionWithLink": "<0>GOLOG_LOG_LEVEL</0> equivalent for current settings. Use to prototype the log level settings for your Kubo node.",
       "copyToClipboard": "Copy to clipboard",
       "copied": "Copied!",
       "edit": "Edit",
