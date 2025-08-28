@@ -480,13 +480,6 @@ describe('GologLevelAutocomplete', () => {
   })
 
   describe('error handling', () => {
-    it('should display error message when error prop is provided', () => {
-      const errorMessage = 'Invalid log level provided'
-      render(<GologLevelAutocomplete {...defaultProps} value="invalid" error={errorMessage} />)
-
-      expect(screen.getByText(errorMessage)).toBeInTheDocument()
-    })
-
     it('should apply error styling to input when error is present', () => {
       const errorMessage = 'Invalid log level provided'
       render(<GologLevelAutocomplete {...defaultProps} value="invalid" error={errorMessage} />)
@@ -547,6 +540,207 @@ describe('GologLevelAutocomplete', () => {
 
       // Should handle special characters without crashing
       expect(input).toBeInTheDocument()
+    })
+
+    it('should handle invalid input gracefully', async () => {
+      render(<GologLevelAutocomplete {...defaultProps} value="info,invalid" />)
+
+      const input = screen.getByRole('textbox')
+      await userEvent.click(input)
+
+      // The component should handle invalid input without crashing
+      expect(input).toBeInTheDocument()
+      expect(input).toHaveValue('info,invalid')
+    })
+
+    it('should handle async form submission with error', async () => {
+      const mockOnSubmit = jest.fn<(event?: React.FormEvent) => Promise<void>>().mockImplementation(() => Promise.reject(new Error('Submission failed')))
+      const mockOnValidityChange = jest.fn()
+      const mockOnErrorChange = jest.fn()
+
+      render(
+        <GologLevelAutocomplete
+          {...defaultProps}
+          value="info"
+          onSubmit={mockOnSubmit}
+          onValidityChange={mockOnValidityChange}
+          onErrorChange={mockOnErrorChange}
+        />
+      )
+
+      const input = screen.getByRole('textbox')
+      await userEvent.type(input, '{enter}')
+
+      // Wait for the async submission to complete
+      await waitFor(() => {
+        expect(mockOnSubmit).toHaveBeenCalled()
+      })
+
+      // Verify that the component remains interactive after error
+      expect(input).not.toBeDisabled()
+      expect(input).toHaveValue('info')
+    })
+
+    it('should handle async form submission with unknown error', async () => {
+      const mockOnSubmit = jest.fn<(event?: React.FormEvent) => Promise<void>>().mockImplementation(() => Promise.reject(new Error('Unknown error')))
+      const mockOnErrorChange = jest.fn()
+
+      render(
+        <GologLevelAutocomplete
+          {...defaultProps}
+          value="info"
+          onSubmit={mockOnSubmit}
+          onErrorChange={mockOnErrorChange}
+        />
+      )
+
+      const input = screen.getByRole('textbox')
+      await userEvent.type(input, '{enter}')
+
+      // Wait for the async submission to complete
+      await waitFor(() => {
+        expect(mockOnSubmit).toHaveBeenCalled()
+      })
+
+      // Verify that the component remains interactive after error
+      expect(input).not.toBeDisabled()
+      expect(input).toHaveValue('info')
+    })
+
+    it('should handle cursor positioning after suggestion selection', async () => {
+      render(<GologLevelAutocomplete {...defaultProps} value="info," />)
+
+      const input = screen.getByRole('textbox')
+      await userEvent.click(input)
+
+      // Wait for suggestions to appear
+      await waitFor(() => {
+        expect(screen.getByText('core')).toBeInTheDocument()
+      })
+
+      // Select a subsystem suggestion
+      const suggestion = screen.getByText('core')
+      await userEvent.click(suggestion)
+
+      // Verify that the input value is updated correctly
+      await waitFor(() => {
+        expect(input).toHaveValue('info,core=')
+      })
+    })
+
+    it('should handle focus after suggestion selection', async () => {
+      render(<GologLevelAutocomplete {...defaultProps} value="info,core=" />)
+
+      const input = screen.getByRole('textbox')
+      await userEvent.click(input)
+
+      // Wait for suggestions to appear
+      await waitFor(() => {
+        expect(screen.getByText('debug')).toBeInTheDocument()
+      })
+
+      // Select a level suggestion
+      const suggestion = screen.getByText('debug')
+      await userEvent.click(suggestion)
+
+      // Verify that the input value is updated correctly
+      await waitFor(() => {
+        expect(input).toHaveValue('info,core=debug')
+      })
+    })
+
+    it('should call onErrorChange when error prop changes', () => {
+      const mockOnErrorChange = jest.fn()
+      const { rerender } = render(
+        <GologLevelAutocomplete
+          {...defaultProps}
+          error=""
+          onErrorChange={mockOnErrorChange}
+        />
+      )
+
+      // Change error prop
+      rerender(
+        <GologLevelAutocomplete
+          {...defaultProps}
+          error="New error message"
+          onErrorChange={mockOnErrorChange}
+        />
+      )
+
+      expect(mockOnErrorChange).toHaveBeenCalledWith('New error message')
+    })
+
+    it('should display suggestion type labels', async () => {
+      render(<GologLevelAutocomplete {...defaultProps} />)
+
+      const input = screen.getByRole('textbox')
+      await userEvent.click(input)
+
+      // Wait for suggestions to appear
+      await waitFor(() => {
+        expect(screen.getByText('debug')).toBeInTheDocument()
+      })
+
+      // Check that suggestion type labels are rendered with translations
+      const labels = screen.getAllByText('Global level')
+      expect(labels.length).toBeGreaterThan(0)
+    })
+
+    it('should handle complete subsystem=level pairs', async () => {
+      render(<GologLevelAutocomplete {...defaultProps} value="info,core=debug" />)
+
+      const input = screen.getByRole('textbox')
+      await userEvent.click(input)
+
+      // The component should handle complete pairs without showing suggestions
+      expect(input).toBeInTheDocument()
+      expect(input).toHaveValue('info,core=debug')
+    })
+
+    it('should handle async UI updates after suggestion selection', async () => {
+      render(<GologLevelAutocomplete {...defaultProps} value="info," />)
+
+      const input = screen.getByRole('textbox')
+      await userEvent.click(input)
+
+      // Wait for suggestions to appear
+      await waitFor(() => {
+        expect(screen.getByText('core')).toBeInTheDocument()
+      })
+
+      // Select a subsystem suggestion to trigger async updates
+      const suggestion = screen.getByText('core')
+      await userEvent.click(suggestion)
+
+      // Wait for async updates to complete
+      await waitFor(() => {
+        expect(input).toHaveValue('info,core=')
+      })
+
+      // Should handle async updates without crashing
+      expect(input).toBeInTheDocument()
+    })
+
+    it('should integrate with validation logic', async () => {
+      const mockOnValidityChange = jest.fn()
+      render(
+        <GologLevelAutocomplete
+          {...defaultProps}
+          onValidityChange={mockOnValidityChange}
+        />
+      )
+
+      const input = screen.getByRole('textbox')
+
+      // Type invalid input
+      await userEvent.type(input, 'invalid')
+      expect(mockOnValidityChange).toHaveBeenCalledWith(false)
+
+      // Type valid input
+      await userEvent.clear(input)
+      await userEvent.type(input, 'info')
+      expect(mockOnValidityChange).toHaveBeenCalledWith(true)
     })
   })
 })

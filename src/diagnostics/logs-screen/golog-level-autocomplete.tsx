@@ -428,11 +428,6 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
           ))}
         </div>
       )}
-      {/* {errorMessage && showInternalError && (
-        <div className="absolute top-100 left-0 f6 red pa2 z-888 mw2 mw6-l mw6-m">
-          {errorMessage}
-        </div>
-      )} */}
     </div>
   )
 }
