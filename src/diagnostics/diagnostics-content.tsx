@@ -16,7 +16,7 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
   const renderTabButton = (tabKey: TabKey, label: string) => (
     <button
       key={tabKey}
-      className={`pa3 mr2 bg-transparent bn pointer fw6 ${
+      className={`pv2 mr2 bg-transparent bn pointer fw6 ${
         activeTab === tabKey
           ? 'charcoal bb bw2 b--blue'
           : 'charcoal-muted hover-charcoal'
@@ -44,9 +44,6 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
 
   return (
     <div>
-      <h1 className='montserrat fw4 charcoal ma0 f3 mb3'>{t('title')}</h1>
-      <p className='charcoal-muted mb4'>{t('description')}</p>
-
       {/* Tab Navigation */}
       <div className='bb b--black-20 mb4'>
         <nav className='flex'>

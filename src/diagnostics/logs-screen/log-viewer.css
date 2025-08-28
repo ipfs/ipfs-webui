@@ -1,0 +1,77 @@
+/* parent grid */
+.logs{
+  display: grid;
+  grid-template-columns: max-content max-content max-content minmax(0,1fr);
+  column-gap: .75rem;
+  row-gap: .5rem;
+  align-items: start;
+  font-variant-numeric: tabular-nums;
+
+  /* custom variables */
+  --icon-zone: 1.5rem; /* use to buffer text from appearing under icons */
+  --light-gray: #eee; /* Tachyons light-gray */
+}
+
+
+/* each row spans the parent and reuses its columns */
+.logs > .row{
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  align-items: start;
+  margin: 0;
+  padding: 0;
+  padding-left: 1rem;
+  padding-right: var(--icon-zone); /* prevents text under icons */
+}
+
+/* full-row hover/focus */
+.logs > .row:hover,
+.logs > .row:focus-within{
+  background-color: var(--light-gray);
+}
+
+.logs .lvl, .logs .sub { white-space: nowrap; }
+.logs .msg{
+  white-space: pre-wrap;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 640px){
+  /* 2 columns: timestamp | flexible */
+  .logs{
+    grid-template-columns: max-content minmax(0,1fr);
+    column-gap: .5rem;
+  }
+
+  .logs > .row{
+    grid-template-columns: subgrid;  /* reuse the 2 cols */
+    padding-left: .5rem;              /* a bit tighter on mobile */
+    padding-right: .5rem;             /* no icon zone needed on tiny screens */
+  }
+
+  /* timestamp (first span) in col 1, row 1 */
+  .logs > .row > :first-child{
+    grid-column: 1;
+  }
+
+  /* level in col 2, row 1 */
+  .logs > .row > .lvl{
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  /* subsystem on its own full-width line */
+  .logs > .row > .sub{
+    grid-column: 1 / -1;
+    white-space: normal;     /* allow wrapping on small screens */
+    opacity: .9;             /* optional: slight de-emphasis */
+  }
+
+  /* message full-width below, still wraps aggressively */
+  .logs > .row > .msg{
+    grid-column: 1 / -1;
+  }
+}

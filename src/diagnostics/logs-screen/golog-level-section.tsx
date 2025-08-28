@@ -75,7 +75,7 @@ const GologLevelSection: React.FC = () => {
 
   if (gologLevelString === null) {
     return (
-      <Box className='mb3' style={{}}>
+      <Box className='mb3 pa4-l pa2'>
         <div className='mb2'>
           <h3 className='montserrat fw4 charcoal ma0 f5 mb2'>{t('logs.gologLevel.title')}</h3>
           <p className='charcoal-muted f6 mb3'>{t('logs.gologLevel.description')}</p>
@@ -88,10 +88,10 @@ const GologLevelSection: React.FC = () => {
   }
 
   return (
-    <Box className='mb3' style={{}}>
+    <Box className='mb3 pa4-l pa2'>
       <div className='mb2'>
-        <h3 className='montserrat fw4 charcoal ma0 f5 mb2'>{t('logs.gologLevel.title')}</h3>
-        <p className='charcoal-muted f6 mb3'>{t('logs.gologLevel.description')}</p>
+        <h3 className='ttu tracked f6 fw4 teal mt0 mb3'>{t('logs.gologLevel.title')}</h3>
+        <p className=''>{t('logs.gologLevel.description')}</p>
         <form onSubmit={onSubmit}>
           <GologLevelAutocomplete
             value={value}

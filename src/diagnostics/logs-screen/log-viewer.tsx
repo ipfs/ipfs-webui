@@ -1,7 +1,9 @@
 import React, { type CSSProperties, useMemo, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import Tooltip from '../../components/tooltip/Tooltip'
-import { GlyphShrink, GlyphExpand, GlyphPlay, GlyphPause, GlyphMoveDown } from '../../icons/all'
+import { GlyphShrink, GlyphExpand, GlyphPlay, GlyphPause, GlyphMoveDown, GlyphSettings } from '../../icons/all'
+import './log-viewer.css'
+import type { LogEntry as LogEntryType } from '../../contexts/logs/api'
 
 type LogLevelColor = 'gray' | 'blue' | 'orange' | 'red' | 'darkred' | 'black'
 
@@ -59,14 +61,27 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
     }
   }, [isStreaming, startStreaming, stopStreaming])
 
-  return <div className='absolute top-1 right-0 mr4 z-10 flex flex-row' style={{ gap: '0.5rem' }}>
-    <Tooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')}>
-      <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black' onClick={toggleStreaming} />
-    </Tooltip>
-    <Tooltip text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')}>
-      <SizeControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={() => setIsExpanded(!isExpanded)} />
-    </Tooltip>
+  // because the settings icon is from ipfs-css and the others are from lucide, we need to adjust a little bit to make it look the same
+  const settingsIconStyle = { transformBox: 'fill-box', transformOrigin: 'center', transform: 'scale(1.50)' } as const
+
+  return (
+    <div className='absolute top-1 right-0 mr4 z-10 flex flex-column flex-start items-end'>
+      {/* Streaming controls */}
+      {/* <div className='flex flex-row' style={{ gap: '0.5rem' }}> */}
+
+        <Tooltip text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')}>
+          <SizeControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={() => setIsExpanded(!isExpanded)} />
+        </Tooltip>
+      {/* </div> */}
+      {/* Settings */}
+      <Tooltip text={t('logs.entries.tooltipSettings')}>
+        <GlyphSettings width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' style={settingsIconStyle} />
+      </Tooltip>
+      <Tooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')}>
+        <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black' onClick={toggleStreaming} />
+      </Tooltip>
   </div>
+  )
 }
 
 interface BottomControlsProps {
@@ -89,9 +104,9 @@ const BottomControls: React.FC<BottomControlsProps> = ({ isAtBottom, scrollToBot
 }
 
 export interface LogViewerProps {
-  logEntries: any[]
+  logEntries: LogEntryType[]
   isStreaming: boolean
-  autoScrollEnabled: boolean
+  // autoScrollEnabled: boolean
   containerRef: React.RefObject<HTMLDivElement>
   onScroll: (e: React.UIEvent<HTMLDivElement>) => void
   style?: React.CSSProperties
@@ -99,8 +114,48 @@ export interface LogViewerProps {
   stopStreaming: () => void
 }
 
-export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, autoScrollEnabled, containerRef, onScroll, style, startStreaming, stopStreaming }) => {
+interface LogEntryProps {
+  logEntry: LogEntryType
+}
+const ROW_GAP = '0.3rem' as const
+const LogEntry: React.FC<LogEntryProps> = ({ logEntry }) => {
+  const { timestamp, level, subsystem, message, id } = logEntry
+  return (
+    <div key={`${timestamp}-${subsystem}-${id}`} className="lh-copy ml2 pb3 mb3 row">
+      <span className="gray f7" title={timestamp}>
+        {formatTimestamp(timestamp)}
+      </span>
+      <span className="fw6 f7 lvl" style={{ color: getLevelColor(level), whiteSpace: 'nowrap' }}>
+        {level.toUpperCase()}
+      </span>
+      <span className="blue f7 sub" style={{ whiteSpace: 'nowrap' }} title={subsystem}>
+        {subsystem}
+      </span>
+      <span className="f7 pre-wrap mr4 lh-copy msg" style={{ lineHeight: `calc(1.5em + ${ROW_GAP})` }}>
+        {message}
+      </span>
+    </div>
+  )
+}
+
+interface LogEntryListProps {
+  logEntries: LogEntryType[]
+}
+
+const LogEntryList: React.FC<LogEntryListProps> = ({ logEntries }) => {
   const { t } = useTranslation('diagnostics')
+
+  if (logEntries.length === 0) {
+    return <p className='gray tc pa3'>{t('logs.entries.noEntries')}</p>
+  }
+
+  return <div className='logs pv2' style={{ rowGap: `calc(1.5 * ${ROW_GAP})` }}>
+    {logEntries.map((logEntry) => <LogEntry logEntry={logEntry} />)}
+  </div>
+}
+
+export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, containerRef, onScroll, style, startStreaming, stopStreaming }) => {
+  // const { t } = useTranslation('diagnostics')
   const [isExpanded, setIsExpanded] = useState(false)
   const [isAtBottom, setIsAtBottom] = useState(true)
 
@@ -139,7 +194,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, a
       }
     }
     return {
-      height: '400px',
+      height: '55vh',
       ...baseStyles
     }
   }, [style, isExpanded])
@@ -149,40 +204,11 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, a
       <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} />
       <div
         ref={containerRef}
-        className='ba b--black-20 pa2 bg-near-white f6 overflow-auto overflow-x-hidden'
+        className='ba b--black-20 bg-near-white f6 overflow-auto overflow-x-hidden'
         style={{ height: '100%' }}
         onScroll={handleScroll}
       >
-        {logEntries.length === 0
-          ? <p className='gray tc pa3'>{t('logs.entries.noEntries')}</p>
-          : <div>
-             {logEntries.map((entry, index) => (
-            <div key={`${entry.timestamp}-${entry.subsystem}-${index}`} className='flex mb1 lh-copy hover-bg-light-gray pa1 br1'>
-              <span className='flex-none mr2 gray f7' style={{ minWidth: '90px' }} title={entry.timestamp}>
-                {formatTimestamp(entry.timestamp)}
-              </span>
-              <span
-                className='flex-none mr2 fw6 f7'
-                style={{ minWidth: '60px', color: getLevelColor(entry.level) }}
-              >
-                {entry.level.toUpperCase()}
-              </span>
-              <span className='flex-none mr2 blue f7' style={{ minWidth: '120px' }} title={entry.subsystem}>
-                {entry.subsystem}
-              </span>
-              <span className='flex-auto f7 pre-wrap'>
-                {entry.message}
-              </span>
-            </div>
-             ))}
-
-          {/* Auto-scroll to bottom indicator */}
-          {isStreaming && autoScrollEnabled && (
-            <div className='tc pa2 charcoal-muted f6'>
-              {t('logs.entries.streaming')}
-            </div>
-          )}
-        </div>}
+        <LogEntryList logEntries={logEntries} />
         <BottomControls isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
       </div>
     </div>

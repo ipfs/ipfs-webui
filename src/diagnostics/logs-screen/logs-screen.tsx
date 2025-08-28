@@ -1,29 +1,28 @@
-import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '../../components/box/Box.js'
 import Button from '../../components/button/button'
 import LogWarningModal from './log-warning-modal'
 import { useLogs } from '../../contexts/logs/index'
-import { StreamingStatus } from './streaming-status'
+// import { StreamingStatus } from './streaming-status'
 import GologLevelSection from './golog-level-section'
 import UnsupportedKuboVersion from '../../components/unsupported-kubo-version/unsupported-kubo-version'
 import type { WarningModalTypes } from './log-warning-modal'
 import { useAgentVersionMinimum } from '../../lib/hooks/use-agent-version-minimum'
 import { LogViewer } from './log-viewer'
-import { LogStorageStats } from './log-storage-stats'
+import { LogScreenFooter } from './log-screen-footer'
 
 const LogsScreen = () => {
   const { t } = useTranslation('diagnostics')
   const {
-    entries: logEntries,
+    entries: safeLogEntries,
     isStreaming: isLogStreaming,
     bufferConfig: logBufferConfig,
     rateState: logRateState,
-    storageStats: logStorageStats,
+    // storageStats: logStorageStats,
     setLogLevelsBatch: doSetLogLevelsBatch,
     startStreaming: doStartLogStreaming,
     stopStreaming: doStopLogStreaming,
-    clearEntries: doClearLogEntries,
     updateBufferConfig: doUpdateLogBufferConfig,
     showWarning: doShowWarning
   } = useLogs()
@@ -37,9 +36,6 @@ const LogsScreen = () => {
   // Refs for virtual scrolling
   const logContainerRef = useRef<HTMLDivElement>(null)
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true)
-
-  // Ensure we have safe defaults for arrays
-  const safeLogEntries = useMemo(() => Array.isArray(logEntries) ? logEntries : [], [logEntries])
 
   // Monitor for warnings and auto-disable
   useEffect(() => {
@@ -128,25 +124,6 @@ const LogsScreen = () => {
     setShowBufferConfig(false)
   }
 
-  const getLogRangeDisplay = () => {
-    if (!logStorageStats || safeLogEntries.length === 0) {
-      return t('logs.storage.logEntriesCount', { count: safeLogEntries.length })
-    }
-
-    const totalEntries = logStorageStats.totalEntries
-    const currentCount = safeLogEntries.length
-
-    // Always showing latest logs since there's no infinite scroll
-    const rangeStart = Math.max(1, totalEntries - currentCount + 1)
-    const rangeEnd = totalEntries
-
-    return t('logs.storage.logEntriesRange', {
-      total: totalEntries.toLocaleString(),
-      start: rangeStart.toLocaleString(),
-      end: rangeEnd.toLocaleString()
-    })
-  }
-
   /**
    * Kubo only adds support for getting log levels in version 0.37.0 and later.
    *
@@ -167,12 +144,12 @@ const LogsScreen = () => {
 
   return (
     <div>
-      <h2 className='montserrat fw4 charcoal ma0 f4 mb3'>{t('logs.title')}</h2>
+      {/* <h2 className='montserrat fw4 charcoal ma0 f4 mb3'>{t('logs.title')}</h2> */}
       <p className='charcoal-muted mb4'>{t('logs.description')}</p>
 
       {/* Rate Monitoring & Status */}
-      <Box className='mb3' style={{}}>
-        <div className='flex items-center justify-between mb3'>
+      <Box className='' style={{}}>
+        {/* <div className='flex items-center justify-between mb3'>
           <div>
             <h3 className='montserrat fw4 charcoal ma0 f5'>
               {isLogStreaming ? t('logs.streaming.statusActive') : t('logs.streaming.statusStopped')}
@@ -194,7 +171,7 @@ const LogsScreen = () => {
               {t('logs.streaming.config')}
             </Button>
           </div>
-        </div>
+        </div> */}
 
         {/* Buffer Configuration */}
         {showBufferConfig && (
@@ -274,24 +251,11 @@ const LogsScreen = () => {
       <GologLevelSection />
 
       {/* Log Entries */}
-      <Box className='mb3' style={{}}>
-        <div className='flex items-center justify-between mb3'>
-          <div className='flex items-center'>
-            <h3 className='montserrat fw4 charcoal ma0 f5'>
-              {getLogRangeDisplay()}
-            </h3>
-            {isLogStreaming && !autoScrollEnabled && (
-              <span className='ml2 f6 pa1 br2 bg-light-gray charcoal-muted'>
-                {t('logs.entries.autoScrollPaused')}
-              </span>
-            )}
-          </div>
-        </div>
-
+      <Box className=''>
         <LogViewer
           logEntries={safeLogEntries}
           isStreaming={isLogStreaming}
-          autoScrollEnabled={autoScrollEnabled}
+          // autoScrollEnabled={autoScrollEnabled}
           containerRef={logContainerRef}
           onScroll={handleScroll}
           startStreaming={doStartLogStreaming}
@@ -299,11 +263,7 @@ const LogsScreen = () => {
         />
       </Box>
 
-      <LogStorageStats
-        logStorageStats={logStorageStats}
-        logBufferConfig={logBufferConfig}
-        safeLogEntries={safeLogEntries}
-      />
+      <LogScreenFooter />
 
       <LogWarningModal
         isOpen={warningModal.isOpen}

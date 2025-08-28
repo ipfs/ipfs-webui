@@ -1,0 +1,22 @@
+.statsBar{
+  display:grid;
+  grid-template-columns: 1fr auto 1fr;  /* left | center | right */
+  align-items:center;
+}
+.statsBar > *{ min-width:0; }           /* prevents overflow pushing to new rows */
+.statsBar > .title  { justify-self:start; }
+.statsBar > .status { justify-self:center; }
+.statsBar > .trash  { justify-self:end; }
+
+@media (max-width:640px){
+  .statsBar{
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "center right"
+      "left   left";
+    row-gap:.25rem;
+  }
+  .statsBar > .title  { grid-area:left;  }
+  .statsBar > .status { grid-area:center;}
+  .statsBar > .trash  { grid-area:right; }
+}

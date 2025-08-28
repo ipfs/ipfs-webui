@@ -334,10 +334,14 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
     showWarning
   ])
 
+  // Ensure we have safe defaults for arrays
+  const safeLogEntries = useMemo(() => Array.isArray(state.entries) ? state.entries : [], [state.entries])
+
   // Combine state, computed values, and actions - React will optimize this automatically
   const contextValue: LogsContextValue = {
     ...state,
     ...logActions,
+    entries: safeLogEntries,
     gologLevelString,
     subsystems
   }
