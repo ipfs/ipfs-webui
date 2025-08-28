@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { LOG_LEVELS, validateGologLevelString, parseInputContext } from '../../lib/golog-level-utils'
 
 interface LogSubsystem {
   name: string
@@ -18,8 +19,6 @@ interface GologLevelAutocompleteProps {
   onErrorChange?: (errorMessage: string) => void
   error?: string
 }
-
-const LOG_LEVELS = ['debug', 'info', 'warn', 'error', 'dpanic', 'panic', 'fatal']
 
 export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
   value,
@@ -53,110 +52,16 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
   }, [error, onValidityChange, onErrorChange])
 
   const validateGologLevel = useCallback((input: string): { isValid: boolean; errorMessage: string } => {
-    if (input.trim().length === 0) {
-      return { isValid: false, errorMessage: t('logs.autocomplete.invalidInput') }
-    }
-
-    const parts = input.split(',')
-    const validLevels = ['debug', 'info', 'warn', 'error', 'dpanic', 'panic', 'fatal']
     const validSubsystems = subsystems.map(s => s.name)
+    const result = validateGologLevelString(input, validSubsystems)
 
-    let seenGlobalLevel = false
-
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i].trim()
-      if (part.length === 0) continue
-
-      if (part.includes('=')) {
-        // This is a subsystem=level part
-        const equalIndex = part.indexOf('=')
-        const subsystemName = part.substring(0, equalIndex).trim()
-        const level = part.substring(equalIndex + 1).trim()
-
-        // Check if subsystem exists
-        if (!validSubsystems.includes(subsystemName)) {
-          return { isValid: false, errorMessage: t('logs.autocomplete.invalidSubsystem', { subsystem: subsystemName, subsystems: validSubsystems.join(', ') }) }
-        }
-
-        if (level.length === 0) {
-          return { isValid: false, errorMessage: t('logs.autocomplete.invalidSubsystemLevel', { subsystem: subsystemName, subsystems: validSubsystems.join(', ') }) }
-        }
-
-        // Check if level is valid
-        if (!validLevels.includes(level.toLowerCase())) {
-          return { isValid: false, errorMessage: t('logs.autocomplete.invalidLevel', { level }) }
-        }
-      } else if (!seenGlobalLevel) {
-        // This is a global level
-        if (!validLevels.includes(part.toLowerCase())) {
-          return { isValid: false, errorMessage: t('logs.autocomplete.invalidLevel', { level: part }) }
-        }
-        seenGlobalLevel = true
-      } else {
-        // we have already seen a global level, so they can't have another one.. if this is not a valid subsystem, then it's invalid
-        if (validSubsystems.includes(part)) {
-          // if it is a valid subsystem, then we need to display an error that they need to add an = and a level
-          return { isValid: false, errorMessage: t('logs.autocomplete.invalidSubsystemLevel', { subsystem: part, subsystems: validSubsystems.join(', ') }) }
-        }
-        return { isValid: false, errorMessage: t('logs.autocomplete.invalidSubsystem', { subsystem: part, subsystems: validSubsystems.join(', ') }) }
-      }
+    if (!result.isValid) {
+      const translatedMessage = t(result.errorKey, result.errorParams)
+      return { isValid: false, errorMessage: typeof translatedMessage === 'string' ? translatedMessage : String(translatedMessage) }
     }
 
     return { isValid: true, errorMessage: '' }
   }, [subsystems, t])
-
-  // Parse current input to understand context
-  const parseInputContext = useCallback((input: string, cursorPos: number) => {
-    const parts = input.split(',')
-    let currentPartIndex = 0
-    let currentPartStart = 0
-
-    // Find which part the cursor is in
-    for (let i = 0; i < parts.length; i++) {
-      const partEnd = currentPartStart + parts[i].length
-      if (cursorPos <= partEnd) {
-        currentPartIndex = i
-        break
-      }
-      currentPartStart = partEnd + 1 // +1 for the comma
-    }
-
-    const currentPart = parts[currentPartIndex] || ''
-    const beforeCursor = input.substring(0, cursorPos)
-    const afterCursor = input.substring(cursorPos)
-
-    // Check if we're in a subsystem=level part
-    const equalIndex = currentPart.indexOf('=')
-    const isInSubsystemPart = equalIndex > 0 && cursorPos > currentPartStart + equalIndex
-
-    // Check if the current part is complete
-    let isComplete = false
-
-    if (equalIndex > 0) {
-      // This is a subsystem=level part
-      const levelAfterEquals = currentPart.substring(equalIndex + 1).trim()
-      const isValidLevel = LOG_LEVELS.some(level => level.toLowerCase() === levelAfterEquals.toLowerCase())
-      isComplete = levelAfterEquals.length > 0 && isValidLevel
-    } else {
-      // This is a global level part
-      const isValidGlobalLevel = LOG_LEVELS.some(level => level.toLowerCase() === currentPart.trim().toLowerCase())
-      isComplete = currentPart.trim().length > 0 && isValidGlobalLevel
-    }
-
-    // Check if cursor is at the end of a complete part (ready for comma)
-    const isAtEndOfCompletePart = isComplete && cursorPos === currentPartStart + currentPart.length
-
-    return {
-      currentPartIndex,
-      currentPart,
-      beforeCursor,
-      afterCursor,
-      isInSubsystemPart,
-      equalIndex,
-      isComplete,
-      isAtEndOfCompletePart
-    }
-  }, [])
 
   // Generate suggestions based on current context
   const suggestions = useMemo(() => {
@@ -227,7 +132,7 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
     }
 
     return suggestions // Show all suggestions without limit
-  }, [inputValue, cursorPosition, subsystems, parseInputContext, isSubmitting])
+  }, [inputValue, cursorPosition, subsystems, isSubmitting])
 
   // Handle input change
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -315,7 +220,7 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
         }
       }, 0)
     }
-  }, [inputValue, cursorPosition, onChange, parseInputContext, validateGologLevel, onValidityChange])
+  }, [inputValue, cursorPosition, onChange, validateGologLevel, onValidityChange])
 
   // Handle keyboard navigation
   const handleKeyDown = useCallback(async (e: React.KeyboardEvent) => {
@@ -395,7 +300,7 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
     if (suggestions.length > 0) {
       setIsOpen(true)
     }
-  }, [suggestions.length, inputValue, parseInputContext])
+  }, [suggestions.length, inputValue])
 
   const handleBlur = useCallback(() => {
     // Don't close if we're in the middle of a transition
@@ -445,7 +350,7 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
       // Only open dropdown if there are suggestions available AND the component has focus
       setIsOpen(suggestions.length > 0 && isFocused)
     }
-  }, [inputValue, cursorPosition, suggestions.length, parseInputContext, isFocused, isSubmitting])
+  }, [inputValue, cursorPosition, suggestions.length, isFocused, isSubmitting])
 
   // Handle error message display based on suggestions and validation
   useEffect(() => {

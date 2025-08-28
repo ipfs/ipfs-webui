@@ -4,10 +4,11 @@ import Box from '../../components/box/Box.js'
 import Button from '../../components/button/button'
 import { GologLevelAutocomplete } from './golog-level-autocomplete'
 import { useLogs } from '../../contexts/logs/index'
+import { parseGologLevelString, subsystemsToActualLevels, calculateGologLevelString } from '../../lib/golog-level-utils'
 
 const GologLevelSection: React.FC = () => {
   const { t } = useTranslation('diagnostics')
-  const { gologLevelString, subsystems, setLogLevelsBatch, actualLogLevels, calculateGologLevelString, parseGologLevelString, subsystemsToActualLevels } = useLogs()
+  const { gologLevelString, subsystems, setLogLevelsBatch, actualLogLevels } = useLogs()
 
   // Component state for editing
   const [value, setValue] = useState('')
@@ -59,7 +60,7 @@ const GologLevelSection: React.FC = () => {
 
   const canSubmit = useMemo(() => {
     return isValid && errorMessage === '' && calculateGologLevelString(subsystemsToActualLevels(parseGologLevelString(value))) !== gologLevelString
-  }, [isValid, value, gologLevelString, errorMessage, calculateGologLevelString, subsystemsToActualLevels, parseGologLevelString])
+  }, [isValid, value, gologLevelString, errorMessage])
 
   if (gologLevelString === null) {
     return (
