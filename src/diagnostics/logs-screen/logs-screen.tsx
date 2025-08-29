@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '../../components/box/Box.js'
-import Button from '../../components/button/button'
 import LogWarningModal from './log-warning-modal'
 import { useLogs } from '../../contexts/logs/index'
-// import { StreamingStatus } from './streaming-status'
 import GologLevelSection from './golog-level-section'
 import UnsupportedKuboVersion from '../../components/unsupported-kubo-version/unsupported-kubo-version'
 import type { WarningModalTypes } from './log-warning-modal'
@@ -23,15 +21,12 @@ const LogsScreen = () => {
     setLogLevelsBatch: doSetLogLevelsBatch,
     startStreaming: doStartLogStreaming,
     stopStreaming: doStopLogStreaming,
-    updateBufferConfig: doUpdateLogBufferConfig,
     showWarning: doShowWarning
   } = useLogs()
 
   // Component state
   const [warningModal, setWarningModal] = useState<{ isOpen: boolean, type: WarningModalTypes }>({ isOpen: false, type: null })
   const [pendingLevelChange, setPendingLevelChange] = useState<{ subsystem: string, level: string } | null>(null)
-  const [showBufferConfig, setShowBufferConfig] = useState(false)
-  const [tempBufferConfig, setTempBufferConfig] = useState({ ...logBufferConfig, selectedSubsystem: '' })
 
   // Refs for virtual scrolling
   const logContainerRef = useRef<HTMLDivElement>(null)
@@ -54,11 +49,6 @@ const LogsScreen = () => {
       setWarningModal({ isOpen: true, type: 'auto-disable' })
     }
   }, [logRateState.autoDisabled])
-
-  // Update temp config when buffer config changes
-  useEffect(() => {
-    setTempBufferConfig({ ...logBufferConfig, selectedSubsystem: '' })
-  }, [logBufferConfig])
 
   // Auto-scroll to bottom when new logs arrive during streaming OR when initially loaded
   useEffect(() => {
@@ -119,11 +109,6 @@ const LogsScreen = () => {
     }
   }, [autoScrollEnabled])
 
-  const applyBufferConfig = () => {
-    doUpdateLogBufferConfig(tempBufferConfig)
-    setShowBufferConfig(false)
-  }
-
   /**
    * Kubo only adds support for getting log levels in version 0.37.0 and later.
    *
@@ -147,110 +132,8 @@ const LogsScreen = () => {
       {/* <h2 className='montserrat fw4 charcoal ma0 f4 mb3'>{t('logs.title')}</h2> */}
       <p className='charcoal-muted mb4'>{t('logs.description')}</p>
 
-      {/* Rate Monitoring & Status */}
-      <Box className='' style={{}}>
-        {/* <div className='flex items-center justify-between mb3'>
-          <div>
-            <h3 className='montserrat fw4 charcoal ma0 f5'>
-              {isLogStreaming ? t('logs.streaming.statusActive') : t('logs.streaming.statusStopped')}
-            </h3>
-            <StreamingStatus
-              isLogStreaming={isLogStreaming}
-              logRateState={logRateState}
-              logBufferConfig={logBufferConfig}
-            />
-          </div>
-          <div className='flex gap2'>
-            <Button className='bg-gray white' onClick={doClearLogEntries}>
-              {t('logs.streaming.clear')}
-            </Button>
-            <Button
-              className='bg-blue white'
-              onClick={() => setShowBufferConfig(!showBufferConfig)}
-            >
-              {t('logs.streaming.config')}
-            </Button>
-          </div>
-        </div> */}
-
-        {/* Buffer Configuration */}
-        {showBufferConfig && (
-          <div className='bt b--black-20 pt3 mt3'>
-            <h4 className='montserrat fw6 charcoal ma0 f6 mb3'>{t('logs.config.title')}</h4>
-            <div className='grid grid-cols-2 gap3 mb3'>
-              <div>
-                <label className='db fw6 mb1 f6'>{t('logs.config.memoryBuffer')}</label>
-                <input
-                  type='number'
-                  className='input-reset ba b--black-20 pa2 w-100'
-                  value={tempBufferConfig.memory}
-                  onChange={(e) => setTempBufferConfig({
-                    ...tempBufferConfig,
-                    memory: parseInt(e.target.value) || 500
-                  })}
-                  min='100'
-                  max='2000'
-                />
-              </div>
-              <div>
-                <label className='db fw6 mb1 f6'>{t('logs.config.persistentBuffer')}</label>
-                <input
-                  type='number'
-                  className='input-reset ba b--black-20 pa2 w-100'
-                  value={tempBufferConfig.indexedDB}
-                  onChange={(e) => setTempBufferConfig({
-                    ...tempBufferConfig,
-                    indexedDB: parseInt(e.target.value) || 10000
-                  })}
-                  min='1000'
-                  max='100000'
-                />
-              </div>
-              <div>
-                <label className='db fw6 mb1 f6'>{t('logs.config.warnThreshold')}</label>
-                <input
-                  type='number'
-                  className='input-reset ba b--black-20 pa2 w-100'
-                  value={tempBufferConfig.warnThreshold}
-                  onChange={(e) => setTempBufferConfig({
-                    ...tempBufferConfig,
-                    warnThreshold: parseInt(e.target.value) || 100
-                  })}
-                  min='10'
-                  max='1000'
-                />
-              </div>
-              <div>
-                <label className='db fw6 mb1 f6'>{t('logs.config.autoDisableThreshold')}</label>
-                <input
-                  type='number'
-                  className='input-reset ba b--black-20 pa2 w-100'
-                  value={tempBufferConfig.autoDisableThreshold}
-                  onChange={(e) => setTempBufferConfig({
-                    ...tempBufferConfig,
-                    autoDisableThreshold: parseInt(e.target.value) || 500
-                  })}
-                  min='50'
-                  max='2000'
-                />
-              </div>
-            </div>
-            <div className='flex justify-end gap2'>
-              <Button className='bg-gray white' onClick={() => setShowBufferConfig(false)}>
-                {t('logs.config.cancel')}
-              </Button>
-              <Button className='bg-green white' onClick={applyBufferConfig}>
-                {t('logs.config.apply')}
-              </Button>
-            </div>
-          </div>
-        )}
-      </Box>
-
-      {/* GOLOG Level Display / Edit */}
       <GologLevelSection />
 
-      {/* Log Entries */}
       <Box className=''>
         <LogViewer
           logEntries={safeLogEntries}

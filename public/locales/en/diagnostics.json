@@ -47,7 +47,8 @@
       "tooltipExpand": "Expand logs",
       "tooltipCollapse": "Collapse logs",
       "tooltipPlay": "Start streaming",
-      "tooltipPause": "Stop streaming"
+      "tooltipPause": "Stop streaming",
+      "tooltipSettings": "Configure streaming"
     },
     "storage": {
       "title": "Storage Statistics",

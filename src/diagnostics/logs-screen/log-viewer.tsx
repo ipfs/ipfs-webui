@@ -2,6 +2,8 @@ import React, { type CSSProperties, useMemo, useState, useCallback } from 'react
 import { useTranslation } from 'react-i18next'
 import Tooltip from '../../components/tooltip/Tooltip'
 import { GlyphShrink, GlyphExpand, GlyphPlay, GlyphPause, GlyphMoveDown, GlyphSettings } from '../../icons/all'
+import { BufferConfigModal } from './buffer-config-modal'
+import { useLogs } from '../../contexts/logs'
 import './log-viewer.css'
 import type { LogEntry as LogEntryType } from '../../contexts/logs/api'
 
@@ -34,9 +36,10 @@ interface TopControlsProps {
   isStreaming: boolean
   startStreaming: () => void
   stopStreaming: () => void
+  onSettingsClick: () => void
 }
 
-const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, isStreaming, startStreaming, stopStreaming }) => {
+const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, isStreaming, startStreaming, stopStreaming, onSettingsClick }) => {
   const { t } = useTranslation('diagnostics')
 
   const SizeControl = useMemo(() => {
@@ -65,21 +68,16 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
   const settingsIconStyle = { transformBox: 'fill-box', transformOrigin: 'center', transform: 'scale(1.50)' } as const
 
   return (
-    <div className='absolute top-1 right-0 mr4 z-10 flex flex-column flex-start items-end'>
-      {/* Streaming controls */}
-      {/* <div className='flex flex-row' style={{ gap: '0.5rem' }}> */}
-
-        <Tooltip text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')}>
-          <SizeControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={() => setIsExpanded(!isExpanded)} />
-        </Tooltip>
-      {/* </div> */}
-      {/* Settings */}
-      <Tooltip text={t('logs.entries.tooltipSettings')}>
-        <GlyphSettings width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' style={settingsIconStyle} />
-      </Tooltip>
-      <Tooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')}>
-        <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black' onClick={toggleStreaming} />
-      </Tooltip>
+  <div className='absolute top-1 right-0 mr4 z-10 flex flex-column flex-start items-end'>
+    <Tooltip text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')}>
+      <SizeControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={() => setIsExpanded(!isExpanded)} />
+    </Tooltip>
+    <Tooltip text={t('logs.entries.tooltipSettings')}>
+      <GlyphSettings width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' style={settingsIconStyle} onClick={onSettingsClick} />
+    </Tooltip>
+    <Tooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')}>
+      <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black' onClick={toggleStreaming} />
+    </Tooltip>
   </div>
   )
 }
@@ -150,7 +148,7 @@ const LogEntryList: React.FC<LogEntryListProps> = ({ logEntries }) => {
   }
 
   return <div className='logs pv2' style={{ rowGap: `calc(1.5 * ${ROW_GAP})` }}>
-    {logEntries.map((logEntry) => <LogEntry logEntry={logEntry} />)}
+    {logEntries.map((logEntry) => <LogEntry key={logEntry.id} logEntry={logEntry} />)}
   </div>
 }
 
@@ -158,6 +156,9 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
   // const { t } = useTranslation('diagnostics')
   const [isExpanded, setIsExpanded] = useState(false)
   const [isAtBottom, setIsAtBottom] = useState(true)
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
+
+  const { bufferConfig: logBufferConfig, updateBufferConfig: doUpdateLogBufferConfig } = useLogs()
 
   const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
     const container = e.currentTarget
@@ -201,7 +202,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
 
   return (
     <div className='relative' style={styles}>
-      <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} />
+      <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} />
       <div
         ref={containerRef}
         className='ba b--black-20 bg-near-white f6 overflow-auto overflow-x-hidden'
@@ -211,6 +212,13 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
         <LogEntryList logEntries={logEntries} />
         <BottomControls isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
       </div>
+
+      <BufferConfigModal
+        isOpen={isSettingsModalOpen}
+        onClose={() => setIsSettingsModalOpen(false)}
+        currentConfig={logBufferConfig}
+        onApply={doUpdateLogBufferConfig}
+      />
     </div>
   )
 }
