@@ -15,7 +15,6 @@ import toursBundle from './tours.js'
 import notifyBundle from './notify.js'
 import connectedBundle from './connected.js'
 import retryInitBundle from './retry-init.js'
-import identityBundle from './identity.js'
 import bundleCache from '../lib/bundle-cache.js'
 import ipfsDesktop from './ipfs-desktop.js'
 import repoStats from './repo-stats.js'
@@ -32,7 +31,6 @@ export default composeBundles(
   }),
   appIdle({ idleTimeout: 5000 }),
   ipfsProvider,
-  identityBundle,
   routesBundle,
   redirectsBundle,
   toursBundle,

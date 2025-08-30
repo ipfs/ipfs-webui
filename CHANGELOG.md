@@ -1,3 +1,31 @@
+## [4.8.0](https://github.com/ipfs/ipfs-webui/compare/v4.7.0...v4.8.0) (2025-08-07)
+
+
+ CID `bafybeifplj2s3yegn7ko7tdnwpoxa4c5uaqnk2ajnw5geqm34slcj6b6mu`
+
+ --- 
+
+
+
+### Features
+
+* add async provide on share/copy/pin/ipns ([#2387](https://github.com/ipfs/ipfs-webui/issues/2387)) ([cfea7d4](https://github.com/ipfs/ipfs-webui/commit/cfea7d40c2affb662c8533d16386643c6d23ef96))
+
+
+### Bug Fixes
+
+* eslint doesnt check build folder ([#2389](https://github.com/ipfs/ipfs-webui/issues/2389)) ([2a6c64a](https://github.com/ipfs/ipfs-webui/commit/2a6c64a7de3f70a7df4bddce0d984790ac3317bb))
+* refresh stale multiaddrs on the Status page ([#2385](https://github.com/ipfs/ipfs-webui/issues/2385)) ([6c361c4](https://github.com/ipfs/ipfs-webui/commit/6c361c46a301ea3ac9232aada1429f63085509ca))
+* stop sending requests to defunct countly ([#2395](https://github.com/ipfs/ipfs-webui/issues/2395)) ([fb9c981](https://github.com/ipfs/ipfs-webui/commit/fb9c981d937bc8f5085a8e434650ec1e3fadfa8a)), closes [#2334](https://github.com/ipfs/ipfs-webui/issues/2334)
+
+
+### Trivial Changes
+
+* fix all eslint warnings in root ([#2378](https://github.com/ipfs/ipfs-webui/issues/2378)) ([0e9fe55](https://github.com/ipfs/ipfs-webui/commit/0e9fe55a1e7e0aface8a4a8e62427f4d9f7caf94))
+* Pull transifex translations ([#2364](https://github.com/ipfs/ipfs-webui/issues/2364)) ([424c8a8](https://github.com/ipfs/ipfs-webui/commit/424c8a885ae29596cad411de0d29f6d4585dba60))
+* Pull transifex translations ([#2384](https://github.com/ipfs/ipfs-webui/issues/2384)) ([575da08](https://github.com/ipfs/ipfs-webui/commit/575da08fb66bb563aa6992ffad58d50633227832))
+* Pull transifex translations ([#2386](https://github.com/ipfs/ipfs-webui/issues/2386)) ([9a78d5f](https://github.com/ipfs/ipfs-webui/commit/9a78d5ffd96a85c024aee652f80b05de90ef76a4))
+
 ## [4.7.0](https://github.com/ipfs/ipfs-webui/compare/v4.6.0...v4.7.0) (2025-04-09)
 
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '../../../components/button/button.tsx'
-import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
+import { Modal, ModalActions, ModalBody } from '../../../components/modal/modal'
 import { withTranslation } from 'react-i18next'
 import * as isIPFS from 'is-ipfs'
 import Icon from '../../../icons/StrokeDecentralization.js'

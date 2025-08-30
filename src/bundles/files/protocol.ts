@@ -1,5 +1,5 @@
 import type { CID } from 'multiformats/cid'
-import { Perform, Spawn } from "../task"
+import { Perform, Spawn } from '../task'
 
 export type { Perform, Spawn }
 
@@ -7,51 +7,76 @@ export type Pin = {
   cid: CID
 }
 
-export type Model = {
-  pageContent: null | PageContent
-  pins: string[]
-  sorting: Sorting
-  mfsSize: number
+type FileType = 'directory' | 'file' | 'unknown'
 
-  pending: PendingJob<any, any>[]
-  finished: FinishedJob<any>[]
-  failed: FailedJob[]
+type Time = number
+
+type FileStat = {
+  size: number,
+  type: FileType,
+  cid: CID,
+  name: string,
+  path: string,
+  pinned: boolean
+  isParent: boolean | void
 }
 
-
-export interface JobInfo {
-  type: Message['type']
-  id: Symbol
-  start: number
+type UnknownContent = {
+  type: 'unknown',
+  fetched: Time,
+  path: string,
+  parentPath: string,
+  cid: CID,
+  size: 0
 }
 
+type FileContent = {
+  type: 'file',
+  fetched: Time,
+  path: string,
+  parentPath: string,
+  cid: CID,
+  size: number,
 
-export interface PendingJob<M, I> extends JobInfo {
-  status: 'Pending'
-  init: I
-  message?: M
+  name: string,
+  pinned: boolean
 }
 
+export type DirectoryContent = {
+  type: 'directory',
+  fetched: Time,
+  path: string,
+  parentPath: string,
+  cid: CID,
 
-export interface FailedJob extends JobInfo {
-  status: 'Failed'
-  error: Error
-  end: number
+  content: FileStat[]
+  upper: FileStat | null,
 }
 
-export interface FinishedJob<T> extends JobInfo {
-  status: 'Done'
-  value: T
-  end: number
-}
+export type PageContent =
+  | UnknownContent
+  | FileContent
+  | DirectoryContent
 
+export type SortBy = 'name' | 'size'
 
 export type Sorting = {
   by: SortBy,
   asc: boolean
 }
 
-export type SortBy = 'name' | 'size'
+export type MakeDir = Perform<'FILES_MAKEDIR', Error, void, void>
+export type WriteProgress = { paths: string[], progress: number }
+export type Write = Spawn<'FILES_WRITE', WriteProgress, Error, void, void>
+export type AddByPath = Perform<'FILES_ADDBYPATH', Error, void, void>
+export type BulkCidImport = Perform<'FILES_BULK_CID_IMPORT', Error, void, void>
+export type Move = Perform<'FILES_MOVE', Error, void, void>
+export type Delete = Perform<'FILES_DELETE', Error, void, void>
+export type FileDownload = {
+  url: string
+  filename: string
+}
+export type DownloadLink = Perform<'FILES_DOWNLOADLINK', Error, FileDownload, void>
 
 export type Message =
   | { type: 'FILES_CLEAR_ALL' }
@@ -73,71 +98,38 @@ export type Message =
   | Perform<'FILES_SIZE_GET', Error, { size: number }, void>
   | Perform<'FILES_PINS_SIZE_GET', Error, { pinsSize: number, numberOfPins: number }, void>
 
-export type MakeDir = Perform<'FILES_MAKEDIR', Error, void, void>
-export type WriteProgress = { paths: string[], progress: number }
-export type Write = Spawn<'FILES_WRITE', WriteProgress, Error, void, void>
-export type AddByPath = Perform<'FILES_ADDBYPATH', Error, void, void>
-export type BulkCidImport = Perform<'FILES_BULK_CID_IMPORT', Error, void, void>
-export type Move = Perform<'FILES_MOVE', Error, void, void>
-export type Delete = Perform<'FILES_DELETE', Error, void, void>
-export type DownloadLink = Perform<'FILES_DOWNLOADLINK', Error, FileDownload, void>
-
-export type FileDownload = {
-  url: string
-  filename: string
+export interface JobInfo {
+  type: Message['type']
+  id: Symbol
+  start: number
 }
 
-type FileType = 'directory' | 'file' | 'unknown'
-
-type Time = number
-
-type FileStat = {
-  size: number,
-  type: FileType,
-  cid: CID,
-  name: string,
-  path: string,
-  pinned: boolean
-  isParent: boolean | void
+export interface PendingJob<M, I> extends JobInfo {
+  status: 'Pending'
+  init: I
+  message?: M
 }
 
-export type PageContent =
-  | UnknownContent
-  | FileContent
-  | DirectoryContent
-
-type UnknownContent = {
-  type: 'unknown',
-  fetched: Time,
-  path: string,
-  cid: CID,
-  size: 0
+export interface FailedJob extends JobInfo {
+  status: 'Failed'
+  error: Error
+  end: number
 }
 
-type FileContent = {
-  type: 'file',
-  fetched: Time,
-  path: string,
-  cid: CID,
-  size: number,
-
-  name: string,
-  pinned: boolean
+export interface FinishedJob<T> extends JobInfo {
+  status: 'Done'
+  value: T
+  end: number
 }
+export type Model = {
+  pageContent: null | PageContent
+  pins: string[]
+  sorting: Sorting
+  mfsSize: number
 
-export type DirectoryContent = {
-  type: 'directory',
-  fetched: Time,
-  path: string,
-  cid: CID,
-
-  content: FileStat[]
-  upper: void | FileStat,
-}
-
-export type Job<K, P, X, T> = {
-  type: K,
-  job: JobState<P, X, T>
+  pending: PendingJob<any, any>[]
+  finished: FinishedJob<any>[]
+  failed: FailedJob[]
 }
 
 export type JobState<P, X, T> =
@@ -146,4 +138,7 @@ export type JobState<P, X, T> =
   | { status: 'Failed', id: Symbol, error: X }
   | { status: 'Done', id: Symbol, value: T }
 
-
+export type Job<K, P, X, T> = {
+  type: K,
+  job: JobState<P, X, T>
+}

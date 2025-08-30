@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
-import { Modal } from '../../../components/modal/Modal.js'
+import { Modal } from '../../../components/modal/modal'
 import CancelIcon from '../../../icons/GlyphSmallCancel.js'
 
 const keySymbols = {
