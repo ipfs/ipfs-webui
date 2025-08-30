@@ -14,7 +14,7 @@ import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
- * @typedef {import('../../lib/files').FileStream} FileStream
+ * @typedef {import('../../files/types').FileStream} FileStream
  * @typedef {import('./utils').Info} Info
  * @typedef {import('ipfs').Pin} Pin
  */
@@ -221,8 +221,19 @@ const actions = () => ({
       ? await last(ipfs.name.resolve(realPath))
       : realPath
 
-    const stats = await stat(ipfs, resolvedPath)
     const time = Date.now()
+    /** @type {Stat} */
+    let stats
+    try {
+      stats = await stat(ipfs, resolvedPath)
+    } catch (error) {
+      console.error(`Error fetching stats for path "${resolvedPath}":`, error)
+      return {
+        fetched: time,
+        type: 'not-found',
+        path: resolvedPath
+      }
+    }
 
     switch (stats.type) {
       case 'unknown': {
