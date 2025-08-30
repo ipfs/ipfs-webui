@@ -1,24 +1,11 @@
 import all from 'it-all'
+import { readSetting, writeSetting } from '../lib/local-storage.js'
 import { dispatchAsyncProvide } from './files/utils.js'
-import { createContextSelector } from '../helpers/context-bridge.jsx'
 
-const selectLocalStorageFromContext = createContextSelector('localStorage')
-
-const getLocalStorageUtils = () => {
-  const localStorageContext = selectLocalStorageFromContext()
-  return {
-    readSetting: localStorageContext?.readSetting || (() => null),
-    writeSetting: localStorageContext?.writeSetting || (() => {})
-  }
-}
-
-const init = () => {
-  const { readSetting } = getLocalStorageUtils()
-  return {
-    keys: [],
-    expectedPublishTime: readSetting('expectedPublishTime') || 60
-  }
-}
+const init = () => ({
+  keys: [],
+  expectedPublishTime: readSetting('expectedPublishTime') || 60
+})
 
 const ipnsBundle = {
   name: 'ipns',
@@ -81,7 +68,6 @@ const ipnsBundle = {
   },
 
   doUpdateExpectedPublishTime: (time) => async ({ store, dispatch }) => {
-    const { writeSetting } = getLocalStorageUtils()
     // moderate expectation: publishing should take no longer than average
     // between old expectation and the length of the last publish + some buffer
     const oldExpectedTime = store.selectExpectedPublishTime()

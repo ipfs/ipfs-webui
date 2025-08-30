@@ -7,17 +7,7 @@ import * as Enum from '../lib/enum.js'
 import { perform } from './task.js'
 import { contextBridge } from '../helpers/context-bridge'
 import { createSelector } from 'redux-bundler'
-import { createContextSelector } from '../helpers/context-bridge.jsx'
-
-const selectLocalStorageFromContext = createContextSelector('localStorage')
-
-const getLocalStorageUtils = () => {
-  const localStorageContext = selectLocalStorageFromContext()
-  return {
-    readSetting: localStorageContext?.readSetting || (() => null),
-    writeSetting: localStorageContext?.writeSetting || (() => {})
-  }
-}
+import { readSetting, writeSetting } from '../lib/local-storage.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -164,7 +154,6 @@ const init = () => {
  * @returns {HTTPClientOptions|string|null}
  */
 const readAPIAddressSetting = () => {
-  const { readSetting } = getLocalStorageUtils()
   const setting = readSetting('ipfsApi')
   return setting == null ? null : asAPIOptions(setting)
 }
@@ -335,8 +324,6 @@ const selectors = {
 const actions = {
 
   doSetupLocalStorage: () => async () => {
-    const { readSetting, writeSetting } = getLocalStorageUtils()
-
     /** For the Explore page (i.e. ipld-explorer-components) */
     const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled')
     if (useRemoteGatewaysToExplore === null) {
@@ -452,7 +439,6 @@ const actions = {
    * @returns {function(Context):Promise<boolean>}
    */
   doUpdateIpfsApiAddress: (address) => async (context) => {
-    const { writeSetting } = getLocalStorageUtils()
     const apiAddress = asAPIOptions(address)
     if (apiAddress == null) {
       context.dispatch({ type: ACTIONS.IPFS_API_ADDRESS_INVALID })

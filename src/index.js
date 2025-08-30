@@ -12,7 +12,6 @@ import { DndProvider } from 'react-dnd'
 import DndBackend from './lib/dnd-backend.js'
 import { HeliaProvider, ExploreProvider } from 'ipld-explorer-components/providers'
 import { ContextBridgeProvider } from './helpers/context-bridge.jsx'
-import { LocalStorageProvider } from './contexts/local-storage-context'
 
 const appVersion = process.env.REACT_APP_VERSION
 const gitRevision = process.env.REACT_APP_GIT_REV
@@ -36,7 +35,6 @@ async function render () {
   ReactDOM.render(
     <Provider store={store}>
       <ContextBridgeProvider>
-        <LocalStorageProvider>
         <I18nextProvider i18n={i18n} >
           <DndProvider backend={DndBackend}>
             <HeliaProvider>
@@ -46,7 +44,6 @@ async function render () {
             </HeliaProvider>
           </DndProvider>
         </I18nextProvider>
-        </LocalStorageProvider>
       </ContextBridgeProvider>
     </Provider>,
     document.getElementById('root')
