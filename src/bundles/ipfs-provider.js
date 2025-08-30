@@ -5,9 +5,9 @@ import first from 'it-first'
 import last from 'it-last'
 import * as Enum from '../lib/enum.js'
 import { perform } from './task.js'
-import { readSetting, writeSetting } from './local-storage.js'
 import { contextBridge } from '../helpers/context-bridge'
 import { createSelector } from 'redux-bundler'
+import { readSetting, writeSetting } from '../lib/local-storage.js'
 
 /**
  * @typedef {import('ipfs').IPFSService} IPFSService
@@ -327,16 +327,16 @@ const actions = {
     /** For the Explore page (i.e. ipld-explorer-components) */
     const useRemoteGatewaysToExplore = localStorage.getItem('explore.ipld.gatewayEnabled')
     if (useRemoteGatewaysToExplore === null) {
-      // by default, disable remote gateways for the Explore page (i.e. ipld-explorer-components)
+    // by default, disable remote gateways for the Explore page (i.e. ipld-explorer-components)
       await writeSetting('explore.ipld.gatewayEnabled', false)
     }
 
     const kuboGateway = readSetting('kuboGateway')
     if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
-      // empty or invalid, set defaults
+    // empty or invalid, set defaults
       await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
     } else if (/** @type {Record<string, any>} */(kuboGateway).trustlessBlockBrokerConfig == null) {
-      // missing trustlessBlockBrokerConfig, set defaults
+    // missing trustlessBlockBrokerConfig, set defaults
       await writeSetting('kuboGateway', { ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
     }
   },

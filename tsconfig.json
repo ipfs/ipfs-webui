@@ -67,7 +67,7 @@
     "src/bundles/ipfs-provider.js",
     "src/bundles/retry-init.js",
     "src/bundles/retry-init.js",
-    "src/bundles/local-storage.js",
+    "src/lib/local-storage.js",
     "src/bundles/task.js",
     "src/lib/count-dirs.js",
     "src/lib/sort.js",
