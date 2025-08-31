@@ -18,6 +18,7 @@ import Notify from './components/notify/Notify.js'
 import Connected from './components/connected/Connected.js'
 import TourHelper from './components/tour/TourHelper.js'
 import FilesExploreForm from './files/explore-form/files-explore-form.tsx'
+import { useTours } from './contexts/tours-context'
 
 export class App extends Component {
   static propTypes = {
@@ -124,20 +125,27 @@ const dropCollect = (connect, monitor) => ({
   canDrop: monitor.canDrop()
 })
 
+const AppWithTooltip = (props) => {
+  const { tooltip: showTooltip, disableTooltip } = useTours()
+  return (
+    <App {...props} showTooltip={showTooltip}
+      doDisableTooltip={disableTooltip}
+    />
+  )
+}
+
 export const AppWithDropTarget = DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(App)
 
 export default connect(
   'selectRoute',
   'selectRouteInfo',
   'selectIpfsReady',
-  'selectShowTooltip',
   'doFilesNavigateTo',
   'doUpdateUrl',
   'doUpdateHash',
   'doSetupLocalStorage',
   'doTryInitIpfs',
   'doFilesWrite',
-  'doDisableTooltip',
   'selectFilesPathInfo',
-  withTranslation('app')(AppWithDropTarget)
+  withTranslation('app')(DropTarget(NativeTypes.FILE, dropTarget, dropCollect)(AppWithTooltip))
 )

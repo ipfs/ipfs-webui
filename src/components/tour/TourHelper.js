@@ -1,10 +1,11 @@
 import React from 'react'
-import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
+import { useTours } from '../../contexts/tours-context'
 
-export const TourHelper = ({ doEnableTours, className = '', size = 23, t }) => {
+export const TourHelper = ({ className = '', size = 23, t }) => {
+  const { enableTours } = useTours()
   const handleClick = () => {
-    doEnableTours()
+    enableTours()
   }
 
   return (
@@ -16,7 +17,4 @@ export const TourHelper = ({ doEnableTours, className = '', size = 23, t }) => {
   )
 }
 
-export default connect(
-  'doEnableTours',
-  withTranslation('app')(TourHelper)
-)
+export default withTranslation('app')(TourHelper)

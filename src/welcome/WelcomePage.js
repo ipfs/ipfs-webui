@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
-import ReactJoyride from 'react-joyride'
-import withTour from '../components/tour/withTour.js'
+import ReactJoyride, { STATUS } from 'react-joyride'
 import { welcomeTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
@@ -14,6 +13,7 @@ import AboutIpfs from '../components/about-ipfs/AboutIpfs.js'
 import AboutWebUI from '../components/about-webui/AboutWebUI.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 import { useBridgeSelector } from '../helpers/context-bridge'
+import { useTours } from '../contexts/tours-context'
 
 /**
  * @param {Object} props
@@ -24,8 +24,19 @@ import { useBridgeSelector } from '../helpers/context-bridge'
  * @param {boolean} props.toursEnabled
  * @param {(data: any) => void} props.handleJoyrideCallback
  */
-const WelcomePage = ({ t, ipfsInitFailed, ipfsConnected, ipfsReady, toursEnabled, handleJoyrideCallback }) => {
+const WelcomePage = ({ t, ipfsInitFailed, ipfsConnected, ipfsReady }) => {
+  const { enabled: toursEnabled, disableTours } = useTours()
   const isSameOrigin = useBridgeSelector('selectIsSameOrigin')
+  const handleJoyrideCallback = useCallback(
+  /**
+   * @param {import('react-joyride').CallBackProps} data
+   */
+    (data) => {
+      const { action, status } = data
+      if (action === 'close' || status === STATUS.FINISHED) {
+        disableTours()
+      }
+    }, [disableTours])
 
   if (!ipfsInitFailed && !ipfsReady) {
     return <ComponentLoader />
@@ -83,6 +94,5 @@ export default connect(
   'selectIpfsInitFailed',
   'selectIpfsConnected',
   'selectIpfsReady',
-  'selectToursEnabled',
-  withTour(withTranslation('welcome')(WelcomePage))
+  withTranslation('welcome')(WelcomePage)
 )

@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Helmet } from 'react-helmet'
 import { withTranslation, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import ReactJoyride from 'react-joyride'
+import ReactJoyride, { STATUS } from 'react-joyride'
 import { IdentityProvider } from '../contexts/identity-context.jsx'
 import StatusConnected from './StatusConnected.js'
 import BandwidthStatsDisabled from './BandwidthStatsDisabled.js'
@@ -15,7 +15,7 @@ import Box from '../components/box/Box.js'
 import AnalyticsBanner from '../components/analytics-banner/AnalyticsBanner.js'
 import { statusTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
-import withTour from '../components/tour/withTour.js'
+import { useTours } from '../contexts/tours-context'
 
 const StatusPage = ({
   t,
@@ -25,10 +25,15 @@ const StatusPage = ({
   doEnableAnalytics,
   doDisableAnalytics,
   doToggleShowAnalyticsBanner,
-  toursEnabled,
-  handleJoyrideCallback,
   nodeBandwidthEnabled
 }) => {
+  const { enabled, disableTours } = useTours()
+  const handleJoyrideCallback = useCallback((data) => {
+    const { action, status } = data
+    if (action === 'close' || status === STATUS.FINISHED) {
+      disableTours()
+    }
+  }, [disableTours])
   return (
     <div data-id='StatusPage' className='mw9 center'>
       <Helmet>
@@ -79,7 +84,7 @@ const StatusPage = ({
           : <BandwidthStatsDisabled />
         }
         <ReactJoyride
-          run={toursEnabled}
+          run={enabled}
           steps={statusTour.getSteps({ t, Trans })}
           styles={statusTour.styles}
           callback={handleJoyrideCallback}
@@ -97,9 +102,8 @@ export default connect(
   'selectNodeBandwidthEnabled',
   'selectShowAnalyticsBanner',
   'selectShowAnalyticsComponents',
-  'selectToursEnabled',
   'doEnableAnalytics',
   'doDisableAnalytics',
   'doToggleShowAnalyticsBanner',
-  withTour(withTranslation('status')(StatusPage))
+  withTranslation('status')(StatusPage)
 )

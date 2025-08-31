@@ -1,31 +1,34 @@
-import React from 'react'
-import { connect } from 'redux-bundler-react'
+import React, { useCallback } from 'react'
 import { STATUS } from 'react-joyride'
+import { useTours } from '../../contexts/tours-context'
 
 /**
  * @param {React.ComponentType<any>} WrappedComponent
  * @returns {React.ComponentType<any>}
  */
 const withTour = WrappedComponent => {
-  class WithTour extends React.Component {
-    /**
-     * @param {import('react-joyride').CallBackProps} data
-     */
-    handleJoyrideCallback = (data) => {
-      const { doDisableTours } = this.props
-      const { action, status } = data
+  /**
+   * @param {Object} props
+   */
+  const WithTour = (props) => {
+    const { disableTours } = useTours()
+    const handleJoyrideCallback = useCallback(
+      /**
+       * @param {import('react-joyride').CallBackProps} data
+       */
+      (data) => {
+        const { action, status } = data
 
-      if (action === 'close' || status === STATUS.FINISHED) {
-        doDisableTours()
-      }
-    }
+        if (action === 'close' || status === STATUS.FINISHED) {
+          disableTours()
+        }
+      }, [disableTours]
+    )
 
-    render () {
-      return <WrappedComponent handleJoyrideCallback={this.handleJoyrideCallback} {...this.props} />
-    }
+    return <WrappedComponent handleJoyrideCallback={handleJoyrideCallback} {...props} />
   }
 
-  return connect('doDisableTours', WithTour)
+  return WithTour
 }
 
 export default withTour

@@ -1,18 +1,15 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { ExplorePage } from 'ipld-explorer-components/pages'
-import withTour from '../components/tour/withTour.js'
+import { useTours } from '../contexts/tours-context'
 
-const ExploreContainer = ({
-  toursEnabled,
-  handleJoyrideCallback,
-  availableGatewayUrl,
-  publicGateway
-}) => {
+const ExploreContainer = ({ availableGatewayUrl, publicGateway }) => {
+  const { enabled, handleJoyrideCallback } = useTours()
+
   return (
     <div className="e2e-explorePage">
       <ExplorePage
-        runTour={toursEnabled}
+        runTour={enabled}
         joyrideCallback={handleJoyrideCallback}
         gatewayUrl={availableGatewayUrl}
         publicGateway={publicGateway}
@@ -22,8 +19,7 @@ const ExploreContainer = ({
 }
 
 export default connect(
-  'selectToursEnabled',
   'selectAvailableGatewayUrl',
   'selectPublicGateway',
-  withTour(ExploreContainer)
+  ExploreContainer
 )
