@@ -15,7 +15,7 @@ import Box from '../components/box/Box.js'
 import AnalyticsBanner from '../components/analytics-banner/AnalyticsBanner.js'
 import { statusTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
-import { useTours } from '../contexts/tours-context.js'
+import { useTours } from '../contexts/tours-context'
 
 const StatusPage = ({
   t,

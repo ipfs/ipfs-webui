@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
 import { ExplorePage } from 'ipld-explorer-components/pages'
-import { useTours } from '../contexts/tours-context.js'
+import { useTours } from '../contexts/tours-context'
 
 const ExploreContainer = ({ availableGatewayUrl, publicGateway }) => {
   const { enabled, handleJoyrideCallback } = useTours()

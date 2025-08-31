@@ -1,6 +1,6 @@
 import React from 'react'
 import { StartExploringPage } from 'ipld-explorer-components/pages'
-import { useTours } from '../contexts/tours-context.js'
+import { useTours } from '../contexts/tours-context'
 
 const StartExploringContainer = () => {
   const { enabled, handleJoyrideCallback } = useTours()
