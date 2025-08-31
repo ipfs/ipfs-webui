@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { connect } from 'redux-bundler-react'
 import { Helmet } from 'react-helmet'
 import { withTranslation } from 'react-i18next'
-import ReactJoyride from 'react-joyride'
-import withTour from '../components/tour/withTour.js'
+import ReactJoyride, { STATUS } from 'react-joyride'
 import { peersTour } from '../lib/tours.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
+import { useTours } from '../contexts/tours-context'
 
 // Components
 import Box from '../components/box/Box.js'
@@ -15,7 +15,15 @@ import AddConnection from './AddConnection/AddConnection.js'
 import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts.js'
 
-const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
+const PeersPage = ({ t }) => {
+  const { enabled: toursEnabled, disableTours } = useTours()
+  const handleJoyrideCallback = useCallback((data) => {
+    const { action, status } = data
+    if (action === 'close' || status === STATUS.FINISHED) {
+      disableTours()
+    }
+  }, [disableTours])
+  return (
   <div data-id='PeersPage' className='overflow-hidden'>
     <Helmet>
       <title>{t('title')} | IPFS</title>
@@ -41,10 +49,10 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
       locale={getJoyrideLocales(t)}
       showProgress />
   </div>
-)
+  )
+}
 
 export default connect(
-  'selectToursEnabled',
   'selectIsCliTutorModeEnabled',
-  withTour(withTranslation('peers')(PeersPage))
+  withTranslation('peers')(PeersPage)
 )

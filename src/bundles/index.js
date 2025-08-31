@@ -11,7 +11,6 @@ import redirectsBundle from './redirects.js'
 import filesBundle from './files/index.js'
 import configBundle from './config.js'
 import configSaveBundle from './config-save.js'
-import toursBundle from './tours.js'
 import notifyBundle from './notify.js'
 import connectedBundle from './connected.js'
 import retryInitBundle from './retry-init.js'
@@ -32,7 +31,6 @@ export default composeBundles(
   ipfsProvider,
   routesBundle,
   redirectsBundle,
-  toursBundle,
   filesBundle(),
   configBundle,
   configSaveBundle,

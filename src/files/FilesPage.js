@@ -3,12 +3,12 @@ import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
-import ReactJoyride from 'react-joyride'
+import ReactJoyride, { STATUS } from 'react-joyride'
+import { useTours } from '../contexts/tours-context'
 // Lib
 import { filesTour } from '../lib/tours.js'
 // Components
 import ContextMenu from './context-menu/ContextMenu.js'
-import withTour from '../components/tour/withTour.js'
 import InfoBoxes from './info-boxes/InfoBoxes.js'
 import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
@@ -30,8 +30,15 @@ const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCopyCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
-  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
+  files, filesPathInfo, pinningServices, isCliTutorModeEnabled, cliOptions, t
 }) => {
+  const { enabled: toursEnabled, disableTours } = useTours()
+  const handleJoyrideCallback = useCallback((data) => {
+    const { action, status } = data
+    if (action === 'close' || status === STATUS.FINISHED) {
+      disableTours()
+    }
+  }, [disableTours])
   const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
   const [modals, setModals] = useState({ show: null, files: null })
@@ -435,7 +442,6 @@ export default connect(
   'doFilesNavigateTo',
   'doFilesUpdateSorting',
   'selectFilesSorting',
-  'selectToursEnabled',
   'doFilesWrite',
   'doFilesBulkCidImport',
   'doFilesDownloadLink',
@@ -448,5 +454,5 @@ export default connect(
   'selectCliOptions',
   'doSetPinning',
   'doPublishIpnsKey',
-  withTour(withTranslation('files')(FilesPage))
+  withTranslation('files')(FilesPage)
 )

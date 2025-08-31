@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
 import { withTranslation, Trans } from 'react-i18next'
-import ReactJoyride from 'react-joyride'
+import ReactJoyride, { STATUS } from 'react-joyride'
 // Tour
 import { settingsTour } from '../lib/tours.js'
-import withTour from '../components/tour/withTour.js'
 import { getJoyrideLocales } from '../helpers/i8n.js'
+import { useTours } from '../contexts/tours-context'
 // Components
 import Tick from '../icons/GlyphSmallTick.js'
 import Box from '../components/box/Box.js'
@@ -375,6 +375,24 @@ export class SettingsPageContainer extends React.Component {
 
 export const TranslatedSettingsPage = withTranslation('settings')(SettingsPageContainer)
 
+const SettingsPageWithTours = (props) => {
+  const { enabled: toursEnabled, disableTours, disableTooltip } = useTours()
+  const handleJoyrideCallback = useCallback((data) => {
+    const { action, status } = data
+    if (action === 'close' || status === STATUS.FINISHED) {
+      disableTours()
+    }
+  }, [disableTours])
+  return (
+    <TranslatedSettingsPage
+      {...props}
+      toursEnabled={toursEnabled}
+      handleJoyrideCallback={handleJoyrideCallback}
+      doDisableTooltip={disableTooltip}
+    />
+  )
+}
+
 export default connect(
   'selectConfig',
   'selectIpfsConnected',
@@ -385,7 +403,6 @@ export default connect(
   'selectConfigSaveLastSuccess',
   'selectConfigSaveLastError',
   'selectIsIpfsDesktop',
-  'selectToursEnabled',
   'selectShowAnalyticsComponents',
   'selectAnalyticsEnabled',
   'selectArePinningServicesSupported',
@@ -393,5 +410,5 @@ export default connect(
   'doSaveConfig',
   'selectIsCliTutorModeEnabled',
   'doToggleCliTutorMode',
-  withTour(TranslatedSettingsPage)
+  SettingsPageWithTours
 )
