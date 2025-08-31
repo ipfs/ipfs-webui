@@ -12,7 +12,6 @@ const withTour = WrappedComponent => {
    */
   const WithTour = (props) => {
     const { disableTours } = useTours()
-    
     const handleJoyrideCallback = useCallback(
       /**
        * @param {import('react-joyride').CallBackProps} data
@@ -23,8 +22,7 @@ const withTour = WrappedComponent => {
         if (action === 'close' || status === STATUS.FINISHED) {
           disableTours()
         }
-      }, 
-      [disableTours]
+      },[disableTours]
     )
 
     return <WrappedComponent handleJoyrideCallback={handleJoyrideCallback} {...props} />
