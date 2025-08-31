@@ -13,7 +13,7 @@ import AboutIpfs from '../components/about-ipfs/AboutIpfs.js'
 import AboutWebUI from '../components/about-webui/AboutWebUI.js'
 import ComponentLoader from '../loader/ComponentLoader.js'
 import { useBridgeSelector } from '../helpers/context-bridge'
-import { useTours } from 'src/contexts/tours-context'
+import { useTours } from '../contexts/tours-context'
 
 /**
  * @param {Object} props
