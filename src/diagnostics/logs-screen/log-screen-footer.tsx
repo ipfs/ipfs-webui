@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { humanSize } from '../../lib/files.js'
-import Tooltip from '../../components/tooltip/Tooltip'
+import IconTooltip from '../../components/tooltip/icon-tooltip'
 import { GlyphTrash } from '../../icons/all'
 import { useLogs } from '../../contexts/logs/logs-context'
 import { StreamingStatus } from './streaming-status'
@@ -23,9 +23,9 @@ export const LogScreenFooter: React.FC = () => {
           <StreamingStatus />
         </div>
         <div className='trash'>
-          <Tooltip text={t('logs.storage.trashTooltip')} >
+          <IconTooltip text={t('logs.storage.trashTooltip')} position='left'>
             <GlyphTrash width={32} height={32} className='pointer gray o-30 hover-o-100 hover-black' onClick={() => clearEntries()} />
-          </Tooltip>
+          </IconTooltip>
         </div>
       </div>
       <div className='flex items-center charcoal-muted f6'>

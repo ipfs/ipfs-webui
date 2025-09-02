@@ -1,6 +1,6 @@
 import React, { type CSSProperties, useMemo, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import Tooltip from '../../components/tooltip/Tooltip'
+import IconTooltip from '../../components/tooltip/icon-tooltip'
 import { GlyphShrink, GlyphExpand, GlyphPlay, GlyphPause, GlyphMoveDown, GlyphSettings } from '../../icons/all'
 import { BufferConfigModal } from './buffer-config-modal'
 import { useLogs } from '../../contexts/logs'
@@ -69,15 +69,15 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
 
   return (
   <div className='absolute top-1 right-0 mr4 z-10 flex flex-column flex-start items-end'>
-    <Tooltip text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')}>
+    <IconTooltip text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')} position='left'>
       <SizeControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={() => setIsExpanded(!isExpanded)} />
-    </Tooltip>
-    <Tooltip text={t('logs.entries.tooltipSettings')}>
+    </IconTooltip>
+    <IconTooltip text={t('logs.entries.tooltipSettings')} position='left'>
       <GlyphSettings width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' style={settingsIconStyle} onClick={onSettingsClick} />
-    </Tooltip>
-    <Tooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')}>
+    </IconTooltip>
+    <IconTooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')} position='left'>
       <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black' onClick={toggleStreaming} />
-    </Tooltip>
+    </IconTooltip>
   </div>
   )
 }
@@ -95,9 +95,9 @@ const BottomControls: React.FC<BottomControlsProps> = ({ isAtBottom, scrollToBot
   }
 
   return <div className='absolute bottom-1 right-0 mr4 z-10 flex flex-row' style={{ gap: '0.5rem' }}>
-    <Tooltip text={t('logs.entries.tooltipGoToLatest')}>
+    <IconTooltip text={t('logs.entries.tooltipGoToLatest')} position='left'>
       <GlyphMoveDown width={32} height={32} className='e2e-goToLatestpointer pointer gray o-70 hover-o-100 hover-black mb1' onClick={scrollToBottom} />
-    </Tooltip>
+    </IconTooltip>
   </div>
 }
 
