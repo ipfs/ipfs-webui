@@ -26,12 +26,11 @@ export interface LogRateState {
  * Logs state for the reducer
  */
 export interface LogsState {
-  entries: LogEntry[]
+  entries: Map<string, LogEntry>
   isStreaming: boolean
   bufferConfig: LogBufferConfig
   rateState: LogRateState
   storageStats: LogStorageStats | null
-  pendingBatch: LogEntry[]
   batchTimeout: number | null
   subsystemLevels: Record<string, string>
   actualLogLevels: Record<string, string>
@@ -44,7 +43,9 @@ export interface LogsState {
 export type LogsAction =
   | { type: 'START_STREAMING' }
   | { type: 'STOP_STREAMING' }
-  | { type: 'ADD_ENTRY'; entry: LogEntry }
+  /**
+   * Be sure to only provide entries sorted by timestamp (oldest first), otherwise the resulting log entries will be out of order.
+   */
   | { type: 'ADD_BATCH'; entries: LogEntry[] }
   | { type: 'CLEAR_ENTRIES' }
   | { type: 'UPDATE_BUFFER_CONFIG'; config: Partial<LogBufferConfig> }
@@ -60,10 +61,10 @@ export type LogsAction =
  * Default buffer configuration
  */
 export const DEFAULT_BUFFER_CONFIG: LogBufferConfig = {
-  memory: 1_000, // Keep last 10k entries in memory
+  memory: 1_000, // Keep last 1k entries in memory and rendered in the UI
   indexedDB: 200_000, // Store up to 200k entries in IndexedDB
-  warnThreshold: 50,
-  autoDisableThreshold: 100
+  warnThreshold: 100,
+  autoDisableThreshold: 500
 }
 
 /**
@@ -81,14 +82,24 @@ export const DEFAULT_RATE_STATE: LogRateState = {
  * Initial empty state shell - will be populated by initLogsState
  */
 const initialStateShell: Partial<LogsState> = {
-  entries: [],
+  entries: new Map(),
   isStreaming: false,
   storageStats: null,
-  pendingBatch: [],
   batchTimeout: null,
   subsystemLevels: {},
   actualLogLevels: {},
   isLoadingLevels: false
+}
+
+function trimMapToLastN<K, V> (m: Map<K, V>, n: number) {
+  if (m.size <= n) return
+  let toDrop = m.size - n
+  const it = m.keys()
+  while (toDrop-- > 0) {
+    const { value, done } = it.next()
+    if (done) break
+    m.delete(value)
+  }
 }
 
 /**
@@ -127,38 +138,34 @@ export function logsReducer (state: LogsState, action: LogsAction): LogsState {
       return {
         ...state,
         isStreaming: false,
-        pendingBatch: [],
         batchTimeout: null
-      }
-    }
-
-    case 'ADD_ENTRY': {
-      return {
-        ...state,
-        pendingBatch: [...state.pendingBatch, action.entry]
       }
     }
 
     case 'ADD_BATCH': {
-      const batchEntries = action.entries
-      const memoryLimit = state.bufferConfig.memory
+      const { entries: prevEntries, bufferConfig } = state
+      const memoryLimit = bufferConfig.memory
 
-      // Update memory buffer with new entries
-      const newEntries = [...state.entries, ...batchEntries]
-      const finalEntries = newEntries.slice(-memoryLimit)
-      return {
-        ...state,
-        entries: finalEntries, // Keep only last N entries in memory
-        pendingBatch: [],
-        batchTimeout: null
+      const entries = new Map(prevEntries)
+
+      // Append only new ids, preserving batch order (expecting timestamp sorted entries)
+      for (const e of action.entries) {
+        const id = e.id!
+        if (!entries.has(id)) {
+          entries.set(id, e)
+        }
       }
+
+      // Keep only last N by arrival/time order (oldest are at the front)
+      trimMapToLastN(entries, memoryLimit)
+
+      return { ...state, entries, batchTimeout: null }
     }
 
     case 'CLEAR_ENTRIES': {
       return {
         ...state,
-        entries: [],
-        pendingBatch: []
+        entries: new Map()
       }
     }
 

@@ -1,5 +1,5 @@
 import { useRef, useCallback, useEffect } from 'react'
-import { logStorage } from './log-storage'
+import { type LogStorage } from './log-storage'
 import type { LogEntry } from './api'
 import type { LogBufferConfig } from './reducer'
 import type { MutableRefObject } from 'react'
@@ -18,8 +18,9 @@ export interface BatchProcessor {
  * Uses refs to maintain mutable state without recreating on every render
  */
 export function useBatchProcessor (
-  onBatch: (entries: LogEntry[]) => void,
+  onBatch: (entryCount: number) => void,
   bufferConfig: LogBufferConfig,
+  logStorage: LogStorage,
   onRateUpdate?: (rate: number, counts: Array<{ second: number; count: number }>, stats?: any) => void,
   onAutoDisable?: () => void
 ): BatchProcessor {
@@ -75,13 +76,10 @@ export function useBatchProcessor (
       }
     }
 
-    // Note: Warning state is managed by the context, not here
-    // The context will check the rate and show warnings appropriately
-
     // Store in IndexedDB (async, don't wait) - append new entries and remove old ones if needed
     try {
       // Always append new entries - the storage layer will handle circular buffer behavior
-      await logStorage.appendLogs(entries)
+      void logStorage.appendLogs(entries)
 
       // Update storage stats after adding entries
       try {
@@ -98,9 +96,9 @@ export function useBatchProcessor (
     }
 
     // Call the batch callback
-    onBatch(entries)
+    onBatch(entries.length)
     lastBatchTimeRef.current = now
-  }, [onBatch, bufferConfig, onRateUpdate, onAutoDisable])
+  }, [onBatch, bufferConfig, onRateUpdate, onAutoDisable, logStorage])
 
   const start = useCallback((controller: MutableRefObject<AbortController | null>) => {
     controllerRef.current = controller.current
@@ -136,11 +134,17 @@ export function useBatchProcessor (
     // Process batch if we have enough entries or enough time has passed
     const shouldProcess =
       pendingEntriesRef.current.length >= 50 || // Batch size threshold
-      (Date.now() - lastBatchTimeRef.current) >= 500 // Time threshold (500ms)
+      (Date.now() - lastBatchTimeRef.current) >= 100 // Time threshold (100ms)
 
-    if (shouldProcess && !batchTimeoutRef.current) {
-      batchTimeoutRef.current = window.setTimeout(processBatch, 100) // Small delay to collect a few more entries
-    } else if (!batchTimeoutRef.current) {
+    // Clear any existing timeout before setting a new one
+    if (batchTimeoutRef.current) {
+      clearTimeout(batchTimeoutRef.current)
+      batchTimeoutRef.current = null
+    }
+
+    if (shouldProcess) {
+      batchTimeoutRef.current = window.setTimeout(processBatch, 100) // Process every 100ms
+    } else {
       // Set a fallback timeout to ensure batches are processed even with low rates
       batchTimeoutRef.current = window.setTimeout(processBatch, 1000)
     }

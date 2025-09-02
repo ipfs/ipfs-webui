@@ -1,4 +1,4 @@
-import React, { type CSSProperties, useMemo, useState, useCallback } from 'react'
+import React, { type CSSProperties, useMemo, useState, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import IconTooltip from '../../components/tooltip/icon-tooltip'
 import { GlyphShrink, GlyphExpand, GlyphPlay, GlyphPause, GlyphMoveDown, GlyphSettings } from '../../icons/all'
@@ -104,9 +104,7 @@ const BottomControls: React.FC<BottomControlsProps> = ({ isAtBottom, scrollToBot
 export interface LogViewerProps {
   logEntries: LogEntryType[]
   isStreaming: boolean
-  // autoScrollEnabled: boolean
   containerRef: React.RefObject<HTMLDivElement>
-  onScroll: (e: React.UIEvent<HTMLDivElement>) => void
   style?: React.CSSProperties
   startStreaming: () => void
   stopStreaming: () => void
@@ -148,15 +146,21 @@ const LogEntryList: React.FC<LogEntryListProps> = ({ logEntries }) => {
   }
 
   return <div className='logs pv2' style={{ rowGap: `calc(1.5 * ${ROW_GAP})` }}>
-    {logEntries.map((logEntry) => <LogEntry key={logEntry.id} logEntry={logEntry} />)}
+    {logEntries.map((logEntry) => {
+      if (logEntry.id == null) {
+        console.warn('logEntry.id is null', logEntry)
+        // return null
+      }
+      return (<LogEntry key={logEntry.id} logEntry={logEntry} />)
+    })}
   </div>
 }
 
-export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, containerRef, onScroll, style, startStreaming, stopStreaming }) => {
-  // const { t } = useTranslation('diagnostics')
+export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, containerRef, style, startStreaming, stopStreaming }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isAtBottom, setIsAtBottom] = useState(true)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
+  const lastLogEntryId = useMemo(() => logEntries[logEntries.length - 1]?.id, [logEntries])
 
   const { bufferConfig: logBufferConfig, updateBufferConfig: doUpdateLogBufferConfig } = useLogs()
 
@@ -168,16 +172,21 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
 
     const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50
     setIsAtBottom(isNearBottom)
-
-    // Call the parent's onScroll handler
-    onScroll(e)
-  }, [onScroll])
+  }, [])
 
   const scrollToBottom = useCallback(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
     }
   }, [containerRef])
+
+  useEffect(() => {
+    if (isAtBottom) {
+      scrollToBottom()
+    }
+    // only scroll to bottom if the last log entry id has changed, and we were previously at the bottom
+    // this will lock the view to the bottom of the logs list while the logs are streaming, unless the user scrolls up
+  }, [isAtBottom, scrollToBottom, lastLogEntryId])
 
   const styles = useMemo<CSSProperties>(() => {
     const baseStyles = {

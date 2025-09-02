@@ -69,26 +69,34 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
 
   // Use ref for mount status to avoid stale closures
   const isMounted = useRef(true)
+  const addBatch = useCallback(async (entryCount: number) => {
+    // we always pull from storage to ensure we have the properly set logEntry with id
+    const entries = await logStorage.getRecentLogs(entryCount)
+    dispatch({ type: 'ADD_BATCH', entries })
+  }, [dispatch])
+  const onRateUpdate = useCallback((currentRate: number, recentCounts: Array<{ second: number; count: number }>, stats?: any) => {
+    dispatch({
+      type: 'UPDATE_RATE_STATE',
+      rateState: { currentRate, recentCounts }
+    })
+
+    // Update storage stats if provided
+    if (stats != null) {
+      dispatch({ type: 'UPDATE_STORAGE_STATS', stats })
+    }
+  }, [])
+  const onAutoDisable = useCallback(() => {
+    dispatch({ type: 'AUTO_DISABLE' })
+    streamControllerRef.current?.abort()
+  }, [])
 
   // Use the improved batch processor hook
   const batchProcessor = useBatchProcessor(
-    useCallback((entries) => dispatch({ type: 'ADD_BATCH', entries }), []),
+    addBatch,
     state.bufferConfig,
-    useCallback((currentRate: number, recentCounts: Array<{ second: number; count: number }>, stats?: any) => {
-      dispatch({
-        type: 'UPDATE_RATE_STATE',
-        rateState: { currentRate, recentCounts }
-      })
-
-      // Update storage stats if provided
-      if (stats) {
-        dispatch({ type: 'UPDATE_STORAGE_STATS', stats })
-      }
-    }, []),
-    useCallback(() => {
-      streamControllerRef.current?.abort()
-      dispatch({ type: 'AUTO_DISABLE' })
-    }, [])
+    logStorage,
+    onRateUpdate,
+    onAutoDisable
   )
 
   const fetchLogLevelsInternal = useCallback(async () => {
@@ -142,10 +150,9 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
   }, [batchProcessor, dispatch])
 
   const stopStreaming = useCallback(() => {
-    streamControllerRef.current?.abort()
     dispatch({ type: 'STOP_STREAMING' })
+    streamControllerRef.current?.abort()
     batchProcessor.stop()
-    streamControllerRef.current = null
   }, [batchProcessor, dispatch])
 
   const startStreaming = useCallback(async () => {
@@ -250,7 +257,6 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
       .sort((a, b) => a.name.localeCompare(b.name))
   }, [state.actualLogLevels])
 
-  // Mount/unmount and bootstrap effect
   useEffect(() => {
     // Update storage config with current buffer settings
     logStorage.updateConfig({ maxEntries: state.bufferConfig.indexedDB })
@@ -320,7 +326,7 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
   ])
 
   // Ensure we have safe defaults for arrays
-  const safeLogEntries = useMemo(() => Array.isArray(state.entries) ? state.entries : [], [state.entries])
+  const safeLogEntries = useMemo(() => Array.from(state.entries.values()), [state.entries])
 
   // Combine state, computed values, and actions - React will optimize this automatically
   const contextValue: LogsContextValue = {

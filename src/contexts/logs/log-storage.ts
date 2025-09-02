@@ -28,7 +28,8 @@ export class LogStorage {
   private db: IDBDatabase | null = null
   private config: LogStorageConfig
   private initPromise: Promise<void> | null = null
-
+  // sentinal to prevent multiple trimming operations
+  private trimmingOldEntries = false
   constructor (config: Partial<LogStorageConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config }
   }
@@ -82,54 +83,77 @@ export class LogStorage {
     if (!this.db) throw new Error('Database not initialized')
 
     const transaction = this.db.transaction([this.config.storeName], 'readwrite')
-    const store = transaction.objectStore('log-entries')
+    const store = transaction.objectStore(this.config.storeName)
 
-    // Add entries with auto-generated IDs
-    const addPromises = entries.map(entry => {
-      const entryWithId = {
-        ...entry,
-        timestamp: entry.timestamp || new Date().toISOString()
-      }
-      return new Promise<void>((resolve, reject) => {
-        const request = store.add(entryWithId)
-        request.onsuccess = () => resolve()
-        request.onerror = () => reject(request.error)
-      })
+    const done = new Promise<void>((resolve, reject) => {
+      transaction.oncomplete = () => resolve()
+      transaction.onabort = () => reject(transaction.error ?? new Error('Transaction aborted'))
+      transaction.onerror = () => reject(transaction.error ?? new Error('Transaction error'))
     })
 
-    await Promise.all(addPromises)
+    // Queue all adds without per-item awaits
+    for (const entry of entries) {
+      const entryWithId: LogEntry = {
+        ...entry,
+        timestamp: entry.timestamp ?? new Date().toISOString()
+      }
+      const req = store.add(entryWithId)
+      req.onerror = () => { console.error(req.error) }
+    }
+
+    // shouldn't be necessary, but may help.
+    if (typeof transaction.commit === 'function') transaction.commit()
+
+    await done
 
     // Implement circular buffer - remove old entries if we exceed maxEntries
-    await this.enforceMaxEntries()
+    void this.enforceMaxEntries()
   }
 
   /**
    * Get the most recent logs
    */
-  async getRecentLogs (limit: number = 500): Promise<LogEntry[]> {
+  async getRecentLogs (limit = 500): Promise<LogEntry[]> {
     await this.init()
     if (!this.db) throw new Error('Database not initialized')
 
-    return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction([this.config.storeName], 'readonly')
-      const store = transaction.objectStore('log-entries')
-      const index = store.index('timestamp')
+    const tx = this.db.transaction([this.config.storeName], 'readonly')
+    const store = tx.objectStore(this.config.storeName)
+    const index = store.index('timestamp') // use your actual index name
 
-      const request = index.openCursor(null, 'prev') // Newest first
+    // Pre-size and fill from the end so final order is oldest→newest without reverse()
+    const out: LogEntry[] = new Array(Math.max(0, limit))
+    let write = out.length - 1
+    let settled = false
 
-      const results: LogEntry[] = []
-
-      request.onsuccess = () => {
-        const cursor = request.result
-        if (cursor && results.length < limit) {
-          results.push(cursor.value)
-          cursor.continue()
-        } else {
-          resolve(results.reverse()) // Return in chronological order
-        }
+    return new Promise<LogEntry[]>((resolve, reject) => {
+      tx.onabort = () => {
+        if (!settled) reject(tx.error ?? new Error('Transaction aborted'))
+      }
+      tx.onerror = () => {
+        if (!settled) reject(tx.error ?? new Error('Transaction error'))
       }
 
-      request.onerror = () => reject(request.error)
+      const req = index.openCursor(undefined, 'prev') // newest first
+      req.onerror = () => {
+      // don’t continue; let tx error/abort handlers fire
+      }
+
+      req.onsuccess = () => {
+        const cursor = req.result
+        if (!cursor || write < 0) {
+          if (!settled) {
+            settled = true
+            // slice to the filled portion (trim any leading holes if fewer than limit)
+            resolve(out.slice(write + 1))
+          }
+          return
+        }
+
+        out[write--] = cursor.value as LogEntry
+        // Safe to continue while we’re still in onsuccess (tx is active in this task)
+        cursor.continue()
+      }
     })
   }
 
@@ -137,7 +161,7 @@ export class LogStorage {
    * Clear old entries to maintain circular buffer
    */
   private async enforceMaxEntries (): Promise<void> {
-    if (!this.db) return
+    if (!this.db || this.trimmingOldEntries) return
 
     const transaction = this.db.transaction([this.config.storeName], 'readwrite')
     const store = transaction.objectStore('log-entries')
@@ -145,7 +169,7 @@ export class LogStorage {
     // Count total entries
     const countRequest = store.count()
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       countRequest.onsuccess = () => {
         const totalCount = countRequest.result
 
@@ -153,6 +177,7 @@ export class LogStorage {
           resolve()
           return
         }
+        this.trimmingOldEntries = true
 
         // Delete oldest entries
         const entriesToDelete = totalCount - this.config.maxEntries
@@ -176,6 +201,8 @@ export class LogStorage {
       }
 
       countRequest.onerror = () => reject(countRequest.error)
+    }).finally(() => {
+      this.trimmingOldEntries = false
     })
   }
 

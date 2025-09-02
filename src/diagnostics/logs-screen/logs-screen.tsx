@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '../../components/box/Box.js'
 import LogWarningModal from './log-warning-modal'
@@ -17,7 +17,6 @@ const LogsScreen = () => {
     isStreaming: isLogStreaming,
     bufferConfig: logBufferConfig,
     rateState: logRateState,
-    // storageStats: logStorageStats,
     setLogLevelsBatch: doSetLogLevelsBatch,
     startStreaming: doStartLogStreaming,
     stopStreaming: doStopLogStreaming,
@@ -27,10 +26,7 @@ const LogsScreen = () => {
   // Component state
   const [warningModal, setWarningModal] = useState<{ isOpen: boolean, type: WarningModalTypes }>({ isOpen: false, type: null })
   const [pendingLevelChange, setPendingLevelChange] = useState<{ subsystem: string, level: string } | null>(null)
-
-  // Refs for virtual scrolling
   const logContainerRef = useRef<HTMLDivElement>(null)
-  const [autoScrollEnabled, setAutoScrollEnabled] = useState(true)
 
   // Monitor for warnings and auto-disable
   useEffect(() => {
@@ -50,29 +46,6 @@ const LogsScreen = () => {
     }
   }, [logRateState.autoDisabled])
 
-  // Auto-scroll to bottom when new logs arrive during streaming OR when initially loaded
-  useEffect(() => {
-    if (logContainerRef.current == null) return
-    if (!autoScrollEnabled) return
-    if (safeLogEntries.length === 0) return
-    const container = logContainerRef.current
-    // Small delay to ensure DOM has updated with new content
-    setTimeout(() => {
-      container.scrollTop = container.scrollHeight
-    }, 10)
-  }, [safeLogEntries.length, isLogStreaming, autoScrollEnabled])
-
-  // Scroll to bottom when logs are initially loaded on page load
-  useEffect(() => {
-    if (safeLogEntries.length > 0 && logContainerRef.current) {
-      const container = logContainerRef.current
-      // Longer delay to ensure all rendering is complete
-      setTimeout(() => {
-        container.scrollTop = container.scrollHeight
-      }, 200)
-    }
-  }, [safeLogEntries.length]) // Trigger when entries change and loading is complete
-
   const confirmLevelChange = async () => {
     if (pendingLevelChange) {
       try {
@@ -83,31 +56,9 @@ const LogsScreen = () => {
         setPendingLevelChange(null)
       } catch (error) {
         console.error('Failed to set log level:', error)
-        // Optionally show error to user
       }
     }
   }
-
-  // Monitor scroll position for auto-scroll only
-  const handleScroll = useCallback((e) => {
-    e.stopPropagation() // Prevent scroll from bubbling to parent
-    const container = e.target
-    const scrollTop = container.scrollTop
-    const scrollHeight = container.scrollHeight
-    const clientHeight = container.clientHeight
-
-    const isNearBottom = scrollTop + clientHeight >= scrollHeight - 50
-
-    // Enable auto-scroll when user scrolls to bottom
-    if (isNearBottom && !autoScrollEnabled) {
-      setAutoScrollEnabled(true)
-    }
-
-    // Disable auto-scroll when user scrolls away from bottom
-    if (!isNearBottom && autoScrollEnabled) {
-      setAutoScrollEnabled(false)
-    }
-  }, [autoScrollEnabled])
 
   /**
    * Kubo only adds support for getting log levels in version 0.37.0 and later.
@@ -129,7 +80,6 @@ const LogsScreen = () => {
 
   return (
     <div>
-      {/* <h2 className='montserrat fw4 charcoal ma0 f4 mb3'>{t('logs.title')}</h2> */}
       <p className='charcoal-muted mb4'>{t('logs.description')}</p>
 
       <GologLevelSection />
@@ -138,9 +88,7 @@ const LogsScreen = () => {
         <LogViewer
           logEntries={safeLogEntries}
           isStreaming={isLogStreaming}
-          // autoScrollEnabled={autoScrollEnabled}
           containerRef={logContainerRef}
-          onScroll={handleScroll}
           startStreaming={doStartLogStreaming}
           stopStreaming={doStopLogStreaming}
         />
