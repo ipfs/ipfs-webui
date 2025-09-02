@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-// import Box from '../components/box/Box.js'
 import { Helmet } from 'react-helmet'
 import IsNotConnected from '../components/is-not-connected/is-not-connected'
 import DiagnosticsContent from './diagnostics-content'
