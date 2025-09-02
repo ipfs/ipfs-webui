@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { LogViewer } from './log-viewer'
 import { LogsProvider } from '../../contexts/logs'
 import type { LogEntry } from '../../contexts/logs/api'
+import { IdentityProvider } from '../../contexts/identity-context'
 
 const meta: Meta<typeof LogViewer> = {
   title: 'Diagnostics/Logs/LogViewer',
@@ -181,15 +182,17 @@ const LogViewerPerformanceTest: React.FC<{
         )}
       </div>
 
-      <LogsProvider>
-        <LogViewer
-          logEntries={logEntries}
-          isStreaming={isStreaming}
-          containerRef={containerRef}
-          startStreaming={startTest}
-          stopStreaming={stopTest}
-        />
-      </LogsProvider>
+      <IdentityProvider>
+        <LogsProvider>
+          <LogViewer
+            logEntries={logEntries}
+            isStreaming={isStreaming}
+            containerRef={containerRef}
+            startStreaming={startTest}
+            stopStreaming={stopTest}
+          />
+        </LogsProvider>
+      </IdentityProvider>
     </div>
   )
 }
