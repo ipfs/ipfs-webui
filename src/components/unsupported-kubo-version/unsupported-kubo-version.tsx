@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import Box from '../box/Box.js'
 import Button from '../button/button'
 import { useIdentity } from '../../contexts/identity-context'
-import { useBridgeSelector } from 'src/helpers/context-bridge'
+import { useBridgeSelector } from '../../helpers/context-bridge'
 
 interface UnsupportedKuboVersionProps {
 }
