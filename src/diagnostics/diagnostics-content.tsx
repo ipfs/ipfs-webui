@@ -31,11 +31,11 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
     switch (activeTab) {
       case 'logs':
         return (
-          <LogsProvider>
-            <IdentityProvider>
-              <LogsScreen />
-            </IdentityProvider>
-          </LogsProvider>
+          <IdentityProvider>
+            <LogsProvider>
+                <LogsScreen />
+            </LogsProvider>
+          </IdentityProvider>
         )
       default:
         return null

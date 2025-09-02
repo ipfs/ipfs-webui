@@ -68,17 +68,17 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
   const settingsIconStyle = { transformBox: 'fill-box', transformOrigin: 'center', transform: 'scale(1.50)' } as const
 
   return (
-  <div className='absolute top-1 right-0 mr4 z-10 flex flex-column flex-start items-end'>
-    <IconTooltip text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')} position='left'>
-      <SizeControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={() => setIsExpanded(!isExpanded)} />
-    </IconTooltip>
-    <IconTooltip text={t('logs.entries.tooltipSettings')} position='left'>
-      <GlyphSettings width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' style={settingsIconStyle} onClick={onSettingsClick} />
-    </IconTooltip>
-    <IconTooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')} position='left'>
-      <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black' onClick={toggleStreaming} />
-    </IconTooltip>
-  </div>
+    <div className='absolute top-1 right-0 mr4 z-10 flex flex-column flex-start items-end'>
+      <IconTooltip text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')} position='left'>
+        <SizeControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={() => setIsExpanded(!isExpanded)} />
+      </IconTooltip>
+      <IconTooltip text={t('logs.entries.tooltipSettings')} position='left'>
+        <GlyphSettings width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' style={settingsIconStyle} onClick={onSettingsClick} />
+      </IconTooltip>
+      <IconTooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')} position='left'>
+        <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black' onClick={toggleStreaming} />
+      </IconTooltip>
+    </div>
   )
 }
 

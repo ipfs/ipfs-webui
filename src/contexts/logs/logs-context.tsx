@@ -9,6 +9,7 @@ import type { KuboRPCClient } from 'kubo-rpc-client'
 import type { LogEntry } from './api'
 import type { LogBufferConfig, LogRateState } from './reducer'
 import type { LogStorageStats } from './log-storage'
+import { useAgentVersionMinimum } from '../../lib/hooks/use-agent-version-minimum'
 
 interface LogsProviderProps {
   children: React.ReactNode
@@ -37,6 +38,7 @@ export interface LogsContextValue {
   // Computed values
   gologLevelString: string | null
   subsystems: Array<{ name: string; level: string }>
+  isAgentVersionSupported: boolean
 
   // Actions
   startStreaming: () => void
@@ -66,6 +68,17 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
   const streamControllerRef = useRef<AbortController | null>(null)
   const ipfs = useBridgeSelector('selectIpfs') as KuboRPCClient
   const ipfsConnected = useBridgeSelector('selectIpfsConnected') as boolean
+
+  /**
+   * Kubo only adds support for getting log levels in version 0.37.0 and later.
+   *
+   * Kubo fixed log tailing in version 0.36.0 and later.
+   * @see https://github.com/ipfs/kubo/issues/10867
+   */
+  const { ok: isAgentVersionSupported } = useAgentVersionMinimum({
+    minimumVersion: '0.37.0',
+    requiredAgent: 'kubo'
+  })
 
   // Use ref for mount status to avoid stale closures
   const isMounted = useRef(true)
@@ -274,7 +287,7 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
 
   // Initialize log storage and bootstrap data
   useEffect(() => {
-    if (bootstrapped) return
+    if (bootstrapped || !isAgentVersionSupported) return
 
     async function bootstrap () {
       if (!isMounted.current) return
@@ -300,7 +313,7 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
     }
 
     bootstrap()
-  }, [ipfsConnected, ipfs, fetchLogLevelsInternal, updateStorageStatsInternal, loadExistingEntries, bootstrapped])
+  }, [ipfsConnected, ipfs, fetchLogLevelsInternal, updateStorageStatsInternal, loadExistingEntries, bootstrapped, isAgentVersionSupported])
 
   // Group related actions for cleaner context value assembly
   const logActions = useMemo(() => ({
@@ -334,7 +347,8 @@ export const LogsProvider: React.FC<LogsProviderProps> = ({ children }) => {
     ...logActions,
     entries: safeLogEntries,
     gologLevelString,
-    subsystems
+    subsystems,
+    isAgentVersionSupported
   }
 
   return (

@@ -6,7 +6,6 @@ import { useLogs } from '../../contexts/logs/index'
 import GologLevelSection from './golog-level-section'
 import UnsupportedKuboVersion from '../../components/unsupported-kubo-version/unsupported-kubo-version'
 import type { WarningModalTypes } from './log-warning-modal'
-import { useAgentVersionMinimum } from '../../lib/hooks/use-agent-version-minimum'
 import { LogViewer } from './log-viewer'
 import { LogScreenFooter } from './log-screen-footer'
 
@@ -20,7 +19,8 @@ const LogsScreen = () => {
     setLogLevelsBatch: doSetLogLevelsBatch,
     startStreaming: doStartLogStreaming,
     stopStreaming: doStopLogStreaming,
-    showWarning: doShowWarning
+    showWarning: doShowWarning,
+    isAgentVersionSupported
   } = useLogs()
 
   // Component state
@@ -59,17 +59,6 @@ const LogsScreen = () => {
       }
     }
   }
-
-  /**
-   * Kubo only adds support for getting log levels in version 0.37.0 and later.
-   *
-   * Kubo fixed log tailing in version 0.36.0 and later.
-   * @see https://github.com/ipfs/kubo/issues/10867
-   */
-  const { ok: isAgentVersionSupported } = useAgentVersionMinimum({
-    minimumVersion: '0.37.0',
-    requiredAgent: 'kubo'
-  })
 
   // Show unsupported version message if log levels are not supported
   if (!isAgentVersionSupported) {

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import Box from '../box/Box.js'
 import Button from '../button/button'
 import { useIdentity } from '../../contexts/identity-context'
-import { useBridgeSelector } from '../../helpers/context-bridge'
 
 interface UnsupportedKuboVersionProps {
 }
@@ -14,7 +13,6 @@ interface UnsupportedKuboVersionProps {
 const UnsupportedKuboVersion: React.FC<UnsupportedKuboVersionProps> = () => {
   const { t } = useTranslation('diagnostics')
   const { identity, agentVersionObject } = useIdentity()
-  const ipfsReady = useBridgeSelector('selectIpfsReady')
 
   // If user is using IPFS-Desktop, we need to send them to the IPFS-Desktop release page.
   // Otherwise, we need to send them to the Kubo release page.
@@ -27,7 +25,7 @@ const UnsupportedKuboVersion: React.FC<UnsupportedKuboVersionProps> = () => {
     window.open(url, '_blank')
   }, [agentVersionObject])
 
-  if (ipfsReady) {
+  if (agentVersionObject == null) {
     return null
   }
 
