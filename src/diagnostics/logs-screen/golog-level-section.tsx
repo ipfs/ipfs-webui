@@ -8,14 +8,12 @@ import { parseGologLevelString, subsystemsToActualLevels, calculateGologLevelStr
 
 const GologLevelSection: React.FC = () => {
   const { t } = useTranslation('diagnostics')
-  const { gologLevelString, subsystems, setLogLevelsBatch, actualLogLevels } = useLogs()
+  const { gologLevelString, subsystems, setLogLevelsBatch } = useLogs()
 
   // Component state for editing
   const [value, setValue] = useState('')
   const [isValid, setIsValid] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
-
-  const globalLogLevel = actualLogLevels['(default)']
 
   // Initialize value when gologLevelString is available
   useEffect(() => {
@@ -48,7 +46,7 @@ const GologLevelSection: React.FC = () => {
       console.error('Failed to save GOLOG_LOG_LEVEL:', error)
       setIsValid(false)
     }
-  }, [value, isValid, gologLevelString, globalLogLevel, setLogLevelsBatch])
+  }, [isValid, value, gologLevelString, setLogLevelsBatch, t])
 
   const onReset = useCallback((event: React.FormEvent) => {
     event.preventDefault()
