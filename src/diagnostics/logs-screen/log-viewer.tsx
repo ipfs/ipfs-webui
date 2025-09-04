@@ -145,7 +145,11 @@ const LogEntryList: React.FC<LogEntryListProps> = ({ logEntries }) => {
   const { t } = useTranslation('diagnostics')
 
   if (logEntries.length === 0) {
-    return <p className='gray tc pa3'>{t('logs.entries.noEntries')}</p>
+    return (
+      <div className='mv4 tc charcoal f5'>
+        <p className='ma0 sans-serif'>{t('logs.entries.noEntries')}</p>
+      </div>
+    )
   }
 
   return <div className='logs pv2' style={{ rowGap: `calc(1.5 * ${ROW_GAP})` }}>

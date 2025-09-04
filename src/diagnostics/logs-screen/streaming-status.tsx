@@ -38,7 +38,7 @@ export const StreamingStatus: React.FC<{ className?: string }> = ({ className })
   return (
     <div className={`flex items-center lh-solid ${className}`}>
       <span className={`${streamingColorClass} f6 mr2`}>{streamingStatus}</span>
-      <span className='charcoal-muted f6'>
+      <span className='charcoal f6'>
         {t('logs.streaming.rate', { rate: rateState.currentRate.toFixed(1) })}
       </span>
       {highRateWarning}

@@ -103,7 +103,7 @@ const LogWarningModal: React.FC<LogWarningModalProps> = ({
               </h4>
               <ul className="ma0 pl3">
                 {content.details.map((detail, index) => (
-                  <li key={index} className="charcoal-muted lh-copy mb1">
+                  <li key={index} className="charcoal lh-copy mb1">
                     {detail}
                   </li>
                 ))}
@@ -118,7 +118,7 @@ const LogWarningModal: React.FC<LogWarningModalProps> = ({
               </h4>
               <ul className="ma0 pl3">
                 {content.suggestions.map((suggestion, index) => (
-                  <li key={index} className="charcoal-muted lh-copy mb1">
+                  <li key={index} className="charcoal lh-copy mb1">
                     {suggestion}
                   </li>
                 ))}

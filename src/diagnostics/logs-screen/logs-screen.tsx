@@ -70,7 +70,7 @@ const LogsScreen = () => {
 
   return (
     <div>
-      <p className='charcoal-muted mb4'>{t('logs.description')}</p>
+      <p className='charcoal mb4'>{t('logs.description')}</p>
 
       <GologLevelSection />
 
