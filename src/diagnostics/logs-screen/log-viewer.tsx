@@ -213,24 +213,48 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
   }, [style, isExpanded])
 
   return (
-    <div className='relative' style={styles}>
-      <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
-      <div
-        ref={containerRef}
-        className='ba b--black-20 bg-near-white f6 overflow-auto overflow-x-hidden'
-        style={{ height: '100%' }}
-        onScroll={handleScroll}
-      >
-        <LogEntryList logEntries={logEntries} />
-        <BottomControls clearEntries={clearEntries} />
-      </div>
+    <>
+      {isExpanded && (
+        // Backdrop overlay with blur effect to focus attention on the expanded log viewer
+        // Clicking or pressing Enter/Space on this backdrop will collapse the viewer
+        <div
+          className='fixed top-0 left-0 right-0 bottom-0'
+          style={{
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
+            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+            zIndex: 999
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Click to collapse log viewer"
+          onClick={() => setIsExpanded(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              setIsExpanded(false)
+            }
+          }}
+        />
+      )}
+      <div className='relative' style={styles}>
+        <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
+        <div
+          ref={containerRef}
+          className='ba b--black-20 bg-near-white f6 overflow-auto overflow-x-hidden'
+          style={{ height: '100%' }}
+          onScroll={handleScroll}
+        >
+          <LogEntryList logEntries={logEntries} />
+          <BottomControls clearEntries={clearEntries} />
+        </div>
 
-      <BufferConfigModal
-        isOpen={isSettingsModalOpen}
-        onClose={() => setIsSettingsModalOpen(false)}
-        currentConfig={logBufferConfig}
-        onApply={doUpdateLogBufferConfig}
-      />
-    </div>
+        <BufferConfigModal
+          isOpen={isSettingsModalOpen}
+          onClose={() => setIsSettingsModalOpen(false)}
+          currentConfig={logBufferConfig}
+          onApply={doUpdateLogBufferConfig}
+        />
+      </div>
+    </>
   )
 }
