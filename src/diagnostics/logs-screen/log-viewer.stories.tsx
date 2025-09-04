@@ -30,7 +30,7 @@ const generateMockLogEntry = (index: number, timestamp: Date): LogEntry => {
   const subsystem = subsystems[index % subsystems.length]
 
   return {
-    id: `mock-${index}`,
+    id: index,
     timestamp: timestamp.toISOString(),
     level,
     subsystem,

@@ -26,7 +26,7 @@ export interface LogRateState {
  * Logs state for the reducer
  */
 export interface LogsState {
-  entries: Map<string, LogEntry>
+  entries: Map<number, LogEntry>
   isStreaming: boolean
   bufferConfig: LogBufferConfig
   rateState: LogRateState

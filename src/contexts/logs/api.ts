@@ -34,7 +34,7 @@ export interface LogEntry {
   level: string
   subsystem: string
   message: string
-  id?: string
+  id?: number
 }
 
 /**

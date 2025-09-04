@@ -150,8 +150,11 @@ export class LogStorage {
           return
         }
 
-        out[write--] = cursor.value as LogEntry
-        // Safe to continue while we’re still in onsuccess (tx is active in this task)
+        out[write--] = {
+          ...cursor.value,
+          id: cursor.key as number // Include the auto-generated ID from IndexedDB
+        } as LogEntry
+        // Safe to continue while we're still in onsuccess (tx is active in this task)
         cursor.continue()
       }
     })

@@ -114,7 +114,7 @@ interface LogEntryProps {
   logEntry: LogEntryType
 }
 const ROW_GAP = '0.3rem' as const
-const LogEntry: React.FC<LogEntryProps> = ({ logEntry }) => {
+const LogEntry = React.memo<LogEntryProps>(({ logEntry }) => {
   const { timestamp, level, subsystem, message, id } = logEntry
   return (
     <div key={`${timestamp}-${subsystem}-${id}`} className="lh-copy ml2 pb3 mb3 row">
@@ -132,7 +132,7 @@ const LogEntry: React.FC<LogEntryProps> = ({ logEntry }) => {
       </span>
     </div>
   )
-}
+})
 
 interface LogEntryListProps {
   logEntries: LogEntryType[]
@@ -146,13 +146,9 @@ const LogEntryList: React.FC<LogEntryListProps> = ({ logEntries }) => {
   }
 
   return <div className='logs pv2' style={{ rowGap: `calc(1.5 * ${ROW_GAP})` }}>
-    {logEntries.map((logEntry) => {
-      if (logEntry.id == null) {
-        console.warn('logEntry.id is null', logEntry)
-        // return null
-      }
-      return (<LogEntry key={logEntry.id} logEntry={logEntry} />)
-    })}
+    {logEntries.map((logEntry) => (
+      <LogEntry key={logEntry.id} logEntry={logEntry} />
+    ))}
   </div>
 }
 
