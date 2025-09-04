@@ -19,6 +19,7 @@ const LogsScreen = () => {
     setLogLevelsBatch: doSetLogLevelsBatch,
     startStreaming: doStartLogStreaming,
     stopStreaming: doStopLogStreaming,
+    clearEntries: doClearEntries,
     showWarning: doShowWarning,
     isAgentVersionSupported
   } = useLogs()
@@ -80,6 +81,7 @@ const LogsScreen = () => {
           containerRef={logContainerRef}
           startStreaming={doStartLogStreaming}
           stopStreaming={doStopLogStreaming}
+          clearEntries={doClearEntries}
         />
       </Box>
 

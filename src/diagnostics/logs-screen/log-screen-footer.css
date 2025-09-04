@@ -1,6 +1,7 @@
 .statsBar {
   gap: 1rem;
   flex-wrap: wrap;
+  padding-top: .5em;
 }
 
 @media (max-width: 640px) {

@@ -1,7 +1,7 @@
 import React, { type CSSProperties, useMemo, useState, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import IconTooltip from '../../components/tooltip/icon-tooltip'
-import { GlyphShrink, GlyphExpand, GlyphPlay, GlyphPause, GlyphMoveDown, GlyphSettings } from '../../icons/all'
+import { GlyphShrink, GlyphExpand, GlyphPlay, GlyphPause, GlyphMoveDown, GlyphSettings, GlyphTrash } from '../../icons/all'
 import { BufferConfigModal } from './buffer-config-modal'
 import { useLogs } from '../../contexts/logs'
 import './log-viewer.css'
@@ -37,9 +37,11 @@ interface TopControlsProps {
   startStreaming: () => void
   stopStreaming: () => void
   onSettingsClick: () => void
+  isAtBottom: boolean
+  scrollToBottom: () => void
 }
 
-const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, isStreaming, startStreaming, stopStreaming, onSettingsClick }) => {
+const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, isStreaming, startStreaming, stopStreaming, onSettingsClick, isAtBottom, scrollToBottom }) => {
   const { t } = useTranslation('diagnostics')
 
   const SizeControl = useMemo(() => {
@@ -68,7 +70,7 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
   const settingsIconStyle = { transformBox: 'fill-box', transformOrigin: 'center', transform: 'scale(1.50)' } as const
 
   return (
-    <div className='absolute top-1 right-0 mr4 z-10 flex flex-column flex-start items-end'>
+    <div className='absolute top-1 right-0 mr3 z-10 flex flex-column flex-start items-end'>
       <IconTooltip key={isExpanded ? 'expanded' : 'collapsed'} text={isExpanded ? t('logs.entries.tooltipCollapse') : t('logs.entries.tooltipExpand')} position='left'>
         <SizeControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={() => setIsExpanded(!isExpanded)} />
       </IconTooltip>
@@ -76,27 +78,27 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
         <GlyphSettings width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' style={settingsIconStyle} onClick={onSettingsClick} />
       </IconTooltip>
       <IconTooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')} position='left'>
-        <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black' onClick={toggleStreaming} />
+        <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={toggleStreaming} />
       </IconTooltip>
+      {!isAtBottom && (
+        <IconTooltip text={t('logs.entries.tooltipGoToLatest')} position='left'>
+          <GlyphMoveDown width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black' onClick={scrollToBottom} />
+        </IconTooltip>
+      )}
     </div>
   )
 }
 
 interface BottomControlsProps {
-  isAtBottom: boolean
-  scrollToBottom: () => void
+  clearEntries: () => void
 }
 
-const BottomControls: React.FC<BottomControlsProps> = ({ isAtBottom, scrollToBottom }) => {
+const BottomControls: React.FC<BottomControlsProps> = ({ clearEntries }) => {
   const { t } = useTranslation('diagnostics')
 
-  if (isAtBottom) {
-    return null
-  }
-
-  return <div className='absolute bottom-1 right-0 mr4 z-10 flex flex-row' style={{ gap: '0.5rem' }}>
-    <IconTooltip text={t('logs.entries.tooltipGoToLatest')} position='left'>
-      <GlyphMoveDown width={32} height={32} className='e2e-goToLatestpointer pointer gray o-70 hover-o-100 hover-black mb1' onClick={scrollToBottom} />
+  return <div className='absolute bottom-1 right-0 mr3 z-10'>
+    <IconTooltip text={t('logs.storage.trashTooltip')} position='left'>
+      <GlyphTrash width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' onClick={clearEntries} />
     </IconTooltip>
   </div>
 }
@@ -108,6 +110,7 @@ export interface LogViewerProps {
   style?: React.CSSProperties
   startStreaming: () => void
   stopStreaming: () => void
+  clearEntries: () => void
 }
 
 interface LogEntryProps {
@@ -152,7 +155,7 @@ const LogEntryList: React.FC<LogEntryListProps> = ({ logEntries }) => {
   </div>
 }
 
-export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, containerRef, style, startStreaming, stopStreaming }) => {
+export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, containerRef, style, startStreaming, stopStreaming, clearEntries }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isAtBottom, setIsAtBottom] = useState(true)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
@@ -207,7 +210,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
 
   return (
     <div className='relative' style={styles}>
-      <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} />
+      <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
       <div
         ref={containerRef}
         className='ba b--black-20 bg-near-white f6 overflow-auto overflow-x-hidden'
@@ -215,7 +218,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
         onScroll={handleScroll}
       >
         <LogEntryList logEntries={logEntries} />
-        <BottomControls isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
+        <BottomControls clearEntries={clearEntries} />
       </div>
 
       <BufferConfigModal

@@ -190,6 +190,7 @@ const LogViewerPerformanceTest: React.FC<{
             containerRef={containerRef}
             startStreaming={startTest}
             stopStreaming={stopTest}
+            clearEntries={() => setLogEntries([])}
           />
         </LogsProvider>
       </IdentityProvider>
