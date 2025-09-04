@@ -1,22 +1,29 @@
-.statsBar{
-  display:grid;
-  grid-template-columns: 1fr auto 1fr;  /* left | center | right */
-  align-items:center;
+.statsBar {
+  gap: 1rem;
+  flex-wrap: wrap;
 }
-.statsBar > *{ min-width:0; }           /* prevents overflow pushing to new rows */
-.statsBar > .title  { justify-self:start; }
-.statsBar > .status { justify-self:center; }
-.statsBar > .trash  { justify-self:end; }
 
-@media (max-width:640px){
-  .statsBar{
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "center right"
-      "left   left";
-    row-gap:.25rem;
+@media (max-width: 640px) {
+  .statsBar {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.5rem;
   }
-  .statsBar > .title  { grid-area:left;  }
-  .statsBar > .status { grid-area:center;}
-  .statsBar > .trash  { grid-area:right; }
+  
+  .statsBar > div:first-child {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .statsBar > div:last-child {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsBar > div:first-child > span {
+    margin-right: 0.5rem !important;
+  }
 }

@@ -17,22 +17,20 @@ export const LogScreenFooter: React.FC = () => {
 
   return (
     <div className='pt0'>
-      <div className='items-center mb2 mb0-ns statsBar'>
-        <h4 className='montserrat fw6 charcoal ma0 f6 title'>{t('logs.storage.title')}</h4>
-        <div className='status'>
-          <StreamingStatus />
+      <div className='statsBar flex items-center justify-between'>
+        <div className='flex items-center'>
+          <h4 className='montserrat fw6 charcoal ma0 f6 mr2'>{t('logs.storage.title')}:</h4>
+          <span className='charcoal-muted f6 mr3'>{t('logs.storage.totalEntries')}: {storageStats.totalEntries.toLocaleString()}</span>
+          {/* @ts-expect-error - humanSize is not typed properly */}
+          <span className='charcoal-muted f6 mr3'>{t('logs.storage.estimatedSize')}: {humanSize(storageStats.estimatedSize)}</span>
+          <span className='charcoal-muted f6'>{t('logs.storage.memoryBuffer')}: {entries.length}/{bufferConfig.memory}</span>
         </div>
-        <div className='trash'>
+        <div className='flex items-center'>
+          <StreamingStatus className='mr3' />
           <IconTooltip text={t('logs.storage.trashTooltip')} position='left'>
             <GlyphTrash width={32} height={32} className='pointer gray o-30 hover-o-100 hover-black' onClick={() => clearEntries()} />
           </IconTooltip>
         </div>
-      </div>
-      <div className='flex items-center charcoal-muted f6'>
-        <span className='mr3'>{t('logs.storage.totalEntries')}: {storageStats.totalEntries.toLocaleString()}</span>
-        {/* @ts-expect-error - humanSize is not typed properly */}
-        <span className='mr3'>{t('logs.storage.estimatedSize')}: {humanSize(storageStats.estimatedSize)}</span>
-        <span>{t('logs.storage.memoryBuffer')}: {entries.length}/{bufferConfig.memory}</span>
       </div>
     </div>
   )
