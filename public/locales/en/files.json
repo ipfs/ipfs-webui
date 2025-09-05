@@ -173,6 +173,9 @@
   "files": "Files",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
   "sortBy": "Sort items by {name}",
+  "sortFiles": "Sort files",
+  "sortByName": "Name (A–Z)",
+  "sortByPinned": "Pinned first",
   "publishModal": {
     "title": "Publish to IPNS",
     "cidToPublish": "CID:",

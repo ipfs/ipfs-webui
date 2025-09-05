@@ -6,6 +6,7 @@ import { withTranslation, Trans } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 // Lib
 import { filesTour } from '../lib/tours.js'
+import { readSetting, writeSetting } from '../bundles/local-storage.js'
 // Components
 import ContextMenu from './context-menu/ContextMenu.js'
 import withTour from '../components/tour/withTour.js'
@@ -16,6 +17,7 @@ import FilesGrid from './files-grid/files-grid.js'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
 import FileNotFound from './file-not-found/index.tsx'
 import { getJoyrideLocales } from '../helpers/i8n.js'
+import SortDropdown from './sort-dropdown/SortDropdown.js'
 
 // Icons
 import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, SHORTCUTS, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
@@ -30,7 +32,7 @@ const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCopyCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
-  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
+  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, filesSorting, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
@@ -41,7 +43,7 @@ const FilesPage = ({
     translateY: 0,
     file: null
   })
-  const [viewMode, setViewMode] = useState('list')
+  const [viewMode, setViewMode] = useState(() => readSetting('files.viewMode') || 'list')
   const [selected, setSelected] = useState([])
 
   useEffect(() => {
@@ -72,6 +74,11 @@ const FilesPage = ({
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [])
+
+  // Persist view mode changes to localStorage
+  useEffect(() => {
+    writeSetting('files.viewMode', viewMode)
+  }, [viewMode])
 
   /* TODO: uncomment below if we ever want automatic remote pin check
   *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)
@@ -321,6 +328,13 @@ const FilesPage = ({
         handleContextMenu={(...args) => handleContextMenu(...args, true)}
       >
         <div className="flex items-center justify-end">
+          <div className="mr3">
+            <SortDropdown
+              currentSort={filesSorting || { by: 'name', asc: true }}
+              onSortChange={doFilesUpdateSorting}
+              t={t}
+            />
+          </div>
           <button
             className={`pointer filelist-view ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
             onClick={() => setViewMode('list')}
