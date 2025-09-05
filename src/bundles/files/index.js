@@ -30,9 +30,23 @@ const createFilesBundle = () => {
         case ACTIONS.MOVE:
         case ACTIONS.COPY:
         case ACTIONS.MAKE_DIR:
-        case ACTIONS.PIN_ADD:
-        case ACTIONS.PIN_REMOVE:
           return updateJob(state, action.task, action.type)
+        case ACTIONS.PIN_ADD:
+        case ACTIONS.PIN_REMOVE: {
+          const updatedState = updateJob(state, action.task, action.type)
+          // If sorting is by pinned and we have page content, re-sort
+          if (updatedState.sorting.by === SORTING.BY_PINNED && updatedState.pageContent && updatedState.pageContent.type === 'directory') {
+            const content = sortFiles(updatedState.pageContent.content, updatedState.sorting, updatedState.pins)
+            return {
+              ...updatedState,
+              pageContent: {
+                ...updatedState.pageContent,
+                content
+              }
+            }
+          }
+          return updatedState
+        }
         case ACTIONS.WRITE: {
           return updateJob(state, action.task, action.type)
         }
@@ -43,21 +57,39 @@ const createFilesBundle = () => {
             ? task.result.value.pins.map(String)
             : state.pins
 
-          return {
+          const updatedState = {
             ...updateJob(state, task, type),
             pins
           }
+
+          // If sorting is by pinned and we have page content, re-sort
+          if (updatedState.sorting.by === SORTING.BY_PINNED && updatedState.pageContent && updatedState.pageContent.type === 'directory') {
+            const content = sortFiles(updatedState.pageContent.content, updatedState.sorting, pins)
+            return {
+              ...updatedState,
+              pageContent: {
+                ...updatedState.pageContent,
+                content
+              }
+            }
+          }
+
+          return updatedState
         }
         case ACTIONS.FETCH: {
           const { task, type } = action
           const result = task.status === 'Exit' && task.result.ok
             ? task.result.value
             : null
-          const { pageContent } = result
-            ? {
-                pageContent: result
-              }
-            : state
+          let pageContent = result || state.pageContent
+          // Apply current sorting to the fetched content
+          if (pageContent && pageContent.type === 'directory' && pageContent.content) {
+            const sortedContent = sortFiles(pageContent.content, state.sorting, state.pins)
+            pageContent = {
+              ...pageContent,
+              content: sortedContent
+            }
+          }
 
           return {
             ...updateJob(state, task, type),
@@ -79,9 +111,17 @@ const createFilesBundle = () => {
           }
         }
         case ACTIONS.UPDATE_SORT: {
-          const { pageContent } = state
+          const { pageContent, pins } = state
+
+          // Persist sorting preference to localStorage
+          try {
+            window.localStorage?.setItem('files.sorting', JSON.stringify(action.payload))
+          } catch (error) {
+            console.warn('Failed to save files.sorting to localStorage:', error)
+          }
+
           if (pageContent && pageContent.type === 'directory') {
-            const content = sortFiles(pageContent.content, action.payload)
+            const content = sortFiles(pageContent.content, action.payload, pins)
             return {
               ...state,
               pageContent: {
@@ -91,7 +131,10 @@ const createFilesBundle = () => {
               sorting: action.payload
             }
           } else {
-            return state
+            return {
+              ...state,
+              sorting: action.payload
+            }
           }
         }
         case ACTIONS.SIZE_GET: {

@@ -58,7 +58,7 @@ export type PageContent =
   | FileContent
   | DirectoryContent
 
-export type SortBy = 'name' | 'size'
+export type SortBy = 'name' | 'size' | 'pinned'
 
 export type Sorting = {
   by: SortBy,

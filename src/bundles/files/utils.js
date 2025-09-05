@@ -159,18 +159,47 @@ export const send = (action) => async ({ store }) => {
  */
 
 /**
- * @template {{name:string, type:string, cumulativeSize?:number, size:number}} T
+ * @template {{name:string, type:string, cumulativeSize?:number, size:number, cid:import('multiformats/cid').CID}} T
  * @param {T[]} files
  * @param {Sorting} sorting
-
+ * @param {string[]} pins - Array of pinned CIDs as strings
  * @returns {T[]}
  */
-export const sortFiles = (files, sorting) => {
+export const sortFiles = (files, sorting, pins = []) => {
   const sortDir = sorting.asc ? 1 : -1
   const nameSort = sortByName(sortDir)
   const sizeSort = sortBySize(sortDir)
 
   return files.sort((a, b) => {
+    // Handle pinned-first sorting
+    if (sorting.by === SORTING.BY_PINNED) {
+      const aPinned = pins.includes(a.cid.toString())
+      const bPinned = pins.includes(b.cid.toString())
+
+      // If pinned status is different, pinned items come first
+      if (aPinned !== bPinned) {
+        return aPinned ? -1 : 1
+      }
+
+      // If both pinned or both not pinned, sort alphabetically within each group
+      // For pinned items, ignore folder/file distinction and sort alphabetically
+      if (aPinned && bPinned) {
+        return nameSort(a.name, b.name)
+      }
+
+      // For non-pinned items, maintain current behavior (folders first, then files)
+      if (a.type === b.type || IS_MAC) {
+        return nameSort(a.name, b.name)
+      }
+
+      if (a.type === 'directory') {
+        return -1
+      } else {
+        return 1
+      }
+    }
+
+    // Original sorting logic for name and size
     if (a.type === b.type || IS_MAC) {
       if (sorting.by === SORTING.BY_NAME) {
         return nameSort(a.name, b.name)

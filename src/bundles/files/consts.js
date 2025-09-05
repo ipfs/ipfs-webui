@@ -51,7 +51,9 @@ export const SORTING = {
   /** @type {'name'} */
   BY_NAME: ('name'),
   /** @type {'size'} */
-  BY_SIZE: ('size')
+  BY_SIZE: ('size'),
+  /** @type {'pinned'} */
+  BY_PINNED: ('pinned')
 }
 
 export const IGNORED_FILES = [
@@ -68,10 +70,25 @@ export const DEFAULT_STATE = {
   pageContent: null,
   mfsSize: -1,
   pins: [],
-  sorting: { // TODO: cache this
-    by: SORTING.BY_NAME,
-    asc: true
-  },
+  sorting: (() => {
+    // Try to read from localStorage, fallback to default
+    try {
+      const saved = window.localStorage?.getItem('files.sorting')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        // Validate the structure
+        if (parsed && typeof parsed.by === 'string' && typeof parsed.asc === 'boolean') {
+          return parsed
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to read files.sorting from localStorage:', error)
+    }
+    return {
+      by: SORTING.BY_NAME,
+      asc: true
+    }
+  })(),
   pending: [],
   finished: [],
   failed: []
