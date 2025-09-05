@@ -51,7 +51,7 @@ const NavLink = ({
         <div className='db'>
           <Svg width='46' role='presentation' className={svgClass} />
         </div>
-        <div className={`${active ? 'o-100' : 'o-50'} db f6 tc montserrat ttu fw1 `} style={{ whiteSpace: 'pre-wrap' }}>
+        <div className={`${active ? 'o-100' : 'o-50'} db f6 tc montserrat ttu fw1 navbar-item-label`}>
           {children}
         </div>
       </div>

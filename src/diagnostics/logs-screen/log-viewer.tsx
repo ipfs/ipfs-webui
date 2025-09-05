@@ -202,11 +202,15 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
         position: 'fixed',
         inset: '5%',
         zIndex: 1000,
+        display: 'flex',
+        flexDirection: 'column',
         ...baseStyles
       }
     }
     return {
-      height: '55vh',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
       ...baseStyles
     }
   }, [style, isExpanded])
@@ -239,8 +243,8 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
         <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
         <div
           ref={containerRef}
-          className='ba b--black-20 bg-near-white f6 overflow-auto overflow-x-hidden'
-          style={{ height: '100%' }}
+          className='ba b--black-20 bg-near-white f6 overflow-auto overflow-x-hidden flex-auto'
+          style={{ minHeight: 0 }}
           onScroll={handleScroll}
         >
           <LogEntryList logEntries={logEntries} />

@@ -8,6 +8,7 @@ import UnsupportedKuboVersion from '../../components/unsupported-kubo-version/un
 import type { WarningModalTypes } from './log-warning-modal'
 import { LogViewer } from './log-viewer'
 import { LogScreenFooter } from './log-screen-footer'
+import './logs-screen.css'
 
 const LogsScreen = () => {
   const { t } = useTranslation('diagnostics')
@@ -69,12 +70,12 @@ const LogsScreen = () => {
   }
 
   return (
-    <div>
-      <p className='charcoal mb4'>{t('logs.description')}</p>
+    <div className='logs-screen-container'>
+      <p className='charcoal mb3'>{t('logs.description')}</p>
 
       <GologLevelSection />
 
-      <Box className=''>
+      <Box className='' style={{ flex: '1 1 auto', minHeight: '15rem', display: 'flex', flexDirection: 'column' }}>
         <LogViewer
           logEntries={safeLogEntries}
           isStreaming={isLogStreaming}
