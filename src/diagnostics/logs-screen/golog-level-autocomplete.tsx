@@ -388,9 +388,8 @@ export const GologLevelAutocomplete: React.FC<GologLevelAutocompleteProps> = ({
         onBlur={handleBlur}
         disabled={disabled}
         placeholder={placeholder}
-        className={`input-reset ba pa2 bg-light-gray f6 w-100 ${errorMessage ? 'b--red-muted focus-outline-red' : 'b--black-20'}`}
+        className={`input-reset ba pa2 bg-light-gray f6 w-100 code ${errorMessage ? 'b--red-muted focus-outline-red' : 'b--black-20'}`}
         style={{
-          fontFamily: 'Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
           overflowX: 'auto',
           whiteSpace: 'nowrap'
         }}

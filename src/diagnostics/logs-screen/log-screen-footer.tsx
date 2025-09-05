@@ -15,13 +15,13 @@ export const LogScreenFooter: React.FC = () => {
 
   return (
     <div className='pt0'>
-      <div className='statsBar flex items-center justify-between'>
+      <div className='statsBar flex items-center justify-between code'>
         <div className='flex items-center'>
-          <h4 className='montserrat fw6 charcoal ma0 f6 mr2'>{t('logs.storage.title')}:</h4>
-          <span className='charcoal f6 mr3'>{t('logs.storage.totalEntries')}: {storageStats.totalEntries.toLocaleString()}</span>
+          <h4 className='montserrat fw6 charcoal ma0 f7 mr2'>{t('logs.storage.title')}:</h4>
+          <span className='charcoal f7 mr3'>{t('logs.storage.totalEntries')}: {storageStats.totalEntries.toLocaleString()}</span>
           {/* @ts-expect-error - humanSize is not typed properly */}
-          <span className='charcoal f6 mr3'>{t('logs.storage.estimatedSize')}: {humanSize(storageStats.estimatedSize)}</span>
-          <span className='charcoal f6'>{t('logs.storage.memoryBuffer')}: {entries.length}/{bufferConfig.memory}</span>
+          <span className='charcoal f7 mr3'>{t('logs.storage.estimatedSize')}: {humanSize(storageStats.estimatedSize)}</span>
+          <span className='charcoal f7'>{t('logs.storage.memoryBuffer')}: {entries.length}/{bufferConfig.memory}</span>
         </div>
         <StreamingStatus />
       </div>

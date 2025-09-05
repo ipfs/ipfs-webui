@@ -82,13 +82,11 @@ describe('GologLevelAutocomplete', () => {
       expect(container).toHaveClass('custom-class')
     })
 
-    it('should have monospace font styling', () => {
+    it('should have monospace font styling via code class', () => {
       render(<GologLevelAutocomplete {...defaultProps} />)
 
       const input = screen.getByRole('textbox')
-      expect(input).toHaveStyle({
-        fontFamily: 'Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
-      })
+      expect(input).toHaveClass('code')
     })
   })
 

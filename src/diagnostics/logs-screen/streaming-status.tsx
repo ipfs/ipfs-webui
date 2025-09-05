@@ -23,22 +23,22 @@ export const StreamingStatus: React.FC<{ className?: string }> = ({ className })
 
   const highRateWarning = useMemo(() => {
     if (rateState.currentRate > bufferConfig.warnThreshold) {
-      return <span className='yellow f6'>{t('logs.streaming.highRate')}</span>
+      return <span className='yellow f7'>{t('logs.streaming.highRate')}</span>
     }
     return null
   }, [rateState.currentRate, bufferConfig.warnThreshold, t])
 
   const autoDisabledWarning = useMemo(() => {
     if (rateState.autoDisabled) {
-      return <span className='ml2 red f6'>{t('logs.streaming.autoDisabled')}</span>
+      return <span className='ml2 red f7'>{t('logs.streaming.autoDisabled')}</span>
     }
     return null
   }, [rateState.autoDisabled, t])
 
   return (
     <div className={`flex items-center lh-solid ${className}`}>
-      <span className={`${streamingColorClass} f6 mr2`}>{streamingStatus}</span>
-      <span className='charcoal f6'>
+      <span className={`${streamingColorClass} f7 mr2`}>{streamingStatus}</span>
+      <span className='charcoal f7'>
         {t('logs.streaming.rate', { rate: rateState.currentRate.toFixed(1) })}
       </span>
       {highRateWarning}

@@ -193,7 +193,6 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
 
   const styles = useMemo<CSSProperties>(() => {
     const baseStyles = {
-      fontFamily: 'Monaco, Consolas, monospace',
       ...style
     }
     if (isExpanded) {
@@ -236,7 +235,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
           }}
         />
       )}
-      <div className='relative' style={styles}>
+      <div className='relative code' style={styles}>
         <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
         <div
           ref={containerRef}
