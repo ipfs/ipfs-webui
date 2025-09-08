@@ -135,6 +135,10 @@ const LogEntry = React.memo<LogEntryProps>(({ logEntry }) => {
       </span>
     </div>
   )
+}, ({ logEntry: { id: prevId } }, { logEntry: { id: nextId } }) => {
+  // optimize object equality check, if id is different, the entire object is different.
+  // see https://react.dev/reference/react/memo#my-component-rerenders-when-a-prop-is-an-object-or-array
+  return prevId === nextId
 })
 
 interface LogEntryListProps {
