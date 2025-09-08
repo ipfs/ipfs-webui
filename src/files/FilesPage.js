@@ -196,6 +196,7 @@ const FilesPage = ({
       failedPins: failedPins || [],
       filesPathInfo,
       selected,
+      modalOpen: modals.show !== null,
       onSelect: (name, isSelected) => {
         if (Array.isArray(name)) {
           if (isSelected) {

@@ -119,6 +119,7 @@ class TextInputModal extends React.Component {
           }
 
           <input
+            ref={this.inputRef}
             onChange={this.onChange}
             onKeyPress={this.onKeyPress}
             value={this.state.value}
