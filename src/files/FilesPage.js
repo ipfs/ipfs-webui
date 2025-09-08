@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { findDOMNode } from 'react-dom'
 import { Helmet } from 'react-helmet'
 import { connect } from 'redux-bundler-react'
@@ -14,6 +14,7 @@ import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
 import FilesGrid from './files-grid/files-grid.js'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
+import FileNotFound from './file-not-found/index.tsx'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
@@ -101,6 +102,13 @@ const FilesPage = ({
     doFilesBulkCidImport(raw, root)
   }
 
+  const onClosePreview = useCallback(() => {
+    // if the parentPath is / or null then we are at the root of the files page, (preview close button shouldn't even be visible in this case)
+    if (files?.parentPath == null || files?.parentPath === '/') return
+
+    doUpdateHash(files?.parentPath)
+  }, [files?.parentPath, doUpdateHash])
+
   const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
   /**
    *
@@ -184,6 +192,9 @@ const FilesPage = ({
           </Trans>
         </div>
       )
+    }
+    if (files.type === 'not-found') {
+      return <FileNotFound path={files.path} />
     }
 
     const commonProps = {
@@ -358,7 +369,7 @@ const FilesPage = ({
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 
-      <Preview files={files} onDownload={() => onDownload([files])} />
+      <Preview files={files} onDownload={() => onDownload([files])} onClose={onClosePreview} />
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
@@ -394,9 +405,9 @@ const FilesPage = ({
   )
 }
 
-const Preview = ({ files, onDownload }) => {
+const Preview = ({ files, onDownload, onClose }) => {
   if (files && files.type === 'file') {
-    return (<FilePreview {...files} onDownload={onDownload} />)
+    return (<FilePreview {...files} onDownload={onDownload} onClose={onClose} />)
   }
   return (<div/>)
 }
