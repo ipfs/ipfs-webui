@@ -204,5 +204,48 @@ describe('useDebouncedCallback', () => {
       expect(mockFn).toHaveBeenCalledTimes(2)
       expect(mockFn).toHaveBeenNthCalledWith(2, 'test-arg', 'second-arg')
     })
+
+    it('should adjust timeout when delay changes while pending', async () => {
+      const mockFn = jest.fn()
+
+      const { getByTestId, rerender } = render(<TestComponent debouncedFn={mockFn} delay={100} />)
+
+      fireEvent.click(getByTestId('single-call'))
+
+      // wait 50ms (halfway through original delay)
+      jest.advanceTimersByTime(50)
+      expect(mockFn).not.toHaveBeenCalled()
+
+      // change delay to 200ms (it should extend the timeout)
+      rerender(<TestComponent debouncedFn={mockFn} delay={200} />)
+
+      // wait another 50ms (the original delay of 100ms has elapsed, but the new delay is 200ms)
+      jest.advanceTimersByTime(50)
+      expect(mockFn).not.toHaveBeenCalled()
+
+      // wait another 100ms (total 200ms elapsed, it should execute now)
+      jest.advanceTimersByTime(100)
+      expect(mockFn).toHaveBeenCalledWith('test-arg', 'second-arg')
+      expect(mockFn).toHaveBeenCalledTimes(1)
+    })
+
+    it('should execute immediately when delay is reduced below elapsed time', async () => {
+      const mockFn = jest.fn()
+
+      const { getByTestId, rerender } = render(<TestComponent debouncedFn={mockFn} delay={100} />)
+
+      fireEvent.click(getByTestId('single-call'))
+
+      // wait 50ms (halfway through original delay)
+      jest.advanceTimersByTime(50)
+      expect(mockFn).not.toHaveBeenCalled()
+
+      // change delay to 30ms (it should execute immediately since 50ms > 30ms)
+      rerender(<TestComponent debouncedFn={mockFn} delay={30} />)
+
+      // it should execute immediately, no need to advance timers
+      expect(mockFn).toHaveBeenCalledWith('test-arg', 'second-arg')
+      expect(mockFn).toHaveBeenCalledTimes(1)
+    })
   })
 })
