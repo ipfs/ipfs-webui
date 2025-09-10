@@ -5,7 +5,7 @@ import { LogsProvider } from '../contexts/logs/index'
 import { IdentityProvider } from '../contexts/identity-context'
 import CheckScreen from './check-screen/check-screen.js'
 import { useBridgeSelector } from '../helpers/context-bridge'
-import { RouteInfo } from 'src/bundles/routes-types'
+import { RouteInfo } from '../bundles/routes-types'
 
 interface DiagnosticsContentProps {
 }
