@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react'
 import { withTranslation } from 'react-i18next'
-import Modal, { ModalActions, ModalBody } from '../../../components/modal/Modal'
+import Modal, { ModalActions, ModalBody } from '../../../components/modal/modal'
 import Icon from '../../../icons/StrokeData.js'
 import Button from '../../../components/button/button'
 import { normalizeFiles } from '../../../lib/files.js'

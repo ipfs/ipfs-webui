@@ -6,9 +6,9 @@ import PinningServiceModal from '../pinning-manager-service-modal/PinningManager
 import './PinningManagerModal.css'
 
 // Components
-import { Modal, ModalBody, ModalActions } from '../../modal/Modal.js'
+import { Modal, ModalBody, ModalActions } from '../../modal/modal'
 import Button from '../../button/button.tsx'
-import Overlay from '../../overlay/Overlay.js'
+import Overlay from '../../overlay/overlay'
 
 const PinningManagerModal = ({ t, tReady, onLeave, className, remoteServiceTemplates, pinningServicesDefaults, ...props }) => {
   const [selectedService, setSelectedService] = useState(false)

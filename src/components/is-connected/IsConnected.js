@@ -3,6 +3,10 @@ import { withTranslation } from 'react-i18next'
 import Box from '../box/Box.js'
 import GlyphTick from '../../icons/GlyphTick.js'
 
+/**
+ * @param {Object} props
+ * @param {import('i18next').TFunction} props.t
+ */
 export const IsConnected = ({ t }) => {
   return (
     <Box className='pv3 ph4'>

@@ -13,6 +13,14 @@ import StrokeIpld from '../icons/StrokeIpld.js'
 // Styles
 import './NavBar.css'
 
+/**
+ * @param {Object} props
+ * @param {string} props.to
+ * @param {React.ComponentType<React.SVGProps<SVGSVGElement>>} props.icon
+ * @param {string} [props.alternative]
+ * @param {boolean} [props.disabled]
+ * @param {string} props.children
+ */
 const NavLink = ({
   to,
   icon,
@@ -50,6 +58,10 @@ const NavLink = ({
   )
 }
 
+/**
+ * @param {Object} props
+ * @param {import('i18next').TFunction} props.t
+ */
 export const NavBar = ({ t }) => {
   const codeUrl = 'https://github.com/ipfs/ipfs-webui'
   const bugsUrl = `${codeUrl}/issues`
