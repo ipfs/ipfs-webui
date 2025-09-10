@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 
 // Components
-import { Modal, ModalBody, ModalActions } from '../../modal/Modal.js'
+import { Modal, ModalBody, ModalActions } from '../../modal/modal'
 import Button from '../../button/button.tsx'
 
 const AutoUploadModal = ({ name, service, t, onLeave, doSetAutoUploadForService, className, ...props }) => {

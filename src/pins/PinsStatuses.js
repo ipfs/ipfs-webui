@@ -10,6 +10,12 @@ const Status = {
   Failed: 2
 }
 
+/**
+ * @param {import('i18next').TFunction} t
+ * @param {string} pin
+ * @param {number} status
+ * @param {(pin: string) => void} onDismiss
+ */
 const Pin = (t, pin, status = Status.Pending, onDismiss) => {
   const [service, cid] = pin.split(':')
 
@@ -29,9 +35,11 @@ const Pin = (t, pin, status = Status.Pending, onDismiss) => {
   }
 
   return (<li className="flex w-100 bb b--light-gray items-center f6 charcoal" key={cid}>
+    {/* @ts-expect-error - alt & title are not valid props for GlyphPinCloud */}
     <GlyphPinCloud className={cloudClass} style={{ width: '36px' }} alt={alt} title={alt} failed={status === Status.Failed} />
     <span className="truncate">{cid}</span>
     <span className='gray mh2'>| {service}</span>
+    {/* @ts-expect-error - alt is not valid prop for span */}
     <span className='br-100 o-70 ml-auto w2 h2' alt={dismissAlt} title={dismissAlt} >
       <button onClick={() => onDismiss(pin)} className='w2 h2 pa0'>
         <GlyphCancel className='fill-aqua' />
@@ -40,6 +48,16 @@ const Pin = (t, pin, status = Status.Pending, onDismiss) => {
   </li>)
 }
 
+/**
+ * @param {Object} props
+ * @param {string[]} props.pendingPins
+ * @param {string[]} props.failedPins
+ * @param {string[]} props.completedPins
+ * @param {(pin: string) => void} props.onDismissFailedPin
+ * @param {(pin: string) => void} props.onDismissCompletedPin
+ * @param {(pin: string) => void} props.doCancelPendingPin
+ * @param {import('i18next').TFunction} props.t
+ */
 const PinsStatuses = ({ pendingPins, failedPins, completedPins, onDismissFailedPin, onDismissCompletedPin, doCancelPendingPin, t }) => {
   return (
     <div>
