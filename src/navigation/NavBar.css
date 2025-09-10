@@ -37,5 +37,5 @@
 }
 
 .navbar-item:focus:not(:focus-visible) {
-  background-color: transparent; /* removes "second highlight" on mouse click */
+  background-color: transparent;
 }
