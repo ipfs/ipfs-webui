@@ -1,31 +1,54 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import LogsScreen from './logs-screen/logs-screen.js'
 import { LogsProvider } from '../contexts/logs/index'
 import { IdentityProvider } from '../contexts/identity-context'
+import CheckScreen from './check-screen/check-screen.js'
+import { useBridgeSelector } from '../helpers/context-bridge'
+import { RouteInfo } from 'src/bundles/routes-types'
 
 interface DiagnosticsContentProps {
 }
 
-type TabKey = 'logs'
+type TabKey = 'logs' | 'check'
+
+function getTabKeyFromUrl (path: string): TabKey {
+  if (path === '/check') {
+    return 'check'
+  }
+  return 'logs'
+}
+
+interface TabButtonProps {
+  tabKey: TabKey
+  label: string
+  active: boolean
+}
+
+const TabButton = ({ tabKey, label, active }: TabButtonProps) => (
+  <a
+    key={tabKey}
+    href={`#/diagnostics${tabKey === 'logs' ? '' : `/${tabKey}`}`}
+    className={`pv2 mr2 bg-transparent bn pointer fw6 no-underline ${
+      active ? 'charcoal bb bw2 b--blue' : 'charcoal-muted underline-hover'
+    }`}
+  >
+    {label}
+  </a>
+)
 
 const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
   const { t } = useTranslation('diagnostics')
-  const [activeTab, setActiveTab] = useState<TabKey>('logs')
+  const routeInfo = useBridgeSelector<RouteInfo>('selectRouteInfo')
+  const activeTab = getTabKeyFromUrl(routeInfo?.params.path ?? '')
 
-  const renderTabButton = (tabKey: TabKey, label: string) => (
-    <button
-      key={tabKey}
-      className={`pv2 mr2 bg-transparent bn pointer fw6 ${
-        activeTab === tabKey
-          ? 'charcoal bb bw2 b--blue'
-          : 'charcoal-muted hover-charcoal'
-      }`}
-      onClick={() => setActiveTab(tabKey)}
-    >
-      {label}
-    </button>
-  )
+  const isMounted = useRef(false)
+  useEffect(() => {
+    isMounted.current = true
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -33,9 +56,13 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
         return (
           <IdentityProvider>
             <LogsProvider>
-                <LogsScreen />
+              <LogsScreen />
             </LogsProvider>
           </IdentityProvider>
+        )
+      case 'check':
+        return (
+          <CheckScreen />
         )
       default:
         return null
@@ -47,7 +74,8 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
       {/* Tab Navigation */}
       <div className='bb b--black-20 mb4'>
         <nav className='flex'>
-          {renderTabButton('logs', t('tabs.logs'))}
+          <TabButton tabKey='logs' label={t('tabs.logs')} active={activeTab === 'logs'} />
+          <TabButton tabKey='check' label={t('tabs.check')} active={activeTab === 'check'} />
         </nav>
       </div>
 

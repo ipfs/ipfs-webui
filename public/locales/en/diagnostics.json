@@ -3,6 +3,7 @@
   "description": "View detailed diagnostic information about your IPFS node and system configuration.",
   "tabs": {
     "logs": "Logs",
+    "check": "IPFS Check",
     "connectivity": "Connectivity"
   },
   "logs": {
