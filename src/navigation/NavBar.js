@@ -45,7 +45,7 @@ const NavLink = ({
 
   return (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
-    <a href={disabled ? null : href} onClick={(e) => e.currentTarget.blur()} className={anchorClass} role='menuitem' title={children}>
+    <a href={disabled ? undefined : href} onClick={(e) => e.currentTarget.blur()} className={anchorClass} role='menuitem' title={children}>
       <div className='db ph2 pv1'>
         <div className='db'>
           <Svg width='46' role='presentation' className={svgClass} />
