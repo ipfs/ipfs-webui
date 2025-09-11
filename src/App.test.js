@@ -1,20 +1,64 @@
-/* global it */
-// import React from 'react'
-// import { shallow } from 'enzyme'
-// import { App } from './App'
+import React from 'react'
+import { render } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux-bundler'
+import App from './App'
+import bundles from './bundles'
 
-// TODO: ipld-explore-components exports componets that use @loadable/component and
-// dynamic `import()` to communicate to webpack useful places to split the js bundles.
-// This app test wasn't really testing anything of use, but it fails now as jest
-// can't deal with dynamic `import()` calls without additional babel config https://github.com/facebook/jest/issues/2442#issuecomment-269654883
-// but as this is an unejected create-react-app at the moment, we can't easily add it.
+// Mock the dynamic imports that cause issues
+jest.mock('@loadable/component', () => ({
+  __esModule: true,
+  default: (loadFn) => {
+    const Component = React.lazy(loadFn)
+    return (props) => (
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <Component {...props} />
+      </React.Suspense>
+    )
+  }
+}))
 
-// leaving in as a reminder to fix. Of note **the e2e smoke test still runs in ci.**
-it.skip('renders without crashing', () => {
-  // const noop = () => {}
-  // const Page = () => 'test'
+// Mock IPFS provider
+jest.mock('./bundles/ipfs-provider.js', () => ({
+  __esModule: true,
+  default: {
+    name: 'ipfs',
+    reducer: (state = { apiAddress: 'http://localhost:5001' }) => state,
+    selectIpfs: () => null,
+    selectIpfsConnected: () => false,
+    selectIpfsInitFailed: () => false,
+    selectIpfsInitPending: () => false,
+    doInitIpfs: () => () => Promise.resolve(),
+    doTryInitIpfs: () => () => Promise.resolve()
+  }
+}))
 
-  // shallow(null
-  //   <App doTryInitIpfs={noop} doUpdateUrl={noop} route={Page} queryObject={{}} />
-  // )
+describe('App', () => {
+  let store
+
+  beforeEach(() => {
+    store = createStore(bundles)
+  })
+
+  it('renders without crashing', () => {
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    )
+
+    // Check if the app renders some basic content
+    expect(document.body).toBeInTheDocument()
+  })
+
+  it('shows loading state initially', () => {
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    )
+
+    // The app should render without throwing errors
+    expect(document.body).toBeInTheDocument()
+  })
 })

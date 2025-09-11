@@ -1,5 +1,5 @@
 import React from 'react'
-import ErrorBoundary from '../error/error-boundary.js'
+import ErrorBoundary from '../error/error-boundary.tsx'
 
 /**
  * @param {Object} props

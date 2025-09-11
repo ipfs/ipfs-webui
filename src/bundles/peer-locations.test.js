@@ -99,7 +99,7 @@ async function getPeerLocationsFromStore ({ store, failMs = 5000 }) {
 }
 
 describe('reactPeerLocationsFetch', () => {
-  it.skip('should declare its dependencies', async () => {
+  it('should declare its dependencies', async () => {
     createPeersLocationBundle()
 
     expect(createSelector).toHaveBeenNthCalledWith(1,
@@ -127,7 +127,7 @@ describe('reactPeerLocationsFetch', () => {
 })
 
 describe('selectPeerLocationsForSwarm', () => {
-  it.skip('should declare its dependencies', () => {
+  it('should declare its dependencies', () => {
     createPeersLocationBundle()
 
     expect(createSelector).toHaveBeenNthCalledWith(2,
@@ -308,7 +308,7 @@ describe('selectPeerLocationsForSwarm', () => {
 })
 
 describe('selectPeersCoordinates', () => {
-  it.skip('should declare its dependencies', () => {
+  it('should declare its dependencies', () => {
     createPeersLocationBundle()
 
     expect(createSelector).toHaveBeenNthCalledWith(3,
@@ -339,7 +339,7 @@ describe('selectPeersCoordinates', () => {
 })
 
 describe('PeerLocationResolver', () => {
-  describe.skip('findLocations', () => {
+  describe('findLocations', () => {
     it('should find the location of given peers', async () => {
       await mockGeoIpCache('4.4.4.4')
 

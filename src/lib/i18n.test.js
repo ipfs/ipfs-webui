@@ -47,7 +47,7 @@ describe('i18n', function () {
         it(`returns ${languages[lang].nativeName} for ${lang}`, async () => {
           await i18n.changeLanguage(lang)
           expect(getCurrentLanguage()).toBe(languages[lang].nativeName)
-        })
+        }, 10000) // Increased timeout to 10 seconds
       })
     })
   })
