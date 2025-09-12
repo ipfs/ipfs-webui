@@ -12,11 +12,21 @@ interface DiagnosticsContentProps {
 
 type TabKey = 'logs' | 'check'
 
-function getTabKeyFromUrl (path: string): TabKey {
-  if (path === '/check') {
-    return 'check'
+function getTabKeyFromUrl (path: string): { tab: TabKey, remainder?: string } {
+  const parts = path.split('/').filter(p => p) // Remove empty strings
+
+  if (parts.length === 0) {
+    // Default to logs for empty path
+    return { tab: 'logs' }
   }
-  return 'logs'
+
+  const tab = parts[0] as TabKey
+  const remainder = parts.slice(1).join('/')
+
+  return {
+    tab,
+    remainder: remainder || undefined
+  }
 }
 
 interface TabButtonProps {
@@ -28,10 +38,19 @@ interface TabButtonProps {
 const TabButton = ({ tabKey, label, active }: TabButtonProps) => (
   <a
     key={tabKey}
-    href={`#/diagnostics${tabKey === 'logs' ? '' : `/${tabKey}`}`}
-    className={`pv2 mr2 bg-transparent bn pointer fw6 no-underline ${
-      active ? 'charcoal bb bw2 b--blue' : 'charcoal-muted underline-hover'
+    href={`#/diagnostics/${tabKey}`}
+    className={`pv2 ph3 mr2 br2 pointer fw5 no-underline transition-all ${
+      active
+        ? 'bg-teal white'
+        : 'bg-transparent charcoal-muted hover-bg-gray-muted hover-charcoal'
     }`}
+    style={{
+      transition: 'all 0.2s ease',
+      ...(active && {
+        backgroundColor: '#378085',
+        color: 'white'
+      })
+    }}
   >
     {label}
   </a>
@@ -40,7 +59,15 @@ const TabButton = ({ tabKey, label, active }: TabButtonProps) => (
 const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
   const { t } = useTranslation('diagnostics')
   const routeInfo = useBridgeSelector<RouteInfo>('selectRouteInfo')
-  const activeTab = getTabKeyFromUrl(routeInfo?.params.path ?? '')
+  const path = routeInfo?.params.path ?? ''
+  const { tab: activeTab, remainder } = getTabKeyFromUrl(path)
+
+  // Redirect from /diagnostics or /diagnostics/ to /diagnostics/logs
+  useEffect(() => {
+    if (path === '' || path === '/') {
+      window.location.replace('#/diagnostics/logs')
+    }
+  }, [path])
 
   const isMounted = useRef(false)
   useEffect(() => {
@@ -62,7 +89,7 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
         )
       case 'check':
         return (
-          <CheckScreen />
+          <CheckScreen cid={remainder} />
         )
       default:
         return null
@@ -72,8 +99,8 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
   return (
     <div>
       {/* Tab Navigation */}
-      <div className='bb b--black-20 mb4'>
-        <nav className='flex'>
+      <div className='mb4 pb2' style={{ borderBottom: '1px solid #e1e5eb' }}>
+        <nav className='flex items-center'>
           <TabButton tabKey='logs' label={t('tabs.logs')} active={activeTab === 'logs'} />
           <TabButton tabKey='check' label={t('tabs.check')} active={activeTab === 'check'} />
         </nav>

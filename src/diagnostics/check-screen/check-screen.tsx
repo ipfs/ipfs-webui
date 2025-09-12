@@ -1,7 +1,11 @@
 import React, { useRef, useEffect } from 'react'
 import { useDebouncedCallback } from '../../lib/hooks/use-debounced-callback'
 
-const CheckScreen: React.FC = () => {
+interface CheckScreenProps {
+  cid?: string
+}
+
+const CheckScreen: React.FC<CheckScreenProps> = ({ cid }) => {
   const ref = useRef<HTMLIFrameElement>(null)
 
   const requestSize = useDebouncedCallback(() => {
@@ -34,13 +38,16 @@ const CheckScreen: React.FC = () => {
     }
   }, [requestSize])
 
+  // Build the iframe URL with optional CID parameter
+  const baseUrl = 'https://check.ipfs.network/' // TODO: make configurable via Settings screen
+  const iframeSrc = cid ? `${baseUrl}?cid=${encodeURIComponent(cid)}` : baseUrl
+
   return (
     <iframe
       ref={ref}
       className="db bn w-100 overflow-y-hidden overflow-x-hidden"
       title="Check Screen"
-      // src="https://check.ipfs.network/" // TODO: uncomment when https://github.com/ipfs/ipfs-check/pull/102 is deployed to check.ipfs.network
-      src="http://127.0.0.1:3001/"
+      src={iframeSrc}
     />
   )
 }
