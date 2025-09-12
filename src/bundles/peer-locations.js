@@ -90,6 +90,13 @@ function createPeersLocations (opts) {
         )).sort()
         : []).join(', ')
 
+      // Truncate agent version as a defensive measure against excessively long strings
+      const rawAgentVersion = peer.identify?.AgentVersion || ''
+      const maxAgentVersionLength = 30
+      const agentVersion = rawAgentVersion.length > maxAgentVersionLength
+        ? rawAgentVersion.substring(0, maxAgentVersionLength) + '…'
+        : rawAgentVersion
+
       return {
         peerId,
         location,
@@ -101,7 +108,8 @@ function createPeersLocations (opts) {
         direction,
         latency,
         isPrivate,
-        isNearby
+        isNearby,
+        agentVersion
       }
     }))
   )

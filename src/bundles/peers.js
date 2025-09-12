@@ -6,7 +6,7 @@ const swarmPeersTTL = ms.seconds(10)
 const bundle = createAsyncResourceBundle({
   name: 'peers',
   actionBaseType: 'PEERS',
-  getPromise: ({ getIpfs }) => getIpfs().swarm.peers({ verbose: true, timeout: swarmPeersTTL }),
+  getPromise: ({ getIpfs }) => getIpfs().swarm.peers({ verbose: true, identify: true, timeout: swarmPeersTTL }),
   staleAfter: swarmPeersTTL,
   persist: false,
   checkIfOnline: false

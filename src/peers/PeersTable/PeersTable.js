@@ -75,6 +75,22 @@ const protocolsCellRenderer = (t) => ({ rowData }) => {
   )
 }
 
+const agentVersionCellRenderer = (t) => ({ rowData }) => {
+  const ref = React.createRef()
+  const { agentVersion } = rowData
+  if (!agentVersion) return (<span className='dib o-40 no-select'>-</span>)
+  return (
+      <CopyToClipboard text={agentVersion} onCopy={() => copyFeedback(ref, t)}>
+        <span
+          ref={ref}
+          className='copyable'
+          title={agentVersion}>
+          { agentVersion }
+        </span>
+      </CopyToClipboard>
+  )
+}
+
 const connectionCellRenderer = (t) => ({ rowData }) => {
   const ref = React.createRef()
   const { address, direction, peerId } = rowData
@@ -140,7 +156,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
   const filteredPeerList = useMemo(() => {
     const filterLower = filter.toLowerCase()
     if (filterLower === '') return awaitedPeerLocationsForSwarm
-    return awaitedPeerLocationsForSwarm.filter(({ location, latency, peerId, connection, protocols }) => {
+    return awaitedPeerLocationsForSwarm.filter(({ location, latency, peerId, connection, protocols, agentVersion }) => {
       if (location != null && location.toLowerCase().includes(filterLower)) {
         return true
       }
@@ -150,11 +166,13 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
       if (peerId != null && peerId.toString().includes(filter)) {
         return true
       }
-      console.log('connection: ', connection)
       if (connection != null && connection.toLowerCase().includes(filterLower)) {
         return true
       }
       if (protocols != null && protocols.toLowerCase().includes(filterLower)) {
+        return true
+      }
+      if (agentVersion != null && agentVersion.toLowerCase().includes(filterLower)) {
         return true
       }
 
@@ -186,11 +204,12 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
                 sort={sort}
                 sortBy={sortBy}
                 sortDirection={sortDirection}>
-                <Column label={t('app:terms.location')} cellRenderer={locationCellRenderer(t)} dataKey='location' width={450} className='f6 charcoal truncate pl2' />
-                <Column label={t('app:terms.latency')} cellRenderer={latencyCellRenderer} dataKey='latency' width={200} className='f6 charcoal pl2' />
-                <Column label={t('app:terms.peerId')} cellRenderer={peerIdCellRenderer(t)} dataKey='peerId' width={250} className='charcoal monospace truncate f6 pl2' />
-                <Column label={t('app:terms.connection')} cellRenderer={connectionCellRenderer(t)} dataKey='connection' width={250} className='f6 charcoal truncate pl2' />
-                <Column label={t('protocols')} cellRenderer={protocolsCellRenderer(t)} dataKey='protocols' width={520} className='charcoal monospace truncate f7 pl2' />
+                <Column label={t('app:terms.location')} cellRenderer={locationCellRenderer(t)} dataKey='location' width={350} className='f6 charcoal truncate pl2' />
+                <Column label={t('app:terms.latency')} cellRenderer={latencyCellRenderer} dataKey='latency' width={100} className='f6 charcoal pl2' />
+                <Column label={t('app:terms.peerId')} cellRenderer={peerIdCellRenderer(t)} dataKey='peerId' width={200} className='charcoal monospace truncate f6 pl2' />
+                <Column label={t('app:terms.connection')} cellRenderer={connectionCellRenderer(t)} dataKey='connection' width={200} className='f6 charcoal truncate pl2' />
+                <Column label={t('agentVersion')} cellRenderer={agentVersionCellRenderer(t)} dataKey='agentVersion' width={250} className='charcoal monospace truncate f7 pl2' />
+                <Column label={t('protocols')} cellRenderer={protocolsCellRenderer(t)} dataKey='protocols' width={420} className='charcoal monospace truncate f7 pl2' />
               </Table>
             </>
           )}
