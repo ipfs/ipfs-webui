@@ -39,10 +39,31 @@ interface TopControlsProps {
   onSettingsClick: () => void
   isAtBottom: boolean
   scrollToBottom: () => void
+  hasEntries: boolean
 }
 
-const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, isStreaming, startStreaming, stopStreaming, onSettingsClick, isAtBottom, scrollToBottom }) => {
+const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, isStreaming, startStreaming, stopStreaming, onSettingsClick, isAtBottom, scrollToBottom, hasEntries }) => {
   const { t } = useTranslation('diagnostics')
+  const [showInitialTooltip, setShowInitialTooltip] = useState(true)
+  const [hasInteracted, setHasInteracted] = useState(false)
+
+  // Hide initial tooltip after 6 seconds or when user has interacted
+  useEffect(() => {
+    if (showInitialTooltip && !hasInteracted) {
+      const timer = setTimeout(() => {
+        setShowInitialTooltip(false)
+      }, 6000)
+      return () => clearTimeout(timer)
+    }
+    return undefined
+  }, [showInitialTooltip, hasInteracted])
+
+  // Hide tooltip once streaming starts or user has interacted
+  useEffect(() => {
+    if (isStreaming || hasInteracted) {
+      setShowInitialTooltip(false)
+    }
+  }, [isStreaming, hasInteracted])
 
   const SizeControl = useMemo(() => {
     if (!isExpanded) {
@@ -59,6 +80,7 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
   }, [isStreaming])
 
   const toggleStreaming = useCallback(() => {
+    setHasInteracted(true)
     if (isStreaming) {
       stopStreaming()
     } else {
@@ -77,8 +99,17 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
       <IconTooltip text={t('logs.entries.tooltipSettings')} position='left'>
         <GlyphSettings width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' style={settingsIconStyle} onClick={onSettingsClick} />
       </IconTooltip>
-      <IconTooltip text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')} position='left'>
-        <PlayPauseControl width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1' onClick={toggleStreaming} />
+      <IconTooltip
+        text={isStreaming ? t('logs.entries.tooltipPause') : t('logs.entries.tooltipPlay')}
+        position='left'
+        forceShow={showInitialTooltip && !isStreaming && !hasEntries}
+      >
+        <PlayPauseControl
+          width={32}
+          height={32}
+          className={`pointer mb1 ${!isStreaming && !hasEntries && !hasInteracted ? 'navy-muted pulsate' : isStreaming ? 'gray breathe hover-black' : 'gray o-70 hover-o-100 hover-black'}`}
+          onClick={toggleStreaming}
+        />
       </IconTooltip>
       {!isAtBottom && (
         <IconTooltip text={t('logs.entries.tooltipGoToLatest')} position='left'>
@@ -244,7 +275,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
         />
       )}
       <div className='relative code' style={styles}>
-        <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} />
+        <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} hasEntries={logEntries.length > 0} />
         <div
           ref={containerRef}
           className='ba b--black-20 bg-near-white f6 overflow-auto overflow-x-hidden flex-auto'

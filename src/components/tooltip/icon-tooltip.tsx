@@ -7,14 +7,16 @@
  */
 
 import React, { ReactElement, useState, useMemo } from 'react'
+import './icon-tooltip.css'
 
 interface IconTooltipProps {
   children: ReactElement
   text: string
   position: 'top' | 'bottom' | 'left' | 'right'
+  forceShow?: boolean
 }
 
-const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position }) => {
+const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position, forceShow = false }) => {
   const [show, setShow] = useState(false)
 
   const onMouseOver = () => setShow(true)
@@ -109,7 +111,7 @@ const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position }) =
     }
   }, [position])
 
-  const tooltipDisplayClass = useMemo(() => show ? 'db' : 'dn', [show])
+  const tooltipDisplayClass = useMemo(() => (show || forceShow) ? 'db' : 'dn', [show, forceShow])
 
   return (
     <div className="relative" style={{ display: 'inline-block' }}>
@@ -121,7 +123,10 @@ const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position }) =
       >
         {children}
       </div>
-      <div style={tooltipStyles} className={`white z-max bg-navy-muted br2 pa1 f6 absolute sans-serif ${tooltipDisplayClass}`} >
+      <div
+        style={tooltipStyles}
+        className={`white z-max bg-navy-muted br2 pv2 ph3 f6 lh-copy fw5 absolute sans-serif noselect ${tooltipDisplayClass}`}
+      >
         <div className='bg-navy-muted db bg-navy-muted absolute' style={arrowStyles} />
         {text}
       </div>
