@@ -66,9 +66,7 @@
       "memoryBuffer": "Memory Buffer (entries)",
       "persistentBuffer": "Persistent Buffer (entries)",
       "warnThreshold": "Warning Threshold (logs/sec)",
-      "autoDisableThreshold": "Auto-disable Threshold (logs/sec)",
-      "cancel": "Cancel",
-      "apply": "Apply Changes"
+      "autoDisableThreshold": "Auto-disable Threshold (logs/sec)"
     },
     "gologLevel": {
       "title": "Current Log Configuration",

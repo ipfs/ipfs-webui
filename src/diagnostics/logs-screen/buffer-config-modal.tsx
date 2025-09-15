@@ -68,12 +68,13 @@ export const BufferConfigModal: React.FC<BufferConfigModalProps> = ({
       <Modal onCancel={handleCancel} className="outline-0">
         <div className='pa4'>
           <h3 className='montserrat fw4 charcoal ma0 f4 mb3'>{t('logs.config.title')}</h3>
-          <div className='grid grid-cols-2 gap3 mb4'>
-            <div>
-              <label className='db fw6 mb1 f6'>{t('logs.config.memoryBuffer')}</label>
+          <div className='mb4'>
+            <div className='mb3'>
+              <label htmlFor='buffer-config-memory' className='db fw6 mb1 f6 charcoal'>{t('logs.config.memoryBuffer')}</label>
               <input
+                id='buffer-config-memory'
                 type='number'
-                className='input-reset ba b--black-20 pa2 w-100'
+                className='input-reset charcoal ba b--black-20 br1 pa2 w-100 focus-outline'
                 value={displayValues.memory}
                 onChange={(e) => {
                   const value = e.target?.value || ''
@@ -83,11 +84,12 @@ export const BufferConfigModal: React.FC<BufferConfigModalProps> = ({
                 max='2000'
               />
             </div>
-            <div>
-              <label className='db fw6 mb1 f6'>{t('logs.config.persistentBuffer')}</label>
+            <div className='mb3'>
+              <label htmlFor='buffer-config-indexeddb' className='db fw6 mb1 f6 charcoal'>{t('logs.config.persistentBuffer')}</label>
               <input
+                id='buffer-config-indexeddb'
                 type='number'
-                className='input-reset ba b--black-20 pa2 w-100'
+                className='input-reset charcoal ba b--black-20 br1 pa2 w-100 focus-outline'
                 value={displayValues.indexedDB}
                 onChange={(e) => {
                   const value = e.target?.value || ''
@@ -97,11 +99,12 @@ export const BufferConfigModal: React.FC<BufferConfigModalProps> = ({
                 max='100000'
               />
             </div>
-            <div>
-              <label className='db fw6 mb1 f6'>{t('logs.config.warnThreshold')}</label>
+            <div className='mb3'>
+              <label htmlFor='buffer-config-warn' className='db fw6 mb1 f6 charcoal'>{t('logs.config.warnThreshold')}</label>
               <input
+                id='buffer-config-warn'
                 type='number'
-                className='input-reset ba b--black-20 pa2 w-100'
+                className='input-reset charcoal ba b--black-20 br1 pa2 w-100 focus-outline'
                 value={displayValues.warnThreshold}
                 onChange={(e) => {
                   const value = e.target?.value || ''
@@ -112,10 +115,11 @@ export const BufferConfigModal: React.FC<BufferConfigModalProps> = ({
               />
             </div>
             <div>
-              <label className='db fw6 mb1 f6'>{t('logs.config.autoDisableThreshold')}</label>
+              <label htmlFor='buffer-config-autodisable' className='db fw6 mb1 f6 charcoal'>{t('logs.config.autoDisableThreshold')}</label>
               <input
+                id='buffer-config-autodisable'
                 type='number'
-                className='input-reset ba b--black-20 pa2 w-100'
+                className='input-reset charcoal ba b--black-20 br1 pa2 w-100 focus-outline'
                 value={displayValues.autoDisableThreshold}
                 onChange={(e) => {
                   const value = e.target?.value || ''
@@ -134,7 +138,7 @@ export const BufferConfigModal: React.FC<BufferConfigModalProps> = ({
               className='tc'
               onClick={handleCancel}
             >
-              {t('logs.config.cancel')}
+              {t('app:actions.cancel')}
             </Button>
             <Button
               id='buffer-config-apply-button'
@@ -142,7 +146,7 @@ export const BufferConfigModal: React.FC<BufferConfigModalProps> = ({
               className='mt2 mt0-ns ml0 ml2-ns tc'
               onClick={handleApply}
             >
-              {t('logs.config.apply')}
+              {t('app:actions.apply')}
             </Button>
           </div>
         </div>
