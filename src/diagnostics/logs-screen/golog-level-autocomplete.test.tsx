@@ -569,13 +569,18 @@ describe('GologLevelAutocomplete', () => {
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '{enter}')
 
-      // Wait for the async submission to complete
+      // Wait for the async submission to complete and all state updates to finish
       await waitFor(() => {
         expect(mockOnSubmit).toHaveBeenCalled()
       })
 
+      // Wait a bit for async state updates to complete
+      await waitFor(() => {
+        // The component should remain interactive after error
+        expect(input).not.toBeDisabled()
+      })
+
       // Verify that the component remains interactive after error
-      expect(input).not.toBeDisabled()
       expect(input).toHaveValue('info')
     })
 
@@ -595,13 +600,18 @@ describe('GologLevelAutocomplete', () => {
       const input = screen.getByRole('textbox')
       await userEvent.type(input, '{enter}')
 
-      // Wait for the async submission to complete
+      // Wait for the async submission to complete and all state updates to finish
       await waitFor(() => {
         expect(mockOnSubmit).toHaveBeenCalled()
       })
 
+      // Wait a bit for async state updates to complete
+      await waitFor(() => {
+        // The component should remain interactive after error
+        expect(input).not.toBeDisabled()
+      })
+
       // Verify that the component remains interactive after error
-      expect(input).not.toBeDisabled()
       expect(input).toHaveValue('info')
     })
 
