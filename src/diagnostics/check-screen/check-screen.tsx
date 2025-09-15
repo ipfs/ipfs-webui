@@ -1,8 +1,20 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useMemo } from 'react'
 import { useDebouncedCallback } from '../../lib/hooks/use-debounced-callback'
+import { useBridgeSelector } from '../../helpers/context-bridge'
+import { RouteInfo } from '../../bundles/routes-types'
 
 const CheckScreen: React.FC = () => {
   const ref = useRef<HTMLIFrameElement>(null)
+  const routeInfo = useBridgeSelector<RouteInfo>('selectRouteInfo')
+  // pass through IPFS check query params.
+  const checkIframeUrl = useMemo(() => {
+    if (routeInfo == null) {
+      return 'https://check.ipfs.network/'
+    }
+    const url = new URL(routeInfo.url.replace('/diagnostics/check', ''), 'https://check.ipfs.network/')
+
+    return url.toString()
+  }, [routeInfo])
 
   const requestSize = useDebouncedCallback(() => {
     const iframe = ref.current
@@ -39,8 +51,7 @@ const CheckScreen: React.FC = () => {
       ref={ref}
       className="db bn w-100 overflow-y-hidden overflow-x-hidden"
       title="Check Screen"
-      // src="https://check.ipfs.network/" // TODO: uncomment when https://github.com/ipfs/ipfs-check/pull/102 is deployed to check.ipfs.network
-      src="http://127.0.0.1:3001/"
+      src={checkIframeUrl}
     />
   )
 }
