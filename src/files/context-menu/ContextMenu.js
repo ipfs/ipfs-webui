@@ -83,12 +83,6 @@ class ContextMenu extends React.Component {
               {t('app:actions.inspect')}
             </Option>
           }
-          { onCheckRetrieval &&
-            <Option onClick={this.wrap('onCheckRetrieval')}>
-              <StrokeLab className='w2 mr2 fill-aqua' />
-              {t('app:actions.checkRetrieval')}
-            </Option>
-          }
           <Option onClick={this.wrap('onPinning')} isCliTutorModeEnabled={isCliTutorModeEnabled}
             onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.PIN_OBJECT)}>
             <StrokePin className='w2 mr2 fill-aqua' />
@@ -127,6 +121,12 @@ class ContextMenu extends React.Component {
               onCliTutorMode={this.wrap('onCliTutorMode', cliCmdKeys.PUBLISH_WITH_IPNS)}>
               <StrokeSpeaker className='w2 mr2 fill-aqua' />
               {t('actions.publishWithIpns')}
+            </Option>
+          }
+          { onCheckRetrieval &&
+            <Option onClick={this.wrap('onCheckRetrieval')}>
+              <StrokeLab className='w2 mr2 fill-aqua' />
+              {t('app:actions.checkRetrieval')}
             </Option>
           }
         </DropdownMenu>
