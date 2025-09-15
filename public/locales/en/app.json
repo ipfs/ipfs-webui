@@ -54,6 +54,10 @@
   "publicSubdomainGatewayForm": {
     "placeholder": "Enter a URL (https://dweb.link)"
   },
+  "ipfsCheckForm": {
+    "label": "Retrieval Check Service URL",
+    "placeholder": "Enter a URL (https://check.ipfs.network)"
+  },
   "terms": {
     "address": "Address",
     "addresses": "Addresses",
