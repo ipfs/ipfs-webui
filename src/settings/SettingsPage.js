@@ -105,7 +105,7 @@ export const SettingsPage = ({
       <p className='ma0 mr2 lh-copy charcoal f6'>
         <Trans i18nKey='retrievalDiagnosticService.description' t={t}>
           <a className='link blue' href='https://github.com/ipfs/ipfs-check' target='_blank' rel='noopener noreferrer'>ipfs-check</a>
-          <a className='link blue' href='#/diagnostics/check'>retrieval diagnostics</a>
+          <a className='link blue' href='#/diagnostics/retrieval-check'>retrieval diagnostics</a>
         </Trans>
       </p>
       <IpfsCheckForm/>

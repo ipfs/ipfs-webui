@@ -10,7 +10,7 @@ import { RouteInfo } from '../bundles/routes-types'
 interface DiagnosticsContentProps {
 }
 
-type TabKey = 'logs' | 'check'
+type TabKey = 'logs' | 'retrieval-check'
 
 function getTabKeyFromUrl (path: string): { tab: TabKey, remainder?: string } {
   const parts = path.split('/').filter(p => p) // Remove empty strings
@@ -87,7 +87,7 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
             </LogsProvider>
           </IdentityProvider>
         )
-      case 'check':
+      case 'retrieval-check':
         return (
           <CheckScreen cid={remainder} />
         )
@@ -102,7 +102,7 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
       <div className='mb4 pb2' style={{ borderBottom: '1px solid #e1e5eb' }}>
         <nav className='flex items-center'>
           <TabButton tabKey='logs' label={t('tabs.logs')} active={activeTab === 'logs'} />
-          <TabButton tabKey='check' label={t('tabs.check')} active={activeTab === 'check'} />
+          <TabButton tabKey='retrieval-check' label={t('tabs.retrieval-check')} active={activeTab === 'retrieval-check'} />
         </nav>
       </div>
 
