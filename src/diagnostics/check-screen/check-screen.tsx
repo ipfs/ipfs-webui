@@ -17,8 +17,8 @@ const CheckScreen: React.FC<CheckScreenProps> = ({ cid, ipfsCheckUrl }) => {
 
   const requestSize = useDebouncedCallback(() => {
     const iframe = ref.current
-    if (!iframe) return
-    ref.current?.contentWindow?.postMessage({ type: 'iframe-size:request' }, '*')
+    if (!iframe?.contentWindow) return
+    iframe.contentWindow.postMessage({ type: 'iframe-size:request' }, ipfsCheckOrigin)
   }, 100)
 
   useEffect(() => {
