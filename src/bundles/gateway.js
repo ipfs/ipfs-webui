@@ -3,6 +3,7 @@ import { readSetting, writeSetting } from './local-storage.js'
 // TODO: switch to dweb.link when https://github.com/ipfs/kubo/issues/7318
 export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
 export const DEFAULT_SUBDOMAIN_GATEWAY = 'https://dweb.link'
+export const DEFAULT_IPFS_CHECK_URL = 'https://check.ipfs.network'
 const IMG_HASH_1PX = 'bafkreib6wedzfupqy7qh44sie42ub4mvfwnfukmw6s2564flajwnt4cvc4' // 1x1.png
 const IMG_ARRAY = [
   { id: 'IMG_HASH_1PX', name: '1x1.png', hash: IMG_HASH_1PX },
@@ -20,10 +21,16 @@ const readPublicSubdomainGatewaySetting = () => {
   return setting || DEFAULT_SUBDOMAIN_GATEWAY
 }
 
+const readIpfsCheckUrlSetting = () => {
+  const setting = readSetting('ipfsCheckUrl')
+  return setting || DEFAULT_IPFS_CHECK_URL
+}
+
 const init = () => ({
   availableGateway: null,
   publicGateway: readPublicGatewaySetting(),
-  publicSubdomainGateway: readPublicSubdomainGatewaySetting()
+  publicSubdomainGateway: readPublicSubdomainGatewaySetting(),
+  ipfsCheckUrl: readIpfsCheckUrlSetting()
 })
 
 export const checkValidHttpUrl = (value) => {
@@ -169,6 +176,10 @@ const bundle = {
       return { ...state, publicSubdomainGateway: action.payload }
     }
 
+    if (action.type === 'SET_IPFS_CHECK_URL') {
+      return { ...state, ipfsCheckUrl: action.payload }
+    }
+
     return state
   },
 
@@ -184,11 +195,18 @@ const bundle = {
     dispatch({ type: 'SET_PUBLIC_SUBDOMAIN_GATEWAY', payload: address })
   },
 
+  doUpdateIpfsCheckUrl: (url) => async ({ dispatch }) => {
+    await writeSetting('ipfsCheckUrl', url)
+    dispatch({ type: 'SET_IPFS_CHECK_URL', payload: url })
+  },
+
   selectAvailableGateway: (state) => state?.gateway?.availableGateway,
 
   selectPublicGateway: (state) => state?.gateway?.publicGateway,
 
-  selectPublicSubdomainGateway: (state) => state?.gateway?.publicSubdomainGateway
+  selectPublicSubdomainGateway: (state) => state?.gateway?.publicSubdomainGateway,
+
+  selectIpfsCheckUrl: (state) => state?.gateway?.ipfsCheckUrl
 }
 
 export default bundle

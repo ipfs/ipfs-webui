@@ -1,15 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react'
+import { connect } from 'redux-bundler-react'
 import { useDebouncedCallback } from '../../lib/hooks/use-debounced-callback'
+import { DEFAULT_IPFS_CHECK_URL } from '../../bundles/gateway.js'
 
 interface CheckScreenProps {
   cid?: string
+  ipfsCheckUrl?: string
 }
 
-// TODO: make configurable via Settings screen
-const IPFS_CHECK_BASE_URL = 'https://check.ipfs.network/'
-const IPFS_CHECK_ORIGIN = new URL(IPFS_CHECK_BASE_URL).origin
-
-const CheckScreen: React.FC<CheckScreenProps> = ({ cid }) => {
+const CheckScreen: React.FC<CheckScreenProps> = ({ cid, ipfsCheckUrl }) => {
+  const ipfsCheckBaseUrl = ipfsCheckUrl || DEFAULT_IPFS_CHECK_URL
+  const baseUrl = ipfsCheckBaseUrl.endsWith('/') ? ipfsCheckBaseUrl : `${ipfsCheckBaseUrl}/`
+  const ipfsCheckOrigin = new URL(baseUrl).origin
   const ref = useRef<HTMLIFrameElement>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -25,7 +27,7 @@ const CheckScreen: React.FC<CheckScreenProps> = ({ cid }) => {
 
     const onMsg = (e: MessageEvent<any>) => {
       // Validate origin to prevent XSS attacks
-      if (e.origin !== IPFS_CHECK_ORIGIN) return
+      if (e.origin !== ipfsCheckOrigin) return
       if (e.data?.type !== 'iframe-size:report') return
 
       // Hide loading message as soon as we get first message from iframe
@@ -51,10 +53,10 @@ const CheckScreen: React.FC<CheckScreenProps> = ({ cid }) => {
       window.removeEventListener('resize', requestSize)
       iframe.removeEventListener('load', onLoad)
     }
-  }, [requestSize])
+  }, [requestSize, ipfsCheckOrigin])
 
   // Build the iframe URL with optional CID parameter
-  const iframeSrc = cid ? `${IPFS_CHECK_BASE_URL}?cid=${encodeURIComponent(cid)}` : IPFS_CHECK_BASE_URL
+  const iframeSrc = cid ? `${baseUrl}?cid=${encodeURIComponent(cid)}` : baseUrl
 
   return (
     <div className="relative">
@@ -67,7 +69,7 @@ const CheckScreen: React.FC<CheckScreenProps> = ({ cid }) => {
         ref={ref}
         className="db bn w-100 overflow-y-hidden overflow-x-hidden"
         style={{ height: '80vh' }}
-        title={`Retrieval Check @ ${IPFS_CHECK_BASE_URL}`}
+        title={`ipfs-check @ ${baseUrl}`}
         src={iframeSrc}
         aria-busy={isLoading}
         // Sandbox permissions:
@@ -80,4 +82,7 @@ const CheckScreen: React.FC<CheckScreenProps> = ({ cid }) => {
   )
 }
 
-export default CheckScreen
+export default connect(
+  'selectIpfsCheckUrl',
+  CheckScreen
+)
