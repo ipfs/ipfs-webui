@@ -126,10 +126,14 @@ test.describe('Files grid view', () => {
     const folder = page.locator('.grid-file[title$="/"], .grid-file[data-type="directory"]').first()
     const folderName = await folder.getAttribute('title')
 
+    // Press ArrowRight to focus the first item
     await page.keyboard.press('ArrowRight')
+    // Wait for the focused element to appear
+    await page.waitForSelector('.grid-file.focused')
     // Navigate to the folder (may need multiple presses)
     for (let i = 0; i < 5; i++) {
       const focusedItem = page.locator('.grid-file.focused')
+      await expect(focusedItem).toBeVisible()
       const focusedTitle = await focusedItem.getAttribute('title') || ''
 
       if (focusedTitle === folderName || focusedTitle.endsWith('/')) {
