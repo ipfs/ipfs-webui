@@ -66,6 +66,7 @@ const CheckScreen: React.FC<CheckScreenProps> = ({ cid }) => {
       <iframe
         ref={ref}
         className="db bn w-100 overflow-y-hidden overflow-x-hidden"
+        style={{ height: '80vh' }}
         title={`Retrieval Check @ ${IPFS_CHECK_BASE_URL}`}
         src={iframeSrc}
         aria-busy={isLoading}
