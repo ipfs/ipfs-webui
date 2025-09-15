@@ -42,7 +42,22 @@ async function submitGatewayAndCheck (page, inputElement, submitButton, gatewayU
   await inputElement.fill(gatewayURL)
   // Check if the submit button is not null, and click it only if it's available
   if (submitButton) {
-    await submitButton.click()
+    try {
+      await page.waitForFunction(
+        (button) => !button.disabled,
+        submitButton,
+        { timeout: 5000 }
+      )
+      await submitButton.click()
+    } catch (error) {
+      const freshSubmitButton = await page.waitForSelector('#public-subdomain-gateway-submit-button')
+      await page.waitForFunction(
+        (button) => !button.disabled,
+        freshSubmitButton,
+        { timeout: 5000 }
+      )
+      await freshSubmitButton.click()
+    }
   }
   const hasExpectedClass = await checkClassWithTimeout(page, inputElement, expectedClass)
   expect(hasExpectedClass).toBe(true)
