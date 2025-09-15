@@ -40,12 +40,13 @@ interface TopControlsProps {
   isAtBottom: boolean
   scrollToBottom: () => void
   hasEntries: boolean
+  hasInteracted: boolean
+  setHasInteracted: (value: boolean) => void
 }
 
-const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, isStreaming, startStreaming, stopStreaming, onSettingsClick, isAtBottom, scrollToBottom, hasEntries }) => {
+const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, isStreaming, startStreaming, stopStreaming, onSettingsClick, isAtBottom, scrollToBottom, hasEntries, hasInteracted, setHasInteracted }) => {
   const { t } = useTranslation('diagnostics')
   const [showInitialTooltip, setShowInitialTooltip] = useState(true)
-  const [hasInteracted, setHasInteracted] = useState(false)
 
   // Hide initial tooltip after 6 seconds or when user has interacted
   useEffect(() => {
@@ -64,6 +65,13 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
       setShowInitialTooltip(false)
     }
   }, [isStreaming, hasInteracted])
+
+  // Reset tooltip when interaction state is reset
+  useEffect(() => {
+    if (!hasInteracted) {
+      setShowInitialTooltip(true)
+    }
+  }, [hasInteracted])
 
   const SizeControl = useMemo(() => {
     if (!isExpanded) {
@@ -86,7 +94,7 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
     } else {
       startStreaming()
     }
-  }, [isStreaming, startStreaming, stopStreaming])
+  }, [isStreaming, startStreaming, stopStreaming, setHasInteracted])
 
   // because the settings icon is from ipfs-css and the others are from lucide, we need to adjust a little bit to make it look the same
   const settingsIconStyle = { transformBox: 'fill-box', transformOrigin: 'center', transform: 'scale(1.50)' } as const
@@ -122,14 +130,20 @@ const TopControls: React.FC<TopControlsProps> = ({ isExpanded, setIsExpanded, is
 
 interface BottomControlsProps {
   clearEntries: () => void
+  onClear: () => void
 }
 
-const BottomControls: React.FC<BottomControlsProps> = ({ clearEntries }) => {
+const BottomControls: React.FC<BottomControlsProps> = ({ clearEntries, onClear }) => {
   const { t } = useTranslation('diagnostics')
+
+  const handleClear = useCallback(() => {
+    clearEntries()
+    onClear()
+  }, [clearEntries, onClear])
 
   return <div className='absolute bottom-1 right-0 mr3 z-10'>
     <IconTooltip text={t('logs.storage.trashTooltip')} position='left'>
-      <GlyphTrash width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' onClick={clearEntries} />
+      <GlyphTrash width={32} height={32} className='pointer gray o-70 hover-o-100 hover-black mb1 fill-current-color' onClick={handleClear} />
     </IconTooltip>
   </div>
 }
@@ -174,15 +188,16 @@ const LogEntry = React.memo<LogEntryProps>(({ logEntry }) => {
 
 interface LogEntryListProps {
   logEntries: LogEntryType[]
+  isStreaming: boolean
 }
 
-const LogEntryList: React.FC<LogEntryListProps> = ({ logEntries }) => {
+const LogEntryList: React.FC<LogEntryListProps> = ({ logEntries, isStreaming }) => {
   const { t } = useTranslation('diagnostics')
 
   if (logEntries.length === 0) {
     return (
-      <div className='mv4 tc charcoal f5'>
-        <p className='ma0 sans-serif'>{t('logs.entries.noEntries')}</p>
+      <div className='mv4 tc charcoal-muted f5'>
+        <p className='ma0 sans-serif'>{t(isStreaming ? 'logs.entries.noEntriesStreaming' : 'logs.entries.noEntries')}</p>
       </div>
     )
   }
@@ -198,6 +213,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
   const [isExpanded, setIsExpanded] = useState(false)
   const [isAtBottom, setIsAtBottom] = useState(true)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
+  const [hasInteracted, setHasInteracted] = useState(false)
   const lastLogEntryId = useMemo(() => logEntries[logEntries.length - 1]?.id, [logEntries])
 
   const { bufferConfig: logBufferConfig, updateBufferConfig: doUpdateLogBufferConfig } = useLogs()
@@ -225,6 +241,13 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
     // only scroll to bottom if the last log entry id has changed, and we were previously at the bottom
     // this will lock the view to the bottom of the logs list while the logs are streaming, unless the user scrolls up
   }, [isAtBottom, scrollToBottom, lastLogEntryId])
+
+  const handleClearReset = useCallback(() => {
+    if (isStreaming) {
+      stopStreaming()
+    }
+    setHasInteracted(false)
+  }, [isStreaming, stopStreaming])
 
   const styles = useMemo<CSSProperties>(() => {
     const baseStyles = {
@@ -275,15 +298,15 @@ export const LogViewer: React.FC<LogViewerProps> = ({ logEntries, isStreaming, c
         />
       )}
       <div className='relative code' style={styles}>
-        <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} hasEntries={logEntries.length > 0} />
+        <TopControls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isStreaming={isStreaming} startStreaming={startStreaming} stopStreaming={stopStreaming} onSettingsClick={() => setIsSettingsModalOpen(true)} isAtBottom={isAtBottom} scrollToBottom={scrollToBottom} hasEntries={logEntries.length > 0} hasInteracted={hasInteracted} setHasInteracted={setHasInteracted} />
         <div
           ref={containerRef}
           className='ba b--black-20 bg-near-white f6 overflow-auto overflow-x-hidden flex-auto'
           style={{ minHeight: 0 }}
           onScroll={handleScroll}
         >
-          <LogEntryList logEntries={logEntries} />
-          <BottomControls clearEntries={clearEntries} />
+          <LogEntryList logEntries={logEntries} isStreaming={isStreaming} />
+          <BottomControls clearEntries={clearEntries} onClear={handleClearReset} />
         </div>
 
         <BufferConfigModal

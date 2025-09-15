@@ -39,6 +39,7 @@
       "subsystem": "Subsystem",
       "message": "Message",
       "noEntries": "No log entries yet. Start streaming to see logs.",
+      "noEntriesStreaming": "Listening for logs... (tip: increase log levels to see more activity)",
       "loading": "Loading log subsystems...",
       "streaming": "Live streaming...",
       "newLogsAvailable": "📍 New logs arriving (not shown)",
