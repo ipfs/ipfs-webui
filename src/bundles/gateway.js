@@ -33,6 +33,10 @@ const init = () => ({
   ipfsCheckUrl: readIpfsCheckUrlSetting()
 })
 
+/**
+ * @param {any} value
+ * @returns {boolean}
+ */
 export const checkValidHttpUrl = (value) => {
   let url
 
@@ -46,6 +50,7 @@ export const checkValidHttpUrl = (value) => {
 
 /**
  * Check if any hashes from IMG_ARRAY can be loaded from the provided gatewayUrl
+ * @param {string} gatewayUrl - The gateway URL to check
  * @see https://github.com/ipfs/ipfs-webui/issues/1937#issuecomment-1152894211 for more info
  */
 export const checkViaImgSrc = (gatewayUrl) => {
@@ -56,12 +61,17 @@ export const checkViaImgSrc = (gatewayUrl) => {
    * this is more robust check than loading js, as it won't be blocked
    * by privacy protections present in modern browsers or in extensions such as Privacy Badger
    */
+  // @ts-expect-error - Promise.any requires ES2021 but we're on ES2020
   return Promise.any(IMG_ARRAY.map(element => {
     const imgUrl = new URL(`${url.protocol}//${url.hostname}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
     return checkImgSrcPromise(imgUrl)
   }))
 }
 
+/**
+ * @param {URL} imgUrl - The image URL to check
+ * @returns {Promise<void>}
+ */
 const checkImgSrcPromise = (imgUrl) => {
   const imgCheckTimeout = 15000
 
@@ -73,6 +83,7 @@ const checkImgSrcPromise = (imgUrl) => {
       return true
     }
 
+    /** @type {NodeJS.Timeout | null} */
     let timer = setTimeout(() => { if (timeout()) reject(new Error(`Image load timed out after ${imgCheckTimeout / 1000} seconds for URL: ${imgUrl}`)) }, imgCheckTimeout)
     const img = new Image()
 
@@ -87,7 +98,7 @@ const checkImgSrcPromise = (imgUrl) => {
       resolve()
     }
 
-    img.src = imgUrl
+    img.src = imgUrl.toString()
   })
 }
 
@@ -138,7 +149,9 @@ export async function checkSubdomainGateway (gatewayUrl) {
     // avoid sending probe requests to the default gateway every time Settings page is opened
     return true
   }
+  /** @type {URL} */
   let imgSubdomainUrl
+  /** @type {URL} */
   let imgRedirectedPathUrl
   try {
     const gwUrl = new URL(gatewayUrl)
@@ -163,6 +176,11 @@ export async function checkSubdomainGateway (gatewayUrl) {
 const bundle = {
   name: 'gateway',
 
+  /**
+   * @param {any} state
+   * @param {any} action
+   * @returns {any}
+   */
   reducer: (state = init(), action) => {
     if (action.type === 'SET_AVAILABLE_GATEWAY') {
       return { ...state, availableGateway: action.payload }
@@ -183,29 +201,61 @@ const bundle = {
     return state
   },
 
+  /**
+   * @param {string} url
+   * @returns {function({dispatch: Function}): any}
+   */
   doSetAvailableGateway: url => ({ dispatch }) => dispatch({ type: 'SET_AVAILABLE_GATEWAY', payload: url }),
 
+  /**
+   * @param {string} address
+   * @returns {function({dispatch: Function}): Promise<void>}
+   */
   doUpdatePublicGateway: (address) => async ({ dispatch }) => {
     await writeSetting('ipfsPublicGateway', address)
     dispatch({ type: 'SET_PUBLIC_GATEWAY', payload: address })
   },
 
+  /**
+   * @param {string} address
+   * @returns {function({dispatch: Function}): Promise<void>}
+   */
   doUpdatePublicSubdomainGateway: (address) => async ({ dispatch }) => {
     await writeSetting('ipfsPublicSubdomainGateway', address)
     dispatch({ type: 'SET_PUBLIC_SUBDOMAIN_GATEWAY', payload: address })
   },
 
+  /**
+   * @param {string} url
+   * @returns {function({dispatch: Function}): Promise<void>}
+   */
   doUpdateIpfsCheckUrl: (url) => async ({ dispatch }) => {
     await writeSetting('ipfsCheckUrl', url)
     dispatch({ type: 'SET_IPFS_CHECK_URL', payload: url })
   },
 
+  /**
+   * @param {any} state
+   * @returns {string|null}
+   */
   selectAvailableGateway: (state) => state?.gateway?.availableGateway,
 
+  /**
+   * @param {any} state
+   * @returns {string}
+   */
   selectPublicGateway: (state) => state?.gateway?.publicGateway,
 
+  /**
+   * @param {any} state
+   * @returns {string}
+   */
   selectPublicSubdomainGateway: (state) => state?.gateway?.publicSubdomainGateway,
 
+  /**
+   * @param {any} state
+   * @returns {string}
+   */
   selectIpfsCheckUrl: (state) => state?.gateway?.ipfsCheckUrl
 }
 
