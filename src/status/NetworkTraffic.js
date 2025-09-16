@@ -18,7 +18,10 @@ class NetworkTraffic extends React.Component {
     const up = nodeBandwidth ? Math.trunc(Number(nodeBandwidth.rateOut) || 0) : 0
 
     if (down !== prevState.downFilled || up !== prevState.upFilled) {
+      // Combined bandwidth to determine scale needed for both meters
       const combinedNow = down + up
+      // Keep the maximum scale seen so far to prevent jarring visual changes
+      // when bandwidth drops (meters stay proportional to historical peak)
       const nextCommonTotal = Math.max(prevState.commonTotal, combinedNow)
 
       this.setState({
