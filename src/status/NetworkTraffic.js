@@ -17,15 +17,10 @@ class NetworkTraffic extends React.Component {
     const down = nodeBandwidth ? Math.trunc(Number(nodeBandwidth.rateIn) || 0) : 0
     const up = nodeBandwidth ? Math.trunc(Number(nodeBandwidth.rateOut) || 0) : 0
 
-    const combinedNow = down + up
+    if (down !== prevState.downFilled || up !== prevState.upFilled) {
+      const combinedNow = down + up
+      const nextCommonTotal = Math.max(prevState.commonTotal, combinedNow)
 
-    const nextCommonTotal = Math.max(prevState.commonTotal, combinedNow)
-
-    if (
-      down !== prevState.downFilled ||
-      up !== prevState.upFilled ||
-      nextCommonTotal !== prevState.commonTotal
-    ) {
       this.setState({
         downFilled: down,
         upFilled: up,
