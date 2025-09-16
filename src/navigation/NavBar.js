@@ -9,6 +9,7 @@ import StrokeWeb from '../icons/StrokeWeb.js'
 import StrokeCube from '../icons/StrokeCube.js'
 import StrokeSettings from '../icons/StrokeSettings.js'
 import StrokeIpld from '../icons/StrokeIpld.js'
+import StrokeLab from '../icons/StrokeLab.js'
 
 // Styles
 import './NavBar.css'
@@ -50,7 +51,7 @@ const NavLink = ({
         <div className='db'>
           <Svg width='46' role='presentation' className={svgClass} />
         </div>
-        <div className={`${active ? 'o-100' : 'o-50'} db f6 tc montserrat ttu fw1 `} style={{ whiteSpace: 'pre-wrap' }}>
+        <div className={`${active ? 'o-100' : 'o-50'} db f6 tc montserrat ttu fw1 navbar-item-label`}>
           {children}
         </div>
       </div>
@@ -82,6 +83,7 @@ export const NavBar = ({ t }) => {
           <NavLink to='/explore' icon={StrokeIpld}>{t('explore:tabName')}</NavLink>
           <NavLink to='/peers' icon={StrokeCube}>{t('peers:title')}</NavLink>
           <NavLink to='/settings' icon={StrokeSettings}>{t('settings:title')}</NavLink>
+          <NavLink to='/diagnostics' icon={StrokeLab}>{t('diagnostics:title')}</NavLink>
         </div>
       </div>
       <div className='dn db-l navbar-footer mb2 tc center f7 o-80 glow'>

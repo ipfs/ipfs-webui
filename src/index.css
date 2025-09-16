@@ -38,3 +38,14 @@ html, body, #root {
   font-size: 14px !important;
   font-family: 'Montserrat';
 }
+
+/* =========================
+    Custom tachyons classes
+   ========================= */
+.hover-o-100:hover, .hover-o-100:focus {
+  opacity: 1;
+}
+
+.hover-o-90:hover, .hover-o-90:focus {
+  opacity: 0.9;
+}

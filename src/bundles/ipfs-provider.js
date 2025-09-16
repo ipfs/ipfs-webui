@@ -539,6 +539,13 @@ const bundle = {
     contextBridge.setContext('doUpdateIpfsApiAddress', store.doUpdateIpfsApiAddress)
   },
 
+  reactIpfsReadyToBridge: createSelector(
+    'selectIpfsReady',
+    (ipfsReady) => {
+      contextBridge.setContext('selectIpfsReady', ipfsReady)
+    }
+  ),
+
   /**
    * Bridge ipfs instance to context bridge for use by React contexts
    */
