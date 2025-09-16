@@ -207,7 +207,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
                 <Column label={t('app:terms.location')} cellRenderer={locationCellRenderer(t)} dataKey='location' width={350} className='f6 charcoal truncate pl2' />
                 <Column label={t('app:terms.latency')} cellRenderer={latencyCellRenderer} dataKey='latency' width={100} className='f6 charcoal pl2' />
                 <Column label={t('app:terms.peerId')} cellRenderer={peerIdCellRenderer(t)} dataKey='peerId' width={200} className='charcoal monospace truncate f6 pl2' />
-                <Column label={t('app:terms.connection')} cellRenderer={connectionCellRenderer(t)} dataKey='connection' width={200} className='f6 charcoal truncate pl2' />
+                <Column label={t('app:terms.connection')} cellRenderer={connectionCellRenderer(t)} dataKey='connection' width={200} className='charcoal monospace truncate f7 pl2' />
                 <Column label={t('agentVersion')} cellRenderer={agentVersionCellRenderer(t)} dataKey='agentVersion' width={250} className='charcoal monospace truncate f7 pl2' />
                 <Column label={t('protocols')} cellRenderer={protocolsCellRenderer(t)} dataKey='protocols' width={420} className='charcoal monospace truncate f7 pl2' />
               </Table>

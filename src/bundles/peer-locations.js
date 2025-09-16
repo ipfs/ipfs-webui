@@ -161,7 +161,10 @@ const toLocationString = loc => {
 }
 
 const parseConnection = (multiaddr) => {
-  return multiaddr.protoNames().join(' • ')
+  const protocols = multiaddr.protoNames()
+    .map(p => p.startsWith('quic-v') ? 'quic' : p) // shorten quic-v1, quic-v2, etc to just 'quic'
+    .join('/')
+  return protocols
 }
 
 const parseLatency = (latency) => {
