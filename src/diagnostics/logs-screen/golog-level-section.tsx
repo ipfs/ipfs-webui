@@ -48,13 +48,19 @@ const GologLevelSection: React.FC = () => {
     }
   }, [isValid, value, gologLevelString, setLogLevelsBatch, t])
 
-  const onReset = useCallback((event: React.FormEvent) => {
+  const onCancel = useCallback((event: React.FormEvent) => {
     event.preventDefault()
     if (gologLevelString !== null) {
       setValue(gologLevelString)
       setIsValid(true)
     }
   }, [gologLevelString])
+
+  const onDefault = useCallback((event: React.FormEvent) => {
+    event.preventDefault()
+    setValue('error')
+    setIsValid(true)
+  }, [])
 
   const canSubmit = useMemo(() => {
     return isValid && errorMessage === '' && calculateGologLevelString(subsystemsToActualLevels(parseGologLevelString(value))) !== gologLevelString
@@ -65,7 +71,7 @@ const GologLevelSection: React.FC = () => {
       <Box className='mb3 pa4-l pa2'>
         <div className='mb2'>
           <h3 className='montserrat fw4 charcoal ma0 f5 mb2'>{t('logs.gologLevel.title')}</h3>
-          <p className='charcoal f6 mb3'>{t('logs.gologLevel.description')}</p>
+          <p className='charcoal f6 mb3'>{t('logs.gologLevel.placeholder')}</p>
           <div className='input-reset ba b--black-20 pa2 bg-light-gray f6 charcoal'>
             {t('logs.entries.loading')}...
           </div>
@@ -79,7 +85,7 @@ const GologLevelSection: React.FC = () => {
       <div className='mb2'>
         <h3 className='ttu tracked f6 fw4 teal mt0 mb3'>{t('logs.gologLevel.title')}</h3>
         <p>
-          <Trans i18nKey='logs.gologLevel.descriptionWithLink' t={t}>
+          <Trans i18nKey='logs.gologLevel.description' t={t}>
             <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/environment-variables.md#golog_log_level' target='_blank' rel='noopener noreferrer'> </a>
           </Trans>
         </p>
@@ -88,7 +94,7 @@ const GologLevelSection: React.FC = () => {
             value={value}
             onChange={setValue}
             subsystems={subsystems}
-            placeholder={t('logs.gologLevel.description')}
+            placeholder={t('logs.gologLevel.placeholder')}
             className='w-100 lh-copy monospace f5 mb2 charcoal input-reset'
             onSubmit={onSubmit}
             onValidityChange={setIsValid}
@@ -101,13 +107,22 @@ const GologLevelSection: React.FC = () => {
           )}
           <div className='flex flex-column flex-row-ns justify-end'>
             <Button
-              id='golog-level-reset-button'
+              id='golog-level-default-button'
               minWidth={100}
               bg='bg-charcoal'
               className='tc'
+              onClick={onDefault}
+              disabled={value === 'error'}>
+              {t('app:actions.default')}
+            </Button>
+            <Button
+              id='golog-level-cancel-button'
+              minWidth={100}
+              bg='bg-charcoal'
+              className='mt2 mt0-ns ml0 ml2-ns tc'
               disabled={value === gologLevelString}
-              onClick={onReset}>
-              {t('app:actions.reset')}
+              onClick={onCancel}>
+              {t('app:actions.cancel')}
             </Button>
             <Button
               id='golog-level-submit-button'
@@ -115,7 +130,7 @@ const GologLevelSection: React.FC = () => {
               className='mt2 mt0-ns ml0 ml2-ns tc'
               onClick={onSubmit}
               disabled={!canSubmit}>
-              {t('app:actions.submit')}
+              {t('app:actions.apply')}
             </Button>
           </div>
         </form>

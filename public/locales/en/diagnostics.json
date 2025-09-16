@@ -8,7 +8,6 @@
   },
   "logs": {
     "title": "Node Logs",
-    "description": "Real-time logs from your IPFS node with configurable log levels.",
     "streaming": {
       "start": "Start Streaming",
       "stop": "Stop Streaming",
@@ -69,9 +68,9 @@
       "autoDisableThreshold": "Auto-disable Threshold (logs/sec)"
     },
     "gologLevel": {
-      "title": "Current Log Configuration",
-      "description": "GOLOG_LOG_LEVEL equivalent for current settings. Use to prototype the log level settings for your Kubo node.",
-      "descriptionWithLink": "<0>GOLOG_LOG_LEVEL</0> equivalent for current settings. Use to prototype the log level settings for your Kubo node.",
+      "title": "Log Level Configuration",
+      "placeholder": "e.g. error,bitswap=info,nat=debug",
+      "description": "Choose what gets logged and how much detail to show. Start with a base level like 'error' to see only problems, or add specific components to track (like 'error,nat=debug' to debug UPnP issues). Same syntax as GOLOG_LOG_LEVEL. <0>Learn more</0>",
       "copyToClipboard": "Copy to clipboard",
       "copied": "Copied!",
       "edit": "Edit",
@@ -83,7 +82,7 @@
       "globalLevel": "Global level",
       "subsystem": "Subsystem",
       "level": "Log level",
-      "invalidInput": "Invalid input, please enter a valid GOLOG_LOG_LEVEL string or click reset to use the current GOLOG_LOG_LEVEL.",
+      "invalidInput": "Invalid input, please enter a valid GOLOG_LOG_LEVEL string or click Default or Cancel.",
       "invalidLevel": "Invalid log level: \"{level}\". Valid levels are: debug, info, warn, error, dpanic, panic, fatal",
       "invalidSubsystem": "Invalid subsystem: \"{subsystem}\". Please select a valid subsystem from the dropdown.",
       "invalidSubsystemLevel": "Subsystem \"{subsystem}\" must be followed by an equal sign and a log level.",

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import Box from '../../components/box/Box.js'
 import LogWarningModal from './log-warning-modal'
 import { useLogs } from '../../contexts/logs/index'
@@ -11,7 +10,6 @@ import { LogScreenFooter } from './log-screen-footer'
 import './logs-screen.css'
 
 const LogsScreen = () => {
-  const { t } = useTranslation('diagnostics')
   const {
     entries: safeLogEntries,
     isStreaming: isLogStreaming,
@@ -71,8 +69,6 @@ const LogsScreen = () => {
 
   return (
     <div className='logs-screen-container'>
-      <p className='charcoal mb3'>{t('logs.description')}</p>
-
       <GologLevelSection />
 
       <Box className='' style={{ flex: '1 1 auto', minHeight: '15rem', display: 'flex', flexDirection: 'column' }}>
