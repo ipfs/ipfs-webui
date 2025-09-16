@@ -1,49 +1,22 @@
 {
   "title": "Diagnostics",
-  "description": "View detailed diagnostic information about your IPFS node and system configuration.",
   "tabs": {
     "logs": "Logs",
-    "retrieval-check": "Retrieval Check",
-    "connectivity": "Connectivity"
+    "retrieval-check": "Retrieval Check"
   },
   "logs": {
     "title": "Node Logs",
     "streaming": {
-      "start": "Start Streaming",
-      "stop": "Stop Streaming",
       "statusActive": "Streaming Active",
       "statusStopped": "Streaming Stopped",
-      "config": "Configure",
       "rate": "{rate} logs/sec",
       "highRate": "High Rate",
       "autoDisabled": "Auto-disabled"
     },
-    "levels": {
-      "title": "Log Levels",
-      "global": "Global Level",
-      "subsystem": "Subsystem Levels",
-      "selectSubsystem": "Select a subsystem",
-      "currentLevel": "Current level",
-      "debug": "Debug",
-      "info": "Info",
-      "warn": "Warning",
-      "error": "Error",
-      "dpanic": "DPanic",
-      "panic": "Panic",
-      "fatal": "Fatal"
-    },
     "entries": {
-      "timestamp": "Time",
-      "level": "Level",
-      "subsystem": "Subsystem",
-      "message": "Message",
       "noEntries": "No log entries yet. Start streaming to see logs.",
       "noEntriesStreaming": "Listening for logs... (tip: increase log levels to see more activity)",
       "loading": "Loading log subsystems...",
-      "streaming": "Live streaming...",
-      "newLogsAvailable": "📍 New logs arriving (not shown)",
-      "goToLatest": "📍 Go to Latest",
-      "autoScrollPaused": "📌 Auto-scroll paused",
       "tooltipGoToLatest": "Scroll to latest logs",
       "tooltipExpand": "Expand logs",
       "tooltipCollapse": "Collapse logs",
@@ -56,8 +29,6 @@
       "totalEntries": "Total Entries",
       "estimatedSize": "Estimated Size",
       "memoryBuffer": "Memory Buffer",
-      "logEntriesCount": "Log Entries ({count})",
-      "logEntriesRange": "Log Entries (showing {start}-{end} of {total})",
       "trashTooltip": "Clear all logs"
     },
     "config": {
@@ -71,22 +42,12 @@
       "title": "Log Level Configuration",
       "placeholder": "e.g. error,bitswap=info,nat=debug",
       "description": "Choose what gets logged and how much detail to show. Start with a base level like 'error' to see only problems, or add specific components to track (like 'error,nat=debug' to debug UPnP issues). Same syntax as GOLOG_LOG_LEVEL. <0>Learn more</0>",
-      "copyToClipboard": "Copy to clipboard",
-      "copied": "Copied!",
-      "edit": "Edit",
-      "save": "Save",
-      "cancel": "Cancel",
-      "clickToEdit": "Click to edit GOLOG_LOG_LEVEL"
+      "invalidSubsystemLevel": "Subsystem \"{subsystem}\" must be followed by an equal sign and a log level."
     },
     "autocomplete": {
       "globalLevel": "Global level",
       "subsystem": "Subsystem",
-      "level": "Log level",
-      "invalidInput": "Invalid input, please enter a valid GOLOG_LOG_LEVEL string or click Default or Cancel.",
-      "invalidLevel": "Invalid log level: \"{level}\". Valid levels are: debug, info, warn, error, dpanic, panic, fatal",
-      "invalidSubsystem": "Invalid subsystem: \"{subsystem}\". Please select a valid subsystem from the dropdown.",
-      "invalidSubsystemLevel": "Subsystem \"{subsystem}\" must be followed by an equal sign and a log level.",
-      "invalidDuplicateGlobalLevel": "You cannot have multiple global levels. Please remove one of the global levels and try again."
+      "level": "Log level"
     },
     "warnings": {
       "potentialIssues": "Potential Issues:",
@@ -129,54 +90,5 @@
       "upgradeDescription": "To use the log level management features, you need to upgrade to a newer version of Kubo that supports getting log levels and tailing logs from the RPC API endpoint.",
       "downloadKubo": "Download Kubo"
     }
-  },
-  "connectivity": {
-    "title": "Connectivity Check",
-    "description": "Test your IPFS node's connectivity and network reachability.",
-    "checkIpfs": {
-      "title": "IPFS Network Check",
-      "description": "Verify that your node can connect to the IPFS network and is reachable by other peers.",
-      "runCheck": "Run Connectivity Check",
-      "checking": "Checking connectivity...",
-      "endpoint": "Check Endpoint",
-      "customEndpoint": "Use Custom Endpoint"
-    },
-    "results": {
-      "title": "Check Results",
-      "nodeId": "Node ID",
-      "addresses": "Listening Addresses",
-      "reachable": "Publicly Reachable",
-      "natStatus": "NAT Status",
-      "dhtStatus": "DHT Status",
-      "lastCheck": "Last Check"
-    }
-  },
-  "nodeInfo": {
-    "title": "Node Information",
-    "peerId": "Peer ID",
-    "agent": "Agent",
-    "ui": "UI Version"
-  },
-  "systemInfo": {
-    "title": "System Information",
-    "platform": "Platform",
-    "userAgent": "User Agent",
-    "language": "Language",
-    "online": "Online",
-    "offline": "Offline"
-  },
-  "connection": {
-    "title": "Connection Status",
-    "status": "Status",
-    "connected": "Connected",
-    "disconnected": "Disconnected",
-    "addresses": "Addresses"
-  },
-  "repo": {
-    "title": "Repository Information",
-    "path": "Repository Path",
-    "defaultPath": "Default IPFS repository path",
-    "version": "Repository Version",
-    "defaultVersion": "Latest"
   }
 }
