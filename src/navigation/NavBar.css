@@ -2,6 +2,25 @@
   border-bottom: 5px solid rgba(201, 210, 215, .4);
 }
 
+.navbar-item-label {
+  white-space: pre-wrap;
+}
+
+@media only screen and (max-width: 480px) {
+  .navbar-item-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60px;
+  }
+}
+
+@media only screen and (max-width: 410px) {
+  .navbar-item-label {
+    max-width: 46px;
+  }
+}
+
 @media only screen and (min-width: 60em) {
   .navbar-container {
     width: 9.25rem;
