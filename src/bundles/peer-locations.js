@@ -90,12 +90,8 @@ function createPeersLocations (opts) {
         )).sort()
         : []).join(', ')
 
-      // Truncate agent version as a defensive measure against excessively long strings
-      const rawAgentVersion = peer.identify?.AgentVersion || ''
-      const maxAgentVersionLength = 64 // same as https://github.com/ipfs/kubo/pull/9465
-      const agentVersion = rawAgentVersion.length > maxAgentVersionLength
-        ? rawAgentVersion.substring(0, maxAgentVersionLength) + '…'
-        : rawAgentVersion
+      // Get agent version (truncation will be handled upstream in kubo via https://github.com/ipfs/kubo/pull/9465)
+      const agentVersion = peer.identify?.AgentVersion
 
       return {
         peerId,

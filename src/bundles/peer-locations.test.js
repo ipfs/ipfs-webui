@@ -189,7 +189,7 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(result).toEqual([
       {
         address: '1.test',
-        agentVersion: '',
+        agentVersion: undefined,
         connection: '1/test • endOfTest',
         coordinates: [1.11, 1.01],
         direction: undefined,
@@ -203,7 +203,7 @@ describe('selectPeerLocationsForSwarm', () => {
       },
       {
         address: '2.test',
-        agentVersion: '',
+        agentVersion: undefined,
         connection: '2/test • endOfTest',
         coordinates: [2.22, 2.02],
         direction: undefined,
@@ -254,7 +254,7 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(result).toEqual([
       {
         address: '1.test',
-        agentVersion: '',
+        agentVersion: undefined,
         connection: '1/test • endOfTest',
         coordinates: [1.11, 1.01],
         direction: undefined,
@@ -296,7 +296,7 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(result).toEqual([
       {
         address: '1.test',
-        agentVersion: '',
+        agentVersion: undefined,
         connection: '1/test • endOfTest',
         direction: undefined,
         coordinates: null,
