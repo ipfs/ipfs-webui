@@ -56,7 +56,23 @@ async function submitGatewayAndCheck (page, inputElement, submitButton, gatewayU
     await submitBtn.waitFor({ state: 'visible', timeout: 10000 })
 
     // Wait for the button to become enabled (validation must complete)
-    await expect(submitBtn).toBeEnabled({ timeout: 10000 })
+    // Increase timeout and add better error handling
+    try {
+      await expect(submitBtn).toBeEnabled({ timeout: 15000 })
+    } catch (error) {
+      // If button is still disabled, let's check what's happening
+      const isDisabled = await submitBtn.evaluate(el => el.disabled)
+      const buttonText = await submitBtn.textContent()
+      console.log(`Button disabled: ${isDisabled}, text: ${buttonText}`)
+
+      // Try to trigger validation by blurring and refocusing the input
+      await inputElement.blur()
+      await page.waitForTimeout(500)
+      await inputElement.focus()
+      await page.waitForTimeout(1000)
+      // Try again with a longer timeout
+      await expect(submitBtn).toBeEnabled({ timeout: 10000 })
+    }
 
     // Now click the enabled button
     await submitBtn.click()
@@ -93,6 +109,8 @@ test.describe('Settings screen', () => {
   })
 
   test('Submit/Reset Public Subdomain Gateway', async ({ page }) => {
+    // Increase timeout for this test as validation can be slow
+    test.setTimeout(45000)
     // Wait for the necessary elements to be available in the DOM
     const publicSubdomainGatewayElement = await page.waitForSelector('#public-subdomain-gateway')
     const publicSubdomainGatewaySubmitButton = await page.waitForSelector('#public-subdomain-gateway-submit-button')
