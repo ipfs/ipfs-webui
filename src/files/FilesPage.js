@@ -31,7 +31,7 @@ import Checkbox from '../components/checkbox/Checkbox.js'
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
-  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCopyCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
+  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
   files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, filesSorting, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
