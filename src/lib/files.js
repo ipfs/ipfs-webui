@@ -1,6 +1,6 @@
 import filesize from 'filesize'
 /**
- * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
  * @typedef {import('../bundles/files/actions').FileStat} FileStat
  * @typedef {import('multiformats/cid').CID} CID
  */
@@ -166,10 +166,10 @@ export async function debouncedProvide (cid, ipfs) {
   }
 
   try {
-    // @ts-expect-error - ipfs is actually a KuboRPCClient with routing API
     const provideEvents = ipfs.routing.provide(cid, { recursive: false })
 
     for await (const event of provideEvents) {
+      // @ts-expect-error - event type doesn't have messageName in types but it exists at runtime
       if (event.messageName === 'PUT_VALUE') {
         console.debug(`[PROVIDE] ${cidStr}:`, event)
       }

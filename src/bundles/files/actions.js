@@ -13,10 +13,10 @@ import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath, disp
 import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
- * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
  * @typedef {import('../../files/types').FileStream} FileStream
  * @typedef {import('./utils').Info} Info
- * @typedef {import('ipfs').Pin} Pin
+ * @typedef {{ cid: CID }} Pin
  */
 
 /**
@@ -721,7 +721,7 @@ const importFiles = (ipfs, files) => {
   const result = all(ipfs.addAll(files, {
     pin: false,
     wrapWithDirectory: false,
-    progress: (offset, name) => channel.send({ offset, name })
+    progress: (offset, name = '') => channel.send({ offset, name })
   }))
 
   result.then(() => channel.close(), error => channel.close(error))
@@ -755,7 +755,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
     const absPath = join(path, f.name)
     let file = null
 
-    if (dirCount < 1000 && (f.type === 'directory' || f.type === 'dir')) {
+    if (dirCount < 1000 && f.type === 'dir') {
       dirCount += 1
       file = fileFromStats({ ...await stat(ipfs, f.cid), path: absPath })
     } else {
