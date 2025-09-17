@@ -177,7 +177,7 @@
   "sortBySizeDesc": "Size (largest first)",
   "sortByPinnedFirst": "Pinned first",
   "sortByUnpinnedFirst": "Unpinned first",
-  "sortByOriginal": "Original order",
+  "sortByOriginal": "Original DAG order",
   "publishModal": {
     "title": "Publish to IPNS",
     "cidToPublish": "CID:",
