@@ -14,8 +14,8 @@
   "addByCar": "From CAR",
   "bulkImport": "Bulk import",
   "newFolder": "New folder",
-  "viewList": "Show items in list",
-  "viewGrid": "Show items in grid",
+  "switchToListView": "Click to switch to list view",
+  "switchToGridView": "Click to switch to grid view",
   "generating": "Generating…",
   "dropHere": "Drop here to move",
   "actions": {

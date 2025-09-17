@@ -46,6 +46,11 @@ const FilesPage = ({
   const [viewMode, setViewMode] = useState(() => readSetting('files.viewMode') || 'list')
   const [selected, setSelected] = useState([])
 
+  const toggleViewMode = () => {
+    const newMode = viewMode === 'list' ? 'grid' : 'list'
+    setViewMode(newMode)
+  }
+
   useEffect(() => {
     doFetchPinningServices()
     doFilesFetch()
@@ -341,24 +346,15 @@ const FilesPage = ({
             />
           </div>
           <button
-            className={`pointer filelist-view ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
-            onClick={() => setViewMode('list')}
-            title={t('viewList')}
+            className="pointer selected-item"
+            onClick={toggleViewMode}
+            title={viewMode === 'list' ? t('switchToGridView') : t('switchToListView')}
+            aria-label={viewMode === 'list' ? t('switchToGridView') : t('switchToListView')}
             style={{
               height: '24px'
             }}
           >
-            <ViewList width="24" height="24" />
-          </button>
-          <button
-            className={`pointer filegrid-view ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
-            onClick={() => setViewMode('grid')}
-            title={t('viewGrid')}
-            style={{
-              height: '24px'
-            }}
-          >
-            <ViewModule width="24" height="24" />
+            {viewMode === 'list' ? <ViewList width="24" height="24" /> : <ViewModule width="24" height="24" />}
           </button>
         </div>
       </Header>
