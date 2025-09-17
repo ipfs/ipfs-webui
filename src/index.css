@@ -40,6 +40,25 @@ html, body, #root {
 }
 
 /* =========================
+    macOS Electron Draggable Region Fix
+   ========================= */
+
+/* Fix: Interactive elements in draggable regions lose focus on macOS.
+ * Sets no-drag to exclude inputs, buttons, etc. from parent drag regions.
+ * See: https://github.com/ipfs/ipfs-desktop/issues/2943
+ */
+input:not([type="hidden"]),
+textarea,
+select,
+button,
+[role="button"],
+[contenteditable="true"] {
+  -webkit-app-region: no-drag !important;
+  app-region: no-drag !important;
+  pointer-events: auto;
+}
+
+/* =========================
     Custom tachyons classes
    ========================= */
 .hover-o-100:hover, .hover-o-100:focus {
