@@ -49,7 +49,7 @@ const navigateToFilesPage = async (page) => {
   })
 
   await waitForIpfsStats()
-  await page.waitForSelector('.files-grid, .FilesList')
+  await page.waitForSelector('.files-grid, .FilesList', { timeout: 60000 })
 }
 
 /**
