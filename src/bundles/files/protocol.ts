@@ -50,7 +50,7 @@ export type DirectoryContent = {
   cid: CID,
 
   content: FileStat[]
-  originalContent?: FileStat[]  // Original unsorted content from ipfs.ls
+  originalContent?: FileStat[] // Original unsorted content from ipfs.ls
   upper: FileStat | null,
 }
 
