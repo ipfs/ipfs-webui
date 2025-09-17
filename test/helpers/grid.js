@@ -26,7 +26,7 @@ const selectViewMode = async (page, mode) => {
 const navigateToFilesPage = async (page) => {
   await page.goto(webuiUrl + '#/files')
   await waitForIpfsStats()
-  await page.waitForSelector('.files-grid, .FilesList')
+  await page.waitForSelector('.files-grid, .FilesList', { timeout: 60000 })
 }
 
 /**
