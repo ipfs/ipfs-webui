@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "Не удалось установить соединение. Пожалуйста, проверьте, запущен ли ваш агент.",
   "windowIpfsRequestFailed": "Запрос IPFS не удался. Пожалуйста, проверьте настройки вашего IPFS-компаньона.",
-  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
-  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
-  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
+  "ipfsInvalidApiAddress": "",
+  "ipfsConnectSuccess": "",
+  "ipfsConnectFail": "",
   "ipfsPinFailReason": "Не удалось установить закрепление на {serviceName}: {errorMsg}",
   "ipfsPinSucceedReason": "Успешно закреплено на {serviceName}",
   "ipfsUnpinSucceedReason": "Успешно откреплено от {serviceName}",

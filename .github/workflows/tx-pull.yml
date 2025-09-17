@@ -15,7 +15,13 @@ jobs:
         chmod +x ./tx
     - name: Pull translations from Transifex
       run: |
-        ./tx -t ${{ secrets.TX_TOKEN }} pull -a -f
+        # Pull only translated strings, leaving untranslated ones empty
+        # This prevents replacing existing translations with English
+        # -f: force download, always use Transifex as source of truth (ignore timestamps)
+        # --mode onlytranslated: only includes translated strings, untranslated keys will be empty
+        # --minimum-perc 75: only pulls files that are at least 75% translated
+        # Empty strings will fallback to English at runtime via i18next
+        ./tx -t ${{ secrets.TX_TOKEN }} pull -a -f --mode onlytranslated --minimum-perc 75
     - uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842
       with:
         # Optional. Commit message for the created commit.

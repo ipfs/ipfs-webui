@@ -9,29 +9,25 @@
     "close": "关闭",
     "copy": "复制",
     "create": "创建",
+    "default": "",
     "remove": "移除",
     "download": "下载",
     "edit": "编辑",
     "import": "导入",
     "inspect": "检查",
     "more": "更多",
-    "moreInfo": "详细信息",
-    "noThanks": "不了",
-    "ok": "好的",
-    "pinVerb": "固定",
     "rename": "重命名",
     "reset": "重置",
     "save": "保存",
     "saving": "保存中 …",
-    "selectAll": "选择全部",
     "setPinning": "设置固定",
     "submit": "提交",
-    "unpin": "撤销固定",
     "unselectAll": "全部取消选择",
     "generate": "生成",
     "publish": "发布",
     "downloadCar": "导出CAR",
-    "done": "完成"
+    "done": "完成",
+    "checkRetrieval": ""
   },
   "cliModal": {
     "description": "将以下内容粘贴到终端中，以通过命令行在Kubo中执行此任务。请谨记您需要使用您自己的参数来替换掉占位符"
@@ -53,6 +49,10 @@
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "输入一个URL (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "地址",
