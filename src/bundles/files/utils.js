@@ -4,7 +4,7 @@ import * as Task from '../task.js'
 import { debouncedProvide } from '../../lib/files.js'
 
 /**
- * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
  * @typedef {import('../../files/types').FileStream} FileStream
  * @typedef {import('./actions').Ext} Ext
  * @typedef {import('./actions').Extra} Extra

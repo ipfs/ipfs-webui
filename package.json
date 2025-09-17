@@ -167,7 +167,6 @@
     "get-port": "^5.1.1",
     "http-proxy": "^1.18.1",
     "http-server": "^14.1.1",
-    "ipfs": "0.58.3",
     "ipfsd-ctl": "^15.0.2",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
