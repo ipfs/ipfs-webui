@@ -9,29 +9,25 @@
     "close": "Zavřít",
     "copy": "Zkopírovat",
     "create": "Vytvořit",
+    "default": "Default",
     "remove": "Odstranit",
     "download": "Stáhnout",
     "edit": "Upravit",
     "import": "Import",
     "inspect": "Prozkoumat",
     "more": "Více",
-    "moreInfo": "Více informací",
-    "noThanks": "Ne, díky",
-    "ok": "OK",
-    "pinVerb": "Připnout",
     "rename": "Přejmenovat",
     "reset": "Resetovat",
     "save": "Uložit",
     "saving": "Ukládání…",
-    "selectAll": "Vybrat vše",
     "setPinning": "Nastavit připínání",
     "submit": "Odeslat",
-    "unpin": "Odepnout",
     "unselectAll": "Odznačit vše",
     "generate": "Generovat",
     "publish": "Publikovat",
     "downloadCar": "Export CAR",
-    "done": "Hotovo"
+    "done": "Hotovo",
+    "checkRetrieval": "Check Retrieval"
   },
   "cliModal": {
     "description": "Chcete-li tento úkol provést v systému Kubo prostřednictvím příkazového řádku, vložte do terminálu následující příkaz. Nezapomeňte, že je třeba nahradit zástupné znaky konkrétními parametry."
@@ -53,6 +49,10 @@
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Zadejte adresu URL (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "Retrieval Check Service URL",
+    "placeholder": "Enter a URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "Adresa",

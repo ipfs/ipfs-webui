@@ -3,6 +3,7 @@
   "localNetwork": "本地网络",
   "nearby": "邻近",
   "protocols": "连接协议",
+  "agentVersion": "Agent Version",
   "addConnection": "添加连接",
   "insertPeerAddress": "请输入你想要连接的对等节点地址。",
   "addPermanentPeer": "添加至永久节点配置",

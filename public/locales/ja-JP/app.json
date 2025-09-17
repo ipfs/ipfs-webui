@@ -9,29 +9,25 @@
     "close": "閉じる",
     "copy": "コピー",
     "create": "作成",
+    "default": "Default",
     "remove": "削除",
     "download": "ダウンロード",
     "edit": "編集",
     "import": "インポート",
     "inspect": "Inspect",
     "more": "More",
-    "moreInfo": "より詳しい情報",
-    "noThanks": "拒否",
-    "ok": "了解",
-    "pinVerb": "ピン",
     "rename": "名前を変更",
     "reset": "リセット",
     "save": "保存",
     "saving": "保存中……",
-    "selectAll": "全て選択",
     "setPinning": "ピンを設定",
     "submit": "設定",
-    "unpin": "ピン解除",
     "unselectAll": "選択を全て解除",
     "generate": "生成",
     "publish": "Publish",
     "downloadCar": "Export CAR",
-    "done": "終了"
+    "done": "終了",
+    "checkRetrieval": "Check Retrieval"
   },
   "cliModal": {
     "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
@@ -53,6 +49,10 @@
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "URLを入力 (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "Retrieval Check Service URL",
+    "placeholder": "Enter a URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "アドレス",

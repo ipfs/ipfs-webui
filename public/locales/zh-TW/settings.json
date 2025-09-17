@@ -15,7 +15,7 @@
   "language": "語言",
   "analytics": "分析",
   "cliTutorMode": "CLI 引導模式",
-  "config": "IPFS 設定",
+  "config": "Kubo Config",
   "languageModal": {
     "title": "變更語言",
     "description": "挑選你喜好的語言。",
@@ -25,6 +25,10 @@
   "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
   "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "retrievalDiagnosticService": {
+    "title": "Retrieval Diagnostic Service",
+    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+  },
   "cliDescription": "<0>啟用此選項可在常用 IPFS 指令旁顯示<1>“查看程式碼”</1>的圖示。點選後會開啟一個帶有該指令的 CLI 視窗，因此您可以將其複製貼上到終端機的 IPFS 指令界面中。</0>",
   "cliModal": {
     "extraNotesJsonConfig": "如果您希望保存已在此頁的程式編輯器中修改過的設置，點擊複製圖示旁的下載圖示可以將設置文件以 JSON 檔案的形式下載到本機。"
@@ -81,14 +85,14 @@
     "false": "關閉"
   },
   "fetchingSettings": "正在擷取設定...",
-  "ipfsDaemonOffline": "IPFS Daemon 已離線。請開啟並再試一次。",
-  "settingsUnavailable": "設定無法使用。請檢查你的 IPFS Daemon 是否正在執行。",
+  "ipfsDaemonOffline": "The Kubo daemon is offline. Please turn it on and try again.",
+  "settingsUnavailable": "Settings not available. Please check your Kubo daemon is running.",
   "settingsHaveChanged": "設定已經變更，請按<1>重設</1> 更新編輯器內容。",
   "errorOccured": "在儲存變更時發生錯誤",
   "checkConsole": "檢查瀏覽器主控台獲知更多資訊。",
   "changesSaved": "你的變更已經儲存。",
-  "settingsWillBeUsedNextTime": "新設定將在你下次重新啟動 IPFS Daemon 後使用。",
-  "ipfsConfigDescription": "IPFS 設定檔是一個 JSON 文件。 IPFS Daemon 將在啟動過程中讀取一次。儲存你的變更，重新啟動 IPFS Daemon 後套用這些設定。",
+  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the Kubo daemon.",
+  "ipfsConfigDescription": "The Kubo config file is a JSON document. It is read once when the Kubo daemon is started. Save your changes, then restart the Kubo daemon to apply them.",
   "ipfsConfigHelp": "檢查文件獲知進一步資訊",
   "AnalyticsToggle": {
     "label": "向我們提供匿名數據來幫助我們改進",
@@ -129,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "設定頁面",
-      "paragraph1": "您可以在這裡變更 Web UI 和 IPFS 節點的設定。",
+      "paragraph1": "Here you can change the settings of your Web UI and Kubo node.",
       "paragraph2": "如果你正在運行IPFS Desktop ，會有一些特定的設置。"
     },
     "step2": {
@@ -154,8 +158,8 @@
       "paragraph1": "啟用CLI 引導模式來查看常見 IPFS 指令 — 若您正在學習如何透過中終端機使用 IPFS，或者您只是需要查詢指令，這將非常有用。"
     },
     "step7": {
-      "title": "IPFS 設定",
-      "paragraph1": "您可以直接從Web UI 更改IPFS 節點的設置！",
+      "title": "Kubo Config",
+      "paragraph1": "You can change the config of your Kubo node right from Web UI!",
       "paragraph2": "不要忘記重新啟動守護程式以應用更改。"
     }
   },

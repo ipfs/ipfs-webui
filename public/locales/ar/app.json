@@ -9,29 +9,25 @@
     "close": "أغلق",
     "copy": "نسخ",
     "create": "إنشاء ",
+    "default": "Default",
     "remove": "إزالة",
     "download": "تحميل",
     "edit": "تعديل",
     "import": " استيراد",
     "inspect": "فحص",
     "more": "أكثر",
-    "moreInfo": "مزيد من المعلومات",
-    "noThanks": "لا شكرا",
-    "ok": "حسنا",
-    "pinVerb": "رمز المرور",
     "rename": "إعادة تسمية",
     "reset": "إعادة تعيين",
     "save": "حفظ",
     "saving": "ادخار",
-    "selectAll": "اختر الكل",
     "setPinning": "ضبط التثبيت",
     "submit": "إرسال",
-    "unpin": "إلغاء التثبيت",
     "unselectAll": "إلغاء تحديد الكل",
     "generate": "Generate",
     "publish": "Publish",
     "downloadCar": "Export CAR",
-    "done": "Done"
+    "done": "Done",
+    "checkRetrieval": "Check Retrieval"
   },
   "cliModal": {
     "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
@@ -53,6 +49,10 @@
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "أدخل عنوان  (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "Retrieval Check Service URL",
+    "placeholder": "Enter a URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "عنوان",

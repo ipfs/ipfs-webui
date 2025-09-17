@@ -9,29 +9,25 @@
     "close": "Tutup",
     "copy": "Salin",
     "create": "Buat",
+    "default": "Default",
     "remove": "Hapus",
     "download": "Unduh",
     "edit": "Sunting",
     "import": "Impor",
     "inspect": "Memeriksa",
     "more": "Lebih",
-    "moreInfo": "Info lebih lanjut",
-    "noThanks": "Tidak, terima kasih",
-    "ok": "OK",
-    "pinVerb": "Semat",
     "rename": "Ganti nama",
     "reset": "Mengatur ulang",
     "save": "Simpan",
     "saving": "Menyimpan...",
-    "selectAll": "Pilih Semua",
     "setPinning": "Setel penyematan",
     "submit": "Kirimkan",
-    "unpin": "Lepaskan semat",
     "unselectAll": "Batalkan pilihan semua",
     "generate": "Hasilkan",
     "publish": "Menerbitkan",
     "downloadCar": "Ekspor CAR",
-    "done": "Selesai"
+    "done": "Selesai",
+    "checkRetrieval": "Check Retrieval"
   },
   "cliModal": {
     "description": "Tempelkan perintah berikut ke terminal Anda untuk melakukan tugas ini di Kubo melalui baris perintah. Ingatlah bahwa Anda perlu mengganti placeholder dengan parameter spesifik Anda."
@@ -53,6 +49,10 @@
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Masukkan URL (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "Retrieval Check Service URL",
+    "placeholder": "Enter a URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "Alamat",

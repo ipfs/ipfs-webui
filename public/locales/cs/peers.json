@@ -3,6 +3,7 @@
   "localNetwork": "Lokální síť",
   "nearby": "poblíž",
   "protocols": "Otevřené toky",
+  "agentVersion": "Agent Version",
   "addConnection": "Přidat připojení",
   "insertPeerAddress": "Zadejte adresu uzlu, ke které se chcete připojit.",
   "addPermanentPeer": "Přidat do trvalé konfigurace peeringu",

@@ -9,29 +9,25 @@
     "close": "بند کریں",
     "copy": "نقل کریں",
     "create": "تشکیل دیں",
+    "default": "Default",
     "remove": "Remove",
     "download": "ڈاؤنلوڈ کریں",
     "edit": "ترمیم کریں",
     "import": "درآمد کریں",
     "inspect": "معائنہ کریں",
     "more": "مزید",
-    "moreInfo": "مزید معلومات",
-    "noThanks": "نہیں شکریہ",
-    "ok": "ٹھیک",
-    "pinVerb": "پِن",
     "rename": "ری نیم",
     "reset": "ری سیٹ",
     "save": "محفوظ",
     "saving": "محفوظ ہو رہا ہے...",
-    "selectAll": "تمام منتخب کریں",
     "setPinning": "پِن کرنا طے کریں",
     "submit": "جمع کریں",
-    "unpin": "اَن پِن",
     "unselectAll": "تمام غیر منتخب کریں",
     "generate": "Generate",
     "publish": "Publish",
     "downloadCar": "Export CAR",
-    "done": "Done"
+    "done": "Done",
+    "checkRetrieval": "Check Retrieval"
   },
   "cliModal": {
     "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
@@ -53,6 +49,10 @@
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Enter a URL (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "Retrieval Check Service URL",
+    "placeholder": "Enter a URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "پتہ",

@@ -15,7 +15,7 @@
   "language": "Lingua",
   "analytics": "Analitica",
   "cliTutorMode": "Modalità mentore CLI",
-  "config": "Configurazione IPFS",
+  "config": "Kubo Config",
   "languageModal": {
     "title": "Cambia lingua",
     "description": "Seleziona la tua lingua preferita.",
@@ -25,6 +25,10 @@
   "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
   "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
   "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "retrievalDiagnosticService": {
+    "title": "Retrieval Diagnostic Service",
+    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+  },
   "cliDescription": "<0>Abilita quest'opzione per mostrare un'icona \"view code\" <1></1> accanto ai comuni comandi IPFS. Cliccandoci, si aprirà una finestra modale col codice di quel comando CLI dimodoché tu possa incollarlo nell'interfaccia a riga di comando nel tuo terminale.",
   "cliModal": {
     "extraNotesJsonConfig": "Se, in questa pagina dell'editor di codice, hai fatto cambiamenti al config che vorresti salvare, clicca sull'icona scarica accanto al bottone \"copia\" per scaricarlo come file JSON."
@@ -81,14 +85,14 @@
     "false": "Off"
   },
   "fetchingSettings": "Recupero delle impostazioni...",
-  "ipfsDaemonOffline": "Il demone IPFS è offline. Per favore, avvialo e riprova.",
-  "settingsUnavailable": "Impostazioni non disponibili. Per favore, controlla che il tuo demone IPFS sia attivo.",
+  "ipfsDaemonOffline": "The Kubo daemon is offline. Please turn it on and try again.",
+  "settingsUnavailable": "Settings not available. Please check your Kubo daemon is running.",
   "settingsHaveChanged": "Le impostazioni sono cambiate; per favore, clicca <1>Ripristina</1> per aggiornare il contenuto dell'editor.",
   "errorOccured": "Si è verificato un errore durante il salvataggio delle tue modifiche",
   "checkConsole": "Controlla la console del browser per ulteriori informazioni.",
   "changesSaved": "Le tue modifiche sono state salvate.",
-  "settingsWillBeUsedNextTime": "Le nuove impostazioni saranno utilizzate quando riavvierai il tuo demone IPFS.",
-  "ipfsConfigDescription": "Il file della configurazione IPFS è un documento JSON. Viene letto una volta che il demone IPFS è avviato. Salva le tue modifiche e poi riavvia il demone IPFS per applicarle.",
+  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the Kubo daemon.",
+  "ipfsConfigDescription": "The Kubo config file is a JSON document. It is read once when the Kubo daemon is started. Save your changes, then restart the Kubo daemon to apply them.",
   "ipfsConfigHelp": "Controlla la documentazione per ulteriori informazioni.",
   "AnalyticsToggle": {
     "label": "Aiuta a migliorare quest'applicazione inviando dati d'utilizzo anonimi",
@@ -129,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "Pagina delle impostazioni",
-      "paragraph1": "Qui puoi modificare le impostazioni del tuo Web UI e del tuo nodo IPFS.",
+      "paragraph1": "Here you can change the settings of your Web UI and Kubo node.",
       "paragraph2": "Se hai IPFS Desktop avviato, avrai anche alcune impostazioni specifiche per quel programma."
     },
     "step2": {
@@ -154,8 +158,8 @@
       "paragraph1": "Abilita la modalità CLI tutor per vedere le scorciatoie da terminale dei comandi IPFS più comuni - essa è utile se stai imparando ad usare IPFS dal terminale, o se hai solo bisogno di un ripasso."
     },
     "step7": {
-      "title": "Configurazione IPFS",
-      "paragraph1": "Puoi modificare la configurazione del tuo nodo IPFS direttamente dal tuo Web UI!",
+      "title": "Kubo Config",
+      "paragraph1": "You can change the config of your Kubo node right from Web UI!",
       "paragraph2": "Non dimenticarti di riavviare il demone per applicare le modifiche."
     }
   },

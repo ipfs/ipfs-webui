@@ -15,7 +15,7 @@
   "language": "Jazyk",
   "analytics": "Sběr informací",
   "cliTutorMode": "Výukový režim CLI",
-  "config": "IPFS konfigurace",
+  "config": "Kubo Config",
   "languageModal": {
     "title": "Změnit jazyk",
     "description": "Vyberte si preferovaný jazyk.",
@@ -25,6 +25,10 @@
   "apiDescription": "<0>Pokud je váš uzel nakonfigurován s <1>vlastní adresou rozhraní Kubo RPC API</1> včetně jiného portu než výchozího 5001, zadejte ji zde.</0>",
   "publicSubdomainGatewayDescription": "<0>Vyberte výchozí <1>bránu subdomény</1> pro generování sdílených odkazů.</0>",
   "publicPathGatewayDescription": "<0>Vyberte záložní <1>bránu cesty</1> pro generování sdílených odkazů pro identifikátory CID, které přesahují limit 63 znaků DNS.</0>",
+  "retrievalDiagnosticService": {
+    "title": "Retrieval Diagnostic Service",
+    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+  },
   "cliDescription": "<0>Povolením této možnosti zobrazíte vedle běžných příkazů systému IPFS ikonu \"zobrazit kód\".<1></1> Kliknutím na ni se otevře modální okno s kódem CLI daného příkazu, který můžete vložit do rozhraní příkazového řádku systému IPFS v terminálu.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Pokud jste v editoru kódu této stránky provedli změny konfigurace, které chcete uložit, klikněte na ikonu stahování vedle tlačítka kopírovat a stáhněte je jako soubor JSON."
@@ -81,14 +85,14 @@
     "false": "Vypnout"
   },
   "fetchingSettings": "Získávání nastavení...",
-  "ipfsDaemonOffline": "Démon IPFS je offline. Zapněte jej a zkuste to znovu.",
-  "settingsUnavailable": "Nastavení není dostupný. Prosím zkontrolujte zdali běží IPFS služba.",
+  "ipfsDaemonOffline": "The Kubo daemon is offline. Please turn it on and try again.",
+  "settingsUnavailable": "Settings not available. Please check your Kubo daemon is running.",
   "settingsHaveChanged": "Nastavení se změnilo; kliknutím na <1>Obnovit</1> aktualizujte obsah editoru.",
   "errorOccured": "V průběhu ukládání vašeho nastavení se vyskytla chyba",
   "checkConsole": "Zkontrolujte konzoli prohlížeče pro více informací.",
   "changesSaved": "Vaše změny byly uloženy.",
-  "settingsWillBeUsedNextTime": "Nové nastavení se použije při příštím restartu IPFS služby.",
-  "ipfsConfigDescription": "Konfigurační soubor IPFS je dokument JSON. Při spuštění démona IPFS se načte jednou. Uložte změny a restartujte démona IPFS, abyste je použili.",
+  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the Kubo daemon.",
+  "ipfsConfigDescription": "The Kubo config file is a JSON document. It is read once when the Kubo daemon is started. Save your changes, then restart the Kubo daemon to apply them.",
   "ipfsConfigHelp": "Další informace naleznete v dokumentaci.",
   "AnalyticsToggle": {
     "label": "Pomozte vylepšit tuto aplikaci odesláním anonymních dat o využití",
@@ -129,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "Stránka nastavení",
-      "paragraph1": "Zde můžete změnit nastavení vašeho uzlu Web UI a IPFS.",
+      "paragraph1": "Here you can change the settings of your Web UI and Kubo node.",
       "paragraph2": "Pokud používáte IPFS Desktop, budete mít také určitá konkrétní nastavení."
     },
     "step2": {
@@ -154,8 +158,8 @@
       "paragraph1": "Zapnutím výukového režimu CLI zobrazíte zkratky běžných příkazů IPFS v příkazovém řádku - to je užitečné, pokud se učíte používat IPFS z terminálu nebo pokud si potřebujete jen osvěžit informace."
     },
     "step7": {
-      "title": "IPFS Config",
-      "paragraph1": "Můžete změnit konfiguraci vašeho uzlu IPFS přímo z webového uživatelského rozhraní!",
+      "title": "Kubo Config",
+      "paragraph1": "You can change the config of your Kubo node right from Web UI!",
       "paragraph2": "Nezapomeňte restartovat démona a aplikovat změny."
     }
   },

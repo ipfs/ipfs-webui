@@ -9,29 +9,25 @@
     "close": "Chiudi",
     "copy": "Copia",
     "create": "Crea",
+    "default": "Default",
     "remove": "Rimuovi",
     "download": "Scarica",
     "edit": "Modifica",
     "import": "Importa",
     "inspect": "Ispeziona",
     "more": "Altro",
-    "moreInfo": "Ulteriori informazioni",
-    "noThanks": "No, grazie",
-    "ok": "OK",
-    "pinVerb": "Fissa",
     "rename": "Rinomina",
     "reset": "Ripristina",
     "save": "Salva",
     "saving": "Salvataggio in corso...",
-    "selectAll": "Seleziona tutto",
     "setPinning": "Imposta pinning",
     "submit": "Applica",
-    "unpin": "Sblocca",
     "unselectAll": "Deseleziona tutto",
     "generate": "Generate",
     "publish": "Publish",
     "downloadCar": "Export CAR",
-    "done": "Done"
+    "done": "Done",
+    "checkRetrieval": "Check Retrieval"
   },
   "cliModal": {
     "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
@@ -53,6 +49,10 @@
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Inserisci un URL (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "Retrieval Check Service URL",
+    "placeholder": "Enter a URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "Indirizzo",

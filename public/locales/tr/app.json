@@ -9,29 +9,25 @@
     "close": "Kapat",
     "copy": "Kopyala",
     "create": "Oluştur",
+    "default": "Default",
     "remove": "Kaldır",
     "download": "İndir",
     "edit": "Düzenle",
     "import": "İçe aktar",
     "inspect": "İncele",
     "more": "Daha fazla",
-    "moreInfo": "Daha fazla bilgi",
-    "noThanks": "Hayır teşekkürler",
-    "ok": "Tamam",
-    "pinVerb": "Sabitle",
     "rename": "Adını değiştir",
     "reset": "Sıfırla",
     "save": "Kaydet",
     "saving": "Kaydediliyor…",
-    "selectAll": "Hepsini seç",
     "setPinning": "Sabitlemeyi ayarla",
     "submit": "Gönder",
-    "unpin": "Sabitleme",
     "unselectAll": "Hepsinin seçimini kaldır",
     "generate": "Oluştur",
     "publish": "Yayınla",
     "downloadCar": "Export CAR",
-    "done": "Bitti"
+    "done": "Bitti",
+    "checkRetrieval": "Check Retrieval"
   },
   "cliModal": {
     "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
@@ -53,6 +49,10 @@
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Bir URL girin (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "Retrieval Check Service URL",
+    "placeholder": "Enter a URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "Adres",

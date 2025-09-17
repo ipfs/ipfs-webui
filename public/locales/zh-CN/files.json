@@ -1,12 +1,9 @@
 {
   "title": "文件",
-  "home": "首页",
   "breadcrumbs": "导航栏",
-  "finished": "完成！",
   "totalSize": "总计大小: {size}",
   "filesSelected": "{count, plural, other {已选择的项目}}",
   "menuOptions": "所选项目的选项",
-  "selectedAllEntries": "选择所有条目",
   "individualFilesOnly": "仅对文件有效",
   "noPDFSupport": "您的浏览器不支持阅读 PDF 文件。请下载后阅读。",
   "downloadPDF": "下载 PDF 文件",
@@ -185,5 +182,14 @@
   },
   "noPinsInProgress": "全部已完成，没有正在进行的远程固定操作",
   "remotePinningInProgress": "远程固定中:",
-  "selectAllEntries": "全选"
+  "selectAllEntries": "全选",
+  "previewNotFound": {
+    "title": "IPFS 无法找到这个项目",
+    "helpTitle": "这些是常用的故障排查步骤也许会有帮助:",
+    "helpListItemPathTypo": "您输入的路径中是否有拼写错误？",
+    "helpListItemFileMoved": "文件是否被移动、重命名或删除？",
+    "helpListItemBookmarkMigrated": "你是否从另一台电脑复制了网址或书签？如果是这样，你需要",
+    "helpListItemBookmarkMigratedLink": "将此实例指向该计算机的节点",
+    "backButton": "返回主页"
+  }
 }

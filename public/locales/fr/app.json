@@ -9,29 +9,25 @@
     "close": "Fermer",
     "copy": "Copier",
     "create": "Créer",
+    "default": "Default",
     "remove": "Supprimer",
     "download": "Télécharger",
     "edit": "Modifier",
     "import": "Importer",
     "inspect": "Inspecter",
     "more": "Plus",
-    "moreInfo": "Plus d'infos",
-    "noThanks": "Non merci",
-    "ok": "OK",
-    "pinVerb": "Épingler",
     "rename": "Renommer",
     "reset": "Réinitialiser",
     "save": "Sauvegarder",
     "saving": "Enregistrement...",
-    "selectAll": "Tout sélectionner",
     "setPinning": "Régler l'épinglage",
     "submit": "Valider",
-    "unpin": "Désépingler",
     "unselectAll": "Tout désélectionner",
     "generate": "Générer",
     "publish": "Publier",
-    "downloadCar": "Export CAR",
-    "done": "Terminé"
+    "downloadCar": "Exporter CAR",
+    "done": "Terminé",
+    "checkRetrieval": "Check Retrieval"
   },
   "cliModal": {
     "description": "Collez la commande suivante dans votre terminal pour effectuer cette tache via l'invite de commande. Souvenez vous de remplacer les exemples par votre propres paramètres."
@@ -46,13 +42,17 @@
     "couldNotConnect": "Nous n'avons pas pu nous connecter au RPC de Kubo"
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": "Entrez un URL (http://user:password@127.0.0.1:5001) ou une Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
     "placeholder": "Entrez une URL (https://ipfs.io)"
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Entrez une URL (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "Retrieval Check Service URL",
+    "placeholder": "Enter a URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "Adresse",

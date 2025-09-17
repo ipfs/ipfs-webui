@@ -3,6 +3,7 @@
   "localNetwork": "本地網路",
   "nearby": "鄰近",
   "protocols": "連接協議",
+  "agentVersion": "Agent Version",
   "addConnection": "增加連接",
   "insertPeerAddress": "請輸入你想要連接的對方節點地址。",
   "addPermanentPeer": "Add to the permanent peering configuration",
