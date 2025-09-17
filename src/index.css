@@ -40,10 +40,13 @@ html, body, #root {
 }
 
 /* =========================
-    Interactive elements in draggable regions
+    macOS Electron Draggable Region Fix
    ========================= */
 
-/* Ensure interactive elements work properly within draggable regions */
+/* Fix: Interactive elements in draggable regions lose focus on macOS.
+ * Sets no-drag to exclude inputs, buttons, etc. from parent drag regions.
+ * See: https://github.com/ipfs/ipfs-desktop/issues/2943
+ */
 input:not([type="hidden"]),
 textarea,
 select,
