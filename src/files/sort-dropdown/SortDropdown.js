@@ -12,26 +12,52 @@ const SortDropdown = ({ currentSort, onSortChange, t }) => {
   const sortOptions = [
     {
       value: sorts.BY_NAME,
-      label: t('sortByName')
+      asc: true,
+      label: t('sortByNameAsc')
+    },
+    {
+      value: sorts.BY_NAME,
+      asc: false,
+      label: t('sortByNameDesc')
+    },
+    {
+      value: sorts.BY_SIZE,
+      asc: true,
+      label: t('sortBySizeAsc')
+    },
+    {
+      value: sorts.BY_SIZE,
+      asc: false,
+      label: t('sortBySizeDesc')
     },
     {
       value: sorts.BY_PINNED,
-      label: t('sortByPinned')
+      asc: true,
+      label: t('sortByPinnedFirst')
+    },
+    {
+      value: sorts.BY_PINNED,
+      asc: false,
+      label: t('sortByUnpinnedFirst')
     },
     {
       value: sorts.BY_ORIGINAL,
+      asc: true,
       label: t('sortByOriginal')
     }
   ]
 
-  const handleSortChange = (sortValue) => {
-    onSortChange(sortValue, true)
+  const handleSortChange = (sortValue, asc) => {
+    onSortChange(sortValue, asc)
     setIsOpen(false)
   }
 
   const getCurrentLabel = () => {
-    const option = sortOptions.find(opt => opt.value === currentSort.by)
-    return option?.label || t('sortByName')
+    const option = sortOptions.find(opt =>
+      opt.value === currentSort.by &&
+      (opt.value === sorts.BY_ORIGINAL || opt.asc === currentSort.asc)
+    )
+    return option?.label || t('sortByNameAsc')
   }
 
   // Close dropdown when clicking outside
@@ -78,14 +104,17 @@ const SortDropdown = ({ currentSort, onSortChange, t }) => {
           onDismiss={() => setIsOpen(false)}
         >
           <div className="flex flex-column" role="menu">
-            {sortOptions.map((option) => (
+            {sortOptions.map((option, index) => (
               <button
-                key={option.value}
+                key={`${option.value}-${option.asc}`}
                 role="menuitem"
                 className={`bg-animate hover-bg-near-white pa3 pointer flex items-center ${
-                  currentSort.by === option.value ? 'bg-near-white fw5' : ''
+                  currentSort.by === option.value &&
+                  (option.value === sorts.BY_ORIGINAL || currentSort.asc === option.asc)
+                    ? 'bg-near-white fw5'
+                    : ''
                 }`}
-                onClick={() => handleSortChange(option.value)}
+                onClick={() => handleSortChange(option.value, option.asc)}
               >
                 <span className="f6 charcoal">{option.label}</span>
               </button>
