@@ -15,7 +15,7 @@
   "language": "Jazyk",
   "analytics": "Sběr informací",
   "cliTutorMode": "Výukový režim CLI",
-  "config": "IPFS konfigurace",
+  "config": "",
   "languageModal": {
     "title": "Změnit jazyk",
     "description": "Vyberte si preferovaný jazyk.",
@@ -26,8 +26,8 @@
   "publicSubdomainGatewayDescription": "<0>Vyberte výchozí <1>bránu subdomény</1> pro generování sdílených odkazů.</0>",
   "publicPathGatewayDescription": "<0>Vyberte záložní <1>bránu cesty</1> pro generování sdílených odkazů pro identifikátory CID, které přesahují limit 63 znaků DNS.</0>",
   "retrievalDiagnosticService": {
-    "title": "Retrieval Diagnostic Service",
-    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+    "title": "",
+    "description": ""
   },
   "cliDescription": "<0>Povolením této možnosti zobrazíte vedle běžných příkazů systému IPFS ikonu \"zobrazit kód\".<1></1> Kliknutím na ni se otevře modální okno s kódem CLI daného příkazu, který můžete vložit do rozhraní příkazového řádku systému IPFS v terminálu.</0>",
   "cliModal": {
@@ -85,14 +85,14 @@
     "false": "Vypnout"
   },
   "fetchingSettings": "Získávání nastavení...",
-  "ipfsDaemonOffline": "Démon IPFS je offline. Zapněte jej a zkuste to znovu.",
-  "settingsUnavailable": "Nastavení není dostupný. Prosím zkontrolujte zdali běží IPFS služba.",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "Nastavení se změnilo; kliknutím na <1>Obnovit</1> aktualizujte obsah editoru.",
   "errorOccured": "V průběhu ukládání vašeho nastavení se vyskytla chyba",
   "checkConsole": "Zkontrolujte konzoli prohlížeče pro více informací.",
   "changesSaved": "Vaše změny byly uloženy.",
-  "settingsWillBeUsedNextTime": "Nové nastavení se použije při příštím restartu IPFS služby.",
-  "ipfsConfigDescription": "Konfigurační soubor IPFS je dokument JSON. Při spuštění démona IPFS se načte jednou. Uložte změny a restartujte démona IPFS, abyste je použili.",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "Další informace naleznete v dokumentaci.",
   "AnalyticsToggle": {
     "label": "Pomozte vylepšit tuto aplikaci odesláním anonymních dat o využití",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "Stránka nastavení",
-      "paragraph1": "Zde můžete změnit nastavení vašeho uzlu Web UI a IPFS.",
+      "paragraph1": "",
       "paragraph2": "Pokud používáte IPFS Desktop, budete mít také určitá konkrétní nastavení."
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "Zapnutím výukového režimu CLI zobrazíte zkratky běžných příkazů IPFS v příkazovém řádku - to je užitečné, pokud se učíte používat IPFS z terminálu nebo pokud si potřebujete jen osvěžit informace."
     },
     "step7": {
-      "title": "IPFS Config",
-      "paragraph1": "Můžete změnit konfiguraci vašeho uzlu IPFS přímo z webového uživatelského rozhraní!",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "Nezapomeňte restartovat démona a aplikovat změny."
     }
   },

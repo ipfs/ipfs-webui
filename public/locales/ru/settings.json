@@ -15,7 +15,7 @@
   "language": "Язык",
   "analytics": "Аналитика",
   "cliTutorMode": "Режим учителя командной строки",
-  "config": "Настройка IPFS",
+  "config": "",
   "languageModal": {
     "title": "Изменить язык",
     "description": "Выберите нужный язык.",
@@ -23,11 +23,11 @@
     "translationProjectLink": "Присоединитесь к проекту перевода IPFS"
   },
   "apiDescription": "<0>Если ваш узел настроен с <1>пользовательским адресом Kubo RPC API</1>, включая порт, отличный от стандартного 5001, введите его здесь.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "publicSubdomainGatewayDescription": "",
+  "publicPathGatewayDescription": "",
   "retrievalDiagnosticService": {
-    "title": "Retrieval Diagnostic Service",
-    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+    "title": "",
+    "description": ""
   },
   "cliDescription": "<0>Активируйте эту опцию, чтобы отображать значок \"просмотреть код\" <1></1> рядом с общими командами IPFS. Нажатие на него открывает модальное окно с кодом заданной команды в командной строке, так чтобы вы могли вставить его в интерфейс командной строки IPFS в вашей консоли.</0>",
   "cliModal": {
@@ -85,14 +85,14 @@
     "false": "Выкл"
   },
   "fetchingSettings": "Получение настроек...",
-  "ipfsDaemonOffline": "Служба IPFS отключена. Пожалуйста, включите ее и попробуйте снова.",
-  "settingsUnavailable": "Настройки недоступны. Убедитесь, что у вас запущена  IPFS - служба.",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "Настройки были изменены; пожалуйста, нажмите <1>Сброс</1>, чтобы обновить измененный контент.",
   "errorOccured": "Произошла ошибка при сохранении изменений",
   "checkConsole": "Проверьте консоль вашего браузера для получения подробной информации.",
   "changesSaved": "Ваши изменения сохранены.",
-  "settingsWillBeUsedNextTime": "Новые настройки применятся при следующем запуске службы IPFS.",
-  "ipfsConfigDescription": "Файл настройки IPFS это JSON-документ. Он считывается однажды, когда запускается агент. Сохраните свои изменения, затем презапустите агент IPFS, чтобы применить их.",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "Изучите документацию, чтобы узнать больше.",
   "AnalyticsToggle": {
     "label": "Помогите нам улучшить приложение, отправляя анонимные данные о его использовании.",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "Страница настроек",
-      "paragraph1": "Здесь вы можете изменить настройки своего веб-интерфейса и узла IPFS.",
+      "paragraph1": "",
       "paragraph2": "Если вы используете приложение IPFS для рабочего стола, в нем у вас будут также некоторые специфические настройки."
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "Активируйте режим учителя командной строки, чтобы видеть текст общих команд IPFS версии для командной строки — полезно, если вы учитесь использовать IPFS из консоли, или, просто, для общего развития."
     },
     "step7": {
-      "title": "Настройка IPFS",
-      "paragraph1": "Вы можете изменить конфигурацию своего IPFS-узла прямо из веб-интерфейса!",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "Не забудьте перезапустить службу для сохранения изменений."
     }
   },

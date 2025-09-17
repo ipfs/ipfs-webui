@@ -9,7 +9,7 @@
     "close": "Fermer",
     "copy": "Copier",
     "create": "Créer",
-    "default": "Default",
+    "default": "",
     "remove": "Supprimer",
     "download": "Télécharger",
     "edit": "Modifier",
@@ -27,7 +27,7 @@
     "publish": "Publier",
     "downloadCar": "Exporter CAR",
     "done": "Terminé",
-    "checkRetrieval": "Check Retrieval"
+    "checkRetrieval": ""
   },
   "cliModal": {
     "description": "Collez la commande suivante dans votre terminal pour effectuer cette tache via l'invite de commande. Souvenez vous de remplacer les exemples par votre propres paramètres."
@@ -51,8 +51,8 @@
     "placeholder": "Entrez une URL (https://dweb.link)"
   },
   "ipfsCheckForm": {
-    "label": "Retrieval Check Service URL",
-    "placeholder": "Enter a URL (https://check.ipfs.network)"
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "Adresse",

@@ -9,7 +9,7 @@
     "close": "关闭",
     "copy": "复制",
     "create": "创建",
-    "default": "Default",
+    "default": "",
     "remove": "移除",
     "download": "下载",
     "edit": "编辑",
@@ -27,7 +27,7 @@
     "publish": "发布",
     "downloadCar": "导出CAR",
     "done": "完成",
-    "checkRetrieval": "Check Retrieval"
+    "checkRetrieval": ""
   },
   "cliModal": {
     "description": "将以下内容粘贴到终端中，以通过命令行在Kubo中执行此任务。请谨记您需要使用您自己的参数来替换掉占位符"
@@ -51,8 +51,8 @@
     "placeholder": "输入一个URL (https://dweb.link)"
   },
   "ipfsCheckForm": {
-    "label": "Retrieval Check Service URL",
-    "placeholder": "Enter a URL (https://check.ipfs.network)"
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "地址",

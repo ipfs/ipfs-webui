@@ -14,8 +14,8 @@
   "addByCar": "Dari CAR",
   "bulkImport": "Impor massal",
   "newFolder": "Map baru",
-  "viewList": "Tampilkan item dalam daftar",
-  "viewGrid": "Tampilkan item dalam kotak",
+  "switchToListView": "",
+  "switchToGridView": "",
   "generating": "Menghasilkan…",
   "dropHere": "Letakkan di sini untuk pindah",
   "actions": {
@@ -170,6 +170,14 @@
   "files": "Berkas",
   "cidNotFileNorDir": "Tautan saat ini bukan berkas, atau direktori. Cobalah untuk <1>memeriksanya</1> sebagai gantinya.",
   "sortBy": "Urutkan item berdasarkan {name}",
+  "sortFiles": "",
+  "sortByNameAsc": "",
+  "sortByNameDesc": "",
+  "sortBySizeAsc": "",
+  "sortBySizeDesc": "",
+  "sortByPinnedFirst": "",
+  "sortByUnpinnedFirst": "",
+  "sortByOriginal": "",
   "publishModal": {
     "title": "Publikasikan ke IPNS",
     "cidToPublish": "CID:",
@@ -184,12 +192,12 @@
   "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:",
   "selectAllEntries": "Pilih semua entri",
   "previewNotFound": {
-    "title": "IPFS can't find this item",
-    "helpTitle": "These are common troubleshooting steps might help:",
-    "helpListItemPathTypo": "Are there typos in the path you entered?",
-    "helpListItemFileMoved": "Was the file moved, renamed, or deleted?",
-    "helpListItemBookmarkMigrated": "Did you copy a URL or bookmark from another computer? If so, you'll need to",
-    "helpListItemBookmarkMigratedLink": "point this instance at that computer's node",
-    "backButton": "Go to Home"
+    "title": "",
+    "helpTitle": "",
+    "helpListItemPathTypo": "",
+    "helpListItemFileMoved": "",
+    "helpListItemBookmarkMigrated": "",
+    "helpListItemBookmarkMigratedLink": "",
+    "backButton": ""
   }
 }

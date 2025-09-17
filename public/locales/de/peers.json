@@ -3,7 +3,7 @@
   "localNetwork": "Lokales Netzwerk",
   "nearby": "in der Nähe",
   "protocols": "Offene Verbindungen",
-  "agentVersion": "Agent Version",
+  "agentVersion": "",
   "addConnection": "Verbindung hinzufügen",
   "insertPeerAddress": "Tragen Sie die Peer-Adresse ein, zu der Sie eine Verbindung aufbauen möchten.",
   "addPermanentPeer": "Zur permanenten Peer-Konfiguration hinzufügen",

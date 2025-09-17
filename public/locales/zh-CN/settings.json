@@ -15,7 +15,7 @@
   "language": "语言",
   "analytics": "分析",
   "cliTutorMode": "CLI 引导模式",
-  "config": "IPFS 配置",
+  "config": "",
   "languageModal": {
     "title": "修改语言",
     "description": "选择首选语言。",
@@ -26,8 +26,8 @@
   "publicSubdomainGatewayDescription": "<0>选择一个默认的<1>子域名网关</1>用于生成可共享的链接。</0>",
   "publicPathGatewayDescription": "<0>选择一个备用的<1>路径网关</1>，用于生成超过63个字符DNS限制的CID可共享链接。</0>",
   "retrievalDiagnosticService": {
-    "title": "Retrieval Diagnostic Service",
-    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+    "title": "",
+    "description": ""
   },
   "cliDescription": "<0>启用这个选来会在下方IPFS命令旁显示一个“查看代码”<1></1>图标。单击它将打开一个带有命令的CLI代码的引导模式，因此您可以将其粘贴到IPFS 节点的命令行终端中执行。</0>",
   "cliModal": {
@@ -85,14 +85,14 @@
     "false": "关"
   },
   "fetchingSettings": "拉取配置中 ...",
-  "ipfsDaemonOffline": "IPFS 守护进程处于离线状态，请使其在线并重试。",
-  "settingsUnavailable": "配置不可用，请检查你的 IPFS 守护进程是否还在运行。",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "配置已经改变，请单击 <1>重置</1> 按钮刷新编辑器中的内容。",
   "errorOccured": "在保存修改的配置文件过程中出错。",
   "checkConsole": "请查看浏览器控制台了解更多的信息。",
   "changesSaved": "你修改的配置已经保存。",
-  "settingsWillBeUsedNextTime": "新的配置信息会在下次重新启动 IPFS 守护进程后生效。",
-  "ipfsConfigDescription": "IPFS 配置文件是一个 JSON 文件， IPFS 守护进程会在启动过程中读取一次。保存修改的配置，重启 IPFS 守护进程以使用你修改后的配置。",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "查看文档获取更多信息",
   "AnalyticsToggle": {
     "label": "向我们提供匿名数据来帮助我们改进",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "配置页面",
-      "paragraph1": "您可以在此处更改 Web UI 和 IPFS 节点的设置。",
+      "paragraph1": "",
       "paragraph2": "如果你正在运行 IPFS Desktop ，会有一些特定的设置。"
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "启用CLI 引导模式来查看常见IPFS终端命令——如果您正在从终端学习使用IPFS，或者您只是需要查询命令，这将非常有用。"
     },
     "step7": {
-      "title": "IPFS 配置",
-      "paragraph1": "您可以直接 从Web UI 更改 IPFS 节点的配置。",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "不要忘记重新启动守护程序以应用更改！"
     }
   },

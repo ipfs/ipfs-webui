@@ -4,30 +4,30 @@
   "saving": "ادخار",
   "reset": "إعادة تعيين",
   "learnMoreLink": "أعرف أكثر.",
-  "showOptions": "Show options",
+  "showOptions": "",
   "pinningServices": {
     "title": "خدمات التثبيت",
     "description": "استخدم التثبيت المحلي عندما تريد التأكد من عدم جمع عنصر ما على العقدة مطلقًا، حتى إذا قمت بإزالته من الملفات. يمكنك أيضًا ربط حساباتك بخدمات التثبيت عن بُعد الأخرى للملفات المستمرة تلقائيًا أو بشكل انتقائي مع هؤلاء الموفرين، مما يتيح لك الاحتفاظ بنسخ احتياطية من ملفاتك و - أو إتاحتها للآخرين عندما تكون العقدة المحلية الخاصة بك غير متصلة بالإنترنت.",
-    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
+    "noPinRemoteDescription": "",
     "addAutoUpload": "تمكين التحميل التلقائي",
     "removeAutoUpload": "تعطيل التحميل التلقائي"
   },
   "language": "لغة",
   "analytics": "تحليلات",
   "cliTutorMode": "وضع معلم CLI",
-  "config": "تكوين IPFS",
+  "config": "",
   "languageModal": {
     "title": "تغيير اللغة",
     "description": "اختر لغتك المفضلة.",
     "translationProjectIntro": "قم بإضافة أو تحسين الترجمات وجعل IPFS أفضل للجميع!",
     "translationProjectLink": "انضم إلى مشروع ترجمة IPFS"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "apiDescription": "",
+  "publicSubdomainGatewayDescription": "",
+  "publicPathGatewayDescription": "",
   "retrievalDiagnosticService": {
-    "title": "Retrieval Diagnostic Service",
-    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+    "title": "",
+    "description": ""
   },
   "cliDescription": "<0>قم بتمكين هذا الخيار لعرض رمز \"عرض الرمز\"<1></1> بجوار أوامر IPFS الشائعة. يؤدي النقر فوقه إلى فتح مشروط برمز CLI الخاص بهذا الأمر ، بحيث يمكنك لصقه في واجهة سطر أوامر IPFS في جهازك الطرفي.</0>",
   "cliModal": {
@@ -48,7 +48,7 @@
     "secretApiKey": "رمز الوصول السري",
     "secretApiKeyHowToLink": "كيفية إنشاء عملة رمزية جديدة",
     "autoUpload": "تحميل تلقائي",
-    "complianceLabel": "🔍 {nickname} pinning compliance report"
+    "complianceLabel": ""
   },
   "autoUploadModal": {
     "title": "تغيير سياسة التحميل لـ {name}",
@@ -64,7 +64,7 @@
   },
   "actions": {
     "addService": "أضف خدمة",
-    "generateKey": "Generate Key",
+    "generateKey": "",
     "edit": "تغيير",
     "close": "أغلق",
     "save": "حفظ",
@@ -85,14 +85,14 @@
     "false": "إيقاف"
   },
   "fetchingSettings": "جارٍ جلب الإعدادات ...",
-  "ipfsDaemonOffline": "البرنامج الخفي لـ IPFS غير متصل. يرجى تشغيله وإعادة المحاولة.",
-  "settingsUnavailable": "الإعدادات غير متاحة. يرجى التحقق من تشغيل البرنامج الخفي الخاص بـ IPFS.",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "تم تغيير الإعدادات ؛ يرجى النقر فوق <1> إعادة تعيين </1> لتحديث محتويات المحرر.",
   "errorOccured": "حدث خطأ أثناء حفظ التغييرات الخاصة بك",
   "checkConsole": "تحقق من وحدة تحكم المتصفح لمزيد من المعلومات.",
   "changesSaved": "تم حفظ التغييرات.",
-  "settingsWillBeUsedNextTime": "سيتم استخدام الإعدادات الجديدة في المرة القادمة التي تقوم فيها بإعادة تشغيل البرنامج الخفي لـ IPFS.",
-  "ipfsConfigDescription": "ملف تهيئة IPFS هو مستند JSON. تتم قراءته مرة واحدة عند بدء البرنامج الخفي IPFS. احفظ التغييرات ، ثم أعد تشغيل البرنامج الخفي IPFS لتطبيقها.",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "تحقق من الوثائق لمزيد من المعلومات.",
   "AnalyticsToggle": {
     "label": "ساعد في تحسين هذا التطبيق عن طريق إرسال بيانات استخدام مجهولة",
@@ -133,12 +133,12 @@
   "tour": {
     "step1": {
       "title": "صفحة الإعدادات",
-      "paragraph1": "هنا يمكنك تغيير إعدادات عقدة Web UI و IPFS الخاصة بك.",
+      "paragraph1": "",
       "paragraph2": "إذا كنت تقوم بتشغيل IPFS لسطح المكتب ، فستتوفر لديك أيضًا بعض الإعدادات الخاصة به."
     },
     "step2": {
-      "title": "Custom Kubo RPC API address",
-      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
+      "title": "",
+      "paragraph1": ""
     },
     "step3": {
       "title": "خدمات التثبيت",
@@ -158,8 +158,8 @@
       "paragraph1": "قم بتمكين وضع معلم CLI لرؤية الاختصارات إلى إصدار سطر الأوامر لأوامر IPFS الشائعة - مفيد إذا كنت تتعلم استخدام IPFS من الجهاز ، أو إذا كنت بحاجة إلى تجديد المعلومات."
     },
     "step7": {
-      "title": "تكوين IPFS",
-      "paragraph1": "يمكنك تغيير تكوين عقدة IPFS الخاصة بك مباشرة من Web UI!",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "لا تنس إعادة تشغيل البرنامج الخفي لتطبيق التغييرات."
     }
   },
@@ -170,19 +170,19 @@
     "readMoreUrl": "قراءة المزيد"
   },
   "ipnsPublishingKeys": {
-    "title": "IPNS Publishing Keys",
-    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+    "title": "",
+    "description": ""
   },
   "generateKeyModal": {
-    "title": "Generate New IPNS Key",
-    "description": "Enter a nickname for this key to generate:"
+    "title": "",
+    "description": ""
   },
   "renameKeyModal": {
-    "title": "Rename Key",
-    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+    "title": "",
+    "description": ""
   },
   "removeKeyModal": {
-    "title": "Confirm IPNS Key Removal",
-    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
+    "title": "",
+    "description": ""
   }
 }

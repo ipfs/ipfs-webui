@@ -4,30 +4,30 @@
   "saving": "Kaydediliyor…",
   "reset": "Sıfırla",
   "learnMoreLink": "Daha fazla bilgi edin.",
-  "showOptions": "Show options",
+  "showOptions": "",
   "pinningServices": {
     "title": "Sabitleme Hizmetleri",
     "description": "Düğümünüzdeki bir öğenin, Dosyalar'dan kaldırsanız bile asla çöp toplanmadığından emin olmak istediğinizde yerel sabitlemeyi kullanın. Ayrıca, dosyalarınızın yedek kopyalarını saklamanıza ve/veya yerel düğümünüz çevrimdışı olduğunda bunları başkalarının kullanımına sunmanıza olanak tanıyarak, dosyaları bu sağlayıcılarda otomatik olarak veya seçici olarak kalıcı hale getirmek için hesaplarınızı diğer uzaktan sabitleme hizmetleriyle bağlayabilirsiniz.",
-    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
+    "noPinRemoteDescription": "",
     "addAutoUpload": "Otomatik yüklemeyi etkinleştir",
     "removeAutoUpload": "Otomatik Yüklemeyi Devre Dışı Bırak"
   },
   "language": "Dil",
   "analytics": "Analitik",
   "cliTutorMode": "Komut Satırı Arayüzü Eğitmen Modu",
-  "config": "IPFS Yapılandırması",
+  "config": "",
   "languageModal": {
     "title": "Dili değiştir",
     "description": "Tercih ettiğiniz dili seçin.",
     "translationProjectIntro": "Çeviriler ekleyin veya iyileştirin ve IPFS'yi herkes için daha iyi hale getirin!",
     "translationProjectLink": "IPFS Çeviri Projesine Katılın"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "apiDescription": "",
+  "publicSubdomainGatewayDescription": "",
+  "publicPathGatewayDescription": "",
   "retrievalDiagnosticService": {
-    "title": "Retrieval Diagnostic Service",
-    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+    "title": "",
+    "description": ""
   },
   "cliDescription": "<0>Genel IPFS komutlarının yanında bir \"kodu görüntüle\"<1></1> simgesi görüntülemek için bu seçeneği etkinleştirin. Buna tıkladığınızda, o komutun CLI kodunu içeren bir modal açılır, böylece onu terminalinizdeki IPFS komut satırı arayüzüne yapıştırabilirsiniz.</0>",
   "cliModal": {
@@ -48,7 +48,7 @@
     "secretApiKey": "Gizli token belirteci",
     "secretApiKeyHowToLink": "Yeni bir token nasıl oluşturulur",
     "autoUpload": "Otomatik yükle",
-    "complianceLabel": "🔍 {nickname} pinning compliance report"
+    "complianceLabel": ""
   },
   "autoUploadModal": {
     "title": "{name} için yükleme politikasını değiştirin",
@@ -85,14 +85,14 @@
     "false": "Kapalı"
   },
   "fetchingSettings": "Ayarlar getiriliyor ...",
-  "ipfsDaemonOffline": "IPFS arka plan programı çevrimdışı. Lütfen açın ve tekrar deneyin.",
-  "settingsUnavailable": "Ayarlar mevcut değil. Lütfen IPFS daemonunuzun çalışıp çalışmadığını kontrol edin.",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "Ayarlar değişti; editör içeriğini güncellemek için lütfen <1>Sıfırla</1>'yı tıklayın.",
   "errorOccured": "Değişikliklerinizi kaydederken bir hata oluştu",
   "checkConsole": "Daha fazla bilgi için tarayıcı konsolunu kontrol edin.",
   "changesSaved": "Değişiklikleriniz kaydedildi.",
-  "settingsWillBeUsedNextTime": "Yeni ayarlar IPFS arka plan programını yeniden başlattığınızda kullanılacaktır.",
-  "ipfsConfigDescription": "IPFS yapılandırma dosyası bir JSON belgesidir. IPFS arka plan programı başlatıldığında bir kez okunur. Değişikliklerinizi kaydedin, ardından bunları uygulamak için IPFS arka plan programını yeniden başlatın.",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "Daha fazla bilgi için belgelere bakın.",
   "AnalyticsToggle": {
     "label": "Anonim kullanım verilerini göndererek bu uygulamanın geliştirilmesine yardımcı olun",
@@ -133,12 +133,12 @@
   "tour": {
     "step1": {
       "title": "Ayarlar sayfası",
-      "paragraph1": "Burada Web kullanıcı arayüzünüzün ve IPFS düğümünüzün ayarlarını değiştirebilirsiniz.",
+      "paragraph1": "",
       "paragraph2": "IPFS Masaüstü kullanıyorsanız, bunun için de bazı özel ayarlara sahip olacaksınız."
     },
     "step2": {
-      "title": "Custom Kubo RPC API address",
-      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
+      "title": "",
+      "paragraph1": ""
     },
     "step3": {
       "title": "Sabitleme hizmetleri",
@@ -158,8 +158,8 @@
       "paragraph1": "Genel IPFS komutlarının komut satırı sürümünün kısayollarını görmek için komut satırı arayüzü eğitmen modunu etkinleştirin - IPFS'yi terminalden kullanmayı öğreniyorsanız veya sadece tazeleme ihtiyacınız varsa faydalıdır."
     },
     "step7": {
-      "title": "IPFS Yapılandırması",
-      "paragraph1": "IPFS düğümünüzün yapılandırmasını doğrudan Web kullanıcı arayüzünden değiştirebilirsiniz!",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "Değişiklikleri uygulamak için daemon'u yeniden başlatmayı unutmayın."
     }
   },
@@ -171,7 +171,7 @@
   },
   "ipnsPublishingKeys": {
     "title": "IPNS Yayın Anahtarları",
-    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+    "description": ""
   },
   "generateKeyModal": {
     "title": "Yeni IPNS Anahtarı Oluştur",
@@ -183,6 +183,6 @@
   },
   "removeKeyModal": {
     "title": "IPNS Anahtarını Kaldırmayı Doğrula",
-    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
+    "description": ""
   }
 }

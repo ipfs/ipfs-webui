@@ -9,7 +9,7 @@
     "close": "Zavřít",
     "copy": "Zkopírovat",
     "create": "Vytvořit",
-    "default": "Default",
+    "default": "",
     "remove": "Odstranit",
     "download": "Stáhnout",
     "edit": "Upravit",
@@ -25,9 +25,9 @@
     "unselectAll": "Odznačit vše",
     "generate": "Generovat",
     "publish": "Publikovat",
-    "downloadCar": "Export CAR",
+    "downloadCar": "",
     "done": "Hotovo",
-    "checkRetrieval": "Check Retrieval"
+    "checkRetrieval": ""
   },
   "cliModal": {
     "description": "Chcete-li tento úkol provést v systému Kubo prostřednictvím příkazového řádku, vložte do terminálu následující příkaz. Nezapomeňte, že je třeba nahradit zástupné znaky konkrétními parametry."
@@ -42,7 +42,7 @@
     "couldNotConnect": "Nepodařilo se připojit ke Kubo RPC"
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": ""
   },
   "publicGatewayForm": {
     "placeholder": "Zadejte URL (https://ipfs.io)"
@@ -51,8 +51,8 @@
     "placeholder": "Zadejte adresu URL (https://dweb.link)"
   },
   "ipfsCheckForm": {
-    "label": "Retrieval Check Service URL",
-    "placeholder": "Enter a URL (https://check.ipfs.network)"
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "Adresa",

@@ -9,7 +9,7 @@
     "close": "Kapat",
     "copy": "Kopyala",
     "create": "Oluştur",
-    "default": "Default",
+    "default": "",
     "remove": "Kaldır",
     "download": "İndir",
     "edit": "Düzenle",
@@ -25,12 +25,12 @@
     "unselectAll": "Hepsinin seçimini kaldır",
     "generate": "Oluştur",
     "publish": "Yayınla",
-    "downloadCar": "Export CAR",
+    "downloadCar": "",
     "done": "Bitti",
-    "checkRetrieval": "Check Retrieval"
+    "checkRetrieval": ""
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": ""
   },
   "nav": {
     "bugsLink": "Hata bildirin",
@@ -39,28 +39,28 @@
   "status": {
     "connectedToIpfs": "IPFS'ye bağlı",
     "connectingToIpfs": "IPFS'ye bağlanılıyor…",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": ""
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": ""
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Bir URL girin (https://dweb.link)"
   },
   "ipfsCheckForm": {
-    "label": "Retrieval Check Service URL",
-    "placeholder": "Enter a URL (https://check.ipfs.network)"
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "Adres",
     "addresses": "Adresler",
     "advanced": "İleri",
     "agent": "Ajan",
-    "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
+    "api": "",
+    "apiAddress": "",
     "blocks": "Bloklar",
     "connection": "Bağlantı",
     "downSpeed": "Gelen",

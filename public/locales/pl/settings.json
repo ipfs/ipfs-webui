@@ -15,7 +15,7 @@
   "language": "Język",
   "analytics": "Analiza",
   "cliTutorMode": "CLI Tutor Mode",
-  "config": "IPFS Konfiguracja",
+  "config": "",
   "languageModal": {
     "title": "Zmiana języka",
     "description": "Wybierz swój preferowany język.",
@@ -23,11 +23,11 @@
     "translationProjectLink": "Dołącz do projektu tłumaczeń IPFS"
   },
   "apiDescription": "<0>Zaktualizuj ten adres jeśli twoja instancja Kubo jest dostępna pod <1>niestandardowym adresem RPC API</1>, na przykład portem innym, niż domyślny 5001.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "publicSubdomainGatewayDescription": "",
+  "publicPathGatewayDescription": "",
   "retrievalDiagnosticService": {
-    "title": "Retrieval Diagnostic Service",
-    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+    "title": "",
+    "description": ""
   },
   "cliDescription": "<0>Włącz tę opcję, aby wyświetlić \"widok  kodu\" <1></1> ikona obok popularnych poleceń IPFS. Kliknięcie jej otwiera widok z kodem CLI tego polecenia, więc możesz go wkleić do interfejsu wiersza poleceń IPFS w terminalu.</0>",
   "cliModal": {
@@ -85,14 +85,14 @@
     "false": "Wyłączone"
   },
   "fetchingSettings": "Pobieranie ustawień... \n",
-  "ipfsDaemonOffline": "Demon IPFS jest w trybie offline. Proszę włączyć go i spróbować ponownie. ",
-  "settingsUnavailable": "Ustawienia nie są dostępne. Proszę sprawdzić, czy demon IPFS jest uruchomiony.",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "Ustawienia uległy zmianie; proszę kliknąć <1>Resetuj</1> t aby zaktualizować zawartość edytora.",
   "errorOccured": "Podczas zapisywania zmian wystąpił błąd",
   "checkConsole": "Sprawdź konsolę przeglądarki, aby uzyskać więcej informacji.",
   "changesSaved": "Twoje zmiany zostały zapisane.",
-  "settingsWillBeUsedNextTime": "Nowe ustawienia zostaną użyte przy następnym uruchomieniu demona IPFS.",
-  "ipfsConfigDescription": "Plik konfiguracyjny IPFS jest dokumentem JSON. Jest odczytywany raz, gdy demon IPFS jest uruchamiany. Zapisz swoje zmiany, a następnie zrestartuj demona IPFS aby je zastosować.",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "Sprawdź dokumentację w celu uzyskania dalszych informacji.",
   "AnalyticsToggle": {
     "label": "Pomóż ulepszyć tę aplikację, wysyłając anonimowe dane dotyczące użytkowania",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "Strona z ustawieniami",
-      "paragraph1": "Tutaj możesz zmienić ustawienia swojego Web UI i węzła IPFS.",
+      "paragraph1": "",
       "paragraph2": "Jeśli używasz IPFS Desktop, będziesz miał również pewne specyficzne ustawienia dla niego."
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "Włącz tryb samouczka CLI, aby zobaczyć skróty do wersji wiersza poleceń typowych dla IPFS - przydatne, jeśli uczysz się korzystać z IPFS z terminala, lub jeśli potrzebujesz odświeżenia."
     },
     "step7": {
-      "title": "Konfiguracja IPFS",
-      "paragraph1": "Możesz zmienić konfigurację swojego węzła IPFS bezpośrednio z Web UI!",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "Nie zapomnij zrestartować demona, aby zastosować zmiany."
     }
   },

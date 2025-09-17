@@ -3,7 +3,7 @@
   "localNetwork": "Rede Local",
   "nearby": "próximo",
   "protocols": "Streams abertos",
-  "agentVersion": "Agent Version",
+  "agentVersion": "",
   "addConnection": "Adicionar conexão",
   "insertPeerAddress": "Insira o endereço do par ao que você deseja conectar.",
   "addPermanentPeer": "Adicionar à configuração permanente de pares",

@@ -4,30 +4,30 @@
   "saving": "正在儲存…",
   "reset": "重設",
   "learnMoreLink": "了解更多。",
-  "showOptions": "Show options",
+  "showOptions": "",
   "pinningServices": {
     "title": "錨釘服務",
     "description": "當您希望即使刪除了檔案也希望確保您節點上的項目永遠不會被執行垃圾回收時可以使用本機錨釘。您也能夠將自動地將您的帳號與其他遠端錨定服務連結在一起，或是挑選重要檔案與那些錨釘服務提供者合作以保留檔案副本使其即使在您自己的本機節點關閉時也能夠長期存活",
-    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
+    "noPinRemoteDescription": "",
     "addAutoUpload": "啟動自動上傳",
     "removeAutoUpload": "禁止自動上傳"
   },
   "language": "語言",
   "analytics": "分析",
   "cliTutorMode": "CLI 引導模式",
-  "config": "IPFS 設定",
+  "config": "",
   "languageModal": {
     "title": "變更語言",
     "description": "挑選你喜好的語言。",
     "translationProjectIntro": "新增或改進翻譯，使 IPFS 更適合每個人！",
     "translationProjectLink": "加入 IPFS 翻譯專案"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "apiDescription": "",
+  "publicSubdomainGatewayDescription": "",
+  "publicPathGatewayDescription": "",
   "retrievalDiagnosticService": {
-    "title": "Retrieval Diagnostic Service",
-    "description": "Configure the URL of the <0>ipfs-check</0> service used for <1>retrieval diagnostics</1>. This service checks if content can be successfully fetched from your node and other nodes hosting a specific CID, helping you troubleshoot sharing issues."
+    "title": "",
+    "description": ""
   },
   "cliDescription": "<0>啟用此選項可在常用 IPFS 指令旁顯示<1>“查看程式碼”</1>的圖示。點選後會開啟一個帶有該指令的 CLI 視窗，因此您可以將其複製貼上到終端機的 IPFS 指令界面中。</0>",
   "cliModal": {
@@ -48,7 +48,7 @@
     "secretApiKey": "加密 token",
     "secretApiKeyHowToLink": "如何生成一個新的 token",
     "autoUpload": "自動上傳",
-    "complianceLabel": "🔍 {nickname} pinning compliance report"
+    "complianceLabel": ""
   },
   "autoUploadModal": {
     "title": "替{name}更改上傳策略",
@@ -64,7 +64,7 @@
   },
   "actions": {
     "addService": "新增服務",
-    "generateKey": "Generate Key",
+    "generateKey": "",
     "edit": "變更",
     "close": "關閉",
     "save": "儲存",
@@ -85,14 +85,14 @@
     "false": "關閉"
   },
   "fetchingSettings": "正在擷取設定...",
-  "ipfsDaemonOffline": "IPFS Daemon 已離線。請開啟並再試一次。",
-  "settingsUnavailable": "設定無法使用。請檢查你的 IPFS Daemon 是否正在執行。",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "設定已經變更，請按<1>重設</1> 更新編輯器內容。",
   "errorOccured": "在儲存變更時發生錯誤",
   "checkConsole": "檢查瀏覽器主控台獲知更多資訊。",
   "changesSaved": "你的變更已經儲存。",
-  "settingsWillBeUsedNextTime": "新設定將在你下次重新啟動 IPFS Daemon 後使用。",
-  "ipfsConfigDescription": "IPFS 設定檔是一個 JSON 文件。 IPFS Daemon 將在啟動過程中讀取一次。儲存你的變更，重新啟動 IPFS Daemon 後套用這些設定。",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "檢查文件獲知進一步資訊",
   "AnalyticsToggle": {
     "label": "向我們提供匿名數據來幫助我們改進",
@@ -133,12 +133,12 @@
   "tour": {
     "step1": {
       "title": "設定頁面",
-      "paragraph1": "您可以在這裡變更 Web UI 和 IPFS 節點的設定。",
+      "paragraph1": "",
       "paragraph2": "如果你正在運行IPFS Desktop ，會有一些特定的設置。"
     },
     "step2": {
-      "title": "Custom Kubo RPC API address",
-      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
+      "title": "",
+      "paragraph1": ""
     },
     "step3": {
       "title": "正在錨釘服務",
@@ -158,8 +158,8 @@
       "paragraph1": "啟用CLI 引導模式來查看常見 IPFS 指令 — 若您正在學習如何透過中終端機使用 IPFS，或者您只是需要查詢指令，這將非常有用。"
     },
     "step7": {
-      "title": "IPFS 設定",
-      "paragraph1": "您可以直接從Web UI 更改IPFS 節點的設置！",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "不要忘記重新啟動守護程式以應用更改。"
     }
   },
@@ -170,19 +170,19 @@
     "readMoreUrl": "閱讀更多"
   },
   "ipnsPublishingKeys": {
-    "title": "IPNS Publishing Keys",
-    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+    "title": "",
+    "description": ""
   },
   "generateKeyModal": {
-    "title": "Generate New IPNS Key",
-    "description": "Enter a nickname for this key to generate:"
+    "title": "",
+    "description": ""
   },
   "renameKeyModal": {
-    "title": "Rename Key",
-    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+    "title": "",
+    "description": ""
   },
   "removeKeyModal": {
-    "title": "Confirm IPNS Key Removal",
-    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
+    "title": "",
+    "description": ""
   }
 }

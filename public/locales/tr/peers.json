@@ -3,7 +3,7 @@
   "localNetwork": "Yerel ağ",
   "nearby": "yakınlarda",
   "protocols": "Yayınları aç",
-  "agentVersion": "Agent Version",
+  "agentVersion": "",
   "addConnection": "Bağlantı ekle",
   "insertPeerAddress": "Bağlanmak istediğiniz eş adresini girin.",
   "addPermanentPeer": "Kalıcı eşleme yapılandırmasına ekleyin",
