@@ -3,6 +3,7 @@
   "localNetwork": "Rete Locale",
   "nearby": "vicino",
   "protocols": "Stream aperti",
+  "agentVersion": "",
   "addConnection": "Aggiungi connessione",
   "insertPeerAddress": "Inserisci l'indirizzo del peer a cui vuoi connetterti.",
   "addPermanentPeer": "Aggiungi alla configurazione peering permanente",

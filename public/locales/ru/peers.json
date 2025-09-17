@@ -3,6 +3,7 @@
   "localNetwork": "Локальная сеть",
   "nearby": "рядом",
   "protocols": "Открытые каналы",
+  "agentVersion": "",
   "addConnection": "Добавить подключение",
   "insertPeerAddress": "Добавить адрес пира, к которому вы хотите присоединиться.",
   "addPermanentPeer": "Добавить в постоянную конфигурацию пиринга",
