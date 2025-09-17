@@ -36,10 +36,13 @@ test.describe('Peers screen', () => {
   test('should confirm connection after "Add connection" ', async ({ page }) => {
     await page.waitForSelector(addConnection)
     await page.click(addConnection)
-    await page.waitForSelector('div[role="dialog"]')
+
+    // Wait for the modal to appear - use the actual modal structure
+    await page.waitForSelector('.bg-white.w-80.shadow-4', { timeout: 10000 })
+
     await page.waitForSelector('text=Insert the peer address you want to connect to')
     // enter multiaddr of a disposable local node spawned for this test
-    await page.type('div[role="dialog"] input[type="text"]', peeraddr)
+    await page.type('input[name="maddr"]', peeraddr)
     // hit Enter
     await page.keyboard.press('Enter')
     // expect connection confirmation

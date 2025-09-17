@@ -40,11 +40,14 @@ test.describe('IPNS publishing', () => {
       const genKey = 'text=Generate Key'
       await page.waitForSelector(genKey)
       await page.click(genKey)
-      await page.waitForSelector('div[role="dialog"]')
+
+      // Wait for the modal to appear - use the actual modal structure
+      await page.waitForSelector('.bg-white.w-80.shadow-4', { timeout: 10000 })
+
       // expect prompt for key name
       await page.waitForSelector('text=Enter a nickname for this key to generate')
       // provide key name
-      const selector = 'div[role="dialog"] input[type="text"]'
+      const selector = 'input.modal-input'
       await page.type(selector, keyName)
       // hit Enter
       await page.press(selector, 'Enter')
