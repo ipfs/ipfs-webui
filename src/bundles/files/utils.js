@@ -181,9 +181,9 @@ export const sortFiles = (files, sorting, pins = []) => {
       const aPinned = pins.includes(a.cid.toString())
       const bPinned = pins.includes(b.cid.toString())
 
-      // If pinned status is different, pinned items come first
+      // If pinned status is different, apply sort direction
       if (aPinned !== bPinned) {
-        return aPinned ? -1 : 1
+        return aPinned ? -sortDir : sortDir
       }
 
       // If both pinned or both not pinned, sort alphabetically within each group

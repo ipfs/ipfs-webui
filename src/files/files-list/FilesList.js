@@ -304,10 +304,17 @@ export const FilesList = ({
               </button>
             </div>
             <div className='pl2 pr1 tr f6 flex-none dn db-l mw4'>
-              { pinningServices && pinningServices.length
-                ? <button aria-label={t('app:terms.pinStatus')} onClick={() => doFetchRemotePins(files, refreshPinCache)}>{t('app:terms.pinStatus')}</button>
-                : <>{t('app:terms.pinStatus')}</>
-              }
+              <button
+                aria-label={t('sortBy', { name: t('app:terms.pinStatus') })}
+                onClick={() => {
+                  changeSort(sorts.BY_PINNED)()
+                  if (pinningServices && pinningServices.length) {
+                    doFetchRemotePins(files, refreshPinCache)
+                  }
+                }}
+              >
+                {t('app:terms.pinStatus')} {sortByIcon(sorts.BY_PINNED)}
+              </button>
             </div>
             <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
               <button aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
