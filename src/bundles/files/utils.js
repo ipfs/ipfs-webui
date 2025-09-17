@@ -353,13 +353,12 @@ export const ensureMFS = (store) => {
  *
  * @param {CID|null|undefined} cid - The CID to provide
  * @param {IPFSService} ipfs - The IPFS service instance
- * @param {string} context - Context for logging
  */
-export const dispatchAsyncProvide = (cid, ipfs, context) => {
+export const dispatchAsyncProvide = (cid, ipfs) => {
   if (cid != null) {
-    console.debug(`[${context}] Dispatching one-time ad-hoc provide for root CID ${cid.toString()} (non-recursive) for improved performance when sharing today`)
+    console.debug(`Dispatching one-time ad-hoc provide for root CID ${cid.toString()} (non-recursive)`)
     void debouncedProvide(cid, ipfs).catch((error) => {
-      console.error(`[${context}] debouncedProvide failed:`, error)
+      console.error('debouncedProvide failed:', error)
     })
   }
 }

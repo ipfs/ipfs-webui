@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect, useCallback, useMemo, ReactNode, useRef } from 'react'
+import { type AgentVersionObject, parseAgentVersion } from '../lib/parse-agent-version'
 import { useBridgeContext, useBridgeSelector } from '../helpers/context-bridge'
 
 /**
@@ -35,6 +36,10 @@ export interface IdentityContextValue {
    * Whether identity is being updated (loading, but we already have a good identity response)
    */
   isRefreshing: boolean
+  /**
+   * The parsed agent version object
+   */
+  agentVersionObject: AgentVersionObject | null
 }
 
 /**
@@ -165,14 +170,20 @@ const IdentityProviderImpl: React.FC<IdentityProviderProps> = ({ children }) => 
     return () => {}
   }, [shouldPoll, ipfsConnected, state.lastSuccess, fetchIdentity])
 
+  const agentVersionObject = useMemo(() => {
+    if (identityStable?.agentVersion == null) return null
+    return parseAgentVersion(identityStable.agentVersion)
+  }, [identityStable])
+
   const contextValue: IdentityContextValue = useMemo(() => ({
     identity: identityStable,
     isLoading: isInitialLoading,
     isRefreshing,
     hasError: state.hasError,
     lastSuccess: state.lastSuccess,
-    refetch: fetchIdentity
-  }), [identityStable, isInitialLoading, isRefreshing, state.hasError, state.lastSuccess, fetchIdentity])
+    refetch: fetchIdentity,
+    agentVersionObject
+  }), [identityStable, isInitialLoading, isRefreshing, state.hasError, state.lastSuccess, fetchIdentity, agentVersionObject])
 
   useBridgeContext('identity', contextValue)
 

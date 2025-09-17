@@ -170,7 +170,9 @@ export async function debouncedProvide (cid, ipfs) {
     const provideEvents = ipfs.routing.provide(cid, { recursive: false })
 
     for await (const event of provideEvents) {
-      console.debug(`[PROVIDE] ${cidStr}:`, event)
+      if (event.messageName === 'PUT_VALUE') {
+        console.debug(`[PROVIDE] ${cidStr}:`, event)
+      }
     }
 
     // Clean up old cache entries

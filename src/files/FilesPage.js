@@ -126,6 +126,10 @@ const FilesPage = ({
     doAddCarFile(files.path, file, name)
   }
   const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
+  const onCheckRetrieval = (cid) => {
+    doFilesCidProvide(cid) // Trigger background provide
+    doUpdateHash(`/diagnostics/retrieval-check/${cid}`)
+  }
   const showModal = (modal, files = null) => setModals({ show: modal, files })
   const hideModal = () => setModals({})
   /**
@@ -305,11 +309,12 @@ const FilesPage = ({
         onRemove={() => showModal(DELETE, [contextMenu.file])}
         onRename={() => showModal(RENAME, [contextMenu.file])}
         onInspect={() => onInspect(contextMenu.file.cid)}
+        onCheckRetrieval={() => onCheckRetrieval(contextMenu.file.cid)}
         onDownload={() => onDownload([contextMenu.file])}
         onDownloadCar={() => onDownloadCar([contextMenu.file])}
         onPinning={() => showModal(PINNING, [contextMenu.file])}
         onPublish={() => showModal(PUBLISH, [contextMenu.file])}
-        onCopyCid={(cid) => doFilesCopyCidProvide(cid)}
+        onCopyCid={(cid) => doFilesCidProvide(cid)}
         isCliTutorModeEnabled={isCliTutorModeEnabled}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
         doSetCliOptions={doSetCliOptions}
@@ -442,7 +447,7 @@ export default connect(
   'doFilesMove',
   'doFilesMakeDir',
   'doFilesShareLink',
-  'doFilesCopyCidProvide',
+  'doFilesCidProvide',
   'doFilesDelete',
   'doFilesAddPath',
   'doAddCarFile',

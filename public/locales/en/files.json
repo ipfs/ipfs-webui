@@ -1,12 +1,9 @@
 {
   "title": "Files",
-  "home": "Home",
   "breadcrumbs": "Breadcrumbs",
-  "finished": "Finished!",
   "totalSize": "Total size: {size}",
   "filesSelected": "{count, plural, one {Item selected} other {Items selected}}",
   "menuOptions": "Options for selected item",
-  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Only available for individual files",
   "noPDFSupport": "Your browser does not support PDFs. Please download the PDF to view it:",
   "downloadPDF": "Download PDF",
