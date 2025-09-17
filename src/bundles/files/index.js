@@ -116,7 +116,7 @@ const createFilesBundle = () => {
           try {
             window.localStorage?.setItem('files.sorting', JSON.stringify(action.payload))
           } catch (error) {
-            console.warn('Failed to save files.sorting to localStorage:', error)
+            console.error('Failed to save files.sorting to localStorage:', error)
           }
 
           if (pageContent && pageContent.type === 'directory') {

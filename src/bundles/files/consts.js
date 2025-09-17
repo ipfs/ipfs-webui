@@ -76,13 +76,20 @@ export const DEFAULT_STATE = {
       const saved = window.localStorage?.getItem('files.sorting')
       if (saved) {
         const parsed = JSON.parse(saved)
-        // Validate the structure
-        if (parsed && typeof parsed.by === 'string' && typeof parsed.asc === 'boolean') {
+        // Validate the structure and values
+        const validSortBy = Object.values(SORTING).includes(parsed?.by)
+        const validAsc = typeof parsed?.asc === 'boolean'
+
+        if (parsed && validSortBy && validAsc) {
           return parsed
         }
       }
     } catch (error) {
       console.warn('Failed to read files.sorting from localStorage:', error)
+      // Clear corrupted data
+      try {
+        window.localStorage?.removeItem('files.sorting')
+      } catch {}
     }
     return {
       by: SORTING.BY_NAME,
