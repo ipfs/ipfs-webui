@@ -166,13 +166,18 @@ export const send = (action) => async ({ store }) => {
  * @returns {T[]}
  */
 export const sortFiles = (files, sorting, pins = []) => {
+  // Early return for edge cases
+  if (!files || files.length <= 1) {
+    return files || []
+  }
+
   const sortDir = sorting.asc ? 1 : -1
   const nameSort = sortByName(sortDir)
   const sizeSort = sortBySize(sortDir)
 
   return files.sort((a, b) => {
     // Handle pinned-first sorting
-    if (sorting.by === SORTING.BY_PINNED) {
+    if (sorting.by === SORTING.BY_PINNED && pins.length > 0) {
       const aPinned = pins.includes(a.cid.toString())
       const bPinned = pins.includes(b.cid.toString())
 
