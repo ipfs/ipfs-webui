@@ -14,6 +14,34 @@ import GlyphCancel from '../../icons/GlyphCancel.js'
 
 const maxPlainTextPreview = 1024 * 10 // only preview small part of huge files
 
+// Utility function for middle truncation of filenames
+function truncateMiddle (filename, maxLength = 40) {
+  if (filename.length <= maxLength) {
+    return filename
+  }
+
+  const lastDotIndex = filename.lastIndexOf('.')
+  const hasExtension = lastDotIndex !== -1
+  const extension = hasExtension ? filename.slice(lastDotIndex) : ''
+  const nameWithoutExt = hasExtension ? filename.slice(0, lastDotIndex) : filename
+
+  // Reserve space for extension and ellipsis
+  const reserved = extension.length + 3
+  if (maxLength <= reserved + 2) {
+    return filename.slice(0, maxLength) // Fallback if maxLength is too small
+  }
+
+  // Split available length into front and back parts
+  const availableLength = maxLength - reserved
+  const frontLength = Math.ceil(availableLength / 2)
+  const backLength = Math.floor(availableLength / 2)
+
+  const front = nameWithoutExt.slice(0, frontLength)
+  const back = nameWithoutExt.slice(-backLength)
+
+  return `${front}...${back}${extension}`
+}
+
 const Drag = ({ name, size, cid, path, children }) => {
   const [, drag] = useDrag({
     item: { name, size, cid, path, type: 'FILE' }
@@ -64,12 +92,18 @@ const Preview = (props) => {
   // Close button header
   const closeButtonHeader = onClose != null && (
     <div className="flex items-center justify-between mb3 pb2 bb b--light-gray">
-      <div className="flex items-center">
-        <h2 className="ma0 f4 charcoal truncate">{name}</h2>
+      <div className="flex items-center flex-auto mr2">
+        <h2
+          className="ma0 f4 charcoal"
+          title={name}
+          style={{ wordBreak: 'break-all', maxWidth: '100%' }}
+        >
+          {truncateMiddle(name, 40)}
+        </h2>
       </div>
       <GlyphCancel
         onClick={onClose}
-        style={{ width: '44px', height: '44px', fill: '#244c5a', cursor: 'pointer' }}
+        style={{ width: '44px', height: '44px', fill: '#244c5a', cursor: 'pointer', flexShrink: 0 }}
       />
     </div>
   )
