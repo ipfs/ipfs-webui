@@ -34,11 +34,12 @@ interface FilesGridPropsConnected extends FilesGridProps {
   onSelect: (fileName: string | string[], isSelected: boolean) => void
   filesIsFetching: boolean
   selected: string[]
+  modalOpen: boolean
 }
 
 const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
-  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
+  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect, modalOpen = false
 }: FilesGridPropsConnected) => {
   const [focused, setFocused] = useState<string | null>(null)
   const filesRefs = useRef<Record<string, HTMLDivElement>>({})
@@ -67,6 +68,11 @@ const FilesGrid = ({
   }, [onSelect])
 
   const keyHandler = useCallback((e: KeyboardEvent) => {
+    // Don't handle keyboard events when a modal is open
+    if (modalOpen) {
+      return
+    }
+
     const focusedFile = focused == null ? null : files.find(el => el.name === focused)
 
     gridRef.current?.focus?.()
@@ -148,8 +154,7 @@ const FilesGrid = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files, focused])
+  }, [files, focused, selected, onSelect, onRename, onRemove, onNavigate, handleSelect, modalOpen])
 
   useEffect(() => {
     if (filesIsFetching) return

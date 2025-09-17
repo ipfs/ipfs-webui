@@ -57,3 +57,14 @@ button,
   app-region: no-drag !important;
   pointer-events: auto;
 }
+
+/* =========================
+    Custom tachyons classes
+   ========================= */
+.hover-o-100:hover, .hover-o-100:focus {
+  opacity: 1;
+}
+
+.hover-o-90:hover, .hover-o-90:focus {
+  opacity: 0.9;
+}

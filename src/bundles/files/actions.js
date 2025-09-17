@@ -542,11 +542,11 @@ const actions = () => ({
   }),
 
   /**
-   * Triggers provide operation for a copied CID.
+   * Triggers provide operation for a CID.
    * @param {import('multiformats/cid').CID} cid
    */
-  doFilesCopyCidProvide: (cid) => perform('FILES_COPY_CID_PROVIDE', async (ipfs) => {
-    dispatchAsyncProvide(cid, ipfs, 'COPY')
+  doFilesCidProvide: (cid) => perform('FILES_CID_PROVIDE', async (ipfs) => {
+    dispatchAsyncProvide(cid, ipfs)
   }),
 
   doFilesShareLink: (/** @type {FileStat[]} */ files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
@@ -556,7 +556,7 @@ const actions = () => ({
     const { link: shareableLink, cid } = await getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
 
     // Trigger background provide operation with the CID from getShareableLink
-    dispatchAsyncProvide(cid, ipfs, 'SHARE')
+    dispatchAsyncProvide(cid, ipfs)
 
     return shareableLink
   }),

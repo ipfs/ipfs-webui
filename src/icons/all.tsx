@@ -5,3 +5,4 @@
 export { default as GlyphPinCloud } from './hocs/GlyphPinCloud.js'
 export * from './stroke-icons.js'
 export * from './index.js'
+export * from './lucide/all.js'

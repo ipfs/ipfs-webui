@@ -50,6 +50,7 @@ export type DirectoryContent = {
   cid: CID,
 
   content: FileStat[]
+  originalContent?: FileStat[] // Original unsorted content from ipfs.ls
   upper: FileStat | null,
 }
 
@@ -58,7 +59,7 @@ export type PageContent =
   | FileContent
   | DirectoryContent
 
-export type SortBy = 'name' | 'size'
+export type SortBy = 'name' | 'size' | 'pinned' | 'original'
 
 export type Sorting = {
   by: SortBy,

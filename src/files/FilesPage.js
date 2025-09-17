@@ -6,6 +6,7 @@ import { withTranslation, Trans } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 // Lib
 import { filesTour } from '../lib/tours.js'
+import { readSetting, writeSetting } from '../bundles/local-storage.js'
 // Components
 import ContextMenu from './context-menu/ContextMenu.js'
 import withTour from '../components/tour/withTour.js'
@@ -16,6 +17,7 @@ import FilesGrid from './files-grid/files-grid.js'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
 import FileNotFound from './file-not-found/index.tsx'
 import { getJoyrideLocales } from '../helpers/i8n.js'
+import SortDropdown from './sort-dropdown/SortDropdown.js'
 
 // Icons
 import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, SHORTCUTS, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
@@ -29,8 +31,8 @@ import Checkbox from '../components/checkbox/Checkbox.js'
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
-  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCopyCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
-  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
+  ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
+  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, filesSorting, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
@@ -41,8 +43,13 @@ const FilesPage = ({
     translateY: 0,
     file: null
   })
-  const [viewMode, setViewMode] = useState('list')
+  const [viewMode, setViewMode] = useState(() => readSetting('files.viewMode') || 'list')
   const [selected, setSelected] = useState([])
+
+  const toggleViewMode = () => {
+    const newMode = viewMode === 'list' ? 'grid' : 'list'
+    setViewMode(newMode)
+  }
 
   useEffect(() => {
     doFetchPinningServices()
@@ -72,6 +79,11 @@ const FilesPage = ({
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [])
+
+  // Persist view mode changes to localStorage
+  useEffect(() => {
+    writeSetting('files.viewMode', viewMode)
+  }, [viewMode])
 
   /* TODO: uncomment below if we ever want automatic remote pin check
   *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)
@@ -119,6 +131,10 @@ const FilesPage = ({
     doAddCarFile(files.path, file, name)
   }
   const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
+  const onCheckRetrieval = (cid) => {
+    doFilesCidProvide(cid) // Trigger background provide
+    doUpdateHash(`/diagnostics/retrieval-check/${cid}`)
+  }
   const showModal = (modal, files = null) => setModals({ show: modal, files })
   const hideModal = () => setModals({})
   /**
@@ -207,6 +223,7 @@ const FilesPage = ({
       failedPins: failedPins || [],
       filesPathInfo,
       selected,
+      modalOpen: modals.show !== null,
       onSelect: (name, isSelected) => {
         if (Array.isArray(name)) {
           if (isSelected) {
@@ -298,11 +315,12 @@ const FilesPage = ({
         onRemove={() => showModal(DELETE, [contextMenu.file])}
         onRename={() => showModal(RENAME, [contextMenu.file])}
         onInspect={() => onInspect(contextMenu.file.cid)}
+        onCheckRetrieval={() => onCheckRetrieval(contextMenu.file.cid)}
         onDownload={() => onDownload([contextMenu.file])}
         onDownloadCar={() => onDownloadCar([contextMenu.file])}
         onPinning={() => showModal(PINNING, [contextMenu.file])}
         onPublish={() => showModal(PUBLISH, [contextMenu.file])}
-        onCopyCid={(cid) => doFilesCopyCidProvide(cid)}
+        onCopyCid={(cid) => doFilesCidProvide(cid)}
         isCliTutorModeEnabled={isCliTutorModeEnabled}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE, [contextMenu.file])}
         doSetCliOptions={doSetCliOptions}
@@ -321,25 +339,23 @@ const FilesPage = ({
         handleContextMenu={(...args) => handleContextMenu(...args, true)}
       >
         <div className="flex items-center justify-end">
+          <div className="mr3">
+            <SortDropdown
+              currentSort={filesSorting || { by: 'name', asc: true }}
+              onSortChange={doFilesUpdateSorting}
+              t={t}
+            />
+          </div>
           <button
-            className={`pointer filelist-view ${viewMode === 'list' ? 'selected-item' : 'gray'}`}
-            onClick={() => setViewMode('list')}
-            title={t('viewList')}
+            className="pointer selected-item"
+            onClick={toggleViewMode}
+            title={viewMode === 'list' ? t('switchToGridView') : t('switchToListView')}
+            aria-label={viewMode === 'list' ? t('switchToGridView') : t('switchToListView')}
             style={{
               height: '24px'
             }}
           >
-            <ViewList width="24" height="24" />
-          </button>
-          <button
-            className={`pointer filegrid-view ${viewMode === 'grid' ? 'selected-item' : 'gray'}`}
-            onClick={() => setViewMode('grid')}
-            title={t('viewGrid')}
-            style={{
-              height: '24px'
-            }}
-          >
-            <ViewModule width="24" height="24" />
+            {viewMode === 'list' ? <ViewList width="24" height="24" /> : <ViewModule width="24" height="24" />}
           </button>
         </div>
       </Header>
@@ -428,7 +444,7 @@ export default connect(
   'doFilesMove',
   'doFilesMakeDir',
   'doFilesShareLink',
-  'doFilesCopyCidProvide',
+  'doFilesCidProvide',
   'doFilesDelete',
   'doFilesAddPath',
   'doAddCarFile',
