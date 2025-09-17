@@ -6,7 +6,7 @@ import { Title } from './Commons.js'
 
 class NetworkTraffic extends React.Component {
   state = {
-    commonTotal: 125000,
+    commonTotal: 125000, // Initial scale: 1 Mbit/s (125000 bytes/s)
     downFilled: 0,
     upFilled: 0
   }
