@@ -42,7 +42,12 @@ async function submitGatewayAndCheck (page, inputElement, submitButton, gatewayU
   await inputElement.fill(gatewayURL)
   // Check if the submit button is not null, and click it only if it's available
   if (submitButton) {
-    await submitButton.click()
+    const buttonId = await submitButton.evaluate(el => el.id)
+    // Use locator API which handles re-renders automatically
+    const submitBtn = page.locator(`#${buttonId}`)
+    // Wait for button to be enabled after input validation
+    await expect(submitBtn).toBeEnabled({ timeout: 10000 })
+    await submitBtn.click()
   }
   const hasExpectedClass = await checkClassWithTimeout(page, inputElement, expectedClass)
   expect(hasExpectedClass).toBe(true)

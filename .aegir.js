@@ -34,6 +34,10 @@ export default {
       'tachyons',
       'uint8arrays',
 
+      // babel-preset-react-app uses this without declaring it as a dependency
+      // see: https://github.com/facebook/create-react-app/issues/13325
+      '@babel/plugin-proposal-private-property-in-object',
+
       // type-only deps
       'ipfs',
 
