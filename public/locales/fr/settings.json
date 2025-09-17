@@ -15,7 +15,7 @@
   "language": "Langue",
   "analytics": "Analyses",
   "cliTutorMode": "Mode tutoriel pour l'invite de commande (CLI)",
-  "config": "Kubo Config",
+  "config": "Config IPFS",
   "languageModal": {
     "title": "Changer la langue",
     "description": "Choisir votre langue préférée",
@@ -85,14 +85,14 @@
     "false": "Éteint"
   },
   "fetchingSettings": "Récupération des paramètres...",
-  "ipfsDaemonOffline": "The Kubo daemon is offline. Please turn it on and try again.",
-  "settingsUnavailable": "Settings not available. Please check your Kubo daemon is running.",
+  "ipfsDaemonOffline": "Le daemon IPFS est hors-ligne. Merci de le relancer.",
+  "settingsUnavailable": "Paramètres non disponibles. Merci de vérifier que votre daemon IPFS est en cours d'exécution.",
   "settingsHaveChanged": "Les paramètres ont changé. Cliquez sur <1>Réinitialiser</1> pour mettre à jour l'éditeur de contenu.",
   "errorOccured": "Une erreur s'est produite pendant l'enregistrement de vos modifications",
   "checkConsole": "Vérifier la console du navigateur pour plus d'informations.",
   "changesSaved": "Vos modifications ont été enregistrées.",
-  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the Kubo daemon.",
-  "ipfsConfigDescription": "The Kubo config file is a JSON document. It is read once when the Kubo daemon is started. Save your changes, then restart the Kubo daemon to apply them.",
+  "settingsWillBeUsedNextTime": "Les nouveaux paramètres seront utilisés après le prochain démarrage du daemon IPFS.",
+  "ipfsConfigDescription": "Le fichier de configuration de IPFS est un document JSON. Il est lu lorsque le daemon IPFS est lancé. Enregistrez vos modifications, puis relancez le daemon IPFS pour les appliquer.",
   "ipfsConfigHelp": "Vérifier la documentation pour plus d'informations.",
   "AnalyticsToggle": {
     "label": "Aidez à améliorer cette application en envoyant des données d'utilisation anonymes",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "Page des paramètres",
-      "paragraph1": "Here you can change the settings of your Web UI and Kubo node.",
+      "paragraph1": "Ici vous pouvez changer les paramètres de votre interface web ou de votre nœud IPFS.",
       "paragraph2": "Si vous utilisez IPFS Desktop vous pourrez également régler quelques paramètres qui lui sont spécifiques."
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "Activer le Mode tuteur pour CLI pour voir les raccourcis vers la version \"ligne de commande\" des commandes courantes d'IPFS. Pratique si vous voulez apprendre à utiliser IPFS depuis un terminal, ou si vous voulez juste avoir un pense-bête."
     },
     "step7": {
-      "title": "Kubo Config",
-      "paragraph1": "You can change the config of your Kubo node right from Web UI!",
+      "title": "Configuration IPFS",
+      "paragraph1": "Vous pouvez changer la configuration de votre nœud IPFS depuis l'interface web !",
       "paragraph2": "N'oubliez pas de redémarrer le daemon pour que les changements soient pris en compte."
     }
   },

@@ -15,7 +15,7 @@
   "language": "Dil",
   "analytics": "Analitik",
   "cliTutorMode": "Komut Satırı Arayüzü Eğitmen Modu",
-  "config": "Kubo Config",
+  "config": "IPFS Yapılandırması",
   "languageModal": {
     "title": "Dili değiştir",
     "description": "Tercih ettiğiniz dili seçin.",
@@ -85,14 +85,14 @@
     "false": "Kapalı"
   },
   "fetchingSettings": "Ayarlar getiriliyor ...",
-  "ipfsDaemonOffline": "The Kubo daemon is offline. Please turn it on and try again.",
-  "settingsUnavailable": "Settings not available. Please check your Kubo daemon is running.",
+  "ipfsDaemonOffline": "IPFS arka plan programı çevrimdışı. Lütfen açın ve tekrar deneyin.",
+  "settingsUnavailable": "Ayarlar mevcut değil. Lütfen IPFS daemonunuzun çalışıp çalışmadığını kontrol edin.",
   "settingsHaveChanged": "Ayarlar değişti; editör içeriğini güncellemek için lütfen <1>Sıfırla</1>'yı tıklayın.",
   "errorOccured": "Değişikliklerinizi kaydederken bir hata oluştu",
   "checkConsole": "Daha fazla bilgi için tarayıcı konsolunu kontrol edin.",
   "changesSaved": "Değişiklikleriniz kaydedildi.",
-  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the Kubo daemon.",
-  "ipfsConfigDescription": "The Kubo config file is a JSON document. It is read once when the Kubo daemon is started. Save your changes, then restart the Kubo daemon to apply them.",
+  "settingsWillBeUsedNextTime": "Yeni ayarlar IPFS arka plan programını yeniden başlattığınızda kullanılacaktır.",
+  "ipfsConfigDescription": "IPFS yapılandırma dosyası bir JSON belgesidir. IPFS arka plan programı başlatıldığında bir kez okunur. Değişikliklerinizi kaydedin, ardından bunları uygulamak için IPFS arka plan programını yeniden başlatın.",
   "ipfsConfigHelp": "Daha fazla bilgi için belgelere bakın.",
   "AnalyticsToggle": {
     "label": "Anonim kullanım verilerini göndererek bu uygulamanın geliştirilmesine yardımcı olun",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "Ayarlar sayfası",
-      "paragraph1": "Here you can change the settings of your Web UI and Kubo node.",
+      "paragraph1": "Burada Web kullanıcı arayüzünüzün ve IPFS düğümünüzün ayarlarını değiştirebilirsiniz.",
       "paragraph2": "IPFS Masaüstü kullanıyorsanız, bunun için de bazı özel ayarlara sahip olacaksınız."
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "Genel IPFS komutlarının komut satırı sürümünün kısayollarını görmek için komut satırı arayüzü eğitmen modunu etkinleştirin - IPFS'yi terminalden kullanmayı öğreniyorsanız veya sadece tazeleme ihtiyacınız varsa faydalıdır."
     },
     "step7": {
-      "title": "Kubo Config",
-      "paragraph1": "You can change the config of your Kubo node right from Web UI!",
+      "title": "IPFS Yapılandırması",
+      "paragraph1": "IPFS düğümünüzün yapılandırmasını doğrudan Web kullanıcı arayüzünden değiştirebilirsiniz!",
       "paragraph2": "Değişiklikleri uygulamak için daemon'u yeniden başlatmayı unutmayın."
     }
   },

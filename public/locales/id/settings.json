@@ -15,7 +15,7 @@
   "language": "Bahasa",
   "analytics": "Analitik",
   "cliTutorMode": "Mode Tutor CLI",
-  "config": "Kubo Config",
+  "config": "Konfigurasi IPFS",
   "languageModal": {
     "title": "Ganti bahasa",
     "description": "Pilih bahasa pilihan Anda.",
@@ -85,14 +85,14 @@
     "false": "Mati"
   },
   "fetchingSettings": "Mengambil setelan...",
-  "ipfsDaemonOffline": "The Kubo daemon is offline. Please turn it on and try again.",
-  "settingsUnavailable": "Settings not available. Please check your Kubo daemon is running.",
+  "ipfsDaemonOffline": "Daemon IPFS sedang offline. Harap aktifkan dan coba lagi.",
+  "settingsUnavailable": "Pengaturan tidak tersedia. Silakan periksa daemon IPFS Anda sedang berjalan.",
   "settingsHaveChanged": "Pengaturan telah berubah; silakan klik <1>Reset</1> untuk memperbarui konten editor.",
   "errorOccured": "Terjadi kesalahan saat menyimpan perubahan Anda",
   "checkConsole": "Periksa konsol peramban untuk info lebih lanjut.",
   "changesSaved": "Perubahan yang Anda buat sudah disimpan.",
-  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the Kubo daemon.",
-  "ipfsConfigDescription": "The Kubo config file is a JSON document. It is read once when the Kubo daemon is started. Save your changes, then restart the Kubo daemon to apply them.",
+  "settingsWillBeUsedNextTime": "Pengaturan baru akan digunakan saat berikutnya Anda memulai ulang daemon IPFS.",
+  "ipfsConfigDescription": "Konfigurasi berkas IPFS adalah dokumen JSON. Ini dibaca sekali ketika daemon IPFS dimulai. Simpan perubahan Anda, lalu mulai ulang daemon IPFS untuk menerapkannya.",
   "ipfsConfigHelp": "Periksa dokumentasi untuk informasi lebih lanjut.",
   "AnalyticsToggle": {
     "label": "Bantu tingkatkan aplikasi ini dengan mengirimkan data penggunaan anonim",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "Halaman pengaturan",
-      "paragraph1": "Here you can change the settings of your Web UI and Kubo node.",
+      "paragraph1": "Di sini Anda dapat mengubah pengaturan UI Web dan node IPFS Anda.",
       "paragraph2": "Jika Anda menjalankan Desktop IPFS, Anda juga akan memiliki beberapa pengaturan khusus."
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "Aktifkan mode tutor CLI untuk melihat pintasan ke versi baris perintah dari perintah IPFS umum — berguna jika Anda belajar menggunakan IPFS dari terminal, atau jika Anda hanya perlu penyegaran."
     },
     "step7": {
-      "title": "Kubo Config",
-      "paragraph1": "You can change the config of your Kubo node right from Web UI!",
+      "title": "Konfigurasi IPFS",
+      "paragraph1": "Anda dapat mengubah konfigurasi node IPFS Anda langsung dari UI Web!",
       "paragraph2": "Jangan lupa untuk memulai ulang daemon untuk menerapkan perubahan."
     }
   },

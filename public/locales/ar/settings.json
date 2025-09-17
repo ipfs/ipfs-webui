@@ -15,7 +15,7 @@
   "language": "لغة",
   "analytics": "تحليلات",
   "cliTutorMode": "وضع معلم CLI",
-  "config": "Kubo Config",
+  "config": "تكوين IPFS",
   "languageModal": {
     "title": "تغيير اللغة",
     "description": "اختر لغتك المفضلة.",
@@ -85,14 +85,14 @@
     "false": "إيقاف"
   },
   "fetchingSettings": "جارٍ جلب الإعدادات ...",
-  "ipfsDaemonOffline": "The Kubo daemon is offline. Please turn it on and try again.",
-  "settingsUnavailable": "Settings not available. Please check your Kubo daemon is running.",
+  "ipfsDaemonOffline": "البرنامج الخفي لـ IPFS غير متصل. يرجى تشغيله وإعادة المحاولة.",
+  "settingsUnavailable": "الإعدادات غير متاحة. يرجى التحقق من تشغيل البرنامج الخفي الخاص بـ IPFS.",
   "settingsHaveChanged": "تم تغيير الإعدادات ؛ يرجى النقر فوق <1> إعادة تعيين </1> لتحديث محتويات المحرر.",
   "errorOccured": "حدث خطأ أثناء حفظ التغييرات الخاصة بك",
   "checkConsole": "تحقق من وحدة تحكم المتصفح لمزيد من المعلومات.",
   "changesSaved": "تم حفظ التغييرات.",
-  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the Kubo daemon.",
-  "ipfsConfigDescription": "The Kubo config file is a JSON document. It is read once when the Kubo daemon is started. Save your changes, then restart the Kubo daemon to apply them.",
+  "settingsWillBeUsedNextTime": "سيتم استخدام الإعدادات الجديدة في المرة القادمة التي تقوم فيها بإعادة تشغيل البرنامج الخفي لـ IPFS.",
+  "ipfsConfigDescription": "ملف تهيئة IPFS هو مستند JSON. تتم قراءته مرة واحدة عند بدء البرنامج الخفي IPFS. احفظ التغييرات ، ثم أعد تشغيل البرنامج الخفي IPFS لتطبيقها.",
   "ipfsConfigHelp": "تحقق من الوثائق لمزيد من المعلومات.",
   "AnalyticsToggle": {
     "label": "ساعد في تحسين هذا التطبيق عن طريق إرسال بيانات استخدام مجهولة",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "صفحة الإعدادات",
-      "paragraph1": "Here you can change the settings of your Web UI and Kubo node.",
+      "paragraph1": "هنا يمكنك تغيير إعدادات عقدة Web UI و IPFS الخاصة بك.",
       "paragraph2": "إذا كنت تقوم بتشغيل IPFS لسطح المكتب ، فستتوفر لديك أيضًا بعض الإعدادات الخاصة به."
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "قم بتمكين وضع معلم CLI لرؤية الاختصارات إلى إصدار سطر الأوامر لأوامر IPFS الشائعة - مفيد إذا كنت تتعلم استخدام IPFS من الجهاز ، أو إذا كنت بحاجة إلى تجديد المعلومات."
     },
     "step7": {
-      "title": "Kubo Config",
-      "paragraph1": "You can change the config of your Kubo node right from Web UI!",
+      "title": "تكوين IPFS",
+      "paragraph1": "يمكنك تغيير تكوين عقدة IPFS الخاصة بك مباشرة من Web UI!",
       "paragraph2": "لا تنس إعادة تشغيل البرنامج الخفي لتطبيق التغييرات."
     }
   },

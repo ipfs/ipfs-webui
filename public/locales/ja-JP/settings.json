@@ -15,7 +15,7 @@
   "language": "言語",
   "analytics": "分析",
   "cliTutorMode": "CUI チューターモード",
-  "config": "Kubo Config",
+  "config": "IPFS設定",
   "languageModal": {
     "title": "言語を変更",
     "description": "利用したい言語を選択してください",
@@ -85,14 +85,14 @@
     "false": "オフ"
   },
   "fetchingSettings": "設定を読み込んでいます…",
-  "ipfsDaemonOffline": "The Kubo daemon is offline. Please turn it on and try again.",
-  "settingsUnavailable": "Settings not available. Please check your Kubo daemon is running.",
+  "ipfsDaemonOffline": "IPFSデーモンが起動していないようです。デーモンを起動して再度接続を試してください。",
+  "settingsUnavailable": "設定を読み込めません。IPFSデーモンが起動していることを確認してください。",
   "settingsHaveChanged": "設定が変更されました。<1>リセット</1>をクリックして編集しているファイルを再読み込みしてください。",
   "errorOccured": "変更の保存中にエラーが発生しました。",
   "checkConsole": "詳細については、ブラウザコンソールを参照してください。",
   "changesSaved": "変更が保存されました。",
-  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the Kubo daemon.",
-  "ipfsConfigDescription": "The Kubo config file is a JSON document. It is read once when the Kubo daemon is started. Save your changes, then restart the Kubo daemon to apply them.",
+  "settingsWillBeUsedNextTime": "新しい変更は次にIPFSデーモンが起動したときに有効になります。",
+  "ipfsConfigDescription": "IPFS設定ファイルはJSON形式のテキストファイルとなっています。IPFSデーモンは起動時に1度だけそれを読み込みます。設定を変更したときにはそれを反映させるためにIPFSデーモンを再起動する必要があります。",
   "ipfsConfigHelp": "より詳しい情報については、公式ドキュメントを参照してください。",
   "AnalyticsToggle": {
     "label": "匿名の利用状況データを送信することで、このアプリケーションの改善に協力する",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "設定",
-      "paragraph1": "Here you can change the settings of your Web UI and Kubo node.",
+      "paragraph1": "ここではWebUIとIPFSノードの設定を変更できます",
       "paragraph2": "もしあなたがIPFS Desktopを利用しているのであれば、ここでも特殊な設定が確認できるでしょう"
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "CUI版のコマンドのショートカットを見るためには、CUIチューターモードを有効にしてください - もしあなたがターミナルからのIPFS操作を勉強中の時や、コマンドをうっかり忘れてしまっている場合に役立つでしょう"
     },
     "step7": {
-      "title": "Kubo Config",
-      "paragraph1": "You can change the config of your Kubo node right from Web UI!",
+      "title": "IPFS設定",
+      "paragraph1": "このWebUIではあなたのIPFSノードの設定を変更することができます!",
       "paragraph2": "変更した設定を反映させるには、IPFSノードの再起動を忘れないでください！"
     }
   },

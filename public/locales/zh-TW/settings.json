@@ -15,7 +15,7 @@
   "language": "語言",
   "analytics": "分析",
   "cliTutorMode": "CLI 引導模式",
-  "config": "Kubo Config",
+  "config": "IPFS 設定",
   "languageModal": {
     "title": "變更語言",
     "description": "挑選你喜好的語言。",
@@ -85,14 +85,14 @@
     "false": "關閉"
   },
   "fetchingSettings": "正在擷取設定...",
-  "ipfsDaemonOffline": "The Kubo daemon is offline. Please turn it on and try again.",
-  "settingsUnavailable": "Settings not available. Please check your Kubo daemon is running.",
+  "ipfsDaemonOffline": "IPFS Daemon 已離線。請開啟並再試一次。",
+  "settingsUnavailable": "設定無法使用。請檢查你的 IPFS Daemon 是否正在執行。",
   "settingsHaveChanged": "設定已經變更，請按<1>重設</1> 更新編輯器內容。",
   "errorOccured": "在儲存變更時發生錯誤",
   "checkConsole": "檢查瀏覽器主控台獲知更多資訊。",
   "changesSaved": "你的變更已經儲存。",
-  "settingsWillBeUsedNextTime": "The new settings will be used next time you restart the Kubo daemon.",
-  "ipfsConfigDescription": "The Kubo config file is a JSON document. It is read once when the Kubo daemon is started. Save your changes, then restart the Kubo daemon to apply them.",
+  "settingsWillBeUsedNextTime": "新設定將在你下次重新啟動 IPFS Daemon 後使用。",
+  "ipfsConfigDescription": "IPFS 設定檔是一個 JSON 文件。 IPFS Daemon 將在啟動過程中讀取一次。儲存你的變更，重新啟動 IPFS Daemon 後套用這些設定。",
   "ipfsConfigHelp": "檢查文件獲知進一步資訊",
   "AnalyticsToggle": {
     "label": "向我們提供匿名數據來幫助我們改進",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "設定頁面",
-      "paragraph1": "Here you can change the settings of your Web UI and Kubo node.",
+      "paragraph1": "您可以在這裡變更 Web UI 和 IPFS 節點的設定。",
       "paragraph2": "如果你正在運行IPFS Desktop ，會有一些特定的設置。"
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "啟用CLI 引導模式來查看常見 IPFS 指令 — 若您正在學習如何透過中終端機使用 IPFS，或者您只是需要查詢指令，這將非常有用。"
     },
     "step7": {
-      "title": "Kubo Config",
-      "paragraph1": "You can change the config of your Kubo node right from Web UI!",
+      "title": "IPFS 設定",
+      "paragraph1": "您可以直接從Web UI 更改IPFS 節點的設置！",
       "paragraph2": "不要忘記重新啟動守護程式以應用更改。"
     }
   },
