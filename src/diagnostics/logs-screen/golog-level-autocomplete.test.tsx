@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, waitFor, cleanup } from '@testing-library/react'
+import { render, screen, waitFor, cleanup, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals'
 import '@testing-library/jest-dom'
@@ -556,7 +556,7 @@ describe('GologLevelAutocomplete', () => {
       const mockOnValidityChange = jest.fn()
       const mockOnErrorChange = jest.fn()
 
-      render(
+      const { unmount } = render(
         <GologLevelAutocomplete
           {...defaultProps}
           value="info"
@@ -567,28 +567,35 @@ describe('GologLevelAutocomplete', () => {
       )
 
       const input = screen.getByRole('textbox')
-      await userEvent.type(input, '{enter}')
 
-      // Wait for the async submission to complete and all state updates to finish
+      // Use act to ensure all state updates are handled properly
+      await act(async () => {
+        await userEvent.type(input, '{enter}')
+      })
+
+      // Wait for all async operations and state updates to complete
       await waitFor(() => {
         expect(mockOnSubmit).toHaveBeenCalled()
       })
 
-      // Wait a bit for async state updates to complete
+      // Ensure all state updates have been processed
       await waitFor(() => {
         // The component should remain interactive after error
         expect(input).not.toBeDisabled()
-      })
+      }, { timeout: 1000 })
 
       // Verify that the component remains interactive after error
       expect(input).toHaveValue('info')
+
+      // Clean up properly
+      unmount()
     })
 
     it('should handle async form submission with unknown error', async () => {
       const mockOnSubmit = jest.fn<(event?: React.FormEvent) => Promise<void>>().mockImplementation(() => Promise.reject(new Error('Unknown error')))
       const mockOnErrorChange = jest.fn()
 
-      render(
+      const { unmount } = render(
         <GologLevelAutocomplete
           {...defaultProps}
           value="info"
@@ -598,21 +605,28 @@ describe('GologLevelAutocomplete', () => {
       )
 
       const input = screen.getByRole('textbox')
-      await userEvent.type(input, '{enter}')
 
-      // Wait for the async submission to complete and all state updates to finish
+      // Use act to ensure all state updates are handled properly
+      await act(async () => {
+        await userEvent.type(input, '{enter}')
+      })
+
+      // Wait for all async operations and state updates to complete
       await waitFor(() => {
         expect(mockOnSubmit).toHaveBeenCalled()
       })
 
-      // Wait a bit for async state updates to complete
+      // Ensure all state updates have been processed
       await waitFor(() => {
         // The component should remain interactive after error
         expect(input).not.toBeDisabled()
-      })
+      }, { timeout: 1000 })
 
       // Verify that the component remains interactive after error
       expect(input).toHaveValue('info')
+
+      // Clean up properly
+      unmount()
     })
 
     it('should handle cursor positioning after suggestion selection', async () => {
