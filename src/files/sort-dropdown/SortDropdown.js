@@ -84,7 +84,7 @@ const SortDropdown = ({ currentSort, onSortChange, t }) => {
         aria-label={t('sortFiles')}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="f6 charcoal">{getCurrentLabel()}</span>
+        <span className="f6 charcoal truncate">{getCurrentLabel()}</span>
         <span className="ml2 f6 gray">
           {isOpen ? '▲' : '▼'}
         </span>
