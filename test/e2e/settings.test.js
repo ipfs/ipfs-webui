@@ -66,9 +66,9 @@ async function submitGatewayAndCheck (page, inputElement, submitButton, gatewayU
       console.log(`Button disabled: ${isDisabled}, text: ${buttonText}`)
 
       // Try to trigger validation by blurring and refocusing the input
-      await inputElement.blur()
+      await inputElement.evaluate(el => el.blur())
       await page.waitForTimeout(500)
-      await inputElement.focus()
+      await inputElement.evaluate(el => el.focus())
       await page.waitForTimeout(1000)
       // Try again with a longer timeout
       await expect(submitBtn).toBeEnabled({ timeout: 10000 })
