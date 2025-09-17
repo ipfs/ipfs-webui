@@ -134,9 +134,9 @@ test.describe('Remote RPC API tests', () => {
   const switchIpfsApiEndpointViaSettings = async (endpoint, page) => {
     await page.click('[role="menubar"] a[href="#/settings"]')
     const selector = 'input[id="api-address"]'
-    const locator = await page.locator(selector)
-    await locator.fill(endpoint)
-    await locator.press('Enter')
+    await page.locator(selector).fill(endpoint)
+    // Use page.keyboard instead of locator.press to avoid detached element issues
+    await page.keyboard.press('Enter')
     await waitForIpfsApiEndpoint(endpoint, page)
   }
 
