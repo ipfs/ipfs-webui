@@ -53,7 +53,9 @@ export const SORTING = {
   /** @type {'size'} */
   BY_SIZE: ('size'),
   /** @type {'pinned'} */
-  BY_PINNED: ('pinned')
+  BY_PINNED: ('pinned'),
+  /** @type {'original'} */
+  BY_ORIGINAL: ('original')
 }
 
 export const IGNORED_FILES = [

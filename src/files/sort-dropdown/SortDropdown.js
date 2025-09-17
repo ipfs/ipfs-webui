@@ -17,6 +17,10 @@ const SortDropdown = ({ currentSort, onSortChange, t }) => {
     {
       value: sorts.BY_PINNED,
       label: t('sortByPinned')
+    },
+    {
+      value: sorts.BY_ORIGINAL,
+      label: t('sortByOriginal')
     }
   ]
 

@@ -171,15 +171,24 @@ export const sortFiles = (files, sorting, pins = []) => {
     return files || []
   }
 
+  // Return original order without sorting
+  if (sorting.by === SORTING.BY_ORIGINAL) {
+    return files
+  }
+
   const sortDir = sorting.asc ? 1 : -1
   const nameSort = sortByName(sortDir)
   const sizeSort = sortBySize(sortDir)
 
-  return files.sort((a, b) => {
+  // Convert pins to Set for O(1) lookup performance
+  const pinSet = pins.length > 0 ? new Set(pins) : null
+
+  // Create a copy to avoid mutating the original array
+  return [...files].sort((a, b) => {
     // Handle pinned-first sorting
-    if (sorting.by === SORTING.BY_PINNED && pins.length > 0) {
-      const aPinned = pins.includes(a.cid.toString())
-      const bPinned = pins.includes(b.cid.toString())
+    if (sorting.by === SORTING.BY_PINNED && pinSet) {
+      const aPinned = pinSet.has(a.cid.toString())
+      const bPinned = pinSet.has(b.cid.toString())
 
       // If pinned status is different, apply sort direction
       if (aPinned !== bPinned) {

@@ -14,15 +14,26 @@ export const sorts = SORTING
  */
 
 /**
- * Helper function to re-sort files if sorting by pinned
+ * Get sorted content from pageContent
+ * @param {import('./protocol').DirectoryContent} pageContent
+ * @param {import('./protocol').Sorting} sorting
+ * @param {string[]} pins
+ * @returns {any[]}
+ */
+const getSortedContent = (pageContent, sorting, pins) => {
+  // Always sort from originalContent (preserved from ipfs.ls) or fallback to content
+  const sourceContent = pageContent.originalContent || pageContent.content
+  return sortFiles(sourceContent, sorting, pins)
+}
+
+/**
+ * Helper function to re-sort files when needed
  * @param {Model} state
  * @returns {Model}
  */
-const resortIfPinnedSorting = (state) => {
-  if (state.sorting.by === SORTING.BY_PINNED &&
-      state.pageContent &&
-      state.pageContent.type === 'directory') {
-    const content = sortFiles(state.pageContent.content, state.sorting, state.pins)
+const resortContent = (state) => {
+  if (state.pageContent && state.pageContent.type === 'directory') {
+    const content = getSortedContent(state.pageContent, state.sorting, state.pins)
     return {
       ...state,
       pageContent: {
@@ -56,7 +67,8 @@ const createFilesBundle = () => {
         case ACTIONS.PIN_ADD:
         case ACTIONS.PIN_REMOVE: {
           const updatedState = updateJob(state, action.task, action.type)
-          return resortIfPinnedSorting(updatedState)
+          // Re-sort if sorting by pinned status
+          return state.sorting.by === SORTING.BY_PINNED ? resortContent(updatedState) : updatedState
         }
         case ACTIONS.WRITE: {
           return updateJob(state, action.task, action.type)
@@ -73,7 +85,8 @@ const createFilesBundle = () => {
             pins
           }
 
-          return resortIfPinnedSorting(updatedState)
+          // Re-sort if sorting by pinned status
+          return state.sorting.by === SORTING.BY_PINNED ? resortContent(updatedState) : updatedState
         }
         case ACTIONS.FETCH: {
           const { task, type } = action
@@ -83,9 +96,11 @@ const createFilesBundle = () => {
           let pageContent = result || state.pageContent
           // Apply current sorting to the fetched content
           if (pageContent && pageContent.type === 'directory' && pageContent.content) {
-            const sortedContent = sortFiles(pageContent.content, state.sorting, state.pins)
+            const originalContent = pageContent.originalContent || pageContent.content // Preserve original
+            const sortedContent = getSortedContent({ ...pageContent, originalContent }, state.sorting, state.pins)
             pageContent = {
               ...pageContent,
+              originalContent, // Store original unsorted order
               content: sortedContent
             }
           }
@@ -120,7 +135,7 @@ const createFilesBundle = () => {
           }
 
           if (pageContent && pageContent.type === 'directory') {
-            const content = sortFiles(pageContent.content, action.payload, pins)
+            const content = getSortedContent(pageContent, action.payload, pins)
             return {
               ...state,
               pageContent: {

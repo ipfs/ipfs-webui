@@ -173,6 +173,7 @@
   "sortFiles": "Sort files",
   "sortByName": "Name (A–Z)",
   "sortByPinned": "Pinned first",
+  "sortByOriginal": "Original order",
   "publishModal": {
     "title": "Publish to IPNS",
     "cidToPublish": "CID:",
