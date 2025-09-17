@@ -12,6 +12,28 @@ export const sorts = SORTING
  * @typedef {import('./protocol').Message} Message
  * @typedef {import('../task').SpawnState<any, Error, any, any>} JobState
  */
+
+/**
+ * Helper function to re-sort files if sorting by pinned
+ * @param {Model} state
+ * @returns {Model}
+ */
+const resortIfPinnedSorting = (state) => {
+  if (state.sorting.by === SORTING.BY_PINNED &&
+      state.pageContent &&
+      state.pageContent.type === 'directory') {
+    const content = sortFiles(state.pageContent.content, state.sorting, state.pins)
+    return {
+      ...state,
+      pageContent: {
+        ...state.pageContent,
+        content
+      }
+    }
+  }
+  return state
+}
+
 const createFilesBundle = () => {
   return {
     name: 'files',
@@ -34,18 +56,7 @@ const createFilesBundle = () => {
         case ACTIONS.PIN_ADD:
         case ACTIONS.PIN_REMOVE: {
           const updatedState = updateJob(state, action.task, action.type)
-          // If sorting is by pinned and we have page content, re-sort
-          if (updatedState.sorting.by === SORTING.BY_PINNED && updatedState.pageContent && updatedState.pageContent.type === 'directory') {
-            const content = sortFiles(updatedState.pageContent.content, updatedState.sorting, updatedState.pins)
-            return {
-              ...updatedState,
-              pageContent: {
-                ...updatedState.pageContent,
-                content
-              }
-            }
-          }
-          return updatedState
+          return resortIfPinnedSorting(updatedState)
         }
         case ACTIONS.WRITE: {
           return updateJob(state, action.task, action.type)
@@ -62,19 +73,7 @@ const createFilesBundle = () => {
             pins
           }
 
-          // If sorting is by pinned and we have page content, re-sort
-          if (updatedState.sorting.by === SORTING.BY_PINNED && updatedState.pageContent && updatedState.pageContent.type === 'directory') {
-            const content = sortFiles(updatedState.pageContent.content, updatedState.sorting, pins)
-            return {
-              ...updatedState,
-              pageContent: {
-                ...updatedState.pageContent,
-                content
-              }
-            }
-          }
-
-          return updatedState
+          return resortIfPinnedSorting(updatedState)
         }
         case ACTIONS.FETCH: {
           const { task, type } = action
