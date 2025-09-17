@@ -39,11 +39,29 @@ async function checkClassWithTimeout (page, element, className, maxWaitTime = 16
  * @param {string} expectedClass - The expected class after submission.
  */
 async function submitGatewayAndCheck (page, inputElement, submitButton, gatewayURL, expectedClass) {
+  // Clear the input first to ensure a clean state
+  await inputElement.click({ clickCount: 3 }) // Select all text
   await inputElement.fill(gatewayURL)
+
+  // Give time for async validation to complete
+  await page.waitForTimeout(500)
+
   // Check if the submit button is not null, and click it only if it's available
   if (submitButton) {
-    await submitButton.click()
+    const buttonId = await submitButton.evaluate(el => el.id)
+    // Use locator API which handles re-renders automatically
+    const submitBtn = page.locator(`#${buttonId}`)
+
+    // Wait for button to be visible first
+    await submitBtn.waitFor({ state: 'visible', timeout: 10000 })
+
+    // Wait for the button to become enabled (validation must complete)
+    await expect(submitBtn).toBeEnabled({ timeout: 10000 })
+
+    // Now click the enabled button
+    await submitBtn.click()
   }
+
   const hasExpectedClass = await checkClassWithTimeout(page, inputElement, expectedClass)
   expect(hasExpectedClass).toBe(true)
 }
