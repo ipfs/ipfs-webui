@@ -109,20 +109,26 @@ const stat = async (ipfs, cidOrPath) => {
     } else {
       stats = await ipfs.files.stat(path)
     }
-    return { path, ...stats }
-  } catch (e) {
-    // Discard error and mark DAG as 'unknown' to unblock listing other pins.
-    // Clicking on 'unknown' entry will open it in Inspector.
-    // No information is lost: if there is an error related
-    // to specified hashOrPath user will read it in Inspector.
-    const [, , cid] = path.split('/')
-    return {
-      path: hashOrPath,
-      cid: CID.asCID(cid) ?? CID.parse(cid),
-      type: 'unknown',
-      cumulativeSize: 0,
-      size: 0
+
+    if (stats.type === 'error') {
+      throw Object.assign(new Error(stats.message || 'Failed to get file stats'), {
+        code: 'ERR_FILES_STAT_FAILED'
+      })
     }
+
+    return { path, ...stats }
+  } catch (error) {
+    const e = error instanceof Error ? error : new Error('Unknown error')
+    throw Object.assign(e, {
+      code: 'ERR_FILES_STAT_FAILED',
+      fallback: {
+        path: hashOrPath,
+        cid: CID.asCID(path.split('/')[2]) ?? CID.parse(path.split('/')[2]),
+        type: 'unknown',
+        cumulativeSize: 0,
+        size: 0
+      }
+    })
   }
 }
 
