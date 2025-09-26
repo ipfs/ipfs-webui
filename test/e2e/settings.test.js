@@ -45,8 +45,6 @@ test.describe('Settings screen', () => {
   })
 
   test('Submit/Reset Public Subdomain Gateway', async ({ page }) => {
-    // Increase timeout for this test as validation can be slow
-    test.setTimeout(45000)
     // Wait for the necessary elements to be available in the DOM
     const publicSubdomainGatewayElement = await page.waitForSelector('#public-subdomain-gateway')
     const publicSubdomainGatewaySubmitButton = page.locator('#public-subdomain-gateway-submit-button')
