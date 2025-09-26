@@ -32,7 +32,7 @@ const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
-  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, filesSorting, t
+  files, filesPathInfo, filesIsFetching, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, filesSorting, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
@@ -388,6 +388,7 @@ const FilesPage = ({
 
       <InfoBoxes isRoot={filesPathInfo.isMfs && filesPathInfo.isRoot}
         isCompanion={false}
+        isFetching={filesIsFetching}
         filesExist={!!(files && files.content && files.content.length)} />
 
       <Modals
@@ -431,6 +432,7 @@ export default connect(
   'selectIpfsProvider',
   'selectIpfsConnected',
   'selectFiles',
+  'selectFilesIsFetching',
   'selectRemotePins',
   'selectPendingPins',
   'selectFailedPins',
