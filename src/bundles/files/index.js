@@ -95,7 +95,7 @@ const createFilesBundle = () => {
             : null
           let pageContent = result || state.pageContent
           // Apply current sorting to the fetched content
-          if (pageContent && pageContent.type === 'directory' && pageContent.content) {
+          if (result && pageContent && pageContent.type === 'directory' && pageContent.content) {
             const originalContent = pageContent.originalContent || pageContent.content // Preserve original
             const sortedContent = getSortedContent({ ...pageContent, originalContent }, state.sorting, state.pins)
             pageContent = {

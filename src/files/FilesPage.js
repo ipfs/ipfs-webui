@@ -198,6 +198,11 @@ const FilesPage = ({
 
     if (!files || files.type === 'file') return (<div/>)
 
+    // Don't render stale content during navigation
+    if (files.path && filesPathInfo.path && files.path !== filesPathInfo.path) {
+      return (<div/>)
+    }
+
     if (files.type === 'unknown') {
       const path = files.path
 
@@ -214,7 +219,6 @@ const FilesPage = ({
     }
 
     const commonProps = {
-      key: window.encodeURIComponent(files.path),
       updateSorting: doFilesUpdateSorting,
       files: files.content || [],
       pins: files.pins || [],

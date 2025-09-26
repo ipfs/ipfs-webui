@@ -107,9 +107,7 @@ const GridFile: FC<GridFilePropsConnected> = ({
   useEffect(() => {
     setHasPreview(false)
     setTextPreview(null)
-  }, [cid, name])
 
-  useEffect(() => {
     const fetchTextPreview = async () => {
       const isTextFile = type.startsWith('text/') ||
                         type === 'txt' ||

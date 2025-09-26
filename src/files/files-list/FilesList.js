@@ -235,13 +235,19 @@ export const FilesList = ({
     listRef.current?.forceUpdateGrid?.()
   }
 
-  const emptyRowsRenderer = () => (
-    <Trans i18nKey='filesList.noFiles' t={t}>
-      <div className='pv3 b--light-gray bt tc gray f6'>
-            There are no available files. Add some!
-      </div>
-    </Trans>
-  )
+  const emptyRowsRenderer = () => {
+    if (filesPathInfo.isRoot) {
+      // Root has special more prominent message (AddFilesInfo)
+      return null
+    }
+    return (
+      <Trans i18nKey='filesList.noFiles' t={t}>
+        <div className='pv3 b--light-gray bt tc charcoal-muted f6 noselect'>
+              There are no available files. Add some!
+        </div>
+      </Trans>
+    )
+  }
 
   const rowRenderer = ({ index, key, style }) => {
     const pinsString = pins.map(p => p.toString())
