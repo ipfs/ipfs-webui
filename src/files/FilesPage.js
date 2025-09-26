@@ -196,11 +196,11 @@ const FilesPage = ({
         /* eslint-disable-next-line react-hooks/exhaustive-deps */
     , [files?.content, files?.pins, selected])
 
-    if (!files || files.type === 'file') return (<div/>)
+    if (!files || files.type === 'file') return null
 
     // Don't render stale content during navigation
     if (files.path && filesPathInfo.path && files.path !== filesPathInfo.path) {
-      return (<div/>)
+      return null
     }
 
     if (files.type === 'unknown') {
@@ -429,7 +429,7 @@ const Preview = ({ files, onDownload, onClose }) => {
   if (files && files.type === 'file') {
     return (<FilePreview {...files} onDownload={onDownload} onClose={onClose} />)
   }
-  return (<div/>)
+  return null
 }
 
 export default connect(
