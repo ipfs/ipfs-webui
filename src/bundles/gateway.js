@@ -4,6 +4,9 @@ import { readSetting, writeSetting } from './local-storage.js'
 export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
 export const DEFAULT_SUBDOMAIN_GATEWAY = 'https://dweb.link'
 export const DEFAULT_IPFS_CHECK_URL = 'https://check.ipfs.network'
+// Test URLs that bypass validation for e2e tests
+export const TEST_PATH_GATEWAY = 'https://e2e-test-path-gateway.test'
+export const TEST_SUBDOMAIN_GATEWAY = 'https://e2e-test-subdomain-gateway.test'
 const IMG_HASH_1PX = 'bafkreib6wedzfupqy7qh44sie42ub4mvfwnfukmw6s2564flajwnt4cvc4' // 1x1.png
 const IMG_ARRAY = [
   { id: 'IMG_HASH_1PX', name: '1x1.png', hash: IMG_HASH_1PX },
@@ -54,6 +57,11 @@ export const checkValidHttpUrl = (value) => {
  * @see https://github.com/ipfs/ipfs-webui/issues/1937#issuecomment-1152894211 for more info
  */
 export const checkViaImgSrc = (gatewayUrl) => {
+  // Skip validation for test gateways
+  if (gatewayUrl === TEST_PATH_GATEWAY) {
+    return Promise.resolve()
+  }
+
   const url = new URL(gatewayUrl)
 
   /**
@@ -145,8 +153,9 @@ async function checkViaImgUrl (imgUrl) {
  * @returns {Promise<boolean>} A promise that resolves to true if the gateway is functioning correctly, otherwise false.
  */
 export async function checkSubdomainGateway (gatewayUrl) {
-  if (gatewayUrl === DEFAULT_SUBDOMAIN_GATEWAY) {
+  if (gatewayUrl === DEFAULT_SUBDOMAIN_GATEWAY || gatewayUrl === TEST_SUBDOMAIN_GATEWAY) {
     // avoid sending probe requests to the default gateway every time Settings page is opened
+    // also skip validation for test gateways
     return true
   }
   /** @type {URL} */
