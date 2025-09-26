@@ -173,7 +173,7 @@ test.describe('Settings screen', () => {
       await changeLanguageBtn.click()
 
       // wait for the language modal to appear
-      await page.waitForSelector('.e2e-languageModal', { timeout: 10000 })
+      await page.waitForSelector('.e2e-languageModal')
 
       // Use JavaScript to click the element to avoid viewport issues
       await page.evaluate((selector) => {
@@ -184,7 +184,7 @@ test.describe('Settings screen', () => {
       }, `.e2e-languageModal-lang_${lang}`)
 
       // wait for the language modal to disappear
-      await page.waitForSelector('.e2e-languageModal', { state: 'hidden', timeout: 10000 })
+      await page.waitForSelector('.e2e-languageModal', { state: 'hidden' })
 
       // check that the language has changed
       await page.waitForSelector('.e2e-languageSelector-current', { text: languages[lang].nativeName })
