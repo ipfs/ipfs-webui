@@ -108,6 +108,20 @@ test.describe('Files grid view', () => {
   })
 
   test('should enter folder with Enter key', async ({ page }) => {
+    // Ensure we have some files/folders in the grid
+    const totalFiles = await page.locator('.grid-file').count()
+
+    if (totalFiles === 0) {
+      // Create a test file first
+      await page.locator('button[aria-label="Import"], button:has-text("Import")').click()
+      await page.locator('input[type="file"]').setInputFiles({
+        name: 'test.txt',
+        mimeType: 'text/plain',
+        buffer: Buffer.from('test content')
+      })
+      await page.waitForSelector('.grid-file[title="test.txt"]')
+    }
+
     // Check if a folder exists, if not create one
     const folderExists = await page.locator('.grid-file[data-type="directory"]').count() > 0
 
