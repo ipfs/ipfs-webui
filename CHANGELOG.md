@@ -1,3 +1,18 @@
+## [4.9.1](https://github.com/ipfs/ipfs-webui/compare/v4.9.0...v4.9.1) (2025-09-26)
+
+
+ CID `bafybeicg7e6o2eszkfdzxg5233gmuip2a7kfzoloh7voyvt2r6ivdet54u`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* flash when flipping to/from previewing item ([#2437](https://github.com/ipfs/ipfs-webui/issues/2437)) ([c14b38a](https://github.com/ipfs/ipfs-webui/commit/c14b38ada4f2ffcbfeb2294050f6057a24e414be))
+* overlay click does not close modals ([#2428](https://github.com/ipfs/ipfs-webui/issues/2428)) ([f239113](https://github.com/ipfs/ipfs-webui/commit/f239113d7a4f51b1dc0c12b16b9d04a2adfca09f))
+* prevent redirect when navigating to retrieval-check ([#2439](https://github.com/ipfs/ipfs-webui/issues/2439)) ([bd11b0c](https://github.com/ipfs/ipfs-webui/commit/bd11b0c4350b2a393dec8fdaf1be319b61113ab0))
+
 ## [4.9.0](https://github.com/ipfs/ipfs-webui/compare/v4.8.0...v4.9.0) (2025-09-17)
 
 
