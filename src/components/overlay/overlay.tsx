@@ -15,6 +15,9 @@ const Overlay: React.FC<OverlayProps> = ({ children, show, onLeave, className = 
   )
 
   return (
+    // Note: react-overlays Modal manages its own portal and positioning.
+    // The Modal child component uses fixed positioning to center itself.
+    // onHide handles both backdrop clicks and escape key presses.
     <Modal
       {...props}
       show={show}

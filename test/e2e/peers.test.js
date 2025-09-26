@@ -37,8 +37,8 @@ test.describe('Peers screen', () => {
     await page.waitForSelector(addConnection)
     await page.click(addConnection)
 
-    // Wait for the modal to appear - use the actual modal structure
-    await page.waitForSelector('.bg-white.w-80.shadow-4', { timeout: 10000 })
+    // Wait for the modal to appear
+    await page.waitForSelector('[data-testid="ipfs-modal"]')
 
     await page.waitForSelector('text=Insert the peer address you want to connect to')
     // enter multiaddr of a disposable local node spawned for this test

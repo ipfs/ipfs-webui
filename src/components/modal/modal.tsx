@@ -71,6 +71,7 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <div
       className={`${className} bg-white w-80 shadow-4 sans-serif relative`}
+      data-testid="ipfs-modal"
       style={{
         maxWidth: '34em',
         position: 'fixed',

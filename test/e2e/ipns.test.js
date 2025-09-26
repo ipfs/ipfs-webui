@@ -41,8 +41,8 @@ test.describe('IPNS publishing', () => {
       await page.waitForSelector(genKey)
       await page.click(genKey)
 
-      // Wait for the modal to appear - use the actual modal structure
-      await page.waitForSelector('.bg-white.w-80.shadow-4', { timeout: 10000 })
+      // Wait for the modal to appear
+      await page.waitForSelector('[data-testid="ipfs-modal"]')
 
       // expect prompt for key name
       await page.waitForSelector('text=Enter a nickname for this key to generate')
