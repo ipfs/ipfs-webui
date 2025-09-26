@@ -64,10 +64,15 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
 
   // Redirect from /diagnostics or /diagnostics/ to /diagnostics/logs
   useEffect(() => {
-    if (path === '' || path === '/') {
+    // Check if we're still loading route info
+    if (!routeInfo) return
+
+    // Only redirect from true root paths
+    const isRootDiagnostics = routeInfo.url === '/diagnostics' || routeInfo.url === '/diagnostics/'
+    if (isRootDiagnostics && (path === '' || path === '/')) {
       window.location.replace('#/diagnostics/logs')
     }
-  }, [path])
+  }, [path, routeInfo])
 
   const isMounted = useRef(false)
   useEffect(() => {
