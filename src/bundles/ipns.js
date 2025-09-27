@@ -48,14 +48,12 @@ const ipnsBundle = {
   doRemoveIpnsKey: (name) => async ({ getIpfs, store }) => {
     const ipfs = getIpfs()
     await ipfs.key.rm(name)
-
     store.doFetchIpnsKeys()
   },
 
   doRenameIpnsKey: (oldName, newName) => async ({ getIpfs, store }) => {
     const ipfs = getIpfs()
     await ipfs.key.rename(oldName, newName)
-
     store.doFetchIpnsKeys()
   },
 
@@ -67,9 +65,20 @@ const ipnsBundle = {
     dispatchAsyncProvide(cid, ipfs, 'IPNS')
   },
 
+  doImportIpnsKey: (file) => async ({ getIpfs, store }) => {
+    const ipfs = getIpfs()
+    const reader = new FileReader()
+    reader.onload = async (event) => {
+      const key = event.target.result
+      await ipfs.key.import(file.name, key)
+      store.doFetchIpnsKeys()
+    }
+    reader.readAsText(file)
+  },
+
+  // moderate expectation: publishing should take no longer than average
+  // between old expectation and the length of the last publish + some buffer
   doUpdateExpectedPublishTime: (time) => async ({ store, dispatch }) => {
-    // moderate expectation: publishing should take no longer than average
-    // between old expectation and the length of the last publish + some buffer
     const oldExpectedTime = store.selectExpectedPublishTime()
     const avg = Math.floor((time * 1.5 + oldExpectedTime) / 2)
     await writeSetting('expectedPublishTime', avg)
