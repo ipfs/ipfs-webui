@@ -98,7 +98,7 @@
     "src/components/box/Box.js",
     "src/components/shell/Shell.js",
     "src/components/identicon/identicon.tsx",
-    "src/components/identicon/identicon.stories.ts",
+    "src/components/identicon/identicon.stories.tsx",
     "src/i18n-decorator.js",
     "src/i18n.js",
     "src/lib/i18n-localeParser.js"
