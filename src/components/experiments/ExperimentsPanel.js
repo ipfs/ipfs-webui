@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'redux-bundler-react'
-import Checkbox from '../checkbox/Checkbox.js'
+import Checkbox from '../checkbox/checkbox.js'
 import Box from '../box/Box.js'
 import Title from '../../settings/Title.js'
 

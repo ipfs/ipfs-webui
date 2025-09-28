@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 import { multiaddr } from '@multiformats/multiaddr'
 import { P2P, Circuit, WebRTC } from '@multiformats/multiaddr-matcher'
 
-import Checkbox from '../../components/checkbox/Checkbox.js'
+import Checkbox from '../../components/checkbox/checkbox.js'
 import Icon from '../../icons/StrokeDecentralization.js'
 import Button from '../../components/button/button.tsx'
 import Overlay from '../../components/overlay/overlay'
