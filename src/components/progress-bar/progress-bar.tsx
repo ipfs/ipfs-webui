@@ -12,7 +12,7 @@ export interface ProgressBarProps {
   style?: React.CSSProperties
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ bg, br, className, style, width, height, progress, time, ...props }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({ bg = 'bg-aqua', br = 'br-pill', className, style, width = 'w-100', height = 'h1', progress, time, ...props }) => {
   return (
     <div className={`ProgressBar sans-serif overflow-hidden ${br} dib ${className} ${width} ${height}`} style={{ background: '#DDE6EB', ...style }} {...props}>
       {time
