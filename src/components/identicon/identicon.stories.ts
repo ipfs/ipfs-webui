@@ -1,10 +1,8 @@
 // @ts-check
-import { Identicon } from './Identicon.js'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Identicon, type IdenticonProps } from './identicon'
 
-/**
- * @type {import('@storybook/react').Meta}
- */
-export default {
+const meta = {
   title: 'Identicon',
   component: Identicon,
   parameters: {
@@ -13,34 +11,27 @@ export default {
       handles: ['click']
     }
   },
-  argTypes: {
-    onClick: { action: 'clicked' }
-  },
   args: {
     cid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW',
     className: 'ma2',
     size: 14
   }
-}
+} satisfies Meta<IdenticonProps>
 
-/**
- * @type {import('@storybook/react').StoryObj}
- */
+export default meta
+
 export const Default = {
   args: {
     cid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW',
     className: 'ma2',
     size: 14
   }
-}
+} as StoryObj<typeof Identicon>
 
-/**
- * @type {import('@storybook/react').StoryObj}
- */
 export const Large = {
   args: {
     cid: 'QmYPNmahJAvkMTU6tDx5zvhEkoLzEFeTDz6azDCSNqzKkW',
     className: 'ma2',
     size: 64
   }
-}
+} as StoryObj<typeof Identicon>
