@@ -9,7 +9,7 @@
     "title": "Przeglądaj - IPLD",
     "header": "Przeglądaj Las Merkle’a",
     "leadParagraph": "Wklej CID w pole, aby pobrać dowolny węzeł IPLD, lub wybierz jeden z wyróżnionych zbiorów danych.",
-    "noDataAvailable": "No data available"
+    "noDataAvailable": ""
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD to <1>model danych dla sieci adresowanej treścią (ang. content-addressable web).</1> Umożliwia traktowanie obiektów połączonych skrótem (haszem) jako podzbiorów jednolitej przestrzeni danych, w której modele danych to instancje IPLD.</0>",
@@ -69,16 +69,16 @@
     }
   },
   "errors": {
-    "BlockFetchTimeoutError": "Failed to fetch content in {timeout}s. Please refresh the page to retry or try a different CID.",
-    "BlockFetchError": "Failed to fetch content: {error}. This could mean the content is not available on the network or there are connectivity issues.",
-    "CidSyntaxError": "Invalid CID format: {cid}. Please ensure you are using a valid CID.",
-    "checkIpfsNetwork": "Check content availability on IPFS Network",
+    "BlockFetchTimeoutError": "",
+    "BlockFetchError": "",
+    "CidSyntaxError": "",
+    "checkIpfsNetwork": "",
     "troubleshootingTips": {
-      "title": "Troubleshooting Tips",
-      "refresh": "Try refreshing the page",
-      "checkConnection": "Check your internet connection",
-      "tryLater": "Try again later - the content may still be propagating through the network",
-      "checkCidSyntax": "Verify that your CID is formatted correctly or that your CAR file is valid"
+      "title": "",
+      "refresh": "",
+      "checkConnection": "",
+      "tryLater": "",
+      "checkCidSyntax": ""
     }
   }
 }

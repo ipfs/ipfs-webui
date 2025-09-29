@@ -4,27 +4,31 @@
   "saving": "Salvataggio in corso...",
   "reset": "Ripristina",
   "learnMoreLink": "Per saperne di più.",
-  "showOptions": "Show options",
+  "showOptions": "",
   "pinningServices": {
     "title": "Servizi di pinning",
     "description": "Usa il pinning locale quando vuoi assicurarti che un oggetto sul tuo nodo non venga mai gettato dal Garbage Collector, anche quando lo rimuovi da \"File\". Puoi anche collegare il tuo account con altri servizi di pinning remoto per mantenere i file automaticamente o selettivamente con quei provider, permettendoti di mantenere copie di backup dei tuoi file o renderli disponibili agli altri quando il tuo nodo locale è offline.",
-    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
+    "noPinRemoteDescription": "",
     "addAutoUpload": "Abilita auto upload",
     "removeAutoUpload": "Disabilita auto upload"
   },
   "language": "Lingua",
   "analytics": "Analitica",
   "cliTutorMode": "Modalità mentore CLI",
-  "config": "Configurazione IPFS",
+  "config": "",
   "languageModal": {
     "title": "Cambia lingua",
     "description": "Seleziona la tua lingua preferita.",
     "translationProjectIntro": "Aggiungi o perfeziona le traduzioni e rendi IPFS migliore per tutti!",
     "translationProjectLink": "Unisciti al Progetto di Traduzione IPFS"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "apiDescription": "",
+  "publicSubdomainGatewayDescription": "",
+  "publicPathGatewayDescription": "",
+  "retrievalDiagnosticService": {
+    "title": "",
+    "description": ""
+  },
   "cliDescription": "<0>Abilita quest'opzione per mostrare un'icona \"view code\" <1></1> accanto ai comuni comandi IPFS. Cliccandoci, si aprirà una finestra modale col codice di quel comando CLI dimodoché tu possa incollarlo nell'interfaccia a riga di comando nel tuo terminale.",
   "cliModal": {
     "extraNotesJsonConfig": "Se, in questa pagina dell'editor di codice, hai fatto cambiamenti al config che vorresti salvare, clicca sull'icona scarica accanto al bottone \"copia\" per scaricarlo come file JSON."
@@ -44,7 +48,7 @@
     "secretApiKey": "Token d'accesso segreto",
     "secretApiKeyHowToLink": "Come generare un nuovo token",
     "autoUpload": "Auto upload",
-    "complianceLabel": "🔍 {nickname} pinning compliance report"
+    "complianceLabel": ""
   },
   "autoUploadModal": {
     "title": "Cambia politica di upload per {name}",
@@ -60,7 +64,7 @@
   },
   "actions": {
     "addService": "Aggiungi servizio",
-    "generateKey": "Generate Key",
+    "generateKey": "",
     "edit": "Cambia",
     "close": "Chiudi",
     "save": "Salva",
@@ -81,14 +85,14 @@
     "false": "Off"
   },
   "fetchingSettings": "Recupero delle impostazioni...",
-  "ipfsDaemonOffline": "Il demone IPFS è offline. Per favore, avvialo e riprova.",
-  "settingsUnavailable": "Impostazioni non disponibili. Per favore, controlla che il tuo demone IPFS sia attivo.",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "Le impostazioni sono cambiate; per favore, clicca <1>Ripristina</1> per aggiornare il contenuto dell'editor.",
   "errorOccured": "Si è verificato un errore durante il salvataggio delle tue modifiche",
   "checkConsole": "Controlla la console del browser per ulteriori informazioni.",
   "changesSaved": "Le tue modifiche sono state salvate.",
-  "settingsWillBeUsedNextTime": "Le nuove impostazioni saranno utilizzate quando riavvierai il tuo demone IPFS.",
-  "ipfsConfigDescription": "Il file della configurazione IPFS è un documento JSON. Viene letto una volta che il demone IPFS è avviato. Salva le tue modifiche e poi riavvia il demone IPFS per applicarle.",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "Controlla la documentazione per ulteriori informazioni.",
   "AnalyticsToggle": {
     "label": "Aiuta a migliorare quest'applicazione inviando dati d'utilizzo anonimi",
@@ -129,12 +133,12 @@
   "tour": {
     "step1": {
       "title": "Pagina delle impostazioni",
-      "paragraph1": "Qui puoi modificare le impostazioni del tuo Web UI e del tuo nodo IPFS.",
+      "paragraph1": "",
       "paragraph2": "Se hai IPFS Desktop avviato, avrai anche alcune impostazioni specifiche per quel programma."
     },
     "step2": {
-      "title": "Custom Kubo RPC API address",
-      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
+      "title": "",
+      "paragraph1": ""
     },
     "step3": {
       "title": "Servizi di pinning",
@@ -154,8 +158,8 @@
       "paragraph1": "Abilita la modalità CLI tutor per vedere le scorciatoie da terminale dei comandi IPFS più comuni - essa è utile se stai imparando ad usare IPFS dal terminale, o se hai solo bisogno di un ripasso."
     },
     "step7": {
-      "title": "Configurazione IPFS",
-      "paragraph1": "Puoi modificare la configurazione del tuo nodo IPFS direttamente dal tuo Web UI!",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "Non dimenticarti di riavviare il demone per applicare le modifiche."
     }
   },
@@ -166,19 +170,19 @@
     "readMoreUrl": "Leggi di più"
   },
   "ipnsPublishingKeys": {
-    "title": "IPNS Publishing Keys",
-    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+    "title": "",
+    "description": ""
   },
   "generateKeyModal": {
-    "title": "Generate New IPNS Key",
-    "description": "Enter a nickname for this key to generate:"
+    "title": "",
+    "description": ""
   },
   "renameKeyModal": {
-    "title": "Rename Key",
-    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+    "title": "",
+    "description": ""
   },
   "removeKeyModal": {
-    "title": "Confirm IPNS Key Removal",
-    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
+    "title": "",
+    "description": ""
   }
 }

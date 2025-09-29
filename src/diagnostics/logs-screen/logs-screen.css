@@ -1,0 +1,14 @@
+.logs-screen-container {
+  display: flex;
+  flex-direction: column;
+  /* Mobile/tablet: account for top navbar + header + tabs */
+  height: calc(100vh - 400px);
+}
+
+/* Large screens (60em = 960px) - matches navbar breakpoint */
+@media only screen and (min-width: 60em) {
+  .logs-screen-container {
+    /* Desktop: account for left sidebar layout */
+    height: calc(100vh - 220px);
+  }
+}

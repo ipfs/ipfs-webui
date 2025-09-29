@@ -8,7 +8,7 @@ const config = {
   timeout: process.env.CI ? 90 * 1000 : 30 * 1000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 3 : 0,
   workers: (process.env.DEBUG || process.env.CI) ? 1 : undefined,
   reuseExistingServer: !process.env.CI,
   reporter: 'list',

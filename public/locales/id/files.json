@@ -1,12 +1,9 @@
 {
   "title": "Berkas",
-  "home": "Rumah",
   "breadcrumbs": "Breadcrumbs",
-  "finished": "Selesai!",
   "totalSize": "Ukuran total: {size}",
   "filesSelected": "{count, plural, other {Item yang dipilih}}",
   "menuOptions": "Opsi untuk item yang dipilih",
-  "selectedAllEntries": "Pilih semua entri tabel",
   "individualFilesOnly": "Hanya tersedia untuk berkas individual",
   "noPDFSupport": "Peramban Anda tidak mendukung PDF. Silakan unduh PDF untuk melihatnya:",
   "downloadPDF": "Unduh PDF",
@@ -17,8 +14,8 @@
   "addByCar": "Dari CAR",
   "bulkImport": "Impor massal",
   "newFolder": "Map baru",
-  "viewList": "Tampilkan item dalam daftar",
-  "viewGrid": "Tampilkan item dalam kotak",
+  "switchToListView": "",
+  "switchToGridView": "",
   "generating": "Menghasilkan…",
   "dropHere": "Letakkan di sini untuk pindah",
   "actions": {
@@ -173,6 +170,14 @@
   "files": "Berkas",
   "cidNotFileNorDir": "Tautan saat ini bukan berkas, atau direktori. Cobalah untuk <1>memeriksanya</1> sebagai gantinya.",
   "sortBy": "Urutkan item berdasarkan {name}",
+  "sortFiles": "",
+  "sortByNameAsc": "",
+  "sortByNameDesc": "",
+  "sortBySizeAsc": "",
+  "sortBySizeDesc": "",
+  "sortByPinnedFirst": "",
+  "sortByUnpinnedFirst": "",
+  "sortByOriginal": "",
   "publishModal": {
     "title": "Publikasikan ke IPNS",
     "cidToPublish": "CID:",
@@ -185,5 +190,14 @@
   },
   "noPinsInProgress": "Semua selesai, tidak ada pin jarak jauh yang sedang berlangsung.",
   "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:",
-  "selectAllEntries": "Pilih semua entri"
+  "selectAllEntries": "Pilih semua entri",
+  "previewNotFound": {
+    "title": "",
+    "helpTitle": "",
+    "helpListItemPathTypo": "",
+    "helpListItemFileMoved": "",
+    "helpListItemBookmarkMigrated": "",
+    "helpListItemBookmarkMigratedLink": "",
+    "backButton": ""
+  }
 }

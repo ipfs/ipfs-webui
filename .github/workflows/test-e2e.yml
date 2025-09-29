@@ -113,7 +113,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: test-results-shard-${{ matrix.shardIndex }}
           path: test-results/
           retention-days: 7
 

@@ -9,32 +9,28 @@
     "close": "閉じる",
     "copy": "コピー",
     "create": "作成",
+    "default": "",
     "remove": "削除",
     "download": "ダウンロード",
     "edit": "編集",
     "import": "インポート",
-    "inspect": "Inspect",
-    "more": "More",
-    "moreInfo": "より詳しい情報",
-    "noThanks": "拒否",
-    "ok": "了解",
-    "pinVerb": "ピン",
+    "inspect": "",
+    "more": "",
     "rename": "名前を変更",
     "reset": "リセット",
     "save": "保存",
     "saving": "保存中……",
-    "selectAll": "全て選択",
     "setPinning": "ピンを設定",
     "submit": "設定",
-    "unpin": "ピン解除",
     "unselectAll": "選択を全て解除",
     "generate": "生成",
-    "publish": "Publish",
-    "downloadCar": "Export CAR",
-    "done": "終了"
+    "publish": "",
+    "downloadCar": "",
+    "done": "終了",
+    "checkRetrieval": ""
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": ""
   },
   "nav": {
     "bugsLink": "バグ報告",
@@ -43,36 +39,40 @@
   "status": {
     "connectedToIpfs": "IPFSに接続完了",
     "connectingToIpfs": "IPFSサービスに接続しています…",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": ""
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": ""
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "URLを入力 (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "アドレス",
     "addresses": "アドレス",
     "advanced": "詳細情報",
-    "agent": "Agent",
-    "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
-    "blocks": "Blocks",
+    "agent": "",
+    "api": "",
+    "apiAddress": "",
+    "blocks": "",
     "connection": "接続",
     "downSpeed": "受信量",
     "example": "例:",
-    "file": "File",
+    "file": "",
     "files": "ファイル",
     "folder": "フォルダ",
     "folders": "フォルダ",
     "gateway": "ゲートウェイ",
     "in": "受信量",
     "latency": "レイテンシ",
-    "loading": "Loading",
+    "loading": "",
     "location": "位置",
     "name": "名前",
     "node": "ノード",
@@ -88,7 +88,7 @@
     "publicGateway": "公開ゲートウェイ",
     "rateIn": "下り通信量",
     "rateOut": "上り通信量",
-    "repo": "Repo",
+    "repo": "",
     "size": "サイズ",
     "totalIn": "下り通信量（合計）",
     "totalOut": "上り通信量（合計）",
@@ -103,7 +103,7 @@
     "finish": "終了",
     "next": "次へ",
     "skip": "スキップ",
-    "tooltip": "Click this button any time for a guided tour on the current page."
+    "tooltip": ""
   },
-  "startTourHelper": "Start tour"
+  "startTourHelper": ""
 }

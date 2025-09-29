@@ -189,7 +189,8 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(result).toEqual([
       {
         address: '1.test',
-        connection: '1/test • endOfTest',
+        agentVersion: undefined,
+        connection: '1/test/endOfTest',
         coordinates: [1.11, 1.01],
         direction: undefined,
         flagCode: 'ROM',
@@ -202,7 +203,8 @@ describe('selectPeerLocationsForSwarm', () => {
       },
       {
         address: '2.test',
-        connection: '2/test • endOfTest',
+        agentVersion: undefined,
+        connection: '2/test/endOfTest',
         coordinates: [2.22, 2.02],
         direction: undefined,
         flagCode: 'ROM',
@@ -252,8 +254,10 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(result).toEqual([
       {
         address: '1.test',
-        connection: '1/test • endOfTest',
+        agentVersion: undefined,
+        connection: '1/test/endOfTest',
         coordinates: [1.11, 1.01],
+        direction: undefined,
         flagCode: 'ROM',
         isNearby: false,
         isPrivate: true,
@@ -292,7 +296,8 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(result).toEqual([
       {
         address: '1.test',
-        connection: '1/test • endOfTest',
+        agentVersion: undefined,
+        connection: '1/test/endOfTest',
         direction: undefined,
         coordinates: null,
         flagCode: null,

@@ -2,77 +2,150 @@ name: Transifex sync
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 9 * * 1'
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   tx-sync:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4.1.2
-    - name: Install Transifex client
-      run: |
-        curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
-        chmod +x ./tx
-    - name: Pull translations from Transifex
-      run: |
-        ./tx -t ${{ secrets.TX_TOKEN }} pull -a -f
-    - uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842
-      with:
-        # Optional. Commit message for the created commit.
-        # Defaults to "Apply automatic changes"
-        commit_message: "chore: Pull transifex translations"
+      - uses: actions/checkout@v4
+      - name: Setup i18n-sync branch
+        run: |
+          # Fetch i18n-sync branch if it exists remotely
+          if git ls-remote --exit-code --heads origin i18n-sync; then
+            git fetch origin i18n-sync:i18n-sync
+            git checkout i18n-sync
+          else
+            # Create new branch from main
+            git checkout -b i18n-sync
+          fi
+      - name: Install Transifex client
+        run: |
+          curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
+          chmod +x ./tx
+      - name: Pull translations from Transifex
+        run: |
+          # Pull only translated strings, leaving untranslated ones empty
+          # This prevents replacing existing translations with English
+          # -f: force download, always use Transifex as source of truth (ignore timestamps)
+          # --mode onlytranslated: only includes translated strings, untranslated keys will be empty
+          # --minimum-perc 75: only pulls files that are at least 75% translated
+          # Empty strings will fallback to English at runtime via i18next
+          ./tx --token "${{ secrets.TX_TOKEN }}" pull --all --force --mode onlytranslated --minimum-perc 75
+      - name: Commit and push changes
+        id: commit
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-        # Optional. Local and remote branch name where commit is going to be pushed
-        #  to. Defaults to the current branch.
-        #  You might need to set `create_branch: true` if the branch does not exist.
-        branch: i18n-sync
+          # Add translation files
+          git add -A public/locales
 
-        # Optional. Options used by `git-commit`.
-        # See https://git-scm.com/docs/git-commit#_options
-        commit_options: '--no-verify --signoff'
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "::notice::No translation changes detected from Transifex"
+            {
+              echo "## 📋 Transifex Sync Summary"
+              echo ""
+              echo "✅ **No changes detected**"
+              echo ""
+              echo "All translations are up to date."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "changes=false" >> "$GITHUB_OUTPUT"
+          else
+            # Get statistics before committing
+            STATS=$(git diff --staged --stat)
+            FILES_CHANGED=$(git diff --staged --name-only)
+            FILES_COUNT=$(echo "$FILES_CHANGED" | wc -l)
 
-        # Optional glob pattern of files which should be added to the commit
-        # Defaults to all (.)
-        # See the `pathspec`-documentation for git
-        # - https://git-scm.com/docs/git-add#Documentation/git-add.txt-ltpathspecgt82308203
-        # - https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefpathspecapathspec
-        file_pattern: public/locales
+            # Commit changes
+            git commit --no-verify --signoff -m "chore: pull transifex translations"
+            SYNC_TIME=$(date -u +%Y-%m-%d\ %H:%M)
 
-        # Optional. Local file path to the repository.
-        # Defaults to the root of the repository.
-        repository: .
+            # Push to remote (force to handle any conflicts)
+            git push origin i18n-sync --force
 
-        # Optional. Options used by `git-add`.
-        # See https://git-scm.com/docs/git-add#_options
-        add_options: '-A'
+            # Create GitHub annotations
+            echo "::notice::Translation updates committed - $FILES_COUNT file(s) changed"
 
-        # Optional. Options used by `git-push`.
-        # See https://git-scm.com/docs/git-push#_options
-        push_options: '--force'
+            # Create job summary
+            {
+              echo "## 📋 Transifex Sync Summary"
+              echo ""
+              echo "✅ **Translation updates found and committed**"
+              echo ""
+              echo "**Sync time:** $SYNC_TIME UTC"
+              echo "**Files changed:** $FILES_COUNT"
+              echo ""
+              echo "### 📁 Changed files:"
+              echo "\`\`\`"
+              echo "$FILES_CHANGED"
+              echo "\`\`\`"
+              echo ""
+              echo "### 📊 Statistics:"
+              echo "\`\`\`diff"
+              echo "$STATS"
+              echo "\`\`\`"
+            } >> "$GITHUB_STEP_SUMMARY"
 
-        # Optional. Disable dirty check and always try to create a commit and push
-        skip_dirty_check: true
+            {
+              echo "changes=true"
+              echo "sync_time=$SYNC_TIME"
+              echo "files_count=$FILES_COUNT"
+            } >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create pull request
+        if: steps.commit.outputs.changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if PR already exists
+          existing_pr=$(gh pr list --base main --head i18n-sync --state open --json number,url --jq '.[0]' || true)
+          if [ -n "$existing_pr" ]; then
+            PR_NUMBER=$(echo "$existing_pr" | jq -r '.number')
+            PR_URL=$(echo "$existing_pr" | jq -r '.url')
+            echo "::warning::Pull request #$PR_NUMBER already exists for i18n-sync branch"
 
-        # Optional. Skip internal call to `git fetch`
-        skip_fetch: true
+            # Update job summary with PR info
+            {
+              echo ""
+              echo "### 🔗 Pull Request"
+              echo "⚠️ **Existing PR updated:** [#$PR_NUMBER]($PR_URL)"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            # Create new PR
+            body="Automated translation update from Transifex.
 
-        # Optional. Skip internal call to `git checkout`
-        skip_checkout: true
+            **Sync time:** ${{ steps.commit.outputs.sync_time }} UTC
+            **Files changed:** ${{ steps.commit.outputs.files_count }}
 
-        # Optional. Prevents the shell from expanding filenames.
-        # Details: https://www.gnu.org/software/bash/manual/html_node/Filename-Expansion.html
-        disable_globbing: true
+            - Only pulls translated strings (empty strings fallback to English)
+            - Includes locales with 75%+ completion
 
-        # Optional. Create given branch name in local and remote repository.
-        create_branch: true
-    - name: pull-request
-      uses: repo-sync/pull-request@65785d95a5a466e46a9d0708933a3bd51bbf9dde
-      with:
-        source_branch: "i18n-sync"
-        destination_branch: "main"
-        pr_title: "chore: pull new translations"
-        pr_body: "Automated PR created by .github/workflows/tx-pull.yml"
-        pr_label: "area/i18n/translations"
-        pr_draft: false
-        pr_allow_empty: false
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+            To contribute translations: https://app.transifex.com/ipfs/ipfs-webui/"
+
+            PR_URL=$(gh pr create \
+              --base main \
+              --head i18n-sync \
+              --title "chore: pull new translations" \
+              --body "$body" \
+              --label "area/i18n/translations" || echo "")
+
+            if [ -n "$PR_URL" ]; then
+              echo "::notice::Pull request created: $PR_URL"
+
+              # Update job summary with PR info
+              {
+                echo ""
+                echo "### 🔗 Pull Request"
+                echo "✅ **New PR created:** $PR_URL"
+              } >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "::error::Failed to create pull request"
+            fi
+          fi

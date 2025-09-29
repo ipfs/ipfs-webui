@@ -4,27 +4,31 @@
   "saving": "保存中……",
   "reset": "リセット",
   "learnMoreLink": "もっと詳しく知る。",
-  "showOptions": "Show options",
+  "showOptions": "",
   "pinningServices": {
     "title": "ピンサービス",
     "description": "あなたのノードのアイテムに対し、ガベージコレクションを絶対に走らせたくない場合（ファイルを削除した場合を含む）はローカルピンを使用してください。\n\n持続的にファイルを保持したい場合、あなたのアカウントを他のリモートピンサービスに紐付けることが出来ます。紐付けを行うと、ローカルノードがオフラインとなった場合でも、あなたのファイルのバックアップコピーを他のホスト上で保持することが出来ます。",
-    "noPinRemoteDescription": "Support for third-party remote pinning services is missing. Update your IPFS node to Kubo 0.8.0 or later, and you'll be able to add and configure them here.",
+    "noPinRemoteDescription": "",
     "addAutoUpload": "自動アップロードを有効化",
     "removeAutoUpload": "自動アップロードを無効化"
   },
   "language": "言語",
   "analytics": "分析",
   "cliTutorMode": "CUI チューターモード",
-  "config": "IPFS設定",
+  "config": "",
   "languageModal": {
     "title": "言語を変更",
     "description": "利用したい言語を選択してください",
     "translationProjectIntro": "IPFSをみんなにとってよりよくするために翻訳を追加、校正しましょう!",
     "translationProjectLink": "IPFS翻訳プロジェクトに参加"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "apiDescription": "",
+  "publicSubdomainGatewayDescription": "",
+  "publicPathGatewayDescription": "",
+  "retrievalDiagnosticService": {
+    "title": "",
+    "description": ""
+  },
   "cliDescription": "<0>\"コードを見る\"オプション<1></1>を有効にするためには、このオプションを有効にします。\"コードを見る\"ボタンは普通のIPFSコマンドの隣に表示されます。\nこのボタンを押すことで、CUIのチートシートが表示され、そこからコマンドをコピー&ペーストすることが出来ます。</0>",
   "cliModal": {
     "extraNotesJsonConfig": "このページのコードエディタに使いたいコードを書いて、コピーボタンの隣にあるダウンロードアイコンを押せば、JSONファイルの形式でスクリプトが保存されます。このスクリプトはそのままインポートして使うことが出来ます。"
@@ -44,7 +48,7 @@
     "secretApiKey": "アクセストークン（シークレット）",
     "secretApiKeyHowToLink": "新規トークンの生成方法",
     "autoUpload": "自動アップロード",
-    "complianceLabel": "🔍 {nickname} pinning compliance report"
+    "complianceLabel": ""
   },
   "autoUploadModal": {
     "title": "{name}のアップロードポリシーを変更する",
@@ -60,7 +64,7 @@
   },
   "actions": {
     "addService": "サービスを追加",
-    "generateKey": "Generate Key",
+    "generateKey": "",
     "edit": "変更",
     "close": "閉じる",
     "save": "保存",
@@ -81,14 +85,14 @@
     "false": "オフ"
   },
   "fetchingSettings": "設定を読み込んでいます…",
-  "ipfsDaemonOffline": "IPFSデーモンが起動していないようです。デーモンを起動して再度接続を試してください。",
-  "settingsUnavailable": "設定を読み込めません。IPFSデーモンが起動していることを確認してください。",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "設定が変更されました。<1>リセット</1>をクリックして編集しているファイルを再読み込みしてください。",
   "errorOccured": "変更の保存中にエラーが発生しました。",
   "checkConsole": "詳細については、ブラウザコンソールを参照してください。",
   "changesSaved": "変更が保存されました。",
-  "settingsWillBeUsedNextTime": "新しい変更は次にIPFSデーモンが起動したときに有効になります。",
-  "ipfsConfigDescription": "IPFS設定ファイルはJSON形式のテキストファイルとなっています。IPFSデーモンは起動時に1度だけそれを読み込みます。設定を変更したときにはそれを反映させるためにIPFSデーモンを再起動する必要があります。",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "より詳しい情報については、公式ドキュメントを参照してください。",
   "AnalyticsToggle": {
     "label": "匿名の利用状況データを送信することで、このアプリケーションの改善に協力する",
@@ -129,12 +133,12 @@
   "tour": {
     "step1": {
       "title": "設定",
-      "paragraph1": "ここではWebUIとIPFSノードの設定を変更できます",
+      "paragraph1": "",
       "paragraph2": "もしあなたがIPFS Desktopを利用しているのであれば、ここでも特殊な設定が確認できるでしょう"
     },
     "step2": {
-      "title": "Custom Kubo RPC API address",
-      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
+      "title": "",
+      "paragraph1": ""
     },
     "step3": {
       "title": "サービスをピン留めする",
@@ -154,8 +158,8 @@
       "paragraph1": "CUI版のコマンドのショートカットを見るためには、CUIチューターモードを有効にしてください - もしあなたがターミナルからのIPFS操作を勉強中の時や、コマンドをうっかり忘れてしまっている場合に役立つでしょう"
     },
     "step7": {
-      "title": "IPFS設定",
-      "paragraph1": "このWebUIではあなたのIPFSノードの設定を変更することができます!",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "変更した設定を反映させるには、IPFSノードの再起動を忘れないでください！"
     }
   },
@@ -166,19 +170,19 @@
     "readMoreUrl": "もっと読む"
   },
   "ipnsPublishingKeys": {
-    "title": "IPNS Publishing Keys",
-    "description": "The InterPlanetary Name System (IPNS) provides cryptographic addresses for publishing updates to content that is expected to change over time. This feature requires your node to be online at least once a day to ensure IPNS records are kept alive on the public DHT."
+    "title": "",
+    "description": ""
   },
   "generateKeyModal": {
-    "title": "Generate New IPNS Key",
-    "description": "Enter a nickname for this key to generate:"
+    "title": "",
+    "description": ""
   },
   "renameKeyModal": {
-    "title": "Rename Key",
-    "description": "Enter a new nickname for the IPNS key <1>{name}</1>."
+    "title": "",
+    "description": ""
   },
   "removeKeyModal": {
-    "title": "Confirm IPNS Key Removal",
-    "description": "Are you sure you want to delete the IPNS key <1>{name}</1>? This operation can't be undone, and the IPNS address managed by this key will be lost FOREVER. Consider backing it up first: ipfs key export --help"
+    "title": "",
+    "description": ""
   }
 }

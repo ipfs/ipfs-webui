@@ -4,7 +4,7 @@ import * as Task from '../task.js'
 import { debouncedProvide } from '../../lib/files.js'
 
 /**
- * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
  * @typedef {import('../../files/types').FileStream} FileStream
  * @typedef {import('./actions').Ext} Ext
  * @typedef {import('./actions').Extra} Extra
@@ -159,18 +159,61 @@ export const send = (action) => async ({ store }) => {
  */
 
 /**
- * @template {{name:string, type:string, cumulativeSize?:number, size:number}} T
+ * @template {{name:string, type:string, cumulativeSize?:number, size:number, cid:import('multiformats/cid').CID}} T
  * @param {T[]} files
  * @param {Sorting} sorting
-
+ * @param {string[]} pins - Array of pinned CIDs as strings
  * @returns {T[]}
  */
-export const sortFiles = (files, sorting) => {
+export const sortFiles = (files, sorting, pins = []) => {
+  // Early return for edge cases
+  if (!files || files.length <= 1) {
+    return files || []
+  }
+
+  // Return original order without sorting
+  if (sorting.by === SORTING.BY_ORIGINAL) {
+    return files
+  }
+
   const sortDir = sorting.asc ? 1 : -1
   const nameSort = sortByName(sortDir)
   const sizeSort = sortBySize(sortDir)
 
-  return files.sort((a, b) => {
+  // Convert pins to Set for O(1) lookup performance
+  const pinSet = pins.length > 0 ? new Set(pins) : null
+
+  // Create a copy to avoid mutating the original array
+  return [...files].sort((a, b) => {
+    // Handle pinned-first sorting
+    if (sorting.by === SORTING.BY_PINNED && pinSet) {
+      const aPinned = pinSet.has(a.cid.toString())
+      const bPinned = pinSet.has(b.cid.toString())
+
+      // If pinned status is different, apply sort direction
+      if (aPinned !== bPinned) {
+        return aPinned ? -sortDir : sortDir
+      }
+
+      // If both pinned or both not pinned, sort alphabetically within each group
+      // For pinned items, ignore folder/file distinction and sort alphabetically
+      if (aPinned && bPinned) {
+        return nameSort(a.name, b.name)
+      }
+
+      // For non-pinned items, maintain current behavior (folders first, then files)
+      if (a.type === b.type || IS_MAC) {
+        return nameSort(a.name, b.name)
+      }
+
+      if (a.type === 'directory') {
+        return -1
+      } else {
+        return 1
+      }
+    }
+
+    // Original sorting logic for name and size
     if (a.type === b.type || IS_MAC) {
       if (sorting.by === SORTING.BY_NAME) {
         return nameSort(a.name, b.name)
@@ -324,13 +367,12 @@ export const ensureMFS = (store) => {
  *
  * @param {CID|null|undefined} cid - The CID to provide
  * @param {IPFSService} ipfs - The IPFS service instance
- * @param {string} context - Context for logging
  */
-export const dispatchAsyncProvide = (cid, ipfs, context) => {
+export const dispatchAsyncProvide = (cid, ipfs) => {
   if (cid != null) {
-    console.debug(`[${context}] Dispatching one-time ad-hoc provide for root CID ${cid.toString()} (non-recursive) for improved performance when sharing today`)
+    console.debug(`Dispatching one-time ad-hoc provide for root CID ${cid.toString()} (non-recursive)`)
     void debouncedProvide(cid, ipfs).catch((error) => {
-      console.error(`[${context}] debouncedProvide failed:`, error)
+      console.error('debouncedProvide failed:', error)
     })
   }
 }
