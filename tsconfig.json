@@ -68,7 +68,6 @@
     "src/bundles/retry-init.js",
     "src/bundles/retry-init.js",
     "src/lib/local-storage.js",
-    "src/bundles/local-storage.js",
     "src/bundles/task.js",
     "src/bundles/gateway.js",
     "src/lib/count-dirs.js",

@@ -6,7 +6,7 @@ import { withTranslation, Trans } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 // Lib
 import { filesTour } from '../lib/tours.js'
-import { readSetting, writeSetting } from '../bundles/local-storage.js'
+import { readSetting, writeSetting } from '../lib/local-storage.js'
 // Components
 import ContextMenu from './context-menu/ContextMenu.js'
 import withTour from '../components/tour/withTour.js'
