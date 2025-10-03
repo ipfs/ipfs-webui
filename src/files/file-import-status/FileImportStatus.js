@@ -11,7 +11,7 @@ import GlyphSmallArrows from '../../icons/GlyphSmallArrow.js'
 import GlyphTick from '../../icons/GlyphTick.js'
 import GlyphCancel from '../../icons/GlyphCancel.js'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel.js'
-import ProgressBar from '../../components/progress-bar/ProgressBar.js'
+import ProgressBar from '../../components/progress-bar/progress-bar.js'
 
 const Import = (job, t) =>
   [...groupByPath(job?.message?.entries || new Map()).values()].map(item => (

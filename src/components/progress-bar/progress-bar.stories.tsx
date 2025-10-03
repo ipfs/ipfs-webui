@@ -1,16 +1,13 @@
 import React from 'react'
-import ProgressBar from './ProgressBar.js'
+import ProgressBar from './progress-bar.js'
 
-/**
- * @type {import('@storybook/react').Meta}
- */
-export default {
-  title: 'Progress Bars'
-}
+const meta = {
+  title: 'Progress Bars',
+  component: ProgressBar
+} as const
 
-/**
- * @type {import('@storybook/react').StoryObj}
- */
+export default meta
+
 export const Colors = () => (
   <div className="ma2">
     <ProgressBar bg="bg-navy" progress={42} />

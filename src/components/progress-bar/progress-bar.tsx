@@ -1,8 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import './ProgressBar.css'
 
-const ProgressBar = ({ bg, br, className, style, width, height, progress, time, ...props }) => {
+export interface ProgressBarProps {
+  className?: string
+  bg?: string
+  width?: string
+  height?: string
+  br?: string
+  time?: number
+  progress?: number
+  style?: React.CSSProperties
+}
+
+const ProgressBar: React.FC<ProgressBarProps> = ({ bg = 'bg-aqua', br = 'br-pill', className, style, width = 'w-100', height = 'h1', progress, time, ...props }) => {
   return (
     <div className={`ProgressBar sans-serif overflow-hidden ${br} dib ${className} ${width} ${height}`} style={{ background: '#DDE6EB', ...style }} {...props}>
       {time
@@ -10,24 +20,6 @@ const ProgressBar = ({ bg, br, className, style, width, height, progress, time, 
         : <div className={`${br} h-100 ${bg}`} style={{ width: `${progress}%` }} />}
     </div>
   )
-}
-
-ProgressBar.propTypes = {
-  className: PropTypes.string,
-  bg: PropTypes.string,
-  width: PropTypes.string,
-  height: PropTypes.string,
-  br: PropTypes.string,
-  time: PropTypes.number,
-  progress: PropTypes.number
-}
-
-ProgressBar.defaultProps = {
-  className: '',
-  width: 'w-100',
-  height: 'h1',
-  bg: 'bg-aqua',
-  br: 'br-pill'
 }
 
 export default ProgressBar
