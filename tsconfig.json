@@ -78,7 +78,7 @@
     "src/files/type-from-ext/index.js",
     "src/files/file-icon/FileIcon.js",
     "src/files/pin-icon/PinIcon.js",
-    "src/components/checkbox/Checkbox.js",
+    "src/components/checkbox/checkbox.tsx",
     "src/files/type-from-ext/extToType.js",
     "src/pins/**/*",
     "src/blank/**/*",

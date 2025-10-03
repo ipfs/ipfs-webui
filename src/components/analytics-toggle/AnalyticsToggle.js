@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
-import Checkbox from '../checkbox/Checkbox.js'
+import Checkbox from '../checkbox/checkbox.js'
 import Details from '../details/Details.js'
 
 const ExampleRequest = ({ url, method = 'GET' }) => {

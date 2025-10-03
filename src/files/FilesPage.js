@@ -26,7 +26,7 @@ import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
 import SelectedActions from './selected-actions/SelectedActions.js'
-import Checkbox from '../components/checkbox/Checkbox.js'
+import Checkbox from '../components/checkbox/checkbox.js'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,

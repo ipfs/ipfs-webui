@@ -2,7 +2,7 @@ import React from 'react'
 import { withTranslation } from 'react-i18next'
 // Components
 import GlyphDots from '../../icons/GlyphDots.js'
-import Checkbox from '../checkbox/Checkbox.js'
+import Checkbox from '../checkbox/checkbox.js'
 import FileIcon from '../../files/file-icon/FileIcon.js'
 // Styles
 import './LoadingAnimation.css'
