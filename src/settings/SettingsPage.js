@@ -15,9 +15,10 @@ import LanguageSelector from '../components/language-selector/LanguageSelector.j
 import PinningManager from '../components/pinning-manager/PinningManager.js'
 import IpnsManager from '../components/ipns-manager/IpnsManager.js'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle.js'
-import ApiAddressForm from '../components/api-address-form/ApiAddressForm.js'
+import ApiAddressForm from '../components/api-address-form/api-address-form'
 import PublicGatewayForm from '../components/public-gateway-form/PublicGatewayForm.js'
 import PublicSubdomainGatewayForm from '../components/public-subdomain-gateway-form/PublicSubdomainGatewayForm.js'
+import IpfsCheckForm from '../components/ipfs-check-form/IpfsCheckForm.js'
 import { JsonEditor } from './editor/JsonEditor.js'
 import Experiments from '../components/experiments/ExperimentsPanel.js'
 import Title from './Title.js'
@@ -97,6 +98,17 @@ export const SettingsPage = ({
         }&nbsp;<a className='link blue' target='_blank' rel='noopener noreferrer' href='https://docs.ipfs.tech/how-to/work-with-pinning-services/'>{t('learnMoreLink')}</a>
       </p>
       <PinningManager t={t} />
+    </Box>
+
+    <Box className='mb3 pa4-l pa2'>
+      <Title>{t('retrievalDiagnosticService.title')}</Title>
+      <p className='ma0 mr2 lh-copy charcoal f6'>
+        <Trans i18nKey='retrievalDiagnosticService.description' t={t}>
+          <a className='link blue' href='https://github.com/ipfs/ipfs-check' target='_blank' rel='noopener noreferrer'>ipfs-check</a>
+          <a className='link blue' href='#/diagnostics/retrieval-check'>retrieval diagnostics</a>
+        </Trans>
+      </p>
+      <IpfsCheckForm/>
     </Box>
 
     <Box className='mb3 pa4-l pa2'>

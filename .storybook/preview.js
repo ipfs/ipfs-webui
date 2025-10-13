@@ -10,24 +10,28 @@ import i18n from '../src/i18n.js'
 import DndBackend from '../src/lib/dnd-backend.js'
 import { HeliaProvider, ExploreProvider } from 'ipld-explorer-components/providers'
 import { ShortcutsProvider } from '../src/contexts/ShortcutsContext.js'
+import { ContextBridgeProvider } from '../src/helpers/context-bridge'
+
 /**
  * @type {import('@storybook/addons').BaseAnnotations}
  */
 const baseAnnotations = {
   decorators: [
     (Story) => (
-      <Provider store={getStore(undefined)}>
-        <I18nextProvider i18n={i18n} >
-          <DndProvider backend={DndBackend}>
-            <HeliaProvider>
-              <ExploreProvider>
-                <ShortcutsProvider>
-                  <Story />
-                </ShortcutsProvider>
-              </ExploreProvider>
-            </HeliaProvider>
-          </DndProvider>
-        </I18nextProvider>
+      <Provider store={getStore({ ipfs: { apiAddress: null, provider: null, failed: false, ready: false, invalidAddress: false, pendingFirstConnection: false } })}>
+        <ContextBridgeProvider>
+          <I18nextProvider i18n={i18n} >
+            <DndProvider backend={DndBackend}>
+              <HeliaProvider>
+                <ExploreProvider>
+                  <ShortcutsProvider>
+                      <Story />
+                  </ShortcutsProvider>
+                </ExploreProvider>
+              </HeliaProvider>
+            </DndProvider>
+          </I18nextProvider>
+        </ContextBridgeProvider>
       </Provider>
     )
   ],

@@ -1,4 +1,3 @@
-// @ts-check
 // This is a list of predefined templates for popular services from the IPFS
 // community.  We are open to reviewing PRs that add more entries here,
 // but only well-established and mission-aligned services will be accepted.
@@ -7,19 +6,24 @@
 
 const complianceReportsHomepage = 'https://ipfs-shipyard.github.io/pinning-service-compliance'
 
-/**
- * @typedef {object} PinningServiceTemplate
- * @property {string} name
- * @property {string} icon
- * @property {string} apiEndpoint
- * @property {string} visitServiceUrl
- * @property {string} [complianceReportUrl]
- */
+interface PinningServiceTemplate {
+  name: string
+  icon: string
+  apiEndpoint: string
+  visitServiceUrl: string
+  complianceReportUrl?: string
+}
 
-/**
- * @type {PinningServiceTemplate[]}
- */
-const pinningServiceTemplates = [
+interface PinningServiceTemplateWithCompliance extends PinningServiceTemplate {
+  complianceReportUrl: string
+}
+
+interface SortablePinningServiceTemplate {
+  service: PinningServiceTemplate | PinningServiceTemplateWithCompliance
+  sort: number
+}
+
+const pinningServiceTemplates: PinningServiceTemplate[] = [
   {
     name: 'Pinata',
     icon: 'https://dweb.link/ipfs/QmVYXV4urQNDzZpddW4zZ9PGvcAbF38BnKWSgch3aNeViW?filename=pinata.svg',
@@ -44,16 +48,23 @@ const pinningServiceTemplates = [
     apiEndpoint: 'https://api.4everland.dev',
     visitServiceUrl: 'https://docs.4everland.org/storage/4ever-pin/pinning-services-api'
   }
-].map((service) => {
+].map<SortablePinningServiceTemplate>((service) => {
+  let complianceReportUrl: string | undefined
   try {
     const domain = new URL(service.apiEndpoint).hostname
-    service.complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
+    complianceReportUrl = `${complianceReportsHomepage}/${domain}.html`
   } catch (e) {
     // if apiEndpoint is not a valid URL, don't add complianceReportUrl
     // TODO: fix support for template apiEndpoints
+    return { service, sort: Math.random() }
   }
-  return { service, sort: Math.random() }
-}).sort((a, b) => a.sort - b.sort).map(({ service }) => service)
+  return {
+    service: { ...service, complianceReportUrl } satisfies PinningServiceTemplateWithCompliance,
+    sort: Math.random()
+  } satisfies SortablePinningServiceTemplate
+})
+  .sort((a, b) => a.sort - b.sort)
+  .map<PinningServiceTemplate>(({ service }) => service)
 
 export {
   complianceReportsHomepage,

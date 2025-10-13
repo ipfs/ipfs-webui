@@ -8,10 +8,12 @@ import './files-explore-form.css'
 import { useExplore } from 'ipld-explorer-components/providers'
 import { useShortcuts } from '../../contexts/ShortcutsContext.js'
 
-/**
- * @type {React.FC<{ onBrowse: (evt: { path: string }) => void }>} *
- */
-const FilesExploreForm = ({ onBrowse: onBrowseProp }) => {
+interface FilesExploreFormProps {
+  // this prop is being passed as the `doFilesNavigateTo` action from the `files` bundle in App.js
+  onBrowse: ({ path, cid }: {path: string, cid?: string}) => void
+}
+
+const FilesExploreForm: React.FC<FilesExploreFormProps> = ({ onBrowse: onBrowseProp }) => {
   const [path, setPath] = useState('')
   const { doExploreUserProvidedPath } = useExplore()
   const { t } = useTranslation('files')
@@ -47,15 +49,15 @@ const FilesExploreForm = ({ onBrowse: onBrowseProp }) => {
     }
   }, [trimmedPath, isValid])
 
-  const onChange = (evt) => {
+  const onChange: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
     setPath(evt.target.value)
   }
-  const onKeyDown = (evt) => {
+  const onKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (evt) => {
     if (evt.key === 'Enter') {
       onBrowse(evt)
     }
   }
-  const onInspect = useCallback((evt) => {
+  const onInspect = useCallback((evt: React.MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault()
 
     if (isValid) {
@@ -64,16 +66,18 @@ const FilesExploreForm = ({ onBrowse: onBrowseProp }) => {
     }
   }, [doExploreUserProvidedPath, isValid, trimmedPath])
 
-  const onBrowse = useCallback((evt) => {
+  const onBrowse = useCallback((evt: React.KeyboardEvent<HTMLInputElement> | React.MouseEvent<HTMLButtonElement>) => {
     evt.preventDefault()
 
     if (isValid) {
       let browsePath = trimmedPath
+      let cid
       if (isIPFS.cid(trimmedPath)) {
         browsePath = `/ipfs/${trimmedPath}`
+        cid = trimmedPath
       }
 
-      onBrowseProp({ path: browsePath })
+      onBrowseProp({ path: browsePath, cid })
       setPath('')
     }
   }, [isValid, trimmedPath, onBrowseProp])

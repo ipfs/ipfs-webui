@@ -1,6 +1,6 @@
 import React from 'react'
 import { Identicon } from '../identicon/Identicon.js'
-import ErrorBoundary from '../error/ErrorBoundary.js'
+import ErrorBoundary from '../error/error-boundary.jsx'
 
 export function cidStartAndEnd (value) {
   const chars = value.toString().split('')

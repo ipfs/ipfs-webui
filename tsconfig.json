@@ -1,3 +1,4 @@
+
 {
   "compilerOptions": {
     "allowJs": true,
@@ -38,11 +39,9 @@
     "declarationMap": true,
     "incremental": true,
     "composite": true,
-    "types": [
-      "node"
-    ],
     "typeRoots": [
-      "@types"
+      "./node_modules/@types",
+      "./@types"
     ],
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
@@ -53,14 +52,11 @@
       "*": ["*", "*.ts", "*.tsx"]
     }
   },
-  "exclude": [
-    "./src/test",
-    "src/**/*.test.js"
-  ],
   "include": [
     "**/*.ts",
-    // "**/*.tsx",
-    "@types",
+    "**/*.tsx",
+    "**/*.json",
+    "@types/**/*",
     // "src/**/*.js", // TODO: Include all js files when typecheck passes
     "src/bundles/files/**/*.js",
     "src/bundles/analytics.js",
@@ -71,31 +67,45 @@
     "src/bundles/ipfs-desktop.js",
     "src/bundles/ipfs-provider.js",
     "src/bundles/retry-init.js",
-    "src/bundles/retry-init.js",
     "src/bundles/local-storage.js",
     "src/bundles/task.js",
+    "src/bundles/gateway.js",
     "src/lib/count-dirs.js",
     "src/lib/sort.js",
     "src/lib/files.js",
     "src/env.js",
     "src/lib/hofs/**/*.js",
     "src/lib/guards.js",
-    "src/files/file-preview/file-thumbnail.tsx",
     "src/files/type-from-ext/index.js",
-    "src/files/files-grid/files-grid.tsx",
-    "src/files/files-grid/grid-file.tsx",
     "src/files/file-icon/FileIcon.js",
     "src/files/pin-icon/PinIcon.js",
-    "src/icons/**/*.tsx",
     "src/components/checkbox/Checkbox.js",
     "src/files/type-from-ext/extToType.js",
     "src/contexts/ShortcutsContext.tsx",
     "src/files/modals/shortcut-modal/shortcut-modal.tsx",
     "src/icons/GlyphSmallCancel.tsx",
     "src/components/overlay/Overlay.tsx",
-    "src/icons/GlyphSmallCancel.tsx"
     "src/helpers/context-bridge.tsx",
-    "src/helpers/connected-context-provider.tsx"
-
+    "src/helpers/connected-context-provider.tsx",
+    "src/pins/**/*",
+    "src/blank/**/*",
+    "src/contexts/**/*",
+    "src/constants/**/*",
+    "src/helpers/**/*",
+    "src/icons/**/*",
+    "src/loader/**/*",
+    "src/navigation/**/*",
+    "src/welcome/**/*",
+    "src/components/tour/withTour.js",
+    "src/lib/tours.js",
+    "src/components/is-connected/IsConnected.js",
+    "src/components/is-not-connected/IsNotConnected.js",
+    "src/components/about-ipfs/AboutIpfs.js",
+    "src/components/about-webui/AboutWebUI.js",
+    "src/components/box/Box.js",
+    "src/components/shell/Shell.js",
+    "src/i18n-decorator.js",
+    "src/i18n.js",
+    "src/lib/i18n-localeParser.js"
   ]
 }

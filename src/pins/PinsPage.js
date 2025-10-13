@@ -4,6 +4,15 @@ import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import PinsStatuses from './PinsStatuses.js'
 
+/**
+ * @param {Object} props
+ * @param {string[]} props.pendingPins
+ * @param {string[]} props.failedPins
+ * @param {string[]} props.completedPins
+ * @param {(pin: string) => void} props.doDismissCompletedPin
+ * @param {(pin: string) => void} props.doDismissFailedPin
+ * @param {(pin: string) => void} props.doCancelPendingPin
+ */
 const PinsPage = ({ pendingPins, failedPins, completedPins, doDismissCompletedPin, doDismissFailedPin, doCancelPendingPin }) => {
   return (
     <div data-id='PinsPage' className='mw9 center'>

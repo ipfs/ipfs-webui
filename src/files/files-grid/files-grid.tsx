@@ -2,13 +2,12 @@ import React, { useRef, useState, useCallback, type FC, type MouseEvent } from '
 import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
-import { ExtendedFile, FileStream, normalizeFiles } from '../../lib/files.js'
-import GridFile from './grid-file'
-// @ts-expect-error - redux-bundler-react is not typed
+import { normalizeFiles } from '../../lib/files.js'
+import GridFile from './grid-file.jsx'
 import { connect } from 'redux-bundler-react'
 import './files-grid.css'
 import { TFunction } from 'i18next'
-import type { ContextMenuFile } from 'src/files/types.js'
+import type { ContextMenuFile, ExtendedFile, FileStream } from '../types'
 import type { CID } from 'multiformats/cid'
 import { useShortcuts } from '../../contexts/ShortcutsContext'
 
@@ -23,7 +22,7 @@ export interface FilesGridProps {
 type SetPinningProps = { cid: CID, pinned: boolean }
 
 interface FilesGridPropsConnected extends FilesGridProps {
-  filesPathInfo: { isMfs: boolean }
+  filesPathInfo: { isMfs: boolean, isRoot: boolean }
   t: TFunction
   onRemove: (files: ContextMenuFile[]) => void
   onRename: (files: ContextMenuFile[]) => void
@@ -36,11 +35,12 @@ interface FilesGridPropsConnected extends FilesGridProps {
   onSelect: (fileName: string | string[], isSelected: boolean) => void
   filesIsFetching: boolean
   selected: string[]
+  modalOpen: boolean
 }
 
 const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
-  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
+  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect, modalOpen = false
 }: FilesGridPropsConnected) => {
   const [focusedState, setFocusedState] = useState<string | null>(null)
   const focused = useRef<string | null>(null)
@@ -61,8 +61,11 @@ const FilesGrid = ({
     onSelect(fileName, isSelected)
   }, [onSelect])
 
-  const keyHandler = (e: KeyboardEvent) => {
-    if (filesIsFetching) return
+  const keyHandler = useCallback((e: KeyboardEvent) => {
+    // Don't handle keyboard events when a modal is open
+    if (modalOpen) {
+      return
+    }
 
     const focusedFile = focused.current == null ? null : files.find(el => el.name === focused.current)
 
@@ -141,7 +144,7 @@ const FilesGrid = ({
         }
       }
     }
-  }
+  }, [files, focused, selected, onSelect, onRename, onRemove, onNavigate, handleSelect, modalOpen])
 
   useShortcuts([{
     keys: ['ArrowUp'],
@@ -278,9 +281,9 @@ const FilesGrid = ({
           onSelect={handleSelect}
         />
       ))}
-      {files.length === 0 && (
+      {files.length === 0 && !filesPathInfo?.isRoot && (
         <Trans i18nKey='filesList.noFiles' t={t}>
-          <div className='pv3 b--light-gray files-grid-empty bt tc gray f6'>
+          <div className='pv3 b--light-gray files-grid-empty bt tc charcoal-muted f6 noselect'>
             There are no available files. Add some!
           </div>
         </Trans>

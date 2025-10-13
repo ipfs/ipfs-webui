@@ -292,6 +292,9 @@ export const FilesList = ({
   }
 
   const sortByIcon = (order) => {
+    if (filesSorting.by === sorts.BY_ORIGINAL) {
+      return null // No arrows when in original order
+    }
     if (filesSorting.by === order) {
       return filesSorting.asc ? '↑' : '↓'
     }
@@ -301,21 +304,34 @@ export const FilesList = ({
 
   const changeSort = (order) => () => {
     if (order === filesSorting.by) {
-      updateSorting(order, !filesSorting.asc)
+      // Same column clicked - cycle through states
+      if (filesSorting.asc) {
+        updateSorting(order, false) // asc → desc
+      } else {
+        updateSorting(sorts.BY_ORIGINAL, true) // desc → original
+      }
+    } else if (filesSorting.by === sorts.BY_ORIGINAL) {
+      updateSorting(order, true) // original → asc for clicked column
     } else {
-      updateSorting(order, true)
+      updateSorting(order, true) // different column → asc
     }
 
     listRef.current?.forceUpdateGrid?.()
   }
 
-  const emptyRowsRenderer = () => (
-    <Trans i18nKey='filesList.noFiles' t={t}>
-      <div className='pv3 b--light-gray bt tc gray f6'>
-            There are no available files. Add some!
-      </div>
-    </Trans>
-  )
+  const emptyRowsRenderer = () => {
+    if (filesPathInfo.isRoot) {
+      // Root has special more prominent message (AddFilesInfo)
+      return null
+    }
+    return (
+      <Trans i18nKey='filesList.noFiles' t={t}>
+        <div className='pv3 b--light-gray bt tc charcoal-muted f6 noselect'>
+              There are no available files. Add some!
+        </div>
+      </Trans>
+    )
+  }
 
   const rowRenderer = ({ index, key, style }) => {
     const pinsString = pins.map(p => p.toString())
@@ -381,18 +397,26 @@ export const FilesList = ({
               <Checkbox checked={allSelected} onChange={toggleAll} aria-label={t('selectAllEntries')}/>
             </div>
             <div className='ph2 f6 flex-auto'>
-              <button aria-label={ t('sortBy', { name: t('app:terms.name') })} onClick={changeSort(sorts.BY_NAME)}>
+              <button className='charcoal-muted' aria-label={ t('sortBy', { name: t('app:terms.name') })} onClick={changeSort(sorts.BY_NAME)}>
                 {t('app:terms.name')} {sortByIcon(sorts.BY_NAME)}
               </button>
             </div>
             <div className='pl2 pr1 tr f6 flex-none dn db-l mw4'>
-              { pinningServices && pinningServices.length
-                ? <button aria-label={t('app:terms.pinStatus')} onClick={() => doFetchRemotePins(files, refreshPinCache)}>{t('app:terms.pinStatus')}</button>
-                : <>{t('app:terms.pinStatus')}</>
-              }
+              <button
+                className='charcoal-muted'
+                aria-label={t('sortBy', { name: t('app:terms.pinStatus') })}
+                onClick={() => {
+                  changeSort(sorts.BY_PINNED)()
+                  if (pinningServices && pinningServices.length) {
+                    doFetchRemotePins(files, refreshPinCache)
+                  }
+                }}
+              >
+                {t('app:terms.pinStatus')} {sortByIcon(sorts.BY_PINNED)}
+              </button>
             </div>
             <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
-              <button aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
+              <button className='charcoal-muted' aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
                 {t('app:terms.size')} {sortByIcon(sorts.BY_SIZE)}
               </button>
             </div>

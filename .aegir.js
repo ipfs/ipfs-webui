@@ -34,6 +34,10 @@ export default {
       'tachyons',
       'uint8arrays',
 
+      // babel-preset-react-app uses this without declaring it as a dependency
+      // see: https://github.com/facebook/create-react-app/issues/13325
+      '@babel/plugin-proposal-private-property-in-object',
+
       // type-only deps
       'ipfs',
 
@@ -49,6 +53,10 @@ export default {
       'enzyme-adapter-react-16',
       'jest',
       'jest-environment-jsdom', // in npm script via --env=jsdom
+      '@testing-library/react', // jsx is not tested properly
+      '@testing-library/jest-dom', // jsx is not tested properly
+      '@testing-library/user-event', // jsx is not tested properly
+
 
       // storybook deps
       '@storybook/addons', // for types
@@ -73,6 +81,10 @@ export default {
 
     developmentIgnorePatterns: [
       'src/**/*.js',
+      'src/**/*.jsx',
+      'src/**/*.ts',
+      'src/**/*.tsx',
+      'test/**/*',
       '!.aegir.js',
       '!.eslintrc.cjs',
       '!config-overrides.js',
@@ -81,7 +93,11 @@ export default {
       '!**/*.test.js',
       '!**/*.stories.js',
       '!test/**',
-      '!src/setupTests.js'
+      '!src/setupTests.js',
+      '!src/**/*.test.ts',
+      '!src/**/*.test.tsx',
+      '!src/**/*.test.jsx',
+      '!src/**/*.test.js'
     ],
 
     productionIgnorePatterns: [
@@ -93,7 +109,9 @@ export default {
       '**/*.test.js',
       '**/*.stories.js',
       'test/**',
-      'src/setupTests.js'
+      'src/setupTests.js',
+      'src/**/*.test.ts',
+      'src/**/*.test.tsx'
     ]
   }
 }

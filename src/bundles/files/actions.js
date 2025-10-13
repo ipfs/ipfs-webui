@@ -13,10 +13,10 @@ import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath, disp
 import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
- * @typedef {import('ipfs').IPFSService} IPFSService
- * @typedef {import('../../lib/files').FileStream} FileStream
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
+ * @typedef {import('../../files/types').FileStream} FileStream
  * @typedef {import('./utils').Info} Info
- * @typedef {import('ipfs').Pin} Pin
+ * @typedef {{ cid: CID }} Pin
  */
 
 /**
@@ -26,6 +26,7 @@ import { IGNORED_FILES, ACTIONS } from './consts.js'
  * @property {CID} cid
  * @property {string} name
  * @property {string} path
+ * @property {string} parentPath
  * @property {boolean} pinned
  * @property {boolean|void} isParent
  *
@@ -41,15 +42,22 @@ import { IGNORED_FILES, ACTIONS } from './consts.js'
  * @param {string} [prefix]
  * @returns {FileStat}
  */
-const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, isParent }, prefix = '/ipfs') => ({
-  size: cumulativeSize || size || 0,
-  type: type === 'dir' ? 'directory' : type,
-  cid,
-  name: name || path.split('/').pop() || cid.toString(),
-  path: path || `${prefix}/${cid.toString()}`,
-  pinned: Boolean(pinned),
-  isParent
-})
+const fileFromStats = ({ cumulativeSize, type, size, cid, name, path, pinned, isParent }, prefix = '/ipfs') => {
+  const pathParts = path.split('/')
+  const pathFileName = pathParts.pop()
+  const parentPath = pathParts.join('/') || '/'
+  const file = {
+    size: cumulativeSize || size || 0,
+    type: type === 'dir' ? 'directory' : type,
+    cid,
+    name: name || pathFileName || cid.toString(),
+    path: path || `${prefix}/${cid.toString()}`,
+    parentPath,
+    pinned: Boolean(pinned),
+    isParent
+  }
+  return file
+}
 
 /**
  * @param {IPFSService} ipfs
@@ -213,8 +221,19 @@ const actions = () => ({
       ? await last(ipfs.name.resolve(realPath))
       : realPath
 
-    const stats = await stat(ipfs, resolvedPath)
     const time = Date.now()
+    /** @type {Stat} */
+    let stats
+    try {
+      stats = await stat(ipfs, resolvedPath)
+    } catch (error) {
+      console.error(`Error fetching stats for path "${resolvedPath}":`, error)
+      return {
+        fetched: time,
+        type: 'not-found',
+        path: resolvedPath
+      }
+    }
 
     switch (stats.type) {
       case 'unknown': {
@@ -523,11 +542,11 @@ const actions = () => ({
   }),
 
   /**
-   * Triggers provide operation for a copied CID.
+   * Triggers provide operation for a CID.
    * @param {import('multiformats/cid').CID} cid
    */
-  doFilesCopyCidProvide: (cid) => perform('FILES_COPY_CID_PROVIDE', async (ipfs) => {
-    dispatchAsyncProvide(cid, ipfs, 'COPY')
+  doFilesCidProvide: (cid) => perform('FILES_CID_PROVIDE', async (ipfs) => {
+    dispatchAsyncProvide(cid, ipfs)
   }),
 
   doFilesShareLink: (/** @type {FileStat[]} */ files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
@@ -537,7 +556,7 @@ const actions = () => ({
     const { link: shareableLink, cid } = await getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
 
     // Trigger background provide operation with the CID from getShareableLink
-    dispatchAsyncProvide(cid, ipfs, 'SHARE')
+    dispatchAsyncProvide(cid, ipfs)
 
     return shareableLink
   }),
@@ -702,7 +721,7 @@ const importFiles = (ipfs, files) => {
   const result = all(ipfs.addAll(files, {
     pin: false,
     wrapWithDirectory: false,
-    progress: (offset, name) => channel.send({ offset, name })
+    progress: (offset, name = '') => channel.send({ offset, name })
   }))
 
   result.then(() => channel.close(), error => channel.close(error))
@@ -717,6 +736,7 @@ const importFiles = (ipfs, files) => {
  * @param {string} options.path
  * @param {boolean} [options.isRoot]
  * @param {import('./utils').Sorting} options.sorting
+ * @returns {Promise<import('./protocol').DirectoryContent>}
  */
 const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
   const entries = await all(ipfs.ls(cid)) || []
@@ -735,7 +755,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
     const absPath = join(path, f.name)
     let file = null
 
-    if (dirCount < 1000 && (f.type === 'directory' || f.type === 'dir')) {
+    if (dirCount < 1000 && f.type === 'dir') {
       dirCount += 1
       file = fileFromStats({ ...await stat(ipfs, f.cid), path: absPath })
     } else {
@@ -746,6 +766,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
   }
 
   let parent = null
+  let parentPathForDir = '/'
 
   if (!isRoot) {
     const parentPath = dirname(path)
@@ -764,11 +785,13 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
         name: '..',
         isParent: true
       })
+      parentPathForDir = parentInfo.path
     }
   }
 
   return {
     path,
+    parentPath: parentPathForDir,
     fetched: Date.now(),
     type: 'directory',
     cid,

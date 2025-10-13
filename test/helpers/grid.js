@@ -10,11 +10,23 @@ const waitForIpfsStats = globalThis.waitForIpfsStats || (async () => {
  * @param {string} mode - The view mode to select ('grid' or 'list')
  */
 const selectViewMode = async (page, mode) => {
+  // Check current view mode by looking for the presence of grid or list elements
+  const isGridView = await page.locator('.files-grid').isVisible().catch(() => false)
+  const isListView = await page.locator('.FilesList').isVisible().catch(() => false)
+
+  // If already in the desired mode, return early
+  if ((mode === 'grid' && isGridView) || (mode === 'list' && isListView)) {
+    return
+  }
+
+  // Click the toggle button - title depends on current state
   if (mode === 'grid') {
-    await page.locator('button[title="Show items in grid"]').click()
+    // If we want grid and we're in list, click the button with grid title
+    await page.locator('button[title="Click to switch to grid view"]').click()
     await page.waitForSelector('.files-grid')
   } else {
-    await page.locator('button[title="Show items in list"]').click()
+    // If we want list and we're in grid, click the button with list title
+    await page.locator('button[title="Click to switch to list view"]').click()
     await page.waitForSelector('.FilesList')
   }
 }
@@ -25,8 +37,19 @@ const selectViewMode = async (page, mode) => {
  */
 const navigateToFilesPage = async (page) => {
   await page.goto(webuiUrl + '#/files')
+
+  // Clear localStorage after page has loaded to ensure consistent test state
+  await page.evaluate(() => {
+    try {
+      localStorage.removeItem('files.viewMode')
+      localStorage.removeItem('files.sorting')
+    } catch (e) {
+      // Ignore if localStorage is not available
+    }
+  })
+
   await waitForIpfsStats()
-  await page.waitForSelector('.files-grid, .FilesList')
+  await page.waitForSelector('.files-grid, .FilesList', { timeout: 60000 })
 }
 
 /**

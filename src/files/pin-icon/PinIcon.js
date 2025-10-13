@@ -5,7 +5,7 @@ import GlyphPinCloud from '../../icons/GlyphPinCloud.js'
 import '../PendingAnimation.css'
 
 /**
- * @param {{ t: (key: string) => string, isFailedPin: boolean, isPendingPin: boolean, isRemotePin: boolean, pinned: boolean }} props
+ * @param {{ t: import('i18next').TFunction, isFailedPin: boolean, isPendingPin: boolean, isRemotePin: boolean, pinned: boolean }} props
  * @returns {React.ReactElement}
  */
 const PinningIcon = ({ t, isFailedPin, isPendingPin, isRemotePin, pinned }) => {

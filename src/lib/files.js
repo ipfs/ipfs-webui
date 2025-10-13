@@ -1,24 +1,18 @@
 import filesize from 'filesize'
 /**
- * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
  * @typedef {import('../bundles/files/actions').FileStat} FileStat
  * @typedef {import('multiformats/cid').CID} CID
  */
 
 /**
- * @typedef {Object} FileExt
- * @property {string} [filepath]
- * @property {string} [webkitRelativePath]
+ * @typedef {import('../files/types').FileExt} FileExt
  *
- * @typedef {FileExt &  File} ExtendedFile
+ * @typedef {import('../files/types').ExtendedFile} ExtendedFile
  *
- * @typedef {Object} FileStream
- * @property {string} path
- * @property {Blob} content
- * @property {number} size
  *
  * @param {ExtendedFile[]} files
- * @returns {FileStream[]}
+ * @returns {import('../files/types').FileStream[]}
  */
 export function normalizeFiles (files) {
   const streams = []
@@ -172,11 +166,13 @@ export async function debouncedProvide (cid, ipfs) {
   }
 
   try {
-    // @ts-expect-error - ipfs is actually a KuboRPCClient with routing API
     const provideEvents = ipfs.routing.provide(cid, { recursive: false })
 
     for await (const event of provideEvents) {
-      console.debug(`[PROVIDE] ${cidStr}:`, event)
+      // @ts-expect-error - event type doesn't have messageName in types but it exists at runtime
+      if (event.messageName === 'PUT_VALUE') {
+        console.debug(`[PROVIDE] ${cidStr}:`, event)
+      }
     }
 
     // Clean up old cache entries

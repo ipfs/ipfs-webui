@@ -10,7 +10,7 @@
 |-------|---------|-------|----------|
 | ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) |
 
-[![](https://img.shields.io/badge/made%20by-Protocol%20Labs-blue.svg)](https://protocol.ai/) [![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://www.transifex.com/ipfs/ipfs-webui/) [![](https://img.shields.io/badge/matrix%20chat-%23lobby:ipfs.io-blue.svg?style=flat-square)](https://matrix.to/#/#lobby:ipfs.io)
+[![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://explore.transifex.com/ipfs/ipfs-webui/) [![](https://img.shields.io/badge/matrix%20chat-%23lobby:ipfs.io-blue.svg?style=flat-square)](https://matrix.to/#/#lobby:ipfs.io)
 
 The [latest release version](https://github.com/ipfs/ipfs-webui/releases/latest) is always at https://webui.ipfs.io, and the preview of `main` branch is at https://dev.webui.ipfs.io.
 
@@ -18,14 +18,16 @@ The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the iss
 
 The app uses [`kubo-rpc-client`](https://github.com/ipfs/js-kubo-rpc-client) to communicate with your local IPFS node.
 
-The app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#table-of-contents).
+The app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/main/packages/cra-template/template/README.md#table-of-contents).
+
+## Maintenance
+
+<a href="https://ipshipyard.com/"><img align="right" src="https://github.com/user-attachments/assets/39ed3504-bb71-47f6-9bf8-cb9a1698f272" /></a>
+
+> [!NOTE]
+> This project is currently maintained by the [Shipyard](https://ipshipyard.com/) team.
 
 ## Install
-
-Supported Node.js versions:
-- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-18.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
-- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-20.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
-- [![](https://byob.yarr.is/ipfs/ipfs-webui/node-21.x)](https://github.com/ipfs/ipfs-webui/actions/workflows/node-versions.yml)
 
 ```sh
 > npm install
@@ -245,14 +247,14 @@ One can permanently switch to a different locale via _Settings_ or temporarily v
 
 The translations are stored on [./public/locales](./public/locales) and the English version is the source of truth. We use Transifex to help us translate WebUI to another languages.
 
-**If you're interested in contributing a translation**, go to [our page on Transifex](https://www.transifex.com/ipfs/ipfs-webui/translate/), create an account, pick a language and start translating. Be sure to change your notification settings to be notified when translation sources change.
+**If you're interested in contributing a translation**, go to [our page on Transifex](https://explore.transifex.com/ipfs/ipfs-webui/), create an account, pick a language and start translating. Be sure to change your notification settings to be notified when translation sources change.
 
 You can read more on how we use Transifex and i18next in this app at [`docs/LOCALIZATION.md`](docs/LOCALIZATION.md)
 
 ## Releasing
 
 1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/actions/workflows/tx-pull.yml) is successful or fails because there are no updates.
-1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
+1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.tech [here](https://docs.ipfs.tech/how-to/command-line-quick-start/)
 1. Manually dispatch [ci.yml](https://github.com/ipfs/ipfs-webui/actions/workflows/ci.yml) workflow on `main` branch. This will create a new release.
 1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
    - Kubo: https://github.com/ipfs/kubo/blob/master/core/corehttp/webui.go#L4
@@ -260,7 +262,7 @@ You can read more on how we use Transifex and i18next in this app at [`docs/LOCA
 
 <!-- DEPRECATED STEPS as of https://github.com/ipfs/ipfs-webui/releases/tag/v2.16.0. Leaving only for posterity:
 1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true) is [successful](https://github.com/ipfs/ipfs-webui/runs/7121497704?check_suite_focus=true) or [fails because there are no updates](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true).
-1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.io [here](https://docs.ipfs.io/how-to/command-line-quick-start/#web-console)
+1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.tech [here](https://docs.ipfs.tech/how-to/command-line-quick-start/)
 1. Commit changes and ensure everything is merged into `main` branch
 1. Update the version (`npm version [major|minor|patch]`, it will create a new tag `vN.N.N`, note it down)
 1. Push `main` branch and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
@@ -277,14 +279,8 @@ Feel free to dive in! [Open an issue](https://github.com/ipfs/ipfs-webui/issues/
 
 To contribute to IPFS in general, see the [contributing guide](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md).
 
-[![](https://cdn.rawgit.com/jbenet/contribute-ipfs-gif/master/img/contribute.gif)](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md)
-
-## Browser and device testing
-
-[<img src="https://ipfs.io/ipfs/QmbKK6f1cuRfb63dTULVgCvnpGj6Q6T16XyqeC3AXDUH2F/browserstack-logo-600x315.png" width="300px" />](https://www.browserstack.com/)
-
-We would like to thank [BrowserStack](https://www.browserstack.com/) for supporting Open Source and making it possible to test the IPFS Web UI on a wide array of operating systems and devices, improving compatibility for everyone.
+[![](https://cdn.jsdelivr.net/gh/jbenet/contribute-ipfs-gif@b59c59b52e58e1ddc29427bea15ce54ecb2872c2/img/contribute.gif)](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md)
 
 ## License
 
-[MIT](LICENSE) © Protocol Labs
+[MIT](LICENSE)

@@ -1,11 +1,10 @@
 import React, { useRef, useState, useEffect, type FC } from 'react'
 import { withTranslation } from 'react-i18next'
 import { useDrag, useDrop, type DropTargetMonitor } from 'react-dnd'
-import { FileStream, humanSize, normalizeFiles } from '../../lib/files.js'
+import { humanSize, normalizeFiles } from '../../lib/files.js'
 import { CID } from 'multiformats/cid'
 import { isBinary } from 'istextorbinary'
 import FileIcon from '../file-icon/FileIcon.js'
-// @ts-expect-error - redux-bundler-react is not typed
 import { connect } from 'redux-bundler-react'
 import FileThumbnail from '../file-preview/file-thumbnail'
 import PinIcon from '../pin-icon/PinIcon.js'
@@ -15,7 +14,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import { join, basename } from 'path'
 import './grid-file.css'
 import { TFunction } from 'i18next'
-import { ContextMenuFile } from '../types.js'
+import type { ContextMenuFile, FileStream } from '../types'
 
 type SetPinningProps = { cid: CID, pinned: boolean }
 
@@ -106,6 +105,9 @@ const GridFile: FC<GridFilePropsConnected> = ({
   const [textPreview, setTextPreview] = useState<string | null>(null)
 
   useEffect(() => {
+    setHasPreview(false)
+    setTextPreview(null)
+
     const fetchTextPreview = async () => {
       const isTextFile = type.startsWith('text/') ||
                         type === 'txt' ||
@@ -219,7 +221,11 @@ const GridFile: FC<GridFilePropsConnected> = ({
             textPreview={textPreview}
             onLoad={() => setHasPreview(true)}
           />
-          {!hasPreview && <FileIcon style={{ width: 80 }} name={name} type={type} />}
+          {!hasPreview && (
+            <div className="grid-file-icon-fallback">
+              <FileIcon style={{ width: 80 }} name={name} type={type} />
+            </div>
+          )}
           <button
             ref={dotsWrapper}
             className="grid-file-dots"

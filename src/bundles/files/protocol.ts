@@ -25,6 +25,7 @@ type UnknownContent = {
   type: 'unknown',
   fetched: Time,
   path: string,
+  parentPath: string,
   cid: CID,
   size: 0
 }
@@ -33,6 +34,7 @@ type FileContent = {
   type: 'file',
   fetched: Time,
   path: string,
+  parentPath: string,
   cid: CID,
   size: number,
 
@@ -44,10 +46,12 @@ export type DirectoryContent = {
   type: 'directory',
   fetched: Time,
   path: string,
+  parentPath: string,
   cid: CID,
 
   content: FileStat[]
-  upper: void | FileStat,
+  originalContent?: FileStat[] // Original unsorted content from ipfs.ls
+  upper: FileStat | null,
 }
 
 export type PageContent =
@@ -55,7 +59,7 @@ export type PageContent =
   | FileContent
   | DirectoryContent
 
-export type SortBy = 'name' | 'size'
+export type SortBy = 'name' | 'size' | 'pinned' | 'original'
 
 export type Sorting = {
   by: SortBy,
