@@ -15,7 +15,6 @@ export const TourHelper = ({ doEnableTours, className = '', size = 23, t }) => {
     keys: ['Shift', 'H'],
     label: t('app:shortcutModal.tourHelp'),
     action: () => {
-      console.log('tourHelperRef.current: ', tourHelperRef.current)
       tourHelperRef.current?.click?.()
     },
     group: t('app:shortcutModal.general')
