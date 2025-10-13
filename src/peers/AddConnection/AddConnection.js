@@ -7,7 +7,7 @@ import { P2P, Circuit, WebRTC } from '@multiformats/multiaddr-matcher'
 import Checkbox from '../../components/checkbox/Checkbox.js'
 import Icon from '../../icons/StrokeDecentralization.js'
 import Button from '../../components/button/button.tsx'
-import Overlay from '../../components/overlay/overlay'
+import Overlay from '../../components/overlay/overlay.tsx'
 
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import { Modal, ModalActions, ModalBody } from '../../components/modal/modal'

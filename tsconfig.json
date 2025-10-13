@@ -84,7 +84,7 @@
     "src/contexts/ShortcutsContext.tsx",
     "src/files/modals/shortcut-modal/shortcut-modal.tsx",
     "src/icons/GlyphSmallCancel.tsx",
-    "src/components/overlay/Overlay.tsx",
+    "src/components/overlay/overlay.tsx",
     "src/helpers/context-bridge.tsx",
     "src/helpers/connected-context-provider.tsx",
     "src/pins/**/*",
