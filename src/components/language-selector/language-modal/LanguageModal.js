@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 import i18n, { localesList } from '../../../i18n.js'
 
 // Components
-import { Modal, ModalBody, ModalActions } from '../../modal/Modal.js'
+import { Modal, ModalBody, ModalActions } from '../../modal/modal'
 import SpeakerIcon from '../../../icons/StrokeSpeaker.js'
 import Button from '../../button/button.tsx'
 
@@ -33,7 +33,7 @@ const LanguageModal = ({ t, tReady, onLeave, link, className, isIpfsDesktop, doD
         </div>
         <p className='lh-copy charcoal f6'>
           {t('languageModal.translationProjectIntro')}<br/>
-          <a href="https://www.transifex.com/ipfs/public/" rel="noopener noreferrer" target="_blank" className="link blue">{t('languageModal.translationProjectLink')}</a>
+          <a href="https://github.com/ipfs/i18n#how-can-i-contribute-translation-for-my-language" rel="noopener noreferrer" target="_blank" className="link blue">{t('languageModal.translationProjectLink')}</a>
         </p>
       </ModalBody>
 

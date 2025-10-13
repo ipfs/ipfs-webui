@@ -9,32 +9,28 @@
     "close": "Kapat",
     "copy": "Kopyala",
     "create": "Oluştur",
+    "default": "",
     "remove": "Kaldır",
     "download": "İndir",
     "edit": "Düzenle",
     "import": "İçe aktar",
     "inspect": "İncele",
     "more": "Daha fazla",
-    "moreInfo": "Daha fazla bilgi",
-    "noThanks": "Hayır teşekkürler",
-    "ok": "Tamam",
-    "pinVerb": "Sabitle",
     "rename": "Adını değiştir",
     "reset": "Sıfırla",
     "save": "Kaydet",
     "saving": "Kaydediliyor…",
-    "selectAll": "Hepsini seç",
     "setPinning": "Sabitlemeyi ayarla",
     "submit": "Gönder",
-    "unpin": "Sabitleme",
     "unselectAll": "Hepsinin seçimini kaldır",
     "generate": "Oluştur",
     "publish": "Yayınla",
-    "downloadCar": "CAR olarak indir",
-    "done": "Bitti"
+    "downloadCar": "",
+    "done": "Bitti",
+    "checkRetrieval": ""
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": ""
   },
   "nav": {
     "bugsLink": "Hata bildirin",
@@ -43,24 +39,28 @@
   "status": {
     "connectedToIpfs": "IPFS'ye bağlı",
     "connectingToIpfs": "IPFS'ye bağlanılıyor…",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": ""
   },
   "apiAddressForm": {
-    "placeholder": "Bir URL (http://127.0.0.1:5001) veya bir Multiaddr (/ip4/127.0.0.1/tcp/5001) girin"
+    "placeholder": ""
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Bir URL girin (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "Adres",
     "addresses": "Adresler",
     "advanced": "İleri",
     "agent": "Ajan",
-    "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
+    "api": "",
+    "apiAddress": "",
     "blocks": "Bloklar",
     "connection": "Bağlantı",
     "downSpeed": "Gelen",

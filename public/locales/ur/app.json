@@ -9,32 +9,28 @@
     "close": "بند کریں",
     "copy": "نقل کریں",
     "create": "تشکیل دیں",
-    "remove": "Remove",
+    "default": "",
+    "remove": "",
     "download": "ڈاؤنلوڈ کریں",
     "edit": "ترمیم کریں",
     "import": "درآمد کریں",
     "inspect": "معائنہ کریں",
     "more": "مزید",
-    "moreInfo": "مزید معلومات",
-    "noThanks": "نہیں شکریہ",
-    "ok": "ٹھیک",
-    "pinVerb": "پِن",
     "rename": "ری نیم",
     "reset": "ری سیٹ",
     "save": "محفوظ",
     "saving": "محفوظ ہو رہا ہے...",
-    "selectAll": "تمام منتخب کریں",
     "setPinning": "پِن کرنا طے کریں",
     "submit": "جمع کریں",
-    "unpin": "اَن پِن",
     "unselectAll": "تمام غیر منتخب کریں",
-    "generate": "Generate",
-    "publish": "Publish",
-    "downloadCar": "Download as CAR",
-    "done": "Done"
+    "generate": "",
+    "publish": "",
+    "downloadCar": "",
+    "done": "",
+    "checkRetrieval": ""
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": ""
   },
   "nav": {
     "bugsLink": "خرابی کی اطلاع دیں",
@@ -43,24 +39,28 @@
   "status": {
     "connectedToIpfs": ".IPFS سے مربوط ہوا",
     "connectingToIpfs": ".IPFS سے مربوط ہو رہا ہے...",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": ""
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": ""
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
-    "placeholder": "Enter a URL (https://dweb.link)"
+    "placeholder": ""
+  },
+  "ipfsCheckForm": {
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "پتہ",
     "addresses": "پتے",
     "advanced": "ایڈوانسڈ",
     "agent": "ایجنٹ",
-    "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
+    "api": "",
+    "apiAddress": "",
     "blocks": "بلاکس",
     "connection": "رابطے",
     "downSpeed": "آنے والی",
@@ -79,13 +79,13 @@
     "out": "آؤٹ",
     "peer": "پیر",
     "peerId": "پیر کی شناخت",
-    "id": "ID",
+    "id": "",
     "peers": "پیر",
     "pinNoun": "پِن",
     "pins": "پنوں",
     "pinStatus": "پن کی حالت",
     "publicKey": "عوامی کلید",
-    "publicGateway": "Public Gateway",
+    "publicGateway": "",
     "rateIn": "میں شرح",
     "rateOut": "درجہ بندی",
     "repo": "ریپو",

@@ -1,0 +1,256 @@
+.grid-file {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  display: block;
+  outline: none;
+}
+
+.grid-file:focus-within,
+.grid-file.focused {
+  border-color: #9ad4db;
+  box-shadow: 0 0 0 2px rgba(154, 212, 219, 0.3);
+}
+
+.grid-file.selected {
+  background-color: #F0F6FA;
+  border-color: #9ad4db;
+  border-style: dashed;
+}
+
+.grid-file.drop-target {
+  background-color: #e6f7f9;
+  border: 2px dashed #2aaac1;
+  box-shadow: 0 0 0 4px rgba(42, 170, 193, 0.2);
+  transform: translateY(-2px);
+  z-index: 10;
+}
+
+.grid-file.drop-target .grid-file-preview {
+  background-color: #d1f0f4;
+}
+
+.grid-file.drop-target::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(42, 170, 193, 0.05);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Drop indicator */
+.drop-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(42, 170, 193, 0.15);
+  z-index: 5;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.drop-indicator span {
+  background-color: #2aaac1;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(42, 170, 193, 0.1);
+  }
+  50% {
+    background-color: rgba(42, 170, 193, 0.25);
+  }
+  100% {
+    background-color: rgba(42, 170, 193, 0.1);
+  }
+}
+
+.grid-file-checkbox {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.grid-file:hover .grid-file-checkbox,
+.grid-file:focus-within .grid-file-checkbox,
+.grid-file.focused .grid-file-checkbox,
+.grid-file.selected .grid-file-checkbox {
+  opacity: 1;
+}
+
+.grid-file-content {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.grid-file:hover,
+.grid-file:focus-within,
+.grid-file.focused {
+  outline: none;
+  border-color: #9ad4db;
+  border-style: solid;
+}
+
+.grid-file:hover .grid-file-dots,
+.grid-file:focus-within .grid-file-dots,
+.grid-file.focused .grid-file-dots {
+  opacity: 1;
+  visibility: visible;
+}
+
+.grid-file-preview {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.grid-file-preview .file-thumbnail {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.grid-file-preview .file-thumbnail img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  background-color: #f5f5f5;
+  opacity: 0.8;
+  z-index: 0;
+}
+
+.grid-file-icon-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  z-index: 0;
+}
+
+.grid-file-dots {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #eee;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.grid-file-dots:hover,
+.grid-file-dots:focus {
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+  border-color: #9ad4db;
+}
+
+.grid-file-dots svg {
+  width: 16px;
+  height: 16px;
+  fill: #7f8491;
+}
+
+.grid-file-dots:hover svg,
+.grid-file-dots:focus svg {
+  fill: #5a5f6d;
+}
+
+.grid-file-info {
+  padding: 0.75rem;
+}
+
+.grid-file-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grid-file-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.grid-file-size {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.grid-file-pin {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.grid-file-pin:hover,
+.grid-file-pin:focus {
+  outline: none;
+}
+
+.grid-file-hash {
+  font-size: 0.75rem;
+  color: #666;
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

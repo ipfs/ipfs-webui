@@ -9,32 +9,28 @@
     "close": "Закрыть",
     "copy": "Копировать",
     "create": "Создать",
+    "default": "",
     "remove": "Удалить",
     "download": "Загрузить",
     "edit": "Изменить",
     "import": "Импорт",
     "inspect": "Проверить",
     "more": "Больше",
-    "moreInfo": "Подробнее",
-    "noThanks": "Нет, спасибо",
-    "ok": "Да",
-    "pinVerb": "Закрепить",
     "rename": "Переименовать",
     "reset": "Сброс",
     "save": "Сохранить",
     "saving": "Сохранение...",
-    "selectAll": "Выбрать все",
     "setPinning": "Установить процесс ",
     "submit": "Применить",
-    "unpin": "Открепить",
     "unselectAll": "Снять выделение",
     "generate": "Генерировать",
     "publish": "Опубликовать",
-    "downloadCar": "Загрузить как CAR",
-    "done": "Готово"
+    "downloadCar": "",
+    "done": "Готово",
+    "checkRetrieval": ""
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": ""
   },
   "nav": {
     "bugsLink": "Сообщить об ошибке",
@@ -43,16 +39,20 @@
   "status": {
     "connectedToIpfs": "Подключено к IPFS",
     "connectingToIpfs": "Подключение к IPFS…",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": ""
   },
   "apiAddressForm": {
-    "placeholder": "Добавьте URL (http://127.0.0.1:5001) или Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": ""
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Введите URL (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "Адрес",
@@ -60,7 +60,7 @@
     "advanced": "Дополнительно",
     "agent": "Агент",
     "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
+    "apiAddress": "",
     "blocks": "Блоки",
     "connection": "Подключение",
     "downSpeed": "Входящий",

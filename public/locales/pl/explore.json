@@ -9,7 +9,7 @@
     "title": "Przeglądaj - IPLD",
     "header": "Przeglądaj Las Merkle’a",
     "leadParagraph": "Wklej CID w pole, aby pobrać dowolny węzeł IPLD, lub wybierz jeden z wyróżnionych zbiorów danych.",
-    "noDataAvailable": "No data available"
+    "noDataAvailable": ""
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD to <1>model danych dla sieci adresowanej treścią (ang. content-addressable web).</1> Umożliwia traktowanie obiektów połączonych skrótem (haszem) jako podzbiorów jednolitej przestrzeni danych, w której modele danych to instancje IPLD.</0>",
@@ -69,6 +69,16 @@
     }
   },
   "errors": {
-    "BlockFetchTimeoutError": "Failed to fetch content in {timeout}s. Please refresh the page to retry or try a different CID."
+    "BlockFetchTimeoutError": "",
+    "BlockFetchError": "",
+    "CidSyntaxError": "",
+    "checkIpfsNetwork": "",
+    "troubleshootingTips": {
+      "title": "",
+      "refresh": "",
+      "checkConnection": "",
+      "tryLater": "",
+      "checkCidSyntax": ""
+    }
   }
 }

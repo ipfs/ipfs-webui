@@ -9,32 +9,28 @@
     "close": "أغلق",
     "copy": "نسخ",
     "create": "إنشاء ",
+    "default": "",
     "remove": "إزالة",
     "download": "تحميل",
     "edit": "تعديل",
     "import": " استيراد",
     "inspect": "فحص",
     "more": "أكثر",
-    "moreInfo": "مزيد من المعلومات",
-    "noThanks": "لا شكرا",
-    "ok": "حسنا",
-    "pinVerb": "رمز المرور",
     "rename": "إعادة تسمية",
     "reset": "إعادة تعيين",
     "save": "حفظ",
     "saving": "ادخار",
-    "selectAll": "اختر الكل",
     "setPinning": "ضبط التثبيت",
     "submit": "إرسال",
-    "unpin": "إلغاء التثبيت",
     "unselectAll": "إلغاء تحديد الكل",
-    "generate": "Generate",
-    "publish": "Publish",
-    "downloadCar": "Download as CAR",
-    "done": "Done"
+    "generate": "",
+    "publish": "",
+    "downloadCar": "",
+    "done": "",
+    "checkRetrieval": ""
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": ""
   },
   "nav": {
     "bugsLink": "الإبلاغ عن خطأ",
@@ -43,24 +39,28 @@
   "status": {
     "connectedToIpfs": "متصل بـ IPFS",
     "connectingToIpfs": "جارٍ الاتصال بـ IPFS ...",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": ""
   },
   "apiAddressForm": {
-    "placeholder": "أدخل عنوان (http://127.0.0.1:5001) أو متعدد العناوين (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": ""
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "أدخل عنوان  (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "عنوان",
     "addresses": "عناوين",
     "advanced": "متقدم",
     "agent": "عميل",
-    "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
+    "api": "",
+    "apiAddress": "",
     "blocks": "تم التثبيت",
     "connection": "الإتصال",
     "downSpeed": "واردة",
@@ -79,7 +79,7 @@
     "out": "خارج",
     "peer": "الند",
     "peerId": "معرف الأقران",
-    "id": "ID",
+    "id": "",
     "peers": "الأقران",
     "pinNoun": "رمز المرور",
     "pins": "رموز المرور ",

@@ -8,10 +8,9 @@ module.exports = {
   },
   extends: ['react-app', 'standard', 'plugin:jsx-a11y/recommended'],
   plugins: ['jsx-a11y', 'storybook', 'import'],
-  // ignore .ts files because it fails to parse it.
-  ignorePatterns: 'src/**/*.ts',
   rules: {
-    'react/prop-types': [0, { ignore: ['className'], customValidators: [], skipUndeclared: true }] // TODO: set this rule to error when all issues are resolved.
+    'react/prop-types': [0, { ignore: ['className'], customValidators: [], skipUndeclared: true }], // TODO: set this rule to error when all issues are resolved.
+    'no-void': 'off'
   },
   overrides: [
     {

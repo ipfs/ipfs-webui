@@ -8,6 +8,7 @@ import StrokeShare from '../../icons/StrokeShare.js'
 import StrokeSpeaker from '../../icons/StrokeSpeaker.js'
 import StrokePencil from '../../icons/StrokePencil.js'
 import StrokeIpld from '../../icons/StrokeIpld.js'
+import StrokeLab from '../../icons/StrokeLab.js'
 import StrokeTrash from '../../icons/StrokeTrash.js'
 import StrokeDownload from '../../icons/StrokeDownload.js'
 import StrokeData from '../../icons/StrokeData.js'
@@ -45,7 +46,7 @@ class ContextMenu extends React.Component {
 
   render () {
     const {
-      t, onRename, onRemove, onDownload, onInspect, onShare, onDownloadCar, onPublish,
+      t, onRename, onRemove, onDownload, onInspect, onCheckRetrieval, onShare, onDownloadCar, onPublish, onCopyCid,
       translateX, translateY, className, isMfs, isUnknown, isCliTutorModeEnabled
     } = this.props
     return (
@@ -65,7 +66,12 @@ class ContextMenu extends React.Component {
               {t('actions.share')}
             </Option>
           }
-          <CopyToClipboard text={String(this.props.cid)} onCopy={this.props.handleClick}>
+          <CopyToClipboard text={String(this.props.cid)} onCopy={() => {
+            this.props.handleClick()
+            if (onCopyCid) {
+              onCopyCid(this.props.cid)
+            }
+          }}>
             <Option>
               <StrokeCopy className='w2 mr2 fill-aqua' />
               {t('actions.copyHash')}
@@ -117,6 +123,12 @@ class ContextMenu extends React.Component {
               {t('actions.publishWithIpns')}
             </Option>
           }
+          { onCheckRetrieval &&
+            <Option onClick={this.wrap('onCheckRetrieval')}>
+              <StrokeLab className='w2 mr2 fill-aqua' />
+              {t('app:actions.checkRetrieval')}
+            </Option>
+          }
         </DropdownMenu>
       </Dropdown>
     )
@@ -138,8 +150,10 @@ ContextMenu.propTypes = {
   onDownload: PropTypes.func,
   onDownloadCar: PropTypes.func,
   onInspect: PropTypes.func,
+  onCheckRetrieval: PropTypes.func,
   onShare: PropTypes.func,
   onPublish: PropTypes.func,
+  onCopyCid: PropTypes.func,
   className: PropTypes.string,
   t: PropTypes.func.isRequired,
   tReady: PropTypes.bool.isRequired,

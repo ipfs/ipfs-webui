@@ -9,7 +9,7 @@
     "title": "Jelajahi - IPLD",
     "header": "Jelajahi Merkle Forest",
     "leadParagraph": "Tempelkan CID ke dalam kotak untuk mengambil node IPLD yang dituju, atau pilih kumpulan data unggulan.",
-    "noDataAvailable": "No data available"
+    "noDataAvailable": "Tidak ada data tersedia"
   },
   "AboutIpld": {
     "paragraph1":"<0>IPLD adalah <1>model data web yang dapat dialamatkan dengan konten.</1> Ini memungkinkan kita untuk memperlakukan semua struktur data yang ditautkan dengan hash sebagai himpunan bagian dari ruang informasi terpadu, menyatukan semua model data yang menautkan data dengan hash sebagai instance dari IPLD.</0>",
@@ -69,6 +69,16 @@
     }
   },
   "errors": {
-    "BlockFetchTimeoutError": "Gagal mengambil konten dalam {timeout}s. Harap segarkan halaman untuk mencoba lagi atau mencoba CID lain."
+    "BlockFetchTimeoutError": "Gagal mengambil konten dalam {timeout}s. Harap segarkan halaman untuk mencoba lagi atau mencoba CID lain.",
+    "BlockFetchError": "Gagal mengambil konten: {error}. Ini dapat berarti konten tidak tersedia di jaringan atau ada masalah konektivitas.",
+    "CidSyntaxError": "Format CID tidak valid: {cid}. Pastikan Anda menggunakan CID yang valid.",
+    "checkIpfsNetwork": "Periksa ketersediaan konten di Jaringan IPFS",
+    "troubleshootingTips": {
+      "title": "Tips Pemecahan Masalah",
+      "refresh": "Coba segarkan halaman",
+      "checkConnection": "Periksa koneksi internet Anda",
+      "tryLater": "Coba lagi nanti - konten mungkin masih disebarkan melalui jaringan",
+      "checkCidSyntax": "Verifikasi bahwa CID Anda diformat dengan benar atau berkas CAR Anda valid"
+    }
   }
 }

@@ -13,7 +13,7 @@ import { NativeTypes } from 'react-dnd-html5-backend'
 import { useDrop } from 'react-dnd'
 // Components
 import Checkbox from '../../components/checkbox/Checkbox.js'
-import SelectedActions from '../selected-actions/SelectedActions.js'
+// import SelectedActions from '../selected-actions/SelectedActions.js'
 import File from '../file/File.js'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation.js'
 
@@ -51,16 +51,15 @@ const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], fail
 }
 
 export const FilesList = ({
-  className, files, pins, pinningServices, remotePins, pendingPins, failedPins, filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
+  className = '', files, pins, pinningServices, remotePins = [], pendingPins = [], failedPins = [], filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
+  onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
 }) => {
-  const [selected, setSelected] = useState([])
   const [focused, setFocused] = useState(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
   const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
   const listRef = useRef()
   const filesRefs = useRef([])
-  const refreshPinCache = true // manually clicking on Pin Status column skips cache and updates remote status
+  const refreshPinCache = true
 
   filesPathInfo = filesPathInfo ?? {}
   const [{ canDrop, isOver, isDragging }, drop] = useDrop({
@@ -70,7 +69,6 @@ export const FilesList = ({
         return
       }
       const { filesPromise } = monitor.getItem()
-
       addFiles(filesPromise, onAddFiles)
     },
     collect: (monitor) => ({
@@ -90,7 +88,11 @@ export const FilesList = ({
       }))
   , [allFiles, pins, selected])
 
-  const keyHandler = (e) => {
+  const toggleOne = useCallback((name, check) => {
+    onSelect(name, check)
+  }, [onSelect])
+
+  const keyHandler = useCallback((e) => {
     const focusedFile = files.find(el => el.name === focused)
 
     // Disable keyboard controls if fetching files
@@ -99,9 +101,9 @@ export const FilesList = ({
     }
 
     if (e.key === 'Escape') {
-      setSelected([])
+      onSelect([], false)
       setFocused(null)
-      return listRef.current.forceUpdateGrid()
+      return listRef.current?.forceUpdateGrid?.()
     }
 
     if (e.key === 'F2' && focused !== null) {
@@ -130,69 +132,53 @@ export const FilesList = ({
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
       }
 
-      if (index === -1) {
+      if (index === -1 || index >= files.length) {
         return
       }
 
-      if (index < files.length) {
-        let name = files[index].name
+      let name = files[index].name
 
-        // If the file we are going to focus is out of view (removed
-        // from the DOM by react-virtualized), focus the first visible file
-        if (!filesRefs.current[name]) {
-          name = files[firstVisibleRow].name
-        }
-
-        setFocused(name)
-        const domNode = findDOMNode(filesRefs.current[name])
-        domNode.scrollIntoView({ behaviour: 'smooth', block: 'center' })
-        domNode.querySelector('input[type="checkbox"]').focus()
+      // If the file we are going to focus is out of view (removed
+      // from the DOM by react-virtualized), focus the first visible file
+      if (!filesRefs.current[name]) {
+        name = files[firstVisibleRow].name
       }
 
-      listRef.current.forceUpdateGrid()
+      setFocused(name)
     }
-  }
+  }, [
+    files,
+    focused,
+    firstVisibleRow,
+    filesIsFetching,
+    onNavigate,
+    onRemove,
+    onRename,
+    onSelect,
+    selected.length,
+    selectedFiles,
+    toggleOne,
+    listRef
+  ])
 
   useEffect(() => {
-    document.addEventListener('keyup', keyHandler)
-    return () => document.removeEventListener('keyup', keyHandler)
-  }, /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  [])
+    document.addEventListener('keydown', keyHandler)
+    return () => {
+      document.removeEventListener('keydown', keyHandler)
+    }
+  }, [keyHandler])
 
   useEffect(() => {
     setAllFiles(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
   }, [files, remotePins, filesSorting, pendingPins, failedPins])
 
-  useEffect(() => {
-    const selectedFiles = selected.filter(name => files.find(el => el.name === name))
-
-    if (selectedFiles.length !== selected.length) {
-      setSelected(selected)
-    }
-  }, [files, selected])
-
   const toggleAll = (checked) => {
-    let selected = []
-
     if (checked) {
-      selected = files.map(file => file.name)
+      onSelect(allFiles.map(file => file.name), true)
+    } else {
+      onSelect([], false)
     }
-
-    setSelected(selected)
-    listRef.current.forceUpdateGrid()
   }
-
-  const toggleOne = useCallback((name, check) => {
-    const index = selected.indexOf(name)
-
-    if (check && index < 0) {
-      setSelected([...selected, name].sort())
-    } else if (index >= 0) {
-      setSelected(selected.filter(selected => selected !== name).sort())
-    }
-
-    listRef.current.forceUpdateGrid()
-  }, [selected])
 
   const move = (src, dst) => {
     if (selectedFiles.length > 0) {
@@ -222,6 +208,9 @@ export const FilesList = ({
   }
 
   const sortByIcon = (order) => {
+    if (filesSorting.by === sorts.BY_ORIGINAL) {
+      return null // No arrows when in original order
+    }
     if (filesSorting.by === order) {
       return filesSorting.asc ? '↑' : '↓'
     }
@@ -231,21 +220,34 @@ export const FilesList = ({
 
   const changeSort = (order) => () => {
     if (order === filesSorting.by) {
-      updateSorting(order, !filesSorting.asc)
+      // Same column clicked - cycle through states
+      if (filesSorting.asc) {
+        updateSorting(order, false) // asc → desc
+      } else {
+        updateSorting(sorts.BY_ORIGINAL, true) // desc → original
+      }
+    } else if (filesSorting.by === sorts.BY_ORIGINAL) {
+      updateSorting(order, true) // original → asc for clicked column
     } else {
-      updateSorting(order, true)
+      updateSorting(order, true) // different column → asc
     }
 
-    listRef.current.forceUpdateGrid()
+    listRef.current?.forceUpdateGrid?.()
   }
 
-  const emptyRowsRenderer = () => (
-    <Trans i18nKey='filesList.noFiles' t={t}>
-      <div className='pv3 b--light-gray bt tc gray f6'>
-            There are no available files. Add some!
-      </div>
-    </Trans>
-  )
+  const emptyRowsRenderer = () => {
+    if (filesPathInfo.isRoot) {
+      // Root has special more prominent message (AddFilesInfo)
+      return null
+    }
+    return (
+      <Trans i18nKey='filesList.noFiles' t={t}>
+        <div className='pv3 b--light-gray bt tc charcoal-muted f6 noselect'>
+              There are no available files. Add some!
+        </div>
+      </Trans>
+    )
+  }
 
   const rowRenderer = ({ index, key, style }) => {
     const pinsString = pins.map(p => p.toString())
@@ -288,6 +290,21 @@ export const FilesList = ({
     'o-70': !allSelected
   }, ['pl2 w2 glow'])
 
+  // Add a separate useEffect to handle scrolling when focus changes
+  const currentFilesRef = filesRefs.current[focused]
+  useEffect(() => {
+    if (focused) {
+      const domNode = currentFilesRef && findDOMNode(currentFilesRef)
+      if (domNode) {
+        domNode.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        const checkbox = domNode.querySelector('input[type="checkbox"]')
+        if (checkbox) checkbox.focus()
+      }
+
+      listRef.current?.forceUpdateGrid?.()
+    }
+  }, [currentFilesRef, focused, listRef])
+
   return (
     <section ref={drop} className={classnames('FilesList no-select sans-serif border-box w-100 flex flex-column', className)}>
       { showLoadingAnimation
@@ -298,18 +315,26 @@ export const FilesList = ({
               <Checkbox checked={allSelected} onChange={toggleAll} aria-label={t('selectAllEntries')}/>
             </div>
             <div className='ph2 f6 flex-auto'>
-              <button aria-label={ t('sortBy', { name: t('app:terms.name') })} onClick={changeSort(sorts.BY_NAME)}>
+              <button className='charcoal-muted' aria-label={ t('sortBy', { name: t('app:terms.name') })} onClick={changeSort(sorts.BY_NAME)}>
                 {t('app:terms.name')} {sortByIcon(sorts.BY_NAME)}
               </button>
             </div>
             <div className='pl2 pr1 tr f6 flex-none dn db-l mw4'>
-              { pinningServices && pinningServices.length
-                ? <button aria-label={t('app:terms.pinStatus')} onClick={() => doFetchRemotePins(files, refreshPinCache)}>{t('app:terms.pinStatus')}</button>
-                : <>{t('app:terms.pinStatus')}</>
-              }
+              <button
+                className='charcoal-muted'
+                aria-label={t('sortBy', { name: t('app:terms.pinStatus') })}
+                onClick={() => {
+                  changeSort(sorts.BY_PINNED)()
+                  if (pinningServices && pinningServices.length) {
+                    doFetchRemotePins(files, refreshPinCache)
+                  }
+                }}
+              >
+                {t('app:terms.pinStatus')} {sortByIcon(sorts.BY_PINNED)}
+              </button>
             </div>
             <div className='pl2 pr4 tr f6 flex-none dn db-l mw4 w-10'>
-              <button aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
+              <button className='charcoal-muted' aria-label={ t('sortBy', { name: t('size') })} onClick={changeSort(sorts.BY_SIZE)}>
                 {t('app:terms.size')} {sortByIcon(sorts.BY_SIZE)}
               </button>
             </div>
@@ -340,24 +365,7 @@ export const FilesList = ({
               </div>
             )}
           </WindowScroller>
-          { selectedFiles.length !== 0 && <SelectedActions
-            className={'fixed bottom-0 right-0'}
-            style={{
-              zIndex: 20
-            }}
-            animateOnStart={selectedFiles.length === 1}
-            unselect={() => toggleAll(false)}
-            remove={() => onRemove(selectedFiles)}
-            rename={() => onRename(selectedFiles)}
-            share={() => onShare(selectedFiles)}
-            setPinning={() => onSetPinning(selectedFiles)}
-            download={() => onDownload(selectedFiles)}
-            inspect={() => onInspect(selectedFiles[0].cid)}
-            count={selectedFiles.length}
-            isMfs={filesPathInfo.isMfs}
-            size={selectedFiles.reduce((a, b) => a + (b.size || 0), 0)} />
-          }
-        </Fragment> }
+        </Fragment>}
     </section>
   )
 }
@@ -389,13 +397,6 @@ FilesList.propTypes = {
   // From i18next
   t: PropTypes.func.isRequired,
   tReady: PropTypes.bool
-}
-
-FileList.defaultProps = {
-  className: '',
-  remotePins: [],
-  pendingPins: [],
-  failedPins: []
 }
 
 export default connect(

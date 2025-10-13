@@ -1,5 +1,8 @@
 import React from 'react'
 
+/**
+ * @type {import('react-joyride').CustomTour}
+ */
 export const appTour = {
   getSteps: ({ t }) => [{
     content: <div className='montserrat white'>
@@ -22,8 +25,11 @@ export const appTour = {
   }
 }
 
+/**
+ * @type {import('react-joyride').CustomTour}
+ */
 export const welcomeTour = {
-  getSteps: ({ t, Trans }) => [
+  getSteps: ({ t }) => [
     {
       content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step1.title')}</h2>
@@ -45,6 +51,9 @@ export const welcomeTour = {
   }
 }
 
+/**
+ * @type {import('react-joyride').CustomTour}
+ */
 export const statusTour = {
   getSteps: ({ t, Trans }) => [
     {
@@ -105,6 +114,9 @@ export const statusTour = {
   }
 }
 
+/**
+ * @type {import('react-joyride').CustomTour}
+ */
 export const filesTour = {
   getSteps: ({ t, Trans }) => [
     {
@@ -151,14 +163,23 @@ export const filesTour = {
     },
     {
       content: <div className='montserrat charcoal'>
+        <h2 className='f3 fw4'>{t('tour.step6.title')}</h2>
+        <p className='tl f6'>{t('tour.step6.paragraph1')}</p>
+        <p className='tl f6'>{t('tour.step6.paragraph2')}</p>
+      </div>,
+      placement: 'bottom',
+      target: '.filegrid-view'
+    },
+    {
+      content: <div className='montserrat charcoal'>
         <h2 className='f3 fw4'>{t('tour.step5.title')}</h2>
         <p className='tl f6'>{t('tour.step5.paragraph1')}</p>
         <p className='tl f6'>{t('tour.step5.paragraph2')}</p>
         <p className='tl f6'>{t('tour.step5.paragraph3')}</p>
       </div>,
       locale: { last: t('tour.finish') },
-      placement: 'center',
-      target: 'body'
+      placement: 'bottom',
+      target: '.filelist-view'
     }
   ],
   styles: {
@@ -171,6 +192,9 @@ export const filesTour = {
   }
 }
 
+/**
+ * @type {import('react-joyride').CustomTour}
+ */
 export const peersTour = {
   getSteps: ({ t }) => [
     {
@@ -210,6 +234,9 @@ export const peersTour = {
   }
 }
 
+/**
+ * @type {import('react-joyride').CustomTour}
+ */
 export const settingsTour = {
   getSteps: ({ t, Trans }) => [
     {

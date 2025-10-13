@@ -1,12 +1,9 @@
 {
   "title": "Files",
-  "home": "Home",
   "breadcrumbs": "Breadcrumbs",
-  "finished": "Finished!",
   "totalSize": "Total size: {size}",
   "filesSelected": "{count, plural, one {Item selected} other {Items selected}}",
   "menuOptions": "Options for selected item",
-  "selectedAllEntries": "Select all table entries",
   "individualFilesOnly": "Only available for individual files",
   "noPDFSupport": "Your browser does not support PDFs. Please download the PDF to view it:",
   "downloadPDF": "Download PDF",
@@ -14,8 +11,13 @@
   "openWithLocalAndPublicGateway": "Try opening it instead with your <1>local gateway</1> or <3>public gateway</3>.",
   "cantBePreviewed": "Sorry, this file can’t be previewed",
   "addByPath": "From IPFS",
+  "addByCar": "From CAR",
+  "bulkImport": "Bulk import",
   "newFolder": "New folder",
+  "switchToListView": "Click to switch to list view",
+  "switchToGridView": "Click to switch to grid view",
   "generating": "Generating…",
+  "dropHere": "Drop here to move",
   "actions": {
     "copyHash": "Copy CID",
     "share": "Share link",
@@ -44,6 +46,28 @@
     "checkboxRemoveLocalPin": "Also remove local pin (recommended)",
     "checkboxUnpinFromServices": "Unpin from all pinning services"
   },
+  "shortcutModal": {
+    "title": "Keyboard Shortcuts",
+    "description": "The following keyboard shortcuts are available in the Files section:",
+    "navigation": "Navigation",
+    "selection": "Selection",
+    "actions": "Actions",
+    "other": "Other",
+    "moveDown": "Move down",
+    "moveUp": "Move up",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "navigate": "Navigate to selected item",
+    "rename": "Rename selected item",
+    "delete": "Delete selected item(s)",
+    "toggleSelection": "Toggle selection",
+    "selectAll": "Select all items",
+    "deselectAll": "Deselect all items",
+    "copy": "Copy selected item(s)",
+    "paste": "Paste item(s)",
+    "cut": "Cut selected item(s)",
+    "showShortcuts": "Show keyboard shortcuts"
+  },
   "pinningModal": {
     "title": "Select where you would like to pin these items.",
     "complianceLabel": "🔍 Check pinning services' compliance",
@@ -59,11 +83,27 @@
     "namePlaceholder": "Name (optional)",
     "examples": "Examples:"
   },
+  "addByCarModal": {
+    "title": "CAR Import",
+    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
+    "selectCARButtonText": "Select CAR…",
+    "namePlaceholder": "Name",
+    "renameImportPath": "Rename import"
+  },
+  "bulkImportModal": {
+    "title": "Bulk import with text file",
+    "description": "Upload a text file with a list of CIDs (names are optional). Example:",
+    "select": "Select file",
+    "selectedFile": "Selected file",
+    "invalidCids": "*Invalid CID(s) found",
+    "failedToReadFile": "*Failed to read file contents"
+  },
   "newFolderModal": {
     "title": "New folder",
     "description": "Insert the name of the folder you want to create."
   },
   "filesListLabel": "Files list",
+  "filesGridLabel": "Files grid",
   "filesList": {
     "noFiles": "<0>No files in this directory. Click the “Import” button to add some.</0>"
   },
@@ -100,6 +140,11 @@
       "paragraph1": "Finally, the listing where you can find your files and folders. Drag and drop files or folders to add them.",
       "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!",
       "paragraph3": "Pro tip: drag and drop a file from any other page of the Web UI to add them to the root of your MFS."
+    },
+    "step6": {
+      "title": "Files grid",
+      "paragraph1": "The grid view displays your files and folders as thumbnails, making it easy to visually browse your content.",
+      "paragraph2": "You can share or download files, inspect them in the IPLD Explorer, rename or remove them!"
     }
   },
   "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
@@ -125,6 +170,14 @@
   "files": "Files",
   "cidNotFileNorDir": "The current link isn't a file, nor a directory. Try to <1>inspect</1> it instead.",
   "sortBy": "Sort items by {name}",
+  "sortFiles": "Sort files",
+  "sortByNameAsc": "Name (A → Z)",
+  "sortByNameDesc": "Name (Z → A)",
+  "sortBySizeAsc": "Size (smallest first)",
+  "sortBySizeDesc": "Size (largest first)",
+  "sortByPinnedFirst": "Pinned first",
+  "sortByUnpinnedFirst": "Unpinned first",
+  "sortByOriginal": "Original DAG order",
   "publishModal": {
     "title": "Publish to IPNS",
     "cidToPublish": "CID:",
@@ -136,5 +189,15 @@
     "pleaseWait": "Please wait while the initial 20 copies of the updated IPNS record are stored with the help of DHT peers…"
   },
   "noPinsInProgress": "All done, no remote pins in progress.",
-  "remotePinningInProgress": "Remote pinning in progress:"
+  "remotePinningInProgress": "Remote pinning in progress:",
+  "selectAllEntries": "Select all entries",
+  "previewNotFound": {
+    "title": "IPFS can't find this item",
+    "helpTitle": "These are common troubleshooting steps might help:",
+    "helpListItemPathTypo": "Are there typos in the path you entered?",
+    "helpListItemFileMoved": "Was the file moved, renamed, or deleted?",
+    "helpListItemBookmarkMigrated": "Did you copy a URL or bookmark from another computer? If so, you'll need to",
+    "helpListItemBookmarkMigratedLink": "point this instance at that computer's node",
+    "backButton": "Go to Home"
+  }
 }

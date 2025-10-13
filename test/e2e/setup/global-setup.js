@@ -2,6 +2,8 @@ import { chromium } from '@playwright/test'
 import path from 'node:path'
 import fs from 'node:fs'
 import { fileURLToPath } from 'url'
+import getPort from 'aegir/get-port'
+import { run } from './ipfs-backend.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -32,8 +34,29 @@ const ensureKuboDaemon = async (apiOpts) => {
 }
 
 const globalSetup = async config => {
+  const backendJsonPath = path.join(__dirname, 'ipfs-backend.json')
+  let port = await getPort(5001, '0.0.0.0')
+
+  if (process.env.E2E_API_URL) {
+    const url = new URL(process.env.E2E_API_URL)
+    port = url.port
+  }
+  await run(port)
+  // Wait for ipfs-backend.json to be created by the webServer
+  let attempts = 0
+  const maxAttempts = 10 // 10 seconds with 1 second intervals
+
+  while (!fs.existsSync(backendJsonPath) && attempts < maxAttempts) {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    attempts++
+  }
+
+  if (!fs.existsSync(backendJsonPath)) {
+    throw new Error('ipfs-backend.json was not created within 10 seconds')
+  }
+
   // Read and expose backend info in env availables inside of test() blocks
-  const { rpcAddr, id, agentVersion, apiOpts, kuboGateway } = JSON.parse(fs.readFileSync(path.join(__dirname, 'ipfs-backend.json')))
+  const { rpcAddr, id, agentVersion, apiOpts, kuboGateway } = JSON.parse(fs.readFileSync(backendJsonPath))
   process.env.IPFS_RPC_ADDR = rpcAddr
   process.env.IPFS_RPC_ID = id
   process.env.IPFS_RPC_VERSION = agentVersion

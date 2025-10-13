@@ -3,6 +3,7 @@
   "localNetwork": "شبكه محليه",
   "nearby": "مجاور",
   "protocols": "تيارات مفتوحة",
+  "agentVersion": "",
   "addConnection": "إضافة اتصال",
   "insertPeerAddress": "أدخل عنوان النظير الذي تريد الاتصال به.",
   "addPermanentPeer": "أضف إلى التكوين التناظري الدائم",

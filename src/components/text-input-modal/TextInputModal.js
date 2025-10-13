@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '../button/button.tsx'
-import { Modal, ModalActions, ModalBody } from '../modal/Modal.js'
+import { Modal, ModalActions, ModalBody } from '../modal/modal'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import { withTranslation } from 'react-i18next'
 
@@ -92,6 +92,7 @@ class TextInputModal extends React.Component {
   render () {
     const {
       t,
+      tReady,
       onCancel,
       onChange,
       onInputChange,
@@ -123,7 +124,7 @@ class TextInputModal extends React.Component {
             onKeyPress={this.onKeyPress}
             value={this.state.value}
             required
-            className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-90 center focus-outline ${this.inputClass}`}
+            className={`input-reset charcoal ba b--black-20 br1 pa2 mb2 db w-90 center focus-outline modal-input ${this.inputClass}`}
             type='text' />
         </ModalBody>
 

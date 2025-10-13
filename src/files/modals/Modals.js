@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { join } from 'path'
 import { withTranslation } from 'react-i18next'
-import Overlay from '../../components/overlay/Overlay.js'
+import Overlay from '../../components/overlay/overlay'
 // Modals
 import NewFolderModal from './new-folder-modal/NewFolderModal.js'
 import ShareModal from './share-modal/ShareModal.js'
@@ -10,19 +10,25 @@ import RenameModal from './rename-modal/RenameModal.js'
 import PinningModal from './pinning-modal/PinningModal.js'
 import RemoveModal from './remove-modal/RemoveModal.js'
 import AddByPathModal from './add-by-path-modal/AddByPathModal.js'
+import BulkImportModal from './bulk-import-modal/bulk-import-modal.tsx'
 import PublishModal from './publish-modal/PublishModal.js'
+import ShortcutModal from './shortcut-modal/shortcut-modal.js'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts.js'
 import { realMfsPath } from '../../bundles/files/actions.js'
+import AddByCarModal from './add-by-car-modal/AddByCarModal.js'
 // Constants
 const NEW_FOLDER = 'new_folder'
 const SHARE = 'share'
 const RENAME = 'rename'
 const DELETE = 'delete'
 const ADD_BY_PATH = 'add_by_path'
+const ADD_BY_CAR = 'add_by_car'
+const BULK_CID_IMPORT = 'bulk_cid_import'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
 const PUBLISH = 'publish'
+const SHORTCUTS = 'shortcuts'
 
 export {
   NEW_FOLDER,
@@ -30,9 +36,12 @@ export {
   RENAME,
   DELETE,
   ADD_BY_PATH,
+  ADD_BY_CAR,
+  BULK_CID_IMPORT,
   CLI_TUTOR_MODE,
   PINNING,
-  PUBLISH
+  PUBLISH,
+  SHORTCUTS
 }
 
 class Modals extends React.Component {
@@ -60,6 +69,16 @@ class Modals extends React.Component {
 
   onAddByPath = (path, name) => {
     this.props.onAddByPath(path, name)
+    this.leave()
+  }
+
+  onAddByCar = (file, name) => {
+    this.props.onAddByCar(file, name)
+    this.leave()
+  }
+
+  onBulkCidImport = (files, root) => {
+    this.props.onBulkCidImport(files, root)
     this.leave()
   }
 
@@ -150,6 +169,10 @@ class Modals extends React.Component {
       }
       case NEW_FOLDER:
       case ADD_BY_PATH:
+      case ADD_BY_CAR:
+        this.setState({ readyToShow: true })
+        break
+      case BULK_CID_IMPORT:
         this.setState({ readyToShow: true })
         break
       case CLI_TUTOR_MODE:
@@ -173,6 +196,9 @@ class Modals extends React.Component {
           publish: { file }
         })
       }
+      case SHORTCUTS:
+        this.setState({ readyToShow: true })
+        break
       default:
         // do nothing
     }
@@ -197,6 +223,7 @@ class Modals extends React.Component {
       case cliCmdKeys.ADD_DIRECTORY:
       case cliCmdKeys.CREATE_NEW_DIRECTORY:
       case cliCmdKeys.FROM_IPFS:
+      case cliCmdKeys.FROM_CAR:
         return cliCommandList[action](root.substring('/files'.length))
       case cliCmdKeys.DELETE_FILE_FROM_IPFS:
       case cliCmdKeys.REMOVE_FILE_FROM_IPFS:
@@ -254,6 +281,17 @@ class Modals extends React.Component {
             onCancel={this.leave} />
         </Overlay>
 
+        <Overlay show={show === ADD_BY_CAR && readyToShow} onLeave={this.leave}>
+          <AddByCarModal className='outline-0' onSubmit={this.onAddByCar} onCancel={this.leave} />
+        </Overlay>
+
+        <Overlay show={show === BULK_CID_IMPORT && readyToShow} onLeave={this.leave}>
+          <BulkImportModal
+            className='outline-0'
+            onBulkCidImport={this.onBulkCidImport}
+            onCancel={this.leave} />
+        </Overlay>
+
         <Overlay show={show === CLI_TUTOR_MODE && readyToShow} onLeave={this.leave}>
           <CliTutorMode onLeave={this.leave} filesPage={true} command={command} t={t}/>
         </Overlay>
@@ -273,6 +311,12 @@ class Modals extends React.Component {
             onLeave={this.leave}
             onSubmit={this.publish} />
         </Overlay>
+
+        <Overlay show={show === SHORTCUTS && readyToShow} onLeave={this.leave}>
+          <ShortcutModal
+            className='outline-0'
+            onLeave={this.leave} />
+        </Overlay>
       </div>
     )
   }
@@ -283,6 +327,7 @@ Modals.propTypes = {
   show: PropTypes.string,
   files: PropTypes.array,
   onAddByPath: PropTypes.func.isRequired,
+  onAddByCar: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onMakeDir: PropTypes.func.isRequired,
   onShareLink: PropTypes.func.isRequired,

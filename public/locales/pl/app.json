@@ -9,32 +9,28 @@
     "close": "Zamknij",
     "copy": "Kopiuj",
     "create": "Utwórz",
+    "default": "",
     "remove": "Usuń",
     "download": "Pobierz",
     "edit": "Edytuj",
     "import": "Import",
     "inspect": "Analizuj",
     "more": "Więcej",
-    "moreInfo": "Więcej informacji",
-    "noThanks": "Nie, dzięki",
-    "ok": "OK",
-    "pinVerb": "Przypnij",
     "rename": "Zmień nazwę",
     "reset": "Reset",
     "save": "Zapisz",
     "saving": "Zapisywanie...",
-    "selectAll": "Zaznacz wszystko",
     "setPinning": "Przypinanie",
     "submit": "Wprowadź",
-    "unpin": "Odepnij",
     "unselectAll": "Odznacz wszystko",
     "generate": "Generuj",
     "publish": "Publikuj",
-    "downloadCar": "Pobierz jako CAR",
-    "done": "Gotowe"
+    "downloadCar": "",
+    "done": "Gotowe",
+    "checkRetrieval": ""
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": ""
   },
   "nav": {
     "bugsLink": "Zgłoś błąd",
@@ -43,16 +39,20 @@
   "status": {
     "connectedToIpfs": "Połączone z IPFS",
     "connectingToIpfs": "Łączenie z IPFS...",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": ""
   },
   "apiAddressForm": {
-    "placeholder": "Wprowadź URL (http://127.0.0.1:5001) lub Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": ""
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Wprowadź URL (https://dweb.link)"
+  },
+  "ipfsCheckForm": {
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "Adres",
@@ -60,7 +60,7 @@
     "advanced": "Zaawansowane",
     "agent": "Agent",
     "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
+    "apiAddress": "",
     "blocks": "Bloki",
     "connection": "Połączenie",
     "downSpeed": "Przychodzący",

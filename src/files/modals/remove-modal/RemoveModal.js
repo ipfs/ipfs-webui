@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next'
 import TrashIcon from '../../../icons/StrokeTrash.js'
 import Button from '../../../components/button/button.tsx'
 import Checkbox from '../../../components/checkbox/Checkbox.js'
-import { Modal, ModalActions, ModalBody } from '../../../components/modal/Modal.js'
+import { Modal, ModalActions, ModalBody } from '../../../components/modal/modal'
 import { connect } from 'redux-bundler-react'
 
 const RemoveModal = ({ t, tReady, onCancel, onRemove, files, foldersCount, filesCount, remotePins, pinningServices, className, ...props }) => {

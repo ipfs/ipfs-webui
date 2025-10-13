@@ -14,7 +14,7 @@
   },
   "customApiConfig": "تكوين JSON المخصص",
   "AnalyticsBanner": {
-    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
+    "label": ""
   },
   "tour": {
     "step1": {
@@ -24,7 +24,7 @@
     },
     "step2": {
       "title": "حالة الإتصال",
-      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the Kubo RPC, the icon will turn red.",
+      "paragraph1": "",
       "paragraph2": "إذا كنت بحاجة إلى تكوين عنوان API مخصص للعقدة الخاصة بك ، فما عليك سوى النقر فوق الرابط \"تحرير\" بجوار مكان إدراج عنوان API في هذه الصفحة."
     },
     "step3": {

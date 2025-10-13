@@ -57,7 +57,7 @@ async function run (rpcPort) {
   // some temporary hardcoding until https://github.com/ipfs/js-ipfsd-ctl/issues/831 is resolved.
   const { apiHost, apiPort, gatewayHost } = { apiHost: '127.0.0.1', apiPort: rpcPort, gatewayHost: '127.0.0.1' }
 
-  if (String(apiPort) !== rpcPort) {
+  if (Number(apiPort) !== Number(rpcPort)) {
     console.error(`Invalid RPC port returned by IPFS backend: ${apiPort} != ${rpcPort}`)
     await ipfsd.stop()
     process.exit(1)
@@ -94,6 +94,13 @@ async function run (rpcPort) {
   rpcAddr: ${rpcAddr}
   gatewayAddr: ${gatewayAddr}`)
 
+  if (endpoint) {
+    // When using E2E_API_URL, just return after creating the JSON file
+    console.log('Connected to existing node, returning...')
+    return
+  }
+
+  // Only keep running and handle SIGINT when spawning a new node
   const teardown = async () => {
     console.log(`Stopping IPFS backend ${id}`)
     await ipfsd.stop()
@@ -103,4 +110,4 @@ async function run (rpcPort) {
   process.on('SIGINT', teardown)
 }
 
-run(process.argv[2])
+export { run }

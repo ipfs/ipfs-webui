@@ -3,9 +3,10 @@ import { Helmet } from 'react-helmet'
 import { withTranslation, Trans } from 'react-i18next'
 import { connect } from 'redux-bundler-react'
 import ReactJoyride from 'react-joyride'
+import { IdentityProvider } from '../contexts/identity-context.jsx'
 import StatusConnected from './StatusConnected.js'
 import BandwidthStatsDisabled from './BandwidthStatsDisabled.js'
-import IsNotConnected from '../components/is-not-connected/IsNotConnected.js'
+import IsNotConnected from '../components/is-not-connected/is-not-connected.js'
 import NodeInfo from './NodeInfo.js'
 import NodeInfoAdvanced from './NodeInfoAdvanced.js'
 import NodeBandwidthChart from './NodeBandwidthChart.js'
@@ -40,10 +41,12 @@ const StatusPage = ({
               ? (
               <div>
                 <StatusConnected />
-                <NodeInfo />
-                <div className='pt2'>
-                  <NodeInfoAdvanced />
-                </div>
+                <IdentityProvider>
+                  <NodeInfo />
+                  <div className='pt2'>
+                    <NodeInfoAdvanced />
+                  </div>
+                </IdentityProvider>
               </div>
                 )
               : (
