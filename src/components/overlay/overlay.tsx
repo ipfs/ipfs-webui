@@ -26,15 +26,22 @@ const Overlay: React.FC<OverlayProps> = ({ children, show, onLeave, className, h
     )
   }
 
+  const renderDialog = (): React.ReactNode => {
+    return (
+      <div className={`${className} fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around`}>
+        {children}
+      </div>
+    )
+  }
+
   return (
     <Modal
       {...props}
       show={show}
-      className={`${className} fixed top-0 left-0 right-0 bottom-0 z-max flex items-center justify-around`}
       renderBackdrop={renderBackdrop}
-      onKeyDown={handleKeyDown}
+      renderDialog={renderDialog}
+      onEscapeKeyDown={handleKeyDown}
       onBackdropClick={onLeave}>
-      {children}
     </Modal>
   )
 }
