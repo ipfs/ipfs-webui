@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 // @ts-ignore
-import { Modal } from '../../../components/modal/Modal'
+import { Modal } from '../../../components/modal/modal'
 import { useShortcuts } from '../../../contexts/ShortcutsContext'
 
 interface KeySymbols {
