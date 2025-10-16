@@ -5,8 +5,8 @@ import StrokeFolder from '../../icons/StrokeFolder.js'
 import StrokeIpld from '../../icons/StrokeIpld.js'
 import Button from '../../components/button/button'
 import './files-explore-form.css'
-import { useExplore } from 'ipld-explorer-components/dist/src/providers'
-import { useShortcuts } from '../../contexts/ShortcutsContext.js'
+// @ts-expect-error - need to fix types for ipfs-webui since we are a CJS consumer...
+import { useExplore } from 'ipld-explorer-components/providers'
 
 interface FilesExploreFormProps {
   // this prop is being passed as the `doFilesNavigateTo` action from the `files` bundle in App.js
@@ -17,17 +17,6 @@ const FilesExploreForm: React.FC<FilesExploreFormProps> = ({ onBrowse: onBrowseP
   const [path, setPath] = useState('')
   const { doExploreUserProvidedPath } = useExplore()
   const { t } = useTranslation('files')
-
-  const ipfsPathRef = React.useRef<HTMLInputElement>(null)
-
-  useShortcuts([{
-    keys: ['/'],
-    label: t('app:shortcutModal.ipfsPath'),
-    action: () => {
-      ipfsPathRef.current?.focus?.()
-    },
-    group: t('app:shortcutModal.general')
-  }])
 
   const trimmedPath = useMemo(() => {
     return path.trim()
@@ -86,7 +75,7 @@ const FilesExploreForm: React.FC<FilesExploreFormProps> = ({ onBrowse: onBrowseP
       <div data-id='FilesExploreForm' className='sans-serif black-80 flex'>
         <div className='flex-auto'>
           <div className='relative'>
-            <input ref={ipfsPathRef} id='ipfs-path' className={`input-reset bn pa2 mb2 db w-100 f6 br-0 placeholder-light ${inputClass}`} style={{ borderRadius: '3px 0 0 3px' }} type='text' placeholder='QmHash/bafyHash' aria-describedby='ipfs-path-desc' onChange={onChange} onKeyDown={onKeyDown} value={path} />
+            <input id='ipfs-path' className={`input-reset bn pa2 mb2 db w-100 f6 br-0 placeholder-light ${inputClass}`} style={{ borderRadius: '3px 0 0 3px' }} type='text' placeholder='QmHash/bafyHash' aria-describedby='ipfs-path-desc' onChange={onChange} onKeyDown={onKeyDown} value={path} />
             <small id='ipfs-path-desc' className='o-0 absolute f6 black-60 db mb2'>Paste in a CID or IPFS path</small>
           </div>
         </div>
