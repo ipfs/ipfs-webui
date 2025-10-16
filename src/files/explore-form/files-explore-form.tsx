@@ -5,7 +5,7 @@ import StrokeFolder from '../../icons/StrokeFolder.js'
 import StrokeIpld from '../../icons/StrokeIpld.js'
 import Button from '../../components/button/button'
 import './files-explore-form.css'
-import { useExplore } from 'ipld-explorer-components/providers'
+import { useExplore } from 'ipld-explorer-components/dist/src/providers'
 import { useShortcuts } from '../../contexts/ShortcutsContext.js'
 
 interface FilesExploreFormProps {
