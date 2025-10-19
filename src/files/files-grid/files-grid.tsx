@@ -22,7 +22,7 @@ export interface FilesGridProps {
 type SetPinningProps = { cid: CID, pinned: boolean }
 
 interface FilesGridPropsConnected extends FilesGridProps {
-  filesPathInfo: { isMfs: boolean }
+  filesPathInfo: { isMfs: boolean, isRoot: boolean }
   t: TFunction
   onRemove: (files: ContextMenuFile[]) => void
   onRename: (files: ContextMenuFile[]) => void
@@ -35,11 +35,12 @@ interface FilesGridPropsConnected extends FilesGridProps {
   onSelect: (fileName: string | string[], isSelected: boolean) => void
   filesIsFetching: boolean
   selected: string[]
+  modalOpen: boolean
 }
 
 const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
-  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
+  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect, modalOpen = false
 }: FilesGridPropsConnected) => {
   const [focused, setFocused] = useState<string | null>(null)
   const [filter, setFilter] = useState('')

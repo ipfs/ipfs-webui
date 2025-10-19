@@ -6,15 +6,15 @@
   },
   "notConnected": {
     "paragraph1": "<0>Verifique o guia de instalação nos <1>Documentos IPFS</1> ou tente estas correções comuns:</0>",
-    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
-    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
-    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
+    "paragraph2": "",
+    "paragraph3": "",
+    "paragraph4": ""
   },
   "aboutIpfs": {
     "header": "O que é o IPFS?",
     "paragraph1": "<0><0>Um protocolo de distribuição de hipermídia</0> que incorpora ideias de Kademlia, BitTorrent, Git e muito mais</0>",
     "paragraph2": "<0><0>Uma rede de transferência de arquivos ponto a ponto</0> com uma arquitetura completamente descentralizada e nenhum ponto central de falha, censura ou controle</0>",
-    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
+    "paragraph3": "",
     "paragraph4": "<0><0>Um CDN de última geração</0> - basta adicionar um arquivo ao seu nó para torná-lo disponível para o mundo com endereçamento hash de conteúdo compatível com cache e distribuição de largura de banda no estilo BitTorrent</0>",
     "paragraph5": "<0><0>Um conjunto de ferramentas de desenvolvedor</0> para construir <2>aplicativos e serviços completamente distribuídos</2>, apoiado por uma comunidade robusta de código aberto</0>"
   },
@@ -31,7 +31,7 @@
     "step1": {
       "title": "Página de boas-vindas",
       "paragraph1": "Esta página permite que você saiba se está conectado ao IPFS e oferece ideias de coisas que você pode fazer com este aplicativo.",
-      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
+      "paragraph2": "",
       "paragraph3": "Você pode visitar esta página de qualquer lugar no aplicativo clicando no logotipo do cubo IPFS na barra de navegação."
     }
   }

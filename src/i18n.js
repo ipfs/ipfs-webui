@@ -18,6 +18,7 @@ i18n
   .use(LanguageDetector)
   .init(/** @type {import('i18next').InitOptions} */ ({
     load: 'currentOnly', // see https://github.com/i18next/i18next-http-backend/issues/61
+    returnEmptyString: false, // treat empty strings as missing translations, triggers fallback
     backend: {
       backends: [
         LocalStorageBackend,
@@ -37,7 +38,7 @@ i18n
         }
       ]
     },
-    ns: ['app', 'welcome', 'status', 'files', 'explore', 'peers', 'settings', 'notify'],
+    ns: ['app', 'welcome', 'status', 'files', 'explore', 'peers', 'settings', 'diagnostics', 'notify'],
     defaultNS: 'app',
     fallbackNS: 'app',
     fallbackLng: {

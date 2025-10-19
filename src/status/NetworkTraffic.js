@@ -6,39 +6,35 @@ import { Title } from './Commons.js'
 
 class NetworkTraffic extends React.Component {
   state = {
-    downSpeed: {
-      filled: 0,
-      total: 125000 // Starts with 1 Mb/s max
-    },
-    upSpeed: {
-      filled: 0,
-      total: 125000 // Starts with 1 Mb/s max
-    }
+    commonTotal: 125000, // Initial scale: 1 Mbit/s (125000 bytes/s)
+    downFilled: 0,
+    upFilled: 0
   }
 
   componentDidUpdate (_, prevState) {
     const { nodeBandwidth } = this.props
 
-    const down = nodeBandwidth ? parseInt(nodeBandwidth.rateIn.toFixed(0), 10) : 0
-    const up = nodeBandwidth ? parseInt(nodeBandwidth.rateOut.toFixed(0), 10) : 0
+    const down = nodeBandwidth ? Math.trunc(Number(nodeBandwidth.rateIn) || 0) : 0
+    const up = nodeBandwidth ? Math.trunc(Number(nodeBandwidth.rateOut) || 0) : 0
 
-    if (down !== prevState.downSpeed.filled || up !== prevState.upSpeed.filled) {
+    if (down !== prevState.downFilled || up !== prevState.upFilled) {
+      // Combined bandwidth to determine scale needed for both meters
+      const combinedNow = down + up
+      // Keep the maximum scale seen so far to prevent jarring visual changes
+      // when bandwidth drops (meters stay proportional to historical peak)
+      const nextCommonTotal = Math.max(prevState.commonTotal, combinedNow)
+
       this.setState({
-        downSpeed: {
-          filled: down,
-          total: Math.max(down, prevState.downSpeed.total)
-        },
-        upSpeed: {
-          filled: up,
-          total: Math.max(up, prevState.upSpeed.total)
-        }
+        downFilled: down,
+        upFilled: up,
+        commonTotal: nextCommonTotal
       })
     }
   }
 
   render () {
     const { t } = this.props
-    const { downSpeed, upSpeed } = this.state
+    const { downFilled, upFilled, commonTotal } = this.state
 
     return (
       <div>
@@ -48,13 +44,17 @@ class NetworkTraffic extends React.Component {
             <Speedometer
               title={t('app:terms.downSpeed')}
               color='#69c4cd'
-              {...downSpeed} />
+              filled={downFilled}
+              total={commonTotal}
+            />
           </div>
           <div className='mh2 mt3 mt0-l'>
             <Speedometer
               title={t('app:terms.upSpeed')}
               color='#f39021'
-              {...upSpeed} />
+              filled={upFilled}
+              total={commonTotal}
+            />
           </div>
         </div>
       </div>
