@@ -1,3 +1,62 @@
+## [4.9.1](https://github.com/ipfs/ipfs-webui/compare/v4.9.0...v4.9.1) (2025-09-26)
+
+
+ CID `bafybeicg7e6o2eszkfdzxg5233gmuip2a7kfzoloh7voyvt2r6ivdet54u`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* flash when flipping to/from previewing item ([#2437](https://github.com/ipfs/ipfs-webui/issues/2437)) ([c14b38a](https://github.com/ipfs/ipfs-webui/commit/c14b38ada4f2ffcbfeb2294050f6057a24e414be))
+* overlay click does not close modals ([#2428](https://github.com/ipfs/ipfs-webui/issues/2428)) ([f239113](https://github.com/ipfs/ipfs-webui/commit/f239113d7a4f51b1dc0c12b16b9d04a2adfca09f))
+* prevent redirect when navigating to retrieval-check ([#2439](https://github.com/ipfs/ipfs-webui/issues/2439)) ([bd11b0c](https://github.com/ipfs/ipfs-webui/commit/bd11b0c4350b2a393dec8fdaf1be319b61113ab0))
+
+## [4.9.0](https://github.com/ipfs/ipfs-webui/compare/v4.8.0...v4.9.0) (2025-09-17)
+
+
+ CID `bafybeietkqxghs3hm56e3w64s4papqlvvzqzjigs4eyuy24plkpz652fee`
+
+ --- 
+
+
+
+### Features
+
+* add Agent Version column to peers table ([#2433](https://github.com/ipfs/ipfs-webui/issues/2433)) ([614f30d](https://github.com/ipfs/ipfs-webui/commit/614f30de4011fa0a49e7e43935ee3c00afba1128)), closes [ipfs/kubo#9465](https://github.com/ipfs/kubo/issues/9465) [ipfs/js-kubo-rpc-client#342](https://github.com/ipfs/js-kubo-rpc-client/issues/342) [ipfs/kubo#9465](https://github.com/ipfs/kubo/issues/9465)
+* add close button to file viewer for improved navigation ([#2401](https://github.com/ipfs/ipfs-webui/issues/2401)) ([84969a5](https://github.com/ipfs/ipfs-webui/commit/84969a555517899830948b6b443fef4b472334f0))
+* add diagnostics screen ([#2392](https://github.com/ipfs/ipfs-webui/issues/2392)) ([f3a8179](https://github.com/ipfs/ipfs-webui/commit/f3a8179346190681cc71e08028847585b552e9bf)), closes [#2424](https://github.com/ipfs/ipfs-webui/issues/2424) [ipfs-check#102](https://github.com/ipfs/ipfs-check/issues/102) [/github.com/ipfs/ipfs-check/pull/102#pullrequestreview-3214396503](https://github.com/ipfs//github.com/ipfs/ipfs-check/pull/102/issues/pullrequestreview-3214396503) [#2434](https://github.com/ipfs/ipfs-webui/issues/2434)
+* **files:** advanced sorting options ([#2421](https://github.com/ipfs/ipfs-webui/issues/2421)) ([c9251eb](https://github.com/ipfs/ipfs-webui/commit/c9251eb1c77552de300095353bf58fb079101877))
+* migrate Tooltip from Javascript to Typescript ([#2381](https://github.com/ipfs/ipfs-webui/issues/2381)) ([dc9e9ac](https://github.com/ipfs/ipfs-webui/commit/dc9e9accddc38b5524df8451e7ca4e040834ad03))
+
+
+### Bug Fixes
+
+* create redux-bundler migration helpers ([#2388](https://github.com/ipfs/ipfs-webui/issues/2388)) ([d1fdb87](https://github.com/ipfs/ipfs-webui/commit/d1fdb8772ba2db08ca86991d3530fb92eef74957))
+* display UX friendly error for missing files ([#2346](https://github.com/ipfs/ipfs-webui/issues/2346)) ([d4e7fca](https://github.com/ipfs/ipfs-webui/commit/d4e7fca1dcc251fd90c3393fcf54a11278a5ecaf))
+* **files:** rename in Grid View ([#2422](https://github.com/ipfs/ipfs-webui/issues/2422)) ([e39bce6](https://github.com/ipfs/ipfs-webui/commit/e39bce63e0c4bc75fe591c2c5924896197596da4))
+* **i18n:** prevent English replacements in translation sync workflow ([#2418](https://github.com/ipfs/ipfs-webui/issues/2418)) ([323c59e](https://github.com/ipfs/ipfs-webui/commit/323c59ed8a409d0787117de85fd79a80b2925a4d))
+* macos input focus issue in draggable regions ([#2416](https://github.com/ipfs/ipfs-webui/issues/2416)) ([5382688](https://github.com/ipfs/ipfs-webui/commit/538268855301892ffa48fb4ab663b0590247f24d))
+* migrate error boundary to typescript ([#2402](https://github.com/ipfs/ipfs-webui/issues/2402)) ([b33775a](https://github.com/ipfs/ipfs-webui/commit/b33775af6afe017e70891a9161841230547ae6d3))
+* **navbar:**  highlighting on browser back ([#2425](https://github.com/ipfs/ipfs-webui/issues/2425)) ([cec6dfd](https://github.com/ipfs/ipfs-webui/commit/cec6dfdddeaee84934f416442f14cdf91725ee28))
+* Prevent layout breaks with long filenames in file preview ([#2415](https://github.com/ipfs/ipfs-webui/issues/2415)) ([f82efcd](https://github.com/ipfs/ipfs-webui/commit/f82efcdb1c134c87c00d62677c5b926b4cfc1c38))
+* reference to `global` in browser environment ([#2408](https://github.com/ipfs/ipfs-webui/issues/2408)) ([03b2e92](https://github.com/ipfs/ipfs-webui/commit/03b2e9227ee7483c4d1b264b064e36cae2a43fc7))
+* shared max for bandwidth chart ([#2426](https://github.com/ipfs/ipfs-webui/issues/2426)) ([cd17032](https://github.com/ipfs/ipfs-webui/commit/cd17032b8cbb836b593d5af815072bc9f894cae0))
+* typecheck more files ([#2409](https://github.com/ipfs/ipfs-webui/issues/2409)) ([fb967ee](https://github.com/ipfs/ipfs-webui/commit/fb967ee1d5a65852928e0ded13451ab7e39d91e6))
+
+
+### Tests
+
+* fix bring-your-own kubo node functionality ([#2396](https://github.com/ipfs/ipfs-webui/issues/2396)) ([0883cfa](https://github.com/ipfs/ipfs-webui/commit/0883cfabd86e9a9b9e26350283317d855f6d6cc4))
+* make e2e tests more robust ([#2438](https://github.com/ipfs/ipfs-webui/issues/2438)) ([3de544b](https://github.com/ipfs/ipfs-webui/commit/3de544bd0902c39427e643079d9e450ce75fdce5))
+
+
+### Trivial Changes
+
+* **readme:** update links ([dc6f8f4](https://github.com/ipfs/ipfs-webui/commit/dc6f8f49a1c0f122b2a33e14e0fb82871db4e7dc))
+* remove selectApiUrl selector ([#2412](https://github.com/ipfs/ipfs-webui/issues/2412)) ([d4710e8](https://github.com/ipfs/ipfs-webui/commit/d4710e882bbd28bd99de68c1c40ac83629f0c96c))
+
 ## [4.8.0](https://github.com/ipfs/ipfs-webui/compare/v4.7.0...v4.8.0) (2025-08-07)
 
 

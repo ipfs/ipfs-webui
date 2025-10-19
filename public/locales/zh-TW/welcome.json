@@ -6,15 +6,15 @@
   },
   "notConnected": {
     "paragraph1": "<0>請參考在 <1>IPFS Docs<1> 的安裝指南，或是嘗試以下的建議解決方案。<0>",
-    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
-    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
-    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
+    "paragraph2": "",
+    "paragraph3": "",
+    "paragraph4": ""
   },
   "aboutIpfs": {
     "header": "什麼是 IPFS？",
     "paragraph1": "<0><1>超媒體分發協議<1>是結合了 Kademlia、BitTorrent 及 Git 等等不同專案的技術<0>",
     "paragraph2": "<0><1>一個點對點的檔案傳輸網路<1>並具有完全去中心化的架構，沒有中心故障、審查或控制點 <0>",
-    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
+    "paragraph3": "",
     "paragraph4": "<0><1>一個次世代內容分發網路(CDN)<1> —只需要在您的節點上新增檔案就能讓全球友善節點快取其檔案拆分出來的 Hash 碎片並透過 BitTorrent 式的點對點網路來下載該檔案<0>",
     "paragraph5": "<0>一個以健康的開源社群做為後盾的<1>開發工具集<1><2>用於編譯完全分布式的應用程式與服務<2><0>"
   },
@@ -31,7 +31,7 @@
     "step1": {
       "title": "歡迎頁面",
       "paragraph1": "這個頁面可以讓您知道是否已經連接到 IPFS 網絡，以及提供一些您可以在這個軟體可以做的事情",
-      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
+      "paragraph2": "",
       "paragraph3": "您可以在任何時候透過點擊位於這個軟體側邊欄上的 IPFS 圖示導引到這個頁面"
     }
   }

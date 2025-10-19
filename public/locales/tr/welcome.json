@@ -6,15 +6,15 @@
   },
   "notConnected": {
     "paragraph1": "<0><1>IPFS Docs</1>'deki kurulum kılavuzuna bakın veya şu yaygın düzeltmeleri deneyin:</0>",
-    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
-    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
-    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
+    "paragraph2": "",
+    "paragraph3": "",
+    "paragraph4": ""
   },
   "aboutIpfs": {
     "header": "IPFS nedir?",
     "paragraph1": "<0>Kademlia, BitTorrent, Git ve daha fazlasının fikirlerini içeren <0>bir hiper ortam dağıtım protokolü</0></0> ",
     "paragraph2": "<0><0>Tamamen merkezi olmayan bir mimariye sahip ve merkezi bir hata, sansür veya kontrol noktası olmayan </0> eşler arası bir dosya aktarım ağı</0> ",
-    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
+    "paragraph3": "",
     "paragraph4": "<0><0>Yeni nesil bir CDN</0> — önbellek dostu içerik karma adresleme ve BitTorrent tarzı bant genişliği dağıtımı ile dünyanın kullanımına sunmak için düğümünüze bir dosya eklemeniz yeterli</0>",
     "paragraph5": "<0>Sağlam bir açık kaynak topluluğu tarafından desteklenen, <2>tamamen dağıtılmış uygulamalar ve hizmetler</2> oluşturmak için <0>bir geliştirici araç seti</0></0> "
   },
@@ -31,7 +31,7 @@
     "step1": {
       "title": "Sayfaya hoşgeldiniz",
       "paragraph1": "Bu sayfa, IPFS'ye bağlı olup olmadığınızı bilmenizi sağlar ve bu uygulamada yapabileceğiniz şeyler için fikirler sunar.",
-      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
+      "paragraph2": "",
       "paragraph3": "Gezinme çubuğundaki IPFS küp logosuna tıklayarak bu sayfayı uygulamanın herhangi bir yerinden ziyaret edebilirsiniz."
     }
   }

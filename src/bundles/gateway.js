@@ -3,6 +3,10 @@ import { readSetting, writeSetting } from './local-storage.js'
 // TODO: switch to dweb.link when https://github.com/ipfs/kubo/issues/7318
 export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
 export const DEFAULT_SUBDOMAIN_GATEWAY = 'https://dweb.link'
+export const DEFAULT_IPFS_CHECK_URL = 'https://check.ipfs.network'
+// Test URLs that bypass validation for e2e tests
+export const TEST_PATH_GATEWAY = 'https://e2e-test-path-gateway.test'
+export const TEST_SUBDOMAIN_GATEWAY = 'https://e2e-test-subdomain-gateway.test'
 const IMG_HASH_1PX = 'bafkreib6wedzfupqy7qh44sie42ub4mvfwnfukmw6s2564flajwnt4cvc4' // 1x1.png
 const IMG_ARRAY = [
   { id: 'IMG_HASH_1PX', name: '1x1.png', hash: IMG_HASH_1PX },
@@ -20,12 +24,22 @@ const readPublicSubdomainGatewaySetting = () => {
   return setting || DEFAULT_SUBDOMAIN_GATEWAY
 }
 
+const readIpfsCheckUrlSetting = () => {
+  const setting = readSetting('ipfsCheckUrl')
+  return setting || DEFAULT_IPFS_CHECK_URL
+}
+
 const init = () => ({
   availableGateway: null,
   publicGateway: readPublicGatewaySetting(),
-  publicSubdomainGateway: readPublicSubdomainGatewaySetting()
+  publicSubdomainGateway: readPublicSubdomainGatewaySetting(),
+  ipfsCheckUrl: readIpfsCheckUrlSetting()
 })
 
+/**
+ * @param {any} value
+ * @returns {boolean}
+ */
 export const checkValidHttpUrl = (value) => {
   let url
 
@@ -39,9 +53,15 @@ export const checkValidHttpUrl = (value) => {
 
 /**
  * Check if any hashes from IMG_ARRAY can be loaded from the provided gatewayUrl
+ * @param {string} gatewayUrl - The gateway URL to check
  * @see https://github.com/ipfs/ipfs-webui/issues/1937#issuecomment-1152894211 for more info
  */
 export const checkViaImgSrc = (gatewayUrl) => {
+  // Skip validation for test gateways
+  if (gatewayUrl === TEST_PATH_GATEWAY) {
+    return Promise.resolve()
+  }
+
   const url = new URL(gatewayUrl)
 
   /**
@@ -49,12 +69,17 @@ export const checkViaImgSrc = (gatewayUrl) => {
    * this is more robust check than loading js, as it won't be blocked
    * by privacy protections present in modern browsers or in extensions such as Privacy Badger
    */
+  // @ts-expect-error - Promise.any requires ES2021 but we're on ES2020
   return Promise.any(IMG_ARRAY.map(element => {
     const imgUrl = new URL(`${url.protocol}//${url.hostname}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
     return checkImgSrcPromise(imgUrl)
   }))
 }
 
+/**
+ * @param {URL} imgUrl - The image URL to check
+ * @returns {Promise<void>}
+ */
 const checkImgSrcPromise = (imgUrl) => {
   const imgCheckTimeout = 15000
 
@@ -66,6 +91,7 @@ const checkImgSrcPromise = (imgUrl) => {
       return true
     }
 
+    /** @type {NodeJS.Timeout | null} */
     let timer = setTimeout(() => { if (timeout()) reject(new Error(`Image load timed out after ${imgCheckTimeout / 1000} seconds for URL: ${imgUrl}`)) }, imgCheckTimeout)
     const img = new Image()
 
@@ -80,7 +106,7 @@ const checkImgSrcPromise = (imgUrl) => {
       resolve()
     }
 
-    img.src = imgUrl
+    img.src = imgUrl.toString()
   })
 }
 
@@ -127,11 +153,14 @@ async function checkViaImgUrl (imgUrl) {
  * @returns {Promise<boolean>} A promise that resolves to true if the gateway is functioning correctly, otherwise false.
  */
 export async function checkSubdomainGateway (gatewayUrl) {
-  if (gatewayUrl === DEFAULT_SUBDOMAIN_GATEWAY) {
+  if (gatewayUrl === DEFAULT_SUBDOMAIN_GATEWAY || gatewayUrl === TEST_SUBDOMAIN_GATEWAY) {
     // avoid sending probe requests to the default gateway every time Settings page is opened
+    // also skip validation for test gateways
     return true
   }
+  /** @type {URL} */
   let imgSubdomainUrl
+  /** @type {URL} */
   let imgRedirectedPathUrl
   try {
     const gwUrl = new URL(gatewayUrl)
@@ -167,6 +196,11 @@ export async function checkSubdomainGateway (gatewayUrl) {
 const bundle = {
   name: 'gateway',
 
+  /**
+   * @param {any} state
+   * @param {any} action
+   * @returns {any}
+   */
   reducer: (state = init(), action) => {
     if (action.type === 'SET_AVAILABLE_GATEWAY') {
       return { ...state, availableGateway: action.payload }
@@ -180,26 +214,69 @@ const bundle = {
       return { ...state, publicSubdomainGateway: action.payload }
     }
 
+    if (action.type === 'SET_IPFS_CHECK_URL') {
+      return { ...state, ipfsCheckUrl: action.payload }
+    }
+
     return state
   },
 
+  /**
+   * @param {string} url
+   * @returns {function({dispatch: Function}): any}
+   */
   doSetAvailableGateway: url => ({ dispatch }) => dispatch({ type: 'SET_AVAILABLE_GATEWAY', payload: url }),
 
+  /**
+   * @param {string} address
+   * @returns {function({dispatch: Function}): Promise<void>}
+   */
   doUpdatePublicGateway: (address) => async ({ dispatch }) => {
     await writeSetting('ipfsPublicGateway', address)
     dispatch({ type: 'SET_PUBLIC_GATEWAY', payload: address })
   },
 
+  /**
+   * @param {string} address
+   * @returns {function({dispatch: Function}): Promise<void>}
+   */
   doUpdatePublicSubdomainGateway: (address) => async ({ dispatch }) => {
     await writeSetting('ipfsPublicSubdomainGateway', address)
     dispatch({ type: 'SET_PUBLIC_SUBDOMAIN_GATEWAY', payload: address })
   },
 
+  /**
+   * @param {string} url
+   * @returns {function({dispatch: Function}): Promise<void>}
+   */
+  doUpdateIpfsCheckUrl: (url) => async ({ dispatch }) => {
+    await writeSetting('ipfsCheckUrl', url)
+    dispatch({ type: 'SET_IPFS_CHECK_URL', payload: url })
+  },
+
+  /**
+   * @param {any} state
+   * @returns {string|null}
+   */
   selectAvailableGateway: (state) => state?.gateway?.availableGateway,
 
+  /**
+   * @param {any} state
+   * @returns {string}
+   */
   selectPublicGateway: (state) => state?.gateway?.publicGateway,
 
-  selectPublicSubdomainGateway: (state) => state?.gateway?.publicSubdomainGateway
+  /**
+   * @param {any} state
+   * @returns {string}
+   */
+  selectPublicSubdomainGateway: (state) => state?.gateway?.publicSubdomainGateway,
+
+  /**
+   * @param {any} state
+   * @returns {string}
+   */
+  selectIpfsCheckUrl: (state) => state?.gateway?.ipfsCheckUrl
 }
 
 export default bundle

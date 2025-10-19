@@ -1,9 +1,9 @@
 {
   "ipfsApiRequestFailed": "接続できません。IPFS デーモンが起動していることを確認してください。",
   "windowIpfsRequestFailed": "IPFSリクエストに失敗しました。IPFS Companionの設定を確認してください。",
-  "ipfsInvalidApiAddress": "The provided Kubo RPC address is invalid.",
-  "ipfsConnectSuccess": "Successfully connected to the Kubo RPC address",
-  "ipfsConnectFail": "Unable to connect to the provided Kubo RPC address",
+  "ipfsInvalidApiAddress": "",
+  "ipfsConnectSuccess": "",
+  "ipfsConnectFail": "",
   "ipfsPinFailReason": "{serviceName}のピン留めができません：{errorMsg}",
   "ipfsPinSucceedReason": "{serviceName}のピン留めに成功",
   "ipfsUnpinSucceedReason": "{serviceName}からピン留めの解除に成功",
