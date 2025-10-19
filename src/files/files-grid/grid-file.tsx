@@ -105,6 +105,9 @@ const GridFile: FC<GridFilePropsConnected> = ({
   const [textPreview, setTextPreview] = useState<string | null>(null)
 
   useEffect(() => {
+    setHasPreview(false)
+    setTextPreview(null)
+
     const fetchTextPreview = async () => {
       const isTextFile = type.startsWith('text/') ||
                         type === 'txt' ||
@@ -218,7 +221,11 @@ const GridFile: FC<GridFilePropsConnected> = ({
             textPreview={textPreview}
             onLoad={() => setHasPreview(true)}
           />
-          {!hasPreview && <FileIcon style={{ width: 80 }} name={name} type={type} />}
+          {!hasPreview && (
+            <div className="grid-file-icon-fallback">
+              <FileIcon style={{ width: 80 }} name={name} type={type} />
+            </div>
+          )}
           <button
             ref={dotsWrapper}
             className="grid-file-dots"

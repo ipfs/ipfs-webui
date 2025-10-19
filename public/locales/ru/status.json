@@ -24,7 +24,7 @@
     },
     "step2": {
       "title": "Статус подключения",
-      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the Kubo RPC, the icon will turn red.",
+      "paragraph1": "",
       "paragraph2": "Если вам нужно настроить собственный адрес API для вашего узла, просто, нажмите на ссылку \"Редактировать\" рядом с местом отображения адреса API на странице."
     },
     "step3": {

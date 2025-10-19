@@ -1,7 +1,19 @@
 export interface AgentVersionObject {
+  /**
+   * The supported IPFS node agents.
+   */
   name: string
   version: string
+  /**
+   * The suffix of the IPFS node agent. For IPFS-Desktop, the suffix is 'desktop'.
+   */
   suffix: string
+  /**
+   * The URL for the github repo of the IPFS node agent.
+   *
+   * This is used to link to the release page for the IPFS node agent, and must be specified in the `providers` object
+   * below.
+   */
   url: string | null
 }
 

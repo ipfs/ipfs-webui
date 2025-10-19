@@ -1,4 +1,4 @@
-import { composeBundles, createCacheBundle } from 'redux-bundler'
+import { composeBundles, createCacheBundle, createSelector } from 'redux-bundler'
 import ipfsProvider from './ipfs-provider.js'
 import appIdle from './app-idle.js'
 import nodeBandwidthChartBundle from './node-bandwidth-chart.js'
@@ -23,8 +23,18 @@ import experimentsBundle from './experiments.js'
 import cliTutorModeBundle from './cli-tutor-mode.js'
 import gatewayBundle from './gateway.js'
 import ipnsBundle from './ipns.js'
+import { contextBridge } from '../helpers/context-bridge'
 
 export default composeBundles(
+  {
+    name: 'bridgedContextCatchAll',
+    reactRouteInfoToBridge: createSelector(
+      'selectRouteInfo',
+      (routeInfo) => {
+        contextBridge.setContext('selectRouteInfo', routeInfo)
+      }
+    )
+  },
   createCacheBundle({
     cacheFn: bundleCache.set
   }),

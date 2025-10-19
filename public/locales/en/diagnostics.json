@@ -1,0 +1,94 @@
+{
+  "title": "Diagnostics",
+  "tabs": {
+    "logs": "Logs",
+    "retrieval-check": "Retrieval Check"
+  },
+  "logs": {
+    "title": "Node Logs",
+    "streaming": {
+      "statusActive": "Streaming Active",
+      "statusStopped": "Streaming Stopped",
+      "rate": "{rate} logs/sec",
+      "highRate": "High Rate",
+      "autoDisabled": "Auto-disabled"
+    },
+    "entries": {
+      "noEntries": "No log entries yet. Start streaming to see logs.",
+      "noEntriesStreaming": "Listening for logs... (tip: increase log levels to see more activity)",
+      "loading": "Loading log subsystems...",
+      "tooltipGoToLatest": "Scroll to latest logs",
+      "tooltipExpand": "Expand logs",
+      "tooltipCollapse": "Collapse logs",
+      "tooltipPlay": "Start streaming",
+      "tooltipPause": "Stop streaming",
+      "tooltipSettings": "Configure streaming"
+    },
+    "storage": {
+      "title": "Storage Statistics",
+      "totalEntries": "Total Entries",
+      "estimatedSize": "Estimated Size",
+      "memoryBuffer": "Memory Buffer",
+      "trashTooltip": "Clear all logs"
+    },
+    "config": {
+      "title": "Buffer Configuration",
+      "memoryBuffer": "Memory Buffer (entries)",
+      "persistentBuffer": "Persistent Buffer (entries)",
+      "warnThreshold": "Warning Threshold (logs/sec)",
+      "autoDisableThreshold": "Auto-disable Threshold (logs/sec)"
+    },
+    "gologLevel": {
+      "title": "Log Level Configuration",
+      "placeholder": "e.g. error,bitswap=info,nat=debug",
+      "description": "Choose what gets logged and how much detail to show. Start with a base level like 'error' to see only problems, or add specific components to track (like 'error,nat=debug' to debug UPnP issues). Same syntax as GOLOG_LOG_LEVEL. <0>Learn more</0>",
+      "invalidSubsystemLevel": "Subsystem \"{subsystem}\" must be followed by an equal sign and a log level."
+    },
+    "autocomplete": {
+      "globalLevel": "Global level",
+      "subsystem": "Subsystem",
+      "level": "Log level"
+    },
+    "warnings": {
+      "potentialIssues": "Potential Issues:",
+      "recommendations": "Recommendations:",
+      "cancel": "Cancel",
+      "debugGlobal": {
+        "title": "Enable Debug Logging Globally?",
+        "message": "You are about to enable DEBUG level logging for all subsystems. This will generate a very high volume of logs and may impact browser performance.",
+        "detail1": "Debug logs can generate 100+ messages per second",
+        "detail2": "High CPU usage and memory consumption",
+        "detail3": "Potential browser tab crashes or freezing",
+        "suggestion1": "Consider enabling debug logs for specific subsystems only",
+        "suggestion2": "Use for short debugging sessions (< 5 minutes)",
+        "suggestion3": "Monitor the log rate indicator and disable if needed",
+        "confirm": "Enable Debug Globally"
+      },
+      "highRate": {
+        "title": "High Log Rate Detected",
+        "message": "Current log rate is {rate} logs/second, which may cause performance issues.",
+        "detail1": "High log rates can slow down the browser",
+        "detail2": "Memory usage will increase rapidly",
+        "suggestion1": "Consider reducing log levels for busy subsystems",
+        "suggestion2": "Use buffer configuration to limit memory usage",
+        "confirm": "Continue"
+      },
+      "autoDisable": {
+        "title": "Log Streaming Auto-Disabled",
+        "message": "Log streaming was automatically disabled due to extremely high rate ({rate} logs/sec).",
+        "detail1": "This protects your browser from potential crashes",
+        "detail2": "Logs are still being cached in persistent storage",
+        "suggestion1": "Reduce log levels before re-enabling streaming",
+        "suggestion2": "Check subsystem log levels and disable debug mode",
+        "confirm": "Understood"
+      }
+    },
+    "unsupported": {
+      "title": "Unsupported Kubo Version",
+      "description": "Your current version of Kubo ({version}) does not support the log level management feature required for this diagnostics page.",
+      "upgradeTitle": "Upgrade Required",
+      "upgradeDescription": "To use the log level management features, you need to upgrade to a newer version of Kubo that supports getting log levels and tailing logs from the RPC API endpoint.",
+      "downloadKubo": "Download Kubo"
+    }
+  }
+}

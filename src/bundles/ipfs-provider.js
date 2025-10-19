@@ -10,9 +10,9 @@ import { contextBridge } from '../helpers/context-bridge'
 import { createSelector } from 'redux-bundler'
 
 /**
- * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
  * @typedef {import('multiformats/cid').CID} CID
- * @typedef {import('ipfs').FileStat} FileStat
+ * @typedef {import('kubo-rpc-client/dist/src/files').FilesStatResult} FileStat
  * @typedef {'httpClient'|'jsIpfs'|'windowIpfs'|'webExt'} ProviderName
  * @typedef {Object} Model
  * @property {null|string|HTTPClientOptions} apiAddress
@@ -538,6 +538,13 @@ const bundle = {
   init: (store) => {
     contextBridge.setContext('doUpdateIpfsApiAddress', store.doUpdateIpfsApiAddress)
   },
+
+  reactIpfsReadyToBridge: createSelector(
+    'selectIpfsReady',
+    (ipfsReady) => {
+      contextBridge.setContext('selectIpfsReady', ipfsReady)
+    }
+  ),
 
   /**
    * Bridge ipfs instance to context bridge for use by React contexts

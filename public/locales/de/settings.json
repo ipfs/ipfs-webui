@@ -15,16 +15,20 @@
   "language": "Sprache",
   "analytics": "Analysetools",
   "cliTutorMode": "CLI-Tutor-Modus",
-  "config": "IPFS-Konfiguration",
+  "config": "",
   "languageModal": {
     "title": "Sprache ändern",
     "description": "Wähle Deine bevorzugte Sprache.",
     "translationProjectIntro": "Füge Übersetzungen hinzu oder verbessere sie und mache IPFS besser für jeden!",
     "translationProjectLink": "Dem IPFS-Übersetzungsprojekt beitreten"
   },
-  "apiDescription": "<0>If your node is configured with a <1>custom Kubo RPC API address</1>, including a port other than the default 5001, enter it here.</0>",
-  "publicSubdomainGatewayDescription": "<0>Select a default <1>Subdomain Gateway</1> for generating shareable links.</0>",
-  "publicPathGatewayDescription": "<0>Select a fallback <1>Path Gateway</1> for generating shareable links for CIDs that exceed the 63-character DNS limit.</0>",
+  "apiDescription": "",
+  "publicSubdomainGatewayDescription": "",
+  "publicPathGatewayDescription": "",
+  "retrievalDiagnosticService": {
+    "title": "",
+    "description": ""
+  },
   "cliDescription": "<0>Aktiviere diese Option, um ein \"Code anzeigen\" <1></1> Symbol neben häufigen IPFS Befehlen anzuzeigen. Wenn du auf das Symbol klickst, öffnet sich ein Fenster mit CLI-Code des Befehls, den du in die IPFS Kommandozeile deines Terminals einfügen kannst.</0>",
   "cliModal": {
     "extraNotesJsonConfig": "Wenn Du im Code-Editor dieser Seite Änderungen an der Konfiguration vorgenommen hast, die Du speichern möchtest, klicke auf das Herunterladen-Symbol neben der Schaltfläche zum Kopieren, um sie als JSON-Datei herunterzuladen."
@@ -81,14 +85,14 @@
     "false": "Aus"
   },
   "fetchingSettings": "Einstellungen werden geladen...",
-  "ipfsDaemonOffline": "Der IPFS Daemon ist offline. Bitte starten Sie ihn und versuchen es erneut.",
-  "settingsUnavailable": "Einstellungen nicht verfügbar. Bitte überprüfe, ob Dein IPFS-Daemon läuft.",
+  "ipfsDaemonOffline": "",
+  "settingsUnavailable": "",
   "settingsHaveChanged": "Die Einstellungen haben sich geändert. Bitte klicke auf <1>Zurücksetzen</1>, um den Inhalt des Editors zu aktualisieren.",
   "errorOccured": "Beim Speichern Deiner Änderungen ist ein Fehler aufgetreten",
   "checkConsole": "Öffne Deine Browser-Konsole, um mehr Informationen zu erhalten.",
   "changesSaved": "Deine Änderungen wurden gespeichert.",
-  "settingsWillBeUsedNextTime": "Die neuen Einstellungen werden beim nächsten Start des IPFS-Daemon verwendet.",
-  "ipfsConfigDescription": "Die IPFS-Konfigurationsdatei ist ein JSON-Dokument. Es wird einmalig beim Start des IPFS-Daemon gelesen. Speichere Deine Änderungen und starte den IPFS-Daemon neu, um sie anzuwenden.",
+  "settingsWillBeUsedNextTime": "",
+  "ipfsConfigDescription": "",
   "ipfsConfigHelp": "Weitere Informationen findest Du in der Dokumentation.",
   "AnalyticsToggle": {
     "label": "Helfen Sie uns die App zu verbessern, indem Sie anonyme Nutzerdaten senden.",
@@ -129,12 +133,12 @@
   "tour": {
     "step1": {
       "title": "Einstellungen",
-      "paragraph1": "Hier kannst Du die Einstellungen deiner Web-UI und deines IPFS Knotens verändern.",
+      "paragraph1": "",
       "paragraph2": "Wenn Du IPFS Desktop benutzt, hast Du auch einige spezifische Einstellungen dafür."
     },
     "step2": {
-      "title": "Custom Kubo RPC API address",
-      "paragraph1": "If you've configured your Kubo-compatible IPFS node with a custom RPC API address, you can update your config file right here instead of editing the JSON by hand."
+      "title": "",
+      "paragraph1": ""
     },
     "step3": {
       "title": "Pinning-Dienste",
@@ -154,8 +158,8 @@
       "paragraph1": "Aktiviere den CLI-Tutor-Modus, um die Kommandozeilenversion gängiger IPFS-Befehle anzuzeigen. Dies ist hilfreich, wenn Du die Verwendung von IPFS über das Terminal erlernst oder nur eine Auffrischung benötigst."
     },
     "step7": {
-      "title": "IPFS-Konfiguration",
-      "paragraph1": "Du kannst die Konfiguration deines IPFS Knotens direkt mit der Web-UI bearbeiten!",
+      "title": "",
+      "paragraph1": "",
       "paragraph2": "Vergiss nicht, den Daemon neu zu starten, um die Änderungen anzuwenden."
     }
   },
