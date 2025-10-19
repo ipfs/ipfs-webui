@@ -32,6 +32,7 @@ const createFilesBundle = () => {
         case ACTIONS.MAKE_DIR:
         case ACTIONS.PIN_ADD:
         case ACTIONS.PIN_REMOVE:
+        case ACTIONS.SYNC_FROM_PINS:
           return updateJob(state, action.task, action.type)
         case ACTIONS.WRITE: {
           return updateJob(state, action.task, action.type)

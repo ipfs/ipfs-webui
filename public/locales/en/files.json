@@ -186,6 +186,16 @@
   "noPinsInProgress": "All done, no remote pins in progress.",
   "remotePinningInProgress": "Remote pinning in progress:",
   "selectAllEntries": "Select all entries",
+  "syncFromPins": {
+    "title": "Sync from Pins",
+    "description": "Import your pinned files into the Files view so you can see and manage them alongside your other files.",
+    "note": "This will copy pinned files to MFS (Mutable File System) so they appear in your Files view. The original pins will remain unchanged.",
+    "syncSelected": "Sync {{count}} files"
+  },
+  "loadingPinDetails": "Loading pin details...",
+  "syncing": "Syncing...",
+  "pins": "pins",
+  "selectAll": "Select all",
   "previewNotFound": {
     "title": "IPFS can't find this item",
     "helpTitle": "These are common troubleshooting steps might help:",

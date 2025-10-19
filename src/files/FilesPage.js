@@ -18,7 +18,7 @@ import FileNotFound from './file-not-found/index.tsx'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, SHORTCUTS, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
+import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, SHORTCUTS, CLI_TUTOR_MODE, PINNING, PUBLISH, SYNC_FROM_PINS } from './modals/Modals.js'
 
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
@@ -30,7 +30,7 @@ const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
   doFilesUpdateSorting, doFilesNavigateTo, doFilesMove, doSetCliOptions, doFetchRemotePins, remotePins, pendingPins, failedPins,
   ipfsProvider, ipfsConnected, doFilesMakeDir, doFilesShareLink, doFilesCopyCidProvide, doFilesDelete, doSetPinning, onRemotePinClick, doPublishIpnsKey,
-  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, t
+  files, filesPathInfo, pinningServices, toursEnabled, handleJoyrideCallback, isCliTutorModeEnabled, cliOptions, pins, doSyncFromPins, t
 }) => {
   const { doExploreUserProvidedPath } = useExplore()
   const contextMenuRef = useRef()
@@ -117,6 +117,10 @@ const FilesPage = ({
    */
   const onAddByCar = (file, name) => {
     doAddCarFile(files.path, file, name)
+  }
+
+  const onSyncFromPins = (selectedPins) => {
+    doSyncFromPins(selectedPins, files.path)
   }
   const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
   const showModal = (modal, files = null) => setModals({ show: modal, files })
@@ -316,6 +320,7 @@ const FilesPage = ({
         onAddByPath={(files) => showModal(ADD_BY_PATH, files)}
         onAddByCar={(files) => showModal(ADD_BY_CAR, files)}
         onBulkCidImport={(files) => showModal(BULK_CID_IMPORT, files)}
+        onSyncFromPins={() => showModal(SYNC_FROM_PINS)}
         onNewFolder={(files) => showModal(NEW_FOLDER, files)}
         onCliTutorMode={() => showModal(CLI_TUTOR_MODE)}
         handleContextMenu={(...args) => handleContextMenu(...args, true)}
@@ -384,7 +389,9 @@ const FilesPage = ({
         onAddByPath={onAddByPath}
         onAddByCar={onAddByCar}
         onBulkCidImport={onBulkCidImport}
+        onSyncFromPins={onSyncFromPins}
         onPinningSet={doSetPinning}
+        pins={pins}
         onPublish={doPublishIpnsKey}
         cliOptions={cliOptions}
         { ...modals } />
@@ -448,5 +455,7 @@ export default connect(
   'selectCliOptions',
   'doSetPinning',
   'doPublishIpnsKey',
+  'selectPins',
+  'doSyncFromPins',
   withTour(withTranslation('files')(FilesPage))
 )

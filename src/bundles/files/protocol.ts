@@ -95,6 +95,7 @@ export type Message =
   | Perform<'FILES_PIN_ADD', Error, Pin[], void>
   | Perform<'FILES_PIN_REMOVE', Error, Pin[], void>
   | Perform<'FILES_PIN_LIST', Error, { pins: CID[] }, void>
+  | Perform<'FILES_SYNC_FROM_PINS', Error, { results: Array<{ cid: string, path: string, success: boolean }>, errors: Array<{ cid: string, error: string }> }, void>
   | Perform<'FILES_SIZE_GET', Error, { size: number }, void>
   | Perform<'FILES_PINS_SIZE_GET', Error, { pinsSize: number, numberOfPins: number }, void>
 

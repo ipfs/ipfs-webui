@@ -27,6 +27,8 @@ export const ACTIONS = {
   ADD_CAR_FILE: ('FILES_ADD_CAR'),
   /** @type {'FILES_BULK_CID_IMPORT'} */
   BULK_CID_IMPORT: ('FILES_BULK_CID_IMPORT'),
+  /** @type {'FILES_SYNC_FROM_PINS'} */
+  SYNC_FROM_PINS: ('FILES_SYNC_FROM_PINS'),
   /** @type {'FILES_PIN_ADD'} */
   PIN_ADD: ('FILES_PIN_ADD'),
   /** @type {'FILES_PIN_REMOVE'} */
