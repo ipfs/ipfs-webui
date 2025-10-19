@@ -75,7 +75,7 @@ const FilesGrid = ({
 
   const keyHandler = useCallback((e: KeyboardEvent) => {
     // Don't handle keyboard events when a modal is open
-    if (modalOpen) {
+    if (modalOpen || filesIsFetching) {
       return
     }
 
@@ -162,7 +162,7 @@ const FilesGrid = ({
         }
       }
     }
-  }, [files, selected, onSelect, onRename, onRemove, onNavigate, handleSelect, modalOpen])
+  }, [files, selected, filesIsFetching, onSelect, onRename, onRemove, onNavigate, handleSelect, modalOpen])
 
   useShortcuts([{
     keys: ['ArrowUp'],
