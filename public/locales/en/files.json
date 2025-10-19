@@ -186,6 +186,9 @@
   "noPinsInProgress": "All done, no remote pins in progress.",
   "remotePinningInProgress": "Remote pinning in progress:",
   "selectAllEntries": "Select all entries",
+  "searchFiles": "Search files...",
+  "clearSearch": "Clear search",
+  "noFilesMatchFilter": "No files match your search",
   "previewNotFound": {
     "title": "IPFS can't find this item",
     "helpTitle": "These are common troubleshooting steps might help:",

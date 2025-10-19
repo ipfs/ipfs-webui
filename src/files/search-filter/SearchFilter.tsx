@@ -1,0 +1,58 @@
+import React, { useState, useCallback } from 'react'
+import { withTranslation } from 'react-i18next'
+import classnames from 'classnames'
+import { TFunction } from 'i18next'
+
+interface SearchFilterProps {
+  onFilterChange: (filter: string) => void
+  filteredCount: number
+  totalCount: number
+  className?: string
+}
+
+const SearchFilter = ({ onFilterChange, filteredCount, totalCount, t, className = '' }: SearchFilterProps & { t: TFunction }) => {
+  const [filter, setFilter] = useState('')
+
+  const handleFilterChange = useCallback((e) => {
+    const value = e.target.value
+    setFilter(value)
+    onFilterChange(value)
+  }, [onFilterChange])
+
+  const clearFilter = useCallback(() => {
+    setFilter('')
+    onFilterChange('')
+  }, [onFilterChange])
+
+  return (
+    <div className={classnames('flex items-center pa2 bg-snow-muted', className)}>
+      <div className='flex items-center relative flex-auto'>
+        <input
+          className='input-reset ba b--black-20 pa2 db w-100 br1'
+          type='text'
+          placeholder={t('searchFiles')}
+          value={filter}
+          onChange={handleFilterChange}
+          aria-label={t('searchFiles')}
+        />
+        {filter && (
+          <button
+            className='absolute right-1 top-1 bottom-1 bg-transparent bn pointer f6 gray'
+            onClick={clearFilter}
+            aria-label={t('clearSearch')}
+            title={t('clearSearch')}
+          >
+            ✕
+          </button>
+        )}
+      </div>
+      {filter && (
+        <div className='ml2 f6 charcoal-muted nowrap'>
+          {filteredCount} / {totalCount}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default withTranslation('files')(SearchFilter)

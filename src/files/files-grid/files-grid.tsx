@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback, type FC, type MouseEvent } from 'react'
+import React, { useRef, useState, useEffect, useCallback, useMemo, type FC, type MouseEvent } from 'react'
 import { Trans, withTranslation } from 'react-i18next'
 import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
@@ -9,6 +9,7 @@ import './files-grid.css'
 import { TFunction } from 'i18next'
 import type { ContextMenuFile, ExtendedFile, FileStream } from '../types'
 import type { CID } from 'multiformats/cid'
+import SearchFilter from '../search-filter/SearchFilter'
 
 export interface FilesGridProps {
   files: ContextMenuFile[]
@@ -41,6 +42,7 @@ const FilesGrid = ({
   onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
 }: FilesGridPropsConnected) => {
   const [focused, setFocused] = useState<string | null>(null)
+  const [filter, setFilter] = useState('')
   const filesRefs = useRef<Record<string, HTMLDivElement>>({})
   const gridRef = useRef<HTMLDivElement | null>(null)
 
@@ -62,12 +64,39 @@ const FilesGrid = ({
     onAddFiles(normalizeFiles(files))
   }
 
+  const filteredFiles = useMemo(() => {
+    if (!filter) return files
+
+    const filterLower = filter.toLowerCase()
+    return files.filter(file => {
+      // Search by name
+      if (file.name && file.name.toLowerCase().includes(filterLower)) {
+        return true
+      }
+      // Search by CID
+      if (file.cid && file.cid.toString().toLowerCase().includes(filterLower)) {
+        return true
+      }
+      // Search by type
+      if (file.type && file.type.toLowerCase().includes(filterLower)) {
+        return true
+      }
+      return false
+    })
+  }, [files, filter])
+
   const handleSelect = useCallback((fileName: string, isSelected: boolean) => {
     onSelect(fileName, isSelected)
   }, [onSelect])
 
+  const handleFilterChange = useCallback((newFilter: string) => {
+    setFilter(newFilter)
+    // Clear focus when filtering to avoid issues
+    setFocused(null)
+  }, [])
+
   const keyHandler = useCallback((e: KeyboardEvent) => {
-    const focusedFile = focused == null ? null : files.find(el => el.name === focused)
+    const focusedFile = focused == null ? null : filteredFiles.find(el => el.name === focused)
 
     gridRef.current?.focus?.()
 
@@ -82,7 +111,7 @@ const FilesGrid = ({
     }
 
     if ((e.key === 'Delete' || e.key === 'Backspace') && selected.length > 0) {
-      const selectedFiles = files.filter(f => selected.includes(f.name))
+      const selectedFiles = filteredFiles.filter(f => selected.includes(f.name))
       return onRemove(selectedFiles)
     }
 
@@ -101,13 +130,13 @@ const FilesGrid = ({
     if (isArrowKey) {
       e.preventDefault()
       const columns = Math.floor((gridRef.current?.clientWidth || window.innerWidth) / 220)
-      const currentIndex = files.findIndex(el => el.name === focusedFile?.name)
+      const currentIndex = filteredFiles.findIndex(el => el.name === focusedFile?.name)
       let newIndex = currentIndex
 
       switch (e.key) {
         case 'ArrowDown':
           if (currentIndex === -1) {
-            newIndex = files.length - 1 // if no focused file, set to last file
+            newIndex = filteredFiles.length - 1 // if no focused file, set to last file
           } else {
             newIndex = currentIndex + columns
           }
@@ -120,7 +149,7 @@ const FilesGrid = ({
           }
           break
         case 'ArrowRight':
-          if (currentIndex === -1 || currentIndex === files.length - 1) {
+          if (currentIndex === -1 || currentIndex === filteredFiles.length - 1) {
             newIndex = 0 // if no focused file, set to last file
           } else {
             newIndex = currentIndex + 1
@@ -128,7 +157,7 @@ const FilesGrid = ({
           break
         case 'ArrowLeft':
           if (currentIndex === -1 || currentIndex === 0) {
-            newIndex = files.length - 1 // if no focused file, set to last file
+            newIndex = filteredFiles.length - 1 // if no focused file, set to last file
           } else {
             newIndex = currentIndex - 1
           }
@@ -137,8 +166,8 @@ const FilesGrid = ({
           break
       }
 
-      if (newIndex >= 0 && newIndex < files.length) {
-        const name = files[newIndex].name
+      if (newIndex >= 0 && newIndex < filteredFiles.length) {
+        const name = filteredFiles[newIndex].name
         setFocused(name)
         const element = filesRefs.current[name]
         if (element && element.scrollIntoView) {
@@ -149,7 +178,7 @@ const FilesGrid = ({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files, focused])
+  }, [filteredFiles, focused])
 
   useEffect(() => {
     if (filesIsFetching) return
@@ -162,38 +191,45 @@ const FilesGrid = ({
   const gridClassName = `files-grid${isOver && canDrop ? ' files-grid--drop-target' : ''}`
 
   return (
-    <div ref={(el) => {
-      drop(el)
-      gridRef.current = el
-    }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')}>
-      {files.map(file => (
-        <GridFile
-          key={file.name}
-          {...file}
-          refSetter={(r: HTMLDivElement | null) => { filesRefs.current[file.name] = r as HTMLDivElement }}
-          selected={selected.includes(file.name)}
-          focused={focused === file.name}
-          pinned={pins?.includes(file.cid?.toString())}
-          isRemotePin={remotePins?.includes(file.cid?.toString())}
-          isPendingPin={pendingPins?.includes(file.cid?.toString())}
-          isFailedPin={failedPins?.some(p => p?.includes(file.cid?.toString()))}
-          isMfs={filesPathInfo?.isMfs}
-          onNavigate={() => onNavigate({ path: file.path, cid: file.cid })}
-          onAddFiles={onAddFiles}
-          onMove={onMove}
-          onSetPinning={onSetPinning}
-          onDismissFailedPin={onDismissFailedPin}
-          handleContextMenuClick={handleContextMenuClick}
-          onSelect={handleSelect}
-        />
-      ))}
-      {files.length === 0 && (
-        <Trans i18nKey='filesList.noFiles' t={t}>
-          <div className='pv3 b--light-gray files-grid-empty bt tc gray f6'>
-            There are no available files. Add some!
-          </div>
-        </Trans>
-      )}
+    <div className="flex flex-column">
+      <SearchFilter
+        onFilterChange={handleFilterChange}
+        filteredCount={filteredFiles.length}
+        totalCount={files.length}
+      />
+      <div ref={(el) => {
+        drop(el)
+        gridRef.current = el
+      }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')}>
+        {filteredFiles.map(file => (
+          <GridFile
+            key={file.name}
+            {...file}
+            refSetter={(r: HTMLDivElement | null) => { filesRefs.current[file.name] = r as HTMLDivElement }}
+            selected={selected.includes(file.name)}
+            focused={focused === file.name}
+            pinned={pins?.includes(file.cid?.toString())}
+            isRemotePin={remotePins?.includes(file.cid?.toString())}
+            isPendingPin={pendingPins?.includes(file.cid?.toString())}
+            isFailedPin={failedPins?.some(p => p?.includes(file.cid?.toString()))}
+            isMfs={filesPathInfo?.isMfs}
+            onNavigate={() => onNavigate({ path: file.path, cid: file.cid })}
+            onAddFiles={onAddFiles}
+            onMove={onMove}
+            onSetPinning={onSetPinning}
+            onDismissFailedPin={onDismissFailedPin}
+            handleContextMenuClick={handleContextMenuClick}
+            onSelect={handleSelect}
+          />
+        ))}
+        {filteredFiles.length === 0 && (
+          <Trans i18nKey='filesList.noFiles' t={t}>
+            <div className='pv3 b--light-gray files-grid-empty bt tc gray f6'>
+              {filter ? t('noFilesMatchFilter') : 'There are no available files. Add some!'}
+            </div>
+          </Trans>
+        )}
+      </div>
     </div>
   )
 }
