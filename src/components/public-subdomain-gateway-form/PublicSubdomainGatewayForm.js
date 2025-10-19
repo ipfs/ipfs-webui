@@ -6,7 +6,7 @@ import { checkValidHttpUrl, checkSubdomainGateway, DEFAULT_SUBDOMAIN_GATEWAY } f
 
 const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicSubdomainGateway }) => {
   const [value, setValue] = useState(publicSubdomainGateway)
-  const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
+  const initialIsValidGatewayUrl = checkValidHttpUrl(value)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
   const [validationResult, setValidationResult] = useState(null)
 
@@ -14,11 +14,18 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
   useEffect(() => {
     const validateUrl = async () => {
       try {
-        const isValid = await checkSubdomainGateway(value)
-        setIsValidGatewayUrl(isValid)
+        const result = await checkSubdomainGateway(value)
+        setIsValidGatewayUrl(result.isValid)
+        setValidationResult(result)
       } catch (error) {
         console.error('Error checking subdomain gateway:', error)
         setIsValidGatewayUrl(false)
+        setValidationResult({
+          isValid: false,
+          securityWarnings: [],
+          errors: ['Validation error: ' + (error instanceof Error ? error.message : String(error))],
+          securityScore: 0
+        })
       }
     }
 
@@ -32,10 +39,18 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
 
     let isValid = false
     try {
-      isValid = await checkSubdomainGateway(value)
-      setIsValidGatewayUrl(true)
+      const result = await checkSubdomainGateway(value)
+      isValid = result.isValid
+      setIsValidGatewayUrl(isValid)
+      setValidationResult(result)
     } catch (e) {
       setIsValidGatewayUrl(false)
+      setValidationResult({
+        isValid: false,
+        securityWarnings: [],
+        errors: ['Validation error: ' + (e instanceof Error ? e.message : String(e))],
+        securityScore: 0
+      })
       return
     }
 
