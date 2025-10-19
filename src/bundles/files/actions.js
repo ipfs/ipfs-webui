@@ -13,10 +13,10 @@ import { spawn, perform, send, ensureMFS, Channel, sortFiles, infoFromPath, disp
 import { IGNORED_FILES, ACTIONS } from './consts.js'
 
 /**
- * @typedef {import('ipfs').IPFSService} IPFSService
+ * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
  * @typedef {import('../../files/types').FileStream} FileStream
  * @typedef {import('./utils').Info} Info
- * @typedef {import('ipfs').Pin} Pin
+ * @typedef {{ cid: CID }} Pin
  */
 
 /**
@@ -590,11 +590,11 @@ const actions = () => ({
   }),
 
   /**
-   * Triggers provide operation for a copied CID.
+   * Triggers provide operation for a CID.
    * @param {import('multiformats/cid').CID} cid
    */
-  doFilesCopyCidProvide: (cid) => perform('FILES_COPY_CID_PROVIDE', async (ipfs) => {
-    dispatchAsyncProvide(cid, ipfs, 'COPY')
+  doFilesCidProvide: (cid) => perform('FILES_CID_PROVIDE', async (ipfs) => {
+    dispatchAsyncProvide(cid, ipfs)
   }),
 
   doFilesShareLink: (/** @type {FileStat[]} */ files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
@@ -604,7 +604,7 @@ const actions = () => ({
     const { link: shareableLink, cid } = await getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
 
     // Trigger background provide operation with the CID from getShareableLink
-    dispatchAsyncProvide(cid, ipfs, 'SHARE')
+    dispatchAsyncProvide(cid, ipfs)
 
     return shareableLink
   }),
@@ -769,7 +769,7 @@ const importFiles = (ipfs, files) => {
   const result = all(ipfs.addAll(files, {
     pin: false,
     wrapWithDirectory: false,
-    progress: (offset, name) => channel.send({ offset, name })
+    progress: (offset, name = '') => channel.send({ offset, name })
   }))
 
   result.then(() => channel.close(), error => channel.close(error))
@@ -803,7 +803,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
     const absPath = join(path, f.name)
     let file = null
 
-    if (dirCount < 1000 && (f.type === 'directory' || f.type === 'dir')) {
+    if (dirCount < 1000 && f.type === 'dir') {
       dirCount += 1
       file = fileFromStats({ ...await stat(ipfs, f.cid), path: absPath })
     } else {

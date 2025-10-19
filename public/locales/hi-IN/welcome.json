@@ -6,15 +6,15 @@
   },
   "notConnected": {
     "paragraph1": "IPFS डॉक्स में इंस्टॉलेशन गाइड देखें \nया इन सामान्य सुधारों \nको आजमाएं",
-    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
-    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
-    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
+    "paragraph2": "",
+    "paragraph3": "",
+    "paragraph4": ""
   },
   "aboutIpfs": {
     "header": "IPFS क्या है?",
     "paragraph1": "एक हाइपर मीडिया डिस्ट्रीब्यूशन प्रोटोकॉल है \nजिसमें Kademlia, BitTorrent, Git \nऔर बहुत कुछ के विचार शामिल हैं|\n",
     "paragraph2": "एक पीयर टू पीयर फाइल स्थान्तरण नेटवर्क है \nजो की पूर्णतः विकेन्द्रीकृत आर्किटेक्चर पर बना है \nऔर इसमें कोई केंद्रीय फेलियर , सेंसरशिप या नियंत्रण केंद्र नहीं है",
-    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
+    "paragraph3": "",
     "paragraph4": "क अगली पीढ़ी का CDN- कैश-फ्रेंडली कंटेंट-हैश एड्रेसिंग और बिटटोरेंट-स्टाइल बैंडविड्थ वितरण के साथ इसे दुनिया के लिए उपलब्ध कराने के लिए बस अपने नोड में एक फाइल जोड़ें",
     "paragraph5": "एक मजबूत ओपन-सोर्स समुदाय द्वारा समर्थित, पूरी तरह से वितरित ऐप्स और सेवाओं के निर्माण के लिए एक डेवलपर टूलसेट है "
   },
@@ -31,7 +31,7 @@
     "step1": {
       "title": "स्वागत पृष्ठ",
       "paragraph1": "यह पृष्ठ आपको यह बताता है कि क्या आप IPFSसे जुड़े हैं, और उन चीजों के लिए विचार प्रदान करता है जो आप इस ऐप में कर सकते हैं।",
-      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
+      "paragraph2": "",
       "paragraph3": "आप नेविगेशन बार में IPFS क्यूब लोगो पर क्लिक करके ऐप में कहीं से भी इस पेज पर जा सकते हैं।"
     }
   }

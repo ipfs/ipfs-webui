@@ -6,15 +6,15 @@
   },
   "notConnected": {
     "paragraph1": "<0>Lese die Installationsanleitung in der <1>IPFS-Dokumentation</1> oder probiere die folgenden häufigen Lösungen aus:</0>",
-    "paragraph2": "<0>Is your IPFS daemon running? Try starting or restarting Kubo from your terminal:</0>",
-    "paragraph3": "<0>Is your Kubo RPC API configured to allow <1>cross-origin (CORS) requests</1>? If not, run these commands and then start your daemon from the terminal:</0>",
-    "paragraph4": "<0>Is your Kubo RPC API on a port other than 5001? If your node is configured with a <1>custom API address</1>, enter it here.</0>"
+    "paragraph2": "",
+    "paragraph3": "",
+    "paragraph4": ""
   },
   "aboutIpfs": {
     "header": "Was ist IPFS?",
     "paragraph1": "<0><0>Ein Hypermedia-Verteilungsprotokoll</0>, welches Ideen von Kademlia, BitTorrent, Git und anderen enthält</0>",
     "paragraph2": "<0><0>Ein Peer-to-Peer-Dateiübertragungsnetzwerk</0> mit einer vollständig dezentralen Architektur und ohne zentralen Punkt für Fehler, Zensur oder Kontrolle</0>",
-    "paragraph3": "<0><0>An on-ramp to tomorrow's web</0> — traditional browsers can access IPFS files through gateways like <2>https://dweb.link</2> or directly using the <4>IPFS Companion</4> extension</0>",
+    "paragraph3": "",
     "paragraph4": "<0><0>Ein CDN der nächsten Generation</0> — füge einfach eine Datei zu Deinem Knoten hinzu, um sie der Welt mit cachefreundlicher Inhalts-Hash-Adressierung und Bandbreitenverteilung im BitTorrent-Stil zur Verfügung zu stellen</0>",
     "paragraph5": "<0><0>Ein Entwickler-Werkzeug</0> zum Erstellen <2>vollständig verteilter Apps und Dienste</2>, das von einer robusten Open-Source-Community unterstützt wird</0>"
   },
@@ -31,7 +31,7 @@
     "step1": {
       "title": "Startseite",
       "paragraph1": "Diese Seite zeigt dir an, ob du mit IPFS verbunden bist und schlägt dir Ideen vor, mit Dingen, die du in dieser App tun kannst.",
-      "paragraph2": "If you aren't connected to the Kubo RPC API, this page also appears in place of some other pages, with hints for how to get connected.",
+      "paragraph2": "",
       "paragraph3": "Du kannst diese Seite von überall in der App aus besuchen, indem Du auf das IPFS-Würfel-Logo in der Navigationsleiste klickst."
     }
   }

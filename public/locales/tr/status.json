@@ -14,7 +14,7 @@
   },
   "customApiConfig": "Özel JSON yapılandırması",
   "AnalyticsBanner": {
-    "label": "We have recently updated our telemetry policy to switch to opt-out metrics. You previously had telemetry collection disabled. You can disable telemetry collection (again) on the settings page."
+    "label": ""
   },
   "tour": {
     "step1": {
@@ -24,7 +24,7 @@
     },
     "step2": {
       "title": "Bağlantı durumu",
-      "paragraph1": "Click this icon from anywhere in the app to return to the Status page. If you lose your connection to the Kubo RPC, the icon will turn red.",
+      "paragraph1": "",
       "paragraph2": "Düğümünüz için özel bir UPA adresi yapılandırmanız gerekirse, bu sayfada UPA adresinin listelendiği yerin yanındaki \"Düzenle\" bağlantısını tıklamanız yeterlidir."
     },
     "step3": {

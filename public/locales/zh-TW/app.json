@@ -9,32 +9,28 @@
     "close": "關閉",
     "copy": "複製",
     "create": "創建",
+    "default": "",
     "remove": "移除",
     "download": "下載",
     "edit": "編輯",
     "import": "匯入",
     "inspect": "檢查",
     "more": "更多",
-    "moreInfo": "詳細資訊",
-    "noThanks": "不，謝謝",
-    "ok": "好的",
-    "pinVerb": "錨釘",
     "rename": "重新命名",
     "reset": "重置",
     "save": "儲存",
     "saving": "儲存中…",
-    "selectAll": "全選",
     "setPinning": "設置為錨釘",
     "submit": "提交",
-    "unpin": "取消錨釘",
     "unselectAll": "取消全部選擇",
-    "generate": "Generate",
-    "publish": "Publish",
-    "downloadCar": "Export CAR",
-    "done": "Done"
+    "generate": "",
+    "publish": "",
+    "downloadCar": "",
+    "done": "",
+    "checkRetrieval": ""
   },
   "cliModal": {
-    "description": "Paste the following into your terminal to do this task in Kubo via the command line. Remember that you'll need to replace placeholders with your specific parameters."
+    "description": ""
   },
   "nav": {
     "bugsLink": "回報臭蟲",
@@ -43,24 +39,28 @@
   "status": {
     "connectedToIpfs": "已連接到 IPFS",
     "connectingToIpfs": "正在連接 IPFS",
-    "couldNotConnect": "Could not connect to the Kubo RPC"
+    "couldNotConnect": ""
   },
   "apiAddressForm": {
-    "placeholder": "Enter a URL (http://user:password@127.0.0.1:5001) or a Multiaddr (/ip4/127.0.0.1/tcp/5001)"
+    "placeholder": ""
   },
   "publicGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.io)"
+    "placeholder": ""
   },
   "publicSubdomainGatewayForm": {
-    "placeholder": "Enter a URL (https://dweb.link)"
+    "placeholder": ""
+  },
+  "ipfsCheckForm": {
+    "label": "",
+    "placeholder": ""
   },
   "terms": {
     "address": "地址",
     "addresses": "地址",
     "advanced": "進階",
     "agent": "代理",
-    "api": "Kubo RPC",
-    "apiAddress": "Kubo RPC API address",
+    "api": "",
+    "apiAddress": "",
     "blocks": "區塊",
     "connection": "連接",
     "downSpeed": "接收",
@@ -79,13 +79,13 @@
     "out": "發送",
     "peer": "節點",
     "peerId": "節點 ID",
-    "id": "ID",
+    "id": "",
     "peers": "節點",
     "pinNoun": "錨釘",
     "pins": "錨釘",
     "pinStatus": "錨釘狀態",
     "publicKey": "公鑰",
-    "publicGateway": "Public Gateway",
+    "publicGateway": "",
     "rateIn": "發送率",
     "rateOut": "接收率",
     "repo": "儲存庫",

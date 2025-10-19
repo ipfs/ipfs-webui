@@ -12,6 +12,39 @@ export const sorts = SORTING
  * @typedef {import('./protocol').Message} Message
  * @typedef {import('../task').SpawnState<any, Error, any, any>} JobState
  */
+
+/**
+ * Get sorted content from pageContent
+ * @param {import('./protocol').DirectoryContent} pageContent
+ * @param {import('./protocol').Sorting} sorting
+ * @param {string[]} pins
+ * @returns {any[]}
+ */
+const getSortedContent = (pageContent, sorting, pins) => {
+  // Always sort from originalContent (preserved from ipfs.ls) or fallback to content
+  const sourceContent = pageContent.originalContent || pageContent.content
+  return sortFiles(sourceContent, sorting, pins)
+}
+
+/**
+ * Helper function to re-sort files when needed
+ * @param {Model} state
+ * @returns {Model}
+ */
+const resortContent = (state) => {
+  if (state.pageContent && state.pageContent.type === 'directory') {
+    const content = getSortedContent(state.pageContent, state.sorting, state.pins)
+    return {
+      ...state,
+      pageContent: {
+        ...state.pageContent,
+        content
+      }
+    }
+  }
+  return state
+}
+
 const createFilesBundle = () => {
   return {
     name: 'files',
@@ -34,6 +67,12 @@ const createFilesBundle = () => {
         case ACTIONS.PIN_REMOVE:
         case ACTIONS.SYNC_FROM_PINS:
           return updateJob(state, action.task, action.type)
+        case ACTIONS.PIN_ADD:
+        case ACTIONS.PIN_REMOVE: {
+          const updatedState = updateJob(state, action.task, action.type)
+          // Re-sort if sorting by pinned status
+          return state.sorting.by === SORTING.BY_PINNED ? resortContent(updatedState) : updatedState
+        }
         case ACTIONS.WRITE: {
           return updateJob(state, action.task, action.type)
         }
@@ -44,21 +83,30 @@ const createFilesBundle = () => {
             ? task.result.value.pins.map(String)
             : state.pins
 
-          return {
+          const updatedState = {
             ...updateJob(state, task, type),
             pins
           }
+
+          // Re-sort if sorting by pinned status
+          return state.sorting.by === SORTING.BY_PINNED ? resortContent(updatedState) : updatedState
         }
         case ACTIONS.FETCH: {
           const { task, type } = action
           const result = task.status === 'Exit' && task.result.ok
             ? task.result.value
             : null
-          const { pageContent } = result
-            ? {
-                pageContent: result
-              }
-            : state
+          let pageContent = result || state.pageContent
+          // Apply current sorting to the fetched content
+          if (result && pageContent && pageContent.type === 'directory' && pageContent.content) {
+            const originalContent = pageContent.originalContent || pageContent.content // Preserve original
+            const sortedContent = getSortedContent({ ...pageContent, originalContent }, state.sorting, state.pins)
+            pageContent = {
+              ...pageContent,
+              originalContent, // Store original unsorted order
+              content: sortedContent
+            }
+          }
 
           return {
             ...updateJob(state, task, type),
@@ -80,9 +128,17 @@ const createFilesBundle = () => {
           }
         }
         case ACTIONS.UPDATE_SORT: {
-          const { pageContent } = state
+          const { pageContent, pins } = state
+
+          // Persist sorting preference to localStorage
+          try {
+            window.localStorage?.setItem('files.sorting', JSON.stringify(action.payload))
+          } catch (error) {
+            console.error('Failed to save files.sorting to localStorage:', error)
+          }
+
           if (pageContent && pageContent.type === 'directory') {
-            const content = sortFiles(pageContent.content, action.payload)
+            const content = getSortedContent(pageContent, action.payload, pins)
             return {
               ...state,
               pageContent: {
@@ -92,7 +148,10 @@ const createFilesBundle = () => {
               sorting: action.payload
             }
           } else {
-            return state
+            return {
+              ...state,
+              sorting: action.payload
+            }
           }
         }
         case ACTIONS.SIZE_GET: {
