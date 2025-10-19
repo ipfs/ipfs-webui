@@ -135,7 +135,18 @@ export async function checkSubdomainGateway (gatewayUrl) {
   let imgRedirectedPathUrl
   try {
     const gwUrl = new URL(gatewayUrl)
-    imgSubdomainUrl = new URL(`${gwUrl.protocol}//${IMG_HASH_1PX}.ipfs.${gwUrl.hostname}/?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
+    // Check if the gateway URL already has an IPFS subdomain
+    // If hostname starts with 'ipfs.', we need to handle it differently
+    const hasIpfsSubdomain = gwUrl.hostname.startsWith('ipfs.')
+
+    if (hasIpfsSubdomain) {
+      // For gateways like ipfs.example.com, construct: hash.ipfs.example.com
+      imgSubdomainUrl = new URL(`${gwUrl.protocol}//${IMG_HASH_1PX}.${gwUrl.hostname}/?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
+    } else {
+      // For gateways like example.com, construct: hash.ipfs.example.com
+      imgSubdomainUrl = new URL(`${gwUrl.protocol}//${IMG_HASH_1PX}.ipfs.${gwUrl.hostname}/?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
+    }
+
     imgRedirectedPathUrl = new URL(`${gwUrl.protocol}//${gwUrl.hostname}/ipfs/${IMG_HASH_1PX}?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
   } catch (err) {
     console.error('Invalid URL:', err)
