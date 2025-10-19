@@ -113,6 +113,7 @@
   "filesImportStatus": {
     "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
     "importing": "{count, plural, one {Importing 1 item} other {Importing {count} items}}",
+    "failed": "{count, plural, one {Failed to import 1 item} other {Failed to import {count} items}}",
     "toggleDropdown": "Toggle dropdown",
     "closeDropdown": "Close dropdown",
     "count": "{count} of {count}"

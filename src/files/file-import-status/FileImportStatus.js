@@ -4,13 +4,13 @@ import PropTypes from 'prop-types'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 // Icons
-import DocumentIcon from '../../icons/GlyphDocGeneric.js'
-import FolderIcon from '../../icons/GlyphFolder.js'
+import DocumentIcon from '../../icons/GlyphDocGeneric.tsx'
+import FolderIcon from '../../icons/GlyphFolder.tsx'
 import './FileImportStatus.css'
-import GlyphSmallArrows from '../../icons/GlyphSmallArrow.js'
-import GlyphTick from '../../icons/GlyphTick.js'
-import GlyphCancel from '../../icons/GlyphCancel.js'
-import GlyphSmallCancel from '../../icons/GlyphSmallCancel.js'
+import GlyphSmallArrows from '../../icons/GlyphSmallArrow.tsx'
+import GlyphTick from '../../icons/GlyphTick.tsx'
+import GlyphCancel from '../../icons/GlyphCancel.tsx'
+import GlyphSmallCancel from '../../icons/GlyphSmallCancel.tsx'
 import ProgressBar from '../../components/progress-bar/ProgressBar.js'
 
 const Import = (job, t) =>
@@ -109,12 +109,16 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
   }
 
   const numberOfImportedItems = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile.message.entries.length, 0)
+  const numberOfFailedItems = !filesErrors.length ? 0 : filesErrors.reduce((prev, failedFile) => prev + failedFile.message.entries.length, 0)
   const numberOfPendingItems = filesPending.reduce((total, pending) => total + groupByPath(pending.message.entries).size, 0)
   const progress = Math.floor(filesPending.reduce((total, { message: { progress } }) => total + progress, 0) / filesPending.length)
 
+  const hasErrors = numberOfFailedItems > 0 && !filesPending.length
+  const containerClass = hasErrors ? 'fileImportStatusError' : ''
+
   return (
     <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
-      <div className="relative br1 dark-gray w-40 center ba b--light-gray bg-white" style={{ pointerEvents: 'auto' }}>
+      <div className={`relative br1 dark-gray w-40 center ba b--light-gray bg-white ${containerClass}`} style={{ pointerEvents: 'auto' }}>
         <div
           tabIndex="0"
           onClick={() => setExpanded(!expanded)}
@@ -127,7 +131,9 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
           <span>
             { filesPending.length
               ? `${t('filesImportStatus.importing', { count: numberOfPendingItems })} (${progress}%)`
-              : t('filesImportStatus.imported', { count: numberOfImportedItems })
+              : numberOfFailedItems > 0
+                ? t('filesImportStatus.failed', { count: numberOfFailedItems })
+                : t('filesImportStatus.imported', { count: numberOfImportedItems })
             }
           </span>
           <div className="flex items-center">
