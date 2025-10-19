@@ -10,6 +10,7 @@ interface Shortcut {
   hidden?: boolean
   action: () => void
   group?: string
+  ref?: React.RefObject<HTMLElement | null>
 }
 
 interface ShortcutsContextType {
@@ -24,6 +25,30 @@ const ShortcutsContext = createContext<ShortcutsContextType | null>(null)
 export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [showShortcuts, setShowShortcuts] = React.useState(false)
   const defaultShortcut: Shortcut[] = [
+    {
+      id: 'tour-help',
+      keys: ['Shift', 'H'],
+      label: t('app:shortcutModal.tourHelp'),
+      action: () => {
+        const tourHelper = document.getElementById('tour-helper')
+        if (tourHelper) {
+          tourHelper.click()
+        }
+      },
+      group: t('app:shortcutModal.general')
+    },
+    {
+      id: 'ipfs-path',
+      keys: ['/'],
+      label: t('app:shortcutModal.ipfsPath'),
+      action: () => {
+        const ipfsPath = document.getElementById('ipfs-path')
+        if (ipfsPath) {
+          ipfsPath.focus()
+        }
+      },
+      group: t('app:shortcutModal.general')
+    },
     {
       id: 'show-shortcuts',
       keys: ['Shift', '?'],
@@ -75,6 +100,14 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
 
     shortcuts.forEach(shortcut => {
+      // Check if shortcut should be scoped to a specific ref
+      if (shortcut.ref) {
+        const refElement = shortcut.ref.current
+        if (!refElement || !refElement.contains(target)) {
+          return // Skip this shortcut if target is not within the ref scope
+        }
+      }
+
       if (isPressed(shortcut.keys, e)) {
         e.preventDefault()
         if (shortcut.id !== 'show-shortcuts') {
@@ -136,13 +169,16 @@ export const ShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   )
 }
 
-export const useShortcuts = (shortcuts: Omit<Shortcut, 'id'>[]) => {
+export const useShortcuts = (shortcuts: Omit<Shortcut, 'id'>[], ref?: React.RefObject<HTMLElement | null>) => {
   const context = useContext(ShortcutsContext)
   if (!context) {
     throw new Error('Shortcuts hook is out of context')
   }
 
-  const memoizedShortcuts = useMemo(() => shortcuts, [shortcuts])
+  const memoizedShortcuts = useMemo(() =>
+    shortcuts.map(shortcut => ({ ...shortcut, ref })),
+  [shortcuts, ref]
+  )
 
   useEffect(() => {
     if (memoizedShortcuts.length > 0) {
