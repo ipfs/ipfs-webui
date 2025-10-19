@@ -35,12 +35,11 @@ interface FilesGridPropsConnected extends FilesGridProps {
   onSelect: (fileName: string | string[], isSelected: boolean) => void
   filesIsFetching: boolean
   selected: string[]
-  modalOpen: boolean
 }
 
 const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
-  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect, modalOpen = false
+  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
 }: FilesGridPropsConnected) => {
   const [focused, setFocused] = useState<string | null>(null)
   const [filter, setFilter] = useState('')
