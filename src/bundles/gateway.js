@@ -52,6 +52,109 @@ export const checkValidHttpUrl = (value) => {
 }
 
 /**
+ * Security validation for subdomain gateway URLs
+ * @param {string} gatewayUrl - The gateway URL to validate
+ * @returns {{isValid: boolean, warnings: string[], errors: string[], securityScore: number}} - Validation result with security warnings
+ */
+export const validateSubdomainGatewaySecurity = (gatewayUrl) => {
+  const warnings = []
+  const errors = []
+
+  try {
+    const url = new URL(gatewayUrl)
+
+    // Check for HTTPS
+    if (url.protocol !== 'https:') {
+      warnings.push('Gateway should use HTTPS for security')
+    }
+
+    // Check for localhost/private IPs in production
+    const hostname = url.hostname.toLowerCase()
+    const isLocalhost = hostname === 'localhost' ||
+                       hostname === '127.0.0.1' ||
+                       hostname.startsWith('192.168.') ||
+                       hostname.startsWith('10.') ||
+                       hostname.startsWith('172.')
+
+    if (isLocalhost) {
+      warnings.push('Using localhost/private IP gateway may not be accessible to other users')
+    }
+
+    // Check for potentially risky subdomain patterns
+    if (hostname.includes('ipfs.') && !hostname.startsWith('ipfs.')) {
+      warnings.push('Subdomain gateway with "ipfs." in the middle may cause confusion')
+    }
+
+    // Check for suspicious domains
+    const suspiciousPatterns = [
+      /\.tk$/, /\.ml$/, /\.ga$/, /\.cf$/, // Free domains often used for malicious purposes
+      /\.onion$/, // Tor hidden services
+      /localhost\./, /127\.0\.0\.1\./, /0\.0\.0\.0\./ // Localhost subdomains
+    ]
+
+    for (const pattern of suspiciousPatterns) {
+      if (pattern.test(hostname)) {
+        warnings.push('Gateway domain may be unreliable or potentially malicious')
+        break
+      }
+    }
+
+    // Check for very short domains (potential typosquatting)
+    const domainParts = hostname.split('.')
+    if (domainParts.length >= 2) {
+      const tld = domainParts[domainParts.length - 1]
+      const domain = domainParts[domainParts.length - 2]
+      if (domain.length <= 2 && tld.length <= 2) {
+        warnings.push('Very short domain name may be a typo or malicious')
+      }
+    }
+  } catch (error) {
+    errors.push('Invalid URL format')
+  }
+
+  return {
+    isValid: errors.length === 0,
+    warnings,
+    errors,
+    securityScore: calculateSecurityScore(gatewayUrl, warnings, errors)
+  }
+}
+
+/**
+ * Calculate a security score for the gateway URL
+ * @param {string} gatewayUrl - The gateway URL
+ * @param {string[]} warnings - Array of warnings
+ * @param {string[]} errors - Array of errors
+ * @returns {number} - Security score from 0-100
+ */
+const calculateSecurityScore = (gatewayUrl, warnings, errors) => {
+  if (errors.length > 0) return 0
+
+  let score = 100
+
+  // Deduct points for warnings
+  score -= warnings.length * 10
+
+  // Bonus points for HTTPS
+  if (gatewayUrl.startsWith('https://')) {
+    score += 5
+  }
+
+  // Bonus points for well-known domains
+  const wellKnownDomains = [
+    'dweb.link', 'ipfs.io', 'gateway.pinata.cloud',
+    'cloudflare-ipfs.com', 'ipfs.fleek.co'
+  ]
+
+  const hostname = new URL(gatewayUrl).hostname.toLowerCase()
+  if (wellKnownDomains.some(domain => hostname.includes(domain))) {
+    score += 10
+  }
+
+  return Math.max(0, Math.min(100, score))
+}
+
+/**
  * Check if any hashes from IMG_ARRAY can be loaded from the provided gatewayUrl
  * @param {string} gatewayUrl - The gateway URL to check
  * @see https://github.com/ipfs/ipfs-webui/issues/1937#issuecomment-1152894211 for more info
@@ -150,13 +253,24 @@ async function checkViaImgUrl (imgUrl) {
  * Checks if a given gateway URL is functioning correctly by verifying image loading and redirection.
  *
  * @param {string} gatewayUrl - The URL of the gateway to be checked.
- * @returns {Promise<boolean>} A promise that resolves to true if the gateway is functioning correctly, otherwise false.
+ * @returns {Promise<{isValid: boolean, securityWarnings: string[], errors: string[], securityScore?: number}>} A promise that resolves to an object with validation results including security warnings.
  */
 export async function checkSubdomainGateway (gatewayUrl) {
   if (gatewayUrl === DEFAULT_SUBDOMAIN_GATEWAY || gatewayUrl === TEST_SUBDOMAIN_GATEWAY) {
     // avoid sending probe requests to the default gateway every time Settings page is opened
     // also skip validation for test gateways
-    return true
+    return { isValid: true, securityWarnings: [], errors: [] }
+  }
+
+  // Perform security validation first
+  const securityValidation = validateSubdomainGatewaySecurity(gatewayUrl)
+  if (!securityValidation.isValid) {
+    return {
+      isValid: securityValidation.isValid,
+      securityWarnings: securityValidation.warnings,
+      errors: securityValidation.errors,
+      securityScore: securityValidation.securityScore
+    }
   }
   /** @type {URL} */
   let imgSubdomainUrl
@@ -179,18 +293,32 @@ export async function checkSubdomainGateway (gatewayUrl) {
     imgRedirectedPathUrl = new URL(`${gwUrl.protocol}//${gwUrl.hostname}/ipfs/${IMG_HASH_1PX}?now=${Date.now()}&filename=1x1.png#x-ipfs-companion-no-redirect`)
   } catch (err) {
     console.error('Invalid URL:', err)
-    return false
+    return {
+      isValid: false,
+      securityWarnings: securityValidation.warnings,
+      errors: ['Invalid URL format: ' + (err instanceof Error ? err.message : String(err))],
+      securityScore: securityValidation.securityScore
+    }
   }
-  return await checkViaImgUrl(imgSubdomainUrl)
-    .then(async () => expectSubdomainRedirect(imgRedirectedPathUrl))
-    .then(() => {
-      console.log(`Gateway at '${gatewayUrl}' is functioning correctly (verified image loading and redirection)`)
-      return true
-    })
-    .catch((err) => {
-      console.error(err)
-      return false
-    })
+  try {
+    await checkViaImgUrl(imgSubdomainUrl)
+    await expectSubdomainRedirect(imgRedirectedPathUrl)
+    console.log(`Gateway at '${gatewayUrl}' is functioning correctly (verified image loading and redirection)`)
+    return {
+      isValid: true,
+      securityWarnings: securityValidation.warnings,
+      errors: [],
+      securityScore: securityValidation.securityScore
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      isValid: false,
+      securityWarnings: securityValidation.warnings,
+      errors: ['Gateway validation failed: ' + (err instanceof Error ? err.message : String(err))],
+      securityScore: securityValidation.securityScore
+    }
+  }
 }
 
 const bundle = {

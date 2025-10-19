@@ -20,6 +20,19 @@ The app uses [`kubo-rpc-client`](https://github.com/ipfs/js-kubo-rpc-client) to 
 
 The app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/main/packages/cra-template/template/README.md#table-of-contents).
 
+## Security Considerations
+
+### Subdomain Gateway Security
+
+When configuring subdomain gateways in the settings, consider the following security best practices:
+
+- **Use HTTPS**: Always prefer HTTPS gateways over HTTP to ensure encrypted communication
+- **Avoid suspicious domains**: Be cautious with free domains (`.tk`, `.ml`, `.ga`, `.cf`) or very short domain names that may be typosquatting attempts
+- **Separate domains**: For production applications, consider using a completely separate domain for your IPFS gateway rather than a subdomain of your main application domain to avoid same-site security issues
+- **Well-known providers**: Prefer established IPFS gateway providers like `dweb.link`, `ipfs.io`, or `gateway.pinata.cloud`
+
+The WebUI includes security validation that will warn you about potentially risky gateway configurations and provide a security score to help you make informed decisions.
+
 ## Maintenance
 
 <a href="https://ipshipyard.com/"><img align="right" src="https://github.com/user-attachments/assets/39ed3504-bb71-47f6-9bf8-cb9a1698f272" /></a>

@@ -8,6 +8,7 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
   const [value, setValue] = useState(publicSubdomainGateway)
   const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
   const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
+  const [validationResult, setValidationResult] = useState(null)
 
   // Updates the border of the input to indicate validity
   useEffect(() => {
@@ -44,6 +45,7 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
   const onReset = async (event) => {
     event.preventDefault()
     setValue(DEFAULT_SUBDOMAIN_GATEWAY)
+    setValidationResult(null)
     doUpdatePublicSubdomainGateway(DEFAULT_SUBDOMAIN_GATEWAY)
   }
 
@@ -65,6 +67,43 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
         onKeyPress={onKeyPress}
         value={value}
       />
+
+      {/* Security Warnings and Errors */}
+      {validationResult && (
+        <div className='mb3'>
+          {/* Security Score */}
+          {validationResult.securityScore !== undefined && (
+            <div className={`f6 mb2 ${validationResult.securityScore >= 80 ? 'green' : validationResult.securityScore >= 60 ? 'yellow' : 'red'}`}>
+              Security Score: {validationResult.securityScore}/100
+            </div>
+          )}
+
+          {/* Errors */}
+          {validationResult.errors && validationResult.errors.length > 0 && (
+            <div className='f6 red mb2'>
+              <strong>Errors:</strong>
+              <ul className='ma0 pa0 pl3'>
+                {validationResult.errors.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Security Warnings */}
+          {validationResult.securityWarnings && validationResult.securityWarnings.length > 0 && (
+            <div className='f6 yellow mb2'>
+              <strong>Security Warnings:</strong>
+              <ul className='ma0 pa0 pl3'>
+                {validationResult.securityWarnings.map((warning, index) => (
+                  <li key={index}>{warning}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className='tr'>
         <Button
           id='public-subdomain-gateway-reset-button'
