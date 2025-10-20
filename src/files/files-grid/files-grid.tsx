@@ -9,7 +9,7 @@ import './files-grid.css'
 import { TFunction } from 'i18next'
 import type { ContextMenuFile, ExtendedFile, FileStream } from '../types'
 import type { CID } from 'multiformats/cid'
-import { useShortcuts } from 'src/contexts/ShortcutsContext.js'
+import { useShortcuts } from '../../contexts/ShortcutsContext'
 
 export interface FilesGridProps {
   files: ContextMenuFile[]
