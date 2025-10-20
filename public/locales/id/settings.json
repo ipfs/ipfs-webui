@@ -15,7 +15,7 @@
   "language": "Bahasa",
   "analytics": "Analitik",
   "cliTutorMode": "Mode Tutor CLI",
-  "config": "",
+  "config": "Konfigurasi Kubo",
   "languageModal": {
     "title": "Ganti bahasa",
     "description": "Pilih bahasa pilihan Anda.",
@@ -26,8 +26,8 @@
   "publicSubdomainGatewayDescription": "<0>Pilih bawaan <1>Subdomain Gateway</1> untuk menghasilkan tautan yang dapat dibagikan.</0>",
   "publicPathGatewayDescription": "<0>Pilih mundur <1>Path Gateway</1> untuk menghasilkan tautan yang dapat dibagikan untuk CID yang melebihi batas DNS 63 karakter.</0>",
   "retrievalDiagnosticService": {
-    "title": "",
-    "description": ""
+    "title": "Layanan Diagnostik Pengambilan",
+    "description": "Konfigurasikan URL layanan <0>ipfs-check</0> yang digunakan untuk <1>diagnostik pengambilan</1>. Layanan ini memeriksa apakah konten dapat berhasil diambil dari node Anda dan node lain yang menghosting CID tertentu, membantu Anda memecahkan masalah berbagi."
   },
   "cliDescription": "<0>Aktifkan opsi ini untuk menampilkan ikon \"lihat kode\" <1></1> di sebelah perintah umum IPFS. Mengkliknya akan membuka modal dengan kode CLI perintah itu, sehingga Anda dapat menempelkannya ke antarmuka baris perintah IPFS di terminal Anda.</0>",
   "cliModal": {
@@ -85,14 +85,14 @@
     "false": "Mati"
   },
   "fetchingSettings": "Mengambil setelan...",
-  "ipfsDaemonOffline": "",
-  "settingsUnavailable": "",
+  "ipfsDaemonOffline": "Daemon Kubo sedang offline. Silakan nyalakan dan coba lagi.",
+  "settingsUnavailable": "Pengaturan tidak tersedia. Silakan periksa apakah daemon Kubo Anda berjalan.",
   "settingsHaveChanged": "Pengaturan telah berubah; silakan klik <1>Reset</1> untuk memperbarui konten editor.",
   "errorOccured": "Terjadi kesalahan saat menyimpan perubahan Anda",
   "checkConsole": "Periksa konsol peramban untuk info lebih lanjut.",
   "changesSaved": "Perubahan yang Anda buat sudah disimpan.",
-  "settingsWillBeUsedNextTime": "",
-  "ipfsConfigDescription": "",
+  "settingsWillBeUsedNextTime": "Pengaturan baru akan digunakan saat berikutnya Anda me-restart daemon Kubo.",
+  "ipfsConfigDescription": "Berkas konfigurasi Kubo adalah dokumen JSON. Berkas ini dibaca sekali ketika daemon Kubo dijalankan. Simpan perubahan Anda, lalu mulai ulang daemon Kubo untuk menerapkannya.",
   "ipfsConfigHelp": "Periksa dokumentasi untuk informasi lebih lanjut.",
   "AnalyticsToggle": {
     "label": "Bantu tingkatkan aplikasi ini dengan mengirimkan data penggunaan anonim",
@@ -133,7 +133,7 @@
   "tour": {
     "step1": {
       "title": "Halaman pengaturan",
-      "paragraph1": "",
+      "paragraph1": "Di sini Anda dapat mengubah pengaturan UI Web dan node Kubo Anda.",
       "paragraph2": "Jika Anda menjalankan Desktop IPFS, Anda juga akan memiliki beberapa pengaturan khusus."
     },
     "step2": {
@@ -158,8 +158,8 @@
       "paragraph1": "Aktifkan mode tutor CLI untuk melihat pintasan ke versi baris perintah dari perintah IPFS umum — berguna jika Anda belajar menggunakan IPFS dari terminal, atau jika Anda hanya perlu penyegaran."
     },
     "step7": {
-      "title": "",
-      "paragraph1": "",
+      "title": "Konfigurasi Kubo",
+      "paragraph1": "Anda dapat mengubah konfigurasi node Kubo Anda langsung dari UI Web!",
       "paragraph2": "Jangan lupa untuk memulai ulang daemon untuk menerapkan perubahan."
     }
   },
