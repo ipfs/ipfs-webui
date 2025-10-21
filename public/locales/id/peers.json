@@ -3,7 +3,7 @@
   "localNetwork": "Jaringan Lokal",
   "nearby": "di dekat sini",
   "protocols": "Aliran terbuka",
-  "agentVersion": "",
+  "agentVersion": "Versi Agen",
   "addConnection": "Tambahkan koneksi",
   "insertPeerAddress": "Masukkan alamat rekan yang ingin Anda sambungkan.",
   "addPermanentPeer": "Tambahkan ke konfigurasi rekan permanen",

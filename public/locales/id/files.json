@@ -14,8 +14,8 @@
   "addByCar": "Dari CAR",
   "bulkImport": "Impor massal",
   "newFolder": "Map baru",
-  "switchToListView": "",
-  "switchToGridView": "",
+  "switchToListView": "Klik untuk beralih ke tampilan daftar",
+  "switchToGridView": "Klik untuk beralih ke tampilan kisi",
   "generating": "Menghasilkan…",
   "dropHere": "Letakkan di sini untuk pindah",
   "actions": {
@@ -170,14 +170,14 @@
   "files": "Berkas",
   "cidNotFileNorDir": "Tautan saat ini bukan berkas, atau direktori. Cobalah untuk <1>memeriksanya</1> sebagai gantinya.",
   "sortBy": "Urutkan item berdasarkan {name}",
-  "sortFiles": "",
-  "sortByNameAsc": "",
-  "sortByNameDesc": "",
-  "sortBySizeAsc": "",
-  "sortBySizeDesc": "",
-  "sortByPinnedFirst": "",
-  "sortByUnpinnedFirst": "",
-  "sortByOriginal": "",
+  "sortFiles": "Urutkan file",
+  "sortByNameAsc": "Nama (A → Z)",
+  "sortByNameDesc": "Nama (Z → A)",
+  "sortBySizeAsc": "Ukuran (terkecil dulu)",
+  "sortBySizeDesc": "Ukuran (terbesar dulu)",
+  "sortByPinnedFirst": "Disematkan terlebih dahulu",
+  "sortByUnpinnedFirst": "Dilepaskan terlebih dahulu",
+  "sortByOriginal": "Pesanan DAG asli",
   "publishModal": {
     "title": "Publikasikan ke IPNS",
     "cidToPublish": "CID:",
@@ -192,12 +192,12 @@
   "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:",
   "selectAllEntries": "Pilih semua entri",
   "previewNotFound": {
-    "title": "",
-    "helpTitle": "",
-    "helpListItemPathTypo": "",
-    "helpListItemFileMoved": "",
-    "helpListItemBookmarkMigrated": "",
-    "helpListItemBookmarkMigratedLink": "",
-    "backButton": ""
+    "title": "IPFS tidak dapat menemukan item ini",
+    "helpTitle": "Berikut adalah langkah-langkah pemecahan masalah umum yang mungkin membantu:",
+    "helpListItemPathTypo": "Apakah ada kesalahan ketik pada jalur yang Anda masukkan?",
+    "helpListItemFileMoved": "Apakah berkas dipindahkan, diganti nama, atau dihapus?",
+    "helpListItemBookmarkMigrated": "Apakah Anda menyalin URL atau bookmark dari komputer lain? Jika ya, Anda perlu",
+    "helpListItemBookmarkMigratedLink": "arahkan instance ini ke node komputer tersebut",
+    "backButton": "Pergi ke Beranda"
   }
 }
