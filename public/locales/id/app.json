@@ -9,7 +9,7 @@
     "close": "Tutup",
     "copy": "Salin",
     "create": "Buat",
-    "default": "",
+    "default": "Bawaan",
     "remove": "Hapus",
     "download": "Unduh",
     "edit": "Sunting",
@@ -27,7 +27,7 @@
     "publish": "Menerbitkan",
     "downloadCar": "Ekspor CAR",
     "done": "Selesai",
-    "checkRetrieval": ""
+    "checkRetrieval": "Periksa Pengambilan"
   },
   "cliModal": {
     "description": "Tempelkan perintah berikut ke terminal Anda untuk melakukan tugas ini di Kubo melalui baris perintah. Ingatlah bahwa Anda perlu mengganti placeholder dengan parameter spesifik Anda."
@@ -51,8 +51,8 @@
     "placeholder": "Masukkan URL (https://dweb.link)"
   },
   "ipfsCheckForm": {
-    "label": "",
-    "placeholder": ""
+    "label": "URL Layanan Pemeriksaan Pengambilan",
+    "placeholder": "Masukkan URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "Alamat",
