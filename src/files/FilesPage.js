@@ -197,12 +197,14 @@ const FilesPage = ({
     , [files?.content, files?.pins, selected])
 
     if (!files || files.type === 'file') return null
-
+    // if file not found
+    if (files.type === 'not-found') {
+      return <FileNotFound path={files.path} />
+    }
     // Don't render stale content during navigation
     if (files.path && filesPathInfo.path && files.path !== filesPathInfo.path) {
       return null
     }
-
     if (files.type === 'unknown') {
       const path = files.path
 
@@ -214,10 +216,6 @@ const FilesPage = ({
         </div>
       )
     }
-    if (files.type === 'not-found') {
-      return <FileNotFound path={files.path} />
-    }
-
     const commonProps = {
       updateSorting: doFilesUpdateSorting,
       files: files.content || [],
