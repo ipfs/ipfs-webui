@@ -24,6 +24,10 @@ interface RawLogEntry {
    * The message of the log
    */
   msg: string
+  /**
+   * Allow any additional structured fields
+   */
+  [key: string]: any
 }
 
 /**
@@ -119,11 +123,14 @@ export async function fetchLogSubsystems (ipfs: KuboRPCClient, signal?: AbortSig
  * Parse raw log entry into structured LogEntry
  */
 export function parseLogEntry (raw: unknown): LogEntry {
-  const obj = raw as RawLogEntry
+  const { ts, level, logger, caller, msg, ...attributes } = raw as RawLogEntry
+
   return {
-    timestamp: obj.ts,
-    level: obj.level,
-    subsystem: obj.logger,
-    message: obj.msg
+    timestamp: ts,
+    level,
+    subsystem: logger,
+    message: Object.keys(attributes).length > 0
+      ? `${msg} ${JSON.stringify(attributes)}`
+      : msg
   }
 }

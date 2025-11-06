@@ -47,7 +47,10 @@
     "autocomplete": {
       "globalLevel": "Global level",
       "subsystem": "Subsystem",
-      "level": "Log level"
+      "level": "Log level",
+      "invalidSubsystem": "Subsystem \"{subsystem}\" is not valid. Valid subsystems: {subsystems}",
+      "invalidLevel": "\"{level}\" is not a valid log level. Valid levels: debug, info, warn, error, dpanic, panic, fatal",
+      "invalidInput": "Input cannot be empty"
     },
     "warnings": {
       "potentialIssues": "Potential Issues:",
