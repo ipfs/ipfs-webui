@@ -1,3 +1,22 @@
+## [4.10.0](https://github.com/ipfs/ipfs-webui/compare/v4.9.1...v4.10.0) (2025-11-06)
+
+
+ CID `bafybeidsjptidvb6wf6benznq2pxgnt5iyksgtecpmjoimlmswhtx2u5ua`
+
+ --- 
+
+
+
+### Features
+
+* **diagnostics/logs:** include extended details ([#2457](https://github.com/ipfs/ipfs-webui/issues/2457)) ([3b52cab](https://github.com/ipfs/ipfs-webui/commit/3b52cab272d41079249ca35db8439d2e2fd10efb))
+
+
+### Trivial Changes
+
+* pull new translations ([#2446](https://github.com/ipfs/ipfs-webui/issues/2446)) ([32cfa22](https://github.com/ipfs/ipfs-webui/commit/32cfa22fd42c14ede054d52de1d2ec45b6575a83))
+* update kubo-rpc-client to 5.4.0 and kubo to 0.38.0 ([#2445](https://github.com/ipfs/ipfs-webui/issues/2445)) ([282fef3](https://github.com/ipfs/ipfs-webui/commit/282fef3d095fe3d337f9f8718868d376ee126d80))
+
 ## [4.9.1](https://github.com/ipfs/ipfs-webui/compare/v4.9.0...v4.9.1) (2025-09-26)
 
 
