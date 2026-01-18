@@ -2,7 +2,8 @@
   "title": "Diagnostics",
   "tabs": {
     "logs": "Logs",
-    "retrieval-check": "Retrieval Check"
+    "retrieval-check": "Retrieval Check",
+    "dht-provide": "DHT Provide"
   },
   "logs": {
     "title": "Node Logs",
@@ -93,5 +94,16 @@
       "upgradeDescription": "To use the log level management features, you need to upgrade to a newer version of Kubo that supports getting log levels and tailing logs from the RPC API endpoint.",
       "downloadKubo": "Download Kubo"
     }
+  },
+  "dhtProvide": {
+    "title": "DHT Provide",
+    "node": "Node",
+    "unknown": "Unknown",
+    "cidLabel": "CID to provide",
+    "provideButton": "Trigger Provide",
+    "clear": "Clear",
+    "provideTriggered": "Provide triggered for {cid}",
+    "noCid": "Please enter a CID",
+    "description": "Trigger a background provide operation for a CID. This will announce the CID on the DHT so other peers can discover providers for it."
   }
 }

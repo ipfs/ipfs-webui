@@ -1,0 +1,47 @@
+.dht-provide {
+  --gap: 1rem;
+}
+
+.dht-provide__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+}
+
+.dht-provide__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dht-provide__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+}
+
+.dht-provide__full {
+  grid-column: 1 / -1;
+}
+
+/* Make grid stack on smaller screens */
+@media (max-width: 720px) {
+  .dht-provide__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dht-provide__warning {
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: #fff7e6;
+  border: 1px solid #ffe6a7;
+  color: #6a4a00;
+}
+
+.dht-provide__last-updated {
+  margin-top: 0.5rem;
+  color: #6b6f76;
+  font-size: 0.85rem;
+}

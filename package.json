@@ -73,7 +73,7 @@
     "it-first": "^1.0.6",
     "it-last": "^1.0.5",
     "it-map": "^1.0.5",
-    "kubo-rpc-client": "^5.4.0",
+    "kubo-rpc-client": "file:../js-kubo-rpc-client",
     "milliseconds": "^1.0.3",
     "money-clip": "^3.0.5",
     "multiformats": "^13.4.0",
