@@ -1,4 +1,6 @@
 import React from 'react'
+import IconTooltip from '../../components/tooltip/icon-tooltip'
+import { GlyphInfo } from 'src/icons'
 import type { SweepProvideStats } from '../../contexts/ProvideStat/types'
 import {
   Card,
@@ -31,9 +33,17 @@ export const Network: React.FC<Props> = ({ sweep }) => {
   return (
     <Card className='hover-bg-near-white'>
       <CardHeader className='pb2'>
-        <CardTitle className='f6 fw6 flex items-center'>
-          NETWORK
-        </CardTitle>
+        <div className='flex items-center'>
+          <CardTitle className='f6 fw6 flex items-center mr2'>
+            NETWORK
+          </CardTitle>
+          <IconTooltip
+            text={'Network metrics for the DHT provide subsystem: connectivity status, number of peers, provides per hour, and success rate.'}
+            position='top'
+          >
+            <GlyphInfo style={{ width: 14, height: 14 }} />
+          </IconTooltip>
+        </div>
       </CardHeader>
 
       <CardContent>

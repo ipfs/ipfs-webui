@@ -1,3 +1,85 @@
+/* Minimal CSS for DHT Provide page
+   Keep only the rules that are hard to replace with Tailwind utilities
+   (grouped button radiuses, subtle hover transforms, dark-mode overrides)
+*/
+
+.dht-provide__control-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color, #e1e5eb);
+  border-radius: 6px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.08s ease;
+}
+
+.dht-provide__control-box:hover {
+  background-color: #f7f9fb;
+  transform: translateY(-1px);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.dht-provide__btn-auto-on {
+  background: linear-gradient(180deg, #e6ffed, #d4f7dd);
+  border: 1px solid #2ecc71;
+  color: #0b6623;
+}
+
+.dht-provide__btn-auto-off {
+  background: linear-gradient(180deg, #fff0f0, #ffecec);
+  border: 1px solid #ff6b6b;
+  color: #8b1a1a;
+}
+
+.dht-provide__control-box .btn {
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+.dht-provide__control-box .btn:hover {
+  transform: translateY(-1px);
+}
+
+.dht-provide__control-box .btn:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.dht-provide__control-box .btn:nth-child(2) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.dht-provide__warning {
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: #fff7e6;
+  border: 1px solid #ffe6a7;
+  color: #6a4a00;
+}
+
+.dht-provide--dark .dht-provide__control-box {
+  border-color: #2b2f36;
+  background: transparent;
+}
+
+.dht-provide--dark .dht-provide__control-box:hover {
+  background-color: rgba(255,255,255,0.02);
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+.dht-provide--dark .dht-provide__warning {
+  background: #2b2f36;
+  border-color: #3a3f46;
+  color: #ffdca3;
+}
+
+.dht-provide__last-updated {
+  margin-top: 0.5rem;
+  color: #6b6f76;
+  font-size: 0.85rem;
+}
 .dht-provide {
   --gap: 1rem;
 }
@@ -15,6 +97,17 @@
   gap: 0.5rem;
 }
 
+.dht-provide__control-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e1e5eb;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.08s ease;
+}
+
+
 .dht-provide__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -25,7 +118,6 @@
   grid-column: 1 / -1;
 }
 
-/* Make grid stack on smaller screens */
 @media (max-width: 720px) {
   .dht-provide__grid {
     grid-template-columns: 1fr;
@@ -38,6 +130,48 @@
   background: #fff7e6;
   border: 1px solid #ffe6a7;
   color: #6a4a00;
+}
+
+.dht-provide--dark .dht-provide__control-box {
+  border-color: #2b2f36;
+  background: transparent;
+}
+
+/* Button states for auto-refresh */
+.dht-provide__btn-auto-on {
+  background: linear-gradient(180deg, #e6ffed, #d4f7dd);
+  border: 1px solid #2ecc71;
+  color: #0b6623;
+}
+
+.dht-provide__btn-auto-off {
+  background: linear-gradient(180deg, #fff0f0, #ffecec);
+  border: 1px solid #ff6b6b;
+  color: #8b1a1a;
+}
+
+.dht-provide__control-box .btn {
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+}
+
+
+
+/* Small two-button visual: make the two primary controls appear grouped */
+.dht-provide__control-box .btn:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.dht-provide__control-box .btn:nth-child(2) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.dht-provide--dark .dht-provide__warning {
+  background: #2b2f36;
+  border-color: #3a3f46;
+  color: #ffdca3;
 }
 
 .dht-provide__last-updated {

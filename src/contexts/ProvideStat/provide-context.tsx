@@ -18,6 +18,8 @@ export interface ProvideContextValue {
   error: Error | null
   lastUpdated: number | null
   refresh: (options?: ProvideStatOptions) => Promise<void>
+  autoRefreshEnabled: boolean
+  setAutoRefreshEnabled: (enabled: boolean) => void
   isAgentVersionSupported: boolean
 }
 
@@ -37,6 +39,14 @@ export const ProvideProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
   const [lastUpdated, setLastUpdated] = useState<number | null>(null)
+  const [autoRefreshEnabled, _setAutoRefreshEnabled] = useState<boolean>(() => {
+    try {
+      const raw = localStorage.getItem('provide.autoRefresh')
+      return raw === null ? true : raw === 'true'
+    } catch {
+      return true
+    }
+  })
 
   const refresh = useCallback(async (options: ProvideStatOptions = { all: true }) => {
     if (!ipfs || !ipfsConnected || !isAgentVersionSupported) return
@@ -56,10 +66,21 @@ export const ProvideProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   // Auto-refresh every 60s
   useEffect(() => {
+    // Run an initial refresh and then schedule periodic refreshes only
+    // when autoRefreshEnabled is true. The toggle is persisted in localStorage.
     refresh()
+    if (!autoRefreshEnabled) return
+
     const id = setInterval(refresh, 60_000)
     return () => clearInterval(id)
-  }, [refresh])
+  }, [refresh, autoRefreshEnabled])
+
+  const setAutoRefreshEnabled = useCallback((enabled: boolean) => {
+    try {
+      localStorage.setItem('provide.autoRefresh', String(enabled))
+    } catch (_) {}
+    _setAutoRefreshEnabled(enabled)
+  }, [])
 
   const value = useMemo<ProvideContextValue>(() => ({
     data,
@@ -67,8 +88,10 @@ export const ProvideProvider: React.FC<{ children: React.ReactNode }> = ({ child
     error,
     lastUpdated,
     refresh,
+    autoRefreshEnabled,
+    setAutoRefreshEnabled,
     isAgentVersionSupported
-  }), [data, loading, error, lastUpdated, refresh, isAgentVersionSupported])
+  }), [data, loading, error, lastUpdated, refresh, autoRefreshEnabled, isAgentVersionSupported, setAutoRefreshEnabled])
 
   return (
     <ProvideContext.Provider value={value}>

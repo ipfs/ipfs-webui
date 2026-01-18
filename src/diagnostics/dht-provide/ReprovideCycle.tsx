@@ -1,4 +1,6 @@
 import React from 'react'
+import IconTooltip from '../../components/tooltip/icon-tooltip'
+import { GlyphInfo } from 'src/icons'
 import type { SweepProvideStats } from '../../contexts/ProvideStat/types'
 import {
   Card,
@@ -31,11 +33,18 @@ export const ReprovideCycle: React.FC<Props> = ({ sweep }) => {
   return (
     <Card className='mb4'>
       <CardHeader className='flex justify-between items-center pb2'>
-        <CardTitle className='f5'>Reprovide Cycle</CardTitle>
+        <div className='flex items-center'>
+          <CardTitle className='f5 mr2'>Reprovide Cycle</CardTitle>
+          <IconTooltip
+            text={'The reprovide cycle is the periodic sweep that reprovisions groups of CIDs to the DHT. This card shows the current cycle progress, how long ago it started, and an ETA for the next cycle.'}
+            position='top'
+          >
+            <GlyphInfo style={{ width: 16, height: 16, verticalAlign: 'middle' }} />
+          </IconTooltip>
+        </div>
         <span className='f6 charcoal-muted'>Cycle #{sweep.schedule.regions}</span>
       </CardHeader>
       <CardContent>
-        {/* Progress bar */}
         <div className='bg-near-white br2 overflow-hidden mb2'>
           <div
             className='bg-green'

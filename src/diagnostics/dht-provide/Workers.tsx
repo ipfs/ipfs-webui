@@ -1,4 +1,6 @@
 import React from 'react'
+import IconTooltip from '../../components/tooltip/icon-tooltip'
+import { GlyphInfo } from 'src/icons'
 import type { SweepProvideStats } from '../../contexts/ProvideStat/types'
 import {
   Card,
@@ -44,7 +46,15 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Workers</CardTitle>
+        <div className='flex items-center'>
+          <CardTitle className='mr2'>Workers</CardTitle>
+          <IconTooltip
+            text={'Worker threads process provide operations. This card shows active workers, dedicated periodic and burst workers, and utilization.'}
+            position='top'
+          >
+            <GlyphInfo style={{ width: 14, height: 14 }} />
+          </IconTooltip>
+        </div>
       </CardHeader>
       <CardContent>
         <MetricRow

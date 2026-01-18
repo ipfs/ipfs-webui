@@ -1,4 +1,6 @@
 import React from 'react'
+import IconTooltip from '../../components/tooltip/icon-tooltip'
+import { GlyphInfo } from 'src/icons'
 import type { SweepProvideStats } from '../../contexts/ProvideStat/types'
 import {
   Card,
@@ -22,7 +24,15 @@ export const QueueStatus: React.FC<Props> = ({ sweep }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Queue Status</CardTitle>
+        <div className='flex items-center'>
+          <CardTitle className='mr2'>Queue Status</CardTitle>
+          <IconTooltip
+            text={'Shows pending reprovides broken into periodic (scheduled), on-demand, and region-specific queues.'}
+            position='top'
+          >
+            <GlyphInfo style={{ width: 14, height: 14 }} />
+          </IconTooltip>
+        </div>
       </CardHeader>
       <CardContent>
         <MetricRow label='Periodic' value={periodic.toLocaleString()} />
