@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import IconTooltip from '../../components/tooltip/icon-tooltip'
 import { GlyphInfo } from 'src/icons'
 import type { SweepProvideStats } from '../../contexts/ProvideStat/types'
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const CurrentBatch: React.FC<Props> = ({ sweep }) => {
+  const { t } = useTranslation('diagnostics')
   const batchSize =
     sweep.schedule.regions > 0
       ? Math.ceil(sweep.schedule.keys / sweep.schedule.regions)
@@ -35,9 +37,9 @@ export const CurrentBatch: React.FC<Props> = ({ sweep }) => {
     <Card>
       <CardHeader>
         <div className='flex items-center'>
-          <CardTitle className='mr2'>Current Batch</CardTitle>
+          <CardTitle className='mr2'>{t('dhtProvide.currentBatch.title')}</CardTitle>
           <IconTooltip
-            text={'Information about the currently processed batch: which region/prefix is being reprovided, the batch size, progress, and processing rate.'}
+            text={t('dhtProvide.currentBatch.tooltip')}
             position='top'
           >
             <GlyphInfo style={{ width: 14, height: 14, verticalAlign: 'middle' }} />
@@ -45,22 +47,17 @@ export const CurrentBatch: React.FC<Props> = ({ sweep }) => {
         </div>
       </CardHeader>
       <CardContent>
-  <MetricRow label='Region' value={region} tooltip='Region/prefix currently being reprovided' />
-
+        <MetricRow label={t('dhtProvide.currentBatch.region')} value={region} />
         <MetricRow
-          label='Batch'
+          label={t('dhtProvide.currentBatch.batch')}
           value={`${batchSize.toLocaleString()} CIDs`}
-          tooltip='Approximate number of CIDs in the current batch'
         />
-
         <MetricRow
-          label='Progress'
+          label={t('dhtProvide.currentBatch.progress')}
           value={`${progress.toLocaleString()} / ${batchSize.toLocaleString()}`}
-          tooltip='Provided so far in the current batch'
         />
-
         {ratePerSec != null && (
-          <MetricRow label='Rate' value={`${ratePerSec} CIDs/sec`} tooltip='Average processed CIDs per second' />
+          <MetricRow label={t('dhtProvide.currentBatch.rate')} value={`${ratePerSec} CIDs/sec`} />
         )}
       </CardContent>
     </Card>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useProvide } from '../../contexts/ProvideStat'
 import './dht-provide.css'
@@ -8,8 +9,11 @@ import { CurrentBatch } from './CurrentBatch'
 import { QueueStatus } from './QueueStatus'
 import { Workers } from './Workers'
 import { Network } from './Network'
+import { GlyphAttention } from 'src/icons'
 
 const DhtProvideScreen: React.FC = () => {
+  const { t } = useTranslation('diagnostics')
+
   const {
     data,
     loading,
@@ -23,13 +27,6 @@ const DhtProvideScreen: React.FC = () => {
 
   const [secondsLeft, setSecondsLeft] = useState<number>(60)
 
-  const [isDark, setIsDark] = useState<boolean>(() => {
-    try {
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-    } catch {
-      return false
-    }
-  })
   useEffect(() => {
     const tick = () => {
       if (!autoRefreshEnabled) {
@@ -52,22 +49,6 @@ const DhtProvideScreen: React.FC = () => {
     return () => clearInterval(id)
   }, [lastUpdated, autoRefreshEnabled])
 
-  useEffect(() => {
-    let mq: MediaQueryList | null = null
-    try {
-      mq = window.matchMedia('(prefers-color-scheme: dark)')
-      const handler = (ev: MediaQueryListEvent) => setIsDark(ev.matches)
-      if (mq.addEventListener) mq.addEventListener('change', handler)
-      else if (mq.addListener) mq.addListener(handler)
-      return () => {
-        if (!mq) return
-        if (mq.removeEventListener) mq.removeEventListener('change', handler)
-        else if (mq.removeListener) mq.removeListener(handler)
-      }
-    } catch {
-      return undefined
-    }
-  }, [])
   const sweep = data?.Sweep
 
   if (!isAgentVersionSupported) {
@@ -75,13 +56,13 @@ const DhtProvideScreen: React.FC = () => {
   }
 
   if (loading && !data) {
-    return <div className='pa4'>Loading DHT provide stats…</div>
+    return <div className='pa4'>{t('dhtProvide.screen.loading')}</div>
   }
 
   if (error) {
     return (
       <div className='pa4 red'>
-        Failed to load provide stats: {error.message}
+        {t('dhtProvide.screen.failedToLoad', { message: error.message })}
       </div>
     )
   }
@@ -89,7 +70,7 @@ const DhtProvideScreen: React.FC = () => {
   if (!sweep) {
     return (
       <div className='pa4'>
-        DHT Sweep provider is not enabled on this node.
+        {t('dhtProvide.screen.notEnabled')}
       </div>
     )
   }
@@ -100,27 +81,34 @@ const DhtProvideScreen: React.FC = () => {
       : 0
 
   return (
-    <div className={`dht-provide pa4 ${isDark ? 'dht-provide--dark' : ''}`}>
-      <div className='dht-provide__header mb4'>
-        <h2 className='f4 fw6 ma0'>Diagnostics &gt; DHT Provide</h2>
+    <div className={'dht-provide ph4'}>
+      <div className='dht-provide__header mb1 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
+        <h2 className='f4 fw6 ma0'>
+          {t('dhtProvide.screen.pageTitle')}
+        </h2>
 
         <div className='dht-provide__controls'>
-          <div className='dht-provide__control-box'>
-            <button className='btn mr2' onClick={() => refresh()}>
-              Refresh
+          <div className='dht-provide__control-box flex items-center gap-2'>
+            <button
+              className='btn'
+              onClick={() => refresh()}
+            >
+              {t('dhtProvide.screen.refresh')}
             </button>
 
             <button
               className={`btn ${autoRefreshEnabled ? 'dht-provide__btn-auto-on' : 'dht-provide__btn-auto-off'}`}
               onClick={() => setAutoRefreshEnabled(!autoRefreshEnabled)}
-              title={autoRefreshEnabled ? 'Auto-refresh is enabled' : 'Auto-refresh is disabled'}
+              title={autoRefreshEnabled ? t('dhtProvide.screen.autoOn') : t('dhtProvide.screen.autoOff')}
             >
-              {autoRefreshEnabled ? 'Auto: ON' : 'Auto: OFF'}
+              {autoRefreshEnabled ? t('dhtProvide.screen.autoOn') : t('dhtProvide.screen.autoOff')}
             </button>
 
-            <span className='f6 charcoal-muted'>
-              {autoRefreshEnabled ? `${secondsLeft}s` : ''}
-            </span>
+            {autoRefreshEnabled && (
+              <span className='f6 charcoal-muted min-w-[2.5rem] text-right'>
+                {t('dhtProvide.screen.seconds', { seconds: secondsLeft })}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -137,17 +125,22 @@ const DhtProvideScreen: React.FC = () => {
       </div>
 
       {workerUtilization >= 0.75 && (
-        <div className='dht-provide__warning mt4'>
-          ⚠️ Workers at {Math.round(workerUtilization * 100)}% capacity. If the
-          queue grows, consider increasing <code>Provide.DHT.MaxWorkers</code>
-          (current: {sweep.workers.max}).
+        <div className='dht-provide__warning mt4 flex items-start'>
+          <GlyphAttention
+            className='mr2 flex-shrink-0'
+            style={{ width: 16, height: 16 }}
+          />
+          <div>
+            {t('dhtProvide.screen.workersWarning', {
+              percent: Math.round(workerUtilization * 100),
+              max: sweep.workers.max
+            })}
+          </div>
         </div>
       )}
-
-      {/* Footer */}
       {lastUpdated && (
         <div className='dht-provide__last-updated'>
-          Last updated at {new Date(lastUpdated).toLocaleTimeString()}
+          {t('dhtProvide.screen.lastUpdated', { time: new Date(lastUpdated).toLocaleTimeString() })}
         </div>
       )}
     </div>

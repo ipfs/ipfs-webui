@@ -99,7 +99,7 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
         )
       case 'dht-provide': {
         // Lazy-load the DHT provide screen to keep bundle size small
-        const DhtProvideScreen = require('./dht-provide/dht-provide').default
+        const DhtProvideScreen = require('./dht-provide/dht-provide-screen').default
         return (
           <IdentityProvider>
             <ProvideProvider>

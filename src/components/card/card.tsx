@@ -41,9 +41,9 @@ export const CardTitle: React.FC<{
   children: React.ReactNode
 }> = ({ className = '', children }) => {
   return (
-    <h3 className={`f6 fw6 ma0 ${className}`}>
+    <div className={`f6 fw6 lh-title ${className}`}>
       {children}
-    </h3>
+    </div>
   )
 }
 
@@ -56,6 +56,20 @@ export const CardDescription: React.FC<{
 }> = ({ className = '', children }) => {
   return (
     <div className={`f7 charcoal-muted mt1 ${className}`}>
+      {children}
+    </div>
+  )
+}
+
+/**
+ * Card action (top-right area)
+ */
+export const CardAction: React.FC<{
+  className?: string
+  children: React.ReactNode
+}> = ({ className = '', children }) => {
+  return (
+    <div className={`absolute top-1 right-1 ${className}`}>
       {children}
     </div>
   )

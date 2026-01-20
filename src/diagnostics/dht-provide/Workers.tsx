@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import IconTooltip from '../../components/tooltip/icon-tooltip'
 import { GlyphInfo } from 'src/icons'
 import type { SweepProvideStats } from '../../contexts/ProvideStat/types'
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const Workers: React.FC<Props> = ({ sweep }) => {
+  const { t } = useTranslation('diagnostics')
   const {
     max,
     active,
@@ -35,7 +37,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
     dedicatedBurst > 0 ? activeBurst / dedicatedBurst : 0
 
   const Bar: React.FC<{ value: number }> = ({ value }) => (
-    <div className='bg-near-white br1 overflow-hidden w-100'>
+    <div className='bg-black-10 br1 overflow-hidden w-100'>
       <div
         className='bg-blue'
         style={{ width: `${Math.min(100, value * 100)}%`, height: 6 }}
@@ -47,9 +49,9 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
     <Card>
       <CardHeader>
         <div className='flex items-center'>
-          <CardTitle className='mr2'>Workers</CardTitle>
+          <CardTitle className='mr2'>{t('dhtProvide.workers.title')}</CardTitle>
           <IconTooltip
-            text={'Worker threads process provide operations. This card shows active workers, dedicated periodic and burst workers, and utilization.'}
+            text={t('dhtProvide.workers.tooltip')}
             position='top'
           >
             <GlyphInfo style={{ width: 14, height: 14 }} />
@@ -58,14 +60,14 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
       </CardHeader>
       <CardContent>
         <MetricRow
-          label='Active'
+          label={t('dhtProvide.workers.active')}
           value={`${active}/${max} (${utilization}%)`}
           highlight={utilization >= 75}
         />
 
         <div className='mt2 mb2'>
           <MetricRow
-            label='Periodic'
+            label={t('dhtProvide.workers.periodic')}
             value={`${activePeriodic}/${dedicatedPeriodic}`}
           />
           <div className='mt2'>
@@ -75,7 +77,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
 
         <div>
           <MetricRow
-            label='On-demand'
+            label={t('dhtProvide.workers.onDemand')}
             value={`${activeBurst}/${dedicatedBurst}`}
           />
           <div className='mt2'>

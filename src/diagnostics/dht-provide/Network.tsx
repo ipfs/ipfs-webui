@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import IconTooltip from '../../components/tooltip/icon-tooltip'
 import { GlyphInfo } from 'src/icons'
 import type { SweepProvideStats } from '../../contexts/ProvideStat/types'
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export const Network: React.FC<Props> = ({ sweep }) => {
+  const { t } = useTranslation('diagnostics')
   const connected = sweep.connectivity.status === 'online'
 
   const providesPerHour =
@@ -35,10 +37,10 @@ export const Network: React.FC<Props> = ({ sweep }) => {
       <CardHeader className='pb2'>
         <div className='flex items-center'>
           <CardTitle className='f6 fw6 flex items-center mr2'>
-            NETWORK
+            {t('dhtProvide.network.title').toUpperCase()}
           </CardTitle>
           <IconTooltip
-            text={'Network metrics for the DHT provide subsystem: connectivity status, number of peers, provides per hour, and success rate.'}
+            text={t('dhtProvide.network.tooltip')}
             position='top'
           >
             <GlyphInfo style={{ width: 14, height: 14 }} />
@@ -47,9 +49,8 @@ export const Network: React.FC<Props> = ({ sweep }) => {
       </CardHeader>
 
       <CardContent>
-        {/* Status row */}
         <div className='flex items-center justify-between mb2'>
-          <span className='f7 charcoal-muted'>Status</span>
+          <span className='f7 charcoal-muted'>{t('dhtProvide.network.status')}</span>
           <span className='flex items-center'>
             <span
               className={`dib br-100 mr2 ${
@@ -58,26 +59,26 @@ export const Network: React.FC<Props> = ({ sweep }) => {
               style={{ width: 8, height: 8 }}
             />
             <span className='f6 fw5'>
-              {connected ? 'Connected' : 'Disconnected'}
+              {connected ? t('dhtProvide.network.connected') : t('dhtProvide.network.disconnected')}
             </span>
           </span>
         </div>
 
         <MetricRow
-          label='DHT Peers'
+          label={t('dhtProvide.network.dhtPeers')}
           value={sweep.network.peers.toLocaleString()}
         />
 
         {providesPerHour != null && (
           <MetricRow
-            label='Provides/hr'
+            label={t('dhtProvide.network.providesPerHour')}
             value={providesPerHour.toLocaleString()}
           />
         )}
 
         {successRate && (
           <MetricRow
-            label='Success'
+            label={t('dhtProvide.network.success')}
             value={successRate}
             highlight
           />
