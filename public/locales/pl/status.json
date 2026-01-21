@@ -1,47 +1,47 @@
 {
   "title": "Status",
-  "nodeInfo": "Informacje węzła",
-  "spaceUsed": "Wykorzystana przestrzeń",
-  "networkTraffic": "Ruch w sieci",
+  "nodeInfo": "Informacje o węźle",
+  "spaceUsed": "Wykorzystane miejsce",
+  "networkTraffic": "Ruch sieciowy",
   "bandwidthOverTime": "Przepustowość w czasie",
-  "bandwidthByPeer": "Przepustowośc rówieśnika",
-  "distributionOfPeers": "Dystrybucja rówieśników",
-  "pieChartLabel": "{count, plural, one {{percent}% ({count} rówieśników)} few {{percent}% ({count} rówieśników)} many {{percent}% ({count} rówieśników)} other {{percent}% ({count} rówieśników)}}",
-  "countMore": "...i {count} więcej",
+  "bandwidthByPeer": "Przepustowość wg węzła",
+  "distributionOfPeers": "Rozkład węzłów",
+  "pieChartLabel": "{count, plural, one {{percent}% ({count} węzeł)} few {{percent}% ({count} węzły)} many {{percent}% ({count} węzłów)} other {{percent}% ({count} węzłów)}}",
+  "countMore": "…i {count} więcej",
   "StatusConnected": {
-    "repoSize": "Hosting {repoSize} danych",
-    "peersCount": "{peersCount, plural, one {Wykryto 1 rówieśnika} few {Wykryto{peersCount} rówieśników} many {Wykryto{peersCount} rówieśników} other {Wykryto{peersCount} rówieśników}}"
+    "repoSize": "Udostępnianie {repoSize} danych",
+    "peersCount": "{peersCount, plural, one {Wykryto 1 węzeł} few {Wykryto {peersCount} węzły} many {Wykryto {peersCount} węzłów} other {Wykryto {peersCount} węzłów}}"
   },
   "customApiConfig": "Niestandardowa konfiguracja JSON",
   "AnalyticsBanner": {
-    "label": "Niedawno zaktualizowaliśmy naszą politykę telemetrii, aby przejść na metrykę opt-out. Wcześniej miałeś wyłączone zbieranie telemetrii. Możesz wyłączyć zbieranie telemetrii (ponownie) na stronie ustawień."
+    "label": "Niedawno zaktualizowaliśmy politykę telemetrii, przechodząc na metryki opt-out. Wcześniej miałeś wyłączone zbieranie telemetrii. Możesz wyłączyć zbieranie telemetrii (ponownie) na stronie ustawień."
   },
   "tour": {
     "step1": {
-      "title": "Strona statusu",
-      "paragraph1": "To jest punkt startowy twojego węzła IPFS i gdzie możesz sprawdzić jego podstawowe informacje.",
+      "title": "Strona Status",
+      "paragraph1": "To jest punkt startowy Twojego węzła IPFS, gdzie możesz sprawdzić jego podstawowe informacje.",
       "paragraph2": "Kliknij \"Dalej\", aby dowiedzieć się więcej."
     },
     "step2": {
-      "title": "Status połączenia ",
-      "paragraph1": "",
-      "paragraph2": "Jeśli potrzebujesz skonfigurować niestandardowy adres API dla swojego węzła, po prostu kliknij link \"Edytuj\" obok miejsca, w którym adres API jest wymieniony na tej stronie."
+      "title": "Status połączenia",
+      "paragraph1": "Kliknij tę ikonę z dowolnego miejsca w aplikacji, aby wrócić do strony Status. Jeśli utracisz połączenie z Kubo RPC, ikona zmieni kolor na czerwony.",
+      "paragraph2": "Jeśli musisz skonfigurować niestandardowy adres API dla swojego węzła, kliknij link \"Edytuj\" obok miejsca, gdzie adres API jest wyświetlany na tej stronie."
     },
     "step3": {
-      "title": "Informacje węzła",
-      "paragraph1": "Tutaj masz informacje o rozmiarze swojego repo, ile peerów jest podłączonych, twój peer ID i smak IPFS, który jest aktualnie używany.",
-      "paragraph2": "<0>Rozwiń  <1>Zaawansowane</1> , aby zobaczyć więcej informacji, takich jak adres URL bramy i adresy. W sekcji Zaawansowane znajduje się również link umożliwiający zmianę adresu API.</0>"
+      "title": "Informacje o węźle",
+      "paragraph1": "Tutaj znajdziesz informacje o rozmiarze repozytorium, liczbie połączonych węzłów, ID węzła oraz aktualnie używanej implementacji IPFS.",
+      "paragraph2": "<0>Rozwiń link <1>Zaawansowane</1>, aby zobaczyć więcej informacji, takich jak URL bramki HTTP i adresy. W sekcji Zaawansowane znajdziesz również link do zmiany adresu API.</0>"
     },
     "step4": {
-      "title": "Szerokość pasma/natężenie ruchu sieciowego",
+      "title": "Przepustowość/ruch sieciowy",
       "paragraph1": "Ten wykres pokazuje wykorzystanie przepustowości sieci w czasie.",
-      "paragraph2": "Prędkościomierze pokazują aktualny ruch wychodzący i przychodzący. "
+      "paragraph2": "Prędkościomierze pokazują bieżący ruch wychodzący i przychodzący."
     },
     "stepExplore": {
       "title": "Eksploruj",
-      "paragraph": "Wklej CID i zbadaj pliki zawarte za CID lub zobacz, jak te dane są ustrukturyzowane i połączone przez protokoły. \n"
+      "paragraph": "Wklej CID i zbadaj pliki za nim ukryte lub zobacz, jak dane są ustrukturyzowane i połączone między protokołami."
     }
   },
   "bandwidthStats": "Statystyki przepustowości",
-  "bandwidthStatsDisabled": "Masz wyłączone metryki przepustowości. Możesz je włączyć wpisując poniższe polecenie lub zmieniając klucz<1>Swarm.DisableBandwidthMetrics</1> na<3>false</3> w <5>Ustawieniach</5>. Następnie musisz zrestartować demona IPFS, aby zastosować zmiany."
+  "bandwidthStatsDisabled": "Masz wyłączone metryki przepustowości. Możesz je włączyć, wpisując poniższe polecenie lub zmieniając klucz <1>Swarm.DisableBandwidthMetrics</1> na <3>false</3> w <5>Ustawieniach</5>. Następnie musisz zrestartować demona IPFS, aby zastosować zmiany."
 }

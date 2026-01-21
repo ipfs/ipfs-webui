@@ -1,33 +1,33 @@
 {
   "title": "Pliki",
-  "home": "Strona główna",
-  "breadcrumbs": "Okruszki",
-  "finished": "Gotowe!",
+  "breadcrumbs": "Ścieżka nawigacji",
   "totalSize": "Rozmiar całkowity: {size}",
-  "filesSelected": "{count, plural, one {Wybrana pozycja} few {Wybrane pozycje} many {Wybrane pozycje} other {Wybrane pozycje}}",
-  "menuOptions": "Opcje dla wybranej pozycji",
-  "selectedAllEntries": "Wybierz wszystkie pozycje tabeli",
+  "filesSelected": "{count, plural, one {Wybrano 1 element} few {Wybrano {count} elementy} many {Wybrano {count} elementów} other {Wybrano {count} elementów}}",
+  "menuOptions": "Opcje dla wybranego elementu",
   "individualFilesOnly": "Dostępne tylko dla pojedynczych plików",
-  "noPDFSupport": "Twoja przeglądarka nie obsługuje plików PDF. Proszę pobrać plik PDF, aby go obejrzeć:",
+  "noPDFSupport": "Twoja przeglądarka nie obsługuje plików PDF. Pobierz plik PDF, aby go wyświetlić:",
   "downloadPDF": "Pobierz PDF",
-  "openWithPublicGateway": "Spróbuj otworzyć go za pomocą <1>publicznej bramy</1>.",
-  "openWithLocalAndPublicGateway": "Spróbuj otworzyć go za pomocą swojej <1>lokalnej bramy</1> lub <3>punlicznej bramy</3>.",
-  "cantBePreviewed": "Przepraszamy, nie można wyświetlić podglądu tego pliku",
+  "openWithPublicGateway": "Spróbuj otworzyć przez <1>publiczną bramkę</1>.",
+  "openWithLocalAndPublicGateway": "Spróbuj otworzyć przez <1>lokalną bramkę</1> lub <3>publiczną bramkę</3>.",
+  "cantBePreviewed": "Nie można wyświetlić podglądu tego pliku",
   "addByPath": "Z IPFS",
-  "addByCar": "From CAR",
-  "bulkImport": "Bulk import",
+  "addByCar": "Z pliku CAR",
+  "bulkImport": "Import zbiorczy",
   "newFolder": "Nowy folder",
-  "generating": "Generowanie...",
+  "switchToListView": "Przełącz na widok listy",
+  "switchToGridView": "Przełącz na widok siatki",
+  "generating": "Generowanie…",
+  "dropHere": "Upuść tutaj, aby przenieść",
   "actions": {
-    "copyHash": "Skopiuj CID",
+    "copyHash": "Kopiuj CID",
     "share": "Udostępnij link",
-    "publishWithIpns": "Publikowanie w IPNS"
+    "publishWithIpns": "Opublikuj w IPNS"
   },
   "cliModal": {
-    "extraNotesPinning": "To polecenie służy tylko do lokalnego przypinania/odpinania. Jeśli chcesz użyć usługi zdalnego przypinania, zapoznaj się z dokumentacją tej usługi, aby dowiedzieć się, jak przypinać/odpinać z linii poleceń."
+    "extraNotesPinning": "To polecenie służy tylko do lokalnego przypinania/odpinania. Jeśli chcesz użyć zdalnej usługi przypinania, zapoznaj się z dokumentacją tej usługi, aby dowiedzieć się, jak przypinać/odpinać z linii poleceń."
   },
   "shareModal": {
-    "title": "Udostępnianie plików",
+    "title": "Udostępnij pliki",
     "description": "Skopiuj poniższy link i podziel się nim ze znajomymi."
   },
   "renameModal": {
@@ -37,121 +37,167 @@
     "descriptionFolder": "Wybierz nową nazwę dla tego folderu."
   },
   "removeModal": {
-    "titleItem": "{count, plural, one {Usunąć ten jeden?{name}} few {Usunąć kilka {count} elementów?} many {Usunąć {count} elementów?} other {Usunąć wiele{count} elementy?}}",
-    "titleFolder": "{count, plural, one {Usunąć folder? {name}} few {Usunąć kilka {count} foldery?} many {Usunąć {count} foldery?} other {Usunąć {count} foldery?}}",
-    "titleFile": "{count, plural, one {Usunąć plik? {name}} few {Usunąć kilka{count} pliki?} many {Usunąć wiele{count} pliki?} other {Usunąć{count} pliki?}}",
-    "descriptionItem": "{count, plural, one {Czy na pewno chcesz usunąć ten element? Nie pojawi się on już na ekranie Pliki i zostanie trwale usunięty w następnym zaplanowanym czyszczeniu (choć kopie mogą istnieć na innych węzłach IPFS). Ta akcja i nie może być odwrócona.} few {Czy na pewno chcesz usunąć wybrane {count}elementy? Nie pojawią się one już na ekranie Pliki i zostaną trwale usunięte podczas następnego zaplanowanego czyszczenia (choć ich kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.} many {Czy na pewno chcesz usunąć wszystkie  {count} elementy? Nie pojawią się one już na ekranie Pliki i zostaną trwale usunięte podczas następnego zaplanowanego czyszczenia (choć ich kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.} other {Czy na pewno chcesz usunąć  {count} elementy? Nie pojawią się one już na ekranie Pliki i zostaną trwale usunięte podczas następnego zaplanowanego czyszczenia (choć ich kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.}}",
-    "descriptionFolder": "{count, plural, one {Czy na pewno chcesz usunąć ten folder? Nie pojawi się on już na ekranie Pliki i zostanie trwale usunięty podczas następnego zaplanowanego czyszczenia (choć kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.} few {Czy na pewno chcesz usunąć {count} folderów? Nie pojawią się one już na ekranie Pliki i zostaną trwale usunięte podczas następnego zaplanowanego czyszczenia (choć ich kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.} many {Czy na pewno chcesz usunąć te wszystkie{count}foldery? Nie pojawią się one już na ekranie Pliki i zostaną trwale usunięte podczas następnego zaplanowanego czyszczenia (choć ich kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.} other {Czy na pewno chcesz usunąć te {count}foldery? Nie pojawią się one już na ekranie Pliki i zostaną trwale usunięte podczas następnego zaplanowanego czyszczenia (choć ich kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.}}",
-    "descriptionFile": "{count, plural, one {Czy na pewno chcesz usunąć ten plik? Nie pojawi się on już na ekranie Pliki i zostanie trwale usunięty podczas następnego zaplanowanego czyszczenia (choć kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.\n\n} few {Czy na pewno chcesz usunąć {count} pliki? Nie pojawią się one już na ekranie Pliki i zostaną trwale usunięte podczas następnego zaplanowanego czyszczenia (choć ich kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.} many {Czy na pewno chcesz usunąć  wszystkie{count}pliki? Nie pojawią się one już na ekranie Pliki i zostaną trwale usunięte podczas następnego zaplanowanego czyszczenia (choć ich kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.} other {Czy na pewno chcesz usunąć {count} pliki? Nie pojawią się one już na ekranie Pliki i zostaną trwale usunięte podczas następnego zaplanowanego czyszczenia (choć ich kopie mogą istnieć na innych węzłach IPFS). Tej akcji nie można odwrócić.}}",
-    "checkboxRemoveLocalPin": "Usunąć również lokalną szpilkę (zalecane)",
-    "checkboxUnpinFromServices": "Odepnij się od wszystkich usług przypinania"
+    "titleItem": "{count, plural, one {Usunąć element? {name}} few {Usunąć {count} elementy?} many {Usunąć {count} elementów?} other {Usunąć {count} elementów?}}",
+    "titleFolder": "{count, plural, one {Usunąć folder? {name}} few {Usunąć {count} foldery?} many {Usunąć {count} folderów?} other {Usunąć {count} folderów?}}",
+    "titleFile": "{count, plural, one {Usunąć plik? {name}} few {Usunąć {count} pliki?} many {Usunąć {count} plików?} other {Usunąć {count} plików?}}",
+    "descriptionItem": "{count, plural, one {Czy na pewno chcesz usunąć ten element? Zniknie z ekranu Pliki i zostanie trwale usunięty przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.} few {Czy na pewno chcesz usunąć te {count} elementy? Znikną z ekranu Pliki i zostaną trwale usunięte przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.} many {Czy na pewno chcesz usunąć te {count} elementów? Znikną z ekranu Pliki i zostaną trwale usunięte przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.} other {Czy na pewno chcesz usunąć te {count} elementów? Znikną z ekranu Pliki i zostaną trwale usunięte przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.}}",
+    "descriptionFolder": "{count, plural, one {Czy na pewno chcesz usunąć ten folder? Zniknie z ekranu Pliki i zostanie trwale usunięty przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.} few {Czy na pewno chcesz usunąć te {count} foldery? Znikną z ekranu Pliki i zostaną trwale usunięte przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.} many {Czy na pewno chcesz usunąć te {count} folderów? Znikną z ekranu Pliki i zostaną trwale usunięte przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.} other {Czy na pewno chcesz usunąć te {count} folderów? Znikną z ekranu Pliki i zostaną trwale usunięte przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.}}",
+    "descriptionFile": "{count, plural, one {Czy na pewno chcesz usunąć ten plik? Zniknie z ekranu Pliki i zostanie trwale usunięty przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.} few {Czy na pewno chcesz usunąć te {count} pliki? Znikną z ekranu Pliki i zostaną trwale usunięte przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.} many {Czy na pewno chcesz usunąć te {count} plików? Znikną z ekranu Pliki i zostaną trwale usunięte przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.} other {Czy na pewno chcesz usunąć te {count} plików? Znikną z ekranu Pliki i zostaną trwale usunięte przy następnym czyszczeniu (kopie mogą istnieć na innych węzłach IPFS). Tej operacji nie można cofnąć.}}",
+    "checkboxRemoveLocalPin": "Usuń również lokalne przypięcie (zalecane)",
+    "checkboxUnpinFromServices": "Odepnij ze wszystkich usług przypinania"
+  },
+  "shortcutModal": {
+    "title": "Skróty klawiszowe",
+    "description": "W sekcji Pliki dostępne są następujące skróty klawiszowe:",
+    "navigation": "Nawigacja",
+    "selection": "Zaznaczanie",
+    "actions": "Akcje",
+    "other": "Inne",
+    "moveDown": "Przesuń w dół",
+    "moveUp": "Przesuń w górę",
+    "moveLeft": "Przesuń w lewo",
+    "moveRight": "Przesuń w prawo",
+    "navigate": "Przejdź do zaznaczonego elementu",
+    "rename": "Zmień nazwę zaznaczonego elementu",
+    "delete": "Usuń zaznaczone elementy",
+    "toggleSelection": "Przełącz zaznaczenie",
+    "selectAll": "Zaznacz wszystkie elementy",
+    "deselectAll": "Odznacz wszystkie elementy",
+    "copy": "Kopiuj zaznaczone elementy",
+    "paste": "Wklej elementy",
+    "cut": "Wytnij zaznaczone elementy",
+    "showShortcuts": "Pokaż skróty klawiszowe"
   },
   "pinningModal": {
     "title": "Wybierz, gdzie chcesz przypiąć te elementy.",
-    "complianceLabel": " Kontrola zgodności usług pinezek",
-    "footer": "Potrzebujesz dodać lub skonfigurować usługę przypinania? Przejdź do <1>Ustawień</1>.",
+    "complianceLabel": "Sprawdź zgodność usług przypinania",
+    "footer": "Chcesz dodać lub skonfigurować usługę przypinania? Przejdź do <1>Ustawień</1>.",
     "localNode": "Węzeł lokalny",
     "totalSize": "Rozmiar całkowity: {size}"
   },
   "addByPathModal": {
-    "title": "Import z IPFS",
-    "description": "Wstaw ścieżkę IPFS (CID) do importu.",
-    "preloadNote": "NOTE: Imported path is lazy-loaded by default, and will be retrieved on-demand as you browse it. To proactively prefetch imported path to the local Datastore, choose ”Download” from the context menu.",
+    "title": "Importuj z IPFS",
+    "description": "Wprowadź ścieżkę IPFS (CID) do zaimportowania.",
+    "preloadNote": "UWAGA: Importowana ścieżka jest domyślnie wczytywana na żądanie podczas przeglądania. Aby aktywnie pobrać zaimportowaną ścieżkę do lokalnego magazynu danych, wybierz \"Pobierz\" z menu kontekstowego.",
     "importPathPlaceholder": "Ścieżka lub CID (wymagane)",
     "namePlaceholder": "Nazwa (opcjonalnie)",
     "examples": "Przykłady:"
   },
   "addByCarModal": {
-    "title": "CAR Import",
-    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
-    "selectCARButtonText": "Select CAR…",
+    "title": "Import CAR",
+    "description": "Wybierz plik CAR, z którego chcesz zaimportować DAG, i podaj nazwę dla importu do bieżącego katalogu.",
+    "selectCARButtonText": "Wybierz CAR…",
     "namePlaceholder": "Nazwa",
-    "renameImportPath": "Rename import"
+    "renameImportPath": "Zmień nazwę importu"
   },
   "bulkImportModal": {
-    "title": "Bulk import with text file",
-    "description": "Upload a text file with a list of CIDs (names are optional). Example:",
-    "select": "Select file",
-    "selectedFile": "Selected file",
-    "invalidCids": "*Invalid CID(s) found",
-    "failedToReadFile": "*Failed to read file contents"
+    "title": "Import zbiorczy z pliku tekstowego",
+    "description": "Wgraj plik tekstowy z listą CID-ów (nazwy są opcjonalne). Przykład:",
+    "select": "Wybierz plik",
+    "selectedFile": "Wybrany plik",
+    "invalidCids": "*Znaleziono nieprawidłowe CID",
+    "failedToReadFile": "*Nie udało się odczytać zawartości pliku"
   },
   "newFolderModal": {
     "title": "Nowy folder",
-    "description": "Wpisz nazwę folderu, który chcesz utworzyć."
+    "description": "Wprowadź nazwę folderu, który chcesz utworzyć."
   },
   "filesListLabel": "Lista plików",
+  "filesGridLabel": "Siatka plików",
   "filesList": {
-    "noFiles": "<0>Brak plików w tym katalogu. Kliknij przycisk \"Importuj\", aby dodać kilka</0>"
+    "noFiles": "<0>Brak plików w tym katalogu. Kliknij przycisk \"Importuj\", aby dodać pliki.</0>"
   },
   "filesImportStatus": {
-    "imported": "{count, plural, one {Importowany 1 element} few {Importowanych {count} elementów} many {Importowanych {count}elementów} other {Importowanych {count} elementów}}",
-    "importing": "{count, plural, one {Importowanie 1 elementu} few {Importowanie{count}elementów} many {Importowanie {count}elementów} other {Importowanie {count}elementów}}",
-    "toggleDropdown": "Przełącznik rozwijanej listy ",
-    "closeDropdown": "Zamknij rozwijaną listę",
+    "imported": "{count, plural, one {Zaimportowano 1 element} few {Zaimportowano {count} elementy} many {Zaimportowano {count} elementów} other {Zaimportowano {count} elementów}}",
+    "importing": "{count, plural, one {Importowanie 1 elementu} few {Importowanie {count} elementów} many {Importowanie {count} elementów} other {Importowanie {count} elementów}}",
+    "toggleDropdown": "Przełącz listę rozwijaną",
+    "closeDropdown": "Zamknij listę rozwijaną",
     "count": "{count} z {count}"
   },
-  "addFilesInfo": "<0>Nie ma tu jeszcze żadnych plików! Dodaj pliki do swojego lokalnego węzła IPFS klikając na <1>Import</1> przycisk powyżej.</0>",
-  "companionInfo": "<0>Ponieważ używasz <1>IPFS Companion</1>, widok plików jest ograniczony do plików dodanych podczas używania rozszerzenia.</0>",
+  "addFilesInfo": "<0>Nie ma tu jeszcze żadnych plików! Dodaj pliki do lokalnego węzła IPFS, klikając przycisk <1>Importuj</1> powyżej.</0>",
+  "companionInfo": "<0>Ponieważ używasz <1>IPFS Companion</1>, widok plików jest ograniczony do plików dodanych podczas korzystania z rozszerzenia.</0>",
   "tour": {
     "step1": {
-      "title": "Strona z plikami",
-      "paragraph1": "<0>To tutaj znajdują się pliki w twoim żyjącym <1>Mutable File System (MFS)</1> Możesz dodać pliki lub foldery i zarządzać nimi z tej strony.</0>",
+      "title": "Strona Pliki",
+      "paragraph1": "<0>Tutaj znajdują się pliki w Twoim <1>Mutable File System (MFS)</1>. Możesz dodawać pliki lub foldery i zarządzać nimi z tej strony.</0>",
       "paragraph2": "Kliknij \"Dalej\", aby dowiedzieć się więcej."
     },
     "step2": {
-      "title": "Okruszki",
-      "paragraph1": "Ta ścieżka nawigacji wyświetla ścieżkę do bieżącego katalogu. Możesz...",
-      "bullet1": "Kliknij na pojedynczą element ścieżkę nawigacji, aby przejść do tego katalogu",
-      "bullet2": "Kliknij prawym przyciskiem myszy na element ścieżki nawigacji, aby uzyskać menu akcji dla tego katalogu",
-      "bullet3": "Przeciągnij pliki na element ścieżki nawigacji, aby je przenieść lub zaimportować "
+      "title": "Ścieżka nawigacji",
+      "paragraph1": "Ścieżka nawigacji pokazuje położenie bieżącego katalogu. Możesz:",
+      "bullet1": "Kliknąć element ścieżki, aby przejść do tego katalogu",
+      "bullet2": "Kliknąć prawym przyciskiem element ścieżki, aby otworzyć menu akcji dla tego katalogu",
+      "bullet3": "Przeciągnąć pliki na element ścieżki, aby je przenieść lub zaimportować"
     },
     "step3": {
-      "title": "Dodaj pliki",
-      "paragraph1": "Tutaj możesz zobaczyć ile bloków i plików masz przypiętych.",
-      "paragraph2": "Możesz dodać pliki lub foldery do swojego repo poprzez rozwijaną listę po prawej stronie.",
-      "paragraph3": "<0>Jeśli chcesz dodać coś, co już jest na IPFS, możesz zaimportować to do MFS, <1>przekazując jego identyfikator zawartości (CID)</1>.</0>"
+      "title": "Dodawanie plików",
+      "paragraph1": "Tutaj możesz zobaczyć, ile bloków i plików masz przypiętych.",
+      "paragraph2": "Możesz dodać pliki lub foldery do repozytorium przez listę rozwijaną po prawej stronie.",
+      "paragraph3": "<0>Jeśli chcesz dodać coś, co już jest w IPFS, możesz zaimportować to do MFS, podając <1>identyfikator treści (CID)</1>.</0>"
     },
     "step5": {
       "title": "Lista plików",
-      "paragraph1": "Ostateczna lista, gdzie można znaleźć swoje pliki i foldery. Przeciągnij i upuść pliki lub foldery, aby je dodać. ",
-      "paragraph2": "Możesz udostępniać lub pobierać pliki, sprawdzać je w Eksploratorze IPLD, zmieniać ich nazwy lub usuwać!",
-      "paragraph3": "Pro tip: przeciągnij i upuść plik z dowolnej innej strony Web UI by dodać je do korzenia twojego MFS."
+      "paragraph1": "Lista, na której znajdziesz swoje pliki i foldery. Przeciągnij i upuść pliki lub foldery, aby je dodać.",
+      "paragraph2": "Możesz udostępniać lub pobierać pliki, analizować je w Eksploratorze IPLD, zmieniać ich nazwy lub usuwać!",
+      "paragraph3": "Wskazówka: przeciągnij i upuść plik z dowolnej innej strony Web UI, aby dodać go do głównego katalogu MFS."
+    },
+    "step6": {
+      "title": "Siatka plików",
+      "paragraph1": "Widok siatki wyświetla pliki i foldery jako miniatury, ułatwiając wizualne przeglądanie zawartości.",
+      "paragraph2": "Możesz udostępniać lub pobierać pliki, analizować je w Eksploratorze IPLD, zmieniać ich nazwy lub usuwać!"
     }
   },
-  "previewLimitReached": "This preview is limited to 10 KiB. Click the download button to access the full file.",
-  "previousFolder": "Powrót do poprzedniego katalogu",
-  "fileLabel": "Wybierz {type} {name} z rozmiarem: {size}",
-  "hashUnavailable": "hasz niedostępny",
+  "previewLimitReached": "Podgląd jest ograniczony do 10 KiB. Kliknij przycisk pobierania, aby uzyskać dostęp do pełnego pliku.",
+  "previousFolder": "Wróć do poprzedniego folderu",
+  "fileLabel": "Wybierz {type} {name} o rozmiarze: {size}",
+  "hashUnavailable": "hash niedostępny",
   "checkboxLabel": "Wyświetl więcej opcji dla {name}",
-  "pinned": "Przypięte",
+  "pinned": "Przypięty",
   "pinnedRemotely": "Przypięty zdalnie",
-  "pinningRemotely": "Zdalne przypięcie",
-  "pinningCompleted": "Zakończono przypinanie",
-  "pinningFailed": "Nieudana próba przypięcia",
-  "clickToDismiss": "Kliknij, aby rozwinąć",
-  "clickToCancel": "Kliknij, aby anulować ",
+  "pinningRemotely": "Przypinanie zdalne",
+  "pinningCompleted": "Przypinanie zakończone",
+  "pinningFailed": "Przypinanie nie powiodło się",
+  "clickToDismiss": "Kliknij, aby zamknąć",
+  "clickToCancel": "Kliknij, aby anulować",
   "blocks": "Bloki",
-  "localDatastore": "Local Datastore",
-  "localDatastoreDescription": "Total size of all blocks currently stored in the Datastore of your IPFS node (“RepoSize” from “ipfs repo stat”). This includes everything in the Files view (MFS), low-level pins, and any recently removed or temporary cached blocks that were not garbage-collected yet.",
-  "currentLocationRoot": "My Files",
-  "currentLocation": "Current Location",
-  "currentLocationDescription": "Total size of the DAG behind the current directory (“CumulativeSize” from “ipfs files stat”). This value includes both local and remote blocks, and could be bigger than the size of your local datastore.",
-  "pinningQueue": "Kolejka do przypięcia",
+  "localDatastore": "Lokalny magazyn danych",
+  "localDatastoreDescription": "Całkowity rozmiar wszystkich bloków przechowywanych w magazynie danych Twojego węzła IPFS (\"RepoSize\" z \"ipfs repo stat\"). Obejmuje to wszystko w widoku Pliki (MFS), piny niskiego poziomu oraz niedawno usunięte lub tymczasowo buforowane bloki, które nie zostały jeszcze usunięte przez garbage collector.",
+  "currentLocationRoot": "Moje pliki",
+  "currentLocation": "Bieżąca lokalizacja",
+  "currentLocationDescription": "Całkowity rozmiar DAG za bieżącym katalogiem (\"CumulativeSize\" z \"ipfs files stat\"). Ta wartość obejmuje zarówno lokalne, jak i zdalne bloki, i może być większa niż rozmiar lokalnego magazynu danych.",
+  "pinningQueue": "Kolejka przypinania",
   "more": "Więcej",
   "files": "Pliki",
-  "cidNotFileNorDir": "Bieżące łącze nie jest plikiem, ani katalogiem. Spróbuj sprawdzić to.",
-  "sortBy": "Sortuj elementy według",
+  "cidNotFileNorDir": "Bieżący link nie jest plikiem ani katalogiem. Spróbuj go <1>przeanalizować</1>.",
+  "sortBy": "Sortuj elementy według {name}",
+  "sortFiles": "Sortuj pliki",
+  "sortByNameAsc": "Nazwa (A → Z)",
+  "sortByNameDesc": "Nazwa (Z → A)",
+  "sortBySizeAsc": "Rozmiar (od najmniejszego)",
+  "sortBySizeDesc": "Rozmiar (od największego)",
+  "sortByPinnedFirst": "Najpierw przypięte",
+  "sortByUnpinnedFirst": "Najpierw nieprzypięte",
+  "sortByOriginal": "Oryginalna kolejność DAG",
   "publishModal": {
-    "title": "Publikowanie w IPNS",
+    "title": "Opublikuj w IPNS",
     "cidToPublish": "CID:",
-    "publishUnderKey": "Wybrać klucz do publikacji:",
-    "help": "Przejdź do Ustawienia, aby dowiedzieć się o IPNS i stworzyć więcej kluczy.",
-    "publishedUnderKey": "Pomyślnie opublikowane pod kluczem:",
+    "publishUnderKey": "Wybierz klucz do publikacji:",
+    "help": "Przejdź do Ustawień, aby dowiedzieć się więcej o IPNS i utworzyć więcej kluczy.",
+    "publishedUnderKey": "Pomyślnie opublikowano pod kluczem:",
     "linkCopied": "Link skopiowany!",
-    "sharingPrompt": "Skopiuj poniższy link i podziel się nim z innymi. Adres IPNS będzie rozwiązywany tak długo, jak długo Twój węzeł będzie dostępny w sieci, raz dziennie odświeżając rekord IPNS.",
-    "pleaseWait": "Proszę poczekać, aż początkowe 20 kopii zaktualizowanego rekordu IPNS zostanie zapisanych za pomocą peerów DHT..."
+    "sharingPrompt": "Skopiuj poniższy link i udostępnij go innym. Adres IPNS będzie działał, dopóki Twój węzeł będzie dostępny w sieci przynajmniej raz dziennie, aby odświeżyć rekord IPNS.",
+    "pleaseWait": "Poczekaj, aż początkowe 20 kopii zaktualizowanego rekordu IPNS zostanie zapisanych z pomocą węzłów DHT…"
   },
-  "noPinsInProgress": "Wszystko zrobione, brak zdalnych pinów w toku.",
-  "remotePinningInProgress": "Trwa zdalne przypinanie:"
+  "noPinsInProgress": "Wszystko gotowe, brak zdalnych przypięć w toku.",
+  "remotePinningInProgress": "Trwa zdalne przypinanie:",
+  "selectAllEntries": "Zaznacz wszystkie elementy",
+  "previewNotFound": {
+    "title": "IPFS nie może znaleźć tego elementu",
+    "helpTitle": "Oto typowe kroki diagnostyczne, które mogą pomóc:",
+    "helpListItemPathTypo": "Czy w podanej ścieżce są literówki?",
+    "helpListItemFileMoved": "Czy plik został przeniesiony, zmieniono mu nazwę lub usunięto?",
+    "helpListItemBookmarkMigrated": "Czy skopiowałeś URL lub zakładkę z innego komputera? Jeśli tak, musisz",
+    "helpListItemBookmarkMigratedLink": "wskazać tej instancji węzeł tamtego komputera",
+    "backButton": "Wróć do strony głównej"
+  }
 }
