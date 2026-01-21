@@ -6,7 +6,7 @@ import { withTranslation, Trans } from 'react-i18next'
 import ReactJoyride from 'react-joyride'
 // Lib
 import { filesTour } from '../lib/tours.js'
-import { readSetting, writeSetting } from '../bundles/local-storage.js'
+import { readSetting } from '../bundles/local-storage.js'
 // Components
 import ContextMenu from './context-menu/ContextMenu.js'
 import withTour from '../components/tour/withTour.js'
@@ -20,8 +20,7 @@ import { getJoyrideLocales } from '../helpers/i8n.js'
 import SortDropdown from './sort-dropdown/SortDropdown.js'
 
 // Icons
-import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, SHORTCUTS, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
-
+import Modals, { DELETE, NEW_FOLDER, SHARE, ADD_BY_CAR, RENAME, ADD_BY_PATH, BULK_CID_IMPORT, CLI_TUTOR_MODE, PINNING, PUBLISH } from './modals/Modals.js'
 import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
@@ -63,27 +62,6 @@ const FilesPage = ({
       doFilesFetch()
     }
   }, [ipfsConnected, filesPathInfo, doFilesFetch])
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-        return
-      }
-
-      if (e.key === '?' && e.shiftKey) {
-        e.preventDefault()
-        showModal(SHORTCUTS)
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [])
-
-  // Persist view mode changes to localStorage
-  useEffect(() => {
-    writeSetting('files.viewMode', viewMode)
-  }, [viewMode])
 
   /* TODO: uncomment below if we ever want automatic remote pin check
   *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)

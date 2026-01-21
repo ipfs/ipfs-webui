@@ -10,6 +10,7 @@ import Cid from '../../components/cid/Cid.js'
 import { sortByProperty } from '../../lib/sort.js'
 
 import './PeersTable.css'
+import { useShortcuts } from '../../contexts/ShortcutsContext.js'
 
 const flagRenderer = (flagCode, isPrivate) => {
   // Check if the OS is Windows to render the flags as SVGs
@@ -118,12 +119,24 @@ const rowClassRenderer = ({ index }, peers = [], selectedPeers) => {
 }
 
 const FilterInput = ({ setFilter, t, filteredCount }) => {
+  const peerRef = React.useRef()
+  useShortcuts([{
+    keys: ['Shift', 'F'],
+    label: t('peers:filterPeers'),
+    action: () => {
+      peerRef.current?.focus?.()
+    },
+    group: t('app:shortcutModal.general')
+  }])
+
   return (
     <div className='flex items-center justify-between pa2'>
       <input
         className='input-reset ba b--black-20 pa2 mb2 db w-100'
         type='text'
         placeholder='Filter peers'
+        id='peers-filter'
+        ref={peerRef}
         onChange={(e) => setFilter(e.target.value)}
       />
       {/* Now to display the total number of peers filtered out on the right side of the inside of the input */}

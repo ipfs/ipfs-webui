@@ -14,16 +14,28 @@ import PeersTable from './PeersTable/PeersTable.js'
 import AddConnection from './AddConnection/AddConnection.js'
 import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts.js'
+import { useShortcuts } from '../contexts/ShortcutsContext.js'
 
-const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
-  <div data-id='PeersPage' className='overflow-hidden'>
+const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => {
+  const [isOpen, setIsOpen] = React.useState(false)
+
+  useShortcuts([{
+    keys: ['Meta', 'c'],
+    label: t('addConnection'),
+    action: () => {
+      setIsOpen((prev) => !prev)
+    },
+    group: t('app:shortcutModal.general')
+  }])
+
+  return (<div data-id='PeersPage' className='overflow-hidden'>
     <Helmet>
       <title>{t('title')} | IPFS</title>
     </Helmet>
 
     <div className='flex justify-end items-center mb3'>
       <CliTutorMode showIcon={true} command={cliCommandList[cliCmdKeys.ADD_NEW_PEER]()} t={t}/>
-      <AddConnection />
+      <AddConnection isOpen={isOpen} setIsOpen={setIsOpen}/>
     </div>
 
     <Box className='pt3 ph3 pb4'>
@@ -40,8 +52,8 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
       scrollToFirstStep
       locale={getJoyrideLocales(t)}
       showProgress />
-  </div>
-)
+  </div>)
+}
 
 export default connect(
   'selectToursEnabled',

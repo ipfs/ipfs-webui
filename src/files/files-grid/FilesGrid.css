@@ -1,0 +1,24 @@
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  min-height: 200px;
+}
+
+.files-grid--drop-target {
+  background-color: rgba(117, 189, 255, 0.1);
+  border: 2px dashed #75bdff;
+  border-radius: 8px;
+}
+
+.files-grid-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #6e7f8d;
+  font-size: 1rem;
+  text-align: center;
+}

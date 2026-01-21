@@ -7,7 +7,7 @@ import { P2P, Circuit, WebRTC } from '@multiformats/multiaddr-matcher'
 import Checkbox from '../../components/checkbox/Checkbox.js'
 import Icon from '../../icons/StrokeDecentralization.js'
 import Button from '../../components/button/button.tsx'
-import Overlay from '../../components/overlay/overlay'
+import Overlay from '../../components/overlay/overlay.tsx'
 
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import { Modal, ModalActions, ModalBody } from '../../components/modal/modal'
@@ -23,17 +23,10 @@ const multiaddrIsValid = (addrString) => {
 
 class AddConnection extends React.Component {
   state = {
-    open: false,
     loading: false,
     isValid: false,
     permanent: true,
     maddr: ''
-  }
-
-  toggleModal = () => {
-    this.setState({
-      open: !this.state.open
-    })
   }
 
   onPeeringToggle = () => {
@@ -61,7 +54,7 @@ class AddConnection extends React.Component {
 
     if (errored) return
     this.setState({ isValid: false, permanent: true, maddr: '' })
-    this.toggleModal()
+    this.props.setIsOpen(false)
   }
 
   onKeyPress = (event) => {
@@ -101,17 +94,17 @@ class AddConnection extends React.Component {
   }
 
   render () {
-    const { open, loading } = this.state
-    const { t } = this.props
+    const { loading } = this.state
+    const { t, isOpen, setIsOpen } = this.props
 
     return (
       <div>
-        <Button onClick={this.toggleModal} className='f6 ph3 tc' bg='bg-navy' color='white'>
+        <Button onClick={() => setIsOpen(true)} className='f6 ph3 tc' bg='bg-navy' color='white'>
           <span style={{ color: '#8CDDE6' }}>+</span> {t('addConnection')}
         </Button>
 
-        <Overlay show={open} onLeave={this.toggleModal}>
-          <Modal onCancel={this.toggleModal}>
+        <Overlay show={isOpen} onLeave={() => setIsOpen(false)}>
+          <Modal onCancel={() => setIsOpen(false)}>
             <ModalBody title={t('addConnection')} Icon={Icon}>
               { this.description }
 
@@ -132,7 +125,7 @@ class AddConnection extends React.Component {
             </ModalBody>
 
             <ModalActions>
-              <Button className='ma2 tc' bg='bg-gray' onClick={this.toggleModal}>{t('actions.cancel')}</Button>
+              <Button className='ma2 tc' bg='bg-gray' onClick={() => setIsOpen(false)}>{t('actions.cancel')}</Button>
               <Button className='ma2 tc' bg='bg-teal' disabled={this.isDisabled} onClick={this.onSubmit}>{t('app:actions.add')}</Button>
             </ModalActions>
 

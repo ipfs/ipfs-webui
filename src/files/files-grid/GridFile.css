@@ -1,0 +1,137 @@
+.grid-file {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  display: block;
+}
+
+.grid-file:hover,
+.grid-file:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
+  border-color: #9ad4db;
+}
+
+.grid-file:hover .grid-file-dots,
+.grid-file:focus .grid-file-dots {
+  opacity: 1;
+  visibility: visible;
+}
+
+.grid-file-preview {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.grid-file-preview .file-thumbnail {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.grid-file-preview .file-thumbnail img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  background-color: #f5f5f5;
+}
+
+.grid-file-dots {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #eee;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.grid-file-dots:hover,
+.grid-file-dots:focus {
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+  border-color: #9ad4db;
+}
+
+.grid-file-dots svg {
+  width: 16px;
+  height: 16px;
+  fill: #7f8491;
+}
+
+.grid-file-dots:hover svg,
+.grid-file-dots:focus svg {
+  fill: #5a5f6d;
+}
+
+.grid-file-info {
+  padding: 0.75rem;
+}
+
+.grid-file-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grid-file-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.grid-file-size {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.grid-file-pin {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.grid-file-pin:hover,
+.grid-file-pin:focus {
+  outline: none;
+}
+
+.grid-file-hash {
+  font-size: 0.75rem;
+  color: #666;
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

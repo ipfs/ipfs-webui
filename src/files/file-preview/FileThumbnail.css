@@ -1,0 +1,82 @@
+.file-thumbnail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.file-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.2s ease;
+  opacity: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.file-thumbnail-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #f5f5f5 0%, #e9e9e9 50%, #f5f5f5 100%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 0;
+}
+
+.selected-item {
+  color: #0b3a53;
+}
+
+.file-thumbnail.is-loading .file-thumbnail-loading {
+  opacity: 1;
+}
+
+.file-thumbnail.is-loading img {
+  opacity: 0;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.file-thumbnail-text {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+
+.file-thumbnail-content {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: #24292e;
+  white-space: pre-wrap;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+}

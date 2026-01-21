@@ -105,5 +105,13 @@
     "skip": "Skip",
     "tooltip": "Click this button any time for a guided tour on the current page."
   },
+  "shortcutModal": {
+    "title": "Keyboard Shortcuts",
+    "description": "The following keyboard shortcuts are available in the Files section:",
+    "showShortcuts": "Show keyboard shortcuts",
+    "general": "General",
+    "tourHelp": "Show tour help",
+    "ipfsPath": "Enter QmHash or CID"
+  },
   "startTourHelper": "Start tour"
 }

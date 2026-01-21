@@ -3,6 +3,7 @@
   "localNetwork": "Local Network",
   "nearby": "nearby",
   "protocols": "Open streams",
+  "filterPeers": "Filter peers",
   "agentVersion": "Agent Version",
   "addConnection": "Add connection",
   "insertPeerAddress": "Insert the peer address you want to connect to.",

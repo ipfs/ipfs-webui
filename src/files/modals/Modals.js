@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { join } from 'path'
 import { withTranslation } from 'react-i18next'
-import Overlay from '../../components/overlay/overlay'
+import Overlay from '../../components/overlay/overlay.tsx'
 // Modals
 import NewFolderModal from './new-folder-modal/NewFolderModal.js'
 import ShareModal from './share-modal/ShareModal.js'
@@ -12,7 +12,6 @@ import RemoveModal from './remove-modal/RemoveModal.js'
 import AddByPathModal from './add-by-path-modal/AddByPathModal.js'
 import BulkImportModal from './bulk-import-modal/bulk-import-modal.tsx'
 import PublishModal from './publish-modal/PublishModal.js'
-import ShortcutModal from './shortcut-modal/shortcut-modal.js'
 import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts.js'
 import { realMfsPath } from '../../bundles/files/actions.js'
@@ -28,7 +27,6 @@ const BULK_CID_IMPORT = 'bulk_cid_import'
 const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
 const PUBLISH = 'publish'
-const SHORTCUTS = 'shortcuts'
 
 export {
   NEW_FOLDER,
@@ -40,8 +38,7 @@ export {
   BULK_CID_IMPORT,
   CLI_TUTOR_MODE,
   PINNING,
-  PUBLISH,
-  SHORTCUTS
+  PUBLISH
 }
 
 class Modals extends React.Component {
@@ -196,9 +193,6 @@ class Modals extends React.Component {
           publish: { file }
         })
       }
-      case SHORTCUTS:
-        this.setState({ readyToShow: true })
-        break
       default:
         // do nothing
     }
@@ -310,12 +304,6 @@ class Modals extends React.Component {
             className='outline-0'
             onLeave={this.leave}
             onSubmit={this.publish} />
-        </Overlay>
-
-        <Overlay show={show === SHORTCUTS && readyToShow} onLeave={this.leave}>
-          <ShortcutModal
-            className='outline-0'
-            onLeave={this.leave} />
         </Overlay>
       </div>
     )
