@@ -1,58 +1,58 @@
 {
   "actions": {
     "add": "Dodaj",
-    "apply": " Zastosuj",
+    "apply": "Zastosuj",
     "browse": "Przeglądaj",
     "cancel": "Anuluj",
     "change": "Zmień",
-    "clear": "Wyszczyść",
+    "clear": "Wyczyść",
     "close": "Zamknij",
     "copy": "Kopiuj",
     "create": "Utwórz",
-    "default": "",
+    "default": "Domyślne",
     "remove": "Usuń",
     "download": "Pobierz",
     "edit": "Edytuj",
-    "import": "Import",
+    "import": "Importuj",
     "inspect": "Analizuj",
     "more": "Więcej",
     "rename": "Zmień nazwę",
-    "reset": "Reset",
+    "reset": "Resetuj",
     "save": "Zapisz",
-    "saving": "Zapisywanie...",
-    "setPinning": "Przypinanie",
-    "submit": "Wprowadź",
+    "saving": "Zapisywanie…",
+    "setPinning": "Ustaw przypinanie",
+    "submit": "Zatwierdź",
     "unselectAll": "Odznacz wszystko",
     "generate": "Generuj",
     "publish": "Publikuj",
-    "downloadCar": "",
+    "downloadCar": "Eksportuj CAR",
     "done": "Gotowe",
-    "checkRetrieval": ""
+    "checkRetrieval": "Sprawdź dostępność"
   },
   "cliModal": {
-    "description": ""
+    "description": "Wklej poniższe polecenie do terminala, aby wykonać to zadanie w Kubo z linii poleceń. Pamiętaj, że musisz zastąpić symbole zastępcze swoimi konkretnymi parametrami."
   },
   "nav": {
     "bugsLink": "Zgłoś błąd",
     "codeLink": "Zobacz kod"
   },
   "status": {
-    "connectedToIpfs": "Połączone z IPFS",
-    "connectingToIpfs": "Łączenie z IPFS...",
-    "couldNotConnect": ""
+    "connectedToIpfs": "Połączono z IPFS",
+    "connectingToIpfs": "Łączenie z IPFS…",
+    "couldNotConnect": "Nie można połączyć się z Kubo RPC"
   },
   "apiAddressForm": {
-    "placeholder": ""
+    "placeholder": "Wprowadź URL (http://user:password@127.0.0.1:5001) lub Multiaddr (/ip4/127.0.0.1/tcp/5001)"
   },
   "publicGatewayForm": {
-    "placeholder": ""
+    "placeholder": "Wprowadź URL (https://ipfs.io)"
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Wprowadź URL (https://dweb.link)"
   },
   "ipfsCheckForm": {
-    "label": "",
-    "placeholder": ""
+    "label": "URL usługi sprawdzania dostępności",
+    "placeholder": "Wprowadź URL (https://check.ipfs.network)"
   },
   "terms": {
     "address": "Adres",
@@ -60,50 +60,50 @@
     "advanced": "Zaawansowane",
     "agent": "Agent",
     "api": "Kubo RPC",
-    "apiAddress": "",
+    "apiAddress": "Adres Kubo RPC API",
     "blocks": "Bloki",
     "connection": "Połączenie",
-    "downSpeed": "Przychodzący",
-    "example": "Przykład",
+    "downSpeed": "Przychodzące",
+    "example": "Przykład:",
     "file": "Plik",
     "files": "Pliki",
-    "folder": "Katalog",
-    "folders": "Katalogi",
-    "gateway": "Bramka HTTP",
-    "in": "Przychodzący",
+    "folder": "Folder",
+    "folders": "Foldery",
+    "gateway": "Bramka",
+    "in": "Przychodzące",
     "latency": "Opóźnienie",
-    "loading": "Wxzytywanie",
-    "location": "Położenie",
+    "loading": "Wczytywanie",
+    "location": "Lokalizacja",
     "name": "Nazwa",
     "node": "Węzeł",
-    "out": "Wychodzący",
+    "out": "Wychodzące",
     "peer": "Węzeł",
     "peerId": "ID węzła",
     "id": "ID",
     "peers": "Węzły",
-    "pinNoun": "Przypnij",
-    "pins": "Przypięte",
-    "pinStatus": "Stan przypięcia",
+    "pinNoun": "Przypięcie",
+    "pins": "Przypięcia",
+    "pinStatus": "Status przypięcia",
     "publicKey": "Klucz publiczny",
     "publicGateway": "Publiczna bramka",
-    "rateIn": "Współczynnik przychodzącego",
-    "rateOut": "Współczynnik wychodzącego",
+    "rateIn": "Transfer przychodzący",
+    "rateOut": "Transfer wychodzący",
     "repo": "Repozytorium",
     "size": "Rozmiar",
-    "totalIn": "Razem przychodzący",
-    "totalOut": "Razem wychodzący",
+    "totalIn": "Razem przychodzące",
+    "totalOut": "Razem wychodzące",
     "unknown": "Nieznane",
     "ui": "Interfejs",
-    "upSpeed": "Wychodzący",
+    "upSpeed": "Wychodzące",
     "revision": "Wersja"
   },
   "tour": {
     "back": "Wstecz",
     "close": "Zamknij",
     "finish": "Zakończ",
-    "next": "Następny",
+    "next": "Dalej",
     "skip": "Pomiń",
-    "tooltip": "Naciśnij ten przycisk w dowolnej chwili aby obejrzeć wwprowadzenie"
+    "tooltip": "Kliknij ten przycisk w dowolnym momencie, aby zobaczyć przewodnik po bieżącej stronie."
   },
-  "startTourHelper": "Obejrzyj wprowadzenie"
+  "startTourHelper": "Uruchom przewodnik"
 }

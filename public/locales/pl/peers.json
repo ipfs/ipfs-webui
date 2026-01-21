@@ -3,27 +3,27 @@
   "localNetwork": "Sieć lokalna",
   "nearby": "w pobliżu",
   "protocols": "Otwarte strumienie",
-  "agentVersion": "",
-  "addConnection": "Dodaj połączenie ",
-  "insertPeerAddress": "Wpisz adres peera, z którym chcesz się połączyć.",
-  "addPermanentPeer": "Dodaj do stałą konfiguracje peering ",
-  "plusPeers": "+ {number} więcej rówieśników",
-  "connectionDirectionInbound": "przychodzący",
+  "agentVersion": "Wersja agenta",
+  "addConnection": "Dodaj połączenie",
+  "insertPeerAddress": "Wprowadź adres węzła, z którym chcesz się połączyć.",
+  "addPermanentPeer": "Dodaj do stałej konfiguracji połączeń",
+  "plusPeers": "+ {number} więcej węzłów",
+  "connectionDirectionInbound": "przychodzące",
   "connectionDirectionOutbound": "wychodzące",
-  "copyFeedback": "Skopiowany!",
+  "copyFeedback": "Skopiowano!",
   "tour": {
     "step1": {
-      "title": "Strona rówieśników (peers)",
-      "paragraph1": "To tutaj możesz zobaczyć rówieśników, z którymi jesteś połączony i kraj, w którym się znajdują.",
+      "title": "Strona Węzły",
+      "paragraph1": "Tutaj możesz zobaczyć węzły, z którymi jesteś połączony, oraz kraje, w których się znajdują.",
       "paragraph2": "Kliknij \"Dalej\", aby dowiedzieć się więcej."
     },
     "step2": {
-      "title": "Mapa rówieśników (peers)",
-      "paragraph1": "Wizualizacja tego, gdzie na świecie znajdują się rówieśnicy, z którymi jesteś połączony."
+      "title": "Mapa węzłów",
+      "paragraph1": "Wizualizacja pokazująca, gdzie na świecie znajdują się węzły, z którymi jesteś połączony."
     },
     "step3": {
-      "title": "Tabela rówieśników",
-      "paragraph1": "Sprawdź identyfikatory podłączonych peerów, ich adres i przybliżoną lokalizację."
+      "title": "Tabela węzłów",
+      "paragraph1": "Sprawdź identyfikatory połączonych węzłów, ich adresy i przybliżoną lokalizację."
     }
   }
 }
