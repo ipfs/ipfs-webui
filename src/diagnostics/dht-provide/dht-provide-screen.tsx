@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next'
 import { useProvide } from '../../contexts/ProvideStat'
 import './dht-provide.css'
 import UnsupportedKuboVersion from 'src/components/unsupported-kubo-version/unsupported-kubo-version'
-import { ReprovideCycle } from './ReprovideCycle'
-import { CurrentBatch } from './CurrentBatch'
-import { QueueStatus } from './QueueStatus'
-import { Workers } from './Workers'
+import { Connectivity } from './Connectivity'
+import { Queues } from './Queues'
+import { Schedule } from './Schedule'
+import { Operations } from './Operations'
 import { Network } from './Network'
+import { Workers } from './Workers'
 import { GlyphAttention } from 'src/icons'
 
 const DhtProvideScreen: React.FC = () => {
@@ -97,14 +98,17 @@ const DhtProvideScreen: React.FC = () => {
       </div>
 
       <div className='dht-provide__grid'>
-        <div className='dht-provide__full'>
-          <ReprovideCycle sweep={sweep} />
-        </div>
-        <CurrentBatch sweep={sweep} />
-        <QueueStatus sweep={sweep} />
+        {/* Row 1: Connectivity + Queues */}
+        <Connectivity sweep={sweep} />
+        <Queues sweep={sweep} />
 
-        <Workers sweep={sweep} />
+        {/* Row 2: Schedule + Operations */}
+        <Schedule sweep={sweep} />
+        <Operations sweep={sweep} />
+
+        {/* Row 3: Network + Workers */}
         <Network sweep={sweep} />
+        <Workers sweep={sweep} />
       </div>
 
       {workerUtilization >= 0.75 && (

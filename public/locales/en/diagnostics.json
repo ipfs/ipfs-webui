@@ -117,30 +117,52 @@
       "workersWarning": "Workers at {percent}% capacity. If the queue grows, consider increasing Provide.DHT.MaxWorkers (current: {max})."
     },
 
-    "reprovideCycle": {
-      "title": "Reprovide Cycle",
+    "connectivity": {
+      "title": "Connectivity",
+      "tooltip": "Overall health of the DHT provide subsystem: connectivity, uptime, and keyspace coverage.",
+      "status": "Status",
+      "online": "Online",
+      "offline": "Offline",
+      "sinceAgo": "{value}{unit} ago",
+      "justNow": "just now",
+      "uptime": "Uptime",
+      "keyspaceCoverage": "Keyspace",
+      "full": "Full",
+      "partial": "Partial",
+      "closedWarning": "Provider system is shutting down"
+    },
+
+    "schedule": {
+      "title": "Schedule",
       "tooltip": "The reprovide cycle is the periodic sweep that reprovisions groups of CIDs to the DHT.",
-      "cycle": "Cycle #{regions}",
-      "progress": "{progress}% complete",
-      "summary": "Started {elapsed} ago • ETA {eta} • {provided} / {total} CIDs provided"
+      "reprovideInterval": "Reprovide interval",
+      "regions": "Regions",
+      "cidsScheduled": "CIDs scheduled",
+      "currentRegion": "Current region",
+      "avgPrefixLength": "Avg prefix length",
+      "nextReprovide": "Next region start"
     },
 
-    "currentBatch": {
-      "title": "Current Batch",
-      "tooltip": "Information about the currently processed batch: which region/prefix is being reprovided, the batch size, progress, and processing rate.",
-      "region": "Region",
-      "batch": "Batch",
-      "progress": "Progress",
-      "rate": "Rate"
-    },
-
-    "queueStatus": {
-      "title": "Queue Status",
-      "tooltip": "Shows pending reprovides broken into periodic (scheduled), on-demand, and region-specific queues.",
-      "periodic": "Periodic",
-      "onDemand": "On-demand",
-      "regionProvides": "Region-specific",
+    "queues": {
+      "title": "Queues",
+      "tooltip": "Pending items in the provide and reprovide queues.",
+      "provideQueue": "Provide queue",
+      "reprovideQueue": "Reprovide queue",
       "total": "Total"
+    },
+
+    "operations": {
+      "title": "Operations",
+      "tooltip": "In-flight provide and reprovide operations, throughput rates, and cumulative statistics.",
+      "ongoingProvides": "Ongoing provides",
+      "ongoingReprovides": "Ongoing reprovides",
+      "provideRate": "Avg provide rate",
+      "reprovideRate": "Avg reprovide rate",
+      "totalCidsProvided": "Total CIDs provided",
+      "totalRecordsProvided": "Total records provided",
+      "totalProvideErrors": "Total provide errors",
+      "regionReprovideDuration": "Region reprovide duration",
+      "avgCidsPerReprovide": "Avg CIDs/reprovide"
     },
 
     "workers": {
@@ -148,19 +170,21 @@
       "tooltip": "Worker threads process provide operations. This card shows active workers, dedicated periodic and burst workers, and utilization.",
       "active": "Active",
       "periodic": "Periodic",
-      "onDemand": "On-demand",
-      "utilization": "{percent}% utilization"
+      "burst": "Burst",
+      "queued": "Queued (periodic / burst)",
+      "maxConnsPerWorker": "Max connections/worker"
     },
 
     "network": {
       "title": "Network",
-      "tooltip": "Network metrics for the DHT provide subsystem: connectivity status, number of peers, provides per hour, and success rate.",
-      "status": "Status",
-      "connected": "Connected",
-      "disconnected": "Disconnected",
-      "dhtPeers": "DHT Peers",
-      "providesPerHour": "Provides/hr",
-      "success": "Success"
+      "tooltip": "DHT network metrics: peer counts, reachability, record holders, and success rates.",
+      "peerSwept": "Peers swept",
+      "reachablePeers": "Reachable peers",
+      "avgRecordHolders": "Avg record holders",
+      "avgRegionSize": "Avg region size",
+      "replicationFactor": "Replication factor",
+      "fullKeyspaceCoverage": "Full keyspace coverage",
+      "successRate": "Success rate"
     }
   }
 }

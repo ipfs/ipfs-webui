@@ -23,7 +23,10 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
     active_periodic: activePeriodic,
     active_burst: activeBurst,
     dedicated_periodic: dedicatedPeriodic,
-    dedicated_burst: dedicatedBurst
+    dedicated_burst: dedicatedBurst,
+    queued_periodic: queuedPeriodic,
+    queued_burst: queuedBurst,
+    max_provide_conns_per_worker: connsPerWorker
   } = sweep.workers
 
   const utilization = max > 0
@@ -54,33 +57,52 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
         </IconTooltip>
       </CardHeader>
       <CardContent>
-        <MetricRow
-          label={t('dhtProvide.workers.active')}
-          value={`${active}/${max} (${utilization}%)`}
-          highlight={utilization >= 75}
-        />
-        <div className='mt2'>
-          <Bar value={utilization / 100} />
-        </div>
-
-        <div className='mt3 mb2'>
+        <div className='mb3'>
           <MetricRow
-            label={t('dhtProvide.workers.periodic')}
-            value={`${activePeriodic}/${dedicatedPeriodic}`}
+            label={t('dhtProvide.workers.active')}
+            value={`${active} / ${max}`}
+            highlight={utilization >= 75}
           />
-          <div className='mt2'>
-            <Bar value={periodicUtil} />
+          <div className='mt1'>
+            <Bar value={utilization / 100} />
           </div>
         </div>
 
-        <div>
-          <MetricRow
-            label={t('dhtProvide.workers.onDemand')}
-            value={`${activeBurst}/${dedicatedBurst}`}
-          />
-          <div className='mt2'>
-            <Bar value={burstUtil} />
+        <div className='mt3 pt3 bt b--black-10'>
+          <div className='mb3'>
+            <MetricRow
+              label={t('dhtProvide.workers.periodic')}
+              value={`${activePeriodic} / ${dedicatedPeriodic}`}
+            />
+            <div className='mt1'>
+              <Bar value={periodicUtil} />
+            </div>
           </div>
+
+          <div className='mb3'>
+            <MetricRow
+              label={t('dhtProvide.workers.burst')}
+              value={`${activeBurst} / ${dedicatedBurst}`}
+            />
+            <div className='mt1'>
+              <Bar value={burstUtil} />
+            </div>
+          </div>
+
+          {(queuedPeriodic > 0 || queuedBurst > 0) && (
+            <MetricRow
+              label={t('dhtProvide.workers.queued')}
+              value={`${queuedPeriodic} / ${queuedBurst}`}
+              highlight={queuedPeriodic + queuedBurst > 0}
+            />
+          )}
+        </div>
+
+        <div className='mt3 pt3 bt b--black-10'>
+          <MetricRow
+            label={t('dhtProvide.workers.maxConnsPerWorker')}
+            value={connsPerWorker.toString()}
+          />
         </div>
       </CardContent>
     </Card>
