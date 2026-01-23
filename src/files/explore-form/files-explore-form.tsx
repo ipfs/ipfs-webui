@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import * as isIPFS from 'is-ipfs'
 import { useTranslation } from 'react-i18next'
-import last from 'it-last'
 import StrokeFolder from '../../icons/StrokeFolder.js'
 import StrokeIpld from '../../icons/StrokeIpld.js'
 import Button from '../../components/button/button'
@@ -14,6 +13,22 @@ import type { KuboRPCClient } from 'kubo-rpc-client'
 interface FilesExploreFormProps {
   // this prop is being passed as the `doFilesNavigateTo` action from the `files` bundle in App.js
   onBrowse: ({ path, cid }: {path: string, cid?: string}) => void
+}
+
+/**
+ * Normalize input to a canonical path format:
+ * - ipfs://CID -> /ipfs/CID
+ * - ipns://name -> /ipns/name
+ * - Existing paths pass through unchanged
+ */
+const normalizeToPath = (input: string): string => {
+  if (input.startsWith('ipfs://')) {
+    return '/ipfs/' + input.slice(7)
+  }
+  if (input.startsWith('ipns://')) {
+    return '/ipns/' + input.slice(7)
+  }
+  return input
 }
 
 const FilesExploreForm: React.FC<FilesExploreFormProps> = ({ onBrowse: onBrowseProp }) => {
@@ -29,7 +44,13 @@ const FilesExploreForm: React.FC<FilesExploreFormProps> = ({ onBrowse: onBrowseP
   }, [path])
 
   const isValid = useMemo(() => {
-    return trimmedPath !== '' && (isIPFS.cid(trimmedPath) || isIPFS.path(trimmedPath))
+    if (trimmedPath === '') return false
+    // Accept native protocol URLs
+    if (trimmedPath.startsWith('ipfs://') || trimmedPath.startsWith('ipns://')) {
+      const asPath = normalizeToPath(trimmedPath)
+      return isIPFS.path(asPath)
+    }
+    return isIPFS.cid(trimmedPath) || isIPFS.path(trimmedPath)
   }, [trimmedPath])
 
   const inputClass = useMemo(() => {
@@ -61,31 +82,39 @@ const FilesExploreForm: React.FC<FilesExploreFormProps> = ({ onBrowse: onBrowseP
     if (!isValid) return
 
     setResolveError(null)
-    let pathToExplore = trimmedPath
 
-    // IPNS paths need to be resolved to /ipfs/ paths before passing to the IPLD explorer,
-    // which expects CIDs and cannot parse IPNS names directly
-    if (trimmedPath.startsWith('/ipns/') && ipfs != null) {
-      setIsResolving(true)
-      try {
-        const resolved = await last(ipfs.name.resolve(trimmedPath, { recursive: true }))
-        if (resolved != null) {
-          pathToExplore = resolved
-        } else {
-          setResolveError(t('inspectIpnsResolveFailed', { path: trimmedPath }))
-          setIsResolving(false)
-          return
-        }
-      } catch (err) {
-        console.error('Failed to resolve IPNS path:', err)
-        setResolveError(t('inspectIpnsResolveFailed', { path: trimmedPath }))
-        setIsResolving(false)
-        return
-      }
-      setIsResolving(false)
+    // Normalize URL to path format
+    const normalizedPath = normalizeToPath(trimmedPath)
+
+    // For bare CIDs, pass directly to explorer
+    if (isIPFS.cid(trimmedPath)) {
+      doExploreUserProvidedPath(trimmedPath)
+      setPath('')
+      return
     }
 
-    doExploreUserProvidedPath(pathToExplore)
+    // For paths (/ipfs/ or /ipns/), resolve to final CID
+    if (ipfs != null && (normalizedPath.startsWith('/ipfs/') || normalizedPath.startsWith('/ipns/'))) {
+      setIsResolving(true)
+      try {
+        // ipfs.resolve with recursive:true handles both IPNS resolution
+        // and path traversal to get the final CID
+        const resolved = await ipfs.resolve(normalizedPath, { recursive: true })
+        // resolved is like "/ipfs/bafyabc123" - extract just the CID
+        const cid = resolved.replace(/^\/ipfs\//, '')
+        doExploreUserProvidedPath(cid)
+        setPath('')
+      } catch (err) {
+        console.error('Failed to resolve path:', err)
+        setResolveError(t('inspectResolveFailed', { path: normalizedPath }))
+      } finally {
+        setIsResolving(false)
+      }
+      return
+    }
+
+    // Fallback for other valid inputs
+    doExploreUserProvidedPath(trimmedPath)
     setPath('')
   }, [doExploreUserProvidedPath, ipfs, isValid, t, trimmedPath])
 
@@ -93,7 +122,9 @@ const FilesExploreForm: React.FC<FilesExploreFormProps> = ({ onBrowse: onBrowseP
     evt.preventDefault()
 
     if (isValid) {
-      let browsePath = trimmedPath
+      // Normalize URL to path, but preserve the full path for Files
+      // (Files system handles IPNS and subpaths natively)
+      let browsePath = normalizeToPath(trimmedPath)
       let cid
       if (isIPFS.cid(trimmedPath)) {
         browsePath = `/ipfs/${trimmedPath}`

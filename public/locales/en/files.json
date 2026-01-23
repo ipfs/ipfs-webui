@@ -200,5 +200,5 @@
     "helpListItemBookmarkMigratedLink": "point this instance at that computer's node",
     "backButton": "Go to Home"
   },
-  "inspectIpnsResolveFailed": "Failed to resolve mutable path: {{path}}"
+  "inspectResolveFailed": "Failed to resolve path: {{path}}"
 }
