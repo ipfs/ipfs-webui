@@ -10,7 +10,7 @@ import {
   CardContent
 } from '../../components/card/card'
 import { MetricRow } from '../../components/metric-row/MetricRow'
-import { safeNumber } from './format-utils'
+import { safeNumber, formatInteger } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
@@ -35,11 +35,11 @@ export const Queues: React.FC<Props> = ({ sweep }) => {
         </IconTooltip>
       </CardHeader>
       <CardContent>
-        <MetricRow label={t('dhtProvide.queues.provideQueue')} value={provideQueue.toLocaleString()} />
+        <MetricRow label={t('dhtProvide.queues.provideQueue')} value={formatInteger(provideQueue)} />
 
-        <MetricRow label={t('dhtProvide.queues.reprovideQueue')} value={reprovideQueue.toLocaleString()} />
+        <MetricRow label={t('dhtProvide.queues.reprovideQueue')} value={formatInteger(reprovideQueue)} />
 
-        <MetricRow label={t('dhtProvide.queues.total')} value={total.toLocaleString()} />
+        <MetricRow label={t('dhtProvide.queues.total')} value={formatInteger(total)} />
       </CardContent>
     </Card>
   )

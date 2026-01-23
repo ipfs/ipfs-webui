@@ -10,7 +10,7 @@ import {
   CardContent
 } from '../../components/card/card'
 import { MetricRow } from '../../components/metric-row/MetricRow'
-import { formatDuration, formatElapsed, formatTime, formatCount, formatNumber, safeNumber, PLACEHOLDER } from './format-utils'
+import { formatDuration, formatElapsed, formatTime, formatCount, formatNumber, formatInteger, safeNumber, PLACEHOLDER } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
@@ -65,8 +65,8 @@ export const Schedule: React.FC<Props> = ({ sweep }) => {
           label={t('dhtProvide.schedule.regions')}
           value={
             lastCycleRegions != null
-              ? `${regions.toLocaleString()} (${lastCycleRegions} last cycle)`
-              : regions.toLocaleString()
+              ? `${formatInteger(regions)} (${formatInteger(lastCycleRegions)} last cycle)`
+              : formatInteger(regions)
           }
         />
 

@@ -10,7 +10,7 @@ import {
   CardContent
 } from '../../components/card/card'
 import { MetricRow } from '../../components/metric-row/MetricRow'
-import { formatNumber, safeNumber } from './format-utils'
+import { formatNumber, formatInteger, safeNumber } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
@@ -47,12 +47,12 @@ export const Network: React.FC<Props> = ({ sweep, fullRT }) => {
       <CardContent>
         <MetricRow
           label={t('dhtProvide.network.peerSwept')}
-          value={peers.toLocaleString()}
+          value={formatInteger(peers)}
         />
 
         <MetricRow
           label={t('dhtProvide.network.reachablePeers')}
-          value={`${reachable.toLocaleString()} (${reachablePercent}%)`}
+          value={`${formatInteger(reachable)} (${reachablePercent}%)`}
         />
 
         {(sweep.network?.avg_holders ?? 0) > 0 && (

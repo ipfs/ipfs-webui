@@ -1,7 +1,14 @@
+import i18n from '../../i18n'
+
 /**
  * Placeholder for missing or unavailable values.
  */
 export const PLACEHOLDER = '-'
+
+/**
+ * Get the current locale from i18n for number formatting.
+ */
+const getLocale = (): string => i18n.language || 'en'
 
 /**
  * Format nanoseconds as a human-readable duration string.
@@ -93,27 +100,48 @@ export const formatTime = (isoString: string | null | undefined): string => {
 }
 
 /**
- * Format large numbers with abbreviations (K, M).
+ * Format large numbers with locale-aware compact notation (K, M, etc.).
  * @param n - Number to format
  * @returns Formatted string like "2.8M" or "145", or placeholder if unavailable
  */
 export const formatCount = (n: number | null | undefined): string => {
   if (n == null || isNaN(n)) return PLACEHOLDER
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
-  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`
-  return n.toLocaleString()
+  const locale = getLocale()
+  if (n >= 1_000) {
+    return new Intl.NumberFormat(locale, {
+      notation: 'compact',
+      maximumFractionDigits: 1
+    }).format(n)
+  }
+  return n.toLocaleString(locale)
 }
 
 /**
- * Safely format a number, returning placeholder if unavailable.
+ * Safely format a number with locale-aware formatting.
  * @param n - Number to format
  * @param decimals - Number of decimal places (optional)
  * @returns Formatted number string or placeholder
  */
 export const formatNumber = (n: number | null | undefined, decimals?: number): string => {
   if (n == null || isNaN(n)) return PLACEHOLDER
-  if (decimals != null) return n.toFixed(decimals)
-  return n.toLocaleString()
+  const locale = getLocale()
+  if (decimals != null) {
+    return new Intl.NumberFormat(locale, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    }).format(n)
+  }
+  return n.toLocaleString(locale)
+}
+
+/**
+ * Format an integer with locale-aware thousand separators.
+ * @param n - Number to format
+ * @returns Formatted number string or placeholder
+ */
+export const formatInteger = (n: number | null | undefined): string => {
+  if (n == null || isNaN(n)) return PLACEHOLDER
+  return n.toLocaleString(getLocale())
 }
 
 /**

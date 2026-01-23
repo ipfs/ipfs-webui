@@ -10,7 +10,7 @@ import {
   CardContent
 } from '../../components/card/card'
 import { MetricRow } from '../../components/metric-row/MetricRow'
-import { formatDuration, formatCount, safeNumber } from './format-utils'
+import { formatDuration, formatCount, formatInteger, formatNumber, safeNumber } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
@@ -27,12 +27,12 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
   // Convert per-minute rates to per-second for display
   const keysProvidedPerMin = sweep.operations?.past?.keys_provided_per_minute
   const provideRate = keysProvidedPerMin != null
-    ? (keysProvidedPerMin / 60).toFixed(1)
+    ? formatNumber(keysProvidedPerMin / 60, 1)
     : null
 
   const keysReprovidedPerMin = sweep.operations?.past?.keys_reprovided_per_minute
   const reprovideRate = keysReprovidedPerMin != null
-    ? (keysReprovidedPerMin / 60).toFixed(1)
+    ? formatNumber(keysReprovidedPerMin / 60, 1)
     : null
 
   return (
@@ -48,7 +48,7 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
         {/* Live stats: ongoing + rates */}
         <MetricRow
           label={t('dhtProvide.operations.ongoingProvides')}
-          value={ongoingProvides.toLocaleString()}
+          value={formatInteger(ongoingProvides)}
         />
 
         <MetricRow
@@ -84,7 +84,7 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
 
           <MetricRow
             label={t('dhtProvide.operations.totalProvideErrors')}
-            value={safeNumber(sweep.operations?.past?.keys_failed).toLocaleString()}
+            value={formatInteger(safeNumber(sweep.operations?.past?.keys_failed))}
           />
 
           {sweep.operations?.past?.reprovide_duration != null && (
@@ -97,7 +97,7 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
           {sweep.operations?.past?.avg_keys_per_reprovide != null && (
             <MetricRow
               label={t('dhtProvide.operations.avgCidsPerReprovide')}
-              value={Math.round(sweep.operations.past.avg_keys_per_reprovide).toLocaleString()}
+              value={formatInteger(Math.round(sweep.operations.past.avg_keys_per_reprovide))}
             />
           )}
         </div>
