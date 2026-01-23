@@ -184,7 +184,8 @@
       "avgRegionSize": "Avg region size",
       "replicationFactor": "Replication factor",
       "fullKeyspaceCoverage": "Full keyspace coverage",
-      "successRate": "Success rate"
+      "successRate": "Success rate",
+      "fullRT": "Accelerated DHT client"
     }
   }
 }

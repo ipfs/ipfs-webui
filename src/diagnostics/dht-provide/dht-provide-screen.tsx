@@ -120,7 +120,7 @@ const DhtProvideScreen: React.FC = () => {
         <Operations sweep={sweep} />
 
         {/* Row 3: Network + Workers */}
-        <Network sweep={sweep} />
+        <Network sweep={sweep} fullRT={data?.FullRT} />
         <Workers sweep={sweep} />
       </div>
 

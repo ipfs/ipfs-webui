@@ -8,7 +8,7 @@ export interface LegacyProvideStats {
 }
 
 export interface ProvideConnectivity {
-  status: 'online' | 'disconnected'
+  status: string
   since: string
 }
 
@@ -59,7 +59,7 @@ export interface ProvideOperations {
     keys_failed: number
     keys_provided_per_minute?: number
     keys_reprovided_per_minute?: number
-    region_reprovide_duration?: number
+    reprovide_duration?: number
     avg_keys_per_reprovide?: number
     regions_reprovided_last_cycle?: number
   }

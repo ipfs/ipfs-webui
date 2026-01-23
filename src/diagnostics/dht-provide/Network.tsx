@@ -14,9 +14,10 @@ import { formatNumber, safeNumber } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
+  fullRT?: boolean
 }
 
-export const Network: React.FC<Props> = ({ sweep }) => {
+export const Network: React.FC<Props> = ({ sweep, fullRT }) => {
   const { t } = useTranslation('diagnostics')
 
   const provided = safeNumber(sweep.operations?.past?.keys_provided)
@@ -73,6 +74,11 @@ export const Network: React.FC<Props> = ({ sweep }) => {
           value={formatNumber(sweep.network?.replication_factor)}
         />
 
+        <MetricRow
+          label={t('dhtProvide.network.fullRT')}
+          value={fullRT ? 'true' : 'false'}
+        />
+
         <div className='flex items-center justify-between mb2'>
           <span className='f6'>{t('dhtProvide.network.fullKeyspaceCoverage')}</span>
           <span className='flex items-center f6'>
@@ -99,6 +105,7 @@ export const Network: React.FC<Props> = ({ sweep }) => {
             highlight
           />
         )}
+
       </CardContent>
     </Card>
   )

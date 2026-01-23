@@ -87,10 +87,10 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
             value={safeNumber(sweep.operations?.past?.keys_failed).toLocaleString()}
           />
 
-          {sweep.operations?.past?.region_reprovide_duration != null && (
+          {sweep.operations?.past?.reprovide_duration != null && (
             <MetricRow
               label={t('dhtProvide.operations.regionReprovideDuration')}
-              value={formatDuration(sweep.operations.past.region_reprovide_duration)}
+              value={formatDuration(sweep.operations.past.reprovide_duration)}
             />
           )}
 
