@@ -15,6 +15,7 @@
     "edit": "Edit",
     "import": "Import",
     "inspect": "Inspect",
+    "inspectResolving": "Resolving...",
     "more": "More",
     "rename": "Rename",
     "reset": "Reset",
