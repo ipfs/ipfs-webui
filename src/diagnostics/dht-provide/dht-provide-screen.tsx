@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 
 import { useProvide } from '../../contexts/ProvideStat'
 import './dht-provide.css'
@@ -83,9 +83,23 @@ const DhtProvideScreen: React.FC = () => {
   return (
     <div className={'dht-provide ph4'}>
       <div className='dht-provide__header mb3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
-        <h2 className='montserrat fw4 f5 charcoal ma0'>
-          {t('dhtProvide.screen.pageTitle')}
-        </h2>
+        <p className='f6 charcoal ma0'>
+          <Trans
+            i18nKey='dhtProvide.screen.description'
+            t={t}
+            components={[
+              // eslint-disable-next-line jsx-a11y/anchor-has-content
+              <a
+                key='link'
+                href='https://github.com/ipfs/kubo/blob/master/docs/provide-stats.md'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='link blue'
+              />,
+              <code key='code' className='f6' />
+            ]}
+          />
+        </p>
 
         <button
           className={`btn monospace f6 ph3 pv2 ${autoRefreshEnabled ? 'dht-provide__btn-auto-on' : 'dht-provide__btn-auto-off'}`}
