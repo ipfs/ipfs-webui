@@ -111,10 +111,8 @@
       "loading": "Loading DHT provide stats…",
       "notEnabled": "DHT Sweep provider is not enabled on this node.",
       "failedToLoad": "Failed to load provide stats: {message}",
-      "refresh": "Refresh",
-      "autoOn": "Auto: ON",
-      "autoOff": "Auto: OFF",
-      "seconds": "{seconds}s",
+      "refreshCountdown": "Refresh: {seconds}s",
+      "refreshOff": "Refresh: OFF",
       "lastUpdated": "Last updated at {time}",
       "workersWarning": "Workers at {percent}% capacity. If the queue grows, consider increasing Provide.DHT.MaxWorkers (current: {max})."
     },

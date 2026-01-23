@@ -41,7 +41,7 @@ export const CardTitle: React.FC<{
   children: React.ReactNode
 }> = ({ className = '', children }) => {
   return (
-    <div className={`f6 fw6 lh-title ${className}`}>
+    <div className={`ttu tracked f6 fw4 teal ${className}`}>
       {children}
     </div>
   )
@@ -55,7 +55,7 @@ export const CardDescription: React.FC<{
   children: React.ReactNode
 }> = ({ className = '', children }) => {
   return (
-    <div className={`f7 charcoal-muted mt1 ${className}`}>
+    <div className={`f7 gray mt1 ${className}`}>
       {children}
     </div>
   )

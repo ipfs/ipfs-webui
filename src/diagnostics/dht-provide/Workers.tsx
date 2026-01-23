@@ -39,7 +39,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
   const Bar: React.FC<{ value: number }> = ({ value }) => (
     <div className='bg-black-10 br1 overflow-hidden w-100'>
       <div
-        className='bg-blue'
+        className='bg-teal-muted o-60'
         style={{ width: `${Math.min(100, value * 100)}%`, height: 6 }}
       />
     </div>
@@ -47,16 +47,11 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
 
   return (
     <Card>
-      <CardHeader>
-        <div className='flex items-center'>
-          <CardTitle className='mr2'>{t('dhtProvide.workers.title')}</CardTitle>
-          <IconTooltip
-            text={t('dhtProvide.workers.tooltip')}
-            position='top'
-          >
-            <GlyphInfo style={{ width: 14, height: 14 }} />
-          </IconTooltip>
-        </div>
+      <CardHeader className='flex justify-between items-center'>
+        <CardTitle>{t('dhtProvide.workers.title')}</CardTitle>
+        <IconTooltip text={t('dhtProvide.workers.tooltip')} position='top'>
+          <GlyphInfo className='fill-charcoal-muted o-50 pointer' style={{ width: 22, height: 22 }} />
+        </IconTooltip>
       </CardHeader>
       <CardContent>
         <MetricRow
@@ -64,8 +59,11 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
           value={`${active}/${max} (${utilization}%)`}
           highlight={utilization >= 75}
         />
+        <div className='mt2'>
+          <Bar value={utilization / 100} />
+        </div>
 
-        <div className='mt2 mb2'>
+        <div className='mt3 mb2'>
           <MetricRow
             label={t('dhtProvide.workers.periodic')}
             value={`${activePeriodic}/${dedicatedPeriodic}`}

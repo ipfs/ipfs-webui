@@ -74,7 +74,7 @@ export class App extends Component {
                 <FilesExploreForm onBrowse={doFilesNavigateTo} />
               </div>
               <div className='dn flex-ns flex-auto items-center justify-end'>
-                <TourHelper />
+                {!url.startsWith('/diagnostics') && <TourHelper />}
                 <Connected className='joyride-app-status' />
               </div>
             </div>

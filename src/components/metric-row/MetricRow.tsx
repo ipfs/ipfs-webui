@@ -8,7 +8,7 @@ export const MetricRow: React.FC<{
 }> = ({ label, value, highlight = false, className = '' }) => {
   return (
     <div className={`flex justify-between items-center mb2 ${className}`}>
-      <span className='f7 charcoal-muted'>
+      <span className='f6'>
         {label}
       </span>
 

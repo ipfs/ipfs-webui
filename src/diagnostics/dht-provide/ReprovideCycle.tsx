@@ -33,19 +33,13 @@ export const ReprovideCycle: React.FC<Props> = ({ sweep }) => {
 
   return (
     <Card>
-      <CardHeader className='flex justify-between items-center pb2'>
-        <div className='flex items-center'>
-          <CardTitle className='f5 mr2'>{t('dhtProvide.reprovideCycle.title')}</CardTitle>
-          <IconTooltip
-            text={t('dhtProvide.reprovideCycle.tooltip')}
-            position='top'
-          >
-            <GlyphInfo style={{ width: 16, height: 16, verticalAlign: 'middle' }} />
-          </IconTooltip>
-        </div>
-        <span className='f6 charcoal-muted'>
-          {t('dhtProvide.reprovideCycle.cycle', { regions: sweep.schedule.regions })}
-        </span>
+      <CardHeader className='flex justify-between items-center'>
+        <CardTitle>
+          {t('dhtProvide.reprovideCycle.title')} #{sweep.schedule.regions}
+        </CardTitle>
+        <IconTooltip text={t('dhtProvide.reprovideCycle.tooltip')} position='top'>
+          <GlyphInfo className='fill-charcoal-muted o-50 pointer' style={{ width: 22, height: 22 }} />
+        </IconTooltip>
       </CardHeader>
 
       <CardContent>
@@ -53,20 +47,20 @@ export const ReprovideCycle: React.FC<Props> = ({ sweep }) => {
         <div className='flex items-center w-100 mb2'>
           <div className='bg-black-10 br2 overflow-hidden flex-auto mr2'>
             <div
-              className='bg-green'
+              className='bg-teal-muted o-60'
               style={{
                 width: `${progress}%`,
                 height: 8
               }}
             />
           </div>
-          <span className='f6 charcoal-muted flex-none nowrap'>
+          <span className='f6 flex-none nowrap'>
             {t('dhtProvide.reprovideCycle.progress', { progress })}
           </span>
         </div>
 
         {/* Single info row */}
-        <div className='f6 charcoal-muted'>
+        <div className='f6'>
           {t('dhtProvide.reprovideCycle.summary', {
             elapsed: formatDuration(elapsedMs),
             eta: formatDuration(remainingMs),

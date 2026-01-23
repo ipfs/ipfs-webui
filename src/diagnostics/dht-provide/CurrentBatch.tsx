@@ -35,16 +35,11 @@ export const CurrentBatch: React.FC<Props> = ({ sweep }) => {
 
   return (
     <Card>
-      <CardHeader>
-        <div className='flex items-center'>
-          <CardTitle className='mr2'>{t('dhtProvide.currentBatch.title')}</CardTitle>
-          <IconTooltip
-            text={t('dhtProvide.currentBatch.tooltip')}
-            position='top'
-          >
-            <GlyphInfo style={{ width: 14, height: 14, verticalAlign: 'middle' }} />
-          </IconTooltip>
-        </div>
+      <CardHeader className='flex justify-between items-center'>
+        <CardTitle>{t('dhtProvide.currentBatch.title')}</CardTitle>
+        <IconTooltip text={t('dhtProvide.currentBatch.tooltip')} position='top'>
+          <GlyphInfo className='fill-charcoal-muted o-50 pointer' style={{ width: 22, height: 22 }} />
+        </IconTooltip>
       </CardHeader>
       <CardContent>
         <MetricRow label={t('dhtProvide.currentBatch.region')} value={region} />

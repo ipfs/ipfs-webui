@@ -14,9 +14,10 @@ interface IconTooltipProps {
   text: string
   position: 'top' | 'bottom' | 'left' | 'right'
   forceShow?: boolean
+  className?: string
 }
 
-const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position, forceShow = false }) => {
+const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position, forceShow = false, className = '' }) => {
   const [show, setShow] = useState(false)
 
   const onMouseOver = () => setShow(true)
@@ -114,7 +115,7 @@ const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position, for
   const tooltipDisplayClass = useMemo(() => (show || forceShow) ? 'db' : 'dn', [show, forceShow])
 
   return (
-    <div className="relative" style={{ display: 'inline-block' }}>
+    <div className={`relative ${className}`} style={{ display: 'inline-block' }}>
       <div
         onMouseOver={onMouseOver}
         onMouseLeave={onMouseLeave}
@@ -125,7 +126,7 @@ const IconTooltip: React.FC<IconTooltipProps> = ({ children, text, position, for
       </div>
       <div
         style={tooltipStyles}
-        className={`white z-max bg-navy-muted br2 pv2 ph3 f6 lh-copy fw5 absolute sans-serif noselect ${tooltipDisplayClass}`}
+        className={`white z-max bg-navy-muted br2 pv2 ph3 f6 lh-copy fw5 absolute sans-serif noselect ttn ${tooltipDisplayClass}`}
       >
         <div className='bg-navy-muted db bg-navy-muted absolute' style={arrowStyles} />
         {text}

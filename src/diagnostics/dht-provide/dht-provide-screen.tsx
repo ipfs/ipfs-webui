@@ -19,7 +19,6 @@ const DhtProvideScreen: React.FC = () => {
     loading,
     error,
     lastUpdated,
-    refresh,
     isAgentVersionSupported,
     autoRefreshEnabled,
     setAutoRefreshEnabled
@@ -82,35 +81,19 @@ const DhtProvideScreen: React.FC = () => {
 
   return (
     <div className={'dht-provide ph4'}>
-      <div className='dht-provide__header mb1 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
-        <h2 className='f4 fw6 ma0'>
+      <div className='dht-provide__header mb3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
+        <h2 className='montserrat fw4 f5 charcoal ma0'>
           {t('dhtProvide.screen.pageTitle')}
         </h2>
 
-        <div className='dht-provide__controls'>
-          <div className='dht-provide__control-box flex items-center gap-2'>
-            <button
-              className='btn'
-              onClick={() => refresh()}
-            >
-              {t('dhtProvide.screen.refresh')}
-            </button>
-
-            <button
-              className={`btn ${autoRefreshEnabled ? 'dht-provide__btn-auto-on' : 'dht-provide__btn-auto-off'}`}
-              onClick={() => setAutoRefreshEnabled(!autoRefreshEnabled)}
-              title={autoRefreshEnabled ? t('dhtProvide.screen.autoOn') : t('dhtProvide.screen.autoOff')}
-            >
-              {autoRefreshEnabled ? t('dhtProvide.screen.autoOn') : t('dhtProvide.screen.autoOff')}
-            </button>
-
-            {autoRefreshEnabled && (
-              <span className='f6 charcoal-muted min-w-[2.5rem] text-right'>
-                {t('dhtProvide.screen.seconds', { seconds: secondsLeft })}
-              </span>
-            )}
-          </div>
-        </div>
+        <button
+          className={`btn monospace f6 ph3 pv2 ${autoRefreshEnabled ? 'dht-provide__btn-auto-on' : 'dht-provide__btn-auto-off'}`}
+          onClick={() => setAutoRefreshEnabled(!autoRefreshEnabled)}
+        >
+          {autoRefreshEnabled
+            ? t('dhtProvide.screen.refreshCountdown', { seconds: secondsLeft })
+            : t('dhtProvide.screen.refreshOff')}
+        </button>
       </div>
 
       <div className='dht-provide__grid'>
@@ -125,7 +108,7 @@ const DhtProvideScreen: React.FC = () => {
       </div>
 
       {workerUtilization >= 0.75 && (
-        <div className='dht-provide__warning mt4 flex items-start'>
+        <div className='mt3 pa3 br2 bg-washed-yellow dark-gray flex items-start f6'>
           <GlyphAttention
             className='mr2 flex-shrink-0'
             style={{ width: 16, height: 16 }}
@@ -139,7 +122,7 @@ const DhtProvideScreen: React.FC = () => {
         </div>
       )}
       {lastUpdated && (
-        <div className='dht-provide__last-updated'>
+        <div className='mt2 f7 charcoal-muted'>
           {t('dhtProvide.screen.lastUpdated', { time: new Date(lastUpdated).toLocaleTimeString() })}
         </div>
       )}

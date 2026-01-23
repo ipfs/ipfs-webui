@@ -34,23 +34,16 @@ export const Network: React.FC<Props> = ({ sweep }) => {
 
   return (
     <Card className='hover-bg-near-white'>
-      <CardHeader className='pb2'>
-        <div className='flex items-center'>
-          <CardTitle className='f6 fw6 flex items-center mr2'>
-            {t('dhtProvide.network.title').toUpperCase()}
-          </CardTitle>
-          <IconTooltip
-            text={t('dhtProvide.network.tooltip')}
-            position='top'
-          >
-            <GlyphInfo style={{ width: 14, height: 14 }} />
-          </IconTooltip>
-        </div>
+      <CardHeader className='flex justify-between items-center'>
+        <CardTitle>{t('dhtProvide.network.title')}</CardTitle>
+        <IconTooltip text={t('dhtProvide.network.tooltip')} position='top'>
+          <GlyphInfo className='fill-charcoal-muted o-50 pointer' style={{ width: 22, height: 22 }} />
+        </IconTooltip>
       </CardHeader>
 
       <CardContent>
         <div className='flex items-center justify-between mb2'>
-          <span className='f7 charcoal-muted'>{t('dhtProvide.network.status')}</span>
+          <span className='f6'>{t('dhtProvide.network.status')}</span>
           <span className='flex items-center'>
             <span
               className={`dib br-100 mr2 ${
