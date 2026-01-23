@@ -1,38 +1,38 @@
 {
-  "appName": "Przeglądarka IPLD",
-  "tabName": "Przeglądaj",
+  "appName": "Eksplorator IPLD",
+  "tabName": "Eksploruj",
   "homeLink": "Strona główna",
   "UpdateAvailable": {
-    "paragraph1": "Nowa wersja przeglądarki IPLD jest dostępna; <1>prosimy odświeżyć stronę</1>."
+    "paragraph1": "Dostępna jest nowa wersja Eksploratora IPLD; <1>odśwież stronę</1>."
   },
   "StartExploringPage": {
-    "title": "Przeglądaj - IPLD",
-    "header": "Przeglądaj Las Merkle’a",
-    "leadParagraph": "Wklej CID w pole, aby pobrać dowolny węzeł IPLD, lub wybierz jeden z wyróżnionych zbiorów danych.",
-    "noDataAvailable": ""
+    "title": "Eksploruj | IPLD",
+    "header": "Eksploruj Las Merkle'a",
+    "leadParagraph": "Wklej CID w pole, aby pobrać wskazany węzeł IPLD, lub wybierz jeden z wyróżnionych zbiorów danych.",
+    "noDataAvailable": "Brak dostępnych danych"
   },
   "AboutIpld": {
-    "paragraph1":"<0>IPLD to <1>model danych dla sieci adresowanej treścią (ang. content-addressable web).</1> Umożliwia traktowanie obiektów połączonych skrótem (haszem) jako podzbiorów jednolitej przestrzeni danych, w której modele danych to instancje IPLD.</0>",
-    "paragraph2": "<0>Adresowanie treścią przy użyciu skrótów funkcji haszujących stało się popularną techniką w rozproszonych systemach takich jak kryptowaluty, systemy kontroli wersji lub systemy dystrybucji treści w internecie. Niestety pomimo podobnej zasady działania, wszystkie te narzędzia używają niekompatybilnych ze sobą struktur danych.</0>",
-    "paragraph3": "<0>Z pomocą przychodzi IPLD: wspólna przestrzeń nazw dla wszystkich protokołów. Dzięki IPLD, łącza między obiektami mogą przechodzić z protokołu na protokół, umożliwiając dostęp oraz przetwarzanie danych w ujednolicony sposób.</0>"
+    "paragraph1":"<0>IPLD to <1>model danych dla sieci adresowanej treścią (content-addressable web).</1> Umożliwia traktowanie wszystkich struktur danych połączonych hashami jako podzbiorów jednolitej przestrzeni informacyjnej, ujednolicając modele danych jako instancje IPLD.</0>",
+    "paragraph2": "<0>Adresowanie treścią za pomocą hashy stało się powszechnym sposobem łączenia danych w systemach rozproszonych - od blockchainów obsługujących kryptowaluty, przez commity w repozytoriach kodu, po treści w internecie. Jednak mimo że wszystkie te narzędzia opierają się na wspólnych prymitywach, ich struktury danych nie są ze sobą kompatybilne.</0>",
+    "paragraph3": "<0>Tu z pomocą przychodzi IPLD: wspólna przestrzeń nazw dla wszystkich protokołów opartych na hashach. Dzięki IPLD można nawigować między protokołami, eksplorując dane niezależnie od użytego protokołu.</0>"
   },
   "ExplorePage": {
-    "title": "Przeglądanie - IPLD"
+    "title": "Eksplorowanie | IPLD"
   },
   "IpldExploreForm": {
-    "explore": "Przeglądaj"
+    "explore": "Eksploruj"
   },
   "IpldCarExploreForm": {
-    "imports": "Zaimportuj",
-    "uploadCarFile": "Wrzuć plik CAR"
+    "imports": "Importuj",
+    "uploadCarFile": "Wgraj plik CAR"
   },
   "CidInfo": {
-    "header": "Informacje CID",
-    "hashDigest": "wynik funkcji haszującej"
+    "header": "Informacje o CID",
+    "hashDigest": "Skrót kryptograficzny"
   },
   "ObjectInfo": {
-    "publicGateway": "Oglądaj przez publiczną bramkę",
-    "privateGateway": "Oglądaj przez lokalną bramkę"
+    "publicGateway": "Otwórz przez publiczną bramkę",
+    "privateGateway": "Otwórz przez lokalną bramkę"
   },
   "base": "baza",
   "version": "wersja",
@@ -41,44 +41,44 @@
   "tour": {
     "projects": {
       "title": "Wyróżnione zbiory danych",
-      "paragraph1": "Zbadaj wyróżnione zbiory danych lub wklej CID w celu sprawdzenia, w jaki sposób dane te są złożone i połączone między protokołami."
+      "paragraph1": "Przeglądaj wyróżnione zbiory danych lub wklej CID, aby zobaczyć strukturę danych i powiązania między protokołami."
     },
     "explorer": {
       "step1": {
-        "title": "Przeglądarka IPLD",
-        "paragraph1": "Tutaj zaczyna się Twoja przygoda z przeglądarką IPLD. Kliknij \"Dalej\", aby dowiedzieć się więcej."
+        "title": "Eksplorator IPLD",
+        "paragraph1": "Tutaj zaczyna się Twoja przygoda z Eksploratorem IPLD. Kliknij \"Dalej\", aby dowiedzieć się więcej."
       },
       "step2": {
-        "title": "Okruszki",
+        "title": "Ścieżka nawigacji",
         "paragraph1": "Ścieżka prowadząca do tego węzła.",
-        "paragraph2": "Kliknij, aby przejść do jego węzłów nadrzędnych lub podrzędnych."
+        "paragraph2": "Kliknij, aby przejść do węzłów nadrzędnych lub podrzędnych."
       },
       "step3": {
-        "title": "Informacje węzła",
-        "paragraph1": "Tutaj są widoczne detale dotyczące tego węzła. Można je obejrzeć także w bramie IPFS.",
-        "paragraph2": "Jeśli węzeł jest katalogiem, możesz zobaczyć jego węzły podrzędne oraz do nich przejść."
+        "title": "Informacje o węźle",
+        "paragraph1": "Tutaj znajdziesz szczegółowe informacje o węźle. Możesz też otworzyć go w bramce IPFS.",
+        "paragraph2": "Jeśli węzeł jest katalogiem, możesz zobaczyć jego zawartość i do niej przejść."
       },
       "step4": {
-        "title": "Informacje CID",
-        "paragraph1": "Identyfikator zawartości (CID) rozłożony w ramach poznania jego składu."
+        "title": "Informacje o CID",
+        "paragraph1": "CID rozłożony na składowe, aby poznać jego znaczenie."
       },
       "step5": {
-        "title": "Reprezentacja graficzna",
-        "paragraph1": "Graficzna reprezentacja węzłów i ich zależności."
+        "title": "Reprezentacja wizualna",
+        "paragraph1": "Graficzna reprezentacja węzła i jego elementów podrzędnych."
       }
     }
   },
   "errors": {
-    "BlockFetchTimeoutError": "",
-    "BlockFetchError": "",
-    "CidSyntaxError": "",
-    "checkIpfsNetwork": "",
+    "BlockFetchTimeoutError": "Przekroczono limit czasu pobierania bloku",
+    "BlockFetchError": "Błąd pobierania bloku",
+    "CidSyntaxError": "Nieprawidłowa składnia CID",
+    "checkIpfsNetwork": "Sprawdź połączenie z siecią IPFS",
     "troubleshootingTips": {
-      "title": "",
-      "refresh": "",
-      "checkConnection": "",
-      "tryLater": "",
-      "checkCidSyntax": ""
+      "title": "Wskazówki diagnostyczne",
+      "refresh": "Odśwież stronę",
+      "checkConnection": "Sprawdź połączenie z węzłem IPFS",
+      "tryLater": "Spróbuj ponownie później",
+      "checkCidSyntax": "Sprawdź poprawność składni CID"
     }
   }
 }
