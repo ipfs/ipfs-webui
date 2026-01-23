@@ -10,6 +10,7 @@ import {
   CardContent
 } from '../../components/card/card'
 import { MetricRow } from '../../components/metric-row/MetricRow'
+import { safeNumber } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
@@ -19,9 +20,9 @@ export const Queues: React.FC<Props> = ({ sweep }) => {
   const { t } = useTranslation('diagnostics')
 
   // Provide queue: pending key provides + pending region provides
-  const provideQueue = sweep.queues.pending_key_provides + sweep.queues.pending_region_provides
+  const provideQueue = safeNumber(sweep.queues?.pending_key_provides) + safeNumber(sweep.queues?.pending_region_provides)
   // Reprovide queue: pending region reprovides
-  const reprovideQueue = sweep.queues.pending_region_reprovides
+  const reprovideQueue = safeNumber(sweep.queues?.pending_region_reprovides)
 
   const total = provideQueue + reprovideQueue
 

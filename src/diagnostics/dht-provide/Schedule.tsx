@@ -10,7 +10,7 @@ import {
   CardContent
 } from '../../components/card/card'
 import { MetricRow } from '../../components/metric-row/MetricRow'
-import { formatDuration, formatElapsed, formatTime, formatCount } from './format-utils'
+import { formatDuration, formatElapsed, formatTime, formatCount, formatNumber, safeNumber, PLACEHOLDER } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
@@ -19,21 +19,27 @@ interface Props {
 export const Schedule: React.FC<Props> = ({ sweep }) => {
   const { t } = useTranslation('diagnostics')
 
+  const interval = safeNumber(sweep.timing?.reprovides_interval)
+  const offset = safeNumber(sweep.timing?.current_time_offset)
+
   // Progress based on time elapsed in cycle
-  const progress = sweep.timing.reprovides_interval > 0
-    ? Math.min(100, Math.round((sweep.timing.current_time_offset / sweep.timing.reprovides_interval) * 100))
+  const progress = interval > 0
+    ? Math.min(100, Math.round((offset / interval) * 100))
     : 0
 
   // Calculate ETA
   const calculateEta = () => {
-    if (sweep.timing.reprovides_interval <= 0) return null
-    const remainingNs = sweep.timing.reprovides_interval - sweep.timing.current_time_offset
+    if (interval <= 0) return null
+    const remainingNs = interval - offset
     if (remainingNs <= 0) return null
     return formatDuration(remainingNs)
   }
 
   const eta = calculateEta()
-  const elapsed = formatElapsed(sweep.timing.cycle_start)
+  const elapsed = formatElapsed(sweep.timing?.cycle_start)
+
+  const regions = safeNumber(sweep.schedule?.regions)
+  const lastCycleRegions = sweep.operations?.past?.regions_reprovided_last_cycle
 
   return (
     <Card>
@@ -47,36 +53,36 @@ export const Schedule: React.FC<Props> = ({ sweep }) => {
       <CardContent>
         <MetricRow
           label={t('dhtProvide.schedule.reprovideInterval')}
-          value={formatDuration(sweep.timing.reprovides_interval)}
+          value={formatDuration(sweep.timing?.reprovides_interval)}
         />
 
         <MetricRow
           label={t('dhtProvide.schedule.cidsScheduled')}
-          value={formatCount(sweep.schedule.keys)}
+          value={formatCount(sweep.schedule?.keys)}
         />
 
         <MetricRow
           label={t('dhtProvide.schedule.regions')}
           value={
-            sweep.operations.past.regions_reprovided_last_cycle != null
-              ? `${sweep.schedule.regions.toLocaleString()} (${sweep.operations.past.regions_reprovided_last_cycle} last cycle)`
-              : sweep.schedule.regions.toLocaleString()
+            lastCycleRegions != null
+              ? `${regions.toLocaleString()} (${lastCycleRegions} last cycle)`
+              : regions.toLocaleString()
           }
         />
 
         <MetricRow
           label={t('dhtProvide.schedule.avgPrefixLength')}
-          value={sweep.schedule.avg_prefix_length.toFixed(1)}
+          value={formatNumber(sweep.schedule?.avg_prefix_length, 1)}
         />
 
         <MetricRow
           label={t('dhtProvide.schedule.currentRegion')}
-          value={<code className='f6 pa1 br2 bg-snow'>{sweep.schedule.next_reprovide_prefix || '-'}</code>}
+          value={<code className='f6 pa1 br2 bg-snow'>{sweep.schedule?.next_reprovide_prefix || PLACEHOLDER}</code>}
         />
 
         <MetricRow
           label={t('dhtProvide.schedule.nextReprovide')}
-          value={formatTime(sweep.schedule.next_reprovide_at)}
+          value={formatTime(sweep.schedule?.next_reprovide_at)}
         />
 
         <div className='mt3 pt3 bt b--black-10'>
@@ -89,7 +95,7 @@ export const Schedule: React.FC<Props> = ({ sweep }) => {
           <div className='flex justify-between items-center mt2'>
             <span className='f6'>{elapsed} elapsed</span>
             <span className='f6'>{progress}%</span>
-            <span className='f6'>{eta ? `${eta} remaining` : '-'}</span>
+            <span className='f6'>{eta ? `${eta} remaining` : PLACEHOLDER}</span>
           </div>
         </div>
       </CardContent>

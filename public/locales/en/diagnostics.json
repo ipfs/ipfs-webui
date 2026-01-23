@@ -167,7 +167,7 @@
 
     "workers": {
       "title": "Workers",
-      "tooltip": "Worker threads process provide operations. This card shows active workers, dedicated periodic and burst workers, and utilization.",
+      "tooltip": "Breakdown of worker status by type: periodic workers handle scheduled reprovides, burst workers handle initial provides.",
       "active": "Active",
       "periodic": "Periodic",
       "burst": "Burst",

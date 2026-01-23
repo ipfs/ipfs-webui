@@ -10,6 +10,7 @@ import {
   CardContent
 } from '../../components/card/card'
 import { MetricRow } from '../../components/metric-row/MetricRow'
+import { formatNumber, safeNumber } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
@@ -18,8 +19,10 @@ interface Props {
 export const Network: React.FC<Props> = ({ sweep }) => {
   const { t } = useTranslation('diagnostics')
 
-  const provided = sweep.operations.past.keys_provided
-  const failed = sweep.operations.past.keys_failed
+  const provided = safeNumber(sweep.operations?.past?.keys_provided)
+  const failed = safeNumber(sweep.operations?.past?.keys_failed)
+  const peers = safeNumber(sweep.network?.peers)
+  const reachable = safeNumber(sweep.network?.reachable)
 
   const successRate =
     provided + failed > 0
@@ -27,8 +30,8 @@ export const Network: React.FC<Props> = ({ sweep }) => {
       : null
 
   const reachablePercent =
-    sweep.network.peers > 0
-      ? Math.round((sweep.network.reachable / sweep.network.peers) * 100)
+    peers > 0
+      ? Math.round((reachable / peers) * 100)
       : 0
 
   return (
@@ -43,37 +46,37 @@ export const Network: React.FC<Props> = ({ sweep }) => {
       <CardContent>
         <MetricRow
           label={t('dhtProvide.network.peerSwept')}
-          value={sweep.network.peers.toLocaleString()}
+          value={peers.toLocaleString()}
         />
 
         <MetricRow
           label={t('dhtProvide.network.reachablePeers')}
-          value={`${sweep.network.reachable.toLocaleString()} (${reachablePercent}%)`}
+          value={`${reachable.toLocaleString()} (${reachablePercent}%)`}
         />
 
-        {sweep.network.avg_holders > 0 && (
+        {(sweep.network?.avg_holders ?? 0) > 0 && (
           <MetricRow
             label={t('dhtProvide.network.avgRecordHolders')}
-            value={sweep.network.avg_holders.toFixed(1)}
+            value={formatNumber(sweep.network?.avg_holders, 1)}
           />
         )}
 
-        {sweep.network.avg_region_size > 0 && (
+        {(sweep.network?.avg_region_size ?? 0) > 0 && (
           <MetricRow
             label={t('dhtProvide.network.avgRegionSize')}
-            value={sweep.network.avg_region_size.toFixed(1)}
+            value={formatNumber(sweep.network?.avg_region_size, 1)}
           />
         )}
 
         <MetricRow
           label={t('dhtProvide.network.replicationFactor')}
-          value={sweep.network.replication_factor.toString()}
+          value={formatNumber(sweep.network?.replication_factor)}
         />
 
         <div className='flex items-center justify-between mb2'>
           <span className='f6'>{t('dhtProvide.network.fullKeyspaceCoverage')}</span>
           <span className='flex items-center f6'>
-            {sweep.network.complete_keyspace_coverage
+            {sweep.network?.complete_keyspace_coverage
               ? (
                 <>
                   <GlyphTick className='fill-green mr1' style={{ width: 14, height: 14 }} />

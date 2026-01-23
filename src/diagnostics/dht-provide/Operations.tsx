@@ -10,7 +10,7 @@ import {
   CardContent
 } from '../../components/card/card'
 import { MetricRow } from '../../components/metric-row/MetricRow'
-import { formatDuration, formatCount } from './format-utils'
+import { formatDuration, formatCount, safeNumber } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
@@ -20,17 +20,19 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
   const { t } = useTranslation('diagnostics')
 
   // Ongoing provides: key_provides + region_provides
-  const ongoingProvides = sweep.operations.ongoing.key_provides + sweep.operations.ongoing.region_provides
+  const ongoingProvides = safeNumber(sweep.operations?.ongoing?.key_provides) + safeNumber(sweep.operations?.ongoing?.region_provides)
   // Ongoing reprovides: key_reprovides + region_reprovides
-  const ongoingReprovides = sweep.operations.ongoing.key_reprovides + sweep.operations.ongoing.region_reprovides
+  const ongoingReprovides = safeNumber(sweep.operations?.ongoing?.key_reprovides) + safeNumber(sweep.operations?.ongoing?.region_reprovides)
 
   // Convert per-minute rates to per-second for display
-  const provideRate = sweep.operations.past.keys_provided_per_minute != null
-    ? (sweep.operations.past.keys_provided_per_minute / 60).toFixed(1)
+  const keysProvidedPerMin = sweep.operations?.past?.keys_provided_per_minute
+  const provideRate = keysProvidedPerMin != null
+    ? (keysProvidedPerMin / 60).toFixed(1)
     : null
 
-  const reprovideRate = sweep.operations.past.keys_reprovided_per_minute != null
-    ? (sweep.operations.past.keys_reprovided_per_minute / 60).toFixed(1)
+  const keysReprovidedPerMin = sweep.operations?.past?.keys_reprovided_per_minute
+  const reprovideRate = keysReprovidedPerMin != null
+    ? (keysReprovidedPerMin / 60).toFixed(1)
     : null
 
   return (
@@ -72,27 +74,27 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
         <div className='mt3 pt3 bt b--black-10'>
           <MetricRow
             label={t('dhtProvide.operations.totalCidsProvided')}
-            value={formatCount(sweep.operations.past.keys_provided)}
+            value={formatCount(sweep.operations?.past?.keys_provided)}
           />
 
           <MetricRow
             label={t('dhtProvide.operations.totalRecordsProvided')}
-            value={formatCount(sweep.operations.past.records_provided)}
+            value={formatCount(sweep.operations?.past?.records_provided)}
           />
 
           <MetricRow
             label={t('dhtProvide.operations.totalProvideErrors')}
-            value={sweep.operations.past.keys_failed.toLocaleString()}
+            value={safeNumber(sweep.operations?.past?.keys_failed).toLocaleString()}
           />
 
-          {sweep.operations.past.region_reprovide_duration != null && (
+          {sweep.operations?.past?.region_reprovide_duration != null && (
             <MetricRow
               label={t('dhtProvide.operations.regionReprovideDuration')}
               value={formatDuration(sweep.operations.past.region_reprovide_duration)}
             />
           )}
 
-          {sweep.operations.past.avg_keys_per_reprovide != null && (
+          {sweep.operations?.past?.avg_keys_per_reprovide != null && (
             <MetricRow
               label={t('dhtProvide.operations.avgCidsPerReprovide')}
               value={Math.round(sweep.operations.past.avg_keys_per_reprovide).toLocaleString()}

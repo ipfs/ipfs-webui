@@ -75,10 +75,9 @@ const DhtProvideScreen: React.FC = () => {
     )
   }
 
-  const workerUtilization =
-    sweep.workers.max > 0
-      ? sweep.workers.active / sweep.workers.max
-      : 0
+  const workerMax = sweep.workers?.max ?? 0
+  const workerActive = sweep.workers?.active ?? 0
+  const workerUtilization = workerMax > 0 ? workerActive / workerMax : 0
 
   return (
     <div className={'dht-provide ph4'}>
@@ -134,7 +133,7 @@ const DhtProvideScreen: React.FC = () => {
           <div>
             {t('dhtProvide.screen.workersWarning', {
               percent: Math.round(workerUtilization * 100),
-              max: sweep.workers.max
+              max: workerMax
             })}
           </div>
         </div>

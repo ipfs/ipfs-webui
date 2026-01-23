@@ -10,6 +10,7 @@ import {
   CardContent
 } from '../../components/card/card'
 import { MetricRow } from '../../components/metric-row/MetricRow'
+import { safeNumber } from './format-utils'
 
 interface Props {
   sweep: SweepProvideStats
@@ -17,17 +18,16 @@ interface Props {
 
 export const Workers: React.FC<Props> = ({ sweep }) => {
   const { t } = useTranslation('diagnostics')
-  const {
-    max,
-    active,
-    active_periodic: activePeriodic,
-    active_burst: activeBurst,
-    dedicated_periodic: dedicatedPeriodic,
-    dedicated_burst: dedicatedBurst,
-    queued_periodic: queuedPeriodic,
-    queued_burst: queuedBurst,
-    max_provide_conns_per_worker: connsPerWorker
-  } = sweep.workers
+
+  const max = safeNumber(sweep.workers?.max)
+  const active = safeNumber(sweep.workers?.active)
+  const activePeriodic = safeNumber(sweep.workers?.active_periodic)
+  const activeBurst = safeNumber(sweep.workers?.active_burst)
+  const dedicatedPeriodic = safeNumber(sweep.workers?.dedicated_periodic)
+  const dedicatedBurst = safeNumber(sweep.workers?.dedicated_burst)
+  const queuedPeriodic = safeNumber(sweep.workers?.queued_periodic)
+  const queuedBurst = safeNumber(sweep.workers?.queued_burst)
+  const connsPerWorker = safeNumber(sweep.workers?.max_provide_conns_per_worker)
 
   const utilization = max > 0
     ? Math.round((active / max) * 100)
@@ -72,7 +72,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
           <div className='mb3'>
             <MetricRow
               label={t('dhtProvide.workers.periodic')}
-              value={`${activePeriodic} / ${dedicatedPeriodic}`}
+              value={activePeriodic.toString()}
             />
             <div className='mt1'>
               <Bar value={periodicUtil} />
@@ -82,7 +82,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
           <div className='mb3'>
             <MetricRow
               label={t('dhtProvide.workers.burst')}
-              value={`${activeBurst} / ${dedicatedBurst}`}
+              value={activeBurst.toString()}
             />
             <div className='mt1'>
               <Bar value={burstUtil} />
