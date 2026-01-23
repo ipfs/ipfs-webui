@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next'
 
 export interface FileNotFoundProps {
   path: string
+  error?: string
 }
 
-const FileNotFound = ({ path }: FileNotFoundProps) => {
+const FileNotFound = ({ path, error }: FileNotFoundProps) => {
   const { t } = useTranslation('files')
 
   return (
@@ -17,9 +18,14 @@ const FileNotFound = ({ path }: FileNotFoundProps) => {
     >
       <div className='flex flex-row items-center mb3'>
         <GlyphAttention style={{ height: 76 }} className='fill-red mr' role='presentation' />
-        <div className='red fw6 truncate'>{t('previewNotFound.title')}</div>
+        <div className='red fw6 truncate f3'>{t('previewNotFound.title')}</div>
       </div>
       <div className='mb3 charcoal fw6 truncate'>{path}</div>
+      {error != null && (
+        <div className='mb3 pa3 br2 f6' style={{ fontFamily: 'monospace', wordBreak: 'break-word', background: '#2a2a2a', color: '#f5f5f5', border: '1px solid #444' }}>
+          <span style={{ color: '#ff6b6b' }}>Error:</span> {error}
+        </div>
+      )}
       <div className='mb3'>{t('previewNotFound.helpTitle')}</div>
       <ul>
         <li>{t('previewNotFound.helpListItemPathTypo')}</li>

@@ -192,7 +192,7 @@
   "remotePinningInProgress": "Remote pinning in progress:",
   "selectAllEntries": "Select all entries",
   "previewNotFound": {
-    "title": "IPFS can't find this item",
+    "title": "Unable to load this path",
     "helpTitle": "These are common troubleshooting steps might help:",
     "helpListItemPathTypo": "Are there typos in the path you entered?",
     "helpListItemFileMoved": "Was the file moved, renamed, or deleted?",

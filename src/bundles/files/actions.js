@@ -91,6 +91,7 @@ const memStat = memoize((path, ipfs) => ipfs.files.stat(path))
  * @property {CID} cid
  * @property {number} cumulativeSize
  * @property {number} size
+ * @property {string} [error]
  *
  * @param {IPFSService} ipfs
  * @param {string|CID} cidOrPath
@@ -110,18 +111,17 @@ const stat = async (ipfs, cidOrPath) => {
       stats = await ipfs.files.stat(path)
     }
     return { path, ...stats }
-  } catch (e) {
-    // Discard error and mark DAG as 'unknown' to unblock listing other pins.
+  } catch (/** @type {any} */ e) {
+    // Mark DAG as 'unknown' to unblock listing other pins.
     // Clicking on 'unknown' entry will open it in Inspector.
-    // No information is lost: if there is an error related
-    // to specified hashOrPath user will read it in Inspector.
     const [, , cid] = path.split('/')
     return {
       path: hashOrPath,
       cid: CID.asCID(cid) ?? CID.parse(cid),
       type: 'unknown',
       cumulativeSize: 0,
-      size: 0
+      size: 0,
+      error: e.message
     }
   }
 }
@@ -217,9 +217,29 @@ const actions = () => ({
       throw new Error('not supposed to be here')
     }
 
-    const resolvedPath = realPath.startsWith('/ipns')
-      ? await last(ipfs.name.resolve(realPath))
-      : realPath
+    let resolvedPath = realPath
+    if (realPath.startsWith('/ipns/')) {
+      try {
+        // Extract IPNS name and any subpath
+        // e.g., '/ipns/cid.ipfs.tech/subdir/file' -> name='cid.ipfs.tech', subpath='/subdir/file'
+        const pathParts = realPath.slice('/ipns/'.length).split('/')
+        const ipnsName = pathParts[0]
+        const subpath = pathParts.length > 1 ? '/' + pathParts.slice(1).join('/') : ''
+
+        // Resolve just the IPNS name
+        const resolved = await last(ipfs.name.resolve(`/ipns/${ipnsName}`))
+        // Append the subpath to the resolved CID path
+        resolvedPath = resolved + subpath
+      } catch (/** @type {any} */ error) {
+        console.error(`Failed to resolve IPNS path "${realPath}":`, error)
+        return {
+          fetched: Date.now(),
+          type: 'not-found',
+          path: realPath,
+          error: error.message
+        }
+      }
+    }
 
     const time = Date.now()
     /** @type {Stat} */
@@ -239,7 +259,8 @@ const actions = () => ({
       case 'unknown': {
         return {
           fetched: time,
-          ...stats
+          ...stats,
+          path // Use original UI path, not resolved path from stats
         }
       }
       case 'file': {
@@ -260,11 +281,21 @@ const actions = () => ({
         }
       }
       case 'directory': {
-        return await dirStats(ipfs, stats.cid, {
-          path,
-          isRoot,
-          sorting: store.selectFilesSorting()
-        })
+        try {
+          return await dirStats(ipfs, stats.cid, {
+            path,
+            isRoot,
+            sorting: store.selectFilesSorting()
+          })
+        } catch (/** @type {any} */ error) {
+          console.error(`Failed to list directory "${path}":`, error)
+          return {
+            fetched: time,
+            type: 'not-found',
+            path,
+            error: error.message
+          }
+        }
       }
       default: {
         throw Error(`Unsupported file type "${stats.type}"`)
@@ -776,16 +807,23 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
       const realPath = parentInfo.realPath
 
       if (realPath && realPath.startsWith('/ipns')) {
-        parentInfo.realPath = await last(ipfs.name.resolve(parentInfo.realPath))
+        try {
+          parentInfo.realPath = await last(ipfs.name.resolve(parentInfo.realPath))
+        } catch (error) {
+          // Failed to resolve parent IPNS path, skip parent link
+          console.error(`Failed to resolve parent IPNS path "${parentInfo.realPath}":`, error)
+        }
       }
 
-      parent = fileFromStats({
-        ...await stat(ipfs, parentInfo.realPath),
-        path: parentInfo.path,
-        name: '..',
-        isParent: true
-      })
-      parentPathForDir = parentInfo.path
+      if (parentInfo.realPath) {
+        parent = fileFromStats({
+          ...await stat(ipfs, parentInfo.realPath),
+          path: parentInfo.path,
+          name: '..',
+          isParent: true
+        })
+        parentPathForDir = parentInfo.path
+      }
     }
   }
 
