@@ -134,7 +134,7 @@
 
     "schedule": {
       "title": "Schedule",
-      "tooltip": "The reprovide cycle is the periodic sweep that reprovisions groups of CIDs to the DHT.",
+      "tooltip": "The reprovide cycle periodically re-announces groups of CIDs to the DHT.",
       "reprovideInterval": "Reprovide interval",
       "regions": "Regions",
       "cidsScheduled": "CIDs scheduled",
