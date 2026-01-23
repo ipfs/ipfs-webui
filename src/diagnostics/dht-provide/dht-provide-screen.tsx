@@ -3,14 +3,14 @@ import { useTranslation, Trans } from 'react-i18next'
 
 import { useProvide } from '../../contexts/ProvideStat'
 import './dht-provide.css'
-import UnsupportedKuboVersion from 'src/components/unsupported-kubo-version/unsupported-kubo-version'
+import UnsupportedKuboVersion from '../../components/unsupported-kubo-version/unsupported-kubo-version'
 import { Connectivity } from './Connectivity'
 import { Queues } from './Queues'
 import { Schedule } from './Schedule'
 import { Operations } from './Operations'
 import { Network } from './Network'
 import { Workers } from './Workers'
-import { GlyphAttention } from 'src/icons'
+import { GlyphAttention } from '../../icons'
 
 const DhtProvideScreen: React.FC = () => {
   const { t } = useTranslation('diagnostics')

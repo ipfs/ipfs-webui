@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import IconTooltip from '../../components/tooltip/icon-tooltip'
-import { GlyphInfo, GlyphTick, GlyphCancel } from 'src/icons'
+import { GlyphInfo, GlyphTick, GlyphCancel } from '../../icons'
 import type { SweepProvideStats } from '../../contexts/ProvideStat/types'
 import {
   Card,

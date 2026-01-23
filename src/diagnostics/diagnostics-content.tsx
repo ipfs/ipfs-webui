@@ -6,7 +6,7 @@ import { IdentityProvider } from '../contexts/identity-context'
 import CheckScreen from './check-screen/check-screen.js'
 import { useBridgeSelector } from '../helpers/context-bridge'
 import { RouteInfo } from '../bundles/routes-types'
-import { ProvideProvider } from 'src/contexts/ProvideStat/provide-context.js'
+import { ProvideProvider } from '../contexts/ProvideStat'
 
 interface DiagnosticsContentProps {
 }
