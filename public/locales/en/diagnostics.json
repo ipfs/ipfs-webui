@@ -107,7 +107,7 @@
     "description": "Trigger a background provide operation for a CID. This will announce the CID on the DHT so other peers can discover providers for it.",
 
     "screen": {
-      "description": "Visual summary of DHT provide stats. For detailed metrics, see <0><1>ipfs provide stat</1></0> command.",
+      "description": "Visual summary of DHT provide stats. See <0>configuration guide</0> and <1>metric reference</1> for details.",
       "loading": "Loading DHT provide stats…",
       "notEnabled": "DHT Sweep provider is not enabled on this node.",
       "failedToLoad": "Failed to load provide stats: {message}",

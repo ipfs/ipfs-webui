@@ -89,13 +89,20 @@ const DhtProvideScreen: React.FC = () => {
             components={[
               // eslint-disable-next-line jsx-a11y/anchor-has-content
               <a
-                key='link'
-                href='https://github.com/ipfs/kubo/blob/master/docs/provide-stats.md'
+                key='config'
+                href='https://github.com/ipfs/kubo/blob/master/docs/config.md#provide'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='link blue'
               />,
-              <code key='code' className='f6' />
+              // eslint-disable-next-line jsx-a11y/anchor-has-content
+              <a
+                key='metrics'
+                href='https://github.com/ipfs/kubo/blob/master/docs/provide-stats.md'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='link blue'
+              />
             ]}
           />
         </p>
