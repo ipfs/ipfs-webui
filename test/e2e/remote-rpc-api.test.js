@@ -132,7 +132,7 @@ test.describe('Remote RPC API tests', () => {
   }
 
   const switchIpfsApiEndpointViaSettings = async (endpoint, page) => {
-    await page.click('[role="menubar"] a[href="#/settings"]')
+    await page.locator('[role="menubar"] a[href="#/settings"]').click()
     const selector = 'input[id="api-address"]'
     await page.locator(selector).fill(endpoint)
     // Use page.keyboard instead of locator.press to avoid detached element issues
@@ -182,24 +182,24 @@ test.describe('Remote RPC API tests', () => {
   const expectPeerIdOnStatusPage = async (peerId, page) => {
     await page.goto('/#/')
     await page.reload() // instant addr update for faster CI
-    await page.waitForSelector('summary')
-    await page.click('summary')
-    await page.waitForSelector(`text=${peerId}`)
+    await page.locator('summary').waitFor()
+    await page.locator('summary').click()
+    await page.locator(`text=${peerId}`).first().waitFor()
   }
 
   const expectHttpApiAddressOnStatusPage = async (value, page) => {
     await page.goto('/#/')
     await page.reload() // instant addr update for faster CI
-    await page.waitForSelector('summary')
-    await page.click('summary')
-    await page.waitForSelector(`div[id="http-api-address"]:has-text("${String(value)}")`)
+    await page.locator('summary').waitFor()
+    await page.locator('summary').click()
+    await page.locator(`div[id="http-api-address"]:has-text("${String(value)}")`).waitFor()
   }
 
   const expectHttpApiAddressOnSettingsPage = async (value, page) => {
     await page.goto('/#/settings')
     await page.reload() // instant addr update for faster CI
-    await page.waitForSelector('input[id="api-address"]')
-    const apiAddrValue = await page.inputValue('#api-address')
+    await page.locator('input[id="api-address"]').waitFor()
+    const apiAddrValue = await page.locator('#api-address').inputValue()
     // if RPC API address is defined as JSON, match objects
     try {
       const json = JSON.parse(apiAddrValue)

@@ -7,41 +7,41 @@ test.describe('Navigation menu', () => {
 
   test('should work for Status page', async ({ page }) => {
     const link = 'a[href="#/"]'
-    await page.waitForSelector(link)
-    await page.waitForSelector('text=Status')
-    await page.click(link)
+    await page.locator(link).waitFor()
+    await page.locator('text=Status').waitFor()
+    await page.locator(link).click()
     await expect(page).toHaveTitle('Status | IPFS')
   })
 
   test('should work for Files page', async ({ page }) => {
     const link = 'a[href="#/files"]'
-    await page.waitForSelector(link)
-    await page.waitForSelector('text=Files')
-    await page.click(link)
+    await page.locator(link).waitFor()
+    await page.locator('text=Files').waitFor()
+    await page.locator(link).click()
     await expect(page).toHaveTitle('/ | Files | IPFS')
   })
 
   test('should work for Explore page', async ({ page }) => {
     const link = 'a[href="#/explore"]'
-    await page.waitForSelector(link)
-    await page.waitForSelector('text=Explore')
-    await page.click(link)
+    await page.locator(link).waitFor()
+    await page.locator('text=Explore').waitFor()
+    await page.locator(link).click()
     await expect(page).toHaveTitle('Explore | IPLD')
   })
 
   test('should work for Peers page', async ({ page }) => {
     const link = 'a[href="#/peers"]'
-    await page.waitForSelector(link)
-    await page.waitForSelector('text=Peers')
-    await page.click(link)
+    await page.locator(link).waitFor()
+    await page.locator('text=Peers').waitFor()
+    await page.locator(link).click()
     await expect(page).toHaveTitle('Peers | IPFS')
   })
 
   test('should work for Settings page', async ({ page }) => {
     const link = 'a[href="#/settings"]'
-    await page.waitForSelector(link)
-    await page.waitForSelector('text=Settings')
-    await page.click(link)
+    await page.locator(link).waitFor()
+    await page.locator('text=Settings').waitFor()
+    await page.locator(link).click()
     await expect(page).toHaveTitle('Settings | IPFS')
   })
 })

@@ -12,22 +12,25 @@ const getLanguages = async () => {
 }
 
 /**
- * Function to check if an element contains a specific class within a maximum wait time.
+ * Wait for an element to have a specific class.
+ * Uses Playwright's built-in waitForFunction for reliable polling.
  * @param {Page} page - The page object.
- * @param {ElementHandle} element - The element to check.
- * @param {string} className - The class name to check for.
- * @param {number} maxWaitTime - Maximum wait time in milliseconds.
- * @param {number} pollInterval - Interval between polls in milliseconds.
- * @returns {Promise<boolean>} - A promise that resolves to a boolean indicating if the class was found.
+ * @param {string} selector - CSS selector for the element.
+ * @param {string} className - The class name to wait for.
+ * @param {number} timeout - Maximum wait time in milliseconds.
+ * @returns {Promise<boolean>} - Resolves to true if found, false on timeout.
  */
-async function checkClassWithTimeout (page, element, className, maxWaitTime = 16000, pollInterval = 500) {
-  const startTime = Date.now()
-  while ((Date.now() - startTime) < maxWaitTime) {
-    const hasClass = await element.evaluate((el, className) => el.classList.contains(className), className)
-    if (hasClass) return true
-    await page.waitForTimeout(pollInterval)
+async function waitForClass (page, selector, className, timeout = 16000) {
+  try {
+    await page.waitForFunction(
+      ([sel, cls]) => document.querySelector(sel)?.classList.contains(cls),
+      [selector, className],
+      { timeout }
+    )
+    return true
+  } catch {
+    return false
   }
-  return false
 }
 
 test.describe('Settings screen', () => {
@@ -36,22 +39,25 @@ test.describe('Settings screen', () => {
   })
 
   test('should show config of IPFS node', async ({ page }) => {
-    await page.waitForSelector('text=Addresses')
-    await page.waitForSelector('text=Bootstrap')
-    await page.waitForSelector('text=PeerID')
+    await page.locator('text=Addresses').waitFor()
+    await page.locator('text=Bootstrap').waitFor()
+    await page.locator('text=PeerID').waitFor()
     // check PeerID in config to confirm it comes from expected instance
     const id = process.env.IPFS_RPC_ID
-    await page.waitForSelector(`text=${id}`)
+    await page.locator(`text=${id}`).waitFor()
   })
 
   test('Submit/Reset Public Subdomain Gateway', async ({ page }) => {
     // Wait for the necessary elements to be available in the DOM
-    const publicSubdomainGatewayElement = await page.waitForSelector('#public-subdomain-gateway')
+    const subdomainSelector = '#public-subdomain-gateway'
+    const publicSubdomainGatewayElement = page.locator(subdomainSelector)
     const publicSubdomainGatewaySubmitButton = page.locator('#public-subdomain-gateway-submit-button')
     const publicSubdomainGatewayResetButton = page.locator('#public-subdomain-gateway-reset-button')
 
+    await publicSubdomainGatewayElement.waitFor({ state: 'visible' })
+
     // Store initial value (should be DEFAULT_SUBDOMAIN_GATEWAY)
-    const initialValue = await publicSubdomainGatewayElement.evaluate(el => el.value)
+    const initialValue = await publicSubdomainGatewayElement.inputValue()
     expect(initialValue).toBe(DEFAULT_SUBDOMAIN_GATEWAY)
 
     // First, set an invalid value to verify red border appears
@@ -59,7 +65,7 @@ test.describe('Settings screen', () => {
     await publicSubdomainGatewayElement.fill('not-a-valid-url')
 
     // Wait for validation to fail and show red outline
-    const hasRedOutline = await checkClassWithTimeout(page, publicSubdomainGatewayElement, 'focus-outline-red', 5000)
+    const hasRedOutline = await waitForClass(page, subdomainSelector, 'focus-outline-red', 5000)
     expect(hasRedOutline).toBe(true)
 
     // Verify submit button is disabled for invalid input
@@ -71,7 +77,7 @@ test.describe('Settings screen', () => {
 
     // Wait for validation to complete by checking for green outline
     // Since TEST_SUBDOMAIN_GATEWAY bypasses validation, it should pass quickly
-    const hasGreenOutline = await checkClassWithTimeout(page, publicSubdomainGatewayElement, 'focus-outline-green', 5000)
+    const hasGreenOutline = await waitForClass(page, subdomainSelector, 'focus-outline-green', 5000)
     expect(hasGreenOutline).toBe(true)
 
     // Wait for submit button to become enabled after validation
@@ -90,25 +96,28 @@ test.describe('Settings screen', () => {
       { timeout: 5000 }
     )
 
-    const newValue = await publicSubdomainGatewayElement.evaluate(el => el.value)
+    const newValue = await publicSubdomainGatewayElement.inputValue()
     expect(newValue).toBe(TEST_SUBDOMAIN_GATEWAY)
 
     // Test reset button
     await publicSubdomainGatewayResetButton.click()
 
     // Verify reset to default
-    const resetValue = await publicSubdomainGatewayElement.evaluate(el => el.value)
+    const resetValue = await publicSubdomainGatewayElement.inputValue()
     expect(resetValue).toBe(DEFAULT_SUBDOMAIN_GATEWAY)
   })
 
   test('Submit/Reset Public Path Gateway', async ({ page }) => {
     // Wait for the necessary elements to be available in the DOM
-    const publicGatewayElement = await page.waitForSelector('#public-gateway')
+    const gatewaySelector = '#public-gateway'
+    const publicGatewayElement = page.locator(gatewaySelector)
     const publicGatewaySubmitButton = page.locator('#public-path-gateway-submit-button')
     const publicGatewayResetButton = page.locator('#public-path-gateway-reset-button')
 
+    await publicGatewayElement.waitFor({ state: 'visible' })
+
     // Store initial value (should be DEFAULT_PATH_GATEWAY)
-    const initialValue = await publicGatewayElement.evaluate(el => el.value)
+    const initialValue = await publicGatewayElement.inputValue()
     expect(initialValue).toBe(DEFAULT_PATH_GATEWAY)
 
     // First, set an invalid value to verify red border appears
@@ -116,7 +125,7 @@ test.describe('Settings screen', () => {
     await publicGatewayElement.fill('not-a-valid-url')
 
     // Wait for validation to fail and show red outline
-    const hasRedOutline = await checkClassWithTimeout(page, publicGatewayElement, 'focus-outline-red', 5000)
+    const hasRedOutline = await waitForClass(page, gatewaySelector, 'focus-outline-red', 5000)
     expect(hasRedOutline).toBe(true)
 
     // Verify submit button is disabled for invalid input
@@ -128,7 +137,7 @@ test.describe('Settings screen', () => {
 
     // Wait for validation to complete by checking for green outline
     // Since TEST_PATH_GATEWAY bypasses validation, it should pass quickly
-    const hasGreenOutline = await checkClassWithTimeout(page, publicGatewayElement, 'focus-outline-green', 5000)
+    const hasGreenOutline = await waitForClass(page, gatewaySelector, 'focus-outline-green', 5000)
     expect(hasGreenOutline).toBe(true)
 
     // Wait for submit button to become enabled after validation
@@ -147,14 +156,14 @@ test.describe('Settings screen', () => {
       { timeout: 5000 }
     )
 
-    const newValue = await publicGatewayElement.evaluate(el => el.value)
+    const newValue = await publicGatewayElement.inputValue()
     expect(newValue).toBe(TEST_PATH_GATEWAY)
 
     // Test reset button
     await publicGatewayResetButton.click()
 
     // Verify reset to default
-    const resetValue = await publicGatewayElement.evaluate(el => el.value)
+    const resetValue = await publicGatewayElement.inputValue()
     expect(resetValue).toBe(DEFAULT_PATH_GATEWAY)
   })
 
@@ -164,14 +173,15 @@ test.describe('Settings screen', () => {
     const testLanguages = ['en', 'es', 'fr'].filter(lang => languages[lang])
     for (const lang of testLanguages) {
       // click the 'change language' button
-      const changeLanguageBtn = await page.waitForSelector('.e2e-languageSelector-changeBtn')
+      const changeLanguageBtn = page.locator('.e2e-languageSelector-changeBtn')
+      await changeLanguageBtn.waitFor()
 
       // Ensure the button is in viewport before clicking
       await changeLanguageBtn.scrollIntoViewIfNeeded()
       await changeLanguageBtn.click()
 
       // wait for the language modal to appear
-      await page.waitForSelector('.e2e-languageModal')
+      await page.locator('.e2e-languageModal').waitFor()
 
       // Use JavaScript to click the element to avoid viewport issues
       await page.evaluate((selector) => {
@@ -182,10 +192,10 @@ test.describe('Settings screen', () => {
       }, `.e2e-languageModal-lang_${lang}`)
 
       // wait for the language modal to disappear
-      await page.waitForSelector('.e2e-languageModal', { state: 'hidden' })
+      await page.locator('.e2e-languageModal').waitFor({ state: 'hidden' })
 
       // check that the language has changed
-      await page.waitForSelector('.e2e-languageSelector-current', { text: languages[lang].nativeName })
+      await page.locator('.e2e-languageSelector-current', { hasText: languages[lang].nativeName }).waitFor()
 
       // confirm the localStorage setting was applied
       const i18nLang = await page.evaluate('localStorage.getItem(\'i18nextLng\')')

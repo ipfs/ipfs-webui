@@ -30,28 +30,28 @@ test.describe('Peers screen', () => {
   })
 
   test('should have a clickable "Add connection" button', async ({ page }) => {
-    await page.waitForSelector(addConnection)
+    await page.locator(addConnection).waitFor()
   })
 
   test('should confirm connection after "Add connection" ', async ({ page }) => {
-    await page.waitForSelector(addConnection)
-    await page.click(addConnection)
+    await page.locator(addConnection).waitFor()
+    await page.locator(addConnection).click()
 
     // Wait for the modal to appear
-    await page.waitForSelector('[data-testid="ipfs-modal"]')
+    await page.locator('[data-testid="ipfs-modal"]').waitFor()
 
-    await page.waitForSelector('text=Insert the peer address you want to connect to')
+    await page.locator('text=Insert the peer address you want to connect to').waitFor()
     // enter multiaddr of a disposable local node spawned for this test
-    await page.type('input[name="maddr"]', peeraddr)
+    await page.locator('input[name="maddr"]').fill(peeraddr)
     // hit Enter
     await page.keyboard.press('Enter')
     // expect connection confirmation
-    await page.waitForSelector('.bg-green', { visible: true })
-    await page.waitForSelector('text=Successfully connected to the provided peer')
+    await page.locator('.bg-green').waitFor({ state: 'visible' })
+    await page.locator('text=Successfully connected to the provided peer').waitFor()
   })
 
   test('should have a peer from a "Local Network"', async ({ page }) => {
-    await page.waitForSelector('text=Local Network')
+    await page.locator('text=Local Network').first().waitFor()
   })
 
   test.afterAll(async () => {

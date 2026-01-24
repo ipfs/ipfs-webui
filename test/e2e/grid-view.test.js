@@ -125,7 +125,7 @@ test.describe('Files grid view', () => {
       await page.locator('button#add-new-folder').click()
       await page.locator('input.modal-input').fill('test-folder')
       await page.locator('button', { hasText: 'Create' }).click()
-      await page.waitForSelector('.grid-file[title="test-folder"]')
+      await page.locator('.grid-file[title="test-folder"]').waitFor()
       // reload to ensure clean state after folder creation
       await page.reload()
       await selectViewMode(page, 'grid')

@@ -38,19 +38,19 @@ test.describe('IPNS publishing', () => {
       const keyName = 'pet-name-e2e-ipns-test-' + new Date().getTime()
       // open dialog
       const genKey = 'text=Generate Key'
-      await page.waitForSelector(genKey)
-      await page.click(genKey)
+      await page.locator(genKey).waitFor()
+      await page.locator(genKey).click()
 
       // Wait for the modal to appear
-      await page.waitForSelector('[data-testid="ipfs-modal"]')
+      await page.locator('[data-testid="ipfs-modal"]').waitFor()
 
       // expect prompt for key name
-      await page.waitForSelector('text=Enter a nickname for this key to generate')
+      await page.locator('text=Enter a nickname for this key to generate').waitFor()
       // provide key name
       const selector = 'input.modal-input'
-      await page.type(selector, keyName)
+      await page.locator(selector).fill(keyName)
       // hit Enter
-      await page.press(selector, 'Enter')
+      await page.locator(selector).press('Enter')
       // expect it to be added to key list under provided pet name
       await waitForIPNSKeyList(ipfs, keyName, page)
     })
@@ -61,13 +61,13 @@ test.describe('IPNS publishing', () => {
       const { id } = await ipfs.key.gen(rmKeyName)
       await page.reload()
       // remove key via UI on Settings page
-      await page.waitForSelector(`text=${rmKeyName}`)
+      await page.locator(`text=${rmKeyName}`).waitFor()
       await page.locator(`text=${rmKeyName}${id} >> [aria-label="Show options"]`).click()
-      await page.waitForSelector('text=Rename')
+      await page.locator('text=Rename').waitFor()
       await page.locator('button[role="menuitem"]:has-text("Remove")').click()
-      await page.waitForSelector('text=Confirm IPNS Key Removal')
+      await page.locator('text=Confirm IPNS Key Removal').waitFor()
       await page.locator('button:has-text("Remove")').click()
-      await page.waitForSelector(`text=${rmKeyName}`, { state: 'detached' })
+      await page.locator(`text=${rmKeyName}`).waitFor({ state: 'detached' })
       for (const { name } of await ipfs.key.list()) {
         expect(name).not.toEqual(rmKeyName)
       }
@@ -95,36 +95,36 @@ test.describe('IPNS publishing', () => {
     test('should have functional "Publish to IPNS" context action', async ({ page }) => {
       // first: create a test file
       const button = 'button[id="import-button"]'
-      await page.waitForSelector(button, { state: 'visible' })
-      await page.click(button)
-      await page.waitForSelector('#add-by-path', { state: 'visible' })
-      page.click('button[id="add-by-path"]')
-      await page.waitForSelector('div[role="dialog"] input[name="name"]')
-      await page.fill('div[role="dialog"] input[name="path"]', testCid)
-      await page.fill('div[role="dialog"] input[name="name"]', testFilename)
+      await page.locator(button).waitFor({ state: 'visible' })
+      await page.locator(button).click()
+      await page.locator('#add-by-path').waitFor({ state: 'visible' })
+      await page.locator('button[id="add-by-path"]').click()
+      await page.locator('div[role="dialog"] input[name="name"]').waitFor()
+      await page.locator('div[role="dialog"] input[name="path"]').fill(testCid)
+      await page.locator('div[role="dialog"] input[name="name"]').fill(testFilename)
       await page.keyboard.press('Enter')
       // expect file with matching filename to be added to the file list
-      await page.waitForSelector(`.File:has-text("${testFilename}")`)
+      await page.locator(`.File:has-text("${testFilename}")`).waitFor()
       // click on the context menu
-      await page.click(`.File:has-text('${testFilename}') .file-context-menu`)
+      await page.locator(`.File:has-text('${testFilename}') .file-context-menu`).click()
       // click on the IPNS action
-      await page.waitForSelector(`.File:has-text("${testFilename}")`)
+      await page.locator(`.File:has-text("${testFilename}")`).waitFor()
       // expect IPNS action to be present in the context menu
-      await page.waitForSelector('button:has-text("Publish to IPNS")')
+      await page.locator('button:has-text("Publish to IPNS")').waitFor()
       // .. continue by clicking on context action
-      await page.click('button:has-text("Publish to IPNS")')
-      await page.waitForSelector('div[role="dialog"] .publishModalKeys')
-      await page.click(`div[role="dialog"] .publishModalKeys button:has-text("${keyName}")`)
-      await page.click(`text=${keyName}`)
+      await page.locator('button:has-text("Publish to IPNS")').click()
+      await page.locator('div[role="dialog"] .publishModalKeys').waitFor()
+      await page.locator(`div[role="dialog"] .publishModalKeys button:has-text("${keyName}")`).click()
+      await page.locator(`text=${keyName}`).click()
       const publishButton = 'div[role="dialog"] button:has-text("Publish")'
-      const enabled = await page.isEnabled(publishButton)
+      const enabled = await page.locator(publishButton).isEnabled()
       expect(enabled).toBeTruthy()
       // connect to other peer to have something in the peer table
       // (ipns will fail to publish without peers)
       await ipfs.swarm.connect(peeraddr)
-      await page.click(publishButton)
-      await page.waitForSelector('text=Successfully published')
-      await page.click('button:has-text("Done")')
+      await page.locator(publishButton).click()
+      await page.locator('text=Successfully published').waitFor()
+      await page.locator('button:has-text("Done")').click()
       // confirm IPNS record in local store points at the CID
       const { id } = (await ipfs.key.list()).filter(k => k.name === keyName)[0]
       for await (const name of ipfs.name.resolve(`/ipns/${id}`, { recursive: true })) {
@@ -141,11 +141,11 @@ test.describe('IPNS publishing', () => {
 // Confirm contents of IPNS Publishing Keys table on Settings screen
 // are in sync with ipfs.key.list
 async function waitForIPNSKeyList (ipfs, specificKey, page) {
-  await page.waitForSelector('text=IPNS Publishing Keys')
-  if (specificKey) await page.waitForSelector(`text=${specificKey}`)
+  await page.locator('text=IPNS Publishing Keys').waitFor()
+  if (specificKey) await page.locator(`text=${specificKey}`).waitFor()
   for (const { id, name } of await ipfs.key.list()) {
     if (name.startsWith('rm-key-test-')) continue // avoid race with removal tests
-    await page.waitForSelector(`text=${id}`)
-    await page.waitForSelector(`text=${name}`)
+    await page.locator(`text=${id}`).waitFor()
+    await page.locator(`text=${name}`).waitFor()
   }
 }

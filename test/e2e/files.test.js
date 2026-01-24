@@ -12,25 +12,25 @@ test.describe('Files screen', () => {
   const button = 'button[id="import-button"]'
 
   test('should have the active Add menu', async ({ page }) => {
-    await page.waitForSelector(button, { state: 'visible' })
-    await page.click(button, { force: true })
-    await page.waitForSelector('#add-file', { state: 'visible' })
-    await page.waitForSelector('text=File')
-    await page.waitForSelector('text=Folder')
-    await page.waitForSelector('text=From IPFS')
-    await page.waitForSelector('text=New folder')
-    await page.waitForSelector('text=Bulk import')
-    await page.click(button, { force: true })
+    await page.locator(button).waitFor({ state: 'visible' })
+    await page.locator(button).click()
+    await page.locator('#add-file').waitFor({ state: 'visible' })
+    await page.locator('button#add-file').waitFor()
+    await page.locator('button#add-folder').waitFor()
+    await page.locator('button#add-by-path').waitFor()
+    await page.locator('button#add-new-folder').waitFor()
+    // close menu with Escape key
+    await page.keyboard.press('Escape')
   })
 
   test('should allow for a successful import of two files', async ({ page }) => {
-    await page.waitForSelector(button, { state: 'visible' })
-    await page.click(button)
-    await page.waitForSelector('#add-file', { state: 'visible' })
+    await page.locator(button).waitFor({ state: 'visible' })
+    await page.locator(button).click()
+    await page.locator('#add-file').waitFor({ state: 'visible' })
 
     const [fileChooser] = await Promise.all([
       page.waitForEvent('filechooser'),
-      page.click('button[id="add-file"]') // menu button that triggers file selection
+      page.locator('button[id="add-file"]').click() // menu button that triggers file selection
     ])
 
     //  select a single static text file via fileChooser
@@ -39,18 +39,18 @@ test.describe('Files screen', () => {
     await fileChooser.setFiles([file1.path, file2.path])
 
     // expect file with matching filename to be added to the file list
-    await page.waitForSelector('.File')
-    await page.waitForSelector('text=file.txt')
-    await page.waitForSelector('text=file2.txt')
+    await page.locator('.File').first().waitFor()
+    await page.locator('.File:has-text("file.txt")').waitFor()
+    await page.locator('.File:has-text("file2.txt")').waitFor()
 
     // expect valid CID to be present on the page
     const ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
     const [result1, result2] = await all(ipfs.addAll([file1.data, file2.data]))
-    await page.waitForSelector(`text=${result1.cid.toString()}`)
-    await page.waitForSelector(`text=${result2.cid.toString()}`)
+    await page.locator(`text=${result1.cid.toString()}`).first().waitFor()
+    await page.locator(`text=${result2.cid.toString()}`).first().waitFor()
 
     // expect human readable sizes in format from ./src/lib/files.js#humanSize
-    // → this ensures metadata was correctly read for each item in the MFS
+    // this ensures metadata was correctly read for each item in the MFS
     const human = (b) => (b
       ? filesize(b, {
         standard: 'iec',
@@ -61,8 +61,10 @@ test.describe('Files screen', () => {
     // only check the files we just uploaded (not all MFS files, which may include files from other tests)
     for (const fileName of ['file.txt', 'file2.txt']) {
       const stat = await ipfs.files.stat(`/${fileName}`)
-      await page.waitForSelector(`text=${fileName}`)
-      await page.waitForSelector(`text=${human(stat.size)}`)
+      // verify file row exists and shows the correct size
+      const fileRow = page.locator(`.File:has-text("${fileName}")`)
+      await fileRow.waitFor()
+      await fileRow.locator(`text=${human(stat.size)}`).waitFor()
     }
   })
 
@@ -73,29 +75,28 @@ test.describe('Files screen', () => {
 
     // first: create a test file
     const button = 'button[id="import-button"]'
-    await page.waitForSelector(button, { state: 'visible' })
-    await page.click(button)
-    await page.waitForSelector('#add-by-path', { state: 'visible' })
-    page.click('button[id="add-by-path"]')
-    await page.waitForSelector('div[role="dialog"] input[name="name"]')
-    await page.fill('div[role="dialog"] input[name="path"]', `/ipfs/${testCid}`)
-    await page.fill('div[role="dialog"] input[name="name"]', testFilename)
+    await page.locator(button).waitFor({ state: 'visible' })
+    await page.locator(button).click()
+    await page.locator('#add-by-path').waitFor({ state: 'visible' })
+    await page.locator('button[id="add-by-path"]').click()
+    await page.locator('div[role="dialog"] input[name="name"]').waitFor()
+    await page.locator('div[role="dialog"] input[name="path"]').fill(`/ipfs/${testCid}`)
+    await page.locator('div[role="dialog"] input[name="name"]').fill(testFilename)
     await page.keyboard.press('Enter')
     // expect file with matching filename to be added to the file list
-    await page.waitForSelector(`.File:has-text("${testFilename}")`)
+    await page.locator(`.File:has-text("${testFilename}")`).waitFor()
 
     // open context menu
     const cbutton = `button[aria-label="View more options for ${testFilename}"]`
-    await page.waitForSelector(cbutton, { state: 'visible' })
-    await page.click(cbutton, { force: true })
-    await page.waitForSelector('text=Inspect', { state: 'visible' })
+    await page.locator(cbutton).waitFor({ state: 'visible' })
+    await page.locator(cbutton).click()
+    await page.locator('button[role="menuitem"]:has-text("Inspect")').waitFor({ state: 'visible' })
 
     // click on Inspect option
-    await page.waitForSelector('text=Inspect', { state: 'visible' })
-    await page.locator('button:has-text("Inspect"):enabled').click({ force: true })
+    await page.locator('button[role="menuitem"]:has-text("Inspect")').click()
 
     // confirm Explore screen was opened with correct CID
     await page.waitForURL(`/#/explore/${testCid}`)
-    await page.waitForSelector('text="CID info"')
+    await page.locator('text="CID info"').waitFor()
   })
 })

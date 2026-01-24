@@ -43,17 +43,17 @@ const createCID = async (value, codec, hasher, version = 1) => {
  */
 async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm = true }) {
   if (fillOutForm) {
-    await page.fill('[data-id="FilesExploreForm"] input[id="ipfs-path"]', cid)
-    await page.press('[data-id="FilesExploreForm"] button[title="Inspect"]', 'Enter')
+    await page.locator('[data-id="FilesExploreForm"] input[id="ipfs-path"]').fill(cid)
+    await page.locator('[data-id="FilesExploreForm"] button[title="Inspect"]').press('Enter')
   }
 
-  await page.waitForSelector(`.joyride-explorer-cid [title="${cid}"]`) // cid is displayed in the CID INFO section.
-  await page.waitForSelector(`[title="${type}"]`)
+  await page.locator(`.joyride-explorer-cid [title="${cid}"]`).waitFor() // cid is displayed in the CID INFO section.
+  await page.locator(`[title="${type}"]`).waitFor()
 
   if (humanReadableCID != null) {
     // expect cid details
-    await page.waitForSelector('#CidInfo-human-readable-cid')
-    const actualHumanReadableCID = await page.$eval('#CidInfo-human-readable-cid', firstRes => firstRes.textContent)
+    await page.locator('#CidInfo-human-readable-cid').waitFor()
+    const actualHumanReadableCID = await page.locator('#CidInfo-human-readable-cid').textContent()
     expect(actualHumanReadableCID).toBe(humanReadableCID)
   }
 }
@@ -84,14 +84,14 @@ async function loadBlockFixtures ({ ipfs, blockCid, blockPutArgs = { format: 'v0
 test.describe('Explore screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/explore')
-    await page.waitForSelector('.joyride-app-status .teal') // '.joyride-app-status .red' means disconnected.
+    await page.locator('.joyride-app-status .teal').waitFor() // '.joyride-app-status .red' means disconnected.
   })
 
   test.describe('Start Exploring', () => {
     test('should have Project Apollo Archive as one of examples', async ({ page }) => {
-      await page.waitForSelector('a[href="#/explore/QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D"]')
-      await page.waitForSelector('text=Project Apollo Archives')
-      await page.waitForSelector('text=QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D')
+      await page.locator('a[href="#/explore/QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D"]').waitFor()
+      await page.locator('text=Project Apollo Archives').waitFor()
+      await page.locator('text=QmSnuWmxptJZdLJpKRarxBMS2Ju2oANVrgbr2xWbie9b2D').waitFor()
     })
   })
 
@@ -192,9 +192,9 @@ test.describe('Explore screen', () => {
         humanReadableCID: 'base58btc - cidv0 - dag-pb - sha2-256~256~E536C7F88D731F374DCCB568AFF6F56E838A19382E488039B1CA8AD2599E82FE',
         type: 'dag-pb'
       })
-      await page.waitForSelector('"UnixFS"')
+      await page.locator('"UnixFS"').waitFor()
 
-      await (await page.waitForSelector('"QmbQDovX7wRe9ek7u6QXe9zgCXkTzoUSsTFJEkrYV1HrVR"')).click()
+      await page.locator('"QmbQDovX7wRe9ek7u6QXe9zgCXkTzoUSsTFJEkrYV1HrVR"').click()
       await testExploredCid({
         fillOutForm: false,
         page,
@@ -203,7 +203,7 @@ test.describe('Explore screen', () => {
         type: 'dag-pb'
       })
 
-      await (await page.waitForSelector('"QmawceGscqN4o8Y8Fv26UUmB454kn2bnkXV5tEQYc4jBd6"')).click()
+      await page.locator('"QmawceGscqN4o8Y8Fv26UUmB454kn2bnkXV5tEQYc4jBd6"').click()
       await testExploredCid({
         fillOutForm: false,
         page,
@@ -234,7 +234,7 @@ test.describe('Explore screen', () => {
         type: 'dag-pb'
       })
 
-      await (await page.waitForSelector('"QmeQtZfwuq6aWRarY9P3L9MWhZ6QTonDe9ahWECGBZjyEJ"')).click()
+      await page.locator('"QmeQtZfwuq6aWRarY9P3L9MWhZ6QTonDe9ahWECGBZjyEJ"').click()
       await testExploredCid({
         page,
         cid: 'QmeQtZfwuq6aWRarY9P3L9MWhZ6QTonDe9ahWECGBZjyEJ',
@@ -243,7 +243,7 @@ test.describe('Explore screen', () => {
         fillOutForm: false
       })
 
-      await (await page.waitForSelector('"QmVmf9vLEdWeBjh74kTibHVkim6iLsRXs5jhHzbSdWjoLt"')).click()
+      await page.locator('"QmVmf9vLEdWeBjh74kTibHVkim6iLsRXs5jhHzbSdWjoLt"').click()
       await testExploredCid({
         page,
         cid: 'QmVmf9vLEdWeBjh74kTibHVkim6iLsRXs5jhHzbSdWjoLt',
@@ -252,7 +252,7 @@ test.describe('Explore screen', () => {
         fillOutForm: false
       })
 
-      await (await page.waitForSelector('"QmT4hPa6EeeCaTAb4a6ddFf4Lk5da9C1f4nMBmMJgbAW3z"')).click()
+      await page.locator('"QmT4hPa6EeeCaTAb4a6ddFf4Lk5da9C1f4nMBmMJgbAW3z"').click()
       await testExploredCid({
         page,
         cid: 'QmT4hPa6EeeCaTAb4a6ddFf4Lk5da9C1f4nMBmMJgbAW3z',
@@ -261,7 +261,7 @@ test.describe('Explore screen', () => {
         fillOutForm: false
       })
 
-      await (await page.waitForSelector('"QmZA6h4vP17Ktw5vyMdSQNTvzsncQKDSifYwJznY461rY2"')).click()
+      await page.locator('"QmZA6h4vP17Ktw5vyMdSQNTvzsncQKDSifYwJznY461rY2"').click()
       await testExploredCid({
         page,
         cid: 'QmZA6h4vP17Ktw5vyMdSQNTvzsncQKDSifYwJznY461rY2',
@@ -270,7 +270,7 @@ test.describe('Explore screen', () => {
         fillOutForm: false
       })
 
-      await (await page.waitForSelector('"QmR2pm6hPxv7pEgNaPE477rVBNSZnbUgXsSn2R9RqK9tAH"')).click()
+      await page.locator('"QmR2pm6hPxv7pEgNaPE477rVBNSZnbUgXsSn2R9RqK9tAH"').click()
       await testExploredCid({
         page,
         cid: 'QmR2pm6hPxv7pEgNaPE477rVBNSZnbUgXsSn2R9RqK9tAH',
