@@ -126,4 +126,14 @@ async function run (rpcPort) {
   process.on('SIGINT', teardown)
 }
 
-export { run }
+async function stop () {
+  if (ipfsd) {
+    log('Stopping Kubo daemon...')
+    await ipfsd.stop()
+    log('Kubo daemon stopped')
+    ipfsd = null
+    ipfs = null
+  }
+}
+
+export { run, stop }
