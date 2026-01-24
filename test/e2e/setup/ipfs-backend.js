@@ -41,7 +41,10 @@ async function run (rpcPort) {
             ExposeRoutingAPI: true
           },
           Routing: {
-            Type: 'none'
+            Type: 'autoclient'
+          },
+          Provide: {
+            Strategy: 'pinned+mfs'
           }
         }
       },

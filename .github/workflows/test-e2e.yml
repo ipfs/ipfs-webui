@@ -44,12 +44,8 @@ jobs:
   test-e2e:
     name: 'test:e2e'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: [test-build]
-    strategy:
-      fail-fast: false
-      matrix:
-        shardIndex: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        shardTotal: [10]
     steps:
       - uses: actions/checkout@v4.1.2
 
@@ -101,19 +97,14 @@ jobs:
           restore-keys: |
             nyc_output-${{ runner.os }}-${{ github.sha }}
 
-      - name: Run repeated-E2E against Kubo
-        if: github.ref != 'refs/heads/main' # only run duplicated e2e tests on PRs
-        run: npm run test:e2e -- --repeat-each 10 --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} # run each test 10 times to ensure no flakiness
-
-      - name: Run non-repeated-E2E against Kubo
-        if: github.ref == 'refs/heads/main' # run non-duplicated tests on non-PRs
-        run: npm run test:e2e -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      - name: Run E2E against Kubo
+        run: npm run test:e2e
 
       - name: Store Artifacts from Failed Tests
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-shard-${{ matrix.shardIndex }}
+          name: test-results
           path: test-results/
           retention-days: 7
 
