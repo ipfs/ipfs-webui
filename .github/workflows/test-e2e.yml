@@ -64,7 +64,6 @@ jobs:
           restore-keys: |
             test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
 
-      # We don't want to re-install dependencies for every sharded run
       - name: Cache node_modules
         uses: actions/cache@v4
         id: test-npm-cache
@@ -73,6 +72,7 @@ jobs:
           key: test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
           restore-keys: |
             test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+
       - name: Install dependencies
         if: steps.test-npm-cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit --progress=false
@@ -84,9 +84,12 @@ jobs:
           path: |
             ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+
       - run: npm ci
+
+      # always install playwright with deps to ensure system dependencies are present
+      # (self-hosted runners may not have all required libraries pre-installed)
       - run: npx playwright install --with-deps
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       - name: Cache nyc_output dir
         uses: actions/cache@v4
