@@ -12,7 +12,7 @@ const log = (msg) => process.stderr.write(`[${new Date().toISOString()}] [global
 
 // timeout wrapper for async operations that might hang
 const withTimeout = (promise, ms, name) => {
-  const timeout = new Promise((_, reject) => {
+  const timeout = new Promise((_resolve, reject) => {
     setTimeout(() => reject(new Error(`${name} timed out after ${ms}ms`)), ms)
   })
   return Promise.race([promise, timeout])
