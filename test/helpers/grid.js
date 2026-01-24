@@ -10,22 +10,23 @@ const waitForIpfsStats = globalThis.waitForIpfsStats || (async () => {
  * @param {string} mode - The view mode to select ('grid' or 'list')
  */
 const selectViewMode = async (page, mode) => {
-  // Check current view mode by looking for the presence of grid or list elements
-  const isGridView = await page.locator('.files-grid').isVisible().catch(() => false)
-  const isListView = await page.locator('.FilesList').isVisible().catch(() => false)
+  // wait for files view to be ready (either mode)
+  await page.waitForSelector('.files-grid, .FilesList', { timeout: 30000 })
 
-  // If already in the desired mode, return early
+  // check current view mode
+  const isGridView = await page.locator('.files-grid').isVisible()
+  const isListView = await page.locator('.FilesList').isVisible()
+
+  // if already in the desired mode, return early
   if ((mode === 'grid' && isGridView) || (mode === 'list' && isListView)) {
     return
   }
 
-  // Click the toggle button - title depends on current state
+  // click the toggle button - title depends on current state
   if (mode === 'grid') {
-    // If we want grid and we're in list, click the button with grid title
     await page.locator('button[title="Click to switch to grid view"]').click()
     await page.waitForSelector('.files-grid')
   } else {
-    // If we want list and we're in grid, click the button with list title
     await page.locator('button[title="Click to switch to list view"]').click()
     await page.waitForSelector('.FilesList')
   }

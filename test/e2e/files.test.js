@@ -58,9 +58,11 @@ test.describe('Files screen', () => {
         round: b >= 1073741824 ? 1 : 0
       })
       : '-')
-    for await (const file of ipfs.files.ls('/')) {
-      await page.waitForSelector(`text=${file.name}`)
-      await page.waitForSelector(`text=${human(file.size)}`)
+    // only check the files we just uploaded (not all MFS files, which may include files from other tests)
+    for (const fileName of ['file.txt', 'file2.txt']) {
+      const stat = await ipfs.files.stat(`/${fileName}`)
+      await page.waitForSelector(`text=${fileName}`)
+      await page.waitForSelector(`text=${human(stat.size)}`)
     }
   })
 
