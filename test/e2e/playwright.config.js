@@ -17,7 +17,7 @@ const config = {
     viewport: { width: 1366, height: 768 },
     baseURL: `http://localhost:${webuiPort}/`,
     storageState: 'test/e2e/state.json',
-    trace: 'on-first-retry'
+    trace: 'retain-on-failure'
   },
   /* TODO: test against other engines?
   projects: [
