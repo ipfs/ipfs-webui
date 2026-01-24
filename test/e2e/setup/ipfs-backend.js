@@ -36,6 +36,7 @@ async function run (rpcPort) {
             API: `/ip4/127.0.0.1/tcp/${rpcPort}`,
             Gateway: `/ip4/127.0.0.1/tcp/${gatewayPort}`
           },
+          Bootstrap: [], // disable bootstrapping for faster startup in tests
           Gateway: {
             NoFetch: true,
             ExposeRoutingAPI: true
