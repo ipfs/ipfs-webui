@@ -8,6 +8,16 @@ import { run } from './ipfs-backend.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+const log = (msg) => process.stderr.write(`[${new Date().toISOString()}] [global-setup] ${msg}\n`)
+
+// timeout wrapper for async operations that might hang
+const withTimeout = (promise, ms, name) => {
+  const timeout = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error(`${name} timed out after ${ms}ms`)), ms)
+  })
+  return Promise.race([promise, timeout])
+}
+
 // make sure that ipfs-backend is fully running
 const ensureKuboDaemon = async (apiOpts) => {
   const backendEndpoint = `${apiOpts.protocol}://${apiOpts.host}:${apiOpts.port}`
@@ -34,6 +44,7 @@ const ensureKuboDaemon = async (apiOpts) => {
 }
 
 const globalSetup = async config => {
+  log('Starting global setup...')
   const backendJsonPath = path.join(__dirname, 'ipfs-backend.json')
   let port = await getPort(5001, '0.0.0.0')
 
@@ -41,7 +52,9 @@ const globalSetup = async config => {
     const url = new URL(process.env.E2E_API_URL)
     port = url.port
   }
-  await run(port)
+  log(`Starting ipfs-backend on port ${port}...`)
+  await withTimeout(run(port), 60000, 'ipfs-backend startup')
+  log('ipfs-backend started')
   // Wait for ipfs-backend.json to be created by the webServer
   let attempts = 0
   const maxAttempts = 10 // 10 seconds with 1 second intervals
@@ -81,6 +94,7 @@ const globalSetup = async config => {
   }, { rpcEndpoint, kuboGateway })
   await page.context().storageState({ path: storageState })
   await browser.close()
+  log('Global setup complete')
 }
 
 export default globalSetup

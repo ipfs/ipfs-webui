@@ -5,12 +5,12 @@ const webuiPort = 3001
 /** @type {import('@playwright/test').Config} */
 const config = {
   testDir: './',
-  timeout: process.env.CI ? 90 * 1000 : 30 * 1000,
+  timeout: 30 * 1000,
+  globalTimeout: 5 * 60 * 1000, // 5 minutes max for entire test suite including setup
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 3 : 0,
-  workers: (process.env.DEBUG || process.env.CI) ? 1 : undefined,
-  reuseExistingServer: !process.env.CI,
+  forbidOnly: true,
+  retries: 0,
+  workers: process.env.DEBUG ? 1 : undefined,
   reporter: 'list',
   use: {
     headless: !process.env.DEBUG,
@@ -50,7 +50,7 @@ const config = {
       timeout: 5 * 1000,
       url: `http://localhost:${webuiPort}/`,
       cwd: '../../',
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: false,
       env: {
         REACT_APP_ENV: 'test',
         NODE_ENV: 'test',

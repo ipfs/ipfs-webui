@@ -98,7 +98,7 @@ jobs:
             nyc_output-${{ runner.os }}-${{ github.sha }}
 
       - name: Run E2E against Kubo
-        run: npm run test:e2e
+        run: npm run test:e2e -- --reporter=list
 
       - name: Store Artifacts from Failed Tests
         if: failure()

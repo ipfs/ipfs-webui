@@ -12,9 +12,20 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const { console } = windowOrGlobal
 
+const log = (msg) => process.stderr.write(`[${new Date().toISOString()}] [ipfs-backend] ${msg}\n`)
+
+// timeout wrapper for async operations that might hang
+const withTimeout = (promise, ms, name) => {
+  const timeout = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error(`${name} timed out after ${ms}ms`)), ms)
+  })
+  return Promise.race([promise, timeout])
+}
+
 let ipfsd
 let ipfs
 async function run (rpcPort) {
+  log('Starting ipfs-backend setup...')
   let gatewayPort = 8080
   if (ipfsd != null && ipfs != null) {
     throw new Error('IPFS backend already running')
@@ -53,10 +64,14 @@ async function run (rpcPort) {
       test: true
     })
 
-    ipfsd = await factory.spawn({ type: 'kubo' })
+    log('Spawning kubo daemon...')
+    ipfsd = await withTimeout(factory.spawn({ type: 'kubo' }), 30000, 'kubo daemon spawn')
+    log('Kubo daemon spawned')
     ipfs = ipfsd.api
   }
+  log('Getting node identity...')
   const { id, agentVersion } = await ipfs.id()
+  log(`Node ready: ${id}`)
 
   // some temporary hardcoding until https://github.com/ipfs/js-ipfsd-ctl/issues/831 is resolved.
   const { apiHost, apiPort, gatewayHost } = { apiHost: '127.0.0.1', apiPort: rpcPort, gatewayHost: '127.0.0.1' }
