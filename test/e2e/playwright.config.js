@@ -39,33 +39,17 @@ const config = {
   globalTeardown: './setup/global-teardown.js',
   webServer: [
     {
-      // Use node directly instead of npx http-server to avoid npx hanging issues
-      command: `node -e "
-        const http = require('http');
-        const fs = require('fs');
-        const path = require('path');
-        const mimeTypes = {
-          '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
-          '.json': 'application/json', '.png': 'image/png', '.ico': 'image/x-icon',
-          '.svg': 'image/svg+xml', '.woff': 'font/woff', '.woff2': 'font/woff2'
-        };
-        const server = http.createServer((req, res) => {
-          let filePath = './build' + (req.url === '/' ? '/index.html' : req.url.split('?')[0]);
-          const ext = path.extname(filePath);
-          fs.readFile(filePath, (err, data) => {
-            if (err) { res.writeHead(404); res.end('Not found'); return; }
-            res.writeHead(200, {'Content-Type': mimeTypes[ext] || 'application/octet-stream'});
-            res.end(data);
-          });
-        });
-        server.listen(${webuiPort}, '127.0.0.1', () => console.error('[server] Listening on port ${webuiPort}'));
-      "`,
+      // Use dedicated server script instead of npx http-server (which hangs on CI)
+      command: `node ./setup/serve-build.js`,
       timeout: 30 * 1000,
       url: `http://127.0.0.1:${webuiPort}/`,
-      cwd: '../../',
       reuseExistingServer: false,
       stdout: 'pipe',
-      stderr: 'pipe'
+      stderr: 'pipe',
+      env: {
+        ...process.env,
+        WEBUI_PORT: String(webuiPort)
+      }
     }
   ],
   collectCoverage: true,
