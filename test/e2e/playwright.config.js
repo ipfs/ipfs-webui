@@ -35,8 +35,8 @@ const config = {
     storageState: 'test/e2e/state.json',
     trace: 'retain-on-failure'
   },
-  globalSetup: './setup/global-setup.js',
-  globalTeardown: './setup/global-teardown.js',
+  globalSetup: process.env.SKIP_GLOBAL_SETUP ? undefined : './setup/global-setup.js',
+  globalTeardown: process.env.SKIP_GLOBAL_SETUP ? undefined : './setup/global-teardown.js',
   webServer: [
     {
       // Use dedicated server script instead of npx http-server (which hangs on CI)
