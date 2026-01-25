@@ -124,14 +124,39 @@ jobs:
             sleep 1
           done
 
-          # Test 1: Try without globalSetup to isolate hang (no pipes)
-          echo "[$(date -Iseconds)] Running playwright WITHOUT globalSetup..."
-          timeout 60 env SKIP_GLOBAL_SETUP=1 CI=true ./node_modules/.bin/playwright test -c ./test/e2e/playwright.config.js --reporter=list || echo "Test 1 exited: $?"
+          # Debug: check what playwright binary does
+          echo "[$(date -Iseconds)] Node and Playwright info:"
+          node --version
+          ./node_modules/.bin/playwright --version
 
-          # Test 2: Full test run
-          echo "[$(date -Iseconds)] Running full playwright test..."
-          CI=true ./node_modules/.bin/playwright test -c ./test/e2e/playwright.config.js --reporter=list
+          # Debug: try launching browser directly
+          echo "[$(date -Iseconds)] Testing browser launch..."
+          timeout 30 node -e "
+            const { chromium } = require('playwright');
+            (async () => {
+              console.log('Launching browser...');
+              const browser = await chromium.launch();
+              console.log('Browser launched, closing...');
+              await browser.close();
+              console.log('Done');
+            })();
+          " || echo "Browser launch test exited: $?"
+
+          # Full test run with strace to see what it's waiting on
+          echo "[$(date -Iseconds)] Running full playwright test with strace..."
+          timeout 120 strace -f -e trace=read,write,poll,select,epoll_wait -o /tmp/strace.log \
+            ./node_modules/.bin/playwright test -c ./test/e2e/playwright.config.js --reporter=list &
+          PW_PID=$!
+
+          # Wait a bit then show what strace captured
+          sleep 30
+          echo "[$(date -Iseconds)] strace output (last 100 lines):"
+          tail -100 /tmp/strace.log || true
+
+          # Wait for playwright to finish or timeout
+          wait $PW_PID
           TEST_EXIT=$?
+          echo "[$(date -Iseconds)] Playwright exited with: $TEST_EXIT"
 
           # Cleanup
           echo "[$(date -Iseconds)] Stopping server..."

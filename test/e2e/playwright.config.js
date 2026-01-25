@@ -38,20 +38,22 @@ const config = {
   globalSetup: process.env.SKIP_GLOBAL_SETUP ? undefined : './setup/global-setup.js',
   globalTeardown: process.env.SKIP_GLOBAL_SETUP ? undefined : './setup/global-teardown.js',
   // On CI, we start the server externally, so skip webServer entirely
-  webServer: process.env.CI ? [] : [
-    {
-      command: 'node ./setup/serve-build.js',
-      timeout: 30 * 1000,
-      url: `http://127.0.0.1:${webuiPort}/`,
-      reuseExistingServer: false,
-      stdout: 'inherit',
-      stderr: 'inherit',
-      env: {
-        ...process.env,
-        WEBUI_PORT: String(webuiPort)
-      }
-    }
-  ],
+  webServer: process.env.CI
+    ? []
+    : [
+        {
+          command: 'node ./setup/serve-build.js',
+          timeout: 30 * 1000,
+          url: `http://127.0.0.1:${webuiPort}/`,
+          reuseExistingServer: false,
+          stdout: 'inherit',
+          stderr: 'inherit',
+          env: {
+            ...process.env,
+            WEBUI_PORT: String(webuiPort)
+          }
+        }
+      ],
   collectCoverage: true,
   coverageConfig: {
     include: [
