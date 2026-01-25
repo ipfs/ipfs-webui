@@ -102,16 +102,18 @@ jobs:
 
       - name: Run E2E against Kubo
         run: |
-          echo "[$(date -Iseconds)] Starting npm run test:e2e"
+          echo "[$(date -Iseconds)] Starting E2E tests"
           echo "[$(date -Iseconds)] Checking build directory..."
           ls -la build/ | head -10 || { echo "ERROR: build/ directory not found!"; exit 1; }
           echo "[$(date -Iseconds)] Finding free port for webui..."
           export WEBUI_PORT=$(node -e "const s=require('net').createServer();s.listen(0,()=>{console.log(s.address().port);s.close()})")
-          echo "[$(date -Iseconds)] Using WEBUI_PORT=$WEBUI_PORT"
-          echo "[$(date -Iseconds)] Node version: $(node --version)"
-          echo "[$(date -Iseconds)] Running playwright test..."
-          npm run test:e2e -- --reporter=list 2>&1
-          echo "[$(date -Iseconds)] npm run test:e2e completed"
+          echo "[$(date -Iseconds)] WEBUI_PORT=$WEBUI_PORT"
+          echo "[$(date -Iseconds)] Checking playwright installation..."
+          npx playwright --version
+          echo "[$(date -Iseconds)] Running playwright directly (bypassing npm script)..."
+          # Run playwright directly to avoid cross-env and npm buffering issues
+          REACT_APP_ENV=test npx playwright test -c ./test/e2e --reporter=list
+          echo "[$(date -Iseconds)] E2E tests completed"
         env:
           DEBUG: pw:api
           NODE_OPTIONS: --unhandled-rejections=strict

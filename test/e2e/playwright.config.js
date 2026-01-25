@@ -1,11 +1,22 @@
 import { defineConfig } from '@playwright/test'
+import { writeSync } from 'node:fs'
+
+// Force synchronous logging that bypasses Node.js buffering
+const log = (msg) => {
+  const line = `[playwright.config.js] ${msg}\n`
+  writeSync(1, line) // stdout fd=1
+  writeSync(2, line) // stderr fd=2
+}
 
 // Allow port override via environment variable for CI flexibility
 // Falls back to 3001 if not set
 const webuiPort = process.env.WEBUI_PORT || 3001
 
-console.error(`[playwright.config.js] webuiPort=${webuiPort}`)
-console.error(`[playwright.config.js] cwd=${process.cwd()}`)
+log(`Loading config...`)
+log(`webuiPort=${webuiPort}`)
+log(`cwd=${process.cwd()}`)
+log(`NODE_ENV=${process.env.NODE_ENV}`)
+log(`REACT_APP_ENV=${process.env.REACT_APP_ENV}`)
 
 /** @type {import('@playwright/test').Config} */
 const config = {
