@@ -40,12 +40,12 @@ const config = {
   webServer: [
     {
       // Use dedicated server script instead of npx http-server (which hangs on CI)
-      command: `node ./setup/serve-build.js`,
+      command: 'node ./setup/serve-build.js',
       timeout: 30 * 1000,
       url: `http://127.0.0.1:${webuiPort}/`,
       reuseExistingServer: false,
-      stdout: 'pipe',
-      stderr: 'pipe',
+      stdout: 'inherit',
+      stderr: 'inherit',
       env: {
         ...process.env,
         WEBUI_PORT: String(webuiPort)
