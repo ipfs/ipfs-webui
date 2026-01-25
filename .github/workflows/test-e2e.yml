@@ -109,7 +109,7 @@ jobs:
           export WEBUI_PORT=$(node -e "const s=require('net').createServer();s.listen(0,()=>{console.log(s.address().port);s.close()})")
           echo "[$(date -Iseconds)] WEBUI_PORT=$WEBUI_PORT"
           echo "[$(date -Iseconds)] Running playwright test..."
-          npx playwright test -c ./test/e2e --reporter=list
+          ./node_modules/.bin/playwright test -c ./test/e2e --reporter=list
           echo "[$(date -Iseconds)] E2E tests completed"
         env:
           REACT_APP_ENV: test
