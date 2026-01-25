@@ -101,7 +101,12 @@ jobs:
             nyc_output-${{ runner.os }}-${{ github.sha }}
 
       - name: Run E2E against Kubo
-        run: npm run test:e2e -- --reporter=list
+        run: |
+          echo "[$(date -Iseconds)] Starting npm run test:e2e"
+          npm run test:e2e -- --reporter=list
+          echo "[$(date -Iseconds)] npm run test:e2e completed"
+        env:
+          DEBUG: pw:api
 
       - name: Store Artifacts from Failed Tests
         if: failure()

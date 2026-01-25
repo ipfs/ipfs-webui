@@ -6,23 +6,32 @@ import { stop } from './ipfs-backend.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const log = (msg) => process.stderr.write(`[${new Date().toISOString()}] [global-teardown] ${msg}\n`)
+// log to both stdout and stderr to ensure CI captures output regardless of buffering
+const log = (msg) => {
+  const line = `[${new Date().toISOString()}] [global-teardown] ${msg}\n`
+  process.stdout.write(line)
+  process.stderr.write(line)
+}
 
 const globalTeardown = async (config) => {
-  log('Starting global teardown...')
+  log('=== GLOBAL TEARDOWN STARTING ===')
 
   // Stop the Kubo daemon properly
   try {
+    log('Calling ipfs-backend stop()...')
     await stop()
+    log('ipfs-backend stop() completed')
   } catch (err) {
-    log(`Warning: failed to stop Kubo daemon: ${err.message}`)
+    log(`WARNING: failed to stop Kubo daemon: ${err.message}`)
   }
 
   // Clean up config file
   const backendJsonPath = path.join(__dirname, 'ipfs-backend.json')
+  log(`Removing ${backendJsonPath}...`)
   fs.rmSync(backendJsonPath, { force: true })
+  log('Config file removed')
 
-  log('Global teardown complete')
+  log('=== GLOBAL TEARDOWN COMPLETE ===')
 }
 
 export default globalTeardown
