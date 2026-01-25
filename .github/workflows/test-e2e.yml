@@ -124,13 +124,13 @@ jobs:
             sleep 1
           done
 
-          # Test 1: Try without globalSetup to isolate hang
-          echo "[$(date -Iseconds)] Running playwright WITHOUT globalSetup (should fail but not hang)..."
-          timeout 60 env SKIP_GLOBAL_SETUP=1 ./node_modules/.bin/playwright test -c ./test/e2e/playwright.config.js --reporter=list 2>&1 | head -50 || echo "Test without globalSetup exited: $?"
+          # Test 1: Try without globalSetup to isolate hang (no pipes)
+          echo "[$(date -Iseconds)] Running playwright WITHOUT globalSetup..."
+          timeout 60 env SKIP_GLOBAL_SETUP=1 CI=true ./node_modules/.bin/playwright test -c ./test/e2e/playwright.config.js --reporter=list || echo "Test 1 exited: $?"
 
           # Test 2: Full test run
           echo "[$(date -Iseconds)] Running full playwright test..."
-          ./node_modules/.bin/playwright test -c ./test/e2e/playwright.config.js --reporter=list
+          CI=true ./node_modules/.bin/playwright test -c ./test/e2e/playwright.config.js --reporter=list
           TEST_EXIT=$?
 
           # Cleanup

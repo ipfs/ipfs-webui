@@ -37,13 +37,13 @@ const config = {
   },
   globalSetup: process.env.SKIP_GLOBAL_SETUP ? undefined : './setup/global-setup.js',
   globalTeardown: process.env.SKIP_GLOBAL_SETUP ? undefined : './setup/global-teardown.js',
-  webServer: [
+  // On CI, we start the server externally, so skip webServer entirely
+  webServer: process.env.CI ? [] : [
     {
-      // Use dedicated server script instead of npx http-server (which hangs on CI)
       command: 'node ./setup/serve-build.js',
       timeout: 30 * 1000,
       url: `http://127.0.0.1:${webuiPort}/`,
-      reuseExistingServer: !!process.env.CI,
+      reuseExistingServer: false,
       stdout: 'inherit',
       stderr: 'inherit',
       env: {
