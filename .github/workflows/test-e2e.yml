@@ -11,7 +11,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: '24.11.0'
           cache: 'npm'
 
       - name: Cache test-build output
@@ -52,7 +52,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: '24.11.0'
           cache: 'npm'
 
       - name: Cache test-build output
@@ -123,7 +123,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: '24.11.0'
           cache: 'npm'
 
       - name: Cache nyc_output dir
