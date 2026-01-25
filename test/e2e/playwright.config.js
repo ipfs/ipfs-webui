@@ -43,7 +43,7 @@ const config = {
       command: 'node ./setup/serve-build.js',
       timeout: 30 * 1000,
       url: `http://127.0.0.1:${webuiPort}/`,
-      reuseExistingServer: false,
+      reuseExistingServer: !!process.env.CI,
       stdout: 'inherit',
       stderr: 'inherit',
       env: {

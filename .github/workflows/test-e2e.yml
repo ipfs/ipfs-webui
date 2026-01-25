@@ -103,14 +103,38 @@ jobs:
       - name: Run E2E against Kubo
         run: |
           echo "[$(date -Iseconds)] Starting E2E tests"
-          echo "[$(date -Iseconds)] Checking build directory..."
-          ls -la build/ | head -10 || { echo "ERROR: build/ directory not found!"; exit 1; }
-          echo "[$(date -Iseconds)] Finding free port for webui..."
+
+          # Find free port
           export WEBUI_PORT=$(node -e "const s=require('net').createServer();s.listen(0,()=>{console.log(s.address().port);s.close()})")
           echo "[$(date -Iseconds)] WEBUI_PORT=$WEBUI_PORT"
+
+          # Start webui server manually (Playwright's webServer spawn hangs on CI)
+          echo "[$(date -Iseconds)] Starting webui server..."
+          node test/e2e/setup/serve-build.js &
+          SERVER_PID=$!
+          echo "[$(date -Iseconds)] Server PID: $SERVER_PID"
+
+          # Wait for server to be ready
+          echo "[$(date -Iseconds)] Waiting for server to respond..."
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:$WEBUI_PORT/" | grep -q "200"; then
+              echo "[$(date -Iseconds)] Server ready after ${i}s"
+              break
+            fi
+            sleep 1
+          done
+
+          # Run tests
           echo "[$(date -Iseconds)] Running playwright test..."
           ./node_modules/.bin/playwright test -c ./test/e2e --reporter=list
-          echo "[$(date -Iseconds)] E2E tests completed"
+          TEST_EXIT=$?
+
+          # Cleanup
+          echo "[$(date -Iseconds)] Stopping server..."
+          kill $SERVER_PID 2>/dev/null || true
+
+          echo "[$(date -Iseconds)] E2E tests completed with exit code $TEST_EXIT"
+          exit $TEST_EXIT
         env:
           REACT_APP_ENV: test
 
