@@ -1,6 +1,11 @@
 import { defineConfig } from '@playwright/test'
 
-const webuiPort = 3001
+// Allow port override via environment variable for CI flexibility
+// Falls back to 3001 if not set
+const webuiPort = process.env.WEBUI_PORT || 3001
+
+console.error(`[playwright.config.js] webuiPort=${webuiPort}`)
+console.error(`[playwright.config.js] cwd=${process.cwd()}`)
 
 /** @type {import('@playwright/test').Config} */
 const config = {
@@ -15,46 +20,25 @@ const config = {
   use: {
     headless: !process.env.DEBUG,
     viewport: { width: 1366, height: 768 },
-    baseURL: `http://localhost:${webuiPort}/`,
+    baseURL: `http://127.0.0.1:${webuiPort}/`,
     storageState: 'test/e2e/state.json',
     trace: 'retain-on-failure'
   },
-  /* TODO: test against other engines?
-  projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-      },
-    },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
-
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-      },
-    },
-  ],
-  */
   globalSetup: './setup/global-setup.js',
   globalTeardown: './setup/global-teardown.js',
   webServer: [
     {
-      command: `npx http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
-      timeout: 5 * 1000,
-      url: `http://localhost:${webuiPort}/`,
+      command: `node -e "console.error('[http-server] Starting on port ${webuiPort}...')" && npx http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
+      timeout: 30 * 1000, // increased from 5s to 30s for CI
+      url: `http://127.0.0.1:${webuiPort}/`,
       cwd: '../../',
       reuseExistingServer: false,
+      stdout: 'pipe',
+      stderr: 'pipe',
       env: {
+        ...process.env,
         REACT_APP_ENV: 'test',
-        NODE_ENV: 'test',
-        PORT: webuiPort
+        NODE_ENV: 'test'
       }
     }
   ],
