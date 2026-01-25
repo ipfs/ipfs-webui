@@ -142,21 +142,27 @@ jobs:
             })();
           " || echo "Browser launch test exited: $?"
 
-          # Full test run with strace to see what it's waiting on
-          echo "[$(date -Iseconds)] Running full playwright test with strace..."
-          timeout 120 strace -f -e trace=read,write,poll,select,epoll_wait -o /tmp/strace.log \
-            ./node_modules/.bin/playwright test -c ./test/e2e/playwright.config.js --reporter=list &
+          # Full test run with strace - max verbosity, single worker
+          echo "[$(date -Iseconds)] Running playwright with strace (max verbosity, single worker)..."
+          timeout 120 strace -f -tt -T -v -s 256 -o /tmp/strace.log \
+            ./node_modules/.bin/playwright test -c ./test/e2e/playwright.config.js --reporter=list --workers=1 &
           PW_PID=$!
 
-          # Wait a bit then show what strace captured
-          sleep 30
-          echo "[$(date -Iseconds)] strace output (last 100 lines):"
-          tail -100 /tmp/strace.log || true
+          # Monitor and dump strace periodically
+          for i in $(seq 1 6); do
+            sleep 10
+            echo "[$(date -Iseconds)] === strace snapshot at ${i}x10s ==="
+            tail -50 /tmp/strace.log || true
+          done
 
           # Wait for playwright to finish or timeout
           wait $PW_PID
           TEST_EXIT=$?
           echo "[$(date -Iseconds)] Playwright exited with: $TEST_EXIT"
+
+          # Final strace dump
+          echo "[$(date -Iseconds)] === Final strace (last 200 lines) ==="
+          tail -200 /tmp/strace.log || true
 
           # Cleanup
           echo "[$(date -Iseconds)] Stopping server..."
