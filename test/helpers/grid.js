@@ -1,5 +1,5 @@
 const webuiPort = 3001
-const webuiUrl = `http://localhost:${webuiPort}`
+const webuiUrl = `http://127.0.0.1:${webuiPort}`
 const waitForIpfsStats = globalThis.waitForIpfsStats || (async () => {
   await new Promise(resolve => setTimeout(resolve, 1000))
 })

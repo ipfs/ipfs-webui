@@ -1,6 +1,6 @@
 import { defineConfig } from '@playwright/test'
 
-const webuiPort = process.env.WEBUI_PORT || 3001
+const webuiPort = 3001
 
 /** @type {import('@playwright/test').Config} */
 const config = {
@@ -23,16 +23,11 @@ const config = {
   globalTeardown: './setup/global-teardown.js',
   webServer: [
     {
-      command: 'node ./setup/serve-build.js',
+      command: `npx http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
       timeout: 30 * 1000,
       url: `http://127.0.0.1:${webuiPort}/`,
-      reuseExistingServer: false,
-      stdout: 'inherit',
-      stderr: 'inherit',
-      env: {
-        ...process.env,
-        WEBUI_PORT: String(webuiPort)
-      }
+      cwd: '../../',
+      reuseExistingServer: false
     }
   ],
   collectCoverage: true,

@@ -7,20 +7,12 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const globalTeardown = async (config) => {
-  console.log('[global-teardown] starting')
-
-  // Stop the Kubo daemon properly
   try {
     await stop()
   } catch (err) {
-    console.error(`[global-teardown] WARNING: failed to stop Kubo daemon: ${err.message}`)
+    console.error(`[global-teardown] WARNING: ${err.message}`)
   }
-
-  // Clean up config file
-  const backendJsonPath = path.join(__dirname, 'ipfs-backend.json')
-  fs.rmSync(backendJsonPath, { force: true })
-
-  console.log('[global-teardown] complete')
+  fs.rmSync(path.join(__dirname, 'ipfs-backend.json'), { force: true })
 }
 
 export default globalTeardown

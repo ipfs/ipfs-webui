@@ -12,20 +12,9 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const { console } = windowOrGlobal
 
-// timeout wrapper for async operations that might hang
-const withTimeout = (promise, ms, name) => {
-  let warningTimer
-  const timeout = new Promise((_resolve, reject) => {
-    warningTimer = setTimeout(() => {
-      console.error(`[ipfs-backend] WARNING: ${name} still running after ${ms * 0.8}ms`)
-    }, ms * 0.8)
-    setTimeout(() => reject(new Error(`${name} timed out after ${ms}ms`)), ms)
-  })
-  return Promise.race([promise, timeout]).finally(() => clearTimeout(warningTimer))
-}
+let ipfsd = null
+let ipfs = null
 
-let ipfsd
-let ipfs
 async function run (rpcPort) {
   let gatewayPort = 8080
   if (ipfsd != null && ipfs != null) {
@@ -63,11 +52,11 @@ async function run (rpcPort) {
       test: true
     })
 
-    ipfsd = await withTimeout(factory.spawn({ type: 'kubo' }), 30000, 'kubo daemon spawn')
+    ipfsd = await factory.spawn({ type: 'kubo' })
     ipfs = ipfsd.api
   }
 
-  const { id, agentVersion } = await withTimeout(ipfs.id(), 10000, 'ipfs.id()')
+  const { id, agentVersion } = await ipfs.id()
 
   const { apiHost, apiPort, gatewayHost } = { apiHost: '127.0.0.1', apiPort: rpcPort, gatewayHost: '127.0.0.1' }
 
@@ -96,7 +85,7 @@ async function run (rpcPort) {
     }
   }))
 
-  console.log(`[ipfs-backend] ${agentVersion} (${endpoint || ipfsd.exec}) id=${id} rpcAddr=${rpcAddr} gatewayAddr=${gatewayAddr}`)
+  console.log(`E2E using ${agentVersion} (${endpoint || ipfsd.exec}) id=${id} rpcAddr=${rpcAddr} gatewayAddr=${gatewayAddr}`)
 
   if (endpoint) {
     return
@@ -112,7 +101,7 @@ async function run (rpcPort) {
 
 async function stop () {
   if (ipfsd) {
-    await withTimeout(ipfsd.stop(), 10000, 'ipfsd.stop()')
+    await ipfsd.stop()
     ipfsd = null
     ipfs = null
   }
