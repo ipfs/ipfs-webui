@@ -41,6 +41,7 @@ test.describe('Status page', () => {
 
       // enter the inlined "hello world" CID
       await explore.cidInput(page).fill(INLINED_HELLO_WORLD_CID)
+      await expect(explore.browseButton(page)).toBeEnabled()
       await explore.browseButton(page).click()
 
       // should display the file content "hello world"
@@ -56,6 +57,7 @@ test.describe('Status page', () => {
 
       // enter the inlined "hello world" CID
       await explore.cidInput(page).fill(INLINED_HELLO_WORLD_CID)
+      await expect(explore.inspectButton(page)).toBeEnabled()
       await explore.inspectButton(page).click()
 
       // should display "Raw Block" in DAG Explorer
@@ -88,16 +90,14 @@ test.describe('Status page', () => {
 
       // enter an IPNS path that will fail DNSLink resolution
       await explore.cidInput(page).fill('/ipns/invalid-dnslink.example.com')
+      await expect(explore.browseButton(page)).toBeEnabled()
       await explore.browseButton(page).click()
 
       // wait for navigation to the IPNS path
       await expect(page).toHaveURL(/invalid-dnslink/, { timeout: 10000 })
 
-      // should show error state - either 404 badge or error page
-      // (depends on how quickly the DNS lookup fails)
-      const error404 = page.getByText('404')
-      const errorPage = page.locator('h1.red')
-      await expect(error404.or(errorPage)).toBeVisible({ timeout: 30000 })
+      // should show error page with "Unable to load this path" heading
+      await expect(page.getByRole('heading', { name: 'Unable to load this path' })).toBeVisible({ timeout: 30000 })
     })
 
     test('ipfs:// protocol URL is accepted and normalized', async ({ page }) => {
