@@ -77,9 +77,9 @@
   },
   "addByPathModal": {
     "title": "Import from IPFS",
-    "description": "Insert an IPFS path (CID) to import.",
-    "preloadNote": "NOTE: Imported path is lazy-loaded by default, and will be retrieved on-demand as you browse it. To proactively prefetch imported path to the local Datastore, choose ”Download” from the context menu.",
-    "importPathPlaceholder": "Path or CID (required)",
+    "description": "Insert an IPFS or IPNS path, CID, or protocol URL to import.",
+    "preloadNote": "NOTE: Imported path is lazy-loaded by default, and will be retrieved on-demand as you browse it. To proactively prefetch imported path to the local Datastore, choose \u201cDownload\u201d from the context menu.",
+    "importPathPlaceholder": "Path, CID, or URL (required)",
     "namePlaceholder": "Name (optional)",
     "examples": "Examples:"
   },
@@ -110,6 +110,7 @@
   "filesImportStatus": {
     "imported": "{count, plural, one {Imported 1 item} other {Imported {count} items}}",
     "importing": "{count, plural, one {Importing 1 item} other {Importing {count} items}}",
+    "failed": "{count, plural, one {Failed to import 1 item} other {Failed to import {count} items}}",
     "toggleDropdown": "Toggle dropdown",
     "closeDropdown": "Close dropdown",
     "count": "{count} of {count}"

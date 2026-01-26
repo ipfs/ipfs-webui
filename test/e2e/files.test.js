@@ -113,6 +113,165 @@ test.describe('Files screen', () => {
     await expect(page.getByText('CID info')).toBeVisible()
   })
 
+  test('should successfully import file via Add by path', async ({ page }) => {
+    // bafkqac3imvwgy3zao5xxe3de is the inlined CID for "hello world"
+    const testCid = 'bafkqac3imvwgy3zao5xxe3de'
+    const testPath = `/ipfs/${testCid}`
+    const testFilename = 'add-by-path-test.txt'
+
+    // Open Import menu and click "From IPFS"
+    const importButton = files.importButton(page)
+    await expect(importButton).toBeVisible()
+    await importButton.click()
+
+    await expect(files.addByPathOption(page)).toBeVisible()
+    await files.addByPathOption(page).click()
+
+    // Fill in the dialog
+    const pathInput = files.dialogInput(page, 'path')
+    await expect(pathInput).toBeVisible()
+    await pathInput.fill(testPath)
+    await files.dialogInput(page, 'name').fill(testFilename)
+
+    // Click Import button
+    const importDialogButton = page.getByRole('button', { name: 'Import' })
+    await expect(importDialogButton).toBeVisible()
+    await importDialogButton.click()
+
+    // Wait for dialog to close
+    await expect(pathInput).not.toBeVisible({ timeout: 10000 })
+
+    // Verify file appears in the file list with the correct CID
+    const fileRow = page.getByTestId('file-row').filter({ hasText: testFilename })
+    await expect(fileRow).toBeVisible({ timeout: 30000 })
+    await expect(fileRow.getByText(testCid).first()).toBeVisible()
+  })
+
+  // Regression test: trailing slash in path should be handled correctly
+  test('should successfully import path with trailing slash', async ({ page }) => {
+    const testCid = 'bafkqac3imvwgy3zao5xxe3de'
+    // Path with trailing slash - should still work
+    const testPath = `/ipfs/${testCid}/`
+    const testFilename = 'trailing-slash-test.txt'
+
+    await files.importButton(page).click()
+    await files.addByPathOption(page).click()
+    const pathInput = files.dialogInput(page, 'path')
+    await expect(pathInput).toBeVisible()
+    await pathInput.fill(testPath)
+    await files.dialogInput(page, 'name').fill(testFilename)
+    await page.keyboard.press('Enter')
+
+    // Wait for dialog to close
+    await expect(pathInput).not.toBeVisible({ timeout: 10000 })
+
+    // Verify file appears with the custom filename
+    const fileRow = page.getByTestId('file-row').filter({ hasText: testFilename })
+    await expect(fileRow).toBeVisible({ timeout: 30000 })
+  })
+
+  test('should show error notification when importing non-existent path', async ({ page }) => {
+    // bafkqac3imvwgy3zao5xxe3de is the inlined CID for "hello world" (a file, not a dir)
+    // Trying to access /404 inside it fails because you can't traverse into a file
+    const nonExistentPath = '/ipfs/bafkqac3imvwgy3zao5xxe3de/404'
+
+    // Open Import menu and click "From IPFS"
+    const importButton = files.importButton(page)
+    await expect(importButton).toBeVisible()
+    await importButton.click()
+
+    await expect(files.addByPathOption(page)).toBeVisible()
+    await files.addByPathOption(page).click()
+
+    // Fill in the dialog with the non-existent path
+    const pathInput = files.dialogInput(page, 'path')
+    await expect(pathInput).toBeVisible()
+    await pathInput.fill(nonExistentPath)
+
+    // Click Import button to submit
+    const importDialogButton = page.getByRole('button', { name: 'Import' })
+    await expect(importDialogButton).toBeVisible()
+    await importDialogButton.click()
+
+    // Wait for the dialog to close (the path input should disappear)
+    await expect(pathInput).not.toBeVisible({ timeout: 10000 })
+
+    // Wait for any import notification to appear
+    const notification = page.locator('.fileImportStatus')
+    await expect(notification).toBeVisible({ timeout: 30000 })
+
+    // The notification should show "Failed to import" instead of "Imported 0 items"
+    const errorNotification = page.locator('.fileImportStatus').filter({ hasText: /Failed to import/i })
+    await expect(errorNotification).toBeVisible()
+
+    // Verify error styling is applied (red background)
+    const errorContainer = page.locator('.fileImportStatusError')
+    await expect(errorContainer).toBeVisible()
+
+    // Verify the path is shown in the error details (in the fileImportStatusName span)
+    await expect(notification.locator('.fileImportStatusName').filter({ hasText: nonExistentPath })).toBeVisible()
+
+    // Verify the actual error message is displayed (in the dark-red error div)
+    const errorDetail = notification.locator('.dark-red.f7')
+    await expect(errorDetail).toBeVisible()
+    // Verify it contains the expected error from IPFS
+    await expect(errorDetail).toContainText('cp: cannot get node from path')
+  })
+
+  // Regression test: ensure previous import errors are cleared when starting a new import.
+  // Without the fix in doFilesAddPath, the second (successful) import would show
+  // "Failed to import 2 items" because errors from previous imports accumulate.
+  test('should clear previous errors when starting new import', async ({ page }) => {
+    const validPath = '/ipfs/bafkqac3imvwgy3zao5xxe3de'
+    const invalidPath = '/ipfs/bafkqac3imvwgy3zao5xxe3de/404'
+    // Use unique filename to avoid conflicts when tests run in parallel
+    const uniqueFilename = `clear-errors-test-${Date.now()}-${Math.random().toString(36).slice(2)}.txt`
+
+    // First, import an invalid path to create an error
+    await files.importButton(page).click()
+    await files.addByPathOption(page).click()
+    await files.dialogInput(page, 'path').fill(invalidPath)
+    await page.getByRole('button', { name: 'Import' }).click()
+
+    // Wait for error notification
+    const notification = page.locator('.fileImportStatus')
+    await expect(notification.filter({ hasText: /Failed to import 1 item/i })).toBeVisible({ timeout: 30000 })
+
+    // Verify error styling IS present after failed import
+    const errorContainer = page.locator('.fileImportStatusError')
+    await expect(errorContainer).toBeVisible()
+
+    // Now import a valid path with a unique filename to avoid conflicts with other parallel tests
+    await files.importButton(page).click()
+    await expect(files.addByPathOption(page)).toBeVisible()
+    await files.addByPathOption(page).click()
+    const pathInput = files.dialogInput(page, 'path')
+    await expect(pathInput).toBeVisible()
+    await pathInput.fill(validPath)
+    await files.dialogInput(page, 'name').fill(uniqueFilename)
+    // Press Enter to submit (notification overlaps Import button at bottom of screen)
+    await page.keyboard.press('Enter')
+
+    // Wait for success notification title - should show "Imported 1 item", not "Failed to import"
+    const notificationTitle = notification.locator('.fileImportStatusButton span').first()
+    await expect(notificationTitle).toHaveText('Imported 1 item', { timeout: 30000 })
+
+    // Verify success styling - no error class on the header
+    await expect(errorContainer).not.toBeVisible()
+
+    // Expand the drawer to check items (click on the header button)
+    const drawerButton = notification.locator('.fileImportStatusButton')
+    // Ensure drawer is expanded (aria-expanded="true")
+    const isExpanded = await drawerButton.getAttribute('aria-expanded')
+    if (isExpanded !== 'true') {
+      await drawerButton.click()
+    }
+
+    // Verify BOTH items shown in drawer (failed + successful)
+    await expect(notification.locator('.fileImportStatusName').filter({ hasText: invalidPath })).toBeVisible()
+    await expect(notification.locator('.fileImportStatusName').filter({ hasText: uniqueFilename })).toBeVisible()
+  })
+
   test('should show error page when navigating to non-existing path', async ({ page }) => {
     // bafyaabakaieac is CIDv1 of an empty directory, so /404 inside it does not exist
     const nonExistingPath = '/ipfs/bafyaabakaieac/404'

@@ -441,25 +441,41 @@ const actions = () => ({
    * @param {string} src
    * @param {string} name
    */
-  doFilesAddPath: (root, src, name = '') => perform(ACTIONS.ADD_BY_PATH, async (ipfs, { store }) => {
+  doFilesAddPath: (root, src, name = '') => spawn(ACTIONS.ADD_BY_PATH, async function * (ipfs, { store }) {
     ensureMFS(store)
 
-    const path = realMfsPath(src)
-    const cid = /** @type {string} */(path.split('/').pop())
+    let srcPath = src
 
-    if (!name) {
-      name = cid
+    // Resolve /ipns/ paths to /ipfs/ first
+    if (src.startsWith('/ipns/')) {
+      const [ipnsName, ...subpathParts] = src.slice('/ipns/'.length).split('/')
+      const resolved = await last(ipfs.name.resolve(`/ipns/${ipnsName}`))
+      const subpath = subpathParts.length ? '/' + subpathParts.join('/') : ''
+      srcPath = resolved + subpath
+    } else if (!src.startsWith('/')) {
+      srcPath = `/ipfs/${src}`
     }
 
-    const dst = realMfsPath(join(root, name))
-    const srcPath = src.startsWith('/') ? src : `/ipfs/${cid}`
+    // Strip trailing slashes to get proper filename
+    while (srcPath.endsWith('/')) {
+      srcPath = srcPath.slice(0, -1)
+    }
+
+    const fileName = name || /** @type {string} */(srcPath.split('/').pop())
+    const entries = [{ path: fileName, size: 0 }]
+
+    yield { entries, progress: 0 }
+
+    const dst = realMfsPath(join(root, fileName))
 
     try {
-      return await ipfs.files.cp(srcPath, dst)
+      await ipfs.files.cp(srcPath, dst)
+      yield { entries, progress: 100 }
+      return entries
     } finally {
       await store.doFilesFetch()
     }
-  }),
+  }, src),
 
   /**
    * Adds CAR file. On completion will trigger `doFilesFetch` to update the state.

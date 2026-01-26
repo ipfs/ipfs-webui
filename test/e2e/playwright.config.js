@@ -14,7 +14,7 @@ const config = {
   reporter: 'list',
   use: {
     headless: !process.env.DEBUG,
-    viewport: { width: 1366, height: 768 },
+    viewport: { width: 1920, height: 1080 },
     baseURL: `http://127.0.0.1:${webuiPort}/`,
     storageState: 'test/e2e/state.json',
     trace: 'retain-on-failure'

@@ -121,7 +121,8 @@ const FilesPage = ({
     doUpdateHash(files?.parentPath)
   }, [files?.parentPath, doUpdateHash])
 
-  const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
+  // errors are tracked in redux via filesErrors, catch here to prevent unhandled rejection crash
+  const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name).catch(() => {})
   /**
    *
    * @param {File} file
