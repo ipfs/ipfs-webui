@@ -170,7 +170,7 @@ const FilesGrid = ({
     <div ref={(el) => {
       drop(el)
       gridRef.current = el
-    }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')}>
+    }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')} data-testid="files-grid">
       {files.map(file => (
         <GridFile
           key={file.name}
