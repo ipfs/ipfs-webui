@@ -10,12 +10,12 @@ const waitForIpfsStats = globalThis.waitForIpfsStats || (async () => {
  * @param {string} mode - The view mode to select ('grid' or 'list')
  */
 const selectViewMode = async (page, mode) => {
-  // wait for files view to be ready (either mode)
-  await page.waitForSelector('.files-grid, .FilesList', { timeout: 30000 })
+  // wait for files view to be ready (either mode) using testids
+  await page.waitForSelector('[data-testid="files-grid"], [data-testid="files-list"]', { timeout: 30000 })
 
   // check current view mode
-  const isGridView = await page.locator('.files-grid').isVisible()
-  const isListView = await page.locator('.FilesList').isVisible()
+  const isGridView = await page.getByTestId('files-grid').isVisible()
+  const isListView = await page.getByTestId('files-list').isVisible()
 
   // if already in the desired mode, return early
   if ((mode === 'grid' && isGridView) || (mode === 'list' && isListView)) {
@@ -25,10 +25,10 @@ const selectViewMode = async (page, mode) => {
   // click the toggle button - title depends on current state
   if (mode === 'grid') {
     await page.locator('button[title="Click to switch to grid view"]').click()
-    await page.waitForSelector('.files-grid')
+    await page.waitForSelector('[data-testid="files-grid"]')
   } else {
     await page.locator('button[title="Click to switch to list view"]').click()
-    await page.waitForSelector('.FilesList')
+    await page.waitForSelector('[data-testid="files-list"]')
   }
 }
 
@@ -50,7 +50,7 @@ const navigateToFilesPage = async (page) => {
   })
 
   await waitForIpfsStats()
-  await page.waitForSelector('.files-grid, .FilesList', { timeout: 60000 })
+  await page.waitForSelector('[data-testid="files-grid"], [data-testid="files-list"]', { timeout: 60000 })
 }
 
 /**
@@ -78,8 +78,7 @@ const addTestFiles = async (page, directoryName, numFiles = 5) => {
     })
   }
 
-  await page.locator('button[aria-label="Import"], button:has-text("Import")').click()
-
+  await page.locator('button[id="import-button"]').click()
   await page.locator('button#add-file').click()
 
   await page.setInputFiles('input[type="file"]',

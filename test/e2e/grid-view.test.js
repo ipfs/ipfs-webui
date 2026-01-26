@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './setup/coverage.js'
+import { files } from './setup/locators.js'
 import { navigateToFilesPage, addTestFiles, selectViewMode } from '../helpers/grid'
 
 /**
@@ -6,8 +7,8 @@ import { navigateToFilesPage, addTestFiles, selectViewMode } from '../helpers/gr
  * Throws if focus cannot be established after retries.
  */
 async function focusGrid (page) {
-  const gridContainer = page.locator('.files-grid')
-  await gridContainer.waitFor({ state: 'visible' })
+  const gridContainer = page.getByTestId('files-grid')
+  await expect(gridContainer).toBeVisible()
 
   // try multiple approaches to establish focus
   const approaches = [
@@ -21,7 +22,7 @@ async function focusGrid (page) {
     },
     async () => {
       // click on first grid item then use arrow
-      const firstItem = page.locator('.grid-file').first()
+      const firstItem = page.getByTestId('grid-file').first()
       await firstItem.click()
       await page.keyboard.press('ArrowRight')
     }
@@ -30,7 +31,7 @@ async function focusGrid (page) {
   for (const approach of approaches) {
     await approach()
     try {
-      await page.locator('.grid-file.focused').waitFor({ state: 'visible', timeout: 1000 })
+      await expect(page.locator('.grid-file.focused')).toBeVisible({ timeout: 1000 })
       return // success
     } catch {
       // try next approach
@@ -46,17 +47,17 @@ test.describe('Files grid view', () => {
     await selectViewMode(page, 'grid')
 
     // ensure we have test files to work with
-    const fileCount = await page.locator('.grid-file, .file-row').count()
+    const fileCount = await page.getByTestId('grid-file').count()
     if (fileCount < 3) {
       await addTestFiles(page, 'files', 5)
     }
   })
 
   test('should display files in grid view', async ({ page }) => {
-    const gridContainer = page.locator('.files-grid')
+    const gridContainer = page.getByTestId('files-grid')
     await expect(gridContainer).toBeVisible()
 
-    const gridItems = page.locator('.grid-file')
+    const gridItems = page.getByTestId('grid-file')
     await expect(gridItems.first()).toBeVisible()
   })
 
@@ -100,7 +101,7 @@ test.describe('Files grid view', () => {
 
   test('should scroll into view when focusing files out of viewport', async ({ page }) => {
     // ensure enough files for scrolling
-    if (await page.locator('.grid-file').count() < 20) {
+    if (await page.getByTestId('grid-file').count() < 20) {
       await addTestFiles(page, 'files', 20)
     }
     await page.reload()
@@ -119,19 +120,19 @@ test.describe('Files grid view', () => {
 
   test('should enter folder with Enter key', async ({ page }) => {
     // ensure a folder exists
-    const folderExists = await page.locator('.grid-file[data-type="directory"]').count() > 0
+    const folderExists = await page.locator('[data-testid="grid-file"][data-type="directory"]').count() > 0
     if (!folderExists) {
-      await page.locator('button[id="import-button"]').click()
-      await page.locator('button#add-new-folder').click()
-      await page.locator('input.modal-input').fill('test-folder')
-      await page.locator('button', { hasText: 'Create' }).click()
-      await page.locator('.grid-file[title="test-folder"]').waitFor()
+      await files.importButton(page).click()
+      await files.addNewFolderOption(page).click()
+      await files.modalInput(page).fill('test-folder')
+      await page.getByRole('button', { name: 'Create' }).click()
+      await expect(page.locator('[data-testid="grid-file"][title="test-folder"]')).toBeVisible()
       // reload to ensure clean state after folder creation
       await page.reload()
       await selectViewMode(page, 'grid')
     }
 
-    await page.locator('.grid-file').first().waitFor({ state: 'visible' })
+    await expect(page.getByTestId('grid-file').first()).toBeVisible()
 
     const currentUrl = page.url()
 

@@ -1,5 +1,6 @@
 // @ts-check
 import { test, expect } from './setup/coverage.js'
+import { settings, status, nav } from './setup/locators.js'
 import { createNode } from 'ipfsd-ctl'
 import getPort from 'aegir/get-port'
 import { createServer } from 'http'
@@ -132,9 +133,9 @@ test.describe('Remote RPC API tests', () => {
   }
 
   const switchIpfsApiEndpointViaSettings = async (endpoint, page) => {
-    await page.locator('[role="menubar"] a[href="#/settings"]').click()
-    const selector = 'input[id="api-address"]'
-    await page.locator(selector).fill(endpoint)
+    await nav.settings(page).click()
+    const apiInput = settings.apiAddress(page)
+    await apiInput.fill(endpoint)
     // Use page.keyboard instead of locator.press to avoid detached element issues
     await page.keyboard.press('Enter')
     await waitForIpfsApiEndpoint(endpoint, page)
@@ -182,24 +183,24 @@ test.describe('Remote RPC API tests', () => {
   const expectPeerIdOnStatusPage = async (peerId, page) => {
     await page.goto('/#/')
     await page.reload() // instant addr update for faster CI
-    await page.locator('summary').waitFor()
-    await page.locator('summary').click()
-    await page.locator(`text=${peerId}`).first().waitFor()
+    await expect(status.detailsSummary(page)).toBeVisible()
+    await status.detailsSummary(page).click()
+    await expect(page.getByText(peerId).first()).toBeVisible()
   }
 
   const expectHttpApiAddressOnStatusPage = async (value, page) => {
     await page.goto('/#/')
     await page.reload() // instant addr update for faster CI
-    await page.locator('summary').waitFor()
-    await page.locator('summary').click()
-    await page.locator(`div[id="http-api-address"]:has-text("${String(value)}")`).waitFor()
+    await expect(status.detailsSummary(page)).toBeVisible()
+    await status.detailsSummary(page).click()
+    await expect(status.httpApiAddress(page).filter({ hasText: String(value) })).toBeVisible()
   }
 
   const expectHttpApiAddressOnSettingsPage = async (value, page) => {
     await page.goto('/#/settings')
     await page.reload() // instant addr update for faster CI
-    await page.locator('input[id="api-address"]').waitFor()
-    const apiAddrValue = await page.locator('#api-address').inputValue()
+    await expect(settings.apiAddress(page)).toBeVisible()
+    const apiAddrValue = await settings.apiAddress(page).inputValue()
     // if RPC API address is defined as JSON, match objects
     try {
       const json = JSON.parse(apiAddrValue)

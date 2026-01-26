@@ -1,4 +1,4 @@
-import { test } from './setup/coverage.js'
+import { test, expect } from './setup/coverage.js'
 
 test.describe('Status page', () => {
   test.beforeEach(async ({ page }) => {
@@ -6,26 +6,26 @@ test.describe('Status page', () => {
   })
 
   test('should have Status menu item', async ({ page }) => {
-    // this is just a basic smoke-test to tell if page loads at all
-    await page.locator('text=Status').waitFor()
+    // basic smoke-test to tell if page loads at all
+    await expect(page.getByText('Status')).toBeVisible()
   })
 
-  test('should inform it is sucessfully connected to IPFS', async ({ page }) => {
+  test('should inform it is successfully connected to IPFS', async ({ page }) => {
     // confirm webui thinks it is connected to node
-    await page.locator('text=Connected to IPFS').waitFor()
+    await expect(page.getByText('Connected to IPFS')).toBeVisible()
   })
 
   test('should display Peer ID of real IPFS node', async ({ page }) => {
-    // confirm webui is actually connected to expected node :^)
+    // confirm webui is actually connected to expected node
     const id = process.env.IPFS_RPC_ID
-    await page.locator(`text=${id}`).first().waitFor()
+    await expect(page.getByText(id).first()).toBeVisible()
   })
 
   test('should display Agent Version segments matching IPFS node', async ({ page }) => {
-    // confirm webui is actually connected to expected node :^)
+    // confirm webui is actually connected to expected node
     for (const segment of process.env.IPFS_RPC_VERSION.split('/')) {
       if (segment.trim()) {
-        await page.locator(`text=${segment}`).first().waitFor()
+        await expect(page.getByText(segment).first()).toBeVisible()
       }
     }
   })
