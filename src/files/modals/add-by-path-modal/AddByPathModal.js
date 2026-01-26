@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Button from '../../../components/button/button.tsx'
 import { Modal, ModalActions, ModalBody } from '../../../components/modal/modal'
 import { withTranslation } from 'react-i18next'
-import * as isIPFS from 'is-ipfs'
+import { isValidIpfsPath, normalizeToPath } from '../../../lib/ipfs-path.js'
 import Icon from '../../../icons/StrokeDecentralization.js'
 
 class AddByPathModal extends React.Component {
@@ -22,14 +22,6 @@ class AddByPathModal extends React.Component {
     name: ''
   }
 
-  validatePath = (p) => {
-    if (!p.startsWith('/ipfs/')) {
-      p = `/ipfs/${p}`
-    }
-
-    return isIPFS.ipfsPath(p)
-  }
-
   onChange = (event) => {
     const target = event.target
     const value = target.value
@@ -39,7 +31,9 @@ class AddByPathModal extends React.Component {
 
   onSubmit = () => {
     let { path, name } = this.state
-    if (this.validatePath(path)) {
+    if (isValidIpfsPath(path)) {
+      // normalize URLs to paths
+      path = normalizeToPath(path)
       // avoid issues with paths by forcing a flat filename without leading/trailing spaces
       name = name.replaceAll('/', '_').trim()
       this.props.onSubmit(path, name)
@@ -57,7 +51,7 @@ class AddByPathModal extends React.Component {
       return ''
     }
 
-    if (this.validatePath(this.state.path)) {
+    if (isValidIpfsPath(this.state.path)) {
       return 'b--green-muted focus-outline-green'
     }
 
@@ -69,7 +63,7 @@ class AddByPathModal extends React.Component {
       return true
     }
 
-    return !this.validatePath(this.state.path)
+    return !isValidIpfsPath(this.state.path)
   }
 
   render () {
@@ -84,8 +78,9 @@ class AddByPathModal extends React.Component {
         <ModalBody title={t('addByPathModal.title')} Icon={Icon}>
           <div className='mb3 flex flex-column items-center'>
             <p className='mt0 charcoal tl w-90'>{t('addByPathModal.description') + ' ' + t('addByPathModal.examples')}</p>
-            <code className={codeClass}>/ipfs/QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V</code>
-            <code className={codeClass}>QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB</code>
+            <code className={codeClass}>QmbWqxBEKC3P8tqsKc98xmWNzrzDtRLMiMPL8wBuTGsMnR</code>
+            <code className={codeClass}>/ipfs/bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi</code>
+            <code className={codeClass}>ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi</code>
           </div>
 
           <input

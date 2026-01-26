@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import * as isIPFS from 'is-ipfs'
 import { useTranslation } from 'react-i18next'
+import { isValidIpfsPath, normalizeToPath } from '../../lib/ipfs-path.js'
 import StrokeFolder from '../../icons/StrokeFolder.js'
 import StrokeIpld from '../../icons/StrokeIpld.js'
 import Button from '../../components/button/button'
@@ -15,22 +16,6 @@ interface FilesExploreFormProps {
   onBrowse: ({ path, cid }: {path: string, cid?: string}) => void
 }
 
-/**
- * Normalize input to a canonical path format:
- * - ipfs://CID -> /ipfs/CID
- * - ipns://name -> /ipns/name
- * - Existing paths pass through unchanged
- */
-const normalizeToPath = (input: string): string => {
-  if (input.startsWith('ipfs://')) {
-    return '/ipfs/' + input.slice(7)
-  }
-  if (input.startsWith('ipns://')) {
-    return '/ipns/' + input.slice(7)
-  }
-  return input
-}
-
 const FilesExploreForm: React.FC<FilesExploreFormProps> = ({ onBrowse: onBrowseProp }) => {
   const [path, setPath] = useState('')
   const [isResolving, setIsResolving] = useState(false)
@@ -43,15 +28,7 @@ const FilesExploreForm: React.FC<FilesExploreFormProps> = ({ onBrowse: onBrowseP
     return path.trim()
   }, [path])
 
-  const isValid = useMemo(() => {
-    if (trimmedPath === '') return false
-    // Accept native protocol URLs
-    if (trimmedPath.startsWith('ipfs://') || trimmedPath.startsWith('ipns://')) {
-      const asPath = normalizeToPath(trimmedPath)
-      return isIPFS.path(asPath)
-    }
-    return isIPFS.cid(trimmedPath) || isIPFS.path(trimmedPath)
-  }, [trimmedPath])
+  const isValid = useMemo(() => isValidIpfsPath(trimmedPath), [trimmedPath])
 
   const inputClass = useMemo(() => {
     if (trimmedPath === '') {

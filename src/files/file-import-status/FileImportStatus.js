@@ -36,13 +36,13 @@ const FailedImport = (job, t) => {
   const errorMessage = job.error?.message || t('filesImportStatus.unknownError', 'Unknown error')
 
   return (
-    <li className="flex flex-column w-100 bb b--light-gray f6 charcoal pa2" key={job.id?.toString() || path}>
+    <li className="flex flex-column w-100 bb b--light-gray f6 charcoal" key={job.id?.toString() || path}>
       <div className="flex items-center">
-        <DocumentIcon className="fileImportStatusIcon fill-dark-red pa1" />
+        <DocumentIcon className="fileImportStatusIcon fileImportStatusIconError pa1" />
         <span className="fileImportStatusName truncate">{path}</span>
         <GlyphCancel className="dark-red w2 ph1 ml-auto" fill="currentColor"/>
       </div>
-      <div className="f7 dark-red mt1 ml4 truncate" title={errorMessage}>
+      <div className="f7 dark-red mt1 truncate" style={{ marginLeft: '36px' }} title={errorMessage}>
         {errorMessage}
       </div>
     </li>
@@ -140,7 +140,16 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
   const numberOfPendingItems = filesPending.reduce((total, pending) => total + groupByPath(pending.message?.entries || []).size, 0)
   const progress = Math.floor(filesPending.reduce((total, { message: { progress } }) => total + progress, 0) / filesPending.length)
 
-  const hasErrors = numberOfFailedItems > 0 && !filesPending.length
+  // Find the most recent operation by comparing timestamps
+  const lastFinished = filesFinished.length > 0
+    ? Math.max(...filesFinished.map(f => f.start))
+    : 0
+  const lastFailed = filesErrors.length > 0
+    ? Math.max(...filesErrors.map(f => f.start))
+    : 0
+
+  // Show error styling only if the most recent operation was a failure
+  const hasErrors = lastFailed > lastFinished && !filesPending.length
   const containerClass = hasErrors ? 'fileImportStatusError' : ''
 
   return (
@@ -158,7 +167,7 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
           <span>
             { filesPending.length
               ? `${t('filesImportStatus.importing', { count: numberOfPendingItems })} (${progress}%)`
-              : numberOfFailedItems > 0
+              : hasErrors
                 ? t('filesImportStatus.failed', { count: numberOfFailedItems })
                 : t('filesImportStatus.imported', { count: numberOfImportedItems })
             }
@@ -174,9 +183,19 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
         </div>
         <ul className='fileImportStatusRow pa0 ma0' aria-hidden={!expanded}>
           { filesPending.map(file => Import(file, t)) }
+          { hasErrors && (
+            <>
+              { writeErrors.map(file => Import(file, t)) }
+              { importPathErrors.map(file => FailedImport(file, t)) }
+            </>
+          )}
           { sortedFilesFinished.map(file => Import(file, t)) }
-          { writeErrors.map(file => Import(file, t)) }
-          { importPathErrors.map(file => FailedImport(file, t)) }
+          { !hasErrors && (
+            <>
+              { writeErrors.map(file => Import(file, t)) }
+              { importPathErrors.map(file => FailedImport(file, t)) }
+            </>
+          )}
         </ul>
         {
           filesPending.length

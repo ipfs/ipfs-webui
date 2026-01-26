@@ -65,3 +65,7 @@
     background: #fff5f5 !important;
     color: #c53030 !important;
 }
+
+.fileImportStatusIconError {
+    fill: #fc8181;
+}
