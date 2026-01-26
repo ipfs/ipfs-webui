@@ -459,7 +459,7 @@ const actions = () => ({
     } finally {
       await store.doFilesFetch()
     }
-  }),
+  }, src),
 
   /**
    * Adds CAR file. On completion will trigger `doFilesFetch` to update the state.

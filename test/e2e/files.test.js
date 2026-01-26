@@ -113,6 +113,54 @@ test.describe('Files screen', () => {
     await expect(page.getByText('CID info')).toBeVisible()
   })
 
+  test('should show error notification when importing non-existent path', async ({ page }) => {
+    // bafkqac3imvwgy3zao5xxe3de is the inlined CID for "hello world" (a file, not a dir)
+    // Trying to access /404 inside it fails because you can't traverse into a file
+    const nonExistentPath = '/ipfs/bafkqac3imvwgy3zao5xxe3de/404'
+
+    // Open Import menu and click "From IPFS"
+    const importButton = files.importButton(page)
+    await expect(importButton).toBeVisible()
+    await importButton.click()
+
+    await expect(files.addByPathOption(page)).toBeVisible()
+    await files.addByPathOption(page).click()
+
+    // Fill in the dialog with the non-existent path
+    const pathInput = files.dialogInput(page, 'path')
+    await expect(pathInput).toBeVisible()
+    await pathInput.fill(nonExistentPath)
+
+    // Click Import button to submit
+    const importDialogButton = page.getByRole('button', { name: 'Import' })
+    await expect(importDialogButton).toBeVisible()
+    await importDialogButton.click()
+
+    // Wait for the dialog to close (the path input should disappear)
+    await expect(pathInput).not.toBeVisible({ timeout: 10000 })
+
+    // Wait for any import notification to appear
+    const notification = page.locator('.fileImportStatus')
+    await expect(notification).toBeVisible({ timeout: 30000 })
+
+    // The notification should show "Failed to import" instead of "Imported 0 items"
+    const errorNotification = page.locator('.fileImportStatus').filter({ hasText: /Failed to import/i })
+    await expect(errorNotification).toBeVisible()
+
+    // Verify error styling is applied (red background)
+    const errorContainer = page.locator('.fileImportStatusError')
+    await expect(errorContainer).toBeVisible()
+
+    // Verify the path is shown in the error details (in the fileImportStatusName span)
+    await expect(notification.locator('.fileImportStatusName').filter({ hasText: nonExistentPath })).toBeVisible()
+
+    // Verify the actual error message is displayed (in the dark-red error div)
+    const errorDetail = notification.locator('.dark-red.f7')
+    await expect(errorDetail).toBeVisible()
+    // Verify it contains the expected error from IPFS
+    await expect(errorDetail).toContainText('cp: cannot get node from path')
+  })
+
   test('should show error page when navigating to non-existing path', async ({ page }) => {
     // bafyaabakaieac is CIDv1 of an empty directory, so /404 inside it does not exist
     const nonExistingPath = '/ipfs/bafyaabakaieac/404'

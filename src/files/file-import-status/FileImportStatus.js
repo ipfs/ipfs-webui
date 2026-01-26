@@ -12,6 +12,7 @@ import GlyphTick from '../../icons/GlyphTick.tsx'
 import GlyphCancel from '../../icons/GlyphCancel.tsx'
 import GlyphSmallCancel from '../../icons/GlyphSmallCancel.tsx'
 import ProgressBar from '../../components/progress-bar/ProgressBar.js'
+import { ACTIONS } from '../../bundles/files/consts.js'
 
 const Import = (job, t) =>
   [...groupByPath(job?.message?.entries || new Map()).values()].map(item => (
@@ -25,6 +26,28 @@ const Import = (job, t) =>
       {viewImportStatus(job, item.progress)}
     </li>
   ))
+
+/**
+ * Renders a failed import job with its error message.
+ * Used for jobs like ADD_BY_PATH that don't have message.entries structure.
+ */
+const FailedImport = (job, t) => {
+  const path = job.init || t('filesImportStatus.unknownPath', 'Unknown path')
+  const errorMessage = job.error?.message || t('filesImportStatus.unknownError', 'Unknown error')
+
+  return (
+    <li className="flex flex-column w-100 bb b--light-gray f6 charcoal pa2" key={job.id?.toString() || path}>
+      <div className="flex items-center">
+        <DocumentIcon className="fileImportStatusIcon fill-dark-red pa1" />
+        <span className="fileImportStatusName truncate">{path}</span>
+        <GlyphCancel className="dark-red w2 ph1 ml-auto" fill="currentColor"/>
+      </div>
+      <div className="f7 dark-red mt1 ml4 truncate" title={errorMessage}>
+        {errorMessage}
+      </div>
+    </li>
+  )
+}
 
 const viewIcon = (entry) =>
   entry.type === 'directory'
@@ -108,9 +131,13 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
     setExpanded(!expanded)
   }
 
-  const numberOfImportedItems = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + finishedFile.message.entries.length, 0)
-  const numberOfFailedItems = !filesErrors.length ? 0 : filesErrors.reduce((prev, failedFile) => prev + failedFile.message.entries.length, 0)
-  const numberOfPendingItems = filesPending.reduce((total, pending) => total + groupByPath(pending.message.entries).size, 0)
+  // Separate WRITE errors (have message.entries) from ADD_BY_PATH errors (no message.entries)
+  const writeErrors = filesErrors.filter(e => e.type === ACTIONS.WRITE)
+  const importPathErrors = filesErrors.filter(e => e.type === ACTIONS.ADD_BY_PATH)
+
+  const numberOfImportedItems = !filesFinished.length ? 0 : filesFinished.reduce((prev, finishedFile) => prev + (finishedFile.message?.entries?.length ?? 1), 0)
+  const numberOfFailedItems = writeErrors.reduce((prev, failedFile) => prev + (failedFile.message?.entries?.length ?? 1), 0) + importPathErrors.length
+  const numberOfPendingItems = filesPending.reduce((total, pending) => total + groupByPath(pending.message?.entries || []).size, 0)
   const progress = Math.floor(filesPending.reduce((total, { message: { progress } }) => total + progress, 0) / filesPending.length)
 
   const hasErrors = numberOfFailedItems > 0 && !filesPending.length
@@ -148,7 +175,8 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
         <ul className='fileImportStatusRow pa0 ma0' aria-hidden={!expanded}>
           { filesPending.map(file => Import(file, t)) }
           { sortedFilesFinished.map(file => Import(file, t)) }
-          { filesErrors.map(file => Import(file, t)) }
+          { writeErrors.map(file => Import(file, t)) }
+          { importPathErrors.map(file => FailedImport(file, t)) }
         </ul>
         {
           filesPending.length
