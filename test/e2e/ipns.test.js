@@ -1,34 +1,22 @@
 import { test, expect } from './setup/coverage.js'
-import { createNode } from 'ipfsd-ctl'
-import { path as kuboPath } from 'kubo'
+import { files, ipns, modal } from './setup/locators.js'
 import { create } from 'kubo-rpc-client'
 
-// TODO: Fix parallelism of these tests
+// serial mode due to shared IPNS key state
 test.describe.configure({ mode: 'serial' })
 
 test.describe('IPNS publishing', () => {
-  let ipfsd
-  let peeraddr
-
-  test.beforeAll(async () => {
-    // spawn a second ephemeral local node as a peer for ipns publishing
-    ipfsd = await createNode({
-      type: 'kubo',
-      bin: process.env.IPFS_GO_EXEC || kuboPath(),
-      rpc: create,
-      test: true,
-      disposable: true
-    })
-    const { addresses } = await ipfsd.api.id()
-    peeraddr = addresses.find((ma) => ma.toString().startsWith('/ip4/127.0.0.1')).toString()
-  })
+  // Use worker-scoped peerNode fixture from fixtures.js for IPNS publishing
+  // (ipns will fail to publish without peers)
 
   test.describe('Settings screen', () => {
     let ipfs
+
     test.beforeEach(async ({ page }) => {
       ipfs = create(process.env.IPFS_RPC_ADDR)
       await page.goto('/#/settings')
     })
+
     test('should list IPNS keys', async ({ page }) => {
       // confirm the self key is displayed
       await waitForIPNSKeyList(ipfs, 'self', page)
@@ -36,21 +24,25 @@ test.describe('IPNS publishing', () => {
 
     test('should support adding new keys', async ({ page }) => {
       const keyName = 'pet-name-e2e-ipns-test-' + new Date().getTime()
+
       // open dialog
-      const genKey = 'text=Generate Key'
-      await page.waitForSelector(genKey)
-      await page.click(genKey)
+      const genKey = ipns.generateKeyButton(page)
+      await expect(genKey).toBeVisible()
+      await genKey.click()
 
       // Wait for the modal to appear
-      await page.waitForSelector('[data-testid="ipfs-modal"]')
+      await expect(modal.container(page)).toBeVisible()
 
       // expect prompt for key name
-      await page.waitForSelector('text=Enter a nickname for this key to generate')
+      await expect(page.getByText('Enter a nickname for this key to generate')).toBeVisible()
+
       // provide key name
-      const selector = 'input.modal-input'
-      await page.type(selector, keyName)
+      const input = modal.input(page)
+      await input.fill(keyName)
+
       // hit Enter
-      await page.press(selector, 'Enter')
+      await input.press('Enter')
+
       // expect it to be added to key list under provided pet name
       await waitForIPNSKeyList(ipfs, keyName, page)
     })
@@ -60,14 +52,19 @@ test.describe('IPNS publishing', () => {
       const rmKeyName = 'rm-key-test-' + new Date().getTime()
       const { id } = await ipfs.key.gen(rmKeyName)
       await page.reload()
+
       // remove key via UI on Settings page
-      await page.waitForSelector(`text=${rmKeyName}`)
+      await expect(page.getByText(rmKeyName)).toBeVisible()
       await page.locator(`text=${rmKeyName}${id} >> [aria-label="Show options"]`).click()
-      await page.waitForSelector('text=Rename')
-      await page.locator('button[role="menuitem"]:has-text("Remove")').click()
-      await page.waitForSelector('text=Confirm IPNS Key Removal')
-      await page.locator('button:has-text("Remove")').click()
-      await page.waitForSelector(`text=${rmKeyName}`, { state: 'detached' })
+
+      await expect(page.getByText('Rename')).toBeVisible()
+      await ipns.removeMenuItem(page).click()
+
+      await expect(page.getByText('Confirm IPNS Key Removal')).toBeVisible()
+      await page.getByRole('button', { name: 'Remove' }).click()
+
+      await expect(page.getByText(rmKeyName)).toBeHidden()
+
       for (const { name } of await ipfs.key.list()) {
         expect(name).not.toEqual(rmKeyName)
       }
@@ -77,6 +74,7 @@ test.describe('IPNS publishing', () => {
   test.describe('Files screen', () => {
     let keyName
     let ipfs
+
     test.beforeEach(async ({ page }) => {
       keyName = 'pet-name-e2e-ipns-test-' + new Date().getTime() + Math.random().toString(16).slice(2)
       ipfs = create(process.env.IPFS_RPC_ADDR)
@@ -84,6 +82,7 @@ test.describe('IPNS publishing', () => {
       await page.goto('/#/files')
       await page.reload()
     })
+
     test.afterEach(async () => {
       await ipfs.key.rm(keyName)
       ipfs = null
@@ -92,39 +91,52 @@ test.describe('IPNS publishing', () => {
     const testFilename = 'ipns-test.txt'
     const testCid = '/ipfs/bafyaaeqkcaeaeeqknfyg44znorsxg5akdafa'
 
-    test('should have functional "Publish to IPNS" context action', async ({ page }) => {
-      // first: create a test file
-      const button = 'button[id="import-button"]'
-      await page.waitForSelector(button, { state: 'visible' })
-      await page.click(button)
-      await page.waitForSelector('#add-by-path', { state: 'visible' })
-      page.click('button[id="add-by-path"]')
-      await page.waitForSelector('div[role="dialog"] input[name="name"]')
-      await page.fill('div[role="dialog"] input[name="path"]', testCid)
-      await page.fill('div[role="dialog"] input[name="name"]', testFilename)
+    test('should have functional "Publish to IPNS" context action', async ({ page, peerAddr }) => {
+      // first: create a test file via "Add by path"
+      const importButton = files.importButton(page)
+      await expect(importButton).toBeVisible()
+      await importButton.click()
+
+      await expect(files.addByPathOption(page)).toBeVisible()
+      await files.addByPathOption(page).click()
+
+      // wait for dialog inputs to be visible (dialog may have animation)
+      const pathInput = files.dialogInput(page, 'path')
+      await expect(pathInput).toBeVisible()
+
+      await pathInput.fill(testCid)
+      await files.dialogInput(page, 'name').fill(testFilename)
       await page.keyboard.press('Enter')
+
       // expect file with matching filename to be added to the file list
-      await page.waitForSelector(`.File:has-text("${testFilename}")`)
+      const fileRow = page.getByTestId('file-row').filter({ hasText: testFilename })
+      await expect(fileRow).toBeVisible()
+
       // click on the context menu
-      await page.click(`.File:has-text('${testFilename}') .file-context-menu`)
-      // click on the IPNS action
-      await page.waitForSelector(`.File:has-text("${testFilename}")`)
-      // expect IPNS action to be present in the context menu
-      await page.waitForSelector('button:has-text("Publish to IPNS")')
-      // .. continue by clicking on context action
-      await page.click('button:has-text("Publish to IPNS")')
-      await page.waitForSelector('div[role="dialog"] .publishModalKeys')
-      await page.click(`div[role="dialog"] .publishModalKeys button:has-text("${keyName}")`)
-      await page.click(`text=${keyName}`)
-      const publishButton = 'div[role="dialog"] button:has-text("Publish")'
-      const enabled = await page.isEnabled(publishButton)
-      expect(enabled).toBeTruthy()
+      await page.locator(`.File:has-text('${testFilename}') .file-context-menu`).click()
+
+      // expect IPNS action to be present in the context menu (menu items use role="menuitem")
+      const publishMenuItem = files.contextMenuItem(page, 'Publish to IPNS')
+      await expect(publishMenuItem).toBeVisible()
+
+      // click on context action
+      await publishMenuItem.click()
+
+      await expect(ipns.publishModalKeys(page)).toBeVisible()
+      await page.locator(`div[role="dialog"] .publishModalKeys button:has-text("${keyName}")`).click()
+      await page.getByText(keyName).click()
+
+      const publishButton = ipns.publishButton(page)
+      await expect(publishButton).toBeEnabled()
+
       // connect to other peer to have something in the peer table
       // (ipns will fail to publish without peers)
-      await ipfs.swarm.connect(peeraddr)
-      await page.click(publishButton)
-      await page.waitForSelector('text=Successfully published')
-      await page.click('button:has-text("Done")')
+      await ipfs.swarm.connect(peerAddr)
+      await publishButton.click()
+
+      await expect(page.getByText('Successfully published')).toBeVisible()
+      await ipns.doneButton(page).click()
+
       // confirm IPNS record in local store points at the CID
       const { id } = (await ipfs.key.list()).filter(k => k.name === keyName)[0]
       for await (const name of ipfs.name.resolve(`/ipns/${id}`, { recursive: true })) {
@@ -132,20 +144,16 @@ test.describe('IPNS publishing', () => {
       }
     })
   })
-
-  test.afterAll(async () => {
-    if (ipfsd) await ipfsd.stop()
-  })
 })
 
 // Confirm contents of IPNS Publishing Keys table on Settings screen
 // are in sync with ipfs.key.list
 async function waitForIPNSKeyList (ipfs, specificKey, page) {
-  await page.waitForSelector('text=IPNS Publishing Keys')
-  if (specificKey) await page.waitForSelector(`text=${specificKey}`)
+  await expect(page.getByText('IPNS Publishing Keys')).toBeVisible()
+  if (specificKey) await expect(page.getByText(specificKey)).toBeVisible()
   for (const { id, name } of await ipfs.key.list()) {
     if (name.startsWith('rm-key-test-')) continue // avoid race with removal tests
-    await page.waitForSelector(`text=${id}`)
-    await page.waitForSelector(`text=${name}`)
+    await expect(page.getByText(id)).toBeVisible()
+    await expect(page.getByText(name)).toBeVisible()
   }
 }
