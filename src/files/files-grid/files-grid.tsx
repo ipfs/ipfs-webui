@@ -73,6 +73,19 @@ const FilesGrid = ({
       return
     }
 
+    // Don't capture keyboard events when user is typing in a text input or textarea
+    const target = e.target as HTMLElement
+    if (target.tagName === 'TEXTAREA') {
+      return
+    }
+    if (target.tagName === 'INPUT') {
+      const inputType = (target as HTMLInputElement).type
+      // Allow keyboard navigation for checkboxes and radio buttons
+      if (inputType !== 'checkbox' && inputType !== 'radio') {
+        return
+      }
+    }
+
     const focusedFile = focused == null ? null : files.find(el => el.name === focused)
 
     gridRef.current?.focus?.()
@@ -170,7 +183,7 @@ const FilesGrid = ({
     <div ref={(el) => {
       drop(el)
       gridRef.current = el
-    }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')}>
+    }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')} data-testid="files-grid">
       {files.map(file => (
         <GridFile
           key={file.name}

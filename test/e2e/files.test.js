@@ -1,5 +1,6 @@
-import { test } from './setup/coverage.js'
+import { test, expect } from './setup/coverage.js'
 import { fixtureData } from './fixtures/index.js'
+import { files, explore } from './setup/locators.js'
 import all from 'it-all'
 import filesize from 'filesize'
 import * as kuboRpcModule from 'kubo-rpc-client'
@@ -9,48 +10,51 @@ test.describe('Files screen', () => {
     await page.goto('/#/files')
   })
 
-  const button = 'button[id="import-button"]'
-
   test('should have the active Add menu', async ({ page }) => {
-    await page.waitForSelector(button, { state: 'visible' })
-    await page.click(button, { force: true })
-    await page.waitForSelector('#add-file', { state: 'visible' })
-    await page.waitForSelector('text=File')
-    await page.waitForSelector('text=Folder')
-    await page.waitForSelector('text=From IPFS')
-    await page.waitForSelector('text=New folder')
-    await page.waitForSelector('text=Bulk import')
-    await page.click(button, { force: true })
+    const importButton = files.importButton(page)
+    await expect(importButton).toBeVisible()
+    await importButton.click()
+
+    await expect(files.addFileOption(page)).toBeVisible()
+    await expect(files.addFolderOption(page)).toBeVisible()
+    await expect(files.addByPathOption(page)).toBeVisible()
+    await expect(files.addNewFolderOption(page)).toBeVisible()
+    await expect(page.getByText('Bulk import')).toBeVisible()
+
+    // close menu with Escape key
+    await page.keyboard.press('Escape')
   })
 
   test('should allow for a successful import of two files', async ({ page }) => {
-    await page.waitForSelector(button, { state: 'visible' })
-    await page.click(button)
-    await page.waitForSelector('#add-file', { state: 'visible' })
+    const importButton = files.importButton(page)
+    await expect(importButton).toBeVisible()
+    await importButton.click()
+
+    await expect(files.addFileOption(page)).toBeVisible()
 
     const [fileChooser] = await Promise.all([
       page.waitForEvent('filechooser'),
-      page.click('button[id="add-file"]') // menu button that triggers file selection
+      files.addFileOption(page).click()
     ])
 
-    //  select a single static text file via fileChooser
+    // select static text files via fileChooser
     const file1 = fixtureData('file.txt')
     const file2 = fixtureData('file2.txt')
     await fileChooser.setFiles([file1.path, file2.path])
 
-    // expect file with matching filename to be added to the file list
-    await page.waitForSelector('.File')
-    await page.waitForSelector('text=file.txt')
-    await page.waitForSelector('text=file2.txt')
+    // expect files to be added to the file list
+    const fileRow1 = page.getByTestId('file-row').filter({ hasText: 'file.txt' })
+    const fileRow2 = page.getByTestId('file-row').filter({ hasText: 'file2.txt' })
+    await expect(fileRow1).toBeVisible()
+    await expect(fileRow2).toBeVisible()
 
     // expect valid CID to be present on the page
     const ipfs = kuboRpcModule.create(process.env.IPFS_RPC_ADDR)
     const [result1, result2] = await all(ipfs.addAll([file1.data, file2.data]))
-    await page.waitForSelector(`text=${result1.cid.toString()}`)
-    await page.waitForSelector(`text=${result2.cid.toString()}`)
+    await expect(page.getByText(result1.cid.toString()).first()).toBeVisible()
+    await expect(page.getByText(result2.cid.toString()).first()).toBeVisible()
 
     // expect human readable sizes in format from ./src/lib/files.js#humanSize
-    // → this ensures metadata was correctly read for each item in the MFS
     const human = (b) => (b
       ? filesize(b, {
         standard: 'iec',
@@ -58,9 +62,13 @@ test.describe('Files screen', () => {
         round: b >= 1073741824 ? 1 : 0
       })
       : '-')
-    for await (const file of ipfs.files.ls('/')) {
-      await page.waitForSelector(`text=${file.name}`)
-      await page.waitForSelector(`text=${human(file.size)}`)
+
+    // only check the files we just uploaded
+    for (const fileName of ['file.txt', 'file2.txt']) {
+      const stat = await ipfs.files.stat(`/${fileName}`)
+      const fileRow = page.getByTestId('file-row').filter({ hasText: fileName })
+      await expect(fileRow).toBeVisible()
+      await expect(fileRow.getByText(human(stat.size))).toBeVisible()
     }
   })
 
@@ -69,31 +77,63 @@ test.describe('Files screen', () => {
     const testFilename = 'explorer-context-menu-test.txt'
     const testCid = 'bafkqaddjnzzxazldoqwxizltoq'
 
-    // first: create a test file
-    const button = 'button[id="import-button"]'
-    await page.waitForSelector(button, { state: 'visible' })
-    await page.click(button)
-    await page.waitForSelector('#add-by-path', { state: 'visible' })
-    page.click('button[id="add-by-path"]')
-    await page.waitForSelector('div[role="dialog"] input[name="name"]')
-    await page.fill('div[role="dialog"] input[name="path"]', `/ipfs/${testCid}`)
-    await page.fill('div[role="dialog"] input[name="name"]', testFilename)
+    // first: create a test file via "Add by path"
+    const importButton = files.importButton(page)
+    await expect(importButton).toBeVisible()
+    await importButton.click()
+
+    await expect(files.addByPathOption(page)).toBeVisible()
+    await files.addByPathOption(page).click()
+
+    // wait for dialog inputs to be visible (dialog may have animation)
+    const pathInput = files.dialogInput(page, 'path')
+    await expect(pathInput).toBeVisible()
+
+    await pathInput.fill(`/ipfs/${testCid}`)
+    await files.dialogInput(page, 'name').fill(testFilename)
     await page.keyboard.press('Enter')
+
     // expect file with matching filename to be added to the file list
-    await page.waitForSelector(`.File:has-text("${testFilename}")`)
+    const fileRow = page.getByTestId('file-row').filter({ hasText: testFilename })
+    await expect(fileRow).toBeVisible()
 
     // open context menu
-    const cbutton = `button[aria-label="View more options for ${testFilename}"]`
-    await page.waitForSelector(cbutton, { state: 'visible' })
-    await page.click(cbutton, { force: true })
-    await page.waitForSelector('text=Inspect', { state: 'visible' })
+    const contextButton = files.contextMenuButton(page, testFilename)
+    await expect(contextButton).toBeVisible()
+    await contextButton.click()
+
+    const inspectMenuItem = files.contextMenuItem(page, 'Inspect')
+    await expect(inspectMenuItem).toBeVisible()
 
     // click on Inspect option
-    await page.waitForSelector('text=Inspect', { state: 'visible' })
-    await page.locator('button:has-text("Inspect"):enabled').click({ force: true })
+    await inspectMenuItem.click()
 
     // confirm Explore screen was opened with correct CID
     await page.waitForURL(`/#/explore/${testCid}`)
-    await page.waitForSelector('text="CID info"')
+    await expect(page.getByText('CID info')).toBeVisible()
+  })
+
+  test('should show error page when navigating to non-existing path', async ({ page }) => {
+    // bafyaabakaieac is CIDv1 of an empty directory, so /404 inside it does not exist
+    const nonExistingPath = '/ipfs/bafyaabakaieac/404'
+
+    // enter the path in the explore form input and click Browse
+    await explore.cidInput(page).fill(nonExistingPath)
+    await expect(explore.browseButton(page)).toBeEnabled()
+    await explore.browseButton(page).click()
+
+    // expect error page to be displayed with the correct title
+    await expect(page.getByRole('heading', { name: 'Unable to load this path' })).toBeVisible()
+
+    // expect the path to be displayed in the error message area (below the heading)
+    await expect(page.locator('p.truncate').filter({ hasText: 'bafyaabakaieac/404' })).toBeVisible()
+
+    // expect the "Go to Files" button to be present and working
+    const goToFilesButton = page.getByRole('link', { name: 'Go to Files' })
+    await expect(goToFilesButton).toBeVisible()
+    await goToFilesButton.click()
+
+    // confirm navigation back to files root
+    await page.waitForURL('/#/files')
   })
 })

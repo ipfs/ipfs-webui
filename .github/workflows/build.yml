@@ -6,17 +6,17 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
       # Separate cache for build dir, we reuse it in release publish workflow
       - name: Cache build output
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: build-cache
         with:
           path: build
@@ -40,7 +40,7 @@ jobs:
       - name: Attach produced build to Github Action
         # only re-upload if we re-built
         if: steps.build-cache.outputs.cache-hit != 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ipfs-webui_${{ github.sha }}-${{ runner.os }}-build
           path: build

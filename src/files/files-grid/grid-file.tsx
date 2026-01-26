@@ -183,6 +183,7 @@ const GridFile: FC<GridFilePropsConnected> = ({
       role="button"
       ref={refSetter}
       data-type={type}
+      data-testid="grid-file"
       tabIndex={0}
       title={`${name}`}
       aria-label={t('fileLabel', { name, type, size: formattedSize })}
