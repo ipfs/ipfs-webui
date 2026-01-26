@@ -73,6 +73,7 @@ export const explore = {
   form: (page) => page.locator('[data-id="FilesExploreForm"]'),
   cidInput: (page) => page.locator('[data-id="FilesExploreForm"] input[id="ipfs-path"]'),
   inspectButton: (page) => page.locator('[data-id="FilesExploreForm"] button[title="Inspect"]'),
+  browseButton: (page) => page.locator('[data-id="FilesExploreForm"] button[title="Browse"]'),
   cidInfo: (page) => page.locator('.joyride-explorer-cid'),
   humanReadableCid: (page) => page.locator('#CidInfo-human-readable-cid'),
   connectionIndicator: (page) => page.locator('.joyride-app-status .teal')

@@ -193,6 +193,7 @@
   "selectAllEntries": "Select all entries",
   "previewNotFound": {
     "title": "Unable to load this path",
+    "errorPrefix": "Error:",
     "helpTitle": "How you can proceed:",
     "helpListItemSearchError": "Copy the error message above and search the web for potential solutions.",
     "helpListItemInspect": "Try <1>inspecting the path</1> (or its parent) in DAG Explorer to debug the issue.",

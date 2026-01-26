@@ -200,7 +200,6 @@ const FilesPage = ({
 
     // Don't render stale content during navigation
     if (files.path && filesPathInfo.path && files.path !== filesPathInfo.path) {
-      console.warn('Path mismatch - files.path:', files.path, 'filesPathInfo.path:', filesPathInfo.path)
       return null
     }
 

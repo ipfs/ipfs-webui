@@ -23,7 +23,7 @@ const FileNotFound = ({ path, error }: FileNotFoundProps) => {
       </div>
       {error != null && (
         <pre className='pa3 br2 f7 lh-copy overflow-auto bg-black-70 snow ma0 mb3' style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-          <span className='red'>Error:</span> {error}
+          <span className='red'>{t('previewNotFound.errorPrefix')}</span> {error}
         </pre>
       )}
       <p className='fw6 mb2'>{t('previewNotFound.helpTitle')}</p>

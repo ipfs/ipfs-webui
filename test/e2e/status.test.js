@@ -1,4 +1,8 @@
 import { test, expect } from './setup/coverage.js'
+import { explore } from './setup/locators.js'
+
+// Inlined CIDs that work without network retrieval (identity multihash)
+const INLINED_HELLO_WORLD_CID = 'bafkqac3imvwgy3zao5xxe3de' // "hello world"
 
 test.describe('Status page', () => {
   test.beforeEach(async ({ page }) => {
@@ -28,5 +32,38 @@ test.describe('Status page', () => {
         await expect(page.getByText(segment).first()).toBeVisible()
       }
     }
+  })
+
+  test.describe('CID/path input bar', () => {
+    test('Browse button navigates to file content', async ({ page }) => {
+      // wait for the explore form to be visible
+      await expect(explore.cidInput(page)).toBeVisible()
+
+      // enter the inlined "hello world" CID
+      await explore.cidInput(page).fill(INLINED_HELLO_WORLD_CID)
+      await explore.browseButton(page).click()
+
+      // should display the file content "hello world"
+      await expect(page.getByText('hello world')).toBeVisible()
+
+      // URL should contain the CID
+      await expect(page).toHaveURL(new RegExp(INLINED_HELLO_WORLD_CID))
+    })
+
+    test('Inspect button opens DAG Explorer', async ({ page }) => {
+      // wait for the explore form to be visible
+      await expect(explore.cidInput(page)).toBeVisible()
+
+      // enter the inlined "hello world" CID
+      await explore.cidInput(page).fill(INLINED_HELLO_WORLD_CID)
+      await explore.inspectButton(page).click()
+
+      // should display "Raw Block" in DAG Explorer
+      await expect(page.getByText('Raw Block')).toBeVisible()
+
+      // URL should contain explore and the CID
+      await expect(page).toHaveURL(new RegExp(`explore.*${INLINED_HELLO_WORLD_CID}`))
+    })
+
   })
 })
