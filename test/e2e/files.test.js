@@ -19,6 +19,7 @@ test.describe('Files screen', () => {
     await expect(files.addFolderOption(page)).toBeVisible()
     await expect(files.addByPathOption(page)).toBeVisible()
     await expect(files.addNewFolderOption(page)).toBeVisible()
+    await expect(page.getByText('Bulk import')).toBeVisible()
 
     // close menu with Escape key
     await page.keyboard.press('Escape')

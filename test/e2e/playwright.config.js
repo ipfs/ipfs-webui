@@ -8,7 +8,7 @@ const config = {
   timeout: 30 * 1000,
   globalTimeout: 5 * 60 * 1000,
   fullyParallel: true,
-  forbidOnly: true,
+  forbidOnly: !!process.env.CI,
   retries: 0,
   workers: process.env.DEBUG ? 1 : undefined,
   reporter: 'list',
