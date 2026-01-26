@@ -8,6 +8,7 @@
 /playwright-report
 test/e2e/setup/ipfs-backend.json
 test/e2e/state.json
+test/e2e/test/
 storybook-static
 test-results/
 
@@ -30,7 +31,6 @@ yarn-error.log*
 .eslintcache
 tsconfig.tsbuildinfo
 .connect-deps*
-.tool-versions
 .envrc
 .cid
 .cache
