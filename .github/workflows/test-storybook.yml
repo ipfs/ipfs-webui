@@ -7,12 +7,12 @@ jobs:
     name: 'test:storybook'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
       - name: Install dependencies
@@ -21,11 +21,11 @@ jobs:
       - name: Run test-storybook:ci
         run: npm run test-storybook:ci
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: storybook_tests # optional
-          name: storybook-coverage # optional
-          file: ./coverage/storybook/coverage-storybook.json
-          fail_ci_if_error: false # optional (default = false)
-          verbose: true # optional (default = false)
+          flags: storybook_tests
+          name: storybook-coverage
+          files: ./coverage/storybook/coverage-storybook.json
+          fail_ci_if_error: false
+          verbose: true

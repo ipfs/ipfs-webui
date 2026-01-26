@@ -33,10 +33,11 @@ The app is built with [`create-react-app`](https://github.com/facebook/create-re
 > npm install
 ```
 
-#### A Note on NodeJS support
-We aim to support ipfs-webui development and build with  "Current" and "Active LTS"  Nodejs versions.
+#### A Note on Node.js version
 
-See <https://nodejs.org/en/about/releases/> for more information about which versions have which release statuses.
+The Node.js version used for development and CI is pinned in [`.tool-versions`](./.tool-versions).
+
+If you use [asdf](https://asdf-vm.com/) or compatible tooling, run `asdf install` to set up the correct version automatically.
 
 ## Usage
 

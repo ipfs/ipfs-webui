@@ -1,25 +1,21 @@
 on:
   workflow_call:
 
-# pinned to 24.11.0 due to ESM loader hang in 24.13.0
-env:
-  NODE_VERSION: '24.11.0'
-
 jobs:
   test-build:
     name: 'test:build'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
       - name: Cache test-build output
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: test-build-cache
         with:
           path: build
@@ -28,7 +24,7 @@ jobs:
             test-build-${{ runner.os }}-
 
       - name: Cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: test-npm-cache
         with:
           path: node_modules
@@ -51,16 +47,16 @@ jobs:
     timeout-minutes: 10
     needs: [test-build]
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
       - name: Cache test-build output
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: test-build-cache
         with:
           path: build
@@ -69,7 +65,7 @@ jobs:
             test-build-${{ runner.os }}-
 
       - name: Cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: test-npm-cache
         with:
           path: node_modules
@@ -82,7 +78,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit --progress=false
 
       # Cache playwright binaries
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         id: playwright-cache
         with:
           path: |
@@ -96,7 +92,7 @@ jobs:
       - run: npx playwright install --with-deps
 
       - name: Cache nyc_output dir
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: nyc_output-cache
         with:
           path: ./.nyc_output
@@ -111,7 +107,7 @@ jobs:
 
       - name: Store Artifacts from Failed Tests
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-results
           path: test-results/
@@ -122,16 +118,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-e2e]
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
       - name: Cache nyc_output dir
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: nyc_output-cache
         with:
           path: ./.nyc_output
@@ -143,10 +139,10 @@ jobs:
         id: coverage
         run: npx nyc report --reporter=lcov
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: e2e_tests # optional
-          name: e2e-coverage # optional
-          fail_ci_if_error: false # optional (default = false)
-          verbose: true # optional (default = false)
+          flags: e2e_tests
+          name: e2e-coverage
+          fail_ci_if_error: false
+          verbose: true

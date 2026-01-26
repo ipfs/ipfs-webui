@@ -31,7 +31,6 @@ yarn-error.log*
 .eslintcache
 tsconfig.tsbuildinfo
 .connect-deps*
-.tool-versions
 .envrc
 .cid
 .cache
