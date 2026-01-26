@@ -809,7 +809,7 @@ const dirStats = async (ipfs, cid, { path, isRoot, sorting }) => {
       if (realPath && realPath.startsWith('/ipns')) {
         try {
           parentInfo.realPath = await last(ipfs.name.resolve(parentInfo.realPath))
-        } catch (error) {
+        } catch (/** @type {any} */ error) {
           // Failed to resolve parent IPNS path, skip parent link
           console.error(`Failed to resolve parent IPNS path "${parentInfo.realPath}":`, error)
         }

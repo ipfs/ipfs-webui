@@ -112,5 +112,4 @@ test.describe('Files screen', () => {
     await page.waitForURL(`/#/explore/${testCid}`)
     await expect(page.getByText('CID info')).toBeVisible()
   })
-
 })

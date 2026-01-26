@@ -65,5 +65,69 @@ test.describe('Status page', () => {
       await expect(page).toHaveURL(new RegExp(`explore.*${INLINED_HELLO_WORLD_CID}`))
     })
 
+    test('invalid CID shows validation error', async ({ page }) => {
+      // CID validation happens client-side, so invalid CIDs are caught
+      // immediately and show red outline without needing daemon interaction
+      await expect(explore.cidInput(page)).toBeVisible()
+
+      // enter an invalid CID path
+      await explore.cidInput(page).fill('/ipfs/invalid-cid')
+
+      // input should have error styling (red border via focus-outline-red class)
+      await expect(explore.cidInput(page)).toHaveClass(/focus-outline-red/)
+
+      // buttons should be disabled
+      await expect(explore.browseButton(page)).toBeDisabled()
+      await expect(explore.inspectButton(page)).toBeDisabled()
+    })
+
+    test('invalid IPNS name shows error state', async ({ page }) => {
+      // IPNS names need to be resolved by the daemon (DNSLink lookup),
+      // so validation happens server-side and shows interstitial error page
+      await expect(explore.cidInput(page)).toBeVisible()
+
+      // enter an IPNS path that will fail DNSLink resolution
+      await explore.cidInput(page).fill('/ipns/invalid-dnslink.example.com')
+      await explore.browseButton(page).click()
+
+      // wait for navigation to the IPNS path
+      await expect(page).toHaveURL(/invalid-dnslink/, { timeout: 10000 })
+
+      // should show error state - either 404 badge or error page
+      // (depends on how quickly the DNS lookup fails)
+      const error404 = page.getByText('404')
+      const errorPage = page.locator('h1.red')
+      await expect(error404.or(errorPage)).toBeVisible({ timeout: 30000 })
+    })
+
+    test('ipfs:// protocol URL is accepted and normalized', async ({ page }) => {
+      // protocol URLs should be auto-converted to paths
+      await expect(explore.cidInput(page)).toBeVisible()
+
+      // enter ipfs:// URL format
+      await explore.cidInput(page).fill(`ipfs://${INLINED_HELLO_WORLD_CID}`)
+
+      // should be valid (no red outline, buttons enabled)
+      await expect(explore.cidInput(page)).not.toHaveClass(/focus-outline-red/)
+      await expect(explore.browseButton(page)).toBeEnabled()
+      await expect(explore.inspectButton(page)).toBeEnabled()
+
+      // clicking Browse should navigate to the content
+      await explore.browseButton(page).click()
+      await expect(page.getByText('hello world')).toBeVisible()
+    })
+
+    test('ipns:// protocol URL is accepted and normalized', async ({ page }) => {
+      // protocol URLs should be auto-converted to paths
+      await expect(explore.cidInput(page)).toBeVisible()
+
+      // enter ipns:// URL format (will fail resolution but should be accepted as valid input)
+      await explore.cidInput(page).fill('ipns://example.com')
+
+      // should be valid input format (no red outline, buttons enabled)
+      await expect(explore.cidInput(page)).not.toHaveClass(/focus-outline-red/)
+      await expect(explore.browseButton(page)).toBeEnabled()
+      await expect(explore.inspectButton(page)).toBeEnabled()
+    })
   })
 })
