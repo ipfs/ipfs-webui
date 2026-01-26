@@ -10,277 +10,112 @@
 |-------|---------|-------|----------|
 | ![Screenshot of the file browser page](docs/screenshots/ipfs-webui-files.png) | ![Screenshot of the IPLD explorer page](docs/screenshots/ipfs-webui-explore.png) | ![Screenshot of the swarm peers map](docs/screenshots/ipfs-webui-peers.png) | ![Screenshot of the settings page](docs/screenshots/ipfs-webui-settings.png) |
 
-[![](https://img.shields.io/github/release/ipfs/ipfs-webui.svg)](https://github.com/ipfs/ipfs-webui/releases/latest) [![i18n status](https://img.shields.io/badge/i18n-translated-blue.svg)](https://explore.transifex.com/ipfs/ipfs-webui/) [![](https://img.shields.io/badge/matrix%20chat-%23lobby:ipfs.io-blue.svg?style=flat-square)](https://matrix.to/#/#lobby:ipfs.io)
+<p align="center">
+  <a href="https://github.com/ipfs/ipfs-webui/releases/latest"><img alt="GitHub release" src="https://img.shields.io/github/release/ipfs/ipfs-webui.svg"></a>
+  <a href="https://github.com/ipfs/ipfs-webui/actions/workflows/ci.yml"><img alt="CI status" src="https://img.shields.io/github/actions/workflow/status/ipfs/ipfs-webui/ci.yml?branch=main"></a>
+  <a href="https://explore.transifex.com/ipfs/ipfs-webui/"><img alt="i18n status" src="https://img.shields.io/badge/i18n-translated-blue.svg"></a>
+  <a href="https://discuss.ipfs.tech"><img alt="Discourse Forum" src="https://img.shields.io/discourse/posts?server=https%3A%2F%2Fdiscuss.ipfs.tech"></a>
+</p>
 
-The [latest release version](https://github.com/ipfs/ipfs-webui/releases/latest) is always at https://webui.ipfs.io, and the preview of `main` branch is at https://dev.webui.ipfs.io.
+<hr />
 
-The IPFS WebUI is a **work-in-progress**. Help us make it better! We use the issues on this repo to track the work.
+<p align="center">
+  <b><a href="#what-is-ipfs-web-ui">What is IPFS Web UI?</a></b> | <b><a href="#usage">Usage</a></b> | <b><a href="#development">Development</a></b> | <b><a href="#translations">Translations</a></b> | <b><a href="#getting-help">Getting Help</a></b>
+</p>
 
-The app uses [`kubo-rpc-client`](https://github.com/ipfs/js-kubo-rpc-client) to communicate with your local IPFS node.
+## What is IPFS Web UI?
 
-The app is built with [`create-react-app`](https://github.com/facebook/create-react-app). Please read the [docs](https://github.com/facebook/create-react-app/blob/main/packages/cra-template/template/README.md#table-of-contents).
+IPFS Web UI is a browser-based interface for interacting with your [Kubo](https://github.com/ipfs/kubo) node. It uses [`kubo-rpc-client`](https://github.com/ipfs/js-kubo-rpc-client) to communicate with your local Kubo RPC API.
 
-## Maintenance
+**Features:**
+
+- **Status** - View your Kubo node's connection status, peer count, bandwidth, and repo stats
+- **Files** - Browse, upload, download, and manage files in your Kubo node
+- **Explore** - Navigate the IPLD DAG and inspect CIDs
+- **Peers** - See connected peers on a world map and manage connections
+- **Settings** - Configure your Kubo node, manage pinning services, and customize the UI
+
+**Where to access it:**
+
+- Bundled with [Kubo](https://github.com/ipfs/kubo) at `http://127.0.0.1:5001/webui`
+- Bundled with [IPFS Desktop](https://github.com/ipfs/ipfs-desktop)
+- Latest release: https://webui.ipfs.io
+- Preview of `main` branch: https://dev.webui.ipfs.io
+
+## Usage
+
+### Running with Kubo
+
+If you have [Kubo](https://docs.ipfs.tech/install/command-line/) installed, Web UI is available at http://127.0.0.1:5001/webui when your daemon is running.
+
+### Running with Docker
+
+```console
+$ docker pull ipfs/kubo
+$ docker run -p 8080:8080 -p 5001:5001 -it ipfs/kubo
+```
+
+See the [Kubo Docker Hub page](https://hub.docker.com/r/ipfs/kubo) for more options.
+
+## Development
+
+See [docs/developer-notes.md](docs/developer-notes.md) for detailed development instructions.
+
+**Quick start:**
+
+```console
+$ npm install                  # Install dependencies
+$ ./cors-config.sh             # Configure CORS for local development
+$ ipfs daemon                  # Start Kubo daemon (in separate terminal)
+$ npm start                    # Start dev server at http://localhost:3000
+```
+
+**Other commands:**
+
+```console
+$ npm test                     # Run all tests
+$ npm run build                # Build for production
+$ npm run storybook            # Component viewer at http://localhost:9009
+$ npm run lint                 # Run linter
+```
+
+> [!NOTE]
+> The Node.js version is pinned in [`.tool-versions`](./.tool-versions). If you use [asdf](https://asdf-vm.com/), run `asdf install` to set up the correct version.
+
+## Translations
+
+The UI is available in multiple languages. Translations are managed on [Transifex](https://explore.transifex.com/ipfs/ipfs-webui/).
+
+- Switch languages via _Settings_ or the `?lng=<lang-code>` URL parameter
+- Translation files are in [`./public/locales`](./public/locales)
+- See [`docs/LOCALIZATION.md`](docs/LOCALIZATION.md) for details on contributing translations
+
+## Getting Help
+
+- [IPFS Forum](https://discuss.ipfs.tech) - community support and discussion
+- [Matrix chat](https://matrix.to/#/#lobby:ipfs.io) - real-time chat with the community
+- [GitHub Issues](https://github.com/ipfs/ipfs-webui/issues) - bug reports and feature requests
+
+## Security Issues
+
+To report a security issue, please follow the [IPFS Security Policy](https://github.com/ipfs/community/blob/master/SECURITY.md).
+
+## Contributing
+
+[![](https://cdn.jsdelivr.net/gh/jbenet/contribute-ipfs-gif@b59c59b52e58e1ddc29427bea15ce54ecb2872c2/img/contribute.gif)](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md)
+
+We welcome contributions! See [docs/developer-notes.md](docs/developer-notes.md) for development setup and guidelines.
+
+This repository follows the IPFS [Code of Conduct](https://github.com/ipfs/community/blob/master/code-of-conduct.md).
+
+## Maintainer Info
 
 <a href="https://ipshipyard.com/"><img align="right" src="https://github.com/user-attachments/assets/39ed3504-bb71-47f6-9bf8-cb9a1698f272" /></a>
 
 > [!NOTE]
-> This project is currently maintained by the [Shipyard](https://ipshipyard.com/) team.
-
-## Install
-
-```sh
-> npm install
-```
-
-#### A Note on Node.js version
-
-The Node.js version used for development and CI is pinned in [`.tool-versions`](./.tool-versions).
-
-If you use [asdf](https://asdf-vm.com/) or compatible tooling, run `asdf install` to set up the correct version automatically.
-
-## Usage
-
-**When working on the code**, run an ipfs daemon, the local [dev server](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-start), the [unit tests](https://facebook.github.io/jest/), and the [storybook](https://storybook.js.org/) component viewer and see the results of your changes as you save files.
-
-In separate shells run the following:
-
-```sh
-# Run IPFS
-> ipfs daemon
-```
-
-```sh
-# Run the dev server @ http://localhost:3000
-> npm start
-```
-
-```sh
-# Run the unit tests in watch mode
-> npm run test:unit:watch
-```
-
-```sh
-# Run the UI component viewer @ http://localhost:9009
-> npm run storybook
-```
-
-### Configure Kubo RPC API CORS headers
-
-You must configure your Kubo RPC endpoint at http://127.0.0.1:5001 to allow [cross-origin (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) requests from your dev server at http://localhost:3000
-
-Similarly if you want to try out pre-release versions at https://dev.webui.ipfs.io you need to add that as an allowed domain too.
-
-#### Easy mode
-
-Run the **[cors-config.sh](./cors-config.sh)** script with:
-
-```sh
-> ./cors-config.sh
-```
-
-#### The manual way
-
-```sh
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3000", "https://webui.ipfs.io", "http://127.0.0.1:5001"]'
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["POST"]'
-```
-
-#### Reverting
-
-To reset your config back to the default configuration, run the following command.
-
-```sh
-> ipfs config --json API.HTTPHeaders {}
-```
-
-You might also like to copy the `~/.ipfs/config` file somewhere with a useful name so you can use `ipfs config replace <file>` to switch your node between default and dev mode easily.
-
-## Running with Docker
-
-If you need to run IPFS in a Docker container, you can still have Web UI available by exposing both the Gateway and Web UI ports.
-
-Using the default ports:
-
-```sh
-docker pull ipfs/kubo
-docker run -p 8080:8080 -p 5001:5001 -it ipfs/kubo
-```
-
-See the [kubo page](https://hub.docker.com/r/ipfs/kubo) on Docker Hub to get started using IPFS with Docker.
-
-## Build
-
-To create an optimized static build of the app, output to the `build` directory:
-
-```sh
-# Build out the html, css & jss to ./build
-> npm run build
-```
-
-## Test
-
-The following command will run all tests: unit one for React and E2E against real Kubo RPC:
-
-```sh
-> npm test
-```
-
-## Unit tests
-
-To watch source files and re-run the tests when changes are made:
-
-```sh
-> npm run test:unit
-```
-
-The WebUI uses Jest to run the isolated unit tests. Unit test files are located next to the component they test and have the same file name, but with the extension `.test.js`
-
-## E2E tests
-
-The end-to-end tests (E2E) test the full app in a headless Chromium browser. They spawn real Kubo node for HTTP RPC and a static HTTP server to serve the app.
-The purpose of those tests is not being comprehensible, but act as a quick regression and integration suite.
-Test files are located in `test/e2e/`.
-
-Make sure `npm run build` is run before starting E2E tests:
-
-```sh
-> npm run build
-> npm run test:e2e # end-to-end smoke tests (fast, headless, use Kubo)
-```
-
-### Customizing E2E Tests
-
-Default behavior can be tweaked via env variables below.
-
-#### `IPFS_GO_EXEC`
-
-It is possible to test against arbitrary versions by tweaking `kubo` in `devDependencies` section of `package.json` and applying the change via `npm i`.
-
-One can also override the binary used in e2e tests by providing a path to an alternative one via `IPFS_GO_EXEC`:
-
-```sh
-> IPFS_GO_EXEC=$GOPATH/bin/ipfs  npm run test:e2e
-```
-
-#### `E2E_API_URL`
-
-Instead of spawning a disposable node and repo for tests, one can point the E2E test suite at arbitrary Kubo-compatible RPC API running on localhost:
-
-```sh
-> E2E_API_URL=http://127.0.0.1:5001 npm run test:e2e
-```
-
-**Caveat 1:** HTTP RPC API used in tests needs to run on the local machine for Peers screen to pass (they test manual swarm connect to ephemeral `/ip4/120.0.0.1/..` multiaddr)
-
-**Caveat 2:** CORS requests from `http://localhost:3001` (static server hosting dev version of webui) need to be added to `Access-Control-Allow-Origin` whitelist array in node's config:
-
-```json
-"API": {
-  "HTTPHeaders": {
-    "Access-Control-Allow-Methods": ["POST"],
-    "Access-Control-Allow-Origin": [
-      "http://localhost:5001",
-      "http://localhost:3001"
-    ]
-  }
-}
-```
-
-Can be done ad-hoc via command line:
-
-```sh
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://localhost:3001", "http://127.0.0.1:5001"]'
-> ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["POST"]'
-```
-
-### Debugging E2E tests
-
-#### Show the browser
-
-By default, the test run headless, so you won't see the browser. To debug test errors, it can be helpful to see the robot clicking around the site.
-To disable headless mode and see the browser, set the environment variable `DEBUG=true`:
-
-```sh
-> DEBUG=true npm run test:e2e # will show a browser window
-```
-
-To build and run e2e only for a specific test script, pass its name:
-
-```sh
-> npm run build && npm run test:e2e -- --grep "Settings"
-```
-
-#### Breakpoints
-
-It is possible to set a "breakpoint" via `await page.pause()` to stop tests at a specific line.
-
-Read more at <https://playwright.dev/docs/debug#using-pagepause>
-
-## Coverage
-
-To do a single run of the tests and generate a coverage report, run the following:
-
-```sh
-> npm run test:coverage
-```
-
-## Lint
-
-Perform [`standard`](https://standardjs.com/) linting on the code:
-
-```sh
-> npm run lint
-```
-
-## Analyze
-
-To inspect the built bundle for bundled modules and their size, first `build` the app then:
-
-```sh
-# Run bundle
-> npm run analyze
-```
-
-## Translations
-
-One can permanently switch to a different locale via _Settings_ or temporarily via `?lng=<lang-code>` URL parameter.
-
-The translations are stored on [./public/locales](./public/locales) and the English version is the source of truth. We use Transifex to help us translate WebUI to another languages.
-
-**If you're interested in contributing a translation**, go to [our page on Transifex](https://explore.transifex.com/ipfs/ipfs-webui/), create an account, pick a language and start translating. Be sure to change your notification settings to be notified when translation sources change.
-
-You can read more on how we use Transifex and i18next in this app at [`docs/LOCALIZATION.md`](docs/LOCALIZATION.md)
-
-## Releasing
-
-1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/actions/workflows/tx-pull.yml) is successful or fails because there are no updates.
-1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.tech [here](https://docs.ipfs.tech/how-to/command-line-quick-start/)
-1. Manually dispatch [ci.yml](https://github.com/ipfs/ipfs-webui/actions/workflows/ci.yml) workflow on `main` branch. This will create a new release.
-1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
-   - Kubo: https://github.com/ipfs/kubo/blob/master/core/corehttp/webui.go#L4
-   - IPFS Desktop: https://github.com/ipfs/ipfs-desktop/blob/main/package.json#L20
-
-<!-- DEPRECATED STEPS as of https://github.com/ipfs/ipfs-webui/releases/tag/v2.16.0. Leaving only for posterity:
-1. Check that the [Transifex sync action](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true) is [successful](https://github.com/ipfs/ipfs-webui/runs/7121497704?check_suite_focus=true) or [fails because there are no updates](https://github.com/ipfs/ipfs-webui/runs/7165373056?check_suite_focus=true).
-1. If UI is materially different, update screenshots in `README.md` and on docs.ipfs.tech [here](https://docs.ipfs.tech/how-to/command-line-quick-start/)
-1. Commit changes and ensure everything is merged into `main` branch
-1. Update the version (`npm version [major|minor|patch]`, it will create a new tag `vN.N.N`, note it down)
-1. Push `main` branch and the `vN.N.N` tag to GitHub: `git push && git push origin vN.N.N`
-1. Wait for `vN.N.N` to [build on CI](https://github.com/ipfs/ipfs-webui/actions), and grab the CID produced from the tagged commit
-1. Add release notes to https://github.com/ipfs/ipfs-webui/releases, use the tag and CID you created
-1. If release is good enough for LTS, update the CID at projects that use ipfs-webui by submitting PR against below lines:
-   - Kubo: https://github.com/ipfs/kubo/blob/master/core/corehttp/webui.go#L4
-   - IPFS Desktop: https://github.com/ipfs/ipfs-desktop/blob/master/package.json#L18
--->
-
-## Contribute
-
-Feel free to dive in! [Open an issue](https://github.com/ipfs/ipfs-webui/issues/new) or submit PRs.
-
-To contribute to IPFS in general, see the [contributing guide](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md).
-
-[![](https://cdn.jsdelivr.net/gh/jbenet/contribute-ipfs-gif@b59c59b52e58e1ddc29427bea15ce54ecb2872c2/img/contribute.gif)](https://github.com/ipfs/community/blob/master/CONTRIBUTING.md)
+> This project is maintained by the [Shipyard](https://ipshipyard.com/) team.
+>
+> [Releasing a new version](docs/RELEASING.md)
 
 ## License
 
