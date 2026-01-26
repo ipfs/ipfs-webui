@@ -21,6 +21,7 @@ jobs:
   test-unit:
     name: 'test:unit'
     uses: ./.github/workflows/test-unit.yml
+    secrets: inherit
 
   publishPreview:
     name: publish preview
@@ -190,10 +191,12 @@ jobs:
   test-e2e:
     name: 'test:e2e'
     uses: ./.github/workflows/test-e2e.yml
+    secrets: inherit
 
   test-storybook:
     name: 'test:storybook'
     uses: ./.github/workflows/test-storybook.yml
+    secrets: inherit
 
   # consolidated lint job: eslint, typecheck, depcheck
   lint:
@@ -208,7 +211,17 @@ jobs:
           node-version-file: '.tool-versions'
           cache: 'npm'
 
+      - name: Cache node_modules
+        uses: actions/cache@v5
+        id: npm-cache
+        with:
+          path: node_modules
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'patches/**', '.tool-versions') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
       - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit --progress=false
 
       - name: ESLint
@@ -287,7 +300,17 @@ jobs:
           node-version-file: '.tool-versions'
           cache: 'npm'
 
+      - name: Cache node_modules
+        uses: actions/cache@v5
+        id: npm-cache
+        with:
+          path: node_modules
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'patches/**', '.tool-versions') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
       - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit --progress=false
 
       - name: Download CAR artifact
