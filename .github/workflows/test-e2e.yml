@@ -23,18 +23,18 @@ jobs:
         id: test-build-cache
         with:
           path: build
-          key: test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+          key: test-build-${{ runner.os }}-${{ hashFiles('package-lock.json', 'src/**', 'public/**') }}
           restore-keys: |
-            test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+            test-build-${{ runner.os }}-
 
       - name: Cache node_modules
         uses: actions/cache@v4
         id: test-npm-cache
         with:
           path: node_modules
-          key: test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+            npm-${{ runner.os }}-
 
       - name: Install dependencies
         if: steps.test-npm-cache.outputs.cache-hit != 'true'
@@ -64,18 +64,18 @@ jobs:
         id: test-build-cache
         with:
           path: build
-          key: test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+          key: test-build-${{ runner.os }}-${{ hashFiles('package-lock.json', 'src/**', 'public/**') }}
           restore-keys: |
-            test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+            test-build-${{ runner.os }}-
 
       - name: Cache node_modules
         uses: actions/cache@v4
         id: test-npm-cache
         with:
           path: node_modules
-          key: test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+            npm-${{ runner.os }}-
 
       - name: Install dependencies
         if: steps.test-npm-cache.outputs.cache-hit != 'true'
@@ -87,9 +87,9 @@ jobs:
         with:
           path: |
             ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
-
-      - run: npm ci
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
 
       # always install playwright with deps to ensure system dependencies are present
       # (self-hosted runners may not have all required libraries pre-installed)
