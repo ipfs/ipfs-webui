@@ -108,7 +108,7 @@ const DhtProvideScreen: React.FC = () => {
         </p>
 
         <button
-          className={`btn monospace f6 ph3 pv2 ${autoRefreshEnabled ? 'dht-provide__btn-auto-on' : 'dht-provide__btn-auto-off'}`}
+          className={`btn monospace f6 ph3 pv2 ba br2 ${autoRefreshEnabled ? 'dht-provide__btn-auto-on' : 'dht-provide__btn-auto-off'}`}
           onClick={() => setAutoRefreshEnabled(!autoRefreshEnabled)}
         >
           {autoRefreshEnabled
