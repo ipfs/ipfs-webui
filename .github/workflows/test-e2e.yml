@@ -87,9 +87,15 @@ jobs:
           restore-keys: |
             playwright-${{ runner.os }}-
 
-      # always install playwright with deps to ensure system dependencies are present
-      # (self-hosted runners may not have all required libraries pre-installed)
-      - run: npx playwright install --with-deps
+      # On cache miss: download browsers and install OS dependencies
+      - name: Install Playwright with dependencies
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      # On cache hit: only ensure OS dependencies are present (fast, idempotent)
+      - name: Install Playwright OS dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps
 
       - name: Cache nyc_output dir
         uses: actions/cache@v5
