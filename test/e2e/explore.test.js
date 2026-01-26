@@ -82,11 +82,31 @@ async function loadBlockFixtures ({ ipfs, blockCid, blockPutArgs = { format: 'v0
   }
 }
 
+// Inlined CIDs that work without network retrieval (identity multihash)
+const INLINED_HELLO_WORLD_CID = 'bafkqac3imvwgy3zao5xxe3de' // "hello world"
+
 test.describe('Explore screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/explore')
     // wait for connection indicator (teal = connected)
     await expect(explore.connectionIndicator(page)).toBeVisible()
+  })
+
+  test.describe('CID/path input bar', () => {
+    test('Inspect button opens DAG Explorer and shows Raw Block', async ({ page }) => {
+      // enter the inlined "hello world" CID in the explore form
+      await explore.cidInput(page).fill(INLINED_HELLO_WORLD_CID)
+      await explore.inspectButton(page).click()
+
+      // should navigate to Explore screen with the CID
+      await page.waitForURL(`/#/explore/${INLINED_HELLO_WORLD_CID}`)
+
+      // should display "Raw Block" type in DAG Explorer
+      await expect(page.getByText('Raw Block')).toBeVisible()
+
+      // should display the CID in CID INFO section
+      await expect(page.locator(`.joyride-explorer-cid [title="${INLINED_HELLO_WORLD_CID}"]`)).toBeVisible()
+    })
   })
 
   test.describe('Start Exploring', () => {
