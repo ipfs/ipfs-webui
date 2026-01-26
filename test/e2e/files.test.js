@@ -1,6 +1,6 @@
 import { test, expect } from './setup/coverage.js'
 import { fixtureData } from './fixtures/index.js'
-import { files } from './setup/locators.js'
+import { files, explore } from './setup/locators.js'
 import all from 'it-all'
 import filesize from 'filesize'
 import * as kuboRpcModule from 'kubo-rpc-client'
@@ -111,5 +111,29 @@ test.describe('Files screen', () => {
     // confirm Explore screen was opened with correct CID
     await page.waitForURL(`/#/explore/${testCid}`)
     await expect(page.getByText('CID info')).toBeVisible()
+  })
+
+  test('should show error page when navigating to non-existing path', async ({ page }) => {
+    // bafyaabakaieac is CIDv1 of an empty directory, so /404 inside it does not exist
+    const nonExistingPath = '/ipfs/bafyaabakaieac/404'
+
+    // enter the path in the explore form input and click Browse
+    await explore.cidInput(page).fill(nonExistingPath)
+    await expect(explore.browseButton(page)).toBeEnabled()
+    await explore.browseButton(page).click()
+
+    // expect error page to be displayed with the correct title
+    await expect(page.getByRole('heading', { name: 'Unable to load this path' })).toBeVisible()
+
+    // expect the path to be displayed in the error message area (below the heading)
+    await expect(page.locator('p.truncate').filter({ hasText: 'bafyaabakaieac/404' })).toBeVisible()
+
+    // expect the "Go to Files" button to be present and working
+    const goToFilesButton = page.getByRole('link', { name: 'Go to Files' })
+    await expect(goToFilesButton).toBeVisible()
+    await goToFilesButton.click()
+
+    // confirm navigation back to files root
+    await page.waitForURL('/#/files')
   })
 })

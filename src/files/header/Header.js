@@ -57,12 +57,12 @@ class Header extends React.Component {
     } = this.props
 
     const pinsInQueue = pendingPins.length + failedPins.length + completedPins.length
-
+    const filefound = files && files.type !== 'not-found'
     return (
       <div className='db flex-l justify-between items-center mb3'>
         <div className='flex items-center w-100 justify-between mr3'>
           <div className='breadheader overflow-hidden mr1'>
-            <Breadcrumbs className="joyride-files-breadcrumbs" path={files ? files.path : '/404'}
+            <Breadcrumbs className="joyride-files-breadcrumbs" path={filefound ? files.path : '/404'}
             onClick={onNavigate} onContextMenuHandle={(...args) => this.handleBreadCrumbsContextMenu(...args)}
             onAddFiles={this.props.onAddFiles} onMove={this.props.onMove}/>
         </div>

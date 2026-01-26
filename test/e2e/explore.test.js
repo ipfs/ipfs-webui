@@ -44,6 +44,7 @@ const createCID = async (value, codec, hasher, version = 1) => {
 async function testExploredCid ({ cid, type, humanReadableCID, page, fillOutForm = true }) {
   if (fillOutForm) {
     await explore.cidInput(page).fill(cid)
+    await expect(explore.inspectButton(page)).toBeEnabled()
     await explore.inspectButton(page).press('Enter')
   }
 
@@ -96,6 +97,7 @@ test.describe('Explore screen', () => {
     test('Inspect button opens DAG Explorer and shows Raw Block', async ({ page }) => {
       // enter the inlined "hello world" CID in the explore form
       await explore.cidInput(page).fill(INLINED_HELLO_WORLD_CID)
+      await expect(explore.inspectButton(page)).toBeEnabled()
       await explore.inspectButton(page).click()
 
       // should navigate to Explore screen with the CID
