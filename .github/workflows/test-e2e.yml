@@ -6,31 +6,31 @@ jobs:
     name: 'test:build'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
       - name: Cache test-build output
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: test-build-cache
         with:
           path: build
-          key: test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+          key: test-build-${{ runner.os }}-${{ hashFiles('package-lock.json', 'src/**', 'public/**') }}
           restore-keys: |
-            test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+            test-build-${{ runner.os }}-
 
       - name: Cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: test-npm-cache
         with:
           path: node_modules
-          key: test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'patches/**', '.tool-versions') }}
           restore-keys: |
-            test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+            npm-${{ runner.os }}-
 
       - name: Install dependencies
         if: steps.test-npm-cache.outputs.cache-hit != 'true'
@@ -47,49 +47,58 @@ jobs:
     timeout-minutes: 10
     needs: [test-build]
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
       - name: Cache test-build output
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: test-build-cache
         with:
           path: build
-          key: test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+          key: test-build-${{ runner.os }}-${{ hashFiles('package-lock.json', 'src/**', 'public/**') }}
           restore-keys: |
-            test-build-${{ runner.os }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
+            test-build-${{ runner.os }}-
 
-      # We don't want to re-install dependencies for every sharded run
       - name: Cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: test-npm-cache
         with:
           path: node_modules
-          key: test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'patches/**', '.tool-versions') }}
           restore-keys: |
-            test-npm-${{ runner.os }}-${{ github.sha }}-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', 'patches/**', '*.js', '*.ts') }}
+            npm-${{ runner.os }}-
+
       - name: Install dependencies
         if: steps.test-npm-cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit --progress=false
 
       # Cache playwright binaries
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         id: playwright-cache
         with:
           path: |
             ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
-      - run: npm ci
-      - run: npx playwright install --with-deps
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
+      # On cache miss: download browsers and install OS dependencies
+      - name: Install Playwright with dependencies
         if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      # On cache hit: only ensure OS dependencies are present (fast, idempotent)
+      - name: Install Playwright OS dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps
 
       - name: Cache nyc_output dir
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: nyc_output-cache
         with:
           path: ./.nyc_output
@@ -98,11 +107,13 @@ jobs:
             nyc_output-${{ runner.os }}-${{ github.sha }}
 
       - name: Run E2E against Kubo
-        run: npm run test:e2e -- --reporter=list
+        run: npm run test:e2e
+        env:
+          REACT_APP_ENV: test
 
       - name: Store Artifacts from Failed Tests
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-results
           path: test-results/
@@ -113,16 +124,29 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-e2e]
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
+      - name: Cache node_modules
+        uses: actions/cache@v5
+        id: npm-cache
+        with:
+          path: node_modules
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'patches/**', '.tool-versions') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --progress=false
+
       - name: Cache nyc_output dir
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: nyc_output-cache
         with:
           path: ./.nyc_output
@@ -134,10 +158,10 @@ jobs:
         id: coverage
         run: npx nyc report --reporter=lcov
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: e2e_tests # optional
-          name: e2e-coverage # optional
-          fail_ci_if_error: false # optional (default = false)
-          verbose: true # optional (default = false)
+          flags: e2e_tests
+          name: e2e-coverage
+          fail_ci_if_error: false
+          verbose: true

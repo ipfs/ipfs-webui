@@ -6,56 +6,28 @@ const webuiPort = 3001
 const config = {
   testDir: './',
   timeout: 30 * 1000,
-  globalTimeout: 5 * 60 * 1000, // 5 minutes max for entire test suite including setup
+  globalTimeout: 5 * 60 * 1000,
   fullyParallel: true,
-  forbidOnly: true,
+  forbidOnly: !!process.env.CI,
   retries: 0,
   workers: process.env.DEBUG ? 1 : undefined,
   reporter: 'list',
   use: {
     headless: !process.env.DEBUG,
-    viewport: { width: 1366, height: 768 },
-    baseURL: `http://localhost:${webuiPort}/`,
+    viewport: { width: 1920, height: 1080 },
+    baseURL: `http://127.0.0.1:${webuiPort}/`,
     storageState: 'test/e2e/state.json',
-    trace: 'on-first-retry'
+    trace: 'retain-on-failure'
   },
-  /* TODO: test against other engines?
-  projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-      },
-    },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-      },
-    },
-
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-      },
-    },
-  ],
-  */
   globalSetup: './setup/global-setup.js',
   globalTeardown: './setup/global-teardown.js',
   webServer: [
     {
       command: `npx http-server ./build/ -c-1 -a 127.0.0.1 -p ${webuiPort}`,
-      timeout: 5 * 1000,
-      url: `http://localhost:${webuiPort}/`,
+      timeout: 30 * 1000,
+      url: `http://127.0.0.1:${webuiPort}/`,
       cwd: '../../',
-      reuseExistingServer: false,
-      env: {
-        REACT_APP_ENV: 'test',
-        NODE_ENV: 'test',
-        PORT: webuiPort
-      }
+      reuseExistingServer: false
     }
   ],
   collectCoverage: true,
