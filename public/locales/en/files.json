@@ -192,12 +192,14 @@
   "remotePinningInProgress": "Remote pinning in progress:",
   "selectAllEntries": "Select all entries",
   "previewNotFound": {
-    "title": "IPFS can't find this item",
-    "helpTitle": "These are common troubleshooting steps might help:",
-    "helpListItemPathTypo": "Are there typos in the path you entered?",
-    "helpListItemFileMoved": "Was the file moved, renamed, or deleted?",
-    "helpListItemBookmarkMigrated": "Did you copy a URL or bookmark from another computer? If so, you'll need to",
-    "helpListItemBookmarkMigratedLink": "point this instance at that computer's node",
-    "backButton": "Go to Home"
-  }
+    "title": "Unable to load this path",
+    "errorPrefix": "Error:",
+    "helpTitle": "How you can proceed:",
+    "helpListItemSearchError": "Copy the error message above and search the web for potential solutions.",
+    "helpListItemInspect": "Try <1>inspecting the path</1> (or its parent) in DAG Explorer to debug the issue.",
+    "helpListItemRetrieval": "If you have a CID you believe should work, <1>run Retrieval Diagnostics</1>.",
+    "helpListItemForums": "Visit the <1>Discussion Forums</1> to ask for help.",
+    "backButton": "Go to Files"
+  },
+  "inspectResolveFailed": "Failed to resolve path: {{path}}"
 }

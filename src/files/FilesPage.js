@@ -199,15 +199,18 @@ const FilesPage = ({
     if (!files || files.type === 'file') return null
     // if file not found
     if (files.type === 'not-found') {
-      return <FileNotFound path={files.path} />
+      return <FileNotFound path={files.path} error={files.error} />
     }
     // Don't render stale content during navigation
     if (files.path && filesPathInfo.path && files.path !== filesPathInfo.path) {
       return null
     }
     if (files.type === 'unknown') {
+      // Show error page if there's an error, otherwise show inspect suggestion
+      if (files.error) {
+        return <FileNotFound path={files.path} error={files.error} />
+      }
       const path = files.path
-
       return (
         <div>
           <Trans i18nKey='cidNotFileNorDir' t={t}>
@@ -216,6 +219,7 @@ const FilesPage = ({
         </div>
       )
     }
+
     const commonProps = {
       updateSorting: doFilesUpdateSorting,
       files: files.content || [],

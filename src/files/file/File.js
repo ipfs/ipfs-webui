@@ -106,7 +106,7 @@ const File = ({
 
   return (
     <div ref={drop}>
-      <div className={className} style={styles} onContextMenu={handleCtxRightClick} ref={drag}>
+      <div className={className} style={styles} onContextMenu={handleCtxRightClick} ref={drag} data-testid="file-row" data-type={type}>
         <div className={checkBoxCls}>
           <Checkbox disabled={cantSelect} checked={selected} onChange={select} aria-label={ t('checkboxLabel', { name })} />
         </div>
