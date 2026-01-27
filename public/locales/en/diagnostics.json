@@ -138,6 +138,7 @@
       "reprovideInterval": "Reprovide interval",
       "regions": "Regions",
       "cidsScheduled": "CIDs scheduled",
+      "avgCidsPerRegion": "Avg CIDs/region",
       "currentRegion": "Current region",
       "avgPrefixLength": "Avg prefix length",
       "nextReprovide": "Next region start"

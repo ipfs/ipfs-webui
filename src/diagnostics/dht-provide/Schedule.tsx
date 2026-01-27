@@ -71,6 +71,11 @@ export const Schedule: React.FC<Props> = ({ sweep }) => {
         />
 
         <MetricRow
+          label={t('dhtProvide.schedule.avgCidsPerRegion')}
+          value={regions > 0 ? formatCount(Math.ceil(safeNumber(sweep.schedule?.keys) / regions)) : PLACEHOLDER}
+        />
+
+        <MetricRow
           label={t('dhtProvide.schedule.avgPrefixLength')}
           value={formatNumber(sweep.schedule?.avg_prefix_length, 1)}
         />
