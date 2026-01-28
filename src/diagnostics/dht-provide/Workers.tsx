@@ -72,7 +72,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
           <div className='mb3'>
             <MetricRow
               label={t('dhtProvide.workers.periodic')}
-              value={activePeriodic.toString()}
+              value={`${activePeriodic} active (${dedicatedPeriodic} dedicated)`}
             />
             <div className='mt1'>
               <Bar value={periodicUtil} />
@@ -82,7 +82,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
           <div className='mb3'>
             <MetricRow
               label={t('dhtProvide.workers.burst')}
-              value={activeBurst.toString()}
+              value={`${activeBurst} active (${dedicatedBurst} dedicated)`}
             />
             <div className='mt1'>
               <Bar value={burstUtil} />

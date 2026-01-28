@@ -23,10 +23,14 @@ export const formatDuration = (ns: number | null | undefined): string => {
   const mins = Math.floor((totalSecs % 3600) / 60)
   const secs = totalSecs % 60
 
-  if (days > 0) return `${days}d ${hours}h ${mins}m`
-  if (hours > 0) return `${hours}h ${mins}m ${secs}s`
-  if (mins > 0) return `${mins}m ${secs}s`
-  return `${secs}s`
+  const parts: string[] = []
+  if (days > 0) parts.push(`${days}d`)
+  if (hours > 0) parts.push(`${hours}h`)
+  if (mins > 0) parts.push(`${mins}m`)
+  // only show seconds if duration is under 1 minute
+  if (parts.length === 0) parts.push(`${secs}s`)
+
+  return parts.join(' ')
 }
 
 /**
@@ -93,7 +97,7 @@ export const formatTime = (isoString: string | null | undefined): string => {
   try {
     const date = new Date(isoString)
     if (isNaN(date.getTime())) return PLACEHOLDER
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
   } catch {
     return PLACEHOLDER
   }

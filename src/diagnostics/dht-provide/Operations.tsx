@@ -24,15 +24,14 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
   // Ongoing reprovides: key_reprovides + region_reprovides
   const ongoingReprovides = safeNumber(sweep.operations?.ongoing?.key_reprovides) + safeNumber(sweep.operations?.ongoing?.region_reprovides)
 
-  // Convert per-minute rates to per-second for display
   const keysProvidedPerMin = sweep.operations?.past?.keys_provided_per_minute
   const provideRate = keysProvidedPerMin != null
-    ? formatNumber(keysProvidedPerMin / 60, 1)
+    ? formatNumber(keysProvidedPerMin, 1)
     : null
 
   const keysReprovidedPerMin = sweep.operations?.past?.keys_reprovided_per_minute
   const reprovideRate = keysReprovidedPerMin != null
-    ? formatNumber(keysReprovidedPerMin / 60, 1)
+    ? formatNumber(keysReprovidedPerMin, 1)
     : null
 
   return (
@@ -59,14 +58,14 @@ export const Operations: React.FC<Props> = ({ sweep }) => {
         {provideRate != null && (
           <MetricRow
             label={t('dhtProvide.operations.provideRate')}
-            value={`${provideRate} CIDs/sec`}
+            value={`${provideRate} CIDs/min`}
           />
         )}
 
         {reprovideRate != null && (
           <MetricRow
             label={t('dhtProvide.operations.reprovideRate')}
-            value={`${reprovideRate} CIDs/sec`}
+            value={`${reprovideRate} CIDs/min`}
           />
         )}
 

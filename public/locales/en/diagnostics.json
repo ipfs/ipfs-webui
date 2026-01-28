@@ -136,10 +136,12 @@
       "title": "Schedule",
       "tooltip": "The reprovide cycle periodically re-announces groups of CIDs to the DHT.",
       "reprovideInterval": "Reprovide interval",
+      "elapsed": "Elapsed",
+      "remaining": "Remaining",
       "regions": "Regions",
-      "cidsScheduled": "CIDs scheduled",
+      "cidsScheduled": "CIDs this cycle",
       "avgCidsPerRegion": "Avg CIDs/region",
-      "currentRegion": "Current region",
+      "nextRegionPrefix": "Next region prefix",
       "avgPrefixLength": "Avg prefix length",
       "nextReprovide": "Next region start"
     },
@@ -147,9 +149,9 @@
     "queues": {
       "title": "Queues",
       "tooltip": "Pending items in the provide and reprovide queues.",
-      "provideQueue": "Provide queue",
-      "reprovideQueue": "Reprovide queue",
-      "total": "Total"
+      "pendingCids": "Pending CIDs",
+      "pendingRegionProvides": "Pending regions (provide)",
+      "pendingRegionReprovides": "Pending regions (reprovide)"
     },
 
     "operations": {
@@ -178,14 +180,13 @@
 
     "network": {
       "title": "Network",
-      "tooltip": "DHT network metrics: peer counts, reachability, record holders, and success rates.",
+      "tooltip": "DHT network metrics: peer counts, reachability, and record holders.",
       "peerSwept": "Peers swept",
       "reachablePeers": "Reachable peers",
       "avgRecordHolders": "Avg record holders",
       "avgRegionSize": "Avg region size",
       "replicationFactor": "Replication factor",
       "fullKeyspaceCoverage": "Full keyspace coverage",
-      "successRate": "Success rate",
       "fullRT": "Accelerated DHT client"
     }
   }

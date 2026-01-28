@@ -19,12 +19,9 @@ interface Props {
 export const Queues: React.FC<Props> = ({ sweep }) => {
   const { t } = useTranslation('diagnostics')
 
-  // Provide queue: pending key provides + pending region provides
-  const provideQueue = safeNumber(sweep.queues?.pending_key_provides) + safeNumber(sweep.queues?.pending_region_provides)
-  // Reprovide queue: pending region reprovides
-  const reprovideQueue = safeNumber(sweep.queues?.pending_region_reprovides)
-
-  const total = provideQueue + reprovideQueue
+  const pendingCids = safeNumber(sweep.queues?.pending_key_provides)
+  const pendingRegionProvides = safeNumber(sweep.queues?.pending_region_provides)
+  const pendingRegionReprovides = safeNumber(sweep.queues?.pending_region_reprovides)
 
   return (
     <Card>
@@ -35,11 +32,11 @@ export const Queues: React.FC<Props> = ({ sweep }) => {
         </IconTooltip>
       </CardHeader>
       <CardContent>
-        <MetricRow label={t('dhtProvide.queues.provideQueue')} value={formatInteger(provideQueue)} />
+        <MetricRow label={t('dhtProvide.queues.pendingCids')} value={formatInteger(pendingCids)} />
 
-        <MetricRow label={t('dhtProvide.queues.reprovideQueue')} value={formatInteger(reprovideQueue)} />
+        <MetricRow label={t('dhtProvide.queues.pendingRegionProvides')} value={formatInteger(pendingRegionProvides)} />
 
-        <MetricRow label={t('dhtProvide.queues.total')} value={formatInteger(total)} />
+        <MetricRow label={t('dhtProvide.queues.pendingRegionReprovides')} value={formatInteger(pendingRegionReprovides)} />
       </CardContent>
     </Card>
   )

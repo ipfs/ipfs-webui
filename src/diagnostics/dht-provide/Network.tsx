@@ -20,15 +20,8 @@ interface Props {
 export const Network: React.FC<Props> = ({ sweep, fullRT }) => {
   const { t } = useTranslation('diagnostics')
 
-  const provided = safeNumber(sweep.operations?.past?.keys_provided)
-  const failed = safeNumber(sweep.operations?.past?.keys_failed)
   const peers = safeNumber(sweep.network?.peers)
   const reachable = safeNumber(sweep.network?.reachable)
-
-  const successRate =
-    provided + failed > 0
-      ? `${((provided / (provided + failed)) * 100).toFixed(1)}%`
-      : null
 
   const reachablePercent =
     peers > 0
@@ -97,15 +90,6 @@ export const Network: React.FC<Props> = ({ sweep, fullRT }) => {
                 )}
           </span>
         </div>
-
-        {successRate && (
-          <MetricRow
-            label={t('dhtProvide.network.successRate')}
-            value={successRate}
-            highlight
-          />
-        )}
-
       </CardContent>
     </Card>
   )
