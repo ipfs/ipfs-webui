@@ -33,11 +33,17 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
     ? Math.round((active / max) * 100)
     : 0
 
+  const availableReservedBurst = Math.max(0, dedicatedBurst - activeBurst)
+  const availableReservedPeriodic = Math.max(0, dedicatedPeriodic - activePeriodic)
+  const availableFreeWorkers = Math.max(0, max - Math.max(dedicatedBurst, activeBurst) - Math.max(dedicatedPeriodic, activePeriodic))
+  const availableBurst = availableFreeWorkers + availableReservedBurst
+  const availablePeriodic = availableFreeWorkers + availableReservedPeriodic
+
   const periodicUtil =
-    dedicatedPeriodic > 0 ? activePeriodic / dedicatedPeriodic : 0
+    dedicatedPeriodic > 0 ? activePeriodic / availablePeriodic : 0
 
   const burstUtil =
-    dedicatedBurst > 0 ? activeBurst / dedicatedBurst : 0
+    dedicatedBurst > 0 ? activeBurst / availableBurst : 0
 
   const Bar: React.FC<{ value: number }> = ({ value }) => (
     <div className='bg-black-10 br1 overflow-hidden w-100'>
@@ -72,7 +78,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
           <div className='mb3'>
             <MetricRow
               label={t('dhtProvide.workers.periodic')}
-              value={`${activePeriodic} active (${dedicatedPeriodic} dedicated)`}
+              value={`${activePeriodic} active (${dedicatedPeriodic} dedicated, ${availablePeriodic} available)`}
             />
             <div className='mt1'>
               <Bar value={periodicUtil} />
@@ -82,7 +88,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
           <div className='mb3'>
             <MetricRow
               label={t('dhtProvide.workers.burst')}
-              value={`${activeBurst} active (${dedicatedBurst} dedicated)`}
+              value={`${activeBurst} active (${dedicatedBurst} dedicated, ${availableBurst} available)`}
             />
             <div className='mt1'>
               <Bar value={burstUtil} />
