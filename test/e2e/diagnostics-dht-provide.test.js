@@ -12,7 +12,7 @@ const dhtProvide = {
   status: (page) => page.locator('.dht-provide__grid').getByText(/Online|Offline/),
   uptime: (page) => page.getByText('Uptime', { exact: true }),
   reprovideInterval: (page) => page.getByText('Reprovide interval'),
-  activeWorkers: (page) => page.locator('.dht-provide__grid').getByText('Active'),
+  activeWorkers: (page) => page.locator('.dht-provide__grid').getByText('Active', { exact: true }),
   workerCount: (page) => page.locator('.dht-provide__grid').getByText(/\d+\s*\/\s*\d+/),
   lastUpdated: (page) => page.getByText(/Last updated at/)
 }
