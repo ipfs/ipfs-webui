@@ -105,7 +105,6 @@
     "provideTriggered": "Provide triggered for {cid}",
     "noCid": "Please enter a CID",
     "description": "Trigger a background provide operation for a CID. This will announce the CID on the DHT so other peers can discover providers for it.",
-
     "screen": {
       "description": "Visual summary of the DHT provide sweep system. See <0>configuration guide</0> and <1>metric reference</1> for details.",
       "loading": "Loading DHT provide stats…",
@@ -116,7 +115,6 @@
       "lastUpdated": "Last updated at {time}",
       "workersWarning": "Workers at {percent}% capacity. If the queue grows, consider increasing Provide.DHT.MaxWorkers (current: {max})."
     },
-
     "connectivity": {
       "title": "Connectivity",
       "tooltip": "Overall health of the DHT provide subsystem: connectivity, uptime, and keyspace coverage.",
@@ -131,7 +129,6 @@
       "partial": "Partial",
       "closedWarning": "Provider system is shutting down"
     },
-
     "schedule": {
       "title": "Schedule",
       "tooltip": "The reprovide cycle periodically re-announces groups of CIDs to the DHT.",
@@ -145,15 +142,13 @@
       "avgPrefixLength": "Avg prefix length",
       "nextReprovide": "Next region start"
     },
-
     "queues": {
       "title": "Queues",
       "tooltip": "Pending items in the provide and reprovide queues.",
-      "pendingCids": "Pending CIDs",
+      "pendingCids": "Pending CIDs (provide)",
       "pendingRegionProvides": "Pending regions (provide)",
       "pendingRegionReprovides": "Pending regions (reprovide)"
     },
-
     "operations": {
       "title": "Operations",
       "tooltip": "In-flight provide and reprovide operations, throughput rates, and cumulative statistics.",
@@ -167,7 +162,6 @@
       "regionReprovideDuration": "Region reprovide duration",
       "avgCidsPerReprovide": "Avg CIDs/reprovide"
     },
-
     "workers": {
       "title": "Workers",
       "tooltip": "Breakdown of worker status by type: periodic workers handle scheduled reprovides, burst workers handle initial provides.",
@@ -177,7 +171,6 @@
       "queued": "Queued (periodic / burst)",
       "maxConnsPerWorker": "Max connections/worker"
     },
-
     "network": {
       "title": "Network",
       "tooltip": "DHT network metrics: peer counts, reachability, and record holders.",
