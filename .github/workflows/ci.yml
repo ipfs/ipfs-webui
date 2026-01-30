@@ -26,6 +26,7 @@ jobs:
   publishPreview:
     name: publish preview
     needs: build
+    if: github.actor != 'dependabot[bot]'
     environment: Deploy
     runs-on: ubuntu-latest
     outputs:
