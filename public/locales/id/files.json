@@ -77,9 +77,9 @@
   },
   "addByPathModal": {
     "title": "Impor dari IPFS",
-    "description": "Masukkan jalur IPFS (CID) untuk diimpor.",
-    "preloadNote": "CATATAN: Jalur yang diimpor dimuat lambat secara default, dan akan diambil sesuai permintaan saat Anda menelusurinya. Untuk mengambil jalur yang diimpor secara proaktif ke Datastore lokal, pilih \"Unduh\" dari menu konteks.",
-    "importPathPlaceholder": "Jalur atau CID (wajib)",
+    "description": "",
+    "preloadNote": "",
+    "importPathPlaceholder": "",
     "namePlaceholder": "Nama (opsional)",
     "examples": "Contoh:"
   },
@@ -110,6 +110,7 @@
   "filesImportStatus": {
     "imported": "{count, plural, other {{count} item yang diimpor}}",
     "importing": "{count, plural, other {Mengimpor {count} item}}",
+    "failed": "{count, plural, other {}}",
     "toggleDropdown": "Alihkan tarik-turun",
     "closeDropdown": "Tutup tarik-turun",
     "count": "{count} dari {count}"
@@ -192,12 +193,14 @@
   "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:",
   "selectAllEntries": "Pilih semua entri",
   "previewNotFound": {
-    "title": "IPFS tidak dapat menemukan item ini",
-    "helpTitle": "Berikut adalah langkah-langkah pemecahan masalah umum yang mungkin membantu:",
-    "helpListItemPathTypo": "Apakah ada kesalahan ketik pada jalur yang Anda masukkan?",
-    "helpListItemFileMoved": "Apakah berkas dipindahkan, diganti nama, atau dihapus?",
-    "helpListItemBookmarkMigrated": "Apakah Anda menyalin URL atau bookmark dari komputer lain? Jika ya, Anda perlu",
-    "helpListItemBookmarkMigratedLink": "arahkan instance ini ke node komputer tersebut",
-    "backButton": "Pergi ke Beranda"
-  }
+    "title": "",
+    "errorPrefix": "",
+    "helpTitle": "",
+    "helpListItemSearchError": "",
+    "helpListItemInspect": "",
+    "helpListItemRetrieval": "",
+    "helpListItemForums": "",
+    "backButton": ""
+  },
+  "inspectResolveFailed": ""
 }

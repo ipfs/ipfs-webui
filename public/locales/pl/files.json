@@ -77,9 +77,9 @@
   },
   "addByPathModal": {
     "title": "Importuj z IPFS",
-    "description": "Wprowadź ścieżkę IPFS (CID) do zaimportowania.",
-    "preloadNote": "UWAGA: Importowana ścieżka jest domyślnie wczytywana na żądanie podczas przeglądania. Aby aktywnie pobrać zaimportowaną ścieżkę do lokalnego magazynu danych, wybierz \"Pobierz\" z menu kontekstowego.",
-    "importPathPlaceholder": "Ścieżka lub CID (wymagane)",
+    "description": "",
+    "preloadNote": "",
+    "importPathPlaceholder": "",
     "namePlaceholder": "Nazwa (opcjonalnie)",
     "examples": "Przykłady:"
   },
@@ -110,6 +110,7 @@
   "filesImportStatus": {
     "imported": "{count, plural, one {Zaimportowano 1 element} few {Zaimportowano {count} elementy} many {Zaimportowano {count} elementów} other {Zaimportowano {count} elementów}}",
     "importing": "{count, plural, one {Importowanie 1 elementu} few {Importowanie {count} elementów} many {Importowanie {count} elementów} other {Importowanie {count} elementów}}",
+    "failed": "{count, plural, one {} few {} many {} other {}}",
     "toggleDropdown": "Przełącz listę rozwijaną",
     "closeDropdown": "Zamknij listę rozwijaną",
     "count": "{count} z {count}"
@@ -192,12 +193,14 @@
   "remotePinningInProgress": "Trwa zdalne przypinanie:",
   "selectAllEntries": "Zaznacz wszystkie elementy",
   "previewNotFound": {
-    "title": "IPFS nie może znaleźć tego elementu",
-    "helpTitle": "Oto typowe kroki diagnostyczne, które mogą pomóc:",
-    "helpListItemPathTypo": "Czy w podanej ścieżce są literówki?",
-    "helpListItemFileMoved": "Czy plik został przeniesiony, zmieniono mu nazwę lub usunięto?",
-    "helpListItemBookmarkMigrated": "Czy skopiowałeś URL lub zakładkę z innego komputera? Jeśli tak, musisz",
-    "helpListItemBookmarkMigratedLink": "wskazać tej instancji węzeł tamtego komputera",
-    "backButton": "Wróć do strony głównej"
-  }
+    "title": "",
+    "errorPrefix": "",
+    "helpTitle": "",
+    "helpListItemSearchError": "",
+    "helpListItemInspect": "",
+    "helpListItemRetrieval": "",
+    "helpListItemForums": "",
+    "backButton": ""
+  },
+  "inspectResolveFailed": ""
 }
