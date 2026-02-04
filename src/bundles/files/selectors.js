@@ -82,6 +82,18 @@ const selectors = () => ({
   /**
    * @param {Model} state
    */
+  selectSyncFromPinsPending: (state) =>
+    state.files.pending.filter(s => s.type === ACTIONS.SYNC_FROM_PINS),
+
+  /**
+   * @param {Model} state
+   */
+  selectSyncFromPinsFinished: (state) =>
+    state.files.finished.filter(s => s.type === ACTIONS.SYNC_FROM_PINS),
+
+  /**
+   * @param {Model} state
+   */
   selectFilesErrors: (state) => state.files.failed,
 
   /**

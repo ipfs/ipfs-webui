@@ -9,6 +9,7 @@ import FolderIcon from '../../icons/StrokeFolder.js'
 import NewFolderIcon from '../../icons/StrokeNewFolder.js'
 import DecentralizationIcon from '../../icons/StrokeDecentralization.js'
 import DataIcon from '../../icons/StrokeData.js'
+import GlyphPinCloud from '../../icons/GlyphPinCloud.js'
 // Components
 import { Dropdown, DropdownMenu, Option } from '../dropdown/Dropdown.js'
 import Button from '../../components/button/button.tsx'
@@ -58,6 +59,11 @@ class FileInput extends React.Component {
 
   onBulkCidImport = () => {
     this.props.onBulkCidImport()
+    this.toggleDropdown()
+  }
+
+  onSyncFromPins = () => {
+    this.props.onSyncFromPins()
     this.toggleDropdown()
   }
 
@@ -112,6 +118,10 @@ class FileInput extends React.Component {
               <DocumentIcon className='fill-aqua w2 mr1' />
               {t('bulkImport')}
             </Option>
+            <Option onClick={this.onSyncFromPins} id='sync-from-pins'>
+              <GlyphPinCloud className='fill-aqua w2 mr1' />
+              {t('syncFromPins.title')}
+            </Option>
           </DropdownMenu>
         </Dropdown>
 
@@ -142,7 +152,8 @@ FileInput.propTypes = {
   onAddByPath: PropTypes.func.isRequired,
   onAddByCar: PropTypes.func.isRequired,
   onBulkCidImport: PropTypes.func.isRequired,
-  onNewFolder: PropTypes.func.isRequired
+  onNewFolder: PropTypes.func.isRequired,
+  onSyncFromPins: PropTypes.func.isRequired
 }
 
 export default connect(

@@ -17,6 +17,7 @@ import CliTutorMode from '../../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCommandList, cliCmdKeys } from '../../bundles/files/consts.js'
 import { realMfsPath } from '../../bundles/files/actions.js'
 import AddByCarModal from './add-by-car-modal/AddByCarModal.js'
+import SyncFromPinsModal from './sync-from-pins-modal/SyncFromPinsModal.js'
 // Constants
 const NEW_FOLDER = 'new_folder'
 const SHARE = 'share'
@@ -29,6 +30,7 @@ const CLI_TUTOR_MODE = 'cli_tutor_mode'
 const PINNING = 'pinning'
 const PUBLISH = 'publish'
 const SHORTCUTS = 'shortcuts'
+const SYNC_FROM_PINS = 'sync_from_pins'
 
 export {
   NEW_FOLDER,
@@ -41,7 +43,8 @@ export {
   CLI_TUTOR_MODE,
   PINNING,
   PUBLISH,
-  SHORTCUTS
+  SHORTCUTS,
+  SYNC_FROM_PINS
 }
 
 class Modals extends React.Component {
@@ -79,6 +82,11 @@ class Modals extends React.Component {
 
   onBulkCidImport = (files, root) => {
     this.props.onBulkCidImport(files, root)
+    this.leave()
+  }
+
+  onSyncFromPins = (selectedPins) => {
+    this.props.onSyncFromPins(selectedPins)
     this.leave()
   }
 
@@ -199,6 +207,9 @@ class Modals extends React.Component {
       case SHORTCUTS:
         this.setState({ readyToShow: true })
         break
+      case SYNC_FROM_PINS:
+        this.setState({ readyToShow: true })
+        break
       default:
         // do nothing
     }
@@ -317,6 +328,14 @@ class Modals extends React.Component {
             className='outline-0'
             onLeave={this.leave} />
         </Overlay>
+
+        <Overlay show={show === SYNC_FROM_PINS && readyToShow} onLeave={this.leave}>
+          <SyncFromPinsModal
+            className='outline-0'
+            pins={this.props.pins || []}
+            onCancel={this.leave}
+            onSync={this.onSyncFromPins} />
+        </Overlay>
       </div>
     )
   }
@@ -326,13 +345,15 @@ Modals.propTypes = {
   t: PropTypes.func.isRequired,
   show: PropTypes.string,
   files: PropTypes.array,
+  pins: PropTypes.array,
   onAddByPath: PropTypes.func.isRequired,
   onAddByCar: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onMakeDir: PropTypes.func.isRequired,
   onShareLink: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
-  onPublish: PropTypes.func.isRequired
+  onPublish: PropTypes.func.isRequired,
+  onSyncFromPins: PropTypes.func.isRequired
 }
 
 export default withTranslation('files')(Modals)

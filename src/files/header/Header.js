@@ -98,6 +98,7 @@ class Header extends React.Component {
                   onAddByPath={this.props.onAddByPath}
                   onAddByCar={this.props.onAddByCar}
                   onBulkCidImport={this.props.onBulkCidImport}
+                  onSyncFromPins={this.props.onSyncFromPins}
                   onCliTutorMode={this.props.onCliTutorMode}
                 />
                 : <div ref={el => { this.dotsWrapper = el }}>

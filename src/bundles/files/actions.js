@@ -524,6 +524,54 @@ const actions = () => ({
   }),
 
   /**
+   * Syncs selected pinned files to MFS at the given root path.
+   * @param {string[]} selectedPins - Array of CID strings to sync
+   * @param {string} root - Destination directory in MFS
+   */
+  doSyncFromPins: (selectedPins, root) => perform(ACTIONS.SYNC_FROM_PINS, async (/** @type {IPFSService} */ ipfs, { store }) => {
+    ensureMFS(store)
+
+    const results = []
+    const errors = []
+
+    for (const pinCid of selectedPins) {
+      try {
+        const cid = CID.parse(pinCid)
+        const src = `/ipfs/${cid}`
+        const dst = realMfsPath(join(root || '/files', `pinned-${cid.toString().substring(0, 8)}`))
+
+        // Check if destination already exists
+        let dstExists = false
+        try {
+          await ipfs.files.stat(dst)
+          dstExists = true
+        } catch {
+          // Destination doesn't exist, we can proceed
+        }
+
+        if (dstExists) {
+          // Try with a different name
+          const timestamp = Date.now()
+          const newDst = realMfsPath(join(root || '/files', `pinned-${cid.toString().substring(0, 8)}-${timestamp}`))
+          await ipfs.files.cp(src, newDst)
+          results.push({ cid: pinCid, path: newDst, success: true })
+        } else {
+          await ipfs.files.cp(src, dst)
+          results.push({ cid: pinCid, path: dst, success: true })
+        }
+      } catch (error) {
+        console.error(`Error syncing pin ${pinCid}:`, error)
+        errors.push({ cid: pinCid, error: error instanceof Error ? error.message : String(error) })
+      }
+    }
+
+    // Refresh the files view
+    await store.doFilesFetch()
+
+    return { results, errors }
+  }),
+
+  /**
    * Reads a text file containing CIDs and adds each one to IPFS at the given root path.
    * @param {FileStream[]} source - The text file containing CIDs
    * @param {string} root - Destination directory in IPFS
