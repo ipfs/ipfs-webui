@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 import { useBridgeSelector } from '../../helpers/context-bridge'
 import { useAgentVersionMinimum } from '../../lib/hooks/use-agent-version-minimum'
+import { usePageVisibility } from '../../lib/hooks/use-page-visibility'
 import type { KuboRPCClient } from 'kubo-rpc-client'
 import type { ProvideStats, ProvideStatOptions } from './types'
 import { getProvideStats } from './api'
@@ -64,16 +65,23 @@ export const ProvideProvider: React.FC<{ children: React.ReactNode }> = ({ child
     }
   }, [ipfs, ipfsConnected, isAgentVersionSupported])
 
-  // Auto-refresh every 60s
-  useEffect(() => {
-    // Run an initial refresh and then schedule periodic refreshes only
-    // when autoRefreshEnabled is true. The toggle is persisted in localStorage.
-    refresh()
-    if (!autoRefreshEnabled) return
+  const pageVisible = usePageVisibility()
 
+  // Auto-refresh every 60s, paused when the browser tab is hidden.
+  useEffect(() => {
+    if (!pageVisible || !autoRefreshEnabled) {
+      // When page becomes visible again after being hidden, do an
+      // immediate refresh so data is up to date, but don't start
+      // the interval yet - the next effect run (with pageVisible=true)
+      // will handle that.
+      if (pageVisible) refresh()
+      return
+    }
+
+    refresh()
     const id = setInterval(refresh, 60_000)
     return () => clearInterval(id)
-  }, [refresh, autoRefreshEnabled])
+  }, [refresh, autoRefreshEnabled, pageVisible])
 
   const setAutoRefreshEnabled = useCallback((enabled: boolean) => {
     try {

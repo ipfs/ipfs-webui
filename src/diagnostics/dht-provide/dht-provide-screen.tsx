@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation, Trans } from 'react-i18next'
 
 import { useProvide } from '../../contexts/ProvideStat'
+import i18n from '../../i18n'
 import './dht-provide.css'
 import UnsupportedKuboVersion from '../../components/unsupported-kubo-version/unsupported-kubo-version'
 import { Connectivity } from './Connectivity'
@@ -81,7 +82,7 @@ const DhtProvideScreen: React.FC = () => {
 
   return (
     <div className={'dht-provide ph4'}>
-      <div className='dht-provide__header mb3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
+      <div className='dht-provide__header mb3'>
         <p className='f6 charcoal ma0'>
           <Trans
             i18nKey='dhtProvide.screen.description'
@@ -147,7 +148,7 @@ const DhtProvideScreen: React.FC = () => {
       )}
       {lastUpdated && (
         <div className='mt2 f7 charcoal-muted'>
-          {t('dhtProvide.screen.lastUpdated', { time: new Date(lastUpdated).toLocaleTimeString() })}
+          {t('dhtProvide.screen.lastUpdated', { time: new Date(lastUpdated).toLocaleTimeString(i18n.language) })}
         </div>
       )}
     </div>

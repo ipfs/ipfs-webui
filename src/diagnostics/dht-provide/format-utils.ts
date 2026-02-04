@@ -97,7 +97,7 @@ export const formatTime = (isoString: string | null | undefined): string => {
   try {
     const date = new Date(isoString)
     if (isNaN(date.getTime())) return PLACEHOLDER
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    return date.toLocaleTimeString(getLocale(), { hour: '2-digit', minute: '2-digit', second: '2-digit' })
   } catch {
     return PLACEHOLDER
   }

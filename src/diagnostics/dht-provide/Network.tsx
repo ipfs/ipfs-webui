@@ -29,7 +29,7 @@ export const Network: React.FC<Props> = ({ sweep, fullRT }) => {
       : 0
 
   return (
-    <Card className='hover-bg-near-white'>
+    <Card>
       <CardHeader className='flex justify-between items-center'>
         <CardTitle>{t('dhtProvide.network.title')}</CardTitle>
         <IconTooltip text={t('dhtProvide.network.tooltip')} position='top'>
