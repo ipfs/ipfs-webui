@@ -230,8 +230,12 @@ class Modals extends React.Component {
         return cliCommandList[action](path)
       case cliCmdKeys.DOWNLOAD_OBJECT_COMMAND:
         return cliCommandList[action](activeCid)
+      case cliCmdKeys.DOWNLOAD_CAR_COMMAND:
+        return cliCommandList[action](activeCid)
       case cliCmdKeys.RENAME_IPFS_OBJECT:
         return cliCommandList[action](path, fileName)
+      case cliCmdKeys.PUBLISH_WITH_IPNS:
+        return cliCommandList[action](activeCid, 'self')
       case cliCmdKeys.PIN_OBJECT:
         return cliCommandList[action](activeCid, isPinned ? 'rm' : 'add')
       default:
