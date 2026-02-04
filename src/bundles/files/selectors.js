@@ -66,13 +66,13 @@ const selectors = () => ({
    * @returns {PendingJob<void, {progress: number, entries: {size:number, path: string}[]}>[]}
    */
   selectFilesPending: (state) =>
-    state.files.pending.filter(s => s.type === ACTIONS.WRITE && s.message != null),
+    state.files.pending.filter(s => (s.type === ACTIONS.WRITE || s.type === ACTIONS.ADD_BY_PATH) && s.message != null),
 
   /**
    * @param {Model} state
    */
   selectFilesFinished: (state) =>
-    state.files.finished.filter(s => s.type === ACTIONS.WRITE),
+    state.files.finished.filter(s => s.type === ACTIONS.WRITE || s.type === ACTIONS.ADD_BY_PATH),
 
   /**
    * @param {Model} state

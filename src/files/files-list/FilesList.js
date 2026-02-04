@@ -329,7 +329,7 @@ export const FilesList = ({
   }, [currentFilesRef, focused, listRef])
 
   return (
-    <section ref={drop} className={classnames('FilesList no-select sans-serif border-box w-100 flex flex-column', className)}>
+    <section ref={drop} className={classnames('FilesList no-select sans-serif border-box w-100 flex flex-column', className)} data-testid="files-list">
       { showLoadingAnimation
         ? <LoadingAnimation />
         : <Fragment>

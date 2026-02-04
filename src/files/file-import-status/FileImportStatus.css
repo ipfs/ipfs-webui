@@ -55,3 +55,17 @@
 .fileImportStatusName {
     flex: 1 1;
 }
+
+.fileImportStatusError {
+    background: #fff5f5 !important;
+    border-color: #feb2b2 !important;
+}
+
+.fileImportStatusError .fileImportStatusButton {
+    background: #fff5f5 !important;
+    color: #c53030 !important;
+}
+
+.fileImportStatusIconError {
+    fill: #fc8181;
+}

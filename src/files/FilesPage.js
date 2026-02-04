@@ -121,7 +121,8 @@ const FilesPage = ({
     doUpdateHash(files?.parentPath)
   }, [files?.parentPath, doUpdateHash])
 
-  const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name)
+  // errors are tracked in redux via filesErrors, catch here to prevent unhandled rejection crash
+  const onAddByPath = (path, name) => doFilesAddPath(files.path, path, name).catch(() => {})
   /**
    *
    * @param {File} file
@@ -197,15 +198,20 @@ const FilesPage = ({
     , [files?.content, files?.pins, selected])
 
     if (!files || files.type === 'file') return null
-
+    // if file not found
+    if (files.type === 'not-found') {
+      return <FileNotFound path={files.path} error={files.error} />
+    }
     // Don't render stale content during navigation
     if (files.path && filesPathInfo.path && files.path !== filesPathInfo.path) {
       return null
     }
-
     if (files.type === 'unknown') {
+      // Show error page if there's an error, otherwise show inspect suggestion
+      if (files.error) {
+        return <FileNotFound path={files.path} error={files.error} />
+      }
       const path = files.path
-
       return (
         <div>
           <Trans i18nKey='cidNotFileNorDir' t={t}>
@@ -213,9 +219,6 @@ const FilesPage = ({
           </Trans>
         </div>
       )
-    }
-    if (files.type === 'not-found') {
-      return <FileNotFound path={files.path} />
     }
 
     const commonProps = {

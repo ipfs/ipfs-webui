@@ -21,25 +21,27 @@ jobs:
   test-unit:
     name: 'test:unit'
     uses: ./.github/workflows/test-unit.yml
+    secrets: inherit
 
   publishPreview:
     name: publish preview
     needs: build
+    if: github.actor != 'dependabot[bot]'
     environment: Deploy
     runs-on: ubuntu-latest
     outputs:
       cid: ${{ steps.ipfs.outputs.cid }}
     steps:
-      - uses: actions/checkout@v4.1.2
+      - uses: actions/checkout@v6
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
       - name: Cache build output
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: build-cache
         with:
           path: build
@@ -49,7 +51,7 @@ jobs:
             ${{ runner.os }}-build-${{ hashFiles('package.json', 'package-lock.json', 'public', 'src/**', '*.js', '*.ts') }}
 
       - name: Cache bigger downloads
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache
         with:
           path: ${{ github.workspace }}/.cache
@@ -83,7 +85,7 @@ jobs:
         run: |
           ipfs dag export ${{ steps.ipfs.outputs.cid }} > ipfs-webui_${{ github.sha }}.car
       - name: Attach produced build to Github Action
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ipfs-webui_${{ github.sha }}.car
           path: ipfs-webui_${{ github.sha }}.car
@@ -160,16 +162,16 @@ jobs:
       - name: Fail job due to pinning failure
         # only fail if pinning failed for main commits
         if: github.ref == 'refs/heads/main' && steps.pin-w3up.outcome == 'failure' && steps.pin-cluster.outcome == 'failure'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
               core.setFailed('Pinning did not succeed')
 
       # dnslink-dnsimple requires go
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         if: github.ref == 'refs/heads/main'
         with:
-          go-version: "1.20.x"
+          go-version-file: '.tool-versions'
 
       - name: Set up dnslink updater
         if: github.ref == 'refs/heads/main'
@@ -190,28 +192,70 @@ jobs:
   test-e2e:
     name: 'test:e2e'
     uses: ./.github/workflows/test-e2e.yml
+    secrets: inherit
 
   test-storybook:
     name: 'test:storybook'
     uses: ./.github/workflows/test-storybook.yml
+    secrets: inherit
 
-  # separate check for TS
-  typecheck:
-    name: typecheck
-    needs: build
-    uses: ./.github/workflows/typecheck.yml
+  # consolidated lint job: eslint, typecheck, depcheck
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
 
-  # separate check for eslint
-  eslint:
-    name: eslint
-    needs: build
-    uses: ./.github/workflows/eslint.yml
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.tool-versions'
+          cache: 'npm'
 
-  # separate check for dep-check
-  depcheck:
-    name: depcheck
-    needs: build
-    uses: ./.github/workflows/depcheck.yml
+      - name: Cache node_modules
+        uses: actions/cache@v5
+        id: npm-cache
+        with:
+          path: node_modules
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'patches/**', '.tool-versions') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
+      - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit --progress=false
+
+      - name: ESLint
+        id: eslint
+        run: npm run eslint
+        continue-on-error: true
+
+      - name: TypeCheck
+        id: typecheck
+        uses: gozala/typescript-error-reporter-action@v1.0.9
+        continue-on-error: true
+        with:
+          project: tsconfig.json
+
+      - name: TypeCheck (userland)
+        id: typecheck-userland
+        run: npm run typecheck
+        continue-on-error: true
+
+      - name: DepCheck
+        id: depcheck
+        run: npm run dep-check
+        continue-on-error: true
+
+      - name: Check for failures
+        if: steps.eslint.outcome == 'failure' || steps.typecheck.outcome == 'failure' || steps.typecheck-userland.outcome == 'failure' || steps.depcheck.outcome == 'failure'
+        run: |
+          echo "Lint failures detected:"
+          echo "  eslint: ${{ steps.eslint.outcome }}"
+          echo "  typecheck: ${{ steps.typecheck.outcome }}"
+          echo "  typecheck-userland: ${{ steps.typecheck-userland.outcome }}"
+          echo "  depcheck: ${{ steps.depcheck.outcome }}"
+          exit 1
 
   # automatically commit new tag and changelog updates when a push to main happens.
   # This will then trigger
@@ -220,15 +264,15 @@ jobs:
   release:
     name: 'Run semantic release'
     runs-on: ubuntu-latest
-    needs: [build, publishPreview, eslint, typecheck, depcheck, test-e2e, test-unit, test-storybook]
+    needs: [build, publishPreview, lint, test-e2e, test-unit, test-storybook]
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v4.1.2
+        uses: actions/checkout@v6
         with:
           persist-credentials: false
 
       - name: Cache bigger downloads
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache
         with:
           path: ${{ github.workspace }}/.cache
@@ -238,7 +282,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Cache build dir
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: build-cache
         with:
           path: build
@@ -252,16 +296,26 @@ jobs:
           echo ${{ needs.publishPreview.outputs.cid }} > .cid
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: lts/*
+          node-version-file: '.tool-versions'
           cache: 'npm'
 
+      - name: Cache node_modules
+        uses: actions/cache@v5
+        id: npm-cache
+        with:
+          path: node_modules
+          key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json', 'patches/**', '.tool-versions') }}
+          restore-keys: |
+            npm-${{ runner.os }}-
+
       - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit --progress=false
 
       - name: Download CAR artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: ipfs-webui_${{ github.sha }}.car
 

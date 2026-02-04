@@ -12,76 +12,72 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const { console } = windowOrGlobal
 
-let ipfsd
-let ipfs
+let ipfsd = null
+let ipfs = null
+
 async function run (rpcPort) {
   let gatewayPort = 8080
   if (ipfsd != null && ipfs != null) {
     throw new Error('IPFS backend already running')
   }
+
   const endpoint = process.env.E2E_API_URL
   if (endpoint) {
-    // create http rpc client for endpoint passed via E2E_API_URL=
     ipfs = create(endpoint)
   } else {
-    // use ipfds-ctl to spawn daemon to expose http api used for e2e tests
     gatewayPort = await getPort(gatewayPort, '0.0.0.0')
+
+    const kuboBinPath = process.env.IPFS_GO_EXEC || kuboPath()
+
     const factory = createFactory({
       rpc: create,
       type: 'kubo',
-      bin: process.env.IPFS_GO_EXEC || kuboPath(),
+      bin: kuboBinPath,
       init: {
         config: {
           Addresses: {
             API: `/ip4/127.0.0.1/tcp/${rpcPort}`,
             Gateway: `/ip4/127.0.0.1/tcp/${gatewayPort}`
           },
+          Bootstrap: [],
           Gateway: {
             NoFetch: true,
             ExposeRoutingAPI: true
           },
           Routing: {
-            Type: 'none'
+            Type: 'autoclient'
           }
         }
       },
-      // sets up all CORS headers required for accessing HTTP API port of ipfsd node
       test: true
     })
 
     ipfsd = await factory.spawn({ type: 'kubo' })
     ipfs = ipfsd.api
   }
+
   const { id, agentVersion } = await ipfs.id()
 
-  // some temporary hardcoding until https://github.com/ipfs/js-ipfsd-ctl/issues/831 is resolved.
   const { apiHost, apiPort, gatewayHost } = { apiHost: '127.0.0.1', apiPort: rpcPort, gatewayHost: '127.0.0.1' }
 
   if (Number(apiPort) !== Number(rpcPort)) {
-    console.error(`Invalid RPC port returned by IPFS backend: ${apiPort} != ${rpcPort}`)
     await ipfsd.stop()
-    process.exit(1)
+    throw new Error(`Invalid RPC port: ${apiPort} != ${rpcPort}`)
   }
 
   const rpcAddr = `/ip4/${apiHost}/tcp/${apiPort}`
   const gatewayAddr = `http://${gatewayHost}:${gatewayPort}`
 
-  // persist details for e2e tests
-  fs.writeFileSync(path.join(__dirname, 'ipfs-backend.json'), JSON.stringify({
+  const configPath = path.join(__dirname, 'ipfs-backend.json')
+  fs.writeFileSync(configPath, JSON.stringify({
     rpcAddr,
     id,
     agentVersion,
-    /**
-     * Used by ipfs-webui to connect to Kubo via the kubo-rpc-client
-     */
     apiOpts: {
       host: apiHost,
       port: apiPort,
       protocol: 'http'
     },
-    /**
-     * Used by ipld-explorer-components to connect to the kubo gateway
-     */
     kuboGateway: {
       host: gatewayHost,
       port: gatewayPort,
@@ -89,20 +85,13 @@ async function run (rpcPort) {
     }
   }))
 
-  console.log(`\nE2E using ${agentVersion} (${endpoint || ipfsd.exec})
-  Peer ID: ${id}
-  rpcAddr: ${rpcAddr}
-  gatewayAddr: ${gatewayAddr}`)
+  console.log(`E2E using ${agentVersion} (${endpoint || ipfsd.exec}) id=${id} rpcAddr=${rpcAddr} gatewayAddr=${gatewayAddr}`)
 
   if (endpoint) {
-    // When using E2E_API_URL, just return after creating the JSON file
-    console.log('Connected to existing node, returning...')
     return
   }
 
-  // Only keep running and handle SIGINT when spawning a new node
   const teardown = async () => {
-    console.log(`Stopping IPFS backend ${id}`)
     await ipfsd.stop()
     process.exit(1)
   }
@@ -110,4 +99,12 @@ async function run (rpcPort) {
   process.on('SIGINT', teardown)
 }
 
-export { run }
+async function stop () {
+  if (ipfsd) {
+    await ipfsd.stop()
+    ipfsd = null
+    ipfs = null
+  }
+}
+
+export { run, stop }

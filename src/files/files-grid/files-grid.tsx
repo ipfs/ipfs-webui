@@ -96,6 +96,19 @@ const FilesGrid = ({
   }, [])
 
   const keyHandler = useCallback((e: KeyboardEvent) => {
+    // Don't capture keyboard events when user is typing in a text input or textarea
+    const target = e.target as HTMLElement
+    if (target.tagName === 'TEXTAREA') {
+      return
+    }
+    if (target.tagName === 'INPUT') {
+      const inputType = (target as HTMLInputElement).type
+      // Allow keyboard navigation for checkboxes and radio buttons
+      if (inputType !== 'checkbox' && inputType !== 'radio') {
+        return
+      }
+    }
+
     const focusedFile = focused == null ? null : filteredFiles.find(el => el.name === focused)
 
     gridRef.current?.focus?.()
@@ -200,7 +213,7 @@ const FilesGrid = ({
       <div ref={(el) => {
         drop(el)
         gridRef.current = el
-      }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')}>
+      }} className={gridClassName} tabIndex={0} role="grid" aria-label={t('filesGridLabel')} data-testid="files-grid">
         {filteredFiles.map(file => (
           <GridFile
             key={file.name}
@@ -222,9 +235,9 @@ const FilesGrid = ({
             onSelect={handleSelect}
           />
         ))}
-        {filteredFiles.length === 0 && (
+        {filteredFiles.length === 0 && !filesPathInfo?.isRoot && (
           <Trans i18nKey='filesList.noFiles' t={t}>
-            <div className='pv3 b--light-gray files-grid-empty bt tc gray f6'>
+            <div className='pv3 b--light-gray files-grid-empty bt tc charcoal-muted f6 noselect'>
               {filter ? t('noFilesMatchFilter') : 'There are no available files. Add some!'}
             </div>
           </Trans>

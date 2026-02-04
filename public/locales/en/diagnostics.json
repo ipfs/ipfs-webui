@@ -2,7 +2,8 @@
   "title": "Diagnostics",
   "tabs": {
     "logs": "Logs",
-    "retrieval-check": "Retrieval Check"
+    "retrieval-check": "Retrieval Check",
+    "dht-provide": "DHT Provide"
   },
   "logs": {
     "title": "Node Logs",
@@ -47,7 +48,10 @@
     "autocomplete": {
       "globalLevel": "Global level",
       "subsystem": "Subsystem",
-      "level": "Log level"
+      "level": "Log level",
+      "invalidSubsystem": "Subsystem \"{subsystem}\" is not valid. Valid subsystems: {subsystems}",
+      "invalidLevel": "\"{level}\" is not a valid log level. Valid levels: debug, info, warn, error, dpanic, panic, fatal",
+      "invalidInput": "Input cannot be empty"
     },
     "warnings": {
       "potentialIssues": "Potential Issues:",
@@ -89,6 +93,94 @@
       "upgradeTitle": "Upgrade Required",
       "upgradeDescription": "To use the log level management features, you need to upgrade to a newer version of Kubo that supports getting log levels and tailing logs from the RPC API endpoint.",
       "downloadKubo": "Download Kubo"
+    }
+  },
+  "dhtProvide": {
+    "title": "DHT Provide",
+    "node": "Node",
+    "unknown": "Unknown",
+    "cidLabel": "CID to provide",
+    "provideButton": "Trigger Provide",
+    "clear": "Clear",
+    "provideTriggered": "Provide triggered for {cid}",
+    "noCid": "Please enter a CID",
+    "description": "Trigger a background provide operation for a CID. This will announce the CID on the DHT so other peers can discover providers for it.",
+    "screen": {
+      "description": "Visual summary of the DHT provide sweep system. See <0>configuration guide</0> and <1>metric reference</1> for details.",
+      "loading": "Loading DHT provide stats…",
+      "notEnabled": "DHT Sweep provider is not enabled on this node.",
+      "failedToLoad": "Failed to load provide stats: {message}",
+      "refreshCountdown": "Refresh: {seconds}s",
+      "refreshOff": "Refresh: OFF",
+      "lastUpdated": "Last updated at {time}",
+      "workersWarning": "Workers at {percent}% capacity. If the queue grows, consider increasing Provide.DHT.MaxWorkers (current: {max})."
+    },
+    "connectivity": {
+      "title": "Connectivity",
+      "tooltip": "Overall health of the DHT provide subsystem: connectivity, uptime, and keyspace coverage.",
+      "status": "Status",
+      "online": "Online",
+      "offline": "Offline",
+      "sinceAgo": "{value}{unit} ago",
+      "justNow": "just now",
+      "uptime": "Uptime",
+      "keyspaceCoverage": "Keyspace",
+      "full": "Full",
+      "partial": "Partial",
+      "closedWarning": "Provider system is shutting down"
+    },
+    "schedule": {
+      "title": "Schedule",
+      "tooltip": "The reprovide cycle periodically re-announces groups of CIDs to the DHT.",
+      "reprovideInterval": "Reprovide interval",
+      "elapsed": "Elapsed",
+      "remaining": "Remaining",
+      "regions": "Regions",
+      "cidsScheduled": "CIDs this cycle",
+      "avgCidsPerRegion": "Avg CIDs/region",
+      "nextRegionPrefix": "Next region prefix",
+      "avgPrefixLength": "Avg prefix length",
+      "nextReprovide": "Next region start"
+    },
+    "queues": {
+      "title": "Queues",
+      "tooltip": "Pending items in the provide and reprovide queues.",
+      "pendingCids": "Pending CIDs (provide)",
+      "pendingRegionProvides": "Pending regions (provide)",
+      "pendingRegionReprovides": "Pending regions (reprovide)"
+    },
+    "operations": {
+      "title": "Operations",
+      "tooltip": "In-flight provide and reprovide operations, throughput rates, and cumulative statistics.",
+      "ongoingProvides": "Ongoing provides",
+      "ongoingReprovides": "Ongoing reprovides",
+      "provideRate": "Avg provide rate",
+      "reprovideRate": "Avg reprovide rate",
+      "totalCidsProvided": "Total CIDs provided",
+      "totalRecordsProvided": "Total records provided",
+      "totalProvideErrors": "Total provide errors",
+      "regionReprovideDuration": "Region reprovide duration",
+      "avgCidsPerReprovide": "Avg CIDs/reprovide"
+    },
+    "workers": {
+      "title": "Workers",
+      "tooltip": "Breakdown of worker status by type: periodic workers handle scheduled reprovides, burst workers handle initial provides.",
+      "active": "Active",
+      "periodic": "Periodic",
+      "burst": "Burst",
+      "queued": "Queued (periodic / burst)",
+      "maxConnsPerWorker": "Max connections/worker"
+    },
+    "network": {
+      "title": "Network",
+      "tooltip": "DHT network metrics: peer counts, reachability, and record holders.",
+      "peerSwept": "Peers swept",
+      "reachablePeers": "Reachable peers",
+      "avgRecordHolders": "Avg record holders",
+      "avgRegionSize": "Avg region size",
+      "replicationFactor": "Replication factor",
+      "fullKeyspaceCoverage": "Full keyspace coverage",
+      "fullRT": "Accelerated DHT client"
     }
   }
 }

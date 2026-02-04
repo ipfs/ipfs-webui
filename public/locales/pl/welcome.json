@@ -1,38 +1,38 @@
 {
-  "title": "Witamy  | IPFS",
+  "title": "Witaj | IPFS",
   "description": "Strona powitalna",
   "connected": {
-    "paragraph1": "Witamy w przyszłości internetu! Jesteś teraz wartościową częścią rozproszonej sieci."
+    "paragraph1": "Witaj w przyszłości internetu! Jesteś teraz częścią rozproszonej sieci."
   },
   "notConnected": {
-    "paragraph1": "<0>Zapoznaj się z przewodnikiem instalacji <1>IPFS Docs</1>, lub spróbuj tych powszechnych poprawek:</0>",
-    "paragraph2": "",
-    "paragraph3": "",
-    "paragraph4": ""
+    "paragraph1": "<0>Zapoznaj się z przewodnikiem instalacji w <1>dokumentacji IPFS</1> lub wypróbuj te popularne rozwiązania:</0>",
+    "paragraph2": "<0>Czy Twój demon IPFS działa? Spróbuj uruchomić lub zrestartować Kubo z terminala:</0>",
+    "paragraph3": "<0>Czy Twoje Kubo RPC API jest skonfigurowane tak, aby zezwalać na żądania <1>cross-origin (CORS)</1>? Jeśli nie, uruchom te polecenia, a następnie uruchom demona z terminala:</0>",
+    "paragraph4": "<0>Czy Twoje Kubo RPC API działa na porcie innym niż 5001? Jeśli Twój węzeł jest skonfigurowany z <1>niestandardowym adresem API</1>, wprowadź go tutaj.</0>"
   },
   "aboutIpfs": {
-    "header": "Co to jest IPFS?",
-    "paragraph1": "<0><0>Protokół dystrybucji hipermediów</0> który łączy pomysły z Kademlia, BitTorrent, Git, i innych</0>",
-    "paragraph2": "<0><0>Sieć transferu plików peer-to-peer</0> o całkowicie zdecentralizowanej architekturze, bez centralnego punktu awarii, cenzury czy kontroli</0>",
-    "paragraph3": "<0><0>Ku przyszłości Sieci</0> — tradycyjne przeglądarki mogą uzyskać dostęp do plików IPFS poprzez bramy HTTP takie jak <2>https://dweb.link</2> lub bezpośrednio za pomocą rozszerzenia <4>IPFS Companion</4> </0>",
-    "paragraph4": "<0><0>Nowa generacja CDN</0> — wystarczy dodać plik do swojego węzła, aby udostępnić go całemu światu dzięki przyjaznemu dla pamięci podręcznej adresowaniu Content-Hash i dystrybucji przepustowości w stylu BitTorrent.</0>",
-    "paragraph5": "<0><0>Zestaw narzędzi dla programistów</0> do tworzenia <2>kompletnie rozproszonych aplikacji i usług</2>, wspierany przez solidną społeczność open-source</0>"
+    "header": "Czym jest IPFS?",
+    "paragraph1": "<0><0>Protokół dystrybucji hipermediów</0> łączący pomysły z Kademlia, BitTorrent, Git i innych</0>",
+    "paragraph2": "<0><0>Sieć peer-to-peer do transferu plików</0> o całkowicie zdecentralizowanej architekturze, bez centralnego punktu awarii, cenzury czy kontroli</0>",
+    "paragraph3": "<0><0>Brama do internetu jutra</0> - tradycyjne przeglądarki mogą uzyskać dostęp do plików IPFS poprzez bramki HTTP, takie jak <2>https://dweb.link</2>, lub bezpośrednio za pomocą rozszerzenia <4>IPFS Companion</4></0>",
+    "paragraph4": "<0><0>CDN nowej generacji</0> - wystarczy dodać plik do swojego węzła, aby udostępnić go światu dzięki adresowaniu treści opartemu na hashach i dystrybucji przepustowości w stylu BitTorrent</0>",
+    "paragraph5": "<0><0>Zestaw narzędzi dla programistów</0> do tworzenia <2>w pełni rozproszonych aplikacji i usług</2>, wspierany przez silną społeczność open-source</0>"
   },
   "welcomeInfo": {
-    "header": "W tej aplikacji, możesz ...",
-    "paragraph1": "<0><0>Sprawdź status swojego węzła</0>, w tym ile osób jest połączonych, statystyki pamięci masowej i przepustowości oraz wiele innych informacji.</0>",
-    "paragraph2": "<0><0>Przeglądaj i zarządzaj plikami</0> w swoim repozytorium IPFS, włączając w to import plików metodą \"przeciągnij i upuść\", łatwe przypinanie oraz opcje szybkiego udostępniania i pobierania.</0>",
-    "paragraph3": "<0><0>Sprawdz  \"Merkle Forest\"</0> z kilkoma przykładowymi zestawami danych i poznawaj IPLD, modelu danych, który leży u podstaw działania IPFS </0>",
-    "paragraph4": "<0><0>Zobacz, kto jest podłączony do Twojego węzła</0>, zlokalizowany na mapie świata na podstawie adresu IP.</0>",
-    "paragraph5": "<0><0>Przeglądaj lub edytuj ustawienia węzła</0> — nie wymaga to wiersza poleceń</0>",
-    "paragraph6": "<0><0>Sprawdź kod źródłowy tej aplikacji</0> aby <2>zgłosić błąd</2> lub wnieść swój wkład i uczynić IPFS lepszym dla wszystkich!</0>"
+    "header": "W tej aplikacji możesz…",
+    "paragraph1": "<0><0>Sprawdzić status swojego węzła</0>, w tym liczbę połączonych węzłów, statystyki miejsca i przepustowości oraz wiele więcej</0>",
+    "paragraph2": "<0><0>Przeglądać i zarządzać plikami</0> w swoim repozytorium IPFS, w tym importować pliki metodą \"przeciągnij i upuść\", łatwo przypinać oraz szybko udostępniać i pobierać</0>",
+    "paragraph3": "<0><0>Odwiedzić \"Las Merkle'a\"</0> z przykładowymi zestawami danych i poznać IPLD - model danych leżący u podstaw działania IPFS</0>",
+    "paragraph4": "<0><0>Zobaczyć, kto jest połączony z Twoim węzłem</0>, z geolokalizacją na mapie świata na podstawie adresu IP</0>",
+    "paragraph5": "<0><0>Przeglądać lub edytować ustawienia węzła</0> - bez konieczności używania wiersza poleceń</0>",
+    "paragraph6": "<0><0>Sprawdzić kod źródłowy tej aplikacji</0>, aby <2>zgłosić błąd</2> lub wnieść swój wkład i uczynić IPFS lepszym dla wszystkich!</0>"
   },
   "tour": {
     "step1": {
       "title": "Strona powitalna",
-      "paragraph1": "Ta strona informuje, czy jesteś podłączony do IPFS i oferuje pomysły na rzeczy, które możesz zrobić w tej aplikacji.",
-      "paragraph2": "",
-      "paragraph3": "Możesz odwiedzić tę stronę z dowolnego miejsca w aplikacji, klikając logo kostki IPFS w pasku nawigacyjnym."
+      "paragraph1": "Ta strona informuje, czy jesteś połączony z IPFS, i oferuje pomysły na rzeczy, które możesz zrobić w tej aplikacji.",
+      "paragraph2": "Jeśli nie jesteś połączony z Kubo RPC API, ta strona pojawia się również zamiast niektórych innych stron, z podpowiedziami, jak się połączyć.",
+      "paragraph3": "Możesz odwiedzić tę stronę z dowolnego miejsca w aplikacji, klikając logo kostki IPFS na pasku nawigacyjnym."
     }
   }
 }
