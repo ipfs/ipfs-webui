@@ -1,6 +1,6 @@
 import { test, expect } from './setup/coverage.js'
 import { fixtureData } from './fixtures/index.js'
-import { files, explore } from './setup/locators.js'
+import { files, explore, dismissImportNotification } from './setup/locators.js'
 import all from 'it-all'
 import filesize from 'filesize'
 import * as kuboRpcModule from 'kubo-rpc-client'
@@ -8,6 +8,8 @@ import * as kuboRpcModule from 'kubo-rpc-client'
 test.describe('Files screen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/#/files')
+    // dismiss any lingering import notification from previous tests
+    await dismissImportNotification(page)
   })
 
   test('should have the active Add menu', async ({ page }) => {

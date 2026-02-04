@@ -6,11 +6,12 @@ import { IdentityProvider } from '../contexts/identity-context'
 import CheckScreen from './check-screen/check-screen.js'
 import { useBridgeSelector } from '../helpers/context-bridge'
 import { RouteInfo } from '../bundles/routes-types'
+import { ProvideProvider } from '../contexts/ProvideStat'
 
 interface DiagnosticsContentProps {
 }
 
-type TabKey = 'logs' | 'retrieval-check'
+type TabKey = 'logs' | 'retrieval-check' | 'dht-provide'
 
 function getTabKeyFromUrl (path: string): { tab: TabKey, remainder?: string } {
   const parts = path.split('/').filter(p => p) // Remove empty strings
@@ -96,6 +97,17 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
         return (
           <CheckScreen cid={remainder} />
         )
+      case 'dht-provide': {
+        // Lazy-load the DHT provide screen to keep bundle size small
+        const DhtProvideScreen = require('./dht-provide/dht-provide-screen').default
+        return (
+          <IdentityProvider>
+            <ProvideProvider>
+              <DhtProvideScreen />
+            </ProvideProvider>
+          </IdentityProvider>
+        )
+      }
       default:
         return null
     }
@@ -108,6 +120,7 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
         <nav className='flex items-center'>
           <TabButton tabKey='logs' label={t('tabs.logs')} active={activeTab === 'logs'} />
           <TabButton tabKey='retrieval-check' label={t('tabs.retrieval-check')} active={activeTab === 'retrieval-check'} />
+          <TabButton tabKey='dht-provide' label={t('tabs.dht-provide')} active={activeTab === 'dht-provide'} />
         </nav>
       </div>
 

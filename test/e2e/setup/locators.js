@@ -105,3 +105,21 @@ export const modal = {
   confirmButton: (page, text = 'Confirm') => page.getByRole('button', { name: text }),
   input: (page) => page.locator('input.modal-input')
 }
+
+// Import notification locators and helper
+export const importNotification = {
+  container: (page) => page.locator('.fileImportStatus'),
+  closeButton: (page) => page.locator('.fileImportStatusCancel')
+}
+
+/**
+ * Dismiss the import notification if visible.
+ * Useful when the notification overlay can block clicks on other UI elements.
+ */
+export async function dismissImportNotification (page) {
+  const closeBtn = importNotification.closeButton(page)
+  if (await closeBtn.isVisible({ timeout: 500 }).catch(() => false)) {
+    await closeBtn.click()
+    await importNotification.container(page).waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {})
+  }
+}

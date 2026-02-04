@@ -1,5 +1,5 @@
 import { test, expect } from './setup/coverage.js'
-import { files, ipns, modal } from './setup/locators.js'
+import { files, ipns, modal, dismissImportNotification } from './setup/locators.js'
 import { create } from 'kubo-rpc-client'
 
 // serial mode due to shared IPNS key state
@@ -81,6 +81,8 @@ test.describe('IPNS publishing', () => {
       await ipfs.key.gen(keyName)
       await page.goto('/#/files')
       await page.reload()
+      // dismiss any lingering import notification from previous tests
+      await dismissImportNotification(page)
     })
 
     test.afterEach(async () => {
@@ -132,9 +134,14 @@ test.describe('IPNS publishing', () => {
       // connect to other peer to have something in the peer table
       // (ipns will fail to publish without peers)
       await ipfs.swarm.connect(peerAddr)
+
+      // dismiss import notification created earlier in this test
+      await dismissImportNotification(page)
+
       await publishButton.click()
 
-      await expect(page.getByText('Successfully published')).toBeVisible()
+      // IPNS publishing can take time depending on network/DHT conditions
+      await expect(page.getByText('Successfully published')).toBeVisible({ timeout: 30000 })
       await ipns.doneButton(page).click()
 
       // confirm IPNS record in local store points at the CID
