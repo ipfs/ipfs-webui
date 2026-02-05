@@ -16,6 +16,7 @@ import Checkbox from '../../components/checkbox/Checkbox.js'
 // import SelectedActions from '../selected-actions/SelectedActions.js'
 import File from '../file/File.js'
 import LoadingAnimation from '../../components/loading-animation/LoadingAnimation.js'
+import SearchFilter from '../search-filter/SearchFilter'
 
 const addFiles = async (filesPromise, onAddFiles) => {
   const files = await filesPromise
@@ -52,11 +53,12 @@ const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], fail
 
 export const FilesList = ({
   className = '', files, pins, pinningServices, remotePins = [], pendingPins = [], failedPins = [], filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
+  onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, showSearch, filterRef, t
 }) => {
   const [focused, setFocused] = useState(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
   const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
+  const [filter, setFilter] = useState(() => filterRef?.current || '')
   const listRef = useRef()
   const filesRefs = useRef([])
   const refreshPinCache = true
@@ -78,6 +80,27 @@ export const FilesList = ({
     canDrop: _ => filesPathInfo.isMfs
   })
 
+  const filteredFiles = useMemo(() => {
+    if (!filter) return allFiles
+
+    const filterLower = filter.toLowerCase()
+    return allFiles.filter(file => {
+      // Search by name
+      if (file.name && file.name.toLowerCase().includes(filterLower)) {
+        return true
+      }
+      // Search by CID
+      if (file.cid && file.cid.toString().toLowerCase().includes(filterLower)) {
+        return true
+      }
+      // Search by type
+      if (file.type && file.type.toLowerCase().includes(filterLower)) {
+        return true
+      }
+      return false
+    })
+  }, [allFiles, filter])
+
   const selectedFiles = useMemo(() =>
     selected
       .map(name => allFiles.find(el => el.name === name))
@@ -88,12 +111,25 @@ export const FilesList = ({
       }))
   , [allFiles, pins, selected])
 
+  const handleFilterChange = useCallback((newFilter) => {
+    setFilter(newFilter)
+    if (filterRef) filterRef.current = newFilter
+    setFocused(null)
+  }, [filterRef])
+
+  useEffect(() => {
+    if (!showSearch) {
+      setFilter('')
+      if (filterRef) filterRef.current = ''
+    }
+  }, [showSearch, filterRef])
+
   const toggleOne = useCallback((name, check) => {
     onSelect(name, check)
   }, [onSelect])
 
   const keyHandler = useCallback((e) => {
-    const focusedFile = files.find(el => el.name === focused)
+    const focusedFile = filteredFiles.find(el => el.name === focused)
 
     // Disable keyboard controls if fetching files
     if (filesIsFetching) {
@@ -128,26 +164,26 @@ export const FilesList = ({
       let index = 0
 
       if (focused !== null) {
-        const prev = files.findIndex(el => el.name === focused)
+        const prev = filteredFiles.findIndex(el => el.name === focused)
         index = (e.key === 'ArrowDown') ? prev + 1 : prev - 1
       }
 
-      if (index === -1 || index >= files.length) {
+      if (index === -1 || index >= filteredFiles.length) {
         return
       }
 
-      let name = files[index].name
+      let name = filteredFiles[index].name
 
       // If the file we are going to focus is out of view (removed
       // from the DOM by react-virtualized), focus the first visible file
       if (!filesRefs.current[name]) {
-        name = files[firstVisibleRow].name
+        name = filteredFiles[firstVisibleRow]?.name
       }
 
       setFocused(name)
     }
   }, [
-    files,
+    filteredFiles,
     focused,
     firstVisibleRow,
     filesIsFetching,
@@ -174,7 +210,7 @@ export const FilesList = ({
 
   const toggleAll = (checked) => {
     if (checked) {
-      onSelect(allFiles.map(file => file.name), true)
+      onSelect(filteredFiles.map(file => file.name), true)
     } else {
       onSelect([], false)
     }
@@ -236,22 +272,22 @@ export const FilesList = ({
   }
 
   const emptyRowsRenderer = () => {
+    if (filter) {
+      return <div className='pv3 b--light-gray bt tc charcoal-muted f6'>{t('noFilesMatchFilter')}</div>
+    }
     if (filesPathInfo.isRoot) {
-      // Root has special more prominent message (AddFilesInfo)
       return null
     }
     return (
       <Trans i18nKey='filesList.noFiles' t={t}>
-        <div className='pv3 b--light-gray bt tc charcoal-muted f6 noselect'>
-              There are no available files. Add some!
-        </div>
+        <div className='pv3 b--light-gray bt tc gray f6'>No files in this directory. Click the &quot;Import&quot; button to add some.</div>
       </Trans>
     )
   }
 
   const rowRenderer = ({ index, key, style }) => {
     const pinsString = pins.map(p => p.toString())
-    const listItem = allFiles[index]
+    const listItem = filteredFiles[index]
     const onNavigateHandler = () => {
       if (listItem.type === 'unknown') return onInspect(listItem.cid)
       return onNavigate({ path: listItem.path, cid: listItem.cid })
@@ -261,7 +297,7 @@ export const FilesList = ({
     }
 
     return (
-      <div key={key} style={style} ref={r => { filesRefs.current[allFiles[index].name] = r }}>
+      <div key={key} style={style} ref={r => { filesRefs.current[filteredFiles[index].name] = r }}>
         <File
           {...listItem}
           pinned={pinsString.includes(listItem.cid.toString())}
@@ -283,8 +319,8 @@ export const FilesList = ({
 
   const onRowsRendered = ({ startIndex }) => setFirstVisibleRow(startIndex)
 
-  const allSelected = selected.length !== 0 && selected.length === allFiles.length
-  const rowCount = allFiles.length
+  const allSelected = selected.length !== 0 && selected.length === filteredFiles.length
+  const rowCount = filteredFiles.length
   const checkBoxCls = classnames({
     'o-1': allSelected,
     'o-70': !allSelected
@@ -340,6 +376,12 @@ export const FilesList = ({
             </div>
             <div className='pa2' style={{ width: '2.5rem' }} />
           </header>
+          {showSearch && <SearchFilter
+            initialValue={filter}
+            onFilterChange={handleFilterChange}
+            filteredCount={filteredFiles.length}
+            totalCount={allFiles.length}
+          />}
           <WindowScroller>
             {({ height, isScrolling, onChildScroll, scrollTop }) => (
               <div className='flex-auto'>

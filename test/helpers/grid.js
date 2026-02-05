@@ -44,6 +44,7 @@ const navigateToFilesPage = async (page) => {
     try {
       localStorage.removeItem('files.viewMode')
       localStorage.removeItem('files.sorting')
+      localStorage.removeItem('files.showSearch')
     } catch (e) {
       // Ignore if localStorage is not available
     }
@@ -95,8 +96,27 @@ const addTestFiles = async (page, directoryName, numFiles = 5) => {
   await page.waitForSelector('[title*="test-file-"]')
 }
 
+/**
+ * Toggle search filter visibility
+ * @param {import('@playwright/test').Page} page - The Playwright page object
+ * @param {boolean} show - Whether to show (true) or hide (false) the search filter
+ */
+const toggleSearchFilter = async (page, show) => {
+  const searchInput = page.locator('input[aria-label="Filter by name or CID…"]')
+  const isVisible = await searchInput.isVisible().catch(() => false)
+
+  if (show && !isVisible) {
+    await page.getByRole('button', { name: 'Click to show search filter' }).click()
+    await searchInput.waitFor({ state: 'visible', timeout: 5000 })
+  } else if (!show && isVisible) {
+    await page.getByRole('button', { name: 'Click to hide search filter' }).click()
+    await searchInput.waitFor({ state: 'hidden', timeout: 5000 })
+  }
+}
+
 export {
   navigateToFilesPage,
   addTestFiles,
-  selectViewMode
+  selectViewMode,
+  toggleSearchFilter
 }
