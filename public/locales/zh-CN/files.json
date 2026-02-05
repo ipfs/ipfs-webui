@@ -77,9 +77,9 @@
   },
   "addByPathModal": {
     "title": "从IPFS导入",
-    "description": "输入要导入到的IPFS路径（CID）。",
-    "preloadNote": "注意：默认情况下，导入的路径是延迟加载的，在您浏览时将按需检索。要主动将导入的路径预取到本地数据存储，请从上下文菜单中选择“下载”。",
-    "importPathPlaceholder": "路径或CID (必要)",
+    "description": "",
+    "preloadNote": "",
+    "importPathPlaceholder": "",
     "namePlaceholder": "名称 (可选)",
     "examples": "示例："
   },
@@ -110,6 +110,7 @@
   "filesImportStatus": {
     "imported": "{count, plural, other {已导入{count}项目}}",
     "importing": "{count, plural, other {已导入{count}项目}}",
+    "failed": "{count, plural, other {}}",
     "toggleDropdown": "切换下拉框",
     "closeDropdown": "关闭下拉框",
     "count": "{count}个 / 共{count}个"
@@ -192,12 +193,14 @@
   "remotePinningInProgress": "远程固定中:",
   "selectAllEntries": "全选",
   "previewNotFound": {
-    "title": "IPFS 无法找到这个项目",
-    "helpTitle": "这些是常用的故障排查步骤也许会有帮助:",
-    "helpListItemPathTypo": "您输入的路径中是否有拼写错误？",
-    "helpListItemFileMoved": "文件是否被移动、重命名或删除？",
-    "helpListItemBookmarkMigrated": "你是否从另一台电脑复制了网址或书签？如果是这样，你需要",
-    "helpListItemBookmarkMigratedLink": "将此实例指向该计算机的节点",
-    "backButton": "返回主页"
-  }
+    "title": "",
+    "errorPrefix": "",
+    "helpTitle": "",
+    "helpListItemSearchError": "",
+    "helpListItemInspect": "",
+    "helpListItemRetrieval": "",
+    "helpListItemForums": "",
+    "backButton": ""
+  },
+  "inspectResolveFailed": ""
 }
