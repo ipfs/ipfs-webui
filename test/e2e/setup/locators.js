@@ -40,6 +40,11 @@ export const files = {
   contextMenuButton: (page, name) => page.locator(`button[aria-label="View more options for ${name}"]`),
   contextMenuItem: (page, text) => page.locator('button[role="menuitem"]').filter({ hasText: text }),
 
+  // Search filter
+  searchToggle: (page) => page.getByRole('button', { name: 'Click to show search filter' }),
+  searchInput: (page) => page.locator('input[aria-label="Filter by name or CID…"]'),
+  searchClearButton: (page) => page.getByRole('button', { name: 'Clear search' }),
+
   // Dialogs
   dialog: (page) => page.locator('div[role="dialog"]'),
   dialogInput: (page, name) => page.locator(`div[role="dialog"] input[name="${name}"]`),
