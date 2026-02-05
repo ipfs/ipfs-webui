@@ -18,6 +18,7 @@ export interface FilesGridProps {
   pendingPins: string[]
   failedPins: string[]
   showSearch?: boolean
+  filterRef?: React.MutableRefObject<string>
 }
 
 type SetPinningProps = { cid: CID, pinned: boolean }
@@ -36,15 +37,14 @@ interface FilesGridPropsConnected extends FilesGridProps {
   onSelect: (fileName: string | string[], isSelected: boolean) => void
   filesIsFetching: boolean
   selected: string[]
-  showSearch?: boolean
 }
 
 const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
-  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect, showSearch
+  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect, showSearch, filterRef
 }: FilesGridPropsConnected) => {
   const [focused, setFocused] = useState<string | null>(null)
-  const [filter, setFilter] = useState('')
+  const [filter, setFilter] = useState(() => filterRef?.current || '')
   const filesRefs = useRef<Record<string, HTMLDivElement>>({})
   const gridRef = useRef<HTMLDivElement | null>(null)
 
@@ -93,15 +93,16 @@ const FilesGrid = ({
 
   const handleFilterChange = useCallback((newFilter: string) => {
     setFilter(newFilter)
-    // Clear focus when filtering to avoid issues
+    if (filterRef) filterRef.current = newFilter
     setFocused(null)
-  }, [])
+  }, [filterRef])
 
   useEffect(() => {
     if (!showSearch) {
       setFilter('')
+      if (filterRef) filterRef.current = ''
     }
-  }, [showSearch])
+  }, [showSearch, filterRef])
 
   const keyHandler = useCallback((e: KeyboardEvent) => {
     // Don't capture keyboard events when user is typing in a text input or textarea
@@ -198,8 +199,7 @@ const FilesGrid = ({
         }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredFiles, focused])
+  }, [filteredFiles, focused, selected, onSelect, onRename, onRemove, onNavigate, handleSelect])
 
   useEffect(() => {
     if (filesIsFetching) return
@@ -214,6 +214,7 @@ const FilesGrid = ({
   return (
     <div className="flex flex-column">
       {showSearch && <SearchFilter
+        initialValue={filter}
         onFilterChange={handleFilterChange}
         filteredCount={filteredFiles.length}
         totalCount={files.length}

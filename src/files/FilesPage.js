@@ -46,6 +46,7 @@ const FilesPage = ({
   })
   const [viewMode, setViewMode] = useState(() => readSetting('files.viewMode') || 'list')
   const [showSearch, setShowSearch] = useState(() => readSetting('files.showSearch') || false)
+  const filterRef = useRef('')
   const [selected, setSelected] = useState([])
 
   const toggleViewMode = () => {
@@ -53,7 +54,10 @@ const FilesPage = ({
     setViewMode(newMode)
   }
 
-  const toggleSearch = () => setShowSearch(prev => !prev)
+  const toggleSearch = () => setShowSearch(prev => {
+    if (prev) filterRef.current = ''
+    return !prev
+  })
 
   useEffect(() => {
     doFetchPinningServices()
@@ -272,8 +276,8 @@ const FilesPage = ({
 
     return <>
       {viewMode === 'list'
-        ? <FilesList {...commonProps} showSearch={showSearch} />
-        : <FilesGrid {...commonProps} showSearch={showSearch} />}
+        ? <FilesList {...commonProps} showSearch={showSearch} filterRef={filterRef} />
+        : <FilesGrid {...commonProps} showSearch={showSearch} filterRef={filterRef} />}
 
       {selectedFiles.length !== 0 && <SelectedActions
         className={'fixed bottom-0 right-0'}

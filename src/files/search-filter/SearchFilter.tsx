@@ -4,16 +4,17 @@ import classnames from 'classnames'
 import { TFunction } from 'i18next'
 
 interface SearchFilterProps {
+  initialValue?: string
   onFilterChange: (filter: string) => void
   filteredCount: number
   totalCount: number
   className?: string
 }
 
-const SearchFilter = ({ onFilterChange, filteredCount, totalCount, t, className = '' }: SearchFilterProps & { t: TFunction }) => {
-  const [filter, setFilter] = useState('')
+const SearchFilter = ({ initialValue = '', onFilterChange, filteredCount, totalCount, t, className = '' }: SearchFilterProps & { t: TFunction }) => {
+  const [filter, setFilter] = useState(initialValue)
 
-  const handleFilterChange = useCallback((e) => {
+  const handleFilterChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setFilter(value)
     onFilterChange(value)

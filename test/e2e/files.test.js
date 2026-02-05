@@ -411,5 +411,27 @@ test.describe('Files screen', () => {
 
       await expect(page.getByText('No files match your search')).toBeVisible()
     })
+
+    test('filter persists when switching between list and grid view', async ({ page }) => {
+      await selectViewMode(page, 'list')
+      await toggleSearchFilter(page, true)
+
+      await files.searchInput(page).fill('orange')
+      await expect(page.getByTestId('file-row').filter({ hasText: orangeFile })).toBeVisible()
+      await expect(page.getByTestId('file-row').filter({ hasText: appleFile })).not.toBeVisible()
+
+      // switch to grid view -- filter should persist
+      await selectViewMode(page, 'grid')
+      await expect(files.searchInput(page)).toBeVisible()
+      await expect(files.searchInput(page)).toHaveValue('orange')
+      await expect(files.gridFileByName(page, orangeFile)).toBeVisible()
+      await expect(files.gridFileByName(page, appleFile)).not.toBeVisible()
+
+      // switch back to list view -- filter should still persist
+      await selectViewMode(page, 'list')
+      await expect(files.searchInput(page)).toHaveValue('orange')
+      await expect(page.getByTestId('file-row').filter({ hasText: orangeFile })).toBeVisible()
+      await expect(page.getByTestId('file-row').filter({ hasText: appleFile })).not.toBeVisible()
+    })
   })
 })

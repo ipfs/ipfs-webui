@@ -53,12 +53,12 @@ const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], fail
 
 export const FilesList = ({
   className = '', files, pins, pinningServices, remotePins = [], pendingPins = [], failedPins = [], filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, showSearch, t
+  onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, showSearch, filterRef, t
 }) => {
   const [focused, setFocused] = useState(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
   const [allFiles, setAllFiles] = useState(mergeRemotePinsIntoFiles(files, remotePins, pendingPins, failedPins))
-  const [filter, setFilter] = useState('')
+  const [filter, setFilter] = useState(() => filterRef?.current || '')
   const listRef = useRef()
   const filesRefs = useRef([])
   const refreshPinCache = true
@@ -113,15 +113,16 @@ export const FilesList = ({
 
   const handleFilterChange = useCallback((newFilter) => {
     setFilter(newFilter)
-    // Clear focus when filtering to avoid issues with virtualized list
+    if (filterRef) filterRef.current = newFilter
     setFocused(null)
-  }, [])
+  }, [filterRef])
 
   useEffect(() => {
     if (!showSearch) {
       setFilter('')
+      if (filterRef) filterRef.current = ''
     }
-  }, [showSearch])
+  }, [showSearch, filterRef])
 
   const toggleOne = useCallback((name, check) => {
     onSelect(name, check)
@@ -270,13 +271,19 @@ export const FilesList = ({
     listRef.current?.forceUpdateGrid?.()
   }
 
-  const emptyRowsRenderer = () => (
-    filter
-      ? <div className='pv3 b--light-gray bt tc charcoal-muted f6'>{t('noFilesMatchFilter')}</div>
-      : <Trans i18nKey='filesList.noFiles' t={t}>
-          <div className='pv3 b--light-gray bt tc gray f6'>No files in this directory. Click the "Import" button to add some.</div>
-        </Trans>
-  )
+  const emptyRowsRenderer = () => {
+    if (filter) {
+      return <div className='pv3 b--light-gray bt tc charcoal-muted f6'>{t('noFilesMatchFilter')}</div>
+    }
+    if (filesPathInfo.isRoot) {
+      return null
+    }
+    return (
+      <Trans i18nKey='filesList.noFiles' t={t}>
+        <div className='pv3 b--light-gray bt tc gray f6'>No files in this directory. Click the &quot;Import&quot; button to add some.</div>
+      </Trans>
+    )
+  }
 
   const rowRenderer = ({ index, key, style }) => {
     const pinsString = pins.map(p => p.toString())
@@ -370,6 +377,7 @@ export const FilesList = ({
             <div className='pa2' style={{ width: '2.5rem' }} />
           </header>
           {showSearch && <SearchFilter
+            initialValue={filter}
             onFilterChange={handleFilterChange}
             filteredCount={filteredFiles.length}
             totalCount={allFiles.length}
