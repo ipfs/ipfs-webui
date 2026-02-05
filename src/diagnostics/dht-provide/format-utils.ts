@@ -43,6 +43,8 @@ export const formatElapsed = (isoString: string | null | undefined): string => {
   try {
     const start = new Date(isoString)
     if (isNaN(start.getTime())) return PLACEHOLDER
+    // Go zero time "0001-01-01T00:00:00Z" means the value was never set
+    if (start.getFullYear() <= 1) return PLACEHOLDER
     const now = Date.now()
     const elapsedMs = now - start.getTime()
     const elapsedSecs = Math.floor(elapsedMs / 1000)
@@ -72,6 +74,8 @@ export const formatSince = (
   try {
     const date = new Date(isoString)
     if (isNaN(date.getTime())) return ''
+    // Go zero time "0001-01-01T00:00:00Z" means the value was never set
+    if (date.getFullYear() <= 1) return ''
     const now = Date.now()
     const diffMs = now - date.getTime()
     const diffMins = Math.floor(diffMs / 60000)
@@ -97,6 +101,8 @@ export const formatTime = (isoString: string | null | undefined): string => {
   try {
     const date = new Date(isoString)
     if (isNaN(date.getTime())) return PLACEHOLDER
+    // Go zero time "0001-01-01T00:00:00Z" means the value was never set
+    if (date.getFullYear() <= 1) return PLACEHOLDER
     return date.toLocaleTimeString(getLocale(), { hour: '2-digit', minute: '2-digit', second: '2-digit' })
   } catch {
     return PLACEHOLDER
