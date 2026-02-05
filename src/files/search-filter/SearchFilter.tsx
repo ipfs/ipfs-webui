@@ -37,7 +37,8 @@ const SearchFilter = ({ onFilterChange, filteredCount, totalCount, t, className 
         />
         {filter && (
           <button
-            className='absolute right-1 top-1 bottom-1 bg-transparent bn pointer f6 gray'
+            className='absolute bg-transparent bn pointer f5 gray flex items-center justify-center'
+            style={{ right: '0.5rem', top: 0, bottom: 0 }}
             onClick={clearFilter}
             aria-label={t('clearSearch')}
             title={t('clearSearch')}

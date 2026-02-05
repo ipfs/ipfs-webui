@@ -17,6 +17,7 @@ export interface FilesGridProps {
   remotePins: string[]
   pendingPins: string[]
   failedPins: string[]
+  showSearch?: boolean
 }
 
 type SetPinningProps = { cid: CID, pinned: boolean }
@@ -35,11 +36,12 @@ interface FilesGridPropsConnected extends FilesGridProps {
   onSelect: (fileName: string | string[], isSelected: boolean) => void
   filesIsFetching: boolean
   selected: string[]
+  showSearch?: boolean
 }
 
 const FilesGrid = ({
   files, pins = [], remotePins = [], pendingPins = [], failedPins = [], filesPathInfo, t, onRemove, onRename, onNavigate, onAddFiles,
-  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect
+  onMove, handleContextMenuClick, filesIsFetching, onSetPinning, onDismissFailedPin, selected = [], onSelect, showSearch
 }: FilesGridPropsConnected) => {
   const [focused, setFocused] = useState<string | null>(null)
   const [filter, setFilter] = useState('')
@@ -94,6 +96,12 @@ const FilesGrid = ({
     // Clear focus when filtering to avoid issues
     setFocused(null)
   }, [])
+
+  useEffect(() => {
+    if (!showSearch) {
+      setFilter('')
+    }
+  }, [showSearch])
 
   const keyHandler = useCallback((e: KeyboardEvent) => {
     // Don't capture keyboard events when user is typing in a text input or textarea
@@ -205,11 +213,11 @@ const FilesGrid = ({
 
   return (
     <div className="flex flex-column">
-      <SearchFilter
+      {showSearch && <SearchFilter
         onFilterChange={handleFilterChange}
         filteredCount={filteredFiles.length}
         totalCount={files.length}
-      />
+      />}
       <div ref={(el) => {
         drop(el)
         gridRef.current = el
@@ -235,11 +243,12 @@ const FilesGrid = ({
             onSelect={handleSelect}
           />
         ))}
-        {filteredFiles.length === 0 && !filesPathInfo?.isRoot && (
+        {filteredFiles.length === 0 && filter && (
+          <div className='pv3 b--light-gray files-grid-empty bt tc charcoal-muted f6 noselect'>{t('noFilesMatchFilter')}</div>
+        )}
+        {filteredFiles.length === 0 && !filter && !filesPathInfo?.isRoot && (
           <Trans i18nKey='filesList.noFiles' t={t}>
-            <div className='pv3 b--light-gray files-grid-empty bt tc charcoal-muted f6 noselect'>
-              {filter ? t('noFilesMatchFilter') : 'There are no available files. Add some!'}
-            </div>
+            <div className='pv3 b--light-gray files-grid-empty bt tc charcoal-muted f6 noselect'>No files in this directory. Click the "Import" button to add some.</div>
           </Trans>
         )}
       </div>

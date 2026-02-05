@@ -53,7 +53,7 @@ const mergeRemotePinsIntoFiles = (files, remotePins = [], pendingPins = [], fail
 
 export const FilesList = ({
   className = '', files, pins, pinningServices, remotePins = [], pendingPins = [], failedPins = [], filesSorting, updateSorting, filesIsFetching, filesPathInfo, showLoadingAnimation,
-  onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, t
+  onShare, onSetPinning, selected, onSelect, onInspect, onDownload, onRemove, onRename, onNavigate, onRemotePinClick, onAddFiles, onMove, doFetchRemotePins, doDismissFailedPin, handleContextMenuClick, showSearch, t
 }) => {
   const [focused, setFocused] = useState(null)
   const [firstVisibleRow, setFirstVisibleRow] = useState(null)
@@ -116,6 +116,12 @@ export const FilesList = ({
     // Clear focus when filtering to avoid issues with virtualized list
     setFocused(null)
   }, [])
+
+  useEffect(() => {
+    if (!showSearch) {
+      setFilter('')
+    }
+  }, [showSearch])
 
   const toggleOne = useCallback((name, check) => {
     onSelect(name, check)
@@ -265,11 +271,11 @@ export const FilesList = ({
   }
 
   const emptyRowsRenderer = () => (
-    <Trans i18nKey='filesList.noFiles' t={t}>
-      <div className='pv3 b--light-gray bt tc gray f6'>
-        {filter ? t('noFilesMatchFilter') : 'There are no available files. Add some!'}
-      </div>
-    </Trans>
+    filter
+      ? <div className='pv3 b--light-gray bt tc charcoal-muted f6'>{t('noFilesMatchFilter')}</div>
+      : <Trans i18nKey='filesList.noFiles' t={t}>
+          <div className='pv3 b--light-gray bt tc gray f6'>No files in this directory. Click the "Import" button to add some.</div>
+        </Trans>
   )
 
   const rowRenderer = ({ index, key, style }) => {
@@ -363,11 +369,11 @@ export const FilesList = ({
             </div>
             <div className='pa2' style={{ width: '2.5rem' }} />
           </header>
-          <SearchFilter
+          {showSearch && <SearchFilter
             onFilterChange={handleFilterChange}
             filteredCount={filteredFiles.length}
             totalCount={allFiles.length}
-          />
+          />}
           <WindowScroller>
             {({ height, isScrolling, onChildScroll, scrollTop }) => (
               <div className='flex-auto'>

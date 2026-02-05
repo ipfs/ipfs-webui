@@ -15,6 +15,7 @@ import FilePreview from './file-preview/FilePreview.js'
 import FilesList from './files-list/FilesList.js'
 import FilesGrid from './files-grid/files-grid.js'
 import { ViewList, ViewModule } from '../icons/stroke-icons.js'
+import GlyphSearch from '../icons/GlyphSearch.tsx'
 import FileNotFound from './file-not-found/index.tsx'
 import { getJoyrideLocales } from '../helpers/i8n.js'
 import SortDropdown from './sort-dropdown/SortDropdown.js'
@@ -44,12 +45,15 @@ const FilesPage = ({
     file: null
   })
   const [viewMode, setViewMode] = useState(() => readSetting('files.viewMode') || 'list')
+  const [showSearch, setShowSearch] = useState(() => readSetting('files.showSearch') || false)
   const [selected, setSelected] = useState([])
 
   const toggleViewMode = () => {
     const newMode = viewMode === 'list' ? 'grid' : 'list'
     setViewMode(newMode)
   }
+
+  const toggleSearch = () => setShowSearch(prev => !prev)
 
   useEffect(() => {
     doFetchPinningServices()
@@ -84,6 +88,11 @@ const FilesPage = ({
   useEffect(() => {
     writeSetting('files.viewMode', viewMode)
   }, [viewMode])
+
+  // Persist search visibility to localStorage
+  useEffect(() => {
+    writeSetting('files.showSearch', showSearch)
+  }, [showSearch])
 
   /* TODO: uncomment below if we ever want automatic remote pin check
   *  (it was disabled for now due to https://github.com/ipfs/ipfs-desktop/issues/1954)
@@ -263,8 +272,8 @@ const FilesPage = ({
 
     return <>
       {viewMode === 'list'
-        ? <FilesList {...commonProps} />
-        : <FilesGrid {...commonProps} />}
+        ? <FilesList {...commonProps} showSearch={showSearch} />
+        : <FilesGrid {...commonProps} showSearch={showSearch} />}
 
       {selectedFiles.length !== 0 && <SelectedActions
         className={'fixed bottom-0 right-0'}
@@ -363,6 +372,15 @@ const FilesPage = ({
             }}
           >
             {viewMode === 'list' ? <ViewList width="24" height="24" /> : <ViewModule width="24" height="24" />}
+          </button>
+          <button
+            className="pointer selected-item ml2"
+            onClick={toggleSearch}
+            title={showSearch ? t('hideSearch') : t('showSearch')}
+            aria-label={showSearch ? t('hideSearch') : t('showSearch')}
+            style={{ height: '24px' }}
+          >
+            <GlyphSearch width="24" height="24" fill="currentColor" />
           </button>
         </div>
       </Header>
