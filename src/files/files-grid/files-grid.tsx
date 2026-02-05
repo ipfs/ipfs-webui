@@ -4,6 +4,7 @@ import { useDrop } from 'react-dnd'
 import { NativeTypes } from 'react-dnd-html5-backend'
 import { normalizeFiles } from '../../lib/files.js'
 import GridFile from './grid-file.jsx'
+import Checkbox from '../../components/checkbox/Checkbox.js'
 import { connect } from 'redux-bundler-react'
 import './files-grid.css'
 import { TFunction } from 'i18next'
@@ -96,6 +97,16 @@ const FilesGrid = ({
     if (filterRef) filterRef.current = newFilter
     setFocused(null)
   }, [filterRef])
+
+  const allSelected = selected.length !== 0 && selected.length === filteredFiles.length
+
+  const toggleAll = useCallback((checked: boolean) => {
+    if (checked) {
+      onSelect(filteredFiles.map(file => file.name), true)
+    } else {
+      onSelect([], false)
+    }
+  }, [filteredFiles, onSelect])
 
   useEffect(() => {
     if (!showSearch) {
@@ -219,6 +230,15 @@ const FilesGrid = ({
         filteredCount={filteredFiles.length}
         totalCount={files.length}
       />}
+      {filteredFiles.length > 0 && (
+        <Checkbox
+          className='pv3 pl3 pr1 flex-none'
+          onChange={toggleAll}
+          checked={allSelected}
+          label={<span className='fw5 f6'>{t('selectAllEntries')}</span>}
+          aria-label={t('selectAllEntries')}
+        />
+      )}
       <div ref={(el) => {
         drop(el)
         gridRef.current = el

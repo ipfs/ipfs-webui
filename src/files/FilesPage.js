@@ -27,7 +27,6 @@ import Header from './header/Header.js'
 import FileImportStatus from './file-import-status/FileImportStatus.js'
 import { useExplore } from 'ipld-explorer-components/providers'
 import SelectedActions from './selected-actions/SelectedActions.js'
-import Checkbox from '../components/checkbox/Checkbox.js'
 
 const FilesPage = ({
   doFetchPinningServices, doFilesFetch, doPinsFetch, doFilesSizeGet, doFilesDownloadLink, doFilesDownloadCarLink, doFilesWrite, doAddCarFile, doFilesBulkCidImport, doFilesAddPath, doUpdateHash,
@@ -389,28 +388,6 @@ const FilesPage = ({
           </button>
         </div>
       </Header>
-
-      {(files && files.type !== 'file') && <div className="flex items-center justify-between">
-        <div>
-          {viewMode === 'grid' && files?.content?.length > 0
-            ? (
-                <Checkbox
-                  className='pv3 pl3 pr1 bg-white flex-none'
-                  onChange={(checked) => {
-                    if (checked) {
-                      setSelected(files.content.map(f => f.name))
-                    } else {
-                      setSelected([])
-                    }
-                  }}
-                  checked={files?.content?.length > 0 && selected.length === files.content.length}
-                  label={<span className='fw5 f6'>{t('selectAllEntries')}</span>}
-                />
-              )
-            : null
-          }
-        </div>
-      </div>}
 
       <MainView t={t} files={files} remotePins={remotePins} pendingPins={pendingPins} failedPins={failedPins} doExploreUserProvidedPath={doExploreUserProvidedPath}/>
 

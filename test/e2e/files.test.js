@@ -412,6 +412,46 @@ test.describe('Files screen', () => {
       await expect(page.getByText('No files match your search')).toBeVisible()
     })
 
+    test('select all only selects filtered files in grid view', async ({ page }) => {
+      await selectViewMode(page, 'grid')
+      await toggleSearchFilter(page, true)
+
+      // filter to show only the orange file
+      await files.searchInput(page).fill('orange')
+      await expect(files.gridFileByName(page, orangeFile)).toBeVisible()
+      await expect(files.gridFileByName(page, appleFile)).not.toBeVisible()
+
+      // click "Select all entries" checkbox (use label text since the input is absolutely positioned)
+      const selectAllLabel = page.getByText('Select all entries')
+      await expect(selectAllLabel).toBeVisible()
+      await selectAllLabel.click()
+
+      // the selected actions bar should show "1" (only the filtered file)
+      const selectedActions = page.locator('.selectedActions')
+      await expect(selectedActions).toBeVisible()
+      await expect(selectedActions.getByText('Item selected')).toBeVisible()
+    })
+
+    test('select all only selects filtered files in list view', async ({ page }) => {
+      await selectViewMode(page, 'list')
+      await toggleSearchFilter(page, true)
+
+      // filter to show only the orange file
+      await files.searchInput(page).fill('orange')
+      await expect(page.getByTestId('file-row').filter({ hasText: orangeFile })).toBeVisible()
+      await expect(page.getByTestId('file-row').filter({ hasText: appleFile })).not.toBeVisible()
+
+      // click "Select all entries" checkbox via its parent label (input is absolutely positioned)
+      const selectAllCheckbox = page.getByRole('checkbox', { name: 'Select all entries' })
+      await expect(selectAllCheckbox).toBeVisible()
+      await selectAllCheckbox.dispatchEvent('click')
+
+      // the selected actions bar should show "1" (only the filtered file)
+      const selectedActions = page.locator('.selectedActions')
+      await expect(selectedActions).toBeVisible()
+      await expect(selectedActions.getByText('Item selected')).toBeVisible()
+    })
+
     test('filter persists when switching between list and grid view', async ({ page }) => {
       await selectViewMode(page, 'list')
       await toggleSearchFilter(page, true)
