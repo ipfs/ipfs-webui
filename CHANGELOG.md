@@ -1,3 +1,35 @@
+## [4.11.0](https://github.com/ipfs/ipfs-webui/compare/v4.10.0...v4.11.0) (2026-02-05)
+
+
+ CID `bafybeidfgbcqy435sdbhhejifdxq4o64tlsezajc272zpyxcsmz47uyc64`
+
+ --- 
+
+
+
+### Features
+
+* Add search/filter functionality to Files UI ([#2451](https://github.com/ipfs/ipfs-webui/issues/2451)) ([c866be6](https://github.com/ipfs/ipfs-webui/commit/c866be605f85ac3439a6d4be101ceae60ddf82ef)), closes [#2447](https://github.com/ipfs/ipfs-webui/issues/2447)
+* DHT Provide Sweep Diagnostic Screen ([#2463](https://github.com/ipfs/ipfs-webui/issues/2463)) ([fb22ea6](https://github.com/ipfs/ipfs-webui/commit/fb22ea633a5a727234489ec0fc11544b09e2c6aa))
+* **files:** resolve paths before inspect and support protocol URL ([#2465](https://github.com/ipfs/ipfs-webui/issues/2465)) ([74a44d8](https://github.com/ipfs/ipfs-webui/commit/74a44d8be1406aff5ab2e616a4d080b4a8a2355a))
+* **files:** support additional image file extensions ([#2347](https://github.com/ipfs/ipfs-webui/issues/2347)) ([371341a](https://github.com/ipfs/ipfs-webui/commit/371341a9bfd4c433ea89e9ada0a89fc37fd8fe9e))
+
+
+### Bug Fixes
+
+* **ci:** test stability improvements ([#2466](https://github.com/ipfs/ipfs-webui/issues/2466)) ([d11475a](https://github.com/ipfs/ipfs-webui/commit/d11475a775c1aa522b51f05caecf51ab1d65d956))
+* CLI tutor commands missing some parameters ([#2470](https://github.com/ipfs/ipfs-webui/issues/2470)) ([ed8ad6a](https://github.com/ipfs/ipfs-webui/commit/ed8ad6a25d0745413e0f0c6fd301e39b6290c263))
+* **diagnostics:** handle Go zero time in DHT provide screen ([dc51cd4](https://github.com/ipfs/ipfs-webui/commit/dc51cd4730f231c3a4fede4a3ae080a3ae70105b))
+* **files:** not found page ([#2455](https://github.com/ipfs/ipfs-webui/issues/2455)) ([18b9b0d](https://github.com/ipfs/ipfs-webui/commit/18b9b0d5bafb58623421d20de99cfb958b5c9e17))
+* show proper error state in import notifications ([#2452](https://github.com/ipfs/ipfs-webui/issues/2452)) ([391470e](https://github.com/ipfs/ipfs-webui/commit/391470e34a90737f105c1b672e79cb10e1cc4cb3)), closes [#2448](https://github.com/ipfs/ipfs-webui/issues/2448)
+
+
+### Trivial Changes
+
+* **ci:** skip publishPreview for dependabot PRs ([17f675e](https://github.com/ipfs/ipfs-webui/commit/17f675e2f89e3e3d97ac4393af64030bd66362ef))
+* pull new translations ([#2467](https://github.com/ipfs/ipfs-webui/issues/2467)) ([cc569f4](https://github.com/ipfs/ipfs-webui/commit/cc569f42623ca696ed03b4441bb32553b6e15ff5))
+* pull transifex translations ([#2464](https://github.com/ipfs/ipfs-webui/issues/2464)) ([8d7a17f](https://github.com/ipfs/ipfs-webui/commit/8d7a17f1ef14c7f0b9c147de34a6272af4ae5817))
+
 ## [4.10.0](https://github.com/ipfs/ipfs-webui/compare/v4.9.1...v4.10.0) (2025-11-06)
 
 
