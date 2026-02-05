@@ -109,7 +109,7 @@ const toggleSearchFilter = async (page, show) => {
     await page.getByRole('button', { name: 'Click to show search filter' }).click()
     await searchInput.waitFor({ state: 'visible', timeout: 5000 })
   } else if (!show && isVisible) {
-    await page.getByRole('button', { name: 'Click to show search filter' }).click()
+    await page.getByRole('button', { name: 'Click to hide search filter' }).click()
     await searchInput.waitFor({ state: 'hidden', timeout: 5000 })
   }
 }

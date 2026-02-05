@@ -380,7 +380,7 @@ const FilesPage = ({
             className="pointer selected-item ml2"
             onClick={toggleSearch}
             title={showSearch ? t('hideSearch') : t('showSearch')}
-            aria-label={t('showSearch')}
+            aria-label={showSearch ? t('hideSearch') : t('showSearch')}
             aria-pressed={showSearch}
             style={{ height: '24px' }}
           >
