@@ -14,8 +14,8 @@ import '../PendingAnimation.css'
 
 const BarOption = ({ children, text, isLink = false, className = '', ...etc }) => (
   <div className={classNames(className, 'tc pa3', etc.onClick && 'pointer')} {...etc}>
-    <span className='nowrap db f4 charcoal'>{children}</span>
-    <span className={`nowrap db ttu f6 montserrat fw4 ${isLink ? 'link' : 'charcoal-muted'}`}>{text}</span>
+    <span className='nowrap db f4' style={{ color: 'var(--theme-text-primary)' }}>{children}</span>
+    <span className={`nowrap db ttu f6 montserrat fw4 ${isLink ? 'link' : ''}`} style={{ color: isLink ? 'var(--theme-text-link)' : 'var(--theme-text-secondary)' }}>{text}</span>
   </div>
 )
 
@@ -68,11 +68,11 @@ class Header extends React.Component {
         </div>
         { children }
         </div>
-        <div className='flex justify-between items-center bg-snow-muted joyride-files-add'>
+        <div className='flex justify-between items-center joyride-files-add' style={{ background: 'var(--theme-bg-tertiary)' }}>
           { pinsInQueue > 0 && <a href='#/pins' alt={t('pinningQueue')} title={t('pinningQueue')} className='ml3'>
             <GlyphPinCloud
-              style={{ width: '3rem' }}
-              className='fill-teal PendingAnimation' />
+              style={{ width: '3rem', fill: 'var(--theme-button-teal)' }}
+              className='PendingAnimation' />
           </a> }
 
           <BarOption title={t('currentLocationDescription')} text={hasUpperDirectory ? t('currentLocation') : t('currentLocationRoot')}>

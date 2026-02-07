@@ -84,7 +84,7 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
   return (
     <Fragment>
       <div className="mv4 pinningManager">
-        <div className='ph1 ph3-l flex items-center bg-white lh-copy charcoal f6 fw5'>
+        <div className='ph1 ph3-l flex items-center lh-copy charcoal f6 fw5' style={{ background: 'var(--theme-bg-primary)' }}>
           <AutoSizer disableHeight>
             {({ width }) => (
               <Table

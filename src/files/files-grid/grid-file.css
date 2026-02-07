@@ -1,7 +1,7 @@
 .grid-file {
-  background: white;
+  background: var(--theme-bg-primary);
   border-radius: 8px;
-  border: 1px solid #eee;
+  border: 1px solid var(--theme-border-primary);
   overflow: hidden;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -20,7 +20,7 @@
 }
 
 .grid-file.selected {
-  background-color: #F0F6FA;
+  background-color: var(--theme-bg-tertiary);
   border-color: #9ad4db;
   border-style: dashed;
 }
@@ -93,7 +93,7 @@
   z-index: 1;
   opacity: 0;
   transition: opacity 0.2s ease;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--theme-bg-primary);
   padding: 4px;
   border-radius: 4px;
 }
@@ -134,7 +134,7 @@
   position: relative;
   width: 100%;
   height: 140px;
-  background: #f5f5f5;
+  background: var(--theme-bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,7 +153,7 @@
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  background-color: #f5f5f5;
+  background-color: var(--theme-bg-secondary);
   opacity: 0.8;
   z-index: 0;
 }
@@ -167,7 +167,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5f5f5;
+  background-color: var(--theme-bg-secondary);
   z-index: 0;
 }
 
@@ -175,8 +175,8 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid #eee;
+  background: var(--theme-bg-secondary);
+  border: 1px solid var(--theme-border-primary);
   border-radius: 4px;
   width: 32px;
   height: 32px;
@@ -192,8 +192,8 @@
 
 .grid-file-dots:hover,
 .grid-file-dots:focus {
-  background: white;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  background: var(--theme-bg-tertiary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   outline: none;
   border-color: #9ad4db;
 }
@@ -201,12 +201,12 @@
 .grid-file-dots svg {
   width: 16px;
   height: 16px;
-  fill: #7f8491;
+  fill: var(--theme-text-secondary);
 }
 
 .grid-file-dots:hover svg,
 .grid-file-dots:focus svg {
-  fill: #5a5f6d;
+  fill: var(--theme-text-primary);
 }
 
 .grid-file-info {
@@ -220,6 +220,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--theme-text-primary);
 }
 
 .grid-file-details {
@@ -231,7 +232,7 @@
 
 .grid-file-size {
   font-size: 0.75rem;
-  color: #666;
+  color: var(--theme-text-secondary);
 }
 
 .grid-file-pin {
@@ -248,7 +249,7 @@
 
 .grid-file-hash {
   font-size: 0.75rem;
-  color: #666;
+  color: var(--theme-text-secondary);
   font-family: monospace;
   white-space: nowrap;
   overflow: hidden;

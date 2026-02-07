@@ -4,7 +4,7 @@ import './ProgressBar.css'
 
 const ProgressBar = ({ bg, br, className, style, width, height, progress, time, ...props }) => {
   return (
-    <div className={`ProgressBar sans-serif overflow-hidden ${br} dib ${className} ${width} ${height}`} style={{ background: '#DDE6EB', ...style }} {...props}>
+    <div className={`ProgressBar sans-serif overflow-hidden ${br} dib ${className} ${width} ${height}`} style={{ background: 'var(--theme-bg-secondary)', ...style }} {...props}>
       {time
         ? <div className={`${br} h-100 ${bg}`} style={{ animation: `progressBar ${time}s ease-in-out` }} />
         : <div className={`${br} h-100 ${bg}`} style={{ width: `${progress}%` }} />}

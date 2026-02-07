@@ -34,7 +34,7 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
     <ReactJoyride
       run={toursEnabled}
       steps={peersTour.getSteps({ t })}
-      styles={peersTour.styles}
+      styles={peersTour.getStyles()}
       callback={handleJoyrideCallback}
       continuous
       scrollToFirstStep

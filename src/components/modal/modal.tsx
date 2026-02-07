@@ -32,7 +32,7 @@ export const ModalActions: React.FC<ModalActionsProps> = ({
 }) => (
   <div
     className={`flex justify-${justify} pa2 ${className}`}
-    style={{ backgroundColor: '#f4f6f8' }}
+    style={{ backgroundColor: 'var(--theme-bg-secondary)' }}
     {...props}
   >
     {children}
@@ -49,8 +49,8 @@ export const ModalBody: React.FC<ModalBodyProps> = ({
   <div className={`ph4 pv3 tc ${className}`} {...props}>
     {Icon && (
       <div
-        className='center bg-snow br-100 flex justify-center items-center'
-        style={{ width: '80px', height: '80px' }}
+        className='center br-100 flex justify-center items-center'
+        style={{ width: '80px', height: '80px', backgroundColor: 'var(--theme-bg-secondary)' }}
       >
         <Icon className='fill-gray w3' />
       </div>
@@ -83,7 +83,8 @@ export const Modal: React.FC<ModalProps> = ({
     >
       {onCancel && (
         <CancelIcon
-          className='absolute pointer w2 h2 top-0 right-0 fill-gray'
+          className='absolute pointer w2 h2 top-1 right-1'
+          style={{ fill: 'var(--theme-text-secondary)' }}
           onClick={onCancel}
         />
       )}
