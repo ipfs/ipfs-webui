@@ -110,6 +110,9 @@ test.describe('IPNS publishing', () => {
       await files.dialogInput(page, 'name').fill(testFilename)
       await page.keyboard.press('Enter')
 
+      // Wait for the dialog to close before proceeding
+      await expect(pathInput).not.toBeVisible({ timeout: 10000 })
+
       // expect file with matching filename to be added to the file list
       const fileRow = page.getByTestId('file-row').filter({ hasText: testFilename })
       await expect(fileRow).toBeVisible()

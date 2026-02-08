@@ -136,8 +136,8 @@ test.describe('Files screen', () => {
     await pathInput.fill(testPath)
     await files.dialogInput(page, 'name').fill(testFilename)
 
-    // Click Import button
-    const importDialogButton = page.getByRole('button', { name: 'Import' })
+    // Click Import button in the dialog
+    const importDialogButton = files.dialog(page).getByRole('button', { name: 'Import' })
     await expect(importDialogButton).toBeVisible()
     await importDialogButton.click()
 
@@ -192,7 +192,7 @@ test.describe('Files screen', () => {
     await pathInput.fill(nonExistentPath)
 
     // Click Import button to submit
-    const importDialogButton = page.getByRole('button', { name: 'Import' })
+    const importDialogButton = files.dialog(page).getByRole('button', { name: 'Import' })
     await expect(importDialogButton).toBeVisible()
     await importDialogButton.click()
 
@@ -234,7 +234,7 @@ test.describe('Files screen', () => {
     await files.importButton(page).click()
     await files.addByPathOption(page).click()
     await files.dialogInput(page, 'path').fill(invalidPath)
-    await page.getByRole('button', { name: 'Import' }).click()
+    await files.dialog(page).getByRole('button', { name: 'Import' }).click()
 
     // Wait for error notification
     const notification = page.locator('.fileImportStatus')
