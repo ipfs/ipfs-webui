@@ -1,33 +1,53 @@
-import React from 'react'
-import { Modal } from 'react-overlays'
+import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
-type ModalProps = React.ComponentProps<typeof Modal>
-
-export interface OverlayProps extends Omit<ModalProps, 'renderBackdrop' | 'onHide'> {
+export interface OverlayProps {
   show: boolean
   onLeave: () => void
-  hidden: boolean
+  hidden?: boolean
+  className?: string
+  children?: React.ReactNode
 }
 
-const Overlay: React.FC<OverlayProps> = ({ children, show, onLeave, className = '', hidden, ...props }) => {
-  const renderBackdrop: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => (
-    <div className='fixed top-0 left-0 right-0 bottom-0 bg-black o-50' hidden={hidden} {...props} />
+const Overlay: React.FC<OverlayProps> = ({ children, show, onLeave, className = '', hidden }) => {
+  useEffect(() => {
+    if (!show) return
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onLeave()
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [show, onLeave])
+
+  if (!show) return null
+
+  const overlay = (
+    <>
+      <div
+        className='fixed top-0 left-0 right-0 bottom-0 bg-black o-50'
+        hidden={hidden}
+        onClick={onLeave}
+        onKeyDown={(e) => e.key === 'Enter' && onLeave()}
+        role="button"
+        tabIndex={0}
+        aria-label="Close modal"
+        style={{ zIndex: 9998 }}
+      />
+
+      <div
+        className={`${className} fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center`}
+        style={{ zIndex: 9999, pointerEvents: 'none', padding: '2rem' }}
+      >
+        <div style={{ pointerEvents: 'auto', maxWidth: '100%', maxHeight: '100%', overflow: 'auto' }}>
+          {children}
+        </div>
+      </div>
+    </>
   )
 
-  return (
-    // Note: react-overlays Modal manages its own portal and positioning.
-    // The Modal child component uses fixed positioning to center itself.
-    // onHide handles both backdrop clicks and escape key presses.
-    <Modal
-      {...props}
-      show={show}
-      backdrop={true}
-      className={`${className} z-max`}
-      renderBackdrop={renderBackdrop}
-      onHide={onLeave}>
-      {children}
-    </Modal>
-  )
+  return createPortal(overlay, document.body)
 }
 
 export default Overlay

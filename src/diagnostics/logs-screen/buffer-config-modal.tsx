@@ -63,7 +63,6 @@ export const BufferConfigModal: React.FC<BufferConfigModalProps> = ({
   }
 
   return (
-    // @ts-expect-error - Overlay is not typed
     <Overlay show={isOpen} onLeave={handleCancel}>
       <Modal onCancel={handleCancel} className="outline-0">
         <div className='pa4'>
