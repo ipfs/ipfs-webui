@@ -39,6 +39,8 @@ const Overlay: React.FC<OverlayProps> = ({ children, show, onLeave, className = 
       <div
         className={`${className} fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center`}
         style={{ zIndex: 9999, pointerEvents: 'none', padding: '2rem' }}
+        role="dialog"
+        aria-modal="true"
       >
         <div style={{ pointerEvents: 'auto', maxWidth: '100%', maxHeight: '100%', overflow: 'auto' }}>
           {children}
