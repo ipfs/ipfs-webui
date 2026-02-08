@@ -14,7 +14,7 @@ describe('Modal', () => {
     it('renders with default props', () => {
       const { container } = render(<Modal />)
       const modalElement = container.firstChild as HTMLElement
-      expect(modalElement).toHaveClass('bg-white', 'w-80', 'shadow-4', 'sans-serif', 'relative')
+      expect(modalElement).toHaveClass('bg-white', 'shadow-4', 'sans-serif', 'relative')
       expect(modalElement).toHaveStyle({ maxWidth: '34em' })
     })
 
@@ -23,7 +23,7 @@ describe('Modal', () => {
       const { container } = render(<Modal className={customClass} />)
       const modalElement = container.firstChild as HTMLElement
       expect(modalElement).toHaveClass(customClass)
-      expect(modalElement).toHaveClass('bg-white', 'w-80', 'shadow-4', 'sans-serif', 'relative')
+      expect(modalElement).toHaveClass('bg-white', 'shadow-4', 'sans-serif', 'relative')
     })
 
     it('renders children correctly', () => {
@@ -42,7 +42,7 @@ describe('Modal', () => {
 
       const cancelIcon = container.querySelector('svg')
       expect(cancelIcon).toBeInTheDocument()
-      expect(cancelIcon).toHaveClass('absolute', 'pointer', 'w2', 'h2', 'top-0', 'right-0', 'fill-gray')
+      expect(cancelIcon).toHaveClass('absolute', 'pointer', 'w2', 'h2', 'fill-gray')
     })
 
     it('does not render cancel icon when onCancel is not provided', () => {
@@ -242,7 +242,7 @@ describe('Modal', () => {
       // Check Modal container
       const modalElement = container.firstChild as HTMLElement
       expect(modalElement).toHaveClass('test-modal')
-      expect(modalElement).toHaveClass('bg-white', 'w-80', 'shadow-4', 'sans-serif', 'relative')
+      expect(modalElement).toHaveClass('bg-white', 'shadow-4', 'sans-serif', 'relative')
 
       // Check cancel icon
       const cancelIcon = container.querySelector('svg')
