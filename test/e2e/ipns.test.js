@@ -112,6 +112,9 @@ test.describe('IPNS publishing', () => {
 
       // Wait for the dialog to close before proceeding
       await expect(pathInput).not.toBeVisible({ timeout: 10000 })
+      
+      // Also wait for the modal overlay to be completely gone
+      await page.locator('[aria-label="Close modal"]').waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {})
 
       // expect file with matching filename to be added to the file list
       const fileRow = page.getByTestId('file-row').filter({ hasText: testFilename })

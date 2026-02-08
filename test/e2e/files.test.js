@@ -1,6 +1,6 @@
 import { test, expect } from './setup/coverage.js'
 import { fixtureData } from './fixtures/index.js'
-import { files, explore, dismissImportNotification } from './setup/locators.js'
+import { files, explore, modal, dismissImportNotification } from './setup/locators.js'
 import { selectViewMode, toggleSearchFilter } from '../helpers/grid'
 import all from 'it-all'
 import filesize from 'filesize'
@@ -137,7 +137,7 @@ test.describe('Files screen', () => {
     await files.dialogInput(page, 'name').fill(testFilename)
 
     // Click Import button in the dialog
-    const importDialogButton = files.dialog(page).getByRole('button', { name: 'Import' })
+    const importDialogButton = modal.container(page).getByRole('button', { name: 'Import' })
     await expect(importDialogButton).toBeVisible()
     await importDialogButton.click()
 
@@ -192,7 +192,7 @@ test.describe('Files screen', () => {
     await pathInput.fill(nonExistentPath)
 
     // Click Import button to submit
-    const importDialogButton = files.dialog(page).getByRole('button', { name: 'Import' })
+    const importDialogButton = modal.container(page).getByRole('button', { name: 'Import' })
     await expect(importDialogButton).toBeVisible()
     await importDialogButton.click()
 
@@ -234,7 +234,7 @@ test.describe('Files screen', () => {
     await files.importButton(page).click()
     await files.addByPathOption(page).click()
     await files.dialogInput(page, 'path').fill(invalidPath)
-    await files.dialog(page).getByRole('button', { name: 'Import' }).click()
+    await modal.container(page).getByRole('button', { name: 'Import' }).click()
 
     // Wait for error notification
     const notification = page.locator('.fileImportStatus')
