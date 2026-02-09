@@ -153,7 +153,7 @@ export const FileImportStatus = ({ filesFinished, filesPending, filesErrors, doF
   const containerClass = hasErrors ? 'fileImportStatusError' : ''
 
   return (
-    <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 14, pointerEvents: 'none' }}>
+    <div className='fileImportStatus fixed bottom-1 w-100 flex justify-center' style={{ zIndex: 10000, pointerEvents: 'none' }}>
       <div className={`relative br1 dark-gray w-40 center ba b--light-gray bg-white ${containerClass}`} style={{ pointerEvents: 'auto' }}>
         <div
           tabIndex="0"
