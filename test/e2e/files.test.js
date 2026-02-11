@@ -404,6 +404,25 @@ test.describe('Files screen', () => {
       await expect(page.getByTestId('file-row').filter({ hasText: appleFile })).toBeVisible()
     })
 
+    test('pressing Escape clears the filter', async ({ page }) => {
+      await selectViewMode(page, 'list')
+      await toggleSearchFilter(page, true)
+
+      await files.searchInput(page).fill('orange')
+
+      // only the orange file should be visible
+      await expect(page.getByTestId('file-row').filter({ hasText: orangeFile })).toBeVisible()
+      await expect(page.getByTestId('file-row').filter({ hasText: appleFile })).not.toBeVisible()
+
+      // press Escape while focused on the search input
+      await files.searchInput(page).press('Escape')
+
+      // filter should be cleared and both files visible again
+      await expect(files.searchInput(page)).toHaveValue('')
+      await expect(page.getByTestId('file-row').filter({ hasText: orangeFile })).toBeVisible()
+      await expect(page.getByTestId('file-row').filter({ hasText: appleFile })).toBeVisible()
+    })
+
     test('no matches message', async ({ page }) => {
       await toggleSearchFilter(page, true)
 
