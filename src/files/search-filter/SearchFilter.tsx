@@ -37,6 +37,7 @@ const SearchFilter = ({ initialValue = '', onFilterChange, filteredCount, totalC
     <div className={classnames('flex items-center pa2 bg-snow-muted', className)}>
       <div className='flex items-center relative flex-auto'>
         <input
+          id='search-filter-input'
           className='input-reset ba b--black-20 pa2 db w-100 br1'
           type='text'
           placeholder={t('searchFiles')}

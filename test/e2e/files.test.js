@@ -1,6 +1,6 @@
 import { test, expect } from './setup/coverage.js'
 import { fixtureData } from './fixtures/index.js'
-import { files, explore, dismissImportNotification } from './setup/locators.js'
+import { files, explore, nav, dismissImportNotification } from './setup/locators.js'
 import { selectViewMode, toggleSearchFilter } from '../helpers/grid'
 import all from 'it-all'
 import filesize from 'filesize'
@@ -421,6 +421,71 @@ test.describe('Files screen', () => {
       await expect(files.searchInput(page)).toHaveValue('')
       await expect(page.getByTestId('file-row').filter({ hasText: orangeFile })).toBeVisible()
       await expect(page.getByTestId('file-row').filter({ hasText: appleFile })).toBeVisible()
+    })
+
+    test('pressing / opens search and auto-focuses input', async ({ page }) => {
+      await selectViewMode(page, 'list')
+
+      // search should be hidden initially
+      await expect(files.searchInput(page)).not.toBeVisible()
+
+      // press / to open search (focus must not be in an input)
+      await page.keyboard.press('/')
+
+      // search input should appear and be focused
+      await expect(files.searchInput(page)).toBeVisible()
+      await expect(files.searchInput(page)).toBeFocused()
+
+      // type a filter term directly (input is focused)
+      await page.keyboard.type('orange')
+      await expect(page.getByTestId('file-row').filter({ hasText: orangeFile })).toBeVisible()
+      await expect(page.getByTestId('file-row').filter({ hasText: appleFile })).not.toBeVisible()
+    })
+
+    test('pressing / re-focuses input when search is visible but not focused', async ({ page }) => {
+      await selectViewMode(page, 'list')
+      await toggleSearchFilter(page, true)
+
+      await files.searchInput(page).fill('orange')
+      await expect(page.getByTestId('file-row').filter({ hasText: orangeFile })).toBeVisible()
+
+      // move focus out of the search input
+      await files.searchInput(page).blur()
+      await expect(files.searchInput(page)).not.toBeFocused()
+
+      // press / should re-focus the input, not hide search
+      await page.keyboard.press('/')
+      await expect(files.searchInput(page)).toBeVisible()
+      await expect(files.searchInput(page)).toBeFocused()
+
+      // filter text should still be intact
+      await expect(files.searchInput(page)).toHaveValue('orange')
+    })
+
+    test('pressing / focuses search after navigating away and back', async ({ page }) => {
+      await selectViewMode(page, 'list')
+      await toggleSearchFilter(page, true)
+
+      // confirm search input is visible
+      await expect(files.searchInput(page)).toBeVisible()
+
+      // navigate to Status page
+      await nav.status(page).click()
+      await page.waitForURL('/#/')
+
+      // navigate back to Files
+      await nav.files(page).click()
+      await page.waitForURL('/#/files')
+
+      // search input should still be visible (persisted in localStorage)
+      await expect(files.searchInput(page)).toBeVisible()
+
+      // but it should NOT be focused on page load
+      await expect(files.searchInput(page)).not.toBeFocused()
+
+      // press / to focus the search input
+      await page.keyboard.press('/')
+      await expect(files.searchInput(page)).toBeFocused()
     })
 
     test('no matches message', async ({ page }) => {

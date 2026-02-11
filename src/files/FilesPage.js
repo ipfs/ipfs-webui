@@ -53,10 +53,11 @@ const FilesPage = ({
     setViewMode(newMode)
   }
 
-  const toggleSearch = () => setShowSearch(prev => {
+  // Toggle search filter visibility. When hiding, clear the filter text.
+  const toggleSearch = useCallback(() => setShowSearch(prev => {
     if (prev) filterRef.current = ''
     return !prev
-  })
+  }), [])
 
   useEffect(() => {
     doFetchPinningServices()
@@ -81,11 +82,25 @@ const FilesPage = ({
         e.preventDefault()
         showModal(SHORTCUTS)
       }
+
+      if (e.key === '/') {
+        e.preventDefault()
+        if (showSearch) {
+          // Search is visible but input lost focus, re-focus it.
+          document.getElementById('search-filter-input')?.focus()
+        } else {
+          // Open search and focus the input after React renders it.
+          toggleSearch()
+          requestAnimationFrame(() => {
+            document.getElementById('search-filter-input')?.focus()
+          })
+        }
+      }
     }
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [toggleSearch, showSearch])
 
   // Persist view mode changes to localStorage
   useEffect(() => {
