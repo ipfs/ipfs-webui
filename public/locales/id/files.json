@@ -192,6 +192,9 @@
   "noPinsInProgress": "Semua selesai, tidak ada pin jarak jauh yang sedang berlangsung.",
   "remotePinningInProgress": "Penyematan jarak jauh sedang berlangsung:",
   "selectAllEntries": "Pilih semua entri",
+  "searchFiles": "",
+  "clearSearch": "",
+  "noFilesMatchFilter": "",
   "previewNotFound": {
     "title": "",
     "errorPrefix": "",
@@ -202,5 +205,7 @@
     "helpListItemForums": "",
     "backButton": ""
   },
-  "inspectResolveFailed": ""
+  "inspectResolveFailed": "",
+  "showSearch": "",
+  "hideSearch": ""
 }
