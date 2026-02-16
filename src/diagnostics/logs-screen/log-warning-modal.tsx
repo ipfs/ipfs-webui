@@ -83,7 +83,6 @@ const LogWarningModal: React.FC<LogWarningModalProps> = ({
   if (warningType == null) return null
 
   return (
-    // @ts-expect-error - Overlay is not typed
     <Overlay show={isOpen} onLeave={onClose}>
       <Modal onCancel={onClose} className="outline-0">
         <ModalBody>
