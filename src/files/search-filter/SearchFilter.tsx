@@ -25,15 +25,25 @@ const SearchFilter = ({ initialValue = '', onFilterChange, filteredCount, totalC
     onFilterChange('')
   }, [onFilterChange])
 
+  // Allow users to quickly clear the filter text by pressing Escape,
+  // so the full file listing is restored without needing to click the clear button.
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      clearFilter()
+    }
+  }, [clearFilter])
+
   return (
     <div className={classnames('flex items-center pa2 bg-snow-muted', className)}>
       <div className='flex items-center relative flex-auto'>
         <input
+          id='search-filter-input'
           className='input-reset ba b--black-20 pa2 db w-100 br1'
           type='text'
           placeholder={t('searchFiles')}
           value={filter}
           onChange={handleFilterChange}
+          onKeyDown={handleKeyDown}
           aria-label={t('searchFiles')}
         />
         {filter && (

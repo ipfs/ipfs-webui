@@ -70,7 +70,8 @@ export const peers = {
   modal: (page) => page.getByTestId('ipfs-modal'),
   multiAddrInput: (page) => page.locator('input[name="maddr"]'),
   successIndicator: (page) => page.locator('.bg-green'),
-  localNetwork: (page) => page.getByText('Local Network')
+  localNetwork: (page) => page.getByText('Local Network'),
+  filterInput: (page) => page.locator('#peers-filter-input')
 }
 
 // Explore page locators

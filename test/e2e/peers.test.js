@@ -42,4 +42,25 @@ test.describe('Peers screen', () => {
   test('should have a peer from a "Local Network"', async ({ page }) => {
     await expect(peers.localNetwork(page).first()).toBeVisible()
   })
+
+  test('pressing / focuses the filter input', async ({ page }) => {
+    await expect(peers.filterInput(page)).toBeVisible()
+    await expect(peers.filterInput(page)).not.toBeFocused()
+
+    await page.keyboard.press('/')
+    await expect(peers.filterInput(page)).toBeFocused()
+  })
+
+  test('pressing Escape clears the filter input', async ({ page }) => {
+    const filterInput = peers.filterInput(page)
+    await expect(filterInput).toBeVisible()
+
+    // type a filter term
+    await filterInput.fill('nonexistent-peer-xyz')
+    await expect(filterInput).toHaveValue('nonexistent-peer-xyz')
+
+    // press Escape to clear
+    await filterInput.press('Escape')
+    await expect(filterInput).toHaveValue('')
+  })
 })

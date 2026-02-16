@@ -66,6 +66,7 @@
     "copy": "Copy selected item(s)",
     "paste": "Paste item(s)",
     "cut": "Cut selected item(s)",
+    "toggleSearch": "Toggle search filter",
     "showShortcuts": "Show keyboard shortcuts"
   },
   "pinningModal": {
