@@ -192,6 +192,9 @@
   "noPinsInProgress": "全部已完成，没有正在进行的远程固定操作",
   "remotePinningInProgress": "远程固定中:",
   "selectAllEntries": "全选",
+  "searchFiles": "",
+  "clearSearch": "",
+  "noFilesMatchFilter": "",
   "previewNotFound": {
     "title": "",
     "errorPrefix": "",
@@ -202,5 +205,7 @@
     "helpListItemForums": "",
     "backButton": ""
   },
-  "inspectResolveFailed": ""
+  "inspectResolveFailed": "",
+  "showSearch": "",
+  "hideSearch": ""
 }

@@ -117,14 +117,23 @@ const rowClassRenderer = ({ index }, peers = [], selectedPeers) => {
   return classNames('bb b--near-white peersTableItem', index === -1 && 'bg-near-white', shouldAddHoverEffect && 'bg-light-gray')
 }
 
-const FilterInput = ({ setFilter, t, filteredCount }) => {
+const FilterInput = ({ filter, setFilter, t, filteredCount }) => {
+  const handleKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      setFilter('')
+    }
+  }
+
   return (
     <div className='flex items-center justify-between pa2'>
       <input
+        id='peers-filter-input'
         className='input-reset ba b--black-20 pa2 mb2 db w-100'
         type='text'
         placeholder='Filter peers'
+        value={filter}
         onChange={(e) => setFilter(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
       {/* Now to display the total number of peers filtered out on the right side of the inside of the input */}
       <div className='f4 charcoal-muted absolute top-1 right-1'>{filteredCount}</div>
@@ -156,6 +165,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
   const filteredPeerList = useMemo(() => {
     const filterLower = filter.toLowerCase()
     if (filterLower === '') return awaitedPeerLocationsForSwarm
+    const peerFilter = filter.startsWith('/p2p/') ? filter.slice(5) : filter
     return awaitedPeerLocationsForSwarm.filter(({ location, latency, peerId, connection, protocols, agentVersion }) => {
       if (location != null && location.toLowerCase().includes(filterLower)) {
         return true
@@ -163,7 +173,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
       if (latency != null && [latency, `${latency}ms`].some((str) => str.toString().includes(filterLower))) {
         return true
       }
-      if (peerId != null && peerId.toString().includes(filter)) {
+      if (peerId != null && peerId.toString().includes(peerFilter)) {
         return true
       }
       if (connection != null && connection.toLowerCase().includes(filterLower)) {
@@ -187,7 +197,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
 
   return (
     <div className={`bg-white-70 center ${className}`} style={{ height: `${tableHeight}px`, maxWidth: 1764 }}>
-        <FilterInput setFilter={filterCb} t={t} filteredCount={sortedList.length} />
+        <FilterInput filter={filter} setFilter={filterCb} t={t} filteredCount={sortedList.length} />
         { awaitedPeerLocationsForSwarm && <AutoSizer disableHeight>
           {({ width }) => (
             <>
