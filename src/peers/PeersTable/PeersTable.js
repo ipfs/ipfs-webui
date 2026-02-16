@@ -156,6 +156,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
   const filteredPeerList = useMemo(() => {
     const filterLower = filter.toLowerCase()
     if (filterLower === '') return awaitedPeerLocationsForSwarm
+    const peerFilter = filter.startsWith('/p2p/') ? filter.slice(5) : filter
     return awaitedPeerLocationsForSwarm.filter(({ location, latency, peerId, connection, protocols, agentVersion }) => {
       if (location != null && location.toLowerCase().includes(filterLower)) {
         return true
@@ -163,7 +164,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
       if (latency != null && [latency, `${latency}ms`].some((str) => str.toString().includes(filterLower))) {
         return true
       }
-      if (peerId != null && peerId.toString().includes(filter)) {
+      if (peerId != null && peerId.toString().includes(peerFilter)) {
         return true
       }
       if (connection != null && connection.toLowerCase().includes(filterLower)) {
