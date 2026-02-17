@@ -35,23 +35,15 @@ interface TabButtonProps {
   label: string
   active: boolean
 }
-
 const TabButton = ({ tabKey, label, active }: TabButtonProps) => (
   <a
     key={tabKey}
     href={`#/diagnostics/${tabKey}`}
-    className={`pv2 ph3 mr2 br2 pointer fw5 no-underline transition-all ${
+    className={`pv2 ph3 mr2 br2 pointer fw5 no-underline transition-all diagnostics-tab ${
       active
-        ? 'bg-teal white'
-        : 'bg-transparent charcoal-muted hover-bg-gray-muted hover-charcoal'
+        ? 'diagnostics-tab-active'
+        : 'diagnostics-tab-inactive'
     }`}
-    style={{
-      transition: 'all 0.2s ease',
-      ...(active && {
-        backgroundColor: '#378085',
-        color: 'white'
-      })
-    }}
   >
     {label}
   </a>
@@ -116,7 +108,7 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
   return (
     <div>
       {/* Tab Navigation */}
-      <div className='mb4 pb2' style={{ borderBottom: '1px solid #e1e5eb' }}>
+      <div className='mb4 pb2' style={{ borderBottom: '1px solid var(--theme-border-secondary)' }}>
         <nav className='flex items-center'>
           <TabButton tabKey='logs' label={t('tabs.logs')} active={activeTab === 'logs'} />
           <TabButton tabKey='retrieval-check' label={t('tabs.retrieval-check')} active={activeTab === 'retrieval-check'} />

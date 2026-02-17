@@ -5,8 +5,10 @@ import './Popover.css'
 
 const Popover = ({ show, children, top, right, bottom, left, align, handleMouseEnter, handleMouseLeave }) => {
   return (
-    <div className={ classNames('popover absolute bg-white shadow-3', align && `popover--align-${align}`) }
-      aria-hidden={ show ? 'false' : 'true' } style={{
+    <div className={ classNames('popover absolute shadow-3', align && `popover--align-${align}`) }
+      aria-hidden={ show ? 'false' : 'true' }
+      style={{
+        background: 'var(--theme-bg-modal)',
         ...(top && { top }),
         ...(right && { right }),
         ...(bottom && { bottom }),

@@ -85,31 +85,31 @@ class FileInput extends React.Component {
             onDismiss={this.toggleDropdown} >
             <Option onClick={this.onAddFile} id='add-file' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.ADD_FILE)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
-              <DocumentIcon className='fill-aqua w2 mr1' />
+              <DocumentIcon className='w2 mr1' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('app:terms.file')}
             </Option>
             <Option onClick={this.onAddFolder} id='add-folder' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.ADD_DIRECTORY)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
-              <FolderIcon className='fill-aqua w2 mr1' />
+              <FolderIcon className='w2 mr1' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('app:terms.folder')}
             </Option>
             <Option onClick={this.onNewFolder} id='add-new-folder' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.CREATE_NEW_DIRECTORY)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
-              <NewFolderIcon className='fill-aqua w2 h2 mr1' />
+              <NewFolderIcon className='w2 h2 mr1' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('newFolder')}
             </Option>
             <Option onClick={this.onAddByPath} id='add-by-path' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_IPFS)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
-              <DecentralizationIcon className='fill-aqua w2 mr1' />
+              <DecentralizationIcon className='w2 mr1' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('addByPath')}
             </Option>
             <Option onClick={this.onAddByCar} id='add-by-car' onCliTutorMode={() => this.onCliTutorMode(cliCmdKeys.FROM_CAR)}
               isCliTutorModeEnabled={isCliTutorModeEnabled}>
-              <DataIcon className='fill-aqua w2 mr1' />
+              <DataIcon className='w2 mr1' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('addByCar')}
             </Option>
             <Option onClick={this.onBulkCidImport} id='bulk-cid-import'>
-              <DocumentIcon className='fill-aqua w2 mr1' />
+              <DocumentIcon className='w2 mr1' style={{ fill: 'var(--theme-brand-aqua)' }} />
               {t('bulkImport')}
             </Option>
           </DropdownMenu>

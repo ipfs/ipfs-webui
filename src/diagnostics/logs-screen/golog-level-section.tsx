@@ -70,9 +70,9 @@ const GologLevelSection: React.FC = () => {
     return (
       <Box className='mb3 pa4-l pa2'>
         <div className='mb2'>
-          <h3 className='montserrat fw4 charcoal ma0 f5 mb2'>{t('logs.gologLevel.title')}</h3>
-          <p className='charcoal f6 mb3'>{t('logs.gologLevel.placeholder')}</p>
-          <div className='input-reset ba b--black-20 pa2 bg-light-gray f6 charcoal'>
+          <h3 className='montserrat fw4 ma0 f5 mb2' style={{ color: 'var(--theme-text-primary)' }}>{t('logs.gologLevel.title')}</h3>
+          <p className='f6 mb3' style={{ color: 'var(--theme-text-primary)' }}>{t('logs.gologLevel.placeholder')}</p>
+          <div className='input-reset ba pa2 f6' style={{ background: 'var(--theme-bg-secondary)', borderColor: 'var(--theme-border-primary)', color: 'var(--theme-text-primary)' }}>
             {t('logs.entries.loading')}...
           </div>
         </div>
@@ -95,7 +95,7 @@ const GologLevelSection: React.FC = () => {
             onChange={setValue}
             subsystems={subsystems}
             placeholder={t('logs.gologLevel.placeholder')}
-            className='w-100 lh-copy monospace f5 mb2 charcoal input-reset'
+            className='w-100 lh-copy monospace f5 mb2 input-reset'
             onSubmit={onSubmit}
             onValidityChange={setIsValid}
             onErrorChange={setErrorMessage}

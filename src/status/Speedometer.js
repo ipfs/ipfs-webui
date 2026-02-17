@@ -1,11 +1,13 @@
 import React from 'react'
 import { Doughnut } from 'react-chartjs-2'
 import filesize from 'filesize'
+import { getChartColors } from '../lib/chart-colors.js'
 
 const rotation = (n) => (0.5 + (1 - n)) * Math.PI
 const circumference = (n) => n * 2 * Math.PI
 
-function Speedometer ({ total = 100, title, filled = 0, noSpeed = false, color = '#FF6384' }) {
+function Speedometer ({ total = 100, title, filled = 0, noSpeed = false, color = '#FF6384', effectiveTheme = 'light' }) {
+  const chartColors = getChartColors(effectiveTheme)
   const doughnut = {
     options: {
       legend: {
@@ -23,8 +25,8 @@ function Speedometer ({ total = 100, title, filled = 0, noSpeed = false, color =
       labels: ['Speed', 'Nothing'],
       datasets: [{
         data: [filled, filled > total ? 0 : total - filled],
-        backgroundColor: [color, '#DEDEDE'],
-        hoverBackgroundColor: [color, '#DEDEDE'],
+        backgroundColor: [color, chartColors.speedometer.background],
+        hoverBackgroundColor: [color, chartColors.speedometer.background],
         borderWidth: [0, 0]
       }]
     }
@@ -53,4 +55,5 @@ function Speedometer ({ total = 100, title, filled = 0, noSpeed = false, color =
     </div>
   )
 }
+
 export default Speedometer
