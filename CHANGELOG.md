@@ -1,3 +1,23 @@
+## [4.11.1](https://github.com/ipfs/ipfs-webui/compare/v4.11.0...v4.11.1) (2026-02-17)
+
+
+ CID `bafybeiddnr2jz65byk67sjt6jsu6g7tueddr7odhzzpzli3rgudlbnc6iq`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* **cli-tutor:** wrap async resource reducer instead of replacing it ([#2478](https://github.com/ipfs/ipfs-webui/issues/2478)) ([0468b72](https://github.com/ipfs/ipfs-webui/commit/0468b72a45c426ca3717518b9aafafed280c2618))
+* **modal:** center overlays using flexbox via renderDialog ([#2477](https://github.com/ipfs/ipfs-webui/issues/2477)) ([9db5775](https://github.com/ipfs/ipfs-webui/commit/9db5775d67a00a0080c1536915fbdce6b55fb85e))
+* **peers:** accept /p2p/ prefix in peer filter input ([#2475](https://github.com/ipfs/ipfs-webui/issues/2475)) ([c86d151](https://github.com/ipfs/ipfs-webui/commit/c86d151cb6f12e8f33584e0cbe30822917b07d89)), closes [#2468](https://github.com/ipfs/ipfs-webui/issues/2468)
+
+
+### Trivial Changes
+
+* pull transifex translations ([#2474](https://github.com/ipfs/ipfs-webui/issues/2474)) ([6cb5fd5](https://github.com/ipfs/ipfs-webui/commit/6cb5fd5311d14d8120fc85e15f92ca6130cae78f))
+
 ## [4.11.0](https://github.com/ipfs/ipfs-webui/compare/v4.10.0...v4.11.0) (2026-02-05)
 
 
