@@ -114,6 +114,10 @@ test.describe('IPNS publishing', () => {
       const fileRow = page.getByTestId('file-row').filter({ hasText: testFilename })
       await expect(fileRow).toBeVisible()
 
+      // dismiss import notification before opening the publish modal
+      // (modal overlay blocks interaction with content behind it)
+      await dismissImportNotification(page)
+
       // click on the context menu
       await page.locator(`.File:has-text('${testFilename}') .file-context-menu`).click()
 
@@ -134,9 +138,6 @@ test.describe('IPNS publishing', () => {
       // connect to other peer to have something in the peer table
       // (ipns will fail to publish without peers)
       await ipfs.swarm.connect(peerAddr)
-
-      // dismiss import notification created earlier in this test
-      await dismissImportNotification(page)
 
       await publishButton.click()
 
