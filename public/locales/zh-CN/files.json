@@ -66,6 +66,7 @@
     "copy": "复制已选择的项目",
     "paste": "粘贴已选择的项目",
     "cut": "剪贴已选择的项目",
+    "toggleSearch": "",
     "showShortcuts": "显示快捷键"
   },
   "pinningModal": {
@@ -78,7 +79,7 @@
   "addByPathModal": {
     "title": "从IPFS导入",
     "description": "",
-    "preloadNote": "",
+    "preloadNote": "注意：默认情况下，导入的路径是延迟加载的，在您浏览时将按需检索。要主动将导入的路径预取到本地数据存储，请从上下文菜单中选择“下载”。",
     "importPathPlaceholder": "",
     "namePlaceholder": "名称 (可选)",
     "examples": "示例："
@@ -199,7 +200,7 @@
     "title": "",
     "errorPrefix": "",
     "helpTitle": "",
-    "helpListItemSearchError": "",
+    "helpListItemSearchError": "请复制上面的错误消息，并在网上搜索可能的解决方案。",
     "helpListItemInspect": "",
     "helpListItemRetrieval": "",
     "helpListItemForums": "",

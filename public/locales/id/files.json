@@ -66,6 +66,7 @@
     "copy": "Salin item yang dipilih",
     "paste": "Tempel item",
     "cut": "Potong item yang dipilih",
+    "toggleSearch": "",
     "showShortcuts": "Tampilkan pintasan keyboard"
   },
   "pinningModal": {

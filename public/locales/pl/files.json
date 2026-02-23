@@ -66,6 +66,7 @@
     "copy": "Kopiuj zaznaczone elementy",
     "paste": "Wklej elementy",
     "cut": "Wytnij zaznaczone elementy",
+    "toggleSearch": "",
     "showShortcuts": "Pokaż skróty klawiszowe"
   },
   "pinningModal": {
