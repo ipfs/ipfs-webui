@@ -45,7 +45,13 @@ function createPeersLocations (opts) {
     actionBaseType: 'PEER_LOCATIONS',
     getPromise: ({ store }) => {
       const peers = store.selectPeers()
-      if (!peers) return Promise.resolve({})
+      if (!peers) {
+        // Peers bundle hasn't loaded yet. Return empty result but schedule
+        // a quick retry -- the reactor doesn't depend on selectPeers, so
+        // without this we'd wait the full staleAfter (3s) before re-fetching.
+        setTimeout(() => store.doMarkPeerLocationsAsOutdated(), 100)
+        return Promise.resolve({})
+      }
 
       const promise = peerLocResolver.findLocations(
         store.selectAvailableGatewayUrl(), peers)
@@ -87,7 +93,17 @@ function createPeersLocations (opts) {
         })
       }
 
-      return promise
+      // Avoid unnecessary selector recomputation and re-renders: return
+      // the previous data reference when nothing actually changed. This is
+      // cheap because memoryCache (HLRU) returns the same value references
+      // for the same IPs, so a shallow comparison suffices.
+      return promise.then(newLocations => {
+        const prev = store.selectPeerLocations()
+        if (prev && shallowEqualObjects(prev, newLocations)) {
+          return prev
+        }
+        return newLocations
+      })
     },
     staleAfter: UPDATE_EVERY,
     retryAfter: UPDATE_EVERY,
@@ -192,6 +208,13 @@ function createPeersLocations (opts) {
   )
 
   return bundle
+}
+
+const shallowEqualObjects = (a, b) => {
+  const keysA = Object.keys(a)
+  const keysB = Object.keys(b)
+  if (keysA.length !== keysB.length) return false
+  return keysA.every(key => a[key] === b[key])
 }
 
 const isPublicIP = t =>
