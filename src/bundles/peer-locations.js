@@ -44,13 +44,45 @@ function createPeersLocations (opts) {
     name: 'peerLocations',
     actionBaseType: 'PEER_LOCATIONS',
     getPromise: ({ store }) => {
-      const promise = peerLocResolver.findLocations(
-        store.selectAvailableGatewayUrl(), store.selectPeers())
+      const peers = store.selectPeers()
+      if (!peers) return Promise.resolve({})
 
-      if (!peerLocResolver._idleHandlerRegistered && peerLocResolver.queue.size > 0) {
-        peerLocResolver._idleHandlerRegistered = true
+      const promise = peerLocResolver.findLocations(
+        store.selectAvailableGatewayUrl(), peers)
+
+      // While optimizedPeerSet is still ramping up (pass 0→10, 1→100, 2→200, 3→all),
+      // chain an immediate re-fetch after the current one resolves instead of
+      // waiting for staleAfter (3s) between each pass.
+      if (peerLocResolver.pass <= 3) {
+        promise.then(() => setTimeout(() => store.doMarkPeerLocationsAsOutdated(), 0))
+      }
+
+      if (!peerLocResolver._completedHandler && peerLocResolver.queue.size > 0) {
+        let throttleTimer = null
+        let pendingUpdate = false
+
+        const throttledUpdate = () => {
+          if (throttleTimer) {
+            pendingUpdate = true
+            return
+          }
+          store.doMarkPeerLocationsAsOutdated()
+          throttleTimer = setTimeout(() => {
+            throttleTimer = null
+            if (pendingUpdate) {
+              pendingUpdate = false
+              throttledUpdate()
+            }
+          }, 500)
+        }
+
+        peerLocResolver._completedHandler = throttledUpdate
+        peerLocResolver.queue.on('completed', throttledUpdate)
+
         peerLocResolver.queue.onIdle().then(() => {
-          peerLocResolver._idleHandlerRegistered = false
+          peerLocResolver.queue.off('completed', throttledUpdate)
+          peerLocResolver._completedHandler = null
+          clearTimeout(throttleTimer)
           store.doMarkPeerLocationsAsOutdated()
         })
       }
@@ -265,7 +297,7 @@ class PeerLocationResolver {
     this.memoryCache = HLRU(500)
 
     this.pass = 0
-    this._idleHandlerRegistered = false
+    this._completedHandler = null
   }
 
   async findLocations (gatewayUrls, peers) {
