@@ -262,7 +262,7 @@ class PeerLocationResolver {
     })
 
     this.geoipLookupPromises = new Map()
-    this.memoryCache = new Map()
+    this.memoryCache = HLRU(500)
 
     this.pass = 0
     this._idleHandlerRegistered = false
