@@ -162,7 +162,8 @@ function createPeersLocations (opts) {
   return bundle
 }
 
-const isNonHomeIPv4 = t => t[0] === 4 && t[1] !== '127.0.0.1'
+const isPublicIP = t =>
+  (t[0] === 4 || t[0] === 41) && !ip.isPrivate(t[1])
 
 const toLocationString = loc => {
   if (!loc) return null
@@ -277,46 +278,46 @@ class PeerLocationResolver {
     for (const p of this.optimizedPeerSet(peers)) {
       const peerId = p.peer
 
-      const ipv4Tuple = p.addr.stringTuples().find(isNonHomeIPv4)
-      if (!ipv4Tuple) {
+      const ipTuple = p.addr.stringTuples().find(isPublicIP)
+      if (!ipTuple) {
         continue
       }
 
-      const ipv4Addr = ipv4Tuple[1]
-      if (this.failedAddrs.has(ipv4Addr)) {
+      const ipAddr = ipTuple[1]
+      if (this.failedAddrs.has(ipAddr)) {
         continue
       }
 
       // check in-memory cache first (avoids IndexedDB reads for known IPs)
-      const memoryCached = this.memoryCache.get(ipv4Addr)
+      const memoryCached = this.memoryCache.get(ipAddr)
       if (memoryCached) {
         res[peerId] = memoryCached
         continue
       }
 
-      // maybe we have it cached by ipv4 address in IndexedDB
-      const location = await this.geoipCache.get(ipv4Addr)
+      // maybe we have it cached by IP address in IndexedDB
+      const location = await this.geoipCache.get(ipAddr)
       if (location) {
-        this.memoryCache.set(ipv4Addr, location)
+        this.memoryCache.set(ipAddr, location)
         res[peerId] = location
         continue
       }
 
       // no ip address cached. are we looking it up already?
-      if (this.geoipLookupPromises.has(ipv4Addr)) {
+      if (this.geoipLookupPromises.has(ipAddr)) {
         continue
       }
 
-      this.geoipLookupPromises.set(ipv4Addr, this.queue.add(async () => {
+      this.geoipLookupPromises.set(ipAddr, this.queue.add(async () => {
         try {
-          const data = await lookup(gatewayUrls, ipv4Addr)
-          this.memoryCache.set(ipv4Addr, data)
-          await this.geoipCache.set(ipv4Addr, data)
+          const data = await lookup(gatewayUrls, ipAddr)
+          this.memoryCache.set(ipAddr, data)
+          await this.geoipCache.set(ipAddr, data)
         } catch (e) {
           // mark this one as failed so we don't retry again
-          this.failedAddrs.set(ipv4Addr, true)
+          this.failedAddrs.set(ipAddr, true)
         } finally {
-          this.geoipLookupPromises.delete(ipv4Addr)
+          this.geoipLookupPromises.delete(ipAddr)
         }
       }))
     }
