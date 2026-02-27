@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo, useEffect } from 'react'
+import React, { useCallback, useRef, useState, useMemo, useEffect } from 'react'
 import ReactFauxDOM from 'react-faux-dom'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
@@ -48,7 +48,7 @@ const calculateHeight = (width) => {
 const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
   const [width, setWidth] = useState(calculateWidth(window.innerWidth))
   const [height, setHeight] = useState(calculateHeight(width))
-  const [selectedTimeout, setSelectedTimeout] = useState(null)
+  const selectedTimeoutRef = useRef(null)
 
   useEffect(() => {
     const debouncedHandleResize = debounce(() => {
@@ -65,20 +65,18 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
   const handleMapPinMouseEnter = useCallback((peerIds, element) => {
     if (!element) return
 
-    clearTimeout(selectedTimeout)
+    clearTimeout(selectedTimeoutRef.current)
 
     const { x, y, width, height } = element.getBBox()
 
     doSetSelectedPeers({ peerIds, left: `${x + width / 2}px`, top: `${y - height / 2}px` })
-  }, [doSetSelectedPeers, selectedTimeout])
-
-  const handleMapPinMouseLeave = useCallback(() => {
-    setSelectedTimeout(
-      setTimeout(() => doSetSelectedPeers({}), 600)
-    )
   }, [doSetSelectedPeers])
 
-  const handlePopoverMouseEnter = useCallback(() => clearTimeout(selectedTimeout), [selectedTimeout])
+  const handleMapPinMouseLeave = useCallback(() => {
+    selectedTimeoutRef.current = setTimeout(() => doSetSelectedPeers({}), 600)
+  }, [doSetSelectedPeers])
+
+  const handlePopoverMouseEnter = useCallback(() => clearTimeout(selectedTimeoutRef.current), [])
 
   return (
     <div className="flex flex-column">
@@ -121,12 +119,14 @@ const PeersCount = connect('selectPeers', ({ peers }) => peers ? peers.length : 
 
 const GeoPath = ({ width, height, children }) => {
   // https://github.com/d3/d3-geo/blob/master/README.md#geoEquirectangular
-  const projection = d3.geoEquirectangular()
-    .scale(height / Math.PI)
-    .translate([width / 2, height / 2])
-    .precision(0.1)
-  // https://github.com/d3/d3-geo/blob/master/README.md#paths
-  const path = d3.geoPath().projection(projection)
+  const path = useMemo(() => {
+    const projection = d3.geoEquirectangular()
+      .scale(height / Math.PI)
+      .translate([width / 2, height / 2])
+      .precision(0.1)
+    // https://github.com/d3/d3-geo/blob/master/README.md#paths
+    return d3.geoPath().projection(projection)
+  }, [width, height])
 
   return children({ path })
 }

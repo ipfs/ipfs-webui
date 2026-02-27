@@ -133,8 +133,7 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(createSelector).toHaveBeenNthCalledWith(2,
       'selectPeers',
       'selectPeerLocations',
-      'selectBootstrapPeers',
-      'selectIdentity',
+      expect.any(Function), // selectIdentityData
       expect.any(Function)
     )
   })
@@ -185,7 +184,7 @@ describe('selectPeerLocationsForSwarm', () => {
       latency: '1s'
     }
 
-    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1, peer2], locations, ['/p2p/1'])
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1, peer2], locations)
     expect(result).toEqual([
       {
         address: '1.test',
@@ -250,7 +249,7 @@ describe('selectPeerLocationsForSwarm', () => {
       ]
     }
 
-    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], locations, ['/ipfs/1'], identity)
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], locations, identity)
     expect(result).toEqual([
       {
         address: '1.test',
@@ -292,7 +291,7 @@ describe('selectPeerLocationsForSwarm', () => {
       latency: '5ms'
     }
 
-    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer], locations, [])
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer], locations)
     expect(result).toEqual([
       {
         address: '/ip6/2001:db8::1/tcp/4001',
@@ -325,7 +324,7 @@ describe('selectPeerLocationsForSwarm', () => {
       latency: 'n/a'
     }
 
-    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer], {}, [])
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer], {})
     expect(result[0].isPrivate).toBe(true)
     expect(result[0].peerId).toBe('privateV6')
   })
@@ -344,7 +343,7 @@ describe('selectPeerLocationsForSwarm', () => {
       latency: 'n/a'
     }
 
-    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer], {}, [])
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer], {})
     expect(result[0].isPrivate).toBe(true)
     expect(result[0].peerId).toBe('privateV4')
   })
@@ -372,7 +371,7 @@ describe('selectPeerLocationsForSwarm', () => {
       ]
     }
 
-    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], null, ['/ipfs/1'], identity)
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], null, identity)
     expect(result).toEqual([
       {
         address: '1.test',

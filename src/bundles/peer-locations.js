@@ -125,9 +125,8 @@ function createPeersLocations (opts) {
   bundle.selectPeerLocationsForSwarm = createSelector(
     'selectPeers',
     'selectPeerLocations',
-    'selectBootstrapPeers',
     selectIdentityData, // ipfs.id info from identity context, used for detecting local peers
-    (peers, locations = {}, bootstrapPeers, identity) => peers && peers.map((peer) => {
+    (peers, locations = {}, identity) => peers && peers.map((peer) => {
       const peerId = peer.peer
       const locationObj = locations ? locations[peerId] : null
       const location = toLocationString(locationObj)
