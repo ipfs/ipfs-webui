@@ -60,7 +60,7 @@ const WorldMap = ({ t, className, selectedPeers, doSetSelectedPeers }) => {
     window.addEventListener('resize', debouncedHandleResize)
 
     return () => window.removeEventListener('resize', debouncedHandleResize)
-  })
+  }, [])
 
   const handleMapPinMouseEnter = useCallback((peerIds, element) => {
     if (!element) return
@@ -145,20 +145,13 @@ const getDotsColor = (numberOfDots) => {
 
 // Just the dots on the map, this gets called a lot.
 const MapPins = connect('selectPeersCoordinates', ({ width, height, path, peersCoordinates, handleMouseEnter, handleMouseLeave }) => {
-  const [awaitedPeerCoordinates, setAwaitedPeerCoordinates] = useState([])
+  const coords = peersCoordinates || []
   const el = d3.select(ReactFauxDOM.createElement('svg'))
     .attr('width', width)
     .attr('height', height)
     .attr('viewBox', `0 0 ${width} ${height}`)
 
-  useEffect(() => {
-    const asyncFn = async () => {
-      setAwaitedPeerCoordinates(await peersCoordinates)
-    }
-    asyncFn()
-  }, [peersCoordinates])
-
-  awaitedPeerCoordinates.forEach(({ peerIds, coordinates }) => {
+  coords.forEach(({ peerIds, coordinates }) => {
     el.append('path')
       .datum({
         type: 'Point',
@@ -177,16 +170,7 @@ const MapPins = connect('selectPeersCoordinates', ({ width, height, path, peersC
 const MAX_PEERS = 5
 
 const PeerInfo = connect('selectPeerLocationsForSwarm', ({ ids, peerLocationsForSwarm, t }) => {
-  const [allPeers, setAllPeers] = useState([])
-
-  useEffect(() => {
-    if (!peerLocationsForSwarm) return
-    const asyncFn = async () => {
-      setAllPeers(await peerLocationsForSwarm)
-    }
-    asyncFn()
-  }, [peerLocationsForSwarm])
-
+  const allPeers = peerLocationsForSwarm || []
   const peers = allPeers.filter(({ peerId }) => ids.includes(peerId))
 
   const isWindows = useMemo(() => window.navigator.appVersion.indexOf('Win') !== -1, [])

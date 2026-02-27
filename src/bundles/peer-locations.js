@@ -6,7 +6,6 @@ import HLRU from 'hashlru'
 import { multiaddr } from '@multiformats/multiaddr'
 import ms from 'milliseconds'
 import ip from 'ip'
-import memoize from 'p-memoize'
 import { createContextSelector } from '../helpers/context-bridge'
 import pkgJson from '../../package.json'
 
@@ -25,7 +24,7 @@ const selectIdentityData = () => {
 
 // After this time interval, we re-check the locations for each peer
 // once again through PeerLocationResolver.
-const UPDATE_EVERY = ms.seconds(1)
+const UPDATE_EVERY = ms.seconds(3)
 
 // We reuse cached geoip lookups as long geoipVersion is the same.
 const geoipVersion = dependencies['ipfs-geoip']
@@ -44,8 +43,20 @@ function createPeersLocations (opts) {
   const bundle = createAsyncResourceBundle({
     name: 'peerLocations',
     actionBaseType: 'PEER_LOCATIONS',
-    getPromise: ({ store }) => peerLocResolver.findLocations(
-      store.selectAvailableGatewayUrl(), store.selectPeers()),
+    getPromise: ({ store }) => {
+      const promise = peerLocResolver.findLocations(
+        store.selectAvailableGatewayUrl(), store.selectPeers())
+
+      if (!peerLocResolver._idleHandlerRegistered && peerLocResolver.queue.size > 0) {
+        peerLocResolver._idleHandlerRegistered = true
+        peerLocResolver.queue.onIdle().then(() => {
+          peerLocResolver._idleHandlerRegistered = false
+          store.doMarkPeerLocationsAsOutdated()
+        })
+      }
+
+      return promise
+    },
     staleAfter: UPDATE_EVERY,
     retryAfter: UPDATE_EVERY,
     persist: false,
@@ -68,7 +79,7 @@ function createPeersLocations (opts) {
     'selectPeerLocations',
     'selectBootstrapPeers',
     selectIdentityData, // ipfs.id info from identity context, used for detecting local peers
-    (peers, locations = {}, bootstrapPeers, identity) => peers && Promise.all(peers.map(async (peer) => {
+    (peers, locations = {}, bootstrapPeers, identity) => peers && peers.map((peer) => {
       const peerId = peer.peer
       const locationObj = locations ? locations[peerId] : null
       const location = toLocationString(locationObj)
@@ -81,7 +92,7 @@ function createPeersLocations (opts) {
       const address = peer.addr.toString()
       const latency = parseLatency(peer.latency)
       const direction = peer.direction
-      const { isPrivate, isNearby } = await isPrivateAndNearby(peer.addr, identity)
+      const { isPrivate, isNearby } = isPrivateAndNearby(peer.addr, identity)
 
       const protocols = (Array.isArray(peer.streams)
         ? Array.from(new Set(peer.streams
@@ -107,18 +118,17 @@ function createPeersLocations (opts) {
         isNearby,
         agentVersion
       }
-    }))
+    })
   )
 
   const COORDINATES_RADIUS = 4
 
   bundle.selectPeersCoordinates = createSelector(
     'selectPeerLocationsForSwarm',
-    async (peers) => {
+    (peers) => {
       if (!peers) return []
 
-      const fetchedPeers = await peers
-      return fetchedPeers.reduce((previous, { peerId, coordinates }) => {
+      return peers.reduce((previous, { peerId, coordinates }) => {
         if (!coordinates) return previous
 
         let hasFoundACloseCoordinate = false
@@ -178,27 +188,32 @@ const parseLatency = (latency) => {
   return value
 }
 
-const getPublicIP = memoize((identity) => {
+let _cachedPublicIP
+let _lastIdentityRef
+
+const getPublicIP = (identity) => {
   if (!identity) return
+  if (identity === _lastIdentityRef) return _cachedPublicIP
+
+  _lastIdentityRef = identity
+  _cachedPublicIP = undefined
 
   for (const maddr of identity.addresses) {
     try {
       const addr = multiaddr(maddr).nodeAddress()
 
       if ((ip.isV4Format(addr.address) || ip.isV6Format(addr.address)) && !ip.isPrivate(addr.address)) {
-        return addr.address
+        _cachedPublicIP = addr.address
+        return _cachedPublicIP
       }
     } catch (e) {
-      // TODO: We should provide a way to log these errors when debugging
-      // if (['development', 'test'].includes(process.env.REACT_APP_ENV)) {
-      //   console.error(e)
-      // }
+      // Might fail for non-IP multiaddrs, safe to ignore.
     }
   }
-})
+}
 
-const isPrivateAndNearby = async (maddr, identity) => {
-  const publicIP = await getPublicIP(identity)
+const isPrivateAndNearby = (maddr, identity) => {
+  const publicIP = getPublicIP(identity)
   let isPrivate = false
   let isNearby = false
   let addr
@@ -246,8 +261,10 @@ class PeerLocationResolver {
     })
 
     this.geoipLookupPromises = new Map()
+    this.memoryCache = new Map()
 
     this.pass = 0
+    this._idleHandlerRegistered = false
   }
 
   async findLocations (gatewayUrls, peers) {
@@ -270,9 +287,17 @@ class PeerLocationResolver {
         continue
       }
 
-      // maybe we have it cached by ipv4 address already, check that.
+      // check in-memory cache first (avoids IndexedDB reads for known IPs)
+      const memoryCached = this.memoryCache.get(ipv4Addr)
+      if (memoryCached) {
+        res[peerId] = memoryCached
+        continue
+      }
+
+      // maybe we have it cached by ipv4 address in IndexedDB
       const location = await this.geoipCache.get(ipv4Addr)
       if (location) {
+        this.memoryCache.set(ipv4Addr, location)
         res[peerId] = location
         continue
       }
@@ -285,6 +310,7 @@ class PeerLocationResolver {
       this.geoipLookupPromises.set(ipv4Addr, this.queue.add(async () => {
         try {
           const data = await lookup(gatewayUrls, ipv4Addr)
+          this.memoryCache.set(ipv4Addr, data)
           await this.geoipCache.set(ipv4Addr, data)
         } catch (e) {
           // mark this one as failed so we don't retry again
