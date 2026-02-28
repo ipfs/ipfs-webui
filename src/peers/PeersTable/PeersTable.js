@@ -143,7 +143,7 @@ const FilterInput = ({ filter, setFilter, t, filteredCount }) => {
 
 export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers }) => {
   const tableHeight = 400
-  const peers = peerLocationsForSwarm || []
+  const peers = useMemo(() => peerLocationsForSwarm || [], [peerLocationsForSwarm])
   const [sortBy, setSortBy] = useState('latency')
   const [sortDirection, setSortDirection] = useState(SortDirection.ASC)
   const [filter, setFilter] = useState('')
