@@ -146,6 +146,7 @@
     "@typescript-eslint/parser": "^5.62.0",
     "aegir": "^42.2.2",
     "autoprefixer": "^10.4.7",
+    "baseline-browser-mapping": "^2.10.0",
     "basic-auth": "^2.0.1",
     "big.js": "^5.2.2",
     "concurrently": "^7.3.0",
