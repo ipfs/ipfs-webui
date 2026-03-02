@@ -19,7 +19,7 @@ const dhtProvide = {
 
 test.describe('DHT Provide diagnostics page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/#/diagnostics/dht-provide')
+    await page.goto('/#/diagnostics/provider')
     // wait for the stats grid to appear (indicates data has loaded)
     await expect(dhtProvide.grid(page)).toBeVisible({ timeout: 15000 })
   })
