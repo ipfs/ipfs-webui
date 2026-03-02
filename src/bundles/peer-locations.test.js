@@ -133,8 +133,7 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(createSelector).toHaveBeenNthCalledWith(2,
       'selectPeers',
       'selectPeerLocations',
-      'selectBootstrapPeers',
-      'selectIdentity',
+      expect.any(Function), // selectIdentityData
       expect.any(Function)
     )
   })
@@ -145,7 +144,7 @@ describe('selectPeerLocationsForSwarm', () => {
     expect(callSelectorMethod(selectPeerLocationsForSwarm)).toBeFalsy()
   })
 
-  it('should map the peers with the location information', async () => {
+  it('should map the peers with the location information', () => {
     const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
 
     const locations = {
@@ -185,7 +184,7 @@ describe('selectPeerLocationsForSwarm', () => {
       latency: '1s'
     }
 
-    const result = await callSelectorMethod(selectPeerLocationsForSwarm, [peer1, peer2], locations, ['/p2p/1'])
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1, peer2], locations)
     expect(result).toEqual([
       {
         address: '1.test',
@@ -219,7 +218,7 @@ describe('selectPeerLocationsForSwarm', () => {
     ])
   })
 
-  it('should also handle the public ip', async () => {
+  it('should also handle the public ip', () => {
     const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
 
     const locations = {
@@ -250,7 +249,7 @@ describe('selectPeerLocationsForSwarm', () => {
       ]
     }
 
-    const result = await callSelectorMethod(selectPeerLocationsForSwarm, [peer1], locations, ['/ipfs/1'], identity)
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], locations, identity)
     expect(result).toEqual([
       {
         address: '1.test',
@@ -269,7 +268,87 @@ describe('selectPeerLocationsForSwarm', () => {
     ])
   })
 
-  it('should also handle the near addresses', async () => {
+  it('should map IPv6 peer with location information', () => {
+    const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
+
+    const locations = {
+      ipv6peer: {
+        country_name: 'Republic of Mocks',
+        city: 'Mocky',
+        country_code: 'ROM',
+        longitude: 3.33,
+        latitude: 3.03
+      }
+    }
+
+    const peer = {
+      peer: 'ipv6peer',
+      addr: {
+        protoNames: () => ['ip6', 'tcp'],
+        toString: () => '/ip6/2001:db8::1/tcp/4001',
+        encapsulate: (arg) => ({ toString: () => arg })
+      },
+      latency: '5ms'
+    }
+
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer], locations)
+    expect(result).toEqual([
+      {
+        address: '/ip6/2001:db8::1/tcp/4001',
+        agentVersion: undefined,
+        connection: 'ip6/tcp',
+        coordinates: [3.33, 3.03],
+        direction: undefined,
+        flagCode: 'ROM',
+        isNearby: false,
+        isPrivate: false,
+        latency: 5,
+        location: 'Republic of Mocks, Mocky',
+        peerId: 'ipv6peer',
+        protocols: ''
+      }
+    ])
+  })
+
+  it('should show private IPv6 peer with isPrivate flag', () => {
+    const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
+
+    const peer = {
+      peer: 'privateV6',
+      addr: {
+        protoNames: () => ['ip6', 'tcp'],
+        toString: () => '/ip6/fe80::1/tcp/4001',
+        encapsulate: (arg) => ({ toString: () => arg }),
+        nodeAddress: () => ({ address: 'fe80::1' })
+      },
+      latency: 'n/a'
+    }
+
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer], {})
+    expect(result[0].isPrivate).toBe(true)
+    expect(result[0].peerId).toBe('privateV6')
+  })
+
+  it('should show private IPv4 peer with isPrivate flag', () => {
+    const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
+
+    const peer = {
+      peer: 'privateV4',
+      addr: {
+        protoNames: () => ['ip4', 'tcp'],
+        toString: () => '/ip4/192.168.1.1/tcp/4001',
+        encapsulate: (arg) => ({ toString: () => arg }),
+        nodeAddress: () => ({ address: '192.168.1.1' })
+      },
+      latency: 'n/a'
+    }
+
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer], {})
+    expect(result[0].isPrivate).toBe(true)
+    expect(result[0].peerId).toBe('privateV4')
+  })
+
+  it('should also handle the near addresses', () => {
     const { selectPeerLocationsForSwarm } = createPeersLocationBundle()
 
     const peer1 = {
@@ -292,7 +371,7 @@ describe('selectPeerLocationsForSwarm', () => {
       ]
     }
 
-    const result = await callSelectorMethod(selectPeerLocationsForSwarm, [peer1], null, ['/ipfs/1'], identity)
+    const result = callSelectorMethod(selectPeerLocationsForSwarm, [peer1], null, identity)
     expect(result).toEqual([
       {
         address: '1.test',
@@ -322,14 +401,14 @@ describe('selectPeersCoordinates', () => {
     )
   })
 
-  it('should do nothing when there are no peers', async () => {
+  it('should do nothing when there are no peers', () => {
     const { selectPeersCoordinates } = createPeersLocationBundle()
-    expect(await callSelectorMethod(selectPeersCoordinates)).toEqual([])
+    expect(callSelectorMethod(selectPeersCoordinates)).toEqual([])
   })
 
-  it('should aggregate peers by close coordinates', async () => {
+  it('should aggregate peers by close coordinates', () => {
     const { selectPeersCoordinates } = createPeersLocationBundle()
-    const result = await callSelectorMethod(selectPeersCoordinates, [
+    const result = callSelectorMethod(selectPeersCoordinates, [
       { peerId: '1', coordinates: [1, 1] },
       { peerId: '2' },
       { peerId: '3', coordinates: [1000, 1000] },
@@ -432,11 +511,79 @@ describe('PeerLocationResolver', () => {
     })
   })
 
+  describe('findLocations with IPv6', () => {
+    it('should resolve IPv6 peer from cache', async () => {
+      await mockGeoIpCache('2001:db8::1')
+
+      const fakePeers = [
+        {
+          peer: 'v6peer',
+          latency: '1ms',
+          addr: {
+            stringTuples: () => [[41, '2001:db8::1']]
+          }
+        }
+      ]
+
+      const store = await createStore({
+        selectors: {
+          selectAvailableGatewayUrl: () => 'https://ipfs.io',
+          selectIsOnline: () => true,
+          selectBootstrapPeers: () => fakePeers,
+          selectPeers: () => fakePeers,
+          selectRouteInfo: _ => ({ url: '/peers' }),
+          selectIdentity: () => ({
+            addresses: ['/ip4/4.4.4.4/udp/1234']
+          })
+        }
+      })
+
+      const result = await getPeerLocationsFromStore({ store })
+      expect(result).toEqual({ v6peer: 'location-cached' })
+    })
+
+    it('should skip private IPs for both IPv4 and IPv6', async () => {
+      const privatePeers = [
+        {
+          peer: 'loopbackV6',
+          latency: '1ms',
+          addr: { stringTuples: () => [[41, '::1']] }
+        },
+        {
+          peer: 'linkLocalV6',
+          latency: '1ms',
+          addr: { stringTuples: () => [[41, 'fe80::1']] }
+        },
+        {
+          peer: 'privateV4',
+          latency: '1ms',
+          addr: { stringTuples: () => [[4, '192.168.1.1']] }
+        }
+      ]
+
+      const store = await createStore({
+        selectors: {
+          selectAvailableGatewayUrl: () => 'https://ipfs.io',
+          selectIsOnline: () => true,
+          selectBootstrapPeers: () => privatePeers,
+          selectPeers: () => privatePeers,
+          selectRouteInfo: _ => ({ url: '/peers' }),
+          selectIdentity: () => ({
+            addresses: ['/ip4/4.4.4.4/udp/1234']
+          })
+        }
+      })
+
+      const result = await getPeerLocationsFromStore({ store })
+      expect(result).toEqual({})
+    })
+  })
+
   describe('optimizedPeerSet', () => {
     it('should return sets of 10, 100, 200 peers and more according to the number of calls', async () => {
       const ipAddresses = []
       const peers = new Array(1000).fill().map((_, index) => {
-        const ipAddress = `${index}.0.${index}.${index}`
+        const ipAddress = `33.1.${Math.floor(index / 256)}.${index % 256}`
         ipAddresses.push(ipAddress)
         return ({
           peer: `${index}aa`,

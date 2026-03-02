@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import ms from 'milliseconds'
 import { connect } from 'redux-bundler-react'
@@ -143,7 +143,7 @@ const FilterInput = ({ filter, setFilter, t, filteredCount }) => {
 
 export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers }) => {
   const tableHeight = 400
-  const [awaitedPeerLocationsForSwarm, setAwaitedPeerLocationsForSwarm] = useState([])
+  const peers = useMemo(() => peerLocationsForSwarm || [], [peerLocationsForSwarm])
   const [sortBy, setSortBy] = useState('latency')
   const [sortDirection, setSortDirection] = useState(SortDirection.ASC)
   const [filter, setFilter] = useState('')
@@ -156,17 +156,11 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
     setFilter(value)
   }, [])
 
-  useEffect(() => {
-    peerLocationsForSwarm?.then?.((peerLocationsForSwarm) => {
-      setAwaitedPeerLocationsForSwarm(peerLocationsForSwarm)
-    })
-  }, [peerLocationsForSwarm])
-
   const filteredPeerList = useMemo(() => {
     const filterLower = filter.toLowerCase()
-    if (filterLower === '') return awaitedPeerLocationsForSwarm
+    if (filterLower === '') return peers
     const peerFilter = filter.startsWith('/p2p/') ? filter.slice(5) : filter
-    return awaitedPeerLocationsForSwarm.filter(({ location, latency, peerId, connection, protocols, agentVersion }) => {
+    return peers.filter(({ location, latency, peerId, connection, protocols, agentVersion }) => {
       if (location != null && location.toLowerCase().includes(filterLower)) {
         return true
       }
@@ -188,7 +182,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
 
       return false
     })
-  }, [awaitedPeerLocationsForSwarm, filter])
+  }, [peers, filter])
 
   const sortedList = useMemo(
     () => filteredPeerList.sort(sortByProperty(sortBy, sortDirection === SortDirection.ASC ? 1 : -1)),
@@ -198,13 +192,13 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
   return (
     <div className={`bg-white-70 center ${className}`} style={{ height: `${tableHeight}px`, maxWidth: 1764 }}>
         <FilterInput filter={filter} setFilter={filterCb} t={t} filteredCount={sortedList.length} />
-        { awaitedPeerLocationsForSwarm && <AutoSizer disableHeight>
+        { peers && <AutoSizer disableHeight>
           {({ width }) => (
             <>
               <Table
                 className='tl fw4 w-100 f6'
                 headerClassName='teal fw2 ttu tracked ph2 no-select'
-                rowClassName={(rowInfo) => rowClassRenderer(rowInfo, awaitedPeerLocationsForSwarm, selectedPeers)}
+                rowClassName={(rowInfo) => rowClassRenderer(rowInfo, peers, selectedPeers)}
                 width={width}
                 height={tableHeight}
                 headerHeight={32}
