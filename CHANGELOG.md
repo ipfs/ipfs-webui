@@ -1,3 +1,26 @@
+## [4.12.0](https://github.com/ipfs/ipfs-webui/compare/v4.11.1...v4.12.0) (2026-03-02)
+
+
+ CID `bafybeihxglpcfyarpm7apn7xpezbuoqgk3l5chyk7w4gvrjwk45rqohlmm`
+
+ --- 
+
+
+
+### Features
+
+* **peers:** updated ipfs-geoip and Peers screen optimizations ([#2480](https://github.com/ipfs/ipfs-webui/issues/2480)) ([4879de2](https://github.com/ipfs/ipfs-webui/commit/4879de2c7292ed8476988bb0d32713f475a6deff))
+
+
+### Bug Fixes
+
+* diagnostics tab urls electron ([#2481](https://github.com/ipfs/ipfs-webui/issues/2481)) ([d1e5cd2](https://github.com/ipfs/ipfs-webui/commit/d1e5cd26cb7063b47bbed44c5499902a519e29e9))
+
+
+### Trivial Changes
+
+* pull transifex translations ([#2479](https://github.com/ipfs/ipfs-webui/issues/2479)) ([bc3856b](https://github.com/ipfs/ipfs-webui/commit/bc3856b76b87f4e3d4d50b8757e092954f48edd4))
+
 ## [4.11.1](https://github.com/ipfs/ipfs-webui/compare/v4.11.0...v4.11.1) (2026-02-17)
 
 
