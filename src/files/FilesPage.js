@@ -161,7 +161,7 @@ const FilesPage = ({
   const onInspect = (cid) => doUpdateHash(`/explore/${cid}`)
   const onCheckRetrieval = (cid) => {
     doFilesCidProvide(cid) // Trigger background provide
-    doUpdateHash(`/diagnostics/retrieval-check/${cid}`)
+    doUpdateHash(`/diagnostics/retrieval/${cid}`)
   }
   const showModal = (modal, files = null) => setModals({ show: modal, files })
   const hideModal = () => setModals({})

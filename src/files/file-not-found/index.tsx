@@ -38,7 +38,7 @@ const FileNotFound = ({ path, error }: FileNotFoundProps) => {
         </li>
         <li className='mb2'>
           <Trans i18nKey='previewNotFound.helpListItemRetrieval' t={t}>
-            If you have a CID you believe should work, <a className='link blue' href='#/diagnostics/retrieval-check'>run Retrieval Diagnostics</a>.
+            If you have a CID you believe should work, <a className='link blue' href='#/diagnostics/retrieval'>run Retrieval Diagnostics</a>.
           </Trans>
         </li>
         <li className='mb2'>
