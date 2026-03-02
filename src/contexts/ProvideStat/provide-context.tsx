@@ -99,7 +99,7 @@ export const ProvideProvider: React.FC<{ children: React.ReactNode }> = ({ child
     autoRefreshEnabled,
     setAutoRefreshEnabled,
     isAgentVersionSupported
-  }), [data, loading, error, lastUpdated, refresh, autoRefreshEnabled, isAgentVersionSupported, setAutoRefreshEnabled])
+  }), [data, loading, error, lastUpdated, refresh, autoRefreshEnabled, setAutoRefreshEnabled, isAgentVersionSupported])
 
   return (
     <ProvideContext.Provider value={value}>
