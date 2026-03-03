@@ -5,9 +5,9 @@ import first from 'it-first'
 import last from 'it-last'
 import * as Enum from '../lib/enum.js'
 import { perform } from './task.js'
-import { readSetting, writeSetting } from './local-storage.js'
 import { contextBridge } from '../helpers/context-bridge'
 import { createSelector } from 'redux-bundler'
+import { readSetting, writeSetting } from '../lib/local-storage.js'
 
 /**
  * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
