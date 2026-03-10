@@ -28,7 +28,10 @@
   },
   "shareModal": {
     "title": "Share files",
-    "description": "Copy the link below and share it with your friends."
+    "description": "Copy the link below and share it with your friends.",
+    "descriptionLocal": "Use this link to open in apps running on this machine.",
+    "useLocalLink": "Local link for other apps on this machine",
+    "useSubdomains": "Use localhost subdomains for web apps"
   },
   "renameModal": {
     "titleFile": "Rename file",
