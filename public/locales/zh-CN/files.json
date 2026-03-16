@@ -66,7 +66,7 @@
     "copy": "复制已选择的项目",
     "paste": "粘贴已选择的项目",
     "cut": "剪贴已选择的项目",
-    "toggleSearch": "",
+    "toggleSearch": "切换搜索筛选器",
     "showShortcuts": "显示快捷键"
   },
   "pinningModal": {
@@ -78,9 +78,9 @@
   },
   "addByPathModal": {
     "title": "从IPFS导入",
-    "description": "",
+    "description": "输入一个IPFS/IPNS路径，CID，协议URL来导入",
     "preloadNote": "注意：默认情况下，导入的路径是延迟加载的，在您浏览时将按需检索。要主动将导入的路径预取到本地数据存储，请从上下文菜单中选择“下载”。",
-    "importPathPlaceholder": "",
+    "importPathPlaceholder": "IPFS/IPNS路径, CID 或 URL (必要)",
     "namePlaceholder": "名称 (可选)",
     "examples": "示例："
   },
@@ -111,7 +111,7 @@
   "filesImportStatus": {
     "imported": "{count, plural, other {已导入{count}项目}}",
     "importing": "{count, plural, other {已导入{count}项目}}",
-    "failed": "{count, plural, other {}}",
+    "failed": "{count, plural, other {导入{count}个项目失败}}",
     "toggleDropdown": "切换下拉框",
     "closeDropdown": "关闭下拉框",
     "count": "{count}个 / 共{count}个"
@@ -193,20 +193,20 @@
   "noPinsInProgress": "全部已完成，没有正在进行的远程固定操作",
   "remotePinningInProgress": "远程固定中:",
   "selectAllEntries": "全选",
-  "searchFiles": "",
-  "clearSearch": "",
-  "noFilesMatchFilter": "",
+  "searchFiles": "通过名称或CID来筛选",
+  "clearSearch": "清空搜索",
+  "noFilesMatchFilter": "没有匹配的文件符合您的搜索条件",
   "previewNotFound": {
-    "title": "",
-    "errorPrefix": "",
-    "helpTitle": "",
+    "title": "无法读取此路径",
+    "errorPrefix": "错误：",
+    "helpTitle": "您如何继续：",
     "helpListItemSearchError": "请复制上面的错误消息，并在网上搜索可能的解决方案。",
-    "helpListItemInspect": "",
-    "helpListItemRetrieval": "",
-    "helpListItemForums": "",
-    "backButton": ""
+    "helpListItemInspect": "尝试在DAG Explorer 中<1>检查此路径</1>（或它的上层路径）来调试这个问题",
+    "helpListItemRetrieval": "如果您有一个您认为应该可用的CID，请<1>运行检索诊断</1>。",
+    "helpListItemForums": "访问<1>论坛</1>寻求帮助。",
+    "backButton": "前往文件"
   },
-  "inspectResolveFailed": "",
-  "showSearch": "",
-  "hideSearch": ""
+  "inspectResolveFailed": "无法解析路径：{{path}}",
+  "showSearch": "点击显示搜索筛选器",
+  "hideSearch": "点击隐藏搜索筛选器"
 }
