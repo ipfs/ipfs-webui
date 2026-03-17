@@ -600,12 +600,26 @@ const actions = () => ({
     // ensureMFS deliberately omitted here, see https://github.com/ipfs/ipfs-webui/issues/1744 for context.
     const publicGateway = store.selectPublicGateway()
     const publicSubdomainGateway = store.selectPublicSubdomainGateway()
+    const gatewayUrl = store.selectGatewayUrl()
     const { link: shareableLink, cid } = await getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
+
+    // Build local gateway link for use in external apps
+    let filename = ''
+    if (files.length === 1 && files[0].type === 'file') {
+      filename = `?filename=${encodeURIComponent(files[0].name)}`
+    }
+    const localLink = `${gatewayUrl}/ipfs/${cid}${filename}`
+
+    // Build localhost subdomain link for web apps (origin isolation)
+    const gwUrl = new URL(gatewayUrl)
+    const base32Cid = cid.toV1().toString()
+    const port = gwUrl.port ? `:${gwUrl.port}` : ''
+    const subdomainLocalLink = `http://${base32Cid}.ipfs.localhost${port}/${filename}`
 
     // Trigger background provide operation with the CID from getShareableLink
     dispatchAsyncProvide(cid, ipfs)
 
-    return shareableLink
+    return { link: shareableLink, localLink, subdomainLocalLink }
   }),
 
   /**
