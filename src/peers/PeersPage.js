@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { Helmet } from 'react-helmet'
 import { withTranslation } from 'react-i18next'
@@ -15,7 +15,22 @@ import AddConnection from './AddConnection/AddConnection.js'
 import CliTutorMode from '../components/cli-tutor-mode/CliTutorMode.js'
 import { cliCmdKeys, cliCommandList } from '../bundles/files/consts.js'
 
-const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
+const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => {
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return
+      }
+      if (e.key === '/') {
+        e.preventDefault()
+        document.getElementById('peers-filter-input')?.focus()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  return (
   <div data-id='PeersPage' className='overflow-hidden'>
     <Helmet>
       <title>{t('title')} | IPFS</title>
@@ -41,7 +56,8 @@ const PeersPage = ({ t, toursEnabled, handleJoyrideCallback }) => (
       locale={getJoyrideLocales(t)}
       showProgress />
   </div>
-)
+  )
+}
 
 export default connect(
   'selectToursEnabled',

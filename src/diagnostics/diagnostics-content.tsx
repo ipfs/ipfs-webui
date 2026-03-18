@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import LogsScreen from './logs-screen/logs-screen.js'
 import { LogsProvider } from '../contexts/logs/index'
@@ -8,10 +8,7 @@ import { useBridgeSelector } from '../helpers/context-bridge'
 import { RouteInfo } from '../bundles/routes-types'
 import { ProvideProvider } from '../contexts/ProvideStat'
 
-interface DiagnosticsContentProps {
-}
-
-type TabKey = 'logs' | 'retrieval-check' | 'dht-provide'
+type TabKey = 'logs' | 'retrieval' | 'provider'
 
 function getTabKeyFromUrl (path: string): { tab: TabKey, remainder?: string } {
   const parts = path.split('/').filter(p => p) // Remove empty strings
@@ -49,31 +46,20 @@ const TabButton = ({ tabKey, label, active }: TabButtonProps) => (
   </a>
 )
 
-const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
+const DiagnosticsContent: React.FC = () => {
   const { t } = useTranslation('diagnostics')
   const routeInfo = useBridgeSelector<RouteInfo>('selectRouteInfo')
-  const path = routeInfo?.params.path ?? ''
+  const path = routeInfo?.params?.path ?? ''
   const { tab: activeTab, remainder } = getTabKeyFromUrl(path)
 
   // Redirect from /diagnostics or /diagnostics/ to /diagnostics/logs
   useEffect(() => {
-    // Check if we're still loading route info
     if (!routeInfo) return
-
-    // Only redirect from true root paths
     const isRootDiagnostics = routeInfo.url === '/diagnostics' || routeInfo.url === '/diagnostics/'
     if (isRootDiagnostics && (path === '' || path === '/')) {
       window.location.replace('#/diagnostics/logs')
     }
   }, [path, routeInfo])
-
-  const isMounted = useRef(false)
-  useEffect(() => {
-    isMounted.current = true
-    return () => {
-      isMounted.current = false
-    }
-  }, [])
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -85,12 +71,11 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
             </LogsProvider>
           </IdentityProvider>
         )
-      case 'retrieval-check':
+      case 'retrieval':
         return (
           <CheckScreen cid={remainder} />
         )
-      case 'dht-provide': {
-        // Lazy-load the DHT provide screen to keep bundle size small
+      case 'provider': {
         const DhtProvideScreen = require('./dht-provide/dht-provide-screen').default
         return (
           <IdentityProvider>
@@ -111,8 +96,8 @@ const DiagnosticsContent: React.FC<DiagnosticsContentProps> = () => {
       <div className='mb4 pb2' style={{ borderBottom: '1px solid var(--theme-border-secondary)' }}>
         <nav className='flex items-center'>
           <TabButton tabKey='logs' label={t('tabs.logs')} active={activeTab === 'logs'} />
-          <TabButton tabKey='retrieval-check' label={t('tabs.retrieval-check')} active={activeTab === 'retrieval-check'} />
-          <TabButton tabKey='dht-provide' label={t('tabs.dht-provide')} active={activeTab === 'dht-provide'} />
+          <TabButton tabKey='retrieval' label={t('tabs.retrieval-check')} active={activeTab === 'retrieval'} />
+          <TabButton tabKey='provider' label={t('tabs.dht-provide')} active={activeTab === 'provider'} />
         </nav>
       </div>
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import ms from 'milliseconds'
 import { connect } from 'redux-bundler-react'
@@ -117,14 +117,23 @@ const rowClassRenderer = ({ index }, peers = [], selectedPeers) => {
   return classNames('bb b--near-white peersTableItem', index === -1 && 'bg-near-white', shouldAddHoverEffect && 'bg-light-gray')
 }
 
-const FilterInput = ({ setFilter, t, filteredCount }) => {
+const FilterInput = ({ filter, setFilter, t, filteredCount }) => {
+  const handleKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      setFilter('')
+    }
+  }
+
   return (
     <div className='flex items-center justify-between pa2'>
       <input
+        id='peers-filter-input'
         className='input-reset ba b--black-20 pa2 mb2 db w-100'
         type='text'
         placeholder='Filter peers'
+        value={filter}
         onChange={(e) => setFilter(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
       {/* Now to display the total number of peers filtered out on the right side of the inside of the input */}
       <div className='f4 charcoal-muted absolute top-1 right-1'>{filteredCount}</div>
@@ -134,7 +143,7 @@ const FilterInput = ({ setFilter, t, filteredCount }) => {
 
 export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers }) => {
   const tableHeight = 400
-  const [awaitedPeerLocationsForSwarm, setAwaitedPeerLocationsForSwarm] = useState([])
+  const peers = useMemo(() => peerLocationsForSwarm || [], [peerLocationsForSwarm])
   const [sortBy, setSortBy] = useState('latency')
   const [sortDirection, setSortDirection] = useState(SortDirection.ASC)
   const [filter, setFilter] = useState('')
@@ -147,23 +156,18 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
     setFilter(value)
   }, [])
 
-  useEffect(() => {
-    peerLocationsForSwarm?.then?.((peerLocationsForSwarm) => {
-      setAwaitedPeerLocationsForSwarm(peerLocationsForSwarm)
-    })
-  }, [peerLocationsForSwarm])
-
   const filteredPeerList = useMemo(() => {
     const filterLower = filter.toLowerCase()
-    if (filterLower === '') return awaitedPeerLocationsForSwarm
-    return awaitedPeerLocationsForSwarm.filter(({ location, latency, peerId, connection, protocols, agentVersion }) => {
+    if (filterLower === '') return peers
+    const peerFilter = filter.startsWith('/p2p/') ? filter.slice(5) : filter
+    return peers.filter(({ location, latency, peerId, connection, protocols, agentVersion }) => {
       if (location != null && location.toLowerCase().includes(filterLower)) {
         return true
       }
       if (latency != null && [latency, `${latency}ms`].some((str) => str.toString().includes(filterLower))) {
         return true
       }
-      if (peerId != null && peerId.toString().includes(filter)) {
+      if (peerId != null && peerId.toString().includes(peerFilter)) {
         return true
       }
       if (connection != null && connection.toLowerCase().includes(filterLower)) {
@@ -178,7 +182,7 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
 
       return false
     })
-  }, [awaitedPeerLocationsForSwarm, filter])
+  }, [peers, filter])
 
   const sortedList = useMemo(
     () => filteredPeerList.sort(sortByProperty(sortBy, sortDirection === SortDirection.ASC ? 1 : -1)),
@@ -187,14 +191,14 @@ export const PeersTable = ({ className, t, peerLocationsForSwarm, selectedPeers 
 
   return (
     <div className={`bg-white-70 center ${className}`} style={{ height: `${tableHeight}px`, maxWidth: 1764 }}>
-        <FilterInput setFilter={filterCb} t={t} filteredCount={sortedList.length} />
-        { awaitedPeerLocationsForSwarm && <AutoSizer disableHeight>
+        <FilterInput filter={filter} setFilter={filterCb} t={t} filteredCount={sortedList.length} />
+        { peers && <AutoSizer disableHeight>
           {({ width }) => (
             <>
               <Table
                 className='tl fw4 w-100 f6'
                 headerClassName='teal fw2 ttu tracked ph2 no-select'
-                rowClassName={(rowInfo) => rowClassRenderer(rowInfo, awaitedPeerLocationsForSwarm, selectedPeers)}
+                rowClassName={(rowInfo) => rowClassRenderer(rowInfo, peers, selectedPeers)}
                 width={width}
                 height={tableHeight}
                 headerHeight={32}

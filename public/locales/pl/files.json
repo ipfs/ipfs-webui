@@ -66,6 +66,7 @@
     "copy": "Kopiuj zaznaczone elementy",
     "paste": "Wklej elementy",
     "cut": "Wytnij zaznaczone elementy",
+    "toggleSearch": "",
     "showShortcuts": "Pokaż skróty klawiszowe"
   },
   "pinningModal": {
@@ -192,6 +193,9 @@
   "noPinsInProgress": "Wszystko gotowe, brak zdalnych przypięć w toku.",
   "remotePinningInProgress": "Trwa zdalne przypinanie:",
   "selectAllEntries": "Zaznacz wszystkie elementy",
+  "searchFiles": "",
+  "clearSearch": "",
+  "noFilesMatchFilter": "",
   "previewNotFound": {
     "title": "",
     "errorPrefix": "",
@@ -202,5 +206,7 @@
     "helpListItemForums": "",
     "backButton": ""
   },
-  "inspectResolveFailed": ""
+  "inspectResolveFailed": "",
+  "showSearch": "",
+  "hideSearch": ""
 }

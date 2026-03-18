@@ -25,18 +25,28 @@ bundle.selectIsCliTutorModalOpen = state => !!state.cliTutorMode.showCliTutorMod
 
 bundle.selectCliOptions = state => state.cliTutorMode.cliOptions
 
-bundle.reducer = (state = {}, action) => {
+// Wrap the original reducer (like peers.js does) instead of replacing it.
+// The original reducer provides initial state with fields like errorTimes: []
+// that auto-generated selectors need. Replacing it with state={} causes
+// "can't access property 'slice', resource.errorTimes is undefined" crash
+// when localStorage.debug is set (redux-bundler debug mode evaluates all
+// selectors on startup).
+const asyncResourceReducer = bundle.reducer
+
+bundle.reducer = (state, action) => {
+  const asyncResult = asyncResourceReducer(state, action)
+
   if (action.type === 'CLI_TUTOR_MODE_TOGGLE') {
-    return { ...state, isCliTutorModeEnabled: action.payload }
+    return { ...asyncResult, isCliTutorModeEnabled: action.payload }
   }
   if (action.type === 'CLI_TUTOR_MODAL_ENABLE') {
-    return { ...state, showCliTutorModal: action.payload }
+    return { ...asyncResult, showCliTutorModal: action.payload }
   }
   if (action.type === 'CLI_OPTIONS') {
-    return { ...state, cliOptions: action.payload }
+    return { ...asyncResult, cliOptions: action.payload }
   }
 
-  return state
+  return asyncResult
 }
 
 bundle.doToggleCliTutorMode = key => ({ dispatch }) => {

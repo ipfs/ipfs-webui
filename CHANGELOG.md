@@ -1,3 +1,46 @@
+## [4.12.0](https://github.com/ipfs/ipfs-webui/compare/v4.11.1...v4.12.0) (2026-03-02)
+
+
+ CID `bafybeihxglpcfyarpm7apn7xpezbuoqgk3l5chyk7w4gvrjwk45rqohlmm`
+
+ --- 
+
+
+
+### Features
+
+* **peers:** updated ipfs-geoip and Peers screen optimizations ([#2480](https://github.com/ipfs/ipfs-webui/issues/2480)) ([4879de2](https://github.com/ipfs/ipfs-webui/commit/4879de2c7292ed8476988bb0d32713f475a6deff))
+
+
+### Bug Fixes
+
+* diagnostics tab urls electron ([#2481](https://github.com/ipfs/ipfs-webui/issues/2481)) ([d1e5cd2](https://github.com/ipfs/ipfs-webui/commit/d1e5cd26cb7063b47bbed44c5499902a519e29e9))
+
+
+### Trivial Changes
+
+* pull transifex translations ([#2479](https://github.com/ipfs/ipfs-webui/issues/2479)) ([bc3856b](https://github.com/ipfs/ipfs-webui/commit/bc3856b76b87f4e3d4d50b8757e092954f48edd4))
+
+## [4.11.1](https://github.com/ipfs/ipfs-webui/compare/v4.11.0...v4.11.1) (2026-02-17)
+
+
+ CID `bafybeiddnr2jz65byk67sjt6jsu6g7tueddr7odhzzpzli3rgudlbnc6iq`
+
+ --- 
+
+
+
+### Bug Fixes
+
+* **cli-tutor:** wrap async resource reducer instead of replacing it ([#2478](https://github.com/ipfs/ipfs-webui/issues/2478)) ([0468b72](https://github.com/ipfs/ipfs-webui/commit/0468b72a45c426ca3717518b9aafafed280c2618))
+* **modal:** center overlays using flexbox via renderDialog ([#2477](https://github.com/ipfs/ipfs-webui/issues/2477)) ([9db5775](https://github.com/ipfs/ipfs-webui/commit/9db5775d67a00a0080c1536915fbdce6b55fb85e))
+* **peers:** accept /p2p/ prefix in peer filter input ([#2475](https://github.com/ipfs/ipfs-webui/issues/2475)) ([c86d151](https://github.com/ipfs/ipfs-webui/commit/c86d151cb6f12e8f33584e0cbe30822917b07d89)), closes [#2468](https://github.com/ipfs/ipfs-webui/issues/2468)
+
+
+### Trivial Changes
+
+* pull transifex translations ([#2474](https://github.com/ipfs/ipfs-webui/issues/2474)) ([6cb5fd5](https://github.com/ipfs/ipfs-webui/commit/6cb5fd5311d14d8120fc85e15f92ca6130cae78f))
+
 ## [4.11.0](https://github.com/ipfs/ipfs-webui/compare/v4.10.0...v4.11.0) (2026-02-05)
 
 

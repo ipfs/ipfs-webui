@@ -121,6 +121,7 @@ const ShortcutModal = ({ onLeave, className, ...props }) => {
   ]
 
   const otherShortcuts = [
+    { shortcut: '/', description: t('shortcutModal.toggleSearch') },
     { shortcut: ['Shift', '?'], description: t('shortcutModal.showShortcuts') }
   ]
 

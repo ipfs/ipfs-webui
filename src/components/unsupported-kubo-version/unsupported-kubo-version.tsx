@@ -26,7 +26,7 @@ const UnsupportedKuboVersion: React.FC<UnsupportedKuboVersionProps> = () => {
   }, [agentVersionObject])
 
   if (agentVersionObject == null) {
-    return null
+    return <div className='pa4'>{t('dhtProvide.screen.loading')}</div>
   }
 
   return (
