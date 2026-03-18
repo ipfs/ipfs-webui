@@ -13,6 +13,8 @@
     "removeAutoUpload": "Disable Auto Upload"
   },
   "language": "Language",
+  "theme": "Theme",
+  "themeDescription": "Choose between light, dark, or system theme (follows your operating system preference).",
   "analytics": "Analytics",
   "cliTutorMode": "CLI Tutor Mode",
   "config": "Kubo Config",

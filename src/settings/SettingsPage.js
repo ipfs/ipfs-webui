@@ -12,6 +12,7 @@ import Tick from '../icons/GlyphSmallTick.js'
 import Box from '../components/box/Box.js'
 import Button from '../components/button/button.tsx'
 import LanguageSelector from '../components/language-selector/LanguageSelector.js'
+import ThemeToggle from '../components/theme-toggle/ThemeToggle.js'
 import PinningManager from '../components/pinning-manager/PinningManager.js'
 import IpnsManager from '../components/ipns-manager/IpnsManager.js'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle.js'
@@ -117,6 +118,14 @@ export const SettingsPage = ({
         <LanguageSelector t={t} />
       </div>
 
+      <div className='mt4'>
+        <Title>{t('theme')}</Title>
+        <p className='ma0 lh-copy charcoal f6 mb2'>
+          {t('themeDescription')}
+        </p>
+        <ThemeToggle />
+      </div>
+
     { showAnalyticsComponents
       ? <div className='mt4 joyride-settings-analytics'>
           <Title>{t('analytics')}</Title>
@@ -199,7 +208,7 @@ export const SettingsPage = ({
     <ReactJoyride
       run={toursEnabled}
       steps={settingsTour.getSteps({ t, Trans })}
-      styles={settingsTour.styles}
+      styles={settingsTour.getStyles()}
       callback={handleJoyrideCallback}
       continuous
       scrollToFirstStep
