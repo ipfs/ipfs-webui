@@ -70,7 +70,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "enable": "Enable",
-    "disable": "Disable"
+    "disable": "Disable",
+    "import": "Import Key"    
   },
   "edit": "Edit",
   "visitService": "Visit service",
