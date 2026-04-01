@@ -66,7 +66,13 @@ bundle.reactIsSameOriginToBridge = createSelector(
 bundle.selectGatewayUrl = createSelector(
   'selectConfigObject',
   'selectPublicGateway',
-  (config, publicGateway) => getURLFromAddress('Gateway', config) || publicGateway
+  'selectLocalGateway',
+  (config, publicGateway, localGateway) => {
+    // Priority: 1) User-configured local gateway, 2) Kubo config, 3) Public gateway
+    const url = localGateway || getURLFromAddress('Gateway', config) || publicGateway
+    // Normalize: remove trailing slashes to avoid double slashes when constructing paths
+    return url.replace(/\/+$/, '')
+  }
 )
 
 bundle.selectAvailableGatewayUrl = createSelector(

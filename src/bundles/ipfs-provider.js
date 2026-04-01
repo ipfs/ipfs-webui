@@ -332,7 +332,25 @@ const actions = {
     }
 
     const kuboGateway = readSetting('kuboGateway')
-    if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
+    const localGateway = readSetting('ipfsLocalGateway')
+
+    if (localGateway) {
+      // User has configured a custom local gateway, sync it to kuboGateway for Helia/Explore
+      try {
+        const url = new URL(localGateway)
+        const host = url.hostname
+        const port = url.port || (url.protocol === 'https:' ? '443' : '80')
+        const protocol = url.protocol.replace(':', '')
+        await writeSetting('kuboGateway', {
+          host,
+          port,
+          protocol,
+          trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: protocol === 'http' } }
+        })
+      } catch (e) {
+        console.error('Error parsing ipfsLocalGateway for kuboGateway:', e)
+      }
+    } else if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
       // empty or invalid, set defaults
       await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
     } else if (/** @type {Record<string, any>} */(kuboGateway).trustlessBlockBrokerConfig == null) {
