@@ -264,6 +264,24 @@ const bundle = {
     const normalizedAddress = address.replace(/\/+$/, '')
     await writeSetting('ipfsLocalGateway', normalizedAddress)
     dispatch({ type: 'SET_LOCAL_GATEWAY', payload: normalizedAddress })
+
+    // Sync to kuboGateway for Helia/Explore components
+    if (normalizedAddress) {
+      try {
+        const url = new URL(normalizedAddress)
+        const host = url.hostname
+        const port = url.port || (url.protocol === 'https:' ? '443' : '80')
+        const protocol = url.protocol.replace(':', '')
+        await writeSetting('kuboGateway', {
+          host,
+          port,
+          protocol,
+          trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: protocol === 'http' } }
+        })
+      } catch (e) {
+        console.error('Error syncing ipfsLocalGateway to kuboGateway:', e)
+      }
+    }
   },
 
   /**
