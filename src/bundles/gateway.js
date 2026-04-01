@@ -260,8 +260,10 @@ const bundle = {
    * @returns {function({dispatch: Function}): Promise<void>}
    */
   doUpdateLocalGateway: (address) => async ({ dispatch }) => {
-    await writeSetting('ipfsLocalGateway', address)
-    dispatch({ type: 'SET_LOCAL_GATEWAY', payload: address })
+    // Normalize: remove trailing slashes
+    const normalizedAddress = address.replace(/\/+$/, '')
+    await writeSetting('ipfsLocalGateway', normalizedAddress)
+    dispatch({ type: 'SET_LOCAL_GATEWAY', payload: normalizedAddress })
   },
 
   /**

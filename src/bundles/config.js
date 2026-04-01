@@ -69,7 +69,9 @@ bundle.selectGatewayUrl = createSelector(
   'selectLocalGateway',
   (config, publicGateway, localGateway) => {
     // Priority: 1) User-configured local gateway, 2) Kubo config, 3) Public gateway
-    return localGateway || getURLFromAddress('Gateway', config) || publicGateway
+    const url = localGateway || getURLFromAddress('Gateway', config) || publicGateway
+    // Normalize: remove trailing slashes to avoid double slashes when constructing paths
+    return url.replace(/\/+$/, '')
   }
 )
 
