@@ -19,6 +19,13 @@ const readPublicGatewaySetting = () => {
   return setting || DEFAULT_PATH_GATEWAY
 }
 
+const readLocalGatewaySetting = () => {
+  const setting = readSetting('ipfsLocalGateway')
+  // Return empty string if not set, so we can distinguish between
+  // "not configured" and "configured to empty"
+  return setting || ''
+}
+
 const readPublicSubdomainGatewaySetting = () => {
   const setting = readSetting('ipfsPublicSubdomainGateway')
   return setting || DEFAULT_SUBDOMAIN_GATEWAY
@@ -33,7 +40,8 @@ const init = () => ({
   availableGateway: null,
   publicGateway: readPublicGatewaySetting(),
   publicSubdomainGateway: readPublicSubdomainGatewaySetting(),
-  ipfsCheckUrl: readIpfsCheckUrlSetting()
+  ipfsCheckUrl: readIpfsCheckUrlSetting(),
+  localGateway: readLocalGatewaySetting()
 })
 
 /**
@@ -207,6 +215,10 @@ const bundle = {
       return { ...state, ipfsCheckUrl: action.payload }
     }
 
+    if (action.type === 'SET_LOCAL_GATEWAY') {
+      return { ...state, localGateway: action.payload }
+    }
+
     return state
   },
 
@@ -244,6 +256,15 @@ const bundle = {
   },
 
   /**
+   * @param {string} address
+   * @returns {function({dispatch: Function}): Promise<void>}
+   */
+  doUpdateLocalGateway: (address) => async ({ dispatch }) => {
+    await writeSetting('ipfsLocalGateway', address)
+    dispatch({ type: 'SET_LOCAL_GATEWAY', payload: address })
+  },
+
+  /**
    * @param {any} state
    * @returns {string|null}
    */
@@ -265,7 +286,13 @@ const bundle = {
    * @param {any} state
    * @returns {string}
    */
-  selectIpfsCheckUrl: (state) => state?.gateway?.ipfsCheckUrl
+  selectIpfsCheckUrl: (state) => state?.gateway?.ipfsCheckUrl,
+
+  /**
+   * @param {any} state
+   * @returns {string}
+   */
+  selectLocalGateway: (state) => state?.gateway?.localGateway
 }
 
 export default bundle
