@@ -70,15 +70,15 @@
   },
   "errors": {
     "BlockFetchTimeoutError": "Impossible d'obtenir le contenu après {timeout}s. Merci de rafraîchir la page pour réessayer ou d'essayer avec un autre CID.",
-    "BlockFetchError": "",
-    "CidSyntaxError": "",
-    "checkIpfsNetwork": "",
+    "BlockFetchError": "Impossible de télécharger le contenu : {error}. Cela peut vouloir dire que le contenu n'est pas disponible sur le réseau ou qu'il y a des problèmes de connectivité.",
+    "CidSyntaxError": "Format de CID invalide : {cid} . Vérifiez que vous utilisez un CID valide.",
+    "checkIpfsNetwork": "Vérifiez la disponibilité du contenu sur le réseau IPFS",
     "troubleshootingTips": {
-      "title": "",
-      "refresh": "",
-      "checkConnection": "",
-      "tryLater": "",
-      "checkCidSyntax": ""
+      "title": "Astuces de diagnostic",
+      "refresh": "Essayez de rafraîchir la page",
+      "checkConnection": "Vérifiez votre connexion internet",
+      "tryLater": "Réessayez plus tard. Le contenu est peut-être encore en train de se propager sur le réseau.",
+      "checkCidSyntax": "Vérifiez que votre CID est formaté correctement ou que votre fichier CAR est valide."
     }
   }
 }
