@@ -57,15 +57,15 @@
 }
 
 .fileImportStatusError {
-    background: #fff5f5 !important;
-    border-color: #feb2b2 !important;
+    background: var(--theme-bg-importStatusError) !important;
+    border-color: var(--theme-border-importStatusError) !important;
 }
 
 .fileImportStatusError .fileImportStatusButton {
-    background: #fff5f5 !important;
-    color: #c53030 !important;
+    background: var(--theme-bg-importStatusError) !important;
+    color: var(--theme-text-importStatusError) !important;
 }
 
 .fileImportStatusIconError {
-    fill: #fc8181;
+    fill: var(--theme-text-importStatusError);
 }

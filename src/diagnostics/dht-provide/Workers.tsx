@@ -46,7 +46,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
     dedicatedBurst > 0 ? activeBurst / availableBurst : 0
 
   const Bar: React.FC<{ value: number }> = ({ value }) => (
-    <div className='bg-black-10 br1 overflow-hidden w-100'>
+    <div className='br1 overflow-hidden w-100' style={{ backgroundColor: 'var(--theme-bg-secondary)' }}>
       <div
         className='bg-teal-muted o-60'
         style={{ width: `${Math.min(100, value * 100)}%`, height: 6 }}
@@ -74,7 +74,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
           </div>
         </div>
 
-        <div className='mt3 pt3 bt b--black-10'>
+        <div className='mt3 pt3 bt' style={{ borderColor: 'var(--theme-border-secondary)' }}>
           <div className='mb3'>
             <MetricRow
               label={t('dhtProvide.workers.periodic')}
@@ -104,7 +104,7 @@ export const Workers: React.FC<Props> = ({ sweep }) => {
           )}
         </div>
 
-        <div className='mt3 pt3 bt b--black-10'>
+        <div className='mt3 pt3 bt' style={{ borderColor: 'var(--theme-border-secondary)' }}>
           <MetricRow
             label={t('dhtProvide.workers.maxConnsPerWorker')}
             value={connsPerWorker.toString()}
