@@ -1,5 +1,5 @@
 import all from 'it-all'
-import { readSetting, writeSetting } from './local-storage.js'
+import { readSetting, writeSetting } from '../lib/local-storage.js'
 import { dispatchAsyncProvide } from './files/utils.js'
 
 const init = () => ({

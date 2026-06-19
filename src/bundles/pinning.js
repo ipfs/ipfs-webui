@@ -3,8 +3,7 @@ import { pinningServiceTemplates } from '../constants/pinning.js'
 import memoize from 'p-memoize'
 import { CID } from 'multiformats/cid'
 import all from 'it-all'
-
-import { readSetting, writeSetting } from './local-storage.js'
+import { readSetting, writeSetting } from '../lib/local-storage.js'
 import { dispatchAsyncProvide } from './files/utils.js'
 
 // This bundle leverages createCacheBundle and persistActions for

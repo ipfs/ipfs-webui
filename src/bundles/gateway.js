@@ -1,4 +1,4 @@
-import { readSetting, writeSetting } from './local-storage.js'
+import { readSetting, writeSetting } from '../lib/local-storage.js'
 
 // TODO: switch to dweb.link when https://github.com/ipfs/kubo/issues/7318
 export const DEFAULT_PATH_GATEWAY = 'https://ipfs.io'
