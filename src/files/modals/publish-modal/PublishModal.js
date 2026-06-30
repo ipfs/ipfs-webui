@@ -45,6 +45,7 @@ export const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, pub
     try {
       const startTs = new Date().getTime()
       setStart(startTs)
+      setError(null)
 
       await onSubmit(selectedKey.name)
       setLink(`${publicGateway}/ipns/${selectedKey.id}`)
@@ -53,6 +54,8 @@ export const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, pub
       const endTs = new Date().getTime()
       doUpdateExpectedPublishTime((endTs - startTs) / 1000)
     } catch (err) {
+      // Leave the progress state so the error renders and Publish re-enables for a retry.
+      setStart(null)
       setError(err)
     }
   }
