@@ -208,7 +208,7 @@ const actions = () => ({
 
   /**
    * Fetches conten for the currently selected path. And updates
-   * `state.pageContent` on succesful completion.
+   * `state.pageContent` on successful completion.
    * @param {Info} info
    * @returns {function(Context): *}
    */

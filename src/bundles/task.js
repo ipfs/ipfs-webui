@@ -74,7 +74,7 @@
  *   `{ status: 'Exit', id: Symbol, duration: number, result: Result<Error, Success> }`
  *   with some new new fields:
  *     - `duration` - Is a time it took a task from `Init` to `Exit` in ms.
- *     - `result` - Is a result of the task. On succesful completion it is
+ *     - `result` - Is a result of the task. On successful completion it is
  *       `{ok:true, value:Success}` (value is return value of the async
  *       function). On failure it is `{ok:false, error:Error}` (`error` is an
  *       expception thrown, or a rejection reason of the promise).
@@ -163,7 +163,7 @@ export const perform = (type, task, ...[init]) =>
  *   `{ status: 'Exit', id: Symbol, duration: number, result: Result<Error, Success> }`
  *   with some new new fields:
  *     - `duration` - Is a time it took a task from `Init` to `Exit` in ms.
- *     - `result` - Is a result of the task. On succesful completion it is
+ *     - `result` - Is a result of the task. On successful completion it is
  *       `{ok:true, value:Success}` (value is return value of the async
  *       generator). On failure it is `{ok:false, error:Error}` (`error` is an
  *       expception thrown, or a rejection reason of the promise).
