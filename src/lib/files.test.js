@@ -1,5 +1,5 @@
 /* global it, expect */
-import { normalizeFiles, getShareableLink } from './files.js'
+import { normalizeFiles, getShareableLink, getLocalLinks } from './files.js'
 import { DEFAULT_SUBDOMAIN_GATEWAY, DEFAULT_PATH_GATEWAY } from '../bundles/gateway.js'
 import { CID } from 'multiformats/cid'
 
@@ -283,4 +283,51 @@ it('should get a path gateway url', async () => {
   const { link: res, cid } = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
   expect(res).toBe(DEFAULT_PATH_GATEWAY + '/ipfs/' + veryLongCidv1)
   expect(cid).toBeDefined()
+})
+
+const SHORT_CID = CID.parse('QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V')
+const SHORT_CID_BASE32 = 'bafybeifffq3aeaymxejo37sn5fyaf7nn7hkfmzwdxyjculx3lw4tyhk7uy'
+
+it('getLocalLinks builds path and subdomain links for a domain gateway', () => {
+  const files = [{ cid: SHORT_CID, name: 'example.txt', type: 'file' }]
+  const { localLink, subdomainLocalLink } = getLocalLinks(files, SHORT_CID, 'http://localhost:8080')
+
+  expect(localLink).toBe(`http://localhost:8080/ipfs/${SHORT_CID}?filename=example.txt`)
+  expect(subdomainLocalLink).toBe(`http://${SHORT_CID_BASE32}.ipfs.localhost:8080?filename=example.txt`)
+})
+
+it('getLocalLinks omits the subdomain link for an IP gateway', () => {
+  const files = [{ cid: SHORT_CID, name: 'example.txt', type: 'file' }]
+
+  const ipv4 = getLocalLinks(files, SHORT_CID, 'http://127.0.0.1:8080')
+  expect(ipv4.localLink).toBe(`http://127.0.0.1:8080/ipfs/${SHORT_CID}?filename=example.txt`)
+  expect(ipv4.subdomainLocalLink).toBe('')
+
+  const ipv6 = getLocalLinks(files, SHORT_CID, 'http://[::1]:8080')
+  expect(ipv6.subdomainLocalLink).toBe('')
+})
+
+it('getLocalLinks honors the user override host and scheme', () => {
+  const files = [{ cid: SHORT_CID, name: 'example.txt', type: 'file' }]
+  const { localLink, subdomainLocalLink } = getLocalLinks(files, SHORT_CID, 'https://gw.example.com')
+
+  expect(localLink).toBe(`https://gw.example.com/ipfs/${SHORT_CID}?filename=example.txt`)
+  expect(subdomainLocalLink).toBe(`https://${SHORT_CID_BASE32}.ipfs.gw.example.com?filename=example.txt`)
+})
+
+it('getLocalLinks omits the subdomain link when the CID exceeds a DNS label', () => {
+  const longCid = CID.parse('bagaaifcavabu6fzheerrmtxbbwv7jjhc3kaldmm7lbnvfopyrthcvod4m6ygpj3unrcggkzhvcwv5wnhc5ufkgzlsji7agnmofovc2g4a3ui7ja')
+  const files = [{ cid: longCid, name: 'example.txt', type: 'file' }]
+  const { localLink, subdomainLocalLink } = getLocalLinks(files, longCid, 'http://localhost:8080')
+
+  expect(localLink).toBe(`http://localhost:8080/ipfs/${longCid}?filename=example.txt`)
+  expect(subdomainLocalLink).toBe('')
+})
+
+it('getLocalLinks adds no filename query for a directory', () => {
+  const files = [{ cid: SHORT_CID, name: 'a-directory', type: 'directory' }]
+  const { localLink, subdomainLocalLink } = getLocalLinks(files, SHORT_CID, 'http://localhost:8080')
+
+  expect(localLink).toBe(`http://localhost:8080/ipfs/${SHORT_CID}`)
+  expect(subdomainLocalLink).toBe(`http://${SHORT_CID_BASE32}.ipfs.localhost:8080`)
 })

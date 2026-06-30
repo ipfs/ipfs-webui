@@ -1,7 +1,7 @@
 /* eslint-disable require-yield */
 
 import { join, dirname, basename } from 'path'
-import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files.js'
+import { getDownloadLink, getShareableLink, getCarLink, getLocalLinks } from '../../lib/files.js'
 import countDirs from '../../lib/count-dirs.js'
 import memoize from 'p-memoize'
 import all from 'it-all'
@@ -603,18 +603,9 @@ const actions = () => ({
     const gatewayUrl = store.selectGatewayUrl()
     const { link: shareableLink, cid } = await getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
 
-    // Build local gateway link for use in external apps
-    let filename = ''
-    if (files.length === 1 && files[0].type === 'file') {
-      filename = `?filename=${encodeURIComponent(files[0].name)}`
-    }
-    const localLink = `${gatewayUrl}/ipfs/${cid}${filename}`
-
-    // Build localhost subdomain link for web apps (origin isolation)
-    const gwUrl = new URL(gatewayUrl)
-    const base32Cid = cid.toV1().toString()
-    const port = gwUrl.port ? `:${gwUrl.port}` : ''
-    const subdomainLocalLink = `http://${base32Cid}.ipfs.localhost${port}/${filename}`
+    // Local gateway links for opening content in other apps on this machine.
+    // selectGatewayUrl honors the user's Local Gateway URL override.
+    const { localLink, subdomainLocalLink } = getLocalLinks(files, cid, gatewayUrl)
 
     // Trigger background provide operation with the CID from getShareableLink
     dispatchAsyncProvide(cid, ipfs)

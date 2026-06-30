@@ -78,6 +78,12 @@ export type FileDownload = {
   filename: string
 }
 export type DownloadLink = Perform<'FILES_DOWNLOADLINK', Error, FileDownload, void>
+export type ShareLinks = {
+  link: string
+  localLink: string
+  subdomainLocalLink: string
+}
+export type ShareLink = Perform<'FILES_SHARE_LINK', Error, ShareLinks, void>
 
 export type Message =
   | { type: 'FILES_CLEAR_ALL' }
@@ -91,7 +97,7 @@ export type Message =
   | AddByPath
   | BulkCidImport
   | DownloadLink
-  | Perform<'FILES_SHARE_LINK', Error, string, void>
+  | ShareLink
   | Perform<'FILES_COPY', Error, void, void>
   | Perform<'FILES_PIN_ADD', Error, Pin[], void>
   | Perform<'FILES_PIN_REMOVE', Error, Pin[], void>

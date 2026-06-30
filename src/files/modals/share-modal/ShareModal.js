@@ -11,6 +11,16 @@ const ShareModal = ({ t, tReady, onLeave, link, localLink, subdomainLocalLink, c
   const [useLocalLink, setUseLocalLink] = useState(false)
   const [useSubdomains, setUseSubdomains] = useState(false)
 
+  // Turning off the local link hides the nested subdomain checkbox, so clear its
+  // choice too; otherwise re-enabling the local link would jump straight to the
+  // subdomain variant without the user opting back in.
+  const toggleLocalLink = (checked) => {
+    setUseLocalLink(checked)
+    if (!checked) {
+      setUseSubdomains(false)
+    }
+  }
+
   let activeLink = link
   if (useLocalLink && localLink) {
     activeLink = useSubdomains && subdomainLocalLink ? subdomainLocalLink : localLink
@@ -41,7 +51,7 @@ const ShareModal = ({ t, tReady, onLeave, link, localLink, subdomainLocalLink, c
           <div className='flex center w-90 pb2'>
             <Checkbox
               checked={useLocalLink}
-              onChange={setUseLocalLink}
+              onChange={toggleLocalLink}
               label={t('shareModal.useLocalLink')}
             />
           </div>

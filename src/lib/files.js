@@ -87,6 +87,37 @@ export async function getDownloadLink (files, gatewayUrl, ipfs) {
 }
 
 /**
+ * Build the `?filename=...` query that hints a gateway at a download name.
+ * Only a single file gets one; directories and multi-file selections do not.
+ *
+ * @param {FileStat[]} files
+ * @returns {string} the query string, or '' when no filename hint applies
+ */
+function getFilenameQuery (files) {
+  if (files.length === 1 && files[0].type === 'file') {
+    return `?filename=${encodeURIComponent(files[0].name)}`
+  }
+  return ''
+}
+
+/**
+ * Whether a URL hostname is a bare IP literal rather than a domain name.
+ * Subdomain gateways serve one origin per CID under a parent domain, so they
+ * cannot be built on an IP such as 127.0.0.1 or [::1].
+ *
+ * @param {string} hostname - a URL hostname (IPv6 keeps its surrounding brackets)
+ * @returns {boolean}
+ */
+function isIpHostname (hostname) {
+  // IPv6 literals are bracketed in a URL hostname, e.g. [::1]
+  if (hostname.startsWith('[')) {
+    return true
+  }
+  // IPv4 dotted quad, e.g. 127.0.0.1
+  return /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname)
+}
+
+/**
  * Generates a shareable link for the provided files using a subdomain gateway as default or a path gateway as fallback.
  *
  * @param {FileStat[]} files - An array of file objects with their respective CIDs and names.
@@ -96,18 +127,8 @@ export async function getDownloadLink (files, gatewayUrl, ipfs) {
  * @returns {Promise<{link: string, cid: CID}>} - A promise that resolves to an object containing the shareable link and root CID.
  */
 export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, ipfs) {
-  let cid
-  let filename
-
-  if (files.length === 1) {
-    cid = files[0].cid
-    if (files[0].type === 'file') {
-      filename = `?filename=${encodeURIComponent(files[0].name)}`
-    }
-  } else {
-    cid = await makeCIDFromFiles(files, ipfs)
-  }
-
+  const cid = files.length === 1 ? files[0].cid : await makeCIDFromFiles(files, ipfs)
+  const filename = getFilenameQuery(files)
   const url = new URL(subdomainGatewayUrl)
 
   /**
@@ -115,15 +136,40 @@ export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, 
    * However, ipfs.io (path gateway fallback) is also listed for CIDs that cannot be represented in a 63-character DNS label.
    * This allows users to customize both the subdomain and path gateway they use, with the subdomain gateway being used by default whenever possible.
    */
-  let shareableLink = ''
   const base32Cid = cid.toV1().toString()
-  if (base32Cid.length < 64) {
-    shareableLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}${filename || ''}`
-  } else {
-    shareableLink = `${gatewayUrl}/ipfs/${cid}${filename || ''}`
-  }
+  const shareableLink = base32Cid.length < 64
+    ? `${url.protocol}//${base32Cid}.ipfs.${url.host}${filename}`
+    : `${gatewayUrl}/ipfs/${cid}${filename}`
 
   return { link: shareableLink, cid }
+}
+
+/**
+ * Build local gateway links for opening content in other apps on the same
+ * machine. The path link works on any gateway. The subdomain link gives web
+ * apps an isolated origin and is set only when the gateway is reachable by a
+ * domain name (subdomain gateways do not work on bare IPs) and the CIDv1 fits
+ * in a 63-character DNS label. When it does not apply, subdomainLocalLink is ''.
+ *
+ * gatewayUrl honors the user's Local Gateway URL override, so both links point
+ * at whatever host, port and scheme the override (or Kubo config) specifies.
+ *
+ * @param {FileStat[]} files
+ * @param {CID} cid - root CID, already resolved by getShareableLink
+ * @param {string} gatewayUrl - the local gateway URL
+ * @returns {{localLink: string, subdomainLocalLink: string}}
+ */
+export function getLocalLinks (files, cid, gatewayUrl) {
+  const filename = getFilenameQuery(files)
+  const localLink = `${gatewayUrl}/ipfs/${cid}${filename}`
+
+  const url = new URL(gatewayUrl)
+  const base32Cid = cid.toV1().toString()
+  const subdomainLocalLink = !isIpHostname(url.hostname) && base32Cid.length < 64
+    ? `${url.protocol}//${base32Cid}.ipfs.${url.host}${filename}`
+    : ''
+
+  return { localLink, subdomainLocalLink }
 }
 
 /**
