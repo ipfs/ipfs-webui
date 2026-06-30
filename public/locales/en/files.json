@@ -30,8 +30,9 @@
     "title": "Share files",
     "description": "Copy the link below and share it with your friends.",
     "descriptionLocal": "Use this link to open in apps running on this machine.",
-    "useLocalLink": "Local link for other apps on this machine",
-    "useSubdomains": "Use localhost subdomains for web apps"
+    "useLocalLink": "Local HTTP link for other apps on this machine",
+    "useSubdomains": "Use localhost subdomains for web apps",
+    "linkError": "Could not generate the link. Check that your IPFS node is running."
   },
   "renameModal": {
     "titleFile": "Rename file",

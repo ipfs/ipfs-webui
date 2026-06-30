@@ -139,11 +139,16 @@ class Modals extends React.Component {
           readyToShow: true
         })
 
-        onShareLink(files).then(result => this.setState({
-          link: result.link,
-          localLink: result.localLink,
-          subdomainLocalLink: result.subdomainLocalLink
-        }))
+        onShareLink(files)
+          .then(result => this.setState({
+            link: result.link,
+            localLink: result.localLink,
+            subdomainLocalLink: result.subdomainLocalLink
+          }))
+          .catch(err => {
+            console.error('Failed to generate share link:', err)
+            this.setState({ link: t('shareModal.linkError') })
+          })
         break
       }
       case RENAME: {

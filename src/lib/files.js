@@ -100,10 +100,18 @@ function getFilenameQuery (files) {
   return ''
 }
 
+// Loopback hosts, matched against a URL hostname (IPv6 keeps its brackets). They
+// all reach the same local node, so its links use canonical forms: the IP for
+// the path link (no DNS needed) and localhost for the subdomain link (subdomain
+// origins need a hostname). https://github.com/ipfs/ipfs-webui/issues/1490
+const LOOPBACK_HOSTNAMES = new Set(['localhost', '127.0.0.1', '0.0.0.0', '[::1]', '[::]'])
+const LOOPBACK_IP = '127.0.0.1'
+const LOOPBACK_HOSTNAME = 'localhost'
+
 /**
  * Whether a URL hostname is a bare IP literal rather than a domain name.
  * Subdomain gateways serve one origin per CID under a parent domain, so they
- * cannot be built on an IP such as 127.0.0.1 or [::1].
+ * cannot be built on an IP such as 192.168.1.5.
  *
  * @param {string} hostname - a URL hostname (IPv6 keeps its surrounding brackets)
  * @returns {boolean}
@@ -146,13 +154,13 @@ export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, 
 
 /**
  * Build local gateway links for opening content in other apps on the same
- * machine. The path link works on any gateway. The subdomain link gives web
- * apps an isolated origin and is set only when the gateway is reachable by a
- * domain name (subdomain gateways do not work on bare IPs) and the CIDv1 fits
- * in a 63-character DNS label. When it does not apply, subdomainLocalLink is ''.
+ * machine, honoring the user's Local Gateway URL override.
  *
- * gatewayUrl honors the user's Local Gateway URL override, so both links point
- * at whatever host, port and scheme the override (or Kubo config) specifies.
+ * For a loopback gateway (localhost, 127.0.0.1, ...) the two links use canonical
+ * forms: the path link uses 127.0.0.1 (no DNS needed) and the subdomain link
+ * uses localhost (subdomain origins need a hostname). A real domain gateway
+ * keeps its host for both. A non-loopback IP gets no subdomain link, and neither
+ * does a CIDv1 too long for a 63-character DNS label; subdomainLocalLink is ''.
  *
  * @param {FileStat[]} files
  * @param {CID} cid - root CID, already resolved by getShareableLink
@@ -161,13 +169,23 @@ export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, 
  */
 export function getLocalLinks (files, cid, gatewayUrl) {
   const filename = getFilenameQuery(files)
-  const localLink = `${gatewayUrl}/ipfs/${cid}${filename}`
-
   const url = new URL(gatewayUrl)
+  const isLoopback = LOOPBACK_HOSTNAMES.has(url.hostname)
+  const port = url.port ? `:${url.port}` : ''
+
+  const localLink = isLoopback
+    ? `${url.protocol}//${LOOPBACK_IP}${port}/ipfs/${cid}${filename}`
+    : `${gatewayUrl}/ipfs/${cid}${filename}`
+
   const base32Cid = cid.toV1().toString()
-  const subdomainLocalLink = !isIpHostname(url.hostname) && base32Cid.length < 64
-    ? `${url.protocol}//${base32Cid}.ipfs.${url.host}${filename}`
-    : ''
+  let subdomainLocalLink = ''
+  if (base32Cid.length < 64) {
+    if (isLoopback) {
+      subdomainLocalLink = `${url.protocol}//${base32Cid}.ipfs.${LOOPBACK_HOSTNAME}${port}${filename}`
+    } else if (!isIpHostname(url.hostname)) {
+      subdomainLocalLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}${filename}`
+    }
+  }
 
   return { localLink, subdomainLocalLink }
 }
