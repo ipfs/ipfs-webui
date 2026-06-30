@@ -1,12 +1,9 @@
 {
   "title": "Fichiers",
-  "home": "Accueil",
   "breadcrumbs": "Fils d'Ariane",
-  "finished": "Terminé !",
   "totalSize": "Taille totale: {size}",
   "filesSelected": "{count, plural, one {Élément sélectionné} many {Éléments sélectionnés} other {Éléments sélectionnés}}",
   "menuOptions": "Options pour l'élément sélectionné ",
-  "selectedAllEntries": "Tout sélectionner",
   "individualFilesOnly": "Disponible uniquement pour les fichiers individuels",
   "noPDFSupport": "Votre navigateur ne prend pas en charge les PDF. Merci de télécharger le PDF pour le visualiser :",
   "downloadPDF": "Télécharger un PDF",
@@ -14,10 +11,13 @@
   "openWithLocalAndPublicGateway": "Essayer de l'ouvrir plutôt avec votre <1>passerelle locale</1> ou votre <3>passerelle publique</3>.",
   "cantBePreviewed": "Désolé, ce fichier ne peut pas être prévisualisé",
   "addByPath": "Depuis IPFS",
-  "addByCar": "From CAR",
-  "bulkImport": "Bulk import",
+  "addByCar": "Depuis un CAR",
+  "bulkImport": "Import de masse",
   "newFolder": "Nouveau répertoire",
+  "switchToListView": "Cliquez pour passer à la vue liste",
+  "switchToGridView": "Cliquez pour passer à la vue grille",
   "generating": "Génération...",
+  "dropHere": "Déposez ici pour déplacer",
   "actions": {
     "copyHash": "Copier le CID",
     "share": "Partager",
@@ -46,6 +46,29 @@
     "checkboxRemoveLocalPin": "Aussi supprimer l'épinglage local (recommandé)",
     "checkboxUnpinFromServices": "Désépingler de tous les services d'épinglage"
   },
+  "shortcutModal": {
+    "title": "Raccourcis clavier",
+    "description": "Les raccourcis clavier suivant sont disponibles and la section Fichiers:",
+    "navigation": "Navigation",
+    "selection": "Sélection",
+    "actions": "Actions",
+    "other": "Autre",
+    "moveDown": "Descendre",
+    "moveUp": "Monter",
+    "moveLeft": "Déplacer à gauche",
+    "moveRight": "Déplacer à droite",
+    "navigate": "Aller à l'élément sélectionné",
+    "rename": "Renommer l'élément sélectionné",
+    "delete": "Supprimer le/les élément(s) sélectionné(s)",
+    "toggleSelection": "Alterner la sélection",
+    "selectAll": "Sélectionner tous les éléments",
+    "deselectAll": "Désélectionner tous les éléments",
+    "copy": "Copier le/les élément(s) sélectionné(s)",
+    "paste": "Copier le/les élément(s)",
+    "cut": "Couper le/les élément(s)",
+    "toggleSearch": "Alterner le filtre de recherche",
+    "showShortcuts": "Afficher les raccourcis clavier"
+  },
   "pinningModal": {
     "title": "Choisissez où vous vouler épingler ces éléments. ",
     "complianceLabel": "🔍 Vérifier la conformance des services d'épinglage",
@@ -55,38 +78,40 @@
   },
   "addByPathModal": {
     "title": "Importer depuis IPFS",
-    "description": "Entrez un chemin IPFS (CID) pour l'importer.",
-    "preloadNote": "NOTE: Par défaut, les chemins importés sont chargés à la volée, et seront demandés sur demande quand vous naviguez vers eux. Pour charger proactivement les chemins importés vers le Datastore local, choisissez \"Télécharger\" depuis le menu contextuel. ",
-    "importPathPlaceholder": "Chemin ou CID (requis)",
+    "description": "Insérez un chemin IPFS ou IPNS, un CID, ou une URL de protocole pour l'importer.",
+    "preloadNote": "NB: Le chemin importé est chargé passivement par défaut, et ne sera téléchargé que sur demande quand vous l'explorez. Pour le télécharger proactivement, importez le chemin dans le Datastore local, choisissez \"Télécharger\" dans le menu contextuel.",
+    "importPathPlaceholder": "Chemin, CID, ou URL (requis)",
     "namePlaceholder": "Nom (optionnel)",
     "examples": "Exemples :"
   },
   "addByCarModal": {
-    "title": "CAR Import",
-    "description": "Choose a CAR file to import a DAG from and specify a name for it to be imported into the current directory.",
-    "selectCARButtonText": "Select CAR…",
+    "title": "Import de CAR",
+    "description": "Choisissez un fichier CAR d'où importer un DAG et indiquez un nom pour l'importer dans le dossier actuel.",
+    "selectCARButtonText": "Sélectionner le fichier CAR...",
     "namePlaceholder": "Nom",
-    "renameImportPath": "Rename import"
+    "renameImportPath": "Renommer l'import"
   },
   "bulkImportModal": {
-    "title": "Bulk import with text file",
-    "description": "Upload a text file with a list of CIDs (names are optional). Example:",
-    "select": "Select file",
-    "selectedFile": "Selected file",
-    "invalidCids": "*Invalid CID(s) found",
-    "failedToReadFile": "*Failed to read file contents"
+    "title": "Import de masse avec un fichier texte",
+    "description": "Choisissez un fichier texte avec une liste de CIDs (les noms sont optionnels). Par exemple :",
+    "select": "Sélectionner un fichier",
+    "selectedFile": "Fichier sélectionné",
+    "invalidCids": "*CID(s) invalide(s) trouvé(s)",
+    "failedToReadFile": "*Échec de la lecture du contenu du fichier"
   },
   "newFolderModal": {
     "title": "Nouveau dossier",
     "description": "Insérer le nom du dossier que vous voulez créer."
   },
   "filesListLabel": "Liste des fichiers",
+  "filesGridLabel": "Grille de fichiers",
   "filesList": {
     "noFiles": "<0>Pas de fichiers dans ce dossier. Cliquez sur le boutton \"Importer\" pour en ajouter.</0>"
   },
   "filesImportStatus": {
     "imported": "{count, plural, one {1 élément importé} many {{count} éléments importés} other {{count} éléments importés}}",
     "importing": "{count, plural, one {Import de 1 élément} many {Import de {count} éléments} other {Import de {count} éléments}}",
+    "failed": "{count, plural, one {Échec de l'import de 1 élément} many {Échec de l'import de {count} éléments} other {Échec de l'import de {count} élément}}",
     "toggleDropdown": "Dérouler la liste",
     "closeDropdown": "Fermer la liste",
     "count": "{count} sur {count}"
@@ -117,6 +142,11 @@
       "paragraph1": "Finallement, vous pouvez ajouter des fichiers et des dossiers en utilisant le glisser deposer.",
       "paragraph2": "Vous pouvez partager ou télécharger des fichiers, les inspecter dans l'Explorateur de IPLD, les renommer, ou les supprimer !",
       "paragraph3": "Astuce : glissez-déposez un fichier n'importe où sur l'interface web pour l'ajouter à la racine de votre MFS."
+    },
+    "step6": {
+      "title": "Grille de fichiers",
+      "paragraph1": "La vue grille affiche vos fichiers et dossier comme images, vous permettant de naviguer facilement dans votre contenu.",
+      "paragraph2": "Vous pouvez partager ou télécharger des fichiers, les inspecter dans l'Explorateur de IPLD, les renommer, ou les supprimer !"
     }
   },
   "previewLimitReached": "Cet aperçu est limité à 10 kB. Cliquez sur le bouton de téléchargement pour accéder au fichier entier.",
@@ -142,6 +172,14 @@
   "files": "Fichiers",
   "cidNotFileNorDir": "Le lien actuel n'est ni un fichier ni un dossier. Essayez plutôt de <1>l'inspecter</1>.",
   "sortBy": "Trier les éléments par {name}",
+  "sortFiles": "Trier les fichiers",
+  "sortByNameAsc": "Nom (A → Z)",
+  "sortByNameDesc": "Nom (Z → A)",
+  "sortBySizeAsc": "Taille (plus petit en premier)",
+  "sortBySizeDesc": "Taille (plus grand en premier)",
+  "sortByPinnedFirst": "Épinglés en premier",
+  "sortByUnpinnedFirst": "Désépinglés en premier",
+  "sortByOriginal": "Ordre original du DAG",
   "publishModal": {
     "title": "Publier via IPNS",
     "cidToPublish": "CID :",
@@ -153,5 +191,22 @@
     "pleaseWait": "Merci d'attendre pendant que les 20 premières copies de l'enregistrement IPNS mis à jour sont stockés avec l'aide des pairs DHT..."
   },
   "noPinsInProgress": "Terminé, aucun épinglage distant en cours.",
-  "remotePinningInProgress": "Épinglage distant en cours:"
+  "remotePinningInProgress": "Épinglage distant en cours:",
+  "selectAllEntries": "Tout sélectionner",
+  "searchFiles": "Filtrer par nom ou CID...",
+  "clearSearch": "Effacer la recherche",
+  "noFilesMatchFilter": "Aucune correspondance pour votre recherche",
+  "previewNotFound": {
+    "title": "Impossible de charger ce chemin",
+    "errorPrefix": "Erreur :",
+    "helpTitle": "Comment continuer :",
+    "helpListItemSearchError": "Cherchez le message d'erreur ci-dessus sur internet pour de possibles solutions.",
+    "helpListItemInspect": "Essayez d'<1>inspecter le chemin</1> (ou son parent) dans l'Explorateur de DAG pour débuguer ce problème.",
+    "helpListItemRetrieval": "Si vous avez un CID qui devrait marcher, lancez le <1>Diagnostic d'accessibilité</1>.",
+    "helpListItemForums": "Visitez les <1>Forums de discussion</1> pour demander de l'aide.",
+    "backButton": "Aller aux Fichiers"
+  },
+  "inspectResolveFailed": "Impossible de résoudre le chemin : {{path}}",
+  "showSearch": "Cliquez pour afficher le filtre de recherche",
+  "hideSearch": "Cliquez pour cacher le filtre de recherche"
 }

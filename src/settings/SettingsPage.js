@@ -18,6 +18,7 @@ import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle.js'
 import ApiAddressForm from '../components/api-address-form/api-address-form'
 import PublicGatewayForm from '../components/public-gateway-form/PublicGatewayForm.js'
 import PublicSubdomainGatewayForm from '../components/public-subdomain-gateway-form/PublicSubdomainGatewayForm.js'
+import LocalGatewayForm from '../components/local-gateway-form/LocalGatewayForm.js'
 import IpfsCheckForm from '../components/ipfs-check-form/IpfsCheckForm.js'
 import { JsonEditor } from './editor/JsonEditor.js'
 import Experiments from '../components/experiments/ExperimentsPanel.js'
@@ -59,7 +60,7 @@ export const SettingsPage = ({
         <div className='lh-copy charcoal'>
           <Title>{t('app:terms.apiAddress')}</Title>
           <Trans i18nKey='apiDescription' t={t}>
-            <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom Kubo RPC API address</a>, including a port other than the default 5001, enter it here.</p>
+            <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addressesapi' target='_blank' rel='noopener noreferrer'>custom Kubo RPC API address</a>, including a port other than the default 5001, enter it here.</p>
           </Trans>
           <ApiAddressForm/>
         </div>
@@ -67,19 +68,26 @@ export const SettingsPage = ({
 
     <Box className='mb3 pa4-l pa2'>
       <div className='lh-copy charcoal'>
+        <Title>{t('app:terms.localGateway')}</Title>
+        <Trans i18nKey='localGatewayDescription' t={t}>
+          <p>If you access the WebUI through a reverse proxy, Docker, or a different host, enter the gateway URL your browser can reach. Leave empty to use the first <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addressesgateway' target='_blank' rel='noopener noreferrer'>gateway address</a> from your Kubo config.</p>
+        </Trans>
+        <LocalGatewayForm/>
+      </div>
+      <div className='lh-copy charcoal mt4'>
         <Title>{t('app:terms.publicGateway')}</Title>
-          <Trans i18nKey='publicSubdomainGatewayDescription' t={t}>
-            <p>Select a default <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#subdomain' target='_blank' rel='noopener noreferrer'>Subdomain Gateway</a> for generating shareable links.</p>
-          </Trans>
-          <PublicSubdomainGatewayForm/>
-        </div>
-        <div className='lh-copy charcoal'>
-          <Trans i18nKey='publicPathGatewayDescription' t={t}>
-            <p>Select a fallback <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#path' target='_blank' rel='noopener noreferrer'>Path Gateway</a> for generating shareable links for CIDs that exceed the 63-character DNS limit.</p>
-          </Trans>
-          <PublicGatewayForm/>
-        </div>
-      </Box>
+        <Trans i18nKey='publicSubdomainGatewayDescription' t={t}>
+          <p>Select a default <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#subdomain' target='_blank' rel='noopener noreferrer'>Subdomain Gateway</a> for generating shareable links.</p>
+        </Trans>
+        <PublicSubdomainGatewayForm/>
+      </div>
+      <div className='lh-copy charcoal'>
+        <Trans i18nKey='publicPathGatewayDescription' t={t}>
+          <p>Select a fallback <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#path' target='_blank' rel='noopener noreferrer'>Path Gateway</a> for generating shareable links for CIDs that exceed the 63-character DNS limit.</p>
+        </Trans>
+        <PublicGatewayForm/>
+      </div>
+    </Box>
 
     <Box className='mb3 pa4-l pa2'>
       <Title>{t('ipnsPublishingKeys.title')}</Title>

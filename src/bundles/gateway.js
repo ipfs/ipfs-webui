@@ -19,6 +19,13 @@ const readPublicGatewaySetting = () => {
   return setting || DEFAULT_PATH_GATEWAY
 }
 
+const readLocalGatewaySetting = () => {
+  const setting = readSetting('ipfsLocalGateway')
+  // Return empty string if not set, so we can distinguish between
+  // "not configured" and "configured to empty"
+  return setting || ''
+}
+
 const readPublicSubdomainGatewaySetting = () => {
   const setting = readSetting('ipfsPublicSubdomainGateway')
   return setting || DEFAULT_SUBDOMAIN_GATEWAY
@@ -33,7 +40,8 @@ const init = () => ({
   availableGateway: null,
   publicGateway: readPublicGatewaySetting(),
   publicSubdomainGateway: readPublicSubdomainGatewaySetting(),
-  ipfsCheckUrl: readIpfsCheckUrlSetting()
+  ipfsCheckUrl: readIpfsCheckUrlSetting(),
+  localGateway: readLocalGatewaySetting()
 })
 
 /**
@@ -49,6 +57,31 @@ export const checkValidHttpUrl = (value) => {
     return false
   }
   return url.protocol === 'http:' || url.protocol === 'https:'
+}
+
+/**
+ * Default `kuboGateway` config consumed by Helia/verified-fetch
+ * (ipld-explorer-components) on the Explore page when no explicit Local Gateway
+ * URL is set.
+ */
+export const DEFAULT_KUBO_GATEWAY = { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } }
+
+/**
+ * Convert a Local Gateway URL into the `kuboGateway` config shape consumed by
+ * Helia/verified-fetch on the Explore page, so the explorer fetches blocks from
+ * the same gateway the rest of the WebUI uses.
+ * @param {string} gatewayUrl
+ * @returns {{host: string, port: string, protocol: string, trustlessBlockBrokerConfig: object}}
+ */
+export const localGatewayToKuboGateway = (gatewayUrl) => {
+  const url = new URL(gatewayUrl)
+  const protocol = url.protocol.replace(':', '')
+  return {
+    host: url.hostname,
+    port: url.port || (url.protocol === 'https:' ? '443' : '80'),
+    protocol,
+    trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: protocol === 'http' } }
+  }
 }
 
 /**
@@ -71,7 +104,9 @@ export const checkViaImgSrc = (gatewayUrl) => {
    */
   // @ts-expect-error - Promise.any requires ES2021 but we're on ES2020
   return Promise.any(IMG_ARRAY.map(element => {
-    const imgUrl = new URL(`${url.protocol}//${url.hostname}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
+    // url.host (not hostname) keeps the port, so the probe also works for local
+    // gateways on non-default ports, e.g. http://127.0.0.1:8080.
+    const imgUrl = new URL(`${url.protocol}//${url.host}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
     return checkImgSrcPromise(imgUrl)
   }))
 }
@@ -207,6 +242,10 @@ const bundle = {
       return { ...state, ipfsCheckUrl: action.payload }
     }
 
+    if (action.type === 'SET_LOCAL_GATEWAY') {
+      return { ...state, localGateway: action.payload }
+    }
+
     return state
   },
 
@@ -244,6 +283,29 @@ const bundle = {
   },
 
   /**
+   * @param {string} address
+   * @returns {function({dispatch: Function}): Promise<void>}
+   */
+  doUpdateLocalGateway: (address) => async ({ dispatch }) => {
+    // Normalize: remove trailing slashes
+    const normalizedAddress = address.replace(/\/+$/, '')
+    await writeSetting('ipfsLocalGateway', normalizedAddress)
+    dispatch({ type: 'SET_LOCAL_GATEWAY', payload: normalizedAddress })
+
+    // Keep kuboGateway (used by Helia/Explore) in sync with the override.
+    if (normalizedAddress) {
+      try {
+        await writeSetting('kuboGateway', localGatewayToKuboGateway(normalizedAddress))
+      } catch (e) {
+        console.error('Error syncing ipfsLocalGateway to kuboGateway:', e)
+      }
+    } else {
+      // Override cleared: restore defaults so Explore stops using the old host.
+      await writeSetting('kuboGateway', DEFAULT_KUBO_GATEWAY)
+    }
+  },
+
+  /**
    * @param {any} state
    * @returns {string|null}
    */
@@ -265,7 +327,13 @@ const bundle = {
    * @param {any} state
    * @returns {string}
    */
-  selectIpfsCheckUrl: (state) => state?.gateway?.ipfsCheckUrl
+  selectIpfsCheckUrl: (state) => state?.gateway?.ipfsCheckUrl,
+
+  /**
+   * @param {any} state
+   * @returns {string}
+   */
+  selectLocalGateway: (state) => state?.gateway?.localGateway
 }
 
 export default bundle
