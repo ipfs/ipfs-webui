@@ -2,24 +2,36 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/button.tsx'
-import { checkValidHttpUrl } from '../../bundles/gateway.js'
+import { checkValidHttpUrl, checkViaImgSrc } from '../../bundles/gateway.js'
 
 const LocalGatewayForm = ({ t, doUpdateLocalGateway, localGateway }) => {
+  // Empty value is valid: it means "use the gateway address from Kubo config".
   const [value, setValue] = useState(localGateway)
-  const [isValid, setIsValid] = useState(true)
+  const [isValid, setIsValid] = useState(localGateway === '' || checkValidHttpUrl(localGateway))
+  const [showFailState, setShowFailState] = useState(!(localGateway === '' || checkValidHttpUrl(localGateway)))
 
   useEffect(() => {
-    // Empty value is valid (means "use default from Kubo config")
-    setIsValid(value === '' || checkValidHttpUrl(value))
+    const valid = value === '' || checkValidHttpUrl(value)
+    setIsValid(valid)
+    setShowFailState(!valid)
   }, [value])
 
   const onChange = (event) => setValue(event.target.value)
 
   const onSubmit = async (event) => {
     event.preventDefault()
-    if (isValid) {
-      doUpdateLocalGateway(value)
+    if (!isValid) return
+    // A non-empty override must be reachable from the browser, otherwise it
+    // would silently break download and preview links with no fallback.
+    if (value !== '') {
+      try {
+        await checkViaImgSrc(value)
+      } catch (e) {
+        setShowFailState(true)
+        return
+      }
     }
+    doUpdateLocalGateway(value)
   }
 
   const onClear = async (event) => {
@@ -41,9 +53,9 @@ const LocalGatewayForm = ({ t, doUpdateLocalGateway, localGateway }) => {
       <input
         id='local-gateway'
         aria-label={t('terms.localGateway')}
-        placeholder={t('localGatewayForm.placeholder', 'e.g., https://ipfs.example.com')}
+        placeholder={t('localGatewayForm.placeholder', 'Enter a URL (http://localhost:8080)')}
         type='text'
-        className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${!isValid ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
+        className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
         onChange={onChange}
         onKeyPress={onKeyPress}
         value={value}
@@ -68,9 +80,6 @@ const LocalGatewayForm = ({ t, doUpdateLocalGateway, localGateway }) => {
           {t('actions.submit')}
         </Button>
       </div>
-      <p className='f6 charcoal-muted mt2 mb0'>
-        {t('localGatewayForm.description', 'Set this to your gateway URL if accessing WebUI through a reverse proxy or from a different host. Leave empty to use the gateway address from Kubo config.')}
-      </p>
     </form>
   )
 }

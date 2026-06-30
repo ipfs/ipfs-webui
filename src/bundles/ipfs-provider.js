@@ -6,6 +6,7 @@ import last from 'it-last'
 import * as Enum from '../lib/enum.js'
 import { perform } from './task.js'
 import { readSetting, writeSetting } from './local-storage.js'
+import { localGatewayToKuboGateway, DEFAULT_KUBO_GATEWAY } from './gateway.js'
 import { contextBridge } from '../helpers/context-bridge'
 import { createSelector } from 'redux-bundler'
 
@@ -334,28 +335,19 @@ const actions = {
     const kuboGateway = readSetting('kuboGateway')
     const localGateway = readSetting('ipfsLocalGateway')
 
-    if (localGateway) {
+    if (typeof localGateway === 'string' && localGateway) {
       // User has configured a custom local gateway, sync it to kuboGateway for Helia/Explore
       try {
-        const url = new URL(localGateway)
-        const host = url.hostname
-        const port = url.port || (url.protocol === 'https:' ? '443' : '80')
-        const protocol = url.protocol.replace(':', '')
-        await writeSetting('kuboGateway', {
-          host,
-          port,
-          protocol,
-          trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: protocol === 'http' } }
-        })
+        await writeSetting('kuboGateway', localGatewayToKuboGateway(localGateway))
       } catch (e) {
         console.error('Error parsing ipfsLocalGateway for kuboGateway:', e)
       }
     } else if (kuboGateway === null || typeof kuboGateway === 'string' || typeof kuboGateway === 'boolean' || typeof kuboGateway === 'number') {
       // empty or invalid, set defaults
-      await writeSetting('kuboGateway', { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
+      await writeSetting('kuboGateway', DEFAULT_KUBO_GATEWAY)
     } else if (/** @type {Record<string, any>} */(kuboGateway).trustlessBlockBrokerConfig == null) {
       // missing trustlessBlockBrokerConfig, set defaults
-      await writeSetting('kuboGateway', { ...kuboGateway, trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } })
+      await writeSetting('kuboGateway', { ...kuboGateway, ...DEFAULT_KUBO_GATEWAY })
     }
   },
 

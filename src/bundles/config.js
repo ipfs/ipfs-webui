@@ -23,6 +23,18 @@ const bundle = createAsyncResourceBundle({
 
     const config = JSON.parse(conf)
 
+    // An explicit Local Gateway URL is the gateway the browser is meant to reach
+    // for everything (reverse proxy, Docker, non-default host or port), so trust
+    // it for the reachability-probed availableGateway too. Without this, the
+    // 127.0.0.1 probe below fails for remote users and previews, thumbnails and
+    // IPNS links fall back to the public gateway instead of the user's own node.
+    // https://github.com/ipfs/ipfs-webui/issues/2458
+    const localGateway = store.selectLocalGateway()
+    if (localGateway) {
+      store.doSetAvailableGateway(localGateway)
+      return conf
+    }
+
     const publicGateway = store.selectPublicGateway()
     const url = getURLFromAddress('Gateway', config) || publicGateway
 

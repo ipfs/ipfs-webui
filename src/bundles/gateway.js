@@ -60,6 +60,31 @@ export const checkValidHttpUrl = (value) => {
 }
 
 /**
+ * Default `kuboGateway` config consumed by Helia/verified-fetch
+ * (ipld-explorer-components) on the Explore page when no explicit Local Gateway
+ * URL is set.
+ */
+export const DEFAULT_KUBO_GATEWAY = { trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: false } } }
+
+/**
+ * Convert a Local Gateway URL into the `kuboGateway` config shape consumed by
+ * Helia/verified-fetch on the Explore page, so the explorer fetches blocks from
+ * the same gateway the rest of the WebUI uses.
+ * @param {string} gatewayUrl
+ * @returns {{host: string, port: string, protocol: string, trustlessBlockBrokerConfig: object}}
+ */
+export const localGatewayToKuboGateway = (gatewayUrl) => {
+  const url = new URL(gatewayUrl)
+  const protocol = url.protocol.replace(':', '')
+  return {
+    host: url.hostname,
+    port: url.port || (url.protocol === 'https:' ? '443' : '80'),
+    protocol,
+    trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: protocol === 'http' } }
+  }
+}
+
+/**
  * Check if any hashes from IMG_ARRAY can be loaded from the provided gatewayUrl
  * @param {string} gatewayUrl - The gateway URL to check
  * @see https://github.com/ipfs/ipfs-webui/issues/1937#issuecomment-1152894211 for more info
@@ -79,7 +104,9 @@ export const checkViaImgSrc = (gatewayUrl) => {
    */
   // @ts-expect-error - Promise.any requires ES2021 but we're on ES2020
   return Promise.any(IMG_ARRAY.map(element => {
-    const imgUrl = new URL(`${url.protocol}//${url.hostname}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
+    // url.host (not hostname) keeps the port, so the probe also works for local
+    // gateways on non-default ports, e.g. http://127.0.0.1:8080.
+    const imgUrl = new URL(`${url.protocol}//${url.host}/ipfs/${element.hash}?now=${Date.now()}&filename=${element.name}#x-ipfs-companion-no-redirect`)
     return checkImgSrcPromise(imgUrl)
   }))
 }
@@ -265,22 +292,16 @@ const bundle = {
     await writeSetting('ipfsLocalGateway', normalizedAddress)
     dispatch({ type: 'SET_LOCAL_GATEWAY', payload: normalizedAddress })
 
-    // Sync to kuboGateway for Helia/Explore components
+    // Keep kuboGateway (used by Helia/Explore) in sync with the override.
     if (normalizedAddress) {
       try {
-        const url = new URL(normalizedAddress)
-        const host = url.hostname
-        const port = url.port || (url.protocol === 'https:' ? '443' : '80')
-        const protocol = url.protocol.replace(':', '')
-        await writeSetting('kuboGateway', {
-          host,
-          port,
-          protocol,
-          trustlessBlockBrokerConfig: { init: { allowLocal: true, allowInsecure: protocol === 'http' } }
-        })
+        await writeSetting('kuboGateway', localGatewayToKuboGateway(normalizedAddress))
       } catch (e) {
         console.error('Error syncing ipfsLocalGateway to kuboGateway:', e)
       }
+    } else {
+      // Override cleared: restore defaults so Explore stops using the old host.
+      await writeSetting('kuboGateway', DEFAULT_KUBO_GATEWAY)
     }
   },
 

@@ -60,7 +60,7 @@ export const SettingsPage = ({
         <div className='lh-copy charcoal'>
           <Title>{t('app:terms.apiAddress')}</Title>
           <Trans i18nKey='apiDescription' t={t}>
-            <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addresses' target='_blank' rel='noopener noreferrer'>custom Kubo RPC API address</a>, including a port other than the default 5001, enter it here.</p>
+            <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addressesapi' target='_blank' rel='noopener noreferrer'>custom Kubo RPC API address</a>, including a port other than the default 5001, enter it here.</p>
           </Trans>
           <ApiAddressForm/>
         </div>
@@ -69,6 +69,9 @@ export const SettingsPage = ({
     <Box className='mb3 pa4-l pa2'>
       <div className='lh-copy charcoal'>
         <Title>{t('app:terms.localGateway')}</Title>
+        <Trans i18nKey='localGatewayDescription' t={t}>
+          <p>If you access the WebUI through a reverse proxy, Docker, or a different host, enter the gateway URL your browser can reach. Leave empty to use the first <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addressesgateway' target='_blank' rel='noopener noreferrer'>gateway address</a> from your Kubo config.</p>
+        </Trans>
         <LocalGatewayForm/>
       </div>
       <div className='lh-copy charcoal mt4'>

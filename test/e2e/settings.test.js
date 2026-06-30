@@ -118,6 +118,42 @@ test.describe('Settings screen', () => {
     await expect(publicGatewayElement).toHaveValue(DEFAULT_PATH_GATEWAY)
   })
 
+  test('Submit Local Gateway and confirm it is applied', async ({ page }) => {
+    // custom-gw-test.localhost resolves to 127.0.0.1, so it reaches the real e2e
+    // kubo gateway (which serves the probe's inline-CID image). The distinctive
+    // hostname lets us confirm on the Status page that the override is in use.
+    const localGatewayUrl = `http://custom-gw-test.localhost:${process.env.IPFS_GATEWAY_PORT}`
+    const input = page.locator('#local-gateway')
+    const submitButton = page.locator('#local-gateway-submit-button')
+
+    await expect(input).toBeVisible()
+
+    // empty by default (falls back to the gateway from Kubo config)
+    await expect(input).toHaveValue('')
+
+    await input.fill(localGatewayUrl)
+
+    // valid URL format shows the green outline and enables submit
+    await expect(input).toHaveClass(/focus-outline-green/, { timeout: 5000 })
+    await expect(submitButton).toBeEnabled()
+
+    // submit runs the checkViaImgSrc probe against the real kubo gateway and saves
+    await submitButton.click()
+
+    // saved: no pending changes, so submit goes back to disabled, value persists
+    await expect(submitButton).toBeDisabled({ timeout: 10000 })
+    await expect(input).toHaveValue(localGatewayUrl)
+
+    // confirm the override is applied where it matters: the Status page Advanced
+    // panel renders selectGatewayUrl, which now resolves to the override
+    await page.goto('/#/')
+    const gatewayValue = page.getByText(localGatewayUrl)
+    if (!(await gatewayValue.isVisible())) {
+      await page.getByText('Advanced').click()
+    }
+    await expect(gatewayValue).toBeVisible()
+  })
+
   test('Language selector', async ({ page }) => {
     const languages = await getLanguages()
     // Test with just a few languages to avoid timeout issues

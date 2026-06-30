@@ -49,8 +49,7 @@
     "placeholder": "Enter a URL (https://ipfs.io)"
   },
   "localGatewayForm": {
-    "placeholder": "Enter a URL (https://ipfs.example.com)",
-    "description": "Set this to your gateway URL if accessing WebUI through a reverse proxy or from a different host. Leave empty to use the gateway URL from Kubo config."
+    "placeholder": "Enter a URL (http://localhost:8080)"
   },
   "publicSubdomainGatewayForm": {
     "placeholder": "Enter a URL (https://dweb.link)"
