@@ -59,6 +59,7 @@ const globalSetup = async config => {
   process.env.IPFS_RPC_ADDR = rpcAddr
   process.env.IPFS_RPC_ID = id
   process.env.IPFS_RPC_VERSION = agentVersion
+  process.env.IPFS_GATEWAY_PORT = String(kuboGateway.port)
 
   await ensureKuboDaemon(apiOpts)
 

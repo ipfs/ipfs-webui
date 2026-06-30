@@ -53,7 +53,7 @@ const OptionsCell = ({ t, name, showRenameKeyModal, showRemoveKeyModal }) => {
   )
 }
 
-export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, availableGateway, ipnsKeys }) => {
+export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, doRenameIpnsKey, doRemoveIpnsKey, availableGatewayUrl, ipnsKeys }) => {
   const [isGenerateKeyModalOpen, setGenerateKeyModalOpen] = useState(false)
   const showGenerateKeyModal = () => setGenerateKeyModalOpen(true)
   const hideGenerateKeyModal = () => setGenerateKeyModalOpen(false)
@@ -118,7 +118,7 @@ export const IpnsManager = ({ t, ipfsReady, doFetchIpnsKeys, doGenerateIpnsKey, 
                   flexShrink={1}
                   cellRenderer={({ rowData }) => (
                     rowData.published
-                      ? <a href={`${availableGateway}/ipns/${rowData.id}`} target='_blank' rel='noopener noreferrer' className='link blue'>{rowData.id}</a>
+                      ? <a href={`${availableGatewayUrl}/ipns/${rowData.id}`} target='_blank' rel='noopener noreferrer' className='link blue'>{rowData.id}</a>
                       : rowData.id
                   )} />
                 <Column
@@ -184,7 +184,7 @@ IpnsManager.defaultProps = {
 export default connect(
   'selectIpfsReady',
   'selectIpnsKeys',
-  'selectAvailableGateway',
+  'selectAvailableGatewayUrl',
   'doFetchIpnsKeys',
   'doGenerateIpnsKey',
   'doRemoveIpnsKey',
