@@ -29,6 +29,27 @@ export function normalizeFiles (files) {
 }
 
 /**
+ * Fix for the mixed-content error when loading from a localhost gateway, see
+ * https://github.com/ipfs/ipfs-webui/issues/2246
+ *
+ * localhost in Kubo is a subdomain gateway, so http://localhost:8080/ipfs/cid
+ * redirects to http://cid.ipfs.localhost:8080. Some browsers do not treat that
+ * subdomain as a secure context and force-upgrade it to https, which breaks the
+ * load; switching to the IP avoids the redirect.
+ *
+ * Applied at each load site (file previews, thumbnails, downloads, CAR links)
+ * rather than globally in config.js.
+ *
+ * @param {string} url - a gateway URL, or a full gateway content URL
+ * @returns {string}
+ */
+export function safeSubresourceGwUrl (url) {
+  // Match http://localhost with any port (or none), but not https or a host
+  // like localhostx; the lookahead requires a port, path, or end of string.
+  return url.replace(/^http:\/\/localhost(?=[:/]|$)/, 'http://127.0.0.1')
+}
+
+/**
  * @param {string} type
  * @param {string} name
  * @param {CID} cid
@@ -78,6 +99,7 @@ export async function makeCIDFromFiles (files, ipfs) {
  * @returns {Promise<string>}
  */
 export async function getDownloadLink (files, gatewayUrl, ipfs) {
+  gatewayUrl = safeSubresourceGwUrl(gatewayUrl)
   if (files.length === 1) {
     return getDownloadURL(files[0].type, files[0].name, files[0].cid, gatewayUrl)
   }
@@ -87,43 +109,15 @@ export async function getDownloadLink (files, gatewayUrl, ipfs) {
 }
 
 /**
- * Generates a shareable link for the provided files using a subdomain gateway as default or a path gateway as fallback.
+ * Resolve the root CID for a Share Link: a single item keeps its own CID, while
+ * a multi-item selection is wrapped in an ephemeral MFS directory.
  *
- * @param {FileStat[]} files - An array of file objects with their respective CIDs and names.
- * @param {string} gatewayUrl - The URL of the default IPFS gateway.
- * @param {string} subdomainGatewayUrl - The URL of the subdomain gateway.
- * @param {IPFSService} ipfs - The IPFS service instance for interacting with the IPFS network.
- * @returns {Promise<{link: string, cid: CID}>} - A promise that resolves to an object containing the shareable link and root CID.
+ * @param {FileStat[]} files
+ * @param {IPFSService} ipfs
+ * @returns {Promise<CID>}
  */
-export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, ipfs) {
-  let cid
-  let filename
-
-  if (files.length === 1) {
-    cid = files[0].cid
-    if (files[0].type === 'file') {
-      filename = `?filename=${encodeURIComponent(files[0].name)}`
-    }
-  } else {
-    cid = await makeCIDFromFiles(files, ipfs)
-  }
-
-  const url = new URL(subdomainGatewayUrl)
-
-  /**
-   * dweb.link (subdomain isolation) is listed first as the new default option.
-   * However, ipfs.io (path gateway fallback) is also listed for CIDs that cannot be represented in a 63-character DNS label.
-   * This allows users to customize both the subdomain and path gateway they use, with the subdomain gateway being used by default whenever possible.
-   */
-  let shareableLink = ''
-  const base32Cid = cid.toV1().toString()
-  if (base32Cid.length < 64) {
-    shareableLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}${filename || ''}`
-  } else {
-    shareableLink = `${gatewayUrl}/ipfs/${cid}${filename || ''}`
-  }
-
-  return { link: shareableLink, cid }
+export async function resolveShareCid (files, ipfs) {
+  return files.length === 1 ? files[0].cid : makeCIDFromFiles(files, ipfs)
 }
 
 /**
@@ -134,6 +128,7 @@ export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, 
  * @returns {Promise<string>}
  */
 export async function getCarLink (files, gatewayUrl, ipfs) {
+  gatewayUrl = safeSubresourceGwUrl(gatewayUrl)
   let cid, filename
 
   if (files.length === 1) {

@@ -2,45 +2,33 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/button.tsx'
-import { checkValidHttpUrl, checkViaImgSrc, DEFAULT_PATH_GATEWAY } from '../../bundles/gateway.js'
+import { checkValidHttpUrl } from '../../bundles/gateway.js'
 
 const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
+  // We validate the URL format only and trust the user's choice, so a private or
+  // offline gateway is not rejected. Empty is valid: it clears the gateway, and
+  // Share Links for those CIDs fall back to a native ipfs:// URI.
   const [value, setValue] = useState(publicGateway)
-  const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
-  const [showFailState, setShowFailState] = useState(initialIsValidGatewayUrl)
-  const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
+  const isValidGatewayUrl = value === '' || checkValidHttpUrl(value)
+  const [showFailState, setShowFailState] = useState(!isValidGatewayUrl)
 
   // Updates the border of the input to indicate validity
   useEffect(() => {
-    setShowFailState(!isValidGatewayUrl)
-  }, [isValidGatewayUrl])
-
-  // Updates the border of the input to indicate validity
-  useEffect(() => {
-    const isValid = checkValidHttpUrl(value)
-    setIsValidGatewayUrl(isValid)
-    setShowFailState(!isValid)
+    setShowFailState(!(value === '' || checkValidHttpUrl(value)))
   }, [value])
 
   const onChange = (event) => setValue(event.target.value)
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault()
-
-    try {
-      await checkViaImgSrc(value)
-    } catch (e) {
-      setShowFailState(true)
-      return
-    }
-
+    if (!isValidGatewayUrl) return
     doUpdatePublicGateway(value)
   }
 
-  const onReset = async (event) => {
+  const onClear = async (event) => {
     event.preventDefault()
-    setValue(DEFAULT_PATH_GATEWAY)
-    doUpdatePublicGateway(DEFAULT_PATH_GATEWAY)
+    setValue('')
+    doUpdatePublicGateway('')
   }
 
   const onKeyPress = (event) => {
@@ -56,27 +44,27 @@ const PublicGatewayForm = ({ t, doUpdatePublicGateway, publicGateway }) => {
         aria-label={t('terms.publicGateway')}
         placeholder={t('publicGatewayForm.placeholder')}
         type='text'
-        className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
+        className={`w-100 lh-copy monospace f5 pa2 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
         onChange={onChange}
         onKeyPress={onKeyPress}
         value={value}
       />
       <div className='tr'>
         <Button
-          id='public-path-gateway-reset-button'
+          id='public-path-gateway-clear-button'
           minWidth={100}
           height={40}
           bg='bg-charcoal'
           className='tc'
-          disabled={value === DEFAULT_PATH_GATEWAY}
-          onClick={onReset}>
-          {t('app:actions.reset')}
+          disabled={value === ''}
+          onClick={onClear}>
+          {t('app:actions.clear')}
         </Button>
         <Button
           id='public-path-gateway-submit-button'
           minWidth={100}
           height={40}
-          className='mt2 mt0-l ml2-l tc'
+          className='mt2 mt0-l ml2 tc'
           disabled={!isValidGatewayUrl || value === publicGateway}>
           {t('actions.submit')}
         </Button>

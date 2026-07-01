@@ -2,49 +2,33 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/button.tsx'
-import { checkValidHttpUrl, checkSubdomainGateway, DEFAULT_SUBDOMAIN_GATEWAY } from '../../bundles/gateway.js'
+import { checkValidHttpUrl } from '../../bundles/gateway.js'
 
 const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicSubdomainGateway }) => {
+  // We validate the URL format only and trust the user's choice, so a private or
+  // offline gateway is not rejected. Empty is valid: it clears the gateway, and
+  // Share Links fall back to a native ipfs:// URI.
   const [value, setValue] = useState(publicSubdomainGateway)
-  const initialIsValidGatewayUrl = !checkValidHttpUrl(value)
-  const [isValidGatewayUrl, setIsValidGatewayUrl] = useState(initialIsValidGatewayUrl)
+  const isValidGatewayUrl = value === '' || checkValidHttpUrl(value)
+  const [showFailState, setShowFailState] = useState(!isValidGatewayUrl)
 
   // Updates the border of the input to indicate validity
   useEffect(() => {
-    const validateUrl = async () => {
-      try {
-        const isValid = await checkSubdomainGateway(value)
-        setIsValidGatewayUrl(isValid)
-      } catch (error) {
-        console.error('Error checking subdomain gateway:', error)
-        setIsValidGatewayUrl(false)
-      }
-    }
-
-    validateUrl()
+    setShowFailState(!(value === '' || checkValidHttpUrl(value)))
   }, [value])
 
   const onChange = (event) => setValue(event.target.value)
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault()
-
-    let isValid = false
-    try {
-      isValid = await checkSubdomainGateway(value)
-      setIsValidGatewayUrl(true)
-    } catch (e) {
-      setIsValidGatewayUrl(false)
-      return
-    }
-
-    isValid && doUpdatePublicSubdomainGateway(value)
+    if (!isValidGatewayUrl) return
+    doUpdatePublicSubdomainGateway(value)
   }
 
-  const onReset = async (event) => {
+  const onClear = (event) => {
     event.preventDefault()
-    setValue(DEFAULT_SUBDOMAIN_GATEWAY)
-    doUpdatePublicSubdomainGateway(DEFAULT_SUBDOMAIN_GATEWAY)
+    setValue('')
+    doUpdatePublicSubdomainGateway('')
   }
 
   const onKeyPress = (event) => {
@@ -60,27 +44,27 @@ const PublicSubdomainGatewayForm = ({ t, doUpdatePublicSubdomainGateway, publicS
         aria-label={t('terms.publicSubdomainGateway')}
         placeholder={t('publicSubdomainGatewayForm.placeholder')}
         type='text'
-        className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${!isValidGatewayUrl ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
+        className={`w-100 lh-copy monospace f5 pa2 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
         onChange={onChange}
         onKeyPress={onKeyPress}
         value={value}
       />
       <div className='tr'>
         <Button
-          id='public-subdomain-gateway-reset-button'
+          id='public-subdomain-gateway-clear-button'
           minWidth={100}
           height={40}
           bg='bg-charcoal'
           className='tc'
-          disabled={value === DEFAULT_SUBDOMAIN_GATEWAY}
-          onClick={onReset}>
-          {t('app:actions.reset')}
+          disabled={value === ''}
+          onClick={onClear}>
+          {t('app:actions.clear')}
         </Button>
         <Button
           id='public-subdomain-gateway-submit-button'
           minWidth={100}
           height={40}
-          className='mt2 mt0-l ml2-l tc'
+          className='mt2 mt0-l ml2 tc'
           disabled={!isValidGatewayUrl || value === publicSubdomainGateway}>
           {t('actions.submit')}
         </Button>

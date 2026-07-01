@@ -1,7 +1,8 @@
 /* eslint-disable require-yield */
 
 import { join, dirname, basename } from 'path'
-import { getDownloadLink, getShareableLink, getCarLink } from '../../lib/files.js'
+import { getDownloadLink, getCarLink, resolveShareCid } from '../../lib/files.js'
+import { SHARE_LINK_TYPE, buildShareLink, getFilenameQuery, getLocalLinks } from '../../lib/share-link.js'
 import countDirs from '../../lib/count-dirs.js'
 import memoize from 'p-memoize'
 import all from 'it-all'
@@ -155,6 +156,7 @@ const getPinCIDs = (ipfs) => map(getRawPins(ipfs), (pin) => pin.cid)
  * @property {function():string} selectGatewayUrl
  * @property {function():string} selectPublicGateway
  * @property {function():string} selectPublicSubdomainGateway
+ * @property {function():string} selectEffectiveShareLinkType
  *
  * @typedef {Object} UnkonwActions
  * @property {function(string):Promise<unknown>} doUpdateHash
@@ -598,14 +600,38 @@ const actions = () => ({
 
   doFilesShareLink: (/** @type {FileStat[]} */ files) => perform(ACTIONS.SHARE_LINK, async (ipfs, { store }) => {
     // ensureMFS deliberately omitted here, see https://github.com/ipfs/ipfs-webui/issues/1744 for context.
+    const cid = await resolveShareCid(files, ipfs)
+    const filename = getFilenameQuery(files)
+    const gatewayUrl = store.selectGatewayUrl()
     const publicGateway = store.selectPublicGateway()
     const publicSubdomainGateway = store.selectPublicSubdomainGateway()
-    const { link: shareableLink, cid } = await getShareableLink(files, publicGateway, publicSubdomainGateway, ipfs)
 
-    // Trigger background provide operation with the CID from getShareableLink
+    const linkOpts = {
+      namespace: 'ipfs',
+      pathId: cid.toString(),
+      subdomainLabel: cid.toV1().toString(),
+      filename,
+      localGatewayUrl: gatewayUrl,
+      publicGateway,
+      publicSubdomainGateway
+    }
+
+    // The chosen link type drives what we copy. An unbuildable choice (e.g. a
+    // public type whose gateway was cleared) falls back to a native ipfs:// URI.
+    let type = store.selectEffectiveShareLinkType()
+    let link = buildShareLink({ type, ...linkOpts })
+    if (!link) {
+      type = SHARE_LINK_TYPE.NATIVE
+      link = buildShareLink({ type, ...linkOpts })
+    }
+
+    // Local variants for the in-modal override, offered when the chosen type is
+    // native or public so users can still grab a same-machine link.
+    const { localLink, subdomainLocalLink } = getLocalLinks(cid, filename, gatewayUrl)
+
     dispatchAsyncProvide(cid, ipfs)
 
-    return shareableLink
+    return { link, type, localLink, subdomainLocalLink }
   }),
 
   /**

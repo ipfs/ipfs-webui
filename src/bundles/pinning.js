@@ -1,10 +1,12 @@
 // @ts-check
+import { createSelector } from 'redux-bundler'
 import { pinningServiceTemplates } from '../constants/pinning.js'
 import memoize from 'p-memoize'
 import { CID } from 'multiformats/cid'
 import all from 'it-all'
 
 import { readSetting, writeSetting } from './local-storage.js'
+import { safeSubresourceGwUrl } from '../lib/files.js'
 import { dispatchAsyncProvide } from './files/utils.js'
 
 // This bundle leverages createCacheBundle and persistActions for
@@ -320,7 +322,16 @@ const pinningBundle = {
 
   selectPinningServices: (state) => state.pinning.pinningServices || [],
 
-  selectRemoteServiceTemplates: () => pinningServiceTemplates,
+  // Resolve each provider icon against the available gateway (the same one file
+  // previews use), so icons load from the local node instead of a hardcoded
+  // public gateway. safeSubresourceGwUrl keeps a localhost gateway loading over
+  // 127.0.0.1 to avoid the subdomain-redirect breakage (issue 2246).
+  selectRemoteServiceTemplates: createSelector('selectAvailableGatewayUrl', (availableGatewayUrl) =>
+    pinningServiceTemplates.map((template) => ({
+      ...template,
+      icon: safeSubresourceGwUrl(`${availableGatewayUrl}/${template.iconPath}`)
+    }))
+  ),
 
   selectArePinningServicesSupported: (state) => state.pinning.arePinningServicesSupported,
 

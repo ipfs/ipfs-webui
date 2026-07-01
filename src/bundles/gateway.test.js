@@ -1,5 +1,9 @@
-/* global describe, it, expect */
-import { localGatewayToKuboGateway, checkValidHttpUrl } from './gateway.js'
+/* global describe, it, expect, beforeEach */
+import { composeBundles } from 'redux-bundler'
+import gatewayBundle, { localGatewayToKuboGateway, checkValidHttpUrl, DEFAULT_KUBO_GATEWAY } from './gateway.js'
+import configBundle from './config.js'
+import { readSetting } from './local-storage.js'
+import { SHARE_LINK_TYPE, DEFAULT_SHARE_LINK_TYPE } from '../lib/share-link.js'
 
 describe('localGatewayToKuboGateway', () => {
   it('keeps an explicit port and treats http as insecure', () => {
@@ -39,5 +43,86 @@ describe('checkValidHttpUrl', () => {
     expect(checkValidHttpUrl('ftp://example.com')).toBe(false)
     expect(checkValidHttpUrl('not a url')).toBe(false)
     expect(checkValidHttpUrl('')).toBe(false)
+  })
+})
+
+const createMockIpfsBundle = (config) => ({
+  name: 'ipfs',
+  getExtraArgs: () => ({ getIpfs: () => ({ config: { getAll: async () => config } }) }),
+  selectIpfsReady: () => false,
+  selectIpfsConnected: () => false
+})
+
+const createStore = () => composeBundles(
+  createMockIpfsBundle({ Addresses: { Gateway: '/ip4/127.0.0.1/tcp/8080' } }),
+  gatewayBundle,
+  configBundle
+)()
+
+describe('gateway bundle actions', () => {
+  beforeEach(() => window.localStorage.clear())
+
+  it('reverts the share link type to native when its public path gateway is cleared', async () => {
+    const store = createStore()
+    await store.doUpdatePublicGateway('https://path-gw.example.com')
+    await store.doUpdateShareLinkType(SHARE_LINK_TYPE.PUBLIC_PATH)
+    expect(store.selectShareLinkType()).toBe(SHARE_LINK_TYPE.PUBLIC_PATH)
+    await store.doUpdatePublicGateway('')
+    expect(store.selectShareLinkType()).toBe(SHARE_LINK_TYPE.NATIVE)
+  })
+
+  it('does not revert when clearing a public gateway the type does not point at', async () => {
+    const store = createStore()
+    await store.doUpdatePublicSubdomainGateway('https://subdomain-gw.example.net')
+    await store.doUpdateShareLinkType(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)
+    await store.doUpdatePublicGateway('') // clears the PATH gateway; type is SUBDOMAIN
+    expect(store.selectShareLinkType()).toBe(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)
+  })
+
+  it('does not revert when saving a non-empty public gateway', async () => {
+    const store = createStore()
+    await store.doUpdatePublicGateway('https://a.example.com')
+    await store.doUpdateShareLinkType(SHARE_LINK_TYPE.PUBLIC_PATH)
+    await store.doUpdatePublicGateway('https://b.example.com')
+    expect(store.selectShareLinkType()).toBe(SHARE_LINK_TYPE.PUBLIC_PATH)
+  })
+
+  it('doUpdateLocalGateway refreshes availableGateway, syncs kuboGateway, and flags the explorer reload', async () => {
+    const store = createStore()
+    await store.doUpdateLocalGateway('http://127.0.0.1:9999')
+    expect(store.selectExplorerNeedsReload()).toBe(true)
+    expect(store.selectAvailableGateway()).toBe('http://127.0.0.1:9999')
+    expect(readSetting('kuboGateway')).toEqual(localGatewayToKuboGateway('http://127.0.0.1:9999'))
+
+    await store.doUpdateLocalGateway('')
+    expect(readSetting('kuboGateway')).toEqual(DEFAULT_KUBO_GATEWAY)
+  })
+
+  it('normalizes a trailing slash on the stored local gateway', async () => {
+    const store = createStore()
+    await store.doUpdateLocalGateway('http://127.0.0.1:9999/')
+    expect(store.selectLocalGateway()).toBe('http://127.0.0.1:9999')
+  })
+
+  it('selectEffectiveShareLinkType stays native until the chosen public gateway is set', async () => {
+    const store = createStore()
+    await store.doUpdateShareLinkType(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)
+    expect(store.selectEffectiveShareLinkType()).toBe(SHARE_LINK_TYPE.NATIVE)
+    await store.doUpdatePublicSubdomainGateway('https://subdomain-gw.example.net')
+    expect(store.selectEffectiveShareLinkType()).toBe(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)
+  })
+})
+
+describe('readShareLinkTypeSetting (via bundle init)', () => {
+  beforeEach(() => window.localStorage.clear())
+
+  it('falls back to the default for a corrupted stored value', () => {
+    window.localStorage.setItem('ipfsShareLinkType', JSON.stringify('bogus'))
+    expect(createStore().selectShareLinkType()).toBe(DEFAULT_SHARE_LINK_TYPE)
+  })
+
+  it('preserves a valid stored value', () => {
+    window.localStorage.setItem('ipfsShareLinkType', JSON.stringify(SHARE_LINK_TYPE.LOCAL_PATH))
+    expect(createStore().selectShareLinkType()).toBe(SHARE_LINK_TYPE.LOCAL_PATH)
   })
 })

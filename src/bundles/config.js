@@ -1,9 +1,6 @@
-import memoize from 'p-memoize'
 import { multiaddrToUri as toUri } from '@multiformats/multiaddr-to-uri'
 import { createAsyncResourceBundle, createSelector } from 'redux-bundler'
 import { contextBridge } from '../helpers/context-bridge'
-
-const LOCAL_HOSTNAMES = ['127.0.0.1', '[::1]', '0.0.0.0', '[::]']
 
 const bundle = createAsyncResourceBundle({
   name: 'config',
@@ -23,36 +20,15 @@ const bundle = createAsyncResourceBundle({
 
     const config = JSON.parse(conf)
 
-    // An explicit Local Gateway URL is the gateway the browser is meant to reach
-    // for everything (reverse proxy, Docker, non-default host or port), so trust
-    // it for the reachability-probed availableGateway too. Without this, the
-    // 127.0.0.1 probe below fails for remote users and previews, thumbnails and
-    // IPNS links fall back to the public gateway instead of the user's own node.
+    // availableGateway drives previews, thumbnails, IPNS links and the Explore
+    // link: the user's Local Gateway URL override, or the gateway from the Kubo
+    // config, chosen without any reachability probing. selectAvailableGatewayUrl
+    // only falls back to a public gateway (through selectGatewayUrl) when no
+    // local gateway is configured at all.
     // https://github.com/ipfs/ipfs-webui/issues/2458
-    const localGateway = store.selectLocalGateway()
-    if (localGateway) {
-      store.doSetAvailableGateway(localGateway)
-      return conf
-    }
-
-    const publicGateway = store.selectPublicGateway()
-    const url = getURLFromAddress('Gateway', config) || publicGateway
-
-    // Normalize local hostnames to localhost
-    // to leverage subdomain gateway, if present
-    // https://github.com/ipfs-shipyard/ipfs-webui/issues/1490
-    const gw = new URL(url)
-    if (LOCAL_HOSTNAMES.includes(gw.hostname)) {
-      gw.hostname = 'localhost'
-      const localUrl = gw.toString().replace(/\/+$/, '') // no trailing slashes
-      if (await checkIfSubdomainGatewayUrlIsAccessible(localUrl)) {
-        store.doSetAvailableGateway(localUrl)
-        return conf
-      }
-    }
-
-    if (!await checkIfGatewayUrlIsAccessible(url)) {
-      store.doSetAvailableGateway(publicGateway)
+    const gateway = store.selectLocalGateway() || getURLFromAddress('Gateway', config)
+    if (gateway) {
+      store.doSetAvailableGateway(gateway)
     }
 
     // stringy json for quick compares
@@ -126,32 +102,5 @@ function getURLFromAddress (name, config) {
     return null
   }
 }
-
-const checkIfGatewayUrlIsAccessible = memoize(async (url) => {
-  try {
-    const { status } = await fetch(
-    `${url}/ipfs/bafkqae2xmvwgg33nmuqhi3zajfiemuzahiwss`
-    )
-    return status === 200
-  } catch (e) {
-    console.error(`Unable to use the gateway at ${url}. The public gateway will be used as a fallback`, e)
-    return false
-  }
-})
-
-// Separate test is necessary to see if subdomain mode is possible,
-// because some browser+OS combinations won't resolve them:
-// https://github.com/ipfs/kubo/issues/7527
-const checkIfSubdomainGatewayUrlIsAccessible = memoize(async (url) => {
-  try {
-    url = new URL(url)
-    url.hostname = `bafkqae2xmvwgg33nmuqhi3zajfiemuzahiwss.ipfs.${url.hostname}`
-    const { status } = await fetch(url.toString())
-    return status === 200
-  } catch (e) {
-    console.error(`Unable to use the subdomain gateway at ${url}. Regular gateway will be used as a fallback`, e)
-    return false
-  }
-})
 
 export default bundle

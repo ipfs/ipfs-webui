@@ -16,9 +16,8 @@ import PinningManager from '../components/pinning-manager/PinningManager.js'
 import IpnsManager from '../components/ipns-manager/IpnsManager.js'
 import AnalyticsToggle from '../components/analytics-toggle/AnalyticsToggle.js'
 import ApiAddressForm from '../components/api-address-form/api-address-form'
-import PublicGatewayForm from '../components/public-gateway-form/PublicGatewayForm.js'
-import PublicSubdomainGatewayForm from '../components/public-subdomain-gateway-form/PublicSubdomainGatewayForm.js'
 import LocalGatewayForm from '../components/local-gateway-form/LocalGatewayForm.js'
+import ShareLinkTypeForm from '../components/share-link-type-form/ShareLinkTypeForm.js'
 import IpfsCheckForm from '../components/ipfs-check-form/IpfsCheckForm.js'
 import { JsonEditor } from './editor/JsonEditor.js'
 import Experiments from '../components/experiments/ExperimentsPanel.js'
@@ -60,7 +59,7 @@ export const SettingsPage = ({
         <div className='lh-copy charcoal'>
           <Title>{t('app:terms.apiAddress')}</Title>
           <Trans i18nKey='apiDescription' t={t}>
-            <p>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addressesapi' target='_blank' rel='noopener noreferrer'>custom Kubo RPC API address</a>, including a port other than the default 5001, enter it here.</p>
+            <p className='f6'>If your node is configured with a <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addressesapi' target='_blank' rel='noopener noreferrer'>custom Kubo RPC API address</a>, including a port other than the default 5001, enter it here.</p>
           </Trans>
           <ApiAddressForm/>
         </div>
@@ -70,22 +69,23 @@ export const SettingsPage = ({
       <div className='lh-copy charcoal'>
         <Title>{t('app:terms.localGateway')}</Title>
         <Trans i18nKey='localGatewayDescription' t={t}>
-          <p>If you access the WebUI through a reverse proxy, Docker, or a different host, enter the gateway URL your browser can reach. Leave empty to use the first <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addressesgateway' target='_blank' rel='noopener noreferrer'>gateway address</a> from your Kubo config.</p>
+          <p className='f6'>If you access the WebUI through a reverse proxy, Docker, or a different host, enter the gateway URL your browser can reach. Leave empty to use the first <a className='link blue' href='https://github.com/ipfs/kubo/blob/master/docs/config.md#addressesgateway' target='_blank' rel='noopener noreferrer'>gateway address</a> from your Kubo config.</p>
         </Trans>
         <LocalGatewayForm/>
       </div>
-      <div className='lh-copy charcoal mt4'>
-        <Title>{t('app:terms.publicGateway')}</Title>
-        <Trans i18nKey='publicSubdomainGatewayDescription' t={t}>
-          <p>Select a default <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#subdomain' target='_blank' rel='noopener noreferrer'>Subdomain Gateway</a> for generating shareable links.</p>
-        </Trans>
-        <PublicSubdomainGatewayForm/>
-      </div>
+    </Box>
+
+    <Box className='mb3 pa4-l pa2'>
       <div className='lh-copy charcoal'>
-        <Trans i18nKey='publicPathGatewayDescription' t={t}>
-          <p>Select a fallback <a className='link blue' href='https://docs.ipfs.tech/concepts/ipfs-gateway/#path' target='_blank' rel='noopener noreferrer'>Path Gateway</a> for generating shareable links for CIDs that exceed the 63-character DNS limit.</p>
-        </Trans>
-        <PublicGatewayForm/>
+        <Title>{t('shareLink.title')}</Title>
+        <p className='charcoal lh-copy f6'>{t('shareLink.intro')}</p>
+        <p className='charcoal lh-copy f6'>
+          <Trans i18nKey='shareLink.pathVsSubdomain' t={t}>
+            <a className='link blue' href='https://specs.ipfs.tech/http-gateways/path-gateway/' target='_blank' rel='noopener noreferrer'>path</a>
+            <a className='link blue' href='https://specs.ipfs.tech/http-gateways/subdomain-gateway/' target='_blank' rel='noopener noreferrer'>subdomain</a>
+          </Trans>
+        </p>
+        <ShareLinkTypeForm/>
       </div>
     </Box>
 
