@@ -29,6 +29,27 @@ export function normalizeFiles (files) {
 }
 
 /**
+ * Fix for the mixed-content error when loading from a localhost gateway, see
+ * https://github.com/ipfs/ipfs-webui/issues/2246
+ *
+ * localhost in Kubo is a subdomain gateway, so http://localhost:8080/ipfs/cid
+ * redirects to http://cid.ipfs.localhost:8080. Some browsers do not treat that
+ * subdomain as a secure context and force-upgrade it to https, which breaks the
+ * load; switching to the IP avoids the redirect.
+ *
+ * Applied at each load site (file previews, thumbnails, downloads, CAR links)
+ * rather than globally in config.js.
+ *
+ * @param {string} url - a gateway URL, or a full gateway content URL
+ * @returns {string}
+ */
+export function safeSubresourceGwUrl (url) {
+  // Match http://localhost with any port (or none), but not https or a host
+  // like localhostx; the lookahead requires a port, path, or end of string.
+  return url.replace(/^http:\/\/localhost(?=[:/]|$)/, 'http://127.0.0.1')
+}
+
+/**
  * @param {string} type
  * @param {string} name
  * @param {CID} cid
@@ -78,6 +99,7 @@ export async function makeCIDFromFiles (files, ipfs) {
  * @returns {Promise<string>}
  */
 export async function getDownloadLink (files, gatewayUrl, ipfs) {
+  gatewayUrl = safeSubresourceGwUrl(gatewayUrl)
   if (files.length === 1) {
     return getDownloadURL(files[0].type, files[0].name, files[0].cid, gatewayUrl)
   }
@@ -87,107 +109,15 @@ export async function getDownloadLink (files, gatewayUrl, ipfs) {
 }
 
 /**
- * Build the `?filename=...` query that hints a gateway at a download name.
- * Only a single file gets one; directories and multi-file selections do not.
+ * Resolve the root CID for a Share Link: a single item keeps its own CID, while
+ * a multi-item selection is wrapped in an ephemeral MFS directory.
  *
  * @param {FileStat[]} files
- * @returns {string} the query string, or '' when no filename hint applies
+ * @param {IPFSService} ipfs
+ * @returns {Promise<CID>}
  */
-function getFilenameQuery (files) {
-  if (files.length === 1 && files[0].type === 'file') {
-    return `?filename=${encodeURIComponent(files[0].name)}`
-  }
-  return ''
-}
-
-// Loopback hosts, matched against a URL hostname (IPv6 keeps its brackets). They
-// all reach the same local node, so its links use canonical forms: the IP for
-// the path link (no DNS needed) and localhost for the subdomain link (subdomain
-// origins need a hostname). https://github.com/ipfs/ipfs-webui/issues/1490
-const LOOPBACK_HOSTNAMES = new Set(['localhost', '127.0.0.1', '0.0.0.0', '[::1]', '[::]'])
-const LOOPBACK_IP = '127.0.0.1'
-const LOOPBACK_HOSTNAME = 'localhost'
-
-/**
- * Whether a URL hostname is a bare IP literal rather than a domain name.
- * Subdomain gateways serve one origin per CID under a parent domain, so they
- * cannot be built on an IP such as 192.168.1.5.
- *
- * @param {string} hostname - a URL hostname (IPv6 keeps its surrounding brackets)
- * @returns {boolean}
- */
-function isIpHostname (hostname) {
-  // IPv6 literals are bracketed in a URL hostname, e.g. [::1]
-  if (hostname.startsWith('[')) {
-    return true
-  }
-  // IPv4 dotted quad, e.g. 127.0.0.1
-  return /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname)
-}
-
-/**
- * Generates a shareable link for the provided files using a subdomain gateway as default or a path gateway as fallback.
- *
- * @param {FileStat[]} files - An array of file objects with their respective CIDs and names.
- * @param {string} gatewayUrl - The URL of the default IPFS gateway.
- * @param {string} subdomainGatewayUrl - The URL of the subdomain gateway.
- * @param {IPFSService} ipfs - The IPFS service instance for interacting with the IPFS network.
- * @returns {Promise<{link: string, cid: CID}>} - A promise that resolves to an object containing the shareable link and root CID.
- */
-export async function getShareableLink (files, gatewayUrl, subdomainGatewayUrl, ipfs) {
-  const cid = files.length === 1 ? files[0].cid : await makeCIDFromFiles(files, ipfs)
-  const filename = getFilenameQuery(files)
-  const url = new URL(subdomainGatewayUrl)
-
-  /**
-   * dweb.link (subdomain isolation) is listed first as the new default option.
-   * However, ipfs.io (path gateway fallback) is also listed for CIDs that cannot be represented in a 63-character DNS label.
-   * This allows users to customize both the subdomain and path gateway they use, with the subdomain gateway being used by default whenever possible.
-   */
-  const base32Cid = cid.toV1().toString()
-  const shareableLink = base32Cid.length < 64
-    ? `${url.protocol}//${base32Cid}.ipfs.${url.host}${filename}`
-    : `${gatewayUrl}/ipfs/${cid}${filename}`
-
-  return { link: shareableLink, cid }
-}
-
-/**
- * Build local gateway links for opening content in other apps on the same
- * machine, honoring the user's Local Gateway URL override.
- *
- * For a loopback gateway (localhost, 127.0.0.1, ...) the two links use canonical
- * forms: the path link uses 127.0.0.1 (no DNS needed) and the subdomain link
- * uses localhost (subdomain origins need a hostname). A real domain gateway
- * keeps its host for both. A non-loopback IP gets no subdomain link, and neither
- * does a CIDv1 too long for a 63-character DNS label; subdomainLocalLink is ''.
- *
- * @param {FileStat[]} files
- * @param {CID} cid - root CID, already resolved by getShareableLink
- * @param {string} gatewayUrl - the local gateway URL
- * @returns {{localLink: string, subdomainLocalLink: string}}
- */
-export function getLocalLinks (files, cid, gatewayUrl) {
-  const filename = getFilenameQuery(files)
-  const url = new URL(gatewayUrl)
-  const isLoopback = LOOPBACK_HOSTNAMES.has(url.hostname)
-  const port = url.port ? `:${url.port}` : ''
-
-  const localLink = isLoopback
-    ? `${url.protocol}//${LOOPBACK_IP}${port}/ipfs/${cid}${filename}`
-    : `${gatewayUrl}/ipfs/${cid}${filename}`
-
-  const base32Cid = cid.toV1().toString()
-  let subdomainLocalLink = ''
-  if (base32Cid.length < 64) {
-    if (isLoopback) {
-      subdomainLocalLink = `${url.protocol}//${base32Cid}.ipfs.${LOOPBACK_HOSTNAME}${port}${filename}`
-    } else if (!isIpHostname(url.hostname)) {
-      subdomainLocalLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}${filename}`
-    }
-  }
-
-  return { localLink, subdomainLocalLink }
+export async function resolveShareCid (files, ipfs) {
+  return files.length === 1 ? files[0].cid : makeCIDFromFiles(files, ipfs)
 }
 
 /**
@@ -198,6 +128,7 @@ export function getLocalLinks (files, cid, gatewayUrl) {
  * @returns {Promise<string>}
  */
 export async function getCarLink (files, gatewayUrl, ipfs) {
+  gatewayUrl = safeSubresourceGwUrl(gatewayUrl)
   let cid, filename
 
   if (files.length === 1) {

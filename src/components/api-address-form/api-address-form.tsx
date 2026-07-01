@@ -68,7 +68,7 @@ const ApiAddressForm: React.FC<ApiAddressFormProps> = ({ checkValidAPIAddress = 
         aria-label={t('terms.apiAddress')}
         placeholder={t('apiAddressForm.placeholder')}
         type='text'
-        className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
+        className={`w-100 lh-copy monospace f5 pa2 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
         onChange={onChange}
         onKeyDown={onKeyDown}
         value={value}

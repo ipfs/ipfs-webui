@@ -2,6 +2,7 @@ import { CID } from 'multiformats/cid'
 import React, { useState, useEffect, useCallback, type FC } from 'react'
 import { connect } from 'redux-bundler-react'
 import typeFromExt from '../type-from-ext/index.js'
+import { safeSubresourceGwUrl } from '../../lib/files.js'
 import './file-thumbnail.css'
 
 export interface FileThumbnailProps {
@@ -40,7 +41,7 @@ const FileThumbnail: FC<FileThumbnailPropsConnected> = ({ name, cid, availableGa
   }
 
   if (type === 'image') {
-    const src = `${availableGatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
+    const src = safeSubresourceGwUrl(`${availableGatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`)
     return (
       <div className={`file-thumbnail ${!imageLoaded ? 'is-loading' : ''}`}>
         <div className="file-thumbnail-loading" />

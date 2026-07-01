@@ -4,6 +4,7 @@ import { connect } from 'redux-bundler-react'
 import { isBinary } from 'istextorbinary'
 import { Trans, withTranslation } from 'react-i18next'
 import typeFromExt from '../type-from-ext/index.js'
+import { safeSubresourceGwUrl } from '../../lib/files.js'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
 import { CID } from 'multiformats/cid'
@@ -161,13 +162,17 @@ const Preview = (props) => {
         <div className='mt4'>
           <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
           <p>
-            { availableGatewayUrl === publicGateway
-              ? <Trans i18nKey='openWithPublicGateway' t={t}>
+            { !publicGateway
+              ? <Trans i18nKey='openWithLocalGateway' t={t}>
+            Try opening it instead with your <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue'>local gateway</a>.
+              </Trans>
+              : availableGatewayUrl === publicGateway
+                ? <Trans i18nKey='openWithPublicGateway' t={t}>
             Try opening it instead with your <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue'>public gateway</a>.
-              </Trans>
-              : <Trans i18nKey='openWithLocalAndPublicGateway' t={t}>
+                </Trans>
+                : <Trans i18nKey='openWithLocalAndPublicGateway' t={t}>
           Try opening it instead with your <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue'>local gateway</a> or <a href={srcPublic} download target='_blank' rel='noopener noreferrer' className='link blue'>public gateway</a>.
-              </Trans>
+                </Trans>
             }
           </p>
         </div>
@@ -238,19 +243,3 @@ export default connect(
   'selectPublicGateway',
   withTranslation('files')(Preview)
 )
-
-// Potential fix for mixed-content error when redirecting to localhost subdomain
-// from https://github.com/ipfs/ipfs-webui/issues/2246#issuecomment-2322192398
-// We do it here and not in src/bundles/config.js because we dont want IPLD
-// explorer to open links in path gateway, localhost is desired there.
-//
-// Context: localhost in Kubo is a subdomain gateway, so http://locahost:8080/ipfs/cid will
-// redirect to http://cid.ipfs.localhost:8080 – perhaps subdomains are not
-// interpreted as secure context correctly and that triggers forced upgrade to
-// https. switching to IP should help.
-function safeSubresourceGwUrl (url) {
-  if (url.startsWith('http://localhost:')) {
-    return url.replace('http://localhost:', 'http://127.0.0.1:')
-  }
-  return url
-}

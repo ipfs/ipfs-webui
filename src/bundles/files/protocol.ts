@@ -80,6 +80,7 @@ export type FileDownload = {
 export type DownloadLink = Perform<'FILES_DOWNLOADLINK', Error, FileDownload, void>
 export type ShareLinks = {
   link: string
+  type: string
   localLink: string
   subdomainLocalLink: string
 }

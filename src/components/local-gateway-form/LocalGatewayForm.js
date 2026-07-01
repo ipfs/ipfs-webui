@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'redux-bundler-react'
 import { withTranslation } from 'react-i18next'
 import Button from '../button/button.tsx'
-import { checkValidHttpUrl, checkViaImgSrc } from '../../bundles/gateway.js'
+import { checkValidHttpUrl } from '../../bundles/gateway.js'
 
 const LocalGatewayForm = ({ t, doUpdateLocalGateway, localGateway }) => {
   // Empty value is valid: it means "use the gateway address from Kubo config".
@@ -18,19 +18,11 @@ const LocalGatewayForm = ({ t, doUpdateLocalGateway, localGateway }) => {
 
   const onChange = (event) => setValue(event.target.value)
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault()
     if (!isValid) return
-    // A non-empty override must be reachable from the browser, otherwise it
-    // would silently break download and preview links with no fallback.
-    if (value !== '') {
-      try {
-        await checkViaImgSrc(value)
-      } catch (e) {
-        setShowFailState(true)
-        return
-      }
-    }
+    // We validate the URL format only and trust the user's choice, so a private
+    // or reverse-proxy gateway (the reason this override exists) is not rejected.
     doUpdateLocalGateway(value)
   }
 
@@ -55,7 +47,7 @@ const LocalGatewayForm = ({ t, doUpdateLocalGateway, localGateway }) => {
         aria-label={t('terms.localGateway')}
         placeholder={t('localGatewayForm.placeholder', 'Enter a URL (http://localhost:8080)')}
         type='text'
-        className={`w-100 lh-copy monospace f5 pl1 pv1 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
+        className={`w-100 lh-copy monospace f5 pa2 mb2 charcoal input-reset ba b--black-20 br1 ${showFailState ? 'focus-outline-red b--red-muted' : 'focus-outline-green b--green-muted'}`}
         onChange={onChange}
         onKeyPress={onKeyPress}
         value={value}
@@ -75,7 +67,7 @@ const LocalGatewayForm = ({ t, doUpdateLocalGateway, localGateway }) => {
           id='local-gateway-submit-button'
           minWidth={100}
           height={40}
-          className='mt2 mt0-l ml2-l tc'
+          className='mt2 mt0-l ml2 tc'
           disabled={!isValid || !hasChanges}>
           {t('actions.submit')}
         </Button>

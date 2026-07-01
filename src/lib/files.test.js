@@ -1,7 +1,6 @@
 /* global it, expect */
-import { normalizeFiles, getShareableLink, getLocalLinks } from './files.js'
-import { DEFAULT_SUBDOMAIN_GATEWAY, DEFAULT_PATH_GATEWAY } from '../bundles/gateway.js'
 import { CID } from 'multiformats/cid'
+import { normalizeFiles, safeSubresourceGwUrl, getDownloadLink, getCarLink } from './files.js'
 
 function expectRightFormat (output) {
   expect(Array.isArray(output)).toBe(true)
@@ -252,83 +251,26 @@ it('drop multiple directories', async () => {
   expectRightOutput(output, expected)
 })
 
-it('should get a subdomain gateway url', async () => {
-  const ipfs = {}
-  const myCID = CID.parse('QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V')
-  const file = {
-    cid: myCID,
-    name: 'example.txt'
-  }
-  const files = [file]
-
-  const url = new URL(DEFAULT_SUBDOMAIN_GATEWAY)
-  const { link: shareableLink, cid } = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
-  const base32Cid = 'bafybeifffq3aeaymxejo37sn5fyaf7nn7hkfmzwdxyjculx3lw4tyhk7uy'
-  const rightShareableLink = `${url.protocol}//${base32Cid}.ipfs.${url.host}`
-  expect(shareableLink).toBe(rightShareableLink)
-  expect(cid).toBeDefined()
+it('safeSubresourceGwUrl rewrites http localhost to 127.0.0.1', () => {
+  expect(safeSubresourceGwUrl('http://localhost:8080/ipfs/bafy?filename=a.txt')).toBe('http://127.0.0.1:8080/ipfs/bafy?filename=a.txt')
 })
 
-it('should get a path gateway url', async () => {
-  const ipfs = {}
-  // very long CID v1 (using sha3-512)
-  const veryLongCidv1 = 'bagaaifcavabu6fzheerrmtxbbwv7jjhc3kaldmm7lbnvfopyrthcvod4m6ygpj3unrcggkzhvcwv5wnhc5ufkgzlsji7agnmofovc2g4a3ui7ja'
-  const myCID = CID.parse(veryLongCidv1)
-  const file = {
-    cid: myCID,
-    name: 'example.txt'
-  }
-  const files = [file]
-
-  const { link: res, cid } = await getShareableLink(files, DEFAULT_PATH_GATEWAY, DEFAULT_SUBDOMAIN_GATEWAY, ipfs)
-  expect(res).toBe(DEFAULT_PATH_GATEWAY + '/ipfs/' + veryLongCidv1)
-  expect(cid).toBeDefined()
+it('safeSubresourceGwUrl rewrites http localhost on the default port', () => {
+  expect(safeSubresourceGwUrl('http://localhost/ipfs/bafy')).toBe('http://127.0.0.1/ipfs/bafy')
 })
 
-const SHORT_CID = CID.parse('QmZTR5bcpQD7cFgTorqxZDYaew1Wqgfbd2ud9QqGPAkK2V')
-const SHORT_CID_BASE32 = 'bafybeifffq3aeaymxejo37sn5fyaf7nn7hkfmzwdxyjculx3lw4tyhk7uy'
-
-it('getLocalLinks gives loopback gateways an IP path link and a localhost subdomain link', () => {
-  // localhost, 127.0.0.1 and [::1] are the same local node: the path link uses
-  // the IP (no DNS) and the subdomain link uses localhost (origins need a name).
-  for (const gateway of ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://[::1]:8080']) {
-    const files = [{ cid: SHORT_CID, name: 'example.txt', type: 'file' }]
-    const { localLink, subdomainLocalLink } = getLocalLinks(files, SHORT_CID, gateway)
-
-    expect(localLink).toBe(`http://127.0.0.1:8080/ipfs/${SHORT_CID}?filename=example.txt`)
-    expect(subdomainLocalLink).toBe(`http://${SHORT_CID_BASE32}.ipfs.localhost:8080?filename=example.txt`)
-  }
+it('safeSubresourceGwUrl leaves other hosts and schemes unchanged', () => {
+  expect(safeSubresourceGwUrl('http://127.0.0.1:8080/ipfs/bafy')).toBe('http://127.0.0.1:8080/ipfs/bafy')
+  expect(safeSubresourceGwUrl('https://dweb.link/ipfs/bafy')).toBe('https://dweb.link/ipfs/bafy')
+  expect(safeSubresourceGwUrl('https://localhost:8080/ipfs/bafy')).toBe('https://localhost:8080/ipfs/bafy')
+  expect(safeSubresourceGwUrl('http://localhostx:8080/ipfs/bafy')).toBe('http://localhostx:8080/ipfs/bafy')
 })
 
-it('getLocalLinks leaves a non-loopback domain gateway unchanged', () => {
-  const files = [{ cid: SHORT_CID, name: 'example.txt', type: 'file' }]
-  const { localLink, subdomainLocalLink } = getLocalLinks(files, SHORT_CID, 'https://gw.example.com')
-
-  expect(localLink).toBe(`https://gw.example.com/ipfs/${SHORT_CID}?filename=example.txt`)
-  expect(subdomainLocalLink).toBe(`https://${SHORT_CID_BASE32}.ipfs.gw.example.com?filename=example.txt`)
-})
-
-it('getLocalLinks omits the subdomain link for a non-loopback IP gateway', () => {
-  const files = [{ cid: SHORT_CID, name: 'example.txt', type: 'file' }]
-  const { localLink, subdomainLocalLink } = getLocalLinks(files, SHORT_CID, 'http://192.168.1.5:8080')
-
-  expect(localLink).toBe(`http://192.168.1.5:8080/ipfs/${SHORT_CID}?filename=example.txt`)
-  expect(subdomainLocalLink).toBe('')
-})
-
-it('getLocalLinks omits the subdomain link when the CID exceeds a DNS label', () => {
-  const longCid = CID.parse('bagaaifcavabu6fzheerrmtxbbwv7jjhc3kaldmm7lbnvfopyrthcvod4m6ygpj3unrcggkzhvcwv5wnhc5ufkgzlsji7agnmofovc2g4a3ui7ja')
-  const files = [{ cid: longCid, name: 'example.txt', type: 'file' }]
-  const { localLink, subdomainLocalLink } = getLocalLinks(files, longCid, 'http://localhost:8080')
-
-  expect(localLink).toBe(`http://127.0.0.1:8080/ipfs/${longCid}?filename=example.txt`)
-  expect(subdomainLocalLink).toBe('')
-})
-
-it('getLocalLinks adds no filename query for a directory', () => {
-  const files = [{ cid: SHORT_CID, name: 'a-directory', type: 'directory' }]
-  const { localLink, subdomainLocalLink } = getLocalLinks(files, SHORT_CID, 'http://localhost:8080')
-
-  expect(localLink).toBe(`http://127.0.0.1:8080/ipfs/${SHORT_CID}`)
-  expect(subdomainLocalLink).toBe(`http://${SHORT_CID_BASE32}.ipfs.localhost:8080`)
+it('getDownloadLink and getCarLink route a localhost gateway through 127.0.0.1', async () => {
+  const cid = CID.parse('bafkqac3imvwgy3zao5xxe3de')
+  const files = [{ type: 'file', name: 'a.txt', cid }]
+  expect(await getDownloadLink(files, 'http://localhost:8080', null)).toMatch(/^http:\/\/127\.0\.0\.1:8080\/ipfs\//)
+  expect(await getCarLink(files, 'http://localhost:8080', null)).toMatch(/^http:\/\/127\.0\.0\.1:8080\/ipfs\//)
+  // a non-localhost gateway is passed through untouched
+  expect(await getDownloadLink(files, 'https://dweb.link', null)).toMatch(/^https:\/\/dweb\.link\/ipfs\//)
 })
