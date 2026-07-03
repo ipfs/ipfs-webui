@@ -4,7 +4,7 @@ import { connect } from 'redux-bundler-react'
 import { isBinary } from 'istextorbinary'
 import { Trans, withTranslation } from 'react-i18next'
 import typeFromExt from '../type-from-ext/index.js'
-import { safeSubresourceGwUrl } from '../../lib/files.js'
+import { toLoopbackIpUrl, getLocalContentLink } from '../../lib/share-link.js'
 import ComponentLoader from '../../loader/ComponentLoader.js'
 import './FilePreview.css'
 import { CID } from 'multiformats/cid'
@@ -54,7 +54,7 @@ const Drag = ({ name, size, cid, path, children }) => {
 }
 
 const Preview = (props) => {
-  const { t, name, cid, size, availableGatewayUrl, publicGateway, read, onDownload, onClose } = props
+  const { t, name, cid, size, availableGatewayUrl, localGatewayUrl, publicGateway, shareLinkType, read, onDownload, onClose } = props
   const [content, setContent] = useState(null)
   const [hasMoreContent, setHasMoreContent] = useState(false)
   const [buffer, setBuffer] = useState(null)
@@ -87,8 +87,27 @@ const Preview = (props) => {
   }, // eslint-disable-next-line react-hooks/exhaustive-deps
   [])
 
-  const src = `${availableGatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
+  const filenameQuery = `?filename=${encodeURIComponent(name)}`
+  // Embedded subresources (img/video/audio/object) load from the available
+  // gateway in its IP form; see toLoopbackIpUrl.
+  const src = toLoopbackIpUrl(`${availableGatewayUrl}/ipfs/${cid}${filenameQuery}`)
   const className = 'mw-100 mt3 bg-snow-muted pa2 br2 border-box'
+
+  // Links that open the file in a new tab. The local one honors the Share Link
+  // type from Settings, giving content its own origin when the user chose the
+  // local subdomain gateway; either link is '' when its gateway is not
+  // configured.
+  const cidObj = CID.asCID(cid) ?? CID.parse(String(cid))
+  const localUrl = getLocalContentLink({
+    shareLinkType,
+    namespace: 'ipfs',
+    pathId: cidObj.toString(),
+    subdomainLabel: cidObj.toV1().toString(),
+    filename: filenameQuery,
+    localGatewayUrl
+  })
+  const publicUrl = publicGateway ? `${publicGateway}/ipfs/${cid}${filenameQuery}` : ''
+  const openUrl = localUrl || publicUrl
 
   // Close button header
   const closeButtonHeader = onClose != null && (
@@ -109,6 +128,38 @@ const Preview = (props) => {
     </div>
   )
 
+  const openLinks = localUrl && publicUrl
+    ? <Trans i18nKey='openWithLocalAndPublicGateway' t={t}>
+      Try opening it instead with your <a href={localUrl} download target='_blank' rel='noopener noreferrer' className='link blue'>local gateway</a> or <a href={publicUrl} download target='_blank' rel='noopener noreferrer' className='link blue'>public gateway</a>.
+    </Trans>
+    : localUrl
+      ? <Trans i18nKey='openWithLocalGateway' t={t}>
+        Try opening it instead with your <a href={localUrl} download target='_blank' rel='noopener noreferrer' className='link blue'>local gateway</a>.
+      </Trans>
+      : publicUrl
+        ? <Trans i18nKey='openWithPublicGateway' t={t}>
+          Try opening it instead with your <a href={publicUrl} download target='_blank' rel='noopener noreferrer' className='link blue'>public gateway</a>.
+        </Trans>
+        : null
+
+  const cantPreview = (
+    <div className='mt4'>
+      <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
+      { openLinks && <p>{openLinks}</p> }
+    </div>
+  )
+
+  // Embedded previews need a gateway to load from; without one, offer the
+  // open-elsewhere links instead of a broken embed.
+  if (['audio', 'video', 'pdf', 'image'].includes(type) && !availableGatewayUrl) {
+    return (
+      <div>
+        {closeButtonHeader}
+        {cantPreview}
+      </div>
+    )
+  }
+
   switch (type) {
     case 'audio':
       return (
@@ -117,7 +168,7 @@ const Preview = (props) => {
           <Drag {...props}>
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <audio width='100%' controls>
-              <source src={safeSubresourceGwUrl(src)} />
+              <source src={src} />
             </audio>
           </Drag>
         </div>
@@ -127,9 +178,9 @@ const Preview = (props) => {
         <div>
           {closeButtonHeader}
           <Drag {...props}>
-            <object className="FilePreviewPDF w-100" data={safeSubresourceGwUrl(src)} type='application/pdf'>
+            <object className="FilePreviewPDF w-100" data={src} type='application/pdf'>
               {t('noPDFSupport')}
-              <a href={src} download target='_blank' rel='noopener noreferrer' className='underline-hover navy-muted'>{t('downloadPDF')}</a>
+              { openUrl && <a href={openUrl} download target='_blank' rel='noopener noreferrer' className='underline-hover navy-muted'>{t('downloadPDF')}</a> }
             </object>
           </Drag>
         </div>
@@ -141,7 +192,7 @@ const Preview = (props) => {
           <Drag {...props}>
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video controls className={className}>
-              <source src={safeSubresourceGwUrl(src)} />
+              <source src={src} />
             </video>
           </Drag>
         </div>
@@ -151,33 +202,11 @@ const Preview = (props) => {
         <div>
           {closeButtonHeader}
           <Drag {...props}>
-            <img className={className} alt={name} src={safeSubresourceGwUrl(src)} />
+            <img className={className} alt={name} src={src} />
           </Drag>
         </div>
       )
     default: {
-      const srcPublic = `${publicGateway}/ipfs/${cid}?filename=${encodeURIComponent(name)}`
-
-      const cantPreview = (
-        <div className='mt4'>
-          <p className='b'>{t('cantBePreviewed')} <span role='img' aria-label='sad'>😢</span></p>
-          <p>
-            { !publicGateway
-              ? <Trans i18nKey='openWithLocalGateway' t={t}>
-            Try opening it instead with your <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue'>local gateway</a>.
-              </Trans>
-              : availableGatewayUrl === publicGateway
-                ? <Trans i18nKey='openWithPublicGateway' t={t}>
-            Try opening it instead with your <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue'>public gateway</a>.
-                </Trans>
-                : <Trans i18nKey='openWithLocalAndPublicGateway' t={t}>
-          Try opening it instead with your <a href={src} download target='_blank' rel='noopener noreferrer' className='link blue'>local gateway</a> or <a href={srcPublic} download target='_blank' rel='noopener noreferrer' className='link blue'>public gateway</a>.
-                </Trans>
-            }
-          </p>
-        </div>
-      )
-
       if (content === null) {
         return (
           <div>
@@ -240,6 +269,8 @@ Preview.propTypes = {
 
 export default connect(
   'selectAvailableGatewayUrl',
+  'selectLocalGatewayUrl',
   'selectPublicGateway',
+  'selectShareLinkType',
   withTranslation('files')(Preview)
 )

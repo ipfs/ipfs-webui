@@ -1,6 +1,6 @@
 /* global it, expect */
 import { CID } from 'multiformats/cid'
-import { normalizeFiles, safeSubresourceGwUrl, getDownloadLink, getCarLink } from './files.js'
+import { normalizeFiles, getDownloadLink, getCarLink } from './files.js'
 
 function expectRightFormat (output) {
   expect(Array.isArray(output)).toBe(true)
@@ -249,21 +249,6 @@ it('drop multiple directories', async () => {
 
   expectRightFormat(output)
   expectRightOutput(output, expected)
-})
-
-it('safeSubresourceGwUrl rewrites http localhost to 127.0.0.1', () => {
-  expect(safeSubresourceGwUrl('http://localhost:8080/ipfs/bafy?filename=a.txt')).toBe('http://127.0.0.1:8080/ipfs/bafy?filename=a.txt')
-})
-
-it('safeSubresourceGwUrl rewrites http localhost on the default port', () => {
-  expect(safeSubresourceGwUrl('http://localhost/ipfs/bafy')).toBe('http://127.0.0.1/ipfs/bafy')
-})
-
-it('safeSubresourceGwUrl leaves other hosts and schemes unchanged', () => {
-  expect(safeSubresourceGwUrl('http://127.0.0.1:8080/ipfs/bafy')).toBe('http://127.0.0.1:8080/ipfs/bafy')
-  expect(safeSubresourceGwUrl('https://dweb.link/ipfs/bafy')).toBe('https://dweb.link/ipfs/bafy')
-  expect(safeSubresourceGwUrl('https://localhost:8080/ipfs/bafy')).toBe('https://localhost:8080/ipfs/bafy')
-  expect(safeSubresourceGwUrl('http://localhostx:8080/ipfs/bafy')).toBe('http://localhostx:8080/ipfs/bafy')
 })
 
 it('getDownloadLink and getCarLink route a localhost gateway through 127.0.0.1', async () => {

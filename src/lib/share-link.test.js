@@ -4,9 +4,11 @@ import {
   SHARE_LINK_TYPE,
   buildShareLink,
   getLocalLinks,
+  getLocalContentLink,
   getFilenameQuery,
   resolveEffectiveShareLinkType,
   toIpnsBase36,
+  toLoopbackIpUrl,
   gatewayExample
 } from './share-link.js'
 
@@ -58,10 +60,26 @@ describe('buildShareLink for /ipfs', () => {
 
   it('local path uses the loopback IP', () => {
     expect(ipfsLink(SHARE_LINK_TYPE.LOCAL_PATH)).toBe(`http://127.0.0.1:8080/ipfs/${cid}?filename=example.txt`)
+    expect(ipfsLink(SHARE_LINK_TYPE.LOCAL_PATH, { localGatewayUrl: 'http://localhost:8080' })).toBe(`http://127.0.0.1:8080/ipfs/${cid}?filename=example.txt`)
+    expect(ipfsLink(SHARE_LINK_TYPE.LOCAL_PATH, { localGatewayUrl: 'http://0.0.0.0:8080' })).toBe(`http://127.0.0.1:8080/ipfs/${cid}?filename=example.txt`)
+  })
+
+  it('local path keeps the IPv6 address family', () => {
+    expect(ipfsLink(SHARE_LINK_TYPE.LOCAL_PATH, { localGatewayUrl: 'http://[::1]:8080' })).toBe(`http://[::1]:8080/ipfs/${cid}?filename=example.txt`)
+    expect(ipfsLink(SHARE_LINK_TYPE.LOCAL_PATH, { localGatewayUrl: 'http://[::]:8080' })).toBe(`http://[::1]:8080/ipfs/${cid}?filename=example.txt`)
+  })
+
+  it('local path does not rewrite an https loopback host (TLS cert covers the exact hostname)', () => {
+    expect(ipfsLink(SHARE_LINK_TYPE.LOCAL_PATH, { localGatewayUrl: 'https://localhost:8443' })).toBe(`https://localhost:8443/ipfs/${cid}?filename=example.txt`)
   })
 
   it('local subdomain uses localhost', () => {
     expect(ipfsLink(SHARE_LINK_TYPE.LOCAL_SUBDOMAIN)).toBe(`http://${CID_BASE32}.ipfs.localhost:8080?filename=example.txt`)
+    expect(ipfsLink(SHARE_LINK_TYPE.LOCAL_SUBDOMAIN, { localGatewayUrl: 'http://[::1]:8080' })).toBe(`http://${CID_BASE32}.ipfs.localhost:8080?filename=example.txt`)
+  })
+
+  it('local subdomain does not rewrite an https loopback IP, falling back to the path link', () => {
+    expect(ipfsLink(SHARE_LINK_TYPE.LOCAL_SUBDOMAIN, { localGatewayUrl: 'https://127.0.0.1:8443' })).toBe(`https://127.0.0.1:8443/ipfs/${cid}?filename=example.txt`)
   })
 
   it('local subdomain falls back to the local path for a non-loopback IP gateway', () => {
@@ -93,6 +111,20 @@ describe('buildShareLink for /ipfs', () => {
       publicSubdomainGateway: PUBLIC_SUBDOMAIN
     })
     expect(link).toBe(`https://ipfs.io/ipfs/${LONG_CID}`)
+  })
+
+  it('public subdomain falls back to a native URI for an over-long CID with no path gateway', () => {
+    const link = buildShareLink({
+      type: SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN,
+      namespace: 'ipfs',
+      pathId: LONG_CID.toString(),
+      subdomainLabel: LONG_CID.toV1().toString(),
+      filename: '',
+      localGatewayUrl: LOCAL,
+      publicGateway: '',
+      publicSubdomainGateway: PUBLIC_SUBDOMAIN
+    })
+    expect(link).toBe(`ipfs://${LONG_CID.toV1()}`)
   })
 
   it('local subdomain falls back to the local path for an over-long CID', () => {
@@ -152,6 +184,44 @@ describe('getLocalLinks', () => {
   })
 })
 
+describe('getLocalContentLink', () => {
+  it('uses the subdomain form only when the user chose the local subdomain type', () => {
+    const opts = { namespace: 'ipfs', pathId: cid.toString(), subdomainLabel: cid.toV1().toString(), localGatewayUrl: 'http://localhost:8080' }
+    expect(getLocalContentLink({ shareLinkType: SHARE_LINK_TYPE.LOCAL_SUBDOMAIN, ...opts })).toBe(`http://${CID_BASE32}.ipfs.localhost:8080`)
+    expect(getLocalContentLink({ shareLinkType: SHARE_LINK_TYPE.NATIVE, ...opts })).toBe(`http://127.0.0.1:8080/ipfs/${cid}`)
+    expect(getLocalContentLink({ shareLinkType: SHARE_LINK_TYPE.PUBLIC_PATH, ...opts })).toBe(`http://127.0.0.1:8080/ipfs/${cid}`)
+  })
+
+  it('returns empty when there is no local gateway', () => {
+    expect(getLocalContentLink({ shareLinkType: SHARE_LINK_TYPE.LOCAL_SUBDOMAIN, namespace: 'ipfs', pathId: cid.toString(), subdomainLabel: cid.toV1().toString(), localGatewayUrl: '' })).toBe('')
+  })
+})
+
+describe('toLoopbackIpUrl', () => {
+  it('rewrites http loopback hosts to 127.0.0.1', () => {
+    expect(toLoopbackIpUrl('http://localhost:8080/ipfs/bafy?filename=a.txt')).toBe('http://127.0.0.1:8080/ipfs/bafy?filename=a.txt')
+    expect(toLoopbackIpUrl('http://localhost/ipfs/bafy')).toBe('http://127.0.0.1/ipfs/bafy')
+    expect(toLoopbackIpUrl('http://0.0.0.0:8080/ipfs/bafy')).toBe('http://127.0.0.1:8080/ipfs/bafy')
+  })
+
+  it('rewrites http IPv6 loopback to [::1]', () => {
+    expect(toLoopbackIpUrl('http://[::]:8080/ipfs/bafy')).toBe('http://[::1]:8080/ipfs/bafy')
+    expect(toLoopbackIpUrl('http://[::1]:8080/ipfs/bafy')).toBe('http://[::1]:8080/ipfs/bafy')
+  })
+
+  it('keeps a bare gateway root free of a trailing slash', () => {
+    expect(toLoopbackIpUrl('http://localhost:8080')).toBe('http://127.0.0.1:8080')
+  })
+
+  it('leaves other hosts, schemes, and non-URLs unchanged', () => {
+    expect(toLoopbackIpUrl('http://127.0.0.1:8080/ipfs/bafy')).toBe('http://127.0.0.1:8080/ipfs/bafy')
+    expect(toLoopbackIpUrl('https://dweb.link/ipfs/bafy')).toBe('https://dweb.link/ipfs/bafy')
+    expect(toLoopbackIpUrl('https://localhost:8080/ipfs/bafy')).toBe('https://localhost:8080/ipfs/bafy')
+    expect(toLoopbackIpUrl('http://localhostx:8080/ipfs/bafy')).toBe('http://localhostx:8080/ipfs/bafy')
+    expect(toLoopbackIpUrl('/ipfs/bafy')).toBe('/ipfs/bafy')
+  })
+})
+
 describe('getFilenameQuery', () => {
   it('builds a query for a single file', () => {
     expect(getFilenameQuery([{ type: 'file', name: 'a b.txt' }])).toBe('?filename=a%20b.txt')
@@ -202,12 +272,17 @@ describe('toIpnsBase36', () => {
 
 describe('resolveEffectiveShareLinkType', () => {
   it('keeps the type when its gateway is set', () => {
-    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.PUBLIC_PATH, { publicGateway: 'https://ipfs.io', publicSubdomainGateway: 'https://dweb.link' })).toBe(SHARE_LINK_TYPE.PUBLIC_PATH)
-    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.LOCAL_SUBDOMAIN, { publicGateway: '', publicSubdomainGateway: '' })).toBe(SHARE_LINK_TYPE.LOCAL_SUBDOMAIN)
+    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.PUBLIC_PATH, { publicGateway: 'https://ipfs.io', publicSubdomainGateway: 'https://dweb.link', localGatewayUrl: '' })).toBe(SHARE_LINK_TYPE.PUBLIC_PATH)
+    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.LOCAL_SUBDOMAIN, { publicGateway: '', publicSubdomainGateway: '', localGatewayUrl: LOCAL })).toBe(SHARE_LINK_TYPE.LOCAL_SUBDOMAIN)
   })
 
   it('falls back to native when the chosen public gateway is empty', () => {
-    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.PUBLIC_PATH, { publicGateway: '', publicSubdomainGateway: 'https://dweb.link' })).toBe(SHARE_LINK_TYPE.NATIVE)
-    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN, { publicGateway: 'https://ipfs.io', publicSubdomainGateway: '' })).toBe(SHARE_LINK_TYPE.NATIVE)
+    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.PUBLIC_PATH, { publicGateway: '', publicSubdomainGateway: 'https://dweb.link', localGatewayUrl: LOCAL })).toBe(SHARE_LINK_TYPE.NATIVE)
+    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN, { publicGateway: 'https://ipfs.io', publicSubdomainGateway: '', localGatewayUrl: LOCAL })).toBe(SHARE_LINK_TYPE.NATIVE)
+  })
+
+  it('falls back to native for a local type with no local gateway', () => {
+    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.LOCAL_PATH, { publicGateway: 'https://ipfs.io', publicSubdomainGateway: '', localGatewayUrl: '' })).toBe(SHARE_LINK_TYPE.NATIVE)
+    expect(resolveEffectiveShareLinkType(SHARE_LINK_TYPE.LOCAL_SUBDOMAIN, { publicGateway: '', publicSubdomainGateway: 'https://dweb.link', localGatewayUrl: '' })).toBe(SHARE_LINK_TYPE.NATIVE)
   })
 })

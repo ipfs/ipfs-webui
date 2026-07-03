@@ -1,4 +1,5 @@
 import filesize from 'filesize'
+import { toLoopbackIpUrl } from './share-link.js'
 /**
  * @typedef {import('kubo-rpc-client').KuboRPCClient} IPFSService
  * @typedef {import('../bundles/files/actions').FileStat} FileStat
@@ -26,27 +27,6 @@ export function normalizeFiles (files) {
   }
 
   return streams
-}
-
-/**
- * Fix for the mixed-content error when loading from a localhost gateway, see
- * https://github.com/ipfs/ipfs-webui/issues/2246
- *
- * localhost in Kubo is a subdomain gateway, so http://localhost:8080/ipfs/cid
- * redirects to http://cid.ipfs.localhost:8080. Some browsers do not treat that
- * subdomain as a secure context and force-upgrade it to https, which breaks the
- * load; switching to the IP avoids the redirect.
- *
- * Applied at each load site (file previews, thumbnails, downloads, CAR links)
- * rather than globally in config.js.
- *
- * @param {string} url - a gateway URL, or a full gateway content URL
- * @returns {string}
- */
-export function safeSubresourceGwUrl (url) {
-  // Match http://localhost with any port (or none), but not https or a host
-  // like localhostx; the lookahead requires a port, path, or end of string.
-  return url.replace(/^http:\/\/localhost(?=[:/]|$)/, 'http://127.0.0.1')
 }
 
 /**
@@ -99,7 +79,7 @@ export async function makeCIDFromFiles (files, ipfs) {
  * @returns {Promise<string>}
  */
 export async function getDownloadLink (files, gatewayUrl, ipfs) {
-  gatewayUrl = safeSubresourceGwUrl(gatewayUrl)
+  gatewayUrl = toLoopbackIpUrl(gatewayUrl)
   if (files.length === 1) {
     return getDownloadURL(files[0].type, files[0].name, files[0].cid, gatewayUrl)
   }
@@ -128,7 +108,7 @@ export async function resolveShareCid (files, ipfs) {
  * @returns {Promise<string>}
  */
 export async function getCarLink (files, gatewayUrl, ipfs) {
-  gatewayUrl = safeSubresourceGwUrl(gatewayUrl)
+  gatewayUrl = toLoopbackIpUrl(gatewayUrl)
   let cid, filename
 
   if (files.length === 1) {

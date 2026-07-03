@@ -51,16 +51,24 @@ bundle.reactIsSameOriginToBridge = createSelector(
   }
 )
 
-bundle.selectGatewayUrl = createSelector(
+bundle.selectLocalGatewayUrl = createSelector(
   'selectConfigObject',
-  'selectPublicGateway',
   'selectLocalGateway',
-  (config, publicGateway, localGateway) => {
-    // Priority: 1) User-configured local gateway, 2) Kubo config, 3) Public gateway
-    const url = localGateway || getURLFromAddress('Gateway', config) || publicGateway
+  (config, localGateway) => {
+    // Priority: 1) User-configured local gateway, 2) Kubo config. Never the
+    // public gateway: consumers use this where "local" is a promise (share
+    // links and content links labeled as same-machine).
+    const url = localGateway || getURLFromAddress('Gateway', config) || ''
     // Normalize: remove trailing slashes to avoid double slashes when constructing paths
     return url.replace(/\/+$/, '')
   }
+)
+
+bundle.selectGatewayUrl = createSelector(
+  'selectLocalGatewayUrl',
+  'selectPublicGateway',
+  (localGatewayUrl, publicGateway) =>
+    localGatewayUrl || publicGateway.replace(/\/+$/, '')
 )
 
 bundle.selectAvailableGatewayUrl = createSelector(

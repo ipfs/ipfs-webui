@@ -104,6 +104,25 @@ describe('gateway bundle actions', () => {
     expect(store.selectLocalGateway()).toBe('http://127.0.0.1:9999')
   })
 
+  it('doUpdateLocalGateway is a no-op when the value is unchanged', async () => {
+    const store = createStore()
+    // Initial value is '': re-submitting it must not write settings or
+    // schedule an Explore reload.
+    await store.doUpdateLocalGateway('')
+    expect(store.selectExplorerNeedsReload()).toBe(false)
+    expect(readSetting('kuboGateway')).toBeFalsy()
+  })
+
+  it('selectEffectiveShareLinkType falls back to native for a local type with no local gateway', async () => {
+    const store = createStore()
+    await store.doUpdateShareLinkType(SHARE_LINK_TYPE.LOCAL_PATH)
+    // The test store never fetches the Kubo config, so there is no local
+    // gateway at all until the override is set.
+    expect(store.selectEffectiveShareLinkType()).toBe(SHARE_LINK_TYPE.NATIVE)
+    await store.doUpdateLocalGateway('http://127.0.0.1:9999')
+    expect(store.selectEffectiveShareLinkType()).toBe(SHARE_LINK_TYPE.LOCAL_PATH)
+  })
+
   it('selectEffectiveShareLinkType stays native until the chosen public gateway is set', async () => {
     const store = createStore()
     await store.doUpdateShareLinkType(SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN)

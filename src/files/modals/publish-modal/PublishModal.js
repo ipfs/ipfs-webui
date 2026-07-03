@@ -13,7 +13,7 @@ import GlyphCopy from '../../../icons/GlyphCopy.js'
 import GlyphTick from '../../../icons/GlyphTick.js'
 import './PublishModal.css'
 
-export const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, effectiveShareLinkType, gatewayUrl, publicGateway, publicSubdomainGateway, className, doFetchIpnsKeys, doUpdateExpectedPublishTime, expectedPublishTime, ...props }) => {
+export const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, effectiveShareLinkType, localGatewayUrl, publicGateway, publicSubdomainGateway, className, doFetchIpnsKeys, doUpdateExpectedPublishTime, expectedPublishTime, ...props }) => {
   const [disabled, setDisabled] = useState(true)
   const [error, setError] = useState(null)
   const [selectedKey, setSelectedKey] = useState({ name: '', id: '' })
@@ -48,21 +48,19 @@ export const PublishModal = ({ t, tReady, onLeave, onSubmit, file, ipnsKeys, eff
       setStart(startTs)
 
       await onSubmit(selectedKey.name)
-      // Match the Share Link type chosen in Settings, falling back to a native
-      // ipns:// URI when the selected type cannot be built (e.g. no gateway).
-      // The name is normalized to a base36 libp2p-key so subdomain and native
-      // links are valid.
+      // Match the Share Link type chosen in Settings; the effective type
+      // guarantees buildShareLink returns a link. The name is normalized to a
+      // base36 libp2p-key so subdomain and native links are valid.
       const ipnsName = toIpnsBase36(selectedKey.id)
-      const ipnsLink = buildShareLink({
+      setLink(buildShareLink({
         type: effectiveShareLinkType,
         namespace: 'ipns',
         pathId: ipnsName,
         subdomainLabel: ipnsName,
-        localGatewayUrl: gatewayUrl,
+        localGatewayUrl,
         publicGateway,
         publicSubdomainGateway
-      }) || `ipns://${ipnsName}`
-      setLink(ipnsLink)
+      }))
 
       // Update the expected time with the new timing.
       const endTs = new Date().getTime()
@@ -174,7 +172,7 @@ PublishModal.defaultProps = {
 export default connect(
   'selectIpnsKeys',
   'selectExpectedPublishTime',
-  'selectGatewayUrl',
+  'selectLocalGatewayUrl',
   'selectPublicGateway',
   'selectPublicSubdomainGateway',
   'selectEffectiveShareLinkType',

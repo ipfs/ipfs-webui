@@ -179,6 +179,9 @@ const bundle = {
   doUpdateLocalGateway: (address) => async ({ dispatch, store }) => {
     // Normalize: remove trailing slashes
     const normalizedAddress = address.replace(/\/+$/, '')
+    // Re-saving the same value must not rewrite settings or schedule a
+    // spurious Explore reload.
+    if (normalizedAddress === store.selectLocalGateway()) return
     await writeSetting('ipfsLocalGateway', normalizedAddress)
     dispatch({ type: 'SET_LOCAL_GATEWAY', payload: normalizedAddress })
 
@@ -260,15 +263,18 @@ const bundle = {
    */
   selectShareLinkType: (state) => state?.gateway?.shareLinkType,
 
-  // The link type actually used: a public type falls back to native when its
-  // public gateway is empty, so the two consumers (Share Link, Publish to IPNS)
-  // stay consistent with the disabled-option logic in Settings.
+  // The link type actually used: a type whose gateway is not configured (a
+  // public type with its gateway cleared, or a local type with no local
+  // gateway) falls back to native, so the two consumers (Share Link, Publish
+  // to IPNS) stay consistent with the disabled-option logic in Settings and
+  // buildShareLink always produces a link for this type.
   selectEffectiveShareLinkType: createSelector(
     'selectShareLinkType',
     'selectPublicGateway',
     'selectPublicSubdomainGateway',
-    (shareLinkType, publicGateway, publicSubdomainGateway) =>
-      resolveEffectiveShareLinkType(shareLinkType, { publicGateway, publicSubdomainGateway })
+    'selectLocalGatewayUrl',
+    (shareLinkType, publicGateway, publicSubdomainGateway, localGatewayUrl) =>
+      resolveEffectiveShareLinkType(shareLinkType, { publicGateway, publicSubdomainGateway, localGatewayUrl })
   )
 }
 

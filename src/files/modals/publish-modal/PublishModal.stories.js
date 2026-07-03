@@ -48,7 +48,7 @@ export default {
     },
     ipnsKeys,
     effectiveShareLinkType: 'public-path',
-    gatewayUrl: 'http://127.0.0.1:8080',
+    localGatewayUrl: 'http://127.0.0.1:8080',
     publicGateway: 'https://ipfs.io',
     publicSubdomainGateway: 'https://dweb.link',
     className: 'ma3',

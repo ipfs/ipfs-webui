@@ -2,7 +2,7 @@ import { CID } from 'multiformats/cid'
 import React, { useState, useEffect, useCallback, type FC } from 'react'
 import { connect } from 'redux-bundler-react'
 import typeFromExt from '../type-from-ext/index.js'
-import { safeSubresourceGwUrl } from '../../lib/files.js'
+import { toLoopbackIpUrl } from '../../lib/share-link.js'
 import './file-thumbnail.css'
 
 export interface FileThumbnailProps {
@@ -40,8 +40,10 @@ const FileThumbnail: FC<FileThumbnailPropsConnected> = ({ name, cid, availableGa
     return null
   }
 
-  if (type === 'image') {
-    const src = safeSubresourceGwUrl(`${availableGatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`)
+  // An image thumbnail loads from the gateway; without one there is nothing to
+  // point the img at, so fall through to the text preview (or nothing).
+  if (type === 'image' && availableGatewayUrl) {
+    const src = toLoopbackIpUrl(`${availableGatewayUrl}/ipfs/${cid}?filename=${encodeURIComponent(name)}`)
     return (
       <div className={`file-thumbnail ${!imageLoaded ? 'is-loading' : ''}`}>
         <div className="file-thumbnail-loading" />

@@ -20,17 +20,21 @@ const GATEWAY_OPTIONS = [
   { value: SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN, key: 'publicSubdomain', subdomain: true, isolation: true, Form: PublicSubdomainGatewayForm }
 ]
 
-const ShareLinkTypeForm = ({ t, shareLinkType, gatewayUrl, publicGateway, publicSubdomainGateway, doUpdateShareLinkType }) => {
-  // A public option cannot be chosen until its gateway is configured below it.
+const ShareLinkTypeForm = ({ t, shareLinkType, localGatewayUrl, publicGateway, publicSubdomainGateway, doUpdateShareLinkType }) => {
+  // An option cannot be chosen until its gateway is configured: the public
+  // ones via the forms below them, the local ones via the Local Gateway URL
+  // section or the Kubo config.
   const disabledFor = {
+    [SHARE_LINK_TYPE.LOCAL_PATH]: !localGatewayUrl,
+    [SHARE_LINK_TYPE.LOCAL_SUBDOMAIN]: !localGatewayUrl,
     [SHARE_LINK_TYPE.PUBLIC_PATH]: !publicGateway,
     [SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN]: !publicSubdomainGateway
   }
 
   // The gateway each option's example is drawn from; native has none.
   const gatewayUrlFor = {
-    [SHARE_LINK_TYPE.LOCAL_PATH]: gatewayUrl,
-    [SHARE_LINK_TYPE.LOCAL_SUBDOMAIN]: gatewayUrl,
+    [SHARE_LINK_TYPE.LOCAL_PATH]: localGatewayUrl,
+    [SHARE_LINK_TYPE.LOCAL_SUBDOMAIN]: localGatewayUrl,
     [SHARE_LINK_TYPE.PUBLIC_PATH]: publicGateway,
     [SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN]: publicSubdomainGateway
   }
@@ -103,7 +107,7 @@ const ShareLinkTypeForm = ({ t, shareLinkType, gatewayUrl, publicGateway, public
 
 export default connect(
   'selectShareLinkType',
-  'selectGatewayUrl',
+  'selectLocalGatewayUrl',
   'selectPublicGateway',
   'selectPublicSubdomainGateway',
   'doUpdateShareLinkType',

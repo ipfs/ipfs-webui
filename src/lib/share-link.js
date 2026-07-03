@@ -33,11 +33,63 @@ export const DEFAULT_SHARE_LINK_TYPE = SHARE_LINK_TYPE.NATIVE
 const DNS_LABEL_MAX = 63
 
 // Loopback hosts reach the same local node, so local links use canonical forms:
-// the IP for path links (no DNS needed) and localhost for subdomain links
-// (subdomain origins need a hostname). https://github.com/ipfs/ipfs-webui/issues/1490
+// the IP for path links and subresources (no DNS, and no localhost subdomain
+// redirect that some browsers force-upgrade to https, see
+// https://github.com/ipfs/ipfs-webui/issues/2246) and localhost for subdomain
+// links (subdomain origins need a hostname).
+// https://github.com/ipfs/ipfs-webui/issues/1490
 const LOOPBACK_HOSTNAMES = new Set(['localhost', '127.0.0.1', '0.0.0.0', '[::1]', '[::]'])
-const LOOPBACK_IP = '127.0.0.1'
+const LOOPBACK_IPV4 = '127.0.0.1'
+const LOOPBACK_IPV6 = '[::1]'
 const LOOPBACK_HOSTNAME = 'localhost'
+
+/**
+ * The canonical loopback IP for a loopback hostname, keeping the address
+ * family of the input ([::] and [::1] stay IPv6).
+ *
+ * @param {string} hostname - a member of LOOPBACK_HOSTNAMES
+ * @returns {string}
+ */
+function loopbackIp (hostname) {
+  return hostname.startsWith('[') ? LOOPBACK_IPV6 : LOOPBACK_IPV4
+}
+
+/**
+ * Whether a loopback host in this URL may be rewritten to another loopback
+ * form. Only http qualifies: an https certificate covers the exact hostname,
+ * so swapping localhost and 127.0.0.1 would break TLS validation.
+ *
+ * @param {URL} url
+ * @returns {boolean}
+ */
+function isRewritableLoopback (url) {
+  return url.protocol === 'http:' && LOOPBACK_HOSTNAMES.has(url.hostname)
+}
+
+/**
+ * Rewrite a loopback host in an http URL to its canonical IP form (127.0.0.1
+ * or [::1]). This is the form for subresources (img/video/object embeds) and
+ * path links: it avoids Kubo's localhost subdomain redirect, which some
+ * browsers treat as an insecure context and force-upgrade to https, breaking
+ * the load (https://github.com/ipfs/ipfs-webui/issues/2246). Accepts a full
+ * content URL or a bare gateway root; https, non-loopback, and unparseable
+ * values pass through unchanged.
+ *
+ * @param {string} url
+ * @returns {string}
+ */
+export function toLoopbackIpUrl (url) {
+  let parsed
+  try {
+    parsed = new URL(url)
+  } catch {
+    return url
+  }
+  if (!isRewritableLoopback(parsed)) return url
+  // Surgical host swap: URL serialization would append a trailing slash to a
+  // bare gateway root, breaking callers that concatenate paths onto it.
+  return url.replace(parsed.hostname, loopbackIp(parsed.hostname))
+}
 
 /**
  * Build the `?filename=...` query that hints a gateway at a download name.
@@ -77,16 +129,16 @@ function isIpHostname (hostname) {
  * @param {string} namespace - 'ipfs' or 'ipns'
  * @param {string} id - CID string or IPNS name
  * @param {string} filename - `?filename=...` query, or ''
- * @param {{loopback?: boolean}} [opts] - normalize a loopback host to 127.0.0.1
+ * @param {{loopback?: boolean}} [opts] - normalize an http loopback host to its IP form
  * @returns {string} the link, or '' when gatewayUrl is empty
  */
 function pathLink (gatewayUrl, namespace, id, filename, opts = {}) {
   if (!gatewayUrl) return ''
   const url = new URL(gatewayUrl)
   let host = url.host
-  if (opts.loopback && LOOPBACK_HOSTNAMES.has(url.hostname)) {
+  if (opts.loopback && isRewritableLoopback(url)) {
     const port = url.port ? `:${url.port}` : ''
-    host = `${LOOPBACK_IP}${port}`
+    host = `${loopbackIp(url.hostname)}${port}`
   }
   // Preserve any subpath the gateway is mounted under (e.g. a reverse proxy at
   // https://example.com/gw); '/' collapses to an empty base.
@@ -103,14 +155,14 @@ function pathLink (gatewayUrl, namespace, id, filename, opts = {}) {
  * @param {string} namespace - 'ipfs' or 'ipns'
  * @param {string} label - base32 CIDv1 or IPNS name to place in the DNS label
  * @param {string} filename - `?filename=...` query, or ''
- * @param {{loopback?: boolean}} [opts] - normalize a loopback host to localhost
+ * @param {{loopback?: boolean}} [opts] - normalize an http loopback host to localhost
  * @returns {string}
  */
 function subdomainLink (gatewayUrl, namespace, label, filename, opts = {}) {
   if (!gatewayUrl || !label || label.length > DNS_LABEL_MAX) return ''
   const url = new URL(gatewayUrl)
   let hostname = url.hostname
-  if (opts.loopback && LOOPBACK_HOSTNAMES.has(hostname)) hostname = LOOPBACK_HOSTNAME
+  if (opts.loopback && isRewritableLoopback(url)) hostname = LOOPBACK_HOSTNAME
   if (isIpHostname(hostname)) return ''
   const port = url.port ? `:${url.port}` : ''
   return `${url.protocol}//${label}.${namespace}.${hostname}${port}${filename}`
@@ -119,9 +171,12 @@ function subdomainLink (gatewayUrl, namespace, label, filename, opts = {}) {
 /**
  * Build a single content link of the requested type, for the `/ipfs` (Share
  * Link) or `/ipns` (Publish to IPNS) namespace. Public subdomain links fall
- * back to the public path gateway when the label is too long for DNS; local
- * subdomain links fall back to the local path link. Returns '' when the type
- * cannot be built (e.g. a public type with no public gateway configured).
+ * back to the public path gateway when the label is too long for DNS (and to a
+ * native URI when there is no path gateway either); local subdomain links fall
+ * back to the local path link. Returns '' only when the type's own gateway is
+ * missing (a local type with no localGatewayUrl, or public path with no
+ * publicGateway); resolveEffectiveShareLinkType maps those cases to NATIVE
+ * first, so share flows always get a usable link.
  *
  * @param {object} opts
  * @param {string} opts.type - a SHARE_LINK_TYPE value
@@ -151,11 +206,38 @@ export function buildShareLink ({ type, namespace, pathId, subdomainLabel, filen
     case SHARE_LINK_TYPE.PUBLIC_PATH:
       return pathLink(publicGateway || '', namespace, pathId, filename)
     case SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN:
+      // A label too long for DNS with no path gateway configured still gets a
+      // native URI, never an empty link.
       return subdomainLink(publicSubdomainGateway || '', namespace, subdomainLabel, filename) ||
-        pathLink(publicGateway || '', namespace, pathId, filename)
+        pathLink(publicGateway || '', namespace, pathId, filename) ||
+        `${namespace}://${subdomainLabel}${filename}`
     default:
       return ''
   }
+}
+
+/**
+ * Local gateway link for opening content in a new tab (file preview and IPNS
+ * key links). Honors the Share Link type from Settings: the localhost
+ * subdomain form (per-content origin, so untrusted content cannot touch
+ * another CID's cookies or storage) when the user chose the local subdomain
+ * gateway, the IP path form otherwise. Returns '' when there is no local
+ * gateway.
+ *
+ * @param {object} opts
+ * @param {string} opts.shareLinkType - the stored SHARE_LINK_TYPE
+ * @param {string} opts.namespace - 'ipfs' or 'ipns'
+ * @param {string} opts.pathId - identifier for path links (CID or IPNS name)
+ * @param {string} opts.subdomainLabel - base32 CIDv1 or base36 IPNS name
+ * @param {string} [opts.filename] - `?filename=...` query, or ''
+ * @param {string} opts.localGatewayUrl - local gateway only, no public fallback
+ * @returns {string}
+ */
+export function getLocalContentLink ({ shareLinkType, namespace, pathId, subdomainLabel, filename = '', localGatewayUrl }) {
+  const type = shareLinkType === SHARE_LINK_TYPE.LOCAL_SUBDOMAIN
+    ? SHARE_LINK_TYPE.LOCAL_SUBDOMAIN
+    : SHARE_LINK_TYPE.LOCAL_PATH
+  return buildShareLink({ type, namespace, pathId, subdomainLabel, filename, localGatewayUrl })
 }
 
 /**
@@ -230,15 +312,19 @@ export function toIpnsBase36 (name) {
 }
 
 /**
- * Resolve the link type actually used. A public type with its gateway cleared
- * falls back to native (ipfs://), so links never silently break or point at an
- * unconfigured gateway.
+ * Resolve the link type actually used. A type whose gateway is not configured
+ * (a public type with its gateway cleared, or a local type with no local
+ * gateway at all) falls back to native (ipfs://), so links never silently
+ * break or point at an unconfigured gateway. buildShareLink is guaranteed to
+ * return a non-empty link for the type this resolves to.
  *
  * @param {string} type - the stored SHARE_LINK_TYPE
- * @param {{publicGateway: string, publicSubdomainGateway: string}} gateways
+ * @param {{publicGateway: string, publicSubdomainGateway: string, localGatewayUrl: string}} gateways
  * @returns {string} the effective SHARE_LINK_TYPE
  */
-export function resolveEffectiveShareLinkType (type, { publicGateway, publicSubdomainGateway }) {
+export function resolveEffectiveShareLinkType (type, { publicGateway, publicSubdomainGateway, localGatewayUrl }) {
+  const isLocal = type === SHARE_LINK_TYPE.LOCAL_PATH || type === SHARE_LINK_TYPE.LOCAL_SUBDOMAIN
+  if (isLocal && !localGatewayUrl) return SHARE_LINK_TYPE.NATIVE
   if (type === SHARE_LINK_TYPE.PUBLIC_PATH && !publicGateway) return SHARE_LINK_TYPE.NATIVE
   if (type === SHARE_LINK_TYPE.PUBLIC_SUBDOMAIN && !publicSubdomainGateway) return SHARE_LINK_TYPE.NATIVE
   return type
