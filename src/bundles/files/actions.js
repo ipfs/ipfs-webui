@@ -207,8 +207,8 @@ const actions = () => ({
   }),
 
   /**
-   * Fetches conten for the currently selected path. And updates
-   * `state.pageContent` on succesful completion.
+   * Fetches content for the currently selected path. And updates
+   * `state.pageContent` on successful completion.
    * @param {Info} info
    * @returns {function(Context): *}
    */
@@ -314,7 +314,7 @@ const actions = () => ({
       // Skip ignored files
       .filter($ => !IGNORED_FILES.includes(basename($.path)))
       // Dropped files come as absolute, those added by the file input come
-      // as relative paths, so normalise all to be relative.
+      // as relative paths, so normalize all to be relative.
       .map($ => $.path[0] === '/' ? { ...$, path: $.path.slice(1) } : $)
 
     const totalSize = files.reduce((prev, { size }) => prev + size, 0)
@@ -379,7 +379,7 @@ const actions = () => ({
   }),
 
   /**
-   * Deletes `files` with provided paths. On completion (success sor fail) will
+   * Deletes `files` with provided paths. On completion (success or fail) will
    * trigger `doFilesFetch` to update the state.
    * @param {Object} args
    * @param {FileStat[]} args.files
