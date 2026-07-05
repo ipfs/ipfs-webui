@@ -224,7 +224,7 @@ const selectors = {
    */
   selectAnalyticsOptedOut: (state) => state.analytics.optedOut,
   /**
-   * Show or hide all UI compontent related to analytics.
+   * Show or hide all UI component related to analytics.
    * @param {State} state
    */
   selectShowAnalyticsComponents: (state) => state.analytics.showAnalyticsComponents,
