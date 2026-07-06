@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": "Entrez une URL (https://ipfs.io)"
   },
+  "localGatewayForm": {
+    "placeholder": "Entrez une URL (http://localhost:8080)"
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": "Entrez une URL (https://dweb.link)"
   },
@@ -87,6 +90,7 @@
     "pinStatus": "Statut des épingles",
     "publicKey": "Clé publique",
     "publicGateway": "Passerelle publique",
+    "localGateway": "Passerelle locale",
     "rateIn": "Ratio entrant",
     "rateOut": "Ratio sortant",
     "repo": "Répertoire",

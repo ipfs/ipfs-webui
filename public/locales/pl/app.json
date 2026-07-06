@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": "Wprowadź URL (https://ipfs.io)"
   },
+  "localGatewayForm": {
+    "placeholder": ""
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": "Wprowadź URL (https://dweb.link)"
   },
@@ -87,6 +90,7 @@
     "pinStatus": "Status przypięcia",
     "publicKey": "Klucz publiczny",
     "publicGateway": "Publiczna bramka",
+    "localGateway": "",
     "rateIn": "Transfer przychodzący",
     "rateOut": "Transfer wychodzący",
     "repo": "Repozytorium",

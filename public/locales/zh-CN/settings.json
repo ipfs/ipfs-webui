@@ -23,6 +23,7 @@
     "translationProjectLink": "加入IPFS翻译项目"
   },
   "apiDescription": "<0>如果您的节点配置了一个<1>自定义的Kubo PRC API地址</1>，以及包含了其他非默认的5001端口的情况下，在这里修改。</0>",
+  "localGatewayDescription": "",
   "publicSubdomainGatewayDescription": "<0>选择一个默认的<1>子域名网关</1>用于生成可共享的链接。</0>",
   "publicPathGatewayDescription": "<0>选择一个备用的<1>路径网关</1>，用于生成超过63个字符DNS限制的CID可共享链接。</0>",
   "retrievalDiagnosticService": {

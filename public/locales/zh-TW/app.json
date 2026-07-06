@@ -48,6 +48,9 @@
   "publicGatewayForm": {
     "placeholder": ""
   },
+  "localGatewayForm": {
+    "placeholder": ""
+  },
   "publicSubdomainGatewayForm": {
     "placeholder": ""
   },
@@ -87,6 +90,7 @@
     "pinStatus": "錨釘狀態",
     "publicKey": "公鑰",
     "publicGateway": "",
+    "localGateway": "",
     "rateIn": "發送率",
     "rateOut": "接收率",
     "repo": "儲存庫",

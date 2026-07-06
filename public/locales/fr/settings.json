@@ -23,6 +23,7 @@
     "translationProjectLink": "Participez projet de traduction IPFS"
   },
   "apiDescription": "<0>Si votre nœud est configuré avec une <1>adresse d'API RPC pour Kubo personnalisée, y compris un port autre que le défaut 5001, entrez-la ici.</0>",
+  "localGatewayDescription": "<0>Si vous accédez à la WebUI via un reverse proxy, Docker, ou un hôte différent, entrez l'URL de la passerelle pour que votre navigateur puisse l'atteindre. Laissez vide pour utiliser la première <1>adresse de passerelle</1> de votre configuration de Kubo.</0>",
   "publicSubdomainGatewayDescription": "<0>Sélectionnez votre <1>Passerelle de Sous-domaines</1> pour créer des liens partageables.</0>",
   "publicPathGatewayDescription": "<0>Sélectionnez une <1>Passerelle de Chemins</1> de secours pour créer des liens partageables pour les CIDs excédants la limite de 63 caractères des DNS.</0>",
   "retrievalDiagnosticService": {
