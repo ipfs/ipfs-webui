@@ -113,7 +113,7 @@ jobs:
 
       - name: Store Artifacts from Failed Tests
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: test-results
           path: test-results/
@@ -158,7 +158,7 @@ jobs:
         id: coverage
         run: npx nyc report --reporter=lcov
 
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: e2e_tests

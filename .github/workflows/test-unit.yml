@@ -34,7 +34,7 @@ jobs:
         id: coverage
         run: npx nyc report --reporter=lcov
 
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: unit_tests

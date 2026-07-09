@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: "Reset ${{ inputs.gh-node-version }} badge"
         if: github.ref == 'refs/heads/main'
-        uses: RubbaBoy/BYOB@24f464284c1fd32028524b59607d417a2e36fee7
+        uses: RubbaBoy/BYOB@a4919104bc0ec7cfd7f113e42c405cc45246f2a4
         with:
           icon: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
           name: "node-${{ inputs.gh-node-version }}"
@@ -71,7 +71,7 @@ jobs:
     steps:
       - name: Create success badge
         if: ${{ needs.test-node.result == 'success' && github.ref == 'refs/heads/main' }}
-        uses: RubbaBoy/BYOB@24f464284c1fd32028524b59607d417a2e36fee7
+        uses: RubbaBoy/BYOB@a4919104bc0ec7cfd7f113e42c405cc45246f2a4
         with:
           icon: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
           name: "node-${{ inputs.gh-node-version }}"
@@ -82,7 +82,7 @@ jobs:
 
       - name: Create failure badge
         if: ${{ needs.test-node.result != 'success' && github.ref == 'refs/heads/main' }}
-        uses: RubbaBoy/BYOB@24f464284c1fd32028524b59607d417a2e36fee7
+        uses: RubbaBoy/BYOB@a4919104bc0ec7cfd7f113e42c405cc45246f2a4
         with:
           icon: https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg
           name: "node-${{ inputs.gh-node-version }}"
