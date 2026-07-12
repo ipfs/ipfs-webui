@@ -61,10 +61,128 @@ button,
 /* =========================
     Custom tachyons classes
    ========================= */
+.bg-overlay { background: var(--overlay-bg); }
+.publish-modal-gradient { background: var(--publish-modal-gradient); }
+.breadcrumb-gradient { background: var(--breadcrumb-gradient); }
+
 .hover-o-100:hover, .hover-o-100:focus {
   opacity: 1;
 }
 
 .hover-o-90:hover, .hover-o-90:focus {
   opacity: 0.9;
+}
+
+/* =========================
+    Dark Theme
+   ========================= */
+
+:root {
+  --element-bg: #fbfbfb;
+  --text: #111111;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --background: #ffffff;
+  --snow-muted: #fbfbfb;
+  --charcoal: #34373f;
+  --charcoal-muted: #7f8491;
+  --green-muted: #eaf5e6;
+  
+  --overlay-bg: rgba(255, 255, 255, 0.5);
+  --publish-modal-gradient: linear-gradient(90deg, rgba(255, 255, 255, 0.35), #ffffff 10%, #ffffff 100%);
+  --breadcrumb-gradient: linear-gradient(to right, #ffffff 0%, transparent 100%);
+  --tooltip-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+  --background: #181a1b;
+  --text: #e8e6e3;
+  --element-bg: #1a1c1e;
+  --navy-dark: #0b3a53;
+  --navy-text-color: rgb(202, 198, 191);
+  --snow-muted: rgb(28, 30, 31);
+  --border-color: rgba(140, 130, 115, 0.5);
+  --green-muted: #1e3a1e;
+  
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  --publish-modal-gradient: linear-gradient(90deg, rgba(31, 38, 46, 0.35), var(--element-bg) 10%, var(--element-bg) 100%);
+  --breadcrumb-gradient: linear-gradient(to right, var(--element-bg) 0%, transparent 100%);
+  --gray-muted: #d9dbe2;
+  --charcoal: #c8c3bc;
+  --charcoal-muted: #8c8273;
+  --tooltip-bg: var(--element-bg);
+
+  color-scheme: dark;
+
+  /* Basic html background */
+  background-color: var(--background);
+  color: var(--text);
+
+  /* Override Tachyons/IPFS-CSS utility classes */
+  .bg-white, .bg-white-80 { background-color: var(--element-bg) !important; }
+  .bg-snow, .bg-snow-muted { background-color: var(--snow-muted) !important; }
+  .bg-near-white { background-color: var(--snow-muted) !important; }
+  .bg-light-gray { background-color: var(--snow-muted) !important; }
+  .bg-white-70 { background-color: var(--element-bg) !important; opacity: 1 !important; }
+  .charcoal { color: var(--charcoal) !important; }
+  .charcoal-muted { color: var(--charcoal-muted) !important; }
+  .navy { color: var(--text) !important; }
+  .dark-gray { color: var(--text) !important; }
+
+  /* Map theming */
+  .world-map {
+    filter: invert(0.85) hue-rotate(180deg) opacity(0.6);
+  }
+  
+  
+  .webui-header { background-color: var(--snow-muted) !important; }
+
+  /* Tachyons borders */
+  .b--black-20 { border-color: var(--border-color) !important; }
+  .b--black-10 { border-color: var(--border-color) !important; }
+  .b--near-white { border-color: var(--border-color) !important; }
+  
+  /* Dropdown / Modal specifics */
+  .shadow-4 { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8) !important; }
+  .dropdown-menu { background-color: var(--element-bg) !important; }
+  .hover-bg-near-white:hover { background-color: var(--snow-muted) !important; }
+  
+  /* Text and link colors */
+  h1, h2, h3, h4, h5, h6, .black, .montserrat, .navy {
+    color: var(--text) !important;
+  }
+  
+  /* Inputs, textareas, selects */
+  input[type="text"], input[type="number"], textarea, select {
+    background-color: var(--element-bg);
+    color: var(--text);
+    border-color: var(--border-color);
+  }
+  ::placeholder {
+    color: var(--charcoal-muted) !important;
+    opacity: 0.7 !important;
+  }
+  
+  /* External Check Iframe */
+  iframe[title^="ipfs-check"] {
+    filter: invert(0.9) hue-rotate(180deg);
+  }
+
+  /* Warning boxes */
+  .bg-washed-yellow { background-color: rgba(204, 153, 0, 0.2) !important; }
+}
+
+html[data-theme="dark"] body {
+  background-color: var(--background);
+  color: var(--text);
+}
+
+[data-theme="dark"] .react-joyride__tooltip {
+  background-color: var(--element-bg) !important;
+  color: var(--text) !important;
+}
+[data-theme="dark"] .react-joyride__tooltip * {
+  color: var(--text) !important;
+}
+[data-theme="dark"] .react-joyride__tooltip > div > div > svg > polygon {
+  fill: var(--element-bg) !important;
 }

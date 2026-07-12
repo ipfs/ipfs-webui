@@ -13,6 +13,7 @@
     "removeAutoUpload": "Disable Auto Upload"
   },
   "language": "Language",
+  "themeDescription": "Choose your preferred color theme.",
   "analytics": "Analytics",
   "cliTutorMode": "CLI Tutor Mode",
   "config": "Kubo Config",

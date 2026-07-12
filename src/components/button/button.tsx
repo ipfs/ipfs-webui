@@ -15,7 +15,7 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
 
 const getButtonClassName = ({ fill, bg, color, danger, disabled }: Pick<ButtonProps, 'fill' | 'bg' | 'color' | 'danger' | 'disabled'>, type: ButtonProps['type']) => {
   if (danger) return 'bg-red fill-white white'
-  if (disabled) return 'bg-gray-muted fill-snow light-gray'
+  if (disabled) return 'bg-black-10 fill-charcoal-muted charcoal-muted'
   if (type === 'link') return 'link bg-transparent'
   return `${fill} ${bg} ${color}`
 }

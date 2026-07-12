@@ -22,7 +22,7 @@ export const DropdownMenu = forwardRef((props, ref) => {
 
   return (
     <Menu
-      className='sans-serif br2 charcoal'
+      className='sans-serif br2 charcoal dropdown-menu'
       boxShadow='rgba(105, 196, 205, 0.5) 0px 1px 10px 0px'
       width={width}
       arrowAlign='right'
