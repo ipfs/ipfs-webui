@@ -2,17 +2,17 @@ import React, { forwardRef } from 'react'
 import { Dropdown as Drop, DropdownMenu as Menu } from '@tableflip/react-dropdown'
 import StrokeCode from '../../icons/StrokeCode.js'
 
-export const Option = ({ children, onClick, className = '', isCliTutorModeEnabled, onCliTutorMode, ...props }) => (
+export const Option = ({ children, onClick, className = '', isCliTutorModeEnabled, onCliTutorMode, disabled, ...props }) => (
   isCliTutorModeEnabled
     ? <div className='flex items-center justify-between'>
-      <button role='menuitem' className={`bg-animate hover-bg-near-white pa2 pointer flex items-center flex-grow-1 ${className}`} onClick={onClick} {...props}>
+      <button role='menuitem' className={`bg-animate hover-bg-near-white pa2 pointer flex items-center flex-grow-1 ${className}`} onClick={onClick} disabled={disabled} {...props}>
         {children}
       </button>
-      <button {...props} className={`bg-animate hover-bg-near-white pa2 pointer flex items-center  ${className}`}>
+      <button {...props} className={`bg-animate hover-bg-near-white pa2 pointer flex items-center  ${className}`} disabled={disabled}>
         <StrokeCode {...props} onClick={() => onCliTutorMode(true)} className='dib fill-link pointer' style={{ height: 38 }}/>
       </button>
     </div>
-    : <button role="menuitem" className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${className}`} onClick={onClick} {...props}>
+    : <button role="menuitem" className={`bg-animate hover-bg-near-white pa2 pointer flex items-center ${disabled ? 'o-40 not-allowed' : ''} ${className}`} onClick={!disabled ? onClick : undefined} aria-disabled={disabled} {...props}>
       {children}
     </button>
 )
@@ -23,6 +23,7 @@ export const DropdownMenu = forwardRef((props, ref) => {
   return (
     <Menu
       className='sans-serif br2 charcoal dropdown-menu'
+      background='var(--element-bg, white)'
       boxShadow='rgba(105, 196, 205, 0.5) 0px 1px 10px 0px'
       width={width}
       arrowAlign='right'

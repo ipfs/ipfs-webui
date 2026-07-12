@@ -64,6 +64,7 @@ button,
 .bg-overlay { background: var(--overlay-bg); }
 .publish-modal-gradient { background: var(--publish-modal-gradient); }
 .breadcrumb-gradient { background: var(--breadcrumb-gradient); }
+.file-row-selected { background-color: var(--file-row-selected-bg); }
 
 .hover-o-100:hover, .hover-o-100:focus {
   opacity: 1;
@@ -91,6 +92,13 @@ button,
   --publish-modal-gradient: linear-gradient(90deg, rgba(255, 255, 255, 0.35), #ffffff 10%, #ffffff 100%);
   --breadcrumb-gradient: linear-gradient(to right, #ffffff 0%, transparent 100%);
   --tooltip-bg: #ffffff;
+  
+  /* File selection */
+  --file-row-selected-bg: #daedf5;
+  --action-bar-bg: #F0F6FA;
+  --action-bar-border: #CFE0E2;
+  --action-bar-text: #59595A;
+  --action-bar-muted: #A4BFCC;
 }
 
 [data-theme="dark"] {
@@ -110,6 +118,13 @@ button,
   --charcoal: #c8c3bc;
   --charcoal-muted: #8c8273;
   --tooltip-bg: var(--element-bg);
+
+  /* File selection */
+  --file-row-selected-bg: #1e3a4a;
+  --action-bar-bg: #1a2428;
+  --action-bar-border: #2a3a40;
+  --action-bar-text: #c8c3bc;
+  --action-bar-muted: #8ca8b8;
 
   color-scheme: dark;
 
@@ -143,8 +158,14 @@ button,
   
   /* Dropdown / Modal specifics */
   .shadow-4 { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8) !important; }
+  /* The background prop on @tableflip/react-dropdown now injects var(--element-bg)
+     as an inline style on both the menu panel and the arrow, so no !important needed here.
+     We keep a fallback class rule in case any other code path still hits .dropdown-menu. */
   .dropdown-menu { background-color: var(--element-bg) !important; }
-  .hover-bg-near-white:hover { background-color: var(--snow-muted) !important; }
+  /* Arrow triangles rendered by @tableflip/react-dropdown use border-color tricks;
+     the library reads the background prop and sets border-color on the arrow div. */
+  .hover-bg-near-white:hover,
+  .hover-bg-near-white:focus { background-color: var(--snow-muted) !important; }
   
   /* Text and link colors */
   h1, h2, h3, h4, h5, h6, .black, .montserrat, .navy {

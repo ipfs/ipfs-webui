@@ -94,6 +94,7 @@ const SortDropdown = ({ currentSort, onSortChange, t }) => {
         <DropdownMenu
           open={isOpen}
           className="sans-serif br2 charcoal dropdown-menu"
+          background="var(--element-bg, white)"
           boxShadow="rgba(105, 196, 205, 0.5) 0px 1px 10px 0px"
           width={200}
           arrowAlign="left"
